@@ -40,8 +40,7 @@ def retry(func):
                 logger.error(e)
 
                 def init():
-                    self.adb_disconnect(self.serial)
-                    self.adb_connect(self.serial)
+                    self.adb_reconnect()
             # When unable to send requests
             except requests.exceptions.ConnectionError as e:
                 logger.error(e)
@@ -50,22 +49,19 @@ def retry(func):
                     # Hermit not installed or not running
                     # ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
                     def init():
-                        self.adb_disconnect(self.serial)
-                        self.adb_connect(self.serial)
+                        self.adb_reconnect()
                         self.hermit_init()
                 else:
                     # Lost connection, adb server was killed
                     # HTTPConnectionPool(host='127.0.0.1', port=20269):
                     # Max retries exceeded with url: /click?x=500&y=500
                     def init():
-                        self.adb_disconnect(self.serial)
-                        self.adb_connect(self.serial)
+                        self.adb_reconnect()
             # AdbError
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
-                        self.adb_disconnect(self.serial)
-                        self.adb_connect(self.serial)
+                        self.adb_reconnect()
                 else:
                     break
             # HermitError: {"code":-1,"msg":"error"}
@@ -73,8 +69,7 @@ def retry(func):
                 logger.error(e)
 
                 def init():
-                    self.adb_disconnect(self.serial)
-                    self.adb_connect(self.serial)
+                    self.adb_reconnect()
                     self.hermit_init()
             # Unknown, probably a trucked image
             except Exception as e:

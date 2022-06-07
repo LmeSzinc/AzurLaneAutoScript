@@ -50,7 +50,3 @@ MetaReward:
 # ==================== DailyMission ====================
 
 # ==================== Opsi ====================
-
-OpsiAshAssist:
-  Scheduler:
-    Enable: true

@@ -2,13 +2,12 @@ import os
 import re
 import threading
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import inflection
 from cached_property import cached_property
 
 from module.config.config import AzurLaneConfig, TaskEnd
-from module.config.config_updater import ConfigUpdater
 from module.config.utils import deep_get, deep_set
 from module.exception import *
 from module.logger import logger
@@ -20,7 +19,6 @@ class AzurLaneAutoScript:
     def __init__(self, config_name='alas'):
         logger.hr('Start', level=0)
         self.config_name = config_name
-        ConfigUpdater().update_file(config_name)
 
     @cached_property
     def config(self):
@@ -327,57 +325,71 @@ class AzurLaneAutoScript:
 
         Args:
             future (datetime):
-        """
-        seconds = future.timestamp() - datetime.now().timestamp() + 1
-        if seconds <= 0:
-            logger.warning(f'Wait until {str(future)}, but sleep length < 0, skip waiting')
-            return
 
-        if self.stop_event is not None:
-            self.stop_event.wait(seconds)
-            if self.stop_event.is_set():
-                logger.info("Update event detected")
-                logger.info(f"[{self.config_name}] exited. Reason: Update")
-                exit(0)
-        else:
-            time.sleep(seconds)
+        Returns:
+            bool: True if wait finished, False if config changed.
+        """
+        future = future + timedelta(seconds=1)
+        self.config.start_watching()
+        while 1:
+            if datetime.now() > future:
+                return True
+            if self.stop_event is not None:
+                if self.stop_event.is_set():
+                    logger.info("Update event detected")
+                    logger.info(f"[{self.config_name}] exited. Reason: Update")
+                    exit(0)
+
+            time.sleep(5)
+
+            if self.config.should_reload():
+                return False
 
     def get_next_task(self):
         """
         Returns:
             str: Name of the next task.
         """
+        while 1:
+            task = self.config.get_next()
+            self.config.task = task
+            self.config.bind(task)
 
-        task = self.config.get_next()
-        self.config.task = task
-        self.config.bind(task)
+            from module.base.resource import release_resources
+            if self.config.task.command != 'Alas':
+                release_resources(next_task=task.command)
 
-        from module.base.resource import release_resources
-        if self.config.task.command != 'Alas':
-            release_resources(next_task=task.command)
-
-        if task.next_run > datetime.now():
-            logger.info(f'Wait until {task.next_run} for task `{task.command}`')
-            method = self.config.Optimization_WhenTaskQueueEmpty
-            if method == 'close_game':
-                logger.info('Close game during wait')
-                self.device.app_stop()
-                release_resources()
-                self.wait_until(task.next_run)
-                self.run('start')
-            elif method == 'goto_main':
-                logger.info('Goto main page during wait')
-                self.run('goto_main')
-                release_resources()
-                self.wait_until(task.next_run)
-            elif method == 'stay_there':
-                logger.info('Stay there during wait')
-                release_resources()
-                self.wait_until(task.next_run)
-            else:
-                logger.warning(f'Invalid Optimization_WhenTaskQueueEmpty: {method}, fallback to stay_there')
-                release_resources()
-                self.wait_until(task.next_run)
+            if task.next_run > datetime.now():
+                logger.info(f'Wait until {task.next_run} for task `{task.command}`')
+                method = self.config.Optimization_WhenTaskQueueEmpty
+                if method == 'close_game':
+                    logger.info('Close game during wait')
+                    self.device.app_stop()
+                    release_resources()
+                    if not self.wait_until(task.next_run):
+                        del self.__dict__['config']
+                        continue
+                    self.run('start')
+                elif method == 'goto_main':
+                    logger.info('Goto main page during wait')
+                    self.run('goto_main')
+                    release_resources()
+                    if not self.wait_until(task.next_run):
+                        del self.__dict__['config']
+                        continue
+                elif method == 'stay_there':
+                    logger.info('Stay there during wait')
+                    release_resources()
+                    if not self.wait_until(task.next_run):
+                        del self.__dict__['config']
+                        continue
+                else:
+                    logger.warning(f'Invalid Optimization_WhenTaskQueueEmpty: {method}, fallback to stay_there')
+                    release_resources()
+                    if not self.wait_until(task.next_run):
+                        del self.__dict__['config']
+                        continue
+            break
 
         AzurLaneConfig.is_hoarding_task = False
         return task.command

@@ -62,6 +62,7 @@ class Config:
         'width': (0, 10),
         'wlen': 1000,
     }
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
 
 
 class Campaign(CampaignBase):

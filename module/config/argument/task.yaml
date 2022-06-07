@@ -151,7 +151,7 @@ ShopFrequent:
 ShopOnce:
   - Scheduler
   - GuildShop
-  - MedalShop
+  - MedalShop2
   - MeritShop
   - CoreShop
 Shipyard:

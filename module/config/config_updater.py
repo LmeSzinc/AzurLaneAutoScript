@@ -428,7 +428,7 @@ class ConfigUpdater:
         ('OpsiDaily.Scheduler.Enable', 'OpsiDaily.OpsiDaily.DoMission'),
         ('OpsiShop.Scheduler.Enable', 'OpsiShop.OpsiShop.BuySupply'),
         ('ShopOnce.GuildShop.Filter', 'ShopOnce.GuildShop.Filter', bp_redirect),
-        ('ShopOnce.MedalShop.Filter', 'ShopOnce.MedalShop.Filter', bp_redirect),
+        ('ShopOnce.MedalShop2.Filter', 'ShopOnce.MedalShop2.Filter', bp_redirect),
         (('Alas.DropRecord.SaveResearch', 'Alas.DropRecord.UploadResearch'),
          'Alas.DropRecord.ResearchRecord', upload_redirect),
         (('Alas.DropRecord.SaveCommission', 'Alas.DropRecord.UploadCommission'),
@@ -460,7 +460,7 @@ class ConfigUpdater:
         def deep_load(keys):
             data = deep_get(self.args, keys=keys, default={})
             value = deep_get(old, keys=keys, default=data['value'])
-            if value is None or value == '' or data['type'] in ['disable', 'hide'] or is_template:
+            if value is None or value == '' or data['type'] in ['lock'] or is_template:
                 value = data['value']
             value = parse_value(value, data=data)
             deep_set(new, keys=keys, value=value)
@@ -545,18 +545,19 @@ class ConfigUpdater:
 
         return new
 
-    def read_file(self, config_name):
+    def read_file(self, config_name, is_template=False):
         """
         Read and update config file.
 
         Args:
             config_name (str): ./config/{file}.json
+            is_template (bool):
 
         Returns:
             dict:
         """
         old = read_file(filepath_config(config_name))
-        return self.config_update(old, is_template=config_name == 'template')
+        return self.config_update(old, is_template=is_template)
 
     @staticmethod
     def write_file(config_name, data):
@@ -570,17 +571,18 @@ class ConfigUpdater:
         write_file(filepath_config(config_name), data)
 
     @timer
-    def update_file(self, config_name):
+    def update_file(self, config_name, is_template=False):
         """
         Read, update and write config file.
 
         Args:
             config_name (str): ./config/{file}.json
+            is_template (bool):
 
         Returns:
             dict:
         """
-        data = self.read_file(config_name)
+        data = self.read_file(config_name, is_template=is_template)
         self.write_file(config_name, data)
         return data
 
@@ -602,4 +604,4 @@ if __name__ == '__main__':
     os.chdir(os.path.join(os.path.dirname(__file__), '../../'))
 
     ConfigGenerator().generate()
-    ConfigUpdater().update_file('template')
+    ConfigUpdater().update_file('template', is_template=True)

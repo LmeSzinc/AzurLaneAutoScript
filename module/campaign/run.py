@@ -5,7 +5,6 @@ import os
 from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
 from module.config.config import AzurLaneConfig
-from module.config.utils import deep_get
 from module.exception import CampaignEnd, RequestHumanTakeover, ScriptEnd
 from module.logger import logger
 from module.ocr.ocr import Digit
@@ -139,7 +138,7 @@ class CampaignRun(UI):
         Returns:
             str, str: name, folder
         """
-        name = name.lower()
+        name = str(name).lower()
         if name[0].isdigit():
             name = 'campaign_' + name.lower().replace('-', '_')
         if folder == 'event_20201126_cn' and name == 'vsp':
@@ -194,6 +193,7 @@ class CampaignRun(UI):
                 logger.info(f'Count: {self.run_count}')
 
             # UI ensure
+            self.device.click_record_clear()
             if not hasattr(self.device, 'image') or self.device.image is None:
                 self.device.screenshot()
             self.campaign.device.image = self.device.image

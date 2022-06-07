@@ -1399,7 +1399,7 @@
       "champagne": "champagne"
     }
   },
-  "MedalShop": {
+  "MedalShop2": {
     "_info": {
       "name": "MedalShop._info.name",
       "help": "MedalShop._info.help"
@@ -1407,6 +1407,57 @@
     "Filter": {
       "name": "MedalShop.Filter.name",
       "help": "MedalShop.Filter.help"
+    },
+    "RETROFIT_T1": {
+      "name": "MedalShop.RETROFIT_T1.name",
+      "help": "MedalShop.RETROFIT_T1.help",
+      "dd": "dd",
+      "cl": "cl",
+      "bb": "bb",
+      "cv": "cv"
+    },
+    "RETROFIT_T2": {
+      "name": "MedalShop.RETROFIT_T2.name",
+      "help": "MedalShop.RETROFIT_T2.help",
+      "dd": "dd",
+      "cl": "cl",
+      "bb": "bb",
+      "cv": "cv"
+    },
+    "RETROFIT_T3": {
+      "name": "MedalShop.RETROFIT_T3.name",
+      "help": "MedalShop.RETROFIT_T3.help",
+      "dd": "dd",
+      "cl": "cl",
+      "bb": "bb",
+      "cv": "cv"
+    },
+    "PLATE_T1": {
+      "name": "MedalShop.PLATE_T1.name",
+      "help": "MedalShop.PLATE_T1.help",
+      "general": "general",
+      "gun": "gun",
+      "torpedo": "torpedo",
+      "antiair": "antiair",
+      "plane": "plane"
+    },
+    "PLATE_T2": {
+      "name": "MedalShop.PLATE_T2.name",
+      "help": "MedalShop.PLATE_T2.help",
+      "general": "general",
+      "gun": "gun",
+      "torpedo": "torpedo",
+      "antiair": "antiair",
+      "plane": "plane"
+    },
+    "PLATE_T3": {
+      "name": "MedalShop.PLATE_T3.name",
+      "help": "MedalShop.PLATE_T3.help",
+      "general": "general",
+      "gun": "gun",
+      "torpedo": "torpedo",
+      "antiair": "antiair",
+      "plane": "plane"
     }
   },
   "MeritShop": {
@@ -2002,11 +2053,11 @@
     "Update": {
       "UpToDate": "Gui.Update.UpToDate",
       "HaveUpdate": "Gui.Update.HaveUpdate",
-      "UpdateFailed": "Gui.Update.UpdateFailed",
       "UpdateStart": "Gui.Update.UpdateStart",
       "UpdateWait": "Gui.Update.UpdateWait",
       "UpdateRun": "Gui.Update.UpdateRun",
       "UpdateSuccess": "Gui.Update.UpdateSuccess",
+      "UpdateFailed": "Gui.Update.UpdateFailed",
       "UpdateChecking": "Gui.Update.UpdateChecking",
       "UpdateCancel": "Gui.Update.UpdateCancel",
       "UpdateFinish": "Gui.Update.UpdateFinish",
@@ -2015,7 +2066,8 @@
       "Author": "Gui.Update.Author",
       "Time": "Gui.Update.Time",
       "Message": "Gui.Update.Message",
-      "DisabledWarn": "Gui.Update.DisabledWarn"
+      "DisabledWarn": "Gui.Update.DisabledWarn",
+      "DetailedHistory": "Gui.Update.DetailedHistory"
     },
     "Text": {
       "InvalidFeedBack": "Gui.Text.InvalidFeedBack"

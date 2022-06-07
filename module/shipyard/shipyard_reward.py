@@ -42,9 +42,9 @@ class RewardShipyard(ShipyardUI, GeneralShop):
             if not len(cost):
                 cost = [1500]
 
-            if (total + cost[0]) > self._shop_gold_coins:
+            if (total + cost[0]) > self._currency:
                 if pay:
-                    self._shop_gold_coins -= total
+                    self._currency -= total
                 else:
                     logger.info(f'Can only buy up to {(i - start)} '
                                 f'of the {count} BPs')
@@ -52,7 +52,7 @@ class RewardShipyard(ShipyardUI, GeneralShop):
             total += cost[0]
 
         if pay:
-            self._shop_gold_coins -= total
+            self._currency -= total
         else:
             logger.info(f'Can buy all {count} BPs')
         return i + 1, count

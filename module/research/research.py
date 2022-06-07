@@ -94,16 +94,19 @@ class RewardResearch(ResearchSelector):
         return True
 
     def research_enforce(self):
+        """
+        Returns:
+            bool: True if triggered enforce research
+        """
         if (not self.enforce) \
-                and (self.config.Research_UseCube == 'only_no_project'
-                     or self.config.Research_UseCube == 'only_05_hour'
-                     or self.config.Research_UseCoin == 'only_no_project'
-                     or self.config.Research_UseCoin == 'only_05_hour'
-                     or self.config.Research_UsePart == 'only_no_project'
-                     or self.config.Research_UsePart == 'only_05_hour'):
+                and (self.config.Research_UseCube in ['only_no_project', 'only_05_hour']
+                     or self.config.Research_UseCoin in ['only_no_project', 'only_05_hour']
+                     or self.config.Research_UsePart in ['only_no_project', 'only_05_hour']):
             logger.info('Enforce choosing research project')
             self.enforce = True
             self.research_select(self.research_sort_filter(self.enforce))
+            return True
+        return False
 
     def research_select(self, priority):
         """
@@ -134,6 +137,8 @@ class RewardResearch(ResearchSelector):
                     self.research_select(self.research_sort_cheapest(self.enforce))
                 else:
                     logger.warning(f'Unknown select method: {project}')
+                return True
+            elif project.genre.upper() in ['C', 'T'] and self.research_enforce():
                 return True
             else:
                 # priority example: [ResearchProject, ResearchProject,]
@@ -308,7 +313,7 @@ class RewardResearch(ResearchSelector):
 
         for _ in range(2):
             logger.hr('Research select', level=1)
-            self.research_detect(self.device.image)
+            self.research_detect()
             priority = self.research_sort_filter()
             result = self.research_select(priority)
             if result:

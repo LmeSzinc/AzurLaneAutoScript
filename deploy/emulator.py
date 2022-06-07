@@ -184,10 +184,15 @@ class EmulatorConnect:
     def __init__(self, adb='adb.exe'):
         self.adb_binary = adb
 
-    def _execute(self, cmd):
+    def _execute(self, cmd, timeout=10):
         print(' '.join(cmd))
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
-        stdout, stderr = process.communicate(timeout=10)
+        try:
+            stdout, stderr = process.communicate(timeout=timeout)
+        except subprocess.TimeoutExpired:
+            process.kill()
+            stdout, stderr = process.communicate()
+            print(f'TimeoutExpired, stdout={stdout}, stderr={stderr}')
         return stdout
 
     @cached_property

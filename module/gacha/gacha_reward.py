@@ -108,7 +108,7 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
                 break
 
             # Insufficient resources, reduce by 1 and re-calculate
-            if gold_total > self._shop_gold_coins or cube_total > self.build_cube_count:
+            if gold_total > self._currency or cube_total > self.build_cube_count:
                 target_count -= 1
                 continue
 
@@ -116,7 +116,7 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
 
         # Modify resources, return current 'target_count'
         logger.info(f'Able to submit up to {target_count} build orders')
-        self._shop_gold_coins -= gold_total
+        self._currency -= gold_total
         self.build_cube_count -= cube_total
         return target_count
 

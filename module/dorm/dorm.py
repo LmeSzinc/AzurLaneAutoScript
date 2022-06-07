@@ -134,20 +134,21 @@ class RewardDorm(UI):
                            f'does not support 2 finger zoom out, skip dorm collect')
             return
 
-        for _ in range(2):
-            logger.info('Dorm zoom out')
-            # Left hand down
-            x, y = random_rectangle_point((33, 228, 234, 469))
-            self.device.minitouch_builder.down(x, y, contact_id=1).commit()
-            self.device.minitouch_send()
-            # Right hand swipe
-            # Need to avoid drop-down menu in android, which is 38 px.
-            p1, p2 = random_rectangle_vector(
-                (-700, 450), box=(247, 45, 1045, 594), random_range=(-50, -50, 50, 50), padding=0)
-            self.device.drag_minitouch(p1, p2, point_random=(0, 0, 0, 0))
-            # Left hand up
-            self.device.minitouch_builder.up(contact_id=1).commit()
-            self.device.minitouch_send()
+        # Already at a high camera view now, no need to zoom-out.
+        # for _ in range(2):
+        #     logger.info('Dorm zoom out')
+        #     # Left hand down
+        #     x, y = random_rectangle_point((33, 228, 234, 469))
+        #     self.device.minitouch_builder.down(x, y, contact_id=1).commit()
+        #     self.device.minitouch_send()
+        #     # Right hand swipe
+        #     # Need to avoid drop-down menu in android, which is 38 px.
+        #     p1, p2 = random_rectangle_vector(
+        #         (-700, 450), box=(247, 45, 1045, 594), random_range=(-50, -50, 50, 50), padding=0)
+        #     self.device.drag_minitouch(p1, p2, point_random=(0, 0, 0, 0))
+        #     # Left hand up
+        #     self.device.minitouch_builder.up(contact_id=1).commit()
+        #     self.device.minitouch_send()
 
         # Collect
         _dorm_receive_attempt = 0

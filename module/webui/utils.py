@@ -427,11 +427,11 @@ def parse_pin_value(val, valuetype: str = None):
 
 
 def login(password):
-    if get_localstorage("password") == password:
+    if get_localstorage("password") == str(password):
         return True
     pwd = input(label="Please login below.", type=PASSWORD, placeholder="PASSWORD")
-    if pwd == password:
-        set_localstorage("password", pwd)
+    if str(pwd) == str(password):
+        set_localstorage("password", str(pwd))
         return True
     else:
         toast("Wrong password!", color="error")

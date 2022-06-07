@@ -1399,14 +1399,65 @@
       "champagne": "champagne"
     }
   },
-  "MedalShop": {
+  "MedalShop2": {
     "_info": {
       "name": "Medal Shop Settings",
       "help": ""
     },
     "Filter": {
       "name": "Item Filter",
-      "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>"
+      "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>\nDifferent from other shops, the below select options assist with filling the unknowns for the vague items 'Retrofit' and 'Plate'\nFurthermore restricted for 'Plate', there are both specific and wild types\nIf you are targeting a specific type then use a string combination such as 'PlateGeneralT3 > PlateWildT3' otherwise 'PlateT3' will purchase every available T3 Plate\nFor research blueprints it is adviseable to use 'DR > PR', players should convert surplus into Prototype Core currency"
+    },
+    "RETROFIT_T1": {
+      "name": "Type Preference RetrofitT1",
+      "help": "",
+      "dd": "dd",
+      "cl": "cl",
+      "bb": "bb",
+      "cv": "cv"
+    },
+    "RETROFIT_T2": {
+      "name": "Type Preference RetrofitT2",
+      "help": "",
+      "dd": "dd",
+      "cl": "cl",
+      "bb": "bb",
+      "cv": "cv"
+    },
+    "RETROFIT_T3": {
+      "name": "Type Preference RetrofitT3",
+      "help": "",
+      "dd": "dd",
+      "cl": "cl",
+      "bb": "bb",
+      "cv": "cv"
+    },
+    "PLATE_T1": {
+      "name": "Type Preference PlateT1",
+      "help": "",
+      "general": "general",
+      "gun": "gun",
+      "torpedo": "torpedo",
+      "antiair": "antiair",
+      "plane": "plane"
+    },
+    "PLATE_T2": {
+      "name": "Type Preference PlateT2",
+      "help": "",
+      "general": "general",
+      "gun": "gun",
+      "torpedo": "torpedo",
+      "antiair": "antiair",
+      "plane": "plane"
+    },
+    "PLATE_T3": {
+      "name": "Type Preference PlateT3",
+      "help": "",
+      "general": "general",
+      "gun": "gun",
+      "torpedo": "torpedo",
+      "antiair": "antiair",
+      "plane": "plane"
     }
   },
   "MeritShop": {
@@ -2002,11 +2053,11 @@
     "Update": {
       "UpToDate": "Latest version",
       "HaveUpdate": "A new version is available",
-      "UpdateFailed": "Update failed. Logs can be found in ./log/*_gui.txt",
       "UpdateStart": "Start update",
       "UpdateWait": "Waiting for all alas complete current task",
       "UpdateRun": "Updating",
       "UpdateSuccess": "Update succeeded, restarting",
+      "UpdateFailed": "Update failed. Logs can be found in ./log/*_gui.txt",
       "UpdateChecking": "Checking for updates",
       "UpdateCancel": "Update canceled, restarting Alas",
       "UpdateFinish": "Update succeeded, please restart manually",
@@ -2015,7 +2066,8 @@
       "Author": "Author",
       "Time": "Commit time",
       "Message": "Commit message",
-      "DisabledWarn": "Updater module is disabled. You need to manually restart Alas to update"
+      "DisabledWarn": "Updater module is disabled. You need to manually restart Alas to update",
+      "DetailedHistory": "Detailed Commit History"
     },
     "Text": {
       "InvalidFeedBack": "Invalid format. Example: {0}"

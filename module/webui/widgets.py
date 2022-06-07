@@ -412,7 +412,13 @@ def get_output(
         return put_textarea_(name, title, arg_help, value, **other_html_attrs)
     elif arg_type == "checkbox":
         return put_checkbox_(name, title, arg_help, value, **other_html_attrs)
+    elif arg_type == "lock":
+        return put_input_(
+            name, title, arg_help, value, readonly=True, **other_html_attrs
+        )
     elif arg_type == "disable":
         return put_input_(
             name, title, arg_help, value, readonly=True, **other_html_attrs
         )
+    elif arg_type == "hide":
+        return None

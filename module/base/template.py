@@ -55,7 +55,7 @@ class Template(Resource):
                 self._image = self.pre_process(load_image(self.file))
 
         return self._image
-        
+
     @property
     def image_binary(self):
         if self._image_binary is None:
@@ -70,7 +70,6 @@ class Template(Resource):
                 _, self._image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
 
         return self._image_binary
-        
 
     @image.setter
     def image(self, value):
@@ -135,7 +134,7 @@ class Template(Resource):
         """
         if self.is_gif:
             for template in self.image_binary:
-				# graying
+                # graying
                 image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
                 # binarization
                 _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
@@ -149,7 +148,7 @@ class Template(Resource):
             return False
 
         else:
-			# graying
+            # graying
             image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             # binarization
             _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)

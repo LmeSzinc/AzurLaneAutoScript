@@ -12,7 +12,7 @@ from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
                                         recv_all)
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
-
+from module.base.timer import timer
 
 def retry(func):
     @wraps(func)
@@ -36,14 +36,12 @@ def retry(func):
                 logger.error(e)
 
                 def init():
-                    self.adb_disconnect(self.serial)
-                    self.adb_connect(self.serial)
+                    self.adb_reconnect()
             # AdbError
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
-                        self.adb_disconnect(self.serial)
-                        self.adb_connect(self.serial)
+                        self.adb_reconnect()
                 else:
                     break
             # Package not installed
