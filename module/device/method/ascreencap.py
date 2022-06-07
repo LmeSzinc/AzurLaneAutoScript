@@ -104,6 +104,8 @@ class AScreenCap(Connection):
             if self.__bytepointer >= len(byte_array):
                 text = 'Repositioning byte pointer failed, corrupted aScreenCap data received'
                 logger.warning(text)
+                if len(byte_array) < 500:
+                    logger.warning(f'Unexpected screenshot: {byte_array}')
                 raise AscreencapError(text)
         return byte_array[self.__bytepointer:]
 
