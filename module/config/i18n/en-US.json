@@ -237,6 +237,10 @@
     "GameManager": {
       "name": "Game Manager(WIP)",
       "help": ""
+    },
+    "AdbRestart": {
+      "name": "Restart adb",
+      "help": ""
     }
   },
   "Scheduler": {
@@ -1992,10 +1996,16 @@
     "AutoRestart": {
       "name": "Automatic Login",
       "help": "Log back into the game when the game has been ended."
+    }
+  },
+  "AdbRestart": {
+    "_info": {
+      "name": "Restart Adb",
+      "help": "Restart Adb"
     },
     "AdbRestart": {
-      "name": "Reboot adb",
-      "help": "Close adb server then reboot it"
+      "name": "Restart Adb",
+      "help": "Close Adb Server and then start it"
     }
   },
   "Gui": {

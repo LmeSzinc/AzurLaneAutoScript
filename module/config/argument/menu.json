@@ -64,7 +64,8 @@
       "OpsiDaemon",
       "Benchmark",
       "AzurLaneUncensored",
-      "GameManager"
+      "GameManager",
+      "AdbRestart"
     ]
   }
 }

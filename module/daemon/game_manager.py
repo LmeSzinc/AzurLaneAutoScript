@@ -10,8 +10,6 @@ class GameManager(LoginHandler):
             logger.info('Force Stop finished')
             self.device.app_start()
             self.handle_app_login()
-        if self.config.GameManager_AdbRestart:
-            self.device.adb_restart()
 
 
 if __name__ == '__main__':

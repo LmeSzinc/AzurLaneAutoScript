@@ -148,6 +148,10 @@ class ProcessManager:
                 from module.daemon.game_manager import GameManager
 
                 GameManager(config=config_name, task="GameManager").run()
+            elif func == "AdbRestart":
+                from module.daemon.adb_restart import AdbRestart
+
+                AdbRestart(config=config_name, task="AdbRestart").run()
             else:
                 logger.critical("No function matched")
             logger.info(f"[{config_name}] exited. Reason: Finish\n")
