@@ -36,18 +36,12 @@ def retry(func):
                 logger.error(e)
 
                 def init():
-                    try:
-                        self.adb_reconnect()
-                    except ConnectionResetError as e:
-                        pass
+                    self.adb_reconnect()
             # AdbError
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
-                        try:
-                            self.adb_reconnect()
-                        except ConnectionResetError as e:
-                            pass
+                        self.adb_reconnect()
                 else:
                     break
             # Package not installed

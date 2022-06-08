@@ -6549,6 +6549,10 @@
       "AutoRestart": {
         "type": "checkbox",
         "value": true
+      },
+      "AdbRestart": {
+        "type": "checkbox",
+        "value": true
       }
     }
   }

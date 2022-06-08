@@ -378,3 +378,4 @@ class GeneratedConfig:
 
     # Group `GameManager`
     GameManager_AutoRestart = True
+    GameManager_AdbRestart = True

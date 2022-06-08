@@ -1992,6 +1992,10 @@
     "AutoRestart": {
       "name": "Automatic Login",
       "help": "Log back into the game when the game has been ended."
+    },
+    "AdbRestart": {
+      "name": "Reboot adb",
+      "help": "Close adb server then reboot it"
     }
   },
   "Gui": {

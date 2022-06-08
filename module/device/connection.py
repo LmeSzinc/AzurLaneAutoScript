@@ -455,8 +455,6 @@ class Connection:
         self.adb_client.server_kill()
         # Init adb client
         self.adb_client = AdbClient('127.0.0.1', 5037)
-        # Connect
-        self.adb_connect(self.serial)
 
     def serial_check(self):
         """
@@ -484,10 +482,11 @@ class Connection:
         """
         if len(self.list_device()) == 0:
             self.adb_restart()
+            # Connect to device
+            self.adb_connect(self.serial)
         else:
             self.adb_disconnect(self.serial)
             self.adb_connect(self.serial)
-            self.detect_device()
 
     def install_uiautomator2(self):
         """

@@ -1992,6 +1992,10 @@
     "AutoRestart": {
       "name": "自動登錄",
       "help": "遊戲被強制結束後自動登錄遊戲"
+    },
+    "AdbRestart": {
+      "name": "重啟adb",
+      "help": "把adb服務器關掉再打開"
     }
   },
   "Gui": {

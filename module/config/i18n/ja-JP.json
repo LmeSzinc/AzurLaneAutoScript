@@ -1992,6 +1992,10 @@
     "AutoRestart": {
       "name": "GameManager.AutoRestart.name",
       "help": "GameManager.AutoRestart.help"
+    },
+    "AdbRestart": {
+      "name": "GameManager.AdbRestart.name",
+      "help": "GameManager.AdbRestart.help"
     }
   },
   "Gui": {

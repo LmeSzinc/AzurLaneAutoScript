@@ -1992,6 +1992,10 @@
     "AutoRestart": {
       "name": "自动登录",
       "help": "游戏被强制结束后自动登录游戏"
+    },
+    "AdbRestart": {
+      "name": "重启adb",
+      "help": "把adb服务器关掉再打开"
     }
   },
   "Gui": {
