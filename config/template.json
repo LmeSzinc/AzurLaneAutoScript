@@ -1442,5 +1442,10 @@
     "GameManager": {
       "AutoRestart": true
     }
+  },
+  "AdbRestart": {
+    "AdbRestart": {
+      "AdbRestart": true
+    }
   }
 }
