@@ -1653,6 +1653,23 @@
       "first": "first",
       "second": "second",
       "third": "third"
+    },
+    "ModuleDevelopment": {
+      "name": "Daily.ModuleDevelopment.name",
+      "help": "Daily.ModuleDevelopment.help",
+      "skip": "skip",
+      "first": "first",
+      "second": "second"
+    },
+    "ModuleDevelopmentFleet": {
+      "name": "Daily.ModuleDevelopmentFleet.name",
+      "help": "Daily.ModuleDevelopmentFleet.help",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     }
   },
   "Hard": {

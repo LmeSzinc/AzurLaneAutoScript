@@ -5217,6 +5217,27 @@
           "second",
           "third"
         ]
+      },
+      "ModuleDevelopment": {
+        "type": "select",
+        "value": "first",
+        "option": [
+          "skip",
+          "first",
+          "second"
+        ]
+      },
+      "ModuleDevelopmentFleet": {
+        "type": "select",
+        "value": 5,
+        "option": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
       }
     }
   },

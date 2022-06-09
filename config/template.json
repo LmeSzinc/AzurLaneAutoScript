@@ -1086,7 +1086,9 @@
       "FierceAssaultFleet": 5,
       "TacticalTraining": "second",
       "TacticalTrainingFleet": 5,
-      "SupplyLineDisruption": "second"
+      "SupplyLineDisruption": "second",
+      "ModuleDevelopment": "first",
+      "ModuleDevelopmentFleet": 5
     }
   },
   "Hard": {

@@ -60,24 +60,33 @@ class Daily(Combat, DailyEquipment):
             int: Fleet index, 1 to 6
         """
         # Meaning of daily_current
-        # 1 Tactical Training, 2 Fierce Assault, 3 Supply Line Disruption, 4 Escort Mission, 5 Advance Mission
-        # 1 战术研修, 2 斩首行动, 3 破交作战, 4 商船护送, 5 海域突进
+        # 1 Tactical Training 战术研修
+        # 2 Supply Line Disruption 破交作战
+        # 3 Module Development 兵装训练
+        # 4 (not open)
+        # 5 Escort Mission 商船护送
+        # 6 Advance Mission 海域突进
+        # 7 Fierce Assault 斩首行动
         fleets = [
             0,
             self.config.Daily_TacticalTrainingFleet,
-            self.config.Daily_FierceAssaultFleet,
             0,  # Supply Line Disruption, which needs to be done manually or to be done by daily skip
+            self.config.Daily_ModuleDevelopmentFleet,
+            0,  # Empty
             self.config.Daily_EscortMissionFleet,
             self.config.Daily_AdvanceMissionFleet,
+            self.config.Daily_FierceAssaultFleet,
             0
         ]
         stages = [
             0,
             self.config.Daily_TacticalTraining,
-            self.config.Daily_FierceAssault,
             self.config.Daily_SupplyLineDisruption,
+            self.config.Daily_ModuleDevelopment,
+            0,  # Empty
             self.config.Daily_EscortMission,
             self.config.Daily_AdvanceMission,
+            self.config.Daily_FierceAssault,
             0
         ]
         dic = {
@@ -90,7 +99,7 @@ class Daily(Combat, DailyEquipment):
         stage = stages[self.daily_current]
 
         if stage not in dic:
-            logger.warning(f'Unknown daily stage `{stage}` from fleet_current_index={self.daily_current}')
+            logger.warning(f'Unknown daily stage `{stage}` from daily_current={self.daily_current}')
         stage = dic.get(stage, 0)
         return int(stage), int(fleet)
 
@@ -133,7 +142,7 @@ class Daily(Combat, DailyEquipment):
             result = self.daily_enter(button)
             if not result:
                 break
-            if self.daily_current == 3:
+            if self.daily_current == 2:
                 logger.info('Submarine daily skip not unlocked, skip')
                 self.ui_click(click_button=BACK_ARROW, check_button=daily_enter_check, skip_first_screenshot=True)
                 break
@@ -217,13 +226,15 @@ class Daily(Combat, DailyEquipment):
             self.next()
 
         while 1:
-            # Meaning of daily_current
-            # 1 Tactical Training, 2 Fierce Assault, 3 Supply Line Disruption, 4 Escort Mission, 5 Advance Mission
-            # 1 战术研修, 2 斩首行动, 3 破交作战, 4 商船护送, 5 海域突进
-            if self.daily_current > 5:
+            if self.daily_current > 7:
                 break
+            if self.daily_current == 4:
+                logger.info('This daily is not open now')
+                self.daily_check()
+                self.next()
+                continue
             stage, fleet = self.get_daily_stage_and_fleet()
-            if self.daily_current == 3 and not self.config.Daily_UseDailySkip:
+            if self.daily_current == 2 and not self.config.Daily_UseDailySkip:
                 logger.info('Skip supply line disruption if UseDailySkip disabled')
                 self.daily_check()
                 self.next()
@@ -233,7 +244,7 @@ class Daily(Combat, DailyEquipment):
                 self.daily_check()
                 self.next()
                 continue
-            if self.daily_current != 3 and not fleet:
+            if self.daily_current != 2 and not fleet:
                 logger.info(f'No fleet set on daily_current: {self.daily_current}, skip')
                 self.daily_check()
                 self.next()
@@ -261,7 +272,7 @@ class Daily(Combat, DailyEquipment):
         while 1:
             self.daily_run_one()
 
-            if max(self.daily_checked) >= 5:
+            if max(self.daily_checked) >= 7:
                 logger.info('Daily clear complete.')
                 break
 

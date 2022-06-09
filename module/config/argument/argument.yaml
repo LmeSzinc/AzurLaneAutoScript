@@ -465,6 +465,12 @@ Daily:
   SupplyLineDisruption:
     value: second
     option: [skip, first, second, third]
+  ModuleDevelopment:
+    value: first
+    option: [skip, first, second]
+  ModuleDevelopmentFleet:
+    value: 5
+    option: [1, 2, 3, 4, 5, 6]
 Hard:
   HardStage: 11-4
   HardFleet:
