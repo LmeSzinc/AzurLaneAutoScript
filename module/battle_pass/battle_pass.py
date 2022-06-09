@@ -73,7 +73,7 @@ class BattlePass(Combat, UI):
                 confirm_timer.reset()
                 continue
             if self.appear(REWARD_RECEIVE_SP, offset=(20, 20), interval=2) \
-                    and REWARD_RECEIVE_SP.match_appear_on(self.device.image):
+                    and REWARD_RECEIVE_SP.match_appear_on(self.device.image, threshold=15):
                 self.device.click(REWARD_RECEIVE_SP)
                 confirm_timer.reset()
                 continue
