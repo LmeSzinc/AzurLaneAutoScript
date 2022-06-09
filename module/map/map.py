@@ -658,6 +658,7 @@ class Map(Fleet):
         """
         if self.config.EnemyPriority_EnemyScaleBalanceWeight == 'S3_enemy_first':
             string = '3L > 3M > 3E > 3C > 2L > 2M > 2E > 2C > 1L > 1M > 1E > 1C'
+            preserve = 0
         elif self.config.EnemyPriority_EnemyScaleBalanceWeight == 'S1_enemy_first':
             string = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
