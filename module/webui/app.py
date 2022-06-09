@@ -1066,7 +1066,7 @@ def startup():
     if State.deploy_config.DiscordRichPresence:
         init_discord_rpc()
     if State.deploy_config.StartOcrServer:
-        start_ocr_server_process(updater.config["OcrServerPort"])
+        start_ocr_server_process(State.deploy_config.OcrServerPort)
 
 
 def clearup():

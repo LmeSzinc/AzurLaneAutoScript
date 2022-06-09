@@ -53,7 +53,7 @@ class Updater(DeployConfig, GitManager, PipManager):
     @property
     def delay(self):
         self.read()
-        return self.CheckUpdateInterval * 60
+        return int(self.CheckUpdateInterval) * 60
 
     @property
     def schedule_time(self):

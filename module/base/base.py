@@ -1,6 +1,8 @@
 from module.base.button import Button
+from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import *
+from module.combat.emotion import Emotion
 from module.config.config import AzurLaneConfig
 from module.config.server import set_server, to_package
 from module.device.device import Device
@@ -13,7 +15,6 @@ from module.statistics.azurstats import AzurStats
 class ModuleBase:
     config: AzurLaneConfig
     device: Device
-    stat: AzurStats
 
     def __init__(self, config, device=None, task=None):
         """
@@ -30,9 +31,15 @@ class ModuleBase:
             self.device = device
         else:
             self.device = Device(config=self.config)
-        self.stat = AzurStats(config=self.config)
-
         self.interval_timer = {}
+
+    @cached_property
+    def stat(self) -> AzurStats:
+        return AzurStats(config=self.config)
+
+    @cached_property
+    def emotion(self) -> Emotion:
+        return Emotion(config=self.config)
 
     def ensure_button(self, button):
         if isinstance(button, str):

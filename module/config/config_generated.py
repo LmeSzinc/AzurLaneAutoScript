@@ -289,6 +289,8 @@ class GeneratedConfig:
     Daily_TacticalTraining = 'second'  # skip, first, second, third
     Daily_TacticalTrainingFleet = 5  # 1, 2, 3, 4, 5, 6
     Daily_SupplyLineDisruption = 'second'  # skip, first, second, third
+    Daily_ModuleDevelopment = 'first'  # skip, first, second
+    Daily_ModuleDevelopmentFleet = 5  # 1, 2, 3, 4, 5, 6
 
     # Group `Hard`
     Hard_HardStage = '11-4'

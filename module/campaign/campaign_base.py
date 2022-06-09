@@ -120,8 +120,7 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
         logger.hr(self.ENTRANCE, level=2)
 
         # Enter map
-        if self.config.Emotion_CalculateEmotion:
-            self.emotion.check_reduce(self._map_battle)
+        self.emotion.check_reduce(self._map_battle)
         self.ENTRANCE.area = self.ENTRANCE.button
         self.enter_map(self.ENTRANCE, mode=self.config.Campaign_Mode)
 

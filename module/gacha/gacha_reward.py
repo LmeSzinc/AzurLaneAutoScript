@@ -229,7 +229,7 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
                 continue
 
             # End, goes back to pool page if clicked with queue empty
-            if self.appear(BUILD_SUBMIT_ORDERS):
+            if self.appear(BUILD_SUBMIT_ORDERS) or self.appear(BUILD_SUBMIT_WW_ORDERS):
                 if confirm_timer.reached():
                     break
 

@@ -1653,6 +1653,23 @@
       "first": "第一個",
       "second": "第二個",
       "third": "第三個"
+    },
+    "ModuleDevelopment": {
+      "name": "兵裝訓練（兵裝）",
+      "help": "",
+      "skip": "不打",
+      "first": "第一個",
+      "second": "第二個"
+    },
+    "ModuleDevelopmentFleet": {
+      "name": "兵裝訓練出擊艦隊",
+      "help": "",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     }
   },
   "Hard": {
