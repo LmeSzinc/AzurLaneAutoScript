@@ -86,7 +86,7 @@ Deploy:
     # This may cause problem https://github.com/LmeSzinc/AzurLaneAutoScript/issues/876
     EnableReload: true
     # Check update every X minute
-    # [Disable] -1
+    # [Disable] 0
     # [Default] 5
     CheckUpdateInterval: 5
     # Scheduled restart time
