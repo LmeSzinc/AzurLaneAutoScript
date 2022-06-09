@@ -1,5 +1,5 @@
 from module.base.timer import Timer
-from module.base.utils import color_bar_percentage
+from module.base.utils import color_bar_percentage, image_left_strip
 from module.combat.combat import BATTLE_PREPARATION, GET_ITEMS_1, Combat
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
@@ -12,10 +12,20 @@ from module.ui.page import page_os
 from module.ui.switch import Switch
 from module.ui.ui import UI
 
+
+class DailyDigitCounter(DigitCounter):
+    def pre_process(self, image):
+        image = super().pre_process(image)
+        image = image_left_strip(image, threshold=120, length=35)
+        return image
+
+
 OCR_BEACON_REMAIN = DigitCounter(BEACON_REMAIN, threshold=256, name='OCR_ASH_REMAIN')
 OCR_BEACON_TIER = Digit(BEACON_TIER, name='OCR_ASH_TIER')
 OCR_ASH_COLLECT_STATUS = DigitCounter(
     ASH_COLLECT_STATUS, letter=(235, 235, 235), threshold=160, name='OCR_ASH_COLLECT_STATUS')
+OCR_ASH_DAILY_STATUS = DailyDigitCounter(
+    ASH_DAILY_STATUS, letter=(235, 235, 235), threshold=160, name='OCR_ASH_DAILY_STATUS')
 
 SWITCH_BEACON = Switch(name='Beacon', offset=(20, 20))
 SWITCH_BEACON.add_status('mine', BEACON_LIST)
@@ -200,20 +210,19 @@ class OSAsh(UI, MapEventHandler):
         if self._ash_fully_collected:
             return 0
         if not self.image_color_count(ASH_COLLECT_STATUS, color=(235, 235, 235), threshold=221, count=20):
-            if self.image_color_count(ASH_COLLECT_STATUS, color=(82, 85, 82), threshold=235, count=50):
-                logger.info('Ash beacon fully collected today')
-                self._ash_fully_collected = True
-                return 0
-            else:
-                # If OS daily mission received or finished, the popup will cover beacon status.
-                logger.info('Ash beacon status is covered, will check next time')
-                return 0
+            # If OS daily mission received or finished, the popup will cover beacon status.
+            logger.info('Ash beacon status is covered, will check next time')
+            return 0
 
         status, _, _ = OCR_ASH_COLLECT_STATUS.ocr(self.device.image)
+        daily, _, _ = OCR_ASH_DAILY_STATUS.ocr(self.device.image)
+
+        if daily >= 200:
+            logger.info('Ash beacon fully collected today')
+            self._ash_fully_collected = True
+
         if status < 0:
             status = 0
-        if status > 100:
-            status = 100
         return status
 
     def _ash_mine_enter_from_map(self, skip_first_screenshot=True):

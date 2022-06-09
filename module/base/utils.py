@@ -654,6 +654,29 @@ def color_mapping(image, max_multiply=2):
     return image.astype(np.uint8)
 
 
+def image_left_strip(image, threshold, length):
+    """
+    In `DAILY:200/200` strip `DAILY:` and leave `200/200`
+
+    Args:
+        image (np.ndarray): (height, width)
+        threshold (int):
+            0-255
+            The first column with brightness lower than this
+            will be considered as left edge.
+        length (int):
+            Strip this length of image after the left edge
+
+    Returns:
+        np.ndarray:
+    """
+    brightness = np.mean(image, axis=0)
+    match = np.where(brightness < threshold)[0]
+    if len(match):
+        image = image[:, match[0] + length:]
+    return image
+
+
 def red_overlay_transparency(color1, color2, red=247):
     """Calculate the transparency of red overlay.
 
