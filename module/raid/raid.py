@@ -186,8 +186,7 @@ class Raid(MapOperation, Combat):
             Campaign_UseAutoSearch=False,
             Fleet_FleetOrder='fleet1_all_fleet2_standby'
         )
-        if self.config.Emotion_CalculateEmotion:
-            self.emotion.check_reduce(1)
+        self.emotion.check_reduce(1)
 
         self.raid_enter(mode=mode, raid=raid)
         self.combat(balance_hp=False, expected_end=self.raid_expected_end)

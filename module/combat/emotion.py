@@ -175,6 +175,15 @@ class Emotion:
         else:
             return 2
 
+    @property
+    def reduce_per_battle_before_entering(self):
+        if self.map_is_2x_book:
+            return 4
+        elif self.config.Campaign_Use2xBook:
+            return 4
+        else:
+            return 2
+
     def check_reduce(self, battle):
         """
         Check emotion before entering a campaign.
@@ -185,6 +194,8 @@ class Emotion:
         Raise:
             ScriptEnd: Delay current task to prevent emotion control in the future.
         """
+        if not self.config.Emotion_CalculateEmotion:
+            return
 
         method = self.config.Fleet_FleetOrder
 
@@ -199,7 +210,7 @@ class Emotion:
         else:
             raise ScriptError(f'Unknown fleet order: {method}')
 
-        battle = tuple(np.array(battle) * self.reduce_per_battle)
+        battle = tuple(np.array(battle) * self.reduce_per_battle_before_entering)
         logger.info(f'Expect emotion reduce: {battle}')
 
         self.update()
