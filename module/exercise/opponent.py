@@ -1,6 +1,7 @@
 import numpy as np
 
 from module.base.button import ButtonGrid
+from module.base.utils import image_left_strip
 from module.exercise.assets import *
 from module.logger import logger
 from module.ocr.ocr import Digit
@@ -19,10 +20,7 @@ PWR_FACTOR = 100
 class Level(Digit):
     def pre_process(self, image):
         image = super().pre_process(image)
-        letter_l = np.where(np.mean(image, axis=0) < 85)[0]
-        if len(letter_l):
-            letter_l = letter_l[0] + 22
-            image = image[:, letter_l:]
+        image = image_left_strip(image, threshold=85, length=22)
 
         image = np.pad(image, ((5, 6), (0, 5)), mode='constant', constant_values=255)
         return image.astype(np.uint8)
