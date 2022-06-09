@@ -487,6 +487,7 @@ class Connection:
         else:
             self.adb_disconnect(self.serial)
             self.adb_connect(self.serial)
+            self.detect_device()
 
     def install_uiautomator2(self):
         """
