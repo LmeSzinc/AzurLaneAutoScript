@@ -1,6 +1,7 @@
 import re
 from datetime import datetime
 
+import module.config.server as server
 from module.base.button import Button, ButtonGrid
 from module.base.filter import Filter
 from module.base.timer import Timer
@@ -19,21 +20,33 @@ from module.ui.ui import UI, page_reward
 
 class SkillExp(DigitCounter):
     def pre_process(self, image):
-        # Image is like `NEXT:1900/5800`, 1900 is green and others are in white
+        # Image is like `NEXT:1900+500/5800`, 500 is green and others are in white
+
+        # Find green letters
+        hsv = rgb2hsv(image)
+        h = (60, 180)
+        s = (50, 100)
+        v = (50, 100)
+        lower = (h[0], s[0], v[0])
+        upper = (h[1], s[1], v[1])
+        green = np.mean(cv2.inRange(hsv, lower, upper), axis=0)
         # Convert to gray scale
         r, g, b = cv2.split(image)
         image = cv2.max(cv2.max(r, g), b)
+        # Paint `+500` to white
+        matched = np.where(green > 0.5)[0]
+        if len(matched):
+            image[:, matched[0] - 8:matched[-1] + 2] = 0
 
-        try:
-            # Get the start pixel of letter `N` and shift to the end of `:`
-            starter = np.where(np.mean(image, axis=0) > 150)[0][0] + 42
-        except IndexError:
-            logger.warning('Unable to strip SKILL_EXP, skip')
-            starter = 0
-        # Crop `1900/5800`
-        image = image[:, starter:]
+        image = 255 - image
 
-        return 255 - image
+        # Strip `Next:`
+        if server.server == 'en':
+            # Bold `Next:`
+            image = image_left_strip(image, threshold=105, length=46)
+        else:
+            image = image_left_strip(image, threshold=105, length=42)
+        return image
 
 
 SKILL_EXP = SkillExp(buttons=OCR_SKILL_EXP)
