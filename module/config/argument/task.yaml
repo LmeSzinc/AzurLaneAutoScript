@@ -250,5 +250,3 @@ AzurLaneUncensored:
   - AzurLaneUncensored
 GameManager:
   - GameManager
-AdbRestart:
-  - AdbRestart

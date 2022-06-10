@@ -237,10 +237,6 @@
     "GameManager": {
       "name": "游戏管理器(未完成)",
       "help": ""
-    },
-    "AdbRestart": {
-      "name": "重启adb",
-      "help": ""
     }
   },
   "Scheduler": {
@@ -323,6 +319,10 @@
     "ScreenshotDedithering": {
       "name": "去除图片色彩抖动",
       "help": "在手机上运行时开启"
+    },
+    "AdbRestart": {
+      "name": "重启adb",
+      "help": "在检测不到设备的时候重启adb来尝试解决"
     }
   },
   "Error": {
@@ -1996,16 +1996,6 @@
     "AutoRestart": {
       "name": "自动登录",
       "help": "游戏被强制结束后自动登录游戏"
-    }
-  },
-  "AdbRestart": {
-    "_info": {
-      "name": "重启adb",
-      "help": "重启adb"
-    },
-    "AdbRestart": {
-      "name": "重启adb",
-      "help": "关闭adb服务器然后打开"
     }
   },
   "Gui": {

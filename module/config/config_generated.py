@@ -23,6 +23,7 @@ class GeneratedConfig:
     Emulator_ScreenshotMethod = 'ADB'  # ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc
     Emulator_ControlMethod = 'minitouch'  # ADB, uiautomator2, minitouch, Hermit
     Emulator_ScreenshotDedithering = False
+    Emulator_AdbRestart = False
 
     # Group `Error`
     Error_HandleError = True
@@ -378,6 +379,3 @@ class GeneratedConfig:
 
     # Group `GameManager`
     GameManager_AutoRestart = True
-
-    # Group `AdbRestart`
-    AdbRestart_AdbRestart = True

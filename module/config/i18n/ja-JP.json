@@ -237,10 +237,6 @@
     "GameManager": {
       "name": "Task.GameManager.name",
       "help": "Task.GameManager.help"
-    },
-    "AdbRestart": {
-      "name": "Task.AdbRestart.name",
-      "help": "Task.AdbRestart.help"
     }
   },
   "Scheduler": {
@@ -323,6 +319,10 @@
     "ScreenshotDedithering": {
       "name": "Emulator.ScreenshotDedithering.name",
       "help": "Emulator.ScreenshotDedithering.help"
+    },
+    "AdbRestart": {
+      "name": "Emulator.AdbRestart.name",
+      "help": "Emulator.AdbRestart.help"
     }
   },
   "Error": {
@@ -1996,16 +1996,6 @@
     "AutoRestart": {
       "name": "GameManager.AutoRestart.name",
       "help": "GameManager.AutoRestart.help"
-    }
-  },
-  "AdbRestart": {
-    "_info": {
-      "name": "AdbRestart._info.name",
-      "help": "AdbRestart._info.help"
-    },
-    "AdbRestart": {
-      "name": "AdbRestart.AdbRestart.name",
-      "help": "AdbRestart.AdbRestart.help"
     }
   },
   "Gui": {

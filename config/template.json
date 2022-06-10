@@ -5,7 +5,8 @@
       "PackageName": "auto",
       "ScreenshotMethod": "ADB",
       "ControlMethod": "minitouch",
-      "ScreenshotDedithering": false
+      "ScreenshotDedithering": false,
+      "AdbRestart": false
     },
     "Error": {
       "HandleError": true,
@@ -1441,11 +1442,6 @@
   "GameManager": {
     "GameManager": {
       "AutoRestart": true
-    }
-  },
-  "AdbRestart": {
-    "AdbRestart": {
-      "AdbRestart": true
     }
   }
 }

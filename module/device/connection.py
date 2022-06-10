@@ -480,7 +480,8 @@ class Connection:
         """
            Reboot adb client if no device found, otherwise try reconnecting device.
         """
-        if len(self.list_device()) == 0:
+        if len(self.list_device()) == 0 and self.config.Emulator_AdbRestart:
+            #Restart Adb
             self.adb_restart()
             # Connect to device
             self.adb_connect(self.serial)

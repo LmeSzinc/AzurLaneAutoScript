@@ -237,10 +237,6 @@
     "GameManager": {
       "name": "Game Manager(WIP)",
       "help": ""
-    },
-    "AdbRestart": {
-      "name": "Restart adb",
-      "help": ""
     }
   },
   "Scheduler": {
@@ -323,6 +319,10 @@
     "ScreenshotDedithering": {
       "name": "Image Color De-dithering",
       "help": "Enable when running Alas on phones"
+    },
+    "AdbRestart": {
+      "name": "Restart Adb",
+      "help": "Try to restart adb when no device found"
     }
   },
   "Error": {
@@ -1996,16 +1996,6 @@
     "AutoRestart": {
       "name": "Automatic Login",
       "help": "Log back into the game when the game has been ended."
-    }
-  },
-  "AdbRestart": {
-    "_info": {
-      "name": "Restart Adb",
-      "help": "Restart Adb"
-    },
-    "AdbRestart": {
-      "name": "Restart Adb",
-      "help": "Close Adb Server and then start it"
     }
   },
   "Gui": {
