@@ -1,5 +1,4 @@
 from module.base.button import ButtonGrid
-from module.base.timer import Timer
 from module.equipment.equipment import Equipment
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
@@ -161,25 +160,21 @@ class Dock(Equipment):
             button (Button): Ship button to select
             skip_first_screenshot:
         """
-        ocr_check_timer = Timer(1)
-
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
-            if self.appear(DOCK_CHECK, interval=2):
+            current, _, _ = OCR_DOCK_SELECTED.ocr(self.device.image)
+            if current > 0:
+                break
+
+            if self.appear(DOCK_CHECK, interval=5):
                 self.device.click(button)
                 continue
             if self.handle_popup_confirm('DOCK_SELECT'):
                 continue
-
-            if ocr_check_timer.reached():
-                current, _, _ = OCR_DOCK_SELECTED.ocr(self.device.image)
-                ocr_check_timer.reset()
-                if current > 0:
-                    break
 
     def dock_select_confirm(self, check_button, skip_first_screenshot=True):
         while 1:
