@@ -4,10 +4,11 @@ from module.logger import logger
 
 class GameManager(LoginHandler):
     def run(self):
+        logger.hr('Force Stop AzurLane', level=1)
+        self.device.app_stop()
+        logger.info('Force Stop finished')
+
         if self.config.GameManager_AutoRestart:
-            logger.hr('Force Stop AzurLane', level=1)
-            self.device.app_stop()
-            logger.info('Force Stop finished')
             self.device.app_start()
             self.handle_app_login()
 
