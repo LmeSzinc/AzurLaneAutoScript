@@ -298,6 +298,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=5):
                 continue
             # Popup: Leaving current zone will terminate meowfficer searching.
+            # Popup: Leaving current zone will retreat submarines
             # Searching reward will be shown after entering another zone.
             if self.handle_popup_confirm('GOTO_GLOBE'):
                 continue
