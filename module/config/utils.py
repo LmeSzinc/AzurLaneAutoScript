@@ -19,10 +19,10 @@ SERVER_TO_LANG = {
 }
 LANG_TO_SERVER = {v: k for k, v in SERVER_TO_LANG.items()}
 SERVER_TO_TIMEZONE = {
-    'cn': 8,
-    'en': -7,
-    'jp': 9,
-    'tw': 8,
+    'cn': timedelta(hours=8),
+    'en': timedelta(hours=-7),
+    'jp': timedelta(hours=9),
+    'tw': timedelta(hours=8),
 }
 DEFAULT_TIME = datetime(2020, 1, 1, 0, 0)
 
@@ -366,8 +366,18 @@ def dict_to_kv(dictionary, allow_none=True):
     return ', '.join([f'{k}={repr(v)}' for k, v in dictionary.items() if allow_none or v is not None])
 
 
-def server_timezone():
-    return SERVER_TO_TIMEZONE.get(server_.server, 8)
+def server_timezone() -> timedelta:
+    return SERVER_TO_TIMEZONE.get(server_.server, SERVER_TO_TIMEZONE['cn'])
+
+
+def server_time_offset() -> timedelta:
+    """
+    To convert local time to server time:
+        server_time = local_time + server_time_offset()
+    To convert server time to local time:
+        local_time = server_time - server_time_offset()
+    """
+    return datetime.now(timezone.utc).astimezone().utcoffset() - server_timezone()
 
 
 def random_normal_distribution_int(a, b, n=3):
@@ -430,13 +440,12 @@ def get_os_next_reset():
     Returns:
         datetime.datetime
     """
-    d = datetime.now(timezone.utc).astimezone()
-    diff = d.utcoffset() // timedelta(seconds=1) // 3600 - server_timezone()
-    now = datetime.now() - timedelta(hours=diff)
-    reset = (now.replace(day=1) + timedelta(days=32)) \
+    diff = server_time_offset()
+    server_now = datetime.now() - diff
+    server_reset = (server_now.replace(day=1) + timedelta(days=32)) \
         .replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-    reset += timedelta(hours=diff)
-    return reset
+    local_reset = server_reset + diff
+    return local_reset
 
 
 def get_os_reset_remain():
@@ -465,14 +474,15 @@ def get_server_next_update(daily_trigger):
     """
     if isinstance(daily_trigger, str):
         daily_trigger = daily_trigger.replace(' ', '').split(',')
-    d = datetime.now(timezone.utc).astimezone()
-    diff = d.utcoffset() // timedelta(seconds=1) // 3600 - server_timezone()
+
+    diff = server_time_offset()
+    local_now = datetime.now()
     trigger = []
     for t in daily_trigger:
         h, m = [int(x) for x in t.split(':')]
-        h = (h + diff) % 24
-        future = datetime.now().replace(hour=h, minute=m, second=0, microsecond=0)
-        future = future + timedelta(days=1) if future < datetime.now() else future
+        future = local_now.replace(hour=h, minute=m, second=0, microsecond=0) - diff
+        future = future + timedelta(days=1) if future < local_now else future
+        future = future + timedelta(days=1) if future < local_now else future
         trigger.append(future)
     update = sorted(trigger)[0]
     return update
@@ -488,16 +498,17 @@ def get_server_last_update(daily_trigger):
     """
     if isinstance(daily_trigger, str):
         daily_trigger = daily_trigger.replace(' ', '').split(',')
-    d = datetime.now(timezone.utc).astimezone()
-    diff = d.utcoffset() // timedelta(seconds=1) // 3600 - server_timezone()
+
+    diff = server_time_offset()
+    local_now = datetime.now()
     trigger = []
     for t in daily_trigger:
         h, m = [int(x) for x in t.split(':')]
-        h = (h + diff) % 24
-        past = datetime.now().replace(hour=h, minute=m, second=0, microsecond=0)
-        past = past - timedelta(days=1) if past > datetime.now() else past
-        trigger.append(past)
-    update = sorted(trigger, reverse=True)[0]
+        future = local_now.replace(hour=h, minute=m, second=0, microsecond=0) + diff
+        future = future - timedelta(days=1) if future > local_now else future
+        future = future - timedelta(days=1) if future > local_now else future
+        trigger.append(future)
+    update = sorted(trigger)[0]
     return update
 
 
