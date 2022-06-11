@@ -319,6 +319,10 @@
     "ScreenshotDedithering": {
       "name": "Emulator.ScreenshotDedithering.name",
       "help": "Emulator.ScreenshotDedithering.help"
+    },
+    "AdbRestart": {
+      "name": "Emulator.AdbRestart.name",
+      "help": "Emulator.AdbRestart.help"
     }
   },
   "Error": {

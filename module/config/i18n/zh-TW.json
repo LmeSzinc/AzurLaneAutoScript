@@ -319,6 +319,10 @@
     "ScreenshotDedithering": {
       "name": "去除圖片色彩抖動",
       "help": "在手機上運行時開啟"
+    },
+    "AdbRestart": {
+      "name": "在檢測不到設備的時候嘗試重啟adb",
+      "help": ""
     }
   },
   "Error": {

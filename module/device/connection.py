@@ -107,21 +107,7 @@ class Connection:
 
         # Parse custom serial
         self.serial = str(self.config.Emulator_Serial)
-        if "bluestacks4-hyperv" in self.serial:
-            self.serial = self.find_bluestacks4_hyperv(self.serial)
-        if "bluestacks5-hyperv" in self.serial:
-            self.serial = self.find_bluestacks5_hyperv(self.serial)
-        if "127.0.0.1:58526" in self.serial:
-            logger.warning('Serial 127.0.0.1:58526 seems to be WSA, '
-                           'please use "wsa-0" or others instead')
-            raise RequestHumanTakeover
-        if "wsa" in self.serial:
-            self.serial = '127.0.0.1:58526'
-            if self.config.Emulator_ScreenshotMethod != 'uiautomator2' \
-                    or self.config.Emulator_ControlMethod != 'uiautomator2':
-                with self.config.multi_set():
-                    self.config.Emulator_ScreenshotMethod = 'uiautomator2'
-                    self.config.Emulator_ControlMethod = 'uiautomator2'
+        self.serial_check()
         self.detect_device()
 
         # Connect
@@ -466,13 +452,50 @@ class Connection:
         del_cached_property(self, 'minitouch_builder')
         del_cached_property(self, 'reverse_server')
 
+    def adb_restart(self):
+        """
+            Reboot adb client
+        """
+        logger.info('Restart adb')
+        # Kill current client
+        self.adb_client.server_kill()
+        # Init adb client
+        self.adb_client = AdbClient('127.0.0.1', 5037)
+
+    def serial_check(self):
+        """
+        serial check
+        """
+        if "bluestacks4-hyperv" in self.serial:
+            self.serial = self.find_bluestacks4_hyperv(self.serial)
+        if "bluestacks5-hyperv" in self.serial:
+            self.serial = self.find_bluestacks5_hyperv(self.serial)
+        if "127.0.0.1:58526" in self.serial:
+            logger.warning('Serial 127.0.0.1:58526 seems to be WSA, '
+                           'please use "wsa-0" or others instead')
+            raise RequestHumanTakeover
+        if "wsa" in self.serial:
+            self.serial = '127.0.0.1:58526'
+            if self.config.Emulator_ScreenshotMethod != 'uiautomator2' \
+                    or self.config.Emulator_ControlMethod != 'uiautomator2':
+                with self.config.multi_set():
+                    self.config.Emulator_ScreenshotMethod = 'uiautomator2'
+                    self.config.Emulator_ControlMethod = 'uiautomator2'
+
     def adb_reconnect(self):
         """
-        Reconnect to serial
+           Reboot adb client if no device found, otherwise try reconnecting device.
         """
-        self.adb_disconnect(self.serial)
-        self.adb_connect(self.serial)
-        self.detect_device()
+        if self.config.Emulator_AdbRestart and len(self.list_device()) == 0:
+            # Restart Adb
+            self.adb_restart()
+            # Connect to device
+            self.adb_connect(self.serial)
+            self.detect_device()
+        else:
+            self.adb_disconnect(self.serial)
+            self.adb_connect(self.serial)
+            self.detect_device()
 
     def install_uiautomator2(self):
         """

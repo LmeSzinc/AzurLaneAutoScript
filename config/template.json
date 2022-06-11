@@ -5,7 +5,8 @@
       "PackageName": "auto",
       "ScreenshotMethod": "ADB",
       "ControlMethod": "minitouch",
-      "ScreenshotDedithering": false
+      "ScreenshotDedithering": false,
+      "AdbRestart": false
     },
     "Error": {
       "HandleError": true,
