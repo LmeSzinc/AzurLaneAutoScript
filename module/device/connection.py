@@ -4,6 +4,7 @@ import re
 import socket
 import subprocess
 import time
+import ipaddress
 from functools import wraps
 
 import adbutils
@@ -258,16 +259,46 @@ class Connection:
         return result
 
     @cached_property
+    def _nc_server_host_port(self):
+        """
+        Returns:
+            str, int, str, int:
+                server_listen_host, server_listen_port, client_connect_host, client_connect_port
+        """
+        # For emulators, listen on current host
+        if self.serial.startswith('emulator-') or self.serial.startswith('127.0.0.1:'):
+            host = socket.gethostbyname(socket.gethostname())
+            logger.info(f'Connecting to local emulator, using host {host}')
+            port = random_port(self.config.FORWARD_PORT_RANGE)
+            return host, port, host, port
+        # For local network devices, listen on the host under the same network as target device
+        if re.match(r'\d+\.\d+\.\d+\.\d+:\d+', self.serial):
+            hosts = socket.gethostbyname_ex(socket.gethostname())[2]
+            logger.info(f'Current hosts: {hosts}')
+            ip = ipaddress.ip_address(self.serial.split(':')[0])
+            for host in hosts:
+                if ip in ipaddress.ip_interface(f'{host}/24').network:
+                    logger.info(f'Connecting to local network device, using host {host}')
+                    port = random_port(self.config.FORWARD_PORT_RANGE)
+                    return host, port, host, port
+        # For other devices, create an ADB reverse and listen on 127.0.0.1
+        host = '127.0.0.1'
+        logger.info(f'Connecting to unknown device, using host {host}')
+        port = self.adb_reverse(f'tcp:{self.config.REVERSE_SERVER_PORT}')
+        return host, port, host, self.config.REVERSE_SERVER_PORT
+
+    @cached_property
     def reverse_server(self):
         """
         Setup a server on Alas, access it from emulator.
         This will bypass adb shell and be faster.
         """
+        del_cached_property(self, '_nc_server_host_port')
+        host_port = self._nc_server_host_port
+        logger.info(f'Reverse server listening on {host_port[0]}:{host_port[1]}, '
+                    f'client can send data to {host_port[2]}:{host_port[3]}')
         server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self._nc_server_host = socket.gethostbyname(socket.gethostname())
-        self._nc_server_port = random_port(self.config.FORWARD_PORT_RANGE)
-        logger.info(f'Reverse server listening on {self._nc_server_host}:{self._nc_server_port}')
-        server.bind((self._nc_server_host, self._nc_server_port))
+        server.bind(host_port[:2])
         server.listen(5)
         return server
 
@@ -286,7 +317,7 @@ class Connection:
         server.settimeout(timeout)
         # Client send data, waiting for server accept
         # <command> | nc 127.0.0.1 {port}
-        cmd += ['|', 'nc', self._nc_server_host, self._nc_server_port]
+        cmd += ['|', 'nc', *self._nc_server_host_port[2:]]
         stream = self.adb_shell(cmd, stream=True)
         try:
             # Server accept connection

@@ -12,7 +12,7 @@ from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
                                         recv_all)
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
-from module.base.timer import timer
+
 
 def retry(func):
     @wraps(func)
