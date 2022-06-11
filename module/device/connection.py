@@ -632,11 +632,11 @@ class Connection:
 
         # Auto device detection
         if self.config.Emulator_Serial == 'auto':
-            if len(devices) == 0:
+            if available.count == 0:
                 logger.critical('No available device found, auto device detection cannot work, '
                                 'please set an exact serial in Alas.Emulator.Serial instead of using "auto"')
                 raise RequestHumanTakeover
-            elif len(devices) == 1:
+            elif available.count == 1:
                 logger.info(f'Auto device detection found only one device, using it')
                 self.serial = devices[0].serial
                 del_cached_property(self, 'adb')
