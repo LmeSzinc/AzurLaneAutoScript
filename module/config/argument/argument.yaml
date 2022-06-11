@@ -24,6 +24,9 @@ Emulator:
   PackageName:
     value: auto
     option: [auto, ]
+  ServerPlatform:
+    value: disabled
+    option: [disabled, cn_android, cn_ios, cn_channel, en, en_channel]
   ScreenshotMethod:
     value: ADB
     option: [ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc]

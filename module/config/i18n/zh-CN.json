@@ -299,6 +299,16 @@
       "com.yiwu.blhx.yx15": "国服 一五游戏渠道服 com.yiwu.blhx.yx15",
       "com.hkmanjuu.azurlane.gp.mc": "台服 com.hkmanjuu.azurlane.gp.mc"
     },
+    "ServerPlatform": {
+      "name": "服务器平台",
+      "help": "选择服务器平台以启用服务器状态检测\n当服务器维护或网络不可用时挂起直到恢复",
+      "disabled": "不使用",
+      "cn_android": "国服-安卓端",
+      "cn_ios": "国服-IOS端",
+      "cn_channel": "国服-渠道服",
+      "en": "国际服",
+      "en_channel": "国际服-渠道服"
+    },
     "ScreenshotMethod": {
       "name": "模拟器截图方案",
       "help": "速度: aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB\n运行 工具 - 性能测试 以寻找最快的方案",

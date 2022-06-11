@@ -299,6 +299,16 @@
       "com.yiwu.blhx.yx15": "CN com.yiwu.blhx.yx15",
       "com.hkmanjuu.azurlane.gp.mc": "TW com.hkmanjuu.azurlane.gp.mc"
     },
+    "ServerPlatform": {
+      "name": "Emulator.ServerPlatform.name",
+      "help": "Emulator.ServerPlatform.help",
+      "disabled": "Disabled",
+      "cn_android": "CN-Android",
+      "cn_ios": "CN-IOS",
+      "cn_channel": "CN-Channel",
+      "en": "EN",
+      "en_channel": "EN-Channel"
+    },
     "ScreenshotMethod": {
       "name": "Emulator.ScreenshotMethod.name",
       "help": "Emulator.ScreenshotMethod.help",

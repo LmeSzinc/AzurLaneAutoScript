@@ -29,6 +29,18 @@
           "com.hkmanjuu.azurlane.gp.mc"
         ]
       },
+      "ServerPlatform": {
+        "type": "select",
+        "value": "disabled",
+        "option": [
+          "disabled",
+          "cn_android",
+          "cn_ios",
+          "cn_channel",
+          "en",
+          "en_channel"
+        ]
+      },
       "ScreenshotMethod": {
         "type": "select",
         "value": "ADB",

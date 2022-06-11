@@ -47,6 +47,20 @@ class AzurLaneAutoScript:
             logger.exception(e)
             exit(1)
 
+    @cached_property
+    def checker(self):
+        try:
+            from module.server_checker import ServerChecker
+            checker = ServerChecker(server=self.config.Emulator_ServerPlatform)
+        except Exception as e:
+            logger.critical(e)
+            logger.warning('There may be something wrong with server checker.')
+            logger.warning('Server checker will be temporarily forced off.')
+            self.config.Emulator_ServerPlatform = 'disabled'
+            checker = ServerChecker(server=self.config.Emulator_ServerPlatform)
+        finally:
+            return checker
+
     def run(self, command):
         try:
             self.device.screenshot()
@@ -403,12 +417,26 @@ class AzurLaneAutoScript:
         failure_record = {}
 
         while 1:
+            self.checker.wait_until_available()
+            if self.checker.is_recovered():
+                # There is an accidental bug hard to reproduce
+                # Sometimes, config won't be updated due to blocking
+                # even though it has been changed
+                # So update it once recovered
+                if 'config' in self.__dict__:
+                    del self.__dict__['config']
+                if self.checker.is_after_maintenance():
+                    logger.info('Server maintenance is over. Restart game client to update.')
+                    self.run('restart')
+
             if self.stop_event is not None:
                 if self.stop_event.is_set():
                     logger.info("Update event detected")
                     logger.info(f"Alas [{self.config_name}] exited.")
                     break
             task = self.get_next_task()
+            if not self.checker.is_available():
+                continue
 
             # Skip first restart
             if is_first and task == 'Restart':
@@ -445,6 +473,11 @@ class AzurLaneAutoScript:
             elif self.config.Error_HandleError:
                 # self.config.task_delay(success=False)
                 del self.__dict__['config']
+
+                self.checker.check_now()
+                if not self.checker.is_enabled():
+                    if self.config.Emulator_ServerPlatform != 'disabled':
+                        self.config.Emulator_ServerPlatform = 'disabled'
                 continue
             else:
                 break

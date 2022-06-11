@@ -299,6 +299,16 @@
       "com.yiwu.blhx.yx15": "國服 com.yiwu.blhx.yx15",
       "com.hkmanjuu.azurlane.gp.mc": "台服 MyCard渠道服 com.hkmanjuu.azurlane.gp.mc"
     },
+    "ServerPlatform": {
+      "name": "伺服器平台",
+      "help": "選擇伺服器平台以啓用伺服器狀態檢測\n當伺服器維護或網路不可用時挂起直到恢複",
+      "disabled": "不使用",
+      "cn_android": "國服-安卓端",
+      "cn_ios": "國服-IOS端",
+      "cn_channel": "國服-渠道服",
+      "en": "國際服",
+      "en_channel": "國際服-渠道服"
+    },
     "ScreenshotMethod": {
       "name": "模擬器截圖方案",
       "help": "速度: aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB\n運行 工具 - 性能測試 以尋找最快的方案",
