@@ -53,6 +53,10 @@
       "ScreenshotDedithering": {
         "type": "checkbox",
         "value": false
+      },
+      "AdbRestart": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Error": {

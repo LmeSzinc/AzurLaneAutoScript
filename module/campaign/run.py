@@ -150,6 +150,9 @@ class CampaignRun(UI):
 
         return name, folder
 
+    def can_use_auto_search_continue(self):
+        return self.run_count > 0 and self.campaign.map_is_auto_search
+
     def handle_commission_notice(self):
         """
         Check commission notice.
@@ -205,7 +208,7 @@ class CampaignRun(UI):
                     pass
                 self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
             elif self.campaign.is_in_auto_search_menu():
-                if self.run_count > 0 and self.campaign.map_is_auto_search:
+                if self.can_use_auto_search_continue():
                     logger.info('In auto search menu, skip ensure_campaign_ui.')
                 else:
                     logger.info('In auto search menu, closing.')

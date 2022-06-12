@@ -319,6 +319,10 @@
     "ScreenshotDedithering": {
       "name": "Image Color De-dithering",
       "help": "Enable when running Alas on phones"
+    },
+    "AdbRestart": {
+      "name": "Try to restart adb when no device found",
+      "help": ""
     }
   },
   "Error": {

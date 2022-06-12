@@ -4,6 +4,7 @@ import re
 import socket
 import subprocess
 import time
+import ipaddress
 from functools import wraps
 
 import adbutils
@@ -107,21 +108,7 @@ class Connection:
 
         # Parse custom serial
         self.serial = str(self.config.Emulator_Serial)
-        if "bluestacks4-hyperv" in self.serial:
-            self.serial = self.find_bluestacks4_hyperv(self.serial)
-        if "bluestacks5-hyperv" in self.serial:
-            self.serial = self.find_bluestacks5_hyperv(self.serial)
-        if "127.0.0.1:58526" in self.serial:
-            logger.warning('Serial 127.0.0.1:58526 seems to be WSA, '
-                           'please use "wsa-0" or others instead')
-            raise RequestHumanTakeover
-        if "wsa" in self.serial:
-            self.serial = '127.0.0.1:58526'
-            if self.config.Emulator_ScreenshotMethod != 'uiautomator2' \
-                    or self.config.Emulator_ControlMethod != 'uiautomator2':
-                with self.config.multi_set():
-                    self.config.Emulator_ScreenshotMethod = 'uiautomator2'
-                    self.config.Emulator_ControlMethod = 'uiautomator2'
+        self.serial_check()
         self.detect_device()
 
         # Connect
@@ -272,16 +259,46 @@ class Connection:
         return result
 
     @cached_property
+    def _nc_server_host_port(self):
+        """
+        Returns:
+            str, int, str, int:
+                server_listen_host, server_listen_port, client_connect_host, client_connect_port
+        """
+        # For emulators, listen on current host
+        if self.serial.startswith('emulator-') or self.serial.startswith('127.0.0.1:'):
+            host = socket.gethostbyname(socket.gethostname())
+            logger.info(f'Connecting to local emulator, using host {host}')
+            port = random_port(self.config.FORWARD_PORT_RANGE)
+            return host, port, host, port
+        # For local network devices, listen on the host under the same network as target device
+        if re.match(r'\d+\.\d+\.\d+\.\d+:\d+', self.serial):
+            hosts = socket.gethostbyname_ex(socket.gethostname())[2]
+            logger.info(f'Current hosts: {hosts}')
+            ip = ipaddress.ip_address(self.serial.split(':')[0])
+            for host in hosts:
+                if ip in ipaddress.ip_interface(f'{host}/24').network:
+                    logger.info(f'Connecting to local network device, using host {host}')
+                    port = random_port(self.config.FORWARD_PORT_RANGE)
+                    return host, port, host, port
+        # For other devices, create an ADB reverse and listen on 127.0.0.1
+        host = '127.0.0.1'
+        logger.info(f'Connecting to unknown device, using host {host}')
+        port = self.adb_reverse(f'tcp:{self.config.REVERSE_SERVER_PORT}')
+        return host, port, host, self.config.REVERSE_SERVER_PORT
+
+    @cached_property
     def reverse_server(self):
         """
         Setup a server on Alas, access it from emulator.
         This will bypass adb shell and be faster.
         """
+        del_cached_property(self, '_nc_server_host_port')
+        host_port = self._nc_server_host_port
+        logger.info(f'Reverse server listening on {host_port[0]}:{host_port[1]}, '
+                    f'client can send data to {host_port[2]}:{host_port[3]}')
         server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self._nc_server_host = socket.gethostbyname(socket.gethostname())
-        self._nc_server_port = random_port(self.config.FORWARD_PORT_RANGE)
-        logger.info(f'Reverse server listening on {self._nc_server_host}:{self._nc_server_port}')
-        server.bind((self._nc_server_host, self._nc_server_port))
+        server.bind(host_port[:2])
         server.listen(5)
         return server
 
@@ -300,7 +317,7 @@ class Connection:
         server.settimeout(timeout)
         # Client send data, waiting for server accept
         # <command> | nc 127.0.0.1 {port}
-        cmd += ['|', 'nc', self._nc_server_host, self._nc_server_port]
+        cmd += ['|', 'nc', *self._nc_server_host_port[2:]]
         stream = self.adb_shell(cmd, stream=True)
         try:
             # Server accept connection
@@ -466,13 +483,50 @@ class Connection:
         del_cached_property(self, 'minitouch_builder')
         del_cached_property(self, 'reverse_server')
 
+    def adb_restart(self):
+        """
+            Reboot adb client
+        """
+        logger.info('Restart adb')
+        # Kill current client
+        self.adb_client.server_kill()
+        # Init adb client
+        self.adb_client = AdbClient('127.0.0.1', 5037)
+
+    def serial_check(self):
+        """
+        serial check
+        """
+        if "bluestacks4-hyperv" in self.serial:
+            self.serial = self.find_bluestacks4_hyperv(self.serial)
+        if "bluestacks5-hyperv" in self.serial:
+            self.serial = self.find_bluestacks5_hyperv(self.serial)
+        if "127.0.0.1:58526" in self.serial:
+            logger.warning('Serial 127.0.0.1:58526 seems to be WSA, '
+                           'please use "wsa-0" or others instead')
+            raise RequestHumanTakeover
+        if "wsa" in self.serial:
+            self.serial = '127.0.0.1:58526'
+            if self.config.Emulator_ScreenshotMethod != 'uiautomator2' \
+                    or self.config.Emulator_ControlMethod != 'uiautomator2':
+                with self.config.multi_set():
+                    self.config.Emulator_ScreenshotMethod = 'uiautomator2'
+                    self.config.Emulator_ControlMethod = 'uiautomator2'
+
     def adb_reconnect(self):
         """
-        Reconnect to serial
+           Reboot adb client if no device found, otherwise try reconnecting device.
         """
-        self.adb_disconnect(self.serial)
-        self.adb_connect(self.serial)
-        self.detect_device()
+        if self.config.Emulator_AdbRestart and len(self.list_device()) == 0:
+            # Restart Adb
+            self.adb_restart()
+            # Connect to device
+            self.adb_connect(self.serial)
+            self.detect_device()
+        else:
+            self.adb_disconnect(self.serial)
+            self.adb_connect(self.serial)
+            self.detect_device()
 
     def install_uiautomator2(self):
         """
@@ -609,11 +663,11 @@ class Connection:
 
         # Auto device detection
         if self.config.Emulator_Serial == 'auto':
-            if len(devices) == 0:
+            if available.count == 0:
                 logger.critical('No available device found, auto device detection cannot work, '
                                 'please set an exact serial in Alas.Emulator.Serial instead of using "auto"')
                 raise RequestHumanTakeover
-            elif len(devices) == 1:
+            elif available.count == 1:
                 logger.info(f'Auto device detection found only one device, using it')
                 self.serial = devices[0].serial
                 del_cached_property(self, 'adb')

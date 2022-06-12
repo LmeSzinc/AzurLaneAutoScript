@@ -152,6 +152,10 @@ class Camera(MapOperation):
                     self.ui_click(AUTO_SEARCH_REWARD, check_button=self.is_in_map, offset=(50, 50),
                                   retry_wait=3, skip_first_screenshot=True)
                     return False
+            elif 'opsi' in self.config.task.command.lower() and self.handle_popup_confirm('OPSI'):
+                # Always confirm popups in OpSi, same popups in os_map_goto_globe()
+                logger.warning('Perspective error caused by popups')
+                return False
             elif not self.is_in_map() \
                     and not self.is_in_strategy_submarine_move():
                 if self.appear(GAME_TIPS, offset=(20, 20)):

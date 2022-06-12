@@ -7,6 +7,7 @@ from module.war_archives.assets import (OCR_DATA_KEY_CAMPAIGN,
 
 DATA_KEY_CAMPAIGN = DigitCounter(OCR_DATA_KEY_CAMPAIGN, letter=(255, 247, 247), threshold=64)
 
+
 class CampaignWarArchives(CampaignRun, CampaignBase):
     def triggered_stop_condition(self, oil_check=True):
         # Must be in archives campaign to OCR check
@@ -23,10 +24,14 @@ class CampaignWarArchives(CampaignRun, CampaignBase):
         # Else, check other stop conditions
         return super().triggered_stop_condition(oil_check)
 
+    def can_use_auto_search_continue(self):
+        """
+        Auto search menu has blur background and covers DATA_KEY_CAMPAIGN, close it.
+        """
+        return False
+
     def run(self, name=None, folder='campaign_main', mode='normal', total=0):
         backup = self.config.temporary(USE_DATA_KEY=True)
         super().run(name, folder, mode, total)
         backup.recover()
         self.ui_goto_main()  # Go to main, as remaining in page can throw off Event task
-
-

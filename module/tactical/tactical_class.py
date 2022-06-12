@@ -222,25 +222,6 @@ class RewardTacticalClass(UI):
         # Max level in progress; so selective books
         # should be removed to prevent waste
         if total == 5800:
-            if current == 0:
-                # Lvl 9+1, using first will reach max level
-                # Swap to last and re-OCR
-                self._tactical_book_select(last)
-                current, remain, total = SKILL_EXP.ocr(self.device.image)
-                if current == 0:
-                    # Still Lvl 9+1 even with last
-                    # Must re-calculate to accurately gauge
-                    current = total - last.exp_value
-                    remain = last.exp_value
-                else:
-                    # Lvl 9, so can calculate normally
-                    # but use last
-                    current -= last.exp_value
-                    remain += last.exp_value
-            else:
-                # Lvl 9, so can calculate normally
-                current -= first.exp_value
-                remain += first.exp_value
             logger.info('About to reach level 10; will remove '
                         'detected books based on actual '
                        f'progress: {current}/{total}; {remain}')
