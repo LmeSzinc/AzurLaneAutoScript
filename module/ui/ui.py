@@ -159,6 +159,10 @@ class UI(InfoHandler):
             if self.config.Emulator_ControlMethod == "uiautomator2":
                 self.device.uninstall_minicap()
 
+        @run_once
+        def rotation_check():
+            self.device.get_orientation()
+
         timeout = Timer(5, count=10).start()
         while 1:
             if skip_first_screenshot:
@@ -189,6 +193,7 @@ class UI(InfoHandler):
 
             app_check()
             minicap_check()
+            rotation_check()
 
         # Unknown page, need manual switching
         logger.warning("Unknown ui page")
