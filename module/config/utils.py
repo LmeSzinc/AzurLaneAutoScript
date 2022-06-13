@@ -480,7 +480,7 @@ def get_server_next_update(daily_trigger):
     trigger = []
     for t in daily_trigger:
         h, m = [int(x) for x in t.split(':')]
-        future = local_now.replace(hour=h, minute=m, second=0, microsecond=0) - diff
+        future = local_now.replace(hour=h, minute=m, second=0, microsecond=0) + diff
         future = future + timedelta(days=1) if future < local_now else future
         future = future + timedelta(days=1) if future < local_now else future
         trigger.append(future)
