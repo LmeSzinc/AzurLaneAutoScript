@@ -301,8 +301,8 @@ class InfoHandler(ModuleBase):
         return False
 
     def handle_story_skip(self, drop=None):
-        # 20220310: Game client bugged, Counterattack Within the Fjord Rerun still has stories in clear mode
-        if self.map_has_clear_mode and self.config.Campaign_Event != 'event_20200603_cn':
+        # Rerun events in clear mode but still have stories.
+        if self.map_has_clear_mode and self.config.Campaign_Event != 'event_20201012_cn':
             return False
 
         return self.story_skip(drop=drop)
