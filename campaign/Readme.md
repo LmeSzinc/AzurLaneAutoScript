@@ -96,4 +96,5 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20220505 | raid 20200624 | Air Raid Drills with Essex | - | - | - | 特別演習埃塞克斯級(復刻) |
 | 20220526 | event 20220526 cn | Pledge of the Radiant Court | 泠誓光庭 | Pledge of the Radiant Court | 诚閃の剣 搖光の城 | - |
 | 20220526 | event 20210527 cn | Mirror Involution | - | - | - | 鏡位螺旋 |
+| 20220616 | event 20201012 cn | Sundered Blue | 复刻划破海空之翼 | Sundered Blue Rerun | 奔る彩帆の青（復刻） | - |
 | 20220616 | event 20200820 cn | Scherzo of Iron and Blood | - | - | - | 復刻鐵血音符誓言 |

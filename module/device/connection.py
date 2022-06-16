@@ -265,6 +265,12 @@ class Connection:
             str, int, str, int:
                 server_listen_host, server_listen_port, client_connect_host, client_connect_port
         """
+        # For BlueStacks hyper-v, use ADB reverse
+        if 'hyperv' in str(self.config.Emulator_Serial):
+            host = '127.0.0.1'
+            logger.info(f'Connecting to BlueStacks hyper-v, using host {host}')
+            port = self.adb_reverse(f'tcp:{self.config.REVERSE_SERVER_PORT}')
+            return host, port, host, self.config.REVERSE_SERVER_PORT
         # For emulators, listen on current host
         if self.serial.startswith('emulator-') or self.serial.startswith('127.0.0.1:'):
             host = socket.gethostbyname(socket.gethostname())
