@@ -1,8 +1,7 @@
 from module.campaign.campaign_base import CampaignBase
-from module.logger import logger
 from module.map.map_base import CampaignMap
-from module.map.map_grids import RoadGrids, SelectedGrids
-
+from module.map.map_grids import SelectedGrids, RoadGrids
+from module.logger import logger
 from .a1 import Config as ConfigBase
 
 MAP = CampaignMap('A3')
@@ -19,13 +18,13 @@ MAP.map_data = """
     -- ME -- -- MB -- -- -- --
 """
 MAP.weight_data = """
-    10 10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10 10
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'siren': 1},
@@ -45,21 +44,29 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, \
 
 
 class Config(ConfigBase):
+    # ===== Start of generated config =====
     MAP_SIREN_TEMPLATE = ['Arethusa', 'Sheffield', 'Dorsetshire']
     MOVABLE_ENEMY_TURN = (2, 3)
     MAP_HAS_SIREN = True
+    MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = True
+    MAP_HAS_AMBUSH = False
+    MAP_HAS_MYSTERY = False
+    # ===== End of generated config =====
 
 
 class Campaign(CampaignBase):
     MAP = MAP
+    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     def battle_0(self):
         if self.clear_siren():
+            return True
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
         return self.battle_default()
 
     def battle_4(self):
-        return self.fleet_1.clear_boss()
+        return self.clear_boss()

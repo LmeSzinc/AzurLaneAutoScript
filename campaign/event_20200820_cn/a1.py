@@ -1,7 +1,7 @@
 from module.campaign.campaign_base import CampaignBase
-from module.logger import logger
 from module.map.map_base import CampaignMap
-from module.map.map_grids import RoadGrids, SelectedGrids
+from module.map.map_grids import SelectedGrids, RoadGrids
+from module.logger import logger
 
 MAP = CampaignMap('A1')
 MAP.shape = 'H6'
@@ -16,12 +16,12 @@ MAP.map_data = """
     SP SP -- -- -- ME MB --
 """
 MAP.weight_data = """
-    10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10
+    50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'siren': 1},
@@ -40,25 +40,47 @@ A6, B6, C6, D6, E6, F6, G6, H6, \
 
 
 class Config:
+    # ===== Start of generated config =====
     MAP_SIREN_TEMPLATE = ['Arethusa']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
+    MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = True
     MAP_HAS_FLEET_STEP = True
-
     MAP_HAS_AMBUSH = False
-    MAP_HAS_MOVABLE_ENEMY = True
+    MAP_HAS_MYSTERY = False
+    # ===== End of generated config =====
+
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (120, 255 - 17),
+        'width': (1.5, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 17, 255),
+        'prominence': 10,
+        'distance': 50,
+        'wlen': 1000
+    }
+    HOMO_EDGE_COLOR_RANGE = (0, 17)
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 210
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
     MAP_SWIPE_MULTIPLY = 1.764
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.705
 
 
 class Campaign(CampaignBase):
     MAP = MAP
+    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     def battle_0(self):
         if self.clear_siren():
+            return True
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
         return self.battle_default()
 
     def battle_3(self):
-        return self.fleet_1.clear_boss()
+        return self.clear_boss()
