@@ -6,6 +6,7 @@ from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
 from module.config.config import AzurLaneConfig
 from module.exception import CampaignEnd, RequestHumanTakeover, ScriptEnd
+from module.handler.fast_forward import map_files
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.ui.ui import UI
@@ -47,11 +48,10 @@ class CampaignRun(UI):
             self.module = importlib.import_module('.' + name, f'campaign.{folder}')
         except ModuleNotFoundError:
             logger.warning(f'Map file not found: campaign.{folder}.{name}')
-            folder = f'./campaign/{folder}'
-            if not os.path.exists(folder):
-                logger.warning(f'Folder not exists: {folder}')
+            if not os.path.exists(f'./campaign/{folder}'):
+                logger.warning(f'Folder not exists: ./campaign/{folder}')
             else:
-                files = [f[:-3] for f in os.listdir(folder) if f[-3:] == '.py']
+                files = map_files(folder)
                 logger.warning(f'Existing files: {files}')
 
             logger.critical(f'Possible reason #1: This event ({folder}) does not have {name}')
