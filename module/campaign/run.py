@@ -151,6 +151,11 @@ class CampaignRun(UI):
         return name, folder
 
     def can_use_auto_search_continue(self):
+        # Cannot update map info in auto search menu
+        # Close it if map achievement is set
+        if self.config.StopCondition_MapAchievement != 'non_stop':
+            return False
+
         return self.run_count > 0 and self.campaign.map_is_auto_search
 
     def handle_commission_notice(self):
