@@ -12,8 +12,8 @@ RUN apt update
 RUN apt install -y adb netcat
 
 # Install the requriements to the conda environment
-COPY $SOURCE/requirements-in.txt /app/requirements-in.txt
-RUN $PYROOT/bin/pip install -r /app/requirements-in.txt
+COPY $SOURCE/requirements.txt /app/requirements-docker.txt
+RUN $PYROOT/bin/pip install -r /app/requirements-docker.txt
 
 # Initial download of UIAutomator2 is really slow with appetizer mirror
 RUN sed -i "s#path = mirror_download(url,#path = cache_download(url,#" $PYROOT/lib/python3.7/site-packages/uiautomator2/init.py
