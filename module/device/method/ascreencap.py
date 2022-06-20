@@ -79,11 +79,11 @@ class AScreenCap(Connection):
         logger.info(f'cpu_arc: {arc}, sdk_ver: {sdk}')
 
         if int(sdk) in range(21, 26):
-            ver = "5"
+            ver = "Android_5.x-7.x"
         elif int(sdk) in range(26, 28):
-            ver = "8"
+            ver = "Android_8.x"
         elif int(sdk) == 28:
-            ver = "9"
+            ver = "Android_9.x"
         else:
             ver = "0"
         filepath = os.path.join(self.config.ASCREENCAP_FILEPATH_LOCAL, ver, arc, 'ascreencap')
