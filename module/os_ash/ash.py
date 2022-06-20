@@ -330,10 +330,14 @@ class OSAsh(UI, MapEventHandler):
             else:
                 confirm_timer.reset()
 
-            if self._handle_ash_beacon_reward():
-                continue
+            # Accident clicks
             if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=2):
                 self.device.click(BACK_ARROW)
+            if self.appear(HELP_CONFIRM, offset=(30, 30), interval=2):
+                self.device.click(BACK_ARROW)
+            # Combat and rewards
+            if self._handle_ash_beacon_reward():
+                continue
             if self.appear(ASH_START, offset=(30, 30)):
                 ash_combat.combat(expected_end=self.is_in_ash, save_get_items=False, emotion_reduce=False)
                 continue
