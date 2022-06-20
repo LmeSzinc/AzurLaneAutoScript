@@ -104,7 +104,7 @@ class Connection:
         for k in list(os.environ.keys()):
             if k.lower().endswith('_proxy'):
                 del os.environ[k]
-        self.adb_client = AdbClient('127.0.0.1', 5037)
+        _ = self.adb_client
 
         # Parse custom serial
         self.serial = str(self.config.Emulator_Serial)
@@ -206,6 +206,22 @@ class Connection:
         # Use adb.exe in system PATH
         file = 'adb.exe'
         return file
+
+    @cached_property
+    def adb_client(self) -> AdbClient:
+        host = '127.0.0.1'
+        port = 5037
+
+        # Trying to get adb port from env
+        env = os.environ.get('ANDROID_ADB_SERVER_PORT', None)
+        if env is not None:
+            try:
+                port = int(env)
+            except ValueError:
+                logger.warning(f'Invalid environ variable ANDROID_ADB_SERVER_PORT={port}, using default port')
+
+        logger.attr('AdbClient', f'AdbClient({host}, {port})')
+        return AdbClient(host, port)
 
     @cached_property
     def adb(self) -> AdbDevice:
@@ -497,7 +513,8 @@ class Connection:
         # Kill current client
         self.adb_client.server_kill()
         # Init adb client
-        self.adb_client = AdbClient('127.0.0.1', 5037)
+        del_cached_property(self, 'adb_client')
+        _ = self.adb_client
 
     def serial_check(self):
         """
