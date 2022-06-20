@@ -8,5 +8,5 @@ services:
         container_name: 'alas'
         image: 'alas'
         build:
-            context: ./
-            dockerfile: ./dev_tools/Dockerfile
+            context: ./deploy/docker/
+            dockerfile: ./Dockerfile
