@@ -195,7 +195,8 @@ class MeowfficerCollect(MeowfficerBase):
                 ) as drop:
                     drop.add(self.device.image)
                     list_talent_btn, special_talent = self._get_meow_talent_grid()
-                    self._meow_talent_cap_handle(list_talent_btn, drop)
+                    if self.config.DropRecord_MeowfficerTalent != 'do_not':
+                        self._meow_talent_cap_handle(list_talent_btn, drop)
                     if self.appear(MEOWFFICER_GOLD_CHECK, offset=(40, 40)):
                         if not self.config.MeowfficerTrain_RetainTalentedGold or not special_talent:
                             self._meow_skip_lock()
