@@ -78,8 +78,16 @@ class AScreenCap(Connection):
         sdk = self.adb_shell(['getprop', 'ro.build.version.sdk'])
         logger.info(f'cpu_arc: {arc}, sdk_ver: {sdk}')
 
-        filepath = os.path.join(self.config.ASCREENCAP_FILEPATH_LOCAL, arc, 'ascreencap')
-        if int(sdk) not in range(21, 26) or not os.path.exists(filepath):
+        if int(sdk) in range(21, 26):
+            ver = "5"
+        elif int(sdk) in range(26, 28):
+            ver = "8"
+        elif int(sdk) == 28:
+            ver = "9"
+        else:
+            ver = "0"
+        filepath = os.path.join(self.config.ASCREENCAP_FILEPATH_LOCAL, ver, arc, 'ascreencap')
+        if not os.path.exists(filepath):
             logger.critical('No suitable version of aScreenCap lib available for this device')
             logger.critical('Please use ADB or uiautomator2 for screenshots instead')
             raise RequestHumanTakeover
