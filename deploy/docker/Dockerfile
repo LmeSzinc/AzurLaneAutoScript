@@ -26,4 +26,5 @@ RUN $PYROOT/bin/pip install -r /app/requirements.txt
 RUN sed -i "s#path = mirror_download(url,#path = cache_download(url,#" $PYROOT/lib/python3.7/site-packages/uiautomator2/init.py
 
 # When running the image, mount the ALAS folder into the container
-CMD $PYROOT/bin/python /app/AzurLaneAutoScript/gui.py
+CMD $PYROOT/bin/python -m uiautomator2 init && \
+    $PYROOT/bin/python /app/AzurLaneAutoScript/gui.py
