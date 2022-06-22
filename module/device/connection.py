@@ -118,14 +118,11 @@ class Connection:
         # Package
         self.package = self.config.Emulator_PackageName
         if self.package == 'auto':
-            self.detect_package(set_config=False)
+            self.detect_package()
         else:
             set_server(self.package)
         logger.attr('PackageName', self.package)
         logger.attr('Server', self.config.SERVER)
-
-        self._nc_server_host = '127.0.0.1'
-        self._nc_server_port = self.config.REVERSE_SERVER_PORT
 
     @staticmethod
     def find_bluestacks4_hyperv(serial):
