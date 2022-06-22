@@ -292,6 +292,7 @@ Research:
       - series_2_than_3_457_234
       - series_2_blueprint_457
       - series_2_blueprint_only
+      - series_2_457_only
   CustomFilter: |-
     S4-Q0.5 > Q-0.5 > S4-DR0.5 > S4-PRY0.5 > DR-0.5 > PRY-0.5
     > S4-Q1 > S4-Q2
