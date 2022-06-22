@@ -5,6 +5,7 @@ import socket
 import subprocess
 import time
 import ipaddress
+import platform
 from functools import wraps
 
 import adbutils
@@ -110,6 +111,7 @@ class Connection:
         self.serial = str(self.config.Emulator_Serial)
         self.serial_check()
         self.detect_device()
+        self.is_avd
 
         # Connect
         self.adb_connect(self.serial)
@@ -118,14 +120,11 @@ class Connection:
         # Package
         self.package = self.config.Emulator_PackageName
         if self.package == 'auto':
-            self.detect_package(set_config=False)
+            self.detect_package()
         else:
             set_server(self.package)
         logger.attr('PackageName', self.package)
         logger.attr('Server', self.config.SERVER)
-
-        self._nc_server_host = '127.0.0.1'
-        self._nc_server_port = self.config.REVERSE_SERVER_PORT
 
     @staticmethod
     def find_bluestacks4_hyperv(serial):
@@ -275,6 +274,16 @@ class Connection:
         return result
 
     @cached_property
+    def is_avd(self):
+        if get_serial_pair(self.serial)[0] is None:
+            return False
+        if 'ranchu' in self.adb_shell(['getprop', 'ro.hardware']):
+            return True
+        if 'goldfish' in self.adb_shell(['getprop', 'ro.hardware.audio.primary']):
+            return True
+        return False
+
+    @cached_property
     def _nc_server_host_port(self):
         """
         Returns:
@@ -290,8 +299,15 @@ class Connection:
         # For emulators, listen on current host
         if self.serial.startswith('emulator-') or self.serial.startswith('127.0.0.1:'):
             host = socket.gethostbyname(socket.gethostname())
+            if platform.system() == 'Linux' and host == '127.0.1.1':
+                host = '127.0.0.1'
             logger.info(f'Connecting to local emulator, using host {host}')
             port = random_port(self.config.FORWARD_PORT_RANGE)
+
+            # For AVD instance
+            if self.is_avd:
+                return host, port, "10.0.2.2", port
+
             return host, port, host, port
         # For local network devices, listen on the host under the same network as target device
         if re.match(r'\d+\.\d+\.\d+\.\d+:\d+', self.serial):

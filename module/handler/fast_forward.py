@@ -278,7 +278,8 @@ class FastForwardHandler(AutoSearchHandler):
             name (str):
 
         Returns:
-            str: Name of next stage, or origin name if unable to increase.
+            str: Name of next stage in upper case,
+                or origin name if unable to increase.
         """
         name = name.upper()
         for increase in self.STAGE_INCREASE:
@@ -287,10 +288,15 @@ class FastForwardHandler(AutoSearchHandler):
                 index = increase.index(name) + 1
                 if index < len(increase):
                     new = increase[index]
+                    # Don't check main stages, assume all exist
+                    # Main stages are named like campaign_7_2, but user inputs 7-2
+                    if self.config.Campaign_Event == 'campaign_main':
+                        return new
+                    # Check if map file exist
                     existing = map_files(self.config.Campaign_Event)
                     logger.info(f'Existing files: {existing}')
-                    if new in existing:
-                        return increase[index]
+                    if new.lower() in existing:
+                        return new
                     else:
                         logger.info(f'Stage increase reach end, new map {new} does not exist')
                         return name

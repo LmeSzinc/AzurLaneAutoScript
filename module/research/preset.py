@@ -67,4 +67,9 @@ DICT_FILTER_PRESET = {
        > S2-PRY2.5 > 0.5 > S2-G2.5 > S2-Q1 > 1 > reset > S2-DR5 > S2-DR8
        > S2-PRY5 > 1.5 > S2-Q2 > 2 > S2-PRY8 > 2.5 > S2-Q4 > 4 > 5 > S2-C6
        > 6 > S2-C8 > 8 > S2-C12 > 12""",
+    'series_2_457_only': """
+       S2-Q0.5 > S2-PRY0.5 > S2-DR0.5 > S2-Q4 > S2-Q1 > S2-Q2 > S2-H0.5 > 0.5
+       > Q1 > S2-G4 > S2-G1.5 > S2-DR2.5 > reset > S2-PRY2.5 > S2-G2.5 > H1 > 1.5 
+       > Q2 > 2.5 > S2-DR5 > S2-PRY5 > Q4 > G4 > 5 > H2 > S2-C6 > S2-DR8 > S2-PRY8 > S2-C8 
+       > 6 > 8 > 4 > S2-C12 > 12"""
 }

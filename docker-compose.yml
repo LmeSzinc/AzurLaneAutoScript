@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+    ALAS:
+        network_mode: host
+        volumes:
+            - '.:/app/AzurLaneAutoScript:rw'
+            - '/etc/localtime:/etc/localtime:ro'
+        container_name: 'alas'
+        image: 'alas'
+        build:
+            context: ./deploy/docker/
+            dockerfile: ./Dockerfile
