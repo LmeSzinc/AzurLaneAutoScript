@@ -1127,7 +1127,8 @@
       "series_3_234_only": "三期 僅234",
       "series_2_than_3_457_234": "二期兼顧三期 457+234",
       "series_2_blueprint_457": "二期 藍圖+457",
-      "series_2_blueprint_only": "二期 僅藍圖"
+      "series_2_blueprint_only": "二期 僅藍圖",
+      "series_2_457_only": "二期 僅457"
     },
     "CustomFilter": {
       "name": "自定義科研過濾器",

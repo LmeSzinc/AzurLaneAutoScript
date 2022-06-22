@@ -1127,7 +1127,8 @@
       "series_3_234_only": "三期 仅234",
       "series_2_than_3_457_234": "二期兼顾三期 457+234",
       "series_2_blueprint_457": "二期 蓝图+457",
-      "series_2_blueprint_only": "二期 仅蓝图"
+      "series_2_blueprint_only": "二期 仅蓝图",
+      "series_2_457_only": "二期 仅457"
     },
     "CustomFilter": {
       "name": "自定义科研过滤器",
