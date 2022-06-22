@@ -19,9 +19,11 @@ def is_port_using(port_num):
     s.settimeout(2)
 
     try:
-        result = s.connect_ex(('127.0.0.1', port_num))
-        # if port is using, return code should be 0. (can be connected)
-        return result == 0
+        s.bind(('127.0.0.1', port_num))
+        return False
+    except OSError:
+        # Address already bind
+        return True
     finally:
         s.close()
 
