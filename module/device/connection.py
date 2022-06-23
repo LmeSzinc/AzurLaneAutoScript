@@ -111,7 +111,6 @@ class Connection:
         self.serial = str(self.config.Emulator_Serial)
         self.serial_check()
         self.detect_device()
-        self.is_avd
 
         # Connect
         self.adb_connect(self.serial)
