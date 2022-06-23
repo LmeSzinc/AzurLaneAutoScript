@@ -378,6 +378,10 @@ class RewardTacticalClass(UI):
                 # Entered dock accidentally
                 self.device.click(BACK_ARROW)
                 continue
+            if self.appear(SKILL_CONFIRM, offset=(20, 20), interval=3):
+                # Game auto pops up the next skill to learn, close it
+                self.device.click(BACK_ARROW)
+                continue
 
         return True
 
