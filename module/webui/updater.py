@@ -117,7 +117,7 @@ class Updater(DeployConfig, GitManager, PipManager):
         sha1, _, _, message = self.get_commit(f"..{source}/{self.Branch}")
 
         if sha1:
-            logger.info(f"New update avaliable")
+            logger.info(f"New update available")
             logger.info(f"{sha1[:8]} - {message}")
             return True
         else:
@@ -191,7 +191,7 @@ class Updater(DeployConfig, GitManager, PipManager):
             )
             return 0
 
-        logger.info(f"Update {sha[:8]} avaliable")
+        logger.info(f"Update {sha[:8]} available")
         return 1
 
     def check_update(self):
@@ -258,7 +258,7 @@ class Updater(DeployConfig, GitManager, PipManager):
         logger.info("All alas stopped, start updating")
 
         if self.update():
-            if State.researt_event is not None:
+            if State.restart_event is not None:
                 self.state = "reload"
                 with open("./config/reloadalas", mode="w") as f:
                     f.writelines(names)
@@ -281,7 +281,7 @@ class Updater(DeployConfig, GitManager, PipManager):
             # with open("./config/reloadflag", mode="w"):
             #     # app ended here and uvicorn will restart whole app
             #     pass
-            State.researt_event.set()
+            State.restart_event.set()
 
         timer = threading.Timer(delay, trigger)
         timer.start()
@@ -300,7 +300,7 @@ class Updater(DeployConfig, GitManager, PipManager):
                 th._task.delay = get_next_time(self.schedule_time)
                 yield
                 continue
-            if State.researt_event is None:
+            if State.restart_event is None:
                 yield
                 continue
             if not self.run_update():

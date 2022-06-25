@@ -124,7 +124,7 @@ class Template(Resource):
     def match_binary(self, image, similarity=0.85):
         """
         Use template match after binarization.
-        
+
         Args:
             image:
             similarity (float): 0 to 1.

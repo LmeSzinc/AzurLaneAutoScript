@@ -34,7 +34,7 @@ def translate():
         "en-US": {},
         "ja-JP": {},
     }
-    
+
     list_path = []  # Menu.Task.name
     list_group = []  # Menu
     list_arg = []  # Task

@@ -39,7 +39,7 @@ class CampaignSos(CampaignRun, CampaignBase):
     @Config.when(SERVER='tw')
     def _sos_scroll(self):
         return Scroll(SOS_SCROLL_AREA, color=(247, 210, 66), name='SOS_SCROLL')
-    
+
     @cached_property
     @Config.when(SERVER=None)
     def _sos_scroll(self):

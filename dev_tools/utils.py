@@ -64,7 +64,7 @@ class LuaLoader:
             pg = pg or {}
             slot0 = pg
             slot0.chapter_template = {}
-            
+
             (function ()
                 ...
             end)()

@@ -225,7 +225,7 @@ def get_research_cost_jp(image):
     When the research has 2 cost items, the size of each is 77*77.
     However, templates of coins, cubes, and plates differ a lot with each other,
     so simply setting a lower threshold while matching can do the job.
-    
+
     Args:
         image (np.ndarray): Screenshot
 
@@ -252,7 +252,7 @@ def get_research_cost_jp(image):
                 costs[cost] = True
                 continue
 
-    # Rename keys to be the same as attrs of ResearchProjectJp.    
+    # Rename keys to be the same as attrs of ResearchProjectJp.
     costs['need_coin'] = costs.pop('coin')
     costs['need_cube'] = costs.pop('cube')
     costs['need_part'] = costs.pop('plate')
@@ -263,7 +263,7 @@ def get_research_ship_jp(image):
     """
     Notice that 2.5, 5, and 8 hours' D research have 4 items, while 0.5 hours' one has 3,
     so the button DETAIL_BLUEPRINT should not cover only the first one of 4 items.
-    
+
     Args:
         image (np.ndarray): Screenshot
 
@@ -292,7 +292,7 @@ def research_jp_detect(image):
     """
     Args:
         image (np.ndarray): Screenshot
-            
+
     Return:
         project (ResearchProjectJp):
     """
@@ -565,7 +565,7 @@ class ResearchSelector(UI):
             self.research_detail_quit()
         """
         page_research should remain the same as before.
-        Since we entered the 4th entrance first, 
+        Since we entered the 4th entrance first,
         the indexes from left to right are (2, 3, 4, 0, 1).
         """
         for pos in range(5):

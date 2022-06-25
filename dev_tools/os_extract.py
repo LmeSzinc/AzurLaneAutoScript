@@ -48,7 +48,7 @@ class OSChapter:
             if not isinstance(index, int) or index >= 200:
                 continue
             name = chapter['name']
-            name = name.replace('é', 'e')  # OCR can't recognise letter "é"
+            name = name.replace('é', 'e')  # OCR can't recognize letter "é"
             out[index] = name
 
         # Zone 40000 is zone 154

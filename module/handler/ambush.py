@@ -55,7 +55,7 @@ class AmbushHandler(Combat):
             logger.attr('Ambush_evade', 'failed')
             self.combat(expected_end='no_searching', fleet_index=self.fleet_show_index)
         else:
-            logger.warning('Unrecognised info when ambush evade.')
+            logger.warning('Unrecognized info when ambush evade.')
             self.ensure_no_info_bar()
             if self.combat_appear():
                 self.combat(fleet_index=self.fleet_show_index)

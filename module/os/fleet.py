@@ -526,7 +526,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                     logger.info('Fleet left boss, boss found')
                     break
 
-            # Re-enter boss accidently
+            # Re-enter boss accidentally
             if self.combat_appear():
                 self.ui_back(check_button=self.is_in_map)
 

@@ -26,7 +26,7 @@ class FleetSelector:
     def get(self):
         """
         Returns:
-            int: Index of current fleet, 1 to 4. return 0 if unrecognised.
+            int: Index of current fleet, 1 to 4. return 0 if unrecognized.
         """
         for index, button in enumerate([FLEET_1, FLEET_2, FLEET_3, FLEET_4]):
             if self.main.appear(button, offset=(20, 20)):

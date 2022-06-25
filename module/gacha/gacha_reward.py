@@ -18,13 +18,13 @@ OCR_BUILD_SUBMIT_WW_COUNT = Digit(BUILD_SUBMIT_WW_COUNT, letter=(255, 247, 247),
 class RewardGacha(GachaUI, GeneralShop, Retirement):
     build_cube_count = 0
 
-    def gacha_prep(self, target, skip_first_scrrenshot=True):
+    def gacha_prep(self, target, skip_first_screenshot=True):
         """
         Initiate preparation to submit build orders.
 
         Args:
             target (int): Number of build orders to submit
-            skip_first_scrrenshot (bool):
+            skip_first_screenshot (bool):
 
         Returns:
             bool: True if prep complete otherwise False.
@@ -51,8 +51,8 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
         ocr_submit = None
         index_offset = (60, 20)
         while 1:
-            if skip_first_scrrenshot:
-                skip_first_scrrenshot = False
+            if skip_first_screenshot:
+                skip_first_screenshot = False
             else:
                 self.device.screenshot()
 

@@ -147,7 +147,7 @@ class AlOcr(CnOcr):
         """
         :param img: image array with type mx.nd.NDArray or np.ndarray,
         with shape [height, width] or [height, width, channel].
-        channel shoule be 1 (gray image) or 3 (color image).
+        channel should be 1 (gray image) or 3 (color image).
 
         :return: np.ndarray, with shape (1, height, width)
         """

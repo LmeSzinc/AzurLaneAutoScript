@@ -373,7 +373,7 @@ class AlasGUI(Frame):
 
         self.task_handler.add(switch_scheduler.g(), 1, True)
         self.task_handler.add(switch_log_scroll.g(), 1, True)
-        self.task_handler.add(self.alas_update_overiew_task, 10, True)
+        self.task_handler.add(self.alas_update_overview_task, 10, True)
         self.task_handler.add(log.put_log(self.alas), 0.25, True)
 
     def _alas_thread_wait_config_change(self) -> None:
@@ -457,7 +457,7 @@ class AlasGUI(Frame):
                     invalid.clear()
                     break
 
-    def alas_update_overiew_task(self) -> None:
+    def alas_update_overview_task(self) -> None:
         if not self.visible:
             return
         self.alas_config.load()
@@ -628,10 +628,10 @@ class AlasGUI(Frame):
         # ).style(f'--menu-Raise--')
 
         def _force_restart():
-            if State.researt_event is not None:
+            if State.restart_event is not None:
                 toast("Alas will restart in 3 seconds", duration=0, color="error")
                 clearup()
-                State.researt_event.set()
+                State.restart_event.set()
             else:
                 toast("Reload not enabled", color="error")
 
@@ -651,7 +651,7 @@ class AlasGUI(Frame):
         self.init_menu(name="Update")
         self.set_title(t("Gui.MenuDevelop.Update"))
 
-        if State.researt_event is None:
+        if State.restart_event is None:
             put_warning(t("Gui.Update.DisabledWarn"))
 
         put_row(
@@ -995,7 +995,7 @@ class AlasGUI(Frame):
             status={
                 True: [
                     lambda: self.__setattr__("visible", True),
-                    lambda: self.alas_update_overiew_task()
+                    lambda: self.alas_update_overview_task()
                     if self.page == "Overview"
                     else 0,
                     lambda: self.task_handler._task.__setattr__("delay", 15),
