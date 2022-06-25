@@ -1,7 +1,8 @@
 import os
+from deploy.logger import logger
 
 BASE_FOLDER = os.path.dirname(os.path.abspath(__file__))
-print(BASE_FOLDER)
+logger.info(BASE_FOLDER)
 
 def read_file(file):
     out = {}
@@ -37,10 +38,10 @@ def docker_requirements_generate(requirements_in='requirements-in.txt'):
 
     requirements = read_file(requirements_in)
 
-    print(f'Generate requirements for Docker image')
+    logger.info(f'Generate requirements for Docker image')
 
     new = {}
-    print(requirements)
+    logger.info(requirements)
     for name, version in requirements.items():
         # alas-webapp is for windows only
         if name == 'alas-webapp':

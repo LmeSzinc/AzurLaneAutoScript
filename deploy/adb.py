@@ -2,11 +2,12 @@ import logging
 
 from deploy.config import DeployConfig
 from deploy.emulator import EmulatorConnect
+from deploy.logger import logger
 from deploy.utils import *
 
 
 def show_fix_tip(module):
-    print(f"""
+    logger.info(f"""
     To fix this:
     1. Open console.bat
     2. Execute the following commands:
@@ -22,18 +23,18 @@ class AdbManager(DeployConfig):
         return self.filepath('AdbExecutable')
 
     def adb_install(self):
-        hr0('Start ADB service')
+        logger.hr('Start ADB service', 0)
 
         emulator = EmulatorConnect(adb=self.adb)
         if self.ReplaceAdb:
-            hr1('Replace ADB')
+            logger.hr('Replace ADB', 1)
             emulator.adb_replace()
         elif self.AutoConnect:
-            hr1('ADB Connect')
+            logger.hr('ADB Connect', 1)
             emulator.brute_force_connect()
 
         if self.InstallUiautomator2:
-            hr1('Uiautomator2 Init')
+            logger.hr('Uiautomator2 Init', 1)
             try:
                 import adbutils
             except ModuleNotFoundError as e:
@@ -57,8 +58,8 @@ class AdbManager(DeployConfig):
                 try:
                     init.install()
                 except AssertionError:
-                    print(f'AssertionError when installing uiautomator2 on device {device.serial}')
-                    print('If you are using BlueStacks or LD player or WSA, '
+                    logger.info(f'AssertionError when installing uiautomator2 on device {device.serial}')
+                    logger.info('If you are using BlueStacks or LD player or WSA, '
                           'please enable ADB in the settings of your emulator')
                     exit(1)
                 init._device.shell(["rm", "/data/local/tmp/minicap"])

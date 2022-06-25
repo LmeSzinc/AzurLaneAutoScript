@@ -1,6 +1,7 @@
 from urllib.parse import urlparse
 
 from deploy.config import DeployConfig
+from deploy.logger import logger
 from deploy.utils import *
 
 
@@ -21,13 +22,13 @@ class PipManager(DeployConfig):
         return f'"{self.python}" -m pip'
 
     def pip_install(self):
-        hr0('Update Dependencies')
+        logger.hr('Update Dependencies', 0)
 
         if not self.InstallDependencies:
-            print('InstallDependencies is disabled, skip')
+            logger.info('InstallDependencies is disabled, skip')
             return
 
-        hr1('Check Python')
+        logger.hr('Check Python', 1)
         self.execute(f'"{self.python}" --version')
 
         arg = []
@@ -39,10 +40,10 @@ class PipManager(DeployConfig):
                 arg += ['--trusted-host', urlparse(mirror).hostname]
 
         # Don't update pip, just leave it.
-        # hr1('Update pip')
+        # logger.hr('Update pip', 1)
         # self.execute(f'"{self.pip}" install --upgrade pip{arg}')
         arg += ['--disable-pip-version-check']
 
-        hr1('Update Dependencies')
+        logger.hr('Update Dependencies', 1)
         arg = ' ' + ' '.join(arg) if arg else ''
         self.execute(f'{self.pip} install -r {self.requirements_file}{arg}')

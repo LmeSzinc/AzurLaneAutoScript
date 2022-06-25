@@ -1,6 +1,4 @@
-import builtins
 import datetime
-import os
 import subprocess
 import threading
 import time
@@ -24,31 +22,6 @@ class Updater(DeployConfig, GitManager, PipManager):
         super().__init__(file=file)
         self.state = 0
         self.event: threading.Event = None
-
-    def execute(self, command, allow_failure=False):
-        """
-        Args:
-            command (str):
-            allow_failure (bool):
-
-        Returns:
-            bool: If success.
-                Terminate installation if failed to execute and not allow_failure.
-        """
-        command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
-        print(command)
-        error_code = os.system(command)
-        if error_code:
-            if allow_failure:
-                print(f"[ allowed failure ], error_code: {error_code}")
-                return False
-            else:
-                print(f"[ failure ], error_code: {error_code}")
-                # self.show_error()
-                raise ExecutionError
-        else:
-            print(f"[ success ]")
-            return True
 
     @property
     def delay(self):
@@ -208,14 +181,11 @@ class Updater(DeployConfig, GitManager, PipManager):
 
     def update(self):
         logger.hr("Run update")
-        backup, builtins.print = builtins.print, logger.info
         try:
             self.git_install()
             self.pip_install()
         except ExecutionError:
-            builtins.print = backup
             return False
-        builtins.print = backup
         return True
 
     def run_update(self):
