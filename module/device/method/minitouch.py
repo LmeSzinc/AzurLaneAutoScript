@@ -5,6 +5,7 @@ from functools import wraps
 from adbutils.errors import AdbError
 
 from module.base.decorator import cached_property
+from module.base.timer import Timer
 from module.base.utils import *
 from module.device.connection import Connection
 from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
@@ -280,31 +281,46 @@ class Minitouch(Connection):
         # No need, minitouch already started by uiautomator2
         # self.adb_shell([self.config.MINITOUCH_FILEPATH_REMOTE])
 
-        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.settimeout(1)
-        client.connect(('127.0.0.1', self._minitouch_port))
-        self._minitouch_client = client
+        retry_timeout = Timer(2).start()
+        while 1:
+            client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            client.settimeout(1)
+            client.connect(('127.0.0.1', self._minitouch_port))
+            self._minitouch_client = client
 
-        # get minitouch server info
-        socket_out = client.makefile()
+            # get minitouch server info
+            socket_out = client.makefile()
 
-        # v <version>
-        # protocol version, usually it is 1. needn't use this
-        try:
+            # v <version>
+            # protocol version, usually it is 1. needn't use this
+            try:
+                out = socket_out.readline().replace("\n", "").replace("\r", "")
+            except socket.timeout:
+                client.close()
+                raise MinitouchOccupiedError(
+                    'Timeout when connecting to minitouch, '
+                    'probably because another connection has been established'
+                )
+            logger.info(out)
+
+            # ^ <max-contacts> <max-x> <max-y> <max-pressure>
             out = socket_out.readline().replace("\n", "").replace("\r", "")
-        except socket.timeout:
-            raise MinitouchOccupiedError('Timeout when connecting to minitouch, '
-                                         'probably because another connection has been established')
-        logger.info(out)
+            logger.info(out)
+            try:
+                _, max_contacts, max_x, max_y, max_pressure, *_ = out.split(" ")
+                break
+            except ValueError:
+                client.close()
+                if retry_timeout.reached():
+                    raise MinitouchNotInstalledError(
+                        'Received empty data from minitouch, '
+                        'probably because minitouch is not installed'
+                    )
+                else:
+                    # Minitouch may not start that fast
+                    self.sleep(1)
+                    continue
 
-        # ^ <max-contacts> <max-x> <max-y> <max-pressure>
-        out = socket_out.readline().replace("\n", "").replace("\r", "")
-        logger.info(out)
-        try:
-            _, max_contacts, max_x, max_y, max_pressure, *_ = out.split(" ")
-        except ValueError:
-            raise MinitouchNotInstalledError('Received empty data from minitouch, '
-                                             'probably because minitouch is not installed')
         # self.max_contacts = max_contacts
         self.max_x = int(max_x)
         self.max_y = int(max_y)
