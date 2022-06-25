@@ -86,6 +86,74 @@ def insert_swipe(p0, p3, speed=15):
     return points
 
 
+class Command:
+    def __init__(
+            self,
+            operation: str,
+            contact: int = 0,
+            x: int = 0,
+            y: int = 0,
+            ms: int = 10,
+            pressure: int = 100
+    ):
+        """
+        See https://github.com/openstf/minitouch#writable-to-the-socket
+
+        Args:
+            operation: c, r, d, m, u, w
+            contact:
+            x:
+            y:
+            ms:
+            pressure:
+        """
+        self.operation = operation
+        self.contact = contact
+        self.x = x
+        self.y = y
+        self.ms = ms
+        self.pressure = pressure
+
+    def to_minitouch_string(self):
+        """
+        String that write into minitouch socket
+        """
+        if self.operation == 'c':
+            return f'{self.operation}\n'
+        elif self.operation == 'r':
+            return f'{self.operation}\n'
+        elif self.operation == 'd':
+            return f'{self.operation} {self.contact} {self.x} {self.y} {self.pressure}\n'
+        elif self.operation == 'm':
+            return f'{self.operation} {self.contact} {self.x} {self.y} {self.pressure}\n'
+        elif self.operation == 'u':
+            return f'{self.operation} {self.contact}\n'
+        elif self.operation == 'w':
+            return f'{self.operation} {self.ms}\n'
+        else:
+            return ''
+
+    def to_atx_agent_dict(self):
+        """
+        Dict that send to atx-agent, $DEVICE_URL/minitouch
+        See https://github.com/openatx/atx-agent#minitouch%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95
+        """
+        if self.operation == 'c':
+            return dict(operation=self.operation)
+        elif self.operation == 'r':
+            return dict(operation=self.operation)
+        elif self.operation == 'd':
+            return dict(operation=self.operation, index=self.contact, xP=self.x, yP=self.y, pressure=self.pressure)
+        elif self.operation == 'm':
+            return dict(operation=self.operation, index=self.contact, xP=self.x, yP=self.y, pressure=self.pressure)
+        elif self.operation == 'u':
+            return dict(operation=self.operation, index=self.contact)
+        elif self.operation == 'w':
+            return dict(operation=self.operation, milliseconds=self.ms)
+        else:
+            return dict()
+
+
 class CommandBuilder:
     """Build command str for minitouch.
 
@@ -112,7 +180,7 @@ class CommandBuilder:
             device (Minitouch):
         """
         self.device = device
-        self.content = ""
+        self.commands = []
         self.delay = 0
 
     def convert(self, x, y):
@@ -134,44 +202,46 @@ class CommandBuilder:
 
         # Maximum X and Y coordinates may, but usually do not, match the display size.
         x, y = int(x / 1280 * max_x), int(y / 720 * max_y)
-
         return x, y
-
-    def append(self, new_content):
-        self.content += new_content + "\n"
 
     def commit(self):
         """ add minitouch command: 'c\n' """
-        self.append("c")
+        self.commands.append(Command('c'))
         return self
 
     def wait(self, ms=10):
         """ add minitouch command: 'w <ms>\n' """
-        self.append("w {}".format(ms))
+        self.commands.append(Command('w', ms=ms))
         self.delay += ms
         return self
 
-    def up(self, contact_id=0):
-        """ add minitouch command: 'u <contact_id>\n' """
-        self.append("u {}".format(contact_id))
+    def up(self, contact=0):
+        """ add minitouch command: 'u <contact>\n' """
+        self.commands.append(Command('u', contact=contact))
         return self
 
-    def down(self, x, y, contact_id=0, pressure=100):
-        """ add minitouch command: 'd <contact_id> <x> <y> <pressure>\n' """
+    def down(self, x, y, contact=0, pressure=100):
+        """ add minitouch command: 'd <contact> <x> <y> <pressure>\n' """
         x, y = self.convert(x, y)
-        self.append("d {} {} {} {}".format(contact_id, x, y, pressure))
+        self.commands.append(Command('d', x=x, y=y, contact=contact, pressure=pressure))
         return self
 
-    def move(self, x, y, contact_id=0, pressure=100):
+    def move(self, x, y, contact=0, pressure=100):
+        """ add minitouch command: 'm <contact> <x> <y> <pressure>\n' """
         x, y = self.convert(x, y)
-        """ add minitouch command: 'm <contact_id> <x> <y> <pressure>\n' """
-        self.append("m {} {} {} {}".format(contact_id, x, y, pressure))
+        self.commands.append(Command('m', x=x, y=y, contact=contact, pressure=pressure))
         return self
 
     def reset(self):
         """ clear current commands """
-        self.content = ""
+        self.commands = []
         self.delay = 0
+
+    def to_minitouch_string(self):
+        return ''.join([command.to_minitouch_string() for command in self.commands])
+
+    def to_atx_agent_dict(self):
+        return [command.to_atx_agent_dict() for command in self.commands]
 
 
 class MinitouchNotInstalledError(Exception):
@@ -342,7 +412,7 @@ class Minitouch(Connection):
         )
 
     def minitouch_send(self):
-        content = self.minitouch_builder.content
+        content = self.minitouch_builder.to_minitouch_string()
         # logger.info("send operation: {}".format(content.replace("\n", "\\n")))
         byte_content = content.encode('utf-8')
         self._minitouch_client.sendall(byte_content)

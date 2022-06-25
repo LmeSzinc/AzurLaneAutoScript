@@ -93,14 +93,29 @@ def retry(func):
 class Uiautomator2(Connection):
     @cached_property
     def u2(self) -> u2.Device:
-        device = u2.connect(self.serial)
+        if self.is_over_http:
+            # Using uiautomator2_http
+            device = u2.connect(self.serial)
+        else:
+            # Normal uiautomator2
+            device = u2.connect(self.serial)
+
+        # Stay alive
         device.set_new_command_timeout(604800)
+
+        logger.attr('u2.Device', f'Device(atx_agent_url={device._get_atx_agent_url()})')
         return device
+
+    # def adb_shell(self, cmd, **kwargs):
+    #     if self.is_over_http:
+    #         return super().adb_shell(cmd, **kwargs)
+    #
+    #     return self.u2.shell(cmd)
 
     @retry
     def screenshot_uiautomator2(self):
         image = self.u2.screenshot(format='raw')
-        image = np.fromstring(image, np.uint8)
+        image = np.frombuffer(image, np.uint8)
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         return image

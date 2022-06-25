@@ -76,7 +76,7 @@ tornado==6.1              # via pywebio
 tqdm==4.62.3              # via -r requirements-in.txt, gluoncv
 typing-extensions==3.10.0.2  # via asgiref, importlib-metadata, rich, uvicorn
 ua-parser==0.10.0         # via user-agents
-uiautomator2==2.16.7      # via -r requirements-in.txt
+uiautomator2==2.16.17     # via -r requirements-in.txt
 urllib3==1.22             # via requests
 user-agents==2.2.0        # via pywebio
 uvicorn[standard]==0.17.6  # via -r requirements-in.txt
