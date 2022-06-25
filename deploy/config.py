@@ -113,17 +113,20 @@ class DeployConfig(ConfigModel):
             .replace('"', '"')
         )
 
-    def execute(self, command, allow_failure=False):
+    def execute(self, command, allow_failure=False, output=True):
         """
         Args:
             command (str):
             allow_failure (bool):
+            output(bool):
 
         Returns:
             bool: If success.
                 Terminate installation if failed to execute and not allow_failure.
         """
         command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
+        if not output:
+            command = command + ' >nul 2>nul'
         logger.info(command)
         error_code = os.system(command)
         if error_code:
