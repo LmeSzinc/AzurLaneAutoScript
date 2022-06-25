@@ -61,7 +61,7 @@ class MeowfficerEnhance(MeowfficerBase):
         Scan for meowfficers that can be fed
         according to the MEOWFFICER_FEED_GRID (4x3)
         into target meowfficer for enhancement
-        Ensure through green check mark apperance
+        Ensure through green check mark appearance
         after click
 
         Pages:

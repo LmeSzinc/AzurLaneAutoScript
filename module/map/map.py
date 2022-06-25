@@ -645,7 +645,7 @@ class Map(Fleet):
 
     def clear_filter_enemy(self, string, preserve=0):
         """
-        if EnemyPriority_EnemyScaleBalanceWeight != default_mode  
+        if EnemyPriority_EnemyScaleBalanceWeight != default_mode
         Filter will be covered
 
         Args:

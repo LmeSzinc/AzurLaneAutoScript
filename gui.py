@@ -14,7 +14,7 @@ def func(ev: threading.Event):
     if sys.platform.startswith("win"):
         asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 
-    State.researt_event = ev
+    State.restart_event = ev
 
     parser = argparse.ArgumentParser(description="Alas web service")
     parser.add_argument(

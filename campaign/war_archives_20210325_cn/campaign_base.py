@@ -19,7 +19,7 @@ class CampaignBase(CampaignBase_):
     Override full scan methods to make sure that, Dace can be kept when tracking siren movements.
     """
     dace = None
-    
+
     def full_scan_movable(self, *args, **kwargs):
         self.dace = self.map.select(enemy_genre='Siren_Dace')
         logger.attr('Submarine_Dace', self.dace)

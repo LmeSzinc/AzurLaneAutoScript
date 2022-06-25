@@ -16,7 +16,7 @@ class State:
 
     deploy_config = DeployConfig()
     config_updater = ConfigUpdater()
-    researt_event: threading.Event = None
+    restart_event: threading.Event = None
     manager: SyncManager = None
     electron: bool = False
     theme: str = "default"

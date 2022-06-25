@@ -207,7 +207,7 @@ class InfoHandler(ModuleBase):
     """
     Story
     """
-    story_popup_timout = Timer(10, count=20)
+    story_popup_timeout = Timer(10, count=20)
     map_has_clear_mode = False  # Will be override in fast_forward.py
 
     # Area to detect the options, should include at least 3 options.
@@ -255,14 +255,14 @@ class InfoHandler(ModuleBase):
         return buttons
 
     def story_skip(self, drop=None):
-        if self.story_popup_timout.started() and not self.story_popup_timout.reached():
+        if self.story_popup_timeout.started() and not self.story_popup_timeout.reached():
             if self.handle_popup_confirm('STORY_SKIP'):
-                self.story_popup_timout = Timer(10)
+                self.story_popup_timeout = Timer(10)
                 self.interval_reset(STORY_SKIP)
                 self.interval_reset(STORY_LETTERS_ONLY)
                 return True
         if self.appear(STORY_LETTER_BLACK) and self.appear_then_click(STORY_LETTERS_ONLY, offset=(20, 20), interval=2):
-            self.story_popup_timout.reset()
+            self.story_popup_timeout.reset()
             return True
         if self._story_option_timer.reached() and self.appear(STORY_SKIP, offset=(20, 20), interval=0):
             options = self._story_option_buttons()
@@ -279,7 +279,7 @@ class InfoHandler(ModuleBase):
                         select = options[0]
                     self.device.click(select)
                     self._story_option_timer.reset()
-                    self.story_popup_timout.reset()
+                    self.story_popup_timeout.reset()
                     self.interval_reset(STORY_SKIP)
                     self.interval_reset(STORY_LETTERS_ONLY)
                     self._story_option_record = 0
@@ -292,10 +292,10 @@ class InfoHandler(ModuleBase):
             if drop:
                 drop.handle_add(self, before=2)
             self.device.click(STORY_SKIP)
-            self.story_popup_timout.reset()
+            self.story_popup_timeout.reset()
             return True
         if self.appear_then_click(GAME_TIPS, offset=(20, 20), interval=2):
-            self.story_popup_timout.reset()
+            self.story_popup_timeout.reset()
             return True
 
         return False
