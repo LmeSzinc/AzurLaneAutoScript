@@ -121,6 +121,18 @@ class ShipyardUI(UI):
 
         return result[index - 1]
 
+    def _shipyard_in_ui(self):
+        """
+        Returns:
+            bool whether in appropriate shipyard ui area
+        """
+        if self.appear(SHIPYARD_IN_DEV, offset=(20, 20)):
+            return True
+        if self.appear(SHIPYARD_IN_FATE, offset=(20, 20)):
+            return True
+
+        return False
+
     def _shipyard_set_series(self, series=1, skip_first_screenshot=True):
         """
         Args:
@@ -135,12 +147,12 @@ class ShipyardUI(UI):
             logger.warning(f'Research Series {series} is not selectable')
             return False
 
-        self.ui_click(SHIPYARD_SERIES_SELECT_ENTER, appear_button=SHIPYARD_UI_CHECK,
+        self.ui_click(SHIPYARD_SERIES_SELECT_ENTER, appear_button=self._shipyard_in_ui,
                       check_button=SHIPYARD_SERIES_SELECT_CHECK,
                       skip_first_screenshot=skip_first_screenshot)
         series_button = SHIPYARD_SERIES_GRID.buttons[series - 1]
         self.ui_click(series_button, appear_button=SHIPYARD_SERIES_SELECT_CHECK,
-                      check_button=SHIPYARD_UI_CHECK,
+                      check_button=self._shipyard_in_ui,
                       skip_first_screenshot=skip_first_screenshot)
 
         return True
@@ -180,7 +192,23 @@ class ShipyardUI(UI):
         ensured = False
         if self._shipyard_bottom_navbar.set(self, left=left, right=right, skip_first_screenshot=skip_first_screenshot):
             ensured = True
-        self.wait_until_appear(SHIPYARD_UI_CHECK)
+
+        # After navbar set, wait until
+        # full transition for delayed assets
+        confirm_timer = Timer(1.5, count=3).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self._shipyard_in_ui():
+                if confirm_timer.reached():
+                    break
+            else:
+                confirm_timer.reset()
+
         return ensured
 
     def shipyard_set_focus(self, series=1, index=1, skip_first_screenshot=True):
@@ -295,8 +323,7 @@ class ShipyardUI(UI):
 
             # End
             if success and \
-                (self.appear(SHIPYARD_UI_CHECK, offset=(20, 20)) or
-                 self.appear(SHIPYARD_IN_FATE, offset=(20, 20))):
+                self._shipyard_in_ui():
                 if confirm_timer.reached():
                     break
             else:
