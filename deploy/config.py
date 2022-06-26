@@ -67,7 +67,7 @@ class DeployConfig(ConfigModel):
         self.show_config()
 
     def show_config(self):
-        logger.hr("Show deploy config", 0)
+        logger.hr("Show deploy config", 1)
         for k, v in self.config.items():
             if k in ("Password"):
                 continue
@@ -135,16 +135,17 @@ class DeployConfig(ConfigModel):
                 return False
             else:
                 logger.info(f"[ failure ], error_code: {error_code}")
-                self.show_error()
+                self.show_error(command, error_code)
                 raise ExecutionError
         else:
             logger.info(f"[ success ]")
             return True
 
-    def show_error(self):
+    def show_error(self, command=None, error_code=None):
+        logger.hr("Update failed", 0)
         self.show_config()
         logger.info("")
-        logger.hr("Update failed", 1)
+        logger.info(f"Last command: {command}\nerror_code: {error_code}")
         logger.info(
             "Please check your deploy settings in config/deploy.yaml "
             "and re-open Alas.exe"
