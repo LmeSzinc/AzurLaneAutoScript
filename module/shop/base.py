@@ -113,7 +113,7 @@ class ShopBase(ModuleBase):
         Custom steps for variant shop
         if needed to ensure shop has
         loaded completely
-        ShopMedal for example will initally
+        ShopMedal for example will initially
         display default items at default prices
 
         Args:

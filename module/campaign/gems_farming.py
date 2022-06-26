@@ -70,7 +70,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
     def flagship_change(self):
         """
-        Change flagship and flagship's equipment 
+        Change flagship and flagship's equipment
         If config.GemsFarming_CommonCV == 'any', only change auxiliary equipment
         """
 
@@ -98,7 +98,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
     def vanguard_change(self):
         """
-        Change vanguard and vanguard's equipment 
+        Change vanguard and vanguard's equipment
         """
         logger.hr('CHANGING VANGUARD.')
         if self.config.GemsFarming_VanguardEquipChange:

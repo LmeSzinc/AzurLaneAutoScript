@@ -2,6 +2,7 @@ import filecmp
 import shutil
 
 from deploy.config import DeployConfig
+from deploy.logger import logger
 from deploy.utils import *
 
 
@@ -17,36 +18,36 @@ class AppManager(DeployConfig):
             bool: If updated.
         """
         source = os.path.abspath(os.path.join(folder, path))
-        print(f'Old file: {source}')
+        logger.info(f'Old file: {source}')
 
         try:
             import alas_webapp
         except ImportError:
-            print(f'Dependency alas_webapp not exists, skip updating')
+            logger.info(f'Dependency alas_webapp not exists, skip updating')
             return False
 
         update = alas_webapp.app_file()
-        print(f'New version: {alas_webapp.__version__}')
-        print(f'New file: {update}')
+        logger.info(f'New version: {alas_webapp.__version__}')
+        logger.info(f'New file: {update}')
 
         if os.path.exists(source):
             if filecmp.cmp(source, update, shallow=True):
-                print('app.asar is already up to date')
+                logger.info('app.asar is already up to date')
                 return False
             else:
-                print(f'Copy {update} -----> {source}')
+                logger.info(f'Copy {update} -----> {source}')
                 os.remove(source)
                 shutil.copy(update, source)
                 return True
         else:
-            print(f'{source} not exists, skip updating')
+            logger.info(f'{source} not exists, skip updating')
             return False
 
     def app_update(self):
-        hr0(f'Update app.asar')
+        logger.hr(f'Update app.asar', 0)
 
         if not self.AutoUpdate:
-            print('AutoUpdate is disabled, skip')
+            logger.info('AutoUpdate is disabled, skip')
             return False
 
         return self.app_asar_replace(os.getcwd())

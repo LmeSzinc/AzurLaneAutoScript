@@ -415,7 +415,7 @@ class RewardResearch(ResearchSelector):
             research_duration_remain = self.research_get_remain()
             if research_duration_remain == 0:
                 # Reseach finished or project requirements not satisfied (B/E/T)
-                # Need to check in page_research 
+                # Need to check in page_research
                 self.interval_clear(MAIN_GOTO_CAMPAIGN)
                 self.ui_ensure_research()
                 if self.research_has_finished():

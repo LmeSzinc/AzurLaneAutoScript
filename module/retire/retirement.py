@@ -23,7 +23,7 @@ CARD_RARITY_COLORS = {
 
 class Retirement(Enhancement):
     _unable_to_enhance = False
-    _have_keeped_cv = True
+    _have_kept_cv = True
 
     def _retirement_choose(self, amount=10, target_rarity=('N',)):
         """
@@ -92,7 +92,7 @@ class Retirement(Enhancement):
                 self.device.click(SHIP_CONFIRM)
                 continue
             if self.appear(SHIP_CONFIRM_2, offset=(30, 30), interval=2):
-                if self.config.RETIRE_KEEP_COMMON_CV and not self._have_keeped_cv:
+                if self.config.RETIRE_KEEP_COMMON_CV and not self._have_kept_cv:
                     self.keep_one_common_cv()
                 self.device.click(SHIP_CONFIRM_2)
                 self.interval_clear(GET_ITEMS_1)
@@ -154,7 +154,7 @@ class Retirement(Enhancement):
         total = 0
 
         if self.config.RETIRE_KEEP_COMMON_CV:
-            self._have_keeped_cv = False
+            self._have_kept_cv = False
 
         while 1:
             self.handle_info_bar()
@@ -217,7 +217,7 @@ class Retirement(Enhancement):
         total = 0
 
         if self.config.RETIRE_KEEP_COMMON_CV:
-            self._have_keeped_cv = False
+            self._have_kept_cv = False
 
         while amount:
             selected = self._retirement_choose(
@@ -364,15 +364,15 @@ class Retirement(Enhancement):
             Button:
         """
         if self.config.GemsFarming_CommonCV == 'any':
-            for commen_cv_name in ['BOGUE', 'HERMES', 'LANGLEY', 'RANGER']:
-                template = globals()[f'TEMPLATE_{commen_cv_name}']
+            for common_cv_name in ['BOGUE', 'HERMES', 'LANGLEY', 'RANGER']:
+                template = globals()[f'TEMPLATE_{common_cv_name}']
                 sim, button = template.match_result(
                     resize(self.device.image, size=(1189, 669)))
 
                 if sim > self.config.COMMON_CV_THRESHOLD:
                     return Button(button=tuple(_ * 155 // 144 for _ in button.button), area=button.area,
                                   color=button.color,
-                                  name=f'TEMPLATE_{commen_cv_name}_RETIRE')
+                                  name=f'TEMPLATE_{common_cv_name}_RETIRE')
 
                 return None
         else:
@@ -392,4 +392,4 @@ class Retirement(Enhancement):
         button = self.retirement_get_common_rarity_cv()
         if button is not None:
             self._retire_select_one(button, skip_first_screenshot=False)
-            self._have_keeped_cv = True
+            self._have_kept_cv = True

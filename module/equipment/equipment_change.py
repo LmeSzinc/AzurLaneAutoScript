@@ -119,7 +119,7 @@ class EquipmentChange(Equipment):
 
     def _find_equip(self, index):
         '''
-        Find the equipment previously recorded 
+        Find the equipment previously recorded
         Pages:
             in: EQUIPMENT STATUS
         '''

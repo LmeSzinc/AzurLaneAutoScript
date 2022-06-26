@@ -83,15 +83,3 @@ def poor_yaml_write(data, file, template_file=DEPLOY_TEMPLATE):
 
     with open(file, 'w', encoding='utf-8', newline='') as f:
         f.write(text)
-
-
-def hr1(title):
-    print('=' * 20 + ' ' + title + ' ' + '=' * 20)
-
-
-def hr0(title):
-    middle = '|' + ' ' * 20 + title + ' ' * 20 + '|'
-    border = '+' + '-' * (len(middle) - 2) + '+'
-    print(border)
-    print(middle)
-    print(border)

@@ -1,6 +1,7 @@
 import copy
 from typing import Optional, Union
 
+from deploy.logger import logger
 from deploy.utils import *
 
 
@@ -66,15 +67,15 @@ class DeployConfig(ConfigModel):
         self.show_config()
 
     def show_config(self):
-        hr0("Show deploy config")
+        logger.hr("Show deploy config", 1)
         for k, v in self.config.items():
             if k in ("Password"):
                 continue
             if self.config_template[k] == v:
                 continue
-            print(f"{k}: {v}")
+            logger.info(f"{k}: {v}")
 
-        print(f"Rest of the configs are the same as default")
+        logger.info(f"Rest of the configs are the same as default")
 
     def read(self):
         self.config = poor_yaml_read(DEPLOY_TEMPLATE)
@@ -112,36 +113,40 @@ class DeployConfig(ConfigModel):
             .replace('"', '"')
         )
 
-    def execute(self, command, allow_failure=False):
+    def execute(self, command, allow_failure=False, output=True):
         """
         Args:
             command (str):
             allow_failure (bool):
+            output(bool):
 
         Returns:
             bool: If success.
                 Terminate installation if failed to execute and not allow_failure.
         """
         command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
-        print(command)
+        if not output:
+            command = command + ' >nul 2>nul'
+        logger.info(command)
         error_code = os.system(command)
         if error_code:
             if allow_failure:
-                print(f"[ allowed failure ], error_code: {error_code}")
+                logger.info(f"[ allowed failure ], error_code: {error_code}")
                 return False
             else:
-                print(f"[ failure ], error_code: {error_code}")
-                self.show_error()
+                logger.info(f"[ failure ], error_code: {error_code}")
+                self.show_error(command, error_code)
                 raise ExecutionError
         else:
-            print(f"[ success ]")
+            logger.info(f"[ success ]")
             return True
 
-    def show_error(self):
+    def show_error(self, command=None, error_code=None):
+        logger.hr("Update failed", 0)
         self.show_config()
-        print("")
-        hr1("Update failed")
-        print(
+        logger.info("")
+        logger.info(f"Last command: {command}\nerror_code: {error_code}")
+        logger.info(
             "Please check your deploy settings in config/deploy.yaml "
             "and re-open Alas.exe"
         )

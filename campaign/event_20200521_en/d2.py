@@ -5,13 +5,13 @@ MAP = CampaignMap('d2')
 MAP.shape = 'I7'
 MAP.camera_data = ['D2', 'D5', 'F3', 'F5']
 MAP.map_data = '''
-    SP -- -- -- -- -- ME ++ MB 
-    -- ME -- MS ME -- -- ++ -- 
-    -- -- ME ++ ++ ++ -- -- -- 
-    ME __ -- ME ME ME -- MS -- 
-    ME MS -- ++ ++ ++ -- -- -- 
-    -- ME -- ME -- -- -- ++ -- 
-    SP -- -- -- -- ME -- ++ MB 
+    SP -- -- -- -- -- ME ++ MB
+    -- ME -- MS ME -- -- ++ --
+    -- -- ME ++ ++ ++ -- -- --
+    ME __ -- ME ME ME -- MS --
+    ME MS -- ++ ++ ++ -- -- --
+    -- ME -- ME -- -- -- ++ --
+    SP -- -- -- -- ME -- ++ MB
 '''
 MAP.weight_data = '''
     10 10 10 10 10 10 10 10 10

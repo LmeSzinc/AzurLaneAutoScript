@@ -21,7 +21,7 @@ class ManualConfig:
     > Daily > Hard > OpsiAshAssist
     > Sos > EventSp > EventAb > EventCd > RaidDaily > WarArchives > MaritimeEscort
     > Event > Event2 > Raid > Main > Main2 > Main3
-    > OpsiMeowfficerFarming 
+    > OpsiMeowfficerFarming
     > GemsFarming
     """
 

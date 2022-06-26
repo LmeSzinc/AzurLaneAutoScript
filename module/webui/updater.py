@@ -1,6 +1,4 @@
-import builtins
 import datetime
-import os
 import subprocess
 import threading
 import time
@@ -24,31 +22,6 @@ class Updater(DeployConfig, GitManager, PipManager):
         super().__init__(file=file)
         self.state = 0
         self.event: threading.Event = None
-
-    def execute(self, command, allow_failure=False):
-        """
-        Args:
-            command (str):
-            allow_failure (bool):
-
-        Returns:
-            bool: If success.
-                Terminate installation if failed to execute and not allow_failure.
-        """
-        command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
-        print(command)
-        error_code = os.system(command)
-        if error_code:
-            if allow_failure:
-                print(f"[ allowed failure ], error_code: {error_code}")
-                return False
-            else:
-                print(f"[ failure ], error_code: {error_code}")
-                # self.show_error()
-                raise ExecutionError
-        else:
-            print(f"[ success ]")
-            return True
 
     @property
     def delay(self):
@@ -117,7 +90,7 @@ class Updater(DeployConfig, GitManager, PipManager):
         sha1, _, _, message = self.get_commit(f"..{source}/{self.Branch}")
 
         if sha1:
-            logger.info(f"New update avaliable")
+            logger.info(f"New update available")
             logger.info(f"{sha1[:8]} - {message}")
             return True
         else:
@@ -191,7 +164,7 @@ class Updater(DeployConfig, GitManager, PipManager):
             )
             return 0
 
-        logger.info(f"Update {sha[:8]} avaliable")
+        logger.info(f"Update {sha[:8]} available")
         return 1
 
     def check_update(self):
@@ -208,14 +181,11 @@ class Updater(DeployConfig, GitManager, PipManager):
 
     def update(self):
         logger.hr("Run update")
-        backup, builtins.print = builtins.print, logger.info
         try:
             self.git_install()
             self.pip_install()
         except ExecutionError:
-            builtins.print = backup
             return False
-        builtins.print = backup
         return True
 
     def run_update(self):
@@ -258,7 +228,7 @@ class Updater(DeployConfig, GitManager, PipManager):
         logger.info("All alas stopped, start updating")
 
         if self.update():
-            if State.researt_event is not None:
+            if State.restart_event is not None:
                 self.state = "reload"
                 with open("./config/reloadalas", mode="w") as f:
                     f.writelines(names)
@@ -281,7 +251,7 @@ class Updater(DeployConfig, GitManager, PipManager):
             # with open("./config/reloadflag", mode="w"):
             #     # app ended here and uvicorn will restart whole app
             #     pass
-            State.researt_event.set()
+            State.restart_event.set()
 
         timer = threading.Timer(delay, trigger)
         timer.start()
@@ -300,7 +270,7 @@ class Updater(DeployConfig, GitManager, PipManager):
                 th._task.delay = get_next_time(self.schedule_time)
                 yield
                 continue
-            if State.researt_event is None:
+            if State.restart_event is None:
                 yield
                 continue
             if not self.run_update():

@@ -221,7 +221,7 @@ class Button(Resource):
     def match_binary(self, image, offset=30, threshold=0.85):
         """Detects button by template matching. To Some button, its location may not be static.
            This method will apply template matching under binarization.
-           
+
         Args:
             image: Screenshot.
             offset (int, tuple): Detection area offset.
@@ -241,7 +241,7 @@ class Button(Resource):
         else:
             offset = np.array((-3, -offset, 3, offset))
         image = crop(image, offset + self.area)
-        
+
         if self.is_gif:
             for template in self.image_binary:
                 # graying

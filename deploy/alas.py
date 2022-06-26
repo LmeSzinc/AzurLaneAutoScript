@@ -1,4 +1,5 @@
 from deploy.config import DeployConfig
+from deploy.logger import logger
 from deploy.utils import *
 
 
@@ -25,7 +26,7 @@ class AlasManager(DeployConfig):
         try:
             from win32com.client import GetObject
         except ModuleNotFoundError:
-            print('pywin32 not installed, skip')
+            logger.info('pywin32 not installed, skip')
             return False
 
         try:
@@ -44,7 +45,7 @@ class AlasManager(DeployConfig):
         except Exception as e:
             # Possible exception
             # pywintypes.com_error: (-2147217392, 'OLE error 0x80041010', None, None)
-            print(str(e))
+            logger.info(str(e))
             return False
 
     def kill_by_name(self, name):
@@ -52,12 +53,12 @@ class AlasManager(DeployConfig):
         Args:
             name (str): Process name
         """
-        hr1(f'Kill {name}')
+        logger.hr(f'Kill {name}', 1)
         for row in self.iter_process_by_name(name):
-            print(' '.join(map(str, row)))
-            self.execute(f'taskkill /f /pid {row[2]}', allow_failure=True)
+            logger.info(' '.join(map(str, row)))
+            self.execute(f'taskkill /f /pid {row[2]}', allow_failure=True, output=False)
 
     def alas_kill(self):
-        hr0(f'Kill existing Alas')
+        logger.hr(f'Kill existing Alas', 0)
         self.kill_by_name('alas.exe')
         self.kill_by_name('python.exe')

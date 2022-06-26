@@ -141,7 +141,7 @@ class ShopClerk(ShopBase, Retirement):
                 click_timer.reset()
 
             # Scan for plus/minus locations; searching within
-            # offset will update the click posiion automatically
+            # offset will update the click position automatically
             self.device.screenshot()
             if self.appear(SELECT_MINUS, offset=select_offset) and self.appear(SELECT_PLUS, offset=select_offset):
                 break
