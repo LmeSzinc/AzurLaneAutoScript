@@ -203,9 +203,10 @@ class EmulatorConnect:
             stdout, stderr = process.communicate()
             ret_code = 1
             logger.info(f'TimeoutExpired, stdout={stdout}, stderr={stderr}')
-        if not output:
+        if output:
             return stdout
-        return ret_code
+        else:
+            return ret_code
 
     @cached_property
     def emulators(self):
