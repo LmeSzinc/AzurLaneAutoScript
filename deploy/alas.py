@@ -56,7 +56,7 @@ class AlasManager(DeployConfig):
         logger.hr(f'Kill {name}', 1)
         for row in self.iter_process_by_name(name):
             logger.info(' '.join(map(str, row)))
-            self.execute(f'taskkill /f /pid {row[2]}', allow_failure=True)
+            self.execute(f'taskkill /f /pid {row[2]}', allow_failure=True, output=False)
 
     def alas_kill(self):
         logger.hr(f'Kill existing Alas', 0)
