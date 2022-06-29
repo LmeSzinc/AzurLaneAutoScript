@@ -5,7 +5,6 @@ import uiautomator2 as u2
 from adbutils.errors import AdbError
 from lxml import etree
 
-from module.base.decorator import cached_property
 from module.base.utils import *
 from module.device.connection import Connection
 from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
@@ -91,27 +90,6 @@ def retry(func):
 
 
 class Uiautomator2(Connection):
-    @cached_property
-    def u2(self) -> u2.Device:
-        if self.is_over_http:
-            # Using uiautomator2_http
-            device = u2.connect(self.serial)
-        else:
-            # Normal uiautomator2
-            device = u2.connect(self.serial)
-
-        # Stay alive
-        device.set_new_command_timeout(604800)
-
-        logger.attr('u2.Device', f'Device(atx_agent_url={device._get_atx_agent_url()})')
-        return device
-
-    # def adb_shell(self, cmd, **kwargs):
-    #     if self.is_over_http:
-    #         return super().adb_shell(cmd, **kwargs)
-    #
-    #     return self.u2.shell(cmd)
-
     @retry
     def screenshot_uiautomator2(self):
         image = self.u2.screenshot(format='raw')

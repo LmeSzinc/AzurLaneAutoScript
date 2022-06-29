@@ -11,7 +11,7 @@ import uiautomator2 as u2
 from adbutils import AdbClient, AdbDevice, AdbTimeout, ForwardItem, ReverseItem
 from adbutils.errors import AdbError
 
-from module.base.decorator import cached_property
+from module.base.decorator import Config, cached_property
 from module.base.utils import ensure_time
 from module.config.server import set_server
 from module.device.connection_attr import ConnectionAttr
@@ -95,6 +95,7 @@ class Connection(ConnectionAttr):
         logger.attr('PackageName', self.package)
         logger.attr('Server', self.config.SERVER)
 
+    @Config.when(DEVICE_OVER_HTTP=False)
     def adb_command(self, cmd, timeout=10):
         """
         Execute ADB commands in a subprocess,
@@ -124,23 +125,71 @@ class Connection(ConnectionAttr):
             logger.warning(f'TimeoutExpired when calling {cmd}, stdout={stdout}, stderr={stderr}')
         return stdout
 
-    def adb_shell(self, cmd, **kwargs):
+    @Config.when(DEVICE_OVER_HTTP=True)
+    def adb_command(self, cmd, timeout=10):
+        logger.warning(
+            f'adb_command() is not available when connecting over http: {self.serial}, '
+        )
+        raise RequestHumanTakeover
+
+    @Config.when(DEVICE_OVER_HTTP=False)
+    def adb_shell(self, cmd, stream=False, recvall=True, timeout=10, rstrip=True):
         """
         Equivalent to `adb -s <serial> shell <*cmd>`
 
         Args:
             cmd (list, str):
-            **kwargs:
-                rstrip (bool): strip the last empty line (Default: True)
-                stream (bool): return stream instead of string output (Default: False)
+            stream (bool): Return stream instead of string output (Default: False)
+            recvall (bool): Receive all data when stream=True (Default: True)
+            timeout (int): (Default: 10)
+            rstrip (bool): Strip the last empty line (Default: True)
 
         Returns:
-            str or socket if stream=True
+            str if stream=False
+            bytes if stream=True and recvall=True
+            socket if stream=True and recvall=False
         """
         if not isinstance(cmd, str):
             cmd = list(map(str, cmd))
-        result = self.adb.shell(cmd, timeout=10, **kwargs)
-        return result
+
+        if stream:
+            result = self.adb.shell(cmd, stream=stream, timeout=timeout, rstrip=rstrip)
+            if recvall:
+                return recv_all(result)
+            else:
+                return result
+        else:
+            result = self.adb.shell(cmd, stream=stream, timeout=timeout, rstrip=rstrip)
+            return result
+
+    @Config.when(DEVICE_OVER_HTTP=True)
+    def adb_shell(self, cmd, stream=False, recvall=True, timeout=10, rstrip=True):
+        """
+        Equivalent to http://127.0.0.1:7912/shell?command={command}
+
+        Args:
+            cmd (list, str):
+            stream (bool): Return stream instead of string output (Default: False)
+            recvall (bool): Receive all data when stream=True (Default: True)
+            timeout (int): (Default: 10)
+            rstrip (bool): Strip the last empty line (Default: True)
+
+        Returns:
+            str if stream=False
+            bytes if stream=True
+        """
+        if not isinstance(cmd, str):
+            cmd = list(map(str, cmd))
+
+        if stream:
+            result = self.u2.shell(cmd, stream=stream, timeout=timeout)
+            # Already received all, so `recvall` is ignored
+            return result.content
+        else:
+            result = self.u2.shell(cmd, stream=stream, timeout=timeout).output
+            if rstrip:
+                result = result.rstrip()
+            return result
 
     @cached_property
     def is_avd(self):
@@ -166,7 +215,7 @@ class Connection(ConnectionAttr):
             port = self.adb_reverse(f'tcp:{self.config.REVERSE_SERVER_PORT}')
             return host, port, host, self.config.REVERSE_SERVER_PORT
         # For emulators, listen on current host
-        if self.is_emulator:
+        if self.is_emulator or self.is_over_http:
             host = socket.gethostbyname(socket.gethostname())
             if platform.system() == 'Linux' and host == '127.0.1.1':
                 host = '127.0.0.1'
@@ -224,8 +273,8 @@ class Connection(ConnectionAttr):
         server.settimeout(timeout)
         # Client send data, waiting for server accept
         # <command> | nc 127.0.0.1 {port}
-        cmd += ['|', 'nc', *self._nc_server_host_port[2:]]
-        stream = self.adb_shell(cmd, stream=True)
+        cmd += ["|", 'nc', *self._nc_server_host_port[2:]]
+        stream = self.adb_shell(cmd, stream=True, recvall=False)
         try:
             # Server accept connection
             conn, conn_port = server.accept()
@@ -344,6 +393,7 @@ class Connection(ConnectionAttr):
         cmd = ['push', local, remote]
         return self.adb_command(cmd)
 
+    @Config.when(DEVICE_OVER_HTTP=False)
     def adb_connect(self, serial):
         """
         Connect to a serial, try 3 times at max.
@@ -356,7 +406,7 @@ class Connection(ConnectionAttr):
         Returns:
             bool: If success
         """
-        if 'emulator' in serial or self.is_over_http:
+        if 'emulator' in serial:
             return True
         else:
             for _ in range(3):
@@ -381,6 +431,11 @@ class Connection(ConnectionAttr):
             self.detect_device()
             return False
 
+    @Config.when(DEVICE_OVER_HTTP=True)
+    def adb_connect(self, serial):
+        # No adb connect if over http
+        return True
+
     def adb_disconnect(self, serial):
         msg = self.adb_client.disconnect(serial)
         if msg:
@@ -401,6 +456,7 @@ class Connection(ConnectionAttr):
         del_cached_property(self, 'adb_client')
         _ = self.adb_client
 
+    @Config.when(DEVICE_OVER_HTTP=False)
     def adb_reconnect(self):
         """
            Reboot adb client if no device found, otherwise try reconnecting device.
@@ -415,6 +471,13 @@ class Connection(ConnectionAttr):
             self.adb_disconnect(self.serial)
             self.adb_connect(self.serial)
             self.detect_device()
+
+    @Config.when(DEVICE_OVER_HTTP=True)
+    def adb_reconnect(self):
+        logger.warning(
+            f'When connecting a device over http: {self.serial} '
+            f'adb_reconnect() is skipped, you may need to restart ATX manually'
+        )
 
     def install_uiautomator2(self):
         """

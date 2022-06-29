@@ -8,8 +8,7 @@ from lxml import etree
 
 from module.device.connection import Connection
 from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
-                                        handle_adb_error, PackageNotInstalled,
-                                        recv_all)
+                                        handle_adb_error, PackageNotInstalled)
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
@@ -107,9 +106,7 @@ class Adb(Connection):
 
     @retry
     def screenshot_adb(self):
-        stream = self.adb_shell(['screencap', '-p'], stream=True)
-
-        content = recv_all(stream)
+        content = self.adb_shell(['screencap', '-p'], stream=True)
 
         return self.__process_screenshot(content)
 

@@ -2,6 +2,7 @@ import os
 import re
 
 import adbutils
+import uiautomator2 as u2
 from adbutils import AdbClient, AdbDevice
 
 from deploy.utils import DEPLOY_CONFIG, poor_yaml_read
@@ -65,6 +66,7 @@ class ConnectionAttr:
         # Parse custom serial
         self.serial = str(self.config.Emulator_Serial)
         self.serial_check()
+        self.config.DEVICE_OVER_HTTP = self.is_over_http
 
     def serial_check(self):
         """
@@ -86,11 +88,12 @@ class ConnectionAttr:
                     self.config.Emulator_ScreenshotMethod = 'uiautomator2'
                     self.config.Emulator_ControlMethod = 'uiautomator2'
         if self.is_over_http:
-            if self.config.Emulator_ScreenshotMethod != 'uiautomator2' \
-                    or self.config.Emulator_ControlMethod not in ['uiautomator2', 'minitouch']:
+            if self.config.Emulator_ScreenshotMethod not in ["ADB", "uiautomator2", "aScreenCap"] \
+                    or self.config.Emulator_ControlMethod not in ["ADB", "uiautomator2", "minitouch"]:
                 logger.warning(
-                    f'When connecting a device over http: {self.serial}'
-                    f'ScreenshotMethod must be "uiautomator2" and ControlMethod must be "uiautomator2" or "minitouch".'
+                    f'When connecting a device over http: {self.serial} '
+                    f'ScreenshotMethod can only use ["ADB", "uiautomator2", "aScreenCap"], '
+                    f'ControlMethod can only use ["ADB", "uiautomator2", "minitouch"]'
                 )
                 raise RequestHumanTakeover
 
@@ -116,11 +119,11 @@ class ConnectionAttr:
 
     @cached_property
     def is_network_device(self):
-        return re.match(r'\d+\.\d+\.\d+\.\d+:\d+', self.serial)
+        return bool(re.match(r'\d+\.\d+\.\d+\.\d+:\d+', self.serial))
 
     @cached_property
     def is_over_http(self):
-        return re.match(r"^https?://", self.serial)
+        return bool(re.match(r"^https?://", self.serial))
 
     @staticmethod
     def find_bluestacks4_hyperv(serial):
@@ -221,3 +224,18 @@ class ConnectionAttr:
     @cached_property
     def adb(self) -> AdbDevice:
         return AdbDevice(self.adb_client, self.serial)
+
+    @cached_property
+    def u2(self) -> u2.Device:
+        if self.is_over_http:
+            # Using uiautomator2_http
+            device = u2.connect(self.serial)
+        else:
+            # Normal uiautomator2
+            device = u2.connect(self.serial)
+
+        # Stay alive
+        device.set_new_command_timeout(604800)
+
+        logger.attr('u2.Device', f'Device(atx_agent_url={device._get_atx_agent_url()})')
+        return device
