@@ -22,10 +22,6 @@ class DailyDigitCounter(DigitCounter):
 
 OCR_BEACON_REMAIN = DigitCounter(BEACON_REMAIN, threshold=256, name='OCR_ASH_REMAIN')
 OCR_BEACON_TIER = Digit(BEACON_TIER, name='OCR_ASH_TIER')
-OCR_ASH_COLLECT_STATUS = DigitCounter(
-    ASH_COLLECT_STATUS, letter=(235, 235, 235), threshold=160, name='OCR_ASH_COLLECT_STATUS')
-OCR_ASH_DAILY_STATUS = DailyDigitCounter(
-    ASH_DAILY_STATUS, letter=(235, 235, 235), threshold=160, name='OCR_ASH_DAILY_STATUS')
 
 SWITCH_BEACON = Switch(name='Beacon', offset=(20, 20))
 SWITCH_BEACON.add_status('mine', BEACON_LIST)
@@ -209,13 +205,25 @@ class OSAsh(UI, MapEventHandler):
         """
         if self._ash_fully_collected:
             return 0
-        if not self.image_color_count(ASH_COLLECT_STATUS, color=(235, 235, 235), threshold=221, count=20):
+        if self.image_color_count(ASH_COLLECT_STATUS, color=(235, 235, 235), threshold=221, count=20):
+            logger.info('Ash beacon status: light')
+            ocr_collect = DigitCounter(
+                ASH_COLLECT_STATUS, letter=(235, 235, 235), threshold=160, name='OCR_ASH_COLLECT_STATUS')
+            ocr_daily = DailyDigitCounter(
+                ASH_DAILY_STATUS, letter=(235, 235, 235), threshold=160, name='OCR_ASH_DAILY_STATUS')
+        elif self.image_color_count(ASH_COLLECT_STATUS, color=(140, 142, 140), threshold=221, count=20):
+            logger.info('Ash beacon status: gray')
+            ocr_collect = DigitCounter(
+                ASH_COLLECT_STATUS, letter=(140, 142, 140), threshold=160, name='OCR_ASH_COLLECT_STATUS')
+            ocr_daily = DailyDigitCounter(
+                ASH_DAILY_STATUS, letter=(140, 142, 140), threshold=160, name='OCR_ASH_DAILY_STATUS')
+        else:
             # If OS daily mission received or finished, the popup will cover beacon status.
             logger.info('Ash beacon status is covered, will check next time')
             return 0
 
-        status, _, _ = OCR_ASH_COLLECT_STATUS.ocr(self.device.image)
-        daily, _, _ = OCR_ASH_DAILY_STATUS.ocr(self.device.image)
+        status, _, _ = ocr_collect.ocr(self.device.image)
+        daily, _, _ = ocr_daily.ocr(self.device.image)
 
         if daily >= 200:
             logger.info('Ash beacon fully collected today')
