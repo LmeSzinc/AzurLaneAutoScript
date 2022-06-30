@@ -90,6 +90,8 @@ class CampaignEvent(UI):
             'EventAb',
             'EventCd',
             'EventSp',
+            'Raid',
+            'RaidDaily'
             'GemsFarming',
         ]
         command = self.config.Scheduler_Command

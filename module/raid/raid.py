@@ -1,12 +1,13 @@
 import numpy as np
 
+from module.campaign.campaign_event import CampaignEvent
 from module.campaign.run import OCR_OIL
 from module.combat.assets import *
 from module.combat.combat import Combat
 from module.exception import ScriptError
 from module.logger import logger
 from module.map.map_operation import MapOperation
-from module.ocr.ocr import DigitCounter
+from module.ocr.ocr import Digit, DigitCounter
 from module.raid.assets import *
 from module.ui.assets import RAID_CHECK
 
@@ -36,6 +37,8 @@ def raid_name_shorten(name):
         return 'SURUGA'
     elif name == 'raid_20220127':
         return 'BRISTOL'
+    elif name == 'raid_20220630':
+        return 'IRIS'
     else:
         raise ScriptError(f'Unknown raid name: {name}')
 
@@ -63,23 +66,47 @@ def raid_ocr(raid, mode):
         mode (str): easy, normal, hard
 
     Returns:
-        RaidCounter:
+        DigitCounter:
     """
     raid = raid_name_shorten(raid)
     key = f'{raid}_OCR_REMAIN_{mode.upper()}'
     try:
         button = globals()[key]
+        # Old raids use RaidCounter to compatible with old OCR model and its assets
+        # New raids use DigitCounter
         if raid == 'ESSEX':
             return RaidCounter(button, letter=(57, 52, 255), threshold=128)
         elif raid == 'SURUGA':
             return RaidCounter(button, letter=(49, 48, 49), threshold=128)
         elif raid == 'BRISTOL':
             return RaidCounter(button, letter=(214, 231, 219), threshold=128)
+        elif raid == 'IRIS':
+            # Font is not in model 'azur_lane', so use general ocr model
+            return DigitCounter(button, letter=(148, 138, 123), threshold=128, lang='cnocr')
     except KeyError:
         raise ScriptError(f'Raid entrance asset not exists: {key}')
 
 
-class Raid(MapOperation, Combat):
+def pt_ocr(raid):
+    """
+    Args:
+        raid (str): Raid name, such as raid_20200624, raid_20210708.
+
+    Returns:
+        Digit:
+    """
+    raid = raid_name_shorten(raid)
+    key = f'{raid}_OCR_PT'
+    try:
+        button = globals()[key]
+        if raid == 'IRIS':
+            return Digit(button, letter=(181, 178, 165), threshold=128)
+    except KeyError:
+        # raise ScriptError(f'Raid pt ocr asset not exists: {key}')
+        return None
+
+
+class Raid(MapOperation, Combat, CampaignEvent):
     def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto=True, fleet_index=1):
         """
         Args:
@@ -158,7 +185,12 @@ class Raid(MapOperation, Combat):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(entrance, offset=(10, 10), interval=5):
+            if self.appear(entrance, offset=(10, 10), interval=5):
+                # Items appear from right
+                # Check PT when entrance appear
+                if self.event_pt_limit_triggered():
+                    self.config.task_stop()
+                self.device.click(entrance)
                 continue
             if self.appear_then_click(RAID_FLEET_PREPARATION, interval=5):
                 continue
@@ -191,3 +223,18 @@ class Raid(MapOperation, Combat):
         self.raid_enter(mode=mode, raid=raid)
         self.combat(balance_hp=False, expected_end=self.raid_expected_end)
         logger.hr('Raid End')
+
+    def get_event_pt(self):
+        """
+        Returns:
+            int: Raid PT, 0 if raid event is not supported
+
+        Pages:
+            in: page_raid
+        """
+        ocr = pt_ocr(self.config.Campaign_Event)
+        if ocr is not None:
+            return ocr.ocr(self.device.image)
+        else:
+            logger.info(f'Raid {self.config.Campaign_Event} does not support PT ocr, skip')
+            return 0

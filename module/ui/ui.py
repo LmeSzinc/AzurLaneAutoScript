@@ -14,6 +14,7 @@ from module.map.assets import (FLEET_PREPARATION, MAP_PREPARATION,
 from module.ocr.ocr import Ocr
 from module.os_handler.assets import (EXCHANGE_CHECK, RESET_FLEET_PREPARATION,
                                       RESET_TICKET_POPUP)
+from module.raid.assets import RAID_FLEET_PREPARATION
 from module.ui.assets import (BACK_ARROW, DORM_FEED_CANCEL, DORM_INFO,
                               DORM_TROPHY_CONFIRM, EVENT_LIST_CHECK, GOTO_MAIN,
                               MEOWFFICER_INFO, META_CHECK, PLAYER_CHECK,
@@ -28,6 +29,7 @@ from module.ui.page import (Page, page_academy, page_archives,
                             page_research, page_reshmenu, page_reward,
                             page_shipyard, page_shop, page_sp,
                             page_supply_pack, page_tactical, page_unknown)
+
 
 # from module.ui.page import *
 
@@ -488,7 +490,9 @@ class UI(InfoHandler):
             return True
 
         # Campaign preparation
-        if self.appear(MAP_PREPARATION, offset=(30, 30), interval=3) or self.appear(FLEET_PREPARATION, offset=(30, 30), interval=3):
+        if self.appear(MAP_PREPARATION, offset=(30, 30), interval=3) \
+                or self.appear(FLEET_PREPARATION, offset=(30, 30), interval=3) \
+                or self.appear(RAID_FLEET_PREPARATION, offset=(30, 30), interval=3):
             self.device.click(MAP_PREPARATION_CANCEL)
             return True
         if self.appear_then_click(AUTO_SEARCH_MENU_EXIT, offset=(200, 30), interval=3):
