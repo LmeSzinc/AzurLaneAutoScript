@@ -98,3 +98,4 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20220526 | event 20210527 cn | Mirror Involution | - | - | - | 鏡位螺旋 |
 | 20220616 | event 20201012 cn | Sundered Blue | 复刻划破海空之翼 | Sundered Blue Rerun | 奔る彩帆の青（復刻） | - |
 | 20220616 | event 20200820 cn | Scherzo of Iron and Blood | - | - | - | 復刻鐵血音符誓言 |
+| 20220630 | raid 20210708 | Cross Wave | - | - | - | 復刻穿越彼方的水線 |
