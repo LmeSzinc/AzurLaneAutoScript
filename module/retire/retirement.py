@@ -113,7 +113,7 @@ class Retirement(Enhancement):
                     or self.config.Retirement_RetireMode == 'one_click_retire':
                 if self.handle_popup_confirm('RETIRE_SR_SSR'):
                     continue
-                if self.config.SERVER in ['jp', 'tw'] and \
+                if self.config.SERVER in ['cn', 'jp', 'tw'] and \
                         self.appear_then_click(SR_SSR_CONFIRM, offset=self._popup_offset, interval=2):
                     continue
 
