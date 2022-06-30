@@ -36,6 +36,8 @@ def raid_name_shorten(name):
         return 'SURUGA'
     elif name == 'raid_20220127':
         return 'BRISTOL'
+    elif name == 'raid_20220630':
+        return 'IRIS'
     else:
         raise ScriptError(f'Unknown raid name: {name}')
 
@@ -75,6 +77,9 @@ def raid_ocr(raid, mode):
             return RaidCounter(button, letter=(49, 48, 49), threshold=128)
         elif raid == 'BRISTOL':
             return RaidCounter(button, letter=(214, 231, 219), threshold=128)
+        elif raid == 'IRIS':
+            # Font is not in model 'azur_lane', so use general ocr model
+            return DigitCounter(button, letter=(148, 138, 123), threshold=128, lang='cnocr')
     except KeyError:
         raise ScriptError(f'Raid entrance asset not exists: {key}')
 
