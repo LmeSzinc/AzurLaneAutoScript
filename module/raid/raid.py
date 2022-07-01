@@ -87,6 +87,8 @@ def raid_ocr(raid, mode):
             if server.server == 'en':
                 # Bold in EN
                 return RaidCounter(button, letter=(148, 138, 123), threshold=80, lang='cnocr')
+            if server.server == 'jp':
+                return RaidCounter(button, letter=(148, 138, 123), threshold=128, lang='cnocr')
             else:
                 return DigitCounter(button, letter=(148, 138, 123), threshold=128, lang='cnocr')
     except KeyError:
