@@ -2097,7 +2097,7 @@
     "Remote": {
       "Running": "运行中",
       "NotRunning": "未运行",
-      "NotEnable": "未启用，在 deploy.yaml 中设置 webui 密码并启远程控制",
+      "NotEnable": "未启用，在 deploy.yaml 中设置 webui 密码并启用远程控制",
       "EntryPoint": "远程访问 url 地址:",
       "ConfigureHint": "配置教程："
     },

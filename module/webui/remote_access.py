@@ -58,17 +58,19 @@ def remote_access_service(
 
     cmd = f"ssh -oStrictHostKeyChecking=no -R {remote_port}:{local_host}:{local_port} -p {server_port} {server} -- --output json"
     args = shlex.split(cmd)
-    logger.debug("remote access service command: %s", cmd)
+    logger.debug(f"remote access service command: {cmd}")
 
-    if _ssh_process is not None:
+    if _ssh_process is not None and _ssh_process.poll() is None:
+        logger.info(f"Kill previous ssh process [{_ssh_process.pid}]")
         _ssh_process.kill()
     _ssh_process = Popen(args, stdout=PIPE, stderr=PIPE)
-    logger.info("remote access process pid: %s", _ssh_process.pid)
+    logger.info(f"remote access process pid: {_ssh_process.pid}")
     success = False
 
     def timeout_killer(wait_sec):
         time.sleep(wait_sec)
         if not success and _ssh_process.poll() is None:
+            logger.info("Connection timeout, kill ssh process")
             _ssh_process.kill()
 
     threading.Thread(
@@ -76,7 +78,7 @@ def remote_access_service(
     ).start()
 
     stdout = _ssh_process.stdout.readline().decode("utf8")
-    logger.debug("ssh server stdout: %s", stdout)
+    logger.debug(f"ssh server stdout: {stdout}")
     connection_info = {}
     try:
         connection_info = json.loads(stdout)
@@ -88,8 +90,7 @@ def remote_access_service(
     if success:
         if connection_info.get("status", "fail") != "success":
             logger.info(
-                "Failed to establish remote access, this is the error message from service provider:",
-                connection_info.get("message", ""),
+                f"Failed to establish remote access, this is the error message from service provider: {connection_info.get('message', '')}"
             )
         else:
             global address
@@ -107,22 +108,23 @@ def remote_access_service(
     else:  # ssh process exit by itself or by timeout killer
         stderr = _ssh_process.stderr.read().decode("utf8")
         if stderr:
-            logger.error("PyWebIO application remote access service error: %s", stderr)
+            logger.error(f"PyWebIO application remote access service error: {stderr}")
         else:
             logger.info("PyWebIO application remote access service exit.")
     address = None
 
 
 def start_remote_access_service_(**kwargs):
+    logger.info("Start remote access service")
     try:
         remote_access_service(**kwargs)
     except KeyboardInterrupt:  # ignore KeyboardInterrupt
         pass
     finally:
         if _ssh_process:
-            logger.debug("Exception occurred, killing ssh process")
+            logger.info("Exception occurred, killing ssh process")
             _ssh_process.kill()
-        raise SystemExit
+    logger.info("Exit remote access service thread")
 
 
 class ParseError(Exception):
@@ -140,7 +142,7 @@ def start_remote_access_service(**kwagrs):
         )
     if State.deploy_config.WebuiHost == "0.0.0.0":
         local_host = "127.0.0.1"
-    elif State.deploy_config.WebuiHost == "[::]":
+    elif State.deploy_config.WebuiHost == "::":
         local_host = "[::1]"
     else:
         local_host = State.deploy_config.WebuiHost
@@ -171,7 +173,7 @@ class RemoteAccess:
             if _ssh_thread is not None and _ssh_thread.is_alive():
                 yield
                 continue
-            logger.info("Starting remote access service")
+            logger.info("Remote access service is not running, starting now")
             try:
                 start_remote_access_service()
             except ParseError as e:
@@ -186,7 +188,12 @@ class RemoteAccess:
 
     @staticmethod
     def is_alive():
-        return _ssh_thread is not None and _ssh_process.poll() is None
+        return (
+            _ssh_thread is not None
+            and _ssh_thread.is_alive()
+            and _ssh_process is not None
+            and _ssh_process.poll() is None
+        )
 
     @staticmethod
     def get_state():
