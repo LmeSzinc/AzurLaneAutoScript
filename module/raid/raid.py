@@ -1,5 +1,7 @@
 import numpy as np
 
+import module.config.server as server
+from module.base.timer import Timer
 from module.campaign.campaign_event import CampaignEvent
 from module.campaign.run import OCR_OIL
 from module.combat.assets import *
@@ -82,7 +84,11 @@ def raid_ocr(raid, mode):
             return RaidCounter(button, letter=(214, 231, 219), threshold=128)
         elif raid == 'IRIS':
             # Font is not in model 'azur_lane', so use general ocr model
-            return DigitCounter(button, letter=(148, 138, 123), threshold=128, lang='cnocr')
+            if server.server == 'en':
+                # Bold in EN
+                return RaidCounter(button, letter=(148, 138, 123), threshold=80, lang='cnocr')
+            else:
+                return DigitCounter(button, letter=(148, 138, 123), threshold=128, lang='cnocr')
     except KeyError:
         raise ScriptError(f'Raid entrance asset not exists: {key}')
 
@@ -232,9 +238,25 @@ class Raid(MapOperation, Combat, CampaignEvent):
         Pages:
             in: page_raid
         """
+        skip_first_screenshot = True
+        timeout = Timer(1.5, count=5).start()
         ocr = pt_ocr(self.config.Campaign_Event)
         if ocr is not None:
-            return ocr.ocr(self.device.image)
+            # 70000 seems to be a default value, wait
+            while 1:
+                if skip_first_screenshot:
+                    skip_first_screenshot = False
+                else:
+                    self.device.screenshot()
+
+                pt = ocr.ocr(self.device.image)
+                if timeout.reached():
+                    logger.warning('Wait PT timeout, assume it is')
+                    return pt
+                if pt in [70000]:
+                    continue
+                else:
+                    return pt
         else:
             logger.info(f'Raid {self.config.Campaign_Event} does not support PT ocr, skip')
             return 0
