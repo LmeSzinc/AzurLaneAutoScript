@@ -1,5 +1,6 @@
 import numpy as np
 
+import module.config.server as server
 from module.campaign.campaign_event import CampaignEvent
 from module.campaign.run import OCR_OIL
 from module.combat.assets import *
@@ -82,7 +83,11 @@ def raid_ocr(raid, mode):
             return RaidCounter(button, letter=(214, 231, 219), threshold=128)
         elif raid == 'IRIS':
             # Font is not in model 'azur_lane', so use general ocr model
-            return DigitCounter(button, letter=(148, 138, 123), threshold=128, lang='cnocr')
+            if server.server == 'en':
+                # Bold in EN
+                return RaidCounter(button, letter=(148, 138, 123), threshold=80, lang='cnocr')
+            else:
+                return DigitCounter(button, letter=(148, 138, 123), threshold=128, lang='cnocr')
     except KeyError:
         raise ScriptError(f'Raid entrance asset not exists: {key}')
 
