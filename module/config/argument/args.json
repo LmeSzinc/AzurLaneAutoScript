@@ -3783,14 +3783,15 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "raid_20220630",
+          "raid_20210708",
           "raid_20200624",
-          "raid_20220127",
-          "raid_20210708"
+          "raid_20220127"
         ],
-        "tw": "raid_20200624",
-        "cn": "raid_20220127",
-        "en": "raid_20220127",
-        "jp": "raid_20220127"
+        "cn": "raid_20220630",
+        "en": "raid_20220630",
+        "jp": "raid_20220630",
+        "tw": "raid_20210708"
       },
       "Mode": {
         "type": "hide",
@@ -3896,16 +3897,16 @@
         "value": false
       },
       "Fleet2Value": {
-        "type": "input",
+        "type": "hide",
         "value": 119
       },
       "Fleet2Record": {
-        "type": "disable",
+        "type": "hide",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Fleet2Control": {
-        "type": "select",
+        "type": "hide",
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
@@ -3915,7 +3916,7 @@
         ]
       },
       "Fleet2Recover": {
-        "type": "select",
+        "type": "hide",
         "value": "not_in_dormitory",
         "option": [
           "not_in_dormitory",
@@ -3924,7 +3925,7 @@
         ]
       },
       "Fleet2Oath": {
-        "type": "checkbox",
+        "type": "hide",
         "value": false
       }
     }
@@ -3972,14 +3973,15 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "raid_20220630",
+          "raid_20210708",
           "raid_20200624",
-          "raid_20220127",
-          "raid_20210708"
+          "raid_20220127"
         ],
-        "tw": "raid_20200624",
-        "cn": "raid_20220127",
-        "en": "raid_20220127",
-        "jp": "raid_20220127"
+        "cn": "raid_20220630",
+        "en": "raid_20220630",
+        "jp": "raid_20220630",
+        "tw": "raid_20210708"
       },
       "Mode": {
         "type": "hide",
@@ -4085,16 +4087,16 @@
         "value": false
       },
       "Fleet2Value": {
-        "type": "input",
+        "type": "hide",
         "value": 119
       },
       "Fleet2Record": {
-        "type": "disable",
+        "type": "hide",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Fleet2Control": {
-        "type": "select",
+        "type": "hide",
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
@@ -4104,7 +4106,7 @@
         ]
       },
       "Fleet2Recover": {
-        "type": "select",
+        "type": "hide",
         "value": "not_in_dormitory",
         "option": [
           "not_in_dormitory",
@@ -4113,7 +4115,7 @@
         ]
       },
       "Fleet2Oath": {
-        "type": "checkbox",
+        "type": "hide",
         "value": false
       }
     }

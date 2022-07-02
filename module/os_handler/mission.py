@@ -36,6 +36,9 @@ class MissionHandler(GlobeOperation, ZoneManager):
         zone = self.camera_to_zone(tuple(point))
         return zone
 
+    def is_in_os_mission(self):
+        return self.appear(MISSION_CHECK, offset=(20, 20))
+
     def os_mission_enter(self, skip_first_screenshot=True):
         """
         Enter mission list and claim mission reward.
@@ -69,7 +72,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
                 continue
 
             # End
-            if self.appear(MISSION_CHECK, offset=(20, 20)) \
+            if self.is_in_os_mission() \
                     and not self.appear(MISSION_FINISH, offset=(20, 20)) \
                     and not (self.appear(MISSION_CHECKOUT, offset=(20, 20))
                              and MISSION_CHECKOUT.match_appear_on(self.device.image)):
@@ -77,7 +80,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
                 if confirm_timer.reached():
                     logger.info('No OS mission found.')
                     break
-            elif self.appear(MISSION_CHECK, offset=(20, 20)) \
+            elif self.is_in_os_mission() \
                     and (self.appear(MISSION_CHECKOUT, offset=(20, 20))
                          and MISSION_CHECKOUT.match_appear_on(self.device.image)):
                 # Found one mission.
