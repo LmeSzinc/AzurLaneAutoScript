@@ -162,7 +162,7 @@ page_dorm.link(button=DORM_GOTO_MAIN, destination=page_main)
 # Meowfficer
 page_meowfficer = Page(MEOWFFICER_CHECK)
 page_dormmenu.link(button=DORMMENU_GOTO_MEOWFFICER, destination=page_meowfficer)
-page_meowfficer.link(button=MEOWFFICER_GOTO_DORM, destination=page_main)
+page_meowfficer.link(button=MEOWFFICER_GOTO_DORMMENU, destination=page_main)
 
 # Academy
 page_academy = Page(ACADEMY_CHECK)

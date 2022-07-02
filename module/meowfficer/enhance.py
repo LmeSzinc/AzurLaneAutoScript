@@ -5,7 +5,7 @@ from module.meowfficer.assets import *
 from module.meowfficer.base import MeowfficerBase
 from module.meowfficer.buy import MEOWFFICER_COINS
 from module.ocr.ocr import DigitCounter
-from module.ui.assets import MEOWFFICER_GOTO_DORM
+from module.ui.assets import MEOWFFICER_GOTO_DORMMENU
 from module.ui.page import page_meowfficer
 
 MEOWFFICER_SELECT_GRID = ButtonGrid(
@@ -304,7 +304,7 @@ class MeowfficerEnhance(MeowfficerBase):
             logger.hr('Enhance once', level=2)
             if not self.meow_feed_enter():
                 # Exit back into page_meowfficer
-                self.ui_click(MEOWFFICER_GOTO_DORM, check_button=MEOWFFICER_ENHANCE_ENTER,
+                self.ui_click(MEOWFFICER_GOTO_DORMMENU, check_button=MEOWFFICER_ENHANCE_ENTER,
                               appear_button=MEOWFFICER_ENHANCE_CONFIRM, offset=None, skip_first_screenshot=True)
                 # Re-enter page_meowfficer
                 self.ui_goto_main()
@@ -321,7 +321,7 @@ class MeowfficerEnhance(MeowfficerBase):
                 break
 
         # Exit back into page_meowfficer
-        self.ui_click(MEOWFFICER_GOTO_DORM, check_button=MEOWFFICER_ENHANCE_ENTER,
+        self.ui_click(MEOWFFICER_GOTO_DORMMENU, check_button=MEOWFFICER_ENHANCE_ENTER,
                       appear_button=MEOWFFICER_ENHANCE_CONFIRM, offset=None, skip_first_screenshot=True)
         return True
 

@@ -5,7 +5,7 @@ from module.logger import logger
 from module.meowfficer.assets import *
 from module.meowfficer.base import MeowfficerBase
 from module.ocr.ocr import Digit, DigitCounter
-from module.ui.assets import MEOWFFICER_GOTO_DORM
+from module.ui.assets import MEOWFFICER_GOTO_DORMMENU
 
 BUY_MAX = 15
 BUY_PRIZE = 1500
@@ -79,7 +79,7 @@ class MeowfficerBuy(MeowfficerBase):
 
                 if self.appear(MEOWFFICER_BUY, offset=(20, 20), interval=3):
                     if executed:
-                        self.device.click(MEOWFFICER_GOTO_DORM)
+                        self.device.click(MEOWFFICER_GOTO_DORMMENU)
                     else:
                         self.device.click(MEOWFFICER_BUY)
                     continue
