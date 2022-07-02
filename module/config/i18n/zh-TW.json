@@ -2096,10 +2096,11 @@
     },
     "Remote": {
       "Running": "運行中",
-      "NotRunning": "未運行",
+      "NotRunning": "未運行，与伺服器的連接斷開或伺服器離線",
       "NotEnable": "未啟用，在 deploy.yaml 中設定 webui 密碼並啟用遠程控制",
       "EntryPoint": "遠程控制 url 連結:",
-      "ConfigureHint": "配寘教程："
+      "ConfigureHint": "配寘教程：",
+      "SSHNotInstall": "系統中沒有 ssh 工具，請參閱教程下載安裝 ssh"
     },
     "Text": {
       "InvalidFeedBack": "格式錯誤。 示例：{0}"

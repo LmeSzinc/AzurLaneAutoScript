@@ -899,7 +899,7 @@ class AlasGUI(Frame):
                         put_link(name=entrypoint, url=entrypoint, scope="remote_info")
                 else:
                     put_text("Loading...", scope="remote_info")
-            elif state == 0:
+            elif state in (0, 3):
                 put_loading("border", "secondary", "remote_loading").style(
                     "--loading-border-fill--"
                 )
@@ -910,11 +910,13 @@ class AlasGUI(Frame):
                     put_text(t("Gui.Remote.NotRunning"), scope="remote_state")
                 else:
                     put_text(t("Gui.Remote.NotEnable"), scope="remote_state")
-                    put_text(t("Gui.Remote.ConfigureHint"), scope="remote_info")
-                    url = "http://app.azurlane.cloud" + (
-                        "/en.html" if State.deploy_config.Language != "zh-CN" else ""
-                    )
-                    put_html(f'<a href="{url}" target="_blank">{url}</a>', scope="remote_info")
+                put_text(t("Gui.Remote.ConfigureHint"), scope="remote_info")
+                url = "http://app.azurlane.cloud" + (
+                    "" if State.deploy_config.Language.startswith("zh") else "/en.html"
+                )
+                put_html(f'<a href="{url}" target="_blank">{url}</a>', scope="remote_info")
+                if state == 3:
+                    put_warning(t("Gui.Remote.SSHNotInstall"), closable=False, scope="remote_info")
 
         remote_switch = Switch(
             status=u, get_state=RemoteAccess.get_state, name="remote"

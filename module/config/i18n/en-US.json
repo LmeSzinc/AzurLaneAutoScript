@@ -2096,10 +2096,11 @@
     },
     "Remote": {
       "Running": "Remote access on",
-      "NotRunning": "Remote access is not running",
+      "NotRunning": "Not running, server disconnected or offline",
       "NotEnable": "Disabled, set webui password in deploy.yaml and enable remote access",
       "EntryPoint": "Entry point:",
-      "ConfigureHint": "Configuration tutorial:"
+      "ConfigureHint": "Configuration tutorial:",
+      "SSHNotInstall": "No SSH command in your system. Please refer to the tutorial to download or install one"
     },
     "Text": {
       "InvalidFeedBack": "Invalid format. Example: {0}"

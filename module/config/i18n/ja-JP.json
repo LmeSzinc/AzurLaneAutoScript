@@ -2099,7 +2099,8 @@
       "NotRunning": "Gui.Remote.NotRunning",
       "NotEnable": "Gui.Remote.NotEnable",
       "EntryPoint": "Gui.Remote.EntryPoint",
-      "ConfigureHint": "Gui.Remote.ConfigureHint"
+      "ConfigureHint": "Gui.Remote.ConfigureHint",
+      "SSHNotInstall": "Gui.Remote.SSHNotInstall"
     },
     "Text": {
       "InvalidFeedBack": "Gui.Text.InvalidFeedBack"

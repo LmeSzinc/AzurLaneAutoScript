@@ -83,6 +83,7 @@ Remote:
   NotEnable:
   EntryPoint:
   ConfigureHint:
+  SSHNotInstall:
 
 Text:
   InvalidFeedBack:

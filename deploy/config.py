@@ -48,6 +48,7 @@ class ConfigModel:
     EnableRemoteAccess: bool = False
     SSHUser: Optional[str] = None
     SSHServer: Optional[str] = None
+    SSHExecutable: Optional[str] = None
 
     # Webui
     WebuiHost: str = "0.0.0.0"

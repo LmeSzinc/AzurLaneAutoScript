@@ -112,6 +112,10 @@ Deploy:
     # [Default] null
     # [Format] host:port
     SSHServer: null
+    # Filepath of SSH executable `ssh.exe`
+    # [Default] ssh (find ssh in system PATH)
+    # If you don't have one, install OpenSSH or download it here (https://github.com/PowerShell/Win32-OpenSSH/releases)
+    SSHExecutable: ssh
 
   Webui:
     # --host. Host to listen

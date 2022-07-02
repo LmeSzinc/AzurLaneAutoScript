@@ -24,6 +24,7 @@ if TYPE_CHECKING:
 
 _ssh_process: Popen = None
 _ssh_thread: threading.Thread = None
+_ssh_notfound: bool = False
 address: str = None
 
 
@@ -54,16 +55,24 @@ def remote_access_service(
     :param server_port: ssh server port
     :param setup_timeout: If the service can't setup successfully in `setup_timeout` seconds, then exit.
     """
-    global _ssh_process
+    global _ssh_process, _ssh_notfound
 
-    cmd = f"ssh -oStrictHostKeyChecking=no -R {remote_port}:{local_host}:{local_port} -p {server_port} {server} -- --output json"
+    bin = State.deploy_config.SSHExecutable
+    cmd = f"{bin} -oStrictHostKeyChecking=no -R {remote_port}:{local_host}:{local_port} -p {server_port} {server} -- --output json"
     args = shlex.split(cmd)
     logger.debug(f"remote access service command: {cmd}")
 
     if _ssh_process is not None and _ssh_process.poll() is None:
-        logger.info(f"Kill previous ssh process [{_ssh_process.pid}]")
+        logger.warning(f"Kill previous ssh process [{_ssh_process.pid}]")
         _ssh_process.kill()
-    _ssh_process = Popen(args, stdout=PIPE, stderr=PIPE)
+    try:
+        _ssh_process = Popen(args, stdout=PIPE, stderr=PIPE)
+    except FileNotFoundError as e:
+        logger.critical(
+            f"Cannot find SSH executable {bin}, please install OpenSSH or specify SSHExecutable in deploy.yaml"
+        )
+        _ssh_notfound = True
+        return
     logger.info(f"remote access process pid: {_ssh_process.pid}")
     success = False
 
@@ -78,7 +87,7 @@ def remote_access_service(
     ).start()
 
     stdout = _ssh_process.stdout.readline().decode("utf8")
-    logger.debug(f"ssh server stdout: {stdout}")
+    logger.info(f"ssh server stdout: {stdout}")
     connection_info = {}
     try:
         connection_info = json.loads(stdout)
@@ -120,6 +129,8 @@ def start_remote_access_service_(**kwargs):
         remote_access_service(**kwargs)
     except KeyboardInterrupt:  # ignore KeyboardInterrupt
         pass
+    except Exception as e:
+        logger.exception(e)
     finally:
         if _ssh_process:
             logger.info("Exception occurred, killing ssh process")
@@ -202,6 +213,8 @@ class RemoteAccess:
                 return 1
             else:
                 return 2
+        elif _ssh_notfound:
+            return 3
         else:
             return 0
 
