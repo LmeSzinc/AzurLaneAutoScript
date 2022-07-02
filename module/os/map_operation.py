@@ -7,11 +7,12 @@ from module.ocr.ocr import Ocr
 from module.os.assets import *
 from module.os.globe_zone import Zone
 from module.os.map_fleet_selector import OSFleetSelector
-from module.os_handler.assets import AUTO_SEARCH_REWARD
+from module.os_handler.assets import AUTO_SEARCH_REWARD, EXCHANGE_CHECK
 from module.os_handler.map_order import MapOrderHandler
 from module.os_handler.mission import MissionHandler
 from module.os_handler.port import PortHandler
 from module.os_handler.storage import StorageHandler
+from module.ui.assets import BACK_ARROW
 
 
 class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandler, OSFleetSelector):
@@ -157,10 +158,6 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             if timeout.reached():
                 logger.warning('Zone init timeout')
                 break
-
-            if self.handle_map_event():
-                timeout.reset()
-                continue
             if self.is_in_map():
                 try:
                     return self.get_current_zone()
@@ -168,6 +165,20 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
                     continue
             else:
                 timeout.reset()
+
+            # Handle popups
+            if self.handle_map_event():
+                timeout.reset()
+                continue
+            # EXCHANGE_CHECK popups after monthly reset
+            if self.is_in_globe():
+                self.os_globe_goto_map()
+                timeout.reset()
+                continue
+            if self.appear(EXCHANGE_CHECK, offset=(30, 30), interval=3):
+                self.device.click(BACK_ARROW)
+                timeout.reset()
+                continue
 
         logger.warning('Unable to get zone name, get current zone from globe map instead')
         if hasattr(self, 'get_current_zone_from_globe'):
