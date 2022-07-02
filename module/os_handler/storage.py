@@ -12,13 +12,16 @@ SCROLL_STORAGE = Scroll(STORATE_SCROLL, color=(247, 211, 66))
 
 
 class StorageHandler(GlobeOperation, ZoneManager):
+    def is_in_storage(self):
+        return self.appear(STORAGE_CHECK, offset=(20, 20))
+
     def storage_enter(self):
         """
         Pages:
             in: is_in_map, STORAGE_ENTER
             out: STORAGE_CHECK
         """
-        self.ui_click(STORAGE_ENTER, check_button=STORAGE_CHECK,
+        self.ui_click(STORAGE_ENTER, check_button=self.is_in_storage,
                       retry_wait=3, offset=(200, 5), skip_first_screenshot=True)
         self.handle_info_bar()
 
