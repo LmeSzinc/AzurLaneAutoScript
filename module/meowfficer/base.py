@@ -79,6 +79,9 @@ class MeowfficerBase(UI):
             if self.appear_then_click(GET_ITEMS_1, offset=5, interval=3):
                 click_timer.reset()
                 continue
+            if self.meow_additional():
+                click_timer.reset()
+                continue
 
     def handle_meow_popup_confirm(self):
         """
