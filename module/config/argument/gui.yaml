@@ -40,6 +40,8 @@ MenuDevelop:
   HomePage:
   Translate:
   Update:
+  Remote:
+  Utils:
 
 Overview:
   Scheduler:
@@ -74,6 +76,14 @@ Update:
   Message:
   DisabledWarn:
   DetailedHistory:
+
+Remote:
+  Running:
+  NotRunning:
+  NotEnable:
+  EntryPoint:
+  ConfigureHint:
+  SSHNotInstall:
 
 Text:
   InvalidFeedBack:

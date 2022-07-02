@@ -2056,7 +2056,9 @@
     "MenuDevelop": {
       "HomePage": "Home",
       "Translate": "Translate",
-      "Update": "Updater"
+      "Update": "Updater",
+      "Remote": "Remote access",
+      "Utils": "Utils"
     },
     "Overview": {
       "Scheduler": "Scheduler",
@@ -2091,6 +2093,14 @@
       "Message": "Commit message",
       "DisabledWarn": "Updater module is disabled. You need to manually restart Alas to update",
       "DetailedHistory": "Detailed Commit History"
+    },
+    "Remote": {
+      "Running": "Remote access on",
+      "NotRunning": "Not running, server disconnected or offline",
+      "NotEnable": "Disabled, set webui password in deploy.yaml and enable remote access",
+      "EntryPoint": "Entry point:",
+      "ConfigureHint": "Configuration tutorial:",
+      "SSHNotInstall": "No SSH command in your system. Please refer to the tutorial to download or install one"
     },
     "Text": {
       "InvalidFeedBack": "Invalid format. Example: {0}"

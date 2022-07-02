@@ -2056,7 +2056,9 @@
     "MenuDevelop": {
       "HomePage": "Gui.MenuDevelop.HomePage",
       "Translate": "Gui.MenuDevelop.Translate",
-      "Update": "Gui.MenuDevelop.Update"
+      "Update": "Gui.MenuDevelop.Update",
+      "Remote": "Gui.MenuDevelop.Remote",
+      "Utils": "Gui.MenuDevelop.Utils"
     },
     "Overview": {
       "Scheduler": "Gui.Overview.Scheduler",
@@ -2091,6 +2093,14 @@
       "Message": "Gui.Update.Message",
       "DisabledWarn": "Gui.Update.DisabledWarn",
       "DetailedHistory": "Gui.Update.DetailedHistory"
+    },
+    "Remote": {
+      "Running": "Gui.Remote.Running",
+      "NotRunning": "Gui.Remote.NotRunning",
+      "NotEnable": "Gui.Remote.NotEnable",
+      "EntryPoint": "Gui.Remote.EntryPoint",
+      "ConfigureHint": "Gui.Remote.ConfigureHint",
+      "SSHNotInstall": "Gui.Remote.SSHNotInstall"
     },
     "Text": {
       "InvalidFeedBack": "Gui.Text.InvalidFeedBack"

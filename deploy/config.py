@@ -44,6 +44,12 @@ class ConfigModel:
     # Misc
     DiscordRichPresence: bool = False
 
+    # Remote Access
+    EnableRemoteAccess: bool = False
+    SSHUser: Optional[str] = None
+    SSHServer: Optional[str] = None
+    SSHExecutable: Optional[str] = None
+
     # Webui
     WebuiHost: str = "0.0.0.0"
     WebuiPort: int = 22267
