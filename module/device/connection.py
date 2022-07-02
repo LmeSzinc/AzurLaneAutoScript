@@ -495,6 +495,7 @@ class Connection(ConnectionAttr):
         self.adb_shell(["rm", "/data/local/tmp/minicap"])
         self.adb_shell(["rm", "/data/local/tmp/minicap.so"])
 
+    @Config.when(DEVICE_OVER_HTTP=False)
     def restart_atx(self):
         """
         Minitouch supports only one connection at a time.
@@ -504,6 +505,13 @@ class Connection(ConnectionAttr):
         atx_agent_path = '/data/local/tmp/atx-agent'
         self.adb_shell([atx_agent_path, 'server', '--stop'])
         self.adb_shell([atx_agent_path, 'server', '--nouia', '-d', '--addr', '127.0.0.1:7912'])
+
+    @Config.when(DEVICE_OVER_HTTP=True)
+    def restart_atx(self):
+        logger.warning(
+            f'When connecting a device over http: {self.serial} '
+            f'restart_atx() is skipped, you may need to restart ATX manually'
+        )
 
     @staticmethod
     def sleep(second):

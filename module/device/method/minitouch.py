@@ -1,10 +1,15 @@
+import asyncio
+import json
+import re
 import socket
 import time
 from functools import wraps
+from typing import List
 
+import websockets
 from adbutils.errors import AdbError
 
-from module.base.decorator import cached_property
+from module.base.decorator import cached_property, Config
 from module.base.timer import Timer
 from module.base.utils import *
 from module.device.connection import Connection
@@ -114,7 +119,7 @@ class Command:
         self.ms = ms
         self.pressure = pressure
 
-    def to_minitouch_string(self):
+    def to_minitouch(self) -> str:
         """
         String that write into minitouch socket
         """
@@ -133,25 +138,27 @@ class Command:
         else:
             return ''
 
-    def to_atx_agent_dict(self):
+    def to_atx_agent(self, max_x=1280, max_y=720) -> str:
         """
         Dict that send to atx-agent, $DEVICE_URL/minitouch
         See https://github.com/openatx/atx-agent#minitouch%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95
         """
+        x, y = self.x / max_x, self.y / max_y
         if self.operation == 'c':
-            return dict(operation=self.operation)
+            out = dict(operation=self.operation)
         elif self.operation == 'r':
-            return dict(operation=self.operation)
+            out = dict(operation=self.operation)
         elif self.operation == 'd':
-            return dict(operation=self.operation, index=self.contact, xP=self.x, yP=self.y, pressure=self.pressure)
+            out = dict(operation=self.operation, index=self.contact, pressure=self.pressure, xP=x, yP=y)
         elif self.operation == 'm':
-            return dict(operation=self.operation, index=self.contact, xP=self.x, yP=self.y, pressure=self.pressure)
+            out = dict(operation=self.operation, index=self.contact, pressure=self.pressure, xP=x, yP=y)
         elif self.operation == 'u':
-            return dict(operation=self.operation, index=self.contact)
+            out = dict(operation=self.operation, index=self.contact)
         elif self.operation == 'w':
-            return dict(operation=self.operation, milliseconds=self.ms)
+            out = dict(operation=self.operation, milliseconds=self.ms)
         else:
-            return dict()
+            out = dict()
+        return json.dumps(out)
 
 
 class CommandBuilder:
@@ -209,6 +216,11 @@ class CommandBuilder:
         self.commands.append(Command('c'))
         return self
 
+    def reset(self):
+        """ add minitouch command: 'r\n' """
+        self.commands.append(Command('r'))
+        return self
+
     def wait(self, ms=10):
         """ add minitouch command: 'w <ms>\n' """
         self.commands.append(Command('w', ms=ms))
@@ -232,16 +244,16 @@ class CommandBuilder:
         self.commands.append(Command('m', x=x, y=y, contact=contact, pressure=pressure))
         return self
 
-    def reset(self):
+    def clear(self):
         """ clear current commands """
         self.commands = []
         self.delay = 0
 
-    def to_minitouch_string(self):
-        return ''.join([command.to_minitouch_string() for command in self.commands])
+    def to_minitouch(self) -> str:
+        return ''.join([command.to_minitouch() for command in self.commands])
 
-    def to_atx_agent_dict(self):
-        return [command.to_atx_agent_dict() for command in self.commands]
+    def to_atx_agent(self) -> List[str]:
+        return [command.to_atx_agent(self.device.max_x, self.device.max_y) for command in self.commands]
 
 
 class MinitouchNotInstalledError(Exception):
@@ -330,9 +342,10 @@ def retry(func):
 
 
 class Minitouch(Connection):
-    _minitouch_port: int
+    _minitouch_port: int = 0
     _minitouch_client: socket.socket
     _minitouch_pid: int
+    _minitouch_ws: websockets.WebSocketClientProtocol
     max_x: int
     max_y: int
 
@@ -341,9 +354,12 @@ class Minitouch(Connection):
         self.minitouch_init()
         return CommandBuilder(self)
 
+    @Config.when(DEVICE_OVER_HTTP=False)
     def minitouch_init(self):
         logger.hr('MiniTouch init')
-
+        max_x, max_y = 1280, 720
+        max_contacts = 2
+        max_pressure = 50
         self.get_orientation()
 
         self._minitouch_port = self.adb_forward("localabstract:minitouch")
@@ -411,14 +427,66 @@ class Minitouch(Connection):
             )
         )
 
+    @Config.when(DEVICE_OVER_HTTP=False)
     def minitouch_send(self):
-        content = self.minitouch_builder.to_minitouch_string()
+        content = self.minitouch_builder.to_minitouch()
         # logger.info("send operation: {}".format(content.replace("\n", "\\n")))
         byte_content = content.encode('utf-8')
         self._minitouch_client.sendall(byte_content)
         self._minitouch_client.recv(0)
         time.sleep(self.minitouch_builder.delay / 1000 + self.minitouch_builder.DEFAULT_DELAY)
-        self.minitouch_builder.reset()
+        self.minitouch_builder.clear()
+
+    @cached_property
+    def _minitouch_loop(self):
+        return asyncio.get_event_loop()
+
+    def _minitouch_loop_run(self, event):
+        """
+        Args:
+            event: Async function
+
+        Raises:
+            MinitouchOccupiedError
+        """
+        try:
+            return self._minitouch_loop.run_until_complete(event)
+        except websockets.ConnectionClosedError as e:
+            # ConnectionClosedError: no close frame received or sent
+            logger.error(e)
+            raise MinitouchOccupiedError(
+                'ConnectionClosedError, '
+                'probably because another connection has been established'
+            )
+
+    @Config.when(DEVICE_OVER_HTTP=True)
+    def minitouch_init(self):
+        logger.hr('MiniTouch init')
+        self.max_x, self.max_y = 1280, 720
+        self.get_orientation()
+
+        # 'ws://127.0.0.1:7912/minitouch'
+        url = re.sub(r"^https?://", 'ws://', self.serial) + '/minitouch'
+        logger.attr('Minitouch', url)
+
+        async def connect():
+            return await websockets.connect(url)
+
+        self._minitouch_ws = self._minitouch_loop_run(connect())
+
+    @Config.when(DEVICE_OVER_HTTP=True)
+    def minitouch_send(self):
+        content = self.minitouch_builder.to_atx_agent()
+
+        # logger.info("send operation: {}".format(content.replace("\n", "\\n")))
+
+        async def send():
+            for row in content:
+                await self._minitouch_ws.send(row)
+
+        self._minitouch_loop_run(send())
+        time.sleep(self.minitouch_builder.delay / 1000 + self.minitouch_builder.DEFAULT_DELAY)
+        self.minitouch_builder.clear()
 
     @retry
     def click_minitouch(self, x, y):
