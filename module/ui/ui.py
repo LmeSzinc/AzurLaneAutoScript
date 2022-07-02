@@ -18,7 +18,7 @@ from module.raid.assets import RAID_FLEET_PREPARATION
 from module.ui.assets import (BACK_ARROW, DORM_FEED_CANCEL, DORM_INFO,
                               DORM_TROPHY_CONFIRM, EVENT_LIST_CHECK, GOTO_MAIN,
                               MEOWFFICER_INFO, MEOWFFICER_GOTO_DORMMENU, META_CHECK,
-                              PLAYER_CHECK, SHIPYARD_CHECK)
+                              PLAYER_CHECK, SHIPYARD_CHECK, SHOP_GOTO_SUPPLY_PACK)
 from module.ui.page import (Page, page_academy, page_archives,
                             page_battle_pass, page_build, page_campaign,
                             page_campaign_menu, page_commission, page_daily,
@@ -532,3 +532,5 @@ class UI(InfoHandler):
         """
         if button == MEOWFFICER_GOTO_DORMMENU:
             self.interval_reset(GET_SHIP)
+        if button == SHOP_GOTO_SUPPLY_PACK:
+            self.interval_reset(EXCHANGE_CHECK)
