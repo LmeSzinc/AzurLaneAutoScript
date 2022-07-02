@@ -180,6 +180,8 @@ class CommandBuilder:
 
     """
     DEFAULT_DELAY = 0.05
+    max_x = 1280
+    max_y = 720
 
     def __init__(self, device):
         """
@@ -207,8 +209,13 @@ class CommandBuilder:
         else:
             raise ScriptError(f'Invalid device orientation: {orientation}')
 
-        # Maximum X and Y coordinates may, but usually do not, match the display size.
-        x, y = int(x / 1280 * max_x), int(y / 720 * max_y)
+        self.max_x, self.max_y = max_x, max_y
+        if not self.device.config.DEVICE_OVER_HTTP:
+            # Maximum X and Y coordinates may, but usually do not, match the display size.
+            x, y = int(x / 1280 * max_x), int(y / 720 * max_y)
+        else:
+            # When over http, max_x and max_y are default to 1280 and 720, skip matching display size
+            x, y = int(x), int(y)
         return x, y
 
     def commit(self):
@@ -253,7 +260,7 @@ class CommandBuilder:
         return ''.join([command.to_minitouch() for command in self.commands])
 
     def to_atx_agent(self) -> List[str]:
-        return [command.to_atx_agent(self.device.max_x, self.device.max_y) for command in self.commands]
+        return [command.to_atx_agent(self.max_x, self.max_y) for command in self.commands]
 
 
 class MinitouchNotInstalledError(Exception):
@@ -439,7 +446,7 @@ class Minitouch(Connection):
 
     @cached_property
     def _minitouch_loop(self):
-        return asyncio.get_event_loop()
+        return asyncio.new_event_loop()
 
     def _minitouch_loop_run(self, event):
         """
@@ -478,10 +485,9 @@ class Minitouch(Connection):
     def minitouch_send(self):
         content = self.minitouch_builder.to_atx_agent()
 
-        # logger.info("send operation: {}".format(content.replace("\n", "\\n")))
-
         async def send():
             for row in content:
+                # logger.info("send operation: {}".format(row.replace("\n", "\\n")))
                 await self._minitouch_ws.send(row)
 
         self._minitouch_loop_run(send())
