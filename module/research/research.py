@@ -229,7 +229,7 @@ class RewardResearch(ResearchSelector):
 
         with self.stat.new(
                 genre='research', method=self.config.DropRecord_ResearchRecord
-                ) as record:
+        ) as record:
             # Take screenshots of project list
             record.add(self.device.image)
 
@@ -243,7 +243,7 @@ class RewardResearch(ResearchSelector):
                     self.device.screenshot()
 
                 if self.appear(RESEARCH_CHECK, interval=10):
-                    if self._research_has_finished_at(self._research_finished_index):
+                    if self.research_has_finished():
                         self.device.click(RESEARCH_ENTRANCE[self._research_finished_index])
 
                 if self.appear(RESEARCH_STOP, offset=(20, 20)):
@@ -251,6 +251,10 @@ class RewardResearch(ResearchSelector):
                     self.research_project_started = None
                     self.research_detail_quit()
                     return False
+                # Entered another project accidentally
+                if self.appear(RESEARCH_START, offset=(20, 20), interval=5):
+                    self.device.click(RESEARCH_DETAIL_QUIT)
+                    continue
 
                 appear_button = get_items()
                 if appear_button is not None:

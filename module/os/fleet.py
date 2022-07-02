@@ -292,6 +292,17 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 self.os_globe_goto_map()
                 confirm_timer.reset()
                 continue
+            if self.is_in_storage():
+                self.storage_quit()
+                confirm_timer.reset()
+                continue
+            if self.is_in_os_mission():
+                self.os_mission_quit()
+                confirm_timer.reset()
+                continue
+            if self.handle_os_game_tips():
+                confirm_timer.reset()
+                continue
 
             # Enemy searching
             if not enemy_searching_appear and self.enemy_searching_appear():
