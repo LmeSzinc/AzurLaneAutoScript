@@ -8,6 +8,7 @@ from typing import List
 
 import websockets
 from adbutils.errors import AdbError
+from uiautomator2 import _Service
 
 from module.base.decorator import cached_property, Config
 from module.base.timer import Timer
@@ -271,6 +272,13 @@ class MinitouchOccupiedError(Exception):
     pass
 
 
+class U2Service(_Service):
+    def __init__(self, name, u2obj):
+        self.name = name
+        self.u2obj = u2obj
+        self.service_url = self.u2obj.path2url("/services/" + name)
+
+
 def retry(func):
     @wraps(func)
     def retry_wrapper(self, *args, **kwargs):
@@ -472,12 +480,32 @@ class Minitouch(Connection):
         self.max_x, self.max_y = 1280, 720
         self.get_orientation()
 
+        logger.info('Stop minitouch service')
+        s = U2Service('minitouch', self.u2)
+        s.stop()
+        while 1:
+            if not s.running():
+                break
+            self.sleep(0.05)
+
+        logger.info('Start minitouch service')
+        s.start()
+        while 1:
+            if s.running():
+                break
+            self.sleep(0.05)
+
         # 'ws://127.0.0.1:7912/minitouch'
         url = re.sub(r"^https?://", 'ws://', self.serial) + '/minitouch'
         logger.attr('Minitouch', url)
 
         async def connect():
-            return await websockets.connect(url)
+            ws = await websockets.connect(url)
+            # start @minitouch service
+            logger.info(await ws.recv())
+            # dial unix:@minitouch
+            logger.info(await ws.recv())
+            return ws
 
         self._minitouch_ws = self._minitouch_loop_run(connect())
 

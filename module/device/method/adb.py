@@ -6,6 +6,7 @@ import numpy as np
 from adbutils.errors import AdbError
 from lxml import etree
 
+from module.base.decorator import Config
 from module.device.connection import Connection
 from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
                                         handle_adb_error, PackageNotInstalled)
@@ -62,6 +63,26 @@ def retry(func):
     return retry_wrapper
 
 
+def load_screencap(data):
+    """
+    Args:
+        data: Raw data from `screencap`
+
+    Returns:
+        np.ndarray:
+    """
+    # Load data
+    header = np.frombuffer(data[0:12], dtype=np.uint32)
+    channel = 4  # screencap sends an RGBA image
+    width, height, _ = header  # Usually to be 1280, 720, 1
+
+    image = np.frombuffer(data, dtype=np.uint8)
+    shape = image.shape[0]
+    image = image[shape - width * height * channel:].reshape(height, width, channel)
+    image = cv2.cvtColor(image, cv2.COLOR_BGRA2BGR)
+    return image
+
+
 class Adb(Connection):
     __screenshot_method = [0, 1, 2]
     __screenshot_method_fixed = [0, 1, 2]
@@ -105,10 +126,22 @@ class Adb(Connection):
         raise OSError(f'cannot load screenshot')
 
     @retry
+    @Config.when(DEVICE_OVER_HTTP=False)
     def screenshot_adb(self):
-        content = self.adb_shell(['screencap', '-p'], stream=True)
+        data = self.adb_shell(['screencap', '-p'], stream=True)
+        if len(data) < 500:
+            logger.warning(f'Unexpected screenshot: {data}')
 
-        return self.__process_screenshot(content)
+        return self.__process_screenshot(data)
+
+    @retry
+    @Config.when(DEVICE_OVER_HTTP=True)
+    def screenshot_adb(self):
+        data = self.adb_shell(['screencap'], stream=True)
+        if len(data) < 500:
+            logger.warning(f'Unexpected screenshot: {data}')
+
+        return load_screencap(data)
 
     @retry
     def screenshot_adb_nc(self):
@@ -116,17 +149,7 @@ class Adb(Connection):
         if len(data) < 500:
             logger.warning(f'Unexpected screenshot: {data}')
 
-        # Load data
-        header = np.frombuffer(data[0:12], dtype=np.uint32)
-        channel = 4  # screencap sends an RGBA image
-        width, height, _ = header  # Usually to be 1280, 720, 1
-
-        image = np.frombuffer(data, dtype=np.uint8)
-        shape = image.shape[0]
-        image = image[shape - width * height * channel:].reshape(height, width, channel)
-        image = cv2.cvtColor(image, cv2.COLOR_BGRA2BGR)
-
-        return image
+        return load_screencap(data)
 
     @retry
     def click_adb(self, x, y):
