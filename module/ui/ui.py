@@ -17,8 +17,8 @@ from module.os_handler.assets import (EXCHANGE_CHECK, RESET_FLEET_PREPARATION,
 from module.raid.assets import RAID_FLEET_PREPARATION
 from module.ui.assets import (BACK_ARROW, DORM_FEED_CANCEL, DORM_INFO,
                               DORM_TROPHY_CONFIRM, EVENT_LIST_CHECK, GOTO_MAIN,
-                              MEOWFFICER_INFO, META_CHECK, PLAYER_CHECK,
-                              SHIPYARD_CHECK)
+                              MEOWFFICER_INFO, MEOWFFICER_GOTO_DORMMENU, META_CHECK,
+                              PLAYER_CHECK, SHIPYARD_CHECK, SHOP_GOTO_SUPPLY_PACK)
 from module.ui.page import (Page, page_academy, page_archives,
                             page_battle_pass, page_build, page_campaign,
                             page_campaign_menu, page_commission, page_daily,
@@ -260,7 +260,9 @@ class UI(InfoHandler):
                     continue
                 if self.appear(page.check_button, offset=offset, interval=5):
                     logger.info(f'Page switch: {page} -> {page.parent}')
-                    self.device.click(page.links[page.parent])
+                    button = page.links[page.parent]
+                    self.device.click(button)
+                    self.ui_button_interval_reset(button)
                     confirm_timer.reset()
                     clicked = True
                     break
@@ -520,3 +522,15 @@ class UI(InfoHandler):
             return True
 
         return False
+
+    def ui_button_interval_reset(self, button):
+        """
+        Reset interval of some button to avoid mistaken clicks
+
+        Args:
+            button (Button):
+        """
+        if button == MEOWFFICER_GOTO_DORMMENU:
+            self.interval_reset(GET_SHIP)
+        if button == SHOP_GOTO_SUPPLY_PACK:
+            self.interval_reset(EXCHANGE_CHECK)
