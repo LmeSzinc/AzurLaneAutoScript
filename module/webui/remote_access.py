@@ -17,6 +17,7 @@ from subprocess import PIPE, Popen
 from typing import TYPE_CHECKING
 
 from module.logger import logger
+from module.config.utils import random_id
 from module.webui.setting import State
 
 if TYPE_CHECKING:
@@ -158,9 +159,11 @@ def start_remote_access_service(**kwagrs):
     else:
         local_host = State.deploy_config.WebuiHost
 
-    if State.deploy_config.SSHUser:
-        server = f"{State.deploy_config.SSHUser}@{server}"
+    if State.deploy_config.SSHUser is None:
+        logger.info("SSHUser is not set, generate a random one")
+        State.deploy_config.SSHUser = random_id(24)
 
+    server = f"{State.deploy_config.SSHUser}@{server}"
     kwagrs.setdefault("server", server)
     kwagrs.setdefault("server_port", server_port)
     kwagrs.setdefault("local_host", local_host)
