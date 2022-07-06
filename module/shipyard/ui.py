@@ -339,7 +339,8 @@ class ShipyardUI(UI):
         Returns:
             bool whether entered
         """
-        if self.appear(SHIPYARD_RESEARCH_INCOMPLETE, offset=(20, 20)):
+        if self.appear(SHIPYARD_RESEARCH_INCOMPLETE, offset=(20, 20)) or \
+           self.appear(SHIPYARD_RESEARCH_IN_PROGRESS, offset=(20, 20)):
             logger.warning('Cannot enter buy interface, focused '
                            'ship has not yet been fully researched')
             return False
