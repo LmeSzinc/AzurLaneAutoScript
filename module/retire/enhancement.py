@@ -129,9 +129,12 @@ class Enhancement(Dock):
             True if able to enhance otherwise False
             Always paired with current ship_count
         """
+        need_to_skip : bool = False
 
         def state_enhance_check():
             # Check the base case, switch to ready if enhancement can continue
+            nonlocal need_to_skip
+            need_to_skip = False
             if ship_count <= 0:
                 logger.info(
                     'Reached maximum number to check, exiting current category')
@@ -183,6 +186,8 @@ class Enhancement(Dock):
             elif self.info_bar_count():
                 logger.info(
                     'Enhancement impossible, ship currently in battle. Swiping to next ship if feasible')
+                nonlocal need_to_skip
+                need_to_skip = True
                 return "state_enhance_fail"
             elif self.handle_popup_confirm('ENHANCE'):
                 logger.info('Trying a temporary ship')
@@ -197,8 +202,9 @@ class Enhancement(Dock):
 
             # Try to swipe to next
             if self.equip_view_next(check_button=ENHANCE_RECOMMEND):
-                nonlocal ship_count
-                ship_count -= 1
+                if not need_to_skip:
+                    nonlocal ship_count
+                    ship_count -= 1
                 return "state_enhance_check"
             else:
                 # Avoid a misjudgement caused by broken network
