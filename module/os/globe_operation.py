@@ -125,6 +125,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
         return self.appear(ZONE_SWITCH, offset=(5, 5))
 
     _zone_select_offset = (20, 200)
+    _zone_select_similarity = 0.75
 
     def get_zone_select(self):
         """
@@ -134,7 +135,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
         # Lower threshold to 0.75
         # Don't know why buy but fonts are different sometimes
         return [select for select in ZONE_SELECT if
-                self.appear(select, offset=self._zone_select_offset, threshold=0.75)]
+                self.appear(select, offset=self._zone_select_offset, threshold=self._zone_select_similarity)]
 
     def is_in_zone_select(self):
         """
@@ -178,7 +179,11 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             in: is_in_zone_select
             out: is_zone_pinned
         """
-        self.ui_click(button, check_button=self.is_zone_pinned, offset=self._zone_select_offset,
+
+        def appear():
+            return self.appear(button, offset=self._zone_select_offset, threshold=self._zone_select_similarity)
+
+        self.ui_click(button, appear_button=appear, check_button=self.is_zone_pinned,
                       skip_first_screenshot=True)
 
     def zone_type_select(self, types=('SAFE', 'DANGEROUS')):

@@ -351,6 +351,7 @@ class RewardTacticalClass(UI):
                     self.interval_clear(TACTICAL_CHECK)
                     if empty_confirm.reached():
                         self.device.click(BACK_ARROW)
+                        empty_confirm.reset()
                         received = True
                         continue
             else:
