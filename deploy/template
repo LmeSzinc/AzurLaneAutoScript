@@ -100,6 +100,23 @@ Deploy:
     # Enable discord rich presence
     DiscordRichPresence: false
 
+  RemoteAccess:
+    # Enable remote access (using ssh reverse tunnel serve by https://github.com/wang0618/localshare)
+    # ! You need to set Password below to enable remote access since everyone can access to your alas if they have your url.
+    # See here (http://app.azurlane.cloud/en.html) for more infomation.
+    EnableRemoteAccess: false
+    # Username when login into ssh server
+    # [Default] null (will generate a random one when startup)
+    SSHUser: null
+    # Server to connect
+    # [Default] null
+    # [Format] host:port
+    SSHServer: null
+    # Filepath of SSH executable `ssh.exe`
+    # [Default] ssh (find ssh in system PATH)
+    # If you don't have one, install OpenSSH or download it here (https://github.com/PowerShell/Win32-OpenSSH/releases)
+    SSHExecutable: ssh
+
   Webui:
     # --host. Host to listen
     # [Use IPv6] '::'

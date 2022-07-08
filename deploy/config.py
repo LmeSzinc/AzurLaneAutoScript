@@ -44,6 +44,12 @@ class ConfigModel:
     # Misc
     DiscordRichPresence: bool = False
 
+    # Remote Access
+    EnableRemoteAccess: bool = False
+    SSHUser: Optional[str] = None
+    SSHServer: Optional[str] = None
+    SSHExecutable: Optional[str] = None
+
     # Webui
     WebuiHost: str = "0.0.0.0"
     WebuiPort: int = 22267
@@ -69,7 +75,7 @@ class DeployConfig(ConfigModel):
     def show_config(self):
         logger.hr("Show deploy config", 1)
         for k, v in self.config.items():
-            if k in ("Password"):
+            if k in ("Password", "SSHUser"):
                 continue
             if self.config_template[k] == v:
                 continue

@@ -2056,7 +2056,9 @@
     "MenuDevelop": {
       "HomePage": "主页",
       "Translate": "翻译",
-      "Update": "更新器"
+      "Update": "更新器",
+      "Remote": "远程控制",
+      "Utils": "工具"
     },
     "Overview": {
       "Scheduler": "调度器",
@@ -2091,6 +2093,14 @@
       "Message": "提交信息",
       "DisabledWarn": "更新模块未启用，你需要手动重启 Alas 进行更新",
       "DetailedHistory": "详细提交历史"
+    },
+    "Remote": {
+      "Running": "运行中",
+      "NotRunning": "未运行，与服务器的连接断开或服务器离线",
+      "NotEnable": "未启用，在 deploy.yaml 中设置 webui 密码并启用远程控制",
+      "EntryPoint": "远程访问 url 地址:",
+      "ConfigureHint": "配置教程：",
+      "SSHNotInstall": "系统中没有 ssh 工具，请参考教程下载或安装 ssh"
     },
     "Text": {
       "InvalidFeedBack": "格式错误。 示例：{0}"

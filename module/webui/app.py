@@ -5,20 +5,19 @@ import time
 from datetime import datetime
 from typing import Dict, List
 
-from pywebio import config as webconfig
-from pywebio.exceptions import SessionClosedException
-from pywebio.output import (clear, close_popup, popup, put_button, put_buttons,
-                            put_collapse, put_column, put_error, put_html,
-                            put_loading, put_markdown, put_row, put_scope,
-                            put_table, put_text, put_warning, toast, use_scope)
-from pywebio.pin import pin, pin_wait_change
-from pywebio.session import go_app, info, register_thread, run_js, set_env
-
 import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
-from module.config.utils import (alas_instance, deep_get, deep_iter, deep_set,
-                                 dict_to_kv, filepath_args, filepath_config,
-                                 read_file, write_file)
+from module.config.utils import (
+    alas_instance,
+    deep_get,
+    deep_iter,
+    deep_set,
+    dict_to_kv,
+    filepath_args,
+    filepath_config,
+    read_file,
+    write_file,
+)
 from module.logger import logger
 from module.ocr.rpc import start_ocr_server_process, stop_ocr_server_process
 from module.webui.base import Frame
@@ -27,15 +26,55 @@ from module.webui.fastapi import asgi_app
 from module.webui.lang import _t, t
 from module.webui.pin import put_input, put_select
 from module.webui.process_manager import ProcessManager
+from module.webui.remote_access import RemoteAccess
 from module.webui.setting import State
 from module.webui.translate import translate
 from module.webui.updater import updater
-from module.webui.utils import (Icon, Switch, TaskHandler, add_css,
-                                filepath_css, get_localstorage,
-                                get_window_visibility_state, login,
-                                parse_pin_value, raise_exception, re_fullmatch)
-from module.webui.widgets import (BinarySwitchButton, RichLog, get_output,
-                                  put_icon_buttons, put_none)
+from module.webui.utils import (
+    Icon,
+    Switch,
+    TaskHandler,
+    add_css,
+    filepath_css,
+    get_localstorage,
+    get_window_visibility_state,
+    login,
+    parse_pin_value,
+    raise_exception,
+    re_fullmatch,
+)
+from module.webui.widgets import (
+    BinarySwitchButton,
+    RichLog,
+    get_output,
+    put_icon_buttons,
+    put_none,
+)
+from pywebio import config as webconfig
+from pywebio.exceptions import SessionClosedException
+from pywebio.output import (
+    clear,
+    close_popup,
+    popup,
+    put_button,
+    put_buttons,
+    put_collapse,
+    put_column,
+    put_error,
+    put_html,
+    put_link,
+    put_loading,
+    put_markdown,
+    put_row,
+    put_scope,
+    put_table,
+    put_text,
+    put_warning,
+    toast,
+    use_scope,
+)
+from pywebio.pin import pin, pin_wait_change
+from pywebio.session import go_app, info, register_thread, run_js, set_env
 
 task_handler = TaskHandler()
 
@@ -420,10 +459,10 @@ class AlasGUI(Frame):
                             valid.append(self.path_to_idx[k])
 
                             # update Emotion Record if Emotion Value is changed
-                            if 'Emotion' in k and 'Value' in k:
-                                k = k.split('.')
-                                k[-1] = k[-1].replace('Value', 'Record')
-                                k = '.'.join(k)
+                            if "Emotion" in k and "Value" in k:
+                                k = k.split(".")
+                                k[-1] = k[-1].replace("Value", "Record")
+                                k = ".".join(k)
                                 v = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                                 modified[k] = v
                                 deep_set(config, k, v)
@@ -608,7 +647,9 @@ class AlasGUI(Frame):
         self.init_menu(collapse_menu=False, name="Develop")
 
         put_button(
-            label=t("Gui.MenuDevelop.HomePage"), onclick=self.show, color="menu"
+            label=t("Gui.MenuDevelop.HomePage"),
+            onclick=self.show,
+            color="menu",
         ).style(f"--menu-HomePage--")
 
         # put_button(
@@ -618,28 +659,22 @@ class AlasGUI(Frame):
         # ).style(f"--menu-Translate--")
 
         put_button(
-            label=t("Gui.MenuDevelop.Update"), onclick=self.dev_update, color="menu"
+            label=t("Gui.MenuDevelop.Update"),
+            onclick=self.dev_update,
+            color="menu",
         ).style(f"--menu-Update--")
 
-        # put_button(
-        #     label="Raise exception",
-        #     onclick=raise_exception,
-        #     color="menu"
-        # ).style(f'--menu-Raise--')
-
-        def _force_restart():
-            if State.restart_event is not None:
-                toast("Alas will restart in 3 seconds", duration=0, color="error")
-                clearup()
-                State.restart_event.set()
-            else:
-                toast("Reload not enabled", color="error")
+        put_button(
+            label=t("Gui.MenuDevelop.Remote"),
+            onclick=self.dev_remote,
+            color="menu",
+        ).style(f"--menu-Remote--")
 
         put_button(
-            label="Force restart",
-            onclick=_force_restart,
+            label=t("Gui.MenuDevelop.Utils"),
+            onclick=self.dev_utils,
             color="menu",
-        ).style(f'--menu-Restart--')
+        ).style(f"--menu-Utils--")
 
     def dev_translate(self) -> None:
         go_app("translate", new_window=True)
@@ -684,11 +719,10 @@ class AlasGUI(Frame):
             with use_scope("updater_detail", clear=True):
                 put_text(t("Gui.Update.DetailedHistory"))
                 history = updater.get_commit(
-                    f"origin/{updater.Branch}", n=20, short_sha1=True)
+                    f"origin/{updater.Branch}", n=20, short_sha1=True
+                )
                 put_table(
-                    [
-                        commit for commit in history
-                    ],
+                    [commit for commit in history],
                     header=[
                         "SHA1",
                         t("Gui.Update.Author"),
@@ -816,6 +850,79 @@ class AlasGUI(Frame):
         self.task_handler.add(updater_switch.g(), delay=0.5, pending_delete=True)
 
         updater.check_update()
+
+    @use_scope("content", clear=True)
+    def dev_utils(self) -> None:
+        self.init_menu(name="Utils")
+        self.set_title(t("Gui.MenuDevelop.Utils"))
+        put_button(label="Raise exception", onclick=raise_exception)
+
+        def _force_restart():
+            if State.restart_event is not None:
+                toast("Alas will restart in 3 seconds", duration=0, color="error")
+                clearup()
+                State.restart_event.set()
+            else:
+                toast("Reload not enabled", color="error")
+
+        put_button(label="Force restart", onclick=_force_restart)
+
+    @use_scope("content", clear=True)
+    def dev_remote(self) -> None:
+        self.init_menu(name="Remote")
+        self.set_title(t("Gui.MenuDevelop.Remote"))
+        put_row(
+            content=[put_scope("remote_loading"), None, put_scope("remote_state")],
+            size="auto .25rem 1fr",
+        )
+        put_scope("remote_info")
+
+        def u(state):
+            if state == -1:
+                return
+            clear("remote_loading")
+            clear("remote_state")
+            clear("remote_info")
+            if state in (1, 2):
+                put_loading("grow", "success", "remote_loading").style(
+                    "--loading-grow--"
+                )
+                put_text(t("Gui.Remote.Running"), scope="remote_state")
+                put_text(t("Gui.Remote.EntryPoint"), scope="remote_info")
+                entrypoint = RemoteAccess.get_entry_point()
+                if entrypoint:
+                    if State.electron:  # Prevent click into url in electron client
+                        put_text(entrypoint, scope="remote_info").style(
+                            "text-decoration-line: underline"
+                        )
+                    else:
+                        put_link(name=entrypoint, url=entrypoint, scope="remote_info")
+                else:
+                    put_text("Loading...", scope="remote_info")
+            elif state in (0, 3):
+                put_loading("border", "secondary", "remote_loading").style(
+                    "--loading-border-fill--"
+                )
+                if (
+                    State.deploy_config.EnableRemoteAccess
+                    and State.deploy_config.Password
+                ):
+                    put_text(t("Gui.Remote.NotRunning"), scope="remote_state")
+                else:
+                    put_text(t("Gui.Remote.NotEnable"), scope="remote_state")
+                put_text(t("Gui.Remote.ConfigureHint"), scope="remote_info")
+                url = "http://app.azurlane.cloud" + (
+                    "" if State.deploy_config.Language.startswith("zh") else "/en.html"
+                )
+                put_html(f'<a href="{url}" target="_blank">{url}</a>', scope="remote_info")
+                if state == 3:
+                    put_warning(t("Gui.Remote.SSHNotInstall"), closable=False, scope="remote_info")
+
+        remote_switch = Switch(
+            status=u, get_state=RemoteAccess.get_state, name="remote"
+        )
+
+        self.task_handler.add(remote_switch.g(), delay=1, pending_delete=True)
 
     def ui_develop(self) -> None:
         self.init_aside(name="Develop")
@@ -1067,6 +1174,11 @@ def startup():
         init_discord_rpc()
     if State.deploy_config.StartOcrServer:
         start_ocr_server_process(State.deploy_config.OcrServerPort)
+    if (
+        State.deploy_config.EnableRemoteAccess
+        and State.deploy_config.Password is not None
+    ):
+        task_handler.add(RemoteAccess.keep_ssh_alive(), 60)
 
 
 def clearup():
@@ -1075,6 +1187,7 @@ def clearup():
     all process will NOT EXIT after close electron app.
     """
     logger.info("Start clearup")
+    RemoteAccess.kill_ssh_process()
     close_discord_rpc()
     stop_ocr_server_process()
     for alas in ProcessManager._processes.values():
