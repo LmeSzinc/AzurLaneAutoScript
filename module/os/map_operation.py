@@ -55,6 +55,8 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             name = name.replace('é', 'e')
         if 'nvcity' in name:  # NY City Port read as 'V' rather than 'Y'
             name = 'nycity'
+        if 'cibraltar' in name:
+            name = 'gibraltar'
         # `-` is missing
         name = name.replace('safe', '')
         name = name.replace('zone', '')
