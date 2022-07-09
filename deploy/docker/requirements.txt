@@ -24,4 +24,4 @@ pypresence==4.2.1
 rich==11.0.0
 zerorpc==0.6.3
 pyzmq==22.3.0
-atomicwrites
+atomicwrites==1.4.1
