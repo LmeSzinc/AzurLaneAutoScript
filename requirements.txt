@@ -4,14 +4,14 @@
 #
 #    pip-compile --annotation-style=line --output-file=requirements.txt requirements-in.txt
 #
-adbutils==0.11.0          # via uiautomator2
+adbutils==0.11.0          # via -r requirements-in.txt, uiautomator2
 aiofiles==0.7.0           # via -r requirements-in.txt
 alas-webapp==0.3.7        # via -r requirements-in.txt
 anyio==1.3.1              # via -r requirements-in.txt
 apkutils2==1.0.0          # via adbutils
 asgiref==3.4.1            # via uvicorn
 async-generator==1.10     # via anyio
-atomicwrites==1.4.0       # via -r requirements-in.txt
+atomicwrites==1.4.1       # via -r requirements-in.txt
 cached-property==1.5.2    # via uiautomator2
 certifi==2021.5.30        # via requests
 cffi==1.15.0              # via gevent
@@ -63,7 +63,7 @@ python-dotenv==0.19.0     # via uvicorn
 pywebio==1.5.2            # via -r requirements-in.txt
 pywin32==301              # via portalocker
 pyyaml==5.4.1             # via -r requirements-in.txt, uvicorn
-pyzmq==22.3.0             # via zerorpc
+pyzmq==22.3.0             # via -r requirements-in.txt, zerorpc
 requests==2.18.4          # via adbutils, gluoncv, mxnet, uiautomator2
 retry==0.9.2              # via adbutils, uiautomator2
 retrying==1.3.3           # via -r requirements-in.txt
