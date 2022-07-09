@@ -78,6 +78,7 @@ class CampaignSos(CampaignRun, CampaignBase):
     def _sos_signal_select(self, chapter):
         """
         select a SOS signal
+        EN has no scroll bar, so the swipe signal list.
 
         Args:
             chapter (int): 3 to 10.
@@ -139,7 +140,7 @@ class CampaignSos(CampaignRun, CampaignBase):
 
         for scroll_position in positions:
             if self._sos_scroll.appear(main=self):
-                self._sos_scroll.set(scroll_position, main=self)
+                self._sos_scroll.set(scroll_position, main=self, distance_check=False)
             else:
                 logger.info('SOS signal scroll not appear, skip setting scroll position')
             target_button = self._find_target_chapter(chapter)

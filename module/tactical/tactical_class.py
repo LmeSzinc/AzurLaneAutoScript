@@ -57,7 +57,7 @@ BOOK_FILTER = Filter(
         '(same)?'
         '(red|blue|yellow)?'
         '-?'
-        '(t[123])?'
+        '(t[1234])?'
     ),
     attr=('same_str', 'genre_str', 'tier_str'),
     preset=('first',)
