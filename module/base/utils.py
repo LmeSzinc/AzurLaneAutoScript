@@ -672,8 +672,12 @@ def image_left_strip(image, threshold, length):
     """
     brightness = np.mean(image, axis=0)
     match = np.where(brightness < threshold)[0]
+
     if len(match):
-        image = image[:, match[0] + length:]
+        left = match[0] + length
+        total = image.shape[1]
+        if left < total:
+            image = image[:, left:]
     return image
 
 
