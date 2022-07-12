@@ -87,6 +87,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
         self.zone = self.get_globe_pinned_zone()
         self.zone_config_set()
         self.os_globe_goto_map()
+        self.zone_init(fallback_init=False)
         return self.zone
 
     def globe_goto(self, zone, types=('SAFE', 'DANGEROUS'), refresh=False, stop_if_safe=False):
