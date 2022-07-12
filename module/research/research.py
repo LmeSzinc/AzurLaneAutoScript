@@ -1,6 +1,5 @@
 import numpy as np
 
-from module.base.decorator import Config
 from module.base.timer import Timer
 from module.base.utils import rgb2gray
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3
@@ -326,38 +325,6 @@ class RewardResearch(ResearchSelector):
 
         return True
 
-    @Config.when(SERVER='jp')
-    def research_get_remain(self):
-        """
-        Get remain duration of current project (the one in the middle).
-
-        Returns:
-            float: research project remain time if success
-            None: if failed
-
-        Pages:
-            in: page_research, stable.
-            out: page_research, stable.
-        """
-        ocr = Duration(DURATION_REMAIN, letter=(255, 255, 255), threshold=64, name='DURATION_REMAIN')
-
-        logger.hr('Research get remain')
-
-        self.interval_clear(MAIN_GOTO_CAMPAIGN)
-        self.ui_ensure_research()
-
-        remain = ocr.ocr(self.device.image)
-        logger.info(f'Research project remain: {remain}')
-
-        seconds = remain.total_seconds()
-        if seconds >= 0:
-            research_duration_remain = seconds / 3600
-            return research_duration_remain
-        else:
-            logger.warning(f'Invalid research duration: {seconds} ')
-            return None
-
-    @Config.when(SERVER=None)
     def research_get_remain(self):
         """
         Get remain duration of current project from page_reward.
