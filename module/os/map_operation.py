@@ -55,6 +55,10 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             name = name.replace('é', 'e')
         if 'nvcity' in name:  # NY City Port read as 'V' rather than 'Y'
             name = 'nycity'
+        if 'cibraltar' in name:
+            name = 'gibraltar'
+        if 'pasage' in name:
+            name = 'passage'
         # `-` is missing
         name = name.replace('safe', '')
         name = name.replace('zone', '')
@@ -133,13 +137,14 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             self.config.HOMO_EDGE_COLOR_RANGE = (0, 33)
             self.config.MAP_ENSURE_EDGE_INSIGHT_CORNER = ''
 
-    def zone_init(self, skip_first_screenshot=True):
+    def zone_init(self, fallback_init=True, skip_first_screenshot=True):
         """
         Wrap get_current_zone(), set self.zone to the current zone.
         This method must be called after entering a new zone.
         Handle map events and the animation that zone names appear from the top.
 
         Args:
+            fallback_init (bool): Whether to get zone from globe map when unable to parse zone name.
             skip_first_screenshot (bool):
 
         Returns:
@@ -180,14 +185,15 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
                 timeout.reset()
                 continue
 
-        logger.warning('Unable to get zone name, get current zone from globe map instead')
-        if hasattr(self, 'get_current_zone_from_globe'):
-            return self.get_current_zone_from_globe()
-        else:
-            logger.warning('OperationSiren.get_current_zone_from_globe() not exists')
-            if not self.is_in_map():
-                logger.warning('Trying to get zone name, but not in OS map')
-            return self.get_current_zone()
+        if fallback_init:
+            logger.warning('Unable to get zone name, get current zone from globe map instead')
+            if hasattr(self, 'get_current_zone_from_globe'):
+                return self.get_current_zone_from_globe()
+            else:
+                logger.warning('OperationSiren.get_current_zone_from_globe() not exists')
+                if not self.is_in_map():
+                    logger.warning('Trying to get zone name, but not in OS map')
+                return self.get_current_zone()
 
     def is_in_special_zone(self):
         """

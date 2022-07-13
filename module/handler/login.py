@@ -40,6 +40,18 @@ class LoginHandler(Combat):
                 self.device.get_orientation()
                 orientation_timer.reset()
 
+            if self.appear_then_click(LOGIN_CHECK, interval=5):
+                if not login_success:
+                    logger.info('Login success')
+                    login_success = True
+
+            if self.appear(MAIN_CHECK):
+                if confirm_timer.reached():
+                    logger.info('Login to main confirm')
+                    break
+            else:
+                confirm_timer.reset()
+
             if self.handle_get_items():
                 continue
             if self.handle_get_ship():
@@ -68,18 +80,6 @@ class LoginHandler(Combat):
                 continue
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=5):
                 continue
-
-            if self.appear_then_click(LOGIN_CHECK, interval=5):
-                if not login_success:
-                    logger.info('Login success')
-                    login_success = True
-
-            if self.appear(MAIN_CHECK):
-                if confirm_timer.reached():
-                    logger.info('Login to main confirm')
-                    break
-            else:
-                confirm_timer.reset()
 
         self.config.start_time = datetime.now()
         return True

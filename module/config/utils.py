@@ -5,10 +5,10 @@ import string
 from datetime import datetime, timedelta, timezone
 
 import yaml
-from atomicwrites import atomic_write
 from filelock import FileLock
 
 import module.config.server as server_
+from module.config.atomicwrites import atomic_write
 
 LANGUAGES = ['zh-CN', 'en-US', 'ja-JP', 'zh-TW']
 SERVER_TO_LANG = {
