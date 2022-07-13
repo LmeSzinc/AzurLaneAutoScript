@@ -1,17 +1,5 @@
-import os
-
-from dev_tools.slpp import slpp
 from module.logger import logger  # Change folder automatically
-
-
-def load_lua(folder, file):
-    with open(os.path.join(folder, file), 'r', encoding='utf-8') as f:
-        text = f.read()
-    print('Loading technology_data_template')
-    text = '{' + text.split('\n', 2)[2]
-    result = slpp.decode(text)
-    print(f'{len(result.keys())} items loaded')
-    return result
+from dev_tools.utils import LuaLoader
 
 
 class Item:
@@ -77,9 +65,9 @@ def set_translation(cn, en):
 
 
 class TechnologyTemplate:
-    def __init__(self, folder):
-        self.projects = self.load_projects(os.path.join(folder, 'zh-CN', 'sharecfg'))
-        en_projects = self.load_projects(os.path.join(folder, 'en-US', 'sharecfg'))
+    def __init__(self):
+        self.projects = self.load_projects(LuaLoader(FOLDER, server='zh-CN'))
+        en_projects = self.load_projects(LuaLoader(FOLDER, server='en-US'))
 
         for key, project in self.projects.items():
             if key not in en_projects:
@@ -99,10 +87,10 @@ class TechnologyTemplate:
             for item in project.output:
                 item.name = DIC_TRANSLATION.get(item.name, item.name).replace('Ä', 'A')
 
-    def load_projects(self, folder):
-        tech = load_lua(folder, 'technology_data_template.lua')
-        item = load_lua(folder, 'item_data_statistics.lua')
-        task = load_lua(folder, 'task_data_template.lua')
+    def load_projects(self, loader):
+        tech = loader.load('sharecfg/technology_data_template.lua')
+        item = loader.load('sharecfgdata/item_data_statistics.lua')
+        task = loader.load('sharecfgdata/task_data_template.lua')
 
         projects = {}
         for key, value in tech.items():
@@ -144,7 +132,7 @@ class TechnologyTemplate:
 """
 This an auto-tool to extract research projects used in Alas.
 
-Git clone https://github.com/Dimbreath/AzurLaneData, to get the decrypted scripts.
+Git clone https://github.com/AzurLaneTools/AzurLaneLuaScripts, to get the decrypted scripts.
 Arguments:
     FILE:  Path to AzurLaneData, '<your_folder>/AzurLaneData'
     SAVE:  File to save, 'module/research/project_data.py'
@@ -152,5 +140,4 @@ Arguments:
 FOLDER = ''
 SAVE = 'module/research/project_data.py'
 
-tt = TechnologyTemplate(FOLDER)
-tt.write(SAVE)
+TechnologyTemplate().write(SAVE)
