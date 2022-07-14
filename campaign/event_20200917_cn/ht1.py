@@ -57,18 +57,19 @@ class Config:
 
     STAGE_ENTRANCE = ['blue']
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 24),
+        'height': (150, 255 - 17),
         'width': (0.9, 10),
         'prominence': 10,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 24, 255),
+        'height': (255 - 17, 255),
         'prominence': 10,
         'distance': 50,
-        # 'width': (0, 7),
         'wlen': 1000
     }
+    HOMO_EDGE_COLOR_RANGE = (0, 17)
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
 
 
 class Campaign(CampaignBase):
