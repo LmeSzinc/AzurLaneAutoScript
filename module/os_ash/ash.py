@@ -84,6 +84,7 @@ class AshCombat(Combat):
 
 class OSAsh(UI, MapEventHandler):
     ash_entrance_offset = (200, 5)
+    beacon_entrance_offset = (100, 100)
 
     def is_in_ash(self):
         return self.appear(ASH_CHECK, offset=(100, 20))
@@ -258,7 +259,7 @@ class OSAsh(UI, MapEventHandler):
                 continue
             if self.appear_then_click(ASH_SELECT, offset=(30, 30), interval=3):
                 continue
-            if self.appear_then_click(BEACON_ENTER, offset=(20, 20), interval=2):
+            if self.appear_then_click(BEACON_ENTER, offset=self.beacon_entrance_offset, interval=2):
                 continue
             if self._handle_ash_beacon_reward():
                 continue
@@ -384,7 +385,7 @@ class OSAsh(UI, MapEventHandler):
                 if confirm_timer.reached():
                     logger.info('Ash beacon attack finished')
                     return True
-            elif self.appear(BEACON_ENTER, offset=(20, 20)):
+            elif self.appear(BEACON_ENTER, offset=self.beacon_entrance_offset):
                 # If previous beacon is not completed, the previous beacon is attacked in this round.
                 # Then found a new beacon, after attack.
                 if confirm_timer.reached():
