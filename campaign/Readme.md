@@ -100,3 +100,5 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20220616 | event 20200820 cn | Scherzo of Iron and Blood | - | - | - | 復刻鐵血音符誓言 |
 | 20220630 | raid 20210708 | Cross Wave | - | - | - | 復刻穿越彼方的水線 |
 | 20220630 | raid 20220630 | Angel of Iris | 来自鸢尾的天使 | Angel of Iris | アイリスの天使 | - |
+| 20220714 | event 20201029 cn | Universe in Unison | - | - | - | 激唱的UNIVERSE |
+| 20220714 | event 20200917 cn | Dreamwaker's Butterfly | 复刻蝶海梦花 | Dreamwaker's Butterfly Rerun | 刹那觀る胡蝶の夢（復刻） | - |
