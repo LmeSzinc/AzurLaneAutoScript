@@ -3,7 +3,7 @@ from module.base.utils import color_bar_percentage, image_left_strip
 from module.combat.combat import BATTLE_PREPARATION, GET_ITEMS_1, Combat
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
-from module.os.assets import MAP_GOTO_GLOBE
+from module.os.assets import MAP_GOTO_GLOBE, GLOBE_GOTO_MAP
 from module.os_ash.assets import *
 from module.os_handler.assets import IN_MAP
 from module.os_handler.map_event import MapEventHandler
@@ -83,8 +83,10 @@ class AshCombat(Combat):
 
 
 class OSAsh(UI, MapEventHandler):
+    ash_entrance_offset = (200, 5)
+
     def is_in_ash(self):
-        return self.appear(ASH_CHECK, offset=(20, 20))
+        return self.appear(ASH_CHECK, offset=(100, 20))
 
     def is_in_map(self):
         return self.appear(IN_MAP, offset=(200, 5))
@@ -107,6 +109,9 @@ class OSAsh(UI, MapEventHandler):
                 self.device.screenshot()
 
             if self.appear_then_click(MAP_GOTO_GLOBE, offset=offset, interval=5):
+                confirm_timer.reset()
+                continue
+            if self.appear_then_click(ASH_SELECT, offset=(30, 30), interval=5):
                 confirm_timer.reset()
                 continue
             if self.appear_then_click(ASH_ENTRANCE, offset=offset, interval=5):
@@ -177,9 +182,8 @@ class OSAsh(UI, MapEventHandler):
         # When main story is cleared, ASH_ENTRANCE move to the second one.
         # Here use an offset to handle that.
         ash_combat = AshCombat(self.config, self.device)
-        entrance_offset = (200, 5)
         self.ui_ensure(page_os)
-        self._ash_assist_enter_from_map(offset=entrance_offset, skip_first_screenshot=True)
+        self._ash_assist_enter_from_map(offset=self.ash_entrance_offset, skip_first_screenshot=True)
 
         for _ in range(10):
             SWITCH_BEACON.set('list', main=self)
@@ -193,7 +197,7 @@ class OSAsh(UI, MapEventHandler):
 
         self.device.sleep((0.5, 0.8))
         self.device.screenshot()
-        self.ui_click(ASH_QUIT, check_button=ASH_ENTRANCE, offset=entrance_offset, skip_first_screenshot=True)
+        self._ash_exit_to_globe()
         return True
 
     _ash_fully_collected = False
@@ -252,6 +256,8 @@ class OSAsh(UI, MapEventHandler):
                 continue
             if self.appear_then_click(ASH_ENTER_CONFIRM, offset=(30, 50), interval=2):
                 continue
+            if self.appear_then_click(ASH_SELECT, offset=(30, 30), interval=3):
+                continue
             if self.appear_then_click(BEACON_ENTER, offset=(20, 20), interval=2):
                 continue
             if self._handle_ash_beacon_reward():
@@ -264,14 +270,63 @@ class OSAsh(UI, MapEventHandler):
             if self.appear(ASH_START, offset=(30, 30)):
                 break
 
-    def _ash_mine_exit_to_map(self, skip_first_screenshot=True):
+    def _ash_exit_to_map(self, skip_first_screenshot=True):
         """
         Pages:
             in: is_in_ash
             out: is_in_map
         """
-        self.ui_click(ASH_QUIT, check_button=self.is_in_map, additional=self.handle_map_event,
-                      skip_first_screenshot=skip_first_screenshot)
+        click_timer = Timer(3)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.is_in_map():
+                break
+
+            if click_timer.reached() and self.is_in_ash():
+                self.device.click(ASH_QUIT)
+                click_timer.reset()
+                continue
+            if self.appear(ASH_SELECT, offset=(30, 30), interval=3):
+                self.device.click(ASH_QUIT)
+                continue
+            if self.appear_then_click(GLOBE_GOTO_MAP, offset=(20, 20), interval=3):
+                continue
+            if self.handle_map_event():
+                continue
+
+    def _ash_exit_to_globe(self, skip_first_screenshot=True):
+        """
+        Pages:
+            in: is_in_ash
+            out: is_in_map
+        """
+        click_timer = Timer(3)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(ASH_ENTRANCE, offset=self.ash_entrance_offset):
+                break
+
+            if click_timer.reached() and self.is_in_ash():
+                self.device.click(ASH_QUIT)
+                click_timer.reset()
+                continue
+            if self.appear(ASH_SELECT, offset=(30, 30), interval=3):
+                self.device.click(ASH_QUIT)
+                continue
+            if self.appear_then_click(MAP_GOTO_GLOBE, offset=(20, 20), interval=3):
+                continue
+            if self.handle_map_event():
+                continue
 
     def _ash_help(self):
         """
@@ -372,7 +427,7 @@ class OSAsh(UI, MapEventHandler):
             if finish:
                 break
 
-        self._ash_mine_exit_to_map()
+        self._ash_exit_to_map()
         return True
 
 
