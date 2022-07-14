@@ -396,8 +396,13 @@ class OSAsh(UI, MapEventHandler):
             # Accident clicks
             if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=2):
                 self.device.click(BACK_ARROW)
+                continue
             if self.appear(HELP_CONFIRM, offset=(30, 30), interval=2):
                 self.device.click(BACK_ARROW)
+                continue
+            # Redirected by game
+            if self.appear_then_click(ASH_SELECT, offset=(30, 30), interval=2):
+                continue
             # Combat and rewards
             if self._handle_ash_beacon_reward():
                 continue
