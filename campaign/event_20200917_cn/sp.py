@@ -71,6 +71,20 @@ class Config:
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = False
 
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (150, 255 - 24),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 24, 255),
+        'prominence': 10,
+        'distance': 50,
+        'wlen': 1000
+    }
+    HOMO_EDGE_COLOR_RANGE = (0, 24)
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
     INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.82
     MAP_SWIPE_MULTIPLY = 1.88
