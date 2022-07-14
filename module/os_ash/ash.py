@@ -112,7 +112,7 @@ class OSAsh(UI, MapEventHandler):
             if self.appear_then_click(MAP_GOTO_GLOBE, offset=offset, interval=5):
                 confirm_timer.reset()
                 continue
-            if self.appear_then_click(ASH_SELECT, offset=(30, 30), interval=5):
+            if self.appear_then_click(ASH_SHOWDOWN, offset=(30, 30), interval=5):
                 confirm_timer.reset()
                 continue
             if self.appear_then_click(ASH_ENTRANCE, offset=offset, interval=5):
@@ -257,7 +257,7 @@ class OSAsh(UI, MapEventHandler):
                 continue
             if self.appear_then_click(ASH_ENTER_CONFIRM, offset=(30, 50), interval=2):
                 continue
-            if self.appear_then_click(ASH_SELECT, offset=(30, 30), interval=3):
+            if self.appear_then_click(ASH_SHOWDOWN, offset=(30, 30), interval=3):
                 continue
             if self.appear_then_click(BEACON_ENTER, offset=self.beacon_entrance_offset, interval=2):
                 continue
@@ -292,7 +292,7 @@ class OSAsh(UI, MapEventHandler):
                 self.device.click(ASH_QUIT)
                 click_timer.reset()
                 continue
-            if self.appear(ASH_SELECT, offset=(30, 30), interval=3):
+            if self.appear(ASH_SHOWDOWN, offset=(30, 30), interval=3):
                 self.device.click(ASH_QUIT)
                 continue
             if self.appear_then_click(GLOBE_GOTO_MAP, offset=(20, 20), interval=3):
@@ -321,7 +321,7 @@ class OSAsh(UI, MapEventHandler):
                 self.device.click(ASH_QUIT)
                 click_timer.reset()
                 continue
-            if self.appear(ASH_SELECT, offset=(30, 30), interval=3):
+            if self.appear(ASH_SHOWDOWN, offset=(30, 30), interval=3):
                 self.device.click(ASH_QUIT)
                 continue
             if self.appear_then_click(MAP_GOTO_GLOBE, offset=(20, 20), interval=3):
@@ -402,7 +402,7 @@ class OSAsh(UI, MapEventHandler):
                 self.device.click(BACK_ARROW)
                 continue
             # Redirected by game
-            if self.appear_then_click(ASH_SELECT, offset=(30, 30), interval=2):
+            if self.appear_then_click(ASH_SHOWDOWN, offset=(30, 30), interval=2):
                 continue
             # Combat and rewards
             if self._handle_ash_beacon_reward():
