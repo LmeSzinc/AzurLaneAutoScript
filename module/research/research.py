@@ -375,6 +375,13 @@ class RewardResearch(ResearchSelector):
             out: page_research, with research project information, but it's still page_research.
                     or page_main
         """
+        # Remove this when your server is updated for PR5
+        logger.warning('Task "Research" is forced delayed 2 hours before PR5 support. '
+                       'Please do research manually and contact server maintainers')
+        if self.config.SERVER in ['cn', 'en', 'jp', 'tw']:
+            self.config.task_delay(minute=120)
+            self.config.task_stop()
+
         self.ui_ensure(page_reward)
         research_reward_and_start = False
         if self.appear(RESEARCH_FINISHED, offset=(50, 20)) or self.appear(RESEARCH_PENDING, offset=(50, 20)):

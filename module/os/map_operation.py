@@ -57,8 +57,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             name = 'nycity'
         if 'cibraltar' in name:
             name = 'gibraltar'
-        if 'pasage' in name:
-            name = 'passage'
+        name = name.replace('pasage', 'passage')
         # `-` is missing
         name = name.replace('safe', '')
         name = name.replace('zone', '')
