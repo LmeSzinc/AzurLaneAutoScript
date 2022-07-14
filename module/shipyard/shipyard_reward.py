@@ -159,6 +159,13 @@ class RewardShipyard(ShipyardUI, GeneralShop):
             in: Any page
             out: page_shipyard
         """
+        # Remove this when your server is updated for PR5
+        logger.warning('Task "Shipyard" is forced delayed 2 hours before PR5 support. '
+                       'Please do research manually and contact server maintainers')
+        if self.config.SERVER in ['cn', 'en', 'jp', 'tw']:
+            self.config.task_delay(minute=120)
+            self.config.task_stop()
+
         if self.config.Shipyard_BuyAmount <= 0:
             self.config.Scheduler_Enable = False
             self.config.task_stop()
