@@ -5,7 +5,7 @@ imageio
 lz4
 tqdm
 adbutils==0.11.0
-uiautomator2==2.16.7
+uiautomator2==2.16.17
 retrying
 mxnet==1.6.0
 cnocr==1.2.2

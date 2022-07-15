@@ -7,7 +7,7 @@ from adbutils.errors import AdbError
 from module.base.utils import *
 from module.device.connection import Connection
 from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
-                                        handle_adb_error, recv_all)
+                                        handle_adb_error)
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
@@ -172,9 +172,7 @@ class AScreenCap(Connection):
 
     @retry
     def screenshot_ascreencap(self):
-        stream = self.adb_shell([self.config.ASCREENCAP_FILEPATH_REMOTE, '--pack', '2', '--stdout'], stream=True)
-
-        content = recv_all(stream)
+        content = self.adb_shell([self.config.ASCREENCAP_FILEPATH_REMOTE, '--pack', '2', '--stdout'], stream=True)
 
         return self.__process_screenshot(content)
 
