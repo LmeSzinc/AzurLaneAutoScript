@@ -249,10 +249,12 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             return False
 
         percent = self.get_map_clear_percentage()
-        if percent > 0.95:
-            # map clear percentage 100%, exit directly
-            return True
-        elif abs(percent - self.map_clear_percentage_prev) < 0.02:
+        logger.attr('Map_clear_percentage', percent)
+        # Comment this because percentage starts from 100% and increase from 0% to actual value
+        # if percent > 0.95:
+        #     # map clear percentage 100%, exit directly
+        #     return True
+        if abs(percent - self.map_clear_percentage_prev) < 0.02:
             self.map_clear_percentage_prev = percent
             if self.map_clear_percentage_timer.reached():
                 return True

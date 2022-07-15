@@ -1,6 +1,7 @@
 from module.base.button import Button
 from module.base.utils import *
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
+from module.exception import CampaignNameError
 from module.logger import logger
 
 # Here manually type coordinates, because the ball appears in event Dreamwaker's Butterfly only.
@@ -8,6 +9,12 @@ BALL = Button(area=(571, 283, 696, 387), color=(), button=(597, 274, 671, 343))
 
 
 class CampaignBase(CampaignBase_):
+    STAGE_INCREASE = [
+        'TS1 > T1 > T2 > T3 > T4 > TS2 > T5 > T6',
+        'HTS1 > HT1 > HT2 > HT3',
+        'HT4 > HTS2 > HT5 > HT6',
+    ]
+
     def campaign_set_chapter(self, name, mode='normal'):
         """
         Args:
@@ -18,7 +25,7 @@ class CampaignBase(CampaignBase_):
         name = chapter + stage
 
         if chapter.isdigit():
-            self.ui_weigh_anchor()
+            self.ui_goto_campaign()
             self.campaign_ensure_mode('normal')
             self.campaign_ensure_chapter(index=chapter)
             if mode == 'hard':
@@ -99,8 +106,12 @@ class CampaignBase(CampaignBase_):
         Args:
             status (str): 'blue' or 'red'.
         """
+        skip_first_screenshot = True
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
             current = self._campaign_ball_get()
             logger.attr('Campaign_ball', current)
@@ -115,5 +126,4 @@ class CampaignBase(CampaignBase_):
                     while 1:
                         self.device.screenshot()
                         if self.is_in_stage():
-                            self.handle_stage_icon_spawn()
                             break

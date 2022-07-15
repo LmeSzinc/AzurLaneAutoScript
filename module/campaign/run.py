@@ -147,6 +147,25 @@ class CampaignRun(UI):
             name = 'sp'
         if folder == 'event_20220324_cn' and name == 'esp':
             name = 'sp'
+        convert = {
+            'a1': 't1',
+            'a2': 't2',
+            'a3': 't3',
+            'b1': 't4',
+            'b2': 't5',
+            'b3': 't6',
+            'c1': 'ht1',
+            'c2': 'ht2',
+            'c3': 'ht3',
+            'd1': 'ht4',
+            'd2': 'ht5',
+            'd3': 'ht6',
+        }
+        if folder == 'event_20200917_cn':
+            name = convert.get(name, name)
+        else:
+            reverse = {v: k for k, v in convert.items()}
+            name = reverse.get(name, name)
 
         return name, folder
 
