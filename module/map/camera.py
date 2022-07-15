@@ -208,7 +208,7 @@ class Camera(MapOperation):
         self.predict()
         return True
 
-    def update(self, camera=True):
+    def update(self, camera=True, allow_error=False):
         """
         Update map image.
         Wraps the original `update()` method to handle random MapDetectionError
@@ -216,6 +216,7 @@ class Camera(MapOperation):
 
         Args:
             camera: True to update camera position and perspective data.
+            allow_error: True to exit when encountered detection error
         """
         confirm_timer = Timer(5, count=10).start()
         while 1:
@@ -227,7 +228,9 @@ class Camera(MapOperation):
                     confirm_timer.reset()
                     continue
             except MapDetectionError:
-                if confirm_timer.reached():
+                if allow_error:
+                    break
+                elif confirm_timer.reached():
                     raise
                 else:
                     continue

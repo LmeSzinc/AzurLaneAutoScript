@@ -10,9 +10,11 @@ class CampaignCD(EventBase):
     def run(self, *args, **kwargs):
         # Filter map files
         stages = [EventStage(file) for file in os.listdir(f'./campaign/{self.config.Campaign_Event}')]
+        stages = self.convert_stages(stages)
         logger.attr('Stage', [str(stage) for stage in stages])
         logger.attr('StageFilter', self.config.EventCd_StageFilter)
         STAGE_FILTER.load(self.config.EventCd_StageFilter)
+        self.convert_stages(STAGE_FILTER)
         stages = [str(stage) for stage in STAGE_FILTER.apply(stages)]
         logger.attr('Filter sort', ' > '.join(stages))
 
@@ -28,6 +30,7 @@ class CampaignCD(EventBase):
             self.config.EventCd_LastStage = 0
         else:
             last = str(self.config.EventCd_LastStage).lower()
+            last = self.convert_stages(last)
             if last in stages:
                 stages = stages[stages.index(last) + 1:]
                 logger.attr('Filter sort', ' > '.join(stages))

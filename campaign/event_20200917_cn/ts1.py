@@ -10,7 +10,7 @@ MAP.camera_data = ['D2', 'D4', 'E2', 'E4']
 MAP.camera_data_spawn_point = ['E4']
 MAP.map_data = """
     MB -- ++ ++ ++ ++ -- --
-    -- MS -- -- -- ++ ++ ++
+    -- ME -- -- -- ++ ++ ++
     ++ -- -- -- Me -- -- ++
     ++ ++ ++ ++ -- -- ME --
     -- -- -- -- ++ ++ -- SP
@@ -57,6 +57,20 @@ class Config:
     STAGE_ENTRANCE = ['blue']
     FLEET_2 = 0
     MAP_IS_ONE_TIME_STAGE = True
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (150, 255 - 17),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 17, 255),
+        'prominence': 10,
+        'distance': 50,
+        'wlen': 1000
+    }
+    HOMO_EDGE_COLOR_RANGE = (0, 17)
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
 
 
 class Campaign(CampaignBase):
