@@ -73,7 +73,7 @@ class CampaignBase(CampaignBase_):
 
         return appear
 
-    def handle_in_map_with_enemy_searching(self):
+    def handle_in_map_with_enemy_searching(self, drop=None):
         if not self.is_in_map():
             return False
 
