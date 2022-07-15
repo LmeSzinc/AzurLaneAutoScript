@@ -297,7 +297,7 @@ class Fleet(Camera, AmbushHandler):
                 self.device.screenshot()
                 self.view.update(image=self.device.image)
                 if is_portal:
-                    self.update()
+                    self.update(allow_error=True)
                     grid = self.view[self.view.center_loca]
 
                 # Combat

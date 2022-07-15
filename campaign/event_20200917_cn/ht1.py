@@ -70,6 +70,7 @@ class Config:
     }
     HOMO_EDGE_COLOR_RANGE = (0, 17)
     MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+    MAP_WALK_USE_CURRENT_FLEET = True
 
 
 class Campaign(CampaignBase):

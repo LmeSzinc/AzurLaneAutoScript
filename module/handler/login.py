@@ -54,8 +54,9 @@ class LoginHandler(Combat):
 
             if self.handle_get_items():
                 continue
-            if self.handle_get_ship():
-                continue
+            if login_success:
+                if self.handle_get_ship():
+                    continue
             if self.appear_then_click(LOGIN_ANNOUNCE, offset=(30, 30), interval=5):
                 continue
             if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=5):
