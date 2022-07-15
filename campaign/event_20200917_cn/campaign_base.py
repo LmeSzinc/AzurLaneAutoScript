@@ -80,7 +80,7 @@ class CampaignBase(CampaignBase_):
                 return int(name)
             elif name in ['a', 'c', 'sp', 'ex_sp', 'ts', 't', 'ht', 'hts']:
                 return 1
-            elif name in ['b', 'd']:
+            elif name in ['b', 'd', 'ex_ex']:
                 return 2
             else:
                 raise CampaignNameError
