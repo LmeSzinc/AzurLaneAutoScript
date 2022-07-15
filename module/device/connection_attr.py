@@ -47,7 +47,6 @@ class ConnectionAttr:
                 continue
             if 'oc' in v['type'] and v['value']:
                 count += 1
-        logger.info(count)
         if count >= 3:
             for k, _ in deep_iter(d, depth=1):
                 if 'proxy' in k[0].split('_')[-1].lower():
@@ -88,11 +87,11 @@ class ConnectionAttr:
                     self.config.Emulator_ScreenshotMethod = 'uiautomator2'
                     self.config.Emulator_ControlMethod = 'uiautomator2'
         if self.is_over_http:
-            if self.config.Emulator_ScreenshotMethod not in ["ADB", "uiautomator2", "aScreenCap"] \
+            if self.config.Emulator_ScreenshotMethod not in ["ADB", "uiautomator2"] \
                     or self.config.Emulator_ControlMethod not in ["ADB", "uiautomator2", "minitouch"]:
                 logger.warning(
-                    f'When connecting a device over http: {self.serial} '
-                    f'ScreenshotMethod can only use ["ADB", "uiautomator2", "aScreenCap"], '
+                    f'When connecting to a device over http: {self.serial} '
+                    f'ScreenshotMethod can only use ["ADB", "uiautomator2"], '
                     f'ControlMethod can only use ["ADB", "uiautomator2", "minitouch"]'
                 )
                 raise RequestHumanTakeover
