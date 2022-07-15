@@ -161,8 +161,8 @@ class RewardShipyard(ShipyardUI, GeneralShop):
         """
         # Remove this when your server is updated for PR5
         logger.warning('Task "Shipyard" is forced delayed 2 hours before PR5 support. '
-                       'Please do research manually and contact server maintainers')
-        if self.config.SERVER in ['cn', 'en', 'jp', 'tw']:
+                       'Please do shipyard manually and contact server maintainers')
+        if self.config.SERVER in ['cn', 'jp', 'tw']:
             self.config.task_delay(minute=120)
             self.config.task_stop()
 
