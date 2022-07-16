@@ -431,7 +431,7 @@ class ResearchProject:
             if (data['series'] == series) and (data['name'] == name):
                 yield data
 
-        if name[0].isdigit():
+        if len(name) and name[0].isdigit():
             for t in 'QG':
                 name1 = f'{t}-{self.name}'
                 logger.info(f'Testing the most similar candidate {name1}')
@@ -680,8 +680,9 @@ class ResearchSelector(UI):
             return False
         # T series require commission
         # 2022.05.08 Allow T series researches because commission is now force to enable
-        # if project.genre.upper() == 'T':
-        #     return False
+        # 2022.07.17 Disallow T again cause they can't be queued unless pre-conditions satisfied
+        if project.genre.upper() == 'T':
+            return False
         # 2021.08.19 Allow E-2 to disassemble tech boxes, but JP still remains the same.
         if self.config.SERVER == 'jp':
             if project.genre.upper() == 'E' and str(project.duration) != '6':

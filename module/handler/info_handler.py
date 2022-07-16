@@ -100,6 +100,9 @@ class InfoHandler(ModuleBase):
 
         return False
 
+    def popup_interval_clear(self):
+        self.interval_clear([POPUP_CANCEL, POPUP_CONFIRM])
+
     def handle_urgent_commission(self, drop=None):
         """
         Args:
