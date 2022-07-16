@@ -23,12 +23,13 @@ OCR_RESEARCH = [OCR_RESEARCH_1, OCR_RESEARCH_2, OCR_RESEARCH_3, OCR_RESEARCH_4, 
 OCR_RESEARCH = Ocr(OCR_RESEARCH, name='RESEARCH', threshold=64, alphabet='0123456789BCDEGHQTMIULRF-')
 RESEARCH_DETAIL_GENRE = [DETAIL_GENRE_B, DETAIL_GENRE_C, DETAIL_GENRE_D, DETAIL_GENRE_E, DETAIL_GENRE_G,
                          DETAIL_GENRE_H_0, DETAIL_GENRE_H_1, DETAIL_GENRE_Q, DETAIL_GENRE_T]
-FILTER_REGEX = re.compile('(s[1234])?'
+FILTER_REGEX = re.compile('(s[12345])?'
                           '-?'
                           '(neptune|monarch|ibuki|izumo|roon|saintlouis'
                           '|seattle|georgia|kitakaze|azuma|friedrich'
                           '|gascogne|champagne|cheshire|drake|mainz|odin'
-                          '|anchorage|hakuryu|agir|august|marcopolo)?'
+                          '|anchorage|hakuryu|agir|august|marcopolo'
+                          '|plymouth|rupprecht|harbin|chkalov|brest)?'
                           '(dr|pry)?'
                           '([bcdeghqt])?'
                           '-?'
@@ -71,6 +72,8 @@ def get_research_series(image):
             series = upper
         elif upper == 3 and lower == 2:
             series = 4
+        elif upper == 2 and lower == 1:
+            series = 5
         else:
             series = 0
             logger.warning(f'Unknown research series: button={button}, upper={upper}, lower={lower}')
@@ -334,9 +337,10 @@ class ResearchProject:
         '(neptune|monarch|ibuki|izumo|roon|saintlouis'
         '|seattle|georgia|kitakaze|azuma|friedrich'
         '|gascogne|champagne|cheshire|drake|mainz|odin'
-        '|anchorage|hakuryu|agir|august|marcopolo)')
+        '|anchorage|hakuryu|agir|august|marcopolo'
+        '|plymouth|rupprecht|harbin|chkalov|brest)')
     REGEX_INPUT = re.compile('(coin|cube|part)')
-    DR_SHIP = ['azuma', 'friedrich', 'drake', 'hakuryu', 'agir']
+    DR_SHIP = ['azuma', 'friedrich', 'drake', 'hakuryu', 'agir', 'plymouth', 'brest']
 
     def __init__(self, name, series):
         """
@@ -458,8 +462,9 @@ class ResearchProjectJp:
     SHIP_S2 = ['seattle', 'georgia', 'kitakaze', 'azuma', 'friedrich', 'gascogne']
     SHIP_S3 = ['champagne', 'cheshire', 'drake', 'mainz', 'odin']
     SHIP_S4 = ['anchorage', 'hakuryu', 'agir', 'august', 'marcopolo']
-    SHIP_ALL = SHIP_S1 + SHIP_S2 + SHIP_S3 + SHIP_S4
-    DR_SHIP = ['azuma', 'friedrich', 'drake', 'hakuryu', 'agir']
+    SHIP_S5 = ['plymouth', 'rupprecht', 'harbin', 'chkalov', 'brest']
+    SHIP_ALL = SHIP_S1 + SHIP_S2 + SHIP_S3 + SHIP_S4 + SHIP_S5
+    DR_SHIP = ['azuma', 'friedrich', 'drake', 'hakuryu', 'agir', 'plymouth', 'brest']
 
     def __init__(self):
         self.valid = True
