@@ -427,11 +427,11 @@ class AlasGUI(Frame):
                 self.modified_config_queue.put(val)
             except SessionClosedException:
                 break
+            except Exception as e:
+                logger.exception(e)
 
     def _alas_thread_update_config(self) -> None:
         modified = {}
-        valid = []
-        invalid = []
         while self.alive:
             try:
                 d = self.modified_config_queue.get(timeout=10)
@@ -444,57 +444,57 @@ class AlasGUI(Frame):
                     d = self.modified_config_queue.get(timeout=1)
                     modified[self.idx_to_path[d["name"]]] = d["value"]
                 except queue.Empty:
-                    config = State.config_updater.read_file(config_name)
-                    for k, v in modified.copy().items():
-                        valuetype = deep_get(self.ALAS_ARGS, k + ".valuetype")
-                        v = parse_pin_value(v, valuetype)
-                        validate = deep_get(self.ALAS_ARGS, k + ".validate")
-                        if not len(str(v)):
-                            default = deep_get(self.ALAS_ARGS, k + ".value")
-                            deep_set(config, k, default)
-                            valid.append(self.path_to_idx[k])
-                            modified[k] = default
-                        elif not validate or re_fullmatch(validate, v):
-                            deep_set(config, k, v)
-                            valid.append(self.path_to_idx[k])
-
-                            # update Emotion Record if Emotion Value is changed
-                            if "Emotion" in k and "Value" in k:
-                                k = k.split(".")
-                                k[-1] = k[-1].replace("Value", "Record")
-                                k = ".".join(k)
-                                v = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                                modified[k] = v
-                                deep_set(config, k, v)
-                                valid.append(self.path_to_idx[k])
-                                pin[self.path_to_idx[k]] = v
-
-                        else:
-                            modified.pop(k)
-                            invalid.append(self.path_to_idx[k])
-                            logger.warning(
-                                f"Invalid value {v} for key {k}, skip saving."
-                            )
-                            # toast(t("Gui.Toast.InvalidConfigValue").format(
-                            #       t('.'.join(k.split('.')[1:] + ['name']))),
-                            #       duration=0, position='right', color='warn')
-                    self.pin_remove_invalid_mark(valid)
-                    self.pin_set_invalid_mark(invalid)
-                    if modified:
-                        toast(
-                            t("Gui.Toast.ConfigSaved"),
-                            duration=1,
-                            position="right",
-                            color="success",
-                        )
-                        logger.info(
-                            f"Save config {filepath_config(config_name)}, {dict_to_kv(modified)}"
-                        )
-                        State.config_updater.write_file(config_name, config)
+                    self._save_config(modified, config_name)
                     modified.clear()
-                    valid.clear()
-                    invalid.clear()
                     break
+
+    def _save_config(self, modified: Dict[str, str], config_name: str) -> None:
+        try:
+            valid = []
+            invalid = []
+            config = State.config_updater.read_file(self.alas_name)
+            for k, v in modified.copy().items():
+                valuetype = deep_get(self.ALAS_ARGS, k + ".valuetype")
+                v = parse_pin_value(v, valuetype)
+                validate = deep_get(self.ALAS_ARGS, k + ".validate")
+                if not len(str(v)):
+                    default = deep_get(self.ALAS_ARGS, k + ".value")
+                    deep_set(config, k, default)
+                    valid.append(self.path_to_idx[k])
+                    modified[k] = default
+                elif not validate or re_fullmatch(validate, v):
+                    deep_set(config, k, v)
+                    valid.append(self.path_to_idx[k])
+
+                    # update Emotion Record if Emotion Value is changed
+                    if "Emotion" in k and "Value" in k:
+                        k = k.split(".")
+                        k[-1] = k[-1].replace("Value", "Record")
+                        k = ".".join(k)
+                        v = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        modified[k] = v
+                        deep_set(config, k, v)
+                        valid.append(self.path_to_idx[k])
+                        pin[self.path_to_idx[k]] = v
+                else:
+                    modified.pop(k)
+                    invalid.append(self.path_to_idx[k])
+                    logger.warning(f"Invalid value {v} for key {k}, skip saving.")
+            self.pin_remove_invalid_mark(valid)
+            self.pin_set_invalid_mark(invalid)
+            if modified:
+                toast(
+                    t("Gui.Toast.ConfigSaved"),
+                    duration=1,
+                    position="right",
+                    color="success",
+                )
+                logger.info(
+                    f"Save config {filepath_config(config_name)}, {dict_to_kv(modified)}"
+                )
+                State.config_updater.write_file(config_name, config)
+        except Exception as e:
+            logger.exception(e)
 
     def alas_update_overview_task(self) -> None:
         if not self.visible:
@@ -914,9 +914,15 @@ class AlasGUI(Frame):
                 url = "http://app.azurlane.cloud" + (
                     "" if State.deploy_config.Language.startswith("zh") else "/en.html"
                 )
-                put_html(f'<a href="{url}" target="_blank">{url}</a>', scope="remote_info")
+                put_html(
+                    f'<a href="{url}" target="_blank">{url}</a>', scope="remote_info"
+                )
                 if state == 3:
-                    put_warning(t("Gui.Remote.SSHNotInstall"), closable=False, scope="remote_info")
+                    put_warning(
+                        t("Gui.Remote.SSHNotInstall"),
+                        closable=False,
+                        scope="remote_info",
+                    )
 
         remote_switch = Switch(
             status=u, get_state=RemoteAccess.get_state, name="remote"
