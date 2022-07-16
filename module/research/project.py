@@ -620,7 +620,7 @@ class ResearchSelector(UI):
                     preset = f'{preset}_cube'
             if preset not in DICT_FILTER_PRESET:
                 logger.warning(f'Preset not found: {preset}, use default preset')
-                preset = 'series_4_blueprint_tenrai'
+                preset = 'series_5_blueprint_152'
             string = DICT_FILTER_PRESET[preset]
 
         logger.attr('Research preset', preset)

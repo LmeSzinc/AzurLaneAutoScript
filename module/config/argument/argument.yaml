@@ -280,9 +280,12 @@ Research:
     value: always_use
     option: [always_use, only_05_hour, only_no_project, do_not_use]
   PresetFilter:
-    value: series_4_blueprint_tenrai
+    value: series_5_blueprint_152
     option:
       - custom
+      - series_5_blueprint_152
+      - series_5_blueprint_only
+      - series_5_152_only
       - series_4_blueprint_tenrai
       - series_4_blueprint_only
       - series_4_tenrai_only
