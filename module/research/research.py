@@ -8,13 +8,14 @@ from module.ocr.ocr import Duration
 from module.research.assets import *
 from module.research.project import (RESEARCH_ENTRANCE, ResearchProject,
                                      ResearchSelector, get_research_finished)
+from module.research.rqueue import ResearchQueue
 from module.ui.page import *
 
 OCR_DURATION = Duration(RESEARCH_LAB_DURATION_REMAIN, letter=(255, 255, 255), threshold=64,
                         name='RESEARCH_LAB_DURATION_REMAIN')
 
 
-class RewardResearch(ResearchSelector):
+class RewardResearch(ResearchSelector, ResearchQueue):
     _research_project_offset = 0
     _research_finished_index = 2
     research_project_started = None  # ResearchProject
@@ -22,9 +23,6 @@ class RewardResearch(ResearchSelector):
 
     def ensure_research_stable(self):
         self.wait_until_stable(STABLE_CHECKER)
-
-    def _in_research(self):
-        return self.appear(RESEARCH_CHECK, offset=(20, 20))
 
     def _research_has_finished_at(self, index):
         """
@@ -85,7 +83,7 @@ class RewardResearch(ResearchSelector):
                 continue
 
             # End
-            if executed and self._in_research():
+            if executed and self.is_in_research():
                 self.ensure_no_info_bar(timeout=3)  # Refresh success
                 self.ensure_research_stable()
                 break
@@ -153,12 +151,18 @@ class RewardResearch(ResearchSelector):
 
     def research_project_start(self, project, skip_first_screenshot=True):
         """
+        Start a given project and add it into research queue.
+
         Args:
             project (ResearchProject):
             skip_first_screenshot:
 
         Returns:
             bool: If start success.
+
+        Pages:
+            in: is_in_research
+            out: is_in_research
         """
         logger.info(f'Research project: {project}')
         if project in self.projects:
@@ -178,7 +182,7 @@ class RewardResearch(ResearchSelector):
             max_rgb = np.max(rgb2gray(self.image_crop(RESEARCH_UNAVAILABLE)))
 
             # Don't use interval here, RESEARCH_CHECK already appeared 5 seconds ago
-            if click_timer.reached() and self.appear(RESEARCH_CHECK, offset=(20, 20)):
+            if click_timer.reached() and self.is_in_research():
                 i = (index - self._research_project_offset) % 5
                 logger.info(f'Project offset: {self._research_project_offset}, project {index} is at {i}')
                 self.device.click(RESEARCH_ENTRANCE[i])
@@ -195,7 +199,7 @@ class RewardResearch(ResearchSelector):
             # End
             if self.appear(RESEARCH_STOP, offset=(20, 20)):
                 # RESEARCH_STOP is a semi-transparent button, color will vary depending on the background.
-                self.research_detail_quit()
+                self.research_queue_add()
                 # self.ensure_no_info_bar(timeout=3)  # Research started
                 self.research_project_started = project
                 return True
@@ -281,7 +285,7 @@ class RewardResearch(ResearchSelector):
                     record.add(self.device.image)
 
         # Close GET_ITEMS_*, to project list
-        self.ui_click(appear_button=get_items, click_button=GET_ITEMS_RESEARCH_SAVE, check_button=self._in_research,
+        self.ui_click(appear_button=get_items, click_button=GET_ITEMS_RESEARCH_SAVE, check_button=self.is_in_research,
                       skip_first_screenshot=True)
         return True
 
@@ -315,6 +319,17 @@ class RewardResearch(ResearchSelector):
 
         self._research_project_offset = 0
 
+        for _ in range(2):
+            logger.hr('Research select', level=1)
+            self.research_detect()
+            priority = self.research_sort_filter()
+            result = self.research_select(priority)
+            if result:
+                break
+
+        return True
+
+    def research_select_into_queue(self):
         for _ in range(2):
             logger.hr('Research select', level=1)
             self.research_detect()
