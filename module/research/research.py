@@ -206,7 +206,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             return None
 
         def drop_record(drop):
-            if not record:
+            if not drop:
                 return
             button = get_items()
             if button == GET_ITEMS_1 or button == GET_ITEMS_2:
@@ -267,6 +267,9 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                 if self.appear_then_click(QUEUE_CLAIM_REWARD, offset=None, interval=5):
                     continue
 
+            if total <= 0:
+                record.clear()
+
         logger.info(f'Received rewards from {total} projects')
         return total
 
@@ -285,8 +288,8 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             # Handle info bar, take one more screenshot to wait the remains of info_bar
             if self.handle_info_bar():
                 self.device.screenshot()
-            drop.add(self.device.image)
             self.research_detect()
+            drop.add(self.device.image)
             priority = self.research_sort_filter()
             result = self.research_select(priority, drop=drop)
             if result:
