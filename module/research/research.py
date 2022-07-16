@@ -2,7 +2,7 @@ import numpy as np
 
 from module.base.timer import Timer
 from module.base.utils import rgb2gray
-from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3
+from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3, GET_ITEMS_3_CHECK
 from module.logger import logger
 from module.ocr.ocr import Duration
 from module.research.assets import *
@@ -196,9 +196,13 @@ class RewardResearch(ResearchSelector, ResearchQueue):
         logger.hr('Research receive', level=1)
 
         def get_items():
-            for b in [GET_ITEMS_3, GET_ITEMS_2, GET_ITEMS_1]:
-                if self.appear(b, offset=(5, 0)):
-                    return b
+            if self.appear(GET_ITEMS_3, offset=(5, 5)):
+                if self.image_color_count(GET_ITEMS_3_CHECK, color=(255, 255, 255), threshold=221, count=100):
+                    return GET_ITEMS_3
+                else:
+                    return GET_ITEMS_2
+            if self.appear(GET_ITEMS_1, offset=(5, 5)):
+                return GET_ITEMS_1
             return None
 
         def drop_record(drop):
