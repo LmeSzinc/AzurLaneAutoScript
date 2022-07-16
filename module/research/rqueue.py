@@ -5,6 +5,9 @@ from module.logger import logger
 from module.research.assets import *
 from module.ui.assets import RESEARCH_CHECK
 from module.ui.ui import UI
+from module.ocr.ocr import Duration
+
+OCR_QUEUE_REMAIN = Duration(QUEUE_REMAIN, letter=(255, 255, 255), threshold=128, name='OCR_QUEUE_REMAIN')
 
 
 class ResearchQueue(UI):
@@ -21,7 +24,7 @@ class ResearchQueue(UI):
             out: is_in_queue
         """
         self.ui_click(RESEARCH_GOTO_QUEUE, check_button=self.is_in_queue, appear_button=self.is_in_research,
-                      retry_wait=3, skip_first_screenshot=skip_first_screenshot)
+                      retry_wait=1, skip_first_screenshot=skip_first_screenshot)
 
     def queue_quit(self, skip_first_screenshot=True):
         """
@@ -97,7 +100,7 @@ class ResearchQueue(UI):
         logger.warning(f'Unknown queue status from {button}, assume running')
         return 'running'
 
-    def get_queue_remain(self):
+    def get_queue_slot(self):
         """
         Returns:
             int: Number of empty slots in queue
@@ -107,6 +110,22 @@ class ResearchQueue(UI):
         """
         status = [self._queue_status_detect(button) for button in self.queue_status_grids.buttons]
         logger.info(f'Research queue: {status}')
-        remain = sum([int(s == 'empty') for s in status])
-        logger.attr('Research queue remain', remain)
-        return remain
+        slot = sum([int(s == 'empty') for s in status])
+        logger.attr('Research queue slot', slot)
+        return slot
+
+    def get_queue_remain(self):
+        """
+        Returns:
+            int: Seconds before research finished
+
+        Pages:
+            in: is_in_queue
+        """
+        if not self.image_color_count(QUEUE_REMAIN, color=(255, 255, 255), threshold=221, count=100):
+            logger.info('Research queue empty')
+            return 0
+
+        remain = OCR_QUEUE_REMAIN.ocr(self.device.image)
+        logger.info(f'Research queue remain: {remain}')
+        return remain.total_seconds()
