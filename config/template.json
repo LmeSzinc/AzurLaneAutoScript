@@ -47,7 +47,7 @@
   },
   "Restart": {
     "Scheduler": {
-      "Enable": false,
+      "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "Restart",
       "SuccessInterval": 0,

@@ -228,8 +228,8 @@
   "Restart": {
     "Scheduler": {
       "Enable": {
-        "type": "checkbox",
-        "value": false
+        "type": "disable",
+        "value": true
       },
       "NextRun": {
         "type": "input",

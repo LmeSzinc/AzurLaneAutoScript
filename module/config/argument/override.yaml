@@ -6,6 +6,9 @@
 
 Restart:
   Scheduler:
+    Enable:
+      value: true
+      type: disable
     SuccessInterval: 0
     FailureInterval: 0
     ServerUpdate: 00:00
