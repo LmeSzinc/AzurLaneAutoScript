@@ -34,6 +34,19 @@ class GuildShop(ShopClerk, ShopUI):
         return shop_guild_items
 
     @cached_property
+    @Config.when(SERVER='jp')
+    def shop_guild_items(self):
+        """
+        Returns:
+            ShopItemGrid:
+        """
+        shop_grid = self.shop_grid
+        shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
+        shop_guild_items.load_template_folder('./assets/shop/guild_cn')
+        shop_guild_items.load_cost_template_folder('./assets/shop/cost')
+        return shop_guild_items
+
+    @cached_property
     @Config.when(SERVER='tw')
     def shop_guild_items(self):
         """
