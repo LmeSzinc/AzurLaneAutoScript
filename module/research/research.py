@@ -417,12 +417,12 @@ class RewardResearch(ResearchSelector, ResearchQueue):
         # Check if it's waiting or running
         status = self.get_research_status(self.device.image)
         if 'waiting' in status:
-            if self.get_queue_slot() < 5:
+            if self.get_queue_slot() > 0:
                 self.research_project_start(status.index('waiting'))
             else:
                 logger.info('Queue full, stop appending waiting research')
         if 'running' in status:
-            if self.get_queue_slot() < 5:
+            if self.get_queue_slot() > 0:
                 self.research_project_start(status.index('running'))
             else:
                 logger.info('Queue full, stop appending running research')
