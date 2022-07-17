@@ -1539,6 +1539,10 @@
       "9": "9",
       "10": "10"
     },
+    "UseTicket": {
+      "name": "Use Build Ticket(s)",
+      "help": "Only use build tickets. Valid when select event pool"
+    },
     "UseDrill": {
       "name": "Use Drill(s)",
       "help": "Expedite the recently submitted orders"

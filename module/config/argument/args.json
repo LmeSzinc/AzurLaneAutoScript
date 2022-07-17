@@ -4957,6 +4957,10 @@
           10
         ]
       },
+      "UseTicket": {
+        "type": "checkbox",
+        "value": false
+      },
       "UseDrill": {
         "type": "checkbox",
         "value": false

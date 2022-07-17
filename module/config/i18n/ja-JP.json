@@ -1539,6 +1539,10 @@
       "9": "9",
       "10": "10"
     },
+    "UseTicket": {
+      "name": "Gacha.UseTicket.name",
+      "help": "Gacha.UseTicket.help"
+    },
     "UseDrill": {
       "name": "Gacha.UseDrill.name",
       "help": "Gacha.UseDrill.help"

@@ -11,12 +11,14 @@ from module.shop.shop_general import GeneralShop
 RECORD_GACHA_OPTION = ('RewardRecord', 'gacha')
 RECORD_GACHA_SINCE = (0,)
 OCR_BUILD_CUBE_COUNT = Digit(BUILD_CUBE_COUNT, letter=(255, 247, 247), threshold=64)
+OCR_BUILD_TICKET_COUNT = Digit(BUILD_TICKET_COUNT, letter=(255, 247, 247), threshold=64)
 OCR_BUILD_SUBMIT_COUNT = Digit(BUILD_SUBMIT_COUNT, letter=(255, 247, 247), threshold=64)
 OCR_BUILD_SUBMIT_WW_COUNT = Digit(BUILD_SUBMIT_WW_COUNT, letter=(255, 247, 247), threshold=64)
 
 
 class RewardGacha(GachaUI, GeneralShop, Retirement):
     build_cube_count = 0
+    build_ticket_count = -1
 
     def gacha_prep(self, target, skip_first_screenshot=True):
         """
@@ -107,8 +109,11 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
                 logger.warning('Insufficient gold and/or cubes to gacha roll')
                 break
 
+            if self.build_ticket_count >= 0:
+                target_count = min(target_count, self.build_ticket_count)
+                break
             # Insufficient resources, reduce by 1 and re-calculate
-            if gold_total > self._currency or cube_total > self.build_cube_count:
+            elif gold_total > self._currency or cube_total > self.build_cube_count:
                 target_count -= 1
                 continue
 
@@ -291,6 +296,9 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
         if actual_pool in ['heavy', 'special', 'event', 'wishing_well']:
             gold_cost = 1500
             cube_cost = 2
+
+        if actual_pool == "event" and self.config.Gacha_UseTicket:
+            self.build_ticket_count = OCR_BUILD_TICKET_COUNT.ocr(self.device.image)
 
         # Calculate rolls allowed based on
         # configurations and resources
