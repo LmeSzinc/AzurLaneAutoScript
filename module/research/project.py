@@ -183,6 +183,8 @@ def get_research_series_jp(image):
         series = upper
     elif upper == 3 and lower == 2:
         series = 4
+    elif upper == 2 and lower == 1:
+        series = 5
     else:
         series = 0
         logger.warning(f'Unknown research series: upper={upper}, lower={lower}')
@@ -330,6 +332,50 @@ def research_detect(image):
         logger.attr('Project', project)
         projects.append(project)
     return projects
+
+
+def get_research_waiting(image):
+    """
+    Args:
+        image: Screenshot
+
+    Returns:
+        int: Index of waiting project, or None
+    """
+    scaling_list = [
+        424 / 558,
+        491 / 558,
+        1.0,
+        491 / 558,
+        424 / 558,
+    ]
+    for index, status, scaling in zip(range(5), RESEARCH_STATUS, scaling_list):
+        info = status.crop((55, -40, 190, 0))
+        if TEMPLATE_WAITING.match(rgb2gray(crop(image, info.area)), scaling=scaling):
+            return index
+    return None
+
+
+def get_research_running(image):
+    """
+    Args:
+        image: Screenshot
+
+    Returns:
+        int: Index of waiting project, or None
+    """
+    scaling_list = [
+        424 / 558,
+        491 / 558,
+        1.0,
+        491 / 558,
+        424 / 558,
+    ]
+    for index, status, scaling in zip(range(5), RESEARCH_STATUS, scaling_list):
+        info = status.crop((55, -40, 190, 0))
+        if TEMPLATE_RUNNING.match(rgb2gray(crop(image, info.area)), scaling=scaling):
+            return index
+    return None
 
 
 class ResearchProject:

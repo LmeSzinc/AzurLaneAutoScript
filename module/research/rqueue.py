@@ -2,40 +2,14 @@ from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.logger import logger
-from module.research.assets import *
-from module.ui.assets import RESEARCH_CHECK
-from module.ui.ui import UI
 from module.ocr.ocr import Duration
+from module.research.assets import *
+from module.research.ui import ResearchUI
 
 OCR_QUEUE_REMAIN = Duration(QUEUE_REMAIN, letter=(255, 255, 255), threshold=128, name='OCR_QUEUE_REMAIN')
 
 
-class ResearchQueue(UI):
-    def is_in_research(self):
-        return self.appear(RESEARCH_CHECK, offset=(20, 20))
-
-    def is_in_queue(self):
-        return self.appear(QUEUE_CHECK, offset=(20, 20))
-
-    def queue_enter(self, skip_first_screenshot=True):
-        """
-        Pages:
-            in: is_in_research
-            out: is_in_queue
-        """
-        self.ui_click(RESEARCH_GOTO_QUEUE, check_button=self.is_in_queue, appear_button=self.is_in_research,
-                      retry_wait=1, skip_first_screenshot=skip_first_screenshot)
-
-    def queue_quit(self, skip_first_screenshot=True):
-        """
-        Pages:
-            in: is_in_queue
-            out: is_in_research, project stabled
-        """
-        self.ui_back(check_button=self.is_in_research, appear_button=self.is_in_queue,
-                     retry_wait=3, skip_first_screenshot=skip_first_screenshot)
-        self.wait_until_stable(STABLE_CHECKER_CENTER)
-
+class ResearchQueue(ResearchUI):
     def research_queue_add(self, skip_first_screenshot=True):
         """
         Pages:
@@ -64,7 +38,7 @@ class ResearchQueue(UI):
             if self.handle_popup_confirm('RESEARCH_QUEUE'):
                 continue
 
-        self.wait_until_stable(STABLE_CHECKER_CENTER)
+        self.ensure_research_center_stable()
 
     @cached_property
     def queue_status_grids(self):
@@ -72,7 +46,7 @@ class ResearchQueue(UI):
         Status icons on the left
         """
         return ButtonGrid(
-            origin=(8, 259), delta=(0, 40.5), button_shape=(25, 25), grid_shape=(1, 5), name='QUEUE_STATUS')
+            origin=(18, 259), delta=(0, 40.5), button_shape=(25, 25), grid_shape=(1, 5), name='QUEUE_STATUS')
 
     def _queue_status_detect(self, button):
         """

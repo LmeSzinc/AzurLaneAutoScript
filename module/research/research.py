@@ -2,12 +2,11 @@ import numpy as np
 
 from module.base.timer import Timer
 from module.base.utils import rgb2gray
-from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3, GET_ITEMS_3_CHECK
 from module.logger import logger
 from module.ocr.ocr import Duration
 from module.research.assets import *
-from module.research.project import (RESEARCH_ENTRANCE, ResearchProject,
-                                     ResearchSelector)
+from module.research.project import (RESEARCH_ENTRANCE, ResearchSelector, get_research_finished,
+                                     get_research_waiting, get_research_running)
 from module.research.rqueue import ResearchQueue
 from module.ui.page import *
 
@@ -17,11 +16,24 @@ OCR_DURATION = Duration(RESEARCH_LAB_DURATION_REMAIN, letter=(255, 255, 255), th
 
 class RewardResearch(ResearchSelector, ResearchQueue):
     _research_project_offset = 0
+    _research_finished_index = 2
     research_project_started = None  # ResearchProject
     enforce = False
 
-    def ensure_research_stable(self):
-        self.wait_until_stable(STABLE_CHECKER)
+    def research_has_finished(self):
+        """
+        Finished research should be auto-focused to the center, but sometimes didn't, due to an unknown game bug.
+        This method will handle that.
+        Returns:
+            bool: True if a research finished
+        """
+        index = get_research_finished(self.device.image)
+        if index is not None:
+            logger.attr('Research_finished', index)
+            self._research_finished_index = index
+            return True
+        else:
+            return False
 
     def research_reset(self, drop=None, skip_first_screenshot=True):
         """
@@ -75,12 +87,14 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             return True
         return False
 
-    def research_select(self, priority, drop=None):
+    def research_select(self, priority, drop=None, add_queue=True):
         """
         Args:
             priority (list): A list of ResearchProject objects and preset strings,
                 such as [object, object, object, 'reset']
             drop (DropImage):
+            add_queue (bool): Whether to add into queue.
+                The 6th project can't be added into queue, so here's the toggle.
 
         Returns:
             bool: False if have been reset
@@ -110,7 +124,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                 return True
             else:
                 # priority example: [ResearchProject, ResearchProject,]
-                if self.research_project_start(project):
+                if self.research_project_start(project, add_queue=add_queue):
                     return True
                 else:
                     continue
@@ -119,12 +133,14 @@ class RewardResearch(ResearchSelector, ResearchQueue):
         self.research_enforce()
         return True
 
-    def research_project_start(self, project, skip_first_screenshot=True):
+    def research_project_start(self, project, add_queue=True, skip_first_screenshot=True):
         """
         Start a given project and add it into research queue.
 
         Args:
-            project (ResearchProject):
+            project (ResearchProject, int): Project or index of project 0 to 4.
+            add_queue (bool): Whether to add into queue.
+                The 6th project can't be added into queue, so here's the toggle.
             skip_first_screenshot:
 
         Returns:
@@ -135,7 +151,9 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             out: is_in_research
         """
         logger.info(f'Research project: {project}')
-        if project in self.projects:
+        if isinstance(project, int):
+            index = project
+        elif project in self.projects:
             index = self.projects.index(project)
         else:
             logger.warning(f'The project to start: {project} is not in known projects')
@@ -171,7 +189,10 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             # End
             if self.appear(RESEARCH_STOP, offset=(20, 20)):
                 # RESEARCH_STOP is a semi-transparent button, color will vary depending on the background.
-                self.research_queue_add()
+                if add_queue:
+                    self.research_queue_add()
+                else:
+                    self.research_detail_quit()
                 # self.ensure_no_info_bar(timeout=3)  # Research started
                 self.research_project_started = project
                 return True
@@ -187,40 +208,74 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             skip_first_screenshot:
 
         Pages:
+            in: page_research, stable, with project finished.
+            out: page_research
+
+        Returns:
+            bool: True if success to receive rewards.
+                  False if project requirements are not satisfied.
+        """
+        logger.hr('Research receive', level=1)
+        with self.stat.new(
+                genre='research', method=self.config.DropRecord_ResearchRecord
+        ) as record:
+            # Take screenshots of project list
+            record.add(self.device.image)
+
+            # Click finished project, to GET_ITEMS_*
+            confirm_timer = Timer(1.5, count=5)
+            record_button = None
+            while 1:
+                if skip_first_screenshot:
+                    skip_first_screenshot = False
+                else:
+                    self.device.screenshot()
+
+                if self.appear(RESEARCH_CHECK, interval=10):
+                    if self.research_has_finished():
+                        self.device.click(RESEARCH_ENTRANCE[self._research_finished_index])
+
+                if self.appear(RESEARCH_STOP, offset=(20, 20)):
+                    logger.info('The research time is up, but requirements are not satisfied')
+                    self.research_project_started = None
+                    self.research_detail_quit()
+                    return False
+                # Entered another project accidentally
+                if self.appear(RESEARCH_START, offset=(20, 20), interval=5):
+                    self.device.click(RESEARCH_DETAIL_QUIT)
+                    continue
+
+                appear_button = self.get_items()
+                if appear_button is not None:
+                    if appear_button == record_button:
+                        if confirm_timer.reached():
+                            break
+                    else:
+                        logger.info(f'{appear_button} appeared')
+                        record_button = appear_button
+                        confirm_timer.reset()
+
+            # Take screenshots of items
+            self.drop_record(drop=record)
+
+        # Close GET_ITEMS_*, to project list
+        self.ui_click(appear_button=self.get_items, click_button=GET_ITEMS_RESEARCH_SAVE,
+                      check_button=self.is_in_research, skip_first_screenshot=True)
+        return True
+
+    def queue_receive(self, skip_first_screenshot=True):
+        """
+        Args:
+            skip_first_screenshot:
+
+        Pages:
             in: is_in_queue
             out: is_in_queue
 
         Returns:
             int: Number of research project received
         """
-        logger.hr('Research receive', level=1)
-
-        def get_items():
-            if self.appear(GET_ITEMS_3, offset=(5, 5)):
-                if self.image_color_count(GET_ITEMS_3_CHECK, color=(255, 255, 255), threshold=221, count=100):
-                    return GET_ITEMS_3
-                else:
-                    return GET_ITEMS_2
-            if self.appear(GET_ITEMS_1, offset=(5, 5)):
-                return GET_ITEMS_1
-            return None
-
-        def drop_record(drop):
-            if not drop:
-                return
-            button = get_items()
-            if button == GET_ITEMS_1 or button == GET_ITEMS_2:
-                drop.add(self.device.image)
-            elif button == GET_ITEMS_3:
-                self.device.sleep(1.5)
-                self.device.screenshot()
-                drop.add(self.device.image)
-                self.device.swipe_vector((0, 250), box=ITEMS_3_SWIPE.area, random_range=(-10, -10, 10, 10),
-                                         padding=0)
-                self.device.sleep(2)
-                self.device.screenshot()
-                drop.add(self.device.image)
-
+        logger.hr('Queue receive', level=1)
         total = 0
         with self.stat.new(
                 genre='research', method=self.config.DropRecord_ResearchRecord
@@ -246,12 +301,12 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                     end_confirm.reset()
 
                 # Get items
-                appear_button = get_items()
+                appear_button = self.get_items()
                 if appear_button is not None:
                     if appear_button == record_button:
                         if item_confirm.reached():
                             # Record drops and close get items
-                            drop_record(record)
+                            self.drop_record(drop=record)
                             self.device.click(GET_ITEMS_RESEARCH_SAVE)
                             item_confirm.reset()
                             record_button = None
@@ -275,10 +330,12 @@ class RewardResearch(ResearchSelector, ResearchQueue):
         logger.info(f'Received rewards from {total} projects')
         return total
 
-    def research_queue_append(self, drop=None):
+    def research_queue_append(self, drop=None, add_queue=True):
         """
         Args:
             drop (DropImage):
+            add_queue (bool): Whether to add into queue.
+                The 6th project can't be added into queue, so here's the toggle.
 
         Returns:
             bool: If success to start a project
@@ -293,7 +350,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             self.research_detect()
             drop.add(self.device.image)
             priority = self.research_sort_filter()
-            result = self.research_select(priority, drop=drop)
+            result = self.research_select(priority, drop=drop, add_queue=add_queue)
             if result:
                 break
 
@@ -325,8 +382,47 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                 else:
                     break
 
+            # Run the 6th project
+            waiting = get_research_waiting(self.device.image)
+            logger.attr('Research waiting', waiting)
+            if waiting is None:
+                self.research_queue_append(drop=drop, add_queue=False)
+            else:
+                logger.info('6th research already waiting')
+
             logger.info(f'Research queue full filled, queue added: {total}')
             return total
+
+    def receive_6th_research(self):
+        """
+        Returns:
+            bool: If success
+        """
+        # Check if it's finished
+        if self.research_has_finished():
+            logger.info(f'6th research finished at: {self._research_finished_index}')
+            success = self.research_receive()
+            if not success:
+                return False
+        else:
+            logger.info('No research has finished')
+        # Check if it's waiting
+        waiting = get_research_waiting(self.device.image)
+        logger.attr('Research waiting', waiting)
+        running = get_research_running(self.device.image)
+        logger.attr('Research running', running)
+        if waiting is not None:
+            if self.get_queue_slot() < 5:
+                self.research_project_start(waiting)
+            else:
+                logger.info('Queue full, stop appending waiting research')
+        elif running is not None:
+            if self.get_queue_slot() < 5:
+                self.research_project_start(waiting)
+            else:
+                logger.info('Queue full, stop appending running research')
+
+        return True
 
     def run(self):
         """
@@ -343,12 +439,20 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             self.config.task_stop()
 
         self.ui_ensure(page_research)
+
+        # Check queue
         self.queue_enter()
-        self.research_receive()
+        self.queue_receive()
         remain = self.get_queue_remain()
         self.queue_quit()
+
+        # Check the 6th project, which is outside of queue
+        self.receive_6th_research()
+
+        # Fill queue
         total = self.research_fill_queue()
 
+        # Scheduler
         if remain > 0:
             self.config.task_delay(minute=remain / 60)
         elif total > 0:
