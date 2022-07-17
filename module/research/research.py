@@ -150,6 +150,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             in: is_in_research
             out: is_in_research
         """
+        logger.hr('Research project start')
         logger.info(f'Research project: {project}')
         if isinstance(project, int):
             index = project
@@ -215,7 +216,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             bool: True if success to receive rewards.
                   False if project requirements are not satisfied.
         """
-        logger.hr('Research receive', level=1)
+        logger.hr('Research receive', level=3)
         with self.stat.new(
                 genre='research', method=self.config.DropRecord_ResearchRecord
         ) as record:
@@ -341,6 +342,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             bool: If success to start a project
         """
         self.research_project_started = None
+        project_record = None
         for _ in range(2):
             logger.hr('Research select', level=2)
             self._research_project_offset = 0
@@ -348,13 +350,18 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             if self.handle_info_bar():
                 self.device.screenshot()
             self.research_detect()
-            drop.add(self.device.image)
+            project_record = self.device.image
             priority = self.research_sort_filter()
             result = self.research_select(priority, drop=drop, add_queue=add_queue)
             if result:
                 break
 
-        return self.research_project_started is not None
+        if self.research_project_started is not None:
+            if project_record is not None:
+                drop.add(project_record)
+            return True
+        else:
+            return False
 
     def research_fill_queue(self):
         """
@@ -385,6 +392,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             # Run the 6th project
             status = self.get_research_status(self.device.image)
             if 'waiting' not in status:
+                logger.info('Select the 6th research')
                 self.research_queue_append(drop=drop, add_queue=False)
             else:
                 logger.info('6th research already waiting')
@@ -397,6 +405,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
         Returns:
             bool: If success
         """
+        logger.hr('Receive 6th research', level=2)
         # Check if it's finished
         if self.research_has_finished():
             logger.info(f'6th research finished at: {self._research_finished_index}')

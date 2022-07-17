@@ -15,7 +15,7 @@ class ResearchQueue(ResearchUI):
             in: RESEARCH_QUEUE_ADD (is_in_research, DETAIL_NEXT)
             out: is_in_research and stabled
         """
-        logger.info('Research queue add')
+        logger.hr('Research queue add')
         # POPUP_CONFIRM has just been clicked in research_project_start()
         self.popup_interval_clear()
         self.interval_clear([RESEARCH_QUEUE_ADD])
