@@ -5,8 +5,8 @@ from module.base.utils import rgb2gray
 from module.logger import logger
 from module.ocr.ocr import Duration
 from module.research.assets import *
-from module.research.project import (RESEARCH_ENTRANCE, ResearchSelector, get_research_finished,
-                                     get_research_waiting, get_research_running)
+from module.research.project import (RESEARCH_ENTRANCE, ResearchSelector,
+                                     get_research_finished)
 from module.research.rqueue import ResearchQueue
 from module.ui.page import *
 
@@ -383,9 +383,8 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                     break
 
             # Run the 6th project
-            waiting = get_research_waiting(self.device.image)
-            logger.attr('Research waiting', waiting)
-            if waiting is None:
+            status = self.get_research_status(self.device.image)
+            if 'waiting' not in status:
                 self.research_queue_append(drop=drop, add_queue=False)
             else:
                 logger.info('6th research already waiting')
@@ -406,19 +405,16 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                 return False
         else:
             logger.info('No research has finished')
-        # Check if it's waiting
-        waiting = get_research_waiting(self.device.image)
-        logger.attr('Research waiting', waiting)
-        running = get_research_running(self.device.image)
-        logger.attr('Research running', running)
-        if waiting is not None:
+        # Check if it's waiting or running
+        status = self.get_research_status(self.device.image)
+        if 'waiting' in status:
             if self.get_queue_slot() < 5:
-                self.research_project_start(waiting)
+                self.research_project_start(status.index('waiting'))
             else:
                 logger.info('Queue full, stop appending waiting research')
-        elif running is not None:
+        if 'running' in status:
             if self.get_queue_slot() < 5:
-                self.research_project_start(waiting)
+                self.research_project_start(status.index('running'))
             else:
                 logger.info('Queue full, stop appending running research')
 

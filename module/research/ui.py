@@ -1,7 +1,18 @@
+from module.base.utils import crop, rgb2gray
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3, GET_ITEMS_3_CHECK
+from module.logger import logger
 from module.research.assets import *
+from module.research.project import RESEARCH_STATUS
 from module.ui.assets import RESEARCH_CHECK
 from module.ui.ui import UI
+
+TEMPLATE_SCALING = [
+    424 / 558,
+    491 / 558,
+    1.0,
+    491 / 558,
+    424 / 558,
+]
 
 
 class ResearchUI(UI):
@@ -69,3 +80,27 @@ class ResearchUI(UI):
             self.device.sleep(2)
             self.device.screenshot()
             drop.add(self.device.image)
+
+    def get_research_status(self, image):
+        """
+        Args:
+            image: Screenshot
+
+        Returns:
+            list[str]: List of project status
+        """
+        out = []
+        for index, status, scaling in zip(range(5), RESEARCH_STATUS, TEMPLATE_SCALING):
+            info = status.crop((55, -40, 190, 0))
+            piece = rgb2gray(crop(image, info.area))
+            if TEMPLATE_WAITING.match(piece, scaling=scaling):
+                out.append('waiting')
+            elif TEMPLATE_RUNNING.match(piece, scaling=scaling):
+                out.append('running')
+            elif TEMPLATE_DETAIL.match(piece, scaling=scaling):
+                out.append('detail')
+            else:
+                out.append('unknown')
+
+        logger.info(f'Research status: {out}')
+        return out

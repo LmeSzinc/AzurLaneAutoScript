@@ -334,50 +334,6 @@ def research_detect(image):
     return projects
 
 
-def get_research_waiting(image):
-    """
-    Args:
-        image: Screenshot
-
-    Returns:
-        int: Index of waiting project, or None
-    """
-    scaling_list = [
-        424 / 558,
-        491 / 558,
-        1.0,
-        491 / 558,
-        424 / 558,
-    ]
-    for index, status, scaling in zip(range(5), RESEARCH_STATUS, scaling_list):
-        info = status.crop((55, -40, 190, 0))
-        if TEMPLATE_WAITING.match(rgb2gray(crop(image, info.area)), scaling=scaling):
-            return index
-    return None
-
-
-def get_research_running(image):
-    """
-    Args:
-        image: Screenshot
-
-    Returns:
-        int: Index of waiting project, or None
-    """
-    scaling_list = [
-        424 / 558,
-        491 / 558,
-        1.0,
-        491 / 558,
-        424 / 558,
-    ]
-    for index, status, scaling in zip(range(5), RESEARCH_STATUS, scaling_list):
-        info = status.crop((55, -40, 190, 0))
-        if TEMPLATE_RUNNING.match(rgb2gray(crop(image, info.area)), scaling=scaling):
-            return index
-    return None
-
-
 class ResearchProject:
     REGEX_SHIP = re.compile(
         '(neptune|monarch|ibuki|izumo|roon|saintlouis'

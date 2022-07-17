@@ -96,15 +96,20 @@ class Template(Resource):
         else:
             return self.image.shape[0:2][::-1]
 
-    def match(self, image, similarity=0.85):
+    def match(self, image, scaling=1.0, similarity=0.85):
         """
         Args:
             image:
+            scaling (int, float): Scale the template to match image
             similarity (float): 0 to 1.
 
         Returns:
             bool: If matches.
         """
+        scaling = 1 / scaling
+        if scaling != 1.0:
+            image = cv2.resize(image, None, fx=scaling, fy=scaling)
+
         if self.is_gif:
             for template in self.image:
                 res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)

@@ -1,6 +1,5 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
-from module.base.timer import Timer
 from module.logger import logger
 from module.ocr.ocr import Duration
 from module.research.assets import *
@@ -17,26 +16,23 @@ class ResearchQueue(ResearchUI):
             out: is_in_research and stabled
         """
         logger.info('Research queue add')
-        confirm_timer = Timer(0.3, count=1)
         # POPUP_CONFIRM has just been clicked in research_project_start()
         self.popup_interval_clear()
+        self.interval_clear([RESEARCH_QUEUE_ADD])
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
-            if self.is_in_research() and not self.appear(DETAIL_NEXT, offset=(20, 20)):
-                # Not in detail page
-                if confirm_timer.reached():
-                    break
-            else:
-                confirm_timer.reset()
-
             if self.appear_then_click(RESEARCH_QUEUE_ADD, offset=(20, 20), interval=3):
                 continue
             if self.handle_popup_confirm('RESEARCH_QUEUE'):
                 continue
+
+            # End
+            if self.is_in_research() and 'detail' in self.get_research_status(self.device.image):
+                break
 
         self.ensure_research_center_stable()
 
