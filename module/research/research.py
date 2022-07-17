@@ -254,6 +254,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                             drop_record(record)
                             self.device.click(GET_ITEMS_RESEARCH_SAVE)
                             item_confirm.reset()
+                            record_button = None
                             total += 1
                             continue
                     else:
@@ -262,6 +263,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                         item_confirm.reset()
                 else:
                     item_confirm.reset()
+                    record_button = None
 
                 # Claim rewards
                 if self.appear_then_click(QUEUE_CLAIM_REWARD, offset=None, interval=5):
@@ -318,10 +320,13 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                     if success:
                         total += 1
                     else:
+                        logger.info(f'Unable to start a project, stop filling queue, queue added: {total}')
                         return total
                 else:
-                    logger.info(f'Research queue full filled, queue added: {total}')
-                    return total
+                    break
+
+            logger.info(f'Research queue full filled, queue added: {total}')
+            return total
 
     def run(self):
         """
