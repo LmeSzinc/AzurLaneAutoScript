@@ -5,7 +5,6 @@ import uiautomator2 as u2
 from adbutils.errors import AdbError
 from lxml import etree
 
-from module.base.decorator import cached_property
 from module.base.utils import *
 from module.device.connection import Connection
 from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
@@ -91,16 +90,10 @@ def retry(func):
 
 
 class Uiautomator2(Connection):
-    @cached_property
-    def u2(self) -> u2.Device:
-        device = u2.connect(self.serial)
-        device.set_new_command_timeout(604800)
-        return device
-
     @retry
     def screenshot_uiautomator2(self):
         image = self.u2.screenshot(format='raw')
-        image = np.fromstring(image, np.uint8)
+        image = np.frombuffer(image, np.uint8)
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         return image

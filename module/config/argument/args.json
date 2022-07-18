@@ -228,8 +228,8 @@
   "Restart": {
     "Scheduler": {
       "Enable": {
-        "type": "checkbox",
-        "value": false
+        "type": "disable",
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4312,9 +4312,12 @@
       },
       "PresetFilter": {
         "type": "select",
-        "value": "series_4_blueprint_tenrai",
+        "value": "series_5_blueprint_152",
         "option": [
           "custom",
+          "series_5_blueprint_152",
+          "series_5_blueprint_only",
+          "series_5_152_only",
           "series_4_blueprint_tenrai",
           "series_4_blueprint_only",
           "series_4_tenrai_only",
@@ -4953,6 +4956,10 @@
           9,
           10
         ]
+      },
+      "UseTicket": {
+        "type": "checkbox",
+        "value": true
       },
       "UseDrill": {
         "type": "checkbox",

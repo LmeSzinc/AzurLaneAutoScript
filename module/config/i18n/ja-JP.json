@@ -1120,6 +1120,9 @@
       "name": "Research.PresetFilter.name",
       "help": "Research.PresetFilter.help",
       "custom": "custom",
+      "series_5_blueprint_152": "series_5_blueprint_152",
+      "series_5_blueprint_only": "series_5_blueprint_only",
+      "series_5_152_only": "series_5_152_only",
       "series_4_blueprint_tenrai": "Series 4 Blueprints+Tenrai",
       "series_4_blueprint_only": "Series 4 Blueprints Only",
       "series_4_tenrai_only": "Series 4 Tenrai Only",
@@ -1535,6 +1538,10 @@
       "8": "8",
       "9": "9",
       "10": "10"
+    },
+    "UseTicket": {
+      "name": "Gacha.UseTicket.name",
+      "help": "Gacha.UseTicket.help"
     },
     "UseDrill": {
       "name": "Gacha.UseDrill.name",

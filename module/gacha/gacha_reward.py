@@ -11,12 +11,14 @@ from module.shop.shop_general import GeneralShop
 RECORD_GACHA_OPTION = ('RewardRecord', 'gacha')
 RECORD_GACHA_SINCE = (0,)
 OCR_BUILD_CUBE_COUNT = Digit(BUILD_CUBE_COUNT, letter=(255, 247, 247), threshold=64)
+OCR_BUILD_TICKET_COUNT = Digit(BUILD_TICKET_COUNT, letter=(255, 247, 247), threshold=64)
 OCR_BUILD_SUBMIT_COUNT = Digit(BUILD_SUBMIT_COUNT, letter=(255, 247, 247), threshold=64)
 OCR_BUILD_SUBMIT_WW_COUNT = Digit(BUILD_SUBMIT_WW_COUNT, letter=(255, 247, 247), threshold=64)
 
 
 class RewardGacha(GachaUI, GeneralShop, Retirement):
     build_cube_count = 0
+    build_ticket_count = 0
 
     def gacha_prep(self, target, skip_first_screenshot=True):
         """
@@ -292,22 +294,29 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
             gold_cost = 1500
             cube_cost = 2
 
-        # Calculate rolls allowed based on
-        # configurations and resources
-        buy_count = self.gacha_calculate(self.config.Gacha_Amount, gold_cost, cube_cost)
+        # OCR build tickets, decide use cubes/coins or not
+        # buy = [rolls_using_tickets, rolls_using_cubes]
+        buy = [self.config.Gacha_Amount, 0]
+        if actual_pool == "event" and self.config.Gacha_UseTicket:
+            self.build_ticket_count = OCR_BUILD_TICKET_COUNT.ocr(self.device.image)
+        if self.config.Gacha_Amount > self.build_ticket_count:
+            buy[0] = self.build_ticket_count
+            # Calculate rolls allowed based on configurations and resources
+            buy[1] = self.gacha_calculate(self.config.Gacha_Amount-self.build_ticket_count, gold_cost, cube_cost)
 
         # Submit 'buy_count' and execute if capable
         # Cannot use handle_popup_confirm, this window
         # lacks POPUP_CANCEL
         result = False
-        if self.gacha_prep(buy_count):
-            self.gacha_submit()
+        for buy_count in buy:
+            if self.gacha_prep(buy_count):
+                self.gacha_submit()
 
-            # If configured to use drill after build
-            if self.config.Gacha_UseDrill:
-                self.gacha_flush_queue()
-
-            result = True
+                # If configured to use drill after build
+                if self.config.Gacha_UseDrill:
+                    self.gacha_flush_queue()
+                # Return True if any submit successed
+                result = True
 
         return result
 

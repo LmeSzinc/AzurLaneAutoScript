@@ -23,12 +23,13 @@ OCR_RESEARCH = [OCR_RESEARCH_1, OCR_RESEARCH_2, OCR_RESEARCH_3, OCR_RESEARCH_4, 
 OCR_RESEARCH = Ocr(OCR_RESEARCH, name='RESEARCH', threshold=64, alphabet='0123456789BCDEGHQTMIULRF-')
 RESEARCH_DETAIL_GENRE = [DETAIL_GENRE_B, DETAIL_GENRE_C, DETAIL_GENRE_D, DETAIL_GENRE_E, DETAIL_GENRE_G,
                          DETAIL_GENRE_H_0, DETAIL_GENRE_H_1, DETAIL_GENRE_Q, DETAIL_GENRE_T]
-FILTER_REGEX = re.compile('(s[1234])?'
+FILTER_REGEX = re.compile('(s[12345])?'
                           '-?'
                           '(neptune|monarch|ibuki|izumo|roon|saintlouis'
                           '|seattle|georgia|kitakaze|azuma|friedrich'
                           '|gascogne|champagne|cheshire|drake|mainz|odin'
-                          '|anchorage|hakuryu|agir|august|marcopolo)?'
+                          '|anchorage|hakuryu|agir|august|marcopolo'
+                          '|plymouth|rupprecht|harbin|chkalov|brest)?'
                           '(dr|pry)?'
                           '([bcdeghqt])?'
                           '-?'
@@ -71,6 +72,8 @@ def get_research_series(image):
             series = upper
         elif upper == 3 and lower == 2:
             series = 4
+        elif upper == 2 and lower == 1:
+            series = 5
         else:
             series = 0
             logger.warning(f'Unknown research series: button={button}, upper={upper}, lower={lower}')
@@ -180,6 +183,8 @@ def get_research_series_jp(image):
         series = upper
     elif upper == 3 and lower == 2:
         series = 4
+    elif upper == 2 and lower == 1:
+        series = 5
     else:
         series = 0
         logger.warning(f'Unknown research series: upper={upper}, lower={lower}')
@@ -334,9 +339,10 @@ class ResearchProject:
         '(neptune|monarch|ibuki|izumo|roon|saintlouis'
         '|seattle|georgia|kitakaze|azuma|friedrich'
         '|gascogne|champagne|cheshire|drake|mainz|odin'
-        '|anchorage|hakuryu|agir|august|marcopolo)')
+        '|anchorage|hakuryu|agir|august|marcopolo'
+        '|plymouth|rupprecht|harbin|chkalov|brest)')
     REGEX_INPUT = re.compile('(coin|cube|part)')
-    DR_SHIP = ['azuma', 'friedrich', 'drake', 'hakuryu', 'agir']
+    DR_SHIP = ['azuma', 'friedrich', 'drake', 'hakuryu', 'agir', 'plymouth', 'brest']
 
     def __init__(self, name, series):
         """
@@ -427,7 +433,7 @@ class ResearchProject:
             if (data['series'] == series) and (data['name'] == name):
                 yield data
 
-        if name[0].isdigit():
+        if len(name) and name[0].isdigit():
             for t in 'QG':
                 name1 = f'{t}-{self.name}'
                 logger.info(f'Testing the most similar candidate {name1}')
@@ -458,8 +464,9 @@ class ResearchProjectJp:
     SHIP_S2 = ['seattle', 'georgia', 'kitakaze', 'azuma', 'friedrich', 'gascogne']
     SHIP_S3 = ['champagne', 'cheshire', 'drake', 'mainz', 'odin']
     SHIP_S4 = ['anchorage', 'hakuryu', 'agir', 'august', 'marcopolo']
-    SHIP_ALL = SHIP_S1 + SHIP_S2 + SHIP_S3 + SHIP_S4
-    DR_SHIP = ['azuma', 'friedrich', 'drake', 'hakuryu', 'agir']
+    SHIP_S5 = ['plymouth', 'rupprecht', 'harbin', 'chkalov', 'brest']
+    SHIP_ALL = SHIP_S1 + SHIP_S2 + SHIP_S3 + SHIP_S4 + SHIP_S5
+    DR_SHIP = ['azuma', 'friedrich', 'drake', 'hakuryu', 'agir', 'plymouth', 'brest']
 
     def __init__(self):
         self.valid = True
@@ -615,7 +622,7 @@ class ResearchSelector(UI):
                     preset = f'{preset}_cube'
             if preset not in DICT_FILTER_PRESET:
                 logger.warning(f'Preset not found: {preset}, use default preset')
-                preset = 'series_4_blueprint_tenrai'
+                preset = 'series_5_blueprint_152'
             string = DICT_FILTER_PRESET[preset]
 
         logger.attr('Research preset', preset)
@@ -675,8 +682,9 @@ class ResearchSelector(UI):
             return False
         # T series require commission
         # 2022.05.08 Allow T series researches because commission is now force to enable
-        # if project.genre.upper() == 'T':
-        #     return False
+        # 2022.07.17 Disallow T again cause they can't be queued unless pre-conditions satisfied
+        if project.genre.upper() == 'T':
+            return False
         # 2021.08.19 Allow E-2 to disassemble tech boxes, but JP still remains the same.
         if self.config.SERVER == 'jp':
             if project.genre.upper() == 'E' and str(project.duration) != '6':

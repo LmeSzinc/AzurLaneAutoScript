@@ -102,6 +102,10 @@ def remote_access_service(
             logger.info(
                 f"Failed to establish remote access, this is the error message from service provider: {connection_info.get('message', '')}"
             )
+            new_username = connection_info.get("change_username", None)
+            if new_username:
+                logger.info(f"Server requested to change username, change it to: {new_username}")
+                State.deploy_config.SSHUser = new_username
         else:
             global address
             address = connection_info["address"]

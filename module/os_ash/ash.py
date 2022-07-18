@@ -87,7 +87,8 @@ class OSAsh(UI, MapEventHandler):
     beacon_entrance_offset = (100, 100)
 
     def is_in_ash(self):
-        return self.appear(ASH_CHECK, offset=(100, 20))
+        return self.appear(ASH_CHECK, offset=(100, 20)) or \
+               self.appear(ASH_SHOWDOWN, offset=(30, 30))
 
     def is_in_map(self):
         return self.appear(IN_MAP, offset=(200, 5))

@@ -1120,6 +1120,9 @@
       "name": "科研过滤器",
       "help": "科研掉落和项目刷新见 https://azur-stats.lyoko.io/，对这些没有基本了解的人不建议编写自定义过滤器，建议使用预优化科研过滤器",
       "custom": "自定义",
+      "series_5_blueprint_152": "五期 蓝图+152",
+      "series_5_blueprint_only": "五期 仅蓝图",
+      "series_5_152_only": "五期 仅152",
       "series_4_blueprint_tenrai": "四期 蓝图+天雷",
       "series_4_blueprint_only": "四期 仅蓝图",
       "series_4_tenrai_only": "四期 仅天雷",
@@ -1535,6 +1538,10 @@
       "8": "8",
       "9": "9",
       "10": "10"
+    },
+    "UseTicket": {
+      "name": "使用单次建造券",
+      "help": "开启后支持建造券的池将优先使用建造券建造，无建造券及建造一般池时仍使用魔方建造"
     },
     "UseDrill": {
       "name": "使用钻头完成建造",
