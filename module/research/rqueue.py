@@ -1,5 +1,5 @@
 from module.base.button import ButtonGrid
-from module.base.decorator import cached_property
+from module.base.decorator import cached_property, Config
 from module.logger import logger
 from module.ocr.ocr import Duration
 from module.research.assets import *
@@ -37,6 +37,16 @@ class ResearchQueue(ResearchUI):
         self.ensure_research_center_stable()
 
     @cached_property
+    @Config.when(SERVER='en')
+    def queue_status_grids(self):
+        """
+        Status icons on the left
+        """
+        return ButtonGrid(
+            origin=(8, 259), delta=(0, 40.5), button_shape=(25, 25), grid_shape=(1, 5), name='QUEUE_STATUS')
+
+    @cached_property
+    @Config.when(SERVER=None)
     def queue_status_grids(self):
         """
         Status icons on the left
