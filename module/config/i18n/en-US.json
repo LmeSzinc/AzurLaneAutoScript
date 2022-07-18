@@ -1539,6 +1539,10 @@
       "9": "9",
       "10": "10"
     },
+    "UseTicket": {
+      "name": "Use Build Ticket(s)",
+      "help": "Use build tickets first for event pool. Use cubes if tickets run out or build general pools"
+    },
     "UseDrill": {
       "name": "Use Drill(s)",
       "help": "Expedite the recently submitted orders"

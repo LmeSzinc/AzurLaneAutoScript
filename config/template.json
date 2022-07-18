@@ -1016,6 +1016,7 @@
     "Gacha": {
       "Pool": "light",
       "Amount": 1,
+      "UseTicket": true,
       "UseDrill": false
     }
   },
