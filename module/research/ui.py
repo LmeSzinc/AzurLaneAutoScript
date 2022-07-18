@@ -91,7 +91,7 @@ class ResearchUI(UI):
         """
         out = []
         for index, status, scaling in zip(range(5), RESEARCH_STATUS, TEMPLATE_SCALING):
-            info = status.crop((55, -40, 190, 0))
+            info = status.crop((0, -40, 200, 0))
             piece = rgb2gray(crop(image, info.area))
             if TEMPLATE_WAITING.match(piece, scaling=scaling):
                 out.append('waiting')
