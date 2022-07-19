@@ -381,6 +381,29 @@
       "help": ""
     }
   },
+  "RestartEmulator": {
+    "_info": {
+      "name": "重啓模擬器",
+      "help": ""
+    },
+    "LaunchMode": {
+      "name": "啟動方案",
+      "help": "如果被啟動的模擬器需要管理員許可權，請“以管理員身份運行”Alas",
+      "do_not_use": "不使用",
+      "auto": "自動",
+      "Nox": "夜神模擬器",
+      "Nemu": "MuMu模擬器",
+      "custom": "自定義"
+    },
+    "CustomStartFilter": {
+      "name": "自定義啟動命令",
+      "help": ""
+    },
+    "CustomKillFilter": {
+      "name": "自定義關閉命令",
+      "help": ""
+    }
+  },
   "Error": {
     "_info": {
       "name": "除錯設定",

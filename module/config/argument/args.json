@@ -109,6 +109,27 @@
         "value": false
       }
     },
+    "RestartEmulator": {
+      "LaunchMode": {
+        "type": "select",
+        "value": "do_not_use",
+        "option": [
+          "do_not_use",
+          "auto",
+          "Nox",
+          "Nemu",
+          "custom"
+        ]
+      },
+      "CustomStartFilter": {
+        "type": "textarea",
+        "value": "C:\\Program Files\\Nox\\bin\\Nox.exe -clone:nox"
+      },
+      "CustomKillFilter": {
+        "type": "textarea",
+        "value": "C:\\Program Files\\Nox\\bin\\Nox.exe -clone:nox -quit"
+      }
+    },
     "Error": {
       "HandleError": {
         "type": "checkbox",

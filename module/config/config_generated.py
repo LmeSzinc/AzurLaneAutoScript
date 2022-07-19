@@ -26,6 +26,11 @@ class GeneratedConfig:
     Emulator_ScreenshotDedithering = False
     Emulator_AdbRestart = False
 
+    # Group `RestartEmulator`
+    RestartEmulator_LaunchMode = 'do_not_use'  # do_not_use, auto, Nox, Nemu, custom
+    RestartEmulator_CustomStartFilter = 'C:\\Program Files\\Nox\\bin\\Nox.exe -clone:nox'
+    RestartEmulator_CustomKillFilter = 'C:\\Program Files\\Nox\\bin\\Nox.exe -clone:nox -quit'
+
     # Group `Error`
     Error_HandleError = True
     Error_SaveError = True

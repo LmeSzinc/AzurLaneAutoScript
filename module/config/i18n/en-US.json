@@ -381,6 +381,29 @@
       "help": ""
     }
   },
+  "RestartEmulator": {
+    "_info": {
+      "name": "Restart Emulator",
+      "help": ""
+    },
+    "LaunchMode": {
+      "name": "Launch Mode",
+      "help": "If the simulator that is started needs administrator privileges, please run alas with \"run as administrator\"",
+      "do_not_use": "Do not use",
+      "auto": "Auto",
+      "Nox": "Nox Player",
+      "Nemu": "MuMu Player",
+      "custom": "Custom"
+    },
+    "CustomStartFilter": {
+      "name": "Custom Start Command",
+      "help": ""
+    },
+    "CustomKillFilter": {
+      "name": "Custom Kill Command",
+      "help": ""
+    }
+  },
   "Error": {
     "_info": {
       "name": "Debug Settings",

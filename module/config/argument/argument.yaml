@@ -35,6 +35,14 @@ Emulator:
     option: [ADB, uiautomator2, minitouch, Hermit]
   ScreenshotDedithering: false
   AdbRestart: false
+RestartEmulator:
+  LaunchMode:
+    value: do_not_use
+    option: [do_not_use, auto, Nox, Nemu, custom]
+  CustomStartFilter: |-
+    C:\Program Files\Nox\bin\Nox.exe -clone:nox
+  CustomKillFilter: |-
+    C:\Program Files\Nox\bin\Nox.exe -clone:nox -quit
 Error:
   HandleError: true
   SaveError: true

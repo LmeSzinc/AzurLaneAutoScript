@@ -381,6 +381,29 @@
       "help": "Emulator.AdbRestart.help"
     }
   },
+  "RestartEmulator": {
+    "_info": {
+      "name": "RestartEmulator._info.name",
+      "help": "RestartEmulator._info.help"
+    },
+    "LaunchMode": {
+      "name": "RestartEmulator.LaunchMode.name",
+      "help": "RestartEmulator.LaunchMode.help",
+      "do_not_use": "do_not_use",
+      "auto": "auto",
+      "Nox": "Nox",
+      "Nemu": "Nemu",
+      "custom": "custom"
+    },
+    "CustomStartFilter": {
+      "name": "RestartEmulator.CustomStartFilter.name",
+      "help": "RestartEmulator.CustomStartFilter.help"
+    },
+    "CustomKillFilter": {
+      "name": "RestartEmulator.CustomKillFilter.name",
+      "help": "RestartEmulator.CustomKillFilter.help"
+    }
+  },
   "Error": {
     "_info": {
       "name": "Error._info.name",
