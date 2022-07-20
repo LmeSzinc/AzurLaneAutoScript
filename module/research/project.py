@@ -8,6 +8,7 @@ from module.base.decorator import Config
 from module.base.filter import Filter
 from module.base.timer import Timer
 from module.base.utils import *
+from module.config.config_generated import GeneratedConfig
 from module.logger import logger
 from module.ocr.ocr import Ocr
 from module.research.assets import *
@@ -616,6 +617,12 @@ class ResearchSelector(UI):
         preset = self.config.Research_PresetFilter
         if preset == 'custom':
             string = self.config.Research_CustomFilter
+            if enforce:
+                value = GeneratedConfig.Research_PresetFilter
+                string = string.split()
+                string.append('>')
+                string.extend(DICT_FILTER_PRESET[value].split())
+                string = " ".join(string)
         else:
             if self.config.Research_UseCube == 'always_use' or enforce:
                 if f'{preset}_cube' in DICT_FILTER_PRESET:
