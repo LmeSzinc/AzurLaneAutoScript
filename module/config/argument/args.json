@@ -5762,6 +5762,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "war_archives_20210624_cn",
           "war_archives_20210325_cn",
           "war_archives_20190911_cn",
           "war_archives_20200820_cn",
@@ -5776,7 +5777,7 @@
           "war_archives_20191031_en",
           "war_archives_20181020_en"
         ],
-        "cn": "war_archives_20210325_cn",
+        "cn": "war_archives_20210624_cn",
         "en": "war_archives_20210325_cn",
         "jp": "war_archives_20210325_cn",
         "tw": "war_archives_20181227_cn"
