@@ -110,6 +110,7 @@ class Connection(ConnectionAttr):
         """
         cmd = list(map(str, cmd))
         cmd = [self.adb_binary, '-s', self.serial] + cmd
+        logger.info(f'Execute: {cmd}')
 
         # Use shell=True to disable console window when using GUI.
         # Although, there's still a window when you stop running in GUI, which cause by gooey.

@@ -38,7 +38,7 @@ Emulator:
 RestartEmulator:
   LaunchMode:
     value: do_not_use
-    option: [do_not_use, auto, Nox, Nemu, custom]
+    option: [do_not_use, auto, nox_player, bluestacks_player_5, mumu_player, custom]
   CustomStartFilter: |-
     C:\Program Files\Nox\bin\Nox.exe -clone:nox
   CustomKillFilter: |-

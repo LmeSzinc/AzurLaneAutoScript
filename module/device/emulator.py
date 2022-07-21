@@ -2,18 +2,20 @@ import os
 import re
 import winreg
 import subprocess
+from sys import platform
 
+from adbutils.errors import AdbError
+
+from deploy.emulator import VirtualBoxEmulator
 from module.base.decorator import cached_property
 from module.device.connection import Connection
 from module.exception import RequestHumanTakeover, EmulatorNotRunningError
 from module.logger import logger
 
 
-class EmulatorInstance:
-    UNINSTALL_REG = "SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall"
-    UNINSTALL_REG_2 = "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall"
+class EmulatorInstance(VirtualBoxEmulator):
 
-    def __init__(self, name, root_path, emu_path, vbox_path, vbox_name, kill_para=None, multi_para=None):
+    def __init__(self, name, root_path, emu_path, vbox_path=None, vbox_name=None, kill_para=None, multi_para=None):
         """
         Args:
             name (str): Emulator name in windows uninstall list.
@@ -25,39 +27,22 @@ class EmulatorInstance:
             multi_para (str): Parameters required by start multi open emulator,
             #id will be replaced with the real ID.
         """
-        self.name = name
-        self.root_path = root_path
+        super().__init__(
+            name=name,
+            root_path=root_path,
+            adb_path=None,
+            vbox_path=vbox_path,
+            vbox_name=vbox_name,
+        )
         self.emu_path = emu_path
-        self.vbox_path = vbox_path
-        self.vbox_name = vbox_name
         self.kill_para = kill_para
         self.multi_para = multi_para
-
-    @cached_property
-    def root(self):
-        """
-        Returns:
-            str: Root installation folder of emulator.
-
-        Raises:
-            FileNotFoundError: If emulator not installed.
-        """
-        try:
-            reg = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, f'{self.UNINSTALL_REG}\\{self.name}', 0)
-        except FileNotFoundError:
-            reg = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, f'{self.UNINSTALL_REG_2}\\{self.name}', 0)
-        res = winreg.QueryValueEx(reg, 'UninstallString')[0]
-
-        file = re.search('"(.*?)"', res)
-        file = file.group(1) if file else res
-        root = os.path.abspath(os.path.join(os.path.dirname(file), self.root_path))
-        return root
 
     @cached_property
     def id_and_serial(self):
         """
         Returns:
-            list[str, str]:Multi_id and serial
+            list[str, str]: List of multi_id and serial.
         """
         vbox = []
         for path, folders, files in os.walk(os.path.join(self.root, self.vbox_path)):
@@ -78,36 +63,59 @@ class EmulatorInstance:
         return serial
 
 
+class BluestacksInstance(EmulatorInstance):
+    @cached_property
+    def root(self):
+        try:
+            return super().root
+        except FileNotFoundError:
+            self.name = 'BlueStacks_nxt_cn'
+            return super().root
+
+    @cached_property
+    def id_and_serial(self):
+        try:
+            reg = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\BlueStacks_nxt")
+        except FileNotFoundError:
+            reg = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\BlueStacks_nxt_cn")
+        directory = winreg.QueryValueEx(reg, 'UserDefinedDir')[0]
+
+        with open(os.path.join(directory, 'bluestacks.conf'), encoding='utf-8') as f:
+            content = f.read()
+        emulators = re.findall(r'bst.instance.(\w+).status.adb_port="(\d+)"', content)
+        serial = []
+        for emulator in emulators:
+            serial.append([emulator[0], f'127.0.0.1:{emulator[1]}'])
+        return serial
+
+
 class EmulatorManager(Connection):
+    pid = None
 
-    nox_player = EmulatorInstance(
-        name="Nox",
-        root_path=".",
-        emu_path="./Nox.exe",
-        vbox_path="./BignoxVMS",
-        vbox_name='.*.vbox$',
-        kill_para='-quit',
-        multi_para='-clone:#id',
-    )
-
-    mumu_player = EmulatorInstance(
-        name="Nemu",
-        root_path=".",
-        emu_path="./EmulatorShell/NemuPlayer.exe",
-        vbox_path="./vms",
-        vbox_name='.*.nemu$',
-    )
-
-    SUPPORTED_EMULATORS = [
-        nox_player,
-        mumu_player,
-    ]
-
-    def select_emulator_by_name(self, name):
-        for emulator in self.SUPPORTED_EMULATORS:
-            if emulator.name == name:
-                return emulator
-        return None
+    SUPPORTED_EMULATORS = {
+        'nox_player': EmulatorInstance(
+            name="Nox",
+            root_path=".",
+            emu_path="./Nox.exe",
+            vbox_path="./BignoxVMS",
+            vbox_name='.*.vbox$',
+            kill_para='-quit',
+            multi_para='-clone:#id',
+        ),
+        'mumu_player': EmulatorInstance(
+            name="Nemu",
+            root_path=".",
+            emu_path="./EmulatorShell/NemuPlayer.exe",
+            vbox_path="./vms",
+            vbox_name='.*.nemu$',
+        ),
+        'bluestacks_player_5': BluestacksInstance(
+            name='BlueStacks_nxt',
+            root_path='.',
+            emu_path='./HD-Player.exe',
+            multi_para='--instance #id',
+        ),
+    }
 
     def detect_emulator(self, serial, emulator=None):
         """
@@ -120,7 +128,7 @@ class EmulatorManager(Connection):
         if emulator is None:
             logger.info('Detect emulator from all emulators installed')
             emulators = []
-            for emulator in self.SUPPORTED_EMULATORS:
+            for emulator in self.SUPPORTED_EMULATORS.values():
                 try:
                     serials = emulator.id_and_serial
                     for cur_serial in serials:
@@ -133,7 +141,7 @@ class EmulatorManager(Connection):
             for emulator in emulators:
                 logger.info(f'Name: {emulator[0].name}, Multi_id: {emulator[1]}')
 
-            if len(emulators) == 1:
+            if len(emulators) == 1 or emulators[0][0] == self.SUPPORTED_EMULATORS['mumu_player']:
                 logger.info('Find the only emulator, using it')
                 return emulators[0][0], emulators[0][1]
             elif len(emulators) == 0:
@@ -158,7 +166,8 @@ class EmulatorManager(Connection):
                                'please check the setting or use custom command')
                 raise RequestHumanTakeover
 
-    def execute(self, command):
+    @staticmethod
+    def execute(command):
         """
         Args:
             command (str):
@@ -206,15 +215,19 @@ class EmulatorManager(Connection):
         for _ in range(3):
             logger.info('Start emulator')
             pipe = self.execute(command)
+            self.pid = pipe.pid
             self.sleep(20)
 
             for __ in range(20):
                 if pipe.poll() is not None:
+                    break
+                try:
+                    if super().adb_connect(serial):
+                        self.sleep(5)
+                        # Wait until emulator start completely
+                        return True
+                except EmulatorNotRunningError:
                     continue
-                if super(EmulatorManager, self).adb_connect(serial):
-                    self.sleep(5)
-                    # Wait until emulator start completely
-                    return True
                 self.sleep(5)
         logger.warning('Emulator start failed for 3 times, please check your settings')
         raise RequestHumanTakeover
@@ -230,7 +243,7 @@ class EmulatorManager(Connection):
             bool: If kill successful.
         """
 
-        if emulator == self.mumu_player:
+        if emulator == self.SUPPORTED_EMULATORS['mumu_player']:
             # It is MuMu's fault, Alas is not to blame
             return self.emulator_kill(serial,
                                       path='taskkill /f /im NemuHeadless.exe /im NemuPlayer.exe /im NemuSvc.exe')
@@ -241,24 +254,39 @@ class EmulatorManager(Connection):
             command = os.path.abspath(os.path.join(emulator.root, emulator.emu_path))
             if multi_id is not None and emulator.multi_para is not None:
                 command += " " + emulator.multi_para.replace("#id", multi_id)
+
             if emulator.kill_para is not None:
                 command += " " + emulator.kill_para
+            elif self.pid is not None:
+                command = f'taskkill /pid {self.pid} /f /t'
             else:
-                command = f'taskkill /f /im {os.path.basename(command)}'
+                command = f'taskkill /im {os.path.basename(emulator.emu_path)} /f /t'
 
         for _ in range(3):
             logger.info('Kill emulator')
-            pipe = self.execute(command)
-            self.sleep(5)
 
-            for __ in range(10):
-                if pipe.poll() is not None:
+            if emulator == self.SUPPORTED_EMULATORS['bluestacks_player_5']:
+                try:
+                    self.adb_command(['reboot', '-p'], timeout=20)
                     if self.detect_emulator_status(serial) == 'offline':
+                        self.pid = None
                         return True
-                    continue
-                if self.detect_emulator_status(serial) == 'offline':
-                    return True
-                self.sleep(2)
+                except AdbError:
+                    pass
+            else:
+                pipe = self.execute(command)
+                self.sleep(5)
+
+                for __ in range(10):
+                    if pipe.poll() is not None:
+                        if self.detect_emulator_status(serial) == 'offline':
+                            self.pid = None
+                            return True
+                        continue
+                    if self.detect_emulator_status(serial) == 'offline':
+                        self.pid = None
+                        return True
+                    self.sleep(2)
         logger.warning('Emulator kill failed for 3 times, please check your settings')
         raise RequestHumanTakeover
 
@@ -270,6 +298,9 @@ class EmulatorManager(Connection):
         kill_path = None
         if self.config.RestartEmulator_LaunchMode == 'do_not_use':
             return False
+        if platform != 'win32':
+            logger.warning('Function of restart simulator only works under Windows platform')
+            return False
         logger.hr('Emulator restart')
         if self.config.RestartEmulator_LaunchMode == 'auto':
             emulator, multi_id = self.detect_emulator(serial)
@@ -277,7 +308,7 @@ class EmulatorManager(Connection):
             start_path = self.config.RestartEmulator_CustomStartFilter
             kill_path = self.config.RestartEmulator_CustomKillFilter
         else:
-            emulator = self.select_emulator_by_name(self.config.RestartEmulator_LaunchMode)
+            emulator = self.SUPPORTED_EMULATORS[self.config.RestartEmulator_LaunchMode]
             emulator, multi_id = self.detect_emulator(serial, emulator)
 
         if kill and not self.emulator_kill(serial, emulator, multi_id, kill_path):

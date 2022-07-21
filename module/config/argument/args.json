@@ -116,8 +116,9 @@
         "option": [
           "do_not_use",
           "auto",
-          "Nox",
-          "Nemu",
+          "nox_player",
+          "bluestacks_player_5",
+          "mumu_player",
           "custom"
         ]
       },

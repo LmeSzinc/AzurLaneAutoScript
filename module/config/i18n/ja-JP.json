@@ -391,8 +391,9 @@
       "help": "RestartEmulator.LaunchMode.help",
       "do_not_use": "do_not_use",
       "auto": "auto",
-      "Nox": "Nox",
-      "Nemu": "Nemu",
+      "nox_player": "nox_player",
+      "bluestacks_player_5": "bluestacks_player_5",
+      "mumu_player": "mumu_player",
       "custom": "custom"
     },
     "CustomStartFilter": {

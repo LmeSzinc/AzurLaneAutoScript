@@ -388,11 +388,12 @@
     },
     "LaunchMode": {
       "name": "啟動方案",
-      "help": "如果被啟動的模擬器需要管理員許可權，請“以管理員身份運行”Alas",
+      "help": "Alas會根據手動填寫的Serial尋找對應的模擬器\n在模擬器被關閉的時候自動啟動模擬器\n並在服務器日期重繪時重啓模擬器以釋放記憶體\n如果被啟動的模擬器需要管理員許可權，請以管理員身份運行Alas\nMuMu模擬器不支持多開",
       "do_not_use": "不使用",
       "auto": "自動",
-      "Nox": "夜神模擬器",
-      "Nemu": "MuMu模擬器",
+      "nox_player": "夜神模擬器",
+      "bluestacks_player_5": "藍疊模擬器5",
+      "mumu_player": "MuMu模擬器",
       "custom": "自定義"
     },
     "CustomStartFilter": {
