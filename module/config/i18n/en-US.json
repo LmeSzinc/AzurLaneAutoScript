@@ -82,9 +82,17 @@
       "name": "Event AB",
       "help": ""
     },
+    "EventB": {
+      "name": "Task.EventB.name",
+      "help": "Task.EventB.help"
+    },
     "EventCd": {
       "name": "Event CD",
       "help": ""
+    },
+    "EventD": {
+      "name": "Task.EventD.name",
+      "help": "Task.EventD.help"
     },
     "EventSp": {
       "name": "Event SP",
@@ -987,6 +995,20 @@
       "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
     }
   },
+  "EventB": {
+    "_info": {
+      "name": "EventB Settings",
+      "help": "Low cost fleets, like 0 limit break DD+ 0 limit break CVL, often having trouble with no ammo boss fight in B2 and B3\nSelecting different fleets may help deal such situation"
+    },
+    "StageFilter": {
+      "name": "EventB Stage Filter",
+      "help": ""
+    },
+    "LastStage": {
+      "name": "Last EventB Stage",
+      "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
+    }
+  },
   "EventCd": {
     "_info": {
       "name": "EventCD Settings",
@@ -998,6 +1020,20 @@
     },
     "LastStage": {
       "name": "Last EventCD Stage",
+      "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
+    }
+  },
+  "EventD": {
+    "_info": {
+      "name": "EventD Settings",
+      "help": "Due to the different ship requirements between map C and D, a separate module is created to handle it."
+    },
+    "StageFilter": {
+      "name": "EventD Stage Filter",
+      "help": ""
+    },
+    "LastStage": {
+      "name": "Last EventD Stage",
       "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
     }
   },
