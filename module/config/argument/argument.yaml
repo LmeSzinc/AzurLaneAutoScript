@@ -223,9 +223,17 @@ EventAb:
   StageFilter: |-
     A1 > A2 > A3 > B1 > B2 > B3
   LastStage: 0
+EventB:
+  StageFilter: |-
+    B1 > B2 > B3
+  LastStage: 0
 EventCd:
   StageFilter: |-
     C1 > C2 > C3 > D1 > D2 > D3
+  LastStage: 0
+EventD:
+  StageFilter: |-
+    D1 > D2 > D3
   LastStage: 0
 Raid:
   Mode:

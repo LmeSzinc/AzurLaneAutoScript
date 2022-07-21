@@ -82,9 +82,17 @@
       "name": "Task.EventAb.name",
       "help": "Task.EventAb.help"
     },
+    "EventB": {
+      "name": "Task.EventB.name",
+      "help": "Task.EventB.help"
+    },
     "EventCd": {
       "name": "Task.EventCd.name",
       "help": "Task.EventCd.help"
+    },
+    "EventD": {
+      "name": "Task.EventD.name",
+      "help": "Task.EventD.help"
     },
     "EventSp": {
       "name": "Task.EventSp.name",
@@ -987,6 +995,20 @@
       "help": "EventAb.LastStage.help"
     }
   },
+  "EventB": {
+    "_info": {
+      "name": "EventB._info.name",
+      "help": "EventB._info.help"
+    },
+    "StageFilter": {
+      "name": "EventB.StageFilter.name",
+      "help": "EventB.StageFilter.help"
+    },
+    "LastStage": {
+      "name": "EventB.LastStage.name",
+      "help": "EventB.LastStage.help"
+    }
+  },
   "EventCd": {
     "_info": {
       "name": "EventCd._info.name",
@@ -999,6 +1021,20 @@
     "LastStage": {
       "name": "EventCd.LastStage.name",
       "help": "EventCd.LastStage.help"
+    }
+  },
+  "EventD": {
+    "_info": {
+      "name": "EventD._info.name",
+      "help": "EventD._info.help"
+    },
+    "StageFilter": {
+      "name": "EventD.StageFilter.name",
+      "help": "EventD.StageFilter.help"
+    },
+    "LastStage": {
+      "name": "EventD.LastStage.name",
+      "help": "EventD.LastStage.help"
     }
   },
   "Raid": {

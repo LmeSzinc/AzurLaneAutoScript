@@ -59,7 +59,39 @@ EventAb:
     StageIncrease: false
     GetNewShip: false
     ReachLevel: 0
+EventB:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+  Campaign:
+    Name: dynamic
+    Mode: normal
+    Use2xBook: false
+    AmbushEvade: true
+  StopCondition:
+    RunCount: 0
+    MapAchievement: non_stop
+    StageIncrease: false
+    GetNewShip: false
+    ReachLevel: 0
 EventCd:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+  Campaign:
+    Name: dynamic
+    Mode: normal
+    Use2xBook: false
+    AmbushEvade: true
+  StopCondition:
+    RunCount: 0
+    MapAchievement: non_stop
+    StageIncrease: false
+    GetNewShip: false
+    ReachLevel: 0
+EventD:
   Scheduler:
     SuccessInterval: 30
     FailureInterval: 30
