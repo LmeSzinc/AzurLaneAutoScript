@@ -14,4 +14,5 @@ dic_archives_template = {
     'war_archives_20200820_cn': TEMPLATE_SCHERZO_OF_IRON_AND_BLOOD,
     'war_archives_20190911_cn': TEMPLATE_EMPYREAL_TRAGICOMEDY,
     'war_archives_20210325_cn': TEMPLATE_ASHEN_SIMULACRUM,
+    'war_archives_20210624_cn': TEMPLATE_SWIRLING_CHERRY_BLOSSOMS,
 }
