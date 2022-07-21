@@ -187,7 +187,7 @@ class Duration(Ocr):
         Returns:
             datetime.timedelta:
         """
-        result = re.search('(\d+):(\d+):(\d+)', string)
+        result = re.search('(\d{1,2}):?(\d{2}):?(\d{2})', string)
         if result:
             result = [int(s) for s in result.groups()]
             return timedelta(hours=result[0], minutes=result[1], seconds=result[2])
