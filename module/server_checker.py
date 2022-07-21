@@ -1,39 +1,36 @@
-import random
 from collections import deque
 from json import JSONDecodeError
 
 import requests
 
 from module.base.timer import Timer
+from module.config.server import VALID_SERVER_LIST as server_list
 from module.exception import ScriptError
 from module.logger import logger
 
 
 class ServerChecker:
     def __init__(self, server: str) -> None:
-        self._base: dict = {
-            'cn_android': '',
-            'cn_ios': '',
-            'cn_channel': '',
-            'en': '',
-            'en_channel': '',
-            'disabled': ''
+        self._base: str = 'http://43.132.174.132:20002'
+        self._api: dict = {
+            'get_state': '/server/get_state',           # post
+            'get_all_state': '/server/get_all_state',   # post
+            'list': '/server/list'                      # get
         }
 
-        self._UA: list = [
-            'Dalvik/2.1.0 (Linux; U; Android 6.0.1; MuMu Build/V417IR)',
-        ]
-
-        if server not in self._base:
-            logger.warning(f'Unsupported server platform "{server}" for server checker.')
-            logger.warning('Disable server checker by default.')
-            server = 'disabled'
+        if server != 'disabled':
+            server = server.split('-')
+            server = server_list[server[0]][int(server[-1])]
 
         self._server: str = server
         self._state: deque = deque(maxlen=2)
-        self._reason: str = ''
-        self._interval: int = 0
-        self._timer: Timer = Timer(60 * 5)   # check per 5 mins
+        self._timestamp: int = 0
+        self._expired: int = 0
+        self._timer: Timer = Timer(0)
+
+        # Status flags
+        self._recover: bool = False
+        self._maintained: bool = False
 
         self.check_now()
 
@@ -49,41 +46,46 @@ class ServerChecker:
             return
 
         try:
-            resp = requests.get(
-                # the last '?' will be escaped if use params, don't do so
-                url=f'{self._base[self._server]}?cmd=load_server?',
-                headers={
-                    'User-Agent': f'{random.choice(self._UA)}',
-                    'Accept-Encoding': 'gzip',
-                    'Accept': '*/*',
-                    'Connection': 'Keep-Alive',
-                    'X-Unity-Version': '2018.4.34f1',
-                    'Host': f'{self._base[self._server]}'
+            resp = requests.post(
+                url=f'{self._base}{self._api["get_state"]}',
+                params={
+                    'server_name': self._server
                 },
-                timeout=3,
+                timeout=15
             )
-            if resp.ok:
+            if resp.status_code == 200:
                 j = resp.json()
-                server_state = sum([1 if server['state'] == 1 else 0 for server in j])
-                if server_state / len(j) > 0.5:
-                    self._reason = f'The server "{self._server}" is being maintained. Please wait'
-                    self._state.append(False)
-                else:
+                if j['state'] != 1:
                     self._state.append(True)
-            else:
-                self._reason = f'Server "{self._server}" return status code {resp.status_code}'
+                    logger.info(f'Server "{self._server}" is available.')
+                else:
+                    self._state.append(False)
+                    self._maintained = True
+                    logger.info(f'Server "{self._server}" is under maintenance.')
+
+                # Check if API server was died
+                if j['last_update'] > self._timestamp:
+                    self._timestamp = j['last_update']
+                    self._expired = 0
+                else:
+                    self._expired += 1
+                    if self._expired > 3:
+                        logger.info(f'Last update timestamp = {self._timestamp}')
+                        raise ScriptError('Timestamp has not been updated for 3 times.')
+            elif resp.status_code == 404:
                 self._state.append(False)
-                raise ScriptError(self._reason)
+                raise ScriptError(f'Server "{self._server}" does not exist!')
+            else:
+                raise ScriptError(f'Get status_code {resp.status_code}. Response is {resp.text}')
         except (requests.exceptions.ConnectionError, requests.exceptions.ConnectTimeout):
-            self._reason = 'Unable to connect to the server. Please check your network status'
+            logger.warning('Unable to connect to the server. Please check your network status.')
             self._state.append(False)
         except JSONDecodeError:
-            self._reason = f'Response of "{self._server}" seems not to be a JSON'
             self._state.append(False)
-            raise ScriptError(self._reason)
+            raise ScriptError(f'Response "{resp.text}" seems not to be a JSON.')
         except Exception as e:
-            self._reason = str(e)
             self._state.append(False)
+            raise e
 
     def wait_until_available(self) -> None:
         while not self.is_available():
@@ -94,36 +96,41 @@ class ServerChecker:
         """
         Ignore timer and get server status immediately.
 
-        If server is available, timer will be set to 30 mins.
-        Otherwise, timer will gradually increases from 1 to 5 min(s).
+        If server is available, server checker will keep silence.
+        Otherwise, timer will gradually increases from 2 to 10 min(s).
 
         If a ScriptError occurs, server checker will be temporarily forced off.
         """
         try:
             self._load_server()
             if self._state[-1]:
-                self._interval = 0
+                self._timer.limit = 0
+                # Recover means state[-1] is True and state[0] is False
+                if not self._state[0]:
+                    self._recover = True
             else:
-                if self._interval < 5:
-                    self._interval += 1
-
-            # Only show reason when server is unavailable.
-            if not self._state[-1]:
-                if "Unable" in self._reason:
-                    logger.warning(f'{self._reason}. Server checker will retry after {self._interval} mins')
-                else:
-                    logger.info(f'{self._reason}. Server checker will retry after {self._interval} mins')
-        except ScriptError as e:
-            logger.critical(e)
-            logger.warning('There may be something wrong with server checker.')
-            logger.warning('Server checker will be temporarily forced off.')
-            self._server = 'disabled'
-            self._interval = 0
-            self._state.clear()
-            self._state.append(True)
-        finally:
-            self._timer.limit = 60 * (30 if self._interval == 0 else self._interval)
+                if self._timer.limit < 600:
+                    self._timer.limit += 120
+                logger.info(f'Server checker will retry after {self._timer.limit}s')
             self._timer.reset()
+        except ScriptError as e:
+            logger.warning(str(e))
+            logger.warning('There may be something wrong with server checker.')
+            logger.warning('Please contact the developer to fix it.')
+            logger.warning('Server checker will be temporarily forced off.')
+            self.reset()
+            self._server = 'disabled'
+            self._recover = True
+            self._state.append(True)
+        except Exception as e:
+            raise e
+
+    def reset(self) -> None:
+        self._timestamp = 0
+        self._expired = 0
+        self._timer.limit = 0
+        self._recover = False
+        self._maintained = False
 
     def is_available(self) -> bool:
         """
@@ -132,7 +139,7 @@ class ServerChecker:
         Returns:
             bool: True if server is available.
         """
-        if self._interval != 0 and self._timer.reached():
+        if self._timer.limit != 0 and self._timer.reached():
             self.check_now()
 
         return self._state[-1]  # return the latest state
@@ -145,23 +152,19 @@ class ServerChecker:
         if len(self._state) < 2:
             return False
 
-        return self._state[0] is False and self._state[-1] is True
+        if self._recover:
+            self._recover = False
+            return True
 
-    def is_after_maintenance(self) -> bool:
+        return False
+
+    def is_maintenance_over(self) -> bool:
         """
-        Reason will only be updated when server is unavailable
-        Thus, client need to reesart when server recovers
-        with keyword 'maintained' in self._reason
-
         Returns:
-            bool: True if server is after maintenance.
+            bool: True if server maintenance is over.
         """
-        if self._server == 'disabled':
-            return False
-        if not self._state[-1]:
-            return False
+        if self._maintained:
+            self._maintained = False
+            return True
 
-        return 'maintained' in self._reason
-
-    def is_enabled(self) -> bool:
-        return self._server != 'disabled'
+        return False

@@ -51,15 +51,11 @@ class AzurLaneAutoScript:
     def checker(self):
         try:
             from module.server_checker import ServerChecker
-            checker = ServerChecker(server=self.config.Emulator_ServerPlatform)
-        except Exception as e:
-            logger.critical(e)
-            logger.warning('There may be something wrong with server checker.')
-            logger.warning('Server checker will be temporarily forced off.')
-            self.config.Emulator_ServerPlatform = 'disabled'
-            checker = ServerChecker(server=self.config.Emulator_ServerPlatform)
-        finally:
+            checker = ServerChecker(server=self.config.Emulator_ServerName)
             return checker
+        except Exception as e:
+            logger.exception(e)
+            exit(1)
 
     def run(self, command):
         try:
@@ -425,7 +421,7 @@ class AzurLaneAutoScript:
                 # So update it once recovered
                 if 'config' in self.__dict__:
                     del self.__dict__['config']
-                if self.checker.is_after_maintenance():
+                if self.checker.is_maintenance_over():
                     logger.info('Server maintenance is over. Restart game client to update.')
                     self.run('restart')
 
@@ -435,8 +431,6 @@ class AzurLaneAutoScript:
                     logger.info(f"Alas [{self.config_name}] exited.")
                     break
             task = self.get_next_task()
-            if not self.checker.is_available():
-                continue
 
             # Skip first restart
             if is_first and task == 'Restart':
@@ -473,11 +467,7 @@ class AzurLaneAutoScript:
             elif self.config.Error_HandleError:
                 # self.config.task_delay(success=False)
                 del self.__dict__['config']
-
                 self.checker.check_now()
-                if not self.checker.is_enabled():
-                    if self.config.Emulator_ServerPlatform != 'disabled':
-                        self.config.Emulator_ServerPlatform = 'disabled'
                 continue
             else:
                 break

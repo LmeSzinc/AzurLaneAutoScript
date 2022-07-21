@@ -3,6 +3,7 @@
     "Emulator": {
       "Serial": "auto",
       "PackageName": "auto",
+      "ServerName": "disabled",
       "ScreenshotMethod": "ADB",
       "ControlMethod": "minitouch",
       "ScreenshotDedithering": false
