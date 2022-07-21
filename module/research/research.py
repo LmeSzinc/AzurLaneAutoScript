@@ -437,7 +437,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                     or page_main
         """
         # Remove this when your server is updated for PR5
-        if self.config.SERVER in ['jp', 'tw']:
+        if self.config.SERVER in ['tw']:
             logger.warning('Task "Research" is forced delayed 2 hours before PR5 support. '
                            'Please do research manually and contact server maintainers')
             self.config.task_delay(minute=120)

@@ -25,6 +25,7 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20210513   | war archives 20200820 cn | Scherzo of Iron and Blood      | 铁血音符誓言       | Scherzo of Iron and Blood        | 黒鉄の楽章 誓いの海                | -                    |
 | 20220113   | war archives 20190911 cn | Empyreal Tragicomedy           | 神圣的悲喜剧       | Empyreal Tragicomedy                | 悲歎せし焔海の詩             | -                    |
 | 20220407   | war archives 20210325 cn | Ashen Simulacrum               | 箱庭疗法          | Ashen Simulacrum                 | 開かれし紺碧の砂箱            | -                    |
+| 20220721   | war archives 20210624 cn | Swirling Cherry Blossoms       | 浮樱影华           | Swirling Cherry Blossoms       | 翳りし満ちる影の華                 | -                    |
 | 20200227   | event 20200227 cn        | Northern Overture              | 北境序曲               | Northern Overture                | 凍絶の北海                           | -                    |
 | 20200312   | event 20200312 cn        | The Solomon Ranger             | 复刻斯图尔特的硝烟     | The Solomon Ranger Rerun         | 南洋に靡く硝煙（復刻）               | -                    |
 | 20200326   | event 20200326 cn        | Microlayer Medley              | 微层混合               | Microlayer Medley                | 闇靄払う銀翼                         | -                    |

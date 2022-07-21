@@ -66,7 +66,7 @@ GUI development, thanks **[@18870](https://github.com/18870)** , say HURRAY.
 
 ## 修改游戏设置
 
-对照这个表格修改游戏内的设置，~~正常玩过游戏的这么设置~~。
+对照这个表格修改游戏内的设置，~~正常玩过游戏的都这么设置~~。
 
 > 对着改的意思是，这是统一的标准，照着给定的内容执行，不要问为什么，不允许有不一样的。
 
@@ -115,11 +115,11 @@ GUI development, thanks **[@18870](https://github.com/18870)** , say HURRAY.
 
 ## 模拟器问题 Emulator Issues
 
+- **建议使用 [夜神模拟器](http://www.yeshen.com/?utm_source=alas) 或 [蓝叠模拟器](https://www.bluestacks.com/download.html)**。CN 开发正在使用夜神模拟器，EN 开发和大部分 EN 用户正在使用蓝叠模拟器，建议使用这两款模拟器。
 - **不支持 MuMu 手游助手（星云引擎）**，因为它没有 ADB。
 - **不支持 MuMu 模拟器 9**，因为它截图是黑屏。
 - **不建议使用雷电模拟器**，因为它的 serial 会在 `emulator-555X` 和 `127.0.0.1:555X` 之间横跳，导致无法连接，如果不想折腾就不要用雷电模拟器。
-- **不建议使用逍遥模拟器**，因为它不支持 minitouch 双指缩放和长按，无法进行收集后宅爱心家具币和喂食。在逍遥模拟器下使用需要将控制方式设置为 uiautomator2 或关闭后宅功能。
-- **建议使用 [夜神模拟器](https://support.bignox.com/en/win-release/7008) 或 [蓝叠模拟器](https://www.bluestacks.com/download.html)**。CN 开发正在使用夜神模拟器，EN 开发和大部分 EN 用户正在使用蓝叠模拟器，建议使用这两款模拟器。
+- **不建议使用逍遥模拟器**，在逍遥模拟器下使用需要将控制方式设置为 uiautomator2。
 
 
 
