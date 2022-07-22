@@ -1,5 +1,5 @@
-import datetime
 import numpy as np
+from datetime import datetime, timedelta
 
 from module.base.timer import Timer
 from module.base.utils import rgb2gray
@@ -20,6 +20,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
     _research_finished_index = 2
     research_project_started = None  # ResearchProject
     enforce = False
+    end_time = None
 
     def research_has_finished(self):
         """
@@ -132,11 +133,17 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                 ret = self.research_project_start(project, add_queue=add_queue)
                 if ret:
                     return True
-                elif ret is not None and self.get_queue_slot() < 5:
-                    logger.info('Give up research when resources not enough and queue not empty')
-                    return True
                 else:
-                    continue
+                    slot = self.get_queue_slot()
+                    if self.config.Research_AllowDelay and ret is not None \
+                            and (slot < 4
+                                 or (slot == 4
+                                     and (self.end_time is None
+                                          or self.end_time + timedelta(minutes=-5) > datetime.now()))):
+                        logger.info('Give up research when resources not enough and queue not empty')
+                        return True
+                    else:
+                        continue
 
         logger.info('No research project started')
         return self.research_enforce(drop=drop, add_queue=add_queue)
@@ -459,7 +466,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
         # Check queue
         self.queue_enter()
         self.queue_receive()
-        end_time = self.get_research_ended()
+        self.end_time = self.get_research_ended()
         self.queue_quit()
 
         # Check the 6th project, which is outside of queue
@@ -469,17 +476,17 @@ class RewardResearch(ResearchSelector, ResearchQueue):
         total = self.research_fill_queue()
 
         # Scheduler
-        if end_time is None and total == 0:
+        if self.end_time is None and total == 0:
             # Queue empty, can't start any research
             self.config.task_delay(server_update=True)
             return
-        elif end_time is None and total > 0:
+        elif self.end_time is None and total > 0:
             # Get the remain of project newly started
             self.queue_enter()
             end_time = self.get_research_ended()
             self.queue_quit()
-        if self.get_queue_slot() > 0:
-            # Queue not empty, give up research because of resources not enough,
-            # ten minutes in advance to avoid idle research.
-            end_time = datetime.timedelta(minutes=-10)
-        self.config.task_delay(target=end_time)
+        if self.get_queue_slot() == 4:
+            # Queue nearly empty, give up research because of resources not enough,
+            # five minutes in advance to avoid idle research.
+            self.end_time = self.end_time + timedelta(minutes=-5)
+        self.config.task_delay(target=self.end_time)
