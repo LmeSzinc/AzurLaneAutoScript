@@ -30,7 +30,6 @@ class ServerChecker:
 
         # Status flags
         self._recover: bool = False
-        self._maintained: bool = False
 
         self.check_now()
 
@@ -60,7 +59,6 @@ class ServerChecker:
                     logger.info(f'Server "{self._server}" is available.')
                 else:
                     self._state.append(False)
-                    self._maintained = True
                     logger.info(f'Server "{self._server}" is under maintenance.')
 
                 # Check if API server was died
@@ -130,7 +128,6 @@ class ServerChecker:
         self._expired = 0
         self._timer.limit = 0
         self._recover = False
-        self._maintained = False
 
     def is_available(self) -> bool:
         """
@@ -154,17 +151,6 @@ class ServerChecker:
 
         if self._recover:
             self._recover = False
-            return True
-
-        return False
-
-    def is_maintenance_over(self) -> bool:
-        """
-        Returns:
-            bool: True if server maintenance is over.
-        """
-        if self._maintained:
-            self._maintained = False
             return True
 
         return False
