@@ -25,14 +25,15 @@ class ResearchQueue(ResearchUI):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(RESEARCH_QUEUE_ADD, offset=(20, 20), interval=3):
-                continue
-            if self.handle_popup_confirm('RESEARCH_QUEUE'):
-                continue
-
             # End
             if self.is_in_research() and 'detail' in self.get_research_status(self.device.image):
                 break
+
+            if self.appear_then_click(RESEARCH_QUEUE_ADD, offset=(20, 20), interval=5):
+                continue
+            if self.handle_popup_confirm('RESEARCH_QUEUE'):
+                self.interval_reset(RESEARCH_QUEUE_ADD)
+                continue
 
         self.ensure_research_center_stable()
 
