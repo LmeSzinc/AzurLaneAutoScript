@@ -147,6 +147,7 @@ class ServerChecker:
             bool: True if server is recovered from an unavailable state.
         """
         if len(self._state) < 2:
+            self._recover = False
             return False
 
         if self._recover:
