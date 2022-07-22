@@ -25,14 +25,15 @@ class ResearchQueue(ResearchUI):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(RESEARCH_QUEUE_ADD, offset=(20, 20), interval=3):
-                continue
-            if self.handle_popup_confirm('RESEARCH_QUEUE'):
-                continue
-
             # End
             if self.is_in_research() and 'detail' in self.get_research_status(self.device.image):
                 break
+
+            if self.appear_then_click(RESEARCH_QUEUE_ADD, offset=(20, 20), interval=5):
+                continue
+            if self.handle_popup_confirm('RESEARCH_QUEUE'):
+                self.interval_reset(RESEARCH_QUEUE_ADD)
+                continue
 
         self.ensure_research_center_stable()
 
@@ -52,7 +53,7 @@ class ResearchQueue(ResearchUI):
         Status icons on the left
         """
         return ButtonGrid(
-            origin=(8, 259), delta=(0, 40.5), button_shape=(25, 25), grid_shape=(1, 5), name='QUEUE_STATUS')
+            origin=(18, 259), delta=(0, 40.5), button_shape=(25, 25), grid_shape=(1, 5), name='QUEUE_STATUS')
 
     @cached_property
     @Config.when(SERVER=None)
