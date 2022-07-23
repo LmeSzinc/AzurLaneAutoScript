@@ -104,7 +104,7 @@ class MedalShop2(ShopClerk):
         # shop_grid = ButtonGrid(
         #     origin=(489, 152), delta=(156, 213), button_shape=(96, 96), grid_shape=(5, 2), name='SHOP_GRID')
         shop_grid = ButtonGrid(
-            origin=(491, origin_y), delta=(156, delta_y), button_shape=(96, 96), grid_shape=(5, row), name='SHOP_GRID')
+            origin=(477, origin_y), delta=(156, delta_y), button_shape=(96, 96), grid_shape=(5, row), name='SHOP_GRID')
         return shop_grid
 
     @cached_property
