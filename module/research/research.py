@@ -111,6 +111,9 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             if project == 'reset':
                 if self.research_reset(drop=drop):
                     return False
+                elif self.research_delay_check():
+                    logger.info('Delay research when reset unavailable and queue not empty')
+                    return True
                 else:
                     continue
 
@@ -134,19 +137,33 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                 if ret:
                     return True
                 else:
-                    slot = self.get_queue_slot()
-                    if self.config.Research_AllowDelay and ret is not None \
-                            and (slot < 4
-                                 or (slot == 4
-                                     and (self.end_time is None
-                                          or self.end_time + timedelta(minutes=-5) > datetime.now()))):
-                        logger.info('Give up research when resources not enough and queue not empty')
+                    if ret is not None and self.research_delay_check():
+                        logger.info('Delay research when resources not enough and queue not empty')
                         return True
                     else:
                         continue
 
         logger.info('No research project started')
         return self.research_enforce(drop=drop, add_queue=add_queue)
+
+    def research_delay_check(self):
+        """
+        Check whether the conditions allow the delay of research.
+
+        Returns:
+            bool: If conditions allow to delay research.
+        """
+        if self.config.Research_AllowDelay:
+            slot = self.get_queue_slot()
+            if slot < 4:
+                return True
+            if slot == 4:
+                if self.end_time is None:
+                    return True
+                elif self.end_time + timedelta(minutes=-10) > datetime.now():
+                    return True
+
+        return False
 
     def research_project_start(self, project, add_queue=True, skip_first_screenshot=True):
         """
