@@ -72,8 +72,13 @@ class RewardResearch(ResearchSelector, ResearchQueue):
         self._research_project_offset = 0
         return True
 
-    def research_enforce(self):
+    def research_enforce(self, drop=None, add_queue=True):
         """
+        Args:
+            drop (DropImage):
+            add_queue (bool): Whether to add into queue.
+                The 6th project can't be added into queue, so here's the toggle.
+
         Returns:
             bool: True if triggered enforce research
         """
@@ -83,7 +88,8 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                      or self.config.Research_UsePart in ['only_no_project', 'only_05_hour']):
             logger.info('Enforce choosing research project')
             self.enforce = True
-            self.research_select(self.research_sort_filter(self.enforce))
+            self.research_select(self.research_sort_filter(self.enforce),
+                                 drop=drop, add_queue=add_queue)
             return True
         return False
 
@@ -101,7 +107,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
         """
         if not len(priority):
             logger.info('No research project satisfies current filter')
-            self.research_enforce()
+            self.research_enforce(drop=drop, add_queue=add_queue)
             return True
         for project in priority:
             # priority example: ['reset', 'shortest']
@@ -114,13 +120,16 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             if isinstance(project, str):
                 # priority example: ['shortest']
                 if project == 'shortest':
-                    self.research_select(self.research_sort_shortest(self.enforce), drop=drop)
+                    self.research_select(self.research_sort_shortest(self.enforce),
+                                         drop=drop, add_queue=add_queue)
                 elif project == 'cheapest':
-                    self.research_select(self.research_sort_cheapest(self.enforce), drop=drop)
+                    self.research_select(self.research_sort_cheapest(self.enforce),
+                                         drop=drop, add_queue=add_queue)
                 else:
                     logger.warning(f'Unknown select method: {project}')
                 return True
-            elif project.genre.upper() in ['C', 'T'] and self.research_enforce():
+            elif project.genre.upper() in ['C', 'T'] and \
+                 self.research_enforce(drop=drop, add_queue=add_queue):
                 return True
             else:
                 # priority example: [ResearchProject, ResearchProject,]
@@ -130,7 +139,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                     continue
 
         logger.info('No research project started')
-        self.research_enforce()
+        self.research_enforce(drop=drop, add_queue=add_queue)
         return True
 
     def research_project_start(self, project, add_queue=True, skip_first_screenshot=True):
