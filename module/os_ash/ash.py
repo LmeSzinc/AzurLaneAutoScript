@@ -1,8 +1,9 @@
+from module.base import utils
 from module.base.timer import Timer
 from module.base.utils import color_bar_percentage, image_left_strip
 from module.combat.combat import BATTLE_PREPARATION, GET_ITEMS_1, Combat
 from module.logger import logger
-from module.ocr.ocr import Digit, DigitCounter
+from module.ocr.ocr import Digit, DigitCounter, Duration
 from module.os.assets import MAP_GOTO_GLOBE, GLOBE_GOTO_MAP
 from module.os_ash.assets import *
 from module.os_handler.assets import IN_MAP
@@ -11,6 +12,7 @@ from module.ui.assets import BACK_ARROW
 from module.ui.page import page_os
 from module.ui.switch import Switch
 from module.ui.ui import UI
+from datetime import datetime, timedelta
 
 
 class DailyDigitCounter(DigitCounter):
@@ -22,6 +24,7 @@ class DailyDigitCounter(DigitCounter):
 
 OCR_BEACON_REMAIN = DigitCounter(BEACON_REMAIN, threshold=256, name='OCR_ASH_REMAIN')
 OCR_BEACON_TIER = Digit(BEACON_TIER, name='OCR_ASH_TIER')
+OCR_SELF_INFLICTED_DAMAGE = Digit(SELF_INFLICTED_DAMAGE, name='OCR_SELF_INFLICTED_DAMAGE')
 
 SWITCH_BEACON = Switch(name='Beacon', offset=(20, 20))
 SWITCH_BEACON.add_status('mine', BEACON_LIST)
@@ -423,6 +426,9 @@ class OSAsh(UI, MapEventHandler):
         """
         if not self.config.OpsiAshBeacon_AshAttack:
             return False
+        if self.config.OpsiAshBeacon_HitAndRun:
+            self.handle_hit_and_run()
+            return False
         if self.ash_collect_status() < 100:
             return False
 
@@ -437,6 +443,61 @@ class OSAsh(UI, MapEventHandler):
         self._ash_exit_to_map()
         return True
 
+    def _get_hit_and_run_next_scheduled_time(self):
+        """
+        Returns:
+            datetime.datetime
+
+        Pages:
+            in: is_in_ash
+            out: is_in_ash
+        """
+        self.ui_click(click_button=HELP_ENTER, check_button=HELP_CONFIRM)
+        self.device.screenshot()
+        ocr = Duration(HELP_3_DURATION, lang="cnocr")
+        remaining_time = ocr.ocr(self.device.image)
+        self.ui_click(click_button=HELP_CONFIRM, check_button=HELP_ENTER)
+        if remaining_time == timedelta():
+            return (datetime.now() + timedelta(minutes=30)).replace(microsecond=0)
+        return (datetime.now() + remaining_time).replace(microsecond=0)
+
+
+    def handle_hit_and_run(self):
+        """
+        Pages:
+            in: Any page
+            out: is_in_ash
+        """
+        self.ui_ensure(page_os)
+        self._ash_assist_enter_from_map()
+        SWITCH_BEACON.set('mine', main=self)
+
+        # Most funcs call Timer(2, count=3). What does it do?
+        while 1:
+            self.device.screenshot()
+            self_inflicted_damage = OCR_SELF_INFLICTED_DAMAGE.ocr(self.device.image)
+
+            if self.appear(BEACON_EMPTY, offset=(20, 20)):
+                logger.info('No available beacon')
+                self.config.task_delay(server_update=True)
+                return
+            if self._handle_ash_beacon_reward():
+                continue
+            if self.appear_then_click(BEACON_ENTER, offset=self.beacon_entrance_offset, interval=2):
+                continue
+            if self.appear(ASH_START, offset=(30, 30)):
+                if self_inflicted_damage > 0:
+                    # Already Hit.
+                    self._ash_help()
+                    ttime = self._get_hit_and_run_next_scheduled_time()
+                    self.config.task_delay(target=ttime)
+                    return
+                if self_inflicted_damage == 0:
+                    self._ash_help()
+                    AshCombat(self.config, self.device).combat(expected_end=self.is_in_ash, save_get_items=False, emotion_reduce=False)
+                continue
+        return
+
 
 class AshBeaconAssist(OSAsh):
     def run(self):
@@ -449,3 +510,14 @@ class AshBeaconAssist(OSAsh):
         """
         self.ash_beacon_assist()
         self.config.task_delay(server_update=True)
+
+class AshBeacon(OSAsh):
+    def run(self):
+        """
+        Run daily ash beacon.
+
+        Pages:
+            in: Any page
+            out: is_in_ash
+        """
+        self.handle_hit_and_run()

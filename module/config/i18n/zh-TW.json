@@ -186,6 +186,10 @@
       "name": "通用設定",
       "help": ""
     },
+    "OpsiAshBeacon": {
+      "name": "Task.OpsiAshBeacon.name",
+      "help": "Task.OpsiAshBeacon.help"
+    },
     "OpsiAshAssist": {
       "name": "餘燼信標",
       "help": ""
@@ -1806,6 +1810,10 @@
     "AshAttack": {
       "name": "打餘燼信標",
       "help": "信標數據滿了之後打餘燼信標，一直打直到打完"
+    },
+    "HitAndRun": {
+      "name": "一擊脫離",
+      "help": "只打第一次, 此後由支援打完"
     },
     "EnsureFullyCollected": {
       "name": "保證收集滿每日200信標數據",

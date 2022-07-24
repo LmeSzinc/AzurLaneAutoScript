@@ -245,6 +245,10 @@ class AzurLaneAutoScript:
         from module.os_ash.ash import AshBeaconAssist
         AshBeaconAssist(config=self.config, device=self.device).run()
 
+    def opsi_ash_beacon(self):
+        from module.os_ash.ash import AshBeacon
+        AshBeacon(config=self.config, device=self.device).run()
+
     def opsi_explore(self):
         from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_explore()

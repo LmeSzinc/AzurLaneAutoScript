@@ -5778,8 +5778,8 @@
           "war_archives_20181020_en"
         ],
         "cn": "war_archives_20210624_cn",
-        "en": "war_archives_20210325_cn",
-        "jp": "war_archives_20210325_cn",
+        "en": "war_archives_20210624_cn",
+        "jp": "war_archives_20210624_cn",
         "tw": "war_archives_20181227_cn"
       },
       "Mode": {
@@ -6113,11 +6113,44 @@
         "type": "textarea",
         "value": "ActionPoint > PurpleCoins"
       }
+    }
+  },
+  "OpsiAshBeacon": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "input",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "hide",
+        "value": "OpsiAshBeacon"
+      },
+      "SuccessInterval": {
+        "type": "hide",
+        "value": 0
+      },
+      "FailureInterval": {
+        "type": "hide",
+        "value": 120
+      },
+      "ServerUpdate": {
+        "type": "hide",
+        "value": "00:00"
+      }
     },
     "OpsiAshBeacon": {
       "AshAttack": {
         "type": "checkbox",
         "value": true
+      },
+      "HitAndRun": {
+        "type": "checkbox",
+        "value": false
       },
       "EnsureFullyCollected": {
         "type": "checkbox",

@@ -323,6 +323,7 @@ class GeneratedConfig:
 
     # Group `OpsiAshBeacon`
     OpsiAshBeacon_AshAttack = True
+    OpsiAshBeacon_HitAndRun = False
     OpsiAshBeacon_EnsureFullyCollected = True
     OpsiAshBeacon_RequestAssist = True
 

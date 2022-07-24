@@ -18,7 +18,7 @@ class ManualConfig:
     > OpsiExplore
     > OpsiDaily > OpsiShop
     > OpsiAbyssal > OpsiStronghold > OpsiObscure
-    > Daily > Hard > OpsiAshAssist
+    > Daily > Hard > OpsiAshBeacon > OpsiAshAssist
     > Sos > EventSp > EventAb > EventCd > RaidDaily > WarArchives > MaritimeEscort
     > Event > Event2 > Raid > Main > Main2 > Main3
     > OpsiMeowfficerFarming

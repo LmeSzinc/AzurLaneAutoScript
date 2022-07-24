@@ -186,6 +186,10 @@
       "name": "Task.OpsiGeneral.name",
       "help": "Task.OpsiGeneral.help"
     },
+    "OpsiAshBeacon": {
+      "name": "META戦",
+      "help": ""
+    },
     "OpsiAshAssist": {
       "name": "Task.OpsiAshAssist.name",
       "help": "Task.OpsiAshAssist.help"
@@ -1806,6 +1810,10 @@
     "AshAttack": {
       "name": "OpsiAshBeacon.AshAttack.name",
       "help": "OpsiAshBeacon.AshAttack.help"
+    },
+    "HitAndRun": {
+      "name": "一撃離脱",
+      "help": "一度だけ戦闘する。その後、アシストによってミッションが推進します。"
     },
     "EnsureFullyCollected": {
       "name": "OpsiAshBeacon.EnsureFullyCollected.name",

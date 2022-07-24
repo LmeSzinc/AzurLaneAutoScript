@@ -511,6 +511,7 @@ OpsiGeneral:
     ActionPoint > PurpleCoins
 OpsiAshBeacon:
   AshAttack: true
+  HitAndRun: false
   EnsureFullyCollected: true
   RequestAssist: true
 OpsiFleetFilter:

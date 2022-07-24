@@ -186,6 +186,10 @@
       "name": "OpSi General",
       "help": ""
     },
+    "OpsiAshBeacon": {
+      "name": "OpSi Ash Beacon",
+      "help": ""
+    },
     "OpsiAshAssist": {
       "name": "OpSi Ash Assist",
       "help": ""
@@ -1806,6 +1810,10 @@
     "AshAttack": {
       "name": "Enable Ash Attack",
       "help": "When data beacon is full; attack until ash has been completed"
+    },
+    "HitAndRun": {
+      "name": "Hit And Run",
+      "help": "Conduct the free combat, and leave the rest to assistance."
     },
     "EnsureFullyCollected": {
       "name": "Ensure 200 Beacon Data Fully Collected",
