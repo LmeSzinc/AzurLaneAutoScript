@@ -12,8 +12,8 @@ from module.exception import GameStuckError
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
-from module.ui.assets import COMMISSION_CHECK, REWARD_GOTO_COMMISSION
-from module.ui.page import page_reward
+from module.ui.assets import COMMISSION_CHECK, REWARD_GOTO_COMMISSION, MAIN_GOTO_REWARD
+from module.ui.page import page_reward, MAIN_CHECK
 from module.ui.scroll import Scroll
 from module.ui.switch import Switch
 from module.ui.ui import UI
@@ -465,6 +465,10 @@ class RewardCommission(UI, InfoHandler):
                     click_timer.reset()
                     continue
                 if click_timer.reached() and self.ui_additional():
+                    click_timer.reset()
+                    continue
+                if self.appear(MAIN_CHECK, offset=(30, 30), interval=5):
+                    self.device.click(MAIN_GOTO_REWARD)
                     click_timer.reset()
                     continue
 

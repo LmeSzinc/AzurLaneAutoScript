@@ -452,7 +452,7 @@ class AlasGUI(Frame):
         try:
             valid = []
             invalid = []
-            config = State.config_updater.read_file(self.alas_name)
+            config = State.config_updater.read_file(config_name)
             for k, v in modified.copy().items():
                 valuetype = deep_get(self.ALAS_ARGS, k + ".valuetype")
                 v = parse_pin_value(v, valuetype)
