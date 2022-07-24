@@ -1812,8 +1812,8 @@
       "help": "OpsiAshBeacon.AshAttack.help"
     },
     "HitAndRun": {
-      "name": "一撃離脱",
-      "help": "一度だけ戦闘する。その後、アシストによってミッションが推進します。"
+      "name": "一度だけ戦闘する。その後、アシストによってミッションが推進します。",
+      "help": ""
     },
     "EnsureFullyCollected": {
       "name": "OpsiAshBeacon.EnsureFullyCollected.name",

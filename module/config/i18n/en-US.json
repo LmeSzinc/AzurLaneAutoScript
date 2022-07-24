@@ -1812,8 +1812,8 @@
       "help": "When data beacon is full; attack until ash has been completed"
     },
     "HitAndRun": {
-      "name": "Hit And Run",
-      "help": "Conduct the free combat, and leave the rest to assistance."
+      "name": "Conduct the free combat, and leave the rest to assistance.",
+      "help": ""
     },
     "EnsureFullyCollected": {
       "name": "Ensure 200 Beacon Data Fully Collected",

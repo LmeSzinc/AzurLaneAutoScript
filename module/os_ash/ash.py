@@ -25,7 +25,7 @@ class DailyDigitCounter(DigitCounter):
 OCR_BEACON_REMAIN = DigitCounter(BEACON_REMAIN, threshold=256, name='OCR_ASH_REMAIN')
 OCR_BEACON_TIER = Digit(BEACON_TIER, name='OCR_ASH_TIER')
 OCR_SELF_INFLICTED_DAMAGE = Digit(SELF_INFLICTED_DAMAGE, name='OCR_SELF_INFLICTED_DAMAGE')
-
+OCR_HELP_3_DURATION = Duration(HELP_3_DURATION, lang="cnocr", name='OCR_HELP_3_DURATION')
 SWITCH_BEACON = Switch(name='Beacon', offset=(20, 20))
 SWITCH_BEACON.add_status('mine', BEACON_LIST)
 SWITCH_BEACON.add_status('list', BEACON_MY)
@@ -388,6 +388,7 @@ class OSAsh(UI, MapEventHandler):
             if self.appear(BEACON_EMPTY, offset=(20, 20)):
                 if confirm_timer.reached():
                     logger.info('Ash beacon attack finished')
+                    self.config.task_delay(server_update=True)
                     return True
             elif self.appear(BEACON_ENTER, offset=self.beacon_entrance_offset):
                 # If previous beacon is not completed, the previous beacon is attacked in this round.
@@ -412,7 +413,16 @@ class OSAsh(UI, MapEventHandler):
             if self._handle_ash_beacon_reward():
                 continue
             if self.appear(ASH_START, offset=(30, 30)):
-                ash_combat.combat(expected_end=self.is_in_ash, save_get_items=False, emotion_reduce=False)
+                self_inflicted_damage = OCR_SELF_INFLICTED_DAMAGE.ocr(self.device.image)
+                if self_inflicted_damage > 0:
+                    # Already Hit.
+                    self._ash_help()
+                    ttime = self._get_hit_and_run_next_scheduled_time()
+                    self.config.task_delay(target=ttime)
+                    return True
+                if self_inflicted_damage == 0:
+                    self._ash_help()
+                    ash_combat.combat(expected_end=self.is_in_ash, save_get_items=False, emotion_reduce=False)
                 continue
 
     def handle_ash_beacon_attack(self):
@@ -426,10 +436,10 @@ class OSAsh(UI, MapEventHandler):
         """
         if not self.config.OpsiAshBeacon_AshAttack:
             return False
-        if self.config.OpsiAshBeacon_HitAndRun:
-            self.handle_hit_and_run()
-            return False
         if self.ash_collect_status() < 100:
+            return False
+        if self.config.OpsiAshBeacon_HitAndRun:
+            AshBeacon(config=self.config, device=self.device).run()
             return False
 
         for _ in range(3):
@@ -453,50 +463,11 @@ class OSAsh(UI, MapEventHandler):
             out: is_in_ash
         """
         self.ui_click(click_button=HELP_ENTER, check_button=HELP_CONFIRM)
-        self.device.screenshot()
-        ocr = Duration(HELP_3_DURATION, lang="cnocr")
-        remaining_time = ocr.ocr(self.device.image)
+        remaining_time = OCR_HELP_3_DURATION.ocr(self.device.image)
         self.ui_click(click_button=HELP_CONFIRM, check_button=HELP_ENTER)
-        if remaining_time == timedelta():
+        if remaining_time.total_seconds() == 0:
             return (datetime.now() + timedelta(minutes=30)).replace(microsecond=0)
         return (datetime.now() + remaining_time).replace(microsecond=0)
-
-
-    def handle_hit_and_run(self):
-        """
-        Pages:
-            in: Any page
-            out: is_in_ash
-        """
-        self.ui_ensure(page_os)
-        self._ash_assist_enter_from_map()
-        SWITCH_BEACON.set('mine', main=self)
-
-        # Most funcs call Timer(2, count=3). What does it do?
-        while 1:
-            self.device.screenshot()
-            self_inflicted_damage = OCR_SELF_INFLICTED_DAMAGE.ocr(self.device.image)
-
-            if self.appear(BEACON_EMPTY, offset=(20, 20)):
-                logger.info('No available beacon')
-                self.config.task_delay(server_update=True)
-                return
-            if self._handle_ash_beacon_reward():
-                continue
-            if self.appear_then_click(BEACON_ENTER, offset=self.beacon_entrance_offset, interval=2):
-                continue
-            if self.appear(ASH_START, offset=(30, 30)):
-                if self_inflicted_damage > 0:
-                    # Already Hit.
-                    self._ash_help()
-                    ttime = self._get_hit_and_run_next_scheduled_time()
-                    self.config.task_delay(target=ttime)
-                    return
-                if self_inflicted_damage == 0:
-                    self._ash_help()
-                    AshCombat(self.config, self.device).combat(expected_end=self.is_in_ash, save_get_items=False, emotion_reduce=False)
-                continue
-        return
 
 
 class AshBeaconAssist(OSAsh):
@@ -511,6 +482,7 @@ class AshBeaconAssist(OSAsh):
         self.ash_beacon_assist()
         self.config.task_delay(server_update=True)
 
+
 class AshBeacon(OSAsh):
     def run(self):
         """
@@ -520,4 +492,8 @@ class AshBeacon(OSAsh):
             in: Any page
             out: is_in_ash
         """
-        self.handle_hit_and_run()
+        self.ui_ensure(page_os)
+        self._ash_assist_enter_from_map()
+        SWITCH_BEACON.set('mine', main=self)
+        self._ash_beacon_attack()
+        self._ash_exit_to_map()
