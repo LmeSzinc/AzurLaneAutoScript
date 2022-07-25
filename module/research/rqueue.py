@@ -115,7 +115,8 @@ class ResearchQueue(ResearchUI):
         """
         if not self.image_color_count(QUEUE_REMAIN, color=(255, 255, 255), threshold=221, count=100):
             logger.info('Research queue empty')
-            return None
+            return datetime.now()
+
         end_time = datetime.now() + OCR_QUEUE_REMAIN.ocr(self.device.image)
         logger.info(f'The first research ended at: {end_time}')
         return end_time

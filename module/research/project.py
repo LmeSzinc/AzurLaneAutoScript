@@ -550,9 +550,6 @@ class ResearchSelector(UI):
         """
         We do not need a screenshot here actually. 'image' is a null argument.
         Adding this argument is just to eusure all "research_detect" have the same arguments.
-
-        Args:
-            image (np.ndarray): Screenshots
         """
         projects = []
         proj_sorted = []
@@ -583,21 +580,18 @@ class ResearchSelector(UI):
 
     @Config.when(SERVER=None)
     def research_detect(self):
-        """
-        Args:
-            image (np.ndarray): Screenshots
-        """
         timeout = Timer(3, count=3).start()
         while 1:
             projects = research_detect(self.device.image)
 
             if timeout.reached():
+                logger.warning('Failed to OCR research name after 3 trial, assume correct')
                 break
 
-            if sum([p.valid for p in projects]) == 4 and not projects[0].valid:
+            if sum([p.valid for p in projects]) < 5:
                 # Leftmost research series covered by battle pass info, see #1037
-                logger.info('Wrong research serial on the leftmost project, '
-                            'probably because of battle pass info')
+                logger.info('Invalid project detected')
+                logger.info('Probably because of battle pass info or too fast screenshot')
                 # A rare case, poor sleep is acceptable
                 self.device.sleep(1)
                 self.device.screenshot()
@@ -633,6 +627,11 @@ class ResearchSelector(UI):
             string = DICT_FILTER_PRESET[preset]
 
         logger.attr('Research preset', preset)
+        logger.info('Use cube: {} Use coin: {} Use part: {}'.format(
+            self.config.Research_UseCube,
+            self.config.Research_UseCoin,
+            self.config.Research_UsePart))
+        logger.attr('Allow delay', self.config.Research_AllowDelay)
 
         # Filter uses `hakuryu`, but allows both `hakuryu` and `hakuryuu`
         string = string.lower().replace('hakuryuu', 'hakuryu')

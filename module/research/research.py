@@ -80,16 +80,13 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             drop (DropImage):
             add_queue (bool): Whether to add into queue.
                 The 6th project can't be added into queue, so here's the toggle.
-
-        Returns:
-            bool: True if triggered enforce research
         """
         if not self.enforce:
             logger.info('Enforce choosing research project')
             self.enforce = True
             return self.research_select(self.research_sort_filter(self.enforce),
                                         drop=drop, add_queue=add_queue)
-        return False
+        return True
 
     def research_select(self, priority, drop=None, add_queue=True):
         """
@@ -129,7 +126,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                     logger.warning(f'Unknown select method: {project}')
                 return True
             elif project.genre.upper() in ['C', 'T'] and \
-                 self.research_enforce(drop=drop, add_queue=add_queue):
+                    self.research_enforce(drop=drop, add_queue=add_queue):
                 return True
             else:
                 # priority example: [ResearchProject, ResearchProject,]
@@ -158,7 +155,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             if slot < 4:
                 return True
             if slot == 4:
-                if self.end_time is None:
+                if self.end_time <= datetime.now():
                     return True
                 elif self.end_time + timedelta(minutes=-10) > datetime.now():
                     return True
@@ -493,17 +490,17 @@ class RewardResearch(ResearchSelector, ResearchQueue):
         total = self.research_fill_queue()
 
         # Scheduler
-        if self.end_time is None and total == 0:
+        if self.end_time <= datetime.now() and total == 0:
             # Queue empty, can't start any research
             self.config.task_delay(server_update=True)
             return
-        elif self.end_time is None and total > 0:
+        elif self.end_time <= datetime.now() and total > 0:
             # Get the remain of project newly started
             self.queue_enter()
-            end_time = self.get_research_ended()
+            self.end_time = self.get_research_ended()
             self.queue_quit()
         if self.get_queue_slot() == 4:
             # Queue nearly empty, give up research because of resources not enough,
-            # five minutes in advance to avoid idle research.
-            self.end_time = self.end_time + timedelta(minutes=-5)
+            # ten minutes in advance to avoid idle research.
+            self.end_time = self.end_time + timedelta(minutes=-10)
         self.config.task_delay(target=self.end_time)
