@@ -2559,7 +2559,7 @@
       }
     }
   },
-  "EventAb": {
+  "EventA": {
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
@@ -2572,7 +2572,7 @@
       },
       "Command": {
         "type": "hide",
-        "value": "EventAb"
+        "value": "EventA"
       },
       "SuccessInterval": {
         "type": "hide",
@@ -2587,10 +2587,10 @@
         "value": "00:00"
       }
     },
-    "EventAb": {
+    "EventA": {
       "StageFilter": {
         "type": "textarea",
-        "value": "A1 > A2 > A3 > B1 > B2 > B3"
+        "value": "A1 > A2 > A3"
       },
       "LastStage": {
         "type": "input",
@@ -3395,7 +3395,7 @@
       }
     }
   },
-  "EventCd": {
+  "EventC": {
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
@@ -3408,7 +3408,7 @@
       },
       "Command": {
         "type": "hide",
-        "value": "EventCd"
+        "value": "EventC"
       },
       "SuccessInterval": {
         "type": "hide",
@@ -3423,10 +3423,10 @@
         "value": "00:00"
       }
     },
-    "EventCd": {
+    "EventC": {
       "StageFilter": {
         "type": "textarea",
-        "value": "C1 > C2 > C3 > D1 > D2 > D3"
+        "value": "C1 > C2 > C3"
       },
       "LastStage": {
         "type": "input",

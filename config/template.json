@@ -491,17 +491,17 @@
       "EnemyScaleBalanceWeight": "default_mode"
     }
   },
-  "EventAb": {
+  "EventA": {
     "Scheduler": {
       "Enable": false,
       "NextRun": "2020-01-01 00:00:00",
-      "Command": "EventAb",
+      "Command": "EventA",
       "SuccessInterval": 30,
       "FailureInterval": 30,
       "ServerUpdate": "00:00"
     },
-    "EventAb": {
-      "StageFilter": "A1 > A2 > A3 > B1 > B2 > B3",
+    "EventA": {
+      "StageFilter": "A1 > A2 > A3",
       "LastStage": 0
     },
     "Campaign": {
@@ -643,17 +643,17 @@
       "EnemyScaleBalanceWeight": "default_mode"
     }
   },
-  "EventCd": {
+  "EventC": {
     "Scheduler": {
       "Enable": false,
       "NextRun": "2020-01-01 00:00:00",
-      "Command": "EventCd",
+      "Command": "EventC",
       "SuccessInterval": 30,
       "FailureInterval": 30,
       "ServerUpdate": "00:00"
     },
-    "EventCd": {
-      "StageFilter": "C1 > C2 > C3 > D1 > D2 > D3",
+    "EventC": {
+      "StageFilter": "C1 > C2 > C3",
       "LastStage": 0
     },
     "Campaign": {

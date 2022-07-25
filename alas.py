@@ -225,20 +225,20 @@ class AzurLaneAutoScript:
         from module.raid.daily import RaidDaily
         RaidDaily(config=self.config, device=self.device).run()
 
-    def event_ab(self):
-        from module.event.campaign_ab import CampaignAB
-        CampaignAB(config=self.config, device=self.device).run()
+    def event_a(self):
+        from module.event.campaign_abcd import CampaignA
+        CampaignA(config=self.config, device=self.device).run()
 
     def event_b(self):
-        from module.event.campaign_b import CampaignB
+        from module.event.campaign_abcd import CampaignB
         CampaignB(config=self.config, device=self.device).run()
 
-    def event_cd(self):
-        from module.event.campaign_cd import CampaignCD
-        CampaignCD(config=self.config, device=self.device).run()
+    def event_c(self):
+        from module.event.campaign_abcd import CampaignC
+        CampaignC(config=self.config, device=self.device).run()
 
     def event_d(self):
-        from module.event.campaign_d import CampaignD
+        from module.event.campaign_abcd import CampaignD
         CampaignD(config=self.config, device=self.device).run()
 
     def event_sp(self):
