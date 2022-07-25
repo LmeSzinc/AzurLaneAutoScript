@@ -6,16 +6,21 @@ from module.base.button import Button, ButtonGrid
 from module.base.filter import Filter
 from module.base.timer import Timer
 from module.base.utils import *
+from module.combat.level import LevelOcr
 from module.exception import ScriptError
 from module.handler.assets import GET_MISSION, POPUP_CANCEL, POPUP_CONFIRM
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
-from module.ocr.ocr import DigitCounter, Duration
-from module.retire.assets import DOCK_CHECK
+from module.ocr.ocr import DigitCounter, Duration, Ocr
+from module.retire.assets import DOCK_EMPTY, DOCK_CHECK
+from module.retire.dock import CARD_GRIDS, Dock, CARD_LEVEL_GRIDS
 from module.tactical.assets import *
-from module.ui.assets import (BACK_ARROW, REWARD_CHECK, REWARD_GOTO_TACTICAL,
-                              TACTICAL_CHECK)
-from module.ui.ui import UI, page_reward
+from module.ui.assets import (BACK_ARROW, REWARD_GOTO_TACTICAL,
+                              TACTICAL_CHECK, REWARD_CHECK)
+from module.ui.ui import page_reward
+
+SKILL_GRIDS = ButtonGrid(origin=(315, 140), delta=(621, 132), button_shape=(621, 119), grid_shape=(1, 3), name='SKILL')
+SKILL_LEVEL_GRIDS = SKILL_GRIDS.crop(area=(406, 98, 618, 116), name='EXP')
 
 
 class SkillExp(DigitCounter):
@@ -142,7 +147,7 @@ class Book:
         return text
 
 
-class RewardTacticalClass(UI):
+class RewardTacticalClass(Dock):
     books: SelectedGrids
     tactical_finish = []
 
@@ -227,7 +232,7 @@ class RewardTacticalClass(UI):
         if total == 5800:
             logger.info('About to reach level 10; will remove '
                         'detected books based on actual '
-                       f'progress: {current}/{total}; {remain}')
+                        f'progress: {current}/{total}; {remain}')
 
             def filter_exp_func(book):
                 # Retain at least non-T1 bonus books if nothing else
@@ -329,6 +334,7 @@ class RewardTacticalClass(UI):
         """
         logger.hr('Tactical class receive', level=1)
         received = False
+        study_finished = not self.config.AddNewStudent_Enable
         # tactical cards can't be loaded that fast, confirm if it's empty.
         empty_confirm = Timer(0.6, count=2).start()
         while 1:
@@ -340,6 +346,11 @@ class RewardTacticalClass(UI):
             # End
             if received and self.appear(REWARD_CHECK, offset=(20, 20)):
                 break
+
+            if not study_finished and self.appear(TACTICAL_CHECK, offset=(20, 20)):
+                # Tactical page, has empty position
+                if self.appear_then_click(ADD_NEW_STUDENT, offset=(800, 20)):
+                    continue
 
             # Get finish time
             if self.appear(TACTICAL_CHECK, offset=(20, 20), interval=2):
@@ -377,17 +388,141 @@ class RewardTacticalClass(UI):
                 if self._tactical_books_choose():
                     self.interval_reset(TACTICAL_CLASS_CANCEL)
                     self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
+                else:
+                    study_finished = True
                 continue
             if self.appear(DOCK_CHECK, offset=(20, 20), interval=3):
-                # Entered dock accidentally
-                self.device.click(BACK_ARROW)
+                if self.dock_selected():
+                    # When you click a ship from page_main -> dock,
+                    # this ship will be selected default in tactical dock,
+                    # so we need click BACK_ARROW to clear selected state
+                    self.device.click(BACK_ARROW)
+                    continue
+                # If not enable or can not fina a suitable ship
+                if not self.config.AddNewStudent_Enable or not self.select_suitable_ship():
+                    study_finished = True
+                    self.device.click(BACK_ARROW)
                 continue
             if self.appear(SKILL_CONFIRM, offset=(20, 20), interval=3):
-                # Game auto pops up the next skill to learn, close it
+                # If not enable or can not find a skill
+                if not self.config.AddNewStudent_Enable or not self._tactical_skill_choose():
+                    study_finished = True
+                    self.device.click(BACK_ARROW)
+                continue
+            if self.appear(TACTICAL_META, offset=(200, 20)):
+                # If meta's skill page, it's inappropriate
+                study_finished = True
                 self.device.click(BACK_ARROW)
                 continue
+        return True
+
+    def _tactical_skill_select(self, selected_skill, skip_first_screenshot=True):
+        """
+        Select the target skill onscreen
+        Updates current image if needed
+
+        Args:
+            selected_skill: button
+            skip_first_screenshot (bool):
+        """
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if not self.check_skill_selected(selected_skill, self.device.image):
+                self.device.click(selected_skill)
+                self.device.sleep((0.3, 0.5))
+            else:
+                break
+
+    def check_skill_selected(self, button, image):
+        area = button.area
+        check_area = tuple([area[0], area[3] + 2, area[2], area[3] + 4])
+        im = rgb2gray(crop(image, check_area))
+        return True if np.mean(im) > 127 else False
+
+    def _tactical_skill_choose(self):
+        """
+        Choose a not full level skill.
+
+        Returns:
+            bool: Find or not
+
+        Pages:
+            in: SKILL_CONFIRM
+            out: Unknown, may TACTICAL_CLASS_START, page_tactical
+        """
+        selected_skill = self.find_not_full_level_skill()
+
+        # If can't select a skill, think this ship no need study
+        if selected_skill is None:
+            return False
+
+        # If select a skill, think it not full level and should start or continue
+        # Here should check selected or not
+        self._tactical_skill_select(selected_skill)
+        self.device.click(SKILL_CONFIRM)
 
         return True
+
+    def select_suitable_ship(self):
+
+        # Set if favorite from config
+        self.dock_favourite_set(enable=self.config.AddNewStudent_Favorite)
+
+        # No ship in dock
+        if self.appear(DOCK_EMPTY, offset=(30, 30)):
+            logger.info('Dock is empty or favorite ships is empty')
+            return False
+
+        level_grids = CARD_LEVEL_GRIDS
+        card_grids = CARD_GRIDS
+
+        level_ocr = LevelOcr(level_grids.buttons,
+                             name='DOCK_LEVEL_OCR', threshold=64)
+        list_level = level_ocr.ocr(self.device.image)
+        should_select_button = None
+        for button, level in list(zip(card_grids.buttons, list_level)):
+            if level != 0:
+                should_select_button = button
+                break
+
+        if should_select_button is None:
+            return False
+
+        # select a ship
+        self.dock_select_one(should_select_button, skip_first_screenshot=True)
+        # Confirm selected ship
+        self.dock_select_confirm(TACTICAL_SKILL_LIST)
+
+        return True
+
+    def find_not_full_level_skill(self, skip_first_screenshot=True):
+        """
+        Check up to three skills in the list, find a skill whose level is not max
+
+        Returns:
+            Selected skill's button
+
+        Pages:
+            in: SKILL_CONFIRM
+            out: SKILL_CONFIRM
+        """
+
+        if skip_first_screenshot:
+            self.device.screenshot()
+
+        skill_level_ocr = Ocr(buttons=SKILL_LEVEL_GRIDS.buttons, lang='cnocr', name='SKILL_LEVEL')
+        skill_level_list = skill_level_ocr.ocr(self.device.image)
+        for skill_button, skill_level in list(zip(SKILL_GRIDS.buttons, skill_level_list)):
+            level = skill_level.upper().replace(' ', '')
+            logger.attr('LEVEL', 'EMPTY' if len(level) == 0 else level)
+            if 'NEXT' in level and 'MAX' not in level:
+                return skill_button
+
+        return None
 
     def run(self):
         """
