@@ -43,7 +43,7 @@ Event2:
   Campaign:
     Mode: normal
     AmbushEvade: true
-EventAb:
+EventA:
   Scheduler:
     SuccessInterval: 30
     FailureInterval: 30
@@ -75,7 +75,7 @@ EventB:
     StageIncrease: false
     GetNewShip: false
     ReachLevel: 0
-EventCd:
+EventC:
   Scheduler:
     SuccessInterval: 30
     FailureInterval: 30

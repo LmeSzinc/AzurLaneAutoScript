@@ -75,9 +75,9 @@ Event2:
   - Emotion
   - HpControl
   - EnemyPriority
-EventAb:
+EventA:
   - Scheduler
-  - EventAb
+  - EventA
   - Campaign
   - StopCondition
   - Fleet
@@ -95,9 +95,9 @@ EventB:
   - Emotion
   - HpControl
   - EnemyPriority
-EventCd:
+EventC:
   - Scheduler
-  - EventCd
+  - EventC
   - Campaign
   - StopCondition
   - Fleet

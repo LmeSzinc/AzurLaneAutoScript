@@ -219,17 +219,17 @@ GemsFarming:
 EventGeneral:
   PtLimit: 0
   TimeLimit: 2020-01-01 00:00:00
-EventAb:
+EventA:
   StageFilter: |-
-    A1 > A2 > A3 > B1 > B2 > B3
+    A1 > A2 > A3
   LastStage: 0
 EventB:
   StageFilter: |-
     B1 > B2 > B3
   LastStage: 0
-EventCd:
+EventC:
   StageFilter: |-
-    C1 > C2 > C3 > D1 > D2 > D3
+    C1 > C2 > C3
   LastStage: 0
 EventD:
   StageFilter: |-

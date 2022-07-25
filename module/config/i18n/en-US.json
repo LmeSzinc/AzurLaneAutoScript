@@ -78,21 +78,21 @@
       "name": "Event-2",
       "help": ""
     },
-    "EventAb": {
-      "name": "Event AB",
+    "EventA": {
+      "name": "Event A",
       "help": ""
     },
     "EventB": {
-      "name": "Task.EventB.name",
-      "help": "Task.EventB.help"
+      "name": "EventB",
+      "help": ""
     },
-    "EventCd": {
-      "name": "Event CD",
+    "EventC": {
+      "name": "EventC",
       "help": ""
     },
     "EventD": {
-      "name": "Task.EventD.name",
-      "help": "Task.EventD.help"
+      "name": "EventD",
+      "help": ""
     },
     "EventSp": {
       "name": "Event SP",
@@ -947,7 +947,7 @@
     },
     "VanguardChange": {
       "name": "Enable Vanguard Change",
-      "help": "Applies to fleet 1, switch out to new level 1 common vanguard after current has reached level 35+"
+      "help": "Applies to fleet 1, switch out to new level 100(70) common vanguard after current has reached level 35+\n(Only CN players'0 limit break ship can reach level 100)"
     },
     "VanguardEquipChange": {
       "name": "Enable Vanguard Equipment Change",
@@ -981,24 +981,24 @@
       "help": "When the local time exceeds the given value, disable all event tasks. '2020-01-01 00:00:00' means no limit and the time will be reset once it's triggered\nThis can prevent the occurrence of forgetting to disable event tasks after the event ends"
     }
   },
-  "EventAb": {
+  "EventA": {
     "_info": {
-      "name": "EventAB Settings",
+      "name": "EventA Settings",
       "help": ""
     },
     "StageFilter": {
-      "name": "EventAB Stage Filter",
+      "name": "EventA Stage Filter",
       "help": ""
     },
     "LastStage": {
-      "name": "Last EventAB Stage",
+      "name": "Last EventA Stage",
       "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
     }
   },
   "EventB": {
     "_info": {
       "name": "EventB Settings",
-      "help": "Low cost fleets, like 0 limit break DD+ 0 limit break CVL, often having trouble with no ammo boss fight in B2 and B3\nSelecting different fleets may help deal such situation"
+      "help": ""
     },
     "StageFilter": {
       "name": "EventB Stage Filter",
@@ -1009,24 +1009,24 @@
       "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
     }
   },
-  "EventCd": {
+  "EventC": {
     "_info": {
-      "name": "EventCD Settings",
+      "name": "EventC Settings",
       "help": ""
     },
     "StageFilter": {
-      "name": "EventCD Stage Filter",
+      "name": "EventC Stage Filter",
       "help": ""
     },
     "LastStage": {
-      "name": "Last EventCD Stage",
+      "name": "Last EventC Stage",
       "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
     }
   },
   "EventD": {
     "_info": {
       "name": "EventD Settings",
-      "help": "Due to the different ship requirements between map C and D, a separate module is created to handle it."
+      "help": ""
     },
     "StageFilter": {
       "name": "EventD Stage Filter",
