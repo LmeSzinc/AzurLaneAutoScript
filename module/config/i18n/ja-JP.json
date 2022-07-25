@@ -1131,6 +1131,20 @@
       "help": "ControlExpOverflow.T1Allow.help"
     }
   },
+  "AddNewStudent": {
+    "_info": {
+      "name": "新しいスキルを学ぶ",
+      "help": "戦術学院に空席があると自動的に艦娘が配属され、初の下級スキルが習得される"
+    },
+    "Enable": {
+      "name": "この機能を有効にする",
+      "help": ""
+    },
+    "Favorite": {
+      "name": "好ましい選択",
+      "help": ""
+    }
+  },
   "Research": {
     "_info": {
       "name": "Research._info.name",

@@ -5215,6 +5215,16 @@
         "type": "input",
         "value": 200
       }
+    },
+    "AddNewStudent": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Favorite": {
+        "type": "checkbox",
+        "value": true
+      }
     }
   },
   "Research": {

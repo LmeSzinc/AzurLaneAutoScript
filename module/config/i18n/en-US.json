@@ -1131,6 +1131,20 @@
       "help": "0 ~ any positive integer"
     }
   },
+  "AddNewStudent": {
+    "_info": {
+      "name": "learn new skills",
+      "help": "When there is a vacant position in the Tactical Academy, a ship girl will be automatically assigned and the first under-level skill will be learned"
+    },
+    "Enable": {
+      "name": "Enable",
+      "help": ""
+    },
+    "Favorite": {
+      "name": "Use Favorite Filter for Tactical",
+      "help": ""
+    }
+  },
   "Research": {
     "_info": {
       "name": "Research Academy Settings",
