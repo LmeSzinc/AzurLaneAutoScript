@@ -1153,6 +1153,10 @@
       "only_no_project": "Only no project available",
       "do_not_use": "Don't Use"
     },
+    "AllowDelay": {
+      "name": "Allow Delay research",
+      "help": "When the resources are insufficient or the reset is unavailable, alas will delay research until the conditions are met or research queue is about to be emptied, which will not cause the research to stop\nIf the time of running alas is not long enough, you can cancel this option to keep the research queue full"
+    },
     "PresetFilter": {
       "name": "Preset Filter Select",
       "help": "See research drops rates and spawn rates in https://azur-stats.lyoko.io/. People without a basic knowledge of these are recommended to use pre-optimized presets instead of writing custom filters",
