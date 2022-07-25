@@ -224,7 +224,7 @@ class RewardTacticalClass(UI):
         if total == 5800:
             logger.info('About to reach level 10; will remove '
                         'detected books based on actual '
-                       f'progress: {current}/{total}; {remain}')
+                        f'progress: {current}/{total}; {remain}')
 
             def filter_exp_func(book):
                 # Retain at least non-T1 bonus books if nothing else
@@ -401,3 +401,10 @@ class RewardTacticalClass(UI):
         else:
             logger.info('No tactical running')
             self.config.task_delay(success=False)
+
+
+if __name__ == '__main__':
+    az = RewardTacticalClass('alas', task='Tactical')
+    az.image_file = r'D:\\project\\AlasTest\\tactical\\TEST2.png'
+
+    print(az.appear(ADD_NEW_STUDENT, offset=(20, 20), interval=2))
