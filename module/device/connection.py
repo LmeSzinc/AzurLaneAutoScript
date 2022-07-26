@@ -435,7 +435,7 @@ class Connection(ConnectionAttr):
                     # No connection could be made because the target machine actively refused it. (10061)
                     logger.error(msg)
                     possible_reasons('No such device exists, please set a correct serial',
-                                     'Emulator not started, please restart it')
+                                     'Emulator not running, please restart it')
                     raise EmulatorNotRunningError
             logger.warning(f'Failed to connect {serial} after 3 trial, assume connected')
             self.detect_device()

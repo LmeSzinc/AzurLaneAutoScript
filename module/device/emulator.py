@@ -92,7 +92,6 @@ class Bluestacks5Instance(EmulatorInstance):
 
 class EmulatorManager(Connection):
     pid = None
-
     SUPPORTED_EMULATORS = {
         'nox_player': EmulatorInstance(
             name="Nox",
@@ -139,7 +138,7 @@ class EmulatorManager(Connection):
                 except FileNotFoundError:
                     pass
 
-            logger.info('Detected emulators :')
+            logger.info('Detected emulators:')
             for emulator in emulators:
                 logger.info(f'Name: {emulator[0].name}, Multi_id: {emulator[1]}')
 
@@ -179,7 +178,7 @@ class EmulatorManager(Connection):
         """
         command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
         logger.info(f'Execute: {command}')
-        return subprocess.Popen(command)  # only work on Windows
+        return subprocess.Popen(command, close_fds=True)  # only work on Windows
 
     def adb_connect(self, serial):
         try:
@@ -209,7 +208,7 @@ class EmulatorManager(Connection):
             bool: If start successful.
         """
         if command is None:
-            command = os.path.abspath(os.path.join(emulator.root, emulator.emu_path))
+            command = '\"' + os.path.abspath(os.path.join(emulator.root, emulator.emu_path)) + '\"'
             if emulator.multi_para is not None and multi_id is not None:
                 command += " " + emulator.multi_para.replace("#id", multi_id)
 
@@ -246,7 +245,7 @@ class EmulatorManager(Connection):
         """
         if command is None:
             if emulator.kill_para is not None:
-                command = os.path.abspath(os.path.join(emulator.root, emulator.emu_path))
+                command = '\"' + os.path.abspath(os.path.join(emulator.root, emulator.emu_path)) + '\"'
                 if emulator.multi_para is not None and multi_id is not None:
                     command += " " + emulator.multi_para.replace("#id", multi_id)
                 command += " " + emulator.kill_para
