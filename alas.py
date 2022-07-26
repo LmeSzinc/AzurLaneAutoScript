@@ -226,20 +226,20 @@ class AzurLaneAutoScript:
         RaidDaily(config=self.config, device=self.device).run()
 
     def event_a(self):
-        from module.event.campaign_abcd import CampaignA
-        CampaignA(config=self.config, device=self.device).run()
+        from module.event.campaign_abcd import CampaignABCD
+        CampaignABCD(config=self.config, device=self.device).run(DailyEventABCD=self.config.EventA_StageFilter, LastStageABCD=self.config.EventA_LastStage)
 
     def event_b(self):
-        from module.event.campaign_abcd import CampaignB
-        CampaignB(config=self.config, device=self.device).run()
+        from module.event.campaign_abcd import CampaignABCD
+        CampaignABCD(config=self.config, device=self.device).run(DailyEventABCD=self.config.EventB_StageFilter, LastStageABCD=self.config.EventB_LastStage)
 
     def event_c(self):
-        from module.event.campaign_abcd import CampaignC
-        CampaignC(config=self.config, device=self.device).run()
+        from module.event.campaign_abcd import CampaignABCD
+        CampaignABCD(config=self.config, device=self.device).run(DailyEventABCD=self.config.EventC_StageFilter, LastStageABCD=self.config.EventC_LastStage)
 
     def event_d(self):
-        from module.event.campaign_abcd import CampaignD
-        CampaignD(config=self.config, device=self.device).run()
+        from module.event.campaign_abcd import CampaignABCD
+        CampaignABCD(config=self.config, device=self.device).run(DailyEventABCD=self.config.EventD_StageFilter, LastStageABCD=self.config.EventD_LastStage)
 
     def event_sp(self):
         from module.event.campaign_sp import CampaignSP
