@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, Config
 from module.logger import logger
@@ -104,18 +106,18 @@ class ResearchQueue(ResearchUI):
         logger.attr('Research queue slot', slot)
         return slot
 
-    def get_queue_remain(self):
+    def get_research_ended(self):
         """
         Returns:
-            int: Seconds before research finished
+            datetime: Time of the end of the first research in the queue.
 
         Pages:
             in: is_in_queue
         """
         if not self.image_color_count(QUEUE_REMAIN, color=(255, 255, 255), threshold=221, count=100):
             logger.info('Research queue empty')
-            return 0
+            return datetime.now()
 
-        remain = OCR_QUEUE_REMAIN.ocr(self.device.image)
-        logger.info(f'Research queue remain: {remain}')
-        return remain.total_seconds()
+        end_time = datetime.now() + OCR_QUEUE_REMAIN.ocr(self.device.image)
+        logger.info(f'The first research ended at: {end_time}')
+        return end_time

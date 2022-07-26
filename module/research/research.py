@@ -1,4 +1,5 @@
 import numpy as np
+from datetime import datetime, timedelta
 
 from module.base.timer import Timer
 from module.base.utils import rgb2gray
@@ -19,6 +20,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
     _research_finished_index = 2
     research_project_started = None  # ResearchProject
     enforce = False
+    end_time = None
 
     def research_has_finished(self):
         """
@@ -78,20 +80,13 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             drop (DropImage):
             add_queue (bool): Whether to add into queue.
                 The 6th project can't be added into queue, so here's the toggle.
-
-        Returns:
-            bool: True if triggered enforce research
         """
-        if (not self.enforce) \
-                and (self.config.Research_UseCube in ['only_no_project', 'only_05_hour']
-                     or self.config.Research_UseCoin in ['only_no_project', 'only_05_hour']
-                     or self.config.Research_UsePart in ['only_no_project', 'only_05_hour']):
+        if not self.enforce:
             logger.info('Enforce choosing research project')
             self.enforce = True
-            self.research_select(self.research_sort_filter(self.enforce),
-                                 drop=drop, add_queue=add_queue)
-            return True
-        return False
+            return self.research_select(self.research_sort_filter(self.enforce),
+                                        drop=drop, add_queue=add_queue)
+        return True
 
     def research_select(self, priority, drop=None, add_queue=True):
         """
@@ -107,13 +102,15 @@ class RewardResearch(ResearchSelector, ResearchQueue):
         """
         if not len(priority):
             logger.info('No research project satisfies current filter')
-            self.research_enforce(drop=drop, add_queue=add_queue)
-            return True
+            return self.research_enforce(drop=drop, add_queue=add_queue)
         for project in priority:
             # priority example: ['reset', 'shortest']
             if project == 'reset':
                 if self.research_reset(drop=drop):
                     return False
+                elif self.research_delay_check():
+                    logger.info('Delay research when reset unavailable and queue not empty')
+                    return True
                 else:
                     continue
 
@@ -129,18 +126,41 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                     logger.warning(f'Unknown select method: {project}')
                 return True
             elif project.genre.upper() in ['C', 'T'] and \
-                 self.research_enforce(drop=drop, add_queue=add_queue):
+                    self.research_enforce(drop=drop, add_queue=add_queue):
                 return True
             else:
                 # priority example: [ResearchProject, ResearchProject,]
-                if self.research_project_start(project, add_queue=add_queue):
+                ret = self.research_project_start(project, add_queue=add_queue)
+                if ret:
                     return True
                 else:
-                    continue
+                    if ret is not None and self.research_delay_check():
+                        logger.info('Delay research when resources not enough and queue not empty')
+                        return True
+                    else:
+                        continue
 
         logger.info('No research project started')
-        self.research_enforce(drop=drop, add_queue=add_queue)
-        return True
+        return self.research_enforce(drop=drop, add_queue=add_queue)
+
+    def research_delay_check(self):
+        """
+        Check whether the conditions allow the delay of research.
+
+        Returns:
+            bool: If conditions allow to delay research.
+        """
+        if self.config.Research_AllowDelay:
+            slot = self.get_queue_slot()
+            if slot < 4:
+                return True
+            if slot == 4:
+                if self.end_time <= datetime.now():
+                    return True
+                elif self.end_time + timedelta(minutes=-10) > datetime.now():
+                    return True
+
+        return False
 
     def research_project_start(self, project, add_queue=True, skip_first_screenshot=True):
         """
@@ -154,6 +174,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
 
         Returns:
             bool: If start success.
+            None: If The project to start is not in known projects.
 
         Pages:
             in: is_in_research
@@ -167,7 +188,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             index = self.projects.index(project)
         else:
             logger.warning(f'The project to start: {project} is not in known projects')
-            return False
+            return None
         logger.info(f'Research project: {index}')
         self.interval_clear([RESEARCH_START])
         self.popup_interval_clear()
@@ -198,7 +219,8 @@ class RewardResearch(ResearchSelector, ResearchQueue):
 
             # End
             if self.appear(RESEARCH_STOP, offset=(20, 20)):
-                # RESEARCH_STOP is a semi-transparent button, color will vary depending on the background.
+                # RESEARCH_STOP is a semi-transparent button,
+                # color will vary depending on the background.
                 if add_queue:
                     self.research_queue_add()
                 else:
@@ -206,7 +228,8 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                 # self.ensure_no_info_bar(timeout=3)  # Research started
                 self.research_project_started = project
                 return True
-            if not available and max_rgb <= 235 and self.appear(RESEARCH_UNAVAILABLE, offset=(5, 20)):
+            if not available and max_rgb <= 235 \
+                    and self.appear(RESEARCH_UNAVAILABLE, offset=(5, 20)):
                 logger.info('Not enough resources to start this project')
                 self.research_detail_quit()
                 self.research_project_started = None
@@ -457,7 +480,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
         # Check queue
         self.queue_enter()
         self.queue_receive()
-        remain = self.get_queue_remain()
+        self.end_time = self.get_research_ended()
         self.queue_quit()
 
         # Check the 6th project, which is outside of queue
@@ -467,14 +490,17 @@ class RewardResearch(ResearchSelector, ResearchQueue):
         total = self.research_fill_queue()
 
         # Scheduler
-        if remain > 0:
-            self.config.task_delay(minute=remain / 60)
-        elif total > 0:
-            # Get the remain of project newly started
-            self.queue_enter()
-            remain = self.get_queue_remain()
-            self.queue_quit()
-            self.config.task_delay(minute=remain / 60)
-        else:
+        if self.end_time <= datetime.now() and total == 0:
             # Queue empty, can't start any research
             self.config.task_delay(server_update=True)
+            return
+        elif self.end_time <= datetime.now() and total > 0:
+            # Get the remain of project newly started
+            self.queue_enter()
+            self.end_time = self.get_research_ended()
+            self.queue_quit()
+        if self.get_queue_slot() == 4:
+            # Queue nearly empty, give up research because of resources not enough,
+            # ten minutes in advance to avoid idle research.
+            self.end_time = self.end_time + timedelta(minutes=-10)
+        self.config.task_delay(target=self.end_time)
