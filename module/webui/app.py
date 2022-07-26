@@ -452,7 +452,7 @@ class AlasGUI(Frame):
         try:
             valid = []
             invalid = []
-            config = State.config_updater.read_file(self.alas_name)
+            config = State.config_updater.read_file(config_name)
             for k, v in modified.copy().items():
                 valuetype = deep_get(self.ALAS_ARGS, k + ".valuetype")
                 v = parse_pin_value(v, valuetype)
@@ -1217,9 +1217,10 @@ def app():
         "--electron", action="store_true", help="Runs by electron client."
     )
     parser.add_argument(
-        "--reload",
-        action="store_true",
-        help="Able to use auto update and builtin updater",
+        "--run",
+        nargs="+",
+        type=str,
+        help="Run alas by config names on startup",
     )
     args, _ = parser.parse_known_args()
 
@@ -1227,11 +1228,9 @@ def app():
     AlasGUI.set_theme(theme=State.deploy_config.Theme)
     lang.LANG = State.deploy_config.Language
     key = args.key or State.deploy_config.Password
-    if args.cdn:
-        cdn = args.cdn
-    else:
-        cdn = State.deploy_config.CDN
+    cdn = args.cdn if args.cdn else State.deploy_config.CDN
     State.electron = args.electron
+    instances: List[str] = args.run
 
     logger.hr("Webui configs")
     logger.attr("Theme", State.deploy_config.Theme)
@@ -1255,7 +1254,7 @@ def app():
         debug=True,
         on_startup=[
             startup,
-            lambda: ProcessManager.restart_processes(ev=updater.event),
+            lambda: ProcessManager.restart_processes(instances=instances, ev=updater.event),
         ],
         on_shutdown=[clearup],
     )

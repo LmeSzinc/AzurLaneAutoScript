@@ -409,6 +409,8 @@ class ResearchProject:
         if len(parts) == 3:
             prefix, number, suffix = parts
             number = number.replace('D', '0').replace('O', '0').replace('S', '5')
+            if prefix == 'I1':
+                prefix = 'D'
             prefix = prefix.strip('I1')
             # S3 D-022-MI (S3-Drake-0.5) detected as 'D-022-ML', because of Drake's white cloth.
             suffix = suffix.replace('ML', 'MI').replace('MIL', 'MI')
