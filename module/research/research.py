@@ -359,6 +359,10 @@ class RewardResearch(ResearchSelector, ResearchQueue):
         logger.info(f'Received rewards from {total} projects')
         return total
 
+    def queue_quit(self, *args, **kwargs):
+        super().queue_quit(*args, **kwargs)
+        self._research_project_offset = 0
+
     def research_queue_append(self, drop=None, add_queue=True):
         """
         Args:
