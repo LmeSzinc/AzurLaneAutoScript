@@ -1,6 +1,6 @@
 from module.base.base import ModuleBase
 from module.base.timer import Timer
-from module.combat.assets import COMBAT_AUTO, COMBAT_AUTO_SWITCH
+from module.combat.assets import COMBAT_AUTO, COMBAT_AUTO_2X, COMBAT_AUTO_SWITCH
 from module.logger import logger
 
 
@@ -35,7 +35,7 @@ class CombatAuto(ModuleBase):
             return False
 
         auto = auto == 'combat_auto'
-        if self.appear(COMBAT_AUTO, offset=(200, 200)):
+        if self.appear(COMBAT_AUTO, offset=(20, 20)) or self.appear(COMBAT_AUTO_2X, offset=(20, 20)):
             if auto:
                 self.device.click(COMBAT_AUTO_SWITCH)
                 self.auto_click_interval_timer.reset()
@@ -47,5 +47,3 @@ class CombatAuto(ModuleBase):
                 return True
 
         return False
-
-
