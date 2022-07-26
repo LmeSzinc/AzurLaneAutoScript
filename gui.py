@@ -28,6 +28,23 @@ def func(ev: threading.Event):
         type=int,
         help="Port to listen. Default to WebuiPort in deploy setting",
     )
+    parser.add_argument(
+        "-k", "--key", type=str, help="Password of alas. No password by default"
+    )
+    parser.add_argument(
+        "--cdn",
+        action="store_true",
+        help="Use jsdelivr cdn for pywebio static files (css, js). Self host cdn by default.",
+    )
+    parser.add_argument(
+        "--electron", action="store_true", help="Runs by electron client."
+    )
+    parser.add_argument(
+        "--run",
+        nargs="+",
+        type=str,
+        help="Run alas by config names on startup",
+    )
     args, _ = parser.parse_known_args()
 
     host = args.host or State.deploy_config.WebuiHost or "0.0.0.0"
@@ -44,7 +61,12 @@ if __name__ == "__main__":
             process = Process(target=func, args=(event,))
             process.start()
             while not should_exit:
-                if event.wait(5):
+                try:
+                    b = event.wait(1)
+                except KeyboardInterrupt:
+                    should_exit = True
+                    break
+                if b:
                     process.kill()
                     break
                 elif process.is_alive():
