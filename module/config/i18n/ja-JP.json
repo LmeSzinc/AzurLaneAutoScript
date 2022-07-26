@@ -1117,6 +1117,10 @@
       "only_no_project": "only_no_project",
       "do_not_use": "do_not_use"
     },
+    "AllowDelay": {
+      "name": "Research.AllowDelay.name",
+      "help": "Research.AllowDelay.help"
+    },
     "PresetFilter": {
       "name": "Research.PresetFilter.name",
       "help": "Research.PresetFilter.help",
