@@ -468,13 +468,6 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             out: page_research, with research project information, but it's still page_research.
                     or page_main
         """
-        # Remove this when your server is updated for PR5
-        if self.config.SERVER in ['tw']:
-            logger.warning('Task "Research" is forced delayed 2 hours before PR5 support. '
-                           'Please do research manually and contact server maintainers')
-            self.config.task_delay(minute=120)
-            self.config.task_stop()
-
         self.ui_ensure(page_research)
 
         # Check queue
