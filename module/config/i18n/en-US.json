@@ -1118,8 +1118,8 @@
       "do_not_use": "Don't Use"
     },
     "AllowDelay": {
-      "name": "Allow Delay research",
-      "help": "When the resources are insufficient or the reset is unavailable, alas will delay research until the conditions are met or research queue is about to be emptied, which will not cause the research to stop\nIf the time of running alas is not long enough, you can cancel this option to keep the research queue full"
+      "name": "Delay research when resources are insufficient",
+      "help": "When the resources are insufficient, Alas will delay research until the conditions are met or research queue is about to be emptied, which will not cause the research to stop\nIf the resources are insufficient for a long time or the time of running alas is not long enough, you can cancel this option to keep the research queue full"
     },
     "PresetFilter": {
       "name": "Preset Filter Select",

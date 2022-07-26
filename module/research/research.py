@@ -108,9 +108,6 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             if project == 'reset':
                 if self.research_reset(drop=drop):
                     return False
-                elif self.research_delay_check():
-                    logger.info('Delay research when reset unavailable and queue not empty')
-                    return True
                 else:
                     continue
 
@@ -133,12 +130,11 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                 ret = self.research_project_start(project, add_queue=add_queue)
                 if ret:
                     return True
+                elif ret is not None and self.research_delay_check():
+                    logger.info('Delay research when resources not enough and queue not empty')
+                    return True
                 else:
-                    if ret is not None and self.research_delay_check():
-                        logger.info('Delay research when resources not enough and queue not empty')
-                        return True
-                    else:
-                        continue
+                    continue
 
         logger.info('No research project started')
         return self.research_enforce(drop=drop, add_queue=add_queue)
