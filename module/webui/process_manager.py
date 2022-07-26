@@ -2,7 +2,7 @@ import os
 import queue
 import threading
 from multiprocessing import Process
-from typing import Dict, List
+from typing import Dict, List, Union
 
 from filelock import FileLock
 from rich.console import ConsoleRenderable
@@ -164,24 +164,33 @@ class ProcessManager:
 
     @staticmethod
     def restart_processes(
-        instances: List["ProcessManager"] = None, ev: threading.Event = None
+        instances: List[Union["ProcessManager", str]] = None, ev: threading.Event = None
     ):
         """
         After update and reload, or failed to perform an update,
         restart all alas that running before update
         """
         logger.hr("Restart alas")
-        if not instances:
+        if instances is None:
             instances = []
-            try:
-                with open("./config/reloadalas", mode="r") as f:
-                    for line in f.readlines():
-                        line = line.strip()
-                        instances.append(ProcessManager.get_manager(line))
-            except:
-                pass
 
-        for process in instances:
+        _instances = set()
+
+        for instance in instances:
+            if isinstance(instance, str):
+                _instances.add(ProcessManager.get_manager(instance))
+            elif isinstance(instance, ProcessManager):
+                _instances.add(instance)
+
+        try:
+            with open("./config/reloadalas", mode="r") as f:
+                for line in f.readlines():
+                    line = line.strip()
+                    _instances.add(ProcessManager.get_manager(line))
+        except FileNotFoundError:
+            pass
+
+        for process in _instances:
             logger.info(f"Starting [{process.config_name}]")
             process.start(func="Alas", ev=ev)
 
