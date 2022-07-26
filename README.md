@@ -123,6 +123,12 @@ GUI development, thanks **[@18870](https://github.com/18870)** , say HURRAY.
 
 
 
+## Alas 社区准则 Alas Community Guidelines
+
+见 [#1416](https://github.com/LmeSzinc/AzurLaneAutoScript/issues/1416)。
+
+
+
 ## 文档 Documents
 
 [海图识别 perspective](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/perspective)
