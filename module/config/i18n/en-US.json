@@ -392,15 +392,15 @@
       "do_not_use": "Do not use",
       "auto": "Auto",
       "nox_player": "Nox Player",
-      "bluestacks_player_5": "Bluestacks 5",
+      "bluestacks_5": "Bluestacks 5",
       "mumu_player": "MuMu Player",
       "custom": "Custom"
     },
-    "CustomStartFilter": {
+    "CustomStartCommand": {
       "name": "Custom Start Command",
       "help": ""
     },
-    "CustomKillFilter": {
+    "CustomKillCommand": {
       "name": "Custom Kill Command",
       "help": ""
     }

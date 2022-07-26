@@ -117,16 +117,16 @@
           "do_not_use",
           "auto",
           "nox_player",
-          "bluestacks_player_5",
+          "bluestacks_5",
           "mumu_player",
           "custom"
         ]
       },
-      "CustomStartFilter": {
+      "CustomStartCommand": {
         "type": "textarea",
         "value": "C:\\Program Files\\Nox\\bin\\Nox.exe -clone:nox"
       },
-      "CustomKillFilter": {
+      "CustomKillCommand": {
         "type": "textarea",
         "value": "C:\\Program Files\\Nox\\bin\\Nox.exe -clone:nox -quit"
       }

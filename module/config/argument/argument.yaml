@@ -38,11 +38,13 @@ Emulator:
 RestartEmulator:
   LaunchMode:
     value: do_not_use
-    option: [do_not_use, auto, nox_player, bluestacks_player_5, mumu_player, custom]
-  CustomStartFilter: |-
-    C:\Program Files\Nox\bin\Nox.exe -clone:nox
-  CustomKillFilter: |-
-    C:\Program Files\Nox\bin\Nox.exe -clone:nox -quit
+    option: [do_not_use, auto, nox_player, bluestacks_5, mumu_player, custom]
+  CustomStartCommand:
+    type: textarea
+    value: C:\Program Files\Nox\bin\Nox.exe -clone:nox
+  CustomKillCommand:
+    type: textarea
+    value: C:\Program Files\Nox\bin\Nox.exe -clone:nox -quit
 Error:
   HandleError: true
   SaveError: true

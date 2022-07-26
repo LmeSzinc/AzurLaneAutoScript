@@ -392,15 +392,15 @@
       "do_not_use": "不使用",
       "auto": "自動",
       "nox_player": "夜神模擬器",
-      "bluestacks_player_5": "藍疊模擬器5",
+      "bluestacks_5": "藍疊模擬器5",
       "mumu_player": "MuMu模擬器",
       "custom": "自定義"
     },
-    "CustomStartFilter": {
+    "CustomStartCommand": {
       "name": "自定義啟動命令",
       "help": ""
     },
-    "CustomKillFilter": {
+    "CustomKillCommand": {
       "name": "自定義關閉命令",
       "help": ""
     }

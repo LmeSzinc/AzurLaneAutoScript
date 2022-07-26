@@ -392,17 +392,17 @@
       "do_not_use": "do_not_use",
       "auto": "auto",
       "nox_player": "nox_player",
-      "bluestacks_player_5": "bluestacks_player_5",
+      "bluestacks_5": "bluestacks_5",
       "mumu_player": "mumu_player",
       "custom": "custom"
     },
-    "CustomStartFilter": {
-      "name": "RestartEmulator.CustomStartFilter.name",
-      "help": "RestartEmulator.CustomStartFilter.help"
+    "CustomStartCommand": {
+      "name": "RestartEmulator.CustomStartCommand.name",
+      "help": "RestartEmulator.CustomStartCommand.help"
     },
-    "CustomKillFilter": {
-      "name": "RestartEmulator.CustomKillFilter.name",
-      "help": "RestartEmulator.CustomKillFilter.help"
+    "CustomKillCommand": {
+      "name": "RestartEmulator.CustomKillCommand.name",
+      "help": "RestartEmulator.CustomKillCommand.help"
     }
   },
   "Error": {

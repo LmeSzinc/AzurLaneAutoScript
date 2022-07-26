@@ -11,8 +11,8 @@
     },
     "RestartEmulator": {
       "LaunchMode": "do_not_use",
-      "CustomStartFilter": "C:\\Program Files\\Nox\\bin\\Nox.exe -clone:nox",
-      "CustomKillFilter": "C:\\Program Files\\Nox\\bin\\Nox.exe -clone:nox -quit"
+      "CustomStartCommand": "C:\\Program Files\\Nox\\bin\\Nox.exe -clone:nox",
+      "CustomKillCommand": "C:\\Program Files\\Nox\\bin\\Nox.exe -clone:nox -quit"
     },
     "Error": {
       "HandleError": true,

@@ -15,7 +15,8 @@ from module.logger import logger
 
 class EmulatorInstance(VirtualBoxEmulator):
 
-    def __init__(self, name, root_path, emu_path, vbox_path=None, vbox_name=None, kill_para=None, multi_para=None):
+    def __init__(self, name, root_path, emu_path,
+                 vbox_path=None, vbox_name=None, kill_para=None, multi_para=None):
         """
         Args:
             name (str): Emulator name in windows uninstall list.
@@ -63,7 +64,7 @@ class EmulatorInstance(VirtualBoxEmulator):
         return serial
 
 
-class BluestacksInstance(EmulatorInstance):
+class Bluestacks5Instance(EmulatorInstance):
     @cached_property
     def root(self):
         try:
@@ -109,7 +110,7 @@ class EmulatorManager(Connection):
             vbox_path="./vms",
             vbox_name='.*.nemu$',
         ),
-        'bluestacks_player_5': BluestacksInstance(
+        'bluestacks_5': Bluestacks5Instance(
             name='BlueStacks_nxt',
             root_path='.',
             emu_path='./HD-Player.exe',
@@ -122,6 +123,7 @@ class EmulatorManager(Connection):
         Args:
             serial (str):
             emulator (EmulatorInstance):
+
         Returns:
             list[EmulatorInstance, str]:Emulator and multi_id
         """
@@ -195,21 +197,20 @@ class EmulatorManager(Connection):
                 return device.status
         return 'offline'
 
-    def emulator_start(self, serial, emulator=None, multi_id=None, path=None):
+    def emulator_start(self, serial, emulator=None, multi_id=None, command=None):
         """
         Args:
             serial (str): Expected serial after simulator starts successfully.
             emulator (EmulatorInstance): Emulator to start.
             multi_id (str): Emulator ID used by multi open emulator.
-            path (str): Customized path and parameters of the simulator to start.
+            command (str): Customized path and parameters of the simulator to start.
+
         Return:
             bool: If start successful.
         """
-        if path is not None:
-            command = path
-        else:
+        if command is None:
             command = os.path.abspath(os.path.join(emulator.root, emulator.emu_path))
-            if multi_id is not None and emulator.multi_para is not None:
+            if emulator.multi_para is not None and multi_id is not None:
                 command += " " + emulator.multi_para.replace("#id", multi_id)
 
         for _ in range(3):
@@ -223,39 +224,31 @@ class EmulatorManager(Connection):
                     break
                 try:
                     if super().adb_connect(serial):
-                        self.sleep(5)
                         # Wait until emulator start completely
+                        self.sleep(5)
                         return True
                 except EmulatorNotRunningError:
                     continue
                 self.sleep(5)
-        logger.warning('Emulator start failed for 3 times, please check your settings')
+        logger.warning('Start emulator failed for 3 times, please check your settings')
         raise RequestHumanTakeover
 
-    def emulator_kill(self, serial, emulator=None, multi_id=None, path=None):
+    def emulator_kill(self, serial, emulator=None, multi_id=None, command=None):
         """
         Args:
             serial (str): Expected serial after simulator starts successfully.
             emulator (EmulatorInstance): Emulator to start.
             multi_id (str): Emulator ID used by multi open emulator.
-            path (str): Customized path and parameters of the simulator to start.
+            command (str): Customized path and parameters of the simulator to start.
+
         Return:
             bool: If kill successful.
         """
-
-        if emulator == self.SUPPORTED_EMULATORS['mumu_player']:
-            # It is MuMu's fault, Alas is not to blame
-            return self.emulator_kill(serial,
-                                      path='taskkill /f /im NemuHeadless.exe /im NemuPlayer.exe /im NemuSvc.exe')
-
-        if path is not None:
-            command = path
-        else:
-            command = os.path.abspath(os.path.join(emulator.root, emulator.emu_path))
-            if multi_id is not None and emulator.multi_para is not None:
-                command += " " + emulator.multi_para.replace("#id", multi_id)
-
+        if command is None:
             if emulator.kill_para is not None:
+                command = os.path.abspath(os.path.join(emulator.root, emulator.emu_path))
+                if emulator.multi_para is not None and multi_id is not None:
+                    command += " " + emulator.multi_para.replace("#id", multi_id)
                 command += " " + emulator.kill_para
             elif self.pid is not None:
                 command = f'taskkill /pid {self.pid} /f /t'
@@ -265,52 +258,53 @@ class EmulatorManager(Connection):
         for _ in range(3):
             logger.info('Kill emulator')
 
-            if emulator == self.SUPPORTED_EMULATORS['bluestacks_player_5']:
+            if emulator == self.SUPPORTED_EMULATORS['bluestacks_5']:
                 try:
                     self.adb_command(['reboot', '-p'], timeout=20)
                     if self.detect_emulator_status(serial) == 'offline':
                         self.pid = None
                         return True
                 except AdbError:
-                    pass
-            else:
-                pipe = self.execute(command)
-                self.sleep(5)
+                    continue
 
-                for __ in range(10):
-                    if pipe.poll() is not None:
-                        if self.detect_emulator_status(serial) == 'offline':
-                            self.pid = None
-                            return True
-                        continue
-                    if self.detect_emulator_status(serial) == 'offline':
-                        self.pid = None
-                        return True
-                    self.sleep(2)
-        logger.warning('Emulator kill failed for 3 times, please check your settings')
+            if emulator == self.SUPPORTED_EMULATORS['mumu_player']:
+                command = 'taskkill /f /im NemuHeadless.exe /im NemuPlayer.exe /im NemuSvc.exe'
+
+            self.execute(command)
+            self.sleep(5)
+
+            for __ in range(10):
+                if self.detect_emulator_status(serial) == 'offline':
+                    self.pid = None
+                    return True
+                self.sleep(2)
+
+        logger.warning('Kill emulator failed for 3 times, please check your settings')
         raise RequestHumanTakeover
 
     def emulator_restart(self, kill=True):
         serial = self.serial
         emulator = None
         multi_id = None
-        start_path = None
-        kill_path = None
+        start_command = None
+        kill_command = None
+
         if self.config.RestartEmulator_LaunchMode == 'do_not_use':
             return False
         if platform != 'win32':
             logger.warning('Function of restart simulator only works under Windows platform')
             return False
+
         logger.hr('Emulator restart')
         if self.config.RestartEmulator_LaunchMode == 'auto':
             emulator, multi_id = self.detect_emulator(serial)
         elif self.config.RestartEmulator_LaunchMode == 'custom':
-            start_path = self.config.RestartEmulator_CustomStartFilter
-            kill_path = self.config.RestartEmulator_CustomKillFilter
+            start_command = self.config.RestartEmulator_CustomStartCommand
+            kill_command = self.config.RestartEmulator_CustomKillCommand
         else:
             emulator = self.SUPPORTED_EMULATORS[self.config.RestartEmulator_LaunchMode]
             emulator, multi_id = self.detect_emulator(serial, emulator)
 
-        if kill and not self.emulator_kill(serial, emulator, multi_id, kill_path):
+        if kill and not self.emulator_kill(serial, emulator, multi_id, kill_command):
             return False
-        return self.emulator_start(serial, emulator, multi_id, start_path)
+        return self.emulator_start(serial, emulator, multi_id, start_command)
