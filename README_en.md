@@ -65,6 +65,12 @@ Spend at least 5 minutes for thinking and preparing, before someone spend his/he
 
 
 
+## Alas Community Guidelines
+
+See [#1416](https://github.com/LmeSzinc/AzurLaneAutoScript/issues/1416).
+
+
+
 ## Documents
 
 [Map detection](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/perspective_en)

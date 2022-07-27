@@ -108,9 +108,6 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             if project == 'reset':
                 if self.research_reset(drop=drop):
                     return False
-                elif self.research_delay_check():
-                    logger.info('Delay research when reset unavailable and queue not empty')
-                    return True
                 else:
                     continue
 
@@ -133,12 +130,11 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                 ret = self.research_project_start(project, add_queue=add_queue)
                 if ret:
                     return True
+                elif ret is not None and self.research_delay_check():
+                    logger.info('Delay research when resources not enough and queue not empty')
+                    return True
                 else:
-                    if ret is not None and self.research_delay_check():
-                        logger.info('Delay research when resources not enough and queue not empty')
-                        return True
-                    else:
-                        continue
+                    continue
 
         logger.info('No research project started')
         return self.research_enforce(drop=drop, add_queue=add_queue)
@@ -363,6 +359,10 @@ class RewardResearch(ResearchSelector, ResearchQueue):
         logger.info(f'Received rewards from {total} projects')
         return total
 
+    def queue_quit(self, *args, **kwargs):
+        super().queue_quit(*args, **kwargs)
+        self._research_project_offset = 0
+
     def research_queue_append(self, drop=None, add_queue=True):
         """
         Args:
@@ -468,13 +468,6 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             out: page_research, with research project information, but it's still page_research.
                     or page_main
         """
-        # Remove this when your server is updated for PR5
-        if self.config.SERVER in ['tw']:
-            logger.warning('Task "Research" is forced delayed 2 hours before PR5 support. '
-                           'Please do research manually and contact server maintainers')
-            self.config.task_delay(minute=120)
-            self.config.task_stop()
-
         self.ui_ensure(page_research)
 
         # Check queue
