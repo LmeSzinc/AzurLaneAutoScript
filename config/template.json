@@ -500,7 +500,7 @@
       "FailureInterval": 30,
       "ServerUpdate": "00:00"
     },
-    "EventA": {
+    "EventDaily": {
       "StageFilter": "A1 > A2 > A3",
       "LastStage": 0
     },
@@ -576,7 +576,7 @@
       "FailureInterval": 30,
       "ServerUpdate": "00:00"
     },
-    "EventB": {
+    "EventDaily": {
       "StageFilter": "B1 > B2 > B3",
       "LastStage": 0
     },
@@ -652,7 +652,7 @@
       "FailureInterval": 30,
       "ServerUpdate": "00:00"
     },
-    "EventC": {
+    "EventDaily": {
       "StageFilter": "C1 > C2 > C3",
       "LastStage": 0
     },
@@ -728,7 +728,7 @@
       "FailureInterval": 30,
       "ServerUpdate": "00:00"
     },
-    "EventD": {
+    "EventDaily": {
       "StageFilter": "D1 > D2 > D3",
       "LastStage": 0
     },

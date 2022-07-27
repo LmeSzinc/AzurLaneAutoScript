@@ -77,7 +77,7 @@ Event2:
   - EnemyPriority
 EventA:
   - Scheduler
-  - EventA
+  - EventDaily
   - Campaign
   - StopCondition
   - Fleet
@@ -87,7 +87,7 @@ EventA:
   - EnemyPriority
 EventB:
   - Scheduler
-  - EventB
+  - EventDaily
   - Campaign
   - StopCondition
   - Fleet
@@ -97,7 +97,7 @@ EventB:
   - EnemyPriority
 EventC:
   - Scheduler
-  - EventC
+  - EventDaily
   - Campaign
   - StopCondition
   - Fleet
@@ -107,7 +107,7 @@ EventC:
   - EnemyPriority
 EventD:
   - Scheduler
-  - EventD
+  - EventDaily
   - Campaign
   - StopCondition
   - Fleet

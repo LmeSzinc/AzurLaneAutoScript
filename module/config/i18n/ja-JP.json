@@ -981,60 +981,18 @@
       "help": "EventGeneral.TimeLimit.help"
     }
   },
-  "EventA": {
+  "EventDaily": {
     "_info": {
-      "name": "EventA._info.name",
-      "help": "EventA._info.help"
+      "name": "EventDaily._info.name",
+      "help": "EventDaily._info.help"
     },
     "StageFilter": {
-      "name": "EventA.StageFilter.name",
-      "help": "EventA.StageFilter.help"
+      "name": "EventDaily.StageFilter.name",
+      "help": "EventDaily.StageFilter.help"
     },
     "LastStage": {
-      "name": "EventA.LastStage.name",
-      "help": "EventA.LastStage.help"
-    }
-  },
-  "EventB": {
-    "_info": {
-      "name": "EventB._info.name",
-      "help": "EventB._info.help"
-    },
-    "StageFilter": {
-      "name": "EventB.StageFilter.name",
-      "help": "EventB.StageFilter.help"
-    },
-    "LastStage": {
-      "name": "EventB.LastStage.name",
-      "help": "EventB.LastStage.help"
-    }
-  },
-  "EventC": {
-    "_info": {
-      "name": "EventC._info.name",
-      "help": "EventC._info.help"
-    },
-    "StageFilter": {
-      "name": "EventC.StageFilter.name",
-      "help": "EventC.StageFilter.help"
-    },
-    "LastStage": {
-      "name": "EventC.LastStage.name",
-      "help": "EventC.LastStage.help"
-    }
-  },
-  "EventD": {
-    "_info": {
-      "name": "EventD._info.name",
-      "help": "EventD._info.help"
-    },
-    "StageFilter": {
-      "name": "EventD.StageFilter.name",
-      "help": "EventD.StageFilter.help"
-    },
-    "LastStage": {
-      "name": "EventD.LastStage.name",
-      "help": "EventD.LastStage.help"
+      "name": "EventDaily.LastStage.name",
+      "help": "EventDaily.LastStage.help"
     }
   },
   "Raid": {

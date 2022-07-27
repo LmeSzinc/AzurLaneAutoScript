@@ -981,59 +981,17 @@
       "help": "When the local time exceeds the given value, disable all event tasks. '2020-01-01 00:00:00' means no limit and the time will be reset once it's triggered\nThis can prevent the occurrence of forgetting to disable event tasks after the event ends"
     }
   },
-  "EventA": {
+  "EventDaily": {
     "_info": {
-      "name": "EventA Settings",
+      "name": "Event Daily Settings",
       "help": ""
     },
     "StageFilter": {
-      "name": "EventA Stage Filter",
+      "name": "Event Daily Stage Filter",
       "help": ""
     },
     "LastStage": {
-      "name": "Last EventA Stage",
-      "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
-    }
-  },
-  "EventB": {
-    "_info": {
-      "name": "EventB Settings",
-      "help": ""
-    },
-    "StageFilter": {
-      "name": "EventB Stage Filter",
-      "help": ""
-    },
-    "LastStage": {
-      "name": "Last EventB Stage",
-      "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
-    }
-  },
-  "EventC": {
-    "_info": {
-      "name": "EventC Settings",
-      "help": ""
-    },
-    "StageFilter": {
-      "name": "EventC Stage Filter",
-      "help": ""
-    },
-    "LastStage": {
-      "name": "Last EventC Stage",
-      "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
-    }
-  },
-  "EventD": {
-    "_info": {
-      "name": "EventD Settings",
-      "help": ""
-    },
-    "StageFilter": {
-      "name": "EventD Stage Filter",
-      "help": ""
-    },
-    "LastStage": {
-      "name": "Last EventD Stage",
+      "name": "Last Event Daily Stage",
       "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
     }
   },

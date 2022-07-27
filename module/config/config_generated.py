@@ -147,21 +147,9 @@ class GeneratedConfig:
     EventGeneral_PtLimit = 0
     EventGeneral_TimeLimit = datetime.datetime(2020, 1, 1, 0, 0)
 
-    # Group `EventA`
-    EventA_StageFilter = 'A1 > A2 > A3'
-    EventA_LastStage = 0
-
-    # Group `EventB`
-    EventB_StageFilter = 'B1 > B2 > B3'
-    EventB_LastStage = 0
-
-    # Group `EventC`
-    EventC_StageFilter = 'C1 > C2 > C3'
-    EventC_LastStage = 0
-
-    # Group `EventD`
-    EventD_StageFilter = 'D1 > D2 > D3'
-    EventD_LastStage = 0
+    # Group `EventDaily`
+    EventDaily_StageFilter = 'A1 > A2 > A3'
+    EventDaily_LastStage = 0
 
     # Group `Raid`
     Raid_Mode = 'hard'  # easy, normal, hard
