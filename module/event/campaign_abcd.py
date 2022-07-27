@@ -12,8 +12,8 @@ class CampaignABCD(EventBase):
         stages = [EventStage(file) for file in os.listdir(f'./campaign/{self.config.Campaign_Event}')]
         stages = self.convert_stages(stages)
         logger.attr('Stage', [str(stage) for stage in stages])
-        logger.attr('StageFilter', kwargs.get("DailyEventABCD"))
-        STAGE_FILTER.load(kwargs.get("DailyEventABCD"))
+        logger.attr('StageFilter', self.config.EventDaily_StageFilter)
+        STAGE_FILTER.load(self.config.EventDaily_StageFilter)
         self.convert_stages(STAGE_FILTER)
         stages = [str(stage) for stage in STAGE_FILTER.apply(stages)]
         logger.attr('Filter sort', ' > '.join(stages))
@@ -24,12 +24,12 @@ class CampaignABCD(EventBase):
             self.config.task_stop()
 
         # Start from last stage
-        logger.info(f'LastStage {kwargs["last_stage"]}, recorded at {self.config.Scheduler_NextRun}')
+        logger.info(f'LastStage {self.config.EventDaily_LastStage}, recorded at {self.config.Scheduler_NextRun}')
         if get_server_last_update(self.config.Scheduler_ServerUpdate) >= self.config.Scheduler_NextRun:
             logger.info('LastStage outdated, reset')
-            kwargs["last_stage"] = 0
+            self.config.EventDaily_LastStage = 0
         else:
-            last = str(kwargs["last_stage"]).lower()
+            last = str(self.config.EventDaily_LastStage).lower()
             last = self.convert_stages(last)
             if last in stages:
                 stages = stages[stages.index(last) + 1:]
@@ -47,7 +47,7 @@ class CampaignABCD(EventBase):
                 pass
             if self.run_count > 0:
                 with self.config.multi_set():
-                    kwargs["last_stage"] = stage
+                    self.config.EventDaily_LastStage = stage
                     self.config.task_delay(minute=0)
             else:
                 self.config.task_stop()

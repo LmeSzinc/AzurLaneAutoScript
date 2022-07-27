@@ -227,19 +227,19 @@ class AzurLaneAutoScript:
 
     def event_a(self):
         from module.event.campaign_abcd import CampaignABCD
-        CampaignABCD(config=self.config, device=self.device).run(DailyEventABCD=self.config.EventA_StageFilter, LastStageABCD=self.config.EventA_LastStage)
+        CampaignABCD(config=self.config, device=self.device).run()
 
     def event_b(self):
         from module.event.campaign_abcd import CampaignABCD
-        CampaignABCD(config=self.config, device=self.device).run(DailyEventABCD=self.config.EventB_StageFilter, LastStageABCD=self.config.EventB_LastStage)
+        CampaignABCD(config=self.config, device=self.device).run()
 
     def event_c(self):
         from module.event.campaign_abcd import CampaignABCD
-        CampaignABCD(config=self.config, device=self.device).run(DailyEventABCD=self.config.EventC_StageFilter, LastStageABCD=self.config.EventC_LastStage)
+        CampaignABCD(config=self.config, device=self.device).run()
 
     def event_d(self):
         from module.event.campaign_abcd import CampaignABCD
-        CampaignABCD(config=self.config, device=self.device).run(DailyEventABCD=self.config.EventD_StageFilter, LastStageABCD=self.config.EventD_LastStage)
+        CampaignABCD(config=self.config, device=self.device).run()
 
     def event_sp(self):
         from module.event.campaign_sp import CampaignSP
