@@ -10,12 +10,17 @@ from module.exception import ScriptError
 from module.handler.assets import GET_MISSION, POPUP_CANCEL, POPUP_CONFIRM
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
-from module.ocr.ocr import DigitCounter, Duration
-from module.retire.assets import DOCK_CHECK
+from module.ocr.ocr import DigitCounter, Duration, Ocr
+from module.retire.assets import DOCK_EMPTY
+from module.retire.dock import CARD_GRIDS, Dock
 from module.tactical.assets import *
 from module.ui.assets import (BACK_ARROW, REWARD_CHECK, REWARD_GOTO_TACTICAL,
                               TACTICAL_CHECK)
 from module.ui.ui import UI, page_reward
+
+SKILL_1_LEVEL = Ocr(TACTICAL_SKILL_LEVEL_1, lang='cnocr', name='TACTICAL_SKILL_LEVEL_1')
+SKILL_2_LEVEL = Ocr(TACTICAL_SKILL_LEVEL_2, lang='cnocr', name='TACTICAL_SKILL_LEVEL_2')
+SKILL_3_LEVEL = Ocr(TACTICAL_SKILL_LEVEL_3, lang='cnocr', name='TACTICAL_SKILL_LEVEL_3')
 
 
 class SkillExp(DigitCounter):
@@ -139,7 +144,7 @@ class Book:
         return text
 
 
-class RewardTacticalClass(UI):
+class RewardTacticalClass(Dock):
     books: SelectedGrids
     tactical_finish = []
 
@@ -326,6 +331,9 @@ class RewardTacticalClass(UI):
         """
         logger.hr('Tactical class receive', level=1)
         received = False
+        # 0: init 1: true -1: false
+        ship_selected = 0
+        skill_selected = 0
         # tactical cards can't be loaded that fast, confirm if it's empty.
         empty_confirm = Timer(0.6, count=2).start()
         while 1:
@@ -337,6 +345,11 @@ class RewardTacticalClass(UI):
             # End
             if received and self.appear(REWARD_CHECK, offset=(20, 20)):
                 break
+
+            # no ship or ship skill full, think it no need study
+            fill_process_end = ship_selected == -1 or (ship_selected == 1 and skill_selected == -1)
+            if not fill_process_end and self.appear_then_click(ADD_NEW_STUDENT, offset=(800, 20), interval=2):
+                continue
 
             # Get finish time
             if self.appear(TACTICAL_CHECK, offset=(20, 20), interval=2):
@@ -375,16 +388,81 @@ class RewardTacticalClass(UI):
                     self.interval_reset(TACTICAL_CLASS_CANCEL)
                     self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
                 continue
-            if self.appear(DOCK_CHECK, offset=(20, 20), interval=3):
-                # Entered dock accidentally
-                self.device.click(BACK_ARROW)
+            if self.appear(TACTICAL_DOCK, offset=(20, 20), interval=2):
+                if self.select_first_ship():
+                    ship_selected = 1
+                else:
+                    ship_selected = -1
+                    self.device.click(BACK_ARROW)
                 continue
-            if self.appear(SKILL_CONFIRM, offset=(20, 20), interval=3):
-                # Game auto pops up the next skill to learn, close it
-                self.device.click(BACK_ARROW)
+            if self.appear(TACTICAL_SKILL_LIST, offset=(20, 20), interval=2):
+                target_skill_button = self.find_not_full_level_skill(self.device.image)
+                # This ship all skills completed
+                if target_skill_button is None:
+                    skill_selected = -1
+                    self.device.click(BACK_ARROW)
+                else:
+                    skill_selected = 1
+                    self.device.click(target_skill_button)
+                    self.ensure_click_success(SKILL_CONFIRM, TACTICAL_CLASS_START)
                 continue
+            continue
 
         return True
+
+    # Case1: if first is meta ship
+    # Case2: no ship in favorite
+    def select_first_ship(self, favourite=True):
+        if favourite:
+            self.dock_favourite_set(enable=True)
+
+        if self.appear(DOCK_EMPTY, offset=(30, 30)):
+            logger.warn('Your dock is empty or favorite ships is empty')
+            return False
+
+        # If 0/1
+        if self.appear(TACTICAL_SHIP_NOT_SELECT, offset=(20, 20), interval=2):
+            # click first ship, after click confirm button turns bright
+            self.ensure_click_success(CARD_GRIDS[(0, 0)], TACTICAL_SHIP_SELECTED)
+
+        # If 1/1
+        if self.appear(TACTICAL_SHIP_SELECTED, offset=(20, 20), interval=2):
+            # click it, after click should skill select page
+            self.ensure_click_success(TACTICAL_SHIP_CONFIRM, TACTICAL_SKILL_LIST)
+
+        return True
+
+    def find_not_full_level_skill(self, image):
+        # OCR up to three skills
+        skill_1_level = SKILL_1_LEVEL.ocr(image).upper().replace(' ', '')
+        logger.debug('SKILL_1_LEVEL:' + skill_1_level)
+        if 'NEXT' in skill_1_level and 'MAX' not in skill_1_level:
+            return TACTICAL_SKILL_LEVEL_1
+
+        skill_2_level = SKILL_2_LEVEL.ocr(image).upper().replace(' ', '')
+        logger.debug('SKILL_2_LEVEL:' + skill_2_level)
+        if 'NEXT' in skill_2_level and 'MAX' not in skill_2_level:
+            return TACTICAL_SKILL_LEVEL_2
+
+        skill_3_level = SKILL_3_LEVEL.ocr(image).upper().replace(' ', '')
+        logger.debug('SKILL_3_LEVEL:' + skill_3_level)
+        if 'NEXT' in skill_3_level and 'MAX' not in skill_3_level:
+            return TACTICAL_SKILL_LEVEL_3
+
+        return None
+
+    def ensure_click_success(self, click_button, check_button):
+        enter_timer = Timer(10)
+
+        while 1:
+            if enter_timer.reached():
+                self.device.click(click_button)
+                enter_timer.reset()
+
+            self.device.screenshot()
+
+            if self.appear(check_button):
+                break
 
     def run(self):
         """
@@ -404,7 +482,5 @@ class RewardTacticalClass(UI):
 
 
 if __name__ == '__main__':
-    az = RewardTacticalClass('alas', task='Tactical')
-    az.image_file = r'D:\\project\\AlasTest\\tactical\\TEST2.png'
-
-    print(az.appear(ADD_NEW_STUDENT, offset=(20, 20), interval=2))
+    az = RewardTacticalClass(config='alas', task='Tactical')
+    az.run()

@@ -9,7 +9,7 @@ from module.logger import logger
 
 class DebugDevice(Device):
 
-    def __init__(self, server='cn', image_folder=None):
+    def __init__(self, server='cn', image_location=None):
         logger.hr('DebugDevice', level=1)
         logger.info('You are debugging, No need device')
 
@@ -19,12 +19,26 @@ class DebugDevice(Device):
         self.image_queue = Queue()
         self.image = None
 
-        # if image_folder is not empty, load their fileNames which end with '.PNG' or '.png' into image_queue
-        if len(image_folder) > 0:
-            for file_name in os.listdir(image_folder):
+        if len(image_location) <= 0:
+            logger.warning('Your image location is empty, ignore')
+            return
+
+        if isinstance(image_location, list):
+            logger.debug('You select multi images debug mode, and you specified the order of pictures.')
+            for file_name in image_location:
                 if file_name.endswith('.PNG') or file_name.endswith('.png'):
-                    image_absolute_location = image_folder + '\\' + file_name
+                    self.image_queue.put(file_name)
+        elif image_location.endswith('.PNG') or image_location.endswith('.png'):
+            logger.debug('You select single image debug mode, only use this image from beginning to end.')
+            self.image_queue.put(image_location)
+        elif image_location.endswith('/') or image_location.endswith('//'):
+            logger.debug('You select multi images debug mode, will use the picture ine the folder in order.')
+            for file_name in os.listdir(image_location):
+                if file_name.endswith('.PNG') or file_name.endswith('.png'):
+                    image_absolute_location = image_location + '\\' + file_name
                     self.image_queue.put(image_absolute_location)
+        else:
+            logger.warning('Please check your image location')
 
         if self.image_queue.empty():
             logger.error('Can not find any valid picture')
@@ -36,13 +50,12 @@ class DebugDevice(Device):
     def screenshot(self):
         logger.info('A screenshot call')
         if self.image_queue.empty():
-            logger.error('No enough images, check your code!')
-            return None
+            logger.warning('No enough images, also use current image!')
         else:
             current_image = self.image_queue.get()
             logger.info('Load ' + current_image + ' as your screenshot')
             self.image = load_image(current_image)
-            return self.image
+        return self.image
 
     def click(self, button, control_check=True):
         logger.info('A click call')
