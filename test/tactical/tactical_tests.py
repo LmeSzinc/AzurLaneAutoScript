@@ -5,7 +5,8 @@ from module.base.utils import load_image
 from module.config.config import AzurLaneConfig
 from module.device.debug_device import DebugDevice
 from module.logger import logger
-from module.tactical.assets import TACTICAL_SKILL_LEVEL_1, ADD_NEW_STUDENT, TACTICAL_SKILL_LEVEL_2, TACTICAL_META_SKILL
+from module.tactical.assets import TACTICAL_SKILL_LEVEL_1, ADD_NEW_STUDENT, TACTICAL_SKILL_LEVEL_2, \
+    TACTICAL_CLASS_CANCEL, TACTICAL_CLASS_START
 from module.tactical.tactical_class import RewardTacticalClass
 from module.ui.page import page_tactical
 
@@ -18,12 +19,12 @@ class TestTactical(unittest.TestCase):
 
     # The first position is not empty
     def test_button_appear(self):
-        image_location = 'D:/project/AlasTest/tactical/META.png'
+        image_location = 'D:/project/AlasTest/tactical/TEST3.png'
 
         az = RewardTacticalClass(config=self.default_config,
                                  device=DebugDevice(image_location=image_location))
         az.image_file = load_image(image_location)
-        self.assertTrue(az.appear(TACTICAL_META_SKILL, offset=(500, 20), interval=2))
+        self.assertTrue(az.appear(TACTICAL_CLASS_CANCEL, offset=(30, 30), interval=2) and az.appear(TACTICAL_CLASS_START, offset=(30, 30)))
 
     def test_demo(self):
         selected = None
