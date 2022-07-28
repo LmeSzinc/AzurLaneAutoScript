@@ -10,7 +10,7 @@ class ManualConfig:
 
     SCHEDULER_PRIORITY = """
     Restart
-    > Research > Commission > Tactical
+    > Commission > Tactical > Research
     > Exercise
     > Dorm > Meowfficer > Guild > Gacha > SupplyPack
     > Reward > MetaReward > BattlePass

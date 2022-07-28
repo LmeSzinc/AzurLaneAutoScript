@@ -63,7 +63,7 @@
       "help": ""
     },
     "GemsFarming": {
-      "name": "Gems Farming",
+      "name": "Commission Farming",
       "help": ""
     },
     "EventGeneral": {
@@ -926,8 +926,8 @@
   },
   "GemsFarming": {
     "_info": {
-      "name": "Gem Farm Settings",
-      "help": "Warning: This is not an efficient way to farm gems, not a high-yield way to farm coins either.\nPlayers who have recently started Azur Lane are easily superstitious about 0LB and low oil consumption, while being ignorant about character leveling.\nRunning this function will only make you feel fulfilled however in reality your account will not actually progress very much.\nOnly F2P players can obtain meaningful income through this function. the developers hope this task be treated rationally.\n\nFleet 1 is expected to consist of 1 0LB CV/CVL and 1 0LB Vanguard, Fleet 2 is expected to consist of support ships such as New Jersey or Shinano to provide external battle assistance.\nFor information about the drop mechanism/rate of urgent commissions, you can refer to <https://bbs.nga.cn/read.php?tid=27134956> (in Chinese Simplified)"
+      "name": "Commission Farming Settings",
+      "help": "Warning: This task allows players to get a small amount of gems, but not an efficient way to farm.\nPlayers who have recently started Azur Lane are easily superstitious about 0LB and low oil consumption, while being ignorant about character leveling.\nRunning this function will only make you feel fulfilled however in reality your account will not actually progress very much.\nThe main purpose of this task is to get extra cubes for players with a formed lineup. Please rationally treat gems as a by-product.\n\nFleet 1 is expected to consist of 1 0LB CV/CVL and 1 0LB Vanguard, Fleet 2 is expected to consist of support ships such as New Jersey or Shinano to provide external battle assistance.\nFor information about the drop mechanism/rate of urgent commissions, you can refer to <https://bbs.nga.cn/read.php?tid=27134956> (in Chinese Simplified)"
     },
     "FlagshipChange": {
       "name": "Enable Flagship Change",
