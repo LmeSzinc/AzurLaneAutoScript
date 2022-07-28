@@ -197,8 +197,12 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         # for :
         #     if level == 100 and emotion == 150:
         #         return button
-        button, _, _ = max(filter(lambda a: a[1] == 100, button_list), key=lambda a: a[2])
-        return button
+        if self.config.SERVER in ['cn']:
+            button, _, _ = max(filter(lambda a: a[1] == 100, button_list), key=lambda a: a[2])
+            return button
+        else:
+            button, _, _ = max(filter(lambda a: a[1] == 70, button_list), key=lambda a: a[2])
+            return button
 
     def flagship_change_execute(self):
         """

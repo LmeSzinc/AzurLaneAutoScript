@@ -78,13 +78,21 @@
       "name": "Task.Event2.name",
       "help": "Task.Event2.help"
     },
-    "EventAb": {
-      "name": "Task.EventAb.name",
-      "help": "Task.EventAb.help"
+    "EventA": {
+      "name": "Task.EventA.name",
+      "help": "Task.EventA.help"
     },
-    "EventCd": {
-      "name": "Task.EventCd.name",
-      "help": "Task.EventCd.help"
+    "EventB": {
+      "name": "Task.EventB.name",
+      "help": "Task.EventB.help"
+    },
+    "EventC": {
+      "name": "Task.EventC.name",
+      "help": "Task.EventC.help"
+    },
+    "EventD": {
+      "name": "Task.EventD.name",
+      "help": "Task.EventD.help"
     },
     "EventSp": {
       "name": "Task.EventSp.name",
@@ -974,32 +982,18 @@
       "help": "EventGeneral.TimeLimit.help"
     }
   },
-  "EventAb": {
+  "EventDaily": {
     "_info": {
-      "name": "EventAb._info.name",
-      "help": "EventAb._info.help"
+      "name": "EventDaily._info.name",
+      "help": "EventDaily._info.help"
     },
     "StageFilter": {
-      "name": "EventAb.StageFilter.name",
-      "help": "EventAb.StageFilter.help"
+      "name": "EventDaily.StageFilter.name",
+      "help": "EventDaily.StageFilter.help"
     },
     "LastStage": {
-      "name": "EventAb.LastStage.name",
-      "help": "EventAb.LastStage.help"
-    }
-  },
-  "EventCd": {
-    "_info": {
-      "name": "EventCd._info.name",
-      "help": "EventCd._info.help"
-    },
-    "StageFilter": {
-      "name": "EventCd.StageFilter.name",
-      "help": "EventCd.StageFilter.help"
-    },
-    "LastStage": {
-      "name": "EventCd.LastStage.name",
-      "help": "EventCd.LastStage.help"
+      "name": "EventDaily.LastStage.name",
+      "help": "EventDaily.LastStage.help"
     }
   },
   "Raid": {

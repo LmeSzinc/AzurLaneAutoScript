@@ -78,12 +78,20 @@
       "name": "Event-2",
       "help": ""
     },
-    "EventAb": {
-      "name": "Event AB",
+    "EventA": {
+      "name": "Event A",
       "help": ""
     },
-    "EventCd": {
-      "name": "Event CD",
+    "EventB": {
+      "name": "EventB",
+      "help": ""
+    },
+    "EventC": {
+      "name": "EventC",
+      "help": ""
+    },
+    "EventD": {
+      "name": "EventD",
       "help": ""
     },
     "EventSp": {
@@ -940,7 +948,7 @@
     },
     "VanguardChange": {
       "name": "Enable Vanguard Change",
-      "help": "Applies to fleet 1, switch out to new level 1 common vanguard after current has reached level 35+"
+      "help": "Applies to fleet 1, switch out to new level 100(70) common vanguard after current has reached level 35+\n(Only CN players'0 limit break ship can reach level 100)"
     },
     "VanguardEquipChange": {
       "name": "Enable Vanguard Equipment Change",
@@ -974,31 +982,17 @@
       "help": "When the local time exceeds the given value, disable all event tasks. '2020-01-01 00:00:00' means no limit and the time will be reset once it's triggered\nThis can prevent the occurrence of forgetting to disable event tasks after the event ends"
     }
   },
-  "EventAb": {
+  "EventDaily": {
     "_info": {
-      "name": "EventAB Settings",
+      "name": "Event Daily Settings",
       "help": ""
     },
     "StageFilter": {
-      "name": "EventAB Stage Filter",
+      "name": "Event Daily Stage Filter",
       "help": ""
     },
     "LastStage": {
-      "name": "Last EventAB Stage",
-      "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
-    }
-  },
-  "EventCd": {
-    "_info": {
-      "name": "EventCD Settings",
-      "help": ""
-    },
-    "StageFilter": {
-      "name": "EventCD Stage Filter",
-      "help": ""
-    },
-    "LastStage": {
-      "name": "Last EventCD Stage",
+      "name": "Last Event Daily Stage",
       "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
     }
   },

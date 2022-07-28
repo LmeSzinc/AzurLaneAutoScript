@@ -49,6 +49,7 @@ GemsFarming:
   - Campaign
   - StopCondition
   - Fleet
+  - Submarine
   - Emotion
   - EnemyPriority
 
@@ -74,24 +75,46 @@ Event2:
   - Emotion
   - HpControl
   - EnemyPriority
-EventAb:
+EventA:
   - Scheduler
-  - EventAb
+  - EventDaily
   - Campaign
   - StopCondition
   - Fleet
   - Submarine
   - Emotion
   - HpControl
-EventCd:
+  - EnemyPriority
+EventB:
   - Scheduler
-  - EventCd
+  - EventDaily
   - Campaign
   - StopCondition
   - Fleet
   - Submarine
   - Emotion
   - HpControl
+  - EnemyPriority
+EventC:
+  - Scheduler
+  - EventDaily
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
+EventD:
+  - Scheduler
+  - EventDaily
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
 EventSp:
   - Scheduler
   - Campaign
@@ -100,6 +123,7 @@ EventSp:
   - Submarine
   - Emotion
   - HpControl
+  - EnemyPriority
 Raid:
   - Scheduler
   - Raid
