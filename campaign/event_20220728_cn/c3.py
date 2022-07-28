@@ -59,7 +59,7 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['CA', 'BB']
+    MAP_SIREN_TEMPLATE = ['CA', 'BB', 'Juno_ghost', 'Neptune_ghost']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
