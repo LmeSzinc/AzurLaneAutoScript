@@ -88,6 +88,7 @@ class Config:
         'CV': 1.111,
         'BB': 1.111,
     }
+    MAP_ENEMY_TEMPLATE = ['Light', 'Main', 'Carrier', 'Treasure', 'Vestal_ghost']
 
 
 class Campaign(CampaignBase):
