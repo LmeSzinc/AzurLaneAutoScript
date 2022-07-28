@@ -102,6 +102,7 @@ class ModuleBase:
         return appear
 
     def appear_then_click(self, button, screenshot=False, genre='items', offset=0, interval=0, threshold=None):
+        button = self.ensure_button(button)
         appear = self.appear(button, offset=offset, interval=interval, threshold=threshold)
         if appear:
             if screenshot:

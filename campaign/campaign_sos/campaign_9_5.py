@@ -60,9 +60,13 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        if self.clear_enemy(scale=(1,)):
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
             return True
-        if self.clear_enemy(scale=(2,), genre=['light', 'carrier', 'enemy', 'treasure', 'main']):
+
+        return self.battle_default()
+
+    def battle_4(self):
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
         return self.battle_default()

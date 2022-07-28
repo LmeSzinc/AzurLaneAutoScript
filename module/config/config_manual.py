@@ -10,7 +10,7 @@ class ManualConfig:
 
     SCHEDULER_PRIORITY = """
     Restart
-    > Research > Commission > Tactical
+    > Commission > Tactical > Research
     > Exercise
     > Dorm > Meowfficer > Guild > Gacha > SupplyPack
     > Reward > MetaReward > BattlePass
@@ -19,7 +19,7 @@ class ManualConfig:
     > OpsiDaily > OpsiShop
     > OpsiAbyssal > OpsiStronghold > OpsiObscure
     > Daily > Hard > OpsiAshAssist
-    > Sos > EventSp > EventAb > EventCd > RaidDaily > WarArchives > MaritimeEscort
+    > Sos > EventSp > EventA > EventB > EventC > EventD > RaidDaily > WarArchives > MaritimeEscort
     > Event > Event2 > Raid > Main > Main2 > Main3
     > OpsiMeowfficerFarming
     > GemsFarming

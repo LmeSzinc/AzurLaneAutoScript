@@ -63,7 +63,7 @@
       "help": ""
     },
     "GemsFarming": {
-      "name": "Gems Farming",
+      "name": "Commission Farming",
       "help": ""
     },
     "EventGeneral": {
@@ -78,12 +78,20 @@
       "name": "Event-2",
       "help": ""
     },
-    "EventAb": {
-      "name": "Event AB",
+    "EventA": {
+      "name": "Event A",
       "help": ""
     },
-    "EventCd": {
-      "name": "Event CD",
+    "EventB": {
+      "name": "EventB",
+      "help": ""
+    },
+    "EventC": {
+      "name": "EventC",
+      "help": ""
+    },
+    "EventD": {
+      "name": "EventD",
       "help": ""
     },
     "EventSp": {
@@ -497,6 +505,7 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "event_20220728_cn": "Aquilifers Ballade",
       "event_20200917_cn": "Dreamwakers Butterfly Rerun",
       "event_20201029_cn": "Universe in Unison",
       "raid_20220630": "Angel of Iris",
@@ -926,8 +935,8 @@
   },
   "GemsFarming": {
     "_info": {
-      "name": "Gem Farm Settings",
-      "help": "Warning: This is not an efficient way to farm gems, not a high-yield way to farm coins either.\nPlayers who have recently started Azur Lane are easily superstitious about 0LB and low oil consumption, while being ignorant about character leveling.\nRunning this function will only make you feel fulfilled however in reality your account will not actually progress very much.\nOnly F2P players can obtain meaningful income through this function. the developers hope this task be treated rationally.\n\nFleet 1 is expected to consist of 1 0LB CV/CVL and 1 0LB Vanguard, Fleet 2 is expected to consist of support ships such as New Jersey or Shinano to provide external battle assistance.\nFor information about the drop mechanism/rate of urgent commissions, you can refer to <https://bbs.nga.cn/read.php?tid=27134956> (in Chinese Simplified)"
+      "name": "Commission Farming Settings",
+      "help": "Warning: This task allows players to get a small amount of gems, but not an efficient way to farm.\nPlayers who have recently started Azur Lane are easily superstitious about 0LB and low oil consumption, while being ignorant about character leveling.\nRunning this function will only make you feel fulfilled however in reality your account will not actually progress very much.\nThe main purpose of this task is to get extra cubes for players with a formed lineup. Please rationally treat gems as a by-product.\n\nFleet 1 is expected to consist of 1 0LB CV/CVL and 1 0LB Vanguard, Fleet 2 is expected to consist of support ships such as New Jersey or Shinano to provide external battle assistance.\nFor information about the drop mechanism/rate of urgent commissions, you can refer to <https://bbs.nga.cn/read.php?tid=27134956> (in Chinese Simplified)"
     },
     "FlagshipChange": {
       "name": "Enable Flagship Change",
@@ -939,7 +948,7 @@
     },
     "VanguardChange": {
       "name": "Enable Vanguard Change",
-      "help": "Applies to fleet 1, switch out to new level 1 common vanguard after current has reached level 35+"
+      "help": "Applies to fleet 1, switch out to new level 100(70) common vanguard after current has reached level 35+\n(Only CN players'0 limit break ship can reach level 100)"
     },
     "VanguardEquipChange": {
       "name": "Enable Vanguard Equipment Change",
@@ -973,31 +982,17 @@
       "help": "When the local time exceeds the given value, disable all event tasks. '2020-01-01 00:00:00' means no limit and the time will be reset once it's triggered\nThis can prevent the occurrence of forgetting to disable event tasks after the event ends"
     }
   },
-  "EventAb": {
+  "EventDaily": {
     "_info": {
-      "name": "EventAB Settings",
+      "name": "Event Daily Settings",
       "help": ""
     },
     "StageFilter": {
-      "name": "EventAB Stage Filter",
+      "name": "Event Daily Stage Filter",
       "help": ""
     },
     "LastStage": {
-      "name": "Last EventAB Stage",
-      "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
-    }
-  },
-  "EventCd": {
-    "_info": {
-      "name": "EventCD Settings",
-      "help": ""
-    },
-    "StageFilter": {
-      "name": "EventCD Stage Filter",
-      "help": ""
-    },
-    "LastStage": {
-      "name": "Last EventCD Stage",
+      "name": "Last Event Daily Stage",
       "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
     }
   },
@@ -1118,8 +1113,8 @@
       "do_not_use": "Don't Use"
     },
     "AllowDelay": {
-      "name": "Allow Delay research",
-      "help": "When the resources are insufficient or the reset is unavailable, alas will delay research until the conditions are met or research queue is about to be emptied, which will not cause the research to stop\nIf the time of running alas is not long enough, you can cancel this option to keep the research queue full"
+      "name": "Delay research when resources are insufficient",
+      "help": "When the resources are insufficient, Alas will delay research until the conditions are met or research queue is about to be emptied, which will not cause the research to stop\nIf the resources are insufficient for a long time or the time of running alas is not long enough, you can cancel this option to keep the research queue full"
     },
     "PresetFilter": {
       "name": "Preset Filter Select",

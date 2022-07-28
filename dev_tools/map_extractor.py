@@ -166,6 +166,13 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     # Pledge of the Radiant Court
     'sizhannvshen': 'Bellona',
     'fuchou': 'Revenge',
+
+    # Aquilifer's Ballade
+    'tianhou_ghost': 'Juno_ghost',
+    'haiwangxing_ghost': 'Neptune_ghost',
+    'lemaer_ghost': 'LeMars_ghost',
+    'jingjishen_ghost': 'Hermes_ghost',
+    'qiubite_ghost': 'Jupiter_ghost',
 }
 
 
@@ -239,7 +246,11 @@ class MapData:
             # config
             self.MAP_SIREN_TEMPLATE = []
             self.MOVABLE_ENEMY_TURN = set()
-            for siren_id in data['ai_expedition_list'].values():
+            # Aquilifers Ballade (event_20220728_cn) has different sirens in clear mode
+            sirens = list(data['ai_expedition_list'].values())
+            if data_loop is not None and data_loop['ai_expedition_list'] is not None:
+                sirens += list(data_loop['ai_expedition_list'].values())
+            for siren_id in sirens:
                 if siren_id == 1:
                     continue
                 exped_data = EXPECTATION_DATA.get(siren_id, {})

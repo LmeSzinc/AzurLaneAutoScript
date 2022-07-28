@@ -6,6 +6,8 @@ from module.template.assets import TEMPLATE_STAGE_SOS
 
 
 class CampaignBase(CampaignBase_):
+    ENEMY_FILTER = '1T > 1L > 1E > 1M > 2T > 2L > 2E > 2M > 3T > 3L > 3E > 3M'
+
     def campaign_get_entrance(self, name):
         """
         SOS stages don't have names in game, although players call them X-5 or X-sos.

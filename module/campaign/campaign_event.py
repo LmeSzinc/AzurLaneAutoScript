@@ -87,8 +87,10 @@ class CampaignEvent(UI):
         tasks = [
             'Event',
             'Event2',
-            'EventAb',
-            'EventCd',
+            'EventA',
+            'EventB',
+            'EventC',
+            'EventD',
             'EventSp',
             'Raid',
             'RaidDaily'
@@ -120,8 +122,10 @@ class CampaignEvent(UI):
         tasks = [
             'Event',
             'Event2',
-            'EventAb',
-            'EventCd',
+            'EventA',
+            'EventB',
+            'EventC',
+            'EventD',
             'EventSp',
             'GemsFarming',
             'Raid',
