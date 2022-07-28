@@ -6,8 +6,8 @@ from .c1 import Config as ConfigBase
 
 MAP = CampaignMap('C3')
 MAP.shape = 'I8'
-MAP.camera_data = ['D2', 'D6', 'F2', 'F6']
-MAP.camera_data_spawn_point = ['F2', 'D2']
+MAP.camera_data = ['D3', 'E6']
+MAP.camera_data_spawn_point = ['E2']
 MAP.map_data = """
     -- -- -- -- SP SP -- -- --
     -- ME ++ ++ -- -- ++ ++ --
@@ -69,6 +69,7 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    MAP_WALK_USE_CURRENT_FLEET = True
     MAP_SWIPE_MULTIPLY = 1.874
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.812
 
