@@ -8,6 +8,23 @@
 
 # ==================== Event ====================
 
+EventA:
+  EventDaily:
+    StageFilter: |-
+      A1 > A2 > A3
+EventB:
+  EventDaily:
+    StageFilter: |-
+      B1 > B2 > B3
+EventC:
+  EventDaily:
+    StageFilter: |-
+      C1 > C2 > C3
+EventD:
+  EventDaily:
+    StageFilter: |-
+      D1 > D2 > D3
+
 # ==================== Reward ====================
 
 Commission:

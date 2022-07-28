@@ -103,3 +103,4 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20220630 | raid 20220630 | Angel of Iris | 来自鸢尾的天使 | Angel of Iris | アイリスの天使 | - |
 | 20220714 | event 20201029 cn | Universe in Unison | - | - | - | 激唱的UNIVERSE |
 | 20220714 | event 20200917 cn | Dreamwaker's Butterfly | 复刻蝶海梦花 | Dreamwaker's Butterfly Rerun | 刹那觀る胡蝶の夢（復刻） | - |
+| 20220728 | event 20220728 cn | Aquilifer's Ballade | 雄鹰的叙事歌 | Aquilifer's Ballade | 鋼鷲の冒険譚 | - |
