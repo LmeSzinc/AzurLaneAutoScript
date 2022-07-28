@@ -44,20 +44,25 @@ class CampaignRun(UI):
         if folder.startswith('event') or folder.startswith('war_archives'):
             self.stage = name
 
-        try:
-            self.module = importlib.import_module('.' + name, f'campaign.{folder}')
-        except ModuleNotFoundError:
-            logger.warning(f'Map file not found: campaign.{folder}.{name}')
-            if not os.path.exists(f'./campaign/{folder}'):
-                logger.warning(f'Folder not exists: ./campaign/{folder}')
-            else:
-                files = map_files(folder)
-                logger.warning(f'Existing files: {files}')
+        if folder == 'event_unsupported':
+            logger.info('Running on unsupported event, force use auto research')
+            self.config.override(Campaign_UseAutoSearch=True)
+            self.module = importlib.import_module('.campaign', f'campaign.event_unsupported')
+        else:
+            try:
+                self.module = importlib.import_module('.' + name, f'campaign.{folder}')
+            except ModuleNotFoundError:
+                logger.warning(f'Map file not found: campaign.{folder}.{name}')
+                if not os.path.exists(f'./campaign/{folder}'):
+                    logger.warning(f'Folder not exists: ./campaign/{folder}')
+                else:
+                    files = map_files(folder)
+                    logger.warning(f'Existing files: {files}')
 
-            logger.critical(f'Possible reason #1: This event ({folder}) does not have {name}')
-            logger.critical(f'Possible reason #2: You are using an old Alas, '
-                            'please check for update, or make map files yourself using dev_tools/map_extractor.py')
-            raise RequestHumanTakeover
+                logger.critical(f'Possible reason #1: This event ({folder}) does not have {name}')
+                logger.critical(f'Possible reason #2: You are using an old Alas, '
+                                'please check for update, or make map files yourself using dev_tools/map_extractor.py')
+                raise RequestHumanTakeover
 
         config = copy.deepcopy(self.config).merge(self.module.Config())
         device = self.device

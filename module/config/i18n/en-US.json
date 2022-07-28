@@ -503,8 +503,9 @@
     },
     "Event": {
       "name": "Event Name",
-      "help": "Automatically selects to the latest event",
-      "campaign_main": "campaign_main",
+      "help": "Automatically selects to the latest event\nOr choose \"event unsupported\" to run with auto search in unsupported event",
+      "campaign_main": "campaign main",
+      "event_unsupported": "event unsupported",
       "event_20220728_cn": "Aquilifers Ballade",
       "event_20200917_cn": "Dreamwakers Butterfly Rerun",
       "event_20201029_cn": "Universe in Unison",

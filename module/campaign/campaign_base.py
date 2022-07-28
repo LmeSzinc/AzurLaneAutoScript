@@ -167,7 +167,20 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
                     logger.warning('No battle count in spawn_data')
 
         logger.warning('No boss data found in spawn_data')
-        return 0
+        logger.info('Try to predict battle count from name')
+        name = self.config.Campaign_Name.lower()
+        battle_count_dict = {'a1': 4, 'a2': 5, 'a3': 5,
+                             'b1': 5, 'b2': 6, 'b3': 6,
+                             'c1': 5, 'c2': 5, 'c3': 6,
+                             'd1': 6, 'd2': 7, 'd3': 7,
+                             'sp1': 5, 'sp2': 5, 'sp3': 6, 'sp4': 6,
+                             't1': 5, 't2': 5, 't3': 6, 't4': 6,
+                             }
+        try:
+            return battle_count_dict[name]
+        except KeyError:
+            logger.warning('Cannot predict battle count from name, predict to max')
+            return 8
 
     def auto_search_execute_a_battle(self):
         logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)

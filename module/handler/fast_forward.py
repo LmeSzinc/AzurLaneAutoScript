@@ -2,6 +2,7 @@ import os
 
 from module.base.timer import Timer
 from module.base.utils import color_bar_percentage
+from module.exception import RequestHumanTakeover
 from module.handler.assets import *
 from module.handler.auto_search import AutoSearchHandler
 from module.logger import logger
@@ -193,6 +194,9 @@ class FastForwardHandler(AutoSearchHandler):
 
         if not auto_search.appear(main=self):
             logger.info('No auto search option.')
+            if self.config.Campaign_Event == 'event_unsupported':
+                logger.warning('Alas can only use auto search in event unsupported.')
+                raise RequestHumanTakeover
             self.map_is_auto_search = False
             return False
 

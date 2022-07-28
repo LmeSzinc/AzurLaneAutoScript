@@ -89,7 +89,7 @@ Campaign:
   Name: 12-4
   Event:
     value: campaign_main
-    option: [campaign_main]
+    option: [campaign_main, event_unsupported]
   Mode:
     value: normal
     option: [normal, hard]

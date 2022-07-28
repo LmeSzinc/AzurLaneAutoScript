@@ -374,6 +374,11 @@ class ConfigGenerator:
             options = deep_get(self.args, keys=f'{task}.Campaign.Event.option')
             options = [option for option in options if option != 'campaign_main']
             deep_set(self.args, keys=f'{task}.Campaign.Event.option', value=options)
+        # Remove event_unsupported from tasks that cannot use it
+        for task in ['Main', 'Main2', 'Main3', 'EventAb', 'EventCd', 'EventSp', 'Raid', 'RaidDaily', 'Sos', 'WarArchives']:
+            options = deep_get(self.args, keys=f'{task}.Campaign.Event.option')
+            options = [option for option in options if option != 'event_unsupported']
+            deep_set(self.args, keys=f'{task}.Campaign.Event.option', value=options)
 
     @staticmethod
     def generate_deploy_template():
@@ -488,9 +493,10 @@ class ConfigUpdater:
         server = to_server(deep_get(new, 'Alas.Emulator.PackageName', 'cn'))
         if not is_template:
             for task in ['Event', 'Event2', 'EventA', 'EventB', 'EventC', 'EventD', 'EventSp', 'Raid', 'RaidDaily']:
-                deep_set(new,
-                         keys=f'{task}.Campaign.Event',
-                         value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
+                if deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') != 'event_unsupported':
+                    deep_set(new,
+                             keys=f'{task}.Campaign.Event',
+                             value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
             for task in ['GemsFarming']:
                 if deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') != 'campaign_main':
                     deep_set(new,
