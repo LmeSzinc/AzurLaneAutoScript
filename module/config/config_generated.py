@@ -175,6 +175,10 @@ class GeneratedConfig:
     ControlExpOverflow_T2Allow = 200
     ControlExpOverflow_T1Allow = 200
 
+    # Group `AutoAddNewStudent`
+    AutoAddNewStudent_Enable = False
+    AutoAddNewStudent_Favorite = True
+
     # Group `Research`
     Research_UseCube = 'only_05_hour'  # always_use, only_05_hour, only_no_project, do_not_use
     Research_UseCoin = 'always_use'  # always_use, only_05_hour, only_no_project, do_not_use

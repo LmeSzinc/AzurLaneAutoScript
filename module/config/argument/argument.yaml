@@ -265,6 +265,9 @@ ControlExpOverflow:
   T3Allow: 100
   T2Allow: 200
   T1Allow: 200
+AutoAddNewStudent:
+  Enable: false
+  Favorite: true
 Research:
   UseCube:
     value: only_05_hour

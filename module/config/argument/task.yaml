@@ -149,6 +149,7 @@ Tactical:
   - Scheduler
   - Tactical
   - ControlExpOverflow
+  - AutoAddNewStudent
 Research:
   - Scheduler
   - Research

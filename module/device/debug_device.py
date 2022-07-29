@@ -49,6 +49,7 @@ class DebugDevice(Device):
     # if you want simulate a delay of several seconds, you can sleep here?
     def screenshot(self):
         logger.info('A screenshot call')
+        self.sleep((0.3, 0.5))
         if self.image_queue.empty():
             logger.warning('No enough images, also use current image!')
         else:

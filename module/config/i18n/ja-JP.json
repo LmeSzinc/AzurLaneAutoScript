@@ -1083,6 +1083,20 @@
       "help": "ControlExpOverflow.T1Allow.help"
     }
   },
+  "AutoAddNewStudent": {
+    "_info": {
+      "name": "AutoAddNewStudent._info.name",
+      "help": "AutoAddNewStudent._info.help"
+    },
+    "Enable": {
+      "name": "AutoAddNewStudent.Enable.name",
+      "help": "AutoAddNewStudent.Enable.help"
+    },
+    "Favorite": {
+      "name": "AutoAddNewStudent.Favorite.name",
+      "help": "AutoAddNewStudent.Favorite.help"
+    }
+  },
   "Research": {
     "_info": {
       "name": "Research._info.name",

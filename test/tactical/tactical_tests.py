@@ -5,89 +5,86 @@ from module.base.utils import load_image
 from module.config.config import AzurLaneConfig
 from module.device.debug_device import DebugDevice
 from module.logger import logger
-from module.tactical.assets import TACTICAL_SKILL_LEVEL_1, ADD_NEW_STUDENT, TACTICAL_SKILL_LEVEL_2, \
-    TACTICAL_CLASS_CANCEL, TACTICAL_CLASS_START
+from module.tactical.assets import TACTICAL_SKILL_LEVEL_1
 from module.tactical.tactical_class import RewardTacticalClass
-from module.ui.page import page_tactical
+from module.ui.assets import TACTICAL_CHECK
 
 sys.path.append('././')
 
+default_config = AzurLaneConfig('alas', 'Tactical')
+logger.setLevel('WARNING')
+
+
+def test_body(image_location=None):
+    return RewardTacticalClass(
+        config=default_config,
+        device=DebugDevice(image_location=image_location)
+    )
+
 
 class TestTactical(unittest.TestCase):
-    default_config = AzurLaneConfig('alas', 'Tactical')
-    logger.setLevel('DEBUG')
 
-    # The first position is not empty
-    def test_button_appear(self):
-        image_location = 'D:/project/AlasTest/tactical/TEST3.png'
+    def test_receive_should_end(self):
+        image = 'D:/project/AlasTest/tactical/MAIN.png'
+        assert test_body(image).appear_for_seconds(TACTICAL_CHECK, 1), \
+            'Error in appear_for_seconds().'
 
-        az = RewardTacticalClass(config=self.default_config,
-                                 device=DebugDevice(image_location=image_location))
-        az.image_file = load_image(image_location)
-        self.assertTrue(az.appear(TACTICAL_CLASS_CANCEL, offset=(30, 30), interval=2) and az.appear(TACTICAL_CLASS_START, offset=(30, 30)))
-
-    def test_demo(self):
-        selected = None
-        if selected:
-            print(1)
-
-    """
-    Test select_first_ship()
-    """
-
-    # Select first ship
-    def test_select_first_ship_success(self):
-        image_location = [
-            'D:/project/AlasTest/tactical/2.png',
-            'D:/project/AlasTest/tactical/2-1.png',
-            'D:/project/AlasTest/tactical/3.png'
+    def test_receive_should_not_end(self):
+        images = [
+            'D:/project/AlasTest/tactical/MAIN.png',
+            'D:/project/AlasTest/tactical/DOCK.png',
+            'D:/project/AlasTest/tactical/MAIN.png',
+            'D:/project/AlasTest/tactical/MAIN.png',
+            'D:/project/AlasTest/tactical/DOCK.png'
         ]
+        assert not test_body(images).appear_for_seconds(TACTICAL_CHECK, 1), \
+            'Error in appear_for_seconds().'
 
-        az = RewardTacticalClass(config=self.default_config,
-                                 device=DebugDevice(image_location=image_location))
-        self.assertTrue(az.select_first_ship())
+    def test_find_empty_position(self):
+        image = 'D:/project/AlasTest/tactical/MAIN_TWO_POSITION.png'
+        assert test_body(image).find_empty_position(), 'Should find a position.'
 
-    # Select first ship
-    def test_select_first_ship_success_2(self):
-        str = 'abcd ddd'
-        print(str.replace(' ', ''))
+    def test_find_empty_position_2(self):
+        image = 'D:/project/AlasTest/tactical/MAIN_ONE_POSITION.png'
+        assert test_body(image).find_empty_position(), 'Should find a position.'
 
-    """
-    Test find_not_full_level_skill 
-    """
+    def test_not_find_empty_position(self):
+        image = 'D:/project/AlasTest/tactical/MAIN_NO_POSITION.png'
+        assert not test_body(image).find_empty_position(), 'Should not find a position.'
 
-    # All not max, select first
-    def test_find_not_full_level_skill_success(self):
-        image_location = 'D:/project/AlasTest/tactical/3.png'
+    def test_select_suitable_ship_1(self):
+        image = 'D:/project/AlasTest/tactical/DOCK_NORMAL.png'
+        assert test_body(image).select_suitable_ship(), 'Should find first ship'
 
-        az = RewardTacticalClass(config=self.default_config,
-                                 device=DebugDevice(image_location=image_location))
-        self.assertEqual(az.find_not_full_level_skill(load_image(image_location)), TACTICAL_SKILL_LEVEL_1)
+    def test_select_suitable_ship_2(self):
+        image = 'D:/project/AlasTest/tactical/DOCK_ONLY_META.png'
+        assert test_body(image).select_suitable_ship(), 'Should find meta ship'
 
-    # Part max, select not max
-    def test_find_not_full_level_skill_success_2(self):
-        image_location = 'D:/project/AlasTest/tactical/11-1.png'
+    def test_select_suitable_ship_3(self):
+        image = 'D:/project/AlasTest/tactical/DOCK_ONLY_META.png'
+        assert not test_body(image).select_suitable_ship(skip_meta=1), 'Should not find a ship'
 
-        az = RewardTacticalClass(config=self.default_config,
-                                 device=DebugDevice(image_location=image_location))
-        self.assertEqual(az.find_not_full_level_skill(load_image(image_location)), TACTICAL_SKILL_LEVEL_2)
+    def test_select_suitable_ship_4(self):
+        image = 'D:/project/AlasTest/tactical/DOCK_EMPTY.png'
+        assert not test_body(image).select_suitable_ship(), 'Empty Dock should not find a ship'
 
-    # All max, select None
-    def test_find_not_full_level_skill_success_3(self):
-        image_location = 'D:/project/AlasTest/tactical/12.png'
+    def test_check_meta_1(self):
+        image = 'D:/project/AlasTest/tactical/SKILL_META.png'
+        assert test_body(image).check_meta(), 'It is meta skill list'
 
-        az = RewardTacticalClass(config=self.default_config,
-                                 device=DebugDevice(image_location=image_location))
-        self.assertEqual(az.find_not_full_level_skill(load_image(image_location)), None)
+    def test_check_meta_2(self):
+        image = 'D:/project/AlasTest/tactical/SKILL_NORMAL.png'
+        assert not test_body(image).check_meta(), 'It is normal skill list'
 
-    """
-    Test whole process
-    """
+    def test_find_not_full_level_skill_1(self):
+        image = 'D:/project/AlasTest/tactical/SKILL_LEVEL_FIRST.png'
+        assert TACTICAL_SKILL_LEVEL_1 == test_body(image).find_not_full_level_skill(load_image(image)), \
+            'First skill is not full'
 
-    def test_tactical_class_set(self):
-        az = RewardTacticalClass(config='alas', task='Tactical')
-        az.ui_ensure(page_tactical)
-
+    def test_find_not_full_level_skill_2(self):
+        image = 'D:/project/AlasTest/tactical/SKILL_LEVEL_NONE.png'
+        assert test_body(image).find_not_full_level_skill(load_image(image)) is None, \
+            'First skill is not full'
 
 if __name__ == '__main__':
     unittest.main()
