@@ -1364,6 +1364,9 @@
       "RepairUseSingleThreshold": 0.3,
       "RepairUseMultiThreshold": 0.6,
       "LowHpRetreatThreshold": 0.3
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": "default_mode"
     }
   },
   "WarArchives": {
@@ -1433,6 +1436,9 @@
       "RepairUseSingleThreshold": 0.3,
       "RepairUseMultiThreshold": 0.6,
       "LowHpRetreatThreshold": 0.3
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": "default_mode"
     }
   },
   "OpsiGeneral": {

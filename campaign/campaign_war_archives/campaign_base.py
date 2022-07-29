@@ -20,6 +20,7 @@ WAR_ARCHIVES_SCROLL = Scroll(WAR_ARCHIVES_SCROLL, color=(247, 211, 66), name='WA
 class CampaignBase(CampaignBase_):
     # Helper variable to keep track of whether is the first runthrough
     first_run = True
+    ENEMY_FILTER = '1T > 1L > 1E > 1M > 2T > 2L > 2E > 2M > 3T > 3L > 3E > 3M'
 
     def _get_archives_entrance(self, name):
         """

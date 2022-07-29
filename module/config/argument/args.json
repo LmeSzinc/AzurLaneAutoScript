@@ -6643,6 +6643,17 @@
         "type": "input",
         "value": 0.3
       }
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": {
+        "type": "select",
+        "value": "default_mode",
+        "option": [
+          "default_mode",
+          "S3_enemy_first",
+          "S1_enemy_first"
+        ]
+      }
     }
   },
   "WarArchives": {
@@ -7004,6 +7015,17 @@
       "LowHpRetreatThreshold": {
         "type": "input",
         "value": 0.3
+      }
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": {
+        "type": "select",
+        "value": "default_mode",
+        "option": [
+          "default_mode",
+          "S3_enemy_first",
+          "S1_enemy_first"
+        ]
       }
     }
   },
