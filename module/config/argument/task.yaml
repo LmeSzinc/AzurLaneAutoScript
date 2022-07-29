@@ -217,6 +217,7 @@ Sos:
   - Submarine
   - Emotion
   - HpControl
+  - EnemyPriority
 WarArchives:
   - Scheduler
   - Campaign
@@ -225,6 +226,7 @@ WarArchives:
   - Submarine
   - Emotion
   - HpControl
+  - EnemyPriority
 
 # ==================== Opsi ====================
 

@@ -745,11 +745,11 @@
     },
     "DistanceToBoss": {
       "name": "Before BOSS battle move the submarine near BOSS",
-      "help": "Effective only if \"Submarine Mode\" is \"BOSS Only\"\nSelecting \"X Grids To BOSS\" needs to ensure that the submarine hunting range can cover the BOSS. Distance is calculated using the Manhattan Distance. Selecting \"Use U522 Skill\" requires U522 in the submarine fleet.",
+      "help": "Effective only if \"Submarine Mode\" is \"BOSS Only\"\nSelecting \"X Grids To BOSS\" needs to ensure that the submarine hunting range can cover the BOSS. Distance is calculated using the Manhattan Distance. Selecting \"Use Open Ocean Support\" requires U522/Leonardo da Vinci in the submarine fleet.",
       "to_boss_position": "To BOSS Location",
       "1_grid_to_boss": "1 Grid To BOSS",
       "2_grid_to_boss": "2 Grids To BOSS",
-      "use_U522_skill": "Use U522 Skill"
+      "use_open_ocean_support": "Use Open Ocean Support"
     }
   },
   "Emotion": {

@@ -88,7 +88,7 @@ def remote_access_service(
     ).start()
 
     stdout = _ssh_process.stdout.readline().decode("utf8")
-    logger.info(f"ssh server stdout: {stdout}")
+    logger.debug(f"ssh server stdout: {stdout}")
     connection_info = {}
     try:
         connection_info = json.loads(stdout)
