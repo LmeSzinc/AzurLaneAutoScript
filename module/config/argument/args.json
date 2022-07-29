@@ -486,7 +486,7 @@
           "to_boss_position",
           "1_grid_to_boss",
           "2_grid_to_boss",
-          "use_U522_skill"
+          "use_open_ocean_support"
         ]
       }
     },
@@ -842,7 +842,7 @@
           "to_boss_position",
           "1_grid_to_boss",
           "2_grid_to_boss",
-          "use_U522_skill"
+          "use_open_ocean_support"
         ]
       }
     },
@@ -1198,7 +1198,7 @@
           "to_boss_position",
           "1_grid_to_boss",
           "2_grid_to_boss",
-          "use_U522_skill"
+          "use_open_ocean_support"
         ]
       }
     },
@@ -1641,7 +1641,7 @@
           "to_boss_position",
           "1_grid_to_boss",
           "2_grid_to_boss",
-          "use_U522_skill"
+          "use_open_ocean_support"
         ]
       }
     },
@@ -2029,7 +2029,7 @@
           "to_boss_position",
           "1_grid_to_boss",
           "2_grid_to_boss",
-          "use_U522_skill"
+          "use_open_ocean_support"
         ]
       }
     },
@@ -2438,7 +2438,7 @@
           "to_boss_position",
           "1_grid_to_boss",
           "2_grid_to_boss",
-          "use_U522_skill"
+          "use_open_ocean_support"
         ]
       }
     },
@@ -2857,7 +2857,7 @@
           "to_boss_position",
           "1_grid_to_boss",
           "2_grid_to_boss",
-          "use_U522_skill"
+          "use_open_ocean_support"
         ]
       }
     },
@@ -3276,7 +3276,7 @@
           "to_boss_position",
           "1_grid_to_boss",
           "2_grid_to_boss",
-          "use_U522_skill"
+          "use_open_ocean_support"
         ]
       }
     },
@@ -3695,7 +3695,7 @@
           "to_boss_position",
           "1_grid_to_boss",
           "2_grid_to_boss",
-          "use_U522_skill"
+          "use_open_ocean_support"
         ]
       }
     },
@@ -4114,7 +4114,7 @@
           "to_boss_position",
           "1_grid_to_boss",
           "2_grid_to_boss",
-          "use_U522_skill"
+          "use_open_ocean_support"
         ]
       }
     },
@@ -4523,7 +4523,7 @@
           "to_boss_position",
           "1_grid_to_boss",
           "2_grid_to_boss",
-          "use_U522_skill"
+          "use_open_ocean_support"
         ]
       }
     },
@@ -6542,7 +6542,7 @@
           "to_boss_position",
           "1_grid_to_boss",
           "2_grid_to_boss",
-          "use_U522_skill"
+          "use_open_ocean_support"
         ]
       }
     },
@@ -6652,6 +6652,17 @@
       "LowHpRetreatThreshold": {
         "type": "input",
         "value": 0.3
+      }
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": {
+        "type": "select",
+        "value": "default_mode",
+        "option": [
+          "default_mode",
+          "S3_enemy_first",
+          "S1_enemy_first"
+        ]
       }
     }
   },
@@ -6904,7 +6915,7 @@
           "to_boss_position",
           "1_grid_to_boss",
           "2_grid_to_boss",
-          "use_U522_skill"
+          "use_open_ocean_support"
         ]
       }
     },
@@ -7014,6 +7025,17 @@
       "LowHpRetreatThreshold": {
         "type": "input",
         "value": 0.3
+      }
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": {
+        "type": "select",
+        "value": "default_mode",
+        "option": [
+          "default_mode",
+          "S3_enemy_first",
+          "S1_enemy_first"
+        ]
       }
     }
   },

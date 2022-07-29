@@ -147,7 +147,7 @@ Submarine:
     option: [ sub_standby, sub_auto_call ]
   DistanceToBoss:
     value: '2_grid_to_boss'
-    option: [to_boss_position, 1_grid_to_boss, 2_grid_to_boss, use_U522_skill]
+    option: [to_boss_position, 1_grid_to_boss, 2_grid_to_boss, use_open_ocean_support]
 Emotion:
   CalculateEmotion: true
   IgnoreLowEmotionWarn: false
