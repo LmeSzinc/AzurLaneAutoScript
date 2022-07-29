@@ -9,19 +9,24 @@ from module.logger import logger
 class CampaignABCD(EventBase):
     def run(self, *args, **kwargs):
         # Filter map files
-        stages = [EventStage(file) for file in os.listdir(f'./campaign/{self.config.Campaign_Event}')]
-        stages = self.convert_stages(stages)
-        logger.attr('Stage', [str(stage) for stage in stages])
-        logger.attr('StageFilter', self.config.EventDaily_StageFilter)
-        STAGE_FILTER.load(self.config.EventDaily_StageFilter)
-        self.convert_stages(STAGE_FILTER)
-        stages = [str(stage) for stage in STAGE_FILTER.apply(stages)]
-        logger.attr('Filter sort', ' > '.join(stages))
+        if self.config.Campaign_Event == 'event_unsupported':
+            stages = self.config.EventDaily_StageFilter.lower().split(' > ')
+            self.convert_stages(stages)
+            logger.attr('Filter sort', ' > '.join(stages))
+        else:
+            stages = [EventStage(file) for file in os.listdir(f'./campaign/{self.config.Campaign_Event}')]
+            stages = self.convert_stages(stages)
+            logger.attr('Stage', [str(stage) for stage in stages])
+            logger.attr('StageFilter', self.config.EventDaily_StageFilter)
+            STAGE_FILTER.load(self.config.EventDaily_StageFilter)
+            self.convert_stages(STAGE_FILTER)
+            stages = [str(stage) for stage in STAGE_FILTER.apply(stages)]
+            logger.attr('Filter sort', ' > '.join(stages))
 
-        if not stages:
-            logger.warning('No stage satisfy current filter')
-            self.config.Scheduler_Enable = False
-            self.config.task_stop()
+            if not stages:
+                logger.warning('No stage satisfy current filter')
+                self.config.Scheduler_Enable = False
+                self.config.task_stop()
 
         # Start from last stage
         logger.info(f'LastStage {self.config.EventDaily_LastStage}, recorded at {self.config.Scheduler_NextRun}')

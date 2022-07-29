@@ -375,7 +375,7 @@ class ConfigGenerator:
             options = [option for option in options if option != 'campaign_main']
             deep_set(self.args, keys=f'{task}.Campaign.Event.option', value=options)
         # Remove event_unsupported from tasks that cannot use it
-        for task in ['Main', 'Main2', 'Main3', 'EventAb', 'EventCd', 'EventSp', 'Raid', 'RaidDaily', 'Sos', 'WarArchives']:
+        for task in ['Main', 'Main2', 'Main3', 'Raid', 'RaidDaily', 'Sos', 'WarArchives']:
             options = deep_get(self.args, keys=f'{task}.Campaign.Event.option')
             options = [option for option in options if option != 'event_unsupported']
             deep_set(self.args, keys=f'{task}.Campaign.Event.option', value=options)

@@ -46,7 +46,9 @@ class CampaignRun(UI):
 
         if folder == 'event_unsupported':
             logger.info('Running on unsupported event, force use auto research')
-            self.config.override(Campaign_UseAutoSearch=True)
+            self.config.override(Campaign_UseClearMode=True,
+                                 Campaign_UseAutoSearch=True,
+                                 Campaign_Name=self.name)
             self.module = importlib.import_module('.campaign', f'campaign.event_unsupported')
         else:
             try:
