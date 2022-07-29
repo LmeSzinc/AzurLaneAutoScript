@@ -1149,8 +1149,8 @@ class Fleet(Camera, AmbushHandler):
         """
         if not (self.is_call_submarine_at_boss and self.map.select(is_submarine_spawn_point=True)):
             return False
-        if self.config.Submarine_DistanceToBoss == 'use_U522_skill':
-            logger.info('Going to use U522 skill, skip moving submarines')
+        if self.config.Submarine_DistanceToBoss == 'use_open_ocean_support':
+            logger.info('Going to use Open Ocean Support, skip moving submarines')
             return False
 
         boss = location_ensure(boss)
