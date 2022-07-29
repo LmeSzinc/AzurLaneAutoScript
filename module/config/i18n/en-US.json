@@ -79,23 +79,23 @@
       "help": ""
     },
     "EventA": {
-      "name": "Event A",
+      "name": "Event Daily A",
       "help": ""
     },
     "EventB": {
-      "name": "EventB",
+      "name": "Event Daily B",
       "help": ""
     },
     "EventC": {
-      "name": "EventC",
+      "name": "Event Daily C",
       "help": ""
     },
     "EventD": {
-      "name": "EventD",
+      "name": "Event Daily D",
       "help": ""
     },
     "EventSp": {
-      "name": "Event SP",
+      "name": "Event Daily SP",
       "help": ""
     },
     "Raid": {

@@ -64,7 +64,7 @@ class ResearchQueue(ResearchUI):
         Status icons on the left
         """
         return ButtonGrid(
-            origin=(18, 259), delta=(0, 40.5), button_shape=(25, 25), grid_shape=(1, 5), name='QUEUE_STATUS')
+            origin=(8, 259), delta=(0, 40.5), button_shape=(25, 25), grid_shape=(1, 5), name='QUEUE_STATUS')
 
     @cached_property
     @Config.when(SERVER=None)
