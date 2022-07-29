@@ -61,7 +61,7 @@ def recv_all(stream, chunk_size=4096) -> bytes:
                 fragments.append(chunk)
             else:
                 break
-        return b''.join(fragments)
+        return remove_shell_warning(b''.join(fragments))
     except socket.timeout:
         raise AdbTimeout('adb read timeout')
 
@@ -170,6 +170,38 @@ def get_serial_pair(serial):
             pass
 
     return None, None
+
+
+def remove_prefix(s, prefix):
+    """
+    Remove prefix of a string or bytes like `string.removeprefix(prefix)`, which is on Python3.9+
+
+    Args:
+        s (str, bytes):
+        prefix (str, bytes):
+
+    Returns:
+        str, bytes:
+    """
+    return s[len(prefix):] if s.startswith(prefix) else s
+
+
+def remove_shell_warning(s):
+    """
+    Remove warnings from shell
+
+    Args:
+        s (str, bytes):
+
+    Returns:
+        str, bytes:
+    """
+    if isinstance(s, bytes):
+        s = remove_prefix(s, b'WARNING: linker: [vdso]: unused DT entry: type 0x70000001 arg 0x0\n')
+    elif isinstance(s, str):
+        s = remove_prefix(s, 'WARNING: linker: [vdso]: unused DT entry: type 0x70000001 arg 0x0\n')
+
+    return s
 
 
 class IniterNoMinicap(u2.init.Initer):
