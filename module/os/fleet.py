@@ -342,7 +342,8 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 self.update_os()
                 current = self.view.backend.homo_loca
                 logger.attr('homo_loca', current)
-                if record is None or (current is not None and np.linalg.norm(np.subtract(current, record)) < 3):
+                # Max known distance is 4.48px, homo_loca between ( 56,  60) and ( 52,  58)
+                if record is None or (current is not None and np.linalg.norm(np.subtract(current, record)) < 5.5):
                     if confirm_timer.reached():
                         break
                 else:
