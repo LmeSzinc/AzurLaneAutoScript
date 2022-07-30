@@ -3,6 +3,7 @@ import queue
 import threading
 import time
 from datetime import datetime
+from functools import partial
 from typing import Dict, List
 
 import module.webui.lang as lang
@@ -52,7 +53,6 @@ from module.webui.widgets import (
     put_none,
 )
 from pywebio import config as webconfig
-from pywebio.exceptions import SessionClosedException
 from pywebio.output import (
     clear,
     close_popup,
@@ -74,7 +74,7 @@ from pywebio.output import (
     toast,
     use_scope,
 )
-from pywebio.pin import pin, pin_wait_change
+from pywebio.pin import pin, pin_on_change
 from pywebio.session import go_app, info, register_thread, run_js, set_env
 
 task_handler = TaskHandler()
@@ -83,27 +83,12 @@ task_handler = TaskHandler()
 class AlasGUI(Frame):
     ALAS_MENU: Dict[str, Dict[str, List[str]]]
     ALAS_ARGS: Dict[str, Dict[str, Dict[str, Dict[str, str]]]]
-    path_to_idx: Dict[str, str] = {}
-    idx_to_path: Dict[str, str] = {}
     theme = "default"
 
     @classmethod
-    def shorten_path(cls, prefix="a") -> None:
-        """
-        Reduce pin_wait_change() command content-length
-        Using full path name will transfer ~16KB per command,
-        may lag when remote control or in bad internet condition.
-        Use ~4KB after doing this.
-        Args:
-            prefix: all idx need to be a valid html, so a random character here
-        """
+    def initial(cls, prefix="a") -> None:
         cls.ALAS_MENU = read_file(filepath_args("menu"))
         cls.ALAS_ARGS = read_file(filepath_args("args"))
-        i = 0
-        for list_path, _ in deep_iter(cls.ALAS_ARGS, depth=3):
-            cls.path_to_idx[".".join(list_path)] = f"{prefix}{i}"
-            cls.idx_to_path[f"{prefix}{i}"] = ".".join(list_path)
-            i += 1
 
     def __init__(self) -> None:
         super().__init__()
@@ -267,7 +252,7 @@ class AlasGUI(Frame):
 
                 get_output(
                     arg_type=arg_type,
-                    name=self.path_to_idx[f"{task}.{group_name}.{arg}"],
+                    name=f"{task}_{group_name}_{arg}",
                     title=t(f"{group_name}.{arg}.name"),
                     arg_help=arg_help,
                     value=value,
@@ -379,20 +364,21 @@ class AlasGUI(Frame):
         self.task_handler.add(self.alas_update_overview_task, 10, True)
         self.task_handler.add(log.put_log(self.alas), 0.25, True)
 
-    def _alas_thread_wait_config_change(self) -> None:
+    def _init_alas_config_watcher(self) -> None:
         paths = []
         for path, d in deep_iter(self.ALAS_ARGS, depth=3):
             if d["type"] in ["lock", "disable", "hide"]:
                 continue
-            paths.append(self.path_to_idx[".".join(path)])
-        while self.alive:
-            try:
-                val = pin_wait_change(*paths)
-                self.modified_config_queue.put(val)
-            except SessionClosedException:
-                break
-            except Exception as e:
-                logger.exception(e)
+            paths.append(path)
+
+        def put_queue(path, value):
+            self.modified_config_queue.put({"name": path, "value": value})
+
+        for path in paths:
+            pin_on_change(
+                name="_".join(path), onchange=partial(put_queue, ".".join(path))
+            )
+        logger.info("Init config watcher done.")
 
     def _alas_thread_update_config(self) -> None:
         modified = {}
@@ -402,11 +388,11 @@ class AlasGUI(Frame):
                 config_name = self.alas_name
             except queue.Empty:
                 continue
-            modified[self.idx_to_path[d["name"]]] = d["value"]
+            modified[d["name"]] = d["value"]
             while True:
                 try:
                     d = self.modified_config_queue.get(timeout=1)
-                    modified[self.idx_to_path[d["name"]]] = d["value"]
+                    modified[d["name"]] = d["value"]
                 except queue.Empty:
                     self._save_config(modified, config_name)
                     modified.clear()
@@ -424,11 +410,11 @@ class AlasGUI(Frame):
                 if not len(str(v)):
                     default = deep_get(self.ALAS_ARGS, k + ".value")
                     deep_set(config, k, default)
-                    valid.append(self.path_to_idx[k])
+                    valid.append(k)
                     modified[k] = default
                 elif not validate or re_fullmatch(validate, v):
                     deep_set(config, k, v)
-                    valid.append(self.path_to_idx[k])
+                    valid.append(k)
 
                     # update Emotion Record if Emotion Value is changed
                     if "Emotion" in k and "Value" in k:
@@ -438,11 +424,11 @@ class AlasGUI(Frame):
                         v = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                         modified[k] = v
                         deep_set(config, k, v)
-                        valid.append(self.path_to_idx[k])
-                        pin[self.path_to_idx[k]] = v
+                        valid.append(k)
+                        pin[k] = v
                 else:
                     modified.pop(k)
-                    invalid.append(self.path_to_idx[k])
+                    invalid.append(k)
                     logger.warning(f"Invalid value {v} for key {k}, skip saving.")
             self.pin_remove_invalid_mark(valid)
             self.pin_set_invalid_mark(invalid)
@@ -1051,12 +1037,8 @@ class AlasGUI(Frame):
         aside = get_localstorage("aside")
         self.show()
 
-        # detect config change
-        _thread_wait_config_change = threading.Thread(
-            target=self._alas_thread_wait_config_change
-        )
-        register_thread(_thread_wait_config_change)
-        _thread_wait_config_change.start()
+        # init config watcher
+        self._init_alas_config_watcher()
 
         # save config
         _thread_save_config = threading.Thread(target=self._alas_thread_update_config)
@@ -1128,7 +1110,7 @@ def debug():
 
 def startup():
     State.init()
-    AlasGUI.shorten_path()
+    AlasGUI.initial()
     lang.reload()
     updater.event = State.manager.Event()
     if updater.delay > 0:
