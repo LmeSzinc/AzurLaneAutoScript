@@ -48,6 +48,7 @@ from module.webui.widgets import (
     RichLog,
     get_output,
     put_icon_buttons,
+    put_loading_text,
     put_none,
 )
 from pywebio import config as webconfig
@@ -153,45 +154,13 @@ class AlasGUI(Frame):
         clear()
 
         if state == 1:
-            put_row(
-                [
-                    put_loading(color="success").style("--loading-border--"),
-                    None,
-                    put_text(t("Gui.Status.Running")),
-                ],
-                size="auto 2px 1fr",
-            )
+            put_loading_text(t("Gui.Status.Running"), color="success")
         elif state == 2:
-            put_row(
-                [
-                    put_loading(color="secondary").style("--loading-border-fill--"),
-                    None,
-                    put_text(t("Gui.Status.Inactive")),
-                ],
-                size="auto 2px 1fr",
-            )
+            put_loading_text(t("Gui.Status.Inactive"), color="secondary", fill=True)
         elif state == 3:
-            put_row(
-                [
-                    put_loading(shape="grow", color="warning").style(
-                        "--loading-grow--"
-                    ),
-                    None,
-                    put_text(t("Gui.Status.Warning")),
-                ],
-                size="auto 2px 1fr",
-            )
+            put_loading_text(t("Gui.Status.Warning"), shape="grow", color="warning")
         elif state == 4:
-            put_row(
-                [
-                    put_loading(shape="grow", color="success").style(
-                        "--loading-grow--"
-                    ),
-                    None,
-                    put_text(t("Gui.Status.Updating")),
-                ],
-                size="auto 2px 1fr",
-            )
+            put_loading_text(t("Gui.Status.Updating"), shape="grow", color="success")
 
     @classmethod
     def set_theme(cls, theme="default") -> None:
@@ -385,11 +354,6 @@ class AlasGUI(Frame):
                     put_scope(
                         "log-bar-btns",
                         [
-                            put_button(
-                                label=t("Gui.Button.ClearLog"),
-                                onclick=log.reset,
-                                color="off",
-                            ),
                             put_scope("log_scroll_btn"),
                         ],
                     ),
@@ -614,11 +578,6 @@ class AlasGUI(Frame):
             put_scope(
                 "log-bar-btns",
                 [
-                    put_button(
-                        label=t("Gui.Button.ClearLog"),
-                        onclick=log.reset,
-                        color="off",
-                    ),
                     put_scope("log_scroll_btn"),
                 ],
             )
@@ -1254,7 +1213,9 @@ def app():
         debug=True,
         on_startup=[
             startup,
-            lambda: ProcessManager.restart_processes(instances=instances, ev=updater.event),
+            lambda: ProcessManager.restart_processes(
+                instances=instances, ev=updater.event
+            ),
         ],
         on_shutdown=[clearup],
     )

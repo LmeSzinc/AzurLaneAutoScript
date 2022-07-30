@@ -11,8 +11,12 @@ from module.logger import WEB_THEME, Highlighter, HTMLConsole
 from module.webui.pin import put_checkbox, put_input, put_select, put_textarea
 from module.webui.process_manager import ProcessManager
 from module.webui.setting import State
-from module.webui.utils import (DARK_TERMINAL_THEME, LIGHT_TERMINAL_THEME,
-                                LOG_CODE_FORMAT, Switch)
+from module.webui.utils import (
+    DARK_TERMINAL_THEME,
+    LIGHT_TERMINAL_THEME,
+    LOG_CODE_FORMAT,
+    Switch,
+)
 
 
 class ScrollableCode:
@@ -422,3 +426,28 @@ def get_output(
         )
     elif arg_type == "hide":
         return None
+
+
+def get_loading_style(shape: str, fill: bool) -> str:
+    if fill:
+        return f"--loading-{shape}-fill--"
+    else:
+        return f"--loading-{shape}--"
+
+
+def put_loading_text(
+    text: str,
+    shape: str = "border",
+    color: str = "dark",
+    fill: bool = False,
+    size: str = "auto 2px 1fr",
+):
+    loading_style = get_loading_style(shape=shape, fill=fill)
+    return put_row(
+        [
+            put_loading(shape=shape, color=color).style(loading_style),
+            None,
+            put_text(text),
+        ],
+        size=size,
+    )
