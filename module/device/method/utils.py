@@ -172,37 +172,11 @@ def get_serial_pair(serial):
     return None, None
 
 
-def remove_prefix(s, prefix):
-    """
-    Remove prefix of a string or bytes like `string.removeprefix(prefix)`, which is on Python3.9+
-
-    Args:
-        s (str, bytes):
-        prefix (str, bytes):
-
-    Returns:
-        str, bytes:
-    """
-    return s[len(prefix):] if s.startswith(prefix) else s
-
-
 def remove_shell_warning(s):
-    """
-    Remove warnings from shell
-
-    Args:
-        s (str, bytes):
-
-    Returns:
-        str, bytes:
-    """
     if isinstance(s, bytes):
-        s = remove_prefix(s, b'WARNING: linker: [vdso]: unused DT entry: type 0x70000001 arg 0x0\n')
+        return re.sub(b'^WARNING.+\n',b'',s)
     elif isinstance(s, str):
-        s = remove_prefix(s, 'WARNING: linker: [vdso]: unused DT entry: type 0x70000001 arg 0x0\n')
-
-    return s
-
+        return re.sub('^WARNING.+\n', '', s)
 
 class IniterNoMinicap(u2.init.Initer):
     @property
