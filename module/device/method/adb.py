@@ -8,7 +8,7 @@ from lxml import etree
 
 from module.base.decorator import Config
 from module.device.connection import Connection
-from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES, remove_prefix,
+from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES, remove_shell_warning,
                                         handle_adb_error, PackageNotInstalled)
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
@@ -101,7 +101,9 @@ class Adb(Connection):
         # fix compatibility issues for adb screencap decode problem when the data is from vmos pro
         # When use adb screencap for a screenshot from vmos pro, there would be a header more than that from emulator
         # which would cause image decode problem. So i check and remove the header there.
-        screenshot = remove_prefix(screenshot, b'long long=8 fun*=10\n')
+        if screenshot.startswith(b'long long=8 fun*=10\n'):
+            screenshot = screenshot.replace(b'long long=8 fun*=10\n', b'', 1)
+        screenshot = remove_shell_warning(screenshot)
 
         image = np.frombuffer(screenshot, np.uint8)
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
