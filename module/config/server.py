@@ -28,6 +28,7 @@ VALID_CHANNEL_PACKAGE = {
     'com.bilibili.blhx.uc': ('cn', 'UC九游'),
     'com.bilibili.blhx.mzw': ('cn', '拇指玩'),
     'com.yiwu.blhx.yx15': ('cn', '一五游戏'),
+    'com.bilibili.blhx.m4399': ('cn', '4399'),
 
     # Tw
     'com.hkmanjuu.azurlane.gp.mc': ('tw', 'MyCard'),

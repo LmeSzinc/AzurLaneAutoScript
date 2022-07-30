@@ -418,6 +418,7 @@ class AzurLaneAutoScript:
                     logger.info(f"Alas [{self.config_name}] exited.")
                     break
             task = self.get_next_task()
+            _ = self.device
 
             # Skip first restart
             if is_first and task == 'Restart':
