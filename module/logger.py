@@ -23,8 +23,6 @@ def empty_function(*args, **kwargs):
 logging.basicConfig = empty_function
 logging.raiseExceptions = True  # Set True if wanna see encode errors on console
 
-# Force rounded box
-rich.box.ASCII = rich.box.ASCII2 = rich.box.ROUNDED
 # Remove HTTP keywords (GET, POST etc.)
 RichHandler.KEYWORDS = []
 
