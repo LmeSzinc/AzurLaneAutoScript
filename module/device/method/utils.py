@@ -200,6 +200,7 @@ def remove_shell_warning(s):
         return re.sub(b'^WARNING.+\n', b'', s)
     elif isinstance(s, str):
         return re.sub('^WARNING.+\n', '', s)
+    return s
 
 
 class IniterNoMinicap(u2.init.Initer):
