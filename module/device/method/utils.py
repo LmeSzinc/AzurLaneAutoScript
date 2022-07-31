@@ -197,10 +197,9 @@ def remove_shell_warning(s):
         str, bytes:
     """
     if isinstance(s, bytes):
-        s = remove_prefix(s, b'WARNING: linker: [vdso]: unused DT entry: type 0x70000001 arg 0x0\n')
+        return re.sub(b'^WARNING.+\n', b'', s)
     elif isinstance(s, str):
-        s = remove_prefix(s, 'WARNING: linker: [vdso]: unused DT entry: type 0x70000001 arg 0x0\n')
-
+        return re.sub('^WARNING.+\n', '', s)
     return s
 
 
