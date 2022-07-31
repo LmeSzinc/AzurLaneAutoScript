@@ -18,7 +18,7 @@ chardet==3.0.4            # via requests
 cigam==0.0.3              # via apkutils2
 click==8.0.1              # via uvicorn
 cnocr==1.2.2              # via -r requirements-in.txt
-colorama==0.4.4           # via click, logzero, tqdm, uvicorn
+colorama==0.4.5           # via click, logzero, rich, tqdm, uvicorn
 commonmark==0.9.1         # via rich
 cycler==0.10.0            # via matplotlib
 decorator==5.1.0          # via retry
@@ -66,7 +66,7 @@ pyzmq==22.3.0             # via -r requirements-in.txt, zerorpc
 requests==2.18.4          # via adbutils, gluoncv, mxnet, uiautomator2
 retry==0.9.2              # via adbutils, uiautomator2
 retrying==1.3.3           # via -r requirements-in.txt
-rich==12.5.1              # via -r requirements-in.txt
+rich==11.2.0              # via -r requirements-in.txt
 scipy==1.4.1              # via -r requirements-in.txt, gluoncv
 six==1.16.0               # via adbutils, cycler, python-dateutil, retrying, uiautomator2
 sniffio==1.2.0            # via anyio
