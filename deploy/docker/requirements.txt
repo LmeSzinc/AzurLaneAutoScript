@@ -21,6 +21,6 @@ aiofiles
 wrapt==1.13.1
 prettytable==2.2.1
 pypresence==4.2.1
-rich==12.5.1
+rich==11.2.0
 zerorpc==0.6.3
 pyzmq==22.3.0
