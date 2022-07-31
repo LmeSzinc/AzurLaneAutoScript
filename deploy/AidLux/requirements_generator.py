@@ -59,3 +59,6 @@ def aidlux_requirements_generate(requirements_in='requirements-in.txt'):
             new[name] = version
 
         write_file(os.path.join(BASE_FOLDER, f'./{aidlux}/requirements.txt'), data=new)
+
+if __name__ == "__main__":
+    aidlux_requirements_generate()
