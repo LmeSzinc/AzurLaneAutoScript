@@ -5,11 +5,10 @@ from multiprocessing import Process
 from typing import Dict, List, Union
 
 from filelock import FileLock
-from rich.console import ConsoleRenderable
-
-from module.config.utils import deep_get, filepath_config
+from module.config.utils import filepath_config
 from module.logger import logger, set_file_logger, set_func_logger
 from module.webui.setting import State
+from rich.console import Console, ConsoleRenderable
 
 
 class ProcessManager:
@@ -89,17 +88,19 @@ class ProcessManager:
             return 1
         elif len(self.renderables) == 0:
             return 2
-        elif isinstance(self.renderables[-1], str):
-            if self.renderables[-1].endswith(
-                "Reason: Manual stop\n"
-            ) or self.renderables[-1].endswith("Reason: Finish\n"):
+        else:
+            console = Console(no_color=True)
+            with console.capture() as capture:
+                console.print(self.renderables[-1])
+            s = capture.get().strip()
+            if s.endswith("Reason: Manual stop"):
                 return 2
-            elif self.renderables[-1].endswith("Reason: Update\n"):
+            elif s.endswith("Reason: Finish"):
+                return 2
+            elif s.endswith("Reason: Update"):
                 return 4
             else:
                 return 3
-        else:
-            return 3
 
     @classmethod
     def get_manager(cls, config_name: str) -> "ProcessManager":
@@ -119,6 +120,7 @@ class ProcessManager:
         set_func_logger(func=q.put)
 
         from module.config.config import AzurLaneConfig
+
         AzurLaneConfig.stop_event = e
         try:
             # Run alas

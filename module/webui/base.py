@@ -114,6 +114,7 @@ class Frame(Base):
     def pin_set_invalid_mark(keys) -> None:
         if isinstance(keys, str):
             keys = [keys]
+        keys = ["_".join(key.split(".")) for key in keys]
         js = "".join(
             [
                 f"""$(".form-control[name='{key}']").addClass('is-invalid');"""
@@ -129,6 +130,7 @@ class Frame(Base):
     def pin_remove_invalid_mark(keys) -> None:
         if isinstance(keys, str):
             keys = [keys]
+        keys = ["_".join(key.split(".")) for key in keys]
         js = "".join(
             [
                 f"""$(".form-control[name='{key}']").removeClass('is-invalid');"""
