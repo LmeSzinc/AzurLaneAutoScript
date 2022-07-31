@@ -4,6 +4,7 @@ from module.base.base import ModuleBase
 from module.base.button import Button
 from module.base.timer import Timer
 from module.base.utils import *
+from module.exception import GameNotRunningError
 from module.handler.assets import *
 from module.logger import logger
 
@@ -103,6 +104,8 @@ class InfoHandler(ModuleBase):
     def popup_interval_clear(self):
         self.interval_clear([POPUP_CANCEL, POPUP_CONFIRM])
 
+    _hot_fix_check_wait = Timer(6)
+
     def handle_urgent_commission(self, drop=None):
         """
         Args:
@@ -118,6 +121,18 @@ class InfoHandler(ModuleBase):
                 self.handle_info_bar()
                 drop.add(self.device.image)
             self.device.click(GET_MISSION)
+            self._hot_fix_check_wait.reset()
+
+        # Check game client existence after 3s to 6s
+        # Hot fixes will kill AL if you clicked the confirm button
+        if self._hot_fix_check_wait.reached():
+            self._hot_fix_check_wait.clear()
+        if self._hot_fix_check_wait.started() and 3 <= self._hot_fix_check_wait.current() <= 6:
+            if not self.device.app_is_running():
+                logger.warning('Detected hot fixes from game server, game died')
+                raise GameNotRunningError
+            self._hot_fix_check_wait.clear()
+
         return appear
 
     def handle_combat_low_emotion(self):

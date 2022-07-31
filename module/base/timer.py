@@ -12,6 +12,7 @@ def timer(function):
         t1 = time.time()
         print('%s: %s s' % (function.__name__, str(round(t1 - t0, 10))))
         return result
+
     return function_timer
 
 
@@ -106,7 +107,10 @@ class Timer:
         Returns:
             float
         """
-        return time.time() - self._current
+        if self.started():
+            return time.time() - self._current
+        else:
+            return 0.
 
     def reached(self):
         """
@@ -145,4 +149,9 @@ class Timer:
 
     def show(self):
         from module.logger import logger
-        logger.info('%s s' % str(self.current()))
+        logger.info(str(self))
+
+    def __str__(self):
+        return f'Timer(limit={round(self.current(), 3)}/{self.limit}, count={self._reach_count}/{self.count})'
+
+    __repr__ = __str__

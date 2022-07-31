@@ -57,7 +57,7 @@ class AzurLaneAutoScript:
             self.config.task_call('Restart')
             return True
         except (GameStuckError, GameTooManyClickError) as e:
-            logger.warning(e)
+            logger.error(e)
             self.save_error_log()
             logger.warning(f'Game stuck, {self.device.package} will be restarted in 10 seconds')
             logger.warning('If you are playing by hand, please stop Alas')
