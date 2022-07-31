@@ -14,6 +14,7 @@ from module.map.assets import (FLEET_PREPARATION, MAP_PREPARATION,
 from module.ocr.ocr import Ocr
 from module.os_handler.assets import (EXCHANGE_CHECK, RESET_FLEET_PREPARATION,
                                       RESET_TICKET_POPUP)
+from module.battle_pass.assets import PURCHASE_POPUP
 from module.raid.assets import RAID_FLEET_PREPARATION
 from module.ui.assets import (BACK_ARROW, DORM_FEED_CANCEL, DORM_INFO,
                               DORM_TROPHY_CONFIRM, EVENT_LIST_CHECK, GOTO_MAIN,
@@ -399,6 +400,8 @@ class UI(InfoHandler):
         # Battle pass is about to expire and player has uncollected battle pass rewards
         if self.appear_then_click(BATTLE_PASS_NOTICE, offset=(30, 30), interval=3):
             return True
+        if self.appear_then_click(PURCHASE_POPUP, offset=(44, -77, 84, -37), interval=3):
+            return True
 
         return False
 
@@ -421,6 +424,7 @@ class UI(InfoHandler):
         if self.appear_then_click(RESET_FLEET_PREPARATION, offset=(30, 30), interval=3):
             self._opsi_reset_fleet_preparation_click += 1
             self.interval_reset(FLEET_PREPARATION)
+            self.interval_reset(RESET_TICKET_POPUP)
             return True
         if self.appear(EXCHANGE_CHECK, offset=(30, 30), interval=3):
             logger.info(f'UI additional: {EXCHANGE_CHECK} -> {GOTO_MAIN}')
