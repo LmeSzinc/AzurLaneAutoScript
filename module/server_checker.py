@@ -11,7 +11,7 @@ from module.logger import logger
 
 class ServerChecker:
     def __init__(self, server: str) -> None:
-        self._base: str = 'http://sc.shiratama.cn:20002'
+        self._base: str = 'http://sc.shiratama.cn'
         self._api: dict = {
             'get_state': '/server/get_state',           # post
             'get_all_state': '/server/get_all_state',   # post

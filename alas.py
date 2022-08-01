@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 import inflection
 from cached_property import cached_property
 
+from module.base.resource import del_cached_property
 from module.config.config import AzurLaneConfig, TaskEnd
 from module.config.config_updater import ConfigUpdater
 from module.config.utils import deep_get, deep_set
@@ -425,8 +426,7 @@ class AzurLaneAutoScript:
                 # Sometimes, config won't be updated due to blocking
                 # even though it has been changed
                 # So update it once recovered
-                if 'config' in self.__dict__:
-                    del self.__dict__['config']
+                del_cached_property(self, 'config')
                 logger.info('Server or network is recovered. Restart game client')
                 self.run('restart')
 

@@ -286,7 +286,9 @@ class ConfigGenerator:
         for server, _list in VALID_SERVER_LIST.items():
             for index in range(len(_list)):
                 path = ['Emulator', 'ServerName', f'{server}-{index}']
-                deep_set(new, keys=path, value=_list[index])
+                prefix = server.split('_')[0].upper()
+                prefix = '国服' if prefix == 'CN' else prefix
+                deep_set(new, keys=path, value=f'[{prefix}] {_list[index]}')
         # GUI i18n
         for path, _ in deep_iter(self.gui, depth=2):
             group, key = path
