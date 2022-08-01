@@ -1083,18 +1083,18 @@
       "help": "ControlExpOverflow.T1Allow.help"
     }
   },
-  "AutoAddNewStudent": {
+  "AddNewStudent": {
     "_info": {
-      "name": "AutoAddNewStudent._info.name",
-      "help": "AutoAddNewStudent._info.help"
+      "name": "新しいスキルを学ぶ",
+      "help": "戦術学院に空席があると自動的に艦娘が配属され、初の下級スキルが習得される"
     },
     "Enable": {
-      "name": "AutoAddNewStudent.Enable.name",
-      "help": "AutoAddNewStudent.Enable.help"
+      "name": "この機能を有効にする",
+      "help": ""
     },
     "Favorite": {
-      "name": "AutoAddNewStudent.Favorite.name",
-      "help": "AutoAddNewStudent.Favorite.help"
+      "name": "好ましい選択",
+      "help": ""
     }
   },
   "Research": {

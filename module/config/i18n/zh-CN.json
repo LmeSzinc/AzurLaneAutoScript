@@ -1083,9 +1083,9 @@
       "help": ""
     }
   },
-  "AutoAddNewStudent": {
+  "AddNewStudent": {
     "_info": {
-      "name": "自动学习技能",
+      "name": "学习新技能",
       "help": "当战术学院有空余的位置时，将自动指派一个舰娘，并学习第一个未满级的技能"
     },
     "Enable": {

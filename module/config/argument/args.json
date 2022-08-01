@@ -5166,7 +5166,7 @@
         "value": 200
       }
     },
-    "AutoAddNewStudent": {
+    "AddNewStudent": {
       "Enable": {
         "type": "checkbox",
         "value": false

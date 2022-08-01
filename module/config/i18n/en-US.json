@@ -1083,9 +1083,9 @@
       "help": "0 ~ any positive integer"
     }
   },
-  "AutoAddNewStudent": {
+  "AddNewStudent": {
     "_info": {
-      "name": "Automatically learn skills",
+      "name": "learn new skills",
       "help": "When there is a vacant position in the Tactical Academy, a ship girl will be automatically assigned and the first under-level skill will be learned"
     },
     "Enable": {

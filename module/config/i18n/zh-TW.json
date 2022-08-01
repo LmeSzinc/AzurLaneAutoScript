@@ -1083,9 +1083,9 @@
       "help": ""
     }
   },
-  "AutoAddNewStudent": {
+  "AddNewStudent": {
     "_info": {
-      "name": "自動學習技能",
+      "name": "學習新技能",
       "help": "當戰術學院有空餘的位置時，將自動指派一個艦娘，並學習第一個未滿級的技能"
     },
     "Enable": {
