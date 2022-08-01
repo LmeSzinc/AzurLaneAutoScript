@@ -610,8 +610,3 @@ class RewardTacticalClass(Dock):
             self.config.task_delay(success=False)
 
         self.ui_ensure(page_main)
-
-
-if __name__ == '__main__':
-    az = RewardTacticalClass(config='alas', task='Tactical')
-    az.run()
