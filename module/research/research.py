@@ -476,6 +476,8 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                 break
             if 'unknown' in status:
                 continue
+            if sum([s == 'detail' for s in status]) == 5:
+                break
 
         return True
 
