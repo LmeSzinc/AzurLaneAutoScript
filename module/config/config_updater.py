@@ -7,7 +7,7 @@ from deploy.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
 from module.config.redirect_utils.shop_filter import bp_redirect
 from module.config.redirect_utils.utils import upload_redirect, api_redirect
-from module.config.server import to_server, to_package, VALID_PACKAGE, VALID_CHANNEL_PACKAGE
+from module.config.server import to_server, to_package, VALID_PACKAGE, VALID_CHANNEL_PACKAGE, VALID_SERVER_LIST
 from module.config.utils import *
 
 CONFIG_IMPORT = '''
@@ -282,6 +282,13 @@ class ConfigGenerator:
             else:
                 value = f'{name} {package}'
             deep_set(new, keys=['Emulator', 'PackageName', package], value=value)
+        # Game server names
+        for server, _list in VALID_SERVER_LIST.items():
+            for index in range(len(_list)):
+                path = ['Emulator', 'ServerName', f'{server}-{index}']
+                prefix = server.split('_')[0].upper()
+                prefix = '国服' if prefix == 'CN' else prefix
+                deep_set(new, keys=path, value=f'[{prefix}] {_list[index]}')
         # GUI i18n
         for path, _ in deep_iter(self.gui, depth=2):
             group, key = path
@@ -417,6 +424,16 @@ class ConfigGenerator:
         deep_set(self.argument, keys='Emulator.PackageName.option', value=option)
         deep_set(self.args, keys='Alas.Emulator.PackageName.option', value=option)
 
+    def insert_server(self):
+        option = deep_get(self.argument, keys='Emulator.ServerName.option')
+        server_list = []
+        for server, _list in VALID_SERVER_LIST.items():
+            for index in range(len(_list)):
+                server_list.append(f'{server}-{index}')
+        option += server_list
+        deep_set(self.argument, keys='Emulator.ServerName.option', value=option)
+        deep_set(self.args, keys='Alas.Emulator.ServerName.option', value=option)
+
     @timer
     def generate(self):
         _ = self.args
@@ -424,6 +441,7 @@ class ConfigGenerator:
         _ = self.event
         self.insert_event()
         self.insert_package()
+        self.insert_server()
         write_file(filepath_args(), self.args)
         write_file(filepath_args('menu'), self.menu)
         self.generate_code()
