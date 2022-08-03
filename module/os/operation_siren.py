@@ -365,7 +365,7 @@ class OperationSiren(OSMap):
         zone = self.find_siren_stronghold()
         if zone is None:
             # No siren stronghold, delay next run to tomorrow.
-            self.config.task_delay(server_update=True)
+            self.config.task_delay(siren_hold=True)
             self.config.task_stop()
 
         self.globe_enter(zone)

@@ -2,6 +2,7 @@ import copy
 import datetime
 import operator
 import threading
+import time
 
 import pywebio
 
@@ -327,7 +328,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         """
         return MultiSetWrapper(main=self)
 
-    def task_delay(self, success=None, server_update=None, target=None, minute=None):
+    def task_delay(self, success=None, server_update=None, target=None, minute=None,siren_hold=None):
         """
         Set Scheduler.NextRun
         Should set at least one arguments.
@@ -367,7 +368,13 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
             run.append(target)
         if minute is not None:
             run.append(datetime.now() + ensure_delta(minute))
-
+        if siren_hold is not None:
+            d = datetime.datetime.fromtimestamp(int(time.mktime(datetime.date.today().timetuple())))
+            delta = 1 - d.isoweekday()
+            if delta <= 0:
+                delta += 7
+            d + timedelta(delta)
+            run.append(d + timedelta(delta))
         if len(run):
             run = min(run).replace(microsecond=0)
             kv = dict_to_kv(
