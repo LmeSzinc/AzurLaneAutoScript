@@ -456,8 +456,18 @@ class OSMap(OSFleet, Map, GlobeCamera):
                     break
 
     def clear_question(self, drop):
+        """
+        Clear nearly (and 3 grids from above) question marks on radar.
+        Try 3 times at max to avoid loop tries on 2 adjacent fleet mechanism.
+
+        Args:
+            drop:
+
+        Returns:
+            bool: If cleared
+        """
         logger.hr('Clear question', level=2)
-        while 1:
+        for _ in range(3):
             grid = self.radar.predict_question(self.device.image)
             if grid is None:
                 logger.info('No question mark above current fleet on this radar')
@@ -486,6 +496,10 @@ class OSMap(OSFleet, Map, GlobeCamera):
             else:
                 logger.warning(f'Arrive question with unexpected result: {result}, expected: {grid.str}')
                 continue
+
+        logger.warning('Failed to goto question mark after 5 trail, '
+                       'this might be 2 adjacent fleet mechanism, stopped')
+        return False
 
     def run_auto_search(self, question=True, rescan=None):
         """
