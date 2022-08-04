@@ -228,6 +228,7 @@ class InfoHandler(ModuleBase):
     story_popup_timeout = Timer(10, count=20)
     map_has_clear_mode = False  # Will be override in fast_forward.py
 
+    _story_confirm = Timer(0.5, count=1)
     # Area to detect the options, should include at least 3 options.
     _story_option_area = (730, 188, 1140, 480)
     # Background color of the left part of the option.
@@ -307,11 +308,18 @@ class InfoHandler(ModuleBase):
                 self._story_option_record = options_count
                 self._story_option_confirm.reset()
         if self.appear(STORY_SKIP, offset=(20, 20), interval=2):
-            if drop:
-                drop.handle_add(self, before=2)
-            self.device.click(STORY_SKIP)
-            self.story_popup_timeout.reset()
-            return True
+            # Confirm it's story
+            # When story play speed is Very Fast, Alas clicked story skip but story disappeared
+            # This click will interrupt auto search
+            if self._story_confirm.reached():
+                if drop:
+                    drop.handle_add(self, before=2)
+                self.device.click(STORY_SKIP)
+                self._story_confirm.reset()
+                self.story_popup_timeout.reset()
+                return True
+        else:
+            self._story_confirm.reset()
         if self.appear_then_click(GAME_TIPS, offset=(20, 20), interval=2):
             self.story_popup_timeout.reset()
             return True

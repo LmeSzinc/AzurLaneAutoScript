@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 import inflection
 from cached_property import cached_property
 
+from module.base.resource import del_cached_property
 from module.config.config import AzurLaneConfig, TaskEnd
 from module.config.utils import deep_get, deep_set
 from module.exception import *
@@ -45,6 +46,16 @@ class AzurLaneAutoScript:
             logger.exception(e)
             exit(1)
 
+    @cached_property
+    def checker(self):
+        try:
+            from module.server_checker import ServerChecker
+            checker = ServerChecker(server=self.config.Emulator_ServerName)
+            return checker
+        except Exception as e:
+            logger.exception(e)
+            exit(1)
+
     def run(self, command):
         try:
             self.device.screenshot()
@@ -73,9 +84,15 @@ class AzurLaneAutoScript:
             self.device.sleep(10)
             return False
         except GamePageUnknownError:
-            logger.critical('Game page unknown')
-            self.save_error_log()
-            exit(1)
+            logger.info('Game server may be under maintenance or network may be broken, check server status now')
+            self.checker.check_now()
+            if self.checker.is_available():
+                logger.critical('Game page unknown')
+                self.save_error_log()
+                exit(1)
+            else:
+                self.checker.wait_until_available()
+                return False
         except ScriptError as e:
             logger.critical(e)
             logger.critical('This is likely to be a mistake of developers, but sometimes just random issues')
@@ -412,14 +429,26 @@ class AzurLaneAutoScript:
         failure_record = {}
 
         while 1:
+            # Check update event from GUI
             if self.stop_event is not None:
                 if self.stop_event.is_set():
                     logger.info("Update event detected")
                     logger.info(f"Alas [{self.config_name}] exited.")
                     break
+            # Check game server maintenance
+            self.checker.wait_until_available()
+            if self.checker.is_recovered():
+                # There is an accidental bug hard to reproduce
+                # Sometimes, config won't be updated due to blocking
+                # even though it has been changed
+                # So update it once recovered
+                del_cached_property(self, 'config')
+                logger.info('Server or network is recovered. Restart game client')
+                self.run('restart')
+            # Get task
             task = self.get_next_task()
+            # Init device and change server
             _ = self.device
-
             # Skip first restart
             if is_first and task == 'Restart':
                 logger.info('Skip task `Restart` at scheduler start')
@@ -455,6 +484,7 @@ class AzurLaneAutoScript:
             elif self.config.Error_HandleError:
                 # self.config.task_delay(success=False)
                 del self.__dict__['config']
+                self.checker.check_now()
                 continue
             else:
                 break

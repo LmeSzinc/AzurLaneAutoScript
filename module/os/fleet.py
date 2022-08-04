@@ -286,6 +286,10 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                     raise MapWalkError('walk_out_of_step')
                 else:
                     continue
+            if self.handle_popup_confirm():
+                # Confirm to submit items, in siren scanning devices
+                confirm_timer.reset()
+                continue
 
             # Accident click
             if self.is_in_globe():
