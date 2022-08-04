@@ -1,6 +1,5 @@
 from module.base.timer import Timer
 from module.base.utils import *
-from module.exception import GameTooManyClickError
 from module.logger import logger
 from module.os.assets import *
 from module.os_handler.action_point import ActionPointHandler
@@ -13,6 +12,10 @@ ASSETS_PINNED_ZONE = ZONE_TYPES + [ZONE_ENTRANCE, ZONE_SWITCH, ZONE_PINNED]
 
 
 class OSExploreError(Exception):
+    pass
+
+
+class RewardUncollectedError(Exception):
     pass
 
 
@@ -295,7 +298,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
                     # When there's zone exploration reward, AL just don't let you go.
                     logger.warning('Unable to goto globe, '
                                    'there might be uncollected zone exploration rewards preventing exit')
-                    raise GameTooManyClickError(f'Too many click for a button: {MAP_GOTO_GLOBE}')
+                    raise RewardUncollectedError
                 continue
             if self.handle_map_event():
                 continue

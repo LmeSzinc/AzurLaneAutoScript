@@ -1,6 +1,7 @@
 import copy
 import importlib
 import os
+import re
 
 from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
@@ -138,7 +139,7 @@ class CampaignRun(UI):
         Returns:
             str, str: name, folder
         """
-        name = str(name).lower()
+        name = re.sub('[ \t\n]', '', str(name)).lower()
         if name[0].isdigit():
             name = 'campaign_' + name.lower().replace('-', '_')
         if folder == 'event_20201126_cn' and name == 'vsp':
