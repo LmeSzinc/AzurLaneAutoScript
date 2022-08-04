@@ -16,7 +16,7 @@ from module.retire.assets import DOCK_EMPTY, DOCK_CHECK
 from module.retire.dock import CARD_GRIDS, Dock, CARD_LEVEL_GRIDS
 from module.tactical.assets import *
 from module.ui.assets import (BACK_ARROW, REWARD_GOTO_TACTICAL,
-                              TACTICAL_CHECK)
+                              TACTICAL_CHECK, REWARD_CHECK)
 from module.ui.page import page_main
 from module.ui.ui import page_reward
 
@@ -332,6 +332,15 @@ class RewardTacticalClass(Dock):
         """
         logger.hr('Tactical class receive', level=1)
         received = False
+        add_enable = self.config.AddNewStudent_Enable
+        added = not add_enable
+        # 0: init 1: true -1: false
+        ship_selected = 0
+        skill_selected = 0
+        # Number of continuous meta ship
+        meta = 0
+        # No book
+        no_book = False
         # tactical cards can't be loaded that fast, confirm if it's empty.
         empty_confirm = Timer(0.6, count=2).start()
         while 1:
@@ -341,13 +350,14 @@ class RewardTacticalClass(Dock):
                 self.device.screenshot()
 
             # End
-            if received and self.appear(TACTICAL_CHECK, offset=(20, 20)):
+            if received and self.appear(REWARD_CHECK, offset=(20, 20)):
                 break
 
             # Get finish time
-            if self.appear(TACTICAL_CHECK, offset=(20, 20), interval=2):
+            if self.appear(TACTICAL_CHECK, offset=(20, 20), interval=2) and added:
                 self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
                 if self._tactical_get_finish():
+                    self.device.click(BACK_ARROW)
                     self.interval_reset(TACTICAL_CHECK)
                     empty_confirm.reset()
                     received = True
@@ -355,13 +365,27 @@ class RewardTacticalClass(Dock):
                 else:
                     self.interval_clear(TACTICAL_CHECK)
                     if empty_confirm.reached():
+                        self.device.click(BACK_ARROW)
                         empty_confirm.reset()
                         received = True
                         continue
             else:
                 empty_confirm.reset()
 
+            # No ship or ship selected but no skill selected, think it no need study
+            if ship_selected == -1 or (ship_selected == 1 and skill_selected == -1):
+                added = True
+                continue
+
             # Popups
+            if self.appear(TACTICAL_CHECK, offset=(20, 20)):
+                # Tactical page, but no empty position
+                if not self.find_empty_position():
+                    added = True
+                continue
+            else:
+                # Should appear in succession
+                added = False
             if self.appear_then_click(REWARD_2, offset=(20, 20), interval=3):
                 continue
             if self.appear_then_click(REWARD_GOTO_TACTICAL, offset=(20, 20), interval=3):
@@ -378,14 +402,34 @@ class RewardTacticalClass(Dock):
                 if self._tactical_books_choose():
                     self.interval_reset(TACTICAL_CLASS_CANCEL)
                     self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
+                else:
+                    added = True
                 continue
             if self.appear(DOCK_CHECK, offset=(20, 20), interval=3):
-                # Entered dock accidentally
-                self.device.click(BACK_ARROW)
+                if not add_enable:
+                    self.device.click(BACK_ARROW)
+                    continue
+                if self.select_suitable_ship(meta):
+                    ship_selected = 1
+                else:
+                    ship_selected = -1
+                    self.device.click(BACK_ARROW)
                 continue
             if self.appear(SKILL_CONFIRM, offset=(20, 20), interval=3):
                 # Game auto pops up the next skill to learn, close it
-                self.device.click(BACK_ARROW)
+                if not add_enable:
+                    self.device.click(BACK_ARROW)
+                    continue
+                if self.check_meta():
+                    meta += 1
+                    skill_selected = 0
+                    self.device.click(BACK_ARROW)
+                    continue
+                if self._tactical_skill_choose():
+                    skill_selected = 1
+                else:
+                    skill_selected = -1
+                    self.device.click(BACK_ARROW)
                 continue
 
         return True
@@ -530,63 +574,6 @@ class RewardTacticalClass(Dock):
 
         return None
 
-    def tactical_student_add(self):
-        logger.hr('Tactical student add', level=1)
-
-        # 0: init 1: true -1: false
-        ship_selected = 0
-        skill_selected = 0
-        # Number of continuous meta ship
-        meta = 0
-        # No book
-        no_book = False
-
-        while 1:
-            self.device.screenshot()
-            # No book
-            if no_book:
-                break
-            # No ship or ship selected but no skill selected, think it no need study
-            if ship_selected == -1 or (ship_selected == 1 and skill_selected == -1):
-                break
-            # Tactical page, but no empty position
-            if self.appear(TACTICAL_CHECK, offset=(20, 20), interval=2):
-                if self.find_empty_position():
-                    continue
-                else:
-                    break
-            if self.handle_popup_confirm('TACTICAL'):
-                continue
-            if self.appear(DOCK_CHECK, offset=(20, 20), interval=2):
-                if self.select_suitable_ship(meta):
-                    ship_selected = 1
-                else:
-                    ship_selected = -1
-                    self.device.click(BACK_ARROW)
-                continue
-            if self.appear(SKILL_CONFIRM, offset=(20, 20), interval=2):
-                if self.check_meta():
-                    meta += 1
-                    skill_selected = 0
-                    self.device.click(BACK_ARROW)
-                    continue
-                if self._tactical_skill_choose():
-                    skill_selected = 1
-                else:
-                    skill_selected = -1
-                    self.device.click(BACK_ARROW)
-                continue
-            if self.appear(TACTICAL_CLASS_CANCEL, offset=(30, 30), interval=2) \
-                    and self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
-                if self._tactical_books_choose():
-                    pass
-                else:
-                    no_book = True
-                continue
-            continue
-
-        return True
-
     def run(self):
         """
         Pages:
@@ -596,12 +583,6 @@ class RewardTacticalClass(Dock):
         self.ui_ensure(page_reward)
 
         self.tactical_class_receive()
-
-        if self.config.AddNewStudent_Enable:
-            logger.info('Found enable add new student')
-            self.tactical_student_add()
-
-        self._tactical_get_finish()
 
         if self.tactical_finish:
             self.config.task_delay(target=self.tactical_finish)
