@@ -177,6 +177,7 @@ class Equipment(UI):
                 self.equip_view_next()
             else:
                 self._equip_take_off_one()
+                self.device.click(EQUIPMENT_OPEN_2)
 
         self.ui_back(out)
         self.equipment_has_take_on = False
