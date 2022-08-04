@@ -438,26 +438,46 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             bool: If success
         """
         logger.hr('Receive 6th research', level=2)
-        # Check if it's finished
-        if self.research_has_finished():
-            logger.info(f'6th research finished at: {self._research_finished_index}')
-            success = self.research_receive()
-            if not success:
-                return False
-        else:
-            logger.info('No research has finished')
-        # Check if it's waiting or running
-        status = self.get_research_status(self.device.image)
-        if 'waiting' in status:
-            if self.get_queue_slot() > 0:
-                self.research_project_start(status.index('waiting'))
+
+        timeout = Timer(2, count=6).start()
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
             else:
-                logger.info('Queue full, stop appending waiting research')
-        if 'running' in status:
-            if self.get_queue_slot() > 0:
-                self.research_project_start(status.index('running'))
+                self.device.screenshot()
+
+            if timeout.reached():
+                logger.warning('receive_6th_research timeout')
+                break
+
+            # Check if it's finished
+            if self.research_has_finished():
+                logger.info(f'6th research finished at: {self._research_finished_index}')
+                success = self.research_receive()
+                if not success:
+                    return False
             else:
-                logger.info('Queue full, stop appending running research')
+                logger.info('No research has finished')
+
+            # Check if it's waiting or running
+            status = self.get_research_status(self.device.image)
+            if 'waiting' in status:
+                if self.get_queue_slot() > 0:
+                    self.research_project_start(status.index('waiting'))
+                else:
+                    logger.info('Queue full, stop appending waiting research')
+                break
+            if 'running' in status:
+                if self.get_queue_slot() > 0:
+                    self.research_project_start(status.index('running'))
+                else:
+                    logger.info('Queue full, stop appending running research')
+                break
+            if 'unknown' in status:
+                continue
+            if sum([s == 'detail' for s in status]) == 5:
+                break
 
         return True
 

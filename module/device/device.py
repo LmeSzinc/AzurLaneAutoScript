@@ -7,7 +7,7 @@ from module.device.app_control import AppControl
 from module.device.control import Control
 from module.device.screenshot import Screenshot
 from module.exception import (GameStuckError, GameTooManyClickError,
-                              RequestHumanTakeover)
+                              GameNotRunningError, RequestHumanTakeover)
 from module.handler.assets import GET_MISSION
 from module.logger import logger
 
@@ -85,7 +85,10 @@ class Device(Screenshot, Control, AppControl):
         logger.warning(f'Waiting for {self.detect_record}')
         self.stuck_record_clear()
 
-        raise GameStuckError(f'Wait too long')
+        if self.app_is_running():
+            raise GameStuckError(f'Wait too long')
+        else:
+            raise GameNotRunningError('Game died')
 
     def handle_control_check(self, button):
         self.stuck_record_clear()
