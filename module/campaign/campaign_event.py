@@ -45,7 +45,7 @@ class CampaignEvent(UI):
         """
         pt = self.campaign_pt_ocr.ocr(self.device.image)
 
-        res = re.search('X(\d+)', pt)
+        res = re.search(r'X(\d+)', pt)
         if res:
             pt = int(res.group(1))
             logger.attr('Event_PT', pt)
@@ -83,7 +83,10 @@ class CampaignEvent(UI):
         Pages:
             in: page_event or page_sp
         """
-        limit = int(self.config.EventGeneral_PtLimit)
+        # Some may use "100,000"
+        limit = int(
+            re.sub(r'[,.\'"，。]', '', str(self.config.EventGeneral_PtLimit))
+        )
         tasks = [
             'Event',
             'Event2',
@@ -93,7 +96,7 @@ class CampaignEvent(UI):
             'EventD',
             'EventSp',
             'Raid',
-            'RaidDaily'
+            'RaidDaily',
             'GemsFarming',
         ]
         command = self.config.Scheduler_Command
@@ -103,6 +106,7 @@ class CampaignEvent(UI):
             return False
 
         pt = self.get_event_pt()
+        logger.attr('Event_PT_limit', f'{pt}/{limit}')
         if pt >= limit:
             logger.hr(f'Reach event PT limit: {limit}')
             self._disable_tasks(tasks)
@@ -138,7 +142,8 @@ class CampaignEvent(UI):
         if command == 'GemsFarming' and self.config.Campaign_Event == 'campaign_main':
             return False
 
-        now = datetime.now()
+        now = datetime.now().replace(microsecond=0)
+        logger.attr('Event_PT_limit', f'{now} -> {limit}')
         if now > limit:
             logger.hr(f'Reach event time limit: {limit}')
             self._disable_tasks(tasks)

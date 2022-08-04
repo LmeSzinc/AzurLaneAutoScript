@@ -83,9 +83,15 @@ class Fleet(Camera, AmbushHandler):
         if not self.config.MAP_HAS_FLEET_STEP:
             return 0
         if self.fleet_current_index == 2:
-            return self.config.Fleet_Fleet2Step
+            if self.fleets_reversed:
+                return self.config.Fleet_Fleet1Step
+            else:
+                return self.config.Fleet_Fleet2Step
         else:
-            return self.config.Fleet_Fleet1Step
+            if self.fleets_reversed:
+                return self.config.Fleet_Fleet2Step
+            else:
+                return self.config.Fleet_Fleet1Step
 
     def fleet_ensure(self, index):
         if self.fleet_set(index=index):

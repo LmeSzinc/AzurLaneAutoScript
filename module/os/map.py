@@ -4,13 +4,14 @@ from module.base.button import Button
 from module.base.timer import Timer
 from module.config.utils import get_os_reset_remain
 from module.exception import CampaignEnd, RequestHumanTakeover
+from module.exception import GameTooManyClickError
 from module.exception import MapWalkError, ScriptError
 from module.logger import logger
 from module.map.map import Map
 from module.os.assets import FLEET_EMP_DEBUFF
 from module.os.fleet import OSFleet
 from module.os.globe_camera import GlobeCamera
-from module.ui.assets import OS_CHECK
+from module.os.globe_operation import RewardUncollectedError
 from module.ui.ui import page_os
 
 FLEET_LOW_RESOLVE = Button(
@@ -147,6 +148,23 @@ class OSMap(OSFleet, Map, GlobeCamera):
         self.zone_init()
         # self.map_init()
         return True
+
+    def os_map_goto_globe(self, *args, **kwargs):
+        """
+        Wraps os_map_goto_globe()
+        When zone has uncollected exploration rewards preventing exit,
+        run auto search and goto globe again
+        """
+        for _ in range(3):
+            try:
+                super().os_map_goto_globe(*args, **kwargs)
+                return
+            except RewardUncollectedError:
+                self.run_auto_search()
+                continue
+
+        logger.error('Failed to solve uncollected rewards')
+        raise GameTooManyClickError
 
     def port_goto(self):
         """
@@ -438,8 +456,18 @@ class OSMap(OSFleet, Map, GlobeCamera):
                     break
 
     def clear_question(self, drop):
+        """
+        Clear nearly (and 3 grids from above) question marks on radar.
+        Try 3 times at max to avoid loop tries on 2 adjacent fleet mechanism.
+
+        Args:
+            drop:
+
+        Returns:
+            bool: If cleared
+        """
         logger.hr('Clear question', level=2)
-        while 1:
+        for _ in range(3):
             grid = self.radar.predict_question(self.device.image)
             if grid is None:
                 logger.info('No question mark above current fleet on this radar')
@@ -468,6 +496,10 @@ class OSMap(OSFleet, Map, GlobeCamera):
             else:
                 logger.warning(f'Arrive question with unexpected result: {result}, expected: {grid.str}')
                 continue
+
+        logger.warning('Failed to goto question mark after 5 trail, '
+                       'this might be 2 adjacent fleet mechanism, stopped')
+        return False
 
     def run_auto_search(self, question=True, rescan=None):
         """

@@ -128,7 +128,7 @@ class DigitCounter(Ocr):
     def ocr(self, image, direct_ocr=False):
         """
         DigitCounter only support doing OCR on one button.
-        Do OCR on a counter, such as `14/15`.
+        Do OCR on a counter, such as `14/15`, and returns 14, 1, 15
 
         Args:
             image:
@@ -140,12 +140,13 @@ class DigitCounter(Ocr):
         result_list = super().ocr(image, direct_ocr=direct_ocr)
         result = result_list[0] if isinstance(result_list, list) else result_list
 
-        try:
-            current, total = result.split('/')
-            current, total = int(current), int(total)
+        result = re.search(r'(\d+)/(\d+)', result)
+        if result:
+            result = [int(s) for s in result.groups()]
+            current, total = int(result[0]), int(result[1])
             current = min(current, total)
             return current, total - current, total
-        except (IndexError, ValueError):
+        else:
             logger.warning(f'Unexpected ocr result: {result_list}')
             return 0, 0, 0
 
@@ -179,7 +180,8 @@ class Duration(Ocr):
             result_list = result_list[0]
         return result_list
 
-    def parse_time(self, string):
+    @staticmethod
+    def parse_time(string):
         """
         Args:
             string (str): `01:30:00`
@@ -187,7 +189,7 @@ class Duration(Ocr):
         Returns:
             datetime.timedelta:
         """
-        result = re.search('(\d{1,2}):?(\d{2}):?(\d{2})', string)
+        result = re.search(r'(\d{1,2}):?(\d{2}):?(\d{2})', string)
         if result:
             result = [int(s) for s in result.groups()]
             return timedelta(hours=result[0], minutes=result[1], seconds=result[2])

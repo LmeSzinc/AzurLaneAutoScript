@@ -582,7 +582,7 @@ class ResearchSelector(UI):
 
     @Config.when(SERVER=None)
     def research_detect(self):
-        timeout = Timer(3, count=3).start()
+        timeout = Timer(5, count=5).start()
         while 1:
             projects = research_detect(self.device.image)
 

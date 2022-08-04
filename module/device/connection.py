@@ -15,7 +15,7 @@ from module.base.decorator import Config, cached_property
 from module.base.utils import ensure_time
 from module.config.server import set_server
 from module.device.connection_attr import ConnectionAttr
-from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
+from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES, remove_shell_warning,
                                         handle_adb_error, PackageNotInstalled,
                                         recv_all, del_cached_property, possible_reasons,
                                         random_port, get_serial_pair)
@@ -155,11 +155,15 @@ class Connection(ConnectionAttr):
         if stream:
             result = self.adb.shell(cmd, stream=stream, timeout=timeout, rstrip=rstrip)
             if recvall:
+                # bytes
                 return recv_all(result)
             else:
+                # socket
                 return result
         else:
             result = self.adb.shell(cmd, stream=stream, timeout=timeout, rstrip=rstrip)
+            result = remove_shell_warning(result)
+            # str
             return result
 
     @Config.when(DEVICE_OVER_HTTP=True)
@@ -184,11 +188,15 @@ class Connection(ConnectionAttr):
         if stream:
             result = self.u2.shell(cmd, stream=stream, timeout=timeout)
             # Already received all, so `recvall` is ignored
-            return result.content
+            result = remove_shell_warning(result.content)
+            # bytes
+            return result
         else:
             result = self.u2.shell(cmd, stream=stream, timeout=timeout).output
             if rstrip:
                 result = result.rstrip()
+            result = remove_shell_warning(result)
+            # str
             return result
 
     @cached_property
