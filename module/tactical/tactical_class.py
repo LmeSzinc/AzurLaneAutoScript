@@ -416,16 +416,17 @@ class RewardTacticalClass(Dock):
                 if not add_enable:
                     self.device.click(BACK_ARROW)
                     continue
-                if self.check_meta():
-                    meta += 1
-                    skill_selected = 0
-                    self.device.click(BACK_ARROW)
-                    continue
                 if self._tactical_skill_choose():
                     skill_selected = 1
                 else:
                     skill_selected = -1
                     self.device.click(BACK_ARROW)
+                continue
+            if self.appear(TACTICAL_META, offset=(200, 20)):
+                # If meta's skill page, it's inappropriate
+                meta += 1
+                skill_selected = 0
+                self.device.click(BACK_ARROW)
                 continue
 
         return True
@@ -536,12 +537,6 @@ class RewardTacticalClass(Dock):
 
         return True
 
-    def check_meta(self):
-        # If meta's skill page, it's inappropriate
-        if self.appear(TACTICAL_META, offset=(200, 20)):
-            return True
-        return False
-
     def find_empty_position(self):
         return self.appear_then_click(ADD_NEW_STUDENT, offset=(800, 20), interval=2)
 
@@ -587,3 +582,8 @@ class RewardTacticalClass(Dock):
             self.config.task_delay(success=False)
 
         self.ui_ensure(page_main)
+
+
+if __name__ == '__main__':
+    az = RewardTacticalClass(config='alas', task='Tactical')
+    az.run()
