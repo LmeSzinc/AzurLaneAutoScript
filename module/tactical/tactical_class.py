@@ -299,7 +299,7 @@ class RewardTacticalClass(Dock):
         """
         Get the future finish time.
         """
-        logger.hr('Tactical get finish', level=1)
+        logger.hr('Tactical get finish')
         grids = ButtonGrid(
             origin=(421, 596), delta=(223, 0), button_shape=(139, 27), grid_shape=(4, 1), name='TACTICAL_REMAIN')
 
