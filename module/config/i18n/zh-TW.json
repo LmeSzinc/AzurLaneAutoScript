@@ -1598,12 +1598,12 @@
   },
   "DataKey": {
     "_info": {
-      "name": "DataKey._info.name",
-      "help": "DataKey._info.help"
+      "name": "檔案密鑰",
+      "help": ""
     },
     "ForceGet": {
-      "name": "DataKey.ForceGet.name",
-      "help": "DataKey.ForceGet.help"
+      "name": "强制領取",
+      "help": "檔案密鑰已滿時，强制領取（消除紅點）"
     }
   },
   "SupplyPack": {

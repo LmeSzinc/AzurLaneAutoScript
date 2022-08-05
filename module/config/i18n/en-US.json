@@ -1598,12 +1598,12 @@
   },
   "DataKey": {
     "_info": {
-      "name": "DataKey._info.name",
-      "help": "DataKey._info.help"
+      "name": "DataKey",
+      "help": ""
     },
     "ForceGet": {
-      "name": "DataKey.ForceGet.name",
-      "help": "DataKey.ForceGet.help"
+      "name": "ForceCollect DataKey",
+      "help": "Force collect data key when data key is full to eliminate red dots"
     }
   },
   "SupplyPack": {
