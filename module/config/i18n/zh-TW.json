@@ -1596,6 +1596,16 @@
       "help": ""
     }
   },
+  "DataKey": {
+    "_info": {
+      "name": "檔案密鑰",
+      "help": ""
+    },
+    "ForceGet": {
+      "name": "强制領取",
+      "help": "檔案密鑰已滿時，强制領取（消除紅點）"
+    }
+  },
   "SupplyPack": {
     "_info": {
       "name": "優惠禮包",
