@@ -269,9 +269,6 @@ class GeneratedConfig:
     Gacha_UseTicket = True
     Gacha_UseDrill = False
 
-    # Group `DataKey`
-    DataKey_ForceGet = False
-
     # Group `SupplyPack`
     SupplyPack_WeeklyFreeSupplyPack = True
 

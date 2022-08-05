@@ -5964,12 +5964,6 @@
         "type": "hide",
         "value": "00:00"
       }
-    },
-    "DataKey": {
-      "ForceGet": {
-        "type": "checkbox",
-        "value": false
-      }
     }
   },
   "SupplyPack": {
