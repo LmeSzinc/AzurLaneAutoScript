@@ -17,7 +17,6 @@ class RewardDataKey(UI):
             out: page_archives, DATA_KEY_COLLECTED
         """
         logger.hr('Data Key Collect')
-        forceget=self.config.DataKey_ForceGet
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
