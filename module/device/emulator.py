@@ -180,6 +180,35 @@ class EmulatorManager(Connection):
         logger.info(f'Execute: {command}')
         return subprocess.Popen(command, close_fds=True)  # only work on Windows
 
+    @staticmethod
+    def task_kill(pid=None, name=None):
+        """
+        Args:
+            pid (list, int):
+            name (list, str):
+
+        Returns:
+            subprocess.Popen:
+        """
+        command = 'taskkill '
+        if pid is not None:
+            if isinstance(pid, list):
+                for p in pid:
+                    command += f'/pid {p} '
+            else:
+                command += f'/pid {pid} '
+        elif name is not None:
+            if isinstance(name, list):
+                for n in name:
+                    command += f'/im {n} '
+            else:
+                command += f'/im {name} '
+        else:
+            raise RequestHumanTakeover
+        command += '/t /f'
+
+        return EmulatorManager.execute(command)
+
     def adb_connect(self, serial):
         try:
             return super(EmulatorManager, self).adb_connect(serial)
@@ -216,7 +245,7 @@ class EmulatorManager(Connection):
             logger.info('Start emulator')
             pipe = self.execute(command)
             self.pid = pipe.pid
-            self.sleep(20)
+            self.sleep(10)
 
             for __ in range(20):
                 if pipe.poll() is not None:
@@ -224,7 +253,7 @@ class EmulatorManager(Connection):
                 try:
                     if super().adb_connect(serial):
                         # Wait until emulator start completely
-                        self.sleep(5)
+                        self.sleep(10)
                         return True
                 except EmulatorNotRunningError:
                     continue
@@ -243,20 +272,14 @@ class EmulatorManager(Connection):
         Return:
             bool: If kill successful.
         """
-        if command is None:
-            if emulator.kill_para is not None:
-                command = '\"' + os.path.abspath(os.path.join(emulator.root, emulator.emu_path)) + '\"'
-                if emulator.multi_para is not None and multi_id is not None:
-                    command += " " + emulator.multi_para.replace("#id", multi_id)
-                command += " " + emulator.kill_para
-            elif self.pid is not None:
-                command = f'taskkill /pid {self.pid} /f /t'
-            else:
-                command = f'taskkill /im {os.path.basename(emulator.emu_path)} /f /t'
+        if command is None and emulator.kill_para is not None:
+            command = '\"' + os.path.abspath(os.path.join(emulator.root, emulator.emu_path)) + '\"'
+            if emulator.multi_para is not None and multi_id is not None:
+                command += " " + emulator.multi_para.replace("#id", multi_id)
+            command += " " + emulator.kill_para
 
         for _ in range(3):
             logger.info('Kill emulator')
-
             if emulator == self.SUPPORTED_EMULATORS['bluestacks_5']:
                 try:
                     self.adb_command(['reboot', '-p'], timeout=20)
@@ -267,9 +290,11 @@ class EmulatorManager(Connection):
                     continue
 
             if emulator == self.SUPPORTED_EMULATORS['mumu_player']:
-                command = 'taskkill /f /im NemuHeadless.exe /im NemuPlayer.exe /im NemuSvc.exe'
-
-            self.execute(command)
+                self.task_kill(pid=None, name=['NemuHeadless.exe', 'NemuPlayer.exe', 'NemuSvc.exe'])
+            elif command is not None:
+                self.execute(command)
+            else:
+                self.task_kill(pid=self.pid, name=os.path.basename(emulator.emu_path))
             self.sleep(5)
 
             for __ in range(10):
@@ -291,7 +316,7 @@ class EmulatorManager(Connection):
         if self.config.RestartEmulator_LaunchMode == 'do_not_use':
             return False
         if platform != 'win32':
-            logger.warning('Function of restart simulator only works under Windows platform')
+            logger.warning('Restart simulator only works under Windows platform')
             return False
 
         logger.hr('Emulator restart')
