@@ -1596,6 +1596,16 @@
       "help": "Expedite the recently submitted orders"
     }
   },
+  "DataKey": {
+    "_info": {
+      "name": "DataKey._info.name",
+      "help": "DataKey._info.help"
+    },
+    "ForceGet": {
+      "name": "DataKey.ForceGet.name",
+      "help": "DataKey.ForceGet.help"
+    }
+  },
   "SupplyPack": {
     "_info": {
       "name": "Supply Pack Settings",

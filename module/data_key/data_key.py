@@ -17,6 +17,7 @@ class RewardDataKey(UI):
             out: page_archives, DATA_KEY_COLLECTED
         """
         logger.hr('Data Key Collect')
+        forceget=self.config.DataKey_ForceGet
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -60,7 +61,8 @@ class RewardDataKey(UI):
 
         current, remain, total = DATA_KEY.ocr(self.device.image)
         logger.info(f'Inventory: {current} / {total}, Remain: {remain}')
-        if remain <= 0:
+        forceget=self.config.DataKey_ForceGet
+        if remain <= 0 and forceget==False:
             logger.info('No more room for additional data key')
             return False
 
