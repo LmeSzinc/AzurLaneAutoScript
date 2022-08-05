@@ -339,8 +339,6 @@ class RewardTacticalClass(Dock):
         skill_selected = 0
         # Number of continuous meta ship
         meta = 0
-        # No book
-        no_book = False
         # tactical cards can't be loaded that fast, confirm if it's empty.
         empty_confirm = Timer(0.6, count=2).start()
         while 1:
@@ -353,8 +351,14 @@ class RewardTacticalClass(Dock):
             if received and self.appear(REWARD_CHECK, offset=(20, 20)):
                 break
 
+            if not added and self.appear(TACTICAL_CHECK, offset=(20, 20)):
+                # Tactical page, has empty position
+                if add_enable:
+                    if self.appear_then_click(ADD_NEW_STUDENT, offset=(800, 20), interval=2):
+                        continue
+
             # Get finish time
-            if self.appear(TACTICAL_CHECK, offset=(20, 20), interval=2) and added:
+            if self.appear(TACTICAL_CHECK, offset=(20, 20), interval=2):
                 self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
                 if self._tactical_get_finish():
                     self.device.click(BACK_ARROW)
@@ -378,14 +382,6 @@ class RewardTacticalClass(Dock):
                 continue
 
             # Popups
-            if self.appear(TACTICAL_CHECK, offset=(20, 20)):
-                # Tactical page, but no empty position
-                if not self.find_empty_position():
-                    added = True
-                continue
-            else:
-                # Should appear in succession
-                added = False
             if self.appear_then_click(REWARD_2, offset=(20, 20), interval=3):
                 continue
             if self.appear_then_click(REWARD_GOTO_TACTICAL, offset=(20, 20), interval=3):
