@@ -375,7 +375,6 @@ class RewardTacticalClass(Dock):
                         continue
             else:
                 empty_confirm.reset()
-
             # No ship or ship selected but no skill selected, think it no need study
             if ship_selected == -1 or (ship_selected == 1 and skill_selected == -1):
                 added = True
@@ -428,7 +427,6 @@ class RewardTacticalClass(Dock):
                 skill_selected = 0
                 self.device.click(BACK_ARROW)
                 continue
-
         return True
 
     def _tactical_skill_select(self, selected_skill, skip_first_screenshot=True):
@@ -533,7 +531,7 @@ class RewardTacticalClass(Dock):
         # so we need click should_select_button first ensure it is selected
         self.dock_select_one(should_select_button, skip_first_screenshot=True)
         # Confirm selected ship
-        self.dock_select_confirm(SKILL_CONFIRM)
+        self.dock_select_confirm(TACTICAL_SKILL_LIST)
 
         return True
 
@@ -582,8 +580,3 @@ class RewardTacticalClass(Dock):
             self.config.task_delay(success=False)
 
         self.ui_ensure(page_main)
-
-
-if __name__ == '__main__':
-    az = RewardTacticalClass(config='alas', task='Tactical')
-    az.run()
