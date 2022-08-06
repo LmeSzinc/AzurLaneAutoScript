@@ -106,7 +106,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             self._ship_detail_enter(FLEET_ENTER)
             self.record_equipment()
             self._equip_take_off_one()
-            self.ui_back(check_button=EQUIPMENT_OPEN)
 
         self._fleet_detail_enter()
 
