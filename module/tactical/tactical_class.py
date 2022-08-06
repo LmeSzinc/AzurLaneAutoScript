@@ -346,7 +346,7 @@ class RewardTacticalClass(Dock):
 
             if not study_finished and self.appear(TACTICAL_CHECK, offset=(20, 20)):
                 # Tactical page, has empty position
-                if self.appear_then_click(ADD_NEW_STUDENT, offset=(800, 20), interval=2):
+                if self.appear_then_click(ADD_NEW_STUDENT, offset=(800, 20)):
                     continue
 
             # Get finish time
@@ -389,6 +389,12 @@ class RewardTacticalClass(Dock):
                     study_finished = True
                 continue
             if self.appear(DOCK_CHECK, offset=(20, 20), interval=3):
+                if self.dock_selected():
+                    # When you click a ship from page_main -> dock,
+                    # this ship will be selected default in tactical dock,
+                    # so we need click BACK_ARROW to clear selected state
+                    self.device.click(BACK_ARROW)
+                    continue
                 # If not enable or can not fina a suitable ship
                 if not self.config.AddNewStudent_Enable or not self.select_suitable_ship():
                     study_finished = True
@@ -496,7 +502,7 @@ class RewardTacticalClass(Dock):
 
         # select a ship
         self.dock_select_one(should_select_button, skip_first_screenshot=True)
-        self.device.sleep((0.2, 0.4))
+        self.device.sleep((0.1, 0.3))
         # Confirm selected ship
         self.dock_select_confirm(TACTICAL_SKILL_LIST)
 
