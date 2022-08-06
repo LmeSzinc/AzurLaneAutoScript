@@ -177,7 +177,7 @@ class Equipment(UI):
                 self.equip_view_next()
             else:
                 self._equip_take_off_one()
-                self.device.click(EQUIPMENT_OPEN_2)
+                self.ui_click(click_button=EQUIPMENT_CLOSE, check_button=EQUIPMENT_OPEN, offset=None)
 
         self.ui_back(out)
         self.equipment_has_take_on = False
@@ -228,6 +228,7 @@ class Equipment(UI):
                 self.equip_view_next()
             else:
                 self._equip_take_on_one(index=index)
+                self.ui_click(click_button=EQUIPMENT_CLOSE, check_button=EQUIPMENT_OPEN, offset=None)
 
         self.ui_back(out)
         self.equipment_has_take_on = True

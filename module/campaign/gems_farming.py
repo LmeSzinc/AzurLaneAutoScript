@@ -95,7 +95,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             self._equip_take_off_one()
 
             self.equipment_take_on(index_list=index_list)
-            self.ui_back(check_button=EQUIPMENT_OPEN)
 
     def vanguard_change(self):
         """
@@ -119,7 +118,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             self._equip_take_off_one()
 
             self.equipment_take_on()
-            self.ui_back(check_button=EQUIPMENT_OPEN)
 
     def _ship_change_confirm(self, button):
 
