@@ -58,6 +58,7 @@ class Config:
         'width': (0, 10),
         'wlen': 1000,
     }
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 210
 
 
 class Campaign(CampaignBase):
