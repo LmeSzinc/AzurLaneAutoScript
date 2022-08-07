@@ -119,6 +119,7 @@ class Item:
 
 
 class ItemGrid:
+    item_class = Item
     similarity = 0.92
     cost_similarity = 0.75
 
@@ -166,7 +167,7 @@ class ItemGrid:
         """
         self.items = []
         for button in self.grids.buttons:
-            item = Item(image, button)
+            item = self.item_class(image, button)
             if item.is_valid:
                 self.items.append(item)
 
@@ -175,6 +176,7 @@ class ItemGrid:
         Args:
             folder (str): Template folder.
         """
+        logger.info(f'Loading template folder: {folder}')
         data = load_folder(folder)
         for name, image in data.items():
             if name in self.templates:
@@ -229,10 +231,11 @@ class ItemGrid:
         self.templates_hit[name] = self.templates_hit.get(name, 0) + 1
         return name
 
-    def extract_template(self, image):
+    def extract_template(self, image, folder=None):
         """
         Args:
             image (np.ndarray):
+            folder (str): Save templates if `folder` is provided
 
         Returns:
             dict: Newly found templates. Key: str, template name. Value: np.ndarray
@@ -244,6 +247,10 @@ class ItemGrid:
             name = self.match_template(item.image)
             if name not in prev:
                 new[name] = item.image
+
+        if folder is not None:
+            for name, im in new.items():
+                save_image(im, os.path.join(folder, f'{name}.png'))
 
         return new
 
@@ -287,7 +294,19 @@ class ItemGrid:
         Returns:
             str: Tags are like `catchup`, `bonus`. Default to None
         """
-        return None
+        threshold = 50
+        color = cv2.mean(np.array(image))[:3]
+        if color_similar(color1=color, color2=(49, 125, 222), threshold=threshold):
+            # Blue
+            return 'catchup'
+        elif color_similar(color1=color, color2=(33, 199, 239), threshold=threshold):
+            # Cyan
+            return 'bonus'
+        elif color_similar(color1=color, color2=(255, 85, 41), threshold=threshold):
+            # red
+            return 'event'
+        else:
+            return None
 
     def predict(self, image, name=True, amount=True, cost=False, price=False, tag=False):
         """

@@ -6,7 +6,18 @@ import numpy as np
 from module.base.utils import crop, image_size
 
 
+class ImageUnknown(Exception):
+    """ Image from a unknown drop scene, no such method to parse """
+    pass
+
+
+class ImageDiscarded(Exception):
+    """ Image can be parsed but the statistical results are meaningless, discard this image """
+    pass
+
+
 class ImageError(Exception):
+    """ Error when parsing images """
     pass
 
 

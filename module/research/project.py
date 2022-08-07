@@ -18,7 +18,7 @@ from module.statistics.utils import *
 from module.ui.ui import UI
 
 RESEARCH_ENTRANCE = [ENTRANCE_1, ENTRANCE_2, ENTRANCE_3, ENTRANCE_4, ENTRANCE_5]
-RESEARCH_SERIES = [SERIES_1, SERIES_2, SERIES_3, SERIES_4, SERIES_5]
+RESEARCH_SERIES = (SERIES_1, SERIES_2, SERIES_3, SERIES_4, SERIES_5)
 RESEARCH_STATUS = [STATUS_1, STATUS_2, STATUS_3, STATUS_4, STATUS_5]
 OCR_RESEARCH = [OCR_RESEARCH_1, OCR_RESEARCH_2, OCR_RESEARCH_3, OCR_RESEARCH_4, OCR_RESEARCH_5]
 OCR_RESEARCH = Ocr(OCR_RESEARCH, name='RESEARCH', threshold=64, alphabet='0123456789BCDEGHQTMIULRF-')
@@ -40,7 +40,7 @@ FILTER_PRESET = ('shortest', 'cheapest', 'reset')
 FILTER = Filter(FILTER_REGEX, FILTER_ATTR, FILTER_PRESET)
 
 
-def get_research_series(image):
+def get_research_series(image, series_button=RESEARCH_SERIES):
     """
     Get research series using a simple color detection.
     Counting white lines to detect Roman numerals.
@@ -53,6 +53,7 @@ def get_research_series(image):
 
     Args:
         image (np.ndarray):
+        series_button:
 
     Returns:
         list[int]: Such as [1, 1, 1, 2, 3]
@@ -64,7 +65,7 @@ def get_research_series(image):
     #   So lower height to 160 to have a better detection.
     parameters = {'height': 160, 'prominence': 50, 'width': 1}
 
-    for button in RESEARCH_SERIES:
+    for button in series_button:
         im = color_similarity_2d(resize(crop(image, button.area), (46, 25)), color=(255, 255, 255))
         peaks = [len(signal.find_peaks(row, **parameters)[0]) for row in im[5:-5]]
         upper, lower = max(peaks), min(peaks)
@@ -88,17 +89,18 @@ def get_research_series(image):
     return result
 
 
-def get_research_name(image):
+def get_research_name(image, ocr_button=OCR_RESEARCH):
     """
     Args:
         image (np.ndarray):
+        ocr_button:
 
     Returns:
         list[str]: Such as ['D-057-UL', 'D-057-UL', 'D-057-UL', 'D-057-UL', 'D-057-UL']
     """
-    names = []
-    for name in OCR_RESEARCH.ocr(image):
-        names.append(name)
+    names = ocr_button.ocr(image)
+    if not isinstance(names, list):
+        names = [names]
     return names
 
 
@@ -366,6 +368,7 @@ class ResearchProject:
         self.name = self.check_name(name)
         if self.name != name:
             logger.info(f'Research name {name} is revised to {self.name}')
+        self.raw_series = series
         self.series = f'S{series}'
         self.genre = ''
         self.duration = '24'
