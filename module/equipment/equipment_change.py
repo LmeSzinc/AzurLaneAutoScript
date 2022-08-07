@@ -6,10 +6,12 @@ from module.equipment.equipment import Equipment
 from module.logger import logger
 from module.ui.scroll import Scroll
 
+# Button of 5 equipments
 EQUIP_INFO_BAR = ButtonGrid(
-    origin=(695, 127), delta=(94, 0), button_shape=(73, 73), grid_shape=(5, 1), name="EQUIP_INFO_BAR")
+    origin=(695, 127), delta=(86.25, 0), button_shape=(73, 73), grid_shape=(5, 1), name="EQUIP_INFO_BAR")
+# Bottom-left corner of EQUIP_INFO_BAR, to detect whether the grid has an equipment
 EQUIPMENT_GRID = ButtonGrid(
-    origin=(696, 170), delta=(86, 0), button_shape=(32, 32), grid_shape=(5, 1), name='EQUIPMENT_GRID')
+    origin=(696, 170), delta=(86.25, 0), button_shape=(32, 32), grid_shape=(5, 1), name='EQUIPMENT_GRID')
 EQUIPMENT_SCROLL = Scroll(EQUIP_SCROLL, color=(247, 211, 66), name='EQUIP_SCROLL')
 SIM_VALUE = 0.90
 
@@ -70,8 +72,6 @@ class EquipmentChange(Equipment):
         logger.info('Take on equipment')
         self.equip_side_navbar_ensure(bottom=2)
 
-        self.ensure_no_info_bar(1)
-
         for index in index_list:
             if index in self.equipping_list:
                 logger.info(f'Take on {index}')
@@ -80,6 +80,7 @@ class EquipmentChange(Equipment):
 
                 self.ui_click(enter_button, check_button=EQUIPPING_ON,
                               skip_first_screenshot=skip_first_screenshot, offset=(5, 5))
+                self.handle_info_bar()
                 self._find_equip(index)
 
     @Config.when(DEVICE_CONTROL_METHOD='minitouch')

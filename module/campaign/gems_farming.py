@@ -84,6 +84,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             self._ship_detail_enter(FLEET_ENTER_FLAGSHIP)
             self.record_equipment(index_list=index_list)
             self._equip_take_off_one()
+            self.ui_back(page_fleet.check_button)
 
         self._fleet_detail_enter()
 
@@ -95,6 +96,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             self._equip_take_off_one()
 
             self.equipment_take_on(index_list=index_list)
+            self.ui_back(page_fleet.check_button)
 
     def vanguard_change(self):
         """
@@ -106,6 +108,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             self._ship_detail_enter(FLEET_ENTER)
             self.record_equipment()
             self._equip_take_off_one()
+            self.ui_back(page_fleet.check_button)
 
         self._fleet_detail_enter()
 
@@ -117,6 +120,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             self._equip_take_off_one()
 
             self.equipment_take_on()
+            self.ui_back(page_fleet.check_button)
 
     def _ship_change_confirm(self, button):
 
