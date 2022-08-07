@@ -500,19 +500,19 @@ class RewardResearch(ResearchSelector, ResearchQueue):
         self.receive_6th_research()
 
         # Fill queue
-        total = self.research_fill_queue()
-
+        self.research_fill_queue()
+        slot = self.get_queue_slot()
         # Scheduler
-        if self.end_time <= datetime.now() and total == 0:
+        if slot == 5:
             # Queue empty, can't start any research
             self.config.task_delay(server_update=True)
             return
-        elif self.end_time <= datetime.now() and total > 0:
+        elif self.end_time <= datetime.now():
             # Get the remain of project newly started
             self.queue_enter()
             self.end_time = self.get_research_ended()
             self.queue_quit()
-        if self.get_queue_slot() == 4:
+        if slot == 4:
             # Queue nearly empty, give up research because of resources not enough,
             # ten minutes in advance to avoid idle research.
             self.end_time = self.end_time + timedelta(minutes=-10)
