@@ -60,7 +60,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         """
         Enter GEMS_FLEET_1 page
         """
-        self.ui_goto(page_fleet)
+        self.ui_ensure(page_fleet)
         self.ui_ensure_index(self.config.Fleet_Fleet1, letter=OCR_FLEET_INDEX,
                              next_button=FLEET_NEXT, prev_button=FLEET_PREV, skip_first_screenshot=True)
 

@@ -7,9 +7,9 @@ from module.logger import logger
 from module.ui.scroll import Scroll
 
 EQUIP_INFO_BAR = ButtonGrid(
-    origin=(723, 111), delta=(94, 0), button_shape=(76, 76), grid_shape=(5, 1), name="EQUIP_INFO_BAR")
+    origin=(695, 127), delta=(94, 0), button_shape=(73, 73), grid_shape=(5, 1), name="EQUIP_INFO_BAR")
 EQUIPMENT_GRID = ButtonGrid(
-    origin=(725, 155), delta=(95, 0), button_shape=(31, 31), grid_shape=(5, 1), name='EQUIPMENT_GRID')
+    origin=(696, 170), delta=(86, 0), button_shape=(32, 32), grid_shape=(5, 1), name='EQUIPMENT_GRID')
 EQUIPMENT_SCROLL = Scroll(EQUIP_SCROLL, color=(247, 211, 66), name='EQUIP_SCROLL')
 SIM_VALUE = 0.90
 
