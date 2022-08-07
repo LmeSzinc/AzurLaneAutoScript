@@ -34,8 +34,11 @@ class EquipmentChange(Equipment):
         self.equipping_list = []
         for button in EQUIPMENT_GRID.buttons:
             crop_image = self.image_crop(button)
-            edge_value = abs(np.mean(cv2.Sobel(crop_image, 3, 1, 1)))
-            if edge_value > 0.1:
+            edge_value = np.mean(np.abs(cv2.Sobel(crop_image, 3, 1, 1)))
+            # Nothing is 0.15~1
+            # +1 is 40
+            # +10 is 46
+            if edge_value > 10:
                 self.equipping_list.append(index)
             index += 1
         logger.info(f"Equipping list: {self.equipping_list}")
