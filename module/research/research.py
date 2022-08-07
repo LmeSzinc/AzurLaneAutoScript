@@ -259,7 +259,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                 else:
                     self.device.screenshot()
 
-                if self.appear(RESEARCH_CHECK, interval=10):
+                if self.appear(RESEARCH_CHECK, offset=(20, 20), interval=10):
                     if self.research_has_finished():
                         self.device.click(RESEARCH_ENTRANCE[self._research_finished_index])
 
