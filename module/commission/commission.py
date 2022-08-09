@@ -114,6 +114,7 @@ class RewardCommission(UI, InfoHandler):
         """
         # Count Commission
         total = daily.add_by_eq(urgent)
+        total = total[::-1]
         self.max_commission = 4
         for comm in total:
             if comm.genre == 'event_daily':
