@@ -425,7 +425,7 @@ class AlasGUI(Frame):
                         modified[k] = v
                         deep_set(config, k, v)
                         valid.append(k)
-                        pin[k] = v
+                        pin["_".join(k.split("."))] = v
                 else:
                     modified.pop(k)
                     invalid.append(k)
