@@ -464,25 +464,14 @@ class RewardTacticalClass(Dock):
 
         return True
 
-    def appear_for_seconds(self, button, offset=(20, 20), seconds=1):
-        appear_timer = Timer(seconds, count=2).start()
-        while 1:
-            self.device.screenshot()
-            if self.appear(button, offset=offset):
-                if appear_timer.reached():
-                    return True
-            else:
-                return False
-
     def select_suitable_ship(self):
 
-        # Check if favorite
-        if self.config.AddNewStudent_Favorite:
-            self.dock_favourite_set(enable=True)
+        # Set if favorite from config
+        self.dock_favourite_set(enable=self.config.AddNewStudent_Favorite)
 
         # No ship in dock
         if self.appear(DOCK_EMPTY, offset=(30, 30)):
-            logger.info('Your dock is empty or favorite ships is empty')
+            logger.info('Dock is empty or favorite ships is empty')
             return False
 
         level_grids = CARD_LEVEL_GRIDS
@@ -502,14 +491,10 @@ class RewardTacticalClass(Dock):
 
         # select a ship
         self.dock_select_one(should_select_button, skip_first_screenshot=True)
-        self.device.sleep((0.1, 0.3))
         # Confirm selected ship
         self.dock_select_confirm(TACTICAL_SKILL_LIST)
 
         return True
-
-    def find_empty_position(self):
-        return self.appear_then_click(ADD_NEW_STUDENT, offset=(800, 20), interval=2)
 
     def find_not_full_level_skill(self, skip_first_screenshot=True):
         """
