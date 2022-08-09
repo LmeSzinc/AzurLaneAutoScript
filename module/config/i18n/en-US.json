@@ -62,6 +62,10 @@
       "name": "Main-3",
       "help": ""
     },
+    "CoinManagement": {
+      "name": "Task.CoinManagement.name",
+      "help": "Task.CoinManagement.help"
+    },
     "GemsFarming": {
       "name": "Commission Farming",
       "help": ""
@@ -682,6 +686,16 @@
     "ReachLevel": {
       "name": "Level X Reached",
       "help": "Stop current task if any ship under level X has reached level X; saving as 0 implies no limit to the level."
+    }
+  },
+  "CoinManagement": {
+    "_info": {
+      "name": "Coin Management Settings",
+      "help": "CoinManagement._info.help"
+    },
+    "CoinMin": {
+      "name": "CoinManagement.CoinMin.name",
+      "help": "CoinManagement.CoinMin.help"
     }
   },
   "Fleet": {

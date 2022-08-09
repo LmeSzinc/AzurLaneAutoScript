@@ -62,6 +62,10 @@
       "name": "Task.Main3.name",
       "help": "Task.Main3.help"
     },
+    "CoinManagement": {
+      "name": "Task.CoinManagement.name",
+      "help": "Task.CoinManagement.help"
+    },
     "GemsFarming": {
       "name": "Task.GemsFarming.name",
       "help": "Task.GemsFarming.help"
@@ -682,6 +686,16 @@
     "ReachLevel": {
       "name": "StopCondition.ReachLevel.name",
       "help": "StopCondition.ReachLevel.help"
+    }
+  },
+  "CoinManagement": {
+    "_info": {
+      "name": "CoinManagement._info.name",
+      "help": "CoinManagement._info.help"
+    },
+    "CoinMin": {
+      "name": "CoinManagement.CoinMin.name",
+      "help": "CoinManagement.CoinMin.help"
     }
   },
   "Fleet": {

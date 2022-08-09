@@ -62,6 +62,10 @@
       "name": "主線圖-3",
       "help": ""
     },
+    "CoinManagement": {
+      "name": "Task.CoinManagement.name",
+      "help": "Task.CoinManagement.help"
+    },
     "GemsFarming": {
       "name": "刷緊急委託",
       "help": ""
@@ -682,6 +686,16 @@
     "ReachLevel": {
       "name": "艦船升至 X 級後停止",
       "help": "任意等級低於 X 的艦船升級至 X 級後停止\n0 表示不限制等級"
+    }
+  },
+  "CoinManagement": {
+    "_info": {
+      "name": "CoinManagement._info.name",
+      "help": "CoinManagement._info.help"
+    },
+    "CoinMin": {
+      "name": "CoinManagement.CoinMin.name",
+      "help": "CoinManagement.CoinMin.help"
     }
   },
   "Fleet": {

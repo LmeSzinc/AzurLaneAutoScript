@@ -6,6 +6,11 @@
 
 # ==================== Farm ====================
 
+CoinManagement:
+  CoinManagement:
+    OilLimit: 500
+    CoinMin: 20000
+
 # ==================== Event ====================
 
 EventA:

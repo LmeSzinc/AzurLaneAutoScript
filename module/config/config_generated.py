@@ -78,6 +78,9 @@ class GeneratedConfig:
     StopCondition_GetNewShip = False
     StopCondition_ReachLevel = 0
 
+    # Group `CoinManagement`
+    CoinManagement_CoinMin = 20000
+
     # Group `Fleet`
     Fleet_Fleet1 = 1  # 1, 2, 3, 4, 5, 6
     Fleet_Fleet1Formation = 'double_line'  # line_ahead, double_line, diamond

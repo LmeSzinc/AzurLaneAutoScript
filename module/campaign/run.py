@@ -1,4 +1,5 @@
 import copy
+import datetime
 import importlib
 import os
 import re
@@ -13,7 +14,8 @@ from module.ocr.ocr import Digit
 from module.ui.ui import UI
 
 OCR_OIL = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
-
+OCR_COIN = Digit(OCR_COIN, name='OCR_COIN', letter=(239, 239, 239), threshold=128)
+print(OCR_COIN.ocr(self.device.image))
 
 class CampaignRun(UI):
     folder: str
@@ -65,6 +67,29 @@ class CampaignRun(UI):
         self.campaign = self.module.Campaign(config=config, device=device)
 
         return True
+
+    def triggered_coin_min(self, coin_check=True):
+        """
+        Returns:
+            bool: If triggered coin minimum.
+        """
+        # Coin minimum
+        if coin_check and self.config.CoinManagement_CoinMin:
+            if OCR_COIN.ocr(self.device.image) < self.config.CoinManagement_CoinMin:
+                logger.hr('Triggered coin management: Low coins.')
+                logger.hr('Executing one-time force run.')
+                self.config.task_delay(target=datetime.datetime.now())
+                return True
+        # Auto search coin minimum
+        if self.campaign.auto_search_coin_min_triggered:
+            logger.hr('Triggered coin management: Low coins.')
+            logger.hr('Executing one-time force run.')
+            self.config.task_delay(target=datetime.datetime.now())
+            return True
+        # Enough coin, return to normal condition
+        # Next check would be several minutes later
+        self.config.task_delay(minute=(30, 60))
+        return False
 
     def triggered_stop_condition(self, oil_check=True):
         """

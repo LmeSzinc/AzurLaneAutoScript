@@ -24,6 +24,22 @@ Main2:
 Main3:
   Campaign:
     Event: campaign_main
+CoinManagement:
+  Campaign:
+    Event: campaign_main
+#  StopCondition:
+#    RunCount:
+#      value: 0
+#      type: hide
+    MapAchievement:
+      value: non_stop
+      type: hide
+    StageIncrease:
+      value: false
+      type: hide
+    GetNewShip:
+      value: false
+      type: hide
 GemsFarming:
   Campaign:
     Mode: normal

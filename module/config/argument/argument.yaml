@@ -110,6 +110,8 @@ StopCondition:
   StageIncrease: false
   GetNewShip: false
   ReachLevel: 0
+CoinManagement:
+  CoinMin: 20000
 Fleet:
   Fleet1:
     value: 1
