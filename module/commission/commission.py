@@ -114,6 +114,8 @@ class RewardCommission(UI, InfoHandler):
         """
         # Count Commission
         total = daily.add_by_eq(urgent)
+        # Commissions with higher suffix are always below those with smaller suffix
+        # Reverse the commission list to choose commissions with higher suffix first
         total = total[::-1]
         self.max_commission = 4
         for comm in total:
