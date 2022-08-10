@@ -1455,7 +1455,7 @@
     },
     "StopCondition": {
       "RunCount": {
-        "type": "hide",
+        "type": "input",
         "value": 0
       },
       "OilLimit": {

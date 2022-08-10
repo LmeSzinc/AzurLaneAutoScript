@@ -121,12 +121,9 @@ class AutoSearchCombat(MapOperation, Combat):
         if not checked:
             coin = OCR_COIN.ocr(self.device.image)
             coin_limit = self.config.StopCondition_CoinLimit
-            if coin_limit == 0:
-                logger.info('Disable coin control')
-            else:
-                if coin >= self.config.StopCondition_CoinLimit:
-                    logger.info('Reach coin limit')
-                    self.auto_search_coin_limit_triggered = True
+            if coin_limit != 0 and coin >= self.config.StopCondition_CoinLimit:
+                logger.info('Reach coin limit')
+                self.auto_search_coin_limit_triggered = True
                 checked = True
 
         return checked
@@ -164,7 +161,6 @@ class AutoSearchCombat(MapOperation, Combat):
         self.device.stuck_record_clear()
         checked_fleet = False
         checked_oil = False
-        checked_coin = False
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -174,7 +170,6 @@ class AutoSearchCombat(MapOperation, Combat):
             if self.is_auto_search_running():
                 checked_fleet = self.auto_search_watch_fleet(checked_fleet)
                 checked_oil = self.auto_search_watch_oil(checked_oil)
-                checked_coin = self.auto_search_watch_coin(checked_coin)
             if self.handle_retirement():
                 self.map_offensive_auto_search()
                 continue
