@@ -63,8 +63,8 @@
       "help": ""
     },
     "CoinManagement": {
-      "name": "Task.CoinManagement.name",
-      "help": "Task.CoinManagement.help"
+      "name": "物資管理",
+      "help": ""
     },
     "GemsFarming": {
       "name": "刷緊急委託",
@@ -690,12 +690,12 @@
   },
   "CoinManagement": {
     "_info": {
-      "name": "CoinManagement._info.name",
-      "help": "CoinManagement._info.help"
+      "name": "物資管理設定",
+      "help": "幫助玩家維持足夠的物資，避免出擊比例失衡造成的物資不足"
     },
     "CoinMin": {
-      "name": "CoinManagement.CoinMin.name",
-      "help": "CoinManagement.CoinMin.help"
+      "name": "物資達到 X 後停止",
+      "help": ""
     }
   },
   "Fleet": {

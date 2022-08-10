@@ -63,8 +63,8 @@
       "help": ""
     },
     "CoinManagement": {
-      "name": "Task.CoinManagement.name",
-      "help": "Task.CoinManagement.help"
+      "name": "Coin Management",
+      "help": ""
     },
     "GemsFarming": {
       "name": "Commission Farming",
@@ -691,11 +691,11 @@
   "CoinManagement": {
     "_info": {
       "name": "Coin Management Settings",
-      "help": "CoinManagement._info.help"
+      "help": "Help player maintain a certain amount of coins."
     },
     "CoinMin": {
-      "name": "CoinManagement.CoinMin.name",
-      "help": "CoinManagement.CoinMin.help"
+      "name": "Keep coin above X",
+      "help": "Stop current task if coin is found to be above this number"
     }
   },
   "Fleet": {

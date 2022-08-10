@@ -63,8 +63,8 @@
       "help": ""
     },
     "CoinManagement": {
-      "name": "Task.CoinManagement.name",
-      "help": "Task.CoinManagement.help"
+      "name": "物资管理",
+      "help": ""
     },
     "GemsFarming": {
       "name": "刷紧急委托",
@@ -690,12 +690,12 @@
   },
   "CoinManagement": {
     "_info": {
-      "name": "CoinManagement._info.name",
-      "help": "CoinManagement._info.help"
+      "name": "物资管理设定",
+      "help": "帮助玩家维持足够的物资，避免出击比例失衡造成的物资不足"
     },
     "CoinMin": {
-      "name": "CoinManagement.CoinMin.name",
-      "help": "CoinManagement.CoinMin.help"
+      "name": "物资达到 X 后停止",
+      "help": ""
     }
   },
   "Fleet": {
