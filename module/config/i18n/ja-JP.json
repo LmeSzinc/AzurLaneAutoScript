@@ -62,9 +62,9 @@
       "name": "Task.Main3.name",
       "help": "Task.Main3.help"
     },
-    "CoinManagement": {
-      "name": "Task.CoinManagement.name",
-      "help": "Task.CoinManagement.help"
+    "CoinControl": {
+      "name": "Task.CoinControl.name",
+      "help": "Task.CoinControl.help"
     },
     "GemsFarming": {
       "name": "Task.GemsFarming.name",
@@ -666,6 +666,10 @@
       "name": "StopCondition.OilLimit.name",
       "help": "StopCondition.OilLimit.help"
     },
+    "CoinLimit": {
+      "name": "StopCondition.CoinLimit.name",
+      "help": "StopCondition.CoinLimit.help"
+    },
     "MapAchievement": {
       "name": "StopCondition.MapAchievement.name",
       "help": "StopCondition.MapAchievement.help",
@@ -686,16 +690,6 @@
     "ReachLevel": {
       "name": "StopCondition.ReachLevel.name",
       "help": "StopCondition.ReachLevel.help"
-    }
-  },
-  "CoinManagement": {
-    "_info": {
-      "name": "CoinManagement._info.name",
-      "help": "CoinManagement._info.help"
-    },
-    "CoinMin": {
-      "name": "CoinManagement.CoinMin.name",
-      "help": "CoinManagement.CoinMin.help"
     }
   },
   "Fleet": {

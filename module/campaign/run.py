@@ -1,5 +1,4 @@
 import copy
-import datetime
 import importlib
 import os
 import re
@@ -68,30 +67,7 @@ class CampaignRun(UI):
 
         return True
 
-    def triggered_coin_management(self, coin_check=True):
-        """
-        Returns:
-            bool: If triggered coin minimum.
-        """
-        # Coin minimum
-        if coin_check and self.config.CoinManagement_CoinMin:
-            if OCR_COIN.ocr(self.device.image) < self.config.CoinManagement_CoinMin:
-                logger.hr('Triggered coin management: Low coins.')
-                logger.hr('Executing one-time force run.')
-                self.config.task_delay(target=datetime.datetime.now())
-                return True
-        # Auto search coin minimum
-        if self.campaign.auto_search_coin_min_triggered:
-            logger.hr('Triggered coin management: Low coins.')
-            logger.hr('Executing one-time force run.')
-            self.config.task_delay(target=datetime.datetime.now())
-            return True
-        # Enough coin, return to normal condition
-        # Next check would be several minutes later
-        self.config.task_delay(minute=(30, 60))
-        return False
-
-    def triggered_stop_condition(self, oil_check=True):
+    def triggered_stop_condition(self, oil_check=True, coin_check=True):
         """
         Returns:
             bool: If triggered a stop condition.
@@ -117,6 +93,18 @@ class CampaignRun(UI):
         if self.campaign.auto_search_oil_limit_triggered:
             logger.hr('Triggered stop condition: Auto search oil limit')
             self.config.task_delay(minute=(120, 240))
+            return True
+        # Coin limit
+        if coin_check and self.config.StopCondition_CoinLimit > 0:
+            if OCR_COIN.ocr(self.device.image) >= self.config.StopCondition_CoinLimit:
+                logger.hr(f'Triggered stop condition: Reach coin limit {self.config.StopCondition_CoinLimit}')
+                self.config.task_delay(minute=(60, 120))
+                return True
+        # Auto search coin limit
+        # TODO(bookbug666@github): Delete if auto search coin limit is not needed.
+        if self.campaign.auto_search_coin_limit_triggered:
+            logger.hr(f'Triggered stop condition: Reach auto coin limit {self.config.StopCondition_CoinLimit}')
+            self.config.task_delay(minute=(60, 120))
             return True
         # If Get a New Ship
         if self.config.StopCondition_GetNewShip and self.campaign.config.GET_SHIP_TRIGGERED:
@@ -285,7 +273,7 @@ class CampaignRun(UI):
             if self.config.StopCondition_RunCount:
                 self.config.StopCondition_RunCount -= 1
             # End
-            if self.triggered_stop_condition(oil_check=False):
+            if self.triggered_stop_condition(oil_check=False, coin_check=False):
                 break
             # One-time stage limit
             if self.campaign.config.MAP_IS_ONE_TIME_STAGE:
