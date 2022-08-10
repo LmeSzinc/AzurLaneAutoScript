@@ -78,13 +78,11 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
       "ReachLevel": 0
-    },
-    "CoinManagement": {
-      "CoinMin": 20000
     },
     "Fleet": {
       "Fleet1": 1,
@@ -153,6 +151,7 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -225,6 +224,7 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -275,17 +275,14 @@
       "EnemyScaleBalanceWeight": "default_mode"
     }
   },
-  "CoinManagement": {
+  "CoinControl": {
     "Scheduler": {
       "Enable": false,
       "NextRun": "2020-01-01 00:00:00",
-      "Command": "CoinManagement",
+      "Command": "CoinControl",
       "SuccessInterval": 0,
       "FailureInterval": 120,
       "ServerUpdate": "00:00"
-    },
-    "CoinManagement": {
-      "CoinMin": 20000
     },
     "Campaign": {
       "Name": "12-4",
@@ -300,6 +297,7 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -380,6 +378,7 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -448,6 +447,7 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -520,6 +520,7 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -596,6 +597,7 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -672,6 +674,7 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -748,6 +751,7 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -824,6 +828,7 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -896,6 +901,7 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -972,6 +978,7 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -1017,6 +1024,7 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -1398,6 +1406,7 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -1470,6 +1479,7 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,

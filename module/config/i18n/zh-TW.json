@@ -62,8 +62,8 @@
       "name": "主線圖-3",
       "help": ""
     },
-    "CoinManagement": {
-      "name": "物資管理",
+    "CoinControl": {
+      "name": "物資控制",
       "help": ""
     },
     "GemsFarming": {
@@ -666,6 +666,10 @@
       "name": "石油低於 X 後停止",
       "help": ""
     },
+    "CoinLimit": {
+      "name": "物資達到X後停止",
+      "help": "物資達到X後停止出擊\n默認為0表示不限制物資，將控制權交給石油決定"
+    },
     "MapAchievement": {
       "name": "達成地圖成就後停止",
       "help": "達成地圖 100% 通關、達成三星通關、達成安全海域\n或達成安全海域但不打三星後停止",
@@ -686,16 +690,6 @@
     "ReachLevel": {
       "name": "艦船升至 X 級後停止",
       "help": "任意等級低於 X 的艦船升級至 X 級後停止\n0 表示不限制等級"
-    }
-  },
-  "CoinManagement": {
-    "_info": {
-      "name": "物資管理設定",
-      "help": "幫助玩家維持足夠的物資，避免出擊比例失衡造成的物資不足"
-    },
-    "CoinMin": {
-      "name": "物資達到 X 後停止",
-      "help": ""
     }
   },
   "Fleet": {

@@ -16,7 +16,7 @@ class AutoSearchCombat(MapOperation, Combat):
     _auto_search_in_stage_timer = Timer(3, count=6)
     _auto_search_status_confirm = False
     auto_search_oil_limit_triggered = False
-    auto_search_coin_min_triggered = False
+    auto_search_coin_limit_triggered = False
 
     def _handle_auto_search_menu_missing(self):
         """
@@ -120,12 +120,13 @@ class AutoSearchCombat(MapOperation, Combat):
         """
         if not checked:
             coin = OCR_COIN.ocr(self.device.image)
-            if coin == 0:
-                logger.warning('Oil not found')
+            coin_limit = self.config.StopCondition_CoinLimit
+            if coin_limit == 0:
+                logger.info('Disable coin control')
             else:
-                if coin < self.config.CoinManagement_CoinMin:
-                    logger.info('Reach oil limit')
-                    self.auto_search_coin_min_triggered = True
+                if coin >= self.config.StopCondition_CoinLimit:
+                    logger.info('Reach coin limit')
+                    self.auto_search_coin_limit_triggered = True
                 checked = True
 
         return checked

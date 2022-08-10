@@ -20,7 +20,6 @@ Main:
   - Scheduler
   - Campaign
   - StopCondition
-  - CoinManagement
   - Fleet
   - Submarine
   - Emotion
@@ -44,9 +43,9 @@ Main3:
   - Emotion
   - HpControl
   - EnemyPriority
-CoinManagement:
+CoinControl:
   - Scheduler
-  - CoinManagement
+  - CoinControl
   - Campaign
   - StopCondition
   - Fleet
