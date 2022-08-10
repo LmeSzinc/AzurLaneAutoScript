@@ -15,7 +15,7 @@ from module.ui.ui import UI
 
 OCR_OIL = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
 OCR_COIN = Digit(OCR_COIN, name='OCR_COIN', letter=(239, 239, 239), threshold=128)
-print(OCR_COIN.ocr(self.device.image))
+
 
 class CampaignRun(UI):
     folder: str
@@ -68,7 +68,7 @@ class CampaignRun(UI):
 
         return True
 
-    def triggered_coin_min(self, coin_check=True):
+    def triggered_coin_management(self, coin_check=True):
         """
         Returns:
             bool: If triggered coin minimum.
