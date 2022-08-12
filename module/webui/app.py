@@ -409,9 +409,11 @@ class AlasGUI(Frame):
                 validate = deep_get(self.ALAS_ARGS, k + ".validate")
                 if not len(str(v)):
                     default = deep_get(self.ALAS_ARGS, k + ".value")
+                    modified[k] = default
                     deep_set(config, k, default)
                     valid.append(k)
-                    modified[k] = default
+                    pin["_".join(k.split("."))] = default
+
                 elif not validate or re_fullmatch(validate, v):
                     deep_set(config, k, v)
                     valid.append(k)
