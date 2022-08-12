@@ -326,6 +326,8 @@ class Commission:
                 return False
         if self.repeat_count != other.repeat_count:
             return False
+        if self.genre in ['extra_oil', 'night_oil'] and self.suffix != other.suffix:
+            return False
 
         return True
 
