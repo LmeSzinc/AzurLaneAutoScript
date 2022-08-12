@@ -217,6 +217,11 @@ GemsFarming:
   CommonCV:
     value: any
     option: [any, langley, bogue, ranger, hermes]
+CoinControl:
+  Note:
+    value: 0
+    type: hide
+
 
 # ==================== Event ====================
 

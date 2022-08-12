@@ -284,6 +284,9 @@
       "FailureInterval": 120,
       "ServerUpdate": "00:00"
     },
+    "CoinControl": {
+      "Note": 0
+    },
     "Campaign": {
       "Name": "12-4",
       "Event": "campaign_main",

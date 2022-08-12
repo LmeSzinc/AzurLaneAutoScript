@@ -145,6 +145,9 @@ class GeneratedConfig:
     GemsFarming_LowEmotionRetreat = True
     GemsFarming_CommonCV = 'any'  # any, langley, bogue, ranger, hermes
 
+    # Group `CoinControl`
+    CoinControl_Note = 0
+
     # Group `EventGeneral`
     EventGeneral_PtLimit = 0
     EventGeneral_TimeLimit = datetime.datetime(2020, 1, 1, 0, 0)

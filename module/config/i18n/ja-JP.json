@@ -1024,6 +1024,16 @@
       "hermes": "hermes"
     }
   },
+  "CoinControl": {
+    "_info": {
+      "name": "CoinControl._info.name",
+      "help": "CoinControl._info.help"
+    },
+    "Note": {
+      "name": "CoinControl.Note.name",
+      "help": "CoinControl.Note.help"
+    }
+  },
   "EventGeneral": {
     "_info": {
       "name": "EventGeneral._info.name",

@@ -1024,6 +1024,16 @@
       "hermes": "竞技神"
     }
   },
+  "CoinControl": {
+    "_info": {
+      "name": "说明",
+      "help": "帮助玩家维持足够的物资，避免出击比例失衡造成的物资不足\n建议于非活动期间关闭此功能，并使用于停止条件中的'物资达到X时停止'控制数量"
+    },
+    "Note": {
+      "name": "CoinControl.Note.name",
+      "help": "CoinControl.Note.help"
+    }
+  },
   "EventGeneral": {
     "_info": {
       "name": "活动通用设置",

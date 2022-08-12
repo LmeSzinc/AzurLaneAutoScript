@@ -45,6 +45,7 @@ Main3:
   - EnemyPriority
 CoinControl:
   - Scheduler
+  - CoinControl
   - Campaign
   - StopCondition
   - Fleet

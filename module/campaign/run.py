@@ -97,15 +97,9 @@ class CampaignRun(UI):
         # Coin limit
         if coin_check and self.config.StopCondition_CoinLimit > 0:
             if OCR_COIN.ocr(self.device.image) >= self.config.StopCondition_CoinLimit:
-                logger.hr(f'Triggered stop condition: Reach coin limit {self.config.StopCondition_CoinLimit}')
+                logger.hr('Triggered stop condition: Coin limit')
                 self.config.task_delay(minute=(60, 120))
                 return True
-        # Auto search coin limit
-        # TODO(bookbug666@github): Delete if auto search coin limit is not needed.
-        if self.campaign.auto_search_coin_limit_triggered:
-            logger.hr(f'Triggered stop condition: Reach auto coin limit {self.config.StopCondition_CoinLimit}')
-            self.config.task_delay(minute=(60, 120))
-            return True
         # If Get a New Ship
         if self.config.StopCondition_GetNewShip and self.campaign.config.GET_SHIP_TRIGGERED:
             logger.hr('Triggered stop condition: Get new ship')

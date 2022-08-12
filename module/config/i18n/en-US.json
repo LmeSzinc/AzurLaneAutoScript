@@ -1024,6 +1024,16 @@
       "hermes": "hermes"
     }
   },
+  "CoinControl": {
+    "_info": {
+      "name": "Description",
+      "help": "This module is created to help player maintain a certain amount of coins during events.\nUse the coin limit in stop condition when no events."
+    },
+    "Note": {
+      "name": "",
+      "help": ""
+    }
+  },
   "EventGeneral": {
     "_info": {
       "name": "Event General Settings",

@@ -1412,6 +1412,12 @@
         "value": "00:00"
       }
     },
+    "CoinControl": {
+      "Note": {
+        "type": "hide",
+        "value": 0
+      }
+    },
     "Campaign": {
       "Name": {
         "type": "input",
@@ -1455,7 +1461,7 @@
     },
     "StopCondition": {
       "RunCount": {
-        "type": "input",
+        "type": "hide",
         "value": 0
       },
       "OilLimit": {

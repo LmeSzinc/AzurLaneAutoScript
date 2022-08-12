@@ -1,5 +1,5 @@
 from module.base.timer import Timer
-from module.campaign.assets import OCR_OIL, OCR_COIN
+from module.campaign.assets import OCR_OIL
 from module.combat.assets import *
 from module.combat.combat import Combat
 from module.exception import CampaignEnd
@@ -9,14 +9,12 @@ from module.map.map_operation import MapOperation
 from module.ocr.ocr import Digit
 
 OCR_OIL = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
-OCR_COIN = Digit(OCR_COIN, name='OCR_COIN', letter=(239, 239, 239), threshold=128)
 
 
 class AutoSearchCombat(MapOperation, Combat):
     _auto_search_in_stage_timer = Timer(3, count=6)
     _auto_search_status_confirm = False
     auto_search_oil_limit_triggered = False
-    auto_search_coin_limit_triggered = False
 
     def _handle_auto_search_menu_missing(self):
         """
@@ -109,21 +107,6 @@ class AutoSearchCombat(MapOperation, Combat):
                 if oil < self.config.StopCondition_OilLimit:
                     logger.info('Reach oil limit')
                     self.auto_search_oil_limit_triggered = True
-                checked = True
-
-        return checked
-
-    def auto_search_watch_coin(self, checked=False):
-        """
-        Watch Coin.
-        This will set auto_search_coin_min_triggered.
-        """
-        if not checked:
-            coin = OCR_COIN.ocr(self.device.image)
-            coin_limit = self.config.StopCondition_CoinLimit
-            if coin_limit != 0 and coin >= self.config.StopCondition_CoinLimit:
-                logger.info('Reach coin limit')
-                self.auto_search_coin_limit_triggered = True
                 checked = True
 
         return checked
