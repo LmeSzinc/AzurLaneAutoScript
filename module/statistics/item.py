@@ -36,8 +36,6 @@ class Item:
         self.image_raw = image
         self._button = button
         image = crop(image, button.area)
-        from PIL import Image
-        Image.fromarray(image).crop()
         if image.shape == self.IMAGE_SHAPE:
             self.image = image
         else:
@@ -177,6 +175,7 @@ class ItemGrid:
             folder (str): Template folder.
         """
         logger.info(f'Loading template folder: {folder}')
+        max_digit = 0
         data = load_folder(folder)
         for name, image in data.items():
             if name in self.templates:
@@ -186,13 +185,18 @@ class ItemGrid:
             self.colors[name] = cv2.mean(image)[:3]
             self.templates[name] = image
             self.templates_hit[name] = 0
+            if name.isdigit():
+                max_digit = max(max_digit, int(name))
             self.next_template_index += 1
+        self.next_template_index = max(self.next_template_index, max_digit + 1)
+        logger.attr('next_template_index', self.next_template_index)
 
     def load_cost_template_folder(self, folder):
         """
         Args:
             folder (str): Template folder.
         """
+        max_digit = 0
         data = load_folder(folder)
         for name, image in data.items():
             if name in self.cost_templates:
@@ -200,7 +204,10 @@ class ItemGrid:
             image = load_image(image)
             self.cost_templates[name] = image
             self.cost_templates_hit[name] = 0
+            if name.isdigit():
+                max_digit = max(max_digit, int(name))
             self.next_cost_template_index += 1
+        self.next_cost_template_index = max(self.next_cost_template_index, max_digit + 1)
 
     def match_template(self, image):
         """
@@ -247,6 +254,11 @@ class ItemGrid:
             name = self.match_template(item.image)
             if name not in prev:
                 new[name] = item.image
+                # Rollback changes
+                self.next_template_index -= 1
+                del self.colors[name]
+                del self.templates[name]
+                del self.templates_hit[name]
 
         if folder is not None:
             for name, im in new.items():

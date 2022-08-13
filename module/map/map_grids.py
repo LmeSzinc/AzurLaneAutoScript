@@ -1,9 +1,11 @@
 import operator
+import typing as t
 
 
 class SelectedGrids:
     def __init__(self, grids):
         self.grids = grids
+        self.indexes: t.Dict[tuple, SelectedGrids] = {}
 
     def __iter__(self):
         return iter(self.grids)
@@ -19,7 +21,7 @@ class SelectedGrids:
 
     def __str__(self):
         # return str([str(grid) for grid in self])
-        return '[' + ', ' .join([str(grid) for grid in self]) + ']'
+        return '[' + ', '.join([str(grid) for grid in self]) + ']'
 
     def __len__(self):
         return len(self.grids)
@@ -81,6 +83,23 @@ class SelectedGrids:
                 result.append(grid)
 
         return SelectedGrids(result)
+
+    def create_index(self, *attrs):
+        indexes = {}
+        # index_keys = [(grid.__getattribute__(attr) for attr in attrs) for grid in self.grids]
+        for grid in self.grids:
+            k = tuple(grid.__getattribute__(attr) for attr in attrs)
+            try:
+                indexes[k].append(grid)
+            except KeyError:
+                indexes[k] = [grid]
+
+        indexes = {k: SelectedGrids(v) for k, v in indexes.items()}
+        self.indexes = indexes
+        return indexes
+
+    def indexed_select(self, *values):
+        return self.indexes.get(values, SelectedGrids([]))
 
     def filter(self, func):
         """
