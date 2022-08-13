@@ -156,7 +156,7 @@ class Enhancement(Dock):
 
         def state_enhance_recommend():
             # Judge if enhance material appeared
-            if not EMPTY_ENHANCE_SLOT.match_binary(self.device.image):
+            if not EMPTY_ENHANCE_SLOT_PLUS.match(self.device.image):
                 logger.info('Material found. Try enhancing...')
                 return "state_enhance_attempt"
             elif self.info_bar_count():
