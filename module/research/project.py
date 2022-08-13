@@ -69,6 +69,11 @@ def get_research_series(image):
         peaks = [len(signal.find_peaks(row, **parameters)[0]) for row in im[5:-5]]
         upper, lower = max(peaks), min(peaks)
         # print(peaks)
+
+        # Remove noise like [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2]
+        if upper == 3 and lower == 2 and peaks.count(3) <= 2:
+            upper = 2
+
         if upper == lower and 1 <= upper <= 3:
             series = upper
         elif upper == 3 and lower == 2:
@@ -180,6 +185,11 @@ def get_research_series_jp(image):
     peaks = [len(signal.find_peaks(row, **parameters)[0]) for row in im[5:-5]]
     upper, lower = max(peaks), min(peaks)
     # print(upper, lower)
+
+    # Remove noise like [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2]
+    if upper == 3 and lower == 2 and peaks.count(3) <= 2:
+        upper = 2
+
     if upper == lower and 1 <= upper <= 3:
         series = upper
     elif upper == 3 and lower == 2:

@@ -1610,6 +1610,16 @@
       "help": "Expedite the recently submitted orders"
     }
   },
+  "DataKey": {
+    "_info": {
+      "name": "DataKey",
+      "help": ""
+    },
+    "ForceGet": {
+      "name": "ForceCollect DataKey",
+      "help": "Force collect data key when data key is full to eliminate red dots"
+    }
+  },
   "SupplyPack": {
     "_info": {
       "name": "Supply Pack Settings",

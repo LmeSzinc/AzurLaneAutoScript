@@ -344,17 +344,16 @@ pre.rich-traceback-code {
     display: grid;
 }
 
-#pywebio-scope-scheduler-bar,
-#pywebio-scope-log-bar,
-#pywebio-scope-log,
 #pywebio-scope-running,
 #pywebio-scope-pending,
 #pywebio-scope-waiting,
+#pywebio-scope-scheduler-bar,
+#pywebio-scope-log-bar,
+#pywebio-scope-log,
 #pywebio-scope-daemon-overview #pywebio-scope-groups {
     font-weight: 500;
     margin: 0.3125rem;
     padding: 0.625rem;
-    overflow-y: auto;
 }
 
 #pywebio-scope-scheduler-bar,

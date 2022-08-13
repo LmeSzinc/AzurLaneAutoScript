@@ -1610,6 +1610,16 @@
       "help": "Gacha.UseDrill.help"
     }
   },
+  "DataKey": {
+    "_info": {
+      "name": "DataKey._info.name",
+      "help": "DataKey._info.help"
+    },
+    "ForceGet": {
+      "name": "DataKey.ForceGet.name",
+      "help": "DataKey.ForceGet.help"
+    }
+  },
   "SupplyPack": {
     "_info": {
       "name": "SupplyPack._info.name",

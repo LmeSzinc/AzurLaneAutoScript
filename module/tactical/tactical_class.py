@@ -103,16 +103,19 @@ class Book:
         image = crop(image, button.area)
         self.button = button
 
+        # During the test of 40 random screenshots,
+        # when the threshold range is 50-70, the test can all pass,
+        # but it must not exceed 75, otherwise the rainbow will be recognized as purple
         self.genre = 0
         color = get_color(image, (65, 35, 72, 42))
         for key, value in self.color_genre.items():
-            if color_similar(color1=color, color2=value, threshold=30):
+            if color_similar(color1=color, color2=value, threshold=50):
                 self.genre = key
 
         self.tier = 0
         color = get_color(image, (83, 61, 92, 70))
         for key, value in self.color_tier.items():
-            if color_similar(color1=color, color2=value, threshold=30):
+            if color_similar(color1=color, color2=value, threshold=50):
                 self.tier = key
 
         color = color_similarity_2d(crop(image, (15, 0, 97, 13)), color=(148, 251, 99))
