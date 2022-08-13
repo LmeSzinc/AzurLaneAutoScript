@@ -318,6 +318,8 @@ class InfoHandler(ModuleBase):
                 self._story_confirm.reset()
                 self.story_popup_timeout.reset()
                 return True
+            else:
+                self.interval_clear(STORY_SKIP)
         else:
             self._story_confirm.reset()
         if self.appear_then_click(GAME_TIPS, offset=(20, 20), interval=2):

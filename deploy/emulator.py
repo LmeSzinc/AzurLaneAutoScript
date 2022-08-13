@@ -40,6 +40,15 @@ class VirtualBoxEmulator:
         Raises:
             FileNotFoundError: If emulator not installed.
         """
+        if self.name == 'LDPlayer4':
+            root = self.get_install_dir_from_reg('SOFTWARE\\leidian\\ldplayer', 'InstallDir')
+            if root is not None:
+                return root
+        if self.name == 'LDPlayer9':
+            root = self.get_install_dir_from_reg('SOFTWARE\\leidian\\ldplayer9', 'InstallDir')
+            if root is not None:
+                return root
+
         try:
             reg = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, f'{self.UNINSTALL_REG}\\{self.name}', 0)
         except FileNotFoundError:
@@ -50,6 +59,32 @@ class VirtualBoxEmulator:
         file = file.group(1) if file else res
         root = os.path.abspath(os.path.join(os.path.dirname(file), self.root_path))
         return root
+
+    def get_install_dir_from_reg(self, path, key):
+        """
+        Args:
+            path (str): f'SOFTWARE\\leidian\\ldplayer'
+            key (str): 'InstallDir'
+
+        Returns:
+            str: Installation dir or None
+        """
+        try:
+            reg = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, path, 0)
+            root = winreg.QueryValueEx(reg, key)[0]
+            if os.path.exists(root):
+                return root
+        except FileNotFoundError:
+            pass
+        try:
+            reg = winreg.OpenKey(winreg.HKEY_CURRENT_USER, path, 0)
+            root = winreg.QueryValueEx(reg, key)[0]
+            if os.path.exists(root):
+                return root
+        except FileNotFoundError:
+            pass
+
+        return None
 
     @cached_property
     def adb_binary(self):
@@ -158,6 +193,13 @@ ld_player_4 = VirtualBoxEmulator(
     vbox_path="./vms",
     vbox_name='.*.vbox$'
 )
+ld_player_9 = VirtualBoxEmulator(
+    name="LDPlayer9",
+    root_path=".",
+    adb_path="./adb.exe",
+    vbox_path="./vms",
+    vbox_name='.*.vbox$'
+)
 # MemuPlayer 逍遥模拟器
 memu_player = VirtualBoxEmulator(
     name="MEmu",
@@ -182,6 +224,7 @@ class EmulatorConnect:
         nox_player_64,
         ld_player,
         ld_player_4,
+        ld_player_9,
         memu_player,
         mumu_player
     ]

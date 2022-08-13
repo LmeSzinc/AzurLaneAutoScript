@@ -60,7 +60,7 @@ class RewardDataKey(UI):
 
         current, remain, total = DATA_KEY.ocr(self.device.image)
         logger.info(f'Inventory: {current} / {total}, Remain: {remain}')
-        if remain <= 0:
+        if not self.config.DataKey_ForceGet and remain <= 0 :
             logger.info('No more room for additional data key')
             return False
 

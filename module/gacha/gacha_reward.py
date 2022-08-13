@@ -298,7 +298,10 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
         # buy = [rolls_using_tickets, rolls_using_cubes]
         buy = [self.config.Gacha_Amount, 0]
         if actual_pool == "event" and self.config.Gacha_UseTicket:
-            self.build_ticket_count = OCR_BUILD_TICKET_COUNT.ocr(self.device.image)
+            if self.appear(BUILD_TICKET_CHECK, offset=(30, 30)):
+                self.build_ticket_count = OCR_BUILD_TICKET_COUNT.ocr(self.device.image)
+            else:
+                logger.info('Build ticket not detected, use cubes and coins')
         if self.config.Gacha_Amount > self.build_ticket_count:
             buy[0] = self.build_ticket_count
             # Calculate rolls allowed based on configurations and resources
