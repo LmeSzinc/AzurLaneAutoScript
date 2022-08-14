@@ -44,7 +44,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
     def get_zone_name(self):
         # For EN only
         from string import whitespace
-        ocr = Ocr(MAP_NAME, lang='cnocr', letter=(214, 235, 235), threshold=96, name='OCR_OS_MAP_NAME')
+        ocr = Ocr(MAP_NAME, lang='cnocr', letter=(206, 223, 247), threshold=96, name='OCR_OS_MAP_NAME')
         name = ocr.ocr(self.device.image)
         name = name.translate(dict.fromkeys(map(ord, whitespace)))
         name = name.lower()
@@ -57,10 +57,17 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             name = 'nycity'
         if 'cibraltar' in name:
             name = 'gibraltar'
+
+        # Occasional mis-read by OCR, hotfix
         name = name.replace('pasage', 'passage')
-        # `-` is missing
+        name = name.replace('shef', 'shelf')
+
+        # `-` is missing or read as '.'
+        # due to font size
         name = name.replace('safe', '')
         name = name.replace('zone', '')
+        if name.endswith('.'):
+            name = name[0:-1]
         return name
 
     @Config.when(SERVER='jp')
