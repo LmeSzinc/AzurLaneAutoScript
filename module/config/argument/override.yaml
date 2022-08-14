@@ -24,15 +24,6 @@ Main2:
 Main3:
   Campaign:
     Event: campaign_main
-CoinControl:
-  Campaign:
-    Event: campaign_main
-  StopCondition:
-    RunCount: 0
-    MapAchievement: non_stop
-    StageIncrease: false
-    GetNewShip: false
-    ReachLevel: 0
 GemsFarming:
   Campaign:
     Mode: normal
