@@ -3,6 +3,7 @@ import importlib
 import os
 import re
 
+from datetime import datetime, timedelta
 from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
 from module.config.config import AzurLaneConfig
@@ -67,7 +68,7 @@ class CampaignRun(UI):
 
         return True
 
-    def triggered_stop_condition(self, oil_check=True, coin_check=True):
+    def triggered_stop_condition(self, oil_check=True):
         """
         Returns:
             bool: If triggered a stop condition.
@@ -94,12 +95,6 @@ class CampaignRun(UI):
             logger.hr('Triggered stop condition: Auto search oil limit')
             self.config.task_delay(minute=(120, 240))
             return True
-        # Coin limit
-        if coin_check and self.config.StopCondition_CoinLimit > 0:
-            if OCR_COIN.ocr(self.device.image) >= self.config.StopCondition_CoinLimit:
-                logger.hr('Triggered stop condition: Coin limit')
-                self.config.task_delay(minute=(60, 120))
-                return True
         # If Get a New Ship
         if self.config.StopCondition_GetNewShip and self.campaign.config.GET_SHIP_TRIGGERED:
             logger.hr('Triggered stop condition: Get new ship')
@@ -112,6 +107,45 @@ class CampaignRun(UI):
             return True
 
         return False
+
+    def _triggered_task_balancer(self):
+        """
+        Returns:
+            bool: If triggered task_call
+        Pages:
+            in: page_event or page_sp
+        """
+        limit = self.config.TaskBalancer_CoinLimit
+        coin = OCR_COIN.ocr(self.device.image)
+        tasks = [
+            'Event',
+            'Event2',
+            'Raid',
+            'GemsFarming',
+            'Main',
+        ]
+        command = self.config.Scheduler_Command
+        # Check Coin
+        if self.config.TaskBalancer_Enable and coin < limit:
+            if command in tasks:
+                logger.hr('Triggered task balancer: Coin limit')
+                return True
+            if command == 'GemsFarming' and self.config.Campaign_Event == 'campaign_main':
+                return False
+
+        return False
+
+    def handle_task_balancer(self):
+        if self._triggered_task_balancer():
+            next_run = datetime.now() + timedelta(minutes=5)
+            self.config.task_delay(target=next_run)
+            self.config.task_stop()
+            if self.config.TaskBalancer_TaskCall == 'Main':
+                self.config.task_call('Main', force_call=False)
+            elif self.config.TaskBalancer_TaskCall == 'Main2':
+                self.config.task_call('Main2', force_call=False)
+            elif self.config.TaskBalancer_TaskCall == 'Main3':
+                self.config.task_call('Main3', force_call=False)
 
     def _triggered_app_restart(self):
         """
@@ -267,7 +301,7 @@ class CampaignRun(UI):
             if self.config.StopCondition_RunCount:
                 self.config.StopCondition_RunCount -= 1
             # End
-            if self.triggered_stop_condition(oil_check=False, coin_check=False):
+            if self.triggered_stop_condition(oil_check=False):
                 break
             # One-time stage limit
             if self.campaign.config.MAP_IS_ONE_TIME_STAGE:
@@ -275,6 +309,10 @@ class CampaignRun(UI):
                     logger.hr('Triggered one-time stage limit')
                     self.campaign.handle_map_stop()
                     break
+            # Task balancer
+            if self._triggered_task_balancer():
+                self.handle_task_balancer()
+                break
             # Scheduler
             if self.config.task_switched():
                 self.campaign.ensure_auto_search_exit()

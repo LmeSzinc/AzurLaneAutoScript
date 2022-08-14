@@ -382,10 +382,6 @@
         "type": "input",
         "value": 1000
       },
-      "CoinLimit": {
-        "type": "input",
-        "value": 0
-      },
       "MapAchievement": {
         "type": "select",
         "value": "non_stop",
@@ -741,10 +737,6 @@
       "OilLimit": {
         "type": "input",
         "value": 1000
-      },
-      "CoinLimit": {
-        "type": "input",
-        "value": 0
       },
       "MapAchievement": {
         "type": "select",
@@ -1102,10 +1094,6 @@
         "type": "input",
         "value": 1000
       },
-      "CoinLimit": {
-        "type": "input",
-        "value": 0
-      },
       "MapAchievement": {
         "type": "select",
         "value": "non_stop",
@@ -1127,372 +1115,6 @@
       },
       "ReachLevel": {
         "type": "input",
-        "value": 0
-      }
-    },
-    "Fleet": {
-      "Fleet1": {
-        "type": "select",
-        "value": 1,
-        "option": [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ]
-      },
-      "Fleet1Formation": {
-        "type": "select",
-        "value": "double_line",
-        "option": [
-          "line_ahead",
-          "double_line",
-          "diamond"
-        ]
-      },
-      "Fleet1Mode": {
-        "type": "select",
-        "value": "combat_auto",
-        "option": [
-          "combat_auto",
-          "combat_manual",
-          "stand_still_in_the_middle",
-          "hide_in_bottom_left"
-        ]
-      },
-      "Fleet1Step": {
-        "type": "select",
-        "value": 3,
-        "option": [
-          2,
-          3,
-          4,
-          5
-        ]
-      },
-      "Fleet2": {
-        "type": "select",
-        "value": 2,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ]
-      },
-      "Fleet2Formation": {
-        "type": "select",
-        "value": "double_line",
-        "option": [
-          "line_ahead",
-          "double_line",
-          "diamond"
-        ]
-      },
-      "Fleet2Mode": {
-        "type": "select",
-        "value": "combat_auto",
-        "option": [
-          "combat_auto",
-          "combat_manual",
-          "stand_still_in_the_middle",
-          "hide_in_bottom_left"
-        ]
-      },
-      "Fleet2Step": {
-        "type": "select",
-        "value": 2,
-        "option": [
-          2,
-          3,
-          4,
-          5
-        ]
-      },
-      "FleetOrder": {
-        "type": "select",
-        "value": "fleet1_mob_fleet2_boss",
-        "option": [
-          "fleet1_mob_fleet2_boss",
-          "fleet1_boss_fleet2_mob",
-          "fleet1_all_fleet2_standby",
-          "fleet1_standby_fleet2_all"
-        ]
-      }
-    },
-    "Submarine": {
-      "Fleet": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2
-        ]
-      },
-      "Mode": {
-        "type": "select",
-        "value": "do_not_use",
-        "option": [
-          "do_not_use",
-          "hunt_only",
-          "boss_only",
-          "every_combat"
-        ]
-      },
-      "AutoSearchMode": {
-        "type": "select",
-        "value": "sub_standby",
-        "option": [
-          "sub_standby",
-          "sub_auto_call"
-        ]
-      },
-      "DistanceToBoss": {
-        "type": "select",
-        "value": "2_grid_to_boss",
-        "option": [
-          "to_boss_position",
-          "1_grid_to_boss",
-          "2_grid_to_boss",
-          "use_open_ocean_support"
-        ]
-      }
-    },
-    "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
-      },
-      "Fleet1Value": {
-        "type": "input",
-        "value": 119
-      },
-      "Fleet1Record": {
-        "type": "disable",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "Fleet1Control": {
-        "type": "select",
-        "value": "prevent_yellow_face",
-        "option": [
-          "keep_exp_bonus",
-          "prevent_green_face",
-          "prevent_yellow_face",
-          "prevent_red_face"
-        ]
-      },
-      "Fleet1Recover": {
-        "type": "select",
-        "value": "not_in_dormitory",
-        "option": [
-          "not_in_dormitory",
-          "dormitory_floor_1",
-          "dormitory_floor_2"
-        ]
-      },
-      "Fleet1Oath": {
-        "type": "checkbox",
-        "value": false
-      },
-      "Fleet2Value": {
-        "type": "input",
-        "value": 119
-      },
-      "Fleet2Record": {
-        "type": "disable",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "Fleet2Control": {
-        "type": "select",
-        "value": "prevent_yellow_face",
-        "option": [
-          "keep_exp_bonus",
-          "prevent_green_face",
-          "prevent_yellow_face",
-          "prevent_red_face"
-        ]
-      },
-      "Fleet2Recover": {
-        "type": "select",
-        "value": "not_in_dormitory",
-        "option": [
-          "not_in_dormitory",
-          "dormitory_floor_1",
-          "dormitory_floor_2"
-        ]
-      },
-      "Fleet2Oath": {
-        "type": "checkbox",
-        "value": false
-      }
-    },
-    "HpControl": {
-      "UseHpBalance": {
-        "type": "checkbox",
-        "value": false
-      },
-      "UseEmergencyRepair": {
-        "type": "checkbox",
-        "value": false
-      },
-      "UseLowHpRetreat": {
-        "type": "checkbox",
-        "value": false
-      },
-      "HpBalanceThreshold": {
-        "type": "input",
-        "value": 0.2
-      },
-      "HpBalanceWeight": {
-        "type": "input",
-        "value": "1000, 1000, 1000"
-      },
-      "RepairUseSingleThreshold": {
-        "type": "input",
-        "value": 0.3
-      },
-      "RepairUseMultiThreshold": {
-        "type": "input",
-        "value": 0.6
-      },
-      "LowHpRetreatThreshold": {
-        "type": "input",
-        "value": 0.3
-      }
-    },
-    "EnemyPriority": {
-      "EnemyScaleBalanceWeight": {
-        "type": "select",
-        "value": "default_mode",
-        "option": [
-          "default_mode",
-          "S3_enemy_first",
-          "S1_enemy_first"
-        ]
-      }
-    }
-  },
-  "CoinControl": {
-    "Scheduler": {
-      "Enable": {
-        "type": "checkbox",
-        "value": false
-      },
-      "NextRun": {
-        "type": "input",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "Command": {
-        "type": "hide",
-        "value": "CoinControl"
-      },
-      "SuccessInterval": {
-        "type": "hide",
-        "value": 0
-      },
-      "FailureInterval": {
-        "type": "hide",
-        "value": 120
-      },
-      "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
-      }
-    },
-    "CoinControl": {
-      "Note": {
-        "type": "hide",
-        "value": 0
-      }
-    },
-    "Campaign": {
-      "Name": {
-        "type": "input",
-        "value": "12-4"
-      },
-      "Event": {
-        "type": "hide",
-        "value": "campaign_main",
-        "option": [
-          "campaign_main"
-        ]
-      },
-      "Mode": {
-        "type": "select",
-        "value": "normal",
-        "option": [
-          "normal",
-          "hard"
-        ]
-      },
-      "UseClearMode": {
-        "type": "checkbox",
-        "value": true
-      },
-      "UseFleetLock": {
-        "type": "checkbox",
-        "value": true
-      },
-      "UseAutoSearch": {
-        "type": "checkbox",
-        "value": true
-      },
-      "Use2xBook": {
-        "type": "checkbox",
-        "value": false
-      },
-      "AmbushEvade": {
-        "type": "checkbox",
-        "value": true
-      }
-    },
-    "StopCondition": {
-      "RunCount": {
-        "type": "hide",
-        "value": 0
-      },
-      "OilLimit": {
-        "type": "input",
-        "value": 1000
-      },
-      "CoinLimit": {
-        "type": "input",
-        "value": 0
-      },
-      "MapAchievement": {
-        "type": "hide",
-        "value": "non_stop",
-        "option": [
-          "non_stop",
-          "100_percent_clear",
-          "map_3_stars",
-          "threat_safe",
-          "threat_safe_without_3_stars"
-        ]
-      },
-      "StageIncrease": {
-        "type": "hide",
-        "value": false
-      },
-      "GetNewShip": {
-        "type": "hide",
-        "value": false
-      },
-      "ReachLevel": {
-        "type": "hide",
         "value": 0
       }
     },
@@ -1915,10 +1537,6 @@
         "type": "input",
         "value": 1000
       },
-      "CoinLimit": {
-        "type": "input",
-        "value": 0
-      },
       "MapAchievement": {
         "type": "hide",
         "value": "non_stop",
@@ -2174,6 +1792,25 @@
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       }
+    },
+    "TaskBalancer": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "CoinLimit": {
+        "type": "input",
+        "value": 1000
+      },
+      "TaskCall": {
+        "type": "select",
+        "value": "Main",
+        "option": [
+          "Main",
+          "Main2",
+          "Main3"
+        ]
+      }
     }
   },
   "Event": {
@@ -2306,10 +1943,6 @@
       "OilLimit": {
         "type": "input",
         "value": 1000
-      },
-      "CoinLimit": {
-        "type": "input",
-        "value": 0
       },
       "MapAchievement": {
         "type": "select",
@@ -2719,10 +2352,6 @@
       "OilLimit": {
         "type": "input",
         "value": 1000
-      },
-      "CoinLimit": {
-        "type": "input",
-        "value": 0
       },
       "MapAchievement": {
         "type": "select",
@@ -3143,10 +2772,6 @@
         "type": "input",
         "value": 1000
       },
-      "CoinLimit": {
-        "type": "input",
-        "value": 0
-      },
       "MapAchievement": {
         "type": "hide",
         "value": "non_stop",
@@ -3565,10 +3190,6 @@
       "OilLimit": {
         "type": "input",
         "value": 1000
-      },
-      "CoinLimit": {
-        "type": "input",
-        "value": 0
       },
       "MapAchievement": {
         "type": "hide",
@@ -3989,10 +3610,6 @@
         "type": "input",
         "value": 1000
       },
-      "CoinLimit": {
-        "type": "input",
-        "value": 0
-      },
       "MapAchievement": {
         "type": "hide",
         "value": "non_stop",
@@ -4412,10 +4029,6 @@
         "type": "input",
         "value": 1000
       },
-      "CoinLimit": {
-        "type": "input",
-        "value": 0
-      },
       "MapAchievement": {
         "type": "hide",
         "value": "non_stop",
@@ -4825,10 +4438,6 @@
         "type": "input",
         "value": 1000
       },
-      "CoinLimit": {
-        "type": "input",
-        "value": 0
-      },
       "MapAchievement": {
         "type": "hide",
         "value": "non_stop",
@@ -5207,10 +4816,6 @@
         "type": "input",
         "value": 1000
       },
-      "CoinLimit": {
-        "type": "input",
-        "value": 0
-      },
       "MapAchievement": {
         "type": "hide",
         "value": "non_stop",
@@ -5400,10 +5005,6 @@
       "OilLimit": {
         "type": "input",
         "value": 1000
-      },
-      "CoinLimit": {
-        "type": "input",
-        "value": 0
       },
       "MapAchievement": {
         "type": "hide",
@@ -6852,10 +6453,6 @@
         "type": "input",
         "value": 1000
       },
-      "CoinLimit": {
-        "type": "input",
-        "value": 0
-      },
       "MapAchievement": {
         "type": "hide",
         "value": "non_stop",
@@ -7228,10 +6825,6 @@
       "OilLimit": {
         "type": "input",
         "value": 1000
-      },
-      "CoinLimit": {
-        "type": "input",
-        "value": 0
       },
       "MapAchievement": {
         "type": "select",

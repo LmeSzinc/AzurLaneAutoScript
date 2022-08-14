@@ -78,7 +78,6 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
-      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -151,7 +150,6 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
-      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -224,83 +222,6 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
-      "CoinLimit": 0,
-      "MapAchievement": "non_stop",
-      "StageIncrease": false,
-      "GetNewShip": false,
-      "ReachLevel": 0
-    },
-    "Fleet": {
-      "Fleet1": 1,
-      "Fleet1Formation": "double_line",
-      "Fleet1Mode": "combat_auto",
-      "Fleet1Step": 3,
-      "Fleet2": 2,
-      "Fleet2Formation": "double_line",
-      "Fleet2Mode": "combat_auto",
-      "Fleet2Step": 2,
-      "FleetOrder": "fleet1_mob_fleet2_boss"
-    },
-    "Submarine": {
-      "Fleet": 0,
-      "Mode": "do_not_use",
-      "AutoSearchMode": "sub_standby",
-      "DistanceToBoss": "2_grid_to_boss"
-    },
-    "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
-      "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
-      "Fleet1Control": "prevent_yellow_face",
-      "Fleet1Recover": "not_in_dormitory",
-      "Fleet1Oath": false,
-      "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
-      "Fleet2Control": "prevent_yellow_face",
-      "Fleet2Recover": "not_in_dormitory",
-      "Fleet2Oath": false
-    },
-    "HpControl": {
-      "UseHpBalance": false,
-      "UseEmergencyRepair": false,
-      "UseLowHpRetreat": false,
-      "HpBalanceThreshold": 0.2,
-      "HpBalanceWeight": "1000, 1000, 1000",
-      "RepairUseSingleThreshold": 0.3,
-      "RepairUseMultiThreshold": 0.6,
-      "LowHpRetreatThreshold": 0.3
-    },
-    "EnemyPriority": {
-      "EnemyScaleBalanceWeight": "default_mode"
-    }
-  },
-  "CoinControl": {
-    "Scheduler": {
-      "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "CoinControl",
-      "SuccessInterval": 0,
-      "FailureInterval": 120,
-      "ServerUpdate": "00:00"
-    },
-    "CoinControl": {
-      "Note": 0
-    },
-    "Campaign": {
-      "Name": "12-4",
-      "Event": "campaign_main",
-      "Mode": "normal",
-      "UseClearMode": true,
-      "UseFleetLock": true,
-      "UseAutoSearch": true,
-      "Use2xBook": false,
-      "AmbushEvade": true
-    },
-    "StopCondition": {
-      "RunCount": 0,
-      "OilLimit": 1000,
-      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -381,7 +302,6 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
-      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -426,6 +346,11 @@
     "EventGeneral": {
       "PtLimit": 0,
       "TimeLimit": "2020-01-01 00:00:00"
+    },
+    "TaskBalancer": {
+      "Enable": false,
+      "CoinLimit": 1000,
+      "TaskCall": "Main"
     }
   },
   "Event": {
@@ -450,7 +375,6 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
-      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -523,7 +447,6 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
-      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -600,7 +523,6 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
-      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -677,7 +599,6 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
-      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -754,7 +675,6 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
-      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -831,7 +751,6 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
-      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -904,7 +823,6 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
-      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -981,7 +899,6 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
-      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -1027,7 +944,6 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
-      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -1286,6 +1202,9 @@
       "SuccessInterval": 30,
       "FailureInterval": 30,
       "ServerUpdate": "00:00"
+    },
+    "DataKey": {
+      "ForceGet": false
     }
   },
   "SupplyPack": {
@@ -1409,7 +1328,6 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
-      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -1482,7 +1400,6 @@
     "StopCondition": {
       "RunCount": 0,
       "OilLimit": 1000,
-      "CoinLimit": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,

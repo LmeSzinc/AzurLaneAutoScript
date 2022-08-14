@@ -62,10 +62,6 @@
       "name": "Task.Main3.name",
       "help": "Task.Main3.help"
     },
-    "CoinControl": {
-      "name": "Task.CoinControl.name",
-      "help": "Task.CoinControl.help"
-    },
     "GemsFarming": {
       "name": "Task.GemsFarming.name",
       "help": "Task.GemsFarming.help"
@@ -666,10 +662,6 @@
       "name": "StopCondition.OilLimit.name",
       "help": "StopCondition.OilLimit.help"
     },
-    "CoinLimit": {
-      "name": "StopCondition.CoinLimit.name",
-      "help": "StopCondition.CoinLimit.help"
-    },
     "MapAchievement": {
       "name": "StopCondition.MapAchievement.name",
       "help": "StopCondition.MapAchievement.help",
@@ -1024,16 +1016,6 @@
       "hermes": "hermes"
     }
   },
-  "CoinControl": {
-    "_info": {
-      "name": "CoinControl._info.name",
-      "help": "CoinControl._info.help"
-    },
-    "Note": {
-      "name": "CoinControl.Note.name",
-      "help": "CoinControl.Note.help"
-    }
-  },
   "EventGeneral": {
     "_info": {
       "name": "EventGeneral._info.name",
@@ -1046,6 +1028,27 @@
     "TimeLimit": {
       "name": "EventGeneral.TimeLimit.name",
       "help": "EventGeneral.TimeLimit.help"
+    }
+  },
+  "TaskBalancer": {
+    "_info": {
+      "name": "TaskBalancer._info.name",
+      "help": "TaskBalancer._info.help"
+    },
+    "Enable": {
+      "name": "TaskBalancer.Enable.name",
+      "help": "TaskBalancer.Enable.help"
+    },
+    "CoinLimit": {
+      "name": "TaskBalancer.CoinLimit.name",
+      "help": "TaskBalancer.CoinLimit.help"
+    },
+    "TaskCall": {
+      "name": "TaskBalancer.TaskCall.name",
+      "help": "TaskBalancer.TaskCall.help",
+      "Main": "Main",
+      "Main2": "Main2",
+      "Main3": "Main3"
     }
   },
   "EventDaily": {

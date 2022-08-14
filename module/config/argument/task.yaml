@@ -43,16 +43,6 @@ Main3:
   - Emotion
   - HpControl
   - EnemyPriority
-CoinControl:
-  - Scheduler
-  - CoinControl
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
 GemsFarming:
   - Scheduler
   - GemsFarming
@@ -67,6 +57,7 @@ GemsFarming:
 
 EventGeneral:
   - EventGeneral
+  - TaskBalancer
 Event:
   - Scheduler
   - Campaign
