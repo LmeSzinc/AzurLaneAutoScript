@@ -122,7 +122,6 @@ class CampaignRun(UI):
             'Event2',
             'Raid',
             'GemsFarming',
-            'Main',
         ]
         command = self.config.Scheduler_Command
         # Check Coin
