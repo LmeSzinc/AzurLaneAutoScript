@@ -68,8 +68,7 @@ class ServerChecker:
                 else:
                     self._expired += 1
                     if self._expired > 3:
-                        logger.info(f'Last update timestamp = {self._timestamp}')
-                        raise ScriptError('Timestamp has not been updated for 3 times.')
+                        logger.warning(f'Timestamp {self._timestamp} has not been updated for 3 times.')
             elif resp.status_code == 404:
                 self._state.append(False)
                 raise ScriptError(f'Server "{self._server}" does not exist!')
