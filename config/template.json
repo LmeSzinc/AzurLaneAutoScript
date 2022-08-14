@@ -9,6 +9,11 @@
       "ScreenshotDedithering": false,
       "AdbRestart": false
     },
+    "RestartEmulator": {
+      "LaunchMode": "do_not_use",
+      "CustomStartCommand": "C:\\Program Files\\Nox\\bin\\Nox.exe -clone:nox",
+      "CustomKillCommand": "C:\\Program Files\\Nox\\bin\\Nox.exe -clone:nox -quit"
+    },
     "Error": {
       "HandleError": true,
       "SaveError": true,

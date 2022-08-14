@@ -6,6 +6,7 @@
 
 Alas:
   - Emulator
+  - RestartEmulator
   - Error
   - Optimization
   - DropRecord

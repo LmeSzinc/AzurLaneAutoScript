@@ -381,6 +381,30 @@
       "help": ""
     }
   },
+  "RestartEmulator": {
+    "_info": {
+      "name": "重启模拟器",
+      "help": ""
+    },
+    "LaunchMode": {
+      "name": "启动方案",
+      "help": "Alas会根据手动填写的Serial寻找对应的模拟器\n在模拟器被关闭的时候自动启动模拟器\n并在服务器日期刷新时重启模拟器以释放内存\n如果被启动的模拟器需要管理员权限，请以管理员身份运行Alas\nMuMu模拟器不支持多开",
+      "do_not_use": "不使用",
+      "auto": "自动",
+      "nox_player": "夜神模拟器",
+      "bluestacks_5": "蓝叠模拟器5",
+      "mumu_player": "MuMu模拟器",
+      "custom": "自定义"
+    },
+    "CustomStartCommand": {
+      "name": "自定义启动命令",
+      "help": ""
+    },
+    "CustomKillCommand": {
+      "name": "自定义关闭命令",
+      "help": ""
+    }
+  },
   "Error": {
     "_info": {
       "name": "调试设置",

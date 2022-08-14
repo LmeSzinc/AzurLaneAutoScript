@@ -381,6 +381,30 @@
       "help": ""
     }
   },
+  "RestartEmulator": {
+    "_info": {
+      "name": "Restart Emulator",
+      "help": ""
+    },
+    "LaunchMode": {
+      "name": "Launch Mode",
+      "help": "Alas will find the corresponding emulator according to the manually filled serial\nAnd will automatically start the emulator which is not running\nAnd restart it when the server date update to free memory\nIf the emulator being started requires administrator rights, please run Alas as an administrator\nMuMu emulator does not support multi-open",
+      "do_not_use": "Do not use",
+      "auto": "Auto",
+      "nox_player": "Nox Player",
+      "bluestacks_5": "Bluestacks 5",
+      "mumu_player": "MuMu Player",
+      "custom": "Custom"
+    },
+    "CustomStartCommand": {
+      "name": "Custom Start Command",
+      "help": ""
+    },
+    "CustomKillCommand": {
+      "name": "Custom Kill Command",
+      "help": ""
+    }
+  },
   "Error": {
     "_info": {
       "name": "Debug Settings",

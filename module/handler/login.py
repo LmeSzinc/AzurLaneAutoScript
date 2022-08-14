@@ -11,6 +11,7 @@ import module.config.server as server
 from module.base.timer import Timer
 from module.base.utils import color_similarity_2d, crop, random_rectangle_point
 from module.combat.combat import Combat
+from module.config.utils import get_server_next_update
 from module.exception import (GameStuckError, GameTooManyClickError,
                               RequestHumanTakeover)
 from module.handler.assets import *
@@ -150,7 +151,12 @@ class LoginHandler(Combat):
 
     def app_restart(self):
         logger.hr('App restart')
-        self.device.app_stop()
+        if self.config.RestartEmulator_LaunchMode != 'do_not_use'\
+                and self.config.Scheduler_NextRun.strftime('%H:%M:%S') \
+                == get_server_next_update(self.config.Scheduler_ServerUpdate).strftime('%H:%M:%S'):
+            self.device.emulator_restart()
+        else:
+            self.device.app_stop()
         self.device.app_start()
         self.handle_app_login()
         # self.ensure_no_unfinished_campaign()
