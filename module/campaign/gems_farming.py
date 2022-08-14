@@ -320,6 +320,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
         while 1:
             self._trigger_lv32 = False
+            is_limit = self.config.StopCondition_RunCount
 
             try:
                 super().run(name=name, folder=folder, total=total)
@@ -336,6 +337,12 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
                 if self.config.GemsFarming_LowEmotionRetreat:
                     success = success and self.vanguard_change()
+                    
+                if is_limit and self.config.StopCondition_RunCount <= 0:
+                    logger.hr('Triggered stop condition: Run count')
+                    self.config.StopCondition_RunCount = 0
+                    self.config.Scheduler_Enable = False
+                    break
 
                 self._trigger_lv32 = False
                 self._trigger_emotion = False
