@@ -8,7 +8,7 @@ Restart:
   Scheduler:
     Enable:
       value: true
-      type: disable
+      display: disabled
     SuccessInterval: 0
     FailureInterval: 0
     ServerUpdate: 00:00
@@ -38,10 +38,14 @@ GemsFarming:
 Event:
   Campaign:
     Mode: normal
+    Event:
+      display: disabled
     AmbushEvade: true
 Event2:
   Campaign:
     Mode: normal
+    Event:
+      display: disabled
     AmbushEvade: true
 EventA:
   Scheduler:
@@ -50,6 +54,8 @@ EventA:
     ServerUpdate: 00:00
   Campaign:
     Name: dynamic
+    Event:
+      display: disabled
     Mode: normal
     Use2xBook: false
     AmbushEvade: true
@@ -66,6 +72,8 @@ EventB:
     ServerUpdate: 00:00
   Campaign:
     Name: dynamic
+    Event:
+      display: disabled
     Mode: normal
     Use2xBook: false
     AmbushEvade: true
@@ -82,6 +90,8 @@ EventC:
     ServerUpdate: 00:00
   Campaign:
     Name: dynamic
+    Event:
+      display: disabled
     Mode: normal
     Use2xBook: false
     AmbushEvade: true
@@ -98,6 +108,8 @@ EventD:
     ServerUpdate: 00:00
   Campaign:
     Name: dynamic
+    Event:
+      display: disabled
     Mode: normal
     Use2xBook: false
     AmbushEvade: true
@@ -114,6 +126,8 @@ EventSp:
     ServerUpdate: 00:00
   Campaign:
     Name: sp
+    Event:
+      display: disabled
     Mode: normal
     Use2xBook: false
     AmbushEvade: true
@@ -128,6 +142,8 @@ EventSp:
 Raid:
   Campaign:
     Name: dynamic
+    Event:
+      display: disabled
     Mode: normal
     UseClearMode: true
     UseFleetLock: true
@@ -152,6 +168,8 @@ RaidDaily:
     ServerUpdate: 00:00
   Campaign:
     Name: dynamic
+    Event:
+      display: disabled
     Mode: normal
     UseClearMode: true
     UseFleetLock: true

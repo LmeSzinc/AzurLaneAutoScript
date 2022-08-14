@@ -300,29 +300,34 @@
   "Restart": {
     "Scheduler": {
       "Enable": {
-        "type": "disable",
-        "value": true
+        "type": "checkbox",
+        "value": true,
+        "display": "disabled"
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "Restart"
+        "type": "input",
+        "value": "Restart",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     }
   },
@@ -333,25 +338,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "Main"
+        "type": "input",
+        "value": "Main",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 120
+        "type": "input",
+        "value": 120,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "Campaign": {
@@ -360,11 +369,12 @@
         "value": "12-4"
       },
       "Event": {
-        "type": "hide",
+        "type": "select",
         "value": "campaign_main",
         "option": [
           "campaign_main"
-        ]
+        ],
+        "display": "hide"
       },
       "Mode": {
         "type": "select",
@@ -576,9 +586,10 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet1Control": {
         "type": "select",
@@ -608,9 +619,10 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet2Control": {
         "type": "select",
@@ -689,25 +701,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "Main2"
+        "type": "input",
+        "value": "Main2",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 120
+        "type": "input",
+        "value": 120,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "Campaign": {
@@ -716,11 +732,12 @@
         "value": "12-4"
       },
       "Event": {
-        "type": "hide",
+        "type": "select",
         "value": "campaign_main",
         "option": [
           "campaign_main"
-        ]
+        ],
+        "display": "hide"
       },
       "Mode": {
         "type": "select",
@@ -932,9 +949,10 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet1Control": {
         "type": "select",
@@ -964,9 +982,10 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet2Control": {
         "type": "select",
@@ -1045,25 +1064,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "Main3"
+        "type": "input",
+        "value": "Main3",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 120
+        "type": "input",
+        "value": 120,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "Campaign": {
@@ -1072,11 +1095,12 @@
         "value": "12-4"
       },
       "Event": {
-        "type": "hide",
+        "type": "select",
         "value": "campaign_main",
         "option": [
           "campaign_main"
-        ]
+        ],
+        "display": "hide"
       },
       "Mode": {
         "type": "select",
@@ -1288,9 +1312,10 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet1Control": {
         "type": "select",
@@ -1320,9 +1345,10 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet2Control": {
         "type": "select",
@@ -1401,25 +1427,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "GemsFarming"
+        "type": "input",
+        "value": "GemsFarming",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 120
+        "type": "input",
+        "value": 120,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "GemsFarming": {
@@ -1522,12 +1552,13 @@
         "jp": "event_20220728_cn"
       },
       "Mode": {
-        "type": "hide",
+        "type": "select",
         "value": "normal",
         "option": [
           "normal",
           "hard"
-        ]
+        ],
+        "display": "hide"
       },
       "UseClearMode": {
         "type": "checkbox",
@@ -1546,8 +1577,9 @@
         "value": false
       },
       "AmbushEvade": {
-        "type": "hide",
-        "value": true
+        "type": "checkbox",
+        "value": true,
+        "display": "hide"
       }
     },
     "StopCondition": {
@@ -1560,7 +1592,7 @@
         "value": 1000
       },
       "MapAchievement": {
-        "type": "hide",
+        "type": "select",
         "value": "non_stop",
         "option": [
           "non_stop",
@@ -1568,15 +1600,18 @@
           "map_3_stars",
           "threat_safe",
           "threat_safe_without_3_stars"
-        ]
+        ],
+        "display": "hide"
       },
       "StageIncrease": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "GetNewShip": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "ReachLevel": {
         "type": "input",
@@ -1731,9 +1766,10 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet1Control": {
         "type": "select",
@@ -1763,9 +1799,10 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet2Control": {
         "type": "select",
@@ -1810,7 +1847,7 @@
         "value": 0
       },
       "TimeLimit": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       }
@@ -1823,25 +1860,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "Event"
+        "type": "input",
+        "value": "Event",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 120
+        "type": "input",
+        "value": 120,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "Campaign": {
@@ -1904,18 +1945,20 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "display": "disabled",
         "tw": "event_20211028_cn",
         "cn": "event_20220728_cn",
         "en": "event_20220728_cn",
         "jp": "event_20220728_cn"
       },
       "Mode": {
-        "type": "hide",
+        "type": "select",
         "value": "normal",
         "option": [
           "normal",
           "hard"
-        ]
+        ],
+        "display": "hide"
       },
       "UseClearMode": {
         "type": "checkbox",
@@ -1934,8 +1977,9 @@
         "value": false
       },
       "AmbushEvade": {
-        "type": "hide",
-        "value": true
+        "type": "checkbox",
+        "value": true,
+        "display": "hide"
       }
     },
     "StopCondition": {
@@ -2119,9 +2163,10 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet1Control": {
         "type": "select",
@@ -2151,9 +2196,10 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet2Control": {
         "type": "select",
@@ -2232,25 +2278,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "Event2"
+        "type": "input",
+        "value": "Event2",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 120
+        "type": "input",
+        "value": 120,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "Campaign": {
@@ -2313,18 +2363,20 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "display": "disabled",
         "tw": "event_20211028_cn",
         "cn": "event_20220728_cn",
         "en": "event_20220728_cn",
         "jp": "event_20220728_cn"
       },
       "Mode": {
-        "type": "hide",
+        "type": "select",
         "value": "normal",
         "option": [
           "normal",
           "hard"
-        ]
+        ],
+        "display": "hide"
       },
       "UseClearMode": {
         "type": "checkbox",
@@ -2343,8 +2395,9 @@
         "value": false
       },
       "AmbushEvade": {
-        "type": "hide",
-        "value": true
+        "type": "checkbox",
+        "value": true,
+        "display": "hide"
       }
     },
     "StopCondition": {
@@ -2528,9 +2581,10 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet1Control": {
         "type": "select",
@@ -2560,9 +2614,10 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet2Control": {
         "type": "select",
@@ -2641,25 +2696,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "EventA"
+        "type": "input",
+        "value": "EventA",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "EventDaily": {
@@ -2674,8 +2733,9 @@
     },
     "Campaign": {
       "Name": {
-        "type": "hide",
-        "value": "dynamic"
+        "type": "input",
+        "value": "dynamic",
+        "display": "hide"
       },
       "Event": {
         "type": "select",
@@ -2732,18 +2792,20 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "display": "disabled",
         "tw": "event_20211028_cn",
         "cn": "event_20220728_cn",
         "en": "event_20220728_cn",
         "jp": "event_20220728_cn"
       },
       "Mode": {
-        "type": "hide",
+        "type": "select",
         "value": "normal",
         "option": [
           "normal",
           "hard"
-        ]
+        ],
+        "display": "hide"
       },
       "UseClearMode": {
         "type": "checkbox",
@@ -2758,25 +2820,28 @@
         "value": true
       },
       "Use2xBook": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "AmbushEvade": {
-        "type": "hide",
-        "value": true
+        "type": "checkbox",
+        "value": true,
+        "display": "hide"
       }
     },
     "StopCondition": {
       "RunCount": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       },
       "OilLimit": {
         "type": "input",
         "value": 1000
       },
       "MapAchievement": {
-        "type": "hide",
+        "type": "select",
         "value": "non_stop",
         "option": [
           "non_stop",
@@ -2784,19 +2849,23 @@
           "map_3_stars",
           "threat_safe",
           "threat_safe_without_3_stars"
-        ]
+        ],
+        "display": "hide"
       },
       "StageIncrease": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "GetNewShip": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "ReachLevel": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       }
     },
     "Fleet": {
@@ -2947,9 +3016,10 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet1Control": {
         "type": "select",
@@ -2979,9 +3049,10 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet2Control": {
         "type": "select",
@@ -3060,25 +3131,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "EventB"
+        "type": "input",
+        "value": "EventB",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "EventDaily": {
@@ -3093,8 +3168,9 @@
     },
     "Campaign": {
       "Name": {
-        "type": "hide",
-        "value": "dynamic"
+        "type": "input",
+        "value": "dynamic",
+        "display": "hide"
       },
       "Event": {
         "type": "select",
@@ -3151,18 +3227,20 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "display": "disabled",
         "tw": "event_20211028_cn",
         "cn": "event_20220728_cn",
         "en": "event_20220728_cn",
         "jp": "event_20220728_cn"
       },
       "Mode": {
-        "type": "hide",
+        "type": "select",
         "value": "normal",
         "option": [
           "normal",
           "hard"
-        ]
+        ],
+        "display": "hide"
       },
       "UseClearMode": {
         "type": "checkbox",
@@ -3177,25 +3255,28 @@
         "value": true
       },
       "Use2xBook": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "AmbushEvade": {
-        "type": "hide",
-        "value": true
+        "type": "checkbox",
+        "value": true,
+        "display": "hide"
       }
     },
     "StopCondition": {
       "RunCount": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       },
       "OilLimit": {
         "type": "input",
         "value": 1000
       },
       "MapAchievement": {
-        "type": "hide",
+        "type": "select",
         "value": "non_stop",
         "option": [
           "non_stop",
@@ -3203,19 +3284,23 @@
           "map_3_stars",
           "threat_safe",
           "threat_safe_without_3_stars"
-        ]
+        ],
+        "display": "hide"
       },
       "StageIncrease": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "GetNewShip": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "ReachLevel": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       }
     },
     "Fleet": {
@@ -3366,9 +3451,10 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet1Control": {
         "type": "select",
@@ -3398,9 +3484,10 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet2Control": {
         "type": "select",
@@ -3479,25 +3566,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "EventC"
+        "type": "input",
+        "value": "EventC",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "EventDaily": {
@@ -3512,8 +3603,9 @@
     },
     "Campaign": {
       "Name": {
-        "type": "hide",
-        "value": "dynamic"
+        "type": "input",
+        "value": "dynamic",
+        "display": "hide"
       },
       "Event": {
         "type": "select",
@@ -3570,18 +3662,20 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "display": "disabled",
         "tw": "event_20211028_cn",
         "cn": "event_20220728_cn",
         "en": "event_20220728_cn",
         "jp": "event_20220728_cn"
       },
       "Mode": {
-        "type": "hide",
+        "type": "select",
         "value": "normal",
         "option": [
           "normal",
           "hard"
-        ]
+        ],
+        "display": "hide"
       },
       "UseClearMode": {
         "type": "checkbox",
@@ -3596,25 +3690,28 @@
         "value": true
       },
       "Use2xBook": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "AmbushEvade": {
-        "type": "hide",
-        "value": true
+        "type": "checkbox",
+        "value": true,
+        "display": "hide"
       }
     },
     "StopCondition": {
       "RunCount": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       },
       "OilLimit": {
         "type": "input",
         "value": 1000
       },
       "MapAchievement": {
-        "type": "hide",
+        "type": "select",
         "value": "non_stop",
         "option": [
           "non_stop",
@@ -3622,19 +3719,23 @@
           "map_3_stars",
           "threat_safe",
           "threat_safe_without_3_stars"
-        ]
+        ],
+        "display": "hide"
       },
       "StageIncrease": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "GetNewShip": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "ReachLevel": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       }
     },
     "Fleet": {
@@ -3785,9 +3886,10 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet1Control": {
         "type": "select",
@@ -3817,9 +3919,10 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet2Control": {
         "type": "select",
@@ -3898,25 +4001,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "EventD"
+        "type": "input",
+        "value": "EventD",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "EventDaily": {
@@ -3931,8 +4038,9 @@
     },
     "Campaign": {
       "Name": {
-        "type": "hide",
-        "value": "dynamic"
+        "type": "input",
+        "value": "dynamic",
+        "display": "hide"
       },
       "Event": {
         "type": "select",
@@ -3989,18 +4097,20 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "display": "disabled",
         "tw": "event_20211028_cn",
         "cn": "event_20220728_cn",
         "en": "event_20220728_cn",
         "jp": "event_20220728_cn"
       },
       "Mode": {
-        "type": "hide",
+        "type": "select",
         "value": "normal",
         "option": [
           "normal",
           "hard"
-        ]
+        ],
+        "display": "hide"
       },
       "UseClearMode": {
         "type": "checkbox",
@@ -4015,25 +4125,28 @@
         "value": true
       },
       "Use2xBook": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "AmbushEvade": {
-        "type": "hide",
-        "value": true
+        "type": "checkbox",
+        "value": true,
+        "display": "hide"
       }
     },
     "StopCondition": {
       "RunCount": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       },
       "OilLimit": {
         "type": "input",
         "value": 1000
       },
       "MapAchievement": {
-        "type": "hide",
+        "type": "select",
         "value": "non_stop",
         "option": [
           "non_stop",
@@ -4041,19 +4154,23 @@
           "map_3_stars",
           "threat_safe",
           "threat_safe_without_3_stars"
-        ]
+        ],
+        "display": "hide"
       },
       "StageIncrease": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "GetNewShip": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "ReachLevel": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       }
     },
     "Fleet": {
@@ -4204,9 +4321,10 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet1Control": {
         "type": "select",
@@ -4236,9 +4354,10 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet2Control": {
         "type": "select",
@@ -4317,31 +4436,36 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "EventSp"
+        "type": "input",
+        "value": "EventSp",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "Campaign": {
       "Name": {
-        "type": "hide",
-        "value": "sp"
+        "type": "input",
+        "value": "sp",
+        "display": "hide"
       },
       "Event": {
         "type": "select",
@@ -4398,18 +4522,20 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "display": "disabled",
         "tw": "event_20211028_cn",
         "cn": "event_20220728_cn",
         "en": "event_20220728_cn",
         "jp": "event_20220728_cn"
       },
       "Mode": {
-        "type": "hide",
+        "type": "select",
         "value": "normal",
         "option": [
           "normal",
           "hard"
-        ]
+        ],
+        "display": "hide"
       },
       "UseClearMode": {
         "type": "checkbox",
@@ -4424,25 +4550,28 @@
         "value": true
       },
       "Use2xBook": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "AmbushEvade": {
-        "type": "hide",
-        "value": true
+        "type": "checkbox",
+        "value": true,
+        "display": "hide"
       }
     },
     "StopCondition": {
       "RunCount": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       },
       "OilLimit": {
         "type": "input",
         "value": 1000
       },
       "MapAchievement": {
-        "type": "hide",
+        "type": "select",
         "value": "non_stop",
         "option": [
           "non_stop",
@@ -4450,19 +4579,23 @@
           "map_3_stars",
           "threat_safe",
           "threat_safe_without_3_stars"
-        ]
+        ],
+        "display": "hide"
       },
       "StageIncrease": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "GetNewShip": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "ReachLevel": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       }
     },
     "Fleet": {
@@ -4581,12 +4714,13 @@
         ]
       },
       "AutoSearchMode": {
-        "type": "hide",
+        "type": "select",
         "value": "sub_standby",
         "option": [
           "sub_standby",
           "sub_auto_call"
-        ]
+        ],
+        "display": "hide"
       },
       "DistanceToBoss": {
         "type": "select",
@@ -4613,9 +4747,10 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet1Control": {
         "type": "select",
@@ -4645,9 +4780,10 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet2Control": {
         "type": "select",
@@ -4726,25 +4862,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "Raid"
+        "type": "input",
+        "value": "Raid",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 120
+        "type": "input",
+        "value": 120,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "Raid": {
@@ -4764,8 +4904,9 @@
     },
     "Campaign": {
       "Name": {
-        "type": "hide",
-        "value": "dynamic"
+        "type": "input",
+        "value": "dynamic",
+        "display": "hide"
       },
       "Event": {
         "type": "select",
@@ -4776,38 +4917,45 @@
           "raid_20200624",
           "raid_20220127"
         ],
+        "display": "disabled",
         "cn": "raid_20220630",
         "en": "raid_20220630",
         "jp": "raid_20220630",
         "tw": "raid_20210708"
       },
       "Mode": {
-        "type": "hide",
+        "type": "select",
         "value": "normal",
         "option": [
           "normal",
           "hard"
-        ]
+        ],
+        "display": "hide"
       },
       "UseClearMode": {
-        "type": "hide",
-        "value": true
+        "type": "checkbox",
+        "value": true,
+        "display": "hide"
       },
       "UseFleetLock": {
-        "type": "hide",
-        "value": true
+        "type": "checkbox",
+        "value": true,
+        "display": "hide"
       },
       "UseAutoSearch": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "Use2xBook": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "AmbushEvade": {
-        "type": "hide",
-        "value": true
+        "type": "checkbox",
+        "value": true,
+        "display": "hide"
       }
     },
     "StopCondition": {
@@ -4820,7 +4968,7 @@
         "value": 1000
       },
       "MapAchievement": {
-        "type": "hide",
+        "type": "select",
         "value": "non_stop",
         "option": [
           "non_stop",
@@ -4828,19 +4976,23 @@
           "map_3_stars",
           "threat_safe",
           "threat_safe_without_3_stars"
-        ]
+        ],
+        "display": "hide"
       },
       "StageIncrease": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "GetNewShip": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "ReachLevel": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       }
     },
     "Emotion": {
@@ -4857,9 +5009,10 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet1Control": {
         "type": "select",
@@ -4885,36 +5038,41 @@
         "value": false
       },
       "Fleet2Value": {
-        "type": "hide",
-        "value": 119
+        "type": "input",
+        "value": 119,
+        "display": "hide"
       },
       "Fleet2Record": {
-        "type": "hide",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "hide"
       },
       "Fleet2Control": {
-        "type": "hide",
+        "type": "select",
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
-        ]
+        ],
+        "display": "hide"
       },
       "Fleet2Recover": {
-        "type": "hide",
+        "type": "select",
         "value": "not_in_dormitory",
         "option": [
           "not_in_dormitory",
           "dormitory_floor_1",
           "dormitory_floor_2"
-        ]
+        ],
+        "display": "hide"
       },
       "Fleet2Oath": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       }
     }
   },
@@ -4925,25 +5083,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "RaidDaily"
+        "type": "input",
+        "value": "RaidDaily",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "RaidDaily": {
@@ -4954,8 +5116,9 @@
     },
     "Campaign": {
       "Name": {
-        "type": "hide",
-        "value": "dynamic"
+        "type": "input",
+        "value": "dynamic",
+        "display": "hide"
       },
       "Event": {
         "type": "select",
@@ -4966,51 +5129,59 @@
           "raid_20200624",
           "raid_20220127"
         ],
+        "display": "disabled",
         "cn": "raid_20220630",
         "en": "raid_20220630",
         "jp": "raid_20220630",
         "tw": "raid_20210708"
       },
       "Mode": {
-        "type": "hide",
+        "type": "select",
         "value": "normal",
         "option": [
           "normal",
           "hard"
-        ]
+        ],
+        "display": "hide"
       },
       "UseClearMode": {
-        "type": "hide",
-        "value": true
+        "type": "checkbox",
+        "value": true,
+        "display": "hide"
       },
       "UseFleetLock": {
-        "type": "hide",
-        "value": true
+        "type": "checkbox",
+        "value": true,
+        "display": "hide"
       },
       "UseAutoSearch": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "Use2xBook": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "AmbushEvade": {
-        "type": "hide",
-        "value": true
+        "type": "checkbox",
+        "value": true,
+        "display": "hide"
       }
     },
     "StopCondition": {
       "RunCount": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       },
       "OilLimit": {
         "type": "input",
         "value": 1000
       },
       "MapAchievement": {
-        "type": "hide",
+        "type": "select",
         "value": "non_stop",
         "option": [
           "non_stop",
@@ -5018,19 +5189,23 @@
           "map_3_stars",
           "threat_safe",
           "threat_safe_without_3_stars"
-        ]
+        ],
+        "display": "hide"
       },
       "StageIncrease": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "GetNewShip": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "ReachLevel": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       }
     },
     "Emotion": {
@@ -5047,9 +5222,10 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet1Control": {
         "type": "select",
@@ -5075,36 +5251,41 @@
         "value": false
       },
       "Fleet2Value": {
-        "type": "hide",
-        "value": 119
+        "type": "input",
+        "value": 119,
+        "display": "hide"
       },
       "Fleet2Record": {
-        "type": "hide",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "hide"
       },
       "Fleet2Control": {
-        "type": "hide",
+        "type": "select",
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
-        ]
+        ],
+        "display": "hide"
       },
       "Fleet2Recover": {
-        "type": "hide",
+        "type": "select",
         "value": "not_in_dormitory",
         "option": [
           "not_in_dormitory",
           "dormitory_floor_1",
           "dormitory_floor_2"
-        ]
+        ],
+        "display": "hide"
       },
       "Fleet2Oath": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       }
     }
   },
@@ -5115,25 +5296,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "MaritimeEscort"
+        "type": "input",
+        "value": "MaritimeEscort",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "MaritimeEscort": {
@@ -5147,28 +5332,33 @@
     "Scheduler": {
       "Enable": {
         "type": "lock",
-        "value": true
+        "value": true,
+        "display": "disabled"
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "Commission"
+        "type": "input",
+        "value": "Commission",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": "30-60"
+        "type": "input",
+        "value": "30-60",
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": "30-60"
+        "type": "input",
+        "value": "30-60",
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "Commission": {
@@ -5189,25 +5379,29 @@
         "value": true
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "Tactical"
+        "type": "input",
+        "value": "Tactical",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": "30-60"
+        "type": "input",
+        "value": "30-60",
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": "120-240"
+        "type": "input",
+        "value": "120-240",
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "Tactical": {
@@ -5253,28 +5447,33 @@
     "Scheduler": {
       "Enable": {
         "type": "lock",
-        "value": true
+        "value": true,
+        "display": "disabled"
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "Research"
+        "type": "input",
+        "value": "Research",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": "30-60"
+        "type": "input",
+        "value": "30-60",
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": "30-60"
+        "type": "input",
+        "value": "30-60",
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "Research": {
@@ -5345,25 +5544,29 @@
         "value": true
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "Dorm"
+        "type": "input",
+        "value": "Dorm",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 278
+        "type": "input",
+        "value": 278,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 278
+        "type": "input",
+        "value": 278,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "Dorm": {
@@ -5388,25 +5591,29 @@
         "value": true
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "Meowfficer"
+        "type": "input",
+        "value": "Meowfficer",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "Meowfficer": {
@@ -5453,25 +5660,29 @@
         "value": true
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "Guild"
+        "type": "input",
+        "value": "Guild",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00, 06:00, 12:00, 18:00, 21:00"
+        "type": "input",
+        "value": "00:00, 06:00, 12:00, 18:00, 21:00",
+        "display": "hide"
       }
     },
     "GuildLogistics": {
@@ -5519,28 +5730,33 @@
     "Scheduler": {
       "Enable": {
         "type": "lock",
-        "value": true
+        "value": true,
+        "display": "disabled"
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "Reward"
+        "type": "input",
+        "value": "Reward",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": "120-240"
+        "type": "input",
+        "value": "120-240",
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": "120-240"
+        "type": "input",
+        "value": "120-240",
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "Reward": {
@@ -5573,25 +5789,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "ShopFrequent"
+        "type": "input",
+        "value": "ShopFrequent",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00, 12:00, 18:00"
+        "type": "input",
+        "value": "00:00, 12:00, 18:00",
+        "display": "hide"
       }
     },
     "GeneralShop": {
@@ -5620,25 +5840,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "ShopOnce"
+        "type": "input",
+        "value": "ShopOnce",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "GuildShop": {
@@ -5867,25 +6091,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "Shipyard"
+        "type": "input",
+        "value": "Shipyard",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "04:00"
+        "type": "input",
+        "value": "04:00",
+        "display": "hide"
       }
     },
     "Shipyard": {
@@ -5910,25 +6138,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "Gacha"
+        "type": "input",
+        "value": "Gacha",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "Gacha": {
@@ -5976,25 +6208,29 @@
         "value": true
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "DataKey"
+        "type": "input",
+        "value": "DataKey",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "DataKey": {
@@ -6011,25 +6247,29 @@
         "value": true
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "SupplyPack"
+        "type": "input",
+        "value": "SupplyPack",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "SupplyPack": {
@@ -6046,25 +6286,29 @@
         "value": true
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "BattlePass"
+        "type": "input",
+        "value": "BattlePass",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "BattlePass": {
@@ -6081,25 +6325,29 @@
         "value": true
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "MetaReward"
+        "type": "input",
+        "value": "MetaReward",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "MetaReward": {
@@ -6116,25 +6364,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "Daily"
+        "type": "input",
+        "value": "Daily",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "Daily": {
@@ -6270,25 +6522,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "Hard"
+        "type": "input",
+        "value": "Hard",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "Hard": {
@@ -6313,25 +6569,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "Exercise"
+        "type": "input",
+        "value": "Exercise",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00, 12:00, 18:00"
+        "type": "input",
+        "value": "00:00, 12:00, 18:00",
+        "display": "hide"
       }
     },
     "Exercise": {
@@ -6366,7 +6626,7 @@
         "value": 0
       },
       "OpponentRefreshRecord": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       }
@@ -6379,25 +6639,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "Sos"
+        "type": "input",
+        "value": "Sos",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "Sos": {
@@ -6418,56 +6682,65 @@
     },
     "Campaign": {
       "Name": {
-        "type": "hide",
-        "value": "dynamic"
+        "type": "input",
+        "value": "dynamic",
+        "display": "hide"
       },
       "Event": {
-        "type": "hide",
+        "type": "select",
         "value": "campaign_main",
         "option": [
           "campaign_main"
-        ]
+        ],
+        "display": "hide"
       },
       "Mode": {
-        "type": "hide",
+        "type": "select",
         "value": "normal",
         "option": [
           "normal",
           "hard"
-        ]
+        ],
+        "display": "hide"
       },
       "UseClearMode": {
-        "type": "hide",
-        "value": true
+        "type": "checkbox",
+        "value": true,
+        "display": "hide"
       },
       "UseFleetLock": {
-        "type": "hide",
-        "value": true
+        "type": "checkbox",
+        "value": true,
+        "display": "hide"
       },
       "UseAutoSearch": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "Use2xBook": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "AmbushEvade": {
-        "type": "hide",
-        "value": true
+        "type": "checkbox",
+        "value": true,
+        "display": "hide"
       }
     },
     "StopCondition": {
       "RunCount": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       },
       "OilLimit": {
         "type": "input",
         "value": 1000
       },
       "MapAchievement": {
-        "type": "hide",
+        "type": "select",
         "value": "non_stop",
         "option": [
           "non_stop",
@@ -6475,19 +6748,23 @@
           "map_3_stars",
           "threat_safe",
           "threat_safe_without_3_stars"
-        ]
+        ],
+        "display": "hide"
       },
       "StageIncrease": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "GetNewShip": {
-        "type": "hide",
-        "value": false
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       },
       "ReachLevel": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       }
     },
     "Fleet": {
@@ -6606,12 +6883,13 @@
         ]
       },
       "AutoSearchMode": {
-        "type": "hide",
+        "type": "select",
         "value": "sub_standby",
         "option": [
           "sub_standby",
           "sub_auto_call"
-        ]
+        ],
+        "display": "hide"
       },
       "DistanceToBoss": {
         "type": "select",
@@ -6638,9 +6916,10 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet1Control": {
         "type": "select",
@@ -6670,9 +6949,10 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet2Control": {
         "type": "select",
@@ -6751,25 +7031,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "WarArchives"
+        "type": "input",
+        "value": "WarArchives",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "Campaign": {
@@ -6802,12 +7086,13 @@
         "tw": "war_archives_20181227_cn"
       },
       "Mode": {
-        "type": "hide",
+        "type": "select",
         "value": "normal",
         "option": [
           "normal",
           "hard"
-        ]
+        ],
+        "display": "hide"
       },
       "UseClearMode": {
         "type": "checkbox",
@@ -6826,8 +7111,9 @@
         "value": false
       },
       "AmbushEvade": {
-        "type": "hide",
-        "value": true
+        "type": "checkbox",
+        "value": true,
+        "display": "hide"
       }
     },
     "StopCondition": {
@@ -7011,9 +7297,10 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet1Control": {
         "type": "select",
@@ -7043,9 +7330,10 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "disable",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
+        "validate": "datetime",
+        "display": "disabled"
       },
       "Fleet2Control": {
         "type": "select",
@@ -7166,25 +7454,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "OpsiAshAssist"
+        "type": "input",
+        "value": "OpsiAshAssist",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "OpsiAshAssist": {
@@ -7201,25 +7493,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "OpsiExplore"
+        "type": "input",
+        "value": "OpsiExplore",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 0
+        "type": "input",
+        "value": 0,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "OpsiExplore": {
@@ -7260,25 +7556,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "OpsiShop"
+        "type": "input",
+        "value": "OpsiShop",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "OpsiShop": {
@@ -7295,25 +7595,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "OpsiDaily"
+        "type": "input",
+        "value": "OpsiDaily",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "OpsiDaily": {
@@ -7350,25 +7654,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "OpsiObscure"
+        "type": "input",
+        "value": "OpsiObscure",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 60
+        "type": "input",
+        "value": 60,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 60
+        "type": "input",
+        "value": 60,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "OpsiObscure": {
@@ -7401,25 +7709,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "OpsiAbyssal"
+        "type": "input",
+        "value": "OpsiAbyssal",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 60
+        "type": "input",
+        "value": 60,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 60
+        "type": "input",
+        "value": 60,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "OpsiAbyssal": {
@@ -7442,25 +7754,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "OpsiStronghold"
+        "type": "input",
+        "value": "OpsiStronghold",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 60
+        "type": "input",
+        "value": 60,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 60
+        "type": "input",
+        "value": 60,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "OpsiStronghold": {
@@ -7483,25 +7799,29 @@
         "value": false
       },
       "NextRun": {
-        "type": "input",
+        "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
-        "type": "hide",
-        "value": "OpsiMeowfficerFarming"
+        "type": "input",
+        "value": "OpsiMeowfficerFarming",
+        "display": "hide"
       },
       "SuccessInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "FailureInterval": {
-        "type": "hide",
-        "value": 30
+        "type": "input",
+        "value": 30,
+        "display": "hide"
       },
       "ServerUpdate": {
-        "type": "hide",
-        "value": "00:00"
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
       }
     },
     "OpsiMeowfficerFarming": {
