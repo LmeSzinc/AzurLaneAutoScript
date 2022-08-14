@@ -108,6 +108,14 @@ class CampaignRun(UI):
 
         return False
 
+    def get_coin(self):
+        """
+        Returns:
+            int: Coin amount
+        """
+        coin = OCR_COIN.ocr(self.device.image)
+        return coin
+
     def _triggered_task_balancer(self):
         """
         Returns:
@@ -116,7 +124,7 @@ class CampaignRun(UI):
             in: page_event or page_sp
         """
         limit = self.config.TaskBalancer_CoinLimit
-        coin = OCR_COIN.ocr(self.device.image)
+        coin = self.get_coin()
         tasks = [
             'Event',
             'Event2',
@@ -131,20 +139,20 @@ class CampaignRun(UI):
                 return True
             if command == 'GemsFarming' and self.config.Campaign_Event == 'campaign_main':
                 return False
-
-        return False
+        else:
+            return False
 
     def handle_task_balancer(self):
         if self._triggered_task_balancer():
-            next_run = datetime.now() + timedelta(minutes=5)
+            now = datetime.now().replace(
+                microsecond=0)
+            next_run = now + timedelta(minutes=5)
+            next_task = self.config.TaskBalancer_TaskCall
             self.config.task_delay(target=next_run)
+            # Check if needs force_call, remove when checked.
+            self.config.task_call(next_task, force_call=True)
+            # Check if task stops and delays successfully.
             self.config.task_stop()
-            if self.config.TaskBalancer_TaskCall == 'Main':
-                self.config.task_call('Main', force_call=False)
-            elif self.config.TaskBalancer_TaskCall == 'Main2':
-                self.config.task_call('Main2', force_call=False)
-            elif self.config.TaskBalancer_TaskCall == 'Main3':
-                self.config.task_call('Main3', force_call=False)
 
     def _triggered_app_restart(self):
         """
@@ -309,7 +317,8 @@ class CampaignRun(UI):
                     self.campaign.handle_map_stop()
                     break
             # Task balancer
-            if self._triggered_task_balancer():
+            if self.run_count == self.config.TaskBalancer_CheckInterval:
+                self.campaign.ensure_auto_search_exit()
                 self.handle_task_balancer()
                 break
             # Scheduler

@@ -225,6 +225,7 @@ EventGeneral:
 TaskBalancer:
   Enable: false
   CoinLimit: 1000
+  CheckInterval: 10
   TaskCall:
     value: Main
     option: [Main, Main2, Main3]

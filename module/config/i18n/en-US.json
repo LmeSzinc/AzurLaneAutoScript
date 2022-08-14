@@ -1043,6 +1043,10 @@
       "name": "Keep Coin Above X",
       "help": "Start chosen task if coin is found to be below this number"
     },
+    "CheckInterval": {
+      "name": "Check Interval",
+      "help": "Check coin amount after X times of run.\nDefault value is 10, players can adjust the value to increase/decrease the frequency of checking coins."
+    },
     "TaskCall": {
       "name": "Task Call",
       "help": "Chosen task would be called after finished current task.",

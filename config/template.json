@@ -350,6 +350,7 @@
     "TaskBalancer": {
       "Enable": false,
       "CoinLimit": 1000,
+      "CheckInterval": 10,
       "TaskCall": "Main"
     }
   },

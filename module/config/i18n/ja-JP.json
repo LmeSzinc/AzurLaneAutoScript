@@ -1043,6 +1043,10 @@
       "name": "TaskBalancer.CoinLimit.name",
       "help": "TaskBalancer.CoinLimit.help"
     },
+    "CheckInterval": {
+      "name": "TaskBalancer.CheckInterval.name",
+      "help": "TaskBalancer.CheckInterval.help"
+    },
     "TaskCall": {
       "name": "TaskBalancer.TaskCall.name",
       "help": "TaskBalancer.TaskCall.help",
