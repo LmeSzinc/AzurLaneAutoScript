@@ -111,9 +111,14 @@ class ResearchQueue(ResearchUI):
         """
         status = [self._queue_status_detect(button) for button in self.queue_status_grids.buttons]
         logger.info(f'Research queue: {status}')
-        slot = sum([int(s == 'empty') for s in status])
-        logger.attr('Research queue slot', slot)
-        return slot
+        status = status[::-1]
+        for index, s in enumerate(status):
+            if s != 'empty':
+                logger.attr('Research queue slot', index)
+                return index
+        index = len(status)
+        logger.attr('Research queue slot', index)
+        return index
 
     def get_research_ended(self):
         """
