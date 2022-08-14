@@ -519,7 +519,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
             rescan = self.config.OpsiGeneral_DoRandomMapEvent
         self.handle_ash_beacon_attack()
 
-        logger.info(f'Run auto search, rescan={rescan}')
+        logger.info(f'Run auto search, question={question}, rescan={rescan}')
         with self.stat.new(
                 genre=inflection.underscore(self.config.task.command),
                 method=self.config.DropRecord_OpsiRecord
