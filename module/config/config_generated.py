@@ -73,7 +73,6 @@ class GeneratedConfig:
     # Group `StopCondition`
     StopCondition_RunCount = 0
     StopCondition_OilLimit = 1000
-    StopCondition_CoinLimit = 0
     StopCondition_MapAchievement = 'non_stop'  # non_stop, 100_percent_clear, map_3_stars, threat_safe, threat_safe_without_3_stars
     StopCondition_StageIncrease = False
     StopCondition_GetNewShip = False
@@ -145,12 +144,14 @@ class GeneratedConfig:
     GemsFarming_LowEmotionRetreat = True
     GemsFarming_CommonCV = 'any'  # any, langley, bogue, ranger, hermes
 
-    # Group `CoinControl`
-    CoinControl_Note = 0
-
     # Group `EventGeneral`
     EventGeneral_PtLimit = 0
     EventGeneral_TimeLimit = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `TaskBalancer`
+    TaskBalancer_Enable = False
+    TaskBalancer_CoinLimit = 1000
+    TaskBalancer_TaskCall = 'Main'  # Main, Main2, Main3
 
     # Group `EventDaily`
     EventDaily_StageFilter = 'A1 > A2 > A3'

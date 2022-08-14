@@ -104,7 +104,6 @@ Campaign:
 StopCondition:
   RunCount: 0
   OilLimit: 1000
-  CoinLimit: 0
   MapAchievement:
     value: non_stop
     option: [non_stop, 100_percent_clear, map_3_stars, threat_safe, threat_safe_without_3_stars]
@@ -217,17 +216,18 @@ GemsFarming:
   CommonCV:
     value: any
     option: [any, langley, bogue, ranger, hermes]
-CoinControl:
-  Note:
-    value: 0
-    type: hide
-
 
 # ==================== Event ====================
 
 EventGeneral:
   PtLimit: 0
   TimeLimit: 2020-01-01 00:00:00
+TaskBalancer:
+  Enable: false
+  CoinLimit: 1000
+  TaskCall:
+    value: Main
+    option: [Main, Main2, Main3]
 EventDaily:
   StageFilter: |-
     A1 > A2 > A3

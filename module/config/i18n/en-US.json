@@ -62,10 +62,6 @@
       "name": "Main-3",
       "help": ""
     },
-    "CoinControl": {
-      "name": "CoinControl",
-      "help": ""
-    },
     "GemsFarming": {
       "name": "Commission Farming",
       "help": ""
@@ -666,10 +662,6 @@
       "name": "Keep Oil Above X",
       "help": "Stop current task if oil is found to be below this number"
     },
-    "CoinLimit": {
-      "name": "Coin X Reached",
-      "help": "Stop current task if coin amount has reached X;saving as 0 implies no limit to the coin amount."
-    },
     "MapAchievement": {
       "name": "Level Achievement",
       "help": "Stop current task if level has been 100% Clear, 3 Stars, Threat Safe, or Threat Safe without 3 Stars. Non-stop implies no achievement requirement and loops until different stop condition is met",
@@ -1024,16 +1016,6 @@
       "hermes": "hermes"
     }
   },
-  "CoinControl": {
-    "_info": {
-      "name": "Description",
-      "help": "This module is created to help player maintain a certain amount of coins during events.\nUse the coin limit in stop condition when no events."
-    },
-    "Note": {
-      "name": "",
-      "help": ""
-    }
-  },
   "EventGeneral": {
     "_info": {
       "name": "Event General Settings",
@@ -1046,6 +1028,27 @@
     "TimeLimit": {
       "name": "Event Time Limit",
       "help": "When the local time exceeds the given value, disable all event tasks. '2020-01-01 00:00:00' means no limit and the time will be reset once it's triggered\nThis can prevent the occurrence of forgetting to disable event tasks after the event ends"
+    }
+  },
+  "TaskBalancer": {
+    "_info": {
+      "name": "Task Balancer Settings",
+      "help": "Prevent coin shortage caused by uneven task ratio."
+    },
+    "Enable": {
+      "name": "Enable Task Balancer",
+      "help": ""
+    },
+    "CoinLimit": {
+      "name": "Keep Coin Above X",
+      "help": "Start chosen task if coin is found to be below this number"
+    },
+    "TaskCall": {
+      "name": "Task Call",
+      "help": "Chosen task would be called after finished current task.",
+      "Main": "Main",
+      "Main2": "Main-2",
+      "Main3": "Main-3"
     }
   },
   "EventDaily": {
