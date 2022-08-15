@@ -12,7 +12,7 @@ from module.handler.assets import GET_MISSION, POPUP_CANCEL, POPUP_CONFIRM
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.ocr.ocr import DigitCounter, Duration, Ocr
-from module.retire.assets import DOCK_EMPTY, DOCK_CHECK
+from module.retire.assets import DOCK_EMPTY, DOCK_CHECK, SHIP_CONFIRM
 from module.retire.dock import CARD_GRIDS, Dock, CARD_LEVEL_GRIDS
 from module.tactical.assets import *
 from module.ui.assets import (BACK_ARROW, REWARD_GOTO_TACTICAL,
@@ -150,6 +150,7 @@ class Book:
 class RewardTacticalClass(Dock):
     books: SelectedGrids
     tactical_finish = []
+    dock_select_index = 0
 
     def _tactical_books_get(self, skip_first_screenshot=True):
         """
@@ -349,7 +350,8 @@ class RewardTacticalClass(Dock):
 
             if not study_finished and self.appear(TACTICAL_CHECK, offset=(20, 20)):
                 # Tactical page, has empty position
-                if self.appear_then_click(ADD_NEW_STUDENT, offset=(800, 20)):
+                if self.appear_then_click(ADD_NEW_STUDENT, offset=(800, 20), interval=1):
+                    self.interval_reset(TACTICAL_CHECK)
                     continue
 
             # Get finish time
@@ -386,6 +388,7 @@ class RewardTacticalClass(Dock):
             if self.appear(TACTICAL_CLASS_CANCEL, offset=(30, 30), interval=2) \
                     and self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
                 if self._tactical_books_choose():
+                    self.dock_select_index = 0
                     self.interval_reset(TACTICAL_CLASS_CANCEL)
                     self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
                 else:
@@ -396,23 +399,43 @@ class RewardTacticalClass(Dock):
                     # When you click a ship from page_main -> dock,
                     # this ship will be selected default in tactical dock,
                     # so we need click BACK_ARROW to clear selected state
+                    logger.info('Having pre-selected ship in dock, re-enter')
                     self.device.click(BACK_ARROW)
                     continue
                 # If not enable or can not fina a suitable ship
-                if not self.config.AddNewStudent_Enable or not self.select_suitable_ship():
+                if self.config.AddNewStudent_Enable:
+                    if self.select_suitable_ship():
+                        pass
+                    else:
+                        study_finished = True
+                        self.device.click(BACK_ARROW)
+                else:
+                    logger.info('Not going to learn skill but in dock, close it')
                     study_finished = True
                     self.device.click(BACK_ARROW)
                 continue
             if self.appear(SKILL_CONFIRM, offset=(20, 20), interval=3):
                 # If not enable or can not find a skill
-                if not self.config.AddNewStudent_Enable or not self._tactical_skill_choose():
+                if self.config.AddNewStudent_Enable:
+                    if self._tactical_skill_choose():
+                        pass
+                    else:
+                        study_finished = True
+                        self.device.click(BACK_ARROW)
+                else:
+                    logger.info('Not going to learn skill but having SKILL_CONFIRM, close it')
                     study_finished = True
                     self.device.click(BACK_ARROW)
                 continue
             if self.appear(TACTICAL_META, offset=(200, 20)):
                 # If meta's skill page, it's inappropriate
-                study_finished = True
+                logger.info('META skill found, exit')
                 self.device.click(BACK_ARROW)
+                # Select the next ship in `select_suitable_ship()`
+                self.dock_select_index += 1
+                # Avoid exit tactical between exiting meta skill to select new ship
+                self.interval_reset(TACTICAL_CHECK)
+                self.interval_clear(ADD_NEW_STUDENT)
                 continue
         return True
 
@@ -425,6 +448,7 @@ class RewardTacticalClass(Dock):
             selected_skill: button
             skip_first_screenshot (bool):
         """
+        logger.info('Tactical skill select')
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -454,10 +478,12 @@ class RewardTacticalClass(Dock):
             in: SKILL_CONFIRM
             out: Unknown, may TACTICAL_CLASS_START, page_tactical
         """
+        logger.hr('Tactical skill choose')
         selected_skill = self.find_not_full_level_skill()
 
         # If can't select a skill, think this ship no need study
         if selected_skill is None:
+            logger.info('No available skill to learn')
             return False
 
         # If select a skill, think it not full level and should start or continue
@@ -468,7 +494,7 @@ class RewardTacticalClass(Dock):
         return True
 
     def select_suitable_ship(self):
-
+        logger.hr(f'Select suitable ship')
         # Set if favorite from config
         self.dock_favourite_set(enable=self.config.AddNewStudent_Favorite)
 
@@ -484,17 +510,21 @@ class RewardTacticalClass(Dock):
                              name='DOCK_LEVEL_OCR', threshold=64)
         list_level = level_ocr.ocr(self.device.image)
         should_select_button = None
-        for button, level in list(zip(card_grids.buttons, list_level)):
-            if level != 0:
+        for button, level in list(zip(card_grids.buttons, list_level))[self.dock_select_index:]:
+            # Select ship LV > 1 only
+            if level > 1:
                 should_select_button = button
                 break
 
         if should_select_button is None:
+            logger.info('No ships with level > 1 in dock')
             return False
 
         # select a ship
         self.dock_select_one(should_select_button, skip_first_screenshot=True)
         # Confirm selected ship
+        # Clear interval if alas have just selected and exited from a meta skill
+        self.interval_clear(SHIP_CONFIRM)
         self.dock_select_confirm(TACTICAL_SKILL_LIST)
 
         return True
@@ -511,7 +541,7 @@ class RewardTacticalClass(Dock):
             out: SKILL_CONFIRM
         """
 
-        if skip_first_screenshot:
+        if not skip_first_screenshot:
             self.device.screenshot()
 
         skill_level_ocr = Ocr(buttons=SKILL_LEVEL_GRIDS.buttons, lang='cnocr', name='SKILL_LEVEL')
