@@ -72,17 +72,15 @@ class SelectedGrids:
         Returns:
             SelectedGrids:
         """
-        result = []
-        for grid in self:
+        def matched(obj):
             flag = True
             for k, v in kwargs.items():
-                grid_v = grid.__getattribute__(k)
-                if type(grid_v) != type(v) or grid_v != v:
+                obj_v = obj.__getattribute__(k)
+                if type(obj_v) != type(v) or obj_v != v:
                     flag = False
-            if flag:
-                result.append(grid)
+            return flag
 
-        return SelectedGrids(result)
+        return SelectedGrids([grid for grid in self.grids if matched(grid)])
 
     def create_index(self, *attrs):
         indexes = {}
