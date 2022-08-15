@@ -12,7 +12,7 @@ from module.os_handler.map_order import MapOrderHandler
 from module.os_handler.mission import MissionHandler
 from module.os_handler.port import PortHandler
 from module.os_handler.storage import StorageHandler
-from module.ui.assets import BACK_ARROW
+from module.ui.assets import BACK_ARROW, OS_CHECK
 
 
 class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandler, OSFleetSelector):
@@ -44,7 +44,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
     def get_zone_name(self):
         # For EN only
         from string import whitespace
-        ocr = Ocr(MAP_NAME, lang='cnocr', letter=(214, 235, 235), threshold=96, name='OCR_OS_MAP_NAME')
+        ocr = Ocr(MAP_NAME, lang='cnocr', letter=(206, 223, 247), threshold=96, name='OCR_OS_MAP_NAME')
         name = ocr.ocr(self.device.image)
         name = name.translate(dict.fromkeys(map(ord, whitespace)))
         name = name.lower()
@@ -57,10 +57,17 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             name = 'nycity'
         if 'cibraltar' in name:
             name = 'gibraltar'
+
+        # Occasional mis-read by OCR, hotfix
         name = name.replace('pasage', 'passage')
-        # `-` is missing
+        name = name.replace('shef', 'shelf')
+
+        # `-` is missing or read as '.'
+        # due to font size
         name = name.replace('safe', '')
         name = name.replace('zone', '')
+        if name.endswith('.'):
+            name = name[0:-1]
         return name
 
     @Config.when(SERVER='jp')
@@ -159,17 +166,6 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             else:
                 self.device.screenshot()
 
-            if timeout.reached():
-                logger.warning('Zone init timeout')
-                break
-            if self.is_in_map():
-                try:
-                    return self.get_current_zone()
-                except MapDetectionError:
-                    continue
-            else:
-                timeout.reset()
-
             # Handle popups
             if self.handle_map_event():
                 timeout.reset()
@@ -183,6 +179,24 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
                 self.device.click(BACK_ARROW)
                 timeout.reset()
                 continue
+            # Handle mission complete header, can block
+            # map name or mis-read OCR due to extra text
+            if self.is_in_map() and \
+               not self.appear(OS_CHECK, offset=(20, 20)):
+                self.wait_until_appear(OS_CHECK)
+                timeout.reset()
+                continue
+
+            if timeout.reached():
+                logger.warning('Zone init timeout')
+                break
+            if self.is_in_map():
+                try:
+                    return self.get_current_zone()
+                except MapDetectionError:
+                    continue
+            else:
+                timeout.reset()
 
         if fallback_init:
             logger.warning('Unable to get zone name, get current zone from globe map instead')
