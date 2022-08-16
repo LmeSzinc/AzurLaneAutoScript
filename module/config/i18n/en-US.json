@@ -1035,13 +1035,9 @@
       "name": "Task Balancer Settings",
       "help": "Prevent coin shortage caused by uneven task ratio."
     },
-    "Enable": {
-      "name": "Enable Task Balancer",
-      "help": ""
-    },
     "CoinLimit": {
       "name": "Keep Coin Above X",
-      "help": "Start chosen task if coin is found to be below this number"
+      "help": "Start chosen task if coin is found to be below this number. 0 means no limit."
     },
     "CheckInterval": {
       "name": "Check Interval",

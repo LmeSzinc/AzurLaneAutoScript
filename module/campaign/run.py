@@ -130,10 +130,11 @@ class CampaignRun(UI):
             'Event2',
             'Raid',
             'GemsFarming',
+            'Main'  # Delete when done
         ]
         command = self.config.Scheduler_Command
         # Check Coin
-        if self.config.TaskBalancer_Enable and coin < limit:
+        if coin < limit:
             if command in tasks:
                 logger.hr('Triggered task balancer: Coin limit')
                 return True
@@ -147,9 +148,9 @@ class CampaignRun(UI):
             now = datetime.now().replace(
                 microsecond=0)
             next_run = now + timedelta(minutes=5)
-            next_task = self.config.TaskBalancer_TaskCall
             self.config.task_delay(target=next_run)
             # Check if needs force_call, remove when checked.
+            next_task = self.config.TaskBalancer_TaskCall
             self.config.task_call(next_task, force_call=True)
             # Check if task stops and delays successfully.
             self.config.task_stop()

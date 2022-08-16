@@ -348,9 +348,8 @@
       "TimeLimit": "2020-01-01 00:00:00"
     },
     "TaskBalancer": {
-      "Enable": false,
-      "CoinLimit": 1000,
-      "CheckInterval": 10,
+      "CoinLimit": 0,
+      "CheckInterval": 1,
       "TaskCall": "Main"
     }
   },
