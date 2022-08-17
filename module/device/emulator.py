@@ -142,17 +142,17 @@ class EmulatorManager(Connection):
             for emulator in emulators:
                 logger.info(f'Name: {emulator[0].name}, Multi_id: {emulator[1]}')
 
-            if len(emulators) == 1 or emulators[0][0] == self.SUPPORTED_EMULATORS['mumu_player']:
+            if len(emulators) == 1 or \
+                    (len(emulators) > 0 and emulators[0][0] == self.SUPPORTED_EMULATORS['mumu_player']):
                 logger.info('Find the only emulator, using it')
                 return emulators[0][0], emulators[0][1]
             elif len(emulators) == 0:
                 logger.warning('The emulator corresponding to serial is not found, '
                                'please check the setting or use custom command')
-                raise RequestHumanTakeover
             else:
                 logger.warning('Multiple emulators with the same serial have been found, '
                                'please select one manually or use custom command')
-                raise RequestHumanTakeover
+            raise RequestHumanTakeover
 
         else:
             try:
@@ -213,7 +213,7 @@ class EmulatorManager(Connection):
         try:
             return super(EmulatorManager, self).adb_connect(serial)
         except EmulatorNotRunningError:
-            if self.config.RestartEmulator_LaunchMode != 'do_not_use' \
+            if self.config.RestartEmulator_Enable \
                     and self.emulator_restart(kill=False):
                 return True
             raise RequestHumanTakeover
@@ -308,27 +308,20 @@ class EmulatorManager(Connection):
 
     def emulator_restart(self, kill=True):
         serial = self.serial
-        emulator = None
-        multi_id = None
-        start_command = None
-        kill_command = None
 
-        if self.config.RestartEmulator_LaunchMode == 'do_not_use':
+        if not self.config.RestartEmulator_Enable:
             return False
         if platform != 'win32':
             logger.warning('Restart simulator only works under Windows platform')
             return False
 
         logger.hr('Emulator restart')
-        if self.config.RestartEmulator_LaunchMode == 'auto':
+        if self.config.RestartEmulator_EmulatorType == 'auto':
             emulator, multi_id = self.detect_emulator(serial)
-        elif self.config.RestartEmulator_LaunchMode == 'custom':
-            start_command = self.config.RestartEmulator_CustomStartCommand
-            kill_command = self.config.RestartEmulator_CustomKillCommand
         else:
-            emulator = self.SUPPORTED_EMULATORS[self.config.RestartEmulator_LaunchMode]
-            emulator, multi_id = self.detect_emulator(serial, emulator)
+            emulator = self.SUPPORTED_EMULATORS[self.config.RestartEmulator_EmulatorType]
+            emulator, multi_id = self.detect_emulator(serial, emulator=emulator)
 
-        if kill and not self.emulator_kill(serial, emulator, multi_id, kill_command):
+        if kill and not self.emulator_kill(serial, emulator, multi_id):
             return False
-        return self.emulator_start(serial, emulator, multi_id, start_command)
+        return self.emulator_start(serial, emulator, multi_id)

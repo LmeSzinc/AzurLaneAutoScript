@@ -110,25 +110,19 @@
       }
     },
     "RestartEmulator": {
-      "LaunchMode": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "EmulatorType": {
         "type": "select",
-        "value": "do_not_use",
+        "value": "auto",
         "option": [
-          "do_not_use",
           "auto",
           "nox_player",
           "bluestacks_5",
-          "mumu_player",
-          "custom"
+          "mumu_player"
         ]
-      },
-      "CustomStartCommand": {
-        "type": "textarea",
-        "value": "C:\\Program Files\\Nox\\bin\\Nox.exe -clone:nox"
-      },
-      "CustomKillCommand": {
-        "type": "textarea",
-        "value": "C:\\Program Files\\Nox\\bin\\Nox.exe -clone:nox -quit"
       }
     },
     "Error": {

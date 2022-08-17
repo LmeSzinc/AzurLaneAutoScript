@@ -27,9 +27,8 @@ class GeneratedConfig:
     Emulator_AdbRestart = False
 
     # Group `RestartEmulator`
-    RestartEmulator_LaunchMode = 'do_not_use'  # do_not_use, auto, nox_player, bluestacks_5, mumu_player, custom
-    RestartEmulator_CustomStartCommand = 'C:\\Program Files\\Nox\\bin\\Nox.exe -clone:nox'
-    RestartEmulator_CustomKillCommand = 'C:\\Program Files\\Nox\\bin\\Nox.exe -clone:nox -quit'
+    RestartEmulator_Enable = False
+    RestartEmulator_EmulatorType = 'auto'  # auto, nox_player, bluestacks_5, mumu_player
 
     # Group `Error`
     Error_HandleError = True
