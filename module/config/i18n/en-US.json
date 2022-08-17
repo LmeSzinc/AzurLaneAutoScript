@@ -1041,7 +1041,7 @@
     },
     "CheckInterval": {
       "name": "Check Interval",
-      "help": "Check coin amount after X times of run.\nDefault value is 10, players can adjust the value to increase/decrease the frequency of checking coins."
+      "help": "Check coin amount after X times of run.\nDefault value is 1, players can adjust the value to increase/decrease the frequency of checking coins."
     },
     "TaskCall": {
       "name": "Task Call",
