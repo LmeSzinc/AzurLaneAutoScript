@@ -130,7 +130,6 @@ class CampaignRun(UI):
             'Event2',
             'Raid',
             'GemsFarming',
-            'Main'  # Delete when done
         ]
         command = self.config.Scheduler_Command
         # Check Coin
@@ -148,12 +147,7 @@ class CampaignRun(UI):
             self.config.task_delay(minute=(2, 6))
             # Check if needs force_call, remove when checked.
             next_task = self.config.TaskBalancer_TaskCall
-            if self.config.TaskBalancer_TaskCall == 'Main':
-                self.config.task_call('Main', force_call=True)
-            elif self.config.TaskBalancer_TaskCall == 'Main2':
-                self.config.task_call('Main2', force_call=True)
-            elif self.config.TaskBalancer_TaskCall == 'Main3':
-                self.config.task_call('Main3', force_call=True)
+            self.config.task_call(next_task)
             # Check if task stops and delays successfully.
             self.config.task_stop()
 
