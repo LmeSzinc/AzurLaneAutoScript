@@ -7,6 +7,12 @@ from module.base.utils import crop, image_size
 
 
 class ImageError(Exception):
+    """ Error when parsing images """
+    pass
+
+
+class ImageInvalidResolution(ImageError):
+    """ Image is not in 1280x720 """
     pass
 
 
@@ -61,5 +67,5 @@ def unpack(image):
         return [image]
     else:
         if size[0] != 1280 or size[1] % 720 != 0:
-            raise ImageError(f'Unexpected image size: {size}')
+            raise ImageInvalidResolution(f'Unexpected image size: {size}')
         return [crop(image, (0, n * 720, 1280, (n + 1) * 720)) for n in range(size[1] // 720)]

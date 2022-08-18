@@ -4,7 +4,7 @@ import threading
 import time
 from datetime import datetime
 from functools import partial
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
@@ -17,7 +17,6 @@ from module.config.utils import (
     filepath_args,
     filepath_config,
     read_file,
-    write_file,
 )
 from module.logger import logger
 from module.ocr.rpc import start_ocr_server_process, stop_ocr_server_process
@@ -39,6 +38,7 @@ from module.webui.utils import (
     filepath_css,
     get_localstorage,
     get_window_visibility_state,
+    get_alas_config_listen_path,
     login,
     parse_pin_value,
     raise_exception,
@@ -47,7 +47,8 @@ from module.webui.utils import (
 from module.webui.widgets import (
     BinarySwitchButton,
     RichLog,
-    get_output,
+    T_Output_Kwargs,
+    put_output,
     put_icon_buttons,
     put_loading_text,
     put_none,
@@ -86,7 +87,7 @@ class AlasGUI(Frame):
     theme = "default"
 
     @classmethod
-    def initial(cls, prefix="a") -> None:
+    def initial(cls) -> None:
         cls.ALAS_MENU = read_file(filepath_args("menu"))
         cls.ALAS_ARGS = read_file(filepath_args("args"))
 
@@ -222,43 +223,49 @@ class AlasGUI(Frame):
                 put_text(group_help)
             put_html('<hr class="hr-group">')
 
-            for arg, d in deep_iter(arg_dict, depth=1):
-                arg = arg[0]
-                arg_type = d["type"]
-                if arg_type == "hide":
+            for arg, arg_dict in deep_iter(arg_dict, depth=1):
+                output_kwargs: T_Output_Kwargs = {}
+
+                # Skip hide
+                display: Optional[str] = arg_dict.get("display")
+                if display == "hide":
                     continue
-                value = deep_get(config, f"{task}.{group_name}.{arg}", d["value"])
+                # Disable
+                elif display == "disabled":
+                    output_kwargs["disabled"] = True
+                # Output type
+                output_kwargs["widget_type"] = arg_dict["type"]
+
+                arg_name = arg[0]  # [arg_name,]
+                # Internal pin widget name
+                output_kwargs["name"] = f"{task}_{group_name}_{arg_name}"
+                # Display title
+                output_kwargs["title"] = t(f"{group_name}.{arg_name}.name")
+
+                # Get value from config
+                value = deep_get(
+                    config, [task, group_name, arg_name], arg_dict["value"]
+                )
+                # idk
                 value = str(value) if isinstance(value, datetime) else value
-
-                # Option
-                options = deep_get(d, "option", None)
-                if options:
-                    option = []
-                    for opt in options:
-                        o = {"label": t(f"{group_name}.{arg}.{opt}"), "value": opt}
-                        if value == opt:
-                            o["selected"] = True
-                        option.append(o)
-                else:
-                    option = None
-
+                # Default value
+                output_kwargs["value"] = value
+                # Options
+                output_kwargs["options"] = options = deep_get(arg_dict, "option", [])
+                # Options label
+                options_label = []
+                for opt in options:
+                    options_label.append(t(f"{group_name}.{arg_name}.{opt}"))
+                output_kwargs["options_label"] = options_label
                 # Help
-                arg_help = t(f"{group_name}.{arg}.help")
+                arg_help = t(f"{group_name}.{arg_name}.help")
                 if arg_help == "" or not arg_help:
                     arg_help = None
-
+                output_kwargs["help"] = arg_help
                 # Invalid feedback
-                invalid_feedback = t("Gui.Text.InvalidFeedBack").format(d["value"])
+                output_kwargs["invalid_feedback"] = t("Gui.Text.InvalidFeedBack", value)
 
-                get_output(
-                    arg_type=arg_type,
-                    name=f"{task}_{group_name}_{arg}",
-                    title=t(f"{group_name}.{arg}.name"),
-                    arg_help=arg_help,
-                    value=value,
-                    options=option,
-                    invalid_feedback=invalid_feedback,
-                ).show()
+                put_output(output_kwargs)
 
     @use_scope("navigator")
     def set_navigator(self, group):
@@ -365,16 +372,10 @@ class AlasGUI(Frame):
         self.task_handler.add(log.put_log(self.alas), 0.25, True)
 
     def _init_alas_config_watcher(self) -> None:
-        paths = []
-        for path, d in deep_iter(self.ALAS_ARGS, depth=3):
-            if d["type"] in ["lock", "disable", "hide"]:
-                continue
-            paths.append(path)
-
         def put_queue(path, value):
             self.modified_config_queue.put({"name": path, "value": value})
 
-        for path in paths:
+        for path in get_alas_config_listen_path(self.ALAS_ARGS):
             pin_on_change(
                 name="_".join(path), onchange=partial(put_queue, ".".join(path))
             )
@@ -416,6 +417,7 @@ class AlasGUI(Frame):
 
                 elif not validate or re_fullmatch(validate, v):
                     deep_set(config, k, v)
+                    modified[k] = v
                     valid.append(k)
 
                     # update Emotion Record if Emotion Value is changed

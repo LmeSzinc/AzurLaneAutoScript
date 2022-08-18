@@ -6,6 +6,7 @@ from module.base.button import Button
 from module.base.decorator import cached_property
 from module.base.resource import Resource
 from module.base.utils import *
+from module.config.server import VALID_SERVER
 from module.map_detection.utils import Points
 
 
@@ -223,3 +224,17 @@ class Template(Resource):
         # result: np.array([[x0, y0], [x1, y1], ...)
         result = Points(result).group(threshold=threshold)
         return [self._point_to_button(point, image=raw, name=name) for point in result]
+
+    def split_server(self):
+        """
+        Split into 4 server specific buttons.
+
+        Returns:
+            dict[str, Button]:
+        """
+        out = {}
+        for s in VALID_SERVER:
+            out[s] = Template(
+                file=self.parse_property(self.raw_file, s),
+            )
+        return out

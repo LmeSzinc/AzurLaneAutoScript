@@ -1,13 +1,9 @@
 import random
 import string
-from typing import Callable, Dict, Generator, List, Union
-
-from pywebio.exceptions import SessionException
-from pywebio.output import *
-from pywebio.session import eval_js, run_js
-from rich.console import ConsoleRenderable
+from typing import Any, Callable, Dict, Generator, List, Union
 
 from module.logger import WEB_THEME, Highlighter, HTMLConsole
+from module.webui.lang import t
 from module.webui.pin import put_checkbox, put_input, put_select, put_textarea
 from module.webui.process_manager import ProcessManager
 from module.webui.setting import State
@@ -17,6 +13,11 @@ from module.webui.utils import (
     LOG_CODE_FORMAT,
     Switch,
 )
+from pywebio.exceptions import SessionException
+from pywebio.io_ctrl import Output
+from pywebio.output import *
+from pywebio.session import eval_js, run_js
+from rich.console import ConsoleRenderable
 
 
 class ScrollableCode:
@@ -264,7 +265,7 @@ def put_icon_buttons(
     icon_html: str,
     buttons: List[Dict[str, str]],
     onclick: Union[List[Callable[[], None]], Callable[[], None]],
-):
+) -> Output:
     value = buttons[0]["value"]
     return put_column(
         [
@@ -277,155 +278,127 @@ def put_icon_buttons(
     )
 
 
-# args input widget
-def put_input_(
-    name: str,
-    title: str,
-    help: str = None,
-    value: str = "",
-    readonly: bool = None,
-    **other_html_attrs,
-):
-    if help:
-        left = put_column(
-            [
-                put_text(title).style("--arg-title--"),
-                put_text(help).style("--arg-help--"),
-            ],
-            size="auto 1fr",
-        )
-    else:
-        left = put_text(title).style("--arg-title--")
-
-    return put_row(
-        [
-            left,
-            put_input(name, value=value, readonly=readonly, **other_html_attrs).style(
-                "--input--"
-            ),
-        ]
-    ).style("container-args-row")
-
-
-def put_select_(
-    name: str,
-    title: str,
-    help: str = None,
-    options: List[str] = None,
-    **other_html_attrs,
-):
-    if options is None:
-        options = []
-    if help:
-        left = put_column(
-            [
-                put_text(title).style("--arg-title--"),
-                put_text(help).style("--arg-help--"),
-            ],
-            size="auto 1fr",
-        )
-    else:
-        left = put_text(title).style("--arg-title--")
-
-    return put_row(
-        [
-            left,
-            put_select(name, options=options, **other_html_attrs).style("--input--"),
-        ]
-    ).style("container-args-row")
-
-
-def put_textarea_(
-    name: str,
-    title: str,
-    help: str = None,
-    value: str = "",
-    readonly: bool = None,
-    **other_html_attrs,
-):
-    if help:
-        return put_column(
-            [
-                put_text(title).style("--arg-title--"),
-                put_text(help).style("--arg-help--"),
-                put_textarea(
-                    name,
-                    value=value,
-                    readonly=readonly,
-                    code={"lineWrapping": True, "lineNumbers": False},
-                    **other_html_attrs,
-                ),
-            ],
-            size="auto auto auto",
-        ).style("container-args-column")
-    else:
-        return put_column(
-            [
-                put_text(title).style("--arg-title--"),
-                put_textarea(
-                    name,
-                    value=value,
-                    readonly=readonly,
-                    code={"lineWrapping": True, "lineNumbers": False},
-                    **other_html_attrs,
-                ),
-            ],
-            size="auto auto",
-        ).style("container-args-column")
-
-
-def put_checkbox_(
-    name: str, title: str, help: str = None, value: bool = False, **other_html_attrs
-):
-    # Not real checkbox, use as a switch (on/off)
-    if help:
-        left = put_column(
-            [
-                put_text(title).style("--arg-title--"),
-                put_text(help).style("--arg-help--"),
-            ],
-            size="auto 1fr",
-        )
-    else:
-        left = put_text(title).style("--arg-title--")
-
-    return put_row(
-        [
-            left,
-            put_checkbox(
-                name,
-                options=[{"label": "", "value": True, "selected": value}],
-                **other_html_attrs,
-            ).style("text-align: center"),
-        ]
-    ).style("container-large.args")
-
-
-def put_none():
+def put_none() -> Output:
     return put_html("<div></div>")
 
 
-def get_output(
-    arg_type, name, title, arg_help=None, value=None, options=None, **other_html_attrs
-):
-    if arg_type == "input":
-        return put_input_(name, title, arg_help, value, **other_html_attrs)
-    elif arg_type == "select":
-        return put_select_(name, title, arg_help, options, **other_html_attrs)
-    elif arg_type == "textarea":
-        return put_textarea_(name, title, arg_help, value, **other_html_attrs)
-    elif arg_type == "checkbox":
-        return put_checkbox_(name, title, arg_help, value, **other_html_attrs)
-    elif arg_type == "lock":
-        return put_input_(
-            name, title, arg_help, value, readonly=True, **other_html_attrs
+T_Output_Kwargs = Dict[str, Union[str, Dict[str, Any]]]
+
+
+def get_title_help(kwargs: T_Output_Kwargs) -> Output:
+    title: str = kwargs.get("title")
+    help_text: str = kwargs.get("help")
+
+    if help_text:
+        res = put_column(
+            [
+                put_text(title).style("--arg-title--"),
+                put_text(help_text).style("--arg-help--"),
+            ],
+            size="auto 1fr",
         )
-    elif arg_type == "disable":
-        return put_input_(
-            name, title, arg_help, value, readonly=True, **other_html_attrs
-        )
-    elif arg_type == "hide":
-        return None
+    else:
+        res = put_text(title).style("--arg-title--")
+
+    return res
+
+
+# args input widget
+def put_arg_input(kwargs: T_Output_Kwargs) -> Output:
+    name: str = kwargs["name"]
+    options: List = kwargs.get("options")
+    if options is not None:
+        kwargs.setdefault("datalist", options)
+
+    return put_scope(
+        f"arg_container-input-{name}",
+        [
+            get_title_help(kwargs),
+            put_input(**kwargs).style("--input--"),
+        ],
+    )
+
+
+def put_arg_select(kwargs: T_Output_Kwargs) -> Output:
+    name: str = kwargs["name"]
+    value: str = kwargs["value"]
+    options: List[str] = kwargs["options"]
+    options_label: List[str] = kwargs.pop("options_label", [])
+    disabled: bool = kwargs.pop("disabled", False)
+    _: str = kwargs.pop("invalid_feedback", None)
+
+    option = []
+    if options:
+        for opt, label in zip(options, options_label):
+            o = {"label": label, "value": opt}
+            if value == opt:
+                o["selected"] = True
+            else:
+                o["disabled"] = disabled
+            option.append(o)
+    kwargs["options"] = option
+
+    return put_scope(
+        f"arg_container-select-{name}",
+        [
+            get_title_help(kwargs),
+            put_select(**kwargs).style("--input--"),
+        ],
+    )
+
+
+def put_arg_textarea(kwargs: T_Output_Kwargs) -> Output:
+    name: str = kwargs["name"]
+    kwargs.setdefault("code", {"lineWrapping": True, "lineNumbers": False})
+
+    return put_scope(
+        f"arg_contianer-textarea-{name}",
+        [
+            get_title_help(kwargs),
+            put_textarea(**kwargs),
+        ],
+    )
+
+
+def put_arg_checkbox(kwargs: T_Output_Kwargs) -> Output:
+    # Not real checkbox, use as a switch (on/off)
+    name: str = kwargs["name"]
+    value: str = kwargs["value"]
+    _: str = kwargs.pop("invalid_feedback", None)
+
+    kwargs["options"] = [{"label": "", "value": True, "selected": value}]
+    return put_scope(
+        f"arg_container-checkbox-{name}",
+        [
+            get_title_help(kwargs),
+            put_checkbox(**kwargs).style("text-align: center"),
+        ],
+    )
+
+
+def put_arg_datetime(kwargs: T_Output_Kwargs) -> Output:
+    name: str = kwargs.get("name")
+    return put_scope(
+        f"arg_container-datetime-{name}",
+        [
+            get_title_help(kwargs),
+            put_input(**kwargs).style("--input--"),
+        ]
+    )
+
+
+_widget_type_to_func: Dict[str, Callable] = {
+    "input": put_arg_input,
+    "lock": put_arg_input,
+    "datetime": put_arg_input, # TODO
+    "select": put_arg_select,
+    "textarea": put_arg_textarea,
+    "checkbox": put_arg_checkbox,
+}
+
+
+def put_output(output_kwargs: T_Output_Kwargs) -> Output:
+    return _widget_type_to_func[output_kwargs["widget_type"]](output_kwargs)
 
 
 def get_loading_style(shape: str, fill: bool) -> str:

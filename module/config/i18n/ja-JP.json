@@ -381,6 +381,24 @@
       "help": "Emulator.AdbRestart.help"
     }
   },
+  "RestartEmulator": {
+    "_info": {
+      "name": "RestartEmulator._info.name",
+      "help": "RestartEmulator._info.help"
+    },
+    "Enable": {
+      "name": "RestartEmulator.Enable.name",
+      "help": "RestartEmulator.Enable.help"
+    },
+    "EmulatorType": {
+      "name": "RestartEmulator.EmulatorType.name",
+      "help": "RestartEmulator.EmulatorType.help",
+      "auto": "auto",
+      "nox_player": "nox_player",
+      "bluestacks_5": "bluestacks_5",
+      "mumu_player": "mumu_player"
+    }
+  },
   "Error": {
     "_info": {
       "name": "Error._info.name",
@@ -553,6 +571,8 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "event_20220818_cn": "結像点作戦",
+      "event_20220324_cn": "幻像の塔",
       "event_20211028_cn": "神穹を衝く聖歌（復刻）",
       "event_20220728_cn": "鋼鷲の冒険譚",
       "event_20200917_cn": "刹那觀る胡蝶の夢（復刻）",
@@ -568,7 +588,6 @@
       "event_20220414_cn": "極夜照らす幻光（復刻）",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
       "event_20210422_cn": "讃える復興の迷路",
-      "event_20220324_cn": "幻像の塔",
       "event_20220310_tw": "復刻斯圖爾特的硝煙",
       "event_20200603_cn": "峡湾間の反撃（復刻）",
       "event_20220224_cn": "鳴動せし星霜の淵",
@@ -1129,6 +1148,20 @@
     "T1Allow": {
       "name": "ControlExpOverflow.T1Allow.name",
       "help": "ControlExpOverflow.T1Allow.help"
+    }
+  },
+  "AddNewStudent": {
+    "_info": {
+      "name": "新しいスキルを学ぶ",
+      "help": "戦術学院に空席があると自動的に艦娘が配属され、初の下級スキルが習得される"
+    },
+    "Enable": {
+      "name": "この機能を有効にする",
+      "help": ""
+    },
+    "Favorite": {
+      "name": "好ましい選択",
+      "help": ""
     }
   },
   "Research": {

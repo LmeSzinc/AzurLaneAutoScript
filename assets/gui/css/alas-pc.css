@@ -1,6 +1,6 @@
-*[style*="container-args-row"],
-*[style*="container-large.args"] {
-    grid-template-columns: 1fr 13rem !important;
+[id^="pywebio-scope-arg_container-"] {
+    grid-auto-flow: column;
+    grid-template-columns: 1fr 13rem;
 }
 
 #pywebio-scope-overview {

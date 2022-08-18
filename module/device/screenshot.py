@@ -226,11 +226,12 @@ class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
                 self._screen_black_checked = False
                 return False
             else:
-                logger.critical(f'Received pure black screenshots from emulator, color: {color}')
-                logger.critical(f'Screenshot method `{self.config.Emulator_ScreenshotMethod}` '
-                                f'may not work on emulator `{self.serial}`')
-                logger.critical('Please use other screenshot methods')
-                raise RequestHumanTakeover
+                logger.warning(f'Received pure black screenshots from emulator, color: {color}')
+                logger.warning(f'Screenshot method `{self.config.Emulator_ScreenshotMethod}` '
+                               f'may not work on emulator `{self.serial}`')
+                logger.warning('Or the emulator is not fully started')
+                self._screen_black_checked = False
+                return False
         else:
             self._screen_black_checked = True
             return True

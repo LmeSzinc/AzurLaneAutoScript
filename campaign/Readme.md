@@ -105,3 +105,5 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20220714 | event 20200917 cn | Dreamwaker's Butterfly | 复刻蝶海梦花 | Dreamwaker's Butterfly Rerun | 刹那觀る胡蝶の夢（復刻） | - |
 | 20220728 | event 20220728 cn | Aquilifer's Ballade | 雄鹰的叙事歌 | Aquilifer's Ballade | 鋼鷲の冒険譚 | - |
 | 20220804 | event 20211028 cn | Skybound Oratorio Rerun | - | - | - | 復刻穹頂下的聖詠曲 |
+| 20220818 | event 20220324 cn | Virtual Tower | - | - | - | 虛像構築之塔 |
+| 20220818 | event 20220818 cn | Operation Convergence | 远汇点作战 | Operation Convergence | 結像点作戦 | - |

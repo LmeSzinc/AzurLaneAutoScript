@@ -41,6 +41,10 @@ class GameTooManyClickError(Exception):
     pass
 
 
+class EmulatorNotRunningError(Exception):
+    pass
+
+
 class GameNotRunningError(Exception):
     pass
 

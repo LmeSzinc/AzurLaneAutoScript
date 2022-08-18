@@ -18,7 +18,7 @@ from module.statistics.utils import *
 from module.ui.ui import UI
 
 RESEARCH_ENTRANCE = [ENTRANCE_1, ENTRANCE_2, ENTRANCE_3, ENTRANCE_4, ENTRANCE_5]
-RESEARCH_SERIES = [SERIES_1, SERIES_2, SERIES_3, SERIES_4, SERIES_5]
+RESEARCH_SERIES = (SERIES_1, SERIES_2, SERIES_3, SERIES_4, SERIES_5)
 RESEARCH_STATUS = [STATUS_1, STATUS_2, STATUS_3, STATUS_4, STATUS_5]
 OCR_RESEARCH = [OCR_RESEARCH_1, OCR_RESEARCH_2, OCR_RESEARCH_3, OCR_RESEARCH_4, OCR_RESEARCH_5]
 OCR_RESEARCH = Ocr(OCR_RESEARCH, name='RESEARCH', threshold=64, alphabet='0123456789BCDEGHQTMIULRF-')
@@ -40,7 +40,7 @@ FILTER_PRESET = ('shortest', 'cheapest', 'reset')
 FILTER = Filter(FILTER_REGEX, FILTER_ATTR, FILTER_PRESET)
 
 
-def get_research_series(image):
+def get_research_series(image, series_button=RESEARCH_SERIES):
     """
     Get research series using a simple color detection.
     Counting white lines to detect Roman numerals.
@@ -53,6 +53,7 @@ def get_research_series(image):
 
     Args:
         image (np.ndarray):
+        series_button:
 
     Returns:
         list[int]: Such as [1, 1, 1, 2, 3]
@@ -64,7 +65,7 @@ def get_research_series(image):
     #   So lower height to 160 to have a better detection.
     parameters = {'height': 160, 'prominence': 50, 'width': 1}
 
-    for button in RESEARCH_SERIES:
+    for button in series_button:
         im = color_similarity_2d(resize(crop(image, button.area), (46, 25)), color=(255, 255, 255))
         peaks = [len(signal.find_peaks(row, **parameters)[0]) for row in im[5:-5]]
         upper, lower = max(peaks), min(peaks)
@@ -88,17 +89,18 @@ def get_research_series(image):
     return result
 
 
-def get_research_name(image):
+def get_research_name(image, ocr=OCR_RESEARCH):
     """
     Args:
         image (np.ndarray):
+        ocr (Ocr):
 
     Returns:
         list[str]: Such as ['D-057-UL', 'D-057-UL', 'D-057-UL', 'D-057-UL', 'D-057-UL']
     """
-    names = []
-    for name in OCR_RESEARCH.ocr(image):
-        names.append(name)
+    names = ocr.ocr(image)
+    if not isinstance(names, list):
+        names = [names]
     return names
 
 
@@ -353,7 +355,7 @@ class ResearchProject:
         '|anchorage|hakuryu|agir|august|marcopolo'
         '|plymouth|rupprecht|harbin|chkalov|brest)')
     REGEX_INPUT = re.compile('(coin|cube|part)')
-    DR_SHIP = ['azuma', 'friedrich', 'drake', 'hakuryu', 'agir', 'plymouth', 'brest']
+    REGEX_DR_SHIP = re.compile('azuma|friedrich|drake|hakuryu|agir|plymouth|brest')
 
     def __init__(self, name, series):
         """
@@ -366,6 +368,7 @@ class ResearchProject:
         self.name = self.check_name(name)
         if self.name != name:
             logger.info(f'Research name {name} is revised to {self.name}')
+        self.raw_series = series
         self.series = f'S{series}'
         self.genre = ''
         self.duration = '24'
@@ -384,15 +387,17 @@ class ResearchProject:
             self.duration = str(data['time'] / 3600).rstrip('.0')
             self.task = data['task']
             for item in data['input']:
-                result = re.search(self.REGEX_INPUT, item['name'].replace(' ', '').lower())
+                item_name = item['name'].replace(' ', '').lower()
+                result = re.search(ResearchProject.REGEX_INPUT, item_name)
                 if result:
                     self.__setattr__(f'need_{result.group(1)}', True)
             for item in data['output']:
-                result = re.search(self.REGEX_SHIP, item['name'].replace(' ', '').lower())
+                item_name = item['name'].replace(' ', '').lower()
+                result = re.search(ResearchProject.REGEX_SHIP, item_name)
                 if not self.ship:
                     self.ship = result.group(1) if result else ''
                 if self.ship:
-                    self.ship_rarity = 'dr' if self.ship in self.DR_SHIP else 'pry'
+                    self.ship_rarity = 'dr' if re.search(ResearchProject.REGEX_DR_SHIP, self.ship) else 'pry'
             break
 
         if not matched:
@@ -414,18 +419,34 @@ class ResearchProject:
             str:
         """
         name = name.strip('-')
+        # G-185-MI, D-T85-MI -> C-185-MI
+        name = name.replace('G-185', 'C-185').replace('D-T85', 'C-185')
+        # E-316-MI -> E-315-MI
+        if name == '316-MI':
+            name = 'E-315-MI'
+
         parts = name.split('-')
         parts = [i for i in parts if i]
         if len(parts) == 3:
             prefix, number, suffix = parts
+
             number = number.replace('D', '0').replace('O', '0').replace('S', '5')
-            if prefix == 'I1':
+            # E-316-MI -> E-315-MI
+            number = number.replace('316', '315')
+
+            if prefix in ['I1', 'U']:
                 prefix = 'D'
             prefix = prefix.strip('I1')
+
             # S3 D-022-MI (S3-Drake-0.5) detected as 'D-022-ML', because of Drake's white cloth.
-            suffix = suffix.replace('ML', 'MI').replace('MIL', 'MI')
+            suffix = suffix.replace('ML', 'MI').replace('MIL', 'MI').replace('M1', 'MI')
             # S4 D-063-UL (S4-hakuryu-0.5) detected as 'D-063-0C'
-            suffix = suffix.replace('0C', 'UL').replace('UC', 'UL')
+            # D-057-DC -> D-057-UL
+            suffix = suffix.replace('0C', 'UL').replace('UC', 'UL').replace('DC5', 'UL').replace('DC3', 'UL').replace('DC', 'UL')
+            # D-075-UL1 -> D-075-UL
+            suffix = suffix.replace('UL1', 'UL').replace('ULI', 'UL').replace('UL5', 'UL')
+            if suffix == 'U':
+                suffix = 'UL'
             return '-'.join([prefix, number, suffix])
         elif len(parts) == 2:
             # Trying to insert '-', for results like H339-MI
@@ -447,7 +468,7 @@ class ResearchProject:
                 yield data
 
         if len(name) and name[0].isdigit():
-            for t in 'QG':
+            for t in 'QGE':
                 name1 = f'{t}-{self.name}'
                 logger.info(f'Testing the most similar candidate {name1}')
                 for data in LIST_RESEARCH_PROJECT:
