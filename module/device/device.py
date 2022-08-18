@@ -1,6 +1,7 @@
 from collections import deque
 from datetime import datetime
 
+from deploy.adb import uiautomator2_install
 from module.base.timer import Timer
 from module.config.utils import get_server_next_update
 from module.device.app_control import AppControl
@@ -110,6 +111,16 @@ class Device(Screenshot, Control, AppControl):
         for key in self.click_record:
             count[key] = count.get(key, 0) + 1
         count = sorted(count.items(), key=lambda item: item[1])
+        if count[0][1] >= 6:
+            logger.warning(f'Too many click for a button: {count[0][0]}')
+            logger.warning(f'History click: {[str(prev) for prev in self.click_record]}')
+            logger.info('Try restart uiautomator2')
+            uiautomator2_install()
+        if len(count) >= 2 and count[0][1] >= 4 and count[1][1] >= 4:
+            logger.warning(f'Too many click between 2 buttons: {count[0][0]}, {count[1][0]}')
+            logger.warning(f'History click: {[str(prev) for prev in self.click_record]}')
+            logger.info('Try restart uiautomator2')
+            uiautomator2_install()
         if count[0][1] >= 12:
             logger.warning(f'Too many click for a button: {count[0][0]}')
             logger.warning(f'History click: {[str(prev) for prev in self.click_record]}')
