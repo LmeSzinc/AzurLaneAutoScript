@@ -17,6 +17,39 @@ def show_fix_tip(module):
     """)
 
 
+def uiautomator2_install():
+    logger.hr('Uiautomator2 Init', 1)
+    try:
+        import adbutils
+    except ModuleNotFoundError as e:
+        message = str(e)
+        for module in ['apkutils2', 'progress']:
+            # ModuleNotFoundError: No module named 'apkutils2'
+            # ModuleNotFoundError: No module named 'progress.bar'
+            if module in message:
+                show_fix_tip(module)
+                exit(1)
+
+    # Remove global proxies, or uiautomator2 will go through it
+    for k in list(os.environ.keys()):
+        if k.lower().endswith('_proxy'):
+            del os.environ[k]
+
+    from uiautomator2.init import Initer
+    for device in adbutils.adb.iter_device():
+        init = Initer(device, loglevel=logging.DEBUG)
+        init.set_atx_agent_addr('127.0.0.1:7912')
+        try:
+            init.install()
+        except AssertionError:
+            logger.info(f'AssertionError when installing uiautomator2 on device {device.serial}')
+            logger.info('If you are using BlueStacks or LD player or WSA, '
+                    'please enable ADB in the settings of your emulator')
+            exit(1)
+        init._device.shell(["rm", "/data/local/tmp/minicap"])
+        init._device.shell(["rm", "/data/local/tmp/minicap.so"])
+
+
 class AdbManager(DeployConfig):
     @cached_property
     def adb(self):
@@ -32,35 +65,5 @@ class AdbManager(DeployConfig):
         elif self.AutoConnect:
             logger.hr('ADB Connect', 1)
             emulator.brute_force_connect()
-
         if self.InstallUiautomator2:
-            logger.hr('Uiautomator2 Init', 1)
-            try:
-                import adbutils
-            except ModuleNotFoundError as e:
-                message = str(e)
-                for module in ['apkutils2', 'progress']:
-                    # ModuleNotFoundError: No module named 'apkutils2'
-                    # ModuleNotFoundError: No module named 'progress.bar'
-                    if module in message:
-                        show_fix_tip(module)
-                        exit(1)
-
-            # Remove global proxies, or uiautomator2 will go through it
-            for k in list(os.environ.keys()):
-                if k.lower().endswith('_proxy'):
-                    del os.environ[k]
-
-            from uiautomator2.init import Initer
-            for device in adbutils.adb.iter_device():
-                init = Initer(device, loglevel=logging.DEBUG)
-                init.set_atx_agent_addr('127.0.0.1:7912')
-                try:
-                    init.install()
-                except AssertionError:
-                    logger.info(f'AssertionError when installing uiautomator2 on device {device.serial}')
-                    logger.info('If you are using BlueStacks or LD player or WSA, '
-                          'please enable ADB in the settings of your emulator')
-                    exit(1)
-                init._device.shell(["rm", "/data/local/tmp/minicap"])
-                init._device.shell(["rm", "/data/local/tmp/minicap.so"])
+            uiautomator2_install()
