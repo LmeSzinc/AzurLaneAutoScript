@@ -5,7 +5,14 @@ from module.base.timer import Timer
 from module.config.utils import get_server_next_update
 from module.device.app_control import AppControl
 from module.device.control import Control
-from module.device.emulator import EmulatorManager
+
+import sys
+if sys.platform == 'win32':
+    from module.device.emulator import EmulatorManager
+else:
+    class EmulatorManager:
+        pass
+
 from module.device.screenshot import Screenshot
 from module.exception import (GameStuckError, GameTooManyClickError,
                               GameNotRunningError, RequestHumanTakeover)
