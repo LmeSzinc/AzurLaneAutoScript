@@ -386,23 +386,17 @@
       "name": "RestartEmulator._info.name",
       "help": "RestartEmulator._info.help"
     },
-    "LaunchMode": {
-      "name": "RestartEmulator.LaunchMode.name",
-      "help": "RestartEmulator.LaunchMode.help",
-      "do_not_use": "do_not_use",
+    "Enable": {
+      "name": "RestartEmulator.Enable.name",
+      "help": "RestartEmulator.Enable.help"
+    },
+    "EmulatorType": {
+      "name": "RestartEmulator.EmulatorType.name",
+      "help": "RestartEmulator.EmulatorType.help",
       "auto": "auto",
       "nox_player": "nox_player",
       "bluestacks_5": "bluestacks_5",
-      "mumu_player": "mumu_player",
-      "custom": "custom"
-    },
-    "CustomStartCommand": {
-      "name": "RestartEmulator.CustomStartCommand.name",
-      "help": "RestartEmulator.CustomStartCommand.help"
-    },
-    "CustomKillCommand": {
-      "name": "RestartEmulator.CustomKillCommand.name",
-      "help": "RestartEmulator.CustomKillCommand.help"
+      "mumu_player": "mumu_player"
     }
   },
   "Error": {

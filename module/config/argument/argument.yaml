@@ -36,15 +36,10 @@ Emulator:
   ScreenshotDedithering: false
   AdbRestart: false
 RestartEmulator:
-  LaunchMode:
-    value: do_not_use
-    option: [do_not_use, auto, nox_player, bluestacks_5, mumu_player, custom]
-  CustomStartCommand:
-    type: textarea
-    value: C:\Program Files\Nox\bin\Nox.exe -clone:nox
-  CustomKillCommand:
-    type: textarea
-    value: C:\Program Files\Nox\bin\Nox.exe -clone:nox -quit
+  Enable: False
+  EmulatorType:
+    value: auto
+    option: [auto, nox_player, bluestacks_5, mumu_player]
 Error:
   HandleError: true
   SaveError: true
