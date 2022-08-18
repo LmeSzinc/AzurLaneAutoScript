@@ -193,6 +193,8 @@ class CampaignRun(UI):
             name = 'sp'
         if folder == 'event_20220324_cn' and name == 'esp':
             name = 'sp'
+        if folder == 'event_20220818_cn' and name == 'esp':
+            name = 'sp'
         convert = {
             'a1': 't1',
             'a2': 't2',

@@ -13,10 +13,21 @@ from module.exception import RequestHumanTakeover
 from module.logger import logger
 
 
+def get_mxnet_context():
+    import re
+    import pkg_resources
+    for pkg in pkg_resources.working_set:
+        if re.match(r'^mxnet-cu\d+$', pkg.key):
+            logger.info(f'MXNet gpu package: {pkg.key}=={pkg.version} found, using it')
+            return 'gpu'
+
+    return 'cpu'
+
+
 class AlOcr(CnOcr):
     # 'cpu' or 'gpu'
     # To use predict in gpu, the gpu version of mxnet must be installed.
-    CNOCR_CONTEXT = 'cpu'
+    CNOCR_CONTEXT = get_mxnet_context()
 
     def __init__(
             self,

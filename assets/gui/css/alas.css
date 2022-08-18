@@ -431,26 +431,31 @@ pre.rich-traceback-code {
     display: grid;
 }
 
-*[style*="container-args-column"],
-*[style*="container-args-row"] {
-    margin: .125rem 0 .125rem 0
+.bs-title-option,
+.form-check-input[id*="ch_S"] {
+    display: none;
 }
 
-*[style*="container-large.args"] {
-    margin-top: .375rem;
-    margin-bottom: .375rem;
+[id^="pywebio-scope-arg_container-"] {
+    display: grid;
+    margin: .125rem 0;
+}
+
+[id^="pywebio-scope-arg_container-checkbox-"] {
+    display: grid;
+    margin: .375rem 0;
 }
 
 *[style*="--arg-title--"] {
     font-size: 1rem;
     font-weight: 500;
-    margin: 0 .25rem 0 .25rem !important;
+    margin: 0 .25rem !important;
     overflow-wrap: break-word;
 }
 
 *[style*="--arg-help--"] {
     font-size: .8rem;
-    margin: .2rem .25rem .1rem .25rem !important;
+    margin: .2rem .25rem .1rem !important;
     overflow-wrap: break-word;
 }
 

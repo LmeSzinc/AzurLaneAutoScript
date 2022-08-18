@@ -72,7 +72,8 @@ class Dock(Equipment):
             self.handle_dock_cards_loading()
 
     def dock_filter_enter(self):
-        self.ui_click(DOCK_FILTER, appear_button=DOCK_CHECK, check_button=DOCK_FILTER_CONFIRM, skip_first_screenshot=True)
+        self.ui_click(DOCK_FILTER, appear_button=DOCK_CHECK, check_button=DOCK_FILTER_CONFIRM,
+                      skip_first_screenshot=True)
 
     def dock_filter_confirm(self):
         self.ui_click(DOCK_FILTER_CONFIRM, check_button=DOCK_CHECK, skip_first_screenshot=True)
@@ -166,8 +167,7 @@ class Dock(Equipment):
             else:
                 self.device.screenshot()
 
-            current, _, _ = OCR_DOCK_SELECTED.ocr(self.device.image)
-            if current > 0:
+            if self.dock_selected():
                 break
 
             if self.appear(DOCK_CHECK, interval=5):
@@ -175,6 +175,10 @@ class Dock(Equipment):
                 continue
             if self.handle_popup_confirm('DOCK_SELECT'):
                 continue
+
+    def dock_selected(self):
+        current, _, _ = OCR_DOCK_SELECTED.ocr(self.device.image)
+        return current > 0
 
     def dock_select_confirm(self, check_button, skip_first_screenshot=True):
         while 1:

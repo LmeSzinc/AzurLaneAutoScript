@@ -460,7 +460,7 @@ class RewardCommission(UI, InfoHandler):
                         click_timer.reset()
                         reward = True
                         continue
-                if click_timer.reached() and self.appear_then_click(REWARD_1, interval=1):
+                if click_timer.reached() and self.appear_then_click(REWARD_1, offset=(20, 20), interval=1):
                     click_timer.reset()
                     reward = True
                     continue

@@ -294,7 +294,7 @@ class Fleet(Camera, AmbushHandler):
             arrive_timer = Timer(0.5 + self.round_wait + extra, count=2)
             arrive_unexpected_timer = Timer(1.5 + self.round_wait + extra, count=6)
             # Wait after ambushed.
-            ambushed_retry = Timer(0.5)
+            ambushed_retry = Timer(0.5 + self.round_wait + extra, count=2)
             # If nothing happens, click again.
             walk_timeout = Timer(20)
             walk_timeout.start()

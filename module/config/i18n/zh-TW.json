@@ -381,6 +381,24 @@
       "help": ""
     }
   },
+  "RestartEmulator": {
+    "_info": {
+      "name": "重啓模擬器",
+      "help": ""
+    },
+    "Enable": {
+      "name": "啟用重啓模擬器",
+      "help": "在模擬器被關閉的時候自動啟動模擬器\n在服務器日期重繪時重啓模擬器以釋放記憶體"
+    },
+    "EmulatorType": {
+      "name": "模擬器類型",
+      "help": "Alas會根據手動填寫的Serial尋找對應的模擬器\n如果被啟動的模擬器需要管理員許可權，請以管理員身份運行Alas\nMuMu模擬器不支持多開",
+      "auto": "自動",
+      "nox_player": "夜神模擬器32比特",
+      "bluestacks_5": "藍疊模擬器5",
+      "mumu_player": "MuMu模擬器"
+    }
+  },
   "Error": {
     "_info": {
       "name": "除錯設定",
@@ -553,6 +571,8 @@
       "name": "活動名稱",
       "help": "自動選擇至最新的活動圖",
       "campaign_main": "主線圖",
+      "event_20220818_cn": "Operation Convergence",
+      "event_20220324_cn": "虛像構築之塔",
       "event_20211028_cn": "復刻穹頂下的聖詠曲",
       "event_20220728_cn": "Aquilifers Ballade",
       "event_20200917_cn": "蝶海夢花",
@@ -568,7 +588,6 @@
       "event_20220414_cn": "Aurora Noctis Rerun",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
       "event_20210422_cn": "復興的讚美詩",
-      "event_20220324_cn": "Virtual Tower",
       "event_20220310_tw": "復刻斯圖爾特的硝煙",
       "event_20200603_cn": "峽灣間的反擊",
       "event_20220224_cn": "Abyssal Refrain",
@@ -1149,6 +1168,20 @@
     },
     "T1Allow": {
       "name": "允許 T1 技能書溢出 X 點經驗",
+      "help": ""
+    }
+  },
+  "AddNewStudent": {
+    "_info": {
+      "name": "學習新技能",
+      "help": "當戰術學院有空餘的位置時，將自動指派一個艦娘，並學習第一個未滿級的技能"
+    },
+    "Enable": {
+      "name": "啟用該功能",
+      "help": ""
+    },
+    "Favorite": {
+      "name": "優先選擇常用",
       "help": ""
     }
   },

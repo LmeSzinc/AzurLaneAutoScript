@@ -19,9 +19,15 @@
     display: none;
 }
 
-*[style*="container-args-row"],
-*[style*="container-large.args"] {
-    grid-template-columns: 1fr 8rem !important;
+[id^="pywebio-scope-arg_container-"] {
+    grid-auto-flow: row;
+    grid-template-rows: auto auto;
+}
+
+[id^="pywebio-scope-arg_container-checkbox-"] {
+    grid-auto-flow: column;
+    grid-template-columns: 1fr 8rem;
+    grid-template-rows: unset;
 }
 
 #pywebio-scope-_groups {

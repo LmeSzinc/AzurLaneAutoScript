@@ -25,14 +25,14 @@ def set_language(s: str, refresh=False):
         run_js("location.reload();")
 
 
-def t(s):
+def t(s, *args, **kwargs):
     """
     Get translation.
+    other args, kwargs pass to .format()
     """
     if TRANSLATE_MODE:
         return s
-    # print(_t(s, LANG))
-    return _t(s, LANG)
+    return _t(s, LANG).format(*args, **kwargs)
 
 
 def _t(s, lang=None):
