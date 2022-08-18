@@ -2,7 +2,13 @@ FROM condaforge/mambaforge:4.12.0-0
 
 # Install dependencies
 RUN apt update && \
-    apt install -y adb netcat
+    apt install -y netcat unzip
+
+# Install latest adb (41)
+RUN wget https://dl.google.com/android/repository/platform-tools-latest-linux.zip && \
+    unzip platform-tools-latest-linux.zip && \
+    rm platform-tools-latest-linux.zip && \
+    ln -s /platform-tools/adb /usr/bin/adb
 
 # Create user
 RUN useradd -m abc && \
@@ -18,11 +24,11 @@ USER abc
 ENV PYROOT=/app/pyroot
 RUN mamba create --prefix $PYROOT python==3.7.6 -y
 
-# Install the requriements to the conda environment
+# Install the requirements to the conda environment
 COPY --chown=abc:abc $SOURCE/requirements.txt /app/requirements.txt
 RUN $PYROOT/bin/pip install -r /app/requirements.txt
 
-# Initial download of UIAutomator2 is really slow with appetizer mirror
+# Initial download of UIAutomator2 is really slow with appetizer mirror (outside of China), switch to github
 RUN sed -i "s#path = mirror_download(url,#path = cache_download(url,#" $PYROOT/lib/python3.7/site-packages/uiautomator2/init.py
 
 # When running the image, mount the ALAS folder into the container

@@ -122,9 +122,8 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                 else:
                     logger.warning(f'Unknown select method: {project}')
                 return True
-            elif project.genre.upper() in ['C', 'T'] and \
-                    self.research_enforce(drop=drop, add_queue=add_queue):
-                return True
+            elif project.genre.upper() in ['C', 'T'] and not self.enforce:
+                return self.research_enforce(drop=drop, add_queue=add_queue)
             else:
                 # priority example: [ResearchProject, ResearchProject,]
                 ret = self.research_project_start(project, add_queue=add_queue)
@@ -260,7 +259,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                 else:
                     self.device.screenshot()
 
-                if self.appear(RESEARCH_CHECK, interval=10):
+                if self.appear(RESEARCH_CHECK, offset=(20, 20), interval=10):
                     if self.research_has_finished():
                         self.device.click(RESEARCH_ENTRANCE[self._research_finished_index])
 
@@ -438,26 +437,46 @@ class RewardResearch(ResearchSelector, ResearchQueue):
             bool: If success
         """
         logger.hr('Receive 6th research', level=2)
-        # Check if it's finished
-        if self.research_has_finished():
-            logger.info(f'6th research finished at: {self._research_finished_index}')
-            success = self.research_receive()
-            if not success:
-                return False
-        else:
-            logger.info('No research has finished')
-        # Check if it's waiting or running
-        status = self.get_research_status(self.device.image)
-        if 'waiting' in status:
-            if self.get_queue_slot() > 0:
-                self.research_project_start(status.index('waiting'))
+
+        timeout = Timer(2, count=6).start()
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
             else:
-                logger.info('Queue full, stop appending waiting research')
-        if 'running' in status:
-            if self.get_queue_slot() > 0:
-                self.research_project_start(status.index('running'))
+                self.device.screenshot()
+
+            if timeout.reached():
+                logger.warning('receive_6th_research timeout')
+                break
+
+            # Check if it's finished
+            if self.research_has_finished():
+                logger.info(f'6th research finished at: {self._research_finished_index}')
+                success = self.research_receive()
+                if not success:
+                    return False
             else:
-                logger.info('Queue full, stop appending running research')
+                logger.info('No research has finished')
+
+            # Check if it's waiting or running
+            status = self.get_research_status(self.device.image)
+            if 'waiting' in status:
+                if self.get_queue_slot() > 0:
+                    self.research_project_start(status.index('waiting'))
+                else:
+                    logger.info('Queue full, stop appending waiting research')
+                break
+            if 'running' in status:
+                if self.get_queue_slot() > 0:
+                    self.research_project_start(status.index('running'))
+                else:
+                    logger.info('Queue full, stop appending running research')
+                break
+            if 'unknown' in status:
+                continue
+            if sum([s == 'detail' for s in status]) == 5:
+                break
 
         return True
 
@@ -480,19 +499,19 @@ class RewardResearch(ResearchSelector, ResearchQueue):
         self.receive_6th_research()
 
         # Fill queue
-        total = self.research_fill_queue()
-
+        self.research_fill_queue()
+        slot = self.get_queue_slot()
         # Scheduler
-        if self.end_time <= datetime.now() and total == 0:
+        if slot == 5:
             # Queue empty, can't start any research
             self.config.task_delay(server_update=True)
             return
-        elif self.end_time <= datetime.now() and total > 0:
+        elif self.end_time <= datetime.now():
             # Get the remain of project newly started
             self.queue_enter()
             self.end_time = self.get_research_ended()
             self.queue_quit()
-        if self.get_queue_slot() == 4:
+        if slot == 4:
             # Queue nearly empty, give up research because of resources not enough,
             # ten minutes in advance to avoid idle research.
             self.end_time = self.end_time + timedelta(minutes=-10)

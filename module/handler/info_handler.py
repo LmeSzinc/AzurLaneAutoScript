@@ -4,6 +4,7 @@ from module.base.base import ModuleBase
 from module.base.button import Button
 from module.base.timer import Timer
 from module.base.utils import *
+from module.exception import GameNotRunningError
 from module.handler.assets import *
 from module.logger import logger
 
@@ -103,6 +104,8 @@ class InfoHandler(ModuleBase):
     def popup_interval_clear(self):
         self.interval_clear([POPUP_CANCEL, POPUP_CONFIRM])
 
+    _hot_fix_check_wait = Timer(6)
+
     def handle_urgent_commission(self, drop=None):
         """
         Args:
@@ -118,6 +121,18 @@ class InfoHandler(ModuleBase):
                 self.handle_info_bar()
                 drop.add(self.device.image)
             self.device.click(GET_MISSION)
+            self._hot_fix_check_wait.reset()
+
+        # Check game client existence after 3s to 6s
+        # Hot fixes will kill AL if you clicked the confirm button
+        if self._hot_fix_check_wait.reached():
+            self._hot_fix_check_wait.clear()
+        if self._hot_fix_check_wait.started() and 3 <= self._hot_fix_check_wait.current() <= 6:
+            if not self.device.app_is_running():
+                logger.warning('Detected hot fixes from game server, game died')
+                raise GameNotRunningError
+            self._hot_fix_check_wait.clear()
+
         return appear
 
     def handle_combat_low_emotion(self):
@@ -213,6 +228,7 @@ class InfoHandler(ModuleBase):
     story_popup_timeout = Timer(10, count=20)
     map_has_clear_mode = False  # Will be override in fast_forward.py
 
+    _story_confirm = Timer(0.5, count=1)
     # Area to detect the options, should include at least 3 options.
     _story_option_area = (730, 188, 1140, 480)
     # Background color of the left part of the option.
@@ -292,11 +308,20 @@ class InfoHandler(ModuleBase):
                 self._story_option_record = options_count
                 self._story_option_confirm.reset()
         if self.appear(STORY_SKIP, offset=(20, 20), interval=2):
-            if drop:
-                drop.handle_add(self, before=2)
-            self.device.click(STORY_SKIP)
-            self.story_popup_timeout.reset()
-            return True
+            # Confirm it's story
+            # When story play speed is Very Fast, Alas clicked story skip but story disappeared
+            # This click will interrupt auto search
+            if self._story_confirm.reached():
+                if drop:
+                    drop.handle_add(self, before=2)
+                self.device.click(STORY_SKIP)
+                self._story_confirm.reset()
+                self.story_popup_timeout.reset()
+                return True
+            else:
+                self.interval_clear(STORY_SKIP)
+        else:
+            self._story_confirm.reset()
         if self.appear_then_click(GAME_TIPS, offset=(20, 20), interval=2):
             self.story_popup_timeout.reset()
             return True

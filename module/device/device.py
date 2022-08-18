@@ -5,14 +5,15 @@ from module.base.timer import Timer
 from module.config.utils import get_server_next_update
 from module.device.app_control import AppControl
 from module.device.control import Control
+from module.device.emulator import EmulatorManager
 from module.device.screenshot import Screenshot
 from module.exception import (GameStuckError, GameTooManyClickError,
-                              RequestHumanTakeover)
+                              GameNotRunningError, RequestHumanTakeover)
 from module.handler.assets import GET_MISSION
 from module.logger import logger
 
 
-class Device(Screenshot, Control, AppControl):
+class Device(Screenshot, Control, AppControl, EmulatorManager):
     _screen_size_checked = False
     detect_record = set()
     click_record = deque(maxlen=15)
@@ -85,7 +86,10 @@ class Device(Screenshot, Control, AppControl):
         logger.warning(f'Waiting for {self.detect_record}')
         self.stuck_record_clear()
 
-        raise GameStuckError(f'Wait too long')
+        if self.app_is_running():
+            raise GameStuckError(f'Wait too long')
+        else:
+            raise GameNotRunningError('Game died')
 
     def handle_control_check(self, button):
         self.stuck_record_clear()

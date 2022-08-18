@@ -305,6 +305,7 @@
       "com.bilibili.blhx.uc": "CN com.bilibili.blhx.uc",
       "com.bilibili.blhx.mzw": "CN com.bilibili.blhx.mzw",
       "com.yiwu.blhx.yx15": "CN com.yiwu.blhx.yx15",
+      "com.bilibili.blhx.m4399": "CN com.bilibili.blhx.m4399",
       "com.hkmanjuu.azurlane.gp.mc": "TW com.hkmanjuu.azurlane.gp.mc"
     },
     "ServerName": {
@@ -378,6 +379,24 @@
     "AdbRestart": {
       "name": "Try to restart adb when no device found",
       "help": ""
+    }
+  },
+  "RestartEmulator": {
+    "_info": {
+      "name": "Restart Emulator",
+      "help": ""
+    },
+    "Enable": {
+      "name": "Enable Restart Emulator",
+      "help": "Automatically start the emulator when it is shut down\nRestart the emulator to free memory when the server date is updated"
+    },
+    "EmulatorType": {
+      "name": "Emulator Type",
+      "help": "Alas will find the corresponding emulator according to the manually filled serial\nIf the started emulator requires administrator privileges, please run Alas as Administrator\nMumu does not support multi opening",
+      "auto": "Auto",
+      "nox_player": "Nox Player(32 bits)",
+      "bluestacks_5": "Bluestacks 5",
+      "mumu_player": "MuMu Player"
     }
   },
   "Error": {
@@ -552,6 +571,7 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "event_20211028_cn": "Skybound Oratorio Rerun",
       "event_20220728_cn": "Aquilifers Ballade",
       "event_20200917_cn": "Dreamwakers Butterfly Rerun",
       "event_20201029_cn": "Universe in Unison",
@@ -578,7 +598,6 @@
       "event_20211125_cn": "World-spanning Arclight",
       "event_20211111_cn": "The Flame-Touched Dagger",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
-      "event_20211028_cn": "Skybound Oratorio Rerun",
       "event_20210916_cn": "Upon the Shimmering Blue",
       "event_20210722_cn": "Azur Anthem",
       "event_20210819_cn": "Microlayer Medley Rerun",
@@ -1130,6 +1149,20 @@
       "help": "0 ~ any positive integer"
     }
   },
+  "AddNewStudent": {
+    "_info": {
+      "name": "learn new skills",
+      "help": "When there is a vacant position in the Tactical Academy, a ship girl will be automatically assigned and the first under-level skill will be learned"
+    },
+    "Enable": {
+      "name": "Enable",
+      "help": ""
+    },
+    "Favorite": {
+      "name": "Use Favorite Filter for Tactical",
+      "help": ""
+    }
+  },
   "Research": {
     "_info": {
       "name": "Research Academy Settings",
@@ -1593,6 +1626,16 @@
     "UseDrill": {
       "name": "Use Drill(s)",
       "help": "Expedite the recently submitted orders"
+    }
+  },
+  "DataKey": {
+    "_info": {
+      "name": "DataKey",
+      "help": ""
+    },
+    "ForceGet": {
+      "name": "ForceCollect DataKey",
+      "help": "Force collect data key when data key is full to eliminate red dots"
     }
   },
   "SupplyPack": {

@@ -381,6 +381,24 @@
       "help": ""
     }
   },
+  "RestartEmulator": {
+    "_info": {
+      "name": "重啓模擬器",
+      "help": ""
+    },
+    "Enable": {
+      "name": "啟用重啓模擬器",
+      "help": "在模擬器被關閉的時候自動啟動模擬器\n在服務器日期重繪時重啓模擬器以釋放記憶體"
+    },
+    "EmulatorType": {
+      "name": "模擬器類型",
+      "help": "Alas會根據手動填寫的Serial尋找對應的模擬器\n如果被啟動的模擬器需要管理員許可權，請以管理員身份運行Alas\nMuMu模擬器不支持多開",
+      "auto": "自動",
+      "nox_player": "夜神模擬器32比特",
+      "bluestacks_5": "藍疊模擬器5",
+      "mumu_player": "MuMu模擬器"
+    }
+  },
   "Error": {
     "_info": {
       "name": "除錯設定",
@@ -1128,6 +1146,20 @@
     },
     "T1Allow": {
       "name": "允許 T1 技能書溢出 X 點經驗",
+      "help": ""
+    }
+  },
+  "AddNewStudent": {
+    "_info": {
+      "name": "學習新技能",
+      "help": "當戰術學院有空餘的位置時，將自動指派一個艦娘，並學習第一個未滿級的技能"
+    },
+    "Enable": {
+      "name": "啟用該功能",
+      "help": ""
+    },
+    "Favorite": {
+      "name": "優先選擇常用",
       "help": ""
     }
   },

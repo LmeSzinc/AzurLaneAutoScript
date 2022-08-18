@@ -81,16 +81,19 @@ class Resource:
             logger.info(f'{obj}: {key}')
 
     @staticmethod
-    def parse_property(data):
+    def parse_property(data, s=None):
         """
         Parse properties of Button or Template object input.
         Such as `area`, `color` and `button`.
 
         Args:
             data: Dict or str
+            s (str): Load from given a server or load from global attribute `server.server`
         """
+        if s is None:
+            s = server.server
         if isinstance(data, dict):
-            return data[server.server]
+            return data[s]
         else:
             return data
 

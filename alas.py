@@ -68,7 +68,7 @@ class AzurLaneAutoScript:
             self.config.task_call('Restart')
             return True
         except (GameStuckError, GameTooManyClickError) as e:
-            logger.warning(e)
+            logger.error(e)
             self.save_error_log()
             logger.warning(f'Game stuck, {self.device.package} will be restarted in 10 seconds')
             logger.warning('If you are playing by hand, please stop Alas')
@@ -429,6 +429,13 @@ class AzurLaneAutoScript:
         failure_record = {}
 
         while 1:
+            # Check update event from GUI
+            if self.stop_event is not None:
+                if self.stop_event.is_set():
+                    logger.info("Update event detected")
+                    logger.info(f"Alas [{self.config_name}] exited.")
+                    break
+            # Check game server maintenance
             self.checker.wait_until_available()
             if self.checker.is_recovered():
                 # There is an accidental bug hard to reproduce
@@ -438,14 +445,10 @@ class AzurLaneAutoScript:
                 del_cached_property(self, 'config')
                 logger.info('Server or network is recovered. Restart game client')
                 self.run('restart')
-
-            if self.stop_event is not None:
-                if self.stop_event.is_set():
-                    logger.info("Update event detected")
-                    logger.info(f"Alas [{self.config_name}] exited.")
-                    break
+            # Get task
             task = self.get_next_task()
-
+            # Init device and change server
+            _ = self.device
             # Skip first restart
             if is_first and task == 'Restart':
                 logger.info('Skip task `Restart` at scheduler start')

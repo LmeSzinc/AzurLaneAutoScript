@@ -1,6 +1,6 @@
-*[style*="container-args-row"],
-*[style*="container-large.args"] {
-    grid-template-columns: 1fr 13rem !important;
+[id^="pywebio-scope-arg_container-"] {
+    grid-auto-flow: column;
+    grid-template-columns: 1fr 13rem;
 }
 
 #pywebio-scope-overview {
@@ -17,6 +17,13 @@
     grid-auto-flow: row;
     grid-template-rows: auto 7.75rem minmax(7.75rem, 13rem) minmax(7.75rem, 1fr);
     height: 100%;
+    overflow-y: auto;
+}
+
+#pywebio-scope-scheduler-bar,
+#pywebio-scope-log-bar,
+#pywebio-scope-log,
+#pywebio-scope-daemon-overview #pywebio-scope-groups {
     overflow-y: auto;
 }
 

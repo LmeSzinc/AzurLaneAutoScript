@@ -4,9 +4,8 @@ import os
 import sys
 from typing import Callable, List
 
-import rich.box
 from rich.console import Console, ConsoleOptions, ConsoleRenderable, NewLine
-from rich.highlighter import RegexHighlighter
+from rich.highlighter import RegexHighlighter, NullHighlighter
 from rich.logging import RichHandler
 from rich.rule import Rule
 from rich.style import Style
@@ -199,6 +198,7 @@ def set_file_logger(name=pyw_name):
     file_console = Console(
         file=file,
         no_color=True,
+        highlight=False,
         width=119,
     )
 
@@ -210,6 +210,7 @@ def set_file_logger(name=pyw_name):
         rich_tracebacks=True,
         tracebacks_show_locals=True,
         tracebacks_extra_lines=3,
+        highlighter=NullHighlighter(),
     )
     hdlr.setFormatter(file_formatter)
 

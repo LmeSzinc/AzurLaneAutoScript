@@ -81,6 +81,7 @@ class ConfigGenerator:
                 value = {'value': value}
             arg['type'] = data_to_type(value, arg=path[1])
             if isinstance(value['value'], datetime):
+                arg['type'] = 'datetime'
                 arg['validate'] = 'datetime'
             # Manual definition has the highest priority
             arg.update(value)
@@ -174,17 +175,20 @@ class ConfigGenerator:
             if not check_override(p, v):
                 continue
             if isinstance(v, dict):
-                deep_default(v, keys='type', value='hide')
+                if deep_get(v, keys='type') in ['lock']:
+                    deep_default(v, keys='display', value="disabled")
+                else:
+                    deep_default(v, keys='display', value='hide')
                 for arg_k, arg_v in v.items():
                     deep_set(data, keys=p + [arg_k], value=arg_v)
             else:
                 deep_set(data, keys=p + ['value'], value=v)
-                deep_set(data, keys=p + ['type'], value='hide')
+                deep_set(data, keys=p + ['display'], value='hide')
         # Set command
         for task in self.task.keys():
             if deep_get(data, keys=f'{task}.Scheduler.Command'):
                 deep_set(data, keys=f'{task}.Scheduler.Command.value', value=task)
-                deep_set(data, keys=f'{task}.Scheduler.Command.type', value='hide')
+                deep_set(data, keys=f'{task}.Scheduler.Command.display', value='hide')
 
         return data
 

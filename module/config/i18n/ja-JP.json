@@ -305,6 +305,7 @@
       "com.bilibili.blhx.uc": "CN com.bilibili.blhx.uc",
       "com.bilibili.blhx.mzw": "CN com.bilibili.blhx.mzw",
       "com.yiwu.blhx.yx15": "CN com.yiwu.blhx.yx15",
+      "com.bilibili.blhx.m4399": "CN com.bilibili.blhx.m4399",
       "com.hkmanjuu.azurlane.gp.mc": "TW com.hkmanjuu.azurlane.gp.mc"
     },
     "ServerName": {
@@ -378,6 +379,24 @@
     "AdbRestart": {
       "name": "Emulator.AdbRestart.name",
       "help": "Emulator.AdbRestart.help"
+    }
+  },
+  "RestartEmulator": {
+    "_info": {
+      "name": "RestartEmulator._info.name",
+      "help": "RestartEmulator._info.help"
+    },
+    "Enable": {
+      "name": "RestartEmulator.Enable.name",
+      "help": "RestartEmulator.Enable.help"
+    },
+    "EmulatorType": {
+      "name": "RestartEmulator.EmulatorType.name",
+      "help": "RestartEmulator.EmulatorType.help",
+      "auto": "auto",
+      "nox_player": "nox_player",
+      "bluestacks_5": "bluestacks_5",
+      "mumu_player": "mumu_player"
     }
   },
   "Error": {
@@ -552,6 +571,7 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "event_20211028_cn": "神穹を衝く聖歌（復刻）",
       "event_20220728_cn": "鋼鷲の冒険譚",
       "event_20200917_cn": "刹那觀る胡蝶の夢（復刻）",
       "event_20201029_cn": "激唱のユニバース",
@@ -578,7 +598,6 @@
       "event_20211125_cn": "弧光は交わる世界にて",
       "event_20211111_cn": "燈火のシニエ",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
-      "event_20211028_cn": "神穹を衝く聖歌（復刻）",
       "event_20210916_cn": "駆けよ 碧海の吹き風",
       "event_20210722_cn": "海に響くアイドルの歌",
       "event_20210819_cn": "闇靄払う銀翼（復刻）",
@@ -1130,6 +1149,20 @@
       "help": "ControlExpOverflow.T1Allow.help"
     }
   },
+  "AddNewStudent": {
+    "_info": {
+      "name": "新しいスキルを学ぶ",
+      "help": "戦術学院に空席があると自動的に艦娘が配属され、初の下級スキルが習得される"
+    },
+    "Enable": {
+      "name": "この機能を有効にする",
+      "help": ""
+    },
+    "Favorite": {
+      "name": "好ましい選択",
+      "help": ""
+    }
+  },
   "Research": {
     "_info": {
       "name": "Research._info.name",
@@ -1593,6 +1626,16 @@
     "UseDrill": {
       "name": "Gacha.UseDrill.name",
       "help": "Gacha.UseDrill.help"
+    }
+  },
+  "DataKey": {
+    "_info": {
+      "name": "DataKey._info.name",
+      "help": "DataKey._info.help"
+    },
+    "ForceGet": {
+      "name": "DataKey.ForceGet.name",
+      "help": "DataKey.ForceGet.help"
     }
   },
   "SupplyPack": {
