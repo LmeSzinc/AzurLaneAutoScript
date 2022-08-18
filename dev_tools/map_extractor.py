@@ -173,6 +173,15 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'lemaer_ghost': 'LeMars_ghost',
     'jingjishen_ghost': 'Hermes_ghost',
     'qiubite_ghost': 'Jupiter_ghost',
+
+    # Aquilifer's Ballade
+    'z46': 'Z46',
+    'haiyinlixi': 'PrinzHeinrich',
+    'qibolin': 'GrafZeppelin',
+    'magedebao': 'Magdeburg',
+    'adaerbote': 'PrinzAdalbert',
+    'weixi': 'Weser',
+    'wuerlixi': 'UlrichVonHutten',
 }
 
 
