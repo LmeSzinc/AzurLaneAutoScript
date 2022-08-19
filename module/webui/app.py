@@ -224,17 +224,17 @@ class AlasGUI(Frame):
             put_html('<hr class="hr-group">')
 
             for arg, arg_dict in deep_iter(arg_dict, depth=1):
-                output_kwargs: T_Output_Kwargs = {}
+                output_kwargs: T_Output_Kwargs = arg_dict.copy()
 
                 # Skip hide
-                display: Optional[str] = arg_dict.get("display")
+                display: Optional[str] = output_kwargs.pop("display", None)
                 if display == "hide":
                     continue
                 # Disable
                 elif display == "disabled":
                     output_kwargs["disabled"] = True
                 # Output type
-                output_kwargs["widget_type"] = arg_dict["type"]
+                output_kwargs["widget_type"] = output_kwargs.pop("type")
 
                 arg_name = arg[0]  # [arg_name,]
                 # Internal pin widget name
@@ -244,14 +244,14 @@ class AlasGUI(Frame):
 
                 # Get value from config
                 value = deep_get(
-                    config, [task, group_name, arg_name], arg_dict["value"]
+                    config, [task, group_name, arg_name], output_kwargs["value"]
                 )
                 # idk
                 value = str(value) if isinstance(value, datetime) else value
                 # Default value
                 output_kwargs["value"] = value
                 # Options
-                output_kwargs["options"] = options = deep_get(arg_dict, "option", [])
+                output_kwargs["options"] = options = output_kwargs.pop("option", [])
                 # Options label
                 options_label = []
                 for opt in options:

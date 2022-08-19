@@ -134,6 +134,11 @@
         "type": "checkbox",
         "value": true
       },
+      "OnePushConfig": {
+        "type": "textarea",
+        "value": "{}",
+        "mode": "json"
+      },
       "ScreenshotLength": {
         "type": "input",
         "value": 1

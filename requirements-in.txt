@@ -25,3 +25,4 @@ alas-webapp==0.3.7
 rich==11.2.0
 zerorpc==0.6.3
 pyzmq==22.3.0
+onepush
