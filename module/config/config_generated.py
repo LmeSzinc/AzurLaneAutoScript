@@ -33,6 +33,7 @@ class GeneratedConfig:
     # Group `Error`
     Error_HandleError = True
     Error_SaveError = True
+    Error_OnePushConfig = '{}'
     Error_ScreenshotLength = 1
 
     # Group `Optimization`
