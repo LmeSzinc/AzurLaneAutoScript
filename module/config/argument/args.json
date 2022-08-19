@@ -1848,13 +1848,13 @@
       }
     },
     "TaskBalancer": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
       "CoinLimit": {
         "type": "input",
-        "value": 0
-      },
-      "CheckInterval": {
-        "type": "input",
-        "value": 1
+        "value": 3000
       },
       "TaskCall": {
         "type": "select",

@@ -153,8 +153,8 @@ class GeneratedConfig:
     EventGeneral_TimeLimit = datetime.datetime(2020, 1, 1, 0, 0)
 
     # Group `TaskBalancer`
-    TaskBalancer_CoinLimit = 0
-    TaskBalancer_CheckInterval = 1
+    TaskBalancer_Enable = False
+    TaskBalancer_CoinLimit = 3000
     TaskBalancer_TaskCall = 'Main'  # Main, Main2, Main3
 
     # Group `EventDaily`

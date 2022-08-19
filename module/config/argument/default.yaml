@@ -8,8 +8,6 @@
 
 # ==================== Event ====================
 
-TaskBalancer:
-  CheckInterval: 1
 EventA:
   EventDaily:
     StageFilter: |-

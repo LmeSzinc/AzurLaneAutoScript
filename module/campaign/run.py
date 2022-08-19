@@ -3,7 +3,6 @@ import importlib
 import os
 import re
 
-from datetime import datetime, timedelta
 from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
 from module.config.config import AzurLaneConfig
@@ -316,7 +315,7 @@ class CampaignRun(UI):
                     self.campaign.handle_map_stop()
                     break
             # Task balancer
-            if self.run_count == self.config.TaskBalancer_CheckInterval:
+            if self.run_count >= 1 and self.config.TaskBalancer_Enable:
                 if self.triggered_task_balancer():
                     self.handle_task_balancer()
             # Scheduler

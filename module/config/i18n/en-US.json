@@ -1054,17 +1054,17 @@
       "name": "Task Balancer Settings",
       "help": "Prevent coin shortage caused by uneven task ratio."
     },
+    "Enable": {
+      "name": "Enable Task Balancer",
+      "help": "When enabled, the coin amount will be checked after each run."
+    },
     "CoinLimit": {
       "name": "Keep Coin Above X",
-      "help": "Start chosen task if coin is found to be below this number. 0 means no limit."
-    },
-    "CheckInterval": {
-      "name": "Check Interval",
-      "help": "Check coin amount after X times of run.\nDefault value is 1, players can adjust the value to increase/decrease the frequency of checking coins."
+      "help": "Start chosen task if coin is found to be below this number."
     },
     "TaskCall": {
       "name": "Task Call",
-      "help": "Chosen task would be called after finished current task. The current task would be delayed about 2-6 minutes if triggered.",
+      "help": "Chosen task would be called after finished current task.\nThe current task would be delayed about 2-6 minutes if triggered.",
       "Main": "Main",
       "Main2": "Main-2",
       "Main3": "Main-3"

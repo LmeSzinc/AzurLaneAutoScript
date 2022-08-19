@@ -1054,13 +1054,13 @@
       "name": "TaskBalancer._info.name",
       "help": "TaskBalancer._info.help"
     },
+    "Enable": {
+      "name": "TaskBalancer.Enable.name",
+      "help": "TaskBalancer.Enable.help"
+    },
     "CoinLimit": {
       "name": "TaskBalancer.CoinLimit.name",
       "help": "TaskBalancer.CoinLimit.help"
-    },
-    "CheckInterval": {
-      "name": "TaskBalancer.CheckInterval.name",
-      "help": "TaskBalancer.CheckInterval.help"
     },
     "TaskCall": {
       "name": "TaskBalancer.TaskCall.name",
