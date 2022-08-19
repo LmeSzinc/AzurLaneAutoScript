@@ -143,11 +143,9 @@ class CampaignRun(UI):
 
     def handle_task_balancer(self):
         if self.triggered_task_balancer():
-            self.config.task_delay(minute=(2, 6))
-            # Check if needs force_call, remove when checked.
+            self.config.task_delay(minute=2)
             next_task = self.config.TaskBalancer_TaskCall
             self.config.task_call(next_task)
-            # Check if task stops and delays successfully.
             self.config.task_stop()
 
     def _triggered_app_restart(self):
@@ -316,8 +314,7 @@ class CampaignRun(UI):
                     break
             # Task balancer
             if self.run_count >= 1 and self.config.TaskBalancer_Enable:
-                if self.triggered_task_balancer():
-                    self.handle_task_balancer()
+                self.handle_task_balancer()
             # Scheduler
             if self.config.task_switched():
                 self.campaign.ensure_auto_search_exit()
