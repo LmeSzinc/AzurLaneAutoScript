@@ -1064,7 +1064,7 @@
     },
     "TaskCall": {
       "name": "Task Call",
-      "help": "Chosen task would be called after finished current task.",
+      "help": "Chosen task would be called after finished current task. The current task would be delayed about 2-6 minutes if triggered.",
       "Main": "Main",
       "Main2": "Main-2",
       "Main3": "Main-3"
