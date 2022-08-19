@@ -9,6 +9,10 @@
       "ScreenshotDedithering": false,
       "AdbRestart": false
     },
+    "RestartEmulator": {
+      "Enable": false,
+      "EmulatorType": "auto"
+    },
     "Error": {
       "HandleError": true,
       "SaveError": true,
@@ -1004,6 +1008,10 @@
       "T3Allow": 100,
       "T2Allow": 200,
       "T1Allow": 200
+    },
+    "AddNewStudent": {
+      "Enable": false,
+      "Favorite": true
     }
   },
   "Research": {
@@ -1197,6 +1205,9 @@
       "SuccessInterval": 30,
       "FailureInterval": 30,
       "ServerUpdate": "00:00"
+    },
+    "DataKey": {
+      "ForceGet": false
     }
   },
   "SupplyPack": {

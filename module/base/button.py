@@ -7,6 +7,7 @@ from PIL import ImageDraw
 from module.base.decorator import cached_property
 from module.base.resource import Resource
 from module.base.utils import *
+from module.config.server import VALID_SERVER
 
 
 class Button(Resource):
@@ -320,6 +321,24 @@ class Button(Resource):
         if image is not None:
             button.load_color(image)
         return button
+
+    def split_server(self):
+        """
+        Split into 4 server specific buttons.
+
+        Returns:
+            dict[str, Button]:
+        """
+        out = {}
+        for s in VALID_SERVER:
+            out[s] = Button(
+                area=self.parse_property(self.raw_area, s),
+                color=self.parse_property(self.raw_color, s),
+                button=self.parse_property(self.raw_button, s),
+                file=self.parse_property(self.raw_file, s),
+                name=self.name
+            )
+        return out
 
 
 class ButtonGrid:

@@ -381,6 +381,24 @@
       "help": ""
     }
   },
+  "RestartEmulator": {
+    "_info": {
+      "name": "Restart Emulator",
+      "help": ""
+    },
+    "Enable": {
+      "name": "Enable Restart Emulator",
+      "help": "Automatically start the emulator when it is shut down\nRestart the emulator to free memory when the server date is updated"
+    },
+    "EmulatorType": {
+      "name": "Emulator Type",
+      "help": "Alas will find the corresponding emulator according to the manually filled serial\nIf the started emulator requires administrator privileges, please run Alas as Administrator\nMumu does not support multi opening",
+      "auto": "Auto",
+      "nox_player": "Nox Player(32 bits)",
+      "bluestacks_5": "Bluestacks 5",
+      "mumu_player": "MuMu Player"
+    }
+  },
   "Error": {
     "_info": {
       "name": "Debug Settings",
@@ -553,6 +571,8 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "event_20220818_cn": "Operation Convergence",
+      "event_20220324_cn": "Virtual Tower",
       "event_20211028_cn": "Skybound Oratorio Rerun",
       "event_20220728_cn": "Aquilifers Ballade",
       "event_20200917_cn": "Dreamwakers Butterfly Rerun",
@@ -568,7 +588,6 @@
       "event_20220414_cn": "Aurora Noctis Rerun",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
       "event_20210422_cn": "Daedalian Hymn",
-      "event_20220324_cn": "Virtual Tower",
       "event_20220310_tw": "復刻斯圖爾特的硝煙",
       "event_20200603_cn": "Counterattack Within the Fjord Rerun",
       "event_20220224_cn": "Abyssal Refrain",
@@ -1129,6 +1148,20 @@
     "T1Allow": {
       "name": "T1 Overflow Allow",
       "help": "0 ~ any positive integer"
+    }
+  },
+  "AddNewStudent": {
+    "_info": {
+      "name": "learn new skills",
+      "help": "When there is a vacant position in the Tactical Academy, a ship girl will be automatically assigned and the first under-level skill will be learned"
+    },
+    "Enable": {
+      "name": "Enable",
+      "help": ""
+    },
+    "Favorite": {
+      "name": "Use Favorite Filter for Tactical",
+      "help": ""
     }
   },
   "Research": {

@@ -6,6 +6,7 @@
 
 Alas:
   - Emulator
+  - RestartEmulator
   - Error
   - Optimization
   - DropRecord
@@ -149,6 +150,7 @@ Tactical:
   - Scheduler
   - Tactical
   - ControlExpOverflow
+  - AddNewStudent
 Research:
   - Scheduler
   - Research

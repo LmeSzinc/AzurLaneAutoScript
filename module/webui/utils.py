@@ -9,6 +9,9 @@ from queue import Queue
 from typing import Callable, Generator, List
 
 import pywebio
+from module.config.utils import deep_iter
+from module.logger import logger
+from module.webui.setting import State
 from pywebio.input import PASSWORD, input
 from pywebio.output import PopupSize, popup, put_html, toast
 from pywebio.session import eval_js
@@ -16,9 +19,6 @@ from pywebio.session import info as session_info
 from pywebio.session import register_thread, run_js
 from rich.console import Console, ConsoleOptions
 from rich.terminal_theme import TerminalTheme
-
-from module.logger import logger
-from module.webui.setting import State
 
 RE_DATETIME = (
     r"\d{4}\-(0\d|1[0-2])\-([0-2]\d|[3][0-1]) "
@@ -520,6 +520,13 @@ def raise_exception(x=3):
         raise_exception(x - 1)
     else:
         raise Exception("quq")
+
+
+def get_alas_config_listen_path(args):
+    for path, d in deep_iter(args, depth=3):
+        if d.get("display") in ["readonly", "hide"]:
+            continue
+        yield path
 
 
 if __name__ == "__main__":

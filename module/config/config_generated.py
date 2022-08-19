@@ -26,6 +26,10 @@ class GeneratedConfig:
     Emulator_ScreenshotDedithering = False
     Emulator_AdbRestart = False
 
+    # Group `RestartEmulator`
+    RestartEmulator_Enable = False
+    RestartEmulator_EmulatorType = 'auto'  # auto, nox_player, bluestacks_5, mumu_player
+
     # Group `Error`
     Error_HandleError = True
     Error_SaveError = True
@@ -175,6 +179,10 @@ class GeneratedConfig:
     ControlExpOverflow_T3Allow = 100
     ControlExpOverflow_T2Allow = 200
     ControlExpOverflow_T1Allow = 200
+
+    # Group `AddNewStudent`
+    AddNewStudent_Enable = False
+    AddNewStudent_Favorite = True
 
     # Group `Research`
     Research_UseCube = 'only_05_hour'  # always_use, only_05_hour, only_no_project, do_not_use

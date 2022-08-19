@@ -19,7 +19,7 @@ from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES, remove_shell_w
                                         handle_adb_error, PackageNotInstalled,
                                         recv_all, del_cached_property, possible_reasons,
                                         random_port, get_serial_pair)
-from module.exception import RequestHumanTakeover
+from module.exception import RequestHumanTakeover, EmulatorNotRunningError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 
@@ -110,6 +110,7 @@ class Connection(ConnectionAttr):
         """
         cmd = list(map(str, cmd))
         cmd = [self.adb_binary, '-s', self.serial] + cmd
+        logger.info(f'Execute: {cmd}')
 
         # Use shell=True to disable console window when using GUI.
         # Although, there's still a window when you stop running in GUI, which cause by gooey.
@@ -433,8 +434,9 @@ class Connection(ConnectionAttr):
                     # cannot connect to 127.0.0.1:55555:
                     # No connection could be made because the target machine actively refused it. (10061)
                     logger.error(msg)
-                    possible_reasons('No such device exists, please set a correct serial')
-                    raise RequestHumanTakeover
+                    possible_reasons('No such device exists, please set a correct serial',
+                                     'Emulator not running, please restart it')
+                    raise EmulatorNotRunningError
             logger.warning(f'Failed to connect {serial} after 3 trial, assume connected')
             self.detect_device()
             return False

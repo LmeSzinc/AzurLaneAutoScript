@@ -10,13 +10,13 @@ Scheduler:
   Command: Alas
   SuccessInterval:
     value: 0
-    type: hide
+    display: hide
   FailureInterval:
     value: 120
-    type: hide
+    display: hide
   ServerUpdate:
     value: 00:00
-    type: hide
+    display: hide
 Emulator:
   Serial:
     value: auto
@@ -35,6 +35,11 @@ Emulator:
     option: [ADB, uiautomator2, minitouch, Hermit]
   ScreenshotDedithering: false
   AdbRestart: false
+RestartEmulator:
+  Enable: False
+  EmulatorType:
+    value: auto
+    option: [auto, nox_player, bluestacks_5, mumu_player]
 Error:
   HandleError: true
   SaveError: true
@@ -157,7 +162,7 @@ Emotion:
   Fleet1Value: 119
   Fleet1Record:
     value: 2020-01-01 00:00:00
-    type: disable
+    display: disabled
   Fleet1Control:
     value: prevent_yellow_face
     option: [keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face]
@@ -168,7 +173,7 @@ Emotion:
   Fleet2Value: 119
   Fleet2Record:
     value: 2020-01-01 00:00:00
-    type: disable
+    display: disabled
   Fleet2Control:
     value: prevent_yellow_face
     option: [keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face]
@@ -268,6 +273,9 @@ ControlExpOverflow:
   T3Allow: 100
   T2Allow: 200
   T1Allow: 200
+AddNewStudent:
+  Enable: false
+  Favorite: true
 Research:
   UseCube:
     value: only_05_hour

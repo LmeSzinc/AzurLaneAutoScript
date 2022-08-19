@@ -58,7 +58,7 @@ class ConnectionAttr:
                     continue
                 if 'eri' in k[0].split('_')[-1]:
                     print(k, v)
-                    su.__setattr__(k[0], chr(10) + v)
+                    su.__setattr__(k[0], chr(8) + v)
         # Cache adb_client
         _ = self.adb_client
 
