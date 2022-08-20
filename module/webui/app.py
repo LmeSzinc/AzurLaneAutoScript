@@ -208,6 +208,15 @@ class AlasGUI(Frame):
         self.set_title(t(f"Task.{task}.name"))
 
         put_scope("_groups", [put_none(), put_scope("groups"), put_scope("navigator")])
+
+        task_help: str = t(f"Task.{task}.help")
+        if task_help:
+            put_scope(
+                "group__info",
+                scope="groups",
+                content=[put_text(task_help).style("font-size: 1rem")],
+            )
+
         config = State.config_updater.read_file(self.alas_name)
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
             self.set_group(group, arg_dict, config, task)
@@ -216,56 +225,65 @@ class AlasGUI(Frame):
     @use_scope("groups")
     def set_group(self, group, arg_dict, config, task):
         group_name = group[0]
+
+        output_list = []
+        for arg, arg_dict in deep_iter(arg_dict, depth=1):
+            output_kwargs: T_Output_Kwargs = arg_dict.copy()
+
+            # Skip hide
+            display: Optional[str] = output_kwargs.pop("display", None)
+            if display == "hide":
+                continue
+            # Disable
+            elif display == "disabled":
+                output_kwargs["disabled"] = True
+            # Output type
+            output_kwargs["widget_type"] = output_kwargs.pop("type")
+
+            arg_name = arg[0]  # [arg_name,]
+            # Internal pin widget name
+            output_kwargs["name"] = f"{task}_{group_name}_{arg_name}"
+            # Display title
+            output_kwargs["title"] = t(f"{group_name}.{arg_name}.name")
+
+            # Get value from config
+            value = deep_get(
+                config, [task, group_name, arg_name], output_kwargs["value"]
+            )
+            # idk
+            value = str(value) if isinstance(value, datetime) else value
+            # Default value
+            output_kwargs["value"] = value
+            # Options
+            output_kwargs["options"] = options = output_kwargs.pop("option", [])
+            # Options label
+            options_label = []
+            for opt in options:
+                options_label.append(t(f"{group_name}.{arg_name}.{opt}"))
+            output_kwargs["options_label"] = options_label
+            # Help
+            arg_help = t(f"{group_name}.{arg_name}.help")
+            if arg_help == "" or not arg_help:
+                arg_help = None
+            output_kwargs["help"] = arg_help
+            # Invalid feedback
+            output_kwargs["invalid_feedback"] = t("Gui.Text.InvalidFeedBack", value)
+
+            # output will inherit current scope when created
+            with use_scope(f"group_{group_name}"):
+                output_list.append(put_output(output_kwargs))
+
+        if not output_list:
+            return
+
         with use_scope(f"group_{group_name}"):
             put_text(t(f"{group_name}._info.name"))
             group_help = t(f"{group_name}._info.help")
             if group_help != "":
                 put_text(group_help)
             put_html('<hr class="hr-group">')
-
-            for arg, arg_dict in deep_iter(arg_dict, depth=1):
-                output_kwargs: T_Output_Kwargs = arg_dict.copy()
-
-                # Skip hide
-                display: Optional[str] = output_kwargs.pop("display", None)
-                if display == "hide":
-                    continue
-                # Disable
-                elif display == "disabled":
-                    output_kwargs["disabled"] = True
-                # Output type
-                output_kwargs["widget_type"] = output_kwargs.pop("type")
-
-                arg_name = arg[0]  # [arg_name,]
-                # Internal pin widget name
-                output_kwargs["name"] = f"{task}_{group_name}_{arg_name}"
-                # Display title
-                output_kwargs["title"] = t(f"{group_name}.{arg_name}.name")
-
-                # Get value from config
-                value = deep_get(
-                    config, [task, group_name, arg_name], output_kwargs["value"]
-                )
-                # idk
-                value = str(value) if isinstance(value, datetime) else value
-                # Default value
-                output_kwargs["value"] = value
-                # Options
-                output_kwargs["options"] = options = output_kwargs.pop("option", [])
-                # Options label
-                options_label = []
-                for opt in options:
-                    options_label.append(t(f"{group_name}.{arg_name}.{opt}"))
-                output_kwargs["options_label"] = options_label
-                # Help
-                arg_help = t(f"{group_name}.{arg_name}.help")
-                if arg_help == "" or not arg_help:
-                    arg_help = None
-                output_kwargs["help"] = arg_help
-                # Invalid feedback
-                output_kwargs["invalid_feedback"] = t("Gui.Text.InvalidFeedBack", value)
-
-                put_output(output_kwargs)
+            for output in output_list:
+                output.show()
 
     @use_scope("navigator")
     def set_navigator(self, group):
