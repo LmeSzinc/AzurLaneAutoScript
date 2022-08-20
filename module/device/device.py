@@ -1,3 +1,4 @@
+import sys
 from collections import deque
 from datetime import datetime
 
@@ -5,12 +6,17 @@ from module.base.timer import Timer
 from module.config.utils import get_server_next_update
 from module.device.app_control import AppControl
 from module.device.control import Control
-from module.device.emulator import EmulatorManager
 from module.device.screenshot import Screenshot
-from module.exception import (GameStuckError, GameTooManyClickError,
-                              GameNotRunningError, RequestHumanTakeover)
+from module.exception import (GameNotRunningError, GameStuckError,
+                              GameTooManyClickError, RequestHumanTakeover)
 from module.handler.assets import GET_MISSION
 from module.logger import logger
+
+if sys.platform == 'win32':
+    from module.device.emulator import EmulatorManager
+else:
+    class EmulatorManager:
+        pass
 
 
 class Device(Screenshot, Control, AppControl, EmulatorManager):
