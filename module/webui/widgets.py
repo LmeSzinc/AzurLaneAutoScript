@@ -349,8 +349,7 @@ def put_arg_select(kwargs: T_Output_Kwargs) -> Output:
 
 def put_arg_textarea(kwargs: T_Output_Kwargs) -> Output:
     name: str = kwargs["name"]
-    mode: str = kwargs.pop("mode", None)
-    kwargs.setdefault("code", {"lineWrapping": True, "lineNumbers": False, "mode": mode})
+    kwargs.setdefault("code", {"lineWrapping": True, "lineNumbers": False})
 
     return put_scope(
         f"arg_contianer-textarea-{name}",

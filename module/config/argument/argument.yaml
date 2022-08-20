@@ -43,10 +43,6 @@ RestartEmulator:
 Error:
   HandleError: true
   SaveError: true
-  OnePushConfig:
-    type: textarea
-    mode: json
-    value: '{}'
   ScreenshotLength: 1
 Optimization:
   ScreenshotInterval: 0.3

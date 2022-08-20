@@ -412,10 +412,6 @@
       "name": "出错时，保存 Log 和截图",
       "help": ""
     },
-    "OnePushConfig": {
-      "name": "错误推送设置",
-      "help": "发生无法处理的异常后，使用 Onepush 推送一条错误信息。配置方法见文档：https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BCN%5D"
-    },
     "ScreenshotLength": {
       "name": "出错时，保留最后 X 张截图",
       "help": ""
