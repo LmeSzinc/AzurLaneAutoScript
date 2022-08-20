@@ -136,8 +136,8 @@
       },
       "OnePushConfig": {
         "type": "textarea",
-        "value": "{}",
-        "mode": "json"
+        "value": "provider: null",
+        "mode": "yaml"
       },
       "ScreenshotLength": {
         "type": "input",

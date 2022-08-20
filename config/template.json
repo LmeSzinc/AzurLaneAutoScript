@@ -16,7 +16,7 @@
     "Error": {
       "HandleError": true,
       "SaveError": true,
-      "OnePushConfig": "{}",
+      "OnePushConfig": "provider: null",
       "ScreenshotLength": 1
     },
     "Optimization": {

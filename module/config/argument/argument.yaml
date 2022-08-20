@@ -45,8 +45,8 @@ Error:
   SaveError: true
   OnePushConfig:
     type: textarea
-    mode: json
-    value: '{}'
+    mode: yaml
+    value: 'provider: null'
   ScreenshotLength: 1
 Optimization:
   ScreenshotInterval: 0.3

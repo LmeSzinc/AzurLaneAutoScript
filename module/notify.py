@@ -1,4 +1,4 @@
-import json
+import yaml
 import onepush.core
 from onepush import get_notifier
 from onepush.core import Provider
@@ -9,28 +9,31 @@ from module.logger import logger
 onepush.core.log = logger
 
 
-def handle_notify(config: str, **kwargs) -> bool:
+def handle_notify(_config: str, **kwargs) -> bool:
     try:
-        config: dict = json.loads(config)
+        config = {}
+        for item in yaml.safe_load_all(_config):
+            config.update(item)
     except Exception:
         logger.error("Fail to load onepush config, skip sending")
         return False
     try:
-        if config.get("disabled") == True:
-            return True
-        notifier: Provider = get_notifier(config["provider"])
+        provider_name = config.pop("provider", None)
+        if provider_name is None:
+            logger.info("No provider specified, skip sending")
+            return False
+        notifier: Provider = get_notifier(provider_name)
         required: list[str] = notifier.params["required"]
-        params: dict = config["params"]
-        params.update(kwargs)
+        config.update(kwargs)
 
         # pre check
         for key in required:
-            if key not in params:
+            if key not in config:
                 logger.warning(
                     f"Notifier {notifier.name} require param '{key}' but not provided"
                 )
 
-        notifier.notify(**params)
+        notifier.notify(**config)
     except OnePushException:
         logger.exception("Push notify failed")
         return False
