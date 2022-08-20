@@ -1,6 +1,7 @@
 from module.base.button import ButtonGrid
 from module.base.utils import rgb2gray
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
+from module.exception import ScriptError
 from module.logger import logger
 from module.storage.assets import *
 from module.storage.ui import StorageUI
@@ -27,6 +28,8 @@ class StorageHandler(StorageUI):
             return TEMPLATE_BOX_T3
         if rarity == 4:
             return TEMPLATE_BOX_T4
+        else:
+            raise ScriptError
 
     def _storage_use_one_box(self, button, skip_first_screenshot=True):
         """
@@ -43,7 +46,7 @@ class StorageHandler(StorageUI):
         """
         success = False
         used = 0
-        for b in [MATERIAL_CHECK, BOX_USE_ONE, BOX_USE_TEN, GET_ITEMS_1, GET_ITEMS_2]:
+        for b in [MATERIAL_CHECK, BOX_USE, GET_ITEMS_1, GET_ITEMS_2]:
             self.interval_clear(b)
 
         while 1:
@@ -55,12 +58,11 @@ class StorageHandler(StorageUI):
             if self.appear(MATERIAL_CHECK, offset=(20, 20), interval=5):
                 self.device.click(button)
                 continue
-            if self.appear(BOX_USE_TEN, offset=(-80, -5, 10, 5), interval=5):
+            if self.appear_then_click(BOX_USE, offset=(-75, -5, 10, 5), interval=5):
                 used = 10
-                self.device.click(BOX_USE_TEN)
                 self.interval_reset(MATERIAL_CHECK)
                 continue
-            if self.appear_then_click(BOX_USE_ONE, offset=(-150, -5, 10, 5), interval=5):
+            if self.appear_then_click(BOX_USE, offset=(-330, -5, 10, 5), interval=5):
                 used = 1
                 self.interval_reset(MATERIAL_CHECK)
                 continue
