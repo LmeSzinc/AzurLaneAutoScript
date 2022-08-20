@@ -1,5 +1,3 @@
-import inflection
-
 from module.combat.assets import GET_ITEMS_1
 from module.logger import logger
 from module.meowfficer.assets import *
@@ -52,8 +50,7 @@ class MeowfficerBuy(MeowfficerBase):
             count = coins // BUY_PRIZE + int(remain == total)
             logger.info(f'Current coins only enough to buy {count}')
 
-        self.ui_click(MEOWFFICER_BUY_ENTER, check_button=MEOWFFICER_BUY, additional=self.meow_additional,
-                      retry_wait=3, confirm_wait=0, skip_first_screenshot=True)
+        self.meow_enter(MEOWFFICER_BUY_ENTER, check_button=MEOWFFICER_BUY)
         self.ui_ensure_index(count, letter=MEOWFFICER_CHOOSE, prev_button=MEOWFFICER_BUY_PREV,
                              next_button=MEOWFFICER_BUY_NEXT, skip_first_screenshot=True)
         return True

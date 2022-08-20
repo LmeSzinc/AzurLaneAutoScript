@@ -43,18 +43,18 @@ class Config:
 
     MAP_MYSTERY_HAS_CARRIER = True
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (120, 255 - 49),
+        'height': (120, 255 - 33),
         'width': (1.5, 10),
         'prominence': 10,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 49, 255),
+        'height': (255 - 33, 255),
         'prominence': 10,
         'distance': 50,
         'wlen': 1000
     }
-    HOMO_EDGE_COLOR_RANGE = (0, 49)
+    HOMO_EDGE_COLOR_RANGE = (0, 33)
     HOMO_EDGE_HOUGHLINES_THRESHOLD = 210
 
 
