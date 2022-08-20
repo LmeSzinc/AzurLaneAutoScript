@@ -898,6 +898,9 @@ class AlasGUI(Frame):
         self.task_handler.add(remote_switch.g(), delay=1, pending_delete=True)
 
     def ui_develop(self) -> None:
+        if not self.is_mobile:
+            self.show()
+            return
         self.init_aside(name="Develop")
         self.set_title(t("Gui.Aside.Develop"))
         self.dev_set_menu()
@@ -964,9 +967,10 @@ class AlasGUI(Frame):
 
     def show(self) -> None:
         self._show()
-        self.init_aside(name="Home")
         self.set_aside()
-        self.collapse_menu()
+        self.init_aside(name="Develop")
+        self.dev_set_menu()
+        self.init_menu(name="HomePage")
         self.alas_name = ""
         if hasattr(self, "alas"):
             del self.alas
@@ -1115,7 +1119,7 @@ class AlasGUI(Frame):
         self.task_handler.start()
 
         # Return to previous page
-        if aside not in ["Develop", "Home", None]:
+        if aside not in ["Develop", None]:
             self.ui_alas(aside)
 
 
