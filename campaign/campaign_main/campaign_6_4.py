@@ -71,7 +71,7 @@ class Campaign(CampaignBase):
     def battle_5(self):
         self.clear_all_mystery()
 
-        if not self.config.FLEET_2:
+        if self.config.FLEET_BOSS == 1:
             self.pick_up_ammo()
 
         boss = self.map.select(is_boss=True)

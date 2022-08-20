@@ -73,6 +73,9 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_5(self):
+        if self.config.FLEET_BOSS == 1:
+            self.pick_up_ammo()
+
         boss = self.map.select(is_boss=True)
         if boss:
             if not self.check_accessibility(boss[0], fleet='boss'):
