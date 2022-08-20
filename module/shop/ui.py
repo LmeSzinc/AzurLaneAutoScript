@@ -112,6 +112,7 @@ class ShopUI(UI):
                   condition otherwise False
         """
         detection_area = (480, 640, 960, 660)
+        swipe_interval = Timer(0.6, count=2)
 
         for _ in range(5):
             if skip_first_screenshot:
@@ -124,8 +125,9 @@ class ShopUI(UI):
                     self.appear(SHOP_MERIT_SWIPE_END, offset=(15, 5)):
                 return True
 
-            self.device.swipe_vector((480, 0), box=detection_area, random_range=(-50, -10, 50, 10), padding=0)
-            self.device.sleep(0.3)
+            if swipe_interval.reached():
+                self.device.swipe_vector((480, 0), box=detection_area, random_range=(-50, -10, 50, 10), padding=0)
+                swipe_interval.reset()
 
         return False
 
