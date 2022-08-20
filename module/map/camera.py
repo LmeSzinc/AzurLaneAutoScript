@@ -54,10 +54,11 @@ class Camera(MapOperation):
             self.device.swipe_vector(vector, name=name, box=box, whitelist_area=whitelist, blacklist_area=blacklist)
             self.device.sleep(0.3)
             self.update()
+            return True
         else:
             # Drop swipe
             # self.update(camera=False)
-            pass
+            return False
 
     def map_swipe(self, vector):
         """
@@ -66,6 +67,7 @@ class Camera(MapOperation):
 
         Args:
             vector(tuple): int
+
         Returns:
             bool: if camera moved.
         """
@@ -74,7 +76,7 @@ class Camera(MapOperation):
         self._prev_swipe = vector
         vector = np.array(vector)
         vector = np.array([0.5, 0.5]) - self.view.center_offset + vector
-        self._map_swipe(vector)
+        return self._map_swipe(vector)
 
     def focus_to_grid_center(self, tolerance=None):
         """
@@ -90,8 +92,7 @@ class Camera(MapOperation):
             tolerance = self.config.MAP_GRID_CENTER_TOLERANCE
         if np.any(np.abs(self.view.center_offset - 0.5) > tolerance):
             logger.info('Re-focus to grid center.')
-            self.map_swipe((0, 0))
-            return True
+            return self.map_swipe((0, 0))
 
         return False
 
@@ -302,9 +303,9 @@ class Camera(MapOperation):
         while 1:
             vector = np.array(location) - self.camera
             swipe = tuple(np.min([np.abs(vector), swipe_limit], axis=0) * np.sign(vector))
-            self.map_swipe(swipe)
+            has_swiped = self.map_swipe(swipe)
 
-            if np.all(np.abs(vector) <= 0):
+            if not has_swiped:
                 break
 
     def full_scan(self, queue=None, must_scan=None, battle_count=0, mystery_count=0, siren_count=0, carrier_count=0,
