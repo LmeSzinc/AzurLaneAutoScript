@@ -354,6 +354,7 @@
     "TaskBalancer": {
       "Enable": false,
       "CoinLimit": 3000,
+      "DelayInterval": 2,
       "TaskCall": "Main"
     }
   },

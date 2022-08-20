@@ -155,6 +155,7 @@ class GeneratedConfig:
     # Group `TaskBalancer`
     TaskBalancer_Enable = False
     TaskBalancer_CoinLimit = 3000
+    TaskBalancer_DelayInterval = 2
     TaskBalancer_TaskCall = 'Main'  # Main, Main2, Main3
 
     # Group `EventDaily`

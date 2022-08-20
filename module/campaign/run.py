@@ -143,7 +143,8 @@ class CampaignRun(UI):
 
     def handle_task_balancer(self):
         if self.triggered_task_balancer():
-            self.config.task_delay(minute=2)
+            delay_interval = self.config.TaskBalancer_DelayInterval
+            self.config.task_delay(minute=delay_interval)
             next_task = self.config.TaskBalancer_TaskCall
             self.config.task_call(next_task)
             self.config.task_stop()
