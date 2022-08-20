@@ -56,6 +56,23 @@ class SupplyPack(UI):
         logger.info(f'Supply pack buy finished, executed={executed}')
         return executed
 
+    def get_oil(self):
+        """
+        Returns:
+            int: Oil amount
+        """
+        timeout = Timer(1, count=3).start()
+        while 1:
+            oil = OCR_OIL.ocr(self.device.image)
+            if timeout.reached():
+                logger.warning('Get oil timeout')
+                return oil
+            if oil > 0:
+                return oil
+            else:
+                self.device.screenshot()
+                continue
+
     def run(self):
         """
         Pages:
@@ -64,8 +81,7 @@ class SupplyPack(UI):
         """
         self.ui_ensure(page_supply_pack)
 
-        oil = OCR_OIL.ocr(self.device.image)
-        if oil <= 21000:
+        if self.get_oil() < 21000:
             self.supply_pack_buy(FREE_SUPPLY_PACK)
         else:
             logger.info('Oil > 21000, unable to buy free weekly supply pack')
