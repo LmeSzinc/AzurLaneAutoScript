@@ -1859,11 +1859,7 @@
       },
       "CoinLimit": {
         "type": "input",
-        "value": 3000
-      },
-      "DelayInterval": {
-        "type": "input",
-        "value": 2
+        "value": 10000
       },
       "TaskCall": {
         "type": "select",

@@ -134,17 +134,17 @@ class CampaignRun(UI):
         # Check Coin
         if coin < limit:
             if command in tasks:
-                logger.hr('Triggered task balancer: Coin limit')
-                return True
-            if command == 'GemsFarming' and self.config.Campaign_Event == 'campaign_main':
-                return False
+                if self.config.Campaign_Event == 'campaign_main':
+                    return False
+                else:
+                    logger.hr('Triggered task balancer: Coin limit')
+                    return True
         else:
             return False
 
     def handle_task_balancer(self):
         if self.triggered_task_balancer():
-            delay_interval = self.config.TaskBalancer_DelayInterval
-            self.config.task_delay(minute=delay_interval)
+            self.config.task_delay(minute=5)
             next_task = self.config.TaskBalancer_TaskCall
             self.config.task_call(next_task)
             self.config.task_stop()

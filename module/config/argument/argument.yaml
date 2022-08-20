@@ -233,8 +233,7 @@ EventGeneral:
   TimeLimit: 2020-01-01 00:00:00
 TaskBalancer:
   Enable: false
-  CoinLimit: 3000
-  DelayInterval: 2
+  CoinLimit: 10000
   TaskCall:
     value: Main
     option: [Main, Main2, Main3]

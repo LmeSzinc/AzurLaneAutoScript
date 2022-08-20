@@ -1066,10 +1066,6 @@
       "name": "TaskBalancer.CoinLimit.name",
       "help": "TaskBalancer.CoinLimit.help"
     },
-    "DelayInterval": {
-      "name": "TaskBalancer.DelayInterval.name",
-      "help": "TaskBalancer.DelayInterval.help"
-    },
     "TaskCall": {
       "name": "TaskBalancer.TaskCall.name",
       "help": "TaskBalancer.TaskCall.help",

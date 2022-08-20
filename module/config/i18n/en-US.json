@@ -1056,7 +1056,7 @@
   "TaskBalancer": {
     "_info": {
       "name": "Task Balancer Settings",
-      "help": "Prevent coin shortage caused by uneven task ratio."
+      "help": "Prevent coin shortage when farming event maps."
     },
     "Enable": {
       "name": "Enable Task Balancer",
@@ -1066,13 +1066,9 @@
       "name": "Keep Coin Above X",
       "help": "Start chosen task if coin is found to be below this number."
     },
-    "DelayInterval": {
-      "name": "Delay X minutes",
-      "help": "Delay such time. Default value is 2 minutes."
-    },
     "TaskCall": {
-      "name": "Task Call",
-      "help": "Chosen task would be called after finished current task.\nThe current task would be delayed if triggered.",
+      "name": "Call task X if out of coin",
+      "help": "Reminder: Players need to check task config before running, or TaskCall may not work.",
       "Main": "Main",
       "Main2": "Main-2",
       "Main3": "Main-3"
