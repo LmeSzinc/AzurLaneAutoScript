@@ -2,6 +2,7 @@ from module.base.button import ButtonGrid
 from module.base.utils import rgb2gray
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.exception import ScriptError
+from module.handler.assets import POPUP_CONFIRM
 from module.logger import logger
 from module.storage.assets import *
 from module.storage.ui import StorageUI
@@ -159,7 +160,7 @@ class StorageHandler(StorageUI):
             out: DISASSEMBLE_CANCEL
         """
         success = False
-        for button in [DISASSEMBLE_CONFIRM, DISASSEMBLE_POPUP_CONFIRM, GET_ITEMS_CONTINUE, DISASSEMBLE_CANCEL]:
+        for button in [DISASSEMBLE_CONFIRM, POPUP_CONFIRM, GET_ITEMS_CONTINUE, DISASSEMBLE_CANCEL]:
             self.interval_clear(button)
 
         self.handle_info_bar()
@@ -170,11 +171,11 @@ class StorageHandler(StorageUI):
             self.device.screenshot()
             if self.appear_then_click(DISASSEMBLE_CONFIRM, offset=(20, 20), interval=5):
                 continue
-            if self.appear_then_click(DISASSEMBLE_POPUP_CONFIRM, offset=(20, 20), interval=5):
+            if self.appear_then_click(POPUP_CONFIRM, offset=(-15, -5, 5, 70), interval=5):
                 continue
             if self.handle_popup_confirm():
                 continue
-            if self.appear_then_click(GET_ITEMS_CONTINUE):
+            if self.appear_then_click(GET_ITEMS_CONTINUE, offset=(5, 5)):
                 success = True
                 continue
 
