@@ -4,15 +4,18 @@ from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.exception import ScriptError
 from module.handler.assets import POPUP_CONFIRM
 from module.logger import logger
+from module.ocr.ocr import DigitCounter
+from module.statistics.item import ItemGrid
 from module.storage.assets import *
 from module.storage.ui import StorageUI
 from module.ui.scroll import Scroll
 
 MATERIAL_SCROLL = Scroll(METERIAL_SCROLL, color=(247, 211, 66))
 
-EQUIPMENT_GRIDS = ButtonGrid(origin=(172, 117), delta=(159, 178), button_shape=(60, 60),
+EQUIPMENT_GRIDS = ButtonGrid(origin=(140, 88), delta=(159, 178), button_shape=(124, 124),
                              grid_shape=(7, 3), name='EQUIPMENT')
-
+EQUIPMENT_ITEMS = ItemGrid(EQUIPMENT_GRIDS, templates={}, amount_area=(90, 98, 123, 123))
+OCR_DISASSEMBLE_COUNT = DigitCounter(DISASSEMBLE_COUNT_OCR, letter=(235,235,235))
 
 class StorageFull(Exception):
     pass
@@ -150,71 +153,96 @@ class StorageHandler(StorageUI):
             raise StorageFull
         return used
 
-    def _storage_disassemble_equipment_execute_once(self):
+    def _storage_disassemble_equipment_execute_once(self, amount=40):
         """
         Returns:
-            bool: If success
+            int: amount of equipments disassembled
 
         Pages:
             in: DISASSEMBLE_CANCEL
             out: DISASSEMBLE_CANCEL
         """
         success = False
-        for button in [DISASSEMBLE_CONFIRM, POPUP_CONFIRM, GET_ITEMS_CONTINUE, DISASSEMBLE_CANCEL]:
+        click = 0
+        amount = min(amount, 40)
+        for button in [DISASSEMBLE_CONFIRM, POPUP_CONFIRM, GET_ITEMS_1, DISASSEMBLE_CANCEL]:
             self.interval_clear(button)
 
         self.handle_info_bar()
-        for _, _, button in EQUIPMENT_GRIDS.generate():
-            self.device.click(button)
+        self.wait_until_stable(MATERIAL_STABLE_CHECK)
+        items = EQUIPMENT_ITEMS.predict(self.device.image, name=False, amount=True)
+        box = [item.amount for item in items]
+        while amount > 0 and click < 21:
+            amount -= box[click]
+            click += 1
+        buttons = EQUIPMENT_GRIDS.generate()
+        for _ in range(click):
+            self.device.click(next(buttons)[2])
+        self.device.screenshot()
+        disassembled, _, _ = OCR_DISASSEMBLE_COUNT.ocr(self.device.image)
 
         while 1:
             self.device.screenshot()
             if self.appear_then_click(DISASSEMBLE_CONFIRM, offset=(20, 20), interval=5):
                 continue
-            if self.appear_then_click(POPUP_CONFIRM, offset=(-15, -5, 5, 70), interval=5):
+            if self.appear_then_click(DISASSEMBLE_POPUP_CONFIRM, offset=(-15, -5, 5, 70), interval=5):
                 continue
             if self.handle_popup_confirm():
                 continue
-            if self.appear_then_click(GET_ITEMS_CONTINUE, offset=(5, 5)):
+            if self.appear_then_click(GET_ITEMS_1, offset=(5, 5)):
                 success = True
                 continue
 
             if success and self.appear(DISASSEMBLE_CANCEL, offset=(20, 20)):
                 self.wait_until_stable(MATERIAL_STABLE_CHECK)
                 break
+        return disassembled
 
-    def _storage_disassemble_equipment_execute(self, rarity):
+    def _storage_disassemble_equipment_execute(self, rarity, amount):
         """
 
         Args:
             rarity:
+            amount:
 
         Pages:
             in: DISASSEMBLE
             out: DISASSEMBLE
 
+        Returns:
+            int: amount of equipments disassembled
+
         """
+        disassembled = 0
         self.ui_click(click_button=DISASSEMBLE, check_button=DISASSEMBLE_CANCEL, skip_first_screenshot=True)
         self.equipment_filter_set(rarity=rarity)
         while not self.appear(EQUIPMENT_EMPTY, offset=(20, 20)):
-            self._storage_disassemble_equipment_execute_once()
+            if amount - disassembled < 40:
+                disassembled += self._storage_disassemble_equipment_execute_once(amount=amount-disassembled)
+            else:
+                disassembled += self._storage_disassemble_equipment_execute_once()
         self.equipment_filter_set()
         self.ui_click(click_button=DISASSEMBLE_CANCEL, check_button=DISASSEMBLE, skip_first_screenshot=True)
+        return disassembled
 
-    def storage_disassemble_equipment(self, rarity='common'):
+    def storage_disassemble_equipment(self, rarity='common', amount=500):
+        """
+
+        Args:
+            rarity (int): 1/2/3 for T1/T2/T3
+            amount (int): disassemble how many equipments at most
+
+        Returns:
+            int: amount of equipments disassembled
+
+        """
         logger.hr('Disassemble Equipment', level=2)
         self.ui_goto_storage()
         self.equipment_enter()
         self.equipping_set()
-        self._storage_disassemble_equipment_execute(rarity=rarity)
+        return self._storage_disassemble_equipment_execute(rarity=rarity, amount=amount)
 
 
 if __name__ == '__main__':
     a = StorageHandler('alas')
-    while 1:
-        try:
-            s = a.storage_use_box(rarity=4, amount=30)
-            if s == 0:
-                break
-        except StorageFull:
-            a.storage_disassemble_equipment()
+    a.storage_disassemble_equipment()
