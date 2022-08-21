@@ -37,7 +37,6 @@ class MeowfficerBase(UI):
             else:
                 self.device.screenshot()
 
-            self.appear_then_click(MEOWFFICER_TRAIN_ENTER, offset=(20, 20), interval=5)
             # End
             if self.appear(check_button, offset=(20, 20)):
                 break
