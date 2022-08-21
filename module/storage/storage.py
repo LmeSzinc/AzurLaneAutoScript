@@ -17,6 +17,7 @@ EQUIPMENT_GRIDS = ButtonGrid(origin=(140, 88), delta=(159, 178), button_shape=(1
 EQUIPMENT_ITEMS = ItemGrid(EQUIPMENT_GRIDS, templates={}, amount_area=(90, 98, 123, 123))
 OCR_DISASSEMBLE_COUNT = DigitCounter(DISASSEMBLE_COUNT_OCR, letter=(235,235,235))
 
+
 class StorageFull(Exception):
     pass
 
@@ -111,7 +112,6 @@ class StorageHandler(StorageUI):
 
             image = rgb2gray(self.device.image)
             sim, box_button = self._storage_box_template(rarity).match_result(image)
-            logger.warning(sim)
             if sim > 0.9 and amount > used:
                 used += self._storage_use_one_box(box_button)
                 continue
@@ -119,7 +119,7 @@ class StorageHandler(StorageUI):
                 break
         return used
 
-    def storage_use_box(self, rarity, amount):
+    def storage_use_box(self, rarity=1, amount=10):
         """
 
         Args:
@@ -172,17 +172,20 @@ class StorageHandler(StorageUI):
         self.wait_until_stable(MATERIAL_STABLE_CHECK)
         items = EQUIPMENT_ITEMS.predict(self.device.image, name=False, amount=True)
         box = [item.amount for item in items]
-        while amount > 0 and click < 21:
+        while amount > 0 and click < len(box):
             amount -= box[click]
             click += 1
-        buttons = EQUIPMENT_GRIDS.generate()
-        for _ in range(click):
-            self.device.click(next(buttons)[2])
+        for button in EQUIPMENT_GRIDS.buttons[:click]:
+            self.device.click(button)
         self.device.screenshot()
         disassembled, _, _ = OCR_DISASSEMBLE_COUNT.ocr(self.device.image)
 
+        first = True
         while 1:
-            self.device.screenshot()
+            if first:
+                first = False
+            else:
+                self.device.screenshot()
             if self.appear_then_click(DISASSEMBLE_CONFIRM, offset=(20, 20), interval=5):
                 continue
             if self.appear_then_click(DISASSEMBLE_POPUP_CONFIRM, offset=(-15, -5, 5, 70), interval=5):
@@ -245,4 +248,10 @@ class StorageHandler(StorageUI):
 
 if __name__ == '__main__':
     a = StorageHandler('alas')
-    a.storage_disassemble_equipment()
+    while 1:
+        try:
+            s = a.storage_use_box(rarity=1, amount=500)
+            if s == 0:
+                break
+        except StorageFull:
+            a.storage_disassemble_equipment()
