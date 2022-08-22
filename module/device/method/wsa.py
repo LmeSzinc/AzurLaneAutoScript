@@ -9,6 +9,10 @@ from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
+import win32gui
+import ctypes
+import win32con
+import win32api
 
 def retry(func):
     @wraps(func)
@@ -145,5 +149,30 @@ class WSA(Connection):
 
     @retry
     def display_resize_wsa(self, display):
-        logger.warning('display ' + str(display) + ' should be resized')
-        self.adb_shell(['wm', 'size', '1280x720', '-d', str(display)])
+        def winEnumHandler(hwnd, ctx):
+            if win32gui.IsWindowVisible(hwnd):
+                n = win32gui.GetWindowText(hwnd)
+                s = win32api.GetWindowLong(hwnd, win32con.GWL_STYLE)
+                x = win32api.GetWindowLong(hwnd, win32con.GWL_EXSTYLE)
+                if n:
+                    allvisiblewindows.update({n: {'hwnd': hwnd, 'STYLE': s, 'EXSTYLE': x}})
+        allvisiblewindows = {}
+        win32gui.EnumWindows(winEnumHandler, None)
+        hwnd = allvisiblewindows.get('Azur Lane',{}).get('hwnd')
+        try:
+            win32gui.GetWindowRect(hwnd)
+        except:
+            raise OSError('Window not found. Is WSA running?')
+        else:
+            XPos = int(0)
+            YPos = int(0)
+            user32 = ctypes.windll.user32
+            user32.SetWindowLongW(hwnd, win32con.GWL_STYLE, win32con.WS_VISIBLE | win32con.WS_CLIPCHILDREN)
+            user32.SetWindowLongW(hwnd, win32con.GWL_EXSTYLE, 0)
+            HRes = int(1280)-1
+            VRes = int(720)-1
+            user32.MoveWindow(hwnd, XPos, YPos, HRes, VRes, True)
+            VRes = VRes + 1
+            HRes = HRes + 1
+            win32gui.SetWindowPos(hwnd, None, XPos, YPos, HRes, VRes, win32con.SWP_FRAMECHANGED | win32con.SWP_NOZORDER |
+                                  win32con.SWP_NOOWNERZORDER)

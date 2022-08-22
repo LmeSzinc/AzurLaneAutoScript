@@ -55,6 +55,7 @@ class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
             if self.config.Emulator_ScreenshotDedithering:
                 # This will take 40-60ms
                 cv2.fastNlMeansDenoising(self.image, self.image, h=17, templateWindowSize=1, searchWindowSize=2)
+            self.image = self._handle_wsa_image(self.image)
             self.image = self._handle_orientated_image(self.image)
 
             if self.config.Error_SaveError:
@@ -90,6 +91,28 @@ class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
             image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
         else:
             raise ScriptError(f'Invalid device orientation: {self.orientation}')
+
+        return image
+
+    def _handle_wsa_image(self, image):
+        """
+        Args:
+            image (np.ndarray):
+
+        Returns:
+            np.ndarray:
+        """
+        width, height = image_size(self.image)
+
+        if not self._screen_size_checked:
+            return image
+
+        if self.config.Emulator_Serial != 'wsa-0' or (width == 1280 and height == 720):
+            return image
+
+        # Trim screenshots only after screen size was checked
+        # and if they are both from WSA and not already 1280x720
+        image = image[0:720, 0:1280]
 
         return image
 
@@ -194,7 +217,8 @@ class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
                 continue
             elif self.config.Emulator_Serial == 'wsa-0':
                 self.display_resize_wsa(0)
-                return False
+                self._screen_size_checked = True
+                return True
             elif hasattr(self, 'app_is_running') and not self.app_is_running():
                 logger.warning('Received orientated screenshot, game not running')
                 return True
