@@ -1,14 +1,15 @@
-import numpy as np
 from datetime import datetime, timedelta
+
+import numpy as np
 
 from module.base.timer import Timer
 from module.base.utils import rgb2gray
 from module.logger import logger
 from module.ocr.ocr import Duration
 from module.research.assets import *
-from module.research.project import (RESEARCH_ENTRANCE, ResearchSelector,
-                                     get_research_finished)
+from module.research.project import get_research_finished
 from module.research.rqueue import ResearchQueue
+from module.research.selector import RESEARCH_ENTRANCE, ResearchSelector
 from module.ui.page import *
 
 OCR_DURATION = Duration(RESEARCH_LAB_DURATION_REMAIN, letter=(255, 255, 255), threshold=64,
