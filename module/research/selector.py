@@ -197,12 +197,13 @@ class ResearchSelector(ResearchUI):
         if project.genre.upper() == 'T':
             return False
         # 2021.08.19 Allow E-2 to disassemble tech boxes, but JP still remains the same.
-        if self.config.SERVER == 'jp':
-            if project.genre.upper() == 'E' and str(project.duration) != '6':
-                return False
-        else:
-            if project.genre.upper() == 'E' and project.task != '':
-                return False
+        # 2022.08.23 Allow all E-2, disassemble equipment is now supported
+        # if self.config.SERVER == 'jp':
+        #     if project.genre.upper() == 'E' and str(project.duration) != '6':
+        #         return False
+        # else:
+        #     if project.genre.upper() == 'E' and project.task != '':
+        #         return False
 
         return True
 

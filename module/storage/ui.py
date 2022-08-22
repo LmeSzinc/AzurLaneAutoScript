@@ -103,6 +103,7 @@ class StorageUI(UI):
             # equipment -> disassemble
             if self.appear_then_click(DISASSEMBLE, offset=(20, 20), interval=3):
                 self.interval_reset(STORAGE_CHECK)
+                self.interval_reset(MATERIAL_CHECK)
                 continue
             # material -> equipment
             if self.appear(MATERIAL_CHECK, offset=(20, 20), interval=3):

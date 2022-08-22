@@ -3,6 +3,7 @@ from datetime import timedelta
 
 from scipy import signal
 
+from module.base.decorator import cached_property
 from module.base.utils import *
 from module.logger import logger
 from module.ocr.ocr import Ocr
@@ -388,6 +389,9 @@ class ResearchProject:
         else:
             return f'{self.series} {self.name} (Invalid)'
 
+    def __eq__(self, other):
+        return str(self) == str(other)
+
     def check_name(self, name):
         """
         Args:
@@ -469,6 +473,17 @@ class ResearchProject:
 
         return False
 
+    @cached_property
+    def equipment_amount(self):
+        # Scrap 8 pieces of gear.
+        # Scrap 15 pieces of gear.
+        if '8 piece' in self.task:
+            return 8
+        elif '15 piece' in self.task:
+            return 15
+        else:
+            return 0
+
 
 class ResearchProjectJp:
     GENRE = ['b', 'c', 'd', 'e', 'g', 'h', 'q', 't']
@@ -514,3 +529,15 @@ class ResearchProjectJp:
             return f'{self.name}'
         else:
             return f'{self.name} (Invalid)'
+
+    def __eq__(self, other):
+        return str(self) == str(other)
+
+    @cached_property
+    def equipment_amount(self):
+        if self.genre == 'E' and self.duration == '2':
+            # JP has no research names, can't distinguish E-031-MI and E-315-MI,
+            # return the max value 15
+            return 15
+        else:
+            return 0

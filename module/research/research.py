@@ -10,13 +10,14 @@ from module.research.assets import *
 from module.research.project import get_research_finished
 from module.research.rqueue import ResearchQueue
 from module.research.selector import RESEARCH_ENTRANCE, ResearchSelector
+from module.storage.storage import StorageHandler
 from module.ui.page import *
 
 OCR_DURATION = Duration(RESEARCH_LAB_DURATION_REMAIN, letter=(255, 255, 255), threshold=64,
                         name='RESEARCH_LAB_DURATION_REMAIN')
 
 
-class RewardResearch(ResearchSelector, ResearchQueue):
+class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
     _research_project_offset = 0
     _research_finished_index = 2
     research_project_started = None  # ResearchProject
@@ -127,7 +128,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                 return self.research_enforce(drop=drop, add_queue=add_queue)
             else:
                 # priority example: [ResearchProject, ResearchProject,]
-                ret = self.research_project_start(project, add_queue=add_queue)
+                ret = self.research_project_start_with_requirements(project, add_queue=add_queue)
                 if ret:
                     return True
                 elif ret is not None and self.research_delay_check():
@@ -230,6 +231,45 @@ class RewardResearch(ResearchSelector, ResearchQueue):
                 self.research_detail_quit()
                 self.research_project_started = None
                 return False
+
+    def research_project_start_with_requirements(self, project, add_queue=True):
+        """
+        Start a given project and add it into research queue, and handle its requirements
+
+        Args:
+            project (ResearchProject, int): Project or index of project 0 to 4.
+            add_queue (bool): Whether to add into queue.
+                The 6th project can't be added into queue, so here's the toggle.
+
+        Returns:
+            bool: If start success.
+            None: If The project to start is not in known projects.
+
+        Pages:
+            in: is_in_research
+            out: is_in_research
+        """
+        # Project index, call it directly
+        if isinstance(project, int):
+            return self.research_project_start(project, add_queue=add_queue)
+        elif project.genre == 'E' and project.equipment_amount > 0:
+            logger.info(f'Going to start an E series research: {project} '
+                        f'and disassemble {project.equipment_amount} equipment')
+            # Start it
+            self.research_project_start(project, add_queue=False)
+            # Disassemble
+            self.storage_disassemble_equipment(amount=project.equipment_amount)
+            # Get back
+            self.ui_ensure(page_research)
+            self.research_project_list_init()
+            # Add to queue
+            result = self.research_project_start(project, add_queue=add_queue)
+            if result is None:
+                logger.error('Research project is missing after disassemble equipment')
+            return result
+        else:
+            # Normal project
+            return self.research_project_start(project, add_queue=add_queue)
 
     def research_receive(self, skip_first_screenshot=True):
         """
@@ -363,6 +403,16 @@ class RewardResearch(ResearchSelector, ResearchQueue):
         super().queue_quit(*args, **kwargs)
         self._research_project_offset = 0
 
+    def research_project_list_init(self):
+        """
+        Handle enter research list: reset offset and detect projects
+        """
+        self._research_project_offset = 0
+        # Handle info bar, take one more screenshot to wait the remains of info_bar
+        if self.handle_info_bar():
+            self.device.screenshot()
+        self.research_detect()
+
     def research_queue_append(self, drop=None, add_queue=True):
         """
         Args:
@@ -377,11 +427,7 @@ class RewardResearch(ResearchSelector, ResearchQueue):
         project_record = None
         for _ in range(2):
             logger.hr('Research select', level=2)
-            self._research_project_offset = 0
-            # Handle info bar, take one more screenshot to wait the remains of info_bar
-            if self.handle_info_bar():
-                self.device.screenshot()
-            self.research_detect()
+            self.research_project_list_init()
             project_record = self.device.image
             priority = self.research_sort_filter()
             result = self.research_select(priority, drop=drop, add_queue=add_queue)
