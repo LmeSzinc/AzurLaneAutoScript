@@ -208,8 +208,7 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
         collected = False
         if self.config.MeowfficerTrain_Mode == 'seamlessly':
             # Enter
-            self.ui_click(MEOWFFICER_TRAIN_ENTER, check_button=MEOWFFICER_TRAIN_START, additional=self.meow_additional,
-                          retry_wait=3, confirm_wait=0, skip_first_screenshot=True)
+            self.meow_enter(MEOWFFICER_TRAIN_ENTER, check_button=MEOWFFICER_TRAIN_START)
             # Collect
             if remain > 0:
                 collected = self.meow_collect(collect_all=True)
@@ -219,8 +218,7 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
             self.meow_menu_close()
         else:
             # Enter
-            self.ui_click(MEOWFFICER_TRAIN_ENTER, check_button=MEOWFFICER_TRAIN_START, additional=self.meow_additional,
-                          retry_wait=3, confirm_wait=0, skip_first_screenshot=True)
+            self.meow_enter(MEOWFFICER_TRAIN_ENTER, check_button=MEOWFFICER_TRAIN_START)
             # Collect
             if remain > 0:
                 collected = self.meow_collect(collect_all=self.meow_is_sunday())

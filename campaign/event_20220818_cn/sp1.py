@@ -54,6 +54,7 @@ class Config:
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 210
     MAP_SWIPE_MULTIPLY = 1.839
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.778
 
