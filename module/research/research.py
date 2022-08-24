@@ -403,14 +403,20 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
         super().queue_quit(*args, **kwargs)
         self._research_project_offset = 0
 
-    def research_project_list_init(self):
+    def research_project_list_init(self, from_queue=False):
         """
         Handle enter research list: reset offset and detect projects
+
+        Args:
+            from_queue (bool): If switch from research queue,
+                which has already called ensure_research_center_stable()
         """
         self._research_project_offset = 0
         # Handle info bar, take one more screenshot to wait the remains of info_bar
         if self.handle_info_bar():
             self.device.screenshot()
+        if not from_queue:
+            self.ensure_research_center_stable()
         self.research_detect()
 
     def research_queue_append(self, drop=None, add_queue=True):
@@ -427,7 +433,7 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
         project_record = None
         for _ in range(2):
             logger.hr('Research select', level=2)
-            self.research_project_list_init()
+            self.research_project_list_init(from_queue=True)
             project_record = self.device.image
             priority = self.research_sort_filter()
             result = self.research_select(priority, drop=drop, add_queue=add_queue)
