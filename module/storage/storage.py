@@ -212,6 +212,7 @@ class StorageHandler(StorageUI):
             if item.amount <= 0:
                 continue
             self.device.click(item)
+            self.device.click_record.pop()
             if total >= amount:
                 break
 
