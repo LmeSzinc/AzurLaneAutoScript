@@ -231,6 +231,12 @@ GemsFarming:
 EventGeneral:
   PtLimit: 0
   TimeLimit: 2020-01-01 00:00:00
+TaskBalancer:
+  Enable: false
+  CoinLimit: 10000
+  TaskCall:
+    value: Main
+    option: [Main, Main2, Main3]
 EventDaily:
   StageFilter: |-
     A1 > A2 > A3

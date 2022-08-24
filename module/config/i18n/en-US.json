@@ -1053,6 +1053,27 @@
       "help": "When the local time exceeds the given value, disable all event tasks. '2020-01-01 00:00:00' means no limit and the time will be reset once it's triggered\nThis can prevent the occurrence of forgetting to disable event tasks after the event ends"
     }
   },
+  "TaskBalancer": {
+    "_info": {
+      "name": "Task Balancer Settings",
+      "help": "Prevent coin shortage when farming event maps."
+    },
+    "Enable": {
+      "name": "Enable Task Balancer",
+      "help": "When enabled, the coin amount will be checked after each run."
+    },
+    "CoinLimit": {
+      "name": "Keep Coin Above X",
+      "help": "Start chosen task if coin is found to be below this number."
+    },
+    "TaskCall": {
+      "name": "Call task X if out of coin",
+      "help": "Reminder: Players need to check task config before running, or TaskCall may not work.",
+      "Main": "Main",
+      "Main2": "Main-2",
+      "Main3": "Main-3"
+    }
+  },
   "EventDaily": {
     "_info": {
       "name": "Event Daily Settings",

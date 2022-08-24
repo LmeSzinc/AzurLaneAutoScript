@@ -153,6 +153,11 @@ class GeneratedConfig:
     EventGeneral_PtLimit = 0
     EventGeneral_TimeLimit = datetime.datetime(2020, 1, 1, 0, 0)
 
+    # Group `TaskBalancer`
+    TaskBalancer_Enable = False
+    TaskBalancer_CoinLimit = 10000
+    TaskBalancer_TaskCall = 'Main'  # Main, Main2, Main3
+
     # Group `EventDaily`
     EventDaily_StageFilter = 'A1 > A2 > A3'
     EventDaily_LastStage = 0

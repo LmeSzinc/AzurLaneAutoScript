@@ -136,6 +136,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
             or func in ["MaritimeEscort", "GemsFarming"]
         ):
             func_set.add("EventGeneral")
+            func_set.add("TaskBalancer")
         logger.info(f"Bind task {func_set}")
 
         # Bind arguments
