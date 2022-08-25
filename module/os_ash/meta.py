@@ -15,48 +15,11 @@ class MetaState(Enum):
     COMPLETE = 'reward to be collected'
 
 
-class MetaPage(Enum):
-    ENTRANCE = 'meta entrance'
-    BEACON = 'beacon page'
-    DOSSIER = 'dossier page'
-    BEACON_LIST = 'beacon list page'
-
-
 OCR_BEACON_TIER = Digit(BEACON_TIER, name='OCR_ASH_TIER')
 OCR_META_DAMAGE = Digit(META_DAMAGE, name='OCR_META_DAMAGE')
 
 
-class MetaProcessor(UI):
-    BEACON_PERCENT = Button(area=(850, 22, 940, 46), button=(280, 180, 560, 510), color=(0, 0, 0))
-    DOSSIER_PERCENT = Button(area=(1050, 22, 1160, 46), button=(720, 180, 990, 510), color=(0, 0, 0))
-
-    def support(self) -> bool:
-        return self.appear(ASH_SHOWDOWN, offset=(30, 30))
-
-    def page(self) -> MetaPage:
-        return MetaPage.ENTRANCE
-
-    def info(self):
-        logger.info(self.page().name + '|' + self.get_state().name)
-
-    def get_state(self) -> MetaState:
-        return MetaState.INIT
-
-    def begin_meta(self) -> bool:
-        if self.config.OpsiAshBeacon_AshAttack and self.digit_ocr_point_and_check(self.BEACON_PERCENT, 100):
-            self.device.click(self.BEACON_PERCENT)
-            return True
-        if self.config.OpsiDossierBeacon_Enable and self.digit_ocr_point_and_check(self.DOSSIER_PERCENT, 100):
-            self.device.click(self.DOSSIER_PERCENT)
-            return True
-        return False
-
-    def satisfy_attack_condition(self):
-        return False
-
-    def pre_attack(self):
-        # Do nothing
-        pass
+class Meta(UI, MapEventHandler):
 
     def digit_ocr_point_and_check(self, button: Button, check_number: int):
         point_ocr = DigitCounter(button, letter=(235, 235, 235), threshold=160, name='POINT_OCR')
@@ -65,43 +28,65 @@ class MetaProcessor(UI):
             return True
         return False
 
+    def handle_map_event(self, drop=None):
+        if super().handle_map_event(drop):
+            return True
+        if self.appear_then_click(META_AUTO_CONFIRM, offset=(20, 20), interval=2):
+            return True
 
-class MetaBeaconProcessor(MetaProcessor):
-    POINT_PERCENT = Button(area=(720, 25, 820, 50), button=(560, 260, 730, 440), color=(0, 0, 0))
 
-    def support(self) -> bool:
-        return self.appear(BEACON_LIST, offset=(20, 20))
+class OpsiAshBeacon(Meta):
+    PAGE_MAIN_BEACON_PERCENT = Button(area=(850, 22, 940, 46), button=(280, 180, 560, 510), color=(0, 0, 0))
+    PAGE_MAIN_DOSSIER_PERCENT = Button(area=(1050, 22, 1160, 46), button=(720, 180, 990, 510), color=(0, 0, 0))
+    PAGE_BEACON_POINT_PERCENT = Button(area=(720, 25, 820, 50), button=(560, 260, 730, 440), color=(0, 0, 0))
+    PAGE_DOSSIER_POINT_PERCENT = Button(area=(980, 25, 1090, 50), button=(560, 260, 730, 440), color=(0, 0, 0))
 
-    def page(self) -> MetaPage:
-        return MetaPage.BEACON
+    def _attack_meta(self):
+        combat = AshCombat(config=self.config, device=self.device)
+        while 1:
+            self.device.screenshot()
 
-    def get_state(self) -> MetaState:
-        if self.appear(ASH_START, offset=(20, 20)):
-            return MetaState.ATTACKING
-        if self.appear(BEACON_REWARD, offset=(20, 20)):
-            return MetaState.COMPLETE
-        return MetaState.INIT
+            if self.handle_map_event():
+                continue
+            state = self._get_state()
+            if MetaState.INIT == state:
+                if self._begin_meta():
+                    continue
+                else:
+                    # Normal finish
+                    return True
+            if MetaState.ATTACKING == state:
+                self._pre_attack()
+                if self._satisfy_attack_condition():
+                    combat.combat(expected_end=self._in_self_meta_page, save_get_items=False, emotion_reduce=False)
+                    continue
+                else:
+                    # Delay finish
+                    return False
+            if MetaState.COMPLETE == state:
+                self.appear_then_click(BEACON_REWARD, offset=(30, 30), interval=2)
+                continue
 
-    def begin_meta(self) -> bool:
-        if self.config.OpsiAshBeacon_AshAttack and self.digit_ocr_point_and_check(self.POINT_PERCENT, 100):
-            self.device.click(self.POINT_PERCENT)
-        else:
-            self.appear_then_click(ASH_QUIT, offset=(10, 10), interval=2)
-        return True
+    def _satisfy_attack_condition(self):
+        # Page dossier
+        if self.appear(DOSSIER_LIST, offset=(20, 20)):
+            return True
+        if self.appear(BEACON_LIST, offset=(20, 20)):
+            if self.config.OpsiAshBeacon_OneHitMode:
+                damage = OCR_META_DAMAGE.ocr(self.device.image)
+                if damage <= 0:
+                    logger.info('This meta has been attacked! Damage is ' + str(damage))
+                    return True
+        return False
 
-    def satisfy_attack_condition(self):
-        if self.config.OpsiAshBeacon_OneHitMode:
-            damage = OCR_META_DAMAGE.ocr(self.device.image)
-            if damage > 0:
-                logger.info('This meta has been attacked! Damage is ' + str(damage))
-                return False
-        return True
+    def _pre_attack(self):
+        # Page beacon or dossier
+        if self.appear(BEACON_LIST, offset=(20, 20)) \
+                or self.appear(DOSSIER_LIST, offset=(20, 20)):
+            if self.config.OpsiAshBeacon_OneHitMode or self.config.OpsiAshBeacon_RequestAssist:
+                self._ask_for_help()
 
-    def pre_attack(self):
-        if self.config.OpsiAshBeacon_OneHitMode or self.config.OpsiAshBeacon_RequestAssist:
-            self.ask_for_help()
-
-    def ask_for_help(self):
+    def _ask_for_help(self):
         """
         Request help from friends, guild and world.
 
@@ -118,42 +103,91 @@ class MetaBeaconProcessor(MetaProcessor):
         self.appear_then_click(HELP_3, offset=(100, 20), interval=2)
         self.ui_click(click_button=HELP_CONFIRM, check_button=HELP_ENTER)
 
-
-class MetaDossierProcessor(MetaBeaconProcessor):
-    POINT_PERCENT = Button(area=(980, 25, 1090, 50), button=(560, 260, 730, 440), color=(0, 0, 0))
-
-    def support(self) -> bool:
-        return self.appear(DOSSIER_LIST, offset=(20, 20))
-
-    def page(self) -> MetaPage:
-        return MetaPage.DOSSIER
-
-    def satisfy_attack_condition(self):
+    def _begin_meta(self):
+        # Page meta main
+        if self.appear(ASH_SHOWDOWN, offset=(30, 30)):
+            if self.config.OpsiAshBeacon_AshAttack \
+                    and self.digit_ocr_point_and_check(self.PAGE_MAIN_BEACON_PERCENT, 100):
+                self.device.click(self.PAGE_MAIN_BEACON_PERCENT)
+                return True
+            if self.config.OpsiDossierBeacon_Enable \
+                    and self.digit_ocr_point_and_check(self.PAGE_MAIN_DOSSIER_PERCENT, 100):
+                self.device.click(self.PAGE_MAIN_DOSSIER_PERCENT)
+                return True
+            return False
+        # Page beacon
+        if self.appear(BEACON_LIST, offset=(20, 20)):
+            if self.config.OpsiAshBeacon_AshAttack \
+                    and self.digit_ocr_point_and_check(self.PAGE_BEACON_POINT_PERCENT, 100):
+                self.device.click(self.PAGE_BEACON_POINT_PERCENT)
+                return True
+        # Page dossier
+        if self.appear(DOSSIER_LIST, offset=(20, 20)):
+            if self.config.OpsiDossierBeacon_Enable \
+                    and self.digit_ocr_point_and_check(self.PAGE_DOSSIER_POINT_PERCENT, 100):
+                self.device.click(self.PAGE_DOSSIER_POINT_PERCENT)
+                return True
+        self.appear_then_click(ASH_QUIT, offset=(10, 10), interval=2)
         return True
 
-    def begin_meta(self) -> bool:
-        if self.config.OpsiDossierBeacon_Enable and self.digit_ocr_point_and_check(self.POINT_PERCENT, 100):
-            self.device.click(self.POINT_PERCENT)
+    def _get_state(self):
+        # Page beacon or dossier
+        if self.appear(BEACON_LIST, offset=(20, 20)) \
+                or self.appear(DOSSIER_LIST, offset=(20, 20)):
+            if self.appear(ASH_START, offset=(20, 20)):
+                return MetaState.ATTACKING
+            if self.appear(BEACON_REWARD, offset=(20, 20)):
+                return MetaState.COMPLETE
+        return MetaState.INIT
+
+    def _in_self_meta_page(self):
+        return self.appear(ASH_SHOWDOWN, offset=(30, 30)) \
+               or self.appear(BEACON_LIST, offset=(20, 20)) \
+               or self.appear(DOSSIER_LIST, offset=(20, 20))
+
+    def _ensure_self_meta_page(self):
+        while 1:
+            self.device.screenshot()
+
+            if self._in_self_meta_page():
+                return True
+            if self.handle_map_event():
+                continue
+            if self.appear_then_click(META_ENTRANCE, offset=(10, 10), interval=2):
+                continue
+
+    def _begin_beacon(self):
+        self._ensure_self_meta_page()
+        return self._attack_meta()
+
+    def run(self):
+        self.ui_ensure(page_reward)
+        if self._begin_beacon():
+            self.config.task_delay(server_update=True)
         else:
-            self.appear_then_click(ASH_QUIT, offset=(10, 10), interval=2)
-        return True
+            self.config.task_delay(minute=30)
 
 
-class MetaBeaconListProcessor(MetaProcessor):
+class AshBeaconAssist(Meta):
 
-    def support(self) -> bool:
-        return self.appear(BEACON_MY, offset=(20, 20))
+    def _attack_meta(self):
+        combat = AshCombat(config=self.config, device=self.device)
+        while 1:
+            self.device.screenshot()
 
-    def page(self) -> MetaPage:
-        return MetaPage.BEACON_LIST
+            if self.handle_map_event():
+                continue
+            if self._satisfy_attack_condition():
+                self._ensure_meta_level()
+                combat.combat(expected_end=self._in_their_meta_page, save_get_items=False, emotion_reduce=False)
+                continue
+            else:
+                break
 
-    def get_state(self) -> MetaState:
-        return MetaState.ATTACKING
+    def _satisfy_attack_condition(self):
+        return self.digit_ocr_point_and_check(BEACON_REMAIN, 1)
 
-    def begin_meta(self) -> bool:
-        return False
-
-    def pre_attack(self):
+    def _ensure_meta_level(self):
         """
         Select an meta whose level satisfies
         """
@@ -181,95 +215,14 @@ class MetaBeaconListProcessor(MetaProcessor):
         if not flag:
             logger.info(f'Tier {tier} beacon not found after 5 trial, use current beacon')
 
-    def satisfy_attack_condition(self):
-        return self.digit_ocr_point_and_check(BEACON_REMAIN, 1)
-
-
-class MetaProcessorManager(UI):
-    meta_main_processor: MetaProcessor
-    meta_beacon_processor: MetaBeaconProcessor
-    meta_dossier_processor: MetaDossierProcessor
-    meta_beacon_list_processor: MetaBeaconListProcessor
-
-    _processor_list = []
-
-    def __init__(self, config, device):
-        super().__init__(config=config, device=device)
-
-        self.meta_main_processor = MetaProcessor(self.config, self.device)
-        self._processor_list.append(self.meta_main_processor)
-
-        self.meta_beacon_processor = MetaBeaconProcessor(self.config, self.device)
-        self._processor_list.append(self.meta_beacon_processor)
-
-        self.meta_dossier_processor = MetaDossierProcessor(self.config, self.device)
-        self._processor_list.append(self.meta_dossier_processor)
-
-        self.meta_beacon_list_processor = MetaBeaconListProcessor(self.config, self.device)
-        self._processor_list.append(self.meta_beacon_list_processor)
-
-    def ensure_meta_processor(self):
-        for processor in self._processor_list:
-            if processor.support():
-                processor.info()
-                return processor
-        return None
-
-
-class Meta(UI, MapEventHandler):
-    meta_finish = []
-    meta_processor = None
-    meta_processor_manager: MetaProcessorManager
-
-    def __init__(self, config, device):
-        super().__init__(config=config, device=device)
-        self.meta_processor_manager = MetaProcessorManager(config=self.config, device=self.device)
-
-    def handle_map_event(self, drop=None):
-        if super().handle_map_event(drop):
-            return True
-        if self.appear_then_click(META_AUTO_CONFIRM, offset=(20, 20), interval=2):
-            return True
-
-    def _ensure_processor(self):
-        self.meta_processor = self.meta_processor_manager.ensure_meta_processor()
-        if self.meta_processor is None:
-            return False
-        return True
-
-    def attack_meta(self, expected_end):
-        combat = AshCombat(config=self.config, device=self.device)
-        while 1:
-            self.device.screenshot()
-
-            if self.handle_map_event():
-                continue
-            if not self._ensure_processor():
-                continue
-            state = self.meta_processor.get_state()
-            if MetaState.INIT == state:
-                if self.meta_processor.begin_meta():
-                    continue
-                else:
-                    # Normal finish
-                    return True
-            if MetaState.ATTACKING == state:
-                self.meta_processor.pre_attack()
-                if self.meta_processor.satisfy_attack_condition():
-                    combat.combat(expected_end=expected_end, save_get_items=False, emotion_reduce=False)
-                    continue
-                else:
-                    # Delay finish
-                    return False
-            if MetaState.COMPLETE == state:
-                self.appear_then_click(BEACON_REWARD, offset=(30, 30), interval=2)
-                continue
+    def _in_their_meta_page(self):
+        return self.appear(BEACON_MY, offset=(20, 20))
 
     def _ensure_their_meta_page(self):
         while 1:
             self.device.screenshot()
 
-            if self._in_self_meta_page():
+            if self._in_their_meta_page():
                 return True
             if self.handle_map_event():
                 continue
@@ -282,45 +235,11 @@ class Meta(UI, MapEventHandler):
             if self.appear_then_click(DOSSIER_LIST, offset=(20, 20), interval=2):
                 continue
 
-    def _ensure_self_meta_page(self):
-        while 1:
-            self.device.screenshot()
-
-            if self._in_self_meta_page():
-                return True
-            if self.handle_map_event():
-                continue
-            if self.appear_then_click(META_ENTRANCE, offset=(10, 10), interval=2):
-                continue
-
-    def _in_self_meta_page(self):
-        return self.appear(ASH_SHOWDOWN, offset=(30, 30)) \
-               or self.appear(BEACON_LIST, offset=(20, 20)) \
-               or self.appear(DOSSIER_LIST, offset=(20, 20))
-
-    def _in_their_meta_page(self):
-        return self.appear(BEACON_MY, offset=(20, 20))
-
-    def attack_self_meta(self):
-        self._ensure_self_meta_page()
-        return self.attack_meta(expected_end=self._in_self_meta_page)
-
-    def attack_their_meta(self):
+    def _begin_meta_assist(self):
         self._ensure_their_meta_page()
-        self.attack_meta(expected_end=self._in_their_meta_page)
+        return self._attack_meta()
 
-
-class OpsiAshBeacon(Meta):
     def run(self):
         self.ui_ensure(page_reward)
-        if self.attack_self_meta():
-            self.config.task_delay(server_update=True)
-        else:
-            self.config.task_delay(minute=30)
-
-
-class AshBeaconAssist(Meta):
-    def run(self):
-        self.ui_ensure(page_reward)
-        self.attack_their_meta()
+        self._begin_meta_assist()
         self.config.task_delay(server_update=True)
