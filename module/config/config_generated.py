@@ -338,8 +338,12 @@ class GeneratedConfig:
 
     # Group `OpsiAshBeacon`
     OpsiAshBeacon_AshAttack = True
-    OpsiAshBeacon_EnsureFullyCollected = True
+    OpsiAshBeacon_OneHitMode = True
     OpsiAshBeacon_RequestAssist = True
+    OpsiAshBeacon_EnsureFullyCollected = True
+
+    # Group `OpsiDossierBeacon`
+    OpsiDossierBeacon_Enable = True
 
     # Group `OpsiFleetFilter`
     OpsiFleetFilter_Filter = 'Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1'

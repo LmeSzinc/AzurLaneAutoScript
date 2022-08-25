@@ -194,6 +194,10 @@
       "name": "OpSi General",
       "help": ""
     },
+    "OpsiAshBeacon": {
+      "name": "Ash Beacon",
+      "help": ""
+    },
     "OpsiAshAssist": {
       "name": "OpSi Ash Assist",
       "help": ""
@@ -1922,13 +1926,27 @@
       "name": "Enable Ash Attack",
       "help": "When data beacon is full; attack until ash has been completed"
     },
-    "EnsureFullyCollected": {
-      "name": "Ensure 200 Beacon Data Fully Collected",
-      "help": "Ignore AP limit setting temporarily before ash beacon fully collected. \"Meowfficer Farming\" must be enabled"
+    "OneHitMode": {
+      "name": "One Hit Mode",
+      "help": "Strike each beacon only once, then call for support every half hour thereafter"
     },
     "RequestAssist": {
       "name": "Request Assists",
       "help": "Before the attack, request assists from friends, guild and world"
+    },
+    "EnsureFullyCollected": {
+      "name": "Ensure 200 Beacon Data Fully Collected",
+      "help": "Ignore AP limit setting temporarily before ash beacon fully collected. \"Meowfficer Farming\" must be enabled"
+    }
+  },
+  "OpsiDossierBeacon": {
+    "_info": {
+      "name": "Dossier Beacon",
+      "help": ""
+    },
+    "Enable": {
+      "name": "Enable Dossier Beacon Attack",
+      "help": ""
     }
   },
   "OpsiFleetFilter": {

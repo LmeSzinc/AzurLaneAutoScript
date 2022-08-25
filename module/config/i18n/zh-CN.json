@@ -194,8 +194,12 @@
       "name": "通用设置",
       "help": ""
     },
-    "OpsiAshAssist": {
+    "OpsiAshBeacon": {
       "name": "余烬信标",
+      "help": ""
+    },
+    "OpsiAshAssist": {
+      "name": "信标支援",
       "help": ""
     },
     "OpsiExplore": {
@@ -1875,7 +1879,7 @@
   },
   "OpsiAshAssist": {
     "_info": {
-      "name": "余烬信标支援",
+      "name": "信标支援",
       "help": "打每天三次的信标支援"
     },
     "Tier": {
@@ -1922,13 +1926,27 @@
       "name": "打余烬信标",
       "help": "信标数据满了之后打余烬信标，一直打直到打完"
     },
-    "EnsureFullyCollected": {
-      "name": "保证收集满每日200信标数据",
-      "help": "在收集满为前，暂时无视保留行动力设置，需要同时开启 \"短猫相接\""
+    "OneHitMode": {
+      "name": "一击即走",
+      "help": "对每个信标只出击一次，之后每半个小时呼叫支援"
     },
     "RequestAssist": {
       "name": "呼叫支援",
       "help": "打信标之前，从好友、舰队、世界呼叫支援"
+    },
+    "EnsureFullyCollected": {
+      "name": "保证收集满每日200信标数据",
+      "help": "在收集满为前，暂时无视保留行动力设置，需要同时开启 \"短猫相接\""
+    }
+  },
+  "OpsiDossierBeacon": {
+    "_info": {
+      "name": "档案信标",
+      "help": ""
+    },
+    "Enable": {
+      "name": "打档案信标",
+      "help": ""
     }
   },
   "OpsiFleetFilter": {
