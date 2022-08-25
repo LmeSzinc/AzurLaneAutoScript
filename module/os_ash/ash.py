@@ -328,6 +328,7 @@ class OSAsh(UI, MapEventHandler):
             if self.appear_then_click(MAP_GOTO_GLOBE, offset=(20, 20), interval=3):
                 continue
             if self.handle_map_event():
+                print('match')
                 continue
 
     def _ash_help(self):
