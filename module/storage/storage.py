@@ -24,6 +24,8 @@ class StorageFull(Exception):
 
 
 class StorageHandler(StorageUI):
+    storage_has_boxes = True
+
     @staticmethod
     def _storage_box_template(rarity):
         if rarity == 1:
@@ -326,6 +328,7 @@ class StorageHandler(StorageUI):
                     boxes = self._storage_use_box_execute(rarity=rarity, amount=amount - disassembled)
                     if boxes <= 0:
                         logger.warning('No more boxes to use, disassemble equipment end')
+                        self.storage_has_boxes = False
                         break
                 except StorageFull:
                     pass
@@ -370,6 +373,7 @@ class StorageHandler(StorageUI):
                 used += boxes
                 if boxes <= 0:
                     logger.warning('No more boxes to use, disassemble equipment end')
+                    self.storage_has_boxes = False
                     break
             except StorageFull:
                 continue
