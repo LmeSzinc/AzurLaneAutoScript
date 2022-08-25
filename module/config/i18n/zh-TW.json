@@ -195,6 +195,10 @@
       "help": ""
     },
     "OpsiAshAssist": {
+      "name": "信標支援",
+      "help": ""
+    },
+    "OpsiAshBeacon": {
       "name": "餘燼信標",
       "help": ""
     },
@@ -1875,7 +1879,7 @@
   },
   "OpsiAshAssist": {
     "_info": {
-      "name": "餘燼信標支援",
+      "name": "信標支援",
       "help": "打每日三次的信標支援"
     },
     "Tier": {
@@ -1922,13 +1926,27 @@
       "name": "打餘燼信標",
       "help": "信標數據滿了之後打餘燼信標，一直打直到打完"
     },
-    "EnsureFullyCollected": {
-      "name": "保證收集滿每日200信標數據",
-      "help": "在收集滿為前，暫時無視保留行動力設置，需要同時開啟 \"短貓相接\""
+    "OneHitMode": {
+      "name": "一擊即走",
+      "help": "對每個信標只出擊一次，之後每半個小時呼叫支援"
     },
     "RequestAssist": {
       "name": "呼叫支援",
       "help": "打信標之前，從好友、艦隊、世界呼叫支援"
+    },
+    "EnsureFullyCollected": {
+      "name": "保證收集滿每日200信標數據",
+      "help": "在收集滿為前，暫時無視保留行動力設置，需要同時開啟 \"短貓相接\""
+    }
+  },
+  "OpsiDossierBeacon": {
+    "_info": {
+      "name": "檔案信標",
+      "help": ""
+    },
+    "Enable": {
+      "name": "打檔案信標",
+      "help": ""
     }
   },
   "OpsiFleetFilter": {

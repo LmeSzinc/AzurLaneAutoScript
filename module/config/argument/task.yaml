@@ -235,10 +235,13 @@ WarArchives:
 
 OpsiGeneral:
   - OpsiGeneral
-  - OpsiAshBeacon
 OpsiAshAssist:
   - Scheduler
   - OpsiAshAssist
+OpsiAshBeacon:
+  - Scheduler
+  - OpsiAshBeacon
+  - OpsiDossierBeacon
 OpsiExplore:
   - Scheduler
   - OpsiExplore
