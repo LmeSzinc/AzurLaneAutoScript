@@ -530,8 +530,11 @@ OpsiGeneral:
     ActionPoint > PurpleCoins
 OpsiAshBeacon:
   AshAttack: true
-  EnsureFullyCollected: true
+  OneHitMode: False
   RequestAssist: true
+  EnsureFullyCollected: true
+OpsiDossierBeacon:
+  Enable: true
 OpsiFleetFilter:
   Filter: |-
     Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1

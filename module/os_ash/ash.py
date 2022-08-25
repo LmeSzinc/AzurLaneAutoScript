@@ -328,6 +328,7 @@ class OSAsh(UI, MapEventHandler):
             if self.appear_then_click(MAP_GOTO_GLOBE, offset=(20, 20), interval=3):
                 continue
             if self.handle_map_event():
+                print('match')
                 continue
 
     def _ash_help(self):
@@ -421,31 +422,13 @@ class OSAsh(UI, MapEventHandler):
             in: is_in_map
             out: is_in_map
         """
-        if not self.config.OpsiAshBeacon_AshAttack:
-            return False
         if self.ash_collect_status() < 100:
             return False
 
-        for _ in range(3):
-            self._ash_mine_enter_from_map()
-            if self.config.OpsiAshBeacon_RequestAssist:
-                self._ash_help()
-            finish = self._ash_beacon_attack()
-            if finish:
-                break
+        if self.ash_collect_status() < 100:
+            return False
 
-        self._ash_exit_to_map()
+        self.config.task_call(task='OpsiAshBeacon', force_call=True)
+
+        self.ui_ensure(page_os)
         return True
-
-
-class AshBeaconAssist(OSAsh):
-    def run(self):
-        """
-        Run daily ash beacon assist.
-
-        Pages:
-            in: Any page
-            out: page_os
-        """
-        self.ash_beacon_assist()
-        self.config.task_delay(server_update=True)

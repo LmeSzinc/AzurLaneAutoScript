@@ -7457,20 +7457,6 @@
         "type": "textarea",
         "value": "ActionPoint > PurpleCoins"
       }
-    },
-    "OpsiAshBeacon": {
-      "AshAttack": {
-        "type": "checkbox",
-        "value": true
-      },
-      "EnsureFullyCollected": {
-        "type": "checkbox",
-        "value": true
-      },
-      "RequestAssist": {
-        "type": "checkbox",
-        "value": true
-      }
     }
   },
   "OpsiAshAssist": {
@@ -7509,6 +7495,63 @@
       "Tier": {
         "type": "input",
         "value": 15
+      }
+    }
+  },
+  "OpsiAshBeacon": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "OpsiAshBeacon",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 30,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 30,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
+      }
+    },
+    "OpsiAshBeacon": {
+      "AshAttack": {
+        "type": "checkbox",
+        "value": true
+      },
+      "OneHitMode": {
+        "type": "checkbox",
+        "value": false
+      },
+      "RequestAssist": {
+        "type": "checkbox",
+        "value": true
+      },
+      "EnsureFullyCollected": {
+        "type": "checkbox",
+        "value": true
+      }
+    },
+    "OpsiDossierBeacon": {
+      "Enable": {
+        "type": "checkbox",
+        "value": true
       }
     }
   },
