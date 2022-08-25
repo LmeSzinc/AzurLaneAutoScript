@@ -4,6 +4,7 @@ import numpy as np
 
 from module.base.timer import Timer
 from module.base.utils import rgb2gray
+from module.exception import GameTooManyClickError
 from module.logger import logger
 from module.ocr.ocr import Duration
 from module.research.assets import *
@@ -191,6 +192,7 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
         self.popup_interval_clear()
         available = False
         click_timer = Timer(10)
+        click_count = 0
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -206,6 +208,7 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
                 self.device.click(RESEARCH_ENTRANCE[i])
                 self._research_project_offset = (index - 2) % 5
                 self.ensure_research_stable()
+                click_count += 1
                 click_timer.reset()
                 continue
             if max_rgb > 235 and self.appear_then_click(RESEARCH_START, offset=(5, 20), interval=10):
@@ -215,6 +218,11 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
                 continue
 
             # End
+            if click_count >= 3:
+                logger.error('Unable to start a research project after 3 trail, '
+                             'probably because there is a research running but requirements not satisfied, '
+                             'or a research finished')
+                raise GameTooManyClickError
             if self.appear(RESEARCH_STOP, offset=(20, 20)):
                 # RESEARCH_STOP is a semi-transparent button,
                 # color will vary depending on the background.
