@@ -156,18 +156,20 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
             self.dock_sort_method_dsc_set(False)
 
-            level_ocr = LevelOcr(level_grids.buttons,
-                                 name='DOCK_LEVEL_OCR', threshold=64)
-            list_level = level_ocr.ocr(self.device.image)
-            emotion_ocr = Digit(emotion_grids.buttons,
-                                name='DOCK_EMOTION_OCR', threshold=176)
-            list_emotion = emotion_ocr.ocr(self.device.image)
+            dock_scanner = DockScanner(level=(1, 31), emotion=(10, 150), rarity='common', in_commission=False)
 
-            for button, level, emotion in list(zip(card_grids.buttons, list_level, list_emotion))[::-1]:
-                if 0 < level <= 31 and emotion >= 10:
-                    return button
+            #level_ocr = LevelOcr(level_grids.buttons,
+            #                     name='DOCK_LEVEL_OCR', threshold=64)
+            #list_level = level_ocr.ocr(self.device.image)
+            #emotion_ocr = Digit(emotion_grids.buttons,
+            #                    name='DOCK_EMOTION_OCR', threshold=176)
+            #list_emotion = emotion_ocr.ocr(self.device.image)
 
-            return None
+            #for button, level, emotion in list(zip(card_grids.buttons, list_level, list_emotion))[::-1]:
+            #    if 0 < level <= 31 and emotion >= 10:
+            #        return button
+
+            return dock_scanner.scan(self.device.image)
         else:
             template = globals()[
                 f'TEMPLATE_{self.config.GemsFarming_CommonCV.upper()}']
@@ -229,12 +231,15 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         else:
             max_level = 70
 
-        button_list = list(filter(lambda a: a[1] == max_level and a[2] >= 10, button_list))
-        if button_list:
-            button, _, _ = max(button_list, key=lambda a: a[2])
-            return button
-        else:
-            return None
+        dock_scanner = DockScanner(level=(max_level, max_level), emotion=(10, 150), rarity='common')
+
+        #button_list = list(filter(lambda a: a[1] == max_level and a[2] >= 10, button_list))
+        #if button_list:
+        #    button, _, _ = max(button_list, key=lambda a: a[2])
+        #    return button
+        #else:
+        #    return None
+        return dock_scanner.scan(self.device.image)
 
     def flagship_change_execute(self):
         """
@@ -252,8 +257,8 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         self.dock_favourite_set(False)
 
         ship = self.get_common_rarity_cv()
-        if ship is not None:
-            self._ship_change_confirm(ship)
+        if ship:
+            self._ship_change_confirm(ship[0].button)
 
             logger.info('Change flagship success')
             return True
@@ -279,8 +284,8 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         self.dock_favourite_set(False)
 
         ship = self.get_common_rarity_dd()
-        if ship is not None:
-            self._ship_change_confirm(ship)
+        if ship:
+            self._ship_change_confirm(ship[0].button)
 
             logger.info('Change vanguard ship success')
             return True

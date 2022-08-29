@@ -1,10 +1,17 @@
+from dataclasses import dataclass
+from typing import Any, Dict, Tuple, Union
+
 from module.base.button import ButtonGrid
 from module.equipment.equipment import Equipment
 from module.logger import logger
-from module.ocr.ocr import DigitCounter
+from module.ocr.ocr import Digit, DigitCounter
 from module.retire.assets import *
 from module.ui.scroll import Scroll
 from module.ui.switch import Switch
+
+from ..base.utils import color_similar, get_color, limit_in
+from ..combat.level import LevelOcr
+from module.retire.fleet import FleetOcr
 
 DOCK_SORTING = Switch('Dork_sorting')
 DOCK_SORTING.add_status('Ascending', check_button=SORT_ASC, click_button=SORTING_CLICK)
@@ -43,9 +50,13 @@ CARD_GRIDS = ButtonGrid(
 CARD_RARITY_GRIDS = CARD_GRIDS.crop(area=(0, 0, 138, 5), name='RARITY')
 CARD_LEVEL_GRIDS = CARD_GRIDS.crop(area=(77, 5, 138, 27), name='LEVEL')
 CARD_EMOTION_GRIDS = CARD_GRIDS.crop(area=(23, 29, 48, 52), name='EMOTION')
+CARD_FLEET_GRIDS = CARD_GRIDS.crop(area=(8, 121, 26, 142), name='FLEET')
+
 CARD_BOTTOM_GRIDS = CARD_GRIDS.move(vector=(0, 94), name='CARD')
 CARD_BOTTOM_LEVEL_GRIDS = CARD_LEVEL_GRIDS.move(vector=(0, 94), name='LEVEL')
 CARD_BOTTOM_EMOTION_GRIDS = CARD_EMOTION_GRIDS.move(vector=(0, 94), name='EMOTION')
+CARD_BOTTOM_FLEET_GRIDS = CARD_FLEET_GRIDS.move(vector=(0, 94), name='FLEET')
+
 DOCK_SCROLL = Scroll(DOCK_SCROLL, color=(247, 211, 66), name='DOCK_SCROLL')
 
 OCR_DOCK_SELECTED = DigitCounter(DOCK_SELECTED, threshold=64, name='OCR_DOCK_SELECTED')
@@ -194,3 +205,125 @@ class Dock(Equipment):
                 continue
             if self.handle_popup_confirm('DOCK_SELECT_CONFIRM'):
                 continue
+
+
+@dataclass(frozen=True)
+class Ship:
+    rarity: str = ''
+    level: int = 0
+    emotion: int = 0
+    fleet: int = 0
+    in_commission: bool = False
+    button: Any = None
+
+    def satisfy_limitation(self, limitaion) -> bool:
+        for key in self.__dict__:
+            value = limitaion.get(key)
+            if value is not None:
+                # str, int or bool should be exactly equal to
+                if isinstance(value, (str, int, bool)):
+                    if self.__dict__[key] != value:
+                        return False
+                # tuple means should be in range
+                elif isinstance(value, tuple):
+                    if not (value[0] <= self.__dict__[key] <= value[1]):
+                        return False
+
+        return True
+
+
+class DockScanner:
+    def __init__(
+        self,
+        rarity: Union[str, None] = None,
+        level: Tuple[int, int] = (1, 125),
+        emotion: Tuple[int, int] = (0, 150),
+        fleet: int = 0,
+        in_commission: bool = False
+    ) -> None:
+        """
+        Args:
+            rarity (str, list): ['common', 'rare', 'elite', 'super_rare'].
+            level (tuple): (lower, upper). Will be limited in range [1, 125]
+            emotion (tuple): (lower, upper). Will be limited in range [0, 150]
+            fleet (int): 0 means unrestricted. Will be limited in range [0, 6]
+            in_commission (bool):
+        """
+        self.limitaion: Dict[str, Union[str, int, Tuple[int, int]]] = {}
+
+        lower: int = limit_in(level[0], 1, 125)
+        upper: int = limit_in(level[1], 1, 125)
+        self.limitaion['level'] = (lower, upper)
+
+        lower: int = limit_in(emotion[0], 0, 150)
+        upper: int = limit_in(emotion[1], 0, 150)
+        self.limitaion['emotion'] = (lower, upper)
+
+        rarity = rarity if rarity in ['common', 'rare', 'elite', 'super_rare'] else None
+        self.limitaion['rarity'] = rarity
+
+        self.limitaion['fleet'] = (0, 6) if fleet == 0 else limit_in(fleet, 0, 6)
+
+        self.in_commission: bool = in_commission
+
+        logger.info(f'Limitaions set to {self.limitaion}')
+
+    def color_to_rarity(self, color: Tuple[int, int, int]) -> str:
+        """
+        Convert color to a ship rarity.
+        Rarity can be ['common', 'rare', 'elite', 'super_rare', 'unknown']
+        For 'ultra', color difference is too great,
+        thus it's marked as 'unknown'
+
+        Args:
+            color (tuple): (r, g, b)
+
+        Returns:
+            str: Rarity
+        """
+        if color_similar(color, (171, 174, 186)):
+            return 'common'
+        elif color_similar(color, (106, 194, 248)):
+            return 'rare'
+        elif color_similar(color, (151, 134, 254)):
+            return 'elite'
+        elif color_similar(color, (247, 221, 101)):
+            return 'super_rare'
+        else:
+            # Difference between ultra is too great
+            return 'unknown'
+
+    def scan(self, image) -> None:
+        level_ocr = LevelOcr(CARD_LEVEL_GRIDS.buttons,
+                             name='DOCK_LEVEL_OCR', threshold=64)
+        list_level = level_ocr.ocr(image)
+
+        emotion_ocr = Digit(CARD_EMOTION_GRIDS.buttons,
+                            name='DOCK_EMOTION_OCR', threshold=176)
+        list_emotion = emotion_ocr.ocr(image)
+
+        list_rarity = [self.color_to_rarity(get_color(image, button.area))
+                       for button in CARD_RARITY_GRIDS.buttons]
+
+        fleet_ocr = FleetOcr(CARD_FLEET_GRIDS.buttons,
+                             name='DOCK_FLEET_OCR')
+        list_fleet = fleet_ocr.ocr(image)
+
+        candidates = [
+            Ship(
+                level=level,
+                emotion=emotion,
+                rarity=rarity,
+                fleet=fleet,
+                in_commission=False,
+                button=button)
+            for level, emotion, rarity, fleet, button in
+            list(zip(
+                list_level,
+                list_emotion,
+                list_rarity,
+                list_fleet,
+                CARD_GRIDS.buttons))
+        ]
+
+        return [ship for ship in candidates if ship.satisfy_limitation(self.limitaion)]
