@@ -309,7 +309,7 @@ class DockScanner:
                              name='DOCK_FLEET_OCR')
         list_fleet = fleet_ocr.ocr(image)
 
-        candidates = [
+        candidates: list[Ship] = [
             Ship(
                 level=level,
                 emotion=emotion,
@@ -326,4 +326,9 @@ class DockScanner:
                 CARD_GRIDS.buttons))
         ]
 
-        return [ship for ship in candidates if ship.satisfy_limitation(self.limitaion)]
+        candidates = [ship for ship in candidates if ship.satisfy_limitation(self.limitaion)]
+        logger.info('Ships meeting limitations are:')
+        for ship in candidates:
+            logger.info(f'{ship}')
+
+        return candidates

@@ -129,7 +129,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
             self.equipment_take_on()
             self.ui_back(page_fleet.check_button)
-        
+
         return success
 
     def _ship_change_confirm(self, button):
@@ -146,28 +146,29 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             Button:
         """
 
-        level_grids = CARD_LEVEL_GRIDS
-        card_grids = CARD_GRIDS
-        emotion_grids = CARD_EMOTION_GRIDS
+        # level_grids = CARD_LEVEL_GRIDS
+        # card_grids = CARD_GRIDS
+        # emotion_grids = CARD_EMOTION_GRIDS
         logger.hr('FINDING FLAGSHIP')
+
+        dock_scanner = DockScanner(
+            level=(1, 31), emotion=(10, 150), rarity='common')
 
         if self.config.GemsFarming_CommonCV == 'any':
             logger.info('')
 
             self.dock_sort_method_dsc_set(False)
 
-            dock_scanner = DockScanner(level=(1, 31), emotion=(10, 150), rarity='common', in_commission=False)
+            # level_ocr = LevelOcr(level_grids.buttons,
+            #                      name='DOCK_LEVEL_OCR', threshold=64)
+            # list_level = level_ocr.ocr(self.device.image)
+            # emotion_ocr = Digit(emotion_grids.buttons,
+            #                     name='DOCK_EMOTION_OCR', threshold=176)
+            # list_emotion = emotion_ocr.ocr(self.device.image)
 
-            #level_ocr = LevelOcr(level_grids.buttons,
-            #                     name='DOCK_LEVEL_OCR', threshold=64)
-            #list_level = level_ocr.ocr(self.device.image)
-            #emotion_ocr = Digit(emotion_grids.buttons,
-            #                    name='DOCK_EMOTION_OCR', threshold=176)
-            #list_emotion = emotion_ocr.ocr(self.device.image)
-
-            #for button, level, emotion in list(zip(card_grids.buttons, list_level, list_emotion))[::-1]:
-            #    if 0 < level <= 31 and emotion >= 10:
-            #        return button
+            # for button, level, emotion in list(zip(card_grids.buttons, list_level, list_emotion))[::-1]:
+            #     if 0 < level <= 31 and emotion >= 10:
+            #         return button
 
             return dock_scanner.scan(self.device.image)
         else:
@@ -176,31 +177,39 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
             self.dock_sort_method_dsc_set()
 
-            level_ocr = LevelOcr(level_grids.buttons, name='DOCK_LEVEL_OCR')
-            list_level = level_ocr.ocr(self.device.image)
-            emotion_ocr = Digit(emotion_grids.buttons,
-                                name='DOCK_EMOTION_OCR', threshold=176)
-            list_emotion = emotion_ocr.ocr(self.device.image)
+            # level_ocr = LevelOcr(level_grids.buttons, name='DOCK_LEVEL_OCR')
+            # list_level = level_ocr.ocr(self.device.image)
+            # emotion_ocr = Digit(emotion_grids.buttons,
+            #                     name='DOCK_EMOTION_OCR', threshold=176)
+            # list_emotion = emotion_ocr.ocr(self.device.image)
 
-            for button, level, emotion in zip(card_grids.buttons, list_level, list_emotion):
-                if (0 < level <= 31
-                        and emotion >= 10
-                        and template.match(self.image_crop(button), similarity=SIM_VALUE)):
-                    return button
+            # for button, level, emotion in zip(card_grids.buttons, list_level, list_emotion):
+            #    if (0 < level <= 31
+            #            and emotion >= 10
+            #            and template.match(self.image_crop(button), similarity=SIM_VALUE)):
+            #        return button
+
+            candidates = [ship for ship in dock_scanner.scan(self.device.image)
+                          if template.match(self.image_crop(ship.button), similarity=SIM_VALUE)]
+
+            if candidates:
+                return candidates
 
             logger.info('No specific CV was found, try reversed order.')
             self.dock_sort_method_dsc_set(False)
 
-            list_level = level_ocr.ocr(self.device.image)
-            list_emotion = emotion_ocr.ocr(self.device.image)
+            # list_level = level_ocr.ocr(self.device.image)
+            # list_emotion = emotion_ocr.ocr(self.device.image)
 
-            for button, level, emotion in zip(card_grids.buttons, list_level, list_emotion):
-                if (0 < level <= 31
-                        and emotion >= 10
-                        and template.match(self.image_crop(button), similarity=SIM_VALUE)):
-                    return button
+            # for button, level, emotion in zip(card_grids.buttons, list_level, list_emotion):
+            #     if (0 < level <= 31
+            #             and emotion >= 10
+            #             and template.match(self.image_crop(button), similarity=SIM_VALUE)):
+            #        return button
+            candidates = [ship for ship in dock_scanner.scan(self.device.image)
+                          if template.match(self.image_crop(ship.button), similarity=SIM_VALUE)]
 
-            return None
+            return candidates
 
     def get_common_rarity_dd(self):
         """
@@ -210,18 +219,18 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         """
         logger.hr('FINDING VANGUARD')
 
-        level_grids = CARD_LEVEL_GRIDS
-        card_grids = CARD_GRIDS
-        emotion_grids = CARD_EMOTION_GRIDS
+        # level_grids = CARD_LEVEL_GRIDS
+        # card_grids = CARD_GRIDS
+        # emotion_grids = CARD_EMOTION_GRIDS
 
-        level_ocr = LevelOcr(level_grids.buttons,
-                             name='DOCK_LEVEL_OCR', threshold=64)
-        list_level = level_ocr.ocr(self.device.image)
-        emotion_ocr = Digit(emotion_grids.buttons,
-                            name='DOCK_EMOTION_OCR', threshold=176)
-        list_emotion = emotion_ocr.ocr(self.device.image)
+        # level_ocr = LevelOcr(level_grids.buttons,
+        #                      name='DOCK_LEVEL_OCR', threshold=64)
+        # list_level = level_ocr.ocr(self.device.image)
+        # emotion_ocr = Digit(emotion_grids.buttons,
+        #                     name='DOCK_EMOTION_OCR', threshold=176)
+        # list_emotion = emotion_ocr.ocr(self.device.image)
 
-        button_list = list(zip(card_grids.buttons, list_level, list_emotion))[::-1]
+        # button_list = list(zip(card_grids.buttons, list_level, list_emotion))[::-1]
 
         # for :
         #     if level == 100 and emotion == 150:
@@ -233,12 +242,12 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
         dock_scanner = DockScanner(level=(max_level, max_level), emotion=(10, 150), rarity='common')
 
-        #button_list = list(filter(lambda a: a[1] == max_level and a[2] >= 10, button_list))
-        #if button_list:
-        #    button, _, _ = max(button_list, key=lambda a: a[2])
-        #    return button
-        #else:
-        #    return None
+        # button_list = list(filter(lambda a: a[1] == max_level and a[2] >= 10, button_list))
+        # if button_list:
+        #     button, _, _ = max(button_list, key=lambda a: a[2])
+        #     return button
+        # else:
+        #     return None
         return dock_scanner.scan(self.device.image)
 
     def flagship_change_execute(self):
