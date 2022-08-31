@@ -3,9 +3,9 @@ from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.equipment.assets import *
 from module.logger import logger
+from module.storage.storage import StorageHandler
 from module.ui.navbar import Navbar
 from module.ui.switch import Switch
-from module.ui.ui import UI
 
 equipping_filter = Switch('Equiping_filter')
 equipping_filter.add_status('on', check_button=EQUIPPING_ON)
@@ -15,7 +15,7 @@ SWIPE_DISTANCE = 250
 SWIPE_RANDOM_RANGE = (-40, -20, 40, 20)
 
 
-class Equipment(UI):
+class Equipment(StorageHandler):
     equipment_has_take_on = False
 
     def equipping_set(self, enable=False):
@@ -153,6 +153,8 @@ class Equipment(UI):
 
             if confirm_timer.reached() and self.handle_popup_confirm():
                 confirm_timer.reset()
+                continue
+            if self.handle_storage_full():
                 continue
 
             # End

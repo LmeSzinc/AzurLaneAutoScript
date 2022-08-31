@@ -1,5 +1,4 @@
 from module.base.button import ButtonGrid
-from module.equipment.equipment import equipping_filter
 from module.logger import logger
 from module.storage.assets import MATERIAL_ENTER, DISASSEMBLE_CANCEL, MATERIAL_CHECK, MATERIAL_STABLE_CHECK, \
     EQUIPMENT_ENTER, DISASSEMBLE, EQUIPMENT_FILTER, EQUIPMENT_FILTER_CONFIRM
@@ -161,7 +160,6 @@ class StorageUI(UI):
                 # or self.image_color_count(button, color=(74, 117, 189), threshold=235, count=250)
                 if enable and not active:
                     self.device.click(button)
-                    self.device.sleep((0.1, 0.2))
                     change_count += 1
 
             # End
@@ -194,7 +192,3 @@ class StorageUI(UI):
         self._equipment_filter_set_execute()  # Reset filter
         self._equipment_filter_set_execute(rarity=rarity)
         self._equipment_filter_confirm()
-
-    def equipping_set(self, enable=False):
-        if equipping_filter.set('on' if enable else 'off', main=self):
-            self.wait_until_stable(MATERIAL_STABLE_CHECK)

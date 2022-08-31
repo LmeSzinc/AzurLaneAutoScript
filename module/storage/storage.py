@@ -9,6 +9,7 @@ from module.ocr.ocr import DigitCounter
 from module.statistics.item import ItemGrid
 from module.storage.assets import *
 from module.storage.ui import StorageUI
+from module.ui.assets import BACK_ARROW, STORAGE_CHECK
 from module.ui.scroll import Scroll
 
 MATERIAL_SCROLL = Scroll(METERIAL_SCROLL, color=(247, 211, 66))
@@ -379,3 +380,47 @@ class StorageHandler(StorageUI):
                 continue
 
         return used
+
+    def handle_storage_full(self, rarity=1, amount=40):
+        """
+        Args:
+            rarity (int): 1 for common, 2 for rare, 3 for elite, 4 for super_rare
+            amount (int): Expected amount to disassemble.
+                Actual amount >= expected
+
+        Returns:
+            bool: If handled
+
+        Pages:
+            in: Any, if EQUIPMENT_FULL appears, handle it
+            out: the page before handling storage popup
+        """
+        if not self.appear(EQUIPMENT_FULL, offset=(30, 30), interval=2):
+            return False
+
+        # EQUIPMENT_FULL
+        logger.info('handle_storage_full')
+        self.ui_click(EQUIPMENT_FULL, check_button=DISASSEMBLE_CANCEL, skip_first_screenshot=True, retry_wait=3)
+        disassembled = self._storage_disassemble_equipment_execute(rarity=rarity, amount=amount)
+        if disassembled <= 0:
+            logger.warning('Storage full but unable to disassemble any equipment')
+
+        # Quit
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear_then_click(DISASSEMBLE_CANCEL, offset=(30, 30), interval=3):
+                continue
+            if self.appear(DISASSEMBLE, offset=(30, 30), interval=3):
+                self.device.click(BACK_ARROW)
+                continue
+
+            # End
+            if not self.appear(STORAGE_CHECK, offset=(30, 30)):
+                break
+
+        return True
