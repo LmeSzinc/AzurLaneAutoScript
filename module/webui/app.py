@@ -20,6 +20,8 @@ from module.config.utils import (
 )
 from module.logger import logger
 from module.ocr.rpc import start_ocr_server_process, stop_ocr_server_process
+from module.submodule.submodule import load_config
+from module.submodule.utils import get_config_mod
 from module.webui.base import Frame
 from module.webui.discord_presence import close_discord_rpc, init_discord_rpc
 from module.webui.fastapi import asgi_app
@@ -86,10 +88,10 @@ class AlasGUI(Frame):
     ALAS_ARGS: Dict[str, Dict[str, Dict[str, Dict[str, str]]]]
     theme = "default"
 
-    @classmethod
-    def initial(cls) -> None:
-        cls.ALAS_MENU = read_file(filepath_args("menu"))
-        cls.ALAS_ARGS = read_file(filepath_args("args"))
+    def initial(self) -> None:
+        self.ALAS_MENU = read_file(filepath_args("menu", self.alas_mod))
+        self.ALAS_ARGS = read_file(filepath_args("args", self.alas_mod))
+        self._init_alas_config_watcher()
 
     def __init__(self) -> None:
         super().__init__()
@@ -97,7 +99,9 @@ class AlasGUI(Frame):
         self.modified_config_queue = queue.Queue()
         # alas config name
         self.alas_name = ""
+        self.alas_mod = "alas"
         self.alas_config = AzurLaneConfig("template")
+        self.initial()
 
     @use_scope("aside", clear=True)
     def set_aside(self) -> None:
@@ -217,7 +221,7 @@ class AlasGUI(Frame):
                 content=[put_text(task_help).style("font-size: 1rem")],
             )
 
-        config = State.config_updater.read_file(self.alas_name)
+        config = self.alas_config.read_file(self.alas_name)
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
             self.set_group(group, arg_dict, config, task)
             self.set_navigator(group)
@@ -345,7 +349,7 @@ class AlasGUI(Frame):
             label_on=t("Gui.Button.Stop"),
             label_off=t("Gui.Button.Start"),
             onclick_on=lambda: self.alas.stop(),
-            onclick_off=lambda: self.alas.start("Alas", updater.event),
+            onclick_off=lambda: self.alas.start(None, updater.event),
             get_state=lambda: self.alas.alive,
             color_on="off",
             color_off="on",
@@ -421,7 +425,7 @@ class AlasGUI(Frame):
         try:
             valid = []
             invalid = []
-            config = State.config_updater.read_file(config_name)
+            config = self.alas_config.read_file(self.alas_name)
             for k, v in modified.copy().items():
                 valuetype = deep_get(self.ALAS_ARGS, k + ".valuetype")
                 v = parse_pin_value(v, valuetype)
@@ -464,7 +468,7 @@ class AlasGUI(Frame):
                 logger.info(
                     f"Save config {filepath_config(config_name)}, {dict_to_kv(modified)}"
                 )
-                State.config_updater.write_file(config_name, config)
+                self.alas_config.write_file(config_name, config)
         except Exception as e:
             logger.exception(e)
 
@@ -601,7 +605,7 @@ class AlasGUI(Frame):
             scope="log_scroll_btn",
         )
 
-        config = State.config_updater.read_file(self.alas_name)
+        config = self.alas_config.read_file(self.alas_name)
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
             self.set_group(group, arg_dict, config, task)
 
@@ -916,9 +920,11 @@ class AlasGUI(Frame):
         self.init_aside(name=config_name)
         clear("content")
         self.alas_name = config_name
+        self.alas_mod = get_config_mod(config_name)
         self.alas = ProcessManager.get_manager(config_name)
-        self.alas_config = AzurLaneConfig(config_name, "")
+        self.alas_config = load_config(config_name)
         self.state_switch.switch()
+        self.initial()
         self.alas_set_menu()
 
     def ui_add_alas(self) -> None:
@@ -1136,7 +1142,6 @@ def debug():
 
 def startup():
     State.init()
-    AlasGUI.initial()
     lang.reload()
     updater.event = State.manager.Event()
     if updater.delay > 0:

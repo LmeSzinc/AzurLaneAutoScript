@@ -15,7 +15,7 @@ from module.logger import logger
 from module.notify import handle_notify
 
 
-class AzurLaneAutoScript:
+class AutoScriptScheduler:
     stop_event: threading.Event = None
 
     def __init__(self, config_name='alas'):
@@ -156,6 +156,150 @@ class AzurLaneAutoScript:
             with open(f'{folder}/log.txt', 'w', encoding='utf-8') as f:
                 f.writelines(lines)
 
+    def wait_until(self, future):
+        """
+        Wait until a specific time.
+
+        Args:
+            future (datetime):
+
+        Returns:
+            bool: True if wait finished, False if config changed.
+        """
+        future = future + timedelta(seconds=1)
+        self.config.start_watching()
+        while 1:
+            if datetime.now() > future:
+                return True
+            if self.stop_event is not None:
+                if self.stop_event.is_set():
+                    logger.info("Update event detected")
+                    logger.info(f"[{self.config_name}] exited. Reason: Update")
+                    exit(0)
+
+            time.sleep(5)
+
+            if self.config.should_reload():
+                return False
+
+    def get_next_task(self):
+        """
+        Returns:
+            str: Name of the next task.
+        """
+        while 1:
+            task = self.config.get_next()
+            self.config.task = task
+            self.config.bind(task)
+
+            from module.base.resource import release_resources
+            if self.config.task.command != 'Alas':
+                release_resources(next_task=task.command)
+
+            if task.next_run > datetime.now():
+                logger.info(f'Wait until {task.next_run} for task `{task.command}`')
+                method = self.config.Optimization_WhenTaskQueueEmpty
+                if method == 'close_game':
+                    logger.info('Close game during wait')
+                    self.device.app_stop()
+                    release_resources()
+                    if not self.wait_until(task.next_run):
+                        del self.__dict__['config']
+                        continue
+                    self.run('start')
+                elif method == 'goto_main':
+                    logger.info('Goto main page during wait')
+                    self.run('goto_main')
+                    release_resources()
+                    if not self.wait_until(task.next_run):
+                        del self.__dict__['config']
+                        continue
+                elif method == 'stay_there':
+                    logger.info('Stay there during wait')
+                    release_resources()
+                    if not self.wait_until(task.next_run):
+                        del self.__dict__['config']
+                        continue
+                else:
+                    logger.warning(f'Invalid Optimization_WhenTaskQueueEmpty: {method}, fallback to stay_there')
+                    release_resources()
+                    if not self.wait_until(task.next_run):
+                        del self.__dict__['config']
+                        continue
+            break
+
+        AzurLaneConfig.is_hoarding_task = False
+        return task.command
+
+    def loop(self):
+        logger.set_file_logger(self.config_name)
+        logger.info(f'Start scheduler loop: {self.config_name}')
+        is_first = True
+        failure_record = {}
+
+        while 1:
+            # Check update event from GUI
+            if self.stop_event is not None:
+                if self.stop_event.is_set():
+                    logger.info("Update event detected")
+                    logger.info(f"Alas [{self.config_name}] exited.")
+                    break
+            # Check game server maintenance
+            self.checker.wait_until_available()
+            if self.checker.is_recovered():
+                # There is an accidental bug hard to reproduce
+                # Sometimes, config won't be updated due to blocking
+                # even though it has been changed
+                # So update it once recovered
+                del_cached_property(self, 'config')
+                logger.info('Server or network is recovered. Restart game client')
+                self.config.task_call('Restart')
+            # Get task
+            task = self.get_next_task()
+            # Init device and change server
+            _ = self.device
+            # Skip first restart
+            if is_first and task == 'Restart':
+                logger.info('Skip task `Restart` at scheduler start')
+                self.config.task_delay(server_update=True)
+                del self.__dict__['config']
+                continue
+
+            # Run
+            logger.info(f'Scheduler: Start task `{task}`')
+            self.device.stuck_record_clear()
+            self.device.click_record_clear()
+            logger.hr(task, level=0)
+            success = self.run(inflection.underscore(task))
+            logger.info(f'Scheduler: End task `{task}`')
+            is_first = False
+
+            # Check failures
+            failed = deep_get(failure_record, keys=task, default=0)
+            failed = 0 if success else failed + 1
+            deep_set(failure_record, keys=task, value=failed)
+            if failed >= 3:
+                logger.critical(f"Task `{task}` failed 3 or more times.")
+                logger.critical("Possible reason #1: You haven't used it correctly. "
+                                "Please read the help text of the options.")
+                logger.critical("Possible reason #2: There is a problem with this task. "
+                                "Please contact developers or try to fix it yourself.")
+                logger.critical('Request human takeover')
+                exit(1)
+
+            if success:
+                del self.__dict__['config']
+                continue
+            elif self.config.Error_HandleError:
+                # self.config.task_delay(success=False)
+                del self.__dict__['config']
+                self.checker.check_now()
+                continue
+            else:
+                break
+
+
+class AzurLaneAutoScript(AutoScriptScheduler):
     def restart(self):
         from module.handler.login import LoginHandler
         LoginHandler(self.config, device=self.device).app_restart()
@@ -371,148 +515,6 @@ class AzurLaneAutoScript:
         from module.campaign.gems_farming import GemsFarming
         GemsFarming(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
-
-    def wait_until(self, future):
-        """
-        Wait until a specific time.
-
-        Args:
-            future (datetime):
-
-        Returns:
-            bool: True if wait finished, False if config changed.
-        """
-        future = future + timedelta(seconds=1)
-        self.config.start_watching()
-        while 1:
-            if datetime.now() > future:
-                return True
-            if self.stop_event is not None:
-                if self.stop_event.is_set():
-                    logger.info("Update event detected")
-                    logger.info(f"[{self.config_name}] exited. Reason: Update")
-                    exit(0)
-
-            time.sleep(5)
-
-            if self.config.should_reload():
-                return False
-
-    def get_next_task(self):
-        """
-        Returns:
-            str: Name of the next task.
-        """
-        while 1:
-            task = self.config.get_next()
-            self.config.task = task
-            self.config.bind(task)
-
-            from module.base.resource import release_resources
-            if self.config.task.command != 'Alas':
-                release_resources(next_task=task.command)
-
-            if task.next_run > datetime.now():
-                logger.info(f'Wait until {task.next_run} for task `{task.command}`')
-                method = self.config.Optimization_WhenTaskQueueEmpty
-                if method == 'close_game':
-                    logger.info('Close game during wait')
-                    self.device.app_stop()
-                    release_resources()
-                    if not self.wait_until(task.next_run):
-                        del self.__dict__['config']
-                        continue
-                    self.run('start')
-                elif method == 'goto_main':
-                    logger.info('Goto main page during wait')
-                    self.run('goto_main')
-                    release_resources()
-                    if not self.wait_until(task.next_run):
-                        del self.__dict__['config']
-                        continue
-                elif method == 'stay_there':
-                    logger.info('Stay there during wait')
-                    release_resources()
-                    if not self.wait_until(task.next_run):
-                        del self.__dict__['config']
-                        continue
-                else:
-                    logger.warning(f'Invalid Optimization_WhenTaskQueueEmpty: {method}, fallback to stay_there')
-                    release_resources()
-                    if not self.wait_until(task.next_run):
-                        del self.__dict__['config']
-                        continue
-            break
-
-        AzurLaneConfig.is_hoarding_task = False
-        return task.command
-
-    def loop(self):
-        logger.set_file_logger(self.config_name)
-        logger.info(f'Start scheduler loop: {self.config_name}')
-        is_first = True
-        failure_record = {}
-
-        while 1:
-            # Check update event from GUI
-            if self.stop_event is not None:
-                if self.stop_event.is_set():
-                    logger.info("Update event detected")
-                    logger.info(f"Alas [{self.config_name}] exited.")
-                    break
-            # Check game server maintenance
-            self.checker.wait_until_available()
-            if self.checker.is_recovered():
-                # There is an accidental bug hard to reproduce
-                # Sometimes, config won't be updated due to blocking
-                # even though it has been changed
-                # So update it once recovered
-                del_cached_property(self, 'config')
-                logger.info('Server or network is recovered. Restart game client')
-                self.config.task_call('Restart')
-            # Get task
-            task = self.get_next_task()
-            # Init device and change server
-            _ = self.device
-            # Skip first restart
-            if is_first and task == 'Restart':
-                logger.info('Skip task `Restart` at scheduler start')
-                self.config.task_delay(server_update=True)
-                del self.__dict__['config']
-                continue
-
-            # Run
-            logger.info(f'Scheduler: Start task `{task}`')
-            self.device.stuck_record_clear()
-            self.device.click_record_clear()
-            logger.hr(task, level=0)
-            success = self.run(inflection.underscore(task))
-            logger.info(f'Scheduler: End task `{task}`')
-            is_first = False
-
-            # Check failures
-            failed = deep_get(failure_record, keys=task, default=0)
-            failed = 0 if success else failed + 1
-            deep_set(failure_record, keys=task, value=failed)
-            if failed >= 3:
-                logger.critical(f"Task `{task}` failed 3 or more times.")
-                logger.critical("Possible reason #1: You haven't used it correctly. "
-                                "Please read the help text of the options.")
-                logger.critical("Possible reason #2: There is a problem with this task. "
-                                "Please contact developers or try to fix it yourself.")
-                logger.critical('Request human takeover')
-                exit(1)
-
-            if success:
-                del self.__dict__['config']
-                continue
-            elif self.config.Error_HandleError:
-                # self.config.task_delay(success=False)
-                del self.__dict__['config']
-                self.checker.check_now()
-                continue
-            else:
-                break
 
 
 if __name__ == '__main__':

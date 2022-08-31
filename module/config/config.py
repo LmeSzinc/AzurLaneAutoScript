@@ -56,7 +56,7 @@ def name_to_function(name):
     return function
 
 
-class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher):
+class GeneralConfig(ConfigWatcher):
     stop_event: threading.Event = None
     bound = {}
 
@@ -416,6 +416,130 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
                 "Missing argument in delay_next_run, should set at least one"
             )
 
+    def task_call(self, task, force_call=True):
+        """
+        Call another task to run.
+
+        That task will run when current task finished.
+        But it might not be run because:
+        - Other tasks should run first according to SCHEDULER_PRIORITY
+        - Task is disabled by user
+
+        Args:
+            task (str): Task name to call, such as `Restart`
+            force_call (bool):
+
+        Returns:
+            bool: If called.
+        """
+        if deep_get(self.data, keys=f"{task}.Scheduler.NextRun", default=None) is None:
+            raise ScriptError(f"Task to call: `{task}` does not exist in user config")
+
+        if force_call or deep_get(
+            self.data, keys=f"{task}.Scheduler.Enable", default=False
+        ):
+            logger.info(f"Task call: {task}")
+            self.modified[f"{task}.Scheduler.NextRun"] = datetime.now().replace(
+                microsecond=0
+            )
+            self.modified[f"{task}.Scheduler.Enable"] = True
+            self.update()
+            return True
+        else:
+            logger.info(f"Task call: {task} (skipped because disabled by user)")
+            return False
+
+    @staticmethod
+    def task_stop(message=""):
+        """
+        Stop current task
+
+        Raises:
+            TaskEnd:
+        """
+        if message:
+            raise TaskEnd(message)
+        else:
+            raise TaskEnd
+
+    def task_switched(self):
+        """
+        Check if needs to switch task.
+
+        Raises:
+            bool: If task switched
+        """
+        # Update event
+        if self.stop_event is not None:
+            if self.stop_event.is_set():
+                return True
+        prev = self.task
+        self.load()
+        new = self.get_next()
+        if prev == new:
+            logger.info(f"Continue task `{new}`")
+            return False
+        else:
+            logger.info(f"Switch task `{prev}` to `{new}`")
+            return True
+
+    def check_task_switch(self, message=""):
+        """
+        Stop current task
+
+        Raises:
+            TaskEnd:
+        """
+        if self.task_switched():
+            self.task_stop(message=message)
+
+    """
+    The following configs and methods are used to be compatible with the old.
+    """
+
+    def merge(self, other):
+        """
+        Args:
+            other (AzurLaneConfig, Config):
+
+        Returns:
+            AzurLaneConfig
+        """
+        # Since all tasks run independently, there's no need to separate configs
+        # config = copy.copy(self)
+        config = self
+
+        for attr in dir(config):
+            if attr.endswith("__"):
+                continue
+            if hasattr(other, attr):
+                value = other.__getattribute__(attr)
+                if value is not None:
+                    config.__setattr__(attr, value)
+
+        return config
+
+    def temporary(self, **kwargs):
+        """
+        Cover some settings, and recover later.
+
+        Usage:
+        backup = self.config.cover(ENABLE_DAILY_REWARD=False)
+        # do_something()
+        backup.recover()
+
+        Args:
+            **kwargs:
+
+        Returns:
+            ConfigBackup:
+        """
+        backup = ConfigBackup(config=self)
+        backup.cover(**kwargs)
+        return backup
+
+
+class AzurLaneConfig(GeneralConfig, ConfigUpdater, ManualConfig, GeneratedConfig):
     def opsi_task_delay(self, recon_scan=False, submarine_call=False, ap_limit=False):
         """
         Delay the NextRun of all OpSi tasks.
@@ -602,32 +726,6 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
             name += "_hard"
         return name
 
-    """
-    The following configs and methods are used to be compatible with the old.
-    """
-
-    def merge(self, other):
-        """
-        Args:
-            other (AzurLaneConfig, Config):
-
-        Returns:
-            AzurLaneConfig
-        """
-        # Since all tasks run independently, there's no need to separate configs
-        # config = copy.copy(self)
-        config = self
-
-        for attr in dir(config):
-            if attr.endswith("__"):
-                continue
-            if hasattr(other, attr):
-                value = other.__getattribute__(attr)
-                if value is not None:
-                    config.__setattr__(attr, value)
-
-        return config
-
     @property
     def DEVICE_SCREENSHOT_METHOD(self):
         return self.Emulator_ScreenshotMethod
@@ -677,25 +775,6 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
     def FLEET_BOSS(self, value):
         self._fleet_boss = value
 
-    def temporary(self, **kwargs):
-        """
-        Cover some settings, and recover later.
-
-        Usage:
-        backup = self.config.cover(ENABLE_DAILY_REWARD=False)
-        # do_something()
-        backup.recover()
-
-        Args:
-            **kwargs:
-
-        Returns:
-            ConfigBackup:
-        """
-        backup = ConfigBackup(config=self)
-        backup.cover(**kwargs)
-        return backup
-
 
 pywebio.output.Output = OutputConfig
 pywebio.pin.Output = OutputConfig
@@ -705,7 +784,7 @@ class ConfigBackup:
     def __init__(self, config):
         """
         Args:
-            config (AzurLaneConfig):
+            config (GeneralConfig):
         """
         self.config = config
         self.backup = {}
@@ -726,7 +805,7 @@ class MultiSetWrapper:
     def __init__(self, main):
         """
         Args:
-            main (AzurLaneConfig):
+            main (GeneralConfig):
         """
         self.main = main
         self.in_wrapper = False
