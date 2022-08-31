@@ -9,6 +9,7 @@ from adbutils.errors import AdbError
 from deploy.emulator import VirtualBoxEmulator
 from module.base.decorator import cached_property
 from module.device.connection import Connection
+from module.device.method.utils import get_serial_pair
 from module.exception import RequestHumanTakeover, EmulatorNotRunningError
 from module.logger import logger
 
@@ -163,9 +164,10 @@ class EmulatorManager(Connection):
                         logger.info('Find the only emulator, using it')
                         return emulator, cur_serial[0]
             except FileNotFoundError:
-                logger.warning('The emulator corresponding to serial is not found, '
-                               'please check the setting or use custom command')
-                raise RequestHumanTakeover
+                pass
+            logger.warning('The emulator corresponding to serial is not found, '
+                           'please check the setting or use custom command')
+            raise RequestHumanTakeover
 
     @staticmethod
     def execute(command):
@@ -307,7 +309,9 @@ class EmulatorManager(Connection):
         raise RequestHumanTakeover
 
     def emulator_restart(self, kill=True):
-        serial = self.serial
+        serial, _ = get_serial_pair(self.serial)
+        if serial is None:
+            serial = self.serial
 
         if not self.config.RestartEmulator_Enable:
             return False
