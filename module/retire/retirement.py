@@ -152,6 +152,7 @@ class Retirement(Enhancement):
             amount = self._retire_amount
         end = False
         total = 0
+        click_count = 0
 
         if self.config.RETIRE_KEEP_COMMON_CV:
             self._have_kept_cv = False
@@ -172,8 +173,15 @@ class Retirement(Enhancement):
                     logger.info('No more ships to retire.')
                     end = True
                     break
+                if click_count >= 3:
+                    logger.warning('Failed to select ships using ONE_CLICK_RETIREMENT after 3 trial, '
+                                   'probably because game bugged, a re-enter should fix it')
+                    # Mark as retire finished, higher level will call retires
+                    end = True
+                    break
                 # Click
                 if self.appear_then_click(ONE_CLICK_RETIREMENT, interval=2):
+                    click_count += 1
                     continue
 
             if end:
