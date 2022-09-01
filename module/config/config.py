@@ -234,7 +234,7 @@ class GeneralConfig(ConfigWatcher):
             logger.critical("Please enable at least one task")
             raise RequestHumanTakeover
 
-    def save(self):
+    def save(self, mod_name='alas'):
         if not self.modified:
             return False
 
@@ -242,7 +242,7 @@ class GeneralConfig(ConfigWatcher):
             deep_set(self.data, keys=path, value=value)
 
         logger.info(
-            f"Save config {filepath_config(self.config_name)}, {dict_to_kv(self.modified)}"
+            f"Save config {filepath_config(self.config_name, mod_name)}, {dict_to_kv(self.modified)}"
         )
         # Don't use self.modified = {}, that will create a new object.
         self.modified.clear()

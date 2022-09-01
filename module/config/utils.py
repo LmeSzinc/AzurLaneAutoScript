@@ -171,7 +171,7 @@ def alas_template():
     for file in os.listdir('./config'):
         name, extension = os.path.splitext(file)
         if name == 'template' and extension == '.json':
-            out.append(name)
+            out.append(f'{name}-alas')
 
     out.extend(mod_template())
 

@@ -1,7 +1,7 @@
 import os
 
 MOD_LIST = []
-MOD_CONFIG_DICT = []
+MOD_CONFIG_DICT = {}
 
 
 def list_mod():
@@ -35,14 +35,14 @@ def mod_template():
         for file in os.listdir(os.path.join('./submodule', dir_name, 'config')):
             name, extension = os.path.splitext(file)
             if name == 'template' and extension == '.json':
-                out.append(name)
+                out.append(f'{name}-{mod_name}')
 
     return out
 
 
 def mod_instance():
     global MOD_CONFIG_DICT
-    MOD_CONFIG_DICT = {}
+    MOD_CONFIG_DICT.clear()
     out = []
     for mod_name, dir_name in list_mod():
         for file in os.listdir(os.path.join('./submodule', dir_name, 'config')):
@@ -55,6 +55,12 @@ def mod_instance():
 
 
 def get_config_mod(config_name):
+    """
+    Args:
+        config_name (str):
+    """
+    if config_name.startswith('template-'):
+        return config_name.replace('template-', '')
     try:
         return MOD_CONFIG_DICT[config_name]
     except KeyError:

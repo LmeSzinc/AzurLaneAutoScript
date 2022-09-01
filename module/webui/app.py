@@ -9,6 +9,7 @@ from typing import Dict, List, Optional
 import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
 from module.config.utils import (
+    alas_template,
     alas_instance,
     deep_get,
     deep_iter,
@@ -944,7 +945,7 @@ class AlasGUI(Frame):
 
                 if name not in alas_instance():
                     r = State.config_updater.read_file(origin)
-                    State.config_updater.write_file(name, r)
+                    State.config_updater.write_file(name, r, get_config_mod(origin))
                     self.set_aside()
                     self.active_button("aside", self.alas_name)
                     close_popup()
@@ -963,8 +964,8 @@ class AlasGUI(Frame):
                 put_select(
                     name="AddAlas_copyfrom",
                     label=t("Gui.AddAlas.CopyFrom"),
-                    options=["template"] + alas_instance(),
-                    value=origin or "template",
+                    options=alas_template() + alas_instance(),
+                    value=origin or "template-alas",
                     scope=s,
                 ),
                 put_button(label=t("Gui.AddAlas.Confirm"), onclick=add, scope=s)
