@@ -465,7 +465,7 @@ class AzurLaneAutoScript:
                 # So update it once recovered
                 del_cached_property(self, 'config')
                 logger.info('Server or network is recovered. Restart game client')
-                self.run('restart')
+                self.config.task_call('Restart')
             # Get task
             task = self.get_next_task()
             # Init device and change server

@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import Union
 
 import numpy as np
@@ -41,12 +40,13 @@ class LoginHandler(Combat):
                 self.device.get_orientation()
                 orientation_timer.reset()
 
-            if self.appear_then_click(LOGIN_CHECK, interval=5):
+            if self.appear(LOGIN_CHECK, offset=(30, 30), interval=5) and LOGIN_CHECK.match_appear_on(self.device.image):
+                self.device.click(LOGIN_CHECK)
                 if not login_success:
                     logger.info('Login success')
                     login_success = True
 
-            if self.appear(MAIN_CHECK):
+            if self.appear(MAIN_CHECK, offset=(30, 30)):
                 if confirm_timer.reached():
                     logger.info('Login to main confirm')
                     break
@@ -83,7 +83,6 @@ class LoginHandler(Combat):
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=5):
                 continue
 
-        self.config.start_time = datetime.now()
         return True
 
     _user_agreement_timer = Timer(1, count=2)
