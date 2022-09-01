@@ -59,7 +59,8 @@ class AutoScriptScheduler:
 
     def run(self, command):
         try:
-            self.device.screenshot()
+            if self.device:
+                self.device.screenshot()
             self.__getattribute__(command)()
             return True
         except TaskEnd:
@@ -267,8 +268,9 @@ class AutoScriptScheduler:
 
             # Run
             logger.info(f'Scheduler: Start task `{task}`')
-            self.device.stuck_record_clear()
-            self.device.click_record_clear()
+            if self.device:
+                self.device.stuck_record_clear()
+                self.device.click_record_clear()
             logger.hr(task, level=0)
             success = self.run(inflection.underscore(task))
             logger.info(f'Scheduler: End task `{task}`')
