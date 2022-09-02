@@ -73,7 +73,7 @@ class StorageHandler(StorageUI):
             else:
                 self.device.screenshot()
 
-            if self.appear(MATERIAL_CHECK, offset=(20, 20), interval=5):
+            if self._storage_in_material(interval=5):
                 self.device.click(button)
                 continue
             # 75 is a magic number to distinguish `use 1` and `use 10`
@@ -101,11 +101,11 @@ class StorageHandler(StorageUI):
             if self.appear(EQUIPMENT_FULL, offset=(20, 20)):
                 logger.info('Storage full')
                 # Close popup
-                self.ui_click(MATERIAL_ENTER, check_button=MATERIAL_CHECK, appear_button=EQUIPMENT_FULL,
+                self.ui_click(MATERIAL_ENTER, check_button=self._storage_in_material, appear_button=EQUIPMENT_FULL,
                               retry_wait=3, skip_first_screenshot=True)
                 raise StorageFull
             # End
-            if success and self.appear(MATERIAL_CHECK, offset=(20, 20)):
+            if success and self._storage_in_material():
                 break
 
         logger.info(f'Used {used} box(es)')

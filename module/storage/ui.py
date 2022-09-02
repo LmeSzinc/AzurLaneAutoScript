@@ -19,6 +19,18 @@ class StorageUI(UI):
         self.wait_until_stable(MATERIAL_STABLE_CHECK)
         self.handle_info_bar()
 
+    def _storage_in_material(self, interval=0):
+        """
+        Args:
+            interval (int): for appear func, varies
+                            by needs/location
+
+        Returns:
+            bool, if in MATERIAL_CHECK, appear and match_appear_on
+        """
+        return self.appear(MATERIAL_CHECK, offset=(20, 20), interval=interval) and \
+               MATERIAL_CHECK.match_appear_on(self.device.image)
+
     def _storage_enter_material(self, skip_first_screenshot=True):
         """
         Pages:
@@ -32,7 +44,7 @@ class StorageUI(UI):
             else:
                 self.device.screenshot()
 
-            if self.appear(MATERIAL_CHECK, offset=(20, 20)):
+            if self._storage_in_material():
                 break
 
             # disassemble -> equipment
@@ -72,7 +84,7 @@ class StorageUI(UI):
                 self.interval_reset(STORAGE_CHECK)
                 continue
             # material -> equipment
-            if self.appear(MATERIAL_CHECK, offset=(20, 20), interval=3):
+            if self._storage_in_material(interval=3):
                 self.device.click(EQUIPMENT_ENTER)
                 self.interval_reset(STORAGE_CHECK)
                 continue
@@ -105,7 +117,7 @@ class StorageUI(UI):
                 self.interval_reset(MATERIAL_CHECK)
                 continue
             # material -> equipment
-            if self.appear(MATERIAL_CHECK, offset=(20, 20), interval=3):
+            if self._storage_in_material(interval=3):
                 self.device.click(EQUIPMENT_ENTER)
                 self.interval_reset(STORAGE_CHECK)
                 continue
