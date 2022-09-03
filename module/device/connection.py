@@ -293,7 +293,7 @@ class Connection(ConnectionAttr):
             raise AdbTimeout('reverse server accept timeout')
 
         # Server receive data
-        data = recv_all(conn, chunk_size=chunk_size)
+        data = recv_all(conn, chunk_size=chunk_size, recv_interval=0.001)
 
         # Server close connection
         conn.close()

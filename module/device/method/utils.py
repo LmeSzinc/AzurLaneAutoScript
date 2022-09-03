@@ -38,11 +38,12 @@ def random_port(port_range):
         return new_port
 
 
-def recv_all(stream, chunk_size=4096) -> bytes:
+def recv_all(stream, chunk_size=4096, recv_interval=0.000) -> bytes:
     """
     Args:
         stream:
         chunk_size:
+        recv_interval (float): Default to 0.000, use 0.001 if receiving as server
 
     Returns:
         bytes:
@@ -61,7 +62,7 @@ def recv_all(stream, chunk_size=4096) -> bytes:
             if chunk:
                 fragments.append(chunk)
                 # See https://stackoverflow.com/questions/23837827/python-server-program-has-high-cpu-usage/41749820#41749820
-                time.sleep(0.001)
+                time.sleep(recv_interval)
             else:
                 break
         return remove_shell_warning(b''.join(fragments))
