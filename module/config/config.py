@@ -136,6 +136,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
             or func in ["MaritimeEscort", "GemsFarming"]
         ):
             func_set.add("EventGeneral")
+            func_set.add("TaskBalancer")
         logger.info(f"Bind task {func_set}")
 
         # Bind arguments
@@ -248,14 +249,11 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
 
     def update(self):
         self.load()
+        self.config_override()
         self.bind(self.task)
         self.save()
 
     def config_override(self):
-        """
-        People migrating from manual game play to bot have a hard time giving up old usage habitat,
-        so, teach them how to play games and how to use Alas.
-        """
         now = datetime.now().replace(microsecond=0)
         limited = set()
 
@@ -268,17 +266,15 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
                     self.data, keys=f"{task}.Scheduler.NextRun", default=None
                 )
                 if isinstance(next_run, datetime) and next_run > limit:
-                    logger.warning(f"NextRun of task {task} is too far, reset to now")
                     deep_set(self.data, keys=f"{task}.Scheduler.NextRun", value=now)
 
-        def force_enable(tasks):
-            for task in tasks:
-                enable = deep_get(
-                    self.data, keys=f"{task}.Scheduler.Enable", default=None
-                )
-                if enable is not None and not enable:
-                    logger.warning(f"Task {task} is force to enable")
-                    self.modified[f"{task}.Scheduler.Enable"] = True
+        for task in ["Commission", "Research", "Reward"]:
+            enable = deep_get(
+                self.data, keys=f"{task}.Scheduler.Enable", default=None
+            )
+            if enable is not None and not enable:
+                self.modified[f"{task}.Scheduler.Enable"] = True
+        force_enable = list
 
         force_enable(
             [

@@ -412,6 +412,10 @@
       "name": "Error.SaveError.name",
       "help": "Error.SaveError.help"
     },
+    "OnePushConfig": {
+      "name": "Error.OnePushConfig.name",
+      "help": "Error.OnePushConfig.help"
+    },
     "ScreenshotLength": {
       "name": "Error.ScreenshotLength.name",
       "help": "Error.ScreenshotLength.help"
@@ -1048,6 +1052,27 @@
     "TimeLimit": {
       "name": "EventGeneral.TimeLimit.name",
       "help": "EventGeneral.TimeLimit.help"
+    }
+  },
+  "TaskBalancer": {
+    "_info": {
+      "name": "TaskBalancer._info.name",
+      "help": "TaskBalancer._info.help"
+    },
+    "Enable": {
+      "name": "TaskBalancer.Enable.name",
+      "help": "TaskBalancer.Enable.help"
+    },
+    "CoinLimit": {
+      "name": "TaskBalancer.CoinLimit.name",
+      "help": "TaskBalancer.CoinLimit.help"
+    },
+    "TaskCall": {
+      "name": "TaskBalancer.TaskCall.name",
+      "help": "TaskBalancer.TaskCall.help",
+      "Main": "Main",
+      "Main2": "Main2",
+      "Main3": "Main3"
     }
   },
   "EventDaily": {

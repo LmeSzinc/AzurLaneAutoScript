@@ -2,7 +2,6 @@ import os
 import re
 import winreg
 import subprocess
-from sys import platform
 
 from adbutils.errors import AdbError
 
@@ -216,7 +215,7 @@ class EmulatorManager(Connection):
             return super(EmulatorManager, self).adb_connect(serial)
         except EmulatorNotRunningError:
             if self.config.RestartEmulator_Enable \
-                    and self.emulator_restart(kill=False):
+                    and self.emulator_restart():
                 return True
             raise RequestHumanTakeover
 
@@ -243,25 +242,23 @@ class EmulatorManager(Connection):
             if emulator.multi_para is not None and multi_id is not None:
                 command += " " + emulator.multi_para.replace("#id", multi_id)
 
-        for _ in range(3):
-            logger.info('Start emulator')
-            pipe = self.execute(command)
-            self.pid = pipe.pid
-            self.sleep(10)
+        logger.info('Start emulator')
+        pipe = self.execute(command)
+        self.pid = pipe.pid
+        self.sleep(10)
 
-            for __ in range(20):
-                if pipe.poll() is not None:
-                    break
-                try:
-                    if super().adb_connect(serial):
-                        # Wait until emulator start completely
-                        self.sleep(10)
-                        return True
-                except EmulatorNotRunningError:
-                    continue
-                self.sleep(5)
-        logger.warning('Start emulator failed for 3 times, please check your settings')
-        raise RequestHumanTakeover
+        for _ in range(20):
+            if pipe.poll() is not None:
+                break
+            try:
+                if super().adb_connect(serial):
+                    # Wait until emulator start completely
+                    self.sleep(10)
+                    return True
+            except EmulatorNotRunningError:
+                pass
+            self.sleep(5)
+        return False
 
     def emulator_kill(self, serial, emulator=None, multi_id=None, command=None):
         """
@@ -280,30 +277,30 @@ class EmulatorManager(Connection):
                 command += " " + emulator.multi_para.replace("#id", multi_id)
             command += " " + emulator.kill_para
 
-        for _ in range(3):
-            logger.info('Kill emulator')
-            if emulator == self.SUPPORTED_EMULATORS['bluestacks_5']:
-                try:
-                    self.adb_command(['reboot', '-p'], timeout=20)
-                    if self.detect_emulator_status(serial) == 'offline':
-                        self.pid = None
-                        return True
-                except AdbError:
-                    continue
-
-            if emulator == self.SUPPORTED_EMULATORS['mumu_player']:
-                self.task_kill(pid=None, name=['NemuHeadless.exe', 'NemuPlayer.exe', 'NemuSvc.exe'])
-            elif command is not None:
-                self.execute(command)
-            else:
-                self.task_kill(pid=self.pid, name=os.path.basename(emulator.emu_path))
-            self.sleep(5)
-
-            for __ in range(10):
+        logger.info('Kill emulator')
+        if emulator == self.SUPPORTED_EMULATORS['bluestacks_5']:
+            try:
+                self.adb_command(['reboot', '-p'], timeout=20)
                 if self.detect_emulator_status(serial) == 'offline':
                     self.pid = None
                     return True
-                self.sleep(2)
+            except AdbError:
+                return False
+
+        if emulator == self.SUPPORTED_EMULATORS['mumu_player']:
+            self.task_kill(pid=None, name=['NemuHeadless.exe', 'NemuPlayer.exe', 'NemuSvc.exe'])
+        elif command is not None:
+            self.execute(command)
+        else:
+            self.task_kill(pid=self.pid, name=os.path.basename(emulator.emu_path))
+        self.sleep(5)
+
+        for _ in range(10):
+            if self.detect_emulator_status(serial) == 'offline':
+                self.pid = None
+                return True
+            self.sleep(2)
+        return False
 
         logger.warning('Kill emulator failed for 3 times, please check your settings')
         raise RequestHumanTakeover
@@ -315,7 +312,7 @@ class EmulatorManager(Connection):
 
         if not self.config.RestartEmulator_Enable:
             return False
-        if platform != 'win32':
+        if os.name != 'nt':
             logger.warning('Restart simulator only works under Windows platform')
             return False
 
@@ -326,6 +323,10 @@ class EmulatorManager(Connection):
             emulator = self.SUPPORTED_EMULATORS[self.config.RestartEmulator_EmulatorType]
             emulator, multi_id = self.detect_emulator(serial, emulator=emulator)
 
-        if kill and not self.emulator_kill(serial, emulator, multi_id):
-            return False
-        return self.emulator_start(serial, emulator, multi_id)
+        for _ in range(3):
+            if not self.emulator_kill(serial, emulator, multi_id):
+                continue
+            if self.emulator_start(serial, emulator, multi_id):
+                return True
+
+        raise RequestHumanTakeover

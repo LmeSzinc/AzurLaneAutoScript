@@ -412,6 +412,10 @@
       "name": "出錯時，保存 Log 和截圖",
       "help": ""
     },
+    "OnePushConfig": {
+      "name": "錯誤推送設定",
+      "help": "發生無法處理的异常後，使用 Onepush 推送错误消息。設定參考文檔：https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BCN%5D"
+    },
     "ScreenshotLength": {
       "name": "出錯時，保留最後 X 張截圖",
       "help": ""
@@ -1048,6 +1052,27 @@
     "TimeLimit": {
       "name": "活動時間限制",
       "help": "當本地時間超過給定數值後，禁用所有活動任務，'2020-01-01 00:00:00' 表示不限制，觸發一次後時間將被重置\n設置後能防止活動結束後忘記關閉任務的事情發生"
+    }
+  },
+  "TaskBalancer": {
+    "_info": {
+      "name": "任務平衡設置",
+      "help": "防止運行活動圖時物資過低"
+    },
+    "Enable": {
+      "name": "啟用任務平衡",
+      "help": "啟用後，將於每次出擊後檢查物資量"
+    },
+    "CoinLimit": {
+      "name": "保持物資大於X",
+      "help": ""
+    },
+    "TaskCall": {
+      "name": "物資過低時呼叫任務X",
+      "help": "提醒: 玩家需提前設置好被調用的任務，否則將不會作用",
+      "Main": "主線圖",
+      "Main2": "主線圖-2",
+      "Main3": "主線圖-3"
     }
   },
   "EventDaily": {

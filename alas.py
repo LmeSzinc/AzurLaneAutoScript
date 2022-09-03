@@ -12,6 +12,7 @@ from module.config.config import AzurLaneConfig, TaskEnd
 from module.config.utils import deep_get, deep_set
 from module.exception import *
 from module.logger import logger
+from module.notify import handle_notify
 
 
 class AzurLaneAutoScript:
@@ -89,6 +90,11 @@ class AzurLaneAutoScript:
             if self.checker.is_available():
                 logger.critical('Game page unknown')
                 self.save_error_log()
+                handle_notify(
+                    self.config.Error_OnePushConfig,
+                    title=f"Alas <{self.config_name}> crashed",
+                    content=f"<{self.config_name}> GamePageUnknownError",
+                )
                 exit(1)
             else:
                 self.checker.wait_until_available()
@@ -96,13 +102,28 @@ class AzurLaneAutoScript:
         except ScriptError as e:
             logger.critical(e)
             logger.critical('This is likely to be a mistake of developers, but sometimes just random issues')
+            handle_notify(
+                self.config.Error_OnePushConfig, 
+                title=f"Alas <{self.config_name}> crashed", 
+                content=f"<{self.config_name}> ScriptError",
+            )
             exit(1)
         except RequestHumanTakeover:
             logger.critical('Request human takeover')
+            handle_notify(
+                self.config.Error_OnePushConfig, 
+                title=f"Alas <{self.config_name}> crashed", 
+                content=f"<{self.config_name}> RequestHumanTakeover",
+            )
             exit(1)
         except Exception as e:
             logger.exception(e)
             self.save_error_log()
+            handle_notify(
+                self.config.Error_OnePushConfig, 
+                title=f"Alas <{self.config_name}> crashed", 
+                content=f"<{self.config_name}> Exception occured",
+            )
             exit(1)
 
     def save_error_log(self):

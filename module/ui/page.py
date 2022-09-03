@@ -140,6 +140,11 @@ page_shipyard.link(button=GOTO_MAIN, destination=page_main)
 page_meta = Page(META_CHECK)
 page_meta.link(button=GOTO_MAIN, destination=page_main)
 
+# Storage
+page_storage = Page(STORAGE_CHECK)
+page_storage.link(button=GOTO_MAIN, destination=page_main)
+page_main.link(button=MAIN_GOTO_STORAGE, destination=page_storage)
+
 # Research menu
 page_reshmenu = Page(RESHMENU_CHECK)
 page_reshmenu.link(button=RESHMENU_GOTO_RESEARCH, destination=page_research)

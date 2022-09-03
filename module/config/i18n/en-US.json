@@ -412,6 +412,10 @@
       "name": "Record Exception",
       "help": "Records exception and log into directory for review or sharing"
     },
+    "OnePushConfig": {
+      "name": "Error notify config",
+      "help": "When Alas cannot handle exception, send a message through Onepush. Configuration document: \nhttps://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BEN%5D"
+    },
     "ScreenshotLength": {
       "name": "Record Screenshot(s)",
       "help": "Number of screenshots saved when exception occurs"
@@ -1048,6 +1052,27 @@
     "TimeLimit": {
       "name": "Event Time Limit",
       "help": "When the local time exceeds the given value, disable all event tasks. '2020-01-01 00:00:00' means no limit and the time will be reset once it's triggered\nThis can prevent the occurrence of forgetting to disable event tasks after the event ends"
+    }
+  },
+  "TaskBalancer": {
+    "_info": {
+      "name": "Task Balancer Settings",
+      "help": "Prevent coin shortage when farming event maps."
+    },
+    "Enable": {
+      "name": "Enable Task Balancer",
+      "help": "When enabled, the coin amount will be checked after each run."
+    },
+    "CoinLimit": {
+      "name": "Keep Coin Above X",
+      "help": "Start chosen task if coin is found to be below this number."
+    },
+    "TaskCall": {
+      "name": "Call task X if out of coin",
+      "help": "Reminder: Players need to check task config before running, or TaskCall may not work.",
+      "Main": "Main",
+      "Main2": "Main-2",
+      "Main3": "Main-3"
     }
   },
   "EventDaily": {

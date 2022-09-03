@@ -134,6 +134,11 @@
         "type": "checkbox",
         "value": true
       },
+      "OnePushConfig": {
+        "type": "textarea",
+        "value": "provider: null",
+        "mode": "yaml"
+      },
       "ScreenshotLength": {
         "type": "input",
         "value": 1
@@ -1845,6 +1850,25 @@
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
+      }
+    },
+    "TaskBalancer": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "CoinLimit": {
+        "type": "input",
+        "value": 10000
+      },
+      "TaskCall": {
+        "type": "select",
+        "value": "Main",
+        "option": [
+          "Main",
+          "Main2",
+          "Main3"
+        ]
       }
     }
   },

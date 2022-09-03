@@ -33,6 +33,7 @@ class GeneratedConfig:
     # Group `Error`
     Error_HandleError = True
     Error_SaveError = True
+    Error_OnePushConfig = 'provider: null'
     Error_ScreenshotLength = 1
 
     # Group `Optimization`
@@ -151,6 +152,11 @@ class GeneratedConfig:
     # Group `EventGeneral`
     EventGeneral_PtLimit = 0
     EventGeneral_TimeLimit = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `TaskBalancer`
+    TaskBalancer_Enable = False
+    TaskBalancer_CoinLimit = 10000
+    TaskBalancer_TaskCall = 'Main'  # Main, Main2, Main3
 
     # Group `EventDaily`
     EventDaily_StageFilter = 'A1 > A2 > A3'

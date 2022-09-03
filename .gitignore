@@ -18,6 +18,7 @@ dev_tools/debug_tools
 config/reloadflag
 config/reloadalas
 test.py
+test/
 
 # Created by .ignore support plugin (hsz.mobi)
 
