@@ -154,9 +154,12 @@ class ProcessManager:
                 from module.daemon.game_manager import GameManager
 
                 GameManager(config=config_name, task="GameManager").run()
+            elif func == "MaaCopilot":
+                mod = load_mod('maa')
+                mod.maa_copilot(config_name)
             else:
                 mod = load_mod(func)
-                mod.loop(config_name=config_name)
+                mod.loop(config_name)
             logger.info(f"[{config_name}] exited. Reason: Finish\n")
         except Exception as e:
             logger.exception(e)
