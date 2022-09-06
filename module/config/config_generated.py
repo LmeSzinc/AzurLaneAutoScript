@@ -148,6 +148,7 @@ class GeneratedConfig:
     GemsFarming_VanguardEquipChange = False
     GemsFarming_LowEmotionRetreat = True
     GemsFarming_CommonCV = 'any'  # any, langley, bogue, ranger, hermes
+    GemsFarming_CommissionLimit = True
 
     # Group `EventGeneral`
     EventGeneral_PtLimit = 0

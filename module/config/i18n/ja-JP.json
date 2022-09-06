@@ -575,6 +575,7 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "event_20200903_en": "輝ける峡湾の星（復刻）",
       "event_20220818_cn": "結像点作戦",
       "event_20220324_cn": "幻像の塔",
       "event_20211028_cn": "神穹を衝く聖歌（復刻）",
@@ -608,7 +609,6 @@
       "event_20210819_cn": "闇靄払う銀翼（復刻）",
       "event_20200806_cn": "鉄血鮫とエニグマ（復刻）",
       "event_20200723_cn": "極夜照らす幻光",
-      "event_20200903_en": "輝ける峡湾の星（復刻）",
       "event_20210624_cn": "翳りし満ちる影の華(復刻)",
       "event_20210624_tw": "穹頂下的聖詠曲",
       "event_20210610_tw": "夜幕下的歸途",
@@ -1038,6 +1038,10 @@
       "bogue": "bogue",
       "ranger": "ranger",
       "hermes": "hermes"
+    },
+    "CommissionLimit": {
+      "name": "GemsFarming.CommissionLimit.name",
+      "help": "GemsFarming.CommissionLimit.help"
     }
   },
   "EventGeneral": {

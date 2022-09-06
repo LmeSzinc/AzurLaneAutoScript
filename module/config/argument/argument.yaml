@@ -225,6 +225,7 @@ GemsFarming:
   CommonCV:
     value: any
     option: [any, langley, bogue, ranger, hermes]
+  CommissionLimit: true
 
 # ==================== Event ====================
 

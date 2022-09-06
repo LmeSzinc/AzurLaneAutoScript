@@ -1482,6 +1482,10 @@
           "ranger",
           "hermes"
         ]
+      },
+      "CommissionLimit": {
+        "type": "checkbox",
+        "value": true
       }
     },
     "Campaign": {
