@@ -173,6 +173,7 @@ class StorageUI(UI):
                 if enable and not active:
                     self.device.click(button)
                     change_count += 1
+            self.device.sleep((0.1, 0.2))
 
             # End
             if change_count == 0:
