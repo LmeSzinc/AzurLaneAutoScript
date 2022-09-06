@@ -9,7 +9,7 @@ from module.retire.assets import *
 from module.ui.scroll import Scroll
 from module.ui.switch import Switch
 
-from ..base.utils import color_similar, get_color, limit_in
+from ..base.utils import color_similar, crop, get_color, limit_in
 from ..combat.level import LevelOcr
 from module.retire.fleet import FleetOcr
 
@@ -264,7 +264,7 @@ class DockScanner:
 
         self.limitaion['fleet'] = (0, 6) if fleet == 0 else limit_in(fleet, 0, 6)
 
-        self.in_commission: bool = in_commission
+        self.limitaion['in_commission'] = in_commission
 
         logger.info(f'Limitaions set to {self.limitaion}')
 
@@ -309,20 +309,24 @@ class DockScanner:
                              name='DOCK_FLEET_OCR')
         list_fleet = fleet_ocr.ocr(image)
 
+        list_commission = [TEMPLATE_IN_COMMISSION.match(
+            crop(image, button.area)) for button in CARD_GRIDS.buttons]
+
         candidates: list[Ship] = [
             Ship(
                 level=level,
                 emotion=emotion,
                 rarity=rarity,
                 fleet=fleet,
-                in_commission=False,
+                in_commission=in_commission,
                 button=button)
-            for level, emotion, rarity, fleet, button in
+            for level, emotion, rarity, fleet, in_commission, button in
             list(zip(
                 list_level,
                 list_emotion,
                 list_rarity,
                 list_fleet,
+                list_commission,
                 CARD_GRIDS.buttons))
         ]
 

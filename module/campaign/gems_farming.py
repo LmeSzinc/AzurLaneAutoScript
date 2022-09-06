@@ -152,7 +152,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         logger.hr('FINDING FLAGSHIP')
 
         dock_scanner = DockScanner(
-            level=(1, 31), emotion=(10, 150), rarity='common')
+            level=(1, 33), emotion=(10, 150), rarity='common', fleet=0, in_commission=False)
 
         if self.config.GemsFarming_CommonCV == 'any':
             logger.info('')
@@ -240,7 +240,8 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         else:
             max_level = 70
 
-        dock_scanner = DockScanner(level=(max_level, max_level), emotion=(10, 150), rarity='common')
+        dock_scanner = DockScanner(level=(max_level, max_level), emotion=(10, 150),
+                                   rarity='common', fleet=0, in_commission=False)
 
         # button_list = list(filter(lambda a: a[1] == max_level and a[2] >= 10, button_list))
         # if button_list:
