@@ -1467,11 +1467,25 @@
       "RepairThreshold": 0.4,
       "DoRandomMapEvent": true,
       "AkashiShopFilter": "ActionPoint > PurpleCoins"
+    }
+  },
+  "OpsiAshBeacon": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "OpsiAshBeacon",
+      "SuccessInterval": 30,
+      "FailureInterval": 30,
+      "ServerUpdate": "00:00"
     },
     "OpsiAshBeacon": {
       "AshAttack": true,
-      "EnsureFullyCollected": true,
-      "RequestAssist": true
+      "OneHitMode": true,
+      "RequestAssist": true,
+      "EnsureFullyCollected": true
+    },
+    "OpsiDossierBeacon": {
+      "Enable": true
     }
   },
   "OpsiAshAssist": {

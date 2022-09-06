@@ -194,6 +194,10 @@
       "name": "Task.OpsiGeneral.name",
       "help": "Task.OpsiGeneral.help"
     },
+    "OpsiAshBeacon": {
+      "name": "Task.OpsiAshBeacon.name",
+      "help": "Task.OpsiAshBeacon.help"
+    },
     "OpsiAshAssist": {
       "name": "Task.OpsiAshAssist.name",
       "help": "Task.OpsiAshAssist.help"
@@ -1927,13 +1931,27 @@
       "name": "OpsiAshBeacon.AshAttack.name",
       "help": "OpsiAshBeacon.AshAttack.help"
     },
-    "EnsureFullyCollected": {
-      "name": "OpsiAshBeacon.EnsureFullyCollected.name",
-      "help": "OpsiAshBeacon.EnsureFullyCollected.help"
+    "OneHitMode": {
+      "name": "OpsiAshBeacon.OneHitMode.name",
+      "help": "OpsiAshBeacon.OneHitMode.help"
     },
     "RequestAssist": {
       "name": "OpsiAshBeacon.RequestAssist.name",
       "help": "OpsiAshBeacon.RequestAssist.help"
+    },
+    "EnsureFullyCollected": {
+      "name": "OpsiAshBeacon.EnsureFullyCollected.name",
+      "help": "OpsiAshBeacon.EnsureFullyCollected.help"
+    }
+  },
+  "OpsiDossierBeacon": {
+    "_info": {
+      "name": "OpsiDossierBeacon._info.name",
+      "help": "OpsiDossierBeacon._info.help"
+    },
+    "Enable": {
+      "name": "OpsiDossierBeacon.Enable.name",
+      "help": "OpsiDossierBeacon.Enable.help"
     }
   },
   "OpsiFleetFilter": {

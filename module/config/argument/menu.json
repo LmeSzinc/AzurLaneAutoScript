@@ -52,6 +52,7 @@
     ],
     "Opsi": [
       "OpsiGeneral",
+      "OpsiAshBeacon",
       "OpsiAshAssist",
       "OpsiExplore",
       "OpsiShop",
