@@ -2,9 +2,11 @@ from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.base.utils import color_similar, get_color, resize
 from module.combat.assets import GET_ITEMS_1
+from module.config.utils import deep_get
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 from module.retire.assets import *
+from module.retire.dock import DockScanner
 from module.retire.enhancement import Enhancement
 
 CARD_GRIDS = ButtonGrid(
@@ -244,6 +246,42 @@ class Retirement(Enhancement):
         logger.info(f'Total retired: {total}')
         return total
 
+    def retire_gems_farming_flagships(self):
+        """
+        Retire abandoned flagships of GemsFarming.
+        Common CV whose level > 32, fleet is none and not in commission
+        will be regarded as targets.
+        """
+        logger.info('Retire abandoned flagships of GemsFarming')
+
+        self.dock_filter_set(
+            sort='level', index='cv', rarity='common', extra='enhanceable')
+        self.dock_favourite_set(False)
+
+        dock_scanner = DockScanner(
+            rarity='common', fleet=0, in_commission=False, level=(33, 100))
+
+        total = 0
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            ships = dock_scanner.scan(self.device.image)
+            if not ships:
+                break
+
+            for ship in ships[:10]:
+                self.device.click(ship.button)
+                self.device.sleep((0.1, 0.15))
+                total += 1
+
+            self._retirement_confirm()
+
+        return total
+
     def handle_retirement(self):
         """
         Returns:
@@ -329,6 +367,11 @@ class Retirement(Enhancement):
         else:
             raise ScriptError(
                 f'Unknown retire mode: {self.config.Retirement_RetireMode}')
+
+        keys: str = 'GemsFarming.Scheduler.Enable'
+        gems_farming_enable: bool = deep_get(self.config.data, keys=keys, default=False)
+        if gems_farming_enable and self.config.GemsFarming_FlagshipChange:
+            total += self.retire_gems_farming_flagships()
 
         self._retirement_quit()
         self.config.DOCK_FULL_TRIGGERED = True
