@@ -262,6 +262,9 @@ class Retirement(Enhancement):
             rarity='common', fleet=0, in_commission=False, level=(33, 100))
 
         total = 0
+        _ = self._have_kept_cv
+        self._have_kept_cv = True
+
         skip_first_screenshot = True
         while 1:
             if skip_first_screenshot:
@@ -279,6 +282,7 @@ class Retirement(Enhancement):
                 total += 1
 
             self._retirement_confirm()
+        self._have_kept_cv = _
 
         return total
 
