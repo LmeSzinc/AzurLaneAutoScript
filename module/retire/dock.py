@@ -243,10 +243,10 @@ class DockScanner:
     ) -> None:
         """
         Args:
-            rarity (str, list): ['common', 'rare', 'elite', 'super_rare'].
+            rarity (str, list): ['common', 'rare', 'elite', 'super_rare']. None for unrestricted.
             level (tuple): (lower, upper). Will be limited in range [1, 125]
             emotion (tuple): (lower, upper). Will be limited in range [0, 150]
-            fleet (int): 0 means unrestricted. Will be limited in range [0, 6]
+            fleet (int): 0 means not in any fleet. Will be limited in range [0, 6]
             in_commission (bool):
         """
         self.limitaion: Dict[str, Union[str, int, Tuple[int, int]]] = {}
