@@ -5,9 +5,11 @@ from module.equipment.assets import *
 from module.equipment.equipment_change import EquipmentChange
 from module.equipment.fleet_equipment import OCR_FLEET_INDEX
 from module.exception import CampaignEnd
+from module.logger import logger
 from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
 from module.ocr.ocr import Digit
-from module.retire.dock import *
+from module.retire.assets import DOCK_CHECK
+from module.retire.dock import Dock, CARD_GRIDS, CARD_EMOTION_GRIDS, CARD_LEVEL_GRIDS
 from module.ui.page import page_fleet
 
 SIM_VALUE = 0.95
