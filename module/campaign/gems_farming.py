@@ -372,7 +372,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                 if not success:
                     self.campaign.ensure_auto_search_exit()
                     self.config.task_delay(minute=30)
-                    self.config.task_stop()
 
                 continue
             else:
