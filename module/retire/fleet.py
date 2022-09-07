@@ -88,3 +88,43 @@ class FleetOcr(Digit):
             return np.argmax(sims) + 1
 
         return 0
+
+    def _feature_extract(self):
+        """
+        If you need to re-extract features in the future, follow these steps.
+        1.  Prepare pics with fleet index, which can be obtained by taking
+            screenshots in the dock. However, DO NOT drag the scroll bar because
+            area is defined according to the initial positon.
+        2.  Crop and pre-process the pics. You can use a code like this:
+                cnt = 0
+                path = r'XXXX'
+                pics = [XXXX]
+                for image in pics:
+                    image_list = [self.pre_process(crop(image, area)) for area in self.buttons]
+                    for img in image_list:
+                        cv2.imwrite(f'{path}/{cnt}.png', img * 255)
+                        cnt += 1
+
+                Args:
+                    pics: pics with fleet index. Use Alas's method to load it
+                    path: path to save the image files
+        3.  Label and classify the pictures according to the numbers on them.
+            You can simply label them by moving the pics with number '1' into folder '1', etc.
+            Those which does not contain numbers don't need to do so.
+        4.  Calculate the mean value of features and take it as the feature of a certain number.
+            Use a code like this:
+                pics = [XXXX]
+                path = r'XXXX'
+                features = []
+                for image in pics:
+                    image = self.pre_process(image)
+                    features.append(get_features(image))
+                features = np.array(features)
+                features = np.mean(features, axis=0)
+                np.save(f'{path}/XXXX.npy', features)
+
+                Args:
+                    pics: pics belonging to the same category. Use Alas's method to load it
+                    path: path to save the feature file
+        """
+        pass
