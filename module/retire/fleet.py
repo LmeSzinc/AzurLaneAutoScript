@@ -28,7 +28,7 @@ def cosine_similarity(x1, x2) -> float:
 class FleetOcr(Digit):
     def __init__(self, buttons, lang='azur_lane', letter=..., threshold=128, alphabet='0123456789', name=None):
         super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
-        self.digit_features = [np.load(f'./module/retire/npy/{i}.npy', allow_pickle=True) for i in range(1, 7)]
+        self.digit_features = [np.load(f'./bin/fleet_ocr_features/{i}.npy', allow_pickle=True) for i in range(1, 7)]
 
     def pre_process(self, image):
         # Invert
