@@ -262,7 +262,7 @@ class DockScanner:
         rarity = rarity if rarity in ['common', 'rare', 'elite', 'super_rare'] else None
         self.limitaion['rarity'] = rarity
 
-        self.limitaion['fleet'] = (0, 6) if fleet == 0 else limit_in(fleet, 0, 6)
+        self.limitaion['fleet'] = (0, 6) if fleet is None else limit_in(fleet, 0, 6)
 
         self.limitaion['in_commission'] = in_commission
 
