@@ -1,5 +1,8 @@
+from datetime import datetime, timedelta
+
 from module.base.utils import image_left_strip
 from module.combat.combat import BATTLE_PREPARATION, Combat
+from module.config.utils import DEFAULT_TIME
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
 from module.os_ash.assets import *
@@ -63,9 +66,19 @@ class AshCombat(Combat):
 
         return False
 
-    def combat(self, *args, **kwargs):
+    def combat(self, *args, expected_end=None, **kwargs):
+        end = expected_end
+        if end is not None and callable(end):
+            def expected_end():
+                if end():
+                    logger.info('Meta combat finished and in correct page.')
+                    return True
+                if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=2):
+                    logger.info('Wrong click into battle preparation page')
+                    self.device.click(BACK_ARROW)
+                    return False
         try:
-            super().combat(*args, **kwargs)
+            super().combat(*args, expected_end=expected_end, **kwargs)
         except AshBeaconFinished:
             pass
 
@@ -112,6 +125,14 @@ class OSAsh(UI, MapEventHandler):
             status = 0
         return status
 
+    def _support_call_ash_beacon_task(self):
+        # AshBeacon next run
+        next_run = self.config.cross_get(keys="OpsiAshBeacon.Scheduler.NextRun", default=DEFAULT_TIME)
+        # Between the next execution time and the present time is more than 30 minutes
+        if next_run - datetime.now() > timedelta(minutes=30):
+            return True
+        return False
+
     def handle_ash_beacon_attack(self):
         """
         Returns:
@@ -125,8 +146,9 @@ class OSAsh(UI, MapEventHandler):
                 and not self.config.OpsiDossierBeacon_Enable:
             return False
 
-        if self.ash_collect_status() < 100:
-            return False
+        if self.ash_collect_status() >= 100 \
+                and self._support_call_ash_beacon_task():
+            self.config.task_call(task='OpsiAshBeacon')
+            return True
 
-        self.config.task_call(task='OpsiAshBeacon')
-        return True
+        return False
