@@ -139,7 +139,8 @@ class RewardCommission(UI, InfoHandler):
             if no_shortest.count < run.count:
                 logger.info('Not enough commissions to run, add shortest daily commissions')
                 COMMISSION_FILTER.load(SHORTEST_FILTER)
-                shortest = COMMISSION_FILTER.apply(daily, func=self._commission_check)
+                shortest = COMMISSION_FILTER.apply(daily[::-1], func=self._commission_check)
+                # Reverse the daily list to choose better commissions
                 run = no_shortest.add_by_eq(SelectedGrids(shortest))
                 logger.attr('Filter_sort', ' > '.join([str(c) for c in run]))
             else:

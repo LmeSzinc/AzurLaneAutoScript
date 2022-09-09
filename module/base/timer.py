@@ -123,10 +123,12 @@ class Timer:
     def reset(self):
         self._current = time.time()
         self._reach_count = 0
+        return self
 
     def clear(self):
         self._current = 0
         self._reach_count = self.count
+        return self
 
     def reached_and_reset(self):
         """
