@@ -324,6 +324,7 @@ class StorageHandler(StorageUI):
             disassembled += equip
             if equip <= 0:
                 logger.info('No more equipment to disassemble, going to use boxes')
+                boxes = 0
                 try:
                     self._storage_enter_material()
                     boxes = self._storage_use_box_execute(rarity=rarity, amount=amount - disassembled)
@@ -332,7 +333,13 @@ class StorageHandler(StorageUI):
                         self.storage_has_boxes = False
                         break
                 except StorageFull:
-                    pass
+                    if boxes <= 0:
+                        logger.warning('Unable to use boxes because storage full, '
+                                       'probably because storage is full of rare equipments or above, '
+                                       'disassemble equipment end')
+                        logger.warning('Please manually disassemble some equipments to free up storage')
+                        self.storage_has_boxes = False
+                        break
 
         return disassembled
 
@@ -368,16 +375,23 @@ class StorageHandler(StorageUI):
                 logger.info('Reached total target amount, stop')
                 break
 
+            boxes = 0
             try:
                 self._storage_enter_material()
                 boxes = self._storage_use_box_execute(rarity=rarity, amount=amount - used)
                 used += boxes
                 if boxes <= 0:
-                    logger.warning('No more boxes to use, disassemble equipment end')
+                    logger.warning('No more boxes to use, use boxes end')
                     self.storage_has_boxes = False
                     break
             except StorageFull:
-                continue
+                if boxes <= 0:
+                    logger.warning('Unable to use boxes because storage full, '
+                                   'probably because storage is full of rare equipments or above, '
+                                   'use boxes end')
+                    logger.warning('Please manually disassemble some equipments to free up storage')
+                    self.storage_has_boxes = False
+                    break
 
         return used
 
