@@ -214,6 +214,8 @@ class ModuleBase:
         else:
             if button.name in self.interval_timer:
                 self.interval_timer[button.name].reset()
+            else:
+                self.interval_timer[button.name] = Timer(3).reset()
 
     def interval_clear(self, button):
         if isinstance(button, (list, tuple)):
@@ -222,6 +224,8 @@ class ModuleBase:
         else:
             if button.name in self.interval_timer:
                 self.interval_timer[button.name].clear()
+            else:
+                self.interval_timer[button.name] = Timer(3).clear()
 
     _image_file = ''
 
