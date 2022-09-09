@@ -211,21 +211,23 @@ class ModuleBase:
         if isinstance(button, (list, tuple)):
             for b in button:
                 self.interval_reset(b)
+            return
+
+        if button.name in self.interval_timer:
+            self.interval_timer[button.name].reset()
         else:
-            if button.name in self.interval_timer:
-                self.interval_timer[button.name].reset()
-            else:
-                self.interval_timer[button.name] = Timer(3).reset()
+            self.interval_timer[button.name] = Timer(3).reset()
 
     def interval_clear(self, button):
         if isinstance(button, (list, tuple)):
             for b in button:
                 self.interval_clear(b)
+            return
+
+        if button.name in self.interval_timer:
+            self.interval_timer[button.name].clear()
         else:
-            if button.name in self.interval_timer:
-                self.interval_timer[button.name].clear()
-            else:
-                self.interval_timer[button.name] = Timer(3).clear()
+            self.interval_timer[button.name] = Timer(3).clear()
 
     _image_file = ''
 
