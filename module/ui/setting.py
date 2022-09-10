@@ -10,10 +10,11 @@ from module.logger import logger
 
 class Setting:
     def __init__(self, name='Setting', main: ModuleBase = None):
+        self.name = name
         # Alas module object
         self.main: ModuleBase = main
-
-        self.name = name
+        # Reset options before setting any options
+        self.reset_first = True
         # (setting, opiton_name): option_button
         # {
         #     ('sort', 'rarity'): Button(),
@@ -122,5 +123,6 @@ class Setting:
         Returns:
             bool: If success the set
         """
-        self._set_execute()  # Reset options
+        if self.reset_first:
+            self._set_execute()  # Reset options
         self._set_execute(**kwargs)
