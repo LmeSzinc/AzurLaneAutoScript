@@ -160,6 +160,7 @@ class Retirement(Enhancement):
             self.handle_info_bar()
 
             skip_first_screenshot = True
+            click_count = 0
             while 1:
                 if skip_first_screenshot:
                     skip_first_screenshot = False
@@ -172,8 +173,17 @@ class Retirement(Enhancement):
                     logger.info('No more ships to retire.')
                     end = True
                     break
+
                 # Click
-                if self.appear_then_click(ONE_CLICK_RETIREMENT, interval=2):
+                if click_count >= 3:
+                    logger.warning('Failed to select ships using ONE_CLICK_RETIREMENT after 3 trial, '
+                                   'probably because game bugged, a re-enter should fix it')
+                    # Mark as retire finished, higher level will call retires
+                    end = True
+                    total = 10
+                    break
+                elif self.appear_then_click(ONE_CLICK_RETIREMENT, interval=2):
+                    click_count += 1
                     continue
 
             if end:

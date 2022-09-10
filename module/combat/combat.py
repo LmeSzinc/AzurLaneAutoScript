@@ -407,6 +407,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 if expected_end():
                     break
 
+            if self.handle_story_skip(drop=drop):
+                continue
             # Combat status
             if not exp_info and self.handle_get_ship(drop=drop):
                 continue
@@ -424,8 +426,6 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 exp_info = True
                 continue
             if self.handle_urgent_commission(drop=drop):
-                continue
-            if self.handle_story_skip(drop=drop):
                 continue
             if self.handle_guild_popup_cancel():
                 continue

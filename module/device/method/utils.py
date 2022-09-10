@@ -1,6 +1,7 @@
 import random
 import re
 import socket
+import time
 
 import uiautomator2 as u2
 from adbutils import AdbTimeout, _AdbStreamConnection
@@ -37,11 +38,12 @@ def random_port(port_range):
         return new_port
 
 
-def recv_all(stream, chunk_size=4096) -> bytes:
+def recv_all(stream, chunk_size=4096, recv_interval=0.000) -> bytes:
     """
     Args:
         stream:
         chunk_size:
+        recv_interval (float): Default to 0.000, use 0.001 if receiving as server
 
     Returns:
         bytes:
@@ -59,6 +61,8 @@ def recv_all(stream, chunk_size=4096) -> bytes:
             chunk = stream.recv(chunk_size)
             if chunk:
                 fragments.append(chunk)
+                # See https://stackoverflow.com/questions/23837827/python-server-program-has-high-cpu-usage/41749820#41749820
+                time.sleep(recv_interval)
             else:
                 break
         return remove_shell_warning(b''.join(fragments))
@@ -196,10 +200,21 @@ def remove_shell_warning(s):
     Returns:
         str, bytes:
     """
+    # WARNING: linker: [vdso]: unused DT entry: type 0x70000001 arg 0x0\n\x89PNG\r\n\x1a\n\x00\x00\x00\rIH
     if isinstance(s, bytes):
-        return re.sub(b'^WARNING.+\n', b'', s)
+        if s.startswith(b'WARNING'):
+            try:
+                s = s.split(b'\n', maxsplit=1)[1]
+            except IndexError:
+                pass
+        return s
+        # return re.sub(b'^WARNING.+\n', b'', s)
     elif isinstance(s, str):
-        return re.sub('^WARNING.+\n', '', s)
+        if s.startswith('WARNING'):
+            try:
+                s = s.split('\n', maxsplit=1)[1]
+            except IndexError:
+                pass
     return s
 
 

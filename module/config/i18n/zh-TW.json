@@ -571,6 +571,7 @@
       "name": "活動名稱",
       "help": "自動選擇至最新的活動圖",
       "campaign_main": "主線圖",
+      "event_20200903_en": "復刻峽灣間的星辰",
       "event_20220818_cn": "Operation Convergence",
       "event_20220324_cn": "虛像構築之塔",
       "event_20211028_cn": "復刻穹頂下的聖詠曲",
@@ -604,7 +605,6 @@
       "event_20210819_cn": "Microlayer Medley Rerun",
       "event_20200806_cn": "最重要的寶物",
       "event_20200723_cn": "永夜幻光",
-      "event_20200903_en": "峽灣間的星辰",
       "event_20210624_cn": "Swirling Cherry Blossoms Rerun",
       "event_20210624_tw": "穹頂下的聖詠曲",
       "event_20210610_tw": "夜幕下的歸途",
@@ -626,6 +626,7 @@
       "event_20200423_cn": "Crimson Echoes Rerun",
       "event_20200326_cn": "Microlayer Medley",
       "event_20200227_cn": "Northern Overture",
+      "war_archives_20200806_cn": "archives The Enigma and the Shark",
       "war_archives_20210624_cn": "archives Swirling Cherry Blossoms",
       "war_archives_20210325_cn": "archives Ashen Simulacrum",
       "war_archives_20190911_cn": "archives Empyreal Tragicomedy",
@@ -1047,6 +1048,27 @@
     "TimeLimit": {
       "name": "活動時間限制",
       "help": "當本地時間超過給定數值後，禁用所有活動任務，'2020-01-01 00:00:00' 表示不限制，觸發一次後時間將被重置\n設置後能防止活動結束後忘記關閉任務的事情發生"
+    }
+  },
+  "TaskBalancer": {
+    "_info": {
+      "name": "任務平衡設置",
+      "help": "防止運行活動圖時物資過低"
+    },
+    "Enable": {
+      "name": "啟用任務平衡",
+      "help": "啟用後，將於每次出擊後檢查物資量"
+    },
+    "CoinLimit": {
+      "name": "保持物資大於X",
+      "help": ""
+    },
+    "TaskCall": {
+      "name": "物資過低時呼叫任務X",
+      "help": "提醒: 玩家需提前設置好被調用的任務，否則將不會作用",
+      "Main": "主線圖",
+      "Main2": "主線圖-2",
+      "Main3": "主線圖-3"
     }
   },
   "EventDaily": {

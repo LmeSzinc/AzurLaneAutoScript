@@ -16,7 +16,7 @@ class OSCamera(OSMapOperation, Camera):
     radar: Radar
     fleet_current: tuple
 
-    def _map_swipe(self, vector, box=(234, 123, 998, 633)):
+    def _map_swipe(self, vector, box=(239, 128, 993, 628)):
         return super()._map_swipe(vector, box=box)
 
     def _view_init(self):

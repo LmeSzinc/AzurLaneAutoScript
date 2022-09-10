@@ -331,12 +331,11 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                     raise e
 
             # End
-            success = True
             if self._trigger_lv32 or self._trigger_emotion:
-                success = success and self.flagship_change()
+                self.flagship_change()
 
                 if self.config.GemsFarming_LowEmotionRetreat:
-                    success = success and self.vanguard_change()
+                    self.vanguard_change()
                     
                 if is_limit and self.config.StopCondition_RunCount <= 0:
                     logger.hr('Triggered stop condition: Run count')
@@ -353,10 +352,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                 if self.config.task_switched():
                     self.campaign.ensure_auto_search_exit()
                     self.config.task_stop()
-                # Delay
-                if not success:
-                    self.campaign.ensure_auto_search_exit()
-                    self.config.task_delay(minute=30)
 
                 continue
             else:

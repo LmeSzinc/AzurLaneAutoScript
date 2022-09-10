@@ -16,6 +16,7 @@
     "Error": {
       "HandleError": true,
       "SaveError": true,
+      "OnePushConfig": "provider: null",
       "ScreenshotLength": 1
     },
     "Optimization": {
@@ -350,6 +351,11 @@
     "EventGeneral": {
       "PtLimit": 0,
       "TimeLimit": "2020-01-01 00:00:00"
+    },
+    "TaskBalancer": {
+      "Enable": false,
+      "CoinLimit": 10000,
+      "TaskCall": "Main"
     }
   },
   "Event": {

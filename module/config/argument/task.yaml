@@ -58,6 +58,7 @@ GemsFarming:
 
 EventGeneral:
   - EventGeneral
+  - TaskBalancer
 Event:
   - Scheduler
   - Campaign

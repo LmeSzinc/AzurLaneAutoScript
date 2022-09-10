@@ -123,8 +123,8 @@ class Dock(Equipment):
                          or self.image_color_count(button, color=(74, 117, 189), threshold=235, count=250)
                 if enable and not active:
                     self.device.click(button)
-                    self.device.sleep((0.1, 0.2))
                     change_count += 1
+            self.device.sleep((0.1, 0.2))
 
             # End
             if change_count == 0:
