@@ -182,10 +182,13 @@ class RewardCommission(UI, InfoHandler):
             # commission list will have an animation to scroll,
             # which causes the topmost one undetected.
             if not COMMISSION_SCROLL.appear(main=self) or COMMISSION_SCROLL.cal_position(main=self) < 0.05:
+                pre_peaks = lines_detect(self.device.image)[0]
+                self.device.screenshot()
                 while 1:
                     peaks = lines_detect(self.device.image)
-                    if not len(peaks) or peaks[0] > 67 + 117:
+                    if (not len(peaks) or peaks[0] > 67 + 117) and abs(peaks[0]-pre_peaks) < 1:
                         break
+                    pre_peaks = peaks[0]
                     self.device.screenshot()
 
             return True
