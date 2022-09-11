@@ -1,8 +1,7 @@
 from enum import Enum
 
 import module.config.server as server
-from module.base.timer import Timer
-from module.combat.assets import BATTLE_PREPARATION
+from module.combat.combat import BATTLE_PREPARATION
 from module.logger import logger
 from module.ocr.ocr import DigitCounter, Digit
 from module.os_ash.ash import AshCombat
@@ -44,7 +43,7 @@ class Meta(UI, MapEventHandler):
             self.device.click(BACK_ARROW)
             return True
         if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=2):
-            logger.info('Game auto into battle preparation page')
+            logger.info('Wrong click into battle preparation page')
             self.device.click(BACK_ARROW)
             return True
         if self.handle_popup_cancel():
@@ -95,7 +94,7 @@ class OpsiAshBeacon(Meta):
                 self.config.check_task_switch()
                 continue
 
-    def _make_an_attack(self, skip_first_screenshot=True):
+    def _make_an_attack(self):
         """
         Handle a meta combat.
 
@@ -107,22 +106,6 @@ class OpsiAshBeacon(Meta):
         # Attack
         combat = AshCombat(config=self.config, device=self.device)
         combat.combat(expected_end=self._in_meta_page, save_get_items=False, emotion_reduce=False)
-        timer = Timer(1, count=2).start()
-        # Finish random events
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self._in_meta_page():
-                if timer.reached():
-                    logger.info('Meta combat finished and in meta page')
-                    break
-            else:
-                timer.reset()
-            if self.handle_map_event():
-                continue
 
     def _handle_ash_beacon_reward(self, skip_first_screenshot=True):
         """
@@ -246,17 +229,21 @@ class OpsiAshBeacon(Meta):
         """
         # Page meta main
         if self.appear(ASH_SHOWDOWN, offset=(30, 30), interval=2):
+            # Beacon
             if self.config.OpsiAshBeacon_AshAttack \
                     and self._check_beacon_point():
                 self.device.click(META_MAIN_BEACON_ENTRANCE)
                 logger.info('Select beacon entrance into')
                 return True
+            # Dossier
             if _server_support() \
                     and self.config.OpsiDossierBeacon_Enable \
                     and self._check_dossier_point():
-                self.device.click(META_MAIN_DOSSIER_ENTRANCE)
-                logger.info('Select dossier entrance into')
-                return True
+                if self.appear_then_click(META_MAIN_DOSSIER_ENTRANCE, offset=(20, 20), interval=2):
+                    logger.info('Select dossier entrance into')
+                    return True
+                else:
+                    logger.info('None dossier has been selected')
             return False
         # Page beacon
         elif self.appear(BEACON_LIST, offset=(20, 20), interval=2):
@@ -272,10 +259,12 @@ class OpsiAshBeacon(Meta):
                 and self.appear(DOSSIER_LIST, offset=(20, 20), interval=2):
             if self.config.OpsiDossierBeacon_Enable \
                     and self._check_dossier_point():
-                self.device.click(META_BEGIN_ENTRANCE)
-                logger.info('Begin a dossier')
-            else:
-                self.appear_then_click(ASH_QUIT, offset=(10, 10), interval=2)
+                if self.appear_then_click(META_BEGIN_ENTRANCE, offset=(20, 20), interval=2):
+                    logger.info('Begin a dossier')
+                    return True
+                else:
+                    logger.info('None dossier has been selected')
+            self.appear_then_click(ASH_QUIT, offset=(10, 10), interval=2)
             return True
         # UnKnown Page
         else:
@@ -347,7 +336,6 @@ class AshBeaconAssist(Meta):
     finished = False
 
     def _attack_meta(self, skip_first_screenshot=True):
-        combat = AshCombat(config=self.config, device=self.device)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -358,10 +346,23 @@ class AshBeaconAssist(Meta):
                 continue
             if self._satisfy_attack_condition():
                 self._ensure_meta_level()
-                combat.combat(expected_end=self._in_meta_assist_page, save_get_items=False, emotion_reduce=False)
+                self._make_an_attack()
                 continue
             else:
                 break
+
+    def _make_an_attack(self):
+        """
+        Handle a meta assist combat.
+
+        Pages:
+            in: in_meta_assist
+            out: in_meta_assist
+        """
+        logger.hr('Begin meta assist combat', level=2)
+        # Attack
+        combat = AshCombat(config=self.config, device=self.device)
+        combat.combat(expected_end=self._in_meta_assist_page, save_get_items=False, emotion_reduce=False)
 
     def _satisfy_attack_condition(self):
         remain_times = self.digit_ocr_point_and_check(BEACON_REMAIN, 1)
