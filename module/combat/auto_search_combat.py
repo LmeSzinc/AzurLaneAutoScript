@@ -283,6 +283,8 @@ class AutoSearchCombat(MapOperation, Combat):
                 continue
             if self.handle_vote_popup():
                 continue
+            if self.handle_mission_popup_ack():
+                continue
 
             # Handle low emotion combat
             # Combat status
