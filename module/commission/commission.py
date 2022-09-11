@@ -184,7 +184,7 @@ class RewardCommission(UI, InfoHandler):
             if not COMMISSION_SCROLL.appear(main=self) or COMMISSION_SCROLL.cal_position(main=self) < 0.05 or COMMISSION_SCROLL.length / COMMISSION_SCROLL.total > 0.98:
                 pre_peaks = lines_detect(self.device.image)
                 if not len(pre_peaks):
-                    break
+                    return True
                 self.device.screenshot()
                 while 1:
                     peaks = lines_detect(self.device.image)
