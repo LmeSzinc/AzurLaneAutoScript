@@ -8,13 +8,14 @@ def list_mod():
     global MOD_LIST
     if not MOD_LIST:
         MOD_LIST = []
-        for dir_name in os.listdir('./submodule'):
-            mod_path = os.path.join('./submodule', dir_name)
-            if os.path.isdir(mod_path):
-                for file_name in os.listdir(mod_path):
-                    mod_name, ext = os.path.splitext(file_name)
-                    if ext == '.py':
-                        MOD_LIST.append((mod_name, dir_name))
+        if os.path.exists('./submodule'):
+            for dir_name in os.listdir('./submodule'):
+                mod_path = os.path.join('./submodule', dir_name)
+                if os.path.isdir(mod_path):
+                    for file_name in os.listdir(mod_path):
+                        mod_name, ext = os.path.splitext(file_name)
+                        if ext == '.py':
+                            MOD_LIST.append((mod_name, dir_name))
 
     return MOD_LIST
 
