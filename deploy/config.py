@@ -18,6 +18,9 @@ class ConfigModel:
     AutoUpdate: bool = True
     KeepLocalChanges: bool = False
 
+    # Plugins
+    MaaAssistantArknights: bool = False
+
     # Python
     PythonExecutable: str = "./toolkit/python.exe"
     PypiMirror: Optional[bool] = None

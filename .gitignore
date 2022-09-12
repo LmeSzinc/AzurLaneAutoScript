@@ -20,6 +20,7 @@ config/reloadalas
 test.py
 test/
 debug/
+submodule
 
 # Created by .ignore support plugin (hsz.mobi)
 

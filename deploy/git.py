@@ -1,3 +1,5 @@
+import os
+
 from deploy.config import DeployConfig
 from deploy.logger import logger
 from deploy.utils import *
@@ -66,3 +68,18 @@ class GitManager(DeployConfig):
             proxy=self.GitProxy,
             keep_changes=self.KeepLocalChanges,
         )
+        logger.hr('Update Submodule', 0)
+        if self.MaaAssistantArknights:
+            repo = 'https://github.com/SaiCateDoan/AlasMaaBridge'
+            folder = './submodule/AlasMaaBridge'
+            os.makedirs(folder, exist_ok=True)
+            prev = os.getcwd()
+            os.chdir(folder)
+            self.git_repository_init(
+                repo=repo,
+                source='origin',
+                branch='master',
+                proxy=self.GitProxy,
+                keep_changes=self.KeepLocalChanges
+            )
+            os.chdir(prev)
