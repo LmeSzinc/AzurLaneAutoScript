@@ -3,6 +3,7 @@ import onepush.core
 from onepush import get_notifier
 from onepush.core import Provider
 from onepush.exceptions import OnePushException
+from onepush.providers.custom import Custom
 
 from module.logger import logger
 
@@ -32,6 +33,16 @@ def handle_notify(_config: str, **kwargs) -> bool:
                 logger.warning(
                     f"Notifier {notifier.name} require param '{key}' but not provided"
                 )
+
+        if isinstance(notifier, Custom):
+            if "method" not in config or config["method"] == "post":
+                config["datatype"] = "json"
+            if not ("data" in config or isinstance(config["data"], dict)):
+                config["data"] = {}
+            if "title" in kwargs:
+                config["data"]["title"] = kwargs["title"]
+            if "content" in kwargs:
+                config["data"]["content"] = kwargs["content"]
 
         notifier.notify(**config)
     except OnePushException:
