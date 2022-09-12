@@ -333,8 +333,6 @@ class OpsiAshBeacon(Meta):
 
 
 class AshBeaconAssist(Meta):
-    finished = False
-
     def _attack_meta(self, skip_first_screenshot=True):
         while 1:
             if skip_first_screenshot:
@@ -344,12 +342,14 @@ class AshBeaconAssist(Meta):
 
             if self.handle_map_event():
                 continue
-            if self._satisfy_attack_condition():
-                self._ensure_meta_level()
-                self._make_an_attack()
-                continue
-            else:
-                break
+            if self.appear(ASH_START, offset=(20, 20)):
+                remain_times = self.digit_ocr_point_and_check(BEACON_REMAIN, 1)
+                if remain_times:
+                    self._ensure_meta_level()
+                    self._make_an_attack()
+                else:
+                    logger.info('No enough assist times, complete')
+                    break
 
     def _make_an_attack(self):
         """
@@ -363,19 +363,6 @@ class AshBeaconAssist(Meta):
         # Attack
         combat = AshCombat(config=self.config, device=self.device)
         combat.combat(expected_end=self._in_meta_assist_page, save_get_items=False, emotion_reduce=False)
-
-    def _satisfy_attack_condition(self):
-        remain_times = self.digit_ocr_point_and_check(BEACON_REMAIN, 1)
-        if not remain_times:
-            logger.info('No enough assist times, complete')
-            self.finished = True
-            return False
-        if self.appear(ASH_START, offset=(20, 20)):
-            return True
-        else:
-            logger.info('Can not find a meta to attack, check after 30 minutes')
-            self.config.task_delay(minute=30)
-            self.config.task_stop()
 
     def _ensure_meta_level(self):
         """
