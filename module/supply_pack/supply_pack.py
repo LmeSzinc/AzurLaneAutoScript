@@ -22,6 +22,7 @@ class SupplyPack(UI):
 
         logger.info(f'Buying {supply_pack}')
         executed = False
+        click_count = 0
         confirm_timer = Timer(1, count=3).start()
         while 1:
             if skip_first_screenshot:
@@ -29,7 +30,12 @@ class SupplyPack(UI):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(supply_pack, offset=(20, 20), interval=3):
+            if self.appear(supply_pack, offset=(20, 20), interval=3):
+                if click_count >= 3:
+                    logger.warning(f'Failed to buy {supply_pack} after 3 trail, probably reached resource limit, skip')
+                    break
+                self.device.click(supply_pack)
+                click_count += 1
                 confirm_timer.reset()
                 continue
             if self.appear_then_click(BUY_CONFIRM, offset=(20, 20), interval=3):
