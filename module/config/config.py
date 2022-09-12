@@ -420,7 +420,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         Delay the NextRun of all OpSi tasks.
 
         Args:
-            recon_scan (bool): True to delay all tasks requiring recon scan 30 min.
+            recon_scan (bool): True to delay all tasks requiring recon scan 27 min.
             submarine_call (bool): True to delay all tasks requiring submarine call 60 min.
             ap_limit (bool): True to delay all tasks requiring action points 360 min.
         """
