@@ -316,7 +316,7 @@ class OpsiAshBeacon(Meta):
                 return True
             if self.handle_map_event():
                 continue
-            if self.appear_then_click(META_ENTRANCE, offset=(10, 10), interval=2):
+            if self.appear_then_click(META_ENTRANCE, offset=(20, 300), interval=2):
                 continue
 
     def _begin_beacon(self):
@@ -409,7 +409,7 @@ class AshBeaconAssist(Meta):
                 return True
             if self.handle_map_event():
                 continue
-            if self.appear_then_click(META_ENTRANCE, offset=(10, 10), interval=2):
+            if self.appear_then_click(META_ENTRANCE, offset=(20, 300), interval=2):
                 continue
             if self.appear(ASH_SHOWDOWN, offset=(20, 20)):
                 self.device.click(META_MAIN_BEACON_ENTRANCE)
