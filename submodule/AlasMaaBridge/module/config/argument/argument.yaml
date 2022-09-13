@@ -19,25 +19,9 @@ Scheduler:
     display: hide
 
 Emulator:
-  Serial:
-    value: 127.0.0.1:5555
-    valuetype: str
-  PackageName:
-    value: Official
-    option: [Official, Bilibili]
-  Server:
-    value: CN
-    option: [CN, US, JP, KR]
-  MaaPath:
-    value: D:/Program Files/MAA
-    type: textarea
   ServerName:
     value: disabled
     display: hide
-Record:
-  ReportToPenguin: false
-  PenguinID: null
-
 Error:
   SaveError:
     value: false
@@ -51,7 +35,24 @@ Optimization:
     value: stay_there
     display: hide
 
-Fight:
+MaaEmulator:
+  Serial:
+    value: 127.0.0.1:5555
+    valuetype: str
+  PackageName:
+    value: Official
+    option: [Official, Bilibili]
+  Server:
+    value: CN
+    option: [CN, US, JP, KR]
+  MaaPath:
+    value: D:/Program Files/MAA
+    type: textarea
+MaaRecord:
+  ReportToPenguin: false
+  PenguinID: null
+
+MaaFight:
   Stage:
     value: 1-7
     valuetype: str
@@ -63,7 +64,7 @@ Fight:
     type: textarea
   DrGrandet: false
 
-Recruit:
+MaaRecruit:
   Refresh: true
   SkipRobot: true
   Select3: true
@@ -72,7 +73,7 @@ Recruit:
   Times: 4
   Expedite: false
 
-Infrast:
+MaaInfrast:
   Facility:
     value: Mfg > Trade > Power > Control > Reception > Office > Dorm
     type: textarea
@@ -82,7 +83,7 @@ Infrast:
   Threshold: 0.3
   Replenish: false
 
-Mall:
+MaaMall:
   Shopping: true
   BuyFirst:
     value: 招聘许可 > 龙门币
@@ -91,7 +92,7 @@ Mall:
     value: 碳 > 家具
     type: textarea
 
-Roguelike:
+MaaRoguelike:
   Mode:
     value: 0
     option: [0, 1]
@@ -108,7 +109,7 @@ Roguelike:
 
 # ==================== Tool ====================
 
-Copilot:
+MaaCopilot:
   FileName:
     value: null
     type: textarea

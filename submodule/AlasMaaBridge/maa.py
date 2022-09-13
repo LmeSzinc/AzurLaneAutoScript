@@ -47,7 +47,7 @@ class ArknightsAutoScript(AzurLaneAutoScript):
             self.config.task_call('MaaStartup', True)
             self.config.task_stop()
 
-        AssistantHandler.load(self.config.Emulator_MaaPath)
+        AssistantHandler.load(self.config.MaaEmulator_MaaPath)
 
         @AssistantHandler.Asst.CallBackType
         def callback(msg, details, arg):
@@ -58,18 +58,18 @@ class ArknightsAutoScript(AzurLaneAutoScript):
                 arg (c_void_p):
             """
             m = AssistantHandler.Message(msg)
-            d = details.decode('utf-8', 'ignore')
+            d = json.loads(details.decode('utf-8', 'ignore'))
             logger.info(f'{m} {d}')
             handler = AssistantHandler.ASST_HANDLER
             if handler:
                 handler.callback_timer.reset()
                 for func in handler.callback_list:
-                    func(m, json.loads(d))
+                    func(m, d)
 
         ArknightsAutoScript.callback = callback
         asst = AssistantHandler.Asst(callback)
 
-        if not asst.connect(os.path.abspath(DeployConfig().AdbExecutable), self.config.Emulator_Serial):
+        if not asst.connect(os.path.abspath(DeployConfig().AdbExecutable), self.config.MaaEmulator_Serial):
             logger.critical('Adb connect failed')
             raise RequestHumanTakeover
 

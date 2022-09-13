@@ -98,45 +98,9 @@
       "name": "Emulator Settings",
       "help": ""
     },
-    "Serial": {
-      "name": "Serial",
-      "help": "Use \"auto\" to auto-detect emulators, but serial must be filled if multiple emulators are running\nDefault serial for select emulators:\n- BlueStacks 127.0.0.1:5555\n- BlueStacks4 Hyper-V use \"bluestacks4-hyperv\", \"bluestacks4-hyperv-2\" for multi instance, and so on\n- BlueStacks5 Hyper-V use \"bluestacks5-hyperv\", \"bluestacks5-hyperv-1\" for multi instance, and so on\n- NoxPlayer 127.0.0.1:62001\n- NoxPlayer64bit 127.0.0.1:59865\n- MuMuPlayer 127.0.0.1:7555\n- MemuPlayer 127.0.0.1:21503\n- LDPlayer emulator-5554 or 127.0.0.1:5555\n- WSA use \"wsa-0\" to make the game run in the background, which needs to be controlled or closed by third-party software\nIf there are multiple emulator instances running, the default is reserved for one of them and the others will use different serials to avoid conflicts\nOpen console.bat and run `adb devices` to find what they are"
-    },
-    "PackageName": {
-      "name": "Game Server",
-      "help": "Manual select is required if multiple game clients are installed on emulator",
-      "Official": "Official",
-      "Bilibili": "Bilibili"
-    },
-    "Server": {
-      "name": "Emulator.Server.name",
-      "help": "Emulator.Server.help",
-      "CN": "CN",
-      "US": "US",
-      "JP": "JP",
-      "KR": "KR"
-    },
-    "MaaPath": {
-      "name": "Emulator.MaaPath.name",
-      "help": "Emulator.MaaPath.help"
-    },
     "ServerName": {
       "name": "Emulator.ServerName.name",
       "help": "Emulator.ServerName.help"
-    }
-  },
-  "Record": {
-    "_info": {
-      "name": "Record._info.name",
-      "help": "Record._info.help"
-    },
-    "ReportToPenguin": {
-      "name": "Record.ReportToPenguin.name",
-      "help": "Record.ReportToPenguin.help"
-    },
-    "PenguinID": {
-      "name": "Record.PenguinID.name",
-      "help": "Record.PenguinID.help"
     }
   },
   "Error": {
@@ -163,82 +127,124 @@
       "help": "Close AL when there are no pending tasks, can help reduce CPU"
     }
   },
-  "Fight": {
+  "MaaEmulator": {
     "_info": {
-      "name": "Fight._info.name",
-      "help": "Fight._info.help"
+      "name": "MaaEmulator._info.name",
+      "help": "MaaEmulator._info.help"
+    },
+    "Serial": {
+      "name": "MaaEmulator.Serial.name",
+      "help": "MaaEmulator.Serial.help"
+    },
+    "PackageName": {
+      "name": "MaaEmulator.PackageName.name",
+      "help": "MaaEmulator.PackageName.help",
+      "Official": "Official",
+      "Bilibili": "Bilibili"
+    },
+    "Server": {
+      "name": "MaaEmulator.Server.name",
+      "help": "MaaEmulator.Server.help",
+      "CN": "CN",
+      "US": "US",
+      "JP": "JP",
+      "KR": "KR"
+    },
+    "MaaPath": {
+      "name": "MaaEmulator.MaaPath.name",
+      "help": "MaaEmulator.MaaPath.help"
+    }
+  },
+  "MaaRecord": {
+    "_info": {
+      "name": "MaaRecord._info.name",
+      "help": "MaaRecord._info.help"
+    },
+    "ReportToPenguin": {
+      "name": "MaaRecord.ReportToPenguin.name",
+      "help": "MaaRecord.ReportToPenguin.help"
+    },
+    "PenguinID": {
+      "name": "MaaRecord.PenguinID.name",
+      "help": "MaaRecord.PenguinID.help"
+    }
+  },
+  "MaaFight": {
+    "_info": {
+      "name": "MaaFight._info.name",
+      "help": "MaaFight._info.help"
     },
     "Stage": {
-      "name": "Fight.Stage.name",
-      "help": "Fight.Stage.help"
+      "name": "MaaFight.Stage.name",
+      "help": "MaaFight.Stage.help"
     },
     "Medicine": {
-      "name": "Fight.Medicine.name",
-      "help": "Fight.Medicine.help"
+      "name": "MaaFight.Medicine.name",
+      "help": "MaaFight.Medicine.help"
     },
     "Stone": {
-      "name": "Fight.Stone.name",
-      "help": "Fight.Stone.help"
+      "name": "MaaFight.Stone.name",
+      "help": "MaaFight.Stone.help"
     },
     "Times": {
-      "name": "Fight.Times.name",
-      "help": "Fight.Times.help"
+      "name": "MaaFight.Times.name",
+      "help": "MaaFight.Times.help"
     },
     "Drops": {
-      "name": "Fight.Drops.name",
-      "help": "Fight.Drops.help"
+      "name": "MaaFight.Drops.name",
+      "help": "MaaFight.Drops.help"
     },
     "DrGrandet": {
-      "name": "Fight.DrGrandet.name",
-      "help": "Fight.DrGrandet.help"
+      "name": "MaaFight.DrGrandet.name",
+      "help": "MaaFight.DrGrandet.help"
     }
   },
-  "Recruit": {
+  "MaaRecruit": {
     "_info": {
-      "name": "Recruit._info.name",
-      "help": "Recruit._info.help"
+      "name": "MaaRecruit._info.name",
+      "help": "MaaRecruit._info.help"
     },
     "Refresh": {
-      "name": "Recruit.Refresh.name",
-      "help": "Recruit.Refresh.help"
+      "name": "MaaRecruit.Refresh.name",
+      "help": "MaaRecruit.Refresh.help"
     },
     "SkipRobot": {
-      "name": "Recruit.SkipRobot.name",
-      "help": "Recruit.SkipRobot.help"
+      "name": "MaaRecruit.SkipRobot.name",
+      "help": "MaaRecruit.SkipRobot.help"
     },
     "Select3": {
-      "name": "Recruit.Select3.name",
-      "help": "Recruit.Select3.help"
+      "name": "MaaRecruit.Select3.name",
+      "help": "MaaRecruit.Select3.help"
     },
     "Select4": {
-      "name": "Recruit.Select4.name",
-      "help": "Recruit.Select4.help"
+      "name": "MaaRecruit.Select4.name",
+      "help": "MaaRecruit.Select4.help"
     },
     "Select5": {
-      "name": "Recruit.Select5.name",
-      "help": "Recruit.Select5.help"
+      "name": "MaaRecruit.Select5.name",
+      "help": "MaaRecruit.Select5.help"
     },
     "Times": {
-      "name": "Recruit.Times.name",
-      "help": "Recruit.Times.help"
+      "name": "MaaRecruit.Times.name",
+      "help": "MaaRecruit.Times.help"
     },
     "Expedite": {
-      "name": "Recruit.Expedite.name",
-      "help": "Recruit.Expedite.help"
+      "name": "MaaRecruit.Expedite.name",
+      "help": "MaaRecruit.Expedite.help"
     }
   },
-  "Infrast": {
+  "MaaInfrast": {
     "_info": {
-      "name": "Infrast._info.name",
-      "help": "Infrast._info.help"
+      "name": "MaaInfrast._info.name",
+      "help": "MaaInfrast._info.help"
     },
     "Facility": {
-      "name": "Infrast.Facility.name",
-      "help": "Infrast.Facility.help"
+      "name": "MaaInfrast.Facility.name",
+      "help": "MaaInfrast.Facility.help"
     },
     "Drones": {
-      "name": "Infrast.Drones.name",
-      "help": "Infrast.Drones.help",
+      "name": "MaaInfrast.Drones.name",
+      "help": "MaaInfrast.Drones.help",
       "_NotUse": "_NotUse",
       "Money": "Money",
       "SyntheticJade": "SyntheticJade",
@@ -248,58 +254,58 @@
       "Chip": "Chip"
     },
     "Threshold": {
-      "name": "Infrast.Threshold.name",
-      "help": "Infrast.Threshold.help"
+      "name": "MaaInfrast.Threshold.name",
+      "help": "MaaInfrast.Threshold.help"
     },
     "Replenish": {
-      "name": "Infrast.Replenish.name",
-      "help": "Infrast.Replenish.help"
+      "name": "MaaInfrast.Replenish.name",
+      "help": "MaaInfrast.Replenish.help"
     }
   },
-  "Mall": {
+  "MaaMall": {
     "_info": {
-      "name": "Mall._info.name",
-      "help": "Mall._info.help"
+      "name": "MaaMall._info.name",
+      "help": "MaaMall._info.help"
     },
     "Shopping": {
-      "name": "Mall.Shopping.name",
-      "help": "Mall.Shopping.help"
+      "name": "MaaMall.Shopping.name",
+      "help": "MaaMall.Shopping.help"
     },
     "BuyFirst": {
-      "name": "Mall.BuyFirst.name",
-      "help": "Mall.BuyFirst.help"
+      "name": "MaaMall.BuyFirst.name",
+      "help": "MaaMall.BuyFirst.help"
     },
     "BlackList": {
-      "name": "Mall.BlackList.name",
-      "help": "Mall.BlackList.help"
+      "name": "MaaMall.BlackList.name",
+      "help": "MaaMall.BlackList.help"
     }
   },
-  "Roguelike": {
+  "MaaRoguelike": {
     "_info": {
-      "name": "Roguelike._info.name",
-      "help": "Roguelike._info.help"
+      "name": "MaaRoguelike._info.name",
+      "help": "MaaRoguelike._info.help"
     },
     "Mode": {
-      "name": "Roguelike.Mode.name",
-      "help": "Roguelike.Mode.help",
+      "name": "MaaRoguelike.Mode.name",
+      "help": "MaaRoguelike.Mode.help",
       "0": "0",
       "1": "1"
     },
     "StartsCount": {
-      "name": "Roguelike.StartsCount.name",
-      "help": "Roguelike.StartsCount.help"
+      "name": "MaaRoguelike.StartsCount.name",
+      "help": "MaaRoguelike.StartsCount.help"
     },
     "InvestmentsCount": {
-      "name": "Roguelike.InvestmentsCount.name",
-      "help": "Roguelike.InvestmentsCount.help"
+      "name": "MaaRoguelike.InvestmentsCount.name",
+      "help": "MaaRoguelike.InvestmentsCount.help"
     },
     "StopWhenInvestmentFull": {
-      "name": "Roguelike.StopWhenInvestmentFull.name",
-      "help": "Roguelike.StopWhenInvestmentFull.help"
+      "name": "MaaRoguelike.StopWhenInvestmentFull.name",
+      "help": "MaaRoguelike.StopWhenInvestmentFull.help"
     },
     "Squad": {
-      "name": "Roguelike.Squad.name",
-      "help": "Roguelike.Squad.help",
+      "name": "MaaRoguelike.Squad.name",
+      "help": "MaaRoguelike.Squad.help",
       "指挥分队": "指挥分队",
       "集群分队": "集群分队",
       "后勤分队": "后勤分队",
@@ -312,30 +318,30 @@
       "高规格分队": "高规格分队"
     },
     "Roles": {
-      "name": "Roguelike.Roles.name",
-      "help": "Roguelike.Roles.help",
+      "name": "MaaRoguelike.Roles.name",
+      "help": "MaaRoguelike.Roles.help",
       "先手必胜": "先手必胜",
       "稳扎稳打": "稳扎稳打",
       "取长补短": "取长补短",
       "随心所欲": "随心所欲"
     },
     "CoreChar": {
-      "name": "Roguelike.CoreChar.name",
-      "help": "Roguelike.CoreChar.help"
+      "name": "MaaRoguelike.CoreChar.name",
+      "help": "MaaRoguelike.CoreChar.help"
     }
   },
-  "Copilot": {
+  "MaaCopilot": {
     "_info": {
-      "name": "Copilot._info.name",
-      "help": "Copilot._info.help"
+      "name": "MaaCopilot._info.name",
+      "help": "MaaCopilot._info.help"
     },
     "FileName": {
-      "name": "Copilot.FileName.name",
-      "help": "Copilot.FileName.help"
+      "name": "MaaCopilot.FileName.name",
+      "help": "MaaCopilot.FileName.help"
     },
     "Formation": {
-      "name": "Copilot.Formation.name",
-      "help": "Copilot.Formation.help"
+      "name": "MaaCopilot.Formation.name",
+      "help": "MaaCopilot.Formation.help"
     }
   }
 }

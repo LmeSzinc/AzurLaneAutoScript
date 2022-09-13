@@ -1,6 +1,6 @@
 {
   "Maa": {
-    "Emulator": {
+    "MaaEmulator": {
       "Serial": {
         "type": "input",
         "value": "127.0.0.1:5555",
@@ -27,14 +27,9 @@
       "MaaPath": {
         "type": "textarea",
         "value": "D:/Program Files/MAA"
-      },
-      "ServerName": {
-        "type": "input",
-        "value": "disabled",
-        "display": "hide"
       }
     },
-    "Record": {
+    "MaaRecord": {
       "ReportToPenguin": {
         "type": "checkbox",
         "value": false
@@ -111,7 +106,7 @@
         "display": "hide"
       }
     },
-    "Fight": {
+    "MaaFight": {
       "Stage": {
         "type": "input",
         "value": "Annihilation",
@@ -177,7 +172,7 @@
         "display": "hide"
       }
     },
-    "Fight": {
+    "MaaFight": {
       "Stage": {
         "type": "input",
         "value": "1-7",
@@ -237,7 +232,7 @@
         "display": "hide"
       }
     },
-    "Fight": {
+    "MaaFight": {
       "Stage": {
         "type": "input",
         "value": "1-7",
@@ -301,7 +296,7 @@
         "display": "hide"
       }
     },
-    "Recruit": {
+    "MaaRecruit": {
       "Refresh": {
         "type": "checkbox",
         "value": true
@@ -364,7 +359,7 @@
         "display": "hide"
       }
     },
-    "Infrast": {
+    "MaaInfrast": {
       "Facility": {
         "type": "textarea",
         "value": "Mfg > Trade > Power > Control > Reception > Office > Dorm"
@@ -457,7 +452,7 @@
         "display": "hide"
       }
     },
-    "Mall": {
+    "MaaMall": {
       "Shopping": {
         "type": "checkbox",
         "value": true
@@ -537,7 +532,7 @@
         "display": "hide"
       }
     },
-    "Roguelike": {
+    "MaaRoguelike": {
       "Mode": {
         "type": "select",
         "value": 0,
@@ -591,7 +586,7 @@
     }
   },
   "MaaCopilot": {
-    "Copilot": {
+    "MaaCopilot": {
       "FileName": {
         "type": "textarea",
         "value": null

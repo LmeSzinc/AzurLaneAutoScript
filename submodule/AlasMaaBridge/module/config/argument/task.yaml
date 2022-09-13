@@ -5,47 +5,47 @@
 # ==================== Maa ====================
 
 Maa:
-  - Emulator
-  - Record
+  - MaaEmulator
+  - MaaRecord
 
 MaaStartup:
   - Scheduler
 
 MaaAnnihilation:
   - Scheduler
-  - Fight
+  - MaaFight
 
 MaaMaterial:
   - Scheduler
-  - Fight
+  - MaaFight
 
 MaaFight:
   - Scheduler
-  - Fight
+  - MaaFight
 
 MaaRecruit:
   - Scheduler
-  - Recruit
+  - MaaRecruit
 
 MaaInfrast:
   - Scheduler
-  - Infrast
+  - MaaInfrast
 
 MaaVisit:
   - Scheduler
 
 MaaMall:
   - Scheduler
-  - Mall
+  - MaaMall
 
 MaaAward:
   - Scheduler
 
 MaaRoguelike:
   - Scheduler
-  - Roguelike
+  - MaaRoguelike
 
 # ==================== Tool ====================
 
 MaaCopilot:
-  - Copilot
+  - MaaCopilot

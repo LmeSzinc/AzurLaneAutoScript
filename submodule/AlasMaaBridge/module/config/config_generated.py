@@ -18,15 +18,7 @@ class GeneratedConfig:
     Scheduler_ServerUpdate = '04:00'
 
     # Group `Emulator`
-    Emulator_Serial = '127.0.0.1:5555'
-    Emulator_PackageName = 'Official'  # Official, Bilibili
-    Emulator_Server = 'CN'  # CN, US, JP, KR
-    Emulator_MaaPath = 'D:/Program Files/MAA'
     Emulator_ServerName = 'disabled'
-
-    # Group `Record`
-    Record_ReportToPenguin = False
-    Record_PenguinID = None
 
     # Group `Error`
     Error_SaveError = False
@@ -35,43 +27,53 @@ class GeneratedConfig:
     # Group `Optimization`
     Optimization_WhenTaskQueueEmpty = 'stay_there'
 
-    # Group `Fight`
-    Fight_Stage = '1-7'
-    Fight_Medicine = 0
-    Fight_Stone = 0
-    Fight_Times = 0
-    Fight_Drops = None
-    Fight_DrGrandet = False
+    # Group `MaaEmulator`
+    MaaEmulator_Serial = '127.0.0.1:5555'
+    MaaEmulator_PackageName = 'Official'  # Official, Bilibili
+    MaaEmulator_Server = 'CN'  # CN, US, JP, KR
+    MaaEmulator_MaaPath = 'D:/Program Files/MAA'
 
-    # Group `Recruit`
-    Recruit_Refresh = True
-    Recruit_SkipRobot = True
-    Recruit_Select3 = True
-    Recruit_Select4 = True
-    Recruit_Select5 = True
-    Recruit_Times = 4
-    Recruit_Expedite = False
+    # Group `MaaRecord`
+    MaaRecord_ReportToPenguin = False
+    MaaRecord_PenguinID = None
 
-    # Group `Infrast`
-    Infrast_Facility = 'Mfg > Trade > Power > Control > Reception > Office > Dorm'
-    Infrast_Drones = 'Money'  # _NotUse, Money, SyntheticJade, CombatRecord, PureGold, OriginStone, Chip
-    Infrast_Threshold = 0.3
-    Infrast_Replenish = False
+    # Group `MaaFight`
+    MaaFight_Stage = '1-7'
+    MaaFight_Medicine = 0
+    MaaFight_Stone = 0
+    MaaFight_Times = 0
+    MaaFight_Drops = None
+    MaaFight_DrGrandet = False
 
-    # Group `Mall`
-    Mall_Shopping = True
-    Mall_BuyFirst = '招聘许可 > 龙门币'
-    Mall_BlackList = '碳 > 家具'
+    # Group `MaaRecruit`
+    MaaRecruit_Refresh = True
+    MaaRecruit_SkipRobot = True
+    MaaRecruit_Select3 = True
+    MaaRecruit_Select4 = True
+    MaaRecruit_Select5 = True
+    MaaRecruit_Times = 4
+    MaaRecruit_Expedite = False
 
-    # Group `Roguelike`
-    Roguelike_Mode = 0  # 0, 1
-    Roguelike_StartsCount = 9999999
-    Roguelike_InvestmentsCount = 9999999
-    Roguelike_StopWhenInvestmentFull = False
-    Roguelike_Squad = '指挥分队'  # 指挥分队, 集群分队, 后勤分队, 矛头分队, 突击战术分队, 堡垒战术分队, 远程战术分队, 破坏战术分队, 研究分队, 高规格分队
-    Roguelike_Roles = '取长补短'  # 先手必胜, 稳扎稳打, 取长补短, 随心所欲
-    Roguelike_CoreChar = None
+    # Group `MaaInfrast`
+    MaaInfrast_Facility = 'Mfg > Trade > Power > Control > Reception > Office > Dorm'
+    MaaInfrast_Drones = 'Money'  # _NotUse, Money, SyntheticJade, CombatRecord, PureGold, OriginStone, Chip
+    MaaInfrast_Threshold = 0.3
+    MaaInfrast_Replenish = False
 
-    # Group `Copilot`
-    Copilot_FileName = None
-    Copilot_Formation = False
+    # Group `MaaMall`
+    MaaMall_Shopping = True
+    MaaMall_BuyFirst = '招聘许可 > 龙门币'
+    MaaMall_BlackList = '碳 > 家具'
+
+    # Group `MaaRoguelike`
+    MaaRoguelike_Mode = 0  # 0, 1
+    MaaRoguelike_StartsCount = 9999999
+    MaaRoguelike_InvestmentsCount = 9999999
+    MaaRoguelike_StopWhenInvestmentFull = False
+    MaaRoguelike_Squad = '指挥分队'  # 指挥分队, 集群分队, 后勤分队, 矛头分队, 突击战术分队, 堡垒战术分队, 远程战术分队, 破坏战术分队, 研究分队, 高规格分队
+    MaaRoguelike_Roles = '取长补短'  # 先手必胜, 稳扎稳打, 取长补短, 随心所欲
+    MaaRoguelike_CoreChar = None
+
+    # Group `MaaCopilot`
+    MaaCopilot_FileName = None
+    MaaCopilot_Formation = False

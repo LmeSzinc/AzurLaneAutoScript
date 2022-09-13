@@ -1,13 +1,12 @@
 {
   "Maa": {
-    "Emulator": {
+    "MaaEmulator": {
       "Serial": "127.0.0.1:5555",
       "PackageName": "Official",
       "Server": "CN",
-      "MaaPath": "D:/Program Files/MAA",
-      "ServerName": "disabled"
+      "MaaPath": "D:/Program Files/MAA"
     },
-    "Record": {
+    "MaaRecord": {
       "ReportToPenguin": false,
       "PenguinID": null
     }
@@ -31,7 +30,7 @@
       "FailureInterval": 120,
       "ServerUpdate": "04:00"
     },
-    "Fight": {
+    "MaaFight": {
       "Stage": "Annihilation",
       "Medicine": 0,
       "Stone": 0,
@@ -49,7 +48,7 @@
       "FailureInterval": 120,
       "ServerUpdate": "04:00"
     },
-    "Fight": {
+    "MaaFight": {
       "Stage": "1-7",
       "Medicine": 0,
       "Stone": 0,
@@ -67,7 +66,7 @@
       "FailureInterval": 120,
       "ServerUpdate": "04:00"
     },
-    "Fight": {
+    "MaaFight": {
       "Stage": "1-7",
       "Medicine": 0,
       "Stone": 0,
@@ -85,7 +84,7 @@
       "FailureInterval": 120,
       "ServerUpdate": "04:00"
     },
-    "Recruit": {
+    "MaaRecruit": {
       "Refresh": true,
       "SkipRobot": true,
       "Select3": true,
@@ -104,7 +103,7 @@
       "FailureInterval": 120,
       "ServerUpdate": "04:00"
     },
-    "Infrast": {
+    "MaaInfrast": {
       "Facility": "Mfg > Trade > Power > Control > Reception > Office > Dorm",
       "Drones": "Money",
       "Threshold": 0.3,
@@ -130,7 +129,7 @@
       "FailureInterval": 120,
       "ServerUpdate": "04:00"
     },
-    "Mall": {
+    "MaaMall": {
       "Shopping": true,
       "BuyFirst": "招聘许可 > 龙门币",
       "BlackList": "碳 > 家具"
@@ -155,7 +154,7 @@
       "FailureInterval": 120,
       "ServerUpdate": "04:00"
     },
-    "Roguelike": {
+    "MaaRoguelike": {
       "Mode": 0,
       "StartsCount": 9999999,
       "InvestmentsCount": 9999999,
@@ -166,7 +165,7 @@
     }
   },
   "MaaCopilot": {
-    "Copilot": {
+    "MaaCopilot": {
       "FileName": null,
       "Formation": false
     }
