@@ -1,4 +1,5 @@
 import copy
+import datetime
 
 from scipy import signal
 
@@ -525,8 +526,8 @@ class RewardCommission(UI, InfoHandler):
             if daily > 0 and filtered_urgent >= 1:
                 logger.info('Having daily commissions to do, delay task `GemsFarming`')
                 self.config.task_delay(
-                    minute=120, target=future_finish if len(future_finish) else None, task='GemsFarming')
+                    minute=120, target=[t + datetime.timedelta(seconds=5) for t in future_finish] if len(future_finish) else None, task='GemsFarming')
             elif filtered_urgent >= 4:
                 logger.info('Having too many urgent commissions, delay task `GemsFarming`')
                 self.config.task_delay(
-                    minute=120, target=future_finish if len(future_finish) else None, task='GemsFarming')
+                    minute=120, target=[t + datetime.timedelta(seconds=5) for t in future_finish] if len(future_finish) else None, task='GemsFarming')
