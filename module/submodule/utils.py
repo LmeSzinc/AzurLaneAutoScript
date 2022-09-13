@@ -1,29 +1,18 @@
 import os
 
-MOD_LIST = []
+MOD_DICT = {'maa': 'AlasMaaBridge'}
 MOD_CONFIG_DICT = {}
 
 
 def list_mod():
-    global MOD_LIST
-    if not MOD_LIST:
-        MOD_LIST = []
-        if os.path.exists('./submodule'):
-            for dir_name in os.listdir('./submodule'):
-                mod_path = os.path.join('./submodule', dir_name)
-                if os.path.isdir(mod_path):
-                    for file_name in os.listdir(mod_path):
-                        mod_name, ext = os.path.splitext(file_name)
-                        if ext == '.py':
-                            MOD_LIST.append((mod_name, dir_name))
-
-    return MOD_LIST
+    out = []
+    for item in MOD_DICT.items():
+        out.append(item)
+    return out
 
 
 def get_dir_name(name):
-    for mod_name, dir_name in list_mod():
-        if name == mod_name:
-            return dir_name
+    return MOD_DICT[name]
 
 
 def filepath_mod(name):

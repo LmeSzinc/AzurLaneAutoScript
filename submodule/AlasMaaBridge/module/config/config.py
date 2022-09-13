@@ -1,16 +1,22 @@
 import os
 from datetime import datetime
 
-from module.config.config import GeneralConfig, Function, name_to_function
-from module.config.utils import path_to_arg, filepath_config
-from module.logger import logger
+from module.config.config import AzurLaneConfig, name_to_function
+from module.config.utils import filepath_config
 
 from submodule.AlasMaaBridge.module.config.config_generated import GeneratedConfig
-from submodule.AlasMaaBridge.module.config.config_manual import ManualConfig
 from submodule.AlasMaaBridge.module.config.config_updater import ConfigUpdater
 
 
-class ArknightsConfig(GeneralConfig, ConfigUpdater, ManualConfig, GeneratedConfig):
+class ArknightsConfig(AzurLaneConfig, ConfigUpdater, GeneratedConfig):
+    SCHEDULER_PRIORITY = """
+            MaaStartup
+            > MaaRecruit > MaaInfrast
+            > MaaVisit > MaaMall > MaaAward
+            > MaaAnnihilation > MaaMaterial
+            > MaaFight > MaaRoguelike
+            """
+
     def __init__(self, config_name, task=None):
         super().__init__(config_name, task)
         if task is None:
@@ -19,35 +25,10 @@ class ArknightsConfig(GeneralConfig, ConfigUpdater, ManualConfig, GeneratedConfi
             self.task = task
             self.save()
 
-    def bind(self, func):
-        """
-        Args:
-            func (str, Function): Function to run
-        """
-        if isinstance(func, Function):
-            func = func.command
-        func_set = {func, "Maa"}
-
-        logger.info(f"Bind task {func_set}")
-
-        # Bind arguments
-        visited = set()
-        self.bound.clear()
-        for func in func_set:
-            func_data = self.data.get(func, {})
-            for group, group_data in func_data.items():
-                for arg, value in group_data.items():
-                    path = f"{group}.{arg}"
-                    if path in visited:
-                        continue
-                    arg = path_to_arg(path)
-                    super().__setattr__(arg, value)
-                    self.bound[arg] = f"{func}.{path}"
-                    visited.add(path)
-
-        # Override arguments
-        for arg, value in self.overridden.items():
-            super().__setattr__(arg, value)
+    def bind(self, func, func_set=None):
+        if func_set is None:
+            func_set = {'Maa'}
+        super().bind(func, func_set)
 
     def save(self, mod_name='maa'):
         super().save(mod_name)

@@ -2,7 +2,7 @@ import os
 import json
 from cached_property import cached_property
 
-from alas import AutoScriptScheduler
+from alas import AzurLaneAutoScript
 from deploy.config import DeployConfig
 from module.exception import RequestHumanTakeover
 from module.logger import logger
@@ -11,10 +11,19 @@ from submodule.AlasMaaBridge.module.config.config import ArknightsConfig
 from submodule.AlasMaaBridge.module.handler.handler import AssistantHandler
 
 
-class ArknightsAutoScript(AutoScriptScheduler):
+class FakeDevice:
+    @staticmethod
+    def empty_func(*args, **kwargs):
+        pass
+
+    def __getattr__(self, item):
+        return FakeDevice.empty_func
+
+
+class ArknightsAutoScript(AzurLaneAutoScript):
     @cached_property
     def device(self):
-        return None
+        return FakeDevice()
 
     @cached_property
     def config(self):
@@ -27,6 +36,10 @@ class ArknightsAutoScript(AutoScriptScheduler):
         except Exception as e:
             logger.exception(e)
             exit(1)
+
+    @staticmethod
+    def callback(self):
+        pass
 
     @cached_property
     def asst(self):
@@ -53,7 +66,7 @@ class ArknightsAutoScript(AutoScriptScheduler):
                 for func in handler.callback_list:
                     func(m, json.loads(d))
 
-        self.callback = callback
+        ArknightsAutoScript.callback = callback
         asst = AssistantHandler.Asst(callback)
 
         if not asst.connect(os.path.abspath(DeployConfig().AdbExecutable), self.config.Emulator_Serial):
