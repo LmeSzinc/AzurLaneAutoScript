@@ -329,6 +329,7 @@ class OpsiAshBeacon(Meta):
     def run(self):
         self.ui_ensure(page_reward)
         self._begin_beacon()
+        self.config.task_call('MetaReward', force_call=False)
         self.config.task_delay(server_update=True)
 
 
