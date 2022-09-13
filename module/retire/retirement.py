@@ -249,7 +249,7 @@ class Retirement(Enhancement):
     def retire_gems_farming_flagships(self):
         """
         Retire abandoned flagships of GemsFarming.
-        Common CV whose level > 32, fleet is none and not in commission
+        Common CV whose level > 24, fleet is none and not in commission
         will be regarded as targets.
         """
         logger.info('Retire abandoned flagships of GemsFarming')
@@ -259,7 +259,7 @@ class Retirement(Enhancement):
         self.dock_favourite_set(False)
 
         dock_scanner = DockScanner(
-            rarity='common', fleet=0, in_commission=False, level=(30, 100))
+            rarity='common', fleet=0, in_commission=False, level=(24, 100))
 
         total = 0
         _ = self._have_kept_cv
