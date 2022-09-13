@@ -25,9 +25,6 @@ Deploy:
     # [Other] Use false
     KeepLocalChanges: false
 
-  Plugins:
-    MaaAssistantArknights: false
-
   Python:
     # Filepath of python executable `python.exe`
     # [Easy installer] Use './toolkit/python.exe'
