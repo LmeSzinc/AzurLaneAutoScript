@@ -103,16 +103,16 @@ class AzurLaneAutoScript:
             logger.critical(e)
             logger.critical('This is likely to be a mistake of developers, but sometimes just random issues')
             handle_notify(
-                self.config.Error_OnePushConfig, 
-                title=f"Alas <{self.config_name}> crashed", 
+                self.config.Error_OnePushConfig,
+                title=f"Alas <{self.config_name}> crashed",
                 content=f"<{self.config_name}> ScriptError",
             )
             exit(1)
         except RequestHumanTakeover:
             logger.critical('Request human takeover')
             handle_notify(
-                self.config.Error_OnePushConfig, 
-                title=f"Alas <{self.config_name}> crashed", 
+                self.config.Error_OnePushConfig,
+                title=f"Alas <{self.config_name}> crashed",
                 content=f"<{self.config_name}> RequestHumanTakeover",
             )
             exit(1)
@@ -120,8 +120,8 @@ class AzurLaneAutoScript:
             logger.exception(e)
             self.save_error_log()
             handle_notify(
-                self.config.Error_OnePushConfig, 
-                title=f"Alas <{self.config_name}> crashed", 
+                self.config.Error_OnePushConfig,
+                title=f"Alas <{self.config_name}> crashed",
                 content=f"<{self.config_name}> Exception occured",
             )
             exit(1)
@@ -288,8 +288,12 @@ class AzurLaneAutoScript:
         MaritimeEscort(config=self.config, device=self.device).run()
 
     def opsi_ash_assist(self):
-        from module.os_ash.ash import AshBeaconAssist
+        from module.os_ash.meta import AshBeaconAssist
         AshBeaconAssist(config=self.config, device=self.device).run()
+
+    def opsi_ash_beacon(self):
+        from module.os_ash.meta import OpsiAshBeacon
+        OpsiAshBeacon(config=self.config, device=self.device).run()
 
     def opsi_explore(self):
         from module.campaign.os_run import OSCampaignRun

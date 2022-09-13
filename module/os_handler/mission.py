@@ -1,6 +1,6 @@
 from module.base.timer import Timer
 from module.base.utils import *
-from module.config.utils import deep_get, get_os_next_reset, DEFAULT_TIME
+from module.config.utils import get_os_next_reset, DEFAULT_TIME
 from module.logger import logger
 from module.map_detection.utils import fit_points
 from module.os.globe_detection import GLOBE_MAP_SHAPE
@@ -211,8 +211,8 @@ class MissionHandler(GlobeOperation, ZoneManager):
         Returns:
             bool: If task OpsiExplore is under scheduling.
         """
-        enable = deep_get(self.config.data, keys='OpsiExplore.Scheduler.Enable', default=False)
-        next_run = deep_get(self.config.data, keys='OpsiExplore.Scheduler.NextRun', default=DEFAULT_TIME)
+        enable = self.config.cross_get(keys='OpsiExplore.Scheduler.Enable', default=False)
+        next_run = self.config.cross_get(keys='OpsiExplore.Scheduler.NextRun', default=DEFAULT_TIME)
         next_reset = get_os_next_reset()
         logger.attr('OpsiNextReset', next_reset)
         logger.attr('OpsiExplore', (enable, next_run))

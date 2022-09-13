@@ -323,7 +323,35 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         """
         return MultiSetWrapper(main=self)
 
-    def task_delay(self, success=None, server_update=None, target=None, minute=None):
+    def cross_get(self, keys, default=None):
+        """
+        Get configs from other tasks
+
+        Args:
+            keys (str, list[str]): Such as `{task}.Scheduler.Enable`
+            default:
+
+        Returns:
+            Any:
+        """
+        return deep_get(self.data, keys=keys, default=default)
+
+    def cross_set(self, keys, value):
+        """
+        Set configs to other tasks
+
+        Args:
+            keys (str, list[str]): Such as `{task}.Scheduler.Enable`
+            value (Any):
+
+        Returns:
+            Any:
+        """
+        self.modified[keys] = value
+        if self.auto_update:
+            self.update()
+
+    def task_delay(self, success=None, server_update=None, target=None, minute=None, task=None):
         """
         Set Scheduler.NextRun
         Should set at least one arguments.
@@ -340,6 +368,8 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
                 Delay to such time.
             minute (int, float, tuple):
                 Delay several minutes.
+            task (str):
+                Set across task. None for current task.
         """
 
         def ensure_delta(delay):
@@ -376,7 +406,10 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
                 allow_none=False,
             )
             logger.info(f"Delay task `{self.task.command}` to {run} ({kv})")
-            self.Scheduler_NextRun = run
+            if task is None:
+                task = self.task.command
+            self.modified[f'{task}.Scheduler.NextRun'] = run
+            self.update()
         else:
             raise ScriptError(
                 "Missing argument in delay_next_run, should set at least one"

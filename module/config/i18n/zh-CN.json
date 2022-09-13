@@ -194,8 +194,12 @@
       "name": "通用设置",
       "help": ""
     },
-    "OpsiAshAssist": {
+    "OpsiAshBeacon": {
       "name": "余烬信标",
+      "help": ""
+    },
+    "OpsiAshAssist": {
+      "name": "信标支援",
       "help": ""
     },
     "OpsiExplore": {
@@ -575,6 +579,7 @@
       "name": "活动名称",
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
+      "event_20200903_en": "复刻峡湾间的星辰",
       "event_20220818_cn": "远汇点作战",
       "event_20220324_cn": "虚像构筑之塔",
       "event_20211028_cn": "复刻穹顶下的圣咏曲",
@@ -608,7 +613,6 @@
       "event_20210819_cn": "复刻微层混合",
       "event_20200806_cn": "复刻最重要的宝物",
       "event_20200723_cn": "永夜幻光",
-      "event_20200903_en": "复刻峡湾间的星辰",
       "event_20210624_cn": "复刻浮樱影华",
       "event_20210624_tw": "穹頂下的聖詠曲",
       "event_20210610_tw": "夜幕下的歸途",
@@ -1038,6 +1042,10 @@
       "bogue": "博格",
       "ranger": "突击者",
       "hermes": "竞技神"
+    },
+    "CommissionLimit": {
+      "name": "防止紧急委托数量过多",
+      "help": "在7x24运行时防止紧急委托数量过多做不完每日委托，建议在委托过滤器仅选择短时长高收益委托"
     }
   },
   "EventGeneral": {
@@ -1876,7 +1884,7 @@
   },
   "OpsiAshAssist": {
     "_info": {
-      "name": "余烬信标支援",
+      "name": "信标支援",
       "help": "打每天三次的信标支援"
     },
     "Tier": {
@@ -1923,13 +1931,27 @@
       "name": "打余烬信标",
       "help": "信标数据满了之后打余烬信标，一直打直到打完"
     },
-    "EnsureFullyCollected": {
-      "name": "保证收集满每日200信标数据",
-      "help": "在收集满为前，暂时无视保留行动力设置，需要同时开启 \"短猫相接\""
+    "OneHitMode": {
+      "name": "一击即走",
+      "help": "对每个信标只出击一次，之后每半个小时呼叫支援"
     },
     "RequestAssist": {
       "name": "呼叫支援",
       "help": "打信标之前，从好友、舰队、世界呼叫支援"
+    },
+    "EnsureFullyCollected": {
+      "name": "保证收集满每日200信标数据",
+      "help": "在收集满为前，暂时无视保留行动力设置，需要同时开启 \"短猫相接\""
+    }
+  },
+  "OpsiDossierBeacon": {
+    "_info": {
+      "name": "档案信标",
+      "help": ""
+    },
+    "Enable": {
+      "name": "打档案信标",
+      "help": ""
     }
   },
   "OpsiFleetFilter": {
