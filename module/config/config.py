@@ -539,7 +539,8 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
                 microsecond=0
             )
             self.modified[f"{task}.Scheduler.Enable"] = True
-            self.update()
+            if self.auto_update:
+                self.update()
             return True
         else:
             logger.info(f"Task call: {task} (skipped because disabled by user)")

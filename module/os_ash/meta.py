@@ -55,6 +55,7 @@ def _server_support():
 
 
 class OpsiAshBeacon(Meta):
+    _meta_receive_count = 0
 
     def _attack_meta(self, skip_first_screenshot=True):
         """
@@ -90,6 +91,7 @@ class OpsiAshBeacon(Meta):
                     continue
             if MetaState.COMPLETE == state:
                 self._handle_ash_beacon_reward()
+                self._meta_receive_count += 1
                 # Check other tasks after kill a meta
                 self.config.check_task_switch()
                 continue
@@ -329,8 +331,11 @@ class OpsiAshBeacon(Meta):
     def run(self):
         self.ui_ensure(page_reward)
         self._begin_beacon()
-        self.config.task_call('MetaReward', force_call=False)
-        self.config.task_delay(server_update=True)
+
+        with self.config.multi_set():
+            if self._meta_receive_count > 0:
+                self.config.task_call('MetaReward', force_call=False)
+            self.config.task_delay(server_update=True)
 
 
 class AshBeaconAssist(Meta):
