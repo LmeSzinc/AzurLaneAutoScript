@@ -1,0 +1,341 @@
+{
+  "Menu": {
+    "Task": {
+      "name": "",
+      "help": ""
+    },
+    "Maa": {
+      "name": "Maa",
+      "help": ""
+    },
+    "Tool": {
+      "name": "Menu.Tool.name",
+      "help": "Menu.Tool.help"
+    }
+  },
+  "Task": {
+    "Maa": {
+      "name": "Maa设置",
+      "help": ""
+    },
+    "MaaStartup": {
+      "name": "开始唤醒",
+      "help": ""
+    },
+    "MaaAnnihilation": {
+      "name": "剿灭作战",
+      "help": ""
+    },
+    "MaaMaterial": {
+      "name": "刷材料",
+      "help": ""
+    },
+    "MaaFight": {
+      "name": "刷理智",
+      "help": ""
+    },
+    "MaaRecruit": {
+      "name": "自动公招",
+      "help": ""
+    },
+    "MaaInfrast": {
+      "name": "基建换班",
+      "help": ""
+    },
+    "MaaVisit": {
+      "name": "访问好友",
+      "help": ""
+    },
+    "MaaMall": {
+      "name": "收取信用及购物",
+      "help": ""
+    },
+    "MaaAward": {
+      "name": "领取日常奖励",
+      "help": ""
+    },
+    "MaaRoguelike": {
+      "name": "自动肉鸽",
+      "help": ""
+    },
+    "MaaCopilot": {
+      "name": "自动战斗",
+      "help": ""
+    }
+  },
+  "Scheduler": {
+    "_info": {
+      "name": "任务设置",
+      "help": ""
+    },
+    "Enable": {
+      "name": "启用该功能",
+      "help": "将这个任务加入调度器\n委托、科研、收获任务是强制打开的"
+    },
+    "NextRun": {
+      "name": "下一次运行时间",
+      "help": "自动计算的数值，不需要手动修改。清空后将立即运行"
+    },
+    "Command": {
+      "name": "内部任务名称",
+      "help": ""
+    },
+    "SuccessInterval": {
+      "name": "运行成功后，推迟下一次运行 X 分钟",
+      "help": ""
+    },
+    "FailureInterval": {
+      "name": "运行失败后，推迟下一次运行 X 分钟",
+      "help": ""
+    },
+    "ServerUpdate": {
+      "name": "服务器刷新时间",
+      "help": "一些任务运行成功后，将推迟下一次运行至服务器刷新时间\n自动换算时区，一般不需要修改"
+    }
+  },
+  "Emulator": {
+    "_info": {
+      "name": "模拟器设置",
+      "help": ""
+    },
+    "Serial": {
+      "name": "模拟器 Serial",
+      "help": "模拟器默认 Serial：\n- 蓝叠模拟器 127.0.0.1:5555\n- 蓝叠模拟器4 Hyper-v版，填\"bluestacks4-hyperv\"自动连接，多开填\"bluestacks4-hyperv-2\"以此类推\n- 蓝叠模拟器5 Hyper-v版，填\"bluestacks5-hyperv\"自动连接，多开填\"bluestacks5-hyperv-1\"以此类推\n- 夜神模拟器 127.0.0.1:62001\n- 夜神模拟器64位 127.0.0.1:59865\n- MuMu模拟器 127.0.0.1:7555\n- 逍遥模拟器 127.0.0.1:21503\n- 雷电模拟器 emulator-5554 或 127.0.0.1:5555\n- WSA，填\"wsa-0\"使游戏在后台运行，需要使用第三方软件操控或关闭（建议使用scrcpy操控）\n如果你有多个模拟器，它们的 Serial 将不是默认的，可以在 console.bat 中执行 `adb devices` 查询"
+    },
+    "PackageName": {
+      "name": "游戏服务器",
+      "help": "模拟器上装有多个游戏客户端时，需要手动选择服务器",
+      "Official": "官服",
+      "Bilibili": "Bilibili服"
+    },
+    "Server": {
+      "name": "服务器",
+      "help": "会影响掉落和上传",
+      "CN": "CN",
+      "US": "US",
+      "JP": "JP",
+      "KR": "KR"
+    },
+    "MaaPath": {
+      "name": "MAA安装路径",
+      "help": ""
+    },
+    "ServerName": {
+      "name": "游戏内服务器（碧蓝航线）",
+      "help": "不显示在界面，仅用于和ALAS接轨"
+    }
+  },
+  "Record": {
+    "_info": {
+      "name": "掉落记录",
+      "help": ""
+    },
+    "ReportToPenguin": {
+      "name": "上传到企鹅物流",
+      "help": ""
+    },
+    "PenguinID": {
+      "name": "企鹅物流ID",
+      "help": "留空即可，第一次上传后会自动生成"
+    }
+  },
+  "Error": {
+    "_info": {
+      "name": "调试设置",
+      "help": ""
+    },
+    "SaveError": {
+      "name": "出错时保存 Log",
+      "help": ""
+    },
+    "OnePushConfig": {
+      "name": "Error.OnePushConfig.name",
+      "help": "不显示在界面，仅用于和ALAS接轨"
+    }
+  },
+  "Optimization": {
+    "_info": {
+      "name": "优化设置",
+      "help": ""
+    },
+    "WhenTaskQueueEmpty": {
+      "name": "当任务队列清空后",
+      "help": "无任务时关闭游戏，能在收菜期间降低 CPU 占用"
+    }
+  },
+  "Fight": {
+    "_info": {
+      "name": "战斗设置",
+      "help": ""
+    },
+    "Stage": {
+      "name": "关卡选择",
+      "help": ""
+    },
+    "Medicine": {
+      "name": "吃理智药",
+      "help": ""
+    },
+    "Stone": {
+      "name": "吃源石",
+      "help": ""
+    },
+    "Times": {
+      "name": "指定次数",
+      "help": ""
+    },
+    "Drops": {
+      "name": "指定掉落",
+      "help": "以\"掉落物:数量 > 掉落物:数量\"的形式，支持中文名称和物品ID"
+    },
+    "DrGrandet": {
+      "name": "节省理智碎石模式",
+      "help": "在碎石确认界面等待，直到当前的 1 点理智恢复完成后再立刻碎石"
+    }
+  },
+  "Recruit": {
+    "_info": {
+      "name": "公招设置",
+      "help": ""
+    },
+    "Refresh": {
+      "name": "自动刷新3星 Tag",
+      "help": ""
+    },
+    "SkipRobot": {
+      "name": "手动确认1星",
+      "help": ""
+    },
+    "Select3": {
+      "name": "自动确认3星",
+      "help": ""
+    },
+    "Select4": {
+      "name": "自动确认4星",
+      "help": ""
+    },
+    "Select5": {
+      "name": "自动确认5星",
+      "help": ""
+    },
+    "Times": {
+      "name": "最大招募次数",
+      "help": ""
+    },
+    "Expedite": {
+      "name": "自动使用加急许可",
+      "help": ""
+    }
+  },
+  "Infrast": {
+    "_info": {
+      "name": "基建设置",
+      "help": ""
+    },
+    "Facility": {
+      "name": "换班设施顺序",
+      "help": "会影响多功能干员的工作位置"
+    },
+    "Drones": {
+      "name": "无人机用途",
+      "help": "",
+      "_NotUse": "不使用无人机",
+      "Money": "贸易站-龙门币",
+      "SyntheticJade": "贸易站-合成玉",
+      "CombatRecord": "制造站-经验书",
+      "PureGold": "制造站-赤金",
+      "OriginStone": "制造站-源石碎片",
+      "Chip": "制造站-芯片组"
+    },
+    "Threshold": {
+      "name": "基建工作心情阈值",
+      "help": "取值范围0 - 1.0"
+    },
+    "Replenish": {
+      "name": "源石碎片自动补货",
+      "help": ""
+    }
+  },
+  "Mall": {
+    "_info": {
+      "name": "信用商店",
+      "help": ""
+    },
+    "Shopping": {
+      "name": "信用购物",
+      "help": ""
+    },
+    "BuyFirst": {
+      "name": "优先购买",
+      "help": ""
+    },
+    "BlackList": {
+      "name": "黑名单",
+      "help": ""
+    }
+  },
+  "Roguelike": {
+    "_info": {
+      "name": "肉鸽设置",
+      "help": ""
+    },
+    "Mode": {
+      "name": "策略",
+      "help": "",
+      "0": "刷蜡烛",
+      "1": "刷源石锭"
+    },
+    "StartsCount": {
+      "name": "开始探索X次后停止任务",
+      "help": ""
+    },
+    "InvestmentsCount": {
+      "name": "投资X个源石锭后停止任务",
+      "help": ""
+    },
+    "StopWhenInvestmentFull": {
+      "name": "储备源石锭达到上限时停止",
+      "help": ""
+    },
+    "Squad": {
+      "name": "开局分队",
+      "help": "",
+      "指挥分队": "指挥分队",
+      "集群分队": "集群分队",
+      "后勤分队": "后勤分队",
+      "矛头分队": "矛头分队",
+      "突击战术分队": "突击战术分队",
+      "堡垒战术分队": "堡垒战术分队",
+      "远程战术分队": "远程战术分队",
+      "破坏战术分队": "破坏战术分队",
+      "研究分队": "研究分队",
+      "高规格分队": "高规格分队"
+    },
+    "Roles": {
+      "name": "开局职业组",
+      "help": "",
+      "先手必胜": "先手必胜",
+      "稳扎稳打": "稳扎稳打",
+      "取长补短": "取长补短",
+      "随心所欲": "随心所欲"
+    },
+    "CoreChar": {
+      "name": "开局干员",
+      "help": "仅支持单个干员中文名，不填写则默认选择"
+    }
+  },
+  "Copilot": {
+    "_info": {
+      "name": "作业设置",
+      "help": "请在有“开始行动”界面的按钮使用本功能\n更多作业下载见https://prts.plus/"
+    },
+    "FileName": {
+      "name": "作业路径",
+      "help": ""
+    },
+    "Formation": {
+      "name": "自动编队",
+      "help": ""
+    }
+  }
+}

@@ -1,0 +1,341 @@
+{
+  "Menu": {
+    "Task": {
+      "name": "",
+      "help": ""
+    },
+    "Maa": {
+      "name": "Menu.Maa.name",
+      "help": "Menu.Maa.help"
+    },
+    "Tool": {
+      "name": "Menu.Tool.name",
+      "help": "Menu.Tool.help"
+    }
+  },
+  "Task": {
+    "Maa": {
+      "name": "Task.Maa.name",
+      "help": "Task.Maa.help"
+    },
+    "MaaStartup": {
+      "name": "Task.MaaStartup.name",
+      "help": "Task.MaaStartup.help"
+    },
+    "MaaAnnihilation": {
+      "name": "Task.MaaAnnihilation.name",
+      "help": "Task.MaaAnnihilation.help"
+    },
+    "MaaMaterial": {
+      "name": "Task.MaaMaterial.name",
+      "help": "Task.MaaMaterial.help"
+    },
+    "MaaFight": {
+      "name": "Task.MaaFight.name",
+      "help": "Task.MaaFight.help"
+    },
+    "MaaRecruit": {
+      "name": "Task.MaaRecruit.name",
+      "help": "Task.MaaRecruit.help"
+    },
+    "MaaInfrast": {
+      "name": "Task.MaaInfrast.name",
+      "help": "Task.MaaInfrast.help"
+    },
+    "MaaVisit": {
+      "name": "Task.MaaVisit.name",
+      "help": "Task.MaaVisit.help"
+    },
+    "MaaMall": {
+      "name": "Task.MaaMall.name",
+      "help": "Task.MaaMall.help"
+    },
+    "MaaAward": {
+      "name": "Task.MaaAward.name",
+      "help": "Task.MaaAward.help"
+    },
+    "MaaRoguelike": {
+      "name": "Task.MaaRoguelike.name",
+      "help": "Task.MaaRoguelike.help"
+    },
+    "MaaCopilot": {
+      "name": "Task.MaaCopilot.name",
+      "help": "Task.MaaCopilot.help"
+    }
+  },
+  "Scheduler": {
+    "_info": {
+      "name": "任務設定",
+      "help": ""
+    },
+    "Enable": {
+      "name": "啟用該功能",
+      "help": "將這個任務加入調度器\n委託、科研、收穫任務是強制打開的"
+    },
+    "NextRun": {
+      "name": "下一次執行時間",
+      "help": "自動計算的數值，不需要手動修改。清空後將立刻執行"
+    },
+    "Command": {
+      "name": "內部任務名稱",
+      "help": ""
+    },
+    "SuccessInterval": {
+      "name": "執行成功後，推遲下一次執行 X 分鐘",
+      "help": ""
+    },
+    "FailureInterval": {
+      "name": "執行失敗後，推遲下一次執行 X 分鐘",
+      "help": ""
+    },
+    "ServerUpdate": {
+      "name": "伺服器更新時間",
+      "help": "一些任務執行成功後，將推遲下一次執行伺服器更新的時間\n自動換算時區，一般不需要修改"
+    }
+  },
+  "Emulator": {
+    "_info": {
+      "name": "模擬器設定",
+      "help": ""
+    },
+    "Serial": {
+      "name": "模擬器 Serial",
+      "help": "填 \"auto\" 自動檢測模擬器，有多個模擬器正在運行時必須手動填寫 Serial\n模擬器預設 Serial：\n- 藍疊模擬器 127.0.0.1:5555\n- 藍疊模擬器4 Hyper-v版，填\"bluestacks4-hyperv\"自動連接，多開填\"bluestacks4-hyperv-2\"以此類推\n- 藍疊模擬器5 Hyper-v版，填\"bluestacks5-hyperv\"自動連接，多開填\"bluestacks5-hyperv-1\"以此類推\n- 夜神模擬器 127.0.0.1:62001\n- 夜神模擬器64位元 127.0.0.1:59865\n- MuMu模擬器 127.0.0.1:7555\n- 逍遙模擬器 127.0.0.1:21503\n- 雷電模擬器 emulator-5554 或 127.0.0.1:5555\n- WSA，填\"wsa-0\"使遊戲在後臺運行，需要使用第三方軟件操控或關閉\n如果你有多個模擬器，他們的 Serial 將不是預設的，可以在 console.bat 中執行 `adb devices` 查詢"
+    },
+    "PackageName": {
+      "name": "遊戲伺服器",
+      "help": "模擬器上裝有多個遊戲客戶端時，需要手動選擇伺服器",
+      "Official": "Official",
+      "Bilibili": "Bilibili"
+    },
+    "Server": {
+      "name": "Emulator.Server.name",
+      "help": "Emulator.Server.help",
+      "CN": "CN",
+      "US": "US",
+      "JP": "JP",
+      "KR": "KR"
+    },
+    "MaaPath": {
+      "name": "Emulator.MaaPath.name",
+      "help": "Emulator.MaaPath.help"
+    },
+    "ServerName": {
+      "name": "Emulator.ServerName.name",
+      "help": "Emulator.ServerName.help"
+    }
+  },
+  "Record": {
+    "_info": {
+      "name": "Record._info.name",
+      "help": "Record._info.help"
+    },
+    "ReportToPenguin": {
+      "name": "Record.ReportToPenguin.name",
+      "help": "Record.ReportToPenguin.help"
+    },
+    "PenguinID": {
+      "name": "Record.PenguinID.name",
+      "help": "Record.PenguinID.help"
+    }
+  },
+  "Error": {
+    "_info": {
+      "name": "Error._info.name",
+      "help": "Error._info.help"
+    },
+    "SaveError": {
+      "name": "Error.SaveError.name",
+      "help": "Error.SaveError.help"
+    },
+    "OnePushConfig": {
+      "name": "Error.OnePushConfig.name",
+      "help": "Error.OnePushConfig.help"
+    }
+  },
+  "Optimization": {
+    "_info": {
+      "name": "優化設定",
+      "help": ""
+    },
+    "WhenTaskQueueEmpty": {
+      "name": "當任務隊列清空後",
+      "help": "無任務時關閉遊戲，能在收菜期間降低 CPU 佔用"
+    }
+  },
+  "Fight": {
+    "_info": {
+      "name": "Fight._info.name",
+      "help": "Fight._info.help"
+    },
+    "Stage": {
+      "name": "Fight.Stage.name",
+      "help": "Fight.Stage.help"
+    },
+    "Medicine": {
+      "name": "Fight.Medicine.name",
+      "help": "Fight.Medicine.help"
+    },
+    "Stone": {
+      "name": "Fight.Stone.name",
+      "help": "Fight.Stone.help"
+    },
+    "Times": {
+      "name": "Fight.Times.name",
+      "help": "Fight.Times.help"
+    },
+    "Drops": {
+      "name": "Fight.Drops.name",
+      "help": "Fight.Drops.help"
+    },
+    "DrGrandet": {
+      "name": "Fight.DrGrandet.name",
+      "help": "Fight.DrGrandet.help"
+    }
+  },
+  "Recruit": {
+    "_info": {
+      "name": "Recruit._info.name",
+      "help": "Recruit._info.help"
+    },
+    "Refresh": {
+      "name": "Recruit.Refresh.name",
+      "help": "Recruit.Refresh.help"
+    },
+    "SkipRobot": {
+      "name": "Recruit.SkipRobot.name",
+      "help": "Recruit.SkipRobot.help"
+    },
+    "Select3": {
+      "name": "Recruit.Select3.name",
+      "help": "Recruit.Select3.help"
+    },
+    "Select4": {
+      "name": "Recruit.Select4.name",
+      "help": "Recruit.Select4.help"
+    },
+    "Select5": {
+      "name": "Recruit.Select5.name",
+      "help": "Recruit.Select5.help"
+    },
+    "Times": {
+      "name": "Recruit.Times.name",
+      "help": "Recruit.Times.help"
+    },
+    "Expedite": {
+      "name": "Recruit.Expedite.name",
+      "help": "Recruit.Expedite.help"
+    }
+  },
+  "Infrast": {
+    "_info": {
+      "name": "Infrast._info.name",
+      "help": "Infrast._info.help"
+    },
+    "Facility": {
+      "name": "Infrast.Facility.name",
+      "help": "Infrast.Facility.help"
+    },
+    "Drones": {
+      "name": "Infrast.Drones.name",
+      "help": "Infrast.Drones.help",
+      "_NotUse": "_NotUse",
+      "Money": "Money",
+      "SyntheticJade": "SyntheticJade",
+      "CombatRecord": "CombatRecord",
+      "PureGold": "PureGold",
+      "OriginStone": "OriginStone",
+      "Chip": "Chip"
+    },
+    "Threshold": {
+      "name": "Infrast.Threshold.name",
+      "help": "Infrast.Threshold.help"
+    },
+    "Replenish": {
+      "name": "Infrast.Replenish.name",
+      "help": "Infrast.Replenish.help"
+    }
+  },
+  "Mall": {
+    "_info": {
+      "name": "Mall._info.name",
+      "help": "Mall._info.help"
+    },
+    "Shopping": {
+      "name": "Mall.Shopping.name",
+      "help": "Mall.Shopping.help"
+    },
+    "BuyFirst": {
+      "name": "Mall.BuyFirst.name",
+      "help": "Mall.BuyFirst.help"
+    },
+    "BlackList": {
+      "name": "Mall.BlackList.name",
+      "help": "Mall.BlackList.help"
+    }
+  },
+  "Roguelike": {
+    "_info": {
+      "name": "Roguelike._info.name",
+      "help": "Roguelike._info.help"
+    },
+    "Mode": {
+      "name": "Roguelike.Mode.name",
+      "help": "Roguelike.Mode.help",
+      "0": "0",
+      "1": "1"
+    },
+    "StartsCount": {
+      "name": "Roguelike.StartsCount.name",
+      "help": "Roguelike.StartsCount.help"
+    },
+    "InvestmentsCount": {
+      "name": "Roguelike.InvestmentsCount.name",
+      "help": "Roguelike.InvestmentsCount.help"
+    },
+    "StopWhenInvestmentFull": {
+      "name": "Roguelike.StopWhenInvestmentFull.name",
+      "help": "Roguelike.StopWhenInvestmentFull.help"
+    },
+    "Squad": {
+      "name": "Roguelike.Squad.name",
+      "help": "Roguelike.Squad.help",
+      "指挥分队": "指挥分队",
+      "集群分队": "集群分队",
+      "后勤分队": "后勤分队",
+      "矛头分队": "矛头分队",
+      "突击战术分队": "突击战术分队",
+      "堡垒战术分队": "堡垒战术分队",
+      "远程战术分队": "远程战术分队",
+      "破坏战术分队": "破坏战术分队",
+      "研究分队": "研究分队",
+      "高规格分队": "高规格分队"
+    },
+    "Roles": {
+      "name": "Roguelike.Roles.name",
+      "help": "Roguelike.Roles.help",
+      "先手必胜": "先手必胜",
+      "稳扎稳打": "稳扎稳打",
+      "取长补短": "取长补短",
+      "随心所欲": "随心所欲"
+    },
+    "CoreChar": {
+      "name": "Roguelike.CoreChar.name",
+      "help": "Roguelike.CoreChar.help"
+    }
+  },
+  "Copilot": {
+    "_info": {
+      "name": "Copilot._info.name",
+      "help": "Copilot._info.help"
+    },
+    "FileName": {
+      "name": "Copilot.FileName.name",
+      "help": "Copilot.FileName.help"
+    },
+    "Formation": {
+      "name": "Copilot.Formation.name",
+      "help": "Copilot.Formation.help"
+    }
+  }
+}

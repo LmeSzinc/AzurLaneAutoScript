@@ -8,6 +8,9 @@ config/*.yaml
 config/*.json
 config/tmp*
 !config/template.json
+submodule/AlasMaaBridge/config/*.json
+submodule/AlasMaaBridge/config/tmp*
+!submodule/AlasMaaBridge/config/template.json
 *.pyw
 dev_tools/debug_tools
 .idea
