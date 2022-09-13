@@ -11,7 +11,7 @@ from module.ui.switch import Switch
 
 from ..base.utils import color_similar, crop, get_color, limit_in
 from ..combat.level import LevelOcr
-from module.retire.fleet import FleetOcr
+from module.retire.fleet import FleetClassifier
 
 DOCK_SORTING = Switch('Dork_sorting')
 DOCK_SORTING.add_status('Ascending', check_button=SORT_ASC, click_button=SORTING_CLICK)
@@ -305,9 +305,8 @@ class DockScanner:
         list_rarity = [self.color_to_rarity(get_color(image, button.area))
                        for button in CARD_RARITY_GRIDS.buttons]
 
-        fleet_ocr = FleetOcr(CARD_FLEET_GRIDS.buttons,
-                             name='DOCK_FLEET_OCR')
-        list_fleet = fleet_ocr.ocr(image)
+        fleet_classifier = FleetClassifier(CARD_FLEET_GRIDS.buttons)
+        list_fleet = fleet_classifier.scan(image)
 
         list_commission = [TEMPLATE_IN_COMMISSION.match(
             crop(image, button.area)) for button in CARD_GRIDS.buttons]
