@@ -192,7 +192,7 @@ class RewardCommission(UI, InfoHandler):
                 self.device.screenshot()
                 while 1:
                     peaks = lines_detect(self.device.image)
-                    if (not len(peaks) or peaks[0] > 67 + 117) and (not len(pre_peaks) or abs(peaks[0] - pre_peaks[0]) < 3):
+                    if (not len(peaks) or peaks[0] > 67 + 117) and (not len(pre_peaks) or not len(peaks) or abs(peaks[0] - pre_peaks[0]) < 3):
                         break
                     pre_peaks = peaks
                     self.device.screenshot()
