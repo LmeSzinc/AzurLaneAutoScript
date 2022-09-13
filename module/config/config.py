@@ -194,11 +194,12 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
             else:
                 waiting.append(func)
 
+        f = Filter(regex=r"(.*)", attr=["command"])
+        f.load(self.SCHEDULER_PRIORITY)
         if pending:
-            f = Filter(regex=r"(.*)", attr=["command"])
-            f.load(self.SCHEDULER_PRIORITY)
-            pending = f.apply(pending, func=lambda x: x.enable)
+            pending = f.apply(pending)
         if waiting:
+            waiting = f.apply(waiting)
             waiting = sorted(waiting, key=operator.attrgetter("next_run"))
         if error:
             pending = error + pending
@@ -420,7 +421,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         Delay the NextRun of all OpSi tasks.
 
         Args:
-            recon_scan (bool): True to delay all tasks requiring recon scan 30 min.
+            recon_scan (bool): True to delay all tasks requiring recon scan 27 min.
             submarine_call (bool): True to delay all tasks requiring submarine call 60 min.
             ap_limit (bool): True to delay all tasks requiring action points 360 min.
         """
@@ -538,7 +539,8 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
                 microsecond=0
             )
             self.modified[f"{task}.Scheduler.Enable"] = True
-            self.update()
+            if self.auto_update:
+                self.update()
             return True
         else:
             logger.info(f"Task call: {task} (skipped because disabled by user)")
