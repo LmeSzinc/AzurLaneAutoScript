@@ -50,12 +50,10 @@ CARD_GRIDS = ButtonGrid(
 CARD_RARITY_GRIDS = CARD_GRIDS.crop(area=(0, 0, 138, 5), name='RARITY')
 CARD_LEVEL_GRIDS = CARD_GRIDS.crop(area=(77, 5, 138, 27), name='LEVEL')
 CARD_EMOTION_GRIDS = CARD_GRIDS.crop(area=(23, 29, 48, 52), name='EMOTION')
-CARD_FLEET_GRIDS = CARD_GRIDS.crop(area=(8, 121, 26, 142), name='FLEET')
 
 CARD_BOTTOM_GRIDS = CARD_GRIDS.move(vector=(0, 94), name='CARD')
 CARD_BOTTOM_LEVEL_GRIDS = CARD_LEVEL_GRIDS.move(vector=(0, 94), name='LEVEL')
 CARD_BOTTOM_EMOTION_GRIDS = CARD_EMOTION_GRIDS.move(vector=(0, 94), name='EMOTION')
-CARD_BOTTOM_FLEET_GRIDS = CARD_FLEET_GRIDS.move(vector=(0, 94), name='FLEET')
 
 DOCK_SCROLL = Scroll(DOCK_SCROLL, color=(247, 211, 66), name='DOCK_SCROLL')
 
@@ -305,7 +303,7 @@ class DockScanner:
         list_rarity = [self.color_to_rarity(get_color(image, button.area))
                        for button in CARD_RARITY_GRIDS.buttons]
 
-        fleet_classifier = FleetClassifier(CARD_FLEET_GRIDS.buttons)
+        fleet_classifier = FleetClassifier(CARD_GRIDS.buttons)
         list_fleet = fleet_classifier.scan(image)
 
         list_commission = [TEMPLATE_IN_COMMISSION.match(
