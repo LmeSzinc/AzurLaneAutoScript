@@ -82,6 +82,7 @@ class OpsiAshBeacon(Meta):
                     continue
                 else:
                     # Normal finish
+                    self.device.click(BACK_ARROW)
                     break
             if MetaState.ATTACKING == state:
                 if not self._pre_attack():
@@ -146,12 +147,14 @@ class OpsiAshBeacon(Meta):
                 damage = self._get_meta_damage()
                 if damage > 0:
                     logger.info('Enable OneHitMode and meta damage is ' + str(damage) + ', check after 30 minutes')
+                    self.device.click(BACK_ARROW)
                     self.config.task_delay(minute=30)
                     self.config.task_stop()
         if self.appear(DOSSIER_LIST, offset=(20, 20)):
             # Meta is Auto Attacking
             if self.appear(META_AUTO_ATTACKING, offset=(20, 20)):
                 logger.info('This meta is auto attacking, check after 15 minutes')
+                self.device.click(BACK_ARROW)
                 self.config.task_delay(minute=15)
                 self.config.task_stop()
         return True
