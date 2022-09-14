@@ -5,9 +5,11 @@ from module.equipment.assets import *
 from module.equipment.equipment_change import EquipmentChange
 from module.equipment.fleet_equipment import OCR_FLEET_INDEX
 from module.exception import CampaignEnd
+from module.logger import logger
 from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
 from module.ocr.ocr import Digit
-from module.retire.dock import *
+from module.retire.assets import DOCK_CHECK
+from module.retire.dock import Dock, CARD_GRIDS, CARD_EMOTION_GRIDS, CARD_LEVEL_GRIDS
 from module.ui.page import page_fleet
 
 SIM_VALUE = 0.95
@@ -346,12 +348,11 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                     raise e
 
             # End
-            success = True
             if self._trigger_lv32 or self._trigger_emotion:
-                success = success and self.flagship_change()
+                self.flagship_change()
 
                 if self.config.GemsFarming_LowEmotionRetreat:
-                    success = success and self.vanguard_change()
+                    self.vanguard_change()
                     
                 if is_limit and self.config.StopCondition_RunCount <= 0:
                     logger.hr('Triggered stop condition: Run count')
@@ -368,10 +369,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                 if self.config.task_switched():
                     self.campaign.ensure_auto_search_exit()
                     self.config.task_stop()
-                # Delay
-                if not success:
-                    self.campaign.ensure_auto_search_exit()
-                    self.config.task_delay(minute=30)
 
                 continue
             else:

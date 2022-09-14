@@ -33,6 +33,7 @@ class GeneratedConfig:
     # Group `Error`
     Error_HandleError = True
     Error_SaveError = True
+    Error_OnePushConfig = 'provider: null'
     Error_ScreenshotLength = 1
 
     # Group `Optimization`
@@ -147,10 +148,16 @@ class GeneratedConfig:
     GemsFarming_VanguardEquipChange = False
     GemsFarming_LowEmotionRetreat = True
     GemsFarming_CommonCV = 'any'  # any, langley, bogue, ranger, hermes
+    GemsFarming_CommissionLimit = True
 
     # Group `EventGeneral`
     EventGeneral_PtLimit = 0
     EventGeneral_TimeLimit = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `TaskBalancer`
+    TaskBalancer_Enable = False
+    TaskBalancer_CoinLimit = 10000
+    TaskBalancer_TaskCall = 'Main'  # Main, Main2, Main3
 
     # Group `EventDaily`
     EventDaily_StageFilter = 'A1 > A2 > A3'
@@ -332,8 +339,12 @@ class GeneratedConfig:
 
     # Group `OpsiAshBeacon`
     OpsiAshBeacon_AshAttack = True
-    OpsiAshBeacon_EnsureFullyCollected = True
+    OpsiAshBeacon_OneHitMode = True
     OpsiAshBeacon_RequestAssist = True
+    OpsiAshBeacon_EnsureFullyCollected = True
+
+    # Group `OpsiDossierBeacon`
+    OpsiDossierBeacon_Enable = True
 
     # Group `OpsiFleetFilter`
     OpsiFleetFilter_Filter = 'Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1'

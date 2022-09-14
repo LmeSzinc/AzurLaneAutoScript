@@ -31,7 +31,7 @@ from module.ui.page import (Page, page_academy, page_archives,
                             page_guild, page_main, page_meowfficer, page_meta,
                             page_mission, page_munitions, page_os, page_raid,
                             page_research, page_reshmenu, page_reward,
-                            page_shipyard, page_shop, page_sp,
+                            page_shipyard, page_shop, page_sp, page_storage,
                             page_supply_pack, page_tactical, page_unknown)
 
 
@@ -68,6 +68,7 @@ class UI(InfoHandler):
         page_meowfficer,
         page_academy,
         page_shop,
+        page_storage,
         page_munitions,
         page_supply_pack,
         page_build,

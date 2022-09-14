@@ -1,3 +1,4 @@
+from module.base.timer import Timer
 from module.base.utils import crop, rgb2gray
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3, GET_ITEMS_3_CHECK
 from module.logger import logger
@@ -104,3 +105,44 @@ class ResearchUI(UI):
 
         logger.info(f'Research status: {out}')
         return out
+
+    def is_research_stabled(self):
+        return self.is_in_research() and 'detail' in self.get_research_status(self.device.image)
+
+    def research_detail_quit(self, skip_first_screenshot=True):
+        logger.info('Research detail quit')
+        click_timer = Timer(10)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.is_research_stabled():
+                break
+
+            if self.appear(RESEARCH_UNAVAILABLE, offset=(20, 20)) \
+                    or self.appear(RESEARCH_START, offset=(20, 20)) \
+                    or self.appear(RESEARCH_STOP, offset=(20, 20)):
+                if click_timer.reached():
+                    self.device.click(RESEARCH_DETAIL_QUIT)
+                    click_timer.reset()
+
+    def research_detail_cancel(self, skip_first_screenshot=True):
+        logger.info('Research detail cancel')
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.is_research_stabled():
+                break
+
+            if self.appear_then_click(RESEARCH_STOP, offset=(20, 20), interval=5):
+                continue
+            if self.handle_popup_confirm('RESEARCH_CANCEL'):
+                continue
+            if self.appear(RESEARCH_START, offset=(20, 20), interval=5):
+                self.device.click(RESEARCH_DETAIL_QUIT)
+                continue

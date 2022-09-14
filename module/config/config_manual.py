@@ -16,9 +16,10 @@ class ManualConfig:
     > Reward > MetaReward > BattlePass
     > ShopFrequent > ShopOnce > Shipyard > DataKey
     > OpsiExplore
+    > OpsiAshBeacon
     > OpsiDaily > OpsiShop
     > OpsiAbyssal > OpsiStronghold > OpsiObscure
-    > Daily > Hard > OpsiAshAssist
+    > Daily > Hard > OpsiAshBeacon > OpsiAshAssist
     > Sos > EventSp > EventA > EventB > EventC > EventD > RaidDaily > WarArchives > MaritimeEscort
     > Event > Event2 > Raid > Main > Main2 > Main3
     > OpsiMeowfficerFarming

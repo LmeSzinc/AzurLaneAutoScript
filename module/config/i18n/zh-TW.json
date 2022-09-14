@@ -194,8 +194,12 @@
       "name": "通用設定",
       "help": ""
     },
-    "OpsiAshAssist": {
+    "OpsiAshBeacon": {
       "name": "餘燼信標",
+      "help": ""
+    },
+    "OpsiAshAssist": {
+      "name": "信標支援",
       "help": ""
     },
     "OpsiExplore": {
@@ -412,6 +416,10 @@
       "name": "出錯時，保存 Log 和截圖",
       "help": ""
     },
+    "OnePushConfig": {
+      "name": "錯誤推送設定",
+      "help": "發生無法處理的异常後，使用 Onepush 推送错误消息。設定參考文檔：https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BCN%5D"
+    },
     "ScreenshotLength": {
       "name": "出錯時，保留最後 X 張截圖",
       "help": ""
@@ -571,6 +579,7 @@
       "name": "活動名稱",
       "help": "自動選擇至最新的活動圖",
       "campaign_main": "主線圖",
+      "event_20200903_en": "復刻峽灣間的星辰",
       "event_20220818_cn": "Operation Convergence",
       "event_20220324_cn": "虛像構築之塔",
       "event_20211028_cn": "復刻穹頂下的聖詠曲",
@@ -604,7 +613,6 @@
       "event_20210819_cn": "Microlayer Medley Rerun",
       "event_20200806_cn": "最重要的寶物",
       "event_20200723_cn": "永夜幻光",
-      "event_20200903_en": "峽灣間的星辰",
       "event_20210624_cn": "Swirling Cherry Blossoms Rerun",
       "event_20210624_tw": "穹頂下的聖詠曲",
       "event_20210610_tw": "夜幕下的歸途",
@@ -626,6 +634,7 @@
       "event_20200423_cn": "Crimson Echoes Rerun",
       "event_20200326_cn": "Microlayer Medley",
       "event_20200227_cn": "Northern Overture",
+      "war_archives_20200806_cn": "archives The Enigma and the Shark",
       "war_archives_20210624_cn": "archives Swirling Cherry Blossoms",
       "war_archives_20210325_cn": "archives Ashen Simulacrum",
       "war_archives_20190911_cn": "archives Empyreal Tragicomedy",
@@ -1033,6 +1042,10 @@
       "bogue": "博格",
       "ranger": "突擊者",
       "hermes": "競技神"
+    },
+    "CommissionLimit": {
+      "name": "防止緊急委託數量過多",
+      "help": "在7x24運行時防止緊急委託數量過多做不完每日委託，建議在委託過濾器僅選擇短時長高收益委託"
     }
   },
   "EventGeneral": {
@@ -1047,6 +1060,27 @@
     "TimeLimit": {
       "name": "活動時間限制",
       "help": "當本地時間超過給定數值後，禁用所有活動任務，'2020-01-01 00:00:00' 表示不限制，觸發一次後時間將被重置\n設置後能防止活動結束後忘記關閉任務的事情發生"
+    }
+  },
+  "TaskBalancer": {
+    "_info": {
+      "name": "任務平衡設置",
+      "help": "防止運行活動圖時物資過低"
+    },
+    "Enable": {
+      "name": "啟用任務平衡",
+      "help": "啟用後，將於每次出擊後檢查物資量"
+    },
+    "CoinLimit": {
+      "name": "保持物資大於X",
+      "help": ""
+    },
+    "TaskCall": {
+      "name": "物資過低時呼叫任務X",
+      "help": "提醒: 玩家需提前設置好被調用的任務，否則將不會作用",
+      "Main": "主線圖",
+      "Main2": "主線圖-2",
+      "Main3": "主線圖-3"
     }
   },
   "EventDaily": {
@@ -1850,7 +1884,7 @@
   },
   "OpsiAshAssist": {
     "_info": {
-      "name": "餘燼信標支援",
+      "name": "信標支援",
       "help": "打每日三次的信標支援"
     },
     "Tier": {
@@ -1897,13 +1931,27 @@
       "name": "打餘燼信標",
       "help": "信標數據滿了之後打餘燼信標，一直打直到打完"
     },
-    "EnsureFullyCollected": {
-      "name": "保證收集滿每日200信標數據",
-      "help": "在收集滿為前，暫時無視保留行動力設置，需要同時開啟 \"短貓相接\""
+    "OneHitMode": {
+      "name": "一擊即走",
+      "help": "對每個信標只出擊一次，之後每半個小時呼叫支援\n在檔案信標中不生效"
     },
     "RequestAssist": {
       "name": "呼叫支援",
       "help": "打信標之前，從好友、艦隊、世界呼叫支援"
+    },
+    "EnsureFullyCollected": {
+      "name": "保證收集滿每日200信標數據",
+      "help": "在收集滿為前，暫時無視保留行動力設置，需要同時開啟 \"短貓相接\""
+    }
+  },
+  "OpsiDossierBeacon": {
+    "_info": {
+      "name": "檔案信標",
+      "help": ""
+    },
+    "Enable": {
+      "name": "打檔案信標",
+      "help": ""
     }
   },
   "OpsiFleetFilter": {
@@ -1937,11 +1985,11 @@
   "OpsiExplore": {
     "_info": {
       "name": "大世界開荒",
-      "help": "每月月初開荒大世界的所有海域，不需要買戰役信息記錄儀（5000油道具）\n這個功能將每隔30分鍾清理一個海域，以保證空域搜索冷卻\n使用此功能前必須滿足以下條件：\n- 通關大世界主線任務\n- 確認大世界出擊隊伍"
+      "help": "每月月初開荒大世界的所有海域，不需要買戰役信息記錄儀（5000油道具）\n這個功能將每隔27分鍾清理一個海域，以保證空域搜索冷卻\n使用此功能前必須滿足以下條件：\n- 通關大世界主線任務\n- 確認大世界出擊隊伍"
     },
     "SpecialRadar": {
       "name": "已購買戰役信息記錄儀（5000油道具）",
-      "help": "戰役信息記錄儀並非必須購買的\n但是如果已經購買，可以勾選此選項\n能夠省去30分鍾的探索間隔，效率更高"
+      "help": "戰役信息記錄儀並非必須購買的\n但是如果已經購買，可以勾選此選項\n能夠省去27分鍾的探索間隔，效率更高"
     },
     "ForceRun": {
       "name": "無視運行間隔強制運行",
@@ -1979,7 +2027,7 @@
   "OpsiObscure": {
     "_info": {
       "name": "隱秘海域",
-      "help": "每隔30分鍾清理一個隱秘海域，以保證空域搜索冷卻\n使用此功能前必須滿足以下條件：\n- 通關大世界主線任務\n- 完成大世界開荒或使用戰役信息記錄儀（5000油道具）"
+      "help": "每隔27分鍾清理一個隱秘海域，以保證空域搜索冷卻\n使用此功能前必須滿足以下條件：\n- 通關大世界主線任務\n- 完成大世界開荒或使用戰役信息記錄儀（5000油道具）"
     },
     "ForceRun": {
       "name": "無視執行間隔強制執行",

@@ -48,6 +48,7 @@ class RewardCommission(UI, InfoHandler):
     urgent: SelectedGrids
     daily_choose: SelectedGrids
     urgent_choose: SelectedGrids
+    comm_choose: SelectedGrids
     max_commission = 4
 
     def _commission_detect(self, image):
@@ -112,6 +113,7 @@ class RewardCommission(UI, InfoHandler):
         Returns:
             SelectedGrids, SelectedGrids: Chosen daily commission, Chosen urgent commission
         """
+        self.comm_choose = SelectedGrids([])
         # Count Commission
         total = daily.add_by_eq(urgent)
         # Commissions with higher suffix are always below those with smaller suffix
@@ -124,8 +126,6 @@ class RewardCommission(UI, InfoHandler):
         running_count = int(
             np.sum([1 for c in total if c.status == 'running']))
         logger.attr('Running', f'{running_count}/{self.max_commission}')
-        if running_count >= self.max_commission:
-            return SelectedGrids([]), SelectedGrids([])
 
         # Filter
         COMMISSION_FILTER.load(self.config.Commission_CommissionFilter)
@@ -139,11 +139,16 @@ class RewardCommission(UI, InfoHandler):
             if no_shortest.count < run.count:
                 logger.info('Not enough commissions to run, add shortest daily commissions')
                 COMMISSION_FILTER.load(SHORTEST_FILTER)
-                shortest = COMMISSION_FILTER.apply(daily, func=self._commission_check)
+                shortest = COMMISSION_FILTER.apply(daily[::-1], func=self._commission_check)
+                # Reverse the daily list to choose better commissions
                 run = no_shortest.add_by_eq(SelectedGrids(shortest))
                 logger.attr('Filter_sort', ' > '.join([str(c) for c in run]))
             else:
                 logger.info('Not enough commissions to run')
+
+        self.comm_choose = run
+        if running_count >= self.max_commission:
+            return SelectedGrids([]), SelectedGrids([])
 
         # Separate daily and urgent
         run = run[:self.max_commission - running_count]
@@ -180,11 +185,16 @@ class RewardCommission(UI, InfoHandler):
             # If daily list has commissions > 4, usually to be 5, and 1 <= urgent <= 4
             # commission list will have an animation to scroll,
             # which causes the topmost one undetected.
-            if not COMMISSION_SCROLL.appear(main=self) or COMMISSION_SCROLL.cal_position(main=self) < 0.05:
+            if not COMMISSION_SCROLL.appear(main=self) or COMMISSION_SCROLL.cal_position(main=self) < 0.05 or COMMISSION_SCROLL.length / COMMISSION_SCROLL.total > 0.98:
+                pre_peaks = lines_detect(self.device.image)
+                if not len(pre_peaks):
+                    return True
+                self.device.screenshot()
                 while 1:
                     peaks = lines_detect(self.device.image)
-                    if not len(peaks) or peaks[0] > 67 + 117:
+                    if (not len(peaks) or peaks[0] > 67 + 117) and (not len(pre_peaks) or not len(peaks) or abs(peaks[0] - pre_peaks[0]) < 3):
                         break
+                    pre_peaks = peaks
                     self.device.screenshot()
 
             return True
@@ -497,6 +507,7 @@ class RewardCommission(UI, InfoHandler):
         self.handle_info_bar()
         self.commission_start()
 
+        # Scheduler
         total = self.daily.add_by_eq(self.urgent)
         future_finish = sorted([f for f in total.get('finish_time') if f is not None])
         logger.info(f'Commission finish: {[str(f) for f in future_finish]}')
@@ -505,3 +516,17 @@ class RewardCommission(UI, InfoHandler):
         else:
             logger.info('No commission running')
             self.config.task_delay(success=False)
+
+        # Delay GemsFarming
+        if self.config.cross_get(keys='GemsFarming.GemsFarming.CommissionLimit', default=False):
+            daily = self.daily.select(category_str='daily', status='pending').count
+            filtered_urgent = self.comm_choose.intersect_by_eq(self.urgent.select(status='pending')).count
+            logger.info(f'Daily commission: {daily}, filtered_urgent: {filtered_urgent}')
+            if daily > 0 and filtered_urgent >= 1:
+                logger.info('Having daily commissions to do, delay task `GemsFarming`')
+                self.config.task_delay(
+                    minute=120, target=future_finish if len(future_finish) else None, task='GemsFarming')
+            elif filtered_urgent >= 4:
+                logger.info('Having too many urgent commissions, delay task `GemsFarming`')
+                self.config.task_delay(
+                    minute=120, target=future_finish if len(future_finish) else None, task='GemsFarming')

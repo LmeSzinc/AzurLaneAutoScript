@@ -26,7 +26,6 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
                 self.device.screenshot()
 
             if self.appear(BATTLE_PREPARATION):
-
                 # self.equipment_take_on()
                 pass
 
@@ -45,6 +44,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
         logger.info('Combat execute')
         self.low_hp_confirm_timer = Timer(self.config.Exercise_LowHpConfirmWait, count=2).start()
         show_hp_timer = Timer(5)
+        pause_interval = Timer(0.5, count=1)
         success = True
         end = False
 
@@ -78,24 +78,23 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
                 continue
 
             # Quit
+            if self.appear_then_click(QUIT_CONFIRM, offset=(20, 20), interval=5):
+                success = False
+                end = True
+                continue
+            if self.appear_then_click(QUIT_RECONFIRM, offset=(20, 20), interval=5):
+                self.interval_reset(QUIT_CONFIRM)
+                continue
             if not end:
                 if self._at_low_hp(image=self.device.image):
                     logger.info('Exercise quit')
-                    if self.appear_then_click(PAUSE, interval=0.5):
+                    if pause_interval.reached() and self.appear_then_click(PAUSE):
+                        pause_interval.reset()
                         continue
                 else:
                     if show_hp_timer.reached():
                         show_hp_timer.reset()
                         self._show_hp()
-
-            if self.appear_then_click(QUIT_CONFIRM, offset=(20, 20), interval=5):
-                success = False
-                end = True
-                continue
-
-            if self.appear_then_click(QUIT_RECONFIRM, offset=True, interval=5):
-                self.interval_reset(QUIT_CONFIRM)
-                continue
 
             # End
             if self._in_exercise() or self.appear(BATTLE_PREPARATION, offset=(20, 20)):

@@ -10,22 +10,16 @@ RUN wget https://dl.google.com/android/repository/platform-tools-latest-linux.zi
     rm platform-tools-latest-linux.zip && \
     ln -s /platform-tools/adb /usr/bin/adb
 
-# Create user
-RUN useradd -m abc && \
-    usermod -G users abc
-
 # Set remote and local dirs
 WORKDIR /app
 ENV SOURCE=./
-RUN chown abc:abc /app
-USER abc
 
 # Install the base conda environment
 ENV PYROOT=/app/pyroot
 RUN mamba create --prefix $PYROOT python==3.7.6 -y
 
 # Install the requirements to the conda environment
-COPY --chown=abc:abc $SOURCE/requirements.txt /app/requirements.txt
+COPY $SOURCE/requirements.txt /app/requirements.txt
 RUN $PYROOT/bin/pip install -r /app/requirements.txt
 
 # Initial download of UIAutomator2 is really slow with appetizer mirror (outside of China), switch to github

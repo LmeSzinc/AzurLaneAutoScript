@@ -43,6 +43,10 @@ RestartEmulator:
 Error:
   HandleError: true
   SaveError: true
+  OnePushConfig:
+    type: textarea
+    mode: yaml
+    value: 'provider: null'
   ScreenshotLength: 1
 Optimization:
   ScreenshotInterval: 0.3
@@ -221,12 +225,19 @@ GemsFarming:
   CommonCV:
     value: any
     option: [any, langley, bogue, ranger, hermes]
+  CommissionLimit: true
 
 # ==================== Event ====================
 
 EventGeneral:
   PtLimit: 0
   TimeLimit: 2020-01-01 00:00:00
+TaskBalancer:
+  Enable: false
+  CoinLimit: 10000
+  TaskCall:
+    value: Main
+    option: [Main, Main2, Main3]
 EventDaily:
   StageFilter: |-
     A1 > A2 > A3
@@ -520,8 +531,11 @@ OpsiGeneral:
     ActionPoint > PurpleCoins
 OpsiAshBeacon:
   AshAttack: true
-  EnsureFullyCollected: true
+  OneHitMode: true
   RequestAssist: true
+  EnsureFullyCollected: true
+OpsiDossierBeacon:
+  Enable: true
 OpsiFleetFilter:
   Filter: |-
     Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1

@@ -136,6 +136,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
             or func in ["MaritimeEscort", "GemsFarming"]
         ):
             func_set.add("EventGeneral")
+            func_set.add("TaskBalancer")
         logger.info(f"Bind task {func_set}")
 
         # Bind arguments
@@ -193,11 +194,12 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
             else:
                 waiting.append(func)
 
+        f = Filter(regex=r"(.*)", attr=["command"])
+        f.load(self.SCHEDULER_PRIORITY)
         if pending:
-            f = Filter(regex=r"(.*)", attr=["command"])
-            f.load(self.SCHEDULER_PRIORITY)
-            pending = f.apply(pending, func=lambda x: x.enable)
+            pending = f.apply(pending)
         if waiting:
+            waiting = f.apply(waiting)
             waiting = sorted(waiting, key=operator.attrgetter("next_run"))
         if error:
             pending = error + pending
@@ -248,14 +250,11 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
 
     def update(self):
         self.load()
+        self.config_override()
         self.bind(self.task)
         self.save()
 
     def config_override(self):
-        """
-        People migrating from manual game play to bot have a hard time giving up old usage habitat,
-        so, teach them how to play games and how to use Alas.
-        """
         now = datetime.now().replace(microsecond=0)
         limited = set()
 
@@ -268,17 +267,15 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
                     self.data, keys=f"{task}.Scheduler.NextRun", default=None
                 )
                 if isinstance(next_run, datetime) and next_run > limit:
-                    logger.warning(f"NextRun of task {task} is too far, reset to now")
                     deep_set(self.data, keys=f"{task}.Scheduler.NextRun", value=now)
 
-        def force_enable(tasks):
-            for task in tasks:
-                enable = deep_get(
-                    self.data, keys=f"{task}.Scheduler.Enable", default=None
-                )
-                if enable is not None and not enable:
-                    logger.warning(f"Task {task} is force to enable")
-                    self.modified[f"{task}.Scheduler.Enable"] = True
+        for task in ["Commission", "Research", "Reward"]:
+            enable = deep_get(
+                self.data, keys=f"{task}.Scheduler.Enable", default=None
+            )
+            if enable is not None and not enable:
+                self.modified[f"{task}.Scheduler.Enable"] = True
+        force_enable = list
 
         force_enable(
             [
@@ -327,7 +324,35 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         """
         return MultiSetWrapper(main=self)
 
-    def task_delay(self, success=None, server_update=None, target=None, minute=None):
+    def cross_get(self, keys, default=None):
+        """
+        Get configs from other tasks
+
+        Args:
+            keys (str, list[str]): Such as `{task}.Scheduler.Enable`
+            default:
+
+        Returns:
+            Any:
+        """
+        return deep_get(self.data, keys=keys, default=default)
+
+    def cross_set(self, keys, value):
+        """
+        Set configs to other tasks
+
+        Args:
+            keys (str, list[str]): Such as `{task}.Scheduler.Enable`
+            value (Any):
+
+        Returns:
+            Any:
+        """
+        self.modified[keys] = value
+        if self.auto_update:
+            self.update()
+
+    def task_delay(self, success=None, server_update=None, target=None, minute=None, task=None):
         """
         Set Scheduler.NextRun
         Should set at least one arguments.
@@ -344,6 +369,8 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
                 Delay to such time.
             minute (int, float, tuple):
                 Delay several minutes.
+            task (str):
+                Set across task. None for current task.
         """
 
         def ensure_delta(delay):
@@ -380,7 +407,10 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
                 allow_none=False,
             )
             logger.info(f"Delay task `{self.task.command}` to {run} ({kv})")
-            self.Scheduler_NextRun = run
+            if task is None:
+                task = self.task.command
+            self.modified[f'{task}.Scheduler.NextRun'] = run
+            self.update()
         else:
             raise ScriptError(
                 "Missing argument in delay_next_run, should set at least one"
@@ -391,7 +421,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         Delay the NextRun of all OpSi tasks.
 
         Args:
-            recon_scan (bool): True to delay all tasks requiring recon scan 30 min.
+            recon_scan (bool): True to delay all tasks requiring recon scan 27 min.
             submarine_call (bool): True to delay all tasks requiring submarine call 60 min.
             ap_limit (bool): True to delay all tasks requiring action points 360 min.
         """
@@ -509,7 +539,8 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
                 microsecond=0
             )
             self.modified[f"{task}.Scheduler.Enable"] = True
-            self.update()
+            if self.auto_update:
+                self.update()
             return True
         else:
             logger.info(f"Task call: {task} (skipped because disabled by user)")

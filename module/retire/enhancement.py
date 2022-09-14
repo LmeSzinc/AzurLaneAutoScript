@@ -38,16 +38,6 @@ class Enhancement(Dock):
         if favourite:
             self.dock_favourite_set(enable=True)
 
-        # self.dock_filter_enter()
-        # self.dock_filter_set(category='extra', filter_type='enhanceable', enable=True)
-        # self.dock_filter_set(category='index', filter_type='all', enable=True)
-        # self.dock_filter_set(category='sort', filter_type='level', enable=True)
-        # self.dock_filter_set(category='faction', filter_type='all', enable=True)
-        # self.dock_filter_set(category='rarity', filter_type='all', enable=True)
-        # if ship_type is not None:
-        #     ship_type = str(ship_type)
-        #     self.dock_filter_set(category='index', filter_type=ship_type, enable=True)
-        # self.dock_filter_confirm()
         if ship_type is not None:
             ship_type = str(ship_type)
             self.dock_filter_set(extra='enhanceable', index=ship_type)
@@ -69,10 +59,6 @@ class Enhancement(Dock):
         """
         self.ui_back(DOCK_CHECK)
         self.dock_favourite_set(enable=False)
-        # self.dock_filter_enter()
-        # self.dock_filter_set(category='extra', filter_type='no_limit', enable=True)
-        # self.dock_filter_set(category='index', filter_type='all', enable=True)
-        # self.dock_filter_confirm()
         self.dock_filter_set()
 
     def _enhance_confirm(self, skip_first_screenshot=True):

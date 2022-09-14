@@ -348,6 +348,7 @@ logger.hr = hr
 logger.attr = attr
 logger.attr_align = attr_align
 logger.set_file_logger = set_file_logger
+logger.set_func_logger = set_func_logger
 logger.rule = rule
 logger.print = print
 logger.log_file: str

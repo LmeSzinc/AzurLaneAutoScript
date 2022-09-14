@@ -58,6 +58,7 @@ GemsFarming:
 
 EventGeneral:
   - EventGeneral
+  - TaskBalancer
 Event:
   - Scheduler
   - Campaign
@@ -234,7 +235,10 @@ WarArchives:
 
 OpsiGeneral:
   - OpsiGeneral
+OpsiAshBeacon:
+  - Scheduler
   - OpsiAshBeacon
+  - OpsiDossierBeacon
 OpsiAshAssist:
   - Scheduler
   - OpsiAshAssist
