@@ -9,6 +9,16 @@
     "MaaRecord": {
       "ReportToPenguin": false,
       "PenguinID": null
+    },
+    "Emulator": {
+      "ServerName": "disabled"
+    },
+    "Error": {
+      "SaveError": false,
+      "OnePushConfig": "provider: null"
+    },
+    "Optimization": {
+      "WhenTaskQueueEmpty": "stay_there"
     }
   },
   "MaaStartup": {

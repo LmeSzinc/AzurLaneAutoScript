@@ -375,8 +375,10 @@ class AzurLaneAutoScript:
     def wait_until(self, future):
         """
         Wait until a specific time.
+
         Args:
             future (datetime):
+
         Returns:
             bool: True if wait finished, False if config changed.
         """

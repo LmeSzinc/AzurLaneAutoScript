@@ -46,6 +46,7 @@ def name_to_function(name):
     """
     Args:
         name (str):
+
     Returns:
         Function:
     """
@@ -318,6 +319,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
     def multi_set(self):
         """
         Set multiple arguments but save once.
+
         Examples:
             with self.config.multi_set():
                 self.config.foo1 = 1
@@ -327,10 +329,12 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
 
     def cross_get(self, keys, default=None):
         """
-        Get configs from other tasks
+        Get configs from other tasks.
+
         Args:
             keys (str, list[str]): Such as `{task}.Scheduler.Enable`
             default:
+
         Returns:
             Any:
         """
@@ -338,10 +342,12 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
 
     def cross_set(self, keys, value):
         """
-        Set configs to other tasks
+        Set configs to other tasks.
+
         Args:
             keys (str, list[str]): Such as `{task}.Scheduler.Enable`
             value (Any):
+
         Returns:
             Any:
         """
@@ -354,6 +360,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         Set Scheduler.NextRun
         Should set at least one arguments.
         If multiple arguments are set, use the nearest.
+
         Args:
             success (bool):
                 If True, delay Scheduler.SuccessInterval
@@ -415,6 +422,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
     def opsi_task_delay(self, recon_scan=False, submarine_call=False, ap_limit=False):
         """
         Delay the NextRun of all OpSi tasks.
+
         Args:
             recon_scan (bool): True to delay all tasks requiring recon scan 27 min.
             submarine_call (bool): True to delay all tasks requiring submarine call 60 min.
@@ -544,7 +552,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
     @staticmethod
     def task_stop(message=""):
         """
-        Stop current task
+        Stop current task.
 
         Raises:
             TaskEnd:
@@ -577,7 +585,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
 
     def check_task_switch(self, message=""):
         """
-        Stop current task
+        Stop current task when task switched.
 
         Raises:
             TaskEnd:
@@ -605,6 +613,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         """
         Args:
             other (AzurLaneConfig, Config):
+
         Returns:
             AzurLaneConfig
         """
@@ -674,12 +683,15 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
     def temporary(self, **kwargs):
         """
         Cover some settings, and recover later.
+
         Usage:
         backup = self.config.cover(ENABLE_DAILY_REWARD=False)
         # do_something()
         backup.recover()
+
         Args:
             **kwargs:
+
         Returns:
             ConfigBackup:
         """

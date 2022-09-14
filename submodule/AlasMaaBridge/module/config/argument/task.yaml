@@ -7,6 +7,9 @@
 Maa:
   - MaaEmulator
   - MaaRecord
+  - Emulator
+  - Error
+  - Optimization
 
 MaaStartup:
   - Scheduler

@@ -38,6 +38,33 @@
         "type": "input",
         "value": null
       }
+    },
+    "Emulator": {
+      "ServerName": {
+        "type": "input",
+        "value": "disabled",
+        "display": "hide"
+      }
+    },
+    "Error": {
+      "SaveError": {
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
+      },
+      "OnePushConfig": {
+        "type": "input",
+        "value": "provider: null",
+        "mode": "yaml",
+        "display": "hide"
+      }
+    },
+    "Optimization": {
+      "WhenTaskQueueEmpty": {
+        "type": "input",
+        "value": "stay_there",
+        "display": "hide"
+      }
     }
   },
   "MaaStartup": {
