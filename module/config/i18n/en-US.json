@@ -194,6 +194,10 @@
       "name": "OpSi General",
       "help": ""
     },
+    "OpsiAshBeacon": {
+      "name": "Ash Beacon",
+      "help": ""
+    },
     "OpsiAshAssist": {
       "name": "OpSi Ash Assist",
       "help": ""
@@ -571,6 +575,7 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "event_20200903_en": "Stars of the Shimmering Fjord",
       "event_20220818_cn": "Operation Convergence",
       "event_20220324_cn": "Virtual Tower",
       "event_20211028_cn": "Skybound Oratorio Rerun",
@@ -604,7 +609,6 @@
       "event_20210819_cn": "Microlayer Medley Rerun",
       "event_20200806_cn": "The Enigma and the Shark Rerun",
       "event_20200723_cn": "Aurora Noctis",
-      "event_20200903_en": "Stars of the Shimmering Fjord",
       "event_20210624_cn": "Swirling Cherry Blossoms Rerun",
       "event_20210624_tw": "穹頂下的聖詠曲",
       "event_20210610_tw": "夜幕下的歸途",
@@ -1034,6 +1038,10 @@
       "bogue": "bogue",
       "ranger": "ranger",
       "hermes": "hermes"
+    },
+    "CommissionLimit": {
+      "name": "Prevent Too Many Urgent Commissions",
+      "help": "When running 7x24, prevent having a lot of urgent commissions and not being able to complete daily commissions. It is recommended to select only short-terms and high-yields in the commission filter"
     }
   },
   "EventGeneral": {
@@ -1919,13 +1927,27 @@
       "name": "Enable Ash Attack",
       "help": "When data beacon is full; attack until ash has been completed"
     },
-    "EnsureFullyCollected": {
-      "name": "Ensure 200 Beacon Data Fully Collected",
-      "help": "Ignore AP limit setting temporarily before ash beacon fully collected. \"Meowfficer Farming\" must be enabled"
+    "OneHitMode": {
+      "name": "One Hit Mode",
+      "help": "Strike each beacon only once, then call for support every half hour thereafter\nNot effective in dossier beacons"
     },
     "RequestAssist": {
       "name": "Request Assists",
       "help": "Before the attack, request assists from friends, guild and world"
+    },
+    "EnsureFullyCollected": {
+      "name": "Ensure 200 Beacon Data Fully Collected",
+      "help": "Ignore AP limit setting temporarily before ash beacon fully collected. \"Meowfficer Farming\" must be enabled"
+    }
+  },
+  "OpsiDossierBeacon": {
+    "_info": {
+      "name": "Dossier Beacon",
+      "help": ""
+    },
+    "Enable": {
+      "name": "Enable Dossier Beacon Attack",
+      "help": ""
     }
   },
   "OpsiFleetFilter": {
@@ -1959,11 +1981,11 @@
   "OpsiExplore": {
     "_info": {
       "name": "OpSi Explore Settings",
-      "help": "At the beginning of each month OpSi is reset\nThe following must be satisfied:\n- Manually confirm fleet deployment into OpSi\n- OpSi story must be complete\nEach zone will be visited in a clockwise direction every 30 minutes until world has been been completely opened\nNo need to consume 5000 oil for special radar in OpSi shop"
+      "help": "At the beginning of each month OpSi is reset\nThe following must be satisfied:\n- Manually confirm fleet deployment into OpSi\n- OpSi story must be complete\nEach zone will be visited in a clockwise direction every 27 minutes until world has been been completely opened\nNo need to consume 5000 oil for special radar in OpSi shop"
     },
     "SpecialRadar": {
       "name": "SpecialRadar Bought",
-      "help": "Enable if you have purchased the special radar\nAllows Alas to explore OpSi continously without having to wait 30 minutes between each zone clear\nFor those with oil surplus and would like to complete this task efficiently"
+      "help": "Enable if you have purchased the special radar\nAllows Alas to explore OpSi continously without having to wait 27 minutes between each zone clear\nFor those with oil surplus and would like to complete this task efficiently"
     },
     "ForceRun": {
       "name": "Force Run",
@@ -2001,7 +2023,7 @@
   "OpsiObscure": {
     "_info": {
       "name": "OpSi Obscure Settings",
-      "help": "Clear obscure zones every 30 minutes\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi shop"
+      "help": "Clear obscure zones every 27 minutes\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi shop"
     },
     "ForceRun": {
       "name": "Force Run",

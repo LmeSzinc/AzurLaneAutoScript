@@ -1,17 +1,27 @@
 from module.base.button import ButtonGrid
+from module.base.decorator import cached_property
 from module.logger import logger
 from module.storage.assets import MATERIAL_ENTER, DISASSEMBLE_CANCEL, MATERIAL_CHECK, MATERIAL_STABLE_CHECK, \
     EQUIPMENT_ENTER, DISASSEMBLE, EQUIPMENT_FILTER, EQUIPMENT_FILTER_CONFIRM
 from module.ui.assets import STORAGE_CHECK
 from module.ui.page import page_storage
+from module.ui.setting import Setting
 from module.ui.ui import UI
-
-FILTER_RARITY_GRIDS = ButtonGrid(
-    origin=(284, 446), delta=(158, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_RARITY')
-FILTER_RARITY_TYPES = [['all', 'common', 'rare', 'elite', 'super_rare', 'ultra_rare']]
 
 
 class StorageUI(UI):
+    @cached_property
+    def storage_filter(self) -> Setting:
+        setting = Setting(name='STORAGE', main=self)
+        setting.add_setting(
+            setting='rarity',
+            option_buttons=ButtonGrid(
+                origin=(284, 446), delta=(158, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_RARITY'),
+            option_names=['all', 'common', 'rare', 'elite', 'super_rare', 'ultra_rare'],
+            option_default='all'
+        )
+        return setting
+
     def ui_goto_storage(self):
         return self.ui_ensure(destination=page_storage)
 
@@ -28,8 +38,8 @@ class StorageUI(UI):
         Returns:
             bool, if in MATERIAL_CHECK, appear and match_appear_on
         """
-        return self.appear(MATERIAL_CHECK, offset=(20, 20), interval=interval) and \
-               MATERIAL_CHECK.match_appear_on(self.device.image)
+        return self.appear(MATERIAL_CHECK, offset=(20, 20), interval=interval) \
+               and MATERIAL_CHECK.match_appear_on(self.device.image)
 
     def _storage_enter_material(self, skip_first_screenshot=True):
         """
@@ -137,51 +147,6 @@ class StorageUI(UI):
         self.ui_click(EQUIPMENT_FILTER_CONFIRM, check_button=STORAGE_CHECK, skip_first_screenshot=True)
         self._wait_until_storage_stable()
 
-    def _equipment_filter_set_execute(self, rarity='all', skip_first_screenshot=True):
-        """
-        A faster filter set function.
-        Imitate module.retire.dock.Dock.dock_filter_set_execute, not complete.
-
-        Args:
-            rarity (str, list):
-
-        Returns:
-            bool: If success.
-
-        Pages:
-            in: EQUIPMENT_FILTER_CONFIRM
-        """
-        # [[button_1, need_enable_1], ...]
-        list_filter = []
-        rarity = rarity if isinstance(rarity, list) else [rarity]
-        for x, y, button in FILTER_RARITY_GRIDS.generate():
-            name = FILTER_RARITY_TYPES[y][x]
-            list_filter.append([button, name in rarity])
-
-        for _ in range(5):
-            logger.info(
-                f'Setting equipment filter rarity={rarity}')
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            change_count = 0
-            for button, enable in list_filter:
-                active = self.image_color_count(button, color=(181, 142, 90), threshold=235, count=250)
-                # or self.image_color_count(button, color=(74, 117, 189), threshold=235, count=250)
-                if enable and not active:
-                    self.device.click(button)
-                    change_count += 1
-            self.device.sleep((0.1, 0.2))
-
-            # End
-            if change_count == 0:
-                return True
-
-        logger.warning('Failed to set all equipment filters after 5 trial, assuming current filters are correct.')
-        return False
-
     def equipment_filter_set(self, rarity='all'):
         """
         A faster filter set function.
@@ -202,6 +167,5 @@ class StorageUI(UI):
         }
         rarity = rarity_convert.get(str(rarity), rarity)
         self._equipment_filter_enter()
-        self._equipment_filter_set_execute()  # Reset filter
-        self._equipment_filter_set_execute(rarity=rarity)
+        self.storage_filter.set(rarity=rarity)
         self._equipment_filter_confirm()

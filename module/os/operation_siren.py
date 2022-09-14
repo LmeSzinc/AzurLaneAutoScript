@@ -1,6 +1,6 @@
 import numpy as np
 
-from module.config.utils import (deep_get, get_os_next_reset,
+from module.config.utils import (get_os_next_reset,
                                  get_os_reset_remain,
                                  DEFAULT_TIME)
 from module.exception import RequestHumanTakeover, ScriptError
@@ -179,21 +179,21 @@ class OperationSiren(OSMap):
         Delay other OpSi tasks during os_explore
         """
         logger.info('Delay other OpSi tasks during OpsiExplore')
-        next_run = self.config.Scheduler_NextRun
-        for task in ['OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold', 'OpsiMeowfficerFarming']:
-            keys = f'{task}.Scheduler.NextRun'
-            current = deep_get(self.config.data, keys=keys, default=DEFAULT_TIME)
-            if current < next_run:
-                logger.info(f'Delay task `{task}` to {next_run}')
-                self.config.modified[keys] = next_run
+        with self.config.multi_set():
+            next_run = self.config.Scheduler_NextRun
+            for task in ['OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold', 'OpsiMeowfficerFarming']:
+                keys = f'{task}.Scheduler.NextRun'
+                current = self.config.cross_get(keys=keys, default=DEFAULT_TIME)
+                if current < next_run:
+                    logger.info(f'Delay task `{task}` to {next_run}')
+                    self.config.cross_set(keys=keys, value=next_run)
 
-        # ResetActionPointPreserve
-        # Unbound attribute, default to 500
-        preserve = self.config.OpsiMeowfficerFarming_ActionPointPreserve
-        logger.info(f'Set OpsiMeowfficerFarming.ActionPointPreserve to {preserve}')
-        self.config.modified['OpsiMeowfficerFarming.OpsiMeowfficerFarming.ActionPointPreserve'] = preserve
-
-        self.config.update()
+            # ResetActionPointPreserve
+            # Unbound attribute, default to 500
+            preserve = self.config.OpsiMeowfficerFarming_ActionPointPreserve
+            logger.info(f'Set OpsiMeowfficerFarming.ActionPointPreserve to {preserve}')
+            self.config.cross_set(
+                keys='OpsiMeowfficerFarming.OpsiMeowfficerFarming.ActionPointPreserve', value=preserve)
 
     def _os_explore(self):
         """
