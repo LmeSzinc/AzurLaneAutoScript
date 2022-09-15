@@ -6,7 +6,7 @@ from .a1 import Config as ConfigBase
 
 MAP = CampaignMap('A2')
 MAP.shape = 'H8'
-MAP.camera_data = ['D2', 'D6', 'E2', 'E6']
+MAP.camera_data = ['D4', 'D6', 'E3']
 MAP.camera_data_spawn_point = ['D2']
 MAP.map_data = """
     -- SP ++ ++ -- ME -- ME
@@ -58,10 +58,15 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    MAP_SWIPE_MULTIPLY = 1.864
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.802
+    HOMO_STORAGE = ((8, 6), [(250.102, 84.465), (1144.354, 84.465), (131.951, 615.957), (1296.532, 615.957)])
+
 
 class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
+    MAP_ENEMY_SEARCHING_OVERLAY_TRANSPARENCY_THRESHOLD = 0.65
 
     def battle_0(self):
         if self.clear_siren():

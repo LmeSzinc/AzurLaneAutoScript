@@ -6,7 +6,7 @@ from .c1 import Config as ConfigBase
 
 MAP = CampaignMap('C3')
 MAP.shape = 'H8'
-MAP.camera_data = ['D2', 'D6', 'E2', 'E6']
+MAP.camera_data = ['D3', 'E4', 'E6']
 MAP.camera_data_spawn_point = ['E2']
 MAP.map_data = """
     ++ ++ ++ ME -- -- SP --
@@ -58,6 +58,9 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
+    MAP_SWIPE_MULTIPLY = 1.864
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.802
 
 
 class Campaign(CampaignBase):

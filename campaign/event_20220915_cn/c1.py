@@ -5,7 +5,7 @@ from module.logger import logger
 
 MAP = CampaignMap('C1')
 MAP.shape = 'H8'
-MAP.camera_data = ['D3', 'D6', 'E3', 'E6']
+MAP.camera_data = ['D3', 'E4', 'E6']
 MAP.camera_data_spawn_point = ['D6']
 MAP.map_data = """
     -- ++ ++ -- -- -- -- --
@@ -56,6 +56,9 @@ class Config:
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
+    MAP_SWIPE_MULTIPLY = 1.670
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.615
 
 
 class Campaign(CampaignBase):

@@ -5,7 +5,7 @@ from module.logger import logger
 
 MAP = CampaignMap('A1')
 MAP.shape = 'H8'
-MAP.camera_data = ['D3', 'D6', 'E3', 'E6']
+MAP.camera_data = ['D3', 'E4', 'E6']
 MAP.camera_data_spawn_point = ['D6']
 MAP.map_data = """
     -- ++ ++ -- -- -- -- --
@@ -57,10 +57,15 @@ class Config:
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    MAP_SWIPE_MULTIPLY = 1.670
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.615
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 210
+
 
 class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
+    MAP_ENEMY_SEARCHING_OVERLAY_TRANSPARENCY_THRESHOLD = 0.65
 
     def battle_0(self):
         if self.clear_siren():
