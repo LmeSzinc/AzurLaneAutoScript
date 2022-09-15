@@ -51,7 +51,7 @@ class Meta(UI, MapEventHandler):
 
 
 def _server_support():
-    return server.server in ['cn', 'en']
+    return server.server in ['cn', 'en', 'jp']
 
 
 class OpsiAshBeacon(Meta):
@@ -254,6 +254,9 @@ class OpsiAshBeacon(Meta):
                 self.device.click(META_BEGIN_ENTRANCE)
                 logger.info('Begin a beacon')
             else:
+                # TW only support current meta
+                if server.server == 'tw':
+                    return False
                 self.appear_then_click(ASH_QUIT, offset=(10, 10), interval=2)
             return True
         # Page dossier
