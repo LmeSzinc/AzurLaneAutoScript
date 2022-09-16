@@ -1,4 +1,4 @@
-from module.campaign.campaign_base import CampaignBase
+from .campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
@@ -60,7 +60,6 @@ class Config(ConfigBase):
 
     MAP_SWIPE_MULTIPLY = 1.864
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.802
-    HOMO_STORAGE = ((8, 6), [(250.102, 84.465), (1144.354, 84.465), (131.951, 615.957), (1296.532, 615.957)])
 
 
 class Campaign(CampaignBase):

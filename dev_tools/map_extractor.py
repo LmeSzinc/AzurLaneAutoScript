@@ -199,6 +199,8 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'qiansui': 'Chitose',
     'qiandaitian': 'Chiyoda',
     'longfeng': 'Ryuuhou',
+    'chunyue': 'Harutsuki',
+    'jiangfeng': 'Kawakaze',
 }
 
 
