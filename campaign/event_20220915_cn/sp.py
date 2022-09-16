@@ -5,8 +5,8 @@ from module.logger import logger
 
 MAP = CampaignMap('SP')
 MAP.shape = 'I9'
-MAP.camera_data = ['D2', 'D6', 'D7', 'F2', 'F6', 'F7']
-MAP.camera_data_spawn_point = ['F7', 'D7']
+MAP.camera_data = ['D3', 'E4', 'F3']
+MAP.camera_data_spawn_point = ['E7']
 MAP.map_data = """
     -- -- -- ME -- ME -- ++ ++
     ++ ++ ME -- Me -- ME ++ ++
@@ -30,7 +30,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0},
+    {'battle': 0, 'siren': 4},
     {'battle': 1},
     {'battle': 2},
     {'battle': 3},
@@ -62,12 +62,41 @@ class Config:
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
+    MAP_HAS_SIREN = True
+    MAP_IS_ONE_TIME_STAGE = True
+    MAP_WALK_USE_CURRENT_FLEET = True
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 33),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 33, 255),
+        'prominence': 10,
+        'distance': 50,
+        # 'width': (0, 7),
+        'wlen': 1000
+    }
+    HOMO_STORAGE = ((9, 7), [(185.75, 67.44), (1183.65, 67.44), (28.601, 705.824), (1380.695, 705.824)])
+    MAP_SWIPE_MULTIPLY = 1.517
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.467
+
 
 class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
+    def map_data_init(self, map_):
+        super().map_data_init(map_)
+        D4.is_siren = True
+        D6.is_siren = True
+        F4.is_siren = True
+        F6.is_siren = True
+
     def battle_0(self):
+        if self.clear_siren():
+            return True
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=2):
             return True
 
