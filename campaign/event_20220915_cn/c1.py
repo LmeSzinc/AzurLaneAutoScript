@@ -1,4 +1,4 @@
-from module.campaign.campaign_base import CampaignBase
+from .campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
@@ -59,6 +59,7 @@ class Config:
 
     MAP_SWIPE_MULTIPLY = 1.670
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.615
+    MAP_WALK_USE_CURRENT_FLEET = True
 
 
 class Campaign(CampaignBase):

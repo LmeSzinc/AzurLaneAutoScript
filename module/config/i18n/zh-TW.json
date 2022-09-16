@@ -1153,6 +1153,15 @@
     "TacticalFilter": {
       "name": "戰術學院過濾器",
       "help": "一般不需要修改"
+    },
+    "RapidTrainingSlot": {
+      "name": "使用快速學習",
+      "help": "活動期間有每天10次的快速技能學習",
+      "do_not_use": "不使用",
+      "slot_1": "使用於1號位",
+      "slot_2": "使用於2號位",
+      "slot_3": "使用於3號位",
+      "slot_4": "使用於4號位"
     }
   },
   "ControlExpOverflow": {

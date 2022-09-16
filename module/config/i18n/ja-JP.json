@@ -1153,6 +1153,15 @@
     "TacticalFilter": {
       "name": "Tactical.TacticalFilter.name",
       "help": "Tactical.TacticalFilter.help"
+    },
+    "RapidTrainingSlot": {
+      "name": "Tactical.RapidTrainingSlot.name",
+      "help": "Tactical.RapidTrainingSlot.help",
+      "do_not_use": "do_not_use",
+      "slot_1": "slot_1",
+      "slot_2": "slot_2",
+      "slot_3": "slot_3",
+      "slot_4": "slot_4"
     }
   },
   "ControlExpOverflow": {

@@ -1153,6 +1153,15 @@
     "TacticalFilter": {
       "name": "战术学院过滤器",
       "help": "一般不需要修改"
+    },
+    "RapidTrainingSlot": {
+      "name": "使用快速学习",
+      "help": "活动期间有每天10次的快速技能学习",
+      "do_not_use": "不使用",
+      "slot_1": "使用于1号位",
+      "slot_2": "使用于2号位",
+      "slot_3": "使用于3号位",
+      "slot_4": "使用于4号位"
     }
   },
   "ControlExpOverflow": {
