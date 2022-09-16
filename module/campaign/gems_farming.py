@@ -8,7 +8,7 @@ from module.exception import CampaignEnd
 from module.logger import logger
 from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
 from module.ocr.ocr import Digit
-from module.retire.assets import DOCK_CHECK
+from module.retire.assets import DOCK_CHECK, TEMPLATE_BOGUE, TEMPLATE_HERMES, TEMPLATE_LANGLEY, TEMPLATE_RANGER
 from module.retire.dock import Dock, CARD_GRIDS, CARD_EMOTION_GRIDS, CARD_LEVEL_GRIDS
 from module.ui.page import page_fleet
 
