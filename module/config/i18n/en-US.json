@@ -1157,6 +1157,15 @@
     "TacticalFilter": {
       "name": "Tactical Book Priority",
       "help": "Generally does not need to be modified or re-arranged but can do so if desired"
+    },
+    "RapidTrainingSlot": {
+      "name": "Use Rapid Training",
+      "help": "During events, use rapid training 10 times",
+      "do_not_use": "Don't Use",
+      "slot_1": "Use on Slot #1",
+      "slot_2": "Use on Slot #2",
+      "slot_3": "Use on Slot #3",
+      "slot_4": "Use on Slot #4"
     }
   },
   "ControlExpOverflow": {

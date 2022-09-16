@@ -2,21 +2,20 @@ from .campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from .a1 import Config as ConfigBase
 
-MAP = CampaignMap('A3')
+MAP = CampaignMap('B1')
 MAP.shape = 'H8'
-MAP.camera_data = ['D3', 'E4', 'E6']
-MAP.camera_data_spawn_point = ['E2']
+MAP.camera_data = ['D3', 'D5']
+MAP.camera_data_spawn_point = ['E6']
 MAP.map_data = """
-    ++ ++ ++ ME -- -- SP --
-    ME -- Me -- MS -- -- SP
-    -- -- -- -- -- ++ -- --
-    ME -- ME -- Me -- MS --
-    -- ++ ++ ++ ME __ -- ME
-    -- ++ ++ ++ -- -- Me --
-    -- ++ ++ MB -- ME ++ ++
-    -- -- -- -- Me -- ++ ++
+    ++ -- -- -- ME -- -- --
+    -- -- -- ME -- ME ++ --
+    -- ++ ++ ME -- Me ++ ME
+    -- MB -- -- -- -- -- --
+    Me -- -- __ Me ME MS --
+    ++ ME -- ME -- ++ -- --
+    -- -- Me -- MS -- -- SP
+    -- ++ ++ ++ -- -- SP --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50
@@ -31,9 +30,10 @@ MAP.weight_data = """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'siren': 1},
     {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'enemy': 1},
+    {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 1, 'boss': 1},
+    {'battle': 4, 'enemy': 2, 'boss': 1},
+    {'battle': 5, 'enemy': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, \
 A2, B2, C2, D2, E2, F2, G2, H2, \
@@ -46,9 +46,9 @@ A8, B8, C8, D8, E8, F8, G8, H8, \
     = MAP.flatten()
 
 
-class Config(ConfigBase):
+class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['Hatakaze', 'Kinu', 'Haguro']
+    MAP_SIREN_TEMPLATE = ['Harutsuki', 'Kawakaze', 'Hiei']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -58,8 +58,22 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
-    MAP_SWIPE_MULTIPLY = 1.864
-    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.802
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 33),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 33, 255),
+        'prominence': 10,
+        'distance': 50,
+        # 'width': (0, 7),
+        'wlen': 1000
+    }
+    MAP_WALK_USE_CURRENT_FLEET = True
+    MAP_SWIPE_MULTIPLY = 1.564
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.512
 
 
 class Campaign(CampaignBase):

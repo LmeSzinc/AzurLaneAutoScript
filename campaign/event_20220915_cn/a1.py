@@ -1,4 +1,4 @@
-from module.campaign.campaign_base import CampaignBase
+from .campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
@@ -57,9 +57,23 @@ class Config:
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 33),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 33, 255),
+        'prominence': 10,
+        'distance': 50,
+        # 'width': (0, 7),
+        'wlen': 1000
+    }
     MAP_SWIPE_MULTIPLY = 1.670
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.615
     HOMO_EDGE_HOUGHLINES_THRESHOLD = 210
+    MAP_WALK_USE_CURRENT_FLEET = True
 
 
 class Campaign(CampaignBase):
