@@ -59,6 +59,9 @@ class Meta(UI, MapEventHandler):
             return True
         if self.handle_popup_cancel():
             return True
+        if self.appear_then_click(META_ENTRANCE, offset=(20, 300), interval=2):
+            return True
+        return False
 
 
 def _server_support():
