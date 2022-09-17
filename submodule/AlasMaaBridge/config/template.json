@@ -90,7 +90,7 @@
       "Enable": false,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "MaaRecruit",
-      "SuccessInterval": 540,
+      "SuccessInterval": 180,
       "FailureInterval": 120,
       "ServerUpdate": "04:00"
     },
@@ -109,7 +109,7 @@
       "Enable": false,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "MaaInfrast",
-      "SuccessInterval": 1200,
+      "SuccessInterval": 720,
       "FailureInterval": 120,
       "ServerUpdate": "04:00"
     },
@@ -152,7 +152,7 @@
       "Command": "MaaAward",
       "SuccessInterval": 60,
       "FailureInterval": 120,
-      "ServerUpdate": "04:00"
+      "ServerUpdate": "04:00, 16:00"
     }
   },
   "MaaRoguelike": {

@@ -53,6 +53,7 @@ class AssistantHandler:
 
     def maa_start(self, task_name, params):
         self.task_id = self.asst.append_task(task_name, params)
+        self.signal = None
         self.params = params
         self.callback_list.append(self.generic_callback)
         self.callback_timer.reset()
@@ -63,8 +64,6 @@ class AssistantHandler:
                 raise RequestHumanTakeover
 
             if self.signal == self.Message.AllTasksCompleted:
-                self.signal = None
-                self.task_id = None
                 self.callback_list.clear()
                 self.asst.stop()
                 return

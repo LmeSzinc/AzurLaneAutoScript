@@ -309,7 +309,7 @@
       },
       "SuccessInterval": {
         "type": "input",
-        "value": 540,
+        "value": 180,
         "display": "hide"
       },
       "FailureInterval": {
@@ -372,7 +372,7 @@
       },
       "SuccessInterval": {
         "type": "input",
-        "value": 1200,
+        "value": 720,
         "display": "hide"
       },
       "FailureInterval": {
@@ -522,7 +522,7 @@
       },
       "ServerUpdate": {
         "type": "input",
-        "value": "04:00",
+        "value": "04:00, 16:00",
         "display": "hide"
       }
     }

@@ -12,9 +12,10 @@ class ArknightsConfig(AzurLaneConfig, ConfigUpdater, GeneratedConfig):
     SCHEDULER_PRIORITY = """
             MaaStartup
             > MaaRecruit > MaaInfrast
-            > MaaVisit > MaaMall > MaaAward
+            > MaaVisit > MaaMall
             > MaaAnnihilation > MaaMaterial
-            > MaaFight > MaaRoguelike
+            > MaaFight > MaaAward
+            > MaaRoguelike
             """
 
     def __init__(self, config_name, task=None):
