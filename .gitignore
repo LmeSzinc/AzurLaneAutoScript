@@ -8,9 +8,6 @@ config/*.yaml
 config/*.json
 config/tmp*
 !config/template.json
-submodule/AlasMaaBridge/config/*.json
-submodule/AlasMaaBridge/config/tmp*
-!submodule/AlasMaaBridge/config/template.json
 *.pyw
 dev_tools/debug_tools
 .idea
@@ -22,6 +19,11 @@ config/reloadflag
 config/reloadalas
 test.py
 test/
+
+submodule/AlasMaaBridge/config/*.json
+submodule/AlasMaaBridge/config/tmp*
+!submodule/AlasMaaBridge/config/template.json
+map/
 debug/
 
 # Created by .ignore support plugin (hsz.mobi)

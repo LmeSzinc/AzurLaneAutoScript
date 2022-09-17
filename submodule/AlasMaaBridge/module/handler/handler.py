@@ -51,6 +51,16 @@ class AssistantHandler:
     def split_filter(string, sep='>'):
         return [f.strip(' \t\r\n') for f in string.split(sep)]
 
+    def maa_stop(self):
+        self.asst.stop()
+        while 1:
+            if self.signal in [
+                self.Message.AllTasksCompleted,
+                self.Message.TaskChainCompleted,
+                self.Message.TaskChainError
+            ]:
+                return
+
     def maa_start(self, task_name, params):
         self.task_id = self.asst.append_task(task_name, params)
         self.signal = None
@@ -63,9 +73,9 @@ class AssistantHandler:
                 logger.critical('MAA no respond, probably stuck')
                 raise RequestHumanTakeover
 
-            if self.signal == self.Message.AllTasksCompleted:
+            if self.signal is not None:
+                self.maa_stop()
                 self.callback_list.clear()
-                self.asst.stop()
                 return
 
             time.sleep(0.5)
@@ -83,21 +93,33 @@ class AssistantHandler:
             m (Message): 消息类型
             d (dict): 消息详情
         """
-        if m == self.Message.AllTasksCompleted:
-            self.signal = self.Message.AllTasksCompleted
+        if m in [
+            self.Message.AllTasksCompleted,
+            self.Message.TaskChainCompleted,
+            self.Message.TaskChainError
+        ]:
+            self.signal = m
 
     def penguin_id_callback(self, m, d):
         if not self.config.MaaRecord_PenguinID \
                 and m == self.Message.SubTaskExtraInfo \
                 and deep_get(d, keys='what') == 'PenguinId':
             self.config.MaaRecord_PenguinID = deep_get(d, keys='details.id')
-            self.params["penguin_id"] = self.config.MaaRecord_PenguinID
-            self.asst.set_task_params(self.task_id, self.params)
             self.callback_list.remove(self.penguin_id_callback)
 
     def annihilation_callback(self, m, d):
         if m == self.Message.SubTaskError:
-            self.signal = self.Message.AllTasksCompleted
+            self.signal = m
+
+    def roguelike_callback(self, m, d):
+        if self.task_switch_timer.reached():
+            if self.config.task_switched():
+                self.task_switch_timer = None
+                self.params['starts_count'] = 0
+                self.asst.set_task_params(self.task_id, self.params)
+                self.callback_list.remove(self.roguelike_callback)
+            else:
+                self.task_switch_timer.reset()
 
     def startup(self):
         self.maa_start('StartUp', {
@@ -223,8 +245,12 @@ class AssistantHandler:
         if self.config.MaaRoguelike_CoreChar:
             args["core_char"] = self.config.MaaRoguelike_CoreChar
 
+        self.task_switch_timer = Timer(30).start()
+        self.callback_list.append(self.roguelike_callback)
         self.maa_start('Roguelike', args)
-        self.config.task_delay(success=True)
+
+        if self.task_switch_timer is not None:
+            self.config.Scheduler_Enable = False
 
     def copilot(self):
         path = self.config.MaaCopilot_FileName
