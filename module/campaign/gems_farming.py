@@ -171,8 +171,12 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
             return None
         else:
-            template = globals()[
-                f'TEMPLATE_{self.config.GemsFarming_CommonCV.upper()}']
+            template = {
+                'BOGUE': TEMPLATE_BOGUE,
+                'HERMES': TEMPLATE_HERMES,
+                'LANGLEY': TEMPLATE_LANGLEY,
+                'RANGER': TEMPLATE_RANGER
+            }[f'{self.config.GemsFarming_CommonCV.upper()}']
 
             self.dock_sort_method_dsc_set()
 
