@@ -163,4 +163,5 @@ GUI development, thanks **[@18870](https://github.com/18870)** , say HURRAY.
 - [ALAuto](https://github.com/Egoistically/ALAuto)，EN服的碧蓝航线脚本，已不再维护，Alas 模仿了其架构。
 - [ALAuto homg_trans_beta](https://github.com/asd111333/ALAuto/tree/homg_trans_beta)，Alas 引入了其中的单应性变换至海图识别模块中。
 - [PyWebIO](https://github.com/pywebio/PyWebIO)，Alas 使用的 GUI 库。
+- [MaaAssistantArknights](https://github.com/MaaAssistantArknights/MaaAssistantArknights)，明日方舟小助手，全日常一键长草，现已加入Alas豪华午餐！
 
