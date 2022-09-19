@@ -23,10 +23,21 @@ OCR_BEACON_TIER = Digit(BEACON_TIER, name='OCR_ASH_TIER')
 OCR_META_DAMAGE = Digit(META_DAMAGE, name='OCR_META_DAMAGE')
 
 
+class MetaDigitCounter(DigitCounter):
+    def after_process(self, result):
+        result = super().after_process(result)
+
+        # 00/200 -> 100/200
+        if result.startswith('00/'):
+            result = '100/' + result[3:]
+
+        return result
+
+
 class Meta(UI, MapEventHandler):
 
     def digit_ocr_point_and_check(self, button: Button, check_number: int):
-        point_ocr = DigitCounter(button, letter=(235, 235, 235), threshold=160, name='POINT_OCR')
+        point_ocr = MetaDigitCounter(button, letter=(235, 235, 235), threshold=160, name='POINT_OCR')
         point, _, _ = point_ocr.ocr(self.device.image)
         if point >= check_number:
             return True
@@ -48,10 +59,13 @@ class Meta(UI, MapEventHandler):
             return True
         if self.handle_popup_cancel():
             return True
+        if self.appear_then_click(META_ENTRANCE, offset=(20, 300), interval=2):
+            return True
+        return False
 
 
 def _server_support():
-    return server.server in ['cn', 'en']
+    return server.server in ['cn', 'en', 'jp']
 
 
 class OpsiAshBeacon(Meta):
@@ -254,6 +268,9 @@ class OpsiAshBeacon(Meta):
                 self.device.click(META_BEGIN_ENTRANCE)
                 logger.info('Begin a beacon')
             else:
+                # TW only support current meta
+                if server.server == 'tw':
+                    return False
                 self.appear_then_click(ASH_QUIT, offset=(10, 10), interval=2)
             return True
         # Page dossier

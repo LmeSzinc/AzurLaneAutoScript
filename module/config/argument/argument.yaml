@@ -278,6 +278,9 @@ Tactical:
     > BlueT4 > YellowT4 > RedT4
     > BlueT1 > YellowT1 > RedT1
     > first
+  RapidTrainingSlot:
+    value: do_not_use
+    option: [do_not_use, slot_1, slot_2, slot_3, slot_4]
 ControlExpOverflow:
   Enable: true
   T4Allow: 100

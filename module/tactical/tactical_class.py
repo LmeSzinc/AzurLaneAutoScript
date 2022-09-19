@@ -298,6 +298,31 @@ class RewardTacticalClass(Dock):
             self.device.click(TACTICAL_CLASS_CANCEL)
         return True
 
+    def handle_rapid_training(self):
+        """
+        Returns:
+            bool: If handled
+        """
+        slot = self.config.Tactical_RapidTrainingSlot
+        if slot == 'slot_1':
+            slot = 0
+        elif slot == 'slot_2':
+            slot = 1
+        elif slot == 'slot_3':
+            slot = 2
+        elif slot == 'slot_4':
+            slot = 3
+        else:
+            # do_not_use
+            return False
+
+        offset = (slot * 220 - 20, -20, slot * 220 + 20, 20)
+        if self.appear(RAPID_TRAINING, offset=offset, interval=1):
+            self.device.click(RAPID_TRAINING)
+            return True
+
+        return False
+
     def _tactical_get_finish(self):
         """
         Get the future finish time.
@@ -348,11 +373,17 @@ class RewardTacticalClass(Dock):
             if received and self.appear(REWARD_CHECK, offset=(20, 20)):
                 break
 
+            # Learn new skills
             if not study_finished and self.appear(TACTICAL_CHECK, offset=(20, 20)):
                 # Tactical page, has empty position
                 if self.appear_then_click(ADD_NEW_STUDENT, offset=(800, 20), interval=1):
                     self.interval_reset(TACTICAL_CHECK)
+                    self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
                     continue
+            if self.handle_rapid_training():
+                self.interval_reset(TACTICAL_CHECK)
+                self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
+                continue
 
             # Get finish time
             if self.appear(TACTICAL_CHECK, offset=(20, 20), interval=2):

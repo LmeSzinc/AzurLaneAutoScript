@@ -579,6 +579,8 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "event_20220915_cn": "Violet Tempest Blooming Lycoris",
+      "event_20210916_cn": "Upon the Shimmering Blue",
       "event_20200903_en": "Stars of the Shimmering Fjord",
       "event_20220818_cn": "Operation Convergence",
       "event_20220324_cn": "Virtual Tower",
@@ -608,7 +610,6 @@
       "event_20211125_cn": "World-spanning Arclight",
       "event_20211111_cn": "The Flame-Touched Dagger",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
-      "event_20210916_cn": "Upon the Shimmering Blue",
       "event_20210722_cn": "Azur Anthem",
       "event_20210819_cn": "Microlayer Medley Rerun",
       "event_20200806_cn": "The Enigma and the Shark Rerun",
@@ -1156,6 +1157,15 @@
     "TacticalFilter": {
       "name": "Tactical Book Priority",
       "help": "Generally does not need to be modified or re-arranged but can do so if desired"
+    },
+    "RapidTrainingSlot": {
+      "name": "Use Rapid Training",
+      "help": "During events, use rapid training 10 times",
+      "do_not_use": "Don't Use",
+      "slot_1": "Use on Slot #1",
+      "slot_2": "Use on Slot #2",
+      "slot_3": "Use on Slot #3",
+      "slot_4": "Use on Slot #4"
     }
   },
   "ControlExpOverflow": {
