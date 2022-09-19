@@ -24,9 +24,15 @@ OCR_META_DAMAGE = Digit(META_DAMAGE, name='OCR_META_DAMAGE')
 
 
 class MetaDigitCounter(DigitCounter):
+    def __init__(self, *args, **kwargs):
+        kwargs['alphabet'] = '0123456789/I'
+        super().__init__(*args, **kwargs)
+
     def after_process(self, result):
         result = super().after_process(result)
 
+        # I00/200 -> 100/200
+        result = result.replace('I', '1')
         # 00/200 -> 100/200
         if result.startswith('00/'):
             result = '100/' + result[3:]

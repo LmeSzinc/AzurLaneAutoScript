@@ -1,5 +1,6 @@
 from module.base.timer import Timer
 from module.combat.assets import GET_SHIP
+from module.exception import ScriptError
 from module.gacha.assets import *
 from module.gacha.ui import GachaUI
 from module.handler.assets import POPUP_CONFIRM, STORY_SKIP
@@ -77,9 +78,8 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
         # Check for exception, exited prematurely
         # Apply appropriate submission count
         if ocr_submit is None:
-            logger.error('Failed to identify ocr asset required, '
-                         'cannot continue prep work')
-            exit(1)
+            raise ScriptError('Failed to identify ocr asset required, '
+                              'cannot continue prep work')
         area = ocr_submit.buttons[0]
         ocr_submit.buttons = [(BUILD_MINUS.button[2] + 3, area[1], BUILD_PLUS.button[0] - 3, area[3])]
         self.ui_ensure_index(target, letter=ocr_submit, prev_button=BUILD_MINUS,
@@ -154,10 +154,9 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
             else:
                 self.gacha_side_navbar_ensure(upper=2)
                 if self.appear(BUILD_WW_CHECK):
-                    logger.error('\'wishing_well\' must be configured '
-                                 'manually by user, cannot continue '
-                                 'gacha_goto_pool')
-                    exit(1)
+                    raise ScriptError('\'wishing_well\' must be configured '
+                                      'manually by user, cannot continue '
+                                      'gacha_goto_pool')
         elif target_pool == 'event':
             gacha_bottom_navbar = self._gacha_bottom_navbar(is_build=True)
             if gacha_bottom_navbar.get_total(main=self) == 3:

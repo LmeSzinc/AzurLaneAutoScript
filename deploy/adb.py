@@ -37,6 +37,7 @@ class AdbManager(DeployConfig):
             logger.hr('Uiautomator2 Init', 1)
             try:
                 import adbutils
+                from uiautomator2.init import Initer
             except ModuleNotFoundError as e:
                 message = str(e)
                 for module in ['apkutils2', 'progress']:
@@ -45,13 +46,13 @@ class AdbManager(DeployConfig):
                     if module in message:
                         show_fix_tip(module)
                         exit(1)
+                raise
 
             # Remove global proxies, or uiautomator2 will go through it
             for k in list(os.environ.keys()):
                 if k.lower().endswith('_proxy'):
                     del os.environ[k]
 
-            from uiautomator2.init import Initer
             for device in adbutils.adb.iter_device():
                 init = Initer(device, loglevel=logging.DEBUG)
                 init.set_atx_agent_addr('127.0.0.1:7912')
