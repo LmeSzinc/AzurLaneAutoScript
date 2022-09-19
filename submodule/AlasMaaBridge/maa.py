@@ -47,7 +47,12 @@ class ArknightsAutoScript(AzurLaneAutoScript):
             self.config.task_call('MaaStartup', True)
             self.config.task_stop()
 
-        AssistantHandler.load(self.config.MaaEmulator_MaaPath)
+        logger.info(f'MAA安装路径：{self.config.MaaEmulator_MaaPath}')
+        try:
+            AssistantHandler.load(self.config.MaaEmulator_MaaPath)
+        except ModuleNotFoundError:
+            logger.critical('找不到MAA，请检查安装路径是否正确')
+            exit(1)
 
         @AssistantHandler.Asst.CallBackType
         def callback(msg, details, arg):

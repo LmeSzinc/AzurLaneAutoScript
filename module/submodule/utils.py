@@ -21,11 +21,12 @@ def filepath_mod(name):
 
 def mod_template():
     out = []
-    for mod_name, dir_name in list_mod():
-        for file in os.listdir(os.path.join('./submodule', dir_name, 'config')):
-            name, extension = os.path.splitext(file)
-            if name == 'template' and extension == '.json':
-                out.append(f'{name}-{mod_name}')
+    for file in os.listdir('./config'):
+        name, extension = os.path.splitext(file)
+        config_name, mod_name = os.path.splitext(name)
+        mod_name = mod_name[1:]
+        if config_name == 'template' and extension == '.json' and mod_name != '':
+            out.append(f'{config_name}-{mod_name}')
 
     return out
 
@@ -34,12 +35,13 @@ def mod_instance():
     global MOD_CONFIG_DICT
     MOD_CONFIG_DICT.clear()
     out = []
-    for mod_name, dir_name in list_mod():
-        for file in os.listdir(os.path.join('./submodule', dir_name, 'config')):
-            name, extension = os.path.splitext(file)
-            if name != 'template' and extension == '.json':
-                out.append(name)
-                MOD_CONFIG_DICT[name] = mod_name
+    for file in os.listdir('./config'):
+        name, extension = os.path.splitext(file)
+        config_name, mod_name = os.path.splitext(name)
+        mod_name = mod_name[1:]
+        if config_name != 'template' and extension == '.json' and mod_name != '':
+            out.append(config_name)
+            MOD_CONFIG_DICT[config_name] = mod_name
 
     return out
 

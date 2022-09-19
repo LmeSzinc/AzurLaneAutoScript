@@ -6,7 +6,7 @@
 
 Scheduler:
   Enable: false
-  NextRun: 2020-01-01 00:00:00
+  NextRun: 2020-01-01 04:00:00
   Command: Maa
   SuccessInterval:
     value: 60
@@ -45,6 +45,7 @@ MaaEmulator:
   Server:
     value: CN
     option: [CN, US, JP, KR]
+    display: hide
   MaaPath:
     value: D:/Program Files/MAA
     type: textarea

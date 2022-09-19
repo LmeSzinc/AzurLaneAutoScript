@@ -22,6 +22,5 @@ def load_config(config_name):
         config_lib = importlib.import_module(
             '.config',
             'submodule.' + get_dir_name(mod_name) + '.module.config')
-        config = config_lib.load_config(config_name, '')
         return config_lib.load_config(config_name, '')
 

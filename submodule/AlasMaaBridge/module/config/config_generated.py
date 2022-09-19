@@ -11,7 +11,7 @@ class GeneratedConfig:
 
     # Group `Scheduler`
     Scheduler_Enable = False
-    Scheduler_NextRun = datetime.datetime(2020, 1, 1, 0, 0)
+    Scheduler_NextRun = datetime.datetime(2020, 1, 1, 4, 0)
     Scheduler_Command = 'Maa'
     Scheduler_SuccessInterval = 60
     Scheduler_FailureInterval = 120

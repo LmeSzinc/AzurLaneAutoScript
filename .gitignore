@@ -7,7 +7,7 @@ config/*.yaml
 !config/deploy.*.yaml
 config/*.json
 config/tmp*
-!config/template.json
+!config/template*.json
 *.pyw
 dev_tools/debug_tools
 .idea
@@ -20,9 +20,6 @@ config/reloadalas
 test.py
 test/
 
-submodule/AlasMaaBridge/config/*.json
-submodule/AlasMaaBridge/config/tmp*
-!submodule/AlasMaaBridge/config/template.json
 map/
 debug/
 

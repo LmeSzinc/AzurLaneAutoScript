@@ -61,7 +61,7 @@ def filepath_config(filename, mod_name='alas'):
     if mod_name == 'alas':
         return os.path.join('./config', f'{filename}.json')
     else:
-        return os.path.join(filepath_mod(mod_name), './config', f'{filename}.json')
+        return os.path.join('./config', f'{filename}.{mod_name}.json')
 
 
 def filepath_code():
@@ -186,7 +186,9 @@ def alas_instance():
     out = []
     for file in os.listdir('./config'):
         name, extension = os.path.splitext(file)
-        if name != 'template' and extension == '.json':
+        config_name, mod_name = os.path.splitext(name)
+        mod_name = mod_name[1:]
+        if name != 'template' and extension == '.json' and mod_name == '':
             out.append(name)
 
     out.extend(mod_instance())
