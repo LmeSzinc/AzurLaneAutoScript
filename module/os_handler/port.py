@@ -122,17 +122,17 @@ class PortHandler(OSShopHandler):
             else:
                 self.device.screenshot()
 
+            # End
+            if self.info_bar_count():
+                break
+            if repaired and self.appear(PORT_DOCK_CHECK, offset=(20, 20)):
+                break
+
             # PORT_DOCK_CHECK is button to repair all.
             if self.appear_then_click(PORT_DOCK_CHECK, offset=(20, 20), interval=2):
                 continue
             if self.handle_popup_confirm('DOCK_REPAIR'):
                 repaired = True
                 continue
-
-            # End
-            if self.info_bar_count():
-                break
-            if repaired and self.appear(PORT_DOCK_CHECK, offset=(20, 20)):
-                break
 
         self.ui_back(appear_button=PORT_DOCK_CHECK, check_button=PORT_CHECK, skip_first_screenshot=True)
