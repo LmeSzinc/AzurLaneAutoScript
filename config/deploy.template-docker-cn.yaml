@@ -148,3 +148,7 @@ Deploy:
     # 'false' for self host cdn (automatically)
     # 'https://path.to.your/cdn' to use custom cdn
     CDN: false
+    # --run. Auto-run specified config when startup
+    # 'default' null
+    # 'alas' for default config
+    RUN: null
