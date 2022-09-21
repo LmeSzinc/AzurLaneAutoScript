@@ -97,9 +97,10 @@
     "MaaRecruit": {
       "Refresh": true,
       "SkipRobot": true,
-      "Select3": true,
+      "Select3": false,
       "Select4": true,
       "Select5": true,
+      "Level3ShortTime": true,
       "Times": 4,
       "Expedite": false
     }
@@ -109,7 +110,7 @@
       "Enable": false,
       "NextRun": "2020-01-01 04:00:00",
       "Command": "MaaInfrast",
-      "SuccessInterval": 720,
+      "SuccessInterval": 60,
       "FailureInterval": 120,
       "ServerUpdate": "04:00"
     },
@@ -117,6 +118,8 @@
       "Facility": "Mfg > Trade > Power > Control > Reception > Office > Dorm",
       "Drones": "Money",
       "Threshold": 0.3,
+      "Notstationed": true,
+      "Trust": true,
       "Replenish": false
     }
   },

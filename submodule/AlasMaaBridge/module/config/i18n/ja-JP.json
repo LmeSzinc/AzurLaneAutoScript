@@ -224,6 +224,10 @@
       "name": "MaaRecruit.Select5.name",
       "help": "MaaRecruit.Select5.help"
     },
+    "Level3ShortTime": {
+      "name": "MaaRecruit.Level3ShortTime.name",
+      "help": "MaaRecruit.Level3ShortTime.help"
+    },
     "Times": {
       "name": "MaaRecruit.Times.name",
       "help": "MaaRecruit.Times.help"
@@ -256,6 +260,14 @@
     "Threshold": {
       "name": "MaaInfrast.Threshold.name",
       "help": "MaaInfrast.Threshold.help"
+    },
+    "Notstationed": {
+      "name": "MaaInfrast.Notstationed.name",
+      "help": "MaaInfrast.Notstationed.help"
+    },
+    "Trust": {
+      "name": "MaaInfrast.Trust.name",
+      "help": "MaaInfrast.Trust.help"
     },
     "Replenish": {
       "name": "MaaInfrast.Replenish.name",

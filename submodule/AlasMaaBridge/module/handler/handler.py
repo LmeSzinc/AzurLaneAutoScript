@@ -4,6 +4,7 @@ import time
 from importlib import import_module
 from typing import Any
 
+from deploy.config import DeployConfig
 from module.base.timer import Timer
 from module.config.utils import read_file, deep_get
 from module.exception import RequestHumanTakeover
@@ -74,6 +75,8 @@ class AssistantHandler:
                 raise RequestHumanTakeover
 
             if self.signal is not None:
+                if self.signal == self.Message.TaskChainError:
+                    raise RequestHumanTakeover
                 self.maa_stop()
                 self.callback_list.clear()
                 return
@@ -95,7 +98,6 @@ class AssistantHandler:
         """
         if m in [
             self.Message.AllTasksCompleted,
-            self.Message.TaskChainCompleted,
             self.Message.TaskChainError
         ]:
             self.signal = m
@@ -121,7 +123,20 @@ class AssistantHandler:
             else:
                 self.task_switch_timer.reset()
 
+    def connect(self):
+        adb = os.path.abspath(DeployConfig().AdbExecutable)
+        serial = self.config.MaaEmulator_Serial
+
+        old_callback_list = self.callback_list
+        self.callback_list = []
+
+        if not self.asst.connect(adb, serial):
+            raise RequestHumanTakeover
+
+        self.callback_list = old_callback_list
+
     def startup(self):
+        self.connect()
         self.maa_start('StartUp', {
             "client_type": self.config.MaaEmulator_PackageName,
             "start_game_enabled": True
@@ -207,9 +222,14 @@ class AssistantHandler:
         self.maa_start('Infrast', {
             "facility": facility,
             "drones": self.config.MaaInfrast_Drones,
-            "threshold": self.config.MaaInfrast_Threshold
+            "threshold": self.config.MaaInfrast_Threshold,
+            "replenish": self.config.MaaInfrast_Replenish,
+            "dorm_notstationed_enabled": self.config.MaaInfrast_Notstationed,
+            "drom_trust_enabled": self.config.MaaInfrast_Trust
         })
-        self.config.task_delay(success=True)
+        # 根据心情阈值计算下次换班时间
+        # 心情阈值 * 24 / 0.75 * 60
+        self.config.task_delay(minute=self.config.MaaInfrast_Threshold * 1920)
 
     def visit(self):
         self.maa_start('Visit', {

@@ -37,10 +37,6 @@ MaaRecruit:
   Scheduler:
     SuccessInterval: 180
 
-MaaInfrast:
-  Scheduler:
-    SuccessInterval: 720
-
 MaaAward:
   Scheduler:
     ServerUpdate: 04:00, 16:00

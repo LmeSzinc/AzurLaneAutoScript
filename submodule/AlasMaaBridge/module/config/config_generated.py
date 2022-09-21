@@ -48,9 +48,10 @@ class GeneratedConfig:
     # Group `MaaRecruit`
     MaaRecruit_Refresh = True
     MaaRecruit_SkipRobot = True
-    MaaRecruit_Select3 = True
+    MaaRecruit_Select3 = False
     MaaRecruit_Select4 = True
     MaaRecruit_Select5 = True
+    MaaRecruit_Level3ShortTime = True
     MaaRecruit_Times = 4
     MaaRecruit_Expedite = False
 
@@ -58,6 +59,8 @@ class GeneratedConfig:
     MaaInfrast_Facility = 'Mfg > Trade > Power > Control > Reception > Office > Dorm'
     MaaInfrast_Drones = 'Money'  # _NotUse, Money, SyntheticJade, CombatRecord, PureGold, OriginStone, Chip
     MaaInfrast_Threshold = 0.3
+    MaaInfrast_Notstationed = True
+    MaaInfrast_Trust = True
     MaaInfrast_Replenish = False
 
     # Group `MaaMall`

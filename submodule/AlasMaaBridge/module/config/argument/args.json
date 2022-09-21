@@ -335,13 +335,17 @@
       },
       "Select3": {
         "type": "checkbox",
-        "value": true
+        "value": false
       },
       "Select4": {
         "type": "checkbox",
         "value": true
       },
       "Select5": {
+        "type": "checkbox",
+        "value": true
+      },
+      "Level3ShortTime": {
         "type": "checkbox",
         "value": true
       },
@@ -373,7 +377,7 @@
       },
       "SuccessInterval": {
         "type": "input",
-        "value": 720,
+        "value": 60,
         "display": "hide"
       },
       "FailureInterval": {
@@ -408,6 +412,14 @@
       "Threshold": {
         "type": "input",
         "value": 0.3
+      },
+      "Notstationed": {
+        "type": "checkbox",
+        "value": true
+      },
+      "Trust": {
+        "type": "checkbox",
+        "value": true
       },
       "Replenish": {
         "type": "checkbox",

@@ -1,9 +1,7 @@
-import os
 import json
 from cached_property import cached_property
 
 from alas import AzurLaneAutoScript
-from deploy.config import DeployConfig
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -73,10 +71,6 @@ class ArknightsAutoScript(AzurLaneAutoScript):
 
         ArknightsAutoScript.callback = callback
         asst = AssistantHandler.Asst(callback)
-
-        if not asst.connect(os.path.abspath(DeployConfig().AdbExecutable), self.config.MaaEmulator_Serial):
-            logger.critical('Adb connect failed')
-            raise RequestHumanTakeover
 
         return asst
 

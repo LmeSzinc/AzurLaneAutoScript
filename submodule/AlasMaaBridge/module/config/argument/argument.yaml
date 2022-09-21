@@ -68,9 +68,10 @@ MaaFight:
 MaaRecruit:
   Refresh: true
   SkipRobot: true
-  Select3: true
+  Select3: false
   Select4: true
   Select5: true
+  Level3ShortTime: True
   Times: 4
   Expedite: false
 
@@ -82,6 +83,8 @@ MaaInfrast:
     value: Money
     option: [_NotUse, Money, SyntheticJade, CombatRecord, PureGold, OriginStone, Chip]
   Threshold: 0.3
+  Notstationed: true
+  Trust: true
   Replenish: false
 
 MaaMall:

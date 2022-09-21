@@ -209,7 +209,7 @@
       "help": ""
     },
     "SkipRobot": {
-      "name": "手动确认1星",
+      "name": "手动确认\"支援机械\"",
       "help": ""
     },
     "Select3": {
@@ -222,6 +222,10 @@
     },
     "Select5": {
       "name": "自动确认5星",
+      "help": ""
+    },
+    "Level3ShortTime": {
+      "name": "三星设置7:40而非9:00",
       "help": ""
     },
     "Times": {
@@ -256,6 +260,14 @@
     "Threshold": {
       "name": "基建工作心情阈值",
       "help": "取值范围0 - 1.0"
+    },
+    "Notstationed": {
+      "name": "不将已进驻的干员放入宿舍",
+      "help": ""
+    },
+    "Trust": {
+      "name": "宿舍空余位置蹭信赖",
+      "help": ""
     },
     "Replenish": {
       "name": "源石碎片自动补货",
