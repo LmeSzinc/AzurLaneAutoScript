@@ -1201,7 +1201,9 @@ def app():
     if args.run:
         runs = args.run
     elif State.deploy_config.RUN:
-        runs = [State.deploy_config.RUN]
+        # TODO: refactor poor_yaml_read() to support list
+        tmp = State.deploy_config.RUN.split(",")
+        runs = [l.strip("['\"]") for l in tmp if len(l)]
     instances: List[str] = runs
 
     logger.hr("Webui configs")
