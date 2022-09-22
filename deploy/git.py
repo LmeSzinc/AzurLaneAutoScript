@@ -1,3 +1,5 @@
+import os
+
 from deploy.config import DeployConfig
 from deploy.logger import logger
 from deploy.utils import *
@@ -10,7 +12,11 @@ class GitManager(DeployConfig):
 
     def git_repository_init(self, repo, source='origin', branch='master', proxy='', keep_changes=False):
         logger.hr('Git Init', 1)
-        self.execute(f'"{self.git}" init')
+        if not self.execute(f'"{self.git}" init', allow_failure=True):
+            os.remove('./.git/config')
+            os.remove('./.git/index')
+            os.remove('./.git/HEAD')
+            self.execute(f'"{self.git}" init')
 
         logger.hr('Set Git Proxy', 1)
         if proxy:
