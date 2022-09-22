@@ -86,6 +86,11 @@ MaaInfrast:
   Notstationed: true
   Trust: true
   Replenish: false
+MaaCustomInfrast:
+  Enable: false
+  Filename:
+    value: null
+    type: textarea
 
 MaaMall:
   Shopping: true

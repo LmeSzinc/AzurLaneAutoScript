@@ -274,6 +274,20 @@
       "help": ""
     }
   },
+  "MaaCustomInfrast": {
+    "_info": {
+      "name": "自定义基建设置",
+      "help": ""
+    },
+    "Enable": {
+      "name": "使用自定义基建配置",
+      "help": ""
+    },
+    "Filename": {
+      "name": "自定义配置路径",
+      "help": ""
+    }
+  },
   "MaaMall": {
     "_info": {
       "name": "信用商店",

@@ -425,6 +425,16 @@
         "type": "checkbox",
         "value": false
       }
+    },
+    "MaaCustomInfrast": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Filename": {
+        "type": "textarea",
+        "value": null
+      }
     }
   },
   "MaaVisit": {

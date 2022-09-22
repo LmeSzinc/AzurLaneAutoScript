@@ -33,6 +33,7 @@ MaaRecruit:
 MaaInfrast:
   - Scheduler
   - MaaInfrast
+  - MaaCustomInfrast
 
 MaaVisit:
   - Scheduler

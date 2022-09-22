@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import datetime
 from importlib import import_module
 from typing import Any
 
@@ -209,6 +210,9 @@ class AssistantHandler:
             "skip_robot": self.config.MaaRecruit_SkipRobot
         }
 
+        if self.config.MaaRecruit_Level3ShortTime:
+            args['recruitment_time'] = {'3': 460}
+
         if self.config.MaaRecord_ReportToPenguin and self.config.MaaRecord_PenguinID:
             args["penguin_id"] = self.config.MaaRecord_PenguinID
         elif self.config.MaaRecord_ReportToPenguin and not self.config.MaaRecord_PenguinID:
@@ -218,18 +222,47 @@ class AssistantHandler:
         self.config.task_delay(success=True)
 
     def infrast(self):
-        facility = self.split_filter(self.config.MaaInfrast_Facility)
-        self.maa_start('Infrast', {
-            "facility": facility,
+        args = {
+            "facility": self.split_filter(self.config.MaaInfrast_Facility),
             "drones": self.config.MaaInfrast_Drones,
             "threshold": self.config.MaaInfrast_Threshold,
             "replenish": self.config.MaaInfrast_Replenish,
             "dorm_notstationed_enabled": self.config.MaaInfrast_Notstationed,
             "drom_trust_enabled": self.config.MaaInfrast_Trust
-        })
-        # 根据心情阈值计算下次换班时间
-        # 心情阈值 * 24 / 0.75 * 60
-        self.config.task_delay(minute=self.config.MaaInfrast_Threshold * 1920)
+        }
+
+        if self.config.MaaCustomInfrast_Enable:
+            args['mode'] = 10000
+            args['filename'] = self.config.MaaCustomInfrast_Filename
+            plans = deep_get(read_file(self.config.MaaCustomInfrast_Filename), keys='plans')
+            for i in range(len(plans)):
+                periods = deep_get(plans[i], keys='period')
+                if periods is None:
+                    logger.critical('无法找到配置文件中的排班周期，请检查文件是否有效')
+                    raise RequestHumanTakeover
+                for period in periods:
+                    start_time = datetime.datetime.combine(
+                        datetime.date.today(),
+                        datetime.datetime.strptime(period[0], '%H:%M').time()
+                    )
+                    end_time = datetime.datetime.combine(
+                        datetime.date.today(),
+                        datetime.datetime.strptime(period[1], '%H:%M').time()
+                    )
+                    now_time = datetime.datetime.now()
+                    if start_time <= now_time < end_time:
+                        args['plan_index'] = i
+                        break
+                if 'plan_index' in args:
+                    break
+
+        self.maa_start('Infrast', args)
+        if self.config.MaaCustomInfrast_Enable:
+            self.config.task_delay(target=end_time + datetime.timedelta(minutes=1))
+        else:
+            # 根据心情阈值计算下次换班时间
+            # 心情阈值 * 24 / 0.75 * 60
+            self.config.task_delay(minute=self.config.MaaInfrast_Threshold * 1920)
 
     def visit(self):
         self.maa_start('Visit', {
@@ -273,8 +306,7 @@ class AssistantHandler:
             self.config.Scheduler_Enable = False
 
     def copilot(self):
-        path = self.config.MaaCopilot_FileName
-        homework = read_file(path)
+        homework = read_file(self.config.MaaCopilot_FileName)
         stage = deep_get(homework, keys='stage_name')
         if not stage:
             logger.critical('作业文件不存在或已经损坏')
@@ -282,6 +314,6 @@ class AssistantHandler:
 
         self.maa_start('Copilot', {
             "stage_name": stage,
-            "filename": path,
+            "filename": self.config.MaaCopilot_FileName,
             "formation": self.config.MaaCopilot_Formation
         })

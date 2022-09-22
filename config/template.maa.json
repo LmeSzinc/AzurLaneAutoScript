@@ -121,6 +121,10 @@
       "Notstationed": true,
       "Trust": true,
       "Replenish": false
+    },
+    "MaaCustomInfrast": {
+      "Enable": false,
+      "Filename": null
     }
   },
   "MaaVisit": {

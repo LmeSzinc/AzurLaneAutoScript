@@ -63,6 +63,10 @@ class GeneratedConfig:
     MaaInfrast_Trust = True
     MaaInfrast_Replenish = False
 
+    # Group `MaaCustomInfrast`
+    MaaCustomInfrast_Enable = False
+    MaaCustomInfrast_Filename = None
+
     # Group `MaaMall`
     MaaMall_Shopping = True
     MaaMall_BuyFirst = '招聘许可 > 龙门币'

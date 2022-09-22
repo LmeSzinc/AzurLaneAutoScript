@@ -274,6 +274,20 @@
       "help": "MaaInfrast.Replenish.help"
     }
   },
+  "MaaCustomInfrast": {
+    "_info": {
+      "name": "MaaCustomInfrast._info.name",
+      "help": "MaaCustomInfrast._info.help"
+    },
+    "Enable": {
+      "name": "MaaCustomInfrast.Enable.name",
+      "help": "MaaCustomInfrast.Enable.help"
+    },
+    "Filename": {
+      "name": "MaaCustomInfrast.Filename.name",
+      "help": "MaaCustomInfrast.Filename.help"
+    }
+  },
   "MaaMall": {
     "_info": {
       "name": "MaaMall._info.name",
