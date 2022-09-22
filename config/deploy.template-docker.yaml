@@ -152,4 +152,4 @@ Deploy:
     # 'null' default no specified config
     # '["alas"]' specified "alas" config
     # '["alas","alas2"]' specified "alas" "alas2" configs
-    RUN: null
+    Run: null

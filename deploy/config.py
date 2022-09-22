@@ -58,7 +58,7 @@ class ConfigModel:
     DpiScaling: bool = True
     Password: Optional[str] = None
     CDN: Union[str, bool] = False
-    RUN: Optional[str] = None
+    Run: Optional[str] = None
 
 
 class DeployConfig(ConfigModel):
