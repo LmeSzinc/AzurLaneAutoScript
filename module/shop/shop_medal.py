@@ -1,6 +1,5 @@
 from module.base.button import ButtonGrid
-from module.base.decorator import cached_property
-from module.base.resource import del_cached_property
+from module.base.decorator import cached_property, del_cached_property
 from module.base.timer import Timer
 from module.logger import logger
 from module.map_detection.utils import Points
