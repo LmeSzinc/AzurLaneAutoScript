@@ -8,7 +8,7 @@ from module.exception import CampaignEnd
 from module.logger import logger
 from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
 from module.ocr.ocr import Digit
-from module.retire.assets import DOCK_CHECK
+from module.retire.assets import DOCK_CHECK, TEMPLATE_BOGUE, TEMPLATE_HERMES, TEMPLATE_LANGLEY, TEMPLATE_RANGER
 from module.retire.dock import Dock, CARD_GRIDS, CARD_EMOTION_GRIDS, CARD_LEVEL_GRIDS
 from module.ui.page import page_fleet
 
@@ -171,8 +171,12 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
             return None
         else:
-            template = globals()[
-                f'TEMPLATE_{self.config.GemsFarming_CommonCV.upper()}']
+            template = {
+                'BOGUE': TEMPLATE_BOGUE,
+                'HERMES': TEMPLATE_HERMES,
+                'LANGLEY': TEMPLATE_LANGLEY,
+                'RANGER': TEMPLATE_RANGER
+            }[f'{self.config.GemsFarming_CommonCV.upper()}']
 
             self.dock_sort_method_dsc_set()
 
