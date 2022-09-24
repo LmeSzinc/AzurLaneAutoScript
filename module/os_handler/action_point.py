@@ -95,7 +95,7 @@ class ActionPointHandler(UI):
         current = OCR_ACTION_POINT_REMAIN.ocr(self.device.image)
         total = current
         if self.config.OS_ACTION_POINT_BOX_USE:
-            total += np.sum(np.array(box) * (0, 20, 50, 200))
+            total += np.sum(np.array(box) * (0, 20, 50, 100))
         oil = box[0]
 
         logger.info(f'Action points: {current}({total}), oil: {oil}')

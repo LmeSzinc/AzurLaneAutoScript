@@ -194,8 +194,12 @@
       "name": "通用设置",
       "help": ""
     },
-    "OpsiAshAssist": {
+    "OpsiAshBeacon": {
       "name": "余烬信标",
+      "help": ""
+    },
+    "OpsiAshAssist": {
+      "name": "信标支援",
       "help": ""
     },
     "OpsiExplore": {
@@ -299,7 +303,7 @@
       "com.tencent.tmgp.bilibili.blhx": "国服 腾讯应用宝渠道服 com.tencent.tmgp.bilibili.blhx",
       "com.bilibili.blhx.baidu": "国服 百度渠道服 com.bilibili.blhx.baidu",
       "com.bilibili.blhx.qihoo": "国服 360渠道服 com.bilibili.blhx.qihoo",
-      "com.bilibili.blhx.oppo": "国服 oppo渠道服 com.bilibili.blhx.oppo",
+      "com.bilibili.blhx.nearme.gamecenter": "国服 oppo渠道服 com.bilibili.blhx.nearme.gamecenter",
       "com.bilibili.blhx.vivo": "国服 vivo渠道服 com.bilibili.blhx.vivo",
       "com.bilibili.blhx.mz": "国服 魅族渠道服 com.bilibili.blhx.mz",
       "com.bilibili.blhx.uc": "国服 UC九游渠道服 com.bilibili.blhx.uc",
@@ -571,6 +575,9 @@
       "name": "活动名称",
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
+      "event_20220915_cn": "紫绛槿岚",
+      "event_20210916_cn": "碧海光粼",
+      "event_20200903_en": "复刻峡湾间的星辰",
       "event_20220818_cn": "远汇点作战",
       "event_20220324_cn": "虚像构筑之塔",
       "event_20211028_cn": "复刻穹顶下的圣咏曲",
@@ -599,12 +606,10 @@
       "event_20211125_cn": "交汇世界的弧光",
       "event_20211111_cn": "杰诺瓦的焰火",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
-      "event_20210916_cn": "碧海光粼",
       "event_20210722_cn": "响彻碧海的偶像歌",
       "event_20210819_cn": "复刻微层混合",
       "event_20200806_cn": "复刻最重要的宝物",
       "event_20200723_cn": "永夜幻光",
-      "event_20200903_en": "复刻峡湾间的星辰",
       "event_20210624_cn": "复刻浮樱影华",
       "event_20210624_tw": "穹頂下的聖詠曲",
       "event_20210610_tw": "夜幕下的歸途",
@@ -626,6 +631,7 @@
       "event_20200423_cn": "复刻苍红的回响",
       "event_20200326_cn": "微层混合",
       "event_20200227_cn": "北境序曲",
+      "war_archives_20200806_cn": "档案 最重要的宝物",
       "war_archives_20210624_cn": "档案 浮樱影华",
       "war_archives_20210325_cn": "档案 箱庭疗法",
       "war_archives_20190911_cn": "档案 神圣的悲喜剧",
@@ -1033,6 +1039,10 @@
       "bogue": "博格",
       "ranger": "突击者",
       "hermes": "竞技神"
+    },
+    "CommissionLimit": {
+      "name": "防止紧急委托数量过多",
+      "help": "在7x24运行时防止紧急委托数量过多做不完每日委托，建议在委托过滤器仅选择短时长高收益委托"
     }
   },
   "EventGeneral": {
@@ -1047,6 +1057,27 @@
     "TimeLimit": {
       "name": "活动时间限制",
       "help": "当本地时间超过给定数值后，禁用所有活动任务，'2020-01-01 00:00:00' 表示不限制，触发一次后时间将被重置\n设置后能防止活动结束后忘记关闭任务的事情发生"
+    }
+  },
+  "TaskBalancer": {
+    "_info": {
+      "name": "任务平衡设置",
+      "help": "防止运行活动图时物资过低"
+    },
+    "Enable": {
+      "name": "启用任务平衡",
+      "help": "启用后，将于每次出击后检查物资量"
+    },
+    "CoinLimit": {
+      "name": "保持物资大于X",
+      "help": ""
+    },
+    "TaskCall": {
+      "name": "物资过低时呼叫任务X",
+      "help": "提醒: 玩家需提前设置好被调用的任务，否则将不会作用",
+      "Main": "主线图",
+      "Main2": "主线图-2",
+      "Main3": "主线图-3"
     }
   },
   "EventDaily": {
@@ -1122,6 +1153,15 @@
     "TacticalFilter": {
       "name": "战术学院过滤器",
       "help": "一般不需要修改"
+    },
+    "RapidTrainingSlot": {
+      "name": "使用快速学习",
+      "help": "活动期间有每天10次的快速技能学习",
+      "do_not_use": "不使用",
+      "slot_1": "使用于1号位",
+      "slot_2": "使用于2号位",
+      "slot_3": "使用于3号位",
+      "slot_4": "使用于4号位"
     }
   },
   "ControlExpOverflow": {
@@ -1850,7 +1890,7 @@
   },
   "OpsiAshAssist": {
     "_info": {
-      "name": "余烬信标支援",
+      "name": "信标支援",
       "help": "打每天三次的信标支援"
     },
     "Tier": {
@@ -1897,13 +1937,27 @@
       "name": "打余烬信标",
       "help": "信标数据满了之后打余烬信标，一直打直到打完"
     },
-    "EnsureFullyCollected": {
-      "name": "保证收集满每日200信标数据",
-      "help": "在收集满为前，暂时无视保留行动力设置，需要同时开启 \"短猫相接\""
+    "OneHitMode": {
+      "name": "一击即走",
+      "help": "对每个信标只出击一次，之后每半个小时呼叫支援\n在档案信标中不生效"
     },
     "RequestAssist": {
       "name": "呼叫支援",
       "help": "打信标之前，从好友、舰队、世界呼叫支援"
+    },
+    "EnsureFullyCollected": {
+      "name": "保证收集满每日200信标数据",
+      "help": "在收集满为前，暂时无视保留行动力设置，需要同时开启 \"短猫相接\""
+    }
+  },
+  "OpsiDossierBeacon": {
+    "_info": {
+      "name": "档案信标",
+      "help": ""
+    },
+    "Enable": {
+      "name": "打档案信标",
+      "help": ""
     }
   },
   "OpsiFleetFilter": {
@@ -1937,11 +1991,11 @@
   "OpsiExplore": {
     "_info": {
       "name": "大世界开荒",
-      "help": "每月月初开荒大世界的所有海域，不需要买战役信息记录仪（5000油道具）\n这个功能将每隔30分钟清理一个海域，以保证空域搜索冷却\n使用此功能前必须满足以下条件：\n- 通关大世界主线任务\n- 确认大世界出击队伍"
+      "help": "每月月初开荒大世界的所有海域，不需要买战役信息记录仪（5000油道具）\n这个功能将每隔27分钟清理一个海域，以保证空域搜索冷却\n使用此功能前必须满足以下条件：\n- 通关大世界主线任务\n- 确认大世界出击队伍"
     },
     "SpecialRadar": {
       "name": "已购买战役信息记录仪（5000油道具）",
-      "help": "战役信息记录仪并非必须购买的\n但是如果已经购买，可以勾选此选项\n能够省去30分钟的探索间隔，效率更高"
+      "help": "战役信息记录仪并非必须购买的\n但是如果已经购买，可以勾选此选项\n能够省去27分钟的探索间隔，效率更高"
     },
     "ForceRun": {
       "name": "无视运行间隔强制运行",
@@ -1979,7 +2033,7 @@
   "OpsiObscure": {
     "_info": {
       "name": "隐秘海域",
-      "help": "每隔30分钟清理一个隐秘海域，以保证空域搜索冷却\n使用此功能前必须满足以下条件：\n- 通关大世界主线任务\n- 完成大世界开荒或使用战役信息记录仪（5000油道具）"
+      "help": "每隔27分钟清理一个隐秘海域，以保证空域搜索冷却\n使用此功能前必须满足以下条件：\n- 通关大世界主线任务\n- 完成大世界开荒或使用战役信息记录仪（5000油道具）"
     },
     "ForceRun": {
       "name": "无视运行间隔强制运行",

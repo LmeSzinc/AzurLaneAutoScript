@@ -194,6 +194,10 @@
       "name": "Task.OpsiGeneral.name",
       "help": "Task.OpsiGeneral.help"
     },
+    "OpsiAshBeacon": {
+      "name": "Task.OpsiAshBeacon.name",
+      "help": "Task.OpsiAshBeacon.help"
+    },
     "OpsiAshAssist": {
       "name": "Task.OpsiAshAssist.name",
       "help": "Task.OpsiAshAssist.help"
@@ -299,7 +303,7 @@
       "com.tencent.tmgp.bilibili.blhx": "CN com.tencent.tmgp.bilibili.blhx",
       "com.bilibili.blhx.baidu": "CN com.bilibili.blhx.baidu",
       "com.bilibili.blhx.qihoo": "CN com.bilibili.blhx.qihoo",
-      "com.bilibili.blhx.oppo": "CN com.bilibili.blhx.oppo",
+      "com.bilibili.blhx.nearme.gamecenter": "CN com.bilibili.blhx.nearme.gamecenter",
       "com.bilibili.blhx.vivo": "CN com.bilibili.blhx.vivo",
       "com.bilibili.blhx.mz": "CN com.bilibili.blhx.mz",
       "com.bilibili.blhx.uc": "CN com.bilibili.blhx.uc",
@@ -571,6 +575,9 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "event_20220915_cn": "赫の涙月 菫の暁風",
+      "event_20210916_cn": "駆けよ 碧海の吹き風",
+      "event_20200903_en": "輝ける峡湾の星（復刻）",
       "event_20220818_cn": "結像点作戦",
       "event_20220324_cn": "幻像の塔",
       "event_20211028_cn": "神穹を衝く聖歌（復刻）",
@@ -599,12 +606,10 @@
       "event_20211125_cn": "弧光は交わる世界にて",
       "event_20211111_cn": "燈火のシニエ",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
-      "event_20210916_cn": "駆けよ 碧海の吹き風",
       "event_20210722_cn": "海に響くアイドルの歌",
       "event_20210819_cn": "闇靄払う銀翼（復刻）",
       "event_20200806_cn": "鉄血鮫とエニグマ（復刻）",
       "event_20200723_cn": "極夜照らす幻光",
-      "event_20200903_en": "輝ける峡湾の星（復刻）",
       "event_20210624_cn": "翳りし満ちる影の華(復刻)",
       "event_20210624_tw": "穹頂下的聖詠曲",
       "event_20210610_tw": "夜幕下的歸途",
@@ -626,6 +631,7 @@
       "event_20200423_cn": "縹映る深緋の残響（復刻）",
       "event_20200326_cn": "闇靄払う銀翼",
       "event_20200227_cn": "凍絶の北海",
+      "war_archives_20200806_cn": "檔案 鉄血鮫とエニグマ",
       "war_archives_20210624_cn": "檔案 翳りし満ちる影の華",
       "war_archives_20210325_cn": "檔案 開かれし紺碧の砂箱",
       "war_archives_20190911_cn": "檔案 悲歎せし焔海の詩",
@@ -1033,6 +1039,10 @@
       "bogue": "bogue",
       "ranger": "ranger",
       "hermes": "hermes"
+    },
+    "CommissionLimit": {
+      "name": "GemsFarming.CommissionLimit.name",
+      "help": "GemsFarming.CommissionLimit.help"
     }
   },
   "EventGeneral": {
@@ -1047,6 +1057,27 @@
     "TimeLimit": {
       "name": "EventGeneral.TimeLimit.name",
       "help": "EventGeneral.TimeLimit.help"
+    }
+  },
+  "TaskBalancer": {
+    "_info": {
+      "name": "TaskBalancer._info.name",
+      "help": "TaskBalancer._info.help"
+    },
+    "Enable": {
+      "name": "TaskBalancer.Enable.name",
+      "help": "TaskBalancer.Enable.help"
+    },
+    "CoinLimit": {
+      "name": "TaskBalancer.CoinLimit.name",
+      "help": "TaskBalancer.CoinLimit.help"
+    },
+    "TaskCall": {
+      "name": "TaskBalancer.TaskCall.name",
+      "help": "TaskBalancer.TaskCall.help",
+      "Main": "Main",
+      "Main2": "Main2",
+      "Main3": "Main3"
     }
   },
   "EventDaily": {
@@ -1122,6 +1153,15 @@
     "TacticalFilter": {
       "name": "Tactical.TacticalFilter.name",
       "help": "Tactical.TacticalFilter.help"
+    },
+    "RapidTrainingSlot": {
+      "name": "Tactical.RapidTrainingSlot.name",
+      "help": "Tactical.RapidTrainingSlot.help",
+      "do_not_use": "do_not_use",
+      "slot_1": "slot_1",
+      "slot_2": "slot_2",
+      "slot_3": "slot_3",
+      "slot_4": "slot_4"
     }
   },
   "ControlExpOverflow": {
@@ -1897,13 +1937,27 @@
       "name": "OpsiAshBeacon.AshAttack.name",
       "help": "OpsiAshBeacon.AshAttack.help"
     },
-    "EnsureFullyCollected": {
-      "name": "OpsiAshBeacon.EnsureFullyCollected.name",
-      "help": "OpsiAshBeacon.EnsureFullyCollected.help"
+    "OneHitMode": {
+      "name": "OpsiAshBeacon.OneHitMode.name",
+      "help": "OpsiAshBeacon.OneHitMode.help"
     },
     "RequestAssist": {
       "name": "OpsiAshBeacon.RequestAssist.name",
       "help": "OpsiAshBeacon.RequestAssist.help"
+    },
+    "EnsureFullyCollected": {
+      "name": "OpsiAshBeacon.EnsureFullyCollected.name",
+      "help": "OpsiAshBeacon.EnsureFullyCollected.help"
+    }
+  },
+  "OpsiDossierBeacon": {
+    "_info": {
+      "name": "OpsiDossierBeacon._info.name",
+      "help": "OpsiDossierBeacon._info.help"
+    },
+    "Enable": {
+      "name": "OpsiDossierBeacon.Enable.name",
+      "help": "OpsiDossierBeacon.Enable.help"
     }
   },
   "OpsiFleetFilter": {

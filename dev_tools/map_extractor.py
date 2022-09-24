@@ -182,6 +182,25 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'adaerbote': 'PrinzAdalbert',
     'weixi': 'Weser',
     'wuerlixi': 'UlrichVonHutten',
+
+    # Violet Tempest Blooming Lycoris
+    'ruoyue': 'Wakaba',
+    'liangyue': 'Suzutsuki',
+    'shenxue': 'Miyuki',
+    'qifeng': 'Hatakaze',
+    'yuhei': 'Haguro',
+    'birui': 'Hiei',
+    'zhenming': 'Haruna',
+    'chicheng': 'Akagi',
+    'jiahe': 'Kaga',
+    'sanli': 'Mikasa',
+    'changmen': 'Nagato',
+    'jiuyun': 'Sakawa',
+    'qiansui': 'Chitose',
+    'qiandaitian': 'Chiyoda',
+    'longfeng': 'Ryuuhou',
+    'chunyue': 'Harutsuki',
+    'jiangfeng': 'Kawakaze',
 }
 
 

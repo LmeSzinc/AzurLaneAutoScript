@@ -16,6 +16,7 @@
     "Error": {
       "HandleError": true,
       "SaveError": true,
+      "OnePushConfig": "provider: null",
       "ScreenshotLength": 1
     },
     "Optimization": {
@@ -291,7 +292,8 @@
       "VanguardChange": false,
       "VanguardEquipChange": false,
       "LowEmotionRetreat": true,
-      "CommonCV": "any"
+      "CommonCV": "any",
+      "CommissionLimit": true
     },
     "Campaign": {
       "Name": "12-4",
@@ -350,6 +352,11 @@
     "EventGeneral": {
       "PtLimit": 0,
       "TimeLimit": "2020-01-01 00:00:00"
+    },
+    "TaskBalancer": {
+      "Enable": false,
+      "CoinLimit": 10000,
+      "TaskCall": "Main"
     }
   },
   "Event": {
@@ -1000,7 +1007,8 @@
       "ServerUpdate": "00:00"
     },
     "Tactical": {
-      "TacticalFilter": "SameT4 > SameT3 > SameT2 > SameT1\n> BlueT2 > YellowT2 > RedT2\n> BlueT3 > YellowT3 > RedT3\n> BlueT4 > YellowT4 > RedT4\n> BlueT1 > YellowT1 > RedT1\n> first"
+      "TacticalFilter": "SameT4 > SameT3 > SameT2 > SameT1\n> BlueT2 > YellowT2 > RedT2\n> BlueT3 > YellowT3 > RedT3\n> BlueT4 > YellowT4 > RedT4\n> BlueT1 > YellowT1 > RedT1\n> first",
+      "RapidTrainingSlot": "do_not_use"
     },
     "ControlExpOverflow": {
       "Enable": true,
@@ -1392,7 +1400,7 @@
     },
     "Campaign": {
       "Name": "12-4",
-      "Event": "war_archives_20210624_cn",
+      "Event": "war_archives_20200806_cn",
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,
@@ -1461,11 +1469,25 @@
       "RepairThreshold": 0.4,
       "DoRandomMapEvent": true,
       "AkashiShopFilter": "ActionPoint > PurpleCoins"
+    }
+  },
+  "OpsiAshBeacon": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "OpsiAshBeacon",
+      "SuccessInterval": 30,
+      "FailureInterval": 30,
+      "ServerUpdate": "00:00"
     },
     "OpsiAshBeacon": {
       "AshAttack": true,
-      "EnsureFullyCollected": true,
-      "RequestAssist": true
+      "OneHitMode": true,
+      "RequestAssist": true,
+      "EnsureFullyCollected": true
+    },
+    "OpsiDossierBeacon": {
+      "Enable": true
     }
   },
   "OpsiAshAssist": {

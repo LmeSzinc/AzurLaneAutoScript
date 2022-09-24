@@ -13,7 +13,7 @@ from module.map.assets import MAP_OFFENSIVE
 from module.retire.retirement import Retirement
 from module.statistics.azurstats import DropImage
 from module.template.assets import TEMPLATE_COMBAT_LOADING
-from module.ui.assets import BACK_ARROW
+from module.ui.assets import BACK_ARROW, MUNITIONS_CHECK
 
 
 class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatManual, AutoSearchHandler):
@@ -84,8 +84,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         self.wait_until_stable(COMBAT_OIL_LOADING)
 
     def handle_combat_automation_confirm(self):
-        if self.appear(AUTOMATION_CONFIRM_CHECK, interval=1):
-            self.appear_then_click(AUTOMATION_CONFIRM, offset=True)
+        if self.appear(AUTOMATION_CONFIRM_CHECK, threshold=30, interval=1):
+            self.appear_then_click(AUTOMATION_CONFIRM, offset=(20, 20))
             return True
 
         return False
@@ -176,7 +176,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 self._automation_set_timer.reset()
                 return True
 
-        if self.appear_then_click(AUTOMATION_CONFIRM, offset=True):
+        if self.handle_combat_automation_confirm():
             self._automation_set_timer.reset()
             return True
 
@@ -230,8 +230,9 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         while 1:
             self.device.screenshot()
 
-            if not confirm_timer.reached() and self.appear_then_click(AUTOMATION_CONFIRM, offset=True):
-                continue
+            if not confirm_timer.reached():
+                if self.handle_combat_automation_confirm():
+                    continue
 
             if self.handle_story_skip():
                 continue
@@ -379,6 +380,17 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
 
         return False
 
+    def handle_combat_mis_click(self):
+        """
+        Returns:
+            bool:
+        """
+        if self.appear(MUNITIONS_CHECK, offset=(20, 20), interval=2):
+            self.device.click(BACK_ARROW)
+            return True
+
+        return False
+
     def combat_status(self, drop=None, expected_end=None):
         """
         Args:
@@ -406,6 +418,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 if expected_end():
                     break
 
+            if self.handle_story_skip(drop=drop):
+                continue
             # Combat status
             if not exp_info and self.handle_get_ship(drop=drop):
                 continue
@@ -424,8 +438,6 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 continue
             if self.handle_urgent_commission(drop=drop):
                 continue
-            if self.handle_story_skip(drop=drop):
-                continue
             if self.handle_guild_popup_cancel():
                 continue
             if self.handle_vote_popup():
@@ -433,6 +445,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             if self.handle_mission_popup_ack():
                 continue
             if self.handle_auto_search_exit(drop=drop):
+                continue
+            if self.handle_combat_mis_click():
                 continue
 
             # End

@@ -107,6 +107,11 @@ class AutoSearchCombat(MapOperation, Combat):
                 if oil < self.config.StopCondition_OilLimit:
                     logger.info('Reach oil limit')
                     self.auto_search_oil_limit_triggered = True
+                else:
+                    if self.auto_search_oil_limit_triggered:
+                        logger.warning('auto_search_oil_limit_triggered but oil recovered, '
+                                       'probably because of wrong OCR result before')
+                    self.auto_search_oil_limit_triggered = False
                 checked = True
 
         return checked
@@ -282,6 +287,8 @@ class AutoSearchCombat(MapOperation, Combat):
             if self.handle_guild_popup_cancel():
                 continue
             if self.handle_vote_popup():
+                continue
+            if self.handle_mission_popup_ack():
                 continue
 
             # Handle low emotion combat

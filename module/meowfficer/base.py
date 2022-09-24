@@ -21,6 +21,37 @@ class MeowfficerBase(UI):
 
         return False
 
+    def meow_enter(self, click_button, check_button, skip_first_screenshot=True):
+        """
+        Enters sub-page, handle MEOWFFICER_INFO and mistaken clicks
+
+        Pages:
+            in: page_meowfficer
+            out: check_button
+        """
+        accident_page = [MEOWFFICER_TRAIN_START, MEOWFFICER_BUY, MEOWFFICER_FORT_CHECK]
+        accident_page = [page for page in accident_page if page != check_button]
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(check_button, offset=(20, 20)):
+                break
+            # Click
+            if self.appear_then_click(click_button, offset=(20, 20), interval=3):
+                continue
+            # Accident click
+            if self.meow_additional():
+                continue
+            for button in accident_page:
+                if self.appear(button, offset=(20, 20), interval=3):
+                    self.device.click(MEOWFFICER_CHECK)
+                    self.interval_clear(click_button)
+                    break
+
     def meow_menu_close(self, skip_first_screenshot=True):
         """
         Exit from any meowfficer menu popups

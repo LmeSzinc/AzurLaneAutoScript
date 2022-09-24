@@ -6,6 +6,7 @@ from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 from module.retire.assets import *
 from module.retire.enhancement import Enhancement
+from module.retire.setting import QuickRetireSettingHandler
 
 CARD_GRIDS = ButtonGrid(
     origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 204), grid_shape=(7, 2), name='CARD')
@@ -21,7 +22,7 @@ CARD_RARITY_COLORS = {
 }
 
 
-class Retirement(Enhancement):
+class Retirement(Enhancement, QuickRetireSettingHandler):
     _unable_to_enhance = False
     _have_kept_cv = True
 
@@ -160,6 +161,7 @@ class Retirement(Enhancement):
             self.handle_info_bar()
 
             skip_first_screenshot = True
+            click_count = 0
             while 1:
                 if skip_first_screenshot:
                     skip_first_screenshot = False
@@ -172,8 +174,17 @@ class Retirement(Enhancement):
                     logger.info('No more ships to retire.')
                     end = True
                     break
+
                 # Click
-                if self.appear_then_click(ONE_CLICK_RETIREMENT, interval=2):
+                if click_count >= 3:
+                    logger.warning('Failed to select ships using ONE_CLICK_RETIREMENT after 3 trial, '
+                                   'probably because game bugged, a re-enter should fix it')
+                    # Mark as retire finished, higher level will call retires
+                    end = True
+                    total = 10
+                    break
+                elif self.appear_then_click(ONE_CLICK_RETIREMENT, interval=2):
+                    click_count += 1
                     continue
 
             if end:
@@ -313,9 +324,19 @@ class Retirement(Enhancement):
                 self.dock_filter_set()
                 self.dock_favourite_set(False)
                 total = self.retire_ships_one_click()
+            if self.server_support_quick_retire_setting_fallback():
+                if not total:
+                    logger.warning('No ship retired, trying to reset quick retire settings to "keep_limit_break"')
+                    self.quick_retire_setting_set('keep_limit_break')
+                    total = self.retire_ships_one_click()
+                # Not determined
+                # if not total:
+                #     logger.warning('No ship retired, trying to reset quick retire settings to "all"')
+                #     self.quick_retire_setting_set('all')
+                #     total = self.retire_ships_one_click()
             if not total:
                 logger.critical('No ship retired')
-                logger.critical('Please configure your one-click-retire in game, '
+                logger.critical('Please configure your "Quick Retire Options" in game, '
                                 'make sure it can select ships to retire')
                 raise RequestHumanTakeover
         elif mode == 'old_retire':

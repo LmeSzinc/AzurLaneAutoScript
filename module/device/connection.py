@@ -293,7 +293,7 @@ class Connection(ConnectionAttr):
             raise AdbTimeout('reverse server accept timeout')
 
         # Server receive data
-        data = recv_all(conn, chunk_size=chunk_size)
+        data = recv_all(conn, chunk_size=chunk_size, recv_interval=0.001)
 
         # Server close connection
         conn.close()
@@ -433,9 +433,8 @@ class Connection(ConnectionAttr):
                 elif '(10061)' in msg:
                     # cannot connect to 127.0.0.1:55555:
                     # No connection could be made because the target machine actively refused it. (10061)
-                    logger.error(msg)
-                    possible_reasons('No such device exists, please set a correct serial',
-                                     'Emulator not running, please restart it')
+                    logger.info(msg)
+                    logger.warning('No such device exists, please restart the emulator or set a correct serial')
                     raise EmulatorNotRunningError
             logger.warning(f'Failed to connect {serial} after 3 trial, assume connected')
             self.detect_device()

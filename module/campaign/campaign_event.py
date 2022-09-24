@@ -6,7 +6,7 @@ import numpy as np
 
 from module.base.decorator import cached_property
 from module.campaign.assets import OCR_EVENT_PT
-from module.config.utils import deep_get, DEFAULT_TIME
+from module.config.utils import DEFAULT_TIME
 from module.logger import logger
 from module.ocr.ocr import Ocr
 from module.ui.ui import UI
@@ -59,21 +59,20 @@ class CampaignEvent(UI):
         Args:
             tasks (list[str]): Task name
         """
-        for task in tasks:
-            keys = f'{task}.Scheduler.Enable'
-            logger.info(f'Disable task `{task}`')
-            self.config.modified[keys] = False
+        with self.config.multi_set():
+            for task in tasks:
+                keys = f'{task}.Scheduler.Enable'
+                logger.info(f'Disable task `{task}`')
+                self.config.cross_set(keys=keys, value=False)
 
-        for task in ['GemsFarming']:
-            if deep_get(self.config.data, keys=f'{task}.Campaign.Event', default='campaign_main') != 'campaign_main':
-                logger.info(f'Reset GemsFarming to 2-4')
-                self.config.modified[f'{task}.Campaign.Name'] = '2-4'
-                self.config.modified[f'{task}.Campaign.Event'] = 'campaign_main'
+            for task in ['GemsFarming']:
+                if self.config.cross_get(keys=f'{task}.Campaign.Event', default='campaign_main') != 'campaign_main':
+                    logger.info(f'Reset GemsFarming to 2-4')
+                    self.config.cross_set(keys=f'{task}.Campaign.Name', value='2-4')
+                    self.config.cross_set(keys=f'{task}.Campaign.Event', value='campaign_main')
 
-        logger.info(f'Reset event time limit')
-        self.config.modified['EventGeneral.EventGeneral.TimeLimit'] = DEFAULT_TIME
-
-        self.config.update()
+            logger.info(f'Reset event time limit')
+            self.config.cross_set(keys='EventGeneral.EventGeneral.TimeLimit', value=DEFAULT_TIME)
 
     def event_pt_limit_triggered(self):
         """

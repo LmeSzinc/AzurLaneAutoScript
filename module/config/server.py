@@ -18,7 +18,7 @@ VALID_CHANNEL_PACKAGE = {
     'com.tencent.tmgp.bilibili.blhx': ('cn', '腾讯应用宝'),
     'com.bilibili.blhx.baidu': ('cn', '百度'),
     'com.bilibili.blhx.qihoo': ('cn', '360'),
-    'com.bilibili.blhx.oppo': ('cn', 'oppo'),
+    'com.bilibili.blhx.nearme.gamecenter': ('cn', 'oppo'),
     'com.bilibili.blhx.vivo': ('cn', 'vivo'),
     'com.bilibili.blhx.mz': ('cn', '魅族'),
     # 'com.bilibili.blhx.letv': ('cn', '乐视'),  # Not confirmed

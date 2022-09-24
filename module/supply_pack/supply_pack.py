@@ -22,6 +22,7 @@ class SupplyPack(UI):
 
         logger.info(f'Buying {supply_pack}')
         executed = False
+        click_count = 0
         confirm_timer = Timer(1, count=3).start()
         while 1:
             if skip_first_screenshot:
@@ -29,7 +30,12 @@ class SupplyPack(UI):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(supply_pack, offset=(20, 20), interval=3):
+            if self.appear(supply_pack, offset=(20, 20), interval=3):
+                if click_count >= 3:
+                    logger.warning(f'Failed to buy {supply_pack} after 3 trail, probably reached resource limit, skip')
+                    break
+                self.device.click(supply_pack)
+                click_count += 1
                 confirm_timer.reset()
                 continue
             if self.appear_then_click(BUY_CONFIRM, offset=(20, 20), interval=3):
@@ -56,6 +62,23 @@ class SupplyPack(UI):
         logger.info(f'Supply pack buy finished, executed={executed}')
         return executed
 
+    def get_oil(self):
+        """
+        Returns:
+            int: Oil amount
+        """
+        timeout = Timer(1, count=3).start()
+        while 1:
+            oil = OCR_OIL.ocr(self.device.image)
+            if timeout.reached():
+                logger.warning('Get oil timeout')
+                return oil
+            if oil > 0:
+                return oil
+            else:
+                self.device.screenshot()
+                continue
+
     def run(self):
         """
         Pages:
@@ -64,8 +87,7 @@ class SupplyPack(UI):
         """
         self.ui_ensure(page_supply_pack)
 
-        oil = OCR_OIL.ocr(self.device.image)
-        if oil <= 21000:
+        if self.get_oil() < 21000:
             self.supply_pack_buy(FREE_SUPPLY_PACK)
         else:
             logger.info('Oil > 21000, unable to buy free weekly supply pack')

@@ -10,3 +10,4 @@ services:
         build:
             context: ./deploy/docker/
             dockerfile: ./Dockerfile
+            # dockerfile: ./Dockerfile.cn

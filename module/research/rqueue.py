@@ -2,6 +2,7 @@ from datetime import datetime
 
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, Config
+from module.base.utils import get_color
 from module.logger import logger
 from module.ocr.ocr import Duration
 from module.research.assets import *
@@ -13,6 +14,10 @@ OCR_QUEUE_REMAIN = Duration(QUEUE_REMAIN, letter=(255, 255, 255), threshold=128,
 class ResearchQueue(ResearchUI):
     def research_queue_add(self, skip_first_screenshot=True):
         """
+        Returns:
+            bool: True if success to add to queue,
+                False if project requirements not satisfied, can't be added to queue
+
         Pages:
             in: RESEARCH_QUEUE_ADD (is_in_research, DETAIL_NEXT)
             out: is_in_research and stabled
@@ -28,16 +33,40 @@ class ResearchQueue(ResearchUI):
                 self.device.screenshot()
 
             # End
-            if self.is_in_research() and 'detail' in self.get_research_status(self.device.image):
+            if self.is_research_stabled():
                 break
 
-            if self.appear_then_click(RESEARCH_QUEUE_ADD, offset=(20, 20), interval=5):
-                continue
+            if self.appear(RESEARCH_QUEUE_ADD, offset=(20, 20), interval=5):
+                if self._research_queue_add_available():
+                    self.device.click(RESEARCH_QUEUE_ADD)
+                    continue
+                else:
+                    logger.info('Project requirements not satisfied, cancel it')
+                    self.research_detail_cancel()
+                    return False
+
             if self.handle_popup_confirm('RESEARCH_QUEUE'):
                 self.interval_reset(RESEARCH_QUEUE_ADD)
                 continue
 
         self.ensure_research_center_stable()
+        return True
+
+    def _research_queue_add_available(self):
+        """
+        Returns:
+            bool: True if able add to queue,
+                False if project requirements not satisfied, can't be added to queue
+        """
+        # RESEARCH_QUEUE_ADD.area is the letter `Queue`
+        # RESEARCH_QUEUE_ADD.button is the entire clickable area of button
+        # Available: (90, 142, 203)
+        # Unavailable: (153, 160, 170)
+        r, g, b = get_color(self.device.image, RESEARCH_QUEUE_ADD.button)
+        if b - min(r, g) > 60:
+            return True
+        else:
+            return False
 
     @cached_property
     @Config.when(SERVER='en')

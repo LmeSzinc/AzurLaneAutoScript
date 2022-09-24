@@ -198,9 +198,3 @@ class OSShopHandler(UI, MapEventHandler):
                       additional=self.handle_story_skip, skip_first_screenshot=True)
         self.os_shop_buy(select_func=self.os_shop_get_item_to_buy_in_akashi)
         self.ui_back(appear_button=PORT_SUPPLY_CHECK, check_button=self.is_in_map, skip_first_screenshot=True)
-
-
-if __name__ == '__main__':
-    self = OSShopHandler('alas6')
-    self.image_file = r'C:\Users\LmeSzinc\Nox_share\ImageShare\Screenshots\Screenshot_20220516-013210.png'
-    self.os_shop_get_coins()
