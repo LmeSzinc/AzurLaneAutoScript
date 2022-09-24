@@ -556,7 +556,9 @@ class RewardTacticalClass(Dock):
         # Confirm selected ship
         # Clear interval if alas have just selected and exited from a meta skill
         self.interval_clear(SHIP_CONFIRM)
-        self.dock_select_confirm(TACTICAL_SKILL_LIST)
+        # Removed the use of TACTICAL_SKILL_LIST, cause EN uses "Select skills"
+        # in normal skill list but "Choose skills" in META skill list
+        self.dock_select_confirm(check_button=[SKILL_CONFIRM, TACTICAL_META])
 
         return True
 

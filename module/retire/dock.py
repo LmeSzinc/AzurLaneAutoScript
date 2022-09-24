@@ -144,13 +144,18 @@ class Dock(Equipment):
         return current > 0
 
     def dock_select_confirm(self, check_button, skip_first_screenshot=True):
+        """
+        Args:
+            check_button (callable, Button):
+            skip_first_screenshot:
+        """
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
-            if self.appear(check_button, offset=(30, 30)):
+            if self.ui_process_check_button(check_button):
                 break
 
             if self.appear_then_click(SHIP_CONFIRM, offset=(200, 50), interval=5):

@@ -126,9 +126,7 @@ class UI(InfoHandler):
             else:
                 self.device.screenshot()
 
-            if (isinstance(check_button, Button) and self.appear(check_button, offset=offset)) or (
-                callable(check_button) and check_button()
-            ):
+            if self.ui_process_check_button(check_button, offset=offset):
                 if confirm_timer.reached():
                     break
             else:
@@ -145,6 +143,27 @@ class UI(InfoHandler):
             if additional is not None:
                 if additional():
                     continue
+
+    def ui_process_check_button(self, check_button, offset=(30, 30)):
+        """
+        Args:
+            check_button (Button, callable, list[Button], tuple[Button]):
+            offset:
+
+        Returns:
+            bool:
+        """
+        if isinstance(check_button, Button):
+            return self.appear(check_button, offset=offset)
+        elif callable(check_button):
+            return check_button()
+        elif isinstance(check_button, (list, tuple)):
+            for button in check_button:
+                if self.appear(button, offset=offset):
+                    return True
+            return False
+        else:
+            return self.appear(check_button, offset=offset)
 
     def ui_get_current_page(self, skip_first_screenshot=True):
         """
