@@ -360,10 +360,10 @@ class ItemGrid:
                 item.tag = t
 
         # Delete wrong results
-        # items = [item for item in self.items if not price]
-        # diff = len(self.items) - len(items)
-        # if diff > 0:
-        #     logger.warning(f'Ignore {diff} items, because price <= 0')
-        #     self.items = items
+        items = [item for item in self.items if not (price and item.price <= 0)]
+        diff = len(self.items) - len(items)
+        if diff > 0:
+            logger.warning(f'Ignore {diff} items, because price <= 0')
+            self.items = items
 
         return self.items
