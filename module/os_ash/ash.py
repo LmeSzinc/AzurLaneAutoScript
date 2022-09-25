@@ -116,6 +116,9 @@ class OSAsh(UI, MapEventHandler):
         if daily >= 200:
             logger.info('Ash beacon fully collected today')
             self._ash_fully_collected = True
+        elif status >= 200:
+            logger.info('Ash beacon data reached the holding limit')
+            self._ash_fully_collected = True
 
         if status < 0:
             status = 0
