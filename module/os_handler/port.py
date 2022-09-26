@@ -18,8 +18,7 @@ class PortHandler(OSShopHandler):
         """
         self.ui_click(PORT_ENTER, check_button=PORT_CHECK, skip_first_screenshot=skip_first_screenshot)
         # Buttons at the bottom has an animation to show
-        self.device.sleep(0.3)
-        self.device.screenshot()
+        pass  # Already ensured in ui_click
 
     def port_quit(self, skip_first_screenshot=True):
         """
@@ -30,8 +29,7 @@ class PortHandler(OSShopHandler):
         self.ui_back(appear_button=PORT_CHECK, check_button=self.is_in_map,
                      skip_first_screenshot=skip_first_screenshot)
         # Buttons at the bottom has an animation to show
-        self.device.sleep(0.3)
-        self.device.screenshot()
+        self.wait_os_map_buttons()
 
     def port_mission_accept(self):
         """

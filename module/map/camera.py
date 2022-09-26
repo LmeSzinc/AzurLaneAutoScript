@@ -15,7 +15,8 @@ from module.map_detection.grid import Grid
 from module.map_detection.utils import area2corner, trapezoid2area
 from module.map_detection.view import View
 from module.os.assets import GLOBE_GOTO_MAP
-from module.os_handler.assets import AUTO_SEARCH_REWARD
+from module.os_handler.assets import AUTO_SEARCH_REWARD, PORT_SUPPLY_CHECK
+from module.ui.assets import BACK_ARROW
 
 
 class Camera(MapOperation):
@@ -156,6 +157,10 @@ class Camera(MapOperation):
             elif 'opsi' in self.config.task.command.lower() and self.handle_popup_confirm('OPSI'):
                 # Always confirm popups in OpSi, same popups in os_map_goto_globe()
                 logger.warning('Perspective error caused by popups')
+                return False
+            elif self.appear(PORT_SUPPLY_CHECK, offset=(20, 20)):
+                logger.warning('Perspective error caused by akashi shop')
+                self.device.click(BACK_ARROW)
                 return False
             elif not self.is_in_map() \
                     and not self.is_in_strategy_submarine_move():

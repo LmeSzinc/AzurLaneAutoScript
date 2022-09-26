@@ -10,12 +10,11 @@ import websockets
 from adbutils.errors import AdbError
 from uiautomator2 import _Service
 
-from module.base.decorator import cached_property, Config
+from module.base.decorator import Config, cached_property, del_cached_property
 from module.base.timer import Timer
 from module.base.utils import *
 from module.device.connection import Connection
-from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
-                                        del_cached_property, handle_adb_error)
+from module.device.method.utils import RETRY_DELAY, RETRY_TRIES, handle_adb_error
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 

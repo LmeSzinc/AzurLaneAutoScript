@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 import inflection
 from cached_property import cached_property
 
-from module.base.resource import del_cached_property
+from module.base.decorator import del_cached_property
 from module.config.config import AzurLaneConfig, TaskEnd
 from module.config.utils import deep_get, deep_set
 from module.exception import *

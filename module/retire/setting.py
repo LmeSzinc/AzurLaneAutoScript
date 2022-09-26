@@ -29,7 +29,7 @@ class QuickRetireSettingHandler(UI):
                       offset=(30, 100), retry_wait=3, skip_first_screenshot=True)
 
     @cached_property
-    def retire_setting(self):
+    def retire_setting(self) -> QuickRetireSetting:
         setting = QuickRetireSetting(name='RETIRE', main=self)
         setting.reset_first = False
         setting.add_setting(
@@ -76,11 +76,12 @@ class QuickRetireSettingHandler(UI):
               Don't Keep
 
         Args:
-            filter_5 (str): The fifth option in quick retire options.
+            filter_5 (str, None): The fifth option in quick retire options.
                 "If you own multiple copies of a ship that has not been fully Limit
                 Broken, this option determines what you want to do with those copies."
                 'keep_limit_break' for "Keep Enough to Max LB",
                 'all' for "Don't Keep"
+                None for don't change
 
         Pages:
             in: IN_RETIREMENT_CHECK, RETIRE_SETTING_ENTER
