@@ -45,8 +45,9 @@ matplotlib==3.4.3         # via gluoncv
 msgpack==1.0.3            # via zerorpc
 mxnet==1.6.0              # via -r requirements-in.txt, cnocr
 numpy==1.16.6             # via -r requirements-in.txt, cnocr, gluoncv, imageio, matplotlib, mxnet, opencv-python, scipy
+onepush==1.2.0            # via -r requirements-in.txt
 opencv-python==4.5.3.56   # via -r requirements-in.txt
-packaging==20.9           # via deprecation, uiautomator2
+packaging=20.9           # via deprecation, uiautomator2
 pillow==8.3.2             # via -r requirements-in.txt, cnocr, gluoncv, imageio, matplotlib, uiautomator2
 portalocker==2.3.2        # via gluoncv
 prettytable==2.2.1        # via -r requirements-in.txt

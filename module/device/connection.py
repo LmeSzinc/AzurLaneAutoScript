@@ -11,13 +11,13 @@ import uiautomator2 as u2
 from adbutils import AdbClient, AdbDevice, AdbTimeout, ForwardItem, ReverseItem
 from adbutils.errors import AdbError
 
-from module.base.decorator import Config, cached_property
+from module.base.decorator import Config, cached_property, del_cached_property
 from module.base.utils import ensure_time
 from module.config.server import set_server
 from module.device.connection_attr import ConnectionAttr
 from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES, remove_shell_warning,
                                         handle_adb_error, PackageNotInstalled,
-                                        recv_all, del_cached_property, possible_reasons,
+                                        recv_all, possible_reasons,
                                         random_port, get_serial_pair)
 from module.exception import RequestHumanTakeover, EmulatorNotRunningError
 from module.logger import logger
@@ -225,7 +225,12 @@ class Connection(ConnectionAttr):
             return host, port, host, self.config.REVERSE_SERVER_PORT
         # For emulators, listen on current host
         if self.is_emulator or self.is_over_http:
-            host = socket.gethostbyname(socket.gethostname())
+            try:
+                host = socket.gethostbyname(socket.gethostname())
+            except socket.gaierror as e:
+                logger.error(e)
+                logger.error(f'Unknown host name: {socket.gethostname()}')
+                host = '127.0.0.1'
             if platform.system() == 'Linux' and host == '127.0.1.1':
                 host = '127.0.0.1'
             logger.info(f'Connecting to local emulator, using host {host}')

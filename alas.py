@@ -7,12 +7,12 @@ from datetime import datetime, timedelta
 import inflection
 from cached_property import cached_property
 
-from deploy.adb import AdbManager
-from module.base.resource import del_cached_property
+from module.base.decorator import del_cached_property
 from module.config.config import AzurLaneConfig, TaskEnd
 from module.config.utils import deep_get, deep_set
 from module.exception import *
 from module.logger import logger
+from module.notify import handle_notify
 
 
 class AzurLaneAutoScript:
@@ -153,7 +153,6 @@ class AzurLaneAutoScript:
 
     def restart(self):
         from module.handler.login import LoginHandler
-        AdbManager().adb_install()
         LoginHandler(self.config, device=self.device).app_restart()
 
     def start(self):

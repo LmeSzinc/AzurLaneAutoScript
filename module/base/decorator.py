@@ -94,6 +94,20 @@ class cached_property:
         return value
 
 
+def del_cached_property(obj, name):
+    """
+    Delete a cached property safely.
+
+    Args:
+        obj:
+        name (str):
+    """
+    try:
+        del obj.__dict__[name]
+    except KeyError:
+        pass
+
+
 def function_drop(rate=0.5, default=None):
     """
     Drop function calls to simulate random emulator stuck, for testing purpose.

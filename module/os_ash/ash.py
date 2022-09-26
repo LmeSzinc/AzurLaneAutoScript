@@ -6,7 +6,6 @@ from module.config.utils import DEFAULT_TIME
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
 from module.os_ash.assets import *
-from module.os_handler.assets import IN_MAP
 from module.os_handler.map_event import MapEventHandler
 from module.ui.assets import BACK_ARROW
 from module.ui.ui import UI
@@ -85,9 +84,6 @@ class AshCombat(Combat):
 
 class OSAsh(UI, MapEventHandler):
 
-    def is_in_map(self):
-        return self.appear(IN_MAP, offset=(200, 5))
-
     _ash_fully_collected = False
 
     def ash_collect_status(self):
@@ -119,6 +115,9 @@ class OSAsh(UI, MapEventHandler):
 
         if daily >= 200:
             logger.info('Ash beacon fully collected today')
+            self._ash_fully_collected = True
+        elif status >= 200:
+            logger.info('Ash beacon data reached the holding limit')
             self._ash_fully_collected = True
 
         if status < 0:

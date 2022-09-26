@@ -159,6 +159,9 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         Raises:
             MapDetectionError: If failed to parse zone name.
         """
+        logger.hr('Zone init')
+        self.wait_os_map_buttons()
+        logger.info('Get zone name')
         timeout = Timer(1.5, count=5).start()
         while 1:
             if skip_first_screenshot:
@@ -182,7 +185,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             # Handle mission complete header, can block
             # map name or mis-read OCR due to extra text
             if self.is_in_map() and \
-               not self.appear(OS_CHECK, offset=(20, 20)):
+                    not self.appear(OS_CHECK, offset=(20, 20)):
                 self.wait_until_appear(OS_CHECK)
                 timeout.reset()
                 continue
