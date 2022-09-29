@@ -203,13 +203,9 @@ class ResearchSelector(ResearchUI):
         # 2022.08.23 Allow all E-2, disassemble equipment is now supported
         #   Ignore E-2 if don't have any boxes in storage to disassemble,
         #   Or will enter a loop of starting research, trying to disassemble, cancel research
-        if not self.storage_has_boxes or self.config.SERVER in ['jp', 'tw']:
-            if self.config.SERVER == 'jp':
-                if project.genre.upper() == 'E' and str(project.duration) != '6':
-                    return False
-            else:
-                if project.genre.upper() == 'E' and project.task != '':
-                    return False
+        if not self.storage_has_boxes or self.config.SERVER in ['tw']:
+            if project.genre.upper() == 'E' and project.task != '':
+                return False
 
         return True
 
