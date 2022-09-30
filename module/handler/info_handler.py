@@ -91,7 +91,7 @@ class InfoHandler(ModuleBase):
             return True
         return False
 
-    def handle_popup_single(self, offset=None, name=''):
+    def handle_popup_single(self, name='', offset=None):
         if offset is None:
             offset = self._popup_offset
         if self.appear(GET_MISSION, offset=offset, interval=2):
