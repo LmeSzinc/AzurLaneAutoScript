@@ -80,7 +80,8 @@ class Connection(ConnectionAttr):
             config (AzurLaneConfig, str): Name of the user config under ./config
         """
         super().__init__(config)
-        self.detect_device()
+        if not self.is_over_http:
+            self.detect_device()
 
         # Connect
         self.adb_connect(self.serial)

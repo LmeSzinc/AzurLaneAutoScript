@@ -87,11 +87,11 @@ class ConnectionAttr:
                     self.config.Emulator_ScreenshotMethod = 'uiautomator2'
                     self.config.Emulator_ControlMethod = 'uiautomator2'
         if self.is_over_http:
-            if self.config.Emulator_ScreenshotMethod not in ["ADB", "uiautomator2"] \
+            if self.config.Emulator_ScreenshotMethod not in ["ADB", "uiautomator2", "aScreenCap"] \
                     or self.config.Emulator_ControlMethod not in ["ADB", "uiautomator2", "minitouch"]:
                 logger.warning(
                     f'When connecting to a device over http: {self.serial} '
-                    f'ScreenshotMethod can only use ["ADB", "uiautomator2"], '
+                    f'ScreenshotMethod can only use ["ADB", "uiautomator2", "aScreenCap"], '
                     f'ControlMethod can only use ["ADB", "uiautomator2", "minitouch"]'
                 )
                 raise RequestHumanTakeover
