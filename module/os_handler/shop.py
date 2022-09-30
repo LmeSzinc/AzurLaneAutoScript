@@ -11,6 +11,22 @@ OCR_SHOP_YELLOW_COINS = Digit(SHOP_YELLOW_COINS, letter=(239, 239, 239), thresho
 OCR_SHOP_PURPLE_COINS = Digit(SHOP_PURPLE_COINS, letter=(255, 255, 255), name='OCR_SHOP_PURPLE_COINS')
 
 
+class ShopPriceOcr(Digit):
+    def __init__(self, *args, **kwargs):
+        kwargs['alphabet'] = '0123456789ID'
+        super().__init__(*args, **kwargs)
+
+    def after_process(self, result):
+        result = ''.join(result)
+
+        # I00 -> 100
+        result = result.replace('I', '1')
+        # 1D -> 10
+        result = result.replace('D', '0')
+        result = int(result) if result else 0
+        return result
+
+
 class OSShopHandler(UI, MapEventHandler):
     _shop_yellow_coins = 0
     _shop_purple_coins = 0
@@ -31,6 +47,7 @@ class OSShopHandler(UI, MapEventHandler):
         shop_items = ItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
         shop_items.load_template_folder('./assets/shop/os')
         shop_items.load_cost_template_folder('./assets/shop/os_cost')
+        shop_items.price_ocr = ShopPriceOcr([], letter=(255, 223, 57), threshold=32, name='Price_ocr')
         return shop_items
 
     def os_shop_get_items(self, name=True):
