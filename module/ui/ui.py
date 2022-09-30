@@ -1,11 +1,12 @@
 from module.base.button import Button
 from module.base.decorator import run_once
 from module.base.timer import Timer
+from module.battle_pass.assets import PURCHASE_POPUP
 from module.combat.assets import GET_ITEMS_1, GET_SHIP
 from module.exception import (GameNotRunningError, GamePageUnknownError,
                               RequestHumanTakeover)
 from module.handler.assets import (AUTO_SEARCH_MENU_EXIT, BATTLE_PASS_NOTICE,
-                                   GAME_TIPS, GET_MISSION, LOGIN_ANNOUNCE,
+                                   GAME_TIPS, LOGIN_ANNOUNCE,
                                    LOGIN_CHECK, LOGIN_RETURN_SIGN,
                                    MONTHLY_PASS_NOTICE)
 from module.handler.info_handler import InfoHandler
@@ -15,7 +16,6 @@ from module.map.assets import (FLEET_PREPARATION, MAP_PREPARATION,
 from module.ocr.ocr import Ocr
 from module.os_handler.assets import (EXCHANGE_CHECK, RESET_FLEET_PREPARATION,
                                       RESET_TICKET_POPUP)
-from module.battle_pass.assets import PURCHASE_POPUP
 from module.raid.assets import RAID_FLEET_PREPARATION
 from module.ui.assets import (BACK_ARROW, DORM_FEED_CANCEL, DORM_INFO,
                               DORM_TROPHY_CONFIRM, EVENT_LIST_CHECK, GOTO_MAIN,
@@ -424,7 +424,7 @@ class UI(InfoHandler):
         if self.appear_then_click(PURCHASE_POPUP, offset=(44, -77, 84, -37), interval=3):
             return True
         # Item expired offset=(37, 72), skin expired, offset=(24, 68)
-        if self.appear_then_click(GET_MISSION, offset=(-6, 48, 54, 88), interval=3):
+        if self.handle_popup_single(offset=(-6, 48, 54, 88), name='ITEM_EXPIRED'):
             return True
 
         return False
