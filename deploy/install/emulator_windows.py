@@ -351,9 +351,10 @@ class EmulatorManager:
         for path in [r'SOFTWARE\leidian\ldplayer',
                      r'SOFTWARE\leidian\ldplayer9']:
             ld = self.get_install_dir_from_reg(path, 'InstallDir')
-            ld = abspath(os.path.join(ld, './dnplayer.exe'))
-            if ld and Emulator.is_emulator(ld) and os.path.exists(ld):
-                exe.add(ld)
+            if ld:
+                ld = abspath(os.path.join(ld, './dnplayer.exe'))
+                if Emulator.is_emulator(ld) and os.path.exists(ld):
+                    exe.add(ld)
 
         # Uninstall registry
         for uninstall in self.iter_uninstall_registry():
