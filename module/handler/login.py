@@ -9,7 +9,6 @@ from uiautomator2.xpath import XPath, XPathSelector
 import module.config.server as server
 from module.base.timer import Timer
 from module.base.utils import color_similarity_2d, crop, random_rectangle_point
-from module.combat.combat import Combat
 from module.config.utils import get_server_next_update
 from module.exception import (GameStuckError, GameTooManyClickError,
                               RequestHumanTakeover)
@@ -18,9 +17,10 @@ from module.logger import logger
 from module.map.assets import *
 from module.ui.assets import *
 from module.ui.page import MAIN_CHECK
+from module.ui.ui import UI
 
 
-class LoginHandler(Combat):
+class LoginHandler(UI):
     def _handle_app_login(self):
         """
         Pages:
@@ -34,18 +34,15 @@ class LoginHandler(Combat):
         login_success = False
 
         while 1:
-            self.device.screenshot()
+            # Watch device rotation
             if not login_success and orientation_timer.reached():
                 # Screen may rotate after starting an app
                 self.device.get_orientation()
                 orientation_timer.reset()
 
-            if self.appear(LOGIN_CHECK, offset=(30, 30), interval=5) and LOGIN_CHECK.match_appear_on(self.device.image):
-                self.device.click(LOGIN_CHECK)
-                if not login_success:
-                    logger.info('Login success')
-                    login_success = True
+            self.device.screenshot()
 
+            # End
             if self.appear(MAIN_CHECK, offset=(30, 30)):
                 if confirm_timer.reached():
                     logger.info('Login to main confirm')
@@ -53,33 +50,39 @@ class LoginHandler(Combat):
             else:
                 confirm_timer.reset()
 
-            if self.handle_get_items():
-                continue
-            if login_success:
-                if self.handle_get_ship():
-                    continue
+            # Login
+            if self.appear(LOGIN_CHECK, offset=(30, 30), interval=5) and LOGIN_CHECK.match_appear_on(self.device.image):
+                self.device.click(LOGIN_CHECK)
+                if not login_success:
+                    logger.info('Login success')
+                    login_success = True
             if self.appear_then_click(LOGIN_ANNOUNCE, offset=(30, 30), interval=5):
                 continue
             if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=5):
                 self.device.click(BACK_ARROW)
                 continue
+            # Updates and maintenance
             if self.appear_then_click(MAINTENANCE_ANNOUNCE, offset=(30, 30), interval=5):
                 continue
             if self.appear_then_click(LOGIN_GAME_UPDATE, offset=(30, 30), interval=5):
                 continue
+            if server.server == 'cn' and not login_success:
+                if self.handle_cn_user_agreement():
+                    continue
+            # Player return
             if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=5):
                 continue
             if self.appear_then_click(LOGIN_RETURN_INFO, offset=(30, 30), interval=5):
                 continue
-            if server.server == 'cn' and not login_success:
-                if self.handle_cn_user_agreement():
-                    continue
+            # Popups
             if self.handle_popup_confirm('LOGIN'):
-                continue
-            if self.handle_guild_popup_cancel():
                 continue
             if self.handle_urgent_commission():
                 continue
+            # Popups appear at page_main
+            if self.ui_page_main_popups(get_ship=login_success):
+                return True
+            # Always goto page_main
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=5):
                 continue
 
@@ -150,7 +153,7 @@ class LoginHandler(Combat):
 
     def app_restart(self):
         logger.hr('App restart')
-        if self.config.RestartEmulator_Enable\
+        if self.config.RestartEmulator_Enable \
                 and self.config.Scheduler_NextRun.strftime('%H:%M:%S') \
                 == get_server_next_update(self.config.Scheduler_ServerUpdate).strftime('%H:%M:%S'):
             self.device.emulator_restart()
