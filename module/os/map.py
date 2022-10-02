@@ -160,7 +160,9 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 super().os_map_goto_globe(*args, **kwargs)
                 return
             except RewardUncollectedError:
-                self.run_auto_search()
+                # Disable after_auto_search since it will exit current zone.
+                # Or will cause RecursionError: maximum recursion depth exceeded
+                self.run_auto_search(rescan=True, after_auto_search=False)
                 continue
 
         logger.error('Failed to solve uncollected rewards')
@@ -384,7 +386,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
         """
         logger.hr('OS auto search', level=2)
         self._auto_search_battle_count = 0
-        unlock_checked = True
+        unlock_checked = False
         unlock_check_timer = Timer(5, count=10).start()
         self.ash_popup_canceled = False
 
@@ -501,7 +503,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
                        'this might be 2 adjacent fleet mechanism, stopped')
         return False
 
-    def run_auto_search(self, question=True, rescan=None):
+    def run_auto_search(self, question=True, rescan=None, after_auto_search=True):
         """
         Clear current zone by running auto search.
         OpSi story mode must be cleared to unlock auto search.
@@ -514,6 +516,8 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 visit akashi's shop that auto search missed, and unlock mechanism that requires 2 fleets.
 
                 This option should be disabled in special tasks like OpsiObscure, OpsiAbyssal, OpsiStronghold.
+            after_auto_search (bool):
+                Whether to call handle_after_auto_search() after auto search
         """
         if rescan is None:
             rescan = self.config.OpsiGeneral_DoRandomMapEvent
@@ -532,11 +536,12 @@ class OSMap(OSFleet, Map, GlobeCamera):
 
                 self.hp_reset()
                 self.hp_get()
-                if self.is_in_task_explore and not self.zone.is_port:
-                    prev = self.zone
-                    if self.handle_after_auto_search():
-                        self.globe_goto(prev, types='DANGEROUS')
-                        continue
+                if after_auto_search:
+                    if self.is_in_task_explore and not self.zone.is_port:
+                        prev = self.zone
+                        if self.handle_after_auto_search():
+                            self.globe_goto(prev, types='DANGEROUS')
+                            continue
                 break
 
             # Rescan
@@ -562,6 +567,17 @@ class OSMap(OSFleet, Map, GlobeCamera):
         Returns:
             bool: If solved a map random event
         """
+        grids = self.view.select(is_exploration_reward=True)
+        if 'is_exploration_reward' not in self._solved_map_event and grids and grids[0].is_exploration_reward:
+            grid = grids[0]
+            logger.info(f'Found exploration reward on {grid}')
+            result = self.wait_until_walk_stable(drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=4))
+            if 'event' in result:
+                self._solved_map_event.add('is_exploration_reward')
+                return True
+            else:
+                return False
+
         grids = self.view.select(is_akashi=True)
         if 'is_akashi' not in self._solved_map_event and grids and grids[0].is_akashi:
             grid = grids[0]
