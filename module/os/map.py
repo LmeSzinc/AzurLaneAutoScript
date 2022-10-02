@@ -562,6 +562,17 @@ class OSMap(OSFleet, Map, GlobeCamera):
         Returns:
             bool: If solved a map random event
         """
+        grids = self.view.select(is_exploration_reward=True)
+        if 'is_exploration_reward' not in self._solved_map_event and grids and grids[0].is_exploration_reward:
+            grid = grids[0]
+            logger.info(f'Found exploration reward on {grid}')
+            result = self.wait_until_walk_stable(drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=4))
+            if 'event' in result:
+                self._solved_map_event.add('is_exploration_reward')
+                return True
+            else:
+                return False
+
         grids = self.view.select(is_akashi=True)
         if 'is_akashi' not in self._solved_map_event and grids and grids[0].is_akashi:
             grid = grids[0]
