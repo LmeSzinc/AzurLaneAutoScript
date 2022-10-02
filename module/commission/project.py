@@ -48,6 +48,20 @@ class SuffixOcr(Ocr):
         return image
 
 
+class TwOcr(Ocr):
+    def after_process(self, result):
+        """
+        Args:
+            result (str): '第二行'
+
+        Returns:
+            str:
+        """
+        # There no letter `艦` in training dataset
+        result = result.replace('鑑', '艦')
+        return result
+
+
 class Commission:
     # Button to enter commission start
     button: Button
@@ -198,7 +212,7 @@ class Commission:
         # Name
         area = area_offset((176, 23, 420, 53), self.area[0:2])
         button = Button(area=area, color=(), button=area, name='COMMISSION')
-        ocr = Ocr(button, lang='tw', threshold=256)
+        ocr = TwOcr(button, lang='tw', threshold=256)
         self.button = button
         self.name = ocr.ocr(self.image)
         self.genre = self.commission_name_parse(self.name)
