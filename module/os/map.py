@@ -160,7 +160,9 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 super().os_map_goto_globe(*args, **kwargs)
                 return
             except RewardUncollectedError:
-                self.run_auto_search()
+                # Disable after_auto_search since it will exit current zone.
+                # Or will cause RecursionError: maximum recursion depth exceeded
+                self.run_auto_search(rescan=True, after_auto_search=False)
                 continue
 
         logger.error('Failed to solve uncollected rewards')
@@ -501,7 +503,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
                        'this might be 2 adjacent fleet mechanism, stopped')
         return False
 
-    def run_auto_search(self, question=True, rescan=None):
+    def run_auto_search(self, question=True, rescan=None, after_auto_search=True):
         """
         Clear current zone by running auto search.
         OpSi story mode must be cleared to unlock auto search.
@@ -514,6 +516,8 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 visit akashi's shop that auto search missed, and unlock mechanism that requires 2 fleets.
 
                 This option should be disabled in special tasks like OpsiObscure, OpsiAbyssal, OpsiStronghold.
+            after_auto_search (bool):
+                Whether to call handle_after_auto_search() after auto search
         """
         if rescan is None:
             rescan = self.config.OpsiGeneral_DoRandomMapEvent
@@ -532,11 +536,12 @@ class OSMap(OSFleet, Map, GlobeCamera):
 
                 self.hp_reset()
                 self.hp_get()
-                if self.is_in_task_explore and not self.zone.is_port:
-                    prev = self.zone
-                    if self.handle_after_auto_search():
-                        self.globe_goto(prev, types='DANGEROUS')
-                        continue
+                if after_auto_search:
+                    if self.is_in_task_explore and not self.zone.is_port:
+                        prev = self.zone
+                        if self.handle_after_auto_search():
+                            self.globe_goto(prev, types='DANGEROUS')
+                            continue
                 break
 
             # Rescan
