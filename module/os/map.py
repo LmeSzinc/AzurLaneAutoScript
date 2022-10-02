@@ -384,7 +384,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
         """
         logger.hr('OS auto search', level=2)
         self._auto_search_battle_count = 0
-        unlock_checked = True
+        unlock_checked = False
         unlock_check_timer = Timer(5, count=10).start()
         self.ash_popup_canceled = False
 
