@@ -248,6 +248,7 @@ class ShopClerk(ShopBase, Retirement):
             None: exits appropriately therefore successful
         """
         success = False
+        confirm_timer = Timer(1.5, count=3).start()
         self.shop_interval_clear()
 
         while 1:
@@ -258,32 +259,39 @@ class ShopClerk(ShopBase, Retirement):
 
             if self.appear(BACK_ARROW, offset=(20, 20), interval=3):
                 self.device.click(item)
+                confirm_timer.reset()
                 continue
             if self.appear_then_click(SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
                 self.interval_reset(BACK_ARROW)
+                confirm_timer.reset()
                 continue
             if self.shop_buy_handle(item):
                 self.interval_reset(BACK_ARROW)
+                confirm_timer.reset()
+                continue
+            if self.handle_retirement():
+                self.interval_reset(BACK_ARROW)
+                confirm_timer.reset()
                 continue
             if self.appear(GET_SHIP, interval=1):
                 self.device.click(SHOP_CLICK_SAFE_AREA)
                 self.interval_reset(BACK_ARROW)
-                continue
-            if self.handle_retirement():
-                self.interval_reset(BACK_ARROW)
+                confirm_timer.reset()
                 continue
             if self.appear(GET_ITEMS_1, interval=1):
                 self.device.click(SHOP_CLICK_SAFE_AREA)
                 self.interval_reset(BACK_ARROW)
                 success = True
+                confirm_timer.reset()
                 continue
             if self.handle_info_bar():
                 self.interval_reset(BACK_ARROW)
                 success = True
+                confirm_timer.reset()
                 continue
 
             # End
-            if success and self.appear(BACK_ARROW, offset=(20, 20)):
+            if success and confirm_timer.reached():
                 break
 
     def shop_buy(self):
@@ -296,8 +304,7 @@ class ShopClerk(ShopBase, Retirement):
             # Get first for innate delay to ocr
             # shop currency for accurate parse
             items = self.shop_get_items()
-            self.shop_currency()
-            if self._currency <= 0:
+            if self.shop_currency() <= 0:
                 logger.warning(f'Current funds: {self._currency}, stopped')
                 return False
 
