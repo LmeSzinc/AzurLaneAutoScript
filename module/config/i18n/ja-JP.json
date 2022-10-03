@@ -601,6 +601,16 @@
       "help": "Retirement.OldRetireSSR.help"
     }
   },
+  "GameSetting": {
+    "_info": {
+      "name": "GameSetting._info.name",
+      "help": "GameSetting._info.help"
+    },
+    "Enable": {
+      "name": "GameSetting.Enable.name",
+      "help": "GameSetting.Enable.help"
+    }
+  },
   "Campaign": {
     "_info": {
       "name": "Campaign._info.name",

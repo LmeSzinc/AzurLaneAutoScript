@@ -55,6 +55,9 @@
       "OldRetireSR": false,
       "OldRetireSSR": false
     },
+    "GameSetting": {
+      "Enable": false
+    },
     "Storage": {
       "Storage": {}
     }

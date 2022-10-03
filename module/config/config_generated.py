@@ -67,6 +67,9 @@ class GeneratedConfig:
     Retirement_OldRetireSR = False
     Retirement_OldRetireSSR = False
 
+    # Group `GameSetting`
+    GameSetting_Enable = False
+
     # Group `Campaign`
     Campaign_Name = '12-4'
     Campaign_Event = 'campaign_main'  # campaign_main

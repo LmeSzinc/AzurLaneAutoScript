@@ -6,9 +6,13 @@ from tqdm import tqdm
 
 from module.base.decorator import cached_property
 from module.device.method.utils import remove_prefix
+from module.logger import logger
 
 REGEX_SETTING = re.compile(r'PlayerPrefs.Get(\w{1,10})\((.*)\)')
 REGEX_SETTING_KEY = re.compile(r'"(.*?)"')
+REGEX_STRING = r'<string name="(?P<name>.*)">(?P<value>.*)</string>'
+REGEX_INT = r'<int name="(?P<name>.*)" value="(?P<value>.*)" />'
+REGEX_FLOAT = r'<float name="(?P<name>.*)" value="(?P<value>.*)" />'
 
 
 def _strip_code(string):
@@ -32,8 +36,59 @@ def strip_code(string):
 @dataclass
 class Field:
     formatter: callable
-    default: ''
+    value: ''
     regex: str
+
+    def __call__(self, *args, **kwargs):
+        regex = self.regex
+        for arg in args:
+            regex = regex.replace('(.*)', arg, 1)
+        return Field(self.formatter, self.value, regex)
+
+    @cached_property
+    def pattern(self):
+        if self.formatter == float:
+            pattern = REGEX_FLOAT
+        elif self.formatter == int:
+            pattern = REGEX_INT
+        else:
+            pattern = REGEX_STRING
+        pattern = pattern.replace(r'(?P<name>.*)', self.regex, 1)
+        return pattern
+
+    def find(self, setting):
+        res = re.search(self.pattern, setting.data)
+        if res is not None:
+            self.value = res.groupdict()['value']
+
+    def update(self, setting):
+        if '(.*)' in self.pattern:
+            res = re.findall(self.pattern, setting.data)
+            if res:
+                for groups in res:
+                    old = self.pattern
+                    for group in groups[:-1]:
+                        old = old.replace('(.*)', group, 1)
+                    new = old.replace(r'(?P<value>.*)', self.value)
+                    logger.info('Setting: ' + new)
+                    setting.data = re.sub(old, new, setting.data)
+                return
+            else:
+                # Todo
+                logger.warning('Setting: ' + self.pattern + 'is not found in game settings, '
+                                                            'unable to update setting')
+                return
+
+        new = self.pattern.replace(r'(?P<value>.*)', self.value)
+        logger.info('Setting: ' + new)
+        res, num = re.subn(self.pattern, new, setting.data)
+        if num > 0:
+            setting.data = res
+        else:
+            logger.info('Setting: ' + self.pattern + 'is not found in game settings, '
+                                                     'set it at the end of file')
+            new = '    ' + new + '\n</map>'
+            setting.data = re.sub('</map>', new, setting.data)
 
 
 @dataclass
@@ -132,7 +187,7 @@ class LuaSetting:
 
         return [
             f'# {self.raw}',
-            f'{self.key} = Field(formatter={self.formatter}, default={self.default}, regex={self.regex})'
+            f'{self.key} = Field(formatter={self.formatter}, value={self.default}, regex={self.regex})'
         ]
 
 

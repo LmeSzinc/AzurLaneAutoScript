@@ -601,6 +601,16 @@
       "help": "Only applies to old retire mode"
     }
   },
+  "GameSetting": {
+    "_info": {
+      "name": "In-game Setting",
+      "help": ""
+    },
+    "Enable": {
+      "name": "Force to Set In-Game Setting",
+      "help": "Modify the settings in the game by modifying the configuration file when restart Alas, the emulator needs root permission\nWarning: There may be unknown risks"
+    }
+  },
   "Campaign": {
     "_info": {
       "name": "Level Settings",

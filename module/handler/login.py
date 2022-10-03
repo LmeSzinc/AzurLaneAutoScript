@@ -12,6 +12,7 @@ from module.base.utils import color_similarity_2d, crop, random_rectangle_point
 from module.config.utils import get_server_next_update
 from module.exception import (GameStuckError, GameTooManyClickError,
                               RequestHumanTakeover)
+from module.game_setting.game_setting import GameSetting
 from module.handler.assets import *
 from module.logger import logger
 from module.map.assets import *
@@ -154,6 +155,8 @@ class LoginHandler(UI):
     def app_restart(self):
         logger.hr('App restart')
         self.device.app_stop()
+        if self.config.GameSetting_Enable:
+            GameSetting(config=self.config, device=self.device).setting_game()
         self.device.app_start()
         self.handle_app_login()
         # self.ensure_no_unfinished_campaign()

@@ -12,6 +12,7 @@ Alas:
   - DropRecord
 General:
   - Retirement
+  - GameSetting
 Restart:
   - Scheduler
 
