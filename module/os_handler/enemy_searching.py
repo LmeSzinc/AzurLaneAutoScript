@@ -2,12 +2,13 @@ from module.base.timer import Timer
 from module.handler.enemy_searching import \
     EnemySearchingHandler as EnemySearchingHandler_
 from module.logger import logger
-from module.os_handler.assets import IN_MAP, ORDER_ENTER
+from module.os_handler.assets import IN_MAP, IN_MAP_FOG, ORDER_ENTER
 
 
 class EnemySearchingHandler(EnemySearchingHandler_):
     def is_in_map(self):
-        return self.appear(IN_MAP, offset=(200, 5))
+        return self.appear(IN_MAP, offset=(200, 5)) or \
+               self.appear(IN_MAP_FOG, offset=(200, 5))
 
     def wait_os_map_buttons(self, skip_first_screenshot=True):
         """
