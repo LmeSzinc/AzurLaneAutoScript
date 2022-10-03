@@ -193,18 +193,18 @@ class AssistantHandler:
             self.config.task_delay(success=True)
 
     def recruit(self):
-        select = []
+        confirm = []
         if self.config.MaaRecruit_Select3:
-            select.append(3)
+            confirm.append(3)
         if self.config.MaaRecruit_Select4:
-            select.append(4)
+            confirm.append(4)
         if self.config.MaaRecruit_Select5:
-            select.append(5)
+            confirm.append(5)
 
         args = {
             "refresh": self.config.MaaRecruit_Refresh,
-            "select": select,
-            "confirm": select,
+            "select": [4, 5, 6],
+            "confirm": confirm,
             "times": self.config.MaaRecruit_Times,
             "expedite": self.config.MaaRecruit_Expedite,
             "skip_robot": self.config.MaaRecruit_SkipRobot
@@ -231,6 +231,7 @@ class AssistantHandler:
             "drom_trust_enabled": self.config.MaaInfrast_Trust
         }
 
+        end_time = datetime.datetime.now() + datetime.timedelta(minutes=30)
         if self.config.MaaCustomInfrast_Enable:
             args['mode'] = 10000
             args['filename'] = self.config.MaaCustomInfrast_Filename
