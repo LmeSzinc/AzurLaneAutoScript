@@ -1,6 +1,8 @@
 import os
 import sys
+import json
 import time
+import requests
 import datetime
 from importlib import import_module
 from typing import Any
@@ -307,7 +309,23 @@ class AssistantHandler:
             self.config.Scheduler_Enable = False
 
     def copilot(self):
-        homework = read_file(self.config.MaaCopilot_FileName)
+        filename = self.config.MaaCopilot_FileName
+        if filename.startswith('maa://'):
+            logger.info('正在从神秘代码中下载作业')
+            r = requests.get(f"https://api.prts.plus/copilot/get/{filename.strip('maa://')}", timeout=30)
+            if r.status_code != 200:
+                logger.critical('作业文件下载失败，请检查神秘代码或网络状况')
+                raise RequestHumanTakeover
+            logger.info('作业下载完毕')
+
+            r.encoding = 'utf-8'
+            buf = json.loads(r.text)['data']['content'].encode('utf-8')
+            filename = os.path.join(self.config.MaaEmulator_MaaPath, './resource/_temp_copilot.json')
+            filename = filename.replace('\\', '/').replace('./', '/').replace('//', '/')
+            with open(filename, 'wb') as f:
+                f.write(buf)
+
+        homework = read_file(filename)
         stage = deep_get(homework, keys='stage_name')
         if not stage:
             logger.critical('作业文件不存在或已经损坏')
@@ -315,6 +333,6 @@ class AssistantHandler:
 
         self.maa_start('Copilot', {
             "stage_name": stage,
-            "filename": self.config.MaaCopilot_FileName,
+            "filename": filename,
             "formation": self.config.MaaCopilot_Formation
         })

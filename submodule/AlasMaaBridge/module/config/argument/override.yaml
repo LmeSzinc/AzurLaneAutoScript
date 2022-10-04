@@ -32,6 +32,7 @@ MaaFight:
     Stone: 0
     Times: 0
     Drops: null
+    DrGrandet: false
 
 MaaRecruit:
   Scheduler:

@@ -288,7 +288,8 @@
       },
       "DrGrandet": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "display": "hide"
       }
     }
   },
@@ -335,7 +336,7 @@
       },
       "Select3": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "Select4": {
         "type": "checkbox",

@@ -68,7 +68,7 @@ MaaFight:
 MaaRecruit:
   Refresh: true
   SkipRobot: true
-  Select3: false
+  Select3: true
   Select4: true
   Select5: true
   Level3ShortTime: True

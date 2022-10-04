@@ -112,4 +112,6 @@ def loop(config_name):
 def maa_copilot(config_name):
     script = ArknightsAutoScript(config_name)
     script.config.bind('MaaCopilot')
-    AssistantHandler(config=script.config, asst=script.asst).copilot()
+    handler = AssistantHandler(config=script.config, asst=script.asst)
+    handler.connect()
+    handler.copilot()
