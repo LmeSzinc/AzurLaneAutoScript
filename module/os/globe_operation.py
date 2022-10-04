@@ -301,7 +301,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
                                    'there might be uncollected zone exploration rewards preventing exit')
                     raise RewardUncollectedError
                 continue
-            if self.appear_then_click(MAP_GOTO_GLOBE_FOG, offset=(200, 5), interval=5):
+            if self.appear_then_click(MAP_GOTO_GLOBE_FOG, offset=(5, 5), interval=5):
                 # Encountered only in strongholds; AL will not prevent
                 # zone exit even with left over exploration rewards in map
                 self.interval_reset(MAP_GOTO_GLOBE)
