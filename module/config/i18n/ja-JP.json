@@ -1929,9 +1929,15 @@
       "name": "OpsiGeneral.UseLogger.name",
       "help": "OpsiGeneral.UseLogger.help"
     },
-    "BuyActionPoint": {
-      "name": "OpsiGeneral.BuyActionPoint.name",
-      "help": "OpsiGeneral.BuyActionPoint.help"
+    "BuyActionPointLimit": {
+      "name": "OpsiGeneral.BuyActionPointLimit.name",
+      "help": "OpsiGeneral.BuyActionPointLimit.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
     },
     "OilLimit": {
       "name": "OpsiGeneral.OilLimit.name",

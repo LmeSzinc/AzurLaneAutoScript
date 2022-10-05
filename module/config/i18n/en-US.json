@@ -1929,9 +1929,15 @@
       "name": "Use Logger(s)",
       "help": "Use all coordinate loggers when entering the storage"
     },
-    "BuyActionPoint": {
-      "name": "Buy AP",
-      "help": "Restore AP through oil first then AP boxes"
+    "BuyActionPointLimit": {
+      "name": "OpsiGeneral.BuyActionPointLimit.name",
+      "help": "OpsiGeneral.BuyActionPointLimit.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
     },
     "OilLimit": {
       "name": "Keep Oil Above X",

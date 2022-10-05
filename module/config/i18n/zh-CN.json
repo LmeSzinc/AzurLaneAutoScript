@@ -1929,9 +1929,15 @@
       "name": "使用坐标记录仪",
       "help": "每次进入仓库的时候，使用所有的使用坐标记录仪"
     },
-    "BuyActionPoint": {
-      "name": "买行动力",
-      "help": "用石油买行动力，行动力不足时，优先买行动力，再开箱子"
+    "BuyActionPointLimit": {
+      "name": "OpsiGeneral.BuyActionPointLimit.name",
+      "help": "OpsiGeneral.BuyActionPointLimit.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
     },
     "OilLimit": {
       "name": "买行动力时，保留 X 点石油",

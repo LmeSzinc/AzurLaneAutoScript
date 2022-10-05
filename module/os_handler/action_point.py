@@ -189,8 +189,10 @@ class ActionPointHandler(UI):
             return False
         cost = ACTION_POINTS_BUY[current]
         oil = self._action_point_box[0]
+        buy_count = 5 - current
+        buy_limit = self.config.OpsiGeneral_BuyActionPointLimit
         logger.info(f'Buy action points will cost {cost}, current oil: {oil}, preserve: {preserve}')
-        if oil >= cost + preserve:
+        if oil >= cost + preserve and buy_count < buy_limit:
             self.action_point_use()
             return True
         else:
@@ -237,7 +239,7 @@ class ActionPointHandler(UI):
                 return True
 
             # Buy action points
-            if self.config.OpsiGeneral_BuyActionPoint and not buy_checked:
+            if self.config.OpsiGeneral_BuyActionPointLimit > 0 and not buy_checked:
                 if self.action_point_buy(preserve=self.config.OpsiGeneral_OilLimit):
                     continue
                 else:
