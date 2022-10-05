@@ -184,14 +184,14 @@ class ActionPointHandler(UI):
         """
         self.action_point_set_button(0)
         current, _, _ = OCR_ACTION_POINT_BUY_REMAIN.ocr(self.device.image)
-        if current == 0:
+        buy_max = 5  # In current version of AL, players can buy 5 times of AP in a week.
+        buy_count = buy_max - current
+        buy_limit = self.config.OpsiGeneral_BuyActionPointLimit
+        if buy_count >= buy_limit:
             logger.info('Reach the limit to buy action points this week')
             return False
         cost = ACTION_POINTS_BUY[current]
         oil = self._action_point_box[0]
-        buy_max = 5  # In current version of AL, players can buy 5 times of AP in a week.
-        buy_count = buy_max - current
-        buy_limit = self.config.OpsiGeneral_BuyActionPointLimit
         logger.info(f'Buy action points will cost {cost}, current oil: {oil}, preserve: {preserve}')
         if oil >= cost + preserve and buy_count < buy_limit:
             self.action_point_use()

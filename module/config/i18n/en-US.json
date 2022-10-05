@@ -1931,13 +1931,13 @@
     },
     "BuyActionPointLimit": {
       "name": "Buy AP X time(s)",
-      "help": "Maximum number of buying AP. Choose 0 to disable.\n\nThe rules of buying APs are:\n- First and second time: 100AP/1000Oil\n- Third and forth time: 200AP/2000Oil\n- Fifth time: 400AP/4000Oil",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5"
+      "help": "Maximum number of buying AP.",
+      "0": "Don't buy",
+      "1": "1 (1000oil, 100AP)",
+      "2": "2 (2000oil, 200AP)",
+      "3": "3 (4000oil, 400AP)",
+      "4": "4 (6000oil, 600AP)",
+      "5": "5 (10000oil, 1000AP)"
     },
     "OilLimit": {
       "name": "Keep Oil Above X",
