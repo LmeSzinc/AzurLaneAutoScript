@@ -1930,8 +1930,8 @@
       "help": "Use all coordinate loggers when entering the storage"
     },
     "BuyActionPointLimit": {
-      "name": "OpsiGeneral.BuyActionPointLimit.name",
-      "help": "OpsiGeneral.BuyActionPointLimit.help",
+      "name": "Buy AP X time(s)",
+      "help": "Maximum number of buying AP. Choose 0 to disable.\n\nThe rules of buying APs are:\n- First and second time: 100AP/1000Oil\n- Third and forth time: 200AP/2000Oil\n- Fifth time: 400AP/4000Oil",
       "0": "0",
       "1": "1",
       "2": "2",

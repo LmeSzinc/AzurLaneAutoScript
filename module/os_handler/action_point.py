@@ -189,7 +189,8 @@ class ActionPointHandler(UI):
             return False
         cost = ACTION_POINTS_BUY[current]
         oil = self._action_point_box[0]
-        buy_count = 5 - current
+        buy_max = 5  # In current version of AL, players can buy 5 times of AP in a week.
+        buy_count = buy_max - current
         buy_limit = self.config.OpsiGeneral_BuyActionPointLimit
         logger.info(f'Buy action points will cost {cost}, current oil: {oil}, preserve: {preserve}')
         if oil >= cost + preserve and buy_count < buy_limit:

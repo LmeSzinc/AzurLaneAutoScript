@@ -1930,8 +1930,8 @@
       "help": "每次进入仓库的时候，使用所有的使用坐标记录仪"
     },
     "BuyActionPointLimit": {
-      "name": "OpsiGeneral.BuyActionPointLimit.name",
-      "help": "OpsiGeneral.BuyActionPointLimit.help",
+      "name": "买行动力X次",
+      "help": "买行动力的最大次数，选择0以关闭石油购买\n\n买行动力的规则为:\n- 第1.2次: 100行动点/1000石油\n- 第3.4次: 200行动点/2000石油\n- 第5次: 400行动点/4000石油",
       "0": "0",
       "1": "1",
       "2": "2",
