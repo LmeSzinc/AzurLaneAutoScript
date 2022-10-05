@@ -193,11 +193,15 @@ class ActionPointHandler(UI):
         buy_count = buy_max - current
         buy_limit = self.config.OpsiGeneral_BuyActionPointLimit
         logger.info(f'Buy action points will cost {cost}, current oil: {oil}, preserve: {preserve}')
-        if oil >= cost + preserve and buy_count < buy_limit:
-            self.action_point_use()
-            return True
+        if buy_count < buy_limit:
+            if oil >= cost + preserve:
+                self.action_point_use()
+                return True
+            else:
+                logger.info('Not enough oil to buy')
+                return False
         else:
-            logger.info('Not enough oil to buy')
+            logger.info(f'Reach the limit of buying action points: {buy_limit} times a week')
             return False
 
     def action_point_quit(self, skip_first_screenshot=True):
