@@ -204,7 +204,7 @@ class ProcessManager:
 
         for process in _instances:
             logger.info(f"Starting [{process.config_name}]")
-            process.start(func="Alas", ev=ev)
+            process.start(func=get_config_mod(process.config_name), ev=ev)
 
         try:
             os.remove("./config/reloadalas")
