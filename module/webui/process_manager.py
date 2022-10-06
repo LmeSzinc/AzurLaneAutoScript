@@ -151,7 +151,7 @@ class ProcessManager:
 
                 GameManager(config=config_name, task="GameManager").run()
             else:
-                logger.critical("No function matched")
+                logger.critical(f"No function matched: {func}")
             logger.info(f"[{config_name}] exited. Reason: Finish\n")
         except Exception as e:
             logger.exception(e)

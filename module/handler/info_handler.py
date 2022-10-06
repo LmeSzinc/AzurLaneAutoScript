@@ -229,6 +229,7 @@ class InfoHandler(ModuleBase):
     """
     story_popup_timeout = Timer(10, count=20)
     map_has_clear_mode = False  # Will be override in fast_forward.py
+    map_is_threat_safe = False
 
     _story_confirm = Timer(0.5, count=1)
     # Area to detect the options, should include at least 3 options.
@@ -332,7 +333,10 @@ class InfoHandler(ModuleBase):
 
     def handle_story_skip(self, drop=None):
         # Rerun events in clear mode but still have stories.
-        if self.map_has_clear_mode and self.config.Campaign_Event != 'event_20201012_cn':
+        # No stories in clear mode
+        # but B3/D3 still have stories til threat safe
+        # No more stories at threat safe
+        if self.map_is_threat_safe and self.config.Campaign_Event != 'event_20201012_cn':
             return False
 
         return self.story_skip(drop=drop)

@@ -3,7 +3,7 @@ import numpy as np
 from module.config.utils import (get_os_next_reset,
                                  get_os_reset_remain,
                                  DEFAULT_TIME)
-from module.exception import RequestHumanTakeover, ScriptError
+from module.exception import RequestHumanTakeover, GameStuckError, ScriptError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.os.fleet import BossFleet
@@ -266,7 +266,7 @@ class OperationSiren(OSMap):
                 self.globe_goto(0)
 
         logger.critical('Failed to solve the locked zone')
-        raise RequestHumanTakeover
+        raise GameStuckError
 
     def clear_obscure(self):
         """
