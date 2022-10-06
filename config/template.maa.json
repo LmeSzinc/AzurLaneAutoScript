@@ -1,0 +1,190 @@
+{
+  "Maa": {
+    "MaaEmulator": {
+      "Serial": "127.0.0.1:5555",
+      "PackageName": "Official",
+      "Server": "CN",
+      "MaaPath": "D:/Program Files/MAA"
+    },
+    "MaaRecord": {
+      "ReportToPenguin": false,
+      "PenguinID": null
+    },
+    "Emulator": {
+      "ServerName": "disabled"
+    },
+    "Error": {
+      "SaveError": false,
+      "OnePushConfig": "provider: null"
+    },
+    "Optimization": {
+      "WhenTaskQueueEmpty": "stay_there"
+    }
+  },
+  "MaaStartup": {
+    "Scheduler": {
+      "Enable": true,
+      "NextRun": "2020-01-01 04:00:00",
+      "Command": "MaaStartup",
+      "SuccessInterval": 0,
+      "FailureInterval": 0,
+      "ServerUpdate": "04:00"
+    }
+  },
+  "MaaAnnihilation": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 04:00:00",
+      "Command": "MaaAnnihilation",
+      "SuccessInterval": 480,
+      "FailureInterval": 120,
+      "ServerUpdate": "04:00"
+    },
+    "MaaFight": {
+      "Stage": "Annihilation",
+      "Medicine": 0,
+      "Stone": 0,
+      "Times": 5,
+      "Drops": null,
+      "DrGrandet": false
+    }
+  },
+  "MaaMaterial": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 04:00:00",
+      "Command": "MaaMaterial",
+      "SuccessInterval": 60,
+      "FailureInterval": 120,
+      "ServerUpdate": "04:00"
+    },
+    "MaaFight": {
+      "Stage": "1-7",
+      "Medicine": 0,
+      "Stone": 0,
+      "Times": 0,
+      "Drops": null,
+      "DrGrandet": false
+    }
+  },
+  "MaaFight": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 04:00:00",
+      "Command": "MaaFight",
+      "SuccessInterval": 480,
+      "FailureInterval": 120,
+      "ServerUpdate": "04:00"
+    },
+    "MaaFight": {
+      "Stage": "1-7",
+      "Medicine": 0,
+      "Stone": 0,
+      "Times": 0,
+      "Drops": null,
+      "DrGrandet": false
+    }
+  },
+  "MaaRecruit": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 04:00:00",
+      "Command": "MaaRecruit",
+      "SuccessInterval": 180,
+      "FailureInterval": 120,
+      "ServerUpdate": "04:00"
+    },
+    "MaaRecruit": {
+      "Refresh": true,
+      "SkipRobot": true,
+      "Select3": true,
+      "Select4": true,
+      "Select5": true,
+      "Level3ShortTime": true,
+      "Times": 4,
+      "Expedite": false
+    }
+  },
+  "MaaInfrast": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 04:00:00",
+      "Command": "MaaInfrast",
+      "SuccessInterval": 60,
+      "FailureInterval": 120,
+      "ServerUpdate": "04:00"
+    },
+    "MaaInfrast": {
+      "Facility": "Mfg > Trade > Power > Control > Reception > Office > Dorm",
+      "Drones": "Money",
+      "Threshold": 0.3,
+      "Notstationed": true,
+      "Trust": true,
+      "Replenish": false
+    },
+    "MaaCustomInfrast": {
+      "Enable": false,
+      "Filename": null
+    }
+  },
+  "MaaVisit": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 04:00:00",
+      "Command": "MaaVisit",
+      "SuccessInterval": 60,
+      "FailureInterval": 120,
+      "ServerUpdate": "04:00"
+    }
+  },
+  "MaaMall": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 04:00:00",
+      "Command": "MaaMall",
+      "SuccessInterval": 60,
+      "FailureInterval": 120,
+      "ServerUpdate": "04:00"
+    },
+    "MaaMall": {
+      "Shopping": true,
+      "BuyFirst": "招聘许可 > 龙门币",
+      "BlackList": "碳 > 家具"
+    }
+  },
+  "MaaAward": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 04:00:00",
+      "Command": "MaaAward",
+      "SuccessInterval": 60,
+      "FailureInterval": 120,
+      "ServerUpdate": "04:00, 16:00"
+    }
+  },
+  "MaaRoguelike": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 04:00:00",
+      "Command": "MaaRoguelike",
+      "SuccessInterval": 60,
+      "FailureInterval": 120,
+      "ServerUpdate": "04:00"
+    },
+    "MaaRoguelike": {
+      "Mode": 0,
+      "StartsCount": 9999999,
+      "InvestmentsCount": 9999999,
+      "StopWhenInvestmentFull": false,
+      "Squad": "指挥分队",
+      "Roles": "取长补短",
+      "CoreChar": null
+    }
+  },
+  "MaaCopilot": {
+    "MaaCopilot": {
+      "FileName": null,
+      "Formation": false
+    }
+  }
+}
