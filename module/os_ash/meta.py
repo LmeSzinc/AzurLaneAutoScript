@@ -7,7 +7,7 @@ from module.ocr.ocr import DigitCounter, Digit
 from module.os_ash.ash import AshCombat
 from module.os_ash.assets import *
 from module.os_handler.map_event import MapEventHandler
-from module.ui.assets import BACK_ARROW
+from module.ui.assets import BACK_ARROW, MAIN_GOTO_REWARD
 from module.ui.page import page_reward
 from module.ui.ui import UI
 
@@ -150,6 +150,11 @@ class OpsiAshBeacon(Meta):
                 break
             # Finish random events
             if self.handle_map_event():
+                continue
+            # Accidentally goto main page
+            if self.appear(MAIN_GOTO_REWARD, offset=(20, 20), interval=2):
+                continue
+            if self.appear(META_ENTRANCE, offset=(20, 300), interval=2):
                 continue
 
     def _satisfy_attack_condition(self):
