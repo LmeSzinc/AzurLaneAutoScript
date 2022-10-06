@@ -3,7 +3,7 @@ import numpy as np
 from module.config.utils import (get_os_next_reset,
                                  get_os_reset_remain,
                                  DEFAULT_TIME)
-from module.exception import RequestHumanTakeover, ScriptError
+from module.exception import RequestHumanTakeover, GameStuckError, ScriptError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.os.fleet import BossFleet
@@ -208,6 +208,8 @@ class OperationSiren(OSMap):
             with self.config.multi_set():
                 self.config.OpsiExplore_LastZone = 0
                 self.config.task_delay(target=next_reset)
+                self.config.task_call('OpsiDaily', force_call=False)
+                self.config.task_call('OpsiShop', force_call=False)
             self.config.task_stop()
 
         logger.hr('OS explore', level=1)
@@ -264,7 +266,7 @@ class OperationSiren(OSMap):
                 self.globe_goto(0)
 
         logger.critical('Failed to solve the locked zone')
-        raise RequestHumanTakeover
+        raise GameStuckError
 
     def clear_obscure(self):
         """

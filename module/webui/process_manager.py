@@ -161,7 +161,7 @@ class ProcessManager:
                 mod = load_mod('maa')
                 mod.maa_copilot(config_name)
             else:
-                logger.critical("No function matched")
+                logger.critical(f"No function matched: {func}")
             logger.info(f"[{config_name}] exited. Reason: Finish\n")
         except Exception as e:
             logger.exception(e)
