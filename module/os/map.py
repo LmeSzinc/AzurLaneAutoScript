@@ -61,6 +61,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
         # self.map_init()
         self.hp_reset()
         self.handle_after_auto_search()
+        self.handle_current_fleet_resolve(revert=False)
 
         # Exit from special zones types, only SAFE and DANGEROUS are acceptable.
         if self.is_in_special_zone():
@@ -380,7 +381,6 @@ class OSMap(OSFleet, Map, GlobeCamera):
         solved = False
         solved |= self.handle_fleet_emp_debuff()
         solved |= self.handle_fleet_repair(revert=False)
-        solved |= self.handle_current_fleet_resolve(revert=False)
         logger.info(f'Handle after auto search finished, solved={solved}')
         return solved
 
