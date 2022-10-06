@@ -12,6 +12,7 @@ from module.os.assets import FLEET_EMP_DEBUFF
 from module.os.fleet import OSFleet
 from module.os.globe_camera import GlobeCamera
 from module.os.globe_operation import RewardUncollectedError
+from module.os_handler.assets import AUTO_SEARCH_OS_MAP_OPTION_OFF, AUTO_SEARCH_OS_MAP_OPTION_ON
 from module.ui.ui import page_os
 
 FLEET_LOW_RESOLVE = Button(
@@ -398,6 +399,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
             else:
                 self.device.screenshot()
 
+            # End
             if not unlock_checked and unlock_check_timer.reached():
                 logger.critical('Unable to use auto search in current zone')
                 logger.critical('Please finish the story mode of OpSi to unlock auto search '
@@ -413,6 +415,12 @@ class OSMap(OSFleet, Map, GlobeCamera):
                     died_timer.reset()
             else:
                 died_timer.reset()
+
+            if not unlock_checked:
+                if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120)):
+                    unlock_checked = True
+                elif self.appear(AUTO_SEARCH_OS_MAP_OPTION_ON, offset=(5, 120)):
+                    unlock_checked = True
             if self.handle_os_auto_search_map_option(drop=drop, enable=success):
                 unlock_checked = True
                 continue
