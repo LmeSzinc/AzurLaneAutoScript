@@ -1,6 +1,5 @@
 import inflection
 
-from module.base.button import Button
 from module.base.timer import Timer
 from module.config.utils import get_os_reset_remain
 from module.exception import CampaignEnd, RequestHumanTakeover
@@ -14,10 +13,6 @@ from module.os.globe_camera import GlobeCamera
 from module.os.globe_operation import RewardUncollectedError
 from module.os_handler.assets import AUTO_SEARCH_OS_MAP_OPTION_OFF, AUTO_SEARCH_OS_MAP_OPTION_ON
 from module.ui.ui import page_os
-
-FLEET_LOW_RESOLVE = Button(
-    area=(144, 148, 170, 175), color=(255, 44, 33), button=(144, 148, 170, 175),
-    name='FLEET_LOW_RESOLVE')
 
 
 class OSMap(OSFleet, Map, GlobeCamera):
@@ -260,7 +255,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
         if revert and prev != self.zone:
             self.globe_goto(prev)
 
-    def handle_fleet_resolve(self, revert=True):
+    def handle_fleet_resolve(self, revert=False):
         """
         Check each fleet if afflicted with the low
         resolve debuff
@@ -276,18 +271,38 @@ class OSMap(OSFleet, Map, GlobeCamera):
             logger.info('OS is in a special zone type, skip fleet resolve')
             return False
 
-        for _ in range(1, 5):
-            if not self.fleet_set(_):
+        for index in [1, 2, 3, 4]:
+            if not self.fleet_set(index):
                 self.device.screenshot()
 
-            if self.image_color_count(FLEET_LOW_RESOLVE, color=FLEET_LOW_RESOLVE.color,
-                                      threshold=221, count=250):
+            if self.fleet_low_resolve_appear():
                 logger.info('At least one fleet is afflicted with '
                             'the low resolve debuff')
                 self.fleet_resolve(revert)
                 return True
 
         logger.info('None of the fleets are afflicted with '
+                    'the low resolve debuff')
+        return False
+
+    def handle_current_fleet_resolve(self, revert=False):
+        """
+        Similar to handle_fleet_resolve,
+        but check current fleet only for better performance at initialization
+
+        Args:
+            revert (bool): If go back to previous zone.
+
+        Returns:
+            bool:
+        """
+        if self.fleet_low_resolve_appear():
+            logger.info('Current fleet is afflicted with '
+                        'the low resolve debuff')
+            self.fleet_resolve(revert)
+            return True
+
+        logger.info('Current fleet is not afflicted with '
                     'the low resolve debuff')
         return False
 
@@ -365,6 +380,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
         solved = False
         solved |= self.handle_fleet_emp_debuff()
         solved |= self.handle_fleet_repair(revert=False)
+        solved |= self.handle_current_fleet_resolve(revert=False)
         logger.info(f'Handle after auto search finished, solved={solved}')
         return solved
 
