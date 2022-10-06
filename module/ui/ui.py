@@ -14,8 +14,8 @@ from module.logger import logger
 from module.map.assets import (FLEET_PREPARATION, MAP_PREPARATION,
                                MAP_PREPARATION_CANCEL, WITHDRAW)
 from module.ocr.ocr import Ocr
-from module.os_handler.assets import (EXCHANGE_CHECK, RESET_FLEET_PREPARATION,
-                                      RESET_TICKET_POPUP)
+from module.os_handler.assets import (AUTO_SEARCH_REWARD, EXCHANGE_CHECK,
+                                      RESET_FLEET_PREPARATION, RESET_TICKET_POPUP)
 from module.raid.assets import RAID_FLEET_PREPARATION
 from module.ui.assets import (BACK_ARROW, DORM_FEED_CANCEL, DORM_INFO,
                               DORM_TROPHY_CONFIRM, EVENT_LIST_CHECK, GOTO_MAIN,
@@ -528,6 +528,8 @@ class UI(InfoHandler):
             self.device.click(MAP_PREPARATION_CANCEL)
             return True
         if self.appear_then_click(AUTO_SEARCH_MENU_EXIT, offset=(200, 30), interval=3):
+            return True
+        if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
             return True
         if self.appear(WITHDRAW, offset=(30, 30), interval=3):
             # Poor wait here, to handle a game client bug after the game patch in 2022-04-07
