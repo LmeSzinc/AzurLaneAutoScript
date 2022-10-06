@@ -1,7 +1,6 @@
 import cv2
 
 from module.base.timer import Timer
-from module.combat.assets import GET_ITEMS_1, GET_SHIP
 from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
@@ -265,19 +264,14 @@ class ShopClerk(ShopBase, Retirement):
             if self.shop_buy_handle(item):
                 self.interval_reset(BACK_ARROW)
                 continue
-            if self.appear(GET_SHIP, interval=1):
-                self.device.click(SHOP_CLICK_SAFE_AREA)
-                self.interval_reset(BACK_ARROW)
-                continue
             if self.handle_retirement():
                 self.interval_reset(BACK_ARROW)
                 continue
-            if self.appear(GET_ITEMS_1, interval=1):
-                self.device.click(SHOP_CLICK_SAFE_AREA)
+            if self.handle_info_bar():
                 self.interval_reset(BACK_ARROW)
                 success = True
                 continue
-            if self.handle_info_bar():
+            if self.shop_obstruct_handle():
                 self.interval_reset(BACK_ARROW)
                 success = True
                 continue
