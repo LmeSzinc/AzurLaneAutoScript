@@ -423,6 +423,9 @@ class AshBeaconAssist(Meta):
         logger.info('Find a beacon in level:' + str(current))
 
     def _in_meta_assist_page(self):
+        # AL redirects to unfinished self beacon after assist, so switch back
+        if self.appear_then_click(BEACON_LIST, offset=(-20, -5, 300, 5)):
+            return False
         return self.appear(BEACON_MY, offset=(20, 20))
 
     def _ensure_meta_assist_page(self, skip_first_screenshot=True):
