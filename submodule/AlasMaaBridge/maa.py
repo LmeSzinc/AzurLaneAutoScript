@@ -1,12 +1,13 @@
 import json
+
 from cached_property import cached_property
 
 from alas import AzurLaneAutoScript
 from module.exception import RequestHumanTakeover
 from module.logger import logger
-
 from submodule.AlasMaaBridge.module.config.config import ArknightsConfig
 from submodule.AlasMaaBridge.module.handler.handler import AssistantHandler
+from submodule.AlasMaaBridge.module.logger import log_callback
 
 
 class FakeDevice:
@@ -62,7 +63,7 @@ class ArknightsAutoScript(AzurLaneAutoScript):
             """
             m = AssistantHandler.Message(msg)
             d = json.loads(details.decode('utf-8', 'ignore'))
-            logger.info(f'{m} {d}')
+            log_callback(m, d)
             handler = AssistantHandler.ASST_HANDLER
             if handler:
                 handler.callback_timer.reset()
