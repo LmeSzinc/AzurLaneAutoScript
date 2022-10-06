@@ -232,7 +232,25 @@ class OpsiAshBeacon(Meta):
             in: is_in_meta
             out: is_in_meta
         """
-        self.ui_click(click_button=HELP_ENTER, check_button=HELP_CONFIRM)
+        # Enter help page
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(HELP_CONFIRM, offset=(20, 20)):
+                break
+            # Click
+            if self.appear_then_click(HELP_ENTER, offset=(20, 20), interval=3):
+                continue
+            # Wrongly entered BATTLE_PREPARATION
+            if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=2):
+                self.device.click(BACK_ARROW)
+                continue
+
         # Here use simple clicks. Dropping some clicks is acceptable, no need to confirm they are selected.
         self.device.click(HELP_1)
         self.device.sleep((0.1, 0.3))
