@@ -48,6 +48,9 @@ class Config:
     # EDGE_LINES_HOUGHLINES_THRESHOLD = 40
     COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5
 
+    # W6 has 3 enemies in a row, avoid detecting as map edge
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 240
+
 
 class Campaign(CampaignBase):
     MAP = MAP
