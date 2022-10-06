@@ -193,7 +193,7 @@ class ActionPointHandler(UI):
         cost = ACTION_POINTS_BUY[current]
         oil = self._action_point_box[0]
         logger.info(f'Buy action points will cost {cost}, current oil: {oil}, preserve: {preserve}')
-        if oil >= cost + preserve and buy_count < buy_limit:
+        if oil >= cost + preserve:
             self.action_point_use()
             return True
         else:
