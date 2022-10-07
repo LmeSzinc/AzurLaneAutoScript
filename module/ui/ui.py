@@ -394,7 +394,7 @@ class UI(InfoHandler):
 
     _opsi_reset_fleet_preparation_click = 0
 
-    def ui_page_main_popups(self):
+    def ui_page_main_popups(self, get_ship=True):
         """
         Handle popups appear at page_main, page_reward
         """
@@ -407,8 +407,9 @@ class UI(InfoHandler):
             return True
         if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=3):
             return True
-        if self.appear_then_click(GET_SHIP, interval=5):
-            return True
+        if get_ship:
+            if self.appear_then_click(GET_SHIP, interval=5):
+                return True
         if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=3):
             return True
         if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=3):
@@ -426,6 +427,22 @@ class UI(InfoHandler):
         # Item expired offset=(37, 72), skin expired, offset=(24, 68)
         if self.handle_popup_single(offset=(-6, 48, 54, 88), name='ITEM_EXPIRED'):
             return True
+        # Routed from confirm click
+        if self.appear(SHIPYARD_CHECK, offset=(30, 30), interval=3):
+            logger.info(f'UI additional: {SHIPYARD_CHECK} -> {GOTO_MAIN}')
+            if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
+                return True
+        if self.appear(META_CHECK, offset=(30, 30), interval=3):
+            logger.info(f'UI additional: {META_CHECK} -> {GOTO_MAIN}')
+            if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
+                return True
+        # Mistaken click
+        if self.appear(PLAYER_CHECK, offset=(30, 30), interval=3):
+            logger.info(f'UI additional: {PLAYER_CHECK} -> {GOTO_MAIN}')
+            if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
+                return True
+            if self.appear_then_click(BACK_ARROW, offset=(30, 30)):
+                return True
 
         return False
 
@@ -477,25 +494,6 @@ class UI(InfoHandler):
         # Popups appear at page_main, page_reward
         if self.ui_page_main_popups():
             return True
-
-        # Routed from confirm click
-        if self.appear(SHIPYARD_CHECK, offset=(30, 30), interval=3):
-            logger.info(f'UI additional: {SHIPYARD_CHECK} -> {GOTO_MAIN}')
-            if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
-                return True
-        if self.appear(META_CHECK, offset=(30, 30), interval=3):
-            logger.info(f'UI additional: {META_CHECK} -> {GOTO_MAIN}')
-            if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
-                return True
-
-        # Mistaken click
-        if self.appear(PLAYER_CHECK, offset=(30, 30), interval=3):
-            logger.info(f'UI additional: {PLAYER_CHECK} -> {GOTO_MAIN}')
-            if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
-                return True
-            if self.appear(BACK_ARROW, offset=(30, 30)):
-                self.ui_back(page_main.check_button)
-                return True
 
         # Story
         if self.handle_story_skip():

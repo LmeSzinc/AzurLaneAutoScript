@@ -52,7 +52,7 @@ class ConnectionAttr:
                 if 'proxy' in k[0].split('_')[-1].lower():
                     del os.environ[k[0]]
         else:
-            su = super(AzurLaneConfig, self.config)
+            su = super(self.config.__class__, self.config)
             for k, v in deep_iter(su.__dict__, depth=1):
                 if not isinstance(v, str):
                     continue

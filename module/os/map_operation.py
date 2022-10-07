@@ -43,10 +43,9 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
     @Config.when(SERVER='en')
     def get_zone_name(self):
         # For EN only
-        from string import whitespace
         ocr = Ocr(MAP_NAME, lang='cnocr', letter=(206, 223, 247), threshold=96, name='OCR_OS_MAP_NAME')
         name = ocr.ocr(self.device.image)
-        name = name.translate(dict.fromkeys(map(ord, whitespace)))
+        name = "".join(name.split())
         name = name.lower()
         self.is_zone_name_hidden = 'safe' in name
         if '-' in name:
@@ -61,6 +60,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         # Occasional mis-read by OCR, hotfix
         name = name.replace('pasage', 'passage')
         name = name.replace('shef', 'shelf')
+        name = name.replace('nnocean', 'naocean')
 
         # `-` is missing or read as '.'
         # due to font size

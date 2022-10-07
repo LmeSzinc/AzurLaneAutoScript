@@ -9,6 +9,7 @@ from filelock import FileLock
 
 import module.config.server as server_
 from module.config.atomicwrites import atomic_write
+from module.submodule.utils import *
 
 LANGUAGES = ['zh-CN', 'en-US', 'ja-JP', 'zh-TW']
 SERVER_TO_LANG = {
@@ -38,20 +39,29 @@ yaml.add_representer(str, str_presenter)
 yaml.representer.SafeRepresenter.add_representer(str, str_presenter)
 
 
-def filepath_args(filename='args'):
-    return f'./module/config/argument/{filename}.json'
+def filepath_args(filename='args', mod_name='alas'):
+    if mod_name == 'alas':
+        return f'./module/config/argument/{filename}.json'
+    else:
+        return os.path.join(filepath_mod(mod_name), f'./module/config/argument/{filename}.json')
 
 
 def filepath_argument(filename):
     return f'./module/config/argument/{filename}.yaml'
 
 
-def filepath_i18n(lang):
-    return os.path.join('./module/config/i18n', f'{lang}.json')
+def filepath_i18n(lang, mod_name='alas'):
+    if mod_name == 'alas':
+        return os.path.join('./module/config/i18n', f'{lang}.json')
+    else:
+        return os.path.join(filepath_mod(mod_name), './module/config/i18n', f'{lang}.json')
 
 
-def filepath_config(filename):
-    return os.path.join('./config', f'{filename}.json')
+def filepath_config(filename, mod_name='alas'):
+    if mod_name == 'alas':
+        return os.path.join('./config', f'{filename}.json')
+    else:
+        return os.path.join('./config', f'{filename}.{mod_name}.json')
 
 
 def filepath_code():
@@ -152,6 +162,22 @@ def iter_folder(folder, is_dir=False, ext=None):
             yield os.path.join(folder, file).replace('\\\\', '/').replace('\\', '/')
 
 
+def alas_template():
+    """
+        Returns:
+            list[str]: Name of all Alas instances, except `template`.
+        """
+    out = []
+    for file in os.listdir('./config'):
+        name, extension = os.path.splitext(file)
+        if name == 'template' and extension == '.json':
+            out.append(f'{name}-alas')
+
+    out.extend(mod_template())
+
+    return out
+
+
 def alas_instance():
     """
     Returns:
@@ -160,8 +186,12 @@ def alas_instance():
     out = []
     for file in os.listdir('./config'):
         name, extension = os.path.splitext(file)
-        if name != 'template' and extension == '.json':
+        config_name, mod_name = os.path.splitext(name)
+        mod_name = mod_name[1:]
+        if name != 'template' and extension == '.json' and mod_name == '':
             out.append(name)
+
+    out.extend(mod_instance())
 
     if not len(out):
         out = ['alas']
