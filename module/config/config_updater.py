@@ -595,15 +595,16 @@ class ConfigUpdater:
         return self.config_update(old, is_template=is_template)
 
     @staticmethod
-    def write_file(config_name, data):
+    def write_file(config_name, data, mod_name='alas'):
         """
         Write config file.
 
         Args:
             config_name (str): ./config/{file}.json
             data (dict):
+            mod_name (str):
         """
-        write_file(filepath_config(config_name), data)
+        write_file(filepath_config(config_name, mod_name), data)
 
     @timer
     def update_file(self, config_name, is_template=False):

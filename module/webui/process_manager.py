@@ -7,6 +7,8 @@ from typing import Dict, List, Union
 from filelock import FileLock
 from module.config.utils import filepath_config
 from module.logger import logger, set_file_logger, set_func_logger
+from module.submodule.submodule import load_mod
+from module.submodule.utils import get_config_mod
 from module.webui.setting import State
 from rich.console import Console, ConsoleRenderable
 
@@ -23,8 +25,10 @@ class ProcessManager:
         self._process: Process = None
         self.thd_log_queue_handler: threading.Thread = None
 
-    def start(self, func: str, ev: threading.Event = None) -> None:
+    def start(self, func, ev: threading.Event = None) -> None:
         if not self.alive:
+            if func is None:
+                func = get_config_mod(self.config_name)
             self._process = Process(
                 target=ProcessManager.run_process,
                 args=(
@@ -124,7 +128,7 @@ class ProcessManager:
         AzurLaneConfig.stop_event = e
         try:
             # Run alas
-            if func == "Alas":
+            if func == "alas":
                 from alas import AzurLaneAutoScript
 
                 if e is not None:
@@ -150,8 +154,14 @@ class ProcessManager:
                 from module.daemon.game_manager import GameManager
 
                 GameManager(config=config_name, task="GameManager").run()
+            elif func == 'maa':
+                mod = load_mod('maa')
+                mod.loop(config_name)
+            elif func == "MaaCopilot":
+                mod = load_mod('maa')
+                mod.maa_copilot(config_name)
             else:
-                logger.critical("No function matched")
+                logger.critical(f"No function matched: {func}")
             logger.info(f"[{config_name}] exited. Reason: Finish\n")
         except Exception as e:
             logger.exception(e)
@@ -194,7 +204,7 @@ class ProcessManager:
 
         for process in _instances:
             logger.info(f"Starting [{process.config_name}]")
-            process.start(func="Alas", ev=ev)
+            process.start(func=get_config_mod(process.config_name), ev=ev)
 
         try:
             os.remove("./config/reloadalas")

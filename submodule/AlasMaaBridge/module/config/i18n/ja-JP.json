@@ -1,0 +1,373 @@
+{
+  "Menu": {
+    "Task": {
+      "name": "Menu.Task.name",
+      "help": "Menu.Task.help"
+    },
+    "Maa": {
+      "name": "Menu.Maa.name",
+      "help": "Menu.Maa.help"
+    },
+    "Tool": {
+      "name": "Menu.Tool.name",
+      "help": "Menu.Tool.help"
+    }
+  },
+  "Task": {
+    "Maa": {
+      "name": "Task.Maa.name",
+      "help": "Task.Maa.help"
+    },
+    "MaaStartup": {
+      "name": "Task.MaaStartup.name",
+      "help": "Task.MaaStartup.help"
+    },
+    "MaaAnnihilation": {
+      "name": "Task.MaaAnnihilation.name",
+      "help": "Task.MaaAnnihilation.help"
+    },
+    "MaaMaterial": {
+      "name": "Task.MaaMaterial.name",
+      "help": "Task.MaaMaterial.help"
+    },
+    "MaaFight": {
+      "name": "Task.MaaFight.name",
+      "help": "Task.MaaFight.help"
+    },
+    "MaaRecruit": {
+      "name": "Task.MaaRecruit.name",
+      "help": "Task.MaaRecruit.help"
+    },
+    "MaaInfrast": {
+      "name": "Task.MaaInfrast.name",
+      "help": "Task.MaaInfrast.help"
+    },
+    "MaaVisit": {
+      "name": "Task.MaaVisit.name",
+      "help": "Task.MaaVisit.help"
+    },
+    "MaaMall": {
+      "name": "Task.MaaMall.name",
+      "help": "Task.MaaMall.help"
+    },
+    "MaaAward": {
+      "name": "Task.MaaAward.name",
+      "help": "Task.MaaAward.help"
+    },
+    "MaaRoguelike": {
+      "name": "Task.MaaRoguelike.name",
+      "help": "Task.MaaRoguelike.help"
+    },
+    "MaaCopilot": {
+      "name": "Task.MaaCopilot.name",
+      "help": "Task.MaaCopilot.help"
+    }
+  },
+  "Scheduler": {
+    "_info": {
+      "name": "Scheduler._info.name",
+      "help": "Scheduler._info.help"
+    },
+    "Enable": {
+      "name": "Scheduler.Enable.name",
+      "help": "Scheduler.Enable.help"
+    },
+    "NextRun": {
+      "name": "Scheduler.NextRun.name",
+      "help": "Scheduler.NextRun.help"
+    },
+    "Command": {
+      "name": "Scheduler.Command.name",
+      "help": "Scheduler.Command.help"
+    },
+    "SuccessInterval": {
+      "name": "Scheduler.SuccessInterval.name",
+      "help": "Scheduler.SuccessInterval.help"
+    },
+    "FailureInterval": {
+      "name": "Scheduler.FailureInterval.name",
+      "help": "Scheduler.FailureInterval.help"
+    },
+    "ServerUpdate": {
+      "name": "Scheduler.ServerUpdate.name",
+      "help": "Scheduler.ServerUpdate.help"
+    }
+  },
+  "Emulator": {
+    "_info": {
+      "name": "Emulator._info.name",
+      "help": "Emulator._info.help"
+    },
+    "ServerName": {
+      "name": "Emulator.ServerName.name",
+      "help": "Emulator.ServerName.help"
+    }
+  },
+  "Error": {
+    "_info": {
+      "name": "Error._info.name",
+      "help": "Error._info.help"
+    },
+    "SaveError": {
+      "name": "Error.SaveError.name",
+      "help": "Error.SaveError.help"
+    },
+    "OnePushConfig": {
+      "name": "Error.OnePushConfig.name",
+      "help": "Error.OnePushConfig.help"
+    }
+  },
+  "Optimization": {
+    "_info": {
+      "name": "Optimization._info.name",
+      "help": "Optimization._info.help"
+    },
+    "WhenTaskQueueEmpty": {
+      "name": "Optimization.WhenTaskQueueEmpty.name",
+      "help": "Optimization.WhenTaskQueueEmpty.help"
+    }
+  },
+  "MaaEmulator": {
+    "_info": {
+      "name": "MaaEmulator._info.name",
+      "help": "MaaEmulator._info.help"
+    },
+    "Serial": {
+      "name": "MaaEmulator.Serial.name",
+      "help": "MaaEmulator.Serial.help"
+    },
+    "PackageName": {
+      "name": "MaaEmulator.PackageName.name",
+      "help": "MaaEmulator.PackageName.help",
+      "Official": "Official",
+      "Bilibili": "Bilibili"
+    },
+    "Server": {
+      "name": "MaaEmulator.Server.name",
+      "help": "MaaEmulator.Server.help",
+      "CN": "CN",
+      "US": "US",
+      "JP": "JP",
+      "KR": "KR"
+    },
+    "MaaPath": {
+      "name": "MaaEmulator.MaaPath.name",
+      "help": "MaaEmulator.MaaPath.help"
+    }
+  },
+  "MaaRecord": {
+    "_info": {
+      "name": "MaaRecord._info.name",
+      "help": "MaaRecord._info.help"
+    },
+    "ReportToPenguin": {
+      "name": "MaaRecord.ReportToPenguin.name",
+      "help": "MaaRecord.ReportToPenguin.help"
+    },
+    "PenguinID": {
+      "name": "MaaRecord.PenguinID.name",
+      "help": "MaaRecord.PenguinID.help"
+    }
+  },
+  "MaaFight": {
+    "_info": {
+      "name": "MaaFight._info.name",
+      "help": "MaaFight._info.help"
+    },
+    "Stage": {
+      "name": "MaaFight.Stage.name",
+      "help": "MaaFight.Stage.help"
+    },
+    "Medicine": {
+      "name": "MaaFight.Medicine.name",
+      "help": "MaaFight.Medicine.help"
+    },
+    "Stone": {
+      "name": "MaaFight.Stone.name",
+      "help": "MaaFight.Stone.help"
+    },
+    "Times": {
+      "name": "MaaFight.Times.name",
+      "help": "MaaFight.Times.help"
+    },
+    "Drops": {
+      "name": "MaaFight.Drops.name",
+      "help": "MaaFight.Drops.help"
+    },
+    "DrGrandet": {
+      "name": "MaaFight.DrGrandet.name",
+      "help": "MaaFight.DrGrandet.help"
+    }
+  },
+  "MaaRecruit": {
+    "_info": {
+      "name": "MaaRecruit._info.name",
+      "help": "MaaRecruit._info.help"
+    },
+    "Refresh": {
+      "name": "MaaRecruit.Refresh.name",
+      "help": "MaaRecruit.Refresh.help"
+    },
+    "SkipRobot": {
+      "name": "MaaRecruit.SkipRobot.name",
+      "help": "MaaRecruit.SkipRobot.help"
+    },
+    "Select3": {
+      "name": "MaaRecruit.Select3.name",
+      "help": "MaaRecruit.Select3.help"
+    },
+    "Select4": {
+      "name": "MaaRecruit.Select4.name",
+      "help": "MaaRecruit.Select4.help"
+    },
+    "Select5": {
+      "name": "MaaRecruit.Select5.name",
+      "help": "MaaRecruit.Select5.help"
+    },
+    "Level3ShortTime": {
+      "name": "MaaRecruit.Level3ShortTime.name",
+      "help": "MaaRecruit.Level3ShortTime.help"
+    },
+    "Times": {
+      "name": "MaaRecruit.Times.name",
+      "help": "MaaRecruit.Times.help"
+    },
+    "Expedite": {
+      "name": "MaaRecruit.Expedite.name",
+      "help": "MaaRecruit.Expedite.help"
+    }
+  },
+  "MaaInfrast": {
+    "_info": {
+      "name": "MaaInfrast._info.name",
+      "help": "MaaInfrast._info.help"
+    },
+    "Facility": {
+      "name": "MaaInfrast.Facility.name",
+      "help": "MaaInfrast.Facility.help"
+    },
+    "Drones": {
+      "name": "MaaInfrast.Drones.name",
+      "help": "MaaInfrast.Drones.help",
+      "_NotUse": "_NotUse",
+      "Money": "Money",
+      "SyntheticJade": "SyntheticJade",
+      "CombatRecord": "CombatRecord",
+      "PureGold": "PureGold",
+      "OriginStone": "OriginStone",
+      "Chip": "Chip"
+    },
+    "Threshold": {
+      "name": "MaaInfrast.Threshold.name",
+      "help": "MaaInfrast.Threshold.help"
+    },
+    "Notstationed": {
+      "name": "MaaInfrast.Notstationed.name",
+      "help": "MaaInfrast.Notstationed.help"
+    },
+    "Trust": {
+      "name": "MaaInfrast.Trust.name",
+      "help": "MaaInfrast.Trust.help"
+    },
+    "Replenish": {
+      "name": "MaaInfrast.Replenish.name",
+      "help": "MaaInfrast.Replenish.help"
+    }
+  },
+  "MaaCustomInfrast": {
+    "_info": {
+      "name": "MaaCustomInfrast._info.name",
+      "help": "MaaCustomInfrast._info.help"
+    },
+    "Enable": {
+      "name": "MaaCustomInfrast.Enable.name",
+      "help": "MaaCustomInfrast.Enable.help"
+    },
+    "Filename": {
+      "name": "MaaCustomInfrast.Filename.name",
+      "help": "MaaCustomInfrast.Filename.help"
+    }
+  },
+  "MaaMall": {
+    "_info": {
+      "name": "MaaMall._info.name",
+      "help": "MaaMall._info.help"
+    },
+    "Shopping": {
+      "name": "MaaMall.Shopping.name",
+      "help": "MaaMall.Shopping.help"
+    },
+    "BuyFirst": {
+      "name": "MaaMall.BuyFirst.name",
+      "help": "MaaMall.BuyFirst.help"
+    },
+    "BlackList": {
+      "name": "MaaMall.BlackList.name",
+      "help": "MaaMall.BlackList.help"
+    }
+  },
+  "MaaRoguelike": {
+    "_info": {
+      "name": "MaaRoguelike._info.name",
+      "help": "MaaRoguelike._info.help"
+    },
+    "Mode": {
+      "name": "MaaRoguelike.Mode.name",
+      "help": "MaaRoguelike.Mode.help",
+      "0": "0",
+      "1": "1"
+    },
+    "StartsCount": {
+      "name": "MaaRoguelike.StartsCount.name",
+      "help": "MaaRoguelike.StartsCount.help"
+    },
+    "InvestmentsCount": {
+      "name": "MaaRoguelike.InvestmentsCount.name",
+      "help": "MaaRoguelike.InvestmentsCount.help"
+    },
+    "StopWhenInvestmentFull": {
+      "name": "MaaRoguelike.StopWhenInvestmentFull.name",
+      "help": "MaaRoguelike.StopWhenInvestmentFull.help"
+    },
+    "Squad": {
+      "name": "MaaRoguelike.Squad.name",
+      "help": "MaaRoguelike.Squad.help",
+      "指挥分队": "指挥分队",
+      "集群分队": "集群分队",
+      "后勤分队": "后勤分队",
+      "矛头分队": "矛头分队",
+      "突击战术分队": "突击战术分队",
+      "堡垒战术分队": "堡垒战术分队",
+      "远程战术分队": "远程战术分队",
+      "破坏战术分队": "破坏战术分队",
+      "研究分队": "研究分队",
+      "高规格分队": "高规格分队"
+    },
+    "Roles": {
+      "name": "MaaRoguelike.Roles.name",
+      "help": "MaaRoguelike.Roles.help",
+      "先手必胜": "先手必胜",
+      "稳扎稳打": "稳扎稳打",
+      "取长补短": "取长补短",
+      "随心所欲": "随心所欲"
+    },
+    "CoreChar": {
+      "name": "MaaRoguelike.CoreChar.name",
+      "help": "MaaRoguelike.CoreChar.help"
+    }
+  },
+  "MaaCopilot": {
+    "_info": {
+      "name": "MaaCopilot._info.name",
+      "help": "MaaCopilot._info.help"
+    },
+    "FileName": {
+      "name": "MaaCopilot.FileName.name",
+      "help": "MaaCopilot.FileName.help"
+    },
+    "Formation": {
+      "name": "MaaCopilot.Formation.name",
+      "help": "MaaCopilot.Formation.help"
+    }
+  }
+}
