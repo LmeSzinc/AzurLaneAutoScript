@@ -7,7 +7,7 @@ def action_point_redirect(value):
           If Enable, return 5.
           If Disable, return 0.
     """
-    if value:
+    if value == True:
         return '5'
     else:
         return '0'
