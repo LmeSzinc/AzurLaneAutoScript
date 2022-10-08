@@ -447,7 +447,7 @@ class AshBeaconAssist(Meta):
 
     def _in_meta_assist_page(self):
         # AL redirects to unfinished self beacon after assist, so switch back
-        if self.appear_then_click(BEACON_LIST, offset=(-20, -5, 300, 5)):
+        if self.appear_then_click(BEACON_LIST, offset=(-20, -5, 300, 5), interval=2):
             return False
         return self.appear(BEACON_MY, offset=(20, 20))
 
