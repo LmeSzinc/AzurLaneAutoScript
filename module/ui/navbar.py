@@ -154,7 +154,7 @@ class Navbar:
                 logger.warning(f'{self.name} failed to set {text.strip()}')
                 return False
 
-            if self._shop_obstruct_handle():
+            if self._shop_obstruct_handle(main=main):
                 interval.reset()
                 timeout.reset()
                 continue
