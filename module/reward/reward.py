@@ -1,13 +1,28 @@
+import numpy as np
+import re
+
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
+from module.base.filter import Filter
 from module.base.timer import Timer
+from module.base.utils import crop, rgb2gray
 from module.combat.assets import *
 from module.logger import logger
 from module.reward.assets import *
+from module.statistics.item import ItemGrid
 from module.ui.navbar import Navbar
 from module.ui.page import *
 from module.ui.ui import UI
 
+MAIL_BUTTON_GRID = ButtonGrid(
+    origin=(137, 207), delta=(0, 97),
+    button_shape=(64, 64), grid_shape=(1, 3),
+    name='MAIL_BUTTON_GRID')
+FILTER_REGEX = re.compile(
+    '^(cube|coin|oil|merit|gem)$',
+    flags=re.IGNORECASE)
+FILTER_ATTR = ['name']
+FILTER = Filter(FILTER_REGEX, FILTER_ATTR)
 
 class Reward(UI):
     def reward_receive(self, oil, coin, exp, skip_first_screenshot=True):
@@ -72,7 +87,9 @@ class Reward(UI):
             bool, if encountered at least 1 GET_ITEMS_*
         """
         # Reset any existing interval for the following assets
-        [self.interval_clear(asset) for asset in [GET_ITEMS_1, GET_ITEMS_2, MISSION_MULTI, MISSION_SINGLE, GET_SHIP]]
+        self.interval_clear([GET_ITEMS_1, GET_ITEMS_2,
+                             MISSION_MULTI, MISSION_SINGLE,
+                             GET_SHIP])
 
         # Basic timers for certain scenarios
         exit_timer = Timer(2)
@@ -181,9 +198,10 @@ class Reward(UI):
     def reward_mission(self, daily=True, weekly=True):
         """
         Collects mission rewards
+
         Args:
-            daily: If collect daily rewards
-            weekly: If collect weekly rewards
+            daily (bool): If collect daily rewards
+            weekly (bool): If collect weekly rewards
 
         Returns:
             bool: If rewarded.
@@ -210,6 +228,186 @@ class Reward(UI):
             reward |= self._reward_mission_weekly()
 
         return reward
+
+    def _reward_mail_enter(self, skip_first_screenshot=True):
+        """
+        Goes to mail page
+        Also deletes viewed mails to ensure the relevant
+        row entries are in view
+
+        Args:
+            skip_first_screenshot (bool):
+        """
+        deleted = False
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(page_main.check_button, offset=(30, 30), interval=3):
+                self.device.click(MAIL_ENTER)
+                continue
+            if not deleted:
+                if self.appear_then_click(MAIL_DELETE, offset=(350, 20), interval=3):
+                    continue
+                if self.handle_popup_confirm('MAIL_DELETE'):
+                    deleted = True
+                    continue
+            else:
+                if self.appear(MAIL_DELETE, offset=(350, 20), interval=3):
+                    btn = MAIL_BUTTON_GRID.buttons[-1].move((350, 0))
+                    self.device.click(btn)
+                    continue
+            if self.handle_info_bar():
+                continue
+
+            # End
+            if deleted and self.appear(MAIL_COLLECT, offset=(20, 20)):
+                break
+
+    def _reward_mail_exit(self, skip_first_screenshot=True):
+        """
+        Exits from mail page back into page_main
+
+        Args:
+            skip_first_screenshot (bool):
+        """
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(MAIL_DELETE, offset=(350, 20), interval=3):
+                self.device.click(MAIL_ENTER)
+                continue
+
+            # End
+            if self.appear(page_main.check_button, offset=(30, 30)):
+                break
+
+    @cached_property
+    def _reward_mail_grid(self):
+        """
+        This grid only comprises the top 3 mail rows
+
+        Returns:
+            ItemGrid
+        """
+        mail_item_grid = ItemGrid(MAIL_BUTTON_GRID, templates={},
+                                         amount_area=(60, 74, 96, 95))
+        mail_item_grid.load_template_folder('./assets/stats_basic')
+        return mail_item_grid
+
+    def _reward_mail_get_collectable(self):
+        """
+        Loads filter and scans the items in the mail grid
+        then returns a subset of those that are collectable
+
+        Returns:
+            list[Item]
+        """
+        FILTER.load(self.config.Reward_MailFilter.strip())
+        items = self._reward_mail_grid.predict(
+                self.device.image,
+                name=True,
+                amount=False,
+                cost=False,
+                price=False,
+                tag=False
+        )
+        filtered = FILTER.apply(items, None)
+        logger.attr('Item_sort', ' > '.join([str(item) for item in filtered]))
+        return filtered
+
+    def _reward_mail_selected(self, button, image):
+        """
+        Check if mail (button) is selected i.e.
+        has bottom yellow border
+
+        Args:
+            button (Button):
+            image (np.ndarray): Screenshot
+
+        Returns:
+            bool
+        """
+        area = button.area
+        check_area = tuple([area[0], area[3] + 3, area[2], area[3] + 5])
+        im = rgb2gray(crop(image, check_area))
+        return True if np.mean(im) < 182 else False
+
+    def _reward_mail_collect(self, skip_first_screenshot=True):
+        """
+        Executes the mail collect sequence
+
+        Args:
+            skip_first_screenshot (bool):
+
+        Returns:
+            bool
+        """
+        collectable = self._reward_mail_get_collectable()
+        if not collectable:
+            logger.info('No mail to collect')
+            return False
+
+        click_timer = Timer(1.5, count=3)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if not collectable:
+                break
+            else:
+                btn = collectable[-1]._button
+                if not self._reward_mail_selected(btn, self.device.image) and \
+                   click_timer.reached():
+                    self.device.click(btn.move((350, 0)))
+                    self.device.sleep((0.3, 0.5))
+                    click_timer.reset()
+                    continue
+
+            if self.appear_then_click(MAIL_COLLECT, offset=(20, 20), interval=3):
+                click_timer.reset()
+                continue
+            if self.appear(MAIL_COLLECTED, offset=(20, 20), interval=3):
+                collectable.pop()
+                click_timer.reset()
+                continue
+            if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=1):
+                click_timer.reset()
+                continue
+            if self.appear_then_click(GET_ITEMS_2, offset=(30, 30), interval=1):
+                click_timer.reset()
+                continue
+
+        logger.info('Finished collecting valid mail rewards')
+        return True
+
+    def reward_mail(self, collect):
+        """
+        Collects mail rewards
+
+        Args:
+            collect (bool):
+
+        Returns:
+            bool
+        """
+        if not collect:
+            return False
+        logger.info('Mail reward')
+
+        self._reward_mail_enter()
+        result = self._reward_mail_collect()
+        self._reward_mail_exit()
+        return result
+
 
     @cached_property
     def _reward_side_navbar(self):
@@ -274,4 +472,6 @@ class Reward(UI):
         self.ui_goto(page_main)
         self.reward_mission(daily=self.config.Reward_CollectMission,
                             weekly=self.config.Reward_CollectWeeklyMission)
+        self.ui_goto(page_main)
+        self.reward_mail(collect=self.config.Reward_CollectMail)
         self.config.task_delay(success=True)
