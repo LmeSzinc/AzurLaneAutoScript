@@ -1414,6 +1414,14 @@
     "CollectWeeklyMission": {
       "name": "Reward.CollectWeeklyMission.name",
       "help": "Reward.CollectWeeklyMission.help"
+    },
+    "CollectMail": {
+      "name": "Reward.CollectMail.name",
+      "help": "Reward.CollectMail.help"
+    },
+    "MailFilter": {
+      "name": "Reward.MailFilter.name",
+      "help": "Reward.MailFilter.help"
     }
   },
   "GeneralShop": {

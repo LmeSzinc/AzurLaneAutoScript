@@ -1414,6 +1414,14 @@
     "CollectWeeklyMission": {
       "name": "Collect Weekly Mission Rewards",
       "help": ""
+    },
+    "CollectMail": {
+      "name": "Collect Mail Rewards",
+      "help": "Only collects the top 3 mail entries, also deletes recently viewed for clean up"
+    },
+    "MailFilter": {
+      "name": "Mail Filter",
+      "help": "Filter as to which mail types should be collected\nSupports Merit, Coin, Cube, Oil, and/or Gem"
     }
   },
   "GeneralShop": {
