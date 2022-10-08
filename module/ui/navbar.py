@@ -1,7 +1,9 @@
 from module.base.base import ModuleBase
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
+from module.combat.assets import GET_ITEMS_1, GET_SHIP
 from module.logger import logger
+from module.shop.assets import SHOP_CLICK_SAFE_AREA
 
 
 class Navbar:
@@ -85,6 +87,33 @@ class Navbar:
         _, left, right = self.get_info(main=main)
         return right - left + 1
 
+    def _shop_obstruct_handle(self, main):
+        """
+        IFF in shop, then remove obstructions
+        in shop view if any
+
+        Args:
+            main (ModuleBase):
+
+        Returns:
+            bool:
+        """
+        # Check name, identifies if NavBar
+        # instance belongs to shop module
+        if self.name != 'SHOP_BOTTOM_NAVBAR':
+            return False
+
+        # Handle shop obstructions
+        if main.appear(GET_SHIP, interval=1):
+            main.device.click(SHOP_CLICK_SAFE_AREA)
+            return True
+        if main.appear(GET_ITEMS_1, interval=1):
+            main.device.click(SHOP_CLICK_SAFE_AREA)
+            return True
+
+        return False
+
+
     def set(self, main, left=None, right=None, upper=None, bottom=None, skip_first_screenshot=True):
         """
         Set nav bar from 1 direction.
@@ -124,6 +153,11 @@ class Navbar:
             if timeout.reached():
                 logger.warning(f'{self.name} failed to set {text.strip()}')
                 return False
+
+            if self._shop_obstruct_handle():
+                interval.reset()
+                timeout.reset()
+                continue
 
             active, minimum, maximum = self.get_info(main=main)
             logger.info(f'Nav item active: {active} from range ({minimum}, {maximum})')
