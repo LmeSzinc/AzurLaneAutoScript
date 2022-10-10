@@ -1,15 +1,14 @@
 from module.campaign.campaign_base import CampaignBase
 from module.campaign.run import CampaignRun
-from module.combat.level import LevelOcr
 from module.equipment.assets import *
 from module.equipment.equipment_change import EquipmentChange
 from module.equipment.fleet_equipment import OCR_FLEET_INDEX
 from module.exception import CampaignEnd
 from module.logger import logger
 from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
-from module.ocr.ocr import Digit
 from module.retire.assets import DOCK_CHECK, TEMPLATE_BOGUE, TEMPLATE_HERMES, TEMPLATE_LANGLEY, TEMPLATE_RANGER
-from module.retire.dock import Dock, DockScanner
+from module.retire.dock import Dock
+from module.retire.scanner import ShipScanner
 from module.ui.page import page_fleet
 
 SIM_VALUE = 0.95
@@ -148,50 +147,28 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             Button:
         """
 
-        # level_grids = CARD_LEVEL_GRIDS
-        # card_grids = CARD_GRIDS
-        # emotion_grids = CARD_EMOTION_GRIDS
         logger.hr('FINDING FLAGSHIP')
 
-        dock_scanner = DockScanner(
-            level=(1, 33), emotion=(10, 150), rarity='common', fleet=0, in_commission=False)
+        scanner = ShipScanner(
+            level=(1, 33), emotion=(10, 150), rarity='common', fleet=0, status='free')
 
         if self.config.GemsFarming_CommonCV == 'any':
             logger.info('')
 
             self.dock_sort_method_dsc_set(False)
 
-            # level_ocr = LevelOcr(level_grids.buttons,
-            #                      name='DOCK_LEVEL_OCR', threshold=64)
-            # list_level = level_ocr.ocr(self.device.image)
-            # emotion_ocr = Digit(emotion_grids.buttons,
-            #                     name='DOCK_EMOTION_OCR', threshold=176)
-            # list_emotion = emotion_ocr.ocr(self.device.image)
-
-            # for button, level, emotion in list(zip(card_grids.buttons, list_level, list_emotion))[::-1]:
-            #     if 0 < level <= 31 and emotion >= 10:
-            #         return button
-
-            return dock_scanner.scan(self.device.image)
+            return scanner.scan(self.device.image)
         else:
-            template = globals()[
-                f'TEMPLATE_{self.config.GemsFarming_CommonCV.upper()}']
+            template = {
+                'BOGUE': TEMPLATE_BOGUE,
+                'HERMES': TEMPLATE_HERMES,
+                'LANGLEY': TEMPLATE_LANGLEY,
+                'RANGER': TEMPLATE_RANGER
+            }[f'{self.config.GemsFarming_CommonCV.upper()}']
 
             self.dock_sort_method_dsc_set()
 
-            # level_ocr = LevelOcr(level_grids.buttons, name='DOCK_LEVEL_OCR')
-            # list_level = level_ocr.ocr(self.device.image)
-            # emotion_ocr = Digit(emotion_grids.buttons,
-            #                     name='DOCK_EMOTION_OCR', threshold=176)
-            # list_emotion = emotion_ocr.ocr(self.device.image)
-
-            # for button, level, emotion in zip(card_grids.buttons, list_level, list_emotion):
-            #    if (0 < level <= 31
-            #            and emotion >= 10
-            #            and template.match(self.image_crop(button), similarity=SIM_VALUE)):
-            #        return button
-
-            candidates = [ship for ship in dock_scanner.scan(self.device.image)
+            candidates = [ship for ship in scanner.scan(self.device.image)
                           if template.match(self.image_crop(ship.button), similarity=SIM_VALUE)]
 
             if candidates:
@@ -200,15 +177,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             logger.info('No specific CV was found, try reversed order.')
             self.dock_sort_method_dsc_set(False)
 
-            # list_level = level_ocr.ocr(self.device.image)
-            # list_emotion = emotion_ocr.ocr(self.device.image)
-
-            # for button, level, emotion in zip(card_grids.buttons, list_level, list_emotion):
-            #     if (0 < level <= 31
-            #             and emotion >= 10
-            #             and template.match(self.image_crop(button), similarity=SIM_VALUE)):
-            #        return button
-            candidates = [ship for ship in dock_scanner.scan(self.device.image)
+            candidates = [ship for ship in scanner.scan(self.device.image)
                           if template.match(self.image_crop(ship.button), similarity=SIM_VALUE)]
 
             return candidates
@@ -221,37 +190,15 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         """
         logger.hr('FINDING VANGUARD')
 
-        # level_grids = CARD_LEVEL_GRIDS
-        # card_grids = CARD_GRIDS
-        # emotion_grids = CARD_EMOTION_GRIDS
-
-        # level_ocr = LevelOcr(level_grids.buttons,
-        #                      name='DOCK_LEVEL_OCR', threshold=64)
-        # list_level = level_ocr.ocr(self.device.image)
-        # emotion_ocr = Digit(emotion_grids.buttons,
-        #                     name='DOCK_EMOTION_OCR', threshold=176)
-        # list_emotion = emotion_ocr.ocr(self.device.image)
-
-        # button_list = list(zip(card_grids.buttons, list_level, list_emotion))[::-1]
-
-        # for :
-        #     if level == 100 and emotion == 150:
-        #         return button
         if self.config.SERVER in ['cn']:
             max_level = 100
         else:
             max_level = 70
 
-        dock_scanner = DockScanner(level=(max_level, max_level), emotion=(10, 150),
-                                   rarity='common', fleet=0, in_commission=False)
+        scanner = ShipScanner(level=(max_level, max_level), emotion=(10, 150),
+                              rarity='common', fleet=0, status='free')
 
-        # button_list = list(filter(lambda a: a[1] == max_level and a[2] >= 10, button_list))
-        # if button_list:
-        #     button, _, _ = max(button_list, key=lambda a: a[2])
-        #     return button
-        # else:
-        #     return None
-        return dock_scanner.scan(self.device.image)
+        return scanner.scan(self.device.image)
 
     def flagship_change_execute(self):
         """
