@@ -1,6 +1,5 @@
 from module.base.button import ButtonGrid
-from module.base.decorator import cached_property
-from module.base.resource import del_cached_property
+from module.base.decorator import cached_property, del_cached_property
 from module.base.timer import Timer
 from module.logger import logger
 from module.map_detection.utils import Points
@@ -14,16 +13,16 @@ OCR_SHOP_MEDAL = Digit(SHOP_MEDAL, letter=(239, 239, 239), name='OCR_SHOP_MEDAL'
 MEDAL_SHOP_SCROLL = Scroll(MEDAL_SHOP_SCROLL_AREA, color=(247, 211, 66))
 
 
-class DigitPatch(Digit):
+class ShopPriceOcr(Digit):
     def after_process(self, result):
         result = Ocr.after_process(self, result)
         # '100' detected as '00' on retrofit blueprint
         if result == '00':
             result = '100'
-        return Digit.after_process(self, result.split())
+        return Digit.after_process(self, result)
 
 
-PRICE_OCR = DigitPatch([], letter=(255, 223, 57), threshold=32, name='Price_ocr')
+PRICE_OCR = ShopPriceOcr([], letter=(255, 223, 57), threshold=32, name='Price_ocr')
 TEMPLATE_MEDAL_ICON = Template('./assets/shop/cost/Medal.png')
 
 

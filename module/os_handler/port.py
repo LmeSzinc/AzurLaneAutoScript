@@ -18,8 +18,7 @@ class PortHandler(OSShopHandler):
         """
         self.ui_click(PORT_ENTER, check_button=PORT_CHECK, skip_first_screenshot=skip_first_screenshot)
         # Buttons at the bottom has an animation to show
-        self.device.sleep(0.3)
-        self.device.screenshot()
+        pass  # Already ensured in ui_click
 
     def port_quit(self, skip_first_screenshot=True):
         """
@@ -30,8 +29,7 @@ class PortHandler(OSShopHandler):
         self.ui_back(appear_button=PORT_CHECK, check_button=self.is_in_map,
                      skip_first_screenshot=skip_first_screenshot)
         # Buttons at the bottom has an animation to show
-        self.device.sleep(0.3)
-        self.device.screenshot()
+        self.wait_os_map_buttons()
 
     def port_mission_accept(self):
         """
@@ -122,17 +120,17 @@ class PortHandler(OSShopHandler):
             else:
                 self.device.screenshot()
 
+            # End
+            if self.info_bar_count():
+                break
+            if repaired and self.appear(PORT_DOCK_CHECK, offset=(20, 20)):
+                break
+
             # PORT_DOCK_CHECK is button to repair all.
             if self.appear_then_click(PORT_DOCK_CHECK, offset=(20, 20), interval=2):
                 continue
             if self.handle_popup_confirm('DOCK_REPAIR'):
                 repaired = True
                 continue
-
-            # End
-            if self.info_bar_count():
-                break
-            if repaired and self.appear(PORT_DOCK_CHECK, offset=(20, 20)):
-                break
 
         self.ui_back(appear_button=PORT_DOCK_CHECK, check_button=PORT_CHECK, skip_first_screenshot=True)

@@ -357,7 +357,25 @@
       "en-1": "[EN] Lexington",
       "en-2": "[EN] Sandy",
       "en-3": "[EN] Washington",
-      "en-4": "[EN] Amagi"
+      "en-4": "[EN] Amagi",
+      "jp-0": "[JP] ブレスト",
+      "jp-1": "[JP] 横須賀",
+      "jp-2": "[JP] 佐世保",
+      "jp-3": "[JP] 呉",
+      "jp-4": "[JP] 舞鶴",
+      "jp-5": "[JP] ルルイエ",
+      "jp-6": "[JP] サモア",
+      "jp-7": "[JP] 大湊",
+      "jp-8": "[JP] トラック",
+      "jp-9": "[JP] ラバウル",
+      "jp-10": "[JP] 鹿児島",
+      "jp-11": "[JP] マドラス",
+      "jp-12": "[JP] サンディエゴ",
+      "jp-13": "[JP] 竹敷",
+      "jp-14": "[JP] キール",
+      "jp-15": "[JP] 若松",
+      "jp-16": "[JP] オデッサ",
+      "jp-17": "[JP] スイートバン"
     },
     "ScreenshotMethod": {
       "name": "Emulator.ScreenshotMethod.name",
@@ -579,6 +597,8 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "event_20220915_cn": "赫の涙月 菫の暁風",
+      "event_20210916_cn": "駆けよ 碧海の吹き風",
       "event_20200903_en": "輝ける峡湾の星（復刻）",
       "event_20220818_cn": "結像点作戦",
       "event_20220324_cn": "幻像の塔",
@@ -608,7 +628,6 @@
       "event_20211125_cn": "弧光は交わる世界にて",
       "event_20211111_cn": "燈火のシニエ",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
-      "event_20210916_cn": "駆けよ 碧海の吹き風",
       "event_20210722_cn": "海に響くアイドルの歌",
       "event_20210819_cn": "闇靄払う銀翼（復刻）",
       "event_20200806_cn": "鉄血鮫とエニグマ（復刻）",
@@ -1156,6 +1175,15 @@
     "TacticalFilter": {
       "name": "Tactical.TacticalFilter.name",
       "help": "Tactical.TacticalFilter.help"
+    },
+    "RapidTrainingSlot": {
+      "name": "Tactical.RapidTrainingSlot.name",
+      "help": "Tactical.RapidTrainingSlot.help",
+      "do_not_use": "do_not_use",
+      "slot_1": "slot_1",
+      "slot_2": "slot_2",
+      "slot_3": "slot_3",
+      "slot_4": "slot_4"
     }
   },
   "ControlExpOverflow": {

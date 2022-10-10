@@ -59,7 +59,8 @@ class Setting:
         """
         Args:
             **kwargs: Key: setting, value: required option or a list of them
-                `sort=['rarity', 'level'], ...` or `sort='rarity', ...`
+                `sort=['rarity', 'level'], ...` or `sort='rarity'`,
+                or `sort=None` means don't change this setting
 
         Returns:
             dict: Key: option_button, value: whether should be active
@@ -74,8 +75,9 @@ class Setting:
         for key, option_button in self.settings.items():
             setting, option_name = key
             required = required_options[setting]
-            required = required if isinstance(required, list) else [required]
-            status[option_button] = option_name in required
+            if required is not None:
+                required = required if isinstance(required, list) else [required]
+                status[option_button] = option_name in required
 
         return status
 
@@ -83,7 +85,8 @@ class Setting:
         """
         Args:
             **kwargs: Key: setting, value: required option or a list of them
-                `sort=['rarity', 'level'], ...` or `sort='rarity', ...`
+                `sort=['rarity', 'level'], ...` or `sort='rarity'`,
+                or `sort=None` means don't change this setting
 
         Returns:
             bool: If success the set
@@ -118,7 +121,8 @@ class Setting:
         """
         Args:
             **kwargs: Key: setting, value: required option or a list of them
-                `sort=['rarity', 'level'], ...` or `sort='rarity', ...`
+                `sort=['rarity', 'level'], ...` or `sort='rarity'`,
+                or `sort=None` means don't change this setting
 
         Returns:
             bool: If success the set

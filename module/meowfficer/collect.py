@@ -68,19 +68,59 @@ class MeowfficerCollect(MeowfficerBase):
                     break
         return flag
 
-    def _get_meow_talent_grid(self) -> Tuple[List[Button], bool]:
+    def _meow_check_popup_exit(self):
         """
-            get meow talent grid list and special talent status
+        If in appropriate page after exiting
+        either lock popup or talent detail panel
+
         Returns:
-           Tuple[List[ButtonGrid], bool]
+           bool
+        """
+        if self.appear(MEOWFFICER_GET_CHECK, offset=(40, 40)) and MEOWFFICER_GET_CHECK.match_appear_on(
+                self.device.image):
+            return True
+
+        if self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20)):
+            return True
+
+        return False
+
+    def _meow_talent_cap_handle(self, btn, drop=None):
+        """
+        Handle talent screen capture drop record
+
+        Args:
+            btn (Button):
+            drop (DropImage):
+        """
+        self.ui_click(btn, check_button=MEOWFFICER_TALENT_CLOSE,
+                      appear_button=MEOWFFICER_GET_CHECK, offset=(40, 40),
+                      skip_first_screenshot=True)
+        drop.add(self.device.image)
+        self.ui_click(MEOWFFICER_TALENT_CLOSE, check_button=self._meow_check_popup_exit,
+                      appear_button=MEOWFFICER_TALENT_CLOSE, skip_first_screenshot=True)
+        self.device.click_record.pop()
+        self.device.click_record.pop()
+
+    def _meow_is_special_talented(self, drop=None):
+        """
+        Validate if meowfficer has at least
+        one special talent
+
+        Args:
+            drop (DropImage):
+
+        Returns:
+            bool
         """
         # Wait for complete load before examining talents
-        logger.info('Configured to retain this type of meowfficer, '
-                    'wait complete load and examine base talents')
+        logger.info('Wait complete load and examine base talents')
 
-        list_talent_grid = []
         special_talent = False
         grid = MEOWFFICER_TALENT_GRID_2 if self._meow_detect_shift() else MEOWFFICER_TALENT_GRID_1
+        handle_drop = self.config.DropRecord_MeowfficerTalent != 'do_not'
+        if handle_drop:
+            drop.add(self.device.image)
 
         for btn in grid.buttons:
             # Empty slot; check for many white pixels
@@ -90,26 +130,34 @@ class MeowfficerCollect(MeowfficerBase):
             # Non-empty slot; check for few white pixels
             # i.e. roman numerals
             if self.image_color_count(btn, color=(255, 255, 255), threshold=221, count=25):
-                list_talent_grid.append(btn)
+                if handle_drop:
+                    self._meow_talent_cap_handle(btn, drop)
                 continue
 
             # Detected special talent
-            list_talent_grid.append(btn)
+            if handle_drop:
+                self._meow_talent_cap_handle(btn, drop)
             special_talent = True
 
-        logger.info('At least one special talent ability detected') if special_talent else \
-            logger.info('No special talent abilities detected')
-        return list_talent_grid, special_talent
+        log_insert = 'Found' if special_talent else 'No'
+        logger.info(f'{log_insert} special talent abilities in meowfficer')
+        return special_talent
 
-    def _meow_talent_cap_handle(self, talent_button: List[Button], drop):
-        for btn in talent_button:
-            self.ui_click(btn, check_button=MEOWFFICER_TALENT_CLOSE,
-                          appear_button=MEOWFFICER_GET_CHECK, skip_first_screenshot=True)
-            drop.add(self.device.image)
-            self.ui_click(MEOWFFICER_TALENT_CLOSE, check_button=self._check_popup_exit,
-                          appear_button=MEOWFFICER_TALENT_CLOSE, skip_first_screenshot=True)
-            self.device.click_record.pop()
-            self.device.click_record.pop()
+    def _meow_skip_lock(self):
+        """
+        Applicable to only gold variant meowfficer
+        Handle skip transitions; proceeds slowly
+        with caution to prevent unintentional actions
+        """
+        # Trigger lock popup appearance to initiate sequence
+        self.ui_click(MEOWFFICER_TRAIN_CLICK_SAFE_AREA,
+                      appear_button=MEOWFFICER_GET_CHECK, check_button=MEOWFFICER_CONFIRM,
+                      offset=(40, 40), retry_wait=3, skip_first_screenshot=True)
+
+        self.ui_click(MEOWFFICER_CANCEL, check_button=self._meow_check_popup_exit,
+                      offset=(40, 20), retry_wait=3, skip_first_screenshot=True)
+        self.device.click_record.pop()
+        self.device.click_record.pop()
 
     def _meow_apply_lock(self, lock=True):
         """
@@ -126,37 +174,6 @@ class MeowfficerCollect(MeowfficerBase):
 
         # Wait until info bar disappears
         self.ensure_no_info_bar(timeout=1)
-
-    # Transition out of lock popup / talent detail panel
-    # Use callable as screen is variable
-    def _check_popup_exit(self):
-        """
-        Returns: boll
-        """
-        if self.appear(MEOWFFICER_GET_CHECK, offset=(40, 40)) and MEOWFFICER_GET_CHECK.match_appear_on(
-                self.device.image):
-            return True
-
-        if self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20)):
-            return True
-
-        return False
-
-    def _meow_skip_lock(self):
-        """
-        Applicable to only gold variant meowfficer
-        Handle skip transitions; proceeds slowly
-        with caution to prevent unintentional actions
-        """
-        # Trigger lock popup appearance to initiate sequence
-        self.ui_click(MEOWFFICER_TRAIN_CLICK_SAFE_AREA,
-                      appear_button=MEOWFFICER_GET_CHECK, check_button=MEOWFFICER_CONFIRM,
-                      offset=(40, 40), retry_wait=3, skip_first_screenshot=True)
-
-        self.ui_click(MEOWFFICER_CANCEL, check_button=self._check_popup_exit,
-                      offset=(40, 20), retry_wait=3, skip_first_screenshot=True)
-        self.device.click_record.pop()
-        self.device.click_record.pop()
 
     def meow_get(self, skip_first_screenshot=True):
         """
@@ -193,10 +210,7 @@ class MeowfficerCollect(MeowfficerBase):
                         genre="meowfficer_talent",
                         method=self.config.DropRecord_MeowfficerTalent
                 ) as drop:
-                    drop.add(self.device.image)
-                    list_talent_btn, special_talent = self._get_meow_talent_grid()
-                    if self.config.DropRecord_MeowfficerTalent != 'do_not':
-                        self._meow_talent_cap_handle(list_talent_btn, drop)
+                    special_talent = self._meow_is_special_talented(drop=drop)
                     if self.appear(MEOWFFICER_GOLD_CHECK, offset=(40, 40)):
                         if not self.config.MeowfficerTrain_RetainTalentedGold or not special_talent:
                             self._meow_skip_lock()

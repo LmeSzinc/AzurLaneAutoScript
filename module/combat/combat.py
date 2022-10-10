@@ -13,7 +13,7 @@ from module.map.assets import MAP_OFFENSIVE
 from module.retire.retirement import Retirement
 from module.statistics.azurstats import DropImage
 from module.template.assets import TEMPLATE_COMBAT_LOADING
-from module.ui.assets import BACK_ARROW
+from module.ui.assets import BACK_ARROW, MUNITIONS_CHECK
 
 
 class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatManual, AutoSearchHandler):
@@ -380,6 +380,17 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
 
         return False
 
+    def handle_combat_mis_click(self):
+        """
+        Returns:
+            bool:
+        """
+        if self.appear(MUNITIONS_CHECK, offset=(20, 20), interval=2):
+            self.device.click(BACK_ARROW)
+            return True
+
+        return False
+
     def combat_status(self, drop=None, expected_end=None):
         """
         Args:
@@ -434,6 +445,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             if self.handle_mission_popup_ack():
                 continue
             if self.handle_auto_search_exit(drop=drop):
+                continue
+            if self.handle_combat_mis_click():
                 continue
 
             # End

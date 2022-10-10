@@ -1,8 +1,7 @@
 import collections
 
 from module.base.base import ModuleBase
-from module.base.decorator import Config, cached_property
-from module.base.resource import del_cached_property
+from module.base.decorator import Config, cached_property, del_cached_property
 from module.base.timer import Timer
 from module.base.utils import *
 from module.exception import CampaignNameError

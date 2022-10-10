@@ -1,6 +1,5 @@
 import inflection
 
-from module.base.button import Button
 from module.base.timer import Timer
 from module.config.utils import get_os_reset_remain
 from module.exception import CampaignEnd, RequestHumanTakeover
@@ -12,11 +11,8 @@ from module.os.assets import FLEET_EMP_DEBUFF
 from module.os.fleet import OSFleet
 from module.os.globe_camera import GlobeCamera
 from module.os.globe_operation import RewardUncollectedError
+from module.os_handler.assets import AUTO_SEARCH_OS_MAP_OPTION_OFF, AUTO_SEARCH_OS_MAP_OPTION_ON
 from module.ui.ui import page_os
-
-FLEET_LOW_RESOLVE = Button(
-    area=(144, 148, 170, 175), color=(255, 44, 33), button=(144, 148, 170, 175),
-    name='FLEET_LOW_RESOLVE')
 
 
 class OSMap(OSFleet, Map, GlobeCamera):
@@ -65,6 +61,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
         # self.map_init()
         self.hp_reset()
         self.handle_after_auto_search()
+        self.handle_current_fleet_resolve(revert=False)
 
         # Exit from special zones types, only SAFE and DANGEROUS are acceptable.
         if self.is_in_special_zone():
@@ -160,7 +157,9 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 super().os_map_goto_globe(*args, **kwargs)
                 return
             except RewardUncollectedError:
-                self.run_auto_search()
+                # Disable after_auto_search since it will exit current zone.
+                # Or will cause RecursionError: maximum recursion depth exceeded
+                self.run_auto_search(rescan=True, after_auto_search=False)
                 continue
 
         logger.error('Failed to solve uncollected rewards')
@@ -257,7 +256,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
         if revert and prev != self.zone:
             self.globe_goto(prev)
 
-    def handle_fleet_resolve(self, revert=True):
+    def handle_fleet_resolve(self, revert=False):
         """
         Check each fleet if afflicted with the low
         resolve debuff
@@ -273,18 +272,38 @@ class OSMap(OSFleet, Map, GlobeCamera):
             logger.info('OS is in a special zone type, skip fleet resolve')
             return False
 
-        for _ in range(1, 5):
-            if not self.fleet_set(_):
+        for index in [1, 2, 3, 4]:
+            if not self.fleet_set(index):
                 self.device.screenshot()
 
-            if self.image_color_count(FLEET_LOW_RESOLVE, color=FLEET_LOW_RESOLVE.color,
-                                      threshold=221, count=250):
+            if self.fleet_low_resolve_appear():
                 logger.info('At least one fleet is afflicted with '
                             'the low resolve debuff')
                 self.fleet_resolve(revert)
                 return True
 
         logger.info('None of the fleets are afflicted with '
+                    'the low resolve debuff')
+        return False
+
+    def handle_current_fleet_resolve(self, revert=False):
+        """
+        Similar to handle_fleet_resolve,
+        but check current fleet only for better performance at initialization
+
+        Args:
+            revert (bool): If go back to previous zone.
+
+        Returns:
+            bool:
+        """
+        if self.fleet_low_resolve_appear():
+            logger.info('Current fleet is afflicted with '
+                        'the low resolve debuff')
+            self.fleet_resolve(revert)
+            return True
+
+        logger.info('Current fleet is not afflicted with '
                     'the low resolve debuff')
         return False
 
@@ -384,7 +403,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
         """
         logger.hr('OS auto search', level=2)
         self._auto_search_battle_count = 0
-        unlock_checked = True
+        unlock_checked = False
         unlock_check_timer = Timer(5, count=10).start()
         self.ash_popup_canceled = False
 
@@ -396,6 +415,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
             else:
                 self.device.screenshot()
 
+            # End
             if not unlock_checked and unlock_check_timer.reached():
                 logger.critical('Unable to use auto search in current zone')
                 logger.critical('Please finish the story mode of OpSi to unlock auto search '
@@ -411,6 +431,12 @@ class OSMap(OSFleet, Map, GlobeCamera):
                     died_timer.reset()
             else:
                 died_timer.reset()
+
+            if not unlock_checked:
+                if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120)):
+                    unlock_checked = True
+                elif self.appear(AUTO_SEARCH_OS_MAP_OPTION_ON, offset=(5, 120)):
+                    unlock_checked = True
             if self.handle_os_auto_search_map_option(drop=drop, enable=success):
                 unlock_checked = True
                 continue
@@ -501,7 +527,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
                        'this might be 2 adjacent fleet mechanism, stopped')
         return False
 
-    def run_auto_search(self, question=True, rescan=None):
+    def run_auto_search(self, question=True, rescan=None, after_auto_search=True):
         """
         Clear current zone by running auto search.
         OpSi story mode must be cleared to unlock auto search.
@@ -514,6 +540,8 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 visit akashi's shop that auto search missed, and unlock mechanism that requires 2 fleets.
 
                 This option should be disabled in special tasks like OpsiObscure, OpsiAbyssal, OpsiStronghold.
+            after_auto_search (bool):
+                Whether to call handle_after_auto_search() after auto search
         """
         if rescan is None:
             rescan = self.config.OpsiGeneral_DoRandomMapEvent
@@ -532,11 +560,12 @@ class OSMap(OSFleet, Map, GlobeCamera):
 
                 self.hp_reset()
                 self.hp_get()
-                if self.is_in_task_explore and not self.zone.is_port:
-                    prev = self.zone
-                    if self.handle_after_auto_search():
-                        self.globe_goto(prev, types='DANGEROUS')
-                        continue
+                if after_auto_search:
+                    if self.is_in_task_explore and not self.zone.is_port:
+                        prev = self.zone
+                        if self.handle_after_auto_search():
+                            self.globe_goto(prev, types='DANGEROUS')
+                            continue
                 break
 
             # Rescan
@@ -562,6 +591,17 @@ class OSMap(OSFleet, Map, GlobeCamera):
         Returns:
             bool: If solved a map random event
         """
+        grids = self.view.select(is_exploration_reward=True)
+        if 'is_exploration_reward' not in self._solved_map_event and grids and grids[0].is_exploration_reward:
+            grid = grids[0]
+            logger.info(f'Found exploration reward on {grid}')
+            result = self.wait_until_walk_stable(drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=4))
+            if 'event' in result:
+                self._solved_map_event.add('is_exploration_reward')
+                return True
+            else:
+                return False
+
         grids = self.view.select(is_akashi=True)
         if 'is_akashi' not in self._solved_map_event and grids and grids[0].is_akashi:
             grid = grids[0]

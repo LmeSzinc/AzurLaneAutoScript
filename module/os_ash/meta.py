@@ -7,7 +7,7 @@ from module.ocr.ocr import DigitCounter, Digit
 from module.os_ash.ash import AshCombat
 from module.os_ash.assets import *
 from module.os_handler.map_event import MapEventHandler
-from module.ui.assets import BACK_ARROW
+from module.ui.assets import BACK_ARROW, MAIN_GOTO_REWARD
 from module.ui.page import page_reward
 from module.ui.ui import UI
 
@@ -23,10 +23,21 @@ OCR_BEACON_TIER = Digit(BEACON_TIER, name='OCR_ASH_TIER')
 OCR_META_DAMAGE = Digit(META_DAMAGE, name='OCR_META_DAMAGE')
 
 
+class MetaDigitCounter(DigitCounter):
+    def after_process(self, result):
+        result = super().after_process(result)
+
+        # 00/200 -> 100/200
+        if result.startswith('00/'):
+            result = '100/' + result[3:]
+
+        return result
+
+
 class Meta(UI, MapEventHandler):
 
     def digit_ocr_point_and_check(self, button: Button, check_number: int):
-        point_ocr = DigitCounter(button, letter=(235, 235, 235), threshold=160, name='POINT_OCR')
+        point_ocr = MetaDigitCounter(button, letter=(235, 235, 235), threshold=160, name='POINT_OCR')
         point, _, _ = point_ocr.ocr(self.device.image)
         if point >= check_number:
             return True
@@ -48,10 +59,13 @@ class Meta(UI, MapEventHandler):
             return True
         if self.handle_popup_cancel():
             return True
+        if self.appear_then_click(META_ENTRANCE, offset=(20, 300), interval=2):
+            return True
+        return False
 
 
 def _server_support():
-    return server.server in ['cn', 'en']
+    return server.server in ['cn', 'en', 'jp']
 
 
 class OpsiAshBeacon(Meta):
@@ -130,6 +144,11 @@ class OpsiAshBeacon(Meta):
                 break
             # Finish random events
             if self.handle_map_event():
+                continue
+            # Accidentally goto main page
+            if self.appear(MAIN_GOTO_REWARD, offset=(20, 20), interval=2):
+                continue
+            if self.appear(META_ENTRANCE, offset=(20, 300), interval=2):
                 continue
 
     def _satisfy_attack_condition(self):
@@ -212,7 +231,25 @@ class OpsiAshBeacon(Meta):
             in: is_in_meta
             out: is_in_meta
         """
-        self.ui_click(click_button=HELP_ENTER, check_button=HELP_CONFIRM)
+        # Enter help page
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(HELP_CONFIRM, offset=(20, 20)):
+                break
+            # Click
+            if self.appear_then_click(HELP_ENTER, offset=(20, 20), interval=3):
+                continue
+            # Wrongly entered BATTLE_PREPARATION
+            if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=2):
+                self.device.click(BACK_ARROW)
+                continue
+
         # Here use simple clicks. Dropping some clicks is acceptable, no need to confirm they are selected.
         self.device.click(HELP_1)
         self.device.sleep((0.1, 0.3))
@@ -254,6 +291,9 @@ class OpsiAshBeacon(Meta):
                 self.device.click(META_BEGIN_ENTRANCE)
                 logger.info('Begin a beacon')
             else:
+                # TW only support current meta
+                if server.server == 'tw':
+                    return False
                 self.appear_then_click(ASH_QUIT, offset=(10, 10), interval=2)
             return True
         # Page dossier
@@ -400,6 +440,9 @@ class AshBeaconAssist(Meta):
         logger.info('Find a beacon in level:' + str(current))
 
     def _in_meta_assist_page(self):
+        # AL redirects to unfinished self beacon after assist, so switch back
+        if self.appear_then_click(BEACON_LIST, offset=(-20, -5, 300, 5), interval=2):
+            return False
         return self.appear(BEACON_MY, offset=(20, 20))
 
     def _ensure_meta_assist_page(self, skip_first_screenshot=True):

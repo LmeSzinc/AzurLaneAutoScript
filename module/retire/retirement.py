@@ -371,11 +371,16 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 self.dock_favourite_set(False)
                 total = self.retire_ships_one_click()
             if self.server_support_quick_retire_setting_fallback():
+                # Some users may have already set filter_5='all', try with it first
+                if not total:
+                    logger.warning('No ship retired, trying to reset the first 4 quick retire settings')
+                    self.quick_retire_setting_set(filter_5=None)
+                    total = self.retire_ships_one_click()
                 if not total:
                     logger.warning('No ship retired, trying to reset quick retire settings to "keep_limit_break"')
-                    self.quick_retire_setting_set('keep_limit_break')
+                    self.quick_retire_setting_set(filter_5='keep_limit_break')
                     total = self.retire_ships_one_click()
-                # Not determined
+                # Not determined, this may cause user loss
                 # if not total:
                 #     logger.warning('No ship retired, trying to reset quick retire settings to "all"')
                 #     self.quick_retire_setting_set('all')

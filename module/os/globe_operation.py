@@ -293,12 +293,18 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
                 self.device.screenshot()
 
             if self.appear_then_click(MAP_GOTO_GLOBE, offset=(200, 5), interval=5):
+                self.interval_reset(MAP_GOTO_GLOBE_FOG)
                 click_count += 1
                 if click_count >= 5:
                     # When there's zone exploration reward, AL just don't let you go.
                     logger.warning('Unable to goto globe, '
                                    'there might be uncollected zone exploration rewards preventing exit')
                     raise RewardUncollectedError
+                continue
+            if self.appear_then_click(MAP_GOTO_GLOBE_FOG, offset=(5, 5), interval=5):
+                # Encountered only in strongholds; AL will not prevent
+                # zone exit even with left over exploration rewards in map
+                self.interval_reset(MAP_GOTO_GLOBE)
                 continue
             if self.handle_map_event():
                 continue

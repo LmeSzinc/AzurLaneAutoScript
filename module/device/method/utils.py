@@ -138,18 +138,6 @@ def handle_adb_error(e):
         return False
 
 
-def del_cached_property(obj, name):
-    """
-    Delete a cached property safely.
-
-    Args:
-        obj:
-        name (str):
-    """
-    if name in obj.__dict__:
-        del obj.__dict__[name]
-
-
 def get_serial_pair(serial):
     """
     Args:

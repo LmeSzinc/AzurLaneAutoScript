@@ -1,11 +1,12 @@
 from module.base.button import Button
 from module.base.decorator import run_once
 from module.base.timer import Timer
+from module.battle_pass.assets import PURCHASE_POPUP
 from module.combat.assets import GET_ITEMS_1, GET_SHIP
 from module.exception import (GameNotRunningError, GamePageUnknownError,
                               RequestHumanTakeover)
 from module.handler.assets import (AUTO_SEARCH_MENU_EXIT, BATTLE_PASS_NOTICE,
-                                   GAME_TIPS, GET_MISSION, LOGIN_ANNOUNCE,
+                                   GAME_TIPS, LOGIN_ANNOUNCE,
                                    LOGIN_CHECK, LOGIN_RETURN_SIGN,
                                    MONTHLY_PASS_NOTICE)
 from module.handler.info_handler import InfoHandler
@@ -13,9 +14,8 @@ from module.logger import logger
 from module.map.assets import (FLEET_PREPARATION, MAP_PREPARATION,
                                MAP_PREPARATION_CANCEL, WITHDRAW)
 from module.ocr.ocr import Ocr
-from module.os_handler.assets import (EXCHANGE_CHECK, RESET_FLEET_PREPARATION,
-                                      RESET_TICKET_POPUP)
-from module.battle_pass.assets import PURCHASE_POPUP
+from module.os_handler.assets import (AUTO_SEARCH_REWARD, EXCHANGE_CHECK,
+                                      RESET_FLEET_PREPARATION, RESET_TICKET_POPUP)
 from module.raid.assets import RAID_FLEET_PREPARATION
 from module.ui.assets import (BACK_ARROW, DORM_FEED_CANCEL, DORM_INFO,
                               DORM_TROPHY_CONFIRM, EVENT_LIST_CHECK, GOTO_MAIN,
@@ -126,9 +126,7 @@ class UI(InfoHandler):
             else:
                 self.device.screenshot()
 
-            if (isinstance(check_button, Button) and self.appear(check_button, offset=offset)) or (
-                callable(check_button) and check_button()
-            ):
+            if self.ui_process_check_button(check_button, offset=offset):
                 if confirm_timer.reached():
                     break
             else:
@@ -145,6 +143,27 @@ class UI(InfoHandler):
             if additional is not None:
                 if additional():
                     continue
+
+    def ui_process_check_button(self, check_button, offset=(30, 30)):
+        """
+        Args:
+            check_button (Button, callable, list[Button], tuple[Button]):
+            offset:
+
+        Returns:
+            bool:
+        """
+        if isinstance(check_button, Button):
+            return self.appear(check_button, offset=offset)
+        elif callable(check_button):
+            return check_button()
+        elif isinstance(check_button, (list, tuple)):
+            for button in check_button:
+                if self.appear(button, offset=offset):
+                    return True
+            return False
+        else:
+            return self.appear(check_button, offset=offset)
 
     def ui_get_current_page(self, skip_first_screenshot=True):
         """
@@ -375,7 +394,7 @@ class UI(InfoHandler):
 
     _opsi_reset_fleet_preparation_click = 0
 
-    def ui_page_main_popups(self):
+    def ui_page_main_popups(self, get_ship=True):
         """
         Handle popups appear at page_main, page_reward
         """
@@ -388,8 +407,9 @@ class UI(InfoHandler):
             return True
         if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=3):
             return True
-        if self.appear_then_click(GET_SHIP, interval=5):
-            return True
+        if get_ship:
+            if self.appear_then_click(GET_SHIP, interval=5):
+                return True
         if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=3):
             return True
         if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=3):
@@ -405,8 +425,24 @@ class UI(InfoHandler):
         if self.appear_then_click(PURCHASE_POPUP, offset=(44, -77, 84, -37), interval=3):
             return True
         # Item expired offset=(37, 72), skin expired, offset=(24, 68)
-        if self.appear_then_click(GET_MISSION, offset=(-6, 48, 54, 88), interval=3):
+        if self.handle_popup_single(offset=(-6, 48, 54, 88), name='ITEM_EXPIRED'):
             return True
+        # Routed from confirm click
+        if self.appear(SHIPYARD_CHECK, offset=(30, 30), interval=3):
+            logger.info(f'UI additional: {SHIPYARD_CHECK} -> {GOTO_MAIN}')
+            if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
+                return True
+        if self.appear(META_CHECK, offset=(30, 30), interval=3):
+            logger.info(f'UI additional: {META_CHECK} -> {GOTO_MAIN}')
+            if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
+                return True
+        # Mistaken click
+        if self.appear(PLAYER_CHECK, offset=(30, 30), interval=3):
+            logger.info(f'UI additional: {PLAYER_CHECK} -> {GOTO_MAIN}')
+            if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
+                return True
+            if self.appear_then_click(BACK_ARROW, offset=(30, 30)):
+                return True
 
         return False
 
@@ -459,25 +495,6 @@ class UI(InfoHandler):
         if self.ui_page_main_popups():
             return True
 
-        # Routed from confirm click
-        if self.appear(SHIPYARD_CHECK, offset=(30, 30), interval=3):
-            logger.info(f'UI additional: {SHIPYARD_CHECK} -> {GOTO_MAIN}')
-            if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
-                return True
-        if self.appear(META_CHECK, offset=(30, 30), interval=3):
-            logger.info(f'UI additional: {META_CHECK} -> {GOTO_MAIN}')
-            if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
-                return True
-
-        # Mistaken click
-        if self.appear(PLAYER_CHECK, offset=(30, 30), interval=3):
-            logger.info(f'UI additional: {PLAYER_CHECK} -> {GOTO_MAIN}')
-            if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
-                return True
-            if self.appear(BACK_ARROW, offset=(30, 30)):
-                self.ui_back(page_main.check_button)
-                return True
-
         # Story
         if self.handle_story_skip():
             return True
@@ -509,6 +526,8 @@ class UI(InfoHandler):
             self.device.click(MAP_PREPARATION_CANCEL)
             return True
         if self.appear_then_click(AUTO_SEARCH_MENU_EXIT, offset=(200, 30), interval=3):
+            return True
+        if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
             return True
         if self.appear(WITHDRAW, offset=(30, 30), interval=3):
             # Poor wait here, to handle a game client bug after the game patch in 2022-04-07

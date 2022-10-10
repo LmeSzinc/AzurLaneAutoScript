@@ -1,19 +1,7 @@
 import re
 
 import module.config.server as server
-from module.base.decorator import cached_property
-
-
-def del_cached_property(obj, name):
-    """
-    Delete a cached property safely.
-
-    Args:
-        obj:
-        name (str):
-    """
-    if name in obj.__dict__:
-        del obj.__dict__[name]
+from module.base.decorator import cached_property, del_cached_property
 
 
 def get_assets_from_file(file, regex):

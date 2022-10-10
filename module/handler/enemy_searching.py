@@ -1,4 +1,4 @@
-from module.base.resource import del_cached_property
+from module.base.decorator import del_cached_property
 from module.base.timer import Timer
 from module.base.utils import get_color, red_overlay_transparency
 from module.exception import CampaignEnd
