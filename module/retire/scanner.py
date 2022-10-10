@@ -30,7 +30,7 @@ class Ship:
     def satisfy_limitation(self, limitaion) -> bool:
         for key in self.__dict__:
             value = limitaion.get(key)
-            if value is not None:
+            if self.__dict__[key] is not None:
                 # str and int should be exactly equal to
                 if isinstance(value, (str, int)):
                     if value == 'any':
