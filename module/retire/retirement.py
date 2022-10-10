@@ -275,6 +275,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
 
         scanner = ShipScanner(
             rarity='common', fleet=0, status='free', level=(24, 100))
+        scanner.disable('emotion')
 
         total = 0
         _ = self._have_kept_cv
