@@ -256,7 +256,7 @@ class Reward(UI):
                     continue
             else:
                 if self.appear(MAIL_DELETE, offset=(350, 20), interval=3):
-                    btn = MAIL_BUTTON_GRID.buttons[-1].move((350, 0))
+                    btn = MAIL_BUTTON_GRID.buttons[0].move((350, 0))
                     self.device.click(btn)
                     continue
             if self.handle_info_bar():
@@ -279,6 +279,10 @@ class Reward(UI):
             else:
                 self.device.screenshot()
 
+            if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=1):
+                continue
+            if self.appear_then_click(GET_ITEMS_2, offset=(30, 30), interval=1):
+                continue
             if self.appear(MAIL_DELETE, offset=(350, 20), interval=3):
                 self.device.click(MAIL_ENTER)
                 continue
@@ -298,6 +302,7 @@ class Reward(UI):
         mail_item_grid = ItemGrid(MAIL_BUTTON_GRID, templates={},
                                          amount_area=(60, 74, 96, 95))
         mail_item_grid.load_template_folder('./assets/stats_basic')
+        mail_item_grid.similarity = 0.85
         return mail_item_grid
 
     def _reward_mail_get_collectable(self):
@@ -338,21 +343,16 @@ class Reward(UI):
         im = rgb2gray(crop(image, check_area))
         return True if np.mean(im) < 182 else False
 
-    def _reward_mail_collect(self, skip_first_screenshot=True):
+    def _reward_mail_collect_one(self, item, skip_first_screenshot=True):
         """
-        Executes the mail collect sequence
+        Executes the collecting sequence on
+        one mail item
 
         Args:
+            item (Item):
             skip_first_screenshot (bool):
-
-        Returns:
-            bool
         """
-        collectable = self._reward_mail_get_collectable()
-        if not collectable:
-            logger.info('No mail to collect')
-            return False
-
+        btn = item._button
         click_timer = Timer(1.5, count=3)
         while 1:
             if skip_first_screenshot:
@@ -360,23 +360,14 @@ class Reward(UI):
             else:
                 self.device.screenshot()
 
-            # End
-            if not collectable:
-                break
-            else:
-                btn = collectable[-1]._button
-                if not self._reward_mail_selected(btn, self.device.image) and \
-                   click_timer.reached():
+            if click_timer.reached():
+                if not self._reward_mail_selected(btn, self.device.image):
                     self.device.click(btn.move((350, 0)))
                     self.device.sleep((0.3, 0.5))
                     click_timer.reset()
                     continue
-
-            if self.appear_then_click(MAIL_COLLECT, offset=(20, 20), interval=3):
                 click_timer.reset()
-                continue
-            if self.appear(MAIL_COLLECTED, offset=(20, 20), interval=3):
-                collectable.pop()
+            if self.appear_then_click(MAIL_COLLECT, offset=(20, 20), interval=3):
                 click_timer.reset()
                 continue
             if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=1):
@@ -386,8 +377,33 @@ class Reward(UI):
                 click_timer.reset()
                 continue
 
-        logger.info('Finished collecting valid mail rewards')
+            # End
+            if self.appear(MAIL_COLLECTED, offset=(20, 20)):
+                break
+
         return True
+
+    def _reward_mail_collect(self, skip_first_screenshot=True):
+        """
+        Executes the collecting sequence to
+        applicable mail items
+
+        Args:
+            skip_first_screenshot (bool):
+        """
+        for _ in range(5):
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            collectable = self._reward_mail_get_collectable()
+            if not collectable:
+                break
+
+            self._reward_mail_collect_one(collectable[0])
+
+        logger.info('Finished collecting all applicable mail')
 
     def reward_mail(self, collect):
         """
