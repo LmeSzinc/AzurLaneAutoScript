@@ -235,6 +235,8 @@ class GeneratedConfig:
     Reward_CollectExp = True
     Reward_CollectMission = True
     Reward_CollectWeeklyMission = True
+    Reward_CollectMail = False
+    Reward_MailFilter = 'Merit'
 
     # Group `GeneralShop`
     GeneralShop_UseGems = False

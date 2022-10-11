@@ -360,6 +360,9 @@ Reward:
   CollectExp: true
   CollectMission: true
   CollectWeeklyMission: true
+  CollectMail: false
+  MailFilter: |-
+    Merit
 GeneralShop:
   UseGems: false
   Refresh: false

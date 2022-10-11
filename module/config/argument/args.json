@@ -5846,6 +5846,14 @@
       "CollectWeeklyMission": {
         "type": "checkbox",
         "value": true
+      },
+      "CollectMail": {
+        "type": "checkbox",
+        "value": false
+      },
+      "MailFilter": {
+        "type": "textarea",
+        "value": "Merit"
       }
     }
   },
