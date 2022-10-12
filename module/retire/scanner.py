@@ -81,6 +81,8 @@ class Scanner(metaclass=ABCMeta):
         if cached:
             self._results.extend(result)
         else:
+            for ship in result:
+                print(ship)
             return result
 
     def move(self, vector) -> None:
