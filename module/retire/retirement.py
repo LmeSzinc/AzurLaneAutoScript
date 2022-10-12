@@ -2,7 +2,6 @@ from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.base.utils import color_similar, get_color, resize
 from module.combat.assets import GET_ITEMS_1
-from module.config.utils import deep_get
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 from module.retire.assets import *
@@ -263,8 +262,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         Common CV whose level > 24, fleet is none and status is free
         will be regarded as targets.
         """
-        keys: str = 'GemsFarming.Scheduler.Enable'
-        gems_farming_enable: bool = deep_get(self.config.data, keys=keys, default=False)
+        gems_farming_enable: bool = self.config.cross_get(keys='GemsFarming.Scheduler.Enable', default=False)
         if not (gems_farming_enable and self.config.GemsFarming_FlagshipChange):
             return 0
 
