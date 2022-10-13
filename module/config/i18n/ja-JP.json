@@ -1422,6 +1422,10 @@
     "MailFilter": {
       "name": "Reward.MailFilter.name",
       "help": "Reward.MailFilter.help"
+    },
+    "DeleteMail": {
+      "name": "Reward.DeleteMail.name",
+      "help": "Reward.DeleteMail.help"
     }
   },
   "GeneralShop": {

@@ -5854,6 +5854,10 @@
       "MailFilter": {
         "type": "textarea",
         "value": "Merit"
+      },
+      "DeleteMail": {
+        "type": "checkbox",
+        "value": false
       }
     }
   },

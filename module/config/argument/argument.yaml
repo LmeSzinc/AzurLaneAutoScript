@@ -363,6 +363,7 @@ Reward:
   CollectMail: false
   MailFilter: |-
     Merit
+  DeleteMail: false
 GeneralShop:
   UseGems: false
   Refresh: false

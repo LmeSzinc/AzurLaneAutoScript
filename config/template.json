@@ -1115,7 +1115,8 @@
       "CollectMission": true,
       "CollectWeeklyMission": true,
       "CollectMail": false,
-      "MailFilter": "Merit"
+      "MailFilter": "Merit",
+      "DeleteMail": false
     }
   },
   "ShopFrequent": {
