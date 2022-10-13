@@ -4,8 +4,8 @@ from typing import Any, Dict, List, Tuple, Union
 
 import cv2
 import numpy as np
-from module.base.button import ButtonGrid
 
+from module.base.button import ButtonGrid
 from module.base.utils import color_similar, crop, get_color, limit_in
 from module.combat.level import LevelOcr
 from module.logger import logger
@@ -13,7 +13,7 @@ from module.ocr.ocr import Digit
 from module.retire.assets import (TEMPLATE_FLEET_1, TEMPLATE_FLEET_2,
                                   TEMPLATE_FLEET_3, TEMPLATE_FLEET_4,
                                   TEMPLATE_FLEET_5, TEMPLATE_FLEET_6,
-                                  TEMPLATE_IN_COMMISSION)
+                                  TEMPLATE_IN_BATTLE, TEMPLATE_IN_COMMISSION)
 from module.retire.dock import (CARD_EMOTION_GRIDS, CARD_GRIDS,
                                 CARD_LEVEL_GRIDS, CARD_RARITY_GRIDS)
 
@@ -231,9 +231,10 @@ class StatusScanner(Scanner):
         super().__init__()
         self._results = []
         self.grids = CARD_GRIDS
-        self.value_list: list[str] = ['free', 'commission']
+        self.value_list: list[str] = ['free', 'battle', 'commission']
         self.templates = {
-            TEMPLATE_IN_COMMISSION: 'commission'
+            TEMPLATE_IN_BATTLE: 'battle',
+            TEMPLATE_IN_COMMISSION: 'commission',
         }
 
     def _match(self, image) -> str:
