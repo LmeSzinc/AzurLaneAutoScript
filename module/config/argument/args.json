@@ -7479,9 +7479,17 @@
         "type": "checkbox",
         "value": true
       },
-      "BuyActionPoint": {
-        "type": "checkbox",
-        "value": false
+      "BuyActionPointLimit": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
       },
       "OilLimit": {
         "type": "input",
