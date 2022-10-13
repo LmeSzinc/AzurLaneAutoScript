@@ -229,16 +229,19 @@ class Reward(UI):
 
         return reward
 
-    def _reward_mail_enter(self, skip_first_screenshot=True):
+    def _reward_mail_enter(self, delete=False, skip_first_screenshot=True):
         """
         Goes to mail page
         Also deletes viewed mails to ensure the relevant
         row entries are in view
 
         Args:
+            delete (bool):
+                Enable extra step to delete old
+                already collected mail entries
             skip_first_screenshot (bool):
         """
-        deleted = False
+        btn = MAIL_BUTTON_GRID.buttons[0].move((350, 0))
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -248,22 +251,21 @@ class Reward(UI):
             if self.appear(page_main.check_button, offset=(30, 30), interval=3):
                 self.device.click(MAIL_ENTER)
                 continue
-            if not deleted:
+            if delete:
                 if self.appear_then_click(MAIL_DELETE, offset=(350, 20), interval=3):
                     continue
                 if self.handle_popup_confirm('MAIL_DELETE'):
-                    deleted = True
+                    delete = False
                     continue
             else:
                 if self.appear(MAIL_DELETE, offset=(350, 20), interval=3):
-                    btn = MAIL_BUTTON_GRID.buttons[0].move((350, 0))
                     self.device.click(btn)
                     continue
             if self.handle_info_bar():
                 continue
 
             # End
-            if deleted and self.appear(MAIL_COLLECT, offset=(20, 20)):
+            if not delete and self.appear(MAIL_COLLECT, offset=(20, 20)):
                 break
 
     def _reward_mail_exit(self, skip_first_screenshot=True):
@@ -279,9 +281,11 @@ class Reward(UI):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=1):
+            if self.appear(GET_ITEMS_1, offset=(30, 30), interval=1):
+                self.device.click(MAIL_CLICK_SAFE_AREA)
                 continue
-            if self.appear_then_click(GET_ITEMS_2, offset=(30, 30), interval=1):
+            if self.appear(GET_ITEMS_2, offset=(30, 30), interval=1):
+                self.device.click(MAIL_CLICK_SAFE_AREA)
                 continue
             if self.appear(MAIL_DELETE, offset=(350, 20), interval=3):
                 self.device.click(MAIL_ENTER)
@@ -363,17 +367,21 @@ class Reward(UI):
             if click_timer.reached():
                 if not self._reward_mail_selected(btn, self.device.image):
                     self.device.click(btn.move((350, 0)))
-                    self.device.sleep((0.3, 0.5))
                     click_timer.reset()
                     continue
                 click_timer.reset()
             if self.appear_then_click(MAIL_COLLECT, offset=(20, 20), interval=3):
                 click_timer.reset()
                 continue
-            if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=1):
+            if self.appear(GET_ITEMS_1, offset=(30, 30), interval=1):
+                self.device.click(MAIL_CLICK_SAFE_AREA)
                 click_timer.reset()
                 continue
-            if self.appear_then_click(GET_ITEMS_2, offset=(30, 30), interval=1):
+            if self.appear(GET_ITEMS_2, offset=(30, 30), interval=1):
+                self.device.click(MAIL_CLICK_SAFE_AREA)
+                click_timer.reset()
+                continue
+            if self.handle_info_bar():
                 click_timer.reset()
                 continue
 
@@ -405,12 +413,13 @@ class Reward(UI):
 
         logger.info('Finished collecting all applicable mail')
 
-    def reward_mail(self, collect):
+    def reward_mail(self, collect=True, delete=False):
         """
         Collects mail rewards
 
         Args:
             collect (bool):
+            delete (bool):
 
         Returns:
             bool
@@ -419,7 +428,7 @@ class Reward(UI):
             return False
         logger.info('Mail reward')
 
-        self._reward_mail_enter()
+        self._reward_mail_enter(delete)
         result = self._reward_mail_collect()
         self._reward_mail_exit()
         return result
@@ -489,5 +498,6 @@ class Reward(UI):
         self.reward_mission(daily=self.config.Reward_CollectMission,
                             weekly=self.config.Reward_CollectWeeklyMission)
         self.ui_goto(page_main)
-        self.reward_mail(collect=self.config.Reward_CollectMail)
+        self.reward_mail(collect=self.config.Reward_CollectMail,
+                         delete=self.config.Reward_DeleteMail)
         self.config.task_delay(success=True)
