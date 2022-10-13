@@ -222,9 +222,6 @@ class RewardTacticalClass(Dock):
         books from self.books based on current
         progress of the tactical skill.
         """
-        # Shorthand referencing
-        first, last = self.books[0], self.books[-1]
-
         # Read 'current' and 'remain' will be inaccurate
         # since first exp_value is factored into it
         current, remain, total = SKILL_EXP.ocr(self.device.image)
@@ -495,7 +492,8 @@ class RewardTacticalClass(Dock):
             else:
                 break
 
-    def check_skill_selected(self, button, image):
+    @staticmethod
+    def check_skill_selected(button, image):
         area = button.area
         check_area = tuple([area[0], area[3] + 2, area[2], area[3] + 4])
         im = rgb2gray(crop(image, check_area))
@@ -584,8 +582,12 @@ class RewardTacticalClass(Dock):
         skill_level_list = skill_level_ocr.ocr(self.device.image)
         for skill_button, skill_level in list(zip(SKILL_GRIDS.buttons, skill_level_list)):
             level = skill_level.upper().replace(' ', '')
-            logger.attr('LEVEL', 'EMPTY' if len(level) == 0 else level)
-            if 'NEXT' in level and 'MAX' not in level:
+            # Use 'MA' as a part of `MAX`.
+            # SKILL_LEVEL_GRIDS may move a little lower for unknown reason, OCR results are like:
+            # ['NEXT:MA', 'NEXT:/1D]', 'NEXT:MA'] (Actually: `NEXT:MAX, NEXT:0/100, NEXT:MAX`)
+            # ['NEXT:MA', 'NEX T:/ 14[]]', 'NEXT:MA']  (Actually: `NEXT:MAX, NEXT:150/1400, NEXT:MAX`)
+            if 'NEXT' in level and 'MA' not in level:
+                logger.attr('LEVEL', 'EMPTY' if len(level) == 0 else level)
                 return skill_button
 
         return None
