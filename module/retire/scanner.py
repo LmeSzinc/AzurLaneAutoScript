@@ -192,9 +192,8 @@ class FleetScanner(Scanner):
         # Invert
         image = ~image
         # Use only the green channel
-        b, g, r = cv2.split(image)
+        _, g, _ = cv2.split(image)
         image = cv2.merge([g, g, g])
-        # image[:, :, 0] = image[:, :, 2] = image[:, :, 1]
         # Graying and binarizing
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         _, image = cv2.threshold(image, 50, 255, cv2.THRESH_BINARY)
