@@ -15,8 +15,9 @@ from module.ocr.ocr import DigitCounter, Duration, Ocr
 from module.retire.assets import DOCK_EMPTY, DOCK_CHECK, SHIP_CONFIRM
 from module.retire.dock import CARD_GRIDS, Dock, CARD_LEVEL_GRIDS
 from module.tactical.assets import *
-from module.ui.assets import (BACK_ARROW, REWARD_GOTO_TACTICAL,
-                              TACTICAL_CHECK, REWARD_CHECK)
+from module.ui.assets import (BACK_ARROW, MAIN_GOTO_REWARD,
+                              REWARD_GOTO_TACTICAL, REWARD_CHECK,
+                              TACTICAL_CHECK)
 from module.ui.ui import page_reward
 
 SKILL_GRIDS = ButtonGrid(origin=(315, 140), delta=(621, 132), button_shape=(621, 119), grid_shape=(1, 3), name='SKILL')
@@ -409,6 +410,8 @@ class RewardTacticalClass(Dock):
                 continue
             if self.appear_then_click(REWARD_GOTO_TACTICAL, offset=(20, 20), interval=3):
                 continue
+            if self.appear_then_click(MAIN_GOTO_REWARD, offset=(20, 20), interval=3):
+                continue
             if self.handle_popup_confirm('TACTICAL'):
                 continue
             if self.handle_urgent_commission():
@@ -458,7 +461,7 @@ class RewardTacticalClass(Dock):
                     study_finished = True
                     self.device.click(BACK_ARROW)
                 continue
-            if self.appear(TACTICAL_META, offset=(200, 20)):
+            if self.appear(TACTICAL_META, offset=(200, 20), interval=3):
                 # If meta's skill page, it's inappropriate
                 logger.info('META skill found, exit')
                 self.device.click(BACK_ARROW)
