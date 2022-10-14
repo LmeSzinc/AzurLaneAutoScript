@@ -7132,6 +7132,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "war_archives_20201029_cn",
           "war_archives_20200806_cn",
           "war_archives_20210624_cn",
           "war_archives_20210325_cn",
@@ -7148,9 +7149,9 @@
           "war_archives_20191031_en",
           "war_archives_20181020_en"
         ],
-        "cn": "war_archives_20200806_cn",
-        "en": "war_archives_20200806_cn",
-        "jp": "war_archives_20200806_cn",
+        "cn": "war_archives_20201029_cn",
+        "en": "war_archives_20201029_cn",
+        "jp": "war_archives_20201029_cn",
         "tw": "war_archives_20181227_cn"
       },
       "Mode": {
@@ -7479,17 +7480,9 @@
         "type": "checkbox",
         "value": true
       },
-      "BuyActionPointLimit": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5
-        ]
+      "BuyActionPoint": {
+        "type": "checkbox",
+        "value": false
       },
       "OilLimit": {
         "type": "input",
