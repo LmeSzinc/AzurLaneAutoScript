@@ -535,14 +535,26 @@ class RewardTacticalClass(Dock):
             logger.info('Dock is empty or favorite ships is empty')
             return False
 
-        level_grids = CARD_LEVEL_GRIDS
-        card_grids = CARD_GRIDS
+        # Ship cards may slow to show, like:
+        # [0, 0, 120, 120, 120, 120, 0, 0, 0, 0, 0, 0, 0, 0]
+        # [12, 0, 0, 120, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        # Wait until they turn into
+        # [120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120]
+        level_ocr = LevelOcr(CARD_LEVEL_GRIDS.buttons, name='DOCK_LEVEL_OCR', threshold=64)
+        timeout = Timer(1, count=1).start()
+        while 1:
+            list_level = level_ocr.ocr(self.device.image)
+            first_ship = next((i for i, x in enumerate(list_level) if x > 0), len(list_level))
+            first_empty = next((i for i, x in enumerate(list_level) if x == 0), len(list_level))
+            if timeout.reached():
+                logger.warning('Wait ship cards timeout')
+                break
+            if first_empty >= first_ship:
+                break
+            self.device.screenshot()
 
-        level_ocr = LevelOcr(level_grids.buttons,
-                             name='DOCK_LEVEL_OCR', threshold=64)
-        list_level = level_ocr.ocr(self.device.image)
         should_select_button = None
-        for button, level in list(zip(card_grids.buttons, list_level))[self.dock_select_index:]:
+        for button, level in list(zip(CARD_GRIDS.buttons, list_level))[self.dock_select_index:]:
             # Select ship LV > 1 only
             if level > 1:
                 should_select_button = button
