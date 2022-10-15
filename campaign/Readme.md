@@ -23,6 +23,7 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20180726   | war archives 20180726 cn | Iris of Light and Dark         | 光与影的鸢尾之华       | Iris of Light and Dark           | 光と影のアイリス                     | 光與影的鳶尾之華     |
 | 20210121   | war archives 20181227 cn | Crimson Echoes                 | 苍红的回响           | Crimson Echoes                    | 縹映る深緋の残響                          | 蒼紅的迴響     |
 | 20210513   | war archives 20200820 cn | Scherzo of Iron and Blood      | 铁血音符誓言       | Scherzo of Iron and Blood        | 黒鉄の楽章 誓いの海                | -                    |
+| 20211014   | war archives 20211014 cn | Crescendo of Polaris           | 激奏的Polaris          | Crescendo of Polaris             | 激奏のポラリス                     | -                    |
 | 20220113   | war archives 20190911 cn | Empyreal Tragicomedy           | 神圣的悲喜剧       | Empyreal Tragicomedy                | 悲歎せし焔海の詩             | -                    |
 | 20220407   | war archives 20210325 cn | Ashen Simulacrum               | 箱庭疗法          | Ashen Simulacrum                 | 開かれし紺碧の砂箱            | -                    |
 | 20220721   | war archives 20210624 cn | Swirling Cherry Blossoms       | 浮樱影华           | Swirling Cherry Blossoms       | 翳りし満ちる影の華                 | -                    |
