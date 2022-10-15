@@ -12,8 +12,10 @@ dic_archives_template = {
     'war_archives_20180726_cn': TEMPLATE_IRIS_OF_LIGHT_AND_DARK,
     'war_archives_20181227_cn': TEMPLATE_CRIMSON_ECHOES,
     'war_archives_20200820_cn': TEMPLATE_SCHERZO_OF_IRON_AND_BLOOD,
+    'war_archives_20211014_cn': TEMPLATE_CRESCENDO_OF_POLARIS,
     'war_archives_20190911_cn': TEMPLATE_EMPYREAL_TRAGICOMEDY,
     'war_archives_20210325_cn': TEMPLATE_ASHEN_SIMULACRUM,
     'war_archives_20210624_cn': TEMPLATE_SWIRLING_CHERRY_BLOSSOMS,
     'war_archives_20200806_cn': TEMPLATE_THE_ENIGMA_AND_THE_SHARK,
+    'war_archives_20201029_cn': TEMPLATE_UNIVERSE_IN_UNISON,
 }
