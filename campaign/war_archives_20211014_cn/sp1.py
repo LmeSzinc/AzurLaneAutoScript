@@ -12,7 +12,7 @@ MAP.camera_sight = (-2, -1, 3, 2)
 MAP.map_data = """
     ++ ++ ++ -- MS ME --
     -- ME -- ME -- ME --
-    SP -- ME -- -- ME ++
+    SP -- ME -- __ ME ++
     -- ME -- ++ -- -- MB
     SP -- -- -- -- ME --
     ++ ++ -- -- ME -- ME

@@ -7,14 +7,15 @@ from .sp1 import Config as ConfigBase
 
 MAP = CampaignMap('SP5')
 MAP.shape = 'I7'
-MAP.camera_data = ['C3', 'C6', 'D6']
+MAP.camera_data = ['C2', 'C5', 'F2', 'F5']
 MAP.camera_data_spawn_point = ['C4']
 MAP.camera_sight = (-2, -1, 3, 2)
+MAP.map_covered = ['E3']
 MAP.map_data = """
     -- -- -- ++ ++ ++ ME -- --
     -- ME -- MB ME -- -- ++ ++
     ME ME ME -- -- ME ME ME --
-    ME -- -- -- ++ -- -- -- --
+    ME -- -- -- ++ __ -- -- --
     ME ME -- ME -- ME -- ++ ++
     -- ME -- ME -- -- -- ++ ++
     ME -- -- SP SP -- ME ME --
@@ -58,10 +59,8 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
-    MAP_SWIPE_MULTIPLY = 1.445
-    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.397
-    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
-    EDGE_LINES_HOUGHLINES_THRESHOLD = 75
+    MAP_SWIPE_MULTIPLY = 1.847
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.786
 
 
 class Campaign(CampaignBase):
@@ -70,24 +69,8 @@ class Campaign(CampaignBase):
     def battle_0(self):
         if self.clear_siren():
             return True
-        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
-            return True
-        if self.clear_enemy(scale=(1,)):
-            return True
-        if self.clear_enemy(genre=['light', 'main', 'enemy']):
-            return True
 
         return self.battle_default()
 
     def battle_5(self):
-        if self.clear_enemy(scale=(1,)):
-            return True
-        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
-            return True
-        if self.clear_enemy(genre=['light', 'main', 'enemy']):
-            return True
-
-        return self.battle_default()
-
-    def battle_6(self):
         return self.fleet_boss.clear_boss()
