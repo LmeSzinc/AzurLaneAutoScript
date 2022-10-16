@@ -1113,10 +1113,7 @@
       "CollectCoin": true,
       "CollectExp": true,
       "CollectMission": true,
-      "CollectWeeklyMission": true,
-      "CollectMail": false,
-      "MailFilter": "Merit",
-      "DeleteMail": false
+      "CollectWeeklyMission": true
     }
   },
   "ShopFrequent": {
@@ -1208,43 +1205,29 @@
       "UseDrill": false
     }
   },
-  "DataKey": {
+  "Freebies": {
     "Scheduler": {
       "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
-      "Command": "DataKey",
-      "SuccessInterval": 30,
-      "FailureInterval": 30,
-      "ServerUpdate": "00:00"
-    },
-    "DataKey": {
-      "ForceGet": false
-    }
-  },
-  "SupplyPack": {
-    "Scheduler": {
-      "Enable": true,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "SupplyPack",
-      "SuccessInterval": 30,
-      "FailureInterval": 30,
-      "ServerUpdate": "00:00"
-    },
-    "SupplyPack": {
-      "WeeklyFreeSupplyPack": true
-    }
-  },
-  "BattlePass": {
-    "Scheduler": {
-      "Enable": true,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "BattlePass",
+      "Command": "Freebies",
       "SuccessInterval": 30,
       "FailureInterval": 30,
       "ServerUpdate": "00:00"
     },
     "BattlePass": {
       "BattlePassReward": true
+    },
+    "DataKey": {
+      "Get": true,
+      "ForceGet": false
+    },
+    "Mail": {
+      "Collect": true,
+      "Filter": "Merit",
+      "Delete": false
+    },
+    "SupplyPack": {
+      "WeeklyFreeSupplyPack": true
     }
   },
   "MetaReward": {

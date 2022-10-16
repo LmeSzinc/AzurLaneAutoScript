@@ -5846,18 +5846,6 @@
       "CollectWeeklyMission": {
         "type": "checkbox",
         "value": true
-      },
-      "CollectMail": {
-        "type": "checkbox",
-        "value": false
-      },
-      "MailFilter": {
-        "type": "textarea",
-        "value": "Merit"
-      },
-      "DeleteMail": {
-        "type": "checkbox",
-        "value": false
       }
     }
   },
@@ -6280,7 +6268,7 @@
       }
     }
   },
-  "DataKey": {
+  "Freebies": {
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
@@ -6293,85 +6281,7 @@
       },
       "Command": {
         "type": "input",
-        "value": "DataKey",
-        "display": "hide"
-      },
-      "SuccessInterval": {
-        "type": "input",
-        "value": 30,
-        "display": "hide"
-      },
-      "FailureInterval": {
-        "type": "input",
-        "value": 30,
-        "display": "hide"
-      },
-      "ServerUpdate": {
-        "type": "input",
-        "value": "00:00",
-        "display": "hide"
-      }
-    },
-    "DataKey": {
-      "ForceGet": {
-        "type": "checkbox",
-        "value": false
-      }
-    }
-  },
-  "SupplyPack": {
-    "Scheduler": {
-      "Enable": {
-        "type": "checkbox",
-        "value": true
-      },
-      "NextRun": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "Command": {
-        "type": "input",
-        "value": "SupplyPack",
-        "display": "hide"
-      },
-      "SuccessInterval": {
-        "type": "input",
-        "value": 30,
-        "display": "hide"
-      },
-      "FailureInterval": {
-        "type": "input",
-        "value": 30,
-        "display": "hide"
-      },
-      "ServerUpdate": {
-        "type": "input",
-        "value": "00:00",
-        "display": "hide"
-      }
-    },
-    "SupplyPack": {
-      "WeeklyFreeSupplyPack": {
-        "type": "checkbox",
-        "value": true
-      }
-    }
-  },
-  "BattlePass": {
-    "Scheduler": {
-      "Enable": {
-        "type": "checkbox",
-        "value": true
-      },
-      "NextRun": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "Command": {
-        "type": "input",
-        "value": "BattlePass",
+        "value": "Freebies",
         "display": "hide"
       },
       "SuccessInterval": {
@@ -6392,6 +6302,36 @@
     },
     "BattlePass": {
       "BattlePassReward": {
+        "type": "checkbox",
+        "value": true
+      }
+    },
+    "DataKey": {
+      "Get": {
+        "type": "checkbox",
+        "value": true
+      },
+      "ForceGet": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
+    "Mail": {
+      "Collect": {
+        "type": "checkbox",
+        "value": true
+      },
+      "Filter": {
+        "type": "textarea",
+        "value": "Merit"
+      },
+      "Delete": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
+    "SupplyPack": {
+      "WeeklyFreeSupplyPack": {
         "type": "checkbox",
         "value": true
       }

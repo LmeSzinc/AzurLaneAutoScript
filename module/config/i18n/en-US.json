@@ -154,16 +154,8 @@
       "name": "Gacha",
       "help": ""
     },
-    "DataKey": {
-      "name": "Data Key",
-      "help": ""
-    },
-    "SupplyPack": {
-      "name": "Supply Pack",
-      "help": ""
-    },
-    "BattlePass": {
-      "name": "Battle Pass",
+    "Freebies": {
+      "name": "Freebies",
       "help": ""
     },
     "MetaReward": {
@@ -1414,18 +1406,6 @@
     "CollectWeeklyMission": {
       "name": "Collect Weekly Mission Rewards",
       "help": ""
-    },
-    "CollectMail": {
-      "name": "Collect Mail Rewards",
-      "help": "Only collects the top 3 mail entries"
-    },
-    "MailFilter": {
-      "name": "Mail Filter",
-      "help": "Filter as to which mail types should be collected\nSupports Merit, Coin, Cube, Oil, and/or Gem"
-    },
-    "DeleteMail": {
-      "name": "Delete Collected Mail Rewards",
-      "help": "Delete the already collected mail entries\nMark any entries \"important\" in-game to avoid accidental deletion"
     }
   },
   "GeneralShop": {
@@ -1703,14 +1683,46 @@
       "help": "Expedite the recently submitted orders"
     }
   },
+  "BattlePass": {
+    "_info": {
+      "name": "Battle Pass Settings",
+      "help": ""
+    },
+    "BattlePassReward": {
+      "name": "Receive Cruise Missions Rewards",
+      "help": ""
+    }
+  },
   "DataKey": {
     "_info": {
       "name": "Data Key Settings",
       "help": ""
     },
+    "Get": {
+      "name": "Collect Data Key",
+      "help": ""
+    },
     "ForceGet": {
       "name": "Force Collect Data Key",
       "help": "Force collect data key when data key is full to eliminate red dots"
+    }
+  },
+  "Mail": {
+    "_info": {
+      "name": "Mail Settings",
+      "help": ""
+    },
+    "Collect": {
+      "name": "Collect Mail Rewards",
+      "help": "Only collects the top 3 mail entries"
+    },
+    "Filter": {
+      "name": "Mail Filter",
+      "help": "Filter as to which mail types should be collected\nSupports Merit, Coin, Cube, Oil, and/or Gem"
+    },
+    "Delete": {
+      "name": "Delete Collected Mail Rewards",
+      "help": "Delete the already collected mail entries\nMark any entries \"important\" in-game to avoid accidental deletion"
     }
   },
   "SupplyPack": {
@@ -1720,16 +1732,6 @@
     },
     "WeeklyFreeSupplyPack": {
       "name": "Buy Weekly Free Supply Pack",
-      "help": ""
-    }
-  },
-  "BattlePass": {
-    "_info": {
-      "name": "Battle Pass Settings",
-      "help": ""
-    },
-    "BattlePassReward": {
-      "name": "Receive Cruise Missions Rewards",
       "help": ""
     }
   },

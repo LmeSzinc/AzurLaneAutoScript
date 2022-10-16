@@ -187,15 +187,12 @@ Shipyard:
 Gacha:
   - Scheduler
   - Gacha
-DataKey:
-  - Scheduler
-  - DataKey
-SupplyPack:
-  - Scheduler
-  - SupplyPack
-BattlePass:
+Freebies:
   - Scheduler
   - BattlePass
+  - DataKey
+  - Mail
+  - SupplyPack
 MetaReward:
   - Scheduler
   - MetaReward

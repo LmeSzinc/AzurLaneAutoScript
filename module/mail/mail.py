@@ -26,7 +26,7 @@ FILTER = Filter(FILTER_REGEX, FILTER_ATTR)
 
 
 class Mail(UI):
-    def _reward_mail_enter(self, delete=False, skip_first_screenshot=True):
+    def _mail_enter(self, delete=False, skip_first_screenshot=True):
         """
         Goes to mail page
         Also deletes viewed mails to ensure the relevant
@@ -65,7 +65,7 @@ class Mail(UI):
             if not delete and self.appear(MAIL_COLLECT, offset=(20, 20)):
                 break
 
-    def _reward_mail_exit(self, skip_first_screenshot=True):
+    def _mail_exit(self, skip_first_screenshot=True):
         """
         Exits from mail page back into page_main
 
@@ -95,7 +95,7 @@ class Mail(UI):
                 break
 
     @cached_property
-    def _reward_mail_grid(self):
+    def _mail_grid(self):
         """
         This grid only comprises the top 3 mail rows
 
@@ -108,7 +108,7 @@ class Mail(UI):
         mail_item_grid.similarity = 0.85
         return mail_item_grid
 
-    def _reward_mail_get_collectable(self):
+    def _mail_get_collectable(self):
         """
         Loads filter and scans the items in the mail grid
         then returns a subset of those that are collectable
@@ -116,8 +116,8 @@ class Mail(UI):
         Returns:
             list[Item]
         """
-        FILTER.load(self.config.Reward_MailFilter.strip())
-        items = self._reward_mail_grid.predict(
+        FILTER.load(self.config.Mail_Filter.strip())
+        items = self._mail_grid.predict(
             self.device.image,
             name=True,
             amount=False,
@@ -129,7 +129,7 @@ class Mail(UI):
         logger.attr('Item_sort', ' > '.join([str(item) for item in filtered]))
         return filtered
 
-    def _reward_mail_selected(self, button, image):
+    def _mail_selected(self, button, image):
         """
         Check if mail (button) is selected i.e.
         has bottom yellow border
@@ -146,7 +146,7 @@ class Mail(UI):
         im = rgb2gray(crop(image, check_area))
         return True if np.mean(im) < 182 else False
 
-    def _reward_mail_collect_one(self, item, skip_first_screenshot=True):
+    def _mail_collect_one(self, item, skip_first_screenshot=True):
         """
         Executes the collecting sequence on
         one mail item
@@ -164,7 +164,7 @@ class Mail(UI):
                 self.device.screenshot()
 
             if click_timer.reached():
-                if not self._reward_mail_selected(btn, self.device.image):
+                if not self._mail_selected(btn, self.device.image):
                     self.device.click(btn.move((350, 0)))
                     click_timer.reset()
                     continue
@@ -188,7 +188,7 @@ class Mail(UI):
             if self.appear(MAIL_COLLECTED, offset=(20, 20)):
                 break
 
-    def _reward_mail_collect(self, skip_first_screenshot=True):
+    def _mail_collect(self, skip_first_screenshot=True):
         """
         Executes the collecting sequence to
         applicable mail items
@@ -202,15 +202,15 @@ class Mail(UI):
             else:
                 self.device.screenshot()
 
-            collectable = self._reward_mail_get_collectable()
+            collectable = self._mail_get_collectable()
             if not collectable:
                 break
 
-            self._reward_mail_collect_one(collectable[0])
+            self._mail_collect_one(collectable[0])
 
         logger.info('Finished collecting all applicable mail')
 
-    def reward_mail(self, collect=True, delete=False):
+    def mail_run(self, collect=True, delete=False):
         """
         Collects mail rewards
 
@@ -220,11 +220,11 @@ class Mail(UI):
         """
         if not collect:
             return False
-        logger.info('Mail reward')
+        logger.info('Mail run')
 
-        self._reward_mail_enter(delete)
-        self._reward_mail_collect()
-        self._reward_mail_exit()
+        self._mail_enter(delete)
+        self._mail_collect()
+        self._mail_exit()
 
     def run(self):
         """
@@ -233,6 +233,6 @@ class Mail(UI):
             out: page_main, may have info_bar
         """
         self.ui_goto(page_main)
-        self.reward_mail(collect=self.config.Reward_CollectMail,
-                         delete=self.config.Reward_DeleteMail)
+        self.mail_run(collect=self.config.Mail_Collect,
+                      delete=self.config.Mail_Delete)
         self.config.task_delay(success=True)

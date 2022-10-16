@@ -154,17 +154,9 @@
       "name": "每日抽卡",
       "help": ""
     },
-    "DataKey": {
-      "name": "档案密钥",
-      "help": ""
-    },
-    "SupplyPack": {
-      "name": "优惠礼包",
-      "help": ""
-    },
-    "BattlePass": {
-      "name": "大月卡",
-      "help": ""
+    "Freebies": {
+      "name": "Task.Freebies.name",
+      "help": "Task.Freebies.help"
     },
     "MetaReward": {
       "name": "Meta奖励",
@@ -1414,18 +1406,6 @@
     "CollectWeeklyMission": {
       "name": "领取周任务奖励",
       "help": ""
-    },
-    "CollectMail": {
-      "name": "Reward.CollectMail.name",
-      "help": "Reward.CollectMail.help"
-    },
-    "MailFilter": {
-      "name": "Reward.MailFilter.name",
-      "help": "Reward.MailFilter.help"
-    },
-    "DeleteMail": {
-      "name": "Reward.DeleteMail.name",
-      "help": "Reward.DeleteMail.help"
     }
   },
   "GeneralShop": {
@@ -1703,14 +1683,46 @@
       "help": "选否会等到明天再下水，能贪一个钻头"
     }
   },
+  "BattlePass": {
+    "_info": {
+      "name": "大月卡",
+      "help": ""
+    },
+    "BattlePassReward": {
+      "name": "领取大月卡奖励",
+      "help": ""
+    }
+  },
   "DataKey": {
     "_info": {
       "name": "档案秘钥",
       "help": ""
     },
+    "Get": {
+      "name": "DataKey.Get.name",
+      "help": "DataKey.Get.help"
+    },
     "ForceGet": {
       "name": "强制领取档案秘钥",
       "help": "档案秘钥已满时，强制领取（消除红点）"
+    }
+  },
+  "Mail": {
+    "_info": {
+      "name": "Mail._info.name",
+      "help": "Mail._info.help"
+    },
+    "Collect": {
+      "name": "Mail.Collect.name",
+      "help": "Mail.Collect.help"
+    },
+    "Filter": {
+      "name": "Mail.Filter.name",
+      "help": "Mail.Filter.help"
+    },
+    "Delete": {
+      "name": "Mail.Delete.name",
+      "help": "Mail.Delete.help"
     }
   },
   "SupplyPack": {
@@ -1720,16 +1732,6 @@
     },
     "WeeklyFreeSupplyPack": {
       "name": "购买每周免费礼包",
-      "help": ""
-    }
-  },
-  "BattlePass": {
-    "_info": {
-      "name": "大月卡",
-      "help": ""
-    },
-    "BattlePassReward": {
-      "name": "领取大月卡奖励",
       "help": ""
     }
   },

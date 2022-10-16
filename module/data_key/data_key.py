@@ -9,7 +9,7 @@ from module.ui.ui import UI, page_archives
 DATA_KEY = DigitCounter(OCR_DATA_KEY, letter=(255, 247, 247), threshold=64)
 
 
-class RewardDataKey(UI):
+class DataKey(UI):
     def _data_key_collect(self, skip_first_screenshot=True):
         """
         Pages:
@@ -30,7 +30,7 @@ class RewardDataKey(UI):
                 continue
             if self.handle_popup_confirm('DATA_KEY_LIMIT'):
                 # If it's in 29/30 means user is not doing war achieves frequently,
-                # no need to bother losing one key, just make it full filled.
+                # no need to bother losing one key, just make it fulfilled.
                 continue
             if self.appear_then_click(CAMPAIGN_MENU_GOTO_WAR_ARCHIVES, offset=(20, 20), interval=3):
                 # Sometimes quit to page_campaign_menu accidentally.
@@ -52,6 +52,9 @@ class RewardDataKey(UI):
             in: page_any
             out: page_archives
         """
+        if not self.config.DataKey_Get:
+            return False
+
         self.ui_ensure(page_archives)
 
         if self.appear(DATA_KEY_COLLECTED, offset=(20, 20)):
@@ -60,7 +63,7 @@ class RewardDataKey(UI):
 
         current, remain, total = DATA_KEY.ocr(self.device.image)
         logger.info(f'Inventory: {current} / {total}, Remain: {remain}')
-        if not self.config.DataKey_ForceGet and remain <= 0 :
+        if not self.config.DataKey_ForceGet and remain <= 0:
             logger.info('No more room for additional data key')
             return False
 
@@ -76,4 +79,3 @@ class RewardDataKey(UI):
             out: page_main
         """
         self.data_key_collect()
-        self.config.task_delay(server_update=True)

@@ -360,10 +360,6 @@ Reward:
   CollectExp: true
   CollectMission: true
   CollectWeeklyMission: true
-  CollectMail: false
-  MailFilter: |-
-    Merit
-  DeleteMail: false
 GeneralShop:
   UseGems: false
   Refresh: false
@@ -458,12 +454,18 @@ Gacha:
     option: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   UseTicket: true
   UseDrill: false
-DataKey:
-  ForceGet: false
-SupplyPack:
-  WeeklyFreeSupplyPack: true
 BattlePass:
   BattlePassReward: true
+DataKey:
+  Get: true
+  ForceGet: false
+Mail:
+  Collect: true
+  Filter: |-
+    Merit
+  Delete: false
+SupplyPack:
+  WeeklyFreeSupplyPack: true
 MetaReward:
   MetaReward: true
 

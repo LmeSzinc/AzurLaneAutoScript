@@ -104,10 +104,11 @@ class BattlePass(Combat, UI):
         return received
 
     def run(self):
+        if not self.config.BattlePass_BattlePassReward:
+            return
+
         self.ui_ensure(page_reward)
 
         if self.battle_pass_red_dot_appear():
             self.battle_pass_enter()
             self.battle_pass_receive()
-
-        self.config.task_delay(server_update=True)

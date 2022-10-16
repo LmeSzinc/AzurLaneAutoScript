@@ -235,9 +235,6 @@ class GeneratedConfig:
     Reward_CollectExp = True
     Reward_CollectMission = True
     Reward_CollectWeeklyMission = True
-    Reward_CollectMail = False
-    Reward_MailFilter = 'Merit'
-    Reward_DeleteMail = False
 
     # Group `GeneralShop`
     GeneralShop_UseGems = False
@@ -288,14 +285,20 @@ class GeneratedConfig:
     Gacha_UseTicket = True
     Gacha_UseDrill = False
 
+    # Group `BattlePass`
+    BattlePass_BattlePassReward = True
+
     # Group `DataKey`
+    DataKey_Get = True
     DataKey_ForceGet = False
+
+    # Group `Mail`
+    Mail_Collect = True
+    Mail_Filter = 'Merit'
+    Mail_Delete = False
 
     # Group `SupplyPack`
     SupplyPack_WeeklyFreeSupplyPack = True
-
-    # Group `BattlePass`
-    BattlePass_BattlePassReward = True
 
     # Group `MetaReward`
     MetaReward_MetaReward = True

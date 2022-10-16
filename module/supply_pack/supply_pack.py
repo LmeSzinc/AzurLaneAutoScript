@@ -85,11 +85,12 @@ class SupplyPack(UI):
             in: Any page
             out: page_supply_pack, supply pack tab
         """
+        if not self.config.SupplyPack_WeeklyFreeSupplyPack:
+            return
+
         self.ui_ensure(page_supply_pack)
 
         if self.get_oil() < 21000:
             self.supply_pack_buy(FREE_SUPPLY_PACK)
         else:
             logger.info('Oil > 21000, unable to buy free weekly supply pack')
-
-        self.config.task_delay(server_update=True)
