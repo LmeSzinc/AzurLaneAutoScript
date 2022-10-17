@@ -54,9 +54,6 @@ Reward:
 Freebies:
   Scheduler:
     Enable: true
-MetaReward:
-  Scheduler:
-    Enable: true
 
 # ==================== DailyMission ====================
 

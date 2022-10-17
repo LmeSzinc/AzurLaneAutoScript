@@ -466,8 +466,6 @@ Mail:
   Delete: false
 SupplyPack:
   WeeklyFreeSupplyPack: true
-MetaReward:
-  MetaReward: true
 
 # ==================== Daily ====================
 

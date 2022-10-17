@@ -158,10 +158,6 @@
       "name": "Task.Freebies.name",
       "help": "Task.Freebies.help"
     },
-    "MetaReward": {
-      "name": "Task.MetaReward.name",
-      "help": "Task.MetaReward.help"
-    },
     "Daily": {
       "name": "Task.Daily.name",
       "help": "Task.Daily.help"
@@ -1733,16 +1729,6 @@
     "WeeklyFreeSupplyPack": {
       "name": "SupplyPack.WeeklyFreeSupplyPack.name",
       "help": "SupplyPack.WeeklyFreeSupplyPack.help"
-    }
-  },
-  "MetaReward": {
-    "_info": {
-      "name": "MetaReward._info.name",
-      "help": "MetaReward._info.help"
-    },
-    "MetaReward": {
-      "name": "MetaReward.MetaReward.name",
-      "help": "MetaReward.MetaReward.help"
     }
   },
   "Daily": {

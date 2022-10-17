@@ -223,10 +223,6 @@ class AzurLaneAutoScript:
         from module.freebies.freebies import Freebies
         Freebies(config=self.config, device=self.device).run()
 
-    def meta_reward(self):
-        from module.meta_reward.meta_reward import MetaReward
-        MetaReward(config=self.config, device=self.device).run()
-
     def daily(self):
         if self.config.SERVER == 'tw':
             from module.daily.daily_tw import Daily

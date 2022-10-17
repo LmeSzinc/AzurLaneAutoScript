@@ -158,10 +158,6 @@
       "name": "Freebies",
       "help": ""
     },
-    "MetaReward": {
-      "name": "Meta Reward",
-      "help": ""
-    },
     "Daily": {
       "name": "Daily",
       "help": ""
@@ -1732,16 +1728,6 @@
     },
     "WeeklyFreeSupplyPack": {
       "name": "Buy Weekly Free Supply Pack",
-      "help": ""
-    }
-  },
-  "MetaReward": {
-    "_info": {
-      "name": "Meta Reward Settings",
-      "help": ""
-    },
-    "MetaReward": {
-      "name": "Receive META rewards",
       "help": ""
     }
   },

@@ -13,7 +13,7 @@ class ManualConfig:
     > Commission > Tactical > Research
     > Exercise
     > Dorm > Meowfficer > Guild > Gacha
-    > Reward > MetaReward
+    > Reward
     > ShopFrequent > ShopOnce > Shipyard > Freebies
     > OpsiExplore
     > OpsiAshBeacon

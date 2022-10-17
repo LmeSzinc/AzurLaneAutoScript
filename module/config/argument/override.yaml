@@ -265,11 +265,6 @@ Freebies:
     SuccessInterval: 30
     FailureInterval: 30
     ServerUpdate: 00:00
-MetaReward:
-  Scheduler:
-    SuccessInterval: 30
-    FailureInterval: 30
-    ServerUpdate: 00:00
 
 # ==================== Daily ====================
 

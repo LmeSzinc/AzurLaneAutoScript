@@ -158,10 +158,6 @@
       "name": "Task.Freebies.name",
       "help": "Task.Freebies.help"
     },
-    "MetaReward": {
-      "name": "Meta獎勵",
-      "help": ""
-    },
     "Daily": {
       "name": "每日任務",
       "help": ""
@@ -1732,16 +1728,6 @@
     },
     "WeeklyFreeSupplyPack": {
       "name": "購買每週免費禮包",
-      "help": ""
-    }
-  },
-  "MetaReward": {
-    "_info": {
-      "name": "META 獎勵",
-      "help": ""
-    },
-    "MetaReward": {
-      "name": "領取 META 獎勵",
       "help": ""
     }
   },
