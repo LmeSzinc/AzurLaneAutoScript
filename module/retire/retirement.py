@@ -256,17 +256,18 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         logger.info(f'Total retired: {total}')
         return total
 
-    def retire_gems_farming_flagships(self):
+    def retire_gems_farming_flagships(self, decrease_level=False):
         """
         Retire abandoned flagships of GemsFarming.
         Common CV whose level > 24, fleet is none and status is free
         will be regarded as targets.
         """
+        logger.info('Retire abandoned flagships of GemsFarming')
+
         gems_farming_enable: bool = self.config.cross_get(keys='GemsFarming.Scheduler.Enable', default=False)
         if not (gems_farming_enable and self.config.GemsFarming_FlagshipChange):
+            logger.info('GemsFarming or GemsFarming_FlagshipChange is not enabled, skip')
             return 0
-
-        logger.info('Retire abandoned flagships of GemsFarming')
 
         self.dock_filter_set(index='cv', rarity='common', extra='not_level_max', sort='level')
         self.dock_favourite_set(False)
@@ -288,7 +289,14 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
 
             ships = scanner.scan(self.device.image)
             if not ships:
-                break
+                if decrease_level:
+                    logger.info('No ship found, trying to decrease level limitation')
+                    scanner.set_limitation(level=(2, 100))
+                    skip_first_screenshot = True
+                    decrease_level = False
+                    continue
+                else:
+                    break
 
             for ship in ships[:10]:
                 self.device.click(ship.button)
@@ -296,7 +304,9 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 total += 1
 
             self._retirement_confirm()
+
         self._have_kept_cv = _
+        self.dock_filter_set()
 
         return total
 
@@ -384,6 +394,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 #     logger.warning('No ship retired, trying to reset quick retire settings to "all"')
                 #     self.quick_retire_setting_set('all')
                 #     total = self.retire_ships_one_click()
+            total += self.retire_gems_farming_flagships(decrease_level=not total)
             if not total:
                 logger.critical('No ship retired')
                 logger.critical('Please configure your "Quick Retire Options" in game, '
@@ -392,6 +403,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         elif mode == 'old_retire':
             self.handle_dock_cards_loading()
             total = self.retire_ships_old()
+            total += self.retire_gems_farming_flagships(decrease_level=not total)
             if not total:
                 logger.critical('No ship retired')
                 logger.critical('Please configure your retirement settings in Alas, '
@@ -400,8 +412,6 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         else:
             raise ScriptError(
                 f'Unknown retire mode: {self.config.Retirement_RetireMode}')
-
-        total += self.retire_gems_farming_flagships()
 
         self._retirement_quit()
         self.config.DOCK_FULL_TRIGGERED = True

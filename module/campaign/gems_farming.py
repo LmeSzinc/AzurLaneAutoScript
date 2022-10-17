@@ -142,9 +142,9 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
     def get_common_rarity_cv(self):
         """
         Get a common rarity cv by config.GemsFarming_CommonCV
-        If config.GemsFarming_CommonCV == 'any', return a common lv1 cv
+        If config.GemsFarming_CommonCV == 'any', return a common lv1 ~ lv33 cv
         Returns:
-            Button:
+            Ship:
         """
 
         logger.hr('FINDING FLAGSHIP')
@@ -184,9 +184,9 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
     def get_common_rarity_dd(self):
         """
-        Get a common rarity dd with level is 100 and highest emotion
+        Get a common rarity dd with level is 100 (70 for servers except CN) and emotion > 10
         Returns:
-            Button:
+            Ship:
         """
         logger.hr('FINDING VANGUARD')
 

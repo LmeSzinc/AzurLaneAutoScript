@@ -82,7 +82,7 @@ class Scanner(metaclass=ABCMeta):
             self._results.extend(result)
         else:
             for ship in result:
-                print(ship)
+                logger.info(f'{ship}')
             return result
 
     def move(self, vector) -> None:
@@ -133,7 +133,7 @@ class RarityScanner(Scanner):
         super().__init__()
         self._results = []
         self.grids = CARD_RARITY_GRIDS
-        self.value_list: list[str] = ['common', 'rare', 'elite', 'super_rare']
+        self.value_list: List[str] = ['common', 'rare', 'elite', 'super_rare']
 
     def color_to_rarity(self, color: Tuple[int, int, int]) -> str:
         """
@@ -189,17 +189,9 @@ class FleetScanner(Scanner):
         If anyone needs to update TEMPLATE_FLEET assets, do remember to preprocess
         the image first.
         """
-        # Invert
-        image = ~image
-        # Use only the green channel
         _, g, _ = cv2.split(image)
-        image = cv2.merge([g, g, g])
-        # Graying and binarizing
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        _, image = cv2.threshold(image, 50, 255, cv2.THRESH_BINARY)
-        # Re-invert and convert to BGR
-        image = ~image
-        image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
+        _, image = cv2.threshold(g, 205, 255, cv2.THRESH_BINARY)
+        image = cv2.merge([image, image, image])
 
         return image
 
@@ -217,7 +209,8 @@ class FleetScanner(Scanner):
         return 0
 
     def _scan(self, image) -> List:
-        image_list = [self.pre_process(crop(image, button.area)) for button in self.grids.buttons]
+        image = self.pre_process(image)
+        image_list = [crop(image, button.area) for button in self.grids.buttons]
 
         return [self._match(image) for image in image_list]
 
@@ -230,7 +223,7 @@ class StatusScanner(Scanner):
         super().__init__()
         self._results = []
         self.grids = CARD_GRIDS
-        self.value_list: list[str] = ['free', 'battle', 'commission']
+        self.value_list: List[str] = ['free', 'battle', 'commission']
         self.templates = {
             TEMPLATE_IN_BATTLE: 'battle',
             TEMPLATE_IN_COMMISSION: 'commission',
@@ -261,13 +254,15 @@ class ShipScanner(Scanner):
 
     By default, all properties of the ship are scanned.
     You can set the required properties by calling enable() or disable().
+    disable() will simply skip scanning and set those properties to None.
+    To keep them and ignore limitations, use set_limitation(property=None)
 
     Args:
         rarity (str, list): ['any', 'common', 'rare', 'elite', 'super_rare'].
         level (tuple): (lower, upper). Will be limited in range [1, 125]
         emotion (tuple): (lower, upper). Will be limited in range [0, 150]
         fleet (int): 0 means not in any fleet. Will be limited in range [0, 6]
-        status (str, list): ['any', 'commission']
+        status (str, list): ['any', 'commission', 'battle']
     """
     def __init__(
         self,
@@ -280,7 +275,13 @@ class ShipScanner(Scanner):
         super().__init__()
         self._results = []
         self.grids = CARD_GRIDS
-        self.limitaion: Dict[str, Union[str, int, Tuple[int, int]]] = {}
+        self.limitaion: Dict[str, Union[str, int, Tuple[int, int]]] = {
+            'level': (1, 125),
+            'emotion': (0, 150),
+            'rarity': 'any',
+            'fleet': 0,
+            'status': 'any',
+        }
 
         # Each property of a ship must be binded to a Scanner.
         self.sub_scanners: Dict[str, Scanner] = {
@@ -291,23 +292,8 @@ class ShipScanner(Scanner):
             'status': StatusScanner(),
         }
 
-        lower, upper = level
-        lower = self.sub_scanners['level'].limit_value(lower)
-        upper = self.sub_scanners['level'].limit_value(upper)
-        self.limitaion['level'] = (lower, upper)
-
-        lower, upper = emotion
-        lower = self.sub_scanners['emotion'].limit_value(lower)
-        upper = self.sub_scanners['emotion'].limit_value(upper)
-        self.limitaion['emotion'] = (lower, upper)
-
-        self.limitaion['rarity'] = self.sub_scanners['rarity'].limit_value(rarity)
-
-        self.limitaion['fleet'] = self.sub_scanners['fleet'].limit_value(fleet)
-
-        self.limitaion['status'] = self.sub_scanners['status'].limit_value(status)
-
-        logger.info(f'Limitaions set to {self.limitaion}')
+        self.set_limitation(
+            level=level, emotion=emotion, rarity=rarity, fleet=fleet, status=status)
 
     def _scan(self, image) -> List:
         for scanner in self.sub_scanners.values():
@@ -345,8 +331,16 @@ class ShipScanner(Scanner):
 
         super().move(vector)
 
-    def limit_value(self, value) -> None:
-        pass
+    def limit_value(self, key, value) -> None:
+        if value is None:
+            self.limitaion[key] = None
+        elif isinstance(value, tuple):
+            lower, upper = value
+            lower = self.sub_scanners[key].limit_value(lower)
+            upper = self.sub_scanners[key].limit_value(upper)
+            self.limitaion[key] = (lower, upper)
+        else:
+            self.limitaion[key] = self.sub_scanners[key].limit_value(value)
 
     def enable(self, *args) -> None:
         """
@@ -369,6 +363,21 @@ class ShipScanner(Scanner):
         for name, scanner in self.sub_scanners.items():
             if name in args:
                 scanner.disable()
+
+    def set_limitation(self, **kwargs):
+        """
+        Args:
+            rarity (str, list): ['any', 'common', 'rare', 'elite', 'super_rare'].
+            level (tuple): (lower, upper). Will be limited in range [1, 125]
+            emotion (tuple): (lower, upper). Will be limited in range [0, 150]
+            fleet (int): 0 means not in any fleet. Will be limited in range [0, 6]
+            status (str, list): ['any', 'commission', 'battle']
+        """
+        for attr in self.limitaion.keys():
+            value = kwargs.get(attr, self.limitaion[attr])
+            self.limit_value(key=attr, value=value)
+
+        logger.info(f'Limitaions set to {self.limitaion}')
 
 
 class DockScanner(ShipScanner):
