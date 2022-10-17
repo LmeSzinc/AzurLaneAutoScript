@@ -340,7 +340,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             if self._trigger_lv32 or self._trigger_emotion:
                 self.flagship_change()
 
-                if self.config.GemsFarming_LowEmotionRetreat:
+                if self.config.GemsFarming_LowEmotionRetreat and self.config.GemsFarming_VanguardChange:
                     self.vanguard_change()
                     
                 if is_limit and self.config.StopCondition_RunCount <= 0:
