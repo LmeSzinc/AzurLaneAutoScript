@@ -217,7 +217,8 @@ class OpsiAshBeacon(Meta):
         # Page beacon or dossier
         if self.appear(BEACON_LIST, offset=(20, 20)):
             if self.config.OpsiAshBeacon_OneHitMode or self.config.OpsiAshBeacon_RequestAssist:
-                self._ask_for_help()
+                if not self._ask_for_help():
+                    return False
             return True
         if self.appear(DOSSIER_LIST, offset=(20, 20)):
             return True
@@ -226,6 +227,10 @@ class OpsiAshBeacon(Meta):
     def _ask_for_help(self):
         """
         Request help from friends, guild and world.
+
+        Returns:
+            bool: Whether success to call assist.
+                False if META finished just after calling assist.
 
         Pages:
             in: is_in_meta
@@ -256,7 +261,23 @@ class OpsiAshBeacon(Meta):
         self.device.click(HELP_2)
         self.device.sleep((0.1, 0.3))
         self.device.click(HELP_3)
-        self.ui_click(click_button=HELP_CONFIRM, check_button=HELP_ENTER)
+
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(HELP_ENTER, offset=(30, 30)):
+                return True
+            if self.appear(BEACON_REWARD, offset=(30, 30)):
+                logger.info('META finished just after calling assist, ignore meta assist')
+                return False
+            # Click
+            if self.appear_then_click(HELP_CONFIRM, offset=(30, 30), interval=3):
+                continue
 
     def _begin_meta(self):
         """
