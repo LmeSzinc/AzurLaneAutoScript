@@ -1215,11 +1215,11 @@
       "ServerUpdate": "00:00"
     },
     "BattlePass": {
-      "BattlePassReward": true
+      "Collect": true
     },
     "DataKey": {
-      "Get": true,
-      "ForceGet": false
+      "Collect": true,
+      "ForceCollect": false
     },
     "Mail": {
       "Collect": true,
@@ -1227,7 +1227,7 @@
       "Delete": false
     },
     "SupplyPack": {
-      "WeeklyFreeSupplyPack": true
+      "Collect": true
     }
   },
   "Daily": {

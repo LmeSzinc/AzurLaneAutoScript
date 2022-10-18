@@ -6301,17 +6301,17 @@
       }
     },
     "BattlePass": {
-      "BattlePassReward": {
+      "Collect": {
         "type": "checkbox",
         "value": true
       }
     },
     "DataKey": {
-      "Get": {
+      "Collect": {
         "type": "checkbox",
         "value": true
       },
-      "ForceGet": {
+      "ForceCollect": {
         "type": "checkbox",
         "value": false
       }
@@ -6331,7 +6331,7 @@
       }
     },
     "SupplyPack": {
-      "WeeklyFreeSupplyPack": {
+      "Collect": {
         "type": "checkbox",
         "value": true
       }

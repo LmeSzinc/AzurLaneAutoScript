@@ -1,5 +1,5 @@
 from module.combat.assets import GET_ITEMS_1
-from module.data_key.assets import *
+from module.freebies.assets import *
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
 from module.ui.assets import (CAMPAIGN_MENU_GOTO_WAR_ARCHIVES,
@@ -52,9 +52,6 @@ class DataKey(UI):
             in: page_any
             out: page_archives
         """
-        if not self.config.DataKey_Get:
-            return False
-
         self.ui_ensure(page_archives)
 
         if self.appear(DATA_KEY_COLLECTED, offset=(20, 20)):
@@ -63,7 +60,7 @@ class DataKey(UI):
 
         current, remain, total = DATA_KEY.ocr(self.device.image)
         logger.info(f'Inventory: {current} / {total}, Remain: {remain}')
-        if not self.config.DataKey_ForceGet and remain <= 0:
+        if not self.config.DataKey_ForceCollect and remain <= 0:
             logger.info('No more room for additional data key')
             return False
 

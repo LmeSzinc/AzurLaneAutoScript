@@ -1684,9 +1684,9 @@
       "name": "BattlePass._info.name",
       "help": "BattlePass._info.help"
     },
-    "BattlePassReward": {
-      "name": "BattlePass.BattlePassReward.name",
-      "help": "BattlePass.BattlePassReward.help"
+    "Collect": {
+      "name": "BattlePass.Collect.name",
+      "help": "BattlePass.Collect.help"
     }
   },
   "DataKey": {
@@ -1694,13 +1694,13 @@
       "name": "DataKey._info.name",
       "help": "DataKey._info.help"
     },
-    "Get": {
-      "name": "DataKey.Get.name",
-      "help": "DataKey.Get.help"
+    "Collect": {
+      "name": "DataKey.Collect.name",
+      "help": "DataKey.Collect.help"
     },
-    "ForceGet": {
-      "name": "DataKey.ForceGet.name",
-      "help": "DataKey.ForceGet.help"
+    "ForceCollect": {
+      "name": "DataKey.ForceCollect.name",
+      "help": "DataKey.ForceCollect.help"
     }
   },
   "Mail": {
@@ -1726,9 +1726,9 @@
       "name": "SupplyPack._info.name",
       "help": "SupplyPack._info.help"
     },
-    "WeeklyFreeSupplyPack": {
-      "name": "SupplyPack.WeeklyFreeSupplyPack.name",
-      "help": "SupplyPack.WeeklyFreeSupplyPack.help"
+    "Collect": {
+      "name": "SupplyPack.Collect.name",
+      "help": "SupplyPack.Collect.help"
     }
   },
   "Daily": {

@@ -1684,8 +1684,8 @@
       "name": "Battle Pass Settings",
       "help": ""
     },
-    "BattlePassReward": {
-      "name": "Receive Cruise Missions Rewards",
+    "Collect": {
+      "name": "Collect Cruise Missions Rewards",
       "help": ""
     }
   },
@@ -1694,11 +1694,11 @@
       "name": "Data Key Settings",
       "help": ""
     },
-    "Get": {
+    "Collect": {
       "name": "Collect Data Key",
       "help": ""
     },
-    "ForceGet": {
+    "ForceCollect": {
       "name": "Force Collect Data Key",
       "help": "Force collect data key when data key is full to eliminate red dots"
     }
@@ -1726,8 +1726,8 @@
       "name": "Supply Pack Settings",
       "help": ""
     },
-    "WeeklyFreeSupplyPack": {
-      "name": "Buy Weekly Free Supply Pack",
+    "Collect": {
+      "name": "Collect Weekly Free Supply Pack",
       "help": ""
     }
   },

@@ -286,11 +286,11 @@ class GeneratedConfig:
     Gacha_UseDrill = False
 
     # Group `BattlePass`
-    BattlePass_BattlePassReward = True
+    BattlePass_Collect = True
 
     # Group `DataKey`
-    DataKey_Get = True
-    DataKey_ForceGet = False
+    DataKey_Collect = True
+    DataKey_ForceCollect = False
 
     # Group `Mail`
     Mail_Collect = True
@@ -298,7 +298,7 @@ class GeneratedConfig:
     Mail_Delete = False
 
     # Group `SupplyPack`
-    SupplyPack_WeeklyFreeSupplyPack = True
+    SupplyPack_Collect = True
 
     # Group `Daily`
     Daily_UseDailySkip = True

@@ -1,7 +1,7 @@
 from module.base.button import Button
 from module.base.decorator import run_once
 from module.base.timer import Timer
-from module.battle_pass.assets import PURCHASE_POPUP
+from module.freebies.assets import PURCHASE_POPUP
 from module.combat.assets import GET_ITEMS_1, GET_SHIP
 from module.exception import (GameNotRunningError, GamePageUnknownError,
                               RequestHumanTakeover)

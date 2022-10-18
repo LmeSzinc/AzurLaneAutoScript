@@ -8,8 +8,8 @@ from module.base.filter import Filter
 from module.base.timer import Timer
 from module.base.utils import crop, rgb2gray
 from module.combat.assets import *
+from module.freebies.assets import *
 from module.logger import logger
-from module.mail.assets import *
 from module.statistics.item import ItemGrid
 from module.ui.page import *
 from module.ui.ui import UI
@@ -210,16 +210,13 @@ class Mail(UI):
 
         logger.info('Finished collecting all applicable mail')
 
-    def mail_run(self, collect=True, delete=False):
+    def mail_run(self, delete=False):
         """
         Collects mail rewards
 
         Args:
-            collect (bool):
             delete (bool):
         """
-        if not collect:
-            return False
         logger.info('Mail run')
 
         self._mail_enter(delete)
@@ -233,6 +230,4 @@ class Mail(UI):
             out: page_main, may have info_bar
         """
         self.ui_goto(page_main)
-        self.mail_run(collect=self.config.Mail_Collect,
-                      delete=self.config.Mail_Delete)
-        self.config.task_delay(success=True)
+        self.mail_run(delete=self.config.Mail_Delete)

@@ -1,8 +1,8 @@
 from module.base.timer import Timer
 from module.campaign.run import OCR_OIL
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
+from module.freebies.assets import *
 from module.logger import logger
-from module.supply_pack.assets import *
 from module.ui.page import page_supply_pack
 from module.ui.ui import UI
 
@@ -85,9 +85,6 @@ class SupplyPack(UI):
             in: Any page
             out: page_supply_pack, supply pack tab
         """
-        if not self.config.SupplyPack_WeeklyFreeSupplyPack:
-            return
-
         self.ui_ensure(page_supply_pack)
 
         if self.get_oil() < 21000:

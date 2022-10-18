@@ -1684,7 +1684,7 @@
       "name": "大月卡",
       "help": ""
     },
-    "BattlePassReward": {
+    "Collect": {
       "name": "領取大月卡獎勵",
       "help": ""
     }
@@ -1694,11 +1694,11 @@
       "name": "檔案密鑰",
       "help": ""
     },
-    "Get": {
+    "Collect": {
       "name": "DataKey.Get.name",
       "help": "DataKey.Get.help"
     },
-    "ForceGet": {
+    "ForceCollect": {
       "name": "强制領取",
       "help": "檔案密鑰已滿時，强制領取（消除紅點）"
     }
@@ -1726,7 +1726,7 @@
       "name": "優惠禮包",
       "help": ""
     },
-    "WeeklyFreeSupplyPack": {
+    "Collect": {
       "name": "購買每週免費禮包",
       "help": ""
     }

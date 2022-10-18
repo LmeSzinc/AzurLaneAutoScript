@@ -1,8 +1,8 @@
 from module.base.base import ModuleBase
-from module.battle_pass.battle_pass import BattlePass
-from module.data_key.data_key import DataKey
-from module.mail.mail import Mail
-from module.supply_pack.supply_pack import SupplyPack
+from module.freebies.battle_pass import BattlePass
+from module.freebies.data_key import DataKey
+from module.freebies.mail import Mail
+from module.freebies.supply_pack import SupplyPack
 
 
 class Freebies(ModuleBase):
@@ -10,10 +10,16 @@ class Freebies(ModuleBase):
         """
         Run all freebie related modules
         """
-        BattlePass(self.config, self.device).run()
-        DataKey(self.config, self.device).run()
-        Mail(self.config, self.device).run()
-        SupplyPack(self.config, self.device).run()
+        if self.config.BattlePass_Collect:
+            BattlePass(self.config, self.device).run()
+
+        if self.config.DataKey_Collect:
+            DataKey(self.config, self.device).run()
+
+        if self.config.Mail_Collect:
+            Mail(self.config, self.device).run()
+
+        if self.config.SupplyPack_Collect:
+            SupplyPack(self.config, self.device).run()
 
         self.config.task_delay(server_update=True)
-

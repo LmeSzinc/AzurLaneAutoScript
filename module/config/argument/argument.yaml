@@ -455,17 +455,17 @@ Gacha:
   UseTicket: true
   UseDrill: false
 BattlePass:
-  BattlePassReward: true
+  Collect: true
 DataKey:
-  Get: true
-  ForceGet: false
+  Collect: true
+  ForceCollect: false
 Mail:
   Collect: true
   Filter: |-
     Merit
   Delete: false
 SupplyPack:
-  WeeklyFreeSupplyPack: true
+  Collect: true
 
 # ==================== Daily ====================
 
