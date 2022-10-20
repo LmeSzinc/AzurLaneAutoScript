@@ -54,6 +54,11 @@ class PercentageOcr(Ocr):
         return image
 
 
+FLEET_LOW_RESOLVE = Button(
+    area=(144, 148, 170, 175), color=(255, 44, 33), button=(144, 148, 170, 175),
+    name='FLEET_LOW_RESOLVE')
+
+
 class OSFleet(OSCamera, Combat, Fleet, OSAsh):
     def _goto(self, location, expected=''):
         super()._goto(location, expected)
@@ -185,6 +190,13 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
     def lv_get(self, after_battle=False):
         pass
+
+    def fleet_low_resolve_appear(self):
+        """
+        Whether low resolve debuff appears on current fleet
+        """
+        return self.image_color_count(
+            FLEET_LOW_RESOLVE, color=FLEET_LOW_RESOLVE.color, threshold=221, count=250)
 
     def get_sea_grids(self):
         """
@@ -584,9 +596,15 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                     self.os_order_execute(recon_scan=False, submarine_call=True)
                     continue
 
-                # Attack
+                # Switch fleet
                 self.fleet_set(fleet.fleet_index)
                 self.handle_os_map_fleet_lock(enable=False)
+                if self.fleet_low_resolve_appear():
+                    logger.warning('Skip using current fleet because of the low resolve debuff')
+                    self.boss_goto(location=fleet.standby_loca, has_fleet_step=has_fleet_step, drop=drop)
+                    continue
+
+                # Attack
                 self.boss_goto(location=(0, 0), has_fleet_step=has_fleet_step, drop=drop)
 
                 # End

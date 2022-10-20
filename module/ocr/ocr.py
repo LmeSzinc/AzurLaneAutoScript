@@ -58,17 +58,11 @@ class Ocr:
     def after_process(self, result):
         """
         Args:
-            result (list[str]): ['第', '二', '行']
+            result (str): '第二行'
 
         Returns:
             str:
         """
-        result = ''.join(result)
-
-        if self.lang == 'tw':
-            # There no letter `艦` in training dataset
-            result = result.replace('鑑', '艦')
-
         return result
 
     def ocr(self, image, direct_ocr=False):
@@ -92,6 +86,7 @@ class Ocr:
         # self.cnocr.debug(image_list)
 
         result_list = self.cnocr.ocr_for_single_lines(image_list)
+        result_list = [''.join(result) for result in result_list]
         result_list = [self.after_process(result) for result in result_list]
 
         if len(self.buttons) == 1:
@@ -109,21 +104,28 @@ class Digit(Ocr):
     Method ocr() returns int, or a list of int.
     """
 
-    def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='0123456789',
+    def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='0123456789IDS',
                  name=None):
         super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
 
     def after_process(self, result):
         result = super().after_process(result)
+        result = result.replace('I', '1').replace('D', '0').replace('S', '5')
+
         result = int(result) if result else 0
 
         return result
 
 
 class DigitCounter(Ocr):
-    def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='0123456789/',
+    def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='0123456789/IDS',
                  name=None):
         super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
+
+    def after_process(self, result):
+        result = super().after_process(result)
+        result = result.replace('I', '1').replace('D', '0').replace('S', '5')
+        return result
 
     def ocr(self, image, direct_ocr=False):
         """
@@ -152,13 +154,13 @@ class DigitCounter(Ocr):
 
 
 class Duration(Ocr):
-    def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='0123456789:',
+    def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='0123456789:IDS',
                  name=None):
         super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
 
     def after_process(self, result):
         result = super().after_process(result)
-        result = result.replace('D', '0')  # Poor OCR
+        result = result.replace('I', '1').replace('D', '0').replace('S', '5')
         return result
 
     def ocr(self, image, direct_ocr=False):

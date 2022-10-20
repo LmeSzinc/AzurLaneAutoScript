@@ -23,10 +23,12 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20180726   | war archives 20180726 cn | Iris of Light and Dark         | 光与影的鸢尾之华       | Iris of Light and Dark           | 光と影のアイリス                     | 光與影的鳶尾之華     |
 | 20210121   | war archives 20181227 cn | Crimson Echoes                 | 苍红的回响           | Crimson Echoes                    | 縹映る深緋の残響                          | 蒼紅的迴響     |
 | 20210513   | war archives 20200820 cn | Scherzo of Iron and Blood      | 铁血音符誓言       | Scherzo of Iron and Blood        | 黒鉄の楽章 誓いの海                | -                    |
+| 20211014   | war archives 20211014 cn | Crescendo of Polaris           | 激奏的Polaris          | Crescendo of Polaris             | 激奏のポラリス                     | -                    |
 | 20220113   | war archives 20190911 cn | Empyreal Tragicomedy           | 神圣的悲喜剧       | Empyreal Tragicomedy                | 悲歎せし焔海の詩             | -                    |
 | 20220407   | war archives 20210325 cn | Ashen Simulacrum               | 箱庭疗法          | Ashen Simulacrum                 | 開かれし紺碧の砂箱            | -                    |
 | 20220721   | war archives 20210624 cn | Swirling Cherry Blossoms       | 浮樱影华           | Swirling Cherry Blossoms       | 翳りし満ちる影の華                 | -                    |
-| 20220721   | war archives 20200806 cn | The Enigma and the Shark       | 最重要的宝物           | The Enigma and the Shark       | 鉄血鮫とエニグマ                   | -                    |
+| 20220901   | war archives 20200806 cn | The Enigma and the Shark       | 最重要的宝物           | The Enigma and the Shark       | 鉄血鮫とエニグマ                   | -                    |
+| 20221013   | war archives 20201029 cn | Universe in Unison             | 激唱的UNIVERSE         | Universe in Unison               | 激唱のユニバース                     | -                    |
 | 20200227   | event 20200227 cn        | Northern Overture              | 北境序曲               | Northern Overture                | 凍絶の北海                           | -                    |
 | 20200312   | event 20200312 cn        | The Solomon Ranger             | 复刻斯图尔特的硝烟     | The Solomon Ranger Rerun         | 南洋に靡く硝煙（復刻）               | -                    |
 | 20200326   | event 20200326 cn        | Microlayer Medley              | 微层混合               | Microlayer Medley                | 闇靄払う銀翼                         | -                    |

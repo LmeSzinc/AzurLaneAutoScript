@@ -7,7 +7,7 @@ from module.ocr.ocr import DigitCounter, Digit
 from module.os_ash.ash import AshCombat
 from module.os_ash.assets import *
 from module.os_handler.map_event import MapEventHandler
-from module.ui.assets import BACK_ARROW
+from module.ui.assets import BACK_ARROW, MAIN_GOTO_REWARD
 from module.ui.page import page_reward
 from module.ui.ui import UI
 
@@ -24,15 +24,9 @@ OCR_META_DAMAGE = Digit(META_DAMAGE, name='OCR_META_DAMAGE')
 
 
 class MetaDigitCounter(DigitCounter):
-    def __init__(self, *args, **kwargs):
-        kwargs['alphabet'] = '0123456789/I'
-        super().__init__(*args, **kwargs)
-
     def after_process(self, result):
         result = super().after_process(result)
 
-        # I00/200 -> 100/200
-        result = result.replace('I', '1')
         # 00/200 -> 100/200
         if result.startswith('00/'):
             result = '100/' + result[3:]
@@ -151,6 +145,11 @@ class OpsiAshBeacon(Meta):
             # Finish random events
             if self.handle_map_event():
                 continue
+            # Accidentally goto main page
+            if self.appear(MAIN_GOTO_REWARD, offset=(20, 20), interval=2):
+                continue
+            if self.appear(META_ENTRANCE, offset=(20, 300), interval=2):
+                continue
 
     def _satisfy_attack_condition(self):
         """
@@ -218,7 +217,8 @@ class OpsiAshBeacon(Meta):
         # Page beacon or dossier
         if self.appear(BEACON_LIST, offset=(20, 20)):
             if self.config.OpsiAshBeacon_OneHitMode or self.config.OpsiAshBeacon_RequestAssist:
-                self._ask_for_help()
+                if not self._ask_for_help():
+                    return False
             return True
         if self.appear(DOSSIER_LIST, offset=(20, 20)):
             return True
@@ -228,18 +228,56 @@ class OpsiAshBeacon(Meta):
         """
         Request help from friends, guild and world.
 
+        Returns:
+            bool: Whether success to call assist.
+                False if META finished just after calling assist.
+
         Pages:
             in: is_in_meta
             out: is_in_meta
         """
-        self.ui_click(click_button=HELP_ENTER, check_button=HELP_CONFIRM)
+        # Enter help page
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(HELP_CONFIRM, offset=(20, 20)):
+                break
+            # Click
+            if self.appear_then_click(HELP_ENTER, offset=(20, 20), interval=3):
+                continue
+            # Wrongly entered BATTLE_PREPARATION
+            if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=2):
+                self.device.click(BACK_ARROW)
+                continue
+
         # Here use simple clicks. Dropping some clicks is acceptable, no need to confirm they are selected.
         self.device.click(HELP_1)
         self.device.sleep((0.1, 0.3))
         self.device.click(HELP_2)
         self.device.sleep((0.1, 0.3))
         self.device.click(HELP_3)
-        self.ui_click(click_button=HELP_CONFIRM, check_button=HELP_ENTER)
+
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(HELP_ENTER, offset=(30, 30)):
+                return True
+            if self.appear(BEACON_REWARD, offset=(30, 30)):
+                logger.info('META finished just after calling assist, ignore meta assist')
+                return False
+            # Click
+            if self.appear_then_click(HELP_CONFIRM, offset=(30, 30), interval=3):
+                continue
 
     def _begin_meta(self):
         """
@@ -423,6 +461,9 @@ class AshBeaconAssist(Meta):
         logger.info('Find a beacon in level:' + str(current))
 
     def _in_meta_assist_page(self):
+        # AL redirects to unfinished self beacon after assist, so switch back
+        if self.appear_then_click(BEACON_LIST, offset=(-20, -5, 300, 5), interval=2):
+            return False
         return self.appear(BEACON_MY, offset=(20, 20))
 
     def _ensure_meta_assist_page(self, skip_first_screenshot=True):

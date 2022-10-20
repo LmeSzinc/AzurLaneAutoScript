@@ -1464,7 +1464,7 @@
   "OpsiGeneral": {
     "OpsiGeneral": {
       "UseLogger": true,
-      "BuyActionPoint": false,
+      "BuyActionPointLimit": 0,
       "OilLimit": 1000,
       "RepairThreshold": 0.4,
       "DoRandomMapEvent": true,

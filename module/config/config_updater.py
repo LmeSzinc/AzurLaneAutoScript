@@ -7,6 +7,7 @@ from deploy.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
 from module.config.redirect_utils.shop_filter import bp_redirect
 from module.config.redirect_utils.utils import upload_redirect, api_redirect
+from module.config.redirect_utils.os_handler import action_point_redirect
 from module.config.server import to_server, to_package, VALID_PACKAGE, VALID_CHANNEL_PACKAGE, VALID_SERVER_LIST
 from module.config.utils import *
 
@@ -472,7 +473,8 @@ class ConfigUpdater:
          'Alas.DropRecord.MeowfficerTalent', upload_redirect),
         ('Alas.DropRecord.SaveCombat', 'Alas.DropRecord.CombatRecord', upload_redirect),
         ('Alas.DropRecord.SaveMeowfficer', 'Alas.DropRecord.MeowfficerBuy', upload_redirect),
-        ('Alas.Emulator.PackageName', 'Alas.DropRecord.API', api_redirect)
+        ('Alas.Emulator.PackageName', 'Alas.DropRecord.API', api_redirect),
+        ('OpsiGeneral.OpsiGeneral.BuyActionPoint', 'OpsiGeneral.OpsiGeneral.BuyActionPointLimit', action_point_redirect)
     ]
 
     @cached_property
@@ -593,15 +595,16 @@ class ConfigUpdater:
         return self.config_update(old, is_template=is_template)
 
     @staticmethod
-    def write_file(config_name, data):
+    def write_file(config_name, data, mod_name='alas'):
         """
         Write config file.
 
         Args:
             config_name (str): ./config/{file}.json
             data (dict):
+            mod_name (str):
         """
-        write_file(filepath_config(config_name), data)
+        write_file(filepath_config(config_name, mod_name), data)
 
     @timer
     def update_file(self, config_name, is_template=False):
