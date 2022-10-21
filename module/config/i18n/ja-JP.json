@@ -1163,9 +1163,15 @@
       "name": "Commission.DoMajorCommission.name",
       "help": "Commission.DoMajorCommission.help"
     },
-    "CommissionFilter": {
-      "name": "Commission.CommissionFilter.name",
-      "help": "Commission.CommissionFilter.help"
+    "PresetFilter": {
+      "name": "Commission.PresetFilter.name",
+      "help": "Commission.PresetFilter.help",
+      "custom": "custom",
+      "general": "general"
+    },
+    "CustomFilter": {
+      "name": "Commission.CustomFilter.name",
+      "help": "Commission.CustomFilter.help"
     }
   },
   "Tactical": {

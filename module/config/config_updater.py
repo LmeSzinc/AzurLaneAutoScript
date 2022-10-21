@@ -491,6 +491,8 @@ class ConfigUpdater:
         ('DataKey.Scheduler.Enable', 'Freebies.DataKey.Collect'),
         ('DataKey.DataKey.ForceGet', 'Freebies.DataKey.ForceCollect'),
         ('SupplyPack.SupplyPack.WeeklyFreeSupplyPack', 'Freebies.SupplyPack.Collect'),
+        ('Alas.Emulator.PackageName', 'Alas.DropRecord.API', api_redirect),
+        ('Commission.Commission.CommissionFilter', 'Commission.Commission.CustomFilter')
     ]
 
     @cached_property

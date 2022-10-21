@@ -257,7 +257,12 @@ MaritimeEscort:
 
 Commission:
   DoMajorCommission: false
-  CommissionFilter: |-
+  PresetFilter:
+    value: general
+    option:
+      - custom
+      - general
+  CustomFilter: |-
     DailyEvent
     > Gem-8 > Gem-4 > Gem-2
     > NightDrill-8 > NightDrill-7 > NightDrill-6

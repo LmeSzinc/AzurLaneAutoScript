@@ -22,14 +22,6 @@ COMMISSION_FILTER = Filter(
     attr=('category_str', 'genre_str', 'duration_hm', 'duration_hour'),
     preset=('shortest',)
 )
-SHORTEST_FILTER = """
-0:20 > 0:30
-> 1 > 1:10 > 1:20 > 1:30 > 1:40 > 1:45
-> 2 > 2:15 > 2:30 > 2:40
-> 3 > 3:20
-> 4 > 5 > 5:20
-> 6 > 7 > 8 > 9 > 10 > 12
-"""
 
 
 class SuffixOcr(Ocr):

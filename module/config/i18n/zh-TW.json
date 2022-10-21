@@ -1163,9 +1163,15 @@
       "name": "做主要委託 (1200油/1000油委託)",
       "help": ""
     },
-    "CommissionFilter": {
-      "name": "委託過濾器",
-      "help": "一般不需要修改"
+    "PresetFilter": {
+      "name": "委托過濾器",
+      "help": "如果對委托的產出和收益沒有足夠的了解，不建議編寫自定義過濾器，建議使用預優化委托過濾器",
+      "custom": "自定義",
+      "general": "general"
+    },
+    "CustomFilter": {
+      "name": "自定義委托過濾器",
+      "help": "使用自定義過濾器需將 \"委托過濾器\" 設置為 \"自定義\"，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
     }
   },
   "Tactical": {
