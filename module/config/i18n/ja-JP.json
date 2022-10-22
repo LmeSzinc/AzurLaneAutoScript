@@ -1166,8 +1166,8 @@
     "PresetFilter": {
       "name": "Commission.PresetFilter.name",
       "help": "Commission.PresetFilter.help",
-      "custom": "custom",
-      "general": "general"
+      "chip": "chip",
+      "custom": "custom"
     },
     "CustomFilter": {
       "name": "Commission.CustomFilter.name",

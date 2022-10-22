@@ -5579,10 +5579,10 @@
       },
       "PresetFilter": {
         "type": "select",
-        "value": "general",
+        "value": "chip",
         "option": [
-          "custom",
-          "general"
+          "chip",
+          "custom"
         ]
       },
       "CustomFilter": {

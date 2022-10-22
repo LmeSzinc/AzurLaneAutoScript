@@ -1166,8 +1166,8 @@
     "PresetFilter": {
       "name": "委托过滤器",
       "help": "如果对委托的产出和收益没有足够的了解，不建议编写自定义过滤器，建议使用预优化委托过滤器",
-      "custom": "自定义",
-      "general": "general"
+      "chip": "心智优先",
+      "custom": "自定义"
     },
     "CustomFilter": {
       "name": "自定义委托过滤器",

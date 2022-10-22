@@ -1166,12 +1166,12 @@
     "PresetFilter": {
       "name": "Preset Filter Select",
       "help": "People without a basic knowledge of commission drops rates and spawn are recommended to use pre-optimized presets instead of writing custom filters",
-      "custom": "custom",
-      "general": "general"
+      "chip": "Chip",
+      "custom": "Custom"
     },
     "CustomFilter": {
       "name": "Custom Commission Priority",
-      "help": "To use your own filter, set \"Preset Filter Select\" to \"custom\". All options have been defined at  <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en>"
+      "help": "To use your own filter, set \"Preset Filter Select\" to \"Custom\". All options have been defined at  <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en>"
     }
   },
   "Tactical": {
