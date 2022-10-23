@@ -25,10 +25,17 @@ class AssistantHandler:
     @staticmethod
     def load(path):
         sys.path.append(path)
-        asst_module = import_module('.asst', 'Python')
-        AssistantHandler.Asst = asst_module.Asst
-        AssistantHandler.Message = asst_module.Message
-        AssistantHandler.Asst.load(path)
+        try:
+            asst_module = import_module('.asst', 'Python')
+            AssistantHandler.Asst = asst_module.Asst
+            AssistantHandler.Message = asst_module.Message
+            AssistantHandler.Asst.load(path, user_dir=path)
+        except:
+            logger.warning('导入MAA失败，使用备用接口导入')
+            from submodule.AlasMaaBridge.module.handler import asst_backup
+            AssistantHandler.Asst = asst_backup.Asst
+            AssistantHandler.Message = asst_backup.Message
+            AssistantHandler.Asst.load(path, user_dir=path)
         AssistantHandler.ASST_HANDLER = None
 
     def __init__(self, config, asst, task=None):
