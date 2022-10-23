@@ -311,6 +311,12 @@
       "name": "MaaRoguelike._info.name",
       "help": "MaaRoguelike._info.help"
     },
+    "Theme": {
+      "name": "MaaRoguelike.Theme.name",
+      "help": "MaaRoguelike.Theme.help",
+      "Phantom": "Phantom",
+      "Mizuki": "Mizuki"
+    },
     "Mode": {
       "name": "MaaRoguelike.Mode.name",
       "help": "MaaRoguelike.Mode.help",
@@ -332,6 +338,9 @@
     "Squad": {
       "name": "MaaRoguelike.Squad.name",
       "help": "MaaRoguelike.Squad.help",
+      "心胜于物分队": "心胜于物分队",
+      "物尽其用分队": "物尽其用分队",
+      "以人为本分队": "以人为本分队",
       "指挥分队": "指挥分队",
       "集群分队": "集群分队",
       "后勤分队": "后勤分队",
