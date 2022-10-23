@@ -1,12 +1,9 @@
 import re
 
-import numpy as np
-
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.filter import Filter
 from module.base.timer import Timer
-from module.base.utils import crop, rgb2gray
 from module.combat.assets import *
 from module.freebies.assets import *
 from module.logger import logger
@@ -38,7 +35,9 @@ class Mail(UI):
                 already collected mail entries
             skip_first_screenshot (bool):
         """
-        btn = MAIL_BUTTON_GRID.buttons[0].move((350, 0))
+        btn_expanded = MAIL_BUTTON_GRID.buttons[0]
+        btn_collapsed = btn_expanded.move((350, 0))
+        self.interval_clear([page_main.check_button, MAIL_DELETE])
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -56,13 +55,15 @@ class Mail(UI):
                     continue
             else:
                 if self.appear(MAIL_DELETE, offset=(350, 20), interval=3):
-                    self.device.click(btn)
+                    self.device.click(btn_collapsed)
                     continue
             if self.handle_info_bar():
                 continue
 
             # End
-            if not delete and self.appear(MAIL_COLLECT, offset=(20, 20)):
+            if not delete \
+                    and self.appear(MAIL_COLLECT, offset=(20, 20)) \
+                    and self._mail_selected(btn_expanded):
                 break
 
     def _mail_exit(self, skip_first_screenshot=True):
@@ -72,6 +73,7 @@ class Mail(UI):
         Args:
             skip_first_screenshot (bool):
         """
+        self.interval_clear([MAIL_DELETE, GET_ITEMS_1, GET_ITEMS_2])
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -129,22 +131,20 @@ class Mail(UI):
         logger.attr('Item_sort', ' > '.join([str(item) for item in filtered]))
         return filtered
 
-    def _mail_selected(self, button, image):
+    def _mail_selected(self, button):
         """
         Check if mail (button) is selected i.e.
         has bottom yellow border
 
         Args:
             button (Button):
-            image (np.ndarray): Screenshot
 
         Returns:
             bool
         """
         area = button.area
-        check_area = tuple([area[0], area[3] + 3, area[2], area[3] + 5])
-        im = rgb2gray(crop(image, check_area))
-        return True if np.mean(im) < 182 else False
+        check_area = tuple([area[0], area[3] + 3, area[2], area[3] + 10])
+        return self.image_color_count(check_area, color=(255, 223, 66), threshold=180, count=25)
 
     def _mail_collect_one(self, item, skip_first_screenshot=True):
         """
@@ -157,6 +157,7 @@ class Mail(UI):
         """
         btn = item._button
         click_timer = Timer(1.5, count=3)
+        self.interval_clear([MAIL_COLLECT, GET_ITEMS_1, GET_ITEMS_2])
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -164,11 +165,10 @@ class Mail(UI):
                 self.device.screenshot()
 
             if click_timer.reached():
-                if not self._mail_selected(btn, self.device.image):
+                if not self._mail_selected(btn):
                     self.device.click(btn.move((350, 0)))
                     click_timer.reset()
                     continue
-                click_timer.reset()
             if self.appear_then_click(MAIL_COLLECT, offset=(20, 20), interval=3):
                 click_timer.reset()
                 continue
