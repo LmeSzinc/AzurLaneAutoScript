@@ -21,5 +21,6 @@ jobs:
         dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
         dst_token: ${{ secrets.GITEE_TOKEN }}
         static_list: 'AzurLaneAutoScript'
+        mappings: "AzurLaneAutoScript=>azur-lane-auto-script-mirror"
         force_update: true
         timeout: '30m'

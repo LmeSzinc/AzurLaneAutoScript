@@ -15,8 +15,9 @@ from module.ocr.ocr import DigitCounter, Duration, Ocr
 from module.retire.assets import DOCK_EMPTY, DOCK_CHECK, SHIP_CONFIRM
 from module.retire.dock import CARD_GRIDS, Dock, CARD_LEVEL_GRIDS
 from module.tactical.assets import *
-from module.ui.assets import (BACK_ARROW, REWARD_GOTO_TACTICAL,
-                              TACTICAL_CHECK, REWARD_CHECK)
+from module.ui.assets import (BACK_ARROW, MAIN_GOTO_REWARD,
+                              REWARD_GOTO_TACTICAL, REWARD_CHECK,
+                              TACTICAL_CHECK)
 from module.ui.ui import page_reward
 
 SKILL_GRIDS = ButtonGrid(origin=(315, 140), delta=(621, 132), button_shape=(621, 119), grid_shape=(1, 3), name='SKILL')
@@ -221,9 +222,6 @@ class RewardTacticalClass(Dock):
         books from self.books based on current
         progress of the tactical skill.
         """
-        # Shorthand referencing
-        first, last = self.books[0], self.books[-1]
-
         # Read 'current' and 'remain' will be inaccurate
         # since first exp_value is factored into it
         current, remain, total = SKILL_EXP.ocr(self.device.image)
@@ -409,6 +407,8 @@ class RewardTacticalClass(Dock):
                 continue
             if self.appear_then_click(REWARD_GOTO_TACTICAL, offset=(20, 20), interval=3):
                 continue
+            if self.appear_then_click(MAIN_GOTO_REWARD, offset=(20, 20), interval=3):
+                continue
             if self.handle_popup_confirm('TACTICAL'):
                 continue
             if self.handle_urgent_commission():
@@ -458,7 +458,7 @@ class RewardTacticalClass(Dock):
                     study_finished = True
                     self.device.click(BACK_ARROW)
                 continue
-            if self.appear(TACTICAL_META, offset=(200, 20)):
+            if self.appear(TACTICAL_META, offset=(200, 20), interval=3):
                 # If meta's skill page, it's inappropriate
                 logger.info('META skill found, exit')
                 self.device.click(BACK_ARROW)
@@ -492,7 +492,8 @@ class RewardTacticalClass(Dock):
             else:
                 break
 
-    def check_skill_selected(self, button, image):
+    @staticmethod
+    def check_skill_selected(button, image):
         area = button.area
         check_area = tuple([area[0], area[3] + 2, area[2], area[3] + 4])
         im = rgb2gray(crop(image, check_area))
@@ -534,14 +535,26 @@ class RewardTacticalClass(Dock):
             logger.info('Dock is empty or favorite ships is empty')
             return False
 
-        level_grids = CARD_LEVEL_GRIDS
-        card_grids = CARD_GRIDS
+        # Ship cards may slow to show, like:
+        # [0, 0, 120, 120, 120, 120, 0, 0, 0, 0, 0, 0, 0, 0]
+        # [12, 0, 0, 120, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        # Wait until they turn into
+        # [120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120]
+        level_ocr = LevelOcr(CARD_LEVEL_GRIDS.buttons, name='DOCK_LEVEL_OCR', threshold=64)
+        timeout = Timer(1, count=1).start()
+        while 1:
+            list_level = level_ocr.ocr(self.device.image)
+            first_ship = next((i for i, x in enumerate(list_level) if x > 0), len(list_level))
+            first_empty = next((i for i, x in enumerate(list_level) if x == 0), len(list_level))
+            if timeout.reached():
+                logger.warning('Wait ship cards timeout')
+                break
+            if first_empty >= first_ship:
+                break
+            self.device.screenshot()
 
-        level_ocr = LevelOcr(level_grids.buttons,
-                             name='DOCK_LEVEL_OCR', threshold=64)
-        list_level = level_ocr.ocr(self.device.image)
         should_select_button = None
-        for button, level in list(zip(card_grids.buttons, list_level))[self.dock_select_index:]:
+        for button, level in list(zip(CARD_GRIDS.buttons, list_level))[self.dock_select_index:]:
             # Select ship LV > 1 only
             if level > 1:
                 should_select_button = button
@@ -581,8 +594,12 @@ class RewardTacticalClass(Dock):
         skill_level_list = skill_level_ocr.ocr(self.device.image)
         for skill_button, skill_level in list(zip(SKILL_GRIDS.buttons, skill_level_list)):
             level = skill_level.upper().replace(' ', '')
-            logger.attr('LEVEL', 'EMPTY' if len(level) == 0 else level)
-            if 'NEXT' in level and 'MAX' not in level:
+            # Use 'MA' as a part of `MAX`.
+            # SKILL_LEVEL_GRIDS may move a little lower for unknown reason, OCR results are like:
+            # ['NEXT:MA', 'NEXT:/1D]', 'NEXT:MA'] (Actually: `NEXT:MAX, NEXT:0/100, NEXT:MAX`)
+            # ['NEXT:MA', 'NEX T:/ 14[]]', 'NEXT:MA']  (Actually: `NEXT:MAX, NEXT:150/1400, NEXT:MAX`)
+            if 'NEXT' in level and 'MA' not in level:
+                logger.attr('LEVEL', 'EMPTY' if len(level) == 0 else level)
                 return skill_button
 
         return None

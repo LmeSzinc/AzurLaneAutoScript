@@ -1373,7 +1373,7 @@
     },
     "Campaign": {
       "Name": "12-4",
-      "Event": "war_archives_20200806_cn",
+      "Event": "war_archives_20201029_cn",
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,
@@ -1437,7 +1437,7 @@
   "OpsiGeneral": {
     "OpsiGeneral": {
       "UseLogger": true,
-      "BuyActionPoint": false,
+      "BuyActionPointLimit": 0,
       "OilLimit": 1000,
       "RepairThreshold": 0.4,
       "DoRandomMapEvent": true,

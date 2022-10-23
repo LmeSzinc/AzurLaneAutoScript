@@ -156,6 +156,9 @@ class ProcessManager:
                 GameManager(config=config_name, task="GameManager").run()
             elif func == 'maa':
                 mod = load_mod('maa')
+
+                if e is not None:
+                    mod.set_stop_event(e)
                 mod.loop(config_name)
             elif func == "MaaCopilot":
                 mod = load_mod('maa')

@@ -641,10 +641,12 @@
       "event_20200423_cn": "Crimson Echoes Rerun",
       "event_20200326_cn": "Microlayer Medley",
       "event_20200227_cn": "Northern Overture",
+      "war_archives_20201029_cn": "archives Universe in Unison",
       "war_archives_20200806_cn": "archives The Enigma and the Shark",
       "war_archives_20210624_cn": "archives Swirling Cherry Blossoms",
       "war_archives_20210325_cn": "archives Ashen Simulacrum",
       "war_archives_20190911_cn": "archives Empyreal Tragicomedy",
+      "war_archives_20211014_cn": "archives Crescendo of Polaris",
       "war_archives_20200820_cn": "archives Scherzo of Iron and Blood",
       "war_archives_20181227_cn": "archives Crimson Echoes",
       "war_archives_20180726_cn": "archives Iris of Light and Dark",
@@ -1929,9 +1931,15 @@
       "name": "Use Logger(s)",
       "help": "Use all coordinate loggers when entering the storage"
     },
-    "BuyActionPoint": {
-      "name": "Buy AP",
-      "help": "Restore AP through oil first then AP boxes"
+    "BuyActionPointLimit": {
+      "name": "Buy AP X time(s)",
+      "help": "Maximum number of buying AP.",
+      "0": "Don't buy",
+      "1": "1 (1000oil, 100AP)",
+      "2": "2 (2000oil, 200AP)",
+      "3": "3 (4000oil, 400AP)",
+      "4": "4 (6000oil, 600AP)",
+      "5": "5 (10000oil, 1000AP)"
     },
     "OilLimit": {
       "name": "Keep Oil Above X",

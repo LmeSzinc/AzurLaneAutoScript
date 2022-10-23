@@ -70,6 +70,8 @@ class DeployConfig(ConfigModel):
         self.file = file
         self.config = {}
         self.read()
+        if self.Repository == 'https://gitee.com/LmeSzinc/AzurLaneAutoScript':
+            self.Repository = 'https://gitee.com/lmeszinc/azur-lane-auto-script-mirror'
         self.write()
         self.show_config()
 

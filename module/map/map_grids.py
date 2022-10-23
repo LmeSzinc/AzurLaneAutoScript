@@ -99,6 +99,30 @@ class SelectedGrids:
     def indexed_select(self, *values):
         return self.indexes.get(values, SelectedGrids([]))
 
+    def left_join(self, right, on_attr, set_attr, default=None):
+        """
+        Args:
+            right (SelectedGrids): Right table to join
+            on_attr:
+            set_attr:
+            default:
+
+        Returns:
+            SelectedGrids:
+        """
+        right.create_index(*on_attr)
+        for grid in self:
+            attr_value = tuple([grid.__getattribute__(attr) for attr in on_attr])
+            right_grid = right.indexed_select(*attr_value).first_or_none()
+            if right_grid is not None:
+                for attr in set_attr:
+                    grid.__setattr__(attr, right_grid.__getattribute__(attr))
+            else:
+                for attr in set_attr:
+                    grid.__setattr__(attr, default)
+
+        return self
+
     def filter(self, func):
         """
         Filter grids by a function.
