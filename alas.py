@@ -236,10 +236,7 @@ class AzurLaneAutoScript:
         MetaReward(config=self.config, device=self.device).run()
 
     def daily(self):
-        if self.config.SERVER == 'tw':
-            from module.daily.daily_tw import Daily
-        else:
-            from module.daily.daily import Daily
+        from module.daily.daily import Daily
         Daily(config=self.config, device=self.device).run()
 
     def hard(self):

@@ -220,7 +220,10 @@ class ItemGrid:
             str: Template name.
         """
         color = cv2.mean(crop(image, self.template_area))[:3]
+        # Match frequently hit templates first
         names = np.array(list(self.templates.keys()))[np.argsort(list(self.templates_hit.values()))][::-1]
+        # Match known templates first
+        names = [name for name in names if not name.isdigit()] + [name for name in names if name.isdigit()]
         for name in names:
             if color_similar(color1=color, color2=self.colors[name], threshold=30):
                 res = cv2.matchTemplate(image, self.templates[name], cv2.TM_CCOEFF_NORMED)
