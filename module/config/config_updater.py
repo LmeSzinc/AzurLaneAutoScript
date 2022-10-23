@@ -7,6 +7,7 @@ from deploy.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
 from module.config.redirect_utils.shop_filter import bp_redirect
 from module.config.redirect_utils.utils import upload_redirect, api_redirect
+from module.config.redirect_utils.os_handler import action_point_redirect
 from module.config.server import to_server, to_package, VALID_PACKAGE, VALID_CHANNEL_PACKAGE, VALID_SERVER_LIST
 from module.config.utils import *
 
@@ -390,7 +391,7 @@ class ConfigGenerator:
     def generate_deploy_template():
         template = poor_yaml_read(DEPLOY_TEMPLATE)
         cn = {
-            'Repository': 'https://gitee.com/LmeSzinc/AzurLaneAutoScript',
+            'Repository': 'https://gitee.com/lmeszinc/azur-lane-auto-script-mirror',
             'PypiMirror': 'https://pypi.tuna.tsinghua.edu.cn/simple',
         }
         aidlux = {
@@ -472,7 +473,8 @@ class ConfigUpdater:
          'Alas.DropRecord.MeowfficerTalent', upload_redirect),
         ('Alas.DropRecord.SaveCombat', 'Alas.DropRecord.CombatRecord', upload_redirect),
         ('Alas.DropRecord.SaveMeowfficer', 'Alas.DropRecord.MeowfficerBuy', upload_redirect),
-        ('Alas.Emulator.PackageName', 'Alas.DropRecord.API', api_redirect)
+        ('Alas.Emulator.PackageName', 'Alas.DropRecord.API', api_redirect),
+        ('OpsiGeneral.OpsiGeneral.BuyActionPoint', 'OpsiGeneral.OpsiGeneral.BuyActionPointLimit', action_point_redirect)
     ]
 
     @cached_property

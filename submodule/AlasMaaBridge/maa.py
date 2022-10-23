@@ -110,6 +110,10 @@ def loop(config_name):
     ArknightsAutoScript(config_name).loop()
 
 
+def set_stop_event(e):
+    ArknightsAutoScript.stop_event = e
+
+
 def maa_copilot(config_name):
     script = ArknightsAutoScript(config_name)
     script.config.bind('MaaCopilot')

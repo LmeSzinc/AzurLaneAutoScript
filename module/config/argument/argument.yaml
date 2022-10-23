@@ -529,7 +529,9 @@ OpsiAshAssist:
   Tier: 15
 OpsiGeneral:
   UseLogger: true
-  BuyActionPoint: false
+  BuyActionPointLimit:
+    value: 0
+    option: [0, 1, 2, 3, 4, 5]
   OilLimit: 1000
   RepairThreshold: 0.4
   DoRandomMapEvent: true
