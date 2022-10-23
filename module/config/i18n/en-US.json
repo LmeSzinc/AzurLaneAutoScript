@@ -154,20 +154,8 @@
       "name": "Gacha",
       "help": ""
     },
-    "DataKey": {
-      "name": "Data Key",
-      "help": ""
-    },
-    "SupplyPack": {
-      "name": "Supply Pack",
-      "help": ""
-    },
-    "BattlePass": {
-      "name": "Battle Pass",
-      "help": ""
-    },
-    "MetaReward": {
-      "name": "Meta Reward",
+    "Freebies": {
+      "name": "Freebies",
       "help": ""
     },
     "Daily": {
@@ -1416,14 +1404,6 @@
     "CollectWeeklyMission": {
       "name": "Collect Weekly Mission Rewards",
       "help": ""
-    },
-    "CollectMail": {
-      "name": "Collect Mail Rewards",
-      "help": "Only collects the top 3 mail entries, also deletes recently viewed for clean up"
-    },
-    "MailFilter": {
-      "name": "Mail Filter",
-      "help": "Filter as to which mail types should be collected\nSupports Merit, Coin, Cube, Oil, and/or Gem"
     }
   },
   "GeneralShop": {
@@ -1701,14 +1681,46 @@
       "help": "Expedite the recently submitted orders"
     }
   },
-  "DataKey": {
+  "BattlePass": {
     "_info": {
-      "name": "DataKey",
+      "name": "Battle Pass Settings",
       "help": ""
     },
-    "ForceGet": {
-      "name": "ForceCollect DataKey",
+    "Collect": {
+      "name": "Collect Cruise Missions Rewards",
+      "help": ""
+    }
+  },
+  "DataKey": {
+    "_info": {
+      "name": "Data Key Settings",
+      "help": ""
+    },
+    "Collect": {
+      "name": "Collect Data Key",
+      "help": ""
+    },
+    "ForceCollect": {
+      "name": "Force Collect Data Key",
       "help": "Force collect data key when data key is full to eliminate red dots"
+    }
+  },
+  "Mail": {
+    "_info": {
+      "name": "Mail Settings",
+      "help": ""
+    },
+    "Collect": {
+      "name": "Collect Mail Rewards",
+      "help": "Only collects the top 3 mail entries"
+    },
+    "Filter": {
+      "name": "Mail Filter",
+      "help": "Filter as to which mail types should be collected\nSupports Merit, Coin, Cube, Oil, and/or Gem"
+    },
+    "Delete": {
+      "name": "Delete Collected Mail Rewards",
+      "help": "Delete the already collected mail entries\nMark any entries \"important\" in-game to avoid accidental deletion"
     }
   },
   "SupplyPack": {
@@ -1716,28 +1728,8 @@
       "name": "Supply Pack Settings",
       "help": ""
     },
-    "WeeklyFreeSupplyPack": {
-      "name": "Buy Weekly Free Supply Pack",
-      "help": ""
-    }
-  },
-  "BattlePass": {
-    "_info": {
-      "name": "Battle Pass Settings",
-      "help": ""
-    },
-    "BattlePassReward": {
-      "name": "Receive Cruise Missions Rewards",
-      "help": ""
-    }
-  },
-  "MetaReward": {
-    "_info": {
-      "name": "Meta Reward Settings",
-      "help": ""
-    },
-    "MetaReward": {
-      "name": "Receive META rewards",
+    "Collect": {
+      "name": "Collect Weekly Free Supply Pack",
       "help": ""
     }
   },
@@ -1990,7 +1982,7 @@
   },
   "OpsiDossierBeacon": {
     "_info": {
-      "name": "Dossier Beacon",
+      "name": "Dossier Beacon Settings",
       "help": ""
     },
     "Enable": {

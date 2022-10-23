@@ -154,21 +154,9 @@
       "name": "Task.Gacha.name",
       "help": "Task.Gacha.help"
     },
-    "DataKey": {
-      "name": "Task.DataKey.name",
-      "help": "Task.DataKey.help"
-    },
-    "SupplyPack": {
-      "name": "Task.SupplyPack.name",
-      "help": "Task.SupplyPack.help"
-    },
-    "BattlePass": {
-      "name": "Task.BattlePass.name",
-      "help": "Task.BattlePass.help"
-    },
-    "MetaReward": {
-      "name": "Task.MetaReward.name",
-      "help": "Task.MetaReward.help"
+    "Freebies": {
+      "name": "Task.Freebies.name",
+      "help": "Task.Freebies.help"
     },
     "Daily": {
       "name": "Task.Daily.name",
@@ -1416,14 +1404,6 @@
     "CollectWeeklyMission": {
       "name": "Reward.CollectWeeklyMission.name",
       "help": "Reward.CollectWeeklyMission.help"
-    },
-    "CollectMail": {
-      "name": "Reward.CollectMail.name",
-      "help": "Reward.CollectMail.help"
-    },
-    "MailFilter": {
-      "name": "Reward.MailFilter.name",
-      "help": "Reward.MailFilter.help"
     }
   },
   "GeneralShop": {
@@ -1701,14 +1681,46 @@
       "help": "Gacha.UseDrill.help"
     }
   },
+  "BattlePass": {
+    "_info": {
+      "name": "BattlePass._info.name",
+      "help": "BattlePass._info.help"
+    },
+    "Collect": {
+      "name": "BattlePass.Collect.name",
+      "help": "BattlePass.Collect.help"
+    }
+  },
   "DataKey": {
     "_info": {
       "name": "DataKey._info.name",
       "help": "DataKey._info.help"
     },
-    "ForceGet": {
-      "name": "DataKey.ForceGet.name",
-      "help": "DataKey.ForceGet.help"
+    "Collect": {
+      "name": "DataKey.Collect.name",
+      "help": "DataKey.Collect.help"
+    },
+    "ForceCollect": {
+      "name": "DataKey.ForceCollect.name",
+      "help": "DataKey.ForceCollect.help"
+    }
+  },
+  "Mail": {
+    "_info": {
+      "name": "Mail._info.name",
+      "help": "Mail._info.help"
+    },
+    "Collect": {
+      "name": "Mail.Collect.name",
+      "help": "Mail.Collect.help"
+    },
+    "Filter": {
+      "name": "Mail.Filter.name",
+      "help": "Mail.Filter.help"
+    },
+    "Delete": {
+      "name": "Mail.Delete.name",
+      "help": "Mail.Delete.help"
     }
   },
   "SupplyPack": {
@@ -1716,29 +1728,9 @@
       "name": "SupplyPack._info.name",
       "help": "SupplyPack._info.help"
     },
-    "WeeklyFreeSupplyPack": {
-      "name": "SupplyPack.WeeklyFreeSupplyPack.name",
-      "help": "SupplyPack.WeeklyFreeSupplyPack.help"
-    }
-  },
-  "BattlePass": {
-    "_info": {
-      "name": "BattlePass._info.name",
-      "help": "BattlePass._info.help"
-    },
-    "BattlePassReward": {
-      "name": "BattlePass.BattlePassReward.name",
-      "help": "BattlePass.BattlePassReward.help"
-    }
-  },
-  "MetaReward": {
-    "_info": {
-      "name": "MetaReward._info.name",
-      "help": "MetaReward._info.help"
-    },
-    "MetaReward": {
-      "name": "MetaReward.MetaReward.name",
-      "help": "MetaReward.MetaReward.help"
+    "Collect": {
+      "name": "SupplyPack.Collect.name",
+      "help": "SupplyPack.Collect.help"
     }
   },
   "Daily": {

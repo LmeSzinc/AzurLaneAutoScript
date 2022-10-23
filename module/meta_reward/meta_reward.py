@@ -99,5 +99,3 @@ class MetaReward(Combat, UI):
         if self.meta_reward_notice_appear():
             self.meta_reward_enter()
             self.meta_reward_receive()
-
-        self.config.task_delay(server_update=True)

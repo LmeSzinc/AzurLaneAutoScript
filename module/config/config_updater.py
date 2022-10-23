@@ -474,7 +474,11 @@ class ConfigUpdater:
         ('Alas.DropRecord.SaveCombat', 'Alas.DropRecord.CombatRecord', upload_redirect),
         ('Alas.DropRecord.SaveMeowfficer', 'Alas.DropRecord.MeowfficerBuy', upload_redirect),
         ('Alas.Emulator.PackageName', 'Alas.DropRecord.API', api_redirect),
-        ('OpsiGeneral.OpsiGeneral.BuyActionPoint', 'OpsiGeneral.OpsiGeneral.BuyActionPointLimit', action_point_redirect)
+        ('OpsiGeneral.OpsiGeneral.BuyActionPoint', 'OpsiGeneral.OpsiGeneral.BuyActionPointLimit', action_point_redirect),
+        ('BattlePass.BattlePass.BattlePassReward', 'Freebies.BattlePass.Collect'),
+        ('DataKey.Scheduler.Enable', 'Freebies.DataKey.Collect'),
+        ('DataKey.DataKey.ForceGet', 'Freebies.DataKey.ForceCollect'),
+        ('SupplyPack.SupplyPack.WeeklyFreeSupplyPack', 'Freebies.SupplyPack.Collect'),
     ]
 
     @cached_property

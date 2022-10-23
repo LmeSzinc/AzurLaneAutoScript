@@ -154,21 +154,9 @@
       "name": "每日建造",
       "help": ""
     },
-    "DataKey": {
-      "name": "檔案密鑰",
-      "help": ""
-    },
-    "SupplyPack": {
-      "name": "優惠禮包",
-      "help": ""
-    },
-    "BattlePass": {
-      "name": "大月卡",
-      "help": ""
-    },
-    "MetaReward": {
-      "name": "Meta獎勵",
-      "help": ""
+    "Freebies": {
+      "name": "Task.Freebies.name",
+      "help": "Task.Freebies.help"
     },
     "Daily": {
       "name": "每日任務",
@@ -1416,14 +1404,6 @@
     "CollectWeeklyMission": {
       "name": "領取周任務獎勵",
       "help": ""
-    },
-    "CollectMail": {
-      "name": "Reward.CollectMail.name",
-      "help": "Reward.CollectMail.help"
-    },
-    "MailFilter": {
-      "name": "Reward.MailFilter.name",
-      "help": "Reward.MailFilter.help"
     }
   },
   "GeneralShop": {
@@ -1701,14 +1681,46 @@
       "help": ""
     }
   },
+  "BattlePass": {
+    "_info": {
+      "name": "大月卡",
+      "help": ""
+    },
+    "Collect": {
+      "name": "領取大月卡獎勵",
+      "help": ""
+    }
+  },
   "DataKey": {
     "_info": {
       "name": "檔案密鑰",
       "help": ""
     },
-    "ForceGet": {
+    "Collect": {
+      "name": "DataKey.Get.name",
+      "help": "DataKey.Get.help"
+    },
+    "ForceCollect": {
       "name": "强制領取",
       "help": "檔案密鑰已滿時，强制領取（消除紅點）"
+    }
+  },
+  "Mail": {
+    "_info": {
+      "name": "Mail._info.name",
+      "help": "Mail._info.help"
+    },
+    "Collect": {
+      "name": "Mail.Collect.name",
+      "help": "Mail.Collect.help"
+    },
+    "Filter": {
+      "name": "Mail.Filter.name",
+      "help": "Mail.Filter.help"
+    },
+    "Delete": {
+      "name": "Mail.Delete.name",
+      "help": "Mail.Delete.help"
     }
   },
   "SupplyPack": {
@@ -1716,28 +1728,8 @@
       "name": "優惠禮包",
       "help": ""
     },
-    "WeeklyFreeSupplyPack": {
+    "Collect": {
       "name": "購買每週免費禮包",
-      "help": ""
-    }
-  },
-  "BattlePass": {
-    "_info": {
-      "name": "大月卡",
-      "help": ""
-    },
-    "BattlePassReward": {
-      "name": "領取大月卡獎勵",
-      "help": ""
-    }
-  },
-  "MetaReward": {
-    "_info": {
-      "name": "META 獎勵",
-      "help": ""
-    },
-    "MetaReward": {
-      "name": "領取 META 獎勵",
       "help": ""
     }
   },
