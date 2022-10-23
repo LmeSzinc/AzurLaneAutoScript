@@ -36,6 +36,7 @@ class AssistantHandler:
             AssistantHandler.Asst = asst_backup.Asst
             AssistantHandler.Message = asst_backup.Message
             AssistantHandler.Asst.load(path, user_dir=path)
+
         AssistantHandler.ASST_HANDLER = None
 
     def __init__(self, config, asst, task=None):
@@ -298,6 +299,7 @@ class AssistantHandler:
 
     def roguelike(self):
         args = {
+            "theme": self.config.MaaRoguelike_Theme,
             "mode": self.config.MaaRoguelike_Mode,
             "starts_count": self.config.MaaRoguelike_StartsCount,
             "investments_count": self.config.MaaRoguelike_InvestmentsCount,
