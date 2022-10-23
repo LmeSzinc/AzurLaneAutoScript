@@ -155,8 +155,8 @@
       "help": ""
     },
     "Freebies": {
-      "name": "Task.Freebies.name",
-      "help": "Task.Freebies.help"
+      "name": "白嫖奖励",
+      "help": ""
     },
     "Daily": {
       "name": "每日任务",
@@ -585,6 +585,7 @@
       "name": "活动名称",
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
+      "event_20210121_cn": "复刻神圣的悲喜剧",
       "event_20220915_cn": "紫绛槿岚",
       "event_20210916_cn": "碧海光粼",
       "event_20200903_en": "复刻峡湾间的星辰",
@@ -628,7 +629,6 @@
       "event_20210415_tw": "復刻圍剿施佩伯爵",
       "event_20210325_cn": "复刻箱庭疗法",
       "event_20210225_tw": "北境序曲",
-      "event_20210121_cn": "复刻神圣的悲喜剧",
       "event_20201126_cn": "假日航线",
       "event_20200312_cn": "复刻斯图尔特的硝烟",
       "event_20201002_en": "Counterattack Within the Fjord",
@@ -1697,8 +1697,8 @@
       "help": ""
     },
     "Collect": {
-      "name": "DataKey.Get.name",
-      "help": "DataKey.Get.help"
+      "name": "领取档案秘钥",
+      "help": ""
     },
     "ForceCollect": {
       "name": "强制领取档案秘钥",
@@ -1707,20 +1707,20 @@
   },
   "Mail": {
     "_info": {
-      "name": "Mail._info.name",
-      "help": "Mail._info.help"
+      "name": "领取邮件",
+      "help": ""
     },
     "Collect": {
-      "name": "Mail.Collect.name",
-      "help": "Mail.Collect.help"
+      "name": "领取邮件",
+      "help": ""
     },
     "Filter": {
-      "name": "Mail.Filter.name",
-      "help": "Mail.Filter.help"
+      "name": "邮件过滤器",
+      "help": "默认只领取演习功勋邮件"
     },
     "Delete": {
-      "name": "Mail.Delete.name",
-      "help": "Mail.Delete.help"
+      "name": "删除已读邮件",
+      "help": ""
     }
   },
   "SupplyPack": {

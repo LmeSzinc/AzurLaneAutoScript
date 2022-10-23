@@ -155,8 +155,8 @@
       "help": ""
     },
     "Freebies": {
-      "name": "Task.Freebies.name",
-      "help": "Task.Freebies.help"
+      "name": "免費獎勵",
+      "help": ""
     },
     "Daily": {
       "name": "每日任務",
@@ -1693,34 +1693,34 @@
   },
   "DataKey": {
     "_info": {
-      "name": "檔案密鑰",
+      "name": "檔案秘鑰",
       "help": ""
     },
     "Collect": {
-      "name": "DataKey.Get.name",
-      "help": "DataKey.Get.help"
+      "name": "領取檔案秘鑰",
+      "help": ""
     },
     "ForceCollect": {
-      "name": "强制領取",
-      "help": "檔案密鑰已滿時，强制領取（消除紅點）"
+      "name": "強制領取檔案秘鑰",
+      "help": "檔案秘鑰已滿時，強制領取（消除紅點）"
     }
   },
   "Mail": {
     "_info": {
-      "name": "Mail._info.name",
-      "help": "Mail._info.help"
+      "name": "領取郵件",
+      "help": ""
     },
     "Collect": {
-      "name": "Mail.Collect.name",
-      "help": "Mail.Collect.help"
+      "name": "領取郵件",
+      "help": ""
     },
     "Filter": {
-      "name": "Mail.Filter.name",
-      "help": "Mail.Filter.help"
+      "name": "郵件過濾器",
+      "help": "默認只領取演習功勳郵件"
     },
     "Delete": {
-      "name": "Mail.Delete.name",
-      "help": "Mail.Delete.help"
+      "name": "刪除已讀郵件",
+      "help": ""
     }
   },
   "SupplyPack": {
