@@ -269,6 +269,14 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             logger.info('GemsFarming or GemsFarming_FlagshipChange is not enabled, skip')
             return 0
 
+        def server_support_flagship_retire() -> bool:
+            return self.config.SERVER in ['cn']
+
+        if not server_support_flagship_retire():
+            logger.info(f'Server {self.config.SERVER} does not yet support flagships retirement, skip')
+            logger.info('Please contact the developer to improve as soon as possible')
+            return 0
+
         self.dock_filter_set(index='cv', rarity='common', extra='not_level_max', sort='level')
         self.dock_favourite_set(False)
 
