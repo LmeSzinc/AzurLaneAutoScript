@@ -7,6 +7,7 @@ from module.ui.scroll import Scroll
 from module.ui.setting import Setting
 from module.ui.switch import Switch
 
+
 DOCK_SORTING = Switch('Dork_sorting')
 DOCK_SORTING.add_status('Ascending', check_button=SORT_ASC, click_button=SORTING_CLICK)
 DOCK_SORTING.add_status('Descending', check_button=SORT_DESC, click_button=SORTING_CLICK)
@@ -20,6 +21,7 @@ CARD_GRIDS = ButtonGrid(
 CARD_RARITY_GRIDS = CARD_GRIDS.crop(area=(0, 0, 138, 5), name='RARITY')
 CARD_LEVEL_GRIDS = CARD_GRIDS.crop(area=(77, 5, 138, 27), name='LEVEL')
 CARD_EMOTION_GRIDS = CARD_GRIDS.crop(area=(23, 29, 48, 52), name='EMOTION')
+
 DOCK_SCROLL = Scroll(DOCK_SCROLL, color=(247, 211, 66), name='DOCK_SCROLL')
 
 OCR_DOCK_SELECTED = DigitCounter(DOCK_SELECTED, threshold=64, name='OCR_DOCK_SELECTED')
