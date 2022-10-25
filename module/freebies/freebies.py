@@ -21,7 +21,7 @@ class Freebies(ModuleBase):
 
         if self.config.Mail_Collect:
             logger.hr('Mail', level=1)
-            if self.config.SERVER in ['cn', 'en']:
+            if self.config.SERVER in ['cn', 'en', 'jp']:
                 Mail(self.config, self.device).run()
             else:
                 logger.info(f'Mail collect is not supported in {self.config.SERVER}, please contact server maintainers')
