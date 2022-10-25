@@ -120,9 +120,19 @@ class OpsiAshBeacon(Meta):
             out: in_meta, ASH_START or BEACON_REWARD
         """
         logger.hr('Begin meta combat', level=2)
+
+        def expected_end():
+            if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=2):
+                logger.info('Wrong click into battle preparation page')
+                self.device.click(BACK_ARROW)
+                return False
+            if self._in_meta_page():
+                logger.info('Meta combat finished and in correct page.')
+                return True
+
         # Attack
         combat = AshCombat(config=self.config, device=self.device)
-        combat.combat(expected_end=self._in_meta_page, save_get_items=False, emotion_reduce=False)
+        combat.combat(expected_end=expected_end, save_get_items=False, emotion_reduce=False)
 
     def _handle_ash_beacon_reward(self, skip_first_screenshot=True):
         """
@@ -428,9 +438,25 @@ class AshBeaconAssist(Meta):
             out: in_meta_assist
         """
         logger.hr('Begin meta assist combat', level=2)
+
+        def expected_end():
+            if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=2):
+                logger.info('Wrong click into battle preparation page')
+                self.device.click(BACK_ARROW)
+                return False
+            # AL redirects to unfinished self beacon after assist, so switch back
+            if self.appear_then_click(BEACON_LIST, offset=(-20, -5, 300, 5), interval=2):
+                return False
+            if self.appear(ASH_SHOWDOWN, offset=(30, 30), interval=2):
+                logger.info('Meta combat finished at ASH_SHOWDOWN.')
+                self.device.click(META_MAIN_BEACON_ENTRANCE)
+            if self._in_meta_assist_page():
+                logger.info('Meta combat finished and in correct page.')
+                return True
+
         # Attack
         combat = AshCombat(config=self.config, device=self.device)
-        combat.combat(expected_end=self._in_meta_assist_page, save_get_items=False, emotion_reduce=False)
+        combat.combat(expected_end=expected_end, save_get_items=False, emotion_reduce=False)
 
     def _ensure_meta_level(self):
         """
@@ -462,9 +488,6 @@ class AshBeaconAssist(Meta):
         logger.info('Find a beacon in level:' + str(current))
 
     def _in_meta_assist_page(self):
-        # AL redirects to unfinished self beacon after assist, so switch back
-        if self.appear_then_click(BEACON_LIST, offset=(-20, -5, 300, 5), interval=2):
-            return False
         return self.appear(BEACON_MY, offset=(20, 20))
 
     def _ensure_meta_assist_page(self, skip_first_screenshot=True):
@@ -482,7 +505,7 @@ class AshBeaconAssist(Meta):
                 continue
             if self.appear_then_click(META_ENTRANCE, offset=(20, 300), interval=2):
                 continue
-            if self.appear(ASH_SHOWDOWN, offset=(20, 20)):
+            if self.appear(ASH_SHOWDOWN, offset=(20, 20), interval=2):
                 self.device.click(META_MAIN_BEACON_ENTRANCE)
                 logger.info('In meta page main')
                 continue

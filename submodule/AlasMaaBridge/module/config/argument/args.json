@@ -584,6 +584,14 @@
       }
     },
     "MaaRoguelike": {
+      "Theme": {
+        "type": "select",
+        "value": "Phantom",
+        "option": [
+          "Phantom",
+          "Mizuki"
+        ]
+      },
       "Mode": {
         "type": "select",
         "value": 0,
@@ -608,6 +616,9 @@
         "type": "select",
         "value": "指挥分队",
         "option": [
+          "心胜于物分队",
+          "物尽其用分队",
+          "以人为本分队",
           "指挥分队",
           "集群分队",
           "后勤分队",
