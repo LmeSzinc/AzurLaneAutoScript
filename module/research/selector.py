@@ -141,8 +141,14 @@ class ResearchSelector(ResearchUI):
             self.config.Research_UsePart))
         logger.attr('Allow delay', self.config.Research_AllowDelay)
 
+        # Case insensitive
+        string = string.lower()
         # Filter uses `hakuryu`, but allows both `hakuryu` and `hakuryuu`
-        string = string.lower().replace('hakuryuu', 'hakuryu')
+        string = string.replace('hakuryuu', 'hakuryu')
+        # Allow both `fastest` and `shortest`
+        string = string.replace('fastest', 'shortest')
+        # Allow both `PR` and `PRY`
+        string = re.sub(r'pr([\d\- >])', r'pry\1', string)
 
         FILTER.load(string)
         priority = FILTER.apply(self.projects, func=partial(self._research_check, enforce=enforce))

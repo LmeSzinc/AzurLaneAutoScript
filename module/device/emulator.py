@@ -54,7 +54,7 @@ class EmulatorInstance(VirtualBoxEmulator):
 
         serial = []
         for file in vbox:
-            with open(file, 'r') as f:
+            with open(file, 'r', encoding='utf-8', errors='ignore') as f:
                 for line in f.readlines():
                     # <Forwarding name="port2" proto="1" hostip="127.0.0.1" hostport="62026" guestport="5555"/>
                     res = re.search('<*?hostport="(.*?)".*?guestport="5555"/>', line)

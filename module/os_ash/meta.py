@@ -3,6 +3,7 @@ from enum import Enum
 import module.config.server as server
 from module.combat.combat import BATTLE_PREPARATION
 from module.logger import logger
+from module.meta_reward.meta_reward import MetaReward
 from module.ocr.ocr import DigitCounter, Digit
 from module.os_ash.ash import AshCombat
 from module.os_ash.assets import *
@@ -217,7 +218,8 @@ class OpsiAshBeacon(Meta):
         # Page beacon or dossier
         if self.appear(BEACON_LIST, offset=(20, 20)):
             if self.config.OpsiAshBeacon_OneHitMode or self.config.OpsiAshBeacon_RequestAssist:
-                self._ask_for_help()
+                if not self._ask_for_help():
+                    return False
             return True
         if self.appear(DOSSIER_LIST, offset=(20, 20)):
             return True
@@ -226,6 +228,10 @@ class OpsiAshBeacon(Meta):
     def _ask_for_help(self):
         """
         Request help from friends, guild and world.
+
+        Returns:
+            bool: Whether success to call assist.
+                False if META finished just after calling assist.
 
         Pages:
             in: is_in_meta
@@ -256,7 +262,23 @@ class OpsiAshBeacon(Meta):
         self.device.click(HELP_2)
         self.device.sleep((0.1, 0.3))
         self.device.click(HELP_3)
-        self.ui_click(click_button=HELP_CONFIRM, check_button=HELP_ENTER)
+
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(HELP_ENTER, offset=(30, 30)):
+                return True
+            if self.appear(BEACON_REWARD, offset=(30, 30)):
+                logger.info('META finished just after calling assist, ignore meta assist')
+                return False
+            # Click
+            if self.appear_then_click(HELP_CONFIRM, offset=(30, 30), interval=3):
+                continue
 
     def _begin_meta(self):
         """
@@ -374,7 +396,7 @@ class OpsiAshBeacon(Meta):
 
         with self.config.multi_set():
             if self._meta_receive_count > 0:
-                self.config.task_call('MetaReward', force_call=False)
+                MetaReward(self.config, self.device).run()
             self.config.task_delay(server_update=True)
 
 
@@ -478,4 +500,5 @@ class AshBeaconAssist(Meta):
     def run(self):
         self.ui_ensure(page_reward)
         self._begin_meta_assist()
+        MetaReward(self.config, self.device).run()
         self.config.task_delay(server_update=True)

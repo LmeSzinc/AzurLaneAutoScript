@@ -454,14 +454,18 @@ Gacha:
     option: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   UseTicket: true
   UseDrill: false
-DataKey:
-  ForceGet: false
-SupplyPack:
-  WeeklyFreeSupplyPack: true
 BattlePass:
-  BattlePassReward: true
-MetaReward:
-  MetaReward: true
+  Collect: true
+DataKey:
+  Collect: true
+  ForceCollect: false
+Mail:
+  Collect: true
+  Filter: |-
+    Merit
+  Delete: false
+SupplyPack:
+  Collect: true
 
 # ==================== Daily ====================
 
@@ -526,7 +530,9 @@ OpsiAshAssist:
   Tier: 15
 OpsiGeneral:
   UseLogger: true
-  BuyActionPoint: false
+  BuyActionPointLimit:
+    value: 0
+    option: [0, 1, 2, 3, 4, 5]
   OilLimit: 1000
   RepairThreshold: 0.4
   DoRandomMapEvent: true

@@ -154,20 +154,8 @@
       "name": "Gacha",
       "help": ""
     },
-    "DataKey": {
-      "name": "Data Key",
-      "help": ""
-    },
-    "SupplyPack": {
-      "name": "Supply Pack",
-      "help": ""
-    },
-    "BattlePass": {
-      "name": "Battle Pass",
-      "help": ""
-    },
-    "MetaReward": {
-      "name": "Meta Reward",
+    "Freebies": {
+      "name": "Freebies",
       "help": ""
     },
     "Daily": {
@@ -597,6 +585,7 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "event_20210121_cn": "Empyreal Tragicomedy Rerun",
       "event_20220915_cn": "Violet Tempest Blooming Lycoris",
       "event_20210916_cn": "Upon the Shimmering Blue",
       "event_20200903_en": "Stars of the Shimmering Fjord",
@@ -640,7 +629,6 @@
       "event_20210415_tw": "復刻圍剿施佩伯爵",
       "event_20210325_cn": "Ashen Simulacrum Rerun",
       "event_20210225_tw": "北境序曲",
-      "event_20210121_cn": "Empyreal Tragicomedy Rerun",
       "event_20201126_cn": "Vacation Lane",
       "event_20200312_cn": "The Solomon Ranger Rerun",
       "event_20201002_en": "Counterattack Within the Fjord",
@@ -653,10 +641,12 @@
       "event_20200423_cn": "Crimson Echoes Rerun",
       "event_20200326_cn": "Microlayer Medley",
       "event_20200227_cn": "Northern Overture",
+      "war_archives_20201029_cn": "archives Universe in Unison",
       "war_archives_20200806_cn": "archives The Enigma and the Shark",
       "war_archives_20210624_cn": "archives Swirling Cherry Blossoms",
       "war_archives_20210325_cn": "archives Ashen Simulacrum",
       "war_archives_20190911_cn": "archives Empyreal Tragicomedy",
+      "war_archives_20211014_cn": "archives Crescendo of Polaris",
       "war_archives_20200820_cn": "archives Scherzo of Iron and Blood",
       "war_archives_20181227_cn": "archives Crimson Echoes",
       "war_archives_20180726_cn": "archives Iris of Light and Dark",
@@ -1691,14 +1681,46 @@
       "help": "Expedite the recently submitted orders"
     }
   },
-  "DataKey": {
+  "BattlePass": {
     "_info": {
-      "name": "DataKey",
+      "name": "Battle Pass Settings",
       "help": ""
     },
-    "ForceGet": {
-      "name": "ForceCollect DataKey",
+    "Collect": {
+      "name": "Collect Cruise Missions Rewards",
+      "help": ""
+    }
+  },
+  "DataKey": {
+    "_info": {
+      "name": "Data Key Settings",
+      "help": ""
+    },
+    "Collect": {
+      "name": "Collect Data Key",
+      "help": ""
+    },
+    "ForceCollect": {
+      "name": "Force Collect Data Key",
       "help": "Force collect data key when data key is full to eliminate red dots"
+    }
+  },
+  "Mail": {
+    "_info": {
+      "name": "Mail Settings",
+      "help": ""
+    },
+    "Collect": {
+      "name": "Collect Mail Rewards",
+      "help": "Only collects the top 3 mail entries"
+    },
+    "Filter": {
+      "name": "Mail Filter",
+      "help": "Filter as to which mail types should be collected\nSupports Merit, Coin, Cube, Oil, and/or Gem"
+    },
+    "Delete": {
+      "name": "Delete Collected Mail Rewards",
+      "help": "Delete the already collected mail entries\nMark any entries \"important\" in-game to avoid accidental deletion"
     }
   },
   "SupplyPack": {
@@ -1706,28 +1728,8 @@
       "name": "Supply Pack Settings",
       "help": ""
     },
-    "WeeklyFreeSupplyPack": {
-      "name": "Buy Weekly Free Supply Pack",
-      "help": ""
-    }
-  },
-  "BattlePass": {
-    "_info": {
-      "name": "Battle Pass Settings",
-      "help": ""
-    },
-    "BattlePassReward": {
-      "name": "Receive Cruise Missions Rewards",
-      "help": ""
-    }
-  },
-  "MetaReward": {
-    "_info": {
-      "name": "Meta Reward Settings",
-      "help": ""
-    },
-    "MetaReward": {
-      "name": "Receive META rewards",
+    "Collect": {
+      "name": "Collect Weekly Free Supply Pack",
       "help": ""
     }
   },
@@ -1929,9 +1931,15 @@
       "name": "Use Logger(s)",
       "help": "Use all coordinate loggers when entering the storage"
     },
-    "BuyActionPoint": {
-      "name": "Buy AP",
-      "help": "Restore AP through oil first then AP boxes"
+    "BuyActionPointLimit": {
+      "name": "Buy AP X time(s)",
+      "help": "Maximum number of buying AP.",
+      "0": "Don't buy",
+      "1": "1 (1000oil, 100AP)",
+      "2": "2 (2000oil, 200AP)",
+      "3": "3 (4000oil, 400AP)",
+      "4": "4 (6000oil, 600AP)",
+      "5": "5 (10000oil, 1000AP)"
     },
     "OilLimit": {
       "name": "Keep Oil Above X",
@@ -1974,7 +1982,7 @@
   },
   "OpsiDossierBeacon": {
     "_info": {
-      "name": "Dossier Beacon",
+      "name": "Dossier Beacon Settings",
       "help": ""
     },
     "Enable": {

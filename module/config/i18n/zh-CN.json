@@ -154,20 +154,8 @@
       "name": "每日抽卡",
       "help": ""
     },
-    "DataKey": {
-      "name": "档案密钥",
-      "help": ""
-    },
-    "SupplyPack": {
-      "name": "优惠礼包",
-      "help": ""
-    },
-    "BattlePass": {
-      "name": "大月卡",
-      "help": ""
-    },
-    "MetaReward": {
-      "name": "Meta奖励",
+    "Freebies": {
+      "name": "白嫖奖励",
       "help": ""
     },
     "Daily": {
@@ -597,6 +585,7 @@
       "name": "活动名称",
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
+      "event_20210121_cn": "复刻神圣的悲喜剧",
       "event_20220915_cn": "紫绛槿岚",
       "event_20210916_cn": "碧海光粼",
       "event_20200903_en": "复刻峡湾间的星辰",
@@ -640,7 +629,6 @@
       "event_20210415_tw": "復刻圍剿施佩伯爵",
       "event_20210325_cn": "复刻箱庭疗法",
       "event_20210225_tw": "北境序曲",
-      "event_20210121_cn": "复刻神圣的悲喜剧",
       "event_20201126_cn": "假日航线",
       "event_20200312_cn": "复刻斯图尔特的硝烟",
       "event_20201002_en": "Counterattack Within the Fjord",
@@ -653,10 +641,12 @@
       "event_20200423_cn": "复刻苍红的回响",
       "event_20200326_cn": "微层混合",
       "event_20200227_cn": "北境序曲",
+      "war_archives_20201029_cn": "档案 激唱的UNIVERSE",
       "war_archives_20200806_cn": "档案 最重要的宝物",
       "war_archives_20210624_cn": "档案 浮樱影华",
       "war_archives_20210325_cn": "档案 箱庭疗法",
       "war_archives_20190911_cn": "档案 神圣的悲喜剧",
+      "war_archives_20211014_cn": "档案 激奏的Polaris",
       "war_archives_20200820_cn": "档案 铁血音符誓言",
       "war_archives_20181227_cn": "档案 苍红的回响",
       "war_archives_20180726_cn": "档案 光与影的鸢尾之华",
@@ -1691,14 +1681,46 @@
       "help": "选否会等到明天再下水，能贪一个钻头"
     }
   },
+  "BattlePass": {
+    "_info": {
+      "name": "大月卡",
+      "help": ""
+    },
+    "Collect": {
+      "name": "领取大月卡奖励",
+      "help": ""
+    }
+  },
   "DataKey": {
     "_info": {
       "name": "档案秘钥",
       "help": ""
     },
-    "ForceGet": {
+    "Collect": {
+      "name": "领取档案秘钥",
+      "help": ""
+    },
+    "ForceCollect": {
       "name": "强制领取档案秘钥",
       "help": "档案秘钥已满时，强制领取（消除红点）"
+    }
+  },
+  "Mail": {
+    "_info": {
+      "name": "领取邮件",
+      "help": ""
+    },
+    "Collect": {
+      "name": "领取邮件",
+      "help": ""
+    },
+    "Filter": {
+      "name": "邮件过滤器",
+      "help": "默认只领取演习功勋邮件"
+    },
+    "Delete": {
+      "name": "删除已读邮件",
+      "help": ""
     }
   },
   "SupplyPack": {
@@ -1706,28 +1728,8 @@
       "name": "优惠礼包",
       "help": ""
     },
-    "WeeklyFreeSupplyPack": {
+    "Collect": {
       "name": "购买每周免费礼包",
-      "help": ""
-    }
-  },
-  "BattlePass": {
-    "_info": {
-      "name": "大月卡",
-      "help": ""
-    },
-    "BattlePassReward": {
-      "name": "领取大月卡奖励",
-      "help": ""
-    }
-  },
-  "MetaReward": {
-    "_info": {
-      "name": "Meta 奖励",
-      "help": ""
-    },
-    "MetaReward": {
-      "name": "领取 Meta 奖励",
       "help": ""
     }
   },
@@ -1929,9 +1931,15 @@
       "name": "使用坐标记录仪",
       "help": "每次进入仓库的时候，使用所有的使用坐标记录仪"
     },
-    "BuyActionPoint": {
-      "name": "买行动力",
-      "help": "用石油买行动力，行动力不足时，优先买行动力，再开箱子"
+    "BuyActionPointLimit": {
+      "name": "买行动力X次",
+      "help": "买行动力的最大次数",
+      "0": "不买",
+      "1": "1次 (1000油, 100行动力)",
+      "2": "2次 (2000油, 200行动力)",
+      "3": "3次 (4000油, 400行动力)",
+      "4": "4次 (6000油, 600行动力)",
+      "5": "5次 (10000油, 1000行动力)"
     },
     "OilLimit": {
       "name": "买行动力时，保留 X 点石油",

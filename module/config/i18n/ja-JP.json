@@ -154,21 +154,9 @@
       "name": "Task.Gacha.name",
       "help": "Task.Gacha.help"
     },
-    "DataKey": {
-      "name": "Task.DataKey.name",
-      "help": "Task.DataKey.help"
-    },
-    "SupplyPack": {
-      "name": "Task.SupplyPack.name",
-      "help": "Task.SupplyPack.help"
-    },
-    "BattlePass": {
-      "name": "Task.BattlePass.name",
-      "help": "Task.BattlePass.help"
-    },
-    "MetaReward": {
-      "name": "Task.MetaReward.name",
-      "help": "Task.MetaReward.help"
+    "Freebies": {
+      "name": "Task.Freebies.name",
+      "help": "Task.Freebies.help"
     },
     "Daily": {
       "name": "Task.Daily.name",
@@ -597,6 +585,7 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "event_20210121_cn": "悲歎せし焔海の詩（復刻）",
       "event_20220915_cn": "赫の涙月 菫の暁風",
       "event_20210916_cn": "駆けよ 碧海の吹き風",
       "event_20200903_en": "輝ける峡湾の星（復刻）",
@@ -640,7 +629,6 @@
       "event_20210415_tw": "復刻圍剿施佩伯爵",
       "event_20210325_cn": "開かれし紺碧の砂箱（復刻）",
       "event_20210225_tw": "北境序曲",
-      "event_20210121_cn": "悲歎せし焔海の詩（復刻）",
       "event_20201126_cn": "バケーションレーン",
       "event_20200312_cn": "南洋に靡く硝煙（復刻）",
       "event_20201002_en": "Counterattack Within the Fjord",
@@ -653,10 +641,12 @@
       "event_20200423_cn": "縹映る深緋の残響（復刻）",
       "event_20200326_cn": "闇靄払う銀翼",
       "event_20200227_cn": "凍絶の北海",
+      "war_archives_20201029_cn": "檔案 激唱のユニバース",
       "war_archives_20200806_cn": "檔案 鉄血鮫とエニグマ",
       "war_archives_20210624_cn": "檔案 翳りし満ちる影の華",
       "war_archives_20210325_cn": "檔案 開かれし紺碧の砂箱",
       "war_archives_20190911_cn": "檔案 悲歎せし焔海の詩",
+      "war_archives_20211014_cn": "檔案 激奏のポラリス",
       "war_archives_20200820_cn": "檔案 黒鉄の楽章 誓いの海",
       "war_archives_20181227_cn": "檔案 縹映る深緋の残響",
       "war_archives_20180726_cn": "檔案 光と影のアイリス",
@@ -1691,14 +1681,46 @@
       "help": "Gacha.UseDrill.help"
     }
   },
+  "BattlePass": {
+    "_info": {
+      "name": "BattlePass._info.name",
+      "help": "BattlePass._info.help"
+    },
+    "Collect": {
+      "name": "BattlePass.Collect.name",
+      "help": "BattlePass.Collect.help"
+    }
+  },
   "DataKey": {
     "_info": {
       "name": "DataKey._info.name",
       "help": "DataKey._info.help"
     },
-    "ForceGet": {
-      "name": "DataKey.ForceGet.name",
-      "help": "DataKey.ForceGet.help"
+    "Collect": {
+      "name": "DataKey.Collect.name",
+      "help": "DataKey.Collect.help"
+    },
+    "ForceCollect": {
+      "name": "DataKey.ForceCollect.name",
+      "help": "DataKey.ForceCollect.help"
+    }
+  },
+  "Mail": {
+    "_info": {
+      "name": "Mail._info.name",
+      "help": "Mail._info.help"
+    },
+    "Collect": {
+      "name": "Mail.Collect.name",
+      "help": "Mail.Collect.help"
+    },
+    "Filter": {
+      "name": "Mail.Filter.name",
+      "help": "Mail.Filter.help"
+    },
+    "Delete": {
+      "name": "Mail.Delete.name",
+      "help": "Mail.Delete.help"
     }
   },
   "SupplyPack": {
@@ -1706,29 +1728,9 @@
       "name": "SupplyPack._info.name",
       "help": "SupplyPack._info.help"
     },
-    "WeeklyFreeSupplyPack": {
-      "name": "SupplyPack.WeeklyFreeSupplyPack.name",
-      "help": "SupplyPack.WeeklyFreeSupplyPack.help"
-    }
-  },
-  "BattlePass": {
-    "_info": {
-      "name": "BattlePass._info.name",
-      "help": "BattlePass._info.help"
-    },
-    "BattlePassReward": {
-      "name": "BattlePass.BattlePassReward.name",
-      "help": "BattlePass.BattlePassReward.help"
-    }
-  },
-  "MetaReward": {
-    "_info": {
-      "name": "MetaReward._info.name",
-      "help": "MetaReward._info.help"
-    },
-    "MetaReward": {
-      "name": "MetaReward.MetaReward.name",
-      "help": "MetaReward.MetaReward.help"
+    "Collect": {
+      "name": "SupplyPack.Collect.name",
+      "help": "SupplyPack.Collect.help"
     }
   },
   "Daily": {
@@ -1929,9 +1931,15 @@
       "name": "OpsiGeneral.UseLogger.name",
       "help": "OpsiGeneral.UseLogger.help"
     },
-    "BuyActionPoint": {
-      "name": "OpsiGeneral.BuyActionPoint.name",
-      "help": "OpsiGeneral.BuyActionPoint.help"
+    "BuyActionPointLimit": {
+      "name": "Buy AP X time(s)",
+      "help": "Maximum number of buying AP.",
+      "0": "Don't buy",
+      "1": "1 (1000oil, 100AP)",
+      "2": "2 (2000oil, 200AP)",
+      "3": "3 (4000oil, 400AP)",
+      "4": "4 (6000oil, 600AP)",
+      "5": "5 (10000oil, 1000AP)"
     },
     "OilLimit": {
       "name": "OpsiGeneral.OilLimit.name",

@@ -1,7 +1,7 @@
 from module.base.base import ModuleBase
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
-from module.combat.assets import GET_ITEMS_1, GET_SHIP
+from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_SHIP
 from module.logger import logger
 from module.shop.assets import SHOP_CLICK_SAFE_AREA
 
@@ -100,19 +100,21 @@ class Navbar:
         """
         # Check name, identifies if NavBar
         # instance belongs to shop module
-        if self.name != 'SHOP_BOTTOM_NAVBAR':
+        if self.name not in ['SHOP_BOTTOM_NAVBAR', 'GUILD_SIDE_NAVBAR']:
             return False
 
         # Handle shop obstructions
         if main.appear(GET_SHIP, interval=1):
             main.device.click(SHOP_CLICK_SAFE_AREA)
             return True
-        if main.appear(GET_ITEMS_1, interval=1):
+        if main.appear(GET_ITEMS_1, offset=(30, 30), interval=1):
+            main.device.click(SHOP_CLICK_SAFE_AREA)
+            return True
+        if main.appear(GET_ITEMS_2, offset=(30, 30), interval=1):
             main.device.click(SHOP_CLICK_SAFE_AREA)
             return True
 
         return False
-
 
     def set(self, main, left=None, right=None, upper=None, bottom=None, skip_first_screenshot=True):
         """

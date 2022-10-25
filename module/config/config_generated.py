@@ -285,17 +285,20 @@ class GeneratedConfig:
     Gacha_UseTicket = True
     Gacha_UseDrill = False
 
+    # Group `BattlePass`
+    BattlePass_Collect = True
+
     # Group `DataKey`
-    DataKey_ForceGet = False
+    DataKey_Collect = True
+    DataKey_ForceCollect = False
+
+    # Group `Mail`
+    Mail_Collect = True
+    Mail_Filter = 'Merit'
+    Mail_Delete = False
 
     # Group `SupplyPack`
-    SupplyPack_WeeklyFreeSupplyPack = True
-
-    # Group `BattlePass`
-    BattlePass_BattlePassReward = True
-
-    # Group `MetaReward`
-    MetaReward_MetaReward = True
+    SupplyPack_Collect = True
 
     # Group `Daily`
     Daily_UseDailySkip = True
@@ -332,7 +335,7 @@ class GeneratedConfig:
 
     # Group `OpsiGeneral`
     OpsiGeneral_UseLogger = True
-    OpsiGeneral_BuyActionPoint = False
+    OpsiGeneral_BuyActionPointLimit = 0  # 0, 1, 2, 3, 4, 5
     OpsiGeneral_OilLimit = 1000
     OpsiGeneral_RepairThreshold = 0.4
     OpsiGeneral_DoRandomMapEvent = True

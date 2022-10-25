@@ -10,12 +10,20 @@ class GitManager(DeployConfig):
     def git(self):
         return self.filepath('GitExecutable')
 
+    @staticmethod
+    def remove(file):
+        try:
+            os.remove(file)
+            logger.info(f'Removed file: {file}')
+        except FileNotFoundError:
+            logger.info(f'File not found: {file}')
+
     def git_repository_init(self, repo, source='origin', branch='master', proxy='', keep_changes=False):
         logger.hr('Git Init', 1)
         if not self.execute(f'"{self.git}" init', allow_failure=True):
-            os.remove('./.git/config')
-            os.remove('./.git/index')
-            os.remove('./.git/HEAD')
+            self.remove('./.git/config')
+            self.remove('./.git/index')
+            self.remove('./.git/HEAD')
             self.execute(f'"{self.git}" init')
 
         logger.hr('Set Git Proxy', 1)

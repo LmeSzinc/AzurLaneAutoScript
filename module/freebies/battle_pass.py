@@ -1,7 +1,7 @@
 from module.base.timer import Timer
 from module.base.utils import get_color
-from module.battle_pass.assets import *
 from module.combat.combat import Combat
+from module.freebies.assets import *
 from module.logger import logger
 from module.ui.assets import BATTLE_PASS_CHECK, REWARD_GOTO_BATTLE_PASS
 from module.ui.page import page_reward
@@ -109,5 +109,3 @@ class BattlePass(Combat, UI):
         if self.battle_pass_red_dot_appear():
             self.battle_pass_enter()
             self.battle_pass_receive()
-
-        self.config.task_delay(server_update=True)
