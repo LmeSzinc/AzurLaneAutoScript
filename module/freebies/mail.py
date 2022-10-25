@@ -35,6 +35,7 @@ class Mail(UI):
                 already collected mail entries
             skip_first_screenshot (bool):
         """
+        logger.hr('Mail enter')
         btn_expanded = MAIL_BUTTON_GRID.buttons[0]
         btn_collapsed = btn_expanded.move((350, 0))
         self.interval_clear([page_main.check_button, MAIL_DELETE])
@@ -43,6 +44,13 @@ class Mail(UI):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
+
+            # End
+            if not delete and self._mail_selected(btn_expanded):
+                if self.appear(MAIL_COLLECT, offset=(20, 20)):
+                    break
+                if self.appear(MAIL_COLLECTED, offset=(20, 20)):
+                    break
 
             if self.appear(page_main.check_button, offset=(30, 30), interval=3):
                 self.device.click(MAIL_ENTER)
@@ -60,12 +68,6 @@ class Mail(UI):
             if self.handle_info_bar():
                 continue
 
-            # End
-            if not delete \
-                    and self.appear(MAIL_COLLECT, offset=(20, 20)) \
-                    and self._mail_selected(btn_expanded):
-                break
-
     def _mail_exit(self, skip_first_screenshot=True):
         """
         Exits from mail page back into page_main
@@ -73,6 +75,7 @@ class Mail(UI):
         Args:
             skip_first_screenshot (bool):
         """
+        logger.hr('Mail exit')
         self.interval_clear([MAIL_DELETE, GET_ITEMS_1, GET_ITEMS_2])
         while 1:
             if skip_first_screenshot:
@@ -155,6 +158,7 @@ class Mail(UI):
             item (Item):
             skip_first_screenshot (bool):
         """
+        logger.hr('Mail collect one')
         btn = item._button
         click_timer = Timer(1.5, count=3)
         self.interval_clear([MAIL_COLLECT, GET_ITEMS_1, GET_ITEMS_2])
@@ -196,6 +200,7 @@ class Mail(UI):
         Args:
             skip_first_screenshot (bool):
         """
+        logger.hr('Mail collect', level=2)
         for _ in range(5):
             if skip_first_screenshot:
                 skip_first_screenshot = False
