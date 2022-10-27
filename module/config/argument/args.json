@@ -4968,11 +4968,11 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "raid_20221027",
           "raid_20220630",
           "raid_20210708",
           "raid_20200624",
-          "raid_20220127",
-          "raid_20221027"
+          "raid_20220127"
         ],
         "display": "disabled",
         "cn": "raid_20221027",
@@ -5181,13 +5181,14 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "raid_20221027",
           "raid_20220630",
           "raid_20210708",
           "raid_20200624",
           "raid_20220127"
         ],
         "display": "disabled",
-        "cn": "raid_20220630",
+        "cn": "raid_20221027",
         "en": "raid_20220630",
         "jp": "raid_20220630",
         "tw": "raid_20210708"
