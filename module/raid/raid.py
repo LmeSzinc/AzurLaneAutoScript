@@ -112,8 +112,8 @@ def pt_ocr(raid):
     key = f'{raid}_OCR_PT'
     try:
         button = globals()[key]
-        if raid == 'IRIS':
-            return Digit(button, letter=(181, 178, 165), threshold=128)
+        if raid == 'ALBION':
+            return Digit(button, letter=(24, 20, 8), threshold=128)
     except KeyError:
         # raise ScriptError(f'Raid pt ocr asset not exists: {key}')
         return None
