@@ -41,6 +41,8 @@ def raid_name_shorten(name):
         return 'BRISTOL'
     elif name == 'raid_20220630':
         return 'IRIS'
+    elif name == "raid_20221027":
+        return "MAID"
     else:
         raise ScriptError(f'Unknown raid name: {name}')
 
@@ -91,6 +93,8 @@ def raid_ocr(raid, mode):
                 return RaidCounter(button, letter=(148, 138, 123), threshold=128, lang='cnocr')
             else:
                 return DigitCounter(button, letter=(148, 138, 123), threshold=128, lang='cnocr')
+        elif raid == "MAID":
+            return DigitCounter(button, letter=(99, 73, 57), threshold=128)
     except KeyError:
         raise ScriptError(f'Raid entrance asset not exists: {key}')
 
