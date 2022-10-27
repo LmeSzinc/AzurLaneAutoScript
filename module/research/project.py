@@ -335,6 +335,24 @@ class ResearchProject:
         '|plymouth|rupprecht|harbin|chkalov|brest)')
     REGEX_INPUT = re.compile('(coin|cube|part)')
     REGEX_DR_SHIP = re.compile('azuma|friedrich|drake|hakuryu|agir|plymouth|brest')
+    # Generate with:
+    """
+    out = []
+    for row in LIST_RESEARCH_PROJECT:
+        name = row['name']
+        if name.startswith('D'):
+            number = name.split('-')[1]
+            out.append(number)
+    print(out)
+    """
+    D_PROJECT_NUMBERS = [
+        '718', '731', '744', '759', '774', '792', '318', '331', '344', '359', '374', '392', '705', '712', '746', '757',
+        '779', '794', '305', '312', '346', '357', '379', '394', '721', '722', '772', '777', '795', '321', '322', '372',
+        '377', '395', '708', '763', '775', '782', '768', '308', '363', '375', '382', '368', '719', '778', '786', '788',
+        '793', '319', '378', '386', '388', '393', '418', '431', '444', '459', '474', '492', '018', '031', '044', '059',
+        '074', '092', '405', '412', '446', '457', '479', '494', '005', '012', '046', '057', '079', '094', '421', '422',
+        '472', '477', '495', '021', '022', '072', '077', '095', '408', '463', '475', '482', '468', '008', '063', '075',
+        '082', '068', '419', '478', '486', '488', '493', '019', '078', '086', '088', '093']
 
     def __init__(self, name, series):
         """
@@ -430,6 +448,9 @@ class ResearchProject:
             suffix = suffix.replace('UL1', 'UL').replace('ULI', 'UL').replace('UL5', 'UL')
             if suffix == 'U':
                 suffix = 'UL'
+            # TW ocr errors, convert B to D
+            if prefix == 'B' and number in ResearchProject.D_PROJECT_NUMBERS:
+                prefix = 'D'
             return '-'.join([prefix, number, suffix])
         elif len(parts) == 2:
             # Trying to insert '-', for results like H339-MI
