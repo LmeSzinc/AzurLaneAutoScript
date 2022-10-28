@@ -462,7 +462,7 @@ DataKey:
 Mail:
   Collect: true
   Filter: |-
-    Merit
+    Merit > Coolant
   Delete: false
 SupplyPack:
   Collect: true

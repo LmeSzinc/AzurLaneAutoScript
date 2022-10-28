@@ -16,7 +16,7 @@ MAIL_BUTTON_GRID = ButtonGrid(
     button_shape=(64, 64), grid_shape=(1, 3),
     name='MAIL_BUTTON_GRID')
 FILTER_REGEX = re.compile(
-    '^(cube|coin|oil|merit|gem)$',
+    '^(cube|coin|coolant|oil|merit|gem)$',
     flags=re.IGNORECASE)
 FILTER_ATTR = ['name']
 FILTER = Filter(FILTER_REGEX, FILTER_ATTR)

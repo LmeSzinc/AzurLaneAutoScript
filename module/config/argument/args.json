@@ -6325,7 +6325,7 @@
       },
       "Filter": {
         "type": "textarea",
-        "value": "Merit"
+        "value": "Merit > Coolant"
       },
       "Delete": {
         "type": "checkbox",
