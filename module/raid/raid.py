@@ -131,8 +131,9 @@ class Raid(MapOperation, Combat, CampaignEvent):
         """
         logger.info('Combat preparation.')
         skip_first_screenshot = True
-        if emotion_reduce:
-            self.emotion.wait(fleet_index)
+        # No need, already waited in `raid_execute_once()`
+        # if emotion_reduce:
+        #     self.emotion.wait(fleet_index)
 
         @run_once
         def check_oil():
