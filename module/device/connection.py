@@ -273,6 +273,29 @@ class Connection(ConnectionAttr):
         server.listen(5)
         return server
 
+    @cached_property
+    def nc_command(self):
+        """
+        Returns:
+            list[str]: ['nc'] or ['busybox', 'nc']
+        """
+        # Android 9 emulators does not have `nc`, try `busybox nc`
+        trial = [
+            ['nc'],
+            ['busybox', 'nc'],
+        ]
+        for command in trial:
+            # About 3ms
+            result = self.adb_shell(command)
+            # Result should be command help if success
+            # `/system/bin/sh: nc: not found` if failed
+            if ': not found' not in result:
+                logger.attr('nc command', command)
+                return command
+
+        logger.error('No `netcat` command available, please use screenshot methods without `_nc` suffix')
+        raise RequestHumanTakeover
+
     def adb_shell_nc(self, cmd, timeout=5, chunk_size=262144):
         """
         Args:
@@ -288,7 +311,7 @@ class Connection(ConnectionAttr):
         server.settimeout(timeout)
         # Client send data, waiting for server accept
         # <command> | nc 127.0.0.1 {port}
-        cmd += ["|", 'nc', *self._nc_server_host_port[2:]]
+        cmd += ["|", *self.nc_command, *self._nc_server_host_port[2:]]
         stream = self.adb_shell(cmd, stream=True, recvall=False)
         try:
             # Server accept connection
