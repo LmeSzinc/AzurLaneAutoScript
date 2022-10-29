@@ -1,9 +1,9 @@
 import numpy as np
 
 import module.config.server as server
+from module.base.decorator import run_once
 from module.base.timer import Timer
 from module.campaign.campaign_event import CampaignEvent
-from module.campaign.run import OCR_OIL
 from module.combat.assets import *
 from module.combat.combat import Combat
 from module.exception import ScriptError
@@ -130,24 +130,32 @@ class Raid(MapOperation, Combat, CampaignEvent):
             fleet_index (int):
         """
         logger.info('Combat preparation.')
-        oil_checked = False
-
+        skip_first_screenshot = True
         if emotion_reduce:
             self.emotion.wait(fleet_index)
 
+        @run_once
+        def check_oil():
+            if self.config.StopCondition_OilLimit:
+                if self.get_oil() < self.config.StopCondition_OilLimit:
+                    logger.hr('Triggered oil limit')
+                    raise OilExhausted
+
+        @run_once
+        def check_coin():
+            self.handle_task_balancer()
+
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
             if self.appear(BATTLE_PREPARATION):
                 if self.handle_combat_automation_set(auto=auto == 'combat_auto'):
                     continue
-                if not oil_checked and self.config.StopCondition_OilLimit:
-                    self.ensure_combat_oil_loaded()
-                    oil = OCR_OIL.ocr(self.device.image)
-                    oil_checked = True
-                    if oil < self.config.StopCondition_OilLimit:
-                        logger.hr('Triggered oil limit')
-                        raise OilExhausted
+                check_oil()
+                check_coin()
             if self.handle_raid_ticket_use():
                 continue
             if self.handle_retirement():

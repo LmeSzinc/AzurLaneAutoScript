@@ -1,13 +1,12 @@
 from module.base.timer import Timer
-from module.campaign.run import OCR_OIL
+from module.campaign.campaign_status import CampaignStatus
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.logger import logger
 from module.supply_pack.assets import *
 from module.ui.page import page_supply_pack
-from module.ui.ui import UI
 
 
-class SupplyPack(UI):
+class SupplyPack(CampaignStatus):
     def supply_pack_buy(self, supply_pack, skip_first_screenshot=True):
         """
         Args:
@@ -61,23 +60,6 @@ class SupplyPack(UI):
 
         logger.info(f'Supply pack buy finished, executed={executed}')
         return executed
-
-    def get_oil(self):
-        """
-        Returns:
-            int: Oil amount
-        """
-        timeout = Timer(1, count=3).start()
-        while 1:
-            oil = OCR_OIL.ocr(self.device.image)
-            if timeout.reached():
-                logger.warning('Get oil timeout')
-                return oil
-            if oil > 0:
-                return oil
-            else:
-                self.device.screenshot()
-                continue
 
     def run(self):
         """
