@@ -172,15 +172,15 @@ class FleetScanner(Scanner):
     def __init__(self) -> None:
         super().__init__()
         self._results = []
-        self.grids = CARD_GRIDS
-        self.templates = {
-            TEMPLATE_FLEET_1: 1,
-            TEMPLATE_FLEET_2: 2,
-            TEMPLATE_FLEET_3: 3,
-            TEMPLATE_FLEET_4: 4,
-            TEMPLATE_FLEET_5: 5,
-            TEMPLATE_FLEET_6: 6
-        }
+        self.grids = CARD_GRIDS.crop(area=(0, 117, 35, 162), name='FLEET')
+        self.templates = [
+            TEMPLATE_FLEET_1,
+            TEMPLATE_FLEET_2,
+            TEMPLATE_FLEET_3,
+            TEMPLATE_FLEET_4,
+            TEMPLATE_FLEET_5,
+            TEMPLATE_FLEET_6,
+        ]
 
     def pre_process(self, image):
         """
@@ -202,11 +202,17 @@ class FleetScanner(Scanner):
         will interfere with identification.
         Assuming it is not in any fleet if none matched.
         """
-        for template, fleet in self.templates.items():
-            if template.match(image):
-                return fleet
+        similarity = []
+        for template in self.templates:
+            res = cv2.matchTemplate(image, template.image, cv2.TM_CCOEFF_NORMED)
+            _, sim, _, _ = cv2.minMaxLoc(res)
+            similarity.append(sim)
 
-        return 0
+        pos = np.argmax(similarity)
+        if similarity[pos] >= 0.80:
+            return pos + 1
+        else:
+            return 0
 
     def _scan(self, image) -> List:
         image = self.pre_process(image)
