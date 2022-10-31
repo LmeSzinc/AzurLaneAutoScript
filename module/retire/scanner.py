@@ -172,7 +172,7 @@ class FleetScanner(Scanner):
     def __init__(self) -> None:
         super().__init__()
         self._results = []
-        self.grids = CARD_GRIDS
+        self.grids = CARD_GRIDS.crop(area=(0, 117, 35, 162), name='FLEET')
         self.templates = {
             TEMPLATE_FLEET_1: 1,
             TEMPLATE_FLEET_2: 2,
@@ -206,7 +206,12 @@ class FleetScanner(Scanner):
             if template.match(image):
                 return fleet
 
-        return 0
+        if TEMPLATE_FLEET_1.match(image, similarity=0.80):
+            return 1
+        elif TEMPLATE_FLEET_3.match(image, similarity=0.80):
+            return 3
+        else:
+            return 0
 
     def _scan(self, image) -> List:
         image = self.pre_process(image)
