@@ -1,59 +1,12 @@
 import re
 from datetime import datetime
 
-import cv2
-import numpy as np
-
-from module.base.decorator import cached_property
-from module.campaign.assets import OCR_EVENT_PT
+from module.campaign.campaign_status import CampaignStatus
 from module.config.utils import DEFAULT_TIME
 from module.logger import logger
-from module.ocr.ocr import Ocr
-from module.ui.ui import UI
 
 
-class PtOcr(Ocr):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, lang='azur_lane', alphabet='X0123456789', **kwargs)
-
-    def pre_process(self, image):
-        """
-        Args:
-            image (np.ndarray): Shape (height, width, channel)
-
-        Returns:
-            np.ndarray: Shape (width, height)
-        """
-        # Use MAX(r, g, b)
-        r, g, b = cv2.split(cv2.subtract((255, 255, 255, 0), image))
-        image = cv2.min(cv2.min(r, g), b)
-        # Remove background, 0-192 => 0-255
-        image = cv2.multiply(image, 255 / 192)
-
-        return image.astype(np.uint8)
-
-
-class CampaignEvent(UI):
-    @cached_property
-    def campaign_pt_ocr(self):
-        return PtOcr(OCR_EVENT_PT)
-
-    def get_event_pt(self):
-        """
-        Returns:
-            int: PT amount, or 0 if unable to parse
-        """
-        pt = self.campaign_pt_ocr.ocr(self.device.image)
-
-        res = re.search(r'X(\d+)', pt)
-        if res:
-            pt = int(res.group(1))
-            logger.attr('Event_PT', pt)
-            return pt
-        else:
-            logger.warning(f'Invalid pt result: {pt}')
-            return 0
-
+class CampaignEvent(CampaignStatus):
     def _disable_tasks(self, tasks):
         """
         Args:
@@ -149,3 +102,37 @@ class CampaignEvent(UI):
             return True
         else:
             return False
+
+    def triggered_task_balancer(self):
+        """
+        Returns:
+            bool: If triggered task_call
+        Pages:
+            in: page_event or page_sp
+        """
+        limit = self.config.TaskBalancer_CoinLimit
+        coin = self.get_coin()
+        tasks = [
+            'Event',
+            'Event2',
+            'Raid',
+            'GemsFarming',
+        ]
+        command = self.config.Scheduler_Command
+        # Check Coin
+        if coin < limit:
+            if command in tasks:
+                if self.config.Campaign_Event == 'campaign_main':
+                    return False
+                else:
+                    logger.hr('Triggered task balancer: Coin limit')
+                    return True
+        else:
+            return False
+
+    def handle_task_balancer(self):
+        if self.config.TaskBalancer_Enable and self.triggered_task_balancer():
+            self.config.task_delay(minute=5)
+            next_task = self.config.TaskBalancer_TaskCall
+            self.config.task_call(next_task)
+            self.config.task_stop()

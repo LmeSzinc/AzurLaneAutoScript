@@ -365,11 +365,11 @@ class OSMap(OSFleet, Map, GlobeCamera):
             return True
         elif remain <= 2:
             logger.info('Just less than 3 days to OpSi reset, '
-                        'set OpsiMeowfficerFarming.ActionPointPreserve < 200 temporarily')
+                        'set OpsiMeowfficerFarming.ActionPointPreserve < 300 temporarily')
             self.config.override(
                 OpsiMeowfficerFarming_ActionPointPreserve=min(
                     self.config.OpsiMeowfficerFarming_ActionPointPreserve,
-                    200)
+                    300)
             )
             return True
         else:
