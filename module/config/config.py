@@ -313,9 +313,8 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         with self.multi_set():
             for arg, value in kwargs.items():
                 record = arg.replace("Value", "Record")
-                if self.__getattribute__(arg) != value:
-                    self.__setattr__(arg, value)
-                    self.__setattr__(record, datetime.now().replace(microsecond=0))
+                self.__setattr__(arg, value)
+                self.__setattr__(record, datetime.now().replace(microsecond=0))
 
     def multi_set(self):
         """
