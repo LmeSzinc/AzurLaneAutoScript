@@ -77,7 +77,7 @@ DIC_OS_MAP = {
     151: {'shape': 'P16', 'hazard_level': 5, 'cn': 'NA海域深处A', 'en': 'NA Ocean Depths A', 'jp': 'NA海域深部A', 'tw': 'NA海域深處A', 'area_pos': (958, 799), 'offset_pos': (34, -48), 'region': 5},
     152: {'shape': 'P16', 'hazard_level': 5, 'cn': 'NA海域深处B', 'en': 'NA Ocean Depths B', 'jp': 'NA海域深部B', 'tw': 'NA海域深處B', 'area_pos': (1044, 789), 'offset_pos': (24, -38), 'region': 5},
     153: {'shape': 'P16', 'hazard_level': 6, 'cn': 'NA海域深处C', 'en': 'NA Ocean Depths C', 'jp': 'NA海域深部C', 'tw': 'NA海域深處C', 'area_pos': (964, 637), 'offset_pos': (-26, -40), 'region': 5},
-    154: {'shape': 'T20', 'hazard_level': 7, 'cn': '核心区前哨站', 'en': 'Forward Base', 'jp': '前哨基地', 'tw': 'NA海域中心', 'area_pos': (1002, 545), 'offset_pos': (-36, 0), 'region': 5},
+    154: {'shape': 'T20', 'hazard_level': 7, 'cn': '核心区前哨站', 'en': 'Forward Base', 'jp': '前哨基地', 'tw': '核心區前哨站', 'area_pos': (1002, 545), 'offset_pos': (-36, 0), 'region': 5},
     155: {'shape': 'P16', 'hazard_level': 6, 'cn': 'NA海域深处D', 'en': 'NA Ocean Depths D', 'jp': 'NA海域深部D', 'tw': 'NA海域深處D', 'area_pos': (880, 489), 'offset_pos': (-58, -12), 'region': 5},
     156: {'shape': 'P16', 'hazard_level': 6, 'cn': 'NA海域深处E', 'en': 'NA Ocean Depths E', 'jp': 'NA海域深部E', 'tw': 'NA海域深處E', 'area_pos': (1032, 487), 'offset_pos': (-38, -26), 'region': 5},
     157: {'shape': 'P16', 'hazard_level': 6, 'cn': 'NA海域深处F', 'en': 'NA Ocean Depths F', 'jp': 'NA海域深部F', 'tw': 'NA海域深處F', 'area_pos': (1062, 641), 'offset_pos': (42, -50), 'region': 5},
