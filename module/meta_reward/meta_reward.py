@@ -94,6 +94,12 @@ class MetaReward(Combat, UI):
         return received
 
     def run(self):
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            pass
+        else:
+            logger.info(f'MetaReward is not supported in {self.config.SERVER}, please contact server maintainers')
+            return
+
         self.ui_ensure(page_meta)
 
         if self.meta_reward_notice_appear():
