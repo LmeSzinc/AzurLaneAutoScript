@@ -281,7 +281,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         self.dock_favourite_set(False)
 
         scanner = ShipScanner(
-            rarity='common', fleet=0, status='free', level=(30, 100))
+            rarity='common', fleet=0, status='free', level=(24, 100))
         scanner.disable('emotion')
 
         total = 0
