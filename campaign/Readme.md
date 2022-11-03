@@ -115,3 +115,4 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20220915   | event 20220915 cn        | Violet Tempest Blooming Lycoris | 紫绛槿岚        | Violet Tempest Blooming Lycoris     | 赫の涙月 菫の暁風          | - |
 | 20221021   | event 20210121 cn        | Empyreal Tragicomedy            | -           | -                                   | -                  | 復刻神聖的悲喜劇 |
 | 20221027   | raid 20221027            | Fight! Royal Maid               | 战斗！皇家女仆队3rd    | Fight On, Royal Maids!(Part 3) | 戦え！ロイヤルメイド隊3rd | - |
+| 20221103   | event 20211111 cn        | The Flame-Touched Dagger        | -           | -                                   | -                  | 杰諾瓦的焰火   |
