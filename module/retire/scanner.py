@@ -330,8 +330,8 @@ class ShipScanner(Scanner):
 
         return candidates
 
-    def scan(self, image, cached=False, output=False) -> Union[List, None]:
-        return [ship for ship in super().scan(image, cached, output=True)
+    def scan(self, image, cached=False, output=True) -> Union[List, None]:
+        return [ship for ship in super().scan(image, cached, output)
                 if ship.satisfy_limitation(self.limitaion)]
 
     def move(self, vector) -> None:
