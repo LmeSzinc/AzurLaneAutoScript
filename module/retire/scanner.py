@@ -69,7 +69,7 @@ class Scanner(metaclass=ABCMeta):
         """
         self._results.clear()
 
-    def scan(self, image, cached=False) -> Union[List, None]:
+    def scan(self, image, cached=False, output=False) -> Union[List, None]:
         """
         If scanner is enabled, return the real results.
         Otherwise, return a series of None.
@@ -77,13 +77,16 @@ class Scanner(metaclass=ABCMeta):
         For multi-scan, caching the results is recommended.
         If cached is set, results will be cached.
         """
-        result: List = self._scan(image) if self._enabled else self._disabled_value
+        results: List = self._scan(image) if self._enabled else self._disabled_value
+
+        if output:
+            for result in results:
+                logger.info(f'{result}')
+
         if cached:
-            self._results.extend(result)
+            self._results.extend(results)
         else:
-            for ship in result:
-                logger.info(f'{ship}')
-            return result
+            return results
 
     def move(self, vector) -> None:
         """
@@ -325,7 +328,11 @@ class ShipScanner(Scanner):
         for scanner in self.sub_scanners.values():
             scanner.clear()
 
-        return [ship for ship in candidates if ship.satisfy_limitation(self.limitaion)]
+        return candidates
+
+    def scan(self, image, cached=False, output=False) -> Union[List, None]:
+        return [ship for ship in super().scan(image, cached, output=True)
+                if ship.satisfy_limitation(self.limitaion)]
 
     def move(self, vector) -> None:
         """
