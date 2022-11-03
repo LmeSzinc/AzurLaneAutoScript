@@ -260,22 +260,7 @@ Gacha:
     SuccessInterval: 30
     FailureInterval: 30
     ServerUpdate: 00:00
-DataKey:
-  Scheduler:
-    SuccessInterval: 30
-    FailureInterval: 30
-    ServerUpdate: 00:00
-SupplyPack:
-  Scheduler:
-    SuccessInterval: 30
-    FailureInterval: 30
-    ServerUpdate: 00:00
-BattlePass:
-  Scheduler:
-    SuccessInterval: 30
-    FailureInterval: 30
-    ServerUpdate: 00:00
-MetaReward:
+Freebies:
   Scheduler:
     SuccessInterval: 30
     FailureInterval: 30

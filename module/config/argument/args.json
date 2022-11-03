@@ -6270,7 +6270,7 @@
       }
     }
   },
-  "DataKey": {
+  "Freebies": {
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
@@ -6283,85 +6283,7 @@
       },
       "Command": {
         "type": "input",
-        "value": "DataKey",
-        "display": "hide"
-      },
-      "SuccessInterval": {
-        "type": "input",
-        "value": 30,
-        "display": "hide"
-      },
-      "FailureInterval": {
-        "type": "input",
-        "value": 30,
-        "display": "hide"
-      },
-      "ServerUpdate": {
-        "type": "input",
-        "value": "00:00",
-        "display": "hide"
-      }
-    },
-    "DataKey": {
-      "ForceGet": {
-        "type": "checkbox",
-        "value": false
-      }
-    }
-  },
-  "SupplyPack": {
-    "Scheduler": {
-      "Enable": {
-        "type": "checkbox",
-        "value": true
-      },
-      "NextRun": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "Command": {
-        "type": "input",
-        "value": "SupplyPack",
-        "display": "hide"
-      },
-      "SuccessInterval": {
-        "type": "input",
-        "value": 30,
-        "display": "hide"
-      },
-      "FailureInterval": {
-        "type": "input",
-        "value": 30,
-        "display": "hide"
-      },
-      "ServerUpdate": {
-        "type": "input",
-        "value": "00:00",
-        "display": "hide"
-      }
-    },
-    "SupplyPack": {
-      "WeeklyFreeSupplyPack": {
-        "type": "checkbox",
-        "value": true
-      }
-    }
-  },
-  "BattlePass": {
-    "Scheduler": {
-      "Enable": {
-        "type": "checkbox",
-        "value": true
-      },
-      "NextRun": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "Command": {
-        "type": "input",
-        "value": "BattlePass",
+        "value": "Freebies",
         "display": "hide"
       },
       "SuccessInterval": {
@@ -6381,46 +6303,37 @@
       }
     },
     "BattlePass": {
-      "BattlePassReward": {
+      "Collect": {
         "type": "checkbox",
         "value": true
-      }
-    }
-  },
-  "MetaReward": {
-    "Scheduler": {
-      "Enable": {
-        "type": "checkbox",
-        "value": true
-      },
-      "NextRun": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "Command": {
-        "type": "input",
-        "value": "MetaReward",
-        "display": "hide"
-      },
-      "SuccessInterval": {
-        "type": "input",
-        "value": 30,
-        "display": "hide"
-      },
-      "FailureInterval": {
-        "type": "input",
-        "value": 30,
-        "display": "hide"
-      },
-      "ServerUpdate": {
-        "type": "input",
-        "value": "00:00",
-        "display": "hide"
       }
     },
-    "MetaReward": {
-      "MetaReward": {
+    "DataKey": {
+      "Collect": {
+        "type": "checkbox",
+        "value": true
+      },
+      "ForceCollect": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
+    "Mail": {
+      "Collect": {
+        "type": "checkbox",
+        "value": true
+      },
+      "Filter": {
+        "type": "textarea",
+        "value": "Merit > Coolant"
+      },
+      "Delete": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
+    "SupplyPack": {
+      "Collect": {
         "type": "checkbox",
         "value": true
       }

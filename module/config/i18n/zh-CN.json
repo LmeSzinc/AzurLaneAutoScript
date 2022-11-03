@@ -154,20 +154,8 @@
       "name": "每日抽卡",
       "help": ""
     },
-    "DataKey": {
-      "name": "档案密钥",
-      "help": ""
-    },
-    "SupplyPack": {
-      "name": "优惠礼包",
-      "help": ""
-    },
-    "BattlePass": {
-      "name": "大月卡",
-      "help": ""
-    },
-    "MetaReward": {
-      "name": "Meta奖励",
+    "Freebies": {
+      "name": "白嫖奖励",
       "help": ""
     },
     "Daily": {
@@ -1038,7 +1026,7 @@
     },
     "FlagshipChange": {
       "name": "更换旗舰",
-      "help": "寻找等级为1的白皮航母"
+      "help": "寻找等级在1-32之间的白皮航母，同时会在退役时选择更换下来的旗舰。\n所有等级大于24级的白皮航母均会被视为退役目标，请务必锁定不是目标的船。"
     },
     "FlagshipEquipChange": {
       "name": "更换旗舰的装备",
@@ -1694,14 +1682,46 @@
       "help": "选否会等到明天再下水，能贪一个钻头"
     }
   },
+  "BattlePass": {
+    "_info": {
+      "name": "大月卡",
+      "help": ""
+    },
+    "Collect": {
+      "name": "领取大月卡奖励",
+      "help": ""
+    }
+  },
   "DataKey": {
     "_info": {
       "name": "档案秘钥",
       "help": ""
     },
-    "ForceGet": {
+    "Collect": {
+      "name": "领取档案秘钥",
+      "help": ""
+    },
+    "ForceCollect": {
       "name": "强制领取档案秘钥",
       "help": "档案秘钥已满时，强制领取（消除红点）"
+    }
+  },
+  "Mail": {
+    "_info": {
+      "name": "领取邮件",
+      "help": ""
+    },
+    "Collect": {
+      "name": "领取邮件",
+      "help": ""
+    },
+    "Filter": {
+      "name": "邮件过滤器",
+      "help": "默认只领取演习功勋邮件"
+    },
+    "Delete": {
+      "name": "删除已读邮件",
+      "help": ""
     }
   },
   "SupplyPack": {
@@ -1709,28 +1729,8 @@
       "name": "优惠礼包",
       "help": ""
     },
-    "WeeklyFreeSupplyPack": {
+    "Collect": {
       "name": "购买每周免费礼包",
-      "help": ""
-    }
-  },
-  "BattlePass": {
-    "_info": {
-      "name": "大月卡",
-      "help": ""
-    },
-    "BattlePassReward": {
-      "name": "领取大月卡奖励",
-      "help": ""
-    }
-  },
-  "MetaReward": {
-    "_info": {
-      "name": "Meta 奖励",
-      "help": ""
-    },
-    "MetaReward": {
-      "name": "领取 Meta 奖励",
       "help": ""
     }
   },

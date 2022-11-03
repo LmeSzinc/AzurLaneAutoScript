@@ -51,16 +51,7 @@ Reward:
 
 # ==================== DailyReward ====================
 
-DataKey:
-  Scheduler:
-    Enable: true
-SupplyPack:
-  Scheduler:
-    Enable: true
-BattlePass:
-  Scheduler:
-    Enable: true
-MetaReward:
+Freebies:
   Scheduler:
     Enable: true
 

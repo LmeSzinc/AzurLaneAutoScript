@@ -219,21 +219,9 @@ class AzurLaneAutoScript:
         from module.gacha.gacha_reward import RewardGacha
         RewardGacha(config=self.config, device=self.device).run()
 
-    def data_key(self):
-        from module.data_key.data_key import RewardDataKey
-        RewardDataKey(config=self.config, device=self.device).run()
-
-    def supply_pack(self):
-        from module.supply_pack.supply_pack import SupplyPack
-        SupplyPack(config=self.config, device=self.device).run()
-
-    def battle_pass(self):
-        from module.battle_pass.battle_pass import BattlePass
-        BattlePass(config=self.config, device=self.device).run()
-
-    def meta_reward(self):
-        from module.meta_reward.meta_reward import MetaReward
-        MetaReward(config=self.config, device=self.device).run()
+    def freebies(self):
+        from module.freebies.freebies import Freebies
+        Freebies(config=self.config, device=self.device).run()
 
     def daily(self):
         from module.daily.daily import Daily

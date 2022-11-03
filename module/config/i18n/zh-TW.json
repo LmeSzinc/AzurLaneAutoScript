@@ -154,20 +154,8 @@
       "name": "每日建造",
       "help": ""
     },
-    "DataKey": {
-      "name": "檔案密鑰",
-      "help": ""
-    },
-    "SupplyPack": {
-      "name": "優惠禮包",
-      "help": ""
-    },
-    "BattlePass": {
-      "name": "大月卡",
-      "help": ""
-    },
-    "MetaReward": {
-      "name": "Meta獎勵",
+    "Freebies": {
+      "name": "免費獎勵",
       "help": ""
     },
     "Daily": {
@@ -1038,7 +1026,7 @@
     },
     "FlagshipChange": {
       "name": "更換旗艦",
-      "help": "尋找等級為1的白船航母"
+      "help": "尋找等級在1-32之間的白船航母，同時會在退役時選擇更換下來的旗艦。\n所有等級大於24級的白船航母均會被視為退役目標，請務必鎖定不是目標的船。"
     },
     "FlagshipEquipChange": {
       "name": "更換旗艦的裝備",
@@ -1694,14 +1682,46 @@
       "help": ""
     }
   },
-  "DataKey": {
+  "BattlePass": {
     "_info": {
-      "name": "檔案密鑰",
+      "name": "大月卡",
       "help": ""
     },
-    "ForceGet": {
-      "name": "强制領取",
-      "help": "檔案密鑰已滿時，强制領取（消除紅點）"
+    "Collect": {
+      "name": "領取大月卡獎勵",
+      "help": ""
+    }
+  },
+  "DataKey": {
+    "_info": {
+      "name": "檔案秘鑰",
+      "help": ""
+    },
+    "Collect": {
+      "name": "領取檔案秘鑰",
+      "help": ""
+    },
+    "ForceCollect": {
+      "name": "強制領取檔案秘鑰",
+      "help": "檔案秘鑰已滿時，強制領取（消除紅點）"
+    }
+  },
+  "Mail": {
+    "_info": {
+      "name": "領取郵件",
+      "help": ""
+    },
+    "Collect": {
+      "name": "領取郵件",
+      "help": ""
+    },
+    "Filter": {
+      "name": "郵件過濾器",
+      "help": "默認只領取演習功勳郵件"
+    },
+    "Delete": {
+      "name": "刪除已讀郵件",
+      "help": ""
     }
   },
   "SupplyPack": {
@@ -1709,28 +1729,8 @@
       "name": "優惠禮包",
       "help": ""
     },
-    "WeeklyFreeSupplyPack": {
+    "Collect": {
       "name": "購買每週免費禮包",
-      "help": ""
-    }
-  },
-  "BattlePass": {
-    "_info": {
-      "name": "大月卡",
-      "help": ""
-    },
-    "BattlePassReward": {
-      "name": "領取大月卡獎勵",
-      "help": ""
-    }
-  },
-  "MetaReward": {
-    "_info": {
-      "name": "META 獎勵",
-      "help": ""
-    },
-    "MetaReward": {
-      "name": "領取 META 獎勵",
       "help": ""
     }
   },

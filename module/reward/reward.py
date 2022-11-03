@@ -72,7 +72,9 @@ class Reward(UI):
             bool, if encountered at least 1 GET_ITEMS_*
         """
         # Reset any existing interval for the following assets
-        [self.interval_clear(asset) for asset in [GET_ITEMS_1, GET_ITEMS_2, MISSION_MULTI, MISSION_SINGLE, GET_SHIP]]
+        self.interval_clear([GET_ITEMS_1, GET_ITEMS_2,
+                             MISSION_MULTI, MISSION_SINGLE,
+                             GET_SHIP])
 
         # Basic timers for certain scenarios
         exit_timer = Timer(2)
@@ -181,9 +183,10 @@ class Reward(UI):
     def reward_mission(self, daily=True, weekly=True):
         """
         Collects mission rewards
+
         Args:
-            daily: If collect daily rewards
-            weekly: If collect weekly rewards
+            daily (bool): If collect daily rewards
+            weekly (bool): If collect weekly rewards
 
         Returns:
             bool: If rewarded.

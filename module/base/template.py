@@ -18,6 +18,7 @@ class Template(Resource):
         """
         self.raw_file = file
         self._image = None
+        self._image_binary = None
 
         self.resource_add(self.file)
 

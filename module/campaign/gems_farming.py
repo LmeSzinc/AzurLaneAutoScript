@@ -1,6 +1,5 @@
 from module.campaign.campaign_base import CampaignBase
 from module.campaign.run import CampaignRun
-from module.combat.level import LevelOcr
 from module.equipment.assets import *
 from module.equipment.equipment_change import EquipmentChange
 from module.equipment.fleet_equipment import OCR_FLEET_INDEX
@@ -10,7 +9,8 @@ from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
 from module.combat.assets import BATTLE_PREPARATION
 from module.ocr.ocr import Digit
 from module.retire.assets import DOCK_CHECK, TEMPLATE_BOGUE, TEMPLATE_HERMES, TEMPLATE_LANGLEY, TEMPLATE_RANGER
-from module.retire.dock import Dock, CARD_GRIDS, CARD_EMOTION_GRIDS, CARD_LEVEL_GRIDS
+from module.retire.dock import Dock
+from module.retire.scanner import ShipScanner
 from module.ui.page import page_fleet
 from module.ui.ui import BACK_ARROW
 
@@ -36,7 +36,7 @@ class GemsCampaignOverride(CampaignBase):
 
                     if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
                         continue
-                        
+
                     if self.appear(BATTLE_PREPARATION, offset=(20, 20), interval=2):
                         self.device.click(BACK_ARROW)
 
@@ -136,7 +136,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
             self.equipment_take_on()
             self.ui_back(page_fleet.check_button)
-        
+
         return success
 
     def _ship_change_confirm(self, button):
@@ -148,33 +148,28 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
     def get_common_rarity_cv(self):
         """
         Get a common rarity cv by config.GemsFarming_CommonCV
-        If config.GemsFarming_CommonCV == 'any', return a common lv1 cv
+        If config.GemsFarming_CommonCV == 'any', return a common lv1 ~ lv33 cv
         Returns:
-            Button:
+            Ship:
         """
 
-        level_grids = CARD_LEVEL_GRIDS
-        card_grids = CARD_GRIDS
-        emotion_grids = CARD_EMOTION_GRIDS
         logger.hr('FINDING FLAGSHIP')
+
+        scanner = ShipScanner(
+            level=(1, 33), emotion=(10, 150), rarity='common', fleet=0, status='free')
+
+        if not self.server_support_status_fleet_scan():
+            logger.info(f'Server {self.config.SERVER} does not yet support status and fleet scanning')
+            logger.info('Please contact the developer to improve as soon as possible')
+            scanner.disable('status', 'fleet')
+            scanner.set_limitation(level=(1, 1))
 
         if self.config.GemsFarming_CommonCV == 'any':
             logger.info('')
 
             self.dock_sort_method_dsc_set(False)
 
-            level_ocr = LevelOcr(level_grids.buttons,
-                                 name='DOCK_LEVEL_OCR', threshold=64)
-            list_level = level_ocr.ocr(self.device.image)
-            emotion_ocr = Digit(emotion_grids.buttons,
-                                name='DOCK_EMOTION_OCR', threshold=176)
-            list_emotion = emotion_ocr.ocr(self.device.image)
-
-            for button, level, emotion in list(zip(card_grids.buttons, list_level, list_emotion))[::-1]:
-                if 0 < level <= 31 and emotion >= 10:
-                    return button
-
-            return None
+            return scanner.scan(self.device.image)
         else:
             template = {
                 'BOGUE': TEMPLATE_BOGUE,
@@ -185,67 +180,40 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
             self.dock_sort_method_dsc_set()
 
-            level_ocr = LevelOcr(level_grids.buttons, name='DOCK_LEVEL_OCR')
-            list_level = level_ocr.ocr(self.device.image)
-            emotion_ocr = Digit(emotion_grids.buttons,
-                                name='DOCK_EMOTION_OCR', threshold=176)
-            list_emotion = emotion_ocr.ocr(self.device.image)
+            candidates = [ship for ship in scanner.scan(self.device.image)
+                          if template.match(self.image_crop(ship.button), similarity=SIM_VALUE)]
 
-            for button, level, emotion in zip(card_grids.buttons, list_level, list_emotion):
-                if (0 < level <= 31
-                        and emotion >= 10
-                        and template.match(self.image_crop(button), similarity=SIM_VALUE)):
-                    return button
+            if candidates:
+                return candidates
 
             logger.info('No specific CV was found, try reversed order.')
             self.dock_sort_method_dsc_set(False)
 
-            list_level = level_ocr.ocr(self.device.image)
-            list_emotion = emotion_ocr.ocr(self.device.image)
+            candidates = [ship for ship in scanner.scan(self.device.image)
+                          if template.match(self.image_crop(ship.button), similarity=SIM_VALUE)]
 
-            for button, level, emotion in zip(card_grids.buttons, list_level, list_emotion):
-                if (0 < level <= 31
-                        and emotion >= 10
-                        and template.match(self.image_crop(button), similarity=SIM_VALUE)):
-                    return button
-
-            return None
+            return candidates
 
     def get_common_rarity_dd(self):
         """
-        Get a common rarity dd with level is 100 and highest emotion
+        Get a common rarity dd with level is 100 (70 for servers except CN) and emotion > 10
         Returns:
-            Button:
+            Ship:
         """
         logger.hr('FINDING VANGUARD')
 
-        level_grids = CARD_LEVEL_GRIDS
-        card_grids = CARD_GRIDS
-        emotion_grids = CARD_EMOTION_GRIDS
-
-        level_ocr = LevelOcr(level_grids.buttons,
-                             name='DOCK_LEVEL_OCR', threshold=64)
-        list_level = level_ocr.ocr(self.device.image)
-        emotion_ocr = Digit(emotion_grids.buttons,
-                            name='DOCK_EMOTION_OCR', threshold=176)
-        list_emotion = emotion_ocr.ocr(self.device.image)
-
-        button_list = list(zip(card_grids.buttons, list_level, list_emotion))[::-1]
-
-        # for :
-        #     if level == 100 and emotion == 150:
-        #         return button
         if self.config.SERVER in ['cn']:
             max_level = 100
         else:
             max_level = 70
 
-        button_list = list(filter(lambda a: a[1] == max_level and a[2] >= 10, button_list))
-        if button_list:
-            button, _, _ = max(button_list, key=lambda a: a[2])
-            return button
-        else:
-            return None
+        scanner = ShipScanner(level=(max_level, max_level), emotion=(10, 150),
+                              rarity='common', fleet=0, status='free')
+
+        if not self.server_support_status_fleet_scan():
+            scanner.disable('status', 'fleet')
+
+        return scanner.scan(self.device.image)
 
     def flagship_change_execute(self):
         """
@@ -263,8 +231,8 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         self.dock_favourite_set(False)
 
         ship = self.get_common_rarity_cv()
-        if ship is not None:
-            self._ship_change_confirm(ship)
+        if ship:
+            self._ship_change_confirm(ship[0].button)
 
             logger.info('Change flagship success')
             return True
@@ -290,8 +258,8 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         self.dock_favourite_set(False)
 
         ship = self.get_common_rarity_dd()
-        if ship is not None:
-            self._ship_change_confirm(ship)
+        if ship:
+            self._ship_change_confirm(ship[0].button)
 
             logger.info('Change vanguard ship success')
             return True
@@ -343,11 +311,11 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
             # End
             if self._trigger_lv32 or self._trigger_emotion:
-                self.flagship_change()
+                success = self.flagship_change()
 
                 if self.config.GemsFarming_LowEmotionRetreat and self.config.GemsFarming_VanguardChange:
-                    self.vanguard_change()
-                    
+                    success = success and self.vanguard_change()
+
                 if is_limit and self.config.StopCondition_RunCount <= 0:
                     logger.hr('Triggered stop condition: Run count')
                     self.config.StopCondition_RunCount = 0
@@ -363,7 +331,14 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                 if self.config.task_switched():
                     self.campaign.ensure_auto_search_exit()
                     self.config.task_stop()
+                elif not success:
+                    self.campaign.ensure_auto_search_exit()
+                    self.config.task_delay(minute=30)
+                    self.config.task_stop()
 
                 continue
             else:
                 break
+
+    def server_support_status_fleet_scan(self) -> bool:
+        return self.config.SERVER in ['cn', 'en']

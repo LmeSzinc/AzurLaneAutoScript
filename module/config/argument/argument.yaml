@@ -454,14 +454,18 @@ Gacha:
     option: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   UseTicket: true
   UseDrill: false
-DataKey:
-  ForceGet: false
-SupplyPack:
-  WeeklyFreeSupplyPack: true
 BattlePass:
-  BattlePassReward: true
-MetaReward:
-  MetaReward: true
+  Collect: true
+DataKey:
+  Collect: true
+  ForceCollect: false
+Mail:
+  Collect: true
+  Filter: |-
+    Merit > Coolant
+  Delete: false
+SupplyPack:
+  Collect: true
 
 # ==================== Daily ====================
 

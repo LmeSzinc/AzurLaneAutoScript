@@ -12,9 +12,9 @@ class ManualConfig:
     Restart
     > Commission > Tactical > Research
     > Exercise
-    > Dorm > Meowfficer > Guild > Gacha > SupplyPack
-    > Reward > MetaReward > BattlePass
-    > ShopFrequent > ShopOnce > Shipyard > DataKey
+    > Dorm > Meowfficer > Guild > Gacha
+    > Reward
+    > ShopFrequent > ShopOnce > Shipyard > Freebies
     > OpsiExplore
     > OpsiAshBeacon
     > OpsiDaily > OpsiShop

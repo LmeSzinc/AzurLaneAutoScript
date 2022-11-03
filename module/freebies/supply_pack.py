@@ -1,8 +1,8 @@
 from module.base.timer import Timer
 from module.campaign.campaign_status import CampaignStatus
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
+from module.freebies.assets import *
 from module.logger import logger
-from module.supply_pack.assets import *
 from module.ui.page import page_supply_pack
 
 
@@ -73,5 +73,3 @@ class SupplyPack(CampaignStatus):
             self.supply_pack_buy(FREE_SUPPLY_PACK)
         else:
             logger.info('Oil > 21000, unable to buy free weekly supply pack')
-
-        self.config.task_delay(server_update=True)

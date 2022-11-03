@@ -1205,56 +1205,29 @@
       "UseDrill": false
     }
   },
-  "DataKey": {
+  "Freebies": {
     "Scheduler": {
       "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
-      "Command": "DataKey",
-      "SuccessInterval": 30,
-      "FailureInterval": 30,
-      "ServerUpdate": "00:00"
-    },
-    "DataKey": {
-      "ForceGet": false
-    }
-  },
-  "SupplyPack": {
-    "Scheduler": {
-      "Enable": true,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "SupplyPack",
-      "SuccessInterval": 30,
-      "FailureInterval": 30,
-      "ServerUpdate": "00:00"
-    },
-    "SupplyPack": {
-      "WeeklyFreeSupplyPack": true
-    }
-  },
-  "BattlePass": {
-    "Scheduler": {
-      "Enable": true,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "BattlePass",
+      "Command": "Freebies",
       "SuccessInterval": 30,
       "FailureInterval": 30,
       "ServerUpdate": "00:00"
     },
     "BattlePass": {
-      "BattlePassReward": true
-    }
-  },
-  "MetaReward": {
-    "Scheduler": {
-      "Enable": true,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "MetaReward",
-      "SuccessInterval": 30,
-      "FailureInterval": 30,
-      "ServerUpdate": "00:00"
+      "Collect": true
     },
-    "MetaReward": {
-      "MetaReward": true
+    "DataKey": {
+      "Collect": true,
+      "ForceCollect": false
+    },
+    "Mail": {
+      "Collect": true,
+      "Filter": "Merit > Coolant",
+      "Delete": false
+    },
+    "SupplyPack": {
+      "Collect": true
     }
   },
   "Daily": {
