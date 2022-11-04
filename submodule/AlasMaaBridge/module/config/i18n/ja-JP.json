@@ -176,7 +176,26 @@
     },
     "Stage": {
       "name": "MaaFight.Stage.name",
-      "help": "MaaFight.Stage.help"
+      "help": "MaaFight.Stage.help",
+      "last": "last",
+      "1-7": "1-7",
+      "CE-6": "CE-6",
+      "AP-5": "AP-5",
+      "CA-5": "CA-5",
+      "LS-6": "LS-6",
+      "PR-A-1": "PR-A-1",
+      "PR-A-2": "PR-A-2",
+      "PR-B-1": "PR-B-1",
+      "PR-B-2": "PR-B-2",
+      "PR-C-1": "PR-C-1",
+      "PR-C-2": "PR-C-2",
+      "PR-D-1": "PR-D-1",
+      "PR-D-2": "PR-D-2",
+      "custom": "custom"
+    },
+    "CustomStage": {
+      "name": "MaaFight.CustomStage.name",
+      "help": "MaaFight.CustomStage.help"
     },
     "Medicine": {
       "name": "MaaFight.Medicine.name",
