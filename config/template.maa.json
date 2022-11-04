@@ -41,7 +41,8 @@
       "ServerUpdate": "04:00"
     },
     "MaaFight": {
-      "Stage": "Annihilation",
+      "Stage": "last",
+      "CustomStage": null,
       "Medicine": 0,
       "Stone": 0,
       "Times": 5,
@@ -59,7 +60,8 @@
       "ServerUpdate": "04:00"
     },
     "MaaFight": {
-      "Stage": "1-7",
+      "Stage": "last",
+      "CustomStage": null,
       "Medicine": 0,
       "Stone": 0,
       "Times": 0,
@@ -77,7 +79,8 @@
       "ServerUpdate": "04:00"
     },
     "MaaFight": {
-      "Stage": "1-7",
+      "Stage": "last",
+      "CustomStage": null,
       "Medicine": 0,
       "Stone": 0,
       "Times": 0,

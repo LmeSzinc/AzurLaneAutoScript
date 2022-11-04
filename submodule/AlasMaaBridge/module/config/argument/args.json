@@ -136,10 +136,30 @@
     },
     "MaaFight": {
       "Stage": {
+        "type": "select",
+        "value": "last",
+        "option": [
+          "last",
+          "1-7",
+          "CE-6",
+          "AP-5",
+          "CA-5",
+          "LS-6",
+          "PR-A-1",
+          "PR-A-2",
+          "PR-B-1",
+          "PR-B-2",
+          "PR-C-1",
+          "PR-C-2",
+          "PR-D-1",
+          "PR-D-2",
+          "custom"
+        ]
+      },
+      "CustomStage": {
         "type": "input",
-        "value": "Annihilation",
-        "valuetype": "str",
-        "display": "hide"
+        "value": null,
+        "valuetype": "str"
       },
       "Medicine": {
         "type": "input",
@@ -202,8 +222,29 @@
     },
     "MaaFight": {
       "Stage": {
+        "type": "select",
+        "value": "last",
+        "option": [
+          "last",
+          "1-7",
+          "CE-6",
+          "AP-5",
+          "CA-5",
+          "LS-6",
+          "PR-A-1",
+          "PR-A-2",
+          "PR-B-1",
+          "PR-B-2",
+          "PR-C-1",
+          "PR-C-2",
+          "PR-D-1",
+          "PR-D-2",
+          "custom"
+        ]
+      },
+      "CustomStage": {
         "type": "input",
-        "value": "1-7",
+        "value": null,
         "valuetype": "str"
       },
       "Medicine": {
@@ -262,8 +303,29 @@
     },
     "MaaFight": {
       "Stage": {
+        "type": "select",
+        "value": "last",
+        "option": [
+          "last",
+          "1-7",
+          "CE-6",
+          "AP-5",
+          "CA-5",
+          "LS-6",
+          "PR-A-1",
+          "PR-A-2",
+          "PR-B-1",
+          "PR-B-2",
+          "PR-C-1",
+          "PR-C-2",
+          "PR-D-1",
+          "PR-D-2",
+          "custom"
+        ]
+      },
+      "CustomStage": {
         "type": "input",
-        "value": "1-7",
+        "value": null,
         "valuetype": "str"
       },
       "Medicine": {

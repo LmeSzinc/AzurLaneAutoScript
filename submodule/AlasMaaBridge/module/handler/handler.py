@@ -156,12 +156,17 @@ class AssistantHandler:
 
     def fight(self):
         args = {
-            "stage": self.config.MaaFight_Stage,
             "report_to_penguin": self.config.MaaRecord_ReportToPenguin,
             "server": self.config.MaaEmulator_Server,
             "client_type": self.config.MaaEmulator_PackageName,
             "DrGrandet": self.config.MaaFight_DrGrandet,
         }
+        if self.config.MaaFight_Stage == 'last':
+            args['stage'] = ''
+        elif self.config.MaaFight_Stage == 'custom':
+            args['stage'] = self.config.MaaFight_CustomStage
+        else:
+            args['stage'] = self.config.MaaFight_Stage
 
         if self.config.MaaFight_Medicine != 0:
             args["medicine"] = self.config.MaaFight_Medicine
