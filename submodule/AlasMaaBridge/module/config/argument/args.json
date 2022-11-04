@@ -158,23 +158,19 @@
       },
       "CustomStage": {
         "type": "input",
-        "value": null,
-        "valuetype": "str"
+        "value": null
       },
       "Medicine": {
         "type": "input",
-        "value": 0,
-        "display": "hide"
+        "value": null
       },
       "Stone": {
         "type": "input",
-        "value": 0,
-        "display": "hide"
+        "value": null
       },
       "Times": {
         "type": "input",
-        "value": 5,
-        "display": "hide"
+        "value": null
       },
       "Drops": {
         "type": "textarea",
@@ -211,7 +207,7 @@
       },
       "FailureInterval": {
         "type": "input",
-        "value": 120,
+        "value": 480,
         "display": "hide"
       },
       "ServerUpdate": {
@@ -244,20 +240,19 @@
       },
       "CustomStage": {
         "type": "input",
-        "value": null,
-        "valuetype": "str"
+        "value": null
       },
       "Medicine": {
         "type": "input",
-        "value": 0
+        "value": null
       },
       "Stone": {
         "type": "input",
-        "value": 0
+        "value": null
       },
       "Times": {
         "type": "input",
-        "value": 0
+        "value": null
       },
       "Drops": {
         "type": "textarea",
@@ -325,23 +320,19 @@
       },
       "CustomStage": {
         "type": "input",
-        "value": null,
-        "valuetype": "str"
+        "value": null
       },
       "Medicine": {
         "type": "input",
-        "value": 0,
-        "display": "hide"
+        "value": null
       },
       "Stone": {
         "type": "input",
-        "value": 0,
-        "display": "hide"
+        "value": null
       },
       "Times": {
         "type": "input",
-        "value": 0,
-        "display": "hide"
+        "value": null
       },
       "Drops": {
         "type": "textarea",

@@ -13,6 +13,10 @@ MaaStartup:
     FailureInterval: 0
     ServerUpdate: 04:00
 
+MaaMaterial:
+  Scheduler:
+    FailureInterval: 480
+
 MaaAnnihilation:
   Scheduler:
     SuccessInterval: 480
