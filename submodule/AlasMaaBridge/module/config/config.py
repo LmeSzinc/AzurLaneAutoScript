@@ -34,7 +34,7 @@ class ArknightsConfig(AzurLaneConfig, ConfigUpdater, GeneratedConfig):
     def save(self, mod_name='maa'):
         super().save(mod_name)
 
-    def get_mtime(self) -> datetime:
+    def get_mtime(self):
         timestamp = os.stat(filepath_config(self.config_name, mod_name='maa')).st_mtime
         mtime = datetime.fromtimestamp(timestamp).replace(microsecond=0)
         return mtime
