@@ -951,16 +951,22 @@ class AlasGUI(Frame):
                 name = pin["AddAlas_name"]
                 origin = pin["AddAlas_copyfrom"]
 
-                if name not in alas_instance():
-                    r = State.config_updater.read_file(origin)
-                    State.config_updater.write_file(name, r, get_config_mod(origin))
-                    self.set_aside()
-                    self.active_button("aside", self.alas_name)
-                    close_popup()
-                else:
+                if set(name) & set(".\\/:*?\"<>|"):
+                    clear(s)
+                    put(name, origin)
+                    put_error(t("Gui.AddAlas.InvalidChar"), scope=s)
+                    return
+                if name in alas_instance():
                     clear(s)
                     put(name, origin)
                     put_error(t("Gui.AddAlas.FileExist"), scope=s)
+                    return
+
+                r = State.config_updater.read_file(origin)
+                State.config_updater.write_file(name, r, get_config_mod(origin))
+                self.set_aside()
+                self.active_button("aside", self.alas_name)
+                close_popup()
 
             def put(name=None, origin=None):
                 put_input(

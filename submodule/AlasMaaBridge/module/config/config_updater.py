@@ -8,8 +8,6 @@ from module.config.utils import *
 class ConfigGenerator(config_updater.ConfigGenerator):
     @timer
     def generate(self):
-        _ = self.args
-        _ = self.menu
         write_file(filepath_args(), self.args)
         write_file(filepath_args('menu'), self.menu)
         self.generate_code()
@@ -89,7 +87,7 @@ class ConfigUpdater(config_updater.ConfigUpdater):
         def deep_load(keys):
             data = deep_get(self.args, keys=keys, default={})
             value = deep_get(old, keys=keys, default=data['value'])
-            if value is None or value == '' or data['type'] in ['lock'] or is_template:
+            if is_template or value is None or value == '' or data['type'] in ['lock']:
                 value = data['value']
             value = parse_value(value, data=data)
             deep_set(new, keys=keys, value=value)

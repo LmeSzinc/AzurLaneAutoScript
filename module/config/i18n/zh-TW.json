@@ -2256,7 +2256,8 @@
       "NewName": "新設定的檔案名",
       "CopyFrom": "從現有的設定中複製",
       "Confirm": "添加",
-      "FileExist": "存在同名的設定檔案，請重新命名"
+      "FileExist": "存在同名的設定檔案，請重新命名",
+      "InvalidChar": "設定檔案名不可以包含下列任意字元：.\\/:*?\"<>|"
     },
     "Update": {
       "UpToDate": "已是最新版本",
