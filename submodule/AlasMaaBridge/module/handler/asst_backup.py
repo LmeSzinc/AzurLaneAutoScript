@@ -22,11 +22,7 @@ class Asst:
     """
 
     @staticmethod
-    def load(
-            path: Union[pathlib.Path, str],
-            incremental_path: Optional[Union[pathlib.Path, str]] = None,
-            user_dir: Optional[Union[pathlib.Path, str]] = None
-    ) -> bool:
+    def load(path: Union[pathlib.Path, str], incremental_path: Optional[Union[pathlib.Path, str]] = None, user_dir: Optional[Union[pathlib.Path, str]] = None) -> bool:
         """
         加载 dll 及资源
         :params:
@@ -54,7 +50,8 @@ class Asst:
 
         ret &= Asst.__lib.AsstLoadResource(str(path).encode('utf-8'))
         if incremental_path:
-            ret &= Asst.__lib.AsstLoadResource(str(incremental_path).encode('utf-8'))
+            ret &= Asst.__lib.AsstLoadResource(
+                str(incremental_path).encode('utf-8'))
 
         return ret
 
@@ -217,6 +214,8 @@ class Message(Enum):
 
     TaskChainExtraInfo = auto()
 
+    TaskChainStopped = auto()
+
     SubTaskError = 20000
 
     SubTaskStart = auto()
@@ -224,3 +223,5 @@ class Message(Enum):
     SubTaskCompleted = auto()
 
     SubTaskExtraInfo = auto()
+
+    SubTaskStopped = auto()
