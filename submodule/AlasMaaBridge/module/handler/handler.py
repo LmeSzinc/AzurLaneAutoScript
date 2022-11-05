@@ -111,7 +111,8 @@ class AssistantHandler:
         """
         if m in [
             self.Message.AllTasksCompleted,
-            self.Message.TaskChainError
+            self.Message.TaskChainError,
+            self.Message.TaskChainStopped
         ]:
             self.signal = m
 

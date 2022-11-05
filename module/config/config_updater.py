@@ -155,7 +155,9 @@ class ConfigGenerator:
             # But allow `Interval` to be different
             old_value = old.get('value', None) if isinstance(old, dict) else old
             value = old.get('value', None) if isinstance(value, dict) else value
-            if type(value) != type(old_value) and path[2] not in ['SuccessInterval', 'FailureInterval']:
+            if type(value) != type(old_value) \
+                    and old_value is not None \
+                    and path[2] not in ['SuccessInterval', 'FailureInterval']:
                 print(
                     f'`{value}` ({type(value)}) and `{".".join(path)}` ({type(old_value)}) are in different types')
                 return False

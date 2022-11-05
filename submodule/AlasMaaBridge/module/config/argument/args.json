@@ -137,7 +137,7 @@
     "MaaFight": {
       "Stage": {
         "type": "select",
-        "value": "last",
+        "value": "custom",
         "option": [
           "last",
           "1-7",
@@ -154,23 +154,28 @@
           "PR-D-1",
           "PR-D-2",
           "custom"
-        ]
+        ],
+        "display": "hide"
       },
       "CustomStage": {
         "type": "input",
-        "value": null
+        "value": "Annihilation",
+        "display": "hide"
       },
       "Medicine": {
         "type": "input",
-        "value": null
+        "value": 0,
+        "display": "hide"
       },
       "Stone": {
         "type": "input",
-        "value": null
+        "value": 0,
+        "display": "hide"
       },
       "Times": {
         "type": "input",
-        "value": null
+        "value": 5,
+        "display": "hide"
       },
       "Drops": {
         "type": "textarea",
@@ -324,15 +329,18 @@
       },
       "Medicine": {
         "type": "input",
-        "value": null
+        "value": 0,
+        "display": "hide"
       },
       "Stone": {
         "type": "input",
-        "value": null
+        "value": 0,
+        "display": "hide"
       },
       "Times": {
         "type": "input",
-        "value": null
+        "value": 0,
+        "display": "hide"
       },
       "Drops": {
         "type": "textarea",

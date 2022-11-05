@@ -41,11 +41,11 @@
       "ServerUpdate": "04:00"
     },
     "MaaFight": {
-      "Stage": "last",
-      "CustomStage": null,
-      "Medicine": null,
-      "Stone": null,
-      "Times": null,
+      "Stage": "custom",
+      "CustomStage": "Annihilation",
+      "Medicine": 0,
+      "Stone": 0,
+      "Times": 5,
       "Drops": null,
       "DrGrandet": false
     }
@@ -81,9 +81,9 @@
     "MaaFight": {
       "Stage": "last",
       "CustomStage": null,
-      "Medicine": null,
-      "Stone": null,
-      "Times": null,
+      "Medicine": 0,
+      "Stone": 0,
+      "Times": 0,
       "Drops": null,
       "DrGrandet": false
     }
