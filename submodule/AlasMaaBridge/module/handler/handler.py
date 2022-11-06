@@ -246,7 +246,7 @@ class AssistantHandler:
                     self.config.MaaFight_Stone = None
                     self.config.MaaFight_Times = None
                     self.config.MaaFight_Drops = None
-                self.config.Scheduler_Enable = False
+                    self.config.Scheduler_Enable = False
             else:
                 self.config.task_delay(success=False)
         else:
