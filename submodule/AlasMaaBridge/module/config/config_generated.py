@@ -40,9 +40,9 @@ class GeneratedConfig:
     # Group `MaaFight`
     MaaFight_Stage = 'last'  # last, 1-7, CE-6, AP-5, CA-5, LS-6, PR-A-1, PR-A-2, PR-B-1, PR-B-2, PR-C-1, PR-C-2, PR-D-1, PR-D-2, custom
     MaaFight_CustomStage = None
-    MaaFight_Medicine = 0
-    MaaFight_Stone = 0
-    MaaFight_Times = 0
+    MaaFight_Medicine = None
+    MaaFight_Stone = None
+    MaaFight_Times = None
     MaaFight_Drops = None
     MaaFight_DrGrandet = False
 

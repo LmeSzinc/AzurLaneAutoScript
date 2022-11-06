@@ -2256,7 +2256,8 @@
       "NewName": "Gui.AddAlas.NewName",
       "CopyFrom": "Gui.AddAlas.CopyFrom",
       "Confirm": "Gui.AddAlas.Confirm",
-      "FileExist": "Gui.AddAlas.FileExist"
+      "FileExist": "Gui.AddAlas.FileExist",
+      "InvalidChar": "設定ファイル名には次の文字は使えません：.\\/:*?\"<>|"
     },
     "Update": {
       "UpToDate": "Gui.Update.UpToDate",

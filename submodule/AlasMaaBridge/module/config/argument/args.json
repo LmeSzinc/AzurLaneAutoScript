@@ -137,7 +137,7 @@
     "MaaFight": {
       "Stage": {
         "type": "select",
-        "value": "last",
+        "value": "custom",
         "option": [
           "last",
           "1-7",
@@ -154,12 +154,13 @@
           "PR-D-1",
           "PR-D-2",
           "custom"
-        ]
+        ],
+        "display": "hide"
       },
       "CustomStage": {
         "type": "input",
-        "value": null,
-        "valuetype": "str"
+        "value": "Annihilation",
+        "display": "hide"
       },
       "Medicine": {
         "type": "input",
@@ -211,7 +212,7 @@
       },
       "FailureInterval": {
         "type": "input",
-        "value": 120,
+        "value": 480,
         "display": "hide"
       },
       "ServerUpdate": {
@@ -244,20 +245,19 @@
       },
       "CustomStage": {
         "type": "input",
-        "value": null,
-        "valuetype": "str"
+        "value": null
       },
       "Medicine": {
         "type": "input",
-        "value": 0
+        "value": null
       },
       "Stone": {
         "type": "input",
-        "value": 0
+        "value": null
       },
       "Times": {
         "type": "input",
-        "value": 0
+        "value": null
       },
       "Drops": {
         "type": "textarea",
@@ -325,22 +325,21 @@
       },
       "CustomStage": {
         "type": "input",
-        "value": null,
-        "valuetype": "str"
+        "value": null
       },
       "Medicine": {
         "type": "input",
-        "value": 0,
+        "value": null,
         "display": "hide"
       },
       "Stone": {
         "type": "input",
-        "value": 0,
+        "value": null,
         "display": "hide"
       },
       "Times": {
         "type": "input",
-        "value": 0,
+        "value": null,
         "display": "hide"
       },
       "Drops": {
