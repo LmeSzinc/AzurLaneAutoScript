@@ -73,6 +73,20 @@ def retry(func):
     return retry_wrapper
 
 
+class AdbDeviceWithStatus(AdbDevice):
+    def __init__(self, client: AdbClient, serial: str, status: str):
+        self.status = status
+        super().__init__(client, serial)
+
+    def __str__(self):
+        return f'AdbDevice({self.serial}, {self.status})'
+
+    __repr__ = __str__
+
+    def __bool__(self):
+        return True
+
+
 class Connection(ConnectionAttr):
     def __init__(self, config):
         """
@@ -607,20 +621,6 @@ class Connection(ConnectionAttr):
         Returns:
             SelectedGrids[AdbDeviceWithStatus]:
         """
-
-        class AdbDeviceWithStatus(AdbDevice):
-            def __init__(self, client: AdbClient, serial: str, status: str):
-                self.status = status
-                super().__init__(client, serial)
-
-            def __str__(self):
-                return f'AdbDevice({self.serial}, {self.status})'
-
-            __repr__ = __str__
-
-            def __bool__(self):
-                return True
-
         devices = []
         with self.adb_client._connect() as c:
             c.send_command("host:devices")
@@ -720,13 +720,24 @@ class Connection(ConnectionAttr):
         packages = re.findall(r'package:([^\s]+)', output)
         return packages
 
+    def list_azurlane_packages(self, keywords=('azurlane', 'blhx')):
+        """
+        Args:
+            keywords:
+
+        Returns:
+            list[str]: List of package names
+        """
+        packages = self.list_package()
+        packages = [p for p in packages if any([k in p.lower() for k in keywords])]
+        return packages
+
     def detect_package(self, keywords=('azurlane', 'blhx'), set_config=True):
         """
         Show all possible packages with the given keyword on this device.
         """
         logger.hr('Detect package')
-        packages = self.list_package()
-        packages = [p for p in packages if any([k in p.lower() for k in keywords])]
+        packages = self.list_azurlane_packages(keywords=keywords)
 
         # Show packages
         logger.info(f'Here are the available packages in device "{self.serial}", '
