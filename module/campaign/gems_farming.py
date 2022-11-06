@@ -232,7 +232,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
         ship = self.get_common_rarity_cv()
         if ship:
-            self._ship_change_confirm(ship[0].button)
+            self._ship_change_confirm(min(ship, key=lambda s: (s.level, -s.emotion)).button)
 
             logger.info('Change flagship success')
             return True
@@ -259,7 +259,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
         ship = self.get_common_rarity_dd()
         if ship:
-            self._ship_change_confirm(ship[0].button)
+            self._ship_change_confirm(max(ship, key=lambda s: s.emotion).button)
 
             logger.info('Change vanguard ship success')
             return True
