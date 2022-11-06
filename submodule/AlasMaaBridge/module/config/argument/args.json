@@ -329,17 +329,17 @@
       },
       "Medicine": {
         "type": "input",
-        "value": 0,
+        "value": null,
         "display": "hide"
       },
       "Stone": {
         "type": "input",
-        "value": 0,
+        "value": null,
         "display": "hide"
       },
       "Times": {
         "type": "input",
-        "value": 0,
+        "value": null,
         "display": "hide"
       },
       "Drops": {

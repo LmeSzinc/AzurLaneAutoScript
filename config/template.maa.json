@@ -81,9 +81,9 @@
     "MaaFight": {
       "Stage": "last",
       "CustomStage": null,
-      "Medicine": 0,
-      "Stone": 0,
-      "Times": 0,
+      "Medicine": null,
+      "Stone": null,
+      "Times": null,
       "Drops": null,
       "DrGrandet": false
     }
