@@ -400,7 +400,7 @@ class AssistantHandler:
                 if periods is None:
                     logger.critical('无法找到配置文件中的排班周期，请检查文件是否有效')
                     raise RequestHumanTakeover
-                for period in periods:
+                for j, period in enumerate(periods):
                     start_time = datetime.datetime.combine(
                         datetime.date.today(),
                         datetime.datetime.strptime(period[0], '%H:%M').time()
@@ -412,6 +412,13 @@ class AssistantHandler:
                     now_time = datetime.datetime.now()
                     if start_time <= now_time < end_time:
                         args['plan_index'] = i
+                        # 处理跨天的情形
+                        # 如："period": [["22:00", "23:59"], ["00:00","06:00"]]
+                        if j != len(periods) - 1 and period[1] == '23:59' and periods[j + 1][0] == '00:00':
+                            end_time = datetime.datetime.combine(
+                                datetime.date.today() + datetime.timedelta(days=1),
+                                datetime.datetime.strptime(periods[j + 1][1], '%H:%M').time()
+                            )
                         break
                 if 'plan_index' in args:
                     break
