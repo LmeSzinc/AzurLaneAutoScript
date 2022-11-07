@@ -8,6 +8,8 @@ import datetime
 from importlib import import_module
 from typing import Any
 
+from cached_property import cached_property
+
 from deploy.config import DeployConfig
 from module.base.timer import Timer
 from module.config.utils import read_file, deep_get
@@ -169,14 +171,111 @@ class AssistantHandler:
             else:
                 self.task_switch_timer.reset()
 
+    def serial_check(self):
+        """
+        serial check
+        """
+        if self.is_bluestacks4_hyperv:
+            self.serial = self.find_bluestacks4_hyperv(self.serial)
+        if self.is_bluestacks5_hyperv:
+            self.serial = self.find_bluestacks5_hyperv(self.serial)
+                    
+    @cached_property
+    def is_bluestacks4_hyperv(self):
+        return "bluestacks4-hyperv" in self.serial
+
+    @cached_property
+    def is_bluestacks5_hyperv(self):
+        return "bluestacks5-hyperv" in self.serial
+
+    @staticmethod
+    def find_bluestacks4_hyperv(serial):
+        """
+        Find dynamic serial of BlueStacks4 Hyper-V Beta.
+
+        Args:
+            serial (str): 'bluestacks4-hyperv', 'bluestacks4-hyperv-2' for multi instance, and so on.
+
+        Returns:
+            str: 127.0.0.1:{port}
+        """
+        from winreg import HKEY_LOCAL_MACHINE, OpenKey, QueryValueEx
+
+        logger.info("Use BlueStacks4 Hyper-V Beta")
+        logger.info("Reading Realtime adb port")
+
+        if serial == "bluestacks4-hyperv":
+            folder_name = "Android"
+        else:
+            folder_name = f"Android_{serial[19:]}"
+
+        try:
+            with OpenKey(HKEY_LOCAL_MACHINE,
+                         rf"SOFTWARE\BlueStacks_bgp64_hyperv\Guests\{folder_name}\Config") as key:
+                port = QueryValueEx(key, "BstAdbPort")[0]
+        except FileNotFoundError:
+            logger.error(rf'Unable to find registry HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests\{folder_name}\Config')
+            logger.error('Please confirm that your are using BlueStack 4 hyper-v and not regular BlueStacks 4')
+            logger.error(r'Please check if there is any other emulator instances under '
+                         r'registry HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests')
+            raise RequestHumanTakeover
+        logger.info(f"New adb port: {port}")
+        return f"127.0.0.1:{port}"
+
+    @staticmethod
+    def find_bluestacks5_hyperv(serial):
+        """
+        Find dynamic serial of BlueStacks5 Hyper-V.
+
+        Args:
+            serial (str): 'bluestacks5-hyperv', 'bluestacks5-hyperv-1' for multi instance, and so on.
+
+        Returns:
+            str: 127.0.0.1:{port}
+        """
+        from winreg import HKEY_LOCAL_MACHINE, OpenKey, QueryValueEx
+
+        logger.info("Use BlueStacks5 Hyper-V")
+        logger.info("Reading Realtime adb port")
+
+        if serial == "bluestacks5-hyperv":
+            parameter_name = r"bst\.instance\.Nougat64\.status\.adb_port"
+        else:
+            parameter_name = rf"bst\.instance\.Nougat64_{serial[19:]}\.status.adb_port"
+
+        try:
+            with OpenKey(HKEY_LOCAL_MACHINE, r"SOFTWARE\BlueStacks_nxt") as key:
+                directory = QueryValueEx(key, 'UserDefinedDir')[0]
+        except FileNotFoundError:
+            try:
+                with OpenKey(HKEY_LOCAL_MACHINE, r"SOFTWARE\BlueStacks_nxt_cn") as key:
+                    directory = QueryValueEx(key, 'UserDefinedDir')[0]
+            except FileNotFoundError:
+                logger.error('Unable to find registry HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_nxt '
+                             'or HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_nxt_cn')
+                logger.error('Please confirm that you are using BlueStacks 5 hyper-v and not regular BlueStacks 5')
+                raise RequestHumanTakeover
+        logger.info(f"Configuration file directory: {directory}")
+
+        with open(os.path.join(directory, 'bluestacks.conf'), encoding='utf-8') as f:
+            content = f.read()
+        port = re.search(rf'{parameter_name}="(\d+)"', content)
+        if port is None:
+            logger.warning(f"Did not match the result: {serial}.")
+            raise RequestHumanTakeover
+        port = port.group(1)
+        logger.info(f"Match to dynamic port: {port}")
+        return f"127.0.0.1:{port}"
+
     def connect(self):
         adb = os.path.abspath(DeployConfig().AdbExecutable)
-        serial = self.config.MaaEmulator_Serial
+        self.serial = self.config.MaaEmulator_Serial
+        self.serial_check()
 
         old_callback_list = self.callback_list
         self.callback_list = []
 
-        if not self.asst.connect(adb, serial):
+        if not self.asst.connect(adb, self.serial):
             raise RequestHumanTakeover
 
         self.callback_list = old_callback_list
