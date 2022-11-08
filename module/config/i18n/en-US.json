@@ -2102,7 +2102,7 @@
     },
     "ActionPointPreserve": {
       "name": "Keep X Amount of AP",
-      "help": "Stops task if total AP (including AP boxes in inventory) is below this number, 500 is recommended\nThis value will be auto reduced to 200 at 3 days before OpSi reset and to 0 at day before reset"
+      "help": "Stops task if total AP (including AP boxes in inventory) is below this number, 500 is recommended\nThis value will be auto reduced to 300 at 3 days before OpSi reset and to 0 at day before reset"
     },
     "HazardLevel": {
       "name": "Target Zone Hazard Level",
@@ -2260,7 +2260,8 @@
       "NewName": "New name",
       "CopyFrom": "Copy from existing config",
       "Confirm": "Add",
-      "FileExist": "A config with the same name exists, please choose another one"
+      "FileExist": "A config with the same name exists, please choose another one",
+      "InvalidChar": "Config name cannot contain any of the following characters: .\\/:*?\"<>|"
     },
     "Update": {
       "UpToDate": "Latest version",

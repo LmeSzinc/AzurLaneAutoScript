@@ -69,7 +69,7 @@ class Scanner(metaclass=ABCMeta):
         """
         self._results.clear()
 
-    def scan(self, image, cached=False) -> Union[List, None]:
+    def scan(self, image, cached=False, output=False) -> Union[List, None]:
         """
         If scanner is enabled, return the real results.
         Otherwise, return a series of None.
@@ -77,13 +77,16 @@ class Scanner(metaclass=ABCMeta):
         For multi-scan, caching the results is recommended.
         If cached is set, results will be cached.
         """
-        result: List = self._scan(image) if self._enabled else self._disabled_value
+        results: List = self._scan(image) if self._enabled else self._disabled_value
+
+        if output:
+            for result in results:
+                logger.info(f'{result}')
+
         if cached:
-            self._results.extend(result)
+            self._results.extend(results)
         else:
-            for ship in result:
-                logger.info(f'{ship}')
-            return result
+            return results
 
     def move(self, vector) -> None:
         """
@@ -172,7 +175,7 @@ class FleetScanner(Scanner):
     def __init__(self) -> None:
         super().__init__()
         self._results = []
-        self.grids = CARD_GRIDS
+        self.grids = CARD_GRIDS.crop(area=(0, 117, 35, 162), name='FLEET')
         self.templates = {
             TEMPLATE_FLEET_1: 1,
             TEMPLATE_FLEET_2: 2,
@@ -206,7 +209,12 @@ class FleetScanner(Scanner):
             if template.match(image):
                 return fleet
 
-        return 0
+        if TEMPLATE_FLEET_1.match(image, similarity=0.80):
+            return 1
+        elif TEMPLATE_FLEET_3.match(image, similarity=0.80):
+            return 3
+        else:
+            return 0
 
     def _scan(self, image) -> List:
         image = self.pre_process(image)
@@ -320,7 +328,11 @@ class ShipScanner(Scanner):
         for scanner in self.sub_scanners.values():
             scanner.clear()
 
-        return [ship for ship in candidates if ship.satisfy_limitation(self.limitaion)]
+        return candidates
+
+    def scan(self, image, cached=False, output=True) -> Union[List, None]:
+        return [ship for ship in super().scan(image, cached, output)
+                if ship.satisfy_limitation(self.limitaion)]
 
     def move(self, vector) -> None:
         """

@@ -206,7 +206,6 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
                 i = (index - self._research_project_offset) % 5
                 logger.info(f'Project offset: {self._research_project_offset}, project {index} is at {i}')
                 self.device.click(RESEARCH_ENTRANCE[i])
-                self._research_project_offset = (index - 2) % 5
                 self.ensure_research_stable()
                 click_count += 1
                 click_timer.reset()
@@ -232,12 +231,14 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
                     self.research_detail_quit()
                 # self.ensure_no_info_bar(timeout=3)  # Research started
                 self.research_project_started = project
+                self._research_project_offset = (index - 2) % 5
                 return True
             if not available and max_rgb <= 235 \
                     and self.appear(RESEARCH_UNAVAILABLE, offset=(5, 20)):
                 logger.info('Not enough resources to start this project')
                 self.research_detail_quit()
                 self.research_project_started = None
+                self._research_project_offset = (index - 2) % 5
                 return False
 
     def research_project_start_with_requirements(self, project, add_queue=True):

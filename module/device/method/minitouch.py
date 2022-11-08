@@ -467,6 +467,7 @@ class Minitouch(Connection):
             return self._minitouch_loop.run_until_complete(event)
         except websockets.ConnectionClosedError as e:
             # ConnectionClosedError: no close frame received or sent
+            # ConnectionClosedError: sent 1011 (unexpected error) keepalive ping timeout; no close frame received
             logger.error(e)
             raise MinitouchOccupiedError(
                 'ConnectionClosedError, '

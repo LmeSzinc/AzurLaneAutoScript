@@ -410,6 +410,8 @@ class AlasGUI(Frame):
             try:
                 d = self.modified_config_queue.get(timeout=10)
                 config_name = self.alas_name
+                read = self.alas_config.read_file
+                write = self.alas_config.write_file
             except queue.Empty:
                 continue
             modified[d["name"]] = d["value"]
@@ -418,15 +420,21 @@ class AlasGUI(Frame):
                     d = self.modified_config_queue.get(timeout=1)
                     modified[d["name"]] = d["value"]
                 except queue.Empty:
-                    self._save_config(modified, config_name)
+                    self._save_config(modified, config_name, read, write)
                     modified.clear()
                     break
 
-    def _save_config(self, modified: Dict[str, str], config_name: str) -> None:
+    def _save_config(
+            self,
+            modified: Dict[str, str],
+            config_name: str,
+            read=State.config_updater.read_file,
+            write=State.config_updater.write_file
+    ) -> None:
         try:
             valid = []
             invalid = []
-            config = self.alas_config.read_file(self.alas_name)
+            config = read(config_name)
             for k, v in modified.copy().items():
                 valuetype = deep_get(self.ALAS_ARGS, k + ".valuetype")
                 v = parse_pin_value(v, valuetype)
@@ -469,7 +477,7 @@ class AlasGUI(Frame):
                 logger.info(
                     f"Save config {filepath_config(config_name)}, {dict_to_kv(modified)}"
                 )
-                self.alas_config.write_file(config_name, config)
+                write(config_name, config)
         except Exception as e:
             logger.exception(e)
 
@@ -943,16 +951,22 @@ class AlasGUI(Frame):
                 name = pin["AddAlas_name"]
                 origin = pin["AddAlas_copyfrom"]
 
-                if name not in alas_instance():
-                    r = State.config_updater.read_file(origin)
-                    State.config_updater.write_file(name, r, get_config_mod(origin))
-                    self.set_aside()
-                    self.active_button("aside", self.alas_name)
-                    close_popup()
-                else:
+                if set(name) & set(".\\/:*?\"<>|"):
+                    clear(s)
+                    put(name, origin)
+                    put_error(t("Gui.AddAlas.InvalidChar"), scope=s)
+                    return
+                if name in alas_instance():
                     clear(s)
                     put(name, origin)
                     put_error(t("Gui.AddAlas.FileExist"), scope=s)
+                    return
+
+                r = State.config_updater.read_file(origin)
+                State.config_updater.write_file(name, r, get_config_mod(origin))
+                self.set_aside()
+                self.active_button("aside", self.alas_name)
+                close_popup()
 
             def put(name=None, origin=None):
                 put_input(

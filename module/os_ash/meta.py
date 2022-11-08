@@ -126,6 +126,10 @@ class OpsiAshBeacon(Meta):
                 logger.info('Wrong click into battle preparation page')
                 self.device.click(BACK_ARROW)
                 return False
+            if self.appear(HELP_CONFIRM, offset=(30, 30), interval=3):
+                logger.info('Wrong click into HELP_CONFIRM')
+                self.device.click(HELP_ENTER)
+                return False
             if self._in_meta_page():
                 logger.info('Meta combat finished and in correct page.')
                 return True
