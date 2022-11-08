@@ -322,35 +322,27 @@ class AssistantHandler:
                 if periods is None:
                     logger.critical('无法找到配置文件中的排班周期，请检查文件是否有效')
                     raise RequestHumanTakeover
-                period_index = None
-                now_time = datetime.datetime.now().time()
-                periods_sorted = sorted([
-                    tuple(datetime.time.fromisoformat(x) for x in p)
-                    for p in periods
-                ])
-                for j, period in enumerate(periods_sorted):
-                    # 分别对应三种情况：
-                    # [05:00, 07:00], now_time=06:00
-                    # [20:00, 07:00], now_time=06:00
-                    # [20:00, 07:00], now_time=21:00
-                    if (period[0] <= now_time < period[1] or 
-                        now_time < period[1] < period[0] or 
-                        period[1] < period[0] <= now_time):
-                        period_index = j
+                for j, period in enumerate(periods):
+                    start_time = datetime.datetime.combine(
+                        datetime.date.today(),
+                        datetime.datetime.strptime(period[0], '%H:%M').time()
+                    )
+                    end_time = datetime.datetime.combine(
+                        datetime.date.today(),
+                        datetime.datetime.strptime(period[1], '%H:%M').time()
+                    )
+                    now_time = datetime.datetime.now()
+                    if start_time <= now_time <= end_time:
                         args['plan_index'] = i
+                        # 处理跨天的情形
+                        # 如："period": [["22:00", "23:59"], ["00:00","06:00"]]
+                        if j != len(periods) - 1 and period[1] == '23:59' and periods[j + 1][0] == '00:00':
+                            end_time = datetime.datetime.combine(
+                                datetime.date.today() + datetime.timedelta(days=1),
+                                datetime.datetime.strptime(periods[j + 1][1], '%H:%M').time()
+                            )
                         break
                 if 'plan_index' in args:
-                    periods_sorted = periods_sorted[period_index:] + periods_sorted[:period_index]
-                    future_time_ = lambda x: future_time(x.isoformat(timespec='minutes'))
-                    # 找到下次换班时间，时间差不大于1分钟视为连续时段
-                    # 如[[22:00, 06:59], [05:00, 08:59], [09:00, 10:59], [13:00, 17:59]]
-                    # 现在是22:00，下次在10:59之后换班即可，中间的06:59和08:59不必换班
-                    end_time = future_time_(periods_sorted[0][1])
-                    for period in periods_sorted[1:]:
-                        start_time = future_time_(period[0])
-                        if start_time - end_time > datetime.timedelta(minutes=1):
-                            break
-                        end_time = max(end_time, future_time_(period[1]))
                     break
 
         self.maa_start('Infrast', args)
