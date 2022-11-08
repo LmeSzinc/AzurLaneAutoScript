@@ -11,7 +11,7 @@ from typing import Any
 from cached_property import cached_property
 
 from deploy.config import DeployConfig
-from module.base.timer import Timer, future_time
+from module.base.timer import Timer
 from module.config.utils import read_file, deep_get
 from module.device.connection_attr import ConnectionAttr
 from module.exception import RequestHumanTakeover
