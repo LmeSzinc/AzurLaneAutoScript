@@ -112,7 +112,10 @@ class Digit(Ocr):
         result = super().after_process(result)
         result = result.replace('I', '1').replace('D', '0').replace('S', '5')
 
+        prev = result
         result = int(result) if result else 0
+        if str(result) != prev:
+            logger.warning(f'OCR {self.name}: Result "{prev}" is revised to "{result}"')
 
         return result
 
