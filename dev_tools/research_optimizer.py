@@ -55,8 +55,8 @@ PROJECT_TABLE = """
 34	4	Marcopolo-2.5	766.6697864	0	0	0	0	2.25	0.04
 35	4	Marcopolo-5	485.7871007	0	0	0	0	3.75	0.06
 36	4	Marcopolo-8	200.3313937	0	0	0	0	6	0.096
-37	4	EB-2	203.9216684	0	0	0	0	0	0.024
-38	4	EP-2	203.9216684	0	0	0	0	0	0.06
+37	4	Z-2	203.9216684	0	0	0	0	0	0.024
+38	4	A-2	203.9216684	0	0	0	0	0	0.06
 39	4	G-1.5	582.001119	0.104	0.104	0.299	0.299	0.299	0.025
 40	4	G-2.5	402.5500509	0.135	0.135	0.403333333	0.403333333	0.403333333	0.04
 41	4	G-4	305.1449135	0.2585	0.2585	0.723333333	0.723333333	0.723333333	0.12
@@ -111,8 +111,8 @@ PROJECT_TABLE = """
 90	2	C-6	331.5425296	0	0	0	0	0	0
 91	2	C-8	224.3791833	0	0	0	0	0	0
 92	2	C-12	170.3707535	0	0	0	0	0	0
-93	2	EB-2	222.8618262	0	0	0	0	0	0
-94	2	EP-2	222.8618262	0	0	0	0	0	0
+93	2	Z-2	222.8618262	0	0	0	0	0	0
+94	2	A-2	222.8618262	0	0	0	0	0	0
 95	2	G-1.5	636.0571355	0	0	0	0	0	0
 96	2	G-2.5	439.9387285	0	0	0	0	0	0
 97	2	G-4	333.4866434	0	0	0	0	0	0
@@ -167,8 +167,8 @@ PROJECT_TABLE = """
 146	3	C-6	328.1807665	0	0	0	0	0	0
 147	3	C-8	222.1040313	0	0	0	0	0	0
 148	3	C-12	168.6432343	0	0	0	0	0	0
-149	3	EB-2	220.6020598	0	0	0	0	0	0
-150	3	EP-2	220.6020598	0	0	0	0	0	0
+149	3	Z-2	220.6020598	0	0	0	0	0	0
+150	3	A-2	220.6020598	0	0	0	0	0	0
 151	3	G-1.5	629.6076661	0	0	0	0	0	0
 152	3	G-2.5	435.4778534	0	0	0	0	0	0
 153	3	G-4	330.1051674	0	0	0	0	0	0
@@ -245,8 +245,8 @@ PROJECT_TABLE_S4 = """
 34	4	Marcopolo-2.5	766.6697864	0	0	0	0	2.25	0.04
 35	4	Marcopolo-5	485.7871007	0	0	0	0	3.75	0.06
 36	4	Marcopolo-8	200.3313937	0	0	0	0	6	0.096
-37	4	EB-2	647.3855544	0	0	0	0	0	0.024
-38	4	EP-2	647.3855544	0	0	0	0	0	0.06
+37	4	Z-2	647.3855544	0	0	0	0	0	0.024
+38	4	A-2	647.3855544	0	0	0	0	0	0.06
 39	4	G-1.5	1847.665921	0.104	0.104	0.299	0.299	0.299	0.025
 40	4	G-2.5	1277.966633	0.135	0.135	0.403333333	0.403333333	0.403333333	0.04
 41	4	G-4	968.7367243	0.2585	0.2585	0.723333333	0.723333333	0.723333333	0.12
@@ -646,7 +646,7 @@ FILTER_REGEX = re.compile('([s\!][1234])?'
                           '|gascogne|champagne|cheshire|drake|mainz|odin'
                           '|anchorage|hakuryu|agir|august|marcopolo)?'
                           '(dr|pry)?'
-                          '([bcdeghqt])?'
+                          '([bcdeghqtaz])?'
                           '-?'
                           '(\d.\d|\d\d?)?')
 FILTER_ATTR = ('series', 'ship', 'ship_rarity', 'genre', 'duration')
@@ -968,6 +968,8 @@ class FilterSimulator:
     target = np.array([513, 513, 343, 343, 343, 150])
 
     def __init__(self, string):
+        string = string.replace('E-315', 'A2')
+        string = string.replace('E-031', 'Z2')
         self.string = string
         self.pool = ResearchPool(string)
 
@@ -1007,15 +1009,20 @@ def join_filter(selection):
     return ' > '.join(selection)
 
 
-def beautify_filter(string):
-    if isinstance(string, str):
-        string = split_filter(string)
-    out = ''
-    for index in range(0, len(string), 8):
-        row = string[index:index + 8]
-        out += '    > ' + join_filter(row) + '\n'
-    out = '\n    ' + out.strip('> ')
-    return out
+def beautify_filter(list_filter):
+    if isinstance(list_filter, str):
+        list_filter = split_filter(list_filter)
+
+    out = []
+    length = 0
+    for selection in list_filter:
+        if length + len(selection) + 3 > 70:
+            out.append('\n')
+            length = 0
+        out.append(selection)
+        length += len(selection) + 3
+    string = ' > '.join(out).strip('\n >').replace(' > \n', '\n').replace('\n ', '\n')
+    return string
 
 
 def position_change(string, position):
@@ -1118,7 +1125,7 @@ class BruteForceOptimizer:
 # 切魔方：'B > T > E'
 # 只做0.5h魔方：'B > T > E > H1 > H2 > H4'
 # 不切魔方：'B > T > E > H'
-ResearchPool.remove_projects = 'B > T > E > H1 > H2 > H4'
+ResearchPool.remove_projects = 'B > T > H1 > H2 > H4'
 # 每日活跃时间，按天计算
 # 超出活跃时间后，仍在挂项目，但不再开始新项目
 FilterSimulator.active = 24 / 24
@@ -1140,7 +1147,7 @@ if __name__ == '__main__':
     """
     这个文件包含模拟器和优化器两部分，取消注释对应的代码来运行
     Alas用户运行需要额外安装numba，无指定版本
-    非Alas用户运行需要python>=3.7，安装 numba numpy tqdm, 无指定版本
+    非Alas用户运行需要python>=3.7，安装 numba==0.45.1 llvmlite==0.29.0 numpy tqdm
 
     过滤器与Alas内的过滤器基本相同，编写参考 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn
     但需要注意：
@@ -1162,23 +1169,27 @@ if __name__ == '__main__':
     模拟大量用户使用同一个过滤器的平均毕业时间和毕业时获取物品的平均数量
     取消注释这些代码，将你的过滤器粘贴至这里，并运行，在8700k上需要约4.5分钟
     """
-    simulator = FilterSimulator("""
-    S4-DR0.5 > S4-PRY0.5 > S4-H0.5 > S4-Q0.5 > S4-DR2.5 > !4-0.5 > S4-G1.5 > S4-Q1
-    > S4-DR5 > S4-DR8 > S4-G4 > S4-PRY2.5 > !4-1 > S4-Q2 > reset > S4-G2.5
-    > S4-PRY5 > S4-PRY8 > !4-2 > !4-1.5 > S4-Q4 > !4-2.5 > !4-4 > S4-C6
-    > S4-C8 > !4-6 > !4-8 > !4-12 > S4-C12
-    """)
-    simulator.run(sample_count=100000)
+    # simulator = FilterSimulator("""
+    # S4-DR0.5 > S4-PRY0.5 > S4-Q0.5 > S4-H0.5 > Q0.5 > S4-DR2.5
+    # > S4-G1.5 > S4-Q1 > S4-DR5 > 0.5 > S4-G4 > S4-Q2 > S4-PRY2.5 > reset
+    # > S4-DR8 > Q1 > 1 > S4-E-315 > S4-G2.5 > G1.5 > 1.5 > S4-E-031
+    # > S4-Q4 > Q2 > E2 > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S4-PRY5
+    # > S4-PRY8 > Q4 > G4 > 4 > S4-C6 > DR5 > PRY5 > 5 > C6 > 6 > S4-C8
+    # > S4-C12 > DR8 > PRY8 > C8 > 8 > C12 > 12
+    # """)
+    # simulator.run(sample_count=300000)
     """
     优化一个过滤器，尝试调整过滤器选择的顺序，找到满足目标条件的消耗时间最短的排列方式
     类似于早期机器学习的实现，收敛过程中，向前尝试移动的距离变短，模拟样本量增大
     取消注释这些代码并运行，在8700k上需要约1-2天
     已给出一个包含所有选项、顺序大体正确的过滤器作为开始，不需要修改
     """
-    # optimizer = BruteForceOptimizer()
-    # optimizer.optimize("""
-    # S4-H0.5 > S4-DR0.5 > S4-PRY0.5 > S4-Q0.5 > !4-0.5 > S4-G1.5 > S4-Q1 > S4-DR2.5
-    # > S4-G4 > S4-Q4 > S4-DR5 > S4-DR8 > S4-Q2 > S4-PRY2.5 > S4-G2.5 > !4-1
-    # > reset > S4-PRY8 > !4-1.5 > S4-PRY5 > !4-2.5 > !4-2 > !4-4
-    # > S4-C6 > !4-C8 > S4-C8 > !4-C6 > S4-C12 > !4-C12
-    # """, diff=1)
+    optimizer = BruteForceOptimizer()
+    optimizer.optimize("""
+    S4-H0.5 > S4-DR0.5 > S4-PRY0.5 > S4-Q0.5 > !4-0.5 > S4-G1.5 > S4-Q1 > S4-DR2.5
+    > S4-G4 > S4-Q4 > S4-DR5 > S4-DR8 > S4-Q2 > S4-PRY2.5 > S4-G2.5 > !4-1
+    > S4-H1 > S4-H2 > S4-H4
+    > S4-EP2 > S4-EB2
+    > reset > S4-PRY8 > !4-1.5 > S4-PRY5 > !4-2.5 > !4-2 > !4-4
+    > S4-C6 > !4-C8 > S4-C8 > !4-C6 > S4-C12 > !4-C12
+    """, diff=1)
