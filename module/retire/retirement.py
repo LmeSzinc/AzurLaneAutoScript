@@ -108,6 +108,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             if self.appear(GET_ITEMS_1, offset=(30, 30), interval=2):
                 self.device.click(GET_ITEMS_1_RETIREMENT_SAVE)
                 self.interval_reset(SHIP_CONFIRM)
+                executed = True
                 continue
             if self._unable_to_enhance \
                     or self.config.Retirement_OldRetireSR \
