@@ -77,6 +77,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         backup, self._popup_offset = self._popup_offset, (20, 50)
         for button in [SHIP_CONFIRM, SHIP_CONFIRM_2, EQUIP_CONFIRM, EQUIP_CONFIRM_2, GET_ITEMS_1, SR_SSR_CONFIRM]:
             self.interval_clear(button)
+        timeout = Timer(10, count=10).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -84,9 +85,18 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 self.device.screenshot()
 
             # End
-            if executed and self.appear(IN_RETIREMENT_CHECK):
-                self.handle_info_bar()
+            if timeout.reached():
+                # Ships being used by GemsFarming have no equipment to disassemble
+                # So `executed` is never set to True, causing infinite loop
+                # Handled with dirty timeout, a better fix is required
+                logger.warning('Wait _retirement_confirm timeout, assume finished')
                 break
+            if self.appear(IN_RETIREMENT_CHECK):
+                if executed:
+                    self.handle_info_bar()
+                    break
+            else:
+                timeout.reset()
 
             # Click
             if self.appear(SHIP_CONFIRM, offset=(30, 30), interval=2) \
@@ -108,7 +118,6 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             if self.appear(GET_ITEMS_1, offset=(30, 30), interval=2):
                 self.device.click(GET_ITEMS_1_RETIREMENT_SAVE)
                 self.interval_reset(SHIP_CONFIRM)
-                executed = True
                 continue
             if self._unable_to_enhance \
                     or self.config.Retirement_OldRetireSR \
