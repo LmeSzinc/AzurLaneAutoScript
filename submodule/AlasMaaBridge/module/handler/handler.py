@@ -8,9 +8,12 @@ import datetime
 from importlib import import_module
 from typing import Any
 
+from cached_property import cached_property
+
 from deploy.config import DeployConfig
 from module.base.timer import Timer
 from module.config.utils import read_file, deep_get
+from module.device.connection_attr import ConnectionAttr
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -169,14 +172,32 @@ class AssistantHandler:
             else:
                 self.task_switch_timer.reset()
 
+    def serial_check(self):
+        """
+        serial check
+        """
+        if self.is_bluestacks4_hyperv:
+            self.serial = ConnectionAttr.find_bluestacks4_hyperv(self.serial)
+        if self.is_bluestacks5_hyperv:
+            self.serial = ConnectionAttr.find_bluestacks5_hyperv(self.serial)
+                    
+    @cached_property
+    def is_bluestacks4_hyperv(self):
+        return "bluestacks4-hyperv" in self.serial
+
+    @cached_property
+    def is_bluestacks5_hyperv(self):
+        return "bluestacks5-hyperv" in self.serial
+
     def connect(self):
         adb = os.path.abspath(DeployConfig().AdbExecutable)
-        serial = self.config.MaaEmulator_Serial
+        self.serial = self.config.MaaEmulator_Serial
+        self.serial_check()
 
         old_callback_list = self.callback_list
         self.callback_list = []
 
-        if not self.asst.connect(adb, serial):
+        if not self.asst.connect(adb, self.serial):
             raise RequestHumanTakeover
 
         self.callback_list = old_callback_list
@@ -301,7 +322,7 @@ class AssistantHandler:
                 if periods is None:
                     logger.critical('无法找到配置文件中的排班周期，请检查文件是否有效')
                     raise RequestHumanTakeover
-                for period in periods:
+                for j, period in enumerate(periods):
                     start_time = datetime.datetime.combine(
                         datetime.date.today(),
                         datetime.datetime.strptime(period[0], '%H:%M').time()
@@ -311,8 +332,15 @@ class AssistantHandler:
                         datetime.datetime.strptime(period[1], '%H:%M').time()
                     )
                     now_time = datetime.datetime.now()
-                    if start_time <= now_time < end_time:
+                    if start_time <= now_time <= end_time:
                         args['plan_index'] = i
+                        # 处理跨天的情形
+                        # 如："period": [["22:00", "23:59"], ["00:00","06:00"]]
+                        if j != len(periods) - 1 and period[1] == '23:59' and periods[j + 1][0] == '00:00':
+                            end_time = datetime.datetime.combine(
+                                datetime.date.today() + datetime.timedelta(days=1),
+                                datetime.datetime.strptime(periods[j + 1][1], '%H:%M').time()
+                            )
                         break
                 if 'plan_index' in args:
                     break

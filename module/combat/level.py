@@ -131,3 +131,12 @@ class LevelOcr(Digit):
             if first_digit + 3 < 46:  # LV_GRID_MAIN.button_shape[0] = 46
                 return image[:, first_digit:]
         return np.array([[255]], dtype=np.uint8)
+
+    def after_process(self, result):
+        result = result.replace('I', '1').replace('D', '0').replace('S', '5')
+
+        # No correction log, cause levels are usually empty
+        # Like: [23, 0, 0, 100, 0, 0]
+        result = int(result) if result else 0
+
+        return result
