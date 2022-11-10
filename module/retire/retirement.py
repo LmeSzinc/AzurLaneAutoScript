@@ -73,6 +73,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 SHIP_CONFIRM if using old_retire
             out: IN_RETIREMENT_CHECK
         """
+        logger.info('Retirement confirm')
         executed = False
         backup, self._popup_offset = self._popup_offset, (20, 50)
         for button in [SHIP_CONFIRM, SHIP_CONFIRM_2, EQUIP_CONFIRM, EQUIP_CONFIRM_2, GET_ITEMS_1, SR_SSR_CONFIRM]:
@@ -99,10 +100,12 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 timeout.reset()
 
             # Click
-            if self.appear(SHIP_CONFIRM, offset=(30, 30), interval=2) \
-                    and SHIP_CONFIRM.match_appear_on(self.device.image):
-                self.device.click(SHIP_CONFIRM)
-                continue
+            if self.appear(SHIP_CONFIRM, offset=(30, 30), interval=2):
+                if SHIP_CONFIRM.match_appear_on(self.device.image):
+                    self.device.click(SHIP_CONFIRM)
+                    continue
+                else:
+                    self.interval_clear(SHIP_CONFIRM)
             if self.appear(SHIP_CONFIRM_2, offset=(30, 30), interval=2):
                 if self.config.RETIRE_KEEP_COMMON_CV and not self._have_kept_cv:
                     self.keep_one_common_cv()
