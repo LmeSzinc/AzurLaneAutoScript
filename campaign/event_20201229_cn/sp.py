@@ -87,6 +87,7 @@ class Config:
     HOMO_EDGE_HOUGHLINES_THRESHOLD = 180
     MAP_SWIPE_MULTIPLY = 1.445
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.397
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
 
 
 class Campaign(CampaignBase):

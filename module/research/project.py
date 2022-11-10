@@ -361,19 +361,29 @@ class ResearchProject:
             series (int): Such as 1, 2, 3
         """
         self.valid = True
-        # self.config = config
+        # 'D-057-UL'
         self.name = self.check_name(name)
         if self.name != name:
             logger.info(f'Research name {name} is revised to {self.name}')
+        # '4'
         self.raw_series = series
+        # 'S4'
         self.series = f'S{series}'
+        # 'D'
         self.genre = ''
+        # '057'
+        self.number = ''
+        # '0.5'
         self.duration = '24'
+        # Ship face, like 'Azuma'
         self.ship = ''
+        # 'dr' or 'pry'
         self.ship_rarity = ''
         self.need_coin = False
         self.need_cube = False
         self.need_part = False
+        # Project requirements, like:
+        # 'Scrap 8 pieces of gear.'
         self.task = ''
 
         matched = False
@@ -381,6 +391,7 @@ class ResearchProject:
             matched = True
             self.data = data
             self.genre = data['name'][0]
+            self.number = data['name'][2:5]
             self.duration = str(data['time'] / 3600).rstrip('.0')
             self.task = data['task']
             for item in data['input']:

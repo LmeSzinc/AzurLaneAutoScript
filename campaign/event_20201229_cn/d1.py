@@ -92,6 +92,7 @@ class Config:
     MAP_SWIPE_MULTIPLY = 1.579
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.527
     MAP_ENEMY_TEMPLATE = ['LightInvertedOrthant', 'MainInvertedOrthant', 'CarrierInvertedOrthant']
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
 
 
 class Campaign(CampaignBase):

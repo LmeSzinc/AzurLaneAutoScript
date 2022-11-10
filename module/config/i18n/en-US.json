@@ -585,6 +585,7 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "event_20201229_cn": "Inverted Orthant Rerun",
       "event_20211111_cn": "The Flame-Touched Dagger",
       "raid_20221027": "Fight On Royal Maids!(Part 3)",
       "event_20210121_cn": "Empyreal Tragicomedy Rerun",
@@ -614,7 +615,6 @@
       "event_20210225_cn": "Khorovod of Dawns Rime",
       "event_20220210_cn": "Northern Overture Rerun",
       "raid_20220127": "Mystery Investigation",
-      "event_20201229_cn": "Inverted Orthant",
       "event_20211229_cn": "Tower of Transcendence",
       "event_20211125_cn": "World-spanning Arclight",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
@@ -1026,7 +1026,7 @@
     },
     "FlagshipChange": {
       "name": "Enable Flagship Change",
-      "help": "Switch out to new common CV/CVL whose level is in range of 1 to 32, after current has reached level 32+.\nMeanwhile, abandoned flagships will be retired. Any common CV/CVL whose level is 24+ will be regarded as targets.\nDo confirm that your own ships which is not a target has been locked"
+      "help": "Switch out to new common CV/CVL whose level is in range of 1 to 32, after current has reached level 32+.\nMeanwhile, abandoned flagships will be retired. Any common CV/CVL whose level is 2+ will be regarded as targets.\nDo confirm that your own ships which is not a target has been locked"
     },
     "FlagshipEquipChange": {
       "name": "Enable Flagship Equipment Change",
@@ -1034,7 +1034,7 @@
     },
     "VanguardChange": {
       "name": "Enable Vanguard Change",
-      "help": "Applies to fleet 1, switch out to new level 100(70) common vanguard after current has reached level 35+\n(Only CN players'0 limit break ship can reach level 100)"
+      "help": "Switch out to new level 100(70) common vanguard after current flagship has reached level 32+\n(Only CN players'0 limit break ship can reach level 100)"
     },
     "VanguardEquipChange": {
       "name": "Enable Vanguard Equipment Change",

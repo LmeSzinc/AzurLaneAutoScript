@@ -73,6 +73,8 @@ class Config:
         'CV': 1.111,
         'BB': 1.111,
     }
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 180
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
 
 
 class Campaign(CampaignBase):
