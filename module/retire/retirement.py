@@ -309,8 +309,8 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             if len(ships) < 2:
                 break
             else:
-                # Try to keep the one with the highest emotion
-                ships.sort(key=lambda ship: ship.emotion)
+                # Try to keep the one with the lowest level
+                ships.sort(key=lambda ship: -ship.level)
                 ships = ships[:-1]
 
             for ship in ships[:10]:
