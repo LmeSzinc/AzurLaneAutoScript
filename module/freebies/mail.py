@@ -34,6 +34,9 @@ class Mail(UI):
                 Enable extra step to delete old
                 already collected mail entries
             skip_first_screenshot (bool):
+
+        Returns:
+            bool: False if mail list empty
         """
         logger.hr('Mail enter')
         btn_expanded = MAIL_BUTTON_GRID.buttons[0]
@@ -46,11 +49,14 @@ class Mail(UI):
                 self.device.screenshot()
 
             # End
+            if self.appear(MAIL_EMPTY, offset=(20, 20)):
+                logger.info('Mail list empty')
+                return False
             if not delete and self._mail_selected(btn_expanded):
                 if self.appear(MAIL_COLLECT, offset=(20, 20)):
-                    break
+                    return True
                 if self.appear(MAIL_COLLECTED, offset=(20, 20)):
-                    break
+                    return True
 
             if self.appear(page_main.check_button, offset=(30, 30), interval=3):
                 self.device.click(MAIL_ENTER)
@@ -224,9 +230,9 @@ class Mail(UI):
         """
         logger.info('Mail run')
 
-        self._mail_enter(delete)
-        self._mail_collect()
-        self._mail_exit()
+        if self._mail_enter(delete):
+            self._mail_collect()
+            self._mail_exit()
 
     def run(self):
         """

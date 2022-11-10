@@ -57,6 +57,7 @@ AddAlas:
   CopyFrom:
   Confirm:
   FileExist:
+  InvalidChar:
 
 Update:
   UpToDate:
