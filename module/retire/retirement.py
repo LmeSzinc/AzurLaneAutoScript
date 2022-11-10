@@ -259,7 +259,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
     def retire_gems_farming_flagships(self, decrease_level=False):
         """
         Retire abandoned flagships of GemsFarming.
-        Common CV whose level > 24, fleet is none and status is free
+        Common CV whose level >= 20, fleet is none and status is free
         will be regarded as targets.
         """
         logger.info('Retire abandoned flagships of GemsFarming')
@@ -281,7 +281,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         self.dock_favourite_set(False)
 
         scanner = ShipScanner(
-            rarity='common', fleet=0, status='free', level=(24, 100))
+            rarity='common', fleet=0, status='free', level=(20, 100))
         scanner.disable('emotion')
 
         total = 0

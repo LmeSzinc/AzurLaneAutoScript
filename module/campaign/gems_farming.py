@@ -156,7 +156,8 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         logger.hr('FINDING FLAGSHIP')
 
         scanner = ShipScanner(
-            level=(1, 33), emotion=(10, 150), rarity='common', fleet=0, status='free')
+            level=(1, 32), emotion=(10, 150), fleet=self.config.Fleet_Fleet1, status='free')
+        scanner.disable('rarity')
 
         if not self.server_support_status_fleet_scan():
             logger.info(f'Server {self.config.SERVER} does not yet support status and fleet scanning')
@@ -169,7 +170,14 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
             self.dock_sort_method_dsc_set(False)
 
-            return scanner.scan(self.device.image)
+            ships = scanner.scan(self.device.image)
+            if ships:
+                # Don't need to change current
+                return ships
+
+            scanner.set_limitation(fleet=0)
+            return scanner.scan(self.device.image, output=False)
+
         else:
             template = {
                 'BOGUE': TEMPLATE_BOGUE,
@@ -180,7 +188,13 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
             self.dock_sort_method_dsc_set()
 
-            candidates = [ship for ship in scanner.scan(self.device.image)
+            ships = scanner.scan(self.device.image)
+            if ships:
+                # Don't need to change current
+                return ships
+
+            scanner.set_limitation(fleet=0)
+            candidates = [ship for ship in scanner.scan(self.device.image, output=False)
                           if template.match(self.image_crop(ship.button), similarity=SIM_VALUE)]
 
             if candidates:
@@ -208,12 +222,19 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             max_level = 70
 
         scanner = ShipScanner(level=(max_level, max_level), emotion=(10, 150),
-                              rarity='common', fleet=0, status='free')
+                              fleet=self.config.Fleet_Fleet1, status='free')
+        scanner.disable('rarity')
 
         if not self.server_support_status_fleet_scan():
             scanner.disable('status', 'fleet')
 
-        return scanner.scan(self.device.image)
+        ships = scanner.scan(self.device.image)
+        if ships:
+            # Don't need to change current
+            return ships
+
+        scanner.set_limitation(fleet=0)
+        return scanner.scan(self.device.image, output=False)
 
     def flagship_change_execute(self):
         """
