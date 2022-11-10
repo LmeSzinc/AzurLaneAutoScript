@@ -533,6 +533,7 @@ class ResearchProjectJp:
         self.name = ''
         self.series = ''
         self.genre = ''
+        self.number = ''
         self.duration = '24'
         self.ship = ''
         self.ship_rarity = ''
