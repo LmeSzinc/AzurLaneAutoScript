@@ -95,6 +95,7 @@ MaaCustomInfrast:
 
 MaaMall:
   Shopping: true
+  ForceShoppingIfCreditFull: false
   BuyFirst:
     value: 招聘许可 > 龙门币
     type: textarea

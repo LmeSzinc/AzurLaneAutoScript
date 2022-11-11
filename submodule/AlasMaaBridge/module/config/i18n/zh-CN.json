@@ -316,6 +316,10 @@
       "name": "信用购物",
       "help": ""
     },
+    "ForceShoppingIfCreditFull": {
+      "name": "信用溢出时无视黑名单",
+      "help": ""
+    },
     "BuyFirst": {
       "name": "优先购买",
       "help": ""

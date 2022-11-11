@@ -316,6 +316,10 @@
       "name": "MaaMall.Shopping.name",
       "help": "MaaMall.Shopping.help"
     },
+    "ForceShoppingIfCreditFull": {
+      "name": "MaaMall.ForceShoppingIfCreditFull.name",
+      "help": "MaaMall.ForceShoppingIfCreditFull.help"
+    },
     "BuyFirst": {
       "name": "MaaMall.BuyFirst.name",
       "help": "MaaMall.BuyFirst.help"
