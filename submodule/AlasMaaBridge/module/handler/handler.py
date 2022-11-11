@@ -365,7 +365,8 @@ class AssistantHandler:
         self.maa_start('Mall', {
             "shopping": self.config.MaaMall_Shopping,
             "buy_first": buy_first,
-            "blacklist": blacklist
+            "blacklist": blacklist,
+            "force_shopping_if_credit_full": self.config.MaaMall_ForceShoppingIfCreditFull
         })
         self.config.task_delay(server_update=True)
 

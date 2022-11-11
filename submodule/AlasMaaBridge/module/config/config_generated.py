@@ -70,6 +70,7 @@ class GeneratedConfig:
 
     # Group `MaaMall`
     MaaMall_Shopping = True
+    MaaMall_ForceShoppingIfCreditFull = False
     MaaMall_BuyFirst = '招聘许可 > 龙门币'
     MaaMall_BlackList = '碳 > 家具'
 
