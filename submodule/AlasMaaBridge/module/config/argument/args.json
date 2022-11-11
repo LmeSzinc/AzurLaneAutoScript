@@ -120,7 +120,7 @@
       },
       "SuccessInterval": {
         "type": "input",
-        "value": 480,
+        "value": 60,
         "display": "hide"
       },
       "FailureInterval": {
@@ -212,7 +212,7 @@
       },
       "FailureInterval": {
         "type": "input",
-        "value": 480,
+        "value": 240,
         "display": "hide"
       },
       "ServerUpdate": {
@@ -287,7 +287,7 @@
       },
       "SuccessInterval": {
         "type": "input",
-        "value": 480,
+        "value": 240,
         "display": "hide"
       },
       "FailureInterval": {
@@ -568,6 +568,10 @@
       "Shopping": {
         "type": "checkbox",
         "value": true
+      },
+      "ForceShoppingIfCreditFull": {
+        "type": "checkbox",
+        "value": false
       },
       "BuyFirst": {
         "type": "textarea",

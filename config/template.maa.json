@@ -36,7 +36,7 @@
       "Enable": false,
       "NextRun": "2020-01-01 04:00:00",
       "Command": "MaaAnnihilation",
-      "SuccessInterval": 480,
+      "SuccessInterval": 60,
       "FailureInterval": 120,
       "ServerUpdate": "04:00"
     },
@@ -56,7 +56,7 @@
       "NextRun": "2020-01-01 04:00:00",
       "Command": "MaaMaterial",
       "SuccessInterval": 60,
-      "FailureInterval": 480,
+      "FailureInterval": 240,
       "ServerUpdate": "04:00"
     },
     "MaaFight": {
@@ -74,7 +74,7 @@
       "Enable": false,
       "NextRun": "2020-01-01 04:00:00",
       "Command": "MaaFight",
-      "SuccessInterval": 480,
+      "SuccessInterval": 240,
       "FailureInterval": 120,
       "ServerUpdate": "04:00"
     },
@@ -151,6 +151,7 @@
     },
     "MaaMall": {
       "Shopping": true,
+      "ForceShoppingIfCreditFull": false,
       "BuyFirst": "招聘许可 > 龙门币",
       "BlackList": "碳 > 家具"
     }
