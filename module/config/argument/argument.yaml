@@ -569,12 +569,17 @@ OpsiAbyssal:
 OpsiStronghold:
   ForceRun: false
 OpsiMeowfficerFarming:
-  ActionPointPreserve: 500
+  ActionPointPreserve: 1000
   HazardLevel:
     value: 5
     option: [3, 4, 5, 6, 10]
   TargetZone:
     value: 0
+OpsiHazard1Leveling:
+  StrategySearch: True
+  TargetZone:
+    value: 0
+    option: [0, 44, 22]
 
 # ==================== Tools ====================
 

@@ -218,6 +218,10 @@
       "name": "Meowfficer Farming",
       "help": ""
     },
+    "OpsiHazard1Leveling": {
+      "name": "CL1 Leveling",
+      "help": ""
+    },
     "Daemon": {
       "name": "Normal Semi-auto",
       "help": ""
@@ -2098,7 +2102,7 @@
     },
     "ActionPointPreserve": {
       "name": "Keep X Amount of AP",
-      "help": "Stops task if total AP (including AP boxes in inventory) is below this number, 500 is recommended\nThis value will be auto reduced to 300 at 3 days before OpSi reset and to 0 at day before reset"
+      "help": "Stops task if total AP (including AP boxes in inventory) is below this number, 1000 is recommended\nThis value will be auto reduced to 300 at 3 days before OpSi reset, or 500 if CL1 leveling enabled, and to 0 at day before reset"
     },
     "HazardLevel": {
       "name": "Target Zone Hazard Level",
@@ -2112,6 +2116,23 @@
     "TargetZone": {
       "name": "Target Zone ID",
       "help": "Supports either Zone ID or Name in CN/EN/JP/TW, i.e. \"51\", \"NA Ocean SE Sector E\"\nIf specified, Alas will loop on this same zone after each clear\nUse default value 0 or clear the field to remove the specification\nZone information can be acquired from <./module/os/map_data.py>"
+    }
+  },
+  "OpsiHazard1Leveling": {
+    "_info": {
+      "name": "CL1 leveling",
+      "help": "OpsiHazard1Leveling._info.help"
+    },
+    "StrategySearch": {
+      "name": "Strategic Search",
+      "help": ""
+    },
+    "TargetZone": {
+      "name": "Target Zone ID",
+      "help": "Only attack target zone, which can be used to obtain world achievement stars or avoid the event that the map cannot be refreshed due to game bug",
+      "0": "No Specification",
+      "44": "44 | West Continental Shelf D",
+      "22": "22 | NA Ocean SW Sector B"
     }
   },
   "Daemon": {
