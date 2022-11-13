@@ -2121,7 +2121,7 @@
   "OpsiHazard1Leveling": {
     "_info": {
       "name": "CL1 leveling",
-      "help": "OpsiHazard1Leveling._info.help"
+      "help": "Warning: CL1 cannot gain unlimited action point. Please do not close other tasks in order to run CL1.\n\nAccording to the latest statistics of LmeSzinc, the action point output of CL1 is slightly higher than that of consumption, and you can gain a lot of experience while consuming operation coins in exchange for meowfficer farming.\nIt is recommended to carry 1 pre-loaded CV to obtain the highest average hourly experience benefit.\nSince buying action point in the store requires a large number of operation coins, this task will automatically enable meowfficer farming to supplement."
     },
     "StrategySearch": {
       "name": "Strategic Search",

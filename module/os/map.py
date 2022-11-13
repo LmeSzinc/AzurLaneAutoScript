@@ -75,11 +75,9 @@ class OSMap(OSFleet, Map, GlobeCamera):
             self.map_exit()
 
         # Clear current zone
-        if self.zone.zone_id == 154:
-            logger.info('In zone 154, skip running first auto search')
+        if self.zone.zone_id in [22, 44, 154]:
+            logger.info('In zone 22, 44, 154, skip running first auto search')
             self.handle_ash_beacon_attack()
-        elif self.zone.zone_id in [22, 44]:
-            pass
         else:
             self.run_auto_search(rescan=False)
             self.handle_after_auto_search()
@@ -629,6 +627,11 @@ class OSMap(OSFleet, Map, GlobeCamera):
 
     def run_strategy_search(self):
         self.handle_ash_beacon_attack()
+
+        if self.config.SERVER != 'cn':
+            logger.critical('Unable to use strategy search in your server, '
+                            'please turn the option off and wait for asset update')
+            raise RequestHumanTakeover
 
         logger.info('Run strategy search')
         self.os_auto_search_run(strategy=True)

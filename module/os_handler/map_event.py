@@ -274,20 +274,9 @@ class MapEventHandler(EnemySearchingHandler):
         self.handle_strategy_search_setting_option()
 
     def handle_strategy_search_setting_option(self):
-        while 1:
-            self.device.screenshot()
-            if not self.appear(STRATEGY_SEARCH_POPUP_CHECK):
-                return False
-
-            if self.appear(STRATEGY_SEARCH_SAFE_OPTION_OFF) \
-                    and get_color(self.device.image, STRATEGY_SEARCH_SAFE_OPTION_OFF.area)[2] > 185:
-                self.device.click(STRATEGY_SEARCH_SAFE_OPTION_OFF)
-                continue
-            if self.appear(STRATEGY_SEARCH_SAFE_OPTION_ON) \
-                    and get_color(self.device.image, STRATEGY_SEARCH_SAFE_OPTION_ON.area)[2] > 185:
-                break
-
-        skip_first_screenshot = True
+        phase = 0
+        skip_first_screenshot = False
+        STRATEGY_SEARCH_SCROLL.drag_threshold = 0.1
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -296,44 +285,44 @@ class MapEventHandler(EnemySearchingHandler):
             if not self.appear(STRATEGY_SEARCH_POPUP_CHECK):
                 return False
 
-            if self.appear(STRATEGY_SEARCH_ZONE_MODE_ON) \
-                    and self.appear(STRATEGY_SEARCH_WAIT_ON):
-                break
-            if self.appear(STRATEGY_SEARCH_ZONE_MODE_OFF):
-                self.device.click(STRATEGY_SEARCH_ZONE_MODE_ON)
-            if self.appear(STRATEGY_SEARCH_WAIT_OFF):
-                self.device.click(STRATEGY_SEARCH_WAIT_ON)
-
-        skip_first_screenshot = True
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
+            if phase == 0:
+                if self.appear(STRATEGY_SEARCH_SAFE_OPTION_OFF) \
+                        and get_color(self.device.image, STRATEGY_SEARCH_SAFE_OPTION_OFF.area)[2] > 185:
+                    self.device.click(STRATEGY_SEARCH_SAFE_OPTION_OFF)
+                    continue
+                if self.appear(STRATEGY_SEARCH_SAFE_OPTION_ON) \
+                        and get_color(self.device.image, STRATEGY_SEARCH_SAFE_OPTION_ON.area)[2] > 185:
+                    phase += 1
+                    skip_first_screenshot = True
+                    continue
+            elif phase == 1:
+                if self.appear(STRATEGY_SEARCH_ZONE_MODE_ON) \
+                        and self.appear(STRATEGY_SEARCH_WAIT_ON):
+                    phase += 1
+                    skip_first_screenshot = True
+                    continue
+                if self.appear(STRATEGY_SEARCH_ZONE_MODE_OFF):
+                    self.device.click(STRATEGY_SEARCH_ZONE_MODE_ON)
+                if self.appear(STRATEGY_SEARCH_WAIT_OFF):
+                    self.device.click(STRATEGY_SEARCH_WAIT_ON)
+            elif phase == 2:
+                check = self.appear(STRATEGY_SEARCH_WAIT_2_CHECK, offset=(20, 200), threshold=0.7)
+                STRATEGY_SEARCH_WAIT_ON.load_offset(STRATEGY_SEARCH_WAIT_2_CHECK)
+                STRATEGY_SEARCH_WAIT_OFF.load_offset(STRATEGY_SEARCH_WAIT_2_CHECK)
+                if check and self.image_color_count(STRATEGY_SEARCH_WAIT_ON.button, color=(156, 255, 82), count=30):
+                    phase += 1
+                    skip_first_screenshot = True
+                    continue
+                if check and self.image_color_count(STRATEGY_SEARCH_WAIT_OFF.button, color=(156, 255, 82), count=30):
+                    self.device.click(STRATEGY_SEARCH_WAIT_ON)
+                    continue
+                else:
+                    STRATEGY_SEARCH_SCROLL.set_top(main=self)
+                    STRATEGY_SEARCH_SCROLL.set(0.4, main=self)
             else:
-                self.device.screenshot()
-            if not self.appear(STRATEGY_SEARCH_POPUP_CHECK):
-                return False
-
-            check = self.appear(STRATEGY_SEARCH_WAIT_2_CHECK, offset=(20, 40), threshold=0.7)
-            if check and self.appear(STRATEGY_SEARCH_WAIT_ON, offset=(30, 60)):
-                break
-            if check and self.appear(STRATEGY_SEARCH_WAIT_OFF, offset=(30, 60)):
-                self.device.click(STRATEGY_SEARCH_WAIT_ON)
-            else:
-                STRATEGY_SEARCH_SCROLL.set_top(main=self)
-                STRATEGY_SEARCH_SCROLL.set(0.33, main=self)
-
-        skip_first_screenshot = True
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-            if not self.appear(STRATEGY_SEARCH_POPUP_CHECK):
-                return False
-
-            self.appear_then_click(POPUP_CONFIRM, offset=(30, 30), interval=2)
-            if self.is_in_map():
-                return True
+                self.appear_then_click(POPUP_CONFIRM, offset=(30, 30), interval=2)
+                if self.is_in_map():
+                    return True
 
     def handle_os_map_fleet_lock(self, enable=None):
         """
