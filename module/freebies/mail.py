@@ -233,6 +233,8 @@ class Mail(UI):
         if self._mail_enter(delete):
             self._mail_collect()
             self._mail_exit()
+        else:
+            self._mail_exit()
 
     def run(self):
         """
