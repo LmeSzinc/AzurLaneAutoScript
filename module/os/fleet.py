@@ -320,21 +320,6 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 confirm_timer.reset()
                 continue
 
-            # Enemy searching
-            if not enemy_searching_appear and self.enemy_searching_appear():
-                enemy_searching_appear = True
-                confirm_timer.reset()
-                continue
-            else:
-                if enemy_searching_appear:
-                    self.handle_enemy_flashing()
-                    self.device.sleep(0.3)
-                    logger.info('Enemy searching appeared.')
-                    enemy_searching_appear = False
-                    result.add('search')
-                if self.is_in_map():
-                    self.enemy_searching_color_initial()
-
             # Combat
             if self.combat_appear():
                 # Use ui_back() for testing, because there are too few abyssal loggers every month.
@@ -351,6 +336,22 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 confirm_timer.reset()
                 result.add('akashi')
                 continue
+
+            # Enemy searching
+            if not enemy_searching_appear and self.enemy_searching_appear():
+                enemy_searching_appear = True
+                confirm_timer.reset()
+                continue
+            else:
+                if enemy_searching_appear:
+                    self.handle_enemy_flashing()
+                    self.device.sleep(0.3)
+                    logger.info('Enemy searching appeared.')
+                    enemy_searching_appear = False
+                    confirm_timer.reset()
+                    result.add('search')
+                if self.is_in_map():
+                    self.enemy_searching_color_initial()
 
             # Arrive
             # Check colors, because screen goes black when something is unlocking.
