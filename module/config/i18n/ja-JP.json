@@ -585,6 +585,9 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "event_20201229_cn": "虚畳なりし限象（復刻）",
+      "event_20211111_cn": "燈火のシニエ",
+      "raid_20221027": "戦え！ロイヤルメイド隊3rd",
       "event_20210121_cn": "悲歎せし焔海の詩（復刻）",
       "event_20220915_cn": "赫の涙月 菫の暁風",
       "event_20210916_cn": "駆けよ 碧海の吹き風",
@@ -612,10 +615,8 @@
       "event_20210225_cn": "暁射す氷華の嵐",
       "event_20220210_cn": "凍絶の北海（復刻）",
       "raid_20220127": "秘密事件調査",
-      "event_20201229_cn": "虚畳なりし限象",
       "event_20211229_cn": "遡望せし虹彩の塔",
       "event_20211125_cn": "弧光は交わる世界にて",
-      "event_20211111_cn": "燈火のシニエ",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
       "event_20210722_cn": "海に響くアイドルの歌",
       "event_20210819_cn": "闇靄払う銀翼（復刻）",
@@ -2255,7 +2256,8 @@
       "NewName": "Gui.AddAlas.NewName",
       "CopyFrom": "Gui.AddAlas.CopyFrom",
       "Confirm": "Gui.AddAlas.Confirm",
-      "FileExist": "Gui.AddAlas.FileExist"
+      "FileExist": "Gui.AddAlas.FileExist",
+      "InvalidChar": "設定ファイル名には次の文字は使えません：.\\/:*?\"<>|"
     },
     "Update": {
       "UpToDate": "Gui.Update.UpToDate",

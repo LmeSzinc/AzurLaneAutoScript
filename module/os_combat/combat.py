@@ -22,7 +22,7 @@ class Combat(Combat_, MapEventHandler):
 
         if self.appear(BATTLE_PREPARATION):
             return True
-        if self.appear(SIREN_PREPARATION):
+        if self.appear(SIREN_PREPARATION, offset=(20, 20)):
             return True
         if self.appear(BATTLE_PREPARATION_WITH_OVERLAY) and self.handle_combat_automation_confirm():
             return True
@@ -62,7 +62,7 @@ class Combat(Combat_, MapEventHandler):
             #     continue
             if self.appear_then_click(BATTLE_PREPARATION, interval=2):
                 continue
-            if self.appear_then_click(SIREN_PREPARATION, interval=2):
+            if self.appear_then_click(SIREN_PREPARATION, offset=(20, 20), interval=2):
                 continue
             if self.handle_popup_confirm('ENHANCED_ENEMY'):
                 continue

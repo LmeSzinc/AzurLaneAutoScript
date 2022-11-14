@@ -61,18 +61,18 @@ class Config:
     # ===== End of generated config =====
 
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 24),
+        'height': (150, 255 - 17),
         'width': (0.9, 10),
-        'prominence': 5,
+        'prominence': 10,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 24, 255),
-        'prominence': 5,
+        'height': (255 - 17, 255),
+        'prominence': 10,
         'distance': 50,
-        'width': (0, 10),
-        'wlen': 1000,
+        'wlen': 1000
     }
+    HOMO_EDGE_COLOR_RANGE = (0, 17)
     HOMO_EDGE_HOUGHLINES_THRESHOLD = 180
     MAP_SWIPE_MULTIPLY = 1.827
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.766
@@ -83,6 +83,7 @@ class Config:
         'CV': 1.111,
         'BB': 1.111,
     }
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
 
 
 class Campaign(CampaignBase):

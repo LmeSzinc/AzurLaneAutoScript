@@ -24,7 +24,7 @@ SKILL_GRIDS = ButtonGrid(origin=(315, 140), delta=(621, 132), button_shape=(621,
 SKILL_LEVEL_GRIDS = SKILL_GRIDS.crop(area=(406, 98, 618, 116), name='EXP')
 
 
-class SkillExp(DigitCounter):
+class ExpOnBookSelect(DigitCounter):
     def pre_process(self, image):
         # Image is like `NEXT:1900+500/5800`, 500 is green and others are in white
 
@@ -55,8 +55,24 @@ class SkillExp(DigitCounter):
         return image
 
 
-SKILL_EXP = SkillExp(buttons=OCR_SKILL_EXP)
+class ExpOnSkillSelect(Ocr):
+    def pre_process(self, image):
+        # Convert to gray scale
+        r, g, b = cv2.split(image)
+        image = cv2.max(cv2.max(r, g), b)
 
+        image = 255 - image
+
+        # Strip `Next:`
+        if server.server == 'en':
+            # Bold `Next:`
+            image = image_left_strip(image, threshold=105, length=46)
+        else:
+            image = image_left_strip(image, threshold=105, length=42)
+        return image
+
+
+SKILL_EXP = ExpOnBookSelect(buttons=OCR_SKILL_EXP)
 BOOKS_GRID = ButtonGrid(origin=(213, 292), delta=(147, 117), button_shape=(98, 98), grid_shape=(6, 2))
 BOOK_FILTER = Filter(
     regex=re.compile(
@@ -569,9 +585,16 @@ class RewardTacticalClass(Dock):
         # Confirm selected ship
         # Clear interval if alas have just selected and exited from a meta skill
         self.interval_clear(SHIP_CONFIRM)
+
         # Removed the use of TACTICAL_SKILL_LIST, cause EN uses "Select skills"
         # in normal skill list but "Choose skills" in META skill list
-        self.dock_select_confirm(check_button=[SKILL_CONFIRM, TACTICAL_META])
+        def check_button():
+            if self.appear(SKILL_CONFIRM, offset=(30, 30)):
+                return True
+            if self.appear(TACTICAL_META, offset=(200, 30)):
+                return True
+
+        self.dock_select_confirm(check_button=check_button)
 
         return True
 
@@ -590,7 +613,7 @@ class RewardTacticalClass(Dock):
         if not skip_first_screenshot:
             self.device.screenshot()
 
-        skill_level_ocr = Ocr(buttons=SKILL_LEVEL_GRIDS.buttons, lang='cnocr', name='SKILL_LEVEL')
+        skill_level_ocr = ExpOnSkillSelect(buttons=SKILL_LEVEL_GRIDS.buttons, lang='cnocr', name='SKILL_LEVEL')
         skill_level_list = skill_level_ocr.ocr(self.device.image)
         for skill_button, skill_level in list(zip(SKILL_GRIDS.buttons, skill_level_list)):
             level = skill_level.upper().replace(' ', '')
@@ -598,7 +621,7 @@ class RewardTacticalClass(Dock):
             # SKILL_LEVEL_GRIDS may move a little lower for unknown reason, OCR results are like:
             # ['NEXT:MA', 'NEXT:/1D]', 'NEXT:MA'] (Actually: `NEXT:MAX, NEXT:0/100, NEXT:MAX`)
             # ['NEXT:MA', 'NEX T:/ 14[]]', 'NEXT:MA']  (Actually: `NEXT:MAX, NEXT:150/1400, NEXT:MAX`)
-            if 'NEXT' in level and 'MA' not in level:
+            if 'MA' not in level:
                 logger.attr('LEVEL', 'EMPTY' if len(level) == 0 else level)
                 return skill_button
 

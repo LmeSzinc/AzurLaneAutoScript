@@ -3,20 +3,15 @@ import importlib
 import os
 import re
 
-from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
+from module.campaign.campaign_event import CampaignEvent
 from module.config.config import AzurLaneConfig
 from module.exception import CampaignEnd, RequestHumanTakeover, ScriptEnd
 from module.handler.fast_forward import map_files
 from module.logger import logger
-from module.ocr.ocr import Digit
-from module.ui.ui import UI
-
-OCR_OIL = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
-OCR_COIN = Digit(OCR_COIN, name='OCR_COIN', letter=(239, 239, 239), threshold=128)
 
 
-class CampaignRun(UI):
+class CampaignRun(CampaignEvent):
     folder: str
     name: str
     stage: str
@@ -85,7 +80,7 @@ class CampaignRun(UI):
             return True
         # Oil limit
         if oil_check and self.config.StopCondition_OilLimit:
-            if OCR_OIL.ocr(self.device.image) < self.config.StopCondition_OilLimit:
+            if self.get_oil() < self.config.StopCondition_OilLimit:
                 logger.hr('Triggered stop condition: Oil limit')
                 self.config.task_delay(minute=(120, 240))
                 return True
@@ -106,48 +101,6 @@ class CampaignRun(UI):
             return True
 
         return False
-
-    def get_coin(self):
-        """
-        Returns:
-            int: Coin amount
-        """
-        coin = OCR_COIN.ocr(self.device.image)
-        return coin
-
-    def triggered_task_balancer(self):
-        """
-        Returns:
-            bool: If triggered task_call
-        Pages:
-            in: page_event or page_sp
-        """
-        limit = self.config.TaskBalancer_CoinLimit
-        coin = self.get_coin()
-        tasks = [
-            'Event',
-            'Event2',
-            'Raid',
-            'GemsFarming',
-        ]
-        command = self.config.Scheduler_Command
-        # Check Coin
-        if coin < limit:
-            if command in tasks:
-                if self.config.Campaign_Event == 'campaign_main':
-                    return False
-                else:
-                    logger.hr('Triggered task balancer: Coin limit')
-                    return True
-        else:
-            return False
-
-    def handle_task_balancer(self):
-        if self.triggered_task_balancer():
-            self.config.task_delay(minute=5)
-            next_task = self.config.TaskBalancer_TaskCall
-            self.config.task_call(next_task)
-            self.config.task_stop()
 
     def _triggered_app_restart(self):
         """
@@ -314,7 +267,7 @@ class CampaignRun(UI):
                     self.campaign.handle_map_stop()
                     break
             # Task balancer
-            if self.run_count >= 1 and self.config.TaskBalancer_Enable:
+            if self.run_count >= 1:
                 self.handle_task_balancer()
             # Scheduler
             if self.config.task_switched():

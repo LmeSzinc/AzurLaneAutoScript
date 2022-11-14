@@ -120,7 +120,7 @@
       },
       "SuccessInterval": {
         "type": "input",
-        "value": 480,
+        "value": 60,
         "display": "hide"
       },
       "FailureInterval": {
@@ -136,9 +136,30 @@
     },
     "MaaFight": {
       "Stage": {
+        "type": "select",
+        "value": "custom",
+        "option": [
+          "last",
+          "1-7",
+          "CE-6",
+          "AP-5",
+          "CA-5",
+          "LS-6",
+          "PR-A-1",
+          "PR-A-2",
+          "PR-B-1",
+          "PR-B-2",
+          "PR-C-1",
+          "PR-C-2",
+          "PR-D-1",
+          "PR-D-2",
+          "custom"
+        ],
+        "display": "hide"
+      },
+      "CustomStage": {
         "type": "input",
         "value": "Annihilation",
-        "valuetype": "str",
         "display": "hide"
       },
       "Medicine": {
@@ -191,7 +212,7 @@
       },
       "FailureInterval": {
         "type": "input",
-        "value": 120,
+        "value": 240,
         "display": "hide"
       },
       "ServerUpdate": {
@@ -202,21 +223,41 @@
     },
     "MaaFight": {
       "Stage": {
+        "type": "select",
+        "value": "last",
+        "option": [
+          "last",
+          "1-7",
+          "CE-6",
+          "AP-5",
+          "CA-5",
+          "LS-6",
+          "PR-A-1",
+          "PR-A-2",
+          "PR-B-1",
+          "PR-B-2",
+          "PR-C-1",
+          "PR-C-2",
+          "PR-D-1",
+          "PR-D-2",
+          "custom"
+        ]
+      },
+      "CustomStage": {
         "type": "input",
-        "value": "1-7",
-        "valuetype": "str"
+        "value": null
       },
       "Medicine": {
         "type": "input",
-        "value": 0
+        "value": null
       },
       "Stone": {
         "type": "input",
-        "value": 0
+        "value": null
       },
       "Times": {
         "type": "input",
-        "value": 0
+        "value": null
       },
       "Drops": {
         "type": "textarea",
@@ -246,7 +287,7 @@
       },
       "SuccessInterval": {
         "type": "input",
-        "value": 480,
+        "value": 240,
         "display": "hide"
       },
       "FailureInterval": {
@@ -262,23 +303,43 @@
     },
     "MaaFight": {
       "Stage": {
+        "type": "select",
+        "value": "last",
+        "option": [
+          "last",
+          "1-7",
+          "CE-6",
+          "AP-5",
+          "CA-5",
+          "LS-6",
+          "PR-A-1",
+          "PR-A-2",
+          "PR-B-1",
+          "PR-B-2",
+          "PR-C-1",
+          "PR-C-2",
+          "PR-D-1",
+          "PR-D-2",
+          "custom"
+        ]
+      },
+      "CustomStage": {
         "type": "input",
-        "value": "1-7",
-        "valuetype": "str"
+        "value": null
       },
       "Medicine": {
         "type": "input",
-        "value": 0,
+        "value": null,
         "display": "hide"
       },
       "Stone": {
         "type": "input",
-        "value": 0,
+        "value": null,
         "display": "hide"
       },
       "Times": {
         "type": "input",
-        "value": 0,
+        "value": null,
         "display": "hide"
       },
       "Drops": {
@@ -508,6 +569,10 @@
         "type": "checkbox",
         "value": true
       },
+      "ForceShoppingIfCreditFull": {
+        "type": "checkbox",
+        "value": false
+      },
       "BuyFirst": {
         "type": "textarea",
         "value": "招聘许可 > 龙门币"
@@ -584,6 +649,14 @@
       }
     },
     "MaaRoguelike": {
+      "Theme": {
+        "type": "select",
+        "value": "Phantom",
+        "option": [
+          "Phantom",
+          "Mizuki"
+        ]
+      },
       "Mode": {
         "type": "select",
         "value": 0,
@@ -608,6 +681,9 @@
         "type": "select",
         "value": "指挥分队",
         "option": [
+          "心胜于物分队",
+          "物尽其用分队",
+          "以人为本分队",
           "指挥分队",
           "集群分队",
           "后勤分队",

@@ -585,6 +585,9 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "event_20201229_cn": "Inverted Orthant Rerun",
+      "event_20211111_cn": "The Flame-Touched Dagger",
+      "raid_20221027": "Fight On Royal Maids!(Part 3)",
       "event_20210121_cn": "Empyreal Tragicomedy Rerun",
       "event_20220915_cn": "Violet Tempest Blooming Lycoris",
       "event_20210916_cn": "Upon the Shimmering Blue",
@@ -612,10 +615,8 @@
       "event_20210225_cn": "Khorovod of Dawns Rime",
       "event_20220210_cn": "Northern Overture Rerun",
       "raid_20220127": "Mystery Investigation",
-      "event_20201229_cn": "Inverted Orthant",
       "event_20211229_cn": "Tower of Transcendence",
       "event_20211125_cn": "World-spanning Arclight",
-      "event_20211111_cn": "The Flame-Touched Dagger",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
       "event_20210722_cn": "Azur Anthem",
       "event_20210819_cn": "Microlayer Medley Rerun",
@@ -1716,7 +1717,7 @@
     },
     "Filter": {
       "name": "Mail Filter",
-      "help": "Filter as to which mail types should be collected\nSupports Merit, Coin, Cube, Oil, and/or Gem"
+      "help": "Filter as to which mail types should be collected\nSupports Merit, Coolant, Coin, Cube, Oil, and/or Gem"
     },
     "Delete": {
       "name": "Delete Collected Mail Rewards",
@@ -2097,7 +2098,7 @@
     },
     "ActionPointPreserve": {
       "name": "Keep X Amount of AP",
-      "help": "Stops task if total AP (including AP boxes in inventory) is below this number, 500 is recommended\nThis value will be auto reduced to 200 at 3 days before OpSi reset and to 0 at day before reset"
+      "help": "Stops task if total AP (including AP boxes in inventory) is below this number, 500 is recommended\nThis value will be auto reduced to 300 at 3 days before OpSi reset and to 0 at day before reset"
     },
     "HazardLevel": {
       "name": "Target Zone Hazard Level",
@@ -2255,7 +2256,8 @@
       "NewName": "New name",
       "CopyFrom": "Copy from existing config",
       "Confirm": "Add",
-      "FileExist": "A config with the same name exists, please choose another one"
+      "FileExist": "A config with the same name exists, please choose another one",
+      "InvalidChar": "Config name cannot contain any of the following characters: .\\/:*?\"<>|"
     },
     "Update": {
       "UpToDate": "Latest version",

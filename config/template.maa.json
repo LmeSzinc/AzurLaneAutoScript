@@ -36,12 +36,13 @@
       "Enable": false,
       "NextRun": "2020-01-01 04:00:00",
       "Command": "MaaAnnihilation",
-      "SuccessInterval": 480,
+      "SuccessInterval": 60,
       "FailureInterval": 120,
       "ServerUpdate": "04:00"
     },
     "MaaFight": {
-      "Stage": "Annihilation",
+      "Stage": "custom",
+      "CustomStage": "Annihilation",
       "Medicine": 0,
       "Stone": 0,
       "Times": 5,
@@ -55,14 +56,15 @@
       "NextRun": "2020-01-01 04:00:00",
       "Command": "MaaMaterial",
       "SuccessInterval": 60,
-      "FailureInterval": 120,
+      "FailureInterval": 240,
       "ServerUpdate": "04:00"
     },
     "MaaFight": {
-      "Stage": "1-7",
-      "Medicine": 0,
-      "Stone": 0,
-      "Times": 0,
+      "Stage": "last",
+      "CustomStage": null,
+      "Medicine": null,
+      "Stone": null,
+      "Times": null,
       "Drops": null,
       "DrGrandet": false
     }
@@ -72,15 +74,16 @@
       "Enable": false,
       "NextRun": "2020-01-01 04:00:00",
       "Command": "MaaFight",
-      "SuccessInterval": 480,
+      "SuccessInterval": 240,
       "FailureInterval": 120,
       "ServerUpdate": "04:00"
     },
     "MaaFight": {
-      "Stage": "1-7",
-      "Medicine": 0,
-      "Stone": 0,
-      "Times": 0,
+      "Stage": "last",
+      "CustomStage": null,
+      "Medicine": null,
+      "Stone": null,
+      "Times": null,
       "Drops": null,
       "DrGrandet": false
     }
@@ -148,6 +151,7 @@
     },
     "MaaMall": {
       "Shopping": true,
+      "ForceShoppingIfCreditFull": false,
       "BuyFirst": "招聘许可 > 龙门币",
       "BlackList": "碳 > 家具"
     }
@@ -172,6 +176,7 @@
       "ServerUpdate": "04:00"
     },
     "MaaRoguelike": {
+      "Theme": "Phantom",
       "Mode": 0,
       "StartsCount": 9999999,
       "InvestmentsCount": 9999999,

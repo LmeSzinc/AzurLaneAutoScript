@@ -73,6 +73,20 @@ def retry(func):
     return retry_wrapper
 
 
+class AdbDeviceWithStatus(AdbDevice):
+    def __init__(self, client: AdbClient, serial: str, status: str):
+        self.status = status
+        super().__init__(client, serial)
+
+    def __str__(self):
+        return f'AdbDevice({self.serial}, {self.status})'
+
+    __repr__ = __str__
+
+    def __bool__(self):
+        return True
+
+
 class Connection(ConnectionAttr):
     def __init__(self, config):
         """
@@ -273,6 +287,29 @@ class Connection(ConnectionAttr):
         server.listen(5)
         return server
 
+    @cached_property
+    def nc_command(self):
+        """
+        Returns:
+            list[str]: ['nc'] or ['busybox', 'nc']
+        """
+        # Android 9 emulators does not have `nc`, try `busybox nc`
+        trial = [
+            ['nc'],
+            ['busybox', 'nc'],
+        ]
+        for command in trial:
+            # About 3ms
+            result = self.adb_shell(command)
+            # Result should be command help if success
+            # `/system/bin/sh: nc: not found` if failed
+            if ': not found' not in result:
+                logger.attr('nc command', command)
+                return command
+
+        logger.error('No `netcat` command available, please use screenshot methods without `_nc` suffix')
+        raise RequestHumanTakeover
+
     def adb_shell_nc(self, cmd, timeout=5, chunk_size=262144):
         """
         Args:
@@ -288,7 +325,7 @@ class Connection(ConnectionAttr):
         server.settimeout(timeout)
         # Client send data, waiting for server accept
         # <command> | nc 127.0.0.1 {port}
-        cmd += ["|", 'nc', *self._nc_server_host_port[2:]]
+        cmd += ["|", *self.nc_command, *self._nc_server_host_port[2:]]
         stream = self.adb_shell(cmd, stream=True, recvall=False)
         try:
             # Server accept connection
@@ -584,20 +621,6 @@ class Connection(ConnectionAttr):
         Returns:
             SelectedGrids[AdbDeviceWithStatus]:
         """
-
-        class AdbDeviceWithStatus(AdbDevice):
-            def __init__(self, client: AdbClient, serial: str, status: str):
-                self.status = status
-                super().__init__(client, serial)
-
-            def __str__(self):
-                return f'AdbDevice({self.serial}, {self.status})'
-
-            __repr__ = __str__
-
-            def __bool__(self):
-                return True
-
         devices = []
         with self.adb_client._connect() as c:
             c.send_command("host:devices")
@@ -697,13 +720,24 @@ class Connection(ConnectionAttr):
         packages = re.findall(r'package:([^\s]+)', output)
         return packages
 
+    def list_azurlane_packages(self, keywords=('azurlane', 'blhx')):
+        """
+        Args:
+            keywords:
+
+        Returns:
+            list[str]: List of package names
+        """
+        packages = self.list_package()
+        packages = [p for p in packages if any([k in p.lower() for k in keywords])]
+        return packages
+
     def detect_package(self, keywords=('azurlane', 'blhx'), set_config=True):
         """
         Show all possible packages with the given keyword on this device.
         """
         logger.hr('Detect package')
-        packages = self.list_package()
-        packages = [p for p in packages if any([k in p.lower() for k in keywords])]
+        packages = self.list_azurlane_packages(keywords=keywords)
 
         # Show packages
         logger.info(f'Here are the available packages in device "{self.serial}", '

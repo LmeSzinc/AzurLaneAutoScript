@@ -294,7 +294,7 @@ class GeneratedConfig:
 
     # Group `Mail`
     Mail_Collect = True
-    Mail_Filter = 'Merit'
+    Mail_Filter = 'Merit > Coolant'
     Mail_Delete = False
 
     # Group `SupplyPack`

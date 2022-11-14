@@ -73,10 +73,12 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 SHIP_CONFIRM if using old_retire
             out: IN_RETIREMENT_CHECK
         """
+        logger.info('Retirement confirm')
         executed = False
         backup, self._popup_offset = self._popup_offset, (20, 50)
         for button in [SHIP_CONFIRM, SHIP_CONFIRM_2, EQUIP_CONFIRM, EQUIP_CONFIRM_2, GET_ITEMS_1, SR_SSR_CONFIRM]:
             self.interval_clear(button)
+        timeout = Timer(10, count=10).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -84,15 +86,26 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 self.device.screenshot()
 
             # End
-            if executed and self.appear(IN_RETIREMENT_CHECK):
-                self.handle_info_bar()
+            if timeout.reached():
+                # Ships being used by GemsFarming have no equipment to disassemble
+                # So `executed` is never set to True, causing infinite loop
+                # Handled with dirty timeout, a better fix is required
+                logger.warning('Wait _retirement_confirm timeout, assume finished')
                 break
+            if self.appear(IN_RETIREMENT_CHECK):
+                if executed:
+                    self.handle_info_bar()
+                    break
+            else:
+                timeout.reset()
 
             # Click
-            if self.appear(SHIP_CONFIRM, offset=(30, 30), interval=2) \
-                    and SHIP_CONFIRM.match_appear_on(self.device.image):
-                self.device.click(SHIP_CONFIRM)
-                continue
+            if self.appear(SHIP_CONFIRM, offset=(30, 30), interval=2):
+                if SHIP_CONFIRM.match_appear_on(self.device.image):
+                    self.device.click(SHIP_CONFIRM)
+                    continue
+                else:
+                    self.interval_clear(SHIP_CONFIRM)
             if self.appear(SHIP_CONFIRM_2, offset=(30, 30), interval=2):
                 if self.config.RETIRE_KEEP_COMMON_CV and not self._have_kept_cv:
                     self.keep_one_common_cv()
@@ -270,7 +283,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             return 0
 
         def server_support_flagship_retire() -> bool:
-            return self.config.SERVER in ['cn']
+            return self.config.SERVER in ['cn', 'en']
 
         if not server_support_flagship_retire():
             logger.info(f'Server {self.config.SERVER} does not yet support flagships retirement, skip')

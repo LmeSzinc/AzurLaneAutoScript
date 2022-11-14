@@ -55,11 +55,12 @@ MaaRecord:
 
 MaaFight:
   Stage:
-    value: 1-7
-    valuetype: str
-  Medicine: 0
-  Stone: 0
-  Times: 0
+    value: last
+    option: [last, 1-7, CE-6, AP-5, CA-5, LS-6, PR-A-1, PR-A-2, PR-B-1, PR-B-2, PR-C-1, PR-C-2, PR-D-1, PR-D-2, custom]
+  CustomStage: null
+  Medicine: null
+  Stone: null
+  Times: null
   Drops:
     value: null
     type: textarea
@@ -94,6 +95,7 @@ MaaCustomInfrast:
 
 MaaMall:
   Shopping: true
+  ForceShoppingIfCreditFull: false
   BuyFirst:
     value: 招聘许可 > 龙门币
     type: textarea
@@ -102,6 +104,9 @@ MaaMall:
     type: textarea
 
 MaaRoguelike:
+  Theme:
+    value: Phantom
+    option: [Phantom, Mizuki]
   Mode:
     value: 0
     option: [0, 1]
@@ -110,7 +115,7 @@ MaaRoguelike:
   StopWhenInvestmentFull: false
   Squad:
     value: 指挥分队
-    option: [指挥分队, 集群分队, 后勤分队, 矛头分队, 突击战术分队, 堡垒战术分队, 远程战术分队, 破坏战术分队, 研究分队, 高规格分队]
+    option: [心胜于物分队, 物尽其用分队, 以人为本分队, 指挥分队, 集群分队, 后勤分队, 矛头分队, 突击战术分队, 堡垒战术分队, 远程战术分队, 破坏战术分队, 研究分队, 高规格分队]
   Roles:
     value: 取长补短
     option: [先手必胜, 稳扎稳打, 取长补短, 随心所欲]

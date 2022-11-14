@@ -5,14 +5,11 @@ MOD_CONFIG_DICT = {}
 
 
 def list_mod():
-    out = []
-    for item in MOD_DICT.items():
-        out.append(item)
-    return out
+    return list(MOD_DICT.items())
 
 
 def get_dir_name(name):
-    return MOD_DICT[name]
+    return MOD_DICT.get(name)
 
 
 def filepath_mod(name):

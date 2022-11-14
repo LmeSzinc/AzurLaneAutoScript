@@ -36,7 +36,7 @@ class GemsCampaignOverride(CampaignBase):
 
                     if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
                         continue
-                        
+
                     if self.appear(BATTLE_PREPARATION, offset=(20, 20), interval=2):
                         self.device.click(BACK_ARROW)
 
@@ -362,4 +362,4 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                 break
 
     def server_support_status_fleet_scan(self) -> bool:
-        return self.config.SERVER in ['cn']
+        return self.config.SERVER in ['cn', 'en']

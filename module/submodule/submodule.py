@@ -6,12 +6,12 @@ from module.submodule.utils import *
 
 
 def load_mod(name):
-    for mod_name, dir_name in list_mod():
-        if name == mod_name:
-            mod = importlib.import_module('.' + name, 'submodule.' + dir_name)
-            return mod
+    dir_name = get_dir_name(name)
+    if dir_name is None:
+        logger.critical("No function matched")
+        return
 
-    logger.critical("No function matched")
+    return importlib.import_module('.' + name, 'submodule.' + dir_name)
 
 
 def load_config(config_name):

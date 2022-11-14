@@ -14,10 +14,9 @@ MaaStartup:
     ServerUpdate: 04:00
 
 MaaAnnihilation:
-  Scheduler:
-    SuccessInterval: 480
   MaaFight:
-    Stage: Annihilation
+    Stage: custom
+    CustomStage: Annihilation
     Medicine: 0
     Stone: 0
     Times: 5
@@ -25,12 +24,10 @@ MaaAnnihilation:
     DrGrandet: false
 
 MaaFight:
-  Scheduler:
-    SuccessInterval: 480
   MaaFight:
-    Medicine: 0
-    Stone: 0
-    Times: 0
+    Medicine: null
+    Stone: null
+    Times: null
     Drops: null
     DrGrandet: false
 

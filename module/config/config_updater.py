@@ -155,7 +155,9 @@ class ConfigGenerator:
             # But allow `Interval` to be different
             old_value = old.get('value', None) if isinstance(old, dict) else old
             value = old.get('value', None) if isinstance(value, dict) else value
-            if type(value) != type(old_value) and path[2] not in ['SuccessInterval', 'FailureInterval']:
+            if type(value) != type(old_value) \
+                    and old_value is not None \
+                    and path[2] not in ['SuccessInterval', 'FailureInterval']:
                 print(
                     f'`{value}` ({type(value)}) and `{".".join(path)}` ({type(old_value)}) are in different types')
                 return False
@@ -499,7 +501,7 @@ class ConfigUpdater:
         def deep_load(keys):
             data = deep_get(self.args, keys=keys, default={})
             value = deep_get(old, keys=keys, default=data['value'])
-            if value is None or value == '' or data['type'] in ['lock'] or is_template:
+            if is_template or value is None or value == '' or data['type'] == 'lock' or data.get('display') == 'hide':
                 value = data['value']
             value = parse_value(value, data=data)
             deep_set(new, keys=keys, value=value)

@@ -62,20 +62,13 @@ class AshCombat(Combat):
         if self.appear(BEACON_EMPTY, offset=(20, 20)):
             logger.info("Ash beacon already empty.")
             raise AshBeaconFinished
+        if self.appear(ASH_SHOWDOWN, offset=(20, 20)):
+            logger.info("Ash beacon already at ASH_SHOWDOWN.")
+            raise AshBeaconFinished
 
         return False
 
     def combat(self, *args, expected_end=None, **kwargs):
-        end = expected_end
-        if end is not None and callable(end):
-            def expected_end():
-                if end():
-                    logger.info('Meta combat finished and in correct page.')
-                    return True
-                if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=2):
-                    logger.info('Wrong click into battle preparation page')
-                    self.device.click(BACK_ARROW)
-                    return False
         try:
             super().combat(*args, expected_end=expected_end, **kwargs)
         except AshBeaconFinished:

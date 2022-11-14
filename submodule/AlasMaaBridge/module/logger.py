@@ -31,7 +31,7 @@ class CallbackDetails:
         else:
             suffix = '??'
 
-        logger.info(f'{"--" * cls.task_nested + suffix} {task}')
+        logger.info(f'{"--" * cls.task_nested} {suffix} {task}')
 
         if 'SubTaskStart' in msg:
             cls.task_nested += 1
