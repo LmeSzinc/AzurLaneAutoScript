@@ -134,6 +134,8 @@ class OpsiAshBeacon(Meta):
                 logger.info('Meta combat finished and in correct page.')
                 return True
 
+            return False
+
         # Attack
         combat = AshCombat(config=self.config, device=self.device)
         combat.combat(expected_end=expected_end, save_get_items=False, emotion_reduce=False)
@@ -457,6 +459,8 @@ class AshBeaconAssist(Meta):
             if self._in_meta_assist_page():
                 logger.info('Meta combat finished and in correct page.')
                 return True
+
+            return False
 
         # Attack
         combat = AshCombat(config=self.config, device=self.device)
