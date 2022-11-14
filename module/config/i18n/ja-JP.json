@@ -1167,6 +1167,8 @@
       "name": "Commission.PresetFilter.name",
       "help": "Commission.PresetFilter.help",
       "chip": "chip",
+      "cube": "cube",
+      "oil": "oil",
       "custom": "custom"
     },
     "CustomFilter": {

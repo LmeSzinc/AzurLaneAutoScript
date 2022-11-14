@@ -1167,6 +1167,8 @@
       "name": "Preset Filter Select",
       "help": "People without a basic knowledge of commission drops rates and spawn are recommended to use pre-optimized presets instead of writing custom filters",
       "chip": "Chip",
+      "cube": "Cube",
+      "oil": "Oil",
       "custom": "Custom"
     },
     "CustomFilter": {

@@ -1,5 +1,6 @@
 import copy
 
+from datetime import datetime
 from scipy import signal
 
 from module.base.timer import Timer
@@ -133,9 +134,12 @@ class RewardCommission(UI, InfoHandler):
         if preset == 'custom':
             string = self.config.Commission_CustomFilter
         else:
-            if f'{preset}_24h' in DICT_FILTER_PRESET \
-                    and self.config.cross_get(keys='GemsFarming.GemsFarming.CommissionLimit', default=False):
-                preset = f'{preset}_24h'
+            if f'{preset}_night' in DICT_FILTER_PRESET:
+                start_time = datetime.strptime(str(datetime.now().date())+'21:00', '%Y-%m-%d%H:%M')
+                end_time = datetime.strptime(str(datetime.now().date()) + '02:00', '%Y-%m-%d%H:%M')
+                now_time = datetime.now()
+                if now_time >= start_time or now_time <= end_time:
+                    preset = f'{preset}_night'
             if preset not in DICT_FILTER_PRESET:
                 logger.warning(f'Preset not found: {preset}, use default preset')
                 preset = GeneratedConfig.Commission_PresetFilter
