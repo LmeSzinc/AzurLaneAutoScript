@@ -156,7 +156,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         logger.hr('FINDING FLAGSHIP')
 
         scanner = ShipScanner(
-            level=(1, 32), emotion=(10, 150), fleet=self.config.Fleet_Fleet1, status='free')
+            level=(1, 31), emotion=(10, 150), fleet=self.config.Fleet_Fleet1, status='free')
         scanner.disable('rarity')
 
         if not self.server_support_status_fleet_scan():

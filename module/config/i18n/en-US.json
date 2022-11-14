@@ -195,7 +195,7 @@
       "help": ""
     },
     "OpsiShop": {
-      "name": "Opsi Shop",
+      "name": "OpSi Shop",
       "help": ""
     },
     "OpsiDaily": {
@@ -1717,7 +1717,7 @@
     },
     "Filter": {
       "name": "Mail Filter",
-      "help": "Filter as to which mail types should be collected\nSupports Merit, Coolant, Coin, Cube, Oil, and/or Gem"
+      "help": "Filter as to which mail types should be collected\nSupports Merit, Coolant, Coin, DecorCoin, Cube, Oil, and/or Gem"
     },
     "Delete": {
       "name": "Delete Collected Mail Rewards",
