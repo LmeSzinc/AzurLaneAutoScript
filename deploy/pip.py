@@ -35,9 +35,12 @@ class PipManager(DeployConfig):
         if self.PypiMirror:
             mirror = self.PypiMirror
             arg += ['-i', mirror]
-            # Trust http mirror
-            if 'http:' in mirror:
+            # Trust http mirror or skip ssl verify
+            if 'http:' in mirror or not self.SSLVerify:
                 arg += ['--trusted-host', urlparse(mirror).hostname]
+        elif not self.SSLVerify:
+            arg += ['--trusted-host', 'pypi.org']
+            arg += ['--trusted-host', 'files.pythonhosted.org']
 
         # Don't update pip, just leave it.
         # logger.hr('Update pip', 1)
