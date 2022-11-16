@@ -18,7 +18,10 @@ class GitManager(DeployConfig):
         except FileNotFoundError:
             logger.info(f'File not found: {file}')
 
-    def git_repository_init(self, repo, source='origin', branch='master', proxy='', keep_changes=False):
+    def git_repository_init(
+            self, repo, source='origin', branch='master',
+            proxy='', ssl_verify=True, keep_changes=False
+    ):
         logger.hr('Git Init', 1)
         if not self.execute(f'"{self.git}" init', allow_failure=True):
             self.remove('./.git/config')
@@ -33,6 +36,11 @@ class GitManager(DeployConfig):
         else:
             self.execute(f'"{self.git}" config --local --unset http.proxy', allow_failure=True)
             self.execute(f'"{self.git}" config --local --unset https.proxy', allow_failure=True)
+
+        if ssl_verify:
+            self.execute(f'"{self.git}" config --local http.sslVerify true')
+        else:
+            self.execute(f'"{self.git}" config --local http.sslVerify false')
 
         logger.hr('Set Git Repository', 1)
         if not self.execute(f'"{self.git}" remote set-url {source} {repo}', allow_failure=True):
@@ -78,5 +86,6 @@ class GitManager(DeployConfig):
             source='origin',
             branch=self.Branch,
             proxy=self.GitProxy,
+            ssl_verify=self.SSLVerify,
             keep_changes=self.KeepLocalChanges,
         )

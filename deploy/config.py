@@ -14,13 +14,14 @@ class ConfigModel:
     Repository: str = "https://github.com/LmeSzinc/AzurLaneAutoScript"
     Branch: str = "master"
     GitExecutable: str = "./toolkit/Git/mingw64/bin/git.exe"
-    GitProxy: Optional[bool] = None
+    GitProxy: Optional[str] = None
+    SSLVerify: bool = False
     AutoUpdate: bool = True
     KeepLocalChanges: bool = False
 
     # Python
     PythonExecutable: str = "./toolkit/python.exe"
-    PypiMirror: Optional[bool] = None
+    PypiMirror: Optional[str] = None
     InstallDependencies: bool = True
     RequirementsFile: str = "requirements.txt"
 
