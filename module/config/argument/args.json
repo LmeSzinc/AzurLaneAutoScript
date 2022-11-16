@@ -7767,7 +7767,7 @@
       },
       "ServerUpdate": {
         "type": "input",
-        "value": "00:00",
+        "value": "00:00, 12:00",
         "display": "hide"
       }
     },
@@ -7864,7 +7864,7 @@
     "OpsiMeowfficerFarming": {
       "ActionPointPreserve": {
         "type": "input",
-        "value": 500
+        "value": 1000
       },
       "HazardLevel": {
         "type": "select",
@@ -7896,6 +7896,71 @@
       "Submarine": {
         "type": "checkbox",
         "value": false
+      }
+    }
+  },
+  "OpsiHazard1Leveling": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "OpsiHazard1Leveling",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 30,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 60,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
+      }
+    },
+    "OpsiHazard1Leveling": {
+      "StrategySearch": {
+        "type": "checkbox",
+        "value": true
+      },
+      "TargetZone": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          44,
+          22
+        ]
+      }
+    },
+    "OpsiFleet": {
+      "Fleet": {
+        "type": "select",
+        "value": 1,
+        "option": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "Submarine": {
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       }
     }
   },

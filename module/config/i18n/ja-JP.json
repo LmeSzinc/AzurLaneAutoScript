@@ -218,6 +218,10 @@
       "name": "Task.OpsiMeowfficerFarming.name",
       "help": "Task.OpsiMeowfficerFarming.help"
     },
+    "OpsiHazard1Leveling": {
+      "name": "Task.OpsiHazard1Leveling.name",
+      "help": "Task.OpsiHazard1Leveling.help"
+    },
     "Daemon": {
       "name": "Task.Daemon.name",
       "help": "Task.Daemon.help"
@@ -2113,6 +2117,23 @@
     "TargetZone": {
       "name": "OpsiMeowfficerFarming.TargetZone.name",
       "help": "OpsiMeowfficerFarming.TargetZone.help"
+    }
+  },
+  "OpsiHazard1Leveling": {
+    "_info": {
+      "name": "OpsiHazard1Leveling._info.name",
+      "help": "OpsiHazard1Leveling._info.help"
+    },
+    "StrategySearch": {
+      "name": "OpsiHazard1Leveling.StrategySearch.name",
+      "help": "OpsiHazard1Leveling.StrategySearch.help"
+    },
+    "TargetZone": {
+      "name": "OpsiHazard1Leveling.TargetZone.name",
+      "help": "OpsiHazard1Leveling.TargetZone.help",
+      "0": "0",
+      "44": "44",
+      "22": "22"
     }
   },
   "Daemon": {

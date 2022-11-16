@@ -379,9 +379,13 @@ class GeneratedConfig:
     OpsiStronghold_ForceRun = False
 
     # Group `OpsiMeowfficerFarming`
-    OpsiMeowfficerFarming_ActionPointPreserve = 500
+    OpsiMeowfficerFarming_ActionPointPreserve = 1000
     OpsiMeowfficerFarming_HazardLevel = 5  # 3, 4, 5, 6, 10
     OpsiMeowfficerFarming_TargetZone = 0
+
+    # Group `OpsiHazard1Leveling`
+    OpsiHazard1Leveling_StrategySearch = True
+    OpsiHazard1Leveling_TargetZone = 0  # 0, 44, 22
 
     # Group `Daemon`
     Daemon_EnterMap = True

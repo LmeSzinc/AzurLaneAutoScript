@@ -350,7 +350,7 @@ OpsiAbyssal:
   Scheduler:
     SuccessInterval: 60
     FailureInterval: 60
-    ServerUpdate: 00:00
+    ServerUpdate: 00:00, 12:00
 OpsiStronghold:
   Scheduler:
     SuccessInterval: 60
@@ -361,3 +361,10 @@ OpsiMeowfficerFarming:
     SuccessInterval: 30
     FailureInterval: 30
     ServerUpdate: 00:00
+OpsiHazard1Leveling:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 60
+    ServerUpdate: 00:00
+  OpsiFleet:
+    Submarine: false
