@@ -18,4 +18,6 @@ dic_archives_template = {
     'war_archives_20210624_cn': TEMPLATE_SWIRLING_CHERRY_BLOSSOMS,
     'war_archives_20200806_cn': TEMPLATE_THE_ENIGMA_AND_THE_SHARK,
     'war_archives_20201029_cn': TEMPLATE_UNIVERSE_IN_UNISON,
+    'war_archives_20210819_cn': TEMPLATE_STARS_OF_THE_SHIMMERING_FJORD,
+    'war_archives_20211014_cn': TEMPLATE_MICROLAYER_MEDLEY,
 }
