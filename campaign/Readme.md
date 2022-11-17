@@ -1,6 +1,6 @@
 # Event List
 
-To add a new event, add a new row in here, and run `python -m dev_tools.event_extract`. Some date in directory not equal to Aired date, because they use the map files in old events. Use `Ctrl+F` to search what you want.
+To add a new event, add a new row in here, and run `python -m module.config.config_updater`. Some date in directory not equal to Aired date, because they use the map files in old events. Use `Ctrl+F` to search what you want.
 
 **Aired Date** The date that the event aired for the first time.
 
@@ -117,3 +117,4 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20221027   | raid 20221027            | Fight! Royal Maid               | 战斗！皇家女仆队3rd | Fight On, Royal Maids!(Part 3)       | 戦え！ロイヤルメイド隊3rd | - |
 | 20221103   | event 20211111 cn        | The Flame-Touched Dagger        | -           | -                                    | -                  | 杰諾瓦的焰火   |
 | 20221110   | event 20201229 cn        | Inverted Orthant                | 复刻负象限作战     | Inverted Orthant Rerun                   | 虚畳なりし限象（復刻）            | -                    |
+| 20221117   | event 20210325 cn        | Ashen Simulacrum                | -           | -                                    | -                  | 復刻箱庭療法   |
