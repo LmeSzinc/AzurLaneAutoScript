@@ -195,7 +195,7 @@
       "help": ""
     },
     "OpsiShop": {
-      "name": "Opsi Shop",
+      "name": "OpSi Shop",
       "help": ""
     },
     "OpsiDaily": {
@@ -326,6 +326,7 @@
       "cn_android-19": "[国服] 秋季旅行",
       "cn_android-20": "[国服] 水星行动",
       "cn_android-21": "[国服] 莱茵河卫兵",
+      "cn_android-22": "[国服] 北极光计划",
       "cn_ios-0": "[国服] 夏威夷",
       "cn_ios-1": "[国服] 珊瑚海",
       "cn_ios-2": "[国服] 中途岛",
@@ -1717,7 +1718,7 @@
     },
     "Filter": {
       "name": "Mail Filter",
-      "help": "Filter as to which mail types should be collected\nSupports Merit, Coolant, Coin, Cube, Oil, and/or Gem"
+      "help": "Filter as to which mail types should be collected\nSupports Merit, Coolant, Coin, DecorCoin, Cube, Oil, and/or Gem"
     },
     "Delete": {
       "name": "Delete Collected Mail Rewards",
