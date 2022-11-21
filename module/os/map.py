@@ -477,8 +477,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
         while 1:
             self.device.screenshot()
 
-            if self.appear(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
-                self.os_auto_search_quit()
+            if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
                 continue
             if self.appear_then_click(PAUSE, interval=0.5):
                 continue
