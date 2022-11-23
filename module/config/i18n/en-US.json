@@ -399,7 +399,7 @@
     },
     "Enable": {
       "name": "Enable Restart Emulator",
-      "help": "Automatically start the emulator when it is shut down\nRestart the emulator to free memory when the server date is updated"
+      "help": "Automatically start the emulator when it is shut down"
     },
     "EmulatorType": {
       "name": "Emulator Type",
