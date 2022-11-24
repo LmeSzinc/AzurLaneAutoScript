@@ -30,6 +30,8 @@ class CampaignBase(CampaignBase_):
         # T, TH, ASP, EX
         if name == 'ex':
             return 't4', '1'
+        if name == 'asp':
+            return 't3', '1'
         if name == 'sp':
             return 't3', '1'
         if name == 'ts1':
@@ -52,7 +54,12 @@ class CampaignBase(CampaignBase_):
         if name == 't1':
             return 1
 
-        return super()._campaign_get_chapter_index(name)
+        return CampaignBase_._campaign_get_chapter_index(name)
+
+    def campaign_get_entrance(self, name):
+        if name == 'sp':
+            name = 'asp'
+        return super().campaign_get_entrance(name)
 
     def map_get_info(self):
         name = str(self.config.Campaign_Name).lower()
