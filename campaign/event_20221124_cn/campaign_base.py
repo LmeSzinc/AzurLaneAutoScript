@@ -66,9 +66,10 @@ class CampaignBase(CampaignBase_):
         super().map_get_info()
 
         # Chapter TH has no map_percentage and no 3_stars
-        if name.startswith('th'):
-            self.map_is_100_percent_clear = self.map_is_3_stars = self.map_is_threat_safe = auto_search.appear(
-                main=self)
+        if name.startswith('th') or name.startswith('ht'):
+            appear = auto_search.appear(main=self)
+            self.map_is_100_percent_clear = self.map_is_3_stars = self.map_is_threat_safe = appear
+            self.map_has_clear_mode = appear
             self.map_show_info()
 
     def clear_map_items(self, grids):
