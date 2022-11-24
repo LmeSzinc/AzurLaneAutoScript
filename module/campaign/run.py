@@ -121,8 +121,7 @@ class CampaignRun(CampaignEvent):
 
         return False
 
-    @staticmethod
-    def handle_stage_name(name, folder):
+    def handle_stage_name(self, name, folder):
         """
         Handle wrong stage names.
         In some events, the name of SP may be different, such as 'vsp', muse sp.
@@ -136,6 +135,7 @@ class CampaignRun(CampaignEvent):
             str, str: name, folder
         """
         name = re.sub('[ \t\n]', '', str(name)).lower()
+        # Handle special names SP maps
         if name[0].isdigit():
             name = 'campaign_' + name.lower().replace('-', '_')
         if folder == 'event_20201126_cn' and name == 'vsp':
@@ -146,6 +146,9 @@ class CampaignRun(CampaignEvent):
             name = 'sp'
         if folder == 'event_20220818_cn' and name == 'esp':
             name = 'sp'
+        if folder == 'event_20221124_cn' and name in ['asp', 'a.sp']:
+            name = 'sp'
+        # Convert between A/B/C/D and T/HT
         convert = {
             'a1': 't1',
             'a2': 't2',
@@ -160,11 +163,21 @@ class CampaignRun(CampaignEvent):
             'd2': 'ht5',
             'd3': 'ht6',
         }
-        if folder == 'event_20200917_cn':
+        if folder in ['event_20200917_cn', 'event_20221124_cn']:
             name = convert.get(name, name)
         else:
             reverse = {v: k for k, v in convert.items()}
             name = reverse.get(name, name)
+        # The Alchemist and the Archipelago of Secrets
+        # Handle typo
+        if folder == 'event_20221124_cn':
+            name = name.replace('ht', 'th')
+        # Chapter TH has no map_percentage and no 3_stars
+        if folder == 'event_20221124_cn' and name.startswith('th'):
+            if self.config.StopCondition_MapAchievement != 'non_stop':
+                logger.info(f'When running chapter TH of event_20221124_cn, '
+                            f'StopCondition.MapAchievement is forced set to threat_safe')
+                self.config.override(StopCondition_MapAchievement='threat_safe')
 
         return name, folder
 
