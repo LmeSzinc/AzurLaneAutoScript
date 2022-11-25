@@ -109,9 +109,12 @@ class FastForwardHandler(AutoSearchHandler):
         self.config.MAP_CLEAR_ALL_THIS_TIME = self.config.STAR_REQUIRE_3 \
             and not self.__getattribute__(f'map_achieved_star_{self.config.STAR_REQUIRE_3}') \
             and (self.config.StopCondition_MapAchievement in ['map_3_stars', 'threat_safe'])
-        logger.attr('MAP_CLEAR_ALL_THIS_TIME', self.config.MAP_CLEAR_ALL_THIS_TIME)
 
+        self.map_show_info()
+
+    def map_show_info(self):
         # Log
+        logger.attr('MAP_CLEAR_ALL_THIS_TIME', self.config.MAP_CLEAR_ALL_THIS_TIME)
         names = ['map_achieved_star_1', 'map_achieved_star_2', 'map_achieved_star_3',
                  'map_is_100_percent_clear', 'map_is_3_stars',
                  'map_is_threat_safe', 'map_has_clear_mode']
@@ -311,6 +314,7 @@ class FastForwardHandler(AutoSearchHandler):
         Returns:
             bool:
         """
+
         if self.config.StopCondition_MapAchievement == '100_percent_clear':
             if self.map_is_100_percent_clear:
                 return True
