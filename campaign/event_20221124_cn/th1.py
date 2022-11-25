@@ -62,6 +62,8 @@ class Config:
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
+    MAP_MYSTERY_MAP_CLICK = False
+
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 23),
         'width': (0.9, 10),
@@ -102,6 +104,6 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_6(self):
-        self.clear_map_items(I1)
+        self.clear_map_items([F1, I1])
 
         return self.fleet_boss.clear_boss()

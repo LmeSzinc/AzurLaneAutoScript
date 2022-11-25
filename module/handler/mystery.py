@@ -39,6 +39,8 @@ class MysteryHandler(StrategyHandler, EnemySearchingHandler):
         Returns:
             bool: If handled.
         """
+        if not self.config.MAP_MYSTERY_MAP_CLICK:
+            button = MYSTERY_ITEM
         if button is None or area_in_area(button.button, MYSTERY_ITEM.area, threshold=20):
             button = MYSTERY_ITEM
 
