@@ -30,6 +30,7 @@ class ServerChecker:
 
         # Status flags
         self._recover: bool = False
+        self._retry: bool = False
 
         self.check_now()
 
@@ -75,8 +76,11 @@ class ServerChecker:
             else:
                 raise ScriptError(f'Get status_code {resp.status_code}. Response is {resp.text}')
         except (requests.exceptions.ConnectionError, requests.exceptions.ConnectTimeout):
-            logger.warning('Unable to connect to the server. Please check your network status.')
-            self._state.append(False)
+            logger.warning('Timeout while connecting to server checker API.')
+            if self._retry:
+                self._state.append(False)
+            else:
+                self._state.append(self.fast_retry())
         except JSONDecodeError:
             self._state.append(False)
             raise ScriptError(f'Response "{resp.text}" seems not to be a JSON.')
@@ -154,3 +158,39 @@ class ServerChecker:
             return True
 
         return False
+
+    def fast_retry(self) -> bool:
+        """
+        Sometimes CN users may fail to connect to the API even when the network is available.
+        Thus, it need another trusty site to judge the network status.
+        Here choose Baidu.
+
+        Returns:
+            bool: True if network is available
+        """
+        self._retry = True
+        try:
+            _ = requests.get('https://www.baidu.com', timeout=5)
+            network_available = True
+        except (requests.exceptions.ConnectionError, requests.exceptions.ConnectTimeout):
+            network_available = False
+
+        if network_available:
+            logger.info('Trigger fast retry.')
+            last = self._state.copy()
+            for _ in range(3):
+                logger.info(f'Retry {_ + 1} times ...')
+                self._load_server()
+                if self._state[0]:
+                    self._retry = False
+                    self._state.extend(last)
+                    return True
+
+            logger.warning('Cannot connect to API. Please check you network or disable server checker.')
+            self._retry = False
+            self._state.extend(last)
+            return False
+        else:
+            self._retry = False
+            logger.warning('Network is unavailable. Please check your network status.')
+            return False
