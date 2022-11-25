@@ -52,6 +52,10 @@ class ManualConfig:
     # half: Left half of '%' in Vacation Lane (DOA collaboration, event_20201126_cn)
     #       DOA has smaller stage icon, right half of '%' is out of the original area.
     STAGE_ENTRANCE = ['normal']  # normal, blue, half
+    # Set stage='TH' and run_count=100, to run TH1~TH5 in cycle
+    STAGE_LOOP_ALIAS = {
+        ('event_20221124_cn', 'TH'): 'TH1 > TH2 > TH3 > TH4 > TH5'
+    }
 
     """
     module.combat.level
