@@ -62,6 +62,8 @@ class Config:
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
+    MAP_MYSTERY_MAP_CLICK = False
+
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 23),
         'width': (0.9, 10),
