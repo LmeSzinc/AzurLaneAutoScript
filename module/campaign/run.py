@@ -1,6 +1,7 @@
 import copy
 import importlib
 import os
+import random
 import re
 
 from module.campaign.campaign_base import CampaignBase
@@ -20,6 +21,7 @@ class CampaignRun(CampaignEvent):
     campaign: CampaignBase
     run_count: int
     run_limit: int
+    is_stage_loop = False
 
     def load_campaign(self, name, folder='campaign_main'):
         """
@@ -178,6 +180,24 @@ class CampaignRun(CampaignEvent):
                 logger.info(f'When running chapter TH of event_20221124_cn, '
                             f'StopCondition.MapAchievement is forced set to threat_safe')
                 self.config.override(StopCondition_MapAchievement='threat_safe')
+        # Stage loop
+        for alias, stages in self.config.STAGE_LOOP_ALIAS.items():
+            alias_folder, alias = alias
+            if folder == alias_folder and name == alias.lower():
+                stages = [i.strip(' \t\r\n') for i in stages.split('>')]
+                cycle = len(stages)
+                count = int(self.config.StopCondition_RunCount)
+                if count == 0:
+                    stage = random.choice(stages)
+                    logger.info(f'Loop stages in {name.upper()}, run random stage: {stage}')
+                else:
+                    index = count % cycle
+                    index = 0 if index == 0 else cycle - index
+                    stage = stages[index]
+                    logger.info(f'Loop stages in {name.upper()} with remain run_count={count}, '
+                                f'run ordered stage: {stage}')
+                name = stage.lower()
+                self.is_stage_loop = True
 
         return name, folder
 
@@ -278,6 +298,11 @@ class CampaignRun(CampaignEvent):
                 if self.run_count >= 1:
                     logger.hr('Triggered one-time stage limit')
                     self.campaign.handle_map_stop()
+                    break
+            # Loop stages
+            if self.is_stage_loop:
+                if self.run_count >= 1:
+                    logger.hr('Triggered loop stage switch')
                     break
             # Task balancer
             if self.run_count >= 1:
