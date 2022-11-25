@@ -1,15 +1,9 @@
-from module.campaign.assets import SWITCH_1_HARD_ALCHEMIST
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
-from module.campaign.campaign_ui import MODE_SWITCH_1
 from module.combat.assets import GET_ITEMS_1_RYZA
 from module.handler.fast_forward import auto_search
+from module.handler.assets import MYSTERY_ITEM
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
-
-for state in MODE_SWITCH_1.status_list:
-    if state['status'] == 'hard':
-        state['check_button'] = SWITCH_1_HARD_ALCHEMIST
-        state['click_button'] = SWITCH_1_HARD_ALCHEMIST
 
 
 class CampaignBase(CampaignBase_):
@@ -81,7 +75,7 @@ class CampaignBase(CampaignBase_):
             logger.attr('Mystery', 'Get item')
             if drop:
                 drop.add(self.device.image)
-            self.device.click(button)
+            self.device.click(MYSTERY_ITEM)
             self.device.sleep(0.5)
             self.device.screenshot()
             # self.strategy_close()
