@@ -36,7 +36,8 @@ Emulator:
   ScreenshotDedithering: false
   AdbRestart: false
 RestartEmulator:
-  Enable: False
+  ErrorRestart: False
+  DailyRestart: False
   EmulatorType:
     value: auto
     option: [auto, nox_player, bluestacks_5, mumu_player]

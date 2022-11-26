@@ -27,7 +27,8 @@ class GeneratedConfig:
     Emulator_AdbRestart = False
 
     # Group `RestartEmulator`
-    RestartEmulator_Enable = False
+    RestartEmulator_ErrorRestart = False
+    RestartEmulator_DailyRestart = False
     RestartEmulator_EmulatorType = 'auto'  # auto, nox_player, bluestacks_5, mumu_player
 
     # Group `Error`

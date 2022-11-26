@@ -129,7 +129,11 @@
       }
     },
     "RestartEmulator": {
-      "Enable": {
+      "ErrorRestart": {
+        "type": "checkbox",
+        "value": false
+      },
+      "DailyRestart": {
         "type": "checkbox",
         "value": false
       },

@@ -10,7 +10,8 @@
       "AdbRestart": false
     },
     "RestartEmulator": {
-      "Enable": false,
+      "ErrorRestart": false,
+      "DailyRestart": false,
       "EmulatorType": "auto"
     },
     "Error": {
