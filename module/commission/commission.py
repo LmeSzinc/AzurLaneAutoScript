@@ -10,6 +10,7 @@ from module.commission.assets import *
 from module.commission.preset import DICT_FILTER_PRESET, SHORTEST_FILTER
 from module.commission.project import COMMISSION_FILTER, Commission
 from module.config.config_generated import GeneratedConfig
+from module.config.utils import get_server_last_update
 from module.exception import GameStuckError
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
@@ -135,10 +136,9 @@ class RewardCommission(UI, InfoHandler):
             string = self.config.Commission_CustomFilter
         else:
             if f'{preset}_night' in DICT_FILTER_PRESET:
-                start_time = datetime.strptime(str(datetime.now().date())+'21:00', '%Y-%m-%d%H:%M')
-                end_time = datetime.strptime(str(datetime.now().date()) + '02:00', '%Y-%m-%d%H:%M')
-                now_time = datetime.now()
-                if now_time >= start_time or now_time <= end_time:
+                start_time = get_server_last_update('02:00')
+                end_time = get_server_last_update('21:00')
+                if start_time < end_time:
                     preset = f'{preset}_night'
             if preset not in DICT_FILTER_PRESET:
                 logger.warning(f'Preset not found: {preset}, use default preset')

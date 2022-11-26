@@ -5582,7 +5582,9 @@
         "value": "chip",
         "option": [
           "chip",
+          "chip_24h",
           "cube",
+          "cube_24h",
           "oil",
           "custom"
         ]

@@ -19,7 +19,7 @@ DICT_FILTER_PRESET = {
     > ExtraPart-0:30 > ExtraOil-1 > UrgentBox-6 
     > ExtraCube-3 > ExtraPart-1 > UrgentBox-3
     > ExtraCube-4 > ExtraPart-1:30 > ExtraOil-4
-    > UrgentBox-1 > ExtraCube-5 > UrgentBox-1
+    > UrgentBox-1 > ExtraCube-5
     > ExtraCube-8 > ExtraOil-8
     > UrgentDrill-4 > UrgentDrill-2:40 > UrgentDrill-2 
     > UrgentDrill-1 > UrgentDrill-1:30 > UrgentDrill-1:10
@@ -41,6 +41,22 @@ DICT_FILTER_PRESET = {
     > UrgentBox-1 > UrgentDrill-1:30 > ExtraDrill-0:20
     > UrgentDrill-1:10 > UrgentDrill-1
     > ExtraOil-1
+    > shortest
+    """,
+    'chip_24h': """
+    DailyEvent > Gem-4 > Gem-2 > Gem-8 > ExtraCube-0:30
+    > UrgentCube-1:30 > UrgentCube-1:45 > UrgentCube-3 
+    > ExtraDrill-5:20 > ExtraDrill-2 > ExtraDrill-3:20 
+    > UrgentCube-2:15 > UrgentCube-4
+    > ExtraDrill-1 > UrgentCube-6 > ExtraCube-1:30 
+    > ExtraDrill-2:40 > ExtraDrill-0:20
+    > Major > DailyChip > DailyResource
+    > NightDrill-8 > NightDrill-7 > NightDrill-6
+    > ExtraPart-0:30 > ExtraOil-1 > UrgentBox-6 
+    > ExtraCube-3 > ExtraPart-1 > UrgentBox-3
+    > ExtraCube-4 > ExtraPart-1:30 > ExtraOil-4
+    > UrgentBox-1 > ExtraCube-5
+    > Extra-0:20 > Extra-0:30 > Extra-1:00 > Extra-1:30 > Extra-2:00
     > shortest
     """,
     'cube': """
@@ -74,6 +90,19 @@ DICT_FILTER_PRESET = {
     > UrgentBox-1 > UrgentDrill-1:30 > ExtraDrill-5:20 
     > UrgentDrill-1:10 > UrgentDrill-1 > ExtraOil-1
     > ExtraDrill-3:20 > ExtraDrill-2:40 > ExtraDrill-2      
+    > Extra-0:20 > Extra-0:30 > Extra-1:00 > Extra-1:30 > Extra-2:00
+    > shortest
+    """,
+    'cube_24h': """
+    DailyEvent > Gem-4 > Gem-2 > Gem-8 > ExtraCube-0:30
+    > UrgentCube-1:30 > UrgentCube-1:45 > UrgentCube-3 
+    > UrgentCube-2:15 > UrgentCube-4 
+    > ExtraCube-1:30 > ExtraCube-3 > ExtraCube-4 
+    > UrgentBox-3 > UrgentBox-1
+    > Major > DailyChip > DailyResource
+    > ExtraOil-1 > ExtraOil-4 > ExtraOil-8 
+    > ExtraPart-0:30 > ExtraPart-1 > ExtraDrill-1
+    > ExtraPart-1:30 > ExtraDrill-2 
     > Extra-0:20 > Extra-0:30 > Extra-1:00 > Extra-1:30 > Extra-2:00
     > shortest
     """,
