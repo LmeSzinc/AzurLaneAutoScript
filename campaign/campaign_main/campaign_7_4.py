@@ -43,7 +43,7 @@ road_a1 = RoadGrids([A2 , [C3, D2]])
 road_g6 = RoadGrids([G4]) 
 roads = [road_a1, road_g6]
 
-fleet_2_step_on = SelectedGrids([A4, A2, G4, [D2, C3]])
+fleet_2_step_on = SelectedGrids([A4, A2, G4, D2, C3])
 road_a5 = RoadGrids([A4, A2, [C3, D2]]) \
     .combine(RoadGrids([G4]))
 
