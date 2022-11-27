@@ -198,6 +198,10 @@
       "name": "大世界商店",
       "help": ""
     },
+    "OpsiVoucher": {
+      "name": "Task.OpsiVoucher.name",
+      "help": "Task.OpsiVoucher.help"
+    },
     "OpsiDaily": {
       "name": "大世界每日",
       "help": ""
@@ -585,7 +589,7 @@
       "name": "活動名稱",
       "help": "自動選擇至最新的活動圖",
       "campaign_main": "主線圖",
-      "event_20201229_cn": "Inverted Orthant Rerun",
+      "event_20221110_cn": "Inverted Orthant Rerun",
       "event_20211111_cn": "杰諾瓦的焰火",
       "raid_20221027": "Fight On Royal Maids!(Part 3)",
       "event_20210121_cn": "復刻神聖的悲喜劇",
@@ -615,6 +619,7 @@
       "event_20210225_cn": "破曉冰華",
       "event_20220210_cn": "Northern Overture Rerun",
       "raid_20220127": "Mystery Investigation",
+      "event_20201229_cn": "負象限作戰",
       "event_20211229_cn": "Tower of Transcendence",
       "event_20211125_cn": "交匯世界的弧光",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
@@ -2045,6 +2050,16 @@
     "BuySupply": {
       "name": "購買港口商店",
       "help": "每月港口商店可購買商品是固定的，未購買的物品下次仍會出現，並阻擋高價值物品，因此需要購買全部"
+    }
+  },
+  "OpsiVoucher": {
+    "_info": {
+      "name": "OpsiVoucher._info.name",
+      "help": "OpsiVoucher._info.help"
+    },
+    "Filter": {
+      "name": "OpsiVoucher.Filter.name",
+      "help": "OpsiVoucher.Filter.help"
     }
   },
   "OpsiDaily": {

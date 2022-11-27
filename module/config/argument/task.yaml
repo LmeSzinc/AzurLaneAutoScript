@@ -243,6 +243,9 @@ OpsiExplore:
 OpsiShop:
   - Scheduler
   - OpsiShop
+OpsiVoucher:
+  - Scheduler
+  - OpsiVoucher
 OpsiDaily:
   - Scheduler
   - OpsiDaily

@@ -1508,6 +1508,19 @@
       "BuySupply": true
     }
   },
+  "OpsiVoucher": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "OpsiVoucher",
+      "SuccessInterval": 0,
+      "FailureInterval": 0,
+      "ServerUpdate": "00:00"
+    },
+    "OpsiVoucher": {
+      "Filter": "LoggerAbyssal > LoggerObscure > HECombatPlan > Book > Coin"
+    }
+  },
   "OpsiDaily": {
     "Scheduler": {
       "Enable": false,

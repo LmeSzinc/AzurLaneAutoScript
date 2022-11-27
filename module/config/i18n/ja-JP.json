@@ -198,6 +198,10 @@
       "name": "Task.OpsiShop.name",
       "help": "Task.OpsiShop.help"
     },
+    "OpsiVoucher": {
+      "name": "Task.OpsiVoucher.name",
+      "help": "Task.OpsiVoucher.help"
+    },
     "OpsiDaily": {
       "name": "Task.OpsiDaily.name",
       "help": "Task.OpsiDaily.help"
@@ -585,7 +589,7 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
-      "event_20201229_cn": "虚畳なりし限象（復刻）",
+      "event_20221110_cn": "虚畳なりし限象（復刻）",
       "event_20211111_cn": "燈火のシニエ",
       "raid_20221027": "戦え！ロイヤルメイド隊3rd",
       "event_20210121_cn": "悲歎せし焔海の詩（復刻）",
@@ -615,6 +619,7 @@
       "event_20210225_cn": "暁射す氷華の嵐",
       "event_20220210_cn": "凍絶の北海（復刻）",
       "raid_20220127": "秘密事件調査",
+      "event_20201229_cn": "虚畳なりし限象",
       "event_20211229_cn": "遡望せし虹彩の塔",
       "event_20211125_cn": "弧光は交わる世界にて",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
@@ -2045,6 +2050,16 @@
     "BuySupply": {
       "name": "OpsiShop.BuySupply.name",
       "help": "OpsiShop.BuySupply.help"
+    }
+  },
+  "OpsiVoucher": {
+    "_info": {
+      "name": "OpsiVoucher._info.name",
+      "help": "OpsiVoucher._info.help"
+    },
+    "Filter": {
+      "name": "OpsiVoucher.Filter.name",
+      "help": "OpsiVoucher.Filter.help"
     }
   },
   "OpsiDaily": {

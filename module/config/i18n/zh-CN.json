@@ -198,6 +198,10 @@
       "name": "大世界商店",
       "help": ""
     },
+    "OpsiVoucher": {
+      "name": "Task.OpsiVoucher.name",
+      "help": "Task.OpsiVoucher.help"
+    },
     "OpsiDaily": {
       "name": "大世界每日",
       "help": ""
@@ -585,7 +589,7 @@
       "name": "活动名称",
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
-      "event_20201229_cn": "复刻负象限作战",
+      "event_20221110_cn": "复刻负象限作战",
       "event_20211111_cn": "杰诺瓦的焰火",
       "raid_20221027": "战斗！皇家女仆队3rd",
       "event_20210121_cn": "复刻神圣的悲喜剧",
@@ -615,6 +619,7 @@
       "event_20210225_cn": "破晓冰华",
       "event_20220210_cn": "复刻北境序曲",
       "raid_20220127": "演习神秘事件调查",
+      "event_20201229_cn": "负象限作战",
       "event_20211229_cn": "逆转彩虹之塔",
       "event_20211125_cn": "交汇世界的弧光",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
@@ -2045,6 +2050,16 @@
     "BuySupply": {
       "name": "购买港口商店",
       "help": "每月港口商店可购买商品是固定的，未购买的物品下次仍会出现，并阻塞高价值物品，因此需要购买全部"
+    }
+  },
+  "OpsiVoucher": {
+    "_info": {
+      "name": "OpsiVoucher._info.name",
+      "help": "OpsiVoucher._info.help"
+    },
+    "Filter": {
+      "name": "OpsiVoucher.Filter.name",
+      "help": "OpsiVoucher.Filter.help"
     }
   },
   "OpsiDaily": {

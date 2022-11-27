@@ -8,21 +8,11 @@ from module.ocr.ocr import Digit, Ocr
 from module.shop.assets import *
 from module.shop.base import ShopItemGrid
 from module.shop.clerk import ShopClerk
+from module.shop.shop_medal import ShopPriceOcr
 from module.ui.scroll import Scroll
 
 OCR_SHOP_VOUCHER = Digit(SHOP_VOUCHER, letter=(255, 255, 255), name='OCR_SHOP_VOUCHER')
 VOUCHER_SHOP_SCROLL = Scroll(VOUCHER_SHOP_SCROLL_AREA, color=(255, 255, 255))
-
-
-class ShopPriceOcr(Digit):
-    def after_process(self, result):
-        result = Ocr.after_process(self, result)
-        # '100' detected as '00' on occasion
-        if result == '00':
-            result = '100'
-        return Digit.after_process(self, result)
-
-
 PRICE_OCR = ShopPriceOcr([], letter=(255, 223, 57), threshold=32, name='Price_ocr')
 TEMPLATE_VOUCHER_ICON = Template('./assets/shop/cost/Voucher.png')
 
@@ -34,7 +24,7 @@ class VoucherShop(ShopClerk):
         Returns:
             str:
         """
-        return voucher_redirect(self.config.Voucher_Filter.strip())
+        return voucher_redirect(self.config.OpsiVoucher_Filter.strip())
 
     def _get_vouchers(self):
         """
