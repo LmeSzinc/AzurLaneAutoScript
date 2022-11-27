@@ -78,6 +78,7 @@ class Config:
         # 'width': (0, 7),
         'wlen': 1000
     }
+    HOMO_STORAGE = ((7, 7), [(274.753, 70.34), (1050.178, 70.34), (138.583, 713.524), (1205.781, 713.524)])
     HOMO_EDGE_COLOR_RANGE = (0, 23)
     MAP_SWIPE_MULTIPLY = 1.638
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.584
