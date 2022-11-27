@@ -62,19 +62,22 @@ class Config:
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
+    MAP_MYSTERY_MAP_CLICK = False
+
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 33),
+        'height': (80, 255 - 23),
         'width': (0.9, 10),
         'prominence': 10,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 33, 255),
+        'height': (255 - 23, 255),
         'prominence': 10,
         'distance': 50,
         # 'width': (0, 7),
         'wlen': 1000
     }
+    HOMO_EDGE_COLOR_RANGE = (0, 23)
     MAP_SWIPE_MULTIPLY = 1.655
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.600
     MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
@@ -101,6 +104,6 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_6(self):
-        self.clear_map_items(I1)
+        self.clear_map_items([F1, I1])
 
         return self.fleet_boss.clear_boss()

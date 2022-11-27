@@ -53,6 +53,10 @@ class ManualConfig:
     # half: Left half of '%' in Vacation Lane (DOA collaboration, event_20201126_cn)
     #       DOA has smaller stage icon, right half of '%' is out of the original area.
     STAGE_ENTRANCE = ['normal']  # normal, blue, half
+    # Set stage='TH' and run_count=100, to run TH1~TH5 in cycle
+    STAGE_LOOP_ALIAS = {
+        ('event_20221124_cn', 'TH'): 'TH1 > TH2 > TH3 > TH4 > TH5'
+    }
 
     """
     module.combat.level
@@ -110,6 +114,7 @@ class ManualConfig:
     MAP_SIREN_MOVE_WAIT = 1.5  # The enemy moving takes about 1.2 ~ 1.5s.
     MAP_SIREN_COUNT = 0
     MAP_HAS_MYSTERY = True
+    MAP_MYSTERY_MAP_CLICK = True
     MAP_MYSTERY_HAS_CARRIER = False
     MAP_GRID_CENTER_TOLERANCE = 0.1
 

@@ -1,14 +1,9 @@
-from module.campaign.assets import SWITCH_1_HARD_ALCHEMIST
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
-from module.campaign.campaign_ui import MODE_SWITCH_1
+from module.combat.assets import GET_ITEMS_1_RYZA
 from module.handler.fast_forward import auto_search
+from module.handler.assets import MYSTERY_ITEM
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
-
-for state in MODE_SWITCH_1.status_list:
-    if state['status'] == 'hard':
-        state['check_button'] = SWITCH_1_HARD_ALCHEMIST
-        state['click_button'] = SWITCH_1_HARD_ALCHEMIST
 
 
 class CampaignBase(CampaignBase_):
@@ -66,10 +61,26 @@ class CampaignBase(CampaignBase_):
         super().map_get_info()
 
         # Chapter TH has no map_percentage and no 3_stars
-        if name.startswith('th'):
-            self.map_is_100_percent_clear = self.map_is_3_stars = self.map_is_threat_safe = auto_search.appear(
-                main=self)
+        if name.startswith('th') or name.startswith('ht'):
+            appear = auto_search.appear(main=self)
+            self.map_is_100_percent_clear = self.map_is_3_stars = self.map_is_threat_safe = appear
+            self.map_has_clear_mode = appear
             self.map_show_info()
+
+    def handle_mystery_items(self, button=None, drop=None):
+        # Handle a different GET_ITEMS_1
+        if super().handle_mystery_items(button, drop=drop):
+            return True
+        if self.appear(GET_ITEMS_1_RYZA, offset=(20, 20)):
+            logger.attr('Mystery', 'Get item')
+            if drop:
+                drop.add(self.device.image)
+            self.device.click(MYSTERY_ITEM)
+            self.device.sleep(0.5)
+            self.device.screenshot()
+            # self.strategy_close()
+            return True
+        return False
 
     def clear_map_items(self, grids):
         """

@@ -66,18 +66,20 @@ class Config:
     MAP_IS_ONE_TIME_STAGE = True
 
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 33),
+        'height': (80, 255 - 23),
         'width': (0.9, 10),
         'prominence': 10,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 33, 255),
+        'height': (255 - 23, 255),
         'prominence': 10,
         'distance': 50,
         # 'width': (0, 7),
         'wlen': 1000
     }
+    HOMO_STORAGE = ((7, 7), [(274.753, 70.34), (1050.178, 70.34), (138.583, 713.524), (1205.781, 713.524)])
+    HOMO_EDGE_COLOR_RANGE = (0, 23)
     MAP_SWIPE_MULTIPLY = 1.638
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.584
     MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
