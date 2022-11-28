@@ -28,7 +28,7 @@ FILTER_REGEX = re.compile(
     '|red|blue|yellow'
     '|general|gun|torpedo|antiair|plane|wild'
     '|dd|cl|bb|cv'
-    '|abyssal|obscure|file'
+    '|abyssal|obscure|archive'
     '|combat|offense|survival)?'
 
     '(s[1-5]|t[1-6])?$',

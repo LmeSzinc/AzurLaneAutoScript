@@ -48,7 +48,7 @@ def bp_redirect(value):
 FILTER_REGEX_VOUCHER = re.compile(
     '(logger)'
 
-    '(file)?'
+    '(archive)?'
 
     '(t[1-6])?',
     flags=re.IGNORECASE)
@@ -58,8 +58,8 @@ def voucher_redirect(value):
     """
     Redirects voucher shop filter to prevents users
     from using banned strings i.e. Logger, LoggerT[1-6],
-    or LoggerFile
-    Banned strings can be used in special circumstances
+    LoggerArchive, or LoggerArchiveT[1-6]
+    Banned strings are used for special circumstances
     handled by ALAS
     """
     matches = re.findall(FILTER_REGEX_VOUCHER, value)
@@ -69,12 +69,12 @@ def voucher_redirect(value):
     for match in matches:
         flat = ''.join(match)
         pattern = rf'\b{flat}\b'
-        if match[2]:
-            value = re.sub(pattern, f'LoggerAbyssal{match[2].upper()} > LoggerObscure{match[2].upper()}', value)
-        elif match[1]:
+        if (match[2] and match[1]) or match[1]:
             value = re.sub(pattern, '', value)
             value = re.sub('\>\s*\>', '>', value)
             value = re.sub('\>\s*$', '', value)
+        elif match[2]:
+            value = re.sub(pattern, f'LoggerAbyssal{match[2].upper()} > LoggerObscure{match[2].upper()}', value)
         else:
             value = re.sub(pattern, f'LoggerAbyssal > LoggerObscure', value)
 
@@ -82,4 +82,4 @@ def voucher_redirect(value):
 
 if __name__ == '__main__':
     print(bp_redirect('PlateGeneralT1 > DRAgirBP > CatT3 > PROdinBP > Chip > PR1BP > PRBP > DRDrakeBP > DR2BP'))
-    print(voucher_redirect('Coin > HECombatPlan > LoggerFile > TuningCombatT2 > LoggerT6 > Logger'))
+    print(voucher_redirect('Coin > HECombatPlan > LoggerArchive > TuningCombatT2 > LoggerArchiveT1 > LoggerT6 > Logger'))

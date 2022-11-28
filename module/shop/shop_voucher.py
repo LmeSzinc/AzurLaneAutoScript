@@ -208,7 +208,7 @@ class VoucherShop(ShopClerk):
             bool
         """
         # Replace filter
-        self.shop_filter = 'LoggerFile'
+        self.shop_filter = 'LoggerArchive'
 
         # When called, expected to be in
         # correct Voucher Shop interface
