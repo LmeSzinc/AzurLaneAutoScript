@@ -67,10 +67,14 @@ class OperationSiren(OSMap):
             self.run_auto_search()
             self.handle_after_auto_search()
 
-    def os_finish_daily_mission(self):
+    def os_finish_daily_mission(self, question=True, rescan=None):
         """
         Finish all daily mission in Operation Siren.
         Suggest to run os_port_daily to accept missions first.
+
+        Args:
+            question (bool): refer to run_auto_search
+            rescan (None, bool): refer to run_auto_search
 
         Returns:
             bool: True if all finished.
@@ -91,7 +95,7 @@ class OperationSiren(OSMap):
             self.os_order_execute(
                 recon_scan=False,
                 submarine_call=self.config.OpsiFleet_Submarine and result != 'pinned_at_archive_zone')
-            self.run_auto_search()
+            self.run_auto_search(question, rescan)
             self.handle_after_auto_search()
             self.config.check_task_switch()
 
@@ -204,7 +208,7 @@ class OperationSiren(OSMap):
         logger.info('Delay other OpSi tasks during OpsiExplore')
         with self.config.multi_set():
             next_run = self.config.Scheduler_NextRun
-            for task in ['OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold', 'OpsiMeowfficerFarming']:
+            for task in ['OpsiObscure', 'OpsiAbyssal', 'OpsiArchive', 'OpsiStronghold', 'OpsiMeowfficerFarming']:
                 keys = f'{task}.Scheduler.NextRun'
                 current = self.config.cross_get(keys=keys, default=DEFAULT_TIME)
                 if current < next_run:
@@ -372,6 +376,25 @@ class OperationSiren(OSMap):
         while 1:
             self.clear_abyssal()
             self.config.check_task_switch()
+
+    def os_archive(self):
+        shop = VoucherShop(self.config, self.device)
+        while 1:
+            # In case logger bought manually,
+            # finish pre-existing archive zone
+            self.os_finish_daily_mission(question=False, rescan=False)
+
+            logger.hr('OS voucher', level=1)
+            self._os_voucher_enter()
+            bought = shop.run_once()
+            self._os_voucher_exit()
+            if not bought:
+                break
+
+        next_reset = get_os_next_reset()
+        logger.info('All archive zones finished, delay to next reset')
+        logger.attr('OpsiNextReset', next_reset)
+        self.config.task_delay(target=next_reset)
 
     def clear_stronghold(self):
         """

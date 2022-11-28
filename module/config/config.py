@@ -490,6 +490,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
                     "OpsiDaily",
                     "OpsiObscure",
                     "OpsiAbyssal",
+                    "OpsiArchive",
                     "OpsiStronghold",
                     "OpsiMeowfficerFarming",
                 ]

@@ -304,6 +304,10 @@ class AzurLaneAutoScript:
         from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_abyssal()
 
+    def opsi_archive(self):
+        from module.campaign.os_run import OSCampaignRun
+        OSCampaignRun(config=self.config, device=self.device).opsi_archive()
+
     def opsi_stronghold(self):
         from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_stronghold()

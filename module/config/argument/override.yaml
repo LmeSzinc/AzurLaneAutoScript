@@ -356,6 +356,11 @@ OpsiAbyssal:
     SuccessInterval: 60
     FailureInterval: 60
     ServerUpdate: 00:00
+OpsiArchive:
+  Scheduler:
+    SuccessInterval: 60
+    FailureInterval: 60
+    ServerUpdate: 00:00
 OpsiStronghold:
   Scheduler:
     SuccessInterval: 60

@@ -378,6 +378,9 @@ class GeneratedConfig:
     # Group `OpsiAbyssal`
     OpsiAbyssal_ForceRun = False
 
+    # Group `OpsiArchive`
+    OpsiArchive_Unused = False
+
     # Group `OpsiStronghold`
     OpsiStronghold_ForceRun = False
 

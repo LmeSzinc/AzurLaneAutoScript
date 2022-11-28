@@ -214,6 +214,10 @@
       "name": "Abyssal Zones",
       "help": ""
     },
+    "OpsiArchive": {
+      "name": "Archive Zones",
+      "help": ""
+    },
     "OpsiStronghold": {
       "name": "Siren Strongholds",
       "help": ""
@@ -2092,7 +2096,17 @@
     },
     "ForceRun": {
       "name": "Force Run",
-      "help": "Ignore interval, clear all obscure zones, and use AP to submit scan orders (and submarine if enabled)\nGenerally not needed to force run, just run in intervals unless in a rush"
+      "help": "Ignore interval, clear all abyssal zones, and use AP to submit scan orders (and submarine if enabled)\nGenerally not needed to force run, just run in intervals unless in a rush"
+    }
+  },
+  "OpsiArchive": {
+    "_info": {
+      "name": "Archive Zones",
+      "help": "Clear archive zones.\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi Exchange shop"
+    },
+    "Unused": {
+      "name": "Unused",
+      "help": "Archive zones are AP free\nThis only exists in order to display the prerequisites for this task"
     }
   },
   "OpsiStronghold": {
@@ -2102,7 +2116,7 @@
     },
     "ForceRun": {
       "name": "Force Run",
-      "help": "Ignore interval, clear all obscure zones, and use AP to submit scan orders (and submarine if enabled)\nGenerally not needed to force run, just run in intervals unless in a rush"
+      "help": "Ignore interval, clear all siren strongholds, and use AP to submit scan orders (and submarine if enabled)\nGenerally not needed to force run, just run in intervals unless in a rush"
     }
   },
   "OpsiMeowfficerFarming": {

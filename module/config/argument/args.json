@@ -7630,6 +7630,45 @@
       }
     }
   },
+  "OpsiVoucher": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "OpsiVoucher",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 0,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 0,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
+      }
+    },
+    "OpsiVoucher": {
+      "Filter": {
+        "type": "textarea",
+        "value": "LoggerAbyssal > LoggerObscure > HECombatPlan > Book > Coin"
+      }
+    }
+  },
   "OpsiDaily": {
     "Scheduler": {
       "Enable": {
@@ -7786,6 +7825,61 @@
       "Filter": {
         "type": "textarea",
         "value": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
+      }
+    }
+  },
+  "OpsiArchive": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "OpsiArchive",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 60,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 60,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
+      }
+    },
+    "OpsiArchive": {
+      "Unused": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
+    "OpsiFleet": {
+      "Fleet": {
+        "type": "select",
+        "value": 1,
+        "option": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "Submarine": {
+        "type": "checkbox",
+        "value": false
       }
     }
   },

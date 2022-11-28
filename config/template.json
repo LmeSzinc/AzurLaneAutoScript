@@ -1572,6 +1572,23 @@
       "Filter": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
     }
   },
+  "OpsiArchive": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "OpsiArchive",
+      "SuccessInterval": 60,
+      "FailureInterval": 60,
+      "ServerUpdate": "00:00"
+    },
+    "OpsiArchive": {
+      "Unused": false
+    },
+    "OpsiFleet": {
+      "Fleet": 1,
+      "Submarine": false
+    }
+  },
   "OpsiStronghold": {
     "Scheduler": {
       "Enable": false,
