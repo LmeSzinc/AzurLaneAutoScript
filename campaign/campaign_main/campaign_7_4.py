@@ -5,7 +5,7 @@ from module.map.map_grids import RoadGrids, SelectedGrids
 
 MAP = CampaignMap('7-4')
 MAP.shape = 'H6'
-MAP.camera_data = ['D2', 'D4', 'E2', 'E4']
+MAP.camera_data = ['C2', 'C4', 'E2', 'E4']
 MAP.camera_data_spawn_point = ['D2', 'D4']
 MAP.map_data = """
     MB ME ME -- ++ ++ ++ MB
@@ -17,9 +17,9 @@ MAP.map_data = """
 """
 MAP.weight_data = """
     10 20 50 10 10 10 10 10
-    10 10 10 10 10 10 10 10
-    10 10 20 10 10 40 10 20
-    50 50 50 50 30 10 09 10
+    04 10 10 07 10 10 10 10
+    10 10 05 10 10 40 10 20
+    04 50 50 50 30 10 06 10
     50 50 50 50 30 10 10 20
     50 50 50 50 30 30 10 30
 """
@@ -39,14 +39,13 @@ A5, B5, C5, D5, E5, F5, G5, H5, \
 A6, B6, C6, D6, E6, F6, G6, H6, \
     = MAP.flatten()
 
-road_a1 = RoadGrids([[A2, B1], [C3, D2]])
-road_g6 = RoadGrids([F6, E5, E4]) \
-    .combine(RoadGrids([[G4, H5], [G4, H3]]))
+road_a1 = RoadGrids([A2 , [C3, D2]])
+road_g6 = RoadGrids([G4]) 
 roads = [road_a1, road_g6]
 
-fleet_2_step_on = SelectedGrids([G4, D2, C3, E4])
+fleet_2_step_on = SelectedGrids([A4, A2, G4, D2, C3])
 road_a5 = RoadGrids([A4, A2, [C3, D2]]) \
-    .combine(RoadGrids([D6, E5, E4]))
+    .combine(RoadGrids([G4]))
 
 
 class Config:
