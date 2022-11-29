@@ -827,7 +827,7 @@
       "do_not_use": "Don't Use",
       "hunt_only": "Hunt Only",
       "boss_only": "BOSS Only",
-      "hunt_and_boss": "Hunt and Boss",
+      "hunt_and_boss": "Hunt and BOSS",
       "every_combat": "Every Combat"
     },
     "AutoSearchMode": {
@@ -838,7 +838,7 @@
     },
     "DistanceToBoss": {
       "name": "Before BOSS battle move the submarine near BOSS",
-      "help": "Effective only if \"Submarine Mode\" is \"BOSS Only\"\nSelecting \"X Grids To BOSS\" needs to ensure that the submarine hunting range can cover the BOSS. Distance is calculated using the Manhattan Distance. Selecting \"Use Open Ocean Support\" requires U522/Leonardo da Vinci in the submarine fleet.",
+      "help": "Effective only if \"Submarine Mode\" is \"BOSS Only\" or \"Hunt and BOSS\"\nSelecting \"X Grids To BOSS\" needs to ensure that the submarine hunting range can cover the BOSS. Distance is calculated using the Manhattan Distance. Selecting \"Use Open Ocean Support\" requires U522/Leonardo da Vinci in the submarine fleet.",
       "to_boss_position": "To BOSS Location",
       "1_grid_to_boss": "1 Grid To BOSS",
       "2_grid_to_boss": "2 Grids To BOSS",

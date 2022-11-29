@@ -224,7 +224,7 @@ class FastForwardHandler(AutoSearchHandler):
 
     @property
     def is_call_submarine_at_boss(self):
-        return self.config.SUBMARINE and self.config.Submarine_Mode == 'boss_only' or self.config.Submarine_Mode == 'hunt_and_boss '
+        return self.config.SUBMARINE and self.config.Submarine_Mode in ['boss_only', 'hunt_and_boss']
 
     def handle_auto_submarine_call_disable(self):
         """
