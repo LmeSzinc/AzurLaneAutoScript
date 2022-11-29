@@ -823,10 +823,11 @@
     },
     "Mode": {
       "name": "潜艇出击方案",
-      "help": "",
+      "help": "提醒: '狩猎及BOSS战'为'仅狩猎'与'仅BOSS战'的混合，它会在道中进行狩猎打击，并在BOSS战尝试召唤潜艇。",
       "do_not_use": "不使用",
       "hunt_only": "仅狩猎",
       "boss_only": "仅BOSS战",
+      "hunt_and_boss": "狩猎及BOSS战",
       "every_combat": "每战出击"
     },
     "AutoSearchMode": {

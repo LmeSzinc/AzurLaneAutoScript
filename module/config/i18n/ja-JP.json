@@ -827,6 +827,7 @@
       "do_not_use": "do_not_use",
       "hunt_only": "hunt_only",
       "boss_only": "boss_only",
+      "hunt_and_boss": "hunt_and_boss",
       "every_combat": "every_combat"
     },
     "AutoSearchMode": {

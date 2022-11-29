@@ -823,10 +823,11 @@
     },
     "Mode": {
       "name": "潛艇出擊方案",
-      "help": "",
+      "help": "提醒: '狩獵及BOSS戰'為'僅狩獵'與'僅BOSS戰'的混合，它會在道中進行狩獵打擊，並在BOSS戰嘗試召喚潛艇。",
       "do_not_use": "不使用",
       "hunt_only": "僅狩獵",
       "boss_only": "僅BOSS",
+      "hunt_and_boss": "狩獵及BOSS戰",
       "every_combat": "每戰出擊"
     },
     "AutoSearchMode": {

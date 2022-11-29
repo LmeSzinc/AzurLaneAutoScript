@@ -153,7 +153,7 @@ Submarine:
     option: [0, 1, 2]
   Mode:
     value: do_not_use
-    option: [do_not_use, hunt_only, boss_only, every_combat]
+    option: [do_not_use, hunt_only, boss_only, hunt_and_boss, every_combat]
   AutoSearchMode:
     value: sub_standby
     option: [ sub_standby, sub_auto_call ]

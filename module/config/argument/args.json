@@ -568,6 +568,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -931,6 +932,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -1294,6 +1296,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -1755,6 +1758,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -2174,6 +2178,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -2595,6 +2600,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -3033,6 +3039,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -3471,6 +3478,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -3909,6 +3917,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -4347,6 +4356,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -4775,6 +4785,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -6870,6 +6881,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -7255,6 +7267,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
