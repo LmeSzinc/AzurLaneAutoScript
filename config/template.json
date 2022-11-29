@@ -1563,7 +1563,7 @@
       "Command": "OpsiAbyssal",
       "SuccessInterval": 60,
       "FailureInterval": 60,
-      "ServerUpdate": "00:00"
+      "ServerUpdate": "00:00, 12:00"
     },
     "OpsiAbyssal": {
       "ForceRun": false
@@ -1615,8 +1615,26 @@
       "ServerUpdate": "00:00"
     },
     "OpsiMeowfficerFarming": {
-      "ActionPointPreserve": 500,
+      "ActionPointPreserve": 1000,
       "HazardLevel": 5,
+      "TargetZone": 0
+    },
+    "OpsiFleet": {
+      "Fleet": 1,
+      "Submarine": false
+    }
+  },
+  "OpsiHazard1Leveling": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "OpsiHazard1Leveling",
+      "SuccessInterval": 30,
+      "FailureInterval": 60,
+      "ServerUpdate": "00:00"
+    },
+    "OpsiHazard1Leveling": {
+      "StrategySearch": true,
       "TargetZone": 0
     },
     "OpsiFleet": {

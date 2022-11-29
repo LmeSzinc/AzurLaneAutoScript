@@ -1,6 +1,7 @@
 import copy
 import importlib
 import os
+import random
 import re
 
 from module.campaign.campaign_base import CampaignBase
@@ -20,6 +21,7 @@ class CampaignRun(CampaignEvent):
     campaign: CampaignBase
     run_count: int
     run_limit: int
+    is_stage_loop = False
 
     def load_campaign(self, name, folder='campaign_main'):
         """
@@ -121,8 +123,7 @@ class CampaignRun(CampaignEvent):
 
         return False
 
-    @staticmethod
-    def handle_stage_name(name, folder):
+    def handle_stage_name(self, name, folder):
         """
         Handle wrong stage names.
         In some events, the name of SP may be different, such as 'vsp', muse sp.
@@ -136,6 +137,7 @@ class CampaignRun(CampaignEvent):
             str, str: name, folder
         """
         name = re.sub('[ \t\n]', '', str(name)).lower()
+        # Handle special names SP maps
         if name[0].isdigit():
             name = 'campaign_' + name.lower().replace('-', '_')
         if folder == 'event_20201126_cn' and name == 'vsp':
@@ -146,6 +148,9 @@ class CampaignRun(CampaignEvent):
             name = 'sp'
         if folder == 'event_20220818_cn' and name == 'esp':
             name = 'sp'
+        if folder == 'event_20221124_cn' and name in ['asp', 'a.sp']:
+            name = 'sp'
+        # Convert between A/B/C/D and T/HT
         convert = {
             'a1': 't1',
             'a2': 't2',
@@ -160,11 +165,39 @@ class CampaignRun(CampaignEvent):
             'd2': 'ht5',
             'd3': 'ht6',
         }
-        if folder == 'event_20200917_cn':
+        if folder in ['event_20200917_cn', 'event_20221124_cn']:
             name = convert.get(name, name)
         else:
             reverse = {v: k for k, v in convert.items()}
             name = reverse.get(name, name)
+        # The Alchemist and the Archipelago of Secrets
+        # Handle typo
+        if folder == 'event_20221124_cn':
+            name = name.replace('ht', 'th')
+        # Chapter TH has no map_percentage and no 3_stars
+        if folder == 'event_20221124_cn' and name.startswith('th'):
+            if self.config.StopCondition_MapAchievement != 'non_stop':
+                logger.info(f'When running chapter TH of event_20221124_cn, '
+                            f'StopCondition.MapAchievement is forced set to threat_safe')
+                self.config.override(StopCondition_MapAchievement='threat_safe')
+        # Stage loop
+        for alias, stages in self.config.STAGE_LOOP_ALIAS.items():
+            alias_folder, alias = alias
+            if folder == alias_folder and name == alias.lower():
+                stages = [i.strip(' \t\r\n') for i in stages.split('>')]
+                cycle = len(stages)
+                count = int(self.config.StopCondition_RunCount)
+                if count == 0:
+                    stage = random.choice(stages)
+                    logger.info(f'Loop stages in {name.upper()}, run random stage: {stage}')
+                else:
+                    index = count % cycle
+                    index = 0 if index == 0 else cycle - index
+                    stage = stages[index]
+                    logger.info(f'Loop stages in {name.upper()} with remain run_count={count}, '
+                                f'run ordered stage: {stage}')
+                name = stage.lower()
+                self.is_stage_loop = True
 
         return name, folder
 
@@ -265,6 +298,11 @@ class CampaignRun(CampaignEvent):
                 if self.run_count >= 1:
                     logger.hr('Triggered one-time stage limit')
                     self.campaign.handle_map_stop()
+                    break
+            # Loop stages
+            if self.is_stage_loop:
+                if self.run_count >= 1:
+                    logger.hr('Triggered loop stage switch')
                     break
             # Task balancer
             if self.run_count >= 1:

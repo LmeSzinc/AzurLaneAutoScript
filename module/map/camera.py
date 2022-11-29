@@ -4,7 +4,7 @@ import numpy as np
 
 from module.base.timer import Timer
 from module.base.utils import area_offset
-from module.combat.assets import GET_ITEMS_1
+from module.combat.assets import GET_ITEMS_1, GET_ITEMS_1_RYZA
 from module.exception import CampaignEnd, MapDetectionError
 from module.handler.assets import AUTO_SEARCH_MENU_CONTINUE, GAME_TIPS
 from module.logger import logger
@@ -127,6 +127,10 @@ class Camera(MapOperation):
             elif self.appear(GET_ITEMS_1):
                 logger.warning('Perspective error caused by get_items')
                 self.handle_mystery()
+                return False
+            elif self.appear(GET_ITEMS_1_RYZA, offset=(20, 20)):
+                logger.warning('Perspective error caused by GET_ITEMS_1_RYZA')
+                self.device.click(GET_ITEMS_1_RYZA)
                 return False
             elif self.handle_story_skip():
                 logger.warning('Perspective error caused by story')

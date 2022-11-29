@@ -1,5 +1,6 @@
 import numpy as np
 
+from module.base.timer import Timer
 from module.config.utils import (get_os_next_reset,
                                  get_os_reset_remain,
                                  DEFAULT_TIME)
@@ -11,6 +12,7 @@ from module.os.fleet import BossFleet
 from module.os.globe_operation import OSExploreError
 from module.os_handler.assets import EXCHANGE_CHECK, EXCHANGE_ENTER
 from module.os.map import OSMap
+from module.os_handler.shop import OCR_SHOP_YELLOW_COINS
 
 
 class OperationSiren(OSMap):
@@ -157,9 +159,12 @@ class OperationSiren(OSMap):
         Recommend 3 or 5 for higher meowfficer searching point per action points ratio.
         """
         logger.hr(f'OS meowfficer farming, hazard_level={self.config.OpsiMeowfficerFarming_HazardLevel}', level=1)
-        self.action_point_limit_override()
+        preserve = min(self.get_action_point_limit(), self.config.OpsiMeowfficerFarming_ActionPointPreserve)
+        if preserve == 0:
+            self.config.override(OpsiFleet_Submarine=False)
+
         while 1:
-            self.config.OS_ACTION_POINT_PRESERVE = self.config.OpsiMeowfficerFarming_ActionPointPreserve
+            self.config.OS_ACTION_POINT_PRESERVE = preserve
             if self.config.OpsiAshBeacon_AshAttack \
                     and not self._ash_fully_collected \
                     and self.config.OpsiAshBeacon_EnsureFullyCollected:
@@ -176,6 +181,7 @@ class OperationSiren(OSMap):
                     raise RequestHumanTakeover('wrong input, task stopped')
                 else:
                     logger.hr(f'OS meowfficer farming, zone_id={zone.zone_id}', level=1)
+                    self.set_action_point(zone, 'SAFE')
                     self.globe_goto(zone)
                     self.fleet_set(self.config.OpsiFleet_Fleet)
                     self.os_order_execute(
@@ -192,6 +198,7 @@ class OperationSiren(OSMap):
                     .sort_by_clock_degree(center=(1252, 1012), start=self.zone.location)
 
                 logger.hr(f'OS meowfficer farming, zone_id={zones[0].zone_id}', level=1)
+                self.set_action_point(zones[0], 'SAFE')
                 self.globe_goto(zones[0])
                 self.fleet_set(self.config.OpsiFleet_Fleet)
                 self.os_order_execute(
@@ -200,6 +207,68 @@ class OperationSiren(OSMap):
                 self.run_auto_search()
                 self.handle_after_auto_search()
                 self.config.check_task_switch()
+
+    def os_hazard1_leveling(self):
+        logger.hr('OS hazard 1 leveling', level=1)
+        while 1:
+            # Limited action point preserve of hazard 1 to 200
+            self.config.OS_ACTION_POINT_PRESERVE = 200
+            if self.config.OpsiAshBeacon_AshAttack \
+                    and not self._ash_fully_collected \
+                    and self.config.OpsiAshBeacon_EnsureFullyCollected:
+                logger.info('Ash beacon not fully collected, ignore action point limit temporarily')
+                self.config.OS_ACTION_POINT_PRESERVE = 0
+            logger.attr('OS_ACTION_POINT_PRESERVE', self.config.OS_ACTION_POINT_PRESERVE)
+
+            timeout = Timer(2).start()
+            skip_first_screenshot = True
+            while 1:
+                if skip_first_screenshot:
+                    skip_first_screenshot = False
+                else:
+                    self.device.screenshot()
+
+                yellow_coins = OCR_SHOP_YELLOW_COINS.ocr(self.device.image)
+                if yellow_coins < 100 and not timeout.reached():
+                    logger.info('Yellow coins less than 100, assuming it is an ocr error')
+                    continue
+                elif yellow_coins < 100000:
+                    logger.info('Reach the limit of yellow coins, preserve=100000')
+                    self.config.task_delay(server_update=True)
+                    self.config.task_stop()
+                else:
+                    break
+
+            self.get_current_zone()
+            if self.config.OpsiHazard1Leveling_StrategySearch:
+                # Preset action point to 100
+                self.set_action_point(cost=100)
+                if self.config.OpsiHazard1Leveling_TargetZone != 0:
+                    zone = self.config.OpsiHazard1Leveling_TargetZone
+                else:
+                    zone = 44
+
+                logger.hr(f'OS hazard 1 leveling, zone_id={zone}', level=1)
+                if self.zone.zone_id != zone or not self.is_zone_name_hidden:
+                    self.globe_goto(self.name_to_zone(zone), types='SAFE', refresh=True)
+                self.fleet_set(self.config.OpsiFleet_Fleet)
+                self.run_strategy_search()
+            else:
+                if self.config.OpsiHazard1Leveling_TargetZone != 0:
+                    zone = self.config.OpsiHazard1Leveling_TargetZone
+                    logger.hr(f'OS hazard 1 leveling, zone_id={zone}', level=1)
+                    self.globe_goto(self.name_to_zone(zone), types='SAFE', refresh=True)
+                else:
+                    zones = self.zone_select(hazard_level=1) \
+                        .delete(SelectedGrids([self.zone])) \
+                        .delete(SelectedGrids(self.zones.select(is_port=True)))
+                    logger.hr(f'OS hazard 1 leveling, zone_id={zones[0].zone_id}', level=1)
+                    self.globe_goto(zones[0])
+
+                self.fleet_set(self.config.OpsiFleet_Fleet)
+                self.run_auto_search()
+            self.handle_after_auto_search()
+            self.config.check_task_switch()
 
     def _os_explore_task_delay(self):
         """
@@ -338,6 +407,15 @@ class OperationSiren(OSMap):
             else:
                 break
 
+    def delay_abyssal(self):
+        # No obscure coordinates, delay next run to tomorrow.
+        if get_os_reset_remain() > 0:
+            self.config.task_delay(server_update=True)
+        else:
+            logger.info('Just less than 1 day to OpSi reset, delay 2.5 hours')
+            self.config.task_delay(minute=150, server_update=True)
+        self.config.task_stop()
+
     def clear_abyssal(self):
         """
         Get one abyssal logger in storage,
@@ -352,13 +430,7 @@ class OperationSiren(OSMap):
         logger.hr('OS clear abyssal', level=1)
         result = self.storage_get_next_item('ABYSSAL', use_logger=self.config.OpsiGeneral_UseLogger)
         if not result:
-            # No obscure coordinates, delay next run to tomorrow.
-            if get_os_reset_remain() > 0:
-                self.config.task_delay(server_update=True)
-            else:
-                logger.info('Just less than 1 day to OpSi reset, delay 2.5 hours')
-                self.config.task_delay(minute=150, server_update=True)
-            self.config.task_stop()
+            self.delay_abyssal()
 
         self.config.override(
             OpsiGeneral_DoRandomMapEvent=False,
@@ -371,6 +443,7 @@ class OperationSiren(OSMap):
             raise RequestHumanTakeover
 
         self.fleet_repair(revert=False)
+        self.delay_abyssal()
 
     def os_abyssal(self):
         while 1:

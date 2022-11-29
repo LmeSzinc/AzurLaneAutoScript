@@ -538,7 +538,11 @@ class Connection(ConnectionAttr):
         logger.info('Install uiautomator2')
         init = u2.init.Initer(self.adb, loglevel=logging.DEBUG)
         init.set_atx_agent_addr('127.0.0.1:7912')
-        init.install()
+        try:
+            init.install()
+        except ConnectionError:
+            u2.init.GITHUB_BASEURL = 'http://tool.appetizer.io/openatx'
+            init.install()
         self.uninstall_minicap()
 
     def uninstall_minicap(self):

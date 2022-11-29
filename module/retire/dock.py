@@ -1,12 +1,13 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
+from module.base.timer import Timer
 from module.equipment.equipment import Equipment
+from module.logger import logger
 from module.ocr.ocr import DigitCounter
 from module.retire.assets import *
 from module.ui.scroll import Scroll
 from module.ui.setting import Setting
 from module.ui.switch import Switch
-
 
 DOCK_SORTING = Switch('Dork_sorting')
 DOCK_SORTING.add_status('Ascending', check_button=SORT_ASC, click_button=SORTING_CLICK)
@@ -141,8 +142,31 @@ class Dock(Equipment):
             if self.handle_popup_confirm('DOCK_SELECT'):
                 continue
 
-    def dock_selected(self):
-        current, _, _ = OCR_DOCK_SELECTED.ocr(self.device.image)
+    def dock_selected(self, skip_first_screenshot=True):
+        """
+        Args:
+            skip_first_screenshot:
+
+        Returns:
+            bool: If selected a ship in dock.
+                True for ship counter 1/1, False for 0/1.
+        """
+        current = 0
+        timeout = Timer(1.5, count=3).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if timeout.reached():
+                logger.warning('Get dock_selected timeout, assume not selected')
+                break
+
+            current, _, total = OCR_DOCK_SELECTED.ocr(self.device.image)
+            if total == 1:
+                break
+
         return current > 0
 
     def dock_select_confirm(self, check_button, skip_first_screenshot=True):

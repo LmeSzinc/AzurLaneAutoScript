@@ -4,6 +4,7 @@ from module.base.utils import *
 from module.equipment.assets import *
 from module.equipment.equipment import Equipment
 from module.logger import logger
+from module.ui.assets import BACK_ARROW
 from module.ui.scroll import Scroll
 
 # Button of 5 equipments
@@ -141,6 +142,9 @@ class EquipmentChange(Equipment):
         for _ in range(0, 15):
             self._equipment_swipe()
 
+            if self.appear(EQUIP_CONFIRM, offset=(20, 20), interval=2):
+                self.device.click(BACK_ARROW)
+                continue
             res = cv2.matchTemplate(self.device.screenshot(), np.array(
                 self.equip_list[index]), cv2.TM_CCOEFF_NORMED)
             _, sim, _, point = cv2.minMaxLoc(res)

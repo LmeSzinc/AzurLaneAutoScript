@@ -450,7 +450,9 @@ class Map(Fleet):
 
         if self.config.FLEET_2:
             kwargs['sort'] = ('weight', 'cost_2')
-        grids = self.map.select(is_siren=True).add(self.map.select(is_fortress=True))
+        grids = self.map.select(is_siren=True)
+        if self.config.MAP_HAS_FORTRESS:
+            grids = grids.add(self.map.select(is_fortress=True))
         grids = self.select_grids(grids, **kwargs)
 
         if grids:

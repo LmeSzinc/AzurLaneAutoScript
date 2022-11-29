@@ -82,9 +82,8 @@ class MetaReward(Combat, UI):
                 continue
 
             # End
-            if self.appear(REWARD_CHECK, offset=(20, 20)) and not (
-                    self.appear(REWARD_RECEIVE, offset=(20, 20)) and REWARD_RECEIVE.match_appear_on(self.device.image)
-            ):
+            if self.appear(REWARD_CHECK, offset=(20, 20)) and \
+               self.image_color_count(REWARD_RECEIVE, color=(49, 52, 49), threshold=221, count=400):
                 if confirm_timer.reached():
                     break
             else:

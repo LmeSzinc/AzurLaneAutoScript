@@ -1,4 +1,5 @@
 from module.base.timer import Timer
+from module.base.utils import get_color
 from module.combat.assets import *
 from module.exception import CampaignEnd
 from module.handler.assets import *
@@ -7,8 +8,10 @@ from module.os.assets import GLOBE_GOTO_MAP
 from module.os_handler.assets import *
 from module.os_handler.enemy_searching import EnemySearchingHandler
 from module.statistics.azurstats import DropImage
+from module.ui.scroll import Scroll
 from module.ui.switch import Switch
 
+STRATEGY_SEARCH_SCROLL = Scroll(STRATEGY_SEARCH_SCROLL_AREA, color=(247, 211, 66), name='STRATEGY_SEARCH_SCROLL')
 fleet_lock = Switch('Fleet_Lock', offset=(10, 120))
 fleet_lock.add_status('on', check_button=OS_FLEET_LOCKED)
 fleet_lock.add_status('off', check_button=OS_FLEET_UNLOCKED)
@@ -208,7 +211,8 @@ class MapEventHandler(EnemySearchingHandler):
                 confirm_timer.reset()
                 continue
             if self.appear_then_click(GLOBE_GOTO_MAP, offset=(20, 20), interval=2):
-                # Sometimes entered globe map after clicking AUTO_SEARCH_REWARD, but don't know why
+                # Sometimes entered globe map after clicking AUTO_SEARCH_REWARD
+                # because of duplicated clicks and clicks to places outside the map
                 confirm_timer.reset()
                 continue
 
@@ -221,11 +225,13 @@ class MapEventHandler(EnemySearchingHandler):
 
         return cleared
 
-    def handle_os_auto_search_map_option(self, drop=None, enable=True):
+    def handle_os_auto_search_map_option(self, drop=None, enable=True, strategy=False, quit=True):
         """
         Args:
-            drop (DropImage)
+            drop (DropImage):
             enable (bool):
+            strategy (bool):
+            quit (bool):
 
         Returns:
             bool: If clicked.
@@ -238,13 +244,15 @@ class MapEventHandler(EnemySearchingHandler):
             raise CampaignEnd
         if self.appear(AUTO_SEARCH_REWARD, offset=(50, 50)):
             self.device.screenshot_interval_set()
-            if self.os_auto_search_quit(drop=drop):
+            if quit and self.os_auto_search_quit(drop=drop):
                 # No more items on current map
                 raise CampaignEnd
             else:
                 # Auto search stopped but map hasn't been cleared
                 return True
-        if enable:
+        if strategy and enable:
+            return self.handle_strategy_search_map_option()
+        elif enable:
             if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120), interval=3) \
                     and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):
                 self.device.click(AUTO_SEARCH_OS_MAP_OPTION_OFF)
@@ -256,6 +264,65 @@ class MapEventHandler(EnemySearchingHandler):
                 return True
 
         return False
+
+    def handle_strategy_search_map_option(self):
+        if STRATEGY_SEARCH_MAP_OPTION_OFF.match_appear_on(self.device.image) \
+                and self.appear_then_click(STRATEGY_SEARCH_MAP_OPTION_OFF, interval=2):
+            return False
+        if not self.appear(STRATEGY_SEARCH_POPUP_CHECK):
+            return False
+        self.handle_strategy_search_setting_option()
+
+    def handle_strategy_search_setting_option(self):
+        phase = 0
+        skip_first_screenshot = False
+        STRATEGY_SEARCH_SCROLL.drag_threshold = 0.1
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            if not self.appear(STRATEGY_SEARCH_POPUP_CHECK):
+                return False
+
+            if phase == 0:
+                if self.appear(STRATEGY_SEARCH_SAFE_OPTION_OFF) \
+                        and get_color(self.device.image, STRATEGY_SEARCH_SAFE_OPTION_OFF.area)[2] > 185:
+                    self.device.click(STRATEGY_SEARCH_SAFE_OPTION_OFF)
+                    continue
+                if self.appear(STRATEGY_SEARCH_SAFE_OPTION_ON) \
+                        and get_color(self.device.image, STRATEGY_SEARCH_SAFE_OPTION_ON.area)[2] > 185:
+                    phase += 1
+                    skip_first_screenshot = True
+                    continue
+            elif phase == 1:
+                if self.appear(STRATEGY_SEARCH_ZONE_MODE_ON) \
+                        and self.appear(STRATEGY_SEARCH_WAIT_ON):
+                    phase += 1
+                    skip_first_screenshot = True
+                    continue
+                if self.appear(STRATEGY_SEARCH_ZONE_MODE_OFF):
+                    self.device.click(STRATEGY_SEARCH_ZONE_MODE_ON)
+                if self.appear(STRATEGY_SEARCH_WAIT_OFF):
+                    self.device.click(STRATEGY_SEARCH_WAIT_ON)
+            elif phase == 2:
+                check = self.appear(STRATEGY_SEARCH_WAIT_2_CHECK, offset=(20, 200), threshold=0.7)
+                STRATEGY_SEARCH_WAIT_ON.load_offset(STRATEGY_SEARCH_WAIT_2_CHECK)
+                STRATEGY_SEARCH_WAIT_OFF.load_offset(STRATEGY_SEARCH_WAIT_2_CHECK)
+                if check and self.image_color_count(STRATEGY_SEARCH_WAIT_ON.button, color=(156, 255, 82), count=30):
+                    phase += 1
+                    skip_first_screenshot = True
+                    continue
+                if check and self.image_color_count(STRATEGY_SEARCH_WAIT_OFF.button, color=(156, 255, 82), count=30):
+                    self.device.click(STRATEGY_SEARCH_WAIT_ON)
+                    continue
+                else:
+                    STRATEGY_SEARCH_SCROLL.set_top(main=self)
+                    STRATEGY_SEARCH_SCROLL.set(0.4, main=self)
+            else:
+                self.appear_then_click(POPUP_CONFIRM, offset=(30, 30), interval=2)
+                if self.is_in_map():
+                    return True
 
     def handle_os_map_fleet_lock(self, enable=None):
         """

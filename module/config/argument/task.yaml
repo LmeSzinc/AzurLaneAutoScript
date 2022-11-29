@@ -270,6 +270,10 @@ OpsiMeowfficerFarming:
   - Scheduler
   - OpsiMeowfficerFarming
   - OpsiFleet
+OpsiHazard1Leveling:
+  - Scheduler
+  - OpsiHazard1Leveling
+  - OpsiFleet
 
 # ==================== Tool ====================
 

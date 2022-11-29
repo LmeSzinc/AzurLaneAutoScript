@@ -53,6 +53,13 @@ class RewardDorm(UI):
         loves = TEMPLATE_DORM_LOVE.match_multi(image, name='DORM_LOVE')
         coins = TEMPLATE_DORM_COIN.match_multi(image, name='DORM_COIN')
         logger.info(f'Dorm loves: {len(loves)}, Dorm coins: {len(coins)}')
+        # Complicated dorm background
+        if len(loves) > 6:
+            logger.warning('Too many dorm loves, limited to 6')
+            loves = loves[:6]
+        if len(coins) > 6:
+            logger.warning('Too many dorm coins, limited to 6')
+            coins = coins[:6]
 
         count = 0
         for button in loves:
