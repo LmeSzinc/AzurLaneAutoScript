@@ -74,3 +74,10 @@ class OSCampaignRun(OSMapOperation):
             self.campaign.os_stronghold()
         except ActionPointLimit:
             self.config.opsi_task_delay(ap_limit=True)
+
+    def opsi_cross_month(self):
+        try:
+            self.load_campaign()
+            self.campaign.os_cross_month()
+        except ActionPointLimit:
+            self.campaign.os_cross_month_end()

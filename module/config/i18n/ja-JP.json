@@ -218,6 +218,10 @@
       "name": "Task.OpsiMeowfficerFarming.name",
       "help": "Task.OpsiMeowfficerFarming.help"
     },
+    "OpsiCrossMonth": {
+      "name": "Task.OpsiCrossMonth.name",
+      "help": "Task.OpsiCrossMonth.help"
+    },
     "Daemon": {
       "name": "Task.Daemon.name",
       "help": "Task.Daemon.help"

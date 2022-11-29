@@ -308,6 +308,10 @@ class AzurLaneAutoScript:
         from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_meowfficer_farming()
 
+    def opsi_cross_month(self):
+        from module.campaign.os_run import OSCampaignRun
+        OSCampaignRun(config=self.config, device=self.device).opsi_cross_month()
+
     def main(self):
         from module.campaign.run import CampaignRun
         CampaignRun(config=self.config, device=self.device).run(
