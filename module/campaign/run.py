@@ -299,14 +299,14 @@ class CampaignRun(CampaignEvent):
                     logger.hr('Triggered one-time stage limit')
                     self.campaign.handle_map_stop()
                     break
+            # Task balancer
+            if self.run_count >= 1:
+                self.handle_task_balancer()
             # Loop stages
             if self.is_stage_loop:
                 if self.run_count >= 1:
                     logger.hr('Triggered loop stage switch')
                     break
-            # Task balancer
-            if self.run_count >= 1:
-                self.handle_task_balancer()
             # Scheduler
             if self.config.task_switched():
                 self.campaign.ensure_auto_search_exit()
