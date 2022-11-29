@@ -95,7 +95,7 @@ class StrategyHandler(InfoHandler):
         self.strategy_set_execute(
             formation_index=expected_formation,
             sub_view=False,
-            sub_hunt=bool(self.config.Submarine_Fleet) and self.config.Submarine_Mode == 'hunt_only'
+            sub_hunt=bool(self.config.Submarine_Fleet) and self.config.Submarine_Mode == 'hunt_only' or self.config.Submarine_Mode == 'hunt_and_boss'
         )
         self.strategy_close()
         self.__setattr__(f'fleet_{index}_formation_fixed', True)
