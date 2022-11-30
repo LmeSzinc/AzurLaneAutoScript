@@ -101,7 +101,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             if oil == 0:
                 logger.warning('Oil not found')
             else:
-                if oil < self.config.StopCondition_OilLimit:
+                if oil < max(500, self.config.StopCondition_OilLimit):
                     logger.info('Reach oil limit')
                     self.auto_search_oil_limit_triggered = True
                 else:
@@ -240,6 +240,8 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
                 self.device.screenshot_interval_set()
                 raise CampaignEnd
             if self.is_combat_executing():
+                continue
+            if self.handle_get_ship():
                 continue
             if self.appear(BATTLE_STATUS_S) or self.appear(BATTLE_STATUS_A) or self.appear(BATTLE_STATUS_B) \
                     or self.appear(EXP_INFO_S) or self.appear(EXP_INFO_A) or self.appear(EXP_INFO_B) \
