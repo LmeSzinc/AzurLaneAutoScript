@@ -1,6 +1,7 @@
 import numpy as np
 
 from module.base.button import ButtonGrid
+from module.base.timer import Timer
 from module.base.utils import rgb2gray
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.exception import ScriptError
@@ -126,10 +127,14 @@ class StorageHandler(StorageUI):
             out: MATERIAL_CHECK
         """
         used = 0
+        timeout = Timer(1.5, count=3).start()
         while 1:
             logger.attr('Used', f'{used}/{amount}')
             if used >= amount:
                 logger.info('Reached target amount, stop')
+                break
+            if timeout.reached():
+                logger.info('No more boxes on this page, stop')
                 break
 
             if skip_first_screenshot:
@@ -143,8 +148,8 @@ class StorageHandler(StorageUI):
                 used += self._storage_use_one_box(box_button)
                 continue
             else:
-                logger.info('No more boxes on this page, stop')
-                break
+                logger.info('No boxes found')
+                continue
 
         return used
 

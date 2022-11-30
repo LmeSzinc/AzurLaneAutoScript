@@ -263,6 +263,8 @@ OpsiMeowfficerFarming:
   - Scheduler
   - OpsiMeowfficerFarming
   - OpsiFleet
+OpsiCrossMonth:
+  - Scheduler
 
 # ==================== Tool ====================
 
