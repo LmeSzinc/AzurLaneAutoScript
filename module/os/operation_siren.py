@@ -493,14 +493,18 @@ class OperationSiren(OSMap):
             else:
                 break
 
-    def delay_abyssal(self):
-        # No obscure coordinates, delay next run to tomorrow.
-        if get_os_reset_remain() > 0:
-            self.config.task_delay(server_update=True)
-        else:
+    def delay_abyssal(self, result=True):
+        """
+        Args:
+            result(bool): If still have obscure coordinates.
+        """
+        if get_os_reset_remain() == 0:
             logger.info('Just less than 1 day to OpSi reset, delay 2.5 hours')
             self.config.task_delay(minute=150, server_update=True)
-        self.config.task_stop()
+            self.config.task_stop()
+        elif self.config.cross_get('OpsiHazard1Leveling.Scheduler.Enable', default=False) or not result:
+            self.config.task_delay(server_update=True)
+            self.config.task_stop()
 
     def clear_abyssal(self):
         """
@@ -516,7 +520,7 @@ class OperationSiren(OSMap):
         logger.hr('OS clear abyssal', level=1)
         result = self.storage_get_next_item('ABYSSAL', use_logger=self.config.OpsiGeneral_UseLogger)
         if not result:
-            self.delay_abyssal()
+            self.delay_abyssal(result=False)
 
         self.config.override(
             OpsiGeneral_DoRandomMapEvent=False,
