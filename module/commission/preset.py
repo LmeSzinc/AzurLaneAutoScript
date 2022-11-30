@@ -9,7 +9,7 @@ SHORTEST_FILTER = """
 
 DICT_FILTER_PRESET = {
     'chip': """
-    DailyEvent > Gem-4 > Gem-2 > Gem-8 > ExtraCube-0:30
+    DailyEvent > Gem-8 > Gem-4 > Gem-2 > ExtraCube-0:30
     > UrgentCube-1:30 > UrgentCube-1:45 > UrgentCube-3 
     > ExtraDrill-5:20 > ExtraDrill-2 > ExtraDrill-3:20 
     > UrgentCube-2:15 > UrgentCube-4
@@ -44,7 +44,7 @@ DICT_FILTER_PRESET = {
     > shortest
     """,
     'chip_24h': """
-    DailyEvent > Gem-4 > Gem-2 > Gem-8 > ExtraCube-0:30
+    DailyEvent > Gem-8 > Gem-4 > Gem-2 > ExtraCube-0:30
     > UrgentCube-1:30 > UrgentCube-1:45 > UrgentCube-3 
     > ExtraDrill-5:20 > ExtraDrill-2 > ExtraDrill-3:20 
     > UrgentCube-2:15 > UrgentCube-4
@@ -60,7 +60,7 @@ DICT_FILTER_PRESET = {
     > shortest
     """,
     'cube': """
-    DailyEvent > Gem-4 > Gem-2 > Gem-8 > ExtraCube-0:30
+    DailyEvent > Gem-8 > Gem-4 > Gem-2 > ExtraCube-0:30
     > UrgentCube-1:30 > UrgentCube-1:45 > UrgentCube-3 
     > UrgentCube-2:15 > UrgentCube-4 > UrgentCube-6 
     > ExtraCube-1:30 > ExtraCube-3 > ExtraCube-4 
@@ -76,7 +76,7 @@ DICT_FILTER_PRESET = {
     > shortest
     """,
     'cube_night': """
-    DailyEvent > Gem-4 > Gem-2 > Gem-8 
+    DailyEvent > Gem-8 > Gem-4 > Gem-2  
     > Major > DailyChip > DailyResource
     > UrgentCube-6 > UrgentCube-4 > UrgentCube-3 
     > UrgentCube-1:30 > UrgentCube-1:45 > UrgentCube-2:15 
@@ -94,11 +94,11 @@ DICT_FILTER_PRESET = {
     > shortest
     """,
     'cube_24h': """
-    DailyEvent > Gem-4 > Gem-2 > Gem-8 > ExtraCube-0:30
+    DailyEvent > Gem-8 > Gem-4 > Gem-2 > ExtraCube-0:30
     > UrgentCube-1:30 > UrgentCube-1:45 > UrgentCube-3 
-    > UrgentCube-2:15 > UrgentCube-4 
+    > UrgentCube-2:15 > UrgentCube-4 > UrgentCube-6 
     > ExtraCube-1:30 > ExtraCube-3 > ExtraCube-4 
-    > UrgentBox-3 > UrgentBox-1
+    > ExtraCube-8 > UrgentBox-6 > UrgentBox-3 > ExtraCube-5 > UrgentBox-1
     > Major > DailyChip > DailyResource
     > ExtraOil-1 > ExtraOil-4 > ExtraOil-8 
     > ExtraPart-0:30 > ExtraPart-1 > ExtraDrill-1
@@ -107,7 +107,7 @@ DICT_FILTER_PRESET = {
     > shortest
     """,
     'oil': """
-    DailyEvent > Gem-4 > Gem-2 > Gem-8 > ExtraCube-0:30
+    DailyEvent > Gem-8 > Gem-4 > Gem-2 > ExtraCube-0:30
     > UrgentCube-1:30 > UrgentCube-1:45 > UrgentCube-3 
     > UrgentCube-2:15 > UrgentCube-4 
     > UrgentBox-6 > ExtraCube-1:30 > UrgentCube-6 
