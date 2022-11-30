@@ -166,6 +166,7 @@ class OperationSiren(OSMap):
             return False
 
         self.is_in_opsi_explore = false_func
+        self.config.task_switched = false_func
         while 1:
             # If unable to receive more dailies, finish them and try again.
             success = self.os_mission_overview_accept()
@@ -192,23 +193,29 @@ class OperationSiren(OSMap):
             OpsiFleetFilter_Filter=self.config.cross_get('OpsiAbyssal.OpsiFleetFilter.Filter'),
             OpsiAbyssal_ForceRun=True,
         )
-        if self.storage_get_next_item('ABYSSAL', use_logger=True):
-            self.zone_init()
-            result = self.run_abyssal()
-            if not result:
-                self.map_exit()
-            self.fleet_repair(revert=False)
+        while 1:
+            if self.storage_get_next_item('ABYSSAL', use_logger=True):
+                self.zone_init()
+                result = self.run_abyssal()
+                if not result:
+                    self.map_exit()
+                self.fleet_repair(revert=False)
+            else:
+                break
 
         logger.hr('OS clear obscure', level=1)
-        if self.storage_get_next_item('OBSCURE', use_logger=True):
-            self.zone_init()
-            self.fleet_set(self.config.OpsiFleet_Fleet)
-            self.os_order_execute(
-                recon_scan=True,
-                submarine_call=False)
-            self.run_auto_search(rescan=False)
-            self.map_exit()
-            self.handle_after_auto_search()
+        while 1:
+            if self.storage_get_next_item('OBSCURE', use_logger=True):
+                self.zone_init()
+                self.fleet_set(self.config.OpsiFleet_Fleet)
+                self.os_order_execute(
+                    recon_scan=True,
+                    submarine_call=False)
+                self.run_auto_search(rescan=False)
+                self.map_exit()
+                self.handle_after_auto_search()
+            else:
+                break
 
         logger.hr(f'OS meowfficer farming, hazard_level=3', level=1)
         self.config.override(
