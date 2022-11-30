@@ -365,9 +365,14 @@ class OSMap(OSFleet, Map, GlobeCamera):
         """
         remain = get_os_reset_remain()
         if remain <= 0:
-            logger.info('Just less than 1 day to OpSi reset, '
-                        'set ActionPointPreserve to 0 temporarily')
-            return 0
+            if self.config.cross_get('OpsiCrossMonth.Scheduler.Enable', default=False):
+                logger.info('Just less than 1 day to OpSi reset, OpsiCrossMonth is enabled'
+                            'set OpsiMeowfficerFarming.ActionPointPreserve to 300 temporarily')
+                return 300
+            else:
+                logger.info('Just less than 1 day to OpSi reset, '
+                            'set ActionPointPreserve to 0 temporarily')
+                return 0
         elif self.config.cross_get(
                 keys='OpsiHazard1Leveling.Scheduler.Enable',
                 default=False

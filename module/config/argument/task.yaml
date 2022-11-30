@@ -267,6 +267,8 @@ OpsiHazard1Leveling:
   - Scheduler
   - OpsiHazard1Leveling
   - OpsiFleet
+OpsiCrossMonth:
+  - Scheduler
 
 # ==================== Tool ====================
 

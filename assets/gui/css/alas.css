@@ -311,6 +311,10 @@ pre.rich-traceback-code {
     grid-template-columns: 1fr minmax(25rem, 5fr) 2fr;
 }
 
+#pywebio-scope-group__info>p {
+    font-weight: 400;
+}
+
 [id^="pywebio-scope-group_"] {
     margin-top: .5rem;
     margin-bottom: .5rem;

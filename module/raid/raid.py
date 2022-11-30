@@ -137,10 +137,9 @@ class Raid(MapOperation, Combat, CampaignEvent):
 
         @run_once
         def check_oil():
-            if self.config.StopCondition_OilLimit:
-                if self.get_oil() < self.config.StopCondition_OilLimit:
-                    logger.hr('Triggered oil limit')
-                    raise OilExhausted
+            if self.get_oil() < max(500, self.config.StopCondition_OilLimit):
+                logger.hr('Triggered oil limit')
+                raise OilExhausted
 
         @run_once
         def check_coin():
