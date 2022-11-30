@@ -2227,6 +2227,16 @@
       "help": "遊戲被強制結束後自動登錄遊戲"
     }
   },
+  "Storage": {
+    "_info": {
+      "name": "任務狀態",
+      "help": "存放任務內部狀態，任務异常時可以手動清除"
+    },
+    "Storage": {
+      "name": "Storage.Storage.name",
+      "help": "Storage.Storage.help"
+    }
+  },
   "Gui": {
     "Aside": {
       "Install": "安裝",
@@ -2314,7 +2324,8 @@
       "SSHNotInstall": "系統中沒有 ssh 工具，請參閱教程下載安裝 ssh"
     },
     "Text": {
-      "InvalidFeedBack": "格式錯誤。 示例：{0}"
+      "InvalidFeedBack": "格式錯誤。 示例：{0}",
+      "Clear": "清除"
     }
   }
 }

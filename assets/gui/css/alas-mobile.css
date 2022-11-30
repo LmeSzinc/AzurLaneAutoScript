@@ -30,6 +30,12 @@
     grid-template-rows: unset;
 }
 
+[id^="pywebio-scope-arg_container-storage-"] {
+    grid-auto-flow: column;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr auto;
+}
+
 #pywebio-scope-_groups {
     grid-template-columns: 0fr 1fr;
 }

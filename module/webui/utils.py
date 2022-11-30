@@ -20,6 +20,7 @@ from pywebio.session import register_thread, run_js
 from rich.console import Console, ConsoleOptions
 from rich.terminal_theme import TerminalTheme
 
+
 RE_DATETIME = (
     r"\d{4}\-(0\d|1[0-2])\-([0-2]\d|[3][0-1]) "
     r"([0-1]\d|[2][0-3]):([0-5]\d):([0-5]\d)"
@@ -396,6 +397,7 @@ str2type = {
     "float": float,
     "int": int,
     "bool": bool,
+    "ignore": lambda x: x,
 }
 
 
