@@ -2028,11 +2028,11 @@
   "OpsiExplore": {
     "_info": {
       "name": "OpSi Explore Settings",
-      "help": "At the beginning of each month OpSi is reset\nThe following must be satisfied:\n- Manually confirm fleet deployment into OpSi\n- OpSi story must be complete\nEach zone will be visited in a clockwise direction every 27 minutes until world has been been completely opened\nNo need to consume 5000 oil for special radar in OpSi shop"
+      "help": "At the beginning of each month OpSi is reset\nThe following must be satisfied:\n- OpSi story must be complete\nEach zone will be visited in a clockwise direction every 27 minutes until world has been been completely opened\nNo need to consume 5000 oil for special radar in OpSi shop"
     },
     "SpecialRadar": {
       "name": "SpecialRadar Bought",
-      "help": "Enable if you have purchased the special radar\nAllows Alas to explore OpSi continously without having to wait 27 minutes between each zone clear\nFor those with oil surplus and would like to complete this task efficiently"
+      "help": "Enable if you have purchased the special radar\nAllows Alas to explore OpSi continously without having to wait 27 minutes between each zone clear\nCannot be selected when not purchased and used"
     },
     "ForceRun": {
       "name": "Force Run",
@@ -2046,7 +2046,7 @@
   "OpsiShop": {
     "_info": {
       "name": "OpSi Shop Settings",
-      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi shop"
+      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi shop"
     },
     "BuySupply": {
       "name": "Buy From Port Shops",
@@ -2056,7 +2056,7 @@
   "OpsiDaily": {
     "_info": {
       "name": "OpSi Daily Settings",
-      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi shop"
+      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi shop"
     },
     "DoMission": {
       "name": "Do Port Mission(s)",
@@ -2070,7 +2070,7 @@
   "OpsiObscure": {
     "_info": {
       "name": "OpSi Obscure Settings",
-      "help": "Clear obscure zones every 27 minutes\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi shop"
+      "help": "Clear obscure zones every 27 minutes\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi shop"
     },
     "ForceRun": {
       "name": "Force Run",
@@ -2080,7 +2080,7 @@
   "OpsiAbyssal": {
     "_info": {
       "name": "Abyssal Zones",
-      "help": "Clear abyssal zones.\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi shop"
+      "help": "Clear abyssal zones.\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi shop"
     },
     "ForceRun": {
       "name": "Force Run",
@@ -2090,7 +2090,7 @@
   "OpsiStronghold": {
     "_info": {
       "name": "Siren Strongholds",
-      "help": "Clear the weekly siren strongholds.\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi shop"
+      "help": "Clear the weekly siren strongholds.\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi shop"
     },
     "ForceRun": {
       "name": "Force Run",
@@ -2100,7 +2100,7 @@
   "OpsiMeowfficerFarming": {
     "_info": {
       "name": "OpSi Meowfficer Farm Settings",
-      "help": "Attack target zones of the specified hazard level in a clockwise direction\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi shop"
+      "help": "Attack target zones of the specified hazard level in a clockwise direction\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi shop"
     },
     "ActionPointPreserve": {
       "name": "Keep X Amount of AP",
