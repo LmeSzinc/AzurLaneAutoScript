@@ -1594,6 +1594,16 @@
       "Submarine": false
     }
   },
+  "OpsiCrossMonth": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "OpsiCrossMonth",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    }
+  },
   "Daemon": {
     "Daemon": {
       "EnterMap": true

@@ -22,29 +22,29 @@ class OSCampaignRun(OSMapOperation):
         return True
 
     def opsi_explore(self):
-        self.load_campaign()
         try:
+            self.load_campaign()
             self.campaign.os_explore()
         except ActionPointLimit:
             self.config.opsi_task_delay(ap_limit=True)
 
     def opsi_shop(self):
-        self.load_campaign()
         try:
+            self.load_campaign()
             self.campaign.os_shop()
         except ActionPointLimit:
             self.config.opsi_task_delay(ap_limit=True)
 
     def opsi_daily(self):
-        self.load_campaign()
         try:
+            self.load_campaign()
             self.campaign.os_daily()
         except ActionPointLimit:
             self.config.opsi_task_delay(ap_limit=True)
 
     def opsi_meowfficer_farming(self):
-        self.load_campaign()
         try:
+            self.load_campaign()
             self.campaign.os_meowfficer_farming()
         except ActionPointLimit:
             if get_os_reset_remain() > 0:
@@ -55,22 +55,29 @@ class OSCampaignRun(OSMapOperation):
                 self.config.task_delay(minute=150, server_update=True)
 
     def opsi_obscure(self):
-        self.load_campaign()
         try:
+            self.load_campaign()
             self.campaign.os_obscure()
         except ActionPointLimit:
             self.config.opsi_task_delay(ap_limit=True)
 
     def opsi_abyssal(self):
-        self.load_campaign()
         try:
+            self.load_campaign()
             self.campaign.os_abyssal()
         except ActionPointLimit:
             self.config.opsi_task_delay(ap_limit=True)
 
     def opsi_stronghold(self):
-        self.load_campaign()
         try:
+            self.load_campaign()
             self.campaign.os_stronghold()
         except ActionPointLimit:
             self.config.opsi_task_delay(ap_limit=True)
+
+    def opsi_cross_month(self):
+        try:
+            self.load_campaign()
+            self.campaign.os_cross_month()
+        except ActionPointLimit:
+            self.campaign.os_cross_month_end()
