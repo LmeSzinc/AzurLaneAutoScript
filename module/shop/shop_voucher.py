@@ -35,7 +35,6 @@ class VoucherShop(ShopClerk):
         vouchers = TEMPLATE_VOUCHER_ICON.match_multi(left_column, similarity=0.75, threshold=5)
         vouchers = Points([(0., v.area[1]) for v in vouchers]).group(threshold=5)
         logger.attr('Vouchers_icon', len(vouchers))
-        logger.info(vouchers)
         return vouchers
 
     def wait_until_voucher_appear(self, skip_first_screenshot=True):
@@ -81,8 +80,6 @@ class VoucherShop(ShopClerk):
         elif count == 2:
             y_list = vouchers[:, 1]
             y1, y2 = y_list[0], y_list[1]
-            logger.info(y1)
-            logger.info(y2)
             origin_y = min(y1, y2) + 256 - 88
             delta_y = abs(y1 - y2)
             row = 2
@@ -202,7 +199,8 @@ class VoucherShop(ShopClerk):
     def run_once(self):
         """
         Run Voucher Shop to purchase
-        a single logger file type item
+        a single logger archive type
+        item
 
         Returns:
             bool
@@ -224,9 +222,9 @@ class VoucherShop(ShopClerk):
 
         item = self.shop_get_item_to_buy(items)
         if item is None:
-            logger.info('No logger files available for purchase')
+            logger.info('No logger archives available for purchase')
             return False
         self.shop_buy_execute(item)
 
-        logger.info('Purchased single logger file')
+        logger.info('Purchased single logger archive')
         return True
