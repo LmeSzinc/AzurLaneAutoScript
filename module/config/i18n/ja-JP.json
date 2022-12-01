@@ -222,6 +222,10 @@
       "name": "Task.OpsiHazard1Leveling.name",
       "help": "Task.OpsiHazard1Leveling.help"
     },
+    "OpsiCrossMonth": {
+      "name": "Task.OpsiCrossMonth.name",
+      "help": "Task.OpsiCrossMonth.help"
+    },
     "Daemon": {
       "name": "Task.Daemon.name",
       "help": "Task.Daemon.help"
@@ -2224,6 +2228,16 @@
       "help": "GameManager.AutoRestart.help"
     }
   },
+  "Storage": {
+    "_info": {
+      "name": "Storage._info.name",
+      "help": "Storage._info.help"
+    },
+    "Storage": {
+      "name": "Storage.Storage.name",
+      "help": "Storage.Storage.help"
+    }
+  },
   "Gui": {
     "Aside": {
       "Install": "Gui.Aside.Install",
@@ -2311,7 +2325,8 @@
       "SSHNotInstall": "Gui.Remote.SSHNotInstall"
     },
     "Text": {
-      "InvalidFeedBack": "Gui.Text.InvalidFeedBack"
+      "InvalidFeedBack": "Gui.Text.InvalidFeedBack",
+      "Clear": "Gui.Text.Clear"
     }
   }
 }

@@ -293,6 +293,8 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
                 self.device.screenshot()
 
             if self.appear_then_click(MAP_GOTO_GLOBE, offset=(200, 5), interval=5):
+                # Just to initialize interval timer of MAP_GOTO_GLOBE_FOG
+                self.appear(MAP_GOTO_GLOBE_FOG, offset=(5, 5), interval=5)
                 self.interval_reset(MAP_GOTO_GLOBE_FOG)
                 click_count += 1
                 if click_count >= 5:
