@@ -153,7 +153,7 @@ class LoginHandler(UI):
 
     def app_restart(self):
         logger.hr('App restart')
-        if self.config.RestartEmulator_Enable \
+        if self.config.RestartEmulator_DailyRestart\
                 and self.config.Scheduler_NextRun.strftime('%H:%M:%S') \
                 == get_server_next_update(self.config.Scheduler_ServerUpdate).strftime('%H:%M:%S'):
             self.device.emulator_restart()
