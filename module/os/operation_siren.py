@@ -277,7 +277,7 @@ class OperationSiren(OSMap):
         logger.info('Delay other OpSi tasks during OpsiExplore')
         with self.config.multi_set():
             next_run = self.config.Scheduler_NextRun
-            for task in ['OpsiObscure', 'OpsiAbyssal', 'OpsiArchive', 'OpsiStronghold', 'OpsiMeowfficerFarming']:
+            for task in ['OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold', 'OpsiMeowfficerFarming']:
                 keys = f'{task}.Scheduler.NextRun'
                 current = self.config.cross_get(keys=keys, default=DEFAULT_TIME)
                 if current < next_run:
@@ -451,6 +451,14 @@ class OperationSiren(OSMap):
             self.config.check_task_switch()
 
     def os_archive(self):
+        """
+        Unused func, not currently a monthly trend
+        Retain in case AL devs add as official feature
+
+        Complete active archive zone in daily mission
+        Purchase next available logger archive then repeat
+        until exhausted
+        """
         shop = VoucherShop(self.config, self.device)
         while 1:
             # In case logger bought manually,

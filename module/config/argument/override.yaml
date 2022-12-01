@@ -338,8 +338,8 @@ OpsiShop:
     ServerUpdate: 00:00
 OpsiVoucher:
   Scheduler:
-    SuccessInterval: 0
-    FailureInterval: 0
+    SuccessInterval: 30
+    FailureInterval: 30
     ServerUpdate: 00:00
 OpsiDaily:
   Scheduler:
@@ -356,11 +356,6 @@ OpsiAbyssal:
     SuccessInterval: 60
     FailureInterval: 60
     ServerUpdate: 00:00, 12:00
-OpsiArchive:
-  Scheduler:
-    SuccessInterval: 60
-    FailureInterval: 60
-    ServerUpdate: 00:00
 OpsiStronghold:
   Scheduler:
     SuccessInterval: 60

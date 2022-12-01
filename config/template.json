@@ -1513,8 +1513,8 @@
       "Enable": false,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "OpsiVoucher",
-      "SuccessInterval": 0,
-      "FailureInterval": 0,
+      "SuccessInterval": 30,
+      "FailureInterval": 30,
       "ServerUpdate": "00:00"
     },
     "OpsiVoucher": {
@@ -1570,23 +1570,6 @@
     },
     "OpsiFleetFilter": {
       "Filter": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
-    }
-  },
-  "OpsiArchive": {
-    "Scheduler": {
-      "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "OpsiArchive",
-      "SuccessInterval": 60,
-      "FailureInterval": 60,
-      "ServerUpdate": "00:00"
-    },
-    "OpsiArchive": {
-      "Unused": false
-    },
-    "OpsiFleet": {
-      "Fleet": 1,
-      "Submarine": false
     }
   },
   "OpsiStronghold": {

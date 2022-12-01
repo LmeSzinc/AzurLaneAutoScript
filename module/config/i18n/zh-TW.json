@@ -214,10 +214,6 @@
       "name": "深淵海域",
       "help": ""
     },
-    "OpsiArchive": {
-      "name": "Task.OpsiArchive.name",
-      "help": "Task.OpsiArchive.help"
-    },
     "OpsiStronghold": {
       "name": "塞壬要塞",
       "help": ""
@@ -2103,16 +2099,6 @@
     "ForceRun": {
       "name": "無視運行間隔強制運行",
       "help": "開啟後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
-    }
-  },
-  "OpsiArchive": {
-    "_info": {
-      "name": "OpsiArchive._info.name",
-      "help": "OpsiArchive._info.help"
-    },
-    "Unused": {
-      "name": "OpsiArchive.Unused.name",
-      "help": "OpsiArchive.Unused.help"
     }
   },
   "OpsiStronghold": {

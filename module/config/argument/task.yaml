@@ -258,10 +258,6 @@ OpsiAbyssal:
   - Scheduler
   - OpsiAbyssal
   - OpsiFleetFilter
-OpsiArchive:
-  - Scheduler
-  - OpsiArchive
-  - OpsiFleet
 OpsiStronghold:
   - Scheduler
   - OpsiStronghold
