@@ -258,7 +258,7 @@ MaritimeEscort:
 Commission:
   DoMajorCommission: false
   PresetFilter:
-    value: chip
+    value: cube
     option:
       - chip
       - chip_24h

@@ -5579,7 +5579,7 @@
       },
       "PresetFilter": {
         "type": "select",
-        "value": "chip",
+        "value": "cube",
         "option": [
           "chip",
           "chip_24h",
