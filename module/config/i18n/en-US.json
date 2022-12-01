@@ -1163,9 +1163,19 @@
       "name": "Do Major Commissions",
       "help": "Enable allowance of undertaking 1200/1000 oil cost commissions; Commission Priority requires \"Major\" be included if enabled"
     },
-    "CommissionFilter": {
-      "name": "Commission Priority",
-      "help": "Generally does not need to be modified or re-arranged but can do so if desired"
+    "PresetFilter": {
+      "name": "Preset Filter Select",
+      "help": "People without a basic knowledge of commission drops rates and spawn are recommended to use pre-optimized presets instead of writing custom filters\nIf the commission farming is running 24 hours a day, the (7x24 Commission Farming) filter should be used\nIt is not recommended to use the oil priority filter while running commission farming",
+      "chip": "Gems > Chip > Cube",
+      "chip_24h": "Gems > Chip > Cube (7x24 Commission Farming)",
+      "cube": "Gems > Cube > Oil",
+      "cube_24h": "Gems > Cube > Oil (7x24 Commission Farming)",
+      "oil": "Gems > Oil > Cube",
+      "custom": "Custom"
+    },
+    "CustomFilter": {
+      "name": "Custom Commission Priority",
+      "help": "To use your own filter, set \"Preset Filter Select\" to \"Custom\". All options have been defined at  <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en>"
     }
   },
   "Tactical": {

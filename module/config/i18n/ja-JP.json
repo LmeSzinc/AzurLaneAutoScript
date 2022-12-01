@@ -1163,9 +1163,19 @@
       "name": "Commission.DoMajorCommission.name",
       "help": "Commission.DoMajorCommission.help"
     },
-    "CommissionFilter": {
-      "name": "Commission.CommissionFilter.name",
-      "help": "Commission.CommissionFilter.help"
+    "PresetFilter": {
+      "name": "Commission.PresetFilter.name",
+      "help": "Commission.PresetFilter.help",
+      "chip": "chip",
+      "chip_24h": "chip_24h",
+      "cube": "cube",
+      "cube_24h": "cube_24h",
+      "oil": "oil",
+      "custom": "custom"
+    },
+    "CustomFilter": {
+      "name": "Commission.CustomFilter.name",
+      "help": "Commission.CustomFilter.help"
     }
   },
   "Tactical": {
