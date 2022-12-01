@@ -36,8 +36,8 @@ class OSCampaignRun(OSMapOperation):
             self.config.opsi_task_delay(ap_limit=True)
 
     def opsi_voucher(self):
-        self.load_campaign()
         try:
+            self.load_campaign()
             self.campaign.os_voucher()
         except ActionPointLimit:
             self.config.opsi_task_delay(ap_limit=True)
@@ -96,8 +96,8 @@ class OSCampaignRun(OSMapOperation):
             self.config.opsi_task_delay(ap_limit=True)
 
     def opsi_archive(self):
-        self.load_campaign()
         try:
+            self.load_campaign()
             self.campaign.os_archive()
         except ActionPointLimit:
             self.config.opsi_task_delay(ap_limit=True)
