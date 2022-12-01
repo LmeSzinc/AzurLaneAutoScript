@@ -8343,6 +8343,14 @@
         "value": false,
         "display": "hide"
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "OpsiCrossMonth": {

@@ -1745,6 +1745,9 @@
     "OpsiFleet": {
       "Fleet": 1,
       "Submarine": false
+    },
+    "Storage": {
+      "Storage": {}
     }
   },
   "OpsiCrossMonth": {
