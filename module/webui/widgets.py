@@ -1,6 +1,8 @@
+import json
 import random
 import string
-from typing import Any, Callable, Dict, Generator, List, Union
+import time
+from typing import TYPE_CHECKING, Any, Callable, Dict, Generator, List, Optional, Union
 
 from module.logger import WEB_THEME, Highlighter, HTMLConsole
 from module.webui.lang import t
@@ -16,8 +18,12 @@ from module.webui.utils import (
 from pywebio.exceptions import SessionException
 from pywebio.io_ctrl import Output
 from pywebio.output import *
-from pywebio.session import eval_js, run_js
+from pywebio.pin import pin
+from pywebio.session import eval_js, local, run_js
 from rich.console import ConsoleRenderable
+
+if TYPE_CHECKING:
+    from module.webui.app import AlasGUI
 
 
 class ScrollableCode:
@@ -350,7 +356,9 @@ def put_arg_select(kwargs: T_Output_Kwargs) -> Output:
 def put_arg_textarea(kwargs: T_Output_Kwargs) -> Output:
     name: str = kwargs["name"]
     mode: str = kwargs.pop("mode", None)
-    kwargs.setdefault("code", {"lineWrapping": True, "lineNumbers": False, "mode": mode})
+    kwargs.setdefault(
+        "code", {"lineWrapping": True, "lineNumbers": False, "mode": mode}
+    )
 
     return put_scope(
         f"arg_contianer-textarea-{name}",
@@ -378,27 +386,59 @@ def put_arg_checkbox(kwargs: T_Output_Kwargs) -> Output:
 
 
 def put_arg_datetime(kwargs: T_Output_Kwargs) -> Output:
-    name: str = kwargs.get("name")
+    name: str = kwargs["name"]
     return put_scope(
         f"arg_container-datetime-{name}",
         [
             get_title_help(kwargs),
             put_input(**kwargs).style("--input--"),
-        ]
+        ],
+    )
+
+
+def put_arg_storage(kwargs: T_Output_Kwargs) -> Optional[Output]:
+    name: str = kwargs["name"]
+    if kwargs["value"] == {}:
+        return None
+
+    kwargs["value"] = json.dumps(
+        kwargs["value"], indent=2, ensure_ascii=False, sort_keys=False, default=str
+    )
+    kwargs.setdefault(
+        "code", {"lineWrapping": True, "lineNumbers": False, "mode": "json"}
+    )
+
+    def clear_callback():
+        alasgui: "AlasGUI" = local.gui
+        alasgui.modified_config_queue.put(
+            {"name": ".".join(name.split("_")), "value": {}}
+        )
+        # https://github.com/pywebio/PyWebIO/issues/459
+        # pin[name] = "{}"
+
+    return put_scope(
+        f"arg_container-storage-{name}",
+        [
+            put_textarea(**kwargs),
+            put_html(
+                f'<button class="btn btn-outline-warning btn-block">{t("Gui.Text.Clear")}</button>'
+            ).onclick(clear_callback),
+        ],
     )
 
 
 _widget_type_to_func: Dict[str, Callable] = {
     "input": put_arg_input,
     "lock": put_arg_input,
-    "datetime": put_arg_input, # TODO
+    "datetime": put_arg_input,  # TODO
     "select": put_arg_select,
     "textarea": put_arg_textarea,
     "checkbox": put_arg_checkbox,
+    "storage": put_arg_storage,
 }
 
 
-def put_output(output_kwargs: T_Output_Kwargs) -> Output:
+def put_output(output_kwargs: T_Output_Kwargs) -> Optional[Output]:
     return _widget_type_to_func[output_kwargs["widget_type"]](output_kwargs)
 
 

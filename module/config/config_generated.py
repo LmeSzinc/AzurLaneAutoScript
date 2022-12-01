@@ -413,3 +413,6 @@ class GeneratedConfig:
 
     # Group `GameManager`
     GameManager_AutoRestart = True
+
+    # Group `Storage`
+    Storage_Storage = {}

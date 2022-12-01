@@ -226,6 +226,10 @@
       "name": "CL1 Leveling",
       "help": ""
     },
+    "OpsiCrossMonth": {
+      "name": "Cross Month Daily",
+      "help": "    ALAS will enter OpSi 10min before OpSi reset, wait until OpSi reset but not exit OpSi. Then do the daily, obscure, abyssal and meowfficer farming to get extra gold plates. When running dailies, settings in task \"OpsiDaily\" are used, the rest function are the same.\n    IMPORTANT: Please do not touch the game while ALAS is waiting for OpSi reset."
+    },
     "Daemon": {
       "name": "Normal Semi-auto",
       "help": ""
@@ -2032,11 +2036,11 @@
   "OpsiExplore": {
     "_info": {
       "name": "OpSi Explore Settings",
-      "help": "At the beginning of each month OpSi is reset\nThe following must be satisfied:\n- Manually confirm fleet deployment into OpSi\n- OpSi story must be complete\nEach zone will be visited in a clockwise direction every 27 minutes until world has been been completely opened\nNo need to consume 5000 oil for special radar in OpSi Exchange shop"
+      "help": "At the beginning of each month OpSi is reset\nThe following must be satisfied:\n- OpSi story must be complete\nEach zone will be visited in a clockwise direction every 27 minutes until world has been been completely opened\nNo need to consume 5000 oil for special radar in OpSi voucher shop"
     },
     "SpecialRadar": {
       "name": "SpecialRadar Bought",
-      "help": "Enable if you have purchased the special radar\nAllows Alas to explore OpSi continously without having to wait 27 minutes between each zone clear\nFor those with oil surplus and would like to complete this task efficiently"
+      "help": "Enable if you have purchased the special radar\nAllows Alas to explore OpSi continously without having to wait 27 minutes between each zone clear\nCannot be selected when not purchased and used manually"
     },
     "ForceRun": {
       "name": "Force Run",
@@ -2050,7 +2054,7 @@
   "OpsiShop": {
     "_info": {
       "name": "OpSi Shop Settings",
-      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi Exchange shop"
+      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "BuySupply": {
       "name": "Buy From Port Shops",
@@ -2060,7 +2064,7 @@
   "OpsiVoucher": {
     "_info": {
       "name": "OpSi Voucher Settings",
-      "help": "Buy monthly items from the OpSi Exchange shop\nThe following must be satisfied:\n- OpSi story must be complete"
+      "help": "Buy monthly items from the OpSi voucher shop\nThe following must be satisfied:\n- OpSi story must be complete"
     },
     "Filter": {
       "name": "Item Filter",
@@ -2070,7 +2074,7 @@
   "OpsiDaily": {
     "_info": {
       "name": "OpSi Daily Settings",
-      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi Exchange shop"
+      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "DoMission": {
       "name": "Do Port Mission(s)",
@@ -2084,7 +2088,7 @@
   "OpsiObscure": {
     "_info": {
       "name": "OpSi Obscure Settings",
-      "help": "Clear obscure zones every 27 minutes\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi Exchange shop"
+      "help": "Clear obscure zones every 27 minutes\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "ForceRun": {
       "name": "Force Run",
@@ -2093,8 +2097,8 @@
   },
   "OpsiAbyssal": {
     "_info": {
-      "name": "Abyssal Zones Settings",
-      "help": "Clear abyssal zones.\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi Exchange shop"
+      "name": "OpSi Abyssal Settings",
+      "help": "Clear abyssal zones\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "ForceRun": {
       "name": "Force Run",
@@ -2103,8 +2107,8 @@
   },
   "OpsiStronghold": {
     "_info": {
-      "name": "Siren Strongholds Settings",
-      "help": "Clear the weekly siren strongholds.\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi Exchange shop"
+      "name": "OpSi Siren Stronghold Settings",
+      "help": "Clear the weekly siren strongholds.\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi shop"
     },
     "ForceRun": {
       "name": "Force Run",
@@ -2114,7 +2118,7 @@
   "OpsiMeowfficerFarming": {
     "_info": {
       "name": "OpSi Meowfficer Farm Settings",
-      "help": "Attack target zones of the specified hazard level in a clockwise direction\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi Exchange shop"
+      "help": "Attack target zones of the specified hazard level in a clockwise direction\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "ActionPointPreserve": {
       "name": "Keep X Amount of AP",
@@ -2237,6 +2241,16 @@
       "help": "Log back into the game when the game has been ended."
     }
   },
+  "Storage": {
+    "_info": {
+      "name": "Task status",
+      "help": "Store internal status of the task. Clear manually when the task is abnormal"
+    },
+    "Storage": {
+      "name": "Storage.Storage.name",
+      "help": "Storage.Storage.help"
+    }
+  },
   "Gui": {
     "Aside": {
       "Install": "Install",
@@ -2324,7 +2338,8 @@
       "SSHNotInstall": "No SSH command in your system. Please refer to the tutorial to download or install one"
     },
     "Text": {
-      "InvalidFeedBack": "Invalid format. Example: {0}"
+      "InvalidFeedBack": "Invalid format. Example: {0}",
+      "Clear": "Clear"
     }
   }
 }

@@ -10,6 +10,7 @@ class ManualConfig:
 
     SCHEDULER_PRIORITY = """
     Restart
+    > OpsiCrossMonth
     > Commission > Tactical > Research
     > Exercise
     > Dorm > Meowfficer > Guild > Gacha

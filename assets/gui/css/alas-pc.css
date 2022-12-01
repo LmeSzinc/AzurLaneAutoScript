@@ -3,6 +3,12 @@
     grid-template-columns: 1fr 13rem;
 }
 
+[id^="pywebio-scope-arg_container-storage-"] {
+    grid-auto-flow: column;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr auto;
+}
+
 #pywebio-scope-overview {
     grid-auto-flow: column;
     grid-template-columns: minmax(16rem, 20rem) minmax(24rem, 1fr);

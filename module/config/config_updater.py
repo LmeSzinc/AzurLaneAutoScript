@@ -88,6 +88,14 @@ class ConfigGenerator:
             arg.update(value)
             deep_set(data, keys=path, value=arg)
 
+        # Define storage group
+        arg = {
+            'type': 'storage',
+            'value': {},
+            'valuetype': 'ignore',
+            'display': 'disabled',
+        }
+        deep_set(data, keys=['Storage', 'Storage'], value=arg)
         return data
 
     @cached_property
@@ -139,6 +147,8 @@ class ConfigGenerator:
         # Construct args
         data = {}
         for task, groups in self.task.items():
+            # Add storage to all task
+            groups.append('Storage')
             for group in groups:
                 if group not in self.argument:
                     print(f'`{task}.{group}` is not related to any argument group')
