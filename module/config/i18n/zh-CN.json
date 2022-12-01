@@ -833,10 +833,11 @@
     },
     "Mode": {
       "name": "潜艇出击方案",
-      "help": "",
+      "help": "提醒: '狩猎及BOSS战'为'仅狩猎'与'仅BOSS战'的混合，它会在道中进行狩猎打击，并在BOSS战尝试召唤潜艇。",
       "do_not_use": "不使用",
       "hunt_only": "仅狩猎",
       "boss_only": "仅BOSS战",
+      "hunt_and_boss": "狩猎及BOSS战",
       "every_combat": "每战出击"
     },
     "AutoSearchMode": {
@@ -847,7 +848,7 @@
     },
     "DistanceToBoss": {
       "name": "BOSS战前将潜艇移动到BOSS附近",
-      "help": "仅在\"潜艇出击方案\"为\"仅BOSS战\"时生效\n选择\"距离BOSS X格\"需要保证潜艇狩猎范围能覆盖到BOSS，距离使用曼哈顿距离计算，选择\"使用远洋支援\"需要潜艇队伍里有U522/达芬奇",
+      "help": "仅在\"潜艇出击方案\"为\"仅BOSS战\"及\"狩猎及BOSS战\",时生效\n选择\"距离BOSS X格\"需要保证潜艇狩猎范围能覆盖到BOSS，距离使用曼哈顿距离计算，选择\"使用远洋支援\"需要潜艇队伍里有U522/达芬奇",
       "to_boss_position": "至 BOSS 所在位置",
       "1_grid_to_boss": "距离 BOSS 1 格",
       "2_grid_to_boss": "距离 BOSS 2 格",

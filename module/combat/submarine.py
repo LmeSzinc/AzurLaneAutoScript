@@ -23,7 +23,7 @@ class SubmarineCall(ModuleBase):
         """
         if self.submarine_call_flag:
             return False
-        if submarine in ['do_not_use', 'hunt_only']:
+        if submarine in ['do_not_use', 'hunt_only', 'hunt_and_boss']:
             self.submarine_call_flag = True
             return False
         if self.submarine_call_timer.reached():
