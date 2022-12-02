@@ -185,6 +185,7 @@ class VoucherShop(ShopClerk):
         self.wait_until_voucher_appear()
 
         # Execute buy operations
+        VOUCHER_SHOP_SCROLL.set_top(main=self)
         while 1:
             self.shop_buy()
             if VOUCHER_SHOP_SCROLL.at_bottom(main=self):
