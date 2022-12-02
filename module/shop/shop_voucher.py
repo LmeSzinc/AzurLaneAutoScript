@@ -166,7 +166,7 @@ class VoucherShop(ShopClerk):
             self.shop_buy_amount_execute(item)
             self.interval_reset(SHOP_BUY_CONFIRM_AMOUNT)
             return True
-        if self.appear_then_click(SHOP_BUY_CONFIRM_VOUCHER, offset=(20, 20), interval=3):
+        if self.handle_popup_confirm(name='SHOP_BUY_VOUCHER', offset=(20, 50)):
             return True
 
         return False
