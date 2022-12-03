@@ -198,6 +198,10 @@
       "name": "Task.OpsiShop.name",
       "help": "Task.OpsiShop.help"
     },
+    "OpsiVoucher": {
+      "name": "Task.OpsiVoucher.name",
+      "help": "Task.OpsiVoucher.help"
+    },
     "OpsiDaily": {
       "name": "Task.OpsiDaily.name",
       "help": "Task.OpsiDaily.help"
@@ -2072,6 +2076,16 @@
     "BuySupply": {
       "name": "OpsiShop.BuySupply.name",
       "help": "OpsiShop.BuySupply.help"
+    }
+  },
+  "OpsiVoucher": {
+    "_info": {
+      "name": "OpsiVoucher._info.name",
+      "help": "OpsiVoucher._info.help"
+    },
+    "Filter": {
+      "name": "OpsiVoucher.Filter.name",
+      "help": "OpsiVoucher.Filter.help"
     }
   },
   "OpsiDaily": {

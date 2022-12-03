@@ -205,6 +205,7 @@ class MedalShop2(ShopClerk):
         self.wait_until_medal_appear()
 
         # Execute buy operations
+        MEDAL_SHOP_SCROLL.set_top(main=self)
         while 1:
             self.shop_buy()
             if MEDAL_SHOP_SCROLL.at_bottom(main=self):

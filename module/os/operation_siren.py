@@ -9,8 +9,10 @@ from module.config.utils import (get_os_next_reset,
 from module.exception import RequestHumanTakeover, GameStuckError, ScriptError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
+from module.shop.shop_voucher import VoucherShop
 from module.os.fleet import BossFleet
 from module.os.globe_operation import OSExploreError
+from module.os_handler.assets import EXCHANGE_CHECK, EXCHANGE_ENTER
 from module.os.map import OSMap
 from module.os_handler.shop import OCR_SHOP_YELLOW_COINS
 
@@ -69,10 +71,14 @@ class OperationSiren(OSMap):
             self.run_auto_search()
             self.handle_after_auto_search()
 
-    def os_finish_daily_mission(self):
+    def os_finish_daily_mission(self, question=True, rescan=None):
         """
         Finish all daily mission in Operation Siren.
         Suggest to run os_port_daily to accept missions first.
+
+        Args:
+            question (bool): refer to run_auto_search
+            rescan (None, bool): refer to run_auto_search
 
         Returns:
             bool: True if all finished.
@@ -93,7 +99,7 @@ class OperationSiren(OSMap):
             self.os_order_execute(
                 recon_scan=False,
                 submarine_call=self.config.OpsiFleet_Submarine and result != 'pinned_at_archive_zone')
-            self.run_auto_search()
+            self.run_auto_search(question, rescan)
             self.handle_after_auto_search()
             self.config.check_task_switch()
 
@@ -246,6 +252,27 @@ class OperationSiren(OSMap):
     def os_shop(self):
         self.os_port_daily(mission=False, supply=self.config.OpsiShop_BuySupply)
         self.config.task_delay(server_update=True)
+
+    def _os_voucher_enter(self):
+        self.os_map_goto_globe(unpin=False)
+        self.ui_click(click_button=EXCHANGE_ENTER, check_button=EXCHANGE_CHECK,
+                      offset=(200, 20), retry_wait=3, skip_first_screenshot=True)
+
+    def _os_voucher_exit(self):
+        self.ui_back(check_button=EXCHANGE_ENTER, appear_button=EXCHANGE_CHECK,
+                     offset=(200, 20), retry_wait=3, skip_first_screenshot=True)
+        self.os_globe_goto_map()
+
+    def os_voucher(self):
+        logger.hr('OS voucher', level=1)
+        self._os_voucher_enter()
+        VoucherShop(self.config, self.device).run()
+        self._os_voucher_exit()
+
+        next_reset = get_os_next_reset()
+        logger.info('OS voucher finished, delay to next reset')
+        logger.attr('OpsiNextReset', next_reset)
+        self.config.task_delay(target=next_reset)
 
     def os_meowfficer_farming(self):
         """
@@ -546,6 +573,33 @@ class OperationSiren(OSMap):
         while 1:
             self.clear_abyssal()
             self.config.check_task_switch()
+
+    def os_archive(self):
+        """
+        Unused func, not currently a monthly trend
+        Retain in case AL devs add as official feature
+
+        Complete active archive zone in daily mission
+        Purchase next available logger archive then repeat
+        until exhausted
+        """
+        shop = VoucherShop(self.config, self.device)
+        while 1:
+            # In case logger bought manually,
+            # finish pre-existing archive zone
+            self.os_finish_daily_mission(question=False, rescan=False)
+
+            logger.hr('OS voucher', level=1)
+            self._os_voucher_enter()
+            bought = shop.run_once()
+            self._os_voucher_exit()
+            if not bought:
+                break
+
+        next_reset = get_os_next_reset()
+        logger.info('All archive zones finished, delay to next reset')
+        logger.attr('OpsiNextReset', next_reset)
+        self.config.task_delay(target=next_reset)
 
     def clear_stronghold(self):
         """

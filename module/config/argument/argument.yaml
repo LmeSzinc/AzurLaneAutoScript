@@ -573,6 +573,9 @@ OpsiExplore:
   LastZone: 0
 OpsiShop:
   BuySupply: true
+OpsiVoucher:
+  Filter: |-
+    LoggerAbyssal > LoggerObscure > HECombatPlan > Book > Coin
 OpsiDaily:
   DoMission: true
   UseTuningSample: true

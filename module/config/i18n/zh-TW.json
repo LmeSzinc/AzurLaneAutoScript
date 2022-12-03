@@ -198,6 +198,10 @@
       "name": "大世界商店",
       "help": ""
     },
+    "OpsiVoucher": {
+      "name": "Task.OpsiVoucher.name",
+      "help": "Task.OpsiVoucher.help"
+    },
     "OpsiDaily": {
       "name": "大世界每日",
       "help": ""
@@ -2072,6 +2076,16 @@
     "BuySupply": {
       "name": "購買港口商店",
       "help": "每月港口商店可購買商品是固定的，未購買的物品下次仍會出現，並阻擋高價值物品，因此需要購買全部"
+    }
+  },
+  "OpsiVoucher": {
+    "_info": {
+      "name": "OpsiVoucher._info.name",
+      "help": "OpsiVoucher._info.help"
+    },
+    "Filter": {
+      "name": "OpsiVoucher.Filter.name",
+      "help": "OpsiVoucher.Filter.help"
     }
   },
   "OpsiDaily": {

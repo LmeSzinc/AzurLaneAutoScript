@@ -35,6 +35,18 @@ class OSCampaignRun(OSMapOperation):
         except ActionPointLimit:
             self.config.opsi_task_delay(ap_limit=True)
 
+    def opsi_voucher(self):
+        if self.config.SERVER in ['cn', 'jp', 'tw']:
+            logger.info(f'Opsi Voucher is not supported in {self.config.SERVER},'
+                        ' please contact server maintainers')
+            self.config.Scheduler_Enable = False
+            return
+        try:
+            self.load_campaign()
+            self.campaign.os_voucher()
+        except ActionPointLimit:
+            self.config.opsi_task_delay(ap_limit=True)
+
     def opsi_daily(self):
         try:
             self.load_campaign()
@@ -85,6 +97,13 @@ class OSCampaignRun(OSMapOperation):
         try:
             self.load_campaign()
             self.campaign.os_abyssal()
+        except ActionPointLimit:
+            self.config.opsi_task_delay(ap_limit=True)
+
+    def opsi_archive(self):
+        try:
+            self.load_campaign()
+            self.campaign.os_archive()
         except ActionPointLimit:
             self.config.opsi_task_delay(ap_limit=True)
 

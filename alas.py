@@ -288,6 +288,10 @@ class AzurLaneAutoScript:
         from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_shop()
 
+    def opsi_voucher(self):
+        from module.campaign.os_run import OSCampaignRun
+        OSCampaignRun(config=self.config, device=self.device).opsi_voucher()
+
     def opsi_daily(self):
         from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_daily()
@@ -299,6 +303,10 @@ class AzurLaneAutoScript:
     def opsi_abyssal(self):
         from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_abyssal()
+
+    def opsi_archive(self):
+        from module.campaign.os_run import OSCampaignRun
+        OSCampaignRun(config=self.config, device=self.device).opsi_archive()
 
     def opsi_stronghold(self):
         from module.campaign.os_run import OSCampaignRun

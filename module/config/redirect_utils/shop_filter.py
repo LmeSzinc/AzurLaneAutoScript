@@ -1,6 +1,6 @@
 import re
 
-FILTER_REGEX = re.compile(
+FILTER_REGEX_SERIES = re.compile(
     '(pr|dr)'
 
     '([1-4]'
@@ -28,7 +28,7 @@ def bp_redirect(value):
     PRBP = PR; PR1BP = PRS1; PROdinBP = PROdin/PROdinS3
     likewise for DR variants
     """
-    matches = re.findall(FILTER_REGEX, value)
+    matches = re.findall(FILTER_REGEX_SERIES, value)
     if not matches:
         return value
 
@@ -45,5 +45,41 @@ def bp_redirect(value):
     return value
 
 
+FILTER_REGEX_VOUCHER = re.compile(
+    '(logger)'
+
+    '(archive)?'
+
+    '(t[1-6])?',
+    flags=re.IGNORECASE)
+
+
+def voucher_redirect(value):
+    """
+    Redirects voucher shop filter to prevents users
+    from using banned strings i.e. Logger, LoggerT[1-6],
+    LoggerArchive, or LoggerArchiveT[1-6]
+    Banned strings are used for special circumstances
+    handled by ALAS
+    """
+    matches = re.findall(FILTER_REGEX_VOUCHER, value)
+    if not matches:
+        return value
+
+    for match in matches:
+        flat = ''.join(match)
+        pattern = rf'\b{flat}\b'
+        if (match[2] and match[1]) or match[1]:
+            value = re.sub(pattern, '', value)
+            value = re.sub('\>\s*\>', '>', value)
+            value = re.sub('\>\s*$', '', value)
+        elif match[2]:
+            value = re.sub(pattern, f'LoggerAbyssal{match[2].upper()} > LoggerObscure{match[2].upper()}', value)
+        else:
+            value = re.sub(pattern, f'LoggerAbyssal > LoggerObscure', value)
+
+    return value
+
 if __name__ == '__main__':
     print(bp_redirect('PlateGeneralT1 > DRAgirBP > CatT3 > PROdinBP > Chip > PR1BP > PRBP > DRDrakeBP > DR2BP'))
+    print(voucher_redirect('Coin > HECombatPlan > LoggerArchive > TuningCombatT2 > LoggerArchiveT1 > LoggerT6 > Logger'))
