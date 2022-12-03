@@ -58,10 +58,10 @@ class ShopItemGrid(ItemGrid):
                  if group is not None else None
                  for group in result.groups()]
             else:
-                if not name.isnumeric():
-                    logger.warning(f'Unable to parse shop item {name}; '
-                                    'check template asset and filter regexp')
-                    raise ScriptError
+                # if not name.isnumeric():
+                #     logger.warning(f'Unable to parse shop item {name}; '
+                #                     'check template asset and filter regexp')
+                #     raise ScriptError
                 continue
 
             # Sometimes book's color and/or tier will be misidentified
