@@ -593,7 +593,7 @@ OpsiMeowfficerFarming:
   TargetZone:
     value: 0
 OpsiHazard1Leveling:
-  StrategySearch: True
+  StrategicSearch: True
   TargetZone:
     value: 0
     option: [0, 44, 22]

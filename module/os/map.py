@@ -16,12 +16,13 @@ from module.os.globe_camera import GlobeCamera
 from module.os.globe_operation import RewardUncollectedError
 from module.os_handler.assets import AUTO_SEARCH_OS_MAP_OPTION_OFF, \
     AUTO_SEARCH_OS_MAP_OPTION_ON, AUTO_SEARCH_REWARD
+from module.os_handler.strategic import StrategicSearchHandler
 from module.ui.assets import GOTO_MAIN
 from module.ui.page import page_main
 from module.ui.ui import page_os
 
 
-class OSMap(OSFleet, Map, GlobeCamera):
+class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
     def os_init(self):
         """
         Call this method before doing any Operation functions.
@@ -402,7 +403,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
 
     _auto_search_battle_count = 0
 
-    def os_auto_search_daemon(self, drop=None, strategy=False, skip_first_screenshot=True):
+    def os_auto_search_daemon(self, drop=None, strategic=False, skip_first_screenshot=True):
         """
         Raises:
             CampaignEnd: If auto search ended
@@ -416,7 +417,6 @@ class OSMap(OSFleet, Map, GlobeCamera):
         logger.hr('OS auto search', level=2)
         self._auto_search_battle_count = 0
         unlock_checked = False
-        strategy_checked = False
         unlock_check_timer = Timer(5, count=10).start()
         self.ash_popup_canceled = False
 
@@ -453,11 +453,9 @@ class OSMap(OSFleet, Map, GlobeCamera):
 
             if self.handle_os_auto_search_map_option(
                     drop=drop,
-                    enable=success,
-                    strategy=strategy and not strategy_checked
+                    enable=success
             ):
                 unlock_checked = True
-                strategy_checked = True
                 continue
             if self.handle_retirement():
                 # Retire will interrupt auto search, need a retry
@@ -466,7 +464,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
             if self.combat_appear():
                 self._auto_search_battle_count += 1
                 logger.attr('battle_count', self._auto_search_battle_count)
-                if strategy and self.config.task_switched():
+                if strategic and self.config.task_switched():
                     self.interrupt_auto_search()
                 result = self.auto_search_combat(drop=drop)
                 if not result:
@@ -502,11 +500,13 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 logger.info('Auto search interrupted')
                 self.config.task_stop()
 
-    def os_auto_search_run(self, drop=None, strategy=False):
+    def os_auto_search_run(self, drop=None, strategic=False):
         for _ in range(5):
             backup = self.config.temporary(Campaign_UseAutoSearch=True)
             try:
-                self.os_auto_search_daemon(drop=drop, strategy=strategy)
+                if strategic:
+                    self.strategic_search_start(skip_first_screenshot=True)
+                self.os_auto_search_daemon(drop=drop, strategic=strategic)
             except CampaignEnd:
                 logger.info('OS auto search finished')
             finally:
@@ -516,7 +516,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
             # Break if zone cleared
             if self.config.OpsiAshBeacon_AshAttack:
                 if self.handle_ash_beacon_attack() or self.ash_popup_canceled:
-                    strategy = False
+                    strategic = False
                     continue
                 else:
                     break
@@ -629,7 +629,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
     _solved_map_event = set()
     _solved_fleet_mechanism = 0
 
-    def run_strategy_search(self):
+    def run_strategic_search(self):
         self.handle_ash_beacon_attack()
 
         if self.config.SERVER != 'cn':
@@ -638,7 +638,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
             raise RequestHumanTakeover
 
         logger.info('Run strategy search')
-        self.os_auto_search_run(strategy=True)
+        self.os_auto_search_run(strategic=True)
 
         self.hp_reset()
         self.hp_get()

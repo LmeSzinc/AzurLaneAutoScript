@@ -2160,9 +2160,9 @@
       "name": "OpsiHazard1Leveling._info.name",
       "help": "OpsiHazard1Leveling._info.help"
     },
-    "StrategySearch": {
-      "name": "OpsiHazard1Leveling.StrategySearch.name",
-      "help": "OpsiHazard1Leveling.StrategySearch.help"
+    "StrategicSearch": {
+      "name": "OpsiHazard1Leveling.StrategicSearch.name",
+      "help": "OpsiHazard1Leveling.StrategicSearch.help"
     },
     "TargetZone": {
       "name": "OpsiHazard1Leveling.TargetZone.name",

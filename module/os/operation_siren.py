@@ -360,7 +360,7 @@ class OperationSiren(OSMap):
                     break
 
             self.get_current_zone()
-            if self.config.OpsiHazard1Leveling_StrategySearch:
+            if self.config.OpsiHazard1Leveling_StrategicSearch:
                 # Preset action point to 100
                 self.set_action_point(cost=100)
                 if self.config.OpsiHazard1Leveling_TargetZone != 0:
@@ -372,7 +372,7 @@ class OperationSiren(OSMap):
                 if self.zone.zone_id != zone or not self.is_zone_name_hidden:
                     self.globe_goto(self.name_to_zone(zone), types='SAFE', refresh=True)
                 self.fleet_set(self.config.OpsiFleet_Fleet)
-                self.run_strategy_search()
+                self.run_strategic_search()
             else:
                 if self.config.OpsiHazard1Leveling_TargetZone != 0:
                     zone = self.config.OpsiHazard1Leveling_TargetZone
