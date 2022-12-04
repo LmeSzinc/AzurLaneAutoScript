@@ -29,7 +29,7 @@ Emulator:
     option: [disabled, ]
   ScreenshotMethod:
     value: ADB
-    option: [ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc]
+    option: [ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc, DroidCast]
   ControlMethod:
     value: minitouch
     option: [ADB, uiautomator2, minitouch, Hermit]

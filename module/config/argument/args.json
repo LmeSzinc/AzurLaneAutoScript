@@ -106,7 +106,8 @@
           "ADB_nc",
           "uiautomator2",
           "aScreenCap",
-          "aScreenCap_nc"
+          "aScreenCap_nc",
+          "DroidCast"
         ]
       },
       "ControlMethod": {
