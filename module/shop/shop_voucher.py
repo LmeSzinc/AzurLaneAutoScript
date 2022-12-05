@@ -2,9 +2,10 @@ from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, del_cached_property
 from module.base.timer import Timer
 from module.config.redirect_utils.shop_filter import voucher_redirect
+from module.handler.assets import POPUP_CANCEL, POPUP_CONFIRM
 from module.logger import logger
 from module.map_detection.utils import Points
-from module.ocr.ocr import Digit, Ocr
+from module.ocr.ocr import Digit
 from module.shop.assets import *
 from module.shop.base import ShopItemGrid
 from module.shop.clerk import ShopClerk
@@ -91,10 +92,16 @@ class VoucherShop(ShopClerk):
 
         # Make up a ButtonGrid
         # Original grid is:
-        #shop_grid = ButtonGrid(
+        # shop_grid = ButtonGrid(
         #     origin=(463, 200), delta=(156, 191), button_shape=(99, 99), grid_shape=(5, 2), name='SHOP_GRID')
-        shop_grid = ButtonGrid(
-            origin=(463, origin_y), delta=(156, delta_y), button_shape=(99, 99), grid_shape=(5, row), name='SHOP_GRID')
+        if self.config.SERVER in ['cn']:
+            shop_grid = ButtonGrid(
+                origin=(305, origin_y), delta=(189.5, delta_y), button_shape=(99, 99), grid_shape=(5, row),
+                name='SHOP_GRID')
+        else:
+            shop_grid = ButtonGrid(
+                origin=(463, origin_y), delta=(156, delta_y), button_shape=(99, 99), grid_shape=(5, row),
+                name='SHOP_GRID')
         return shop_grid
 
     @cached_property
@@ -144,9 +151,12 @@ class VoucherShop(ShopClerk):
         shop_buy_handle
         """
         super().shop_interval_clear()
-        self.interval_clear(SHOP_BUY_CONFIRM_SELECT)
-        self.interval_clear(SHOP_BUY_CONFIRM_AMOUNT)
-        self.interval_clear(SHOP_BUY_CONFIRM_VOUCHER)
+        self.interval_clear([
+            SHOP_BUY_CONFIRM_SELECT,
+            SHOP_BUY_CONFIRM_AMOUNT,
+            POPUP_CONFIRM,
+            POPUP_CANCEL,
+        ])
 
     def shop_buy_handle(self, item):
         """
@@ -168,6 +178,10 @@ class VoucherShop(ShopClerk):
             return True
         if self.handle_popup_confirm(name='SHOP_BUY_VOUCHER', offset=(20, 50)):
             return True
+        if self.config.SERVER in ['cn', 'jp', 'tw']:
+            # A button named `Exchange` when buying item in amount of 1.
+            if self.appear_then_click(SHOP_BUY_CONFIRM_AMOUNT, offset=(-20, -160, 20, -120), interval=3):
+                return True
 
         return False
 

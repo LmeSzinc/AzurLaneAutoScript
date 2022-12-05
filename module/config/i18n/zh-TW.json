@@ -199,8 +199,8 @@
       "help": ""
     },
     "OpsiVoucher": {
-      "name": "Task.OpsiVoucher.name",
-      "help": "Task.OpsiVoucher.help"
+      "name": "兌換商店",
+      "help": ""
     },
     "OpsiDaily": {
       "name": "大世界每日",
@@ -2081,12 +2081,12 @@
   },
   "OpsiVoucher": {
     "_info": {
-      "name": "OpsiVoucher._info.name",
-      "help": "OpsiVoucher._info.help"
+      "name": "兌換商店（每月白票商店）",
+      "help": "購買每月白票商店\n使用此功能前必須滿足以下條件：\n- 通關大世界主線任務"
     },
     "Filter": {
-      "name": "OpsiVoucher.Filter.name",
-      "help": "OpsiVoucher.Filter.help"
+      "name": "商店過濾器",
+      "help": "參考文檔 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string"
     }
   },
   "OpsiDaily": {

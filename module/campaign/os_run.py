@@ -36,10 +36,10 @@ class OSCampaignRun(OSMapOperation):
             self.config.opsi_task_delay(ap_limit=True)
 
     def opsi_voucher(self):
-        if self.config.SERVER in ['cn', 'jp', 'tw']:
+        if self.config.SERVER in ['jp', 'tw']:
             logger.info(f'Opsi Voucher is not supported in {self.config.SERVER},'
                         ' please contact server maintainers')
-            self.config.Scheduler_Enable = False
+            self.config.task_delay(server_update=True)
             return
         try:
             self.load_campaign()
