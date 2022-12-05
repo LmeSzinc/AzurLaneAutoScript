@@ -281,7 +281,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             return 0
 
         def server_support_flagship_retire() -> bool:
-            return self.config.SERVER in ['cn', 'en']
+            return self.config.SERVER in ['cn', 'en', 'jp']
 
         if not server_support_flagship_retire():
             logger.info(f'Server {self.config.SERVER} does not yet support flagships retirement, skip')
