@@ -8379,10 +8379,6 @@
       }
     },
     "OpsiHazard1Leveling": {
-      "StrategicSearch": {
-        "type": "checkbox",
-        "value": true
-      },
       "TargetZone": {
         "type": "select",
         "value": 0,

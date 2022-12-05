@@ -1757,7 +1757,6 @@
       "ServerUpdate": "00:00"
     },
     "OpsiHazard1Leveling": {
-      "StrategicSearch": true,
       "TargetZone": 0
     },
     "OpsiFleet": {

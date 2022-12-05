@@ -389,7 +389,6 @@ class GeneratedConfig:
     OpsiMeowfficerFarming_TargetZone = 0
 
     # Group `OpsiHazard1Leveling`
-    OpsiHazard1Leveling_StrategicSearch = True
     OpsiHazard1Leveling_TargetZone = 0  # 0, 44, 22
 
     # Group `Daemon`

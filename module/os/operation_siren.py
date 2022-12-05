@@ -360,33 +360,20 @@ class OperationSiren(OSMap):
                     break
 
             self.get_current_zone()
-            if self.config.OpsiHazard1Leveling_StrategicSearch:
-                # Preset action point to 100
-                self.set_action_point(cost=100)
-                if self.config.OpsiHazard1Leveling_TargetZone != 0:
-                    zone = self.config.OpsiHazard1Leveling_TargetZone
-                else:
-                    zone = 44
 
-                logger.hr(f'OS hazard 1 leveling, zone_id={zone}', level=1)
-                if self.zone.zone_id != zone or not self.is_zone_name_hidden:
-                    self.globe_goto(self.name_to_zone(zone), types='SAFE', refresh=True)
-                self.fleet_set(self.config.OpsiFleet_Fleet)
-                self.run_strategic_search()
+            # Preset action point to 100
+            self.set_action_point(cost=100)
+            if self.config.OpsiHazard1Leveling_TargetZone != 0:
+                zone = self.config.OpsiHazard1Leveling_TargetZone
             else:
-                if self.config.OpsiHazard1Leveling_TargetZone != 0:
-                    zone = self.config.OpsiHazard1Leveling_TargetZone
-                    logger.hr(f'OS hazard 1 leveling, zone_id={zone}', level=1)
-                    self.globe_goto(self.name_to_zone(zone), types='SAFE', refresh=True)
-                else:
-                    zones = self.zone_select(hazard_level=1) \
-                        .delete(SelectedGrids([self.zone])) \
-                        .delete(SelectedGrids(self.zones.select(is_port=True)))
-                    logger.hr(f'OS hazard 1 leveling, zone_id={zones[0].zone_id}', level=1)
-                    self.globe_goto(zones[0])
+                zone = 44
 
-                self.fleet_set(self.config.OpsiFleet_Fleet)
-                self.run_auto_search()
+            logger.hr(f'OS hazard 1 leveling, zone_id={zone}', level=1)
+            if self.zone.zone_id != zone or not self.is_zone_name_hidden:
+                self.globe_goto(self.name_to_zone(zone), types='SAFE', refresh=False)
+            self.fleet_set(self.config.OpsiFleet_Fleet)
+            self.run_strategic_search()
+
             self.handle_after_auto_search()
             self.config.check_task_switch()
 
