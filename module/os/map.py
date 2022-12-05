@@ -632,11 +632,6 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
     def run_strategic_search(self):
         self.handle_ash_beacon_attack()
 
-        if self.config.SERVER != 'cn':
-            logger.critical('Unable to use strategy search in your server, '
-                            'please turn the option off and wait for asset update')
-            raise RequestHumanTakeover
-
         logger.info('Run strategy search')
         self.os_auto_search_run(strategic=True)
 
