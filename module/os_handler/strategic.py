@@ -114,7 +114,7 @@ class StrategicSearchHandler(EnemySearchingHandler):
             else:
                 self.device.screenshot()
 
-            if self.handle_popup_confirm(offset=(30, 30)):
+            if self.handle_popup_confirm(offset=(30, 30), name='STRATEGIC_SEARCH'):
                 continue
 
             if self.is_in_map():
@@ -124,7 +124,9 @@ class StrategicSearchHandler(EnemySearchingHandler):
         """
         Pages:
             in: IN_MAP
+            out: IN_MAP, with strategic search running
         """
+        logger.hr('Strategic search start')
         while 1:
             flag = True
             flag &= self.strategy_search_enter(skip_first_screenshot=skip_first_screenshot)

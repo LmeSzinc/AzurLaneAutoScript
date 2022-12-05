@@ -58,7 +58,7 @@ class Meta(UI, MapEventHandler):
             logger.info('Wrong click into battle preparation page')
             self.device.click(BACK_ARROW)
             return True
-        if self.handle_popup_cancel():
+        if self.handle_popup_cancel('META'):
             return True
         if self.appear_then_click(META_ENTRANCE, offset=(20, 300), interval=2):
             return True

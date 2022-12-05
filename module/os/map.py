@@ -632,7 +632,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
     def run_strategic_search(self):
         self.handle_ash_beacon_attack()
 
-        logger.info('Run strategy search')
+        logger.hr('Run strategy search', level=2)
         self.os_auto_search_run(strategic=True)
 
         self.hp_reset()

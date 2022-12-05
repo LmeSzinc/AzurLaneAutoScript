@@ -87,7 +87,7 @@ class ActionPointHandler(UI):
                 self.device.sleep(0.3)
                 continue
 
-            if self.handle_popup_confirm():
+            if self.handle_popup_confirm('ACTION_POINT_USE'):
                 continue
 
             self.action_point_update()
