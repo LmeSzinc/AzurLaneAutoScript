@@ -1,5 +1,5 @@
 from module.base.timer import Timer
-from module.base.utils import area_in_area
+from module.base.utils import area_cross_area
 from module.combat.assets import GET_ITEMS_1
 from module.handler.assets import *
 from module.handler.enemy_searching import EnemySearchingHandler
@@ -41,7 +41,7 @@ class MysteryHandler(StrategyHandler, EnemySearchingHandler):
         """
         if not self.config.MAP_MYSTERY_MAP_CLICK:
             button = MYSTERY_ITEM
-        if button is None or area_in_area(button.button, MYSTERY_ITEM.area, threshold=20):
+        if button is None or area_cross_area(button.button, MYSTERY_ITEM.area, threshold=5):
             button = MYSTERY_ITEM
 
         if self.appear(GET_ITEMS_1):
