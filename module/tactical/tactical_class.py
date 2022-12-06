@@ -391,7 +391,7 @@ class RewardTacticalClass(Dock):
             if not study_finished and self.appear(TACTICAL_CHECK, offset=(20, 20)):
                 # Tactical page, has empty position
                 if self.appear_then_click(ADD_NEW_STUDENT, offset=(800, 20), interval=1):
-                    self.interval_reset(TACTICAL_CHECK)
+                    self.interval_reset([TACTICAL_CHECK, RAPID_TRAINING])
                     self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
                     continue
             if self.handle_rapid_training():
