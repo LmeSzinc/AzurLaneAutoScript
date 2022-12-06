@@ -5,7 +5,6 @@ from module.campaign.run import CampaignRun
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.sos.assets import *
-from module.template.assets import *
 from module.ui.assets import CAMPAIGN_CHECK
 from module.ui.page import page_campaign
 from module.ui.scroll import Scroll
@@ -172,6 +171,8 @@ class CampaignSos(CampaignRun, CampaignBase):
                 if TEMPLATE_SIGNAL_SEARCH.match(image):
                     self.device.click(entrance)
                 if TEMPLATE_SIGNAL_GOTO.match(image):
+                    self.device.click(entrance)
+                if TEMPLATE_SIGNAL_CONFIRM.match(image):
                     self.device.click(entrance)
 
             # End

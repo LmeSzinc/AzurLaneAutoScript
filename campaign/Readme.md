@@ -121,3 +121,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20221110   | event 20201229 cn        | Inverted Orthant                | 复刻负象限作战     | Inverted Orthant Rerun                   | 虚畳なりし限象（復刻）            | -                    |
 | 20221117   | event 20210325 cn        | Ashen Simulacrum                | -           | -                                    | -                  | 復刻箱庭療法   |
 | 20221124   | event 20221124 cn        | The Alchemist and the Archipelago of Secrets | 炼金术士与秘密遗迹群岛 | The Alchemist and the Archipelago of Secrets | 錬金術士と謎の遺跡群島 | - |
+| 20221201   | event 20221124 cn        | The Alchemist and the Archipelago of Secrets | -           | -                                    | -                  | 鍊金術士與秘密遺跡群島 |
