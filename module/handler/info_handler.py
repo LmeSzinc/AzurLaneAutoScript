@@ -73,28 +73,32 @@ class InfoHandler(ModuleBase):
     """
     _popup_offset = (3, 30)
 
-    def handle_popup_confirm(self, name='', interval=2):
-        if self.appear(POPUP_CANCEL, offset=self._popup_offset) \
-                and self.appear(POPUP_CONFIRM, offset=self._popup_offset, interval=interval):
+    def handle_popup_confirm(self, name='', offset=None, interval=2):
+        if offset is None:
+            offset = self._popup_offset
+        if self.appear(POPUP_CANCEL, offset=offset) \
+                and self.appear(POPUP_CONFIRM, offset=offset, interval=interval):
             POPUP_CONFIRM.name = POPUP_CONFIRM.name + '_' + name
             self.device.click(POPUP_CONFIRM)
             POPUP_CONFIRM.name = POPUP_CONFIRM.name[:-len(name) - 1]
             return True
         return False
 
-    def handle_popup_cancel(self, name='', interval=2):
-        if self.appear(POPUP_CONFIRM, offset=self._popup_offset) \
-                and self.appear(POPUP_CANCEL, offset=self._popup_offset, interval=interval):
+    def handle_popup_cancel(self, name='', offset=None, interval=2):
+        if offset is None:
+            offset = self._popup_offset
+        if self.appear(POPUP_CONFIRM, offset=offset) \
+                and self.appear(POPUP_CANCEL, offset=offset, interval=interval):
             POPUP_CANCEL.name = POPUP_CANCEL.name + '_' + name
             self.device.click(POPUP_CANCEL)
             POPUP_CANCEL.name = POPUP_CANCEL.name[:-len(name) - 1]
             return True
         return False
 
-    def handle_popup_single(self, name='', offset=None):
+    def handle_popup_single(self, name='', offset=None, interval=2):
         if offset is None:
             offset = self._popup_offset
-        if self.appear(GET_MISSION, offset=offset, interval=2):
+        if self.appear(GET_MISSION, offset=offset, interval=interval):
             prev_name = GET_MISSION.name
             GET_MISSION.name = POPUP_CONFIRM.name + '_' + name
             self.device.click(GET_MISSION)

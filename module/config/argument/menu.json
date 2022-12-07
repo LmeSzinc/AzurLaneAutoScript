@@ -53,11 +53,13 @@
       "OpsiAshAssist",
       "OpsiExplore",
       "OpsiShop",
+      "OpsiVoucher",
       "OpsiDaily",
       "OpsiObscure",
       "OpsiAbyssal",
       "OpsiStronghold",
       "OpsiMeowfficerFarming",
+      "OpsiHazard1Leveling",
       "OpsiCrossMonth"
     ],
     "Tool": [

@@ -35,6 +35,18 @@ class OSCampaignRun(OSMapOperation):
         except ActionPointLimit:
             self.config.opsi_task_delay(ap_limit=True)
 
+    def opsi_voucher(self):
+        if self.config.SERVER in ['tw']:
+            logger.info(f'Opsi Voucher is not supported in {self.config.SERVER},'
+                        ' please contact server maintainers')
+            self.config.task_delay(server_update=True)
+            return
+        try:
+            self.load_campaign()
+            self.campaign.os_voucher()
+        except ActionPointLimit:
+            self.config.opsi_task_delay(ap_limit=True)
+
     def opsi_daily(self):
         try:
             self.load_campaign()
@@ -54,6 +66,31 @@ class OSCampaignRun(OSMapOperation):
                 logger.info('Just less than 1 day to OpSi reset, delay 2.5 hours')
                 self.config.task_delay(minute=150, server_update=True)
 
+    def opsi_hazard1_leveling(self):
+        if self.config.SERVER in ['en', 'jp', 'tw']:
+            logger.info(f'Opsi CL1 Leveling is not supported in {self.config.SERVER},'
+                        ' please contact server maintainers')
+            self.config.task_delay(server_update=True)
+            return
+        self.config.override(
+            OpsiGeneral_AkashiShopFilter='ActionPoint'
+        )
+        self.config.cross_set(keys='OpsiMeowfficerFarming.Scheduler.Enable', value=True)
+        if self.config.cross_get(
+                keys='OpsiMeowfficerFarming.OpsiMeowfficerFarming.ActionPointPreserve',
+                default=0
+        ) < 1000:
+            self.config.cross_set(
+                keys='OpsiMeowfficerFarming.OpsiMeowfficerFarming.ActionPointPreserve',
+                value=1000
+            )
+
+        self.load_campaign()
+        try:
+            self.campaign.os_hazard1_leveling()
+        except ActionPointLimit:
+            self.config.task_delay(server_update=True)
+
     def opsi_obscure(self):
         try:
             self.load_campaign()
@@ -65,6 +102,13 @@ class OSCampaignRun(OSMapOperation):
         try:
             self.load_campaign()
             self.campaign.os_abyssal()
+        except ActionPointLimit:
+            self.config.opsi_task_delay(ap_limit=True)
+
+    def opsi_archive(self):
+        try:
+            self.load_campaign()
+            self.campaign.os_archive()
         except ActionPointLimit:
             self.config.opsi_task_delay(ap_limit=True)
 

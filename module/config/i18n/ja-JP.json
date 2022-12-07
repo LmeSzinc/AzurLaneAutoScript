@@ -198,6 +198,10 @@
       "name": "Task.OpsiShop.name",
       "help": "Task.OpsiShop.help"
     },
+    "OpsiVoucher": {
+      "name": "Task.OpsiVoucher.name",
+      "help": "Task.OpsiVoucher.help"
+    },
     "OpsiDaily": {
       "name": "Task.OpsiDaily.name",
       "help": "Task.OpsiDaily.help"
@@ -217,6 +221,10 @@
     "OpsiMeowfficerFarming": {
       "name": "Task.OpsiMeowfficerFarming.name",
       "help": "Task.OpsiMeowfficerFarming.help"
+    },
+    "OpsiHazard1Leveling": {
+      "name": "Task.OpsiHazard1Leveling.name",
+      "help": "Task.OpsiHazard1Leveling.help"
     },
     "OpsiCrossMonth": {
       "name": "Task.OpsiCrossMonth.name",
@@ -377,7 +385,8 @@
       "ADB_nc": "ADB_nc",
       "uiautomator2": "uiautomator2",
       "aScreenCap": "aScreenCap",
-      "aScreenCap_nc": "aScreenCap_nc"
+      "aScreenCap_nc": "aScreenCap_nc",
+      "DroidCast": "DroidCast"
     },
     "ControlMethod": {
       "name": "Emulator.ControlMethod.name",
@@ -401,9 +410,13 @@
       "name": "RestartEmulator._info.name",
       "help": "RestartEmulator._info.help"
     },
-    "Enable": {
-      "name": "RestartEmulator.Enable.name",
-      "help": "RestartEmulator.Enable.help"
+    "ErrorRestart": {
+      "name": "RestartEmulator.ErrorRestart.name",
+      "help": "RestartEmulator.ErrorRestart.help"
+    },
+    "DailyRestart": {
+      "name": "RestartEmulator.DailyRestart.name",
+      "help": "RestartEmulator.DailyRestart.help"
     },
     "EmulatorType": {
       "name": "RestartEmulator.EmulatorType.name",
@@ -648,6 +661,8 @@
       "event_20200423_cn": "縹映る深緋の残響（復刻）",
       "event_20200326_cn": "闇靄払う銀翼",
       "event_20200227_cn": "凍絶の北海",
+      "war_archives_20210819_cn": "檔案 闇靄払う銀翼",
+      "war_archives_20200903_cn": "檔案 輝ける峡湾の星",
       "war_archives_20201029_cn": "檔案 激唱のユニバース",
       "war_archives_20200806_cn": "檔案 鉄血鮫とエニグマ",
       "war_archives_20210624_cn": "檔案 翳りし満ちる影の華",
@@ -827,6 +842,7 @@
       "do_not_use": "do_not_use",
       "hunt_only": "hunt_only",
       "boss_only": "boss_only",
+      "hunt_and_boss": "hunt_and_boss",
       "every_combat": "every_combat"
     },
     "AutoSearchMode": {
@@ -1159,9 +1175,19 @@
       "name": "Commission.DoMajorCommission.name",
       "help": "Commission.DoMajorCommission.help"
     },
-    "CommissionFilter": {
-      "name": "Commission.CommissionFilter.name",
-      "help": "Commission.CommissionFilter.help"
+    "PresetFilter": {
+      "name": "Commission.PresetFilter.name",
+      "help": "Commission.PresetFilter.help",
+      "chip": "chip",
+      "chip_24h": "chip_24h",
+      "cube": "cube",
+      "cube_24h": "cube_24h",
+      "oil": "oil",
+      "custom": "custom"
+    },
+    "CustomFilter": {
+      "name": "Commission.CustomFilter.name",
+      "help": "Commission.CustomFilter.help"
     }
   },
   "Tactical": {
@@ -2053,6 +2079,16 @@
       "help": "OpsiShop.BuySupply.help"
     }
   },
+  "OpsiVoucher": {
+    "_info": {
+      "name": "OpsiVoucher._info.name",
+      "help": "OpsiVoucher._info.help"
+    },
+    "Filter": {
+      "name": "OpsiVoucher.Filter.name",
+      "help": "OpsiVoucher.Filter.help"
+    }
+  },
   "OpsiDaily": {
     "_info": {
       "name": "OpsiDaily._info.name",
@@ -2118,6 +2154,19 @@
     "TargetZone": {
       "name": "OpsiMeowfficerFarming.TargetZone.name",
       "help": "OpsiMeowfficerFarming.TargetZone.help"
+    }
+  },
+  "OpsiHazard1Leveling": {
+    "_info": {
+      "name": "OpsiHazard1Leveling._info.name",
+      "help": "OpsiHazard1Leveling._info.help"
+    },
+    "TargetZone": {
+      "name": "OpsiHazard1Leveling.TargetZone.name",
+      "help": "OpsiHazard1Leveling.TargetZone.help",
+      "0": "0",
+      "44": "44",
+      "22": "22"
     }
   },
   "Daemon": {
@@ -2204,6 +2253,16 @@
     "AutoRestart": {
       "name": "GameManager.AutoRestart.name",
       "help": "GameManager.AutoRestart.help"
+    }
+  },
+  "Storage": {
+    "_info": {
+      "name": "Storage._info.name",
+      "help": "Storage._info.help"
+    },
+    "Storage": {
+      "name": "Storage.Storage.name",
+      "help": "Storage.Storage.help"
     }
   },
   "Gui": {
@@ -2293,7 +2352,8 @@
       "SSHNotInstall": "Gui.Remote.SSHNotInstall"
     },
     "Text": {
-      "InvalidFeedBack": "Gui.Text.InvalidFeedBack"
+      "InvalidFeedBack": "Gui.Text.InvalidFeedBack",
+      "Clear": "Gui.Text.Clear"
     }
   }
 }

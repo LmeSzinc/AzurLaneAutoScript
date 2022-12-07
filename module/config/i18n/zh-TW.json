@@ -198,6 +198,10 @@
       "name": "大世界商店",
       "help": ""
     },
+    "OpsiVoucher": {
+      "name": "兌換商店",
+      "help": ""
+    },
     "OpsiDaily": {
       "name": "大世界每日",
       "help": ""
@@ -216,6 +220,10 @@
     },
     "OpsiMeowfficerFarming": {
       "name": "短貓相接",
+      "help": ""
+    },
+    "OpsiHazard1Leveling": {
+      "name": "侵蝕1練級",
       "help": ""
     },
     "OpsiCrossMonth": {
@@ -377,7 +385,8 @@
       "ADB_nc": "ADB_nc",
       "uiautomator2": "uiautomator2",
       "aScreenCap": "aScreenCap",
-      "aScreenCap_nc": "aScreenCap_nc"
+      "aScreenCap_nc": "aScreenCap_nc",
+      "DroidCast": "DroidCast"
     },
     "ControlMethod": {
       "name": "模擬器控制方案",
@@ -401,9 +410,13 @@
       "name": "重啓模擬器",
       "help": ""
     },
-    "Enable": {
+    "ErrorRestart": {
       "name": "啟用重啓模擬器",
-      "help": "在模擬器被關閉的時候自動啟動模擬器\n在服務器日期重繪時重啓模擬器以釋放記憶體"
+      "help": "在模擬器被關閉的時候自動啟動模擬器"
+    },
+    "DailyRestart": {
+      "name": "服務器重繪時重啓模擬器",
+      "help": "每天主動重啓模擬器以解决記憶體洩漏問題"
     },
     "EmulatorType": {
       "name": "模擬器類型",
@@ -648,6 +661,8 @@
       "event_20200423_cn": "Crimson Echoes Rerun",
       "event_20200326_cn": "Microlayer Medley",
       "event_20200227_cn": "Northern Overture",
+      "war_archives_20210819_cn": "archives Microlayer Medley",
+      "war_archives_20200903_cn": "archives Stars of the Shimmering Fjord",
       "war_archives_20201029_cn": "archives Universe in Unison",
       "war_archives_20200806_cn": "archives The Enigma and the Shark",
       "war_archives_20210624_cn": "archives Swirling Cherry Blossoms",
@@ -823,10 +838,11 @@
     },
     "Mode": {
       "name": "潛艇出擊方案",
-      "help": "",
+      "help": "提醒: '狩獵及BOSS戰'為'僅狩獵'與'僅BOSS戰'的混合，它會在道中進行狩獵打擊，並在BOSS戰嘗試召喚潛艇。",
       "do_not_use": "不使用",
       "hunt_only": "僅狩獵",
       "boss_only": "僅BOSS",
+      "hunt_and_boss": "狩獵及BOSS戰",
       "every_combat": "每戰出擊"
     },
     "AutoSearchMode": {
@@ -837,7 +853,7 @@
     },
     "DistanceToBoss": {
       "name": "BOSS戰前將潛艇移動到BOSS附近",
-      "help": "僅在\"潛艇出擊方案\"為\"僅BOSS戰\"時生效\n選擇\"距離BOSS X格\"需要保證潛艇狩獵範圍能覆蓋到BOSS，距離使用曼哈頓距離計算，選擇\"使用遠洋支援\"需要潛艇隊伍裡有U522或是達芬奇",
+      "help": "僅在\"潛艇出擊方案\"為\"僅BOSS戰\"及\"狩獵及BOSS戰\"時生效\n選擇\"距離BOSS X格\"需要保證潛艇狩獵範圍能覆蓋到BOSS，距離使用曼哈頓距離計算，選擇\"使用遠洋支援\"需要潛艇隊伍裡有U522或是達芬奇",
       "to_boss_position": "至 BOSS 所在位置",
       "1_grid_to_boss": "距離 BOSS 1 格",
       "2_grid_to_boss": "距離 BOSS 2 格",
@@ -1159,9 +1175,19 @@
       "name": "做主要委託 (1200油/1000油委託)",
       "help": ""
     },
-    "CommissionFilter": {
-      "name": "委託過濾器",
-      "help": "一般不需要修改"
+    "PresetFilter": {
+      "name": "委托過濾器",
+      "help": "如果對委托的產出和收益沒有足夠的了解，不建議編寫自定義過濾器，建議使用預優化委托過濾器\n如果24小時運行刷緊急委託功能，應當使用24小時版的過濾器\n不推薦在運行刷緊急委託功能的同時使用石油優先過濾器",
+      "chip": "鑽石>心智>魔方",
+      "chip_24h": "鑽石>心智>魔方（7x24刷委託）",
+      "cube": "鑽石>魔方>石油",
+      "cube_24h": "鑽石>魔方>石油（7x24刷委託）",
+      "oil": "鑽石>石油>魔方",
+      "custom": "自定義"
+    },
+    "CustomFilter": {
+      "name": "自定義委托過濾器",
+      "help": "使用自定義過濾器需將 \"委托過濾器\" 設置為 \"自定義\"，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
     }
   },
   "Tactical": {
@@ -2053,6 +2079,16 @@
       "help": "每月港口商店可購買商品是固定的，未購買的物品下次仍會出現，並阻擋高價值物品，因此需要購買全部"
     }
   },
+  "OpsiVoucher": {
+    "_info": {
+      "name": "兌換商店（每月白票商店）",
+      "help": "購買每月白票商店\n使用此功能前必須滿足以下條件：\n- 通關大世界主線任務"
+    },
+    "Filter": {
+      "name": "商店過濾器",
+      "help": "參考文檔 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string"
+    }
+  },
   "OpsiDaily": {
     "_info": {
       "name": "大世界每日",
@@ -2104,7 +2140,7 @@
     },
     "ActionPointPreserve": {
       "name": "保留 X 點行動力",
-      "help": "行動力低於 X 後停止，自動打開行動力箱子，X 包含箱子中的行動力，建議保留 500 點行動力\n這個值將在大世界重置前3天自動減少至300點，並在最後一天自動減少至0點"
+      "help": "行動力低於 X 後停止，自動打開行動力箱子，X 包含箱子中的行動力，建議保留 1000 點行動力给侵蝕1練級\n這個值將在大世界重置前3天自動減少至300點，如果啟用侵蝕1練級則改為500點，並在最後一天自動減少至0點"
     },
     "HazardLevel": {
       "name": "侵蝕等級",
@@ -2118,6 +2154,19 @@
     "TargetZone": {
       "name": "指定海域",
       "help": "僅出擊指定的海域，可以用來獲取大世界成就星星\n自動更新的數值，填0可重置進度，重置後自動跳過已開荒的海域\n支持海域ID、國服/國際服/日服/台服海域名稱，例如 \"51\", \"NA海域東南E\", \"NA Ocean SE Sector E\"\n填入默認值0，或者刪除數值即可取消指定"
+    }
+  },
+  "OpsiHazard1Leveling": {
+    "_info": {
+      "name": "侵蝕1練級",
+      "help": "警告：侵蝕1無法無限獲取行動力，請不要為了運行侵蝕1關閉其他任務\n\n根據LmeSzinc最新的統計，侵蝕1產出的行動力略高於消耗，可以在大量獲取經驗的同時消耗作戰補給憑證換取短猫收益\n推薦攜帶1艘預裝填航母以獲取最高的時均經驗收益\n由於在商店購買行動力需要大量作戰補給憑證，啟用本功能後會自動啟用短猫相接來補充"
+    },
+    "TargetZone": {
+      "name": "指定海域",
+      "help": "僅出擊指定的海域，可以用來獲取大世界成就星星或規避遊戲BUG導致的無法重繪海域",
+      "0": "不指定",
+      "44": "44 | 西大陸棚D",
+      "22": "22 | NA海域西南B"
     }
   },
   "Daemon": {
@@ -2155,7 +2204,7 @@
     },
     "AdbncScreenshot": {
       "name": "測試 ADB 截圖",
-      "help": "Benchmark.AdbncScreenshot.help"
+      "help": ""
     },
     "Uiautomator2Screenshot": {
       "name": "測試 uiautomator2 截圖",
@@ -2204,6 +2253,16 @@
     "AutoRestart": {
       "name": "自動登錄",
       "help": "遊戲被強制結束後自動登錄遊戲"
+    }
+  },
+  "Storage": {
+    "_info": {
+      "name": "任務狀態",
+      "help": "存放任務內部狀態，任務异常時可以手動清除"
+    },
+    "Storage": {
+      "name": "Storage.Storage.name",
+      "help": "Storage.Storage.help"
     }
   },
   "Gui": {
@@ -2293,7 +2352,8 @@
       "SSHNotInstall": "系統中沒有 ssh 工具，請參閱教程下載安裝 ssh"
     },
     "Text": {
-      "InvalidFeedBack": "格式錯誤。 示例：{0}"
+      "InvalidFeedBack": "格式錯誤。 示例：{0}",
+      "Clear": "清除"
     }
   }
 }

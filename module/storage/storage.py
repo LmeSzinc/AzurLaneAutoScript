@@ -242,7 +242,7 @@ class StorageHandler(StorageUI):
                 continue
             if self.appear_then_click(DISASSEMBLE_POPUP_CONFIRM, offset=(-15, -5, 5, 70), interval=5):
                 continue
-            if self.handle_popup_confirm():
+            if self.handle_popup_confirm('DISASSEMBLE'):
                 continue
             if self.appear(GET_ITEMS_1, offset=(5, 5), interval=3):
                 self.device.click(DISASSEMBLE_CONFIRM)

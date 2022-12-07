@@ -1,21 +1,30 @@
+import time
+from sys import maxsize
+
 import inflection
 
 from module.base.timer import Timer
+from module.combat.assets import PAUSE
 from module.config.utils import get_os_reset_remain
 from module.exception import CampaignEnd, RequestHumanTakeover
-from module.exception import GameTooManyClickError
+from module.exception import GameTooManyClickError, GameStuckError
 from module.exception import MapWalkError, ScriptError
+from module.exercise.assets import QUIT_CONFIRM, QUIT_RECONFIRM
 from module.logger import logger
 from module.map.map import Map
 from module.os.assets import FLEET_EMP_DEBUFF
 from module.os.fleet import OSFleet
 from module.os.globe_camera import GlobeCamera
 from module.os.globe_operation import RewardUncollectedError
-from module.os_handler.assets import AUTO_SEARCH_OS_MAP_OPTION_OFF, AUTO_SEARCH_OS_MAP_OPTION_ON
+from module.os_handler.assets import AUTO_SEARCH_OS_MAP_OPTION_OFF, \
+    AUTO_SEARCH_OS_MAP_OPTION_ON, AUTO_SEARCH_REWARD
+from module.os_handler.strategic import StrategicSearchHandler
+from module.ui.assets import GOTO_MAIN
+from module.ui.page import page_main
 from module.ui.ui import page_os
 
 
-class OSMap(OSFleet, Map, GlobeCamera):
+class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
     def os_init(self):
         """
         Call this method before doing any Operation functions.
@@ -69,8 +78,8 @@ class OSMap(OSFleet, Map, GlobeCamera):
             self.map_exit()
 
         # Clear current zone
-        if self.zone.zone_id == 154:
-            logger.info('In zone 154, skip running first auto search')
+        if self.zone.zone_id in [22, 44, 154]:
+            logger.info('In zone 22, 44, 154, skip running first auto search')
             self.handle_ash_beacon_attack()
         else:
             self.run_auto_search(rescan=False)
@@ -114,8 +123,8 @@ class OSMap(OSFleet, Map, GlobeCamera):
         if self.zone == zone:
             if refresh:
                 logger.info('Goto another zone to refresh current zone')
-                return self.globe_goto(self.zone_nearest_azur_port(self.zone),
-                                       types=('SAFE', 'DANGEROUS'), refresh=False)
+                self.globe_goto(self.zone_nearest_azur_port(self.zone),
+                                types=('SAFE', 'DANGEROUS'), refresh=False)
             else:
                 logger.info('Already at target zone')
                 return False
@@ -128,7 +137,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
         # IN_GLOBE
         if not self.is_in_globe():
             logger.warning('Trying to move in globe, but not in os globe map')
-            raise ScriptError('Trying to move in globe, but not in os globe map')
+            raise GameStuckError
         # self.ensure_no_zone_pinned()
         self.globe_update()
         self.globe_focus_to(zone)
@@ -349,37 +358,38 @@ class OSMap(OSFleet, Map, GlobeCamera):
         logger.warning('Failed to solve EMP debuff after 5 trial, assume solved')
         return True
 
-    def action_point_limit_override(self):
+    def get_action_point_limit(self):
         """
         Override user config at the end of every month.
         To consume all action points without manual configuration.
 
         Returns:
-            bool: If overrode
+            int: ActionPointPreserve
         """
         remain = get_os_reset_remain()
         if remain <= 0:
             if self.config.cross_get('OpsiCrossMonth.Scheduler.Enable', default=False):
                 logger.info('Just less than 1 day to OpSi reset, OpsiCrossMonth is enabled'
                             'set OpsiMeowfficerFarming.ActionPointPreserve to 300 temporarily')
-                self.config.override(OpsiMeowfficerFarming_ActionPointPreserve=300)
+                return 300
             else:
                 logger.info('Just less than 1 day to OpSi reset, '
-                            'set OpsiMeowfficerFarming.ActionPointPreserve to 0 temporarily')
-                self.config.override(OpsiMeowfficerFarming_ActionPointPreserve=0)
-            return True
+                            'set ActionPointPreserve to 0 temporarily')
+                return 0
+        elif self.config.cross_get(
+                keys='OpsiHazard1Leveling.Scheduler.Enable',
+                default=False
+        ) and remain <= 2:
+            logger.info('Just less than 3 days to OpSi reset, '
+                        'set ActionPointPreserve to 500 temporarily for hazard 1 leveling')
+            return 500
         elif remain <= 2:
             logger.info('Just less than 3 days to OpSi reset, '
-                        'set OpsiMeowfficerFarming.ActionPointPreserve < 300 temporarily')
-            self.config.override(
-                OpsiMeowfficerFarming_ActionPointPreserve=min(
-                    self.config.OpsiMeowfficerFarming_ActionPointPreserve,
-                    300)
-            )
-            return True
+                        'set ActionPointPreserve to 300 temporarily')
+            return 300
         else:
             logger.info('Not close to OpSi reset')
-            return False
+            return maxsize
 
     def handle_after_auto_search(self):
         logger.hr('After auto search', level=2)
@@ -394,8 +404,23 @@ class OSMap(OSFleet, Map, GlobeCamera):
         return self.config.task.command == 'OpsiExplore'
 
     _auto_search_battle_count = 0
+    _auto_search_round_timer = 0
 
-    def os_auto_search_daemon(self, drop=None, skip_first_screenshot=True):
+    def on_auto_search_battle_count_reset(self):
+        self._auto_search_battle_count = 0
+        self._auto_search_round_timer = 0
+
+    def on_auto_search_battle_count_add(self):
+        self._auto_search_battle_count += 1
+        logger.attr('battle_count', self._auto_search_battle_count)
+        if self.config.task.command == 'OpsiHazard1Leveling':
+            if self._auto_search_battle_count % 2 == 1:
+                if self._auto_search_round_timer:
+                    cost = round(time.time() - self._auto_search_round_timer, 2)
+                    logger.attr('CL1 time cost', f'{cost}s/round')
+                self._auto_search_round_timer = time.time()
+
+    def os_auto_search_daemon(self, drop=None, strategic=False, skip_first_screenshot=True):
         """
         Raises:
             CampaignEnd: If auto search ended
@@ -407,7 +432,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
                  AUTO_SEARCH_REWARD if get auto search reward.
         """
         logger.hr('OS auto search', level=2)
-        self._auto_search_battle_count = 0
+        self.on_auto_search_battle_count_reset()
         unlock_checked = False
         unlock_check_timer = Timer(5, count=10).start()
         self.ash_popup_canceled = False
@@ -442,7 +467,11 @@ class OSMap(OSFleet, Map, GlobeCamera):
                     unlock_checked = True
                 elif self.appear(AUTO_SEARCH_OS_MAP_OPTION_ON, offset=(5, 120)):
                     unlock_checked = True
-            if self.handle_os_auto_search_map_option(drop=drop, enable=success):
+
+            if self.handle_os_auto_search_map_option(
+                    drop=drop,
+                    enable=success
+            ):
                 unlock_checked = True
                 continue
             if self.handle_retirement():
@@ -450,8 +479,9 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 self.ash_popup_canceled = True
                 continue
             if self.combat_appear():
-                self._auto_search_battle_count += 1
-                logger.attr('battle_count', self._auto_search_battle_count)
+                self.on_auto_search_battle_count_add()
+                if strategic and self.config.task_switched():
+                    self.interrupt_auto_search()
                 result = self.auto_search_combat(drop=drop)
                 if not result:
                     success = False
@@ -461,11 +491,38 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 # Auto search can not handle siren searching device.
                 continue
 
-    def os_auto_search_run(self, drop=None):
+    def interrupt_auto_search(self):
+        logger.info('Interrupting auto search')
+        while 1:
+            self.device.screenshot()
+
+            if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
+                continue
+            if self.appear_then_click(PAUSE, interval=0.5):
+                continue
+            if self.appear_then_click(QUIT_CONFIRM, offset=(20, 20), interval=5):
+                continue
+            if self.appear_then_click(QUIT_RECONFIRM, offset=True, interval=5):
+                continue
+
+            if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120), interval=3) \
+                    and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):
+                self.device.click(GOTO_MAIN)
+                continue
+            if self.ui_additional():
+                continue
+            # End
+            if self.ui_page_appear(page_main):
+                logger.info('Auto search interrupted')
+                self.config.task_stop()
+
+    def os_auto_search_run(self, drop=None, strategic=False):
         for _ in range(5):
             backup = self.config.temporary(Campaign_UseAutoSearch=True)
             try:
-                self.os_auto_search_daemon(drop=drop)
+                if strategic:
+                    self.strategic_search_start(skip_first_screenshot=True)
+                self.os_auto_search_daemon(drop=drop, strategic=strategic)
             except CampaignEnd:
                 logger.info('OS auto search finished')
             finally:
@@ -475,6 +532,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
             # Break if zone cleared
             if self.config.OpsiAshBeacon_AshAttack:
                 if self.handle_ash_beacon_attack() or self.ash_popup_canceled:
+                    strategic = False
                     continue
                 else:
                     break
@@ -486,7 +544,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 else:
                     break
 
-    def clear_question(self, drop):
+    def clear_question(self, drop=None):
         """
         Clear nearly (and 3 grids from above) question marks on radar.
         Try 3 times at max to avoid loop tries on 2 adjacent fleet mechanism.
@@ -587,6 +645,19 @@ class OSMap(OSFleet, Map, GlobeCamera):
     _solved_map_event = set()
     _solved_fleet_mechanism = 0
 
+    def run_strategic_search(self):
+        self.handle_ash_beacon_attack()
+
+        logger.hr('Run strategy search', level=2)
+        self.os_auto_search_run(strategic=True)
+
+        self.hp_reset()
+        self.hp_get()
+        self._solved_map_event = set()
+        self._solved_fleet_mechanism = False
+        self.clear_question()
+        self.map_rescan()
+
     def map_rescan_current(self, drop=None):
         """
 
@@ -631,7 +702,8 @@ class OSMap(OSFleet, Map, GlobeCamera):
             grid = grids[0]
             logger.info(f'Found scanning device on {grid}')
             self.device.click(grid)
-            result = self.wait_until_walk_stable(drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=4))
+            result = self.wait_until_walk_stable(drop=drop, walk_out_of_step=False,
+                                                 confirm_timer=Timer(1.5, count=4))
             self.os_auto_search_run(drop=drop)
             if 'event' in result:
                 self._solved_map_event.add('is_scanning_device')

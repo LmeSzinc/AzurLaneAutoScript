@@ -1,5 +1,6 @@
 import module.config.server as server
 from module.base.button import ButtonGrid
+from module.base.timer import Timer
 from module.base.utils import *
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
@@ -9,6 +10,8 @@ from module.ui.assets import OS_CHECK
 from module.ui.ui import UI
 
 OCR_ACTION_POINT_REMAIN = Digit(ACTION_POINT_REMAIN, letter=(255, 219, 66), name='OCR_ACTION_POINT_REMAIN')
+OCR_ACTION_POINT_REMAIN_OS = Digit(ACTION_POINT_REMAIN_OS, letter=(239, 239, 239),
+                                   threshold=160, name='OCR_SHOP_YELLOW_COINS_OS')
 if server.server != 'jp':
     # Letters in ACTION_POINT_BUY_REMAIN are not the numeric fonts usually used in azur lane.
     OCR_ACTION_POINT_BUY_REMAIN = DigitCounter(
@@ -51,6 +54,12 @@ ACTION_POINTS_BUY = {
     4: 1000,
     5: 1000,
 }
+ACTION_POINT_BOX = {
+    0: 0,
+    1: 20,
+    2: 50,
+    3: 100,
+}
 
 
 class ActionPointLimit(Exception):
@@ -78,7 +87,7 @@ class ActionPointHandler(UI):
                 self.device.sleep(0.3)
                 continue
 
-            if self.handle_popup_confirm():
+            if self.handle_popup_confirm('ACTION_POINT_USE'):
                 continue
 
             self.action_point_update()
@@ -95,13 +104,30 @@ class ActionPointHandler(UI):
         current = OCR_ACTION_POINT_REMAIN.ocr(self.device.image)
         total = current
         if self.config.OS_ACTION_POINT_BOX_USE:
-            total += np.sum(np.array(box) * (0, 20, 50, 100))
+            total += np.sum(np.array(box) * tuple(ACTION_POINT_BOX.values()))
         oil = box[0]
 
         logger.info(f'Action points: {current}({total}), oil: {oil}')
         self._action_point_current = current
         self._action_point_box = box
         self._action_point_total = total
+
+    def action_point_safe_get(self, skip_first_screenshot=True):
+        timeout = Timer(1, count=2).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if timeout.reached():
+                logger.warning('Get action points timeout')
+                break
+
+            self.action_point_update()
+
+            if sum(self._action_point_box[1:]) > 0 and self._action_point_box[0] > 0:
+                break
 
     @staticmethod
     def action_point_get_cost(zone, pinned):
@@ -208,11 +234,12 @@ class ActionPointHandler(UI):
         """
         self.ui_click(ACTION_POINT_CANCEL, check_button=OS_CHECK, skip_first_screenshot=skip_first_screenshot)
 
-    def handle_action_point(self, zone, pinned):
+    def handle_action_point(self, zone, pinned, cost=None):
         """
         Args:
             zone (Zone): Zone to enter.
             pinned (str): Zone type. Available types: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD.
+            cost (int): Custom action point cost value.
 
         Returns:
             bool: If handled.
@@ -227,11 +254,15 @@ class ActionPointHandler(UI):
             return False
 
         # AP boxes have an animation to show
-        self.device.sleep(0.3)
-        self.device.screenshot()
-        self.action_point_update()
-        cost = self.action_point_get_cost(zone, pinned)
+        self.action_point_safe_get()
+        if cost is None:
+            cost = self.action_point_get_cost(zone, pinned)
         buy_checked = False
+        if self._action_point_total <= self.config.OS_ACTION_POINT_PRESERVE:
+            logger.info(f'Reach the limit of action points, preserve={self.config.OS_ACTION_POINT_PRESERVE}')
+            self.action_point_quit()
+            raise ActionPointLimit
+
         for _ in range(12):
             # Having enough action points
             if self._action_point_current >= cost:
@@ -246,8 +277,16 @@ class ActionPointHandler(UI):
                 else:
                     buy_checked = True
 
+            # Sort action point boxes
+            box = []
+            for index in [1, 2, 3]:
+                if self._action_point_box[index] > 0:
+                    if self._action_point_current + ACTION_POINT_BOX[index] >= 200:
+                        box.append(index)
+                    else:
+                        box.insert(0, index)
+
             # Use action point boxes
-            box = [index for index in [3, 2, 1] if self._action_point_box[index] > 0]
             if len(box):
                 if self._action_point_total > self.config.OS_ACTION_POINT_PRESERVE:
                     self.action_point_set_button(box[0])
@@ -264,3 +303,22 @@ class ActionPointHandler(UI):
 
         logger.warning('Failed to get action points after 12 trial')
         return False
+
+    def set_action_point(self, zone=None, pinned=None, cost=None):
+        """
+        Args:
+            zone (Zone): Zone to enter.
+            pinned (str): Zone type. Available types: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD.
+            cost (int): Custom action point cost value.
+
+        Returns:
+            bool: If handled.
+        """
+        self.ui_click(ACTION_POINT_REMAIN_OS, ACTION_POINT_USE, OS_CHECK)
+        if not self.handle_action_point(zone, pinned, cost):
+            return False
+
+        while 1:
+            if self.appear(IN_MAP, offset=(200, 5)):
+                return True
+            self.device.screenshot()

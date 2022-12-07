@@ -517,6 +517,7 @@ class UI(InfoHandler):
 
         # Meowfficer popup
         if self.appear_then_click(MEOWFFICER_INFO, offset=(30, 30), interval=3):
+            self.interval_reset(GET_SHIP)
             return True
 
         # Campaign preparation

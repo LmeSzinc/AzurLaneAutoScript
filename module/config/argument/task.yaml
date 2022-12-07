@@ -243,6 +243,9 @@ OpsiExplore:
 OpsiShop:
   - Scheduler
   - OpsiShop
+OpsiVoucher:
+  - Scheduler
+  - OpsiVoucher
 OpsiDaily:
   - Scheduler
   - OpsiDaily
@@ -262,6 +265,10 @@ OpsiStronghold:
 OpsiMeowfficerFarming:
   - Scheduler
   - OpsiMeowfficerFarming
+  - OpsiFleet
+OpsiHazard1Leveling:
+  - Scheduler
+  - OpsiHazard1Leveling
   - OpsiFleet
 OpsiCrossMonth:
   - Scheduler

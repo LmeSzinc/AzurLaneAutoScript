@@ -106,7 +106,8 @@
           "ADB_nc",
           "uiautomator2",
           "aScreenCap",
-          "aScreenCap_nc"
+          "aScreenCap_nc",
+          "DroidCast"
         ]
       },
       "ControlMethod": {
@@ -129,7 +130,11 @@
       }
     },
     "RestartEmulator": {
-      "Enable": {
+      "ErrorRestart": {
+        "type": "checkbox",
+        "value": false
+      },
+      "DailyRestart": {
         "type": "checkbox",
         "value": false
       },
@@ -260,6 +265,14 @@
           "save_and_upload"
         ]
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "General": {
@@ -313,6 +326,14 @@
         "type": "checkbox",
         "value": false
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "Restart": {
@@ -346,6 +367,14 @@
         "type": "input",
         "value": "00:00",
         "display": "hide"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -568,6 +597,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -709,6 +739,14 @@
           "S3_enemy_first",
           "S1_enemy_first"
         ]
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -931,6 +969,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -1072,6 +1111,14 @@
           "S3_enemy_first",
           "S1_enemy_first"
         ]
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -1294,6 +1341,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -1435,6 +1483,14 @@
           "S3_enemy_first",
           "S1_enemy_first"
         ]
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -1755,6 +1811,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -1863,6 +1920,14 @@
           "S1_enemy_first"
         ]
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "EventGeneral": {
@@ -1894,6 +1959,14 @@
           "Main2",
           "Main3"
         ]
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -2174,6 +2247,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -2315,6 +2389,14 @@
           "S3_enemy_first",
           "S1_enemy_first"
         ]
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -2595,6 +2677,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -2736,6 +2819,14 @@
           "S3_enemy_first",
           "S1_enemy_first"
         ]
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -3033,6 +3124,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -3174,6 +3266,14 @@
           "S3_enemy_first",
           "S1_enemy_first"
         ]
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -3471,6 +3571,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -3612,6 +3713,14 @@
           "S3_enemy_first",
           "S1_enemy_first"
         ]
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -3909,6 +4018,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -4050,6 +4160,14 @@
           "S3_enemy_first",
           "S1_enemy_first"
         ]
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -4347,6 +4465,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -4488,6 +4607,14 @@
           "S3_enemy_first",
           "S1_enemy_first"
         ]
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -4775,6 +4902,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -4917,6 +5045,14 @@
           "S3_enemy_first",
           "S1_enemy_first"
         ]
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -5140,6 +5276,14 @@
         "value": false,
         "display": "hide"
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "RaidDaily": {
@@ -5354,6 +5498,14 @@
         "value": false,
         "display": "hide"
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "MaritimeEscort": {
@@ -5392,6 +5544,14 @@
       "Enable": {
         "type": "checkbox",
         "value": true
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -5433,9 +5593,29 @@
         "type": "checkbox",
         "value": false
       },
-      "CommissionFilter": {
+      "PresetFilter": {
+        "type": "select",
+        "value": "cube",
+        "option": [
+          "chip",
+          "chip_24h",
+          "cube",
+          "cube_24h",
+          "oil",
+          "custom"
+        ]
+      },
+      "CustomFilter": {
         "type": "textarea",
-        "value": "DailyEvent\n> Gem-8 > Gem-4 > Gem-2\n> NightDrill-8 > NightDrill-7 > NightDrill-6\n> ExtraDrill-0:20 > ExtraDrill-1 > ExtraDrill-2 > ExtraDrill-2:40 > ExtraDrill-3:20 > ExtraDrill-5:20\n> Box-6 > Box-3 > Box-1\n> DailyCube-0:30 > UrgentCube-1:30 > DailyCube-1:30 > UrgentCube-1:45 > UrgentCube-2:15 > UrgentCube-3\n> Major\n> DailyChip > DailyResource\n> UrgentBook-2:30 > UrgentBook-2 > UrgentBook-1:20 > UrgentBook-1:40\n> Daily-0:20 > Daily-0:30 > Daily-1:00 > Daily-1:30 > Daily-2:00\n> NightOil > NightCube\n> shortest"
+        "value": "DailyEvent > Gem-4 > Gem-2 > Gem-8 > ExtraCube-0:30\n> UrgentCube-1:30 > UrgentCube-1:45 > UrgentCube-3 \n> ExtraDrill-5:20 > ExtraDrill-2 > ExtraDrill-3:20 \n> UrgentCube-2:15 > UrgentCube-4\n> ExtraDrill-1 > UrgentCube-6 > ExtraCube-1:30 \n> ExtraDrill-2:40 > ExtraDrill-0:20  \n> Major > DailyChip > DailyResource\n> ExtraPart-0:30 > ExtraOil-1 > UrgentBox-6 \n> ExtraCube-3 > ExtraPart-1 > UrgentBox-3\n> ExtraCube-4 > ExtraPart-1:30 > ExtraOil-4\n> UrgentBox-1 > ExtraCube-5 > UrgentBox-1\n> ExtraCube-8 > ExtraOil-8\n> UrgentDrill-4 > UrgentDrill-2:40 > UrgentDrill-2 \n> UrgentDrill-1 > UrgentDrill-1:30 > UrgentDrill-1:10\n> Extra-0:20 > Extra-0:30 > Extra-1:00 > Extra-1:30 > Extra-2:00\n> shortest"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -5518,6 +5698,14 @@
       "Favorite": {
         "type": "checkbox",
         "value": true
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -5613,6 +5801,14 @@
         "type": "textarea",
         "value": "S5-DR0.5 > S5-PRY0.5 > S5-H0.5 > S5-Q0.5 > S5-DR2.5 > 0.5 > S5-G1.5\n> S5-Q1 > S5-DR5 > S5-DR8 > S5-G4 > S5-PRY2.5 > 1 > S5-Q2 > reset\n> S5-G2.5 > S5-PRY5 > S5-PRY8 > 1.5 > 2 > S5-Q4 > 2.5 > 3\n> Q4 > G4 > 4 > 5 > S5-C6 > C6 > 6 > S5-C8 > 8\n> S5-C12 > 12"
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "Dorm": {
@@ -5659,6 +5855,14 @@
       "FeedFilter": {
         "type": "textarea",
         "value": "20000 > 10000 > 5000 > 3000 > 2000 > 1000"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -5728,6 +5932,14 @@
       "EnhanceIndex": {
         "type": "input",
         "value": 1
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -5802,6 +6014,14 @@
         "type": "checkbox",
         "value": false
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "Reward": {
@@ -5858,6 +6078,14 @@
         "type": "checkbox",
         "value": true
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "ShopFrequent": {
@@ -5908,6 +6136,14 @@
       "Filter": {
         "type": "textarea",
         "value": "BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2\n> Cube\n> FoodT6 > FoodT5"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -6160,6 +6396,14 @@
         "type": "textarea",
         "value": "Array"
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "Shipyard": {
@@ -6206,6 +6450,14 @@
       "BuyAmount": {
         "type": "input",
         "value": 2
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -6277,6 +6529,14 @@
         "type": "checkbox",
         "value": false
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "Freebies": {
@@ -6345,6 +6605,14 @@
       "Collect": {
         "type": "checkbox",
         "value": true
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -6504,6 +6772,14 @@
           6
         ]
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "Hard": {
@@ -6550,6 +6826,14 @@
           1,
           2
         ]
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -6620,6 +6904,14 @@
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -6870,6 +7162,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -7013,6 +7306,14 @@
           "S1_enemy_first"
         ]
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "WarArchives": {
@@ -7056,6 +7357,8 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "war_archives_20210819_cn",
+          "war_archives_20200903_cn",
           "war_archives_20201029_cn",
           "war_archives_20200806_cn",
           "war_archives_20210624_cn",
@@ -7074,9 +7377,9 @@
           "war_archives_20191031_en",
           "war_archives_20181020_en"
         ],
-        "cn": "war_archives_20201029_cn",
-        "en": "war_archives_20201029_cn",
-        "jp": "war_archives_20201029_cn",
+        "cn": "war_archives_20210819_cn",
+        "en": "war_archives_20210819_cn",
+        "jp": "war_archives_20210819_cn",
         "tw": "war_archives_20181227_cn"
       },
       "Mode": {
@@ -7255,6 +7558,7 @@
           "do_not_use",
           "hunt_only",
           "boss_only",
+          "hunt_and_boss",
           "every_combat"
         ]
       },
@@ -7397,6 +7701,14 @@
           "S1_enemy_first"
         ]
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "OpsiGeneral": {
@@ -7432,6 +7744,14 @@
       "AkashiShopFilter": {
         "type": "textarea",
         "value": "ActionPoint > PurpleCoins"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -7490,6 +7810,14 @@
         "type": "checkbox",
         "value": true
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "OpsiAshAssist": {
@@ -7528,6 +7856,14 @@
       "Tier": {
         "type": "input",
         "value": 15
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -7592,6 +7928,14 @@
         "type": "checkbox",
         "value": false
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "OpsiShop": {
@@ -7630,6 +7974,61 @@
       "BuySupply": {
         "type": "checkbox",
         "value": true
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
+  "OpsiVoucher": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "OpsiVoucher",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 30,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 30,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
+      }
+    },
+    "OpsiVoucher": {
+      "Filter": {
+        "type": "textarea",
+        "value": "LoggerAbyssal > LoggerObscure > HECombatPlan > Book > Coin"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -7690,6 +8089,14 @@
         "type": "checkbox",
         "value": false
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "OpsiObscure": {
@@ -7745,6 +8152,14 @@
         "type": "checkbox",
         "value": false
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "OpsiAbyssal": {
@@ -7775,7 +8190,7 @@
       },
       "ServerUpdate": {
         "type": "input",
-        "value": "00:00",
+        "value": "00:00, 12:00",
         "display": "hide"
       }
     },
@@ -7789,6 +8204,14 @@
       "Filter": {
         "type": "textarea",
         "value": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -7835,6 +8258,14 @@
         "type": "textarea",
         "value": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "OpsiMeowfficerFarming": {
@@ -7872,7 +8303,7 @@
     "OpsiMeowfficerFarming": {
       "ActionPointPreserve": {
         "type": "input",
-        "value": 500
+        "value": 1000
       },
       "HazardLevel": {
         "type": "select",
@@ -7904,6 +8335,83 @@
       "Submarine": {
         "type": "checkbox",
         "value": false
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
+  "OpsiHazard1Leveling": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "OpsiHazard1Leveling",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 30,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 60,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
+      }
+    },
+    "OpsiHazard1Leveling": {
+      "TargetZone": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          44,
+          22
+        ]
+      }
+    },
+    "OpsiFleet": {
+      "Fleet": {
+        "type": "select",
+        "value": 1,
+        "option": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "Submarine": {
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -7938,6 +8446,14 @@
         "value": "00:00",
         "display": "hide"
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "Daemon": {
@@ -7945,6 +8461,14 @@
       "EnterMap": {
         "type": "checkbox",
         "value": true
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -7957,6 +8481,14 @@
       "SelectEnemy": {
         "type": "checkbox",
         "value": true
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -7998,6 +8530,14 @@
         "type": "checkbox",
         "value": false
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "AzurLaneUncensored": {
@@ -8006,6 +8546,14 @@
         "type": "input",
         "value": "https://gitee.com/LmeSzinc/AzurLaneUncensored"
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "GameManager": {
@@ -8013,6 +8561,14 @@
       "AutoRestart": {
         "type": "checkbox",
         "value": true
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   }

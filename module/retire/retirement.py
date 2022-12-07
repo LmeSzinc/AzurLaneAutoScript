@@ -76,7 +76,6 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         """
         logger.info('Retirement confirm')
         executed = False
-        backup, self._popup_offset = self._popup_offset, (20, 50)
         for button in [SHIP_CONFIRM, SHIP_CONFIRM_2, EQUIP_CONFIRM, EQUIP_CONFIRM_2, GET_ITEMS_1, SR_SSR_CONFIRM]:
             self.interval_clear(button)
         timeout = Timer(10, count=10).start()
@@ -127,13 +126,11 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                     or self.config.Retirement_OldRetireSR \
                     or self.config.Retirement_OldRetireSSR \
                     or self.config.Retirement_RetireMode == 'one_click_retire':
-                if self.handle_popup_confirm('RETIRE_SR_SSR'):
+                if self.handle_popup_confirm(name='RETIRE_SR_SSR', offset=(20, 50)):
                     continue
                 if self.config.SERVER in ['cn', 'jp', 'tw'] and \
-                        self.appear_then_click(SR_SSR_CONFIRM, offset=self._popup_offset, interval=2):
+                        self.appear_then_click(SR_SSR_CONFIRM, offset=(20, 50), interval=2):
                     continue
-
-        self._popup_offset = backup
 
     def retirement_appear(self):
         return self.appear(RETIRE_APPEAR_1, offset=30) \
@@ -284,7 +281,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             return 0
 
         def server_support_flagship_retire() -> bool:
-            return self.config.SERVER in ['cn', 'en']
+            return self.config.SERVER in ['cn', 'en', 'jp']
 
         if not server_support_flagship_retire():
             logger.info(f'Server {self.config.SERVER} does not yet support flagships retirement, skip')

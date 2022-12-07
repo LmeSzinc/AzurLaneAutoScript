@@ -37,6 +37,7 @@ class DropImage:
         """
         if self:
             self.images.append(image)
+            logger.info(f'Drop record added, genre={self.genre}, amount={self.count}')
 
     def handle_add(self, main, before=None):
         """

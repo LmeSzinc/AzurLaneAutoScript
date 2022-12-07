@@ -1,13 +1,16 @@
 import copy
 
+from datetime import datetime
 from scipy import signal
 
 from module.base.timer import Timer
 from module.base.utils import *
 from module.combat.assets import *
 from module.commission.assets import *
-from module.commission.project import (COMMISSION_FILTER, SHORTEST_FILTER,
-                                       Commission)
+from module.commission.preset import DICT_FILTER_PRESET, SHORTEST_FILTER
+from module.commission.project import COMMISSION_FILTER, Commission
+from module.config.config_generated import GeneratedConfig
+from module.config.utils import get_server_last_update
 from module.exception import GameStuckError
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
@@ -127,8 +130,24 @@ class RewardCommission(UI, InfoHandler):
             np.sum([1 for c in total if c.status == 'running']))
         logger.attr('Running', f'{running_count}/{self.max_commission}')
 
+        # Load filter string
+        preset = self.config.Commission_PresetFilter
+        if preset == 'custom':
+            string = self.config.Commission_CustomFilter
+        else:
+            if f'{preset}_night' in DICT_FILTER_PRESET:
+                start_time = get_server_last_update('02:00')
+                end_time = get_server_last_update('21:00')
+                if start_time < end_time:
+                    preset = f'{preset}_night'
+            if preset not in DICT_FILTER_PRESET:
+                logger.warning(f'Preset not found: {preset}, use default preset')
+                preset = GeneratedConfig.Commission_PresetFilter
+            string = DICT_FILTER_PRESET[preset]
+        logger.attr('Commission Filter', preset)
+
         # Filter
-        COMMISSION_FILTER.load(self.config.Commission_CommissionFilter)
+        COMMISSION_FILTER.load(string)
         run = COMMISSION_FILTER.apply(total.grids, func=self._commission_check)
         logger.attr('Filter_sort', ' > '.join([str(c) for c in run]))
         run = SelectedGrids(run)

@@ -14,7 +14,11 @@ from module.statistics.item import ItemGrid
 from module.tactical.tactical_class import Book
 
 FILTER_REGEX = re.compile(
-    '^(cube|drill|chip|array|pr|dr|box|bulin|book|food|plate|retrofit|cat)'
+    '^(array|book|box|bulin|cat'
+    '|chip|coin|cube|drill|food'
+    '|plate|retrofit|pr|dr'
+    '|logger|tuning'
+    '|hecombatplan)'
 
     '(neptune|monarch|ibuki|izumo|roon|saintlouis'
     '|seattle|georgia|kitakaze|azuma|friedrich'
@@ -23,7 +27,9 @@ FILTER_REGEX = re.compile(
     '|plymouth|rupprecht|harbin|chkalov|brest'
     '|red|blue|yellow'
     '|general|gun|torpedo|antiair|plane|wild'
-    '|dd|cl|bb|cv)?'
+    '|dd|cl|bb|cv'
+    '|abyssal|archive|obscure'
+    '|combat|offense|survival)?'
 
     '(s[1-5]|t[1-6])?$',
     flags=re.IGNORECASE)
@@ -52,10 +58,10 @@ class ShopItemGrid(ItemGrid):
                  if group is not None else None
                  for group in result.groups()]
             else:
-                if not name.isnumeric():
-                    logger.warning(f'Unable to parse shop item {name}; '
-                                    'check template asset and filter regexp')
-                    raise ScriptError
+                # if not name.isnumeric():
+                #     logger.warning(f'Unable to parse shop item {name}; '
+                #                     'check template asset and filter regexp')
+                #     raise ScriptError
                 continue
 
             # Sometimes book's color and/or tier will be misidentified
