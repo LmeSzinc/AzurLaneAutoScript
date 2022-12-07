@@ -1,6 +1,6 @@
 name: 上报 Bug
 description: 使用中文进行 Bug 报告
-labels: ['bug']
+labels: ['bug / 缺陷']
 body:
   - type: checkboxes
     id: checks

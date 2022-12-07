@@ -1,6 +1,6 @@
 name: 功能请求
 description: 使用中文进行功能请求
-labels: ['feature']
+labels: ['feature request / 功能请求']
 body:
   - type: textarea
     id: describe

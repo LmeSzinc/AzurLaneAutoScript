@@ -1,6 +1,6 @@
 name: Feature request
 description: Suggest an idea for this project
-labels: ['feature']
+labels: ['feature request / 功能请求']
 body:
   - type: textarea
     id: describe
