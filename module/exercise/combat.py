@@ -25,7 +25,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
             else:
                 self.device.screenshot()
 
-            if self.appear(BATTLE_PREPARATION):
+            if self.appear(BATTLE_PREPARATION, interval=2):
                 # self.equipment_take_on()
                 pass
 
