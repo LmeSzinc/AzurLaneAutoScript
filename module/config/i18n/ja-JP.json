@@ -427,10 +427,6 @@
       "name": "Error.SaveError.name",
       "help": "Error.SaveError.help"
     },
-    "OnePushConfig": {
-      "name": "Error.OnePushConfig.name",
-      "help": "Error.OnePushConfig.help"
-    },
     "ScreenshotLength": {
       "name": "Error.ScreenshotLength.name",
       "help": "Error.ScreenshotLength.help"

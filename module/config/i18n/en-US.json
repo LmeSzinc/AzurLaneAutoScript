@@ -427,10 +427,6 @@
       "name": "Record Exception",
       "help": "Records exception and log into directory for review or sharing"
     },
-    "OnePushConfig": {
-      "name": "Error notify config",
-      "help": "When Alas cannot handle exception, send a message through Onepush. Configuration document: \nhttps://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BEN%5D"
-    },
     "ScreenshotLength": {
       "name": "Record Screenshot(s)",
       "help": "Number of screenshots saved when exception occurs"
