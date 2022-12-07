@@ -235,9 +235,6 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap):
                         self.droidcast_stop()
                     else:
                         logger.warning('If you are using MuMu X, please set screenshot method to DroidCast')
-                        raise RequestHumanTakeover
-                else:
-                    raise RequestHumanTakeover
                 self._screen_black_checked = False
                 return False
         else:
