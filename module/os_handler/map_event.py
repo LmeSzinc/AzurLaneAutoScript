@@ -208,7 +208,8 @@ class MapEventHandler(EnemySearchingHandler):
                 confirm_timer.reset()
                 continue
             if self.appear_then_click(GLOBE_GOTO_MAP, offset=(20, 20), interval=2):
-                # Sometimes entered globe map after clicking AUTO_SEARCH_REWARD, but don't know why
+                # Sometimes entered globe map after clicking AUTO_SEARCH_REWARD
+                # because of duplicated clicks and clicks to places outside the map
                 confirm_timer.reset()
                 continue
 
@@ -221,11 +222,12 @@ class MapEventHandler(EnemySearchingHandler):
 
         return cleared
 
-    def handle_os_auto_search_map_option(self, drop=None, enable=True):
+    def handle_os_auto_search_map_option(self, drop=None, enable=True, quit=True):
         """
         Args:
-            drop (DropImage)
+            drop (DropImage):
             enable (bool):
+            quit (bool):
 
         Returns:
             bool: If clicked.
@@ -238,13 +240,14 @@ class MapEventHandler(EnemySearchingHandler):
             raise CampaignEnd
         if self.appear(AUTO_SEARCH_REWARD, offset=(50, 50)):
             self.device.screenshot_interval_set()
-            if self.os_auto_search_quit(drop=drop):
+            if quit and self.os_auto_search_quit(drop=drop):
                 # No more items on current map
                 raise CampaignEnd
             else:
                 # Auto search stopped but map hasn't been cleared
                 return True
-        if enable:
+
+        elif enable:
             if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120), interval=3) \
                     and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):
                 self.device.click(AUTO_SEARCH_OS_MAP_OPTION_OFF)

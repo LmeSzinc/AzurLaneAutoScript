@@ -214,7 +214,7 @@ class EmulatorManager(Connection):
         try:
             return super(EmulatorManager, self).adb_connect(serial)
         except EmulatorNotRunningError:
-            if self.config.RestartEmulator_Enable \
+            if self.config.RestartEmulator_ErrorRestart \
                     and self.emulator_restart():
                 return True
             raise RequestHumanTakeover
@@ -302,16 +302,11 @@ class EmulatorManager(Connection):
             self.sleep(2)
         return False
 
-        logger.warning('Kill emulator failed for 3 times, please check your settings')
-        raise RequestHumanTakeover
-
-    def emulator_restart(self, kill=True):
+    def emulator_restart(self):
         serial, _ = get_serial_pair(self.serial)
         if serial is None:
             serial = self.serial
 
-        if not self.config.RestartEmulator_Enable:
-            return False
         if os.name != 'nt':
             logger.warning('Restart simulator only works under Windows platform')
             return False
@@ -329,4 +324,5 @@ class EmulatorManager(Connection):
             if self.emulator_start(serial, emulator, multi_id):
                 return True
 
+        logger.warning('Restart emulator failed for 3 times, please check your settings')
         raise RequestHumanTakeover

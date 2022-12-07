@@ -198,6 +198,10 @@
       "name": "大世界商店",
       "help": ""
     },
+    "OpsiVoucher": {
+      "name": "兑换商店",
+      "help": ""
+    },
     "OpsiDaily": {
       "name": "大世界每日",
       "help": ""
@@ -216,6 +220,10 @@
     },
     "OpsiMeowfficerFarming": {
       "name": "短猫相接",
+      "help": ""
+    },
+    "OpsiHazard1Leveling": {
+      "name": "侵蚀1练级",
       "help": ""
     },
     "OpsiCrossMonth": {
@@ -377,7 +385,8 @@
       "ADB_nc": "ADB_nc",
       "uiautomator2": "uiautomator2",
       "aScreenCap": "aScreenCap",
-      "aScreenCap_nc": "aScreenCap_nc"
+      "aScreenCap_nc": "aScreenCap_nc",
+      "DroidCast": "DroidCast"
     },
     "ControlMethod": {
       "name": "模拟器控制方案",
@@ -401,9 +410,13 @@
       "name": "重启模拟器",
       "help": ""
     },
-    "Enable": {
-      "name": "启用重启模拟器",
-      "help": "在模拟器被关闭的时候自动启动模拟器\n在服务器日期刷新时重启模拟器以释放内存"
+    "ErrorRestart": {
+      "name": "出错时重启模拟器",
+      "help": "在无法连接到模拟器时自动重启模拟器"
+    },
+    "DailyRestart": {
+      "name": "服务器刷新时重启模拟器",
+      "help": "每天主动重启模拟器以解决内存泄漏问题"
     },
     "EmulatorType": {
       "name": "模拟器类型",
@@ -648,6 +661,8 @@
       "event_20200423_cn": "复刻苍红的回响",
       "event_20200326_cn": "微层混合",
       "event_20200227_cn": "北境序曲",
+      "war_archives_20210819_cn": "档案 微层混合",
+      "war_archives_20200903_cn": "档案 峡湾间的星辰",
       "war_archives_20201029_cn": "档案 激唱的UNIVERSE",
       "war_archives_20200806_cn": "档案 最重要的宝物",
       "war_archives_20210624_cn": "档案 浮樱影华",
@@ -823,10 +838,11 @@
     },
     "Mode": {
       "name": "潜艇出击方案",
-      "help": "",
+      "help": "提醒: '狩猎及BOSS战'为'仅狩猎'与'仅BOSS战'的混合，它会在道中进行狩猎打击，并在BOSS战尝试召唤潜艇。",
       "do_not_use": "不使用",
       "hunt_only": "仅狩猎",
       "boss_only": "仅BOSS战",
+      "hunt_and_boss": "狩猎及BOSS战",
       "every_combat": "每战出击"
     },
     "AutoSearchMode": {
@@ -837,7 +853,7 @@
     },
     "DistanceToBoss": {
       "name": "BOSS战前将潜艇移动到BOSS附近",
-      "help": "仅在\"潜艇出击方案\"为\"仅BOSS战\"时生效\n选择\"距离BOSS X格\"需要保证潜艇狩猎范围能覆盖到BOSS，距离使用曼哈顿距离计算，选择\"使用远洋支援\"需要潜艇队伍里有U522/达芬奇",
+      "help": "仅在\"潜艇出击方案\"为\"仅BOSS战\"及\"狩猎及BOSS战\",时生效\n选择\"距离BOSS X格\"需要保证潜艇狩猎范围能覆盖到BOSS，距离使用曼哈顿距离计算，选择\"使用远洋支援\"需要潜艇队伍里有U522/达芬奇",
       "to_boss_position": "至 BOSS 所在位置",
       "1_grid_to_boss": "距离 BOSS 1 格",
       "2_grid_to_boss": "距离 BOSS 2 格",
@@ -1159,9 +1175,19 @@
       "name": "做主要委托（1200油/1000油委托）",
       "help": ""
     },
-    "CommissionFilter": {
+    "PresetFilter": {
       "name": "委托过滤器",
-      "help": "一般不需要修改"
+      "help": "如果对委托的产出和收益没有足够的了解，不建议编写自定义过滤器，建议使用预优化委托过滤器\n如果24小时运行刷紧急委托功能，应当使用（7x24刷委托）的过滤器\n不推荐在运行刷紧急委托功能的同时使用石油优先过滤器",
+      "chip": "钻石>心智>魔方",
+      "chip_24h": "钻石>心智>魔方（7x24刷委托）",
+      "cube": "钻石>魔方>石油",
+      "cube_24h": "钻石>魔方>石油（7x24刷委托）",
+      "oil": "钻石>石油>魔方",
+      "custom": "自定义"
+    },
+    "CustomFilter": {
+      "name": "自定义委托过滤器",
+      "help": "使用自定义过滤器需将 \"委托过滤器\" 设置为 \"自定义\"，并阅读 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
     }
   },
   "Tactical": {
@@ -2053,6 +2079,16 @@
       "help": "每月港口商店可购买商品是固定的，未购买的物品下次仍会出现，并阻塞高价值物品，因此需要购买全部"
     }
   },
+  "OpsiVoucher": {
+    "_info": {
+      "name": "兑换商店（每月白票商店）",
+      "help": "购买每月白票商店\n使用此功能前必须满足以下条件：\n- 通关大世界主线任务"
+    },
+    "Filter": {
+      "name": "商店过滤器",
+      "help": "参考文档 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string"
+    }
+  },
   "OpsiDaily": {
     "_info": {
       "name": "大世界每日",
@@ -2104,7 +2140,7 @@
     },
     "ActionPointPreserve": {
       "name": "保留 X 点行动力",
-      "help": "行动力低于 X 后停止，自动打开行动力箱子，X 包含箱子中的行动力，建议保留 500 点行动力\n这个值将在大世界重置前3天自动减少至300点，并在最后一天自动减少至0点"
+      "help": "行动力低于 X 后停止，自动打开行动力箱子，X 包含箱子中的行动力，建议保留1000行动力给侵蚀1练级\n这个值将在大世界重置前3天自动减少至200点，如果启用侵蚀1练级则改为500点，并在最后一天自动减少至0点"
     },
     "HazardLevel": {
       "name": "侵蚀等级",
@@ -2118,6 +2154,19 @@
     "TargetZone": {
       "name": "指定海域",
       "help": "仅出击指定的海域，可以用来获取大世界成就星星\n支持海域ID、国服/国际服/日服/台服海域名称，例如 \"51\", \"NA海域东南E\", \"NA Ocean SE Sector E\"\n填入默认值0，或者删除数值即可取消指定"
+    }
+  },
+  "OpsiHazard1Leveling": {
+    "_info": {
+      "name": "侵蚀1练级",
+      "help": "警告：侵蚀1无法无限获取行动力，请不要为了运行侵蚀1关闭其他任务\n\n根据LmeSzinc最新的统计，侵蚀1产出的行动力略高于消耗，可以在大量获取经验的同时消耗作战补给凭证换取短猫收益\n推荐携带1艘预装填航母以获取最高的时均经验收益\n由于在商店购买行动力需要大量作战补给凭证，启用本功能后会自动启用短猫相接来补充"
+    },
+    "TargetZone": {
+      "name": "指定海域",
+      "help": "仅出击指定的海域，可以用来获取大世界成就星星或规避游戏BUG导致的无法刷新海域",
+      "0": "不指定",
+      "44": "44 | 西大陆架D",
+      "22": "22 | NA海域西南B"
     }
   },
   "Daemon": {
@@ -2204,6 +2253,16 @@
     "AutoRestart": {
       "name": "自动登录",
       "help": "游戏被强制结束后自动登录游戏"
+    }
+  },
+  "Storage": {
+    "_info": {
+      "name": "任务状态",
+      "help": "存放任务内部状态，任务异常时可以手动清除"
+    },
+    "Storage": {
+      "name": "Storage.Storage.name",
+      "help": "Storage.Storage.help"
     }
   },
   "Gui": {
@@ -2293,7 +2352,8 @@
       "SSHNotInstall": "系统中没有 ssh 工具，请参考教程下载或安装 ssh"
     },
     "Text": {
-      "InvalidFeedBack": "格式错误。 示例：{0}"
+      "InvalidFeedBack": "格式错误。 示例：{0}",
+      "Clear": "清除"
     }
   }
 }

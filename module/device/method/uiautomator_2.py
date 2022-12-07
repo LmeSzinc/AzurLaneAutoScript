@@ -1,5 +1,8 @@
+import typing as t
+from dataclasses import dataclass
 from functools import wraps
 from json.decoder import JSONDecodeError
+from subprocess import list2cmdline
 
 import uiautomator2 as u2
 from adbutils.errors import AdbError
@@ -87,6 +90,22 @@ def retry(func):
         raise RequestHumanTakeover
 
     return retry_wrapper
+
+
+@dataclass
+class ProcessInfo:
+    pid: int
+    ppid: int
+    thread_count: int
+    cmdline: str
+    name: str
+
+
+@dataclass
+class ShellBackgroundResponse:
+    success: bool
+    pid: int
+    description: str
 
 
 class Uiautomator2(Connection):
@@ -211,3 +230,48 @@ class Uiautomator2(Connection):
         content = self.u2.dump_hierarchy(compressed=True)
         hierarchy = etree.fromstring(content.encode('utf-8'))
         return hierarchy
+
+    @retry
+    def proc_list_uiautomato2(self) -> t.List[ProcessInfo]:
+        """
+        Get info about current processes.
+        """
+        resp = self.u2.http.get("/proc/list", timeout=10)
+        resp.raise_for_status()
+        result = [
+            ProcessInfo(
+                pid=proc['pid'],
+                ppid=proc['ppid'],
+                thread_count=proc['threadCount'],
+                cmdline=' '.join(proc['cmdline']),
+                name=proc['name'],
+            ) for proc in resp.json()
+        ]
+        return result
+
+    @retry
+    def u2_shell_background(self, cmdline, timeout=10) -> ShellBackgroundResponse:
+        """
+        Run at background.
+
+        Note that this function will always return a success response,
+        as this is a untested and hidden method in ATX.
+        """
+        if isinstance(cmdline, (list, tuple)):
+            cmdline = list2cmdline(cmdline)
+        elif isinstance(cmdline, str):
+            cmdline = cmdline
+        else:
+            raise TypeError("cmdargs type invalid", type(cmdline))
+
+        data = dict(command=cmdline, timeout=str(timeout))
+        ret = self.u2.http.post("/shell/background", data=data, timeout=timeout + 10)
+        ret.raise_for_status()
+
+        resp = ret.json()
+        resp = ShellBackgroundResponse(
+            success=bool(resp.get('success', False)),
+            pid=resp.get('pid', 0),
+            description=resp.get('description', '')
+        )
+        return resp

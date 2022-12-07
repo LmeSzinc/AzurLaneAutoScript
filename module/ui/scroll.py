@@ -157,7 +157,7 @@ class Scroll:
         Args:
             page (int, float): Relative position to drag. 1.0 means next page, -1.0 means previous page.
             main (ModuleBase):
-            random_range (tuple[int]):
+            random_range (tuple[float]):
             skip_first_screenshot:
         """
         if not skip_first_screenshot:

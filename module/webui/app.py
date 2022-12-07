@@ -9,8 +9,8 @@ from typing import Dict, List, Optional
 import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
 from module.config.utils import (
-    alas_template,
     alas_instance,
+    alas_template,
     deep_get,
     deep_iter,
     deep_set,
@@ -39,9 +39,9 @@ from module.webui.utils import (
     TaskHandler,
     add_css,
     filepath_css,
+    get_alas_config_listen_path,
     get_localstorage,
     get_window_visibility_state,
-    get_alas_config_listen_path,
     login,
     parse_pin_value,
     raise_exception,
@@ -51,13 +51,14 @@ from module.webui.widgets import (
     BinarySwitchButton,
     RichLog,
     T_Output_Kwargs,
-    put_output,
     put_icon_buttons,
     put_loading_text,
     put_none,
+    put_output,
 )
 from pywebio import config as webconfig
 from pywebio.output import (
+    Output,
     clear,
     close_popup,
     popup,
@@ -79,7 +80,7 @@ from pywebio.output import (
     use_scope,
 )
 from pywebio.pin import pin, pin_on_change
-from pywebio.session import go_app, info, register_thread, run_js, set_env
+from pywebio.session import go_app, info, local, register_thread, run_js, set_env
 
 task_handler = TaskHandler()
 
@@ -224,14 +225,14 @@ class AlasGUI(Frame):
 
         config = self.alas_config.read_file(self.alas_name)
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
-            self.set_group(group, arg_dict, config, task)
-            self.set_navigator(group)
+            if self.set_group(group, arg_dict, config, task):
+                self.set_navigator(group)
 
     @use_scope("groups")
     def set_group(self, group, arg_dict, config, task):
         group_name = group[0]
 
-        output_list = []
+        output_list: List[Output] = []
         for arg, arg_dict in deep_iter(arg_dict, depth=1):
             output_kwargs: T_Output_Kwargs = arg_dict.copy()
 
@@ -274,12 +275,14 @@ class AlasGUI(Frame):
             # Invalid feedback
             output_kwargs["invalid_feedback"] = t("Gui.Text.InvalidFeedBack", value)
 
-            # output will inherit current scope when created
-            with use_scope(f"group_{group_name}"):
-                output_list.append(put_output(output_kwargs))
+            o = put_output(output_kwargs)
+            if o is not None:
+                # output will inherit current scope when created, override here
+                o.spec["scope"] = f"#pywebio-scope-group_{group_name}"
+                output_list.append(o)
 
         if not output_list:
-            return
+            return 0
 
         with use_scope(f"group_{group_name}"):
             put_text(t(f"{group_name}._info.name"))
@@ -289,6 +292,8 @@ class AlasGUI(Frame):
             put_html('<hr class="hr-group">')
             for output in output_list:
                 output.show()
+        
+        return len(output_list)
 
     @use_scope("navigator")
     def set_navigator(self, group):
@@ -425,11 +430,11 @@ class AlasGUI(Frame):
                     break
 
     def _save_config(
-            self,
-            modified: Dict[str, str],
-            config_name: str,
-            read=State.config_updater.read_file,
-            write=State.config_updater.write_file
+        self,
+        modified: Dict[str, str],
+        config_name: str,
+        read=State.config_updater.read_file,
+        write=State.config_updater.write_file,
     ) -> None:
         try:
             valid = []
@@ -616,6 +621,8 @@ class AlasGUI(Frame):
 
         config = self.alas_config.read_file(self.alas_name)
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
+            if group[0] == "Storage":
+                continue
             self.set_group(group, arg_dict, config, task)
 
         self.task_handler.add(switch_scheduler.g(), 1, True)
@@ -951,7 +958,7 @@ class AlasGUI(Frame):
                 name = pin["AddAlas_name"]
                 origin = pin["AddAlas_copyfrom"]
 
-                if set(name) & set(".\\/:*?\"<>|"):
+                if set(name) & set(".\\/:*?\"'<>|"):
                     clear(s)
                     put(name, origin)
                     put_error(t("Gui.AddAlas.InvalidChar"), scope=s)
@@ -1239,7 +1246,9 @@ def app():
             time.sleep(1.5)
             run_js("location.reload();")
             return
-        AlasGUI().run()
+        gui = AlasGUI()
+        local.gui = gui
+        gui.run()
 
     app = asgi_app(
         applications=[index],

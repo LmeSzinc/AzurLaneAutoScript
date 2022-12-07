@@ -445,7 +445,8 @@ pre.rich-traceback-code {
     margin: .125rem 0;
 }
 
-[id^="pywebio-scope-arg_container-checkbox-"] {
+[id^="pywebio-scope-arg_container-checkbox-"],
+[id^="pywebio-scope-arg_container-storage-"] {
     display: grid;
     margin: .375rem 0;
 }

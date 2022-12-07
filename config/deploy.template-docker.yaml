@@ -16,6 +16,10 @@ Deploy:
     # [CN user] Use your local http proxy (http://127.0.0.1:{port}) or socks5 proxy (socks5://127.0.0.1:{port})
     # [Other] Use null
     GitProxy: null
+    # Set SSL Verify
+    # [In most cases] Use true
+    # [Other] Use false to when connected to an untrusted network
+    SSLVerify: true
     # Update Alas at startup
     # [In most cases] Use true
     AutoUpdate: true

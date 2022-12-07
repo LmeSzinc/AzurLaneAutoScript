@@ -248,7 +248,10 @@ class ConnectionAttr:
             device = u2.connect(self.serial)
         else:
             # Normal uiautomator2
-            device = u2.connect(self.serial)
+            if self.serial.startswith('emulator-') or self.serial.startswith('127.0.0.1:'):
+                device = u2.connect_usb(self.serial)
+            else:
+                device = u2.connect(self.serial)
 
         # Stay alive
         device.set_new_command_timeout(604800)

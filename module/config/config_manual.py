@@ -18,13 +18,14 @@ class ManualConfig:
     > ShopFrequent > ShopOnce > Shipyard > Freebies
     > OpsiExplore
     > OpsiAshBeacon
-    > OpsiDaily > OpsiShop
+    > OpsiDaily > OpsiShop > OpsiVoucher
     > OpsiAbyssal > OpsiStronghold > OpsiObscure
     > Daily > Hard > OpsiAshBeacon > OpsiAshAssist
     > Sos > EventSp > EventA > EventB > EventC > EventD > RaidDaily > WarArchives > MaritimeEscort
     > Event > Event2 > Raid > Main > Main2 > Main3
     > OpsiMeowfficerFarming
     > GemsFarming
+    > OpsiHazard1Leveling
     """
 
     """
@@ -73,6 +74,8 @@ class ManualConfig:
     REVERSE_SERVER_PORT = 7903
     ASCREENCAP_FILEPATH_LOCAL = './bin/ascreencap'
     ASCREENCAP_FILEPATH_REMOTE = '/data/local/tmp/ascreencap'
+    DROIDCAST_FILEPATH_LOCAL = './bin/DroidCast/DroidCast-debug-1.1.0.apk'
+    DROIDCAST_FILEPATH_REMOTE = '/data/local/tmp/DroidCast.apk'
     MINITOUCH_FILEPATH_REMOTE = '/data/local/tmp/minitouch'
     HERMIT_FILEPATH_LOCAL = './bin/hermit/hermit.apk'
 

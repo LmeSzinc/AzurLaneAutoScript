@@ -362,4 +362,4 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                 break
 
     def server_support_status_fleet_scan(self) -> bool:
-        return self.config.SERVER in ['cn', 'en']
+        return self.config.SERVER in ['cn', 'en', 'jp']
