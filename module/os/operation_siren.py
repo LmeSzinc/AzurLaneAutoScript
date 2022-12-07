@@ -301,7 +301,6 @@ class OperationSiren(OSMap):
                     raise RequestHumanTakeover('wrong input, task stopped')
                 else:
                     logger.hr(f'OS meowfficer farming, zone_id={zone.zone_id}', level=1)
-                    self.set_action_point(zone, 'SAFE')
                     self.globe_goto(zone)
                     self.fleet_set(self.config.OpsiFleet_Fleet)
                     self.os_order_execute(
@@ -318,7 +317,6 @@ class OperationSiren(OSMap):
                     .sort_by_clock_degree(center=(1252, 1012), start=self.zone.location)
 
                 logger.hr(f'OS meowfficer farming, zone_id={zones[0].zone_id}', level=1)
-                self.set_action_point(zones[0], 'SAFE')
                 self.globe_goto(zones[0])
                 self.fleet_set(self.config.OpsiFleet_Fleet)
                 self.os_order_execute(
@@ -370,7 +368,7 @@ class OperationSiren(OSMap):
 
             logger.hr(f'OS hazard 1 leveling, zone_id={zone}', level=1)
             if self.zone.zone_id != zone or not self.is_zone_name_hidden:
-                self.globe_goto(self.name_to_zone(zone), types='SAFE', refresh=False)
+                self.globe_goto(self.name_to_zone(zone), types='SAFE', refresh=True)
             self.fleet_set(self.config.OpsiFleet_Fleet)
             self.run_strategic_search()
 

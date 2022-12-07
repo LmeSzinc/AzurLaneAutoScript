@@ -1,4 +1,6 @@
+import time
 from sys import maxsize
+
 import inflection
 
 from module.base.timer import Timer
@@ -402,6 +404,21 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         return self.config.task.command == 'OpsiExplore'
 
     _auto_search_battle_count = 0
+    _auto_search_round_timer = 0
+
+    def on_auto_search_battle_count_reset(self):
+        self._auto_search_battle_count = 0
+        self._auto_search_round_timer = 0
+
+    def on_auto_search_battle_count_add(self):
+        self._auto_search_battle_count += 1
+        logger.attr('battle_count', self._auto_search_battle_count)
+        if self.config.task.command == 'OpsiHazard1Leveling':
+            if self._auto_search_battle_count % 2 == 1:
+                if self._auto_search_round_timer:
+                    cost = round(time.time() - self._auto_search_round_timer, 2)
+                    logger.attr('CL1 time cost', f'{cost}s/round')
+                self._auto_search_round_timer = time.time()
 
     def os_auto_search_daemon(self, drop=None, strategic=False, skip_first_screenshot=True):
         """
@@ -415,7 +432,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                  AUTO_SEARCH_REWARD if get auto search reward.
         """
         logger.hr('OS auto search', level=2)
-        self._auto_search_battle_count = 0
+        self.on_auto_search_battle_count_reset()
         unlock_checked = False
         unlock_check_timer = Timer(5, count=10).start()
         self.ash_popup_canceled = False
@@ -462,8 +479,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                 self.ash_popup_canceled = True
                 continue
             if self.combat_appear():
-                self._auto_search_battle_count += 1
-                logger.attr('battle_count', self._auto_search_battle_count)
+                self.on_auto_search_battle_count_add()
                 if strategic and self.config.task_switched():
                     self.interrupt_auto_search()
                 result = self.auto_search_combat(drop=drop)
