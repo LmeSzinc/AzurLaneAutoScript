@@ -231,7 +231,13 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap):
                 logger.warning(f'Screenshot method `{self.config.Emulator_ScreenshotMethod}` '
                                f'may not work on emulator `{self.serial}`, or the emulator is not fully started')
                 if self.serial == '127.0.0.1:7555':
-                    logger.warning('If you are using MuMu X, please set screenshot method to DroidCast')
+                    if self.config.Emulator_ScreenshotMethod == 'DroidCast':
+                        self.droidcast_stop()
+                    else:
+                        logger.warning('If you are using MuMu X, please set screenshot method to DroidCast')
+                        raise RequestHumanTakeover
+                else:
+                    raise RequestHumanTakeover
                 self._screen_black_checked = False
                 return False
         else:

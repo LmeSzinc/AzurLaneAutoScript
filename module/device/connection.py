@@ -284,6 +284,7 @@ class Connection(ConnectionAttr):
                     f'client can send data to {host_port[2]}:{host_port[3]}')
         server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server.bind(host_port[:2])
+        server.settimeout(5)
         server.listen(5)
         return server
 
@@ -494,6 +495,7 @@ class Connection(ConnectionAttr):
             logger.info(msg)
 
         del_cached_property(self, 'hermit_session')
+        del_cached_property(self, 'droidcast_session')
         del_cached_property(self, 'minitouch_builder')
         del_cached_property(self, 'reverse_server')
 
