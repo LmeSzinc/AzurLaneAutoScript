@@ -67,6 +67,8 @@ class AdbManager(DeployConfig):
                                     'please enable ADB in the settings of your emulator')
                         exit(1)
                     except ConnectionError:
+                        if _ == 1:
+                            raise
                         init.GITHUB_BASEURL = 'http://tool.appetizer.io/openatx'
 
                 initer._device.shell(["rm", "/data/local/tmp/minicap"])
