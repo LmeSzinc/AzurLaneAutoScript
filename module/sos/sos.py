@@ -56,7 +56,8 @@ class CampaignSos(CampaignRun, CampaignBase):
         """
         signal_search_buttons = TEMPLATE_SIGNAL_SEARCH.match_multi(self.device.image)
         sos_goto_buttons = TEMPLATE_SIGNAL_GOTO.match_multi(self.device.image)
-        all_buttons = sos_goto_buttons + signal_search_buttons
+        sos_confirm_buttons = TEMPLATE_SIGNAL_CONFIRM.match_multi(self.device.image)
+        all_buttons = sos_goto_buttons + signal_search_buttons + sos_confirm_buttons
         if not len(all_buttons):
             logger.info('No SOS chapter found')
             return None
