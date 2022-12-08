@@ -287,7 +287,7 @@ class Fleet(Camera, AmbushHandler):
             arrived = False
             # Wait to confirm fleet arrived. It does't appear immediately if fleet in combat.
             extra = 0
-            if self.config.Submarine_Mode == 'hunt_only':
+            if self.config.Submarine_Mode in ['hunt_only', 'hunt_and_boss']:
                 extra += 4.5
             if self.config.MAP_HAS_LAND_BASED and grid.is_mechanism_trigger:
                 extra += grid.mechanism_wait
