@@ -665,12 +665,11 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                     continue
 
                 # Ensure boss is appear
-                boss_appear = False
                 if is_month:
-                    while not boss_appear:
+                    while not self.radar.select(is_enemy=True):
                         self.relative_goto(has_fleet_step=True, is_question=True, relative_position=(1, -6))
                         self.relative_goto(has_fleet_step=True, is_question=True)
-                        boss_appear = self.radar.select(is_enemy=True)
+
 
                 # Attack
                 self.boss_goto(location=(0, 0), has_fleet_step=has_fleet_step, drop=drop, is_month=is_month)
