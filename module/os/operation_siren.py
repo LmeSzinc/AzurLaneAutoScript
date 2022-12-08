@@ -692,8 +692,40 @@ class OperationSiren(OSMap):
 if __name__ == '__main__':
     self = OperationSiren('alas', task='OpsiStronghold')
     from module.os.config import OSConfig
+    from module.os.assets import *
 
     self.config = self.config.merge(OSConfig())
+
     self.device.screenshot()
-    self.zone_init()
-    self.run_stronghold()
+    # self.zone_init()
+    # self.globe_goto(154)
+    #
+    # self.handle_os_map_fleet_lock(enable=False)
+
+    count = 0
+
+
+    def go_boss_map(y):
+        self.relative_goto(has_fleet_step=True, near_by=True, relative_position=(3, y), is_port=True)
+        self.relative_goto(has_fleet_step=True, is_exclamation=True)  # for easy
+        self.relative_goto(has_fleet_step=True, is_question=True)  # for hard
+
+
+    while not self.appear(MAP_EXIT, offset=(20, 20)):
+
+        count += 1
+
+        if count >= 10:
+            go_boss_map(y=-4)
+        elif count >= 20:
+            logger.info('rader is wrong now')
+            break
+        else:
+            go_boss_map(y=-5)
+
+        logger.info("count: %s" % count)
+
+    logger.info("clear boss")
+    self.boss_clear(has_fleet_step=True, is_month=True)
+
+    print("`````````success`````")
