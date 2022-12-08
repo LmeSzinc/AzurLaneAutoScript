@@ -23,8 +23,6 @@ class StrategicSearchHandler(EnemySearchingHandler):
                 return True
 
     def strategic_search_set_option(self, skip_first_screenshot=False):
-        STRATEGIC_SEARCH_SCROLL.drag_threshold = 0.1
-
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -33,14 +31,10 @@ class StrategicSearchHandler(EnemySearchingHandler):
             if not self.appear(STRATEGIC_SEARCH_POPUP_CHECK):
                 return False
 
-            if self.appear(STRATEGIC_SEARCH_SECURED_OPTION_OFF) \
-                    and get_color(self.device.image, STRATEGIC_SEARCH_SECURED_OPTION_OFF.area)[2] > 185:
-                logger.attr('search_mode', 'explorable')
-                self.device.click(STRATEGIC_SEARCH_SECURED_OPTION_OFF)
+            if get_color(self.device.image, STRATEGIC_SEARCH_TAB_SECURED.area)[2] <= 150:
+                self.device.click(STRATEGIC_SEARCH_TAB_SECURED)
                 continue
-            if self.appear(STRATEGIC_SEARCH_SECURED_OPTION_ON) \
-                    and get_color(self.device.image, STRATEGIC_SEARCH_SECURED_OPTION_ON.area)[2] > 185:
-                logger.attr('search_mode', 'secured')
+            if get_color(self.device.image, STRATEGIC_SEARCH_TAB_SECURED.area)[2] > 150:
                 skip_first_screenshot = True
                 break
 
@@ -52,21 +46,22 @@ class StrategicSearchHandler(EnemySearchingHandler):
             if not self.appear(STRATEGIC_SEARCH_POPUP_CHECK):
                 return False
 
-            if self.appear(STRATEGIC_SEARCH_ZONE_MODE_RANDOM):
+            if self.appear(STRATEGIC_SEARCH_ZONEMODE_RANDOM):
                 logger.attr('zone_mode', 'random')
-                self.device.click(STRATEGIC_SEARCH_ZONE_MODE_REPEAT)
+                self.device.click(STRATEGIC_SEARCH_ZONEMODE_REPEAT)
             if self.appear(STRATEGIC_SEARCH_MERCHANT_CONTINUE):
                 logger.attr('encounter_merchant', 'continue')
                 self.device.click(STRATEGIC_SEARCH_MERCHANT_STOP)
                 continue
-            if self.appear(STRATEGIC_SEARCH_ZONE_MODE_REPEAT) \
+            if self.appear(STRATEGIC_SEARCH_ZONEMODE_REPEAT) \
                     and self.appear(STRATEGIC_SEARCH_MERCHANT_STOP):
                 logger.attr('zone_mode', 'repeat')
                 logger.attr('encounter_merchant', 'stop')
                 skip_first_screenshot = True
                 break
 
-        STRATEGIC_SEARCH_SCROLL.set(0.4, main=self)
+        STRATEGIC_SEARCH_SCROLL.drag_threshold = 0.1
+        STRATEGIC_SEARCH_SCROLL.set(0.5, main=self)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -75,19 +70,21 @@ class StrategicSearchHandler(EnemySearchingHandler):
             if not self.appear(STRATEGIC_SEARCH_POPUP_CHECK):
                 return False
 
-            check = self.appear(STRATEGIC_SEARCH_DEVICE_CHECK, offset=(20, 200), threshold=0.7)
+            self.appear(STRATEGIC_SEARCH_DEVICE_CHECK, offset=(20, 200), threshold=0.7)
             STRATEGIC_SEARCH_DEVICE_STOP.load_offset(STRATEGIC_SEARCH_DEVICE_CHECK)
             STRATEGIC_SEARCH_DEVICE_CONTINUE.load_offset(STRATEGIC_SEARCH_DEVICE_CHECK)
-            if check and \
-                    self.image_color_count(STRATEGIC_SEARCH_DEVICE_STOP.button, color=(156, 255, 82), count=30):
+
+            if self.image_color_count(STRATEGIC_SEARCH_DEVICE_CONTINUE.button, color=(156, 255, 82), count=30):
+                logger.attr('encounter_device', 'continue')
+                self.device.click(STRATEGIC_SEARCH_DEVICE_STOP)
+                continue
+            if self.image_color_count(STRATEGIC_SEARCH_DEVICE_STOP.button, color=(156, 255, 82), count=30):
                 logger.attr('encounter_device', 'stop')
                 skip_first_screenshot = True
                 break
-            if check and \
-                    self.image_color_count(STRATEGIC_SEARCH_DEVICE_CONTINUE.button, color=(156, 255, 82), count=30):
-                logger.attr('encounter_device', 'continue')
-                self.device.click(STRATEGIC_SEARCH_DEVICE_STOP)
 
+        STRATEGIC_SEARCH_SCROLL.drag_threshold = 0.05
+        STRATEGIC_SEARCH_SCROLL.edge_add = (0.5, 0.8)
         STRATEGIC_SEARCH_SCROLL.set_bottom(main=self)
         while 1:
             if skip_first_screenshot:
@@ -97,11 +94,15 @@ class StrategicSearchHandler(EnemySearchingHandler):
             if not self.appear(STRATEGIC_SEARCH_POPUP_CHECK):
                 return False
 
-            if self.appear(STRATEGIC_SEARCH_SUBMIT_OFF):
+            self.appear(STRATEGIC_SEARCH_SUBMIT_CHECK, offset=(20, 20), threshold=0.7)
+            STRATEGIC_SEARCH_SUBMIT_OFF.load_offset(STRATEGIC_SEARCH_SUBMIT_CHECK)
+            STRATEGIC_SEARCH_SUBMIT_ON.load_offset(STRATEGIC_SEARCH_SUBMIT_CHECK)
+
+            if self.image_color_count(STRATEGIC_SEARCH_SUBMIT_OFF.button, color=(156, 255, 82), count=30):
                 logger.attr('auto_submit', 'off')
                 self.device.click(STRATEGIC_SEARCH_SUBMIT_ON)
                 continue
-            if self.appear(STRATEGIC_SEARCH_SUBMIT_ON):
+            if self.image_color_count(STRATEGIC_SEARCH_SUBMIT_ON.button, color=(156, 255, 82), count=30):
                 logger.attr('auto_submit', 'on')
                 break
 
@@ -130,10 +131,12 @@ class StrategicSearchHandler(EnemySearchingHandler):
         while 1:
             flag = True
             flag &= self.strategy_search_enter(skip_first_screenshot=skip_first_screenshot)
-            skip_first_screenshot = False
             flag &= self.strategic_search_set_option(skip_first_screenshot=True)
             flag &= self.strategic_search_confirm(skip_first_screenshot=True)
+
             if flag:
                 return True
-            if not self.is_in_map():
+            if self.appear(STRATEGIC_SEARCH_POPUP_CHECK) or self.is_in_map():
+                skip_first_screenshot = True
+            else:
                 raise GameStuckError
