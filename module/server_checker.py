@@ -172,7 +172,7 @@ class ServerChecker:
         try:
             _ = requests.get('https://www.baidu.com', timeout=5)
             network_available = True
-        except (requests.exceptions.ConnectionError, requests.exceptions.ConnectTimeout):
+        except Exception as e:
             network_available = False
 
         if network_available:
