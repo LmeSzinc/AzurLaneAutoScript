@@ -1,3 +1,4 @@
+import os
 import json
 
 from cached_property import cached_property
@@ -48,7 +49,13 @@ class ArknightsAutoScript(AzurLaneAutoScript):
 
         logger.info(f'MAA安装路径：{self.config.MaaEmulator_MaaPath}')
         try:
-            AssistantHandler.load(self.config.MaaEmulator_MaaPath)
+            incremental_path = None
+            if self.config.MaaEmulator_PackageName in ["YoStarEN", "YoStarJP", "YoStarKR", "txwy"]:
+                incremental_path = os.path.join(
+                    self.config.MaaEmulator_MaaPath,
+                    './resource/global/' + self.config.MaaEmulator_PackageName
+                )
+            AssistantHandler.load(self.config.MaaEmulator_MaaPath, incremental_path)
         except ModuleNotFoundError:
             logger.critical('找不到MAA，请检查安装路径是否正确')
             exit(1)

@@ -11,19 +11,12 @@
         "value": "Official",
         "option": [
           "Official",
-          "Bilibili"
+          "Bilibili",
+          "YoStarEN",
+          "YoStarJP",
+          "YoStarKR",
+          "txwy"
         ]
-      },
-      "Server": {
-        "type": "select",
-        "value": "CN",
-        "option": [
-          "CN",
-          "US",
-          "JP",
-          "KR"
-        ],
-        "display": "hide"
       },
       "MaaPath": {
         "type": "textarea",
@@ -66,6 +59,14 @@
         "value": "stay_there",
         "display": "hide"
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "MaaStartup": {
@@ -99,6 +100,14 @@
         "type": "input",
         "value": "04:00",
         "display": "hide"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -167,6 +176,11 @@
         "value": 0,
         "display": "hide"
       },
+      "RunOutOfMedicine": {
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
+      },
       "Stone": {
         "type": "input",
         "value": 0,
@@ -186,6 +200,14 @@
         "type": "checkbox",
         "value": false,
         "display": "hide"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -251,6 +273,11 @@
         "type": "input",
         "value": null
       },
+      "RunOutOfMedicine": {
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
+      },
       "Stone": {
         "type": "input",
         "value": null
@@ -266,6 +293,14 @@
       "DrGrandet": {
         "type": "checkbox",
         "value": false
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -332,6 +367,10 @@
         "value": null,
         "display": "hide"
       },
+      "RunOutOfMedicine": {
+        "type": "checkbox",
+        "value": false
+      },
       "Stone": {
         "type": "input",
         "value": null,
@@ -351,6 +390,14 @@
         "type": "checkbox",
         "value": false,
         "display": "hide"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -418,6 +465,14 @@
       "Expedite": {
         "type": "checkbox",
         "value": false
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -497,6 +552,14 @@
         "type": "textarea",
         "value": null
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "MaaVisit": {
@@ -529,6 +592,14 @@
         "type": "input",
         "value": "04:00",
         "display": "hide"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -581,6 +652,14 @@
         "type": "textarea",
         "value": "碳 > 家具"
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "MaaAward": {
@@ -613,6 +692,14 @@
         "type": "input",
         "value": "04:00, 16:00",
         "display": "hide"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   },
@@ -710,6 +797,14 @@
         "type": "input",
         "value": null
       }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
     }
   },
   "MaaCopilot": {
@@ -721,6 +816,14 @@
       "Formation": {
         "type": "checkbox",
         "value": false
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   }

@@ -29,8 +29,7 @@ class GeneratedConfig:
 
     # Group `MaaEmulator`
     MaaEmulator_Serial = '127.0.0.1:5555'
-    MaaEmulator_PackageName = 'Official'  # Official, Bilibili
-    MaaEmulator_Server = 'CN'  # CN, US, JP, KR
+    MaaEmulator_PackageName = 'Official'  # Official, Bilibili, YoStarEN, YoStarJP, YoStarKR, txwy
     MaaEmulator_MaaPath = 'D:/Program Files/MAA'
 
     # Group `MaaRecord`
@@ -41,6 +40,7 @@ class GeneratedConfig:
     MaaFight_Stage = 'last'  # last, 1-7, CE-6, AP-5, CA-5, LS-6, PR-A-1, PR-A-2, PR-B-1, PR-B-2, PR-C-1, PR-C-2, PR-D-1, PR-D-2, custom
     MaaFight_CustomStage = None
     MaaFight_Medicine = None
+    MaaFight_RunOutOfMedicine = False
     MaaFight_Stone = None
     MaaFight_Times = None
     MaaFight_Drops = None
@@ -87,3 +87,6 @@ class GeneratedConfig:
     # Group `MaaCopilot`
     MaaCopilot_FileName = None
     MaaCopilot_Formation = False
+
+    # Group `Storage`
+    Storage_Storage = {}
