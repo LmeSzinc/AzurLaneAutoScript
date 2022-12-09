@@ -91,6 +91,7 @@ MaaCustomInfrast:
     type: textarea
 
 MaaMall:
+  CreditFight: false
   Shopping: true
   ForceShoppingIfCreditFull: false
   BuyFirst:

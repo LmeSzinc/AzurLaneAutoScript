@@ -312,6 +312,10 @@
       "name": "MaaMall._info.name",
       "help": "MaaMall._info.help"
     },
+    "CreditFight": {
+      "name": "MaaMall.CreditFight.name",
+      "help": "MaaMall.CreditFight.help"
+    },
     "Shopping": {
       "name": "MaaMall.Shopping.name",
       "help": "MaaMall.Shopping.help"

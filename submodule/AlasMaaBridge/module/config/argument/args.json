@@ -636,6 +636,10 @@
       }
     },
     "MaaMall": {
+      "CreditFight": {
+        "type": "checkbox",
+        "value": false
+      },
       "Shopping": {
         "type": "checkbox",
         "value": true

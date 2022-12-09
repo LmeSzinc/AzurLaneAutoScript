@@ -180,7 +180,7 @@ class AssistantHandler:
             self.serial = ConnectionAttr.find_bluestacks4_hyperv(self.serial)
         if self.is_bluestacks5_hyperv:
             self.serial = ConnectionAttr.find_bluestacks5_hyperv(self.serial)
-                    
+
     @cached_property
     def is_bluestacks4_hyperv(self):
         return "bluestacks4-hyperv" in self.serial
@@ -363,7 +363,15 @@ class AssistantHandler:
     def mall(self):
         buy_first = self.split_filter(self.config.MaaMall_BuyFirst)
         blacklist = self.split_filter(self.config.MaaMall_BlackList)
+        credit_fight = self.config.MaaMall_CreditFight
+        if self.config.cross_get(keys='MaaMaterial.MaaFight.Stage') == 'last' \
+                and self.config.cross_get(keys='MaaMaterial.Scheduler.Enable', default=False):
+            credit_fight = False
+        if self.config.cross_get(keys='MaaFight.MaaFight.Stage') == 'last' \
+                and self.config.cross_get(keys='MaaFight.Scheduler.Enable', default=False):
+            credit_fight = False
         self.maa_start('Mall', {
+            "credit_fight": credit_fight,
             "shopping": self.config.MaaMall_Shopping,
             "buy_first": buy_first,
             "blacklist": blacklist,

@@ -69,6 +69,7 @@ class GeneratedConfig:
     MaaCustomInfrast_Filename = None
 
     # Group `MaaMall`
+    MaaMall_CreditFight = False
     MaaMall_Shopping = True
     MaaMall_ForceShoppingIfCreditFull = False
     MaaMall_BuyFirst = '招聘许可 > 龙门币'

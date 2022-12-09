@@ -176,6 +176,7 @@
       "ServerUpdate": "04:00"
     },
     "MaaMall": {
+      "CreditFight": false,
       "Shopping": true,
       "ForceShoppingIfCreditFull": false,
       "BuyFirst": "招聘许可 > 龙门币",
