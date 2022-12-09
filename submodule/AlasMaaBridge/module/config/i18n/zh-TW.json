@@ -140,15 +140,11 @@
       "name": "MaaEmulator.PackageName.name",
       "help": "MaaEmulator.PackageName.help",
       "Official": "Official",
-      "Bilibili": "Bilibili"
-    },
-    "Server": {
-      "name": "MaaEmulator.Server.name",
-      "help": "MaaEmulator.Server.help",
-      "CN": "CN",
-      "US": "US",
-      "JP": "JP",
-      "KR": "KR"
+      "Bilibili": "Bilibili",
+      "YoStarEN": "YoStarEN",
+      "YoStarJP": "YoStarJP",
+      "YoStarKR": "YoStarKR",
+      "txwy": "txwy"
     },
     "MaaPath": {
       "name": "MaaEmulator.MaaPath.name",
@@ -200,6 +196,10 @@
     "Medicine": {
       "name": "MaaFight.Medicine.name",
       "help": "MaaFight.Medicine.help"
+    },
+    "RunOutOfMedicine": {
+      "name": "MaaFight.RunOutOfMedicine.name",
+      "help": "MaaFight.RunOutOfMedicine.help"
     },
     "Stone": {
       "name": "MaaFight.Stone.name",
@@ -312,6 +312,10 @@
       "name": "MaaMall._info.name",
       "help": "MaaMall._info.help"
     },
+    "CreditFight": {
+      "name": "MaaMall.CreditFight.name",
+      "help": "MaaMall.CreditFight.help"
+    },
     "Shopping": {
       "name": "MaaMall.Shopping.name",
       "help": "MaaMall.Shopping.help"
@@ -400,6 +404,16 @@
     "Formation": {
       "name": "MaaCopilot.Formation.name",
       "help": "MaaCopilot.Formation.help"
+    }
+  },
+  "Storage": {
+    "_info": {
+      "name": "Storage._info.name",
+      "help": "Storage._info.help"
+    },
+    "Storage": {
+      "name": "Storage.Storage.name",
+      "help": "Storage.Storage.help"
     }
   }
 }
