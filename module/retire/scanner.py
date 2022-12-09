@@ -213,6 +213,8 @@ class FleetScanner(Scanner):
             return 1
         elif TEMPLATE_FLEET_3.match(image, similarity=0.80):
             return 3
+        elif TEMPLATE_FLEET_4.match(image, similarity=0.80):
+            return 4
         else:
             return 0
 
