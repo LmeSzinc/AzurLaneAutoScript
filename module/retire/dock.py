@@ -136,7 +136,7 @@ class Dock(Equipment):
             if self.dock_selected():
                 break
 
-            if self.appear(DOCK_CHECK, interval=5):
+            if self.appear(DOCK_CHECK, offset=(20, 20), interval=5):
                 self.device.click(button)
                 continue
             if self.handle_popup_confirm('DOCK_SELECT'):
