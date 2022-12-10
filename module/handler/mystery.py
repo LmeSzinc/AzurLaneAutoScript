@@ -1,6 +1,7 @@
 from module.base.timer import Timer
 from module.base.utils import area_cross_area
 from module.combat.assets import GET_ITEMS_1
+from module.map.assets import FLEET_NUM_1
 from module.handler.assets import *
 from module.handler.enemy_searching import EnemySearchingHandler
 from module.handler.strategy import StrategyHandler
@@ -10,7 +11,7 @@ from module.logger import logger
 class MysteryHandler(StrategyHandler, EnemySearchingHandler):
     _get_ammo_log_timer = Timer(3)
     carrier_count = 0
-
+    
     def handle_mystery(self, button=None):
         """
         Args:
@@ -45,6 +46,8 @@ class MysteryHandler(StrategyHandler, EnemySearchingHandler):
             button = MYSTERY_ITEM
 
         if self.appear(GET_ITEMS_1):
+            button = FLEET_NUM_1
+            self.device.click(button)
             logger.attr('Mystery', 'Get item')
             if drop:
                 drop.add(self.device.image)
