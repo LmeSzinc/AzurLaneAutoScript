@@ -694,9 +694,11 @@ if __name__ == '__main__':
     from module.os.config import OSConfig
     from module.os.assets import *
 
+
     self.config = self.config.merge(OSConfig())
 
     self.device.screenshot()
+    self.os_init()
     # self.zone_init()
     # self.globe_goto(154)
     #
