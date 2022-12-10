@@ -10,6 +10,7 @@ STRATEGIC_SEARCH_SCROLL = Scroll(STRATEGIC_SEARCH_SCROLL_AREA, color=(247, 211, 
 
 class StrategicSearchHandler(EnemySearchingHandler):
     def strategy_search_enter(self, skip_first_screenshot=False):
+        logger.info('Strategic search enter')
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -19,16 +20,17 @@ class StrategicSearchHandler(EnemySearchingHandler):
             if STRATEGIC_SEARCH_MAP_OPTION_OFF.match_appear_on(self.device.image) \
                     and self.appear_then_click(STRATEGIC_SEARCH_MAP_OPTION_OFF, interval=2):
                 continue
-            if self.appear(STRATEGIC_SEARCH_POPUP_CHECK):
+            if self.appear(STRATEGIC_SEARCH_POPUP_CHECK, offset=(20, 20)):
                 return True
 
     def strategic_search_set_option(self, skip_first_screenshot=False):
+        logger.info('Strategic search set option')
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            if not self.appear(STRATEGIC_SEARCH_POPUP_CHECK):
+            if not self.appear(STRATEGIC_SEARCH_POPUP_CHECK, offset=(20, 20)):
                 return False
 
             if get_color(self.device.image, STRATEGIC_SEARCH_TAB_SECURED.area)[2] <= 150:
@@ -43,7 +45,7 @@ class StrategicSearchHandler(EnemySearchingHandler):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            if not self.appear(STRATEGIC_SEARCH_POPUP_CHECK):
+            if not self.appear(STRATEGIC_SEARCH_POPUP_CHECK, offset=(20, 20)):
                 return False
 
             if self.appear(STRATEGIC_SEARCH_ZONEMODE_RANDOM):
@@ -67,7 +69,7 @@ class StrategicSearchHandler(EnemySearchingHandler):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            if not self.appear(STRATEGIC_SEARCH_POPUP_CHECK):
+            if not self.appear(STRATEGIC_SEARCH_POPUP_CHECK, offset=(20, 20)):
                 return False
 
             self.appear(STRATEGIC_SEARCH_DEVICE_CHECK, offset=(20, 200), threshold=0.7)
@@ -91,7 +93,7 @@ class StrategicSearchHandler(EnemySearchingHandler):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            if not self.appear(STRATEGIC_SEARCH_POPUP_CHECK):
+            if not self.appear(STRATEGIC_SEARCH_POPUP_CHECK, offset=(20, 20)):
                 return False
 
             self.appear(STRATEGIC_SEARCH_SUBMIT_CHECK, offset=(20, 20), threshold=0.7)
@@ -109,17 +111,23 @@ class StrategicSearchHandler(EnemySearchingHandler):
         return True
 
     def strategic_search_confirm(self, skip_first_screenshot=False):
+        logger.info('Strategic search confirm')
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
-            if self.handle_popup_confirm(offset=(30, 30), name='STRATEGIC_SEARCH'):
+            if self.appear(STRATEGIC_SEARCH_POPUP_CHECK, offset=(20, 20)) \
+                    and self.handle_popup_confirm(offset=(30, 30), name='STRATEGIC_SEARCH'):
                 continue
 
-            if self.is_in_map():
+            if self.appear(AUTO_SEARCH_OS_MAP_OPTION_ON, offset=(5, 120), interval=3) \
+                    and AUTO_SEARCH_OS_MAP_OPTION_ON.match_appear_on(self.device.image):
                 return True
+            if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120), interval=3) \
+                    and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):
+                return False
 
     def strategic_search_start(self, skip_first_screenshot=False):
         """
@@ -132,11 +140,12 @@ class StrategicSearchHandler(EnemySearchingHandler):
             flag = True
             flag &= self.strategy_search_enter(skip_first_screenshot=skip_first_screenshot)
             flag &= self.strategic_search_set_option(skip_first_screenshot=True)
-            flag &= self.strategic_search_confirm(skip_first_screenshot=True)
+            if flag:
+                flag = self.strategic_search_confirm(skip_first_screenshot=True)
 
             if flag:
                 return True
-            if self.appear(STRATEGIC_SEARCH_POPUP_CHECK) or self.is_in_map():
+            if self.appear(STRATEGIC_SEARCH_POPUP_CHECK, offset=(20, 20)) or self.is_in_map():
                 skip_first_screenshot = True
             else:
                 raise GameStuckError
