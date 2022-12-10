@@ -218,6 +218,10 @@
       "name": "塞壬要塞",
       "help": ""
     },
+    "OpsiMonthBoss": {
+      "name": "Task.OpsiMonthBoss.name",
+      "help": "Task.OpsiMonthBoss.help"
+    },
     "OpsiMeowfficerFarming": {
       "name": "短貓相接",
       "help": ""
@@ -2131,6 +2135,20 @@
     "ForceRun": {
       "name": "無視運行間隔強制運行",
       "help": "開啟後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
+    }
+  },
+  "OpsiMonthBoss": {
+    "_info": {
+      "name": "OpsiMonthBoss._info.name",
+      "help": "OpsiMonthBoss._info.help"
+    },
+    "Hard": {
+      "name": "OpsiMonthBoss.Hard.name",
+      "help": "OpsiMonthBoss.Hard.help"
+    },
+    "ForceRun": {
+      "name": "OpsiMonthBoss.ForceRun.name",
+      "help": "OpsiMonthBoss.ForceRun.help"
     }
   },
   "OpsiMeowfficerFarming": {

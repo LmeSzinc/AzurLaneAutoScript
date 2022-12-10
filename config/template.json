@@ -1725,6 +1725,26 @@
       "Storage": {}
     }
   },
+  "OpsiMonthBoss": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "OpsiMonthBoss",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "OpsiMonthBoss": {
+      "Hard": false,
+      "ForceRun": false
+    },
+    "OpsiFleetFilter": {
+      "Filter": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "OpsiMeowfficerFarming": {
     "Scheduler": {
       "Enable": false,

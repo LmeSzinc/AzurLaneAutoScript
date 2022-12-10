@@ -585,6 +585,9 @@ OpsiAbyssal:
   ForceRun: false
 OpsiStronghold:
   ForceRun: false
+OpsiMonthBoss:
+  Hard: false
+  ForceRun: false
 OpsiMeowfficerFarming:
   ActionPointPreserve: 1000
   HazardLevel:

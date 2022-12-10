@@ -218,6 +218,10 @@
       "name": "Siren Strongholds",
       "help": ""
     },
+    "OpsiMonthBoss": {
+      "name": "Task.OpsiMonthBoss.name",
+      "help": "Task.OpsiMonthBoss.help"
+    },
     "OpsiMeowfficerFarming": {
       "name": "Meowfficer Farming",
       "help": ""
@@ -2131,6 +2135,20 @@
     "ForceRun": {
       "name": "Force Run",
       "help": "Ignore interval, clear all siren strongholds, and use AP to submit scan orders (and submarine if enabled)\nGenerally not needed to force run, just run in intervals unless in a rush"
+    }
+  },
+  "OpsiMonthBoss": {
+    "_info": {
+      "name": "OpsiMonthBoss._info.name",
+      "help": "OpsiMonthBoss._info.help"
+    },
+    "Hard": {
+      "name": "OpsiMonthBoss.Hard.name",
+      "help": "OpsiMonthBoss.Hard.help"
+    },
+    "ForceRun": {
+      "name": "OpsiMonthBoss.ForceRun.name",
+      "help": "OpsiMonthBoss.ForceRun.help"
     }
   },
   "OpsiMeowfficerFarming": {

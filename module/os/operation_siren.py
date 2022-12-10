@@ -690,7 +690,7 @@ class OperationSiren(OSMap):
 
 
 if __name__ == '__main__':
-    self = OperationSiren('alas', task='OpsiStronghold')
+    self = OperationSiren('moth_test', task='OpsiMonthBoss')
     from module.os.config import OSConfig
     from module.os.assets import *
 

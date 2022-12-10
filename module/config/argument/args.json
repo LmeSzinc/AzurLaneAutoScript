@@ -8268,6 +8268,63 @@
       }
     }
   },
+  "OpsiMonthBoss": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "OpsiMonthBoss",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 0,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 120,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
+      }
+    },
+    "OpsiMonthBoss": {
+      "Hard": {
+        "type": "checkbox",
+        "value": false
+      },
+      "ForceRun": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
+    "OpsiFleetFilter": {
+      "Filter": {
+        "type": "textarea",
+        "value": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
   "OpsiMeowfficerFarming": {
     "Scheduler": {
       "Enable": {

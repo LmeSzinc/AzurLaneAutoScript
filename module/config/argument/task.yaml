@@ -262,6 +262,10 @@ OpsiStronghold:
   - Scheduler
   - OpsiStronghold
   - OpsiFleetFilter
+OpsiMonthBoss:
+  - Scheduler
+  - OpsiMonthBoss
+  - OpsiFleetFilter
 OpsiMeowfficerFarming:
   - Scheduler
   - OpsiMeowfficerFarming

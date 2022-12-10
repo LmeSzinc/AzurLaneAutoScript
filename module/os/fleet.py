@@ -453,7 +453,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
         return fleets
 
-    def relative_goto(self, has_fleet_step=False, near_by=False, relative_position=(0, 0), **kwargs):
+    def relative_goto(self, has_fleet_step=False, near_by=False, relative_position=(0, 0), index=0, **kwargs):
         logger.hr('Relative goto')
 
         # Update local view
@@ -466,7 +466,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         grids = self.radar.select(**kwargs)
         if grids:
             # Click way point
-            grid = np.add(location_ensure(grids[0]), relative_position)
+            grid = np.add(location_ensure(grids[index]), relative_position)
             if near_by:
                 x, y = grid
                 if abs(x) <= 1 and abs(y) <= 1:
@@ -642,8 +642,6 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         """
         logger.hr(f'BOSS clear', level=1)
 
-
-
         fleets = self.parse_fleet_filter()
         with self.stat.new(
                 genre=inflection.underscore(self.config.task.command),
@@ -667,9 +665,12 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 # Ensure boss is appear
                 if is_month:
                     while not self.radar.select(is_enemy=True):
-                        self.relative_goto(has_fleet_step=True, is_question=True, relative_position=(1, -6))
-                        self.relative_goto(has_fleet_step=True, is_question=True)
-
+                        self.relative_goto(has_fleet_step=True, is_question=True, relative_position=(1, -6), index=0)
+                        try:
+                            self.relative_goto(has_fleet_step=True, is_question=True, index=1)
+                        except IndexError:
+                            self.relative_goto(has_fleet_step=True, is_question=True, relative_position=(1, -7),
+                                               index=0)
 
                 # Attack
                 self.boss_goto(location=(0, 0), has_fleet_step=has_fleet_step, drop=drop, is_month=is_month)
@@ -684,7 +685,12 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                         self.map_exit()
                         return True
                 else:
-                    pass
+                    self.predict_radar()
+                    if self.radar.select(is_question=True):
+                        logger.info('BOSS clear')
+                        if drop.count:
+                            drop.add(self.device.image)
+                        self.map_exit()
 
                 # Standby
                 self.boss_leave()
