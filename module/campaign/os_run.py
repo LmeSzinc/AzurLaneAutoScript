@@ -36,11 +36,6 @@ class OSCampaignRun(OSMapOperation):
             self.config.opsi_task_delay(ap_limit=True)
 
     def opsi_voucher(self):
-        if self.config.SERVER in ['tw']:
-            logger.info(f'Opsi Voucher is not supported in {self.config.SERVER},'
-                        ' please contact server maintainers')
-            self.config.task_delay(server_update=True)
-            return
         try:
             self.load_campaign()
             self.campaign.os_voucher()
@@ -67,7 +62,7 @@ class OSCampaignRun(OSMapOperation):
                 self.config.task_delay(minute=150, server_update=True)
 
     def opsi_hazard1_leveling(self):
-        if self.config.SERVER in ['en', 'tw']:
+        if self.config.SERVER in ['en']:
             logger.info(f'Opsi CL1 Leveling is not supported in {self.config.SERVER},'
                         ' please contact server maintainers')
             self.config.task_delay(server_update=True)
