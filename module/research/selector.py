@@ -207,8 +207,12 @@ class ResearchSelector(ResearchUI):
         #   Ignore E-2 if don't have any boxes in storage to disassemble,
         #   Or will enter a loop of starting research, trying to disassemble, cancel research
         if not self.storage_has_boxes or self.config.SERVER in ['tw']:
-            if project.genre.upper() == 'E' and project.task != '':
-                return False
+            if self.config.SERVER == 'jp':
+                if project.genre.upper() == 'E' and str(project.duration) != '6':
+                    return False
+            else:
+                if project.genre.upper() == 'E' and project.task != '':
+                    return False
 
         return True
 
