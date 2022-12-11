@@ -214,6 +214,10 @@
       "name": "Abyssal Zones",
       "help": ""
     },
+    "OpsiArchive": {
+      "name": "Archive Zones",
+      "help": ""
+    },
     "OpsiStronghold": {
       "name": "Siren Strongholds",
       "help": ""
@@ -228,7 +232,7 @@
     },
     "OpsiCrossMonth": {
       "name": "Cross Month Daily",
-      "help": "    ALAS will enter OpSi 10min before OpSi reset, wait until OpSi reset but not exit OpSi. Then do the daily, obscure, abyssal and meowfficer farming to get extra gold plates. When running dailies, settings in task \"OpsiDaily\" are used, the rest function are the same.\n    IMPORTANT: Please do not touch the game while ALAS is waiting for OpSi reset."
+      "help": "    ALAS will enter OpSi 10min before OpSi reset, wait until OpSi reset but not exit OpSi. Then do the daily, obscure, abyssal and meowfficer farming to get extra gold plates. When running dailies, settings in task \"OpSiDaily\" are used, the rest function are the same.\n    IMPORTANT: Please do not touch the game while ALAS is waiting for OpSi reset."
     },
     "Daemon": {
       "name": "Normal Semi-auto",
@@ -517,7 +521,7 @@
       "save": "Save"
     },
     "OpsiRecord": {
-      "name": "Opsi Record",
+      "name": "OpSi Record",
       "help": "",
       "do_not": "Do nothing",
       "save": "Save",
@@ -2072,7 +2076,7 @@
   "OpsiShop": {
     "_info": {
       "name": "OpSi Shop Settings",
-      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "BuySupply": {
       "name": "Buy From Port Shops",
@@ -2092,7 +2096,7 @@
   "OpsiDaily": {
     "_info": {
       "name": "OpSi Daily Settings",
-      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "DoMission": {
       "name": "Do Port Mission(s)",
@@ -2106,7 +2110,7 @@
   "OpsiObscure": {
     "_info": {
       "name": "OpSi Obscure Settings",
-      "help": "Clear obscure zones every 27 minutes\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "help": "Clear obscure zones every 27 minutes\nThe following must be satisfied:\n- OpSi story must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "ForceRun": {
       "name": "Force Run",
@@ -2116,17 +2120,27 @@
   "OpsiAbyssal": {
     "_info": {
       "name": "OpSi Abyssal Settings",
-      "help": "Clear abyssal zones\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "help": "Clear abyssal zones\nThe following must be satisfied:\n- OpSi story must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "ForceRun": {
       "name": "Force Run",
       "help": "Ignore interval, clear all abyssal zones, and use AP to submit scan orders (and submarine if enabled)\nGenerally not needed to force run, just run in intervals unless in a rush"
     }
   },
+  "OpsiArchive": {
+    "_info": {
+      "name": "Archive Zones",
+      "help": "Clear archive zones\nThe following must be satisfied:\n- OpSi story must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+    },
+    "Unused": {
+      "name": "Unused",
+      "help": "Archive zones are AP free\nThis only exists in order to display the prerequisites for this task"
+    }
+  },
   "OpsiStronghold": {
     "_info": {
       "name": "OpSi Siren Stronghold Settings",
-      "help": "Clear the weekly siren strongholds.\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi shop"
+      "help": "Clear the weekly siren strongholds\nThe following must be satisfied:\n- OpSi story must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "ForceRun": {
       "name": "Force Run",
@@ -2136,7 +2150,7 @@
   "OpsiMeowfficerFarming": {
     "_info": {
       "name": "OpSi Meowfficer Farm Settings",
-      "help": "Attack target zones of the specified hazard level in a clockwise direction\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "help": "Attack target zones of the specified hazard level in a clockwise direction\nThe following must be satisfied:\n- OpSi story must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "ActionPointPreserve": {
       "name": "Keep X Amount of AP",
