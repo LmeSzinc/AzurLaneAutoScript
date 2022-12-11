@@ -312,6 +312,7 @@ pre.rich-traceback-code {
 }
 
 #pywebio-scope-group__info>p {
+    font-size: .80rem !important;
     font-weight: 400;
 }
 
