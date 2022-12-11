@@ -214,6 +214,10 @@
       "name": "Abyssal Zones",
       "help": ""
     },
+    "OpsiArchive": {
+      "name": "Archive Zones",
+      "help": "Clear archive zones. Archive zones are AP free.\nThe following must be satisfied:\n- OpSi story must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+    },
     "OpsiStronghold": {
       "name": "Siren Strongholds",
       "help": ""
@@ -228,7 +232,7 @@
     },
     "OpsiCrossMonth": {
       "name": "Cross Month Daily",
-      "help": "    ALAS will enter OpSi 10min before OpSi reset, wait until OpSi reset but not exit OpSi. Then do the daily, obscure, abyssal and meowfficer farming to get extra gold plates. When running dailies, settings in task \"OpsiDaily\" are used, the rest function are the same.\n    IMPORTANT: Please do not touch the game while ALAS is waiting for OpSi reset."
+      "help": "    ALAS will enter OpSi 10min before OpSi reset, wait until OpSi reset but not exit OpSi. Then do the daily, obscure, abyssal and meowfficer farming to get extra gold plates. When running dailies, settings in task \"OpSiDaily\" are used, the rest function are the same.\n    IMPORTANT: Please do not touch the game while ALAS is waiting for OpSi reset."
     },
     "Daemon": {
       "name": "Normal Semi-auto",
@@ -517,7 +521,7 @@
       "save": "Save"
     },
     "OpsiRecord": {
-      "name": "Opsi Record",
+      "name": "OpSi Record",
       "help": "",
       "do_not": "Do nothing",
       "save": "Save",
@@ -1237,16 +1241,16 @@
   },
   "AddNewStudent": {
     "_info": {
-      "name": "learn new skills",
-      "help": "When there is a vacant position in the Tactical Academy, a ship girl will be automatically assigned and the first under-level skill will be learned"
+      "name": "Level Skills",
+      "help": "When there is a vacant position in the Tactical Academy, the 1st slot ship girl in dock will be assigned as a student and improve any non-max level skill"
     },
     "Enable": {
       "name": "Enable",
       "help": ""
     },
     "Favorite": {
-      "name": "Use Favorite Filter for Tactical",
-      "help": ""
+      "name": "Use Favorite Filter",
+      "help": "During student selection apply the favorite filter\nThereby, giving priority to certain ship girls\nApply the favorite status to a ship girl in-game"
     }
   },
   "Research": {
@@ -2072,7 +2076,7 @@
   "OpsiShop": {
     "_info": {
       "name": "OpSi Shop Settings",
-      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "BuySupply": {
       "name": "Buy From Port Shops",
@@ -2092,7 +2096,7 @@
   "OpsiDaily": {
     "_info": {
       "name": "OpSi Daily Settings",
-      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "DoMission": {
       "name": "Do Port Mission(s)",
@@ -2106,7 +2110,7 @@
   "OpsiObscure": {
     "_info": {
       "name": "OpSi Obscure Settings",
-      "help": "Clear obscure zones every 27 minutes\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "help": "Clear obscure zones every 27 minutes\nThe following must be satisfied:\n- OpSi story must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "ForceRun": {
       "name": "Force Run",
@@ -2116,7 +2120,7 @@
   "OpsiAbyssal": {
     "_info": {
       "name": "OpSi Abyssal Settings",
-      "help": "Clear abyssal zones\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "help": "Clear abyssal zones\nThe following must be satisfied:\n- OpSi story must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "ForceRun": {
       "name": "Force Run",
@@ -2126,7 +2130,7 @@
   "OpsiStronghold": {
     "_info": {
       "name": "OpSi Siren Stronghold Settings",
-      "help": "Clear the weekly siren strongholds.\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi shop"
+      "help": "Clear the weekly siren strongholds\nThe following must be satisfied:\n- OpSi story must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "ForceRun": {
       "name": "Force Run",
@@ -2136,7 +2140,7 @@
   "OpsiMeowfficerFarming": {
     "_info": {
       "name": "OpSi Meowfficer Farm Settings",
-      "help": "Attack target zones of the specified hazard level in a clockwise direction\nThe following must be satisfied:\n- OpSi story must be complete\n- Task Opsi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "help": "Attack target zones of the specified hazard level in a clockwise direction\nThe following must be satisfied:\n- OpSi story must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "ActionPointPreserve": {
       "name": "Keep X Amount of AP",
