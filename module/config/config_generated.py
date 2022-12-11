@@ -384,6 +384,7 @@ class GeneratedConfig:
     OpsiStronghold_ForceRun = False
 
     # Group `OpsiMonthBoss`
+    OpsiMonthBoss_CheckAdaptability = True
     OpsiMonthBoss_Hard = False
     OpsiMonthBoss_ForceRun = False
 

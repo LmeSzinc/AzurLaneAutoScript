@@ -25,7 +25,7 @@ class ManualConfig:
     > Event > Event2 > Raid > Main > Main2 > Main3
     > OpsiMeowfficerFarming
     > GemsFarming
-    > OpsiHazard1Leveling
+    > OpsiHazard1Leveling > OpsiMonthBoss
     """
 
     """

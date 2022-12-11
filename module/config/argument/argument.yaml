@@ -586,6 +586,7 @@ OpsiAbyssal:
 OpsiStronghold:
   ForceRun: false
 OpsiMonthBoss:
+  CheckAdaptability: true
   Hard: false
   ForceRun: false
 OpsiMeowfficerFarming:

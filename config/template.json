@@ -1735,6 +1735,7 @@
       "ServerUpdate": "00:00"
     },
     "OpsiMonthBoss": {
+      "CheckAdaptability": true,
       "Hard": false,
       "ForceRun": false
     },

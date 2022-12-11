@@ -8301,6 +8301,10 @@
       }
     },
     "OpsiMonthBoss": {
+      "CheckAdaptability": {
+        "type": "checkbox",
+        "value": true
+      },
       "Hard": {
         "type": "checkbox",
         "value": false

@@ -4,6 +4,7 @@ from module.os.config import OSConfig
 from module.os.map_operation import OSMapOperation
 from module.os.operation_siren import OperationSiren
 from module.os_handler.action_point import ActionPointLimit
+from module.exception import *
 
 
 class OSCampaignRun(OSMapOperation):
@@ -97,6 +98,17 @@ class OSCampaignRun(OSMapOperation):
             self.campaign.os_obscure()
         except ActionPointLimit:
             self.config.opsi_task_delay(ap_limit=True)
+
+    def opsi_month_boss(self):
+        try:
+            self.load_campaign()
+            self.campaign.clear_month_boss()
+        except ActionPointLimit:
+            self.config.opsi_task_delay(ap_limit=True)
+        except LowAdaptability:
+            pass
+        except RequestHumanTakeover:
+            pass
 
     def opsi_abyssal(self):
         try:

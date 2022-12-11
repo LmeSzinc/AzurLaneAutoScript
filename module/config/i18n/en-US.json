@@ -2142,6 +2142,10 @@
       "name": "OpsiMonthBoss._info.name",
       "help": "OpsiMonthBoss._info.help"
     },
+    "CheckAdaptability": {
+      "name": "OpsiMonthBoss.CheckAdaptability.name",
+      "help": "OpsiMonthBoss.CheckAdaptability.help"
+    },
     "Hard": {
       "name": "OpsiMonthBoss.Hard.name",
       "help": "OpsiMonthBoss.Hard.help"
