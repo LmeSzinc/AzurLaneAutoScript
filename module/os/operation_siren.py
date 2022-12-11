@@ -3,7 +3,8 @@ from datetime import datetime, timedelta
 import numpy as np
 
 from module.base.timer import Timer
-from module.config.utils import (get_os_next_reset,
+from module.config.utils import (get_nearest_weekday_date,
+                                 get_os_next_reset,
                                  get_os_reset_remain,
                                  DEFAULT_TIME)
 from module.exception import RequestHumanTakeover, GameStuckError, ScriptError
@@ -382,7 +383,7 @@ class OperationSiren(OSMap):
         logger.info('Delay other OpSi tasks during OpsiExplore')
         with self.config.multi_set():
             next_run = self.config.Scheduler_NextRun
-            for task in ['OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold', 'OpsiMeowfficerFarming']:
+            for task in ['OpsiObscure', 'OpsiAbyssal', 'OpsiArchive', 'OpsiStronghold', 'OpsiMeowfficerFarming']:
                 keys = f'{task}.Scheduler.NextRun'
                 current = self.config.cross_get(keys=keys, default=DEFAULT_TIME)
                 if current < next_run:
@@ -561,12 +562,12 @@ class OperationSiren(OSMap):
 
     def os_archive(self):
         """
-        Unused func, not currently a monthly trend
-        Retain in case AL devs add as official feature
-
         Complete active archive zone in daily mission
         Purchase next available logger archive then repeat
         until exhausted
+
+        Run on weekly basis, AL devs seemingly add new logger
+        archives after random scheduled maintenances
         """
         shop = VoucherShop(self.config, self.device)
         while 1:
@@ -581,7 +582,8 @@ class OperationSiren(OSMap):
             if not bought:
                 break
 
-        next_reset = get_os_next_reset()
+        # Reset to nearest 'Wednesday' date
+        next_reset = get_nearest_weekday_date(target=2)
         logger.info('All archive zones finished, delay to next reset')
         logger.attr('OpsiNextReset', next_reset)
         self.config.task_delay(target=next_reset)

@@ -564,6 +564,32 @@ def nearest_future(future, interval=120):
     return next_run
 
 
+def get_nearest_weekday_date(target):
+    """
+    Get nearest weekday date starting
+    from current date
+
+    Args:
+        target (int): target weekday to
+                      calculate
+
+    Returns:
+        datetime.datetime
+    """
+    diff = server_time_offset()
+    server_now = datetime.now() - diff
+
+    days_ahead = target - server_now.weekday()
+    if days_ahead <= 0:
+        # Target day has already happened
+        days_ahead += 7
+    server_reset = (server_now + timedelta(days=days_ahead)) \
+        .replace(hour=0, minute=0, second=0, microsecond=0)
+
+    local_reset = server_reset + diff
+    return local_reset
+
+
 def random_id(length=32):
     """
     Args:
