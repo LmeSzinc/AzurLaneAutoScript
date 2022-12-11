@@ -284,6 +284,7 @@ class OperationSiren(OSMap):
         if preserve == 0:
             self.config.override(OpsiFleet_Submarine=False)
 
+        ap_checked = False
         while 1:
             self.config.OS_ACTION_POINT_PRESERVE = preserve
             if self.config.OpsiAshBeacon_AshAttack \
@@ -292,6 +293,10 @@ class OperationSiren(OSMap):
                 logger.info('Ash beacon not fully collected, ignore action point limit temporarily')
                 self.config.OS_ACTION_POINT_PRESERVE = 0
             logger.attr('OS_ACTION_POINT_PRESERVE', self.config.OS_ACTION_POINT_PRESERVE)
+            if not ap_checked:
+                # Check action points first to avoid using remaining AP when it not enough for tomorrow's daily
+                self.set_action_point(cost=0)
+                ap_checked = True
 
             # (1252, 1012) is the coordinate of zone 134 (the center zone) in os_globe_map.png
             if self.config.OpsiMeowfficerFarming_TargetZone != 0:
