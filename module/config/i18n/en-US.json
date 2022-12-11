@@ -1237,16 +1237,16 @@
   },
   "AddNewStudent": {
     "_info": {
-      "name": "learn new skills",
-      "help": "When there is a vacant position in the Tactical Academy, a ship girl will be automatically assigned and the first under-level skill will be learned"
+      "name": "Level Skills",
+      "help": "When there is a vacant position in the Tactical Academy, the 1st slot ship girl in dock will be assigned as a student and improve any non-max level skill"
     },
     "Enable": {
       "name": "Enable",
       "help": ""
     },
     "Favorite": {
-      "name": "Use Favorite Filter for Tactical",
-      "help": ""
+      "name": "Use Favorite Filter",
+      "help": "During student selection apply the favorite filter\nThereby, giving priority to certain ship girls\nApply the favorite status to a ship girl in-game"
     }
   },
   "Research": {
