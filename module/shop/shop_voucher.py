@@ -94,7 +94,7 @@ class VoucherShop(ShopClerk):
         # Original grid is:
         # shop_grid = ButtonGrid(
         #     origin=(463, 200), delta=(156, 191), button_shape=(99, 99), grid_shape=(5, 2), name='SHOP_GRID')
-        if self.config.SERVER in ['cn', 'jp']:
+        if self.config.SERVER in ['cn', 'jp', 'tw']:
             shop_grid = ButtonGrid(
                 origin=(305, origin_y), delta=(189.5, delta_y), button_shape=(99, 99), grid_shape=(5, row),
                 name='SHOP_GRID')
