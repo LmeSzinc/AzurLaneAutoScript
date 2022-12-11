@@ -17,8 +17,8 @@ from module.os.map import OSMap
 from module.os_handler.shop import OCR_SHOP_YELLOW_COINS
 from module.os_handler.action_point import OCR_OS_ADAPTABILITY_ATTACK, OCR_OS_ADAPTABILITY_DURABILITY, \
     OCR_OS_ADAPTABILITY_RECOVER
-from module.os_handler.assets import OS_MONTHBOSS_EASY,OS_MONTHBOSS_HARD
-
+from module.os_handler.assets import OS_MONTHBOSS_EASY, OS_MONTHBOSS_HARD
+from module.os.assets import *
 
 
 class OperationSiren(OSMap):
@@ -386,7 +386,7 @@ class OperationSiren(OSMap):
         logger.info('Delay other OpSi tasks during OpsiExplore')
         with self.config.multi_set():
             next_run = self.config.Scheduler_NextRun
-            for task in ['OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold', 'OpsiMeowfficerFarming']:
+            for task in ['OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold', 'OpsiMeowfficerFarming', "OpsiMonthBoss"]:
                 keys = f'{task}.Scheduler.NextRun'
                 current = self.config.cross_get(keys=keys, default=DEFAULT_TIME)
                 if current < next_run:
@@ -723,10 +723,11 @@ class OperationSiren(OSMap):
         else:
             logger.info("Illegal monthly boss icon placement")
             raise RequestHumanTakeover
+        self.os_mission_quit()
 
         if not is_easy and not self.config.OpsiMonthBoss_Hard:
             logger.info("Only Hard Month Boss ,Pass")
-            self.month_boss_delay(is_easy=False)
+            self.config.task_stop()
             return True
 
         # compat
@@ -737,10 +738,7 @@ class OperationSiren(OSMap):
         # end
         self.fleet_repair(revert=False)
         self.handle_fleet_resolve(revert=False)
-        if result:
-            self.month_boss_delay(is_easy=is_easy)
-        else:
-            self.config.task_delay(server_update=True)
+        self.month_boss_delay(is_easy=is_easy, result=result)
 
     def go_month_boss_room(self, is_easy=True):
         while not self.appear(MAP_EXIT, offset=(20, 20)):
@@ -756,12 +754,16 @@ class OperationSiren(OSMap):
 
         return _
 
-    def month_boss_delay(self, is_easy=True):
+    def month_boss_delay(self, is_easy=True, result=True):
         if is_easy:
             self.config.opsi_task_delay(recon_scan=False, submarine_call=True, ap_limit=False)
         else:
-            next_reset = get_os_next_reset()
-            self.config.task_delay(target=next_reset)
+            if result:
+                next_reset = get_os_next_reset()
+                self.config.task_delay(target=next_reset)
+            else:
+                logger.info("Unable to defeat the difficult monthly boss, the mission has been terminated")
+                self.config.task_stop()
 
 
 if __name__ == '__main__':
@@ -772,3 +774,7 @@ if __name__ == '__main__':
     self.config = self.config.merge(OSConfig())
 
     self.device.screenshot()
+    self.os_init()
+
+    logger.hr("OS clear Month Boss", level=1)
+    self.clear_month_boss()
