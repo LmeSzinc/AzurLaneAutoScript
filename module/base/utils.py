@@ -323,10 +323,10 @@ def area_cross_area(area1, area2, threshold=5):
     Returns:
         bool:
     """
-    return point_in_area((area1[0], area1[1]), area2, threshold=threshold) \
-           or point_in_area((area1[2], area1[1]), area2, threshold=threshold) \
-           or point_in_area((area1[0], area1[3]), area2, threshold=threshold) \
-           or point_in_area((area1[2], area1[3]), area2, threshold=threshold)
+    return point_in_area((area1[0], area1[1]), area2, threshold=threshold) and ~point_in_area((area1[2], area1[3]), area2, threshold=threshold)\
+           or point_in_area((area1[2], area1[1]), area2, threshold=threshold) and ~point_in_area((area1[0], area1[3]), area2, threshold=threshold)\
+           or point_in_area((area1[0], area1[3]), area2, threshold=threshold) and ~point_in_area((area1[2], area1[1]), area2, threshold=threshold)\
+           or point_in_area((area1[2], area1[3]), area2, threshold=threshold) and ~point_in_area((area1[0], area1[1]), area2, threshold=threshold)
 
 
 def float2str(n, decimal=3):
