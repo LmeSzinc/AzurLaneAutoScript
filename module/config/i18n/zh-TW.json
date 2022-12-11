@@ -215,8 +215,8 @@
       "help": ""
     },
     "OpsiArchive": {
-      "name": "Task.OpsiArchive.name",
-      "help": "Task.OpsiArchive.help"
+      "name": "檔案坐標",
+      "help": "從白票商店購買檔案坐標並運行，檔案海域不消耗行動力\n使用此功能前必須滿足以下條件：\n- 通關大世界主線任務\n- 啟用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
     },
     "OpsiStronghold": {
       "name": "塞壬要塞",
@@ -2125,16 +2125,6 @@
     "ForceRun": {
       "name": "無視運行間隔強制運行",
       "help": "開啟後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
-    }
-  },
-  "OpsiArchive": {
-    "_info": {
-      "name": "OpsiArchive._info.name",
-      "help": "OpsiArchive._info.help"
-    },
-    "Unused": {
-      "name": "OpsiArchive.Unused.name",
-      "help": "OpsiArchive.Unused.help"
     }
   },
   "OpsiStronghold": {

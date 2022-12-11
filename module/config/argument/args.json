@@ -8247,12 +8247,6 @@
         "display": "hide"
       }
     },
-    "OpsiArchive": {
-      "Unused": {
-        "type": "checkbox",
-        "value": false
-      }
-    },
     "OpsiFleet": {
       "Fleet": {
         "type": "select",

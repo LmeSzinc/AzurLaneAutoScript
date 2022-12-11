@@ -215,8 +215,8 @@
       "help": ""
     },
     "OpsiArchive": {
-      "name": "Task.OpsiArchive.name",
-      "help": "Task.OpsiArchive.help"
+      "name": "档案坐标",
+      "help": "从白票商店购买档案坐标并运行，档案海域不消耗行动力\n使用此功能前必须满足以下条件：\n- 通关大世界主线任务\n- 启用大世界开荒任务或使用战役信息记录仪（5000油道具）"
     },
     "OpsiStronghold": {
       "name": "塞壬要塞",
@@ -2125,16 +2125,6 @@
     "ForceRun": {
       "name": "无视运行间隔强制运行",
       "help": "开启后将带来额外的行动力消耗，一般不用打开，慢慢打就好"
-    }
-  },
-  "OpsiArchive": {
-    "_info": {
-      "name": "OpsiArchive._info.name",
-      "help": "OpsiArchive._info.help"
-    },
-    "Unused": {
-      "name": "OpsiArchive.Unused.name",
-      "help": "OpsiArchive.Unused.help"
     }
   },
   "OpsiStronghold": {

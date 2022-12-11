@@ -1715,9 +1715,6 @@
       "FailureInterval": 60,
       "ServerUpdate": "00:00"
     },
-    "OpsiArchive": {
-      "Unused": false
-    },
     "OpsiFleet": {
       "Fleet": 1,
       "Submarine": false

@@ -2127,16 +2127,6 @@
       "help": "OpsiAbyssal.ForceRun.help"
     }
   },
-  "OpsiArchive": {
-    "_info": {
-      "name": "OpsiArchive._info.name",
-      "help": "OpsiArchive._info.help"
-    },
-    "Unused": {
-      "name": "OpsiArchive.Unused.name",
-      "help": "OpsiArchive.Unused.help"
-    }
-  },
   "OpsiStronghold": {
     "_info": {
       "name": "OpsiStronghold._info.name",

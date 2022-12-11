@@ -583,8 +583,6 @@ OpsiObscure:
   ForceRun: false
 OpsiAbyssal:
   ForceRun: false
-OpsiArchive:
-  Unused: false
 OpsiStronghold:
   ForceRun: false
 OpsiMeowfficerFarming:
