@@ -295,7 +295,11 @@ class OperationSiren(OSMap):
             logger.attr('OS_ACTION_POINT_PRESERVE', self.config.OS_ACTION_POINT_PRESERVE)
             if not ap_checked:
                 # Check action points first to avoid using remaining AP when it not enough for tomorrow's daily
-                self.set_action_point(cost=0)
+                # When not running CL1, use oil
+                keep_current_ap = True
+                if not self.is_cl1_enabled and self.config.OpsiGeneral_BuyActionPointLimit > 0:
+                    keep_current_ap = False
+                self.set_action_point(cost=0, keep_current_ap=keep_current_ap)
                 ap_checked = True
 
             # (1252, 1012) is the coordinate of zone 134 (the center zone) in os_globe_map.png
@@ -366,7 +370,11 @@ class OperationSiren(OSMap):
             self.get_current_zone()
 
             # Preset action point to 100
-            self.set_action_point(cost=100)
+            # When running CL1 oil is for running CL1, not CL5
+            keep_current_ap = True
+            if self.config.OpsiGeneral_BuyActionPointLimit > 0:
+                keep_current_ap = False
+            self.set_action_point(cost=100, keep_current_ap=keep_current_ap)
             if self.config.OpsiHazard1Leveling_TargetZone != 0:
                 zone = self.config.OpsiHazard1Leveling_TargetZone
             else:
@@ -527,7 +535,7 @@ class OperationSiren(OSMap):
             logger.info('Just less than 1 day to OpSi reset, delay 2.5 hours')
             self.config.task_delay(minute=150, server_update=True)
             self.config.task_stop()
-        elif self.config.cross_get('OpsiHazard1Leveling.Scheduler.Enable', default=False) or not result:
+        elif self.is_cl1_enabled or not result:
             self.config.task_delay(server_update=True)
             self.config.task_stop()
 
