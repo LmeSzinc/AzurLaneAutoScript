@@ -62,11 +62,6 @@ class OSCampaignRun(OSMapOperation):
                 self.config.task_delay(minute=150, server_update=True)
 
     def opsi_hazard1_leveling(self):
-        if self.config.SERVER in ['en']:
-            logger.info(f'Opsi CL1 Leveling is not supported in {self.config.SERVER},'
-                        ' please contact server maintainers')
-            self.config.task_delay(server_update=True)
-            return
         self.config.override(
             OpsiGeneral_AkashiShopFilter='ActionPoint'
         )
