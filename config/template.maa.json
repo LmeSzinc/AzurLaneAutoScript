@@ -3,7 +3,6 @@
     "MaaEmulator": {
       "Serial": "127.0.0.1:5555",
       "PackageName": "Official",
-      "Server": "CN",
       "MaaPath": "D:/Program Files/MAA"
     },
     "MaaRecord": {
@@ -19,6 +18,9 @@
     },
     "Optimization": {
       "WhenTaskQueueEmpty": "stay_there"
+    },
+    "Storage": {
+      "Storage": {}
     }
   },
   "MaaStartup": {
@@ -29,6 +31,9 @@
       "SuccessInterval": 0,
       "FailureInterval": 0,
       "ServerUpdate": "04:00"
+    },
+    "Storage": {
+      "Storage": {}
     }
   },
   "MaaAnnihilation": {
@@ -44,10 +49,14 @@
       "Stage": "custom",
       "CustomStage": "Annihilation",
       "Medicine": 0,
+      "RunOutOfMedicine": false,
       "Stone": 0,
       "Times": 5,
       "Drops": null,
       "DrGrandet": false
+    },
+    "Storage": {
+      "Storage": {}
     }
   },
   "MaaMaterial": {
@@ -63,10 +72,14 @@
       "Stage": "last",
       "CustomStage": null,
       "Medicine": null,
+      "RunOutOfMedicine": false,
       "Stone": null,
       "Times": null,
       "Drops": null,
       "DrGrandet": false
+    },
+    "Storage": {
+      "Storage": {}
     }
   },
   "MaaFight": {
@@ -82,10 +95,14 @@
       "Stage": "last",
       "CustomStage": null,
       "Medicine": null,
+      "RunOutOfMedicine": false,
       "Stone": null,
       "Times": null,
       "Drops": null,
       "DrGrandet": false
+    },
+    "Storage": {
+      "Storage": {}
     }
   },
   "MaaRecruit": {
@@ -106,6 +123,9 @@
       "Level3ShortTime": true,
       "Times": 4,
       "Expedite": false
+    },
+    "Storage": {
+      "Storage": {}
     }
   },
   "MaaInfrast": {
@@ -128,6 +148,9 @@
     "MaaCustomInfrast": {
       "Enable": false,
       "Filename": null
+    },
+    "Storage": {
+      "Storage": {}
     }
   },
   "MaaVisit": {
@@ -138,6 +161,9 @@
       "SuccessInterval": 60,
       "FailureInterval": 120,
       "ServerUpdate": "04:00"
+    },
+    "Storage": {
+      "Storage": {}
     }
   },
   "MaaMall": {
@@ -150,10 +176,14 @@
       "ServerUpdate": "04:00"
     },
     "MaaMall": {
+      "CreditFight": false,
       "Shopping": true,
       "ForceShoppingIfCreditFull": false,
       "BuyFirst": "招聘许可 > 龙门币",
       "BlackList": "碳 > 家具"
+    },
+    "Storage": {
+      "Storage": {}
     }
   },
   "MaaAward": {
@@ -164,6 +194,9 @@
       "SuccessInterval": 60,
       "FailureInterval": 120,
       "ServerUpdate": "04:00, 16:00"
+    },
+    "Storage": {
+      "Storage": {}
     }
   },
   "MaaRoguelike": {
@@ -184,12 +217,18 @@
       "Squad": "指挥分队",
       "Roles": "取长补短",
       "CoreChar": null
+    },
+    "Storage": {
+      "Storage": {}
     }
   },
   "MaaCopilot": {
     "MaaCopilot": {
       "FileName": null,
       "Formation": false
+    },
+    "Storage": {
+      "Storage": {}
     }
   }
 }

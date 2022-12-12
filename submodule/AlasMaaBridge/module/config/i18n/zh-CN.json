@@ -138,17 +138,13 @@
     },
     "PackageName": {
       "name": "游戏服务器",
-      "help": "模拟器上装有多个游戏客户端时，需要手动选择服务器",
+      "help": "",
       "Official": "官服",
-      "Bilibili": "Bilibili服"
-    },
-    "Server": {
-      "name": "服务器",
-      "help": "会影响掉落和上传，由于MAA的外服支持不完全，暂时隐藏选项",
-      "CN": "CN",
-      "US": "US",
-      "JP": "JP",
-      "KR": "KR"
+      "Bilibili": "Bilibili服",
+      "YoStarEN": "国际服",
+      "YoStarJP": "日服",
+      "YoStarKR": "韩服",
+      "txwy": "繁中服"
     },
     "MaaPath": {
       "name": "MAA安装路径",
@@ -199,6 +195,10 @@
     },
     "Medicine": {
       "name": "吃理智药",
+      "help": ""
+    },
+    "RunOutOfMedicine": {
+      "name": "清空理智药",
       "help": ""
     },
     "Stone": {
@@ -312,6 +312,10 @@
       "name": "信用商店",
       "help": ""
     },
+    "CreditFight": {
+      "name": "借助战赚信用",
+      "help": "借助战打一把OF-1赚30信用\n战斗任务的关卡设置为”上次“时会被自动跳过\n火蓝之心OF-1未解锁时请勿勾选"
+    },
     "Shopping": {
       "name": "信用购物",
       "help": ""
@@ -400,6 +404,16 @@
     "Formation": {
       "name": "自动编队",
       "help": ""
+    }
+  },
+  "Storage": {
+    "_info": {
+      "name": "Storage._info.name",
+      "help": "Storage._info.help"
+    },
+    "Storage": {
+      "name": "Storage.Storage.name",
+      "help": "Storage.Storage.help"
     }
   }
 }

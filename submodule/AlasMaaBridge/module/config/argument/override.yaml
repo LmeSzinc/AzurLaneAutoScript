@@ -18,10 +18,15 @@ MaaAnnihilation:
     Stage: custom
     CustomStage: Annihilation
     Medicine: 0
+    RunOutOfMedicine: false
     Stone: 0
     Times: 5
     Drops: null
     DrGrandet: false
+
+MaaMaterial:
+  MaaFight:
+    RunOutOfMedicine: false
 
 MaaFight:
   MaaFight:

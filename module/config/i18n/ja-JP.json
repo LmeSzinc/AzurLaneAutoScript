@@ -214,6 +214,10 @@
       "name": "Task.OpsiAbyssal.name",
       "help": "Task.OpsiAbyssal.help"
     },
+    "OpsiArchive": {
+      "name": "Task.OpsiArchive.name",
+      "help": "Task.OpsiArchive.help"
+    },
     "OpsiStronghold": {
       "name": "Task.OpsiStronghold.name",
       "help": "Task.OpsiStronghold.help"

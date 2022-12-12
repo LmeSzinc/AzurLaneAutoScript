@@ -94,7 +94,7 @@ class ActionPointHandler(UI):
             if self.handle_popup_confirm('ACTION_POINT_USE'):
                 continue
 
-            self.action_point_update()
+            self.action_point_safe_get()
             if self._action_point_current > prev:
                 break
 

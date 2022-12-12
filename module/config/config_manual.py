@@ -19,7 +19,7 @@ class ManualConfig:
     > OpsiExplore
     > OpsiAshBeacon
     > OpsiDaily > OpsiShop > OpsiVoucher
-    > OpsiAbyssal > OpsiStronghold > OpsiObscure
+    > OpsiAbyssal > OpsiStronghold > OpsiObscure > OpsiArchive
     > Daily > Hard > OpsiAshBeacon > OpsiAshAssist
     > Sos > EventSp > EventA > EventB > EventC > EventD > RaidDaily > WarArchives > MaritimeEscort
     > Event > Event2 > Raid > Main > Main2 > Main3

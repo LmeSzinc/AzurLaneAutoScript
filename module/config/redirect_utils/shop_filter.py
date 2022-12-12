@@ -48,7 +48,7 @@ def bp_redirect(value):
 FILTER_REGEX_VOUCHER = re.compile(
     '(logger)'
 
-    '(archive)?'
+    '(archive|unlock)?'
 
     '(t[1-6])?',
     flags=re.IGNORECASE)
@@ -82,4 +82,4 @@ def voucher_redirect(value):
 
 if __name__ == '__main__':
     print(bp_redirect('PlateGeneralT1 > DRAgirBP > CatT3 > PROdinBP > Chip > PR1BP > PRBP > DRDrakeBP > DR2BP'))
-    print(voucher_redirect('Coin > HECombatPlan > LoggerArchive > TuningCombatT2 > LoggerArchiveT1 > LoggerT6 > Logger'))
+    print(voucher_redirect('Coin > HECombatPlan > LoggerArchive > TuningCombatT2 > LoggerArchiveT1 > LoggerT6 > Logger > LoggerUnlockT2'))
