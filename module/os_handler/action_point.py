@@ -234,12 +234,14 @@ class ActionPointHandler(UI):
         """
         self.ui_click(ACTION_POINT_CANCEL, check_button=OS_CHECK, skip_first_screenshot=skip_first_screenshot)
 
-    def handle_action_point(self, zone, pinned, cost=None):
+    def handle_action_point(self, zone, pinned, cost=None, keep_current_ap=True):
         """
         Args:
             zone (Zone): Zone to enter.
             pinned (str): Zone type. Available types: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD.
             cost (int): Custom action point cost value.
+            keep_current_ap (bool): Check action points first to avoid using remaining AP
+                when it not enough for tomorrow's daily
 
         Returns:
             bool: If handled.
@@ -258,10 +260,11 @@ class ActionPointHandler(UI):
         if cost is None:
             cost = self.action_point_get_cost(zone, pinned)
         buy_checked = False
-        if self._action_point_total <= self.config.OS_ACTION_POINT_PRESERVE:
-            logger.info(f'Reach the limit of action points, preserve={self.config.OS_ACTION_POINT_PRESERVE}')
-            self.action_point_quit()
-            raise ActionPointLimit
+        if keep_current_ap:
+            if self._action_point_total <= self.config.OS_ACTION_POINT_PRESERVE:
+                logger.info(f'Reach the limit of action points, preserve={self.config.OS_ACTION_POINT_PRESERVE}')
+                self.action_point_quit()
+                raise ActionPointLimit
 
         for _ in range(12):
             # Having enough action points
@@ -304,18 +307,20 @@ class ActionPointHandler(UI):
         logger.warning('Failed to get action points after 12 trial')
         return False
 
-    def set_action_point(self, zone=None, pinned=None, cost=None):
+    def set_action_point(self, zone=None, pinned=None, cost=None, keep_current_ap=True):
         """
         Args:
             zone (Zone): Zone to enter.
             pinned (str): Zone type. Available types: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD.
             cost (int): Custom action point cost value.
+            keep_current_ap (bool): Check action points first to avoid using remaining AP
+                when it not enough for tomorrow's daily
 
         Returns:
             bool: If handled.
         """
         self.ui_click(ACTION_POINT_REMAIN_OS, ACTION_POINT_USE, OS_CHECK)
-        if not self.handle_action_point(zone, pinned, cost):
+        if not self.handle_action_point(zone, pinned, cost, keep_current_ap):
             return False
 
         while 1:
