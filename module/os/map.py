@@ -505,9 +505,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
             if self.appear_then_click(QUIT_RECONFIRM, offset=True, interval=5):
                 continue
 
-            if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120), interval=3) \
-                    and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):
-                self.device.click(GOTO_MAIN)
+            if self.appear_then_click(GOTO_MAIN, offset=(20, 20), interval=3):
                 continue
             if self.ui_additional():
                 continue
