@@ -145,18 +145,19 @@ class DeployConfig(ConfigModel):
                 return False
             else:
                 logger.info(f"[ failure ], error_code: {error_code}")
-                self.show_error(command, error_code)
+                self.show_error(command)
                 raise ExecutionError
         else:
             logger.info(f"[ success ]")
             return True
 
-    def show_error(self, command=None, error_code=None):
+    def show_error(self, command=None):
         logger.hr("Update failed", 0)
         self.show_config()
         logger.info("")
-        logger.info(f"Last command: {command}\nerror_code: {error_code}")
+        logger.info(f"Last command: {command}")
         logger.info(
             "Please check your deploy settings in config/deploy.yaml "
             "and re-open Alas.exe"
         )
+        logger.info("Take the screenshot of entire window if you need help")
