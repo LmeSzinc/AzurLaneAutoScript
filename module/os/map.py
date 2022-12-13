@@ -376,10 +376,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                 logger.info('Just less than 1 day to OpSi reset, '
                             'set ActionPointPreserve to 0 temporarily')
                 return 0
-        elif self.config.cross_get(
-                keys='OpsiHazard1Leveling.Scheduler.Enable',
-                default=False
-        ) and remain <= 2:
+        elif self.is_cl1_enabled and remain <= 2:
             logger.info('Just less than 3 days to OpSi reset, '
                         'set ActionPointPreserve to 500 temporarily for hazard 1 leveling')
             return 500
@@ -402,6 +399,10 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
     @property
     def is_in_task_explore(self):
         return self.config.task.command == 'OpsiExplore'
+
+    @property
+    def is_cl1_enabled(self):
+        return self.config.cross_get('OpsiHazard1Leveling.Scheduler.Enable', default=False)
 
     _auto_search_battle_count = 0
     _auto_search_round_timer = 0
@@ -505,9 +506,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
             if self.appear_then_click(QUIT_RECONFIRM, offset=True, interval=5):
                 continue
 
-            if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120), interval=3) \
-                    and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):
-                self.device.click(GOTO_MAIN)
+            if self.appear_then_click(GOTO_MAIN, offset=(20, 20), interval=3):
                 continue
             if self.ui_additional():
                 continue
