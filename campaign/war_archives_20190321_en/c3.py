@@ -46,6 +46,7 @@ A6, B6, C6, D6, E6, F6, G6, H6, \
 A7, B7, C7, D7, E7, F7, G7, H7, \
     = MAP.flatten()
 
+
 class Config(ConfigBase):
     # ===== Start of generated config =====
     MAP_HAS_MAP_STORY = True
@@ -56,6 +57,7 @@ class Config(ConfigBase):
 
 
 class Campaign(CampaignBase):
+    grid_class = EventGrid
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 

@@ -40,6 +40,7 @@ A4, B4, C4, D4, E4, F4, G4, H4, \
 A5, B5, C5, D5, E5, F5, G5, H5, \
     = MAP.flatten()
 
+
 class EventGrid(Grid):
     def predict_current_fleet(self):
         count = self.relative_hsv_count(area=(-0.5, -3.5, 0.5, -2.5), h=(141 - 3, 141 + 10), shape=(50, 50))
@@ -53,6 +54,7 @@ class EventGrid(Grid):
 
         return True
 
+
 class Config:
     # ===== Start of generated config =====
     MAP_HAS_MAP_STORY = True
@@ -63,6 +65,7 @@ class Config:
 
 
 class Campaign(CampaignBase):
+    grid_class = EventGrid
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
