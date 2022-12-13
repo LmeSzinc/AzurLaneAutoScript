@@ -4,10 +4,13 @@ from module.map.map_grids import RoadGrids, SelectedGrids
 
 from ..campaign_war_archives.campaign_base import CampaignBase
 
+from module.map_detection.grid import Grid
+from module.template.assets import TEMPLATE_FLEET_CURRENT
+
 MAP = CampaignMap('C1')
 MAP.shape = 'H5'
 MAP.camera_data = ['D2', 'D3', 'E2', 'E3']
-MAP.camera_data_spawn_point = ['D3', 'D2']
+MAP.camera_data_spawn_point = ['D3', 'C1']
 MAP.map_data = """
     SP -- -- ++ ++ ++ ++ ++
     -- ++ ME Me ME -- Me ++
@@ -37,6 +40,18 @@ A4, B4, C4, D4, E4, F4, G4, H4, \
 A5, B5, C5, D5, E5, F5, G5, H5, \
     = MAP.flatten()
 
+class EventGrid(Grid):
+    def predict_current_fleet(self):
+        count = self.relative_hsv_count(area=(-0.5, -3.5, 0.5, -2.5), h=(141 - 3, 141 + 10), shape=(50, 50))
+        if count < 200:
+            return False
+
+        # image = self.relative_crop((-0.5, -3.5, 0.5, -2.5), shape=(60, 60))
+        # image = color_similarity_2d(image, color=(24, 255, 107))
+        # if not TEMPLATE_FLEET_CURRENT.match(image, similarity=0.75):
+        #     return False
+
+        return True
 
 class Config:
     # ===== Start of generated config =====
