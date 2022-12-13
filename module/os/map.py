@@ -18,6 +18,7 @@ from module.os.globe_camera import GlobeCamera
 from module.os.globe_operation import RewardUncollectedError
 from module.os_handler.assets import AUTO_SEARCH_OS_MAP_OPTION_OFF, \
     AUTO_SEARCH_OS_MAP_OPTION_ON, AUTO_SEARCH_REWARD
+from module.os_handler.shop import OCR_SHOP_YELLOW_COINS
 from module.os_handler.strategic import StrategicSearchHandler
 from module.ui.assets import GOTO_MAIN
 from module.ui.page import page_main
@@ -403,6 +404,30 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
     @property
     def is_cl1_enabled(self):
         return self.config.cross_get('OpsiHazard1Leveling.Scheduler.Enable', default=False)
+
+    def get_yellow_coins(self, skip_first_screenshot=True):
+        """
+        Returns:
+            int:
+        """
+        timeout = Timer(2, count=3).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            yellow_coins = OCR_SHOP_YELLOW_COINS.ocr(self.device.image)
+            if timeout.reached():
+                logger.warning('Get yellow coins timeout')
+            if yellow_coins < 100:
+                # OCR may get 0 or 1 when amount is not immediately loaded
+                logger.info('Yellow coins less than 100, assuming it is an ocr error')
+                continue
+            else:
+                break
+
+        return yellow_coins
 
     _auto_search_battle_count = 0
     _auto_search_round_timer = 0
