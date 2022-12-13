@@ -511,31 +511,34 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             # Having new screenshots
             self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4), walk_out_of_step=False)
 
+    def month_boss_goto_additional(self, location=(0, 0), has_fleet_step=False, drop=None):
+        self.update_os()
+        self.predict()
+        self.predict_radar()
+
+        # Calculate destination
+        grids = self.radar.select(is_question=True)
+        if grids:
+            # Click way point
+            grid = np.add(location_ensure(grids[0]), location)
+            # Use the releative position of the question to find the entrance of the boss area
+            grid = np.add(grid, (1, -6))
+            grid = point_limit(grid, area=(-4, -2, 3, 2))
+            if has_fleet_step:
+                grid = limit_walk(grid)
+            if grid == (0, 0):
+                logger.info(f'Arrive destination: boss {location}')
+            grid = self.convert_radar_to_local(grid)
+            self.device.click(grid)
+        else:
+            logger.info('No boss to goto, stop')
+        self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4), walk_out_of_step=False, drop=drop)
+
     def boss_goto(self, location=(0, 0), has_fleet_step=False, drop=None, is_month=False):
         logger.hr('BOSS goto')
 
         if is_month:
-            self.update_os()
-            self.predict()
-            self.predict_radar()
-
-            # Calculate destination
-            grids = self.radar.select(is_question=True)
-            if grids:
-                # Click way point
-                grid = np.add(location_ensure(grids[0]), location)
-                # Use the releative position of the question to find the entrance of the boss area
-                grid = np.add(grid, (1, -6))
-                grid = point_limit(grid, area=(-4, -2, 3, 2))
-                if has_fleet_step:
-                    grid = limit_walk(grid)
-                if grid == (0, 0):
-                    logger.info(f'Arrive destination: boss {location}')
-                grid = self.convert_radar_to_local(grid)
-                self.device.click(grid)
-            else:
-                logger.info('No boss to goto, stop')
-            self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4), walk_out_of_step=False, drop=drop)
+            self.month_boss_goto_additional(location=location, has_fleet_step=has_fleet_step, drop=drop)
 
         while 1:
             # Update local view
