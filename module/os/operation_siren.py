@@ -6,7 +6,7 @@ from module.base.timer import Timer
 from module.config.utils import (get_os_next_reset,
                                  get_os_reset_remain,
                                  DEFAULT_TIME)
-from module.exception import RequestHumanTakeover, GameStuckError, ScriptError, LowAdaptability
+from module.exception import RequestHumanTakeover, GameStuckError, ScriptError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.shop.shop_voucher import VoucherShop
@@ -16,9 +16,8 @@ from module.os_handler.assets import EXCHANGE_CHECK, EXCHANGE_ENTER
 from module.os.map import OSMap
 from module.os_handler.shop import OCR_SHOP_YELLOW_COINS
 from module.os_handler.action_point import OCR_OS_ADAPTABILITY_ATTACK, OCR_OS_ADAPTABILITY_DURABILITY, \
-    OCR_OS_ADAPTABILITY_RECOVER
+    OCR_OS_ADAPTABILITY_RECOVER, ActionPointLimit
 from module.os_handler.assets import OS_MONTHBOSS_EASY, OS_MONTHBOSS_HARD
-from module.os.assets import *
 
 
 class OperationSiren(OSMap):
@@ -692,6 +691,13 @@ class OperationSiren(OSMap):
         logger.critical('Unable to clear boss, fleets exhausted')
         return False
 
+    def get_adaptability(self):
+        attack = OCR_OS_ADAPTABILITY_ATTACK.ocr(self.device.image)
+        durability = OCR_OS_ADAPTABILITY_DURABILITY.ocr(self.device.image)
+        recover = OCR_OS_ADAPTABILITY_RECOVER.ocr(self.device.image)
+
+        return attack, durability, recover
+
     def clear_month_boss(self):
         '''
         check adaptability
@@ -709,31 +715,32 @@ class OperationSiren(OSMap):
         self.os_map_goto_globe()
 
         if self.config.OpsiMonthBoss_CheckAdaptability:
-            if OCR_OS_ADAPTABILITY_ATTACK.ocr(self.device.image) < 203 or OCR_OS_ADAPTABILITY_DURABILITY.ocr(
-                    self.device.image) < 203 or OCR_OS_ADAPTABILITY_RECOVER.ocr(self.device.image) < 156:
+            adaptability = self.get_adaptability()
+            if adaptability < (203, 203, 156):
                 logger.info("Adaptability is lower than suppression level, get stronger and come back")
                 self.config.task_delay(server_update=True)
-                raise LowAdaptability
         self.os_globe_goto_map()
         self.os_mission_enter()
-        if self.appear(OS_MONTHBOSS_EASY):
+        if self.appear(OS_MONTHBOSS_EASY, offset=(20, 20)):
             is_easy = True
-        elif self.appear(OS_MONTHBOSS_HARD):
+        elif self.appear(OS_MONTHBOSS_HARD, offset=(20, 20)):
             is_easy = False
         else:
             logger.info("Illegal monthly boss icon placement")
-            raise RequestHumanTakeover
+            self.month_boss_delay(is_easy=False, result=True)
+            return True
         self.os_mission_quit()
 
         if not is_easy and not self.config.OpsiMonthBoss_Hard:
             logger.info("Only Hard Month Boss ,Pass")
+            self.month_boss_delay(is_easy=False, result=True)
             self.config.task_stop()
             return True
 
         # compat
         self.globe_goto(154)
         self.go_month_boss_room(is_easy=is_easy)
-        result = self.run_month_boss()
+        result = self.boss_clear(has_fleet_step=True, is_month=True)
 
         # end
         self.fleet_repair(revert=False)
@@ -747,12 +754,6 @@ class OperationSiren(OSMap):
                 self.relative_goto(has_fleet_step=True, is_exclamation=True)
             else:
                 self.relative_goto(has_fleet_step=True, is_question=True)
-
-    def run_month_boss(self):
-        self.globe_goto(154)
-        _ = self.boss_clear(has_fleet_step=True, is_month=True)
-
-        return _
 
     def month_boss_delay(self, is_easy=True, result=True):
         if is_easy:

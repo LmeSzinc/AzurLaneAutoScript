@@ -1736,7 +1736,7 @@
     },
     "OpsiMonthBoss": {
       "CheckAdaptability": true,
-      "Hard": false,
+      "Hard": 0,
       "ForceRun": false
     },
     "OpsiFleetFilter": {

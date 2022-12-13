@@ -2148,7 +2148,9 @@
     },
     "Hard": {
       "name": "OpsiMonthBoss.Hard.name",
-      "help": "OpsiMonthBoss.Hard.help"
+      "help": "OpsiMonthBoss.Hard.help",
+      "0": "0",
+      "1": "1"
     },
     "ForceRun": {
       "name": "OpsiMonthBoss.ForceRun.name",

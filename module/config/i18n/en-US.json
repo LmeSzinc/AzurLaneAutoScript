@@ -219,8 +219,8 @@
       "help": ""
     },
     "OpsiMonthBoss": {
-      "name": "Task.OpsiMonthBoss.name",
-      "help": "Task.OpsiMonthBoss.help"
+      "name": "Monthly Boss",
+      "help": "To clear (easy/difficult) monthly bosses, the following conditions must be met to use this function:\n- Clear the main task of the big world\n- Enable the Great World Land Reclamation Mission or use the Battle Information Recorder (5000 oil props)\nIf the easy difficulty fails, the attack will be repeated according to the submarine settings; if the difficult difficulty fails, the mission will be terminated directly"
     },
     "OpsiMeowfficerFarming": {
       "name": "Meowfficer Farming",
@@ -2148,7 +2148,9 @@
     },
     "Hard": {
       "name": "OpsiMonthBoss.Hard.name",
-      "help": "OpsiMonthBoss.Hard.help"
+      "help": "OpsiMonthBoss.Hard.help",
+      "0": "0",
+      "1": "1"
     },
     "ForceRun": {
       "name": "OpsiMonthBoss.ForceRun.name",

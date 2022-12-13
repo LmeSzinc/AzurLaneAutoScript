@@ -219,8 +219,8 @@
       "help": ""
     },
     "OpsiMonthBoss": {
-      "name": "Task.OpsiMonthBoss.name",
-      "help": "Task.OpsiMonthBoss.help"
+      "name": "月度Boss",
+      "help": "清理（簡單/困難）月度boss,使用此功能需要滿足以下條件：\n- 通關大世界主線任務\n- 啟用大世界開荒任務或使用戰役信息記錄儀（5000油道具）\n簡單難度失敗會依據潛艇設置重複出擊，困難難度失敗則直接終止任務"
     },
     "OpsiMeowfficerFarming": {
       "name": "短貓相接",
@@ -2148,7 +2148,9 @@
     },
     "Hard": {
       "name": "OpsiMonthBoss.Hard.name",
-      "help": "OpsiMonthBoss.Hard.help"
+      "help": "OpsiMonthBoss.Hard.help",
+      "0": "0",
+      "1": "1"
     },
     "ForceRun": {
       "name": "OpsiMonthBoss.ForceRun.name",
