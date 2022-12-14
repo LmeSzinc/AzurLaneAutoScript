@@ -85,6 +85,8 @@ class Navbar:
             int: Numbers of nav items that appears
         """
         _, left, right = self.get_info(main=main)
+        if left is None or right is None:
+            return 0
         return right - left + 1
 
     def _shop_obstruct_handle(self, main):
