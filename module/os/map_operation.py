@@ -47,7 +47,6 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         name = ocr.ocr(self.device.image)
         name = "".join(name.split())
         name = name.lower()
-        self.is_zone_name_hidden = 'safe' in name
         if '-' in name:
             name = name.split('-')[0]
         if 'é' in name:  # Méditerranée name maps
@@ -56,6 +55,9 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             name = 'nycity'
         if 'cibraltar' in name:
             name = 'gibraltar'
+        # Sate Zone
+        name = name.replace('sate', 'safe')
+        self.is_zone_name_hidden = 'safe' in name
 
         # Occasional mis-read by OCR, hotfix
         name = name.replace('pasage', 'passage')
