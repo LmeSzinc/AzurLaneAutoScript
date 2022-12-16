@@ -15,6 +15,7 @@ class Asst:
         None, ctypes.c_int, ctypes.c_char_p, ctypes.c_void_p)
     """
     回调函数，使用实例可参照 my_callback
+
     :params:
         ``param1 message``: 消息类型
         ``param2 details``: json string
@@ -25,21 +26,22 @@ class Asst:
     def load(path: Union[pathlib.Path, str], incremental_path: Optional[Union[pathlib.Path, str]] = None, user_dir: Optional[Union[pathlib.Path, str]] = None) -> bool:
         """
         加载 dll 及资源
+
         :params:
             ``path``:    DLL及资源所在文件夹路径
             ``incremental_path``:   增量资源所在文件夹路径
             ``user_dir``:   用户数据（日志、调试图片等）写入文件夹路径
         """
         if platform.system().lower() == 'windows':
-            Asst.__libpath = pathlib.Path(path) / 'MeoAssistant.dll'
+            Asst.__libpath = pathlib.Path(path) / 'MaaCore.dll'
             os.environ["PATH"] += os.pathsep + str(path)
             Asst.__lib = ctypes.WinDLL(str(Asst.__libpath))
         elif platform.system().lower() == 'darwin':
-            Asst.__libpath = pathlib.Path(path) / 'libMeoAssistant.dylib'
+            Asst.__libpath = pathlib.Path(path) / 'libMaaCore.dylib'
             os.environ['DYLD_LIBRARY_PATH'] += os.pathsep + str(path)
             Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
         else:
-            Asst.__libpath = pathlib.Path(path) / 'libMeoAssistant.so'
+            Asst.__libpath = pathlib.Path(path) / 'libMaaCore.so'
             os.environ['LD_LIBRARY_PATH'] += os.pathsep + str(path)
             Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
         Asst.__set_lib_properties()
@@ -74,10 +76,12 @@ class Asst:
     def connect(self, adb_path: str, address: str, config: str = 'General'):
         """
         连接设备
+
         :params:
             ``adb_path``:   adb 程序的路径
             ``address``:    adb 地址+端口
             ``config``:     adb 配置，可参考 resource/config.json
+
         :return: 是否连接成功
         """
         return Asst.__lib.AsstConnect(self.__ptr,
@@ -88,9 +92,11 @@ class Asst:
     def append_task(self, type_name: str, params: JSON = {}) -> TaskId:
         """
         添加任务
+
         :params:
             ``type_name``:  任务类型，请参考 docs/集成文档.md
             ``params``:     任务参数，请参考 docs/集成文档.md
+
         :return: 任务 ID, 可用于 set_task_params 接口
         """
         return Asst.__lib.AsstAppendTask(self.__ptr, type_name.encode('utf-8'), json.dumps(params, ensure_ascii=False).encode('utf-8'))
@@ -98,9 +104,11 @@ class Asst:
     def set_task_params(self, task_id: TaskId, params: JSON) -> bool:
         """
         动态设置任务参数
+
         :params:
             ``task_id``:  任务 ID, 使用 append_task 接口的返回值
             ``params``:   任务参数，同 append_task 接口，请参考 docs/集成文档.md
+
         :return: 是否成功
         """
         return Asst.__lib.AsstSetTaskParams(self.__ptr, task_id, json.dumps(params, ensure_ascii=False).encode('utf-8'))
@@ -108,6 +116,7 @@ class Asst:
     def start(self) -> bool:
         """
         开始任务
+
         :return: 是否成功
         """
         return Asst.__lib.AsstStart(self.__ptr)
@@ -115,6 +124,7 @@ class Asst:
     def stop(self) -> bool:
         """
         停止并清空所有任务
+
         :return: 是否成功
         """
         return Asst.__lib.AsstStop(self.__ptr)
@@ -122,25 +132,27 @@ class Asst:
     def running(self) -> bool:
         """
         是否正在运行
+
         :return: 是否正在运行
         """
         return Asst.__lib.AsstRunning(self.__ptr)
 
     @staticmethod
     def log(level: str, message: str) -> None:
-        """
+        '''
         打印日志
+
         :params:
             ``level``:      日志等级标签
             ``message``:    日志内容
-        """
+        '''
 
         Asst.__lib.AsstLog(level.encode('utf-8'), message.encode('utf-8'))
 
-    @staticmethod
-    def get_version() -> str:
+    def get_version(self) -> str:
         """
         获取DLL版本号
+
         : return: 版本号
         """
         return Asst.__lib.AsstGetVersion().decode('utf-8')
@@ -196,6 +208,7 @@ class Asst:
 class Message(Enum):
     """
     回调消息
+
     请参考 docs/回调消息.md
     """
     InternalError = 0
