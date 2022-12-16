@@ -100,9 +100,6 @@ class ArknightsAutoScript(AzurLaneAutoScript):
     def maa_infrast(self):
         AssistantHandler(config=self.config, asst=self.asst).infrast()
 
-    def maa_visit(self):
-        AssistantHandler(config=self.config, asst=self.asst).visit()
-
     def maa_mall(self):
         AssistantHandler(config=self.config, asst=self.asst).mall()
 
