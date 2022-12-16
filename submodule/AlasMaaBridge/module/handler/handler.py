@@ -354,12 +354,6 @@ class AssistantHandler:
             # 心情阈值 * 24 / 0.75 * 60
             self.config.task_delay(minute=self.config.MaaInfrast_Threshold * 1920)
 
-    def visit(self):
-        self.maa_start('Visit', {
-            "enable": True
-        })
-        self.config.task_delay(server_update=True)
-
     def mall(self):
         buy_first = self.split_filter(self.config.MaaMall_BuyFirst)
         blacklist = self.split_filter(self.config.MaaMall_BlackList)
