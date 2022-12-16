@@ -1,24 +1,20 @@
 import argparse
 import multiprocessing
 import pickle
-from typing import List
 
-import numpy as np
-import zerorpc
-import zmq
-
-from module.webui.setting import State
 from module.logger import logger
+from module.webui.setting import State
 
 process: multiprocessing.Process = None
 
 
 class ModelProxy:
-    client: zerorpc.Client = None
+    client = None
     online = True
 
     @classmethod
     def init(cls, address="127.0.0.1:22268"):
+        import zerorpc
         cls.client = zerorpc.Client(timeout=5)
         cls.client.connect(f"tcp://{address}")
         try:
@@ -32,7 +28,14 @@ class ModelProxy:
     def __init__(self, lang) -> None:
         self.lang = lang
 
-    def ocr(self, img_fp: np.ndarray):
+    def ocr(self, img_fp):
+        """
+        Args:
+            img_fp (np.ndarray):
+
+        Returns:
+
+        """
         if self.online:
             img_str = img_fp.dumps()
             try:
@@ -42,7 +45,14 @@ class ModelProxy:
         from module.ocr.models import OCR_MODEL
         return OCR_MODEL.__getattribute__(self.lang).ocr(img_fp)
 
-    def ocr_for_single_line(self, img_fp: np.ndarray):
+    def ocr_for_single_line(self, img_fp):
+        """
+        Args:
+            img_fp (np.ndarray):
+
+        Returns:
+
+        """
         if self.online:
             img_str = img_fp.dumps()
             try:
@@ -52,7 +62,14 @@ class ModelProxy:
         from module.ocr.models import OCR_MODEL
         return OCR_MODEL.__getattribute__(self.lang).ocr_for_single_line(img_fp)
 
-    def ocr_for_single_lines(self, img_list: List[np.ndarray]):
+    def ocr_for_single_lines(self, img_list):
+        """
+        Args:
+            img_list (list[np.ndarray]):
+
+        Returns:
+
+        """
         if self.online:
             img_str_list = [img_fp.dumps() for img_fp in img_list]
             try:
@@ -71,7 +88,14 @@ class ModelProxy:
         from module.ocr.models import OCR_MODEL
         return OCR_MODEL.__getattribute__(self.lang).set_cand_alphabet(cand_alphabet)
 
-    def debug(self, img_list: List[np.ndarray]):
+    def debug(self, img_list):
+        """
+        Args:
+            img_list (list[np.ndarray]):
+
+        Returns:
+
+        """
         if self.online:
             img_str_list = [img_fp.dumps() for img_fp in img_list]
             try:
@@ -93,6 +117,8 @@ class ModelProxyFactory:
 
 
 def start_ocr_server(port=22268):
+    import zerorpc
+    import zmq
     from module.ocr.al_ocr import AlOcr
     from module.ocr.models import OcrModel
 
