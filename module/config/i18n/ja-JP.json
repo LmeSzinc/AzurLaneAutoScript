@@ -2153,8 +2153,8 @@
     "Hard": {
       "name": "OpsiMonthBoss.Hard.name",
       "help": "OpsiMonthBoss.Hard.help",
-      "0": "0",
-      "1": "1"
+      "normal": "normal",
+      "normal_hard": "normal_hard"
     },
     "ForceRun": {
       "name": "OpsiMonthBoss.ForceRun.name",

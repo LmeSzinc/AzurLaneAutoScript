@@ -2148,13 +2148,13 @@
     },
     "CheckAdaptability": {
       "name": "适应性在203/203/156以上才打BOSS",
-      "help": " "
+      "help": ""
     },
     "Hard": {
       "name": "清理月度Boss的难度",
-      "help": " ",
-      "0": "简单",
-      "1": "简单 + 困难"
+      "help": "",
+      "normal": "简单",
+      "normal_hard": "简单 + 困难"
     },
     "ForceRun": {
       "name": "无视运行间隔强制运行",

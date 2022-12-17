@@ -20,12 +20,12 @@ class ManualConfig:
     > OpsiAshBeacon
     > OpsiDaily > OpsiShop > OpsiVoucher
     > OpsiAbyssal > OpsiStronghold > OpsiObscure > OpsiArchive
-    > Daily > Hard > OpsiAshBeacon > OpsiAshAssist
+    > Daily > Hard > OpsiAshBeacon > OpsiAshAssist  > OpsiMonthBoss
     > Sos > EventSp > EventA > EventB > EventC > EventD > RaidDaily > WarArchives > MaritimeEscort
     > Event > Event2 > Raid > Main > Main2 > Main3
     > OpsiMeowfficerFarming
     > GemsFarming
-    > OpsiHazard1Leveling > OpsiMonthBoss
+    > OpsiHazard1Leveling
     """
 
     """

@@ -12,9 +12,12 @@ from module.ui.ui import UI
 OCR_ACTION_POINT_REMAIN = Digit(ACTION_POINT_REMAIN, letter=(255, 219, 66), name='OCR_ACTION_POINT_REMAIN')
 OCR_ACTION_POINT_REMAIN_OS = Digit(ACTION_POINT_REMAIN_OS, letter=(239, 239, 239),
                                    threshold=160, name='OCR_SHOP_YELLOW_COINS_OS')
-OCR_OS_ADAPTABILITY_ATTACK = Digit(OS_ADAPTABILITY_ATTACK, letter=(231, 235, 239), lang="cnocr")
-OCR_OS_ADAPTABILITY_DURABILITY = Digit(OS_ADAPTABILITY_DURABILITY, letter=(231, 235, 239), lang="cnocr")
-OCR_OS_ADAPTABILITY_RECOVER = Digit(OS_ADAPTABILITY_RECOVER, letter=(231, 235, 239), lang="cnocr")
+
+OCR_OS_ADAPTABILITY = Digit([
+    OS_ADAPTABILITY_ATTACK,
+    OS_ADAPTABILITY_DURABILITY,
+    OS_ADAPTABILITY_RECOVER
+], letter=(231, 235, 239), lang="cnocr")
 
 if server.server != 'jp':
     # Letters in ACTION_POINT_BUY_REMAIN are not the numeric fonts usually used in azur lane.

@@ -588,8 +588,8 @@ OpsiStronghold:
 OpsiMonthBoss:
   CheckAdaptability: true
   Hard:
-    value: 0
-    option: [ 0,1 ]
+    value: normal
+    option: [ normal,normal_hard ]
   ForceRun: false
 OpsiMeowfficerFarming:
   ActionPointPreserve: 1000

@@ -8364,10 +8364,10 @@
       },
       "Hard": {
         "type": "select",
-        "value": 0,
+        "value": "normal",
         "option": [
-          0,
-          1
+          "normal",
+          "normal_hard"
         ]
       },
       "ForceRun": {

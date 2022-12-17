@@ -16,8 +16,7 @@ from module.os.globe_operation import OSExploreError
 from module.os_handler.assets import EXCHANGE_CHECK, EXCHANGE_ENTER
 from module.os.map import OSMap
 from module.os_handler.shop import OCR_SHOP_YELLOW_COINS
-from module.os_handler.action_point import OCR_OS_ADAPTABILITY_ATTACK, OCR_OS_ADAPTABILITY_DURABILITY, \
-    OCR_OS_ADAPTABILITY_RECOVER, ActionPointLimit
+from module.os_handler.action_point import OCR_OS_ADAPTABILITY, ActionPointLimit
 from module.os_handler.assets import OS_MONTHBOSS_EASY, OS_MONTHBOSS_HARD
 
 
@@ -391,7 +390,8 @@ class OperationSiren(OSMap):
         logger.info('Delay other OpSi tasks during OpsiExplore')
         with self.config.multi_set():
             next_run = self.config.Scheduler_NextRun
-            for task in ['OpsiObscure', 'OpsiAbyssal', 'OpsiArchive', 'OpsiStronghold', 'OpsiMeowfficerFarming', "OpsiMonthBoss"]:
+            for task in ['OpsiObscure', 'OpsiAbyssal', 'OpsiArchive', 'OpsiStronghold', 'OpsiMeowfficerFarming',
+                         "OpsiMonthBoss"]:
                 keys = f'{task}.Scheduler.NextRun'
                 current = self.config.cross_get(keys=keys, default=DEFAULT_TIME)
                 if current < next_run:
@@ -699,11 +699,9 @@ class OperationSiren(OSMap):
         return False
 
     def get_adaptability(self):
-        attack = OCR_OS_ADAPTABILITY_ATTACK.ocr(self.device.image)
-        durability = OCR_OS_ADAPTABILITY_DURABILITY.ocr(self.device.image)
-        recover = OCR_OS_ADAPTABILITY_RECOVER.ocr(self.device.image)
+        adaptability = OCR_OS_ADAPTABILITY.ocr(self.device.image)
 
-        return attack, durability, recover
+        return adaptability
 
     def clear_month_boss(self):
         '''
@@ -723,7 +721,7 @@ class OperationSiren(OSMap):
 
         if self.config.OpsiMonthBoss_CheckAdaptability:
             adaptability = self.get_adaptability()
-            if adaptability < (203, 203, 156):
+            if (np.array(adaptability) < (203, 203, 156)).any():
                 logger.info("Adaptability is lower than suppression level, get stronger and come back")
                 self.config.task_delay(server_update=True)
         self.os_globe_goto_map()
@@ -738,7 +736,7 @@ class OperationSiren(OSMap):
             return True
         self.os_mission_quit()
 
-        if not is_easy and not self.config.OpsiMonthBoss_Hard:
+        if not is_easy and self.config.OpsiMonthBoss_Hard == "normal":
             logger.info("Only Hard Month Boss ,Pass")
             self.month_boss_delay(is_easy=False, result=True)
             self.config.task_stop()
