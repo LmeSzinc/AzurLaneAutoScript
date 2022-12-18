@@ -1,4 +1,7 @@
+from datetime import datetime
+
 import module.config.server as server
+from module.config.utils import get_server_next_update
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.base.utils import *
@@ -268,8 +271,13 @@ class ActionPointHandler(UI):
         if cost is None:
             cost = self.action_point_get_cost(zone, pinned)
         buy_checked = False
+        diff = get_server_next_update('00:00') - datetime.now()
+        today_rest = int(diff.total_seconds() // 600)
         if keep_current_ap:
-            if self._action_point_total <= self.config.OS_ACTION_POINT_PRESERVE:
+            if self._action_point_current + today_rest >= 200:
+                logger.info(f'The sum of the current action points and the rest action points that can be obtained today exceeds 200.')
+                logger.info(f'Current={self._action_point_current}  Rest={today_rest}')
+            elif self._action_point_total <= self.config.OS_ACTION_POINT_PRESERVE:
                 logger.info(f'Reach the limit of action points, preserve={self.config.OS_ACTION_POINT_PRESERVE}')
                 self.action_point_quit()
                 raise ActionPointLimit
