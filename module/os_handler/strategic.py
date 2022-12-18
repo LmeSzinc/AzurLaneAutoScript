@@ -16,8 +16,9 @@ class StrategicSearchHandler(EnemySearchingHandler):
             else:
                 self.device.screenshot()
 
-            if STRATEGIC_SEARCH_MAP_OPTION_OFF.match_appear_on(self.device.image) \
-                    and self.appear_then_click(STRATEGIC_SEARCH_MAP_OPTION_OFF, interval=2):
+            if self.appear_then_click(STRATEGIC_SEARCH_MAP_OPTION_OFF, offset=(20, 20), interval=2) \
+                    and STRATEGIC_SEARCH_MAP_OPTION_OFF.match_appear_on(self.device.image):
+                self.device.click(STRATEGIC_SEARCH_MAP_OPTION_OFF)
                 continue
             if self.appear(STRATEGIC_SEARCH_POPUP_CHECK, offset=(20, 20)):
                 return True
