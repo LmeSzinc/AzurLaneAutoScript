@@ -35,6 +35,10 @@ class Asst:
         if platform.system().lower() == 'windows':
             Asst.__libpath = pathlib.Path(path) / 'MaaCore.dll'
             os.environ["PATH"] += os.pathsep + str(path)
+            try:
+                ctypes.WinDLL(str(pathlib.Path(path) / 'onnxruntime.dll'))
+            except Exception:
+                pass
             Asst.__lib = ctypes.WinDLL(str(Asst.__libpath))
         elif platform.system().lower() == 'darwin':
             Asst.__libpath = pathlib.Path(path) / 'libMaaCore.dylib'
