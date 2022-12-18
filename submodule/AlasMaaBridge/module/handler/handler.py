@@ -1,6 +1,5 @@
 import os
 import re
-import sys
 import json
 import time
 import requests
@@ -28,13 +27,13 @@ class AssistantHandler:
 
     @staticmethod
     def load(path, incremental_path=None):
-        sys.path.append(path)
         try:
             from submodule.AlasMaaBridge.module.handler import asst_backup
             AssistantHandler.Asst = asst_backup.Asst
             AssistantHandler.Message = asst_backup.Message
             AssistantHandler.Asst.load(path, user_dir=path, incremental_path=incremental_path)
-        except:
+        except Exception as e:
+            logger.error(e)
             logger.warning('导入MAA失败，尝试使用原生接口导入')
             asst_module = import_module('.asst', 'Python')
             AssistantHandler.Asst = asst_module.Asst
