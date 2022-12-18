@@ -1,4 +1,7 @@
+from datetime import datetime
+
 import module.config.server as server
+from module.config.utils import get_server_next_update
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.base.utils import *
@@ -8,8 +11,6 @@ from module.os_handler.assets import *
 from module.statistics.item import Item, ItemGrid
 from module.ui.assets import OS_CHECK
 from module.ui.ui import UI
-from module.config.utils import get_server_next_update
-from datetime import datetime
 
 OCR_ACTION_POINT_REMAIN = Digit(ACTION_POINT_REMAIN, letter=(255, 219, 66), name='OCR_ACTION_POINT_REMAIN')
 OCR_ACTION_POINT_REMAIN_OS = Digit(ACTION_POINT_REMAIN_OS, letter=(239, 239, 239),
@@ -270,8 +271,8 @@ class ActionPointHandler(UI):
         if cost is None:
             cost = self.action_point_get_cost(zone, pinned)
         buy_checked = False
-        time_now = get_server_next_update(daily_trigger=[datetime.now().strftime('%H:%M')])
-        today_rest = 144 - time_now.hour * 6 - time_now.minute / 10
+        diff = get_server_next_update('00:00') - datetime.now()
+        today_rest = int(diff.total_seconds() // 600)
         if keep_current_ap:
             if self._action_point_current + today_rest >= 200:
                 logger.info(f'The sum of the current action points and the rest action points that can be obtained today exceeds 200.')
