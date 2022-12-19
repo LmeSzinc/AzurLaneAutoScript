@@ -36,11 +36,16 @@ Emulator:
   ScreenshotDedithering: false
   AdbRestart: false
 RestartEmulator:
+  Enable: false
+  EmulatorData:
+    type: textarea
+    mode: yaml
+    value: |-
+      emulator:
+      name:
+      path:
   ErrorRestart: False
   DailyRestart: False
-  EmulatorType:
-    value: auto
-    option: [auto, nox_player, bluestacks_5, mumu_player]
 Error:
   HandleError: true
   SaveError: true

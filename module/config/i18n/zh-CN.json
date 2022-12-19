@@ -414,6 +414,14 @@
       "name": "重启模拟器",
       "help": ""
     },
+    "Enable": {
+      "name": "RestartEmulator.Enable.name",
+      "help": "RestartEmulator.Enable.help"
+    },
+    "EmulatorData": {
+      "name": "RestartEmulator.EmulatorData.name",
+      "help": "RestartEmulator.EmulatorData.help"
+    },
     "ErrorRestart": {
       "name": "出错时重启模拟器",
       "help": "在无法连接到模拟器时自动重启模拟器"
@@ -421,14 +429,6 @@
     "DailyRestart": {
       "name": "服务器刷新时重启模拟器",
       "help": "每天主动重启模拟器以解决内存泄漏问题"
-    },
-    "EmulatorType": {
-      "name": "模拟器类型",
-      "help": "Alas会根据手动填写的Serial寻找对应的模拟器\n如果被启动的模拟器需要管理员权限，请以管理员身份运行Alas\nMuMu模拟器不支持多开",
-      "auto": "自动",
-      "nox_player": "夜神模拟器32位",
-      "bluestacks_5": "蓝叠模拟器5",
-      "mumu_player": "MuMu模拟器"
     }
   },
   "Error": {

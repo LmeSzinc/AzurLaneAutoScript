@@ -414,6 +414,14 @@
       "name": "RestartEmulator._info.name",
       "help": "RestartEmulator._info.help"
     },
+    "Enable": {
+      "name": "RestartEmulator.Enable.name",
+      "help": "RestartEmulator.Enable.help"
+    },
+    "EmulatorData": {
+      "name": "RestartEmulator.EmulatorData.name",
+      "help": "RestartEmulator.EmulatorData.help"
+    },
     "ErrorRestart": {
       "name": "RestartEmulator.ErrorRestart.name",
       "help": "RestartEmulator.ErrorRestart.help"
@@ -421,14 +429,6 @@
     "DailyRestart": {
       "name": "RestartEmulator.DailyRestart.name",
       "help": "RestartEmulator.DailyRestart.help"
-    },
-    "EmulatorType": {
-      "name": "RestartEmulator.EmulatorType.name",
-      "help": "RestartEmulator.EmulatorType.help",
-      "auto": "auto",
-      "nox_player": "nox_player",
-      "bluestacks_5": "bluestacks_5",
-      "mumu_player": "mumu_player"
     }
   },
   "Error": {

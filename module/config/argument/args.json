@@ -130,6 +130,15 @@
       }
     },
     "RestartEmulator": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "EmulatorData": {
+        "type": "textarea",
+        "value": "emulator:\nname:\npath:",
+        "mode": "yaml"
+      },
       "ErrorRestart": {
         "type": "checkbox",
         "value": false
@@ -137,16 +146,6 @@
       "DailyRestart": {
         "type": "checkbox",
         "value": false
-      },
-      "EmulatorType": {
-        "type": "select",
-        "value": "auto",
-        "option": [
-          "auto",
-          "nox_player",
-          "bluestacks_5",
-          "mumu_player"
-        ]
       }
     },
     "Error": {

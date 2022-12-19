@@ -10,9 +10,10 @@
       "AdbRestart": false
     },
     "RestartEmulator": {
+      "Enable": false,
+      "EmulatorData": "emulator:\nname:\npath:",
       "ErrorRestart": false,
-      "DailyRestart": false,
-      "EmulatorType": "auto"
+      "DailyRestart": false
     },
     "Error": {
       "HandleError": true,
