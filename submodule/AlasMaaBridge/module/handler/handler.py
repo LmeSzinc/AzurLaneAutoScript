@@ -1,6 +1,5 @@
 import os
 import re
-import sys
 import json
 import time
 import requests
@@ -28,13 +27,13 @@ class AssistantHandler:
 
     @staticmethod
     def load(path, incremental_path=None):
-        sys.path.append(path)
         try:
             from submodule.AlasMaaBridge.module.handler import asst_backup
             AssistantHandler.Asst = asst_backup.Asst
             AssistantHandler.Message = asst_backup.Message
             AssistantHandler.Asst.load(path, user_dir=path, incremental_path=incremental_path)
-        except:
+        except Exception as e:
+            logger.error(e)
             logger.warning('导入MAA失败，尝试使用原生接口导入')
             asst_module = import_module('.asst', 'Python')
             AssistantHandler.Asst = asst_module.Asst
@@ -353,12 +352,6 @@ class AssistantHandler:
             # 根据心情阈值计算下次换班时间
             # 心情阈值 * 24 / 0.75 * 60
             self.config.task_delay(minute=self.config.MaaInfrast_Threshold * 1920)
-
-    def visit(self):
-        self.maa_start('Visit', {
-            "enable": True
-        })
-        self.config.task_delay(server_update=True)
 
     def mall(self):
         buy_first = self.split_filter(self.config.MaaMall_BuyFirst)

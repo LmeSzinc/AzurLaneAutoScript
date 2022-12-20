@@ -290,6 +290,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         limit_next_run(["Commission", "Reward"], limit=now + timedelta(hours=12, seconds=-1))
         limit_next_run(["Research"], limit=now + timedelta(hours=24, seconds=-1))
         limit_next_run(["OpsiExplore", "OpsiCrossMonth", "OpsiVoucher"], limit=now + timedelta(days=31, seconds=-1))
+        limit_next_run(["OpsiArchive"], limit=now + timedelta(days=7, seconds=-1))
         limit_next_run(self.args.keys(), limit=now + timedelta(hours=24, seconds=-1))
 
     def override(self, **kwargs):
@@ -488,6 +489,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
                     "OpsiDaily",
                     "OpsiObscure",
                     "OpsiAbyssal",
+                    "OpsiArchive",
                     "OpsiStronghold",
                     "OpsiMeowfficerFarming",
                 ]

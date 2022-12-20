@@ -2,19 +2,18 @@ from datetime import datetime, timedelta
 
 import numpy as np
 
-from module.base.timer import Timer
-from module.config.utils import (get_os_next_reset,
+from module.config.utils import (get_nearest_weekday_date,
+                                 get_os_next_reset,
                                  get_os_reset_remain,
                                  DEFAULT_TIME)
 from module.exception import RequestHumanTakeover, GameStuckError, ScriptError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
-from module.shop.shop_voucher import VoucherShop
 from module.os.fleet import BossFleet
 from module.os.globe_operation import OSExploreError
-from module.os_handler.assets import EXCHANGE_CHECK, EXCHANGE_ENTER
 from module.os.map import OSMap
-from module.os_handler.shop import OCR_SHOP_YELLOW_COINS
+from module.os_handler.assets import EXCHANGE_CHECK, EXCHANGE_ENTER
+from module.shop.shop_voucher import VoucherShop
 
 
 class OperationSiren(OSMap):
@@ -279,10 +278,11 @@ class OperationSiren(OSMap):
         Recommend 3 or 5 for higher meowfficer searching point per action points ratio.
         """
         logger.hr(f'OS meowfficer farming, hazard_level={self.config.OpsiMeowfficerFarming_HazardLevel}', level=1)
-        preserve = min(self.get_action_point_limit(), self.config.OpsiMeowfficerFarming_ActionPointPreserve)
+        preserve = min(self.get_action_point_limit(), self.config.OpsiMeowfficerFarming_ActionPointPreserve, 2000)
         if preserve == 0:
             self.config.override(OpsiFleet_Submarine=False)
 
+        ap_checked = False
         while 1:
             self.config.OS_ACTION_POINT_PRESERVE = preserve
             if self.config.OpsiAshBeacon_AshAttack \
@@ -291,6 +291,14 @@ class OperationSiren(OSMap):
                 logger.info('Ash beacon not fully collected, ignore action point limit temporarily')
                 self.config.OS_ACTION_POINT_PRESERVE = 0
             logger.attr('OS_ACTION_POINT_PRESERVE', self.config.OS_ACTION_POINT_PRESERVE)
+            if not ap_checked:
+                # Check action points first to avoid using remaining AP when it not enough for tomorrow's daily
+                # When not running CL1, use oil
+                keep_current_ap = True
+                if not self.is_cl1_enabled and self.config.OpsiGeneral_BuyActionPointLimit > 0:
+                    keep_current_ap = False
+                self.set_action_point(cost=0, keep_current_ap=keep_current_ap)
+                ap_checked = True
 
             # (1252, 1012) is the coordinate of zone 134 (the center zone) in os_globe_map.png
             if self.config.OpsiMeowfficerFarming_TargetZone != 0:
@@ -338,34 +346,31 @@ class OperationSiren(OSMap):
                 self.config.OS_ACTION_POINT_PRESERVE = 0
             logger.attr('OS_ACTION_POINT_PRESERVE', self.config.OS_ACTION_POINT_PRESERVE)
 
-            timeout = Timer(2).start()
-            skip_first_screenshot = True
-            while 1:
-                if skip_first_screenshot:
-                    skip_first_screenshot = False
-                else:
-                    self.device.screenshot()
-
-                yellow_coins = OCR_SHOP_YELLOW_COINS.ocr(self.device.image)
-                if yellow_coins < 100 and not timeout.reached():
-                    logger.info('Yellow coins less than 100, assuming it is an ocr error')
-                    continue
-                elif yellow_coins < 100000:
-                    logger.info('Reach the limit of yellow coins, preserve=100000')
+            if self.get_yellow_coins() < 100000:
+                logger.info('Reach the limit of yellow coins, preserve=100000')
+                with self.config.multi_set():
                     self.config.task_delay(server_update=True)
-                    self.config.task_stop()
-                else:
-                    break
+                    self.config.task_call('OpsiMeowfficerFarming')
+                self.config.task_stop()
 
             self.get_current_zone()
 
             # Preset action point to 100
-            self.set_action_point(cost=100)
+            # When running CL1 oil is for running CL1, not CL5
+            keep_current_ap = True
+            if self.config.OpsiGeneral_BuyActionPointLimit > 0:
+                keep_current_ap = False
+            self.set_action_point(cost=100, keep_current_ap=keep_current_ap)
+            if self._action_point_total >= 3000:
+                with self.config.multi_set():
+                    self.config.task_delay(server_update=True)
+                    self.config.task_call('OpsiMeowfficerFarming')
+                self.config.task_stop()
+
             if self.config.OpsiHazard1Leveling_TargetZone != 0:
                 zone = self.config.OpsiHazard1Leveling_TargetZone
             else:
                 zone = 44
-
             logger.hr(f'OS hazard 1 leveling, zone_id={zone}', level=1)
             if self.zone.zone_id != zone or not self.is_zone_name_hidden:
                 self.globe_goto(self.name_to_zone(zone), types='SAFE', refresh=True)
@@ -382,7 +387,7 @@ class OperationSiren(OSMap):
         logger.info('Delay other OpSi tasks during OpsiExplore')
         with self.config.multi_set():
             next_run = self.config.Scheduler_NextRun
-            for task in ['OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold', 'OpsiMeowfficerFarming']:
+            for task in ['OpsiObscure', 'OpsiAbyssal', 'OpsiArchive', 'OpsiStronghold', 'OpsiMeowfficerFarming']:
                 keys = f'{task}.Scheduler.NextRun'
                 current = self.config.cross_get(keys=keys, default=DEFAULT_TIME)
                 if current < next_run:
@@ -521,7 +526,7 @@ class OperationSiren(OSMap):
             logger.info('Just less than 1 day to OpSi reset, delay 2.5 hours')
             self.config.task_delay(minute=150, server_update=True)
             self.config.task_stop()
-        elif self.config.cross_get('OpsiHazard1Leveling.Scheduler.Enable', default=False) or not result:
+        elif self.is_cl1_enabled or not result:
             self.config.task_delay(server_update=True)
             self.config.task_stop()
 
@@ -561,12 +566,12 @@ class OperationSiren(OSMap):
 
     def os_archive(self):
         """
-        Unused func, not currently a monthly trend
-        Retain in case AL devs add as official feature
-
         Complete active archive zone in daily mission
         Purchase next available logger archive then repeat
         until exhausted
+
+        Run on weekly basis, AL devs seemingly add new logger
+        archives after random scheduled maintenances
         """
         shop = VoucherShop(self.config, self.device)
         while 1:
@@ -581,7 +586,8 @@ class OperationSiren(OSMap):
             if not bought:
                 break
 
-        next_reset = get_os_next_reset()
+        # Reset to nearest 'Wednesday' date
+        next_reset = get_nearest_weekday_date(target=2)
         logger.info('All archive zones finished, delay to next reset')
         logger.attr('OpsiNextReset', next_reset)
         self.config.task_delay(target=next_reset)

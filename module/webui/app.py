@@ -969,7 +969,7 @@ class AlasGUI(Frame):
                     put_error(t("Gui.AddAlas.FileExist"), scope=s)
                     return
 
-                r = State.config_updater.read_file(origin)
+                r = load_config(origin).read_file(origin)
                 State.config_updater.write_file(name, r, get_config_mod(origin))
                 self.set_aside()
                 self.active_button("aside", self.alas_name)

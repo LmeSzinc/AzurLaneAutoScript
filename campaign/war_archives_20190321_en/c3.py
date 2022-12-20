@@ -4,11 +4,12 @@ from module.map.map_grids import RoadGrids, SelectedGrids
 
 from ..campaign_war_archives.campaign_base import CampaignBase
 from .c1 import Config as ConfigBase
+from .a1 import EventGrid
 
 MAP = CampaignMap('C3')
 MAP.shape = 'H7'
 MAP.camera_data = ['D2', 'D5', 'E2', 'E5']
-MAP.camera_data_spawn_point = ['D2']
+MAP.camera_data_spawn_point = ['C1']
 MAP.map_data = """
     SP -- -- ++ ++ ++ ++ ++
     -- ++ Me -- ME -- -- ++
@@ -56,6 +57,7 @@ class Config(ConfigBase):
 
 
 class Campaign(CampaignBase):
+    grid_class = EventGrid
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 

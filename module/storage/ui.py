@@ -63,11 +63,13 @@ class StorageUI(UI):
                 continue
             # equipment -> material
             if self.appear(DISASSEMBLE, offset=(20, 20), interval=3):
+                logger.info('DISASSEMBLE -> MATERIAL_ENTER')
                 self.device.click(MATERIAL_ENTER)
                 self.interval_reset(STORAGE_CHECK)
                 continue
             # design -> material
             if self.appear(STORAGE_CHECK, offset=(20, 20), interval=3):
+                logger.info('DISASSEMBLE -> MATERIAL_ENTER')
                 self.device.click(MATERIAL_ENTER)
                 continue
 
@@ -95,11 +97,13 @@ class StorageUI(UI):
                 continue
             # material -> equipment
             if self._storage_in_material(interval=3):
+                logger.info('_storage_in_material -> EQUIPMENT_ENTER')
                 self.device.click(EQUIPMENT_ENTER)
                 self.interval_reset(STORAGE_CHECK)
                 continue
             # design -> equipment
             if self.appear(STORAGE_CHECK, offset=(20, 20), interval=3):
+                logger.info('STORAGE_CHECK -> EQUIPMENT_ENTER')
                 self.device.click(EQUIPMENT_ENTER)
                 continue
 
@@ -128,11 +132,13 @@ class StorageUI(UI):
                 continue
             # material -> equipment
             if self._storage_in_material(interval=3):
+                logger.info('_storage_in_material -> EQUIPMENT_ENTER')
                 self.device.click(EQUIPMENT_ENTER)
                 self.interval_reset(STORAGE_CHECK)
                 continue
             # design -> equipment
             if self.appear(STORAGE_CHECK, offset=(20, 20), interval=3):
+                logger.info('STORAGE_CHECK -> EQUIPMENT_ENTER')
                 self.device.click(EQUIPMENT_ENTER)
                 continue
 

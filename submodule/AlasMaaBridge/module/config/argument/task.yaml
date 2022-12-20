@@ -35,9 +35,6 @@ MaaInfrast:
   - MaaInfrast
   - MaaCustomInfrast
 
-MaaVisit:
-  - Scheduler
-
 MaaMall:
   - Scheduler
   - MaaMall
