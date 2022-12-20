@@ -18,7 +18,6 @@ from module.os_handler.assets import OS_MONTHBOSS_EASY, OS_MONTHBOSS_HARD, EXCHA
 from module.shop.shop_voucher import VoucherShop
 
 
-
 class OperationSiren(OSMap):
     def os_port_daily(self, mission=True, supply=True):
         """
