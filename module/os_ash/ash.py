@@ -42,7 +42,7 @@ class AshCombat(Combat):
                 self.device.sleep((0.25, 0.5))
             self.device.click(BATTLE_STATUS)
             return True
-        if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=3):
+        if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=2):
             self.device.click(BACK_ARROW)
             return True
 
@@ -52,7 +52,7 @@ class AshCombat(Combat):
         if super().handle_battle_preparation():
             return True
 
-        if self.appear_then_click(ASH_START, offset=(30, 30)):
+        if self.appear_then_click(ASH_START, offset=(30, 30), interval=2):
             return True
         if self.handle_get_items():
             return True

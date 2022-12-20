@@ -42,10 +42,6 @@
       "name": "Task.MaaInfrast.name",
       "help": "Task.MaaInfrast.help"
     },
-    "MaaVisit": {
-      "name": "Task.MaaVisit.name",
-      "help": "Task.MaaVisit.help"
-    },
     "MaaMall": {
       "name": "Task.MaaMall.name",
       "help": "Task.MaaMall.help"
