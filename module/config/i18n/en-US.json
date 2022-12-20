@@ -2144,10 +2144,10 @@
   "OpsiMonthBoss": {
     "_info": {
       "name": "Monthly Boss",
-      "help": "To clear (normal/hard) monthly bosses, the following conditions must be met to use this function:\n- OpSi story must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop\nIf the normal difficulty fails, the attack will be repeated according to the submarine settings; if the hard difficulty fails, the mission will be terminated directly"
+      "help": "To clear (normal/hard) monthly bosses, the following conditions must be met to use this function:\n- OpSi story must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop\nIf failed on normal boss, attack until cleared; if failed on hard boss, stop task directly"
     },
     "CheckAdaptability": {
-      "name": "The boss can only be played when the adaptability is above 203/203/156",
+      "name": "Only attack boss when adaptability >= 203/203/156",
       "help": ""
     },
     "Hard": {
