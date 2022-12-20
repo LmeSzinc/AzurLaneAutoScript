@@ -408,9 +408,9 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
                 },
                 allow_none=False,
             )
-            logger.info(f"Delay task `{self.task.command}` to {run} ({kv})")
             if task is None:
                 task = self.task.command
+            logger.info(f"Delay task `{task}` to {run} ({kv})")
             self.modified[f'{task}.Scheduler.NextRun'] = run
             self.update()
         else:
