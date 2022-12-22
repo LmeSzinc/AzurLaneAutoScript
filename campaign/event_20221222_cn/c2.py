@@ -2,9 +2,9 @@ from .campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from .a1 import Config as ConfigBase
+from .c1 import Config as ConfigBase
 
-MAP = CampaignMap('A2')
+MAP = CampaignMap('C2')
 MAP.shape = 'I7'
 MAP.camera_data = ['D2', 'D5', 'F2', 'F5']
 MAP.camera_data_spawn_point = ['D5']
@@ -27,9 +27,9 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'siren': 1},
+    {'battle': 0, 'enemy': 2, 'siren': 2},
     {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'enemy': 1},
+    {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
     {'battle': 4, 'enemy': 1, 'boss': 1},
 ]
