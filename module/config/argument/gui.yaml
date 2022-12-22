@@ -47,6 +47,7 @@ Overview:
   Scheduler:
   Log:
   Running:
+  Queue:
   Pending:
   Waiting:
   NoTask:

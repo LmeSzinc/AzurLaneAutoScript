@@ -2316,6 +2316,7 @@
       "Scheduler": "Gui.Overview.Scheduler",
       "Log": "Gui.Overview.Log",
       "Running": "Gui.Overview.Running",
+      "Queue": "Gui.Overview.Queue",
       "Pending": "Gui.Overview.Pending",
       "Waiting": "Gui.Overview.Waiting",
       "NoTask": "Gui.Overview.NoTask"

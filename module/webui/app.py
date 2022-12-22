@@ -337,17 +337,9 @@ class AlasGUI(Frame):
             put_scope(
                 "pending",
                 [
-                    put_text(t("Gui.Overview.Pending")),
+                    put_text(t("Gui.Overview.Queue")),
                     put_html('<hr class="hr-group">'),
                     put_scope("pending_tasks"),
-                ],
-            )
-            put_scope(
-                "waiting",
-                [
-                    put_text(t("Gui.Overview.Waiting")),
-                    put_html('<hr class="hr-group">'),
-                    put_scope("waiting_tasks"),
                 ],
             )
 
@@ -504,11 +496,29 @@ class AlasGUI(Frame):
             pending = []
         waiting = self.alas_config.waiting_task
 
-        def put_task(func: Function):
+        def get_state(state: str):
+            if state == 'running':
+                return 'Gui.Overview.Running'
+            elif state == 'pending':
+                return 'Gui.Overview.Pending'
+            elif state == 'waiting':
+                return 'Gui.Overview.Waiting'
+            elif state == 'error':
+                return 'Gui.Overview.Error'
+            elif state is None:
+                return ' '
+
+        def put_task(func: Function, state=None):
             with use_scope(f"overview-task_{func.command}"):
                 put_column(
                     [
-                        put_text(t(f"Task.{func.command}.name")).style("--arg-title--"),
+                        put_row(
+                            [
+                                put_text(t(f"Task.{func.command}.name")).style("--arg-title--"),
+                                put_text(t(get_state(state))).style("--arg-help--")
+                            ],
+                            size="70% 30%"
+                        ),
                         put_text(str(func.next_run)).style("--arg-help--"),
                     ],
                     size="auto auto",
@@ -531,14 +541,11 @@ class AlasGUI(Frame):
         with use_scope("pending_tasks"):
             if pending:
                 for task in pending:
-                    put_task(task)
-            else:
-                put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
-        with use_scope("waiting_tasks"):
+                    put_task(task, "pending")
             if waiting:
                 for task in waiting:
-                    put_task(task)
-            else:
+                    put_task(task, "waiting")
+            if not (pending or waiting):
                 put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
 
     @use_scope("content", clear=True)

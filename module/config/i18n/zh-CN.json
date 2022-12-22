@@ -2316,6 +2316,7 @@
       "Scheduler": "调度器",
       "Log": "日志",
       "Running": "运行中",
+      "Queue": "调度中",
       "Pending": "队列中",
       "Waiting": "等待中",
       "NoTask": "无任务"

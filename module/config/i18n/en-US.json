@@ -2316,6 +2316,7 @@
       "Scheduler": "Scheduler",
       "Log": "Log",
       "Running": "Running",
+      "Queue": "Queue",
       "Pending": "Pending",
       "Waiting": "Waiting",
       "NoTask": "No Task"

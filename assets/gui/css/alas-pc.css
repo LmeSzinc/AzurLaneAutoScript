@@ -21,7 +21,7 @@
 
 #pywebio-scope-schedulers {
     grid-auto-flow: row;
-    grid-template-rows: auto 7.75rem minmax(7.75rem, 13rem) minmax(7.75rem, 1fr);
+    grid-template-rows: auto 7.75rem 1fr;
     height: 100%;
     overflow-y: auto;
 }

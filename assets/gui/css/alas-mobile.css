@@ -56,7 +56,6 @@
 
 #pywebio-scope-running,
 #pywebio-scope-pending,
-#pywebio-scope-waiting,
 #pywebio-scope-log {
     overflow-y: auto;
 }
