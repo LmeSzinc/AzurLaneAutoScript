@@ -123,3 +123,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20221124   | event 20221124 cn        | The Alchemist and the Archipelago of Secrets | 炼金术士与秘密遗迹群岛 | The Alchemist and the Archipelago of Secrets | 錬金術士と謎の遺跡群島 | - |
 | 20221201   | event 20221124 cn        | The Alchemist and the Archipelago of Secrets | -           | -                                    | -                  | 鍊金術士與秘密遺跡群島 |
 | 20221222   | event 20221222 cn        | Parallel Superimposition        | 定向折叠     | Parallel Superimposition | 積重なる事象の幻界             | -                    |
+| 20221222   | event 20211229 cn        | Tower of Transcendence          | -           | -                                    | -                  | 逆轉彩虹之塔 |
