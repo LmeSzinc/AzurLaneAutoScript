@@ -222,6 +222,10 @@
       "name": "Task.OpsiStronghold.name",
       "help": "Task.OpsiStronghold.help"
     },
+    "OpsiMonthBoss": {
+      "name": "Task.OpsiMonthBoss.name",
+      "help": "Task.OpsiMonthBoss.help"
+    },
     "OpsiMeowfficerFarming": {
       "name": "Task.OpsiMeowfficerFarming.name",
       "help": "Task.OpsiMeowfficerFarming.help"
@@ -2135,6 +2139,26 @@
     "ForceRun": {
       "name": "OpsiStronghold.ForceRun.name",
       "help": "OpsiStronghold.ForceRun.help"
+    }
+  },
+  "OpsiMonthBoss": {
+    "_info": {
+      "name": "OpsiMonthBoss._info.name",
+      "help": "OpsiMonthBoss._info.help"
+    },
+    "CheckAdaptability": {
+      "name": "OpsiMonthBoss.CheckAdaptability.name",
+      "help": "OpsiMonthBoss.CheckAdaptability.help"
+    },
+    "Hard": {
+      "name": "OpsiMonthBoss.Hard.name",
+      "help": "OpsiMonthBoss.Hard.help",
+      "normal": "normal",
+      "normal_hard": "normal_hard"
+    },
+    "ForceRun": {
+      "name": "OpsiMonthBoss.ForceRun.name",
+      "help": "OpsiMonthBoss.ForceRun.help"
     }
   },
   "OpsiMeowfficerFarming": {
