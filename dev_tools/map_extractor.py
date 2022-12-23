@@ -201,6 +201,17 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'longfeng': 'Ryuuhou',
     'chunyue': 'Harutsuki',
     'jiangfeng': 'Kawakaze',
+
+    # The Alchemist and the Archipelago of Secrets
+    'lianjin_sairenquzhu': 'DDalchemist',
+    'lianjin_sairenqingxun': 'CLalchemist',
+    'lianjin_sairenzhongxun': 'CAalchemist',
+    'lianjin_sairenzhanlie': 'BBalchemist',
+    'lianjin_sairenhangmu': 'CValchemist',
+
+    # Parallel Superimposition
+    'sairenboss15': 'SirenBoss15',
+    'sairenboss16': 'SirenBoss16',
 }
 
 
