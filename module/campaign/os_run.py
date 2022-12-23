@@ -62,21 +62,8 @@ class OSCampaignRun(OSMapOperation):
                 self.config.task_delay(minute=150, server_update=True)
 
     def opsi_hazard1_leveling(self):
-        self.config.override(
-            OpsiGeneral_AkashiShopFilter='ActionPoint'
-        )
-        self.config.cross_set(keys='OpsiMeowfficerFarming.Scheduler.Enable', value=True)
-        if self.config.cross_get(
-                keys='OpsiMeowfficerFarming.OpsiMeowfficerFarming.ActionPointPreserve',
-                default=0
-        ) < 1000:
-            self.config.cross_set(
-                keys='OpsiMeowfficerFarming.OpsiMeowfficerFarming.ActionPointPreserve',
-                value=1000
-            )
-
-        self.load_campaign()
         try:
+            self.load_campaign()
             self.campaign.os_hazard1_leveling()
         except ActionPointLimit:
             self.config.task_delay(server_update=True)
@@ -85,6 +72,13 @@ class OSCampaignRun(OSMapOperation):
         try:
             self.load_campaign()
             self.campaign.os_obscure()
+        except ActionPointLimit:
+            self.config.opsi_task_delay(ap_limit=True)
+
+    def opsi_month_boss(self):
+        try:
+            self.load_campaign()
+            self.campaign.clear_month_boss()
         except ActionPointLimit:
             self.config.opsi_task_delay(ap_limit=True)
 

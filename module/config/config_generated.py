@@ -384,6 +384,11 @@ class GeneratedConfig:
     # Group `OpsiStronghold`
     OpsiStronghold_ForceRun = False
 
+    # Group `OpsiMonthBoss`
+    OpsiMonthBoss_CheckAdaptability = True
+    OpsiMonthBoss_Hard = 'normal'  # normal, normal_hard
+    OpsiMonthBoss_ForceRun = False
+
     # Group `OpsiMeowfficerFarming`
     OpsiMeowfficerFarming_ActionPointPreserve = 1000
     OpsiMeowfficerFarming_HazardLevel = 5  # 3, 4, 5, 6, 10
