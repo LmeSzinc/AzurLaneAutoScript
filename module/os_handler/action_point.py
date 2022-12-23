@@ -20,7 +20,7 @@ OCR_OS_ADAPTABILITY = Digit([
     OS_ADAPTABILITY_ATTACK,
     OS_ADAPTABILITY_DURABILITY,
     OS_ADAPTABILITY_RECOVER
-], letter=(231, 235, 239), lang="cnocr")
+], letter=(231, 235, 239), lang="cnocr", name='OCR_OS_ADAPTABILITY')
 
 if server.server != 'jp':
     # Letters in ACTION_POINT_BUY_REMAIN are not the numeric fonts usually used in azur lane.

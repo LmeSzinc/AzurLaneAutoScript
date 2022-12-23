@@ -2158,8 +2158,8 @@
       "normal_hard": "normal + hard"
     },
     "ForceRun": {
-      "name": "Forced to run regardless of run interval",
-      "help": "After opening, it will bring extra power consumption. Generally, it is not necessary to open it, just play slowly."
+      "name": "Force Run",
+      "help": "Ignore interval, clear all abyssal zones, and use AP to submit scan orders (and submarine if enabled)\nGenerally not needed to force run, just run in intervals unless in a rush"
     }
   },
   "OpsiMeowfficerFarming": {

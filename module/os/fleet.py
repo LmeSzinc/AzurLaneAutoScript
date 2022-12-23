@@ -14,7 +14,7 @@ from module.map.map_grids import SelectedGrids
 from module.map.utils import location_ensure
 from module.map_detection.utils import area2corner, corner2inner
 from module.ocr.ocr import Ocr
-from module.os.assets import MAP_GOTO_GLOBE, STRONGHOLD_PERCENTAGE, TEMPLATE_EMPTY_HP, FLEET_EMP_DEBUFF
+from module.os.assets import MAP_GOTO_GLOBE, STRONGHOLD_PERCENTAGE, TEMPLATE_EMPTY_HP, FLEET_EMP_DEBUFF, MAP_EXIT
 from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
 from module.os_ash.ash import OSAsh
@@ -483,6 +483,14 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         # Wait until arrived
         # Having new screenshots
         self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4), walk_out_of_step=False)
+
+    def go_month_boss_room(self, is_easy=True):
+        while not self.appear(MAP_EXIT, offset=(20, 20)):
+            self.relative_goto(has_fleet_step=True, near_by=True, relative_position=(3, -5), is_port=True)
+            if is_easy:
+                self.relative_goto(has_fleet_step=True, is_exclamation=True)
+            else:
+                self.relative_goto(has_fleet_step=True, is_question=True)
 
     def question_goto(self, has_fleet_step=False):
         logger.hr('Question goto')

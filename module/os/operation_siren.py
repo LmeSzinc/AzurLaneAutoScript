@@ -12,8 +12,7 @@ from module.map.map_grids import SelectedGrids
 from module.os.fleet import BossFleet
 from module.os.globe_operation import OSExploreError
 from module.os.map import OSMap
-from module.os_handler.shop import OCR_SHOP_YELLOW_COINS
-from module.os_handler.action_point import OCR_OS_ADAPTABILITY, ActionPointLimit
+from module.os_handler.action_point import OCR_OS_ADAPTABILITY
 from module.os_handler.assets import OS_MONTHBOSS_EASY, OS_MONTHBOSS_HARD, EXCHANGE_CHECK, EXCHANGE_ENTER
 from module.shop.shop_voucher import VoucherShop
 
@@ -719,78 +718,89 @@ class OperationSiren(OSMap):
         return adaptability
 
     def clear_month_boss(self):
-        '''
+        """
         check adaptability
         check current boss difficulty
         clear boss
         repair fleets in port
 
         Raises:
-            LowAdaptability
             ActionPointLimit
             TaskEnd: if no more month boss
-            RequestHumanTakeover: If unable to clear boss, fleets exhausted.
-        '''
+        """
         logger.hr("OS clear Month Boss", level=1)
-        self.os_map_goto_globe()
 
-        if self.config.OpsiMonthBoss_CheckAdaptability:
-            adaptability = self.get_adaptability()
-            if (np.array(adaptability) < (203, 203, 156)).any():
-                logger.info("Adaptability is lower than suppression level, get stronger and come back")
-                self.config.task_delay(server_update=True)
-        self.os_globe_goto_map()
+        logger.hr("Month Boss precheck", level=2)
         self.os_mission_enter()
         if self.appear(OS_MONTHBOSS_EASY, offset=(20, 20)):
+            logger.attr('Month boss difficulty', 'normal')
             is_easy = True
         elif self.appear(OS_MONTHBOSS_HARD, offset=(20, 20)):
+            logger.attr('Month boss difficulty', 'hard')
             is_easy = False
         else:
-            logger.info("Illegal monthly boss icon placement")
-            self.month_boss_delay(is_easy=False, result=True)
+            logger.info("No Normal/Hard boss found, stop")
+            self.os_mission_quit()
+            self.month_boss_delay(is_normal=False, result=True)
             return True
         self.os_mission_quit()
 
         if not is_easy and self.config.OpsiMonthBoss_Hard == "normal":
-            logger.info("Only Hard Month Boss ,Pass")
-            self.month_boss_delay(is_easy=False, result=True)
+            logger.info("Attack normal boss only but having hard boss, skip")
+            self.month_boss_delay(is_normal=False, result=True)
             self.config.task_stop()
             return True
 
-        # compat
+        if self.config.OpsiMonthBoss_CheckAdaptability:
+            self.os_map_goto_globe(unpin=False)
+            adaptability = self.get_adaptability()
+            if (np.array(adaptability) < (203, 203, 156)).any():
+                logger.info("Adaptability is lower than suppression level, get stronger and come back")
+                self.config.task_delay(server_update=True)
+                self.config.task_stop()
+            # No need to exit, reuse
+            # self.os_globe_goto_map()
+
+        # combat
+        logger.hr("Month Boss goto", level=2)
         self.globe_goto(154)
         self.go_month_boss_room(is_easy=is_easy)
         result = self.boss_clear(has_fleet_step=True, is_month=True)
 
         # end
+        logger.hr("Month Boss repair", level=2)
         self.fleet_repair(revert=False)
         self.handle_fleet_resolve(revert=False)
-        self.month_boss_delay(is_easy=is_easy, result=result)
+        self.month_boss_delay(is_normal=is_easy, result=result)
 
-    def go_month_boss_room(self, is_easy=True):
-        while not self.appear(MAP_EXIT, offset=(20, 20)):
-            self.relative_goto(has_fleet_step=True, near_by=True, relative_position=(3, -5), is_port=True)
-            if is_easy:
-                self.relative_goto(has_fleet_step=True, is_exclamation=True)
+    def month_boss_delay(self, is_normal=True, result=True):
+        """
+        Args:
+            is_normal: True for normal, False for hard
+            result: If success to clear boss
+        """
+        if is_normal:
+            if result:
+                next_reset = get_os_next_reset()
+                self.config.task_delay(target=next_reset)
+                self.config.task_stop()
             else:
-                self.relative_goto(has_fleet_step=True, is_question=True)
-
-    def month_boss_delay(self, is_easy=True, result=True):
-        if is_easy:
-            self.config.opsi_task_delay(recon_scan=False, submarine_call=True, ap_limit=False)
+                logger.info("Unable to clear the normal monthly boss, will try later")
+                self.config.opsi_task_delay(recon_scan=False, submarine_call=True, ap_limit=False)
+                self.config.task_stop()
         else:
             if result:
                 next_reset = get_os_next_reset()
                 self.config.task_delay(target=next_reset)
+                self.config.task_stop()
             else:
-                logger.info("Unable to defeat the difficult monthly boss, the mission has been terminated")
+                logger.info("Unable to clear the hard monthly boss, task stop")
                 self.config.task_stop()
 
 
 if __name__ == '__main__':
     self = OperationSiren('month_test', task='OpsiMonthBoss')
     from module.os.config import OSConfig
-    from module.os.assets import *
 
     self.config = self.config.merge(OSConfig())
 
