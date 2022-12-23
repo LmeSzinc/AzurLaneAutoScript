@@ -725,33 +725,36 @@ class Connection(ConnectionAttr):
                     self.serial = emu_serial
 
     @retry
-    def list_package(self):
+    def list_package(self, show_log=True):
         """
         Find all packages on device.
         Use dumpsys first for faster.
         """
         # 80ms
-        logger.info('Get package list')
+        if show_log:
+            logger.info('Get package list')
         output = self.adb_shell(r'dumpsys package | grep "Package \["')
         packages = re.findall(r'Package \[([^\s]+)\]', output)
         if len(packages):
             return packages
 
         # 200ms
-        logger.info('Get package list')
+        if show_log:
+            logger.info('Get package list')
         output = self.adb_shell(['pm', 'list', 'packages'])
         packages = re.findall(r'package:([^\s]+)', output)
         return packages
 
-    def list_azurlane_packages(self, keywords=('azurlane', 'blhx')):
+    def list_azurlane_packages(self, keywords=('azurlane', 'blhx'), show_log=True):
         """
         Args:
             keywords:
+            show_log:
 
         Returns:
             list[str]: List of package names
         """
-        packages = self.list_package()
+        packages = self.list_package(show_log=show_log)
         packages = [p for p in packages if any([k in p.lower() for k in keywords])]
         return packages
 
