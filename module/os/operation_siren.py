@@ -284,6 +284,12 @@ class OperationSiren(OSMap):
         preserve = min(self.get_action_point_limit(), self.config.OpsiMeowfficerFarming_ActionPointPreserve, 2000)
         if preserve == 0:
             self.config.override(OpsiFleet_Submarine=False)
+        if self.is_cl1_enabled:
+            # Without these enabled, CL1 gains 0 profits
+            self.config.override(
+                OpsiGeneral_DoRandomMapEvent=True,
+                OpsiGeneral_AkashiShopFilter='ActionPoint',
+            )
 
         ap_checked = False
         while 1:
@@ -339,7 +345,11 @@ class OperationSiren(OSMap):
 
     def os_hazard1_leveling(self):
         logger.hr('OS hazard 1 leveling', level=1)
-        self.config.override(OpsiGeneral_AkashiShopFilter='ActionPoint')
+        # Without these enabled, CL1 gains 0 profits
+        self.config.override(
+            OpsiGeneral_DoRandomMapEvent=True,
+            OpsiGeneral_AkashiShopFilter='ActionPoint',
+        )
         if not self.config.cross_get(keys='OpsiMeowfficerFarming.Scheduler.Enable', default=False):
             self.config.cross_set(keys='OpsiMeowfficerFarming.Scheduler.Enable', value=True)
         while 1:
