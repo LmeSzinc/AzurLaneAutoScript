@@ -6,7 +6,7 @@ from module.template.assets import TEMPLATE_ENEMY_BOSS
 
 class EventGrid(Grid):
     def predict_enemy_genre(self):
-        if self.enemy_genre:
+        if self.enemy_scale:
             return ''
 
         image = self.relative_crop((-0.55, -0.2, 0.45, 0.2), shape=(50, 20))
