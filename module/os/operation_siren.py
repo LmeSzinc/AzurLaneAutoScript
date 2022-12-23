@@ -13,7 +13,7 @@ from module.os.fleet import BossFleet
 from module.os.globe_operation import OSExploreError
 from module.os.map import OSMap
 from module.os_handler.action_point import OCR_OS_ADAPTABILITY
-from module.os_handler.assets import OS_MONTHBOSS_EASY, OS_MONTHBOSS_HARD, EXCHANGE_CHECK, EXCHANGE_ENTER
+from module.os_handler.assets import OS_MONTHBOSS_NORMAL, OS_MONTHBOSS_HARD, EXCHANGE_CHECK, EXCHANGE_ENTER
 from module.shop.shop_voucher import VoucherShop
 
 
@@ -732,12 +732,12 @@ class OperationSiren(OSMap):
 
         logger.hr("Month Boss precheck", level=2)
         self.os_mission_enter()
-        if self.appear(OS_MONTHBOSS_EASY, offset=(20, 20)):
+        if self.appear(OS_MONTHBOSS_NORMAL, offset=(20, 20)):
             logger.attr('Month boss difficulty', 'normal')
-            is_easy = True
+            is_normal = True
         elif self.appear(OS_MONTHBOSS_HARD, offset=(20, 20)):
             logger.attr('Month boss difficulty', 'hard')
-            is_easy = False
+            is_normal = False
         else:
             logger.info("No Normal/Hard boss found, stop")
             self.os_mission_quit()
@@ -745,7 +745,7 @@ class OperationSiren(OSMap):
             return True
         self.os_mission_quit()
 
-        if not is_easy and self.config.OpsiMonthBoss_Hard == "normal":
+        if not is_normal and self.config.OpsiMonthBoss_Hard == "normal":
             logger.info("Attack normal boss only but having hard boss, skip")
             self.month_boss_delay(is_normal=False, result=True)
             self.config.task_stop()
@@ -764,14 +764,14 @@ class OperationSiren(OSMap):
         # combat
         logger.hr("Month Boss goto", level=2)
         self.globe_goto(154)
-        self.go_month_boss_room(is_easy=is_easy)
+        self.go_month_boss_room(is_normal=is_normal)
         result = self.boss_clear(has_fleet_step=True, is_month=True)
 
         # end
         logger.hr("Month Boss repair", level=2)
         self.fleet_repair(revert=False)
         self.handle_fleet_resolve(revert=False)
-        self.month_boss_delay(is_normal=is_easy, result=result)
+        self.month_boss_delay(is_normal=is_normal, result=result)
 
     def month_boss_delay(self, is_normal=True, result=True):
         """

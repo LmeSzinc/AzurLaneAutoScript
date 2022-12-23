@@ -484,10 +484,10 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         # Having new screenshots
         self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4), walk_out_of_step=False)
 
-    def go_month_boss_room(self, is_easy=True):
+    def go_month_boss_room(self, is_normal=True):
         while not self.appear(MAP_EXIT, offset=(20, 20)):
             self.relative_goto(has_fleet_step=True, near_by=True, relative_position=(3, -5), is_port=True)
-            if is_easy:
+            if is_normal:
                 self.relative_goto(has_fleet_step=True, is_exclamation=True)
             else:
                 self.relative_goto(has_fleet_step=True, is_question=True)
