@@ -27,4 +27,4 @@ zerorpc==0.6.3
 pyzmq==22.3.0
 onepush
 pydantic
-psutil
+psutil==5.9.3

@@ -52,7 +52,7 @@ pillow==8.3.2             # via -r requirements-in.txt, cnocr, gluoncv, imageio,
 portalocker==2.3.2        # via gluoncv
 prettytable==2.2.1        # via -r requirements-in.txt
 progress==1.6             # via uiautomator2
-psutil==5.9.4             # via -r requirements-in.txt
+psutil==5.9.3             # via -r requirements-in.txt
 py==1.10.0                # via retry
 pycparser==2.21           # via cffi
 pydantic==1.10.2          # via -r requirements-in.txt
