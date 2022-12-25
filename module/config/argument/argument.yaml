@@ -28,7 +28,7 @@ Emulator:
     value: disabled
     option: [ disabled, ]
   ScreenshotMethod:
-    value: ADB
+    value: ADB_nc
     option: [ ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc, DroidCast ]
   ControlMethod:
     value: minitouch

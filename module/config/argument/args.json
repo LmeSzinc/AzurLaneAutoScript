@@ -100,7 +100,7 @@
       },
       "ScreenshotMethod": {
         "type": "select",
-        "value": "ADB",
+        "value": "ADB_nc",
         "option": [
           "ADB",
           "ADB_nc",
