@@ -843,7 +843,7 @@
     },
     "Mode": {
       "name": "Submarine Mode",
-      "help": "Reminder: 'Hunt and Boss' is actually a mix of 'Hunt Only' and 'Boss Only', it does hunt and summon submarines at boss if available.",
+      "help": "Effective only when auto search disabled. Reminder: 'Hunt and Boss' is actually a mix of 'Hunt Only' and 'Boss Only', it does hunt and summon submarines at boss if available.",
       "do_not_use": "Don't Use",
       "hunt_only": "Hunt Only",
       "boss_only": "BOSS Only",
