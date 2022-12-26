@@ -4,7 +4,7 @@
       "Serial": "auto",
       "PackageName": "auto",
       "ServerName": "disabled",
-      "ScreenshotMethod": "ADB",
+      "ScreenshotMethod": "ADB_nc",
       "ControlMethod": "minitouch",
       "ScreenshotDedithering": false,
       "AdbRestart": false
