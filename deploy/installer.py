@@ -1,3 +1,7 @@
+from deploy.patch import patch_trust_env
+
+patch_trust_env()
+
 from deploy.adb import AdbManager
 from deploy.alas import AlasManager
 from deploy.app import AppManager
