@@ -3,7 +3,9 @@
     "MaaEmulator": {
       "Serial": "127.0.0.1:5555",
       "PackageName": "Official",
-      "MaaPath": "D:/Program Files/MAA"
+      "MaaPath": "D:/Program Files/MAA",
+      "TouchMethod": "minitouch",
+      "DeploymentWithPause": false
     },
     "MaaRecord": {
       "ReportToPenguin": false,

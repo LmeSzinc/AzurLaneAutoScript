@@ -5,9 +5,14 @@ import platform
 import json
 
 from typing import Union, Dict, List, Any, Type, Optional
-from enum import Enum, unique, auto
+from enum import Enum, IntEnum, unique, auto
 
 JSON = Union[Dict[str, Any], List[Any], int, str, float, bool, Type[None]]
+
+
+class InstanceOptionType(IntEnum):
+    touch_type = 2
+    deployment_with_pause = 3
 
 
 class Asst:
@@ -15,7 +20,6 @@ class Asst:
         None, ctypes.c_int, ctypes.c_char_p, ctypes.c_void_p)
     """
     回调函数，使用实例可参照 my_callback
-
     :params:
         ``param1 message``: 消息类型
         ``param2 details``: json string
@@ -26,28 +30,44 @@ class Asst:
     def load(path: Union[pathlib.Path, str], incremental_path: Optional[Union[pathlib.Path, str]] = None, user_dir: Optional[Union[pathlib.Path, str]] = None) -> bool:
         """
         加载 dll 及资源
-
         :params:
             ``path``:    DLL及资源所在文件夹路径
             ``incremental_path``:   增量资源所在文件夹路径
             ``user_dir``:   用户数据（日志、调试图片等）写入文件夹路径
         """
-        if platform.system().lower() == 'windows':
-            Asst.__libpath = pathlib.Path(path) / 'MaaCore.dll'
-            os.environ["PATH"] += os.pathsep + str(path)
+
+        platform_values = {
+            'windows': {
+                'libpath': 'MaaCore.dll',
+                'environ_var': 'PATH'
+            },
+            'darwin': {
+                'libpath': 'libMaaCore.dylib',
+                'environ_var': 'DYLD_LIBRARY_PATH'
+            },
+            'linux': {
+                'libpath': 'libMaaCore.so',
+                'environ_var': 'LD_LIBRARY_PATH'
+            }
+        }
+
+        platform_type = platform.system().lower()
+        if platform_type == 'windows':
+            lib_import_func = ctypes.WinDLL
             try:
-                ctypes.WinDLL(str(pathlib.Path(path) / 'onnxruntime.dll'))
-            except Exception:
+                lib_import_func(str(pathlib.Path(path) / 'onnxruntime.dll'))
+            except Exception as e:
+                print(e)
                 pass
-            Asst.__lib = ctypes.WinDLL(str(Asst.__libpath))
-        elif platform.system().lower() == 'darwin':
-            Asst.__libpath = pathlib.Path(path) / 'libMaaCore.dylib'
-            os.environ['DYLD_LIBRARY_PATH'] += os.pathsep + str(path)
-            Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
         else:
-            Asst.__libpath = pathlib.Path(path) / 'libMaaCore.so'
-            os.environ['LD_LIBRARY_PATH'] += os.pathsep + str(path)
-            Asst.__lib = ctypes.CDLL(str(Asst.__libpath))
+            lib_import_func = ctypes.CDLL
+
+        Asst.__libpath = pathlib.Path(path) / platform_values[platform_type]['libpath']
+        try:
+            os.environ[platform_values[platform_type]['environ_var']] += os.pathsep + str(path)
+        except KeyError:
+            os.environ[platform_values[platform_type]['environ_var']] = os.pathsep + str(path)
+        Asst.__lib = lib_import_func(str(Asst.__libpath))
         Asst.__set_lib_properties()
 
         ret: bool = True
@@ -77,15 +97,26 @@ class Asst:
         Asst.__lib.AsstDestroy(self.__ptr)
         self.__ptr = None
 
+    def set_instance_option(self, option_type: InstanceOptionType, option_value: str):
+        """
+        设置额外配置
+        参见${MaaAssistantArknights}/src/MaaCore/Assistant.cpp#set_instance_option
+        :params:
+            ``externa_config``: 额外配置类型
+            ``config_value``:   额外配置的值
+        :return: 是否设置成功
+        """
+        return Asst.__lib.AsstSetInstanceOption(self.__ptr,
+                                                int(option_type), option_value.encode('utf-8'))
+
+
     def connect(self, adb_path: str, address: str, config: str = 'General'):
         """
         连接设备
-
         :params:
-            ``adb_path``:   adb 程序的路径
-            ``address``:    adb 地址+端口
-            ``config``:     adb 配置，可参考 resource/config.json
-
+            ``adb_path``:       adb 程序的路径
+            ``address``:        adb 地址+端口
+            ``config``:         adb 配置，可参考 resource/config.json
         :return: 是否连接成功
         """
         return Asst.__lib.AsstConnect(self.__ptr,
@@ -96,11 +127,9 @@ class Asst:
     def append_task(self, type_name: str, params: JSON = {}) -> TaskId:
         """
         添加任务
-
         :params:
             ``type_name``:  任务类型，请参考 docs/集成文档.md
             ``params``:     任务参数，请参考 docs/集成文档.md
-
         :return: 任务 ID, 可用于 set_task_params 接口
         """
         return Asst.__lib.AsstAppendTask(self.__ptr, type_name.encode('utf-8'), json.dumps(params, ensure_ascii=False).encode('utf-8'))
@@ -108,11 +137,9 @@ class Asst:
     def set_task_params(self, task_id: TaskId, params: JSON) -> bool:
         """
         动态设置任务参数
-
         :params:
             ``task_id``:  任务 ID, 使用 append_task 接口的返回值
             ``params``:   任务参数，同 append_task 接口，请参考 docs/集成文档.md
-
         :return: 是否成功
         """
         return Asst.__lib.AsstSetTaskParams(self.__ptr, task_id, json.dumps(params, ensure_ascii=False).encode('utf-8'))
@@ -120,7 +147,6 @@ class Asst:
     def start(self) -> bool:
         """
         开始任务
-
         :return: 是否成功
         """
         return Asst.__lib.AsstStart(self.__ptr)
@@ -128,7 +154,6 @@ class Asst:
     def stop(self) -> bool:
         """
         停止并清空所有任务
-
         :return: 是否成功
         """
         return Asst.__lib.AsstStop(self.__ptr)
@@ -136,7 +161,6 @@ class Asst:
     def running(self) -> bool:
         """
         是否正在运行
-
         :return: 是否正在运行
         """
         return Asst.__lib.AsstRunning(self.__ptr)
@@ -145,7 +169,6 @@ class Asst:
     def log(level: str, message: str) -> None:
         '''
         打印日志
-
         :params:
             ``level``:      日志等级标签
             ``message``:    日志内容
@@ -156,7 +179,6 @@ class Asst:
     def get_version(self) -> str:
         """
         获取DLL版本号
-
         : return: 版本号
         """
         return Asst.__lib.AsstGetVersion().decode('utf-8')
@@ -179,6 +201,10 @@ class Asst:
             ctypes.c_void_p, ctypes.c_void_p,)
 
         Asst.__lib.AsstDestroy.argtypes = (ctypes.c_void_p,)
+
+        Asst.__lib.AsstSetInstanceOption.restype = ctypes.c_bool
+        Asst.__lib.AsstSetInstanceOption.argtypes = (
+            ctypes.c_void_p, ctypes.c_int, ctypes.c_char_p,)
 
         Asst.__lib.AsstConnect.restype = ctypes.c_bool
         Asst.__lib.AsstConnect.argtypes = (
@@ -212,7 +238,6 @@ class Asst:
 class Message(Enum):
     """
     回调消息
-
     请参考 docs/回调消息.md
     """
     InternalError = 0
