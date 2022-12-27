@@ -145,6 +145,17 @@
     "MaaPath": {
       "name": "MAA安装路径",
       "help": "Alas的MAA插件支持多开，多个MAA配置可以共用安装路径"
+    },
+    "TouchMethod": {
+      "name": "触控方案",
+      "help": "",
+      "minitouch": "Minitouch（默认）",
+      "maatouch": "MaaTouch（实验功能）",
+      "adb": "Adb Input（兼容模式）"
+    },
+    "DeploymentWithPause": {
+      "name": "暂停下干员",
+      "help": "影响自动战斗、肉鸽、保全，目前仅支持MaaTouch\n警告：该功能仍在开发中，非常不稳定"
     }
   },
   "MaaRecord": {

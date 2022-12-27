@@ -80,6 +80,14 @@ class ArknightsAutoScript(AzurLaneAutoScript):
         ArknightsAutoScript.callback = callback
         asst = AssistantHandler.Asst(callback)
 
+        asst.set_instance_option(AssistantHandler.InstanceOptionType.touch_type, self.config.MaaEmulator_TouchMethod)
+        if self.config.MaaEmulator_DeploymentWithPause:
+            if self.config.MaaEmulator_TouchMethod == 'maatouch':
+                asst.set_instance_option(AssistantHandler.InstanceOptionType.deployment_with_pause, '1')
+            else:
+                logger.critical('使用了不支持自动下干员的触控方案')
+                raise RequestHumanTakeover
+
         return asst
 
     def maa_startup(self):

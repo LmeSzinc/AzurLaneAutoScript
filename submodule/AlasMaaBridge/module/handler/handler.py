@@ -4,7 +4,6 @@ import json
 import time
 import requests
 import datetime
-from importlib import import_module
 from typing import Any
 
 from cached_property import cached_property
@@ -17,28 +16,22 @@ from module.exception import RequestHumanTakeover
 from module.logger import logger
 
 from submodule.AlasMaaBridge.module.config.config import ArknightsConfig
+from submodule.AlasMaaBridge.module.handler import asst_backup
 
 
 class AssistantHandler:
     config: ArknightsConfig
     Asst: Any
     Message: Any
+    InstanceOptionType: Any
     ASST_HANDLER: Any
 
     @staticmethod
     def load(path, incremental_path=None):
-        try:
-            from submodule.AlasMaaBridge.module.handler import asst_backup
-            AssistantHandler.Asst = asst_backup.Asst
-            AssistantHandler.Message = asst_backup.Message
-            AssistantHandler.Asst.load(path, user_dir=path, incremental_path=incremental_path)
-        except Exception as e:
-            logger.error(e)
-            logger.warning('导入MAA失败，尝试使用原生接口导入')
-            asst_module = import_module('.asst', 'Python')
-            AssistantHandler.Asst = asst_module.Asst
-            AssistantHandler.Message = asst_module.Message
-            AssistantHandler.Asst.load(path, user_dir=path, incremental_path=incremental_path)
+        AssistantHandler.Asst = asst_backup.Asst
+        AssistantHandler.Message = asst_backup.Message
+        AssistantHandler.InstanceOptionType = asst_backup.InstanceOptionType
+        AssistantHandler.Asst.load(path, user_dir=path, incremental_path=incremental_path)
 
         AssistantHandler.ASST_HANDLER = None
 
@@ -57,6 +50,7 @@ class AssistantHandler:
         AssistantHandler.ASST_HANDLER = self
         self.asst = asst
         self.callback_timer = Timer(3600)
+        self.serial = None
         self.signal = None
         self.params = None
         self.task_id = None
