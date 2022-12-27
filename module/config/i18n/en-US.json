@@ -1183,10 +1183,10 @@
     "PresetFilter": {
       "name": "Preset Filter Select",
       "help": "People without a basic knowledge of commission drops rates and spawn are recommended to use pre-optimized presets instead of writing custom filters\nIf the commission farming is running 24 hours a day, the (7x24 Commission Farming) filter should be used\nIt is not recommended to use the oil priority filter while running commission farming",
-      "chip": "Gems > Chip > Cube",
-      "chip_24h": "Gems > Chip > Cube (7x24 Commission Farming)",
       "cube": "Gems > Cube > Oil",
       "cube_24h": "Gems > Cube > Oil (7x24 Commission Farming)",
+      "chip": "Gems > Chip > Cube",
+      "chip_24h": "Gems > Chip > Cube (7x24 Commission Farming)",
       "oil": "Gems > Oil > Cube",
       "custom": "Custom"
     },

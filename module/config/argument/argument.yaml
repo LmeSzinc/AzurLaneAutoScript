@@ -261,10 +261,10 @@ Commission:
   PresetFilter:
     value: cube
     option:
-      - chip
-      - chip_24h
       - cube
       - cube_24h
+      - chip
+      - chip_24h
       - oil
       - custom
   CustomFilter: |-
