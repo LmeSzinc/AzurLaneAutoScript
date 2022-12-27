@@ -45,6 +45,11 @@ MaaEmulator:
   MaaPath:
     value: D:/Program Files/MAA
     type: textarea
+  TouchMethod:
+    value: minitouch
+    option: [minitouch, maatouch, adb]
+  DeploymentWithPause:
+    value: false
 MaaRecord:
   ReportToPenguin: false
   PenguinID: null
