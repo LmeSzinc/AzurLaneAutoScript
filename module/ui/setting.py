@@ -3,6 +3,7 @@ import typing as t
 
 from module.base.base import ModuleBase
 from module.base.button import Button, ButtonGrid
+from module.base.timer import Timer
 from module.config.utils import dict_to_kv
 from module.exception import ScriptError
 from module.logger import logger
@@ -81,6 +82,34 @@ class Setting:
 
         return status
 
+    def show_active_buttons(self):
+        """
+        Logs:
+            [Setting] sort/rarity, sort/level
+        """
+        active = []
+        for key, option_button in self.settings.items():
+            setting, option_name = key
+            if self.is_option_active(option_button):
+                active.append(f'{setting}/{option_name}')
+
+        logger.attr(self.name, ', '.join(active))
+
+    def get_buttons_to_click(self, status: t.Dict[Button, bool]) -> t.List[Button]:
+        """
+        Args:
+            status: Key: option_button, value: whether should be active
+
+        Returns:
+            Buttons to click
+        """
+        click = []
+        for option_button, enable in status.items():
+            active = self.is_option_active(option_button)
+            if enable and not active:
+                click.append(option_button)
+        return click
+
     def _set_execute(self, **kwargs):
         """
         Args:
@@ -93,29 +122,29 @@ class Setting:
         """
         status = self._product_setting_status(**kwargs)
 
+        logger.info(f'Setting {self.name} options, {dict_to_kv(kwargs)}')
         skip_first_screenshot = True
-        for _ in range(5):
-            logger.info(
-                f'Setting {self.name} options, {dict_to_kv(kwargs)}')
+        interval = Timer(2, count=4)
+        timeout = Timer(10, count=20).start()
+        while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.main.device.screenshot()
 
-            change_count = 0
-            for option_button, enable in status.items():
-                active = self.is_option_active(option_button)
-                if enable and not active:
-                    self.main.device.click(option_button)
-                    change_count += 1
-            self.main.device.sleep((0.1, 0.2))
+            if timeout.reached():
+                logger.warning(f'Set {self.name} options timeout, assuming current options are correct.')
+                return False
 
-            # End
-            if change_count == 0:
+            self.show_active_buttons()
+            clicks = self.get_buttons_to_click(status)
+            if clicks:
+                if interval.reached():
+                    for button in clicks:
+                        self.main.device.click(button)
+                    interval.reset()
+            else:
                 return True
-
-        logger.warning(f'Failed to set all {self.name} options after 5 trial, assuming current options are correct.')
-        return False
 
     def set(self, **kwargs):
         """
