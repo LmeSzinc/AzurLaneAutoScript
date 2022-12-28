@@ -1187,10 +1187,10 @@
     "PresetFilter": {
       "name": "Commission.PresetFilter.name",
       "help": "Commission.PresetFilter.help",
-      "chip": "chip",
-      "chip_24h": "chip_24h",
       "cube": "cube",
       "cube_24h": "cube_24h",
+      "chip": "chip",
+      "chip_24h": "chip_24h",
       "oil": "oil",
       "custom": "custom"
     },

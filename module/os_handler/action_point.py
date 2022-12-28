@@ -1,13 +1,14 @@
 from datetime import datetime
 
 import module.config.server as server
-from module.config.utils import get_server_next_update
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.base.utils import *
+from module.config.utils import get_server_next_update
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
 from module.os_handler.assets import *
+from module.os_handler.map_event import MapEventHandler
 from module.statistics.item import Item, ItemGrid
 from module.ui.assets import OS_CHECK
 from module.ui.ui import UI
@@ -84,7 +85,7 @@ class ActionPointLimit(Exception):
     pass
 
 
-class ActionPointHandler(UI):
+class ActionPointHandler(UI, MapEventHandler):
     _action_point_box = [0, 0, 0, 0]
     _action_point_current = 0
     _action_point_total = 0
@@ -330,7 +331,28 @@ class ActionPointHandler(UI):
         logger.warning('Failed to get action points after 12 trial')
         return False
 
-    def set_action_point(self, zone=None, pinned=None, cost=None, keep_current_ap=True):
+    def action_point_enter(self, skip_first_screenshot=True):
+        """
+        Pages:
+            in: OS_CHECK
+            out: ACTION_POINT_USE
+        """
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(ACTION_POINT_USE, offset=(20, 20)):
+                break
+
+            if self.appear(OS_CHECK, offset=(20, 20), interval=3):
+                self.device.click(ACTION_POINT_REMAIN_OS)
+                continue
+            if self.handle_map_event():
+                continue
+
+    def action_point_set(self, zone=None, pinned=None, cost=None, keep_current_ap=True):
         """
         Args:
             zone (Zone): Zone to enter.
@@ -342,7 +364,7 @@ class ActionPointHandler(UI):
         Returns:
             bool: If handled.
         """
-        self.ui_click(ACTION_POINT_REMAIN_OS, ACTION_POINT_USE, OS_CHECK)
+        self.action_point_enter()
         if not self.handle_action_point(zone, pinned, cost, keep_current_ap):
             return False
 

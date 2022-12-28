@@ -307,7 +307,7 @@ class OperationSiren(OSMap):
                 keep_current_ap = True
                 if not self.is_cl1_enabled and self.config.OpsiGeneral_BuyActionPointLimit > 0:
                     keep_current_ap = False
-                self.set_action_point(cost=0, keep_current_ap=keep_current_ap)
+                self.action_point_set(cost=0, keep_current_ap=keep_current_ap)
                 ap_checked = True
 
             # (1252, 1012) is the coordinate of zone 134 (the center zone) in os_globe_map.png
@@ -377,7 +377,7 @@ class OperationSiren(OSMap):
             keep_current_ap = True
             if self.config.OpsiGeneral_BuyActionPointLimit > 0:
                 keep_current_ap = False
-            self.set_action_point(cost=100, keep_current_ap=keep_current_ap)
+            self.action_point_set(cost=100, keep_current_ap=keep_current_ap)
             if self._action_point_total >= 3000:
                 with self.config.multi_set():
                     self.config.task_delay(server_update=True)

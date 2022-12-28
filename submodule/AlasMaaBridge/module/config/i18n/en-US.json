@@ -145,6 +145,17 @@
     "MaaPath": {
       "name": "MaaEmulator.MaaPath.name",
       "help": "MaaEmulator.MaaPath.help"
+    },
+    "TouchMethod": {
+      "name": "MaaEmulator.TouchMethod.name",
+      "help": "MaaEmulator.TouchMethod.help",
+      "minitouch": "minitouch",
+      "maatouch": "maatouch",
+      "adb": "adb"
+    },
+    "DeploymentWithPause": {
+      "name": "MaaEmulator.DeploymentWithPause.name",
+      "help": "MaaEmulator.DeploymentWithPause.help"
     }
   },
   "MaaRecord": {

@@ -21,6 +21,19 @@
       "MaaPath": {
         "type": "textarea",
         "value": "D:/Program Files/MAA"
+      },
+      "TouchMethod": {
+        "type": "select",
+        "value": "minitouch",
+        "option": [
+          "minitouch",
+          "maatouch",
+          "adb"
+        ]
+      },
+      "DeploymentWithPause": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "MaaRecord": {
