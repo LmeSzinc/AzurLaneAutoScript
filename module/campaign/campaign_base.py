@@ -110,8 +110,8 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
             logger.warning('ScriptError, No combat executed.')
             if self.config.Error_HandleError:
                 logger.warning('ScriptError, No combat executed, Withdrawing')
-            else:
                 self.withdraw()
+            else:
                 raise ScriptError('No combat executed.')
 
         return result
@@ -149,7 +149,10 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
         logger.warning('Battle function exhausted.')
         if self.config.Error_HandleError:
             logger.warning('ScriptError, Battle function exhausted, Withdrawing')
-            self.withdraw()
+            try:
+                self.withdraw()
+            except CampaignEnd:
+                pass
         else:
             raise ScriptError('Battle function exhausted.')
 
