@@ -28,3 +28,4 @@ pyzmq==22.3.0
 onepush
 pydantic
 psutil==5.9.3
+av==10.0.0
