@@ -4,7 +4,6 @@ from module.logger import logger
 from module.os.assets import *
 from module.os_handler.action_point import ActionPointHandler
 from module.os_handler.assets import AUTO_SEARCH_REWARD
-from module.os_handler.map_event import MapEventHandler
 
 ZONE_TYPES = [ZONE_DANGEROUS, ZONE_SAFE, ZONE_OBSCURE, ZONE_ABYSSAL, ZONE_STRONGHOLD, ZONE_ARCHIVE]
 ZONE_SELECT = [SELECT_DANGEROUS, SELECT_SAFE, SELECT_OBSCURE, SELECT_ABYSSAL, SELECT_STRONGHOLD, SELECT_ARCHIVE]
@@ -19,7 +18,7 @@ class RewardUncollectedError(Exception):
     pass
 
 
-class GlobeOperation(ActionPointHandler, MapEventHandler):
+class GlobeOperation(ActionPointHandler):
     def is_in_globe(self):
         return self.appear(GLOBE_GOTO_MAP, offset=(20, 20))
 

@@ -222,12 +222,11 @@ class MapEventHandler(EnemySearchingHandler):
 
         return cleared
 
-    def handle_os_auto_search_map_option(self, drop=None, enable=True, quit=True):
+    def handle_os_auto_search_map_option(self, drop=None, enable=True):
         """
         Args:
             drop (DropImage):
             enable (bool):
-            quit (bool):
 
         Returns:
             bool: If clicked.
@@ -240,7 +239,7 @@ class MapEventHandler(EnemySearchingHandler):
             raise CampaignEnd
         if self.appear(AUTO_SEARCH_REWARD, offset=(50, 50)):
             self.device.screenshot_interval_set()
-            if quit and self.os_auto_search_quit(drop=drop):
+            if self.os_auto_search_quit(drop=drop):
                 # No more items on current map
                 raise CampaignEnd
             else:
