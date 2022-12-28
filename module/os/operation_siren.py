@@ -745,7 +745,7 @@ class OperationSiren(OSMap):
             return True
         self.os_mission_quit()
 
-        if not is_normal and self.config.OpsiMonthBoss_Hard == "normal":
+        if not is_normal and self.config.OpsiMonthBoss_Mode == "normal":
             logger.info("Attack normal boss only but having hard boss, skip")
             self.month_boss_delay(is_normal=False, result=True)
             self.config.task_stop()

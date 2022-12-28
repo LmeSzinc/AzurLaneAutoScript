@@ -2147,15 +2147,15 @@
       "name": "月度Boss",
       "help": "清理（簡單/困難）月度boss，簡單難度失敗會繼續出擊直到擊破，困難難度失敗則直接終止任務\n使用此功能需要滿足以下條件：\n- 通關大世界主線任務\n- 啟用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
     },
-    "CheckAdaptability": {
-      "name": "適應性在203/203/156以上才打BOSS",
-      "help": ""
-    },
-    "Hard": {
+    "Mode": {
       "name": "清理月度Boss的難度",
       "help": "",
       "normal": "簡單",
       "normal_hard": "簡單 + 困難"
+    },
+    "CheckAdaptability": {
+      "name": "適應性在203/203/156以上才打BOSS",
+      "help": ""
     },
     "ForceRun": {
       "name": "無視運行間隔強制運行",

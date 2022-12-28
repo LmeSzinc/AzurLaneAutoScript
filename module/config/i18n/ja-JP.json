@@ -2147,15 +2147,15 @@
       "name": "OpsiMonthBoss._info.name",
       "help": "OpsiMonthBoss._info.help"
     },
+    "Mode": {
+      "name": "OpsiMonthBoss.Mode.name",
+      "help": "OpsiMonthBoss.Mode.help",
+      "normal": "normal",
+      "normal_hard": "normal_hard"
+    },
     "CheckAdaptability": {
       "name": "OpsiMonthBoss.CheckAdaptability.name",
       "help": "OpsiMonthBoss.CheckAdaptability.help"
-    },
-    "Hard": {
-      "name": "OpsiMonthBoss.Hard.name",
-      "help": "OpsiMonthBoss.Hard.help",
-      "normal": "normal",
-      "normal_hard": "normal_hard"
     },
     "ForceRun": {
       "name": "OpsiMonthBoss.ForceRun.name",

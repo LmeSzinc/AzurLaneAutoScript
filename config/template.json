@@ -1753,8 +1753,8 @@
       "ServerUpdate": "00:00"
     },
     "OpsiMonthBoss": {
+      "Mode": "normal",
       "CheckAdaptability": true,
-      "Hard": "normal",
       "ForceRun": false
     },
     "OpsiFleetFilter": {

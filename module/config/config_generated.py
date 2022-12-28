@@ -385,8 +385,8 @@ class GeneratedConfig:
     OpsiStronghold_ForceRun = False
 
     # Group `OpsiMonthBoss`
+    OpsiMonthBoss_Mode = 'normal'  # normal, normal_hard
     OpsiMonthBoss_CheckAdaptability = True
-    OpsiMonthBoss_Hard = 'normal'  # normal, normal_hard
     OpsiMonthBoss_ForceRun = False
 
     # Group `OpsiMeowfficerFarming`

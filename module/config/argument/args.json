@@ -8365,17 +8365,17 @@
       }
     },
     "OpsiMonthBoss": {
-      "CheckAdaptability": {
-        "type": "checkbox",
-        "value": true
-      },
-      "Hard": {
+      "Mode": {
         "type": "select",
         "value": "normal",
         "option": [
           "normal",
           "normal_hard"
         ]
+      },
+      "CheckAdaptability": {
+        "type": "checkbox",
+        "value": true
       },
       "ForceRun": {
         "type": "checkbox",

@@ -591,10 +591,10 @@ OpsiAbyssal:
 OpsiStronghold:
   ForceRun: false
 OpsiMonthBoss:
-  CheckAdaptability: true
-  Hard:
+  Mode:
     value: normal
-    option: [ normal,normal_hard ]
+    option: [ normal, normal_hard ]
+  CheckAdaptability: true
   ForceRun: false
 OpsiMeowfficerFarming:
   ActionPointPreserve: 1000
