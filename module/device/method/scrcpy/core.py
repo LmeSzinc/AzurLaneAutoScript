@@ -56,7 +56,8 @@ class ScrcpyCore(Connection):
 
     def scrcpy_ensure_running(self):
         if not self._scrcpy_alive:
-            self._scrcpy_server_start()
+            with self._scrcpy_control_socket_lock:
+                self._scrcpy_server_start()
 
     def _scrcpy_server_start(self):
         """
@@ -115,7 +116,6 @@ class ScrcpyCore(Connection):
             Network.LOCAL_ABSTRACT, "scrcpy"
         )
 
-
         logger.info('Fetch device info')
         device_name = self._scrcpy_video_socket.recv(64).decode("utf-8").rstrip("\x00")
         if len(device_name):
@@ -128,11 +128,17 @@ class ScrcpyCore(Connection):
 
         self._scrcpy_video_socket.setblocking(False)
         self._scrcpy_alive = True
+
         logger.info('Start video stream loop thread')
-        self.stream_loop_thread = threading.Thread(
+        self._scrcpy_stream_loop_thread = threading.Thread(
             target=self._scrcpy_stream_loop, daemon=True
         )
-        self.stream_loop_thread.start()
+        self._scrcpy_stream_loop_thread.start()
+        while 1:
+            if self._scrcpy_stream_loop_thread is not None and self._scrcpy_stream_loop_thread.is_alive():
+                break
+            self.sleep(0.001)
+
         logger.info('Scrcpy server is up')
 
     def _scrcpy_server_stop(self):
@@ -202,15 +208,7 @@ class ScrcpyCore(Connection):
                 time.sleep(0.001)
             except (ConnectionError, OSError) as e:  # Socket Closed
                 if self._scrcpy_alive:
-                    raise ScrcpyError(str(e))
+                    logger.error(f'_scrcpy_stream_loop_thread: {repr(e)}')
+                    raise
 
         raise ScrcpyError('_scrcpy_stream_loop stopped')
-
-
-if __name__ == '__main__':
-    self = ScrcpyCore('alas')
-    self.scrcpy_init()
-    self._scrcpy_server_start()
-    time.sleep(1)
-    from PIL import Image
-    Image.fromarray(self._scrcpy_last_frame).show()

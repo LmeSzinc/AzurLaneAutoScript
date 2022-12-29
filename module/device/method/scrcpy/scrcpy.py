@@ -82,6 +82,8 @@ class Scrcpy(ScrcpyCore):
             now = time.time()
             while 1:
                 time.sleep(0.001)
+                if self._scrcpy_stream_loop_thread is None or not self._scrcpy_stream_loop_thread.is_alive():
+                    raise ScrcpyError('_scrcpy_stream_loop_thread died')
                 if self._scrcpy_last_frame_time > now:
                     screenshot = self._scrcpy_last_frame.copy()
                     return screenshot
