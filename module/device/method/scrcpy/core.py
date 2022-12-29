@@ -192,6 +192,7 @@ class ScrcpyCore(Connection):
                 for packet in packets:
                     frames = codec.decode(packet)
                     for frame in frames:
+                        # logger.info('frame received')
                         frame = frame.to_ndarray(format="rgb24")
                         self._scrcpy_last_frame = frame
                         self._scrcpy_last_frame_time = time.time()
