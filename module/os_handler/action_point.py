@@ -145,7 +145,11 @@ class ActionPointHandler(UI, MapEventHandler):
 
             self.action_point_update()
 
-            if sum(self._action_point_box[1:]) > 0 and self._action_point_box[0] > 0:
+            # Having boxes
+            if sum(self._action_point_box[1:]) > 0:
+                break
+            # Or having oil
+            if self._action_point_box[0] > 0:
                 break
 
     @staticmethod
