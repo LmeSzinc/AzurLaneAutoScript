@@ -53,7 +53,11 @@ class AmbushHandler(Combat):
         logger.info('Map ambushed')
         self.wait_until_appear_then_click(MAP_AMBUSH_EVADE)
 
-        self.wait_until_appear(INFO_BAR_1)
+        # self.wait_until_appear(INFO_BAR_1)
+        while 1:
+            self.device.screenshot()
+            if self.info_bar_count():
+                break
         image = info_letter_preprocess(self.image_crop(INFO_BAR_DETECT))
 
         if TEMPLATE_AMBUSH_EVADE_SUCCESS.match(image):
@@ -114,7 +118,7 @@ class AmbushHandler(Combat):
     def handle_walk_out_of_step(self):
         if not self.config.MAP_HAS_FLEET_STEP:
             return False
-        if not self.appear(INFO_BAR_1):
+        if not self.info_bar_count():
             return False
 
         image = info_letter_preprocess(self.image_crop(INFO_BAR_DETECT))
