@@ -14,6 +14,7 @@ from module.device.connection import Connection
 from module.device.method.scrcpy.control import ControlSender
 from module.device.method.scrcpy.options import ScrcpyOptions
 from module.device.method.utils import recv_all
+from module.exception import RequestHumanTakeover
 from module.logger import logger
 
 
@@ -173,8 +174,14 @@ class ScrcpyCore(Connection):
         """
         Core loop for video parsing
         """
-        from av.codec import CodecContext
-        from av.error import InvalidDataError
+        try:
+            from av.codec import CodecContext
+            from av.error import InvalidDataError
+        except ImportError as e:
+            logger.error(e)
+            logger.error('You must have `av` installed to use scrcpy screenshot, please update dependencies')
+            raise RequestHumanTakeover
+
         codec = CodecContext.create("h264", "r")
         while self._scrcpy_alive:
             try:
@@ -188,7 +195,6 @@ class ScrcpyCore(Connection):
                         frame = frame.to_ndarray(format="rgb24")
                         self._scrcpy_last_frame = frame
                         self._scrcpy_last_frame_time = time.time()
-                        logger.info('frame received')
                         self._scrcpy_resolution = (frame.shape[1], frame.shape[0])
             except (BlockingIOError, InvalidDataError):
                 # only return nonempty frames, may block cv2 render thread

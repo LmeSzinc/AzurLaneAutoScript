@@ -79,7 +79,6 @@ class Scrcpy(ScrcpyCore):
 
         # Wait new frame
         with self._scrcpy_control_socket_lock:
-            now = time.time()
             while 1:
                 time.sleep(0.001)
                 if self._scrcpy_last_frame_time > 0:
