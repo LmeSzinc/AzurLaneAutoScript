@@ -8,7 +8,7 @@ from lxml import etree
 
 from module.base.decorator import Config
 from module.device.connection import Connection
-from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES, remove_prefix,
+from module.device.method.utils import (RETRY_TRIES, retry_sleep, remove_prefix,
                                         handle_adb_error, PackageNotInstalled)
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
@@ -25,7 +25,7 @@ def retry(func):
         for _ in range(RETRY_TRIES):
             try:
                 if callable(init):
-                    self.sleep(RETRY_DELAY)
+                    retry_sleep(_)
                     init()
                 return func(self, *args, **kwargs)
             # Can't handle
@@ -77,9 +77,13 @@ def load_screencap(data):
     width, height, _ = header  # Usually to be 1280, 720, 1
 
     image = np.frombuffer(data, dtype=np.uint8)
+    if image is None:
+        raise OSError('Empty image')
     shape = image.shape[0]
     image = image[shape - width * height * channel:].reshape(height, width, channel)
     image = cv2.cvtColor(image, cv2.COLOR_BGRA2BGR)
+    if image is None:
+        raise OSError('Empty image')
     return image
 
 
@@ -104,6 +108,8 @@ class Adb(Connection):
         screenshot = remove_prefix(screenshot, b'long long=8 fun*=10\n')
 
         image = np.frombuffer(screenshot, np.uint8)
+        if image is None:
+            raise OSError('Empty image')
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
         if image is None:
             raise OSError('Empty image')

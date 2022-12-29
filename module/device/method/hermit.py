@@ -8,7 +8,7 @@ from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import point2str, random_rectangle_point
 from module.device.method.adb import Adb
-from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
+from module.device.method.utils import (RETRY_TRIES, retry_sleep,
                                         HierarchyButton, handle_adb_error)
 from module.exception import RequestHumanTakeover
 from module.logger import logger
@@ -29,7 +29,7 @@ def retry(func):
         for _ in range(RETRY_TRIES):
             try:
                 if callable(init):
-                    self.sleep(RETRY_DELAY)
+                    retry_sleep(_)
                     init()
                 return func(self, *args, **kwargs)
             # Can't handle

@@ -8,7 +8,7 @@ import module.device.method.scrcpy.const as const
 from module.base.utils import random_rectangle_point
 from module.device.method.minitouch import insert_swipe
 from module.device.method.scrcpy.core import ScrcpyCore, ScrcpyError
-from module.device.method.utils import RETRY_DELAY, RETRY_TRIES, handle_adb_error
+from module.device.method.utils import RETRY_TRIES, retry_sleep, handle_adb_error
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -21,13 +21,10 @@ def retry(func):
             self (Minitouch):
         """
         init = None
-        sleep = True
         for _ in range(RETRY_TRIES):
             try:
                 if callable(init):
-                    if sleep:
-                        self.sleep(RETRY_DELAY)
-                        sleep = True
+                    retry_sleep(_)
                     init()
                 return func(self, *args, **kwargs)
             # Can't handle
@@ -48,7 +45,6 @@ def retry(func):
             # ScrcpyError
             except ScrcpyError as e:
                 logger.error(e)
-                sleep = False
 
                 def init():
                     self.scrcpy_init()
