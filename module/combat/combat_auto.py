@@ -8,6 +8,7 @@ class CombatAuto(ModuleBase):
     auto_skip_timer = Timer(1)
     auto_click_interval_timer = Timer(1)
     auto_mode_checked = False
+    auto_mode_switched = False
     auto_mode_click_timer = Timer(5)
 
     def combat_joystick_appear(self) -> bool:
@@ -26,6 +27,7 @@ class CombatAuto(ModuleBase):
         self.auto_mode_click_timer.reset()
         self.auto_skip_timer.reset()
         self.auto_mode_checked = False
+        self.auto_mode_switched = False
 
     def handle_combat_auto(self, auto):
         """
@@ -51,11 +53,13 @@ class CombatAuto(ModuleBase):
             if auto:
                 self.device.click(COMBAT_AUTO_SWITCH)
                 self.auto_click_interval_timer.reset()
+                self.auto_mode_switched = True
                 return True
         else:
             if not auto:
                 self.device.click(COMBAT_AUTO_SWITCH)
                 self.auto_click_interval_timer.reset()
+                self.auto_mode_switched = True
                 return True
 
         return False
