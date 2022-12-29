@@ -195,7 +195,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                     end = True
                     total = 10
                     break
-                elif self.appear_then_click(ONE_CLICK_RETIREMENT, interval=2):
+                elif self.appear_then_click(ONE_CLICK_RETIREMENT, offset=(20, 20), interval=2):
                     click_count += 1
                     continue
 
@@ -496,3 +496,9 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         if button is not None:
             self._retire_select_one(button, skip_first_screenshot=False)
             self._have_kept_cv = True
+
+
+if __name__ == '__main__':
+    self = Retirement('alas')
+    self.image_file = r'E:\ProgramData\Pycharm\AzurLaneAutoScript\log\error\1672322132939\2022-12-29_21-55-32-874142.png'
+    print(self.appear(ONE_CLICK_RETIREMENT))
