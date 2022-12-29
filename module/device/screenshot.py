@@ -13,12 +13,13 @@ from module.base.utils import get_color, image_size, limit_in, save_image
 from module.device.method.adb import Adb
 from module.device.method.ascreencap import AScreenCap
 from module.device.method.droidcast import DroidCast
+from module.device.method.scrcpy import Scrcpy
 from module.device.method.wsa import WSA
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
 
-class Screenshot(Adb, WSA, DroidCast, AScreenCap):
+class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
     _screen_size_checked = False
     _screen_black_checked = False
     _minicap_uninstalled = False
@@ -35,6 +36,7 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap):
             'aScreenCap': self.screenshot_ascreencap,
             'aScreenCap_nc': self.screenshot_ascreencap_nc,
             'DroidCast': self.screenshot_droidcast,
+            'scrcpy': self.screenshot_scrcpy,
         }
 
     @timer
@@ -158,6 +160,10 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap):
         else:
             logger.warning(f'Unknown screenshot interval: {interval}')
             raise ScriptError(f'Unknown screenshot interval: {interval}')
+        # Screenshot interval in scrcpy is meaningless,
+        # video stream is received continuously no matter you use it or not.
+        if self.config.Emulator_ScreenshotMethod == 'scrcpy':
+            interval = 0.1
 
         if interval != self._screenshot_interval.limit:
             logger.info(f'Screenshot interval set to {interval}s')

@@ -33,7 +33,7 @@ def random_rho(dis):
     return random_normal_distribution(-dis, dis)
 
 
-def insert_swipe(p0, p3, speed=15):
+def insert_swipe(p0, p3, speed=15, min_distance=10):
     """
     Insert way point from start to end.
     First generate a cubic bézier curve
@@ -74,7 +74,7 @@ def insert_swipe(p0, p3, speed=15):
     for t in ts:
         point = p0 * (1 - t) ** 3 + 3 * p1 * t * (1 - t) ** 2 + 3 * p2 * t ** 2 * (1 - t) + p3 * t ** 3
         point = point.astype(np.int).tolist()
-        if np.linalg.norm(np.subtract(point, prev)) < 10:
+        if np.linalg.norm(np.subtract(point, prev)) < min_distance:
             continue
 
         points.append(point)
@@ -83,7 +83,7 @@ def insert_swipe(p0, p3, speed=15):
     # Delete nearing points
     if len(points[1:]):
         distance = np.linalg.norm(np.subtract(points[1:], points[0]), axis=1)
-        mask = np.append(True, distance > 10)
+        mask = np.append(True, distance > min_distance)
         points = np.array(points)[mask].tolist()
     else:
         points = [p0, p3]

@@ -394,7 +394,8 @@
       "uiautomator2": "uiautomator2",
       "aScreenCap": "aScreenCap",
       "aScreenCap_nc": "aScreenCap_nc",
-      "DroidCast": "DroidCast"
+      "DroidCast": "DroidCast",
+      "scrcpy": "scrcpy"
     },
     "ControlMethod": {
       "name": "模擬器控制方案",

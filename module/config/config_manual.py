@@ -78,6 +78,8 @@ class ManualConfig:
     DROIDCAST_FILEPATH_REMOTE = '/data/local/tmp/DroidCast.apk'
     MINITOUCH_FILEPATH_REMOTE = '/data/local/tmp/minitouch'
     HERMIT_FILEPATH_LOCAL = './bin/hermit/hermit.apk'
+    SCRCPY_FILEPATH_LOCAL = './bin/scrcpy/scrcpy-server-v1.20.jar'
+    SCRCPY_FILEPATH_REMOTE = '/data/local/tmp/scrcpy-server-v1.20.jar'
 
     """
     module.campaign.gems_farming

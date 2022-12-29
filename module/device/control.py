@@ -3,11 +3,12 @@ from module.base.timer import Timer
 from module.base.utils import *
 from module.device.method.hermit import Hermit
 from module.device.method.minitouch import Minitouch
+from module.device.method.scrcpy import Scrcpy
 from module.device.method.uiautomator_2 import Uiautomator2
 from module.logger import logger
 
 
-class Control(Hermit, Uiautomator2, Minitouch):
+class Control(Hermit, Uiautomator2, Minitouch, Scrcpy):
     def handle_control_check(self, button):
         # Will be overridden in Device
         pass
@@ -33,6 +34,8 @@ class Control(Hermit, Uiautomator2, Minitouch):
             self.click_uiautomator2(x, y)
         elif method == 'Hermit':
             self.click_hermit(x, y)
+        elif method == 'scrcpy':
+            self.click_scrcpy(x, y)
         else:
             self.click_adb(x, y)
 
@@ -66,6 +69,8 @@ class Control(Hermit, Uiautomator2, Minitouch):
             self.long_click_minitouch(x, y, duration)
         elif method == 'uiautomator2':
             self.long_click_uiautomator2(x, y, duration)
+        elif method == 'scrcpy':
+            self.long_click_scrcpy(x, y, duration)
         else:
             self.swipe_adb((x, y), (x, y), duration)
 
@@ -78,6 +83,8 @@ class Control(Hermit, Uiautomator2, Minitouch):
             logger.info('Swipe %s -> %s' % (point2str(*p1), point2str(*p2)))
         elif method == 'uiautomator2':
             logger.info('Swipe %s -> %s, %s' % (point2str(*p1), point2str(*p2), duration))
+        elif method == 'scrcpy':
+            logger.info('Swipe %s -> %s' % (point2str(*p1), point2str(*p2)))
         else:
             # ADB needs to be slow, or swipe doesn't work
             duration *= 2.5
@@ -94,6 +101,8 @@ class Control(Hermit, Uiautomator2, Minitouch):
             self.swipe_minitouch(p1, p2)
         elif method == 'uiautomator2':
             self.swipe_uiautomator2(p1, p2, duration=duration)
+        elif method == 'scrcpy':
+            self.swipe_scrcpy(p1, p2)
         else:
             self.swipe_adb(p1, p2, duration=duration)
 
@@ -139,6 +148,8 @@ class Control(Hermit, Uiautomator2, Minitouch):
             self.drag_uiautomator2(
                 p1, p2, segments=segments, shake=shake, point_random=point_random, shake_random=shake_random,
                 swipe_duration=swipe_duration, shake_duration=shake_duration)
+        if method == 'scrcpy':
+            self.drag_scrcpy(p1, p2, point_random=point_random)
         else:
             logger.warning(f'Control method {method} does not support drag well, '
                            f'falling back to ADB swipe may cause unexpected behaviour')

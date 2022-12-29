@@ -107,7 +107,8 @@
           "uiautomator2",
           "aScreenCap",
           "aScreenCap_nc",
-          "DroidCast"
+          "DroidCast",
+          "scrcpy"
         ]
       },
       "ControlMethod": {
