@@ -47,7 +47,6 @@ class InfoHandler(ModuleBase):
         parameters = {
             'height': 235,
             'prominence': 50,
-            'width': (0, 4),
             # Blue lines are in a interval of 56
             'distance': 50,
         }
