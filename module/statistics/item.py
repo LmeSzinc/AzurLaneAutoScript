@@ -3,7 +3,7 @@ import numpy as np
 from module.base.button import ButtonGrid
 from module.base.utils import *
 from module.logger import logger
-from module.ocr.ocr import Digit
+from module.ocr.ocr import Digit, DigitYuv
 from module.statistics.utils import *
 
 
@@ -21,7 +21,7 @@ class AmountOcr(Digit):
 
 
 AMOUNT_OCR = AmountOcr([], threshold=96, name='Amount_ocr')
-PRICE_OCR = Digit([], letter=(255, 223, 57), threshold=32, name='Price_ocr')
+PRICE_OCR = DigitYuv([], letter=(255, 223, 57), threshold=128, name='Price_ocr')
 
 
 class Item:

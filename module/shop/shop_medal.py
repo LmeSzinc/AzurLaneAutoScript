@@ -3,7 +3,7 @@ from module.base.decorator import cached_property, del_cached_property
 from module.base.timer import Timer
 from module.logger import logger
 from module.map_detection.utils import Points
-from module.ocr.ocr import Digit, Ocr
+from module.ocr.ocr import Digit, DigitYuv, Ocr
 from module.shop.assets import *
 from module.shop.base import ShopItemGrid
 from module.shop.clerk import ShopClerk
@@ -13,7 +13,7 @@ OCR_SHOP_MEDAL = Digit(SHOP_MEDAL, letter=(239, 239, 239), name='OCR_SHOP_MEDAL'
 MEDAL_SHOP_SCROLL = Scroll(MEDAL_SHOP_SCROLL_AREA, color=(247, 211, 66))
 
 
-class ShopPriceOcr(Digit):
+class ShopPriceOcr(DigitYuv):
     def after_process(self, result):
         result = Ocr.after_process(self, result)
         # '100' detected as '00' on retrofit blueprint
