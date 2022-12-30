@@ -41,7 +41,7 @@ class InfoHandler(ModuleBase):
             int:
         """
         image = self.image_crop(INFO_BAR_AREA)
-        line = cv2.resize(image, (1, image.shape[0]), interpolation=cv2.INTER_LINEAR)
+        line = cv2.reduce(image, 1, cv2.REDUCE_AVG)
         line = color_similarity_2d(line, color=(107, 158, 255))[:, 0]
 
         parameters = {
