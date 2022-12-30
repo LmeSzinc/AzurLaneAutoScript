@@ -102,6 +102,8 @@ class VoucherShop(ShopClerk):
                 name='SHOP_GRID')
         return shop_grid
 
+    shop_template_folder = './assets/shop/voucher'
+
     @cached_property
     def shop_voucher_items(self):
         """
@@ -113,7 +115,7 @@ class VoucherShop(ShopClerk):
             shop_grid,
             templates={}, amount_area=(60, 74, 96, 95),
             price_area=(52, 132, 132, 162))
-        shop_voucher_items.load_template_folder('./assets/shop/voucher')
+        shop_voucher_items.load_template_folder(self.shop_template_folder)
         shop_voucher_items.load_cost_template_folder('./assets/shop/cost')
         shop_voucher_items.similarity = 0.85
         shop_voucher_items.cost_similarity = 0.5

@@ -106,6 +106,8 @@ class MedalShop2(ShopClerk):
             origin=(477, origin_y), delta=(156, delta_y), button_shape=(96, 96), grid_shape=(5, row), name='SHOP_GRID')
         return shop_grid
 
+    shop_template_folder = './assets/shop/medal'
+
     @cached_property
     def shop_medal_items(self):
         """
@@ -117,7 +119,7 @@ class MedalShop2(ShopClerk):
             shop_grid,
             templates={}, amount_area=(60, 74, 96, 95),
             price_area=(52, 132, 132, 162))
-        shop_medal_items.load_template_folder('./assets/shop/medal')
+        shop_medal_items.load_template_folder(self.shop_template_folder)
         shop_medal_items.load_cost_template_folder('./assets/shop/cost')
         shop_medal_items.similarity = 0.85  # Lower the threshold for consistent matches of PR/DRBP
         shop_medal_items.cost_similarity = 0.5

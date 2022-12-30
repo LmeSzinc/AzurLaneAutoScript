@@ -322,6 +322,12 @@ class ManualConfig:
     COMMON_CV_THRESHOLD = 0.9
 
     """
+    module.shop
+    """
+    # For dev purpose, auto extract new item templates
+    SHOP_EXTRACT_TEMPLATE = False
+
+    """
     module.war_archives
     """
     USE_DATA_KEY = False

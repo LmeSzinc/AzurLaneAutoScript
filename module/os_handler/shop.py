@@ -55,6 +55,8 @@ class OSShopHandler(UI, MapEventHandler):
         Returns:
             list[Item]:
         """
+        if self.config.SHOP_EXTRACT_TEMPLATE:
+            self.os_shop_items.extract_template(self.device.image, './assets/shop/os')
         self.os_shop_items.predict(self.device.image, name=name, amount=name, cost=True, price=True)
 
         items = self.os_shop_items.items

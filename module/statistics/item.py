@@ -119,6 +119,7 @@ class Item:
 class ItemGrid:
     item_class = Item
     similarity = 0.92
+    extract_similarity = 0.92
     cost_similarity = 0.75
 
     def __init__(self, grids, templates, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92),
@@ -209,16 +210,19 @@ class ItemGrid:
             self.next_cost_template_index += 1
         self.next_cost_template_index = max(self.next_cost_template_index, max_digit + 1)
 
-    def match_template(self, image):
+    def match_template(self, image, similarity=None):
         """
         Match templates, try most frequent hit templates first.
 
         Args:
             image (np.ndarray):
+            similarity (float):
 
         Returns:
             str: Template name.
         """
+        if similarity is None:
+            similarity = self.similarity
         color = cv2.mean(crop(image, self.template_area))[:3]
         # Match frequently hit templates first
         names = np.array(list(self.templates.keys()))[np.argsort(list(self.templates_hit.values()))][::-1]
@@ -227,8 +231,8 @@ class ItemGrid:
         for name in names:
             if color_similar(color1=color, color2=self.colors[name], threshold=30):
                 res = cv2.matchTemplate(image, self.templates[name], cv2.TM_CCOEFF_NORMED)
-                _, similarity, _, _ = cv2.minMaxLoc(res)
-                if similarity > self.similarity:
+                _, sim, _, _ = cv2.minMaxLoc(res)
+                if sim > similarity:
                     self.templates_hit[name] += 1
                     return name
 
@@ -254,14 +258,14 @@ class ItemGrid:
         prev = set(self.templates.keys())
         new = {}
         for item in self.items:
-            name = self.match_template(item.image)
+            name = self.match_template(item.image, similarity=self.extract_similarity)
             if name not in prev:
                 new[name] = item.image
                 # Rollback changes
-                self.next_template_index -= 1
-                del self.colors[name]
-                del self.templates[name]
-                del self.templates_hit[name]
+                # self.next_template_index -= 1
+                # del self.colors[name]
+                # del self.templates[name]
+                # del self.templates_hit[name]
 
         if folder is not None:
             for name, im in new.items():
