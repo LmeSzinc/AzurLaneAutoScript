@@ -290,6 +290,10 @@ class OperationSiren(OSMap):
                 OpsiGeneral_DoRandomMapEvent=True,
                 OpsiGeneral_AkashiShopFilter='ActionPoint',
             )
+        if self.is_in_opsi_explore():
+            logger.warning(f'OpsiExplore is still running, cannot do {self.config.task.command}')
+            self.config.task_delay(server_update=True)
+            self.config.task_stop()
 
         ap_checked = False
         while 1:
@@ -366,7 +370,8 @@ class OperationSiren(OSMap):
                 logger.info('Reach the limit of yellow coins, preserve=100000')
                 with self.config.multi_set():
                     self.config.task_delay(server_update=True)
-                    self.config.task_call('OpsiMeowfficerFarming')
+                    if not self.is_in_opsi_explore():
+                        self.config.task_call('OpsiMeowfficerFarming')
                 self.config.task_stop()
 
             self.get_current_zone()
@@ -380,7 +385,8 @@ class OperationSiren(OSMap):
             if self._action_point_total >= 3000:
                 with self.config.multi_set():
                     self.config.task_delay(server_update=True)
-                    self.config.task_call('OpsiMeowfficerFarming')
+                    if not self.is_in_opsi_explore():
+                        self.config.task_call('OpsiMeowfficerFarming')
                 self.config.task_stop()
 
             if self.config.OpsiHazard1Leveling_TargetZone != 0:
@@ -432,6 +438,7 @@ class OperationSiren(OSMap):
                 self.config.task_delay(target=next_reset)
                 self.config.task_call('OpsiDaily', force_call=False)
                 self.config.task_call('OpsiShop', force_call=False)
+                self.config.task_call('OpsiHazard1Leveling', force_call=False)
             self.config.task_stop()
 
         logger.hr('OS explore', level=1)
