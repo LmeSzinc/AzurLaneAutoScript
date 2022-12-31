@@ -203,7 +203,8 @@ class VoucherShop(ShopClerk):
                 logger.info('Voucher Shop reach bottom, stop')
                 break
             else:
-                VOUCHER_SHOP_SCROLL.next_page(main=self, page=0.66)
+                # Only 4 rows of items at max, goto bottom directly
+                VOUCHER_SHOP_SCROLL.set_bottom(main=self)
                 del_cached_property(self, 'shop_grid')
                 del_cached_property(self, 'shop_voucher_items')
                 continue

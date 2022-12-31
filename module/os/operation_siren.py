@@ -80,9 +80,10 @@ class OperationSiren(OSMap):
             rescan (None, bool): refer to run_auto_search
 
         Returns:
-            bool: True if all finished.
+            int: Number of missions finished
         """
         logger.hr('OS finish daily mission', level=1)
+        count = 0
         while 1:
             result = self.os_get_next_mission()
             if not result:
@@ -100,9 +101,10 @@ class OperationSiren(OSMap):
                 submarine_call=self.config.OpsiFleet_Submarine and result != 'pinned_at_archive_zone')
             self.run_auto_search(question, rescan)
             self.handle_after_auto_search()
+            count += 1
             self.config.check_task_switch()
 
-        return True
+        return count
 
     def os_daily(self):
         # Finish existing missions first
@@ -172,6 +174,8 @@ class OperationSiren(OSMap):
 
         self.is_in_opsi_explore = false_func
         self.config.task_switched = false_func
+        count = 0
+        empty_trial = 0
         while 1:
             # If unable to receive more dailies, finish them and try again.
             success = self.os_mission_overview_accept()
@@ -180,7 +184,16 @@ class OperationSiren(OSMap):
             # need to confirm that the animation has ended,
             # or it will click on MAP_GOTO_GLOBE
             self.zone_init()
-            self.os_finish_daily_mission()
+            if empty_trial >= 5:
+                logger.warning('No Opsi dailies found within 5 min, stop waiting')
+                break
+            count += self.os_finish_daily_mission()
+            if not count:
+                logger.warning('Did not receive any OpSi dailies, '
+                               'probably game dailies are not refreshed, wait 1 minute')
+                empty_trial += 1
+                self.device.sleep(60)
+                continue
             if success:
                 break
 
@@ -290,6 +303,10 @@ class OperationSiren(OSMap):
                 OpsiGeneral_DoRandomMapEvent=True,
                 OpsiGeneral_AkashiShopFilter='ActionPoint',
             )
+        if self.is_in_opsi_explore():
+            logger.warning(f'OpsiExplore is still running, cannot do {self.config.task.command}')
+            self.config.task_delay(server_update=True)
+            self.config.task_stop()
 
         ap_checked = False
         while 1:
@@ -366,7 +383,8 @@ class OperationSiren(OSMap):
                 logger.info('Reach the limit of yellow coins, preserve=100000')
                 with self.config.multi_set():
                     self.config.task_delay(server_update=True)
-                    self.config.task_call('OpsiMeowfficerFarming')
+                    if not self.is_in_opsi_explore():
+                        self.config.task_call('OpsiMeowfficerFarming')
                 self.config.task_stop()
 
             self.get_current_zone()
@@ -380,7 +398,8 @@ class OperationSiren(OSMap):
             if self._action_point_total >= 3000:
                 with self.config.multi_set():
                     self.config.task_delay(server_update=True)
-                    self.config.task_call('OpsiMeowfficerFarming')
+                    if not self.is_in_opsi_explore():
+                        self.config.task_call('OpsiMeowfficerFarming')
                 self.config.task_stop()
 
             if self.config.OpsiHazard1Leveling_TargetZone != 0:
@@ -432,6 +451,7 @@ class OperationSiren(OSMap):
                 self.config.task_delay(target=next_reset)
                 self.config.task_call('OpsiDaily', force_call=False)
                 self.config.task_call('OpsiShop', force_call=False)
+                self.config.task_call('OpsiHazard1Leveling', force_call=False)
             self.config.task_stop()
 
         logger.hr('OS explore', level=1)
