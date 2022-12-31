@@ -424,6 +424,7 @@ class AzurLaneAutoScript:
                     logger.info('Close game during wait')
                     self.device.app_stop()
                     release_resources()
+                    self.device.release_during_wait()
                     if not self.wait_until(task.next_run):
                         del self.__dict__['config']
                         continue
@@ -432,18 +433,21 @@ class AzurLaneAutoScript:
                     logger.info('Goto main page during wait')
                     self.run('goto_main')
                     release_resources()
+                    self.device.release_during_wait()
                     if not self.wait_until(task.next_run):
                         del self.__dict__['config']
                         continue
                 elif method == 'stay_there':
                     logger.info('Stay there during wait')
                     release_resources()
+                    self.device.release_during_wait()
                     if not self.wait_until(task.next_run):
                         del self.__dict__['config']
                         continue
                 else:
                     logger.warning(f'Invalid Optimization_WhenTaskQueueEmpty: {method}, fallback to stay_there')
                     release_resources()
+                    self.device.release_during_wait()
                     if not self.wait_until(task.next_run):
                         del self.__dict__['config']
                         continue

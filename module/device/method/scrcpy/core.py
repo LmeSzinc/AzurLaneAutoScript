@@ -146,9 +146,9 @@ class ScrcpyCore(Connection):
         Stop listening (both threaded and blocked)
         """
         logger.hr('Scrcpy server stop')
-        err = self._scrcpy_receive_from_server_stream()
-        if err:
-            logger.error(err)
+        # err = self._scrcpy_receive_from_server_stream()
+        # if err:
+        #     logger.error(err)
 
         self._scrcpy_alive = False
         if self._scrcpy_server_stream is not None:
@@ -168,6 +168,8 @@ class ScrcpyCore(Connection):
                 self._scrcpy_video_socket.close()
             except Exception:
                 pass
+
+        logger.info('Scrcpy server stopped')
 
     def _scrcpy_receive_from_server_stream(self):
         if self._scrcpy_server_stream is not None:
