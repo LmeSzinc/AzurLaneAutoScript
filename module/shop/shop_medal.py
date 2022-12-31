@@ -81,7 +81,7 @@ class MedalShop2(ShopClerk):
             row = 2
         elif count == 1:
             y_list = medals[:, 1]
-            # +256, to location on screen
+            # +256, top of the crop area in _get_medals()
             # -125, from the top of medal icon to the top of shop item
             origin_y = y_list[0] + 256 - 125
             delta_y = 213

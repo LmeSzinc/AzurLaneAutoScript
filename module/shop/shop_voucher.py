@@ -9,12 +9,10 @@ from module.ocr.ocr import Digit
 from module.shop.assets import *
 from module.shop.base import ShopItemGrid
 from module.shop.clerk import ShopClerk
-from module.shop.shop_medal import ShopPriceOcr
 from module.ui.scroll import Scroll
 
 OCR_SHOP_VOUCHER = Digit(SHOP_VOUCHER, letter=(255, 255, 255), name='OCR_SHOP_VOUCHER')
 VOUCHER_SHOP_SCROLL = Scroll(VOUCHER_SHOP_SCROLL_AREA, color=(255, 255, 255))
-PRICE_OCR = ShopPriceOcr([], letter=(255, 223, 57), threshold=32, name='Price_ocr')
 TEMPLATE_VOUCHER_ICON = Template('./assets/shop/cost/Voucher.png')
 
 
@@ -32,7 +30,7 @@ class VoucherShop(ShopClerk):
         Returns:
             np.array: [[x1, y1], [x2, y2]], location of the voucher icon upper-left corner.
         """
-        left_column = self.image_crop((476, 306, 1256, 646))
+        left_column = self.image_crop((305, 306, 1256, 646))
         vouchers = TEMPLATE_VOUCHER_ICON.match_multi(left_column, similarity=0.75, threshold=5)
         vouchers = Points([(0., v.area[1]) for v in vouchers]).group(threshold=5)
         logger.attr('Vouchers_icon', len(vouchers))
@@ -73,15 +71,15 @@ class VoucherShop(ShopClerk):
             row = 2
         elif count == 1:
             y_list = vouchers[:, 1]
-            # +256, to location on screen
-            # -88, from the top of voucher icon to the top of shop item
-            origin_y = y_list[0] + 256 - 88
+            # +306, top of the crop area in _get_vouchers()
+            # -133, from the top of voucher icon to the top of shop item
+            origin_y = y_list[0] + 306 - 133
             delta_y = 191
             row = 1
         elif count == 2:
             y_list = vouchers[:, 1]
             y1, y2 = y_list[0], y_list[1]
-            origin_y = min(y1, y2) + 256 - 88
+            origin_y = min(y1, y2) + 306 - 133
             delta_y = abs(y1 - y2)
             row = 2
         else:
@@ -119,7 +117,6 @@ class VoucherShop(ShopClerk):
         shop_voucher_items.load_cost_template_folder('./assets/shop/cost')
         shop_voucher_items.similarity = 0.85
         shop_voucher_items.cost_similarity = 0.5
-        shop_voucher_items.price_ocr = PRICE_OCR
         return shop_voucher_items
 
     def shop_items(self):
