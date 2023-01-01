@@ -61,8 +61,13 @@ class AssistantHandler:
         return [f.strip(' \t\r\n') for f in string.split(sep)]
 
     def maa_stop(self):
+        self.callback_list.append(self.task_end_callback)
         self.asst.stop()
         while 1:
+            if self.callback_timer.reached():
+                logger.critical('MAA no respond, probably stuck')
+                raise RequestHumanTakeover
+
             if self.signal in [
                 self.Message.AllTasksCompleted,
                 self.Message.TaskChainCompleted,
@@ -111,6 +116,7 @@ class AssistantHandler:
             self.Message.TaskChainStopped
         ]:
             self.signal = m
+            self.callback_list.remove(self.task_end_callback)
 
     def penguin_id_callback(self, m, d):
         if not self.config.MaaRecord_PenguinID \
