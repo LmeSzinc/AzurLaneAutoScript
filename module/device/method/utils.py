@@ -218,7 +218,7 @@ class IniterNoMinicap(u2.init.Initer):
         return []
 
 
-class DevicePatch(u2._Device):
+class Device(u2.Device):
     def show_float_window(self, show=True):
         """
         Don't show float windows.
@@ -228,7 +228,7 @@ class DevicePatch(u2._Device):
 
 # Monkey patch
 u2.init.Initer = IniterNoMinicap
-u2.Device = DevicePatch
+u2.Device = Device
 
 
 class HierarchyButton:
