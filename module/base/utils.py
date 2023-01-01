@@ -323,10 +323,11 @@ def area_cross_area(area1, area2, threshold=5):
     Returns:
         bool:
     """
-    return point_in_area((area1[0], area1[1]), area2, threshold=threshold) \
-           or point_in_area((area1[2], area1[1]), area2, threshold=threshold) \
-           or point_in_area((area1[0], area1[3]), area2, threshold=threshold) \
-           or point_in_area((area1[2], area1[3]), area2, threshold=threshold)
+    # https://www.yiiven.cn/rect-is-intersection.html
+    xa1, ya1, xa2, ya2 = area1
+    xb1, yb1, xb2, yb2 = area2
+    return abs(xb2 + xb1 - xa2 - xa1) <= xa2 - xa1 + xb2 - xb1 + threshold * 2 \
+            and abs(yb2 + yb1 - ya2 - ya1) <= ya2 - ya1 + yb2 - yb1 + threshold * 2
 
 
 def float2str(n, decimal=3):
