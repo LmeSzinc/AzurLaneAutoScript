@@ -85,7 +85,7 @@ class ArknightsAutoScript(AzurLaneAutoScript):
             if self.config.MaaEmulator_TouchMethod == 'maatouch':
                 asst.set_instance_option(AssistantHandler.InstanceOptionType.deployment_with_pause, '1')
             else:
-                logger.critical('使用了不支持自动下干员的触控方案')
+                logger.critical('使用了不支持暂停下干员的触控方案')
                 raise RequestHumanTakeover
 
         return asst
