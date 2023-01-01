@@ -46,7 +46,9 @@ class ServerChecker:
             return
 
         try:
-            resp = requests.post(
+            session = requests.Session()
+            session.trust_env = False
+            resp = session.post(
                 url=f'{self._base}{self._api["get_state"]}',
                 params={
                     'server_name': self._server
@@ -172,12 +174,15 @@ class ServerChecker:
         """
         self._retry = True
         try:
-            _ = requests.get('https://www.baidu.com', timeout=5)
+            session = requests.Session()
+            session.trust_env = False
+            _ = session.get('https://www.baidu.com', timeout=5)
             network_available = True
         except Exception as e:
             logger.error(e)
             network_available = False
 
+        logger.attr('network_available', network_available)
         if network_available:
             logger.info('Trigger fast retry.')
             last = self._state.copy()

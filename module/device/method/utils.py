@@ -210,14 +210,25 @@ class IniterNoMinicap(u2.init.Initer):
     @property
     def minicap_urls(self):
         """
+        Don't install minicap on emulators, return empty urls.
+
         binary from https://github.com/openatx/stf-binaries
         only got abi: armeabi-v7a and arm64-v8a
         """
         return []
 
 
-# Monkey patch, don't install minicap on emulators
+class DevicePatch(u2._Device):
+    def show_float_window(self, show=True):
+        """
+        Don't show float windows.
+        """
+        pass
+
+
+# Monkey patch
 u2.init.Initer = IniterNoMinicap
+u2.Device = DevicePatch
 
 
 class HierarchyButton:
