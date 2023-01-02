@@ -54,6 +54,8 @@ def recv_all(stream, chunk_size=4096, recv_interval=0.000) -> bytes:
     if isinstance(stream, _AdbStreamConnection):
         stream = stream.conn
         stream.settimeout(10)
+    else:
+        stream.settimeout(10)
 
     try:
         fragments = []
