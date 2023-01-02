@@ -465,6 +465,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
 
         success = True
         died_timer = Timer(1.5, count=3)
+        self.hp_reset()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -510,9 +511,11 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                     self.interrupt_auto_search()
                 result = self.auto_search_combat(drop=drop)
                 if not result:
-                    success = False
-                    logger.warning('Fleet died, stop auto search')
-                    continue
+                    self.hp_get()
+                    if any(self.need_repair):
+                        success = False
+                        logger.warning('Fleet died, stop auto search')
+                        continue
             if self.handle_map_event():
                 # Auto search can not handle siren searching device.
                 continue

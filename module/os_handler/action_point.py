@@ -355,6 +355,8 @@ class ActionPointHandler(UI, MapEventHandler):
                 continue
             if self.handle_map_event():
                 continue
+            if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50)):
+                continue
 
     def action_point_set(self, zone=None, pinned=None, cost=None, keep_current_ap=True):
         """
