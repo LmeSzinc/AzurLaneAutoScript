@@ -1845,8 +1845,7 @@
       "AscreencapncScreenshot": true,
       "AdbClick": true,
       "Uiautomator2Click": true,
-      "MinitouchClick": true,
-      "HermitClick": false
+      "MinitouchClick": true
     },
     "Storage": {
       "Storage": {}

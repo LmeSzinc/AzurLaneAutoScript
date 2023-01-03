@@ -8655,10 +8655,6 @@
       "MinitouchClick": {
         "type": "checkbox",
         "value": true
-      },
-      "HermitClick": {
-        "type": "checkbox",
-        "value": false
       }
     },
     "Storage": {

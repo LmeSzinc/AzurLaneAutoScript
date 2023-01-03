@@ -2259,10 +2259,6 @@
     "MinitouchClick": {
       "name": "测试 minitouch 点击",
       "help": ""
-    },
-    "HermitClick": {
-      "name": "测试 Hermit 点击",
-      "help": ""
     }
   },
   "AzurLaneUncensored": {

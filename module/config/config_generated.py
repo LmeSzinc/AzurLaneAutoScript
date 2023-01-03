@@ -413,7 +413,6 @@ class GeneratedConfig:
     Benchmark_AdbClick = True
     Benchmark_Uiautomator2Click = True
     Benchmark_MinitouchClick = True
-    Benchmark_HermitClick = False
 
     # Group `AzurLaneUncensored`
     AzurLaneUncensored_Repository = 'https://gitee.com/LmeSzinc/AzurLaneUncensored'

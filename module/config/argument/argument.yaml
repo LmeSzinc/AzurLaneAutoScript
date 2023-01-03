@@ -624,7 +624,6 @@ Benchmark:
   AdbClick: true
   Uiautomator2Click: true
   MinitouchClick: true
-  HermitClick: false
 AzurLaneUncensored:
   Repository: https://gitee.com/LmeSzinc/AzurLaneUncensored
 GameManager:

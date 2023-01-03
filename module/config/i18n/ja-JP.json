@@ -2259,10 +2259,6 @@
     "MinitouchClick": {
       "name": "Benchmark.MinitouchClick.name",
       "help": "Benchmark.MinitouchClick.help"
-    },
-    "HermitClick": {
-      "name": "Benchmark.HermitClick.name",
-      "help": "Benchmark.HermitClick.help"
     }
   },
   "AzurLaneUncensored": {
