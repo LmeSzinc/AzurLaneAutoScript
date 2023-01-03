@@ -3,7 +3,7 @@ from module.base.decorator import cached_property, del_cached_property
 from module.base.timer import Timer
 from module.logger import logger
 from module.map_detection.utils import Points
-from module.ocr.ocr import Digit, Ocr
+from module.ocr.ocr import Digit, DigitYuv, Ocr
 from module.shop.assets import *
 from module.shop.base import ShopItemGrid
 from module.shop.clerk import ShopClerk
@@ -13,7 +13,7 @@ OCR_SHOP_MEDAL = Digit(SHOP_MEDAL, letter=(239, 239, 239), name='OCR_SHOP_MEDAL'
 MEDAL_SHOP_SCROLL = Scroll(MEDAL_SHOP_SCROLL_AREA, color=(247, 211, 66))
 
 
-class ShopPriceOcr(Digit):
+class ShopPriceOcr(DigitYuv):
     def after_process(self, result):
         result = Ocr.after_process(self, result)
         # '100' detected as '00' on retrofit blueprint
@@ -106,6 +106,8 @@ class MedalShop2(ShopClerk):
             origin=(477, origin_y), delta=(156, delta_y), button_shape=(96, 96), grid_shape=(5, row), name='SHOP_GRID')
         return shop_grid
 
+    shop_template_folder = './assets/shop/medal'
+
     @cached_property
     def shop_medal_items(self):
         """
@@ -117,7 +119,7 @@ class MedalShop2(ShopClerk):
             shop_grid,
             templates={}, amount_area=(60, 74, 96, 95),
             price_area=(52, 132, 132, 162))
-        shop_medal_items.load_template_folder('./assets/shop/medal')
+        shop_medal_items.load_template_folder(self.shop_template_folder)
         shop_medal_items.load_cost_template_folder('./assets/shop/cost')
         shop_medal_items.similarity = 0.85  # Lower the threshold for consistent matches of PR/DRBP
         shop_medal_items.cost_similarity = 0.5

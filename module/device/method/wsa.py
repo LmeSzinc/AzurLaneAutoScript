@@ -4,7 +4,7 @@ from functools import wraps
 from adbutils.errors import AdbError
 
 from module.device.connection import Connection
-from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
+from module.device.method.utils import (RETRY_TRIES, retry_sleep,
                                         handle_adb_error, PackageNotInstalled)
 from module.exception import RequestHumanTakeover
 from module.logger import logger
@@ -21,8 +21,7 @@ def retry(func):
         for _ in range(RETRY_TRIES):
             try:
                 if callable(init):
-                    self.sleep(RETRY_DELAY)
-                    init()
+                    retry_sleep(_)
                 return func(self, *args, **kwargs)
             # Can't handle
             except RequestHumanTakeover:

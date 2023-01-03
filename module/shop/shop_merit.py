@@ -10,6 +10,8 @@ OCR_SHOP_MERIT = Digit(SHOP_MERIT, letter=(239, 239, 239), name='OCR_SHOP_MERIT'
 
 
 class MeritShop(ShopClerk, ShopUI):
+    shop_template_folder = './assets/shop/merit'
+
     @cached_property
     def shop_filter(self):
         """
@@ -26,7 +28,7 @@ class MeritShop(ShopClerk, ShopUI):
         """
         shop_grid = self.shop_grid
         shop_merit_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_merit_items.load_template_folder('./assets/shop/merit')
+        shop_merit_items.load_template_folder(self.shop_template_folder)
         shop_merit_items.load_cost_template_folder('./assets/shop/cost')
         return shop_merit_items
 

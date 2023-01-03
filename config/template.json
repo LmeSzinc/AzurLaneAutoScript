@@ -10,9 +10,10 @@
       "AdbRestart": false
     },
     "RestartEmulator": {
+      "Enable": false,
+      "EmulatorData": "emulator:\nname:\npath:",
       "ErrorRestart": false,
-      "DailyRestart": false,
-      "EmulatorType": "auto"
+      "DailyRestart": false
     },
     "Error": {
       "HandleError": true,
@@ -1742,6 +1743,27 @@
       "Storage": {}
     }
   },
+  "OpsiMonthBoss": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "OpsiMonthBoss",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "OpsiMonthBoss": {
+      "Mode": "normal",
+      "CheckAdaptability": true,
+      "ForceRun": false
+    },
+    "OpsiFleetFilter": {
+      "Filter": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "OpsiMeowfficerFarming": {
     "Scheduler": {
       "Enable": false,
@@ -1823,8 +1845,7 @@
       "AscreencapncScreenshot": true,
       "AdbClick": true,
       "Uiautomator2Click": true,
-      "MinitouchClick": true,
-      "HermitClick": false
+      "MinitouchClick": true
     },
     "Storage": {
       "Storage": {}

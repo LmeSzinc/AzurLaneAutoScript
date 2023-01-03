@@ -24,7 +24,7 @@ def retry(func):
         for _ in range(RETRY_TRIES):
             try:
                 if callable(init):
-                    self.sleep(RETRY_DELAY)
+                    retry_sleep(_)
                     init()
                 return func(self, *args, **kwargs)
             # Can't handle

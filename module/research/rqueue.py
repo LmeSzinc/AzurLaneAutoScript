@@ -119,7 +119,7 @@ class ResearchQueue(ResearchUI):
         center = button.crop((7, 7, 21, 21))
         if self.image_color_count(center, color=(255, 158, 57), threshold=180, count=20):
             return 'finished'
-        if self.image_color_count(center, color=(90, 97, 132), threshold=221, count=20):
+        if self.image_color_count(center, color=(90, 97, 132), threshold=221, count=10):
             return 'waiting'
         if self.image_color_count(center, color=(24, 24, 41), threshold=221, count=10):
             below = button.crop((7, 14, 21, 21))

@@ -23,24 +23,29 @@ Emulator:
     valuetype: str
   PackageName:
     value: auto
-    option: [auto, ]
+    option: [ auto, ]
   ServerName:
     value: disabled
-    option: [disabled, ]
+    option: [ disabled, ]
   ScreenshotMethod:
     value: ADB_nc
-    option: [ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc, DroidCast]
+    option: [ ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc, DroidCast, scrcpy ]
   ControlMethod:
     value: minitouch
-    option: [ADB, uiautomator2, minitouch, Hermit]
+    option: [ ADB, uiautomator2, minitouch, Hermit ]
   ScreenshotDedithering: false
   AdbRestart: false
 RestartEmulator:
+  Enable: false
+  EmulatorData:
+    type: textarea
+    mode: yaml
+    value: |-
+      emulator:
+      name:
+      path:
   ErrorRestart: False
   DailyRestart: False
-  EmulatorType:
-    value: auto
-    option: [auto, nox_player, bluestacks_5, mumu_player]
 Error:
   HandleError: true
   SaveError: true
@@ -55,39 +60,39 @@ Optimization:
   TaskHoardingDuration: 0
   WhenTaskQueueEmpty:
     value: goto_main
-    option: [stay_there, goto_main, close_game]
+    option: [ stay_there, goto_main, close_game ]
 DropRecord:
   SaveFolder: ./screenshots
   AzurStatsID: null
   API:
     value: default
-    option: [default, cn_gz_reverse_proxy, cn_sh_reverse_proxy]
+    option: [ default, cn_gz_reverse_proxy, cn_sh_reverse_proxy ]
   ResearchRecord:
     value: do_not
-    option: [do_not, save, upload, save_and_upload]
+    option: [ do_not, save, upload, save_and_upload ]
   CommissionRecord:
     value: do_not
-    option: [do_not, save, upload, save_and_upload]
+    option: [ do_not, save, upload, save_and_upload ]
   CombatRecord:
     value: do_not
-    option: [do_not, save]
+    option: [ do_not, save ]
   OpsiRecord:
     value: do_not
-    option: [do_not, save, upload, save_and_upload]
+    option: [ do_not, save, upload, save_and_upload ]
   MeowfficerBuy:
     value: do_not
-    option: [do_not, save]
+    option: [ do_not, save ]
   MeowfficerTalent:
     value: do_not
-    option: [do_not, save, upload, save_and_upload]
+    option: [ do_not, save, upload, save_and_upload ]
 Retirement:
   Enable: true
   RetireMode:
     value: one_click_retire
-    option: [one_click_retire, enhance, old_retire]
+    option: [ one_click_retire, enhance, old_retire ]
   RetireAmount:
     value: retire_all
-    option: [retire_all, retire_10]
+    option: [ retire_all, retire_10 ]
   EnhanceFavourite: false
   EnhanceFilter:
   EnhanceCheckPerCategory: 2
@@ -102,10 +107,10 @@ Campaign:
   Name: 12-4
   Event:
     value: campaign_main
-    option: [campaign_main]
+    option: [ campaign_main ]
   Mode:
     value: normal
-    option: [normal, hard]
+    option: [ normal, hard ]
   UseClearMode: true
   UseFleetLock: true
   UseAutoSearch: true
@@ -116,51 +121,51 @@ StopCondition:
   OilLimit: 1000
   MapAchievement:
     value: non_stop
-    option: [non_stop, 100_percent_clear, map_3_stars, threat_safe, threat_safe_without_3_stars]
+    option: [ non_stop, 100_percent_clear, map_3_stars, threat_safe, threat_safe_without_3_stars ]
   StageIncrease: false
   GetNewShip: false
   ReachLevel: 0
 Fleet:
   Fleet1:
     value: 1
-    option: [1, 2, 3, 4, 5, 6]
+    option: [ 1, 2, 3, 4, 5, 6 ]
   Fleet1Formation:
     value: double_line
-    option: [line_ahead, double_line, diamond]
+    option: [ line_ahead, double_line, diamond ]
   Fleet1Mode:
     value: combat_auto
-    option: [combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left]
+    option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left ]
   Fleet1Step:
     value: 3
-    option: [2, 3, 4, 5]
+    option: [ 2, 3, 4, 5 ]
   Fleet2:
     value: 2
-    option: [0, 1, 2, 3, 4, 5, 6]
+    option: [ 0, 1, 2, 3, 4, 5, 6 ]
   Fleet2Formation:
     value: double_line
-    option: [line_ahead, double_line, diamond]
+    option: [ line_ahead, double_line, diamond ]
   Fleet2Mode:
     value: combat_auto
-    option: [combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left]
+    option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left ]
   Fleet2Step:
     value: 2
-    option: [2, 3, 4, 5]
+    option: [ 2, 3, 4, 5 ]
   FleetOrder:
     value: fleet1_mob_fleet2_boss
-    option: [fleet1_mob_fleet2_boss, fleet1_boss_fleet2_mob, fleet1_all_fleet2_standby, fleet1_standby_fleet2_all]
+    option: [ fleet1_mob_fleet2_boss, fleet1_boss_fleet2_mob, fleet1_all_fleet2_standby, fleet1_standby_fleet2_all ]
 Submarine:
   Fleet:
     value: 0
-    option: [0, 1, 2]
+    option: [ 0, 1, 2 ]
   Mode:
     value: do_not_use
-    option: [do_not_use, hunt_only, boss_only, hunt_and_boss, every_combat]
+    option: [ do_not_use, hunt_only, boss_only, hunt_and_boss, every_combat ]
   AutoSearchMode:
     value: sub_standby
     option: [ sub_standby, sub_auto_call ]
   DistanceToBoss:
     value: '2_grid_to_boss'
-    option: [to_boss_position, 1_grid_to_boss, 2_grid_to_boss, use_open_ocean_support]
+    option: [ to_boss_position, 1_grid_to_boss, 2_grid_to_boss, use_open_ocean_support ]
 Emotion:
   CalculateEmotion: true
   IgnoreLowEmotionWarn: false
@@ -170,10 +175,10 @@ Emotion:
     display: disabled
   Fleet1Control:
     value: prevent_yellow_face
-    option: [keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face]
+    option: [ keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face ]
   Fleet1Recover:
     value: not_in_dormitory
-    option: [not_in_dormitory, dormitory_floor_1, dormitory_floor_2]
+    option: [ not_in_dormitory, dormitory_floor_1, dormitory_floor_2 ]
   Fleet1Oath: false
   Fleet2Value: 119
   Fleet2Record:
@@ -181,10 +186,10 @@ Emotion:
     display: disabled
   Fleet2Control:
     value: prevent_yellow_face
-    option: [keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face]
+    option: [ keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face ]
   Fleet2Recover:
     value: not_in_dormitory
-    option: [not_in_dormitory, dormitory_floor_1, dormitory_floor_2]
+    option: [ not_in_dormitory, dormitory_floor_1, dormitory_floor_2 ]
   Fleet2Oath: false
 HpControl:
   UseHpBalance: false
@@ -198,7 +203,7 @@ HpControl:
 EnemyPriority:
   EnemyScaleBalanceWeight:
     value: default_mode
-    option: [default_mode, S3_enemy_first, S1_enemy_first]
+    option: [ default_mode, S3_enemy_first, S1_enemy_first ]
 C11AffinityFarming:
   RunCount: 32
 C72MysteryFarming:
@@ -206,17 +211,17 @@ C72MysteryFarming:
 C122MediumLeveling:
   LargeEnemyTolerance:
     value: 1
-    option: [0, 1, 2, 10]
+    option: [ 0, 1, 2, 10 ]
 C124LargeLeveling:
   NonLargeEnterTolerance:
     value: 1
-    option: [0, 1, 2]
+    option: [ 0, 1, 2 ]
   NonLargeRetreatTolerance:
     value: 1
-    option: [0, 1, 2, 10]
+    option: [ 0, 1, 2, 10 ]
   PickupAmmo:
     value: 3
-    option: [3, 4, 5]
+    option: [ 3, 4, 5 ]
 GemsFarming:
   FlagshipChange: true
   FlagshipEquipChange: false
@@ -225,7 +230,7 @@ GemsFarming:
   LowEmotionRetreat: true
   CommonCV:
     value: any
-    option: [any, langley, bogue, ranger, hermes]
+    option: [ any, langley, bogue, ranger, hermes ]
   CommissionLimit: true
 
 # ==================== Event ====================
@@ -238,7 +243,7 @@ TaskBalancer:
   CoinLimit: 10000
   TaskCall:
     value: Main
-    option: [Main, Main2, Main3]
+    option: [ Main, Main2, Main3 ]
 EventDaily:
   StageFilter: |-
     A1 > A2 > A3
@@ -246,7 +251,7 @@ EventDaily:
 Raid:
   Mode:
     value: hard
-    option: [easy, normal, hard]
+    option: [ easy, normal, hard ]
   UseTicket: false
 RaidDaily:
   StageFilter: |-
@@ -294,7 +299,7 @@ Tactical:
     > first
   RapidTrainingSlot:
     value: do_not_use
-    option: [do_not_use, slot_1, slot_2, slot_3, slot_4]
+    option: [ do_not_use, slot_1, slot_2, slot_3, slot_4 ]
 ControlExpOverflow:
   Enable: true
   T4Allow: 100
@@ -307,13 +312,13 @@ AddNewStudent:
 Research:
   UseCube:
     value: only_05_hour
-    option: [always_use, only_05_hour, only_no_project, do_not_use]
+    option: [ always_use, only_05_hour, only_no_project, do_not_use ]
   UseCoin:
     value: always_use
-    option: [always_use, only_05_hour, only_no_project, do_not_use]
+    option: [ always_use, only_05_hour, only_no_project, do_not_use ]
   UsePart:
     value: always_use
-    option: [always_use, only_05_hour, only_no_project, do_not_use]
+    option: [ always_use, only_05_hour, only_no_project, do_not_use ]
   AllowDelay: true
   PresetFilter:
     value: series_5_blueprint_152
@@ -349,7 +354,7 @@ MeowfficerTrain:
   Enable: false
   Mode:
     value: seamlessly
-    option: [seamlessly, once_a_day]
+    option: [ seamlessly, once_a_day ]
   RetainTalentedGold: true
   RetainTalentedPurple: true
   EnhanceIndex: 1
@@ -388,40 +393,40 @@ GuildShop:
     PlateT4 > BookT3 > PR > CatT3 > Chip > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4
   BOX_T3:
     value: ironblood
-    option: [eagle, royal, sakura, ironblood]
+    option: [ eagle, royal, sakura, ironblood ]
   BOX_T4:
     value: ironblood
-    option: [eagle, royal, sakura, ironblood]
+    option: [ eagle, royal, sakura, ironblood ]
   BOOK_T2:
     value: red
-    option: [red, blue, yellow]
+    option: [ red, blue, yellow ]
   BOOK_T3:
     value: red
-    option: [red, blue, yellow]
+    option: [ red, blue, yellow ]
   RETROFIT_T2:
     value: cl
-    option: [dd, cl, bb, cv]
+    option: [ dd, cl, bb, cv ]
   RETROFIT_T3:
     value: cl
-    option: [dd, cl, bb, cv]
+    option: [ dd, cl, bb, cv ]
   PLATE_T2:
     value: general
-    option: [general, gun, torpedo, antiair, plane]
+    option: [ general, gun, torpedo, antiair, plane ]
   PLATE_T3:
     value: general
-    option: [general, gun, torpedo, antiair, plane]
+    option: [ general, gun, torpedo, antiair, plane ]
   PLATE_T4:
     value: gun
-    option: [general, gun, torpedo, antiair, plane]
+    option: [ general, gun, torpedo, antiair, plane ]
   PR1:
     value: neptune
-    option: [neptune, monarch, ibuki, izumo, roon, saintlouis]
+    option: [ neptune, monarch, ibuki, izumo, roon, saintlouis ]
   PR2:
     value: seattle
-    option: [seattle, georgia, kitakaze, gascogne]
+    option: [ seattle, georgia, kitakaze, gascogne ]
   PR3:
     value: cheshire
-    option: [cheshire, mainz, odin, champagne]
+    option: [ cheshire, mainz, odin, champagne ]
 MedalShop2:
   Filter: |-
     DR > PR
@@ -432,22 +437,22 @@ MedalShop2:
     > PlateGeneralT3 > PlateWildT3
   RETROFIT_T1:
     value: cl
-    option: [dd, cl, bb, cv]
+    option: [ dd, cl, bb, cv ]
   RETROFIT_T2:
     value: cl
-    option: [dd, cl, bb, cv]
+    option: [ dd, cl, bb, cv ]
   RETROFIT_T3:
     value: cl
-    option: [dd, cl, bb, cv]
+    option: [ dd, cl, bb, cv ]
   PLATE_T1:
     value: general
-    option: [general, gun, torpedo, antiair, plane]
+    option: [ general, gun, torpedo, antiair, plane ]
   PLATE_T2:
     value: general
-    option: [general, gun, torpedo, antiair, plane]
+    option: [ general, gun, torpedo, antiair, plane ]
   PLATE_T3:
     value: general
-    option: [general, gun, torpedo, antiair, plane]
+    option: [ general, gun, torpedo, antiair, plane ]
 MeritShop:
   Refresh: false
   Filter: |-
@@ -462,10 +467,10 @@ Shipyard:
 Gacha:
   Pool:
     value: light
-    option: [light, heavy, special, event, wishing_well]
+    option: [ light, heavy, special, event, wishing_well ]
   Amount:
     value: 1
-    option: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    option: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
   UseTicket: true
   UseDrill: false
 BattlePass:
@@ -487,46 +492,46 @@ Daily:
   UseDailySkip: true
   EscortMission:
     value: first
-    option: [skip, first, second, third]
+    option: [ skip, first, second, third ]
   EscortMissionFleet:
     value: 5
-    option: [1, 2, 3, 4, 5, 6]
+    option: [ 1, 2, 3, 4, 5, 6 ]
   AdvanceMission:
     value: first
-    option: [skip, first, second, third]
+    option: [ skip, first, second, third ]
   AdvanceMissionFleet:
     value: 5
-    option: [1, 2, 3, 4, 5, 6]
+    option: [ 1, 2, 3, 4, 5, 6 ]
   FierceAssault:
     value: first
-    option: [skip, first, second, third]
+    option: [ skip, first, second, third ]
   FierceAssaultFleet:
     value: 5
-    option: [1, 2, 3, 4, 5, 6]
+    option: [ 1, 2, 3, 4, 5, 6 ]
   TacticalTraining:
     value: second
-    option: [skip, first, second, third]
+    option: [ skip, first, second, third ]
   TacticalTrainingFleet:
     value: 5
-    option: [1, 2, 3, 4, 5, 6]
+    option: [ 1, 2, 3, 4, 5, 6 ]
   SupplyLineDisruption:
     value: second
-    option: [skip, first, second, third]
+    option: [ skip, first, second, third ]
   ModuleDevelopment:
     value: first
-    option: [skip, first, second]
+    option: [ skip, first, second ]
   ModuleDevelopmentFleet:
     value: 5
-    option: [1, 2, 3, 4, 5, 6]
+    option: [ 1, 2, 3, 4, 5, 6 ]
 Hard:
   HardStage: 11-4
   HardFleet:
     value: 1
-    option: [1, 2]
+    option: [ 1, 2 ]
 Exercise:
   OpponentChooseMode:
     value: max_exp
-    option: [max_exp, easiest, leftmost, easiest_else_exp]
+    option: [ max_exp, easiest, leftmost, easiest_else_exp ]
   OpponentTrial: 1
   ExercisePreserve: 0
   LowHpThreshold: 0.4
@@ -536,7 +541,7 @@ Exercise:
 Sos:
   Chapter:
     value: 3
-    option: [3, 4, 5, 6, 7, 8, 9, 10]
+    option: [ 3, 4, 5, 6, 7, 8, 9, 10 ]
 
 # ==================== Opsi ====================
 
@@ -546,7 +551,7 @@ OpsiGeneral:
   UseLogger: true
   BuyActionPointLimit:
     value: 0
-    option: [0, 1, 2, 3, 4, 5]
+    option: [ 0, 1, 2, 3, 4, 5 ]
   OilLimit: 1000
   RepairThreshold: 0.4
   DoRandomMapEvent: true
@@ -565,7 +570,7 @@ OpsiFleetFilter:
 OpsiFleet:
   Fleet:
     value: 1
-    option: [1, 2, 3, 4]
+    option: [ 1, 2, 3, 4 ]
   Submarine: false
 OpsiExplore:
   SpecialRadar: false
@@ -585,17 +590,23 @@ OpsiAbyssal:
   ForceRun: false
 OpsiStronghold:
   ForceRun: false
+OpsiMonthBoss:
+  Mode:
+    value: normal
+    option: [ normal, normal_hard ]
+  CheckAdaptability: true
+  ForceRun: false
 OpsiMeowfficerFarming:
   ActionPointPreserve: 1000
   HazardLevel:
     value: 5
-    option: [3, 4, 5, 6, 10]
+    option: [ 3, 4, 5, 6, 10 ]
   TargetZone:
     value: 0
 OpsiHazard1Leveling:
   TargetZone:
     value: 0
-    option: [0, 44, 22]
+    option: [ 0, 44, 22 ]
 
 # ==================== Tools ====================
 
@@ -613,7 +624,6 @@ Benchmark:
   AdbClick: true
   Uiautomator2Click: true
   MinitouchClick: true
-  HermitClick: false
 AzurLaneUncensored:
   Repository: https://gitee.com/LmeSzinc/AzurLaneUncensored
 GameManager:

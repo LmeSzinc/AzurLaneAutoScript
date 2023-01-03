@@ -25,6 +25,30 @@ class cached_property:
         return value
 
 
+def iter_folder(folder, is_dir=False, ext=None):
+    """
+    Args:
+        folder (str):
+        is_dir (bool): True to iter directories only
+        ext (str): File extension, such as `.yaml`
+
+    Yields:
+        str: Absolute path of files
+    """
+    for file in os.listdir(folder):
+        sub = os.path.join(folder, file)
+        if is_dir:
+            if os.path.isdir(sub):
+                yield sub.replace('\\\\', '/').replace('\\', '/')
+        elif ext is not None:
+            if not os.path.isdir(sub):
+                _, extension = os.path.splitext(file)
+                if extension == ext:
+                    yield os.path.join(folder, file).replace('\\\\', '/').replace('\\', '/')
+        else:
+            yield os.path.join(folder, file).replace('\\\\', '/').replace('\\', '/')
+
+
 def poor_yaml_read(file):
     """
     Poor implementation to load yaml without pyyaml dependency, but with re

@@ -12,6 +12,7 @@ OCR_SHOP_GEMS = Digit(SHOP_GEMS, letter=(255, 243, 82), name='OCR_SHOP_GEMS')
 
 class GeneralShop(ShopClerk, ShopUI):
     gems = 0
+    shop_template_folder = './assets/shop/general'
 
     @cached_property
     def shop_filter(self):
@@ -29,7 +30,7 @@ class GeneralShop(ShopClerk, ShopUI):
         """
         shop_grid = self.shop_grid
         shop_general_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_general_items.load_template_folder('./assets/shop/general')
+        shop_general_items.load_template_folder(self.shop_template_folder)
         shop_general_items.load_cost_template_folder('./assets/shop/cost')
         return shop_general_items
 

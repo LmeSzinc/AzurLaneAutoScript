@@ -1,6 +1,4 @@
 from module.base.decorator import Config, cached_property
-from module.base.timer import Timer
-from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.shop.assets import *
@@ -12,6 +10,8 @@ OCR_SHOP_GUILD_COINS = Digit(SHOP_GUILD_COINS, letter=(255, 255, 255), name='OCR
 
 
 class GuildShop(ShopClerk, ShopUI):
+    shop_template_folder = './assets/shop/guild_cn'
+
     @cached_property
     def shop_filter(self):
         """
@@ -29,7 +29,8 @@ class GuildShop(ShopClerk, ShopUI):
         """
         shop_grid = self.shop_grid
         shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_guild_items.load_template_folder('./assets/shop/guild_cn')
+        self.shop_template_folder = './assets/shop/guild_cn'
+        shop_guild_items.load_template_folder(self.shop_template_folder)
         shop_guild_items.load_cost_template_folder('./assets/shop/cost')
         return shop_guild_items
 
@@ -42,7 +43,8 @@ class GuildShop(ShopClerk, ShopUI):
         """
         shop_grid = self.shop_grid
         shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_guild_items.load_template_folder('./assets/shop/guild_cn')
+        self.shop_template_folder = './assets/shop/guild_cn'
+        shop_guild_items.load_template_folder(self.shop_template_folder)
         shop_guild_items.load_cost_template_folder('./assets/shop/cost')
         return shop_guild_items
 
@@ -55,7 +57,8 @@ class GuildShop(ShopClerk, ShopUI):
         """
         shop_grid = self.shop_grid
         shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_guild_items.load_template_folder('./assets/shop/guild_cn')
+        self.shop_template_folder = './assets/shop/guild_cn'
+        shop_guild_items.load_template_folder(self.shop_template_folder)
         shop_guild_items.load_cost_template_folder('./assets/shop/cost')
         return shop_guild_items
 
@@ -68,7 +71,8 @@ class GuildShop(ShopClerk, ShopUI):
         """
         shop_grid = self.shop_grid
         shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_guild_items.load_template_folder('./assets/shop/guild')
+        self.shop_template_folder = './assets/shop/guild'
+        shop_guild_items.load_template_folder(self.shop_template_folder)
         shop_guild_items.load_cost_template_folder('./assets/shop/cost')
         return shop_guild_items
 

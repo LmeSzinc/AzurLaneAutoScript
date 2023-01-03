@@ -1,7 +1,7 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.logger import logger
-from module.ocr.ocr import Digit
+from module.ocr.ocr import Digit, DigitYuv
 from module.os_handler.assets import *
 from module.os_handler.map_event import MapEventHandler
 from module.statistics.item import Item, ItemGrid
@@ -11,7 +11,7 @@ OCR_SHOP_YELLOW_COINS = Digit(SHOP_YELLOW_COINS, letter=(239, 239, 239), thresho
 OCR_SHOP_PURPLE_COINS = Digit(SHOP_PURPLE_COINS, letter=(255, 255, 255), name='OCR_SHOP_PURPLE_COINS')
 
 
-class OSShopAmount(Digit):
+class OSShopPrice(DigitYuv):
     def after_process(self, result):
         result = result.replace('I', '1').replace('D', '0').replace('S', '5')
 
@@ -42,7 +42,7 @@ class OSShopHandler(UI, MapEventHandler):
         shop_grid = ButtonGrid(
             origin=(237, 219), delta=(189, 224), button_shape=(98, 98), grid_shape=(4, 2), name='SHOP_GRID')
         shop_items = ItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_items.price_ocr = OSShopAmount([], letter=(255, 223, 57), threshold=32, name='Price_ocr')
+        shop_items.price_ocr = OSShopPrice([], letter=(255, 223, 57), threshold=32, name='Price_ocr')
         shop_items.load_template_folder('./assets/shop/os')
         shop_items.load_cost_template_folder('./assets/shop/os_cost')
         return shop_items
@@ -55,6 +55,8 @@ class OSShopHandler(UI, MapEventHandler):
         Returns:
             list[Item]:
         """
+        if self.config.SHOP_EXTRACT_TEMPLATE:
+            self.os_shop_items.extract_template(self.device.image, './assets/shop/os')
         self.os_shop_items.predict(self.device.image, name=name, amount=name, cost=True, price=True)
 
         items = self.os_shop_items.items

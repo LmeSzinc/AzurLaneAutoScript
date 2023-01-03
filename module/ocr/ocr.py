@@ -4,6 +4,7 @@ from datetime import timedelta
 from typing import TYPE_CHECKING
 
 from module.base.button import Button
+from module.base.decorator import cached_property
 from module.base.utils import *
 from module.logger import logger
 from module.ocr.rpc import ModelProxyFactory
@@ -98,6 +99,35 @@ class Ocr:
         return result_list
 
 
+class OcrYuv(Ocr):
+    """
+    Do OCR in the Y channel of the YUV color space.
+    """
+
+    @cached_property
+    def letter_y(self):
+        arr = np.array([[self.letter]], dtype=np.uint8)
+        image = cv2.cvtColor(arr, cv2.COLOR_RGB2YUV)
+        y, _, _ = cv2.split(image)
+        y = y[0][0]
+        return y
+
+    def pre_process(self, image):
+        """
+        Args:
+            image (np.ndarray): Shape (height, width, channel)
+
+        Returns:
+            np.ndarray: Shape (width, height)
+        """
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2YUV)
+        y, _, _ = cv2.split(image)
+        letter_y = (np.ones(y.shape) * self.letter_y).astype(np.uint8)
+        diff = cv2.absdiff(y, letter_y)
+        diff = cv2.multiply(diff, 255.0 / self.threshold)
+        return diff
+
+
 class Digit(Ocr):
     """
     Do OCR on a digit, such as `45`.
@@ -118,6 +148,10 @@ class Digit(Ocr):
             logger.warning(f'OCR {self.name}: Result "{prev}" is revised to "{result}"')
 
         return result
+
+
+class DigitYuv(Digit, OcrYuv):
+    pass
 
 
 class DigitCounter(Ocr):
@@ -154,6 +188,10 @@ class DigitCounter(Ocr):
         else:
             logger.warning(f'Unexpected ocr result: {result_list}')
             return 0, 0, 0
+
+
+class DigitCounterYuv(DigitCounter, OcrYuv):
+    pass
 
 
 class Duration(Ocr):
@@ -201,3 +239,7 @@ class Duration(Ocr):
         else:
             logger.warning(f'Invalid duration: {string}')
             return timedelta(hours=0, minutes=0, seconds=0)
+
+
+class DurationYuv(Duration, OcrYuv):
+    pass

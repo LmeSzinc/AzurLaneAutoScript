@@ -91,7 +91,7 @@ class ShopUI(UI):
                 continue
 
             # End
-            if self.appear(BACK_ARROW, offset=(20, 20)):
+            if self.appear(BACK_ARROW, offset=(30, 30)):
                 if exit_timer.reached():
                     break
             else:

@@ -11,6 +11,7 @@ anyio==1.3.1              # via -r requirements-in.txt
 apkutils2==1.0.0          # via adbutils
 asgiref==3.4.1            # via uvicorn
 async-generator==1.10     # via anyio
+av==10.0.0                # via -r requirements-in.txt
 cached-property==1.5.2    # via uiautomator2
 certifi==2021.5.30        # via requests
 cffi==1.15.0              # via gevent
@@ -52,8 +53,10 @@ pillow==8.3.2             # via -r requirements-in.txt, cnocr, gluoncv, imageio,
 portalocker==2.3.2        # via gluoncv
 prettytable==2.2.1        # via -r requirements-in.txt
 progress==1.6             # via uiautomator2
+psutil==5.9.3             # via -r requirements-in.txt
 py==1.10.0                # via retry
 pycparser==2.21           # via cffi
+pydantic==1.10.2          # via -r requirements-in.txt
 pyelftools==0.27          # via apkutils2
 pygments==2.12.0          # via rich
 pyparsing==2.4.7          # via matplotlib, packaging
@@ -74,7 +77,7 @@ sniffio==1.2.0            # via anyio
 starlette==0.14.2         # via -r requirements-in.txt
 tornado==6.1              # via pywebio
 tqdm==4.62.3              # via -r requirements-in.txt, gluoncv
-typing-extensions==4.3.0  # via asgiref, importlib-metadata, rich, uvicorn
+typing-extensions==4.3.0  # via asgiref, importlib-metadata, pydantic, rich, uvicorn
 ua-parser==0.10.0         # via user-agents
 uiautomator2==2.16.17     # via -r requirements-in.txt
 urllib3==1.22             # via requests

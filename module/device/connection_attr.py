@@ -113,6 +113,10 @@ class ConnectionAttr:
         return bool(re.match(r'^wsa', self.serial))
 
     @cached_property
+    def is_mumu_family(self):
+        return self.serial == '127.0.0.1:7555'
+
+    @cached_property
     def is_emulator(self):
         return self.serial.startswith('emulator-') or self.serial.startswith('127.0.0.1:')
 

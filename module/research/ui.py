@@ -94,11 +94,11 @@ class ResearchUI(UI):
         for index, status, scaling in zip(range(5), RESEARCH_STATUS, TEMPLATE_SCALING):
             info = status.crop((0, -40, 200, 0))
             piece = rgb2gray(crop(image, info.area))
-            if TEMPLATE_WAITING.match(piece, scaling=scaling):
+            if TEMPLATE_WAITING.match(piece, scaling=scaling, similarity=0.75):
                 out.append('waiting')
-            elif TEMPLATE_RUNNING.match(piece, scaling=scaling):
+            elif TEMPLATE_RUNNING.match(piece, scaling=scaling, similarity=0.75):
                 out.append('running')
-            elif TEMPLATE_DETAIL.match(piece, scaling=scaling):
+            elif TEMPLATE_DETAIL.match(piece, scaling=scaling, similarity=0.75):
                 out.append('detail')
             else:
                 out.append('unknown')

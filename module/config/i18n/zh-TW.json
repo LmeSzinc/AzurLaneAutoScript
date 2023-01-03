@@ -222,6 +222,10 @@
       "name": "塞壬要塞",
       "help": ""
     },
+    "OpsiMonthBoss": {
+      "name": "月度Boss",
+      "help": "清理（簡單/困難）月度boss,使用此功能需要滿足以下條件：\n- 通關大世界主線任務\n- 啟用大世界開荒任務或使用戰役信息記錄儀（5000油道具）\n簡單難度失敗會依據潛艇設置重複出擊，困難難度失敗則直接終止任務"
+    },
     "OpsiMeowfficerFarming": {
       "name": "短貓相接",
       "help": ""
@@ -390,7 +394,8 @@
       "uiautomator2": "uiautomator2",
       "aScreenCap": "aScreenCap",
       "aScreenCap_nc": "aScreenCap_nc",
-      "DroidCast": "DroidCast"
+      "DroidCast": "DroidCast",
+      "scrcpy": "scrcpy"
     },
     "ControlMethod": {
       "name": "模擬器控制方案",
@@ -414,6 +419,14 @@
       "name": "重啓模擬器",
       "help": ""
     },
+    "Enable": {
+      "name": "RestartEmulator.Enable.name",
+      "help": "RestartEmulator.Enable.help"
+    },
+    "EmulatorData": {
+      "name": "RestartEmulator.EmulatorData.name",
+      "help": "RestartEmulator.EmulatorData.help"
+    },
     "ErrorRestart": {
       "name": "啟用重啓模擬器",
       "help": "在模擬器被關閉的時候自動啟動模擬器"
@@ -421,14 +434,6 @@
     "DailyRestart": {
       "name": "服務器重繪時重啓模擬器",
       "help": "每天主動重啓模擬器以解决記憶體洩漏問題"
-    },
-    "EmulatorType": {
-      "name": "模擬器類型",
-      "help": "Alas會根據手動填寫的Serial尋找對應的模擬器\n如果被啟動的模擬器需要管理員許可權，請以管理員身份運行Alas\nMuMu模擬器不支持多開",
-      "auto": "自動",
-      "nox_player": "夜神模擬器32比特",
-      "bluestacks_5": "藍疊模擬器5",
-      "mumu_player": "MuMu模擬器"
     }
   },
   "Error": {
@@ -2138,6 +2143,26 @@
       "help": "開啟後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
     }
   },
+  "OpsiMonthBoss": {
+    "_info": {
+      "name": "月度Boss",
+      "help": "清理（簡單/困難）月度boss，簡單難度失敗會繼續出擊直到擊破，困難難度失敗則直接終止任務\n使用此功能需要滿足以下條件：\n- 通關大世界主線任務\n- 啟用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
+    },
+    "Mode": {
+      "name": "清理月度Boss的難度",
+      "help": "",
+      "normal": "簡單",
+      "normal_hard": "簡單 + 困難"
+    },
+    "CheckAdaptability": {
+      "name": "適應性在203/203/156以上才打BOSS",
+      "help": ""
+    },
+    "ForceRun": {
+      "name": "無視運行間隔強制運行",
+      "help": "開啟後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
+    }
+  },
   "OpsiMeowfficerFarming": {
     "_info": {
       "name": "短貓相接",
@@ -2233,10 +2258,6 @@
     },
     "MinitouchClick": {
       "name": "測試 minitouch 點擊",
-      "help": ""
-    },
-    "HermitClick": {
-      "name": "測試 Hermit 點擊",
       "help": ""
     }
   },

@@ -118,6 +118,7 @@ class AzurStats:
         data = {'file': (filename, output, 'image/png')}
         headers = {'user-agent': self._user_agent}
         session = requests.Session()
+        session.trust_env = False
         session.mount('http://', HTTPAdapter(max_retries=5))
         session.mount('https://', HTTPAdapter(max_retries=5))
         try:
