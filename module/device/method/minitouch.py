@@ -14,7 +14,7 @@ from module.base.decorator import Config, cached_property, del_cached_property
 from module.base.timer import Timer
 from module.base.utils import *
 from module.device.connection import Connection
-from module.device.method.utils import RETRY_DELAY, RETRY_TRIES, handle_adb_error
+from module.device.method.utils import RETRY_TRIES, retry_sleep, handle_adb_error
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
@@ -33,7 +33,7 @@ def random_rho(dis):
     return random_normal_distribution(-dis, dis)
 
 
-def insert_swipe(p0, p3, speed=15):
+def insert_swipe(p0, p3, speed=15, min_distance=10):
     """
     Insert way point from start to end.
     First generate a cubic bézier curve
@@ -42,6 +42,7 @@ def insert_swipe(p0, p3, speed=15):
         p0: Start point.
         p3: End point.
         speed: Average move speed, pixels per 10ms.
+        min_distance:
 
     Returns:
         list[list[int]]: List of points.
@@ -74,7 +75,7 @@ def insert_swipe(p0, p3, speed=15):
     for t in ts:
         point = p0 * (1 - t) ** 3 + 3 * p1 * t * (1 - t) ** 2 + 3 * p2 * t ** 2 * (1 - t) + p3 * t ** 3
         point = point.astype(np.int).tolist()
-        if np.linalg.norm(np.subtract(point, prev)) < 10:
+        if np.linalg.norm(np.subtract(point, prev)) < min_distance:
             continue
 
         points.append(point)
@@ -83,7 +84,7 @@ def insert_swipe(p0, p3, speed=15):
     # Delete nearing points
     if len(points[1:]):
         distance = np.linalg.norm(np.subtract(points[1:], points[0]), axis=1)
-        mask = np.append(True, distance > 10)
+        mask = np.append(True, distance > min_distance)
         points = np.array(points)[mask].tolist()
     else:
         points = [p0, p3]
@@ -286,13 +287,10 @@ def retry(func):
             self (Minitouch):
         """
         init = None
-        sleep = True
         for _ in range(RETRY_TRIES):
             try:
                 if callable(init):
-                    if sleep:
-                        self.sleep(RETRY_DELAY)
-                        sleep = True
+                    retry_sleep(_)
                     init()
                 return func(self, *args, **kwargs)
             # Can't handle
@@ -313,7 +311,6 @@ def retry(func):
             # MinitouchNotInstalledError: Received empty data from minitouch
             except MinitouchNotInstalledError as e:
                 logger.error(e)
-                sleep = False
 
                 def init():
                     self.install_uiautomator2()
@@ -323,7 +320,6 @@ def retry(func):
             # MinitouchOccupiedError: Timeout when connecting to minitouch
             except MinitouchOccupiedError as e:
                 logger.error(e)
-                sleep = False
 
                 def init():
                     self.restart_atx()

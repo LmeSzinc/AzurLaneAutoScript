@@ -412,7 +412,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                     break
                 if expected_end == 'no_searching' and self.handle_in_map_no_enemy_searching(drop=drop):
                     break
-                if expected_end == 'in_ui' and self.appear(BACK_ARROW, offset=(20, 20)):
+                if expected_end == 'in_ui' and self.appear(BACK_ARROW, offset=(30, 30)):
                     break
             if callable(expected_end):
                 if expected_end():

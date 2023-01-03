@@ -222,6 +222,10 @@
       "name": "Task.OpsiStronghold.name",
       "help": "Task.OpsiStronghold.help"
     },
+    "OpsiMonthBoss": {
+      "name": "Task.OpsiMonthBoss.name",
+      "help": "Task.OpsiMonthBoss.help"
+    },
     "OpsiMeowfficerFarming": {
       "name": "Task.OpsiMeowfficerFarming.name",
       "help": "Task.OpsiMeowfficerFarming.help"
@@ -390,7 +394,8 @@
       "uiautomator2": "uiautomator2",
       "aScreenCap": "aScreenCap",
       "aScreenCap_nc": "aScreenCap_nc",
-      "DroidCast": "DroidCast"
+      "DroidCast": "DroidCast",
+      "scrcpy": "scrcpy"
     },
     "ControlMethod": {
       "name": "Emulator.ControlMethod.name",
@@ -414,6 +419,14 @@
       "name": "RestartEmulator._info.name",
       "help": "RestartEmulator._info.help"
     },
+    "Enable": {
+      "name": "RestartEmulator.Enable.name",
+      "help": "RestartEmulator.Enable.help"
+    },
+    "EmulatorData": {
+      "name": "RestartEmulator.EmulatorData.name",
+      "help": "RestartEmulator.EmulatorData.help"
+    },
     "ErrorRestart": {
       "name": "RestartEmulator.ErrorRestart.name",
       "help": "RestartEmulator.ErrorRestart.help"
@@ -421,14 +434,6 @@
     "DailyRestart": {
       "name": "RestartEmulator.DailyRestart.name",
       "help": "RestartEmulator.DailyRestart.help"
-    },
-    "EmulatorType": {
-      "name": "RestartEmulator.EmulatorType.name",
-      "help": "RestartEmulator.EmulatorType.help",
-      "auto": "auto",
-      "nox_player": "nox_player",
-      "bluestacks_5": "bluestacks_5",
-      "mumu_player": "mumu_player"
     }
   },
   "Error": {
@@ -2138,6 +2143,26 @@
       "help": "OpsiStronghold.ForceRun.help"
     }
   },
+  "OpsiMonthBoss": {
+    "_info": {
+      "name": "OpsiMonthBoss._info.name",
+      "help": "OpsiMonthBoss._info.help"
+    },
+    "Mode": {
+      "name": "OpsiMonthBoss.Mode.name",
+      "help": "OpsiMonthBoss.Mode.help",
+      "normal": "normal",
+      "normal_hard": "normal_hard"
+    },
+    "CheckAdaptability": {
+      "name": "OpsiMonthBoss.CheckAdaptability.name",
+      "help": "OpsiMonthBoss.CheckAdaptability.help"
+    },
+    "ForceRun": {
+      "name": "OpsiMonthBoss.ForceRun.name",
+      "help": "OpsiMonthBoss.ForceRun.help"
+    }
+  },
   "OpsiMeowfficerFarming": {
     "_info": {
       "name": "OpsiMeowfficerFarming._info.name",
@@ -2234,10 +2259,6 @@
     "MinitouchClick": {
       "name": "Benchmark.MinitouchClick.name",
       "help": "Benchmark.MinitouchClick.help"
-    },
-    "HermitClick": {
-      "name": "Benchmark.HermitClick.name",
-      "help": "Benchmark.HermitClick.help"
     }
   },
   "AzurLaneUncensored": {

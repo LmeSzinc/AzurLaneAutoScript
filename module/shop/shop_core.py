@@ -1,5 +1,4 @@
 from module.base.decorator import cached_property
-from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.shop.assets import *
@@ -10,6 +9,8 @@ OCR_SHOP_CORE = Digit(SHOP_CORE, letter=(239, 239, 239), name='OCR_SHOP_CORE')
 
 
 class CoreShop(ShopClerk):
+    shop_template_folder = './assets/shop/core'
+
     @cached_property
     def shop_filter(self):
         """
@@ -26,7 +27,7 @@ class CoreShop(ShopClerk):
         """
         shop_grid = self.shop_grid
         shop_core_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_core_items.load_template_folder('./assets/shop/core')
+        shop_core_items.load_template_folder(self.shop_template_folder)
         shop_core_items.load_cost_template_folder('./assets/shop/cost')
         return shop_core_items
 

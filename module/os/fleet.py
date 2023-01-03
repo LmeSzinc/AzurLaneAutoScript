@@ -14,7 +14,7 @@ from module.map.map_grids import SelectedGrids
 from module.map.utils import location_ensure
 from module.map_detection.utils import area2corner, corner2inner
 from module.ocr.ocr import Ocr
-from module.os.assets import MAP_GOTO_GLOBE, STRONGHOLD_PERCENTAGE, TEMPLATE_EMPTY_HP, FLEET_EMP_DEBUFF
+from module.os.assets import MAP_GOTO_GLOBE, STRONGHOLD_PERCENTAGE, TEMPLATE_EMPTY_HP, FLEET_EMP_DEBUFF, MAP_EXIT
 from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
 from module.os_ash.ash import OSAsh
@@ -453,6 +453,45 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
         return fleets
 
+    def relative_goto(self, has_fleet_step=False, near_by=False, relative_position=(0, 0), index=0, **kwargs):
+        logger.hr('Relative goto')
+
+        # Update local view
+        # Not screenshots taking, reuse the old one
+        self.update_os()
+        self.predict()
+        self.predict_radar()
+
+        # Calculate destination
+        grids = self.radar.select(**kwargs)
+        if grids:
+            # Click way point
+            grid = np.add(location_ensure(grids[index]), relative_position)
+            if near_by:
+                x, y = grid
+                if abs(x) <= 1 and abs(y) <= 1:
+                    logger.info('Near by location, stop')
+
+            grid = point_limit(grid, area=(-4, -2, 3, 2))
+            if has_fleet_step:
+                grid = limit_walk(grid)
+            grid = self.convert_radar_to_local(grid)
+            self.device.click(grid)
+        else:
+            logger.info('No position to goto, stop')
+
+        # Wait until arrived
+        # Having new screenshots
+        self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4), walk_out_of_step=False)
+
+    def go_month_boss_room(self, is_normal=True):
+        while not self.appear(MAP_EXIT, offset=(20, 20)):
+            self.relative_goto(has_fleet_step=True, near_by=True, relative_position=(3, -5), is_port=True)
+            if is_normal:
+                self.relative_goto(has_fleet_step=True, is_exclamation=True)
+            else:
+                self.relative_goto(has_fleet_step=True, is_question=True)
+
     def question_goto(self, has_fleet_step=False):
         logger.hr('Question goto')
         while 1:
@@ -480,8 +519,35 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             # Having new screenshots
             self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4), walk_out_of_step=False)
 
-    def boss_goto(self, location=(0, 0), has_fleet_step=False, drop=None):
+    def month_boss_goto_additional(self, location=(0, 0), has_fleet_step=False, drop=None):
+        self.update_os()
+        self.predict()
+        self.predict_radar()
+
+        # Calculate destination
+        grids = self.radar.select(is_question=True)
+        if grids:
+            # Click way point
+            grid = np.add(location_ensure(grids[0]), location)
+            # Use the releative position of the question to find the entrance of the boss area
+            grid = np.add(grid, (1, -6))
+            grid = point_limit(grid, area=(-4, -2, 3, 2))
+            if has_fleet_step:
+                grid = limit_walk(grid)
+            if grid == (0, 0):
+                logger.info(f'Arrive destination: boss {location}')
+            grid = self.convert_radar_to_local(grid)
+            self.device.click(grid)
+        else:
+            logger.info('No boss to goto, stop')
+        self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4), walk_out_of_step=False, drop=drop)
+
+    def boss_goto(self, location=(0, 0), has_fleet_step=False, drop=None, is_month=False):
         logger.hr('BOSS goto')
+
+        if is_month:
+            self.month_boss_goto_additional(location=location, has_fleet_step=has_fleet_step, drop=drop)
+
         while 1:
             # Update local view
             # Not screenshots taking, reuse the old one
@@ -570,7 +636,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                     logger.info('Fleet left boss, current fleet found')
                     break
 
-    def boss_clear(self, has_fleet_step=True):
+    def boss_clear(self, has_fleet_step=True, is_month=False):
         """
         All fleets take turns in attacking the boss.
 
@@ -586,6 +652,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 If failed, still in abyssal.
         """
         logger.hr(f'BOSS clear', level=1)
+
         fleets = self.parse_fleet_filter()
         with self.stat.new(
                 genre=inflection.underscore(self.config.task.command),
@@ -602,11 +669,22 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 self.handle_os_map_fleet_lock(enable=False)
                 if self.fleet_low_resolve_appear():
                     logger.warning('Skip using current fleet because of the low resolve debuff')
-                    self.boss_goto(location=fleet.standby_loca, has_fleet_step=has_fleet_step, drop=drop)
+                    self.boss_goto(location=fleet.standby_loca, has_fleet_step=has_fleet_step, drop=drop,
+                                   is_month=is_month)
                     continue
 
+                # Ensure boss is appear
+                if is_month:
+                    while not self.radar.select(is_enemy=True):
+                        self.relative_goto(has_fleet_step=True, is_question=True, relative_position=(1, -6), index=0)
+                        try:
+                            self.relative_goto(has_fleet_step=True, is_question=True, index=1)
+                        except IndexError:
+                            self.relative_goto(has_fleet_step=True, is_question=True, relative_position=(1, -7),
+                                               index=0)
+
                 # Attack
-                self.boss_goto(location=(0, 0), has_fleet_step=has_fleet_step, drop=drop)
+                self.boss_goto(location=(0, 0), has_fleet_step=has_fleet_step, drop=drop, is_month=is_month)
 
                 # End
                 self.predict_radar()

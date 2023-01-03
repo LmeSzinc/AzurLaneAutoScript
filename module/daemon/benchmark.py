@@ -155,9 +155,6 @@ class Benchmark(DaemonBase, CampaignUI):
         if self.config.Benchmark_MinitouchClick:
             x, y = random_rectangle_point(area)
             data.append(['minitouch', self.benchmark_test(self.device.click_minitouch, x, y)])
-        if self.config.Benchmark_HermitClick:
-            x, y = random_rectangle_point(area)
-            data.append(['Hermit', self.benchmark_test(self.device.click_hermit, x, y)])
         control = data
 
         def compare(res):

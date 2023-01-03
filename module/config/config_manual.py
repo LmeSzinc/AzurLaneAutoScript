@@ -20,7 +20,7 @@ class ManualConfig:
     > OpsiAshBeacon
     > OpsiDaily > OpsiShop > OpsiVoucher
     > OpsiAbyssal > OpsiStronghold > OpsiObscure > OpsiArchive
-    > Daily > Hard > OpsiAshBeacon > OpsiAshAssist
+    > Daily > Hard > OpsiAshBeacon > OpsiAshAssist  > OpsiMonthBoss
     > Sos > EventSp > EventA > EventB > EventC > EventD > RaidDaily > WarArchives > MaritimeEscort
     > Event > Event2 > Raid > Main > Main2 > Main3
     > OpsiMeowfficerFarming
@@ -78,6 +78,8 @@ class ManualConfig:
     DROIDCAST_FILEPATH_REMOTE = '/data/local/tmp/DroidCast.apk'
     MINITOUCH_FILEPATH_REMOTE = '/data/local/tmp/minitouch'
     HERMIT_FILEPATH_LOCAL = './bin/hermit/hermit.apk'
+    SCRCPY_FILEPATH_LOCAL = './bin/scrcpy/scrcpy-server-v1.20.jar'
+    SCRCPY_FILEPATH_REMOTE = '/data/local/tmp/scrcpy-server-v1.20.jar'
 
     """
     module.campaign.gems_farming
@@ -318,6 +320,12 @@ class ManualConfig:
     GET_SHIP_TRIGGERED = False
     RETIRE_KEEP_COMMON_CV = False
     COMMON_CV_THRESHOLD = 0.9
+
+    """
+    module.shop
+    """
+    # For dev purpose, auto extract new item templates
+    SHOP_EXTRACT_TEMPLATE = False
 
     """
     module.war_archives

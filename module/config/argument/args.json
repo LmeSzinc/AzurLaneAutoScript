@@ -107,7 +107,8 @@
           "uiautomator2",
           "aScreenCap",
           "aScreenCap_nc",
-          "DroidCast"
+          "DroidCast",
+          "scrcpy"
         ]
       },
       "ControlMethod": {
@@ -130,6 +131,15 @@
       }
     },
     "RestartEmulator": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "EmulatorData": {
+        "type": "textarea",
+        "value": "emulator:\nname:\npath:",
+        "mode": "yaml"
+      },
       "ErrorRestart": {
         "type": "checkbox",
         "value": false
@@ -137,16 +147,6 @@
       "DailyRestart": {
         "type": "checkbox",
         "value": false
-      },
-      "EmulatorType": {
-        "type": "select",
-        "value": "auto",
-        "option": [
-          "auto",
-          "nox_player",
-          "bluestacks_5",
-          "mumu_player"
-        ]
       }
     },
     "Error": {
@@ -8333,6 +8333,71 @@
       }
     }
   },
+  "OpsiMonthBoss": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "OpsiMonthBoss",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 0,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 120,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
+      }
+    },
+    "OpsiMonthBoss": {
+      "Mode": {
+        "type": "select",
+        "value": "normal",
+        "option": [
+          "normal",
+          "normal_hard"
+        ]
+      },
+      "CheckAdaptability": {
+        "type": "checkbox",
+        "value": true
+      },
+      "ForceRun": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
+    "OpsiFleetFilter": {
+      "Filter": {
+        "type": "textarea",
+        "value": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
   "OpsiMeowfficerFarming": {
     "Scheduler": {
       "Enable": {
@@ -8590,10 +8655,6 @@
       "MinitouchClick": {
         "type": "checkbox",
         "value": true
-      },
-      "HermitClick": {
-        "type": "checkbox",
-        "value": false
       }
     },
     "Storage": {

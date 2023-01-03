@@ -116,11 +116,7 @@ GUI development, thanks **[@18870](https://github.com/18870)** , say HURRAY.
 
 ## 模拟器问题 Emulator Issues
 
-- **建议使用 [夜神模拟器](http://www.yeshen.com/?utm_source=alas) 或 [蓝叠模拟器](https://www.bluestacks.com/download.html)**。CN 开发正在使用夜神模拟器，EN 开发和大部分 EN 用户正在使用蓝叠模拟器，建议使用这两款模拟器。
-- **不支持 MuMu 手游助手（星云引擎）**，因为它没有 ADB。
-- **不支持 MuMu 模拟器 9**，因为它截图是黑屏。
-- **不建议使用雷电模拟器**，因为它的 serial 会在 `emulator-555X` 和 `127.0.0.1:555X` 之间横跳，导致无法连接，如果不想折腾就不要用雷电模拟器。
-- **不建议使用逍遥模拟器**，在逍遥模拟器下使用需要将控制方式设置为 uiautomator2。
+见 [设备支持文档](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Emulator_cn)，包含模拟器运行、云手机运行以及解锁各种骚方式运行。
 
 
 

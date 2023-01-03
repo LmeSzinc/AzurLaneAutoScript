@@ -2,7 +2,6 @@ from copy import deepcopy
 
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
-from module.handler.assets import INFO_BAR_1
 from module.logger import logger
 from module.meowfficer.assets import *
 from module.meowfficer.collect import MeowfficerCollect
@@ -81,7 +80,7 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
             else:
                 self.device.screenshot()
 
-            if self.appear(INFO_BAR_1):
+            if self.info_bar_count():
                 confirm_timer.reset()
                 continue
             if self.appear_then_click(MEOWFFICER_TRAIN_FILL_QUEUE, offset=(20, 20), interval=5):

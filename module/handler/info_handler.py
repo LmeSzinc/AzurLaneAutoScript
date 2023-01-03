@@ -34,18 +34,34 @@ class InfoHandler(ModuleBase):
     """
 
     def info_bar_count(self):
-        if self.appear(INFO_BAR_3):
-            return 3
-        elif self.appear(INFO_BAR_2):
-            return 2
-        elif self.appear(INFO_BAR_1):
-            return 1
-        else:
-            return 0
+        """
+        Detect info bar by the blue lines on the top of it.
+
+        Returns:
+            int:
+        """
+        image = self.image_crop(INFO_BAR_AREA)
+        line = cv2.reduce(image, 1, cv2.REDUCE_AVG)
+        line = color_similarity_2d(line, color=(107, 158, 255))[:, 0]
+
+        parameters = {
+            'height': 235,
+            'prominence': 50,
+            # Blue lines are in a interval of 56
+            'distance': 50,
+        }
+        peaks, _ = signal.find_peaks(line, **parameters)
+        return len(peaks)
+
+    def wait_until_info_bar_disappear(self):
+        while 1:
+            self.device.screenshot()
+            if not self.info_bar_count():
+                break
 
     def handle_info_bar(self):
         if self.info_bar_count():
-            self.wait_until_disappear(INFO_BAR_1)
+            self.wait_until_info_bar_disappear()
             return True
         else:
             return False

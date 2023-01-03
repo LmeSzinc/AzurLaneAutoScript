@@ -6,7 +6,7 @@ from adbutils.errors import AdbError
 
 from module.base.utils import *
 from module.device.connection import Connection
-from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
+from module.device.method.utils import (RETRY_TRIES, retry_sleep,
                                         handle_adb_error)
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
@@ -27,7 +27,7 @@ def retry(func):
         for _ in range(RETRY_TRIES):
             try:
                 if callable(init):
-                    self.sleep(RETRY_DELAY)
+                    retry_sleep(_)
                     init()
                 return func(self, *args, **kwargs)
             # Can't handle
@@ -89,8 +89,11 @@ class AScreenCap(Connection):
         filepath = os.path.join(self.config.ASCREENCAP_FILEPATH_LOCAL, ver, arc, 'ascreencap')
         if not os.path.exists(filepath):
             logger.critical('No suitable version of aScreenCap lib available for this device')
-            logger.critical('Please use ADB or uiautomator2 for screenshots instead')
-            raise RequestHumanTakeover
+            if self.is_mumu_family:
+                logger.critical('If you are using MuMu X, please set screenshot method to scrcpy')
+            else:
+                logger.critical('Please use ADB or uiautomator2 for screenshots instead')
+                raise RequestHumanTakeover
 
         logger.info(f'pushing {filepath}')
         self.adb_push(filepath, self.config.ASCREENCAP_FILEPATH_REMOTE)

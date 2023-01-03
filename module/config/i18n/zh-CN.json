@@ -222,6 +222,10 @@
       "name": "塞壬要塞",
       "help": ""
     },
+    "OpsiMonthBoss": {
+      "name": "月度Boss",
+      "help": ""
+    },
     "OpsiMeowfficerFarming": {
       "name": "短猫相接",
       "help": ""
@@ -390,7 +394,8 @@
       "uiautomator2": "uiautomator2",
       "aScreenCap": "aScreenCap",
       "aScreenCap_nc": "aScreenCap_nc",
-      "DroidCast": "DroidCast"
+      "DroidCast": "DroidCast",
+      "scrcpy": "scrcpy"
     },
     "ControlMethod": {
       "name": "模拟器控制方案",
@@ -414,6 +419,14 @@
       "name": "重启模拟器",
       "help": ""
     },
+    "Enable": {
+      "name": "RestartEmulator.Enable.name",
+      "help": "RestartEmulator.Enable.help"
+    },
+    "EmulatorData": {
+      "name": "RestartEmulator.EmulatorData.name",
+      "help": "RestartEmulator.EmulatorData.help"
+    },
     "ErrorRestart": {
       "name": "出错时重启模拟器",
       "help": "在无法连接到模拟器时自动重启模拟器"
@@ -421,14 +434,6 @@
     "DailyRestart": {
       "name": "服务器刷新时重启模拟器",
       "help": "每天主动重启模拟器以解决内存泄漏问题"
-    },
-    "EmulatorType": {
-      "name": "模拟器类型",
-      "help": "Alas会根据手动填写的Serial寻找对应的模拟器\n如果被启动的模拟器需要管理员权限，请以管理员身份运行Alas\nMuMu模拟器不支持多开",
-      "auto": "自动",
-      "nox_player": "夜神模拟器32位",
-      "bluestacks_5": "蓝叠模拟器5",
-      "mumu_player": "MuMu模拟器"
     }
   },
   "Error": {
@@ -2138,6 +2143,26 @@
       "help": "开启后将带来额外的行动力消耗，一般不用打开，慢慢打就好"
     }
   },
+  "OpsiMonthBoss": {
+    "_info": {
+      "name": "月度Boss",
+      "help": "清理（简单/困难）月度boss，简单难度失败会继续出击直到击破，困难难度失败则直接终止任务\n使用此功能需要满足以下条件：\n- 通关大世界主线任务\n- 启用大世界开荒任务或使用战役信息记录仪（5000油道具）"
+    },
+    "Mode": {
+      "name": "清理月度Boss的难度",
+      "help": "",
+      "normal": "简单",
+      "normal_hard": "简单 + 困难"
+    },
+    "CheckAdaptability": {
+      "name": "适应性在203/203/156以上才打BOSS",
+      "help": ""
+    },
+    "ForceRun": {
+      "name": "无视运行间隔强制运行",
+      "help": "开启后将带来额外的行动力消耗，一般不用打开，慢慢打就好"
+    }
+  },
   "OpsiMeowfficerFarming": {
     "_info": {
       "name": "短猫相接",
@@ -2233,10 +2258,6 @@
     },
     "MinitouchClick": {
       "name": "测试 minitouch 点击",
-      "help": ""
-    },
-    "HermitClick": {
-      "name": "测试 Hermit 点击",
       "help": ""
     }
   },

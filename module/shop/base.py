@@ -6,7 +6,6 @@ from module.base.decorator import cached_property
 from module.base.filter import Filter
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1, GET_SHIP
-from module.exception import ScriptError
 from module.logger import logger
 from module.shop.assets import *
 from module.shop.shop_select_globals import *
@@ -82,6 +81,7 @@ class ShopItemGrid(ItemGrid):
 
 class ShopBase(ModuleBase):
     _currency = 0
+    shop_template_folder = ''
 
     @cached_property
     def shop_filter(self):
@@ -144,6 +144,13 @@ class ShopBase(ModuleBase):
         if shop_items is None:
             logger.warning('Expected type \'ShopItemGrid\' but was None')
             return []
+
+        if self.config.SHOP_EXTRACT_TEMPLATE:
+            if self.shop_template_folder:
+                logger.info(f'Extract item templates to {self.shop_template_folder}')
+                shop_items.extract_template(image, self.shop_template_folder)
+            else:
+                logger.warning('SHOP_EXTRACT_TEMPLATE enabled but shop_template_folder is not set, skip extracting')
 
         shop_items.predict(
             image,

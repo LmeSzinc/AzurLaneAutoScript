@@ -65,6 +65,12 @@ class Device(Screenshot, Control, AppControl, EmulatorManager):
 
         return self.image
 
+    def release_during_wait(self):
+        # Scrcpy server is still sending video stream,
+        # stop it during wait
+        if self.config.Emulator_ScreenshotMethod == 'scrcpy':
+            self._scrcpy_server_stop()
+
     def stuck_record_add(self, button):
         self.detect_record.add(str(button))
 

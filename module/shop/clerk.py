@@ -255,7 +255,7 @@ class ShopClerk(ShopBase, Retirement):
             else:
                 self.device.screenshot()
 
-            if self.appear(BACK_ARROW, offset=(20, 20), interval=3):
+            if self.appear(BACK_ARROW, offset=(30, 30), interval=3):
                 self.device.click(item)
                 continue
             if self.appear_then_click(SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
@@ -277,7 +277,7 @@ class ShopClerk(ShopBase, Retirement):
                 continue
 
             # End
-            if success and self.appear(BACK_ARROW, offset=(20, 20)):
+            if success and self.appear(BACK_ARROW, offset=(30, 30)):
                 break
 
     def shop_buy(self):

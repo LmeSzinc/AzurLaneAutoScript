@@ -4,6 +4,7 @@ from module.combat.assets import *
 
 class CombatManual(ModuleBase):
     auto_mode_checked = False
+    auto_mode_switched = False
     manual_executed = False
 
     def combat_manual_reset(self):
@@ -18,6 +19,10 @@ class CombatManual(ModuleBase):
             bool: If executed
         """
         if auto != 'stand_still_in_the_middle':
+            return False
+        # When switching from auto to manual, fleets are usually in the middle, no need to move down
+        # Otherwise fleet will be moved to the bottom
+        if self.auto_mode_switched:
             return False
 
         self.device.long_click(MOVE_DOWN, duration=0.8)
