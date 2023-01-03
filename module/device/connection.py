@@ -294,11 +294,21 @@ class Connection(ConnectionAttr):
         Returns:
             list[str]: ['nc'] or ['busybox', 'nc']
         """
-        # Android 9 emulators does not have `nc`, try `busybox nc`
-        trial = [
-            ['nc'],
-            ['busybox', 'nc'],
-        ]
+        sdk = self.adb_shell(['getprop', 'ro.build.version.sdk'])
+        sdk = int(sdk)
+        logger.info(f'sdk_ver: {sdk}')
+        if sdk >= 28:
+            # Android 9 emulators does not have `nc`, try `busybox nc`
+            # BlueStacks Pie (Android 9) has `nc` but cannot send data, try `busybox nc` first
+            trial = [
+                ['busybox', 'nc'],
+                ['nc'],
+            ]
+        else:
+            trial = [
+                ['nc'],
+                ['busybox', 'nc'],
+            ]
         for command in trial:
             # About 3ms
             result = self.adb_shell(command)
