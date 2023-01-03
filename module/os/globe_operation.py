@@ -19,6 +19,8 @@ class RewardUncollectedError(Exception):
 
 
 class GlobeOperation(ActionPointHandler):
+    _zone_unpin_interval = Timer(0.5)
+
     def is_in_globe(self):
         return self.appear(GLOBE_GOTO_MAP, offset=(20, 20))
 
@@ -72,11 +74,15 @@ class GlobeOperation(ActionPointHandler):
         Returns:
             bool: If handled.
         """
+        if not self._zone_unpin_interval.reached():
+            return False
+
         if self.is_zone_pinned():
             # A click does not disable pinned zone, a swipe does.
             self.device.swipe_vector(
                 (50, -50), box=area_pad(ZONE_PINNED.area, pad=-80), random_range=(-10, -10, 10, 10),
                 padding=0, name='PINNED_DISABLE')
+            self._zone_unpin_interval.reset()
             return True
 
         return False
