@@ -369,6 +369,9 @@ class ActionPointHandler(UI, MapEventHandler):
 
         Returns:
             bool: If handled.
+
+        Raises:
+            ActionPointLimit: If not having enough action points.
         """
         self.action_point_enter()
         if not self.handle_action_point(zone, pinned, cost, keep_current_ap):
@@ -376,5 +379,32 @@ class ActionPointHandler(UI, MapEventHandler):
 
         while 1:
             if self.appear(IN_MAP, offset=(200, 5)):
-                return True
+                break
             self.device.screenshot()
+
+        return True
+
+    def action_point_check(self, amount):
+        """
+        Args:
+            amount: Check if having this amount of action points.
+
+        Returns:
+            bool: If having enough AP.
+        """
+        self.action_point_enter()
+        self.action_point_safe_get()
+
+        enough = self._action_point_total > amount
+        if enough:
+            logger.info(f'Having {amount} action points')
+        else:
+            logger.info(f'Not having {amount} action points')
+
+        self.action_point_quit()
+        while 1:
+            if self.appear(IN_MAP, offset=(200, 5)):
+                break
+            self.device.screenshot()
+
+        return enough
