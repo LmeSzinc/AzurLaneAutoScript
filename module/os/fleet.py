@@ -391,6 +391,10 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             # Calculate destination
             grid = self.radar.port_predict(self.device.image)
             logger.info(f'Port route at {grid}')
+            if grid is None:
+                self.device.screenshot()
+                continue
+
             radar_arrive = np.linalg.norm(grid) == 0
             port_arrive = self.appear(PORT_ENTER, offset=(20, 20))
             if port_arrive:

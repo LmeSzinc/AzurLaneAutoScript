@@ -496,9 +496,3 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         if button is not None:
             self._retire_select_one(button, skip_first_screenshot=False)
             self._have_kept_cv = True
-
-
-if __name__ == '__main__':
-    self = Retirement('alas')
-    self.image_file = r'E:\ProgramData\Pycharm\AzurLaneAutoScript\log\error\1672322132939\2022-12-29_21-55-32-874142.png'
-    print(self.appear(ONE_CLICK_RETIREMENT))
