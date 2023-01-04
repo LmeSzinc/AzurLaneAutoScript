@@ -518,6 +518,7 @@ class OperationSiren(OSMap):
             ActionPointLimit:
         """
         logger.hr('OS clear obscure', level=1)
+        self.cl1_ap_preserve()
         if self.config.OpsiObscure_ForceRun:
             logger.info('OS obscure finish is under force run')
 
@@ -564,7 +565,7 @@ class OperationSiren(OSMap):
             logger.info('Just less than 1 day to OpSi reset, delay 2.5 hours')
             self.config.task_delay(minute=150, server_update=True)
             self.config.task_stop()
-        elif self.is_cl1_enabled or not result:
+        elif not result:
             self.config.task_delay(server_update=True)
             self.config.task_stop()
 
@@ -580,6 +581,8 @@ class OperationSiren(OSMap):
             RequestHumanTakeover: If unable to clear boss, fleets exhausted.
         """
         logger.hr('OS clear abyssal', level=1)
+        self.cl1_ap_preserve()
+
         result = self.storage_get_next_item('ABYSSAL', use_logger=self.config.OpsiGeneral_UseLogger)
         if not result:
             self.delay_abyssal(result=False)
@@ -642,6 +645,8 @@ class OperationSiren(OSMap):
             RequestHumanTakeover: If unable to clear boss, fleets exhausted.
         """
         logger.hr('OS clear stronghold', level=1)
+        self.cl1_ap_preserve()
+
         self.os_map_goto_globe()
         self.globe_update()
         zone = self.find_siren_stronghold()

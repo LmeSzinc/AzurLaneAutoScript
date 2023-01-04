@@ -429,6 +429,16 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
 
         return yellow_coins
 
+    def cl1_ap_preserve(self):
+        """
+        Keeping enough startup AP to run CL1.
+        """
+        if self.is_cl1_enabled and get_os_reset_remain() > 2:
+            logger.info('Keep 1000 AP when CL1 enabled')
+            if not self.action_point_check(1000):
+                self.config.opsi_task_delay(cl1_preserve=True)
+                self.config.task_stop()
+
     _auto_search_battle_count = 0
     _auto_search_round_timer = 0
 

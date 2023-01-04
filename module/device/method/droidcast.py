@@ -8,7 +8,7 @@ from adbutils.errors import AdbError
 
 from module.base.decorator import cached_property, del_cached_property
 from module.device.method.uiautomator_2 import Uiautomator2, ProcessInfo
-from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES, handle_adb_error, PackageNotInstalled)
+from module.device.method.utils import (retry_sleep, RETRY_TRIES, handle_adb_error, PackageNotInstalled)
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
