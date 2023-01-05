@@ -26,6 +26,8 @@ Main3:
     Event: campaign_main
 GemsFarming:
   Campaign:
+    Event:
+      value: campaign_main
     Mode: normal
     AmbushEvade: true
   StopCondition:

@@ -198,6 +198,19 @@ class CampaignRun(CampaignEvent):
                                 f'run ordered stage: {stage}')
                 name = stage.lower()
                 self.is_stage_loop = True
+        # For GemsFarming, auto choose events or main chapters
+        if self.config.task.command == 'GemsFarming':
+            regex_main = re.compile(r'\d{1,2}[-_]\d')
+            if regex_main.search(name):
+                logger.info(f'Stage name {name} is from campaign_main')
+                folder = 'campaign_main'
+            else:
+                folder = self.config.cross_get('Event.Campaign.Event')
+                if folder is not None:
+                    logger.info(f'Stage name {name} is from event {folder}')
+                else:
+                    logger.warning(f'Cannot get the latest event, fallback to campaign_main')
+                    folder = 'campaign_main'
 
         return name, folder
 
