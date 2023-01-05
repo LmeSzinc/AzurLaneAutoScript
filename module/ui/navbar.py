@@ -165,8 +165,10 @@ class Navbar:
 
             active, minimum, maximum = self.get_info(main=main)
             logger.info(f'Nav item active: {active} from range ({minimum}, {maximum})')
-            # if active is None:
-            #     continue
+            # Get None when receiving a pure black screenshot.
+            if minimum is None or maximum is None:
+                continue
+
             index = minimum + left - 1 if left is not None else maximum - right + 1
             if not minimum <= index <= maximum:
                 logger.warning(
