@@ -19,7 +19,7 @@ def handle_notify(_config: str, **kwargs) -> bool:
         logger.error("Fail to load onepush config, skip sending")
         return False
     try:
-        provider_name = config.pop("provider", None)
+        provider_name: str = config.pop("provider", None)
         if provider_name is None:
             logger.info("No provider specified, skip sending")
             return False
@@ -43,8 +43,27 @@ def handle_notify(_config: str, **kwargs) -> bool:
                 config["data"]["title"] = kwargs["title"]
             if "content" in kwargs:
                 config["data"]["content"] = kwargs["content"]
+        
+        if provider_name.lower() == "gocqhttp":
+            access_token = config.get("access_token")
+            if access_token:
+                config["token"] = access_token
 
-        notifier.notify(**config)
+        if provider_name.lower() == "smtp":
+            notifier.notify(**config)
+        else:
+            resp = notifier.notify(**config)
+            if resp.status_code != 200:
+                logger.warning("Push notify failed!")
+                logger.warning(f"HTTP Code:{resp.status_code}")
+                return False
+            else:
+                if provider_name.lower() == "gocqhttp":
+                    return_data: dict = resp.json()
+                    if return_data["status"] == "failed":
+                        logger.warning("Push notify failed!")
+                        logger.warning(f"Return message:{return_data['wording']}")
+                        return False
     except OnePushException:
         logger.exception("Push notify failed")
         return False
