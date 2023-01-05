@@ -43,6 +43,11 @@ def handle_notify(_config: str, **kwargs) -> bool:
                 config["data"]["title"] = kwargs["title"]
             if "content" in kwargs:
                 config["data"]["content"] = kwargs["content"]
+        
+        if provider_name == "gocqhttp":
+            access_token = config.get("access_token")
+            if access_token:
+                config["token"] = access_token
 
         if provider_name == "smtp":
             notifier.notify(**config)
