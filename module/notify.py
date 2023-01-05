@@ -44,7 +44,7 @@ def handle_notify(_config: str, **kwargs) -> bool:
             if "content" in kwargs:
                 config["data"]["content"] = kwargs["content"]
 
-        if provider_name != "gocqhttp":
+        if provider_name == "smtp":
             notifier.notify(**config)
         else:
             resp = notifier.notify(**config)
@@ -53,11 +53,12 @@ def handle_notify(_config: str, **kwargs) -> bool:
                 logger.warning(f"HTTP Code:{resp.status_code}")
                 return False
             else:
-                return_data: dict = resp.json()
-                if return_data["status"] == "failed":
-                    logger.warning("Push notify failed!")
-                    logger.warning(f"Return message:{return_data['wording']}")
-                    return False
+                if provider_name == "gocqhttp":
+                    return_data: dict = resp.json()
+                    if return_data["status"] == "failed":
+                        logger.warning("Push notify failed!")
+                        logger.warning(f"Return message:{return_data['wording']}")
+                        return False
     except OnePushException:
         logger.exception("Push notify failed")
         return False
