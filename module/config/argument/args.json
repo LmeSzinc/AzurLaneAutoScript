@@ -1628,6 +1628,7 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "display": "hide",
         "cn": "event_20210225_cn",
         "en": "event_20210225_cn",
         "jp": "event_20210225_cn",
