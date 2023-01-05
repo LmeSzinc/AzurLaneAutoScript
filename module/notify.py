@@ -44,7 +44,20 @@ def handle_notify(_config: str, **kwargs) -> bool:
             if "content" in kwargs:
                 config["data"]["content"] = kwargs["content"]
 
-        notifier.notify(**config)
+        if provider_name != "gocqhttp":
+            notifier.notify(**config)
+        else:
+            resp = notifier.notify(**config)
+            if resp.status_code != 200:
+                logger.warning("Push notify failed!")
+                logger.warning(f"HTTP Code:{resp.status_code}")
+                return False
+            else:
+                return_data: dict = resp.json()
+                if return_data["status"] == "failed":
+                    logger.warning("Push notify failed!")
+                    logger.warning(f"Return message:{return_data['wording']}")
+                    return False
     except OnePushException:
         logger.exception("Push notify failed")
         return False
