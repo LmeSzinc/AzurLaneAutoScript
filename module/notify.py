@@ -1,9 +1,10 @@
-import yaml
 import onepush.core
+import yaml
 from onepush import get_notifier
 from onepush.core import Provider
 from onepush.exceptions import OnePushException
 from onepush.providers.custom import Custom
+from requests import Response
 
 from module.logger import logger
 
@@ -43,16 +44,14 @@ def handle_notify(_config: str, **kwargs) -> bool:
                 config["data"]["title"] = kwargs["title"]
             if "content" in kwargs:
                 config["data"]["content"] = kwargs["content"]
-        
+
         if provider_name.lower() == "gocqhttp":
             access_token = config.get("access_token")
             if access_token:
                 config["token"] = access_token
 
-        if provider_name.lower() == "smtp":
-            notifier.notify(**config)
-        else:
-            resp = notifier.notify(**config)
+        resp = notifier.notify(**config)
+        if isinstance(resp, Response):
             if resp.status_code != 200:
                 logger.warning("Push notify failed!")
                 logger.warning(f"HTTP Code:{resp.status_code}")
@@ -62,7 +61,8 @@ def handle_notify(_config: str, **kwargs) -> bool:
                     return_data: dict = resp.json()
                     if return_data["status"] == "failed":
                         logger.warning("Push notify failed!")
-                        logger.warning(f"Return message:{return_data['wording']}")
+                        logger.warning(
+                            f"Return message:{return_data['wording']}")
                         return False
     except OnePushException:
         logger.exception("Push notify failed")
