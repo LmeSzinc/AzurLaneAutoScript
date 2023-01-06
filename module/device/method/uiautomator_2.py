@@ -227,6 +227,14 @@ class Uiautomator2(Connection):
         return hierarchy
 
     @retry
+    def window_size_uiautomator2(self) -> t.Tuple[int, int]:
+        """
+        Returns:
+            (width, height)
+        """
+        return self.u2.window_size()
+
+    @retry
     def proc_list_uiautomato2(self) -> t.List[ProcessInfo]:
         """
         Get info about current processes.

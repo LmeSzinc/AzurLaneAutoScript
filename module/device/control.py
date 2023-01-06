@@ -4,11 +4,10 @@ from module.base.utils import *
 from module.device.method.hermit import Hermit
 from module.device.method.minitouch import Minitouch
 from module.device.method.scrcpy import Scrcpy
-from module.device.method.uiautomator_2 import Uiautomator2
 from module.logger import logger
 
 
-class Control(Hermit, Uiautomator2, Minitouch, Scrcpy):
+class Control(Hermit, Minitouch, Scrcpy):
     def handle_control_check(self, button):
         # Will be overridden in Device
         pass
