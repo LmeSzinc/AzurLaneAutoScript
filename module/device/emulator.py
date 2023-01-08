@@ -214,9 +214,6 @@ class EmulatorManager(Connection):
         try:
             return super(EmulatorManager, self).adb_connect(serial)
         except EmulatorNotRunningError:
-            if self.config.RestartEmulator_ErrorRestart \
-                    and self.emulator_restart():
-                return True
             raise RequestHumanTakeover
 
     def detect_emulator_status(self, serial):
