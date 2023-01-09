@@ -147,7 +147,7 @@ class Control(Hermit, Minitouch, Scrcpy):
             self.drag_uiautomator2(
                 p1, p2, segments=segments, shake=shake, point_random=point_random, shake_random=shake_random,
                 swipe_duration=swipe_duration, shake_duration=shake_duration)
-        if method == 'scrcpy':
+        elif method == 'scrcpy':
             self.drag_scrcpy(p1, p2, point_random=point_random)
         else:
             logger.warning(f'Control method {method} does not support drag well, '
