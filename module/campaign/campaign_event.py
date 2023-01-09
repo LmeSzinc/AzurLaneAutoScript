@@ -14,12 +14,15 @@ class CampaignEvent(CampaignStatus):
         """
         with self.config.multi_set():
             for task in tasks:
+                if task in ['GemsFarming']:
+                    continue
                 keys = f'{task}.Scheduler.Enable'
                 logger.info(f'Disable task `{task}`')
                 self.config.cross_set(keys=keys, value=False)
 
             for task in ['GemsFarming']:
-                if self.config.cross_get(keys=f'{task}.Campaign.Event', default='campaign_main') != 'campaign_main':
+                name = self.config.cross_get(keys=f'{task}.Campaign.Name', default='2-4')
+                if not self.stage_is_main(name):
                     logger.info(f'Reset GemsFarming to 2-4')
                     self.config.cross_set(keys=f'{task}.Campaign.Name', value='2-4')
                     self.config.cross_set(keys=f'{task}.Campaign.Event', value='campaign_main')
@@ -54,7 +57,7 @@ class CampaignEvent(CampaignStatus):
         command = self.config.Scheduler_Command
         if limit <= 0 or command not in tasks:
             return False
-        if command == 'GemsFarming' and self.config.Campaign_Event == 'campaign_main':
+        if command == 'GemsFarming' and self.stage_is_main(self.config.Campaign_Name):
             return False
 
         pt = self.get_event_pt()
@@ -91,7 +94,7 @@ class CampaignEvent(CampaignStatus):
         command = self.config.Scheduler_Command
         if command not in tasks or limit == DEFAULT_TIME:
             return False
-        if command == 'GemsFarming' and self.config.Campaign_Event == 'campaign_main':
+        if command == 'GemsFarming' and self.stage_is_main(self.config.Campaign_Name):
             return False
 
         now = datetime.now().replace(microsecond=0)
@@ -136,3 +139,14 @@ class CampaignEvent(CampaignStatus):
             next_task = self.config.TaskBalancer_TaskCall
             self.config.task_call(next_task)
             self.config.task_stop()
+
+    @staticmethod
+    def stage_is_main(name) -> bool:
+        """
+        Predict if given stage name is a event
+
+        Args:
+            name (str): Such as `7-2`, `D3`
+        """
+        regex_main = re.compile(r'\d{1,2}[-_]\d')
+        return bool(regex_main.search(name))

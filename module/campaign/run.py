@@ -99,7 +99,6 @@ class CampaignRun(CampaignEvent):
         # Event limit
         if oil_check and self.campaign.event_pt_limit_triggered():
             logger.hr('Triggered stop condition: Event PT limit')
-            self.config.Scheduler_Enable = False
             return True
 
         return False
@@ -200,8 +199,7 @@ class CampaignRun(CampaignEvent):
                 self.is_stage_loop = True
         # For GemsFarming, auto choose events or main chapters
         if self.config.task.command == 'GemsFarming':
-            regex_main = re.compile(r'\d{1,2}[-_]\d')
-            if regex_main.search(name):
+            if self.stage_is_main(name):
                 logger.info(f'Stage name {name} is from campaign_main')
                 folder = 'campaign_main'
             else:
@@ -247,6 +245,7 @@ class CampaignRun(CampaignEvent):
             total (int):
         """
         name, folder = self.handle_stage_name(name, folder)
+        self.config.override(Campaign_Name=name, Campaign_Event=folder)
         self.load_campaign(name, folder=folder)
         self.run_count = 0
         self.run_limit = self.config.StopCondition_RunCount
