@@ -320,11 +320,14 @@ class OperationSiren(OSMap):
             logger.attr('OS_ACTION_POINT_PRESERVE', self.config.OS_ACTION_POINT_PRESERVE)
             if not ap_checked:
                 # Check action points first to avoid using remaining AP when it not enough for tomorrow's daily
-                # When not running CL1, use oil
+                # When not running CL1 and use oil
                 keep_current_ap = True
+                check_rest_ap = True
+                if self.is_cl1_enabled:
+                    check_rest_ap = False
                 if not self.is_cl1_enabled and self.config.OpsiGeneral_BuyActionPointLimit > 0:
                     keep_current_ap = False
-                self.action_point_set(cost=0, keep_current_ap=keep_current_ap)
+                self.action_point_set(cost=0, keep_current_ap=keep_current_ap, check_rest_ap=check_rest_ap)
                 ap_checked = True
 
             # (1252, 1012) is the coordinate of zone 134 (the center zone) in os_globe_map.png
@@ -391,11 +394,11 @@ class OperationSiren(OSMap):
             self.get_current_zone()
 
             # Preset action point to 100
-            # When running CL1 oil is for running CL1, not CL5
+            # When running CL1 oil is for running CL1, not meowfficer farming
             keep_current_ap = True
             if self.config.OpsiGeneral_BuyActionPointLimit > 0:
                 keep_current_ap = False
-            self.action_point_set(cost=100, keep_current_ap=keep_current_ap)
+            self.action_point_set(cost=100, keep_current_ap=keep_current_ap, check_rest_ap=True)
             if self._action_point_total >= 3000:
                 with self.config.multi_set():
                     self.config.task_delay(server_update=True)
