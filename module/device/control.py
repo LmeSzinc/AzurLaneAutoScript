@@ -4,11 +4,10 @@ from module.base.utils import *
 from module.device.method.hermit import Hermit
 from module.device.method.minitouch import Minitouch
 from module.device.method.scrcpy import Scrcpy
-from module.device.method.uiautomator_2 import Uiautomator2
 from module.logger import logger
 
 
-class Control(Hermit, Uiautomator2, Minitouch, Scrcpy):
+class Control(Hermit, Minitouch, Scrcpy):
     def handle_control_check(self, button):
         # Will be overridden in Device
         pass
@@ -148,7 +147,7 @@ class Control(Hermit, Uiautomator2, Minitouch, Scrcpy):
             self.drag_uiautomator2(
                 p1, p2, segments=segments, shake=shake, point_random=point_random, shake_random=shake_random,
                 swipe_duration=swipe_duration, shake_duration=shake_duration)
-        if method == 'scrcpy':
+        elif method == 'scrcpy':
             self.drag_scrcpy(p1, p2, point_random=point_random)
         else:
             logger.warning(f'Control method {method} does not support drag well, '
