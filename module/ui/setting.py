@@ -124,7 +124,7 @@ class Setting:
 
         logger.info(f'Setting {self.name} options, {dict_to_kv(kwargs)}')
         skip_first_screenshot = True
-        interval = Timer(2, count=4)
+        retry = Timer(1, count=2)
         timeout = Timer(10, count=20).start()
         while 1:
             if skip_first_screenshot:
@@ -139,10 +139,10 @@ class Setting:
             self.show_active_buttons()
             clicks = self.get_buttons_to_click(status)
             if clicks:
-                if interval.reached():
+                if retry.reached():
                     for button in clicks:
                         self.main.device.click(button)
-                    interval.reset()
+                    retry.reset()
             else:
                 return True
 

@@ -8,6 +8,7 @@ import module.device.method.scrcpy.const as const
 from module.base.utils import random_rectangle_point
 from module.device.method.minitouch import insert_swipe
 from module.device.method.scrcpy.core import ScrcpyCore, ScrcpyError
+from module.device.method.uiautomator_2 import Uiautomator2
 from module.device.method.utils import RETRY_TRIES, retry_sleep, handle_adb_error
 from module.exception import RequestHumanTakeover
 from module.logger import logger
@@ -68,9 +69,22 @@ def retry(func):
     return retry_wrapper
 
 
-class Scrcpy(ScrcpyCore):
+class Scrcpy(ScrcpyCore, Uiautomator2):
+    def _scrcpy_resolution_check(self):
+        if not self._scrcpy_alive:
+            with self._scrcpy_control_socket_lock:
+                width, height = self.window_size_uiautomator2()
+                logger.attr('Screen_size', f'{width}x{height}')
+                if (width == 1280 and height == 720) or (width == 720 and height == 1280):
+                    pass
+                else:
+                    logger.critical(f'Resolution not supported: {width}x{height}')
+                    logger.critical('Please set emulator resolution to 1280x720')
+                    raise RequestHumanTakeover
+
     @retry
     def screenshot_scrcpy(self):
+        self._scrcpy_resolution_check()
         self.scrcpy_ensure_running()
 
         with self._scrcpy_control_socket_lock:

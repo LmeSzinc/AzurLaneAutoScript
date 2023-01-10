@@ -115,24 +115,32 @@ class MeowfficerEnhance(MeowfficerBase):
             MEOWFFICER_ENHANCE_CONFIRM
         ])
         current = 0
+        retry = Timer(1, count=2)
+        skip_first_screenshot = True
+
         while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
             # Scan for feed, exit if none
             buttons = self.meow_feed_scan()
             if not len(buttons):
                 break
 
-            # Else click each button to
-            # apply green check mark
-            # Sleep for stable image
-            for button in buttons:
-                self.device.click(button)
-            self.device.sleep((0.3, 0.5))
-            self.device.screenshot()
-
             # Exit if maximum clicked
             current, remain, total = MEOWFFICER_FEED.ocr(self.device.image)
             if not remain:
                 break
+
+            # Else click each button to
+            # apply green check mark
+            # Sleep for stable image
+            if retry.reached():
+                for button in buttons:
+                    self.device.click(button)
+                retry.reset()
 
         # Use current to pass appropriate button for ui_click
         # route back to MEOWFFICER_ENHANCE
