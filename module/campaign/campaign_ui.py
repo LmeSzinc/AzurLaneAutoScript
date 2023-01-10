@@ -3,8 +3,7 @@ from module.campaign.campaign_event import CampaignEvent
 from module.campaign.campaign_ocr import CampaignOcr
 from module.exception import CampaignNameError, ScriptEnd
 from module.logger import logger
-from module.ui.assets import CAMPAIGN_CHECK, CAMPAIGN_MENU_NO_EVENT
-from module.ui.page import page_campaign_menu, page_event
+from module.ui.assets import CAMPAIGN_CHECK
 from module.ui.switch import Switch
 
 MODE_SWITCH_1 = Switch('Mode_switch_1', offset=(30, 10))
@@ -94,18 +93,7 @@ class CampaignUI(CampaignEvent, CampaignOcr):
 
     def campaign_set_chapter_event(self, chapter, mode='normal'):
         if chapter in ['a', 'b', 'c', 'd', 'ex_sp', 'as', 'bs', 'cs', 'ds', 't']:
-            # Already in page_event, skip event_check.
-            if self.ui_get_current_page() == page_event:
-                pass
-            else:
-                self.ui_goto(destination=page_campaign_menu)
-            # Check event availability
-            if self.appear(CAMPAIGN_MENU_NO_EVENT):
-                logger.info('Event unavailable, disable tasks.')
-                self.config.Scheduler_Enable = False
-                self.config.task_stop()
-            else:
-                self.ui_goto_event()
+            self.ui_goto_event()
             # Sort campaign mode
             if chapter in ['a', 'b', 'as', 'bs', 't']:
                 self.campaign_ensure_mode('normal')

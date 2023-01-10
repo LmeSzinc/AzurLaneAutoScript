@@ -22,7 +22,7 @@ from module.ui.assets import (BACK_ARROW, DORM_FEED_CANCEL, DORM_INFO,
                               MAIN_GOTO_CAMPAIGN, MEOWFFICER_INFO,
                               MEOWFFICER_GOTO_DORMMENU, META_CHECK,
                               PLAYER_CHECK, RAID_CHECK, SHIPYARD_CHECK,
-                              SHOP_GOTO_SUPPLY_PACK)
+                              SHOP_GOTO_SUPPLY_PACK, CAMPAIGN_MENU_NO_EVENT)
 from module.ui.page import (Page, page_academy, page_archives,
                             page_battle_pass, page_build, page_campaign,
                             page_campaign_menu, page_commission, page_daily,
@@ -327,10 +327,38 @@ class UI(InfoHandler):
         return self.ui_ensure(destination=page_campaign)
 
     def ui_goto_event(self):
-        return self.ui_ensure(destination=page_event)
+        # Already in page_event, skip event_check.
+        if self.ui_get_current_page() == page_event:
+            logger.info('Already at page_event')
+            return True
+        else:
+            self.ui_goto(destination=page_campaign_menu)
+            # Check event availability
+            if self.appear(CAMPAIGN_MENU_NO_EVENT):
+                logger.info('Event unavailable, disable task')
+                self.config.Scheduler_Enable = False
+                self.config.task_stop()
+            else:
+                logger.info('Event available, goto page_event')
+                self.ui_ensure(destination=page_event)
+                return True
 
     def ui_goto_sp(self):
-        return self.ui_ensure(destination=page_sp)
+        # Already in page_event, skip event_check.
+        if self.ui_get_current_page() == page_sp:
+            logger.info('Already at page_sp')
+            return True
+        else:
+            self.ui_goto(destination=page_campaign_menu)
+            # Check event availability
+            if self.appear(CAMPAIGN_MENU_NO_EVENT):
+                logger.info('Event unavailable, disable task')
+                self.config.Scheduler_Enable = False
+                self.config.task_stop()
+            else:
+                logger.info('Event available, goto page_sp')
+                self.ui_ensure(destination=page_sp)
+                return True
 
     def ui_ensure_index(
         self,
