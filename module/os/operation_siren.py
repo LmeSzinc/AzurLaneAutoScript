@@ -760,6 +760,7 @@ class OperationSiren(OSMap):
 
         logger.hr("Month Boss precheck", level=2)
         self.os_mission_enter()
+        logger.attr('OpsiMonthBoss.Mode', self.config.OpsiMonthBoss_Mode)
         if self.appear(OS_MONTHBOSS_NORMAL, offset=(20, 20)):
             logger.attr('Month boss difficulty', 'normal')
             is_normal = True
@@ -809,15 +810,21 @@ class OperationSiren(OSMap):
         """
         if is_normal:
             if result:
-                next_reset = get_os_next_reset()
-                self.config.task_delay(target=next_reset)
-                self.config.task_stop()
+                if self.config.OpsiMonthBoss_Mode == 'normal_hard':
+                    logger.info('Monthly boss normal cleared, run hard boss then')
+                    self.config.task_stop()
+                else:
+                    logger.info('Monthly boss normal cleared, task stop')
+                    next_reset = get_os_next_reset()
+                    self.config.task_delay(target=next_reset)
+                    self.config.task_stop()
             else:
                 logger.info("Unable to clear the normal monthly boss, will try later")
                 self.config.opsi_task_delay(recon_scan=False, submarine_call=True, ap_limit=False)
                 self.config.task_stop()
         else:
             if result:
+                logger.info('Monthly boss hard cleared, task stop')
                 next_reset = get_os_next_reset()
                 self.config.task_delay(target=next_reset)
                 self.config.task_stop()
