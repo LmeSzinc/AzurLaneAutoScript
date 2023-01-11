@@ -8,7 +8,7 @@ from module.campaign.campaign_base import CampaignBase
 from module.campaign.campaign_event import CampaignEvent
 from module.config.config import AzurLaneConfig
 from module.exception import CampaignEnd, RequestHumanTakeover, ScriptEnd
-from module.handler.fast_forward import map_files
+from module.handler.fast_forward import map_files, to_map_file_name
 from module.logger import logger
 
 
@@ -136,9 +136,8 @@ class CampaignRun(CampaignEvent):
             str, str: name, folder
         """
         name = re.sub('[ \t\n]', '', str(name)).lower()
+        name = to_map_file_name(name)
         # Handle special names SP maps
-        if name[0].isdigit():
-            name = 'campaign_' + name.lower().replace('-', '_')
         if folder == 'event_20201126_cn' and name == 'vsp':
             name = 'sp'
         if folder == 'event_20210723_cn' and name == 'vsp':
