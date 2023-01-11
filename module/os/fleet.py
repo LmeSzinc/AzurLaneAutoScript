@@ -42,6 +42,9 @@ class BossFleet:
 
     __repr__ = __str__
 
+    def __eq__(self, other):
+        return str(self) == str(other)
+
 
 class PercentageOcr(Ocr):
     def __init__(self, *args, **kwargs):
@@ -646,6 +649,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
         Args:
             has_fleet_step (bool):
+            is_month (bool)
 
         Returns:
             bool: If success to clear.
@@ -669,7 +673,20 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                     continue
 
                 # Switch fleet
-                self.fleet_set(fleet.fleet_index)
+                if self.fleet_set(fleet.fleet_index):
+                    pass
+                else:
+                    # Refocus camera if fleet not
+                    others = [f for f in fleets if isinstance(f, BossFleet) and f != fleet]
+                    if len(others):
+                        other: BossFleet = others[0]
+                        self.fleet_set(other.fleet_index)
+                        self.fleet_set(fleet.fleet_index)
+                    else:
+                        logger.warning(f'No other fleets from {fleets}, skip refocus')
+                        pass
+
+                # Check fleet
                 self.handle_os_map_fleet_lock(enable=False)
                 if self.fleet_low_resolve_appear():
                     logger.warning('Skip using current fleet because of the low resolve debuff')
