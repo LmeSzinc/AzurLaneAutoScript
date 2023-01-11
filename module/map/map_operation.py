@@ -229,12 +229,16 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             else:
                 self.device.screenshot()
 
-            if self.appear(MAP_PREPARATION, offset=(20, 20)) or self.appear(FLEET_PREPARATION, offset=(20, 20)):
-                self.device.click(MAP_PREPARATION_CANCEL)
-                continue
-
+            # End
             if self.is_in_stage():
                 break
+
+            if self.appear(MAP_PREPARATION, offset=(20, 20), interval=2):
+                self.device.click(MAP_PREPARATION_CANCEL)
+                continue
+            if self.appear(FLEET_PREPARATION, offset=(20, 20), interval=2):
+                self.device.click(MAP_PREPARATION_CANCEL)
+                continue
 
         return True
 

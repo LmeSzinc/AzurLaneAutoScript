@@ -118,7 +118,7 @@ class RadarGrid:
         """
         image = crop(self.image, area_offset(area, self.center))
         mask = color_similarity_2d(image, color=color) > threshold
-        return np.sum(mask) > count
+        return np.sum(mask) >= count
 
     def predict_enemy(self):
         return self.image_color_count(area=(-3, -3, 3, 3), color=(247, 89, 49), threshold=221, count=10)
@@ -136,10 +136,10 @@ class RadarGrid:
         return self.image_color_count(area=(-3, -3, 3, 3), color=(147, 12, 8), threshold=221, count=10)
 
     def predict_port(self):
-        return self.image_color_count(area=(-3, -3, 3, 3), color=(255, 255, 255), threshold=235, count=10)
+        return self.image_color_count(area=(-3, -3, 3, 3), color=(255, 255, 255), threshold=235, count=9)
 
     def predict_question(self):
-        return self.image_color_count(area=(0, -7, 6, 0), color=(255, 255, 255), threshold=235, count=10)
+        return self.image_color_count(area=(0, -7, 6, 0), color=(255, 255, 255), threshold=235, count=9)
 
     def predict_archive(self):
         return self.image_color_count(area=(-3, -3, 3, 3), color=(173, 113, 255), threshold=235, count=10)
