@@ -226,7 +226,7 @@ class MapEventHandler(EnemySearchingHandler):
         """
         Args:
             drop (DropImage):
-            enable (bool):
+            enable (bool): True/False, or None for doing nothing.
 
         Returns:
             bool: If clicked.
@@ -246,6 +246,8 @@ class MapEventHandler(EnemySearchingHandler):
                 # Auto search stopped but map hasn't been cleared
                 return True
 
+        if enable is None:
+            pass
         elif enable:
             if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120), interval=3) \
                     and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):
