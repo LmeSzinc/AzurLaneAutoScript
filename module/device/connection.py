@@ -313,10 +313,14 @@ class Connection(ConnectionAttr):
             # About 3ms
             result = self.adb_shell(command)
             # Result should be command help if success
-            # `/system/bin/sh: nc: not found` if failed
-            if ': not found' not in result:
-                logger.attr('nc command', command)
-                return command
+            # `/system/bin/sh: nc: not found`
+            if 'not found' in result:
+                continue
+            # `/system/bin/sh: busybox: inaccessible or not found\n`
+            if 'inaccessible' in result:
+                continue
+            logger.attr('nc command', command)
+            return command
 
         logger.error('No `netcat` command available, please use screenshot methods without `_nc` suffix')
         raise RequestHumanTakeover

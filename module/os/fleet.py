@@ -7,6 +7,7 @@ from module.base.button import Button, ButtonGrid
 from module.base.filter import Filter
 from module.base.timer import Timer
 from module.base.utils import point_limit
+from module.config.utils import dict_to_kv
 from module.exception import MapWalkError
 from module.logger import logger
 from module.map.fleet import Fleet
@@ -21,7 +22,7 @@ from module.os_ash.ash import OSAsh
 from module.os_combat.combat import Combat
 from module.os_handler.assets import CLICK_SAFE_AREA, IN_MAP, PORT_ENTER, PORT_SUPPLY_CHECK
 
-FLEET_FILTER = Filter(regex=re.compile('fleet-?(\d)'), attr=('fleet',), preset=('callsubmarine',))
+FLEET_FILTER = Filter(regex=re.compile(r'fleet-?(\d)'), attr=('fleet',), preset=('callsubmarine',))
 
 
 def limit_walk(location, step=3):
@@ -41,6 +42,9 @@ class BossFleet:
         return f'Fleet-{self.fleet}'
 
     __repr__ = __str__
+
+    def __eq__(self, other):
+        return str(self) == str(other)
 
 
 class PercentageOcr(Ocr):
@@ -459,6 +463,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
     def relative_goto(self, has_fleet_step=False, near_by=False, relative_position=(0, 0), index=0, **kwargs):
         logger.hr('Relative goto')
+        logger.info(f'Relative goto, {dict_to_kv(kwargs)}')
 
         # Update local view
         # Not screenshots taking, reuse the old one
@@ -468,13 +473,11 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
         # Calculate destination
         grids = self.radar.select(**kwargs)
+        if near_by:
+            grids = grids.sort_by_camera_distance((0, 0))
         if grids:
             # Click way point
             grid = np.add(location_ensure(grids[index]), relative_position)
-            if near_by:
-                x, y = grid
-                if abs(x) <= 1 and abs(y) <= 1:
-                    logger.info('Near by location, stop')
 
             grid = point_limit(grid, area=(-4, -2, 3, 2))
             if has_fleet_step:
@@ -489,12 +492,33 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4), walk_out_of_step=False)
 
     def go_month_boss_room(self, is_normal=True):
-        while not self.appear(MAP_EXIT, offset=(20, 20)):
-            self.relative_goto(has_fleet_step=True, near_by=True, relative_position=(3, -5), is_port=True)
+        logger.hr('Goto room entrance')
+        logger.info(f'Goto room entrance, is_normal={is_normal}')
+        while 1:
+            if self.appear(MAP_EXIT, offset=(20, 20)):
+                break
+
+            # 2 grids below the entrance
+            self.relative_goto(has_fleet_step=True, near_by=True, relative_position=(3, -2), is_port=True)
+
+            self.update_os()
+            self.predict()
+            self.predict_radar()
+            grid = self.radar.select(is_port=True).first_or_none()
+            if grid is not None and grid.location == (-3, 2):
+                logger.info('At room entrance')
+                break
+
+        logger.hr('Enter room entrance')
+        while 1:
+            if self.appear(MAP_EXIT, offset=(20, 20)):
+                logger.info('Entered boss room')
+                break
+
             if is_normal:
-                self.relative_goto(has_fleet_step=True, is_exclamation=True)
+                self.relative_goto(has_fleet_step=True, near_by=True, is_exclamation=True)
             else:
-                self.relative_goto(has_fleet_step=True, is_question=True)
+                self.relative_goto(has_fleet_step=True, near_by=True, is_question=True)
 
     def question_goto(self, has_fleet_step=False):
         logger.hr('Question goto')
@@ -646,6 +670,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
         Args:
             has_fleet_step (bool):
+            is_month (bool)
 
         Returns:
             bool: If success to clear.
@@ -669,7 +694,20 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                     continue
 
                 # Switch fleet
-                self.fleet_set(fleet.fleet_index)
+                if self.fleet_set(fleet.fleet_index):
+                    pass
+                else:
+                    # Refocus camera if fleet not
+                    others = [f for f in fleets if isinstance(f, BossFleet) and f != fleet]
+                    if len(others):
+                        other: BossFleet = others[0]
+                        self.fleet_set(other.fleet_index)
+                        self.fleet_set(fleet.fleet_index)
+                    else:
+                        logger.warning(f'No other fleets from {fleets}, skip refocus')
+                        pass
+
+                # Check fleet
                 self.handle_os_map_fleet_lock(enable=False)
                 if self.fleet_low_resolve_appear():
                     logger.warning('Skip using current fleet because of the low resolve debuff')

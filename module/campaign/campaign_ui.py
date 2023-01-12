@@ -27,7 +27,7 @@ class CampaignUI(CampaignEvent, CampaignOcr):
         # A tricky way to use ui_ensure_index.
         self.ui_ensure_index(index, letter=self.get_chapter_index,
                              prev_button=CHAPTER_PREV, next_button=CHAPTER_NEXT,
-                             fast=True, skip_first_screenshot=True, finish_sleep=0)
+                             fast=True, skip_first_screenshot=True)
 
     def campaign_ensure_mode(self, mode='normal'):
         """

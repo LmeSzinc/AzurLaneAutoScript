@@ -257,14 +257,16 @@ class ActionPointHandler(UI, MapEventHandler):
         """
         self.ui_click(ACTION_POINT_CANCEL, check_button=OS_CHECK, skip_first_screenshot=skip_first_screenshot)
 
-    def handle_action_point(self, zone, pinned, cost=None, keep_current_ap=True):
+    def handle_action_point(self, zone, pinned, cost=None, keep_current_ap=True, check_rest_ap=False):
         """
         Args:
             zone (Zone): Zone to enter.
             pinned (str): Zone type. Available types: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD.
             cost (int): Custom action point cost value.
             keep_current_ap (bool): Check action points first to avoid using remaining AP
-                when it not enough for tomorrow's daily
+                when it is not enough for tomorrow's daily.
+            check_rest_ap (bool): Skip keep_current_ap if the sum of current action points and rest action points
+                that can be obtained today exceeds 200.
 
         Returns:
             bool: If handled.
@@ -283,13 +285,20 @@ class ActionPointHandler(UI, MapEventHandler):
         if cost is None:
             cost = self.action_point_get_cost(zone, pinned)
         buy_checked = False
-        diff = get_server_next_update('00:00') - datetime.now()
-        today_rest = int(diff.total_seconds() // 600)
-        if keep_current_ap:
+
+        # Check the rest action points
+        if check_rest_ap:
+            diff = get_server_next_update('00:00') - datetime.now()
+            today_rest = int(diff.total_seconds() // 600)
             if self._action_point_current + today_rest >= 200:
-                logger.info(f'The sum of the current action points and the rest action points that can be obtained today exceeds 200.')
+                logger.info('The sum of the current action points and the rest action points'
+                            ' that can be obtained today exceeds 200, skip AP check')
                 logger.info(f'Current={self._action_point_current}  Rest={today_rest}')
-            elif self._action_point_total <= self.config.OS_ACTION_POINT_PRESERVE:
+                keep_current_ap = False
+
+        # Check action points first
+        if keep_current_ap:
+            if self._action_point_total <= self.config.OS_ACTION_POINT_PRESERVE:
                 logger.info(f'Reach the limit of action points, preserve={self.config.OS_ACTION_POINT_PRESERVE}')
                 self.action_point_quit()
                 raise ActionPointLimit
@@ -358,7 +367,7 @@ class ActionPointHandler(UI, MapEventHandler):
             if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50)):
                 continue
 
-    def action_point_set(self, zone=None, pinned=None, cost=None, keep_current_ap=True):
+    def action_point_set(self, zone=None, pinned=None, cost=None, keep_current_ap=True, check_rest_ap=False):
         """
         Args:
             zone (Zone): Zone to enter.
@@ -366,6 +375,8 @@ class ActionPointHandler(UI, MapEventHandler):
             cost (int): Custom action point cost value.
             keep_current_ap (bool): Check action points first to avoid using remaining AP
                 when it not enough for tomorrow's daily
+            check_rest_ap (bool): Skip keep_current_ap if the sum of current action points and rest action points
+                that can be obtained today exceeds 200.
 
         Returns:
             bool: If handled.
@@ -374,7 +385,7 @@ class ActionPointHandler(UI, MapEventHandler):
             ActionPointLimit: If not having enough action points.
         """
         self.action_point_enter()
-        if not self.handle_action_point(zone, pinned, cost, keep_current_ap):
+        if not self.handle_action_point(zone, pinned, cost, keep_current_ap, check_rest_ap):
             return False
 
         while 1:

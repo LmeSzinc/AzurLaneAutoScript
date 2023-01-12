@@ -127,6 +127,8 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                 self.globe_goto(self.zone_nearest_azur_port(self.zone),
                                 types=('SAFE', 'DANGEROUS'), refresh=False)
             else:
+                if self.is_in_globe():
+                    self.os_globe_goto_map()
                 logger.info('Already at target zone')
                 return False
         # MAP_EXIT

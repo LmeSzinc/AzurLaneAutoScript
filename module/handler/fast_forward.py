@@ -43,6 +43,33 @@ def map_files(event):
     return files
 
 
+def to_map_input_name(name: str) -> str:
+    """
+    Convert to user input names.
+
+    7-2 -> 7-2
+    campaign_7_2 -> 7-2
+    d3 -> D3
+    """
+    name = name.upper()
+    name = name.replace('CAMPAIGN_', '').replace('_', '-')
+    return name
+
+
+def to_map_file_name(name: str) -> str:
+    """
+    Convert to the name of map files.
+
+    7-2 -> campaign_7_2
+    campaign_7_2 -> campaign_7_2
+    D3 -> d3
+    """
+    name = name.lower()
+    if name and name[0].isdigit():
+        name = 'campaign_' + name.replace('-', '_')
+    return name
+
+
 class FastForwardHandler(AutoSearchHandler):
     map_clear_percentage = 0.
     map_achieved_star_1 = False
@@ -278,13 +305,13 @@ class FastForwardHandler(AutoSearchHandler):
         Increase name to its next stage.
 
         Args:
-            name (str):
+            name (str): Such as `6-1`, `a1`, `campaign_6_1`
 
         Returns:
             str: Name of next stage in upper case,
                 or origin name if unable to increase.
         """
-        name = name.upper()
+        name = to_map_input_name(name)
         for increase in self.STAGE_INCREASE:
             increase = [i.strip(' \t\r\n') for i in increase.split('>')]
             if name in increase:
@@ -339,8 +366,8 @@ class FastForwardHandler(AutoSearchHandler):
         Disable current task or increase stage.
         """
         if self.config.StopCondition_StageIncrease:
-            prev_stage = self.config.Campaign_Name.upper()
-            next_stage = self.campaign_name_increase(prev_stage).upper()
+            prev_stage = to_map_input_name(self.config.Campaign_Name)
+            next_stage = self.campaign_name_increase(prev_stage)
             if next_stage != prev_stage:
                 logger.info(f'Stage {prev_stage} increases to {next_stage}')
                 self.config.Campaign_Name = next_stage

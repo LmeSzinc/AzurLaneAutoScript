@@ -320,11 +320,14 @@ class OperationSiren(OSMap):
             logger.attr('OS_ACTION_POINT_PRESERVE', self.config.OS_ACTION_POINT_PRESERVE)
             if not ap_checked:
                 # Check action points first to avoid using remaining AP when it not enough for tomorrow's daily
-                # When not running CL1, use oil
+                # When not running CL1 and use oil
                 keep_current_ap = True
+                check_rest_ap = True
+                if self.is_cl1_enabled:
+                    check_rest_ap = False
                 if not self.is_cl1_enabled and self.config.OpsiGeneral_BuyActionPointLimit > 0:
                     keep_current_ap = False
-                self.action_point_set(cost=0, keep_current_ap=keep_current_ap)
+                self.action_point_set(cost=0, keep_current_ap=keep_current_ap, check_rest_ap=check_rest_ap)
                 ap_checked = True
 
             # (1252, 1012) is the coordinate of zone 134 (the center zone) in os_globe_map.png
@@ -391,11 +394,11 @@ class OperationSiren(OSMap):
             self.get_current_zone()
 
             # Preset action point to 100
-            # When running CL1 oil is for running CL1, not CL5
+            # When running CL1 oil is for running CL1, not meowfficer farming
             keep_current_ap = True
             if self.config.OpsiGeneral_BuyActionPointLimit > 0:
                 keep_current_ap = False
-            self.action_point_set(cost=100, keep_current_ap=keep_current_ap)
+            self.action_point_set(cost=100, keep_current_ap=keep_current_ap, check_rest_ap=True)
             if self._action_point_total >= 3000:
                 with self.config.multi_set():
                     self.config.task_delay(server_update=True)
@@ -757,6 +760,7 @@ class OperationSiren(OSMap):
 
         logger.hr("Month Boss precheck", level=2)
         self.os_mission_enter()
+        logger.attr('OpsiMonthBoss.Mode', self.config.OpsiMonthBoss_Mode)
         if self.appear(OS_MONTHBOSS_NORMAL, offset=(20, 20)):
             logger.attr('Month boss difficulty', 'normal')
             is_normal = True
@@ -806,15 +810,21 @@ class OperationSiren(OSMap):
         """
         if is_normal:
             if result:
-                next_reset = get_os_next_reset()
-                self.config.task_delay(target=next_reset)
-                self.config.task_stop()
+                if self.config.OpsiMonthBoss_Mode == 'normal_hard':
+                    logger.info('Monthly boss normal cleared, run hard boss then')
+                    self.config.task_stop()
+                else:
+                    logger.info('Monthly boss normal cleared, task stop')
+                    next_reset = get_os_next_reset()
+                    self.config.task_delay(target=next_reset)
+                    self.config.task_stop()
             else:
                 logger.info("Unable to clear the normal monthly boss, will try later")
                 self.config.opsi_task_delay(recon_scan=False, submarine_call=True, ap_limit=False)
                 self.config.task_stop()
         else:
             if result:
+                logger.info('Monthly boss hard cleared, task stop')
                 next_reset = get_os_next_reset()
                 self.config.task_delay(target=next_reset)
                 self.config.task_stop()

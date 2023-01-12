@@ -369,8 +369,6 @@ class UI(InfoHandler):
         skip_first_screenshot=False,
         fast=True,
         interval=(0.2, 0.3),
-        step_sleep=(0.2, 0.3),
-        finish_sleep=(0.5, 0.8),
     ):
         """
         Args:
@@ -385,6 +383,7 @@ class UI(InfoHandler):
             finish_sleep (tuple, int, float): Second to wait when arrive.
         """
         logger.hr("UI ensure index")
+        retry = Timer(1, count=2)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -401,14 +400,13 @@ class UI(InfoHandler):
             if diff == 0:
                 break
 
-            button = next_button if diff > 0 else prev_button
-            if fast:
-                self.device.multi_click(button, n=abs(diff), interval=interval)
-            else:
-                self.device.click(button)
-            self.device.sleep(step_sleep)
-
-        self.device.sleep(finish_sleep)
+            if retry.reached():
+                button = next_button if diff > 0 else prev_button
+                if fast:
+                    self.device.multi_click(button, n=abs(diff), interval=interval)
+                else:
+                    self.device.click(button)
+                retry.reset()
 
     def ui_back(self, check_button, appear_button=None, offset=(30, 30), retry_wait=10, skip_first_screenshot=False):
         return self.ui_click(
