@@ -345,19 +345,20 @@ class UI(InfoHandler):
                     'EventD',
                     'EventSp',
                     'GemsFarming',
-                    ]
-                for task in tasks:
-                    if task in ['GemsFarming']:
-                        continue
-                    keys = f'{task}.Scheduler.Enable'
-                    logger.info(f'Disable task `{task}`')
-                    self.config.cross_set(keys=keys, value=False)
-                for task in ['GemsFarming']:
-                    name = self.config.cross_get(keys=f'{task}.Campaign.Name', default='2-4')
-                    if not self.stage_is_main(name):
-                        logger.info(f'Reset GemsFarming to 2-4')
-                        self.config.cross_set(keys=f'{task}.Campaign.Name', value='2-4')
-                        self.config.cross_set(keys=f'{task}.Campaign.Event', value='campaign_main')
+                ]
+                with self.config.multi_set():
+                    for task in tasks:
+                        if task in ['GemsFarming']:
+                            continue
+                        keys = f'{task}.Scheduler.Enable'
+                        logger.info(f'Disable task `{task}`')
+                        self.config.cross_set(keys=keys, value=False)
+                    for task in ['GemsFarming']:
+                        name = self.config.cross_get(keys=f'{task}.Campaign.Name', default='2-4')
+                        if not self.stage_is_main(name):
+                            logger.info(f'Reset GemsFarming to 2-4')
+                            self.config.cross_set(keys=f'{task}.Campaign.Name', value='2-4')
+                            self.config.cross_set(keys=f'{task}.Campaign.Event', value='campaign_main')
                 self.config.task_stop()
             else:
                 logger.info('Event available, goto page_event')
@@ -384,18 +385,19 @@ class UI(InfoHandler):
                     'EventSp',
                     'GemsFarming',
                 ]
-                for task in tasks:
-                    if task in ['GemsFarming']:
-                        continue
-                    keys = f'{task}.Scheduler.Enable'
-                    logger.info(f'Disable task `{task}`')
-                    self.config.cross_set(keys=keys, value=False)
-                for task in ['GemsFarming']:
-                    name = self.config.cross_get(keys=f'{task}.Campaign.Name', default='2-4')
-                    if not self.stage_is_main(name):
-                        logger.info(f'Reset GemsFarming to 2-4')
-                        self.config.cross_set(keys=f'{task}.Campaign.Name', value='2-4')
-                        self.config.cross_set(keys=f'{task}.Campaign.Event', value='campaign_main')
+                with self.config.multi_set():
+                    for task in tasks:
+                        if task in ['GemsFarming']:
+                            continue
+                        keys = f'{task}.Scheduler.Enable'
+                        logger.info(f'Disable task `{task}`')
+                        self.config.cross_set(keys=keys, value=False)
+                    for task in ['GemsFarming']:
+                        name = self.config.cross_get(keys=f'{task}.Campaign.Name', default='2-4')
+                        if not self.stage_is_main(name):
+                            logger.info(f'Reset GemsFarming to 2-4')
+                            self.config.cross_set(keys=f'{task}.Campaign.Name', value='2-4')
+                            self.config.cross_set(keys=f'{task}.Campaign.Event', value='campaign_main')
                 self.config.task_stop()
             else:
                 logger.info('Event available, goto page_sp')
