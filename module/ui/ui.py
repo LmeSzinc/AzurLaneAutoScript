@@ -332,9 +332,9 @@ class UI(InfoHandler):
             logger.info('Already at page_event')
             return True
         else:
-            self.ui_goto(destination=page_campaign_menu)
+            self.ui_ensure(page_campaign_menu)
             # Check event availability
-            if self.appear(CAMPAIGN_MENU_NO_EVENT):
+            if self.appear(CAMPAIGN_MENU_NO_EVENT, offset=(20, 20)):
                 logger.info('Event unavailable, disable task')
                 self.config.Scheduler_Enable = False
                 self.config.task_stop()
