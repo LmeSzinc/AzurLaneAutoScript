@@ -92,15 +92,15 @@ class UI(InfoHandler):
             return False
 
     def ui_click(
-        self,
-        click_button,
-        check_button,
-        appear_button=None,
-        additional=None,
-        confirm_wait=1,
-        offset=(30, 30),
-        retry_wait=10,
-        skip_first_screenshot=False,
+            self,
+            click_button,
+            check_button,
+            appear_button=None,
+            additional=None,
+            confirm_wait=1,
+            offset=(30, 30),
+            retry_wait=10,
+            skip_first_screenshot=False,
     ):
         """
         Args:
@@ -134,7 +134,7 @@ class UI(InfoHandler):
 
             if click_timer.reached():
                 if (isinstance(appear_button, Button) and self.appear(appear_button, offset=offset)) or (
-                    callable(appear_button) and appear_button()
+                        callable(appear_button) and appear_button()
                 ):
                     self.device.click(click_button)
                     click_timer.reset()
@@ -336,11 +336,32 @@ class UI(InfoHandler):
             # Check event availability
             if self.appear(CAMPAIGN_MENU_NO_EVENT, offset=(20, 20)):
                 logger.info('Event unavailable, disable task')
-                self.config.Scheduler_Enable = False
+                tasks = [
+                    'Event',
+                    'Event2',
+                    'EventA',
+                    'EventB',
+                    'EventC',
+                    'EventD',
+                    'EventSp',
+                    'GemsFarming',
+                    ]
+                for task in tasks:
+                    if task in ['GemsFarming']:
+                        continue
+                    keys = f'{task}.Scheduler.Enable'
+                    logger.info(f'Disable task `{task}`')
+                    self.config.cross_set(keys=keys, value=False)
+                for task in ['GemsFarming']:
+                    name = self.config.cross_get(keys=f'{task}.Campaign.Name', default='2-4')
+                    if not self.stage_is_main(name):
+                        logger.info(f'Reset GemsFarming to 2-4')
+                        self.config.cross_set(keys=f'{task}.Campaign.Name', value='2-4')
+                        self.config.cross_set(keys=f'{task}.Campaign.Event', value='campaign_main')
                 self.config.task_stop()
             else:
                 logger.info('Event available, goto page_event')
-                self.ui_ensure(destination=page_event)
+                self.ui_ensure(page_event)
                 return True
 
     def ui_goto_sp(self):
@@ -349,11 +370,32 @@ class UI(InfoHandler):
             logger.info('Already at page_sp')
             return True
         else:
-            self.ui_goto(destination=page_campaign_menu)
+            self.ui_ensure(page_campaign_menu)
             # Check event availability
-            if self.appear(CAMPAIGN_MENU_NO_EVENT):
+            if self.appear(CAMPAIGN_MENU_NO_EVENT, offset=(20, 20)):
                 logger.info('Event unavailable, disable task')
-                self.config.Scheduler_Enable = False
+                tasks = [
+                    'Event',
+                    'Event2',
+                    'EventA',
+                    'EventB',
+                    'EventC',
+                    'EventD',
+                    'EventSp',
+                    'GemsFarming',
+                ]
+                for task in tasks:
+                    if task in ['GemsFarming']:
+                        continue
+                    keys = f'{task}.Scheduler.Enable'
+                    logger.info(f'Disable task `{task}`')
+                    self.config.cross_set(keys=keys, value=False)
+                for task in ['GemsFarming']:
+                    name = self.config.cross_get(keys=f'{task}.Campaign.Name', default='2-4')
+                    if not self.stage_is_main(name):
+                        logger.info(f'Reset GemsFarming to 2-4')
+                        self.config.cross_set(keys=f'{task}.Campaign.Name', value='2-4')
+                        self.config.cross_set(keys=f'{task}.Campaign.Event', value='campaign_main')
                 self.config.task_stop()
             else:
                 logger.info('Event available, goto page_sp')
@@ -361,14 +403,14 @@ class UI(InfoHandler):
                 return True
 
     def ui_ensure_index(
-        self,
-        index,
-        letter,
-        next_button,
-        prev_button,
-        skip_first_screenshot=False,
-        fast=True,
-        interval=(0.2, 0.3),
+            self,
+            index,
+            letter,
+            next_button,
+            prev_button,
+            skip_first_screenshot=False,
+            fast=True,
+            interval=(0.2, 0.3),
     ):
         """
         Args:
@@ -484,7 +526,8 @@ class UI(InfoHandler):
         if self._opsi_reset_fleet_preparation_click >= 5:
             logger.critical("Failed to confirm OpSi fleets, too many click on RESET_FLEET_PREPARATION")
             logger.critical("Possible reason #1: You haven't set any fleets in operation siren")
-            logger.critical("Possible reason #2: Your fleets haven't satisfied the level restrictions in operation siren")
+            logger.critical(
+                "Possible reason #2: Your fleets haven't satisfied the level restrictions in operation siren")
             raise RequestHumanTakeover
         if self.appear_then_click(RESET_TICKET_POPUP, offset=(30, 30), interval=3):
             return True
