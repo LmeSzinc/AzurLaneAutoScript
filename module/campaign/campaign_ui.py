@@ -94,7 +94,6 @@ class CampaignUI(CampaignEvent, CampaignOcr):
     def campaign_set_chapter_event(self, chapter, mode='normal'):
         if chapter in ['a', 'b', 'c', 'd', 'ex_sp', 'as', 'bs', 'cs', 'ds', 't']:
             self.ui_goto_event()
-            # Sort campaign mode
             if chapter in ['a', 'b', 'as', 'bs', 't']:
                 self.campaign_ensure_mode('normal')
             elif chapter in ['c', 'd', 'cs', 'ds']:
