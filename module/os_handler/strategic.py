@@ -10,6 +10,7 @@ STRATEGIC_SEARCH_SCROLL = Scroll(STRATEGIC_SEARCH_SCROLL_AREA, color=(247, 211, 
 class StrategicSearchHandler(EnemySearchingHandler):
     def strategy_search_enter(self, skip_first_screenshot=False):
         logger.info('Strategic search enter')
+        self.interval_clear(STRATEGIC_SEARCH_MAP_OPTION_OFF)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
