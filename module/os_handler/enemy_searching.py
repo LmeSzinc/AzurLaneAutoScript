@@ -9,7 +9,7 @@ from module.os_handler.assets import IN_MAP, ORDER_ENTER
 class EnemySearchingHandler(EnemySearchingHandler_):
     def is_in_map(self):
         return self.appear(IN_MAP, offset=(200, 5)) or \
-               self.appear(MAP_GOTO_GLOBE_FOG, offset=(5, 5))
+               self.appear(MAP_GOTO_GLOBE_FOG)
 
     def wait_os_map_buttons(self, skip_first_screenshot=True):
         """

@@ -701,6 +701,7 @@ class OperationSiren(OSMap):
                 # Re-enter to reset fleet position
                 prev = self.zone
                 self.globe_goto(self.zone_nearest_azur_port(self.zone))
+                self.handle_fog_block(repair=True)
                 self.globe_goto(prev, types='STRONGHOLD')
                 return False
             else:
@@ -708,6 +709,7 @@ class OperationSiren(OSMap):
                 # Re-enter to reset fleet position
                 prev = self.zone
                 self.globe_goto(self.zone_nearest_azur_port(self.zone))
+                self.handle_fog_block(repair=False)
                 self.globe_goto(prev, types='STRONGHOLD')
                 continue
 
