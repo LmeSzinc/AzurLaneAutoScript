@@ -183,8 +183,8 @@ class InfoHandler(ModuleBase):
                 else:
                     self.device.screenshot()
 
-                enabled = self.image_color_count(USE_DATA_KEY_NOTIFIED,
-                    color=(140, 207, 66), threshold=180, count=10)
+                enabled = self.image_color_count(
+                    USE_DATA_KEY_NOTIFIED, color=(140, 207, 66), threshold=180, count=10)
                 if enabled:
                     break
 
@@ -296,6 +296,18 @@ class InfoHandler(ModuleBase):
 
         return buttons
 
+    def _is_story_black(self):
+        color = get_color(self.device.image, area=STORY_LETTER_BLACK.area)
+        # Story with dark background and a few rows of letters
+        # STORY_LETTER_BLACK.color is (16, 20, 16)
+        if color_similar(color, STORY_LETTER_BLACK.color, threshold=10):
+            return True
+        # Story with black and a few rows of letters
+        if color_similar(color, (0, 0, 0), threshold=10):
+            return True
+
+        return False
+
     def story_skip(self, drop=None):
         if self.story_popup_timeout.started() and not self.story_popup_timeout.reached():
             if self.handle_popup_confirm('STORY_SKIP'):
@@ -303,9 +315,10 @@ class InfoHandler(ModuleBase):
                 self.interval_reset(STORY_SKIP)
                 self.interval_reset(STORY_LETTERS_ONLY)
                 return True
-        if self.appear(STORY_LETTER_BLACK) and self.appear_then_click(STORY_LETTERS_ONLY, offset=(20, 20), interval=2):
-            self.story_popup_timeout.reset()
-            return True
+        if self._is_story_black():
+            if self.appear_then_click(STORY_LETTERS_ONLY, offset=(20, 20), interval=2):
+                self.story_popup_timeout.reset()
+                return True
         if self._story_option_timer.reached() and self.appear(STORY_SKIP, offset=(20, 20), interval=0):
             options = self._story_option_buttons()
             options_count = len(options)
