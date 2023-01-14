@@ -301,15 +301,17 @@ class RewardDorm(UI):
                 return
         self.ui_goto(page_dorm, skip_first_screenshot=True)
 
-        if collect:
-            self.dorm_collect()
-
+        # Feed first to handle DORM_INFO
+        # DORM_INFO may cover dorm coins and loves
         if feed:
             self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_CHECK, check_button=DORM_FEED_CHECK,
                           additional=self.ui_additional, retry_wait=3, skip_first_screenshot=True)
             self.dorm_feed()
             self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_FEED_CHECK, check_button=DORM_CHECK,
                           skip_first_screenshot=True)
+
+        if collect:
+            self.dorm_collect()
 
     def run(self):
         """
