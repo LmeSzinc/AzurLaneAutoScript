@@ -34,7 +34,7 @@ class Food:
 
 
 FOOD_FEED_AMOUNT = [1000, 2000, 3000, 5000, 10000, 20000]
-FOOD_FILTER = Filter(regex=re.compile('(\d+)'), attr=['feed'])
+FOOD_FILTER = Filter(regex=re.compile(r'(\d+)'), attr=['feed'])
 
 
 class RewardDorm(UI):
@@ -89,7 +89,7 @@ class RewardDorm(UI):
 
             if not self._dorm_has_food(button) \
                     or self.handle_info_bar() \
-                    or self.handle_popup_cancel('dorm_feed'):
+                    or self.handle_popup_cancel('DORM_FEED'):
                 break
             if timeout.reached():
                 logger.warning('Wait dorm feed timeout')
@@ -111,7 +111,7 @@ class RewardDorm(UI):
 
             if not self._dorm_has_food(button) \
                     or self.handle_info_bar() \
-                    or self.handle_popup_cancel('dorm_feed'):
+                    or self.handle_popup_cancel('DORM_FEED'):
                 break
             if timeout.reached():
                 logger.warning('Wait dorm feed timeout')
@@ -220,7 +220,7 @@ class RewardDorm(UI):
 
         while 1:
             self.device.screenshot()
-            if self.handle_popup_cancel('dorm_feed'):
+            if self.handle_popup_cancel('DORM_FEED'):
                 continue
             # End
             if self.appear(DORM_FEED_CHECK, offset=(20, 20)):
@@ -284,6 +284,52 @@ class RewardDorm(UI):
         logger.warning('Dorm feed run count reached')
         return 10
 
+    def dorm_feed_enter(self, skip_first_screenshot=False):
+        """
+        Pages:
+            in: DORM_CHECK
+            out: DORM_FEED_CHECK
+        """
+        self.interval_clear(DORM_CHECK)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(DORM_FEED_CHECK, offset=(20, 20)):
+                break
+
+            if self.appear(DORM_CHECK, offset=(20, 20), interval=2):
+                self.device.click(DORM_FEED_ENTER)
+                continue
+            if self.ui_additional():
+                continue
+
+    def dorm_feed_quit(self, skip_first_screenshot=False):
+        """
+        Pages:
+            in: DORM_FEED_CHECK
+            out: DORM_CHECK
+        """
+        self.interval_clear(DORM_FEED_CHECK)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(DORM_CHECK, offset=(20, 20)):
+                break
+
+            if self.appear(DORM_FEED_CHECK, offset=(20, 20), interval=2):
+                self.device.click(DORM_FEED_ENTER)
+                continue
+            if self.handle_popup_cancel('DORM_FEED'):
+                continue
+
     def dorm_run(self, feed=True, collect=True):
         """
         Pages:
@@ -304,13 +350,13 @@ class RewardDorm(UI):
         # Feed first to handle DORM_INFO
         # DORM_INFO may cover dorm coins and loves
         if feed:
-            self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_CHECK, check_button=DORM_FEED_CHECK,
-                          additional=self.ui_additional, retry_wait=3, skip_first_screenshot=True)
+            logger.hr('Dorm feed', level=1)
+            self.dorm_feed_enter()
             self.dorm_feed()
-            self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_FEED_CHECK, check_button=DORM_CHECK,
-                          skip_first_screenshot=True)
+            self.dorm_feed_quit()
 
         if collect:
+            logger.hr('Dorm collect', level=1)
             self.dorm_collect()
 
     def run(self):
