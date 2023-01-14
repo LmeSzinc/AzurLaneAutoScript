@@ -145,6 +145,9 @@ class ActionPointHandler(UI, MapEventHandler):
 
             self.action_point_update()
 
+            # Having too many current AP, probably an OCR error
+            if self._action_point_current > 600:
+                continue
             # Having boxes
             if sum(self._action_point_box[1:]) > 0:
                 break
