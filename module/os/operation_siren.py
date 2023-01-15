@@ -382,8 +382,8 @@ class OperationSiren(OSMap):
                 self.config.OS_ACTION_POINT_PRESERVE = 0
             logger.attr('OS_ACTION_POINT_PRESERVE', self.config.OS_ACTION_POINT_PRESERVE)
 
-            if self.get_yellow_coins() < 100000:
-                logger.info('Reach the limit of yellow coins, preserve=100000')
+            if self.get_yellow_coins() < self.config.OS_CL1_YELLOW_COINS_PRESERVE:
+                logger.info(f'Reach the limit of yellow coins, preserve={self.config.OS_CL1_YELLOW_COINS_PRESERVE}')
                 with self.config.multi_set():
                     self.config.task_delay(server_update=True)
                     if not self.is_in_opsi_explore():
