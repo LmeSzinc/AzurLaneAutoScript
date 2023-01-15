@@ -18,14 +18,13 @@ from module.shop.shop_voucher import VoucherShop
 
 
 class OperationSiren(OSMap):
-    def os_port_daily(self, mission=True, supply=True):
+    def os_port_daily(self, supply=True):
         """
         Accept all missions and buy all supplies in all ports.
         If reach the maximum number of missions, skip accept missions in next port.
         If not having enough yellow coins or purple coins, skip buying supplies in next port.
 
         Args:
-            mission (bool): If needs to accept missions.
             supply (bool): If needs to buy supplies.
 
         Returns:
@@ -263,7 +262,7 @@ class OperationSiren(OSMap):
             self.handle_after_auto_search()
 
     def os_shop(self):
-        self.os_port_daily(mission=False, supply=self.config.OpsiShop_BuySupply)
+        self.os_port_daily(supply=self.config.OpsiShop_BuySupply)
         self.config.task_delay(server_update=True)
 
     def _os_voucher_enter(self):
