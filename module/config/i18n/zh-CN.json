@@ -4,6 +4,10 @@
       "name": "",
       "help": ""
     },
+    "ViewResources": {
+      "name": "仪表盘",
+      "help": ""
+    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -38,6 +42,14 @@
     }
   },
   "Task": {
+    "ViewCurrentResources": {
+      "name": "查看资源储量",
+      "help": ""
+    },
+    "ViewEquipProgress": {
+      "name": "彩色装备研发进度",
+      "help": "还没写"
+    },
     "Alas": {
       "name": "Alas设置",
       "help": ""
@@ -2279,6 +2291,66 @@
     "AutoRestart": {
       "name": "自动登录",
       "help": "游戏被强制结束后自动登录游戏"
+    }
+  },
+  "ViewCurrentResources": {
+    "_info": {
+      "name": "查看资源储量",
+      "help": "并非实时更新，会在最近一次出击时更新"
+    },
+    "oiltomaxoil": {
+      "name": "石油储量/最大石油储量",
+      "help": "石油储量大于最大石油储量时应尽快清理以免卡自动产出"
+    },
+    "cointomaxcoin": {
+      "name": "物资最大储量/最大物资储量",
+      "help": "物资储量大于最大物资储量时应尽快清理以免卡自动产出"
+    },
+    "gem": {
+      "name": "钻石",
+      "help": "俗称红尖尖"
+    },
+    "cube": {
+      "name": "魔方",
+      "help": "每日抽卡时更新"
+    },
+    "pt": {
+      "name": "活动PT",
+      "help": ""
+    },
+    "opcoin": {
+      "name": "作战补给凭证",
+      "help": "俗称黄币"
+    },
+    "purplecoin": {
+      "name": "特殊兑换凭证",
+      "help": "俗称紫币"
+    },
+    "actionpoint": {
+      "name": "行动力",
+      "help": ""
+    }
+  },
+  "ViewEquipProgress": {
+    "_info": {
+      "name": "彩色装备研发进度",
+      "help": "首次使用时填入目前进度"
+    },
+    "234mm": {
+      "name": "试作型三联装234mm主炮",
+      "help": "俗称德雷克炮"
+    },
+    "457mm": {
+      "name": "试作型双联装457mm主炮MkA",
+      "help": "俗称457"
+    },
+    "tenrai": {
+      "name": "试作舰载型天雷",
+      "help": "偷你天雷"
+    },
+    "152mm": {
+      "name": "试作型四联装152mm主炮",
+      "help": "俗称152"
     }
   },
   "Storage": {
