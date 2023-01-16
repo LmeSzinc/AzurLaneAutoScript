@@ -23,6 +23,7 @@ from module.os_handler.shop import OCR_SHOP_YELLOW_COINS
 from module.os_handler.strategic import StrategicSearchHandler
 from module.ui.assets import GOTO_MAIN
 from module.ui.page import page_main, page_os
+from module.log_res.log_res import log_res
 
 
 class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
@@ -451,6 +452,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                 self.device.screenshot()
 
             yellow_coins = OCR_SHOP_YELLOW_COINS.ocr(self.device.image)
+            log_res.log_res(self,yellow_coins,'opcoin')
             if timeout.reached():
                 logger.warning('Get yellow coins timeout')
             if yellow_coins < 100:

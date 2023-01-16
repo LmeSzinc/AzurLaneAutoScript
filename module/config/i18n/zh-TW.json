@@ -4,6 +4,10 @@
       "name": "",
       "help": ""
     },
+    "ViewResources": {
+      "name": "Menu.ViewResources.name",
+      "help": "Menu.ViewResources.help"
+    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -38,6 +42,14 @@
     }
   },
   "Task": {
+    "ViewCurrentResources": {
+      "name": "Task.ViewCurrentResources.name",
+      "help": "Task.ViewCurrentResources.help"
+    },
+    "ViewEquipProgress": {
+      "name": "Task.ViewEquipProgress.name",
+      "help": "Task.ViewEquipProgress.help"
+    },
     "Alas": {
       "name": "Alas設定",
       "help": ""
@@ -2279,6 +2291,66 @@
     "AutoRestart": {
       "name": "自動登錄",
       "help": "遊戲被強制結束後自動登錄遊戲"
+    }
+  },
+  "ViewCurrentResources": {
+    "_info": {
+      "name": "ViewCurrentResources._info.name",
+      "help": "ViewCurrentResources._info.help"
+    },
+    "oiltomaxoil": {
+      "name": "ViewCurrentResources.oiltomaxoil.name",
+      "help": "ViewCurrentResources.oiltomaxoil.help"
+    },
+    "cointomaxcoin": {
+      "name": "ViewCurrentResources.cointomaxcoin.name",
+      "help": "ViewCurrentResources.cointomaxcoin.help"
+    },
+    "gem": {
+      "name": "ViewCurrentResources.gem.name",
+      "help": "ViewCurrentResources.gem.help"
+    },
+    "cube": {
+      "name": "ViewCurrentResources.cube.name",
+      "help": "ViewCurrentResources.cube.help"
+    },
+    "pt": {
+      "name": "ViewCurrentResources.pt.name",
+      "help": "ViewCurrentResources.pt.help"
+    },
+    "opcoin": {
+      "name": "ViewCurrentResources.opcoin.name",
+      "help": "ViewCurrentResources.opcoin.help"
+    },
+    "purplecoin": {
+      "name": "ViewCurrentResources.purplecoin.name",
+      "help": "ViewCurrentResources.purplecoin.help"
+    },
+    "actionpoint": {
+      "name": "ViewCurrentResources.actionpoint.name",
+      "help": "ViewCurrentResources.actionpoint.help"
+    }
+  },
+  "ViewEquipProgress": {
+    "_info": {
+      "name": "ViewEquipProgress._info.name",
+      "help": "ViewEquipProgress._info.help"
+    },
+    "234mm": {
+      "name": "ViewEquipProgress.234mm.name",
+      "help": "ViewEquipProgress.234mm.help"
+    },
+    "457mm": {
+      "name": "ViewEquipProgress.457mm.name",
+      "help": "ViewEquipProgress.457mm.help"
+    },
+    "tenrai": {
+      "name": "ViewEquipProgress.tenrai.name",
+      "help": "ViewEquipProgress.tenrai.help"
+    },
+    "152mm": {
+      "name": "ViewEquipProgress.152mm.name",
+      "help": "ViewEquipProgress.152mm.help"
     }
   },
   "Storage": {
