@@ -91,6 +91,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         # Kanji '一' and '力' are not used, while Katakana 'ー' and 'カ' are misread as Kanji sometimes.
         # Katakana 'ペ' may be misread as Hiragana 'ぺ'.
         name = name.replace('一', 'ー').replace('力', 'カ').replace('ぺ', 'ペ')
+        name = name.replace('ジブフルタル', 'ジブラルタル')
         return name
 
     @Config.when(SERVER='tw')
