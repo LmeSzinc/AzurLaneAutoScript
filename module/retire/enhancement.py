@@ -218,8 +218,9 @@ class Enhancement(Dock):
             if state == "state_enhance_check":
                 # Avoid too_many_click exception caused by multiple tries without material
                 if state_list[-2:] == ["state_enhance_recommend", "state_enhance_fail"]:
-                    while self.device.click_record[-1] in ['ENHANCE_RECOMMEND', 'EQUIP_SWIPE']:
-                        self.device.click_record.pop()
+                    if len(self.device.click_record):
+                        while self.device.click_record[-1] in ['ENHANCE_RECOMMEND', 'EQUIP_SWIPE']:
+                            self.device.click_record.pop()
                 state_list.clear()
             state_list.append(state)
             if len(state_list) > 30:

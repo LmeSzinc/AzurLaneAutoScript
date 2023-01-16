@@ -230,10 +230,28 @@ class Adb(Connection):
             else:
                 logger.error(result)
                 raise PackageNotInstalled(package_name)
+        elif 'inaccessible' in result:
+            # /system/bin/sh: monkey: inaccessible or not found
+            pass
         else:
             # Events injected: 1
             # ## Network stats: elapsed time=4ms (0ms mobile, 0ms wifi, 4ms not connected)
             return True
+
+        result = self.adb_shell(['dumpsys', 'package', package_name])
+        res = re.search(r'android.intent.action.MAIN:\s+\w+ ([\w.\/]+) filter \w+\s+'
+                        r'.*\s+Category: "android.intent.category.LAUNCHER"',
+                        result)
+        if res:
+            activity_name = res.group(1)
+        else:
+            if allow_failure:
+                return False
+            else:
+                logger.error(result)
+                raise PackageNotInstalled(package_name)
+        self.adb_shell(['am', 'start', '-a', 'android.intent.action.MAIN', '-c',
+                        'android.intent.category.LAUNCHER', '-n', activity_name])
 
     @retry
     def app_stop_adb(self, package_name=None):
