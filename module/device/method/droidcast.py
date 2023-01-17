@@ -8,7 +8,8 @@ from adbutils.errors import AdbError
 
 from module.base.decorator import cached_property, del_cached_property
 from module.device.method.uiautomator_2 import Uiautomator2, ProcessInfo
-from module.device.method.utils import (retry_sleep, RETRY_TRIES, handle_adb_error, PackageNotInstalled)
+from module.device.method.utils import (retry_sleep, RETRY_TRIES, handle_adb_error,
+                                        ImageTruncated, PackageNotInstalled)
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -56,7 +57,13 @@ def retry(func):
 
                 def init():
                     self.droidcast_init()
-            # Unknown, probably a trucked image
+            # ImageTruncated
+            except ImageTruncated as e:
+                logger.error(e)
+
+                def init():
+                    pass
+            # Unknown
             except Exception as e:
                 logger.exception(e)
 
@@ -132,8 +139,17 @@ class DroidCast(Uiautomator2):
     def screenshot_droidcast(self):
         image = self.droidcast_session.get(self.droidcast_url(), timeout=3).content
         image = np.frombuffer(image, np.uint8)
+        if image is None:
+            raise ImageTruncated('Empty image after reading from buffer')
+
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+        if image is None:
+            raise ImageTruncated('Empty image after cv2.imdecode')
+
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        if image is None:
+            raise ImageTruncated('Empty image after cv2.cvtColor')
+
         return image
 
     def droidcast_wait_startup(self):

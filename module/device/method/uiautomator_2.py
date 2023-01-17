@@ -10,8 +10,8 @@ from lxml import etree
 
 from module.base.utils import *
 from module.device.connection import Connection
-from module.device.method.utils import (RETRY_TRIES, retry_sleep,
-                                        handle_adb_error, PackageNotInstalled, possible_reasons)
+from module.device.method.utils import (RETRY_TRIES, retry_sleep, handle_adb_error,
+                                        ImageTruncated, PackageNotInstalled, possible_reasons)
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -74,7 +74,13 @@ def retry(func):
 
                 def init():
                     self.detect_package()
-            # Unknown, probably a trucked image
+            # ImageTruncated
+            except ImageTruncated as e:
+                logger.error(e)
+
+                def init():
+                    pass
+            # Unknown
             except Exception as e:
                 logger.exception(e)
 
@@ -108,8 +114,17 @@ class Uiautomator2(Connection):
     def screenshot_uiautomator2(self):
         image = self.u2.screenshot(format='raw')
         image = np.frombuffer(image, np.uint8)
+        if image is None:
+            raise ImageTruncated('Empty image after reading from buffer')
+
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+        if image is None:
+            raise ImageTruncated('Empty image after cv2.imdecode')
+
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        if image is None:
+            raise ImageTruncated('Empty image after cv2.cvtColor')
+
         return image
 
     @retry
