@@ -290,6 +290,7 @@ class ManualConfig:
     """
     OS_ACTION_POINT_BOX_USE = True
     OS_ACTION_POINT_PRESERVE = 0
+    OS_CL1_YELLOW_COINS_PRESERVE = 100000
 
     """
     module.os.globe_detection

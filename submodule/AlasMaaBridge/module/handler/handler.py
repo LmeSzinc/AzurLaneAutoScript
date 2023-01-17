@@ -49,7 +49,7 @@ class AssistantHandler:
         self.interval_timer = {}
         AssistantHandler.ASST_HANDLER = self
         self.asst = asst
-        self.callback_timer = Timer(3600)
+        self.callback_timer = Timer(600)
         self.serial = None
         self.signal = None
         self.params = None
@@ -110,6 +110,7 @@ class AssistantHandler:
             m (Message): 消息类型
             d (dict): 消息详情
         """
+        self.callback_timer.reset()
         if m in [
             self.Message.AllTasksCompleted,
             self.Message.TaskChainError,

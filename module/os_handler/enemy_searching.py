@@ -8,8 +8,12 @@ from module.os_handler.assets import IN_MAP, ORDER_ENTER
 
 class EnemySearchingHandler(EnemySearchingHandler_):
     def is_in_map(self):
-        return self.appear(IN_MAP, offset=(200, 5)) or \
-               self.appear(MAP_GOTO_GLOBE_FOG)
+        if self.appear(IN_MAP, offset=(200, 5)):
+            return True
+        if self.appear(MAP_GOTO_GLOBE_FOG, offset=(5, 5)) and MAP_GOTO_GLOBE_FOG.match_appear_on(self.device.image):
+            return True
+
+        return False
 
     def wait_os_map_buttons(self, skip_first_screenshot=True):
         """

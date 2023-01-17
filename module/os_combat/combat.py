@@ -255,10 +255,10 @@ class Combat(Combat_, MapEventHandler):
             if self.is_combat_executing():
                 continue
             if self.handle_auto_search_battle_status():
-                success = False
+                success = None
                 continue
             if self.handle_auto_search_exp_info():
-                success = False
+                success = None
                 continue
             if self.handle_map_event():
                 continue
