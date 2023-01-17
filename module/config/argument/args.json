@@ -108,6 +108,7 @@
           "aScreenCap",
           "aScreenCap_nc",
           "DroidCast",
+          "DroidCast_raw",
           "scrcpy"
         ]
       },

@@ -395,6 +395,7 @@
       "aScreenCap": "aScreenCap",
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
+      "DroidCast_raw": "DroidCast_raw",
       "scrcpy": "scrcpy"
     },
     "ControlMethod": {
