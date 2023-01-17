@@ -1,5 +1,8 @@
 name: Automerge
 on:
+  push:
+    branches:
+      - master
   pull_request:
     types:
       - labeled
@@ -14,10 +17,21 @@ on:
     types:
       - submitted
   status: {}
+  
 jobs:
   automerge:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+      - name: Merge origin master
+        run: |
+          git config --global user.name 'MengNianxiaoyao'
+          git config --global user.email '2589141604@qq.com'
+          git pull --unshallow
+          git checkout -b develop origin/dev1
+          git merge --no-edit origin/master
+          git push origin dev1
+          
       - name: automerge
         uses: "pascalgn/automerge-action@629929da409181990e4e638dcf84a74e11d3af66"
         env:
