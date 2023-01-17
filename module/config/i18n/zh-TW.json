@@ -611,6 +611,20 @@
       "help": ""
     }
   },
+  "GGHandler": {
+    "_info": {
+      "name": "GGHandler._info.name",
+      "help": "GGHandler._info.help"
+    },
+    "AutoRestartGG": {
+      "name": "GGHandler.AutoRestartGG.name",
+      "help": "GGHandler.AutoRestartGG.help"
+    },
+    "GGMutiplyingFactor": {
+      "name": "GGHandler.GGMutiplyingFactor.name",
+      "help": "GGHandler.GGMutiplyingFactor.help"
+    }
+  },
   "Campaign": {
     "_info": {
       "name": "地圖設定",

@@ -67,6 +67,10 @@ class GeneratedConfig:
     Retirement_OldRetireSR = False
     Retirement_OldRetireSSR = False
 
+    # Group `GGHandler`
+    GGHandler_AutoRestartGG = False
+    GGHandler_GGMutiplyingFactor = 200
+
     # Group `Campaign`
     Campaign_Name = '12-4'
     Campaign_Event = 'campaign_main'  # campaign_main

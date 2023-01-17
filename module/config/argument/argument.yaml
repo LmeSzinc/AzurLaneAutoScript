@@ -100,7 +100,9 @@ Retirement:
   OldRetireR: true
   OldRetireSR: false
   OldRetireSSR: false
-
+GGHandler:
+  AutoRestartGG: false
+  GGMutiplyingFactor: 200
 # ==================== Farm ====================
 
 Campaign:

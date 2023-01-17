@@ -611,6 +611,20 @@
       "help": ""
     }
   },
+  "GGHandler": {
+    "_info": {
+      "name": "GG管理器",
+      "help": ""
+    },
+    "AutoRestartGG": {
+      "name": "自动重启GG",
+      "help": "注意事项！\n使用本功能需要将GG图标遮挡住石油图标，并只能使用指定的lua。\n（暂时）开启模拟器后需要手动打开GG悬浮窗。"
+    },
+    "GGMutiplyingFactor": {
+      "name": "倍率",
+      "help": "建议数值1-9999，没做数字检查，乱输后果自负"
+    }
+  },
   "Campaign": {
     "_info": {
       "name": "关卡设置",
