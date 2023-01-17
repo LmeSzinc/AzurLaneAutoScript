@@ -38,7 +38,7 @@ class PtOcr(Ocr):
 
 OCR_PT = PtOcr(OCR_EVENT_PT)
 
-OCR_GEM = Digit(OCR_GEM,letter=(0, 0, 0),threshold=128)
+OCR_GEM = Digit(OCR_GEM,letter=(239, 223, 82),threshold=128)
 
 class CampaignStatus(UI):
     def get_event_pt(self):
@@ -75,19 +75,8 @@ class CampaignStatus(UI):
             if timeout.reached():
                 logger.warning('Get gem timeout')
                 break
-            
-            r, g, b = cv2.split(cv2.subtract((255, 255, 255, 0), self.device.image))
-            __image = cv2.min(cv2.min(r, g), b)
-                       
-            __image[__image<128]=0
-            __image[__image>128]=255
-            
-            _image = np.zeros_like(self.device.image)
-            _image[:,:,0]=__image
-            _image[:,:,1]=__image
-            _image[:,:,2]=__image    
-            
-            amount = OCR_GEM.ocr(_image)
+                      
+            amount = OCR_GEM.ocr(self.device.image)
             
             if amount >= 10:
                 break

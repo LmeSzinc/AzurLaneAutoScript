@@ -28,7 +28,7 @@ class LoginHandler(UI):
             out: page_main
         """
         logger.hr('App login')
-        if self.config.GGHandler_AutoRestartGG:
+        if self.config.GGHandler_Enabled:
             from module.gg_handler.gg_handler import gg_handler as gg
             gg(config=self.config,device=self.device,switch=True, factor=self.config.GGHandler_GGMutiplyingFactor).gg_skip_error()
         
@@ -88,7 +88,7 @@ class LoginHandler(UI):
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=5):
                 continue
         
-        if self.config.GGHandler_AutoRestartGG:
+        if self.config.GGHandler_Enabled and self.config.GGHandler_AutoRestartGG:
             gg(config=self.config,device=self.device,switch=True, factor=self.config.GGHandler_GGMutiplyingFactor).gg_run()
         
         return True
