@@ -2,7 +2,7 @@ from module.logger import logger
 from module.gg_handler.assets import *
 from module.base.base import ModuleBase as base
 
-class gg_handler:
+class gg_handler(base):
         
     def gg_skip_error(self):
         """
@@ -11,7 +11,8 @@ class gg_handler:
             out: restart
         """
         self.device.sleep(3)
-        if base.appear(self,BUTTON_GG_RESTART_ERROR,threshold=10):
+        self.device.screenshot()
+        if base.appear(self,BUTTON_GG_RESTART_ERROR,offset=30,threshold=0.5):
             logger.info('Game died with GG panel')
             self.device.click(BUTTON_GG_RESTART_ERROR)
             self.device.sleep(1)
@@ -35,7 +36,7 @@ class gg_handler:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            if base.appear(self,BUTTON_GG_CONFIRM, offset=1,threshold=0.5):
+            if base.appear(self,BUTTON_GG_CONFIRM, offset=30,threshold=0.8):
                 logger.info('Entered GG')
                 break
         self.device.sleep(1)
@@ -48,23 +49,26 @@ class gg_handler:
             out: GG ready to start script
         """
         while 1:
-            self.device.sleep(0.5)
-            if base.appear(self,BUTTON_GG_SEARCH_MODE_CONFIRM,threshold=10):
-                self.device.click(BUTTON_GG_SCRIPT_ENTER_POS,threshold=10)
+            self.device.screenshot()
+            self.device.sleep(1)
+            if base.appear(self,BUTTON_GG_SEARCH_MODE_CONFIRM,offset=30,threshold=0.8):
+                self.device.click(BUTTON_GG_SCRIPT_ENTER_POS)
                 logger.info('GG script ready to start')
                 break
-            elif base.appear_then_click(self,BUTTON_GG_SCRIPT_END,threshold=10):
+            elif base.appear_then_click(self,BUTTON_GG_SCRIPT_END, offset=30,threshold=0.8):
                 logger.info('Close previous script')
-            elif base.appear_then_click(self,BUTTON_GG_SCRIPT_FATAL,threshold=10):
+            elif base.appear_then_click(self,BUTTON_GG_SCRIPT_FATAL, offset=30,threshold=0.8):
                 logger.info('Stop previous script')
-            elif base.appear_then_click(self,BUTTON_GG_APP_CHOOSE,threshold=10):
+            elif base.appear_then_click(self,BUTTON_GG_APP_CHOOSE, offset=30,threshold=0.8):
                 logger.info('APP choose')
             else:
-                if base.appear(self,BUTTON_GG_SCRIPT_ENTER_CONFIRM,threshold=10):
+                if base.appear(self,BUTTON_GG_SCRIPT_ENTER_CONFIRM, offset=30,threshold=0.8):
                     break
                 self.device.click(BUTTON_GG_TAB_SEARCH_POS)
-       
-        base.appear_then_click(self,BUTTON_GG_SCRIPT_START,threshold=10)    
+        while 1:
+            self.device.screenshot()
+            if base.appear_then_click(self,BUTTON_GG_SCRIPT_START, offset=30,threshold=0.8):
+                return 1
         
             
         
@@ -75,9 +79,11 @@ class gg_handler:
             out: GG GG input panel
         """
         while 1:
-            if base.appear(self,BUTTON_GG_SCRIPT_MENU_A,threshold=10):
+            self.device.screenshot()
+            if base.appear(self,BUTTON_GG_SCRIPT_MENU_A, offset=30,threshold=0.8):
                 method=[BUTTON_GG_SCRIPT_MENU_B,BUTTON_GG_SCRIPT_MENU_A]
                 self.device.click(method[int(switch)])
+                break
         self.device.sleep(1)
         
     
@@ -87,7 +93,9 @@ class gg_handler:
             in: GG input panel
             out:factor set(Not ensured yet)
         """
-        if factor==200 : return 0
+        if factor==200 : 
+            logger.info('Skip factor input')
+            return 0
         method=[
                 BUTTON_GG_SCRIPT_PANEL_NUM0,
                 BUTTON_GG_SCRIPT_PANEL_NUM1,
@@ -102,8 +110,8 @@ class gg_handler:
                ]
         for i in str(factor):
             self.device.click(method[int(i)])
-            self.device.sleep(1)
-
+            self.device.sleep(0.5)
+        logger.info('Input success')
 
 
     def _gg_script_run(self):
@@ -112,14 +120,25 @@ class gg_handler:
             in: GG factor set
             out: GG Menu
         """
-        self.device.sleep(1)
-        base.appear_then_click(self,BUTTON_GG_SCRIPT_START_PROCESS)
-        self.device.sleep(1)
-        base.wait_until_appear_then_click(self,BUTTON_GG_SCRIPT_END)
+        while 1:
+            self.device.screenshot()
+            if base.appear_then_click(self,BUTTON_GG_SCRIPT_START_PROCESS, offset=30,threshold=0.8):
+                break
+        
+        logger.info('Waiting for end')
+        while 1:
+            self.device.screenshot()
+            if base.appear_then_click(self,BUTTON_GG_SCRIPT_END, offset=30,threshold=0.8):
+                return 1
     
     def _gg_exit(self):
-        while base.appear(self,BUTTON_GG_CONFIRM, threshold=0.5):
-            base.appear_then_click(self,BUTTON_GG_EXIT_POS, threshold=105)
+        while 1:
+            self.device.screenshot()
+            if base.appear(self,BUTTON_GEM, offset=30,threshold=0.8):
+                return 1
+            self.device.click(BUTTON_GG_EXIT_POS)
+        logger.info(f'GG status: {switch}')
+            
 
     def gg_run(self,switch=True,factor=200):
         self._enter_gg()
