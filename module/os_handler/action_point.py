@@ -12,7 +12,6 @@ from module.os_handler.map_event import MapEventHandler
 from module.statistics.item import Item, ItemGrid
 from module.ui.assets import OS_CHECK
 from module.ui.ui import UI
-from module.log_res.log_res import log_res
 
 OCR_ACTION_POINT_REMAIN = Digit(ACTION_POINT_REMAIN, letter=(255, 219, 66), name='OCR_ACTION_POINT_REMAIN')
 OCR_ACTION_POINT_REMAIN_OS = Digit(ACTION_POINT_REMAIN_OS, letter=(239, 239, 239),
@@ -140,7 +139,6 @@ class ActionPointHandler(UI, MapEventHandler):
         oil = box[0]
 
         logger.info(f'Action points: {current}({total}), oil: {oil}')
-        log_res.log_res(self,f'{current} ({total})','actionpoint');
         self._action_point_current = current
         self._action_point_box = box
         self._action_point_total = total
