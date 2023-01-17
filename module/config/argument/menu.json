@@ -1,9 +1,5 @@
 {
   "Task": {
-    "ViewResources": [
-      "ViewCurrentResources",
-      "ViewEquipProgress"
-    ],
     "Alas": [
       "Alas",
       "General",

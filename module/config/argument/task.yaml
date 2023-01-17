@@ -2,12 +2,6 @@
 # Define argument group of tasks.
 # --------------------
 
-# ==================== ViewResources ====================
-
-ViewCurrentResources:
-  - ViewCurrentResources
-ViewEquipProgress:
-  - ViewEquipProgress
 # ==================== Alas ====================
 
 Alas:
@@ -18,7 +12,6 @@ Alas:
   - DropRecord
 General:
   - Retirement
-  - GGHandler
 Restart:
   - Scheduler
 

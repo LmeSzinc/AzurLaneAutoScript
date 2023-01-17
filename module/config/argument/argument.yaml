@@ -100,9 +100,7 @@ Retirement:
   OldRetireR: true
   OldRetireSR: false
   OldRetireSSR: false
-GGHandler:
-  AutoRestartGG: false
-  GGMutiplyingFactor: 200
+
 # ==================== Farm ====================
 
 Campaign:
@@ -630,35 +628,3 @@ AzurLaneUncensored:
   Repository: https://gitee.com/LmeSzinc/AzurLaneUncensored
 GameManager:
   AutoRestart: true
-# ==================== ViewResources ====================
-
-ViewCurrentResources:
-    oiltomaxoil: 
-        value: 0
-        display: disabled
-    cointomaxcoin: 
-        value: 0
-        display: disabled
-    gem: 
-        value: 0
-        display: disabled
-    cube:
-        value: 0
-        display: disabled
-    pt: 
-        value: 0
-        display: disabled
-    opcoin: 
-        value: 0
-        display: disabled
-    purplecoin: 
-        value: 0
-        display: disabled
-    actionpoint: 
-        value: 0
-        display: disabled
-ViewEquipProgress:
-    234mm: 0
-    457mm: 0
-    tenrai: 0
-    152mm: 0

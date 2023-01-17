@@ -1,84 +1,4 @@
 {
-  "ViewCurrentResources": {
-    "ViewCurrentResources": {
-      "oiltomaxoil": {
-        "type": "input",
-        "value": 0,
-        "display": "disabled"
-      },
-      "cointomaxcoin": {
-        "type": "input",
-        "value": 0,
-        "display": "disabled"
-      },
-      "gem": {
-        "type": "input",
-        "value": 0,
-        "display": "disabled"
-      },
-      "cube": {
-        "type": "input",
-        "value": 0,
-        "display": "disabled"
-      },
-      "pt": {
-        "type": "input",
-        "value": 0,
-        "display": "disabled"
-      },
-      "opcoin": {
-        "type": "input",
-        "value": 0,
-        "display": "disabled"
-      },
-      "purplecoin": {
-        "type": "input",
-        "value": 0,
-        "display": "disabled"
-      },
-      "actionpoint": {
-        "type": "input",
-        "value": 0,
-        "display": "disabled"
-      }
-    },
-    "Storage": {
-      "Storage": {
-        "type": "storage",
-        "value": {},
-        "valuetype": "ignore",
-        "display": "disabled"
-      }
-    }
-  },
-  "ViewEquipProgress": {
-    "ViewEquipProgress": {
-      "234mm": {
-        "type": "input",
-        "value": 0
-      },
-      "457mm": {
-        "type": "input",
-        "value": 0
-      },
-      "tenrai": {
-        "type": "input",
-        "value": 0
-      },
-      "152mm": {
-        "type": "input",
-        "value": 0
-      }
-    },
-    "Storage": {
-      "Storage": {
-        "type": "storage",
-        "value": {},
-        "valuetype": "ignore",
-        "display": "disabled"
-      }
-    }
-  },
   "Alas": {
     "Emulator": {
       "Serial": {
@@ -405,16 +325,6 @@
       "OldRetireSSR": {
         "type": "checkbox",
         "value": false
-      }
-    },
-    "GGHandler": {
-      "AutoRestartGG": {
-        "type": "checkbox",
-        "value": false
-      },
-      "GGMutiplyingFactor": {
-        "type": "input",
-        "value": 200
       }
     },
     "Storage": {
