@@ -8,9 +8,5 @@ rules:
     upstream: Zuosizhu:master
     mergeMethod: merge
     mergeUnstable: true
-  - base: master
-    upstream: dev1
-    mergeMethod: merge
-    mergeUnstable: true
 label: ":arrow_heading_down: pull"
 conflictLabel: "merge-conflict"
