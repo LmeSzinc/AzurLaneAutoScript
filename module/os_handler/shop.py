@@ -6,6 +6,7 @@ from module.os_handler.assets import *
 from module.os_handler.map_event import MapEventHandler
 from module.statistics.item import Item, ItemGrid
 from module.ui.ui import UI
+from module.log_res.log_res import log_res
 
 OCR_SHOP_YELLOW_COINS = Digit(SHOP_YELLOW_COINS, letter=(239, 239, 239), threshold=160, name='OCR_SHOP_YELLOW_COINS')
 OCR_SHOP_PURPLE_COINS = Digit(SHOP_PURPLE_COINS, letter=(255, 255, 255), name='OCR_SHOP_PURPLE_COINS')
@@ -31,6 +32,8 @@ class OSShopHandler(UI, MapEventHandler):
     def os_shop_get_coins(self):
         self._shop_yellow_coins = OCR_SHOP_YELLOW_COINS.ocr(self.device.image)
         self._shop_purple_coins = OCR_SHOP_PURPLE_COINS.ocr(self.device.image)
+        log_res.log_res(self,self._shop_yellow_coins,'opcoin')
+        log_res.log_res(self,self._shop_purple_coins,'purplecoin')
         logger.info(f'Yellow coins: {self._shop_yellow_coins}, purple coins: {self._shop_purple_coins}')
 
     @cached_property

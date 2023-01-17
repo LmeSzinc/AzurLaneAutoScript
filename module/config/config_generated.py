@@ -67,6 +67,10 @@ class GeneratedConfig:
     Retirement_OldRetireSR = False
     Retirement_OldRetireSSR = False
 
+    # Group `GGHandler`
+    GGHandler_AutoRestartGG = False
+    GGHandler_GGMutiplyingFactor = 200
+
     # Group `Campaign`
     Campaign_Name = '12-4'
     Campaign_Event = 'campaign_main'  # campaign_main
@@ -419,6 +423,22 @@ class GeneratedConfig:
 
     # Group `GameManager`
     GameManager_AutoRestart = True
+
+    # Group `ViewCurrentResources`
+    ViewCurrentResources_oiltomaxoil = 0
+    ViewCurrentResources_cointomaxcoin = 0
+    ViewCurrentResources_gem = 0
+    ViewCurrentResources_cube = 0
+    ViewCurrentResources_pt = 0
+    ViewCurrentResources_opcoin = 0
+    ViewCurrentResources_purplecoin = 0
+    ViewCurrentResources_actionpoint = 0
+
+    # Group `ViewEquipProgress`
+    ViewEquipProgress_234mm = 0
+    ViewEquipProgress_457mm = 0
+    ViewEquipProgress_tenrai = 0
+    ViewEquipProgress_152mm = 0
 
     # Group `Storage`
     Storage_Storage = {}
