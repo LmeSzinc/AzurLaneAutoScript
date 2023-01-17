@@ -4,7 +4,7 @@ rules:
     upstream: LmeSzinc:master
     mergeMethod: merge
     mergeUnstable: true
-  - base: dev2
+  - base: dev1
     upstream: Zuosizhu:master
     mergeMethod: merge
     mergeUnstable: true
