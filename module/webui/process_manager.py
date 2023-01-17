@@ -8,7 +8,7 @@ from filelock import FileLock
 from module.config.utils import filepath_config
 from module.logger import logger, set_file_logger, set_func_logger
 from module.submodule.submodule import load_mod
-from module.submodule.utils import get_config_mod
+from module.submodule.utils import get_config_mod, mod_instance
 from module.webui.setting import State
 from rich.console import Console, ConsoleRenderable
 
@@ -186,6 +186,10 @@ class ProcessManager:
         restart all alas that running before update
         """
         logger.hr("Restart alas")
+
+        # Load MOD_CONFIG_DICT
+        mod_instance()
+
         if instances is None:
             instances = []
 
