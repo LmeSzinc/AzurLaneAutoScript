@@ -271,6 +271,66 @@
       "help": ""
     }
   },
+  "ViewCurrentResources": {
+    "_info": {
+      "name": "Resource Viewer",
+      "help": "Update when any campaign starts"
+    },
+    "oiltomaxoil": {
+      "name": "Oil / Max oil limit",
+      "help": ""
+    },
+    "cointomaxcoin": {
+      "name": "Coin / Max coin limit",
+      "help": ""
+    },
+    "gem": {
+      "name": "Gem",
+      "help": ""
+    },
+    "cube": {
+      "name": "Cube",
+      "help": "Update after everyday's gacha"
+    },
+    "pt": {
+      "name": "Event Point",
+      "help": ""
+    },
+    "opcoin": {
+      "name": "Operation Supply Coin",
+      "help": ""
+    },
+    "purplecoin": {
+      "name": "Special Item Token",
+      "help": ""
+    },
+    "actionpoint": {
+      "name": "Action Point",
+      "help": ""
+    }
+  },
+  "ViewEquipProgress": {
+    "_info": {
+      "name": "ViewEquipProgress._info.name",
+      "help": "ViewEquipProgress._info.help"
+    },
+    "234mm": {
+      "name": "ViewEquipProgress.234mm.name",
+      "help": "ViewEquipProgress.234mm.help"
+    },
+    "457mm": {
+      "name": "ViewEquipProgress.457mm.name",
+      "help": "ViewEquipProgress.457mm.help"
+    },
+    "tenrai": {
+      "name": "ViewEquipProgress.tenrai.name",
+      "help": "ViewEquipProgress.tenrai.help"
+    },
+    "152mm": {
+      "name": "ViewEquipProgress.152mm.name",
+      "help": "ViewEquipProgress.152mm.help"
+    }
+  },
   "Scheduler": {
     "_info": {
       "name": "Scheduler",
@@ -609,20 +669,6 @@
     "OldRetireSSR": {
       "name": "Retire Super Rare",
       "help": "Only applies to old retire mode"
-    }
-  },
-  "GGHandler": {
-    "_info": {
-      "name": "GGHandler._info.name",
-      "help": "GGHandler._info.help"
-    },
-    "AutoRestartGG": {
-      "name": "GGHandler.AutoRestartGG.name",
-      "help": "GGHandler.AutoRestartGG.help"
-    },
-    "GGMutiplyingFactor": {
-      "name": "GGHandler.GGMutiplyingFactor.name",
-      "help": "GGHandler.GGMutiplyingFactor.help"
     }
   },
   "Campaign": {
@@ -2307,64 +2353,22 @@
       "help": "Log back into the game when the game has been ended."
     }
   },
-  "ViewCurrentResources": {
+  "GGHandler": {
     "_info": {
-      "name": "Resource Viewer",
-      "help": "Update when any campaign starts"
+      "name": "GGHandler._info.name",
+      "help": "GGHandler._info.help"
     },
-    "oiltomaxoil": {
-      "name": "Oil / Max oil limit",
-      "help": ""
+    "Enabled": {
+      "name": "GGHandler.Enabled.name",
+      "help": "GGHandler.Enabled.help"
     },
-    "cointomaxcoin": {
-      "name": "Coin / Max coin limit",
-      "help": ""
+    "AutoRestartGG": {
+      "name": "GGHandler.AutoRestartGG.name",
+      "help": "GGHandler.AutoRestartGG.help"
     },
-    "gem": {
-      "name": "Gem",
-      "help": ""
-    },
-    "cube": {
-      "name": "Cube",
-      "help": "Update after everyday's gacha"
-    },
-    "pt": {
-      "name": "Event Point",
-      "help": ""
-    },
-    "opcoin": {
-      "name": "Operation Supply Coin",
-      "help": ""
-    },
-    "purplecoin": {
-      "name": "Special Item Token",
-      "help": ""
-    },
-    "actionpoint": {
-      "name": "Action Point",
-      "help": ""
-    }
-  },
-  "ViewEquipProgress": {
-    "_info": {
-      "name": "ViewEquipProgress._info.name",
-      "help": "ViewEquipProgress._info.help"
-    },
-    "234mm": {
-      "name": "ViewEquipProgress.234mm.name",
-      "help": "ViewEquipProgress.234mm.help"
-    },
-    "457mm": {
-      "name": "ViewEquipProgress.457mm.name",
-      "help": "ViewEquipProgress.457mm.help"
-    },
-    "tenrai": {
-      "name": "ViewEquipProgress.tenrai.name",
-      "help": "ViewEquipProgress.tenrai.help"
-    },
-    "152mm": {
-      "name": "ViewEquipProgress.152mm.name",
-      "help": "ViewEquipProgress.152mm.help"
+    "GGMutiplyingFactor": {
+      "name": "GGHandler.GGMutiplyingFactor.name",
+      "help": "GGHandler.GGMutiplyingFactor.help"
     }
   },
   "Storage": {

@@ -271,6 +271,66 @@
       "help": ""
     }
   },
+  "ViewCurrentResources": {
+    "_info": {
+      "name": "查看资源储量",
+      "help": "并非实时更新，会在最近一次出击时更新"
+    },
+    "oiltomaxoil": {
+      "name": "石油储量/最大石油储量",
+      "help": "石油储量大于最大石油储量时应尽快清理以免卡自动产出"
+    },
+    "cointomaxcoin": {
+      "name": "物资最大储量/最大物资储量",
+      "help": "物资储量大于最大物资储量时应尽快清理以免卡自动产出"
+    },
+    "gem": {
+      "name": "钻石",
+      "help": "俗称红尖尖"
+    },
+    "cube": {
+      "name": "魔方",
+      "help": "每日抽卡时更新"
+    },
+    "pt": {
+      "name": "活动PT",
+      "help": ""
+    },
+    "opcoin": {
+      "name": "作战补给凭证",
+      "help": "俗称黄币"
+    },
+    "purplecoin": {
+      "name": "特殊兑换凭证",
+      "help": "俗称紫币"
+    },
+    "actionpoint": {
+      "name": "行动力",
+      "help": ""
+    }
+  },
+  "ViewEquipProgress": {
+    "_info": {
+      "name": "彩色装备研发进度",
+      "help": "首次使用时填入目前进度"
+    },
+    "234mm": {
+      "name": "试作型三联装234mm主炮",
+      "help": "俗称德雷克炮"
+    },
+    "457mm": {
+      "name": "试作型双联装457mm主炮MkA",
+      "help": "俗称457"
+    },
+    "tenrai": {
+      "name": "试作舰载型天雷",
+      "help": "偷你天雷"
+    },
+    "152mm": {
+      "name": "试作型四联装152mm主炮",
+      "help": "俗称152"
+    }
+  },
   "Scheduler": {
     "_info": {
       "name": "任务设置",
@@ -609,20 +669,6 @@
     "OldRetireSSR": {
       "name": "退役金皮 ( SSR )",
       "help": ""
-    }
-  },
-  "GGHandler": {
-    "_info": {
-      "name": "GG管理器",
-      "help": ""
-    },
-    "AutoRestartGG": {
-      "name": "自动重启GG",
-      "help": "注意事项！\n使用本功能需要将GG图标遮挡住石油图标，并只能使用指定的lua。\n（暂时）开启模拟器后需要手动打开GG悬浮窗。"
-    },
-    "GGMutiplyingFactor": {
-      "name": "倍率",
-      "help": "建议数值1-9999，没做数字检查，乱输后果自负"
     }
   },
   "Campaign": {
@@ -2307,64 +2353,22 @@
       "help": "游戏被强制结束后自动登录游戏"
     }
   },
-  "ViewCurrentResources": {
+  "GGHandler": {
     "_info": {
-      "name": "查看资源储量",
-      "help": "并非实时更新，会在最近一次出击时更新"
-    },
-    "oiltomaxoil": {
-      "name": "石油储量/最大石油储量",
-      "help": "石油储量大于最大石油储量时应尽快清理以免卡自动产出"
-    },
-    "cointomaxcoin": {
-      "name": "物资最大储量/最大物资储量",
-      "help": "物资储量大于最大物资储量时应尽快清理以免卡自动产出"
-    },
-    "gem": {
-      "name": "钻石",
-      "help": "俗称红尖尖"
-    },
-    "cube": {
-      "name": "魔方",
-      "help": "每日抽卡时更新"
-    },
-    "pt": {
-      "name": "活动PT",
+      "name": "GG管理器",
       "help": ""
     },
-    "opcoin": {
-      "name": "作战补给凭证",
-      "help": "俗称黄币"
+    "Enabled": {
+      "name": "启用该功能",
+      "help": "注意事项！若GG打开则应该启用该功能以达成防弹窗卡重启\n使用本功能需要将GG图标遮挡住石油图标，并只能使用指定的lua。\n（暂时）开启模拟器后需要手动打开GG悬浮窗。"
     },
-    "purplecoin": {
-      "name": "特殊兑换凭证",
-      "help": "俗称紫币"
+    "AutoRestartGG": {
+      "name": "自动重启GG",
+      "help": "是否在重启后自动重启倍率"
     },
-    "actionpoint": {
-      "name": "行动力",
-      "help": ""
-    }
-  },
-  "ViewEquipProgress": {
-    "_info": {
-      "name": "彩色装备研发进度",
-      "help": "首次使用时填入目前进度"
-    },
-    "234mm": {
-      "name": "试作型三联装234mm主炮",
-      "help": "俗称德雷克炮"
-    },
-    "457mm": {
-      "name": "试作型双联装457mm主炮MkA",
-      "help": "俗称457"
-    },
-    "tenrai": {
-      "name": "试作舰载型天雷",
-      "help": "偷你天雷"
-    },
-    "152mm": {
-      "name": "试作型四联装152mm主炮",
-      "help": "俗称152"
+    "GGMutiplyingFactor": {
+      "name": "倍率",
+      "help": "建议数值1-9999，没做数字检查，乱输后果自负"
     }
   },
   "Storage": {

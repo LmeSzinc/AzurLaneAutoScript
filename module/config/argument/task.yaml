@@ -18,7 +18,6 @@ Alas:
   - DropRecord
 General:
   - Retirement
-  - GGHandler
 Restart:
   - Scheduler
 
@@ -300,3 +299,4 @@ AzurLaneUncensored:
   - AzurLaneUncensored
 GameManager:
   - GameManager
+  - GGHandler
