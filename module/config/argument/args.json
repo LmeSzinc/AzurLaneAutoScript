@@ -407,6 +407,16 @@
         "value": false
       }
     },
+    "GGHandler": {
+      "AutoRestartGG": {
+        "type": "checkbox",
+        "value": false
+      },
+      "GGMutiplyingFactor": {
+        "type": "input",
+        "value": 200
+      }
+    },
     "Storage": {
       "Storage": {
         "type": "storage",

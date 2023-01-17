@@ -3,6 +3,12 @@ from module.gg_handler.assets import *
 from module.base.base import ModuleBase as base
 
 class gg_handler(base):
+
+    def __init__(self,config,device,switch=True,factor=200):
+        self.s=switch
+        self.f=factor
+        self.device=device
+        self.config=config
         
     def gg_skip_error(self):
         """
@@ -50,7 +56,7 @@ class gg_handler(base):
         """
         while 1:
             self.device.screenshot()
-            self.device.sleep(1)
+            self.device.sleep(2)
             if base.appear(self,BUTTON_GG_SEARCH_MODE_CONFIRM,offset=30,threshold=0.8):
                 self.device.click(BUTTON_GG_SCRIPT_ENTER_POS)
                 logger.info('GG script ready to start')
@@ -72,7 +78,7 @@ class gg_handler(base):
         
             
         
-    def _gg_mode(self,switch=True):
+    def _gg_mode(self):
         """
         Page:
             in: GG Script Menu
@@ -82,18 +88,19 @@ class gg_handler(base):
             self.device.screenshot()
             if base.appear(self,BUTTON_GG_SCRIPT_MENU_A, offset=30,threshold=0.8):
                 method=[BUTTON_GG_SCRIPT_MENU_B,BUTTON_GG_SCRIPT_MENU_A]
-                self.device.click(method[int(switch)])
+                self.device.click(method[int(self.s)])
                 break
         self.device.sleep(1)
         
     
-    def _gg_handle_factor(self,factor=200):
+    def _gg_handle_factor(self):
         """
         Page:
             in: GG input panel
             out:factor set(Not ensured yet)
         """
-        if factor==200 : 
+        logger.info(f'Factor={self.f}')
+        if self.f==200 : 
             logger.info('Skip factor input')
             return 0
         method=[
@@ -108,7 +115,7 @@ class gg_handler(base):
                 BUTTON_GG_SCRIPT_PANEL_NUM8,
                 BUTTON_GG_SCRIPT_PANEL_NUM9,
                ]
-        for i in str(factor):
+        for i in str(self.f):
             self.device.click(method[int(i)])
             self.device.sleep(0.5)
         logger.info('Input success')
@@ -140,11 +147,14 @@ class gg_handler(base):
         logger.info(f'GG status: {switch}')
             
 
-    def gg_run(self,switch=True,factor=200):
+    def gg_run(self):
         self._enter_gg()
         self._gg_enter_script()
-        self._gg_mode(switch)
-        self._gg_handle_factor(factor)
+        self._gg_mode()
+        self._gg_handle_factor()
         self._gg_script_run()
         self._gg_exit()
     
+    # def gg_reset(self):
+        # self.gg_run(False,)
+        # self.

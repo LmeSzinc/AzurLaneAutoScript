@@ -18,7 +18,7 @@ from module.map.assets import *
 from module.ui.assets import *
 from module.ui.page import MAIN_CHECK
 from module.ui.ui import UI
-
+from module.config.config import AzurLaneConfig
 
 class LoginHandler(UI):
     def _handle_app_login(self):
@@ -28,8 +28,9 @@ class LoginHandler(UI):
             out: page_main
         """
         logger.hr('App login')
-        from module.gg_handler.gg_handler import gg_handler as gg
-        gg(config=self.config,device=self.device).gg_skip_error()
+        if self.config.GGHandler_AutoRestartGG:
+            from module.gg_handler.gg_handler import gg_handler as gg
+            gg(config=self.config,device=self.device,switch=True, factor=self.config.GGHandler_GGMutiplyingFactor).gg_skip_error()
         
         confirm_timer = Timer(1.5, count=4).start()
         orientation_timer = Timer(5)
@@ -86,7 +87,10 @@ class LoginHandler(UI):
             # Always goto page_main
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=5):
                 continue
-        gg(config=self.config,device=self.device).gg_run()
+        
+        if self.config.GGHandler_AutoRestartGG:
+            gg(config=self.config,device=self.device,switch=True, factor=self.config.GGHandler_GGMutiplyingFactor).gg_run()
+        
         return True
 
     _user_agreement_timer = Timer(1, count=2)
