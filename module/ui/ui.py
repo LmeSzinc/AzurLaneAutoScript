@@ -350,7 +350,7 @@ class UI(InfoHandler):
                 self.config.task_stop()
             else:
                 logger.info('Event available, goto page_event')
-                self.ui_ensure(page_event)
+                self.ui_goto(page_event)
                 return True
 
     def ui_goto_sp(self):
@@ -377,7 +377,7 @@ class UI(InfoHandler):
                 self.config.task_stop()
             else:
                 logger.info('Event available, goto page_sp')
-                self.ui_ensure(destination=page_sp)
+                self.ui_goto(destination=page_sp)
                 return True
 
     def ui_ensure_index(
