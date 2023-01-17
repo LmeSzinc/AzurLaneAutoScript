@@ -1,4 +1,30 @@
 {
+  "ViewCurrentResources": {
+    "ViewCurrentResources": {
+      "oiltomaxoil": 0,
+      "cointomaxcoin": 0,
+      "gem": 0,
+      "cube": 0,
+      "pt": 0,
+      "opcoin": 0,
+      "purplecoin": 0,
+      "actionpoint": 0
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "ViewEquipProgress": {
+    "ViewEquipProgress": {
+      "234mm": 0,
+      "457mm": 0,
+      "tenrai": 0,
+      "152mm": 0
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "Alas": {
     "Emulator": {
       "Serial": "auto",
