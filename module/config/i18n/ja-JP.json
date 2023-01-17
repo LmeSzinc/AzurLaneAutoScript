@@ -90,6 +90,10 @@
       "name": "Task.Event2.name",
       "help": "Task.Event2.help"
     },
+    "Event3": {
+      "name": "Task.Event3.name",
+      "help": "Task.Event2.help"
+    },
     "EventA": {
       "name": "Task.EventA.name",
       "help": "Task.EventA.help"
