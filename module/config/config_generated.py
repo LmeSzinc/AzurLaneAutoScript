@@ -9,6 +9,22 @@ class GeneratedConfig:
     Auto generated configuration
     """
 
+    # Group `ViewCurrentResources`
+    ViewCurrentResources_oiltomaxoil = 0
+    ViewCurrentResources_cointomaxcoin = 0
+    ViewCurrentResources_gem = 0
+    ViewCurrentResources_cube = 0
+    ViewCurrentResources_pt = 0
+    ViewCurrentResources_opcoin = 0
+    ViewCurrentResources_purplecoin = 0
+    ViewCurrentResources_actionpoint = 0
+
+    # Group `ViewEquipProgress`
+    ViewEquipProgress_234mm = 0
+    ViewEquipProgress_457mm = 0
+    ViewEquipProgress_tenrai = 0
+    ViewEquipProgress_152mm = 0
+
     # Group `Scheduler`
     Scheduler_Enable = False
     Scheduler_NextRun = datetime.datetime(2020, 1, 1, 0, 0)
@@ -419,6 +435,11 @@ class GeneratedConfig:
 
     # Group `GameManager`
     GameManager_AutoRestart = True
+
+    # Group `GGHandler`
+    GGHandler_Enabled = False
+    GGHandler_AutoRestartGG = False
+    GGHandler_GGMutiplyingFactor = 200
 
     # Group `Storage`
     Storage_Storage = {}
