@@ -13,6 +13,7 @@ from module.config.utils import deep_get, deep_set
 from module.exception import *
 from module.logger import logger
 from module.notify import handle_notify
+from module.gg_handler.gg_data import gg_data
 
 
 class AzurLaneAutoScript:
@@ -56,6 +57,45 @@ class AzurLaneAutoScript:
         except Exception as e:
             logger.exception(e)
             exit(1)
+
+    gg_on, gg_auto, gg_enable = False, False, False
+    ggdata = {}
+
+    def _gg_reset(self):
+        global gg_on, gg_auto, gg_enable, ggdata
+        if gg_enable and gg_on:
+            logger.hr('Disabling GG')
+            gg_auto = False
+            gg_data(self.config, target='gg_auto', value=False).set_data()
+            from module.handler.login import LoginHandler
+            LoginHandler(config=self.config,device=self.device).app_restart()
+            logger.warning('Disabled GG')
+
+    def _gg_set_on(self):
+        global gg_on, gg_auto, gg_enable, ggdata
+        gg_auto = True
+        gg_data(self.config, target='gg_auto', value=True).set_data()
+        if gg_enable:
+            logger.hr('Enabling GG')
+            from module.gg_handler.gg_handler import gg_handler
+            gg_handler(self.config, self.device,
+                       factor=deep_get(self.config.data,
+                                       keys='GameManager.GGHandler.GGMultiplyingFactor',
+                                       default=200)
+                       ).gg_run()
+            logger.warning('Enabled GG')
+
+    def _gg_check(self,auto=True):
+        global gg_on, gg_auto, gg_enable, ggdata
+        gg_data(self.config, target='gg_auto', value=auto).set_data()
+        gg_auto=auto
+        logger.info(
+            f'Check GG status:\n               Enabled={ggdata["gg_enable"]} AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
+        if gg_auto:
+            if not gg_on:
+                self._gg_set_on()
+        elif gg_on:
+            self._gg_reset()
 
     def run(self, command):
         try:
@@ -158,22 +198,22 @@ class AzurLaneAutoScript:
 
     def restart(self):
         from module.handler.login import LoginHandler
-        LoginHandler(self.config, device=self.device).app_restart()
+        LoginHandler(config=self.config, device=self.device).app_restart()
 
     def start(self):
         from module.handler.login import LoginHandler
-        LoginHandler(self.config, device=self.device).app_start()
+        LoginHandler(config=self.config, device=self.device).app_start()
 
     def goto_main(self):
         from module.handler.login import LoginHandler
         from module.ui.ui import UI
         if self.device.app_is_running():
             logger.info('App is already running, goto main page')
-            UI(self.config, device=self.device).ui_goto_main()
+            UI(config=self.config, device=self.device).ui_goto_main()
         else:
             logger.info('App is not running, start app and goto main page')
-            LoginHandler(self.config, device=self.device).app_start()
-            UI(self.config, device=self.device).ui_goto_main()
+            LoginHandler(config=self.config, device=self.device).app_start()
+            UI(config=self.config, device=self.device).ui_goto_main()
 
     def research(self):
         from module.research.research import RewardResearch
@@ -196,6 +236,7 @@ class AzurLaneAutoScript:
         RewardMeowfficer(config=self.config, device=self.device).run()
 
     def guild(self):
+        self._gg_check()
         from module.guild.guild_reward import RewardGuild
         RewardGuild(config=self.config, device=self.device).run()
 
@@ -228,14 +269,17 @@ class AzurLaneAutoScript:
         Daily(config=self.config, device=self.device).run()
 
     def hard(self):
+        self._gg_check()
         from module.hard.hard import CampaignHard
         CampaignHard(config=self.config, device=self.device).run()
 
     def exercise(self):
+        self._gg_check(False)
         from module.exercise.exercise import Exercise
         Exercise(config=self.config, device=self.device).run()
 
     def sos(self):
+        self._gg_check()
         from module.sos.sos import CampaignSos
         CampaignSos(config=self.config, device=self.device).run()
 
@@ -245,42 +289,52 @@ class AzurLaneAutoScript:
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
     def raid_daily(self):
+        self._gg_check()
         from module.raid.daily import RaidDaily
         RaidDaily(config=self.config, device=self.device).run()
 
     def event_a(self):
+        self._gg_check()
         from module.event.campaign_abcd import CampaignABCD
         CampaignABCD(config=self.config, device=self.device).run()
 
     def event_b(self):
+        self._gg_check()
         from module.event.campaign_abcd import CampaignABCD
         CampaignABCD(config=self.config, device=self.device).run()
 
     def event_c(self):
+        self._gg_check()
         from module.event.campaign_abcd import CampaignABCD
         CampaignABCD(config=self.config, device=self.device).run()
 
     def event_d(self):
+        self._gg_check()
         from module.event.campaign_abcd import CampaignABCD
         CampaignABCD(config=self.config, device=self.device).run()
 
     def event_sp(self):
+        self._gg_check()
         from module.event.campaign_sp import CampaignSP
         CampaignSP(config=self.config, device=self.device).run()
 
     def maritime_escort(self):
+        self._gg_check()
         from module.event.maritime_escort import MaritimeEscort
         MaritimeEscort(config=self.config, device=self.device).run()
 
     def opsi_ash_assist(self):
+        self._gg_check(False)
         from module.os_ash.meta import AshBeaconAssist
         AshBeaconAssist(config=self.config, device=self.device).run()
 
     def opsi_ash_beacon(self):
+        self._gg_check(False)
         from module.os_ash.meta import OpsiAshBeacon
         OpsiAshBeacon(config=self.config, device=self.device).run()
 
     def opsi_explore(self):
+        self._gg_check()
         from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_explore()
 
@@ -293,86 +347,105 @@ class AzurLaneAutoScript:
         OSCampaignRun(config=self.config, device=self.device).opsi_voucher()
 
     def opsi_daily(self):
+        self._gg_check()
         from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_daily()
 
     def opsi_obscure(self):
+        self._gg_check()
         from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_obscure()
 
     def opsi_month_boss(self):
+        self._gg_check()
         from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_month_boss()
 
     def opsi_abyssal(self):
+        self._gg_check()
         from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_abyssal()
 
     def opsi_archive(self):
+        self._gg_check()
         from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_archive()
 
     def opsi_stronghold(self):
+        self._gg_check()
         from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_stronghold()
 
     def opsi_meowfficer_farming(self):
+        self._gg_check()
         from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_meowfficer_farming()
 
     def opsi_hazard1_leveling(self):
+        self._gg_check()
         from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_hazard1_leveling()
 
     def opsi_cross_month(self):
+        self._gg_check()
         from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_cross_month()
 
     def main(self):
+        self._gg_check()
         from module.campaign.run import CampaignRun
         CampaignRun(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
     def main2(self):
+        self._gg_check()
         from module.campaign.run import CampaignRun
         CampaignRun(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
     def main3(self):
+        self._gg_check()
         from module.campaign.run import CampaignRun
         CampaignRun(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
     def event(self):
+        self._gg_check()
         from module.campaign.run import CampaignRun
         CampaignRun(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
     def event2(self):
+        self._gg_check()
         from module.campaign.run import CampaignRun
         CampaignRun(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
     def raid(self):
+        self._gg_check()
         from module.raid.run import RaidRun
         RaidRun(config=self.config, device=self.device).run()
 
     def c72_mystery_farming(self):
+        self._gg_check()
         from module.campaign.run import CampaignRun
         CampaignRun(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
     def c122_medium_leveling(self):
+        self._gg_check()
         from module.campaign.run import CampaignRun
         CampaignRun(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
     def c124_large_leveling(self):
+        self._gg_check()
         from module.campaign.run import CampaignRun
         CampaignRun(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
     def gems_farming(self):
+        self._gg_check()
         from module.campaign.gems_farming import GemsFarming
         GemsFarming(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
@@ -463,6 +536,15 @@ class AzurLaneAutoScript:
         failure_record = {}
 
         while 1:
+            # Check gg config only when a new task begins
+            global gg_on, gg_auto, gg_enable, ggdata
+            gg_enable = deep_get(d=self.config.data, keys='GameManager.GGHandler.Enabled', default=False)
+            gg_auto = deep_get(d=self.config.data, keys='GameManager.GGHandler.AutoRestartGG', default=False)
+            gg_data(self.config, target='gg_enable', value=gg_enable).set_data()
+            gg_data(self.config, target='gg_auto', value=gg_auto).set_data()
+            ggdata = gg_data(self.config).get_data()
+            gg_on = ggdata["gg_on"]
+            logger.info(f'GG status:\n               Enabled={ggdata["gg_enable"]} AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
             # Check update event from GUI
             if self.stop_event is not None:
                 if self.stop_event.is_set():
