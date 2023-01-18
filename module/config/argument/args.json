@@ -5122,6 +5122,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "raid_20230118",
           "raid_20221027",
           "raid_20220630",
           "raid_20210708",
@@ -5129,9 +5130,9 @@
           "raid_20220127"
         ],
         "display": "disabled",
-        "cn": "raid_20221027",
-        "en": "raid_20221027",
-        "jp": "raid_20221027",
+        "cn": "raid_20230118",
+        "en": "raid_20230118",
+        "jp": "raid_20230118",
         "tw": "raid_20210708"
       },
       "Mode": {
@@ -5343,6 +5344,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "raid_20230118",
           "raid_20221027",
           "raid_20220630",
           "raid_20210708",
@@ -5350,9 +5352,9 @@
           "raid_20220127"
         ],
         "display": "disabled",
-        "cn": "raid_20221027",
-        "en": "raid_20221027",
-        "jp": "raid_20221027",
+        "cn": "raid_20230118",
+        "en": "raid_20230118",
+        "jp": "raid_20230118",
         "tw": "raid_20210708"
       },
       "Mode": {
