@@ -95,11 +95,8 @@ class AScreenCap(Connection):
         filepath = os.path.join(self.config.ASCREENCAP_FILEPATH_LOCAL, ver, arc, 'ascreencap')
         if not os.path.exists(filepath):
             logger.critical('No suitable version of aScreenCap lib available for this device')
-            if self.is_mumu_family:
-                logger.critical('If you are using MuMu X, please set screenshot method to scrcpy')
-            else:
-                logger.critical('Please use ADB or uiautomator2 for screenshots instead')
-                raise RequestHumanTakeover
+            logger.critical('Please use ADB or uiautomator2 for screenshots instead')
+            raise RequestHumanTakeover
 
         logger.info(f'pushing {filepath}')
         self.adb_push(filepath, self.config.ASCREENCAP_FILEPATH_REMOTE)
