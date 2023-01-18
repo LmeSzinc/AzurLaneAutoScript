@@ -55,6 +55,9 @@ class AdbManager(DeployConfig):
 
             for device in adbutils.adb.iter_device():
                 initer = init.Initer(device, loglevel=logging.DEBUG)
+                # MuMu X has no ro.product.cpu.abi, pick abi from ro.product.cpu.abilist
+                if initer.abi not in ['x86_64', 'x86', 'arm64-v8a', 'armeabi-v7a', 'armeabi']:
+                    initer.abi = initer.abis[0]
                 initer.set_atx_agent_addr('127.0.0.1:7912')
 
                 for _ in range(2):
