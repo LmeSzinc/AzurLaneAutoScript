@@ -33,6 +33,7 @@ class LoginHandler(UI):
         gg_enable = ggdata['gg_enable']
         gg_auto = ggdata['gg_auto']
         if gg_enable:
+            gg_data(self.config,target='gg_on',value=False).set_data()
             logger.info(f'GG status:\n               Enabled={ggdata["gg_enable"]} AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
             from module.gg_handler.gg_handler import gg_handler as gg
             gg(config=self.config,
