@@ -55,6 +55,15 @@ class ConfigGenerator(config_updater.ConfigGenerator):
             group, key = path
             deep_load(keys=['Gui', group], words=(key,))
 
+        # Copy stage names from MaaFight to MaaFightWeekly
+        day_names = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        for stage, trans in deep_get(new, keys='MaaFight.Stage', default={}).items():
+            if '-' not in stage:
+                continue
+            for day in day_names:
+                if deep_get(new, keys=['MaaFightWeekly', day, stage]):
+                    deep_set(new, keys=['MaaFightWeekly', day, stage], value=trans)
+
         write_file(filepath_i18n(lang), new)
 
 

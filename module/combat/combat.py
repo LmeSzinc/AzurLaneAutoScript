@@ -29,7 +29,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             if self.is_combat_loading():
                 return True
 
-        if self.appear(BATTLE_PREPARATION):
+        if self.appear(BATTLE_PREPARATION, offset=(30, 20)):
             return True
         if self.appear(BATTLE_PREPARATION_WITH_OVERLAY) and self.handle_combat_automation_confirm():
             return True
