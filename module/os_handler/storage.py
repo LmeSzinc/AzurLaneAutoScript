@@ -156,6 +156,11 @@ class StorageHandler(GlobeOperation, ZoneManager):
             in: STORAGE_CHECK
             out: is_in_map, in an obscure zone.
         """
+        self.interval_clear([
+            STORAGE_CHECK,
+            STORAGE_COORDINATE_CHECKOUT
+        ])
+        self.popup_interval_clear()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False

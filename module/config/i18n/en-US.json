@@ -90,6 +90,10 @@
       "name": "Event-2",
       "help": ""
     },
+    "Event3": {
+      "name": "Event-3",
+      "help": ""
+    },
     "EventA": {
       "name": "Event Daily A",
       "help": ""
@@ -467,6 +471,7 @@
       "aScreenCap": "aScreenCap",
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
+      "DroidCast_raw": "DroidCast_raw",
       "scrcpy": "scrcpy"
     },
     "ControlMethod": {
@@ -2426,6 +2431,14 @@
     },
     "Overview": {
       "Scheduler": "Scheduler",
+      "Oil": "Oil",
+      "Coin": "Coin",
+      "Gem": "Gem",
+      "Cube": "Cube",
+      "EventPt": "Event Pt",
+      "OperationSupplyCoin": "Operation Supply Coin",
+      "SpecialItemToken": "Special Item Token",
+      "ActionPoint": "Action Point",
       "Log": "Log",
       "Running": "Running",
       "Pending": "Pending",

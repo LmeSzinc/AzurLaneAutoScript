@@ -90,6 +90,10 @@
       "name": "活动图-2",
       "help": ""
     },
+    "Event3": {
+      "name": "活动图-3",
+      "help": ""
+    },
     "EventA": {
       "name": "活动每日A图",
       "help": ""
@@ -281,7 +285,7 @@
       "help": "石油储量大于最大石油储量时应尽快清理以免卡自动产出"
     },
     "cointomaxcoin": {
-      "name": "物资最大储量/最大物资储量",
+      "name": "物资储量/最大物资储量",
       "help": "物资储量大于最大物资储量时应尽快清理以免卡自动产出"
     },
     "gem": {
@@ -467,6 +471,7 @@
       "aScreenCap": "aScreenCap",
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
+      "DroidCast_raw": "DroidCast_raw",
       "scrcpy": "scrcpy"
     },
     "ControlMethod": {
@@ -2426,6 +2431,14 @@
     },
     "Overview": {
       "Scheduler": "调度器",
+      "Oil": "石油",
+      "Coin": "物资",
+      "Gem": "钻石",
+      "Cube": "魔方",
+      "EventPt": "活动PT",
+      "OperationSupplyCoin": "作战补给凭证",
+      "SpecialItemToken": "特殊兑换凭证",
+      "ActionPoint": "行动力",
       "Log": "日志",
       "Running": "运行中",
       "Pending": "队列中",
