@@ -1337,7 +1337,7 @@
   },
   "Meowfficer": {
     "_info": {
-      "name": "Mewofficer Settings",
+      "name": "Meowfficer Settings",
       "help": ""
     },
     "BuyAmount": {
@@ -2317,7 +2317,7 @@
       "DisableTranslateMode": "Click here to disable translate mode",
       "ConfigSaved": "Config saved",
       "AlasIsRunning": "Scheduler is already running",
-      "ClickToUpdate": "New update avaliable, click here to update"
+      "ClickToUpdate": "New update available, click here to update"
     },
     "Status": {
       "Running": "Running",
