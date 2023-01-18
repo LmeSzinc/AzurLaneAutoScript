@@ -25,7 +25,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
             else:
                 self.device.screenshot()
 
-            if self.appear(BATTLE_PREPARATION, interval=2):
+            if self.appear(BATTLE_PREPARATION, offset=(20, 20), interval=2):
                 # self.equipment_take_on()
                 pass
 
@@ -131,7 +131,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
                 continue
 
             # End
-            if self.appear(BATTLE_PREPARATION):
+            if self.appear(BATTLE_PREPARATION, offset=(20, 20)):
                 break
 
     def _preparation_quit(self):
