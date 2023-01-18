@@ -88,6 +88,10 @@ class PackageNotInstalled(Exception):
     pass
 
 
+class ImageTruncated(Exception):
+    pass
+
+
 def retry_sleep(trial):
     # First trial
     if trial == 0:

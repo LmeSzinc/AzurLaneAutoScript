@@ -73,14 +73,7 @@ class Scrcpy(ScrcpyCore, Uiautomator2):
     def _scrcpy_resolution_check(self):
         if not self._scrcpy_alive:
             with self._scrcpy_control_socket_lock:
-                width, height = self.window_size_uiautomator2()
-                logger.attr('Screen_size', f'{width}x{height}')
-                if (width == 1280 and height == 720) or (width == 720 and height == 1280):
-                    pass
-                else:
-                    logger.critical(f'Resolution not supported: {width}x{height}')
-                    logger.critical('Please set emulator resolution to 1280x720')
-                    raise RequestHumanTakeover
+                self.resolution_check_uiautomator2()
 
     @retry
     def screenshot_scrcpy(self):
