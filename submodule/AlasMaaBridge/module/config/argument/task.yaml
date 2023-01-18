@@ -25,6 +25,7 @@ MaaMaterial:
 MaaFight:
   - Scheduler
   - MaaFight
+  - MaaFightWeekly
 
 MaaRecruit:
   - Scheduler

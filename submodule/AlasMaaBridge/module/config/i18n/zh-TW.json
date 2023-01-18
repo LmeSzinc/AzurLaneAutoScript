@@ -182,10 +182,11 @@
       "help": "MaaFight.Stage.help",
       "last": "last",
       "1-7": "1-7",
-      "CE-6": "CE-6",
-      "AP-5": "AP-5",
-      "CA-5": "CA-5",
       "LS-6": "LS-6",
+      "CA-5": "CA-5",
+      "SK-5": "SK-5",
+      "AP-5": "AP-5",
+      "CE-6": "CE-6",
       "PR-A-1": "PR-A-1",
       "PR-A-2": "PR-A-2",
       "PR-B-1": "PR-B-1",
@@ -223,6 +224,102 @@
     "DrGrandet": {
       "name": "MaaFight.DrGrandet.name",
       "help": "MaaFight.DrGrandet.help"
+    }
+  },
+  "MaaFightWeekly": {
+    "_info": {
+      "name": "MaaFightWeekly._info.name",
+      "help": "MaaFightWeekly._info.help"
+    },
+    "Monday": {
+      "name": "MaaFight.Stage.name",
+      "help": "MaaFight.Stage.help",
+      "default": "default",
+      "LS-6": "LS-6",
+      "SK-5": "SK-5",
+      "AP-5": "AP-5",
+      "PR-A-1": "PR-A-1",
+      "PR-A-2": "PR-A-2",
+      "PR-B-1": "PR-B-1",
+      "PR-B-2": "PR-B-2"
+    },
+    "Tuesday": {
+      "name": "MaaFight.Stage.name",
+      "help": "MaaFight.Stage.help",
+      "default": "default",
+      "LS-6": "LS-6",
+      "CA-5": "CA-5",
+      "CE-6": "CE-6",
+      "PR-B-1": "PR-B-1",
+      "PR-B-2": "PR-B-2",
+      "PR-D-1": "PR-D-1",
+      "PR-D-2": "PR-D-2"
+    },
+    "Wednesday": {
+      "name": "MaaFight.Stage.name",
+      "help": "MaaFight.Stage.help",
+      "default": "default",
+      "LS-6": "LS-6",
+      "CA-5": "CA-5",
+      "SK-5": "SK-5",
+      "PR-C-1": "PR-C-1",
+      "PR-C-2": "PR-C-2",
+      "PR-D-1": "PR-D-1",
+      "PR-D-2": "PR-D-2"
+    },
+    "Thursday": {
+      "name": "MaaFight.Stage.name",
+      "help": "MaaFight.Stage.help",
+      "default": "default",
+      "LS-6": "LS-6",
+      "AP-5": "AP-5",
+      "CE-6": "CE-6",
+      "PR-A-1": "PR-A-1",
+      "PR-A-2": "PR-A-2",
+      "PR-C-1": "PR-C-1",
+      "PR-C-2": "PR-C-2"
+    },
+    "Friday": {
+      "name": "MaaFight.Stage.name",
+      "help": "MaaFight.Stage.help",
+      "default": "default",
+      "LS-6": "LS-6",
+      "CA-5": "CA-5",
+      "SK-5": "SK-5",
+      "PR-A-1": "PR-A-1",
+      "PR-A-2": "PR-A-2",
+      "PR-B-1": "PR-B-1",
+      "PR-B-2": "PR-B-2"
+    },
+    "Saturday": {
+      "name": "MaaFight.Stage.name",
+      "help": "MaaFight.Stage.help",
+      "default": "default",
+      "LS-6": "LS-6",
+      "SK-5": "SK-5",
+      "AP-5": "AP-5",
+      "CE-6": "CE-6",
+      "PR-B-1": "PR-B-1",
+      "PR-B-2": "PR-B-2",
+      "PR-C-1": "PR-C-1",
+      "PR-C-2": "PR-C-2",
+      "PR-D-1": "PR-D-1",
+      "PR-D-2": "PR-D-2"
+    },
+    "Sunday": {
+      "name": "MaaFight.Stage.name",
+      "help": "MaaFight.Stage.help",
+      "default": "default",
+      "LS-6": "LS-6",
+      "CA-5": "CA-5",
+      "AP-5": "AP-5",
+      "CE-6": "CE-6",
+      "PR-A-1": "PR-A-1",
+      "PR-A-2": "PR-A-2",
+      "PR-C-1": "PR-C-1",
+      "PR-C-2": "PR-C-2",
+      "PR-D-1": "PR-D-1",
+      "PR-D-2": "PR-D-2"
     }
   },
   "MaaRecruit": {
