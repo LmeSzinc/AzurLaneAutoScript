@@ -90,6 +90,10 @@
       "name": "Task.Event2.name",
       "help": "Task.Event2.help"
     },
+    "Event3": {
+      "name": "Task.Event3.name",
+      "help": "Task.Event3.help"
+    },
     "EventA": {
       "name": "Task.EventA.name",
       "help": "Task.EventA.help"
@@ -467,6 +471,7 @@
       "aScreenCap": "aScreenCap",
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
+      "DroidCast_raw": "DroidCast_raw",
       "scrcpy": "scrcpy"
     },
     "ControlMethod": {
@@ -2426,6 +2431,14 @@
     },
     "Overview": {
       "Scheduler": "Gui.Overview.Scheduler",
+      "Oil": "Oil",
+      "Coin": "Coin",
+      "Gem": "Gem",
+      "Cube": "Cube",
+      "EventPt": "Event Pt",
+      "OperationSupplyCoin": "Operation Supply Coin",
+      "SpecialItemToken": "Special Item Token",
+      "ActionPoint": "Action Point",
       "Log": "Gui.Overview.Log",
       "Running": "Gui.Overview.Running",
       "Pending": "Gui.Overview.Pending",

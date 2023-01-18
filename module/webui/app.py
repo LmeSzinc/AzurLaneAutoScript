@@ -314,7 +314,7 @@ class AlasGUI(Frame):
         self.init_menu(name="Overview")
         self.set_title(t(f"Gui.MenuAlas.Overview"))
 
-        put_scope("overview", [put_scope("schedulers"), put_scope("logs")])
+        put_scope("overview", [put_scope("schedulers"), put_scope("dashboard")])
 
         with use_scope("schedulers"):
             put_scope(
@@ -362,9 +362,71 @@ class AlasGUI(Frame):
             scope="scheduler_btn",
         )
 
-        log = RichLog("log")
+        with use_scope("dashboard"):
+            put_scope(
+                "dashboard-bar",
+                [
+                    put_scope(
+                        "oil",
+                        [
+                            put_text(t("Gui.Overview.Oil")),
+                            put_scope("oilvalue"),
+                        ],
+                    ),
+                    put_scope(
+                        "coin",
+                        [
+                            put_text(t("Gui.Overview.Coin")),
+                            put_scope("coinvalue"),
+                        ],
+                    ),
+                    put_scope(
+                        "gem",
+                        [
+                            put_text(t("Gui.Overview.Gem")),
+                            put_scope("gemvalue"),
+                        ],
+                    ),
+                    put_scope(
+                        "cube",
+                        [
+                            put_text(t("Gui.Overview.Cube")),
+                            put_scope("cubevalue"),
+                        ],
+                    ),
+                    put_scope(
+                        "eventpt",
+                        [
+                            put_text(t("Gui.Overview.EventPt")),
+                            put_scope("eventptvalue"),
+                        ],
+                    ),
+                    put_scope(
+                        "actionpoint",
+                        [
+                            put_text(t("Gui.Overview.ActionPoint")),
+                            put_scope("actionpointvalue"),
+                        ],
+                    ),
+                    put_scope(
+                        "operationsupplycoin",
+                        [
+                            put_text(t("Gui.Overview.OperationSupplyCoin")),
+                            put_scope("operationsupplycoinvalue"),
+                        ],
+                    ),
+                    put_scope(
+                        "specialitemtoken",
+                        [
+                            put_text(t("Gui.Overview.SpecialItemToken")),
+                            put_scope("specialitemtokenvalue"),
+                        ],
+                    ),
+                ],
+            ),
 
-        with use_scope("logs"):
+            log = RichLog("log")
+
             put_scope(
                 "log-bar",
                 [
