@@ -43,6 +43,8 @@ def raid_name_shorten(name):
         return 'IRIS'
     elif name == "raid_20221027":
         return "ALBION"
+    elif name == "raid_20230118":
+        return "KUYBYSHEY"
     else:
         raise ScriptError(f'Unknown raid name: {name}')
 
@@ -95,6 +97,8 @@ def raid_ocr(raid, mode):
                 return DigitCounter(button, letter=(148, 138, 123), threshold=128, lang='cnocr')
         elif raid == "ALBION":
             return DigitCounter(button, letter=(99, 73, 57), threshold=128)
+        elif raid == 'KUYBYSHEY':
+            return DigitCounter(button, letter=(231, 239, 247), threshold=128)
     except KeyError:
         raise ScriptError(f'Raid entrance asset not exists: {key}')
 
@@ -115,6 +119,8 @@ def pt_ocr(raid):
             return Digit(button, letter=(181, 178, 165), threshold=128)
         elif raid == "ALBION":
             return Digit(button, letter=(23, 20, 9), threshold=128)
+        elif raid == 'KUYBYSHEY':
+            return Digit(button, letter=(16, 24, 33), threshold=64)
     except KeyError:
         # raise ScriptError(f'Raid pt ocr asset not exists: {key}')
         return None
@@ -151,7 +157,7 @@ class Raid(MapOperation, Combat, CampaignEvent):
             else:
                 self.device.screenshot()
 
-            if self.appear(BATTLE_PREPARATION):
+            if self.appear(BATTLE_PREPARATION, offset=(30, 20)):
                 if self.handle_combat_automation_set(auto=auto == 'combat_auto'):
                     continue
                 check_oil()
@@ -162,7 +168,7 @@ class Raid(MapOperation, Combat, CampaignEvent):
                 continue
             if self.handle_combat_low_emotion():
                 continue
-            if self.appear_then_click(BATTLE_PREPARATION, interval=2):
+            if self.appear_then_click(BATTLE_PREPARATION, offset=(30, 20), interval=2):
                 continue
             if self.handle_combat_automation_confirm():
                 continue
@@ -214,7 +220,7 @@ class Raid(MapOperation, Combat, CampaignEvent):
                     self.config.task_stop()
                 self.device.click(entrance)
                 continue
-            if self.appear_then_click(RAID_FLEET_PREPARATION, interval=5):
+            if self.appear_then_click(RAID_FLEET_PREPARATION, offset=(20, 20), interval=5):
                 continue
 
             # End
