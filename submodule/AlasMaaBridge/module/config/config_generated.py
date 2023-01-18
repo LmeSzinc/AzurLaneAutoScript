@@ -39,7 +39,7 @@ class GeneratedConfig:
     MaaRecord_PenguinID = None
 
     # Group `MaaFight`
-    MaaFight_Stage = 'last'  # last, 1-7, CE-6, AP-5, CA-5, LS-6, PR-A-1, PR-A-2, PR-B-1, PR-B-2, PR-C-1, PR-C-2, PR-D-1, PR-D-2, custom
+    MaaFight_Stage = 'last'  # last, 1-7, LS-6, CA-5, SK-5, AP-5, CE-6, PR-A-1, PR-A-2, PR-B-1, PR-B-2, PR-C-1, PR-C-2, PR-D-1, PR-D-2, custom
     MaaFight_CustomStage = None
     MaaFight_Medicine = None
     MaaFight_RunOutOfMedicine = False
@@ -47,6 +47,15 @@ class GeneratedConfig:
     MaaFight_Times = None
     MaaFight_Drops = None
     MaaFight_DrGrandet = False
+
+    # Group `MaaFightWeekly`
+    MaaFightWeekly_Monday = 'default'  # default, LS-6, SK-5, AP-5, PR-A-1, PR-A-2, PR-B-1, PR-B-2
+    MaaFightWeekly_Tuesday = 'default'  # default, LS-6, CA-5, CE-6, PR-B-1, PR-B-2, PR-D-1, PR-D-2
+    MaaFightWeekly_Wednesday = 'default'  # default, LS-6, CA-5, SK-5, PR-C-1, PR-C-2, PR-D-1, PR-D-2
+    MaaFightWeekly_Thursday = 'default'  # default, LS-6, AP-5, CE-6, PR-A-1, PR-A-2, PR-C-1, PR-C-2
+    MaaFightWeekly_Friday = 'default'  # default, LS-6, CA-5, SK-5, PR-A-1, PR-A-2, PR-B-1, PR-B-2
+    MaaFightWeekly_Saturday = 'default'  # default, LS-6, SK-5, AP-5, CE-6, PR-B-1, PR-B-2, PR-C-1, PR-C-2, PR-D-1, PR-D-2
+    MaaFightWeekly_Sunday = 'default'  # default, LS-6, CA-5, AP-5, CE-6, PR-A-1, PR-A-2, PR-C-1, PR-C-2, PR-D-1, PR-D-2
 
     # Group `MaaRecruit`
     MaaRecruit_Refresh = True

@@ -126,3 +126,5 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20221222   | event 20211229 cn        | Tower of Transcendence          | -           | -                                    | -                  | 逆轉彩虹之塔 |
 | 20230105   | event 20210225 cn        | Khorovod of Dawn's Rime         | 复刻破晓冰华      | Khorovod of Dawn's Rime Rerun | 暁射す氷華の嵐（復刻）       | -                    |
 | 20230105   | event 20210610 tw        | The Way Home in the Night       | -           | -                                    | -                  | 復刻夜幕下的歸途 |
+| 20230118 | raid 20230118 | Winter Pathfinder | 冬日的寻路人 | Winter Pathfinder | 冬の案内人 | - |
+| 20220127   | raid 20220127            |  - |  - |  - |  - | 演習神秘事件調查 |
