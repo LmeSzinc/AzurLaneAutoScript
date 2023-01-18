@@ -366,6 +366,7 @@ class AlasGUI(Frame):
             put_scope(
                 "dashboard-bar",
                 [
+
                     put_scope(
                         "oil",
                         [

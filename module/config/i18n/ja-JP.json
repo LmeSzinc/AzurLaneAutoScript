@@ -689,6 +689,7 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "raid_20230118": "冬の案内人",
       "event_20210610_tw": "復刻夜幕下的歸途",
       "event_20210225_cn": "暁射す氷華の嵐（復刻）",
       "event_20211229_cn": "遡望せし虹彩の塔",
@@ -2431,6 +2432,7 @@
     },
     "Overview": {
       "Scheduler": "Gui.Overview.Scheduler",
+      "Dashboard": "Dashboard",
       "Oil": "Oil",
       "Coin": "Coin",
       "Gem": "Gem",

@@ -33,6 +33,7 @@
     overflow-y: auto;
 }
 
+
 #pywebio-scope-dashboard-bar {
     grid-auto-flow: column;
     grid-template-columns: 1fr 1fr 1fr 1fr;
