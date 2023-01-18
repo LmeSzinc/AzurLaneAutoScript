@@ -314,7 +314,7 @@ class AlasGUI(Frame):
         self.init_menu(name="Overview")
         self.set_title(t(f"Gui.MenuAlas.Overview"))
 
-        put_scope("overview", [put_scope("schedulers"), put_scope("logs")])
+        put_scope("overview", [put_scope("schedulers"), put_scope("dashboard")])
 
         with use_scope("schedulers"):
             put_scope(
@@ -362,9 +362,29 @@ class AlasGUI(Frame):
             scope="scheduler_btn",
         )
 
-        log = RichLog("log")
+        with use_scope("dashboard"):
+            put_scope(
+                "dashboard-bar",
+                [
+                    put_text(t("Gui.Overview.Dashboard")),
+                    put_html('<hr class="hr-group">'),
+                    put_table(
+                        [
+                            [t("Gui.Overview.Oil"),t("Gui.Overview.Coin"),t("Gui.Overview.EventPt"),t("Gui.Overview.OperationSupplyCoin")],
+                            ["oilvalue","coinvalue","eventptvalue","operationsupplycoinvalue"],
+                        ],
+                    ),
+                    put_table(
+                        [
+                            [t("Gui.Overview.Gem"),t("Gui.Overview.Cube"),t("Gui.Overview.ActionPoint"),t("Gui.Overview.SpecialItemToken")],
+                            ["gemvalue","cubevalue","actionpointvalue","specialitemtokenvalue"],
+                        ]
+                    )
+                ],
+            ),
 
-        with use_scope("logs"):
+            log = RichLog("log")
+
             put_scope(
                 "log-bar",
                 [
