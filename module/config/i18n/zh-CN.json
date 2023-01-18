@@ -90,6 +90,10 @@
       "name": "活动图-2",
       "help": ""
     },
+    "Event3": {
+      "name": "活动图-3",
+      "help": ""
+    },
     "EventA": {
       "name": "活动每日A图",
       "help": ""
@@ -467,6 +471,7 @@
       "aScreenCap": "aScreenCap",
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
+      "DroidCast_raw": "DroidCast_raw",
       "scrcpy": "scrcpy"
     },
     "ControlMethod": {

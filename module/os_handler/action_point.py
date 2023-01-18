@@ -24,13 +24,25 @@ OCR_OS_ADAPTABILITY = Digit([
     OS_ADAPTABILITY_RECOVER
 ], letter=(231, 235, 239), lang="cnocr", name='OCR_OS_ADAPTABILITY')
 
+
+class ActionPointBuyCounter(DigitCounter):
+    def after_process(self, result):
+        result = super().after_process(result)
+
+        # Possible result: 0/5, 05
+        if result == '05':
+            result = '0/5'
+
+        return result
+
+
 if server.server != 'jp':
     # Letters in ACTION_POINT_BUY_REMAIN are not the numeric fonts usually used in azur lane.
-    OCR_ACTION_POINT_BUY_REMAIN = DigitCounter(
+    OCR_ACTION_POINT_BUY_REMAIN = ActionPointBuyCounter(
         ACTION_POINT_BUY_REMAIN, letter=(148, 247, 99), lang='cnocr', name='OCR_ACTION_POINT_BUY_REMAIN')
 else:
     # The color of the digits ACTION_POINT_BUY_REMAIN is white in JP, which is light green in CN and EN.
-    OCR_ACTION_POINT_BUY_REMAIN = DigitCounter(
+    OCR_ACTION_POINT_BUY_REMAIN = ActionPointBuyCounter(
         ACTION_POINT_BUY_REMAIN, letter=(255, 255, 255), lang='cnocr', name='OCR_ACTION_POINT_BUY_REMAIN')
 
 
@@ -226,6 +238,39 @@ class ActionPointHandler(UI, MapEventHandler):
         logger.warning('Failed to set action point button after 3 trial')
         return False
 
+    def action_point_get_buy_remain(self, skip_first_screenshot=True):
+        """
+        Args:
+            skip_first_screenshot:
+
+        Returns:
+            int: Remaining number of purchases of action points
+
+        Pages:
+            in: ACTION_POINT_USE
+        """
+        timeout = Timer(1, count=2).start()
+        current = 0
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if timeout.reached():
+                logger.warning('Get action points buy remain timeout')
+                break
+
+            current, _, total = OCR_ACTION_POINT_BUY_REMAIN.ocr(self.device.image)
+
+            # Possible result: 0/5, 05
+            if total == 0:
+                continue
+
+            break
+
+        return current
+
     def action_point_buy(self, preserve=1000):
         """
         Use oil to buy action points.
@@ -235,9 +280,12 @@ class ActionPointHandler(UI, MapEventHandler):
 
         Returns:
             bool: If bought
+
+        Pages:
+            in: ACTION_POINT_USE
         """
         self.action_point_set_button(0)
-        current, _, _ = OCR_ACTION_POINT_BUY_REMAIN.ocr(self.device.image)
+        current = self.action_point_get_buy_remain()
         buy_max = 5  # In current version of AL, players can buy 5 times of AP in a week.
         buy_count = buy_max - current
         buy_limit = self.config.OpsiGeneral_BuyActionPointLimit

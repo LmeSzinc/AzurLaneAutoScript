@@ -7,7 +7,7 @@ from adbutils.errors import AdbError
 from module.base.utils import *
 from module.device.connection import Connection
 from module.device.method.utils import (RETRY_TRIES, retry_sleep,
-                                        handle_adb_error)
+                                        handle_adb_error, ImageTruncated)
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
@@ -52,7 +52,13 @@ def retry(func):
                         self.adb_reconnect()
                 else:
                     break
-            # Unknown, probably a trucked image
+            # ImageTruncated
+            except ImageTruncated as e:
+                logger.error(e)
+
+                def init():
+                    pass
+            # Unknown
             except Exception as e:
                 logger.exception(e)
 
@@ -149,12 +155,24 @@ class AScreenCap(Connection):
         data = lz4.block.decompress(raw_compressed_data[20:], uncompressed_size=uncompressed_size)
 
         image = np.frombuffer(data, dtype=np.uint8)
+        if image is None:
+            raise ImageTruncated('Empty image after reading from buffer')
+
         # Equivalent to cv2.imdecode()
-        shape = image.shape[0]
-        image = image[shape - width * height * channel:].reshape(height, width, channel)
+        try:
+            image = image[-int(width * height * channel):].reshape(height, width, channel)
+        except ValueError as e:
+            # ValueError: cannot reshape array of size 0 into shape (720,1280,4)
+            raise ImageTruncated(str(e))
+
         image = cv2.flip(image, 0)
+        if image is None:
+            raise ImageTruncated('Empty image after cv2.flip')
 
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        if image is None:
+            raise ImageTruncated('Empty image after cv2.cvtColor')
+
         return image
 
     def __process_screenshot(self, screenshot):

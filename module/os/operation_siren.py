@@ -18,14 +18,13 @@ from module.shop.shop_voucher import VoucherShop
 
 
 class OperationSiren(OSMap):
-    def os_port_daily(self, mission=True, supply=True):
+    def os_port_daily(self, supply=True):
         """
         Accept all missions and buy all supplies in all ports.
         If reach the maximum number of missions, skip accept missions in next port.
         If not having enough yellow coins or purple coins, skip buying supplies in next port.
 
         Args:
-            mission (bool): If needs to accept missions.
             supply (bool): If needs to buy supplies.
 
         Returns:
@@ -263,7 +262,7 @@ class OperationSiren(OSMap):
             self.handle_after_auto_search()
 
     def os_shop(self):
-        self.os_port_daily(mission=False, supply=self.config.OpsiShop_BuySupply)
+        self.os_port_daily(supply=self.config.OpsiShop_BuySupply)
         self.config.task_delay(server_update=True)
 
     def _os_voucher_enter(self):
@@ -383,8 +382,8 @@ class OperationSiren(OSMap):
                 self.config.OS_ACTION_POINT_PRESERVE = 0
             logger.attr('OS_ACTION_POINT_PRESERVE', self.config.OS_ACTION_POINT_PRESERVE)
 
-            if self.get_yellow_coins() < 100000:
-                logger.info('Reach the limit of yellow coins, preserve=100000')
+            if self.get_yellow_coins() < self.config.OS_CL1_YELLOW_COINS_PRESERVE:
+                logger.info(f'Reach the limit of yellow coins, preserve={self.config.OS_CL1_YELLOW_COINS_PRESERVE}')
                 with self.config.multi_set():
                     self.config.task_delay(server_update=True)
                     if not self.is_in_opsi_explore():
