@@ -1964,6 +1964,11 @@
     "GameManager": {
       "AutoRestart": true
     },
+    "GGHandler": {
+      "Enabled": false,
+      "AutoRestartGG": false,
+      "GGMutiplyingFactor": 200
+    },
     "Storage": {
       "Storage": {}
     }

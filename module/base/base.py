@@ -11,7 +11,6 @@ from module.logger import logger
 from module.map_detection.utils import fit_points
 from module.statistics.azurstats import AzurStats
 
-
 class ModuleBase:
     config: AzurLaneConfig
     device: Device

@@ -33,6 +33,12 @@
     overflow-y: auto;
 }
 
+
+#pywebio-scope-dashboard-bar {
+    grid-auto-flow: column;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
 #pywebio-scope-scheduler-bar,
 #pywebio-scope-dashboard-bar,
 #pywebio-scope-log-bar,

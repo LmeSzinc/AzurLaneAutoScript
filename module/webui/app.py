@@ -366,20 +366,63 @@ class AlasGUI(Frame):
             put_scope(
                 "dashboard-bar",
                 [
-                    put_text(t("Gui.Overview.Dashboard")),
-                    put_html('<hr class="hr-group">'),
-                    put_table(
+
+                    put_scope(
+                        "oil",
                         [
-                            [t("Gui.Overview.Oil"),t("Gui.Overview.Coin"),t("Gui.Overview.EventPt"),t("Gui.Overview.OperationSupplyCoin")],
-                            ["oilvalue","coinvalue","eventptvalue","operationsupplycoinvalue"],
+                            put_text(t("Gui.Overview.Oil")),
+                            put_scope("oilvalue"),
                         ],
                     ),
-                    put_table(
+                    put_scope(
+                        "coin",
                         [
-                            [t("Gui.Overview.Gem"),t("Gui.Overview.Cube"),t("Gui.Overview.ActionPoint"),t("Gui.Overview.SpecialItemToken")],
-                            ["gemvalue","cubevalue","actionpointvalue","specialitemtokenvalue"],
-                        ]
-                    )
+                            put_text(t("Gui.Overview.Coin")),
+                            put_scope("coinvalue"),
+                        ],
+                    ),
+                    put_scope(
+                        "gem",
+                        [
+                            put_text(t("Gui.Overview.Gem")),
+                            put_scope("gemvalue"),
+                        ],
+                    ),
+                    put_scope(
+                        "cube",
+                        [
+                            put_text(t("Gui.Overview.Cube")),
+                            put_scope("cubevalue"),
+                        ],
+                    ),
+                    put_scope(
+                        "eventpt",
+                        [
+                            put_text(t("Gui.Overview.EventPt")),
+                            put_scope("eventptvalue"),
+                        ],
+                    ),
+                    put_scope(
+                        "actionpoint",
+                        [
+                            put_text(t("Gui.Overview.ActionPoint")),
+                            put_scope("actionpointvalue"),
+                        ],
+                    ),
+                    put_scope(
+                        "operationsupplycoin",
+                        [
+                            put_text(t("Gui.Overview.OperationSupplyCoin")),
+                            put_scope("operationsupplycoinvalue"),
+                        ],
+                    ),
+                    put_scope(
+                        "specialitemtoken",
+                        [
+                            put_text(t("Gui.Overview.SpecialItemToken")),
+                            put_scope("specialitemtokenvalue"),
+                        ],
+                    ),
                 ],
             ),
 
