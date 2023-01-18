@@ -1,5 +1,6 @@
 from module.logger import logger
 from module.gg_handler.assets import *
+from module.gg_handler.gg_data import gg_data
 from module.base.base import ModuleBase as base
 
 class gg_handler(base):
@@ -25,9 +26,6 @@ class gg_handler(base):
             
         else:
             logger.info('Game died with no GG panel')
-            
-        
-
     
     def _enter_gg(self):
         '''
@@ -103,6 +101,7 @@ class gg_handler(base):
         if self.f==200 : 
             logger.info('Skip factor input')
             return 0
+        logger.info(self.f)
         method=[
                 BUTTON_GG_SCRIPT_PANEL_NUM0,
                 BUTTON_GG_SCRIPT_PANEL_NUM1,
@@ -141,7 +140,7 @@ class gg_handler(base):
     def _gg_exit(self):
         while 1:
             self.device.screenshot()
-            if base.appear(self,BUTTON_GEM, offset=30,threshold=0.8):
+            if not base.appear(self,BUTTON_GG_CONFIRM, offset=30,threshold=0.8):
                 return 1
             self.device.click(BUTTON_GG_EXIT_POS)
         logger.info(f'GG status: {switch}')
@@ -153,6 +152,7 @@ class gg_handler(base):
         self._gg_mode()
         self._gg_handle_factor()
         self._gg_script_run()
+        gg_data(self.config,target='gg_on',value=self.s).set_data()
         self._gg_exit()
     
     # def gg_reset(self):
