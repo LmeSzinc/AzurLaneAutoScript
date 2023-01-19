@@ -2,6 +2,38 @@
 # Define arguments.
 # --------------------
 
+# ==================== ViewResources ====================
+
+ViewCurrentResources:
+    oiltomaxoil: 
+        value: 0
+        display: disabled
+    cointomaxcoin: 
+        value: 0
+        display: disabled
+    gem: 
+        value: 0
+        display: disabled
+    cube:
+        value: 0
+        display: disabled
+    pt: 
+        value: 0
+        display: disabled
+    opcoin: 
+        value: 0
+        display: disabled
+    purplecoin: 
+        value: 0
+        display: disabled
+    actionpoint: 
+        value: 0
+        display: disabled
+ViewEquipProgress:
+    234mm: 0
+    457mm: 0
+    tenrai: 0
+    152mm: 0
 # ==================== Alas ====================
 
 Scheduler:
@@ -29,7 +61,7 @@ Emulator:
     option: [ disabled, ]
   ScreenshotMethod:
     value: ADB_nc
-    option: [ ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc, DroidCast, scrcpy ]
+    option: [ ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc, DroidCast, DroidCast_raw, scrcpy ]
   ControlMethod:
     value: minitouch
     option: [ ADB, uiautomator2, minitouch, Hermit ]
@@ -100,7 +132,6 @@ Retirement:
   OldRetireR: true
   OldRetireSR: false
   OldRetireSSR: false
-
 # ==================== Farm ====================
 
 Campaign:
@@ -628,3 +659,9 @@ AzurLaneUncensored:
   Repository: https://gitee.com/LmeSzinc/AzurLaneUncensored
 GameManager:
   AutoRestart: true
+  
+GGHandler:
+  Enabled: false
+  AutoRestartGG: false
+  RestartEverytime: true
+  GGMutiplyingFactor: 200

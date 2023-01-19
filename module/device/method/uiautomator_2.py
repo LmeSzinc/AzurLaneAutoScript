@@ -10,8 +10,8 @@ from lxml import etree
 
 from module.base.utils import *
 from module.device.connection import Connection
-from module.device.method.utils import (RETRY_TRIES, retry_sleep,
-                                        handle_adb_error, PackageNotInstalled, possible_reasons)
+from module.device.method.utils import (RETRY_TRIES, retry_sleep, handle_adb_error,
+                                        ImageTruncated, PackageNotInstalled, possible_reasons)
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -74,7 +74,13 @@ def retry(func):
 
                 def init():
                     self.detect_package()
-            # Unknown, probably a trucked image
+            # ImageTruncated
+            except ImageTruncated as e:
+                logger.error(e)
+
+                def init():
+                    pass
+            # Unknown
             except Exception as e:
                 logger.exception(e)
 
@@ -108,8 +114,17 @@ class Uiautomator2(Connection):
     def screenshot_uiautomator2(self):
         image = self.u2.screenshot(format='raw')
         image = np.frombuffer(image, np.uint8)
+        if image is None:
+            raise ImageTruncated('Empty image after reading from buffer')
+
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+        if image is None:
+            raise ImageTruncated('Empty image after cv2.imdecode')
+
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        if image is None:
+            raise ImageTruncated('Empty image after cv2.cvtColor')
+
         return image
 
     @retry
@@ -227,12 +242,31 @@ class Uiautomator2(Connection):
         return hierarchy
 
     @retry
-    def window_size_uiautomator2(self) -> t.Tuple[int, int]:
+    def resolution_uiautomator2(self) -> t.Tuple[int, int]:
         """
         Returns:
             (width, height)
         """
         return self.u2.window_size()
+
+    def resolution_check_uiautomator2(self):
+        """
+        Alas does not actively check resolution but the width and height of screenshots.
+        However, some screenshot methods do not provide device resolution, so check it here.
+
+        Raises:
+            RequestHumanTakeover: If resolution is not 1280x720
+        """
+        width, height = self.resolution_uiautomator2()
+        logger.attr('Screen_size', f'{width}x{height}')
+        if width == 1280 and height == 720:
+            return True
+        if width == 720 and height == 1280:
+            return True
+
+        logger.critical(f'Resolution not supported: {width}x{height}')
+        logger.critical('Please set emulator resolution to 1280x720')
+        raise RequestHumanTakeover
 
     @retry
     def proc_list_uiautomato2(self) -> t.List[ProcessInfo]:

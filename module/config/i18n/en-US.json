@@ -4,6 +4,10 @@
       "name": "",
       "help": ""
     },
+    "ViewResources": {
+      "name": "Resource Viewer",
+      "help": "Updated when any campaign starts"
+    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -38,6 +42,14 @@
     }
   },
   "Task": {
+    "ViewCurrentResources": {
+      "name": "Resource Viewer",
+      "help": ""
+    },
+    "ViewEquipProgress": {
+      "name": "Task.ViewEquipProgress.name",
+      "help": "Task.ViewEquipProgress.help"
+    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -76,6 +88,10 @@
     },
     "Event2": {
       "name": "Event-2",
+      "help": ""
+    },
+    "Event3": {
+      "name": "Event-3",
       "help": ""
     },
     "EventA": {
@@ -259,6 +275,66 @@
       "help": ""
     }
   },
+  "ViewCurrentResources": {
+    "_info": {
+      "name": "Resource Viewer",
+      "help": "Update when any campaign starts"
+    },
+    "oiltomaxoil": {
+      "name": "Oil / Max oil limit",
+      "help": ""
+    },
+    "cointomaxcoin": {
+      "name": "Coin / Max coin limit",
+      "help": ""
+    },
+    "gem": {
+      "name": "Gem",
+      "help": ""
+    },
+    "cube": {
+      "name": "Cube",
+      "help": "Update after everyday's gacha"
+    },
+    "pt": {
+      "name": "Event Point",
+      "help": ""
+    },
+    "opcoin": {
+      "name": "Operation Supply Coin",
+      "help": ""
+    },
+    "purplecoin": {
+      "name": "Special Item Token",
+      "help": ""
+    },
+    "actionpoint": {
+      "name": "Action Point",
+      "help": ""
+    }
+  },
+  "ViewEquipProgress": {
+    "_info": {
+      "name": "ViewEquipProgress._info.name",
+      "help": "ViewEquipProgress._info.help"
+    },
+    "234mm": {
+      "name": "ViewEquipProgress.234mm.name",
+      "help": "ViewEquipProgress.234mm.help"
+    },
+    "457mm": {
+      "name": "ViewEquipProgress.457mm.name",
+      "help": "ViewEquipProgress.457mm.help"
+    },
+    "tenrai": {
+      "name": "ViewEquipProgress.tenrai.name",
+      "help": "ViewEquipProgress.tenrai.help"
+    },
+    "152mm": {
+      "name": "ViewEquipProgress.152mm.name",
+      "help": "ViewEquipProgress.152mm.help"
+    }
+  },
   "Scheduler": {
     "_info": {
       "name": "Scheduler",
@@ -395,6 +471,7 @@
       "aScreenCap": "aScreenCap",
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
+      "DroidCast_raw": "DroidCast_raw",
       "scrcpy": "scrcpy"
     },
     "ControlMethod": {
@@ -2282,6 +2359,28 @@
       "help": "Log back into the game when the game has been ended."
     }
   },
+  "GGHandler": {
+    "_info": {
+      "name": "GGHandler._info.name",
+      "help": "GGHandler._info.help"
+    },
+    "Enabled": {
+      "name": "GGHandler.Enabled.name",
+      "help": "GGHandler.Enabled.help"
+    },
+    "AutoRestartGG": {
+      "name": "GGHandler.AutoRestartGG.name",
+      "help": "GGHandler.AutoRestartGG.help"
+    },
+    "RestartEverytime": {
+      "name": "GGHandler.RestartEverytime.name",
+      "help": "GGHandler.RestartEverytime.help"
+    },
+    "GGMutiplyingFactor": {
+      "name": "GGHandler.GGMutiplyingFactor.name",
+      "help": "GGHandler.GGMutiplyingFactor.help"
+    }
+  },
   "Storage": {
     "_info": {
       "name": "Task status",
@@ -2337,6 +2436,15 @@
     },
     "Overview": {
       "Scheduler": "Scheduler",
+      "Dashboard": "Dashboard",
+      "Oil": "Oil",
+      "Coin": "Coin",
+      "Gem": "Gem",
+      "Cube": "Cube",
+      "EventPt": "Event Pt",
+      "OperationSupplyCoin": "Operation Supply Coin",
+      "SpecialItemToken": "Special Item Token",
+      "ActionPoint": "Action Point",
       "Log": "Log",
       "Running": "Running",
       "Pending": "Pending",
