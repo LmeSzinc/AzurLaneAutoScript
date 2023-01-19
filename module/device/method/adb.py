@@ -8,8 +8,8 @@ from lxml import etree
 
 from module.base.decorator import Config
 from module.device.connection import Connection
-from module.device.method.utils import (RETRY_TRIES, retry_sleep, remove_prefix,
-                                        handle_adb_error, PackageNotInstalled)
+from module.device.method.utils import (RETRY_TRIES, retry_sleep, remove_prefix, handle_adb_error,
+                                        ImageTruncated, PackageNotInstalled)
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
@@ -50,7 +50,13 @@ def retry(func):
 
                 def init():
                     self.detect_package()
-            # Unknown, probably a trucked image
+            # ImageTruncated
+            except ImageTruncated as e:
+                logger.error(e)
+
+                def init():
+                    pass
+            # Unknown
             except Exception as e:
                 logger.exception(e)
 
@@ -78,12 +84,18 @@ def load_screencap(data):
 
     image = np.frombuffer(data, dtype=np.uint8)
     if image is None:
-        raise OSError('Empty image')
-    shape = image.shape[0]
-    image = image[shape - width * height * channel:].reshape(height, width, channel)
+        raise ImageTruncated('Empty image after reading from buffer')
+
+    try:
+        image = image[-int(width * height * channel):].reshape(height, width, channel)
+    except ValueError as e:
+        # ValueError: cannot reshape array of size 0 into shape (720,1280,4)
+        raise ImageTruncated(str(e))
+
     image = cv2.cvtColor(image, cv2.COLOR_BGRA2BGR)
     if image is None:
-        raise OSError('Empty image')
+        raise ImageTruncated('Empty image after cv2.cvtColor')
+
     return image
 
 
@@ -109,11 +121,16 @@ class Adb(Connection):
 
         image = np.frombuffer(screenshot, np.uint8)
         if image is None:
-            raise OSError('Empty image')
+            raise ImageTruncated('Empty image after reading from buffer')
+
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
         if image is None:
-            raise OSError('Empty image')
+            raise ImageTruncated('Empty image after cv2.imdecode')
+
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        if image is None:
+            raise ImageTruncated('Empty image after cv2.cvtColor')
+
         return image
 
     def __process_screenshot(self, screenshot):

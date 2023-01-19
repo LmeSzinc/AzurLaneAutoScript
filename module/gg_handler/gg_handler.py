@@ -107,8 +107,7 @@ class gg_handler(base):
         if self.f == 200:
             logger.info('Skip factor input')
             return 0
-        logger.info(self.f)
-        method = [
+        method=[
                 BUTTON_GG_SCRIPT_PANEL_NUM0,
                 BUTTON_GG_SCRIPT_PANEL_NUM1,
                 BUTTON_GG_SCRIPT_PANEL_NUM2,
