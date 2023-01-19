@@ -100,13 +100,13 @@ class LoginHandler(UI):
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=5):
                 continue
         
-        if gg_enable and gg_auto:
-            gg(config=self.config,
-               device=self.device,
-               switch=True,
-               factor=deep_get(self.config.data,
-                               'GameManager.GGHandler.GGMutiplyingFactor')
-               ).gg_run()
+        # if gg_enable and gg_auto:
+        #     gg(config=self.config,
+        #        device=self.device,
+        #        switch=True,
+        #        factor=deep_get(self.config.data,
+        #                        'GameManager.GGHandler.GGMutiplyingFactor')
+        #        ).gg_run()
         
         return True
 
