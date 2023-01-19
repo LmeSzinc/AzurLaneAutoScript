@@ -541,9 +541,13 @@ class AzurLaneAutoScript:
         gg_data(self.config, target='gg_auto', value=gg_auto).set_data()
         ggdata = gg_data(self.config).get_data()
         gg_on = ggdata["gg_on"]
-        if deep_get(d=self.config.data, keys='GameManager.GGHandler.RestartEverytime', default=False) and gg_on:
-           from module.handler.login import LoginHandler
-           LoginHandler(config=self.config, device=self.device).app_restart()
+        logger.info(
+            f'GG status:\n               Enabled={ggdata["gg_enable"]} '
+            f'AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
+        if (deep_get(d=self.config.data, keys='GameManager.GGHandler.RestartEverytime', default=True) and gg_enable) \
+                or (gg_on and gg_enable):
+            from module.handler.login import LoginHandler
+            LoginHandler(config=self.config, device=self.device).app_restart()
         while 1:
             # Check gg config only when a new task begins
             if not is_first and gg_on:
