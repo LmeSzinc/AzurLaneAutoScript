@@ -68,7 +68,7 @@ class AzurLaneAutoScript:
             gg_auto = False
             gg_data(self.config, target='gg_auto', value=False).set_data()
             from module.handler.login import LoginHandler
-            LoginHandler(config=self.config,device=self.device).app_restart()
+            LoginHandler(config=self.config, device=self.device).app_restart()
             logger.warning('Disabled GG')
 
     def _gg_set_on(self):
@@ -85,10 +85,10 @@ class AzurLaneAutoScript:
                        ).gg_run()
             logger.warning('Enabled GG')
 
-    def _gg_check(self,auto=True):
+    def _gg_check(self, auto=True):
         global gg_on, gg_auto, gg_enable, ggdata
         gg_data(self.config, target='gg_auto', value=auto).set_data()
-        gg_auto=auto
+        gg_auto = auto
         logger.info(
             f'Check GG status:\n               Enabled={ggdata["gg_enable"]} AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
         if gg_auto:
@@ -534,7 +534,9 @@ class AzurLaneAutoScript:
         logger.info(f'Start scheduler loop: {self.config_name}')
         is_first = True
         failure_record = {}
-
+        if deep_get(d=self.config.data, keys='GameManager.GGHandler.RestartEverytime', default=False):
+           from module.handler.login import LoginHandler
+           LoginHandler(config=self.config, device=self.device).app_restart()
         while 1:
             # Check gg config only when a new task begins
             global gg_on, gg_auto, gg_enable, ggdata
