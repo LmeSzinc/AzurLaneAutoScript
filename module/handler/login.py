@@ -33,16 +33,22 @@ class LoginHandler(UI):
         gg_enable = ggdata['gg_enable']
         gg_auto = ggdata['gg_auto']
         if gg_enable:
-            gg_data(self.config,target='gg_on',value=False).set_data()
             logger.info(f'GG status:\n               Enabled={ggdata["gg_enable"]} AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
             from module.gg_handler.gg_handler import gg_handler as gg
-            gg(config=self.config,
-               device=self.device,
-               switch=True,
-               factor=deep_get(self.config.data,
-                               'GameManager.GGHandler.GGMutiplyingFactor',
-                               default=False)
-               ).gg_skip_error()
+            temp_bo=1
+            for i in range(5):
+                if gg(config=self.config,
+                      device=self.device,
+                      switch=True,
+                      factor=deep_get(self.config.data,
+                                      'GameManager.GGHandler.GGMutiplyingFactor',
+                                      default=False)
+                     ).gg_skip_error():
+                    temp_bo = 0
+                    break
+
+            if temp_bo:
+                logger.hr('Game died without GG panel')
         
         confirm_timer = Timer(1.5, count=4).start()
         orientation_timer = Timer(5)
@@ -100,13 +106,13 @@ class LoginHandler(UI):
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=5):
                 continue
         
-        if gg_enable and gg_auto:
-            gg(config=self.config,
-               device=self.device,
-               switch=True,
-               factor=deep_get(self.config.data,
-                               'GameManager.GGHandler.GGMutiplyingFactor')
-               ).gg_run()
+        # if gg_enable and gg_auto:
+        #     gg(config=self.config,
+        #        device=self.device,
+        #        switch=True,
+        #        factor=deep_get(self.config.data,
+        #                        'GameManager.GGHandler.GGMutiplyingFactor')
+        #        ).gg_run()
         
         return True
 
@@ -176,11 +182,11 @@ class LoginHandler(UI):
     def app_restart(self):
         logger.hr('App restart')
         self.device.app_stop()
+        from module.gg_handler.gg_data import gg_data
+        gg_data(config=self.config, target='gg_on', value=False).set_data()
         self.device.app_start()
         self.handle_app_login()
         # self.ensure_no_unfinished_campaign()
-        if self.config.task == 'Restart':
-            self.config.task_delay(server_update=True)
 
     def ensure_no_unfinished_campaign(self, confirm_wait=3):
         """

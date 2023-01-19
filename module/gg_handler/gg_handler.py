@@ -18,15 +18,13 @@ class gg_handler(base):
             in: Game down error
             out: restart
         """
-        self.device.sleep(3)
+        self.device.sleep(1)
         self.device.screenshot()
         if base.appear(self, BUTTON_GG_RESTART_ERROR, offset=30):
             logger.info('Game died with GG panel')
             self.device.click(BUTTON_GG_RESTART_ERROR)
-            self.device.sleep(1)
-            
-        else:
-            logger.info('Game died with no GG panel')
+            return 1
+        return 0
     
     def _enter_gg(self):
         '''
