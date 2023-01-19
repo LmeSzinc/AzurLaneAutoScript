@@ -574,7 +574,7 @@ class AlasGUI(Frame):
                 [
                     put_scope("scheduler-bar"),
                     put_scope("groups"),
-                    put_scope("log-bar"),
+                    put_scope("dashboard"),
                     put_scope("log", [put_html("")]),
                 ],
             )
@@ -588,7 +588,7 @@ class AlasGUI(Frame):
                         [
                             put_scope(
                                 "_daemon_upper",
-                                [put_scope("scheduler-bar"), put_scope("log-bar")],
+                                [put_scope("scheduler-bar"), put_scope("dashboard")],
                             ),
                             put_scope("groups"),
                             put_scope("log", [put_html("")]),
@@ -617,16 +617,43 @@ class AlasGUI(Frame):
             scope="scheduler_btn",
         )
 
-        with use_scope("log-bar"):
-            put_text(t("Gui.Overview.Log")).style(
-                "font-size: 1.25rem; margin: auto .5rem auto;"
-            )
+        with use_scope("dashboard"):
             put_scope(
-                "log-bar-btns",
+                "dashboard-bar",
                 [
-                    put_scope("log_scroll_btn"),
+                    put_text(t("Gui.Overview.Dashboard")).style(
+                        "font-size: 1.25rem; margin: auto .5rem auto;"
+                    ),
+                    put_html('<hr class="hr-group">'),
+                    put_table(
+                        [
+                            [t("Gui.Overview.Oil"),t("Gui.Overview.Coin"),t("Gui.Overview.EventPt"),t("Gui.Overview.OperationSupplyCoin")],
+                            ["oilvalue","coinvalue","eventptvalue","operationsupplycoinvalue"],
+                        ],
+                    ),
+                    put_table(
+                        [
+                            [t("Gui.Overview.Gem"),t("Gui.Overview.Cube"),t("Gui.Overview.ActionPoint"),t("Gui.Overview.SpecialItemToken")],
+                            ["gemvalue","cubevalue","actionpointvalue","specialitemtokenvalue"],
+                        ]
+                    )
                 ],
-            )
+            ),
+
+            put_scope(
+                "log-bar",
+                [
+                    put_text(t("Gui.Overview.Log")).style(
+                        "font-size: 1.25rem; margin: auto .5rem auto;"
+                    ),
+                    put_scope(
+                        "log-bar-btns",
+                        [
+                            put_scope("log_scroll_btn"),
+                        ],
+                    ),
+                ],
+            ),
 
         switch_log_scroll = BinarySwitchButton(
             label_on=t("Gui.Button.ScrollON"),
