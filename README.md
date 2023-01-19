@@ -12,6 +12,8 @@
 
 4，将悬浮窗放在石油上，保证遮盖，不要隐藏以免出现后宅心情幸运币导致的误触
 
+![image](https://user-images.githubusercontent.com/60862861/213346533-a2fd836a-a603-4ce0-b75f-8169d90e1884.png)
+
 5，修改小开配置文件，建议全部打开，不全部打开时可能有少许逻辑问题
 
 ![image](https://user-images.githubusercontent.com/60862861/213346355-7823425c-26d5-454b-bfc1-9cf91edf3dc3.png)
