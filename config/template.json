@@ -1889,6 +1889,12 @@
     "GameManager": {
       "AutoRestart": true
     },
+    "GGHandler": {
+      "Enabled": false,
+      "AutoRestartGG": false,
+      "RestartEverytime": true,
+      "GGMutiplyingFactor": 200
+    },
     "Storage": {
       "Storage": {}
     }
