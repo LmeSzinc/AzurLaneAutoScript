@@ -275,7 +275,7 @@ class Raid(MapOperation, Combat, CampaignEvent):
                 if timeout.reached():
                     logger.warning('Wait PT timeout, assume it is')
                     return pt
-                if pt in [70000]:
+                if pt in [70000, 70001]:
                     continue
                 else:
                     return pt
