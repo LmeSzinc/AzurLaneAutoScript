@@ -4,5 +4,11 @@ rules:
     upstream: LmeSzinc:master
     mergeMethod: merge
     mergeUnstable: true
+
+  - base: dev
+    upstream: Zuosizhu:master
+    mergeMethod: merge
+    mergeUnstable: true
+    
 label: ":arrow_heading_down: pull"
 conflictLabel: "merge-conflict"
