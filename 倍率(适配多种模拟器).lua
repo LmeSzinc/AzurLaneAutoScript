@@ -29,7 +29,7 @@ function HS9()
 	gg.editAll(n, gg.TYPE_DOUBLE)
 	gg.getResultCount(results)
 	-- 判断
-	if results==0 then
+	if results==nil then
 		-- 清除
 		gg.clearResults()
 		gg.setRanges(32)
@@ -57,7 +57,7 @@ function HS666()
 	gg.editAll("1", gg.TYPE_DOUBLE)
 	gg.getResultCount(results)
 	-- 判断
-	if results==0 then
+	if results==nil then
 		-- 清除
 		gg.clearResults()
 		gg.setRanges(32)

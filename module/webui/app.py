@@ -366,63 +366,20 @@ class AlasGUI(Frame):
             put_scope(
                 "dashboard-bar",
                 [
-
-                    put_scope(
-                        "oil",
+                    put_text(t("Gui.Overview.Dashboard")),
+                    put_html('<hr class="hr-group">'),
+                    put_table(
                         [
-                            put_text(t("Gui.Overview.Oil")),
-                            put_scope("oilvalue"),
+                            [t("Gui.Overview.Oil"),t("Gui.Overview.Coin"),t("Gui.Overview.EventPt"),t("Gui.Overview.OperationSupplyCoin")],
+                            ["oilvalue","coinvalue","eventptvalue","operationsupplycoinvalue"],
                         ],
                     ),
-                    put_scope(
-                        "coin",
+                    put_table(
                         [
-                            put_text(t("Gui.Overview.Coin")),
-                            put_scope("coinvalue"),
-                        ],
-                    ),
-                    put_scope(
-                        "gem",
-                        [
-                            put_text(t("Gui.Overview.Gem")),
-                            put_scope("gemvalue"),
-                        ],
-                    ),
-                    put_scope(
-                        "cube",
-                        [
-                            put_text(t("Gui.Overview.Cube")),
-                            put_scope("cubevalue"),
-                        ],
-                    ),
-                    put_scope(
-                        "eventpt",
-                        [
-                            put_text(t("Gui.Overview.EventPt")),
-                            put_scope("eventptvalue"),
-                        ],
-                    ),
-                    put_scope(
-                        "actionpoint",
-                        [
-                            put_text(t("Gui.Overview.ActionPoint")),
-                            put_scope("actionpointvalue"),
-                        ],
-                    ),
-                    put_scope(
-                        "operationsupplycoin",
-                        [
-                            put_text(t("Gui.Overview.OperationSupplyCoin")),
-                            put_scope("operationsupplycoinvalue"),
-                        ],
-                    ),
-                    put_scope(
-                        "specialitemtoken",
-                        [
-                            put_text(t("Gui.Overview.SpecialItemToken")),
-                            put_scope("specialitemtokenvalue"),
-                        ],
-                    ),
+                            [t("Gui.Overview.Gem"),t("Gui.Overview.Cube"),t("Gui.Overview.ActionPoint"),t("Gui.Overview.SpecialItemToken")],
+                            ["gemvalue","cubevalue","actionpointvalue","specialitemtokenvalue"],
+                        ]
+                    )
                 ],
             ),
 
@@ -617,7 +574,7 @@ class AlasGUI(Frame):
                 [
                     put_scope("scheduler-bar"),
                     put_scope("groups"),
-                    put_scope("log-bar"),
+                    put_scope("dashboard"),
                     put_scope("log", [put_html("")]),
                 ],
             )
@@ -631,7 +588,7 @@ class AlasGUI(Frame):
                         [
                             put_scope(
                                 "_daemon_upper",
-                                [put_scope("scheduler-bar"), put_scope("log-bar")],
+                                [put_scope("scheduler-bar"), put_scope("dashboard")],
                             ),
                             put_scope("groups"),
                             put_scope("log", [put_html("")]),
@@ -660,16 +617,43 @@ class AlasGUI(Frame):
             scope="scheduler_btn",
         )
 
-        with use_scope("log-bar"):
-            put_text(t("Gui.Overview.Log")).style(
-                "font-size: 1.25rem; margin: auto .5rem auto;"
-            )
+        with use_scope("dashboard"):
             put_scope(
-                "log-bar-btns",
+                "dashboard-bar",
                 [
-                    put_scope("log_scroll_btn"),
+                    put_text(t("Gui.Overview.Dashboard")).style(
+                        "font-size: 1.25rem; margin: auto .5rem auto;"
+                    ),
+                    put_html('<hr class="hr-group">'),
+                    put_table(
+                        [
+                            [t("Gui.Overview.Oil"),t("Gui.Overview.Coin"),t("Gui.Overview.EventPt"),t("Gui.Overview.OperationSupplyCoin")],
+                            ["oilvalue","coinvalue","eventptvalue","operationsupplycoinvalue"],
+                        ],
+                    ),
+                    put_table(
+                        [
+                            [t("Gui.Overview.Gem"),t("Gui.Overview.Cube"),t("Gui.Overview.ActionPoint"),t("Gui.Overview.SpecialItemToken")],
+                            ["gemvalue","cubevalue","actionpointvalue","specialitemtokenvalue"],
+                        ]
+                    )
                 ],
-            )
+            ),
+
+            put_scope(
+                "log-bar",
+                [
+                    put_text(t("Gui.Overview.Log")).style(
+                        "font-size: 1.25rem; margin: auto .5rem auto;"
+                    ),
+                    put_scope(
+                        "log-bar-btns",
+                        [
+                            put_scope("log_scroll_btn"),
+                        ],
+                    ),
+                ],
+            ),
 
         switch_log_scroll = BinarySwitchButton(
             label_on=t("Gui.Button.ScrollON"),

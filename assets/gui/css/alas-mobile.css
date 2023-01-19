@@ -54,6 +54,10 @@
     grid-auto-flow: row;
 }
 
+#pywebio-scope-dashboard {
+    grid-template-rows: auto auto 1fr;
+}
+
 #pywebio-scope-running,
 #pywebio-scope-pending,
 #pywebio-scope-waiting,
