@@ -579,12 +579,12 @@ class AzurLaneAutoScript:
                     is_first = False
                 continue
 
-            if is_first and \
-                (deep_get(d=self.config.data,
-                          keys='GameManager.GGHandler.RestartEverytime',
-                          default=True)
-                 and gg_enable) \
-                    or (gg_on and gg_enable):
+            if is_first \
+          and ((deep_get(d=self.config.data,
+                         keys='GameManager.GGHandler.RestartEverytime',
+                         default=True)
+                and gg_enable)
+           or (gg_on and gg_enable)):
                 from module.handler.login import LoginHandler
                 LoginHandler(config=self.config, device=self.device).app_restart()
 
