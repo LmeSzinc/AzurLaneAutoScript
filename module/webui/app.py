@@ -572,9 +572,10 @@ class AlasGUI(Frame):
             put_scope(
                 "daemon-overview",
                 [
+                    put_scope("dashboard-bar-bar"),
                     put_scope("scheduler-bar"),
                     put_scope("groups"),
-                    put_scope("dashboard"),
+                    put_scope("log-bar"),
                     put_scope("log", [put_html("")]),
                 ],
             )
@@ -582,19 +583,25 @@ class AlasGUI(Frame):
             put_scope(
                 "daemon-overview",
                 [
-                    put_none(),
                     put_scope(
                         "_daemon",
                         [
+                            put_scope("dashboard-bar-bar"),
                             put_scope(
-                                "_daemon_upper",
-                                [put_scope("scheduler-bar"), put_scope("dashboard")],
+                                "_daemon_row",
+                                [
+                                    put_scope(
+                                        "_daemon_upper",
+                                        [put_scope("scheduler-bar"), put_scope("groups")],
+                                    ),
+                                    put_scope(
+                                        "_daemon_upper2",
+                                        [put_scope("log-bar"),put_scope("log", [put_html("")])],
+                                    ),
+                                ],
                             ),
-                            put_scope("groups"),
-                            put_scope("log", [put_html("")]),
                         ],
                     ),
-                    put_none(),
                 ],
             )
 
@@ -617,7 +624,7 @@ class AlasGUI(Frame):
             scope="scheduler_btn",
         )
 
-        with use_scope("dashboard"):
+        with use_scope("dashboard-bar-bar"):
             put_scope(
                 "dashboard-bar",
                 [
@@ -635,25 +642,21 @@ class AlasGUI(Frame):
                         [
                             [t("Gui.Overview.Gem"),t("Gui.Overview.Cube"),t("Gui.Overview.ActionPoint"),t("Gui.Overview.SpecialItemToken")],
                             ["gemvalue","cubevalue","actionpointvalue","specialitemtokenvalue"],
-                        ]
-                    )
-                ],
-            ),
-
-            put_scope(
-                "log-bar",
-                [
-                    put_text(t("Gui.Overview.Log")).style(
-                        "font-size: 1.25rem; margin: auto .5rem auto;"
-                    ),
-                    put_scope(
-                        "log-bar-btns",
-                        [
-                            put_scope("log_scroll_btn"),
                         ],
                     ),
                 ],
+            )
+
+        with use_scope("log-bar"):
+            put_text(t("Gui.Overview.Log")).style(
+                "font-size: 1.25rem; margin: auto .5rem auto;"
             ),
+            put_scope(
+                "log-bar-btns",
+                [
+                    put_scope("log_scroll_btn"),
+                ],
+            )
 
         switch_log_scroll = BinarySwitchButton(
             label_on=t("Gui.Button.ScrollON"),
