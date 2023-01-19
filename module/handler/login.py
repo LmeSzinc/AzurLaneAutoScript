@@ -41,7 +41,7 @@ class LoginHandler(UI):
                       device=self.device,
                       switch=True,
                       factor=deep_get(self.config.data,
-                                      'GameManager.GGHandler.GGMutiplyingFactor',
+                                      'GameManager.GGHandler.GGMultiplyingFactor',
                                       default=False)
                      ).gg_skip_error():
                     temp_bo = 0
@@ -111,7 +111,7 @@ class LoginHandler(UI):
         #        device=self.device,
         #        switch=True,
         #        factor=deep_get(self.config.data,
-        #                        'GameManager.GGHandler.GGMutiplyingFactor')
+        #                        'GameManager.GGHandler.GGMultiplyingFactor')
         #        ).gg_run()
         
         return True

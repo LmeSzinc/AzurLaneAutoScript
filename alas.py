@@ -628,5 +628,5 @@ class AzurLaneAutoScript:
 
 
 if __name__ == '__main__':
-    alas = AzurLaneAutoScript()
+    alas = AzurLaneAutoScript(config_name='alas')
     alas.loop()

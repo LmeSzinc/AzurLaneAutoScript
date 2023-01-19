@@ -440,7 +440,7 @@ class GeneratedConfig:
     GGHandler_Enabled = False
     GGHandler_AutoRestartGG = False
     GGHandler_RestartEverytime = True
-    GGHandler_GGMutiplyingFactor = 200
+    GGHandler_GGMultiplyingFactor = 200
 
     # Group `Storage`
     Storage_Storage = {}

@@ -664,4 +664,4 @@ GGHandler:
   Enabled: false
   AutoRestartGG: false
   RestartEverytime: true
-  GGMutiplyingFactor: 200
+  GGMultiplyingFactor: 200

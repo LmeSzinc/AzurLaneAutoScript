@@ -9217,7 +9217,7 @@
         "type": "checkbox",
         "value": true
       },
-      "GGMutiplyingFactor": {
+      "GGMultiplyingFactor": {
         "type": "input",
         "value": 200
       }
