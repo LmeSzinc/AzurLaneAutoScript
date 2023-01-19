@@ -9213,6 +9213,10 @@
         "type": "checkbox",
         "value": false
       },
+      "RestartEverytime": {
+        "type": "checkbox",
+        "value": true
+      },
       "GGMutiplyingFactor": {
         "type": "input",
         "value": 200

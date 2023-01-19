@@ -2372,6 +2372,10 @@
       "name": "自动重启GG",
       "help": "是否在重启后自动重启倍率"
     },
+    "RestartEverytime": {
+      "name": "每次启动Alas时重启",
+      "help": "打开以初始化倍率属性。如果你没有手动操作的坏习惯，可以关闭此选项"
+    },
     "GGMutiplyingFactor": {
       "name": "倍率",
       "help": "建议数值1-9999，没做数字检查，乱输后果自负"
@@ -2432,6 +2436,15 @@
     },
     "Overview": {
       "Scheduler": "调度器",
+      "Dashboard": "仪表盘",
+      "Oil": "石油",
+      "Coin": "物资",
+      "Gem": "钻石",
+      "Cube": "魔方",
+      "EventPt": "活动PT",
+      "OperationSupplyCoin": "作战补给凭证",
+      "SpecialItemToken": "特殊兑换凭证",
+      "ActionPoint": "行动力",
       "Log": "日志",
       "Running": "运行中",
       "Pending": "队列中",

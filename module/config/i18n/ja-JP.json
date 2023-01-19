@@ -2372,6 +2372,10 @@
       "name": "GGHandler.AutoRestartGG.name",
       "help": "GGHandler.AutoRestartGG.help"
     },
+    "RestartEverytime": {
+      "name": "GGHandler.RestartEverytime.name",
+      "help": "GGHandler.RestartEverytime.help"
+    },
     "GGMutiplyingFactor": {
       "name": "GGHandler.GGMutiplyingFactor.name",
       "help": "GGHandler.GGMutiplyingFactor.help"
@@ -2432,6 +2436,15 @@
     },
     "Overview": {
       "Scheduler": "Gui.Overview.Scheduler",
+      "Dashboard": "Dashboard",
+      "Oil": "Oil",
+      "Coin": "Coin",
+      "Gem": "Gem",
+      "Cube": "Cube",
+      "EventPt": "Event Pt",
+      "OperationSupplyCoin": "Operation Supply Coin",
+      "SpecialItemToken": "Special Item Token",
+      "ActionPoint": "Action Point",
       "Log": "Gui.Overview.Log",
       "Running": "Gui.Overview.Running",
       "Pending": "Gui.Overview.Pending",

@@ -2372,6 +2372,10 @@
       "name": "GGHandler.AutoRestartGG.name",
       "help": "GGHandler.AutoRestartGG.help"
     },
+    "RestartEverytime": {
+      "name": "GGHandler.RestartEverytime.name",
+      "help": "GGHandler.RestartEverytime.help"
+    },
     "GGMutiplyingFactor": {
       "name": "GGHandler.GGMutiplyingFactor.name",
       "help": "GGHandler.GGMutiplyingFactor.help"
@@ -2432,6 +2436,15 @@
     },
     "Overview": {
       "Scheduler": "調度器",
+      "Dashboard": "儀表盤",
+      "Oil": "石油",
+      "Coin": "物資",
+      "Gem": "鑽石",
+      "Cube": "魔方",
+      "EventPt": "活動PT",
+      "OperationSupplyCoin": "作戰補給憑證",
+      "SpecialItemToken": "特殊兌換憑證",
+      "ActionPoint": "行動力",
       "Log": "日誌",
       "Running": "執行中",
       "Pending": "佇列中",
