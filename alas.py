@@ -289,7 +289,7 @@ class AzurLaneAutoScript:
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
     def raid_daily(self):
-        self._gg_check()
+        self._gg_check(False)
         from module.raid.daily import RaidDaily
         RaidDaily(config=self.config, device=self.device).run()
 
@@ -422,7 +422,7 @@ class AzurLaneAutoScript:
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
     def raid(self):
-        self._gg_check()
+        self._gg_check(False)
         from module.raid.run import RaidRun
         RaidRun(config=self.config, device=self.device).run()
 
@@ -534,19 +534,30 @@ class AzurLaneAutoScript:
         logger.info(f'Start scheduler loop: {self.config_name}')
         is_first = True
         failure_record = {}
-        if deep_get(d=self.config.data, keys='GameManager.GGHandler.RestartEverytime', default=False):
-           from module.handler.login import LoginHandler
-           LoginHandler(config=self.config, device=self.device).app_restart()
+        global gg_on, gg_auto, gg_enable, ggdata
+        gg_enable = deep_get(d=self.config.data, keys='GameManager.GGHandler.Enabled', default=False)
+        gg_auto = deep_get(d=self.config.data, keys='GameManager.GGHandler.AutoRestartGG', default=False)
+        gg_data(self.config, target='gg_enable', value=gg_enable).set_data()
+        gg_data(self.config, target='gg_auto', value=gg_auto).set_data()
+        ggdata = gg_data(self.config).get_data()
+        gg_on = ggdata["gg_on"]
+        logger.info(
+            f'GG status:\n               Enabled={ggdata["gg_enable"]} '
+            f'AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
+        if (deep_get(d=self.config.data, keys='GameManager.GGHandler.RestartEverytime', default=True) and gg_enable) \
+                or (gg_on and gg_enable):
+            from module.handler.login import LoginHandler
+            LoginHandler(config=self.config, device=self.device).app_restart()
         while 1:
             # Check gg config only when a new task begins
-            global gg_on, gg_auto, gg_enable, ggdata
-            gg_enable = deep_get(d=self.config.data, keys='GameManager.GGHandler.Enabled', default=False)
-            gg_auto = deep_get(d=self.config.data, keys='GameManager.GGHandler.AutoRestartGG', default=False)
-            gg_data(self.config, target='gg_enable', value=gg_enable).set_data()
-            gg_data(self.config, target='gg_auto', value=gg_auto).set_data()
-            ggdata = gg_data(self.config).get_data()
-            gg_on = ggdata["gg_on"]
-            logger.info(f'GG status:\n               Enabled={ggdata["gg_enable"]} AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
+            if not is_first and gg_on:
+                gg_enable = deep_get(d=self.config.data, keys='GameManager.GGHandler.Enabled', default=False)
+                gg_auto = deep_get(d=self.config.data, keys='GameManager.GGHandler.AutoRestartGG', default=False)
+                gg_data(self.config, target='gg_enable', value=gg_enable).set_data()
+                gg_data(self.config, target='gg_auto', value=gg_auto).set_data()
+                ggdata = gg_data(self.config).get_data()
+                gg_on = ggdata["gg_on"]
+                logger.info(f'GG status:\n               Enabled={ggdata["gg_enable"]} AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
             # Check update event from GUI
             if self.stop_event is not None:
                 if self.stop_event.is_set():
