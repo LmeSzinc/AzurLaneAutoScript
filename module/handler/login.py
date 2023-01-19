@@ -101,7 +101,6 @@ class LoginHandler(UI):
                 continue
         
         if gg_enable and gg_auto:
-            gg_data(config=self.config, target='gg_on', value=True).set_data()
             gg(config=self.config,
                device=self.device,
                switch=True,

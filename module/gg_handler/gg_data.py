@@ -38,14 +38,17 @@ class gg_data(ModuleBase):
                                                   default=False)
                 tmp.write('gg_enable=' + str(self.ggdata['gg_enable']) + '\n')
                 tmp.write('gg_auto=' + str(self.ggdata['gg_auto']) + '\n')
-                self.config.task_call('Restart')
-                self.device.app_stop()
+                tmp.close()
+                if not deep_get(d=self.config.data, keys='GameManager.GGHandler.RestartEverytime', default=True):
+                    from module.handler.login import LoginHandler
+                    LoginHandler(config=self.config, device=self.device).app_restart()
             else:
                 for i in range(3):
                     line = tmp.readline()
                     line1, line2 = line.split('=')
                     self.ggdata[line1] = True if line2[:-1] == 'True' else False
-            tmp.close()
+                tmp.close()
+
         else:
             from module.logger import logger
             logger.warning('No config data, assume in need of deleting temp')
@@ -75,9 +78,9 @@ class gg_data(ModuleBase):
         tmp.close()
 
 
-if __name__ == '__main__':
-    config = AzurLaneConfig(config_name='alas')
-    print(gg_data(config).get_data())
-    gg_data(config=config, target='gg_on', value=True).set_data()
-    print(gg_data(config).get_data())
-    gg_data().dele()
+# if __name__ == '__main__':
+#     config = AzurLaneConfig(config_name='alas')
+#     print(gg_data(config).get_data())
+#     gg_data(config=config, target='gg_on', value=True).set_data()
+#     print(gg_data(config).get_data())
+#     gg_data().dele()
