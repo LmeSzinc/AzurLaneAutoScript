@@ -659,6 +659,10 @@
       "name": "分類強化",
       "help": "每項艦船分類最多強化多少艘艦船，\n戰鬥中的艦船會被跳過且不計入，\n優先判斷是否有強化材料"
     },
+    "AllowNoPreserve": {
+      "name": "Retirement.AllowNoPreserve.name",
+      "help": "Retirement.AllowNoPreserve.help"
+    },
     "OldRetireN": {
       "name": "退役白船 ( N )",
       "help": "以下設定僅適用於傳統退役"
@@ -2436,15 +2440,6 @@
     },
     "Overview": {
       "Scheduler": "調度器",
-      "Dashboard": "儀表盤",
-      "Oil": "石油",
-      "Coin": "物資",
-      "Gem": "鑽石",
-      "Cube": "魔方",
-      "EventPt": "活動PT",
-      "OperationSupplyCoin": "作戰補給憑證",
-      "SpecialItemToken": "特殊兌換憑證",
-      "ActionPoint": "行動力",
       "Log": "日誌",
       "Running": "執行中",
       "Pending": "佇列中",

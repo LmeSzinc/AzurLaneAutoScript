@@ -659,6 +659,10 @@
       "name": "Retirement.EnhanceCheckPerCategory.name",
       "help": "Retirement.EnhanceCheckPerCategory.help"
     },
+    "AllowNoPreserve": {
+      "name": "Retirement.AllowNoPreserve.name",
+      "help": "Retirement.AllowNoPreserve.help"
+    },
     "OldRetireN": {
       "name": "Retirement.OldRetireN.name",
       "help": "Retirement.OldRetireN.help"
@@ -2436,15 +2440,6 @@
     },
     "Overview": {
       "Scheduler": "Gui.Overview.Scheduler",
-      "Dashboard": "Dashboard",
-      "Oil": "Oil",
-      "Coin": "Coin",
-      "Gem": "Gem",
-      "Cube": "Cube",
-      "EventPt": "Event Pt",
-      "OperationSupplyCoin": "Operation Supply Coin",
-      "SpecialItemToken": "Special Item Token",
-      "ActionPoint": "Action Point",
       "Log": "Gui.Overview.Log",
       "Running": "Gui.Overview.Running",
       "Pending": "Gui.Overview.Pending",
