@@ -409,11 +409,11 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                     logger.warning('No ship retired, trying to reset quick retire settings to "keep_limit_break"')
                     self.quick_retire_setting_set(filter_5='keep_limit_break')
                     total = self.retire_ships_one_click()
-                # Not determined, this may cause user loss
-                # if not total:
-                #     logger.warning('No ship retired, trying to reset quick retire settings to "all"')
-                #     self.quick_retire_setting_set('all')
-                #     total = self.retire_ships_one_click()
+                # Not determined, this may cause user loss (X) New Config, let user choose
+                if not total and self.config.Retirement_AllowNoPreserve:
+                    logger.warning('No ship retired, trying to reset quick retire settings to "all"')
+                    self.quick_retire_setting_set('all')
+                    total = self.retire_ships_one_click()
             total += self.retire_gems_farming_flagships(keep_one=total > 0)
             if not total:
                 logger.critical('No ship retired')

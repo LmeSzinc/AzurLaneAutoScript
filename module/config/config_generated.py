@@ -78,6 +78,7 @@ class GeneratedConfig:
     Retirement_EnhanceFavourite = False
     Retirement_EnhanceFilter = None
     Retirement_EnhanceCheckPerCategory = 2
+    Retirement_AllowNoPreserve = False
     Retirement_OldRetireN = True
     Retirement_OldRetireR = True
     Retirement_OldRetireSR = False
