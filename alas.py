@@ -92,7 +92,7 @@ class AzurLaneAutoScript:
         logger.info(
             f'Check GG status:\n               Enabled={ggdata["gg_enable"]} AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
         if gg_auto:
-            if not gg_on:
+            if not ggdata['gg_on']:
                 self._gg_set_on()
         elif gg_on:
             self._gg_reset()

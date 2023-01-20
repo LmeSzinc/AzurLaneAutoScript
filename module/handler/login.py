@@ -38,19 +38,13 @@ class LoginHandler(UI):
             gg_data(config=self.config, target='gg_on', value=False).set_data()
             from module.gg_handler.gg_handler import gg_handler as gg
             temp_bo=1
-            for i in range(5):
-                if gg(config=self.config,
-                      device=self.device,
-                      switch=True,
-                      factor=deep_get(self.config.data,
-                                      'GameManager.GGHandler.GGMultiplyingFactor',
-                                      default=False)
-                     ).gg_skip_error():
-                    temp_bo = 0
-                    break
+            if gg(config=self.config,
+                  device=self.device,
+                  ).gg_skip_error():
+                temp_bo = 0
 
             if temp_bo:
-                logger.hr('Game died without GG panel')
+                logger.hr('Assume game died without GG panel')
         
         confirm_timer = Timer(1.5, count=4).start()
         orientation_timer = Timer(5)
