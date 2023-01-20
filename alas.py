@@ -418,6 +418,11 @@ class AzurLaneAutoScript:
         from module.campaign.run import CampaignRun
         CampaignRun(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
+    def event3(self):
+        self._gg_check()
+        from module.campaign.run import CampaignRun
+        CampaignRun(config=self.config, device=self.device).run(
+            name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
     def raid(self):
         self._gg_check(False)
@@ -533,6 +538,12 @@ class AzurLaneAutoScript:
         is_first = True
         failure_record = {}
         global gg_on, gg_auto, gg_enable, ggdata
+        #Check gg status before possible restart
+        gg_enable = deep_get(d=self.config.data, keys='GameManager.GGHandler.Enabled', default=False)
+        gg_auto = deep_get(d=self.config.data, keys='GameManager.GGHandler.AutoRestartGG', default=False)
+        gg_data(self.config, target='gg_enable', value=gg_enable).set_data()
+        gg_data(self.config, target='gg_auto', value=gg_auto).set_data()
+
         while 1:
             # Check update event from GUI
             if self.stop_event is not None:
