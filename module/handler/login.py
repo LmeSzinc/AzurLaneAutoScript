@@ -20,24 +20,20 @@ from module.ui.page import MAIN_CHECK
 from module.ui.ui import UI
 from module.config.config import deep_get
 
+
 class LoginHandler(UI):
-    def _handle_app_login(self):
-        """
-        Pages:
-            in: Any page
-            out: page_main
-        """
-        logger.hr('App login')
+    def _handle_gg(self):
         from module.gg_handler.gg_data import gg_data
         ggdata = gg_data(config=self.config).get_data()
         gg_enable = ggdata['gg_enable']
         gg_auto = ggdata['gg_auto']
         if gg_enable:
-            logger.info(f'GG status:\n               Enabled={ggdata["gg_enable"]} AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
+            logger.info(f'GG status:')
+            logger.info(f'Enabled={ggdata["gg_enable"]} AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
             from module.gg_handler.gg_data import gg_data
             gg_data(config=self.config, target='gg_on', value=False).set_data()
             from module.gg_handler.gg_handler import gg_handler as gg
-            temp_bo=1
+            temp_bo = 1
             if gg(config=self.config,
                   device=self.device,
                   ).gg_skip_error():
@@ -45,7 +41,15 @@ class LoginHandler(UI):
 
             if temp_bo:
                 logger.hr('Assume game died without GG panel')
-        
+
+    def _handle_app_login(self):
+        """
+        Pages:
+            in: Any page
+            out: page_main
+        """
+        logger.hr('App login')
+        self._handle_gg()
         confirm_timer = Timer(1.5, count=4).start()
         orientation_timer = Timer(5)
         login_success = False
