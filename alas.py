@@ -83,7 +83,7 @@ class AzurLaneAutoScript:
 
     def _gg_check(self, auto=True):
         global gg_on, gg_auto, gg_enable, ggdata
-        gg_auto = auto if deep_get(config=self.config, keys='GameManager.GGHandler.AutoRestartGG', default=False) else False
+        gg_auto = auto if deep_get(d=self.config.data, keys='GameManager.GGHandler.AutoRestartGG', default=False) else False
         logger.info(f'Check GG status:')
         logger.info(f'Enabled={ggdata["gg_enable"]} AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
         if gg_auto:
