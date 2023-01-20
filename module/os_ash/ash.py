@@ -57,7 +57,6 @@ class AshCombat(Combat):
         if ocr>=16000 :
             logger.critical('There''s high chance that GG is on, restart to disable it')
             from module.gg_handler.gg_data import gg_data
-            gg_data(config=self.config, target='gg_auto', value=False).set_data()
             gg_data(config=self.config, target='gg_on', value=False).set_data()
             gg_data(config=self.config, target='gg_enable', value=True).set_data()
             self.config.task_call('Restart')

@@ -65,16 +65,12 @@ class AzurLaneAutoScript:
         global gg_on, gg_auto, gg_enable, ggdata
         if gg_enable and gg_on:
             logger.hr('Disabling GG')
-            gg_auto = False
-            gg_data(self.config, target='gg_auto', value=False).set_data()
             from module.handler.login import LoginHandler
             LoginHandler(config=self.config, device=self.device).app_restart()
             logger.warning('Disabled GG')
 
     def _gg_set_on(self):
         global gg_on, gg_auto, gg_enable, ggdata
-        gg_auto = True
-        gg_data(self.config, target='gg_auto', value=True).set_data()
         if gg_enable:
             logger.hr('Enabling GG')
             from module.gg_handler.gg_handler import gg_handler
@@ -87,8 +83,7 @@ class AzurLaneAutoScript:
 
     def _gg_check(self, auto=True):
         global gg_on, gg_auto, gg_enable, ggdata
-        gg_data(self.config, target='gg_auto', value=auto).set_data()
-        gg_auto = auto
+        gg_auto = auto if deep_get(config=self.config, keys='GameManager.GGHandler.AutoRestartGG', default=False) else False
         logger.info(f'Check GG status:')
         logger.info(f'Enabled={ggdata["gg_enable"]} AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
         if gg_auto:
@@ -577,9 +572,8 @@ class AzurLaneAutoScript:
             gg_data(self.config, target='gg_auto', value=gg_auto).set_data()
             ggdata = gg_data(self.config).get_data()
             gg_on = ggdata["gg_on"]
-            logger.info(
-                f'GG status:\n               Enabled={ggdata["gg_enable"]} '
-                f'AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
+            logger.info(f'GG status:')
+            logger.info(f'Enabled={ggdata["gg_enable"]} AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
 
             if is_first \
           and ((deep_get(d=self.config.data,
