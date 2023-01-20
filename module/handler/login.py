@@ -34,6 +34,8 @@ class LoginHandler(UI):
         gg_auto = ggdata['gg_auto']
         if gg_enable:
             logger.info(f'GG status:\n               Enabled={ggdata["gg_enable"]} AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
+            from module.gg_handler.gg_data import gg_data
+            gg_data(config=self.config, target='gg_on', value=False).set_data()
             from module.gg_handler.gg_handler import gg_handler as gg
             temp_bo=1
             for i in range(5):
@@ -182,8 +184,6 @@ class LoginHandler(UI):
     def app_restart(self):
         logger.hr('App restart')
         self.device.app_stop()
-        from module.gg_handler.gg_data import gg_data
-        gg_data(config=self.config, target='gg_on', value=False).set_data()
         self.device.app_start()
         self.handle_app_login()
         # self.ensure_no_unfinished_campaign()
