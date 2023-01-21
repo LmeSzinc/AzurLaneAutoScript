@@ -26,7 +26,7 @@ class gg_handler(base):
             else:
                 self.device.sleep(0.3)
                 self.device.screenshot()
-            if base.appear(self, BUTTON_GG_RESTART_ERROR, offset=30):
+            if base.appear(self, BUTTON_GG_RESTART_ERROR, offset=(50,50)):
                 logger.hr('Game died with GG panel')
                 self.device.click(BUTTON_GG_RESTART_ERROR)
                 skipped = 1
@@ -38,32 +38,32 @@ class gg_handler(base):
             else:
                 self.device.sleep(0.3)
                 self.device.screenshot()
-            if base.appear(self, BUTTON_GG_SEARCH_MODE_CONFIRM, offset=30):
+            if base.appear(self, BUTTON_GG_SEARCH_MODE_CONFIRM, offset=(50,50)):
                 logger.info('At GG main panel')
                 skipped = 1
                 self._gg_exit()
                 break
-            elif base.appear(self, BUTTON_GG_SCRIPT_END, offset=30):
+            elif base.appear(self, BUTTON_GG_SCRIPT_END, offset=(50,50)):
                 logger.info('Close previous script')
                 skipped = 1
                 self.device.click(BUTTON_GG_SCRIPT_END)
-            elif base.appear(self, BUTTON_GG_SCRIPT_FATAL, offset=30):
+            elif base.appear(self, BUTTON_GG_SCRIPT_FATAL, offset=(50,50)):
                 logger.info('Restart previous script')
                 skipped = 1
                 self.device.click(BUTTON_GG_SCRIPT_FATAL)
-            elif base.appear(self, BUTTON_GG_APP_CHOOSE, offset=130):
+            elif base.appear(self, BUTTON_GG_APP_CHOOSE, offset=(150,500)):
                 logger.info('APP choose')
                 skipped = 1
                 self.device.click(BUTTON_GG_APP_CHOOSE)
-            elif base.appear(self, BUTTON_GG_SCRIPT_MENU_A, offset=30):
+            elif base.appear(self, BUTTON_GG_SCRIPT_MENU_A, offset=(50,50)):
                 skipped = 1
                 logger.info('Close previous script')
                 self.device.click(BUTTON_GG_EXIT_POS)
-            elif base.appear(self, BUTTON_GG_CONFIRM, offset=30):
+            elif base.appear(self, BUTTON_GG_CONFIRM, offset=(50,50)):
                 self.device.click(BUTTON_GG_TAB_SEARCH_POS)
                 skipped = 1
                 logger.info('Enter search mode')
-            elif not base.appear(self, BUTTON_GG_CONFIRM, offset=30):
+            elif not base.appear(self, BUTTON_GG_CONFIRM, offset=(50,50)):
                 logger.hr('GG Panel Disappearance Confirmed')
                 break
         return skipped
@@ -82,7 +82,7 @@ class gg_handler(base):
             else:
                 self.device.sleep(0.3)
                 self.device.screenshot()
-            if base.appear(self, BUTTON_GG_CONFIRM, offset=30):
+            if base.appear(self, BUTTON_GG_CONFIRM, offset=(50,50)):
                 logger.info('Entered GG')
                 break
             self.device.click(BUTTON_GG_ENTER_POS)
@@ -93,12 +93,12 @@ class gg_handler(base):
             else:
                 self.device.sleep(0.3)
                 self.device.screenshot()
-            if not base.appear(self, BUTTON_GG_APP_CHOOSE, offset=130):
+            if not base.appear(self, BUTTON_GG_APP_CHOOSE, offset=(150,500)):
                 from module.ui.assets import BACK_ARROW
                 self.device.click(BACK_ARROW)
                 logger.info('Actually APP choosing button')
             else:
-                base.appear_then_click(self, BUTTON_GG_APP_CHOOSE, offset=130)
+                base.appear_then_click(self, BUTTON_GG_APP_CHOOSE, offset=(150,500))
                 logger.info('APP Choose')
                 break
 
@@ -115,19 +115,19 @@ class gg_handler(base):
             else:
                 self.device.sleep(0.5)
                 self.device.screenshot()
-            if base.appear(self, BUTTON_GG_SCRIPT_ENTER_CONFIRM, offset=30):
+            if base.appear(self, BUTTON_GG_SCRIPT_ENTER_CONFIRM, offset=(50,50)):
                 logger.info('GG script ready to start')
                 break
-            elif base.appear(self, BUTTON_GG_SCRIPT_END, offset=30):
+            elif base.appear(self, BUTTON_GG_SCRIPT_END, offset=(50,50)):
                 logger.info('Close previous script')
                 self.device.click(BUTTON_GG_SCRIPT_END)
-            elif base.appear(self, BUTTON_GG_SCRIPT_FATAL, offset=30):
+            elif base.appear(self, BUTTON_GG_SCRIPT_FATAL, offset=(50,50)):
                 logger.info('Stop previous script')
                 self.device.click(BUTTON_GG_SCRIPT_FATAL)
-            elif base.appear(self, BUTTON_GG_APP_CHOOSE, offset=130):
+            elif base.appear(self, BUTTON_GG_APP_CHOOSE, offset=(150,500)):
                 logger.info('APP choose')
                 self.device.click(BUTTON_GG_APP_CHOOSE)
-            elif base.appear(self, BUTTON_GG_SEARCH_MODE_CONFIRM, offset=1, threshold=0.95):
+            elif base.appear(self, BUTTON_GG_SEARCH_MODE_CONFIRM, offset=(10,10), threshold=0.95):
                 self.device.click(BUTTON_GG_SCRIPT_ENTER_POS)
                 logger.info('Enter script choose')
             else:
@@ -140,7 +140,7 @@ class gg_handler(base):
             else:
                 self.device.sleep(0.5)
                 self.device.screenshot()
-            if base.appear(self, BUTTON_GG_SCRIPT_START, offset=30):
+            if base.appear(self, BUTTON_GG_SCRIPT_START, offset=(50,50)):
                 self.device.click(BUTTON_GG_SCRIPT_START)
                 return 1
 
@@ -157,7 +157,7 @@ class gg_handler(base):
             else:
                 self.device.sleep(0.5)
                 self.device.screenshot()
-            if base.appear(self, BUTTON_GG_SCRIPT_MENU_A, offset=30, threshold=0.8):
+            if base.appear(self, BUTTON_GG_SCRIPT_MENU_A, offset=(50,50), threshold=0.8):
                 method = [BUTTON_GG_SCRIPT_MENU_B, BUTTON_GG_SCRIPT_MENU_A]
                 self.device.click(method[int(self.s)])
                 break
@@ -203,7 +203,7 @@ class gg_handler(base):
             else:
                 self.device.sleep(0.5)
                 self.device.screenshot()
-            if base.appear_then_click(self, BUTTON_GG_SCRIPT_START_PROCESS, offset=30, threshold=0.9):
+            if base.appear_then_click(self, BUTTON_GG_SCRIPT_START_PROCESS, offset=(50,50), threshold=0.9):
                 break
         
         logger.info('Waiting for end')
@@ -214,7 +214,7 @@ class gg_handler(base):
             else:
                 self.device.sleep(0.5)
                 self.device.screenshot()
-            if base.appear_then_click(self, BUTTON_GG_SCRIPT_END, offset=30, threshold=0.9):
+            if base.appear_then_click(self, BUTTON_GG_SCRIPT_END, offset=(50,50), threshold=0.9):
                 return 1
     
     def _gg_exit(self):
@@ -226,7 +226,7 @@ class gg_handler(base):
             else:
                 self.device.sleep(0.5)
                 self.device.screenshot()
-            if not base.appear(self, BUTTON_GG_CONFIRM, offset=10):
+            if not base.appear(self, BUTTON_GG_CONFIRM, offset=(10,10)):
                 logger.hr('GG Panel Exited')
                 return 1
             self.device.click(BUTTON_GG_EXIT_POS)
