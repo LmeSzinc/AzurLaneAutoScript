@@ -1,71 +1,498 @@
-.container-menu-collapsed {
+details {
+    border: unset !important;
+    padding-bottom: unset !important;
+    margin-bottom: .25rem !important;
+}
+
+details[open]>summary {
+    border-bottom: unset !important;
+}
+
+details[open]>div {
+    margin-left: 0.625rem;
+}
+
+summary {
+    background-color: transparent !important;
+    font-weight: 500;
+}
+
+body {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+footer {
     display: none;
 }
 
-.container-content-collapsed {
+.btn:focus {
+    box-shadow: unset;
+}
+
+.btn-menu {
+    font-weight: 400;
+    background-color: transparent;
+    padding: .0625rem .75rem;
+    border-radius: 0;
+    border: 0 solid;
+    transition: border .05s ease-in-out, padding .05s ease-in-out;
+    white-space: pre-wrap;
+    text-align: left;
+}
+
+.btn-menu:hover,
+.btn-menu-active {
+    font-weight: bold;
+    border-left: .125rem solid;
+    padding-right: .625rem;
+    border-left: 3px solid;
+}
+
+.btn-aside {
+    width: 4rem;
+    font-weight: 400;
+    font-size: .8rem;
+    background-color: transparent;
+    padding: 32px 0 0 7px;
+    border-radius: 0;
+    border: 0 solid;
+    transition: border .1s ease-in-out, padding .1s ease-in-out
+}
+
+.btn-aside:hover,
+.btn-aside-active {
+    border-left: 4px solid;
+    padding-left: 3px;
+    font-weight: bold;
+}
+
+.btn-off,
+.btn-on {
+    border-radius: 0;
+    margin: 0;
+}
+
+.btn-navigator {
+    border-radius: 0;
+    margin: 0 !important;
+    width: 100%;
+    text-align: left;
+    transition: color 0s ease-in-out;
+}
+
+.btn-navigator:hover {
+    font-weight: bold;
+}
+
+.toastify-center,
+.toastify-right,
+.toastify-left {
+    margin-top: 3.3125rem;
+}
+
+.pywebio {
+    padding-top: 0;
+    padding-bottom: 0;
+    min-height: unset;
+}
+
+#input-container {
+    margin-bottom: 0;
+}
+
+#output-container {
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: 0;
+    max-width: initial
+}
+
+.container {
+    max-width: 100vh;
+}
+
+.hr-group {
+    margin-top: .25rem !important;
+    margin-bottom: .25rem !important;
+}
+
+input[type="checkbox"] {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+label {
+    display: inline;
+}
+
+.form-control {
+    background-color: unset;
+    border-radius: initial !important;
+    border-width: 0;
+    padding: 0 .5rem 0;
+    margin-top: .125rem;
+    height: auto !important;
+}
+
+.form-control[readonly] {
+    pointer-events: none;
+    border-bottom-color: transparent;
+}
+
+.form-control:focus {
+    border-color: unset;
+}
+
+.form-control.is-invalid:focus {
+    box-shadow: 0 0.06rem 0 #dc3545;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-attachment: scroll;
+    background-position: right, center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+}
+
+select.form-control {
+    padding-right: 1rem;
+}
+
+select.form-control.is-invalid {
+    padding-right: 3rem !important;
+    background-position: right 1.5rem center;
+}
+
+button.btn.dropdown-toggle {
     display: none;
 }
 
-#pywebio-scope-log {
-    font-size: .75rem !important;
+.bootstrap-select>select {
+    position: unset !important;
+    bottom: unset !important;
+    left: unset !important;
+    width: 100% !important;
+    height: unset !important;
+    padding: 0 1rem 0 0.5rem !important;
+    opacity: 1 !important;
+    z-index: auto !important;
+}
+
+.invalid-feedback {
+    margin-top: 0;
+}
+
+.CodeMirror {
+    height: auto !important;
+}
+
+.CodeMirror-line {
+    font-family: SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace !important;
+}
+
+.form-group {
+    margin-bottom: 0 !important;
+}
+
+.alas-icon,
+.alas-icon>image {
+    width: 42px;
+    height: 42px;
+}
+
+.aside-icon {
+    width: 2rem;
+    height: 2rem;
+}
+
+.container-log {
+    border-radius: 0 !important;
+    margin: .375rem !important;
+    padding: 1rem !important;
+}
+
+code.rich-traceback {
+    padding: 0;
+}
+
+pre.rich-traceback-code {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-family: Menlo, consolas, DejaVu Sans Mono, Courier New, monospace;
+    font-size: 0.85rem;
+    line-height: 1.2;
+}
+
+#pywebio-scope-ROOT {
+    height: 100vh;
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-rows: auto 1fr;
+}
+
+#pywebio-scope-aside {
+    z-index: 91;
+    padding-left: .125rem;
+    padding-right: .325rem;
+    padding-top: 1rem;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+#pywebio-scope-menu {
+    z-index: 90;
+    padding-left: .5rem;
+    padding-top: 1.2rem;
+    overflow-y: auto;
+    width: 12rem;
+    flex-shrink: 0;
 }
 
 #pywebio-scope-content {
-    padding: .25rem;
-    margin: 0
+    overflow: auto;
+    padding: .625rem;
+    flex-grow: 1;
 }
 
-#pywebio-scope-navigator {
-    display: none;
-}
-
-[id^="pywebio-scope-arg_container-"] {
-    grid-auto-flow: row;
-    grid-template-rows: auto auto;
-}
-
-[id^="pywebio-scope-arg_container-checkbox-"] {
+#pywebio-scope-header {
+    z-index: 100;
+    display: grid;
     grid-auto-flow: column;
-    grid-template-columns: 1fr 8rem;
-    grid-template-rows: unset;
+    grid-template-columns: 4.4rem 4rem auto 1fr !important;
 }
 
-[id^="pywebio-scope-arg_container-storage-"] {
-    grid-auto-flow: column;
-    grid-template-columns: 1fr auto;
-    grid-template-rows: 1fr auto;
+*[style*="--header-icon--"] {
+    margin: .25rem auto .25rem;
+    border-radius: 1.5rem;
+}
+
+*[style*="--header-text--"] {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: auto !important;
+}
+
+#pywebio-scope-header_title {
+    margin: auto;
+}
+
+#pywebio-scope-header_title>p {
+    font-size: 1.2rem;
+    margin: auto;
+    overflow: hidden;
+    text-align: center;
+}
+
+#pywebio-scope-header_status {
+    padding-top: 3px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#pywebio-scope-header_status>div>div+div+p {
+    margin: 0;
+}
+
+#pywebio-scope-contents {
+    margin-top: 0;
+    overflow-y: auto;
+    display: flex;
 }
 
 #pywebio-scope-_groups {
-    grid-template-columns: 0fr 1fr;
+    height: 100%;
+    display: grid;
+    grid-auto-flow: column;
+
+    grid-template-columns: 1fr minmax(25rem, 5fr) 2fr;
+}
+
+#pywebio-scope-group__info>p {
+    font-size: .80rem !important;
+    font-weight: 400;
+}
+
+[id^="pywebio-scope-group_"] {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    padding: 1rem;
+}
+
+[id^="pywebio-scope-group_"]>p {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 0 .25rem 0 .25rem !important;
+}
+
+[id^="pywebio-scope-group_"]>p+p {
+    font-size: .80rem;
+    margin: .2rem .25rem .1rem .25rem !important;
+}
+
+#pywebio-scope-groups {
+    overflow-y: auto;
+}
+
+#pywebio-scope-navigator {
+    margin: .5rem 1rem .5rem;
+    height: min-content;
+    max-width: 15rem;
 }
 
 #pywebio-scope-overview {
-    grid-auto-flow: row;
-    grid-template-rows: 100% 100%;
-}
-
-#pywebio-scope-daemon-overview {
-    grid-auto-flow: row;
-    grid-template-rows: auto auto auto 1fr;
-}
-
-#pywebio-scope-schedulers {
-    grid-auto-flow: row;
-}
-
-#pywebio-scope-dashboard {
-    grid-template-rows: auto auto 1fr;
-}
-
-#pywebio-scope-dashboard-bar-bar {
+    height: 100%;
+    overflow: auto;
     display: grid;
-    grid-auto-flow: row;
 }
 
 #pywebio-scope-running,
 #pywebio-scope-pending,
 #pywebio-scope-waiting,
+#pywebio-scope-scheduler-bar,
+#pywebio-scope-log-bar,
+#pywebio-scope-log,
+#pywebio-scope-daemon-overview #pywebio-scope-groups {
+    font-weight: 500;
+    margin: 0.3125rem;
+    padding: 0.625rem;
+}
+
+#pywebio-scope-scheduler-bar,
+#pywebio-scope-log-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#pywebio-scope-log-bar {
+    flex-wrap: wrap;
+}
+
+#pywebio-scope-log-bar-btns {
+    display: grid;
+    grid-auto-flow: column;
+}
+
 #pywebio-scope-log {
+    line-height: 1.2;
+    font-size: 0.85rem;
+    font-family: Menlo, consolas, DejaVu Sans Mono, Courier New, monospace;
+    white-space: pre;
+}
+
+#pywebio-scope-running,
+#pywebio-scope-pending,
+#pywebio-scope-waiting {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-rows: auto auto 1fr;
+}
+
+#pywebio-scope-running>p,
+#pywebio-scope-pending>p,
+#pywebio-scope-waiting>p {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 0 0.625rem 0 !important;
+}
+
+#pywebio-scope-running_tasks,
+#pywebio-scope-pending_tasks,
+#pywebio-scope-waiting_tasks {
     overflow-y: auto;
+    height: 100%;
+}
+
+#pywebio-scope-logs {
+    display: grid;
+    grid-auto-flow: column;
+
+    height: 100%;
+    overflow-y: auto;
+    grid-template-rows: auto 1fr;
+}
+
+[id^="pywebio-scope-overview-task_"] {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr auto;
+    margin: .125rem .625rem .125rem .375rem;
+}
+
+#pywebio-scope-daemon-overview {
+    display: grid;
+    height: 100%;
+    overflow-y: auto;
+}
+
+#pywebio-scope-daemon-overview [id^="pywebio-scope-group_"] {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0.3125rem;
+}
+
+#pywebio-scope-schedulers {
+    display: grid;
+}
+
+.bs-title-option,
+.form-check-input[id*="ch_S"] {
+    display: none;
+}
+
+[id^="pywebio-scope-arg_container-"] {
+    display: grid;
+    margin: .125rem 0;
+}
+
+[id^="pywebio-scope-arg_container-checkbox-"],
+[id^="pywebio-scope-arg_container-storage-"] {
+    display: grid;
+    margin: .375rem 0;
+}
+
+*[style*="--arg-title--"] {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0 .25rem !important;
+    overflow-wrap: break-word;
+}
+
+*[style*="--arg-help--"] {
+    font-size: .8rem;
+    margin: .2rem .25rem .1rem !important;
+    overflow-wrap: break-word;
+}
+
+*[style*="--overview-notask-text--"] {
+    text-align: center;
+    font-size: 0.875rem;
+    color: darkgrey;
+}
+
+*[style*="--input--"] {
+    margin: 0;
+    padding-right: .25rem;
+}
+
+*[style*="--loading-grow--"] {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+*[style*="--loading-border--"] {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: .2em solid currentColor;
+    border-right-color: transparent;
+}
+
+*[style*="--loading-border-fill--"] {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: .2em solid currentColor;
 }
