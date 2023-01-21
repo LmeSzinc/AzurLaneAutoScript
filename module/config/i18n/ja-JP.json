@@ -2440,6 +2440,7 @@
     },
     "Overview": {
       "Scheduler": "Gui.Overview.Scheduler",
+      "Dashboard": "Dashboard",
       "Oil": "Oil",
       "Coin": "Coin",
       "Gem": "Gem",

@@ -353,6 +353,7 @@ pre.rich-traceback-code {
 #pywebio-scope-pending,
 #pywebio-scope-waiting,
 #pywebio-scope-scheduler-bar,
+#pywebio-scope-dashboard-bar,
 #pywebio-scope-log-bar,
 #pywebio-scope-log,
 #pywebio-scope-daemon-overview #pywebio-scope-groups {
@@ -366,10 +367,6 @@ pre.rich-traceback-code {
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
-
-#pywebio-scope-log-bar {
-    flex-wrap: wrap;
 }
 
 #pywebio-scope-log-bar-btns {
@@ -392,6 +389,7 @@ pre.rich-traceback-code {
     grid-template-rows: auto auto 1fr;
 }
 
+#pywebio-scope-dashboard-bar>p,
 #pywebio-scope-running>p,
 #pywebio-scope-pending>p,
 #pywebio-scope-waiting>p {
@@ -407,7 +405,7 @@ pre.rich-traceback-code {
     height: 100%;
 }
 
-#pywebio-scope-logs {
+#pywebio-scope-dashboard {
     display: grid;
     height: 100%;
     overflow-y: auto;
