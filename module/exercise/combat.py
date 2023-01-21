@@ -29,6 +29,16 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
                 # self.equipment_take_on()
                 pass
 
+                from module.gg_handler.assets import OCR_PRE_BATTLE_CHECK
+                from module.ocr.ocr import Digit
+                OCR_CHECK = Digit(OCR_PRE_BATTLE_CHECK, letter=(255, 255, 255), threshold=128)
+                ocr = OCR_CHECK.ocr(self.device.image)
+                if ocr >= 16000:
+                    from module.handler.login import LoginHandler
+                    logger.critical('There''s high chance that GG is on, restart to disable it')
+                    self.config.task_call('Restart')
+                    self.config.task_delay(minute=0.5)
+                    self.config.task_stop('Restart for sake of safty')
                 self.device.click(BATTLE_PREPARATION)
                 continue
 

@@ -49,6 +49,20 @@ class AshCombat(Combat):
         return False
 
     def handle_battle_preparation(self):
+        from module.gg_handler.assets import OCR_PRE_BATTLE_CHECK
+        from module.ocr.ocr import Digit
+        self.device.screenshot()
+        OCR_CHECK = Digit(OCR_PRE_BATTLE_CHECK,letter=(255, 255, 255),threshold=128)
+        ocr=OCR_CHECK.ocr(self.device.image)
+        if ocr>=16000 :
+            logger.critical('There''s high chance that GG is on, restart to disable it')
+            from module.gg_handler.gg_data import gg_data
+            gg_data(config=self.config, target='gg_on', value=False).set_data()
+            gg_data(config=self.config, target='gg_enable', value=True).set_data()
+            self.config.task_call('Restart')
+            self.config.task_delay(minute=0.5)
+            self.config.task_stop('Restart for sake of safty')
+
         if super().handle_battle_preparation():
             return True
 

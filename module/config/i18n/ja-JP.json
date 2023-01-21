@@ -659,6 +659,10 @@
       "name": "Retirement.EnhanceCheckPerCategory.name",
       "help": "Retirement.EnhanceCheckPerCategory.help"
     },
+    "AllowNoPreserve": {
+      "name": "Retirement.AllowNoPreserve.name",
+      "help": "Retirement.AllowNoPreserve.help"
+    },
     "OldRetireN": {
       "name": "Retirement.OldRetireN.name",
       "help": "Retirement.OldRetireN.help"
@@ -2376,9 +2380,9 @@
       "name": "GGHandler.RestartEverytime.name",
       "help": "GGHandler.RestartEverytime.help"
     },
-    "GGMutiplyingFactor": {
-      "name": "GGHandler.GGMutiplyingFactor.name",
-      "help": "GGHandler.GGMutiplyingFactor.help"
+    "GGMultiplyingFactor": {
+      "name": "GGHandler.GGMultiplyingFactor.name",
+      "help": "GGHandler.GGMultiplyingFactor.help"
     }
   },
   "Storage": {

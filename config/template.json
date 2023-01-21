@@ -76,6 +76,7 @@
       "EnhanceFavourite": false,
       "EnhanceFilter": null,
       "EnhanceCheckPerCategory": 2,
+      "AllowNoPreserve": false,
       "OldRetireN": true,
       "OldRetireR": true,
       "OldRetireSR": false,
@@ -1968,7 +1969,7 @@
       "Enabled": false,
       "AutoRestartGG": false,
       "RestartEverytime": true,
-      "GGMutiplyingFactor": 200
+      "GGMultiplyingFactor": 200
     },
     "Storage": {
       "Storage": {}

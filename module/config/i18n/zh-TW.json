@@ -659,6 +659,10 @@
       "name": "分類強化",
       "help": "每項艦船分類最多強化多少艘艦船，\n戰鬥中的艦船會被跳過且不計入，\n優先判斷是否有強化材料"
     },
+    "AllowNoPreserve": {
+      "name": "Retirement.AllowNoPreserve.name",
+      "help": "Retirement.AllowNoPreserve.help"
+    },
     "OldRetireN": {
       "name": "退役白船 ( N )",
       "help": "以下設定僅適用於傳統退役"
@@ -2376,9 +2380,9 @@
       "name": "GGHandler.RestartEverytime.name",
       "help": "GGHandler.RestartEverytime.help"
     },
-    "GGMutiplyingFactor": {
-      "name": "GGHandler.GGMutiplyingFactor.name",
-      "help": "GGHandler.GGMutiplyingFactor.help"
+    "GGMultiplyingFactor": {
+      "name": "GGHandler.GGMultiplyingFactor.name",
+      "help": "GGHandler.GGMultiplyingFactor.help"
     }
   },
   "Storage": {

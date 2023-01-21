@@ -564,6 +564,7 @@ class AlasGUI(Frame):
             put_scope(
                 "daemon-overview",
                 [
+                    put_scope("dashboard-bar-bar"),
                     put_scope("scheduler-bar"),
                     put_scope("groups"),
                     put_scope("log-bar"),
@@ -574,19 +575,17 @@ class AlasGUI(Frame):
             put_scope(
                 "daemon-overview",
                 [
-                    put_none(),
                     put_scope(
                         "_daemon",
                         [
+                            put_scope("dashboard-bar-bar"),
                             put_scope(
                                 "_daemon_upper",
                                 [put_scope("scheduler-bar"), put_scope("log-bar")],
+
                             ),
-                            put_scope("groups"),
-                            put_scope("log", [put_html("")]),
                         ],
                     ),
-                    put_none(),
                 ],
             )
 

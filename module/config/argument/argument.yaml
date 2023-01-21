@@ -128,6 +128,7 @@ Retirement:
   EnhanceFavourite: false
   EnhanceFilter:
   EnhanceCheckPerCategory: 2
+  AllowNoPreserve: false
   OldRetireN: true
   OldRetireR: true
   OldRetireSR: false
@@ -664,4 +665,4 @@ GGHandler:
   Enabled: false
   AutoRestartGG: false
   RestartEverytime: true
-  GGMutiplyingFactor: 200
+  GGMultiplyingFactor: 200

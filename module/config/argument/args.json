@@ -391,6 +391,10 @@
         "type": "input",
         "value": 2
       },
+      "AllowNoPreserve": {
+        "type": "checkbox",
+        "value": false
+      },
       "OldRetireN": {
         "type": "checkbox",
         "value": true
@@ -2484,7 +2488,7 @@
       }
     }
   },
-  "Event3": {
+  "Event2": {
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
@@ -2497,7 +2501,7 @@
       },
       "Command": {
         "type": "input",
-        "value": "Event3",
+        "value": "Event2",
         "display": "hide"
       },
       "SuccessInterval": {
@@ -2915,7 +2919,7 @@
       }
     }
   },
-  "Event2": {
+  "Event3": {
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
@@ -2928,7 +2932,7 @@
       },
       "Command": {
         "type": "input",
-        "value": "Event2",
+        "value": "Event3",
         "display": "hide"
       },
       "SuccessInterval": {
@@ -9217,7 +9221,7 @@
         "type": "checkbox",
         "value": true
       },
-      "GGMutiplyingFactor": {
+      "GGMultiplyingFactor": {
         "type": "input",
         "value": 200
       }
