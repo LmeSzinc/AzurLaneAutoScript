@@ -127,6 +127,7 @@ class StorageUI(UI):
 
             # equipment -> disassemble
             if self.appear_then_click(DISASSEMBLE, offset=(20, 20), interval=3):
+                self.device.sleep(1)
                 self.interval_reset(STORAGE_CHECK)
                 self.interval_reset(MATERIAL_CHECK)
                 continue
