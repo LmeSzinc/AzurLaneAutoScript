@@ -663,6 +663,7 @@ GameManager:
   
 GGHandler:
   Enabled: false
+  GGPackageName: com.
   AutoRestartGG: false
   RestartEverytime: true
   GGMultiplyingFactor: 200

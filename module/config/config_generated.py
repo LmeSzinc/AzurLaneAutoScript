@@ -439,6 +439,7 @@ class GeneratedConfig:
 
     # Group `GGHandler`
     GGHandler_Enabled = False
+    GGHandler_GGPackageName = 'com.'
     GGHandler_AutoRestartGG = False
     GGHandler_RestartEverytime = True
     GGHandler_GGMultiplyingFactor = 200

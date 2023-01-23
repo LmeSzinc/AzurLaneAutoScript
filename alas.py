@@ -73,16 +73,18 @@ class AzurLaneAutoScript:
         global gg_on, gg_auto, gg_enable, ggdata
         if gg_enable:
             logger.hr('Enabling GG')
-            from module.gg_handler.gg_handler import gg_handler
-            gg_handler(self.config, self.device,
-                       factor=deep_get(self.config.data,
-                                       keys='GameManager.GGHandler.GGMultiplyingFactor',
-                                       default=200)
-                       ).gg_run()
-            logger.warning('Enabled GG')
+            gg_package_name = deep_get(self.config.data, keys='GameManager.GGHandler.GGPackageName')
+            if gg_package_name == 'com.':
+                from module.gg_handler.gg_handler import gg_handler
+                gg_factor = deep_get(self.config.data, keys='GameManager.GGHandler.GGMultiplyingFactor')
+                gg_handler(self.config, self.device, factor=gg_factor).gg_run()
+            else:
+                from module.gg_handler.gg_xpath import GGXpath
+                GGXpath(self.config, self.device).set_on()
 
     def _gg_check(self, auto=True):
         global gg_on, gg_auto, gg_enable, ggdata
+        ggdata = gg_data(self.config).get_data()
         gg_auto = auto if deep_get(d=self.config.data, keys='GameManager.GGHandler.AutoRestartGG', default=False) else False
         logger.info(f'Check GG status:')
         logger.info(f'Enabled={ggdata["gg_enable"]} AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')

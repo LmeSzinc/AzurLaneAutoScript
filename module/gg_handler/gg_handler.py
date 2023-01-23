@@ -12,13 +12,14 @@ class gg_handler(base):
         self.device = device
         self.config = config
         
-    def gg_skip_error(self):
+    def skip_error(self):
         """
         Page: 
             in: Game down error
             out: restart
         """
         skip_first_screenshot = False
+        count=0
         for i in range(10):
             skipped = 0
             if skip_first_screenshot:
@@ -31,7 +32,8 @@ class gg_handler(base):
                 logger.info('Close GG restart error')
                 self.device.click(BUTTON_GG_RESTART_ERROR)
                 skipped = 1
-                break
+                count += 1
+                if count>=2: break
         skip_first_screenshot = False
         while 1:
             if skip_first_screenshot:
@@ -249,4 +251,5 @@ class gg_handler(base):
         self._gg_handle_factor()
         self._gg_script_run()
         gg_data(self.config, target='gg_on', value=self.s).set_data()
-        self.gg_skip_error()
+        self.skip_error()
+        logger.attr('GG', 'Enabled')

@@ -9213,6 +9213,10 @@
         "type": "checkbox",
         "value": false
       },
+      "GGPackageName": {
+        "type": "input",
+        "value": "com."
+      },
       "AutoRestartGG": {
         "type": "checkbox",
         "value": false
