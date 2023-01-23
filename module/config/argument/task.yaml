@@ -260,7 +260,6 @@ OpsiAbyssal:
   - OpsiFleetFilter
 OpsiArchive:
   - Scheduler
-  - OpsiArchive
   - OpsiFleet
 OpsiStronghold:
   - Scheduler
