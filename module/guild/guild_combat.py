@@ -46,6 +46,8 @@ class GuildCombat(Combat):
         """
         if self.is_combat_executing():
             return False
+        if super().handle_exp_info():
+            return True
         if self.appear_then_click(EXP_INFO_CF):
             self.device.sleep((0.25, 0.5))
             return True
