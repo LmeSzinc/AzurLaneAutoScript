@@ -19,6 +19,7 @@ class gg_handler(base):
             out: restart
         """
         skip_first_screenshot = False
+        count=0
         for i in range(10):
             skipped = 0
             if skip_first_screenshot:
@@ -31,7 +32,8 @@ class gg_handler(base):
                 logger.info('Close GG restart error')
                 self.device.click(BUTTON_GG_RESTART_ERROR)
                 skipped = 1
-                break
+                count += 1
+                if count>=2: break
         skip_first_screenshot = False
         while 1:
             if skip_first_screenshot:
