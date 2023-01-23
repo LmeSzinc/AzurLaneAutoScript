@@ -1,7 +1,8 @@
+from module.base.timer import Timer
 from module.campaign.campaign_event import CampaignEvent
 from module.exception import ScriptEnd, ScriptError
 from module.logger import logger
-from module.raid.raid import OilExhausted, Raid
+from module.raid.raid import OilExhausted, Raid, raid_ocr
 from module.ui.page import page_raid
 
 
@@ -22,6 +23,42 @@ class RaidRun(Raid, CampaignEvent):
             return True
 
         return False
+
+    def get_remain(self, mode, skip_first_screenshot=True):
+        """
+        Args:
+            mode (str): easy, normal, hard, ex
+            skip_first_screenshot (bool):
+
+        Returns:
+            int:
+        """
+        confirm_timer = Timer(0.3, count=0)
+        prev = 30
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            ocr = raid_ocr(raid=self.config.Campaign_Event, mode=mode)
+            result = ocr.ocr(self.device.image)
+            if mode == 'ex':
+                remain = result
+            else:
+                remain, _, _ = result
+            logger.attr(f'{mode.capitalize()} Remain', remain)
+
+            # End
+            if remain == prev:
+                if confirm_timer.reached():
+                    break
+            else:
+                confirm_timer.reset()
+
+            prev = remain
+
+        return remain
 
     def run(self, name='', mode='', total=0):
         """
@@ -58,6 +95,13 @@ class RaidRun(Raid, CampaignEvent):
             # UI ensure
             self.ui_ensure(page_raid)
 
+            # End for mode EX
+            if mode == 'ex':
+                if not self.get_remain(mode):
+                    logger.info('Triggered stop condition: Zero '
+                                'raid tickets to do EX mode')
+                    break
+
             # Run
             try:
                 self.raid_execute_once(mode=mode, raid=name)
@@ -77,6 +121,6 @@ class RaidRun(Raid, CampaignEvent):
             # End
             if self.triggered_stop_condition():
                 break
-            # Scheduler
+            ## Scheduler
             if self.config.task_switched():
                 self.config.task_stop()

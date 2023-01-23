@@ -395,6 +395,7 @@
       "aScreenCap": "aScreenCap",
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
+      "DroidCast_raw": "DroidCast_raw",
       "scrcpy": "scrcpy"
     },
     "ControlMethod": {
@@ -1150,7 +1151,8 @@
       "help": "",
       "easy": "easy",
       "normal": "normal",
-      "hard": "hard"
+      "hard": "hard",
+      "ex": "ex"
     },
     "UseTicket": {
       "name": "Use Ticket(s)",
@@ -1164,7 +1166,7 @@
     },
     "StageFilter": {
       "name": "Raid Daily Stage Filter",
-      "help": "Generally does not need to be modified or re-arranged but can do so if desired\nCan save on oil consumption if less are attacked"
+      "help": "Generally does not need to be modified or re-arranged but can do so if desired\nCan save on oil consumption if less are attacked\n'EX' difficulty is supported, submarine is force called if specified to increase clearing rate"
     }
   },
   "MaritimeEscort": {
@@ -1182,10 +1184,6 @@
       "name": "Commission Settings",
       "help": ""
     },
-    "DoMajorCommission": {
-      "name": "Do Major Commissions",
-      "help": "Enable allowance of undertaking 1200/1000 oil cost commissions; Commission Priority requires \"Major\" be included if enabled"
-    },
     "PresetFilter": {
       "name": "Preset Filter Select",
       "help": "People without a basic knowledge of commission drops rates and spawn are recommended to use pre-optimized presets instead of writing custom filters\nIf the commission farming is running 24 hours a day, the (7x24 Commission Farming) filter should be used\nIt is not recommended to use the oil priority filter while running commission farming",
@@ -1199,6 +1197,10 @@
     "CustomFilter": {
       "name": "Custom Commission Priority",
       "help": "To use your own filter, set \"Preset Filter Select\" to \"Custom\". All options have been defined at  <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en>"
+    },
+    "DoMajorCommission": {
+      "name": "Do Major Commissions",
+      "help": "1200 oil commission is now outdated, the yield is very low, it is recommended to disable"
     }
   },
   "Tactical": {
@@ -2227,39 +2229,25 @@
   "Benchmark": {
     "_info": {
       "name": "Performance Test",
-      "help": "Test which screenshot method and click method combination is the fastest and best for you\nSpeed can vary on the emulator being used and your PC build"
+      "help": "Test which screenshot method and click method combination is the fastest and best for you.\nSpeed can vary on the emulator being used and your PC build.\nAfter testing, select the fastest screenshot and control method in \"Alas\" - \"Emulator Settings\""
     },
-    "AdbScreenshot": {
-      "name": "Test ADB Screenshot",
-      "help": ""
+    "DeviceType": {
+      "name": "Device Type",
+      "help": "",
+      "emulator": "Emulator (Android <= 9)",
+      "emulator_android_12": "Emulator (Android > 9)",
+      "plone_cloud_with_adb": "Phone cloud with public network ADB",
+      "phone_cloud_without_adb": "Phone cloud without public network ADB",
+      "android_phone": "Android Phone (Android <= 9)",
+      "android_phone_12": "Android Phone (Android > 9)",
+      "android_phone_vmos": "Android Phone (VMOS emulator)"
     },
-    "AdbncScreenshot": {
-      "name": "Test ADB_nc Screenshot",
-      "help": ""
-    },
-    "Uiautomator2Screenshot": {
-      "name": "Test Uiautomator2 Screenshot",
-      "help": ""
-    },
-    "AscreencapScreenshot": {
-      "name": "Test aScreenCap Screenshot",
-      "help": ""
-    },
-    "AscreencapncScreenshot": {
-      "name": "Test aScreenCap_nc Screenshot",
-      "help": ""
-    },
-    "AdbClick": {
-      "name": "Test ADB Click",
-      "help": ""
-    },
-    "Uiautomator2Click": {
-      "name": "Test Uiautomator2 Click",
-      "help": ""
-    },
-    "MinitouchClick": {
-      "name": "Test Minitouch Click",
-      "help": ""
+    "TestScene": {
+      "name": "Test Scene",
+      "help": "",
+      "screenshot_click": "Screenshot + Click speed tests",
+      "screenshot": "Screenshot speed tests",
+      "click": "Click speed tests"
     }
   },
   "AzurLaneUncensored": {

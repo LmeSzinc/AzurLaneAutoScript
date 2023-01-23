@@ -395,6 +395,7 @@
       "aScreenCap": "aScreenCap",
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
+      "DroidCast_raw": "DroidCast_raw",
       "scrcpy": "scrcpy"
     },
     "ControlMethod": {
@@ -1150,7 +1151,8 @@
       "help": "",
       "easy": "簡單",
       "normal": "普通",
-      "hard": "困難"
+      "hard": "困難",
+      "ex": "ex"
     },
     "UseTicket": {
       "name": "使用演習券",
@@ -1182,10 +1184,6 @@
       "name": "委託",
       "help": ""
     },
-    "DoMajorCommission": {
-      "name": "做主要委託 (1200油/1000油委託)",
-      "help": ""
-    },
     "PresetFilter": {
       "name": "委托過濾器",
       "help": "如果對委托的產出和收益沒有足夠的了解，不建議編寫自定義過濾器，建議使用預優化委托過濾器\n如果24小時運行刷緊急委託功能，應當使用24小時版的過濾器\n不推薦在運行刷緊急委託功能的同時使用石油優先過濾器",
@@ -1199,6 +1197,10 @@
     "CustomFilter": {
       "name": "自定義委托過濾器",
       "help": "使用自定義過濾器需將 \"委托過濾器\" 設置為 \"自定義\"，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
+    },
+    "DoMajorCommission": {
+      "name": "做主要委託 (1200油/1000油委託)",
+      "help": "1200油委託現在已經過時，收益很低，建議關閉"
     }
   },
   "Tactical": {
@@ -2227,39 +2229,25 @@
   "Benchmark": {
     "_info": {
       "name": "性能測試",
-      "help": "測試哪個截圖方案和點擊方案速度更快，速度因模擬器和電腦配置而異"
+      "help": "測試哪個截圖方案和控制方案速度更快，速度因模擬器和電腦配置而異\n測試完成後，在 \"Alas\" - \"模擬器設置\" 內選擇最快的截圖和控制方案"
     },
-    "AdbScreenshot": {
-      "name": "測試 ADB 截圖",
-      "help": ""
+    "DeviceType": {
+      "name": "設備類型",
+      "help": "",
+      "emulator": "模擬器 安卓<=9",
+      "emulator_android_12": "模擬器 安卓>9",
+      "plone_cloud_with_adb": "雲手機 有公網ADB",
+      "phone_cloud_without_adb": "雲手機 無公網ADB",
+      "android_phone": "安卓真機 安卓<=9",
+      "android_phone_12": "安卓真機 安卓>9",
+      "android_phone_vmos": "安卓真機VMOS虛擬機"
     },
-    "AdbncScreenshot": {
-      "name": "測試 ADB 截圖",
-      "help": ""
-    },
-    "Uiautomator2Screenshot": {
-      "name": "測試 uiautomator2 截圖",
-      "help": ""
-    },
-    "AscreencapScreenshot": {
-      "name": "測試 aScreenCap 截圖",
-      "help": ""
-    },
-    "AscreencapncScreenshot": {
-      "name": "測試 aScreenCap_nc 截圖",
-      "help": ""
-    },
-    "AdbClick": {
-      "name": "測試 ADB 點擊",
-      "help": ""
-    },
-    "Uiautomator2Click": {
-      "name": "測試 uiautomator2 點擊",
-      "help": ""
-    },
-    "MinitouchClick": {
-      "name": "測試 minitouch 點擊",
-      "help": ""
+    "TestScene": {
+      "name": "測試場景",
+      "help": "",
+      "screenshot_click": "截圖+點擊速度測試",
+      "screenshot": "截圖速度測試",
+      "click": "點擊速度測試"
     }
   },
   "AzurLaneUncensored": {

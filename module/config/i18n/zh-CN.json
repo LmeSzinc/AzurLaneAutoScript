@@ -395,6 +395,7 @@
       "aScreenCap": "aScreenCap",
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
+      "DroidCast_raw": "DroidCast_raw",
       "scrcpy": "scrcpy"
     },
     "ControlMethod": {
@@ -742,7 +743,7 @@
       "threat_safe_without_3_stars": "100%通关 + 安全海域"
     },
     "StageIncrease": {
-      "name": "达成关卡成就后前往下一关卡，不停止",
+      "name": "达成关卡成就后向前开荒",
       "help": "自动开荒，需要保证队伍有足够的强度，需要保证队伍满足关卡属性限制，并设置\"达成关卡成就后停止\"\n例如，打开本选项，并选择\"地图通关\"，将在关卡100%通关后前往下一关卡\n支持自动开荒的地图：1-1至14-4，A1至A3，B1至B3，C1至C3，D1至D3，SP1至SP4"
     },
     "GetNewShip": {
@@ -1150,7 +1151,8 @@
       "help": "",
       "easy": "简单",
       "normal": "普通",
-      "hard": "困难"
+      "hard": "困难",
+      "ex": "ex"
     },
     "UseTicket": {
       "name": "使用演习券",
@@ -1182,10 +1184,6 @@
       "name": "委托",
       "help": ""
     },
-    "DoMajorCommission": {
-      "name": "做主要委托（1200油/1000油委托）",
-      "help": ""
-    },
     "PresetFilter": {
       "name": "委托过滤器",
       "help": "如果对委托的产出和收益没有足够的了解，不建议编写自定义过滤器，建议使用预优化委托过滤器\n如果24小时运行刷紧急委托功能，应当使用（7x24刷委托）的过滤器\n不推荐在运行刷紧急委托功能的同时使用石油优先过滤器",
@@ -1199,6 +1197,10 @@
     "CustomFilter": {
       "name": "自定义委托过滤器",
       "help": "使用自定义过滤器需将 \"委托过滤器\" 设置为 \"自定义\"，并阅读 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
+    },
+    "DoMajorCommission": {
+      "name": "做主要委托（1200油/1000油委托）",
+      "help": "1200油委托现在已经过时，收益很低，建议关闭"
     }
   },
   "Tactical": {
@@ -2227,39 +2229,25 @@
   "Benchmark": {
     "_info": {
       "name": "性能测试",
-      "help": "测试哪个截图方案和点击方案速度更快，速度因模拟器和电脑配置而异"
+      "help": "测试哪个截图方案和控制方案速度更快，速度因模拟器和电脑配置而异\n测试完成后，在 \"Alas\" - \"模拟器设置\" 内选择最快的截图和控制方案"
     },
-    "AdbScreenshot": {
-      "name": "测试 ADB 截图",
-      "help": ""
+    "DeviceType": {
+      "name": "设备类型",
+      "help": "",
+      "emulator": "模拟器 安卓<=9",
+      "emulator_android_12": "模拟器 安卓>9",
+      "plone_cloud_with_adb": "云手机 有公网ADB",
+      "phone_cloud_without_adb": "云手机 无公网ADB",
+      "android_phone": "安卓真机 安卓<=9",
+      "android_phone_12": "安卓真机 安卓>9",
+      "android_phone_vmos": "安卓真机VMOS虚拟机"
     },
-    "AdbncScreenshot": {
-      "name": "测试 ADB_nc 截图",
-      "help": ""
-    },
-    "Uiautomator2Screenshot": {
-      "name": "测试 uiautomator2 截图",
-      "help": ""
-    },
-    "AscreencapScreenshot": {
-      "name": "测试 aScreenCap 截图",
-      "help": ""
-    },
-    "AscreencapncScreenshot": {
-      "name": "测试 aScreenCap_nc 截图",
-      "help": ""
-    },
-    "AdbClick": {
-      "name": "测试 ADB 点击",
-      "help": ""
-    },
-    "Uiautomator2Click": {
-      "name": "测试 uiautomator2 点击",
-      "help": ""
-    },
-    "MinitouchClick": {
-      "name": "测试 minitouch 点击",
-      "help": ""
+    "TestScene": {
+      "name": "测试场景",
+      "help": "",
+      "screenshot_click": "截图+点击速度测试",
+      "screenshot": "截图速度测试",
+      "click": "点击速度测试"
     }
   },
   "AzurLaneUncensored": {
