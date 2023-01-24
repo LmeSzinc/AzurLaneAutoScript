@@ -12,7 +12,7 @@ class gg_handler(base):
         self.device = device
         self.config = config
         
-    def gg_skip_error(self):
+    def skip_error(self):
         """
         Page: 
             in: Game down error
@@ -251,4 +251,5 @@ class gg_handler(base):
         self._gg_handle_factor()
         self._gg_script_run()
         gg_data(self.config, target='gg_on', value=self.s).set_data()
-        self.gg_skip_error()
+        self.skip_error()
+        logger.attr('GG', 'Enabled')

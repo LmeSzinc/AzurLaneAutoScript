@@ -1967,6 +1967,7 @@
     },
     "GGHandler": {
       "Enabled": false,
+      "PackageName": "com.",
       "AutoRestartGG": false,
       "RestartEverytime": true,
       "GGMultiplyingFactor": 200
