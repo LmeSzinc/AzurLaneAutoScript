@@ -223,7 +223,9 @@
   "MaaCopilot": {
     "MaaCopilot": {
       "FileName": null,
-      "Formation": false
+      "Identify": false,
+      "Formation": false,
+      "Cycle": 1
     },
     "Storage": {
       "Storage": {}
