@@ -505,9 +505,17 @@
       "name": "MaaCopilot.FileName.name",
       "help": "MaaCopilot.FileName.help"
     },
+    "Identify": {
+      "name": "MaaCopilot.Identify.name",
+      "help": "MaaCopilot.Identify.help"
+    },
     "Formation": {
       "name": "MaaCopilot.Formation.name",
       "help": "MaaCopilot.Formation.help"
+    },
+    "Cycle": {
+      "name": "MaaCopilot.Cycle.name",
+      "help": "MaaCopilot.Cycle.help"
     }
   },
   "Storage": {
