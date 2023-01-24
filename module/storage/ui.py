@@ -116,6 +116,7 @@ class StorageUI(UI):
             out: page_storage, disassemble, DISASSEMBLE_CANCEL
         """
         logger.info('storage enter disassemble')
+        self.appear(STORAGE_CHECK, interval=3)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -127,7 +128,6 @@ class StorageUI(UI):
 
             # equipment -> disassemble
             if self.appear_then_click(DISASSEMBLE, offset=(20, 20), interval=3):
-                self.device.sleep(1)
                 self.interval_reset(STORAGE_CHECK)
                 self.interval_reset(MATERIAL_CHECK)
                 continue
