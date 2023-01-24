@@ -2372,6 +2372,10 @@
       "name": "GGHandler.Enabled.name",
       "help": "GGHandler.Enabled.help"
     },
+    "GGPackageName": {
+      "name": "GGHandler.GGPackageName.name",
+      "help": "GGHandler.GGPackageName.help"
+    },
     "AutoRestartGG": {
       "name": "GGHandler.AutoRestartGG.name",
       "help": "GGHandler.AutoRestartGG.help"
@@ -2383,6 +2387,24 @@
     "GGMultiplyingFactor": {
       "name": "GGHandler.GGMultiplyingFactor.name",
       "help": "GGHandler.GGMultiplyingFactor.help"
+    }
+  },
+  "PowerLimit": {
+    "_info": {
+      "name": "PowerLimit._info.name",
+      "help": "PowerLimit._info.help"
+    },
+    "Exercise": {
+      "name": "PowerLimit.Exercise.name",
+      "help": "PowerLimit.Exercise.help"
+    },
+    "Raid": {
+      "name": "PowerLimit.Raid.name",
+      "help": "PowerLimit.Raid.help"
+    },
+    "Ash": {
+      "name": "PowerLimit.Ash.name",
+      "help": "PowerLimit.Ash.help"
     }
   },
   "Storage": {

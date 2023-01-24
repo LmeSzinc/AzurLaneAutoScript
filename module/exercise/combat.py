@@ -34,7 +34,10 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
                 self.device.screenshot()
                 OCR_CHECK = Digit(OCR_PRE_BATTLE_CHECK, letter=(255, 255, 255), threshold=128)
                 ocr = OCR_CHECK.ocr(self.device.image)
-                if ocr >= 16000:
+                from module.config.utils import deep_get
+                limit = deep_get(self.config.data, keys='GameManager.PowerLimit.Exercise', default=16500)
+                logger.attr('Power Limit', limit)
+                if ocr >= limit:
                     logger.critical('There''s high chance that GG is on, restart to disable it')
                     from module.gg_handler.gg_data import gg_data
                     gg_data(config=self.config, target='gg_on', value=True).set_data()

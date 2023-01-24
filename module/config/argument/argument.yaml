@@ -667,3 +667,7 @@ GGHandler:
   AutoRestartGG: false
   RestartEverytime: true
   GGMultiplyingFactor: 200
+PowerLimit:
+  Exercise: 16500
+  Raid: 16500
+  Ash: 16500

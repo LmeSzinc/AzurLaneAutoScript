@@ -9230,6 +9230,20 @@
         "value": 200
       }
     },
+    "PowerLimit": {
+      "Exercise": {
+        "type": "input",
+        "value": 16500
+      },
+      "Raid": {
+        "type": "input",
+        "value": 16500
+      },
+      "Ash": {
+        "type": "input",
+        "value": 16500
+      }
+    },
     "Storage": {
       "Storage": {
         "type": "storage",

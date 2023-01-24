@@ -444,5 +444,10 @@ class GeneratedConfig:
     GGHandler_RestartEverytime = True
     GGHandler_GGMultiplyingFactor = 200
 
+    # Group `PowerLimit`
+    PowerLimit_Exercise = 16500
+    PowerLimit_Raid = 16500
+    PowerLimit_Ash = 16500
+
     # Group `Storage`
     Storage_Storage = {}
