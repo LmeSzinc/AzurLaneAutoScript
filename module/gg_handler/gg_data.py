@@ -13,18 +13,20 @@ class gg_data(ModuleBase):
             super().__init__(config)
             self.target = target
             self.value = value
-
-            with open(file=f'./module/gg_handler/gg_data_{self.config.config_name}.tmp',
+            import os
+            if not os.path.exists('./config/gg_handler'):
+                os.mkdir('./config/gg_handler')
+            with open(file=f'./config/gg_handler/gg_data_{self.config.config_name}.tmp',
                       mode='a+',
                       encoding='utf-8') as tmp:
                 tmp.close()
-            tmp = open(file=f'./module/gg_handler/gg_data_{self.config.config_name}.tmp',
+            tmp = open(file=f'./config/gg_handler/gg_data_{self.config.config_name}.tmp',
                        mode='r',
                        encoding='utf-8')
             line = tmp.readline()
             if line[:-1] != self.config.config_name:
                 tmp.close()
-                tmp = open(file=f'./module/gg_handler/gg_data_{self.config.config_name}.tmp',
+                tmp = open(file=f'./config/gg_handler/gg_data_{self.config.config_name}.tmp',
                            mode='w',
                            encoding='utf-8')
                 tmp.write(f'{self.config.config_name}\n')
@@ -62,7 +64,7 @@ class gg_data(ModuleBase):
         self.update_data()
 
     def update_data(self):
-        with open(file=f'./module/gg_handler/gg_data_{self.config.config_name}.tmp',
+        with open(file=f'./config/gg_handler/gg_data_{self.config.config_name}.tmp',
                   mode='w',
                   encoding='utf-8') as tmp:
             tmp.write(f'{self.config.config_name}\n')
@@ -71,7 +73,7 @@ class gg_data(ModuleBase):
         tmp.close()
 
     def dele(self):
-        with open(file=f'./module/gg_handler/gg_data_{self.config.config_name}.tmp',
+        with open(file=f'./config/gg_handler/gg_data_{self.config.config_name}.tmp',
                   mode='w',
                   encoding='utf-8') as tmp:
             tmp.write('啊吧啊吧')

@@ -122,7 +122,8 @@ class GGXpath(Base):
                 self.d(resourceId=f"{self.gg_package_name}:id/file").send_keys("/sdcard/Notes/Multiplier.lua")
                 logger.info('Lua path set')
             import os
-            _pop = os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s {self.config.Emulator_Serial} push "Multiplier.lua" /sdcard/Notes')
+            _pop = os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s {self.config.Emulator_Serial} shell mkdir /sdcard/Notes')
+            _pop = os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s {self.config.Emulator_Serial} push "Multiplier.lua" /sdcard/Notes/Multiplier.lua')
             self.device.sleep(1)
             if self.d.xpath('//*[@text="执行"]').exists:
                 self.d.xpath('//*[@text="执行"]').click()
