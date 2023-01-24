@@ -45,24 +45,30 @@ class GGXpath(Base):
                         self.d.app_start(self.gg_package_name)
                         logger.info('Starting GG')
                         logger.info('In GG overview')
-                        self.device.sleep(1)
+                        self.device.sleep(3)
                     while 1:
+                        self.device.sleep(0.5)
+                        if self.d.xpath('//*[@text="忽略"]').exists:
+                            self.d.xpath('//*[@text="忽略"]').click()
+                            logger.info("Click ignore")
+                            self.device.sleep(0.3)
+                            continue
                         if self.d(resourceId=f"{self.gg_package_name}:id/btn_start_usage").exists:
                             self.d(resourceId=f"{self.gg_package_name}:id/btn_start_usage").click()
                             logger.info('Click GG start button')
                             logger.attr('GG', 'Started')
-                            self.device.sleep(0.5)
+                            self.device.sleep(0.3)
                             continue
                         if self.d(resourceId=f"{self.gg_package_name}:id/hot_point_icon").exists:
                             self.d(resourceId=f"{self.gg_package_name}:id/hot_point_icon").click()
                             logger.info('Open GG panel')
-                            self.device.sleep(0.5)
+                            self.device.sleep(0.3)
                             continue
                         if self.d(resourceId=f"{self.gg_package_name}:id/search_tab").exists \
                                 and not self.d(resourceId=f"{self.gg_package_name}:id/search_toolbar").exists:
                             self.d(resourceId=f"{self.gg_package_name}:id/search_tab").click()
                             logger.info('Switch to search tab')
-                            self.device.sleep(0.5)
+                            self.device.sleep(0.3)
                             continue
                         if self.d.xpath(
                                 f'//*[@package="{self.gg_package_name}" '
@@ -71,43 +77,38 @@ class GGXpath(Base):
                                         ).exists:
                             self.d.xpath('//*[contains(@text,"碧蓝航线")]').click()
                             logger.info('Choose APP: AzurLane')
-                            self.device.sleep(0.5)
+                            self.device.sleep(0.3)
                             chosen = True
                             continue
                         if not chosen and self.d(resourceId=f"{self.gg_package_name}:id/app_icon").exists:
                             self.d(resourceId=f"{self.gg_package_name}:id/app_icon").click()
                             logger.info('Click APP choosing tag')
-                            self.device.sleep(0.5)
+                            self.device.sleep(0.3)
                             continue
                         if self.d(resourceId=f"{self.gg_package_name}:id/search_toolbar").exists:
                             self.d.xpath(
                                 f'//*[@resource-id="{self.gg_package_name}:id/search_toolbar"]/android.widget.ImageView[last()]'
                             ).click()
                             logger.info('Click run Scripts')
-                            self.device.sleep(0.5)
+                            self.device.sleep(0.3)
                             if self._run():
                                 return 1
                         if self.d.xpath('//*[@text="取消"]').exists:
                             self.d.xpath('//*[@text="取消"]').click()
                             logger.info("Cancel exists but not running script, click cancel")
-                            self.device.sleep(0.5)
-                            continue
-                        if self.d.xpath('//*[@text="忽略"]').exists:
-                            self.d.xpath('//*[@text="忽略"]').click()
-                            logger.info("Click ignore")
-                            self.device.sleep(0.5)
+                            self.device.sleep(0.3)
                             continue
                         if self.d.xpath('//*[@text="确定"]').exists:
                                 # and self.d.xpath('//*[contains(@text,"脚本已结束")]').exists:
                             self.d.xpath('//*[@text="确定"]').click()
                             logger.info("Confirm exists but script crashed, click confirm")
-                            self.device.sleep(0.5)
+                            self.device.sleep(0.3)
                             continue
                         if self.d.xpath('//*[@text="重启游戏"]').exists:
                             self.d.d.xpath('//*[@text="重启游戏"]').click()
                             logger.info('GG Panel after game died exists, restart the game')
                             logger.info('Click Restart')
-                            self.device.sleep(0.5)
+                            self.device.sleep(0.3)
                             continue
             finally:
                 pass
