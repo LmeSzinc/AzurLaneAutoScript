@@ -36,6 +36,7 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
             'aScreenCap': self.screenshot_ascreencap,
             'aScreenCap_nc': self.screenshot_ascreencap_nc,
             'DroidCast': self.screenshot_droidcast,
+            'DroidCast_raw': self.screenshot_droidcast_raw,
             'scrcpy': self.screenshot_scrcpy,
         }
 
@@ -240,7 +241,7 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
                     if self.config.Emulator_ScreenshotMethod == 'DroidCast':
                         self.droidcast_stop()
                     else:
-                        logger.warning('If you are using MuMu X, please set screenshot method to scrcpy')
+                        logger.warning('If you are using MuMu X, please upgrade to version >= 12.1.5.0')
                 self._screen_black_checked = False
                 return False
         else:

@@ -570,6 +570,9 @@ class Connection(ConnectionAttr):
         """
         logger.info('Install uiautomator2')
         init = u2.init.Initer(self.adb, loglevel=logging.DEBUG)
+        # MuMu X has no ro.product.cpu.abi, pick abi from ro.product.cpu.abilist
+        if init.abi not in ['x86_64', 'x86', 'arm64-v8a', 'armeabi-v7a', 'armeabi']:
+            init.abi = init.abis[0]
         init.set_atx_agent_addr('127.0.0.1:7912')
         try:
             init.install()

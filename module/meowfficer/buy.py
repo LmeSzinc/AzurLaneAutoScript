@@ -63,6 +63,7 @@ class MeowfficerBuy(MeowfficerBase):
         """
         # Here uses a simple click, to avoid clicking MEOWFFICER_BUY multiple times.
         # Retry logic is in meow_buy()
+        logger.hr('Meow confirm')
         executed = False
         with self.stat.new(
                 genre="meowfficer_buy",
@@ -92,6 +93,9 @@ class MeowfficerBuy(MeowfficerBase):
                     self.device.click(MEOWFFICER_BUY_SKIP)
                     self.interval_clear(MEOWFFICER_BUY)
                     executed = True
+                    continue
+                # Rare case that MEOWFFICER_INFO popups here
+                if self.meow_additional():
                     continue
 
                 # End

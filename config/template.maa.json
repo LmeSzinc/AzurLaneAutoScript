@@ -103,6 +103,15 @@
       "Drops": null,
       "DrGrandet": false
     },
+    "MaaFightWeekly": {
+      "Monday": "default",
+      "Tuesday": "default",
+      "Wednesday": "default",
+      "Thursday": "default",
+      "Friday": "default",
+      "Saturday": "default",
+      "Sunday": "default"
+    },
     "Storage": {
       "Storage": {}
     }

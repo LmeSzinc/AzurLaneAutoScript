@@ -10,7 +10,7 @@ from cached_property import cached_property
 
 from deploy.config import DeployConfig
 from module.base.timer import Timer
-from module.config.utils import read_file, deep_get
+from module.config.utils import read_file, deep_get, get_server_last_update
 from module.device.connection_attr import ConnectionAttr
 from module.exception import RequestHumanTakeover
 from module.logger import logger
@@ -49,7 +49,7 @@ class AssistantHandler:
         self.interval_timer = {}
         AssistantHandler.ASST_HANDLER = self
         self.asst = asst
-        self.callback_timer = Timer(3600)
+        self.callback_timer = Timer(600)
         self.serial = None
         self.signal = None
         self.params = None
@@ -77,6 +77,8 @@ class AssistantHandler:
                 return
 
     def maa_start(self, task_name, params):
+        logger.hr('MAA start')
+        logger.info(f'Task name: {task_name}, params={params}')
         self.task_id = self.asst.append_task(task_name, params)
         self.signal = None
         self.params = params
@@ -110,6 +112,7 @@ class AssistantHandler:
             m (Message): 消息类型
             d (dict): 消息详情
         """
+        self.callback_timer.reset()
         if m in [
             self.Message.AllTasksCompleted,
             self.Message.TaskChainError,
@@ -215,12 +218,20 @@ class AssistantHandler:
             "client_type": self.config.MaaEmulator_PackageName,
             "DrGrandet": self.config.MaaFight_DrGrandet,
         }
+        # Set stage
         if self.config.MaaFight_Stage == 'last':
             args['stage'] = ''
         elif self.config.MaaFight_Stage == 'custom':
             args['stage'] = self.config.MaaFight_CustomStage
         else:
             args['stage'] = self.config.MaaFight_Stage
+        # Set weekly stage
+        today = get_server_last_update('04:00').strftime('%A')
+        logger.attr('Weekday', today)
+        stage = self.config.__getattribute__(f'MaaFightWeekly_{today}')
+        if stage != 'default':
+            logger.info(f'Using stage setting from {today}: {stage}')
+            args['stage'] = stage
 
         if self.config.MaaFight_Medicine is not None:
             args["medicine"] = self.config.MaaFight_Medicine

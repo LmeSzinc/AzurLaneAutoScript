@@ -34,7 +34,8 @@ class Scroll:
             self.total = self.area[2] - self.area[0]
         # Just default value, will change in match_color()
         self.length = self.total / 2
-        self.drag_interval = Timer(1)
+        self.drag_interval = Timer(1, count=2)
+        self.drag_timeout = Timer(5, count=10)
 
     def match_color(self, main):
         """
@@ -119,6 +120,7 @@ class Scroll:
         """
         logger.info(f'{self.name} set to {position}')
         self.drag_interval.clear()
+        self.drag_timeout.reset()
         if position == 0:
             random_range = np.subtract(0, self.edge_add)
         if position == 1:
@@ -133,15 +135,19 @@ class Scroll:
             current = self.cal_position(main)
             if abs(position - current) < self.drag_threshold:
                 break
-            if not self.length:
-                logger.warning('Scroll disappeared, assume scroll set')
-                break
+            if self.length:
+                self.drag_timeout.reset()
+            else:
+                if self.drag_timeout.reached():
+                    logger.warning('Scroll disappeared, assume scroll set')
+                    break
+                else:
+                    continue
 
             if self.drag_interval.reached():
                 p1 = random_rectangle_point(self.position_to_screen(current), n=1)
                 p2 = random_rectangle_point(self.position_to_screen(position, random_range=random_range), n=1)
                 main.device.swipe(p1, p2, name=self.name, distance_check=distance_check)
-                main.device.sleep(0.3)
                 self.drag_interval.reset()
 
     def set_top(self, main, random_range=(-0.05, 0.05), skip_first_screenshot=True):
