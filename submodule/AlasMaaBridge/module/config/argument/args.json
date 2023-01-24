@@ -163,10 +163,11 @@
         "option": [
           "last",
           "1-7",
-          "CE-6",
-          "AP-5",
-          "CA-5",
           "LS-6",
+          "CA-5",
+          "SK-5",
+          "AP-5",
+          "CE-6",
           "PR-A-1",
           "PR-A-2",
           "PR-B-1",
@@ -263,10 +264,11 @@
         "option": [
           "last",
           "1-7",
-          "CE-6",
-          "AP-5",
-          "CA-5",
           "LS-6",
+          "CA-5",
+          "SK-5",
+          "AP-5",
+          "CE-6",
           "PR-A-1",
           "PR-A-2",
           "PR-B-1",
@@ -356,10 +358,11 @@
         "option": [
           "last",
           "1-7",
-          "CE-6",
-          "AP-5",
-          "CA-5",
           "LS-6",
+          "CA-5",
+          "SK-5",
+          "AP-5",
+          "CE-6",
           "PR-A-1",
           "PR-A-2",
           "PR-B-1",
@@ -403,6 +406,112 @@
         "type": "checkbox",
         "value": false,
         "display": "hide"
+      }
+    },
+    "MaaFightWeekly": {
+      "Monday": {
+        "type": "select",
+        "value": "default",
+        "option": [
+          "default",
+          "LS-6",
+          "SK-5",
+          "AP-5",
+          "PR-A-1",
+          "PR-A-2",
+          "PR-B-1",
+          "PR-B-2"
+        ]
+      },
+      "Tuesday": {
+        "type": "select",
+        "value": "default",
+        "option": [
+          "default",
+          "LS-6",
+          "CA-5",
+          "CE-6",
+          "PR-B-1",
+          "PR-B-2",
+          "PR-D-1",
+          "PR-D-2"
+        ]
+      },
+      "Wednesday": {
+        "type": "select",
+        "value": "default",
+        "option": [
+          "default",
+          "LS-6",
+          "CA-5",
+          "SK-5",
+          "PR-C-1",
+          "PR-C-2",
+          "PR-D-1",
+          "PR-D-2"
+        ]
+      },
+      "Thursday": {
+        "type": "select",
+        "value": "default",
+        "option": [
+          "default",
+          "LS-6",
+          "AP-5",
+          "CE-6",
+          "PR-A-1",
+          "PR-A-2",
+          "PR-C-1",
+          "PR-C-2"
+        ]
+      },
+      "Friday": {
+        "type": "select",
+        "value": "default",
+        "option": [
+          "default",
+          "LS-6",
+          "CA-5",
+          "SK-5",
+          "PR-A-1",
+          "PR-A-2",
+          "PR-B-1",
+          "PR-B-2"
+        ]
+      },
+      "Saturday": {
+        "type": "select",
+        "value": "default",
+        "option": [
+          "default",
+          "LS-6",
+          "SK-5",
+          "AP-5",
+          "CE-6",
+          "PR-B-1",
+          "PR-B-2",
+          "PR-C-1",
+          "PR-C-2",
+          "PR-D-1",
+          "PR-D-2"
+        ]
+      },
+      "Sunday": {
+        "type": "select",
+        "value": "default",
+        "option": [
+          "default",
+          "LS-6",
+          "CA-5",
+          "AP-5",
+          "CE-6",
+          "PR-A-1",
+          "PR-A-2",
+          "PR-C-1",
+          "PR-C-2",
+          "PR-D-1",
+          "PR-D-2"
+        ]
       }
     },
     "Storage": {

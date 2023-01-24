@@ -124,7 +124,7 @@ class Daily(Combat, DailyEquipment):
             return self.appear(DAILY_ENTER_CHECK, threshold=30)
 
         def daily_end():
-            if self.appear(BATTLE_PREPARATION, interval=2):
+            if self.appear(BATTLE_PREPARATION, offset=(20, 20), interval=2):
                 self.device.click(BACK_ARROW)
             return self.appear(DAILY_ENTER_CHECK, threshold=30) or self.appear(BACK_ARROW, offset=(30, 30))
 
