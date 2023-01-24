@@ -206,6 +206,9 @@ class AssistantHandler:
 
     def startup(self):
         self.connect()
+        if self.config.Scheduler_NextRun.strftime('%H:%M') == self.config.Scheduler_ServerUpdate:
+            self.maa_start('CloseDown', {})
+
         self.maa_start('StartUp', {
             "client_type": self.config.MaaEmulator_PackageName,
             "start_game_enabled": True
