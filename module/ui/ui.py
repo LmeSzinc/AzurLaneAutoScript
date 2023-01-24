@@ -327,58 +327,10 @@ class UI(InfoHandler):
         return self.ui_ensure(destination=page_campaign)
 
     def ui_goto_event(self):
-        # Already in page_event, skip event_check.
-        if self.ui_get_current_page() == page_event:
-            logger.info('Already at page_event')
-            return True
-        else:
-            self.ui_goto(page_campaign_menu)
-            # Check event availability
-            if self.appear(CAMPAIGN_MENU_NO_EVENT, offset=(20, 20)):
-                logger.info('Event unavailable, disable task')
-                tasks = [
-                    'Event',
-                    'Event2',
-                    'EventA',
-                    'EventB',
-                    'EventC',
-                    'EventD',
-                    'EventSp',
-                    'GemsFarming',
-                ]
-                self._disable_tasks(tasks)
-                self.config.task_stop()
-            else:
-                logger.info('Event available, goto page_event')
-                self.ui_goto(page_event)
-                return True
+        return self.ui_ensure(destination=page_event)
 
     def ui_goto_sp(self):
-        # Already in page_event, skip event_check.
-        if self.ui_get_current_page() == page_sp:
-            logger.info('Already at page_sp')
-            return True
-        else:
-            self.ui_goto(page_campaign_menu)
-            # Check event availability
-            if self.appear(CAMPAIGN_MENU_NO_EVENT, offset=(20, 20)):
-                logger.info('Event unavailable, disable task')
-                tasks = [
-                    'Event',
-                    'Event2',
-                    'EventA',
-                    'EventB',
-                    'EventC',
-                    'EventD',
-                    'EventSp',
-                    'GemsFarming',
-                ]
-                self._disable_tasks(tasks)
-                self.config.task_stop()
-            else:
-                logger.info('Event available, goto page_sp')
-                self.ui_goto(destination=page_sp)
-                return True
+        return self.ui_ensure(destination=page_sp)
 
     def ui_ensure_index(
             self,
@@ -616,6 +568,3 @@ class UI(InfoHandler):
             self.interval_reset(RAID_CHECK)
         if button == SHOP_GOTO_SUPPLY_PACK:
             self.interval_reset(EXCHANGE_CHECK)
-
-    def _disable_tasks(self, tasks):
-        pass
