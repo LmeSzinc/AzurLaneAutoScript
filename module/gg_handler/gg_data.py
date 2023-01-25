@@ -10,7 +10,8 @@ class gg_data(ModuleBase):
 
     def __init__(self, config=None, target=None, value=None):
         if config != None:
-            super().__init__(config)
+            # super().__init__(config)
+            self.config = config
             self.target = target
             self.value = value
             import os
