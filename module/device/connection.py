@@ -666,16 +666,24 @@ class Connection(ConnectionAttr):
             SelectedGrids[AdbDeviceWithStatus]:
         """
         devices = []
-        with self.adb_client._connect() as c:
-            c.send_command("host:devices")
-            c.check_okay()
-            output = c.read_string_block()
-            for line in output.splitlines():
-                parts = line.strip().split("\t")
-                if len(parts) != 2:
-                    continue
-                device = AdbDeviceWithStatus(self.adb_client, parts[0], parts[1])
-                devices.append(device)
+        try:
+            with self.adb_client._connect() as c:
+                c.send_command("host:devices")
+                c.check_okay()
+                output = c.read_string_block()
+                for line in output.splitlines():
+                    parts = line.strip().split("\t")
+                    if len(parts) != 2:
+                        continue
+                    device = AdbDeviceWithStatus(self.adb_client, parts[0], parts[1])
+                    devices.append(device)
+        except ConnectionResetError as e:
+            # Happens only on CN users.
+            # ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。
+            logger.error(e)
+            if '强迫关闭' in str(e):
+                logger.critical('无法连接至ADB服务，请关闭UU加速器、原神私服、以及一些劣质代理软件。'
+                                '它们会劫持电脑上所有的网络连接，包括Alas与模拟器之间的本地连接。')
         return SelectedGrids(devices)
 
     def detect_device(self):
