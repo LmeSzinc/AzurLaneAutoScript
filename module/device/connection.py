@@ -474,7 +474,11 @@ class Connection(ConnectionAttr):
             bool: If success
         """
         # Skip for emulator-5554
-        if 'emulator' in serial:
+        if 'emulator-' in serial:
+            logger.info(f'"{serial}" is a `emulator-*` serial, skip adb connect')
+            return True
+        if re.match(r'^[a-zA-Z0-9]+$', serial):
+            logger.info(f'"{serial}" seems to be a Android serial, skip adb connect')
             return True
 
         # Disconnect offline device before connecting
