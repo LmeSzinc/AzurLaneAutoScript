@@ -1940,14 +1940,8 @@
   },
   "Benchmark": {
     "Benchmark": {
-      "AdbScreenshot": true,
-      "AdbncScreenshot": true,
-      "Uiautomator2Screenshot": true,
-      "AscreencapScreenshot": true,
-      "AscreencapncScreenshot": true,
-      "AdbClick": true,
-      "Uiautomator2Click": true,
-      "MinitouchClick": true
+      "DeviceType": "emulator",
+      "TestScene": "screenshot_click"
     },
     "Storage": {
       "Storage": {}

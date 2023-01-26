@@ -9143,37 +9143,27 @@
   },
   "Benchmark": {
     "Benchmark": {
-      "AdbScreenshot": {
-        "type": "checkbox",
-        "value": true
+      "DeviceType": {
+        "type": "select",
+        "value": "emulator",
+        "option": [
+          "emulator",
+          "emulator_android_12",
+          "plone_cloud_with_adb",
+          "phone_cloud_without_adb",
+          "android_phone",
+          "android_phone_12",
+          "android_phone_vmos"
+        ]
       },
-      "AdbncScreenshot": {
-        "type": "checkbox",
-        "value": true
-      },
-      "Uiautomator2Screenshot": {
-        "type": "checkbox",
-        "value": true
-      },
-      "AscreencapScreenshot": {
-        "type": "checkbox",
-        "value": true
-      },
-      "AscreencapncScreenshot": {
-        "type": "checkbox",
-        "value": true
-      },
-      "AdbClick": {
-        "type": "checkbox",
-        "value": true
-      },
-      "Uiautomator2Click": {
-        "type": "checkbox",
-        "value": true
-      },
-      "MinitouchClick": {
-        "type": "checkbox",
-        "value": true
+      "TestScene": {
+        "type": "select",
+        "value": "screenshot_click",
+        "option": [
+          "screenshot_click",
+          "screenshot",
+          "click"
+        ]
       }
     },
     "Storage": {

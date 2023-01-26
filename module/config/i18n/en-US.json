@@ -2308,39 +2308,25 @@
   "Benchmark": {
     "_info": {
       "name": "Performance Test",
-      "help": "Test which screenshot method and click method combination is the fastest and best for you\nSpeed can vary on the emulator being used and your PC build"
+      "help": "Test which screenshot method and click method combination is the fastest and best for you.\nSpeed can vary on the emulator being used and your PC build.\nAfter testing, select the fastest screenshot and control method in \"Alas\" - \"Emulator Settings\""
     },
-    "AdbScreenshot": {
-      "name": "Test ADB Screenshot",
-      "help": ""
+    "DeviceType": {
+      "name": "Device Type",
+      "help": "",
+      "emulator": "Emulator (Android <= 9)",
+      "emulator_android_12": "Emulator (Android > 9)",
+      "plone_cloud_with_adb": "Phone cloud with public network ADB",
+      "phone_cloud_without_adb": "Phone cloud without public network ADB",
+      "android_phone": "Android Phone (Android <= 9)",
+      "android_phone_12": "Android Phone (Android > 9)",
+      "android_phone_vmos": "Android Phone (VMOS emulator)"
     },
-    "AdbncScreenshot": {
-      "name": "Test ADB_nc Screenshot",
-      "help": ""
-    },
-    "Uiautomator2Screenshot": {
-      "name": "Test Uiautomator2 Screenshot",
-      "help": ""
-    },
-    "AscreencapScreenshot": {
-      "name": "Test aScreenCap Screenshot",
-      "help": ""
-    },
-    "AscreencapncScreenshot": {
-      "name": "Test aScreenCap_nc Screenshot",
-      "help": ""
-    },
-    "AdbClick": {
-      "name": "Test ADB Click",
-      "help": ""
-    },
-    "Uiautomator2Click": {
-      "name": "Test Uiautomator2 Click",
-      "help": ""
-    },
-    "MinitouchClick": {
-      "name": "Test Minitouch Click",
-      "help": ""
+    "TestScene": {
+      "name": "Test Scene",
+      "help": "",
+      "screenshot_click": "Screenshot + Click speed tests",
+      "screenshot": "Screenshot speed tests",
+      "click": "Click speed tests"
     }
   },
   "AzurLaneUncensored": {
