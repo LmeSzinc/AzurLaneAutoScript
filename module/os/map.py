@@ -23,6 +23,7 @@ from module.os_handler.shop import OCR_SHOP_YELLOW_COINS
 from module.os_handler.strategic import StrategicSearchHandler
 from module.ui.assets import GOTO_MAIN
 from module.ui.page import page_main, page_os
+from module.log_res.log_res import log_res
 
 
 class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
@@ -139,8 +140,15 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
             self.os_map_goto_globe()
         # IN_GLOBE
         if not self.is_in_globe():
-            logger.warning('Trying to move in globe, but not in os globe map')
-            raise GameStuckError
+            _stuck=True
+            for i in range(5):
+                self.device.screenshot()
+                if self.is_in_globe():
+                    _stuck=False
+                    break
+            if _stuck:
+                logger.warning('Trying to move in globe, but not in os globe map')
+                raise GameStuckError
         # self.ensure_no_zone_pinned()
         self.globe_update()
         self.globe_focus_to(zone)
@@ -382,9 +390,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         # Restart the game manually rather
         # than through 'task_call'
         # Ongoing task is uninterrupted
-        self.device.app_stop()
-        self.device.app_start()
-        LoginHandler(self.config, self.device).handle_app_login()
+        self.device.app_restart()
 
         self.ui_ensure(page_os)
         if repair:
@@ -451,6 +457,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                 self.device.screenshot()
 
             yellow_coins = OCR_SHOP_YELLOW_COINS.ocr(self.device.image)
+            log_res.log_res(self,yellow_coins,'opcoin')
             if timeout.reached():
                 logger.warning('Get yellow coins timeout')
             if yellow_coins < 100:

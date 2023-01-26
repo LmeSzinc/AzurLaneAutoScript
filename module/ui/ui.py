@@ -229,8 +229,11 @@ class UI(InfoHandler):
         logger.warning("Starting from current page is not supported")
         logger.warning(f"Supported page: {[str(page) for page in self.ui_pages]}")
         logger.warning('Supported page: Any page with a "HOME" button on the upper-right')
-        logger.critical("Please switch to a supported page before starting Alas")
-        raise GamePageUnknownError
+        #logger.critical("Please switch to a supported page before starting Alas")
+        #raise GamePageUnknownError
+        logger.critical("Task Call Restart")
+        from module.handler.login import LoginHandler
+        LoginHandler(config=self.config, device=self.device).app_restart()
 
     def ui_goto(self, destination, offset=(30, 30), confirm_wait=0, skip_first_screenshot=True):
         """

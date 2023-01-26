@@ -4,6 +4,10 @@
       "name": "",
       "help": ""
     },
+    "ViewResources": {
+      "name": "Resource Viewer",
+      "help": "Updated when any campaign starts"
+    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -38,6 +42,14 @@
     }
   },
   "Task": {
+    "ViewCurrentResources": {
+      "name": "Resource Viewer",
+      "help": ""
+    },
+    "ViewEquipProgress": {
+      "name": "Task.ViewEquipProgress.name",
+      "help": "Task.ViewEquipProgress.help"
+    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -76,6 +88,10 @@
     },
     "Event2": {
       "name": "Event-2",
+      "help": ""
+    },
+    "Event3": {
+      "name": "Event-3",
       "help": ""
     },
     "EventA": {
@@ -257,6 +273,66 @@
     "GameManager": {
       "name": "Game Manager(WIP)",
       "help": ""
+    }
+  },
+  "ViewCurrentResources": {
+    "_info": {
+      "name": "Resource Viewer",
+      "help": "Update when any campaign starts"
+    },
+    "oiltomaxoil": {
+      "name": "Oil / Max oil limit",
+      "help": ""
+    },
+    "cointomaxcoin": {
+      "name": "Coin / Max coin limit",
+      "help": ""
+    },
+    "gem": {
+      "name": "Gem",
+      "help": ""
+    },
+    "cube": {
+      "name": "Cube",
+      "help": "Update after everyday's gacha"
+    },
+    "pt": {
+      "name": "Event Point",
+      "help": ""
+    },
+    "opcoin": {
+      "name": "Operation Supply Coin",
+      "help": ""
+    },
+    "purplecoin": {
+      "name": "Special Item Token",
+      "help": ""
+    },
+    "actionpoint": {
+      "name": "Action Point",
+      "help": ""
+    }
+  },
+  "ViewEquipProgress": {
+    "_info": {
+      "name": "ViewEquipProgress._info.name",
+      "help": "ViewEquipProgress._info.help"
+    },
+    "234mm": {
+      "name": "ViewEquipProgress.234mm.name",
+      "help": "ViewEquipProgress.234mm.help"
+    },
+    "457mm": {
+      "name": "ViewEquipProgress.457mm.name",
+      "help": "ViewEquipProgress.457mm.help"
+    },
+    "tenrai": {
+      "name": "ViewEquipProgress.tenrai.name",
+      "help": "ViewEquipProgress.tenrai.help"
+    },
+    "152mm": {
+      "name": "ViewEquipProgress.152mm.name",
+      "help": "ViewEquipProgress.152mm.help"
     }
   },
   "Scheduler": {
@@ -582,6 +658,10 @@
     "EnhanceCheckPerCategory": {
       "name": "Number Checked Per Category for Enhance",
       "help": "Restricts the number of ships to be checked per category before moving onto the next if any\nSuitable enhance material is checked continously until reaching the unenhanceable state (in battle or stat full), after which this number is decremented for the current session\nRecommend to configure 3+ if there are non-max level ships in active fleet else <= 2 is generally sufficient"
+    },
+    "AllowNoPreserve": {
+      "name": "Retirement.AllowNoPreserve.name",
+      "help": "Retirement.AllowNoPreserve.help"
     },
     "OldRetireN": {
       "name": "Retire Common",
@@ -2228,25 +2308,39 @@
   "Benchmark": {
     "_info": {
       "name": "Performance Test",
-      "help": "Test which screenshot method and click method combination is the fastest and best for you.\nSpeed can vary on the emulator being used and your PC build.\nAfter testing, select the fastest screenshot and control method in \"Alas\" - \"Emulator Settings\""
+      "help": "Test which screenshot method and click method combination is the fastest and best for you\nSpeed can vary on the emulator being used and your PC build"
     },
-    "DeviceType": {
-      "name": "Device Type",
-      "help": "",
-      "emulator": "Emulator (Android <= 9)",
-      "emulator_android_12": "Emulator (Android > 9)",
-      "plone_cloud_with_adb": "Phone cloud with public network ADB",
-      "phone_cloud_without_adb": "Phone cloud without public network ADB",
-      "android_phone": "Android Phone (Android <= 9)",
-      "android_phone_12": "Android Phone (Android > 9)",
-      "android_phone_vmos": "Android Phone (VMOS emulator)"
+    "AdbScreenshot": {
+      "name": "Test ADB Screenshot",
+      "help": ""
     },
-    "TestScene": {
-      "name": "Test Scene",
-      "help": "",
-      "screenshot_click": "Screenshot + Click speed tests",
-      "screenshot": "Screenshot speed tests",
-      "click": "Click speed tests"
+    "AdbncScreenshot": {
+      "name": "Test ADB_nc Screenshot",
+      "help": ""
+    },
+    "Uiautomator2Screenshot": {
+      "name": "Test Uiautomator2 Screenshot",
+      "help": ""
+    },
+    "AscreencapScreenshot": {
+      "name": "Test aScreenCap Screenshot",
+      "help": ""
+    },
+    "AscreencapncScreenshot": {
+      "name": "Test aScreenCap_nc Screenshot",
+      "help": ""
+    },
+    "AdbClick": {
+      "name": "Test ADB Click",
+      "help": ""
+    },
+    "Uiautomator2Click": {
+      "name": "Test Uiautomator2 Click",
+      "help": ""
+    },
+    "MinitouchClick": {
+      "name": "Test Minitouch Click",
+      "help": ""
     }
   },
   "AzurLaneUncensored": {
@@ -2267,6 +2361,50 @@
     "AutoRestart": {
       "name": "Automatic Login",
       "help": "Log back into the game when the game has been ended."
+    }
+  },
+  "GGHandler": {
+    "_info": {
+      "name": "GGHandler._info.name",
+      "help": "GGHandler._info.help"
+    },
+    "Enabled": {
+      "name": "GGHandler.Enabled.name",
+      "help": "GGHandler.Enabled.help"
+    },
+    "GGPackageName": {
+      "name": "GGHandler.GGPackageName.name",
+      "help": "GGHandler.GGPackageName.help"
+    },
+    "AutoRestartGG": {
+      "name": "GGHandler.AutoRestartGG.name",
+      "help": "GGHandler.AutoRestartGG.help"
+    },
+    "RestartEverytime": {
+      "name": "GGHandler.RestartEverytime.name",
+      "help": "GGHandler.RestartEverytime.help"
+    },
+    "GGMultiplyingFactor": {
+      "name": "GGHandler.GGMultiplyingFactor.name",
+      "help": "GGHandler.GGMultiplyingFactor.help"
+    }
+  },
+  "PowerLimit": {
+    "_info": {
+      "name": "PowerLimit._info.name",
+      "help": "PowerLimit._info.help"
+    },
+    "Exercise": {
+      "name": "PowerLimit.Exercise.name",
+      "help": "PowerLimit.Exercise.help"
+    },
+    "Raid": {
+      "name": "PowerLimit.Raid.name",
+      "help": "PowerLimit.Raid.help"
+    },
+    "Ash": {
+      "name": "PowerLimit.Ash.name",
+      "help": "PowerLimit.Ash.help"
     }
   },
   "Storage": {
@@ -2324,6 +2462,15 @@
     },
     "Overview": {
       "Scheduler": "Scheduler",
+      "Dashboard": "Dashboard",
+      "Oil": "Oil",
+      "Coin": "Coin",
+      "Gem": "Gem",
+      "Cube": "Cube",
+      "EventPt": "Event Pt",
+      "OperationSupplyCoin": "Operation Supply Coin",
+      "SpecialItemToken": "Special Item Token",
+      "ActionPoint": "Action Point",
       "Log": "Log",
       "Running": "Running",
       "Pending": "Pending",
