@@ -150,7 +150,6 @@ class DroidCast(Uiautomator2):
     @Config.when(DROIDCAST_VERSION='DroidCast_raw')
     def droidcast_init(self):
         logger.hr('Droidcast init')
-        self.resolution_check_uiautomator2()
         self.droidcast_stop()
 
         logger.info('Pushing DroidCast apk')
