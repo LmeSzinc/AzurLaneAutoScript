@@ -284,6 +284,7 @@ class AzurLaneAutoScript:
         CampaignSos(config=self.config, device=self.device).run()
 
     def war_archives(self):
+        self._gg_check()
         from module.war_archives.war_archives import CampaignWarArchives
         CampaignWarArchives(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
