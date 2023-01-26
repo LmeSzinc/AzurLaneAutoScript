@@ -1,5 +1,9 @@
 {
   "Task": {
+    "ViewResources": [
+      "ViewCurrentResources",
+      "ViewEquipProgress"
+    ],
     "Alas": [
       "Alas",
       "General",
@@ -15,6 +19,7 @@
       "EventGeneral",
       "Event",
       "Event2",
+      "Event3",
       "EventA",
       "EventB",
       "EventC",

@@ -4,6 +4,10 @@
       "name": "Menu.Task.name",
       "help": "Menu.Task.help"
     },
+    "ViewResources": {
+      "name": "Menu.ViewResources.name",
+      "help": "Menu.ViewResources.help"
+    },
     "Alas": {
       "name": "Menu.Alas.name",
       "help": "Menu.Alas.help"
@@ -38,6 +42,14 @@
     }
   },
   "Task": {
+    "ViewCurrentResources": {
+      "name": "Task.ViewCurrentResources.name",
+      "help": "Task.ViewCurrentResources.help"
+    },
+    "ViewEquipProgress": {
+      "name": "Task.ViewEquipProgress.name",
+      "help": "Task.ViewEquipProgress.help"
+    },
     "Alas": {
       "name": "Task.Alas.name",
       "help": "Task.Alas.help"
@@ -77,6 +89,10 @@
     "Event2": {
       "name": "Task.Event2.name",
       "help": "Task.Event2.help"
+    },
+    "Event3": {
+      "name": "Task.Event3.name",
+      "help": "Task.Event3.help"
     },
     "EventA": {
       "name": "Task.EventA.name",
@@ -257,6 +273,66 @@
     "GameManager": {
       "name": "Task.GameManager.name",
       "help": "Task.GameManager.help"
+    }
+  },
+  "ViewCurrentResources": {
+    "_info": {
+      "name": "ViewCurrentResources._info.name",
+      "help": "ViewCurrentResources._info.help"
+    },
+    "oiltomaxoil": {
+      "name": "ViewCurrentResources.oiltomaxoil.name",
+      "help": "ViewCurrentResources.oiltomaxoil.help"
+    },
+    "cointomaxcoin": {
+      "name": "ViewCurrentResources.cointomaxcoin.name",
+      "help": "ViewCurrentResources.cointomaxcoin.help"
+    },
+    "gem": {
+      "name": "ViewCurrentResources.gem.name",
+      "help": "ViewCurrentResources.gem.help"
+    },
+    "cube": {
+      "name": "ViewCurrentResources.cube.name",
+      "help": "ViewCurrentResources.cube.help"
+    },
+    "pt": {
+      "name": "ViewCurrentResources.pt.name",
+      "help": "ViewCurrentResources.pt.help"
+    },
+    "opcoin": {
+      "name": "ViewCurrentResources.opcoin.name",
+      "help": "ViewCurrentResources.opcoin.help"
+    },
+    "purplecoin": {
+      "name": "ViewCurrentResources.purplecoin.name",
+      "help": "ViewCurrentResources.purplecoin.help"
+    },
+    "actionpoint": {
+      "name": "ViewCurrentResources.actionpoint.name",
+      "help": "ViewCurrentResources.actionpoint.help"
+    }
+  },
+  "ViewEquipProgress": {
+    "_info": {
+      "name": "ViewEquipProgress._info.name",
+      "help": "ViewEquipProgress._info.help"
+    },
+    "234mm": {
+      "name": "ViewEquipProgress.234mm.name",
+      "help": "ViewEquipProgress.234mm.help"
+    },
+    "457mm": {
+      "name": "ViewEquipProgress.457mm.name",
+      "help": "ViewEquipProgress.457mm.help"
+    },
+    "tenrai": {
+      "name": "ViewEquipProgress.tenrai.name",
+      "help": "ViewEquipProgress.tenrai.help"
+    },
+    "152mm": {
+      "name": "ViewEquipProgress.152mm.name",
+      "help": "ViewEquipProgress.152mm.help"
     }
   },
   "Scheduler": {
@@ -582,6 +658,10 @@
     "EnhanceCheckPerCategory": {
       "name": "Retirement.EnhanceCheckPerCategory.name",
       "help": "Retirement.EnhanceCheckPerCategory.help"
+    },
+    "AllowNoPreserve": {
+      "name": "Retirement.AllowNoPreserve.name",
+      "help": "Retirement.AllowNoPreserve.help"
     },
     "OldRetireN": {
       "name": "Retirement.OldRetireN.name",
@@ -2230,23 +2310,37 @@
       "name": "Benchmark._info.name",
       "help": "Benchmark._info.help"
     },
-    "DeviceType": {
-      "name": "Benchmark.DeviceType.name",
-      "help": "Benchmark.DeviceType.help",
-      "emulator": "emulator",
-      "emulator_android_12": "emulator_android_12",
-      "plone_cloud_with_adb": "plone_cloud_with_adb",
-      "phone_cloud_without_adb": "phone_cloud_without_adb",
-      "android_phone": "android_phone",
-      "android_phone_12": "android_phone_12",
-      "android_phone_vmos": "android_phone_vmos"
+    "AdbScreenshot": {
+      "name": "Benchmark.AdbScreenshot.name",
+      "help": "Benchmark.AdbScreenshot.help"
     },
-    "TestScene": {
-      "name": "Benchmark.TestScene.name",
-      "help": "Benchmark.TestScene.help",
-      "screenshot_click": "screenshot_click",
-      "screenshot": "screenshot",
-      "click": "click"
+    "AdbncScreenshot": {
+      "name": "Benchmark.AdbncScreenshot.name",
+      "help": "Benchmark.AdbncScreenshot.help"
+    },
+    "Uiautomator2Screenshot": {
+      "name": "Benchmark.Uiautomator2Screenshot.name",
+      "help": "Benchmark.Uiautomator2Screenshot.help"
+    },
+    "AscreencapScreenshot": {
+      "name": "Benchmark.AscreencapScreenshot.name",
+      "help": "Benchmark.AscreencapScreenshot.help"
+    },
+    "AscreencapncScreenshot": {
+      "name": "Benchmark.AscreencapncScreenshot.name",
+      "help": "Benchmark.AscreencapncScreenshot.help"
+    },
+    "AdbClick": {
+      "name": "Benchmark.AdbClick.name",
+      "help": "Benchmark.AdbClick.help"
+    },
+    "Uiautomator2Click": {
+      "name": "Benchmark.Uiautomator2Click.name",
+      "help": "Benchmark.Uiautomator2Click.help"
+    },
+    "MinitouchClick": {
+      "name": "Benchmark.MinitouchClick.name",
+      "help": "Benchmark.MinitouchClick.help"
     }
   },
   "AzurLaneUncensored": {
@@ -2267,6 +2361,50 @@
     "AutoRestart": {
       "name": "GameManager.AutoRestart.name",
       "help": "GameManager.AutoRestart.help"
+    }
+  },
+  "GGHandler": {
+    "_info": {
+      "name": "GGHandler._info.name",
+      "help": "GGHandler._info.help"
+    },
+    "Enabled": {
+      "name": "GGHandler.Enabled.name",
+      "help": "GGHandler.Enabled.help"
+    },
+    "GGPackageName": {
+      "name": "GGHandler.GGPackageName.name",
+      "help": "GGHandler.GGPackageName.help"
+    },
+    "AutoRestartGG": {
+      "name": "GGHandler.AutoRestartGG.name",
+      "help": "GGHandler.AutoRestartGG.help"
+    },
+    "RestartEverytime": {
+      "name": "GGHandler.RestartEverytime.name",
+      "help": "GGHandler.RestartEverytime.help"
+    },
+    "GGMultiplyingFactor": {
+      "name": "GGHandler.GGMultiplyingFactor.name",
+      "help": "GGHandler.GGMultiplyingFactor.help"
+    }
+  },
+  "PowerLimit": {
+    "_info": {
+      "name": "PowerLimit._info.name",
+      "help": "PowerLimit._info.help"
+    },
+    "Exercise": {
+      "name": "PowerLimit.Exercise.name",
+      "help": "PowerLimit.Exercise.help"
+    },
+    "Raid": {
+      "name": "PowerLimit.Raid.name",
+      "help": "PowerLimit.Raid.help"
+    },
+    "Ash": {
+      "name": "PowerLimit.Ash.name",
+      "help": "PowerLimit.Ash.help"
     }
   },
   "Storage": {
@@ -2324,6 +2462,15 @@
     },
     "Overview": {
       "Scheduler": "Gui.Overview.Scheduler",
+      "Dashboard": "Dashboard",
+      "Oil": "Oil",
+      "Coin": "Coin",
+      "Gem": "Gem",
+      "Cube": "Cube",
+      "EventPt": "Event Pt",
+      "OperationSupplyCoin": "Operation Supply Coin",
+      "SpecialItemToken": "Special Item Token",
+      "ActionPoint": "Action Point",
       "Log": "Gui.Overview.Log",
       "Running": "Gui.Overview.Running",
       "Pending": "Gui.Overview.Pending",

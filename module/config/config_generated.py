@@ -9,6 +9,22 @@ class GeneratedConfig:
     Auto generated configuration
     """
 
+    # Group `ViewCurrentResources`
+    ViewCurrentResources_oiltomaxoil = 0
+    ViewCurrentResources_cointomaxcoin = 0
+    ViewCurrentResources_gem = 0
+    ViewCurrentResources_cube = 0
+    ViewCurrentResources_pt = 0
+    ViewCurrentResources_opcoin = 0
+    ViewCurrentResources_purplecoin = 0
+    ViewCurrentResources_actionpoint = 0
+
+    # Group `ViewEquipProgress`
+    ViewEquipProgress_234mm = 0
+    ViewEquipProgress_457mm = 0
+    ViewEquipProgress_tenrai = 0
+    ViewEquipProgress_152mm = 0
+
     # Group `Scheduler`
     Scheduler_Enable = False
     Scheduler_NextRun = datetime.datetime(2020, 1, 1, 0, 0)
@@ -62,6 +78,7 @@ class GeneratedConfig:
     Retirement_EnhanceFavourite = False
     Retirement_EnhanceFilter = None
     Retirement_EnhanceCheckPerCategory = 2
+    Retirement_AllowNoPreserve = False
     Retirement_OldRetireN = True
     Retirement_OldRetireR = True
     Retirement_OldRetireSR = False
@@ -405,14 +422,32 @@ class GeneratedConfig:
     OpsiDaemon_SelectEnemy = True
 
     # Group `Benchmark`
-    Benchmark_DeviceType = 'emulator'  # emulator, emulator_android_12, plone_cloud_with_adb, phone_cloud_without_adb, android_phone, android_phone_12, android_phone_vmos
-    Benchmark_TestScene = 'screenshot_click'  # screenshot_click, screenshot, click
+    Benchmark_AdbScreenshot = True
+    Benchmark_AdbncScreenshot = True
+    Benchmark_Uiautomator2Screenshot = True
+    Benchmark_AscreencapScreenshot = True
+    Benchmark_AscreencapncScreenshot = True
+    Benchmark_AdbClick = True
+    Benchmark_Uiautomator2Click = True
+    Benchmark_MinitouchClick = True
 
     # Group `AzurLaneUncensored`
     AzurLaneUncensored_Repository = 'https://gitee.com/LmeSzinc/AzurLaneUncensored'
 
     # Group `GameManager`
     GameManager_AutoRestart = True
+
+    # Group `GGHandler`
+    GGHandler_Enabled = False
+    GGHandler_GGPackageName = 'com.'
+    GGHandler_AutoRestartGG = False
+    GGHandler_RestartEverytime = True
+    GGHandler_GGMultiplyingFactor = 200
+
+    # Group `PowerLimit`
+    PowerLimit_Exercise = 16500
+    PowerLimit_Raid = 16500
+    PowerLimit_Ash = 16500
 
     # Group `Storage`
     Storage_Storage = {}
