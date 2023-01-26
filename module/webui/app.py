@@ -377,6 +377,18 @@ class AlasGUI(Frame):
                             put_scope("log_scroll_btn"),
                         ],
                     ),
+                    put_table(
+                        [
+                            [t("Gui.Overview.Oil"),t("Gui.Overview.Coin"),t("Gui.Overview.EventPt"),t("Gui.Overview.OperationSupplyCoin")],
+                            ["oilvalue","coinvalue","eventptvalue","operationsupplycoinvalue"],
+                        ],
+                    ),
+                    put_table(
+                        [
+                            [t("Gui.Overview.Gem"),t("Gui.Overview.Cube"),t("Gui.Overview.ActionPoint"),t("Gui.Overview.SpecialItemToken")],
+                            ["gemvalue","cubevalue","actionpointvalue","specialitemtokenvalue"],
+                        ],
+                    ),
                 ],
             ),
             put_scope("log", [put_html("")])
