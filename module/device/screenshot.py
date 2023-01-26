@@ -36,6 +36,7 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
             'aScreenCap': self.screenshot_ascreencap,
             'aScreenCap_nc': self.screenshot_ascreencap_nc,
             'DroidCast': self.screenshot_droidcast,
+            'DroidCast_raw': self.screenshot_droidcast_raw,
             'scrcpy': self.screenshot_scrcpy,
         }
 
