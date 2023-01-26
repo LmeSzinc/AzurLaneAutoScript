@@ -422,14 +422,8 @@ class GeneratedConfig:
     OpsiDaemon_SelectEnemy = True
 
     # Group `Benchmark`
-    Benchmark_AdbScreenshot = True
-    Benchmark_AdbncScreenshot = True
-    Benchmark_Uiautomator2Screenshot = True
-    Benchmark_AscreencapScreenshot = True
-    Benchmark_AscreencapncScreenshot = True
-    Benchmark_AdbClick = True
-    Benchmark_Uiautomator2Click = True
-    Benchmark_MinitouchClick = True
+    Benchmark_DeviceType = 'emulator'  # emulator, emulator_android_12, plone_cloud_with_adb, phone_cloud_without_adb, android_phone, android_phone_12, android_phone_vmos
+    Benchmark_TestScene = 'screenshot_click'  # screenshot_click, screenshot, click
 
     # Group `AzurLaneUncensored`
     AzurLaneUncensored_Repository = 'https://gitee.com/LmeSzinc/AzurLaneUncensored'
