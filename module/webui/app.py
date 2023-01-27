@@ -380,13 +380,23 @@ class AlasGUI(Frame):
                     put_table(
                         [
                             [t("Gui.Overview.Oil"),t("Gui.Overview.Coin"),t("Gui.Overview.EventPt"),t("Gui.Overview.OperationSupplyCoin")],
-                            ["oilvalue","coinvalue","eventptvalue","operationsupplycoinvalue"],
+                            [
+                                self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.oiltomaxoil"),
+                                self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.cointomaxcoin"),
+                                self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.pt"),
+                                self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.opcoin")
+                            ],
                         ],
                     ),
                     put_table(
                         [
                             [t("Gui.Overview.Gem"),t("Gui.Overview.Cube"),t("Gui.Overview.ActionPoint"),t("Gui.Overview.SpecialItemToken")],
-                            ["gemvalue","cubevalue","actionpointvalue","specialitemtokenvalue"],
+                            [
+                                self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.gem"),
+                                self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.cube"),
+                                self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.actionpoint"),
+                                self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.purplecoin")
+                            ],
                         ],
                     ),
                 ],
