@@ -1,6 +1,6 @@
 version: "1"
 rules:
-  - base: master
+  - base: dev
     upstream: LmeSzinc:master
     mergeMethod: merge
     mergeUnstable: true
