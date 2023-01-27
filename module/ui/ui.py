@@ -22,7 +22,7 @@ from module.ui.assets import (BACK_ARROW, DORM_FEED_CANCEL, DORM_INFO,
                               MAIN_GOTO_CAMPAIGN, MEOWFFICER_INFO,
                               MEOWFFICER_GOTO_DORMMENU, META_CHECK,
                               PLAYER_CHECK, RAID_CHECK, SHIPYARD_CHECK,
-                              SHOP_GOTO_SUPPLY_PACK, CAMPAIGN_MENU_NO_EVENT)
+                              SHOP_GOTO_SUPPLY_PACK)
 from module.ui.page import (Page, page_academy, page_archives,
                             page_battle_pass, page_build, page_campaign,
                             page_campaign_menu, page_commission, page_daily,
@@ -92,15 +92,15 @@ class UI(InfoHandler):
             return False
 
     def ui_click(
-            self,
-            click_button,
-            check_button,
-            appear_button=None,
-            additional=None,
-            confirm_wait=1,
-            offset=(30, 30),
-            retry_wait=10,
-            skip_first_screenshot=False,
+        self,
+        click_button,
+        check_button,
+        appear_button=None,
+        additional=None,
+        confirm_wait=1,
+        offset=(30, 30),
+        retry_wait=10,
+        skip_first_screenshot=False,
     ):
         """
         Args:
@@ -134,7 +134,7 @@ class UI(InfoHandler):
 
             if click_timer.reached():
                 if (isinstance(appear_button, Button) and self.appear(appear_button, offset=offset)) or (
-                        callable(appear_button) and appear_button()
+                    callable(appear_button) and appear_button()
                 ):
                     self.device.click(click_button)
                     click_timer.reset()
@@ -333,14 +333,14 @@ class UI(InfoHandler):
         return self.ui_ensure(destination=page_sp)
 
     def ui_ensure_index(
-            self,
-            index,
-            letter,
-            next_button,
-            prev_button,
-            skip_first_screenshot=False,
-            fast=True,
-            interval=(0.2, 0.3),
+        self,
+        index,
+        letter,
+        next_button,
+        prev_button,
+        skip_first_screenshot=False,
+        fast=True,
+        interval=(0.2, 0.3),
     ):
         """
         Args:
@@ -456,8 +456,7 @@ class UI(InfoHandler):
         if self._opsi_reset_fleet_preparation_click >= 5:
             logger.critical("Failed to confirm OpSi fleets, too many click on RESET_FLEET_PREPARATION")
             logger.critical("Possible reason #1: You haven't set any fleets in operation siren")
-            logger.critical(
-                "Possible reason #2: Your fleets haven't satisfied the level restrictions in operation siren")
+            logger.critical("Possible reason #2: Your fleets haven't satisfied the level restrictions in operation siren")
             raise RequestHumanTakeover
         if self.appear_then_click(RESET_TICKET_POPUP, offset=(30, 30), interval=3):
             return True
