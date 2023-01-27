@@ -12,6 +12,7 @@ class GGXpath(Base):
     def __init__(self, config, device):
         self.config = config
         self.device = device
+        u2.connect(self.config.Emulator_Serial).reset_uiautomator()
         self.d = u2.connect(self.config.Emulator_Serial)
         self.gg_package_name = deep_get(self.config.data, keys='GameManager.GGHandler.GGPackageName')
         self.d.wait_timeout = 10.0

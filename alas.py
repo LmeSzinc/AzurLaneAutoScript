@@ -85,7 +85,9 @@ class AzurLaneAutoScript:
     def _gg_check(self, auto=True):
         global gg_on, gg_auto, gg_enable, ggdata
         ggdata = gg_data(self.config).get_data()
-        gg_auto = auto if deep_get(d=self.config.data, keys='GameManager.GGHandler.AutoRestartGG', default=False) else False
+        gg_auto = auto if deep_get(d=self.config.data,
+                                   keys='GameManager.GGHandler.AutoRestartGG',
+                                   default=False) else False
         logger.info(f'Check GG status:')
         logger.info(f'Enabled={ggdata["gg_enable"]} AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
         if gg_auto:
@@ -104,25 +106,25 @@ class AzurLaneAutoScript:
         except GameNotRunningError as e:
             logger.warning(e)
             from module.handler.login import LoginHandler
-            LoginHandler(config=self.config,device=self.device).app_restart()
+            LoginHandler(config=self.config, device=self.device).app_restart()
             return True
         except (GameStuckError, GameTooManyClickError) as e:
             logger.error(e)
             self.save_error_log()
             logger.warning(f'Game stuck, {self.device.package} will be restarted in 10 seconds')
             logger.warning('If you are playing by hand, please stop Alas')
-            from module.handler.login import LoginHandler
-            LoginHandler(config=self.config,device=self.device).app_restart()
             self.device.sleep(10)
+            from module.handler.login import LoginHandler
+            LoginHandler(config=self.config, device=self.device).app_restart()
             return False
         except GameBugError as e:
             logger.warning(e)
             self.save_error_log()
             logger.warning('An error has occurred in Azur Lane game client, Alas is unable to handle')
             logger.warning(f'Restarting {self.device.package} to fix it')
-            from module.handler.login import LoginHandler
-            LoginHandler(config=self.config,device=self.device).app_restart()
             self.device.sleep(10)
+            from module.handler.login import LoginHandler
+            LoginHandler(config=self.config, device=self.device).app_restart()
             return False
         except GamePageUnknownError:
             logger.info('Game server may be under maintenance or network may be broken, check server status now')
@@ -135,7 +137,9 @@ class AzurLaneAutoScript:
                     title=f"Alas <{self.config_name}> crashed",
                     content=f"<{self.config_name}> GamePageUnknownError",
                 )
-                exit(1)
+                self.device.sleep(10)
+                from module.handler.login import LoginHandler
+                LoginHandler(config=self.config, device=self.device).app_restart()
             else:
                 self.checker.wait_until_available()
                 return False
@@ -421,6 +425,7 @@ class AzurLaneAutoScript:
         from module.campaign.run import CampaignRun
         CampaignRun(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
+
     def event3(self):
         self._gg_check()
         from module.campaign.run import CampaignRun
@@ -541,7 +546,7 @@ class AzurLaneAutoScript:
         is_first = True
         failure_record = {}
         global gg_on, gg_auto, gg_enable, ggdata
-        #Check gg status before possible restart
+        # Check gg status before possible restart
         gg_enable = deep_get(d=self.config.data, keys='GameManager.GGHandler.Enabled', default=False)
         gg_auto = deep_get(d=self.config.data, keys='GameManager.GGHandler.AutoRestartGG', default=False)
         gg_data(self.config, target='gg_enable', value=gg_enable).set_data()
@@ -578,7 +583,6 @@ class AzurLaneAutoScript:
                     is_first = False
                 continue
 
-
             # Check gg config only when a new task begins
             gg_enable = deep_get(d=self.config.data, keys='GameManager.GGHandler.Enabled', default=False)
             gg_auto = deep_get(d=self.config.data, keys='GameManager.GGHandler.AutoRestartGG', default=False)
@@ -587,13 +591,14 @@ class AzurLaneAutoScript:
             ggdata = gg_data(self.config).get_data()
             gg_on = ggdata["gg_on"]
             logger.info(f'GG status:')
-            logger.info(f'Enabled={ggdata["gg_enable"]} AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
+            logger.info(
+                f'Enabled={ggdata["gg_enable"]} AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
 
             if is_first \
-          and ((deep_get(d=self.config.data,
-                         keys='GameManager.GGHandler.RestartEverytime',
-                         default=True)
-                and gg_enable)):
+                    and ((deep_get(d=self.config.data,
+                                   keys='GameManager.GGHandler.RestartEverytime',
+                                   default=True)
+                          and gg_enable)):
                 from module.handler.login import LoginHandler
                 LoginHandler(config=self.config, device=self.device).app_restart()
 
