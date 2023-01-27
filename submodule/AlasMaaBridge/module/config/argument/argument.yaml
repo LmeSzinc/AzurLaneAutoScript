@@ -153,6 +153,8 @@ MaaCopilot:
   FileName:
     value: null
     type: textarea
+  Identify: false
   Formation: false
+  Cycle: 1
 
 

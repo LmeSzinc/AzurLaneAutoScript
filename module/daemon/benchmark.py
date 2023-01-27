@@ -1,4 +1,5 @@
 import time
+import typing as t
 
 import numpy as np
 from rich.table import Table
@@ -68,17 +69,19 @@ class Benchmark(DaemonBase, CampaignUI):
         if not isinstance(cost, (float, int)):
             return Text(cost, style="bold bright_red")
 
-        if cost < 0.12:
+        if cost < 0.10:
             return Text('Ultra Fast', style="bold bright_green")
-        if cost < 0.25:
+        if cost < 0.20:
             return Text('Very Fast', style="bright_green")
-        if cost < 0.45:
+        if cost < 0.30:
             return Text('Fast', style="green")
-        if cost < 0.65:
+        if cost < 0.50:
             return Text('Medium', style="yellow")
-        if cost < 0.95:
+        if cost < 0.75:
             return Text('Slow', style="red")
-        return Text('Very Slow', style="bright_red")
+        if cost < 1.00:
+            return Text('Very Slow', style="bright_red")
+        return Text('Ultra Slow', style="bold bright_red")
 
     @staticmethod
     def evaluate_click(cost):
@@ -125,37 +128,22 @@ class Benchmark(DaemonBase, CampaignUI):
             )
         logger.print(table, justify='center')
 
-    def run(self):
+    def benchmark(self, screenshot: t.Tuple[str] = (), click: t.Tuple[str] = ()):
         logger.hr('Benchmark', level=1)
-        self.device.uninstall_minicap()
-        self.ui_goto_campaign()
-        self.campaign_set_chapter('7-2')
+        logger.info(f'Testing screenshot methods: {screenshot}')
+        logger.info(f'Testing click methods: {click}')
 
-        data = []
-        if self.config.Benchmark_AdbScreenshot:
-            data.append(['ADB', self.benchmark_test(self.device.screenshot_adb)])
-        if self.config.Benchmark_AdbncScreenshot:
-            data.append(['ADB_nc', self.benchmark_test(self.device.screenshot_adb_nc)])
-        if self.config.Benchmark_Uiautomator2Screenshot:
-            data.append(['uiautomator2', self.benchmark_test(self.device.screenshot_uiautomator2)])
-        if self.config.Benchmark_AscreencapScreenshot:
-            data.append(['aScreenCap', self.benchmark_test(self.device.screenshot_ascreencap)])
-        if self.config.Benchmark_AscreencapncScreenshot:
-            data.append(['aScreenCap_nc', self.benchmark_test(self.device.screenshot_ascreencap_nc)])
-        screenshot = data
+        screenshot_result = []
+        for method in screenshot:
+            result = self.benchmark_test(self.device.screenshot_methods[method])
+            screenshot_result.append([method, result])
 
-        data = []
-        area = (124, 4, 649, 106)  # Somewhere save to click.
-        if self.config.Benchmark_AdbClick:
+        area = (124, 4, 649, 106)  # Somewhere safe to click.
+        click_result = []
+        for method in click:
             x, y = random_rectangle_point(area)
-            data.append(['ADB', self.benchmark_test(self.device.click_adb, x, y)])
-        if self.config.Benchmark_Uiautomator2Click:
-            x, y = random_rectangle_point(area)
-            data.append(['uiautomator2', self.benchmark_test(self.device.click_uiautomator2, x, y)])
-        if self.config.Benchmark_MinitouchClick:
-            x, y = random_rectangle_point(area)
-            data.append(['minitouch', self.benchmark_test(self.device.click_minitouch, x, y)])
-        control = data
+            result = self.benchmark_test(self.device.click_methods[method], x, y)
+            click_result.append([method, result])
 
         def compare(res):
             res = res[1]
@@ -165,14 +153,52 @@ class Benchmark(DaemonBase, CampaignUI):
                 return res
 
         logger.hr('Benchmark Results', level=1)
-        if screenshot:
-            self.show(test='Screenshot', data=screenshot, evaluate_func=self.evaluate_screenshot)
-            fastest = sorted(screenshot, key=lambda item: compare(item))[0]
+        if screenshot_result:
+            self.show(test='Screenshot', data=screenshot_result, evaluate_func=self.evaluate_screenshot)
+            fastest = sorted(screenshot_result, key=lambda item: compare(item))[0]
             logger.info(f'Recommend screenshot method: {fastest[0]} ({float2str(fastest[1])})')
-        if control:
-            self.show(test='Control', data=control, evaluate_func=self.evaluate_click)
-            fastest = sorted(control, key=lambda item: compare(item))[0]
+        if click_result:
+            self.show(test='Control', data=click_result, evaluate_func=self.evaluate_click)
+            fastest = sorted(click_result, key=lambda item: compare(item))[0]
             logger.info(f'Recommend control method: {fastest[0]} ({float2str(fastest[1])})')
+
+    def get_test_methods(self) -> t.Tuple[t.Tuple[str], t.Tuple[str]]:
+        device = self.config.Benchmark_DeviceType
+        # device == 'emulator'
+        screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw']
+        click = ['ADB', 'uiautomator2', 'minitouch']
+
+        # No ascreencap on Android > 9
+        if device in ['emulator_android_12', 'android_phone_12']:
+            screenshot.remove('aScreenCap')
+            screenshot.remove('aScreenCap_nc')
+        # No nc loopback
+        if device in ['plone_cloud_with_adb', 'android_phone', 'android_phone_12']:
+            screenshot.remove('ADB_nc')
+            screenshot.remove('aScreenCap_nc')
+        # VMOS
+        if device == 'android_phone_vmos':
+            screenshot = ['ADB', 'aScreenCap', 'DroidCast', 'DroidCast_raw']
+            click = ['ADB', 'Hermit']
+
+        scene = self.config.Benchmark_TestScene
+        if 'screenshot' not in scene:
+            screenshot = []
+        if 'click' not in scene:
+            click = []
+
+        return tuple(screenshot), tuple(click)
+
+    def run(self):
+        self.config.override(Emulator_ScreenshotMethod='ADB')
+        self.device.uninstall_minicap()
+        self.ui_goto_campaign()
+        self.campaign_set_chapter('7-2')
+
+        logger.attr('DeviceType', self.config.Benchmark_DeviceType)
+        logger.attr('TestScene', self.config.Benchmark_TestScene)
+        screenshot, click = self.get_test_methods()
+        self.benchmark(screenshot, click)
 
 
 if __name__ == '__main__':

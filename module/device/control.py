@@ -5,12 +5,21 @@ from module.device.method.hermit import Hermit
 from module.device.method.minitouch import Minitouch
 from module.device.method.scrcpy import Scrcpy
 from module.logger import logger
-
+from module.base.decorator import cached_property
 
 class Control(Hermit, Minitouch, Scrcpy):
     def handle_control_check(self, button):
         # Will be overridden in Device
         pass
+
+    @cached_property
+    def click_methods(self):
+        return {
+            'ADB': self.click_adb,
+            'uiautomator2': self.click_uiautomator2,
+            'minitouch': self.click_minitouch,
+            'Hermit': self.click_hermit,
+        }
 
     def click(self, button, control_check=True):
         """Method to click a button.
@@ -26,17 +35,11 @@ class Control(Hermit, Minitouch, Scrcpy):
         logger.info(
             'Click %s @ %s' % (point2str(x, y), button)
         )
-        method = self.config.Emulator_ControlMethod
-        if method == 'minitouch':
-            self.click_minitouch(x, y)
-        elif method == 'uiautomator2':
-            self.click_uiautomator2(x, y)
-        elif method == 'Hermit':
-            self.click_hermit(x, y)
-        elif method == 'scrcpy':
-            self.click_scrcpy(x, y)
-        else:
-            self.click_adb(x, y)
+        method = self.click_methods.get(
+            self.config.Emulator_ControlMethod,
+            self.click_adb
+        )
+        method(x, y)
 
     def multi_click(self, button, n, interval=(0.1, 0.2)):
         self.handle_control_check(button)
