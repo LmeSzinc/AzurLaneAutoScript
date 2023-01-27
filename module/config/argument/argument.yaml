@@ -648,14 +648,16 @@ OpsiDaemon:
   RepairShip: true
   SelectEnemy: true
 Benchmark:
-  AdbScreenshot: true
-  AdbncScreenshot: true
-  Uiautomator2Screenshot: true
-  AscreencapScreenshot: true
-  AscreencapncScreenshot: true
-  AdbClick: true
-  Uiautomator2Click: true
-  MinitouchClick: true
+  DeviceType:
+    value: emulator
+    option: [
+      emulator, emulator_android_12,
+      plone_cloud_with_adb, phone_cloud_without_adb,
+      android_phone, android_phone_12, android_phone_vmos
+    ]
+  TestScene:
+    value: screenshot_click
+    option: [ screenshot_click, screenshot, click ]
 AzurLaneUncensored:
   Repository: https://gitee.com/LmeSzinc/AzurLaneUncensored
 GameManager:

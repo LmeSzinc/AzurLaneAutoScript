@@ -546,7 +546,7 @@ class AzurLaneAutoScript:
         is_first = True
         failure_record = {}
         global gg_on, gg_auto, gg_enable, ggdata
-        #Check gg status before possible restart
+        # Check gg status before possible restart
         gg_enable = deep_get(d=self.config.data, keys='GameManager.GGHandler.Enabled', default=False)
         gg_auto = deep_get(d=self.config.data, keys='GameManager.GGHandler.AutoRestartGG', default=False)
         gg_data(self.config, target='gg_enable', value=gg_enable).set_data()
@@ -583,7 +583,6 @@ class AzurLaneAutoScript:
                     is_first = False
                 continue
 
-
             # Check gg config only when a new task begins
             gg_enable = deep_get(d=self.config.data, keys='GameManager.GGHandler.Enabled', default=False)
             gg_auto = deep_get(d=self.config.data, keys='GameManager.GGHandler.AutoRestartGG', default=False)
@@ -592,13 +591,14 @@ class AzurLaneAutoScript:
             ggdata = gg_data(self.config).get_data()
             gg_on = ggdata["gg_on"]
             logger.info(f'GG status:')
-            logger.info(f'Enabled={ggdata["gg_enable"]} AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
+            logger.info(
+                f'Enabled={ggdata["gg_enable"]} AutoRestart={ggdata["gg_auto"]} Current stage={ggdata["gg_on"]}')
 
             if is_first \
-          and ((deep_get(d=self.config.data,
-                         keys='GameManager.GGHandler.RestartEverytime',
-                         default=True)
-                and gg_enable)):
+                    and ((deep_get(d=self.config.data,
+                                   keys='GameManager.GGHandler.RestartEverytime',
+                                   default=True)
+                          and gg_enable)):
                 from module.handler.login import LoginHandler
                 LoginHandler(config=self.config, device=self.device).app_restart()
 

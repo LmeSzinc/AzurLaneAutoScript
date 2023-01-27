@@ -2310,37 +2310,23 @@
       "name": "Benchmark._info.name",
       "help": "Benchmark._info.help"
     },
-    "AdbScreenshot": {
-      "name": "Benchmark.AdbScreenshot.name",
-      "help": "Benchmark.AdbScreenshot.help"
+    "DeviceType": {
+      "name": "Benchmark.DeviceType.name",
+      "help": "Benchmark.DeviceType.help",
+      "emulator": "emulator",
+      "emulator_android_12": "emulator_android_12",
+      "plone_cloud_with_adb": "plone_cloud_with_adb",
+      "phone_cloud_without_adb": "phone_cloud_without_adb",
+      "android_phone": "android_phone",
+      "android_phone_12": "android_phone_12",
+      "android_phone_vmos": "android_phone_vmos"
     },
-    "AdbncScreenshot": {
-      "name": "Benchmark.AdbncScreenshot.name",
-      "help": "Benchmark.AdbncScreenshot.help"
-    },
-    "Uiautomator2Screenshot": {
-      "name": "Benchmark.Uiautomator2Screenshot.name",
-      "help": "Benchmark.Uiautomator2Screenshot.help"
-    },
-    "AscreencapScreenshot": {
-      "name": "Benchmark.AscreencapScreenshot.name",
-      "help": "Benchmark.AscreencapScreenshot.help"
-    },
-    "AscreencapncScreenshot": {
-      "name": "Benchmark.AscreencapncScreenshot.name",
-      "help": "Benchmark.AscreencapncScreenshot.help"
-    },
-    "AdbClick": {
-      "name": "Benchmark.AdbClick.name",
-      "help": "Benchmark.AdbClick.help"
-    },
-    "Uiautomator2Click": {
-      "name": "Benchmark.Uiautomator2Click.name",
-      "help": "Benchmark.Uiautomator2Click.help"
-    },
-    "MinitouchClick": {
-      "name": "Benchmark.MinitouchClick.name",
-      "help": "Benchmark.MinitouchClick.help"
+    "TestScene": {
+      "name": "Benchmark.TestScene.name",
+      "help": "Benchmark.TestScene.help",
+      "screenshot_click": "screenshot_click",
+      "screenshot": "screenshot",
+      "click": "click"
     }
   },
   "AzurLaneUncensored": {

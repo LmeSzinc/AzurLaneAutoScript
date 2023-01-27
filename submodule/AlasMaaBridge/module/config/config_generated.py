@@ -98,7 +98,9 @@ class GeneratedConfig:
 
     # Group `MaaCopilot`
     MaaCopilot_FileName = None
+    MaaCopilot_Identify = False
     MaaCopilot_Formation = False
+    MaaCopilot_Cycle = 1
 
     # Group `Storage`
     Storage_Storage = {}

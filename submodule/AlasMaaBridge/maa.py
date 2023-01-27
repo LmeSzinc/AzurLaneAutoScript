@@ -43,9 +43,10 @@ class ArknightsAutoScript(AzurLaneAutoScript):
 
     @cached_property
     def asst(self):
-        if self.config.task.command not in ['MaaStartup', 'Maa']:
+        if self.config.task.command != 'Maa':
             self.config.task_call('MaaStartup', True)
-            self.config.task_stop()
+            if self.config.task.command != 'MaaStartup':
+                self.config.task_stop()
 
         logger.info(f'MAA安装路径：{self.config.MaaEmulator_MaaPath}')
         try:

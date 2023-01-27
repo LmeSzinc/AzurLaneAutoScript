@@ -2308,39 +2308,25 @@
   "Benchmark": {
     "_info": {
       "name": "性能測試",
-      "help": "測試哪個截圖方案和點擊方案速度更快，速度因模擬器和電腦配置而異"
+      "help": "測試哪個截圖方案和控制方案速度更快，速度因模擬器和電腦配置而異\n測試完成後，在 \"Alas\" - \"模擬器設置\" 內選擇最快的截圖和控制方案"
     },
-    "AdbScreenshot": {
-      "name": "測試 ADB 截圖",
-      "help": ""
+    "DeviceType": {
+      "name": "設備類型",
+      "help": "",
+      "emulator": "模擬器 安卓<=9",
+      "emulator_android_12": "模擬器 安卓>9",
+      "plone_cloud_with_adb": "雲手機 有公網ADB",
+      "phone_cloud_without_adb": "雲手機 無公網ADB",
+      "android_phone": "安卓真機 安卓<=9",
+      "android_phone_12": "安卓真機 安卓>9",
+      "android_phone_vmos": "安卓真機VMOS虛擬機"
     },
-    "AdbncScreenshot": {
-      "name": "測試 ADB 截圖",
-      "help": ""
-    },
-    "Uiautomator2Screenshot": {
-      "name": "測試 uiautomator2 截圖",
-      "help": ""
-    },
-    "AscreencapScreenshot": {
-      "name": "測試 aScreenCap 截圖",
-      "help": ""
-    },
-    "AscreencapncScreenshot": {
-      "name": "測試 aScreenCap_nc 截圖",
-      "help": ""
-    },
-    "AdbClick": {
-      "name": "測試 ADB 點擊",
-      "help": ""
-    },
-    "Uiautomator2Click": {
-      "name": "測試 uiautomator2 點擊",
-      "help": ""
-    },
-    "MinitouchClick": {
-      "name": "測試 minitouch 點擊",
-      "help": ""
+    "TestScene": {
+      "name": "測試場景",
+      "help": "",
+      "screenshot_click": "截圖+點擊速度測試",
+      "screenshot": "截圖速度測試",
+      "click": "點擊速度測試"
     }
   },
   "AzurLaneUncensored": {
