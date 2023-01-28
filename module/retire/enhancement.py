@@ -2,12 +2,11 @@ from random import choice
 
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
-from module.exception import ScriptError
+from module.exception import GameStuckError, ScriptError
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
 from module.retire.assets import *
 from module.retire.dock import CARD_GRIDS, Dock
-
 
 VALID_SHIP_TYPES = ['dd', 'ss', 'cl', 'ca', 'bb', 'cv', 'repair', 'others']
 OCR_DOCK_AMOUNT = DigitCounter(
@@ -225,7 +224,7 @@ class Enhancement(Dock):
             state_list.append(state)
             if len(state_list) > 30:
                 logger.critical(f'Too many state transitions: {state_list}')
-                raise ScriptError('Too many state transitions')
+                raise GameStuckError('Too many state transitions')
 
             try:
                 state = locals()[state]()
