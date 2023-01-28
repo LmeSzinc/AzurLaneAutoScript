@@ -545,6 +545,8 @@ class AlasGUI(Frame):
                 put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
         
     def alas_update_dashboard(self) -> None:
+        if not self.visible:
+            return
         oil = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.oiltomaxoil")
         coin = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.cointomaxcoin")
         gem = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.gem")
