@@ -19,6 +19,7 @@ MASK_DORM = Mask(file='./assets/mask/MASK_DORM.png')
 DORM_CAMERA_SWIPE = (300, 250)
 DORM_CAMERA_RANDOM = (-20, -20, 20, 20)
 OCR_FILL = DigitCounter(OCR_DORM_FILL, letter=(255, 247, 247), threshold=128, name='OCR_DORM_FILL')
+OCR_SLOT = DigitCounter(OCR_DORM_SLOT, letter=(107, 89, 82), threshold=128, name='OCR_DORM_SLOT')
 
 
 class Food:
@@ -359,6 +360,74 @@ class RewardDorm(UI):
             logger.hr('Dorm collect', level=1)
             self.dorm_collect()
 
+    def get_dorm_ship_amount(self, skip_first_screenshot=True):
+        """
+        Args:
+            skip_first_screenshot:
+
+        Returns:
+            int: Number of ships in dorm
+
+        Pages:
+            in: page_dorm
+        """
+        timeout = Timer(2, count=4).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            current, _, total = OCR_SLOT.ocr(self.device.image)
+
+            if timeout.reached():
+                logger.warning('Get dorm slots timeout')
+                break
+            if total == 0:
+                continue
+            elif current not in [0, 1, 2, 3, 4, 5, 6]:
+                logger.warning(f'Invalid dorm slot amount: {current}')
+                continue
+            else:
+                break
+
+        return current
+
+    def cal_dorm_delay(self, ships):
+        """
+        (Task to delay) = 20000 / (Food consumption per 15 second) * 15 / 60
+
+        | Ships in dorm | Food consumption per 15 second | Task to delay |
+        | ------------- | ------------------------------ | ------------- |
+        | 0             | 0                              | 278           |
+        | 1             | 5                              | 1000          |
+        | 2             | 9                              | 556           |
+        | 3             | 12                             | 417           |
+        | 4             | 14                             | 358           |
+        | 5             | 16                             | 313           |
+        | 6             | 18                             | 278           |
+
+        Args:
+            ships (int): Number of ships in dorm
+
+        Returns:
+            int: Minutes to delay
+
+        Pages:
+            in: page_dorm
+        """
+        dict_delay = {
+            0: self.config.Scheduler_SuccessInterval,
+            1: 1000,
+            2: 556,
+            3: 417,
+            4: 358,
+            5: 313,
+            6: 278,
+        }
+        delay = dict_delay.get(ships, self.config.Scheduler_SuccessInterval)
+        return delay
+
     def run(self):
         """
         Pages:
@@ -370,4 +439,9 @@ class RewardDorm(UI):
             self.config.task_stop()
 
         self.dorm_run(feed=self.config.Dorm_Feed, collect=self.config.Dorm_Collect)
-        self.config.task_delay(success=True)
+
+        # Scheduler
+        ships = self.get_dorm_ship_amount()
+        delay = self.cal_dorm_delay(ships)
+        logger.info(f'Ships in dorm: {ships}, task to delay: {delay}')
+        self.config.task_delay(minute=delay)
