@@ -10,7 +10,7 @@ MAP.shape = 'L9'
 MAP.camera_data = ['D2', 'D6', 'D7', 'I2', 'I6', 'I7']
 MAP.camera_data_spawn_point = ['D7']
 MAP.map_data = """
-    -- -- -- ++ ++ ++ ME -- ME -- ++ ++
+    -- -- -- ++ ++ ++ ME -- ME MM ++ ++
     -- -- -- -- MB ME -- Me ++ ME ++ ++
     -- -- Me -- -- -- -- __ -- MS -- ME
     -- -- -- MS -- -- ME -- -- -- MM --
@@ -69,6 +69,8 @@ class Campaign(CampaignBase):
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     def battle_0(self):
+        self.clear_all_mystery()
+
         if self.clear_siren():
             return True
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
