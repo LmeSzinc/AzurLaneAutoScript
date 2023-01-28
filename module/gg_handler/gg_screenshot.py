@@ -232,12 +232,12 @@ class GGScreenshot(Base):
     def gg_set(self, mode=True, factor=200):
 
         import os
-        _pop = os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                        f' {self.config.Emulator_Serial} shell mkdir /sdcard/Notes')
-        _pop = os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                        f' {self.config.Emulator_Serial} shell rm /sdcard/Notes/Multiplier.lua')
-        _pop = os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                        f' {self.config.Emulator_Serial} push "bin/Lua/Multiplier.lua" /sdcard/Notes/Multiplier.lua')
+        os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+                 f' {self.config.Emulator_Serial} shell mkdir /sdcard/Notes')
+        os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+                 f' {self.config.Emulator_Serial} shell rm /sdcard/Notes/Multiplier.lua')
+        os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+                 f' {self.config.Emulator_Serial} push "bin/Lua/Multiplier.lua" /sdcard/Notes/Multiplier.lua')
         logger.info('Lua Pushed')
 
         self._mode = mode

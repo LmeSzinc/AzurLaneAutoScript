@@ -1,5 +1,3 @@
-import subprocess
-
 from module.logger import logger
 from module.gg_handler.gg_data import GGData
 from module.config.config import deep_get
@@ -79,7 +77,7 @@ class GGU2(Base):
                                 f'//*[@package="{self.gg_package_name}" '
                                 f'and @resource-id="android:id/text1" '
                                 f'and contains(@text,"碧蓝航线")]'
-                                        ).exists:
+                        ).exists:
                             self.d.xpath('//*[contains(@text,"碧蓝航线")]').click()
                             logger.info('Choose APP: AzurLane')
                             self.device.sleep(0.3)
@@ -122,18 +120,22 @@ class GGU2(Base):
         _run = False
         _set = False
         _confirmed = False
+        import os
+        os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+                 f' {self.config.Emulator_Serial} shell mkdir /sdcard/Notes')
+        self.device.sleep(1)
+        os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+                 f' {self.config.Emulator_Serial} shell rm /sdcard/Notes/Multiplier.lua')
+        self.device.sleep(1)
+        os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+                 f' {self.config.Emulator_Serial} push "bin/Lua/Multiplier.lua" /sdcard/Notes/Multiplier.lua')
+        self.device.sleep(1)
+        logger.info('Lua Pushed')
         while 1:
+            self.device.sleep(1)
             if self.d(resourceId=f"{self.gg_package_name}:id/file").exists:
                 self.d(resourceId=f"{self.gg_package_name}:id/file").send_keys("/sdcard/Notes/Multiplier.lua")
                 logger.info('Lua path set')
-                import os
-                _pop = os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                                f' {self.config.Emulator_Serial} shell mkdir /sdcard/Notes')
-                _pop = os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                                f' {self.config.Emulator_Serial} shell rm /sdcard/Notes/Multiplier.lua')
-                _pop = os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                                f' {self.config.Emulator_Serial} push "bin/Lua/Multiplier.lua" /sdcard/Notes/Multiplier.lua')
-            self.device.sleep(1)
             if self.d.xpath('//*[@text="执行"]').exists:
                 self.d.xpath('//*[@text="执行"]').click()
                 logger.info('Click Run')
