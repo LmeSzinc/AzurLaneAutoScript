@@ -665,6 +665,9 @@ GameManager:
   
 GGHandler:
   Enabled: false
+  GGMethod:
+    value: screenshot
+    option: [ screenshot, u2, hermit ]
   GGPackageName: com.
   AutoRestartGG: false
   RestartEverytime: true

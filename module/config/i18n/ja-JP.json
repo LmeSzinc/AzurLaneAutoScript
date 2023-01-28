@@ -2358,6 +2358,13 @@
       "name": "GGHandler.Enabled.name",
       "help": "GGHandler.Enabled.help"
     },
+    "GGMethod": {
+      "name": "GGHandler.GGMethod.name",
+      "help": "GGHandler.GGMethod.help",
+      "screenshot": "screenshot",
+      "u2": "u2",
+      "hermit": "hermit"
+    },
     "GGPackageName": {
       "name": "GGHandler.GGPackageName.name",
       "help": "GGHandler.GGPackageName.help"
