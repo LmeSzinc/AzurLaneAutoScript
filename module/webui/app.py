@@ -364,6 +364,15 @@ class AlasGUI(Frame):
 
         log = RichLog("log")
 
+        oil = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.oiltomaxoil")
+        coin = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.cointomaxcoin")
+        gem = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.gem")
+        cube = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.cube")
+        pt = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.pt")
+        opcoin = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.opcoin")
+        actionpoint = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.actionpoint")
+        purplecoin = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.purplecoin")
+
         with use_scope("logs"):
             put_scope(
                 "log-bar",
