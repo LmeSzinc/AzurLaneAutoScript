@@ -1,255 +1,213 @@
+from module.gg_handler.gg_data import GGData
+from module.gg_handler.gg_u2 import GGU2
+from module.gg_handler.gg_screenshot import GGScreenshot
+from module.config.utils import deep_get, deep_set
 from module.logger import logger
-from module.gg_handler.assets import *
-from module.gg_handler.gg_data import gg_data
-from module.base.base import ModuleBase as base
 
 
-class gg_handler(base):
+class GGHandler:
+    """
+    A module to handle needs of cheaters
+    Args:
+        config: AzurlaneConfig
+        device: Device
+    """
 
-    def __init__(self, config, device, switch=True, factor=200):
-        self.s = switch
-        self.f = factor
-        self.device = device
+    def __init__(self, config=None, device=None):
         self.config = config
-        
-    def skip_error(self):
-        """
-        Page: 
-            in: Game down error
-            out: restart
-        """
-        skip_first_screenshot = False
-        count=0
-        for i in range(10):
-            skipped = 0
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.sleep(0.3)
-                self.device.screenshot()
-            if base.appear(self, BUTTON_GG_RESTART_ERROR, offset=(50, 50)):
-                logger.hr('Game died with GG panel')
-                logger.info('Close GG restart error')
-                self.device.click(BUTTON_GG_RESTART_ERROR)
-                skipped = 1
-                count += 1
-                if count>=2: break
-        skip_first_screenshot = False
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.sleep(0.3)
-                self.device.screenshot()
-            if base.appear(self, BUTTON_GG_RESTART_ERROR, offset=(50, 50)):
-                logger.hr('Game died with GG panel')
-                logger.info('Close GG restart error')
-                skipped = 1
-                self.device.click(BUTTON_GG_RESTART_ERROR)
-            elif base.appear(self, BUTTON_GG_SCRIPT_END, offset=(50, 50)):
-                logger.info('Close previous script')
-                skipped = 1
-                self.device.click(BUTTON_GG_SCRIPT_END)
-            elif base.appear(self, BUTTON_GG_SCRIPT_FATAL, offset=(50, 50)):
-                logger.info('Restart previous script')
-                skipped = 1
-                self.device.click(BUTTON_GG_SCRIPT_FATAL)
-            elif base.appear(self, BUTTON_GG_APP_CHOOSE, offset=(150, 500)):
-                logger.info('APP choose')
-                skipped = 1
-                self.device.click(BUTTON_GG_APP_CHOOSE)
-            elif base.appear(self, BUTTON_GG_SCRIPT_MENU_A, offset=(50, 50)):
-                skipped = 1
-                logger.info('Close previous script')
-                self.device.click(BUTTON_GG_EXIT_POS)
-            elif not base.appear(self, BUTTON_GG_CONFIRM, offset=(50, 50)):
-                logger.hr('GG Panel Disappearance Confirmed')
-                break
-            elif base.appear(self, BUTTON_GG_SEARCH_MODE_CONFIRM, offset=(10, 10), threshold=0.999):
-                logger.info('At GG main panel, click GG exit')
-                skipped = 1
-                self.device.click(BUTTON_GG_EXIT_POS)
-            elif base.appear(self, BUTTON_GG_CONFIRM, offset=(50, 50)) and \
-                    not base.appear(self, BUTTON_GG_CONFIRM, offset=10):
-                self.device.click(BUTTON_GG_TAB_SEARCH_POS)
-                skipped = 1
-                logger.info('Enter search mode')
-            elif base.appear(self, BUTTON_GG_CONFIRM, offset=10):
-                logger.info('Unexpected GG page, Try GG exit')
-                self.device.click(BUTTON_GG_EXIT_POS)
-                skipped = 1
-        return skipped
-    
-    def _enter_gg(self):
-        """
-        Page:
-            in: any
-            out: any GG
-        """
-        self.device.click(BUTTON_GG_ENTER_POS)
-        skip_first_screenshot = False
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.sleep(0.3)
-                self.device.screenshot()
-            if base.appear(self, BUTTON_GG_CONFIRM, offset=(50, 50)):
-                logger.info('Entered GG')
-                break
-            self.device.click(BUTTON_GG_ENTER_POS)
-        skip_first_screenshot = False
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.sleep(0.3)
-                self.device.screenshot()
-            if not base.appear(self, BUTTON_GG_APP_CHOOSE, offset=(150, 500)):
-                from module.ui.assets import BACK_ARROW
-                self.device.click(BACK_ARROW)
-                logger.info('Actually APP choosing button')
-            else:
-                base.appear_then_click(self, BUTTON_GG_APP_CHOOSE, offset=(150, 500))
-                logger.info('APP Choose')
-                break
+        self.device = device
+        self.factor = deep_get(self.config.data,
+                               'GameManager.GGHandler.GGMultiplyingFactor',
+                               default=200)
+        self.method = deep_get(self.config.data,
+                               'GameManager.GGHandler.GGMethod',
+                               default='screenshot')
 
-    def _gg_enter_script(self):
+    def set(self, mode=True):
         """
-        Page:
-            in: any GG
-            out: GG ready to start script
+            Set the GG status to True/False.
+            Args:
+                mode: bool
         """
-        skip_first_screenshot = False
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.sleep(0.5)
-                self.device.screenshot()
-            if base.appear(self, BUTTON_GG_SCRIPT_ENTER_CONFIRM, offset=(50, 50)):
-                logger.info('GG script ready to start')
-                break
-            elif base.appear(self, BUTTON_GG_SCRIPT_END, offset=(50, 50)):
-                logger.info('Close previous script')
-                self.device.click(BUTTON_GG_SCRIPT_END)
-            elif base.appear(self, BUTTON_GG_SCRIPT_FATAL, offset=(50, 50)):
-                logger.info('Stop previous script')
-                self.device.click(BUTTON_GG_SCRIPT_FATAL)
-            elif base.appear(self, BUTTON_GG_APP_CHOOSE, offset=(150, 500)):
-                logger.info('APP choose')
-                self.device.click(BUTTON_GG_APP_CHOOSE)
-            elif base.appear(self, BUTTON_GG_SEARCH_MODE_CONFIRM, offset=(10, 10), threshold=0.95):
-                self.device.click(BUTTON_GG_SCRIPT_ENTER_POS)
-                logger.info('Enter script choose')
-            else:
-                self.device.click(BUTTON_GG_TAB_SEARCH_POS)
-                logger.info('Enter search mode')
-        skip_first_screenshot = False
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.sleep(0.5)
-                self.device.screenshot()
-            if base.appear(self, BUTTON_GG_SCRIPT_START, offset=(50, 50)):
-                self.device.click(BUTTON_GG_SCRIPT_START)
-                return 1
+        logger.hr('Enabling GG')
+        if mode:
+            if self.method == 'screenshot':
+                GGScreenshot(config=self.config, device=self.device) \
+                    .gg_set(mode=True, factor=self.factor)
+            elif self.method == 'u2':
+                GGU2(config=self.config, device=self.device) \
+                    .set_on(factor=self.factor)
+            # elif self.method == 'hermit':
+            #     GGHermit(config=self.config, device=self.device)\
+            #         .set_on(factor=self.factor)
+        else:
+            self.gg_reset()
 
-    def _gg_mode(self):
+    def skip_error(self) -> bool:
         """
-        Page:
-            in: GG Script Menu
-            out: GG GG input panel
+        Close all the windows of GG.
+        Often to be used when game restarts with GG enabled.
+        Returns:
+            bool: Whether GG error panel occurs
         """
-        skip_first_screenshot = False
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.sleep(0.5)
-                self.device.screenshot()
-            if base.appear(self, BUTTON_GG_SCRIPT_MENU_A, offset=(50, 50), threshold=0.8):
-                method = [BUTTON_GG_SCRIPT_MENU_B, BUTTON_GG_SCRIPT_MENU_A]
-                self.device.click(method[int(self.s)])
-                break
-        
-    def _gg_handle_factor(self):
-        """
-        Page:
-            in: GG input panel
-            out:factor set(Not ensured yet)
-        """
-        base.wait_until_appear(self, BUTTON_GG_SCRIPT_START_PROCESS, skip_first_screenshot=True)
-        logger.info(f'Factor={self.f}')
-        if self.f == 200:
-            logger.info('Skip factor input')
-            return 0
-        method = [
-                BUTTON_GG_SCRIPT_PANEL_NUM0,
-                BUTTON_GG_SCRIPT_PANEL_NUM1,
-                BUTTON_GG_SCRIPT_PANEL_NUM2,
-                BUTTON_GG_SCRIPT_PANEL_NUM3,
-                BUTTON_GG_SCRIPT_PANEL_NUM4,
-                BUTTON_GG_SCRIPT_PANEL_NUM5,
-                BUTTON_GG_SCRIPT_PANEL_NUM6,
-                BUTTON_GG_SCRIPT_PANEL_NUM7,
-                BUTTON_GG_SCRIPT_PANEL_NUM8,
-                BUTTON_GG_SCRIPT_PANEL_NUM9,
-               ]
-        for i in str(self.f):
-            base.appear_then_click(self, method[int(i)], offset=(50, 50))
-            self.device.sleep(0.5)
-        logger.info('Input success')
+        if self.method == 'screenshot':
+            return \
+                GGScreenshot(config=self.config, device=self.device).skip_error()
+        elif self.method == 'u2':
+            return \
+                GGU2(config=self.config, device=self.device).skip_error()
+        # elif self.method == 'hermit':
+        #     GGHermit(config=self.config, device=self.device)\
+        #         .set_on(factor=self.factor)
 
-    def _gg_script_run(self):
+    def check_config(self) -> dict:
         """
-        Page:
-            in: GG factor set
-            out: GG Menu
+        Reset GG config to the user's config and return gg_data.
+        Returns:
+            gg_data: dict = {
+                        'gg_enable' : bool = Whether GG manager enabled,
+                        'gg_auto' : bool = Whether to start GG before tasks,
+                        'gg_on' : bool = Whether multiplier is on now}
         """
-        skip_first_screenshot = False
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.sleep(0.5)
-                self.device.screenshot()
-            if base.appear_then_click(self, BUTTON_GG_SCRIPT_START_PROCESS, offset=(50, 50), threshold=0.9):
-                break
-        
-        logger.info('Waiting for end')
-        skip_first_screenshot = False
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.sleep(0.5)
-                self.device.screenshot()
-            if base.appear_then_click(self, BUTTON_GG_SCRIPT_END, offset=(50, 50), threshold=0.9):
-                return 1
-    
-    # def _gg_exit(self):
-    #     self.device.click(BUTTON_GG_EXIT_POS)
-    #     skip_first_screenshot = False
-    #     while 1:
-    #         if skip_first_screenshot:
-    #             skip_first_screenshot = False
-    #         else:
-    #             self.device.sleep(0.5)
-    #             self.device.screenshot()
-    #         if not base.appear(self, BUTTON_GG_CONFIRM, offset=(10,10)):
-    #             logger.hr('GG Panel Exited')
-    #             return 1
-    #         self.device.click(BUTTON_GG_EXIT_POS)
-    #         logger.info('Click GG exit')
+        gg_enable = deep_get(d=self.config.data, keys='GameManager.GGHandler.Enabled', default=False)
+        gg_auto = deep_get(d=self.config.data, keys='GameManager.GGHandler.AutoRestartGG', default=False)
+        GGData(self.config).set_data(target='gg_enable', value=gg_enable)
+        GGData(self.config).set_data(target='gg_auto', value=gg_auto)
+        gg_data = GGData(self.config).get_data()
+        logger.info(f'GG status:')
+        logger.info(
+            f'Enabled={gg_data["gg_enable"]} AutoRestart={gg_data["gg_auto"]} Current stage={gg_data["gg_on"]}')
+        return gg_data
 
-    def gg_run(self):
-        self._enter_gg()
-        self._gg_enter_script()
-        self._gg_mode()
-        self._gg_handle_factor()
-        self._gg_script_run()
-        gg_data(self.config, target='gg_on', value=self.s).set_data()
-        self.skip_error()
-        logger.attr('GG', 'Enabled')
+    def handle_restart(self):
+        """
+        Handle the restart errors of GG.
+        """
+        gg_data = GGData(config=self.config).get_data()
+        gg_enable = gg_data['gg_enable']
+        if gg_enable:
+            GGData(config=self.config).set_data(target='gg_on', value=False)
+            logger.info(f'GG status:')
+            logger.info(
+                f'Enabled={gg_data["gg_enable"]} AutoRestart={gg_data["gg_auto"]} Current stage={gg_data["gg_on"]}')
+            if not self.skip_error():
+                logger.hr('Assume game died without GG panel')
+
+    def gg_reset(self):
+        """
+        Force restart the game to reset GG status to False
+        """
+        gg_data = GGData(self.config).get_data()
+        if gg_data['gg_enable'] and gg_data['gg_on']:
+            logger.hr('Disabling GG')
+            from module.handler.login import LoginHandler
+            LoginHandler(config=self.config, device=self.device).app_restart()
+            logger.attr('GG', 'Disabled')
+
+    def check_status(self, mode=True):
+        """
+        A check before a task begins to decide whether to enable GG and set it.
+        Args:
+            mode: The multiplier status when finish the check.
+        """
+        gg_data = GGData(self.config).get_data()
+        if gg_data['gg_enable']:
+            gg_auto = mode if deep_get(d=self.config.data,
+                                       keys='GameManager.GGHandler.AutoRestartGG',
+                                       default=False) else False
+            logger.info(f'Check GG status:')
+            logger.info(
+                f'Enabled={gg_data["gg_enable"]} AutoRestart={gg_data["gg_auto"]} Current stage={gg_data["gg_on"]}')
+            if gg_auto:
+                if not gg_data['gg_on']:
+                    self.set(True)
+            elif gg_data['gg_on']:
+                self.gg_reset()
+
+    def power_limit(self, task=''):
+        """
+        Forced final check before some dangerous tasks for cheaters.
+        If power is too high, disable the multiplier and assume the user need GG to be Enabled before the other tasks.
+        Args:
+            task: str = What task it is to limit power, default limit is 17000 for front ships.
+        """
+        from module.gg_handler.assets import OCR_PRE_BATTLE_CHECK
+        from module.ocr.ocr import Digit
+        self.device.screenshot()
+        OCR_CHECK = Digit(OCR_PRE_BATTLE_CHECK, letter=(255, 255, 255), threshold=128)
+        ocr = OCR_CHECK.ocr(self.device.image)
+        from module.config.utils import deep_get
+        limit = deep_get(self.config.data, keys=f'GameManager.PowerLimit.{task}', default=17000)
+        logger.attr('Power Limit', limit)
+        if ocr >= limit:
+            logger.critical('There''s high chance that GG is on, restart to disable it')
+            from module.gg_handler.gg_data import GGData
+            GGData(self.config).set_data(target='gg_on', value=False)
+            GGData(self.config).set_data(target='gg_enable', value=True)
+            deep_set(d=self.config.data, keys='GameManager.GGHandler.Enabled', value=True)
+            deep_set(d=self.config.data, keys='GameManager.GGHandler.AutoRestartGG', value=True)
+            self.config.task_call('Restart')
+            self.config.task_delay(minute=0.5)
+            self.config.task_stop('Restart for sake of safty')
+
+    def handle_restart_before_tasks(self) -> bool:
+        """
+        Check if user need to restart everytime alas starts before tasks, and handle it.
+        Returns:
+            bool: If it needs restart first
+        """
+        gg_data = GGData(self.config).get_data()
+        if (deep_get(d=self.config.data,
+                     keys='GameManager.GGHandler.RestartEverytime',
+                     default=True)
+                and gg_data['gg_enable']):
+            logger.info('Restart to reset GG status.')
+            from module.handler.login import LoginHandler
+            LoginHandler(config=self.config, device=self.device).app_restart()
+            return True
+        return  False
+
+    def decider(self, task=''):
+        _disabled = [
+            'raid',
+            'raid_daily',
+            'exercise',
+            'opsi_ash_assist',
+            'opsi_ash_beacon'
+        ]
+        _enabled = [
+            'guild',
+            'hard',
+            'sos',
+            'war_archives',
+            'event_a',
+            'event_b',
+            'event_c',
+            'event_d',
+            'event_sp',
+            'maritime_escort',
+            'opsi_explore',
+            'opsi_daily',
+            'opsi_obscure',
+            'opsi_month_boss',
+            'opsi_abyssal',
+            'opsi_archive',
+            'opsi_stronghold',
+            'opsi_meowfficer_farming',
+            'opsi_hazard1_leveling',
+            'opsi_cross_month',
+            'main',
+            'main2',
+            'main3',
+            'event',
+            'event2',
+            'event3',
+            'gems_farming',
+            'c72_mystery_farming',
+            'c122_medium_leveling',
+            'c124_large_leveling',
+        ]
+        if task in _disabled:
+            self.check_status(False)
+        elif task in _enabled:
+            self.check_status(True)

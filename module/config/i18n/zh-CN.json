@@ -659,6 +659,10 @@
       "name": "每分类强化数量",
       "help": "每个舰船分类最多强化多少舰船，\n在战斗中的舰船会被跳过且不计入，\n优先判断是否有强化材料"
     },
+    "AllowNoPreserve": {
+      "name": "允许不保留满星所需",
+      "help": "在退役失败时，允许尝试不保留满星所需。\n危险选项：可能会永久改变设置！"
+    },
     "OldRetireN": {
       "name": "退役白皮 ( N )",
       "help": "以下设置仅适用于传统退役"
@@ -819,7 +823,7 @@
       "threat_safe_without_3_stars": "100%通关 + 安全海域"
     },
     "StageIncrease": {
-      "name": "达成关卡成就后向前开荒",
+      "name": "达成关卡成就后前往下一关卡，不停止",
       "help": "自动开荒，需要保证队伍有足够的强度，需要保证队伍满足关卡属性限制，并设置\"达成关卡成就后停止\"\n例如，打开本选项，并选择\"地图通关\"，将在关卡100%通关后前往下一关卡\n支持自动开荒的地图：1-1至14-4，A1至A3，B1至B3，C1至C3，D1至D3，SP1至SP4"
     },
     "GetNewShip": {
@@ -1259,6 +1263,10 @@
       "name": "委托",
       "help": ""
     },
+    "DoMajorCommission": {
+      "name": "做主要委托（1200油/1000油委托）",
+      "help": ""
+    },
     "PresetFilter": {
       "name": "委托过滤器",
       "help": "如果对委托的产出和收益没有足够的了解，不建议编写自定义过滤器，建议使用预优化委托过滤器\n如果24小时运行刷紧急委托功能，应当使用（7x24刷委托）的过滤器\n不推荐在运行刷紧急委托功能的同时使用石油优先过滤器",
@@ -1272,10 +1280,6 @@
     "CustomFilter": {
       "name": "自定义委托过滤器",
       "help": "使用自定义过滤器需将 \"委托过滤器\" 设置为 \"自定义\"，并阅读 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
-    },
-    "DoMajorCommission": {
-      "name": "做主要委托（1200油/1000油委托）",
-      "help": "1200油委托现在已经过时，收益很低，建议关闭"
     }
   },
   "Tactical": {
@@ -2354,9 +2358,16 @@
       "name": "启用该功能",
       "help": "注意事项！若GG打开则应该启用该功能以达成防弹窗卡重启\n只能使用指定的lua，填写GG包名后会自动推送\n不填写GG包名时，使用本功能需要将GG图标遮挡住石油图标，且开启模拟器后需要手动打开GG悬浮窗。\n演习，共斗，Meta信标时会自动关闭"
     },
+    "GGMethod": {
+      "name": "GG操作方法",
+      "help": "截图最慢，兼容性较差，可其他两个都无效时尝试\n推荐UiAutomator2\nUiAutomator2无法安装（如红手指）可尝试Hermit",
+      "screenshot": "截图",
+      "u2": "UiAutomator2",
+      "hermit": "Hermit"
+    },
     "GGPackageName": {
       "name": "GG包名",
-      "help": "GG安装后请自行前往/Android/Data文件夹查看包名，应是com.一串乱码\n留空（com.）则使用截图处理方案，兼容性较差"
+      "help": "GG安装后请自行前往/Android/Data文件夹查看包名，应是com.一串乱码"
     },
     "AutoRestartGG": {
       "name": "自动重启GG",
@@ -2444,6 +2455,7 @@
     },
     "Overview": {
       "Scheduler": "调度器",
+      "Dashboard": "仪表盘",
       "Oil": "石油",
       "Coin": "物资",
       "Gem": "钻石",

@@ -659,6 +659,10 @@
       "name": "Number Checked Per Category for Enhance",
       "help": "Restricts the number of ships to be checked per category before moving onto the next if any\nSuitable enhance material is checked continously until reaching the unenhanceable state (in battle or stat full), after which this number is decremented for the current session\nRecommend to configure 3+ if there are non-max level ships in active fleet else <= 2 is generally sufficient"
     },
+    "AllowNoPreserve": {
+      "name": "Retirement.AllowNoPreserve.name",
+      "help": "Retirement.AllowNoPreserve.help"
+    },
     "OldRetireN": {
       "name": "Retire Common",
       "help": "Only applies to old retire mode"
@@ -1259,6 +1263,10 @@
       "name": "Commission Settings",
       "help": ""
     },
+    "DoMajorCommission": {
+      "name": "Do Major Commissions",
+      "help": "Enable allowance of undertaking 1200/1000 oil cost commissions; Commission Priority requires \"Major\" be included if enabled"
+    },
     "PresetFilter": {
       "name": "Preset Filter Select",
       "help": "People without a basic knowledge of commission drops rates and spawn are recommended to use pre-optimized presets instead of writing custom filters\nIf the commission farming is running 24 hours a day, the (7x24 Commission Farming) filter should be used\nIt is not recommended to use the oil priority filter while running commission farming",
@@ -1272,10 +1280,6 @@
     "CustomFilter": {
       "name": "Custom Commission Priority",
       "help": "To use your own filter, set \"Preset Filter Select\" to \"Custom\". All options have been defined at  <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en>"
-    },
-    "DoMajorCommission": {
-      "name": "Do Major Commissions",
-      "help": "1200 oil commission is now outdated, the yield is very low, it is recommended to disable"
     }
   },
   "Tactical": {
@@ -2354,6 +2358,13 @@
       "name": "GGHandler.Enabled.name",
       "help": "GGHandler.Enabled.help"
     },
+    "GGMethod": {
+      "name": "GGHandler.GGMethod.name",
+      "help": "GGHandler.GGMethod.help",
+      "screenshot": "screenshot",
+      "u2": "u2",
+      "hermit": "hermit"
+    },
     "GGPackageName": {
       "name": "GGHandler.GGPackageName.name",
       "help": "GGHandler.GGPackageName.help"
@@ -2444,6 +2455,7 @@
     },
     "Overview": {
       "Scheduler": "Scheduler",
+      "Dashboard": "Dashboard",
       "Oil": "Oil",
       "Coin": "Coin",
       "Gem": "Gem",
