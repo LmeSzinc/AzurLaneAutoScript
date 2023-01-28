@@ -1183,10 +1183,6 @@
       "name": "委托",
       "help": ""
     },
-    "DoMajorCommission": {
-      "name": "做主要委托（1200油/1000油委托）",
-      "help": ""
-    },
     "PresetFilter": {
       "name": "委托过滤器",
       "help": "如果对委托的产出和收益没有足够的了解，不建议编写自定义过滤器，建议使用预优化委托过滤器\n如果24小时运行刷紧急委托功能，应当使用（7x24刷委托）的过滤器\n不推荐在运行刷紧急委托功能的同时使用石油优先过滤器",
@@ -1200,6 +1196,10 @@
     "CustomFilter": {
       "name": "自定义委托过滤器",
       "help": "使用自定义过滤器需将 \"委托过滤器\" 设置为 \"自定义\"，并阅读 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
+    },
+    "DoMajorCommission": {
+      "name": "做主要委托（1200油/1000油委托）",
+      "help": "1200油委托现在已经过时，收益很低，建议关闭"
     }
   },
   "Tactical": {

@@ -1183,10 +1183,6 @@
       "name": "Commission._info.name",
       "help": "Commission._info.help"
     },
-    "DoMajorCommission": {
-      "name": "Commission.DoMajorCommission.name",
-      "help": "Commission.DoMajorCommission.help"
-    },
     "PresetFilter": {
       "name": "Commission.PresetFilter.name",
       "help": "Commission.PresetFilter.help",
@@ -1200,6 +1196,10 @@
     "CustomFilter": {
       "name": "Commission.CustomFilter.name",
       "help": "Commission.CustomFilter.help"
+    },
+    "DoMajorCommission": {
+      "name": "Commission.DoMajorCommission.name",
+      "help": "Commission.DoMajorCommission.help"
     }
   },
   "Tactical": {
