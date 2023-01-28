@@ -128,7 +128,6 @@ Retirement:
   EnhanceFavourite: false
   EnhanceFilter:
   EnhanceCheckPerCategory: 2
-  AllowNoPreserve: false
   OldRetireN: true
   OldRetireR: true
   OldRetireSR: false
@@ -295,7 +294,6 @@ MaritimeEscort:
 # ==================== Reward ====================
 
 Commission:
-  DoMajorCommission: false
   PresetFilter:
     value: cube
     option:
@@ -322,6 +320,7 @@ Commission:
     > UrgentDrill-1 > UrgentDrill-1:30 > UrgentDrill-1:10
     > Extra-0:20 > Extra-0:30 > Extra-1:00 > Extra-1:30 > Extra-2:00
     > shortest
+  DoMajorCommission: false
 Tactical:
   TacticalFilter: |-
     SameT4 > SameT3 > SameT2 > SameT1
