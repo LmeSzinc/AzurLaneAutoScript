@@ -6,7 +6,7 @@ ENV PATH=${CONDA_DIR}/bin:${PATH}
 
 # Install dependencies
 RUN apt update && \
-    apt install -y netcat unzip wget
+    apt install --no-install-recommends -y netcat unzip wget bzip2 ca-certificates git tini
 
 # Install mambaforge
 RUN wget https://ghproxy.com/https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh && \
