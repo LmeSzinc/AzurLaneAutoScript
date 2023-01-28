@@ -157,8 +157,8 @@ class DroidCast(Uiautomator2):
         self.adb_push(self.config.DROIDCAST_RAW_FILEPATH_LOCAL, self.config.DROIDCAST_RAW_FILEPATH_REMOTE)
 
         logger.info('Starting DroidCast apk')
-        # DroidCastS-release-1.1.1.apk
-        # CLASSPATH=/data/local/tmp/DroidCastS-release-1.1.1.apk app_process / com.torther.droidcasts.Main > /dev/null
+        # DroidCastS-release-1.1.5.apk
+        # CLASSPATH=/data/local/tmp/DroidCastS-release-1.1.5.apk app_process / com.torther.droidcasts.Main > /dev/null
         resp = self.u2_shell_background([
             'CLASSPATH=/data/local/tmp/DroidCastS.apk',
             'app_process',
@@ -244,6 +244,7 @@ class DroidCast(Uiautomator2):
         """
         timeout = Timer(10).start()
         while 1:
+            self.sleep(0.25)
             if timeout.reached():
                 break
 

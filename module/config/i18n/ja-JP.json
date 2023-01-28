@@ -659,6 +659,10 @@
       "name": "Retirement.EnhanceCheckPerCategory.name",
       "help": "Retirement.EnhanceCheckPerCategory.help"
     },
+    "AllowNoPreserve": {
+      "name": "Retirement.AllowNoPreserve.name",
+      "help": "Retirement.AllowNoPreserve.help"
+    },
     "OldRetireN": {
       "name": "Retirement.OldRetireN.name",
       "help": "Retirement.OldRetireN.help"
@@ -2306,37 +2310,23 @@
       "name": "Benchmark._info.name",
       "help": "Benchmark._info.help"
     },
-    "AdbScreenshot": {
-      "name": "Benchmark.AdbScreenshot.name",
-      "help": "Benchmark.AdbScreenshot.help"
+    "DeviceType": {
+      "name": "Benchmark.DeviceType.name",
+      "help": "Benchmark.DeviceType.help",
+      "emulator": "emulator",
+      "emulator_android_12": "emulator_android_12",
+      "plone_cloud_with_adb": "plone_cloud_with_adb",
+      "phone_cloud_without_adb": "phone_cloud_without_adb",
+      "android_phone": "android_phone",
+      "android_phone_12": "android_phone_12",
+      "android_phone_vmos": "android_phone_vmos"
     },
-    "AdbncScreenshot": {
-      "name": "Benchmark.AdbncScreenshot.name",
-      "help": "Benchmark.AdbncScreenshot.help"
-    },
-    "Uiautomator2Screenshot": {
-      "name": "Benchmark.Uiautomator2Screenshot.name",
-      "help": "Benchmark.Uiautomator2Screenshot.help"
-    },
-    "AscreencapScreenshot": {
-      "name": "Benchmark.AscreencapScreenshot.name",
-      "help": "Benchmark.AscreencapScreenshot.help"
-    },
-    "AscreencapncScreenshot": {
-      "name": "Benchmark.AscreencapncScreenshot.name",
-      "help": "Benchmark.AscreencapncScreenshot.help"
-    },
-    "AdbClick": {
-      "name": "Benchmark.AdbClick.name",
-      "help": "Benchmark.AdbClick.help"
-    },
-    "Uiautomator2Click": {
-      "name": "Benchmark.Uiautomator2Click.name",
-      "help": "Benchmark.Uiautomator2Click.help"
-    },
-    "MinitouchClick": {
-      "name": "Benchmark.MinitouchClick.name",
-      "help": "Benchmark.MinitouchClick.help"
+    "TestScene": {
+      "name": "Benchmark.TestScene.name",
+      "help": "Benchmark.TestScene.help",
+      "screenshot_click": "screenshot_click",
+      "screenshot": "screenshot",
+      "click": "click"
     }
   },
   "AzurLaneUncensored": {
@@ -2368,6 +2358,10 @@
       "name": "GGHandler.Enabled.name",
       "help": "GGHandler.Enabled.help"
     },
+    "GGPackageName": {
+      "name": "GGHandler.GGPackageName.name",
+      "help": "GGHandler.GGPackageName.help"
+    },
     "AutoRestartGG": {
       "name": "GGHandler.AutoRestartGG.name",
       "help": "GGHandler.AutoRestartGG.help"
@@ -2376,9 +2370,27 @@
       "name": "GGHandler.RestartEverytime.name",
       "help": "GGHandler.RestartEverytime.help"
     },
-    "GGMutiplyingFactor": {
-      "name": "GGHandler.GGMutiplyingFactor.name",
-      "help": "GGHandler.GGMutiplyingFactor.help"
+    "GGMultiplyingFactor": {
+      "name": "GGHandler.GGMultiplyingFactor.name",
+      "help": "GGHandler.GGMultiplyingFactor.help"
+    }
+  },
+  "PowerLimit": {
+    "_info": {
+      "name": "PowerLimit._info.name",
+      "help": "PowerLimit._info.help"
+    },
+    "Exercise": {
+      "name": "PowerLimit.Exercise.name",
+      "help": "PowerLimit.Exercise.help"
+    },
+    "Raid": {
+      "name": "PowerLimit.Raid.name",
+      "help": "PowerLimit.Raid.help"
+    },
+    "Ash": {
+      "name": "PowerLimit.Ash.name",
+      "help": "PowerLimit.Ash.help"
     }
   },
   "Storage": {
@@ -2436,6 +2448,7 @@
     },
     "Overview": {
       "Scheduler": "Gui.Overview.Scheduler",
+      "Dashboard": "Dashboard",
       "Oil": "Oil",
       "Coin": "Coin",
       "Gem": "Gem",

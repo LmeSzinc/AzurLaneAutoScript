@@ -76,6 +76,7 @@
       "EnhanceFavourite": false,
       "EnhanceFilter": null,
       "EnhanceCheckPerCategory": 2,
+      "AllowNoPreserve": false,
       "OldRetireN": true,
       "OldRetireR": true,
       "OldRetireSR": false,
@@ -1939,14 +1940,8 @@
   },
   "Benchmark": {
     "Benchmark": {
-      "AdbScreenshot": true,
-      "AdbncScreenshot": true,
-      "Uiautomator2Screenshot": true,
-      "AscreencapScreenshot": true,
-      "AscreencapncScreenshot": true,
-      "AdbClick": true,
-      "Uiautomator2Click": true,
-      "MinitouchClick": true
+      "DeviceType": "emulator",
+      "TestScene": "screenshot_click"
     },
     "Storage": {
       "Storage": {}
@@ -1966,9 +1961,15 @@
     },
     "GGHandler": {
       "Enabled": false,
+      "GGPackageName": "com.",
       "AutoRestartGG": false,
       "RestartEverytime": true,
-      "GGMutiplyingFactor": 200
+      "GGMultiplyingFactor": 200
+    },
+    "PowerLimit": {
+      "Exercise": 16500,
+      "Raid": 16500,
+      "Ash": 16500
     },
     "Storage": {
       "Storage": {}

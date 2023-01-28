@@ -309,3 +309,4 @@ AzurLaneUncensored:
 GameManager:
   - GameManager
   - GGHandler
+  - PowerLimit

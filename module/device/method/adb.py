@@ -3,6 +3,7 @@ from functools import wraps
 
 import cv2
 import numpy as np
+import time
 from adbutils.errors import AdbError
 from lxml import etree
 
@@ -139,7 +140,7 @@ class Adb(Connection):
                 result = self.__load_screenshot(screenshot, method=method)
                 self.__screenshot_method_fixed = [method] + self.__screenshot_method
                 return result
-            except OSError:
+            except (OSError, ImageTruncated):
                 continue
 
         self.__screenshot_method_fixed = self.__screenshot_method
@@ -175,7 +176,10 @@ class Adb(Connection):
 
     @retry
     def click_adb(self, x, y):
+        start = time.time()
         self.adb_shell(['input', 'tap', x, y])
+        if time.time() - start <= 0.05:
+            self.sleep(0.05)
 
     @retry
     def swipe_adb(self, p1, p2, duration=0.1):
