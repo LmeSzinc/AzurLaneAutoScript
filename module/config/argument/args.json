@@ -9203,6 +9203,15 @@
         "type": "checkbox",
         "value": false
       },
+      "GGMethod": {
+        "type": "select",
+        "value": "screenshot",
+        "option": [
+          "screenshot",
+          "u2",
+          "hermit"
+        ]
+      },
       "GGPackageName": {
         "type": "input",
         "value": "com."
