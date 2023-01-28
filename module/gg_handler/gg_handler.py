@@ -192,10 +192,10 @@ class GGHandler:
             'opsi_month_boss',
             'opsi_abyssal',
             'opsi_archive',
-            'opsi_stronghold'
-            'opsi_meowfficer_farming,',
+            'opsi_stronghold',
+            'opsi_meowfficer_farming',
             'opsi_hazard1_leveling',
-            'opsi_cross_month'
+            'opsi_cross_month',
             'main',
             'main2',
             'main3',
