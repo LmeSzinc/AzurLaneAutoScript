@@ -496,8 +496,12 @@ class AzurLaneAutoScript:
             _ = self.device
 
             # Skip first restart
-            if is_first and task == 'Restart':
-                logger.info('Skip task `Restart` at scheduler start')
+            if task == 'Restart':
+                if is_first:
+                    logger.info('Skip task `Restart` at scheduler start')
+                else:
+                    from module.handler.login import LoginHandler
+                    LoginHandler(self.config, self.device).app_restart()
                 self.config.task_delay(server_update=True)
                 del self.__dict__['config']
                 continue
