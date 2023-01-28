@@ -1,7 +1,7 @@
 from module.handler.login import LoginHandler
 from module.logger import logger
 from module.config.config import deep_get
-from module.gg_handler.gg_handler import gg_data
+from module.gg_handler.gg_data import gg_data
 
 
 class GameManager(LoginHandler):

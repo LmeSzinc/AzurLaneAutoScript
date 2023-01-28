@@ -9143,37 +9143,27 @@
   },
   "Benchmark": {
     "Benchmark": {
-      "AdbScreenshot": {
-        "type": "checkbox",
-        "value": true
+      "DeviceType": {
+        "type": "select",
+        "value": "emulator",
+        "option": [
+          "emulator",
+          "emulator_android_12",
+          "plone_cloud_with_adb",
+          "phone_cloud_without_adb",
+          "android_phone",
+          "android_phone_12",
+          "android_phone_vmos"
+        ]
       },
-      "AdbncScreenshot": {
-        "type": "checkbox",
-        "value": true
-      },
-      "Uiautomator2Screenshot": {
-        "type": "checkbox",
-        "value": true
-      },
-      "AscreencapScreenshot": {
-        "type": "checkbox",
-        "value": true
-      },
-      "AscreencapncScreenshot": {
-        "type": "checkbox",
-        "value": true
-      },
-      "AdbClick": {
-        "type": "checkbox",
-        "value": true
-      },
-      "Uiautomator2Click": {
-        "type": "checkbox",
-        "value": true
-      },
-      "MinitouchClick": {
-        "type": "checkbox",
-        "value": true
+      "TestScene": {
+        "type": "select",
+        "value": "screenshot_click",
+        "option": [
+          "screenshot_click",
+          "screenshot",
+          "click"
+        ]
       }
     },
     "Storage": {
@@ -9213,6 +9203,10 @@
         "type": "checkbox",
         "value": false
       },
+      "GGPackageName": {
+        "type": "input",
+        "value": "com."
+      },
       "AutoRestartGG": {
         "type": "checkbox",
         "value": false
@@ -9224,6 +9218,20 @@
       "GGMultiplyingFactor": {
         "type": "input",
         "value": 200
+      }
+    },
+    "PowerLimit": {
+      "Exercise": {
+        "type": "input",
+        "value": 16500
+      },
+      "Raid": {
+        "type": "input",
+        "value": 16500
+      },
+      "Ash": {
+        "type": "input",
+        "value": 16500
       }
     },
     "Storage": {

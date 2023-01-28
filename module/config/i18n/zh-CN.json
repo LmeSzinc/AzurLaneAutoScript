@@ -2308,39 +2308,25 @@
   "Benchmark": {
     "_info": {
       "name": "性能测试",
-      "help": "测试哪个截图方案和点击方案速度更快，速度因模拟器和电脑配置而异"
+      "help": "测试哪个截图方案和控制方案速度更快，速度因模拟器和电脑配置而异\n测试完成后，在 \"Alas\" - \"模拟器设置\" 内选择最快的截图和控制方案"
     },
-    "AdbScreenshot": {
-      "name": "测试 ADB 截图",
-      "help": ""
+    "DeviceType": {
+      "name": "设备类型",
+      "help": "",
+      "emulator": "模拟器 安卓<=9",
+      "emulator_android_12": "模拟器 安卓>9",
+      "plone_cloud_with_adb": "云手机 有公网ADB",
+      "phone_cloud_without_adb": "云手机 无公网ADB",
+      "android_phone": "安卓真机 安卓<=9",
+      "android_phone_12": "安卓真机 安卓>9",
+      "android_phone_vmos": "安卓真机VMOS虚拟机"
     },
-    "AdbncScreenshot": {
-      "name": "测试 ADB_nc 截图",
-      "help": ""
-    },
-    "Uiautomator2Screenshot": {
-      "name": "测试 uiautomator2 截图",
-      "help": ""
-    },
-    "AscreencapScreenshot": {
-      "name": "测试 aScreenCap 截图",
-      "help": ""
-    },
-    "AscreencapncScreenshot": {
-      "name": "测试 aScreenCap_nc 截图",
-      "help": ""
-    },
-    "AdbClick": {
-      "name": "测试 ADB 点击",
-      "help": ""
-    },
-    "Uiautomator2Click": {
-      "name": "测试 uiautomator2 点击",
-      "help": ""
-    },
-    "MinitouchClick": {
-      "name": "测试 minitouch 点击",
-      "help": ""
+    "TestScene": {
+      "name": "测试场景",
+      "help": "",
+      "screenshot_click": "截图+点击速度测试",
+      "screenshot": "截图速度测试",
+      "click": "点击速度测试"
     }
   },
   "AzurLaneUncensored": {
@@ -2370,7 +2356,11 @@
     },
     "Enabled": {
       "name": "启用该功能",
-      "help": "注意事项！若GG打开则应该启用该功能以达成防弹窗卡重启\n使用本功能需要将GG图标遮挡住石油图标，并只能使用指定的lua。\n（暂时）开启模拟器后需要手动打开GG悬浮窗。\n演习，共斗，Meta信标时会自动关闭"
+      "help": "注意事项！若GG打开则应该启用该功能以达成防弹窗卡重启\n只能使用指定的lua，填写GG包名后会自动推送\n不填写GG包名时，使用本功能需要将GG图标遮挡住石油图标，且开启模拟器后需要手动打开GG悬浮窗。\n演习，共斗，Meta信标时会自动关闭"
+    },
+    "GGPackageName": {
+      "name": "GG包名",
+      "help": "GG安装后请自行前往/Android/Data文件夹查看包名，应是com.一串乱码\n留空（com.）则使用截图处理方案，兼容性较差"
     },
     "AutoRestartGG": {
       "name": "自动重启GG",
@@ -2383,6 +2373,24 @@
     "GGMultiplyingFactor": {
       "name": "倍率",
       "help": "建议数值1-9999，没做数字检查，乱输后果自负"
+    }
+  },
+  "PowerLimit": {
+    "_info": {
+      "name": "战力限制",
+      "help": "敏感项目前的最后一道保险\n若前排战力高于此值强制重启"
+    },
+    "Exercise": {
+      "name": "演习",
+      "help": ""
+    },
+    "Raid": {
+      "name": "共斗",
+      "help": ""
+    },
+    "Ash": {
+      "name": "余烬信标",
+      "help": ""
     }
   },
   "Storage": {
@@ -2440,6 +2448,7 @@
     },
     "Overview": {
       "Scheduler": "调度器",
+      "Dashboard": "仪表盘",
       "Oil": "石油",
       "Coin": "物资",
       "Gem": "钻石",

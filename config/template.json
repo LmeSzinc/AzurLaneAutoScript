@@ -1940,14 +1940,8 @@
   },
   "Benchmark": {
     "Benchmark": {
-      "AdbScreenshot": true,
-      "AdbncScreenshot": true,
-      "Uiautomator2Screenshot": true,
-      "AscreencapScreenshot": true,
-      "AscreencapncScreenshot": true,
-      "AdbClick": true,
-      "Uiautomator2Click": true,
-      "MinitouchClick": true
+      "DeviceType": "emulator",
+      "TestScene": "screenshot_click"
     },
     "Storage": {
       "Storage": {}
@@ -1967,9 +1961,15 @@
     },
     "GGHandler": {
       "Enabled": false,
+      "GGPackageName": "com.",
       "AutoRestartGG": false,
       "RestartEverytime": true,
       "GGMultiplyingFactor": 200
+    },
+    "PowerLimit": {
+      "Exercise": 16500,
+      "Raid": 16500,
+      "Ash": 16500
     },
     "Storage": {
       "Storage": {}

@@ -388,14 +388,24 @@ class AlasGUI(Frame):
                     ),
                     put_table(
                         [
-                            [t("Gui.Overview.Oil"),t("Gui.Overview.Gem"),t("Gui.Overview.EventPt"),t("Gui.Overview.OperationSupplyCoin")],
-                            [oil,gem,pt,opcoin],
+                            [t("Gui.Overview.Oil"),t("Gui.Overview.Coin"),t("Gui.Overview.EventPt"),t("Gui.Overview.OperationSupplyCoin")],
+                            [
+                                self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.oiltomaxoil"),
+                                self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.cointomaxcoin"),
+                                self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.pt"),
+                                self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.opcoin")
+                            ],
                         ],
                     ),
                     put_table(
                         [
-                            [t("Gui.Overview.Coin"),t("Gui.Overview.Cube"),t("Gui.Overview.ActionPoint"),t("Gui.Overview.SpecialItemToken")],
-                            [coin,cube,actionpoint,purplecoin],
+                            [t("Gui.Overview.Gem"),t("Gui.Overview.Cube"),t("Gui.Overview.ActionPoint"),t("Gui.Overview.SpecialItemToken")],
+                            [
+                                self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.gem"),
+                                self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.cube"),
+                                self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.actionpoint"),
+                                self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.purplecoin")
+                            ],
                         ],
                     ),
                 ],
@@ -573,7 +583,6 @@ class AlasGUI(Frame):
             put_scope(
                 "daemon-overview",
                 [
-                    put_scope("dashboard-bar-bar"),
                     put_scope("scheduler-bar"),
                     put_scope("groups"),
                     put_scope("log-bar"),
@@ -584,17 +593,19 @@ class AlasGUI(Frame):
             put_scope(
                 "daemon-overview",
                 [
+                    put_none(),
                     put_scope(
                         "_daemon",
                         [
-                            put_scope("dashboard-bar-bar"),
                             put_scope(
                                 "_daemon_upper",
                                 [put_scope("scheduler-bar"), put_scope("log-bar")],
-
                             ),
+                            put_scope("groups"),
+                            put_scope("log", [put_html("")]),
                         ],
                     ),
+                    put_none(),
                 ],
             )
 

@@ -419,8 +419,11 @@ pre.rich-traceback-code {
 
 #pywebio-scope-logs {
     display: grid;
+    grid-auto-flow: column;
+
     height: 100%;
     overflow-y: auto;
+    grid-template-rows: auto 1fr;
 }
 
 [id^="pywebio-scope-overview-task_"] {
