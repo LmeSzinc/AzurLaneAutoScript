@@ -198,7 +198,7 @@ class GGScreenshot(Base):
             BUTTON_GG_SCRIPT_PANEL_NUM9,
         ]
         for i in str(self._factor):
-            self.appear_then_click(self, method[int(i)], offset=(50, 50))
+            self.appear_then_click(button=method[int(i)], offset=(50, 50))
             self.device.sleep(0.5)
         logger.info('Input success')
 
