@@ -372,6 +372,16 @@ pre.rich-traceback-code {
     flex-wrap: wrap;
 }
 
+#pywebio-scope-log-bar table {
+    display: table;
+    text-align: center;
+}
+
+#pywebio-scope-log-bar th,
+#pywebio-scope-log-bar td {
+    width: 25%;
+}
+
 #pywebio-scope-log-bar-btns {
     display: grid;
     grid-auto-flow: column;
