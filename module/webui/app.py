@@ -364,15 +364,6 @@ class AlasGUI(Frame):
 
         log = RichLog("log")
 
-        oil = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.oiltomaxoil")
-        coin = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.cointomaxcoin")
-        gem = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.gem")
-        cube = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.cube")
-        pt = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.pt")
-        opcoin = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.opcoin")
-        actionpoint = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.actionpoint")
-        purplecoin = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.purplecoin")
-
         with use_scope("logs"):
             put_scope(
                 "log-bar",
@@ -386,18 +377,8 @@ class AlasGUI(Frame):
                             put_scope("log_scroll_btn"),
                         ],
                     ),
-                    put_table(
-                        [
-                            [t("Gui.Overview.Oil"),t("Gui.Overview.Gem"),t("Gui.Overview.EventPt"),t("Gui.Overview.OperationSupplyCoin")],
-                            [oil,gem,pt,opcoin],
-                        ],
-                    ),
-                    put_table(
-                        [
-                            [t("Gui.Overview.Coin"),t("Gui.Overview.Cube"),t("Gui.Overview.ActionPoint"),t("Gui.Overview.SpecialItemToken")],
-                            [coin,cube,actionpoint,purplecoin],
-                        ],
-                    ),
+                    put_scope("table1"),
+                    put_scope("table2"),
                 ],
             ),
             put_scope("log", [put_html("")])
@@ -418,6 +399,7 @@ class AlasGUI(Frame):
         self.task_handler.add(switch_scheduler.g(), 1, True)
         self.task_handler.add(switch_log_scroll.g(), 1, True)
         self.task_handler.add(self.alas_update_overview_task, 10, True)
+        self.task_handler.add(self.alas_update_dashboard, 20, True)
         self.task_handler.add(log.put_log(self.alas), 0.25, True)
 
     def _init_alas_config_watcher(self) -> None:
@@ -561,6 +543,34 @@ class AlasGUI(Frame):
                     put_task(task)
             else:
                 put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
+        
+    def alas_update_dashboard(self) -> None:
+        oil = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.oiltomaxoil")
+        coin = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.cointomaxcoin")
+        gem = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.gem")
+        cube = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.cube")
+        pt = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.pt")
+        opcoin = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.opcoin")
+        actionpoint = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.actionpoint")
+        purplecoin = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.purplecoin")
+
+        clear("table1")
+        clear("table2")
+
+        with use_scope("table1"):
+            put_table(
+                [
+                    [t("Gui.Overview.Oil"),t("Gui.Overview.Gem"),t("Gui.Overview.EventPt"),t("Gui.Overview.OperationSupplyCoin")],
+                    [oil,gem,pt,opcoin],
+                ],
+            )
+        with use_scope("table2"):
+            put_table(
+                [
+                    [t("Gui.Overview.Coin"),t("Gui.Overview.Cube"),t("Gui.Overview.ActionPoint"),t("Gui.Overview.SpecialItemToken")],
+                    [coin,cube,actionpoint,purplecoin],
+                ],
+            )
 
     @use_scope("content", clear=True)
     def alas_daemon_overview(self, task: str) -> None:
