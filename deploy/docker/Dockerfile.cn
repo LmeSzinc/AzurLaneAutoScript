@@ -1,8 +1,23 @@
-FROM condaforge/mambaforge:4.12.0-0
+FROM ubuntu:jammy
+
+ENV CONDA_DIR=/opt/conda
+ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
+ENV PATH=${CONDA_DIR}/bin:${PATH}
 
 # Install dependencies
 RUN apt update && \
-    apt install -y netcat unzip
+    apt install --no-install-recommends -y netcat unzip wget bzip2 ca-certificates git tini
+
+# Install mambaforge
+RUN wget https://ghproxy.com/https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh && \
+    bash Mambaforge-Linux-x86_64.sh -b -p ${CONDA_DIR} && \
+    rm Mambaforge-Linux-x86_64.sh && \
+    conda clean --tarballs --index-cache --packages --yes && \
+    find ${CONDA_DIR} -follow -type f -name '*.a' -delete && \
+    find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete && \
+    conda clean --force-pkgs-dirs --all --yes  && \
+    echo ". ${CONDA_DIR}/etc/profile.d/conda.sh && conda activate base" >> ~/.bashrc && \
+    . ${CONDA_DIR}/etc/profile.d/conda.sh && conda activate base
 
 # Install latest adb (41)
 RUN wget https://dl.google.com/android/repository/platform-tools-latest-linux.zip && \
@@ -11,6 +26,7 @@ RUN wget https://dl.google.com/android/repository/platform-tools-latest-linux.zi
     ln -s /platform-tools/adb /usr/bin/adb
 
 # Set remote and local dirs
+RUN mkdir /app
 WORKDIR /app
 ENV SOURCE=./
 

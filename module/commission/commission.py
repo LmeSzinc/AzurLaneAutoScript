@@ -1,6 +1,6 @@
 import copy
+from datetime import datetime, timedelta
 
-from datetime import datetime
 from scipy import signal
 
 from module.base.timer import Timer
@@ -10,7 +10,7 @@ from module.commission.assets import *
 from module.commission.preset import DICT_FILTER_PRESET, SHORTEST_FILTER
 from module.commission.project import COMMISSION_FILTER, Commission
 from module.config.config_generated import GeneratedConfig
-from module.config.utils import get_server_last_update
+from module.config.utils import get_server_last_update, get_server_next_update
 from module.exception import GameStuckError
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
@@ -99,7 +99,7 @@ class RewardCommission(UI, InfoHandler):
             commissions = self._commission_detect(image)
 
             if commissions.count >= 2 and commissions.select(valid=False).count == 1:
-                logger.info('Found 1 invalid commission, retry commission detect')
+                logger.warning('Found 1 invalid commission, retry commission detect')
                 continue
             else:
                 return commissions
@@ -284,11 +284,30 @@ class RewardCommission(UI, InfoHandler):
         self._commission_swipe_to_top()
         daily = self._commission_scan_list()
 
-        logger.hr('Scan urgent', level=2)
-        self._commission_ensure_mode('urgent')
-        self._commission_swipe_to_top()
-        urgent = self._commission_scan_list()
-        urgent.call('convert_to_night')  # Convert extra commission to night
+        urgent = SelectedGrids([])
+        for _ in range(2):
+            logger.hr('Scan urgent', level=2)
+            self._commission_ensure_mode('urgent')
+            self._commission_swipe_to_top()
+            urgent = self._commission_scan_list()
+            # Convert extra commission to night
+            urgent.call('convert_to_night')
+
+            # Not in 21:00~03:00, but scanned night commissions
+            # Probably some outdated commissions, a refresh should solve it
+            if datetime.now() - get_server_next_update('21:00') > timedelta(hours=6):
+                night = urgent.select(category_str='night')
+                if night:
+                    logger.warning('Not in 21:00~03:00, but scanned night commissions')
+                    for comm in night:
+                        logger.attr('Commission', comm)
+                    logger.info('Re-scan urgent commission list')
+                    # Poor sleep but acceptable in rare cases
+                    self.device.sleep(2)
+                    self._commission_ensure_mode('daily')
+                    continue
+
+            break
 
         logger.hr('Showing commission', level=2)
         logger.info('Daily commission')

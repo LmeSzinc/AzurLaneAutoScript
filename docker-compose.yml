@@ -4,6 +4,7 @@ services:
         network_mode: host
         volumes:
             - '.:/app/AzurLaneAutoScript:rw'
+            # - '../MAA:/app/MAA:rw'
             - '/etc/localtime:/etc/localtime:ro'
         container_name: 'alas'
         image: 'alas'

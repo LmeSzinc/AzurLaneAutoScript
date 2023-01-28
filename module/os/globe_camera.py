@@ -1,5 +1,6 @@
 from module.base.timer import Timer
 from module.base.utils import *
+from module.exception import GameStuckError
 from module.logger import logger
 from module.os.assets import *
 from module.os.globe_detection import GLOBE_MAP_SHAPE, GlobeDetection
@@ -20,7 +21,19 @@ class GlobeCamera(GlobeOperation, ZoneManager):
             self.globe.load_globe_map()
 
     def globe_update(self):
-        self.device.screenshot()
+        # Handle random black screenshots
+        timeout = Timer(5, count=10).start()
+        while 1:
+            if timeout.reached():
+                raise GameStuckError
+
+            self.device.screenshot()
+
+            if self.is_in_globe():
+                break
+            else:
+                logger.warning('Trying to do globe_update(), but not in os globe map')
+                continue
 
         self._globe_init()
         self.globe.load(self.device.image)

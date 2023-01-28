@@ -51,4 +51,8 @@ prun_or_continue "adb kill-server"
 
 pprint "Running the container"
 trap "rm ${XDG_RUNTIME_DIR}/${CONTAINER}.lock && docker kill ${CONTAINER}" EXIT
+
 prun "docker run --net=host --volume=${SOURCE}/..:/app/AzurLaneAutoScript:rw --interactive --tty --name ${CONTAINER} ${CONTAINER}"
+# If you need MAA support, uncomment the following two lines and comment the line above(Modify the path of MAA according to the actual situation)
+# MAA_SOURCE="${SOURCE}/../../MAA"
+# prun "docker run --net=host --volume=${SOURCE}/..:/app/AzurLaneAutoScript:rw --vloume=${MAA_SOURCE}:/app/MAA:rw --interactive --tty --name ${CONTAINER} ${CONTAINER}"
