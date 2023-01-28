@@ -7,7 +7,7 @@ from module.base.timer import Timer
 from module.combat.assets import PAUSE
 from module.config.utils import get_os_reset_remain
 from module.exception import CampaignEnd, RequestHumanTakeover
-from module.exception import GameTooManyClickError, GameStuckError
+from module.exception import GameTooManyClickError
 from module.exception import MapWalkError, ScriptError
 from module.exercise.assets import QUIT_CONFIRM, QUIT_RECONFIRM
 from module.handler.login import LoginHandler
@@ -138,9 +138,6 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         if self.is_in_map():
             self.os_map_goto_globe()
         # IN_GLOBE
-        if not self.is_in_globe():
-            logger.warning('Trying to move in globe, but not in os globe map')
-            raise GameStuckError
         # self.ensure_no_zone_pinned()
         self.globe_update()
         self.globe_focus_to(zone)
