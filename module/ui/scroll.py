@@ -10,7 +10,8 @@ from module.logger import logger
 class Scroll:
     color_threshold = 221
     drag_threshold = 0.05
-    edge_add = (0.1, 0.2)
+    edge_threshold = 0.05
+    edge_add = (0.3, 0.5)
 
     def __init__(self, area, color, is_vertical=True, name='Scroll'):
         """
@@ -102,10 +103,10 @@ class Scroll:
         return np.mean(self.match_color(main)) > 0.1
 
     def at_top(self, main):
-        return self.cal_position(main) < 0.05
+        return self.cal_position(main) < self.edge_threshold
 
     def at_bottom(self, main):
-        return self.cal_position(main) > 0.95
+        return self.cal_position(main) > 1 - self.edge_threshold
 
     def set(self, position, main, random_range=(-0.05, 0.05), distance_check=True, skip_first_screenshot=True):
         """
@@ -121,9 +122,9 @@ class Scroll:
         logger.info(f'{self.name} set to {position}')
         self.drag_interval.clear()
         self.drag_timeout.reset()
-        if position == 0:
+        if position <= self.edge_threshold:
             random_range = np.subtract(0, self.edge_add)
-        if position == 1:
+        if position >= 1 - self.edge_threshold:
             random_range = self.edge_add
 
         while 1:
