@@ -2362,8 +2362,7 @@
       "name": "GGHandler.GGMethod.name",
       "help": "GGHandler.GGMethod.help",
       "screenshot": "screenshot",
-      "u2": "u2",
-      "hermit": "hermit"
+      "u2": "u2"
     },
     "GGPackageName": {
       "name": "GGHandler.GGPackageName.name",

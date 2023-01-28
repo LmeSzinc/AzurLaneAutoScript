@@ -508,7 +508,7 @@ class AzurLaneAutoScript:
 
             # Check GG config before a task begins (to reset temporary config), and decide to enable it.
             GGHandler(config=self.config, device=self.device).check_config()
-            GGHandler(config=self.config, device=self.device).decider(inflection.underscore(task))
+            GGHandler(config=self.config, device=self.device).check_then_set_gg_status(inflection.underscore(task))
 
             # Run
             logger.info(f'Scheduler: Start task `{task}`')
@@ -550,5 +550,5 @@ class AzurLaneAutoScript:
 
 
 if __name__ == '__main__':
-    alas = AzurLaneAutoScript(config_name='alas2')
+    alas = AzurLaneAutoScript(config_name='')
     alas.loop()

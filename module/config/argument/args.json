@@ -9205,11 +9205,10 @@
       },
       "GGMethod": {
         "type": "select",
-        "value": "screenshot",
+        "value": "u2",
         "option": [
           "screenshot",
-          "u2",
-          "hermit"
+          "u2"
         ]
       },
       "GGPackageName": {

@@ -2356,14 +2356,13 @@
     },
     "Enabled": {
       "name": "启用该功能",
-      "help": "注意事项！若GG打开则应该启用该功能以达成防弹窗卡重启\n只能使用指定的lua，填写GG包名后会自动推送\n不填写GG包名时，使用本功能需要将GG图标遮挡住石油图标，且开启模拟器后需要手动打开GG悬浮窗。\n演习，共斗，Meta信标时会自动关闭"
+      "help": "注意事项！若GG打开则应该启用该功能以达成防弹窗卡重启\n只能使用指定的lua，会自动推送至/sdcard/Notes/Multiplier.lua\n演习，共斗，Meta信标时会自动关闭倍率"
     },
     "GGMethod": {
       "name": "GG操作方法",
-      "help": "截图最慢，兼容性较差，可其他两个都无效时尝试\n推荐UiAutomator2\nUiAutomator2无法安装（如红手指）可尝试Hermit",
+      "help": "推荐UiAutomator2，但未填写包名时会使用截图\n截图兼容性较差（已知逍遥模拟器无法使用）\n无法安装UiAutomator2（如红手指，vmos环境）时可尝试使用\n使用截图时，开启模拟器后需要手动打开GG，将GG悬浮窗遮挡住石油图标。第一次使用还需要手动指定好lua路径。",
       "screenshot": "截图",
-      "u2": "UiAutomator2",
-      "hermit": "Hermit"
+      "u2": "UiAutomator2"
     },
     "GGPackageName": {
       "name": "GG包名",

@@ -30,16 +30,14 @@ class GGHandler:
                 mode: bool
         """
         logger.hr('Enabling GG')
+        gg_package_name = deep_get(self.config.data, keys='GameManager.GGHandler.GGPackageName')
         if mode:
-            if self.method == 'screenshot':
+            if self.method == 'screenshot' or gg_package_name == 'com.':
                 GGScreenshot(config=self.config, device=self.device) \
                     .gg_set(mode=True, factor=self.factor)
             elif self.method == 'u2':
                 GGU2(config=self.config, device=self.device) \
                     .set_on(factor=self.factor)
-            # elif self.method == 'hermit':
-            #     GGHermit(config=self.config, device=self.device)\
-            #         .set_on(factor=self.factor)
         else:
             self.gg_reset()
 
@@ -50,15 +48,13 @@ class GGHandler:
         Returns:
             bool: Whether GG error panel occurs
         """
-        if self.method == 'screenshot':
+        gg_package_name = deep_get(self.config.data, keys='GameManager.GGHandler.GGPackageName')
+        if self.method == 'screenshot' or gg_package_name == 'com.':
             return \
                 GGScreenshot(config=self.config, device=self.device).skip_error()
         elif self.method == 'u2':
             return \
                 GGU2(config=self.config, device=self.device).skip_error()
-        # elif self.method == 'hermit':
-        #     GGHermit(config=self.config, device=self.device)\
-        #         .set_on(factor=self.factor)
 
     def check_config(self) -> dict:
         """
@@ -167,7 +163,13 @@ class GGHandler:
             return True
         return  False
 
-    def decider(self, task=''):
+    def check_then_set_gg_status(self, task=''):
+        """
+        If task is in list _disabled or _enabled defined in this function,
+        set gg to the defined status
+        Args:
+            task : str = the next task to run
+        """
         _disabled = [
             'raid',
             'raid_daily',

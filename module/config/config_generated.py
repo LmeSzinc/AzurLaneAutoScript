@@ -433,7 +433,7 @@ class GeneratedConfig:
 
     # Group `GGHandler`
     GGHandler_Enabled = False
-    GGHandler_GGMethod = 'screenshot'  # screenshot, u2, hermit
+    GGHandler_GGMethod = 'u2'  # screenshot, u2
     GGHandler_GGPackageName = 'com.'
     GGHandler_AutoRestartGG = False
     GGHandler_RestartEverytime = True

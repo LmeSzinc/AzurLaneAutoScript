@@ -1961,7 +1961,7 @@
     },
     "GGHandler": {
       "Enabled": false,
-      "GGMethod": "screenshot",
+      "GGMethod": "u2",
       "GGPackageName": "com.",
       "AutoRestartGG": false,
       "RestartEverytime": true,
