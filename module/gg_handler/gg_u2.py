@@ -1,15 +1,17 @@
 import subprocess
 
 from module.logger import logger
-from module.base.base import ModuleBase as Base
-from module.gg_handler.gg_data import gg_data
+from module.gg_handler.gg_data import GGData
 from module.config.config import deep_get
+from module.base.base import ModuleBase as Base
 import uiautomator2 as u2
 
 
-class GGXpath(Base):
+class GGU2(Base):
 
     def __init__(self, config, device):
+        super().__init__(config, device)
+        self.factor = 200
         self.config = config
         self.device = device
         u2.connect(self.config.Emulator_Serial).reset_uiautomator()
@@ -19,18 +21,20 @@ class GGXpath(Base):
 
     def exit(self):
         self.d.app_stop(f'{self.gg_package_name}')
-        logger.attr('GG', 'Exited')
+        logger.attr('GG', 'Killed')
 
     def skip_error(self):
         _skipped = 0
         if self.d.xpath('//*[@text="重启游戏"]').exists:
-            logger.info('Kill GG')
             _skipped = 1
+            logger.hr('Game died with GG panel')
+        logger.info('No matter GG panel exists or not, Kill GG')
         self.exit()
         return _skipped
 
-    def set_on(self):
-        ggdata = gg_data(self.config).get_data()
+    def set_on(self, factor=200):
+        self.factor = factor
+        ggdata = GGData(self.config).get_data()
         for _i in range(1):
             try:
                 if ggdata['gg_on']:
@@ -134,9 +138,8 @@ class GGXpath(Base):
                 self.d.xpath('//*[contains(@text,"修改面板")]').click()
                 logger.info('Click Change Statistic')
                 self.device.sleep(0.5)
-            multiplier = deep_get(self.config.data, keys='GameManager.GGHandler.GGMultiplyingFactor')
             if self.d(resourceId=f"{self.gg_package_name}:id/edit").exists:
-                self.d(resourceId=f"{self.gg_package_name}:id/edit").send_keys(f"{multiplier}")
+                self.d(resourceId=f"{self.gg_package_name}:id/edit").send_keys(f"{self.factor}")
                 logger.info('Factor Set')
                 self.device.sleep(0.5)
                 _set = 1
@@ -150,10 +153,10 @@ class GGXpath(Base):
             if _set and _confirmed:
                 try:
                     self.d.xpath('//*[@text="确定"]').click()
-                    gg_data(self.config, target='gg_on', value=True).set_data()
+                    GGData(self.config).set_data(target='gg_on', value=True)
                 finally:
                     pass
-                gg_data(config=self.config, target='gg_on', value='True').set_data()
+                GGData(self.config).set_data(target='gg_on', value='True')
                 logger.attr('GG', 'Enabled')
                 logger.info("Close the script")
             self.d.wait_timeout = 3

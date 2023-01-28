@@ -1961,6 +1961,7 @@
     },
     "GGHandler": {
       "Enabled": false,
+      "GGMethod": "screenshot",
       "GGPackageName": "com.",
       "AutoRestartGG": false,
       "RestartEverytime": true,
