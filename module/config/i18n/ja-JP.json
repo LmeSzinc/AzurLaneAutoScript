@@ -659,10 +659,6 @@
       "name": "Retirement.EnhanceCheckPerCategory.name",
       "help": "Retirement.EnhanceCheckPerCategory.help"
     },
-    "AllowNoPreserve": {
-      "name": "Retirement.AllowNoPreserve.name",
-      "help": "Retirement.AllowNoPreserve.help"
-    },
     "OldRetireN": {
       "name": "Retirement.OldRetireN.name",
       "help": "Retirement.OldRetireN.help"
@@ -1263,10 +1259,6 @@
       "name": "Commission._info.name",
       "help": "Commission._info.help"
     },
-    "DoMajorCommission": {
-      "name": "Commission.DoMajorCommission.name",
-      "help": "Commission.DoMajorCommission.help"
-    },
     "PresetFilter": {
       "name": "Commission.PresetFilter.name",
       "help": "Commission.PresetFilter.help",
@@ -1280,6 +1272,10 @@
     "CustomFilter": {
       "name": "Commission.CustomFilter.name",
       "help": "Commission.CustomFilter.help"
+    },
+    "DoMajorCommission": {
+      "name": "Commission.DoMajorCommission.name",
+      "help": "Commission.DoMajorCommission.help"
     }
   },
   "Tactical": {
@@ -2448,7 +2444,6 @@
     },
     "Overview": {
       "Scheduler": "Gui.Overview.Scheduler",
-      "Dashboard": "Dashboard",
       "Oil": "Oil",
       "Coin": "Coin",
       "Gem": "Gem",

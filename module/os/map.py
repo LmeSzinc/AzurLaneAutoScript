@@ -7,7 +7,7 @@ from module.base.timer import Timer
 from module.combat.assets import PAUSE
 from module.config.utils import get_os_reset_remain
 from module.exception import CampaignEnd, RequestHumanTakeover
-from module.exception import GameTooManyClickError, GameStuckError
+from module.exception import GameTooManyClickError
 from module.exception import MapWalkError, ScriptError
 from module.exercise.assets import QUIT_CONFIRM, QUIT_RECONFIRM
 from module.handler.login import LoginHandler
@@ -139,16 +139,6 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         if self.is_in_map():
             self.os_map_goto_globe()
         # IN_GLOBE
-        if not self.is_in_globe():
-            _stuck=True
-            for i in range(5):
-                self.device.screenshot()
-                if self.is_in_globe():
-                    _stuck=False
-                    break
-            if _stuck:
-                logger.warning('Trying to move in globe, but not in os globe map')
-                raise GameStuckError
         # self.ensure_no_zone_pinned()
         self.globe_update()
         self.globe_focus_to(zone)
@@ -390,7 +380,9 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         # Restart the game manually rather
         # than through 'task_call'
         # Ongoing task is uninterrupted
-        self.device.app_restart()
+        self.device.app_stop()
+        self.device.app_start()
+        LoginHandler(self.config, self.device).handle_app_login()
 
         self.ui_ensure(page_os)
         if repair:
