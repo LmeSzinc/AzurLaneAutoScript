@@ -2388,6 +2388,14 @@
       "disable_exercise": "Disable_exercise",
       "enable_all": "Enable_all"
     },
+    "DisabledTask": {
+      "name": "GGHandler.DisabledTask.name",
+      "help": "GGHandler.DisabledTask.help",
+      "disable_all_dangerous_task": "disable_all_dangerous_task",
+      "disable_meta_and_exercise": "disable_meta_and_exercise",
+      "disable_exercise": "disable_exercise",
+      "enable_all": "enable_all"
+    },
     "ALLowLowLevelInGemsFarming": {
       "name": "ALLow Low Level In GemsFarming",
       "help": "Destryers over level 10 will now be used."

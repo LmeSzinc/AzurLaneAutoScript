@@ -2380,6 +2380,14 @@
       "name": "倍率",
       "help": "建议数值1-9999，没做数字检查，乱输后果自负"
     },
+    "DisabledTask": {
+      "name": "禁用倍率的项目",
+      "help": "会关闭倍率的项目，建议全关。打开的项目导致封号后果自负。\n所有，指演习，共斗，Meta信标\n注意：战力限制依旧生效。",
+      "disable_all_dangerous_task": "禁用所有敏感项目",
+      "disable_meta_and_exercise": "禁用Meta和演习",
+      "disable_exercise": "禁用演习",
+      "enable_all": "百无禁忌"
+    },
     "ALLowLowLevelInGemsFarming": {
       "name": "刷紧急委托可更换低等级前排",
       "help": "倍率打开时，刷紧急委托时前排等级限制改为10以上即可"
