@@ -1,4 +1,4 @@
-from module.config.config import AzurLaneConfig, deep_get
+from module.config.config import deep_get
 from module.base.base import ModuleBase
 
 
@@ -38,11 +38,6 @@ class GGData(ModuleBase):
             tmp.write('gg_enable=' + str(self.ggdata['gg_enable']) + '\n')
             tmp.write('gg_auto=' + str(self.ggdata['gg_auto']) + '\n')
             tmp.close()
-            if not deep_get(d=self.config.data,
-                            keys='GameManager.GGHandler.RestartEverytime',
-                            default=True):
-                from module.handler.login import LoginHandler
-                LoginHandler(config=self.config, device=self.device).app_restart()
         else:
             for i in range(3):
                 line = tmp.readline()
