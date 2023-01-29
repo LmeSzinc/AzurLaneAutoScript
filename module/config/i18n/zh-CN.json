@@ -2365,8 +2365,8 @@
       "u2": "UiAutomator2"
     },
     "ALLowLowLevelInGemsFarming": {
-      "name": "刷紧急委托更换低等级前排",
-      "help": "小开打开时，刷紧急委托时前排等级限制改为2以上即可"
+      "name": "刷紧急委托可更换低等级前排",
+      "help": "倍率打开时，刷紧急委托时前排等级限制改为2以上即可"
     },
     "GGPackageName": {
       "name": "GG包名",
