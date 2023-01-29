@@ -86,4 +86,4 @@ class Campaign(CampaignBase):
                 if self.clear_potential_roadblocks([road_main]):
                     return True
 
-        return self.fleet_2.clear_boss()
+        return self.fleet_boss.clear_boss()
