@@ -389,6 +389,7 @@ pre.rich-traceback-code {
 }
 
 #pywebio-scope-dashboard {
+    font-weight: 400;
     width: 100%;
     display: grid;
     grid-auto-flow: row;
