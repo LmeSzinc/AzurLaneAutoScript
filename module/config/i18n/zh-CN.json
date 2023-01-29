@@ -2364,10 +2364,6 @@
       "screenshot": "截图",
       "u2": "UiAutomator2"
     },
-    "ALLowLowLevelInGemsFarming": {
-      "name": "刷紧急委托可更换低等级前排",
-      "help": "倍率打开时，刷紧急委托时前排等级限制改为2以上即可"
-    },
     "GGPackageName": {
       "name": "GG包名",
       "help": "GG安装后请自行前往/Android/Data文件夹查看包名，应是com.一串乱码"
@@ -2383,6 +2379,10 @@
     "GGMultiplyingFactor": {
       "name": "倍率",
       "help": "建议数值1-9999，没做数字检查，乱输后果自负"
+    },
+    "ALLowLowLevelInGemsFarming": {
+      "name": "刷紧急委托可更换低等级前排",
+      "help": "倍率打开时，刷紧急委托时前排等级限制改为10以上即可"
     }
   },
   "PowerLimit": {

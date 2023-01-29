@@ -9211,10 +9211,6 @@
           "u2"
         ]
       },
-      "ALLowLowLevelInGemsFarming": {
-        "type": "checkbox",
-        "value": false
-      },
       "GGPackageName": {
         "type": "input",
         "value": "com."
@@ -9230,6 +9226,10 @@
       "GGMultiplyingFactor": {
         "type": "input",
         "value": 200
+      },
+      "ALLowLowLevelInGemsFarming": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "PowerLimit": {

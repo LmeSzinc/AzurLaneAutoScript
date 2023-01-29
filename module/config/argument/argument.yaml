@@ -668,11 +668,11 @@ GGHandler:
   GGMethod:
     value: u2
     option: [ screenshot, u2 ]
-  ALLowLowLevelInGemsFarming: false
   GGPackageName: com.
   AutoRestartGG: false
   RestartEverytime: true
   GGMultiplyingFactor: 200
+  ALLowLowLevelInGemsFarming: false
 PowerLimit:
   Exercise: 16500
   Raid: 16500

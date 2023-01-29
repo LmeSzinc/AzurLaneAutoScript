@@ -1962,11 +1962,11 @@
     "GGHandler": {
       "Enabled": false,
       "GGMethod": "u2",
-      "ALLowLowLevelInGemsFarming": false,
       "GGPackageName": "com.",
       "AutoRestartGG": false,
       "RestartEverytime": true,
-      "GGMultiplyingFactor": 200
+      "GGMultiplyingFactor": 200,
+      "ALLowLowLevelInGemsFarming": false
     },
     "PowerLimit": {
       "Exercise": 16500,

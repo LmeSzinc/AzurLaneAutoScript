@@ -2364,10 +2364,6 @@
       "screenshot": "screenshot",
       "u2": "u2"
     },
-    "ALLowLowLevelInGemsFarming": {
-      "name": "GGHandler.ALLowLowLevelInGemsFarming.name",
-      "help": "GGHandler.ALLowLowLevelInGemsFarming.help"
-    },
     "GGPackageName": {
       "name": "GGHandler.GGPackageName.name",
       "help": "GGHandler.GGPackageName.help"
@@ -2383,6 +2379,10 @@
     "GGMultiplyingFactor": {
       "name": "GGHandler.GGMultiplyingFactor.name",
       "help": "GGHandler.GGMultiplyingFactor.help"
+    },
+    "ALLowLowLevelInGemsFarming": {
+      "name": "GGHandler.ALLowLowLevelInGemsFarming.name",
+      "help": "GGHandler.ALLowLowLevelInGemsFarming.help"
     }
   },
   "PowerLimit": {
