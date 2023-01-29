@@ -1962,6 +1962,7 @@
     "GGHandler": {
       "Enabled": false,
       "GGMethod": "u2",
+      "ALLowLowLevelInGemsFarming": false,
       "GGPackageName": "com.",
       "AutoRestartGG": false,
       "RestartEverytime": true,
