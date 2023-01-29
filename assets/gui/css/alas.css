@@ -117,6 +117,13 @@ footer {
     margin-bottom: .25rem !important;
 }
 
+.status-point {
+    margin: 50% 50% 50% 50%;
+    width: .5rem;
+    height: .5rem;
+    border-radius: 50%;
+}
+
 input[type="checkbox"] {
     width: 1.25rem;
     height: 1.25rem;
@@ -372,29 +379,22 @@ pre.rich-traceback-code {
     flex-wrap: wrap;
 }
 
-#pywebio-scope-table1,
-#pywebio-scope-table2 {
-    width: 100%;
-}
-
-#pywebio-scope-log-bar table {
-    display: table;
-    text-align: center;
-}
-
-#pywebio-scope-log-bar th,
-#pywebio-scope-log-bar td {
-    width: 25%;
-}
-
-#pywebio-scope-log-bar th {
-    max-height: 61px;
-    min-width: 88px;
-}
-
 #pywebio-scope-log-bar-btns {
     display: grid;
     grid-auto-flow: column;
+}
+
+#pywebio-scope-log-bar .hr-group {
+    width: 100%;
+}
+
+#pywebio-scope-dashboard {
+    font-weight: 400;
+    width: 100%;
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
 }
 
 #pywebio-scope-log {
