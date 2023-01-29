@@ -1,10 +1,9 @@
 import re
 
 from module.base.filter import Filter
-from module.base.timer import Timer
 from module.logger import logger
-from module.raid.raid import raid_ocr
 from module.raid.run import RaidRun
+from module.reward.reward import Reward
 from module.ui.page import page_raid
 
 
@@ -21,38 +20,6 @@ STAGE_FILTER = Filter(regex=re.compile('(\w+)'), attr=['name'])
 
 
 class RaidDaily(RaidRun):
-    def get_remain(self, mode, skip_first_screenshot=True):
-        """
-        Args:
-            mode (str): easy, normal, hard
-            skip_first_screenshot (bool):
-
-        Returns:
-            int:
-        """
-        confirm_timer = Timer(0.3, count=0)
-        prev = 30
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            ocr = raid_ocr(raid=self.config.Campaign_Event, mode=mode)
-            remain, _, _ = ocr.ocr(self.device.image)
-            logger.attr(f'{mode.capitalize()} Remain', remain)
-
-            # End
-            if remain == prev:
-                if confirm_timer.reached():
-                    break
-            else:
-                confirm_timer.reset()
-
-            prev = remain
-
-        return remain
-
     def run(self, name=''):
         """
         Args:
@@ -73,5 +40,21 @@ class RaidDaily(RaidRun):
                 if remain <= 0:
                     break
                 super().run(name=name, mode=mode, total=1)
+
+        # If configured for EX, always do last
+        # So does not use stage filtering
+        stages = [stage.lower().strip()\
+            for stage in\
+            self.config.RaidDaily_StageFilter.split('>')]
+        if 'ex' in stages:
+            # Collect raid tickets from clearing
+            # any difficulty 5+ and 10+ times
+            self.ui_goto_main()
+            Reward(self.config, self.device).reward_mission(
+                   daily=self.config.Reward_CollectMission,
+                   weekly=False)
+
+            logger.hr('ex', level=1)
+            super().run(name=name, mode='ex', total=self.get_remain('ex'))
 
         self.config.task_delay(server_update=True)

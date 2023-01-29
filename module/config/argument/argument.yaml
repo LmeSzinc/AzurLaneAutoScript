@@ -251,7 +251,7 @@ EventDaily:
 Raid:
   Mode:
     value: hard
-    option: [ easy, normal, hard ]
+    option: [ easy, normal, hard, ex ]
   UseTicket: false
 RaidDaily:
   StageFilter: |-

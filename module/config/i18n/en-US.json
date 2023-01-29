@@ -1151,7 +1151,8 @@
       "help": "",
       "easy": "easy",
       "normal": "normal",
-      "hard": "hard"
+      "hard": "hard",
+      "ex": "ex"
     },
     "UseTicket": {
       "name": "Use Ticket(s)",
@@ -1165,7 +1166,7 @@
     },
     "StageFilter": {
       "name": "Raid Daily Stage Filter",
-      "help": "Generally does not need to be modified or re-arranged but can do so if desired\nCan save on oil consumption if less are attacked"
+      "help": "Generally does not need to be modified or re-arranged but can do so if desired\nCan save on oil consumption if less are attacked\n'EX' difficulty is supported, submarine is force called if specified to increase clearing rate"
     }
   },
   "MaritimeEscort": {

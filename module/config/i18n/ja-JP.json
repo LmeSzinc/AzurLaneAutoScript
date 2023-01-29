@@ -1151,7 +1151,8 @@
       "help": "Raid.Mode.help",
       "easy": "easy",
       "normal": "normal",
-      "hard": "hard"
+      "hard": "hard",
+      "ex": "ex"
     },
     "UseTicket": {
       "name": "Raid.UseTicket.name",

@@ -5105,7 +5105,8 @@
         "option": [
           "easy",
           "normal",
-          "hard"
+          "hard",
+          "ex"
         ]
       },
       "UseTicket": {

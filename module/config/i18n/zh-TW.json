@@ -1151,7 +1151,8 @@
       "help": "",
       "easy": "簡單",
       "normal": "普通",
-      "hard": "困難"
+      "hard": "困難",
+      "ex": "ex"
     },
     "UseTicket": {
       "name": "使用演習券",

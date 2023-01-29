@@ -166,7 +166,7 @@ class GeneratedConfig:
     EventDaily_LastStage = 0
 
     # Group `Raid`
-    Raid_Mode = 'hard'  # easy, normal, hard
+    Raid_Mode = 'hard'  # easy, normal, hard, ex
     Raid_UseTicket = False
 
     # Group `RaidDaily`
