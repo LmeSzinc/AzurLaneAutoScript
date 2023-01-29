@@ -229,22 +229,17 @@ class GGScreenshot(Base):
             if self.appear_then_click(button=BUTTON_GG_SCRIPT_END, offset=(50, 50), threshold=0.9):
                 return 1
 
-    # def _gg_exit(self):
-    #     self.device.click(BUTTON_GG_EXIT_POS)
-    #     skip_first_screenshot = False
-    #     while 1:
-    #         if skip_first_screenshot:
-    #             skip_first_screenshot = False
-    #         else:
-    #             self.device.sleep(0.5)
-    #             self.device.screenshot()
-    #         if not self.appear(button=BUTTON_GG_CONFIRM, offset=(10,10)):
-    #             logger.hr('GG Panel Exited')
-    #             return 1
-    #         self.device.click(BUTTON_GG_EXIT_POS)
-    #         logger.info('Click GG exit')
-
     def gg_set(self, mode=True, factor=200):
+
+        import os
+        os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+                 f' {self.config.Emulator_Serial} shell mkdir /sdcard/Notes')
+        os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+                 f' {self.config.Emulator_Serial} shell rm /sdcard/Notes/Multiplier.lua')
+        os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+                 f' {self.config.Emulator_Serial} push "bin/Lua/Multiplier.lua" /sdcard/Notes/Multiplier.lua')
+        logger.info('Lua Pushed')
+
         self._mode = mode
         self._factor = factor
         self._enter_gg()

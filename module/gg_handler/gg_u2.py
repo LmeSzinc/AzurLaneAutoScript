@@ -1,5 +1,3 @@
-import subprocess
-
 from module.logger import logger
 from module.gg_handler.gg_data import GGData
 from module.config.config import deep_get
@@ -79,7 +77,7 @@ class GGU2(Base):
                                 f'//*[@package="{self.gg_package_name}" '
                                 f'and @resource-id="android:id/text1" '
                                 f'and contains(@text,"碧蓝航线")]'
-                                        ).exists:
+                        ).exists:
                             self.d.xpath('//*[contains(@text,"碧蓝航线")]').click()
                             logger.info('Choose APP: AzurLane')
                             self.device.sleep(0.3)
@@ -92,7 +90,8 @@ class GGU2(Base):
                             continue
                         if self.d(resourceId=f"{self.gg_package_name}:id/search_toolbar").exists:
                             self.d.xpath(
-                                f'//*[@resource-id="{self.gg_package_name}:id/search_toolbar"]/android.widget.ImageView[last()]'
+                                f'//*[@resource-id="{self.gg_package_name}'
+                                f':id/search_toolbar"]/android.widget.ImageView[last()]'
                             ).click()
                             logger.info('Click run Scripts')
                             self.device.sleep(0.3)
@@ -104,7 +103,6 @@ class GGU2(Base):
                             self.device.sleep(0.3)
                             continue
                         if self.d.xpath('//*[@text="确定"]').exists:
-                                # and self.d.xpath('//*[contains(@text,"脚本已结束")]').exists:
                             self.d.xpath('//*[@text="确定"]').click()
                             logger.info("Confirm exists but script crashed, click confirm")
                             self.device.sleep(0.3)
@@ -119,17 +117,25 @@ class GGU2(Base):
                 pass
 
     def _run(self):
-        _run = 0
-        _set = 0
-        _confirmed = 0
+        _run = False
+        _set = False
+        _confirmed = False
+        import os
+        os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+                 f' {self.config.Emulator_Serial} shell mkdir /sdcard/Notes')
+        self.device.sleep(1)
+        os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+                 f' {self.config.Emulator_Serial} shell rm /sdcard/Notes/Multiplier.lua')
+        self.device.sleep(1)
+        os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+                 f' {self.config.Emulator_Serial} push "bin/Lua/Multiplier.lua" /sdcard/Notes/Multiplier.lua')
+        self.device.sleep(1)
+        logger.info('Lua Pushed')
         while 1:
+            self.device.sleep(1)
             if self.d(resourceId=f"{self.gg_package_name}:id/file").exists:
                 self.d(resourceId=f"{self.gg_package_name}:id/file").send_keys("/sdcard/Notes/Multiplier.lua")
                 logger.info('Lua path set')
-            import os
-            _pop = os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s {self.config.Emulator_Serial} shell mkdir /sdcard/Notes')
-            _pop = os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s {self.config.Emulator_Serial} push "Multiplier.lua" /sdcard/Notes/Multiplier.lua')
-            self.device.sleep(1)
             if self.d.xpath('//*[@text="执行"]').exists:
                 self.d.xpath('//*[@text="执行"]').click()
                 logger.info('Click Run')
@@ -142,12 +148,12 @@ class GGU2(Base):
                 self.d(resourceId=f"{self.gg_package_name}:id/edit").send_keys(f"{self.factor}")
                 logger.info('Factor Set')
                 self.device.sleep(0.5)
-                _set = 1
+                _set = True
             if _set and self.d.xpath('//*[@text="确定"]').exists:
                 self.d.xpath('//*[@text="确定"]').click()
                 logger.info("Click confirm")
                 self.device.sleep(0.5)
-                _confirmed = 1
+                _confirmed = True
             self.d.wait_timeout = 90.0
 
             if _set and _confirmed:
