@@ -1,3 +1,4 @@
+from module.config.utils import deep_get
 from module.logger import logger
 from module.gg_handler.assets import *
 from module.base.base import ModuleBase as Base
@@ -230,16 +231,22 @@ class GGScreenshot(Base):
                 return 1
 
     def gg_set(self, mode=True, factor=200):
-
         import os
         os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
                  f' {self.config.Emulator_Serial} shell mkdir /sdcard/Notes')
+        self.device.sleep(0.5)
         os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
                  f' {self.config.Emulator_Serial} shell rm /sdcard/Notes/Multiplier.lua')
+        self.device.sleep(0.5)
         os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
                  f' {self.config.Emulator_Serial} push "bin/Lua/Multiplier.lua" /sdcard/Notes/Multiplier.lua')
+        self.device.sleep(0.5)
         logger.info('Lua Pushed')
 
+        # self._gg_package_name = deep_get(self.config.data, keys='GameManager.GGHandler.GGPackageName')
+        # if self._gg_package_name != 'com.':
+        #     os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+        #              f' {self.config.Emulator_Serial} shell am start -n {self._gg_package_name}')
         self._mode = mode
         self._factor = factor
         self._enter_gg()
