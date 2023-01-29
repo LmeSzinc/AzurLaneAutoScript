@@ -294,7 +294,6 @@ MaritimeEscort:
 # ==================== Reward ====================
 
 Commission:
-  DoMajorCommission: false
   PresetFilter:
     value: cube
     option:
@@ -321,6 +320,7 @@ Commission:
     > UrgentDrill-1 > UrgentDrill-1:30 > UrgentDrill-1:10
     > Extra-0:20 > Extra-0:30 > Extra-1:00 > Extra-1:30 > Extra-2:00
     > shortest
+  DoMajorCommission: false
 Tactical:
   TacticalFilter: |-
     SameT4 > SameT3 > SameT2 > SameT1
@@ -666,8 +666,8 @@ GameManager:
 GGHandler:
   Enabled: false
   GGMethod:
-    value: screenshot
-    option: [ screenshot, u2, hermit ]
+    value: u2
+    option: [ screenshot, u2 ]
   GGPackageName: com.
   AutoRestartGG: false
   RestartEverytime: true

@@ -138,7 +138,6 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         # IN_MAP
         if self.is_in_map():
             self.os_map_goto_globe()
-        # IN_GLOBE
         # self.ensure_no_zone_pinned()
         self.globe_update()
         self.globe_focus_to(zone)
@@ -380,9 +379,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         # Restart the game manually rather
         # than through 'task_call'
         # Ongoing task is uninterrupted
-        self.device.app_stop()
-        self.device.app_start()
-        LoginHandler(self.config, self.device).handle_app_login()
+        self.device.app_restart()
 
         self.ui_ensure(page_os)
         if repair:
