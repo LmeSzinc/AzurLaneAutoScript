@@ -86,9 +86,17 @@ class Scroll:
         middle = middle.astype(int)
         if self.is_vertical:
             middle += self.area[1]
+            while np.max(middle) >= 720:
+                middle -= 2
+            while np.min(middle) <= 0:
+                middle += 2
             area = (self.area[0], middle[0], self.area[2], middle[1])
         else:
             middle += self.area[0]
+            while np.max(middle) >= 1280:
+                middle -= 2
+            while np.min(middle) <= 0:
+                middle += 2
             area = (middle[0], self.area[1], middle[1], self.area[3])
         return area
 

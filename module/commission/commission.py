@@ -1,6 +1,6 @@
 import copy
+from datetime import datetime, timedelta
 
-from datetime import datetime
 from scipy import signal
 
 from module.base.timer import Timer
@@ -295,7 +295,7 @@ class RewardCommission(UI, InfoHandler):
 
             # Not in 21:00~03:00, but scanned night commissions
             # Probably some outdated commissions, a refresh should solve it
-            if get_server_last_update('03:00') < datetime.now() < get_server_next_update('21:00'):
+            if datetime.now() - get_server_next_update('21:00') > timedelta(hours=6):
                 night = urgent.select(category_str='night')
                 if night:
                     logger.warning('Not in 21:00~03:00, but scanned night commissions')
