@@ -377,8 +377,8 @@ class AlasGUI(Frame):
                             put_scope("log_scroll_btn"),
                         ],
                     ),
-                    put_html('<hr class="hr-group">'),
-                    put_scope("dashboard"),
+                    put_scope("table1"),
+                    put_scope("table2"),
                 ],
             ),
             put_scope("log", [put_html("")])
@@ -556,112 +556,22 @@ class AlasGUI(Frame):
         actionpoint = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.actionpoint")
         purplecoin = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.purplecoin")
 
-        clear("dashboard")
+        clear("table1")
+        clear("table2")
 
-        with use_scope("dashboard"):
-            put_row(
+        with use_scope("table1"):
+            put_table(
                 [
-                    put_html('<div class="status-point" style="background-color:#000000">'),
-                    put_column(
-                        [
-                            put_text(str(oil)).style("--arg-title--"),
-                            put_text(t("Gui.Overview.Oil")).style("--arg-help--"),
-                        ],
-                        size="auto auto",
-                    ),
+                    [t("Gui.Overview.Oil"),t("Gui.Overview.Gem"),t("Gui.Overview.EventPt"),t("Gui.Overview.OperationSupplyCoin")],
+                    [oil,gem,pt,opcoin],
                 ],
-                size="0.25fr 1fr"
             )
-            put_row(
+        with use_scope("table2"):
+            put_table(
                 [
-                    put_html('<div class="status-point" style="background-color:#FF3333">'),
-                    put_column(	
-                        [   
-                            put_text(str(gem)).style("--arg-title--"),
-                            put_text(t("Gui.Overview.Gem")).style("--arg-help--"),
-                        ],
-                        size="auto auto",
-                    ),
+                    [t("Gui.Overview.Coin"),t("Gui.Overview.Cube"),t("Gui.Overview.ActionPoint"),t("Gui.Overview.SpecialItemToken")],
+                    [coin,cube,actionpoint,purplecoin],
                 ],
-                size="0.25fr 1fr"
-            )
-            put_row(
-                [
-                    put_html('<div class="status-point" style="background-color:#0066FF">'),
-                    put_column(
-                        [   
-                            put_text(str(pt)).style("--arg-title--"),
-                            put_text(t("Gui.Overview.EventPt")).style("--arg-help--"),
-                        ],
-                        size="auto auto",
-                    ),
-                ],
-                size="0.25fr 1fr"
-            )
-            put_row(
-                [
-                    put_html('<div class="status-point" style="background-color:#FF8800">'),
-                    put_column(
-                        [   
-                            put_text(str(opcoin)).style("--arg-title--"),
-                            put_text(t("Gui.Overview.OperationSupplyCoin")).style("--arg-help--"),
-                        ],
-                        size="auto auto",
-                    ),
-                ],
-                size="0.25fr 1fr"
-            )
-            put_row(
-                [
-                    put_html('<div class="status-point" style="background-color:#FFAA33">'),
-                    put_column(
-                        [   
-                            put_text(str(coin)).style("--arg-title--"),
-                            put_text(t("Gui.Overview.Coin")).style("--arg-help--"),
-                        ],
-                        size="auto auto",
-                    ),
-                ],
-                size="0.25fr 1fr"
-            )
-            put_row(
-                [
-                    put_html('<div class="status-point" style="background-color:#33FFFF">'),
-                    put_column(
-                        [   
-                            put_text(str(cube)).style("--arg-title--"),
-                            put_text(t("Gui.Overview.Cube")).style("--arg-help--"),
-                        ],
-                        size="auto auto",
-                    ),
-                ],
-                size="0.25fr 1fr"
-            )
-            put_row(
-                [
-                    put_html('<div class="status-point" style="background-color:#0000FF">'),	
-                    put_column(
-                        [   
-                            put_text(str(actionpoint)).style("--arg-title--"),
-                            put_text(t("Gui.Overview.ActionPoint")).style("--arg-help--"),
-                        ],
-                        size="auto auto",
-                    ),
-                ],
-                size="0.25fr 1fr"
-            )
-            put_row(
-                [
-                    put_html('<div class="status-point" style="background-color:#7700BB">'),
-                    put_column(
-                        [   
-                            put_text(str(purplecoin)).style("--arg-title--"),
-                            put_text(t("Gui.Overview.SpecialItemToken")).style("--arg-help--"),
-                        ],
-                        size="auto auto",
-                    ),
-                ],
-                size="0.25fr 1fr"
             )
 
     @use_scope("content", clear=True)
