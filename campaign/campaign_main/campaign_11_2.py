@@ -83,7 +83,7 @@ class Campaign(CampaignBase):
                 if self.clear_roadblocks([road_main]):
                     return True
 
-        return self.fleet_2.clear_boss()
+        return self.fleet_boss.clear_boss()
 
     def handle_boss_appear_refocus(self, preset=(-3, -2)):
         return super().handle_boss_appear_refocus(preset)

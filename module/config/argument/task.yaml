@@ -198,6 +198,7 @@ ShopOnce:
   - CoreShop
 Shipyard:
   - Scheduler
+  - ShipyardDr
   - Shipyard
 Gacha:
   - Scheduler
@@ -275,7 +276,6 @@ OpsiAbyssal:
   - OpsiFleetFilter
 OpsiArchive:
   - Scheduler
-  - OpsiArchive
   - OpsiFleet
 OpsiStronghold:
   - Scheduler

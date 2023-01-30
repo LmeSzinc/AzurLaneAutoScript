@@ -2,7 +2,7 @@ from module.combat.combat import Combat
 from module.guild.assets import BATTLE_STATUS_CF, EXP_INFO_CF
 
 
-class GuildCombat(Combat):
+class RaidCombat(Combat):
     def handle_battle_status(self, drop=None):
         """
         Args:

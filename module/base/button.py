@@ -38,8 +38,10 @@ class Button(Resource):
         self._button_offset = None
         self._match_init = False
         self._match_binary_init = False
+        self._match_luma_init = False
         self.image = None
         self.image_binary = None
+        self.image_luma = None
 
         if self.file:
             self.resource_add(key=self.file)
@@ -176,12 +178,25 @@ class Button(Resource):
                 _, self.image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
             self._match_binary_init = True
 
+    def ensure_luma_template(self):
+        if not self._match_luma_init:
+            if self.is_gif:
+                self.image_luma = []
+                for image in self.image:
+                    luma = rgb2luma(image)
+                    self.image_luma.append(luma)
+            else:
+                self.image_luma = rgb2luma(self.image)
+            self._match_luma_init = True
+
     def resource_release(self):
         super().resource_release()
         self.image = None
         self.image_binary = None
+        self.image_luma = None
         self._match_init = False
         self._match_binary_init = False
+        self._match_luma_init = False
 
     def match(self, image, offset=30, threshold=0.85):
         """Detects button by template matching. To Some button, its location may not be static.
@@ -263,6 +278,45 @@ class Button(Resource):
             _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
             # template matching
             res = cv2.matchTemplate(self.image_binary, image_binary, cv2.TM_CCOEFF_NORMED)
+            _, similarity, _, point = cv2.minMaxLoc(res)
+            self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
+            return similarity > threshold
+
+    def match_luma(self, image, offset=30, threshold=0.85):
+        """
+        Detects button by template matching under Y channel (Luminance)
+
+        Args:
+            image: Screenshot.
+            offset (int, tuple): Detection area offset.
+            threshold (float): 0-1. Similarity.
+
+        Returns:
+            bool.
+        """
+        self.ensure_template()
+        self.ensure_luma_template()
+
+        if isinstance(offset, tuple):
+            if len(offset) == 2:
+                offset = np.array((-offset[0], -offset[1], offset[0], offset[1]))
+            else:
+                offset = np.array(offset)
+        else:
+            offset = np.array((-3, -offset, 3, offset))
+        image = crop(image, offset + self.area)
+
+        if self.is_gif:
+            image_luma = rgb2luma(image)
+            for template in self.image_luma:
+                res = cv2.matchTemplate(template, image_luma, cv2.TM_CCOEFF_NORMED)
+                _, similarity, _, point = cv2.minMaxLoc(res)
+                self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
+                if similarity > threshold:
+                    return True
+        else:
+            image_luma = rgb2luma(image)
+            res = cv2.matchTemplate(self.image_luma, image_luma, cv2.TM_CCOEFF_NORMED)
             _, similarity, _, point = cv2.minMaxLoc(res)
             self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
             return similarity > threshold

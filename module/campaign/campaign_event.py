@@ -4,6 +4,8 @@ from datetime import datetime
 from module.campaign.campaign_status import CampaignStatus
 from module.config.utils import DEFAULT_TIME
 from module.logger import logger
+from module.ui.assets import CAMPAIGN_MENU_NO_EVENT
+from module.ui.page import page_event, page_campaign_menu, page_sp
 
 
 class CampaignEvent(CampaignStatus):
@@ -139,6 +141,60 @@ class CampaignEvent(CampaignStatus):
             next_task = self.config.TaskBalancer_TaskCall
             self.config.task_call(next_task)
             self.config.task_stop()
+
+    def ui_goto_event(self):
+        # Already in page_event, skip event_check.
+        if self.ui_get_current_page() == page_event:
+            logger.info('Already at page_event')
+            return True
+        else:
+            self.ui_goto(page_campaign_menu)
+            # Check event availability
+            if self.appear(CAMPAIGN_MENU_NO_EVENT, offset=(20, 20)):
+                logger.info('Event unavailable, disable task')
+                tasks = [
+                    'Event',
+                    'Event2',
+                    'EventA',
+                    'EventB',
+                    'EventC',
+                    'EventD',
+                    'EventSp',
+                    'GemsFarming',
+                ]
+                self._disable_tasks(tasks)
+                self.config.task_stop()
+            else:
+                logger.info('Event available, goto page_event')
+                self.ui_goto(page_event)
+                return True
+
+    def ui_goto_sp(self):
+        # Already in page_event, skip event_check.
+        if self.ui_get_current_page() == page_sp:
+            logger.info('Already at page_sp')
+            return True
+        else:
+            self.ui_goto(page_campaign_menu)
+            # Check event availability
+            if self.appear(CAMPAIGN_MENU_NO_EVENT, offset=(20, 20)):
+                logger.info('Event unavailable, disable task')
+                tasks = [
+                    'Event',
+                    'Event2',
+                    'EventA',
+                    'EventB',
+                    'EventC',
+                    'EventD',
+                    'EventSp',
+                    'GemsFarming',
+                ]
+                self._disable_tasks(tasks)
+                self.config.task_stop()
+            else:
+                logger.info('Event available, goto page_sp')
+                self.ui_goto(destination=page_sp)
+                return True
 
     @staticmethod
     def stage_is_main(name) -> bool:

@@ -52,7 +52,7 @@ class Campaign(CampaignBase):
     def battle_5(self):
         self.clear_all_mystery()
 
-        return self.fleet_2.brute_clear_boss()
+        return self.fleet_boss.brute_clear_boss()
 
     def handle_boss_appear_refocus(self, preset=(-3, -2)):
         return super().handle_boss_appear_refocus(preset)

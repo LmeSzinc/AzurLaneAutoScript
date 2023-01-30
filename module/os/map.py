@@ -19,11 +19,9 @@ from module.os.globe_camera import GlobeCamera
 from module.os.globe_operation import RewardUncollectedError
 from module.os_handler.assets import AUTO_SEARCH_OS_MAP_OPTION_OFF, \
     AUTO_SEARCH_OS_MAP_OPTION_ON, AUTO_SEARCH_REWARD
-from module.os_handler.shop import OCR_SHOP_YELLOW_COINS
 from module.os_handler.strategic import StrategicSearchHandler
 from module.ui.assets import GOTO_MAIN
 from module.ui.page import page_main, page_os
-from module.log_res.log_res import log_res
 
 
 class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
@@ -425,39 +423,6 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         logger.info(f'Handle after auto search finished, solved={solved}')
         return solved
 
-    @property
-    def is_in_task_explore(self):
-        return self.config.task.command == 'OpsiExplore'
-
-    @property
-    def is_cl1_enabled(self):
-        return self.config.cross_get('OpsiHazard1Leveling.Scheduler.Enable', default=False)
-
-    def get_yellow_coins(self, skip_first_screenshot=True):
-        """
-        Returns:
-            int:
-        """
-        timeout = Timer(2, count=3).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            yellow_coins = OCR_SHOP_YELLOW_COINS.ocr(self.device.image)
-            log_res(self.config).log_res(yellow_coins,'opcoin')
-            if timeout.reached():
-                logger.warning('Get yellow coins timeout')
-            if yellow_coins < 100:
-                # OCR may get 0 or 1 when amount is not immediately loaded
-                logger.info('Yellow coins less than 100, assuming it is an ocr error')
-                continue
-            else:
-                break
-
-        return yellow_coins
-
     def cl1_ap_preserve(self):
         """
         Keeping enough startup AP to run CL1.
@@ -479,7 +444,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
     def on_auto_search_battle_count_add(self):
         self._auto_search_battle_count += 1
         logger.attr('battle_count', self._auto_search_battle_count)
-        if self.config.task.command == 'OpsiHazard1Leveling':
+        if self.is_in_task_cl1_leveling:
             if self._auto_search_battle_count % 2 == 1:
                 if self._auto_search_round_timer:
                     cost = round(time.time() - self._auto_search_round_timer, 2)
