@@ -592,6 +592,7 @@ class AlasGUI(Frame):
             y=0
             for value in resource:
                 value_time = deep_get(self.alas_config.data, keys=value+'Time',default='No data')
+                value_time = str(value_time)[-8:]
                 value = self.alas_config.cross_get(value)
                 put_row(
                     [

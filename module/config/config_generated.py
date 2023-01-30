@@ -11,21 +11,21 @@ class GeneratedConfig:
 
     # Group `ViewCurrentResources`
     ViewCurrentResources_oiltomaxoil = 0
-    ViewCurrentResources_oiltomaxoilTime = '00:00:00'
+    ViewCurrentResources_oiltomaxoilTime = datetime.datetime(2010, 1, 1, 0, 0)
     ViewCurrentResources_cointomaxcoin = 0
-    ViewCurrentResources_cointomaxcoinTime = '00:00:00'
+    ViewCurrentResources_cointomaxcoinTime = datetime.datetime(2010, 1, 1, 0, 0)
     ViewCurrentResources_gem = 0
-    ViewCurrentResources_gemTime = '00:00:00'
+    ViewCurrentResources_gemTime = datetime.datetime(2010, 1, 1, 0, 0)
     ViewCurrentResources_cube = 0
-    ViewCurrentResources_cubeTime = '00:00:00'
+    ViewCurrentResources_cubeTime = datetime.datetime(2010, 1, 1, 0, 0)
     ViewCurrentResources_pt = 0
-    ViewCurrentResources_ptTime = '00:00:00'
+    ViewCurrentResources_ptTime = datetime.datetime(2010, 1, 1, 0, 0)
     ViewCurrentResources_opcoin = 0
-    ViewCurrentResources_opcoinTime = '00:00:00'
+    ViewCurrentResources_opcoinTime = datetime.datetime(2010, 1, 1, 0, 0)
     ViewCurrentResources_purplecoin = 0
-    ViewCurrentResources_purplecoinTime = '00:00:00'
+    ViewCurrentResources_purplecoinTime = datetime.datetime(2010, 1, 1, 0, 0)
     ViewCurrentResources_actionpoint = 0
-    ViewCurrentResources_actionpointTime = '00:00:00'
+    ViewCurrentResources_actionpointTime = datetime.datetime(2010, 1, 1, 0, 0)
 
     # Group `ViewEquipProgress`
     ViewEquipProgress_234mm = 0

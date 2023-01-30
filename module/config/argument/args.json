@@ -7,8 +7,9 @@
         "display": "disabled"
       },
       "oiltomaxoilTime": {
-        "type": "input",
-        "value": "00:00:00",
+        "type": "datetime",
+        "value": "2010-01-01 00:00:00",
+        "validate": "datetime",
         "display": "disabled"
       },
       "cointomaxcoin": {
@@ -17,8 +18,9 @@
         "display": "disabled"
       },
       "cointomaxcoinTime": {
-        "type": "input",
-        "value": "00:00:00",
+        "type": "datetime",
+        "value": "2010-01-01 00:00:00",
+        "validate": "datetime",
         "display": "disabled"
       },
       "gem": {
@@ -27,8 +29,9 @@
         "display": "disabled"
       },
       "gemTime": {
-        "type": "input",
-        "value": "00:00:00",
+        "type": "datetime",
+        "value": "2010-01-01 00:00:00",
+        "validate": "datetime",
         "display": "disabled"
       },
       "cube": {
@@ -37,8 +40,9 @@
         "display": "disabled"
       },
       "cubeTime": {
-        "type": "input",
-        "value": "00:00:00",
+        "type": "datetime",
+        "value": "2010-01-01 00:00:00",
+        "validate": "datetime",
         "display": "disabled"
       },
       "pt": {
@@ -47,8 +51,9 @@
         "display": "disabled"
       },
       "ptTime": {
-        "type": "input",
-        "value": "00:00:00",
+        "type": "datetime",
+        "value": "2010-01-01 00:00:00",
+        "validate": "datetime",
         "display": "disabled"
       },
       "opcoin": {
@@ -57,8 +62,9 @@
         "display": "disabled"
       },
       "opcoinTime": {
-        "type": "input",
-        "value": "00:00:00",
+        "type": "datetime",
+        "value": "2010-01-01 00:00:00",
+        "validate": "datetime",
         "display": "disabled"
       },
       "purplecoin": {
@@ -67,8 +73,9 @@
         "display": "disabled"
       },
       "purplecoinTime": {
-        "type": "input",
-        "value": "00:00:00",
+        "type": "datetime",
+        "value": "2010-01-01 00:00:00",
+        "validate": "datetime",
         "display": "disabled"
       },
       "actionpoint": {
@@ -77,8 +84,9 @@
         "display": "disabled"
       },
       "actionpointTime": {
-        "type": "input",
-        "value": "00:00:00",
+        "type": "datetime",
+        "value": "2010-01-01 00:00:00",
+        "validate": "datetime",
         "display": "disabled"
       }
     },

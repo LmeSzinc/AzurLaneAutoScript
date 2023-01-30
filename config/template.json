@@ -2,21 +2,21 @@
   "ViewCurrentResources": {
     "ViewCurrentResources": {
       "oiltomaxoil": 0,
-      "oiltomaxoilTime": "00:00:00",
+      "oiltomaxoilTime": "2010-01-01 00:00:00",
       "cointomaxcoin": 0,
-      "cointomaxcoinTime": "00:00:00",
+      "cointomaxcoinTime": "2010-01-01 00:00:00",
       "gem": 0,
-      "gemTime": "00:00:00",
+      "gemTime": "2010-01-01 00:00:00",
       "cube": 0,
-      "cubeTime": "00:00:00",
+      "cubeTime": "2010-01-01 00:00:00",
       "pt": 0,
-      "ptTime": "00:00:00",
+      "ptTime": "2010-01-01 00:00:00",
       "opcoin": 0,
-      "opcoinTime": "00:00:00",
+      "opcoinTime": "2010-01-01 00:00:00",
       "purplecoin": 0,
-      "purplecoinTime": "00:00:00",
+      "purplecoinTime": "2010-01-01 00:00:00",
       "actionpoint": 0,
-      "actionpointTime": "00:00:00"
+      "actionpointTime": "2010-01-01 00:00:00"
     },
     "Storage": {
       "Storage": {}
