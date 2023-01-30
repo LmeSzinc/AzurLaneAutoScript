@@ -8,26 +8,50 @@ ViewCurrentResources:
     oiltomaxoil: 
         value: 0
         display: disabled
+    oiltomaxoilTime:
+        value: 00:00:00
+        display: disabled
     cointomaxcoin: 
         value: 0
+        display: disabled
+    cointomaxcoinTime:
+        value: 00:00:00
         display: disabled
     gem: 
         value: 0
         display: disabled
+    gemTime:
+        value: 00:00:00
+        display: disabled
     cube:
         value: 0
+        display: disabled
+    cubeTime:
+        value: 00:00:00
         display: disabled
     pt: 
         value: 0
         display: disabled
+    ptTime:
+        value: 00:00:00
+        display: disabled
     opcoin: 
         value: 0
+        display: disabled
+    opcoinTime:
+        value: 00:00:00
         display: disabled
     purplecoin: 
         value: 0
         display: disabled
+    purplecoinTime:
+        value: 00:00:00
+        display: disabled
     actionpoint: 
         value: 0
+        display: disabled
+    actionpointTime:
+        value: 00:00:00
         display: disabled
 ViewEquipProgress:
     234mm: 0

@@ -284,33 +284,65 @@
       "name": "石油儲量/最大石油儲量",
       "help": "石油儲量大於最大石油儲量時應儘快清理以免卡自動產出"
     },
+    "oiltomaxoilTime": {
+      "name": "ViewCurrentResources.oiltomaxoilTime.name",
+      "help": "ViewCurrentResources.oiltomaxoilTime.help"
+    },
     "cointomaxcoin": {
       "name": "物資儲量/最大物資儲量",
       "help": "物資儲量大於最大物資儲量時應儘快清理以免卡自動產出"
+    },
+    "cointomaxcoinTime": {
+      "name": "ViewCurrentResources.cointomaxcoinTime.name",
+      "help": "ViewCurrentResources.cointomaxcoinTime.help"
     },
     "gem": {
       "name": "鑽石",
       "help": ""
     },
+    "gemTime": {
+      "name": "ViewCurrentResources.gemTime.name",
+      "help": "ViewCurrentResources.gemTime.help"
+    },
     "cube": {
       "name": "魔方",
       "help": "每日抽卡時更新"
+    },
+    "cubeTime": {
+      "name": "ViewCurrentResources.cubeTime.name",
+      "help": "ViewCurrentResources.cubeTime.help"
     },
     "pt": {
       "name": "活動PT",
       "help": ""
     },
+    "ptTime": {
+      "name": "ViewCurrentResources.ptTime.name",
+      "help": "ViewCurrentResources.ptTime.help"
+    },
     "opcoin": {
       "name": "作戰補給憑證",
       "help": ""
+    },
+    "opcoinTime": {
+      "name": "ViewCurrentResources.opcoinTime.name",
+      "help": "ViewCurrentResources.opcoinTime.help"
     },
     "purplecoin": {
       "name": "特殊兌換憑證",
       "help": ""
     },
+    "purplecoinTime": {
+      "name": "ViewCurrentResources.purplecoinTime.name",
+      "help": "ViewCurrentResources.purplecoinTime.help"
+    },
     "actionpoint": {
       "name": "",
       "help": ""
+    },
+    "actionpointTime": {
+      "name": "ViewCurrentResources.actionpointTime.name",
+      "help": "ViewCurrentResources.actionpointTime.help"
     }
   },
   "ViewEquipProgress": {

@@ -284,33 +284,65 @@
       "name": "Oil / Max oil limit",
       "help": ""
     },
+    "oiltomaxoilTime": {
+      "name": "ViewCurrentResources.oiltomaxoilTime.name",
+      "help": "ViewCurrentResources.oiltomaxoilTime.help"
+    },
     "cointomaxcoin": {
       "name": "Coin / Max coin limit",
       "help": ""
+    },
+    "cointomaxcoinTime": {
+      "name": "ViewCurrentResources.cointomaxcoinTime.name",
+      "help": "ViewCurrentResources.cointomaxcoinTime.help"
     },
     "gem": {
       "name": "Gem",
       "help": ""
     },
+    "gemTime": {
+      "name": "ViewCurrentResources.gemTime.name",
+      "help": "ViewCurrentResources.gemTime.help"
+    },
     "cube": {
       "name": "Cube",
       "help": "Update after everyday's gacha"
+    },
+    "cubeTime": {
+      "name": "ViewCurrentResources.cubeTime.name",
+      "help": "ViewCurrentResources.cubeTime.help"
     },
     "pt": {
       "name": "Event Point",
       "help": ""
     },
+    "ptTime": {
+      "name": "ViewCurrentResources.ptTime.name",
+      "help": "ViewCurrentResources.ptTime.help"
+    },
     "opcoin": {
       "name": "Operation Supply Coin",
       "help": ""
+    },
+    "opcoinTime": {
+      "name": "ViewCurrentResources.opcoinTime.name",
+      "help": "ViewCurrentResources.opcoinTime.help"
     },
     "purplecoin": {
       "name": "Special Item Token",
       "help": ""
     },
+    "purplecoinTime": {
+      "name": "ViewCurrentResources.purplecoinTime.name",
+      "help": "ViewCurrentResources.purplecoinTime.help"
+    },
     "actionpoint": {
       "name": "Action Point",
       "help": ""
+    },
+    "actionpointTime": {
+      "name": "ViewCurrentResources.actionpointTime.name",
+      "help": "ViewCurrentResources.actionpointTime.help"
     }
   },
   "ViewEquipProgress": {

@@ -591,14 +591,15 @@ class AlasGUI(Frame):
             x=0
             y=0
             for value in resource:
-                value =  self.alas_config.cross_get(value)
+                value_time = deep_get(self.alas_config.data, keys=value+'Time',default='No data')
+                value = self.alas_config.cross_get(value)
                 put_row(
                     [
                         put_html(color[y]),
                         put_column(
                             [
                                 put_text(str(value)).style("--arg-title--"),
-                                put_text(t(resourcename[x])+t(" -")+t(datetime.now().strftime("%H:%M:%S"))).style("--arg-help--"),
+                                put_text(t(resourcename[x])+" -"+value_time).style("--arg-help--"),
                             ],
                             size="auto auto",
                         ),

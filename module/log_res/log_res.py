@@ -31,9 +31,10 @@ class log_res:
             from datetime import datetime
             _time = datetime.now()
             time = str(_time)
-            deep_set(d=self.config.data, keys=key_time, value=time[:19])
+            deep_set(d=self.config.data, keys=key_time, value=time[11:19])
             deep_set(d=self.config.data, keys=key, value=num)
             self.config.write_file(self.config.config_name, data=self.config.data)
+            self.config.data = self.config.read_file(self.config.config_name)
         elif name in ViewEquipProgress:
             key = f'ViewCurrentResources.ViewEquipProgress.{name}'
             deep_set(d=self.config.data, keys=key, value=num)

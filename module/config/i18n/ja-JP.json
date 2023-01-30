@@ -284,33 +284,65 @@
       "name": "ViewCurrentResources.oiltomaxoil.name",
       "help": "ViewCurrentResources.oiltomaxoil.help"
     },
+    "oiltomaxoilTime": {
+      "name": "ViewCurrentResources.oiltomaxoilTime.name",
+      "help": "ViewCurrentResources.oiltomaxoilTime.help"
+    },
     "cointomaxcoin": {
       "name": "ViewCurrentResources.cointomaxcoin.name",
       "help": "ViewCurrentResources.cointomaxcoin.help"
+    },
+    "cointomaxcoinTime": {
+      "name": "ViewCurrentResources.cointomaxcoinTime.name",
+      "help": "ViewCurrentResources.cointomaxcoinTime.help"
     },
     "gem": {
       "name": "ViewCurrentResources.gem.name",
       "help": "ViewCurrentResources.gem.help"
     },
+    "gemTime": {
+      "name": "ViewCurrentResources.gemTime.name",
+      "help": "ViewCurrentResources.gemTime.help"
+    },
     "cube": {
       "name": "ViewCurrentResources.cube.name",
       "help": "ViewCurrentResources.cube.help"
+    },
+    "cubeTime": {
+      "name": "ViewCurrentResources.cubeTime.name",
+      "help": "ViewCurrentResources.cubeTime.help"
     },
     "pt": {
       "name": "ViewCurrentResources.pt.name",
       "help": "ViewCurrentResources.pt.help"
     },
+    "ptTime": {
+      "name": "ViewCurrentResources.ptTime.name",
+      "help": "ViewCurrentResources.ptTime.help"
+    },
     "opcoin": {
       "name": "ViewCurrentResources.opcoin.name",
       "help": "ViewCurrentResources.opcoin.help"
+    },
+    "opcoinTime": {
+      "name": "ViewCurrentResources.opcoinTime.name",
+      "help": "ViewCurrentResources.opcoinTime.help"
     },
     "purplecoin": {
       "name": "ViewCurrentResources.purplecoin.name",
       "help": "ViewCurrentResources.purplecoin.help"
     },
+    "purplecoinTime": {
+      "name": "ViewCurrentResources.purplecoinTime.name",
+      "help": "ViewCurrentResources.purplecoinTime.help"
+    },
     "actionpoint": {
       "name": "ViewCurrentResources.actionpoint.name",
       "help": "ViewCurrentResources.actionpoint.help"
+    },
+    "actionpointTime": {
+      "name": "ViewCurrentResources.actionpointTime.name",
+      "help": "ViewCurrentResources.actionpointTime.help"
     }
   },
   "ViewEquipProgress": {

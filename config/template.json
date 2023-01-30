@@ -2,13 +2,21 @@
   "ViewCurrentResources": {
     "ViewCurrentResources": {
       "oiltomaxoil": 0,
+      "oiltomaxoilTime": "00:00:00",
       "cointomaxcoin": 0,
+      "cointomaxcoinTime": "00:00:00",
       "gem": 0,
+      "gemTime": "00:00:00",
       "cube": 0,
+      "cubeTime": "00:00:00",
       "pt": 0,
+      "ptTime": "00:00:00",
       "opcoin": 0,
+      "opcoinTime": "00:00:00",
       "purplecoin": 0,
-      "actionpoint": 0
+      "purplecoinTime": "00:00:00",
+      "actionpoint": 0,
+      "actionpointTime": "00:00:00"
     },
     "Storage": {
       "Storage": {}

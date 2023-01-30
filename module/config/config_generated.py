@@ -11,13 +11,21 @@ class GeneratedConfig:
 
     # Group `ViewCurrentResources`
     ViewCurrentResources_oiltomaxoil = 0
+    ViewCurrentResources_oiltomaxoilTime = '00:00:00'
     ViewCurrentResources_cointomaxcoin = 0
+    ViewCurrentResources_cointomaxcoinTime = '00:00:00'
     ViewCurrentResources_gem = 0
+    ViewCurrentResources_gemTime = '00:00:00'
     ViewCurrentResources_cube = 0
+    ViewCurrentResources_cubeTime = '00:00:00'
     ViewCurrentResources_pt = 0
+    ViewCurrentResources_ptTime = '00:00:00'
     ViewCurrentResources_opcoin = 0
+    ViewCurrentResources_opcoinTime = '00:00:00'
     ViewCurrentResources_purplecoin = 0
+    ViewCurrentResources_purplecoinTime = '00:00:00'
     ViewCurrentResources_actionpoint = 0
+    ViewCurrentResources_actionpointTime = '00:00:00'
 
     # Group `ViewEquipProgress`
     ViewEquipProgress_234mm = 0

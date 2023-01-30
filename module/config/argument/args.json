@@ -6,9 +6,19 @@
         "value": 0,
         "display": "disabled"
       },
+      "oiltomaxoilTime": {
+        "type": "input",
+        "value": "00:00:00",
+        "display": "disabled"
+      },
       "cointomaxcoin": {
         "type": "input",
         "value": 0,
+        "display": "disabled"
+      },
+      "cointomaxcoinTime": {
+        "type": "input",
+        "value": "00:00:00",
         "display": "disabled"
       },
       "gem": {
@@ -16,9 +26,19 @@
         "value": 0,
         "display": "disabled"
       },
+      "gemTime": {
+        "type": "input",
+        "value": "00:00:00",
+        "display": "disabled"
+      },
       "cube": {
         "type": "input",
         "value": 0,
+        "display": "disabled"
+      },
+      "cubeTime": {
+        "type": "input",
+        "value": "00:00:00",
         "display": "disabled"
       },
       "pt": {
@@ -26,9 +46,19 @@
         "value": 0,
         "display": "disabled"
       },
+      "ptTime": {
+        "type": "input",
+        "value": "00:00:00",
+        "display": "disabled"
+      },
       "opcoin": {
         "type": "input",
         "value": 0,
+        "display": "disabled"
+      },
+      "opcoinTime": {
+        "type": "input",
+        "value": "00:00:00",
         "display": "disabled"
       },
       "purplecoin": {
@@ -36,9 +66,19 @@
         "value": 0,
         "display": "disabled"
       },
+      "purplecoinTime": {
+        "type": "input",
+        "value": "00:00:00",
+        "display": "disabled"
+      },
       "actionpoint": {
         "type": "input",
         "value": 0,
+        "display": "disabled"
+      },
+      "actionpointTime": {
+        "type": "input",
+        "value": "00:00:00",
         "display": "disabled"
       }
     },
