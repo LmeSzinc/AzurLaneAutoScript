@@ -8033,7 +8033,7 @@
     "OpsiVoucher": {
       "Filter": {
         "type": "textarea",
-        "value": "LoggerAbyssal > LoggerObscure > HECombatPlan > Book > Coin"
+        "value": "LoggerAbyssal > LoggerObscure > Book > Coin"
       }
     },
     "Storage": {

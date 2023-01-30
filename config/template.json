@@ -1641,7 +1641,7 @@
       "ServerUpdate": "00:00"
     },
     "OpsiVoucher": {
-      "Filter": "LoggerAbyssal > LoggerObscure > HECombatPlan > Book > Coin"
+      "Filter": "LoggerAbyssal > LoggerObscure > Book > Coin"
     },
     "Storage": {
       "Storage": {}

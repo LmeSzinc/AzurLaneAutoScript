@@ -580,7 +580,7 @@ OpsiShop:
   BuySupply: true
 OpsiVoucher:
   Filter: |-
-    LoggerAbyssal > LoggerObscure > HECombatPlan > Book > Coin
+    LoggerAbyssal > LoggerObscure > Book > Coin
 OpsiDaily:
   DoMission: true
   UseTuningSample: true
