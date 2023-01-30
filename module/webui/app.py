@@ -375,6 +375,7 @@ class AlasGUI(Frame):
                         "log-bar-btns",
                         [
                             put_scope("log_scroll_btn"),
+                            put_scope("dashboard_btn"),
                         ],
                     ),
                     put_html('<hr class="hr-group">'),
@@ -396,8 +397,20 @@ class AlasGUI(Frame):
             scope="log_scroll_btn",
         )
 
+        # switch_dashboard_btn = BinarySwitchButton(
+        #     label_on=t("Gui.Button.ScrollON"),
+        #     label_off=t("Gui.Button.ScrollOFF"),
+        #     onclick_on=lambda: self.alas_update_dashboard.pack_forget(),
+        #     onclick_off=lambda: self.alas_update_dashboard(self.visible(False)),
+        #     get_state=lambda: log.keep_bottom,
+        #     color_on="on",
+        #     color_off="off",
+        #     scope="dashboard_btn",
+        # )
+
         self.task_handler.add(switch_scheduler.g(), 1, True)
         self.task_handler.add(switch_log_scroll.g(), 1, True)
+        # self.task_handler.add(switch_dashboard_btn.g(), 1, True)
         self.task_handler.add(self.alas_update_overview_task, 10, True)
         self.task_handler.add(self.alas_update_dashboard, 20, True)
         self.task_handler.add(log.put_log(self.alas), 0.25, True)

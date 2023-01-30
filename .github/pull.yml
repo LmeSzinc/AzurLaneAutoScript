@@ -6,4 +6,3 @@ rules:
     mergeUnstable: true
 label: ":arrow_heading_down: pull"
 conflictLabel: "merge-conflict": true
-
