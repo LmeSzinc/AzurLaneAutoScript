@@ -10,9 +10,9 @@ class GeneratedConfig:
     """
 
     # Group `ViewCurrentResources`
-    ViewCurrentResources_oiltomaxoil = 0
+    ViewCurrentResources_oiltomaxoil = '0 / 0'
     ViewCurrentResources_oiltomaxoilTime = datetime.datetime(2010, 1, 1, 0, 0)
-    ViewCurrentResources_cointomaxcoin = 0
+    ViewCurrentResources_cointomaxcoin = '0 / 0'
     ViewCurrentResources_cointomaxcoinTime = datetime.datetime(2010, 1, 1, 0, 0)
     ViewCurrentResources_gem = 0
     ViewCurrentResources_gemTime = datetime.datetime(2010, 1, 1, 0, 0)
@@ -24,7 +24,7 @@ class GeneratedConfig:
     ViewCurrentResources_opcoinTime = datetime.datetime(2010, 1, 1, 0, 0)
     ViewCurrentResources_purplecoin = 0
     ViewCurrentResources_purplecoinTime = datetime.datetime(2010, 1, 1, 0, 0)
-    ViewCurrentResources_actionpoint = 0
+    ViewCurrentResources_actionpoint = '0 (0)'
     ViewCurrentResources_actionpointTime = datetime.datetime(2010, 1, 1, 0, 0)
 
     # Group `ViewEquipProgress`

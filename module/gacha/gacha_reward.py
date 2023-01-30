@@ -8,7 +8,7 @@ from module.logger import logger
 from module.ocr.ocr import Digit
 from module.retire.retirement import Retirement
 from module.shop.shop_general import GeneralShop
-from module.log_res.log_res import log_res
+from module.log_res.log_res import LogRes
 
 RECORD_GACHA_OPTION = ('RewardRecord', 'gacha')
 RECORD_GACHA_SINCE = (0,)
@@ -121,7 +121,7 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
         logger.info(f'Able to submit up to {target_count} build orders')
         self._currency -= gold_total
         self.build_cube_count -= cube_total
-        log_res(self.config).log_res(self.build_cube_count,'cube')
+        LogRes(self.config).log_res(self.build_cube_count, 'cube')
         return target_count
 
     def gacha_goto_pool(self, target_pool):

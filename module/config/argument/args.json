@@ -3,7 +3,7 @@
     "ViewCurrentResources": {
       "oiltomaxoil": {
         "type": "input",
-        "value": 0,
+        "value": "0 / 0",
         "display": "disabled"
       },
       "oiltomaxoilTime": {
@@ -14,7 +14,7 @@
       },
       "cointomaxcoin": {
         "type": "input",
-        "value": 0,
+        "value": "0 / 0",
         "display": "disabled"
       },
       "cointomaxcoinTime": {
@@ -80,7 +80,7 @@
       },
       "actionpoint": {
         "type": "input",
-        "value": 0,
+        "value": "0 (0)",
         "display": "disabled"
       },
       "actionpointTime": {

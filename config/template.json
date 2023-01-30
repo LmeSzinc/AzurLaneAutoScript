@@ -1,9 +1,9 @@
 {
   "ViewCurrentResources": {
     "ViewCurrentResources": {
-      "oiltomaxoil": 0,
+      "oiltomaxoil": "0 / 0",
       "oiltomaxoilTime": "2010-01-01 00:00:00",
-      "cointomaxcoin": 0,
+      "cointomaxcoin": "0 / 0",
       "cointomaxcoinTime": "2010-01-01 00:00:00",
       "gem": 0,
       "gemTime": "2010-01-01 00:00:00",
@@ -15,7 +15,7 @@
       "opcoinTime": "2010-01-01 00:00:00",
       "purplecoin": 0,
       "purplecoinTime": "2010-01-01 00:00:00",
-      "actionpoint": 0,
+      "actionpoint": "0 (0)",
       "actionpointTime": "2010-01-01 00:00:00"
     },
     "Storage": {

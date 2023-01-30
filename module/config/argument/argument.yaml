@@ -6,13 +6,13 @@
 
 ViewCurrentResources:
     oiltomaxoil: 
-        value: 0
+        value: 0 / 0
         display: disabled
     oiltomaxoilTime:
         value: 2010-01-01 00:00:00
         display: disabled
     cointomaxcoin: 
-        value: 0
+        value: 0 / 0
         display: disabled
     cointomaxcoinTime:
         value: 2010-01-01 00:00:00
@@ -48,7 +48,7 @@ ViewCurrentResources:
         value: 2010-01-01 00:00:00
         display: disabled
     actionpoint: 
-        value: 0
+        value: 0 (0)
         display: disabled
     actionpointTime:
         value: 2010-01-01 00:00:00
