@@ -280,16 +280,16 @@ class Raid(MapOperation, Combat, CampaignEvent):
                 if timeout.reached():
                     logger.warning('Wait PT timeout, assume it is')
                     from module.log_res.log_res import log_res
-                    log_res.log_res(self, pt, 'pt')
+                    log_res(self.config).log_res(pt, 'pt')
                     return pt
                 if pt in [70000, 70001]:
                     continue
                 else:
                     from module.log_res.log_res import log_res
-                    log_res.log_res(self, pt, 'pt')
+                    log_res(self.config).log_res(pt, 'pt')
                     return pt
         else:
             logger.info(f'Raid {self.config.Campaign_Event} does not support PT ocr, skip')
             from module.log_res.log_res import log_res
-            log_res.log_res(self, 0, 'pt')
+            log_res(self.config).log_res(0, 'pt')
             return 0

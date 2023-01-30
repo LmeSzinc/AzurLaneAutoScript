@@ -140,7 +140,7 @@ class ActionPointHandler(UI, MapEventHandler):
         oil = box[0]
 
         logger.info(f'Action points: {current}({total}), oil: {oil}')
-        log_res.log_res(self,f'{current} ({total})','actionpoint');
+        log_res(self.config).log_res(f'{current} ({total})','actionpoint');
         self._action_point_current = current
         self._action_point_box = box
         self._action_point_total = total

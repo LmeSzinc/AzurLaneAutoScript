@@ -52,11 +52,11 @@ class CampaignStatus(UI):
         if res:
             pt = int(res.group(1))
             logger.attr('Event_PT', pt)
-            log_res.log_res(self,pt,'pt')
+            log_res(self.config).log_res(pt,'pt')
             return pt
         else:
             logger.warning(f'Invalid pt result: {pt}')
-            log_res.log_res(self,0,'pt')
+            log_res(self.config).log_res(0,'pt')
             return 0
 
     def get_gem(self, skip_first_screenshot=True):
@@ -79,7 +79,7 @@ class CampaignStatus(UI):
             
             if amount >= 10:
                 break
-        log_res.log_res(self,amount,'gem')
+        log_res(self.config).log_res(amount,'gem')
 
         return amount
 
@@ -105,7 +105,7 @@ class CampaignStatus(UI):
             amount2 = OCR_MAXCOIN.ocr(self.device.image)
             if amount1 >= 100:
                 break
-        log_res.log_res(self,f'{amount1} / {amount2}','cointomaxcoin')
+        log_res(self.config).log_res(f'{amount1} / {amount2}','cointomaxcoin')
 
         return amount1
 
@@ -134,6 +134,6 @@ class CampaignStatus(UI):
             amount2 = OCR_MAXOIL.ocr(self.device.image)
             if amount1 >= 100:
                 break
-        log_res.log_res(self,f'{amount1} / {amount2}','oiltomaxoil')
+        log_res(self.config).log_res(f'{amount1} / {amount2}','oiltomaxoil')
 
         return amount1

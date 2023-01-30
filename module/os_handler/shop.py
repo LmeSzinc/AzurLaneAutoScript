@@ -32,8 +32,8 @@ class OSShopHandler(UI, MapEventHandler):
     def os_shop_get_coins(self):
         self._shop_yellow_coins = OCR_SHOP_YELLOW_COINS.ocr(self.device.image)
         self._shop_purple_coins = OCR_SHOP_PURPLE_COINS.ocr(self.device.image)
-        log_res.log_res(self,self._shop_yellow_coins,'opcoin')
-        log_res.log_res(self,self._shop_purple_coins,'purplecoin')
+        log_res(self.config).log_res(self._shop_yellow_coins,'opcoin')
+        log_res(self.config).log_res(self._shop_purple_coins,'purplecoin')
         logger.info(f'Yellow coins: {self._shop_yellow_coins}, purple coins: {self._shop_purple_coins}')
 
     @cached_property

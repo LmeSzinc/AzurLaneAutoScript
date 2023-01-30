@@ -446,7 +446,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                 self.device.screenshot()
 
             yellow_coins = OCR_SHOP_YELLOW_COINS.ocr(self.device.image)
-            log_res.log_res(self,yellow_coins,'opcoin')
+            log_res(self.config).log_res(yellow_coins,'opcoin')
             if timeout.reached():
                 logger.warning('Get yellow coins timeout')
             if yellow_coins < 100:
