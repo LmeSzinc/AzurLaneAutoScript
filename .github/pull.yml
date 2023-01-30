@@ -1,7 +1,11 @@
 version: "1"
 rules:
-  - base: dev
+  - base: lme
     upstream: LmeSzinc:master
+    mergeMethod: merge
+    mergeUnstable: true
+  - base: GG
+    upstream: Zuosizhu:master
     mergeMethod: merge
     mergeUnstable: true
 label: ":arrow_heading_down: pull"
