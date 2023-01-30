@@ -1,4 +1,38 @@
 {
+  "ViewCurrentResources": {
+    "ViewCurrentResources": {
+      "oiltomaxoil": 0,
+      "oiltomaxoilTime": "2010-01-01 00:00:00",
+      "cointomaxcoin": 0,
+      "cointomaxcoinTime": "2010-01-01 00:00:00",
+      "gem": 0,
+      "gemTime": "2010-01-01 00:00:00",
+      "cube": 0,
+      "cubeTime": "2010-01-01 00:00:00",
+      "pt": 0,
+      "ptTime": "2010-01-01 00:00:00",
+      "opcoin": 0,
+      "opcoinTime": "2010-01-01 00:00:00",
+      "purplecoin": 0,
+      "purplecoinTime": "2010-01-01 00:00:00",
+      "actionpoint": 0,
+      "actionpointTime": "2010-01-01 00:00:00"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "ViewEquipProgress": {
+    "ViewEquipProgress": {
+      "234mm": 0,
+      "457mm": 0,
+      "tenrai": 0,
+      "152mm": 0
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "Alas": {
     "Emulator": {
       "Serial": "auto",
@@ -465,6 +499,81 @@
       "Enable": false,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "Event2",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "Campaign": {
+      "Name": "12-4",
+      "Event": "campaign_main",
+      "Mode": "normal",
+      "UseClearMode": true,
+      "UseFleetLock": true,
+      "UseAutoSearch": true,
+      "Use2xBook": false,
+      "AmbushEvade": true
+    },
+    "StopCondition": {
+      "RunCount": 0,
+      "OilLimit": 1000,
+      "MapAchievement": "non_stop",
+      "StageIncrease": false,
+      "GetNewShip": false,
+      "ReachLevel": 0
+    },
+    "Fleet": {
+      "Fleet1": 1,
+      "Fleet1Formation": "double_line",
+      "Fleet1Mode": "combat_auto",
+      "Fleet1Step": 3,
+      "Fleet2": 2,
+      "Fleet2Formation": "double_line",
+      "Fleet2Mode": "combat_auto",
+      "Fleet2Step": 2,
+      "FleetOrder": "fleet1_mob_fleet2_boss"
+    },
+    "Submarine": {
+      "Fleet": 0,
+      "Mode": "do_not_use",
+      "AutoSearchMode": "sub_standby",
+      "DistanceToBoss": "2_grid_to_boss"
+    },
+    "Emotion": {
+      "CalculateEmotion": true,
+      "IgnoreLowEmotionWarn": false,
+      "Fleet1Value": 119,
+      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Control": "prevent_yellow_face",
+      "Fleet1Recover": "not_in_dormitory",
+      "Fleet1Oath": false,
+      "Fleet2Value": 119,
+      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Control": "prevent_yellow_face",
+      "Fleet2Recover": "not_in_dormitory",
+      "Fleet2Oath": false
+    },
+    "HpControl": {
+      "UseHpBalance": false,
+      "UseEmergencyRepair": false,
+      "UseLowHpRetreat": false,
+      "HpBalanceThreshold": 0.2,
+      "HpBalanceWeight": "1000, 1000, 1000",
+      "RepairUseSingleThreshold": 0.3,
+      "RepairUseMultiThreshold": 0.6,
+      "LowHpRetreatThreshold": 0.3
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": "default_mode"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "Event3": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Event3",
       "SuccessInterval": 0,
       "FailureInterval": 120,
       "ServerUpdate": "00:00"
@@ -1861,6 +1970,21 @@
   "GameManager": {
     "GameManager": {
       "AutoRestart": true
+    },
+    "GGHandler": {
+      "Enabled": false,
+      "GGMethod": "u2",
+      "GGPackageName": "com.",
+      "AutoRestartGG": false,
+      "RestartEverytime": true,
+      "GGMultiplyingFactor": 200,
+      "DisabledTask": "disable_all_dangerous_task",
+      "ALLowLowLevelInGemsFarming": false
+    },
+    "PowerLimit": {
+      "Exercise": 16500,
+      "Raid": 16500,
+      "Ash": 16500
     },
     "Storage": {
       "Storage": {}

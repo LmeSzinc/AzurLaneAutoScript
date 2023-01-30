@@ -12,6 +12,8 @@ from module.ocr.ocr import Digit, DigitCounter
 from module.raid.assets import *
 from module.raid.combat import RaidCombat
 from module.ui.assets import RAID_CHECK
+from module.gg_handler.gg_handler import GGHandler
+from module.log_res.log_res import log_res
 
 
 class OilExhausted(Exception):
@@ -139,6 +141,10 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
             fleet_index (int):
         """
         logger.info('Combat preparation.')
+
+        # Power limit check
+        GGHandler(config=self.config, device=self.device).power_limit('Raid')
+
         skip_first_screenshot = True
         # No need, already waited in `raid_execute_once()`
         # if emotion_reduce:
@@ -288,11 +294,14 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
                 pt = ocr.ocr(self.device.image)
                 if timeout.reached():
                     logger.warning('Wait PT timeout, assume it is')
+                    log_res(self.config).log_res(pt, 'pt')
                     return pt
                 if pt in [70000, 70001]:
                     continue
                 else:
+                    log_res(self.config).log_res(pt, 'pt')
                     return pt
         else:
             logger.info(f'Raid {self.config.Campaign_Event} does not support PT ocr, skip')
+            log_res(self.config).log_res(0, 'pt')
             return 0

@@ -4,6 +4,10 @@
       "name": "",
       "help": ""
     },
+    "ViewResources": {
+      "name": "儀錶盤",
+      "help": ""
+    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -38,6 +42,14 @@
     }
   },
   "Task": {
+    "ViewCurrentResources": {
+      "name": "查看資源儲量",
+      "help": ""
+    },
+    "ViewEquipProgress": {
+      "name": "Task.ViewEquipProgress.name",
+      "help": "Task.ViewEquipProgress.help"
+    },
     "Alas": {
       "name": "Alas設定",
       "help": ""
@@ -76,6 +88,10 @@
     },
     "Event2": {
       "name": "活動圖-2",
+      "help": ""
+    },
+    "Event3": {
+      "name": "活動圖-3",
       "help": ""
     },
     "EventA": {
@@ -257,6 +273,98 @@
     "GameManager": {
       "name": "遊戲管理器(未完成)",
       "help": ""
+    }
+  },
+  "ViewCurrentResources": {
+    "_info": {
+      "name": "查看資源儲量",
+      "help": "並非即時更新，會在最近一次出擊時更新"
+    },
+    "oiltomaxoil": {
+      "name": "石油儲量/最大石油儲量",
+      "help": "石油儲量大於最大石油儲量時應儘快清理以免卡自動產出"
+    },
+    "oiltomaxoilTime": {
+      "name": "ViewCurrentResources.oiltomaxoilTime.name",
+      "help": "ViewCurrentResources.oiltomaxoilTime.help"
+    },
+    "cointomaxcoin": {
+      "name": "物資儲量/最大物資儲量",
+      "help": "物資儲量大於最大物資儲量時應儘快清理以免卡自動產出"
+    },
+    "cointomaxcoinTime": {
+      "name": "ViewCurrentResources.cointomaxcoinTime.name",
+      "help": "ViewCurrentResources.cointomaxcoinTime.help"
+    },
+    "gem": {
+      "name": "鑽石",
+      "help": ""
+    },
+    "gemTime": {
+      "name": "ViewCurrentResources.gemTime.name",
+      "help": "ViewCurrentResources.gemTime.help"
+    },
+    "cube": {
+      "name": "魔方",
+      "help": "每日抽卡時更新"
+    },
+    "cubeTime": {
+      "name": "ViewCurrentResources.cubeTime.name",
+      "help": "ViewCurrentResources.cubeTime.help"
+    },
+    "pt": {
+      "name": "活動PT",
+      "help": ""
+    },
+    "ptTime": {
+      "name": "ViewCurrentResources.ptTime.name",
+      "help": "ViewCurrentResources.ptTime.help"
+    },
+    "opcoin": {
+      "name": "作戰補給憑證",
+      "help": ""
+    },
+    "opcoinTime": {
+      "name": "ViewCurrentResources.opcoinTime.name",
+      "help": "ViewCurrentResources.opcoinTime.help"
+    },
+    "purplecoin": {
+      "name": "特殊兌換憑證",
+      "help": ""
+    },
+    "purplecoinTime": {
+      "name": "ViewCurrentResources.purplecoinTime.name",
+      "help": "ViewCurrentResources.purplecoinTime.help"
+    },
+    "actionpoint": {
+      "name": "",
+      "help": ""
+    },
+    "actionpointTime": {
+      "name": "ViewCurrentResources.actionpointTime.name",
+      "help": "ViewCurrentResources.actionpointTime.help"
+    }
+  },
+  "ViewEquipProgress": {
+    "_info": {
+      "name": "ViewEquipProgress._info.name",
+      "help": "ViewEquipProgress._info.help"
+    },
+    "234mm": {
+      "name": "ViewEquipProgress.234mm.name",
+      "help": "ViewEquipProgress.234mm.help"
+    },
+    "457mm": {
+      "name": "ViewEquipProgress.457mm.name",
+      "help": "ViewEquipProgress.457mm.help"
+    },
+    "tenrai": {
+      "name": "ViewEquipProgress.tenrai.name",
+      "help": "ViewEquipProgress.tenrai.help"
+    },
+    "152mm": {
+      "name": "ViewEquipProgress.152mm.name",
+      "help": "ViewEquipProgress.152mm.help"
     }
   },
   "Scheduler": {
@@ -2306,6 +2414,68 @@
       "help": "遊戲被強制結束後自動登錄遊戲"
     }
   },
+  "GGHandler": {
+    "_info": {
+      "name": "GG管理器",
+      "help": ""
+    },
+    "Enabled": {
+      "name": "啟用該功能",
+      "help": "注意事項！若GG打開則應該啟用該功能以達成防彈窗卡重啓\n只能使用指定的lua，會自動推送至/sdcard/Notes/Multiplier.lua\n演習，共鬥，Meta信標時會自動關閉倍率"
+    },
+    "GGMethod": {
+      "name": "GG操作方法",
+      "help": "推薦UiAutomator2，但未填寫包名時會使用截圖\n截圖相容性較差（已知逍遙模擬器無法使用）\n無法安裝UiAutomator2（如紅手指，vmos環境）時可嘗試使用\n使用截圖時，開啟模擬器後需要手動打開GG，將GG懸浮窗遮擋住石油圖標。 第一次使用還需要手動指定好lua路徑。",
+      "screenshot": "截圖",
+      "u2": "UiAutomator2"
+    },
+    "GGPackageName": {
+      "name": "GG包名",
+      "help": "GG安裝後請自行前往/Android/Data資料夾查看包名，應是com.一串亂碼"
+    },
+    "AutoRestartGG": {
+      "name": "自動重啟GG",
+      "help": "是否在重啟後自動重啟倍率"
+    },
+    "RestartEverytime": {
+      "name": "每次啟動Alas時重啓",
+      "help": "打開以初始化倍率内容。 如果你沒有手動操作的壞習慣，可以關閉此選項"
+    },
+    "GGMultiplyingFactor": {
+      "name": "倍率",
+      "help": "建議數值1-9999，沒做數位檢查，亂輸入後果自負"
+    },
+    "DisabledTask": {
+      "name": "禁用倍率的項目",
+      "help": "會關閉倍率的項目，建議全關。 打開的項目導致封號後果自負。\n所有，指演習，共鬥，Meta信標\n注意：戰力限制依舊生效。",
+      "disable_all_dangerous_task": "禁用所有敏感項目",
+      "disable_meta_and_exercise": "禁用Meta和演習",
+      "disable_exercise": "禁用演習",
+      "enable_all": "百無禁忌"
+    },
+    "ALLowLowLevelInGemsFarming": {
+      "name": "刷緊急委託可更換低等級前排",
+      "help": "倍率打開時，刷緊急委託時前排等級限制改為10以上即可"
+    }
+  },
+  "PowerLimit": {
+    "_info": {
+      "name": "戰力限制",
+      "help": "敏感項目前的最後一道保險\n若前排戰力高於此值強制重啓"
+    },
+    "Exercise": {
+      "name": "演習",
+      "help": ""
+    },
+    "Raid": {
+      "name": "共鬥",
+      "help": ""
+    },
+    "Ash": {
+      "name": "餘燼信標",
+      "help": ""
+    }
+  },
   "Storage": {
     "_info": {
       "name": "任務狀態",
@@ -2361,6 +2531,14 @@
     },
     "Overview": {
       "Scheduler": "調度器",
+      "Oil": "石油",
+      "Coin": "物資",
+      "Gem": "鑽石",
+      "Cube": "魔方",
+      "EventPt": "活動PT",
+      "OperationSupplyCoin": "作戰補給憑證",
+      "SpecialItemToken": "特殊兌換憑證",
+      "ActionPoint": "行動力",
       "Log": "日誌",
       "Running": "執行中",
       "Pending": "佇列中",

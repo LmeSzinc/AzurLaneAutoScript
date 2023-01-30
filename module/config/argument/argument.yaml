@@ -2,6 +2,62 @@
 # Define arguments.
 # --------------------
 
+# ==================== ViewResources ====================
+
+ViewCurrentResources:
+    oiltomaxoil: 
+        value: 0
+        display: disabled
+    oiltomaxoilTime:
+        value: 2010-01-01 00:00:00
+        display: disabled
+    cointomaxcoin: 
+        value: 0
+        display: disabled
+    cointomaxcoinTime:
+        value: 2010-01-01 00:00:00
+        display: disabled
+    gem: 
+        value: 0
+        display: disabled
+    gemTime:
+        value: 2010-01-01 00:00:00
+        display: disabled
+    cube:
+        value: 0
+        display: disabled
+    cubeTime:
+        value: 2010-01-01 00:00:00
+        display: disabled
+    pt: 
+        value: 0
+        display: disabled
+    ptTime:
+        value: 2010-01-01 00:00:00
+        display: disabled
+    opcoin: 
+        value: 0
+        display: disabled
+    opcoinTime:
+        value: 2010-01-01 00:00:00
+        display: disabled
+    purplecoin: 
+        value: 0
+        display: disabled
+    purplecoinTime:
+        value: 2010-01-01 00:00:00
+        display: disabled
+    actionpoint: 
+        value: 0
+        display: disabled
+    actionpointTime:
+        value: 2010-01-01 00:00:00
+        display: disabled
+ViewEquipProgress:
+    234mm: 0
+    457mm: 0
+    tenrai: 0
+    152mm: 0
 # ==================== Alas ====================
 
 Scheduler:
@@ -642,3 +698,26 @@ AzurLaneUncensored:
   Repository: https://gitee.com/LmeSzinc/AzurLaneUncensored
 GameManager:
   AutoRestart: true
+  
+GGHandler:
+  Enabled: false
+  GGMethod:
+    value: u2
+    option: [ screenshot, u2 ]
+  GGPackageName: com.
+  AutoRestartGG: false
+  RestartEverytime: true
+  GGMultiplyingFactor: 200
+  DisabledTask:
+    value: disable_all_dangerous_task
+    option: [
+      disable_all_dangerous_task,
+      disable_meta_and_exercise,
+      disable_exercise,
+      enable_all,
+    ]
+  ALLowLowLevelInGemsFarming: false
+PowerLimit:
+  Exercise: 16500
+  Raid: 16500
+  Ash: 16500

@@ -81,8 +81,11 @@ class CampaignRun(CampaignEvent):
             self.config.Scheduler_Enable = False
             return True
         # Oil limit
+        self.get_gem()
+        self.get_coin()
+        current_oil=self.get_oil()
         if oil_check:
-            if self.get_oil() < max(500, self.config.StopCondition_OilLimit):
+            if current_oil < max(500, self.config.StopCondition_OilLimit):
                 logger.hr('Triggered stop condition: Oil limit')
                 self.config.task_delay(minute=(120, 240))
                 return True

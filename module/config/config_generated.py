@@ -9,6 +9,30 @@ class GeneratedConfig:
     Auto generated configuration
     """
 
+    # Group `ViewCurrentResources`
+    ViewCurrentResources_oiltomaxoil = 0
+    ViewCurrentResources_oiltomaxoilTime = datetime.datetime(2010, 1, 1, 0, 0)
+    ViewCurrentResources_cointomaxcoin = 0
+    ViewCurrentResources_cointomaxcoinTime = datetime.datetime(2010, 1, 1, 0, 0)
+    ViewCurrentResources_gem = 0
+    ViewCurrentResources_gemTime = datetime.datetime(2010, 1, 1, 0, 0)
+    ViewCurrentResources_cube = 0
+    ViewCurrentResources_cubeTime = datetime.datetime(2010, 1, 1, 0, 0)
+    ViewCurrentResources_pt = 0
+    ViewCurrentResources_ptTime = datetime.datetime(2010, 1, 1, 0, 0)
+    ViewCurrentResources_opcoin = 0
+    ViewCurrentResources_opcoinTime = datetime.datetime(2010, 1, 1, 0, 0)
+    ViewCurrentResources_purplecoin = 0
+    ViewCurrentResources_purplecoinTime = datetime.datetime(2010, 1, 1, 0, 0)
+    ViewCurrentResources_actionpoint = 0
+    ViewCurrentResources_actionpointTime = datetime.datetime(2010, 1, 1, 0, 0)
+
+    # Group `ViewEquipProgress`
+    ViewEquipProgress_234mm = 0
+    ViewEquipProgress_457mm = 0
+    ViewEquipProgress_tenrai = 0
+    ViewEquipProgress_152mm = 0
+
     # Group `Scheduler`
     Scheduler_Enable = False
     Scheduler_NextRun = datetime.datetime(2020, 1, 1, 0, 0)
@@ -62,6 +86,7 @@ class GeneratedConfig:
     Retirement_EnhanceFavourite = False
     Retirement_EnhanceFilter = None
     Retirement_EnhanceCheckPerCategory = 2
+    Retirement_AllowNoPreserve = False
     Retirement_OldRetireN = True
     Retirement_OldRetireR = True
     Retirement_OldRetireSR = False
@@ -166,7 +191,7 @@ class GeneratedConfig:
     EventDaily_LastStage = 0
 
     # Group `Raid`
-    Raid_Mode = 'hard'  # easy, normal, hard, ex
+    Raid_Mode = 'hard'  # easy, normal, hard
     Raid_UseTicket = False
 
     # Group `RaidDaily`
@@ -277,14 +302,9 @@ class GeneratedConfig:
     # Group `CoreShop`
     CoreShop_Filter = 'Array'
 
-    # Group `ShipyardDr`
-    ShipyardDr_ResearchSeries = 2  # 2
-    ShipyardDr_ShipIndex = 0  # 0, 1, 2, 3, 4, 5, 6
-    ShipyardDr_BuyAmount = 2
-
     # Group `Shipyard`
-    Shipyard_ResearchSeries = 1  # 1, 2, 3
-    Shipyard_ShipIndex = 0  # 0, 1, 2, 3, 4, 5, 6
+    Shipyard_ResearchSeries = 1
+    Shipyard_ShipIndex = 0
     Shipyard_BuyAmount = 2
 
     # Group `Gacha`
@@ -418,6 +438,21 @@ class GeneratedConfig:
 
     # Group `GameManager`
     GameManager_AutoRestart = True
+
+    # Group `GGHandler`
+    GGHandler_Enabled = False
+    GGHandler_GGMethod = 'u2'  # screenshot, u2
+    GGHandler_GGPackageName = 'com.'
+    GGHandler_AutoRestartGG = False
+    GGHandler_RestartEverytime = True
+    GGHandler_GGMultiplyingFactor = 200
+    GGHandler_DisabledTask = 'disable_all_dangerous_task'  # disable_all_dangerous_task, disable_meta_and_exercise, disable_exercise, enable_all
+    GGHandler_ALLowLowLevelInGemsFarming = False
+
+    # Group `PowerLimit`
+    PowerLimit_Exercise = 16500
+    PowerLimit_Raid = 16500
+    PowerLimit_Ash = 16500
 
     # Group `Storage`
     Storage_Storage = {}

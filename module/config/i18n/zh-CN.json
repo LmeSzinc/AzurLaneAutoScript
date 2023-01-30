@@ -4,6 +4,10 @@
       "name": "",
       "help": ""
     },
+    "ViewResources": {
+      "name": "仪表盘",
+      "help": ""
+    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -38,6 +42,14 @@
     }
   },
   "Task": {
+    "ViewCurrentResources": {
+      "name": "查看资源储量",
+      "help": ""
+    },
+    "ViewEquipProgress": {
+      "name": "彩色装备研发进度",
+      "help": "还没写"
+    },
     "Alas": {
       "name": "Alas设置",
       "help": ""
@@ -76,6 +88,10 @@
     },
     "Event2": {
       "name": "活动图-2",
+      "help": ""
+    },
+    "Event3": {
+      "name": "活动图-3",
       "help": ""
     },
     "EventA": {
@@ -257,6 +273,98 @@
     "GameManager": {
       "name": "游戏管理器(未完成)",
       "help": ""
+    }
+  },
+  "ViewCurrentResources": {
+    "_info": {
+      "name": "查看资源储量",
+      "help": "并非实时更新，会在最近一次出击时更新"
+    },
+    "oiltomaxoil": {
+      "name": "石油储量/最大石油储量",
+      "help": "石油储量大于最大石油储量时应尽快清理以免卡自动产出"
+    },
+    "oiltomaxoilTime": {
+      "name": "ViewCurrentResources.oiltomaxoilTime.name",
+      "help": "ViewCurrentResources.oiltomaxoilTime.help"
+    },
+    "cointomaxcoin": {
+      "name": "物资储量/最大物资储量",
+      "help": "物资储量大于最大物资储量时应尽快清理以免卡自动产出"
+    },
+    "cointomaxcoinTime": {
+      "name": "ViewCurrentResources.cointomaxcoinTime.name",
+      "help": "ViewCurrentResources.cointomaxcoinTime.help"
+    },
+    "gem": {
+      "name": "钻石",
+      "help": "俗称红尖尖"
+    },
+    "gemTime": {
+      "name": "ViewCurrentResources.gemTime.name",
+      "help": "ViewCurrentResources.gemTime.help"
+    },
+    "cube": {
+      "name": "魔方",
+      "help": "每日抽卡时更新"
+    },
+    "cubeTime": {
+      "name": "ViewCurrentResources.cubeTime.name",
+      "help": "ViewCurrentResources.cubeTime.help"
+    },
+    "pt": {
+      "name": "活动PT",
+      "help": ""
+    },
+    "ptTime": {
+      "name": "ViewCurrentResources.ptTime.name",
+      "help": "ViewCurrentResources.ptTime.help"
+    },
+    "opcoin": {
+      "name": "作战补给凭证",
+      "help": "俗称黄币"
+    },
+    "opcoinTime": {
+      "name": "ViewCurrentResources.opcoinTime.name",
+      "help": "ViewCurrentResources.opcoinTime.help"
+    },
+    "purplecoin": {
+      "name": "特殊兑换凭证",
+      "help": "俗称紫币"
+    },
+    "purplecoinTime": {
+      "name": "ViewCurrentResources.purplecoinTime.name",
+      "help": "ViewCurrentResources.purplecoinTime.help"
+    },
+    "actionpoint": {
+      "name": "行动力",
+      "help": ""
+    },
+    "actionpointTime": {
+      "name": "ViewCurrentResources.actionpointTime.name",
+      "help": "ViewCurrentResources.actionpointTime.help"
+    }
+  },
+  "ViewEquipProgress": {
+    "_info": {
+      "name": "彩色装备研发进度",
+      "help": "首次使用时填入目前进度"
+    },
+    "234mm": {
+      "name": "试作型三联装234mm主炮",
+      "help": "俗称德雷克炮"
+    },
+    "457mm": {
+      "name": "试作型双联装457mm主炮MkA",
+      "help": "俗称457"
+    },
+    "tenrai": {
+      "name": "试作舰载型天雷",
+      "help": "偷你天雷"
+    },
+    "152mm": {
+      "name": "试作型四联装152mm主炮",
+      "help": "俗称152"
     }
   },
   "Scheduler": {
@@ -2306,6 +2414,68 @@
       "help": "游戏被强制结束后自动登录游戏"
     }
   },
+  "GGHandler": {
+    "_info": {
+      "name": "GG管理器",
+      "help": ""
+    },
+    "Enabled": {
+      "name": "启用该功能",
+      "help": "注意事项！若GG打开则应该启用该功能以达成防弹窗卡重启\n只能使用指定的lua，会自动推送至/sdcard/Notes/Multiplier.lua\n演习，共斗，Meta信标时会自动关闭倍率"
+    },
+    "GGMethod": {
+      "name": "GG操作方法",
+      "help": "推荐UiAutomator2，但未填写包名时会使用截图\n截图兼容性较差（已知逍遥模拟器无法使用）\n无法安装UiAutomator2（如红手指，vmos环境）时可尝试使用\n使用截图时，开启模拟器后需要手动打开GG，将GG悬浮窗遮挡住石油图标。第一次使用还需要手动指定好lua路径。",
+      "screenshot": "截图",
+      "u2": "UiAutomator2"
+    },
+    "GGPackageName": {
+      "name": "GG包名",
+      "help": "GG安装后请自行前往/Android/Data文件夹查看包名，应是com.一串乱码"
+    },
+    "AutoRestartGG": {
+      "name": "自动重启GG",
+      "help": "是否在重启后自动重启倍率"
+    },
+    "RestartEverytime": {
+      "name": "每次启动Alas时重启",
+      "help": "打开以初始化倍率属性。如果你没有手动操作的坏习惯，可以关闭此选项"
+    },
+    "GGMultiplyingFactor": {
+      "name": "倍率",
+      "help": "建议数值1-9999，没做数字检查，乱输后果自负"
+    },
+    "DisabledTask": {
+      "name": "禁用倍率的项目",
+      "help": "会关闭倍率的项目，建议全关。打开的项目导致封号后果自负。\n所有，指演习，共斗，Meta信标\n注意：战力限制依旧生效。",
+      "disable_all_dangerous_task": "禁用所有敏感项目",
+      "disable_meta_and_exercise": "禁用Meta和演习",
+      "disable_exercise": "禁用演习",
+      "enable_all": "百无禁忌"
+    },
+    "ALLowLowLevelInGemsFarming": {
+      "name": "刷紧急委托可更换低等级前排",
+      "help": "倍率打开时，刷紧急委托时前排等级限制改为10以上即可"
+    }
+  },
+  "PowerLimit": {
+    "_info": {
+      "name": "战力限制",
+      "help": "敏感项目前的最后一道保险\n若前排战力高于此值强制重启，并视为需要使用GG（打开GG开关以及GG自动重启倍率开关）"
+    },
+    "Exercise": {
+      "name": "演习",
+      "help": ""
+    },
+    "Raid": {
+      "name": "共斗",
+      "help": ""
+    },
+    "Ash": {
+      "name": "余烬信标",
+      "help": ""
+    }
+  },
   "Storage": {
     "_info": {
       "name": "任务状态",
@@ -2361,6 +2531,14 @@
     },
     "Overview": {
       "Scheduler": "调度器",
+      "Oil": "石油",
+      "Coin": "物资",
+      "Gem": "钻石",
+      "Cube": "魔方",
+      "EventPt": "活动PT",
+      "OperationSupplyCoin": "大世界黄币",
+      "SpecialItemToken": "大世界紫币",
+      "ActionPoint": "大世界行动力",
       "Log": "日志",
       "Running": "运行中",
       "Pending": "队列中",

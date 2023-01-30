@@ -8,6 +8,7 @@ from module.map.map_grids import SelectedGrids
 from module.ocr.ocr import Digit
 from module.os_handler.assets import *
 from module.ui.ui import UI
+from module.log_res.log_res import log_res
 
 OCR_SHOP_YELLOW_COINS = Digit(SHOP_YELLOW_COINS, letter=(239, 239, 239), threshold=160, name='OCR_SHOP_YELLOW_COINS')
 OCR_SHOP_PURPLE_COINS = Digit(SHOP_PURPLE_COINS, letter=(255, 255, 255), name='OCR_SHOP_PURPLE_COINS')
@@ -59,6 +60,7 @@ class OSStatus(UI):
                 self.device.screenshot()
 
             yellow_coins = OCR_SHOP_YELLOW_COINS.ocr(self.device.image)
+            log_res(self.config).log_res(yellow_coins,'opcoin')
             if timeout.reached():
                 logger.warning('Get yellow coins timeout')
             if yellow_coins < 100:

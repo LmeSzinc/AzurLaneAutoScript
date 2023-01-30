@@ -13,6 +13,7 @@ from module.config.utils import deep_get, deep_set
 from module.exception import *
 from module.logger import logger
 from module.notify import handle_notify
+from module.gg_handler.gg_handler import GGHandler
 
 
 class AzurLaneAutoScript:
@@ -95,7 +96,11 @@ class AzurLaneAutoScript:
                     title=f"Alas <{self.config_name}> crashed",
                     content=f"<{self.config_name}> GamePageUnknownError",
                 )
-                exit(1)
+                logger.info('Restart to reset Game page in 10 seconds')
+                self.device.sleep(10)
+                from module.handler.login import LoginHandler
+                LoginHandler(self.config, self.device).app_restart()
+                return False
             else:
                 self.checker.wait_until_available()
                 return False
@@ -353,6 +358,11 @@ class AzurLaneAutoScript:
         CampaignRun(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
+    def event3(self):
+        from module.campaign.run import CampaignRun
+        CampaignRun(config=self.config, device=self.device).run(
+            name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
+
     def raid(self):
         from module.raid.run import RaidRun
         RaidRun(config=self.config, device=self.device).run()
@@ -460,8 +470,9 @@ class AzurLaneAutoScript:
         logger.set_file_logger(self.config_name)
         logger.info(f'Start scheduler loop: {self.config_name}')
         is_first = True
+        # Try forced task_call restart to reset GG status
+        GGHandler(config=self.config, device=self.device).handle_restart_before_tasks()
         failure_record = {}
-
         while 1:
             # Check update event from GUI
             if self.stop_event is not None:
@@ -483,12 +494,21 @@ class AzurLaneAutoScript:
             task = self.get_next_task()
             # Init device and change server
             _ = self.device
+
             # Skip first restart
-            if is_first and task == 'Restart':
-                logger.info('Skip task `Restart` at scheduler start')
+            if task == 'Restart':
+                if is_first:
+                    logger.info('Skip task `Restart` at scheduler start')
+                else:
+                    from module.handler.login import LoginHandler
+                    LoginHandler(self.config, self.device).app_restart()
                 self.config.task_delay(server_update=True)
                 del self.__dict__['config']
                 continue
+
+            # Check GG config before a task begins (to reset temporary config), and decide to enable it.
+            GGHandler(config=self.config, device=self.device).check_config()
+            GGHandler(config=self.config, device=self.device).check_then_set_gg_status(inflection.underscore(task))
 
             # Run
             logger.info(f'Scheduler: Start task `{task}`')
@@ -530,5 +550,5 @@ class AzurLaneAutoScript:
 
 
 if __name__ == '__main__':
-    alas = AzurLaneAutoScript()
+    alas = AzurLaneAutoScript(config_name='')
     alas.loop()

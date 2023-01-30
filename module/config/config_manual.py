@@ -22,7 +22,7 @@ class ManualConfig:
     > OpsiAbyssal > OpsiStronghold > OpsiObscure > OpsiArchive
     > Daily > Hard > OpsiAshBeacon > OpsiAshAssist  > OpsiMonthBoss
     > Sos > EventSp > EventA > EventB > EventC > EventD > RaidDaily > WarArchives > MaritimeEscort
-    > Event > Event2 > Raid > Main > Main2 > Main3
+    > Event > Event2 > Event3 > Raid > Main > Main2 > Main3
     > OpsiMeowfficerFarming
     > GemsFarming
     > OpsiHazard1Leveling
@@ -189,7 +189,7 @@ class ManualConfig:
     HOMO_RECTANGLE_THRESHOLD = 10
 
     HOMO_EDGE_DETECT = True
-    HOMO_EDGE_HOUGHLINES_THRESHOLD = 180
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 140
     HOMO_EDGE_COLOR_RANGE = (0, 33)
     # ((x, y), [upper-left, upper-right, bottom-left, bottom-right])
     HOMO_STORAGE = None

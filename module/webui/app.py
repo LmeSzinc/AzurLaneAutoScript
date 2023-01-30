@@ -375,8 +375,11 @@ class AlasGUI(Frame):
                         "log-bar-btns",
                         [
                             put_scope("log_scroll_btn"),
+                            put_scope("dashboard_btn"),
                         ],
                     ),
+                    put_html('<hr class="hr-group">'),
+                    put_scope("dashboard"),
                 ],
             ),
             put_scope("log", [put_html("")])
@@ -394,9 +397,22 @@ class AlasGUI(Frame):
             scope="log_scroll_btn",
         )
 
+        # switch_dashboard_btn = BinarySwitchButton(
+        #     label_on=t("Gui.Button.ScrollON"),
+        #     label_off=t("Gui.Button.ScrollOFF"),
+        #     onclick_on=lambda: self.alas_update_dashboard.pack_forget(),
+        #     onclick_off=lambda: self.alas_update_dashboard(self.visible(False)),
+        #     get_state=lambda: log.keep_bottom,
+        #     color_on="on",
+        #     color_off="off",
+        #     scope="dashboard_btn",
+        # )
+
         self.task_handler.add(switch_scheduler.g(), 1, True)
         self.task_handler.add(switch_log_scroll.g(), 1, True)
+        # self.task_handler.add(switch_dashboard_btn.g(), 1, True)
         self.task_handler.add(self.alas_update_overview_task, 10, True)
+        self.task_handler.add(self.alas_update_dashboard, 20, True)
         self.task_handler.add(log.put_log(self.alas), 0.25, True)
 
     def _init_alas_config_watcher(self) -> None:
@@ -540,6 +556,58 @@ class AlasGUI(Frame):
                     put_task(task)
             else:
                 put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
+        
+    def alas_update_dashboard(self) -> None:
+        if not self.visible:
+            return
+        resource = [
+            "ViewCurrentResources.ViewCurrentResources.oiltomaxoil",
+            "ViewCurrentResources.ViewCurrentResources.gem",
+            "ViewCurrentResources.ViewCurrentResources.pt",
+            "ViewCurrentResources.ViewCurrentResources.opcoin",
+            "ViewCurrentResources.ViewCurrentResources.cointomaxcoin",
+            "ViewCurrentResources.ViewCurrentResources.cube",
+            "ViewCurrentResources.ViewCurrentResources.actionpoint",
+            "ViewCurrentResources.ViewCurrentResources.purplecoin"
+        ]
+        resourcename = [
+            "Gui.Overview.Oil","Gui.Overview.Gem","Gui.Overview.EventPt","Gui.Overview.OperationSupplyCoin",
+            "Gui.Overview.Coin","Gui.Overview.Cube","Gui.Overview.ActionPoint","Gui.Overview.SpecialItemToken"
+        ]
+        color = [
+            '<div class="status-point" style="background-color:#000000">',
+            '<div class="status-point" style="background-color:#FF3333">',
+            '<div class="status-point" style="background-color:#00BFFF">',
+            '<div class="status-point" style="background-color:#FF8800">',
+            '<div class="status-point" style="background-color:#FFAA33">',
+            '<div class="status-point" style="background-color:#33FFFF">',
+            '<div class="status-point" style="background-color:#0000FF">',
+            '<div class="status-point" style="background-color:#7700BB">',
+        ]
+
+        clear("dashboard")
+
+        with use_scope("dashboard"):
+            x=0
+            y=0
+            for value in resource:
+                value_time = str(deep_get(self.alas_config.data, keys=value+'Time', default='No data'))[-8:]
+                value = deep_get(self.alas_config.data, keys=value, default='None')
+                put_row(
+                    [
+                        put_html(color[y]),
+                        put_column(
+                            [
+                                put_text(str(value)).style("--arg-title--"),
+                                put_text(t(resourcename[x])+" -"+value_time).style("--arg-help--"),
+                            ],
+                            size="auto auto",
+                        ),
+                    ],
+                    size="20px 1fr"
+                )
+                x+=1
+                y+=1
 
     @use_scope("content", clear=True)
     def alas_daemon_overview(self, task: str) -> None:

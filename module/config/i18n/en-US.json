@@ -4,6 +4,10 @@
       "name": "",
       "help": ""
     },
+    "ViewResources": {
+      "name": "Dashboard",
+      "help": "Updated when any campaign starts"
+    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -38,6 +42,14 @@
     }
   },
   "Task": {
+    "ViewCurrentResources": {
+      "name": "Resource Viewer",
+      "help": ""
+    },
+    "ViewEquipProgress": {
+      "name": "Task.ViewEquipProgress.name",
+      "help": "Task.ViewEquipProgress.help"
+    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -76,6 +88,10 @@
     },
     "Event2": {
       "name": "Event-2",
+      "help": ""
+    },
+    "Event3": {
+      "name": "Event-3",
       "help": ""
     },
     "EventA": {
@@ -257,6 +273,98 @@
     "GameManager": {
       "name": "Game Manager(WIP)",
       "help": ""
+    }
+  },
+  "ViewCurrentResources": {
+    "_info": {
+      "name": "Resource Viewer",
+      "help": "Update when any campaign starts"
+    },
+    "oiltomaxoil": {
+      "name": "Oil / Max oil limit",
+      "help": ""
+    },
+    "oiltomaxoilTime": {
+      "name": "ViewCurrentResources.oiltomaxoilTime.name",
+      "help": "ViewCurrentResources.oiltomaxoilTime.help"
+    },
+    "cointomaxcoin": {
+      "name": "Coin / Max coin limit",
+      "help": ""
+    },
+    "cointomaxcoinTime": {
+      "name": "ViewCurrentResources.cointomaxcoinTime.name",
+      "help": "ViewCurrentResources.cointomaxcoinTime.help"
+    },
+    "gem": {
+      "name": "Gem",
+      "help": ""
+    },
+    "gemTime": {
+      "name": "ViewCurrentResources.gemTime.name",
+      "help": "ViewCurrentResources.gemTime.help"
+    },
+    "cube": {
+      "name": "Cube",
+      "help": "Update after everyday's gacha"
+    },
+    "cubeTime": {
+      "name": "ViewCurrentResources.cubeTime.name",
+      "help": "ViewCurrentResources.cubeTime.help"
+    },
+    "pt": {
+      "name": "Event Point",
+      "help": ""
+    },
+    "ptTime": {
+      "name": "ViewCurrentResources.ptTime.name",
+      "help": "ViewCurrentResources.ptTime.help"
+    },
+    "opcoin": {
+      "name": "Operation Supply Coin",
+      "help": ""
+    },
+    "opcoinTime": {
+      "name": "ViewCurrentResources.opcoinTime.name",
+      "help": "ViewCurrentResources.opcoinTime.help"
+    },
+    "purplecoin": {
+      "name": "Special Item Token",
+      "help": ""
+    },
+    "purplecoinTime": {
+      "name": "ViewCurrentResources.purplecoinTime.name",
+      "help": "ViewCurrentResources.purplecoinTime.help"
+    },
+    "actionpoint": {
+      "name": "Action Point",
+      "help": ""
+    },
+    "actionpointTime": {
+      "name": "ViewCurrentResources.actionpointTime.name",
+      "help": "ViewCurrentResources.actionpointTime.help"
+    }
+  },
+  "ViewEquipProgress": {
+    "_info": {
+      "name": "ViewEquipProgress._info.name",
+      "help": "ViewEquipProgress._info.help"
+    },
+    "234mm": {
+      "name": "ViewEquipProgress.234mm.name",
+      "help": "ViewEquipProgress.234mm.help"
+    },
+    "457mm": {
+      "name": "ViewEquipProgress.457mm.name",
+      "help": "ViewEquipProgress.457mm.help"
+    },
+    "tenrai": {
+      "name": "ViewEquipProgress.tenrai.name",
+      "help": "ViewEquipProgress.tenrai.help"
+    },
+    "152mm": {
+      "name": "ViewEquipProgress.152mm.name",
+      "help": "ViewEquipProgress.152mm.help"
     }
   },
   "Scheduler": {
@@ -2306,6 +2414,68 @@
       "help": "Log back into the game when the game has been ended."
     }
   },
+  "GGHandler": {
+    "_info": {
+      "name": "GG Handler",
+      "help": ""
+    },
+    "Enabled": {
+      "name": "Enabled",
+      "help": ""
+    },
+    "GGMethod": {
+      "name": "Control Method",
+      "help": "Screenshot is slow and has some bugs, only for environments that not support UiAutomator",
+      "screenshot": "Screenshot",
+      "u2": "UiAutomator"
+    },
+    "GGPackageName": {
+      "name": "GG Package Name",
+      "help": "In /Android/data/com.xxxxxxx. (xxxxxxx means a lot of random characters)"
+    },
+    "AutoRestartGG": {
+      "name": "Auto Restart GG",
+      "help": "Start GG before tasks"
+    },
+    "RestartEverytime": {
+      "name": "Restart Everytime Alas starts",
+      "help": "For sake of safety"
+    },
+    "GGMultiplyingFactor": {
+      "name": "GG Multiplying Factor",
+      "help": "1 - 9999 Recommended"
+    },
+    "DisabledTask": {
+      "name": "Disabled Tasks",
+      "help": "",
+      "disable_all_dangerous_task": "Disable_all_dangerous_task",
+      "disable_meta_and_exercise": "Disable_meta_and_exercise",
+      "disable_exercise": "Disable_exercise",
+      "enable_all": "Enable_all"
+    },
+    "ALLowLowLevelInGemsFarming": {
+      "name": "ALLow Low Level In GemsFarming",
+      "help": "Destryers over level 10 will now be used."
+    }
+  },
+  "PowerLimit": {
+    "_info": {
+      "name": "Power Limit",
+      "help": "Power over this will cause a restart and enable GG in config"
+    },
+    "Exercise": {
+      "name": "Exercise",
+      "help": ""
+    },
+    "Raid": {
+      "name": "Raid",
+      "help": ""
+    },
+    "Ash": {
+      "name": "Ash",
+      "help": ""
+    }
+  },
   "Storage": {
     "_info": {
       "name": "Task status",
@@ -2361,6 +2531,14 @@
     },
     "Overview": {
       "Scheduler": "Scheduler",
+      "Oil": "Oil",
+      "Coin": "Coin",
+      "Gem": "Gem",
+      "Cube": "Cube",
+      "EventPt": "Event Pt",
+      "OperationSupplyCoin": "Operation Supply Coin",
+      "SpecialItemToken": "Special Item Token",
+      "ActionPoint": "Action Point",
       "Log": "Log",
       "Running": "Running",
       "Pending": "Pending",
