@@ -547,122 +547,53 @@ class AlasGUI(Frame):
     def alas_update_dashboard(self) -> None:
         if not self.visible:
             return
-        oil = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.oiltomaxoil")
-        coin = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.cointomaxcoin")
-        gem = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.gem")
-        cube = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.cube")
-        pt = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.pt")
-        opcoin = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.opcoin")
-        actionpoint = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.actionpoint")
-        purplecoin = self.alas_config.cross_get("ViewCurrentResources.ViewCurrentResources.purplecoin")
+        resource = [
+            "ViewCurrentResources.ViewCurrentResources.oiltomaxoil",
+            "ViewCurrentResources.ViewCurrentResources.gem",
+            "ViewCurrentResources.ViewCurrentResources.pt",
+            "ViewCurrentResources.ViewCurrentResources.opcoin",
+            "ViewCurrentResources.ViewCurrentResources.cointomaxcoin",
+            "ViewCurrentResources.ViewCurrentResources.cube",
+            "ViewCurrentResources.ViewCurrentResources.actionpoint",
+            "ViewCurrentResources.ViewCurrentResources.purplecoin"
+        ]
+        resourcename = [
+            "Gui.Overview.Oil","Gui.Overview.Gem","Gui.Overview.EventPt","Gui.Overview.OperationSupplyCoin",
+            "Gui.Overview.Coin","Gui.Overview.Cube","Gui.Overview.ActionPoint","Gui.Overview.SpecialItemToken"
+        ]
+        color = [
+            '<div class="status-point" style="background-color:#000000">',
+            '<div class="status-point" style="background-color:#FF3333">',
+            '<div class="status-point" style="background-color:#00BFFF">',
+            '<div class="status-point" style="background-color:#FF8800">',
+            '<div class="status-point" style="background-color:#FFAA33">',
+            '<div class="status-point" style="background-color:#33FFFF">',
+            '<div class="status-point" style="background-color:#0000FF">',
+            '<div class="status-point" style="background-color:#7700BB">',
+        ]
 
         clear("dashboard")
 
         with use_scope("dashboard"):
-            put_row(
-                [
-                    put_html('<div class="status-point" style="background-color:#000000">'),
-                    put_column(
-                        [
-                            put_text(str(oil)).style("--arg-title--"),
-                            put_text(t("Gui.Overview.Oil")).style("--arg-help--"),
-                        ],
-                        size="auto auto",
-                    ),
-                ],
-                size="0.25fr 1fr"
-            )
-            put_row(
-                [
-                    put_html('<div class="status-point" style="background-color:#FF3333">'),
-                    put_column(	
-                        [   
-                            put_text(str(gem)).style("--arg-title--"),
-                            put_text(t("Gui.Overview.Gem")).style("--arg-help--"),
-                        ],
-                        size="auto auto",
-                    ),
-                ],
-                size="0.25fr 1fr"
-            )
-            put_row(
-                [
-                    put_html('<div class="status-point" style="background-color:#0066FF">'),
-                    put_column(
-                        [   
-                            put_text(str(pt)).style("--arg-title--"),
-                            put_text(t("Gui.Overview.EventPt")).style("--arg-help--"),
-                        ],
-                        size="auto auto",
-                    ),
-                ],
-                size="0.25fr 1fr"
-            )
-            put_row(
-                [
-                    put_html('<div class="status-point" style="background-color:#FF8800">'),
-                    put_column(
-                        [   
-                            put_text(str(opcoin)).style("--arg-title--"),
-                            put_text(t("Gui.Overview.OperationSupplyCoin")).style("--arg-help--"),
-                        ],
-                        size="auto auto",
-                    ),
-                ],
-                size="0.25fr 1fr"
-            )
-            put_row(
-                [
-                    put_html('<div class="status-point" style="background-color:#FFAA33">'),
-                    put_column(
-                        [   
-                            put_text(str(coin)).style("--arg-title--"),
-                            put_text(t("Gui.Overview.Coin")).style("--arg-help--"),
-                        ],
-                        size="auto auto",
-                    ),
-                ],
-                size="0.25fr 1fr"
-            )
-            put_row(
-                [
-                    put_html('<div class="status-point" style="background-color:#33FFFF">'),
-                    put_column(
-                        [   
-                            put_text(str(cube)).style("--arg-title--"),
-                            put_text(t("Gui.Overview.Cube")).style("--arg-help--"),
-                        ],
-                        size="auto auto",
-                    ),
-                ],
-                size="0.25fr 1fr"
-            )
-            put_row(
-                [
-                    put_html('<div class="status-point" style="background-color:#0000FF">'),	
-                    put_column(
-                        [   
-                            put_text(str(actionpoint)).style("--arg-title--"),
-                            put_text(t("Gui.Overview.ActionPoint")).style("--arg-help--"),
-                        ],
-                        size="auto auto",
-                    ),
-                ],
-                size="0.25fr 1fr"
-            )
-            put_row(
-                [
-                    put_html('<div class="status-point" style="background-color:#7700BB">'),
-                    put_column(
-                        [   
-                            put_text(str(purplecoin)).style("--arg-title--"),
-                            put_text(t("Gui.Overview.SpecialItemToken")).style("--arg-help--"),
-                        ],
-                        size="auto auto",
-                    ),
-                ],
-                size="0.25fr 1fr"
-            )
+            x=0
+            y=0
+            for value in resource:
+                value =  self.alas_config.cross_get(value)
+                put_row(
+                    [
+                        put_html(color[y]),
+                        put_column(
+                            [
+                                put_text(str(value)).style("--arg-title--"),
+                                put_text(t(resourcename[x])+t(" -")+t(datetime.now().strftime("%H:%M:%S"))).style("--arg-help--"),
+                            ],
+                            size="auto auto",
+                        ),
+                    ],
+                    size="20px 1fr"
+                )
+                x=x+1
+                y=y+1
 
     @use_scope("content", clear=True)
     def alas_daemon_overview(self, task: str) -> None:
