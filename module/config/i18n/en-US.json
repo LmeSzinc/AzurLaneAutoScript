@@ -5,7 +5,7 @@
       "help": ""
     },
     "ViewResources": {
-      "name": "Resource Viewer",
+      "name": "Dashboard",
       "help": "Updated when any campaign starts"
     },
     "Alas": {
@@ -2351,52 +2351,64 @@
   },
   "GGHandler": {
     "_info": {
-      "name": "GGHandler._info.name",
-      "help": "GGHandler._info.help"
+      "name": "GG Handler",
+      "help": ""
     },
     "Enabled": {
-      "name": "GGHandler.Enabled.name",
-      "help": "GGHandler.Enabled.help"
+      "name": "Enabled",
+      "help": ""
     },
     "GGMethod": {
-      "name": "GGHandler.GGMethod.name",
-      "help": "GGHandler.GGMethod.help",
-      "screenshot": "screenshot",
-      "u2": "u2"
+      "name": "Control Method",
+      "help": "Screenshot is slow and has some bugs, only for environments that not support UiAutomator",
+      "screenshot": "Screenshot",
+      "u2": "UiAutomator"
     },
     "GGPackageName": {
-      "name": "GGHandler.GGPackageName.name",
-      "help": "GGHandler.GGPackageName.help"
+      "name": "GG Package Name",
+      "help": "In /Android/data/com.xxxxxxx. (xxxxxxx means a lot of random characters)"
     },
     "AutoRestartGG": {
-      "name": "GGHandler.AutoRestartGG.name",
-      "help": "GGHandler.AutoRestartGG.help"
+      "name": "Auto Restart GG",
+      "help": "Start GG before tasks"
     },
     "RestartEverytime": {
-      "name": "GGHandler.RestartEverytime.name",
-      "help": "GGHandler.RestartEverytime.help"
+      "name": "Restart Everytime Alas starts",
+      "help": "For sake of safety"
     },
     "GGMultiplyingFactor": {
-      "name": "GGHandler.GGMultiplyingFactor.name",
-      "help": "GGHandler.GGMultiplyingFactor.help"
+      "name": "GG Multiplying Factor",
+      "help": "1 - 9999 Recommended"
+    },
+    "DisabledTask": {
+      "name": "Disabled Tasks",
+      "help": "",
+      "disable_all_dangerous_task": "Disable_all_dangerous_task",
+      "disable_meta_and_exercise": "Disable_meta_and_exercise",
+      "disable_exercise": "Disable_exercise",
+      "enable_all": "Enable_all"
+    },
+    "ALLowLowLevelInGemsFarming": {
+      "name": "ALLow Low Level In GemsFarming",
+      "help": "Destryers over level 10 will now be used."
     }
   },
   "PowerLimit": {
     "_info": {
-      "name": "PowerLimit._info.name",
-      "help": "PowerLimit._info.help"
+      "name": "Power Limit",
+      "help": "Power over this will cause a restart and enable GG in config"
     },
     "Exercise": {
-      "name": "PowerLimit.Exercise.name",
-      "help": "PowerLimit.Exercise.help"
+      "name": "Exercise",
+      "help": ""
     },
     "Raid": {
-      "name": "PowerLimit.Raid.name",
-      "help": "PowerLimit.Raid.help"
+      "name": "Raid",
+      "help": ""
     },
     "Ash": {
-      "name": "PowerLimit.Ash.name",
-      "help": "PowerLimit.Ash.help"
+      "name": "Ash",
+      "help": ""
     }
   },
   "Storage": {

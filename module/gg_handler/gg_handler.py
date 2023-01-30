@@ -170,12 +170,23 @@ class GGHandler:
         Args:
             task : str = the next task to run
         """
-        _disabled = [
-            'raid',
-            'raid_daily',
-            'exercise',
+        _disabled_task = deep_get(self.config.data, 'GameManager.GGHandler.DisabledTask')
+        """
+            'disable_all_dangerous_task'
+            'disable_meta_and_exercise'
+            'disable_exercise'
+            'enable_all'
+        """
+        _disabled_1 = [
+            'exercise'
+        ]
+        _disabled_2 = [
             'opsi_ash_assist',
             'opsi_ash_beacon'
+        ]
+        _disabled_3=[
+            'raid',
+            'raid_daily'
         ]
         _enabled = [
             'guild',
@@ -209,6 +220,21 @@ class GGHandler:
             'c122_medium_leveling',
             'c124_large_leveling',
         ]
+
+        # Handle ignorance
+
+        if _disabled_task == 'disable_meta_and_exercise':
+            _disabled = _disabled_1+_disabled_2
+            _enabled=_enabled+_disabled_3
+        elif _disabled_task == 'disable_exercise':
+            _disabled = _disabled_1
+            _enabled = _enabled+_disabled_3+_disabled_2
+        elif _disabled_task == 'enable_all':
+            _enabled = _enabled+_disabled_3+_disabled_2+_disabled_1
+            _disabled=[]
+        else: # _disabled_task == 'disable_all_dangerous_task':
+            _disabled = _disabled_1+_disabled_2+_disabled_3
+
         if task in _disabled:
             self.check_status(False)
         elif task in _enabled:

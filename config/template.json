@@ -1965,7 +1965,9 @@
       "GGPackageName": "com.",
       "AutoRestartGG": false,
       "RestartEverytime": true,
-      "GGMultiplyingFactor": 200
+      "GGMultiplyingFactor": 200,
+      "DisabledTask": "disable_all_dangerous_task",
+      "ALLowLowLevelInGemsFarming": false
     },
     "PowerLimit": {
       "Exercise": 16500,

@@ -9226,6 +9226,20 @@
       "GGMultiplyingFactor": {
         "type": "input",
         "value": 200
+      },
+      "DisabledTask": {
+        "type": "select",
+        "value": "disable_all_dangerous_task",
+        "option": [
+          "disable_all_dangerous_task",
+          "disable_meta_and_exercise",
+          "disable_exercise",
+          "enable_all"
+        ]
+      },
+      "ALLowLowLevelInGemsFarming": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "PowerLimit": {
