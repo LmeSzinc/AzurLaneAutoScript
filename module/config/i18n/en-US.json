@@ -2359,14 +2359,14 @@
       "help": ""
     },
     "GGMethod": {
-      "name": "Method",
-      "help": "Control Method",
+      "name": "Control Method",
+      "help": "Screenshot is slow and has some bugs, only for environments that not support UiAutomator",
       "screenshot": "Screenshot",
       "u2": "UiAutomator"
     },
     "GGPackageName": {
       "name": "GG Package Name",
-      "help": "In /Android/data/com.xxxxxxx. xxxxxxx means a lot of random characters"
+      "help": "In /Android/data/com.xxxxxxx. (xxxxxxx means a lot of random characters)"
     },
     "AutoRestartGG": {
       "name": "Auto Restart GG",
@@ -2378,7 +2378,7 @@
     },
     "GGMultiplyingFactor": {
       "name": "GG Multiplying Factor",
-      "help": "1 - 9999 recommended"
+      "help": "1 - 9999 Recommended"
     },
     "DisabledTask": {
       "name": "Disabled Tasks",
@@ -2387,14 +2387,6 @@
       "disable_meta_and_exercise": "Disable_meta_and_exercise",
       "disable_exercise": "Disable_exercise",
       "enable_all": "Enable_all"
-    },
-    "DisabledTask": {
-      "name": "GGHandler.DisabledTask.name",
-      "help": "GGHandler.DisabledTask.help",
-      "disable_all_dangerous_task": "disable_all_dangerous_task",
-      "disable_meta_and_exercise": "disable_meta_and_exercise",
-      "disable_exercise": "disable_exercise",
-      "enable_all": "enable_all"
     },
     "ALLowLowLevelInGemsFarming": {
       "name": "ALLow Low Level In GemsFarming",
