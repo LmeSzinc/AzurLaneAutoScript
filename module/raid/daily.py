@@ -53,6 +53,7 @@ class RaidDaily(RaidRun):
             Reward(self.config, self.device).reward_mission(
                    daily=self.config.Reward_CollectMission,
                    weekly=False)
+            self.ui_ensure(page_raid)
 
             logger.hr('ex', level=1)
             super().run(name=name, mode='ex', total=self.get_remain('ex'))
