@@ -1267,6 +1267,11 @@
       "FailureInterval": 30,
       "ServerUpdate": "04:00"
     },
+    "ShipyardDr": {
+      "ResearchSeries": 2,
+      "ShipIndex": 0,
+      "BuyAmount": 2
+    },
     "Shipyard": {
       "ResearchSeries": 1,
       "ShipIndex": 0,

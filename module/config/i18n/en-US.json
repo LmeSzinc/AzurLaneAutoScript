@@ -1672,18 +1672,54 @@
       "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>\nHowever unlike other shops, only Chip and Array are supported\nALAS does not browse, scroll, or recognize any other items displayed besides those two"
     }
   },
+  "ShipyardDr": {
+    "_info": {
+      "name": "DR Blueprints Purchase Settings",
+      "help": "Purchase research blueprints every day, discount of DR and PRY blueprints are counted independently."
+    },
+    "ResearchSeries": {
+      "name": "Research Series",
+      "help": "",
+      "2": "PR2"
+    },
+    "ShipIndex": {
+      "name": "Ship Index",
+      "help": "Position varies depending on progress, so must manually verify the target ship's position yourself\nStarting from left to right; 1 ~ 6",
+      "0": "Don't buy",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "BuyAmount": {
+      "name": "Buy Amount",
+      "help": "The 1st and 2nd purchase everyday are free\nDiscounts are applied to the 3rd and onwards, gradually minimizing until full price\nExact discounts found at <https://azurlane.koumakan.jp/Research#Strengthening>"
+    }
+  },
   "Shipyard": {
     "_info": {
-      "name": "Shipyard Settings",
+      "name": "PRY Blueprints Purchase Settings",
       "help": ""
     },
     "ResearchSeries": {
       "name": "Research Series",
-      "help": ""
+      "help": "",
+      "1": "PR1",
+      "2": "PR2",
+      "3": "PR3"
     },
     "ShipIndex": {
       "name": "Ship Index",
-      "help": "Position varies depending on progress, so must manually verify the target ship's position yourself\nStarting from left to right; 1 ~ 6"
+      "help": "Position varies depending on progress, so must manually verify the target ship's position yourself\nStarting from left to right; 1 ~ 6",
+      "0": "Don't buy",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     },
     "BuyAmount": {
       "name": "Buy Amount",

@@ -183,6 +183,7 @@ ShopOnce:
   - CoreShop
 Shipyard:
   - Scheduler
+  - ShipyardDr
   - Shipyard
 Gacha:
   - Scheduler
