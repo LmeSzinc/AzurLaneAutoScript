@@ -2388,14 +2388,6 @@
       "disable_exercise": "禁用演習",
       "enable_all": "百無禁忌"
     },
-    "DisabledTask": {
-      "name": "GGHandler.DisabledTask.name",
-      "help": "GGHandler.DisabledTask.help",
-      "disable_all_dangerous_task": "disable_all_dangerous_task",
-      "disable_meta_and_exercise": "disable_meta_and_exercise",
-      "disable_exercise": "disable_exercise",
-      "enable_all": "enable_all"
-    },
     "ALLowLowLevelInGemsFarming": {
       "name": "刷緊急委託可更換低等級前排",
       "help": "倍率打開時，刷緊急委託時前排等級限制改為10以上即可"
