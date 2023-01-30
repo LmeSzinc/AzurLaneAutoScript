@@ -251,7 +251,7 @@ EventDaily:
 Raid:
   Mode:
     value: hard
-    option: [ easy, normal, hard ]
+    option: [ easy, normal, hard, ex ]
   UseTicket: false
 RaidDaily:
   StageFilter: |-
@@ -460,9 +460,21 @@ MeritShop:
 CoreShop:
   Filter: |-
     Array
+ShipyardDr:
+  ResearchSeries:
+    value: 2
+    option: [ 2 ]
+  ShipIndex:
+    value: 0
+    option: [ 0, 1, 2, 3, 4, 5, 6 ]
+  BuyAmount: 2
 Shipyard:
-  ResearchSeries: 1
-  ShipIndex: 0
+  ResearchSeries:
+    value: 1
+    option: [ 1, 2, 3 ]
+  ShipIndex:
+    value: 0
+    option: [ 0, 1, 2, 3, 4, 5, 6 ]
   BuyAmount: 2
 Gacha:
   Pool:
@@ -580,7 +592,7 @@ OpsiShop:
   BuySupply: true
 OpsiVoucher:
   Filter: |-
-    LoggerAbyssal > LoggerObscure > HECombatPlan > Book > Coin
+    LoggerAbyssal > LoggerObscure > Book > Coin
 OpsiDaily:
   DoMission: true
   UseTuningSample: true

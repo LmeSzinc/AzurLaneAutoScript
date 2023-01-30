@@ -79,7 +79,7 @@ class Campaign(CampaignBase):
     battle_4 = battle_0
 
     def battle_5(self):
-        return self.fleet_2.clear_boss()
+        return self.fleet_boss.clear_boss()
 
     def handle_in_stage(self):
         """

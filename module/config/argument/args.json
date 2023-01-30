@@ -5105,7 +5105,8 @@
         "option": [
           "easy",
           "normal",
-          "hard"
+          "hard",
+          "ex"
         ]
       },
       "UseTicket": {
@@ -6450,14 +6451,54 @@
         "display": "hide"
       }
     },
-    "Shipyard": {
+    "ShipyardDr": {
       "ResearchSeries": {
-        "type": "input",
-        "value": 1
+        "type": "select",
+        "value": 2,
+        "option": [
+          2
+        ]
       },
       "ShipIndex": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "BuyAmount": {
         "type": "input",
-        "value": 0
+        "value": 2
+      }
+    },
+    "Shipyard": {
+      "ResearchSeries": {
+        "type": "select",
+        "value": 1,
+        "option": [
+          1,
+          2,
+          3
+        ]
+      },
+      "ShipIndex": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
       },
       "BuyAmount": {
         "type": "input",
@@ -8032,7 +8073,7 @@
     "OpsiVoucher": {
       "Filter": {
         "type": "textarea",
-        "value": "LoggerAbyssal > LoggerObscure > HECombatPlan > Book > Coin"
+        "value": "LoggerAbyssal > LoggerObscure > Book > Coin"
       }
     },
     "Storage": {

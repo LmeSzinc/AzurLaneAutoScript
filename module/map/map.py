@@ -508,7 +508,7 @@ class Map(Fleet):
         Returns:
             bool: if clear an enemy.
         """
-        if self.fleet_boss_index != 2:
+        if not self.config.FLEET_2:
             return False
         for grid in grids:
             if self.fleet_at(grid=grid, fleet=2):

@@ -1151,7 +1151,8 @@
       "help": "Raid.Mode.help",
       "easy": "easy",
       "normal": "normal",
-      "hard": "hard"
+      "hard": "hard",
+      "ex": "ex"
     },
     "UseTicket": {
       "name": "Raid.UseTicket.name",
@@ -1671,6 +1672,32 @@
       "help": "CoreShop.Filter.help"
     }
   },
+  "ShipyardDr": {
+    "_info": {
+      "name": "ShipyardDr._info.name",
+      "help": "ShipyardDr._info.help"
+    },
+    "ResearchSeries": {
+      "name": "ShipyardDr.ResearchSeries.name",
+      "help": "ShipyardDr.ResearchSeries.help",
+      "2": "2"
+    },
+    "ShipIndex": {
+      "name": "ShipyardDr.ShipIndex.name",
+      "help": "ShipyardDr.ShipIndex.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "BuyAmount": {
+      "name": "ShipyardDr.BuyAmount.name",
+      "help": "ShipyardDr.BuyAmount.help"
+    }
+  },
   "Shipyard": {
     "_info": {
       "name": "Shipyard._info.name",
@@ -1678,11 +1705,21 @@
     },
     "ResearchSeries": {
       "name": "Shipyard.ResearchSeries.name",
-      "help": "Shipyard.ResearchSeries.help"
+      "help": "Shipyard.ResearchSeries.help",
+      "1": "1",
+      "2": "2",
+      "3": "3"
     },
     "ShipIndex": {
       "name": "Shipyard.ShipIndex.name",
-      "help": "Shipyard.ShipIndex.help"
+      "help": "Shipyard.ShipIndex.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     },
     "BuyAmount": {
       "name": "Shipyard.BuyAmount.name",

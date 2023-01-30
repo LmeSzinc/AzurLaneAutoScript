@@ -1,14 +1,11 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.logger import logger
-from module.ocr.ocr import Digit, DigitYuv
+from module.ocr.ocr import DigitYuv
 from module.os_handler.assets import *
 from module.os_handler.map_event import MapEventHandler
+from module.os_handler.os_status import OSStatus
 from module.statistics.item import Item, ItemGrid
-from module.ui.ui import UI
-
-OCR_SHOP_YELLOW_COINS = Digit(SHOP_YELLOW_COINS, letter=(239, 239, 239), threshold=160, name='OCR_SHOP_YELLOW_COINS')
-OCR_SHOP_PURPLE_COINS = Digit(SHOP_PURPLE_COINS, letter=(255, 255, 255), name='OCR_SHOP_PURPLE_COINS')
 
 
 class OSShopPrice(DigitYuv):
@@ -24,13 +21,13 @@ class OSShopPrice(DigitYuv):
         return result
 
 
-class OSShopHandler(UI, MapEventHandler):
+class OSShopHandler(OSStatus, MapEventHandler):
     _shop_yellow_coins = 0
     _shop_purple_coins = 0
 
     def os_shop_get_coins(self):
-        self._shop_yellow_coins = OCR_SHOP_YELLOW_COINS.ocr(self.device.image)
-        self._shop_purple_coins = OCR_SHOP_PURPLE_COINS.ocr(self.device.image)
+        self._shop_yellow_coins = self.get_yellow_coins()
+        self._shop_purple_coins = self.get_purple_coins()
         logger.info(f'Yellow coins: {self._shop_yellow_coins}, purple coins: {self._shop_purple_coins}')
 
     @cached_property

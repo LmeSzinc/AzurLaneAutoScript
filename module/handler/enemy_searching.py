@@ -1,6 +1,5 @@
 from module.base.decorator import del_cached_property
 from module.base.timer import Timer
-from module.base.utils import get_color, red_overlay_transparency
 from module.exception import CampaignEnd
 from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
@@ -18,15 +17,16 @@ class EnemySearchingHandler(InfoHandler):
     map_is_100_percent_clear = False  # Will be override in fast_forward.py
 
     def enemy_searching_color_initial(self):
-        MAP_ENEMY_SEARCHING.load_color(self.device.image)
+        pass
 
     def enemy_searching_appear(self):
         if not self.is_in_map():
             return False
 
-        return red_overlay_transparency(
-            MAP_ENEMY_SEARCHING.color, get_color(self.device.image, MAP_ENEMY_SEARCHING.area)
-        ) > self.MAP_ENEMY_SEARCHING_OVERLAY_TRANSPARENCY_THRESHOLD
+        if MAP_ENEMY_SEARCHING.match_luma(self.device.image, offset=(5, 5)):
+            return True
+
+        return False
 
     def handle_enemy_flashing(self):
         self.device.sleep(1.2)

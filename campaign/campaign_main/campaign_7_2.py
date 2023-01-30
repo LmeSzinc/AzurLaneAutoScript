@@ -87,4 +87,4 @@ class Campaign(CampaignBase):
         if self.fleet_at(G3, fleet=2) and H3.is_mystery:
             self.fleet_2.clear_chosen_mystery(H3)
 
-        return self.fleet_2.clear_boss()
+        return self.fleet_boss.clear_boss()
