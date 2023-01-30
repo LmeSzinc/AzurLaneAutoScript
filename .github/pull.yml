@@ -2,11 +2,11 @@ version: "1"
 rules:
   - base: lme
     upstream: LmeSzinc:master
-    mergeMethod: merge
+    mergeMethod: hardreset
     mergeUnstable: true
   - base: GG
     upstream: Zuosizhu:master
-    mergeMethod: merge
+    mergeMethod: hardreset
     mergeUnstable: true
 label: ":arrow_heading_down: pull"
 conflictLabel: "merge-conflict": true
