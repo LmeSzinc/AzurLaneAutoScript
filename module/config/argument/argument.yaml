@@ -701,6 +701,9 @@ GameManager:
   
 GGHandler:
   Enabled: false
+  ServerLocation:
+    value: cn
+    option: [ cn, jp, en, tw ]
   GGMethod:
     value: u2
     option: [ screenshot, u2 ]

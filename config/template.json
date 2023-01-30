@@ -1974,6 +1974,7 @@
     },
     "GGHandler": {
       "Enabled": false,
+      "ServerLocation": "cn",
       "GGMethod": "u2",
       "GGPackageName": "com.",
       "AutoRestartGG": false,
