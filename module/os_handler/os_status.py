@@ -61,6 +61,8 @@ class OSStatus(UI):
             yellow_coins = OCR_SHOP_YELLOW_COINS.ocr(self.device.image)
             if timeout.reached():
                 logger.warning('Get yellow coins timeout')
+                break
+
             if yellow_coins < 100:
                 # OCR may get 0 or 1 when amount is not immediately loaded
                 logger.info('Yellow coins less than 100, assuming it is an ocr error')
