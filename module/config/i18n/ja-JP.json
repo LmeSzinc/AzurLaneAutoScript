@@ -2538,21 +2538,20 @@
       "Utils": "Gui.MenuDevelop.Utils"
     },
     "Overview": {
-      "Scheduler": "Gui.Overview.Scheduler",
-      "Dashboard": "Dashboard",
+      "Scheduler": "Scheduler",
       "Oil": "Oil",
       "Coin": "Coin",
       "Gem": "Gem",
       "Cube": "Cube",
       "EventPt": "Event Pt",
-      "OperationSupplyCoin": "Operation Supply Coin",
-      "SpecialItemToken": "Special Item Token",
-      "ActionPoint": "Action Point",
-      "Log": "Gui.Overview.Log",
-      "Running": "Gui.Overview.Running",
-      "Pending": "Gui.Overview.Pending",
-      "Waiting": "Gui.Overview.Waiting",
-      "NoTask": "Gui.Overview.NoTask"
+      "OperationSupplyCoin": "OPS Coin",
+      "SpecialItemToken": "SI Token",
+      "ActionPoint": "AP",
+      "Log": "Log",
+      "Running": "Running",
+      "Pending": "Pending",
+      "Waiting": "Waiting",
+      "NoTask": "NoTask"
     },
     "AddAlas": {
       "PopupTitle": "Gui.AddAlas.PopupTitle",
