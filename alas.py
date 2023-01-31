@@ -550,5 +550,5 @@ class AzurLaneAutoScript:
 
 
 if __name__ == '__main__':
-    alas = AzurLaneAutoScript(config_name='')
+    alas = AzurLaneAutoScript()
     alas.loop()

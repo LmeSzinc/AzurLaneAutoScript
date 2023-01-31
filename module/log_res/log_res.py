@@ -1,10 +1,8 @@
-import datetime
-
 from module.logger import logger
 from module.config.utils import deep_set
 
 
-class log_res:
+class LogRes:
 
     def __init__(self, config):
         self.config=config
