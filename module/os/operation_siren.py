@@ -452,6 +452,7 @@ class OperationSiren(OSMap):
             logger.info('To run again, clear OpsiExplore.Scheduler.NextRun and set OpsiExplore.OpsiExplore.LastZone=0')
             with self.config.multi_set():
                 self.config.OpsiExplore_LastZone = 0
+                self.config.OpsiExplore_SpecialRadar = False
                 self.config.task_delay(target=next_reset)
                 self.config.task_call('OpsiDaily', force_call=False)
                 self.config.task_call('OpsiShop', force_call=False)
