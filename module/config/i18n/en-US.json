@@ -1274,7 +1274,7 @@
     },
     "StageFilter": {
       "name": "Raid Daily Stage Filter",
-      "help": "Generally does not need to be modified or re-arranged but can do so if desired\nCan save on oil consumption if less are attacked\n'EX' difficulty is supported, submarine is force called if specified to increase clearing rate"
+      "help": "Generally does not need to be modified or re-arranged but can do so if desired\nCan save on oil consumption if less are attacked\nSupports EX difficulty if specified, submarine is force called to increase clearing rate"
     }
   },
   "MaritimeEscort": {
@@ -2423,6 +2423,14 @@
       "name": "Enabled",
       "help": ""
     },
+    "ServerLocation": {
+      "name": "Server location",
+      "help": "",
+      "cn": "CN",
+      "jp": "JP",
+      "en": "EN",
+      "tw": "TW"
+    },
     "GGMethod": {
       "name": "Control Method",
       "help": "Screenshot is slow and has some bugs, only for environments that not support UiAutomator",
@@ -2531,6 +2539,7 @@
     },
     "Overview": {
       "Scheduler": "Scheduler",
+      "Dashboard": "Dashboard",
       "Oil": "Oil",
       "Coin": "Coin",
       "Gem": "Gem",

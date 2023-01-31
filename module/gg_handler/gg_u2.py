@@ -31,6 +31,14 @@ class GGU2(Base):
         return _skipped
 
     def set_on(self, factor=200):
+        _name_dict = {
+            'en' : 'Azur Lane',
+            'cn' : '碧蓝航线',
+            'jp' : 'アズールレーン',
+            'tw' : '碧藍航線'
+        }
+        _server = deep_get(d=self.config.data, keys='GameManager.GGHandler.ServerLocation', default='cn')
+        _name = _name_dict[_server]
         self.factor = factor
         ggdata = GGData(self.config).get_data()
         for _i in range(1):
@@ -76,9 +84,9 @@ class GGU2(Base):
                         if self.d.xpath(
                                 f'//*[@package="{self.gg_package_name}" '
                                 f'and @resource-id="android:id/text1" '
-                                f'and contains(@text,"碧蓝航线")]'
+                                f'and contains(@text,"{_name}")]'
                         ).exists:
-                            self.d.xpath('//*[contains(@text,"碧蓝航线")]').click()
+                            self.d.xpath(f'//*[contains(@text,"{_name}")]').click()
                             logger.info('Choose APP: AzurLane')
                             self.device.sleep(0.3)
                             chosen = True

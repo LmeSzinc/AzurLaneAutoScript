@@ -2423,6 +2423,14 @@
       "name": "GGHandler.Enabled.name",
       "help": "GGHandler.Enabled.help"
     },
+    "ServerLocation": {
+      "name": "GGHandler.ServerLocation.name",
+      "help": "GGHandler.ServerLocation.help",
+      "cn": "cn",
+      "jp": "jp",
+      "en": "en",
+      "tw": "tw"
+    },
     "GGMethod": {
       "name": "GGHandler.GGMethod.name",
       "help": "GGHandler.GGMethod.help",
@@ -2531,6 +2539,7 @@
     },
     "Overview": {
       "Scheduler": "Gui.Overview.Scheduler",
+      "Dashboard": "Dashboard",
       "Oil": "Oil",
       "Coin": "Coin",
       "Gem": "Gem",
