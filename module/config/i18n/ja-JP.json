@@ -4,9 +4,9 @@
       "name": "Menu.Task.name",
       "help": "Menu.Task.help"
     },
-    "ViewResources": {
-      "name": "Menu.ViewResources.name",
-      "help": "Menu.ViewResources.help"
+    "Dashboard": {
+      "name": "Menu.Dashboard.name",
+      "help": "Menu.Dashboard.help"
     },
     "Alas": {
       "name": "Menu.Alas.name",
@@ -42,13 +42,13 @@
     }
   },
   "Task": {
-    "ViewCurrentResources": {
-      "name": "Task.ViewCurrentResources.name",
-      "help": "Task.ViewCurrentResources.help"
+    "Res": {
+      "name": "Task.Res.name",
+      "help": "Task.Res.help"
     },
-    "ViewEquipProgress": {
-      "name": "Task.ViewEquipProgress.name",
-      "help": "Task.ViewEquipProgress.help"
+    "EquipProgress": {
+      "name": "Task.EquipProgress.name",
+      "help": "Task.EquipProgress.help"
     },
     "Alas": {
       "name": "Task.Alas.name",
@@ -275,96 +275,96 @@
       "help": "Task.GameManager.help"
     }
   },
-  "ViewCurrentResources": {
+  "Res": {
     "_info": {
-      "name": "ViewCurrentResources._info.name",
-      "help": "ViewCurrentResources._info.help"
+      "name": "Res._info.name",
+      "help": "Res._info.help"
     },
-    "oiltomaxoil": {
-      "name": "ViewCurrentResources.oiltomaxoil.name",
-      "help": "ViewCurrentResources.oiltomaxoil.help"
+    "Oil": {
+      "name": "Res.Oil.name",
+      "help": "Res.Oil.help"
     },
-    "oiltomaxoilTime": {
-      "name": "ViewCurrentResources.oiltomaxoilTime.name",
-      "help": "ViewCurrentResources.oiltomaxoilTime.help"
+    "OilTime": {
+      "name": "Res.OilTime.name",
+      "help": "Res.OilTime.help"
     },
-    "cointomaxcoin": {
-      "name": "ViewCurrentResources.cointomaxcoin.name",
-      "help": "ViewCurrentResources.cointomaxcoin.help"
+    "Coin": {
+      "name": "Res.Coin.name",
+      "help": "Res.Coin.help"
     },
-    "cointomaxcoinTime": {
-      "name": "ViewCurrentResources.cointomaxcoinTime.name",
-      "help": "ViewCurrentResources.cointomaxcoinTime.help"
+    "CoinTime": {
+      "name": "Res.CoinTime.name",
+      "help": "Res.CoinTime.help"
     },
-    "gem": {
-      "name": "ViewCurrentResources.gem.name",
-      "help": "ViewCurrentResources.gem.help"
+    "Gem": {
+      "name": "Res.Gem.name",
+      "help": "Res.Gem.help"
     },
-    "gemTime": {
-      "name": "ViewCurrentResources.gemTime.name",
-      "help": "ViewCurrentResources.gemTime.help"
+    "GemTime": {
+      "name": "Res.GemTime.name",
+      "help": "Res.GemTime.help"
     },
-    "cube": {
-      "name": "ViewCurrentResources.cube.name",
-      "help": "ViewCurrentResources.cube.help"
+    "Cube": {
+      "name": "Res.Cube.name",
+      "help": "Res.Cube.help"
     },
-    "cubeTime": {
-      "name": "ViewCurrentResources.cubeTime.name",
-      "help": "ViewCurrentResources.cubeTime.help"
+    "CubeTime": {
+      "name": "Res.CubeTime.name",
+      "help": "Res.CubeTime.help"
     },
-    "pt": {
-      "name": "ViewCurrentResources.pt.name",
-      "help": "ViewCurrentResources.pt.help"
+    "Pt": {
+      "name": "Res.Pt.name",
+      "help": "Res.Pt.help"
     },
-    "ptTime": {
-      "name": "ViewCurrentResources.ptTime.name",
-      "help": "ViewCurrentResources.ptTime.help"
+    "PtTime": {
+      "name": "Res.PtTime.name",
+      "help": "Res.PtTime.help"
     },
-    "opcoin": {
-      "name": "ViewCurrentResources.opcoin.name",
-      "help": "ViewCurrentResources.opcoin.help"
+    "YellowCoin": {
+      "name": "Res.YellowCoin.name",
+      "help": "Res.YellowCoin.help"
     },
-    "opcoinTime": {
-      "name": "ViewCurrentResources.opcoinTime.name",
-      "help": "ViewCurrentResources.opcoinTime.help"
+    "YellowCoinTime": {
+      "name": "Res.YellowCoinTime.name",
+      "help": "Res.YellowCoinTime.help"
     },
-    "purplecoin": {
-      "name": "ViewCurrentResources.purplecoin.name",
-      "help": "ViewCurrentResources.purplecoin.help"
+    "PurpleCoin": {
+      "name": "Res.PurpleCoin.name",
+      "help": "Res.PurpleCoin.help"
     },
-    "purplecoinTime": {
-      "name": "ViewCurrentResources.purplecoinTime.name",
-      "help": "ViewCurrentResources.purplecoinTime.help"
+    "PurpleCoinTime": {
+      "name": "Res.PurpleCoinTime.name",
+      "help": "Res.PurpleCoinTime.help"
     },
-    "actionpoint": {
-      "name": "ViewCurrentResources.actionpoint.name",
-      "help": "ViewCurrentResources.actionpoint.help"
+    "ActionPoint": {
+      "name": "Res.ActionPoint.name",
+      "help": "Res.ActionPoint.help"
     },
-    "actionpointTime": {
-      "name": "ViewCurrentResources.actionpointTime.name",
-      "help": "ViewCurrentResources.actionpointTime.help"
+    "ActionPointTime": {
+      "name": "Res.ActionPointTime.name",
+      "help": "Res.ActionPointTime.help"
     }
   },
-  "ViewEquipProgress": {
+  "EquipProgress": {
     "_info": {
-      "name": "ViewEquipProgress._info.name",
-      "help": "ViewEquipProgress._info.help"
+      "name": "EquipProgress._info.name",
+      "help": "EquipProgress._info.help"
     },
     "234mm": {
-      "name": "ViewEquipProgress.234mm.name",
-      "help": "ViewEquipProgress.234mm.help"
+      "name": "EquipProgress.234mm.name",
+      "help": "EquipProgress.234mm.help"
     },
     "457mm": {
-      "name": "ViewEquipProgress.457mm.name",
-      "help": "ViewEquipProgress.457mm.help"
+      "name": "EquipProgress.457mm.name",
+      "help": "EquipProgress.457mm.help"
     },
     "tenrai": {
-      "name": "ViewEquipProgress.tenrai.name",
-      "help": "ViewEquipProgress.tenrai.help"
+      "name": "EquipProgress.tenrai.name",
+      "help": "EquipProgress.tenrai.help"
     },
     "152mm": {
-      "name": "ViewEquipProgress.152mm.name",
-      "help": "ViewEquipProgress.152mm.help"
+      "name": "EquipProgress.152mm.name",
+      "help": "EquipProgress.152mm.help"
     }
   },
   "Scheduler": {

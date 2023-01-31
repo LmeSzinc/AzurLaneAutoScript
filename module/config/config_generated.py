@@ -9,29 +9,29 @@ class GeneratedConfig:
     Auto generated configuration
     """
 
-    # Group `ViewCurrentResources`
-    ViewCurrentResources_oiltomaxoil = '0 / 0'
-    ViewCurrentResources_oiltomaxoilTime = datetime.datetime(2010, 1, 1, 0, 0)
-    ViewCurrentResources_cointomaxcoin = '0 / 0'
-    ViewCurrentResources_cointomaxcoinTime = datetime.datetime(2010, 1, 1, 0, 0)
-    ViewCurrentResources_gem = 0
-    ViewCurrentResources_gemTime = datetime.datetime(2010, 1, 1, 0, 0)
-    ViewCurrentResources_cube = 0
-    ViewCurrentResources_cubeTime = datetime.datetime(2010, 1, 1, 0, 0)
-    ViewCurrentResources_pt = 0
-    ViewCurrentResources_ptTime = datetime.datetime(2010, 1, 1, 0, 0)
-    ViewCurrentResources_opcoin = 0
-    ViewCurrentResources_opcoinTime = datetime.datetime(2010, 1, 1, 0, 0)
-    ViewCurrentResources_purplecoin = 0
-    ViewCurrentResources_purplecoinTime = datetime.datetime(2010, 1, 1, 0, 0)
-    ViewCurrentResources_actionpoint = '0 (0)'
-    ViewCurrentResources_actionpointTime = datetime.datetime(2010, 1, 1, 0, 0)
+    # Group `Res`
+    Res_Oil = '0 / 0'
+    Res_OilTime = datetime.datetime(2010, 1, 1, 0, 0)
+    Res_Coin = '0 / 0'
+    Res_CoinTime = datetime.datetime(2010, 1, 1, 0, 0)
+    Res_Gem = 0
+    Res_GemTime = datetime.datetime(2010, 1, 1, 0, 0)
+    Res_Cube = 0
+    Res_CubeTime = datetime.datetime(2010, 1, 1, 0, 0)
+    Res_Pt = 0
+    Res_PtTime = datetime.datetime(2010, 1, 1, 0, 0)
+    Res_YellowCoin = 0
+    Res_YellowCoinTime = datetime.datetime(2010, 1, 1, 0, 0)
+    Res_PurpleCoin = 0
+    Res_PurpleCoinTime = datetime.datetime(2010, 1, 1, 0, 0)
+    Res_ActionPoint = '0 (0)'
+    Res_ActionPointTime = datetime.datetime(2010, 1, 1, 0, 0)
 
-    # Group `ViewEquipProgress`
-    ViewEquipProgress_234mm = 0
-    ViewEquipProgress_457mm = 0
-    ViewEquipProgress_tenrai = 0
-    ViewEquipProgress_152mm = 0
+    # Group `EquipProgress`
+    EquipProgress_234mm = 0
+    EquipProgress_457mm = 0
+    EquipProgress_tenrai = 0
+    EquipProgress_152mm = 0
 
     # Group `Scheduler`
     Scheduler_Enable = False

@@ -561,14 +561,14 @@ class AlasGUI(Frame):
         if not self.visible:
             return
         resource = [
-            "ViewCurrentResources.ViewCurrentResources.oiltomaxoil",
-            "ViewCurrentResources.ViewCurrentResources.gem",
-            "ViewCurrentResources.ViewCurrentResources.pt",
-            "ViewCurrentResources.ViewCurrentResources.opcoin",
-            "ViewCurrentResources.ViewCurrentResources.cointomaxcoin",
-            "ViewCurrentResources.ViewCurrentResources.cube",
-            "ViewCurrentResources.ViewCurrentResources.actionpoint",
-            "ViewCurrentResources.ViewCurrentResources.purplecoin"
+            "Res.Res.Oil",
+            "Res.Res.Gem",
+            "Res.Res.Pt",
+            "Res.Res.YellowCoin",
+            "Res.Res.Coin",
+            "Res.Res.Cube",
+            "Res.Res.ActionPoint",
+            "Res.Res.PurpleCoin"
         ]
         resourcename = [
             "Gui.Overview.Oil","Gui.Overview.Gem","Gui.Overview.EventPt","Gui.Overview.OperationSupplyCoin",

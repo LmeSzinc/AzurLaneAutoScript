@@ -2,58 +2,58 @@
 # Define arguments.
 # --------------------
 
-# ==================== ViewResources ====================
+# ==================== Dashboard ====================
 
-ViewCurrentResources:
-    oiltomaxoil: 
+Res:
+    Oil:
         value: 0 / 0
         display: disabled
-    oiltomaxoilTime:
+    OilTime:
         value: 2010-01-01 00:00:00
         display: disabled
-    cointomaxcoin: 
+    Coin:
         value: 0 / 0
         display: disabled
-    cointomaxcoinTime:
+    CoinTime:
         value: 2010-01-01 00:00:00
         display: disabled
-    gem: 
+    Gem:
         value: 0
         display: disabled
-    gemTime:
+    GemTime:
         value: 2010-01-01 00:00:00
         display: disabled
-    cube:
+    Cube:
         value: 0
         display: disabled
-    cubeTime:
+    CubeTime:
         value: 2010-01-01 00:00:00
         display: disabled
-    pt: 
+    Pt:
         value: 0
         display: disabled
-    ptTime:
+    PtTime:
         value: 2010-01-01 00:00:00
         display: disabled
-    opcoin: 
+    YellowCoin:
         value: 0
         display: disabled
-    opcoinTime:
+    YellowCoinTime:
         value: 2010-01-01 00:00:00
         display: disabled
-    purplecoin: 
+    PurpleCoin:
         value: 0
         display: disabled
-    purplecoinTime:
+    PurpleCoinTime:
         value: 2010-01-01 00:00:00
         display: disabled
-    actionpoint: 
+    ActionPoint:
         value: 0 (0)
         display: disabled
-    actionpointTime:
+    ActionPointTime:
         value: 2010-01-01 00:00:00
         display: disabled
-ViewEquipProgress:
+EquipProgress:
     234mm: 0
     457mm: 0
     tenrai: 0

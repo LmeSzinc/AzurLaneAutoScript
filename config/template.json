@@ -1,29 +1,29 @@
 {
-  "ViewCurrentResources": {
-    "ViewCurrentResources": {
-      "oiltomaxoil": "0 / 0",
-      "oiltomaxoilTime": "2010-01-01 00:00:00",
-      "cointomaxcoin": "0 / 0",
-      "cointomaxcoinTime": "2010-01-01 00:00:00",
-      "gem": 0,
-      "gemTime": "2010-01-01 00:00:00",
-      "cube": 0,
-      "cubeTime": "2010-01-01 00:00:00",
-      "pt": 0,
-      "ptTime": "2010-01-01 00:00:00",
-      "opcoin": 0,
-      "opcoinTime": "2010-01-01 00:00:00",
-      "purplecoin": 0,
-      "purplecoinTime": "2010-01-01 00:00:00",
-      "actionpoint": "0 (0)",
-      "actionpointTime": "2010-01-01 00:00:00"
+  "Res": {
+    "Res": {
+      "Oil": "0 / 0",
+      "OilTime": "2010-01-01 00:00:00",
+      "Coin": "0 / 0",
+      "CoinTime": "2010-01-01 00:00:00",
+      "Gem": 0,
+      "GemTime": "2010-01-01 00:00:00",
+      "Cube": 0,
+      "CubeTime": "2010-01-01 00:00:00",
+      "Pt": 0,
+      "PtTime": "2010-01-01 00:00:00",
+      "YellowCoin": 0,
+      "YellowCoinTime": "2010-01-01 00:00:00",
+      "PurpleCoin": 0,
+      "PurpleCoinTime": "2010-01-01 00:00:00",
+      "ActionPoint": "0 (0)",
+      "ActionPointTime": "2010-01-01 00:00:00"
     },
     "Storage": {
       "Storage": {}
     }
   },
-  "ViewEquipProgress": {
-    "ViewEquipProgress": {
+  "EquipProgress": {
+    "EquipProgress": {
       "234mm": 0,
       "457mm": 0,
       "tenrai": 0,

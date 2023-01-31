@@ -4,7 +4,7 @@
       "name": "",
       "help": ""
     },
-    "ViewResources": {
+    "Dashboard": {
       "name": "Dashboard",
       "help": "Updated when any campaign starts"
     },
@@ -42,13 +42,13 @@
     }
   },
   "Task": {
-    "ViewCurrentResources": {
+    "Res": {
       "name": "Resource Viewer",
       "help": ""
     },
-    "ViewEquipProgress": {
-      "name": "Task.ViewEquipProgress.name",
-      "help": "Task.ViewEquipProgress.help"
+    "EquipProgress": {
+      "name": "Task.EquipProgress.name",
+      "help": "Task.EquipProgress.help"
     },
     "Alas": {
       "name": "Alas",
@@ -275,96 +275,96 @@
       "help": ""
     }
   },
-  "ViewCurrentResources": {
+  "Res": {
     "_info": {
       "name": "Resource Viewer",
       "help": "Update when any campaign starts"
     },
-    "oiltomaxoil": {
+    "Oil": {
       "name": "Oil / Max oil limit",
       "help": ""
     },
-    "oiltomaxoilTime": {
+    "OilTime": {
       "name": "",
       "help": "Record time\n\n"
     },
-    "cointomaxcoin": {
+    "Coin": {
       "name": "Coin / Max coin limit",
       "help": ""
     },
-    "cointomaxcoinTime": {
+    "CoinTime": {
       "name": "",
       "help": "Record time\n\n"
     },
-    "gem": {
+    "Gem": {
       "name": "Gem",
       "help": ""
     },
-    "gemTime": {
+    "GemTime": {
       "name": "",
       "help": "Record time\n\n"
     },
-    "cube": {
+    "Cube": {
       "name": "Cube",
       "help": "Update after everyday's gacha"
     },
-    "cubeTime": {
+    "CubeTime": {
       "name": "",
       "help": "Record time\n\n"
     },
-    "pt": {
+    "Pt": {
       "name": "Event Point",
       "help": ""
     },
-    "ptTime": {
+    "PtTime": {
       "name": "",
       "help": "Record time\n\n"
     },
-    "opcoin": {
+    "YellowCoin": {
       "name": "Operation Supply Coin",
       "help": ""
     },
-    "opcoinTime": {
+    "YellowCoinTime": {
       "name": "",
       "help": "Record time\n\n"
     },
-    "purplecoin": {
+    "PurpleCoin": {
       "name": "Special Item Token",
       "help": ""
     },
-    "purplecoinTime": {
+    "PurpleCoinTime": {
       "name": "",
       "help": "Record time\n\n"
     },
-    "actionpoint": {
+    "ActionPoint": {
       "name": "Action Point",
       "help": ""
     },
-    "actionpointTime": {
+    "ActionPointTime": {
       "name": "",
       "help": "Record time\n\n"
     }
   },
-  "ViewEquipProgress": {
+  "EquipProgress": {
     "_info": {
-      "name": "ViewEquipProgress._info.name",
-      "help": "ViewEquipProgress._info.help"
+      "name": "EquipProgress._info.name",
+      "help": "EquipProgress._info.help"
     },
     "234mm": {
-      "name": "ViewEquipProgress.234mm.name",
-      "help": "ViewEquipProgress.234mm.help"
+      "name": "EquipProgress.234mm.name",
+      "help": "EquipProgress.234mm.help"
     },
     "457mm": {
-      "name": "ViewEquipProgress.457mm.name",
-      "help": "ViewEquipProgress.457mm.help"
+      "name": "EquipProgress.457mm.name",
+      "help": "EquipProgress.457mm.help"
     },
     "tenrai": {
-      "name": "ViewEquipProgress.tenrai.name",
-      "help": "ViewEquipProgress.tenrai.help"
+      "name": "EquipProgress.tenrai.name",
+      "help": "EquipProgress.tenrai.help"
     },
     "152mm": {
-      "name": "ViewEquipProgress.152mm.name",
-      "help": "ViewEquipProgress.152mm.help"
+      "name": "EquipProgress.152mm.name",
+      "help": "EquipProgress.152mm.help"
     }
   },
   "Scheduler": {

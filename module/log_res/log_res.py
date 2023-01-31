@@ -8,32 +8,28 @@ class LogRes:
         self.config=config
 
     def log_res(self, num, name):
-        ViewCurrentResources = [
-            'oil',
-            'coin',
-            'gem',
-            'pt',
-            'opcoin',
-            'purplecoin',
-            'actionpoint',
-            'cube',
-            'maxoil',
-            'maxcoin',
-            'oiltomaxoil',
-            'cointomaxcoin'
+        Res = [
+            'Oil',
+            'Coin',
+            'Gem',
+            'Cube',
+            'Pt',
+            'ActionPoint',
+            'YellowCoin',
+            'PurpleCoin',
         ]
-        ViewEquipProgress = ['457mm', '234mm', 'tenrai', '152mm']
-        if name in ViewCurrentResources:
-            key = f'ViewCurrentResources.ViewCurrentResources.{name}'
-            key_time = f'ViewCurrentResources.ViewCurrentResources.' + name + 'Time'
+        EquipProgress = ['457mm', '234mm', 'tenrai', '152mm']
+        if name in Res:
+            key = f'Res.Res.{name}'
+            key_time = f'Res.Res.' + name + 'Time'
             from datetime import datetime
             _time = datetime.now()
             time = str(_time)
             self.config.modified[key_time] = time[:19]
             self.config.modified[key] = num
             self.config.update()
-        elif name in ViewEquipProgress:
-            key = f'ViewCurrentResources.ViewEquipProgress.{name}'
+        elif name in EquipProgress:
+            key = f'EquipProgress.EquipProgress.{name}'
             deep_set(d=self.config.data, keys=key, value=num)
             self.config.data.save()
         else:
