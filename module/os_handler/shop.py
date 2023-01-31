@@ -6,7 +6,6 @@ from module.os_handler.assets import *
 from module.os_handler.map_event import MapEventHandler
 from module.os_handler.os_status import OSStatus
 from module.statistics.item import Item, ItemGrid
-from module.log_res.log_res import log_res
 
 
 class OSShopPrice(DigitYuv):
@@ -29,8 +28,6 @@ class OSShopHandler(OSStatus, MapEventHandler):
     def os_shop_get_coins(self):
         self._shop_yellow_coins = self.get_yellow_coins()
         self._shop_purple_coins = self.get_purple_coins()
-        log_res(self.config).log_res(self._shop_yellow_coins,'opcoin')
-        log_res(self.config).log_res(self._shop_purple_coins,'purplecoin')
         logger.info(f'Yellow coins: {self._shop_yellow_coins}, purple coins: {self._shop_purple_coins}')
 
     @cached_property

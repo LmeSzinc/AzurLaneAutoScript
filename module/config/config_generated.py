@@ -10,9 +10,9 @@ class GeneratedConfig:
     """
 
     # Group `ViewCurrentResources`
-    ViewCurrentResources_oiltomaxoil = 0
+    ViewCurrentResources_oiltomaxoil = '0 / 0'
     ViewCurrentResources_oiltomaxoilTime = datetime.datetime(2010, 1, 1, 0, 0)
-    ViewCurrentResources_cointomaxcoin = 0
+    ViewCurrentResources_cointomaxcoin = '0 / 0'
     ViewCurrentResources_cointomaxcoinTime = datetime.datetime(2010, 1, 1, 0, 0)
     ViewCurrentResources_gem = 0
     ViewCurrentResources_gemTime = datetime.datetime(2010, 1, 1, 0, 0)
@@ -24,7 +24,7 @@ class GeneratedConfig:
     ViewCurrentResources_opcoinTime = datetime.datetime(2010, 1, 1, 0, 0)
     ViewCurrentResources_purplecoin = 0
     ViewCurrentResources_purplecoinTime = datetime.datetime(2010, 1, 1, 0, 0)
-    ViewCurrentResources_actionpoint = 0
+    ViewCurrentResources_actionpoint = '0 (0)'
     ViewCurrentResources_actionpointTime = datetime.datetime(2010, 1, 1, 0, 0)
 
     # Group `ViewEquipProgress`
@@ -191,7 +191,7 @@ class GeneratedConfig:
     EventDaily_LastStage = 0
 
     # Group `Raid`
-    Raid_Mode = 'hard'  # easy, normal, hard
+    Raid_Mode = 'hard'  # easy, normal, hard, ex
     Raid_UseTicket = False
 
     # Group `RaidDaily`
@@ -302,9 +302,14 @@ class GeneratedConfig:
     # Group `CoreShop`
     CoreShop_Filter = 'Array'
 
+    # Group `ShipyardDr`
+    ShipyardDr_ResearchSeries = 2  # 2
+    ShipyardDr_ShipIndex = 0  # 0, 1, 2, 3, 4, 5, 6
+    ShipyardDr_BuyAmount = 2
+
     # Group `Shipyard`
-    Shipyard_ResearchSeries = 1
-    Shipyard_ShipIndex = 0
+    Shipyard_ResearchSeries = 1  # 1, 2, 3
+    Shipyard_ShipIndex = 0  # 0, 1, 2, 3, 4, 5, 6
     Shipyard_BuyAmount = 2
 
     # Group `Gacha`
@@ -441,6 +446,7 @@ class GeneratedConfig:
 
     # Group `GGHandler`
     GGHandler_Enabled = False
+    GGHandler_ServerLocation = 'cn'  # cn, jp, en, tw
     GGHandler_GGMethod = 'u2'  # screenshot, u2
     GGHandler_GGPackageName = 'com.'
     GGHandler_AutoRestartGG = False

@@ -691,6 +691,10 @@
       "name": "分類強化",
       "help": "每項艦船分類最多強化多少艘艦船，\n戰鬥中的艦船會被跳過且不計入，\n優先判斷是否有強化材料"
     },
+    "AllowNoPreserve": {
+      "name": "Retirement.AllowNoPreserve.name",
+      "help": "Retirement.AllowNoPreserve.help"
+    },
     "OldRetireN": {
       "name": "退役白船 ( N )",
       "help": "以下設定僅適用於傳統退役"
@@ -2423,6 +2427,14 @@
       "name": "啟用該功能",
       "help": "注意事項！若GG打開則應該啟用該功能以達成防彈窗卡重啓\n只能使用指定的lua，會自動推送至/sdcard/Notes/Multiplier.lua\n演習，共鬥，Meta信標時會自動關閉倍率"
     },
+    "ServerLocation": {
+      "name": "Server location",
+      "help": "",
+      "cn": "國服",
+      "jp": "JP",
+      "en": "EN",
+      "tw": "台服"
+    },
     "GGMethod": {
       "name": "GG操作方法",
       "help": "推薦UiAutomator2，但未填寫包名時會使用截圖\n截圖相容性較差（已知逍遙模擬器無法使用）\n無法安裝UiAutomator2（如紅手指，vmos環境）時可嘗試使用\n使用截圖時，開啟模擬器後需要手動打開GG，將GG懸浮窗遮擋住石油圖標。 第一次使用還需要手動指定好lua路徑。",
@@ -2531,6 +2543,7 @@
     },
     "Overview": {
       "Scheduler": "調度器",
+      "Dashboard": "儀表盤",
       "Oil": "石油",
       "Coin": "物資",
       "Gem": "鑽石",
