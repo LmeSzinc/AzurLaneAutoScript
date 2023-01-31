@@ -4,9 +4,5 @@ rules:
     upstream: LmeSzinc:master
     mergeMethod: hardreset
     mergeUnstable: true
-  - base: GG
-    upstream: Zuosizhu:master
-    mergeMethod: hardreset
-    mergeUnstable: true
 label: ":arrow_heading_down: pull"
 conflictLabel: "merge-conflict": true
