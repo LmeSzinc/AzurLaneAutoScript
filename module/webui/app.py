@@ -581,6 +581,7 @@ class AlasGUI(Frame):
                     value_time = datetime(2010,1,1,0,0,0)
                 time_now = datetime.strptime(datetime.strftime(datetime.now(), '%d-%m-%Y %H:%M:%S'), '%d-%m-%Y %H:%M:%S')
 
+                # Handle time delta
                 from module.config.utils import time_delta
                 delta = time_delta(value_time, time_now, True)
                 time_delta_name_prefix = 'Gui.Overview.'
@@ -1122,6 +1123,8 @@ class AlasGUI(Frame):
             Alas is a free open source software, if you paid for Alas from any channel, please refund.
             Alas 是一款免费开源软件，如果你在任何渠道付费购买了Alas，请退款。
             Project repository 项目地址：`https://github.com/LmeSzinc/AzurLaneAutoScript`
+            GG Modified repository 魔改版地址: `https://github.com/Zuosizhu/AzurLaneAutoScript`
+            魔改版镜像地址: `https://gitee.com/zuosizhu/AzurLaneAutoScript`
             """
             ).style("text-align: center")
 
@@ -1141,7 +1144,7 @@ class AlasGUI(Frame):
 
     def run(self) -> None:
         # setup gui
-        set_env(title="Alas", output_animation=False)
+        set_env(title="AlasGG", output_animation=False)
         add_css(filepath_css("alas"))
         if self.is_mobile:
             add_css(filepath_css("alas-mobile"))
