@@ -1,5 +1,6 @@
 from module.logger import logger
 from module.config.utils import deep_set
+from datetime import datetime
 
 
 class LogRes:
@@ -26,7 +27,6 @@ class LogRes:
         if name in ViewCurrentResources:
             key = f'ViewCurrentResources.ViewCurrentResources.{name}'
             key_time = f'ViewCurrentResources.ViewCurrentResources.' + name + 'Time'
-            from datetime import datetime
             _time = datetime.now()
             time = str(_time)
             self.config.modified[key_time] = time[:19]
