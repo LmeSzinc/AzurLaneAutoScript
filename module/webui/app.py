@@ -375,7 +375,6 @@ class AlasGUI(Frame):
                         "log-bar-btns",
                         [
                             put_scope("log_scroll_btn"),
-                            put_scope("dashboard_btn"),
                         ],
                     ),
                     put_html('<hr class="hr-group">'),
@@ -397,20 +396,8 @@ class AlasGUI(Frame):
             scope="log_scroll_btn",
         )
 
-        # switch_dashboard_btn = BinarySwitchButton(
-        #     label_on=t("Gui.Button.ScrollON"),
-        #     label_off=t("Gui.Button.ScrollOFF"),
-        #     onclick_on=lambda: self.alas_update_dashboard.pack_forget(),
-        #     onclick_off=lambda: self.alas_update_dashboard(self.visible(False)),
-        #     get_state=lambda: log.keep_bottom,
-        #     color_on="on",
-        #     color_off="off",
-        #     scope="dashboard_btn",
-        # )
-
         self.task_handler.add(switch_scheduler.g(), 1, True)
         self.task_handler.add(switch_log_scroll.g(), 1, True)
-        # self.task_handler.add(switch_dashboard_btn.g(), 1, True)
         self.task_handler.add(self.alas_update_overview_task, 10, True)
         self.task_handler.add(self.alas_update_dashboard, 20, True)
         self.task_handler.add(log.put_log(self.alas), 0.25, True)
@@ -590,25 +577,24 @@ class AlasGUI(Frame):
         with use_scope("dashboard"):
             x=0
             y=0
-            for value in resource:
-                value_time = deep_get(self.alas_config.data, keys=value+'Time',default='No data')
-                value_time = str(value_time)[-8:]
-                value = self.alas_config.cross_get(value)
+            for valuename in resource:
+                value = deep_get(self.alas_config.data, keys=valuename, default='None')
+                value_time = str(deep_get(self.alas_config.data, keys=valuename+'Time', default='No data'))[-8:]
                 put_row(
                     [
-                        put_html(color[y]),
+                        put_html(color[x]),
                         put_column(
                             [
                                 put_text(str(value)).style("--arg-title--"),
-                                put_text(t(resourcename[x])+" -"+value_time).style("--arg-help--"),
+                                put_text(t(resourcename[y])+" -"+value_time).style("--arg-help--"),
                             ],
                             size="auto auto",
                         ),
                     ],
                     size="20px 1fr"
                 )
-                x=x+1
-                y=y+1
+                x+=1
+                y+=1
 
     @use_scope("content", clear=True)
     def alas_daemon_overview(self, task: str) -> None:
