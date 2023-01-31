@@ -16,13 +16,14 @@ class ImageInvalidResolution(ImageError):
     pass
 
 
-def load_folder(folder):
+def load_folder(folder, ext='.png'):
     """
     Args:
         folder (str): Template folder contains images.
             Image shape: width=96, height=96, channel=3, format=png.
             Image name: Camel-Case, such as 'PlateGeneralT3'. Suffix in name will be ignore.
             For example, 'Javelin' and 'Javelin_2' are different templates, but have same output name 'Javelin'.
+        ext (str): File extension.
 
     Returns:
         dict: Key: str, image file base name. Value: full filepath.
@@ -32,8 +33,9 @@ def load_folder(folder):
 
     out = {}
     for file in os.listdir(folder):
-        name = os.path.splitext(file)[0]
-        out[name] = os.path.join(folder, file)
+        name, extension = os.path.splitext(file)
+        if extension == ext:
+            out[name] = os.path.join(folder, file)
 
     return out
 

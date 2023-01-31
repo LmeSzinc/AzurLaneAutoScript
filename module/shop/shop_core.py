@@ -1,14 +1,12 @@
 from module.base.decorator import cached_property
 from module.logger import logger
-from module.ocr.ocr import Digit
 from module.shop.assets import *
 from module.shop.base import ShopItemGrid
 from module.shop.clerk import ShopClerk
+from module.shop.shop_status import ShopStatus
 
-OCR_SHOP_CORE = Digit(SHOP_CORE, letter=(239, 239, 239), name='OCR_SHOP_CORE')
 
-
-class CoreShop(ShopClerk):
+class CoreShop(ShopClerk, ShopStatus):
     shop_template_folder = './assets/shop/core'
 
     @cached_property
@@ -52,7 +50,7 @@ class CoreShop(ShopClerk):
         Returns
             int: core amount
         """
-        self._currency = OCR_SHOP_CORE.ocr(self.device.image)
+        self._currency = self.status_get_core()
         logger.info(f'Core: {self._currency}')
         return self._currency
 
