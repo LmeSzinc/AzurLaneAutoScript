@@ -633,5 +633,59 @@ def type_to_str(typ):
     return str(typ)
 
 
+def time_delta(time1, time2, dict_format=False):
+    """
+    Output the delta between two times
+
+    Args:
+        time1, time2 : datetime.datetime=(YYYY,MM,DD,hh,mm,ss)
+
+    Returns:
+        dict :  {
+                 'Y' : int,
+                 'M' : int,
+                 'D' : int,
+                 'h' : int,
+                 'm' : int,
+                 's' : int
+        }
+        float : time stamp delta(secs)
+    """
+    time_delta = abs(datetime.timestamp(time1) - datetime.timestamp(time2))
+    if not dict_format:
+        return time_delta
+    else:
+        t = str(datetime.fromtimestamp(time_delta))
+        Y, M, D = t.split('-')
+        D, h = D.split(' ')
+        h, m, s = h.split(':')
+        Y = int(Y)-1970
+        M = int(M)-1
+        D = int(D)-1
+        h = int(h)-8
+
+        if h < 0:
+            h += 24
+            D -= 1
+        if D < 0:
+            M -= 1
+            D += 30
+        if M < 0:
+            Y -= 1
+            M += 365
+
+        m = int(m)
+        s = int(s)
+        time_dict = {
+                      'Y': Y,
+                      'M': M,
+                      'D': D,
+                      'h': h,
+                      'm': m,
+                      's': s
+        }
+        return time_dict
+
+
 if __name__ == '__main__':
     get_os_reset_remain()
