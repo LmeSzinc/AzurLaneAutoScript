@@ -2544,19 +2544,24 @@
     "Overview": {
       "Scheduler": "Scheduler",
       "Dashboard": "Dashboard",
+      "SecondsAgo": "Gui.Overview.SecondsAgo",
+      "MinutesAgo": "Gui.Overview.MinutesAgo",
+      "HoursAgo": "Gui.Overview.HoursAgo",
+      "DaysAgo": "Gui.Overview.DaysAgo",
+      "MonthsAgo": "Gui.Overview.MonthsAgo",
       "Oil": "Oil",
       "Coin": "Coin",
       "Gem": "Gem",
       "Cube": "Cube",
-      "EventPt": "Event Pt",
-      "OperationSupplyCoin": "Operation Supply Coin",
-      "SpecialItemToken": "Special Item Token",
+      "Pt": "Event Pt",
+      "YellowCoin": "Operation Supply Coin",
+      "PurpleCoin": "Special Item Token",
       "ActionPoint": "Action Point",
       "Log": "Log",
       "Running": "Running",
       "Pending": "Pending",
       "Waiting": "Waiting",
-      "NoTask": "No Task"
+      "NoTask": "NoTask"
     },
     "AddAlas": {
       "PopupTitle": "Add new config",

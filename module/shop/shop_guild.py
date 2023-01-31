@@ -1,15 +1,13 @@
 from module.base.decorator import Config, cached_property
 from module.logger import logger
-from module.ocr.ocr import Digit
 from module.shop.assets import *
 from module.shop.base import ShopItemGrid
 from module.shop.clerk import ShopClerk
+from module.shop.shop_status import ShopStatus
 from module.shop.ui import ShopUI
 
-OCR_SHOP_GUILD_COINS = Digit(SHOP_GUILD_COINS, letter=(255, 255, 255), name='OCR_SHOP_GUILD_COINS')
 
-
-class GuildShop(ShopClerk, ShopUI):
+class GuildShop(ShopClerk, ShopUI, ShopStatus):
     shop_template_folder = './assets/shop/guild_cn'
 
     @cached_property
@@ -95,7 +93,7 @@ class GuildShop(ShopClerk, ShopUI):
         Returns:
             int: guild coin amount
         """
-        self._currency = OCR_SHOP_GUILD_COINS.ocr(self.device.image)
+        self._currency = self.status_get_guild_coins()
         logger.info(f'Guild coins: {self._currency}')
         return self._currency
 

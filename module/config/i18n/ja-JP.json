@@ -277,72 +277,72 @@
   },
   "Res": {
     "_info": {
-      "name": "Res._info.name",
-      "help": "Res._info.help"
+      "name": "Resource Viewer",
+      "help": "Update when any campaign starts"
     },
     "Oil": {
-      "name": "Res.Oil.name",
-      "help": "Res.Oil.help"
+      "name": "Oil / Max oil limit",
+      "help": ""
     },
     "OilTime": {
-      "name": "Res.OilTime.name",
-      "help": "Res.OilTime.help"
+      "name": "",
+      "help": "Record time\n\n"
     },
     "Coin": {
-      "name": "Res.Coin.name",
-      "help": "Res.Coin.help"
+      "name": "Coin / Max coin limit",
+      "help": ""
     },
     "CoinTime": {
-      "name": "Res.CoinTime.name",
-      "help": "Res.CoinTime.help"
+      "name": "",
+      "help": "Record time\n\n"
     },
     "Gem": {
-      "name": "Res.Gem.name",
-      "help": "Res.Gem.help"
+      "name": "Gem",
+      "help": ""
     },
     "GemTime": {
-      "name": "Res.GemTime.name",
-      "help": "Res.GemTime.help"
+      "name": "",
+      "help": "Record time\n\n"
     },
     "Cube": {
-      "name": "Res.Cube.name",
-      "help": "Res.Cube.help"
+      "name": "Cube",
+      "help": "Update after everyday's gacha"
     },
     "CubeTime": {
-      "name": "Res.CubeTime.name",
-      "help": "Res.CubeTime.help"
+      "name": "",
+      "help": "Record time\n\n"
     },
     "Pt": {
-      "name": "Res.Pt.name",
-      "help": "Res.Pt.help"
+      "name": "Event Point",
+      "help": ""
     },
     "PtTime": {
-      "name": "Res.PtTime.name",
-      "help": "Res.PtTime.help"
+      "name": "",
+      "help": "Record time\n\n"
     },
     "YellowCoin": {
-      "name": "Res.YellowCoin.name",
-      "help": "Res.YellowCoin.help"
+      "name": "Operation Supply Coin",
+      "help": ""
     },
     "YellowCoinTime": {
-      "name": "Res.YellowCoinTime.name",
-      "help": "Res.YellowCoinTime.help"
+      "name": "",
+      "help": "Record time\n\n"
     },
     "PurpleCoin": {
-      "name": "Res.PurpleCoin.name",
-      "help": "Res.PurpleCoin.help"
+      "name": "Special Item Token",
+      "help": ""
     },
     "PurpleCoinTime": {
-      "name": "Res.PurpleCoinTime.name",
-      "help": "Res.PurpleCoinTime.help"
+      "name": "",
+      "help": "Record time\n\n"
     },
     "ActionPoint": {
-      "name": "Res.ActionPoint.name",
-      "help": "Res.ActionPoint.help"
+      "name": "Action Point",
+      "help": ""
     },
     "ActionPointTime": {
-      "name": "Res.ActionPointTime.name",
-      "help": "Res.ActionPointTime.help"
+      "name": "",
+      "help": "Record time\n\n"
     }
   },
   "EquipProgress": {
@@ -2542,21 +2542,26 @@
       "Utils": "Gui.MenuDevelop.Utils"
     },
     "Overview": {
-      "Scheduler": "Gui.Overview.Scheduler",
+      "Scheduler": "Scheduler",
       "Dashboard": "Dashboard",
+      "SecondsAgo": "Gui.Overview.SecondsAgo",
+      "MinutesAgo": "Gui.Overview.MinutesAgo",
+      "HoursAgo": "Gui.Overview.HoursAgo",
+      "DaysAgo": "Gui.Overview.DaysAgo",
+      "MonthsAgo": "Gui.Overview.MonthsAgo",
       "Oil": "Oil",
       "Coin": "Coin",
       "Gem": "Gem",
       "Cube": "Cube",
-      "EventPt": "Event Pt",
-      "OperationSupplyCoin": "Operation Supply Coin",
-      "SpecialItemToken": "Special Item Token",
+      "Pt": "Event Pt",
+      "YellowCoin": "Operation Supply Coin",
+      "PurpleCoin": "Special Item Token",
       "ActionPoint": "Action Point",
-      "Log": "Gui.Overview.Log",
-      "Running": "Gui.Overview.Running",
-      "Pending": "Gui.Overview.Pending",
-      "Waiting": "Gui.Overview.Waiting",
-      "NoTask": "Gui.Overview.NoTask"
+      "Log": "Log",
+      "Running": "Running",
+      "Pending": "Pending",
+      "Waiting": "Waiting",
+      "NoTask": "NoTask"
     },
     "AddAlas": {
       "PopupTitle": "Gui.AddAlas.PopupTitle",

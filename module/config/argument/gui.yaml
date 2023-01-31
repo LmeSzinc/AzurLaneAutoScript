@@ -46,13 +46,18 @@ MenuDevelop:
 Overview:
   Scheduler:
   Dashboard:
+  SecondsAgo:
+  MinutesAgo:
+  HoursAgo:
+  DaysAgo:
+  MonthsAgo:
   Oil:
   Coin:
   Gem:
   Cube:
-  EventPt:
-  OperationSupplyCoin:
-  SpecialItemToken:
+  Pt:
+  YellowCoin:
+  PurpleCoin:
   ActionPoint:
   Log:
   Running:

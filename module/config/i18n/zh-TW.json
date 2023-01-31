@@ -337,7 +337,7 @@
       "help": "記錄時間\n\n"
     },
     "ActionPoint": {
-      "name": "",
+      "name": "行動力",
       "help": ""
     },
     "ActionPointTime": {
@@ -2544,13 +2544,18 @@
     "Overview": {
       "Scheduler": "調度器",
       "Dashboard": "儀表盤",
+      "SecondsAgo": "Gui.Overview.SecondsAgo",
+      "MinutesAgo": "Gui.Overview.MinutesAgo",
+      "HoursAgo": "Gui.Overview.HoursAgo",
+      "DaysAgo": "Gui.Overview.DaysAgo",
+      "MonthsAgo": "Gui.Overview.MonthsAgo",
       "Oil": "石油",
       "Coin": "物資",
       "Gem": "鑽石",
       "Cube": "魔方",
-      "EventPt": "活動PT",
-      "OperationSupplyCoin": "作戰補給憑證",
-      "SpecialItemToken": "特殊兌換憑證",
+      "Pt": "活動PT",
+      "YellowCoin": "大世界黃幣",
+      "PurpleCoin": "大世界紫幣",
       "ActionPoint": "行動力",
       "Log": "日誌",
       "Running": "執行中",

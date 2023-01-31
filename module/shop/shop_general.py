@@ -4,13 +4,14 @@ from module.ocr.ocr import Digit
 from module.shop.assets import *
 from module.shop.base import ShopItemGrid
 from module.shop.clerk import ShopClerk
+from module.shop.shop_status import ShopStatus
 from module.shop.ui import ShopUI
 
 OCR_SHOP_GOLD_COINS = Digit(SHOP_GOLD_COINS, letter=(239, 239, 239), name='OCR_SHOP_GOLD_COINS')
 OCR_SHOP_GEMS = Digit(SHOP_GEMS, letter=(255, 243, 82), name='OCR_SHOP_GEMS')
 
 
-class GeneralShop(ShopClerk, ShopUI):
+class GeneralShop(ShopClerk, ShopUI, ShopStatus):
     gems = 0
     shop_template_folder = './assets/shop/general'
 
@@ -59,8 +60,8 @@ class GeneralShop(ShopClerk, ShopUI):
             int: gold coin amount
         """
         while 1:
-            self._currency = OCR_SHOP_GOLD_COINS.ocr(self.device.image)
-            self.gems = OCR_SHOP_GEMS.ocr(self.device.image)
+            self._currency = self.status_get_gold_coins()
+            self.gems = self.status_get_gems()
             logger.info(f'Gold coins: {self._currency}, Gems: {self.gems}')
 
             if self.currency_rechecked >= 3:
