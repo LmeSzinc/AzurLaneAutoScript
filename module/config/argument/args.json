@@ -439,10 +439,6 @@
         "type": "input",
         "value": 2
       },
-      "AllowNoPreserve": {
-        "type": "checkbox",
-        "value": false
-      },
       "OldRetireN": {
         "type": "checkbox",
         "value": true

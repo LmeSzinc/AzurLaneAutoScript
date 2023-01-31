@@ -12,6 +12,7 @@ from module.os_handler.map_event import MapEventHandler
 from module.statistics.item import Item, ItemGrid
 from module.ui.assets import OS_CHECK
 from module.ui.ui import UI
+from module.config.utils import deep_get
 from module.log_res.log_res import LogRes
 
 OCR_ACTION_POINT_REMAIN = Digit(ACTION_POINT_REMAIN, letter=(255, 219, 66), name='OCR_ACTION_POINT_REMAIN')
@@ -139,7 +140,6 @@ class ActionPointHandler(UI, MapEventHandler):
             total += np.sum(np.array(box) * tuple(ACTION_POINT_BOX.values()))
         oil = box[0]
 
-        from module.config.utils import deep_get
         _oiltomaxoil = deep_get(d=self.config.data,
                                 keys='ViewCurrentResources.ViewCurrentResources.oiltomaxoil',
                                 default='0 / 0')

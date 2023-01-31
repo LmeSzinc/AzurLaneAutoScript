@@ -281,68 +281,68 @@
       "help": "ViewCurrentResources._info.help"
     },
     "oiltomaxoil": {
-      "name": "ViewCurrentResources.oiltomaxoil.name",
-      "help": "ViewCurrentResources.oiltomaxoil.help"
+      "name": "Oil / Max oil limit",
+      "help": ""
     },
     "oiltomaxoilTime": {
-      "name": "ViewCurrentResources.oiltomaxoilTime.name",
-      "help": "ViewCurrentResources.oiltomaxoilTime.help"
+      "name": "",
+      "help": "Record time\n\n"
     },
     "cointomaxcoin": {
-      "name": "ViewCurrentResources.cointomaxcoin.name",
-      "help": "ViewCurrentResources.cointomaxcoin.help"
+      "name": "Coin / Max coin limit",
+      "help": ""
     },
     "cointomaxcoinTime": {
-      "name": "ViewCurrentResources.cointomaxcoinTime.name",
-      "help": "ViewCurrentResources.cointomaxcoinTime.help"
+      "name": "",
+      "help": "Record time\n\n"
     },
     "gem": {
-      "name": "ViewCurrentResources.gem.name",
-      "help": "ViewCurrentResources.gem.help"
+      "name": "Gem",
+      "help": ""
     },
     "gemTime": {
-      "name": "ViewCurrentResources.gemTime.name",
-      "help": "ViewCurrentResources.gemTime.help"
+      "name": "",
+      "help": "Record time\n\n"
     },
     "cube": {
-      "name": "ViewCurrentResources.cube.name",
-      "help": "ViewCurrentResources.cube.help"
+      "name": "Cube",
+      "help": "Update after everyday's gacha"
     },
     "cubeTime": {
-      "name": "ViewCurrentResources.cubeTime.name",
-      "help": "ViewCurrentResources.cubeTime.help"
+      "name": "",
+      "help": "Record time\n\n"
     },
     "pt": {
-      "name": "ViewCurrentResources.pt.name",
-      "help": "ViewCurrentResources.pt.help"
+      "name": "Event Point",
+      "help": ""
     },
     "ptTime": {
-      "name": "ViewCurrentResources.ptTime.name",
-      "help": "ViewCurrentResources.ptTime.help"
+      "name": "",
+      "help": "Record time\n\n"
     },
     "opcoin": {
-      "name": "ViewCurrentResources.opcoin.name",
-      "help": "ViewCurrentResources.opcoin.help"
+      "name": "Operation Supply Coin",
+      "help": ""
     },
     "opcoinTime": {
-      "name": "ViewCurrentResources.opcoinTime.name",
-      "help": "ViewCurrentResources.opcoinTime.help"
+      "name": "",
+      "help": "Record time\n\n"
     },
     "purplecoin": {
-      "name": "ViewCurrentResources.purplecoin.name",
-      "help": "ViewCurrentResources.purplecoin.help"
+      "name": "Special Item Token",
+      "help": ""
     },
     "purplecoinTime": {
-      "name": "ViewCurrentResources.purplecoinTime.name",
-      "help": "ViewCurrentResources.purplecoinTime.help"
+      "name": "",
+      "help": "Record time\n\n"
     },
     "actionpoint": {
-      "name": "ViewCurrentResources.actionpoint.name",
-      "help": "ViewCurrentResources.actionpoint.help"
+      "name": "Action Point",
+      "help": ""
     },
     "actionpointTime": {
-      "name": "ViewCurrentResources.actionpointTime.name",
-      "help": "ViewCurrentResources.actionpointTime.help"
+      "name": "",
+      "help": "Record time\n\n"
     }
   },
   "ViewEquipProgress": {
@@ -690,10 +690,6 @@
     "EnhanceCheckPerCategory": {
       "name": "Retirement.EnhanceCheckPerCategory.name",
       "help": "Retirement.EnhanceCheckPerCategory.help"
-    },
-    "AllowNoPreserve": {
-      "name": "Retirement.AllowNoPreserve.name",
-      "help": "Retirement.AllowNoPreserve.help"
     },
     "OldRetireN": {
       "name": "Retirement.OldRetireN.name",
@@ -2542,21 +2538,20 @@
       "Utils": "Gui.MenuDevelop.Utils"
     },
     "Overview": {
-      "Scheduler": "Gui.Overview.Scheduler",
-      "Dashboard": "Dashboard",
-      "Oil": "Oil",
-      "Coin": "Coin",
-      "Gem": "Gem",
-      "Cube": "Cube",
-      "EventPt": "Event Pt",
-      "OperationSupplyCoin": "Operation Supply Coin",
-      "SpecialItemToken": "Special Item Token",
-      "ActionPoint": "Action Point",
-      "Log": "Gui.Overview.Log",
-      "Running": "Gui.Overview.Running",
-      "Pending": "Gui.Overview.Pending",
-      "Waiting": "Gui.Overview.Waiting",
-      "NoTask": "Gui.Overview.NoTask"
+      "Scheduler": "Scheduler",
+      "oiltomaxoil": "石油",
+      "cointomaxcoin": "物资",
+      "gem": "钻石",
+      "cube": "魔方",
+      "pt": "活动PT",
+      "opcoin": "大世界黄币",
+      "purplecoin": "大世界紫币",
+      "actionpoint": "大世界行动力",
+      "Log": "Log",
+      "Running": "Running",
+      "Pending": "Pending",
+      "Waiting": "Waiting",
+      "NoTask": "NoTask"
     },
     "AddAlas": {
       "PopupTitle": "Gui.AddAlas.PopupTitle",

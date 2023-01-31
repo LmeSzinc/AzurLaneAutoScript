@@ -691,10 +691,6 @@
       "name": "每分类强化数量",
       "help": "每个舰船分类最多强化多少舰船，\n在战斗中的舰船会被跳过且不计入，\n优先判断是否有强化材料"
     },
-    "AllowNoPreserve": {
-      "name": "允许不保留满星所需",
-      "help": "在退役失败时，允许尝试不保留满星所需。\n危险选项：可能会永久改变设置！"
-    },
     "OldRetireN": {
       "name": "退役白皮 ( N )",
       "help": "以下设置仅适用于传统退役"
@@ -2543,15 +2539,14 @@
     },
     "Overview": {
       "Scheduler": "调度器",
-      "Dashboard": "仪表盘",
-      "Oil": "石油",
-      "Coin": "物资",
-      "Gem": "钻石",
-      "Cube": "魔方",
-      "EventPt": "活动PT",
-      "OperationSupplyCoin": "大世界黄币",
-      "SpecialItemToken": "大世界紫币",
-      "ActionPoint": "大世界行动力",
+      "oiltomaxoil": "石油",
+      "cointomaxcoin": "物资",
+      "gem": "钻石",
+      "cube": "魔方",
+      "pt": "活动PT",
+      "opcoin": "大世界黄币",
+      "purplecoin": "大世界紫币",
+      "actionpoint": "大世界行动力",
       "Log": "日志",
       "Running": "运行中",
       "Pending": "队列中",

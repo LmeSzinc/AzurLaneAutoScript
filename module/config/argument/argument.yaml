@@ -152,11 +152,11 @@ Retirement:
   EnhanceFavourite: false
   EnhanceFilter:
   EnhanceCheckPerCategory: 2
-  AllowNoPreserve: false
   OldRetireN: true
   OldRetireR: true
   OldRetireSR: false
   OldRetireSSR: false
+
 # ==================== Farm ====================
 
 Campaign:

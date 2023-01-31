@@ -547,20 +547,7 @@ class AlasGUI(Frame):
     def alas_update_dashboard(self) -> None:
         if not self.visible:
             return
-        resource = [
-            "ViewCurrentResources.ViewCurrentResources.oiltomaxoil",
-            "ViewCurrentResources.ViewCurrentResources.gem",
-            "ViewCurrentResources.ViewCurrentResources.pt",
-            "ViewCurrentResources.ViewCurrentResources.opcoin",
-            "ViewCurrentResources.ViewCurrentResources.cointomaxcoin",
-            "ViewCurrentResources.ViewCurrentResources.cube",
-            "ViewCurrentResources.ViewCurrentResources.actionpoint",
-            "ViewCurrentResources.ViewCurrentResources.purplecoin"
-        ]
-        resourcename = [
-            "Gui.Overview.Oil","Gui.Overview.Gem","Gui.Overview.EventPt","Gui.Overview.OperationSupplyCoin",
-            "Gui.Overview.Coin","Gui.Overview.Cube","Gui.Overview.ActionPoint","Gui.Overview.SpecialItemToken"
-        ]
+        resource = ["oiltomaxoil","gem","pt","opcoin","cointomaxcoin","cube","actionpoint","purplecoin"]
         color = [
             '<div class="status-point" style="background-color:#000000">',
             '<div class="status-point" style="background-color:#FF3333">',
@@ -576,17 +563,18 @@ class AlasGUI(Frame):
 
         with use_scope("dashboard"):
             x=0
-            y=0
-            for valuename in resource:
-                value = deep_get(self.alas_config.data, keys=valuename, default='None')
-                value_time = str(deep_get(self.alas_config.data, keys=valuename+'Time', default='No data'))[-8:]
+            for name in resource:
+                resource_name = f'Gui.Overview.{name}'
+                value_name = f'ViewCurrentResources.ViewCurrentResources.{name}'
+                value = deep_get(self.alas_config.data, keys=value_name, default='None')
+                value_time = str(deep_get(self.alas_config.data, keys=value_name + 'Time', default='No data'))[-8:]
                 put_row(
                     [
                         put_html(color[x]),
                         put_column(
                             [
                                 put_text(str(value)).style("--arg-title--"),
-                                put_text(t(resourcename[y])+" -"+value_time).style("--arg-help--"),
+                                put_text(t(resource_name)+" -"+value_time).style("--arg-help--"),
                             ],
                             size="auto auto",
                         ),
@@ -594,7 +582,6 @@ class AlasGUI(Frame):
                     size="20px 1fr"
                 )
                 x+=1
-                y+=1
 
     @use_scope("content", clear=True)
     def alas_daemon_overview(self, task: str) -> None:
