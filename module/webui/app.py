@@ -578,15 +578,15 @@ class AlasGUI(Frame):
             x=0
             y=0
             for valuename in resource:
-                value_time = str(deep_get(self.alas_config.data, keys=valuename+'Time', default='No data'))[-8:]
                 value = deep_get(self.alas_config.data, keys=valuename, default='None')
+                value_time = str(deep_get(self.alas_config.data, keys=valuename+'Time', default='No data'))[-8:]
                 put_row(
                     [
-                        put_html(color[y]),
+                        put_html(color[x]),
                         put_column(
                             [
                                 put_text(str(value)).style("--arg-title--"),
-                                put_text(t(resourcename[x])+" -"+value_time).style("--arg-help--"),
+                                put_text(t(resourcename[y])+" -"+value_time).style("--arg-help--"),
                             ],
                             size="auto auto",
                         ),
