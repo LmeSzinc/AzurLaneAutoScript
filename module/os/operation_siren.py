@@ -623,6 +623,11 @@ class OperationSiren(OSMap):
         Run on weekly basis, AL devs seemingly add new logger
         archives after random scheduled maintenances
         """
+        if self.is_in_opsi_explore():
+            logger.info('OpsiExplore is under scheduling, stop OpsiArchive')
+            self.config.task_delay(server_update=True)
+            self.config.task_stop()
+
         shop = VoucherShop(self.config, self.device)
         while 1:
             # In case logger bought manually,
