@@ -604,12 +604,11 @@ class AlasGUI(Frame):
                     time_delta_name_suffix = 'SecondsAgo'
                     time_delta_display = delta['s']
                 if str(value_time) == '2010-01-01 00:00:00':
+                    value = t("None")
                     time_delta_name_suffix = 'NoData'
                     time_delta_display = ''
                 time_delta_display = str(time_delta_display)
                 time_delta_name = time_delta_name_prefix+time_delta_name_suffix
-                if str(value_time) == '2010-01-01 00:00:00':
-                    value = t("None")
 
                 put_row(
                     [
