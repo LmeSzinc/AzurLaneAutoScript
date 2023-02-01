@@ -221,6 +221,13 @@ class ShopBase(ModuleBase):
                 timeout.reset()
                 continue
 
+            if self.config.SHOP_EXTRACT_TEMPLATE:
+                if self.shop_template_folder:
+                    logger.info(f'Extract item templates to {self.shop_template_folder}')
+                    shop_items.extract_template(self.device.image, self.shop_template_folder)
+                else:
+                    logger.warning('SHOP_EXTRACT_TEMPLATE enabled but shop_template_folder is not set, skip extracting')
+
             shop_items.predict(
                 self.device.image,
                 name=True,

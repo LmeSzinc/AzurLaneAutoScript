@@ -371,9 +371,9 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         if not self.appear(MAP_GOTO_GLOBE_FOG):
             return False
 
-        logger.warn('Triggered stuck fog status, restarting '
-                    'game to resolve and continue '
-                   f'{self.config.task.command}')
+        logger.warning(f'Triggered stuck fog status, restarting '
+                       f'game to resolve and continue '
+                       f'{self.config.task.command}')
 
         # Restart the game manually rather
         # than through 'task_call'
@@ -734,6 +734,11 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         if 'is_scanning_device' not in self._solved_map_event and grids and grids[0].is_scanning_device:
             grid = grids[0]
             logger.info(f'Found scanning device on {grid}')
+            if self.is_cl1_enabled:
+                logger.info('CL1 leveling enabled, mark scanning device as solved')
+                self._solved_map_event.add('is_scanning_device')
+                return True
+
             self.device.click(grid)
             result = self.wait_until_walk_stable(drop=drop, walk_out_of_step=False,
                                                  confirm_timer=Timer(1.5, count=4))

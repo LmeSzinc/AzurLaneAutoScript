@@ -3,6 +3,7 @@ from module.base.utils import *
 from module.config.utils import get_os_next_reset, DEFAULT_TIME
 from module.logger import logger
 from module.map_detection.utils import fit_points
+from module.os.assets import GLOBE_GOTO_MAP
 from module.os.globe_detection import GLOBE_MAP_SHAPE
 from module.os.globe_operation import GlobeOperation
 from module.os.globe_zone import Zone, ZoneManager
@@ -68,6 +69,10 @@ class MissionHandler(GlobeOperation, ZoneManager):
                 confirm_timer.reset()
                 continue
             if self.handle_info_bar():
+                confirm_timer.reset()
+                continue
+            if self.appear_then_click(GLOBE_GOTO_MAP, offset=(20, 20), interval=2):
+                # Accidentally entered globe
                 confirm_timer.reset()
                 continue
 
