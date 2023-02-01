@@ -7,9 +7,9 @@ from module.ocr.ocr import Digit, DigitYuv, Ocr
 from module.shop.assets import *
 from module.shop.base import ShopItemGrid
 from module.shop.clerk import ShopClerk
+from module.shop.shop_status import ShopStatus
 from module.ui.scroll import Scroll
 
-OCR_SHOP_MEDAL = Digit(SHOP_MEDAL, letter=(239, 239, 239), name='OCR_SHOP_MEDAL')
 MEDAL_SHOP_SCROLL = Scroll(MEDAL_SHOP_SCROLL_AREA, color=(247, 211, 66))
 
 
@@ -26,7 +26,7 @@ PRICE_OCR = ShopPriceOcr([], letter=(255, 223, 57), threshold=32, name='Price_oc
 TEMPLATE_MEDAL_ICON = Template('./assets/shop/cost/Medal.png')
 
 
-class MedalShop2(ShopClerk):
+class MedalShop2(ShopClerk, ShopStatus):
     @cached_property
     def shop_filter(self):
         """
@@ -145,7 +145,7 @@ class MedalShop2(ShopClerk):
         Returns:
             int: medal amount
         """
-        self._currency = OCR_SHOP_MEDAL.ocr(self.device.image)
+        self._currency = self.status_get_medal()
         logger.info(f'Medal: {self._currency}')
         return self._currency
 

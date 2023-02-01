@@ -4,9 +4,9 @@
       "name": "Menu.Task.name",
       "help": "Menu.Task.help"
     },
-    "ViewResources": {
-      "name": "Menu.ViewResources.name",
-      "help": "Menu.ViewResources.help"
+    "Dashboard": {
+      "name": "Menu.Dashboard.name",
+      "help": "Menu.Dashboard.help"
     },
     "Alas": {
       "name": "Menu.Alas.name",
@@ -42,13 +42,13 @@
     }
   },
   "Task": {
-    "ViewCurrentResources": {
-      "name": "Task.ViewCurrentResources.name",
-      "help": "Task.ViewCurrentResources.help"
+    "Res": {
+      "name": "Task.Res.name",
+      "help": "Task.Res.help"
     },
-    "ViewEquipProgress": {
-      "name": "Task.ViewEquipProgress.name",
-      "help": "Task.ViewEquipProgress.help"
+    "EquipProgress": {
+      "name": "Task.EquipProgress.name",
+      "help": "Task.EquipProgress.help"
     },
     "Alas": {
       "name": "Task.Alas.name",
@@ -275,96 +275,96 @@
       "help": "Task.GameManager.help"
     }
   },
-  "ViewCurrentResources": {
+  "Res": {
     "_info": {
-      "name": "ViewCurrentResources._info.name",
-      "help": "ViewCurrentResources._info.help"
+      "name": "Resource Viewer",
+      "help": "Update when any campaign starts"
     },
-    "oiltomaxoil": {
+    "Oil": {
       "name": "Oil / Max oil limit",
       "help": ""
     },
-    "oiltomaxoilTime": {
+    "OilTime": {
       "name": "",
       "help": "Record time\n\n"
     },
-    "cointomaxcoin": {
+    "Coin": {
       "name": "Coin / Max coin limit",
       "help": ""
     },
-    "cointomaxcoinTime": {
+    "CoinTime": {
       "name": "",
       "help": "Record time\n\n"
     },
-    "gem": {
+    "Gem": {
       "name": "Gem",
       "help": ""
     },
-    "gemTime": {
+    "GemTime": {
       "name": "",
       "help": "Record time\n\n"
     },
-    "cube": {
+    "Cube": {
       "name": "Cube",
       "help": "Update after everyday's gacha"
     },
-    "cubeTime": {
+    "CubeTime": {
       "name": "",
       "help": "Record time\n\n"
     },
-    "pt": {
+    "Pt": {
       "name": "Event Point",
       "help": ""
     },
-    "ptTime": {
+    "PtTime": {
       "name": "",
       "help": "Record time\n\n"
     },
-    "opcoin": {
+    "YellowCoin": {
       "name": "Operation Supply Coin",
       "help": ""
     },
-    "opcoinTime": {
+    "YellowCoinTime": {
       "name": "",
       "help": "Record time\n\n"
     },
-    "purplecoin": {
+    "PurpleCoin": {
       "name": "Special Item Token",
       "help": ""
     },
-    "purplecoinTime": {
+    "PurpleCoinTime": {
       "name": "",
       "help": "Record time\n\n"
     },
-    "actionpoint": {
+    "ActionPoint": {
       "name": "Action Point",
       "help": ""
     },
-    "actionpointTime": {
+    "ActionPointTime": {
       "name": "",
       "help": "Record time\n\n"
     }
   },
-  "ViewEquipProgress": {
+  "EquipProgress": {
     "_info": {
-      "name": "ViewEquipProgress._info.name",
-      "help": "ViewEquipProgress._info.help"
+      "name": "EquipProgress._info.name",
+      "help": "EquipProgress._info.help"
     },
     "234mm": {
-      "name": "ViewEquipProgress.234mm.name",
-      "help": "ViewEquipProgress.234mm.help"
+      "name": "EquipProgress.234mm.name",
+      "help": "EquipProgress.234mm.help"
     },
     "457mm": {
-      "name": "ViewEquipProgress.457mm.name",
-      "help": "ViewEquipProgress.457mm.help"
+      "name": "EquipProgress.457mm.name",
+      "help": "EquipProgress.457mm.help"
     },
     "tenrai": {
-      "name": "ViewEquipProgress.tenrai.name",
-      "help": "ViewEquipProgress.tenrai.help"
+      "name": "EquipProgress.tenrai.name",
+      "help": "EquipProgress.tenrai.help"
     },
     "152mm": {
-      "name": "ViewEquipProgress.152mm.name",
-      "help": "ViewEquipProgress.152mm.help"
+      "name": "EquipProgress.152mm.name",
+      "help": "EquipProgress.152mm.help"
     }
   },
   "Scheduler": {
@@ -690,6 +690,10 @@
     "EnhanceCheckPerCategory": {
       "name": "Retirement.EnhanceCheckPerCategory.name",
       "help": "Retirement.EnhanceCheckPerCategory.help"
+    },
+    "AllowNoPreserve": {
+      "name": "Retirement.AllowNoPreserve.name",
+      "help": "Retirement.AllowNoPreserve.help"
     },
     "OldRetireN": {
       "name": "Retirement.OldRetireN.name",
@@ -2539,14 +2543,21 @@
     },
     "Overview": {
       "Scheduler": "Scheduler",
-      "oiltomaxoil": "石油",
-      "cointomaxcoin": "物资",
-      "gem": "钻石",
-      "cube": "魔方",
-      "pt": "活动PT",
-      "opcoin": "大世界黄币",
-      "purplecoin": "大世界紫币",
-      "actionpoint": "大世界行动力",
+      "SecondsAgo": "S ago",
+      "MinutesAgo": "M ago",
+      "HoursAgo": "H ago",
+      "DaysAgo": "Days ago",
+      "MonthsAgo": "Months ago",
+      "YearsAgo": "Years ago",
+      "NoData": "No data",
+      "Oil": "Oil",
+      "Coin": "Coin",
+      "Gem": "Gem",
+      "Cube": "Cube",
+      "Pt": "Event Pt",
+      "YellowCoin": "Operation Supply Coin",
+      "PurpleCoin": "Special Item Token",
+      "ActionPoint": "Action Point",
       "Log": "Log",
       "Running": "Running",
       "Pending": "Pending",

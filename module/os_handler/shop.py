@@ -113,9 +113,13 @@ class OSShopHandler(OSStatus, MapEventHandler):
             Item:
         """
         self.os_shop_get_coins()
-        items = self.os_shop_get_items(name=False)
+        items = self.os_shop_get_items(name=True)
+        logger.attr('CL1 enabled', self.is_cl1_enabled)
 
         for item in items:
+            if self.is_cl1_enabled:
+                if item.name == 'PurpleCoins':
+                    continue
             if item.cost == 'YellowCoins':
                 if item.price > self._shop_yellow_coins:
                     continue

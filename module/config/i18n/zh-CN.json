@@ -4,7 +4,7 @@
       "name": "",
       "help": ""
     },
-    "ViewResources": {
+    "Dashboard": {
       "name": "仪表盘",
       "help": ""
     },
@@ -42,11 +42,11 @@
     }
   },
   "Task": {
-    "ViewCurrentResources": {
+    "Res": {
       "name": "查看资源储量",
       "help": ""
     },
-    "ViewEquipProgress": {
+    "EquipProgress": {
       "name": "彩色装备研发进度",
       "help": "还没写"
     },
@@ -275,77 +275,77 @@
       "help": ""
     }
   },
-  "ViewCurrentResources": {
+  "Res": {
     "_info": {
       "name": "查看资源储量",
       "help": "并非实时更新，会在最近一次出击时更新"
     },
-    "oiltomaxoil": {
+    "Oil": {
       "name": "石油储量/最大石油储量",
       "help": "石油储量大于最大石油储量时应尽快清理以免卡自动产出"
     },
-    "oiltomaxoilTime": {
+    "OilTime": {
       "name": "",
       "help": "记录时间\n\n"
     },
-    "cointomaxcoin": {
+    "Coin": {
       "name": "物资储量/最大物资储量",
       "help": "物资储量大于最大物资储量时应尽快清理以免卡自动产出"
     },
-    "cointomaxcoinTime": {
+    "CoinTime": {
       "name": "",
       "help": "记录时间\n\n"
     },
-    "gem": {
+    "Gem": {
       "name": "钻石",
       "help": "俗称红尖尖"
     },
-    "gemTime": {
+    "GemTime": {
       "name": "",
       "help": "记录时间\n\n"
     },
-    "cube": {
+    "Cube": {
       "name": "魔方",
       "help": "每日抽卡时更新"
     },
-    "cubeTime": {
+    "CubeTime": {
       "name": "",
       "help": "记录时间\n\n"
     },
-    "pt": {
+    "Pt": {
       "name": "活动PT",
       "help": ""
     },
-    "ptTime": {
+    "PtTime": {
       "name": "",
       "help": "记录时间\n\n"
     },
-    "opcoin": {
+    "YellowCoin": {
       "name": "作战补给凭证",
       "help": "俗称黄币"
     },
-    "opcoinTime": {
+    "YellowCoinTime": {
       "name": "",
       "help": "记录时间\n\n"
     },
-    "purplecoin": {
+    "PurpleCoin": {
       "name": "特殊兑换凭证",
       "help": "俗称紫币"
     },
-    "purplecoinTime": {
+    "PurpleCoinTime": {
       "name": "",
       "help": "记录时间\n\n"
     },
-    "actionpoint": {
+    "ActionPoint": {
       "name": "行动力",
       "help": ""
     },
-    "actionpointTime": {
+    "ActionPointTime": {
       "name": "",
       "help": "记录时间\n\n"
     }
   },
-  "ViewEquipProgress": {
+  "EquipProgress": {
     "_info": {
       "name": "彩色装备研发进度",
       "help": "首次使用时填入目前进度"
@@ -690,6 +690,10 @@
     "EnhanceCheckPerCategory": {
       "name": "每分类强化数量",
       "help": "每个舰船分类最多强化多少舰船，\n在战斗中的舰船会被跳过且不计入，\n优先判断是否有强化材料"
+    },
+    "AllowNoPreserve": {
+      "name": "允许不保留满星所需",
+      "help": "在退役失败时，允许尝试不保留满星所需。\n危险选项：可能会永久改变设置！"
     },
     "OldRetireN": {
       "name": "退役白皮 ( N )",
@@ -2539,14 +2543,21 @@
     },
     "Overview": {
       "Scheduler": "调度器",
-      "oiltomaxoil": "石油",
-      "cointomaxcoin": "物资",
-      "gem": "钻石",
-      "cube": "魔方",
-      "pt": "活动PT",
-      "opcoin": "大世界黄币",
-      "purplecoin": "大世界紫币",
-      "actionpoint": "大世界行动力",
+      "SecondsAgo": "秒前",
+      "MinutesAgo": "分前",
+      "HoursAgo": "时前",
+      "DaysAgo": "天前",
+      "MonthsAgo": "月前",
+      "YearsAgo": "年前",
+      "NoData": "无数据",
+      "Oil": "石油",
+      "Coin": "物资",
+      "Gem": "钻石",
+      "Cube": "魔方",
+      "Pt": "活动PT",
+      "YellowCoin": "大世界黄币",
+      "PurpleCoin": "大世界紫币",
+      "ActionPoint": "行动力",
       "Log": "日志",
       "Running": "运行中",
       "Pending": "队列中",

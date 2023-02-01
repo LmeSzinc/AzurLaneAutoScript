@@ -5,18 +5,17 @@ from module.config.redirect_utils.shop_filter import voucher_redirect
 from module.handler.assets import POPUP_CANCEL, POPUP_CONFIRM
 from module.logger import logger
 from module.map_detection.utils import Points
-from module.ocr.ocr import Digit
 from module.shop.assets import *
 from module.shop.base import ShopItemGrid
 from module.shop.clerk import ShopClerk
+from module.shop.shop_status import ShopStatus
 from module.ui.scroll import Scroll
 
-OCR_SHOP_VOUCHER = Digit(SHOP_VOUCHER, letter=(255, 255, 255), name='OCR_SHOP_VOUCHER')
 VOUCHER_SHOP_SCROLL = Scroll(VOUCHER_SHOP_SCROLL_AREA, color=(255, 255, 255))
 TEMPLATE_VOUCHER_ICON = Template('./assets/shop/cost/Voucher.png')
 
 
-class VoucherShop(ShopClerk):
+class VoucherShop(ShopClerk, ShopStatus):
     @cached_property
     def shop_filter(self):
         """
@@ -140,7 +139,7 @@ class VoucherShop(ShopClerk):
         Returns:
             int: voucher amount
         """
-        self._currency = OCR_SHOP_VOUCHER.ocr(self.device.image)
+        self._currency = self.status_get_voucher()
         logger.info(f'Voucher: {self._currency}')
         return self._currency
 

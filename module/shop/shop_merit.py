@@ -1,15 +1,12 @@
 from module.base.decorator import cached_property
 from module.logger import logger
-from module.ocr.ocr import Digit
-from module.shop.assets import *
 from module.shop.base import ShopItemGrid
 from module.shop.clerk import ShopClerk
+from module.shop.shop_status import ShopStatus
 from module.shop.ui import ShopUI
 
-OCR_SHOP_MERIT = Digit(SHOP_MERIT, letter=(239, 239, 239), name='OCR_SHOP_MERIT')
 
-
-class MeritShop(ShopClerk, ShopUI):
+class MeritShop(ShopClerk, ShopUI, ShopStatus):
     shop_template_folder = './assets/shop/merit'
 
     @cached_property
@@ -53,7 +50,7 @@ class MeritShop(ShopClerk, ShopUI):
         Returns:
             int: merit amount
         """
-        self._currency = OCR_SHOP_MERIT.ocr(self.device.image)
+        self._currency = self.status_get_merit()
         logger.info(f'Merit: {self._currency}')
         return self._currency
 
