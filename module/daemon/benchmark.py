@@ -166,7 +166,7 @@ class Benchmark(DaemonBase, CampaignUI):
         device = self.config.Benchmark_DeviceType
         # device == 'emulator'
         screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw']
-        click = ['ADB', 'uiautomator2', 'minitouch']
+        click = ['ADB', 'uiautomator2', 'minitouch', 'MaaTouch']
 
         # No ascreencap on Android > 9
         if device in ['emulator_android_12', 'android_phone_12']:
@@ -179,7 +179,7 @@ class Benchmark(DaemonBase, CampaignUI):
         # VMOS
         if device == 'android_phone_vmos':
             screenshot = ['ADB', 'aScreenCap', 'DroidCast', 'DroidCast_raw']
-            click = ['ADB', 'Hermit']
+            click = ['ADB', 'Hermit', 'MaaTouch']
 
         scene = self.config.Benchmark_TestScene
         if 'screenshot' not in scene:

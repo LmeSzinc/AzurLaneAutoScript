@@ -119,7 +119,8 @@
           "ADB",
           "uiautomator2",
           "minitouch",
-          "Hermit"
+          "Hermit",
+          "MaaTouch"
         ]
       },
       "ScreenshotDedithering": {
