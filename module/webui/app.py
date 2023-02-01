@@ -3,7 +3,6 @@ import queue
 import threading
 import time
 from datetime import datetime
-from module.config.utils import time_delta
 from functools import partial
 from typing import Dict, List, Optional
 
@@ -20,6 +19,7 @@ from module.config.utils import (
     filepath_config,
     read_file,
 )
+from module.config.utils import time_delta
 from module.logger import logger
 from module.ocr.rpc import start_ocr_server_process, stop_ocr_server_process
 from module.submodule.submodule import load_config
@@ -609,7 +609,7 @@ class AlasGUI(Frame):
                 time_delta_display = str(time_delta_display)
                 time_delta_name = time_delta_name_prefix+time_delta_name_suffix
                 if str(value_time) == '2010-01-01 00:00:00':
-                    value = t(time_delta_name)
+                    value = t("None")
 
                 put_row(
                     [
