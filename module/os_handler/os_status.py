@@ -60,7 +60,7 @@ class OSStatus(UI):
                 self.device.screenshot()
 
             yellow_coins = OCR_SHOP_YELLOW_COINS.ocr(self.device.image)
-            LogRes(self.config).log_res(yellow_coins, 'ViewCurrentResources.ViewCurrentResources.opcoin')
+            LogRes(self.config).log_res(yellow_coins, 'YellowCoin')
             if timeout.reached():
                 logger.warning('Get yellow coins timeout')
                 break
@@ -76,5 +76,5 @@ class OSStatus(UI):
 
     def get_purple_coins(self) -> int:
         amount = OCR_SHOP_PURPLE_COINS.ocr(self.device.image)
-        LogRes(self.config).log_res(amount, 'ViewCurrentResources.ViewCurrentResources.purplecoin')
+        LogRes(self.config).log_res(amount, 'PurpleCoin')
         return amount

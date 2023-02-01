@@ -2,12 +2,12 @@
 # Define argument group of tasks.
 # --------------------
 
-# ==================== ViewResources ====================
+# ==================== Dashboard ====================
 
-ViewCurrentResources:
-  - ViewCurrentResources
-ViewEquipProgress:
-  - ViewEquipProgress
+Res:
+  - Res
+EquipProgress:
+  - EquipProgress
 # ==================== Alas ====================
 
 Alas:

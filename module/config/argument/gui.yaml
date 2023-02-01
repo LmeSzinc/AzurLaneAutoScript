@@ -45,6 +45,22 @@ MenuDevelop:
 
 Overview:
   Scheduler:
+  Dashboard:
+  SecondsAgo:
+  MinutesAgo:
+  HoursAgo:
+  DaysAgo:
+  MonthsAgo:
+  YearsAgo:
+  NoData:
+  Oil:
+  Coin:
+  Gem:
+  Cube:
+  Pt:
+  YellowCoin:
+  PurpleCoin:
+  ActionPoint:
   Log:
   Running:
   Pending:

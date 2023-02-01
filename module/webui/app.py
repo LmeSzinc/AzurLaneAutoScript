@@ -3,6 +3,7 @@ import queue
 import threading
 import time
 from datetime import datetime
+from module.config.utils import time_delta
 from functools import partial
 from typing import Dict, List, Optional
 
@@ -547,7 +548,16 @@ class AlasGUI(Frame):
     def alas_update_dashboard(self) -> None:
         if not self.visible:
             return
-        resource = ["oiltomaxoil","gem","pt","opcoin","cointomaxcoin","cube","actionpoint","purplecoin"]
+        resource = [
+            "Oil",
+            "Gem",
+            "Pt",
+            "YellowCoin",
+            "Coin",
+            "Cube",
+            "ActionPoint",
+            "PurpleCoin"
+        ]
         color = [
             '<div class="status-point" style="background-color:#000000">',
             '<div class="status-point" style="background-color:#FF3333">',
@@ -565,16 +575,49 @@ class AlasGUI(Frame):
             x=0
             for name in resource:
                 resource_name = f'Gui.Overview.{name}'
-                value_name = f'ViewCurrentResources.ViewCurrentResources.{name}'
+                value_name = f'Res.Res.{name}'
                 value = deep_get(self.alas_config.data, keys=value_name, default='None')
-                value_time = str(deep_get(self.alas_config.data, keys=value_name + 'Time', default='No data'))[-8:]
+                value_time = deep_get(self.alas_config.data, keys=value_name + 'Time')
+                if value_time == '00:00:00':
+                    value_time = datetime(2010,1,1,0,0,0)
+                time_now = datetime.strptime(datetime.strftime(datetime.now(), '%d-%m-%Y %H:%M:%S'), '%d-%m-%Y %H:%M:%S')
+
+                # Handle time delta
+                delta = time_delta(value_time, time_now, True)
+                time_delta_name_prefix = 'Gui.Overview.'
+                if delta['Y']:
+                    time_delta_name_suffix = 'YearsAgo'
+                    time_delta_display = delta['Y']
+                elif delta['M']:
+                    time_delta_name_suffix = 'MonthsAgo'
+                    time_delta_display = delta['M']
+                elif delta['D']:
+                    time_delta_name_suffix = 'DaysAgo'
+                    time_delta_display = delta['D']
+                elif delta['h']:
+                    time_delta_name_suffix = 'HoursAgo'
+                    time_delta_display = delta['h']
+                elif delta['m']:
+                    time_delta_name_suffix = 'MinutesAgo'
+                    time_delta_display = delta['m']
+                elif delta['s']:
+                    time_delta_name_suffix = 'SecondsAgo'
+                    time_delta_display = delta['s']
+                if str(value_time) == '2010-01-01 00:00:00':
+                    time_delta_name_suffix = 'NoData'
+                    time_delta_display = ''
+                time_delta_display = str(time_delta_display)
+                time_delta_name = time_delta_name_prefix+time_delta_name_suffix
+                if str(value_time) == '2010-01-01 00:00:00':
+                    value = t(time_delta_name)
+
                 put_row(
                     [
                         put_html(color[x]),
                         put_column(
                             [
                                 put_text(str(value)).style("--arg-title--"),
-                                put_text(t(resource_name)+" -"+value_time).style("--arg-help--"),
+                                put_text(t(resource_name)+" - "+time_delta_display+t(time_delta_name)).style("--arg-help--"),
                             ],
                             size="auto auto",
                         ),
@@ -1080,6 +1123,10 @@ class AlasGUI(Frame):
             Alas is a free open source software, if you paid for Alas from any channel, please refund.
             Alas 是一款免费开源软件，如果你在任何渠道付费购买了Alas，请退款。
             Project repository 项目地址：`https://github.com/LmeSzinc/AzurLaneAutoScript`
+            GG Modified repository 魔改版地址: `https://github.com/Zuosizhu/AzurLaneAutoScript`
+            GG Modified repository 魔改版地址: `https://github.com/MengNianxiaoyao/AzurLaneAutoScript`
+            魔改版镜像地址: `https://gitee.com/zuosizhu/AzurLaneAutoScript`
+            魔改版镜像地址: `https://gitee.com/MengNianxiaoyao/AzurLaneAutoScript`
             """
             ).style("text-align: center")
 
@@ -1099,7 +1146,7 @@ class AlasGUI(Frame):
 
     def run(self) -> None:
         # setup gui
-        set_env(title="Alas", output_animation=False)
+        set_env(title="AlasGG", output_animation=False)
         add_css(filepath_css("alas"))
         if self.is_mobile:
             add_css(filepath_css("alas-mobile"))

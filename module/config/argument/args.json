@@ -1,89 +1,89 @@
 {
-  "ViewCurrentResources": {
-    "ViewCurrentResources": {
-      "oiltomaxoil": {
+  "Res": {
+    "Res": {
+      "Oil": {
         "type": "input",
         "value": "0 / 0",
         "display": "disabled"
       },
-      "oiltomaxoilTime": {
+      "OilTime": {
         "type": "datetime",
         "value": "2010-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
-      "cointomaxcoin": {
+      "Coin": {
         "type": "input",
         "value": "0 / 0",
         "display": "disabled"
       },
-      "cointomaxcoinTime": {
+      "CoinTime": {
         "type": "datetime",
         "value": "2010-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
-      "gem": {
+      "Gem": {
         "type": "input",
         "value": 0,
         "display": "disabled"
       },
-      "gemTime": {
+      "GemTime": {
         "type": "datetime",
         "value": "2010-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
-      "cube": {
+      "Cube": {
         "type": "input",
         "value": 0,
         "display": "disabled"
       },
-      "cubeTime": {
+      "CubeTime": {
         "type": "datetime",
         "value": "2010-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
-      "pt": {
+      "Pt": {
         "type": "input",
         "value": 0,
         "display": "disabled"
       },
-      "ptTime": {
+      "PtTime": {
         "type": "datetime",
         "value": "2010-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
-      "opcoin": {
+      "YellowCoin": {
         "type": "input",
         "value": 0,
         "display": "disabled"
       },
-      "opcoinTime": {
+      "YellowCoinTime": {
         "type": "datetime",
         "value": "2010-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
-      "purplecoin": {
+      "PurpleCoin": {
         "type": "input",
         "value": 0,
         "display": "disabled"
       },
-      "purplecoinTime": {
+      "PurpleCoinTime": {
         "type": "datetime",
         "value": "2010-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
-      "actionpoint": {
+      "ActionPoint": {
         "type": "input",
         "value": "0 (0)",
         "display": "disabled"
       },
-      "actionpointTime": {
+      "ActionPointTime": {
         "type": "datetime",
         "value": "2010-01-01 00:00:00",
         "validate": "datetime",
@@ -99,8 +99,8 @@
       }
     }
   },
-  "ViewEquipProgress": {
-    "ViewEquipProgress": {
+  "EquipProgress": {
+    "EquipProgress": {
       "234mm": {
         "type": "input",
         "value": 0
@@ -438,6 +438,10 @@
       "EnhanceCheckPerCategory": {
         "type": "input",
         "value": 2
+      },
+      "AllowNoPreserve": {
+        "type": "checkbox",
+        "value": false
       },
       "OldRetireN": {
         "type": "checkbox",

@@ -294,14 +294,14 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
                 pt = ocr.ocr(self.device.image)
                 if timeout.reached():
                     logger.warning('Wait PT timeout, assume it is')
-                    LogRes(self.config).log_res(pt, 'pt')
+                    LogRes(self.config).log_res(pt, 'Pt')
                     return pt
                 if pt in [70000, 70001]:
                     continue
                 else:
-                    LogRes(self.config).log_res(pt, 'pt')
+                    LogRes(self.config).log_res(pt, 'Pt')
                     return pt
         else:
             logger.info(f'Raid {self.config.Campaign_Event} does not support PT ocr, skip')
-            LogRes(self.config).log_res(0, 'pt')
+            LogRes(self.config).log_res(0, 'Pt')
             return 0
