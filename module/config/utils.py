@@ -651,40 +651,30 @@ def time_delta(time1, time2, dict_format=False):
         }
         float : time stamp delta(secs)
     """
-    time_delta = abs(datetime.timestamp(time1) - datetime.timestamp(time2))
+    _time_delta = abs(datetime.timestamp(time1) - datetime.timestamp(time2))
     if not dict_format:
-        return time_delta
+        return _time_delta
     else:
-        t = str(datetime.fromtimestamp(time_delta))
-        Y, M, D = t.split('-')
-        D, h = D.split(' ')
-        h, m, s = h.split(':')
-        Y = int(Y)-1970
-        M = int(M)-1
-        D = int(D)-1
-        h = int(h)-8
-
-        if h < 0:
-            h += 24
-            D -= 1
-        if D < 0:
-            M -= 1
-            D += 30
-        if M < 0:
-            Y -= 1
-            M += 365
-
-        m = int(m)
-        s = int(s)
-        time_dict = {
-                      'Y': Y,
-                      'M': M,
-                      'D': D,
-                      'h': h,
-                      'm': m,
-                      's': s
+        _sec ={
+            'Y': 365*24*60*60,
+            'M': 30*24*60*60,
+            'D': 24*60*60,
+            'h': 60*60,
+            'm': 60,
+            's': 1
         }
-        return time_dict
+        _time_dict = {
+            'Y': 0,
+            'M': 0,
+            'D': 0,
+            'h': 0,
+            'm': 0,
+            's': 0
+        }
+        for _key in _sec:
+            _time_dict[_key] = int(_time_delta//_sec[_key])
+            _time_delta = _time_delta%_sec[_key]
+        return _time_dict
 
 
 if __name__ == '__main__':

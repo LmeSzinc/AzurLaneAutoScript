@@ -440,6 +440,7 @@ class AlasGUI(Frame):
         write=State.config_updater.write_file,
     ) -> None:
         try:
+            skip_time_record = False
             valid = []
             invalid = []
             config = read(config_name)
@@ -454,6 +455,18 @@ class AlasGUI(Frame):
                     valid.append(k)
                     pin["_".join(k.split("."))] = default
 
+                    # update Res Record if Res Value is changed to None
+                    if 'Res.Res' in k:
+                        k = k.split(".")
+                        k[-1] = k[-1]+'Time'
+                        k = ".".join(k)
+                        v = str(datetime(2010,1,1,0,0,0))
+                        modified[k] = v
+                        deep_set(config, k, v)
+                        valid.append(k)
+                        pin["_".join(k.split("."))] = v
+                        skip_time_record = True
+
                 elif not validate or re_fullmatch(validate, v):
                     deep_set(config, k, v)
                     modified[k] = v
@@ -463,6 +476,18 @@ class AlasGUI(Frame):
                     if "Emotion" in k and "Value" in k:
                         k = k.split(".")
                         k[-1] = k[-1].replace("Value", "Record")
+                        k = ".".join(k)
+                        v = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        modified[k] = v
+                        deep_set(config, k, v)
+                        valid.append(k)
+                        pin["_".join(k.split("."))] = v
+
+                    # update Res Record if Res Value is changed
+                    # imitating Emotion record
+                    if "Res.Res" in k and not skip_time_record:
+                        k = k.split(".")
+                        k[-1] = k[-1]+'Time'
                         k = ".".join(k)
                         v = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                         modified[k] = v
@@ -567,7 +592,14 @@ class AlasGUI(Frame):
             '<div class="status-point" style="background-color:#0000FF">',
             '<div class="status-point" style="background-color:#7700BB">',
         ]
-
+        time_delta_name_suffix_dict={
+            'Y': 'YearsAgo',
+            'M': 'MonthsAgo',
+            'D': 'DaysAgo',
+            'h': 'HoursAgo',
+            'm': 'MinutesAgo',
+            's': 'SecondsAgo',
+        }
         clear("dashboard")
 
         with use_scope("dashboard"):
@@ -579,34 +611,21 @@ class AlasGUI(Frame):
                 value_time = deep_get(self.alas_config.data, keys=value_name + 'Time')
                 if value_time == '00:00:00':
                     value_time = datetime(2010,1,1,0,0,0)
-                time_now = datetime.strptime(datetime.strftime(datetime.now(), '%d-%m-%Y %H:%M:%S'), '%d-%m-%Y %H:%M:%S')
+                time_now = datetime.now().replace(microsecond=0)
 
                 # Handle time delta
                 from module.config.utils import time_delta
                 delta = time_delta(value_time, time_now, True)
                 time_delta_name_prefix = 'Gui.Overview.'
-                if delta['Y']:
-                    time_delta_name_suffix = 'YearsAgo'
-                    time_delta_display = delta['Y']
-                elif delta['M']:
-                    time_delta_name_suffix = 'MonthsAgo'
-                    time_delta_display = delta['M']
-                elif delta['D']:
-                    time_delta_name_suffix = 'DaysAgo'
-                    time_delta_display = delta['D']
-                elif delta['h']:
-                    time_delta_name_suffix = 'HoursAgo'
-                    time_delta_display = delta['h']
-                elif delta['m']:
-                    time_delta_name_suffix = 'MinutesAgo'
-                    time_delta_display = delta['m']
-                elif delta['s']:
-                    time_delta_name_suffix = 'SecondsAgo'
-                    time_delta_display = delta['s']
+                for _key in delta:
+                    if delta[_key]:
+                        time_delta_name_suffix = time_delta_name_suffix_dict[_key]
+                        time_delta_display = delta[_key]
+                        break
                 if str(value_time) == '2010-01-01 00:00:00':
-                    value = t("None")
                     time_delta_name_suffix = 'NoData'
                     time_delta_display = ''
+                    value = "None"
                 time_delta_display = str(time_delta_display)
                 time_delta_name = time_delta_name_prefix+time_delta_name_suffix
 
