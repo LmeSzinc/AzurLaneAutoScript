@@ -1143,6 +1143,8 @@ class AlasGUI(Frame):
             Project repository 项目地址：`https://github.com/LmeSzinc/AzurLaneAutoScript`
             GG Modified repository 魔改版地址: `https://github.com/Zuosizhu/AzurLaneAutoScript`
             魔改版镜像地址: `https://gitee.com/zuosizhu/AzurLaneAutoScript`
+            GG Modified repository 魔改版地址: `https://github.com/MengNianxiaoyao/AzurLaneAutoScript`
+            魔改版镜像地址: `https://gitee.com/MengNianxiaoyao/AzurLaneAutoScript`
             """
             ).style("text-align: center")
 
