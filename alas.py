@@ -471,6 +471,7 @@ class AzurLaneAutoScript:
         logger.info(f'Start scheduler loop: {self.config_name}')
         is_first = True
         # Try forced task_call restart to reset GG status
+        self.checker.wait_until_available()
         GGHandler(config=self.config, device=self.device).handle_restart_before_tasks()
         failure_record = {}
         while 1:

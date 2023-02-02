@@ -1,5 +1,5 @@
 from module.logger import logger
-from module.config.utils import deep_set
+from module.config.utils import deep_get, deep_set
 from datetime import datetime
 
 
@@ -22,6 +22,9 @@ class LogRes:
         EquipProgress = ['457mm', '234mm', 'tenrai', '152mm']
         if name in Res:
             key = f'Res.Res.{name}'
+            original = deep_get(self.config.data, keys=key)
+            if num == original:
+                return False
             key_time = f'Res.Res.' + name + 'Time'
             _time = datetime.now()
             time = str(_time)
@@ -34,4 +37,4 @@ class LogRes:
             self.config.data.save()
         else:
             logger.warn('No such resource!')
-        return None
+        return True
