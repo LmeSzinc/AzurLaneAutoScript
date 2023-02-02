@@ -69,6 +69,7 @@ MaaFight:
   DrGrandet: false
 
 MaaFightWeekly:
+  Enable: true
   Monday:
     value: default
     option: [default, LS-6, SK-5, AP-5, PR-A-1, PR-A-2, PR-B-1, PR-B-2]

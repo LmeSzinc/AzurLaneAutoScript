@@ -231,6 +231,10 @@
       "name": "MaaFightWeekly._info.name",
       "help": "MaaFightWeekly._info.help"
     },
+    "Enable": {
+      "name": "MaaFightWeekly.Enable.name",
+      "help": "MaaFightWeekly.Enable.help"
+    },
     "Monday": {
       "name": "MaaFight.Stage.name",
       "help": "MaaFight.Stage.help",
