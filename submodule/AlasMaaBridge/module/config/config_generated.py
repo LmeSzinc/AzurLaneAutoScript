@@ -49,6 +49,7 @@ class GeneratedConfig:
     MaaFight_DrGrandet = False
 
     # Group `MaaFightWeekly`
+    MaaFightWeekly_Enable = True
     MaaFightWeekly_Monday = 'default'  # default, LS-6, SK-5, AP-5, PR-A-1, PR-A-2, PR-B-1, PR-B-2
     MaaFightWeekly_Tuesday = 'default'  # default, LS-6, CA-5, CE-6, PR-B-1, PR-B-2, PR-D-1, PR-D-2
     MaaFightWeekly_Wednesday = 'default'  # default, LS-6, CA-5, SK-5, PR-C-1, PR-C-2, PR-D-1, PR-D-2

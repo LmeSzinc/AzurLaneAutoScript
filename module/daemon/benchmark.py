@@ -166,20 +166,21 @@ class Benchmark(DaemonBase, CampaignUI):
         device = self.config.Benchmark_DeviceType
         # device == 'emulator'
         screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw']
-        click = ['ADB', 'uiautomator2', 'minitouch']
+        click = ['ADB', 'uiautomator2', 'minitouch', 'MaaTouch']
+
+        def remove(*args):
+            return [l for l in screenshot if l not in args]
 
         # No ascreencap on Android > 9
         if device in ['emulator_android_12', 'android_phone_12']:
-            screenshot.remove('aScreenCap')
-            screenshot.remove('aScreenCap_nc')
+            remove('aScreenCap', 'aScreenCap_nc')
         # No nc loopback
-        if device in ['plone_cloud_with_adb', 'android_phone', 'android_phone_12']:
-            screenshot.remove('ADB_nc')
-            screenshot.remove('aScreenCap_nc')
+        if device in ['plone_cloud_with_adb']:
+            remove('ADB_nc', 'aScreenCap_nc')
         # VMOS
         if device == 'android_phone_vmos':
             screenshot = ['ADB', 'aScreenCap', 'DroidCast', 'DroidCast_raw']
-            click = ['ADB', 'Hermit']
+            click = ['ADB', 'Hermit', 'MaaTouch']
 
         scene = self.config.Benchmark_TestScene
         if 'screenshot' not in scene:
