@@ -13,6 +13,8 @@ Button:
   Stop:
   ScrollON:
   ScrollOFF:
+  DashboardON:
+  DashboardOFF:
   ClearLog:
   Setting:
   CheckUpdate:
