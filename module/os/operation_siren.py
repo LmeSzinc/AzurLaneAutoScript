@@ -769,8 +769,12 @@ class OperationSiren(OSMap):
             ActionPointLimit
             TaskEnd: if no more month boss
         """
-        logger.hr("OS clear Month Boss", level=1)
+        if self.is_in_opsi_explore():
+            logger.info('OpsiExplore is under scheduling, stop OpsiMonthBoss')
+            self.config.task_delay(server_update=True)
+            self.config.task_stop()
 
+        logger.hr("OS clear Month Boss", level=1)
         logger.hr("Month Boss precheck", level=2)
         self.os_mission_enter()
         logger.attr('OpsiMonthBoss.Mode', self.config.OpsiMonthBoss_Mode)
