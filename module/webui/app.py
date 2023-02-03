@@ -380,7 +380,7 @@ class AlasGUI(Frame):
                             put_scope("dashboard_btn"),
                         ],
                     ),
-                    put_html('<hr class="hr-group">'),
+                    put_scope("dashboard_hr"),
                     put_scope("dashboard"),
                 ],
             ),
@@ -413,6 +413,7 @@ class AlasGUI(Frame):
         self.task_handler.add(switch_log_scroll.g(), 1, True)
         self.task_handler.add(switch_dashboard.g(), 1, True)
         self.task_handler.add(self.alas_update_overview_task, 10, True)
+        self.task_handler.add(self.alas_update_dashboard_hr, 1, True)
         self.task_handler.add(self.alas_update_dashboard, 60, True)
         self.task_handler.add(log.put_log(self.alas), 0.25, True)
     
@@ -586,7 +587,18 @@ class AlasGUI(Frame):
                     put_task(task)
             else:
                 put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
-        
+    
+    def alas_update_dashboard_hr(self):
+        if not self.visible:
+            return
+        clear("dashboard_hr")
+
+        with use_scope("dashboard_hr"):
+            if self._log.display_dashboard == False:
+                return
+            elif self._log.display_dashboard == True:
+                put_html('<hr class="hr-group">')
+
     def alas_update_dashboard(self):
         if not self.visible:
             return
