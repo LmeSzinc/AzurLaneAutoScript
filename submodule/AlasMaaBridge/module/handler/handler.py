@@ -228,13 +228,15 @@ class AssistantHandler:
             args['stage'] = self.config.MaaFight_CustomStage
         else:
             args['stage'] = self.config.MaaFight_Stage
+
         # Set weekly stage
-        today = get_server_last_update('04:00').strftime('%A')
-        logger.attr('Weekday', today)
-        stage = self.config.__getattribute__(f'MaaFightWeekly_{today}')
-        if stage != 'default':
-            logger.info(f'Using stage setting from {today}: {stage}')
-            args['stage'] = stage
+        if self.config.MaaFightWeekly_Enable:
+            today = get_server_last_update('04:00').strftime('%A')
+            logger.attr('Weekday', today)
+            stage = self.config.__getattribute__(f'MaaFightWeekly_{today}')
+            if stage != 'default':
+                logger.info(f'Using stage setting from {today}: {stage}')
+                args['stage'] = stage
 
         if self.config.MaaFight_Medicine is not None:
             args["medicine"] = self.config.MaaFight_Medicine

@@ -104,6 +104,7 @@
       "DrGrandet": false
     },
     "MaaFightWeekly": {
+      "Enable": true,
       "Monday": "default",
       "Tuesday": "default",
       "Wednesday": "default",
