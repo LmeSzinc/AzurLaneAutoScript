@@ -93,6 +93,7 @@ class RichLog:
         # self._callback_thread = None
         # self._width = 80
         self.keep_bottom = True
+        self.display_dashboard = True
         if State.theme == "dark":
             self.terminal_theme = DARK_TERMINAL_THEME
         else:
@@ -137,6 +138,10 @@ class RichLog:
     def set_scroll(self, b: bool) -> None:
         # use for lambda callback function
         self.keep_bottom = b
+    
+    def set_dashboard_display(self, b: bool) -> None:
+        # use for lambda callback function. Copied.
+        self.display_dashboard = b
 
     def get_width(self):
         js = """
