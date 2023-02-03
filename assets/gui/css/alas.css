@@ -384,7 +384,8 @@ pre.rich-traceback-code {
     grid-auto-flow: column;
 }
 
-#pywebio-scope-log-bar .hr-group {
+#pywebio-scope-log-bar #pywebio-scope-dashboard_hr,
+#pywebio-scope-log-bar #pywebio-scope-dashboard_hr .hr-group {
     width: 100%;
 }
 
