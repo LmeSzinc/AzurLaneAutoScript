@@ -4,6 +4,10 @@
       "name": "",
       "help": ""
     },
+    "Dashboard": {
+      "name": "儀錶盤",
+      "help": ""
+    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -38,6 +42,10 @@
     }
   },
   "Task": {
+    "Res": {
+      "name": "查看資源儲量",
+      "help": ""
+    },
     "Alas": {
       "name": "Alas設定",
       "help": ""
@@ -257,6 +265,98 @@
     "GameManager": {
       "name": "遊戲管理器(未完成)",
       "help": ""
+    }
+  },
+  "Res": {
+    "_info": {
+      "name": "查看資源儲量",
+      "help": "並非即時更新，會在最近一次出擊時更新"
+    },
+    "Oil": {
+      "name": "石油儲量/最大石油儲量",
+      "help": "石油儲量大於最大石油儲量時應儘快清理以免卡自動產出"
+    },
+    "OilTime": {
+      "name": "",
+      "help": "記錄時間\n\n"
+    },
+    "Coin": {
+      "name": "物資儲量/最大物資儲量",
+      "help": "物資儲量大於最大物資儲量時應儘快清理以免卡自動產出"
+    },
+    "CoinTime": {
+      "name": "",
+      "help": "記錄時間\n\n"
+    },
+    "Gem": {
+      "name": "鑽石",
+      "help": ""
+    },
+    "GemTime": {
+      "name": "",
+      "help": "記錄時間\n\n"
+    },
+    "Cube": {
+      "name": "魔方",
+      "help": "每日抽卡時更新"
+    },
+    "CubeTime": {
+      "name": "",
+      "help": "記錄時間\n\n"
+    },
+    "Pt": {
+      "name": "活動PT",
+      "help": ""
+    },
+    "PtTime": {
+      "name": "",
+      "help": "記錄時間\n\n"
+    },
+    "YellowCoin": {
+      "name": "作戰補給憑證",
+      "help": ""
+    },
+    "YellowCoinTime": {
+      "name": "",
+      "help": "記錄時間\n\n"
+    },
+    "PurpleCoin": {
+      "name": "特殊兌換憑證",
+      "help": ""
+    },
+    "PurpleCoinTime": {
+      "name": "",
+      "help": "記錄時間\n\n"
+    },
+    "ActionPoint": {
+      "name": "行動力",
+      "help": ""
+    },
+    "ActionPointTime": {
+      "name": "",
+      "help": "記錄時間\n\n"
+    }
+  },
+  "EquipProgress": {
+    "_info": {
+      "name": "EquipProgress._info.name",
+      "help": "EquipProgress._info.help"
+    },
+    "234mm": {
+      "name": "EquipProgress.234mm.name",
+      "help": "EquipProgress.234mm.help"
+    },
+    "457mm": {
+      "name": "EquipProgress.457mm.name",
+      "help": "EquipProgress.457mm.help"
+    },
+    "tenrai": {
+      "name": "EquipProgress.tenrai.name",
+      "help": "EquipProgress.tenrai.help"
+    },
+    "152mm": {
+      "name": "EquipProgress.152mm.name",
+      "help": "EquipProgress.152mm.help"
     }
   },
   "Scheduler": {
@@ -2330,6 +2430,8 @@
       "Stop": "停止",
       "ScrollON": "自動滾動 開",
       "ScrollOFF": "自動滾動 關",
+      "DashboardON": "折疊",
+      "DashboardOFF": "展開",
       "ClearLog": "清空日誌",
       "Setting": "設定",
       "CheckUpdate": "檢查更新",
@@ -2362,6 +2464,22 @@
     },
     "Overview": {
       "Scheduler": "調度器",
+      "Dashboard": "儀表盤",
+      "SecondsAgo": "秒前",
+      "MinutesAgo": "分鐘前",
+      "HoursAgo": "小時前",
+      "DaysAgo": "天前",
+      "MonthsAgo": "月前",
+      "YearsAgo": "年前",
+      "NoData": "無數據",
+      "Oil": "石油",
+      "Coin": "物資",
+      "Gem": "鑽石",
+      "Cube": "魔方",
+      "Pt": "活動PT",
+      "YellowCoin": "大世界黃幣",
+      "PurpleCoin": "大世界紫幣",
+      "ActionPoint": "行動力",
       "Log": "日誌",
       "Running": "執行中",
       "Pending": "佇列中",

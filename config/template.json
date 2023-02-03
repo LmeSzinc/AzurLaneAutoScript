@@ -1,4 +1,27 @@
 {
+  "Res": {
+    "Res": {
+      "Oil": "0 / 0",
+      "OilTime": "2010-01-01 00:00:00",
+      "Coin": "0 / 0",
+      "CoinTime": "2010-01-01 00:00:00",
+      "Gem": 0,
+      "GemTime": "2010-01-01 00:00:00",
+      "Cube": 0,
+      "CubeTime": "2010-01-01 00:00:00",
+      "Pt": 0,
+      "PtTime": "2010-01-01 00:00:00",
+      "YellowCoin": 0,
+      "YellowCoinTime": "2010-01-01 00:00:00",
+      "PurpleCoin": 0,
+      "PurpleCoinTime": "2010-01-01 00:00:00",
+      "ActionPoint": "0 (0)",
+      "ActionPointTime": "2010-01-01 00:00:00"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "Alas": {
     "Emulator": {
       "Serial": "auto",
