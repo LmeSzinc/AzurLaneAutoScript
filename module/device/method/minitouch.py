@@ -187,7 +187,7 @@ class CommandBuilder:
     def __init__(self, device):
         """
         Args:
-            device (Minitouch):
+            device:
         """
         self.device = device
         self.commands = []

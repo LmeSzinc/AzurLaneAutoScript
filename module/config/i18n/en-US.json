@@ -512,7 +512,8 @@
       "ADB": "ADB",
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
-      "Hermit": "Hermit"
+      "Hermit": "Hermit",
+      "MaaTouch": "MaaTouch"
     },
     "ScreenshotDedithering": {
       "name": "Image Color De-dithering",
@@ -2511,6 +2512,8 @@
       "Stop": "Stop",
       "ScrollON": "Auto Scroll ON",
       "ScrollOFF": "Auto Scroll OFF",
+      "DashboardON": "Dashboard ON",
+      "DashboardOFF": "Dashboard OFF",
       "ClearLog": "Clear Log",
       "Setting": "Setting",
       "CheckUpdate": "Check update",

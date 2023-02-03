@@ -409,6 +409,10 @@
       }
     },
     "MaaFightWeekly": {
+      "Enable": {
+        "type": "checkbox",
+        "value": true
+      },
       "Monday": {
         "type": "select",
         "value": "default",
