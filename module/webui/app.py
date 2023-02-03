@@ -293,7 +293,7 @@ class AlasGUI(Frame):
                 put_text(group_help)
             put_html('<hr class="hr-group">')
             for output in output_list:
-                output.show()
+                output.show() 
         return len(output_list)
 
     @use_scope("navigator")
@@ -362,6 +362,7 @@ class AlasGUI(Frame):
             color_off="on",
             scope="scheduler_btn",
         )
+
         log = RichLog("log")
         self._log = log
 
@@ -379,7 +380,7 @@ class AlasGUI(Frame):
                             put_scope("dashboard_btn"),
                         ],
                     ),
-                    put_html('<hr class="hr-group">'),
+                    put_scope("dashboard_hr"),
                     put_scope("dashboard"),
                 ],
             ),
@@ -407,13 +408,15 @@ class AlasGUI(Frame):
             color_off="off",
             scope="dashboard_btn",
         )
+
         self.task_handler.add(switch_scheduler.g(), 1, True)
         self.task_handler.add(switch_log_scroll.g(), 1, True)
         self.task_handler.add(switch_dashboard.g(), 1, True)
         self.task_handler.add(self.alas_update_overview_task, 10, True)
-        self.task_handler.add(self.alas_update_dashboard, 20, True)
+        self.task_handler.add(self.alas_update_dashboard_hr, 1, True)
+        self.task_handler.add(self.alas_update_dashboard, 60, True)
         self.task_handler.add(log.put_log(self.alas), 0.25, True)
-
+    
     def set_dashboard_display(self, b):
         self._log.set_dashboard_display(b)
         self.alas_update_dashboard()
@@ -449,11 +452,11 @@ class AlasGUI(Frame):
                     break
 
     def _save_config(
-            self,
-            modified: Dict[str, str],
-            config_name: str,
-            read=State.config_updater.read_file,
-            write=State.config_updater.write_file,
+        self,
+        modified: Dict[str, str],
+        config_name: str,
+        read=State.config_updater.read_file,
+        write=State.config_updater.write_file,
     ) -> None:
         try:
             skip_time_record = False
@@ -584,6 +587,17 @@ class AlasGUI(Frame):
                     put_task(task)
             else:
                 put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
+    
+    def alas_update_dashboard_hr(self):
+        if not self.visible:
+            return
+        clear("dashboard_hr")
+
+        with use_scope("dashboard_hr"):
+            if self._log.display_dashboard == False:
+                return
+            elif self._log.display_dashboard == True:
+                put_html('<hr class="hr-group">')
 
     def alas_update_dashboard(self):
         if not self.visible:
@@ -617,6 +631,7 @@ class AlasGUI(Frame):
             's': 'SecondsAgo',
         }
         clear("dashboard")
+
         with use_scope("dashboard"):
             if self._log.display_dashboard == False:
                 return
@@ -652,8 +667,7 @@ class AlasGUI(Frame):
                             put_column(
                                 [
                                     put_text(str(value)).style("--arg-title--"),
-                                    put_text(t(resource_name) + " - " + time_delta_display + t(time_delta_name)).style(
-                                        "--arg-help--"),
+                                    put_text(t(resource_name) + " - " + time_delta_display + t(time_delta_name)).style("--arg-help--"),
                                 ],
                                 size="auto auto",
                             ),
@@ -1012,8 +1026,8 @@ class AlasGUI(Frame):
                     "--loading-border-fill--"
                 )
                 if (
-                        State.deploy_config.EnableRemoteAccess
-                        and State.deploy_config.Password
+                    State.deploy_config.EnableRemoteAccess
+                    and State.deploy_config.Password
                 ):
                     put_text(t("Gui.Remote.NotRunning"), scope="remote_state")
                 else:
@@ -1300,8 +1314,8 @@ def startup():
     if State.deploy_config.StartOcrServer:
         start_ocr_server_process(State.deploy_config.OcrServerPort)
     if (
-            State.deploy_config.EnableRemoteAccess
-            and State.deploy_config.Password is not None
+        State.deploy_config.EnableRemoteAccess
+        and State.deploy_config.Password is not None
     ):
         task_handler.add(RemoteAccess.keep_ssh_alive(), 60)
 
