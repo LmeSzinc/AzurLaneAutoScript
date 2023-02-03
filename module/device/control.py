@@ -1,13 +1,15 @@
 from module.base.button import Button
+from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import *
 from module.device.method.hermit import Hermit
+from module.device.method.maatouch import MaaTouch
 from module.device.method.minitouch import Minitouch
 from module.device.method.scrcpy import Scrcpy
 from module.logger import logger
-from module.base.decorator import cached_property
 
-class Control(Hermit, Minitouch, Scrcpy):
+
+class Control(Hermit, Minitouch, Scrcpy, MaaTouch):
     def handle_control_check(self, button):
         # Will be overridden in Device
         pass
@@ -19,6 +21,7 @@ class Control(Hermit, Minitouch, Scrcpy):
             'uiautomator2': self.click_uiautomator2,
             'minitouch': self.click_minitouch,
             'Hermit': self.click_hermit,
+            'MaaTouch': self.click_maatouch,
         }
 
     def click(self, button, control_check=True):
@@ -73,6 +76,8 @@ class Control(Hermit, Minitouch, Scrcpy):
             self.long_click_uiautomator2(x, y, duration)
         elif method == 'scrcpy':
             self.long_click_scrcpy(x, y, duration)
+        elif method == 'MaaTouch':
+            self.long_click_maatouch(x, y, duration)
         else:
             self.swipe_adb((x, y), (x, y), duration)
 
@@ -86,6 +91,8 @@ class Control(Hermit, Minitouch, Scrcpy):
         elif method == 'uiautomator2':
             logger.info('Swipe %s -> %s, %s' % (point2str(*p1), point2str(*p2), duration))
         elif method == 'scrcpy':
+            logger.info('Swipe %s -> %s' % (point2str(*p1), point2str(*p2)))
+        elif method == 'MaaTouch':
             logger.info('Swipe %s -> %s' % (point2str(*p1), point2str(*p2)))
         else:
             # ADB needs to be slow, or swipe doesn't work
@@ -105,6 +112,8 @@ class Control(Hermit, Minitouch, Scrcpy):
             self.swipe_uiautomator2(p1, p2, duration=duration)
         elif method == 'scrcpy':
             self.swipe_scrcpy(p1, p2)
+        elif method == 'MaaTouch':
+            self.swipe_maatouch(p1, p2)
         else:
             self.swipe_adb(p1, p2, duration=duration)
 
@@ -152,6 +161,8 @@ class Control(Hermit, Minitouch, Scrcpy):
                 swipe_duration=swipe_duration, shake_duration=shake_duration)
         elif method == 'scrcpy':
             self.drag_scrcpy(p1, p2, point_random=point_random)
+        elif method == 'MaaTouch':
+            self.drag_maatouch(p1, p2, point_random=point_random)
         else:
             logger.warning(f'Control method {method} does not support drag well, '
                            f'falling back to ADB swipe may cause unexpected behaviour')

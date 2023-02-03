@@ -25,7 +25,7 @@ class Equipment(StorageHandler):
     def _equip_view_swipe(self, distance, check_button=EQUIPMENT_OPEN):
         swipe_count = 0
         swipe_timer = Timer(5, count=10)
-        self.ensure_no_info_bar(timeout=3)
+        self.handle_info_bar()
         SWIPE_CHECK.load_color(self.device.image)
         SWIPE_CHECK._match_init = True  # Disable ensure_template() on match(), allows ship to be properly determined
         # whether actually different or not
@@ -38,6 +38,10 @@ class Equipment(StorageHandler):
                 swipe_count += 1
 
             self.device.screenshot()
+
+            if self.appear(EQUIP_CONFIRM, offset=(30, 30)):
+                logger.info('EQUIP_CONFIRM popup in _equip_view_swipe()')
+                return False
             if SWIPE_CHECK.match(self.device.image):
                 if swipe_count > 1:
                     logger.info('Same ship on multiple swipes')
