@@ -286,7 +286,7 @@
     },
     "OilTime": {
       "name": "",
-      "help": "記錄時間\n\n"
+      "help": "記錄時間"
     },
     "Coin": {
       "name": "物資儲量/最大物資儲量",
@@ -294,7 +294,7 @@
     },
     "CoinTime": {
       "name": "",
-      "help": "記錄時間\n\n"
+      "help": "記錄時間"
     },
     "Gem": {
       "name": "鑽石",
@@ -302,7 +302,7 @@
     },
     "GemTime": {
       "name": "",
-      "help": "記錄時間\n\n"
+      "help": "記錄時間"
     },
     "Cube": {
       "name": "魔方",
@@ -310,7 +310,7 @@
     },
     "CubeTime": {
       "name": "",
-      "help": "記錄時間\n\n"
+      "help": "記錄時間"
     },
     "Pt": {
       "name": "活動PT",
@@ -318,7 +318,7 @@
     },
     "PtTime": {
       "name": "",
-      "help": "記錄時間\n\n"
+      "help": "記錄時間"
     },
     "YellowCoin": {
       "name": "作戰補給憑證",
@@ -326,7 +326,7 @@
     },
     "YellowCoinTime": {
       "name": "",
-      "help": "記錄時間\n\n"
+      "help": "記錄時間"
     },
     "PurpleCoin": {
       "name": "特殊兌換憑證",
@@ -334,7 +334,7 @@
     },
     "PurpleCoinTime": {
       "name": "",
-      "help": "記錄時間\n\n"
+      "help": "記錄時間"
     },
     "ActionPoint": {
       "name": "行動力",
@@ -342,7 +342,7 @@
     },
     "ActionPointTime": {
       "name": "",
-      "help": "記錄時間\n\n"
+      "help": "記錄時間"
     }
   },
   "EquipProgress": {
