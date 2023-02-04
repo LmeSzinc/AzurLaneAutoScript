@@ -206,6 +206,13 @@ class InfoHandler(ModuleBase):
         """
         return self.appear_then_click(VOTE_CANCEL, offset=(20, 20), interval=2)
 
+    def handle_get_skin(self):
+        """
+        Returns:
+            bool:
+        """
+        return self.appear_then_click(GET_SKIN, offset=(20, 20), interval=2)
+
     """
     Guild popup info
     """
