@@ -80,9 +80,9 @@ class Field:
                 return
 
         new = self.pattern.replace(r'(?P<value>.*)', self.value)
-        logger.info('Setting: ' + new)
         res, num = re.subn(self.pattern, new, setting.data)
         if num > 0:
+            logger.info('Setting: ' + new)
             setting.data = res
         else:
             logger.info('Setting: ' + self.pattern + 'is not found in game settings, '

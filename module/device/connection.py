@@ -568,6 +568,16 @@ class Connection(ConnectionAttr):
             f'adb_reconnect() is skipped, you may need to restart ATX manually'
         )
 
+    def adb_root(self):
+        try:
+            # Copied from adbutils
+            with self.adb_client._connect() as c:
+                c.send_command("root:")
+                c.check_okay()
+                return c.read_string_block()
+        except AdbError:
+            pass
+
     def install_uiautomator2(self):
         """
         Init uiautomator2 and remove minicap.

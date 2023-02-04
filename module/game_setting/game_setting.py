@@ -1,3 +1,4 @@
+from os import system
 from adbutils import AdbError
 from io import BytesIO
 
@@ -22,6 +23,8 @@ class GameSetting(ModuleBase, GameSettingsGenerated):
     autoSubIsAcitve = GameSettingsGenerated.autoSubIsAcitve('')
     data: str
     src: str
+    tmp: str
+    name: str
     push_flag: bool
 
     def __setattr__(self, key, value):
@@ -42,11 +45,16 @@ class GameSetting(ModuleBase, GameSettingsGenerated):
         """
         logger.info('Pull setting')
         buf = b''
-        self.src = f'/data/data/{self.device.package}/shared_prefs' \
-                   f'/{self.device.package}.v2.playerprefs.xml'
+        self.src = f'/data/data/{self.device.package}/shared_prefs/'
+        self.tmp = f'/data/local/tmp/'
+        self.name = f'{self.device.package}.v2.playerprefs.xml'
         logger.info('Source :' + self.src)
+        self.device.adb_root()
         try:
-            for chunk in self.device.adb.sync.iter_content(self.src):
+            # Adaptation provided for Bluestacks, applicable to other emulators
+            self.device.adb_shell(f'su -c "cp -rf {self.src + self.name} {self.tmp}"')
+            self.device.adb_shell(f'su -c "chmod 777 {self.tmp + self.name}"')
+            for chunk in self.device.adb.sync.iter_content(self.tmp + self.name):
                 buf += chunk
         except AdbError:
             logger.warning('Unable to get game setting from emulator, '
@@ -71,7 +79,9 @@ class GameSetting(ModuleBase, GameSettingsGenerated):
             return
 
         buf = self.data.encode(encoding='utf-8')
-        self.device.adb.sync.push(BytesIO(buf), self.src)
+        self.device.adb.sync.push(BytesIO(buf), self.tmp + self.name)
+        # cp -rf does not change the file permissions
+        self.device.adb_shell(f'su -c "cp -rf {self.tmp + self.name} {self.src}"')
 
     def setting_game(self):
         """
