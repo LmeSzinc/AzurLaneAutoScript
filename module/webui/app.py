@@ -19,6 +19,7 @@ from module.config.utils import (
     filepath_config,
     read_file,
 )
+from module.config.utils import time_delta
 from module.logger import logger
 from module.ocr.rpc import start_ocr_server_process, stop_ocr_server_process
 from module.submodule.submodule import load_config
@@ -89,6 +90,7 @@ class AlasGUI(Frame):
     ALAS_MENU: Dict[str, Dict[str, List[str]]]
     ALAS_ARGS: Dict[str, Dict[str, Dict[str, Dict[str, str]]]]
     theme = "default"
+    _log = RichLog
 
     def initial(self) -> None:
         self.ALAS_MENU = read_file(filepath_args("menu", self.alas_mod))
@@ -363,6 +365,7 @@ class AlasGUI(Frame):
         )
 
         log = RichLog("log")
+        self._log = log
 
         with use_scope("logs"):
             put_scope(
@@ -375,8 +378,11 @@ class AlasGUI(Frame):
                         "log-bar-btns",
                         [
                             put_scope("log_scroll_btn"),
+                            put_scope("dashboard_btn"),
                         ],
                     ),
+                    put_html('<hr class="hr-group">'),
+                    put_scope("dashboard"),
                 ],
             ),
             put_scope("log", [put_html("")])
@@ -393,11 +399,26 @@ class AlasGUI(Frame):
             color_off="off",
             scope="log_scroll_btn",
         )
-
+        switch_dashboard = BinarySwitchButton(
+            label_on=t("Gui.Button.DashboardON"),
+            label_off=t("Gui.Button.DashboardOFF"),
+            onclick_on=lambda: self.set_dashboard_display(False),
+            onclick_off=lambda: self.set_dashboard_display(True),
+            get_state=lambda: log.display_dashboard,
+            color_on="on",
+            color_off="off",
+            scope="dashboard_btn",
+        )
         self.task_handler.add(switch_scheduler.g(), 1, True)
         self.task_handler.add(switch_log_scroll.g(), 1, True)
+        self.task_handler.add(switch_dashboard.g(), 1, True)
         self.task_handler.add(self.alas_update_overview_task, 10, True)
+        self.task_handler.add(self.alas_update_dashboard, 20, True)
         self.task_handler.add(log.put_log(self.alas), 0.25, True)
+
+    def set_dashboard_display(self, b):
+        self._log.set_dashboard_display(b)
+        self.alas_update_dashboard()
 
     def _init_alas_config_watcher(self) -> None:
         def put_queue(path, value):
@@ -437,6 +458,7 @@ class AlasGUI(Frame):
         write=State.config_updater.write_file,
     ) -> None:
         try:
+            skip_time_record = False
             valid = []
             invalid = []
             config = read(config_name)
@@ -451,6 +473,18 @@ class AlasGUI(Frame):
                     valid.append(k)
                     pin["_".join(k.split("."))] = default
 
+                    # update Res Record if Res Value is changed to None
+                    if 'Res.Res' in k:
+                        k = k.split(".")
+                        k[-1] = k[-1] + 'Time'
+                        k = ".".join(k)
+                        v = str(datetime(2010, 1, 1, 0, 0, 0))
+                        modified[k] = v
+                        deep_set(config, k, v)
+                        valid.append(k)
+                        pin["_".join(k.split("."))] = v
+                        skip_time_record = True
+
                 elif not validate or re_fullmatch(validate, v):
                     deep_set(config, k, v)
                     modified[k] = v
@@ -460,6 +494,18 @@ class AlasGUI(Frame):
                     if "Emotion" in k and "Value" in k:
                         k = k.split(".")
                         k[-1] = k[-1].replace("Value", "Record")
+                        k = ".".join(k)
+                        v = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        modified[k] = v
+                        deep_set(config, k, v)
+                        valid.append(k)
+                        pin["_".join(k.split("."))] = v
+
+                    # update Res Record if Res Value is changed
+                    # imitating Emotion record
+                    if "Res.Res" in k and not skip_time_record:
+                        k = k.split(".")
+                        k[-1] = k[-1] + 'Time'
                         k = ".".join(k)
                         v = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                         modified[k] = v
@@ -540,6 +586,83 @@ class AlasGUI(Frame):
                     put_task(task)
             else:
                 put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
+
+    def alas_update_dashboard(self):
+        if not self.visible:
+            return
+        resource = [
+            "Oil",
+            "Gem",
+            "Pt",
+            "YellowCoin",
+            "Coin",
+            "Cube",
+            "ActionPoint",
+            "PurpleCoin"
+        ]
+        color = [
+            '<div class="status-point" style="background-color:#000000">',
+            '<div class="status-point" style="background-color:#FF3333">',
+            '<div class="status-point" style="background-color:#00BFFF">',
+            '<div class="status-point" style="background-color:#FF8800">',
+            '<div class="status-point" style="background-color:#FFAA33">',
+            '<div class="status-point" style="background-color:#33FFFF">',
+            '<div class="status-point" style="background-color:#0000FF">',
+            '<div class="status-point" style="background-color:#7700BB">',
+        ]
+        time_delta_name_suffix_dict = {
+            'Y': 'YearsAgo',
+            'M': 'MonthsAgo',
+            'D': 'DaysAgo',
+            'h': 'HoursAgo',
+            'm': 'MinutesAgo',
+            's': 'SecondsAgo',
+        }
+        clear("dashboard")
+        with use_scope("dashboard"):
+            if not self._log.display_dashboard:
+                return
+            elif self._log.display_dashboard:
+                x = 0
+                for name in resource:
+                    resource_name = f'Gui.Overview.{name}'
+                    value_name = f'Res.Res.{name}'
+                    value = deep_get(self.alas_config.data, keys=value_name, default='None')
+                    value_time = deep_get(self.alas_config.data, keys=value_name + 'Time')
+                    if value_time == '00:00:00' or value_time is None:
+                        value_time = datetime(2010, 1, 1, 0, 0, 0)
+                    time_now = datetime.now().replace(microsecond=0)
+
+                    # Handle time delta
+                    delta = time_delta(value_time, time_now, True)
+                    time_delta_name_prefix = 'Gui.Overview.'
+                    for _key in delta:
+                        if delta[_key]:
+                            time_delta_name_suffix = time_delta_name_suffix_dict[_key]
+                            time_delta_display = delta[_key]
+                            break
+                    if str(value_time) == '2010-01-01 00:00:00':
+                        time_delta_name_suffix = 'NoData'
+                        time_delta_display = ''
+                        value = "None"
+                    time_delta_display = str(time_delta_display)
+                    time_delta_name = time_delta_name_prefix + time_delta_name_suffix
+
+                    put_row(
+                        [
+                            put_html(color[x]),
+                            put_column(
+                                [
+                                    put_text(str(value)).style("--arg-title--"),
+                                    put_text(t(resource_name) + " - " + time_delta_display + t(time_delta_name)).style(
+                                        "--arg-help--"),
+                                ],
+                                size="auto auto",
+                            ),
+                        ],
+                        size="20px 1fr"
+                    )
+                    x += 1
 
     @use_scope("content", clear=True)
     def alas_daemon_overview(self, task: str) -> None:
