@@ -278,7 +278,7 @@
     },
     "OilTime": {
       "name": "",
-      "help": "记录时间\n\n"
+      "help": "记录时间"
     },
     "Coin": {
       "name": "物资储量/最大物资储量",
@@ -286,7 +286,7 @@
     },
     "CoinTime": {
       "name": "",
-      "help": "记录时间\n\n"
+      "help": "记录时间"
     },
     "Gem": {
       "name": "钻石",
@@ -294,7 +294,7 @@
     },
     "GemTime": {
       "name": "",
-      "help": "记录时间\n\n"
+      "help": "记录时间"
     },
     "Cube": {
       "name": "魔方",
@@ -302,7 +302,7 @@
     },
     "CubeTime": {
       "name": "",
-      "help": "记录时间\n\n"
+      "help": "记录时间"
     },
     "Pt": {
       "name": "活动PT",
@@ -310,7 +310,7 @@
     },
     "PtTime": {
       "name": "",
-      "help": "记录时间\n\n"
+      "help": "记录时间"
     },
     "YellowCoin": {
       "name": "作战补给凭证",
@@ -318,7 +318,7 @@
     },
     "YellowCoinTime": {
       "name": "",
-      "help": "记录时间\n\n"
+      "help": "记录时间"
     },
     "PurpleCoin": {
       "name": "特殊兑换凭证",
@@ -326,7 +326,7 @@
     },
     "PurpleCoinTime": {
       "name": "",
-      "help": "记录时间\n\n"
+      "help": "记录时间"
     },
     "ActionPoint": {
       "name": "行动力",
@@ -334,7 +334,7 @@
     },
     "ActionPointTime": {
       "name": "",
-      "help": "记录时间\n\n"
+      "help": "记录时间"
     }
   },
   "EquipProgress": {
