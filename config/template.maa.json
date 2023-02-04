@@ -221,6 +221,19 @@
       "Storage": {}
     }
   },
+  "MaaReclamationAlgorithm": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 04:00:00",
+      "Command": "MaaReclamationAlgorithm",
+      "SuccessInterval": 60,
+      "FailureInterval": 120,
+      "ServerUpdate": "04:00"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "MaaCopilot": {
     "MaaCopilot": {
       "FileName": null,
