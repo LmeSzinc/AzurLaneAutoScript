@@ -12,6 +12,8 @@ class GGU2(Base):
         self.factor = 200
         self.config = config
         self.device = device
+        self.device.restart_atx()
+        self.device.sleep(1)
         u2.connect(self.config.Emulator_Serial).reset_uiautomator()
         self.d = u2.connect(self.config.Emulator_Serial)
         self.gg_package_name = deep_get(self.config.data, keys='GameManager.GGHandler.GGPackageName')

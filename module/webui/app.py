@@ -4,7 +4,7 @@ import threading
 import time
 from datetime import datetime
 from functools import partial
-from typing import Dict, List, Optional, Generator
+from typing import Dict, List, Optional
 
 import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
