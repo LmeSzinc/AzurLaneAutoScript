@@ -286,7 +286,7 @@
     },
     "OilTime": {
       "name": "",
-      "help": "Record time\n\n"
+      "help": "Record time"
     },
     "Coin": {
       "name": "Coin / Max coin limit",
@@ -294,7 +294,7 @@
     },
     "CoinTime": {
       "name": "",
-      "help": "Record time\n\n"
+      "help": "Record time"
     },
     "Gem": {
       "name": "Gem",
@@ -302,7 +302,7 @@
     },
     "GemTime": {
       "name": "",
-      "help": "Record time\n\n"
+      "help": "Record time"
     },
     "Cube": {
       "name": "Cube",
@@ -310,7 +310,7 @@
     },
     "CubeTime": {
       "name": "",
-      "help": "Record time\n\n"
+      "help": "Record time"
     },
     "Pt": {
       "name": "Event Point",
@@ -318,7 +318,7 @@
     },
     "PtTime": {
       "name": "",
-      "help": "Record time\n\n"
+      "help": "Record time"
     },
     "YellowCoin": {
       "name": "Operation Supply Coin",
@@ -326,7 +326,7 @@
     },
     "YellowCoinTime": {
       "name": "",
-      "help": "Record time\n\n"
+      "help": "Record time"
     },
     "PurpleCoin": {
       "name": "Special Item Token",
@@ -334,7 +334,7 @@
     },
     "PurpleCoinTime": {
       "name": "",
-      "help": "Record time\n\n"
+      "help": "Record time"
     },
     "ActionPoint": {
       "name": "Action Point",
@@ -342,7 +342,7 @@
     },
     "ActionPointTime": {
       "name": "",
-      "help": "Record time\n\n"
+      "help": "Record time"
     }
   },
   "EquipProgress": {
