@@ -416,6 +416,12 @@ class AssistantHandler:
         if self.task_switch_timer is not None:
             self.config.Scheduler_Enable = False
 
+    def reclamation_algorithm(self):
+        self.maa_start('ReclamationAlgorithm', {
+            "enable": True
+        })
+        self.config.task_delay(server_update=True)
+
     def copilot(self):
         filename = self.config.MaaCopilot_FileName
         if filename.startswith('maa://'):
