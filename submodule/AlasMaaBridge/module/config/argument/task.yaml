@@ -47,6 +47,9 @@ MaaRoguelike:
   - Scheduler
   - MaaRoguelike
 
+MaaReclamationAlgorithm:
+  - Scheduler
+
 # ==================== Tool ====================
 
 MaaCopilot:
