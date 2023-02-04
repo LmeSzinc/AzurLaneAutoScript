@@ -92,6 +92,10 @@ class BattlePass(Combat, UI):
                 received = True
                 confirm_timer.reset()
                 continue
+            if self.handle_get_skin():
+                received = True
+                confirm_timer.reset()
+                continue
 
             # End
             if self.appear(BATTLE_PASS_CHECK, offset=(20, 20)) and not self.appear(REWARD_RECEIVE, offset=(20, 20)):

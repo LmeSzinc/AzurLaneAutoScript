@@ -54,6 +54,10 @@
       "name": "Task.MaaRoguelike.name",
       "help": "Task.MaaRoguelike.help"
     },
+    "MaaReclamationAlgorithm": {
+      "name": "Task.MaaReclamationAlgorithm.name",
+      "help": "Task.MaaReclamationAlgorithm.help"
+    },
     "MaaCopilot": {
       "name": "Task.MaaCopilot.name",
       "help": "Task.MaaCopilot.help"

@@ -114,6 +114,27 @@ class Device(Screenshot, Control, AppControl, EmulatorManager):
     def click_record_clear(self):
         self.click_record.clear()
 
+    def click_record_remove(self, button):
+        """
+        Remove a button from `click_record`
+
+        Args:
+            button (Button):
+
+        Returns:
+            int: Number of button removed
+        """
+        removed = 0
+        for _ in range(self.click_record.maxlen):
+            try:
+                self.click_record.remove(str(button))
+                removed += 1
+            except ValueError:
+                # Value not in queue
+                break
+
+        return removed
+
     def click_record_check(self):
         """
         Raises:
