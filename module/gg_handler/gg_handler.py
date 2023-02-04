@@ -81,6 +81,7 @@ class GGHandler:
         """
         gg_data = GGData(config=self.config).get_data()
         gg_enable = gg_data['gg_enable']
+        self.device.restart_atx()
         if gg_enable:
             GGData(config=self.config).set_data(target='gg_on', value=False)
             logger.info(f'GG status:')
