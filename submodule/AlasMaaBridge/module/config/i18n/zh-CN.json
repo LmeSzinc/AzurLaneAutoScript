@@ -54,6 +54,10 @@
       "name": "自动肉鸽",
       "help": ""
     },
+    "MaaReclamationAlgorithm": {
+      "name": "生息演算",
+      "help": "警告：该功能仍在开发中，只能无限刷取，一旦启用会导致所有其他任务无法正常运行"
+    },
     "MaaCopilot": {
       "name": "自动战斗",
       "help": ""
