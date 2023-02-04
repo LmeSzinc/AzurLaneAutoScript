@@ -4,6 +4,10 @@
       "name": "",
       "help": ""
     },
+    "Dashboard": {
+      "name": "Dashboard",
+      "help": ""
+    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -38,6 +42,10 @@
     }
   },
   "Task": {
+    "Res": {
+      "name": "Resource",
+      "help": ""
+    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -257,6 +265,98 @@
     "GameManager": {
       "name": "Game Manager(WIP)",
       "help": ""
+    }
+  },
+  "Res": {
+    "_info": {
+      "name": "Resource Viewer",
+      "help": "Update when any campaign starts"
+    },
+    "Oil": {
+      "name": "Oil / Max oil limit",
+      "help": ""
+    },
+    "OilTime": {
+      "name": "",
+      "help": "Record time\n\n"
+    },
+    "Coin": {
+      "name": "Coin / Max coin limit",
+      "help": ""
+    },
+    "CoinTime": {
+      "name": "",
+      "help": "Record time\n\n"
+    },
+    "Gem": {
+      "name": "Gem",
+      "help": ""
+    },
+    "GemTime": {
+      "name": "",
+      "help": "Record time\n\n"
+    },
+    "Cube": {
+      "name": "Cube",
+      "help": "Update after everyday's gacha"
+    },
+    "CubeTime": {
+      "name": "",
+      "help": "Record time\n\n"
+    },
+    "Pt": {
+      "name": "Event Point",
+      "help": ""
+    },
+    "PtTime": {
+      "name": "",
+      "help": "Record time\n\n"
+    },
+    "YellowCoin": {
+      "name": "Operation Supply Coin",
+      "help": ""
+    },
+    "YellowCoinTime": {
+      "name": "",
+      "help": "Record time\n\n"
+    },
+    "PurpleCoin": {
+      "name": "Special Item Token",
+      "help": ""
+    },
+    "PurpleCoinTime": {
+      "name": "",
+      "help": "Record time\n\n"
+    },
+    "ActionPoint": {
+      "name": "Action Point",
+      "help": ""
+    },
+    "ActionPointTime": {
+      "name": "",
+      "help": "Record time\n\n"
+    }
+  },
+  "EquipProgress": {
+    "_info": {
+      "name": "EquipProgress._info.name",
+      "help": "EquipProgress._info.help"
+    },
+    "234mm": {
+      "name": "EquipProgress.234mm.name",
+      "help": "EquipProgress.234mm.help"
+    },
+    "457mm": {
+      "name": "EquipProgress.457mm.name",
+      "help": "EquipProgress.457mm.help"
+    },
+    "tenrai": {
+      "name": "EquipProgress.tenrai.name",
+      "help": "EquipProgress.tenrai.help"
+    },
+    "152mm": {
+      "name": "EquipProgress.152mm.name",
+      "help": "EquipProgress.152mm.help"
     }
   },
   "Scheduler": {
@@ -2330,6 +2430,8 @@
       "Stop": "Stop",
       "ScrollON": "Auto Scroll ON",
       "ScrollOFF": "Auto Scroll OFF",
+      "DashboardON": "Fold",
+      "DashboardOFF": "Unfold",
       "ClearLog": "Clear Log",
       "Setting": "Setting",
       "CheckUpdate": "Check update",
@@ -2362,6 +2464,21 @@
     },
     "Overview": {
       "Scheduler": "Scheduler",
+      "SecondsAgo": "Seconds ago",
+      "MinutesAgo": "Minutes ago",
+      "HoursAgo": "Hours ago",
+      "DaysAgo": "Days ago",
+      "MonthsAgo": "Months ago",
+      "YearsAgo": "Years ago",
+      "NoData": "No data",
+      "Oil": "Oil",
+      "Coin": "Coin",
+      "Gem": "Gem",
+      "Cube": "Cube",
+      "Pt": "Event Pt",
+      "YellowCoin": "Operation Supply Coin",
+      "PurpleCoin": "Special Item Token",
+      "ActionPoint": "Action Point",
       "Log": "Log",
       "Running": "Running",
       "Pending": "Pending",

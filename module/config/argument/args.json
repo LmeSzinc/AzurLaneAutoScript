@@ -1,4 +1,96 @@
 {
+  "Res": {
+    "Res": {
+      "Oil": {
+        "type": "input",
+        "value": "0 / 0"
+      },
+      "OilTime": {
+        "type": "datetime",
+        "value": "2010-01-01 00:00:00",
+        "validate": "datetime",
+        "display": "disabled"
+      },
+      "Coin": {
+        "type": "input",
+        "value": "0 / 0"
+      },
+      "CoinTime": {
+        "type": "datetime",
+        "value": "2010-01-01 00:00:00",
+        "validate": "datetime",
+        "display": "disabled"
+      },
+      "Gem": {
+        "type": "input",
+        "value": 0
+      },
+      "GemTime": {
+        "type": "datetime",
+        "value": "2010-01-01 00:00:00",
+        "validate": "datetime",
+        "display": "disabled"
+      },
+      "Cube": {
+        "type": "input",
+        "value": 0
+      },
+      "CubeTime": {
+        "type": "datetime",
+        "value": "2010-01-01 00:00:00",
+        "validate": "datetime",
+        "display": "disabled"
+      },
+      "Pt": {
+        "type": "input",
+        "value": 0
+      },
+      "PtTime": {
+        "type": "datetime",
+        "value": "2010-01-01 00:00:00",
+        "validate": "datetime",
+        "display": "disabled"
+      },
+      "YellowCoin": {
+        "type": "input",
+        "value": 0
+      },
+      "YellowCoinTime": {
+        "type": "datetime",
+        "value": "2010-01-01 00:00:00",
+        "validate": "datetime",
+        "display": "disabled"
+      },
+      "PurpleCoin": {
+        "type": "input",
+        "value": 0
+      },
+      "PurpleCoinTime": {
+        "type": "datetime",
+        "value": "2010-01-01 00:00:00",
+        "validate": "datetime",
+        "display": "disabled"
+      },
+      "ActionPoint": {
+        "type": "input",
+        "value": "0 (0)"
+      },
+      "ActionPointTime": {
+        "type": "datetime",
+        "value": "2010-01-01 00:00:00",
+        "validate": "datetime",
+        "display": "disabled"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
   "Alas": {
     "Emulator": {
       "Serial": {

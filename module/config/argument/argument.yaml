@@ -2,6 +2,46 @@
 # Define arguments.
 # --------------------
 
+# ==================== Dashboard ====================
+
+Res:
+    Oil: 0 / 0
+    OilTime:
+        value: 2010-01-01 00:00:00
+        display: disabled
+    Coin: 0 / 0
+    CoinTime:
+        value: 2010-01-01 00:00:00
+        display: disabled
+    Gem: 0
+    GemTime:
+        value: 2010-01-01 00:00:00
+        display: disabled
+    Cube: 0
+    CubeTime:
+        value: 2010-01-01 00:00:00
+        display: disabled
+    Pt: 0
+    PtTime:
+        value: 2010-01-01 00:00:00
+        display: disabled
+    YellowCoin: 0
+    YellowCoinTime:
+        value: 2010-01-01 00:00:00
+        display: disabled
+    PurpleCoin: 0
+    PurpleCoinTime:
+        value: 2010-01-01 00:00:00
+        display: disabled
+    ActionPoint: 0 (0)
+    ActionPointTime:
+        value: 2010-01-01 00:00:00
+        display: disabled
+EquipProgress:
+    234mm: 0
+    457mm: 0
+    tenrai: 0
+    152mm: 0
 # ==================== Alas ====================
 
 Scheduler:
