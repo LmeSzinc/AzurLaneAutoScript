@@ -617,6 +617,11 @@ class RewardTacticalClass(Dock):
         skill_level_list = skill_level_ocr.ocr(self.device.image)
         for skill_button, skill_level in list(zip(SKILL_GRIDS.buttons, skill_level_list)):
             level = skill_level.upper().replace(' ', '')
+            # Empty skill slot
+            # Probably because all favourite ships have their skill leveled max.
+            # '———l'
+            if re.search(r'[—\-一]{2,}', level):
+                continue
             # Use 'MA' as a part of `MAX`.
             # SKILL_LEVEL_GRIDS may move a little lower for unknown reason, OCR results are like:
             # ['NEXT:MA', 'NEXT:/1D]', 'NEXT:MA'] (Actually: `NEXT:MAX, NEXT:0/100, NEXT:MAX`)

@@ -10,7 +10,8 @@
       "MaaInfrast",
       "MaaMall",
       "MaaAward",
-      "MaaRoguelike"
+      "MaaRoguelike",
+      "MaaReclamationAlgorithm"
     ],
     "Tool": [
       "MaaCopilot"
