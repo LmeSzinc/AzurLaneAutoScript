@@ -45,7 +45,9 @@ GUI development, thanks **[@18870](https://github.com/18870)** , say HURRAY.
 
 ## 安装 Installation [![](https://img.shields.io/github/downloads/LmeSzinc/AzurLaneAutoScript/total?color=4e4c97)](https://github.com/LmeSzinc/AzurLaneAutoScript/releases)
 
-详见 [中文安装教程](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_cn)，包含自动安装教程，使用教程，手动安装教程，远程控制教程。
+[中文安装教程](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_cn)，包含自动安装教程，使用教程，手动安装教程，远程控制教程。
+
+[设备支持文档](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Emulator_cn)，包含模拟器运行、云手机运行以及解锁各种骚方式运行。
 
 
 
@@ -114,12 +116,6 @@ GUI development, thanks **[@18870](https://github.com/18870)** , say HURRAY.
 
 
 
-## 模拟器问题 Emulator Issues
-
-见 [设备支持文档](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Emulator_cn)，包含模拟器运行、云手机运行以及解锁各种骚方式运行。
-
-
-
 ## Alas 社区准则 Alas Community Guidelines
 
 见 [#1416](https://github.com/LmeSzinc/AzurLaneAutoScript/issues/1416)。
@@ -161,4 +157,13 @@ Alas 仍在活跃开发中，我们会不定期发布未来的工作在 [Issues]
 - [ALAuto homg_trans_beta](https://github.com/asd111333/ALAuto/tree/homg_trans_beta)，Alas 引入了其中的单应性变换至海图识别模块中。
 - [PyWebIO](https://github.com/pywebio/PyWebIO)，Alas 使用的 GUI 库。
 - [MaaAssistantArknights](https://github.com/MaaAssistantArknights/MaaAssistantArknights)，明日方舟小助手，全日常一键长草，现已加入Alas豪华午餐 -> [MAA 插件使用教程](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/submodule_maa_cn)
+
+
+
+## 联系我们 Contact Us
+
+- Discord: [https://discord.gg/AQN6GeJ](https://discord.gg/AQN6GeJ)
+- QQ 二群：[703542508](https://jq.qq.com/?_wv=1027&k=F4qREgvk)
+- QQ 一群（已满）：[1087735381](https://jq.qq.com/?_wv=1027&k=I4NSqX7g)
+- Bilibili 直播间：https://live.bilibili.com/22216705 ，偶尔直播写Alas，~~为了拯救Alas，Lme决定出道成为偶像~~
 
