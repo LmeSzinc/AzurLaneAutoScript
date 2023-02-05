@@ -1,85 +1,89 @@
 {
-  "Res": {
-    "Res": {
-      "Oil": {
-        "type": "input",
-        "value": "0 / 0"
-      },
-      "OilTime": {
-        "type": "datetime",
-        "value": "2010-01-01 00:00:00",
-        "validate": "datetime",
-        "display": "disabled"
-      },
-      "Coin": {
-        "type": "input",
-        "value": "0 / 0"
-      },
-      "CoinTime": {
-        "type": "datetime",
-        "value": "2010-01-01 00:00:00",
-        "validate": "datetime",
-        "display": "disabled"
-      },
-      "Gem": {
+  "Dashboard": {
+    "Resource": {
+      "OilValue": {
         "type": "input",
         "value": 0
       },
-      "GemTime": {
-        "type": "datetime",
-        "value": "2010-01-01 00:00:00",
-        "validate": "datetime",
-        "display": "disabled"
-      },
-      "Cube": {
+      "OilLimit": {
         "type": "input",
         "value": 0
       },
-      "CubeTime": {
+      "OilRecord": {
         "type": "datetime",
-        "value": "2010-01-01 00:00:00",
-        "validate": "datetime",
-        "display": "disabled"
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
       },
-      "Pt": {
+      "CoinValue": {
         "type": "input",
         "value": 0
       },
-      "PtTime": {
-        "type": "datetime",
-        "value": "2010-01-01 00:00:00",
-        "validate": "datetime",
-        "display": "disabled"
-      },
-      "YellowCoin": {
+      "CoinLimit": {
         "type": "input",
         "value": 0
       },
-      "YellowCoinTime": {
+      "CoinRecord": {
         "type": "datetime",
-        "value": "2010-01-01 00:00:00",
-        "validate": "datetime",
-        "display": "disabled"
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
       },
-      "PurpleCoin": {
+      "GemValue": {
         "type": "input",
         "value": 0
       },
-      "PurpleCoinTime": {
+      "GemRecord": {
         "type": "datetime",
-        "value": "2010-01-01 00:00:00",
-        "validate": "datetime",
-        "display": "disabled"
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
       },
-      "ActionPoint": {
+      "CubeValue": {
         "type": "input",
-        "value": "0 (0)"
+        "value": 0
       },
-      "ActionPointTime": {
+      "CubeRecord": {
         "type": "datetime",
-        "value": "2010-01-01 00:00:00",
-        "validate": "datetime",
-        "display": "disabled"
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "PtValue": {
+        "type": "input",
+        "value": 0
+      },
+      "PtRecord": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "YellowCoinValue": {
+        "type": "input",
+        "value": 0
+      },
+      "YellowCoinRecord": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "PurpleCoinValue": {
+        "type": "input",
+        "value": 0
+      },
+      "PurpleCoinRecord": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "ActionPointValue": {
+        "type": "input",
+        "value": 0
+      },
+      "ActionPointTotal": {
+        "type": "input",
+        "value": 0
+      },
+      "ActionPointRecord": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
       }
     },
     "Storage": {

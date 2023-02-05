@@ -1,0 +1,7 @@
+# --------------------
+# Define argument group of dashboard-only arguments.
+# --------------------
+
+# ==================== Dashboard ====================
+Dashboard:
+  - Resource

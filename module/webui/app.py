@@ -20,6 +20,7 @@ from module.config.utils import (
     read_file,
 )
 from module.config.utils import time_delta
+from module.log_res.log_res import LogRes
 from module.logger import logger
 from module.ocr.rpc import start_ocr_server_process, stop_ocr_server_process
 from module.submodule.submodule import load_config
@@ -474,9 +475,9 @@ class AlasGUI(Frame):
                     pin["_".join(k.split("."))] = default
 
                     # update Res Record if Res Value is changed to None
-                    if 'Res.Res' in k:
+                    if 'Dashboard.Resource' in k:
                         k = k.split(".")
-                        k[-1] = k[-1] + 'Time'
+                        k[-1] = k[-1] + 'Record'
                         k = ".".join(k)
                         v = str(datetime(2010, 1, 1, 0, 0, 0))
                         modified[k] = v
@@ -503,9 +504,9 @@ class AlasGUI(Frame):
 
                     # update Res Record if Res Value is changed
                     # imitating Emotion record
-                    if "Res.Res" in k and not skip_time_record:
+                    if "Dashboard.Resource" in k and not skip_time_record:
                         k = k.split(".")
-                        k[-1] = k[-1] + 'Time'
+                        k[-1] = k[-1] + 'Record'
                         k = ".".join(k)
                         v = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                         modified[k] = v
@@ -587,19 +588,32 @@ class AlasGUI(Frame):
             else:
                 put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
 
+    def timedelta_to_text(self, delta=None):
+        time_delta_name_suffix_dict = {
+            'Y': 'YearsAgo',
+            'M': 'MonthsAgo',
+            'D': 'DaysAgo',
+            'h': 'HoursAgo',
+            'm': 'MinutesAgo',
+            's': 'SecondsAgo',
+        }
+        time_delta_name_prefix = 'Gui.Overview.'
+        time_delta_name_suffix = 'NoData'
+        time_delta_display = ''
+        if isinstance(delta, dict):
+            for _key in delta:
+                if delta[_key]:
+                    time_delta_name_suffix = time_delta_name_suffix_dict[_key]
+                    time_delta_display = delta[_key]
+                    break
+        time_delta_display = str(time_delta_display)
+        time_delta_name = time_delta_name_prefix + time_delta_name_suffix
+        return time_delta_display+t(time_delta_name)
+
     def alas_update_dashboard(self):
         if not self.visible:
             return
-        resource = [
-            "Oil",
-            "Gem",
-            "Pt",
-            "YellowCoin",
-            "Coin",
-            "Cube",
-            "ActionPoint",
-            "PurpleCoin"
-        ]
+        arg_path = LogRes(self.alas_config).arg_path
         color = [
             '<div class="status-point" style="background-color:#000000">',
             '<div class="status-point" style="background-color:#FF3333">',
@@ -610,52 +624,54 @@ class AlasGUI(Frame):
             '<div class="status-point" style="background-color:#0000FF">',
             '<div class="status-point" style="background-color:#7700BB">',
         ]
-        time_delta_name_suffix_dict = {
-            'Y': 'YearsAgo',
-            'M': 'MonthsAgo',
-            'D': 'DaysAgo',
-            'h': 'HoursAgo',
-            'm': 'MinutesAgo',
-            's': 'SecondsAgo',
-        }
         clear("dashboard")
         with use_scope("dashboard"):
             if not self._log.display_dashboard:
                 return
             elif self._log.display_dashboard:
                 x = 0
-                for name in resource:
-                    resource_name = f'Gui.Overview.{name}'
-                    value_name = f'Res.Res.{name}'
-                    value = deep_get(self.alas_config.data, keys=value_name, default='None')
-                    value_time = deep_get(self.alas_config.data, keys=value_name + 'Time')
-                    if value_time == '00:00:00' or value_time is None:
-                        value_time = datetime(2010, 1, 1, 0, 0, 0)
-                    time_now = datetime.now().replace(microsecond=0)
-
-                    # Handle time delta
-                    delta = time_delta(value_time, time_now, True)
-                    time_delta_name_prefix = 'Gui.Overview.'
-                    for _key in delta:
-                        if delta[_key]:
-                            time_delta_name_suffix = time_delta_name_suffix_dict[_key]
-                            time_delta_display = delta[_key]
+                args_ignore = ['Record', 'Limit', 'Total', 'Storage']
+                args_has_limit = ['CoinValue', 'OilValue']
+                args_has_total = ['ActionPointValue']
+                broken = False
+                for name in arg_path:
+                    # Skip duplicated records and 'Storage'
+                    for arg_ignore in args_ignore:
+                        if arg_ignore in name:
+                            broken = True
                             break
-                    if str(value_time) == '2010-01-01 00:00:00':
-                        time_delta_name_suffix = 'NoData'
-                        time_delta_display = ''
-                        value = "None"
-                    time_delta_display = str(time_delta_display)
-                    time_delta_name = time_delta_name_prefix + time_delta_name_suffix
-
+                    if broken:
+                        broken = False
+                        continue
+                    resource_name = f'Gui.Overview.{name.replace("Value", "")}'
+                    value_name = arg_path[name]
+                    if name in args_has_limit:
+                        value = deep_get(self.alas_config.data, keys=value_name)
+                        value_limit = deep_get(self.alas_config.data, keys=value_name.replace('Value', 'Limit'))
+                        value = f'{value} / {value_limit}'
+                    elif name in args_has_total:
+                        value = deep_get(self.alas_config.data, keys=value_name)
+                        value_total = deep_get(self.alas_config.data, keys=value_name.replace('Value', 'Total'))
+                        value = f'{value} ({value_total})'
+                    else:
+                        value = deep_get(self.alas_config.data, keys=value_name)
+                    value_time = deep_get(self.alas_config.data, keys=value_name.replace('Value', 'Record'))
+                    if value_time is None:
+                        value_time = datetime(2020, 1, 1, 0, 0, 0)
+                    time_now = datetime.now().replace(microsecond=0)
+                    # Handle time delta
+                    if value_time == datetime(2020, 1, 1, 0, 0, 0):
+                        value = None
+                        delta = self.timedelta_to_text()
+                    else:
+                        delta = self.timedelta_to_text(time_delta(value_time - time_now, True))
                     put_row(
                         [
                             put_html(color[x]),
                             put_column(
                                 [
                                     put_text(str(value)).style("--arg-title--"),
-                                    put_text(t(resource_name) + " - " + time_delta_display + t(time_delta_name)).style(
-                                        "--arg-help--"),
+                                    put_text(t(resource_name) + " - " +delta).style("--arg-help--"),
                                 ],
                                 size="auto auto",
                             ),

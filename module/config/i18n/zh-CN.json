@@ -4,10 +4,6 @@
       "name": "",
       "help": ""
     },
-    "Dashboard": {
-      "name": "仪表盘",
-      "help": ""
-    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -42,10 +38,6 @@
     }
   },
   "Task": {
-    "Res": {
-      "name": "查看资源储量",
-      "help": ""
-    },
     "Alas": {
       "name": "Alas设置",
       "help": ""
@@ -267,96 +259,86 @@
       "help": ""
     }
   },
-  "Res": {
+  "Resource": {
     "_info": {
-      "name": "查看资源储量",
-      "help": "并非实时更新，会在最近一次出击时更新"
+      "name": "Resource._info.name",
+      "help": "Resource._info.help"
     },
-    "Oil": {
-      "name": "石油储量/最大石油储量",
-      "help": "石油储量大于最大石油储量时应尽快清理以免卡自动产出"
+    "OilValue": {
+      "name": "Resource.OilValue.name",
+      "help": "Resource.OilValue.help"
     },
-    "OilTime": {
-      "name": "",
-      "help": "记录时间"
+    "OilLimit": {
+      "name": "Resource.OilLimit.name",
+      "help": "Resource.OilLimit.help"
     },
-    "Coin": {
-      "name": "物资储量/最大物资储量",
-      "help": "物资储量大于最大物资储量时应尽快清理以免卡自动产出"
+    "OilRecord": {
+      "name": "Resource.OilRecord.name",
+      "help": "Resource.OilRecord.help"
     },
-    "CoinTime": {
-      "name": "",
-      "help": "记录时间"
+    "CoinValue": {
+      "name": "Resource.CoinValue.name",
+      "help": "Resource.CoinValue.help"
     },
-    "Gem": {
-      "name": "钻石",
-      "help": "俗称红尖尖"
+    "CoinLimit": {
+      "name": "Resource.CoinLimit.name",
+      "help": "Resource.CoinLimit.help"
     },
-    "GemTime": {
-      "name": "",
-      "help": "记录时间"
+    "CoinRecord": {
+      "name": "Resource.CoinRecord.name",
+      "help": "Resource.CoinRecord.help"
     },
-    "Cube": {
-      "name": "魔方",
-      "help": "每日抽卡时更新"
+    "GemValue": {
+      "name": "Resource.GemValue.name",
+      "help": "Resource.GemValue.help"
     },
-    "CubeTime": {
-      "name": "",
-      "help": "记录时间"
+    "GemRecord": {
+      "name": "Resource.GemRecord.name",
+      "help": "Resource.GemRecord.help"
     },
-    "Pt": {
-      "name": "活动PT",
-      "help": ""
+    "CubeValue": {
+      "name": "Resource.CubeValue.name",
+      "help": "Resource.CubeValue.help"
     },
-    "PtTime": {
-      "name": "",
-      "help": "记录时间"
+    "CubeRecord": {
+      "name": "Resource.CubeRecord.name",
+      "help": "Resource.CubeRecord.help"
     },
-    "YellowCoin": {
-      "name": "作战补给凭证",
-      "help": "俗称黄币"
+    "PtValue": {
+      "name": "Resource.PtValue.name",
+      "help": "Resource.PtValue.help"
     },
-    "YellowCoinTime": {
-      "name": "",
-      "help": "记录时间"
+    "PtRecord": {
+      "name": "Resource.PtRecord.name",
+      "help": "Resource.PtRecord.help"
     },
-    "PurpleCoin": {
-      "name": "特殊兑换凭证",
-      "help": "俗称紫币"
+    "YellowCoinValue": {
+      "name": "Resource.YellowCoinValue.name",
+      "help": "Resource.YellowCoinValue.help"
     },
-    "PurpleCoinTime": {
-      "name": "",
-      "help": "记录时间"
+    "YellowCoinRecord": {
+      "name": "Resource.YellowCoinRecord.name",
+      "help": "Resource.YellowCoinRecord.help"
     },
-    "ActionPoint": {
-      "name": "行动力",
-      "help": ""
+    "PurpleCoinValue": {
+      "name": "Resource.PurpleCoinValue.name",
+      "help": "Resource.PurpleCoinValue.help"
     },
-    "ActionPointTime": {
-      "name": "",
-      "help": "记录时间"
-    }
-  },
-  "EquipProgress": {
-    "_info": {
-      "name": "彩色装备研发进度",
-      "help": "首次使用时填入目前进度"
+    "PurpleCoinRecord": {
+      "name": "Resource.PurpleCoinRecord.name",
+      "help": "Resource.PurpleCoinRecord.help"
     },
-    "234mm": {
-      "name": "试作型三联装234mm主炮",
-      "help": "俗称德雷克炮"
+    "ActionPointValue": {
+      "name": "Resource.ActionPointValue.name",
+      "help": "Resource.ActionPointValue.help"
     },
-    "457mm": {
-      "name": "试作型双联装457mm主炮MkA",
-      "help": "俗称457"
+    "ActionPointTotal": {
+      "name": "Resource.ActionPointTotal.name",
+      "help": "Resource.ActionPointTotal.help"
     },
-    "tenrai": {
-      "name": "试作舰载型天雷",
-      "help": "偷你天雷"
-    },
-    "152mm": {
-      "name": "试作型四联装152mm主炮",
-      "help": "俗称152"
+    "ActionPointRecord": {
+      "name": "Resource.ActionPointRecord.name",
+      "help": "Resource.ActionPointRecord.help"
     }
   },
   "Scheduler": {
@@ -2464,6 +2446,7 @@
     },
     "Overview": {
       "Scheduler": "调度器",
+      "Dashboard": "Gui.Overview.Dashboard",
       "SecondsAgo": "秒前",
       "MinutesAgo": "分钟前",
       "HoursAgo": "小时前",

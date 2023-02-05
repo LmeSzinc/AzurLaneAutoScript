@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 
 from module.base.timer import Timer
-from module.campaign.assets import OCR_EVENT_PT, OCR_COIN, OCR_OIL, OCR_GEM, OCR_MAXCOIN, OCR_MAXOIL
+from module.campaign.assets import OCR_EVENT_PT, OCR_COIN, OCR_OIL, OCR_GEM, OCR_COIN_LIMIT, OCR_OIL_LIMIT
 from module.logger import logger
 from module.ocr.ocr import Ocr, Digit
 from module.ui.ui import UI
@@ -12,8 +12,8 @@ from module.log_res.log_res import LogRes
 
 OCR_OIL = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
 OCR_COIN = Digit(OCR_COIN, name='OCR_COIN', letter=(239, 239, 239), threshold=128)
-OCR_MAXOIL = Digit(OCR_MAXOIL, name='OCR_MAXOIL', letter=(235, 235, 235), threshold=128)
-OCR_MAXCOIN = Digit(OCR_MAXCOIN, name='OCR_MAXCOIN', letter=(239, 239, 239), threshold=128)
+OCR_OIL_LIMIT = Digit(OCR_OIL_LIMIT, name='OCR_OIL_LIMIT', letter=(235, 235, 235), threshold=128)
+OCR_COIN_LIMIT = Digit(OCR_COIN_LIMIT, name='OCR_COIN_LIMIT', letter=(239, 239, 239), threshold=128)
 
 class PtOcr(Ocr):
     def __init__(self, *args, **kwargs):
@@ -52,11 +52,11 @@ class CampaignStatus(UI):
         if res:
             pt = int(res.group(1))
             logger.attr('Event_PT', pt)
-            LogRes(self.config).log_res(pt, 'Pt')
+            LogRes(self.config).log_res(pt, 'PtValue')
             return pt
         else:
             logger.warning(f'Invalid pt result: {pt}')
-            LogRes(self.config).log_res(0, 'Pt')
+            LogRes(self.config).log_res(0, 'PtValue')
             return 0
 
     def get_gem(self, skip_first_screenshot=True):
@@ -79,7 +79,7 @@ class CampaignStatus(UI):
             
             if amount >= 10:
                 break
-        LogRes(self.config).log_res(amount, 'Gem')
+        LogRes(self.config).log_res(amount, 'GemValue')
 
         return amount
 
@@ -88,8 +88,8 @@ class CampaignStatus(UI):
         Returns:
             int: Coin amount
         """
-        amount1 = 0
-        amount2 = 0
+        amount = 0
+        limit = 0
         timeout = Timer(1, count=2).start()
         while 1:
             if skip_first_screenshot:
@@ -101,13 +101,14 @@ class CampaignStatus(UI):
                 logger.warning('Get coin timeout')
                 break
 
-            amount1 = OCR_COIN.ocr(self.device.image)
-            amount2 = OCR_MAXCOIN.ocr(self.device.image)
-            if amount1 >= 100:
+            amount = OCR_COIN.ocr(self.device.image)
+            limit = OCR_COIN_LIMIT.ocr(self.device.image)
+            if amount >= 100:
                 break
-        LogRes(self.config).log_res(f'{amount1} / {amount2}', 'Coin')
+        LogRes(self.config).log_res(amount, 'CoinValue')
+        LogRes(self.config).log_res(limit, 'CoinLimit')
 
-        return amount1
+        return amount
 
     def _get_oil(self):
         return OCR_OIL.ocr(self.device.image)
@@ -115,10 +116,10 @@ class CampaignStatus(UI):
     def get_oil(self, skip_first_screenshot=True):
         """
         Returns:
-            int: Coin amount
+            int: Oil amount
         """
-        amount1 = 0
-        amount2 = 0
+        amount = 0
+        limit = 0
         timeout = Timer(1, count=2).start()
         while 1:
             if skip_first_screenshot:
@@ -127,13 +128,14 @@ class CampaignStatus(UI):
                 self.device.screenshot()
 
             if timeout.reached():
-                logger.warning('Get coin timeout')
+                logger.warning('Get oil timeout')
                 break
 
-            amount1 = OCR_OIL.ocr(self.device.image)
-            amount2 = OCR_MAXOIL.ocr(self.device.image)
-            if amount1 >= 100:
+            amount = OCR_OIL.ocr(self.device.image)
+            limit = OCR_OIL_LIMIT.ocr(self.device.image)
+            if amount >= 100:
                 break
-        LogRes(self.config).log_res(f'{amount1} / {amount2}', 'Oil')
+        LogRes(self.config).log_res(amount, 'OilValue')
+        LogRes(self.config).log_res(limit, 'OilLimit')
 
-        return amount1
+        return amount
