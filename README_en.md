@@ -2,8 +2,6 @@
 
 # AzurLaneAutoScript
 
-#### Discord [![](https://img.shields.io/discord/720789890354249748?logo=discord&logoColor=ffffff&color=4e4c97)](https://discord.gg/AQN6GeJ) QQ Group ![](https://img.shields.io/badge/QQ%20Group-1087735381-4e4c97)
-
 Azur Lane bot with GUI (Supports CN, EN, JP, TW, able to support other servers), designed for 24/7 running scenes, can take over almost all Azur Lane gameplay. Azur Lane, as a mobile game, has entered the late stage of its life cycle. During the period from now to the server down, please reduce the time spent on the Azur Lane and leave everything to Alas.
 
 Alas is a free open source software, link: https://github.com/LmeSzinc/AzurLaneAutoScript
@@ -107,3 +105,6 @@ Oh yeah, don't forget to read the [development documentation](https://github.com
 - [PyWebIO](https://github.com/pywebio/PyWebIO), GUI framework that Alas uses.
 - [MaaAssistantArknights](https://github.com/MaaAssistantArknights/MaaAssistantArknights), an Arknights assistant based on image recognition, helps you to complete daily quests efficiently! -> [MAA submodule tutorial](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/submodule_maa_cn)
 
+## Contact Us
+
+- Discord: [https://discord.gg/AQN6GeJ](https://discord.gg/AQN6GeJ)
