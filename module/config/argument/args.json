@@ -14,33 +14,11 @@
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
-      "CoinValue": {
-        "type": "input",
-        "value": 0
-      },
-      "CoinLimit": {
-        "type": "input",
-        "value": 0
-      },
-      "CoinRecord": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
       "GemValue": {
         "type": "input",
         "value": 0
       },
       "GemRecord": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "CubeValue": {
-        "type": "input",
-        "value": 0
-      },
-      "CubeRecord": {
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
@@ -63,11 +41,24 @@
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
-      "PurpleCoinValue": {
+      "CoinValue": {
         "type": "input",
         "value": 0
       },
-      "PurpleCoinRecord": {
+      "CoinLimit": {
+        "type": "input",
+        "value": 0
+      },
+      "CoinRecord": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "CubeValue": {
+        "type": "input",
+        "value": 0
+      },
+      "CubeRecord": {
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
@@ -86,6 +77,15 @@
         "validate": "datetime"
       }
     },
+      "PurpleCoinValue": {
+        "type": "input",
+        "value": 0
+      },
+      "PurpleCoinRecord": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
     "Storage": {
       "Storage": {
         "type": "storage",

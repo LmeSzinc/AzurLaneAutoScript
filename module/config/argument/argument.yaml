@@ -8,22 +8,22 @@ Resource:
     OilValue: 0
     OilLimit: 0
     OilRecord: 2020-01-01 00:00:00
-    CoinValue: 0
-    CoinLimit: 0
-    CoinRecord: 2020-01-01 00:00:00
     GemValue: 0
     GemRecord: 2020-01-01 00:00:00
-    CubeValue: 0
-    CubeRecord: 2020-01-01 00:00:00
     PtValue: 0
     PtRecord: 2020-01-01 00:00:00
     YellowCoinValue: 0
     YellowCoinRecord: 2020-01-01 00:00:00
-    PurpleCoinValue: 0
-    PurpleCoinRecord: 2020-01-01 00:00:00
+    CoinValue: 0
+    CoinLimit: 0
+    CoinRecord: 2020-01-01 00:00:00
+    CubeValue: 0
+    CubeRecord: 2020-01-01 00:00:00
     ActionPointValue: 0
     ActionPointTotal: 0
     ActionPointRecord: 2020-01-01 00:00:00
+    PurpleCoinValue: 0
+    PurpleCoinRecord: 2020-01-01 00:00:00
 # ==================== Alas ====================
 
 Scheduler:
