@@ -236,6 +236,7 @@ class Combat(Combat_, MapEventHandler):
 
         logger.info('Auto Search combat execute')
         self.submarine_call_reset()
+        self.device.click_record_clear()
         submarine_mode = 'do_not_use'
         if self.config.Submarine_Fleet:
             submarine_mode = self.config.Submarine_Mode

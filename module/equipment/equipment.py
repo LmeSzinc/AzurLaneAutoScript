@@ -3,6 +3,7 @@ from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.equipment.assets import *
 from module.logger import logger
+from module.retire.assets import EQUIP_CONFIRM as RETIRE_EQUIP_CONFIRM
 from module.storage.storage import StorageHandler
 from module.ui.navbar import Navbar
 from module.ui.switch import Switch
@@ -39,8 +40,8 @@ class Equipment(StorageHandler):
 
             self.device.screenshot()
 
-            if self.appear(EQUIP_CONFIRM, offset=(30, 30)):
-                logger.info('EQUIP_CONFIRM popup in _equip_view_swipe()')
+            if self.appear(RETIRE_EQUIP_CONFIRM, offset=(30, 30)):
+                logger.info('RETIRE_EQUIP_CONFIRM popup in _equip_view_swipe()')
                 return False
             if SWIPE_CHECK.match(self.device.image):
                 if swipe_count > 1:
