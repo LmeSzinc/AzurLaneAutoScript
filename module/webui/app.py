@@ -642,16 +642,21 @@ class AlasGUI(Frame):
             put_row(
                 [
                     put_html(color),
-                    put_column(
+                    put_scope(
+                        f"{group_name}",
                         [
-                            put_text(str(value)).style("--arg-title--"),
-                            put_text(t(f'Gui.Overview.{group_name}') + " - " + delta).style("--arg-help--"),
+                            put_column(
+                                [
+                                    put_text(str(value)).style("--arg-title--"),
+                                    put_text(t(f'Gui.Overview.{group_name}') + " - " + delta).style("--arg-help--"),
+                                ],
+                                size="auto auto",
+                            ),
                         ],
-                        size="auto auto",
                     ),
                 ],
                 size="20px 1fr"
-            )
+            ).style("height: 1fr"),
             x += 1
             if x>=_num:
                 break
@@ -661,7 +666,7 @@ class AlasGUI(Frame):
         clear("dashboard")
         with use_scope("dashboard"):
             if not self._log.display_dashboard:
-                self._update_dashboard(num=4, groups_to_display=['Oil','Coin'])
+                self._update_dashboard(num=4, groups_to_display=['Oil','Coin','Gem','Cube'])
             elif self._log.display_dashboard:
                 self._update_dashboard()
 

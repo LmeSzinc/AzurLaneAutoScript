@@ -394,7 +394,6 @@ pre.rich-traceback-code {
     display: grid;
     grid-auto-flow: row;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
 }
 
 #pywebio-scope-log {
