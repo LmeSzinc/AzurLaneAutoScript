@@ -94,6 +94,7 @@ class RichLog:
         # self._width = 80
         self.keep_bottom = True
         self.display_dashboard = False
+        self.first_display = True
         if State.theme == "dark":
             self.terminal_theme = DARK_TERMINAL_THEME
         else:
@@ -142,6 +143,7 @@ class RichLog:
     def set_dashboard_display(self, b: bool) -> None:
         # use for lambda callback function. Copied.
         self.display_dashboard = b
+        self.first_display = True
 
     def get_width(self):
         js = """

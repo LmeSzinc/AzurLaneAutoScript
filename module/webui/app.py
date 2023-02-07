@@ -295,7 +295,7 @@ class AlasGUI(Frame):
             put_html('<hr class="hr-group">')
             for output in output_list:
                 output.show()
-        
+
         return len(output_list)
 
     @use_scope("navigator")
@@ -414,12 +414,12 @@ class AlasGUI(Frame):
         self.task_handler.add(switch_log_scroll.g(), 1, True)
         self.task_handler.add(switch_dashboard.g(), 1, True)
         self.task_handler.add(self.alas_update_overview_task, 10, True)
-        self.task_handler.add(self.alas_update_dashboard, 20, True)
+        self.task_handler.add(self.alas_update_dashboard, 10, True)
         self.task_handler.add(log.put_log(self.alas), 0.25, True)
 
     def set_dashboard_display(self, b):
         self._log.set_dashboard_display(b)
-        self.alas_update_dashboard()
+        self.alas_update_dashboard(True)
 
     def _init_alas_config_watcher(self) -> None:
         def put_queue(path, value):
@@ -452,11 +452,11 @@ class AlasGUI(Frame):
                     break
 
     def _save_config(
-        self,
-        modified: Dict[str, str],
-        config_name: str,
-        read=State.config_updater.read_file,
-        write=State.config_updater.write_file,
+            self,
+            modified: Dict[str, str],
+            config_name: str,
+            read=State.config_updater.read_file,
+            write=State.config_updater.write_file,
     ) -> None:
         try:
             skip_time_record = False
@@ -608,14 +608,15 @@ class AlasGUI(Frame):
                     break
         time_delta_display = str(time_delta_display)
         time_delta_name = time_delta_name_prefix + time_delta_name_suffix
-        return time_delta_display+t(time_delta_name)
+        return time_delta_display + t(time_delta_name)
 
-    def _update_dashboard(self,num=None,groups_to_display=None):
+    def _update_dashboard(self, num=None, groups_to_display=None):
         x = 0
         _num = 10000 if num is None else num
         arg_group = LogRes(self.alas_config).groups if groups_to_display is None else groups_to_display
         for group_name in arg_group:
             group = deep_get(d=self.alas_config.data, keys=f'Dashboard.{group_name}')
+
             if 'Limit' in group.keys():
                 value = deep_get(group, keys='Value')
                 value_limit = deep_get(group, keys='Limit')
@@ -626,10 +627,18 @@ class AlasGUI(Frame):
                 value = f'{value} ({value_total})'
             else:
                 value = deep_get(group, keys='Value')
+
             value_time = deep_get(group, keys='Record')
+            value_last_display = deep_get(group, keys='LastDisplay')
             if value_time is None:
                 value_time = datetime(2020, 1, 1, 0, 0, 0)
+            if value_last_display is None:
+                value_last_display = datetime(2020, 1, 1, 0, 0, 0)
+
+            if value_last_display >= value_time and not self._log.first_display:
+                continue
             time_now = datetime.now().replace(microsecond=0)
+            deep_set(self.alas_config.data, f'Dashboard.{group_name}.LastDisplay', time_now)
             # Handle time delta
             if value_time == datetime(2020, 1, 1, 0, 0, 0):
                 value = None
@@ -639,34 +648,36 @@ class AlasGUI(Frame):
             # Handle dot color
             _color = f"""background-color:{deep_get(d=group, keys='Color').replace('^', '#')}"""
             color = f'<div class="status-point" style={_color}>'
-            put_row(
-                [
-                    put_html(color),
-                    put_scope(
-                        f"{group_name}",
-                        [
-                            put_column(
-                                [
-                                    put_text(str(value)).style("--arg-title--"),
-                                    put_text(t(f'Gui.Overview.{group_name}') + " - " + delta).style("--arg-help--"),
-                                ],
-                                size="auto auto",
-                            ),
-                        ],
-                    ),
-                ],
-                size="20px 1fr"
-            ).style("height: 1fr"),
-            x += 1
-            if x>=_num:
+            with use_scope(group_name, clear=True):
+                put_row(
+                    [
+                        put_html(color),
+                        put_scope(
+                            f"_{group_name}",
+                            [
+                                put_column(
+                                    [
+                                        put_text(str(value)).style("--arg-title--"),
+                                        put_text(t(f'Gui.Overview.{group_name}') + " - " + delta).style("--arg-help--"),
+                                    ],
+                                    size="auto auto",
+                                ),
+                            ],
+                        ),
+                    ],
+                    size="20px 1fr"
+                ).style("height: 1fr"),
+            if x >= _num:
                 break
-    def alas_update_dashboard(self):
+        if self._log.first_display:
+            self._log.first_display = False
+
+    def alas_update_dashboard(self, _clear=False):
         if not self.visible:
             return
-        clear("dashboard")
-        with use_scope("dashboard"):
+        with use_scope("dashboard", clear=_clear):
             if not self._log.display_dashboard:
-                self._update_dashboard(num=4, groups_to_display=['Oil','Coin','Gem','Cube'])
+                self._update_dashboard(num=4, groups_to_display=['Oil', 'Coin', 'Gem', 'Cube'])
             elif self._log.display_dashboard:
                 self._update_dashboard()
 
@@ -1020,8 +1031,8 @@ class AlasGUI(Frame):
                     "--loading-border-fill--"
                 )
                 if (
-                    State.deploy_config.EnableRemoteAccess
-                    and State.deploy_config.Password
+                        State.deploy_config.EnableRemoteAccess
+                        and State.deploy_config.Password
                 ):
                     put_text(t("Gui.Remote.NotRunning"), scope="remote_state")
                 else:
@@ -1304,8 +1315,8 @@ def startup():
     if State.deploy_config.StartOcrServer:
         start_ocr_server_process(State.deploy_config.OcrServerPort)
     if (
-        State.deploy_config.EnableRemoteAccess
-        and State.deploy_config.Password is not None
+            State.deploy_config.EnableRemoteAccess
+            and State.deploy_config.Password is not None
     ):
         task_handler.add(RemoteAccess.keep_ssh_alive(), 60)
 

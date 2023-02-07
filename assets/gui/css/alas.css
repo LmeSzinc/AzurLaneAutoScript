@@ -393,7 +393,7 @@ pre.rich-traceback-code {
     width: 100%;
     display: grid;
     grid-auto-flow: row;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
 }
 
 #pywebio-scope-log {
