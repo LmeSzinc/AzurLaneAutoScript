@@ -259,86 +259,192 @@
       "help": ""
     }
   },
-  "Resource": {
+  "Oil": {
     "_info": {
-      "name": "Resource._info.name",
-      "help": "Resource._info.help"
+      "name": "Oil._info.name",
+      "help": "Oil._info.help"
     },
-    "OilValue": {
-      "name": "Resource.OilValue.name",
-      "help": "Resource.OilValue.help"
+    "Value": {
+      "name": "Oil.Value.name",
+      "help": "Oil.Value.help"
     },
-    "OilLimit": {
-      "name": "Resource.OilLimit.name",
-      "help": "Resource.OilLimit.help"
+    "Limit": {
+      "name": "Oil.Limit.name",
+      "help": "Oil.Limit.help"
     },
-    "OilRecord": {
-      "name": "Resource.OilRecord.name",
-      "help": "Resource.OilRecord.help"
+    "Color": {
+      "name": "Oil.Color.name",
+      "help": "Oil.Color.help"
     },
-    "CoinValue": {
-      "name": "Resource.CoinValue.name",
-      "help": "Resource.CoinValue.help"
+    "Record": {
+      "name": "Oil.Record.name",
+      "help": "Oil.Record.help"
     },
-    "CoinLimit": {
-      "name": "Resource.CoinLimit.name",
-      "help": "Resource.CoinLimit.help"
+    "LastDisplay": {
+      "name": "Oil.LastDisplay.name",
+      "help": "Oil.LastDisplay.help"
+    }
+  },
+  "Coin": {
+    "_info": {
+      "name": "Coin._info.name",
+      "help": "Coin._info.help"
     },
-    "CoinRecord": {
-      "name": "Resource.CoinRecord.name",
-      "help": "Resource.CoinRecord.help"
+    "Value": {
+      "name": "Coin.Value.name",
+      "help": "Coin.Value.help"
     },
-    "GemValue": {
-      "name": "Resource.GemValue.name",
-      "help": "Resource.GemValue.help"
+    "Limit": {
+      "name": "Coin.Limit.name",
+      "help": "Coin.Limit.help"
     },
-    "GemRecord": {
-      "name": "Resource.GemRecord.name",
-      "help": "Resource.GemRecord.help"
+    "Color": {
+      "name": "Coin.Color.name",
+      "help": "Coin.Color.help"
     },
-    "CubeValue": {
-      "name": "Resource.CubeValue.name",
-      "help": "Resource.CubeValue.help"
+    "Record": {
+      "name": "Coin.Record.name",
+      "help": "Coin.Record.help"
     },
-    "CubeRecord": {
-      "name": "Resource.CubeRecord.name",
-      "help": "Resource.CubeRecord.help"
+    "LastDisplay": {
+      "name": "Coin.LastDisplay.name",
+      "help": "Coin.LastDisplay.help"
+    }
+  },
+  "Gem": {
+    "_info": {
+      "name": "Gem._info.name",
+      "help": "Gem._info.help"
     },
-    "PtValue": {
-      "name": "Resource.PtValue.name",
-      "help": "Resource.PtValue.help"
+    "Value": {
+      "name": "Gem.Value.name",
+      "help": "Gem.Value.help"
     },
-    "PtRecord": {
-      "name": "Resource.PtRecord.name",
-      "help": "Resource.PtRecord.help"
+    "Color": {
+      "name": "Gem.Color.name",
+      "help": "Gem.Color.help"
     },
-    "YellowCoinValue": {
-      "name": "Resource.YellowCoinValue.name",
-      "help": "Resource.YellowCoinValue.help"
+    "Record": {
+      "name": "Gem.Record.name",
+      "help": "Gem.Record.help"
     },
-    "YellowCoinRecord": {
-      "name": "Resource.YellowCoinRecord.name",
-      "help": "Resource.YellowCoinRecord.help"
+    "LastDisplay": {
+      "name": "Gem.LastDisplay.name",
+      "help": "Gem.LastDisplay.help"
+    }
+  },
+  "Pt": {
+    "_info": {
+      "name": "Pt._info.name",
+      "help": "Pt._info.help"
     },
-    "PurpleCoinValue": {
-      "name": "Resource.PurpleCoinValue.name",
-      "help": "Resource.PurpleCoinValue.help"
+    "Value": {
+      "name": "Pt.Value.name",
+      "help": "Pt.Value.help"
     },
-    "PurpleCoinRecord": {
-      "name": "Resource.PurpleCoinRecord.name",
-      "help": "Resource.PurpleCoinRecord.help"
+    "Color": {
+      "name": "Pt.Color.name",
+      "help": "Pt.Color.help"
     },
-    "ActionPointValue": {
-      "name": "Resource.ActionPointValue.name",
-      "help": "Resource.ActionPointValue.help"
+    "Record": {
+      "name": "Pt.Record.name",
+      "help": "Pt.Record.help"
     },
-    "ActionPointTotal": {
-      "name": "Resource.ActionPointTotal.name",
-      "help": "Resource.ActionPointTotal.help"
+    "LastDisplay": {
+      "name": "Pt.LastDisplay.name",
+      "help": "Pt.LastDisplay.help"
+    }
+  },
+  "YellowCoin": {
+    "_info": {
+      "name": "YellowCoin._info.name",
+      "help": "YellowCoin._info.help"
     },
-    "ActionPointRecord": {
-      "name": "Resource.ActionPointRecord.name",
-      "help": "Resource.ActionPointRecord.help"
+    "Value": {
+      "name": "YellowCoin.Value.name",
+      "help": "YellowCoin.Value.help"
+    },
+    "Color": {
+      "name": "YellowCoin.Color.name",
+      "help": "YellowCoin.Color.help"
+    },
+    "Record": {
+      "name": "YellowCoin.Record.name",
+      "help": "YellowCoin.Record.help"
+    },
+    "LastDisplay": {
+      "name": "YellowCoin.LastDisplay.name",
+      "help": "YellowCoin.LastDisplay.help"
+    }
+  },
+  "PurpleCoin": {
+    "_info": {
+      "name": "PurpleCoin._info.name",
+      "help": "PurpleCoin._info.help"
+    },
+    "Value": {
+      "name": "PurpleCoin.Value.name",
+      "help": "PurpleCoin.Value.help"
+    },
+    "Color": {
+      "name": "PurpleCoin.Color.name",
+      "help": "PurpleCoin.Color.help"
+    },
+    "Record": {
+      "name": "PurpleCoin.Record.name",
+      "help": "PurpleCoin.Record.help"
+    },
+    "LastDisplay": {
+      "name": "PurpleCoin.LastDisplay.name",
+      "help": "PurpleCoin.LastDisplay.help"
+    }
+  },
+  "ActionPoint": {
+    "_info": {
+      "name": "ActionPoint._info.name",
+      "help": "ActionPoint._info.help"
+    },
+    "Value": {
+      "name": "ActionPoint.Value.name",
+      "help": "ActionPoint.Value.help"
+    },
+    "Total": {
+      "name": "ActionPoint.Total.name",
+      "help": "ActionPoint.Total.help"
+    },
+    "Color": {
+      "name": "ActionPoint.Color.name",
+      "help": "ActionPoint.Color.help"
+    },
+    "Record": {
+      "name": "ActionPoint.Record.name",
+      "help": "ActionPoint.Record.help"
+    },
+    "LastDisplay": {
+      "name": "ActionPoint.LastDisplay.name",
+      "help": "ActionPoint.LastDisplay.help"
+    }
+  },
+  "Cube": {
+    "_info": {
+      "name": "Cube._info.name",
+      "help": "Cube._info.help"
+    },
+    "Value": {
+      "name": "Cube.Value.name",
+      "help": "Cube.Value.help"
+    },
+    "Color": {
+      "name": "Cube.Color.name",
+      "help": "Cube.Color.help"
+    },
+    "Record": {
+      "name": "Cube.Record.name",
+      "help": "Cube.Record.help"
+    },
+    "LastDisplay": {
+      "name": "Cube.LastDisplay.name",
+      "help": "Cube.LastDisplay.help"
     }
   },
   "Scheduler": {

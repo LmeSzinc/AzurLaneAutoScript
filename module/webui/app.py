@@ -414,7 +414,7 @@ class AlasGUI(Frame):
         self.task_handler.add(switch_log_scroll.g(), 1, True)
         self.task_handler.add(switch_dashboard.g(), 1, True)
         self.task_handler.add(self.alas_update_overview_task, 10, True)
-        self.task_handler.add(self.alas_update_dashboard, 60, True)
+        self.task_handler.add(self.alas_update_dashboard, 20, True)
         self.task_handler.add(log.put_log(self.alas), 0.25, True)
 
     def set_dashboard_display(self, b):
@@ -610,75 +610,60 @@ class AlasGUI(Frame):
         time_delta_name = time_delta_name_prefix + time_delta_name_suffix
         return time_delta_display+t(time_delta_name)
 
+    def _update_dashboard(self,num=None,groups_to_display=None):
+        x = 0
+        _num = 10000 if num is None else num
+        arg_group = LogRes(self.alas_config).groups if groups_to_display is None else groups_to_display
+        for group_name in arg_group:
+            group = deep_get(d=self.alas_config.data, keys=f'Dashboard.{group_name}')
+            if 'Limit' in group.keys():
+                value = deep_get(group, keys='Value')
+                value_limit = deep_get(group, keys='Limit')
+                value = f'{value} / {value_limit}'
+            elif 'Total' in group.keys():
+                value = deep_get(group, keys='Value')
+                value_total = deep_get(group, keys='Total')
+                value = f'{value} ({value_total})'
+            else:
+                value = deep_get(group, keys='Value')
+            value_time = deep_get(group, keys='Record')
+            if value_time is None:
+                value_time = datetime(2020, 1, 1, 0, 0, 0)
+            time_now = datetime.now().replace(microsecond=0)
+            # Handle time delta
+            if value_time == datetime(2020, 1, 1, 0, 0, 0):
+                value = None
+                delta = self.timedelta_to_text()
+            else:
+                delta = self.timedelta_to_text(time_delta(value_time - time_now, True))
+            # Handle dot color
+            _color = f"""background-color:{deep_get(d=group, keys='Color').replace('^', '#')}"""
+            color = f'<div class="status-point" style={_color}>'
+            put_row(
+                [
+                    put_html(color),
+                    put_column(
+                        [
+                            put_text(str(value)).style("--arg-title--"),
+                            put_text(t(f'Gui.Overview.{group_name}') + " - " + delta).style("--arg-help--"),
+                        ],
+                        size="1fr 1fr",
+                    ),
+                ],
+                size="20px 1fr"
+            ).style("height: 1fr"),
+            x += 1
+            if x>=_num:
+                break
     def alas_update_dashboard(self):
         if not self.visible:
             return
-        arg_path = LogRes(self.alas_config).arg_path
-        color = [
-            '<div class="status-point" style="background-color:#000000">',
-            '<div class="status-point" style="background-color:#FF3333">',
-            '<div class="status-point" style="background-color:#00BFFF">',
-            '<div class="status-point" style="background-color:#FF8800">',
-            '<div class="status-point" style="background-color:#FFAA33">',
-            '<div class="status-point" style="background-color:#33FFFF">',
-            '<div class="status-point" style="background-color:#0000FF">',
-            '<div class="status-point" style="background-color:#7700BB">',
-        ]
         clear("dashboard")
         with use_scope("dashboard"):
             if not self._log.display_dashboard:
-                return
+                self._update_dashboard(num=4, groups_to_display=['Oil','Coin'])
             elif self._log.display_dashboard:
-                x = 0
-                args_ignore = ['Record', 'Limit', 'Total', 'Storage']
-                args_has_limit = ['CoinValue', 'OilValue']
-                args_has_total = ['ActionPointValue']
-                broken = False
-                for name in arg_path:
-                    # Skip duplicated records and 'Storage'
-                    for arg_ignore in args_ignore:
-                        if arg_ignore in name:
-                            broken = True
-                            break
-                    if broken:
-                        broken = False
-                        continue
-                    resource_name = f'Gui.Overview.{name.replace("Value", "")}'
-                    value_name = arg_path[name]
-                    if name in args_has_limit:
-                        value = deep_get(self.alas_config.data, keys=value_name)
-                        value_limit = deep_get(self.alas_config.data, keys=value_name.replace('Value', 'Limit'))
-                        value = f'{value} / {value_limit}'
-                    elif name in args_has_total:
-                        value = deep_get(self.alas_config.data, keys=value_name)
-                        value_total = deep_get(self.alas_config.data, keys=value_name.replace('Value', 'Total'))
-                        value = f'{value} ({value_total})'
-                    else:
-                        value = deep_get(self.alas_config.data, keys=value_name)
-                    value_time = deep_get(self.alas_config.data, keys=value_name.replace('Value', 'Record'))
-                    if value_time is None:
-                        value_time = datetime(2020, 1, 1, 0, 0, 0)
-                    time_now = datetime.now().replace(microsecond=0)
-                    # Handle time delta
-                    if value_time == datetime(2020, 1, 1, 0, 0, 0):
-                        value = None
-                        delta = self.timedelta_to_text()
-                    else:
-                        delta = self.timedelta_to_text(time_delta(value_time - time_now, True))
-                    put_row(
-                        [
-                            put_html(color[x]),
-                            put_column(
-                                [
-                                    put_text(str(value)).style("--arg-title--"),
-                                    put_text(t(resource_name) + " - " +delta).style("--arg-help--"),
-                                ],
-                                size="auto auto",
-                            ),
-                        ],
-                        size="20px 1fr"
-                    )
-                    x += 1
+                self._update_dashboard()
 
     @use_scope("content", clear=True)
     def alas_daemon_overview(self, task: str) -> None:

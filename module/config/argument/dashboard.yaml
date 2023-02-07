@@ -4,4 +4,11 @@
 
 # ==================== Dashboard ====================
 Dashboard:
-  - Resource
+  - Oil
+  - Gem
+  - Pt
+  - YellowCoin
+  - Coin
+  - Cube
+  - ActionPoint
+  - PurpleCoin
