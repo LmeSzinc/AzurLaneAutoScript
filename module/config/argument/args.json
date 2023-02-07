@@ -169,7 +169,7 @@
       },
       "Color": {
         "type": "input",
-        "value": "^000000"
+        "value": "^FFFF00"
       },
       "Record": {
         "type": "datetime",

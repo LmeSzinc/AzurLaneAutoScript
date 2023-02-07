@@ -49,7 +49,7 @@ class GeneratedConfig:
 
     # Group `Merit`
     Merit_Value = 0
-    Merit_Color = '^000000'
+    Merit_Color = '^FFFF00'
     Merit_Record = datetime.datetime(2020, 1, 1, 0, 0)
 
     # Group `Cube`

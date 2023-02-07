@@ -55,7 +55,7 @@
     },
     "Merit": {
       "Value": 0,
-      "Color": "^000000",
+      "Color": "^FFFF00",
       "Record": "2020-01-01 00:00:00"
     },
     "GuildCoin": {
