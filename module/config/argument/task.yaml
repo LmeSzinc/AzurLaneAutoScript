@@ -2,12 +2,7 @@
 # Define argument group of tasks.
 # --------------------
 
-# ==================== Dashboard ====================
 
-Res:
-  - Res
-EquipProgress:
-  - EquipProgress
 # ==================== Alas ====================
 
 Alas:

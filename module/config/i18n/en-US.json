@@ -4,10 +4,6 @@
       "name": "",
       "help": ""
     },
-    "Dashboard": {
-      "name": "Dashboard",
-      "help": "Updated when any campaign starts"
-    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -42,14 +38,6 @@
     }
   },
   "Task": {
-    "Res": {
-      "name": "Resource Viewer",
-      "help": ""
-    },
-    "EquipProgress": {
-      "name": "Task.EquipProgress.name",
-      "help": "Task.EquipProgress.help"
-    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -91,8 +79,8 @@
       "help": ""
     },
     "Event3": {
-      "name": "Event-3",
-      "help": ""
+      "name": "Task.Event3.name",
+      "help": "Task.Event3.help"
     },
     "EventA": {
       "name": "Event Daily A",
@@ -275,96 +263,232 @@
       "help": ""
     }
   },
-  "Res": {
+  "Oil": {
     "_info": {
-      "name": "Resource Viewer",
-      "help": "Update when any campaign starts"
+      "name": "Oil._info.name",
+      "help": "Oil._info.help"
     },
-    "Oil": {
-      "name": "Oil / Max oil limit",
-      "help": ""
+    "Value": {
+      "name": "Oil.Value.name",
+      "help": "Oil.Value.help"
     },
-    "OilTime": {
-      "name": "",
-      "help": "Record time\n\n"
+    "Limit": {
+      "name": "Oil.Limit.name",
+      "help": "Oil.Limit.help"
     },
-    "Coin": {
-      "name": "Coin / Max coin limit",
-      "help": ""
+    "Color": {
+      "name": "Oil.Color.name",
+      "help": "Oil.Color.help"
     },
-    "CoinTime": {
-      "name": "",
-      "help": "Record time\n\n"
-    },
-    "Gem": {
-      "name": "Gem",
-      "help": ""
-    },
-    "GemTime": {
-      "name": "",
-      "help": "Record time\n\n"
-    },
-    "Cube": {
-      "name": "Cube",
-      "help": "Update after everyday's gacha"
-    },
-    "CubeTime": {
-      "name": "",
-      "help": "Record time\n\n"
-    },
-    "Pt": {
-      "name": "Event Point",
-      "help": ""
-    },
-    "PtTime": {
-      "name": "",
-      "help": "Record time\n\n"
-    },
-    "YellowCoin": {
-      "name": "Operation Supply Coin",
-      "help": ""
-    },
-    "YellowCoinTime": {
-      "name": "",
-      "help": "Record time\n\n"
-    },
-    "PurpleCoin": {
-      "name": "Special Item Token",
-      "help": ""
-    },
-    "PurpleCoinTime": {
-      "name": "",
-      "help": "Record time\n\n"
-    },
-    "ActionPoint": {
-      "name": "Action Point",
-      "help": ""
-    },
-    "ActionPointTime": {
-      "name": "",
-      "help": "Record time\n\n"
+    "Record": {
+      "name": "Oil.Record.name",
+      "help": "Oil.Record.help"
     }
   },
-  "EquipProgress": {
+  "Coin": {
     "_info": {
-      "name": "EquipProgress._info.name",
-      "help": "EquipProgress._info.help"
+      "name": "Coin._info.name",
+      "help": "Coin._info.help"
     },
-    "234mm": {
-      "name": "EquipProgress.234mm.name",
-      "help": "EquipProgress.234mm.help"
+    "Value": {
+      "name": "Coin.Value.name",
+      "help": "Coin.Value.help"
     },
-    "457mm": {
-      "name": "EquipProgress.457mm.name",
-      "help": "EquipProgress.457mm.help"
+    "Limit": {
+      "name": "Coin.Limit.name",
+      "help": "Coin.Limit.help"
     },
-    "tenrai": {
-      "name": "EquipProgress.tenrai.name",
-      "help": "EquipProgress.tenrai.help"
+    "Color": {
+      "name": "Coin.Color.name",
+      "help": "Coin.Color.help"
     },
-    "152mm": {
-      "name": "EquipProgress.152mm.name",
-      "help": "EquipProgress.152mm.help"
+    "Record": {
+      "name": "Coin.Record.name",
+      "help": "Coin.Record.help"
+    }
+  },
+  "Gem": {
+    "_info": {
+      "name": "Gem._info.name",
+      "help": "Gem._info.help"
+    },
+    "Value": {
+      "name": "Gem.Value.name",
+      "help": "Gem.Value.help"
+    },
+    "Color": {
+      "name": "Gem.Color.name",
+      "help": "Gem.Color.help"
+    },
+    "Record": {
+      "name": "Gem.Record.name",
+      "help": "Gem.Record.help"
+    }
+  },
+  "Pt": {
+    "_info": {
+      "name": "Pt._info.name",
+      "help": "Pt._info.help"
+    },
+    "Value": {
+      "name": "Pt.Value.name",
+      "help": "Pt.Value.help"
+    },
+    "Color": {
+      "name": "Pt.Color.name",
+      "help": "Pt.Color.help"
+    },
+    "Record": {
+      "name": "Pt.Record.name",
+      "help": "Pt.Record.help"
+    }
+  },
+  "YellowCoin": {
+    "_info": {
+      "name": "YellowCoin._info.name",
+      "help": "YellowCoin._info.help"
+    },
+    "Value": {
+      "name": "YellowCoin.Value.name",
+      "help": "YellowCoin.Value.help"
+    },
+    "Color": {
+      "name": "YellowCoin.Color.name",
+      "help": "YellowCoin.Color.help"
+    },
+    "Record": {
+      "name": "YellowCoin.Record.name",
+      "help": "YellowCoin.Record.help"
+    }
+  },
+  "PurpleCoin": {
+    "_info": {
+      "name": "PurpleCoin._info.name",
+      "help": "PurpleCoin._info.help"
+    },
+    "Value": {
+      "name": "PurpleCoin.Value.name",
+      "help": "PurpleCoin.Value.help"
+    },
+    "Color": {
+      "name": "PurpleCoin.Color.name",
+      "help": "PurpleCoin.Color.help"
+    },
+    "Record": {
+      "name": "PurpleCoin.Record.name",
+      "help": "PurpleCoin.Record.help"
+    }
+  },
+  "ActionPoint": {
+    "_info": {
+      "name": "ActionPoint._info.name",
+      "help": "ActionPoint._info.help"
+    },
+    "Value": {
+      "name": "ActionPoint.Value.name",
+      "help": "ActionPoint.Value.help"
+    },
+    "Total": {
+      "name": "ActionPoint.Total.name",
+      "help": "ActionPoint.Total.help"
+    },
+    "Color": {
+      "name": "ActionPoint.Color.name",
+      "help": "ActionPoint.Color.help"
+    },
+    "Record": {
+      "name": "ActionPoint.Record.name",
+      "help": "ActionPoint.Record.help"
+    }
+  },
+  "Merit": {
+    "_info": {
+      "name": "Merit._info.name",
+      "help": "Merit._info.help"
+    },
+    "Value": {
+      "name": "Merit.Value.name",
+      "help": "Merit.Value.help"
+    },
+    "Color": {
+      "name": "Merit.Color.name",
+      "help": "Merit.Color.help"
+    },
+    "Record": {
+      "name": "Merit.Record.name",
+      "help": "Merit.Record.help"
+    }
+  },
+  "Cube": {
+    "_info": {
+      "name": "Cube._info.name",
+      "help": "Cube._info.help"
+    },
+    "Value": {
+      "name": "Cube.Value.name",
+      "help": "Cube.Value.help"
+    },
+    "Color": {
+      "name": "Cube.Color.name",
+      "help": "Cube.Color.help"
+    },
+    "Record": {
+      "name": "Cube.Record.name",
+      "help": "Cube.Record.help"
+    }
+  },
+  "Core": {
+    "_info": {
+      "name": "Core._info.name",
+      "help": "Core._info.help"
+    },
+    "Value": {
+      "name": "Core.Value.name",
+      "help": "Core.Value.help"
+    },
+    "Color": {
+      "name": "Core.Color.name",
+      "help": "Core.Color.help"
+    },
+    "Record": {
+      "name": "Core.Record.name",
+      "help": "Core.Record.help"
+    }
+  },
+  "Medal": {
+    "_info": {
+      "name": "Medal._info.name",
+      "help": "Medal._info.help"
+    },
+    "Value": {
+      "name": "Medal.Value.name",
+      "help": "Medal.Value.help"
+    },
+    "Color": {
+      "name": "Medal.Color.name",
+      "help": "Medal.Color.help"
+    },
+    "Record": {
+      "name": "Medal.Record.name",
+      "help": "Medal.Record.help"
+    }
+  },
+  "GuildCoin": {
+    "_info": {
+      "name": "GuildCoin._info.name",
+      "help": "GuildCoin._info.help"
+    },
+    "Value": {
+      "name": "GuildCoin.Value.name",
+      "help": "GuildCoin.Value.help"
+    },
+    "Color": {
+      "name": "GuildCoin.Color.name",
+      "help": "GuildCoin.Color.help"
+    },
+    "Record": {
+      "name": "GuildCoin.Record.name",
+      "help": "GuildCoin.Record.help"
     }
   },
   "Scheduler": {
@@ -726,6 +850,7 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "event_20200806_cn": "The Enigma and the Shark Rerun",
       "raid_20220127": "Mystery Investigation",
       "raid_20230118": "Winter Pathfinder",
       "event_20210610_tw": "復刻夜幕下的歸途",
@@ -766,7 +891,6 @@
       "event_20211028_tw": "復刻光與影的鳶尾之華",
       "event_20210722_cn": "Azur Anthem",
       "event_20210819_cn": "Microlayer Medley Rerun",
-      "event_20200806_cn": "The Enigma and the Shark Rerun",
       "event_20200723_cn": "Aurora Noctis",
       "event_20210624_cn": "Swirling Cherry Blossoms Rerun",
       "event_20210624_tw": "穹頂下的聖詠曲",
@@ -2512,8 +2636,8 @@
       "Stop": "Stop",
       "ScrollON": "Auto Scroll ON",
       "ScrollOFF": "Auto Scroll OFF",
-      "DashboardON": "Dashboard ON",
-      "DashboardOFF": "Dashboard OFF",
+      "DashboardON": "Fold",
+      "DashboardOFF": "Unfold",
       "ClearLog": "Clear Log",
       "Setting": "Setting",
       "CheckUpdate": "Check update",
@@ -2547,9 +2671,9 @@
     "Overview": {
       "Scheduler": "Scheduler",
       "Dashboard": "Gui.Overview.Dashboard",
-      "SecondsAgo": "s ago",
-      "MinutesAgo": "m ago",
-      "HoursAgo": "h ago",
+      "SecondsAgo": "Seconds ago",
+      "MinutesAgo": "Minutes ago",
+      "HoursAgo": "Hours ago",
       "DaysAgo": "Days ago",
       "MonthsAgo": "Months ago",
       "YearsAgo": "Years ago",
@@ -2562,11 +2686,15 @@
       "YellowCoin": "Operation Supply Coin",
       "PurpleCoin": "Special Item Token",
       "ActionPoint": "Action Point",
+      "Merit": "Merit",
+      "Medal": "Medal",
+      "Core": "Core Data",
+      "GuildCoin": "Guild Coin",
       "Log": "Log",
       "Running": "Running",
       "Pending": "Pending",
       "Waiting": "Waiting",
-      "NoTask": "NoTask"
+      "NoTask": "No Task"
     },
     "AddAlas": {
       "PopupTitle": "Add new config",

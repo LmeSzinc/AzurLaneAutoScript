@@ -1,0 +1,18 @@
+# --------------------
+# Define argument group of dashboard-only arguments.
+# --------------------
+
+# ==================== Dashboard ====================
+Dashboard:
+  - Oil
+  - Gem
+  - Pt
+  - YellowCoin
+  - Coin
+  - Cube
+  - ActionPoint
+  - PurpleCoin
+  - Core
+  - Medal
+  - Merit
+  - GuildCoin
