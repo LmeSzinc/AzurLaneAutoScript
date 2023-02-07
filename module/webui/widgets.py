@@ -74,6 +74,7 @@ class ScrollableCode:
 
 
 class RichLog:
+    last_display_time:dict
     def __init__(self, scope, font_width="0.559") -> None:
         self.scope = scope
         self.font_width = font_width
@@ -95,6 +96,7 @@ class RichLog:
         self.keep_bottom = True
         self.display_dashboard = False
         self.first_display = True
+        self.last_display_time = {'first': True}
         if State.theme == "dark":
             self.terminal_theme = DARK_TERMINAL_THEME
         else:

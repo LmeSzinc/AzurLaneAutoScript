@@ -17,11 +17,6 @@
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
-      },
-      "LastDisplay": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
       }
     },
     "Gem": {
@@ -34,11 +29,6 @@
         "value": "^FF3333"
       },
       "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "LastDisplay": {
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
@@ -57,11 +47,6 @@
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
-      },
-      "LastDisplay": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
       }
     },
     "YellowCoin": {
@@ -74,11 +59,6 @@
         "value": "^FF8800"
       },
       "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "LastDisplay": {
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
@@ -101,11 +81,6 @@
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
-      },
-      "LastDisplay": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
       }
     },
     "Cube": {
@@ -118,11 +93,6 @@
         "value": "^33FFFF"
       },
       "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "LastDisplay": {
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
@@ -145,11 +115,6 @@
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
-      },
-      "LastDisplay": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
       }
     },
     "PurpleCoin": {
@@ -162,11 +127,6 @@
         "value": "^7700BB"
       },
       "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "LastDisplay": {
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
