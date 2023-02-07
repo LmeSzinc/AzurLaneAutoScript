@@ -244,15 +244,25 @@ class Uiautomator2(Connection):
     @retry
     def resolution_uiautomator2(self) -> t.Tuple[int, int]:
         """
+        Faster u2.window_size(), cause that calls `dumpsys display` twice.
+
         Returns:
             (width, height)
         """
-        return self.u2.window_size()
+        info = self.u2.http.get('/info').json()
+        w, h = info['display']['width'], info['display']['height']
+        rotation = self.get_orientation()
+        if (w > h) != (rotation % 2 == 1):
+            w, h = h, w
+        return w, h
 
     def resolution_check_uiautomator2(self):
         """
         Alas does not actively check resolution but the width and height of screenshots.
         However, some screenshot methods do not provide device resolution, so check it here.
+
+        Returns:
+            (width, height)
 
         Raises:
             RequestHumanTakeover: If resolution is not 1280x720
@@ -260,9 +270,9 @@ class Uiautomator2(Connection):
         width, height = self.resolution_uiautomator2()
         logger.attr('Screen_size', f'{width}x{height}')
         if width == 1280 and height == 720:
-            return True
+            return (width, height)
         if width == 720 and height == 1280:
-            return True
+            return (width, height)
 
         logger.critical(f'Resolution not supported: {width}x{height}')
         logger.critical('Please set emulator resolution to 1280x720')
