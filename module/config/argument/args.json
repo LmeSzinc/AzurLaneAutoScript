@@ -1,86 +1,172 @@
 {
   "Dashboard": {
-    "Resource": {
-      "OilValue": {
+    "Oil": {
+      "Value": {
         "type": "input",
         "value": 0
       },
-      "OilLimit": {
+      "Limit": {
         "type": "input",
         "value": 0
       },
-      "OilRecord": {
+      "Color": {
+        "type": "input",
+        "value": "^000000"
+      },
+      "Record": {
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
-      "CoinValue": {
+      "LastDisplay": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      }
+    },
+    "Gem": {
+      "Value": {
         "type": "input",
         "value": 0
       },
-      "CoinLimit": {
+      "Color": {
         "type": "input",
-        "value": 0
+        "value": "^FF3333"
       },
-      "CoinRecord": {
+      "Record": {
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
-      "GemValue": {
+      "LastDisplay": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      }
+    },
+    "Pt": {
+      "Value": {
         "type": "input",
         "value": 0
       },
-      "GemRecord": {
+      "Color": {
+        "type": "input",
+        "value": "^00BFFF"
+      },
+      "Record": {
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
-      "CubeValue": {
+      "LastDisplay": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      }
+    },
+    "YellowCoin": {
+      "Value": {
         "type": "input",
         "value": 0
       },
-      "CubeRecord": {
+      "Color": {
+        "type": "input",
+        "value": "^FF8800"
+      },
+      "Record": {
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
-      "PtValue": {
+      "LastDisplay": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      }
+    },
+    "Coin": {
+      "Value": {
         "type": "input",
         "value": 0
       },
-      "PtRecord": {
+      "Limit": {
+        "type": "input",
+        "value": 0
+      },
+      "Color": {
+        "type": "input",
+        "value": "^FFAA33"
+      },
+      "Record": {
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
-      "YellowCoinValue": {
+      "LastDisplay": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      }
+    },
+    "Cube": {
+      "Value": {
         "type": "input",
         "value": 0
       },
-      "YellowCoinRecord": {
+      "Color": {
+        "type": "input",
+        "value": "^33FFFF"
+      },
+      "Record": {
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
-      "PurpleCoinValue": {
+      "LastDisplay": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      }
+    },
+    "ActionPoint": {
+      "Value": {
         "type": "input",
         "value": 0
       },
-      "PurpleCoinRecord": {
+      "Total": {
+        "type": "input",
+        "value": 0
+      },
+      "Color": {
+        "type": "input",
+        "value": "^0000FF"
+      },
+      "Record": {
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
-      "ActionPointValue": {
+      "LastDisplay": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      }
+    },
+    "PurpleCoin": {
+      "Value": {
         "type": "input",
         "value": 0
       },
-      "ActionPointTotal": {
+      "Color": {
         "type": "input",
-        "value": 0
+        "value": "^7700BB"
       },
-      "ActionPointRecord": {
+      "Record": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "LastDisplay": {
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"

@@ -93,7 +93,7 @@ class RichLog:
         # self._callback_thread = None
         # self._width = 80
         self.keep_bottom = True
-        self.display_dashboard = True
+        self.display_dashboard = False
         if State.theme == "dark":
             self.terminal_theme = DARK_TERMINAL_THEME
         else:

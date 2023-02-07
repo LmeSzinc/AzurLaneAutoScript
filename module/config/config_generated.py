@@ -9,26 +9,56 @@ class GeneratedConfig:
     Auto generated configuration
     """
 
-    # Group `Resource`
-    Resource_OilValue = 0
-    Resource_OilLimit = 0
-    Resource_OilRecord = datetime.datetime(2020, 1, 1, 0, 0)
-    Resource_CoinValue = 0
-    Resource_CoinLimit = 0
-    Resource_CoinRecord = datetime.datetime(2020, 1, 1, 0, 0)
-    Resource_GemValue = 0
-    Resource_GemRecord = datetime.datetime(2020, 1, 1, 0, 0)
-    Resource_CubeValue = 0
-    Resource_CubeRecord = datetime.datetime(2020, 1, 1, 0, 0)
-    Resource_PtValue = 0
-    Resource_PtRecord = datetime.datetime(2020, 1, 1, 0, 0)
-    Resource_YellowCoinValue = 0
-    Resource_YellowCoinRecord = datetime.datetime(2020, 1, 1, 0, 0)
-    Resource_PurpleCoinValue = 0
-    Resource_PurpleCoinRecord = datetime.datetime(2020, 1, 1, 0, 0)
-    Resource_ActionPointValue = 0
-    Resource_ActionPointTotal = 0
-    Resource_ActionPointRecord = datetime.datetime(2020, 1, 1, 0, 0)
+    # Group `Oil`
+    Oil_Value = 0
+    Oil_Limit = 0
+    Oil_Color = '^000000'
+    Oil_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    Oil_LastDisplay = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `Coin`
+    Coin_Value = 0
+    Coin_Limit = 0
+    Coin_Color = '^FFAA33'
+    Coin_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    Coin_LastDisplay = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `Gem`
+    Gem_Value = 0
+    Gem_Color = '^FF3333'
+    Gem_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    Gem_LastDisplay = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `Pt`
+    Pt_Value = 0
+    Pt_Color = '^00BFFF'
+    Pt_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    Pt_LastDisplay = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `YellowCoin`
+    YellowCoin_Value = 0
+    YellowCoin_Color = '^FF8800'
+    YellowCoin_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    YellowCoin_LastDisplay = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `PurpleCoin`
+    PurpleCoin_Value = 0
+    PurpleCoin_Color = '^7700BB'
+    PurpleCoin_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    PurpleCoin_LastDisplay = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `ActionPoint`
+    ActionPoint_Value = 0
+    ActionPoint_Total = 0
+    ActionPoint_Color = '^0000FF'
+    ActionPoint_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    ActionPoint_LastDisplay = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `Cube`
+    Cube_Value = 0
+    Cube_Color = '^33FFFF'
+    Cube_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    Cube_LastDisplay = datetime.datetime(2020, 1, 1, 0, 0)
 
     # Group `Scheduler`
     Scheduler_Enable = False
