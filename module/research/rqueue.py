@@ -3,6 +3,7 @@ from datetime import datetime
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, Config
 from module.base.utils import get_color
+from module.exception import GameBugError
 from module.logger import logger
 from module.ocr.ocr import Duration
 from module.research.assets import *
@@ -156,7 +157,15 @@ class ResearchQueue(ResearchUI):
 
         Pages:
             in: is_in_queue
+
+        Raises:
+            GameBugError:
         """
+        if self.image_color_count(QUEUE_REMAIN, color=(123, 125, 123), threshold=235, count=100):
+            logger.error('The first research of queue is not running,'
+                         'probably a game bug from AL,'
+                         'restart the game should fix it.')
+            raise GameBugError
         if not self.image_color_count(QUEUE_REMAIN, color=(255, 255, 255), threshold=221, count=100):
             logger.info('Research queue empty')
             return datetime.now()

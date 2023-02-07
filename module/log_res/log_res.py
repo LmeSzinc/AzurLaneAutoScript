@@ -1,40 +1,35 @@
+from cached_property import cached_property
 from module.logger import logger
-from module.config.utils import deep_get, deep_set
+from module.config.utils import deep_get
 
 
 class LogRes:
 
     def __init__(self, config):
-        self.config=config
+        self.config = config
 
-    def log_res(self, num, name):
-        Res = [
-            'Oil',
-            'Coin',
-            'Gem',
-            'Cube',
-            'Pt',
-            'ActionPoint',
-            'YellowCoin',
-            'PurpleCoin',
-        ]
-        EquipProgress = ['457mm', '234mm', 'tenrai', '152mm']
-        if name in Res:
-            key = f'Res.Res.{name}'
+    @cached_property
+    def groups(self) -> dict:
+        from module.config.utils import read_file, filepath_argument
+        return deep_get(d=read_file(filepath_argument("dashboard")), keys='Dashboard')
+
+    def log_res(self, name, modified: dict):
+        if name in self.groups:
+            key = f'Dashboard.{name}'
             original = deep_get(self.config.data, keys=key)
-            if num == original:
-                return False
-            key_time = f'Res.Res.' + name + 'Time'
-            from datetime import datetime
-            _time = datetime.now()
-            time = str(_time)
-            self.config.modified[key_time] = time[:19]
-            self.config.modified[key] = num
-            self.config.update()
-        elif name in EquipProgress:
-            key = f'EquipProgress.EquipProgress.{name}'
-            deep_set(d=self.config.data, keys=key, value=num)
-            self.config.data.save()
+            _mod = False
+            for value_name, value in modified.items():
+                if value == original[value_name]:
+                    continue
+                _key = key+f'.{value_name}'
+                self.config.modified[_key] = value
+                _mod = True
+            if _mod:
+                _key_time = key+f'.Record'
+                from datetime import datetime
+                _time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                self.config.modified[_key_time] = _time
+                self.config.update()
         else:
-            logger.warn('No such resource!')
+            logger.warning('No such resource!')
         return True

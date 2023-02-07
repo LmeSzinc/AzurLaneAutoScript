@@ -274,6 +274,7 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
         Pages:
             in: page_raid
         """
+        from module.log_res.log_res import LogRes
         skip_first_screenshot = True
         timeout = Timer(1.5, count=5).start()
         ocr = pt_ocr(self.config.Campaign_Event)
@@ -288,10 +289,12 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
                 pt = ocr.ocr(self.device.image)
                 if timeout.reached():
                     logger.warning('Wait PT timeout, assume it is')
+                    LogRes(self.config).log_res('Pt', {'Value': pt})
                     return pt
                 if pt in [70000, 70001]:
                     continue
                 else:
+                    LogRes(self.config).log_res('Pt', {'Value': pt})
                     return pt
         else:
             logger.info(f'Raid {self.config.Campaign_Event} does not support PT ocr, skip')

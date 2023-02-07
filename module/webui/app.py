@@ -20,6 +20,7 @@ from module.config.utils import (
     read_file,
 )
 from module.config.utils import time_delta
+from module.log_res.log_res import LogRes
 from module.logger import logger
 from module.ocr.rpc import start_ocr_server_process, stop_ocr_server_process
 from module.submodule.submodule import load_config
@@ -294,6 +295,7 @@ class AlasGUI(Frame):
             put_html('<hr class="hr-group">')
             for output in output_list:
                 output.show()
+
         return len(output_list)
 
     @use_scope("navigator")
@@ -362,6 +364,7 @@ class AlasGUI(Frame):
             color_off="on",
             scope="scheduler_btn",
         )
+
         log = RichLog("log")
         self._log = log
 
@@ -411,12 +414,12 @@ class AlasGUI(Frame):
         self.task_handler.add(switch_log_scroll.g(), 1, True)
         self.task_handler.add(switch_dashboard.g(), 1, True)
         self.task_handler.add(self.alas_update_overview_task, 10, True)
-        self.task_handler.add(self.alas_update_dashboard, 20, True)
+        self.task_handler.add(self.alas_update_dashboard, 10, True)
         self.task_handler.add(log.put_log(self.alas), 0.25, True)
 
     def set_dashboard_display(self, b):
         self._log.set_dashboard_display(b)
-        self.alas_update_dashboard()
+        self.alas_update_dashboard(True)
 
     def _init_alas_config_watcher(self) -> None:
         def put_queue(path, value):
@@ -472,9 +475,9 @@ class AlasGUI(Frame):
                     pin["_".join(k.split("."))] = default
 
                     # update Res Record if Res Value is changed to None
-                    if 'Res.Res' in k:
+                    if 'Dashboard.Resource' in k:
                         k = k.split(".")
-                        k[-1] = k[-1] + 'Time'
+                        k[-1] = k[-1] + 'Record'
                         k = ".".join(k)
                         v = str(datetime(2010, 1, 1, 0, 0, 0))
                         modified[k] = v
@@ -501,9 +504,9 @@ class AlasGUI(Frame):
 
                     # update Res Record if Res Value is changed
                     # imitating Emotion record
-                    if "Res.Res" in k and not skip_time_record:
+                    if "Dashboard.Resource" in k and not skip_time_record:
                         k = k.split(".")
-                        k[-1] = k[-1] + 'Time'
+                        k[-1] = k[-1] + 'Record'
                         k = ".".join(k)
                         v = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                         modified[k] = v
@@ -585,29 +588,7 @@ class AlasGUI(Frame):
             else:
                 put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
 
-    def alas_update_dashboard(self):
-        if not self.visible:
-            return
-        resource = [
-            "Oil",
-            "Gem",
-            "Pt",
-            "YellowCoin",
-            "Coin",
-            "Cube",
-            "ActionPoint",
-            "PurpleCoin"
-        ]
-        color = [
-            '<div class="status-point" style="background-color:#000000">',
-            '<div class="status-point" style="background-color:#FF3333">',
-            '<div class="status-point" style="background-color:#00BFFF">',
-            '<div class="status-point" style="background-color:#FF8800">',
-            '<div class="status-point" style="background-color:#FFAA33">',
-            '<div class="status-point" style="background-color:#33FFFF">',
-            '<div class="status-point" style="background-color:#0000FF">',
-            '<div class="status-point" style="background-color:#7700BB">',
-        ]
+    def timedelta_to_text(self, delta=None):
         time_delta_name_suffix_dict = {
             'Y': 'YearsAgo',
             'M': 'MonthsAgo',
@@ -616,51 +597,88 @@ class AlasGUI(Frame):
             'm': 'MinutesAgo',
             's': 'SecondsAgo',
         }
-        clear("dashboard")
-        with use_scope("dashboard"):
+        time_delta_name_prefix = 'Gui.Overview.'
+        time_delta_name_suffix = 'NoData'
+        time_delta_display = ''
+        if isinstance(delta, dict):
+            for _key in delta:
+                if delta[_key]:
+                    time_delta_name_suffix = time_delta_name_suffix_dict[_key]
+                    time_delta_display = delta[_key]
+                    break
+        time_delta_display = str(time_delta_display)
+        time_delta_name = time_delta_name_prefix + time_delta_name_suffix
+        return time_delta_display + t(time_delta_name)
+
+    def _update_dashboard(self, num=None, groups_to_display=None):
+        x = 0
+        _num = 10000 if num is None else num
+        arg_group = LogRes(self.alas_config).groups if groups_to_display is None else groups_to_display
+        for group_name in arg_group:
+            group = deep_get(d=self.alas_config.data, keys=f'Dashboard.{group_name}')
+
+            if 'Limit' in group.keys():
+                value = deep_get(group, keys='Value')
+                value_limit = deep_get(group, keys='Limit')
+                value = f'{value} / {value_limit}'
+            elif 'Total' in group.keys():
+                value = deep_get(group, keys='Value')
+                value_total = deep_get(group, keys='Total')
+                value = f'{value} ({value_total})'
+            else:
+                value = deep_get(group, keys='Value')
+
+            value_time = deep_get(group, keys='Record')
+            if value_time is None:
+                value_time = datetime(2020, 1, 1, 0, 0, 0)
+
+            time_now = datetime.now().replace(microsecond=0)
+            # Handle time delta
+            if value_time == datetime(2020, 1, 1, 0, 0, 0):
+                value = None
+                delta = self.timedelta_to_text()
+            else:
+                delta = self.timedelta_to_text(time_delta(value_time - time_now, True))
+            if group_name not in self._log.last_display_time.keys():
+                self._log.last_display_time[group_name] = ''
+            if self._log.last_display_time[group_name] == delta and not self._log.first_display:
+                continue
+            self._log.last_display_time[group_name]=delta
+            # Handle dot color
+            _color = f"""background-color:{deep_get(d=group, keys='Color').replace('^', '#')}"""
+            color = f'<div class="status-point" style={_color}>'
+            with use_scope(group_name, clear=True):
+                put_row(
+                    [
+                        put_html(color),
+                        put_scope(
+                            f"_{group_name}",
+                            [
+                                put_column(
+                                    [
+                                        put_text(str(value)).style("--arg-title--"),
+                                        put_text(t(f'Gui.Overview.{group_name}') + " - " + delta).style("--arg-help--"),
+                                    ],
+                                    size="auto auto",
+                                ),
+                            ],
+                        ),
+                    ],
+                    size="20px 1fr"
+                ).style("height: 1fr"),
+            if x >= _num:
+                break
+        if self._log.first_display:
+            self._log.first_display = False
+
+    def alas_update_dashboard(self, _clear=False):
+        if not self.visible:
+            return
+        with use_scope("dashboard", clear=_clear):
             if not self._log.display_dashboard:
-                return
+                self._update_dashboard(num=4, groups_to_display=['Oil', 'Coin', 'Gem', 'Cube'])
             elif self._log.display_dashboard:
-                x = 0
-                for name in resource:
-                    resource_name = f'Gui.Overview.{name}'
-                    value_name = f'Res.Res.{name}'
-                    value = deep_get(self.alas_config.data, keys=value_name, default='None')
-                    value_time = deep_get(self.alas_config.data, keys=value_name + 'Time')
-                    if value_time == '00:00:00' or value_time is None:
-                        value_time = datetime(2010, 1, 1, 0, 0, 0)
-                    time_now = datetime.now().replace(microsecond=0)
-
-                    # Handle time delta
-                    delta = time_delta(value_time, time_now, True)
-                    time_delta_name_prefix = 'Gui.Overview.'
-                    for _key in delta:
-                        if delta[_key]:
-                            time_delta_name_suffix = time_delta_name_suffix_dict[_key]
-                            time_delta_display = delta[_key]
-                            break
-                    if str(value_time) == '2010-01-01 00:00:00':
-                        time_delta_name_suffix = 'NoData'
-                        time_delta_display = ''
-                        value = "None"
-                    time_delta_display = str(time_delta_display)
-                    time_delta_name = time_delta_name_prefix + time_delta_name_suffix
-
-                    put_row(
-                        [
-                            put_html(color[x]),
-                            put_column(
-                                [
-                                    put_text(str(value)).style("--arg-title--"),
-                                    put_text(t(resource_name) + " - " + time_delta_display + t(time_delta_name)).style(
-                                        "--arg-help--"),
-                                ],
-                                size="auto auto",
-                            ),
-                        ],
-                        size="20px 1fr"
-                    )
-                    x += 1
+                self._update_dashboard()
 
     @use_scope("content", clear=True)
     def alas_daemon_overview(self, task: str) -> None:
