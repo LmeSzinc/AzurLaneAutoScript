@@ -57,7 +57,8 @@ def retry(func):
                     self.detect_package()
             # DroidCast not running
             # requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
-            except requests.exceptions.ConnectionError as e:
+            # ReadTimeout: HTTPConnectionPool(host='127.0.0.1', port=20482): Read timed out. (read timeout=3)
+            except (requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout) as e:
                 logger.error(e)
 
                 def init():
