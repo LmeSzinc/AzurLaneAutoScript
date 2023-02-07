@@ -128,6 +128,12 @@ class ConnectionAttr:
     def is_over_http(self):
         return bool(re.match(r"^https?://", self.serial))
 
+    @cached_property
+    def is_chinac_phone_cloud(self):
+        # Phone cloud with public ADB connection
+        # Serial like xxx.xxx.xxx.xxx:301
+        return bool(re.search(r":30[0-9]$", self.serial))
+
     @staticmethod
     def find_bluestacks4_hyperv(serial):
         """
