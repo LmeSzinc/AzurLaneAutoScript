@@ -26,7 +26,6 @@ class LogRes:
                 _mod = True
             if _mod:
                 _key_time = key+f'.Record'
-                _key_last = key+f'.LastRecord'
                 from datetime import datetime
                 _time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 self.config.modified[_key_time] = _time
@@ -38,5 +37,4 @@ class LogRes:
 
 if __name__ == '__main__':
     from module.config.config import AzurLaneConfig
-    from module.config.utils import data_to_path
-    LogRes(AzurLaneConfig('alas2')).log_res(name='Oil', modified={'Value': 10000})
+    LogRes(AzurLaneConfig('alas2')).log_res(name='Oil', modified={'Value': 20000, 'Limit': 10000})

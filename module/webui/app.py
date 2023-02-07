@@ -629,22 +629,21 @@ class AlasGUI(Frame):
                 value = deep_get(group, keys='Value')
 
             value_time = deep_get(group, keys='Record')
-            value_last_display = deep_get(group, keys='LastDisplay')
             if value_time is None:
                 value_time = datetime(2020, 1, 1, 0, 0, 0)
-            if value_last_display is None:
-                value_last_display = datetime(2020, 1, 1, 0, 0, 0)
 
-            if value_last_display >= value_time and not self._log.first_display:
-                continue
             time_now = datetime.now().replace(microsecond=0)
-            deep_set(self.alas_config.data, f'Dashboard.{group_name}.LastDisplay', time_now)
             # Handle time delta
             if value_time == datetime(2020, 1, 1, 0, 0, 0):
                 value = None
                 delta = self.timedelta_to_text()
             else:
                 delta = self.timedelta_to_text(time_delta(value_time - time_now, True))
+            if group_name not in self._log.last_display_time.keys():
+                self._log.last_display_time[group_name] = ''
+            if self._log.last_display_time[group_name] == delta and not self._log.first_display:
+                continue
+            self._log.last_display_time[group_name]=delta
             # Handle dot color
             _color = f"""background-color:{deep_get(d=group, keys='Color').replace('^', '#')}"""
             color = f'<div class="status-point" style={_color}>'

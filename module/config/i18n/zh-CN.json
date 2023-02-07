@@ -279,10 +279,6 @@
     "Record": {
       "name": "Oil.Record.name",
       "help": "Oil.Record.help"
-    },
-    "LastDisplay": {
-      "name": "Oil.LastDisplay.name",
-      "help": "Oil.LastDisplay.help"
     }
   },
   "Coin": {
@@ -305,10 +301,6 @@
     "Record": {
       "name": "Coin.Record.name",
       "help": "Coin.Record.help"
-    },
-    "LastDisplay": {
-      "name": "Coin.LastDisplay.name",
-      "help": "Coin.LastDisplay.help"
     }
   },
   "Gem": {
@@ -327,10 +319,6 @@
     "Record": {
       "name": "Gem.Record.name",
       "help": "Gem.Record.help"
-    },
-    "LastDisplay": {
-      "name": "Gem.LastDisplay.name",
-      "help": "Gem.LastDisplay.help"
     }
   },
   "Pt": {
@@ -349,10 +337,6 @@
     "Record": {
       "name": "Pt.Record.name",
       "help": "Pt.Record.help"
-    },
-    "LastDisplay": {
-      "name": "Pt.LastDisplay.name",
-      "help": "Pt.LastDisplay.help"
     }
   },
   "YellowCoin": {
@@ -371,10 +355,6 @@
     "Record": {
       "name": "YellowCoin.Record.name",
       "help": "YellowCoin.Record.help"
-    },
-    "LastDisplay": {
-      "name": "YellowCoin.LastDisplay.name",
-      "help": "YellowCoin.LastDisplay.help"
     }
   },
   "PurpleCoin": {
@@ -393,10 +373,6 @@
     "Record": {
       "name": "PurpleCoin.Record.name",
       "help": "PurpleCoin.Record.help"
-    },
-    "LastDisplay": {
-      "name": "PurpleCoin.LastDisplay.name",
-      "help": "PurpleCoin.LastDisplay.help"
     }
   },
   "ActionPoint": {
@@ -419,10 +395,6 @@
     "Record": {
       "name": "ActionPoint.Record.name",
       "help": "ActionPoint.Record.help"
-    },
-    "LastDisplay": {
-      "name": "ActionPoint.LastDisplay.name",
-      "help": "ActionPoint.LastDisplay.help"
     }
   },
   "Cube": {
@@ -441,10 +413,6 @@
     "Record": {
       "name": "Cube.Record.name",
       "help": "Cube.Record.help"
-    },
-    "LastDisplay": {
-      "name": "Cube.LastDisplay.name",
-      "help": "Cube.LastDisplay.help"
     }
   },
   "Scheduler": {
