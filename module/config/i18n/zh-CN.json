@@ -4,10 +4,6 @@
       "name": "",
       "help": ""
     },
-    "Dashboard": {
-      "name": "仪表盘",
-      "help": ""
-    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -42,14 +38,6 @@
     }
   },
   "Task": {
-    "Res": {
-      "name": "查看资源储量",
-      "help": ""
-    },
-    "EquipProgress": {
-      "name": "彩色装备研发进度",
-      "help": "还没写"
-    },
     "Alas": {
       "name": "Alas设置",
       "help": ""

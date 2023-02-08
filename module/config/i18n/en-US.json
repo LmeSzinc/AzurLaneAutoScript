@@ -4,10 +4,6 @@
       "name": "",
       "help": ""
     },
-    "Dashboard": {
-      "name": "Dashboard",
-      "help": "Updated when any campaign starts"
-    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -42,14 +38,6 @@
     }
   },
   "Task": {
-    "Res": {
-      "name": "Resource Viewer",
-      "help": ""
-    },
-    "EquipProgress": {
-      "name": "Task.EquipProgress.name",
-      "help": "Task.EquipProgress.help"
-    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -2706,7 +2694,7 @@
       "Running": "Running",
       "Pending": "Pending",
       "Waiting": "Waiting",
-      "NoTask": "NoTask"
+      "NoTask": "No Task"
     },
     "AddAlas": {
       "PopupTitle": "Add new config",

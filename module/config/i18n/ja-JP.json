@@ -4,10 +4,6 @@
       "name": "Menu.Task.name",
       "help": "Menu.Task.help"
     },
-    "Dashboard": {
-      "name": "Menu.Dashboard.name",
-      "help": "Menu.Dashboard.help"
-    },
     "Alas": {
       "name": "Menu.Alas.name",
       "help": "Menu.Alas.help"
@@ -42,14 +38,6 @@
     }
   },
   "Task": {
-    "Res": {
-      "name": "Task.Res.name",
-      "help": "Task.Res.help"
-    },
-    "EquipProgress": {
-      "name": "Task.EquipProgress.name",
-      "help": "Task.EquipProgress.help"
-    },
     "Alas": {
       "name": "Task.Alas.name",
       "help": "Task.Alas.help"
@@ -2682,10 +2670,7 @@
     },
     "Overview": {
       "Scheduler": "Scheduler",
-<<<<<<< HEAD
-=======
       "Dashboard": "Gui.Overview.Dashboard",
->>>>>>> e6749a4e727e64615cbc10f32863140575f3d676
       "SecondsAgo": "Seconds ago",
       "MinutesAgo": "Minutes ago",
       "HoursAgo": "Hours ago",

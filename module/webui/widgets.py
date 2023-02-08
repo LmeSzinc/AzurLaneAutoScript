@@ -141,10 +141,6 @@ class RichLog:
     def set_scroll(self, b: bool) -> None:
         # use for lambda callback function
         self.keep_bottom = b
-    
-    def set_dashboard_display(self, b: bool) -> None:
-        # use for lambda callback function. Copied.
-        self.display_dashboard = b
 
     def set_dashboard_display(self, b: bool) -> None:
         # use for lambda callback function. Copied.
