@@ -9,29 +9,68 @@ class GeneratedConfig:
     Auto generated configuration
     """
 
-    # Group `Res`
-    Res_Oil = '0 / 0'
-    Res_OilTime = datetime.datetime(2010, 1, 1, 0, 0)
-    Res_Coin = '0 / 0'
-    Res_CoinTime = datetime.datetime(2010, 1, 1, 0, 0)
-    Res_Gem = 0
-    Res_GemTime = datetime.datetime(2010, 1, 1, 0, 0)
-    Res_Cube = 0
-    Res_CubeTime = datetime.datetime(2010, 1, 1, 0, 0)
-    Res_Pt = 0
-    Res_PtTime = datetime.datetime(2010, 1, 1, 0, 0)
-    Res_YellowCoin = 0
-    Res_YellowCoinTime = datetime.datetime(2010, 1, 1, 0, 0)
-    Res_PurpleCoin = 0
-    Res_PurpleCoinTime = datetime.datetime(2010, 1, 1, 0, 0)
-    Res_ActionPoint = '0 (0)'
-    Res_ActionPointTime = datetime.datetime(2010, 1, 1, 0, 0)
+    # Group `Oil`
+    Oil_Value = 0
+    Oil_Limit = 0
+    Oil_Color = '^000000'
+    Oil_Record = datetime.datetime(2020, 1, 1, 0, 0)
 
-    # Group `EquipProgress`
-    EquipProgress_234mm = 0
-    EquipProgress_457mm = 0
-    EquipProgress_tenrai = 0
-    EquipProgress_152mm = 0
+    # Group `Coin`
+    Coin_Value = 0
+    Coin_Limit = 0
+    Coin_Color = '^FFAA33'
+    Coin_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `Gem`
+    Gem_Value = 0
+    Gem_Color = '^FF3333'
+    Gem_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `Pt`
+    Pt_Value = 0
+    Pt_Color = '^00BFFF'
+    Pt_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `YellowCoin`
+    YellowCoin_Value = 0
+    YellowCoin_Color = '^FF8800'
+    YellowCoin_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `PurpleCoin`
+    PurpleCoin_Value = 0
+    PurpleCoin_Color = '^7700BB'
+    PurpleCoin_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `ActionPoint`
+    ActionPoint_Value = 0
+    ActionPoint_Total = 0
+    ActionPoint_Color = '^0000FF'
+    ActionPoint_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `Merit`
+    Merit_Value = 0
+    Merit_Color = '^FFFF00'
+    Merit_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `Cube`
+    Cube_Value = 0
+    Cube_Color = '^33FFFF'
+    Cube_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `Core`
+    Core_Value = 0
+    Core_Color = '^AAAAAA'
+    Core_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `Medal`
+    Medal_Value = 0
+    Medal_Color = '^FFDD00'
+    Medal_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `GuildCoin`
+    GuildCoin_Value = 0
+    GuildCoin_Color = '^AAAAAA'
+    GuildCoin_Record = datetime.datetime(2020, 1, 1, 0, 0)
 
     # Group `Scheduler`
     Scheduler_Enable = False

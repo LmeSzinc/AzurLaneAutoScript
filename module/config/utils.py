@@ -633,7 +633,7 @@ def type_to_str(typ):
     return str(typ)
 
 
-def time_delta(time1, time2, dict_format=False):
+def time_delta(_timedelta, dict_format=False):
     """
     Output the delta between two times
 
@@ -651,7 +651,7 @@ def time_delta(time1, time2, dict_format=False):
         }
         float : time stamp delta(secs)
     """
-    _time_delta = abs(datetime.timestamp(time1) - datetime.timestamp(time2))
+    _time_delta = abs(_timedelta.total_seconds())
     if not dict_format:
         return _time_delta
     else:
