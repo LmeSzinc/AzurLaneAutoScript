@@ -6,13 +6,14 @@ import re
 
 from module.campaign.campaign_base import CampaignBase
 from module.campaign.campaign_event import CampaignEvent
+from module.shop.shop_status import ShopStatus
 from module.config.config import AzurLaneConfig
 from module.exception import CampaignEnd, RequestHumanTakeover, ScriptEnd
 from module.handler.fast_forward import map_files, to_map_file_name
 from module.logger import logger
 
 
-class CampaignRun(CampaignEvent):
+class CampaignRun(CampaignEvent, ShopStatus):
     folder: str
     name: str
     stage: str
@@ -81,7 +82,7 @@ class CampaignRun(CampaignEvent):
             self.config.Scheduler_Enable = False
             return True
         # Oil limit
-        self.get_gem()
+        self.status_get_gems()
         self.get_coin()
         current_oil=self.get_oil()
         if oil_check:

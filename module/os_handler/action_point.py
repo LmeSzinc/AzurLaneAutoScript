@@ -139,17 +139,9 @@ class ActionPointHandler(UI, MapEventHandler):
         if self.config.OS_ACTION_POINT_BOX_USE:
             total += np.sum(np.array(box) * tuple(ACTION_POINT_BOX.values()))
         oil = box[0]
-
-        _oiltomaxoil = deep_get(d=self.config.data,
-                                keys='Res.Res.Oil',
-                                default='0 / 0')
-        _oil = _oiltomaxoil.split(' ')
-        _max_oil = _oil[2]
-        _oil = str(oil)
-        LogRes(self.config).log_res(f'{_oil} / {_max_oil}', 'Oil')
-
+        LogRes(self.config).log_res('Oil', {'Value': oil})
         logger.info(f'Action points: {current}({total}), oil: {oil}')
-        LogRes(self.config).log_res(f'{current} ({total})', 'ActionPoint')
+        LogRes(self.config).log_res('ActionPoint', {'Value': current, 'Total': total})
         self._action_point_current = current
         self._action_point_box = box
         self._action_point_total = total
