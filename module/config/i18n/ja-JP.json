@@ -2701,13 +2701,10 @@
       "YellowCoin": "Operation Supply Coin",
       "PurpleCoin": "Special Item Token",
       "ActionPoint": "Action Point",
-<<<<<<< HEAD
-=======
       "Merit": "Merit",
       "Medal": "Medal",
       "Core": "Core Data",
       "GuildCoin": "Guild Coin",
->>>>>>> e6749a4e727e64615cbc10f32863140575f3d676
       "Log": "Log",
       "Running": "Running",
       "Pending": "Pending",
