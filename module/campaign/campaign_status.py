@@ -39,7 +39,6 @@ class PtOcr(Ocr):
 
 OCR_PT = PtOcr(OCR_EVENT_PT)
 
-OCR_GEM = PtOcr(OCR_GEM)
 
 class CampaignStatus(UI):
     def get_event_pt(self):
@@ -59,30 +58,6 @@ class CampaignStatus(UI):
             logger.warning(f'Invalid pt result: {pt}')
             LogRes(self.config).log_res('Pt', {'Value': 0})
             return 0
-
-    def get_gem(self, skip_first_screenshot=True):
-        """
-        Returns:
-            int: gem amount, or 0 if unable to parse
-        """
-        amount = 0
-        timeout = Timer(1, count=2).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-                            
-            if timeout.reached():
-                logger.warning('Get gem timeout')
-                break
-            amount = int(OCR_GEM.ocr(self.device.image))
-            
-            if amount >= 10:
-                break
-        LogRes(self.config).log_res(amount, 'Gem')
-
-        return amount
 
     def get_coin(self, skip_first_screenshot=True):
         """
@@ -108,7 +83,7 @@ class CampaignStatus(UI):
                 break
         LogRes(self.config).log_res('Coin', {'Value': amount, 'Limit': limit})
 
-        return amount1
+        return amount
 
     def _get_oil(self):
         return OCR_OIL.ocr(self.device.image)
@@ -137,4 +112,4 @@ class CampaignStatus(UI):
                 break
         LogRes(self.config).log_res('Oil', {'Value': amount, 'Limit': limit})
 
-        return amount1
+        return amount

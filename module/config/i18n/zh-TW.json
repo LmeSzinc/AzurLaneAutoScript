@@ -4,10 +4,6 @@
       "name": "",
       "help": ""
     },
-    "Dashboard": {
-      "name": "儀錶盤",
-      "help": ""
-    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -42,14 +38,6 @@
     }
   },
   "Task": {
-    "Res": {
-      "name": "查看資源儲量",
-      "help": ""
-    },
-    "EquipProgress": {
-      "name": "Task.EquipProgress.name",
-      "help": "Task.EquipProgress.help"
-    },
     "Alas": {
       "name": "Alas設定",
       "help": ""

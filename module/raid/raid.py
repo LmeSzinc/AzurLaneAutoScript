@@ -12,8 +12,6 @@ from module.ocr.ocr import Digit, DigitCounter
 from module.raid.assets import *
 from module.raid.combat import RaidCombat
 from module.ui.assets import RAID_CHECK
-from module.gg_handler.gg_handler import GGHandler
-from module.log_res.log_res import LogRes
 
 
 class OilExhausted(Exception):
@@ -305,5 +303,4 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
                     return pt
         else:
             logger.info(f'Raid {self.config.Campaign_Event} does not support PT ocr, skip')
-            LogRes(self.config).log_res(0, 'Pt')
             return 0

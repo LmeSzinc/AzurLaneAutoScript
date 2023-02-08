@@ -696,6 +696,7 @@ AzurLaneUncensored:
   Repository: https://gitee.com/LmeSzinc/AzurLaneUncensored
 GameManager:
   AutoRestart: true
+
 GGHandler:
   Enabled: false
   ServerLocation:
