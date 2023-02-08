@@ -153,30 +153,36 @@ class Benchmark(DaemonBase, CampaignUI):
                 return res
 
         logger.hr('Benchmark Results', level=1)
+        fastest_screenshot = 'ADB_nc'
+        fastest_click = 'minitouch'
         if screenshot_result:
             self.show(test='Screenshot', data=screenshot_result, evaluate_func=self.evaluate_screenshot)
             fastest = sorted(screenshot_result, key=lambda item: compare(item))[0]
             logger.info(f'Recommend screenshot method: {fastest[0]} ({float2str(fastest[1])})')
+            fastest_screenshot = fastest[0]
         if click_result:
             self.show(test='Control', data=click_result, evaluate_func=self.evaluate_click)
             fastest = sorted(click_result, key=lambda item: compare(item))[0]
             logger.info(f'Recommend control method: {fastest[0]} ({float2str(fastest[1])})')
+            fastest_click = fastest[0]
+
+        return fastest_screenshot, fastest_click
 
     def get_test_methods(self) -> t.Tuple[t.Tuple[str], t.Tuple[str]]:
         device = self.config.Benchmark_DeviceType
         # device == 'emulator'
         screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw']
-        click = ['ADB', 'uiautomator2', 'minitouch', 'MaaTouch']
+        click = ['ADB', 'uiautomator2', 'minitouch']
 
         def remove(*args):
             return [l for l in screenshot if l not in args]
 
         # No ascreencap on Android > 9
         if device in ['emulator_android_12', 'android_phone_12']:
-            remove('aScreenCap', 'aScreenCap_nc')
+            screenshot = remove('aScreenCap', 'aScreenCap_nc')
         # No nc loopback
         if device in ['plone_cloud_with_adb']:
-            remove('ADB_nc', 'aScreenCap_nc')
+            screenshot = remove('ADB_nc', 'aScreenCap_nc')
         # VMOS
         if device == 'android_phone_vmos':
             screenshot = ['ADB', 'aScreenCap', 'DroidCast', 'DroidCast_raw']
@@ -200,6 +206,30 @@ class Benchmark(DaemonBase, CampaignUI):
         logger.attr('TestScene', self.config.Benchmark_TestScene)
         screenshot, click = self.get_test_methods()
         self.benchmark(screenshot, click)
+
+    def run_simple_screenshot_benchmark(self):
+        """
+        Returns:
+            str: The fastest screenshot method on current device.
+        """
+        screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw']
+
+        def remove(*args):
+            return [l for l in screenshot if l not in args]
+
+        sdk = self.device.sdk_ver
+        logger.info(f'sdk_ver: {sdk}')
+        if not (21 <= sdk <= 28):
+            screenshot = remove('aScreenCap', 'aScreenCap_nc')
+        if self.device.is_chinac_phone_cloud:
+            screenshot = remove('ADB_nc', 'aScreenCap_nc')
+        screenshot = tuple(screenshot)
+
+        self.TEST_TOTAL = 3
+        self.TEST_BEST = 1
+        method, _ = self.benchmark(screenshot, tuple())
+
+        return method
 
 
 if __name__ == '__main__':

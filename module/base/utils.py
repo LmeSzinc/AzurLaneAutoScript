@@ -502,6 +502,20 @@ def rgb2hsv(image):
     return image
 
 
+def rgb2yuv(image):
+    """
+    Convert RGB to YUV color space.
+
+    Args:
+        image (np.ndarray): Shape (height, width, channel)
+
+    Returns:
+        np.ndarray: Shape (height, width)
+    """
+    image = cv2.cvtColor(image, cv2.COLOR_RGB2YUV)
+    return image
+
+
 def rgb2luma(image):
     """
     Convert RGB to the Y channel (Luminance) in YUV color space.

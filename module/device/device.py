@@ -31,6 +31,17 @@ class Device(Screenshot, Control, AppControl, EmulatorManager):
         super().__init__(*args, **kwargs)
         self.screenshot_interval_set()
 
+        # Auto-select the fastest screenshot method
+        if not self.config.is_template_config and self.config.Emulator_ScreenshotMethod == 'auto':
+            # Check resolution first
+            self.resolution_check_uiautomator2()
+            # Perform benchmark
+            from module.daemon.benchmark import Benchmark
+            bench = Benchmark(config=self.config, device=self)
+            method = bench.run_simple_screenshot_benchmark()
+            # Set
+            self.config.Emulator_ScreenshotMethod = method
+
     def handle_night_commission(self, daily_trigger='21:00', threshold=30):
         """
         Args:
