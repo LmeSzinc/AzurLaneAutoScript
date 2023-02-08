@@ -87,6 +87,29 @@ from pywebio.session import go_app, info, local, register_thread, run_js, set_en
 task_handler = TaskHandler()
 
 
+def timedelta_to_text(delta=None):
+    time_delta_name_suffix_dict = {
+        'Y': 'YearsAgo',
+        'M': 'MonthsAgo',
+        'D': 'DaysAgo',
+        'h': 'HoursAgo',
+        'm': 'MinutesAgo',
+        's': 'SecondsAgo',
+    }
+    time_delta_name_prefix = 'Gui.Overview.'
+    time_delta_name_suffix = 'NoData'
+    time_delta_display = ''
+    if isinstance(delta, dict):
+        for _key in delta:
+            if delta[_key]:
+                time_delta_name_suffix = time_delta_name_suffix_dict[_key]
+                time_delta_display = delta[_key]
+                break
+    time_delta_display = str(time_delta_display)
+    time_delta_name = time_delta_name_prefix + time_delta_name_suffix
+    return time_delta_display + t(time_delta_name)
+
+
 class AlasGUI(Frame):
     ALAS_MENU: Dict[str, Dict[str, List[str]]]
     ALAS_ARGS: Dict[str, Dict[str, Dict[str, Dict[str, str]]]]
@@ -369,23 +392,39 @@ class AlasGUI(Frame):
         self._log = log
 
         with use_scope("logs"):
-            put_scope(
-                "log-bar",
-                [
-                    put_text(t("Gui.Overview.Log")).style(
-                        "font-size: 1.25rem; margin: auto .5rem auto;"
-                    ),
-                    put_scope(
-                        "log-bar-btns",
-                        [
-                            put_scope("log_scroll_btn"),
-                            put_scope("dashboard_btn"),
-                        ],
-                    ),
-                    put_html('<hr class="hr-group">'),
-                    put_scope("dashboard"),
-                ],
-            ),
+            if 'Maa' in self.ALAS_ARGS:
+                put_scope(
+                    "log-bar",
+                    [
+                        put_text(t("Gui.Overview.Log")).style(
+                            "font-size: 1.25rem; margin: auto .5rem auto;"
+                        ),
+                        put_scope(
+                            "log-bar-btns",
+                            [
+                                put_scope("log_scroll_btn"),
+                            ],
+                        ),
+                    ],
+                ),
+            else:
+                put_scope(
+                    "log-bar",
+                    [
+                        put_text(t("Gui.Overview.Log")).style(
+                            "font-size: 1.25rem; margin: auto .5rem auto;"
+                        ),
+                        put_scope(
+                            "log-bar-btns",
+                            [
+                                put_scope("log_scroll_btn"),
+                                put_scope("dashboard_btn"),
+                            ],
+                        ),
+                        put_html('<hr class="hr-group">'),
+                        put_scope("dashboard"),
+                    ],
+                ),
             put_scope("log", [put_html("")])
 
         log.console.width = log.get_width()
@@ -412,9 +451,11 @@ class AlasGUI(Frame):
         )
         self.task_handler.add(switch_scheduler.g(), 1, True)
         self.task_handler.add(switch_log_scroll.g(), 1, True)
-        self.task_handler.add(switch_dashboard.g(), 1, True)
+        if 'Maa' not in self.ALAS_ARGS:
+            self.task_handler.add(switch_dashboard.g(), 1, True)
         self.task_handler.add(self.alas_update_overview_task, 10, True)
-        self.task_handler.add(self.alas_update_dashboard, 10, True)
+        if 'Maa' not in self.ALAS_ARGS:
+            self.task_handler.add(self.alas_update_dashboard, 10, True)
         self.task_handler.add(log.put_log(self.alas), 0.25, True)
 
     def set_dashboard_display(self, b):
@@ -475,16 +516,16 @@ class AlasGUI(Frame):
                     pin["_".join(k.split("."))] = default
 
                     # update Res Record if Res Value is changed to None
-                    if 'Dashboard.Resource' in k:
-                        k = k.split(".")
-                        k[-1] = k[-1] + 'Record'
-                        k = ".".join(k)
-                        v = str(datetime(2010, 1, 1, 0, 0, 0))
-                        modified[k] = v
-                        deep_set(config, k, v)
-                        valid.append(k)
-                        pin["_".join(k.split("."))] = v
-                        skip_time_record = True
+                    # if 'Dashboard.Resource' in k:
+                    #     k = k.split(".")
+                    #     k[-1] = k[-1] + 'Record'
+                    #     k = ".".join(k)
+                    #     v = str(datetime(2010, 1, 1, 0, 0, 0))
+                    #     modified[k] = v
+                    #     deep_set(config, k, v)
+                    #     valid.append(k)
+                    #     pin["_".join(k.split("."))] = v
+                    #     skip_time_record = True
 
                 elif not validate or re_fullmatch(validate, v):
                     deep_set(config, k, v)
@@ -504,15 +545,15 @@ class AlasGUI(Frame):
 
                     # update Res Record if Res Value is changed
                     # imitating Emotion record
-                    if "Dashboard.Resource" in k and not skip_time_record:
-                        k = k.split(".")
-                        k[-1] = k[-1] + 'Record'
-                        k = ".".join(k)
-                        v = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                        modified[k] = v
-                        deep_set(config, k, v)
-                        valid.append(k)
-                        pin["_".join(k.split("."))] = v
+                    # if "Dashboard.Resource" in k and not skip_time_record:
+                    #     k = k.split(".")
+                    #     k[-1] = k[-1] + 'Record'
+                    #     k = ".".join(k)
+                    #     v = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    #     modified[k] = v
+                    #     deep_set(config, k, v)
+                    #     valid.append(k)
+                    #     pin["_".join(k.split("."))] = v
                 else:
                     modified.pop(k)
                     invalid.append(k)
@@ -588,34 +629,14 @@ class AlasGUI(Frame):
             else:
                 put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
 
-    def timedelta_to_text(self, delta=None):
-        time_delta_name_suffix_dict = {
-            'Y': 'YearsAgo',
-            'M': 'MonthsAgo',
-            'D': 'DaysAgo',
-            'h': 'HoursAgo',
-            'm': 'MinutesAgo',
-            's': 'SecondsAgo',
-        }
-        time_delta_name_prefix = 'Gui.Overview.'
-        time_delta_name_suffix = 'NoData'
-        time_delta_display = ''
-        if isinstance(delta, dict):
-            for _key in delta:
-                if delta[_key]:
-                    time_delta_name_suffix = time_delta_name_suffix_dict[_key]
-                    time_delta_display = delta[_key]
-                    break
-        time_delta_display = str(time_delta_display)
-        time_delta_name = time_delta_name_prefix + time_delta_name_suffix
-        return time_delta_display + t(time_delta_name)
-
     def _update_dashboard(self, num=None, groups_to_display=None):
         x = 0
         _num = 10000 if num is None else num
         arg_group = LogRes(self.alas_config).groups if groups_to_display is None else groups_to_display
         for group_name in arg_group:
             group = deep_get(d=self.alas_config.data, keys=f'Dashboard.{group_name}')
+            if group is None:
+                continue
 
             if 'Limit' in group.keys():
                 value = deep_get(group, keys='Value')
@@ -636,9 +657,9 @@ class AlasGUI(Frame):
             # Handle time delta
             if value_time == datetime(2020, 1, 1, 0, 0, 0):
                 value = None
-                delta = self.timedelta_to_text()
+                delta = timedelta_to_text()
             else:
-                delta = self.timedelta_to_text(time_delta(value_time - time_now, True))
+                delta = timedelta_to_text(time_delta(value_time - time_now, True))
             if group_name not in self._log.last_display_time.keys():
                 self._log.last_display_time[group_name] = ''
             if self._log.last_display_time[group_name] == delta and not self._log.first_display:
@@ -666,6 +687,7 @@ class AlasGUI(Frame):
                     ],
                     size="20px 1fr"
                 ).style("height: 1fr"),
+            x += 1
             if x >= _num:
                 break
         if self._log.first_display:
