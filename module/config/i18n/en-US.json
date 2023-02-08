@@ -616,7 +616,8 @@
     },
     "ScreenshotMethod": {
       "name": "Screenshot Method",
-      "help": "Speed: aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB\nRun Tools - Performance Test to find the fastest method",
+      "help": "When using auto-select, a benchmark will be performed and automatically changed to the fastest screenshot method.\nGeneral speed: DroidCast_raw >> aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB.\nRun Tools - Performance Test to find the fastest method.",
+      "auto": "Auto-select the fastest",
       "ADB": "ADB ",
       "ADB_nc": "ADB_nc",
       "uiautomator2": "uiautomator2",

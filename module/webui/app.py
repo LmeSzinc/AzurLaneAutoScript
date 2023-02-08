@@ -493,11 +493,11 @@ class AlasGUI(Frame):
                     break
 
     def _save_config(
-            self,
-            modified: Dict[str, str],
-            config_name: str,
-            read=State.config_updater.read_file,
-            write=State.config_updater.write_file,
+        self,
+        modified: Dict[str, str],
+        config_name: str,
+        read=State.config_updater.read_file,
+        write=State.config_updater.write_file,
     ) -> None:
         try:
             skip_time_record = False
@@ -700,6 +700,7 @@ class AlasGUI(Frame):
             if not self._log.display_dashboard:
                 self._update_dashboard(num=4, groups_to_display=['Oil', 'Coin', 'Gem', 'Cube'])
             elif self._log.display_dashboard:
+                clear("dashboard")
                 self._update_dashboard()
 
     @use_scope("content", clear=True)
@@ -1052,8 +1053,8 @@ class AlasGUI(Frame):
                     "--loading-border-fill--"
                 )
                 if (
-                        State.deploy_config.EnableRemoteAccess
-                        and State.deploy_config.Password
+                    State.deploy_config.EnableRemoteAccess
+                    and State.deploy_config.Password
                 ):
                     put_text(t("Gui.Remote.NotRunning"), scope="remote_state")
                 else:
@@ -1336,8 +1337,8 @@ def startup():
     if State.deploy_config.StartOcrServer:
         start_ocr_server_process(State.deploy_config.OcrServerPort)
     if (
-            State.deploy_config.EnableRemoteAccess
-            and State.deploy_config.Password is not None
+        State.deploy_config.EnableRemoteAccess
+        and State.deploy_config.Password is not None
     ):
         task_handler.add(RemoteAccess.keep_ssh_alive(), 60)
 

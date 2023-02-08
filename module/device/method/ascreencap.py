@@ -80,15 +80,15 @@ class AScreenCap(Connection):
         logger.hr('aScreenCap init')
         self.__bytepointer = 0
 
-        arc = self.adb_shell(['getprop', 'ro.product.cpu.abi'])
-        sdk = self.adb_shell(['getprop', 'ro.build.version.sdk'])
+        arc = self.cpu_abi
+        sdk = self.sdk_ver
         logger.info(f'cpu_arc: {arc}, sdk_ver: {sdk}')
 
-        if int(sdk) in range(21, 26):
+        if sdk in range(21, 26):
             ver = "Android_5.x-7.x"
-        elif int(sdk) in range(26, 28):
+        elif sdk in range(26, 28):
             ver = "Android_8.x"
-        elif int(sdk) == 28:
+        elif sdk == 28:
             ver = "Android_9.x"
         else:
             ver = "0"
