@@ -302,8 +302,9 @@
       },
       "ScreenshotMethod": {
         "type": "select",
-        "value": "ADB_nc",
+        "value": "auto",
         "option": [
+          "auto",
           "ADB",
           "ADB_nc",
           "uiautomator2",
