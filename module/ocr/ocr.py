@@ -107,9 +107,7 @@ class OcrYuv(Ocr):
     @cached_property
     def letter_y(self):
         arr = np.array([[self.letter]], dtype=np.uint8)
-        image = cv2.cvtColor(arr, cv2.COLOR_RGB2YUV)
-        y, _, _ = cv2.split(image)
-        y = y[0][0]
+        y = rgb2luma(arr)[0][0]
         return y
 
     def pre_process(self, image):
@@ -120,8 +118,7 @@ class OcrYuv(Ocr):
         Returns:
             np.ndarray: Shape (width, height)
         """
-        image = cv2.cvtColor(image, cv2.COLOR_RGB2YUV)
-        y, _, _ = cv2.split(image)
+        y = rgb2luma(image)
         letter_y = (np.ones(y.shape) * self.letter_y).astype(np.uint8)
         diff = cv2.absdiff(y, letter_y)
         diff = cv2.multiply(diff, 255.0 / self.threshold)
