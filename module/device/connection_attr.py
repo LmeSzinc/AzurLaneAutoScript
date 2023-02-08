@@ -185,9 +185,9 @@ class ConnectionAttr:
         logger.info("Reading Realtime adb port")
 
         if serial == "bluestacks5-hyperv":
-            parameter_name = r"bst\.instance\.Nougat64\.status\.adb_port"
+            parameter_name = r"bst\.instance\.(Nougat64|Pie64)\.status\.adb_port"
         else:
-            parameter_name = rf"bst\.instance\.Nougat64_{serial[19:]}\.status.adb_port"
+            parameter_name = rf"bst\.instance\.(Nougat64|Pie64)_{serial[19:]}\.status.adb_port"
 
         try:
             with OpenKey(HKEY_LOCAL_MACHINE, r"SOFTWARE\BlueStacks_nxt") as key:
@@ -209,7 +209,7 @@ class ConnectionAttr:
         if port is None:
             logger.warning(f"Did not match the result: {serial}.")
             raise RequestHumanTakeover
-        port = port.group(1)
+        port = port.group(2)
         logger.info(f"Match to dynamic port: {port}")
         return f"127.0.0.1:{port}"
 
