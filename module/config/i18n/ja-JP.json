@@ -617,6 +617,7 @@
     "ScreenshotMethod": {
       "name": "Emulator.ScreenshotMethod.name",
       "help": "Emulator.ScreenshotMethod.help",
+      "auto": "auto",
       "ADB": "ADB",
       "ADB_nc": "ADB_nc",
       "uiautomator2": "uiautomator2",

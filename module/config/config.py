@@ -96,7 +96,10 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         # Task to run and bind.
         # Task means the name of the function to run in AzurLaneAutoScript class.
         self.task: Function
-        if config_name == "template":
+        # Template config is used for dev tools
+        self.is_template_config = config_name == "template"
+
+        if self.is_template_config:
             # For dev tools
             logger.info("Using template config, which is read only")
             self.auto_update = False
