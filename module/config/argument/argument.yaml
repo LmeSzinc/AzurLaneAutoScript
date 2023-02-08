@@ -17,9 +17,18 @@ Gem:
   Value: 0
   Color: ^FF3333
   Record: 2020-01-01 00:00:00
+Cube:
+  Value: 0
+  Color: ^33FFFF
+  Record: 2020-01-01 00:00:00
 Pt:
   Value: 0
   Color: ^00BFFF
+  Record: 2020-01-01 00:00:00
+ActionPoint:
+  Value: 0
+  Total: 0
+  Color: ^0000FF
   Record: 2020-01-01 00:00:00
 YellowCoin:
   Value: 0
@@ -29,18 +38,9 @@ PurpleCoin:
   Value: 0
   Color: ^7700BB
   Record: 2020-01-01 00:00:00
-ActionPoint:
-  Value: 0
-  Total: 0
-  Color: ^0000FF
-  Record: 2020-01-01 00:00:00
 Merit:
   Value: 0
   Color: ^FFFF00
-  Record: 2020-01-01 00:00:00
-Cube:
-  Value: 0
-  Color: ^33FFFF
   Record: 2020-01-01 00:00:00
 Core:
   Value: 0
