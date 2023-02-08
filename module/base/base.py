@@ -19,18 +19,35 @@ class ModuleBase:
     def __init__(self, config, device=None, task=None):
         """
         Args:
-            config (AzurLaneConfig, str): Name of the user config under ./config
-            device (Device): To reuse a device. If None, create a new Device object.
-            task (str): Bind a task only for dev purpose. Usually to be None for auto task scheduling.
+            config (AzurLaneConfig, str):
+                Name of the user config under ./config
+            device (Device):
+                To reuse a device.
+                If None, create a new Device object.
+                If str, create a new Device object and use the given device as serial.
+            task (str):
+                Bind a task only for dev purpose. Usually to be None for auto task scheduling.
+                If None, use default configs.
         """
-        if isinstance(config, str):
+        if isinstance(config, AzurLaneConfig):
+            self.config = config
+        elif isinstance(config, str):
             self.config = AzurLaneConfig(config, task=task)
         else:
+            logger.warning('Alas ModuleBase received an unknown config, assume it is AzurLaneConfig')
             self.config = config
-        if device is not None:
+
+        if isinstance(device, Device):
             self.device = device
-        else:
+        elif device is None:
             self.device = Device(config=self.config)
+        elif isinstance(device, str):
+            self.config.override(Emulator_Serial=device)
+            self.device = Device(config=self.config)
+        else:
+            logger.warning('Alas ModuleBase received an unknown device, assume it is Device')
+            self.device = device
+
         self.interval_timer = {}
 
     @cached_property
