@@ -445,8 +445,8 @@ class AlasGUI(Frame):
             onclick_on=lambda: self.set_dashboard_display(False),
             onclick_off=lambda: self.set_dashboard_display(True),
             get_state=lambda: log.display_dashboard,
-            color_on="on",
-            color_off="off",
+            color_on="off",
+            color_off="on",
             scope="dashboard_btn",
         )
         self.task_handler.add(switch_scheduler.g(), 1, True)
@@ -515,18 +515,6 @@ class AlasGUI(Frame):
                     valid.append(k)
                     pin["_".join(k.split("."))] = default
 
-                    # update Res Record if Res Value is changed to None
-                    # if 'Dashboard.Resource' in k:
-                    #     k = k.split(".")
-                    #     k[-1] = k[-1] + 'Record'
-                    #     k = ".".join(k)
-                    #     v = str(datetime(2010, 1, 1, 0, 0, 0))
-                    #     modified[k] = v
-                    #     deep_set(config, k, v)
-                    #     valid.append(k)
-                    #     pin["_".join(k.split("."))] = v
-                    #     skip_time_record = True
-
                 elif not validate or re_fullmatch(validate, v):
                     deep_set(config, k, v)
                     modified[k] = v
@@ -542,18 +530,6 @@ class AlasGUI(Frame):
                         deep_set(config, k, v)
                         valid.append(k)
                         pin["_".join(k.split("."))] = v
-
-                    # update Res Record if Res Value is changed
-                    # imitating Emotion record
-                    # if "Dashboard.Resource" in k and not skip_time_record:
-                    #     k = k.split(".")
-                    #     k[-1] = k[-1] + 'Record'
-                    #     k = ".".join(k)
-                    #     v = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                    #     modified[k] = v
-                    #     deep_set(config, k, v)
-                    #     valid.append(k)
-                    #     pin["_".join(k.split("."))] = v
                 else:
                     modified.pop(k)
                     invalid.append(k)
