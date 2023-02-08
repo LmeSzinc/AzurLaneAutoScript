@@ -397,6 +397,24 @@
       "help": "ActionPoint.Record.help"
     }
   },
+  "Merit": {
+    "_info": {
+      "name": "Merit._info.name",
+      "help": "Merit._info.help"
+    },
+    "Value": {
+      "name": "Merit.Value.name",
+      "help": "Merit.Value.help"
+    },
+    "Color": {
+      "name": "Merit.Color.name",
+      "help": "Merit.Color.help"
+    },
+    "Record": {
+      "name": "Merit.Record.name",
+      "help": "Merit.Record.help"
+    }
+  },
   "Cube": {
     "_info": {
       "name": "Cube._info.name",
@@ -413,6 +431,60 @@
     "Record": {
       "name": "Cube.Record.name",
       "help": "Cube.Record.help"
+    }
+  },
+  "Core": {
+    "_info": {
+      "name": "Core._info.name",
+      "help": "Core._info.help"
+    },
+    "Value": {
+      "name": "Core.Value.name",
+      "help": "Core.Value.help"
+    },
+    "Color": {
+      "name": "Core.Color.name",
+      "help": "Core.Color.help"
+    },
+    "Record": {
+      "name": "Core.Record.name",
+      "help": "Core.Record.help"
+    }
+  },
+  "Medal": {
+    "_info": {
+      "name": "Medal._info.name",
+      "help": "Medal._info.help"
+    },
+    "Value": {
+      "name": "Medal.Value.name",
+      "help": "Medal.Value.help"
+    },
+    "Color": {
+      "name": "Medal.Color.name",
+      "help": "Medal.Color.help"
+    },
+    "Record": {
+      "name": "Medal.Record.name",
+      "help": "Medal.Record.help"
+    }
+  },
+  "GuildCoin": {
+    "_info": {
+      "name": "GuildCoin._info.name",
+      "help": "GuildCoin._info.help"
+    },
+    "Value": {
+      "name": "GuildCoin.Value.name",
+      "help": "GuildCoin.Value.help"
+    },
+    "Color": {
+      "name": "GuildCoin.Color.name",
+      "help": "GuildCoin.Color.help"
+    },
+    "Record": {
+      "name": "GuildCoin.Record.name",
+      "help": "GuildCoin.Record.help"
     }
   },
   "Scheduler": {
@@ -2536,6 +2608,10 @@
       "YellowCoin": "大世界黃幣",
       "PurpleCoin": "大世界紫幣",
       "ActionPoint": "行動力",
+      "Merit": "功勳",
+      "Medal": "勳章",
+      "Core": "覈心數據",
+      "GuildCoin": "艦隊幣",
       "Log": "日誌",
       "Running": "執行中",
       "Pending": "佇列中",

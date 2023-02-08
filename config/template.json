@@ -43,6 +43,26 @@
       "Color": "^7700BB",
       "Record": "2020-01-01 00:00:00"
     },
+    "Core": {
+      "Value": 0,
+      "Color": "^AAAAAA",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "Medal": {
+      "Value": 0,
+      "Color": "^FFDD00",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "Merit": {
+      "Value": 0,
+      "Color": "^FFFF00",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "GuildCoin": {
+      "Value": 0,
+      "Color": "^AAAAAA",
+      "Record": "2020-01-01 00:00:00"
+    },
     "Storage": {
       "Storage": {}
     }

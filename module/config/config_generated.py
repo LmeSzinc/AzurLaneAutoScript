@@ -47,10 +47,30 @@ class GeneratedConfig:
     ActionPoint_Color = '^0000FF'
     ActionPoint_Record = datetime.datetime(2020, 1, 1, 0, 0)
 
+    # Group `Merit`
+    Merit_Value = 0
+    Merit_Color = '^FFFF00'
+    Merit_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
     # Group `Cube`
     Cube_Value = 0
     Cube_Color = '^33FFFF'
     Cube_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `Core`
+    Core_Value = 0
+    Core_Color = '^AAAAAA'
+    Core_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `Medal`
+    Medal_Value = 0
+    Medal_Color = '^FFDD00'
+    Medal_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `GuildCoin`
+    GuildCoin_Value = 0
+    GuildCoin_Color = '^AAAAAA'
+    GuildCoin_Record = datetime.datetime(2020, 1, 1, 0, 0)
 
     # Group `Scheduler`
     Scheduler_Enable = False
