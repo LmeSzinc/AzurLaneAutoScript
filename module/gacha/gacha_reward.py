@@ -121,7 +121,7 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
         logger.info(f'Able to submit up to {target_count} build orders')
         self._currency -= gold_total
         self.build_cube_count -= cube_total
-        LogRes(self.config).log_res(self.build_cube_count, 'Cube')
+        LogRes(self.config).log_res('Cube', {'Value': self.build_cube_count})
         return target_count
 
     def gacha_goto_pool(self, target_pool):
