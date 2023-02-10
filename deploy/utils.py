@@ -1,23 +1,27 @@
 import os
 import re
+from typing import Callable, Generic, TypeVar
+
+T = TypeVar("T")
 
 DEPLOY_CONFIG = './config/deploy.yaml'
 DEPLOY_TEMPLATE = './deploy/template'
 
 
-class cached_property:
+class cached_property(Generic[T]):
     """
     cached-property from https://github.com/pydanny/cached-property
+    Add typing support
 
     A property that is only computed once per instance and then replaces itself
     with an ordinary attribute. Deleting the attribute resets the property.
     Source: https://github.com/bottlepy/bottle/commit/fa7733e075da0d790d809aa3d2f53071897e6f76
     """
 
-    def __init__(self, func):
+    def __init__(self, func: Callable[..., T]):
         self.func = func
 
-    def __get__(self, obj, cls):
+    def __get__(self, obj, cls) -> T:
         if obj is None:
             return self
 
