@@ -84,11 +84,8 @@ class CampaignRun(CampaignEvent, ShopStatus):
         # Oil limit
         self.status_get_gems()
         self.get_coin()
-        current_oil = self.get_oil()
+        current_oil=self.get_oil()
         if oil_check:
-            # self.status_get_gems()
-            # self.get_coin()
-            # current_oil = self.get_oil()
             if current_oil < max(500, self.config.StopCondition_OilLimit):
                 logger.hr('Triggered stop condition: Oil limit')
                 self.config.task_delay(minute=(120, 240))
@@ -284,9 +281,6 @@ class CampaignRun(CampaignEvent, ShopStatus):
             elif self.campaign.is_in_auto_search_menu():
                 if self.can_use_auto_search_continue():
                     logger.info('In auto search menu, skip ensure_campaign_ui.')
-                    # self.campaign.ensure_auto_search_exit()
-                    # self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
-                    # logger.info('In auto search menu, close to get oil.')
                 else:
                     logger.info('In auto search menu, closing.')
                     self.campaign.ensure_auto_search_exit()
