@@ -1,3 +1,4 @@
+import datetime
 import re
 
 import cv2
@@ -64,8 +65,7 @@ class CampaignStatus(UI):
         Returns:
             int: Coin amount
         """
-        amount = 0
-        limit = 0
+        _coin = {}
         timeout = Timer(1, count=2).start()
         while 1:
             if skip_first_screenshot:
@@ -77,21 +77,28 @@ class CampaignStatus(UI):
                 logger.warning('Get coin timeout')
                 break
 
-            amount = OCR_COIN.ocr(self.device.image)
-            limit = OCR_COIN_LIMIT.ocr(self.device.image)
-            if amount >= 100:
+            _coin = {
+                'Value': OCR_COIN.ocr(self.device.image),
+                'Limit': OCR_COIN_LIMIT.ocr(self.device.image)
+            }
+            if _coin['Value'] >= 100:
                 break
-        LogRes(self.config).log_res('Coin', {'Value': amount, 'Limit': limit})
+        LogRes(self.config).log_res('Coin', _coin)
 
-        return amount
+        return _coin['Value']
 
     def _watch_statistics_in_auto_search(self):
         coin_amount = OCR_COIN.ocr(self.device.image)
         coin_limit = OCR_COIN_LIMIT.ocr(self.device.image)
-        LogRes(self.config).log_res('Coin', {'Value': coin_amount, 'Limit': coin_limit})
+        self.config.modified['Dashboard.Coin.Limit'] = coin_limit
+        self.config.modified['Dashboard.Coin.Value'] = coin_amount
         oil_amount = OCR_OIL.ocr(self.device.image)
         oil_limit = OCR_OIL_LIMIT.ocr(self.device.image)
-        LogRes(self.config).log_res('Oil', {'Value': oil_amount, 'Limit': oil_limit})
+        self.config.modified['Dashboard.Oil.Limit'] = oil_limit
+        self.config.modified['Dashboard.Oil.Value'] = oil_amount
+        time = datetime.datetime.now().replace(microsecond=0)
+        self.config.modified['Dashboard.Coin.Record'] = time
+        self.config.modified['Dashboard.Oil.Record'] = time
         return oil_amount
 
     def get_oil(self, skip_first_screenshot=True):
@@ -99,8 +106,7 @@ class CampaignStatus(UI):
         Returns:
             int: Oil amount
         """
-        amount = 0
-        limit = 0
+        _oil = {}
         timeout = Timer(1, count=2).start()
         while 1:
             if skip_first_screenshot:
@@ -112,10 +118,12 @@ class CampaignStatus(UI):
                 logger.warning('Get oil timeout')
                 break
 
-            amount = OCR_OIL.ocr(self.device.image)
-            limit = OCR_OIL_LIMIT.ocr(self.device.image)
-            if amount >= 100:
+            _oil = {
+                'Value': OCR_OIL.ocr(self.device.image),
+                'Limit': OCR_OIL_LIMIT.ocr(self.device.image)
+            }
+            if _oil['Value'] >= 100:
                 break
-        LogRes(self.config).log_res('Oil', {'Value': amount, 'Limit': limit})
+        LogRes(self.config).log_res('Oil', _oil)
 
-        return amount
+        return _oil['Value']
