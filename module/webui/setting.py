@@ -1,11 +1,19 @@
 import multiprocessing
 import threading
 from multiprocessing.managers import SyncManager
+from typing import TYPE_CHECKING, Callable, Generic, TypeVar
+
+if TYPE_CHECKING:
+    from module.config.config_updater import ConfigUpdater
+    from module.webui.config import DeployConfig
+
+T = TypeVar("T")
 
 
-class cached_class_property:
+class cached_class_property(Generic[T]):
     """
     Code from https://github.com/dssg/dickens
+    Add typing support
 
     Descriptor decorator implementing a class-level, read-only
     property, which caches its results on the class(es) on which it
@@ -21,13 +29,13 @@ class cached_class_property:
     class AliasConflict(ValueError):
         pass
 
-    def __init__(self, func):
+    def __init__(self, func: Callable[..., T]):
         self.__func__ = func
         self.__cache_name__ = '_{}_'.format(func.__name__.strip('_'))
         if self.__cache_name__ == func.__name__:
             raise self.AliasConflict(self.__cache_name__)
 
-    def __get__(self, instance, cls=None):
+    def __get__(self, instance, cls=None) -> T:
         if cls is None:
             cls = type(instance)
 
@@ -63,19 +71,21 @@ class State:
         cls._clearup = True
 
     @cached_class_property
-    def deploy_config(self):
+    def deploy_config(self) -> "DeployConfig":
         """
         Returns:
             DeployConfig：
         """
         from module.webui.config import DeployConfig
+
         return DeployConfig()
 
     @cached_class_property
-    def config_updater(self):
+    def config_updater(self) -> "ConfigUpdater":
         """
         Returns:
             ConfigUpdater：
         """
         from module.config.config_updater import ConfigUpdater
+
         return ConfigUpdater()
