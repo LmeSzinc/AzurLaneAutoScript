@@ -85,8 +85,14 @@ class CampaignStatus(UI):
 
         return amount
 
-    def _get_oil(self):
-        return OCR_OIL.ocr(self.device.image)
+    def _watch_statistics_in_auto_search(self):
+        coin_amount = OCR_COIN.ocr(self.device.image)
+        coin_limit = OCR_COIN_LIMIT.ocr(self.device.image)
+        LogRes(self.config).log_res('Coin', {'Value': coin_amount, 'Limit': coin_limit})
+        oil_amount = OCR_OIL.ocr(self.device.image)
+        oil_limit = OCR_OIL_LIMIT.ocr(self.device.image)
+        LogRes(self.config).log_res('Oil', {'Value': oil_amount, 'Limit': oil_limit})
+        return oil_amount
 
     def get_oil(self, skip_first_screenshot=True):
         """
