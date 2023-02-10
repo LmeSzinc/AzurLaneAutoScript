@@ -2587,6 +2587,7 @@
       "name": "禁用倍率的項目",
       "help": "會關閉倍率的項目，建議全關。 打開的項目導致封號後果自負。\n所有，指演習，共鬥，Meta信標\n注意：戰力限制依舊生效。",
       "disable_all_dangerous_task": "禁用所有敏感項目",
+      "disable_guild_and_dangerous": "disable_guild_and_dangerous",
       "disable_meta_and_exercise": "禁用Meta和演習",
       "disable_exercise": "禁用演習",
       "enable_all": "百無禁忌"

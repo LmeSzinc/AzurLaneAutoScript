@@ -154,7 +154,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
 
             if self.is_auto_search_running():
                 checked_fleet = self.auto_search_watch_fleet(checked_fleet)
-                checked_oil = self.auto_search_watch_oil(checked_oil)
+                # checked_oil = self.auto_search_watch_oil(checked_oil)
             if self.handle_retirement():
                 self.map_offensive_auto_search()
                 continue
