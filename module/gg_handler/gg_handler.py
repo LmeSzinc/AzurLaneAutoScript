@@ -162,11 +162,11 @@ class GGHandler:
             from module.handler.login import LoginHandler
             LoginHandler(config=self.config, device=self.device).app_restart()
             return True
-        return  False
+        return False
 
     def check_then_set_gg_status(self, task=''):
         """
-        If task is in list _disabled or _enabled defined in this function,
+        If task is in list _disabled or _group_enabled defined in this function,
         set gg to the defined status
         Args:
             task : str = the next task to run
@@ -178,19 +178,21 @@ class GGHandler:
             'disable_exercise'
             'enable_all'
         """
-        _disabled_1 = [
+        _group_exercise = [
             'exercise'
         ]
-        _disabled_2 = [
+        _group_meta = [
             'opsi_ash_assist',
             'opsi_ash_beacon'
         ]
-        _disabled_3=[
+        _group_raid = [
             'raid',
             'raid_daily'
         ]
-        _enabled = [
-            'guild',
+        _group_personal_choice = [
+            'guild'
+        ]
+        _group_enabled = [
             'hard',
             'sos',
             'war_archives',
@@ -225,16 +227,20 @@ class GGHandler:
         # Handle ignorance
 
         if _disabled_task == 'disable_meta_and_exercise':
-            _disabled = _disabled_1+_disabled_2
-            _enabled=_enabled+_disabled_3
+            _disabled = _group_exercise + _group_meta
+            _enabled = _group_enabled + _group_raid + _group_personal_choice
         elif _disabled_task == 'disable_exercise':
-            _disabled = _disabled_1
-            _enabled = _enabled+_disabled_3+_disabled_2
+            _disabled = _group_exercise
+            _enabled = _group_enabled + _group_personal_choice + _group_raid + _group_meta
         elif _disabled_task == 'enable_all':
-            _enabled = _enabled+_disabled_3+_disabled_2+_disabled_1
-            _disabled=[]
-        else: # _disabled_task == 'disable_all_dangerous_task':
-            _disabled = _disabled_1+_disabled_2+_disabled_3
+            _enabled = _group_enabled + _group_personal_choice + _group_raid + _group_meta + _group_exercise
+            _disabled = []
+        elif _disabled_task == 'disable_guild_and_dangerous':
+            _disabled = _group_exercise + _group_meta + _group_raid + _group_personal_choice
+            _enabled = _group_enabled
+        else:  # _disabled_task == 'disable_all_dangerous_task':
+            _disabled = _group_exercise + _group_meta + _group_raid
+            _enabled = _group_enabled + _group_personal_choice
 
         if task in _disabled:
             self.check_status(False)
