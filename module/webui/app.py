@@ -1208,9 +1208,6 @@ def app():
         help="Use jsdelivr cdn for pywebio static files (css, js). Self host cdn by default.",
     )
     parser.add_argument(
-        "--electron", action="store_true", help="Runs by electron client."
-    )
-    parser.add_argument(
         "--run",
         nargs="+",
         type=str,
@@ -1223,7 +1220,6 @@ def app():
     lang.LANG = State.deploy_config.Language
     key = args.key or State.deploy_config.Password
     cdn = args.cdn if args.cdn else State.deploy_config.CDN
-    State.electron = args.electron
     runs = None
     if args.run:
         runs = args.run
@@ -1238,7 +1234,6 @@ def app():
     logger.attr("Language", lang.LANG)
     logger.attr("Password", True if key else False)
     logger.attr("CDN", cdn)
-    logger.attr("Electron", args.electron)
 
     def index():
         if key is not None and not login(key):
