@@ -253,8 +253,6 @@ class CampaignRun(CampaignEvent, ShopStatus):
         self.run_count = 0
         self.run_limit = self.config.StopCondition_RunCount
         while 1:
-            # Update config
-            self.config.update()
             # End
             if total and self.run_count >= total:
                 break
@@ -294,6 +292,9 @@ class CampaignRun(CampaignEvent, ShopStatus):
             # End
             if self.triggered_stop_condition(oil_check=not self.campaign.is_in_auto_search_menu()):
                 break
+
+            # Update config
+            self.config.update()
 
             # Run
             try:
