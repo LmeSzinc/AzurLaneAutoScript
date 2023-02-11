@@ -5,7 +5,6 @@ import adbutils
 import uiautomator2 as u2
 from adbutils import AdbClient, AdbDevice
 
-from deploy.utils import DEPLOY_CONFIG, poor_yaml_read
 from module.base.decorator import cached_property
 from module.config.config import AzurLaneConfig
 from module.config.utils import deep_iter
@@ -216,19 +215,26 @@ class ConnectionAttr:
     @cached_property
     def adb_binary(self):
         # Try adb in deploy.yaml
-        config = poor_yaml_read(DEPLOY_CONFIG)
-        if 'AdbExecutable' in config:
-            file = config['AdbExecutable'].replace('\\', '/')
-            if os.path.exists(file):
-                return os.path.abspath(file)
+        from module.webui.setting import State
+        file = State.deploy_config.AdbExecutable
+        file = file.replace('\\', '/')
+        if os.path.exists(file):
+            return os.path.abspath(file)
 
         # Try existing adb.exe
         for file in self.adb_binary_list:
             if os.path.exists(file):
                 return os.path.abspath(file)
 
-        # Use adb.exe in system PATH
-        file = 'adb.exe'
+        # Try adb in python environment
+        import sys
+        file = os.path.join(sys.executable, '../Lib/site-packages/adbutils/binaries/adb.exe')
+        file = os.path.abspath(file).replace('\\', '/')
+        if os.path.exists(file):
+            return file
+
+        # Use adb in system PATH
+        file = 'adb'
         return file
 
     @cached_property
