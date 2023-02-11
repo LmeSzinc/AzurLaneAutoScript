@@ -294,7 +294,9 @@ class CampaignRun(CampaignEvent, ShopStatus):
                 break
 
             # Update config
-            self.config.update()
+            if len(self.config.modified):
+                logger.info('Updating config for dashboard')
+                self.config.update()
 
             # Run
             try:
@@ -303,6 +305,11 @@ class CampaignRun(CampaignEvent, ShopStatus):
                 logger.hr('Script end')
                 logger.info(str(e))
                 break
+
+            # Update config
+            if len(self.campaign.config.modified):
+                logger.info('Updating config for dashboard')
+                self.campaign.config.update()
 
             # After run
             self.run_count += 1
