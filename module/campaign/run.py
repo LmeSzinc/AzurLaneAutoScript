@@ -294,7 +294,9 @@ class CampaignRun(CampaignEvent, ShopStatus):
                 break
 
             # Update config
+            logger.info('Updating config for dashboard')
             self.config.update()
+            self.campaign.config.update()
 
             # Run
             try:
