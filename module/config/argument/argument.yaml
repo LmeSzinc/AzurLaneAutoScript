@@ -637,6 +637,9 @@ OpsiFleet:
   Fleet:
     value: 1
     option: [ 1, 2, 3, 4 ]
+  FleetMode:
+    value: combat_auto
+    option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left ]
   Submarine: false
 OpsiExplore:
   SpecialRadar: false

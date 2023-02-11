@@ -2333,6 +2333,14 @@
       "3": "3",
       "4": "4"
     },
+    "FleetMode": {
+      "name": "Fleet Mode",
+      "help": "",
+      "combat_auto": "combat_auto",
+      "combat_manual": "combat_manual",
+      "stand_still_in_the_middle": "stand_still_in_the_middle",
+      "hide_in_bottom_left": "hide_in_bottom_left"
+    },
     "Submarine": {
       "name": "Call Submarine",
       "help": "If enabled, interval increases from 30 to 60 minutes instead"
