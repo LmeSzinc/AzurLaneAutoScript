@@ -636,8 +636,7 @@
         "type": "select",
         "value": "normal",
         "option": [
-          "normal",
-          "hard"
+          "normal"
         ],
         "display": "disabled"
       },
@@ -1009,7 +1008,6 @@
         "type": "select",
         "value": "hard",
         "option": [
-          "normal",
           "hard"
         ],
         "display": "disabled"
