@@ -50,14 +50,6 @@
       "name": "Task.Restart.name",
       "help": "Task.Restart.help"
     },
-    "Main-Normal": {
-      "name": "Task.Main-Normal.name",
-      "help": "Task.Main-Normal.help"
-    },
-    "Main-Hard": {
-      "name": "Task.Main-Hard.name",
-      "help": "Task.Main-Hard.help"
-    },
     "Main": {
       "name": "Task.Main.name",
       "help": "Task.Main.help"
@@ -65,6 +57,14 @@
     "Main2": {
       "name": "Task.Main2.name",
       "help": "Task.Main2.help"
+    },
+    "Main3": {
+      "name": "Task.Main3.name",
+      "help": "Task.Main3.help"
+    },
+    "Main4": {
+      "name": "Task.Main4.name",
+      "help": "Task.Main4.help"
     },
     "GemsFarming": {
       "name": "Task.GemsFarming.name",
@@ -1364,10 +1364,10 @@
     "TaskCall": {
       "name": "TaskBalancer.TaskCall.name",
       "help": "TaskBalancer.TaskCall.help",
-      "Main-Normal": "Main-Normal",
-      "Main-Hard": "Main-Hard",
-      "Main": "Main",
-      "Main2": "Main2"
+      "Main": "Main-Normal",
+      "Main2": "Main-Hard",
+      "Main3": "Main",
+      "Main4": "Main2"
     }
   },
   "EventDaily": {

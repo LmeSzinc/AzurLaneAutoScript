@@ -15,16 +15,16 @@ Restart:
 
 # ==================== Farm ====================
 
-Main-Normal:
-  Campaign:
-    Event: campaign_main
-Main-Hard:
-  Campaign:
-    Event: campaign_main
 Main:
   Campaign:
     Event: campaign_main
 Main2:
+  Campaign:
+    Event: campaign_main
+Main3:
+  Campaign:
+    Event: campaign_main
+Main4:
   Campaign:
     Event: campaign_main
 WarArchives:
