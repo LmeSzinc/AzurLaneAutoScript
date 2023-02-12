@@ -141,6 +141,156 @@
       "Storage": {}
     }
   },
+  "Main-Normal": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Main-Normal",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "Campaign": {
+      "Name": "12-4",
+      "Event": "campaign_main",
+      "Mode": "normal",
+      "UseClearMode": true,
+      "UseFleetLock": true,
+      "UseAutoSearch": true,
+      "Use2xBook": false,
+      "AmbushEvade": true
+    },
+    "StopCondition": {
+      "RunCount": 0,
+      "OilLimit": 1000,
+      "MapAchievement": "non_stop",
+      "StageIncrease": false,
+      "GetNewShip": false,
+      "ReachLevel": 0
+    },
+    "Fleet": {
+      "Fleet1": 1,
+      "Fleet1Formation": "double_line",
+      "Fleet1Mode": "combat_auto",
+      "Fleet1Step": 3,
+      "Fleet2": 2,
+      "Fleet2Formation": "double_line",
+      "Fleet2Mode": "combat_auto",
+      "Fleet2Step": 2,
+      "FleetOrder": "fleet1_mob_fleet2_boss"
+    },
+    "Submarine": {
+      "Fleet": 0,
+      "Mode": "do_not_use",
+      "AutoSearchMode": "sub_standby",
+      "DistanceToBoss": "2_grid_to_boss"
+    },
+    "Emotion": {
+      "CalculateEmotion": true,
+      "IgnoreLowEmotionWarn": false,
+      "Fleet1Value": 119,
+      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Control": "prevent_yellow_face",
+      "Fleet1Recover": "not_in_dormitory",
+      "Fleet1Oath": false,
+      "Fleet2Value": 119,
+      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Control": "prevent_yellow_face",
+      "Fleet2Recover": "not_in_dormitory",
+      "Fleet2Oath": false
+    },
+    "HpControl": {
+      "UseHpBalance": false,
+      "UseEmergencyRepair": false,
+      "UseLowHpRetreat": false,
+      "HpBalanceThreshold": 0.2,
+      "HpBalanceWeight": "1000, 1000, 1000",
+      "RepairUseSingleThreshold": 0.3,
+      "RepairUseMultiThreshold": 0.6,
+      "LowHpRetreatThreshold": 0.3
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": "default_mode"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "Main-Hard": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Main-Hard",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "Campaign": {
+      "Name": "12-4",
+      "Event": "campaign_main",
+      "Mode": "hard",
+      "UseClearMode": true,
+      "UseFleetLock": true,
+      "UseAutoSearch": true,
+      "Use2xBook": false,
+      "AmbushEvade": true
+    },
+    "StopCondition": {
+      "RunCount": 3,
+      "OilLimit": 1000,
+      "MapAchievement": "non_stop",
+      "StageIncrease": false,
+      "GetNewShip": false,
+      "ReachLevel": 0
+    },
+    "Fleet": {
+      "Fleet1": 1,
+      "Fleet1Formation": "double_line",
+      "Fleet1Mode": "combat_auto",
+      "Fleet1Step": 3,
+      "Fleet2": 2,
+      "Fleet2Formation": "double_line",
+      "Fleet2Mode": "combat_auto",
+      "Fleet2Step": 2,
+      "FleetOrder": "fleet1_mob_fleet2_boss"
+    },
+    "Submarine": {
+      "Fleet": 0,
+      "Mode": "do_not_use",
+      "AutoSearchMode": "sub_standby",
+      "DistanceToBoss": "2_grid_to_boss"
+    },
+    "Emotion": {
+      "CalculateEmotion": true,
+      "IgnoreLowEmotionWarn": false,
+      "Fleet1Value": 119,
+      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Control": "prevent_yellow_face",
+      "Fleet1Recover": "not_in_dormitory",
+      "Fleet1Oath": false,
+      "Fleet2Value": 119,
+      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Control": "prevent_yellow_face",
+      "Fleet2Recover": "not_in_dormitory",
+      "Fleet2Oath": false
+    },
+    "HpControl": {
+      "UseHpBalance": false,
+      "UseEmergencyRepair": false,
+      "UseLowHpRetreat": false,
+      "HpBalanceThreshold": 0.2,
+      "HpBalanceWeight": "1000, 1000, 1000",
+      "RepairUseSingleThreshold": 0.3,
+      "RepairUseMultiThreshold": 0.6,
+      "LowHpRetreatThreshold": 0.3
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": "default_mode"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "Main": {
     "Scheduler": {
       "Enable": false,
@@ -221,156 +371,6 @@
       "Enable": false,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "Main2",
-      "SuccessInterval": 0,
-      "FailureInterval": 120,
-      "ServerUpdate": "00:00"
-    },
-    "Campaign": {
-      "Name": "12-4",
-      "Event": "campaign_main",
-      "Mode": "hard",
-      "UseClearMode": true,
-      "UseFleetLock": true,
-      "UseAutoSearch": true,
-      "Use2xBook": false,
-      "AmbushEvade": true
-    },
-    "StopCondition": {
-      "RunCount": 3,
-      "OilLimit": 1000,
-      "MapAchievement": "non_stop",
-      "StageIncrease": false,
-      "GetNewShip": false,
-      "ReachLevel": 0
-    },
-    "Fleet": {
-      "Fleet1": 1,
-      "Fleet1Formation": "double_line",
-      "Fleet1Mode": "combat_auto",
-      "Fleet1Step": 3,
-      "Fleet2": 2,
-      "Fleet2Formation": "double_line",
-      "Fleet2Mode": "combat_auto",
-      "Fleet2Step": 2,
-      "FleetOrder": "fleet1_mob_fleet2_boss"
-    },
-    "Submarine": {
-      "Fleet": 0,
-      "Mode": "do_not_use",
-      "AutoSearchMode": "sub_standby",
-      "DistanceToBoss": "2_grid_to_boss"
-    },
-    "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
-      "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
-      "Fleet1Control": "prevent_yellow_face",
-      "Fleet1Recover": "not_in_dormitory",
-      "Fleet1Oath": false,
-      "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
-      "Fleet2Control": "prevent_yellow_face",
-      "Fleet2Recover": "not_in_dormitory",
-      "Fleet2Oath": false
-    },
-    "HpControl": {
-      "UseHpBalance": false,
-      "UseEmergencyRepair": false,
-      "UseLowHpRetreat": false,
-      "HpBalanceThreshold": 0.2,
-      "HpBalanceWeight": "1000, 1000, 1000",
-      "RepairUseSingleThreshold": 0.3,
-      "RepairUseMultiThreshold": 0.6,
-      "LowHpRetreatThreshold": 0.3
-    },
-    "EnemyPriority": {
-      "EnemyScaleBalanceWeight": "default_mode"
-    },
-    "Storage": {
-      "Storage": {}
-    }
-  },
-  "Main3": {
-    "Scheduler": {
-      "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "Main3",
-      "SuccessInterval": 0,
-      "FailureInterval": 120,
-      "ServerUpdate": "00:00"
-    },
-    "Campaign": {
-      "Name": "12-4",
-      "Event": "campaign_main",
-      "Mode": "normal",
-      "UseClearMode": true,
-      "UseFleetLock": true,
-      "UseAutoSearch": true,
-      "Use2xBook": false,
-      "AmbushEvade": true
-    },
-    "StopCondition": {
-      "RunCount": 0,
-      "OilLimit": 1000,
-      "MapAchievement": "non_stop",
-      "StageIncrease": false,
-      "GetNewShip": false,
-      "ReachLevel": 0
-    },
-    "Fleet": {
-      "Fleet1": 1,
-      "Fleet1Formation": "double_line",
-      "Fleet1Mode": "combat_auto",
-      "Fleet1Step": 3,
-      "Fleet2": 2,
-      "Fleet2Formation": "double_line",
-      "Fleet2Mode": "combat_auto",
-      "Fleet2Step": 2,
-      "FleetOrder": "fleet1_mob_fleet2_boss"
-    },
-    "Submarine": {
-      "Fleet": 0,
-      "Mode": "do_not_use",
-      "AutoSearchMode": "sub_standby",
-      "DistanceToBoss": "2_grid_to_boss"
-    },
-    "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
-      "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
-      "Fleet1Control": "prevent_yellow_face",
-      "Fleet1Recover": "not_in_dormitory",
-      "Fleet1Oath": false,
-      "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
-      "Fleet2Control": "prevent_yellow_face",
-      "Fleet2Recover": "not_in_dormitory",
-      "Fleet2Oath": false
-    },
-    "HpControl": {
-      "UseHpBalance": false,
-      "UseEmergencyRepair": false,
-      "UseLowHpRetreat": false,
-      "HpBalanceThreshold": 0.2,
-      "HpBalanceWeight": "1000, 1000, 1000",
-      "RepairUseSingleThreshold": 0.3,
-      "RepairUseMultiThreshold": 0.6,
-      "LowHpRetreatThreshold": 0.3
-    },
-    "EnemyPriority": {
-      "EnemyScaleBalanceWeight": "default_mode"
-    },
-    "Storage": {
-      "Storage": {}
-    }
-  },
-  "Main4": {
-    "Scheduler": {
-      "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "Main4",
       "SuccessInterval": 0,
       "FailureInterval": 120,
       "ServerUpdate": "00:00"
@@ -598,7 +598,7 @@
     "TaskBalancer": {
       "Enable": false,
       "CoinLimit": 10000,
-      "TaskCall": "Main3"
+      "TaskCall": "Main"
     },
     "Storage": {
       "Storage": {}
