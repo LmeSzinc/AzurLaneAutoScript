@@ -45,6 +45,15 @@ Main3:
   - Emotion
   - HpControl
   - EnemyPriority
+Main4:
+  - Scheduler
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
 WarArchives:
   - Scheduler
   - Campaign

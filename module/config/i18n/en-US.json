@@ -51,15 +51,19 @@
       "help": ""
     },
     "Main": {
-      "name": "Main",
+      "name": "Main-Normal",
       "help": ""
     },
     "Main2": {
-      "name": "Main-2",
+      "name": "Main-Hard",
       "help": ""
     },
     "Main3": {
-      "name": "Main-3",
+      "name": "Main",
+      "help": ""
+    },
+    "Main4": {
+      "name": "Main-2",
       "help": ""
     },
     "GemsFarming": {
@@ -1360,9 +1364,8 @@
     "TaskCall": {
       "name": "Call task X if out of coin",
       "help": "Reminder: Players need to check task config before running, or TaskCall may not work.",
-      "Main": "Main",
-      "Main2": "Main-2",
-      "Main3": "Main-3"
+      "Main3": "Main",
+      "Main4": "Main-2"
     }
   },
   "EventDaily": {

@@ -296,8 +296,8 @@ TaskBalancer:
   Enable: false
   CoinLimit: 10000
   TaskCall:
-    value: Main
-    option: [ Main, Main2, Main3 ]
+    value: Main3
+    option: [ Main3, Main4 ]
 EventDaily:
   StageFilter: |-
     A1 > A2 > A3

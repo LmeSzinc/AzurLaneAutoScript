@@ -24,6 +24,9 @@ Main2:
 Main3:
   Campaign:
     Event: campaign_main
+Main4:
+  Campaign:
+    Event: campaign_main
 WarArchives:
   Scheduler:
     SuccessInterval: 30
