@@ -62,6 +62,10 @@
       "name": "Task.Main3.name",
       "help": "Task.Main3.help"
     },
+    "Main4": {
+      "name": "Task.Main4.name",
+      "help": "Task.Main4.help"
+    },
     "GemsFarming": {
       "name": "Task.GemsFarming.name",
       "help": "Task.GemsFarming.help"
@@ -1360,9 +1364,8 @@
     "TaskCall": {
       "name": "TaskBalancer.TaskCall.name",
       "help": "TaskBalancer.TaskCall.help",
-      "Main": "Main",
-      "Main2": "Main2",
-      "Main3": "Main3"
+      "Main3": "Main",
+      "Main4": "Main2"
     }
   },
   "EventDaily": {
