@@ -1016,7 +1016,7 @@
       "diamond": "轮形阵"
     },
     "Fleet1Mode": {
-      "name": "一队自律模式",
+      "name": "一队行动模式",
       "help": "",
       "combat_auto": "自律战斗",
       "combat_manual": "手操",
@@ -1050,7 +1050,7 @@
       "diamond": "轮形阵"
     },
     "Fleet2Mode": {
-      "name": "二队自律模式",
+      "name": "二队行动模式",
       "help": "",
       "combat_auto": "自律战斗",
       "combat_manual": "手操",
@@ -2334,7 +2334,7 @@
       "4": "4"
     },
     "FleetMode": {
-      "name": "自律模式",
+      "name": "行动模式",
       "help": "",
       "combat_auto": "自律战斗",
       "combat_manual": "手操",
