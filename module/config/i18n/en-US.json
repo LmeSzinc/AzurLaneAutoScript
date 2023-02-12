@@ -50,19 +50,19 @@
       "name": "Restart",
       "help": ""
     },
-    "Main": {
+    "Main-Normal": {
       "name": "Main-Normal",
       "help": ""
     },
-    "Main2": {
+    "Main-Hard": {
       "name": "Main-Hard",
       "help": ""
     },
-    "Main3": {
+    "Main": {
       "name": "Main",
       "help": ""
     },
-    "Main4": {
+    "Main2": {
       "name": "Main-2",
       "help": ""
     },
