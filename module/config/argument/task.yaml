@@ -18,24 +18,6 @@ Restart:
 
 # ==================== Farm ====================
 
-Main-Normal:
-  - Scheduler
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
-Main-Hard:
-  - Scheduler
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
 Main:
   - Scheduler
   - Campaign
@@ -46,6 +28,24 @@ Main:
   - HpControl
   - EnemyPriority
 Main2:
+  - Scheduler
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
+Main3:
+  - Scheduler
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
+Main4:
   - Scheduler
   - Campaign
   - StopCondition
