@@ -236,7 +236,7 @@
       "AmbushEvade": true
     },
     "StopCondition": {
-      "RunCount": 0,
+      "RunCount": 3,
       "OilLimit": 1000,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
