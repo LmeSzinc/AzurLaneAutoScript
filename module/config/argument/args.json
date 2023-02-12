@@ -635,6 +635,9 @@
       "Mode": {
         "type": "select",
         "value": "normal",
+        "option": [
+          "normal"
+        ],
         "display": "disabled"
       },
       "UseClearMode": {
@@ -1004,6 +1007,9 @@
       "Mode": {
         "type": "select",
         "value": "hard",
+        "option": [
+          "hard"
+        ],
         "display": "disabled"
       },
       "UseClearMode": {
