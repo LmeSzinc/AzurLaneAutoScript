@@ -1016,7 +1016,7 @@
       "diamond": "diamond"
     },
     "Fleet1Mode": {
-      "name": "Fleet 1 Mode",
+      "name": "Fleet1 Action Mode",
       "help": "",
       "combat_auto": "combat_auto",
       "combat_manual": "combat_manual",
@@ -1050,7 +1050,7 @@
       "diamond": "diamond"
     },
     "Fleet2Mode": {
-      "name": "Fleet 2 Mode",
+      "name": "Fleet2 Action Mode",
       "help": "",
       "combat_auto": "combat_auto",
       "combat_manual": "combat_manual",
@@ -2334,7 +2334,7 @@
       "4": "4"
     },
     "FleetMode": {
-      "name": "Fleet Mode",
+      "name": "Action Mode",
       "help": "",
       "combat_auto": "combat_auto",
       "combat_manual": "combat_manual",
