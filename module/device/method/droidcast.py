@@ -91,8 +91,7 @@ def retry(func):
 class DroidCast(Uiautomator2):
     """
     DroidCast, another screenshot method, https://github.com/rayworks/DroidCast
-
-    DroidCast is Added to ALAS for MuMu X support.
+    DroidCast_raw, a modified version of DroidCast sending raw bitmap https://github.com/Torther/DroidCastS
     """
 
     _droidcast_port: int = 0
