@@ -2333,6 +2333,14 @@
       "3": "3",
       "4": "4"
     },
+    "FleetMode": {
+      "name": "自律模式",
+      "help": "",
+      "combat_auto": "自律战斗",
+      "combat_manual": "手操",
+      "stand_still_in_the_middle": "中路站桩",
+      "hide_in_bottom_left": "躲左下角"
+    },
     "Submarine": {
       "name": "呼叫潜艇",
       "help": "开启后，运行间隔将增加至60分钟"

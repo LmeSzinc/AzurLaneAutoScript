@@ -8616,6 +8616,16 @@
           4
         ]
       },
+      "FleetMode": {
+        "type": "select",
+        "value": "combat_auto",
+        "option": [
+          "combat_auto",
+          "combat_manual",
+          "stand_still_in_the_middle",
+          "hide_in_bottom_left"
+        ]
+      },
       "Submarine": {
         "type": "checkbox",
         "value": false
@@ -8777,6 +8787,16 @@
           4
         ]
       },
+      "FleetMode": {
+        "type": "select",
+        "value": "combat_auto",
+        "option": [
+          "combat_auto",
+          "combat_manual",
+          "stand_still_in_the_middle",
+          "hide_in_bottom_left"
+        ]
+      },
       "Submarine": {
         "type": "checkbox",
         "value": false
@@ -8838,6 +8858,16 @@
           2,
           3,
           4
+        ]
+      },
+      "FleetMode": {
+        "type": "select",
+        "value": "combat_auto",
+        "option": [
+          "combat_auto",
+          "combat_manual",
+          "stand_still_in_the_middle",
+          "hide_in_bottom_left"
         ]
       },
       "Submarine": {
@@ -8948,6 +8978,16 @@
           2,
           3,
           4
+        ]
+      },
+      "FleetMode": {
+        "type": "select",
+        "value": "combat_auto",
+        "option": [
+          "combat_auto",
+          "combat_manual",
+          "stand_still_in_the_middle",
+          "hide_in_bottom_left"
         ]
       },
       "Submarine": {
@@ -9146,6 +9186,16 @@
           4
         ]
       },
+      "FleetMode": {
+        "type": "select",
+        "value": "combat_auto",
+        "option": [
+          "combat_auto",
+          "combat_manual",
+          "stand_still_in_the_middle",
+          "hide_in_bottom_left"
+        ]
+      },
       "Submarine": {
         "type": "checkbox",
         "value": false
@@ -9212,6 +9262,16 @@
           2,
           3,
           4
+        ]
+      },
+      "FleetMode": {
+        "type": "select",
+        "value": "combat_auto",
+        "option": [
+          "combat_auto",
+          "combat_manual",
+          "stand_still_in_the_middle",
+          "hide_in_bottom_left"
         ]
       },
       "Submarine": {
