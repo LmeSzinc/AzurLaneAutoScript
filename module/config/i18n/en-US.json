@@ -1364,6 +1364,8 @@
     "TaskCall": {
       "name": "Call task X if out of coin",
       "help": "Reminder: Players need to check task config before running, or TaskCall may not work.",
+      "Main": "Main-Normal",
+      "Main2": "Main-Hard",
       "Main3": "Main",
       "Main4": "Main-2"
     }
