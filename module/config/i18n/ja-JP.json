@@ -1364,6 +1364,8 @@
     "TaskCall": {
       "name": "TaskBalancer.TaskCall.name",
       "help": "TaskBalancer.TaskCall.help",
+      "Main": "Main-Normal",
+      "Main2": "Main-Hard",
       "Main3": "Main",
       "Main4": "Main2"
     }

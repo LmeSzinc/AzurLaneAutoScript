@@ -635,9 +635,7 @@
       "Mode": {
         "type": "select",
         "value": "normal",
-        "option": [
-          "normal"
-        ]
+        "display": "disabled"
       },
       "UseClearMode": {
         "type": "checkbox",
@@ -1006,9 +1004,7 @@
       "Mode": {
         "type": "select",
         "value": "hard",
-        "option": [
-          "hard"
-        ]
+        "display": "disabled"
       },
       "UseClearMode": {
         "type": "checkbox",
@@ -2931,6 +2927,8 @@
         "type": "select",
         "value": "Main3",
         "option": [
+          "Main",
+          "Main2",
           "Main3",
           "Main4"
         ]
