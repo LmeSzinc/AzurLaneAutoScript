@@ -1,6 +1,7 @@
 import threading
 from multiprocessing import Event, Process
 
+from module.logger import logger
 from module.webui.setting import State
 
 
@@ -49,6 +50,19 @@ def func(ev: threading.Event):
 
     host = args.host or State.deploy_config.WebuiHost or "0.0.0.0"
     port = args.port or int(State.deploy_config.WebuiPort) or 22267
+    State.electron = args.electron
+
+    logger.hr("Launcher config")
+    logger.attr("Host", host)
+    logger.attr("Port", port)
+    logger.attr("Electron", args.electron)
+    logger.attr("Reload", ev is not None)
+
+    if State.electron:
+        # https://github.com/LmeSzinc/AzurLaneAutoScript/issues/2051
+        logger.info("Electron detected, remove log output to stdout")
+        from module.logger import console_hdlr
+        logger.removeHandler(console_hdlr)
 
     uvicorn.run("module.webui.app:app", host=host, port=port, factory=True)
 

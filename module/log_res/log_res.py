@@ -13,7 +13,7 @@ class LogRes:
         from module.config.utils import read_file, filepath_argument
         return deep_get(d=read_file(filepath_argument("dashboard")), keys='Dashboard')
 
-    def log_res(self, name, modified: dict):
+    def log_res(self, name, modified: dict, update=True):
         if name in self.groups:
             key = f'Dashboard.{name}'
             original = deep_get(self.config.data, keys=key)
@@ -29,7 +29,8 @@ class LogRes:
                 from datetime import datetime
                 _time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 self.config.modified[_key_time] = _time
-                self.config.update()
+                if update:
+                    self.config.update()
         else:
             logger.warning('No such resource!')
         return True

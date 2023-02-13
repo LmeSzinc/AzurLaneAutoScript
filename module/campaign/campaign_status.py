@@ -1,3 +1,4 @@
+import datetime
 import re
 
 import cv2
@@ -41,7 +42,7 @@ OCR_PT = PtOcr(OCR_EVENT_PT)
 
 
 class CampaignStatus(UI):
-    def get_event_pt(self):
+    def get_event_pt(self, update=False):
         """
         Returns:
             int: PT amount, or 0 if unable to parse
@@ -52,20 +53,19 @@ class CampaignStatus(UI):
         if res:
             pt = int(res.group(1))
             logger.attr('Event_PT', pt)
-            LogRes(self.config).log_res('Pt', {'Value': pt})
-            return pt
+            LogRes(self.config).log_res('Pt', {'Value': pt}, update)
         else:
             logger.warning(f'Invalid pt result: {pt}')
-            LogRes(self.config).log_res('Pt', {'Value': 0})
-            return 0
+            LogRes(self.config).log_res('Pt', {'Value': 0}, update)
+            pt = 0
+        return pt
 
-    def get_coin(self, skip_first_screenshot=True):
+    def get_coin(self, skip_first_screenshot=True, update=False):
         """
         Returns:
             int: Coin amount
         """
-        amount = 0
-        limit = 0
+        _coin = {}
         timeout = Timer(1, count=2).start()
         while 1:
             if skip_first_screenshot:
@@ -77,24 +77,35 @@ class CampaignStatus(UI):
                 logger.warning('Get coin timeout')
                 break
 
-            amount = OCR_COIN.ocr(self.device.image)
-            limit = OCR_COIN_LIMIT.ocr(self.device.image)
-            if amount >= 100:
+            _coin = {
+                'Value': OCR_COIN.ocr(self.device.image),
+                'Limit': OCR_COIN_LIMIT.ocr(self.device.image)
+            }
+            if _coin['Value'] >= 100:
                 break
-        LogRes(self.config).log_res('Coin', {'Value': amount, 'Limit': limit})
+        LogRes(self.config).log_res('Coin', _coin, update)
 
-        return amount
+        return _coin['Value']
 
-    def _get_oil(self):
-        return OCR_OIL.ocr(self.device.image)
+    def _watch_statistics_in_auto_search(self):
+        _coin = {
+            'Value': OCR_COIN.ocr(self.device.image),
+            'Limit': OCR_COIN_LIMIT.ocr(self.device.image)
+        }
+        _oil = {
+            'Value': OCR_OIL.ocr(self.device.image),
+            'Limit': OCR_OIL_LIMIT.ocr(self.device.image)
+        }
+        LogRes(self.config).log_res('Oil', _oil, False)
+        LogRes(self.config).log_res('Coin', _coin, False)
+        return _oil['Value']
 
-    def get_oil(self, skip_first_screenshot=True):
+    def get_oil(self, skip_first_screenshot=True, update=False):
         """
         Returns:
             int: Oil amount
         """
-        amount = 0
-        limit = 0
+        _oil = {}
         timeout = Timer(1, count=2).start()
         while 1:
             if skip_first_screenshot:
@@ -106,10 +117,12 @@ class CampaignStatus(UI):
                 logger.warning('Get oil timeout')
                 break
 
-            amount = OCR_OIL.ocr(self.device.image)
-            limit = OCR_OIL_LIMIT.ocr(self.device.image)
-            if amount >= 100:
+            _oil = {
+                'Value': OCR_OIL.ocr(self.device.image),
+                'Limit': OCR_OIL_LIMIT.ocr(self.device.image)
+            }
+            if _oil['Value'] >= 100:
                 break
-        LogRes(self.config).log_res('Oil', {'Value': amount, 'Limit': limit})
+        LogRes(self.config).log_res('Oil', _oil, update)
 
-        return amount
+        return _oil['Value']
