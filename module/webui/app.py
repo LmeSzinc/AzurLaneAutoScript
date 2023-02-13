@@ -659,7 +659,7 @@ class AlasGUI(Frame):
                 value = None
                 delta = timedelta_to_text()
             else:
-                delta = timedelta_to_text(time_delta(value_time - time_now, True))
+                delta = timedelta_to_text(time_delta(value_time - time_now))
             if group_name not in self._log.last_display_time.keys():
                 self._log.last_display_time[group_name] = ''
             if self._log.last_display_time[group_name] == delta and not self._log.first_display:
