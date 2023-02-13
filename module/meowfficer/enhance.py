@@ -1,6 +1,5 @@
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
-from module.handler.assets import GAME_TIPS
 from module.logger import logger
 from module.meowfficer.assets import *
 from module.meowfficer.base import MeowfficerBase
@@ -269,7 +268,7 @@ class MeowfficerEnhance(MeowfficerBase):
             if self.meow_additional():
                 continue
             # Meowfficer enhance tips
-            if self.appear_then_click(GAME_TIPS, offset=(20, 20), interval=2):
+            if self.handle_game_tips():
                 continue
 
     def _meow_get_level(self):
