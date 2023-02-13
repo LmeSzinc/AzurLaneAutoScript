@@ -5,7 +5,7 @@ from module.logger import logger
 from module.meowfficer.assets import *
 from module.meowfficer.base import MeowfficerBase
 from module.meowfficer.buy import MEOWFFICER_COINS
-from module.ocr.ocr import DigitCounter
+from module.ocr.ocr import Digit, DigitCounter
 from module.ui.assets import MEOWFFICER_GOTO_DORMMENU
 from module.ui.page import page_meowfficer
 
@@ -16,6 +16,19 @@ MEOWFFICER_FEED_GRID = ButtonGrid(
     origin=(818, 212), delta=(130, 147), button_shape=(30, 30), grid_shape=(4, 3),
     name='MEOWFFICER_FEED_GRID')
 MEOWFFICER_FEED = DigitCounter(OCR_MEOWFFICER_FEED, letter=(131, 121, 123), threshold=64)
+
+
+class MeowfficerLevelOcr(Digit):
+    def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='0123456789IDSLV',
+                 name=None):
+        super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
+
+    def after_process(self, result):
+        result = result.replace('L', '').replace('V', '').replace('.', '')
+        return super().after_process(result)
+
+
+OCR_MEOWFFICER_ENHANCE_LEVEL = MeowfficerLevelOcr(OCR_MEOWFFICER_ENHANCE_LEVEL, name='OCR_MEOWFFICER_ENHANCE_LEVEL')
 
 
 class MeowfficerEnhance(MeowfficerBase):
@@ -259,6 +272,19 @@ class MeowfficerEnhance(MeowfficerBase):
             if self.appear_then_click(GAME_TIPS, offset=(20, 20), interval=2):
                 continue
 
+    def _meow_get_level(self):
+        """
+        Returns:
+            int: level from 1 to 30. Returns 0 if cannot detect
+
+        Pages:
+            in: MEOWFFICER_ENHANCE_ENTER
+        """
+        level = OCR_MEOWFFICER_ENHANCE_LEVEL.ocr(self.device.image)
+        if level > 30:
+            logger.warning(f'Invalid meowfficer level: {level}')
+        return level
+
     def _meow_enhance(self):
         """
         Perform meowfficer enhancement operations
@@ -295,6 +321,10 @@ class MeowfficerEnhance(MeowfficerBase):
             # Select target meowfficer
             # for enhancement
             self._meow_select()
+
+            if self._meow_get_level() >= 30:
+                logger.info('Current meowfficer is already leveled max')
+                return
 
             # Transition to MEOWFFICER_FEED after
             # selection; broken up due to significant
