@@ -53,11 +53,13 @@ class CampaignStatus(UI):
         if res:
             pt = int(res.group(1))
             logger.attr('Event_PT', pt)
-            LogRes(self.config).log_res('Pt', {'Value': pt}, update)
+            LogRes(self.config).Pt = pt
         else:
             logger.warning(f'Invalid pt result: {pt}')
-            LogRes(self.config).log_res('Pt', {'Value': 0}, update)
             pt = 0
+            LogRes(self.config).Pt = pt
+        if update:
+            self.config.update()
         return pt
 
     def get_coin(self, skip_first_screenshot=True, update=False):
@@ -83,7 +85,9 @@ class CampaignStatus(UI):
             }
             if _coin['Value'] >= 100:
                 break
-        LogRes(self.config).log_res('Coin', _coin, update)
+        LogRes(self.config).Coin = _coin
+        if update:
+            self.config.update()
 
         return _coin['Value']
 
@@ -96,8 +100,8 @@ class CampaignStatus(UI):
             'Value': OCR_OIL.ocr(self.device.image),
             'Limit': OCR_OIL_LIMIT.ocr(self.device.image)
         }
-        LogRes(self.config).log_res('Oil', _oil, False)
-        LogRes(self.config).log_res('Coin', _coin, False)
+        LogRes(self.config).Oil = _oil
+        LogRes(self.config).Coin = _coin
         return _oil['Value']
 
     def get_oil(self, skip_first_screenshot=True, update=False):
@@ -123,6 +127,8 @@ class CampaignStatus(UI):
             }
             if _oil['Value'] >= 100:
                 break
-        LogRes(self.config).log_res('Oil', _oil, update)
+        LogRes(self.config).Oil = _oil
+        if update:
+            self.config.update()
 
         return _oil['Value']
