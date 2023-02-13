@@ -633,12 +633,12 @@ def type_to_str(typ):
     return str(typ)
 
 
-def time_delta(_timedelta, dict_format=False):
+def time_delta(_timedelta):
     """
     Output the delta between two times
 
     Args:
-        time1, time2 : datetime.datetime=(YYYY,MM,DD,hh,mm,ss)
+        _timedelta : datetime.timedelta
 
     Returns:
         dict :  {
@@ -649,32 +649,30 @@ def time_delta(_timedelta, dict_format=False):
                  'm' : int,
                  's' : int
         }
-        float : time stamp delta(secs)
     """
     _time_delta = abs(_timedelta.total_seconds())
-    if not dict_format:
-        return _time_delta
-    else:
-        _sec ={
-            'Y': 365*24*60*60,
-            'M': 30*24*60*60,
-            'D': 24*60*60,
-            'h': 60*60,
-            'm': 60,
-            's': 1
-        }
-        _time_dict = {
-            'Y': 0,
-            'M': 0,
-            'D': 0,
-            'h': 0,
-            'm': 0,
-            's': 0
-        }
-        for _key in _sec:
-            _time_dict[_key] = int(_time_delta//_sec[_key])
-            _time_delta = _time_delta%_sec[_key]
-        return _time_dict
+    d_base = datetime(2010, 1, 1, 0, 0, 0)
+    d = datetime(2010, 1, 1, 0, 0, 0)-_timedelta
+    _time_dict = {
+        'Y': d.year - d_base.year,
+        'M': d.month - d_base.month,
+        'D': d.day - d_base.day,
+        'h': d.hour - d_base.hour,
+        'm': d.minute - d_base.minute,
+        's': d.second - d_base.second
+    }
+    # _sec ={
+    #     'Y': 365*24*60*60,
+    #     'M': 30*24*60*60,
+    #     'D': 24*60*60,
+    #     'h': 60*60,
+    #     'm': 60,
+    #     's': 1
+    # }
+    # for _key in _time_dict:
+    #     _time_dict[_key] = int(_time_delta//_sec[_key])
+    #     _time_delta = _time_delta%_sec[_key]
+    return _time_dict
 
 
 if __name__ == '__main__':
