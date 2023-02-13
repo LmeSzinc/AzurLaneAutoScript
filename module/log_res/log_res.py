@@ -32,9 +32,7 @@ class LogRes:
                     if _value == original[value_name]:
                         continue
                     _key = _key_group + f'.{value_name}'
-                    self.config.modified[_key] = value
-                    _mod = True
-                if _mod:
+                    self.config.modified[_key] = _value
                     _key_time = _key_group + f'.Record'
                     _time = datetime.now().replace(microsecond=0)
                     self.config.modified[_key_time] = _time
