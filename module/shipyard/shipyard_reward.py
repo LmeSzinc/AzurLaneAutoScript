@@ -199,11 +199,13 @@ class RewardShipyard(ShipyardUI, GeneralShop):
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 
+        logger.hr('Shipyard DR', level=1)
         self._shipyard_bp_rarity = 'DR'
         self.shipyard_run(series=self.config.ShipyardDr_ResearchSeries,
                           index=self.config.ShipyardDr_ShipIndex,
                           count=self.config.ShipyardDr_BuyAmount)
 
+        logger.hr('Shipyard PR', level=1)
         self._shipyard_bp_rarity = 'PR'
         self.shipyard_run(series=self.config.Shipyard_ResearchSeries,
                           index=self.config.Shipyard_ShipIndex,
