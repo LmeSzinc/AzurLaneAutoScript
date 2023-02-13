@@ -14,7 +14,6 @@ class LogRes:
 
     def __init__(self, config):
         self.__dict__['config'] = config
-        self.__dict__['YellowCoin'] = []
 
     def __setattr__(self, key, value):
         if key in self.groups:
