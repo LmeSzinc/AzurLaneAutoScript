@@ -20,6 +20,7 @@ from module.ui.page import MAIN_CHECK
 from module.ui.ui import UI
 from module.gg_handler.gg_handler import GGHandler
 
+
 class LoginHandler(UI):
     def _handle_app_login(self):
         """

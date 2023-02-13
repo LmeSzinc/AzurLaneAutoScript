@@ -3,6 +3,7 @@ from module.gg_handler.gg_u2 import GGU2
 from module.gg_handler.gg_screenshot import GGScreenshot
 from module.config.utils import deep_get, deep_set
 from module.logger import logger
+from module.base.timer import timeout
 
 
 class GGHandler:
@@ -22,6 +23,19 @@ class GGHandler:
         self.method = deep_get(self.config.data,
                                'GameManager.GGHandler.GGMethod',
                                default='screenshot')
+
+    def restart(self, crashed=False):
+        from module.handler.login import LoginHandler
+        try:
+            if crashed:
+                timeout(self.device.restart_atx, timeout=60)
+            timeout(LoginHandler(config=self.config, device=self.device).app_restart, timeout_sec=600)
+        except Exception as e:
+            from module.notify import handle_notify
+            handle_notify(self.config.Error_OnePushConfig,
+                          title=f"Alas <{self.config.config_name}> crashed",
+                          content=f"<{self.config.config_name}> RequestHumanTakeover\nMaybe your emulator died", )
+            exit(1)
 
     def set(self, mode=True):
         """
@@ -81,7 +95,14 @@ class GGHandler:
         """
         gg_data = GGData(config=self.config).get_data()
         gg_enable = gg_data['gg_enable']
-        self.device.restart_atx()
+        try:
+            timeout(self.device.restart_atx, 60)
+        except Exception:
+            from module.notify import handle_notify
+            handle_notify(self.config.Error_OnePushConfig,
+                          title=f"Alas <{self.config.config_name}> Emulator error",
+                          content=f"<{self.config.config_name}> RequestHumanTakeover\nMaybe your emulator died", )
+            exit(1)
         if gg_enable:
             GGData(config=self.config).set_data(target='gg_on', value=False)
             logger.info(f'GG status:')
@@ -97,8 +118,7 @@ class GGHandler:
         gg_data = GGData(self.config).get_data()
         if gg_data['gg_enable'] and gg_data['gg_on']:
             logger.hr('Disabling GG')
-            from module.handler.login import LoginHandler
-            LoginHandler(config=self.config, device=self.device).app_restart()
+            self.restart()
             logger.attr('GG', 'Disabled')
 
     def check_status(self, mode=True):
@@ -159,8 +179,7 @@ class GGHandler:
                      default=True)
                 and gg_data['gg_enable']):
             logger.info('Restart to reset GG status.')
-            from module.handler.login import LoginHandler
-            LoginHandler(config=self.config, device=self.device).app_restart()
+            self.restart()
             return True
         return False
 

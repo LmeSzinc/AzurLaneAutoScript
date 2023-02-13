@@ -244,7 +244,10 @@ class OperationSiren(OSMap):
             OpsiFleet_Fleet=self.config.cross_get('OpsiMeowfficerFarming.OpsiFleet.Fleet'),
             OpsiFleet_Submarine=False,
             OpsiMeowfficerFarming_ActionPointPreserve=0,
-            OpsiMeowfficerFarming_HazardLevel=3,
+            OpsiMeowfficerFarming_HazardLevel=
+            self.config.cross_get('OpsiMeowfficerFarming'
+                                  '.OpsiMeowfficerFarming'
+                                  '.HazardLevel'),
             OpsiMeowfficerFarming_TargetZone=0,
         )
         while 1:
