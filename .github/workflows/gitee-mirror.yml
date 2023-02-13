@@ -16,8 +16,8 @@ jobs:
       # https://github.com/Yikun/hub-mirror-action
       uses: Yikun/hub-mirror-action@master
       with:
-        src: github/Lmesincz
-        dst: gitee/lmesincz
+        src: github/LmeSzinc
+        dst: gitee/lmeszinc
         dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
         dst_token: ${{ secrets.GITEE_TOKEN }}
         static_list: 'AzurLaneAutoScript'
