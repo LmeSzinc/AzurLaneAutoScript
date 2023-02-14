@@ -2664,7 +2664,9 @@
       "DisableTranslateMode": "点击这里关闭翻译模式",
       "ConfigSaved": "设置已保存",
       "AlasIsRunning": "调度器已在运行中",
-      "ClickToUpdate": "有更新可用，点击这里进行更新"
+      "ClickToUpdate": "有更新可用，点击这里进行更新",
+      "AlasRestart": "Alas将于3秒后重启",
+      "ReloadEnabled": "重新加载未启用"
     },
     "Status": {
       "Running": "运行中",
@@ -2681,7 +2683,9 @@
       "Translate": "翻译",
       "Update": "更新器",
       "Remote": "远程控制",
-      "Utils": "工具"
+      "Utils": "工具",
+      "RaiseException": "抛出异常",
+      "ForceRestart": "强制重启"
     },
     "Overview": {
       "Scheduler": "调度器",

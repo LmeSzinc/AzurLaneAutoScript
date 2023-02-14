@@ -2664,7 +2664,9 @@
       "DisableTranslateMode": "Gui.Toast.DisableTranslateMode",
       "ConfigSaved": "Gui.Toast.ConfigSaved",
       "AlasIsRunning": "Gui.Toast.AlasIsRunning",
-      "ClickToUpdate": "Gui.Toast.ClickToUpdate"
+      "ClickToUpdate": "Gui.Toast.ClickToUpdate",
+      "AlasRestart": "Alas will restart in 3 seconds",
+      "ReloadEnabled": "Reload not enabled"
     },
     "Status": {
       "Running": "Gui.Status.Running",
@@ -2681,7 +2683,9 @@
       "Translate": "Gui.MenuDevelop.Translate",
       "Update": "Gui.MenuDevelop.Update",
       "Remote": "Gui.MenuDevelop.Remote",
-      "Utils": "Gui.MenuDevelop.Utils"
+      "Utils": "Gui.MenuDevelop.Utils",
+      "RaiseException": "Raise Exception",
+      "ForceRestart": "Force Restart"
     },
     "Overview": {
       "Scheduler": "Scheduler",

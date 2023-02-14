@@ -979,17 +979,17 @@ class AlasGUI(Frame):
     def dev_utils(self) -> None:
         self.init_menu(name="Utils")
         self.set_title(t("Gui.MenuDevelop.Utils"))
-        put_button(label="Raise exception", onclick=raise_exception)
+        put_button(label=t("Gui.MenuDevelop.RaiseException"), onclick=raise_exception)
 
         def _force_restart():
             if State.restart_event is not None:
-                toast("Alas will restart in 3 seconds", duration=0, color="error")
+                toast(t("Gui.Toast.AlasRestart"), duration=0, color="error")
                 clearup()
                 State.restart_event.set()
             else:
-                toast("Reload not enabled", color="error")
+                toast(t("Gui.Toast.ReloadEnabled"), color="error")
 
-        put_button(label="Force restart", onclick=_force_restart)
+        put_button(label=t("Gui.MenuDevelop.ForceRestart"), onclick=_force_restart)
 
     @use_scope("content", clear=True)
     def dev_remote(self) -> None:

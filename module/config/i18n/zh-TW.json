@@ -2664,7 +2664,9 @@
       "DisableTranslateMode": "點擊這裡關閉翻譯模式",
       "ConfigSaved": "設定已儲存",
       "AlasIsRunning": "調度器已在執行中",
-      "ClickToUpdate": "有更新可用，點擊這裡進行更新"
+      "ClickToUpdate": "有更新可用，點擊這裡進行更新",
+      "AlasRestart": "Alas將於3秒後重啓",
+      "ReloadEnabled": "重新加載未啓用"
     },
     "Status": {
       "Running": "執行中",
@@ -2681,11 +2683,12 @@
       "Translate": "翻譯",
       "Update": "更新器",
       "Remote": "遠程控制",
-      "Utils": "工具"
+      "Utils": "工具",
+      "RaiseException": "抛出異常",
+      "ForceRestart": "强制重啓"
     },
     "Overview": {
       "Scheduler": "調度器",
-      "Dashboard": "Gui.Overview.Dashboard",
       "SecondsAgo": "秒前",
       "MinutesAgo": "分鐘前",
       "HoursAgo": "小時前",

@@ -2664,7 +2664,9 @@
       "DisableTranslateMode": "Click here to disable translate mode",
       "ConfigSaved": "Config saved",
       "AlasIsRunning": "Scheduler is already running",
-      "ClickToUpdate": "New update avaliable, click here to update"
+      "ClickToUpdate": "New update avaliable, click here to update",
+      "AlasRestart": "Alas will restart in 3 seconds",
+      "ReloadEnabled": "Reload not enabled"
     },
     "Status": {
       "Running": "Running",
@@ -2681,7 +2683,9 @@
       "Translate": "Translate",
       "Update": "Updater",
       "Remote": "Remote access",
-      "Utils": "Utils"
+      "Utils": "Utils",
+      "RaiseException": "Raise Exception",
+      "ForceRestart": "Force Restart"
     },
     "Overview": {
       "Scheduler": "Scheduler",
