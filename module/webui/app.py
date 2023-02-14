@@ -627,11 +627,11 @@ class AlasGUI(Frame):
 
             value_time = deep_get(group, keys='Record')
             if value_time is None:
-                value_time = datetime(2020, 1, 1, 0, 0, 0)
+                value_time = datetime(2023, 1, 1, 0, 0, 0)
 
             time_now = datetime.now().replace(microsecond=0)
             # Handle time delta
-            if value_time == datetime(2020, 1, 1, 0, 0, 0):
+            if value_time == datetime(2023, 1, 1, 0, 0, 0):
                 value = None
                 delta = timedelta_to_text()
             else:
