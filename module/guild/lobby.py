@@ -50,13 +50,13 @@ class GuildLobby(GuildBase):
             else:
                 self.device.screenshot()
 
-            if click_timer.reached() and self.appear(GUILD_CHECK):
+            if click_timer.reached() and self.appear(GUILD_CHECK, offset=(20, 20)):
                 button = self.guild_lobby_get_report()
                 if button is not None:
                     self.device.click(button)
                     click_timer.reset()
 
-            if self.appear_then_click(GUILD_REPORT_CLAIM, interval=3):
+            if self.appear_then_click(GUILD_REPORT_CLAIM, threshold=30, interval=3):
                 confirm_timer.reset()
                 continue
 
@@ -72,13 +72,13 @@ class GuildLobby(GuildBase):
                 confirm_timer.reset()
                 continue
 
-            if self.appear(GUILD_REPORT_CLAIMED, interval=3):
+            if self.appear(GUILD_REPORT_CLAIMED, threshold=30, interval=3):
                 self.device.click(GUILD_REPORT_CLOSE)
                 confirm_timer.reset()
                 continue
 
             # End
-            if self.appear(GUILD_CHECK):
+            if self.appear(GUILD_CHECK, offset=(20, 20)):
                 if confirm_timer.reached():
                     break
             else:
