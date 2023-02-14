@@ -790,7 +790,7 @@ class OperationSiren(OSMap):
         else:
             logger.info("No Normal/Hard boss found, stop")
             self.os_mission_quit()
-            self.month_boss_delay(is_normal=False, result=True)
+            self.month_boss_delay(is_normal=False, result=False)
             return True
         self.os_mission_quit()
 
@@ -849,7 +849,8 @@ class OperationSiren(OSMap):
                 self.config.task_delay(target=next_reset)
                 self.config.task_stop()
             else:
-                logger.info("Unable to clear the hard monthly boss, task stop")
+                logger.info("Unable to clear the hard monthly boss, try again on tomorrow")
+                self.config.task_delay(server_update=True)
                 self.config.task_stop()
 
 
