@@ -401,3 +401,23 @@ class InfoHandler(ModuleBase):
             return False
 
         self.ensure_no_story()
+
+    """
+    Game tips
+    """
+    def handle_game_tips(self):
+        """
+        Returns:
+            bool: If handled
+        """
+        if self.appear(GAME_TIPS, offset=(20, 20), interval=2):
+            self.device.click(GAME_TIPS)
+            return True
+        if self.appear(GAME_TIPS3, offset=(20, 20), interval=2):
+            self.device.click(GAME_TIPS)
+            return True
+        if self.appear(GAME_TIPS4, offset=(20, 20), interval=2):
+            self.device.click(GAME_TIPS)
+            return True
+
+        return False
