@@ -29,7 +29,7 @@ from module.webui.base import Frame
 from module.webui.discord_presence import close_discord_rpc, init_discord_rpc
 from module.webui.fastapi import asgi_app
 from module.webui.lang import _t, t
-from module.webui.pin import put_input, put_select
+from module.webui.pin import put_input, put_select, pin_update
 from module.webui.process_manager import ProcessManager
 from module.webui.remote_access import RemoteAccess
 from module.webui.setting import State
@@ -390,6 +390,7 @@ class AlasGUI(Frame):
 
         log = RichLog("log")
         self._log = log
+        self._log.dashboard_arg_group = LogRes(self.alas_config).groups
 
         with use_scope("logs"):
             if 'Maa' in self.ALAS_ARGS:
@@ -608,31 +609,34 @@ class AlasGUI(Frame):
     def _update_dashboard(self, num=None, groups_to_display=None):
         x = 0
         _num = 10000 if num is None else num
-        arg_group = LogRes(self.alas_config).groups if groups_to_display is None else groups_to_display
-        for group_name in arg_group:
+        _arg_group = self._log.dashboard_arg_group if groups_to_display is None else groups_to_display
+        time_now = datetime.now().replace(microsecond=0)
+        for group_name in _arg_group:
             group = deep_get(d=self.alas_config.data, keys=f'Dashboard.{group_name}')
             if group is None:
                 continue
 
             if 'Limit' in group.keys():
-                value = deep_get(group, keys='Value')
-                value_limit = deep_get(group, keys='Limit')
-                value = f'{value} / {value_limit}'
+                value = str(group['Value'])
+                value_limit = f' / {group["Limit"]}'
+                value_total = ''
             elif 'Total' in group.keys():
-                value = deep_get(group, keys='Value')
-                value_total = deep_get(group, keys='Total')
-                value = f'{value} ({value_total})'
+                value = str(group['Value'])
+                value_total = f' ( {group["Total"]} )'
+                value_limit = ''
             else:
-                value = deep_get(group, keys='Value')
+                value = str(group['Value'])
+                value_limit = ''
+                value_total = ''
+            value = value + value_limit + value_total
 
-            value_time = deep_get(group, keys='Record')
+            value_time = group['Record']
             if value_time is None:
-                value_time = datetime(2020, 1, 1, 0, 0, 0)
+                value_time = datetime(2023, 1, 1, 0, 0, 0)
 
-            time_now = datetime.now().replace(microsecond=0)
             # Handle time delta
-            if value_time == datetime(2020, 1, 1, 0, 0, 0):
-                value = None
+            if value_time == datetime(2023, 1, 1, 0, 0, 0):
+                value = 'None'
                 delta = timedelta_to_text()
             else:
                 delta = timedelta_to_text(time_delta(value_time - time_now))
@@ -640,29 +644,69 @@ class AlasGUI(Frame):
                 self._log.last_display_time[group_name] = ''
             if self._log.last_display_time[group_name] == delta and not self._log.first_display:
                 continue
-            self._log.last_display_time[group_name]=delta
-            # Handle dot color
-            _color = f"""background-color:{deep_get(d=group, keys='Color').replace('^', '#')}"""
-            color = f'<div class="status-point" style={_color}>'
-            with use_scope(group_name, clear=True):
-                put_row(
-                    [
-                        put_html(color),
-                        put_scope(
-                            f"_{group_name}",
-                            [
-                                put_column(
-                                    [
-                                        put_text(str(value)).style("--arg-title--"),
-                                        put_text(t(f'Gui.Overview.{group_name}') + " - " + delta).style("--arg-help--"),
-                                    ],
-                                    size="auto auto",
-                                ),
-                            ],
-                        ),
-                    ],
-                    size="20px 1fr"
-                ).style("height: 1fr"),
+            self._log.last_display_time[group_name] = delta
+
+            if self._log.first_display:
+                # Handle width
+                # value_width = str(len(value) * 0.8 + 0.6) + 'rem' if value != 'None' else '4.5rem'
+                # value_limit = '' if value == 'None' else value_limit
+                # limit_width = str(len(value_limit) * 0.8) + 'rem'
+                # value_total = '' if value == 'None' else value_total
+
+                # Handle dot color
+                _color = f"""background-color:{deep_get(d=group, keys='Color').replace('^', '#')}"""
+                color = f'<div class="status-point" style={_color}>'
+                with use_scope(group_name, clear=True):
+                    put_row(
+                        [
+                            put_html(color),
+                            put_scope(
+                                f"{group_name}_group",
+                                [
+                                    put_column(
+                                        [
+                                            put_row(
+                                                [
+                                                    put_input(name=f'{group_name}_value',
+                                                              value=value,
+                                                              readonly=True,
+                                                              ).style(f'--dashboard-value--'),
+                                                    # put_input(name=f'{group_name}_limit',
+                                                    #           value=value_limit,
+                                                    #           readonly=True,
+                                                    #           ).style(f'---dashboard-limit--'),
+                                                    # put_input(name=f'{group_name}_total',
+                                                    #           value=value_total,
+                                                    #           readonly=True,
+                                                    #           ).style('---dashboard-total--'),
+                                                ],
+                                                # size=f"{value_width} {limit_width} auto",
+                                            ),
+                                            put_input(name=f'{group_name}_help',
+                                                      value=t(f'Gui.Overview.{group_name}') + " - " + delta,
+                                                      readonly=True,
+                                                      ).style('---dashboard-help--')
+                                        ],
+                                        size="auto auto",
+                                    ),
+                                ],
+                            ),
+                        ],
+                        size="20px 1fr"
+                    ).style("height: 1fr"),
+            else:
+                pin_update(name=f'{group_name}_value',
+                           value=str(value),
+                           )
+                # pin_update(name=f'{group_name}_limit',
+                #            value=value_limit,
+                #            )
+                # pin_update(name=f'{group_name}_total',
+                #            value=value_total,
+                #            )
+                pin_update(name=f'{group_name}_help',
+                           value=t(f'Gui.Overview.{group_name}') + " - " + delta,
+                           )
             x += 1
             if x >= _num:
                 break
@@ -979,17 +1023,17 @@ class AlasGUI(Frame):
     def dev_utils(self) -> None:
         self.init_menu(name="Utils")
         self.set_title(t("Gui.MenuDevelop.Utils"))
-        put_button(label="Raise exception", onclick=raise_exception)
+        put_button(label=t("Gui.MenuDevelop.RaiseException"), onclick=raise_exception)
 
         def _force_restart():
             if State.restart_event is not None:
-                toast("Alas will restart in 3 seconds", duration=0, color="error")
+                toast(t("Gui.Toast.AlasRestart"), duration=0, color="error")
                 clearup()
                 State.restart_event.set()
             else:
-                toast("Reload not enabled", color="error")
+                toast(t("Gui.Toast.ReloadEnabled"), color="error")
 
-        put_button(label="Force restart", onclick=_force_restart)
+        put_button(label=t("Gui.MenuDevelop.ForceRestart"), onclick=_force_restart)
 
     @use_scope("content", clear=True)
     def dev_remote(self) -> None:
