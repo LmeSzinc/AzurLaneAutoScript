@@ -1,206 +1,4 @@
 {
-  "Dashboard": {
-    "Oil": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Limit": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^000000"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "Gem": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^FF3333"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "Pt": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^00BFFF"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "YellowCoin": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^FF8800"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "Coin": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Limit": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^FFAA33"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "Cube": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^33FFFF"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "ActionPoint": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Total": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^0000FF"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "PurpleCoin": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^7700BB"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "Core": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^AAAAAA"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "Medal": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^FFDD00"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "Merit": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^FFFF00"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "GuildCoin": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^AAAAAA"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "Storage": {
-      "Storage": {
-        "type": "storage",
-        "value": {},
-        "valuetype": "ignore",
-        "display": "disabled"
-      }
-    }
-  },
   "Alas": {
     "Emulator": {
       "Serial": {
@@ -554,7 +352,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -595,7 +393,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -844,7 +642,7 @@
       },
       "Fleet1Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -877,7 +675,7 @@
       },
       "Fleet2Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -967,7 +765,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -1216,7 +1014,7 @@
       },
       "Fleet1Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -1249,7 +1047,7 @@
       },
       "Fleet2Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -1339,7 +1137,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -1588,7 +1386,7 @@
       },
       "Fleet1Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -1621,7 +1419,7 @@
       },
       "Fleet2Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -1711,7 +1509,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -2060,7 +1858,7 @@
       },
       "Fleet1Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -2093,7 +1891,7 @@
       },
       "Fleet2Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -2149,7 +1947,7 @@
       },
       "TimeLimit": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       }
     },
@@ -2164,11 +1962,12 @@
       },
       "TaskCall": {
         "type": "select",
-        "value": "Main",
+        "value": "Main3",
         "option": [
           "Main",
           "Main2",
-          "Main3"
+          "Main3",
+          "Main4"
         ]
       }
     },
@@ -2189,7 +1988,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -2497,7 +2296,7 @@
       },
       "Fleet1Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -2530,7 +2329,7 @@
       },
       "Fleet2Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -2620,7 +2419,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -2928,7 +2727,7 @@
       },
       "Fleet1Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -2961,7 +2760,7 @@
       },
       "Fleet2Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -3051,7 +2850,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -3359,7 +3158,7 @@
       },
       "Fleet1Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -3392,7 +3191,7 @@
       },
       "Fleet2Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -3482,7 +3281,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -3807,7 +3606,7 @@
       },
       "Fleet1Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -3840,7 +3639,7 @@
       },
       "Fleet2Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -3930,7 +3729,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -4255,7 +4054,7 @@
       },
       "Fleet1Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -4288,7 +4087,7 @@
       },
       "Fleet2Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -4378,7 +4177,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -4703,7 +4502,7 @@
       },
       "Fleet1Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -4736,7 +4535,7 @@
       },
       "Fleet2Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -4826,7 +4625,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -5151,7 +4950,7 @@
       },
       "Fleet1Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -5184,7 +4983,7 @@
       },
       "Fleet2Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -5274,7 +5073,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -5590,7 +5389,7 @@
       },
       "Fleet1Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -5623,7 +5422,7 @@
       },
       "Fleet2Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -5713,7 +5512,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -5863,7 +5662,7 @@
       },
       "Fleet1Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -5945,7 +5744,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -6086,7 +5885,7 @@
       },
       "Fleet1Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -6168,7 +5967,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -6216,7 +6015,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -6279,7 +6078,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -6370,7 +6169,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -6471,7 +6270,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -6526,7 +6325,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -6603,7 +6402,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -6685,7 +6484,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -6748,7 +6547,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -6807,7 +6606,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -7066,7 +6865,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -7161,7 +6960,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -7239,7 +7038,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -7316,7 +7115,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -7482,7 +7281,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -7537,7 +7336,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -7594,7 +7393,7 @@
       },
       "OpponentRefreshRecord": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       }
     },
@@ -7615,7 +7414,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -7893,7 +7692,7 @@
       },
       "Fleet1Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -7926,7 +7725,7 @@
       },
       "Fleet2Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -8016,7 +7815,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -8288,7 +8087,7 @@
       },
       "Fleet1Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -8321,7 +8120,7 @@
       },
       "Fleet2Record": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime",
         "display": "disabled"
       },
@@ -8455,7 +8254,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -8520,7 +8319,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -8567,7 +8366,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -8648,7 +8447,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -8695,7 +8494,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -8742,7 +8541,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -8819,7 +8618,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -8892,7 +8691,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -8945,7 +8744,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -9012,7 +8811,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -9065,7 +8864,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -9130,7 +8929,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -9218,7 +9017,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -9297,7 +9096,7 @@
       },
       "NextRun": {
         "type": "datetime",
-        "value": "2020-01-01 00:00:00",
+        "value": "2023-01-01 00:00:00",
         "validate": "datetime"
       },
       "Command": {
@@ -9490,6 +9289,220 @@
       "Ash": {
         "type": "input",
         "value": 16500
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
+  "Dashboard": {
+    "Oil": {
+      "Value": {
+        "type": "input",
+        "value": 0
+      },
+      "Limit": {
+        "type": "input",
+        "value": 0
+      },
+      "Color": {
+        "type": "input",
+        "value": "^000000",
+        "display": "hide"
+      },
+      "Record": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      }
+    },
+    "Gem": {
+      "Value": {
+        "type": "input",
+        "value": 0
+      },
+      "Color": {
+        "type": "input",
+        "value": "^FF3333",
+        "display": "hide"
+      },
+      "Record": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      }
+    },
+    "Pt": {
+      "Value": {
+        "type": "input",
+        "value": 0
+      },
+      "Color": {
+        "type": "input",
+        "value": "^00BFFF",
+        "display": "hide"
+      },
+      "Record": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      }
+    },
+    "YellowCoin": {
+      "Value": {
+        "type": "input",
+        "value": 0
+      },
+      "Color": {
+        "type": "input",
+        "value": "^FF8800",
+        "display": "hide"
+      },
+      "Record": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      }
+    },
+    "Coin": {
+      "Value": {
+        "type": "input",
+        "value": 0
+      },
+      "Limit": {
+        "type": "input",
+        "value": 0
+      },
+      "Color": {
+        "type": "input",
+        "value": "^FFAA33",
+        "display": "hide"
+      },
+      "Record": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      }
+    },
+    "Cube": {
+      "Value": {
+        "type": "input",
+        "value": 0
+      },
+      "Color": {
+        "type": "input",
+        "value": "^33FFFF",
+        "display": "hide"
+      },
+      "Record": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      }
+    },
+    "ActionPoint": {
+      "Value": {
+        "type": "input",
+        "value": 0
+      },
+      "Total": {
+        "type": "input",
+        "value": 0
+      },
+      "Color": {
+        "type": "input",
+        "value": "^0000FF",
+        "display": "hide"
+      },
+      "Record": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      }
+    },
+    "PurpleCoin": {
+      "Value": {
+        "type": "input",
+        "value": 0
+      },
+      "Color": {
+        "type": "input",
+        "value": "^7700BB",
+        "display": "hide"
+      },
+      "Record": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      }
+    },
+    "Core": {
+      "Value": {
+        "type": "input",
+        "value": 0
+      },
+      "Color": {
+        "type": "input",
+        "value": "^AAAAAA",
+        "display": "hide"
+      },
+      "Record": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      }
+    },
+    "Medal": {
+      "Value": {
+        "type": "input",
+        "value": 0
+      },
+      "Color": {
+        "type": "input",
+        "value": "^FFDD00",
+        "display": "hide"
+      },
+      "Record": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      }
+    },
+    "Merit": {
+      "Value": {
+        "type": "input",
+        "value": 0
+      },
+      "Color": {
+        "type": "input",
+        "value": "^FFFF00",
+        "display": "hide"
+      },
+      "Record": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      }
+    },
+    "GuildCoin": {
+      "Value": {
+        "type": "input",
+        "value": 0
+      },
+      "Color": {
+        "type": "input",
+        "value": "^AAAAAA",
+        "display": "hide"
+      },
+      "Record": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
       }
     },
     "Storage": {

@@ -622,16 +622,16 @@ class AlasGUI(Frame):
                 value_total = ''
             elif 'Total' in group.keys():
                 value = str(group['Value'])
-                value_total = f' ( {group["Total"]} )'
+                value_total = f' ({group["Total"]})'
                 value_limit = ''
             else:
                 value = str(group['Value'])
                 value_limit = ''
                 value_total = ''
-            value = value + value_limit + value_total
+            # value = value + value_limit + value_total
 
             value_time = group['Record']
-            if value_time is None:
+            if value_time is None or value_time == datetime(2020, 1, 1, 0, 0, 0):
                 value_time = datetime(2023, 1, 1, 0, 0, 0)
 
             # Handle time delta
@@ -646,67 +646,67 @@ class AlasGUI(Frame):
                 continue
             self._log.last_display_time[group_name] = delta
 
-            if self._log.first_display:
-                # Handle width
-                # value_width = str(len(value) * 0.8 + 0.6) + 'rem' if value != 'None' else '4.5rem'
-                # value_limit = '' if value == 'None' else value_limit
-                # limit_width = str(len(value_limit) * 0.8) + 'rem'
-                # value_total = '' if value == 'None' else value_total
+            # if self._log.first_display:
+            # Handle width
+            value_width = str(len(value) * 0.7 + 0.55) + 'rem' if value != 'None' else '4.5rem'
+            value_limit = '' if value == 'None' else value_limit
+            limit_width = str(len(value_limit) * 0.7) + 'rem'
+            value_total = '' if value == 'None' else value_total
 
-                # Handle dot color
-                _color = f"""background-color:{deep_get(d=group, keys='Color').replace('^', '#')}"""
-                color = f'<div class="status-point" style={_color}>'
-                with use_scope(group_name, clear=True):
-                    put_row(
-                        [
-                            put_html(color),
-                            put_scope(
-                                f"{group_name}_group",
-                                [
-                                    put_column(
-                                        [
-                                            put_row(
-                                                [
-                                                    put_input(name=f'{group_name}_value',
-                                                              value=value,
-                                                              readonly=True,
-                                                              ).style(f'--dashboard-value--'),
-                                                    # put_input(name=f'{group_name}_limit',
-                                                    #           value=value_limit,
-                                                    #           readonly=True,
-                                                    #           ).style(f'---dashboard-limit--'),
-                                                    # put_input(name=f'{group_name}_total',
-                                                    #           value=value_total,
-                                                    #           readonly=True,
-                                                    #           ).style('---dashboard-total--'),
-                                                ],
-                                                # size=f"{value_width} {limit_width} auto",
-                                            ),
-                                            put_input(name=f'{group_name}_help',
-                                                      value=t(f'Gui.Overview.{group_name}') + " - " + delta,
-                                                      readonly=True,
-                                                      ).style('---dashboard-help--')
-                                        ],
-                                        size="auto auto",
-                                    ),
-                                ],
-                            ),
-                        ],
-                        size="20px 1fr"
-                    ).style("height: 1fr"),
-            else:
-                pin_update(name=f'{group_name}_value',
-                           value=str(value),
-                           )
-                # pin_update(name=f'{group_name}_limit',
-                #            value=value_limit,
-                #            )
-                # pin_update(name=f'{group_name}_total',
-                #            value=value_total,
-                #            )
-                pin_update(name=f'{group_name}_help',
-                           value=t(f'Gui.Overview.{group_name}') + " - " + delta,
-                           )
+            # Handle dot color
+            _color = f"""background-color:{deep_get(d=group, keys='Color').replace('^', '#')}"""
+            color = f'<div class="status-point" style={_color}>'
+            with use_scope(group_name, clear=True):
+                put_row(
+                    [
+                        put_html(color),
+                        put_scope(
+                            f"{group_name}_group",
+                            [
+                                put_column(
+                                    [
+                                        put_row(
+                                            [
+                                                put_input(name=f'{group_name}_value',
+                                                          value=value,
+                                                          readonly=True,
+                                                          ).style(f'--dashboard-value--'),
+                                                put_input(name=f'{group_name}_limit',
+                                                          value=value_limit,
+                                                          readonly=True,
+                                                          ).style(f'---dashboard-limit--'),
+                                                put_input(name=f'{group_name}_total',
+                                                          value=value_total,
+                                                          readonly=True,
+                                                          ).style('---dashboard-total--'),
+                                            ],
+                                            size=f"{value_width} {limit_width} auto",
+                                        ),
+                                        put_input(name=f'{group_name}_help',
+                                                  value=t(f'Gui.Overview.{group_name}') + " - " + delta,
+                                                  readonly=True,
+                                                  ).style('---dashboard-help--')
+                                    ],
+                                    size="auto auto",
+                                ),
+                            ],
+                        ),
+                    ],
+                    size="20px 1fr"
+                ).style("height: 1fr"),
+            # else:
+            #     pin_update(name=f'{group_name}_value',
+            #                value=str(value),
+            #                )
+            #     # pin_update(name=f'{group_name}_limit',
+            #     #            value=value_limit,
+            #     #            )
+            #     # pin_update(name=f'{group_name}_total',
+            #     #            value=value_total,
+            #     #            )
+            #     pin_update(name=f'{group_name}_help',
+            #                value=t(f'Gui.Overview.{group_name}') + " - " + delta,
+            #                )
             x += 1
             if x >= _num:
                 break
