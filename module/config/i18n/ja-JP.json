@@ -1364,10 +1364,10 @@
     "TaskCall": {
       "name": "TaskBalancer.TaskCall.name",
       "help": "TaskBalancer.TaskCall.help",
-      "Main": "Main-Normal",
-      "Main2": "Main-Hard",
-      "Main3": "Main",
-      "Main4": "Main2"
+      "Main": "Main",
+      "Main2": "Main2",
+      "Main3": "Main3",
+      "Main4": "Main4"
     }
   },
   "EventDaily": {

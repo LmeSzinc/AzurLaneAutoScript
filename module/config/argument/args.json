@@ -1344,7 +1344,7 @@
       },
       "Command": {
         "type": "input",
-        "value": "Main",
+        "value": "Main3",
         "display": "hide"
       },
       "SuccessInterval": {
