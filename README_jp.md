@@ -3,7 +3,7 @@
 
 # AzurLaneAutoScript
 
-#### Discord [![](https://img.shields.io/discord/720789890354249748?logo=discord&logoColor=ffffff&color=4e4c97)](https://discord.gg/AQN6GeJ) QQ群  ![](https://img.shields.io/badge/QQ%20Group-1087735381-4e4c97)
+#### Discord [![](https://img.shields.io/discord/720789890354249748?logo=discord&logoColor=ffffff&color=4e4c97)](https://discord.gg/AQN6GeJ) QQグループ  ![](https://img.shields.io/badge/QQ%20Group-1087735381-4e4c97)
 Azur Lane bot with GUI (Supports CN, EN, JP, TW, able to support other servers), designed for 24/7 running scenes, can take over almost all Azur Lane gameplay. Azur Lane, as a mobile game, has entered the late stage of its life cycle. During the period from now to the server down, please reduce the time spent on the Azur Lane and leave everything to Alas.
 
 Alas is a free open source software, link: https://github.com/LmeSzinc/AzurLaneAutoScript
@@ -11,7 +11,7 @@ Alas is a free open source software, link: https://github.com/LmeSzinc/AzurLaneA
 Alasは、GUI機能を搭載されていたアズールレーン用のスクリプトでございます。（日本サーバー、中国サーバー、英語サーバーと台湾（中国）サーバーに対応しています）このスクリプトは、7x24時間稼働する為に設計されたもので、ほぼ全てのゲームシステムを人のように代行できる。
 モバイルゲームとして、アズールレーンはもはやライフサイクルのエンディングに迫っています。故に、今から配信終了までの間、アズールレーンに使う時間を少しずつ減らして、全ての操作をAlasに任せてください。
 
-Alas 是一款免费开源软件，地址：https://github.com/LmeSzinc/AzurLaneAutoScript
+Alasは、無料配布のオープンソースソフトウェアの一つであります。リンク：https://github.com/LmeSzinc/AzurLaneAutoScript
 
 EN support, thanks **[@whoamikyo](https://github.com/whoamikyo)** and **[@nEEtdo0d](https://github.com/nEEtdo0d)**.
 
