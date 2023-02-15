@@ -2,64 +2,12 @@
 # Define arguments.
 # --------------------
 
-# ==================== Dashboard ====================
-Oil:
-  Value: 0
-  Limit: 0
-  Color: ^000000
-  Record: 2020-01-01 00:00:00
-Coin:
-  Value: 0
-  Limit: 0
-  Color: ^FFAA33
-  Record: 2020-01-01 00:00:00
-Gem:
-  Value: 0
-  Color: ^FF3333
-  Record: 2020-01-01 00:00:00
-Pt:
-  Value: 0
-  Color: ^00BFFF
-  Record: 2020-01-01 00:00:00
-YellowCoin:
-  Value: 0
-  Color: ^FF8800
-  Record: 2020-01-01 00:00:00
-PurpleCoin:
-  Value: 0
-  Color: ^7700BB
-  Record: 2020-01-01 00:00:00
-ActionPoint:
-  Value: 0
-  Total: 0
-  Color: ^0000FF
-  Record: 2020-01-01 00:00:00
-Merit:
-  Value: 0
-  Color: ^FFFF00
-  Record: 2020-01-01 00:00:00
-Cube:
-  Value: 0
-  Color: ^33FFFF
-  Record: 2020-01-01 00:00:00
-Core:
-  Value: 0
-  Color: ^AAAAAA
-  Record: 2020-01-01 00:00:00
-Medal:
-  Value: 0
-  Color: ^FFDD00
-  Record: 2020-01-01 00:00:00
-GuildCoin:
-  Value: 0
-  Color: ^AAAAAA
-  Record: 2020-01-01 00:00:00
 
 # ==================== Alas ====================
 
 Scheduler:
   Enable: false
-  NextRun: 2020-01-01 00:00:00
+  NextRun: 2023-01-01 00:00:00
   Command: Alas
   SuccessInterval:
     value: 0
@@ -225,7 +173,7 @@ Emotion:
   IgnoreLowEmotionWarn: false
   Fleet1Value: 119
   Fleet1Record:
-    value: 2020-01-01 00:00:00
+    value: 2023-01-01 00:00:00
     display: disabled
   Fleet1Control:
     value: prevent_yellow_face
@@ -236,7 +184,7 @@ Emotion:
   Fleet1Oath: false
   Fleet2Value: 119
   Fleet2Record:
-    value: 2020-01-01 00:00:00
+    value: 2023-01-01 00:00:00
     display: disabled
   Fleet2Control:
     value: prevent_yellow_face
@@ -291,13 +239,13 @@ GemsFarming:
 
 EventGeneral:
   PtLimit: 0
-  TimeLimit: 2020-01-01 00:00:00
+  TimeLimit: 2023-01-01 00:00:00
 TaskBalancer:
   Enable: false
   CoinLimit: 10000
   TaskCall:
-    value: Main
-    option: [ Main, Main2, Main3 ]
+    value: Main3
+    option: [ Main, Main2, Main3, Main4 ]
 EventDaily:
   StageFilter: |-
     A1 > A2 > A3
@@ -603,7 +551,7 @@ Exercise:
   LowHpThreshold: 0.4
   LowHpConfirmWait: 0.1
   OpponentRefreshValue: 0
-  OpponentRefreshRecord: 2020-01-01 00:00:00
+  OpponentRefreshRecord: 2023-01-01 00:00:00
 Sos:
   Chapter:
     value: 3
@@ -726,3 +674,80 @@ PowerLimit:
   Exercise: 16500
   Raid: 16500
   Ash: 16500
+
+# ==================== Dashboard ====================
+Oil:
+  Value: 0
+  Limit: 0
+  Color:
+    value: ^000000
+    display: hide
+  Record: 2020-01-01 00:00:00
+Coin:
+  Value: 0
+  Limit: 0
+  Color:
+    value: ^000000
+    display: hide
+  Record: 2020-01-01 00:00:00
+Gem:
+  Value: 0
+  Color:
+    value: ^000000
+    display: hide
+  Record: 2020-01-01 00:00:00
+Pt:
+  Value: 0
+  Color:
+    value: ^000000
+    display: hide
+  Record: 2020-01-01 00:00:00
+YellowCoin:
+  Value: 0
+  Color:
+    value: ^000000
+    display: hide
+  Record: 2020-01-01 00:00:00
+PurpleCoin:
+  Value: 0
+  Color:
+    value: ^000000
+    display: hide
+  Record: 2020-01-01 00:00:00
+ActionPoint:
+  Value: 0
+  Total: 0
+  Color:
+    value: ^000000
+    display: hide
+  Record: 2020-01-01 00:00:00
+Merit:
+  Value: 0
+  Color:
+    value: ^000000
+    display: hide
+  Record: 2020-01-01 00:00:00
+Cube:
+  Value: 0
+  Color:
+    value: ^000000
+    display: hide
+  Record: 2020-01-01 00:00:00
+Core:
+  Value: 0
+  Color:
+    value: ^000000
+    display: hide
+  Record: 2020-01-01 00:00:00
+Medal:
+  Value: 0
+  Color:
+    value: ^000000
+    display: hide
+  Record: 2020-01-01 00:00:00
+GuildCoin:
+  Value: 0
+  Color:
+    value: ^000000
+    display: hide
+  Record: 2020-01-01 00:00:00

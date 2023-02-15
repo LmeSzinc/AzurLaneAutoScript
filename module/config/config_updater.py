@@ -156,7 +156,7 @@ class ConfigGenerator:
         # Construct args
         data = {}
         # Add dashboard to args
-        dashboard_and_task = {**self.dashboard,**self.task}
+        dashboard_and_task = {**self.task, **self.dashboard}
         for task, groups in dashboard_and_task.items():
             # Add storage to all task
             groups.append('Storage')

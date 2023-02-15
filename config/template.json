@@ -1,72 +1,4 @@
 {
-  "Dashboard": {
-    "Oil": {
-      "Value": 0,
-      "Limit": 0,
-      "Color": "^000000",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "Gem": {
-      "Value": 0,
-      "Color": "^FF3333",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "Pt": {
-      "Value": 0,
-      "Color": "^00BFFF",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "YellowCoin": {
-      "Value": 0,
-      "Color": "^FF8800",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "Coin": {
-      "Value": 0,
-      "Limit": 0,
-      "Color": "^FFAA33",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "Cube": {
-      "Value": 0,
-      "Color": "^33FFFF",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "ActionPoint": {
-      "Value": 0,
-      "Total": 0,
-      "Color": "^0000FF",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "PurpleCoin": {
-      "Value": 0,
-      "Color": "^7700BB",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "Core": {
-      "Value": 0,
-      "Color": "^AAAAAA",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "Medal": {
-      "Value": 0,
-      "Color": "^FFDD00",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "Merit": {
-      "Value": 0,
-      "Color": "^FFFF00",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "GuildCoin": {
-      "Value": 0,
-      "Color": "^AAAAAA",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "Storage": {
-      "Storage": {}
-    }
-  },
   "Alas": {
     "Emulator": {
       "Serial": "auto",
@@ -118,7 +50,6 @@
       "EnhanceFavourite": false,
       "EnhanceFilter": null,
       "EnhanceCheckPerCategory": 2,
-      "AllowNoPreserve": false,
       "OldRetireN": true,
       "OldRetireR": true,
       "OldRetireSR": false,
@@ -534,81 +465,6 @@
       "Enable": false,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "Event2",
-      "SuccessInterval": 0,
-      "FailureInterval": 120,
-      "ServerUpdate": "00:00"
-    },
-    "Campaign": {
-      "Name": "12-4",
-      "Event": "campaign_main",
-      "Mode": "normal",
-      "UseClearMode": true,
-      "UseFleetLock": true,
-      "UseAutoSearch": true,
-      "Use2xBook": false,
-      "AmbushEvade": true
-    },
-    "StopCondition": {
-      "RunCount": 0,
-      "OilLimit": 1000,
-      "MapAchievement": "non_stop",
-      "StageIncrease": false,
-      "GetNewShip": false,
-      "ReachLevel": 0
-    },
-    "Fleet": {
-      "Fleet1": 1,
-      "Fleet1Formation": "double_line",
-      "Fleet1Mode": "combat_auto",
-      "Fleet1Step": 3,
-      "Fleet2": 2,
-      "Fleet2Formation": "double_line",
-      "Fleet2Mode": "combat_auto",
-      "Fleet2Step": 2,
-      "FleetOrder": "fleet1_mob_fleet2_boss"
-    },
-    "Submarine": {
-      "Fleet": 0,
-      "Mode": "do_not_use",
-      "AutoSearchMode": "sub_standby",
-      "DistanceToBoss": "2_grid_to_boss"
-    },
-    "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
-      "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
-      "Fleet1Control": "prevent_yellow_face",
-      "Fleet1Recover": "not_in_dormitory",
-      "Fleet1Oath": false,
-      "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
-      "Fleet2Control": "prevent_yellow_face",
-      "Fleet2Recover": "not_in_dormitory",
-      "Fleet2Oath": false
-    },
-    "HpControl": {
-      "UseHpBalance": false,
-      "UseEmergencyRepair": false,
-      "UseLowHpRetreat": false,
-      "HpBalanceThreshold": 0.2,
-      "HpBalanceWeight": "1000, 1000, 1000",
-      "RepairUseSingleThreshold": 0.3,
-      "RepairUseMultiThreshold": 0.6,
-      "LowHpRetreatThreshold": 0.3
-    },
-    "EnemyPriority": {
-      "EnemyScaleBalanceWeight": "default_mode"
-    },
-    "Storage": {
-      "Storage": {}
-    }
-  },
-  "Event3": {
-    "Scheduler": {
-      "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "Event3",
       "SuccessInterval": 0,
       "FailureInterval": 120,
       "ServerUpdate": "00:00"
@@ -1758,7 +1614,6 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
-      "FleetMode": "combat_auto",
       "Submarine": false
     },
     "Storage": {
@@ -1812,7 +1667,6 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
-      "FleetMode": "combat_auto",
       "Submarine": false
     },
     "Storage": {
@@ -1833,7 +1687,6 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
-      "FleetMode": "combat_auto",
       "Submarine": false
     },
     "Storage": {
@@ -1870,7 +1723,6 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
-      "FleetMode": "combat_auto",
       "Submarine": false
     },
     "Storage": {
@@ -1933,7 +1785,6 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
-      "FleetMode": "combat_auto",
       "Submarine": false
     },
     "Storage": {
@@ -1954,7 +1805,6 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
-      "FleetMode": "combat_auto",
       "Submarine": false
     },
     "Storage": {
@@ -2012,21 +1862,73 @@
     "GameManager": {
       "AutoRestart": true
     },
-    "GGHandler": {
-      "Enabled": false,
-      "ServerLocation": "cn",
-      "GGMethod": "u2",
-      "GGPackageName": "com.",
-      "AutoRestartGG": false,
-      "RestartEverytime": true,
-      "GGMultiplyingFactor": 200,
-      "DisabledTask": "disable_all_dangerous_task",
-      "ALLowLowLevelInGemsFarming": false
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "Dashboard": {
+    "Oil": {
+      "Value": 0,
+      "Limit": 0,
+      "Color": "^000000",
+      "Record": "2020-01-01 00:00:00"
     },
-    "PowerLimit": {
-      "Exercise": 16500,
-      "Raid": 16500,
-      "Ash": 16500
+    "Gem": {
+      "Value": 0,
+      "Color": "^FF3333",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "Pt": {
+      "Value": 0,
+      "Color": "^00BFFF",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "YellowCoin": {
+      "Value": 0,
+      "Color": "^FF8800",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "Coin": {
+      "Value": 0,
+      "Limit": 0,
+      "Color": "^FFAA33",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "Cube": {
+      "Value": 0,
+      "Color": "^33FFFF",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "ActionPoint": {
+      "Value": 0,
+      "Total": 0,
+      "Color": "^0000FF",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "PurpleCoin": {
+      "Value": 0,
+      "Color": "^7700BB",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "Core": {
+      "Value": 0,
+      "Color": "^AAAAAA",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "Medal": {
+      "Value": 0,
+      "Color": "^FFDD00",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "Merit": {
+      "Value": 0,
+      "Color": "^FFFF00",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "GuildCoin": {
+      "Value": 0,
+      "Color": "^AAAAAA",
+      "Record": "2020-01-01 00:00:00"
     },
     "Storage": {
       "Storage": {}
