@@ -1,4 +1,4 @@
-**| [英語](README_en.md) | 简体中文 | 日本語(README_jp.md) |**
+**| [英語](README_en.md) | 简体中文 | [日本語](README_jp.md) |**
 
 # AzurLaneAutoScript
 
