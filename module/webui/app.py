@@ -29,7 +29,7 @@ from module.webui.base import Frame
 from module.webui.discord_presence import close_discord_rpc, init_discord_rpc
 from module.webui.fastapi import asgi_app
 from module.webui.lang import _t, t
-from module.webui.pin import put_input, put_select
+from module.webui.pin import put_input, put_select, pin_update
 from module.webui.process_manager import ProcessManager
 from module.webui.remote_access import RemoteAccess
 from module.webui.setting import State
@@ -390,6 +390,7 @@ class AlasGUI(Frame):
 
         log = RichLog("log")
         self._log = log
+        self._log.dashboard_arg_group = LogRes(self.alas_config).groups
 
         with use_scope("logs"):
             if 'Maa' in self.ALAS_ARGS:
@@ -608,31 +609,34 @@ class AlasGUI(Frame):
     def _update_dashboard(self, num=None, groups_to_display=None):
         x = 0
         _num = 10000 if num is None else num
-        arg_group = LogRes(self.alas_config).groups if groups_to_display is None else groups_to_display
-        for group_name in arg_group:
+        _arg_group = self._log.dashboard_arg_group if groups_to_display is None else groups_to_display
+        time_now = datetime.now().replace(microsecond=0)
+        for group_name in _arg_group:
             group = deep_get(d=self.alas_config.data, keys=f'Dashboard.{group_name}')
             if group is None:
                 continue
 
             if 'Limit' in group.keys():
-                value = deep_get(group, keys='Value')
-                value_limit = deep_get(group, keys='Limit')
-                value = f'{value} / {value_limit}'
+                value = str(group['Value'])
+                value_limit = f' / {group["Limit"]}'
+                value_total = ''
             elif 'Total' in group.keys():
-                value = deep_get(group, keys='Value')
-                value_total = deep_get(group, keys='Total')
-                value = f'{value} ({value_total})'
+                value = str(group['Value'])
+                value_total = f' ({group["Total"]})'
+                value_limit = ''
             else:
-                value = deep_get(group, keys='Value')
+                value = str(group['Value'])
+                value_limit = ''
+                value_total = ''
+            # value = value + value_limit + value_total
 
-            value_time = deep_get(group, keys='Record')
-            if value_time is None:
+            value_time = group['Record']
+            if value_time is None or value_time == datetime(2020, 1, 1, 0, 0, 0):
                 value_time = datetime(2023, 1, 1, 0, 0, 0)
 
-            time_now = datetime.now().replace(microsecond=0)
             # Handle time delta
             if value_time == datetime(2023, 1, 1, 0, 0, 0):
-                value = None
+                value = 'None'
                 delta = timedelta_to_text()
             else:
                 delta = timedelta_to_text(time_delta(value_time - time_now))
@@ -640,7 +644,17 @@ class AlasGUI(Frame):
                 self._log.last_display_time[group_name] = ''
             if self._log.last_display_time[group_name] == delta and not self._log.first_display:
                 continue
-            self._log.last_display_time[group_name]=delta
+            self._log.last_display_time[group_name] = delta
+
+            # if self._log.first_display:
+            # Handle width
+            value_width = len(value) * 0.7 + 0.6 if value != 'None' else 4.5
+            value_width = str(value_width/1.12) + 'rem' if self.is_mobile else str(value_width) + 'rem'
+            value_limit = '' if value == 'None' else value_limit
+            limit_width = len(value_limit) * 0.7
+            limit_width = str(limit_width) + 'rem'
+            value_total = '' if value == 'None' else value_total
+
             # Handle dot color
             _color = f"""background-color:{deep_get(d=group, keys='Color').replace('^', '#')}"""
             color = f'<div class="status-point" style={_color}>'
@@ -649,12 +663,31 @@ class AlasGUI(Frame):
                     [
                         put_html(color),
                         put_scope(
-                            f"_{group_name}",
+                            f"{group_name}_group",
                             [
                                 put_column(
                                     [
-                                        put_text(str(value)).style("--arg-title--"),
-                                        put_text(t(f'Gui.Overview.{group_name}') + " - " + delta).style("--arg-help--"),
+                                        put_row(
+                                            [
+                                                put_input(name=f'{group_name}_value',
+                                                          value=value,
+                                                          readonly=True,
+                                                          ).style(f'--dashboard-value--'),
+                                                put_input(name=f'{group_name}_limit',
+                                                          value=value_limit,
+                                                          readonly=True,
+                                                          ).style(f'---dashboard-limit--'),
+                                                put_input(name=f'{group_name}_total',
+                                                          value=value_total,
+                                                          readonly=True,
+                                                          ).style('---dashboard-total--'),
+                                            ],
+                                            size=f"{value_width} {limit_width} auto",
+                                        ),
+                                        put_input(name=f'{group_name}_help',
+                                                  value=t(f'Gui.Overview.{group_name}') + " - " + delta,
+                                                  readonly=True,
+                                                  ).style('---dashboard-help--')
                                     ],
                                     size="auto auto",
                                 ),
@@ -663,6 +696,19 @@ class AlasGUI(Frame):
                     ],
                     size="20px 1fr"
                 ).style("height: 1fr"),
+            # else:
+            #     pin_update(name=f'{group_name}_value',
+            #                value=str(value),
+            #                )
+            #     # pin_update(name=f'{group_name}_limit',
+            #     #            value=value_limit,
+            #     #            )
+            #     # pin_update(name=f'{group_name}_total',
+            #     #            value=value_total,
+            #     #            )
+            #     pin_update(name=f'{group_name}_help',
+            #                value=t(f'Gui.Overview.{group_name}') + " - " + delta,
+            #                )
             x += 1
             if x >= _num:
                 break

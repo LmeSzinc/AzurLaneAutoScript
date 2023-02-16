@@ -99,6 +99,7 @@ class RichLog:
         self.display_dashboard = False
         self.first_display = True
         self.last_display_time = {}
+        self.dashboard_arg_group = None
         if State.theme == "dark":
             self.terminal_theme = DARK_TERMINAL_THEME
         else:

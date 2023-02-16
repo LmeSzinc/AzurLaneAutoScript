@@ -391,3 +391,30 @@ OpsiHazard1Leveling:
     ServerUpdate: 00:00
   OpsiFleet:
     Submarine: false
+
+# ==================== Dashboard ====================
+Dashboard:
+  Oil:
+    Color: ^000000
+  Coin:
+    Color: ^FFAA33
+  Gem:
+    Color: ^FF3333
+  Pt:
+    Color: ^00BFFF
+  YellowCoin:
+    Color: ^FF8800
+  PurpleCoin:
+    Color: ^7700BB
+  ActionPoint:
+    Color: ^0000FF
+  Merit:
+    Color: ^FFFF00
+  Cube:
+    Color: ^33FFFF
+  Core:
+    Color: ^AAAAAA
+  Medal:
+    Color: ^FFDD00
+  GuildCoin:
+    Color: ^AAAAAA

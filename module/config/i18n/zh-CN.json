@@ -267,234 +267,6 @@
       "help": ""
     }
   },
-  "Oil": {
-    "_info": {
-      "name": "Oil._info.name",
-      "help": "Oil._info.help"
-    },
-    "Value": {
-      "name": "Oil.Value.name",
-      "help": "Oil.Value.help"
-    },
-    "Limit": {
-      "name": "Oil.Limit.name",
-      "help": "Oil.Limit.help"
-    },
-    "Color": {
-      "name": "Oil.Color.name",
-      "help": "Oil.Color.help"
-    },
-    "Record": {
-      "name": "Oil.Record.name",
-      "help": "Oil.Record.help"
-    }
-  },
-  "Coin": {
-    "_info": {
-      "name": "Coin._info.name",
-      "help": "Coin._info.help"
-    },
-    "Value": {
-      "name": "Coin.Value.name",
-      "help": "Coin.Value.help"
-    },
-    "Limit": {
-      "name": "Coin.Limit.name",
-      "help": "Coin.Limit.help"
-    },
-    "Color": {
-      "name": "Coin.Color.name",
-      "help": "Coin.Color.help"
-    },
-    "Record": {
-      "name": "Coin.Record.name",
-      "help": "Coin.Record.help"
-    }
-  },
-  "Gem": {
-    "_info": {
-      "name": "Gem._info.name",
-      "help": "Gem._info.help"
-    },
-    "Value": {
-      "name": "Gem.Value.name",
-      "help": "Gem.Value.help"
-    },
-    "Color": {
-      "name": "Gem.Color.name",
-      "help": "Gem.Color.help"
-    },
-    "Record": {
-      "name": "Gem.Record.name",
-      "help": "Gem.Record.help"
-    }
-  },
-  "Pt": {
-    "_info": {
-      "name": "Pt._info.name",
-      "help": "Pt._info.help"
-    },
-    "Value": {
-      "name": "Pt.Value.name",
-      "help": "Pt.Value.help"
-    },
-    "Color": {
-      "name": "Pt.Color.name",
-      "help": "Pt.Color.help"
-    },
-    "Record": {
-      "name": "Pt.Record.name",
-      "help": "Pt.Record.help"
-    }
-  },
-  "YellowCoin": {
-    "_info": {
-      "name": "YellowCoin._info.name",
-      "help": "YellowCoin._info.help"
-    },
-    "Value": {
-      "name": "YellowCoin.Value.name",
-      "help": "YellowCoin.Value.help"
-    },
-    "Color": {
-      "name": "YellowCoin.Color.name",
-      "help": "YellowCoin.Color.help"
-    },
-    "Record": {
-      "name": "YellowCoin.Record.name",
-      "help": "YellowCoin.Record.help"
-    }
-  },
-  "PurpleCoin": {
-    "_info": {
-      "name": "PurpleCoin._info.name",
-      "help": "PurpleCoin._info.help"
-    },
-    "Value": {
-      "name": "PurpleCoin.Value.name",
-      "help": "PurpleCoin.Value.help"
-    },
-    "Color": {
-      "name": "PurpleCoin.Color.name",
-      "help": "PurpleCoin.Color.help"
-    },
-    "Record": {
-      "name": "PurpleCoin.Record.name",
-      "help": "PurpleCoin.Record.help"
-    }
-  },
-  "ActionPoint": {
-    "_info": {
-      "name": "ActionPoint._info.name",
-      "help": "ActionPoint._info.help"
-    },
-    "Value": {
-      "name": "ActionPoint.Value.name",
-      "help": "ActionPoint.Value.help"
-    },
-    "Total": {
-      "name": "ActionPoint.Total.name",
-      "help": "ActionPoint.Total.help"
-    },
-    "Color": {
-      "name": "ActionPoint.Color.name",
-      "help": "ActionPoint.Color.help"
-    },
-    "Record": {
-      "name": "ActionPoint.Record.name",
-      "help": "ActionPoint.Record.help"
-    }
-  },
-  "Merit": {
-    "_info": {
-      "name": "Merit._info.name",
-      "help": "Merit._info.help"
-    },
-    "Value": {
-      "name": "Merit.Value.name",
-      "help": "Merit.Value.help"
-    },
-    "Color": {
-      "name": "Merit.Color.name",
-      "help": "Merit.Color.help"
-    },
-    "Record": {
-      "name": "Merit.Record.name",
-      "help": "Merit.Record.help"
-    }
-  },
-  "Cube": {
-    "_info": {
-      "name": "Cube._info.name",
-      "help": "Cube._info.help"
-    },
-    "Value": {
-      "name": "Cube.Value.name",
-      "help": "Cube.Value.help"
-    },
-    "Color": {
-      "name": "Cube.Color.name",
-      "help": "Cube.Color.help"
-    },
-    "Record": {
-      "name": "Cube.Record.name",
-      "help": "Cube.Record.help"
-    }
-  },
-  "Core": {
-    "_info": {
-      "name": "Core._info.name",
-      "help": "Core._info.help"
-    },
-    "Value": {
-      "name": "Core.Value.name",
-      "help": "Core.Value.help"
-    },
-    "Color": {
-      "name": "Core.Color.name",
-      "help": "Core.Color.help"
-    },
-    "Record": {
-      "name": "Core.Record.name",
-      "help": "Core.Record.help"
-    }
-  },
-  "Medal": {
-    "_info": {
-      "name": "Medal._info.name",
-      "help": "Medal._info.help"
-    },
-    "Value": {
-      "name": "Medal.Value.name",
-      "help": "Medal.Value.help"
-    },
-    "Color": {
-      "name": "Medal.Color.name",
-      "help": "Medal.Color.help"
-    },
-    "Record": {
-      "name": "Medal.Record.name",
-      "help": "Medal.Record.help"
-    }
-  },
-  "GuildCoin": {
-    "_info": {
-      "name": "GuildCoin._info.name",
-      "help": "GuildCoin._info.help"
-    },
-    "Value": {
-      "name": "GuildCoin.Value.name",
-      "help": "GuildCoin.Value.help"
-    },
-    "Color": {
-      "name": "GuildCoin.Color.name",
-      "help": "GuildCoin.Color.help"
-    },
-    "Record": {
-      "name": "GuildCoin.Record.name",
-      "help": "GuildCoin.Record.help"
-    }
-  },
   "Scheduler": {
     "_info": {
       "name": "任务设置",
@@ -855,6 +627,7 @@
       "name": "活动名称",
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
+      "event_20220224_cn": "深度回音",
       "event_20200806_cn": "复刻最重要的宝物",
       "raid_20220127": "演习神秘事件调查",
       "raid_20230118": "冬日的寻路人",
@@ -890,7 +663,6 @@
       "event_20210422_cn": "复兴的赞美诗",
       "event_20220310_tw": "復刻斯圖爾特的硝煙",
       "event_20200603_cn": "复刻峡湾间的反击",
-      "event_20220224_cn": "深度回音",
       "event_20220210_cn": "复刻北境序曲",
       "event_20211125_cn": "交汇世界的弧光",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
@@ -2626,6 +2398,234 @@
     "Ash": {
       "name": "余烬信标",
       "help": ""
+    }
+  },
+  "Oil": {
+    "_info": {
+      "name": "Oil._info.name",
+      "help": "Oil._info.help"
+    },
+    "Value": {
+      "name": "Oil.Value.name",
+      "help": "Oil.Value.help"
+    },
+    "Limit": {
+      "name": "Oil.Limit.name",
+      "help": "Oil.Limit.help"
+    },
+    "Color": {
+      "name": "Oil.Color.name",
+      "help": "Oil.Color.help"
+    },
+    "Record": {
+      "name": "Oil.Record.name",
+      "help": "Oil.Record.help"
+    }
+  },
+  "Coin": {
+    "_info": {
+      "name": "Coin._info.name",
+      "help": "Coin._info.help"
+    },
+    "Value": {
+      "name": "Coin.Value.name",
+      "help": "Coin.Value.help"
+    },
+    "Limit": {
+      "name": "Coin.Limit.name",
+      "help": "Coin.Limit.help"
+    },
+    "Color": {
+      "name": "Coin.Color.name",
+      "help": "Coin.Color.help"
+    },
+    "Record": {
+      "name": "Coin.Record.name",
+      "help": "Coin.Record.help"
+    }
+  },
+  "Gem": {
+    "_info": {
+      "name": "Gem._info.name",
+      "help": "Gem._info.help"
+    },
+    "Value": {
+      "name": "Gem.Value.name",
+      "help": "Gem.Value.help"
+    },
+    "Color": {
+      "name": "Gem.Color.name",
+      "help": "Gem.Color.help"
+    },
+    "Record": {
+      "name": "Gem.Record.name",
+      "help": "Gem.Record.help"
+    }
+  },
+  "Pt": {
+    "_info": {
+      "name": "Pt._info.name",
+      "help": "Pt._info.help"
+    },
+    "Value": {
+      "name": "Pt.Value.name",
+      "help": "Pt.Value.help"
+    },
+    "Color": {
+      "name": "Pt.Color.name",
+      "help": "Pt.Color.help"
+    },
+    "Record": {
+      "name": "Pt.Record.name",
+      "help": "Pt.Record.help"
+    }
+  },
+  "YellowCoin": {
+    "_info": {
+      "name": "YellowCoin._info.name",
+      "help": "YellowCoin._info.help"
+    },
+    "Value": {
+      "name": "YellowCoin.Value.name",
+      "help": "YellowCoin.Value.help"
+    },
+    "Color": {
+      "name": "YellowCoin.Color.name",
+      "help": "YellowCoin.Color.help"
+    },
+    "Record": {
+      "name": "YellowCoin.Record.name",
+      "help": "YellowCoin.Record.help"
+    }
+  },
+  "PurpleCoin": {
+    "_info": {
+      "name": "PurpleCoin._info.name",
+      "help": "PurpleCoin._info.help"
+    },
+    "Value": {
+      "name": "PurpleCoin.Value.name",
+      "help": "PurpleCoin.Value.help"
+    },
+    "Color": {
+      "name": "PurpleCoin.Color.name",
+      "help": "PurpleCoin.Color.help"
+    },
+    "Record": {
+      "name": "PurpleCoin.Record.name",
+      "help": "PurpleCoin.Record.help"
+    }
+  },
+  "ActionPoint": {
+    "_info": {
+      "name": "ActionPoint._info.name",
+      "help": "ActionPoint._info.help"
+    },
+    "Value": {
+      "name": "ActionPoint.Value.name",
+      "help": "ActionPoint.Value.help"
+    },
+    "Total": {
+      "name": "ActionPoint.Total.name",
+      "help": "ActionPoint.Total.help"
+    },
+    "Color": {
+      "name": "ActionPoint.Color.name",
+      "help": "ActionPoint.Color.help"
+    },
+    "Record": {
+      "name": "ActionPoint.Record.name",
+      "help": "ActionPoint.Record.help"
+    }
+  },
+  "Merit": {
+    "_info": {
+      "name": "Merit._info.name",
+      "help": "Merit._info.help"
+    },
+    "Value": {
+      "name": "Merit.Value.name",
+      "help": "Merit.Value.help"
+    },
+    "Color": {
+      "name": "Merit.Color.name",
+      "help": "Merit.Color.help"
+    },
+    "Record": {
+      "name": "Merit.Record.name",
+      "help": "Merit.Record.help"
+    }
+  },
+  "Cube": {
+    "_info": {
+      "name": "Cube._info.name",
+      "help": "Cube._info.help"
+    },
+    "Value": {
+      "name": "Cube.Value.name",
+      "help": "Cube.Value.help"
+    },
+    "Color": {
+      "name": "Cube.Color.name",
+      "help": "Cube.Color.help"
+    },
+    "Record": {
+      "name": "Cube.Record.name",
+      "help": "Cube.Record.help"
+    }
+  },
+  "Core": {
+    "_info": {
+      "name": "Core._info.name",
+      "help": "Core._info.help"
+    },
+    "Value": {
+      "name": "Core.Value.name",
+      "help": "Core.Value.help"
+    },
+    "Color": {
+      "name": "Core.Color.name",
+      "help": "Core.Color.help"
+    },
+    "Record": {
+      "name": "Core.Record.name",
+      "help": "Core.Record.help"
+    }
+  },
+  "Medal": {
+    "_info": {
+      "name": "Medal._info.name",
+      "help": "Medal._info.help"
+    },
+    "Value": {
+      "name": "Medal.Value.name",
+      "help": "Medal.Value.help"
+    },
+    "Color": {
+      "name": "Medal.Color.name",
+      "help": "Medal.Color.help"
+    },
+    "Record": {
+      "name": "Medal.Record.name",
+      "help": "Medal.Record.help"
+    }
+  },
+  "GuildCoin": {
+    "_info": {
+      "name": "GuildCoin._info.name",
+      "help": "GuildCoin._info.help"
+    },
+    "Value": {
+      "name": "GuildCoin.Value.name",
+      "help": "GuildCoin.Value.help"
+    },
+    "Color": {
+      "name": "GuildCoin.Color.name",
+      "help": "GuildCoin.Color.help"
+    },
+    "Record": {
+      "name": "GuildCoin.Record.name",
+      "help": "GuildCoin.Record.help"
     }
   },
   "Storage": {
