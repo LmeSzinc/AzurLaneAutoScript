@@ -631,7 +631,7 @@ class AlasGUI(Frame):
             # value = value + value_limit + value_total
 
             value_time = group['Record']
-            if value_time is None or value_time == datetime(2020, 1, 1, 0, 0, 0):
+            if value_time is None or value_time == datetime(2023, 1, 1, 0, 0, 0):
                 value_time = datetime(2023, 1, 1, 0, 0, 0)
 
             # Handle time delta
