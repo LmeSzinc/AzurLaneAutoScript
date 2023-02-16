@@ -124,3 +124,11 @@ pre.rich-traceback-code {
 [id^="pywebio-scope-group_"]>p+p {
     color: #777777;
 }
+
+*[style*="--dashboard-help--"]{
+    color: #777777;
+}
+
+*[style*="--dashboard-limit--"]{
+    color: #777777;
+}
