@@ -8,7 +8,7 @@ import numpy as np
 from PIL import Image
 
 from module.base.decorator import cached_property
-from module.base.timer import Timer, timer
+from module.base.timer import Timer
 from module.base.utils import get_color, image_size, limit_in, save_image
 from module.device.method.adb import Adb
 from module.device.method.ascreencap import AScreenCap
@@ -40,7 +40,6 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
             'scrcpy': self.screenshot_scrcpy,
         }
 
-    @timer
     def screenshot(self):
         """
         Returns:
