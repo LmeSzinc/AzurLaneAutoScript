@@ -67,3 +67,11 @@ class LogRes:
             logger.warning('No such resource!')
         return True
         """
+
+
+if __name__ == '__main__':
+    from module.config.config import AzurLaneConfig
+    config = AzurLaneConfig('alas2')
+    LogRes(config=config).ActionPoint = {'Total': 99999, 'Value': 99999}
+    config.update()
+    exit(0)
