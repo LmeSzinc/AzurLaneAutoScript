@@ -129,3 +129,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20230118 | raid 20230118 | Winter Pathfinder | 冬日的寻路人 | Winter Pathfinder | 冬の案内人 | - |
 | 20230118 | raid 20220127            |  - |  - |  - |  - | 演習神秘事件調查 |
 | 20230202 | event 20200806 cn | The Enigma and the Shark | - | - | - | 復刻最重要的寶物 |
+| 20220224 | event 20220224 cn | Abyssal Refrain | - | - | - | 深度回音 |
