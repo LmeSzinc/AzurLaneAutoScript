@@ -533,7 +533,7 @@ pre.rich-traceback-code {
 *[style*="--dashboard-value--"] {
     font-size: 1.3rem;
     font-weight: 400;
-    margin: 0 0 -0.3rem 0.6rem !important;
+    margin: 0 0 -0.3rem 0.6rem;
     overflow-wrap: break-word;
     overflow: visible;
     border-bottom: 0;
@@ -542,7 +542,7 @@ pre.rich-traceback-code {
 *[style*="--dashboard-total--"] {
     font-size: 1.3rem;
     font-weight: 400;
-    margin: 0 0 -0.3rem 0.15rem !important;
+    margin: 0 0 -0.3rem 0.15rem;
     overflow-wrap: break-word;
     overflow: visible;
     border-bottom: 0;
@@ -553,13 +553,13 @@ pre.rich-traceback-code {
     overflow-wrap: break-word;
     overflow: visible;
     border-bottom: 0;
-    margin: -0.5rem 0 0 0.6rem !important;
+    margin: -0.5rem 0 0 0.6rem;
 }
 
 *[style*="--dashboard-limit--"] {
     font-weight: 400;
     font-size: 1rem;
-    padding: 0.4rem 0 0 0 !important;
+    padding: 0.4rem 0 0 0;
     overflow-wrap: break-word;
     overflow: visible;
     border-bottom: 0;

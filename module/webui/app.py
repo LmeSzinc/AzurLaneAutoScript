@@ -648,9 +648,11 @@ class AlasGUI(Frame):
 
             # if self._log.first_display:
             # Handle width
-            value_width = str(len(value) * 0.7 + 0.55) + 'rem' if value != 'None' else '4.5rem'
+            value_width = len(value) * 0.7 + 0.6 if value != 'None' else 4.5
+            value_width = str(value_width/1.12) + 'rem' if self.is_mobile else str(value_width) + 'rem'
             value_limit = '' if value == 'None' else value_limit
-            limit_width = str(len(value_limit) * 0.7) + 'rem'
+            limit_width = len(value_limit) * 0.7
+            limit_width = str(limit_width) + 'rem'
             value_total = '' if value == 'None' else value_total
 
             # Handle dot color
