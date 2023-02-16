@@ -198,7 +198,12 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
                 self.get_orientation()
                 self.image = self._handle_orientated_image(self.image)
                 orientated = True
-                continue
+                width, height = image_size(self.image)
+                if width == 720 and height == 1280:
+                    logger.info('Unable to handle orientated screenshot, continue for now')
+                    return True
+                else:
+                    continue
             elif self.config.Emulator_Serial == 'wsa-0':
                 self.display_resize_wsa(0)
                 return False
