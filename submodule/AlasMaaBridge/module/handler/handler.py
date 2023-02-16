@@ -426,7 +426,7 @@ class AssistantHandler:
         filename = self.config.MaaCopilot_FileName
         if filename.startswith('maa://'):
             logger.info('正在从神秘代码中下载作业')
-            r = requests.get(f"https://api.prts.plus/copilot/get/{filename.strip('maa://')}", timeout=30)
+            r = requests.get(f"https://prts.maa.plus/copilot/get/{filename.strip('maa://')}", timeout=30)
             if r.status_code != 200:
                 logger.critical('作业文件下载失败，请检查神秘代码或网络状况')
                 raise RequestHumanTakeover

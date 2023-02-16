@@ -58,44 +58,46 @@ class Dock(Equipment):
 
     @cached_property
     def dock_filter(self) -> Setting:
+        delta = (147 + 1 / 3, 57)
+        button_shape = (139, 42)
         setting = Setting(name='DOCK', main=self)
         setting.add_setting(
             setting='sort',
             option_buttons=ButtonGrid(
-                origin=(284, 60), delta=(158, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_SORT'),
+                origin=(218, 65), delta=delta, button_shape=button_shape, grid_shape=(7, 1), name='FILTER_SORT'),
             # stat has extra grid, not worth pursuing
-            option_names=['rarity', 'level', 'total', 'join', 'intimacy', 'stat'],
+            option_names=['rarity', 'level', 'total', 'join', 'intimacy', 'mood', 'stat'],
             option_default='level'
         )
         setting.add_setting(
             setting='index',
             option_buttons=ButtonGrid(
-                origin=(284, 133), delta=(158, 57), button_shape=(137, 38), grid_shape=(6, 2), name='FILTER_INDEX'),
-            option_names=['all', 'vanguard', 'main', 'dd', 'cl', 'ca',
-                          'bb', 'cv', 'repair', 'ss', 'others', 'not_available'],
+                origin=(218, 138), delta=delta, button_shape=button_shape, grid_shape=(7, 2), name='FILTER_INDEX'),
+            option_names=['all', 'vanguard', 'main', 'dd', 'cl', 'ca', 'bb',
+                          'cv', 'repair', 'ss', 'others', 'not_available', 'not_available', 'not_available'],
             option_default='all'
         )
         setting.add_setting(
             setting='faction',
             option_buttons=ButtonGrid(
-                origin=(284, 267), delta=(158, 57), button_shape=(137, 38), grid_shape=(6, 2), name='FILTER_FACTION'),
-            option_names=['all', 'eagle', 'royal', 'sakura', 'iron', 'dragon',
-                          'sardegna', 'northern', 'iris', 'vichya', 'other', 'not_available'],
+                origin=(218, 268), delta=delta, button_shape=button_shape, grid_shape=(7, 2), name='FILTER_FACTION'),
+            option_names=['all', 'eagle', 'royal', 'sakura', 'iron', 'dragon', 'sardegna',
+                          'northern', 'iris', 'vichya', 'other', 'not_available', 'not_available', 'not_available'],
             option_default='all'
         )
         setting.add_setting(
             setting='rarity',
             option_buttons=ButtonGrid(
-                origin=(284, 400), delta=(158, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_RARITY'),
-            option_names=['all', 'common', 'rare', 'elite', 'super_rare', 'ultra'],
+                origin=(218, 398), delta=delta, button_shape=button_shape, grid_shape=(7, 1), name='FILTER_RARITY'),
+            option_names=['all', 'common', 'rare', 'elite', 'super_rare', 'ultra', 'not_available'],
             option_default='all'
         )
         setting.add_setting(
             setting='extra',
             option_buttons=ButtonGrid(
-                origin=(284, 473), delta=(158, 57), button_shape=(137, 38), grid_shape=(6, 2), name='FILTER_EXTRA'),
-            option_names=['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'can_limit_break', 'not_level_max',
-                          'can_awaken', 'can_awaken_plus', 'special', 'oath_skin', 'not_available', 'not_available'],
+                origin=(218, 471), delta=delta, button_shape=button_shape, grid_shape=(7, 2), name='FILTER_EXTRA'),
+            option_names=['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'can_limit_break', 'not_level_max', 'can_awaken',
+                          'can_awaken_plus', 'special', 'oath_skin', 'unique_augment_module', 'not_available', 'not_available', 'not_available'],
             option_default='no_limit'
         )
         return setting
