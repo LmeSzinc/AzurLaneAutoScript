@@ -280,10 +280,6 @@
   },
   "General": {
     "Retirement": {
-      "Enable": {
-        "type": "checkbox",
-        "value": true
-      },
       "RetireMode": {
         "type": "select",
         "value": "one_click_retire",
@@ -292,40 +288,50 @@
           "enhance",
           "old_retire"
         ]
-      },
-      "RetireAmount": {
+      }
+    },
+    "OneClickRetire": {
+      "KeepLimitBreak": {
         "type": "select",
-        "value": "retire_all",
+        "value": "keep_limit_break",
         "option": [
-          "retire_all",
-          "retire_10"
+          "keep_limit_break",
+          "do_not_keep"
+        ]
+      }
+    },
+    "Enhance": {
+      "ShipToEnhance": {
+        "type": "select",
+        "value": "all",
+        "option": [
+          "all",
+          "favourite"
         ]
       },
-      "EnhanceFavourite": {
-        "type": "checkbox",
-        "value": false
-      },
-      "EnhanceFilter": {
+      "Filter": {
         "type": "textarea",
         "value": null
       },
-      "EnhanceCheckPerCategory": {
+      "CheckPerCategory": {
         "type": "input",
-        "value": 2
-      },
-      "OldRetireN": {
+        "value": 5
+      }
+    },
+    "OldRetire": {
+      "N": {
         "type": "checkbox",
         "value": true
       },
-      "OldRetireR": {
+      "R": {
         "type": "checkbox",
         "value": true
       },
-      "OldRetireSR": {
+      "SR": {
         "type": "checkbox",
         "value": false
       },
-      "OldRetireSSR": {
+      "SSR": {
         "type": "checkbox",
         "value": false
       }

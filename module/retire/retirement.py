@@ -123,8 +123,8 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 self.interval_reset(SHIP_CONFIRM)
                 continue
             if self._unable_to_enhance \
-                    or self.config.Retirement_OldRetireSR \
-                    or self.config.Retirement_OldRetireSSR \
+                    or self.config.OldRetire_SR \
+                    or self.config.OldRetire_SSR \
                     or self.config.Retirement_RetireMode == 'one_click_retire':
                 if self.handle_popup_confirm(name='RETIRE_SR_SSR', offset=(20, 50)):
                     continue
@@ -147,13 +147,13 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
     @property
     def _retire_rarity(self):
         rarity = set()
-        if self.config.Retirement_OldRetireN:
+        if self.config.OldRetire_N:
             rarity.add('N')
-        if self.config.Retirement_OldRetireR:
+        if self.config.OldRetire_R:
             rarity.add('R')
-        if self.config.Retirement_OldRetireSR:
+        if self.config.OldRetire_SR:
             rarity.add('SR')
-        if self.config.Retirement_OldRetireSSR:
+        if self.config.OldRetire_SSR:
             rarity.add('SSR')
         return rarity
 
@@ -332,9 +332,6 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         Returns:
             bool: If retired.
         """
-        if not self.config.Retirement_Enable:
-            return False
-
         if self._unable_to_enhance:
             if self.appear_then_click(RETIRE_APPEAR_1, offset=(20, 20), interval=3):
                 self.interval_clear(IN_RETIREMENT_CHECK)
@@ -409,11 +406,10 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                     logger.warning('No ship retired, trying to reset quick retire settings to "keep_limit_break"')
                     self.quick_retire_setting_set(filter_5='keep_limit_break')
                     total = self.retire_ships_one_click()
-                # Not determined, this may cause user loss
-                # if not total:
-                #     logger.warning('No ship retired, trying to reset quick retire settings to "all"')
-                #     self.quick_retire_setting_set('all')
-                #     total = self.retire_ships_one_click()
+                if not total and self.config.OneClickRetire_KeepLimitBreak == 'do_not_keep':
+                    logger.warning('No ship retired, trying to reset quick retire settings to "all"')
+                    self.quick_retire_setting_set('all')
+                    total = self.retire_ships_one_click()
             total += self.retire_gems_farming_flagships(keep_one=total > 0)
             if not total:
                 logger.critical('No ship retired')

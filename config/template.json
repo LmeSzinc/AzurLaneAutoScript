@@ -44,16 +44,21 @@
   },
   "General": {
     "Retirement": {
-      "Enable": true,
-      "RetireMode": "one_click_retire",
-      "RetireAmount": "retire_all",
-      "EnhanceFavourite": false,
-      "EnhanceFilter": null,
-      "EnhanceCheckPerCategory": 2,
-      "OldRetireN": true,
-      "OldRetireR": true,
-      "OldRetireSR": false,
-      "OldRetireSSR": false
+      "RetireMode": "one_click_retire"
+    },
+    "OneClickRetire": {
+      "KeepLimitBreak": "keep_limit_break"
+    },
+    "Enhance": {
+      "ShipToEnhance": "all",
+      "Filter": null,
+      "CheckPerCategory": 5
+    },
+    "OldRetire": {
+      "N": true,
+      "R": true,
+      "SR": false,
+      "SSR": false
     },
     "Storage": {
       "Storage": {}

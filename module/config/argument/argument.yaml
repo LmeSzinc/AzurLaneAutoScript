@@ -86,20 +86,24 @@ DropRecord:
     value: do_not
     option: [ do_not, save, upload, save_and_upload ]
 Retirement:
-  Enable: true
   RetireMode:
     value: one_click_retire
     option: [ one_click_retire, enhance, old_retire ]
-  RetireAmount:
-    value: retire_all
-    option: [ retire_all, retire_10 ]
-  EnhanceFavourite: false
-  EnhanceFilter:
-  EnhanceCheckPerCategory: 2
-  OldRetireN: true
-  OldRetireR: true
-  OldRetireSR: false
-  OldRetireSSR: false
+OneClickRetire:
+  KeepLimitBreak:
+    value: keep_limit_break
+    option: [ keep_limit_break, do_not_keep ]
+Enhance:
+  ShipToEnhance:
+    value: all
+    option: [ all, favourite ]
+  Filter:
+  CheckPerCategory: 5
+OldRetire:
+  N: true
+  R: true
+  SR: false
+  SSR: false
 
 # ==================== Farm ====================
 

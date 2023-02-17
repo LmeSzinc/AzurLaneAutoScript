@@ -56,16 +56,21 @@ class GeneratedConfig:
     DropRecord_MeowfficerTalent = 'do_not'  # do_not, save, upload, save_and_upload
 
     # Group `Retirement`
-    Retirement_Enable = True
     Retirement_RetireMode = 'one_click_retire'  # one_click_retire, enhance, old_retire
-    Retirement_RetireAmount = 'retire_all'  # retire_all, retire_10
-    Retirement_EnhanceFavourite = False
-    Retirement_EnhanceFilter = None
-    Retirement_EnhanceCheckPerCategory = 2
-    Retirement_OldRetireN = True
-    Retirement_OldRetireR = True
-    Retirement_OldRetireSR = False
-    Retirement_OldRetireSSR = False
+
+    # Group `OneClickRetire`
+    OneClickRetire_KeepLimitBreak = 'keep_limit_break'  # keep_limit_break, do_not_keep
+
+    # Group `Enhance`
+    Enhance_ShipToEnhance = 'all'  # all, favourite
+    Enhance_Filter = None
+    Enhance_CheckPerCategory = 5
+
+    # Group `OldRetire`
+    OldRetire_N = True
+    OldRetire_R = True
+    OldRetire_SR = False
+    OldRetire_SSR = False
 
     # Group `Campaign`
     Campaign_Name = '12-4'

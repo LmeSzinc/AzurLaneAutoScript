@@ -41,3 +41,23 @@ def dossier_redirect(value):
         return 'current_dossier'
     else:
         return 'current'
+
+
+def enhance_favourite_redirect(value):
+    """
+    EnhanceFavourite -> ShipToEnhance
+    """
+    if value:
+        return 'all'
+    else:
+        return 'favourite'
+
+
+def enhance_check_redirect(value):
+    """
+    CheckPerCategory should be at least 5
+    """
+    if isinstance(value, int):
+        if value < 5:
+            return 5
+    return value

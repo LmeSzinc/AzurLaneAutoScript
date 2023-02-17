@@ -553,11 +553,7 @@
   },
   "Retirement": {
     "_info": {
-      "name": "退役設定",
-      "help": ""
-    },
-    "Enable": {
-      "name": "啟用退役",
+      "name": "退役設置",
       "help": ""
     },
     "RetireMode": {
@@ -566,38 +562,58 @@
       "one_click_retire": "一鍵退役",
       "enhance": "強化",
       "old_retire": "傳統退役"
+    }
+  },
+  "OneClickRetire": {
+    "_info": {
+      "name": "一鍵退役設置",
+      "help": "僅在 \"退役模式\" 設置為 \"一鍵退役\" 時生效"
     },
-    "RetireAmount": {
-      "name": "退役數量",
+    "KeepLimitBreak": {
+      "name": "保留滿星同名艦船",
+      "help": "沒有滿星的同名艦船時，保留幾艘符合退役條件的同名艦船\n如果一鍵退役無法退役，請設置為 \"不保留\"",
+      "keep_limit_break": "保留滿星所需",
+      "do_not_keep": "不保留"
+    }
+  },
+  "Enhance": {
+    "_info": {
+      "name": "強化設置",
+      "help": "僅在 \"退役模式\" 設置為 \"強化\" 時生效"
+    },
+    "ShipToEnhance": {
+      "name": "需要強化的艦船",
       "help": "",
-      "retire_all": "退役全部",
-      "retire_10": "退役10個"
+      "all": "強化全部艦船",
+      "favourite": "僅強化常用艦船"
     },
-    "EnhanceFavourite": {
-      "name": "強化常用角色",
+    "Filter": {
+      "name": "強化過濾字符串",
+      "help": "格式: \"cv > bb > ...\"，\n留空則使用默認強化方式"
+    },
+    "CheckPerCategory": {
+      "name": "每分類強化數量",
+      "help": "每個艦船分類最多強化多少艦船，\n在戰鬥中的艦船會被跳過且不計入，\n優先判斷是否有強化材料"
+    }
+  },
+  "OldRetire": {
+    "_info": {
+      "name": "傳統退役設置",
+      "help": "僅在 \"退役模式\" 設置為 \"傳統退役\" 時生效\n注意：傳統退役基於角色稀有度，可能退役布里"
+    },
+    "N": {
+      "name": "退役白船 ( N )",
       "help": ""
     },
-    "EnhanceFilter": {
-      "name": "強化用過濾字串",
-      "help": "格式: \"cv > bb > ...\"，\n空白則使用預設強化方式"
-    },
-    "EnhanceCheckPerCategory": {
-      "name": "分類強化",
-      "help": "每項艦船分類最多強化多少艘艦船，\n戰鬥中的艦船會被跳過且不計入，\n優先判斷是否有強化材料"
-    },
-    "OldRetireN": {
-      "name": "退役白船 ( N )",
-      "help": "以下設定僅適用於傳統退役"
-    },
-    "OldRetireR": {
+    "R": {
       "name": "退役藍船 ( R )",
       "help": ""
     },
-    "OldRetireSR": {
+    "SR": {
       "name": "退役紫船 ( SR )",
       "help": ""
     },
-    "OldRetireSSR": {
+    "SSR": {
       "name": "退役金船 ( SSR )",
       "help": ""
     }
