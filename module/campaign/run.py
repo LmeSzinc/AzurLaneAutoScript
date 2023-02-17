@@ -310,6 +310,7 @@ class CampaignRun(CampaignEvent, ShopStatus):
             if len(self.campaign.config.modified):
                 logger.info('Updating config for dashboard')
                 self.campaign.config.update()
+
             # After run
             self.run_count += 1
             if self.config.StopCondition_RunCount:

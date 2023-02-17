@@ -441,64 +441,64 @@ class GeneratedConfig:
     Oil_Value = 0
     Oil_Limit = 0
     Oil_Color = '^000000'
-    Oil_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    Oil_Record = datetime.datetime(2023, 1, 1, 0, 0)
 
     # Group `Coin`
     Coin_Value = 0
     Coin_Limit = 0
     Coin_Color = '^000000'
-    Coin_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    Coin_Record = datetime.datetime(2023, 1, 1, 0, 0)
 
     # Group `Gem`
     Gem_Value = 0
     Gem_Color = '^000000'
-    Gem_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    Gem_Record = datetime.datetime(2023, 1, 1, 0, 0)
 
     # Group `Pt`
     Pt_Value = 0
     Pt_Color = '^000000'
-    Pt_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    Pt_Record = datetime.datetime(2023, 1, 1, 0, 0)
 
     # Group `YellowCoin`
     YellowCoin_Value = 0
     YellowCoin_Color = '^000000'
-    YellowCoin_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    YellowCoin_Record = datetime.datetime(2023, 1, 1, 0, 0)
 
     # Group `PurpleCoin`
     PurpleCoin_Value = 0
     PurpleCoin_Color = '^000000'
-    PurpleCoin_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    PurpleCoin_Record = datetime.datetime(2023, 1, 1, 0, 0)
 
     # Group `ActionPoint`
     ActionPoint_Value = 0
     ActionPoint_Total = 0
     ActionPoint_Color = '^000000'
-    ActionPoint_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    ActionPoint_Record = datetime.datetime(2023, 1, 1, 0, 0)
 
     # Group `Merit`
     Merit_Value = 0
     Merit_Color = '^000000'
-    Merit_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    Merit_Record = datetime.datetime(2023, 1, 1, 0, 0)
 
     # Group `Cube`
     Cube_Value = 0
     Cube_Color = '^000000'
-    Cube_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    Cube_Record = datetime.datetime(2023, 1, 1, 0, 0)
 
     # Group `Core`
     Core_Value = 0
     Core_Color = '^000000'
-    Core_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    Core_Record = datetime.datetime(2023, 1, 1, 0, 0)
 
     # Group `Medal`
     Medal_Value = 0
     Medal_Color = '^000000'
-    Medal_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    Medal_Record = datetime.datetime(2023, 1, 1, 0, 0)
 
     # Group `GuildCoin`
     GuildCoin_Value = 0
     GuildCoin_Color = '^000000'
-    GuildCoin_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    GuildCoin_Record = datetime.datetime(2023, 1, 1, 0, 0)
 
     # Group `Storage`
     Storage_Storage = {}

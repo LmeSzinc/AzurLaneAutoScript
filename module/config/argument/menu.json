@@ -9,6 +9,8 @@
       "Main",
       "Main2",
       "Main3",
+      "Main4",
+      "WarArchives",
       "GemsFarming"
     ],
     "Event": [
@@ -26,13 +28,13 @@
       "MaritimeEscort"
     ],
     "Reward": [
+      "Reward",
       "Commission",
-      "Tactical",
       "Research",
+      "Tactical",
       "Dorm",
       "Meowfficer",
-      "Guild",
-      "Reward"
+      "Guild"
     ],
     "DailyReward": [
       "ShopFrequent",
@@ -45,8 +47,7 @@
       "Daily",
       "Hard",
       "Exercise",
-      "Sos",
-      "WarArchives"
+      "Sos"
     ],
     "Opsi": [
       "OpsiGeneral",

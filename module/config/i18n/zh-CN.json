@@ -51,15 +51,19 @@
       "help": ""
     },
     "Main": {
-      "name": "主线图",
+      "name": "主线图-普通",
       "help": ""
     },
     "Main2": {
-      "name": "主线图-2",
+      "name": "主线图-困难",
       "help": ""
     },
     "Main3": {
-      "name": "主线图-3",
+      "name": "主线图",
+      "help": ""
+    },
+    "Main4": {
+      "name": "主线图-2",
       "help": ""
     },
     "GemsFarming": {
@@ -788,7 +792,7 @@
       "diamond": "轮形阵"
     },
     "Fleet1Mode": {
-      "name": "一队自律模式",
+      "name": "一队行动模式",
       "help": "",
       "combat_auto": "自律战斗",
       "combat_manual": "手操",
@@ -822,7 +826,7 @@
       "diamond": "轮形阵"
     },
     "Fleet2Mode": {
-      "name": "二队自律模式",
+      "name": "二队行动模式",
       "help": "",
       "combat_auto": "自律战斗",
       "combat_manual": "手操",
@@ -1132,10 +1136,10 @@
     "TaskCall": {
       "name": "物资过低时呼叫任务X",
       "help": "提醒: 玩家需提前设置好被调用的任务，否则将不会作用",
-      "Main": "主线图",
-      "Main2": "主线图-2",
-      "Main3": "主线图-3",
-      "Main4": "Main4"
+      "Main": "主线图-普通",
+      "Main2": "主线图-困难",
+      "Main3": "主线图",
+      "Main4": "主线图-2"
     }
   },
   "EventDaily": {
@@ -2107,7 +2111,7 @@
       "4": "4"
     },
     "FleetMode": {
-      "name": "自律模式",
+      "name": "行动模式",
       "help": "",
       "combat_auto": "自律战斗",
       "combat_manual": "手操",
@@ -2660,7 +2664,9 @@
       "DisableTranslateMode": "点击这里关闭翻译模式",
       "ConfigSaved": "设置已保存",
       "AlasIsRunning": "调度器已在运行中",
-      "ClickToUpdate": "有更新可用，点击这里进行更新"
+      "ClickToUpdate": "有更新可用，点击这里进行更新",
+      "AlasRestart": "Alas将于3秒后重启",
+      "ReloadEnabled": "重新加载未启用"
     },
     "Status": {
       "Running": "运行中",
@@ -2677,7 +2683,9 @@
       "Translate": "翻译",
       "Update": "更新器",
       "Remote": "远程控制",
-      "Utils": "工具"
+      "Utils": "工具",
+      "RaiseException": "抛出异常",
+      "ForceRestart": "强制重启"
     },
     "Overview": {
       "Scheduler": "调度器",

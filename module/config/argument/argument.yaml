@@ -2,7 +2,6 @@
 # Define arguments.
 # --------------------
 
-
 # ==================== Alas ====================
 
 Scheduler:
@@ -682,72 +681,72 @@ Oil:
   Color:
     value: ^000000
     display: hide
-  Record: 2020-01-01 00:00:00
+  Record: 2023-01-01 00:00:00
 Coin:
   Value: 0
   Limit: 0
   Color:
     value: ^000000
     display: hide
-  Record: 2020-01-01 00:00:00
+  Record: 2023-01-01 00:00:00
 Gem:
   Value: 0
   Color:
     value: ^000000
     display: hide
-  Record: 2020-01-01 00:00:00
+  Record: 2023-01-01 00:00:00
 Pt:
   Value: 0
   Color:
     value: ^000000
     display: hide
-  Record: 2020-01-01 00:00:00
+  Record: 2023-01-01 00:00:00
 YellowCoin:
   Value: 0
   Color:
     value: ^000000
     display: hide
-  Record: 2020-01-01 00:00:00
+  Record: 2023-01-01 00:00:00
 PurpleCoin:
   Value: 0
   Color:
     value: ^000000
     display: hide
-  Record: 2020-01-01 00:00:00
+  Record: 2023-01-01 00:00:00
 ActionPoint:
   Value: 0
   Total: 0
   Color:
     value: ^000000
     display: hide
-  Record: 2020-01-01 00:00:00
+  Record: 2023-01-01 00:00:00
 Merit:
   Value: 0
   Color:
     value: ^000000
     display: hide
-  Record: 2020-01-01 00:00:00
+  Record: 2023-01-01 00:00:00
 Cube:
   Value: 0
   Color:
     value: ^000000
     display: hide
-  Record: 2020-01-01 00:00:00
+  Record: 2023-01-01 00:00:00
 Core:
   Value: 0
   Color:
     value: ^000000
     display: hide
-  Record: 2020-01-01 00:00:00
+  Record: 2023-01-01 00:00:00
 Medal:
   Value: 0
   Color:
     value: ^000000
     display: hide
-  Record: 2020-01-01 00:00:00
+  Record: 2023-01-01 00:00:00
 GuildCoin:
   Value: 0
   Color:
     value: ^000000
     display: hide
-  Record: 2020-01-01 00:00:00
+  Record: 2023-01-01 00:00:00
