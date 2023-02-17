@@ -1,5 +1,7 @@
 # Event List
 
+The `/campaign` directory is used to place map files.
+
 To add a new event, add a new row in here, and run `python -m module.config.config_updater`. Some date in directory not equal to Aired date, because they use the map files in old events. Use `Ctrl+F` to search what you want.
 
 **Aired Date** The date that the event aired for the first time.
