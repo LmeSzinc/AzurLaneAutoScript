@@ -532,19 +532,19 @@ pre.rich-traceback-code {
 
 *[style*="--dashboard-value--"] {
     font-size: 1.3rem;
-    font-weight: 500;
+    font-weight: 400;
     margin: 0 0 0 0.6rem !important;
     font-family:
-             "Ebrima",
+             "Arial",
              serif;
 }
 
 *[style*="--dashboard-total--"] {
     font-size: 1.3rem;
-    font-weight: 500;
+    font-weight: 400;
     margin: 0 0 0 0.15rem !important;
     font-family:
-             "Ebrima",
+             "Arial",
              serif;
 }
 
@@ -552,7 +552,7 @@ pre.rich-traceback-code {
     font-size: .8rem;
     margin: 0 0 0 0.6rem !important;
     font-family:
-             "Ebrima",
+             "Arial",
              serif;
 }
 
@@ -563,6 +563,6 @@ pre.rich-traceback-code {
     vertical-align: text-bottom;
     overflow-wrap: normal;
     font-family:
-             "Ebrima",
+             "Arial",
              serif;
 }
