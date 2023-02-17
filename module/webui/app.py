@@ -654,7 +654,8 @@ class AlasGUI(Frame):
             limit_width = len(value_limit) * 0.7
             limit_width = str(limit_width) + 'rem'
             value_total = '' if value == 'None' else value_total
-
+            limit_style = '--dashboard-limit--' if value_limit else '--dashboard-total--'
+            value_limit = value_limit if value_limit else value_total
             # Handle dot color
             _color = f"""background-color:{deep_get(d=group, keys='Color').replace('^', '#')}"""
             color = f'<div class="status-point" style={_color}>'
@@ -669,24 +670,14 @@ class AlasGUI(Frame):
                                     [
                                         put_row(
                                             [
-                                                put_input(name=f'{group_name}_value',
-                                                          value=value,
-                                                          readonly=True,
+                                                put_text(value
                                                           ).style(f'--dashboard-value--'),
-                                                put_input(name=f'{group_name}_limit',
-                                                          value=value_limit,
-                                                          readonly=True,
-                                                          ).style(f'---dashboard-limit--'),
-                                                put_input(name=f'{group_name}_total',
-                                                          value=value_total,
-                                                          readonly=True,
-                                                          ).style('---dashboard-total--'),
+                                                put_text(value_limit
+                                                          ).style(limit_style),
                                             ],
-                                            size=f"{value_width} {limit_width} auto",
-                                        ),
-                                        put_input(name=f'{group_name}_help',
-                                                  value=t(f'Gui.Overview.{group_name}') + " - " + delta,
-                                                  readonly=True,
+                                        ).style('grid-template-columns:min-content auto;align-items: baseline;'),
+                                        put_text(
+                                                  t(f'Gui.Overview.{group_name}') + " - " + delta
                                                   ).style('---dashboard-help--')
                                     ],
                                     size="auto auto",
@@ -696,19 +687,6 @@ class AlasGUI(Frame):
                     ],
                     size="20px 1fr"
                 ).style("height: 1fr"),
-            # else:
-            #     pin_update(name=f'{group_name}_value',
-            #                value=str(value),
-            #                )
-            #     # pin_update(name=f'{group_name}_limit',
-            #     #            value=value_limit,
-            #     #            )
-            #     # pin_update(name=f'{group_name}_total',
-            #     #            value=value_total,
-            #     #            )
-            #     pin_update(name=f'{group_name}_help',
-            #                value=t(f'Gui.Overview.{group_name}') + " - " + delta,
-            #                )
             x += 1
             if x >= _num:
                 break

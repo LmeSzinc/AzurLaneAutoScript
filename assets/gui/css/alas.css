@@ -118,7 +118,7 @@ footer {
 }
 
 .status-point {
-    margin: 65% 50% 35% 50%;
+    margin: 55% 50% 45% 50%;
     width: .75rem;
     height: .75rem;
     border-radius: 50%;
@@ -393,7 +393,7 @@ pre.rich-traceback-code {
     width: 100%;
     display: grid;
     grid-auto-flow: row;
-    grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
+    grid-template-columns: repeat(auto-fit,minmax(10rem,1fr));
 }
 
 #pywebio-scope-dashboard .form-control{
@@ -533,34 +533,36 @@ pre.rich-traceback-code {
 *[style*="--dashboard-value--"] {
     font-size: 1.3rem;
     font-weight: 400;
-    margin: 0 0 -0.3rem 0.6rem;
-    overflow-wrap: break-word;
-    overflow: visible;
-    border-bottom: 0;
+    margin: 0 0 0 0.6rem !important;
+    font-family:
+             "Arial",
+             serif;
 }
 
 *[style*="--dashboard-total--"] {
     font-size: 1.3rem;
     font-weight: 400;
-    margin: 0 0 -0.3rem 0.15rem;
-    overflow-wrap: break-word;
-    overflow: visible;
-    border-bottom: 0;
+    margin: 0 0 0 0.15rem !important;
+    font-family:
+             "Arial",
+             serif;
 }
 
 *[style*="--dashboard-help--"] {
     font-size: .8rem;
-    overflow-wrap: break-word;
-    overflow: visible;
-    border-bottom: 0;
-    margin: -0.5rem 0 0 0.6rem;
+    margin: 0 0 0 0.6rem !important;
+    font-family:
+             "Arial",
+             serif;
 }
 
 *[style*="--dashboard-limit--"] {
     font-weight: 400;
     font-size: 1rem;
-    padding: 0.4rem 0 0 0;
-    overflow-wrap: break-word;
-    overflow: visible;
-    border-bottom: 0;
+    margin: 0 0 0 0 !important;
+    vertical-align: text-bottom;
+    overflow-wrap: normal;
+    font-family:
+             "Arial",
+             serif;
 }
