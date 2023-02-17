@@ -171,8 +171,9 @@ Submarine:
     value: '2_grid_to_boss'
     option: [ to_boss_position, 1_grid_to_boss, 2_grid_to_boss, use_open_ocean_support ]
 Emotion:
-  CalculateEmotion: true
-  IgnoreLowEmotionWarn: false
+  Mode:
+    value: calculate
+    option: [ calculate, ignore, calculate_ignore ]
   Fleet1Value: 119
   Fleet1Record:
     value: 2020-01-01 00:00:00

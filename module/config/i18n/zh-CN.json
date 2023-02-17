@@ -893,15 +893,14 @@
   "Emotion": {
     "_info": {
       "name": "心情设置",
-      "help": "\"计算心情消耗\" 和 \"无视红脸出击警告\" 之间至少需要打开一个"
-    },
-    "CalculateEmotion": {
-      "name": "计算心情消耗",
-      "help": "根据设置和出击计算心情消耗\n如果你更换了队伍中的舰船，需要修改对应的心情值"
-    },
-    "IgnoreLowEmotionWarn": {
-      "name": "无视红脸出击警告",
       "help": ""
+    },
+    "Mode": {
+      "name": "心情设置",
+      "help": "",
+      "calculate": "计算心情消耗",
+      "ignore": "无视红脸出击警告",
+      "calculate_ignore": "计算心情消耗 + 无视红脸出击警告"
     },
     "Fleet1Value": {
       "name": "一队心情值",

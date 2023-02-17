@@ -158,7 +158,7 @@ class InfoHandler(ModuleBase):
         return appear
 
     def handle_combat_low_emotion(self):
-        if not self.config.Emotion_IgnoreLowEmotionWarn:
+        if not self.emotion.is_ignore:
             return False
 
         result = self.handle_popup_confirm('IGNORE_LOW_EMOTION')

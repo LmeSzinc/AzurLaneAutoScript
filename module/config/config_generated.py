@@ -108,8 +108,7 @@ class GeneratedConfig:
     Submarine_DistanceToBoss = '2_grid_to_boss'  # to_boss_position, 1_grid_to_boss, 2_grid_to_boss, use_open_ocean_support
 
     # Group `Emotion`
-    Emotion_CalculateEmotion = True
-    Emotion_IgnoreLowEmotionWarn = False
+    Emotion_Mode = 'calculate'  # calculate, ignore, calculate_ignore
     Emotion_Fleet1Value = 119
     Emotion_Fleet1Record = datetime.datetime(2020, 1, 1, 0, 0)
     Emotion_Fleet1Control = 'prevent_yellow_face'  # keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face

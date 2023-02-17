@@ -61,3 +61,21 @@ def enhance_check_redirect(value):
         if value < 5:
             return 5
     return value
+
+
+def emotion_mode_redirect(value):
+    """
+    CalculateEmotion + IgnoreLowEmotionWarn -> Emotion.Mode
+    """
+    calculate, ignore = value
+    if calculate:
+        if ignore:
+            return 'calculate_ignore'
+        else:
+            return 'calculate'
+    else:
+        if ignore:
+            return 'ignore'
+        else:
+            # Invalid, fallback to calculate
+            return 'calculate'

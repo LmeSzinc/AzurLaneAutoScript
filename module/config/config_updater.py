@@ -501,6 +501,17 @@ class ConfigUpdater:
         ('General.Retirement.OldRetireSR', 'General.OldRetire.SR'),
         ('General.Retirement.OldRetireSSR', 'General.OldRetire.SSR'),
     ]
+    redirection += [
+        (
+            (f'{task}.Emotion.CalculateEmotion', f'{task}.Emotion.IgnoreLowEmotionWarn'),
+            f'{task}.Emotion.Mode',
+            emotion_mode_redirect
+        ) for task in [
+            'Main', 'Main2', 'Main3', 'GemsFarming',
+            'Event', 'Event2', 'EventA', 'EventB', 'EventC', 'EventD', 'EventSp', 'Raid', 'RaidDaily',
+            'Sos', 'WarArchives',
+        ]
+    ]
 
     @cached_property
     def args(self):

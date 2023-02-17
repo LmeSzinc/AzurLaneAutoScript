@@ -895,13 +895,12 @@
       "name": "Emotion._info.name",
       "help": "Emotion._info.help"
     },
-    "CalculateEmotion": {
-      "name": "Emotion.CalculateEmotion.name",
-      "help": "Emotion.CalculateEmotion.help"
-    },
-    "IgnoreLowEmotionWarn": {
-      "name": "Emotion.IgnoreLowEmotionWarn.name",
-      "help": "Emotion.IgnoreLowEmotionWarn.help"
+    "Mode": {
+      "name": "Emotion.Mode.name",
+      "help": "Emotion.Mode.help",
+      "calculate": "calculate",
+      "ignore": "ignore",
+      "calculate_ignore": "calculate_ignore"
     },
     "Fleet1Value": {
       "name": "Emotion.Fleet1Value.name",

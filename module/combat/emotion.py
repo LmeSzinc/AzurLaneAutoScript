@@ -152,6 +152,14 @@ class Emotion:
         self.fleet_2 = FleetEmotion(self.config, fleet=2)
         self.fleets = [self.fleet_1, self.fleet_2]
 
+    @property
+    def is_calculate(self):
+        return 'calculate' in self.config.Emotion_Mode
+
+    @property
+    def is_ignore(self):
+        return 'ignore' in self.config.Emotion_Mode
+
     def update(self):
         """
         Update emotion value. This should be called before doing anything.
@@ -199,7 +207,7 @@ class Emotion:
         Raise:
             ScriptEnd: Delay current task to prevent emotion control in the future.
         """
-        if not self.config.Emotion_CalculateEmotion:
+        if not self.is_calculate:
             return
 
         method = self.config.Fleet_FleetOrder

@@ -122,8 +122,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -197,8 +196,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -272,8 +270,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -356,8 +353,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -435,8 +431,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -510,8 +505,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -589,8 +583,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -668,8 +661,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -747,8 +739,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -826,8 +817,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -901,8 +891,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -963,8 +952,7 @@
       "ReachLevel": 0
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -1011,8 +999,7 @@
       "ReachLevel": 0
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -1447,8 +1434,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -1522,8 +1508,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",

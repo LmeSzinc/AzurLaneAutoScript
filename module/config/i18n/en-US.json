@@ -895,13 +895,12 @@
       "name": "Emotion Settings",
       "help": "At least one or both \"Calculate Emotion Consumption\" and \"Ignore Low Emotion Warning\" is used for these settings to be enabled"
     },
-    "CalculateEmotion": {
-      "name": "Calculate Emotion Consumption",
-      "help": "Calculates emotion according to settings, if ship(s) have changed in fleet should manually edit the corresponding value for accuracy"
-    },
-    "IgnoreLowEmotionWarn": {
-      "name": "Ignore Low Emotion Warning",
-      "help": "If emotion warning triggers, it will be ignored and proceed into next battle regardless"
+    "Mode": {
+      "name": "Emotion Settings",
+      "help": "",
+      "calculate": "Calculate Emotion Consumption",
+      "ignore": "Ignore Low Emotion Warning",
+      "calculate_ignore": "Calculate + Ignore"
     },
     "Fleet1Value": {
       "name": "Fleet 1 Emotion Value",

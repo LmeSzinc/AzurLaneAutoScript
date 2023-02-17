@@ -630,13 +630,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -1002,13 +1003,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -1374,13 +1376,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -1846,13 +1849,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -2283,13 +2287,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -2714,13 +2719,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -3162,13 +3168,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -3610,13 +3617,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -4058,13 +4066,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -4506,13 +4515,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -4945,13 +4955,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -5218,13 +5229,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -5441,13 +5453,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -7248,13 +7261,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -7643,13 +7657,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
