@@ -2047,9 +2047,11 @@
       "name": "余烬信标",
       "help": ""
     },
-    "AshAttack": {
-      "name": "打余烬信标",
-      "help": "信标数据满了之后打余烬信标，一直打直到打完"
+    "AttackMode": {
+      "name": "余烬信标",
+      "help": "",
+      "current": "当期",
+      "current_dossier": "当期 + 档案"
     },
     "OneHitMode": {
       "name": "一击即走",
@@ -2057,21 +2059,11 @@
     },
     "RequestAssist": {
       "name": "呼叫支援",
-      "help": "打信标之前，从好友、舰队、世界呼叫支援"
+      "help": "打信标之前，从好友、舰队、世界呼叫支援\n在档案信标中不生效"
     },
     "EnsureFullyCollected": {
       "name": "保证收集满每日200信标数据",
       "help": "在收集满为前，暂时无视保留行动力设置，需要同时开启 \"短猫相接\""
-    }
-  },
-  "OpsiDossierBeacon": {
-    "_info": {
-      "name": "档案信标",
-      "help": ""
-    },
-    "Enable": {
-      "name": "打档案信标",
-      "help": ""
     }
   },
   "OpsiFleetFilter": {

@@ -2047,9 +2047,11 @@
       "name": "OpsiAshBeacon._info.name",
       "help": "OpsiAshBeacon._info.help"
     },
-    "AshAttack": {
-      "name": "OpsiAshBeacon.AshAttack.name",
-      "help": "OpsiAshBeacon.AshAttack.help"
+    "AttackMode": {
+      "name": "OpsiAshBeacon.AttackMode.name",
+      "help": "OpsiAshBeacon.AttackMode.help",
+      "current": "current",
+      "current_dossier": "current_dossier"
     },
     "OneHitMode": {
       "name": "OpsiAshBeacon.OneHitMode.name",
@@ -2062,16 +2064,6 @@
     "EnsureFullyCollected": {
       "name": "OpsiAshBeacon.EnsureFullyCollected.name",
       "help": "OpsiAshBeacon.EnsureFullyCollected.help"
-    }
-  },
-  "OpsiDossierBeacon": {
-    "_info": {
-      "name": "OpsiDossierBeacon._info.name",
-      "help": "OpsiDossierBeacon._info.help"
-    },
-    "Enable": {
-      "name": "OpsiDossierBeacon.Enable.name",
-      "help": "OpsiDossierBeacon.Enable.help"
     }
   },
   "OpsiFleetFilter": {

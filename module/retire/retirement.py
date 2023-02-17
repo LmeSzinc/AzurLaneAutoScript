@@ -275,7 +275,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         """
         logger.info('Retire abandoned flagships of GemsFarming')
 
-        gems_farming_enable: bool = self.config.cross_get(keys='GemsFarming.Scheduler.Enable', default=False)
+        gems_farming_enable: bool = self.config.is_task_enabled('GemsFarming')
         if not (gems_farming_enable and self.config.GemsFarming_FlagshipChange):
             logger.info('GemsFarming or GemsFarming_FlagshipChange is not enabled, skip')
             return 0

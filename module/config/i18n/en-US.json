@@ -2047,31 +2047,23 @@
       "name": "Ash Beacon Settings",
       "help": ""
     },
-    "AshAttack": {
-      "name": "Enable Ash Attack",
-      "help": "When data beacon is full; attack until ash has been completed"
+    "AttackMode": {
+      "name": "META Attack",
+      "help": "",
+      "current": "Current",
+      "current_dossier": "Current + Dossier"
     },
     "OneHitMode": {
       "name": "One Hit Mode",
-      "help": "Strike each beacon only once, then call for support every half hour thereafter\nNot effective in dossier beacons"
+      "help": "Strike each beacon only once, then call for support every half hour thereafter\nNot effective in META dossiers"
     },
     "RequestAssist": {
       "name": "Request Assists",
-      "help": "Before the attack, request assists from friends, guild and world"
+      "help": "Before the attack, request assists from friends, guild and world\nNot effective in META dossiers"
     },
     "EnsureFullyCollected": {
       "name": "Ensure 200 Beacon Data Fully Collected",
       "help": "Ignore AP limit setting temporarily before ash beacon fully collected. \"Meowfficer Farming\" must be enabled"
-    }
-  },
-  "OpsiDossierBeacon": {
-    "_info": {
-      "name": "Dossier Beacon Settings",
-      "help": ""
-    },
-    "Enable": {
-      "name": "Enable Dossier Beacon Attack",
-      "help": ""
     }
   },
   "OpsiFleetFilter": {

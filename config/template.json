@@ -1570,13 +1570,10 @@
       "ServerUpdate": "00:00"
     },
     "OpsiAshBeacon": {
-      "AshAttack": true,
+      "AttackMode": "current",
       "OneHitMode": true,
       "RequestAssist": true,
       "EnsureFullyCollected": true
-    },
-    "OpsiDossierBeacon": {
-      "Enable": true
     },
     "Storage": {
       "Storage": {}

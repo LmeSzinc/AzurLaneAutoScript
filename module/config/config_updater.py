@@ -5,9 +5,9 @@ from cached_property import cached_property
 
 from deploy.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
-from module.config.redirect_utils.shop_filter import bp_redirect
-from module.config.redirect_utils.utils import upload_redirect, api_redirect
 from module.config.redirect_utils.os_handler import action_point_redirect
+from module.config.redirect_utils.shop_filter import bp_redirect
+from module.config.redirect_utils.utils import *
 from module.config.server import to_server, to_package, VALID_PACKAGE, VALID_CHANNEL_PACKAGE, VALID_SERVER_LIST
 from module.config.utils import *
 
@@ -492,7 +492,8 @@ class ConfigUpdater:
         ('DataKey.Scheduler.Enable', 'Freebies.DataKey.Collect'),
         ('DataKey.DataKey.ForceGet', 'Freebies.DataKey.ForceCollect'),
         ('SupplyPack.SupplyPack.WeeklyFreeSupplyPack', 'Freebies.SupplyPack.Collect'),
-        ('Commission.Commission.CommissionFilter', 'Commission.Commission.CustomFilter')
+        ('Commission.Commission.CommissionFilter', 'Commission.Commission.CustomFilter'),
+        ('OpsiAshBeacon.OpsiDossierBeacon.Enable', 'OpsiAshBeacon.OpsiAshBeacon.AttackMode', dossier_redirect)
     ]
 
     @cached_property

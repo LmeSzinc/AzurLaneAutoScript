@@ -31,3 +31,13 @@ def api_redirect(value):
         return 'cn_gz_reverse_proxy'
     else:
         return 'default'
+
+
+def dossier_redirect(value):
+    """
+    OpsiDossierBeacon -> AttackMode
+    """
+    if value:
+        return 'current_dossier'
+    else:
+        return 'current'

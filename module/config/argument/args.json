@@ -7843,9 +7843,13 @@
       }
     },
     "OpsiAshBeacon": {
-      "AshAttack": {
-        "type": "checkbox",
-        "value": true
+      "AttackMode": {
+        "type": "select",
+        "value": "current",
+        "option": [
+          "current",
+          "current_dossier"
+        ]
       },
       "OneHitMode": {
         "type": "checkbox",
@@ -7856,12 +7860,6 @@
         "value": true
       },
       "EnsureFullyCollected": {
-        "type": "checkbox",
-        "value": true
-      }
-    },
-    "OpsiDossierBeacon": {
-      "Enable": {
         "type": "checkbox",
         "value": true
       }

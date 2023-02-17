@@ -376,10 +376,10 @@ class AssistantHandler:
         blacklist = self.split_filter(self.config.MaaMall_BlackList)
         credit_fight = self.config.MaaMall_CreditFight
         if self.config.cross_get(keys='MaaMaterial.MaaFight.Stage') == 'last' \
-                and self.config.cross_get(keys='MaaMaterial.Scheduler.Enable', default=False):
+                and self.config.is_task_enabled('MaaMaterial'):
             credit_fight = False
         if self.config.cross_get(keys='MaaFight.MaaFight.Stage') == 'last' \
-                and self.config.cross_get(keys='MaaFight.Scheduler.Enable', default=False):
+                and self.config.is_task_enabled('MaaFight'):
             credit_fight = False
         self.maa_start('Mall', {
             "credit_fight": credit_fight,
