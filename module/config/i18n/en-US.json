@@ -62,10 +62,6 @@
       "name": "Main-3",
       "help": ""
     },
-    "Main4": {
-      "name": "Main-4",
-      "help": ""
-    },
     "GemsFarming": {
       "name": "Commission Farming",
       "help": ""
@@ -83,7 +79,7 @@
       "help": ""
     },
     "Event3": {
-      "name": "Event-3",
+      "name": "Task.Event3.name",
       "help": "Task.Event3.help"
     },
     "EventA": {
@@ -792,7 +788,7 @@
       "diamond": "diamond"
     },
     "Fleet1Mode": {
-      "name": "Fleet1 Action Mode",
+      "name": "Fleet 1 Mode",
       "help": "",
       "combat_auto": "combat_auto",
       "combat_manual": "combat_manual",
@@ -826,7 +822,7 @@
       "diamond": "diamond"
     },
     "Fleet2Mode": {
-      "name": "Fleet2 Action Mode",
+      "name": "Fleet 2 Mode",
       "help": "",
       "combat_auto": "combat_auto",
       "combat_manual": "combat_manual",
@@ -1139,7 +1135,7 @@
       "Main": "Main",
       "Main2": "Main-2",
       "Main3": "Main-3",
-      "Main4": "Main-4"
+      "Main4": "Main4"
     }
   },
   "EventDaily": {
@@ -2111,7 +2107,7 @@
       "4": "4"
     },
     "FleetMode": {
-      "name": "Action Mode",
+      "name": "Fleet Mode",
       "help": "",
       "combat_auto": "combat_auto",
       "combat_manual": "combat_manual",
@@ -2664,9 +2660,7 @@
       "DisableTranslateMode": "Click here to disable translate mode",
       "ConfigSaved": "Config saved",
       "AlasIsRunning": "Scheduler is already running",
-      "ClickToUpdate": "New update avaliable, click here to update",
-      "AlasRestart": "Alas will restart in 3 seconds",
-      "ReloadEnabled": "Reload not enabled"
+      "ClickToUpdate": "New update avaliable, click here to update"
     },
     "Status": {
       "Running": "Running",
@@ -2683,9 +2677,7 @@
       "Translate": "Translate",
       "Update": "Updater",
       "Remote": "Remote access",
-      "Utils": "Utils",
-      "RaiseException": "Raise Exception",
-      "ForceRestart": "Force Restart"
+      "Utils": "Utils"
     },
     "Overview": {
       "Scheduler": "Scheduler",

@@ -21,7 +21,6 @@ jobs:
         dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
         dst_token: ${{ secrets.GITEE_TOKEN }}
         static_list: 'AzurLaneAutoScript'
-        # mappings: "AzurLaneAutoScript=>AzurLaneAutoScript"
-        cache_path: /github/workspace/hub-mirror-cache
+        mappings: "AzurLaneAutoScript=>AzurLaneAutoScript"
         force_update: true
         timeout: '30m'

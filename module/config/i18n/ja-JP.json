@@ -62,10 +62,6 @@
       "name": "メイン海域-3",
       "help": ""
     },
-    "Main4": {
-      "name": "メイン海域-4",
-      "help": ""
-    },
     "GemsFarming": {
       "name": "Commission Farming",
       "help": ""
@@ -792,8 +788,8 @@
       "diamond": "diamond"
     },
     "Fleet1Mode": {
-      "name": "Fleet1 Action Mode",
-      "help": "",
+      "name": "Fleet.Fleet1Mode.name",
+      "help": "Fleet.Fleet1Mode.help",
       "combat_auto": "combat_auto",
       "combat_manual": "combat_manual",
       "stand_still_in_the_middle": "stand_still_in_the_middle",
@@ -826,8 +822,8 @@
       "diamond": "diamond"
     },
     "Fleet2Mode": {
-      "name": "Fleet2 Action Mode",
-      "help": "",
+      "name": "Fleet.Fleet2Mode.name",
+      "help": "Fleet.Fleet2Mode.help",
       "combat_auto": "combat_auto",
       "combat_manual": "combat_manual",
       "stand_still_in_the_middle": "stand_still_in_the_middle",
@@ -2111,8 +2107,8 @@
       "4": "4"
     },
     "FleetMode": {
-      "name": "Action Mode",
-      "help": "",
+      "name": "OpsiFleet.FleetMode.name",
+      "help": "OpsiFleet.FleetMode.help",
       "combat_auto": "combat_auto",
       "combat_manual": "combat_manual",
       "stand_still_in_the_middle": "stand_still_in_the_middle",
@@ -2662,9 +2658,7 @@
       "DisableTranslateMode": "クリックして翻訳モードを中止します",
       "ConfigSaved": "コンフィグ設定は保存されました",
       "AlasIsRunning": "スケジューラーはもう実行しています",
-      "ClickToUpdate": "新しいアップデータがあります。クリックしてアップデータ",
-      "AlasRestart": "Alas will restart in 3 seconds",
-      "ReloadEnabled": "Reload not enabled"
+      "ClickToUpdate": "新しいアップデータがあります。クリックしてアップデータ"
     },
     "Status": {
       "Running": "実行中",
@@ -2681,9 +2675,7 @@
       "Translate": "翻訳",
       "Update": "アップデータ",
       "Remote": "遠隔操作",
-      "Utils": "ツール",
-      "RaiseException": "Raise Exception",
-      "ForceRestart": "Force Restart"
+      "Utils": "ツール"
     },
     "Overview": {
       "Scheduler": "スケジューラー",

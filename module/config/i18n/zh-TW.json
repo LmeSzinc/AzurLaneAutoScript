@@ -51,19 +51,15 @@
       "help": ""
     },
     "Main": {
-      "name": "主線圖-普通",
-      "help": ""
-    },
-    "Main2": {
-      "name": "主線圖-困難",
-      "help": ""
-    },
-    "Main3": {
       "name": "主線圖",
       "help": ""
     },
-    "Main4": {
+    "Main2": {
       "name": "主線圖-2",
+      "help": ""
+    },
+    "Main3": {
+      "name": "主線圖-3",
       "help": ""
     },
     "GemsFarming": {
@@ -792,7 +788,7 @@
       "diamond": "輪型陣"
     },
     "Fleet1Mode": {
-      "name": "一隊行動模式",
+      "name": "一隊自律模式",
       "help": "",
       "combat_auto": "自律戰鬥",
       "combat_manual": "手動",
@@ -826,7 +822,7 @@
       "diamond": "輪型陣"
     },
     "Fleet2Mode": {
-      "name": "二隊行動模式",
+      "name": "二隊自律模式",
       "help": "",
       "combat_auto": "自律戰鬥",
       "combat_manual": "手動",
@@ -1136,10 +1132,10 @@
     "TaskCall": {
       "name": "物資過低時呼叫任務X",
       "help": "提醒: 玩家需提前設置好被調用的任務，否則將不會作用",
-      "Main": "主線圖-普通",
-      "Main2": "主線圖-困難",
-      "Main3": "主線圖",
-      "Main4": "主線圖-2"
+      "Main": "主線圖",
+      "Main2": "主線圖-2",
+      "Main3": "主線圖-3",
+      "Main4": "Main4"
     }
   },
   "EventDaily": {
@@ -2111,7 +2107,7 @@
       "4": "4"
     },
     "FleetMode": {
-      "name": "行動模式",
+      "name": "自律模式",
       "help": "",
       "combat_auto": "自律戰鬥",
       "combat_manual": "手動",
@@ -2664,9 +2660,7 @@
       "DisableTranslateMode": "點擊這裡關閉翻譯模式",
       "ConfigSaved": "設定已儲存",
       "AlasIsRunning": "調度器已在執行中",
-      "ClickToUpdate": "有更新可用，點擊這裡進行更新",
-      "AlasRestart": "Alas將於3秒後重啓",
-      "ReloadEnabled": "重新加載未啓用"
+      "ClickToUpdate": "有更新可用，點擊這裡進行更新"
     },
     "Status": {
       "Running": "執行中",
@@ -2683,12 +2677,11 @@
       "Translate": "翻譯",
       "Update": "更新器",
       "Remote": "遠程控制",
-      "Utils": "工具",
-      "RaiseException": "抛出異常",
-      "ForceRestart": "强制重啓"
+      "Utils": "工具"
     },
     "Overview": {
       "Scheduler": "調度器",
+      "Dashboard": "Gui.Overview.Dashboard",
       "SecondsAgo": "秒前",
       "MinutesAgo": "分鐘前",
       "HoursAgo": "小時前",

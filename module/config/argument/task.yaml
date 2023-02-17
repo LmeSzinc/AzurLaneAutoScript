@@ -45,24 +45,6 @@ Main3:
   - Emotion
   - HpControl
   - EnemyPriority
-Main4:
-  - Scheduler
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
-WarArchives:
-  - Scheduler
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
 GemsFarming:
   - Scheduler
   - GemsFarming
@@ -172,20 +154,17 @@ MaritimeEscort:
 
 # ==================== Reward ====================
 
-Reward:
-  - Scheduler
-  - Reward
 Commission:
   - Scheduler
   - Commission
-Research:
-  - Scheduler
-  - Research
 Tactical:
   - Scheduler
   - Tactical
   - ControlExpOverflow
   - AddNewStudent
+Research:
+  - Scheduler
+  - Research
 Dorm:
   - Scheduler
   - Dorm
@@ -197,6 +176,9 @@ Guild:
   - Scheduler
   - GuildLogistics
   - GuildOperation
+Reward:
+  - Scheduler
+  - Reward
 
 # ==================== DailyReward ====================
 
@@ -237,6 +219,15 @@ Exercise:
 Sos:
   - Scheduler
   - Sos
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
+WarArchives:
+  - Scheduler
   - Campaign
   - StopCondition
   - Fleet
