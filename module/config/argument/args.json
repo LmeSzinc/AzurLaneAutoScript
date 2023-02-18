@@ -1657,11 +1657,13 @@
       },
       "UseClearMode": {
         "type": "checkbox",
-        "value": true
+        "value": true,
+        "display": "hide"
       },
       "UseFleetLock": {
         "type": "checkbox",
-        "value": true
+        "value": true,
+        "display": "hide"
       },
       "UseAutoSearch": {
         "type": "checkbox",
@@ -1669,7 +1671,8 @@
       },
       "Use2xBook": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "display": "hide"
       },
       "AmbushEvade": {
         "type": "checkbox",
