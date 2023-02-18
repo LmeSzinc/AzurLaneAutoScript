@@ -556,50 +556,66 @@
       "name": "Retirement Settings",
       "help": ""
     },
-    "Enable": {
-      "name": "Enable Retirement",
-      "help": ""
-    },
     "RetireMode": {
       "name": "Retirement Mode",
       "help": "If mode is one click retire, in game retire settings are enforced\nIf mode is enhance but unable to do so, will fallback to one click retire as default",
-      "one_click_retire": "one_click_retire",
-      "enhance": "enhance",
-      "old_retire": "old_retire"
+      "one_click_retire": "One-click Retire",
+      "enhance": "Enhance",
+      "old_retire": "Old Retire"
+    }
+  },
+  "OneClickRetire": {
+    "_info": {
+      "name": "One-click Retire Settings",
+      "help": "Only applies to \"One-click Retire\""
     },
-    "RetireAmount": {
-      "name": "Amount to Retire",
+    "KeepLimitBreak": {
+      "name": "Keep Copies of Max LB Ships",
+      "help": "If you own multiple copies of a ship that has not been fully Limit Broken, this option determines what you want to do with those copies.\nIf one-click retire cannot retire ships, please set to \"Don't Keep\"",
+      "keep_limit_break": "Keep Enough to Max LB",
+      "do_not_keep": "Don't Keep"
+    }
+  },
+  "Enhance": {
+    "_info": {
+      "name": "Enhance Settings",
+      "help": "Only applies to \"Enhance\""
+    },
+    "ShipToEnhance": {
+      "name": "Ship to Enhance",
       "help": "",
-      "retire_all": "retire_all",
-      "retire_10": "retire_10"
+      "all": "Enhance All Ships",
+      "favourite": "Enhance Favourite Ships Only"
     },
-    "EnhanceFavourite": {
-      "name": "Use Favorite Filter for Enhance",
-      "help": ""
-    },
-    "EnhanceFilter": {
+    "Filter": {
       "name": "Ship Type(s) Filter for Enhance",
       "help": "\"cv > bb > ...\"; may substitute a type with \"?\" to have Alas select a type at random\nMust enter at least 1 whitespace character to disable type filtering"
     },
-    "EnhanceCheckPerCategory": {
+    "CheckPerCategory": {
       "name": "Number Checked Per Category for Enhance",
       "help": "Restricts the number of ships to be checked per category before moving onto the next if any\nSuitable enhance material is checked continously until reaching the unenhanceable state (in battle or stat full), after which this number is decremented for the current session\nRecommend to configure 3+ if there are non-max level ships in active fleet else <= 2 is generally sufficient"
+    }
+  },
+  "OldRetire": {
+    "_info": {
+      "name": "Old Retire Settings",
+      "help": "Only applies to \"Old Retire\".\nNote that old retire is based on rarity, it will retire Bulins"
     },
-    "OldRetireN": {
+    "N": {
       "name": "Retire Common",
-      "help": "Only applies to old retire mode"
+      "help": ""
     },
-    "OldRetireR": {
+    "R": {
       "name": "Retire Rare",
-      "help": "Only applies to old retire mode"
+      "help": ""
     },
-    "OldRetireSR": {
+    "SR": {
       "name": "Retire Elite",
-      "help": "Only applies to old retire mode"
+      "help": ""
     },
-    "OldRetireSSR": {
+    "SSR": {
       "name": "Retire Super Rare",
-      "help": "Only applies to old retire mode"
+      "help": ""
     }
   },
   "Campaign": {
@@ -879,13 +895,12 @@
       "name": "Emotion Settings",
       "help": "At least one or both \"Calculate Emotion Consumption\" and \"Ignore Low Emotion Warning\" is used for these settings to be enabled"
     },
-    "CalculateEmotion": {
-      "name": "Calculate Emotion Consumption",
-      "help": "Calculates emotion according to settings, if ship(s) have changed in fleet should manually edit the corresponding value for accuracy"
-    },
-    "IgnoreLowEmotionWarn": {
-      "name": "Ignore Low Emotion Warning",
-      "help": "If emotion warning triggers, it will be ignored and proceed into next battle regardless"
+    "Mode": {
+      "name": "Emotion Settings",
+      "help": "",
+      "calculate": "Calculate Emotion Consumption",
+      "ignore": "Ignore Low Emotion Warning",
+      "calculate_ignore": "Calculate + Ignore"
     },
     "Fleet1Value": {
       "name": "Fleet 1 Emotion Value",
@@ -2047,31 +2062,23 @@
       "name": "Ash Beacon Settings",
       "help": ""
     },
-    "AshAttack": {
-      "name": "Enable Ash Attack",
-      "help": "When data beacon is full; attack until ash has been completed"
+    "AttackMode": {
+      "name": "META Attack",
+      "help": "",
+      "current": "Current",
+      "current_dossier": "Current + Dossier"
     },
     "OneHitMode": {
       "name": "One Hit Mode",
-      "help": "Strike each beacon only once, then call for support every half hour thereafter\nNot effective in dossier beacons"
+      "help": "Strike each beacon only once, then call for support every half hour thereafter\nNot effective in META dossiers"
     },
     "RequestAssist": {
       "name": "Request Assists",
-      "help": "Before the attack, request assists from friends, guild and world"
+      "help": "Before the attack, request assists from friends, guild and world\nNot effective in META dossiers"
     },
     "EnsureFullyCollected": {
       "name": "Ensure 200 Beacon Data Fully Collected",
       "help": "Ignore AP limit setting temporarily before ash beacon fully collected. \"Meowfficer Farming\" must be enabled"
-    }
-  },
-  "OpsiDossierBeacon": {
-    "_info": {
-      "name": "Dossier Beacon Settings",
-      "help": ""
-    },
-    "Enable": {
-      "name": "Enable Dossier Beacon Attack",
-      "help": ""
     }
   },
   "OpsiFleetFilter": {

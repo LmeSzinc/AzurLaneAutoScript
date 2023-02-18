@@ -24,7 +24,7 @@ class OSStatus(UI):
 
     @property
     def is_cl1_enabled(self) -> bool:
-        return bool(self.config.cross_get('OpsiHazard1Leveling.Scheduler.Enable', default=False))
+        return self.config.is_task_enabled('OpsiHazard1Leveling')
 
     @property
     def nearest_task_cooling_down(self) -> t.Optional[Function]:

@@ -2,7 +2,7 @@ import datetime
 import subprocess
 import threading
 import time
-from typing import Generator, Tuple
+from typing import Generator, List, Tuple
 
 import requests
 from deploy.config import ExecutionError
@@ -203,12 +203,13 @@ class Updater(DeployConfig, GitManager, PipManager):
         logger.info("Waiting all running alas finish.")
         self._wait_update(instances, names)
 
-    def _wait_update(self, instances, names):
+    def _wait_update(self, instances: List[ProcessManager], names):
         if self.state == "cancel":
             self.state = 1
         self.state = "wait"
         self.event.set()
         _instances = instances.copy()
+        start_time = time.time()
         while _instances:
             for alas in _instances:
                 if not alas.alive:
@@ -221,6 +222,11 @@ class Updater(DeployConfig, GitManager, PipManager):
                 ProcessManager.restart_processes(instances, self.event)
                 return
             time.sleep(0.25)
+            if time.time() - start_time > 60 * 10:
+                logger.warning("Waiting alas shutdown timeout, force kill")
+                for alas in _instances:
+                    alas.stop()
+                break
         self._run_update(instances, names)
 
     def _run_update(self, instances, names):

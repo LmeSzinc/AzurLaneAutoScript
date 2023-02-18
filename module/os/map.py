@@ -398,7 +398,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         """
         remain = get_os_reset_remain()
         if remain <= 0:
-            if self.config.cross_get('OpsiCrossMonth.Scheduler.Enable', default=False):
+            if self.config.is_task_enabled('OpsiCrossMonth'):
                 logger.info('Just less than 1 day to OpSi reset, OpsiCrossMonth is enabled'
                             'set OpsiMeowfficerFarming.ActionPointPreserve to 300 temporarily')
                 return 300
@@ -575,7 +575,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
 
             # Continue if was Auto search interrupted by ash popup
             # Break if zone cleared
-            if self.config.OpsiAshBeacon_AshAttack:
+            if self.config.is_task_enabled('OpsiAshBeacon'):
                 if self.handle_ash_beacon_attack() or self.ash_popup_canceled:
                     strategic = False
                     continue

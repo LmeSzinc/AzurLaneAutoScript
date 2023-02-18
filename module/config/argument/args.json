@@ -280,10 +280,6 @@
   },
   "General": {
     "Retirement": {
-      "Enable": {
-        "type": "checkbox",
-        "value": true
-      },
       "RetireMode": {
         "type": "select",
         "value": "one_click_retire",
@@ -292,40 +288,50 @@
           "enhance",
           "old_retire"
         ]
-      },
-      "RetireAmount": {
+      }
+    },
+    "OneClickRetire": {
+      "KeepLimitBreak": {
         "type": "select",
-        "value": "retire_all",
+        "value": "keep_limit_break",
         "option": [
-          "retire_all",
-          "retire_10"
+          "keep_limit_break",
+          "do_not_keep"
+        ]
+      }
+    },
+    "Enhance": {
+      "ShipToEnhance": {
+        "type": "select",
+        "value": "all",
+        "option": [
+          "all",
+          "favourite"
         ]
       },
-      "EnhanceFavourite": {
-        "type": "checkbox",
-        "value": false
-      },
-      "EnhanceFilter": {
+      "Filter": {
         "type": "textarea",
         "value": null
       },
-      "EnhanceCheckPerCategory": {
+      "CheckPerCategory": {
         "type": "input",
-        "value": 2
-      },
-      "OldRetireN": {
+        "value": 5
+      }
+    },
+    "OldRetire": {
+      "N": {
         "type": "checkbox",
         "value": true
       },
-      "OldRetireR": {
+      "R": {
         "type": "checkbox",
         "value": true
       },
-      "OldRetireSR": {
+      "SR": {
         "type": "checkbox",
         "value": false
       },
-      "OldRetireSSR": {
+      "SSR": {
         "type": "checkbox",
         "value": false
       }
@@ -624,13 +630,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -996,13 +1003,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -1368,13 +1376,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -1648,11 +1657,13 @@
       },
       "UseClearMode": {
         "type": "checkbox",
-        "value": true
+        "value": true,
+        "display": "hide"
       },
       "UseFleetLock": {
         "type": "checkbox",
-        "value": true
+        "value": true,
+        "display": "hide"
       },
       "UseAutoSearch": {
         "type": "checkbox",
@@ -1660,7 +1671,8 @@
       },
       "Use2xBook": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "display": "hide"
       },
       "AmbushEvade": {
         "type": "checkbox",
@@ -1840,13 +1852,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -2277,13 +2290,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -2708,13 +2722,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -3156,13 +3171,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -3604,13 +3620,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -4052,13 +4069,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -4500,13 +4518,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -4939,13 +4958,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -5212,13 +5232,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -5435,13 +5456,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -7242,13 +7264,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -7637,13 +7660,14 @@
       }
     },
     "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
       },
       "Fleet1Value": {
         "type": "input",
@@ -7843,9 +7867,13 @@
       }
     },
     "OpsiAshBeacon": {
-      "AshAttack": {
-        "type": "checkbox",
-        "value": true
+      "AttackMode": {
+        "type": "select",
+        "value": "current",
+        "option": [
+          "current",
+          "current_dossier"
+        ]
       },
       "OneHitMode": {
         "type": "checkbox",
@@ -7856,12 +7884,6 @@
         "value": true
       },
       "EnsureFullyCollected": {
-        "type": "checkbox",
-        "value": true
-      }
-    },
-    "OpsiDossierBeacon": {
-      "Enable": {
         "type": "checkbox",
         "value": true
       }

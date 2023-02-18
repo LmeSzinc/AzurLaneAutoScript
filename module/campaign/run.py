@@ -108,7 +108,7 @@ class CampaignRun(CampaignEvent):
         Returns:
             bool: If triggered a restart condition.
         """
-        if not self.campaign.config.Emotion_IgnoreLowEmotionWarn:
+        if not self.campaign.emotion.is_ignore:
             if self.campaign.emotion.triggered_bug():
                 logger.info('Triggered restart avoid emotion bug')
                 return True

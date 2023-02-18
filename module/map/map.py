@@ -22,7 +22,7 @@ class Map(Fleet):
         logger.info('Clear enemy: %s' % grid)
         expected = f'combat_{expected}' if expected else 'combat'
         self.show_fleet()
-        if self.config.Emotion_CalculateEmotion and self.config.Campaign_UseFleetLock:
+        if self.emotion.is_calculate and self.config.Campaign_UseFleetLock:
             self.emotion.wait(fleet_index=self.fleet_current_index)
         self.goto(grid, expected=expected)
 
@@ -708,7 +708,7 @@ class Map(Fleet):
         self.show_fleet()
         prev = self.battle_count
         for n, grid in enumerate(itertools.cycle(route)):
-            if self.config.Emotion_CalculateEmotion and self.config.Campaign_UseFleetLock:
+            if self.emotion.is_calculate and self.config.Campaign_UseFleetLock:
                 self.emotion.wait(fleet_index=self.fleet_current_index)
             self.goto(grid, expected='combat_nothing')
 

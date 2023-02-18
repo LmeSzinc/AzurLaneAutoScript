@@ -22,7 +22,7 @@ class CampaignHard(CampaignRun):
             Campaign_UseFleetLock=True,
             Campaign_UseAutoSearch=True,
             Fleet_FleetOrder='fleet1_all_fleet2_standby' if self.config.Hard_HardFleet == 1 else 'fleet1_standby_fleet2_all',
-            Emotion_CalculateEmotion=False,
+            Emotion_Mode='nothing',  # Dont calculate and dont ignore
         )
         # Equipment take on
         # campaign/campaign_hard/campaign_hard.py Campaign.fleet_preparation()
