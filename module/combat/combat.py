@@ -472,7 +472,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             fleet_index (int): 1 or 2
         """
         balance_hp = balance_hp if balance_hp is not None else self.config.HpControl_UseHpBalance
-        emotion_reduce = emotion_reduce if emotion_reduce is not None else self.config.Emotion_CalculateEmotion
+        emotion_reduce = emotion_reduce if emotion_reduce is not None else self.emotion.is_calculate
         if auto_mode is None:
             auto_mode = self.config.Fleet_Fleet1Mode if fleet_index == 1 else self.config.Fleet_Fleet2Mode
         if submarine_mode is None:

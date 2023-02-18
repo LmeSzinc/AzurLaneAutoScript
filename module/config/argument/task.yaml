@@ -13,6 +13,9 @@ Alas:
   - DropRecord
 General:
   - Retirement
+  - OneClickRetire
+  - Enhance
+  - OldRetire
 Restart:
   - Scheduler
 

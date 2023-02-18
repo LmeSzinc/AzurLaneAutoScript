@@ -564,54 +564,66 @@
       "name": "Retirement._info.name",
       "help": "Retirement._info.help"
     },
-    "Enable": {
-      "name": "Retirement.Enable.name",
-      "help": "Retirement.Enable.help"
-    },
     "RetireMode": {
       "name": "Retirement.RetireMode.name",
       "help": "Retirement.RetireMode.help",
       "one_click_retire": "one_click_retire",
       "enhance": "enhance",
       "old_retire": "old_retire"
+    }
+  },
+  "OneClickRetire": {
+    "_info": {
+      "name": "OneClickRetire._info.name",
+      "help": "OneClickRetire._info.help"
     },
-    "RetireAmount": {
-      "name": "Retirement.RetireAmount.name",
-      "help": "Retirement.RetireAmount.help",
-      "retire_all": "retire_all",
-      "retire_10": "retire_10"
+    "KeepLimitBreak": {
+      "name": "OneClickRetire.KeepLimitBreak.name",
+      "help": "OneClickRetire.KeepLimitBreak.help",
+      "keep_limit_break": "keep_limit_break",
+      "do_not_keep": "do_not_keep"
+    }
+  },
+  "Enhance": {
+    "_info": {
+      "name": "Enhance._info.name",
+      "help": "Enhance._info.help"
     },
-    "EnhanceFavourite": {
-      "name": "Retirement.EnhanceFavourite.name",
-      "help": "Retirement.EnhanceFavourite.help"
+    "ShipToEnhance": {
+      "name": "Enhance.ShipToEnhance.name",
+      "help": "Enhance.ShipToEnhance.help",
+      "all": "all",
+      "favourite": "favourite"
     },
-    "EnhanceFilter": {
-      "name": "Retirement.EnhanceFilter.name",
-      "help": "Retirement.EnhanceFilter.help"
+    "Filter": {
+      "name": "Enhance.Filter.name",
+      "help": "Enhance.Filter.help"
     },
-    "EnhanceCheckPerCategory": {
-      "name": "Retirement.EnhanceCheckPerCategory.name",
-      "help": "Retirement.EnhanceCheckPerCategory.help"
+    "CheckPerCategory": {
+      "name": "Enhance.CheckPerCategory.name",
+      "help": "Enhance.CheckPerCategory.help"
+    }
+  },
+  "OldRetire": {
+    "_info": {
+      "name": "OldRetire._info.name",
+      "help": "OldRetire._info.help"
     },
-    "AllowNoPreserve": {
-      "name": "Retirement.AllowNoPreserve.name",
-      "help": "Retirement.AllowNoPreserve.help"
+    "N": {
+      "name": "OldRetire.N.name",
+      "help": "OldRetire.N.help"
     },
-    "OldRetireN": {
-      "name": "Retirement.OldRetireN.name",
-      "help": "Retirement.OldRetireN.help"
+    "R": {
+      "name": "OldRetire.R.name",
+      "help": "OldRetire.R.help"
     },
-    "OldRetireR": {
-      "name": "Retirement.OldRetireR.name",
-      "help": "Retirement.OldRetireR.help"
+    "SR": {
+      "name": "OldRetire.SR.name",
+      "help": "OldRetire.SR.help"
     },
-    "OldRetireSR": {
-      "name": "Retirement.OldRetireSR.name",
-      "help": "Retirement.OldRetireSR.help"
-    },
-    "OldRetireSSR": {
-      "name": "Retirement.OldRetireSSR.name",
-      "help": "Retirement.OldRetireSSR.help"
+    "SSR": {
+      "name": "OldRetire.SSR.name",
+      "help": "OldRetire.SSR.help"
     }
   },
   "Campaign": {
@@ -891,13 +903,12 @@
       "name": "Emotion._info.name",
       "help": "Emotion._info.help"
     },
-    "CalculateEmotion": {
-      "name": "Emotion.CalculateEmotion.name",
-      "help": "Emotion.CalculateEmotion.help"
-    },
-    "IgnoreLowEmotionWarn": {
-      "name": "Emotion.IgnoreLowEmotionWarn.name",
-      "help": "Emotion.IgnoreLowEmotionWarn.help"
+    "Mode": {
+      "name": "Emotion.Mode.name",
+      "help": "Emotion.Mode.help",
+      "calculate": "calculate",
+      "ignore": "ignore",
+      "calculate_ignore": "calculate_ignore"
     },
     "Fleet1Value": {
       "name": "Emotion.Fleet1Value.name",
@@ -2060,9 +2071,11 @@
       "name": "OpsiAshBeacon._info.name",
       "help": "OpsiAshBeacon._info.help"
     },
-    "AshAttack": {
-      "name": "OpsiAshBeacon.AshAttack.name",
-      "help": "OpsiAshBeacon.AshAttack.help"
+    "AttackMode": {
+      "name": "OpsiAshBeacon.AttackMode.name",
+      "help": "OpsiAshBeacon.AttackMode.help",
+      "current": "current",
+      "current_dossier": "current_dossier"
     },
     "OneHitMode": {
       "name": "OpsiAshBeacon.OneHitMode.name",
@@ -2075,16 +2088,6 @@
     "EnsureFullyCollected": {
       "name": "OpsiAshBeacon.EnsureFullyCollected.name",
       "help": "OpsiAshBeacon.EnsureFullyCollected.help"
-    }
-  },
-  "OpsiDossierBeacon": {
-    "_info": {
-      "name": "OpsiDossierBeacon._info.name",
-      "help": "OpsiDossierBeacon._info.help"
-    },
-    "Enable": {
-      "name": "OpsiDossierBeacon.Enable.name",
-      "help": "OpsiDossierBeacon.Enable.help"
     }
   },
   "OpsiFleetFilter": {

@@ -112,6 +112,17 @@ def del_cached_property(obj, name):
         pass
 
 
+def has_cached_property(obj, name):
+    """
+    Check if a property is cached.
+
+    Args:
+        obj:
+        name (str):
+    """
+    return name in obj.__dict__
+
+
 def function_drop(rate=0.5, default=None):
     """
     Drop function calls to simulate random emulator stuck, for testing purpose.

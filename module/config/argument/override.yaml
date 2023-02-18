@@ -42,6 +42,9 @@ GemsFarming:
     Event:
       value: campaign_main
     Mode: normal
+    UseClearMode: true
+    UseFleetLock: true
+    Use2xBook: false
     AmbushEvade: true
   StopCondition:
     MapAchievement: non_stop

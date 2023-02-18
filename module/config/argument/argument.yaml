@@ -86,21 +86,24 @@ DropRecord:
     value: do_not
     option: [ do_not, save, upload, save_and_upload ]
 Retirement:
-  Enable: true
   RetireMode:
     value: one_click_retire
     option: [ one_click_retire, enhance, old_retire ]
-  RetireAmount:
-    value: retire_all
-    option: [ retire_all, retire_10 ]
-  EnhanceFavourite: false
-  EnhanceFilter:
-  EnhanceCheckPerCategory: 2
-  AllowNoPreserve: false
-  OldRetireN: true
-  OldRetireR: true
-  OldRetireSR: false
-  OldRetireSSR: false
+OneClickRetire:
+  KeepLimitBreak:
+    value: keep_limit_break
+    option: [ keep_limit_break, do_not_keep ]
+Enhance:
+  ShipToEnhance:
+    value: all
+    option: [ all, favourite ]
+  Filter:
+  CheckPerCategory: 5
+OldRetire:
+  N: true
+  R: true
+  SR: false
+  SSR: false
 
 # ==================== Farm ====================
 
@@ -168,8 +171,9 @@ Submarine:
     value: '2_grid_to_boss'
     option: [ to_boss_position, 1_grid_to_boss, 2_grid_to_boss, use_open_ocean_support ]
 Emotion:
-  CalculateEmotion: true
-  IgnoreLowEmotionWarn: false
+  Mode:
+    value: calculate
+    option: [ calculate, ignore, calculate_ignore ]
   Fleet1Value: 119
   Fleet1Record:
     value: 2023-01-01 00:00:00
@@ -571,12 +575,12 @@ OpsiGeneral:
   AkashiShopFilter: |-
     ActionPoint > PurpleCoins
 OpsiAshBeacon:
-  AshAttack: true
+  AttackMode:
+    value: current
+    option: [ current, current_dossier ]
   OneHitMode: true
   RequestAssist: true
   EnsureFullyCollected: true
-OpsiDossierBeacon:
-  Enable: true
 OpsiFleetFilter:
   Filter: |-
     Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1

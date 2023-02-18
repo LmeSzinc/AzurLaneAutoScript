@@ -44,17 +44,21 @@
   },
   "General": {
     "Retirement": {
-      "Enable": true,
-      "RetireMode": "one_click_retire",
-      "RetireAmount": "retire_all",
-      "EnhanceFavourite": false,
-      "EnhanceFilter": null,
-      "EnhanceCheckPerCategory": 2,
-      "AllowNoPreserve": false,
-      "OldRetireN": true,
-      "OldRetireR": true,
-      "OldRetireSR": false,
-      "OldRetireSSR": false
+      "RetireMode": "one_click_retire"
+    },
+    "OneClickRetire": {
+      "KeepLimitBreak": "keep_limit_break"
+    },
+    "Enhance": {
+      "ShipToEnhance": "all",
+      "Filter": null,
+      "CheckPerCategory": 5
+    },
+    "OldRetire": {
+      "N": true,
+      "R": true,
+      "SR": false,
+      "SSR": false
     },
     "Storage": {
       "Storage": {}
@@ -118,8 +122,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -193,8 +196,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -268,8 +270,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -343,8 +344,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -418,8 +418,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -502,8 +501,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -581,8 +579,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -656,8 +653,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -731,8 +727,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -810,8 +805,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -889,8 +883,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -968,8 +961,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -1047,8 +1039,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -1122,8 +1113,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -1184,8 +1174,7 @@
       "ReachLevel": 0
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -1232,8 +1221,7 @@
       "ReachLevel": 0
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -1668,8 +1656,7 @@
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
-      "CalculateEmotion": true,
-      "IgnoreLowEmotionWarn": false,
+      "Mode": "calculate",
       "Fleet1Value": 119,
       "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
@@ -1721,13 +1708,10 @@
       "ServerUpdate": "00:00"
     },
     "OpsiAshBeacon": {
-      "AshAttack": true,
+      "AttackMode": "current",
       "OneHitMode": true,
       "RequestAssist": true,
       "EnsureFullyCollected": true
-    },
-    "OpsiDossierBeacon": {
-      "Enable": true
     },
     "Storage": {
       "Storage": {}
