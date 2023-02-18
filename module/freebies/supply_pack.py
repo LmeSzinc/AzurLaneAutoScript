@@ -73,11 +73,12 @@ class SupplyPack(CampaignStatus):
         self.ui_ensure(page_supply_pack)
 
         if self.get_oil() < 21000:
-            if get_server_weekday >= self.config.SupplyPack_DayOfWeek:
+            server_today = get_server_weekday()
+            target = self.config.SupplyPack_DayOfWeek
+            target_name = day_name[target]
+            if server_today >= target:
                 self.supply_pack_buy(FREE_SUPPLY_PACK)
             else:
-                target = self.config.SupplyPack_DayOfWeek
-                target_name = day_name[target]
                 logger.info(f'Delaying free week supply pack to {target_name}')
         else:
             logger.info('Oil > 21000, unable to buy free weekly supply pack')

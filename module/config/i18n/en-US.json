@@ -1832,15 +1832,15 @@
       "help": ""
     },
     "DayOfWeek": {
-      "name": "SupplyPack.DayOfWeek.name",
-      "help": "SupplyPack.DayOfWeek.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6"
+      "name": "Days of the week",
+      "help": "Alas will delay free supply pack buying until the value",
+      "0": "Monday",
+      "1": "Tuesday",
+      "2": "Wednesday",
+      "3": "Thursday",
+      "4": "Friday",
+      "5": "Saturday",
+      "6": "Sunday"
     }
   },
   "Daily": {
