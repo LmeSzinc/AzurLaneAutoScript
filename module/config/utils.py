@@ -590,6 +590,17 @@ def get_nearest_weekday_date(target):
     return local_reset
 
 
+def get_server_weekday():
+    """
+    Returns:
+        int: The server's current day of the week
+    """
+    diff = server_time_offset()
+    server_now = datetime.now() - diff
+    result = server_now.weekday()
+    return result
+
+
 def random_id(length=32):
     """
     Args:

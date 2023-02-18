@@ -1830,6 +1830,17 @@
     "Collect": {
       "name": "购买每周免费礼包",
       "help": ""
+    },
+    "DayOfWeek": {
+      "name": "SupplyPack.DayOfWeek.name",
+      "help": "SupplyPack.DayOfWeek.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     }
   },
   "Daily": {

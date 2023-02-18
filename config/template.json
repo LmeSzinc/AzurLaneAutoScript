@@ -1314,7 +1314,8 @@
       "Delete": false
     },
     "SupplyPack": {
-      "Collect": true
+      "Collect": true,
+      "DayOfWeek": 0
     },
     "Storage": {
       "Storage": {}

@@ -1,6 +1,9 @@
+from calendar import day_name
+
 from module.base.timer import Timer
 from module.campaign.campaign_status import CampaignStatus
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
+from module.config.utils import get_server_weekday
 from module.freebies.assets import *
 from module.logger import logger
 from module.ui.page import page_supply_pack
@@ -70,6 +73,11 @@ class SupplyPack(CampaignStatus):
         self.ui_ensure(page_supply_pack)
 
         if self.get_oil() < 21000:
-            self.supply_pack_buy(FREE_SUPPLY_PACK)
+            if get_server_weekday >= self.config.SupplyPack_DayOfWeek:
+                self.supply_pack_buy(FREE_SUPPLY_PACK)
+            else:
+                target = self.config.SupplyPack_DayOfWeek
+                target_name = day_name[target]
+                logger.info(f'Delaying free week supply pack to {target_name}')
         else:
             logger.info('Oil > 21000, unable to buy free weekly supply pack')
