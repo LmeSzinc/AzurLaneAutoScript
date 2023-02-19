@@ -20,10 +20,6 @@
       "name": "Reward",
       "help": ""
     },
-    "DailyReward": {
-      "name": "Daily Reward",
-      "help": ""
-    },
     "DailyMission": {
       "name": "Daily Mission",
       "help": ""
@@ -66,6 +62,10 @@
       "name": "Commission Farming",
       "help": ""
     },
+    "Sos": {
+      "name": "SOS",
+      "help": ""
+    },
     "EventGeneral": {
       "name": "Event General",
       "help": ""
@@ -97,6 +97,10 @@
     "EventSp": {
       "name": "Event Daily SP",
       "help": ""
+    },
+    "WarArchives": {
+      "name": "War Archives",
+      "help": "Due to the lack of maintenance of war archives, continuous clear may not work normally, if Alas runs abnormally, Please manually finish clearing and use auto search"
     },
     "Raid": {
       "name": "Raid",
@@ -138,6 +142,18 @@
       "name": "Reward",
       "help": ""
     },
+    "Daily": {
+      "name": "Daily",
+      "help": ""
+    },
+    "Hard": {
+      "name": "Hard",
+      "help": ""
+    },
+    "Exercise": {
+      "name": "Exercise",
+      "help": ""
+    },
     "ShopFrequent": {
       "name": "Shop Frequent",
       "help": ""
@@ -156,26 +172,6 @@
     },
     "Freebies": {
       "name": "Freebies",
-      "help": ""
-    },
-    "Daily": {
-      "name": "Daily",
-      "help": ""
-    },
-    "Hard": {
-      "name": "Hard",
-      "help": ""
-    },
-    "Exercise": {
-      "name": "Exercise",
-      "help": ""
-    },
-    "Sos": {
-      "name": "SOS",
-      "help": ""
-    },
-    "WarArchives": {
-      "name": "War Archives",
       "help": ""
     },
     "OpsiGeneral": {
@@ -574,6 +570,12 @@
       "help": "If you own multiple copies of a ship that has not been fully Limit Broken, this option determines what you want to do with those copies.\nIf one-click retire cannot retire ships, please set to \"Don't Keep\"",
       "keep_limit_break": "Keep Enough to Max LB",
       "do_not_keep": "Don't Keep"
+    },
+    "RetireAmount": {
+      "name": "Retire Amount",
+      "help": "",
+      "retire_all": "Retire All",
+      "retire_10": "Retire 10"
     }
   },
   "Enhance": {
@@ -616,6 +618,12 @@
     "SSR": {
       "name": "Retire Super Rare",
       "help": ""
+    },
+    "RetireAmount": {
+      "name": "Retire Amount",
+      "help": "",
+      "retire_all": "Retire All",
+      "retire_10": "Retire 10"
     }
   },
   "Campaign": {
@@ -2237,11 +2245,11 @@
   "OpsiHazard1Leveling": {
     "_info": {
       "name": "CL1 leveling",
-      "help": "Warning: CL1 cannot gain unlimited action point. Please do not close other tasks in order to run CL1.\n\nAccording to the latest statistics of LmeSzinc, the action point output of CL1 is slightly higher than that of consumption, and you can gain a lot of experience while consuming operation coins in exchange for meowfficer farming.\nIt is recommended to carry 1 pre-loaded CV to obtain the highest average hourly experience benefit.\nSince buying action point in the store requires a large number of operation coins, this task will automatically enable meowfficer farming to supplement."
+      "help": "Consume operation coins to gain a lot of experience and a little action points.\nRecommended to carry 1-2 pre-loaded CV to obtain the highest average hourly benefit.\n\nTo avoid being unable to buying goods from port shops, Alas will retain 100,000 operation coins\nSince buying action points at the mystery shop requires a large number of operation points, this function will be supplemented by running meowfficer farming with overflow action points."
     },
     "TargetZone": {
       "name": "Target Zone ID",
-      "help": "Only attack target zone, which can be used to obtain world achievement stars or avoid the event that the map cannot be refreshed due to game bug",
+      "help": "Only attack target zone, which can be used to avoid the event that the map cannot be refreshed due to game bug",
       "0": "No Specification",
       "44": "44 | West Continental Shelf D",
       "22": "22 | NA Ocean SW Sector B"
