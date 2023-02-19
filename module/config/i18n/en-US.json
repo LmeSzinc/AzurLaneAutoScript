@@ -176,7 +176,7 @@
     },
     "WarArchives": {
       "name": "War Archives",
-      "help": ""
+      "help": "Due to the lack of maintenance of war archives, continuous clear may not work normally, if Alas runs abnormally, Please manually finish clearing and use auto search"
     },
     "OpsiGeneral": {
       "name": "OpSi General",
@@ -2237,7 +2237,7 @@
   "OpsiHazard1Leveling": {
     "_info": {
       "name": "CL1 leveling",
-      "help": "Warning: CL1 cannot gain unlimited action point. Please do not close other tasks in order to run CL1.\n\nAccording to the latest statistics of LmeSzinc, the action point output of CL1 is slightly higher than that of consumption, and you can gain a lot of experience while consuming operation coins in exchange for meowfficer farming.\nIt is recommended to carry 1 pre-loaded CV to obtain the highest average hourly experience benefit.\nSince buying action point in the store requires a large number of operation coins, this task will automatically enable meowfficer farming to supplement."
+      "help": "Consume operation coins to gain a lot of experience and a little action points.\nRecommended to carry 1-2 pre-loaded CV to obtain the highest average hourly benefit.\n\nTo avoid being unable to buying goods from port shops, Alas will retain 100,000 operation coins\nSince buying action points at the mystery shop requires a large number of operation points, this function will be supplemented by running meowfficer farming with overflow action points."
     },
     "TargetZone": {
       "name": "Target Zone ID",
