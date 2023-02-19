@@ -298,6 +298,14 @@
           "keep_limit_break",
           "do_not_keep"
         ]
+      },
+      "RetireAmount": {
+        "type": "select",
+        "value": "retire_all",
+        "option": [
+          "retire_all",
+          "retire_10"
+        ]
       }
     },
     "Enhance": {
@@ -334,6 +342,14 @@
       "SSR": {
         "type": "checkbox",
         "value": false
+      },
+      "RetireAmount": {
+        "type": "select",
+        "value": "retire_all",
+        "option": [
+          "retire_all",
+          "retire_10"
+        ]
       }
     },
     "Storage": {

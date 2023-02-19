@@ -47,7 +47,8 @@
       "RetireMode": "one_click_retire"
     },
     "OneClickRetire": {
-      "KeepLimitBreak": "keep_limit_break"
+      "KeepLimitBreak": "keep_limit_break",
+      "RetireAmount": "retire_all"
     },
     "Enhance": {
       "ShipToEnhance": "all",
@@ -58,7 +59,8 @@
       "N": true,
       "R": true,
       "SR": false,
-      "SSR": false
+      "SSR": false,
+      "RetireAmount": "retire_all"
     },
     "Storage": {
       "Storage": {}
