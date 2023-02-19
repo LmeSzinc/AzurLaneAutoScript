@@ -20,10 +20,6 @@
       "name": "收获",
       "help": ""
     },
-    "DailyReward": {
-      "name": "每日收获",
-      "help": ""
-    },
     "DailyMission": {
       "name": "每日任务",
       "help": ""
@@ -66,6 +62,10 @@
       "name": "刷紧急委托",
       "help": ""
     },
+    "Sos": {
+      "name": "潜艇图",
+      "help": ""
+    },
     "EventGeneral": {
       "name": "活动通用设置",
       "help": ""
@@ -97,6 +97,10 @@
     "EventSp": {
       "name": "活动每日SP图",
       "help": ""
+    },
+    "WarArchives": {
+      "name": "作战档案",
+      "help": "由于作战档案缺少维护，开荒功能不一定能正常使用，如果发现Alas运行异常，请手动完成开荒后使用自律寻敌功能"
     },
     "Raid": {
       "name": "共斗活动",
@@ -138,6 +142,18 @@
       "name": "收获",
       "help": ""
     },
+    "Daily": {
+      "name": "每日任务",
+      "help": ""
+    },
+    "Hard": {
+      "name": "困难图",
+      "help": ""
+    },
+    "Exercise": {
+      "name": "演习",
+      "help": ""
+    },
     "ShopFrequent": {
       "name": "通用商店",
       "help": ""
@@ -157,26 +173,6 @@
     "Freebies": {
       "name": "白嫖奖励",
       "help": ""
-    },
-    "Daily": {
-      "name": "每日任务",
-      "help": ""
-    },
-    "Hard": {
-      "name": "困难图",
-      "help": ""
-    },
-    "Exercise": {
-      "name": "演习",
-      "help": ""
-    },
-    "Sos": {
-      "name": "潜艇图",
-      "help": ""
-    },
-    "WarArchives": {
-      "name": "作战档案",
-      "help": "由于作战档案缺少维护，开荒功能不一定能正常使用，如果发现Alas运行异常，请手动完成开荒后使用自律寻敌功能"
     },
     "OpsiGeneral": {
       "name": "通用设置",

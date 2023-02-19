@@ -9,7 +9,8 @@
       "Main",
       "Main2",
       "Main3",
-      "GemsFarming"
+      "GemsFarming",
+      "Sos"
     ],
     "Event": [
       "EventGeneral",
@@ -20,6 +21,7 @@
       "EventC",
       "EventD",
       "EventSp",
+      "WarArchives",
       "Raid",
       "RaidDaily",
       "MaritimeEscort"
@@ -33,19 +35,15 @@
       "Guild",
       "Reward"
     ],
-    "DailyReward": [
+    "DailyMission": [
+      "Daily",
+      "Hard",
+      "Exercise",
       "ShopFrequent",
       "ShopOnce",
       "Shipyard",
       "Gacha",
       "Freebies"
-    ],
-    "DailyMission": [
-      "Daily",
-      "Hard",
-      "Exercise",
-      "Sos",
-      "WarArchives"
     ],
     "Opsi": [
       "OpsiGeneral",
