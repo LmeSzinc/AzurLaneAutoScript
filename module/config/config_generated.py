@@ -119,16 +119,23 @@ class GeneratedConfig:
     DropRecord_MeowfficerTalent = 'do_not'  # do_not, save, upload, save_and_upload
 
     # Group `Retirement`
-    Retirement_Enable = True
     Retirement_RetireMode = 'one_click_retire'  # one_click_retire, enhance, old_retire
-    Retirement_RetireAmount = 'retire_all'  # retire_all, retire_10
-    Retirement_EnhanceFavourite = False
-    Retirement_EnhanceFilter = None
-    Retirement_EnhanceCheckPerCategory = 2
-    Retirement_OldRetireN = True
-    Retirement_OldRetireR = True
-    Retirement_OldRetireSR = False
-    Retirement_OldRetireSSR = False
+
+    # Group `OneClickRetire`
+    OneClickRetire_KeepLimitBreak = 'keep_limit_break'  # keep_limit_break, do_not_keep
+    OneClickRetire_RetireAmount = 'retire_all'  # retire_all, retire_10
+
+    # Group `Enhance`
+    Enhance_ShipToEnhance = 'all'  # all, favourite
+    Enhance_Filter = None
+    Enhance_CheckPerCategory = 5
+
+    # Group `OldRetire`
+    OldRetire_N = True
+    OldRetire_R = True
+    OldRetire_SR = False
+    OldRetire_SSR = False
+    OldRetire_RetireAmount = 'retire_all'  # retire_all, retire_10
 
     # Group `Campaign`
     Campaign_Name = '12-4'
@@ -166,8 +173,7 @@ class GeneratedConfig:
     Submarine_DistanceToBoss = '2_grid_to_boss'  # to_boss_position, 1_grid_to_boss, 2_grid_to_boss, use_open_ocean_support
 
     # Group `Emotion`
-    Emotion_CalculateEmotion = True
-    Emotion_IgnoreLowEmotionWarn = False
+    Emotion_Mode = 'calculate'  # calculate, ignore, calculate_ignore
     Emotion_Fleet1Value = 119
     Emotion_Fleet1Record = datetime.datetime(2020, 1, 1, 0, 0)
     Emotion_Fleet1Control = 'prevent_yellow_face'  # keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face
@@ -413,13 +419,10 @@ class GeneratedConfig:
     OpsiGeneral_AkashiShopFilter = 'ActionPoint > PurpleCoins'
 
     # Group `OpsiAshBeacon`
-    OpsiAshBeacon_AshAttack = True
+    OpsiAshBeacon_AttackMode = 'current'  # current, current_dossier
     OpsiAshBeacon_OneHitMode = True
     OpsiAshBeacon_RequestAssist = True
     OpsiAshBeacon_EnsureFullyCollected = True
-
-    # Group `OpsiDossierBeacon`
-    OpsiDossierBeacon_Enable = True
 
     # Group `OpsiFleetFilter`
     OpsiFleetFilter_Filter = 'Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1'

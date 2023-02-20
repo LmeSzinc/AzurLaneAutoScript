@@ -276,10 +276,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
                     deep_set(self.data, keys=f"{task}.Scheduler.NextRun", value=now)
 
         for task in ["Commission", "Research", "Reward"]:
-            enable = deep_get(
-                self.data, keys=f"{task}.Scheduler.Enable", default=None
-            )
-            if enable is not None and not enable:
+            if not self.is_task_enabled(task):
                 self.modified[f"{task}.Scheduler.Enable"] = True
         force_enable = list
 
@@ -551,9 +548,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         if deep_get(self.data, keys=f"{task}.Scheduler.NextRun", default=None) is None:
             raise ScriptError(f"Task to call: `{task}` does not exist in user config")
 
-        if force_call or deep_get(
-            self.data, keys=f"{task}.Scheduler.Enable", default=False
-        ):
+        if force_call or self.is_task_enabled(task):
             logger.info(f"Task call: {task}")
             self.modified[f"{task}.Scheduler.NextRun"] = datetime.now().replace(
                 microsecond=0
@@ -609,6 +604,9 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         """
         if self.task_switched():
             self.task_stop(message=message)
+
+    def is_task_enabled(self, task):
+        return bool(self.cross_get(keys=[task, 'Scheduler', 'Enable'], default=False))
 
     @property
     def campaign_name(self):

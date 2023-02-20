@@ -5,9 +5,7 @@ from cached_property import cached_property
 
 from deploy.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
-from module.config.redirect_utils.shop_filter import bp_redirect
-from module.config.redirect_utils.utils import upload_redirect, api_redirect
-from module.config.redirect_utils.os_handler import action_point_redirect
+from module.config.redirect_utils.utils import *
 from module.config.server import to_server, to_package, VALID_PACKAGE, VALID_CHANNEL_PACKAGE, VALID_SERVER_LIST
 from module.config.utils import *
 
@@ -481,29 +479,49 @@ class ConfigGenerator:
 class ConfigUpdater:
     # source, target, (optional)convert_func
     redirection = [
-        ('OpsiDaily.OpsiDaily.BuySupply', 'OpsiShop.Scheduler.Enable'),
-        ('OpsiDaily.Scheduler.Enable', 'OpsiDaily.OpsiDaily.DoMission'),
-        ('OpsiShop.Scheduler.Enable', 'OpsiShop.OpsiShop.BuySupply'),
-        ('ShopOnce.GuildShop.Filter', 'ShopOnce.GuildShop.Filter', bp_redirect),
-        ('ShopOnce.MedalShop2.Filter', 'ShopOnce.MedalShop2.Filter', bp_redirect),
-        (('Alas.DropRecord.SaveResearch', 'Alas.DropRecord.UploadResearch'),
-         'Alas.DropRecord.ResearchRecord', upload_redirect),
-        (('Alas.DropRecord.SaveCommission', 'Alas.DropRecord.UploadCommission'),
-         'Alas.DropRecord.CommissionRecord', upload_redirect),
-        (('Alas.DropRecord.SaveOpsi', 'Alas.DropRecord.UploadOpsi'),
-         'Alas.DropRecord.OpsiRecord', upload_redirect),
-        (('Alas.DropRecord.SaveMeowfficerTalent', 'Alas.DropRecord.UploadMeowfficerTalent'),
-         'Alas.DropRecord.MeowfficerTalent', upload_redirect),
-        ('Alas.DropRecord.SaveCombat', 'Alas.DropRecord.CombatRecord', upload_redirect),
-        ('Alas.DropRecord.SaveMeowfficer', 'Alas.DropRecord.MeowfficerBuy', upload_redirect),
-        ('Alas.Emulator.PackageName', 'Alas.DropRecord.API', api_redirect),
-        ('Alas.RestartEmulator.Enable', 'Alas.RestartEmulator.ErrorRestart'),
-        ('OpsiGeneral.OpsiGeneral.BuyActionPoint', 'OpsiGeneral.OpsiGeneral.BuyActionPointLimit', action_point_redirect),
-        ('BattlePass.BattlePass.BattlePassReward', 'Freebies.BattlePass.Collect'),
-        ('DataKey.Scheduler.Enable', 'Freebies.DataKey.Collect'),
-        ('DataKey.DataKey.ForceGet', 'Freebies.DataKey.ForceCollect'),
-        ('SupplyPack.SupplyPack.WeeklyFreeSupplyPack', 'Freebies.SupplyPack.Collect'),
-        ('Commission.Commission.CommissionFilter', 'Commission.Commission.CustomFilter')
+        # ('OpsiDaily.OpsiDaily.BuySupply', 'OpsiShop.Scheduler.Enable'),
+        # ('OpsiDaily.Scheduler.Enable', 'OpsiDaily.OpsiDaily.DoMission'),
+        # ('OpsiShop.Scheduler.Enable', 'OpsiShop.OpsiShop.BuySupply'),
+        # ('ShopOnce.GuildShop.Filter', 'ShopOnce.GuildShop.Filter', bp_redirect),
+        # ('ShopOnce.MedalShop2.Filter', 'ShopOnce.MedalShop2.Filter', bp_redirect),
+        # (('Alas.DropRecord.SaveResearch', 'Alas.DropRecord.UploadResearch'),
+        #  'Alas.DropRecord.ResearchRecord', upload_redirect),
+        # (('Alas.DropRecord.SaveCommission', 'Alas.DropRecord.UploadCommission'),
+        #  'Alas.DropRecord.CommissionRecord', upload_redirect),
+        # (('Alas.DropRecord.SaveOpsi', 'Alas.DropRecord.UploadOpsi'),
+        #  'Alas.DropRecord.OpsiRecord', upload_redirect),
+        # (('Alas.DropRecord.SaveMeowfficerTalent', 'Alas.DropRecord.UploadMeowfficerTalent'),
+        #  'Alas.DropRecord.MeowfficerTalent', upload_redirect),
+        # ('Alas.DropRecord.SaveCombat', 'Alas.DropRecord.CombatRecord', upload_redirect),
+        # ('Alas.DropRecord.SaveMeowfficer', 'Alas.DropRecord.MeowfficerBuy', upload_redirect),
+        # ('Alas.Emulator.PackageName', 'Alas.DropRecord.API', api_redirect),
+        # ('Alas.RestartEmulator.Enable', 'Alas.RestartEmulator.ErrorRestart'),
+        # ('OpsiGeneral.OpsiGeneral.BuyActionPoint', 'OpsiGeneral.OpsiGeneral.BuyActionPointLimit', action_point_redirect),
+        # ('BattlePass.BattlePass.BattlePassReward', 'Freebies.BattlePass.Collect'),
+        # ('DataKey.Scheduler.Enable', 'Freebies.DataKey.Collect'),
+        # ('DataKey.DataKey.ForceGet', 'Freebies.DataKey.ForceCollect'),
+        # ('SupplyPack.SupplyPack.WeeklyFreeSupplyPack', 'Freebies.SupplyPack.Collect'),
+        # ('Commission.Commission.CommissionFilter', 'Commission.Commission.CustomFilter'),
+        # 2023.02.17
+        ('OpsiAshBeacon.OpsiDossierBeacon.Enable', 'OpsiAshBeacon.OpsiAshBeacon.AttackMode', dossier_redirect),
+        ('General.Retirement.EnhanceFavourite', 'General.Enhance.ShipToEnhance', enhance_favourite_redirect),
+        ('General.Retirement.EnhanceFilter', 'General.Enhance.Filter'),
+        ('General.Retirement.EnhanceCheckPerCategory', 'General.Enhance.CheckPerCategory', enhance_check_redirect),
+        ('General.Retirement.OldRetireN', 'General.OldRetire.N'),
+        ('General.Retirement.OldRetireR', 'General.OldRetire.R'),
+        ('General.Retirement.OldRetireSR', 'General.OldRetire.SR'),
+        ('General.Retirement.OldRetireSSR', 'General.OldRetire.SSR'),
+    ]
+    redirection += [
+        (
+            (f'{task}.Emotion.CalculateEmotion', f'{task}.Emotion.IgnoreLowEmotionWarn'),
+            f'{task}.Emotion.Mode',
+            emotion_mode_redirect
+        ) for task in [
+            'Main', 'Main2', 'Main3', 'GemsFarming',
+            'Event', 'Event2', 'EventA', 'EventB', 'EventC', 'EventD', 'EventSp', 'Raid', 'RaidDaily',
+            'Sos', 'WarArchives',
+        ]
     ]
 
     @cached_property

@@ -12,6 +12,9 @@ Alas:
   - DropRecord
 General:
   - Retirement
+  - OneClickRetire
+  - Enhance
+  - OldRetire
 Restart:
   - Scheduler
 
@@ -52,6 +55,16 @@ GemsFarming:
   - Fleet
   - Submarine
   - Emotion
+  - EnemyPriority
+Sos:
+  - Scheduler
+  - Sos
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
   - EnemyPriority
 
 # ==================== Event ====================
@@ -126,6 +139,15 @@ EventSp:
   - Emotion
   - HpControl
   - EnemyPriority
+WarArchives:
+  - Scheduler
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
 Raid:
   - Scheduler
   - Raid
@@ -170,8 +192,17 @@ Reward:
   - Scheduler
   - Reward
 
-# ==================== DailyReward ====================
+# ==================== DailyMission ====================
 
+Daily:
+  - Scheduler
+  - Daily
+Hard:
+  - Scheduler
+  - Hard
+Exercise:
+  - Scheduler
+  - Exercise
 ShopFrequent:
   - Scheduler
   - GeneralShop
@@ -194,37 +225,6 @@ Freebies:
   - DataKey
   - Mail
   - SupplyPack
-
-# ==================== DailyMission ====================
-
-Daily:
-  - Scheduler
-  - Daily
-Hard:
-  - Scheduler
-  - Hard
-Exercise:
-  - Scheduler
-  - Exercise
-Sos:
-  - Scheduler
-  - Sos
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
-WarArchives:
-  - Scheduler
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
 
 # ==================== Opsi ====================
 

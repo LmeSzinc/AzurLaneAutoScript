@@ -20,10 +20,6 @@
       "name": "收穫",
       "help": ""
     },
-    "DailyReward": {
-      "name": "每日收穫",
-      "help": ""
-    },
     "DailyMission": {
       "name": "每日任務",
       "help": ""
@@ -66,6 +62,10 @@
       "name": "刷緊急委託",
       "help": ""
     },
+    "Sos": {
+      "name": "潛艇圖",
+      "help": ""
+    },
     "EventGeneral": {
       "name": "活動通用",
       "help": ""
@@ -97,6 +97,10 @@
     "EventSp": {
       "name": "活動每日SP圖",
       "help": ""
+    },
+    "WarArchives": {
+      "name": "作戰檔案",
+      "help": "由於作戰檔案缺少維護，開荒功能不一定能正常使用，如果發現Alas運行异常，請手動完成開荒後使用自律尋敵功能"
     },
     "Raid": {
       "name": "共鬥活動",
@@ -138,6 +142,18 @@
       "name": "收穫",
       "help": ""
     },
+    "Daily": {
+      "name": "每日任務",
+      "help": ""
+    },
+    "Hard": {
+      "name": "困難圖",
+      "help": ""
+    },
+    "Exercise": {
+      "name": "演習",
+      "help": ""
+    },
     "ShopFrequent": {
       "name": "通用商店",
       "help": ""
@@ -156,26 +172,6 @@
     },
     "Freebies": {
       "name": "免費獎勵",
-      "help": ""
-    },
-    "Daily": {
-      "name": "每日任務",
-      "help": ""
-    },
-    "Hard": {
-      "name": "困難圖",
-      "help": ""
-    },
-    "Exercise": {
-      "name": "演習",
-      "help": ""
-    },
-    "Sos": {
-      "name": "潛艇圖",
-      "help": ""
-    },
-    "WarArchives": {
-      "name": "作戰檔案",
       "help": ""
     },
     "OpsiGeneral": {
@@ -781,11 +777,7 @@
   },
   "Retirement": {
     "_info": {
-      "name": "退役設定",
-      "help": ""
-    },
-    "Enable": {
-      "name": "啟用退役",
+      "name": "退役設置",
       "help": ""
     },
     "RetireMode": {
@@ -794,40 +786,72 @@
       "one_click_retire": "一鍵退役",
       "enhance": "強化",
       "old_retire": "傳統退役"
+    }
+  },
+  "OneClickRetire": {
+    "_info": {
+      "name": "一鍵退役設置",
+      "help": "僅在 \"退役模式\" 設置為 \"一鍵退役\" 時生效"
+    },
+    "KeepLimitBreak": {
+      "name": "保留滿星同名艦船",
+      "help": "沒有滿星的同名艦船時，保留幾艘符合退役條件的同名艦船\n如果一鍵退役無法退役，請設置為 \"不保留\"",
+      "keep_limit_break": "保留滿星所需",
+      "do_not_keep": "不保留"
     },
     "RetireAmount": {
       "name": "退役數量",
       "help": "",
       "retire_all": "退役全部",
       "retire_10": "退役10個"
+    }
+  },
+  "Enhance": {
+    "_info": {
+      "name": "強化設置",
+      "help": "僅在 \"退役模式\" 設置為 \"強化\" 時生效"
     },
-    "EnhanceFavourite": {
-      "name": "強化常用角色",
+    "ShipToEnhance": {
+      "name": "需要強化的艦船",
+      "help": "",
+      "all": "強化全部艦船",
+      "favourite": "僅強化常用艦船"
+    },
+    "Filter": {
+      "name": "強化過濾字符串",
+      "help": "格式: \"cv > bb > ...\"，\n留空則使用默認強化方式"
+    },
+    "CheckPerCategory": {
+      "name": "每分類強化數量",
+      "help": "每個艦船分類最多強化多少艦船，\n在戰鬥中的艦船會被跳過且不計入，\n優先判斷是否有強化材料"
+    }
+  },
+  "OldRetire": {
+    "_info": {
+      "name": "傳統退役設置",
+      "help": "僅在 \"退役模式\" 設置為 \"傳統退役\" 時生效\n注意：傳統退役基於角色稀有度，可能退役布里"
+    },
+    "N": {
+      "name": "退役白船 ( N )",
       "help": ""
     },
-    "EnhanceFilter": {
-      "name": "強化用過濾字串",
-      "help": "格式: \"cv > bb > ...\"，\n空白則使用預設強化方式"
-    },
-    "EnhanceCheckPerCategory": {
-      "name": "分類強化",
-      "help": "每項艦船分類最多強化多少艘艦船，\n戰鬥中的艦船會被跳過且不計入，\n優先判斷是否有強化材料"
-    },
-    "OldRetireN": {
-      "name": "退役白船 ( N )",
-      "help": "以下設定僅適用於傳統退役"
-    },
-    "OldRetireR": {
+    "R": {
       "name": "退役藍船 ( R )",
       "help": ""
     },
-    "OldRetireSR": {
+    "SR": {
       "name": "退役紫船 ( SR )",
       "help": ""
     },
-    "OldRetireSSR": {
+    "SSR": {
       "name": "退役金船 ( SSR )",
       "help": ""
+    },
+    "RetireAmount": {
+      "name": "退役數量",
+      "help": "",
+      "retire_all": "退役全部",
+      "retire_10": "退役10個"
     }
   },
   "Campaign": {
@@ -1105,15 +1129,14 @@
   "Emotion": {
     "_info": {
       "name": "心情設定",
-      "help": "\"計算心情消耗\" 和 \"無視紅臉出擊警告\" 之間至少需要打開一個"
-    },
-    "CalculateEmotion": {
-      "name": "計算心情消耗",
-      "help": "根據設定和出擊計算心情消耗\n如果你更換了隊伍中的艦船，需要修改為對應的心情值"
-    },
-    "IgnoreLowEmotionWarn": {
-      "name": "無視紅臉出擊警告",
       "help": ""
+    },
+    "Mode": {
+      "name": "心情設定",
+      "help": "",
+      "calculate": "計算心情消耗",
+      "ignore": "無視紅臉出擊警告",
+      "calculate_ignore": "計算心情消耗 + 無視紅臉出擊警告"
     },
     "Fleet1Value": {
       "name": "一隊心情值",
@@ -2275,9 +2298,11 @@
       "name": "餘燼信標",
       "help": ""
     },
-    "AshAttack": {
-      "name": "打餘燼信標",
-      "help": "信標數據滿了之後打餘燼信標，一直打直到打完"
+    "AttackMode": {
+      "name": "餘燼信標",
+      "help": "",
+      "current": "當期",
+      "current_dossier": "當期 + 檔案"
     },
     "OneHitMode": {
       "name": "一擊即走",
@@ -2285,21 +2310,11 @@
     },
     "RequestAssist": {
       "name": "呼叫支援",
-      "help": "打信標之前，從好友、艦隊、世界呼叫支援"
+      "help": "打信標之前，從好友、艦隊、世界呼叫支援\n在檔案信標中不生效"
     },
     "EnsureFullyCollected": {
       "name": "保證收集滿每日200信標數據",
       "help": "在收集滿為前，暫時無視保留行動力設置，需要同時開啟 \"短貓相接\""
-    }
-  },
-  "OpsiDossierBeacon": {
-    "_info": {
-      "name": "檔案信標",
-      "help": ""
-    },
-    "Enable": {
-      "name": "打檔案信標",
-      "help": ""
     }
   },
   "OpsiFleetFilter": {
@@ -2458,11 +2473,11 @@
   "OpsiHazard1Leveling": {
     "_info": {
       "name": "侵蝕1練級",
-      "help": "警告：侵蝕1無法無限獲取行動力，請不要為了運行侵蝕1關閉其他任務\n\n根據LmeSzinc最新的統計，侵蝕1產出的行動力略高於消耗，可以在大量獲取經驗的同時消耗作戰補給憑證換取短猫收益\n推薦攜帶1艘預裝填航母以獲取最高的時均經驗收益\n由於在商店購買行動力需要大量作戰補給憑證，啟用本功能後會自動啟用短猫相接來補充"
+      "help": "消耗作戰補給憑證以獲取大量經驗和少量行動力\n推薦攜帶1-2艘預裝填航母以獲取最高的時均收益\n\n為了避免無法購買港口商店的商品，Alas會保留100000作戰補給憑證\n由於在神秘商店購買行動力需要大量作戰補給憑證，啟用本功能後會使用溢出行動力運行短猫相接來補充"
     },
     "TargetZone": {
       "name": "指定海域",
-      "help": "僅出擊指定的海域，可以用來獲取大世界成就星星或規避遊戲BUG導致的無法重繪海域",
+      "help": "僅出擊指定的海域，可以用來規避遊戲BUG導致的無法重繪海域",
       "0": "不指定",
       "44": "44 | 西大陸棚D",
       "22": "22 | NA海域西南B"
