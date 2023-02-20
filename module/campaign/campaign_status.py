@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 
 from module.base.timer import Timer
-from module.campaign.assets import OCR_EVENT_PT, OCR_COIN, OCR_OIL, OCR_GEM, OCR_COIN_LIMIT, OCR_OIL_LIMIT
+from module.campaign.assets import OCR_EVENT_PT, OCR_COIN, OCR_OIL, OCR_COIN_LIMIT, OCR_OIL_LIMIT
 from module.logger import logger
 from module.ocr.ocr import Ocr, Digit
 from module.ui.ui import UI
@@ -61,6 +61,35 @@ class CampaignStatus(UI):
         if update:
             self.config.update()
         return pt
+    
+    def get_oil(self, skip_first_screenshot=True, update=False):
+        """
+        Returns:
+            int: Oil amount
+        """
+        _oil = {}
+        timeout = Timer(1, count=2).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if timeout.reached():
+                logger.warning('Get oil timeout')
+                break
+
+            _oil = {
+                'Value': OCR_OIL.ocr(self.device.image),
+                'Limit': OCR_OIL_LIMIT.ocr(self.device.image)
+            }
+            if _oil['Value'] >= 100:
+                break
+        LogRes(self.config).Oil = _oil
+        if update:
+            self.config.update()
+
+        return _oil['Value']
 
     def get_coin(self, skip_first_screenshot=True, update=False):
         """
@@ -92,43 +121,14 @@ class CampaignStatus(UI):
         return _coin['Value']
 
     def _watch_statistics_in_auto_search(self):
-        _coin = {
-            'Value': OCR_COIN.ocr(self.device.image),
-            'Limit': OCR_COIN_LIMIT.ocr(self.device.image)
-        }
         _oil = {
             'Value': OCR_OIL.ocr(self.device.image),
             'Limit': OCR_OIL_LIMIT.ocr(self.device.image)
         }
+        _coin = {
+            'Value': OCR_COIN.ocr(self.device.image),
+            'Limit': OCR_COIN_LIMIT.ocr(self.device.image)
+        }
         LogRes(self.config).Oil = _oil
         LogRes(self.config).Coin = _coin
-        return _oil['Value']
-
-    def get_oil(self, skip_first_screenshot=True, update=False):
-        """
-        Returns:
-            int: Oil amount
-        """
-        _oil = {}
-        timeout = Timer(1, count=2).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if timeout.reached():
-                logger.warning('Get oil timeout')
-                break
-
-            _oil = {
-                'Value': OCR_OIL.ocr(self.device.image),
-                'Limit': OCR_OIL_LIMIT.ocr(self.device.image)
-            }
-            if _oil['Value'] >= 100:
-                break
-        LogRes(self.config).Oil = _oil
-        if update:
-            self.config.update()
-
         return _oil['Value']
