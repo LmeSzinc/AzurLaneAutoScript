@@ -51,15 +51,27 @@ class AmbushHandler(Combat):
 
     def _handle_ambush_evade(self):
         logger.info('Map ambushed')
-        self.wait_until_appear_then_click(MAP_AMBUSH_EVADE)
+        # Wait MAP_AMBUSH_EVADE
+        self.wait_until_appear(MAP_AMBUSH_EVADE, offset=(30, 30))
+        self.handle_info_bar()
 
-        # self.wait_until_appear(INFO_BAR_1)
+        # Click MAP_AMBUSH_EVADE
+        skip_first_screenshot = True
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
             if self.info_bar_count():
                 break
-        image = info_letter_preprocess(self.image_crop(INFO_BAR_DETECT))
 
+            if self.appear_then_click(MAP_AMBUSH_EVADE, offset=(30, 30), interval=3):
+                continue
+
+        # Handle evade success and failures
+        image = info_letter_preprocess(self.image_crop(INFO_BAR_DETECT))
         if TEMPLATE_AMBUSH_EVADE_SUCCESS.match(image):
             logger.attr('Ambush_evade', 'success')
         elif TEMPLATE_AMBUSH_EVADE_FAILED.match(image):
@@ -73,22 +85,29 @@ class AmbushHandler(Combat):
 
     def _handle_ambush_attack(self):
         logger.info('Map ambushed')
-        self.wait_until_appear(MAP_AMBUSH_EVADE)
+        # Wait MAP_AMBUSH_ATTACK
+        self.wait_until_appear(MAP_AMBUSH_ATTACK, offset=(30, 30))
 
+        # Click MAP_AMBUSH_ATTACK
+        skip_first_screenshot = True
         while 1:
-            if self.appear_then_click(MAP_AMBUSH_ATTACK, interval=1):
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.combat_appear():
+                break
+
+            if self.appear_then_click(MAP_AMBUSH_ATTACK, offset=(30, 30), interval=3):
                 continue
             if self.handle_combat_low_emotion():
                 continue
             if self.handle_retirement():
                 continue
 
-            # Break
-            if self.combat_appear():
-                break
-
-            self.device.screenshot()
-
+        # In battle
         logger.attr('Ambush_evade', 'attack')
         self.combat(expected_end='no_searching', fleet_index=self.fleet_show_index)
 
@@ -110,7 +129,7 @@ class AmbushHandler(Combat):
             self._handle_ambush()
             return True
 
-        if self.appear(MAP_AMBUSH_EVADE):
+        if self.appear(MAP_AMBUSH_EVADE, offset=(30, 30)):
             self._handle_ambush()
 
         return False

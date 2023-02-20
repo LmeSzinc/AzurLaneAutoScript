@@ -312,7 +312,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
         Note that fleet index == 1 is mob fleet, 2 is boss fleet.
         It's not the fleet index in fleet preparation or auto search setting.
         """
-        emotion_reduce = emotion_reduce if emotion_reduce is not None else self.config.Emotion_CalculateEmotion
+        emotion_reduce = emotion_reduce if emotion_reduce is not None else self.emotion.is_calculate
 
         self.device.stuck_record_clear()
         self.auto_search_combat_execute(emotion_reduce=emotion_reduce, fleet_index=fleet_index)

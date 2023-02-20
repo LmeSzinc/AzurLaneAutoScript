@@ -546,21 +546,22 @@ def get_color(image, area):
     return color[:3]
 
 
-def get_bbox(image):
+def get_bbox(image, threshold=0):
     """
     A numpy implementation of the getbbox() in pillow.
 
     Args:
         image (np.ndarray): Screenshot.
+        threshold (int): Color <= threshold will be considered black
 
     Returns:
         tuple: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y)
     """
     if image_channel(image) == 3:
         image = np.max(image, axis=2)
-    x = np.where(np.max(image, axis=0) > 0)[0]
-    y = np.where(np.max(image, axis=1) > 0)[0]
-    return (x[0], y[0], x[-1] + 1, y[-1] + 1)
+    x = np.where(np.max(image, axis=0) > threshold)[0]
+    y = np.where(np.max(image, axis=1) > threshold)[0]
+    return x[0], y[0], x[-1] + 1, y[-1] + 1
 
 
 def color_similarity(color1, color2):

@@ -320,7 +320,7 @@ class OperationSiren(OSMap):
         ap_checked = False
         while 1:
             self.config.OS_ACTION_POINT_PRESERVE = preserve
-            if self.config.OpsiAshBeacon_AshAttack \
+            if self.config.is_task_enabled('OpsiAshBeacon') \
                     and not self._ash_fully_collected \
                     and self.config.OpsiAshBeacon_EnsureFullyCollected:
                 logger.info('Ash beacon not fully collected, ignore action point limit temporarily')
@@ -379,12 +379,12 @@ class OperationSiren(OSMap):
             OpsiGeneral_DoRandomMapEvent=True,
             OpsiGeneral_AkashiShopFilter='ActionPoint',
         )
-        if not self.config.cross_get(keys='OpsiMeowfficerFarming.Scheduler.Enable', default=False):
+        if not self.config.is_task_enabled('OpsiMeowfficerFarming'):
             self.config.cross_set(keys='OpsiMeowfficerFarming.Scheduler.Enable', value=True)
         while 1:
             # Limited action point preserve of hazard 1 to 200
             self.config.OS_ACTION_POINT_PRESERVE = 200
-            if self.config.OpsiAshBeacon_AshAttack \
+            if self.config.is_task_enabled('OpsiAshBeacon') \
                     and not self._ash_fully_collected \
                     and self.config.OpsiAshBeacon_EnsureFullyCollected:
                 logger.info('Ash beacon not fully collected, ignore action point limit temporarily')

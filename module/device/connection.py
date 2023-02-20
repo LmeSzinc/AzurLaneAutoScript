@@ -496,17 +496,8 @@ class Connection(ConnectionAttr):
         Returns:
             bool: If success
         """
-        # Skip for emulator-5554
-        if 'emulator-' in serial:
-            logger.info(f'"{serial}" is a `emulator-*` serial, skip adb connect')
-            return True
-        if re.match(r'^[a-zA-Z0-9]+$', serial):
-            logger.info(f'"{serial}" seems to be a Android serial, skip adb connect')
-            return True
-
         # Disconnect offline device before connecting
-        device = self.list_device().select(serial=serial).first_or_none()
-        if device:
+        for device in self.list_device():
             if device.status == 'offline':
                 logger.warning(f'Device {serial} is offline, disconnect it before connecting')
                 self.adb_disconnect(serial)
@@ -515,7 +506,15 @@ class Connection(ConnectionAttr):
             elif device.status == 'device':
                 pass
             else:
-                logger.error(f'Device {serial} is is having a unknown status: {device.status}')
+                logger.warning(f'Device {serial} is is having a unknown status: {device.status}')
+
+        # Skip for emulator-5554
+        if 'emulator-' in serial:
+            logger.info(f'"{serial}" is a `emulator-*` serial, skip adb connect')
+            return True
+        if re.match(r'^[a-zA-Z0-9]+$', serial):
+            logger.info(f'"{serial}" seems to be a Android serial, skip adb connect')
+            return True
 
         # Try to connect
         for _ in range(3):

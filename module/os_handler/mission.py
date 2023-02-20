@@ -216,7 +216,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
         Returns:
             bool: If task OpsiExplore is under scheduling.
         """
-        enable = self.config.cross_get(keys='OpsiExplore.Scheduler.Enable', default=False)
+        enable = self.config.is_task_enabled('OpsiExplore')
         next_run = self.config.cross_get(keys='OpsiExplore.Scheduler.NextRun', default=DEFAULT_TIME)
         next_reset = get_os_next_reset()
         logger.attr('OpsiNextReset', next_reset)

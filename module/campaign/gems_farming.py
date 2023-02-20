@@ -24,7 +24,7 @@ class GemsCampaignOverride(CampaignBase):
         If GEMS_LOW_EMOTION_WITHDRAW is True, withdraw combat and change flag ship
         """
         if self.config.GemsFarming_LowEmotionRetreat:
-            if not self.config.Emotion_IgnoreLowEmotionWarn:
+            if not self.emotion.is_ignore:
                 return False
             if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
                 self.config.GEMS_EMOTION_TRIGGRED = True

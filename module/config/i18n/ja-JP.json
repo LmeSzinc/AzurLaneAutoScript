@@ -20,10 +20,6 @@
       "name": "収穫",
       "help": ""
     },
-    "DailyReward": {
-      "name": "毎日収穫",
-      "help": ""
-    },
     "DailyMission": {
       "name": "日課任務",
       "help": ""
@@ -66,6 +62,10 @@
       "name": "Commission Farming",
       "help": ""
     },
+    "Sos": {
+      "name": "Sos",
+      "help": ""
+    },
     "EventGeneral": {
       "name": "イベント共通設定",
       "help": ""
@@ -100,6 +100,10 @@
     },
     "EventSp": {
       "name": "毎日イベント海域SP",
+      "help": ""
+    },
+    "WarArchives": {
+      "name": "作戦履歴",
       "help": ""
     },
     "Raid": {
@@ -142,6 +146,18 @@
       "name": "収穫",
       "help": ""
     },
+    "Daily": {
+      "name": "デイリー",
+      "help": ""
+    },
+    "Hard": {
+      "name": "ハード海域",
+      "help": ""
+    },
+    "Exercise": {
+      "name": "演習",
+      "help": ""
+    },
     "ShopFrequent": {
       "name": "一般ショップ",
       "help": ""
@@ -160,26 +176,6 @@
     },
     "Freebies": {
       "name": "他ギフト",
-      "help": ""
-    },
-    "Daily": {
-      "name": "デイリー",
-      "help": ""
-    },
-    "Hard": {
-      "name": "ハード海域",
-      "help": ""
-    },
-    "Exercise": {
-      "name": "演習",
-      "help": ""
-    },
-    "Sos": {
-      "name": "Sos",
-      "help": ""
-    },
-    "WarArchives": {
-      "name": "作戦履歴",
       "help": ""
     },
     "OpsiGeneral": {
@@ -560,54 +556,78 @@
       "name": "Retirement._info.name",
       "help": "Retirement._info.help"
     },
-    "Enable": {
-      "name": "Retirement.Enable.name",
-      "help": "Retirement.Enable.help"
-    },
     "RetireMode": {
       "name": "Retirement.RetireMode.name",
       "help": "Retirement.RetireMode.help",
       "one_click_retire": "one_click_retire",
       "enhance": "enhance",
       "old_retire": "old_retire"
+    }
+  },
+  "OneClickRetire": {
+    "_info": {
+      "name": "OneClickRetire._info.name",
+      "help": "OneClickRetire._info.help"
+    },
+    "KeepLimitBreak": {
+      "name": "OneClickRetire.KeepLimitBreak.name",
+      "help": "OneClickRetire.KeepLimitBreak.help",
+      "keep_limit_break": "keep_limit_break",
+      "do_not_keep": "do_not_keep"
     },
     "RetireAmount": {
-      "name": "Retirement.RetireAmount.name",
-      "help": "Retirement.RetireAmount.help",
+      "name": "OneClickRetire.RetireAmount.name",
+      "help": "OneClickRetire.RetireAmount.help",
       "retire_all": "retire_all",
       "retire_10": "retire_10"
+    }
+  },
+  "Enhance": {
+    "_info": {
+      "name": "Enhance._info.name",
+      "help": "Enhance._info.help"
     },
-    "EnhanceFavourite": {
-      "name": "Retirement.EnhanceFavourite.name",
-      "help": "Retirement.EnhanceFavourite.help"
+    "ShipToEnhance": {
+      "name": "Enhance.ShipToEnhance.name",
+      "help": "Enhance.ShipToEnhance.help",
+      "all": "all",
+      "favourite": "favourite"
     },
-    "EnhanceFilter": {
-      "name": "Retirement.EnhanceFilter.name",
-      "help": "Retirement.EnhanceFilter.help"
+    "Filter": {
+      "name": "Enhance.Filter.name",
+      "help": "Enhance.Filter.help"
     },
-    "EnhanceCheckPerCategory": {
-      "name": "Retirement.EnhanceCheckPerCategory.name",
-      "help": "Retirement.EnhanceCheckPerCategory.help"
+    "CheckPerCategory": {
+      "name": "Enhance.CheckPerCategory.name",
+      "help": "Enhance.CheckPerCategory.help"
+    }
+  },
+  "OldRetire": {
+    "_info": {
+      "name": "OldRetire._info.name",
+      "help": "OldRetire._info.help"
     },
-    "AllowNoPreserve": {
-      "name": "Retirement.AllowNoPreserve.name",
-      "help": "Retirement.AllowNoPreserve.help"
+    "N": {
+      "name": "OldRetire.N.name",
+      "help": "OldRetire.N.help"
     },
-    "OldRetireN": {
-      "name": "Retirement.OldRetireN.name",
-      "help": "Retirement.OldRetireN.help"
+    "R": {
+      "name": "OldRetire.R.name",
+      "help": "OldRetire.R.help"
     },
-    "OldRetireR": {
-      "name": "Retirement.OldRetireR.name",
-      "help": "Retirement.OldRetireR.help"
+    "SR": {
+      "name": "OldRetire.SR.name",
+      "help": "OldRetire.SR.help"
     },
-    "OldRetireSR": {
-      "name": "Retirement.OldRetireSR.name",
-      "help": "Retirement.OldRetireSR.help"
+    "SSR": {
+      "name": "OldRetire.SSR.name",
+      "help": "OldRetire.SSR.help"
     },
-    "OldRetireSSR": {
-      "name": "Retirement.OldRetireSSR.name",
-      "help": "Retirement.OldRetireSSR.help"
+    "RetireAmount": {
+      "name": "OldRetire.RetireAmount.name",
+      "help": "OldRetire.RetireAmount.help",
+      "retire_all": "retire_all",
+      "retire_10": "retire_10"
     }
   },
   "Campaign": {
@@ -887,13 +907,12 @@
       "name": "Emotion._info.name",
       "help": "Emotion._info.help"
     },
-    "CalculateEmotion": {
-      "name": "Emotion.CalculateEmotion.name",
-      "help": "Emotion.CalculateEmotion.help"
-    },
-    "IgnoreLowEmotionWarn": {
-      "name": "Emotion.IgnoreLowEmotionWarn.name",
-      "help": "Emotion.IgnoreLowEmotionWarn.help"
+    "Mode": {
+      "name": "Emotion.Mode.name",
+      "help": "Emotion.Mode.help",
+      "calculate": "calculate",
+      "ignore": "ignore",
+      "calculate_ignore": "calculate_ignore"
     },
     "Fleet1Value": {
       "name": "Emotion.Fleet1Value.name",
@@ -2056,9 +2075,11 @@
       "name": "OpsiAshBeacon._info.name",
       "help": "OpsiAshBeacon._info.help"
     },
-    "AshAttack": {
-      "name": "OpsiAshBeacon.AshAttack.name",
-      "help": "OpsiAshBeacon.AshAttack.help"
+    "AttackMode": {
+      "name": "OpsiAshBeacon.AttackMode.name",
+      "help": "OpsiAshBeacon.AttackMode.help",
+      "current": "current",
+      "current_dossier": "current_dossier"
     },
     "OneHitMode": {
       "name": "OpsiAshBeacon.OneHitMode.name",
@@ -2071,16 +2092,6 @@
     "EnsureFullyCollected": {
       "name": "OpsiAshBeacon.EnsureFullyCollected.name",
       "help": "OpsiAshBeacon.EnsureFullyCollected.help"
-    }
-  },
-  "OpsiDossierBeacon": {
-    "_info": {
-      "name": "OpsiDossierBeacon._info.name",
-      "help": "OpsiDossierBeacon._info.help"
-    },
-    "Enable": {
-      "name": "OpsiDossierBeacon.Enable.name",
-      "help": "OpsiDossierBeacon.Enable.help"
     }
   },
   "OpsiFleetFilter": {
@@ -2647,6 +2658,8 @@
       "Stop": "中止",
       "ScrollON": "自動スクロール ON",
       "ScrollOFF": "自動スクロール OFF",
+      "DashboardON": "Gui.Button.DashboardON",
+      "DashboardOFF": "Gui.Button.DashboardOFF",
       "ClearLog": "ログクリーニング",
       "Setting": "設定",
       "CheckUpdate": "アップデータチェック",
@@ -2679,11 +2692,6 @@
     },
     "Overview": {
       "Scheduler": "スケジューラー",
-      "Log": "ログ",
-      "Running": "実行中",
-      "Pending": "隊列中",
-      "Waiting": "Waiting",
-      "NoTask": "No Task",
       "Dashboard": "Gui.Overview.Dashboard",
       "SecondsAgo": "Seconds ago",
       "MinutesAgo": "Minutes ago",
@@ -2703,7 +2711,12 @@
       "Merit": "Merit",
       "Medal": "Medal",
       "Core": "Core Data",
-      "GuildCoin": "Guild Coin"
+      "GuildCoin": "Guild Coin",
+      "Log": "ログ",
+      "Running": "実行中",
+      "Pending": "隊列中",
+      "Waiting": "Waiting",
+      "NoTask": "No Task"
     },
     "AddAlas": {
       "PopupTitle": "新しいコンフィグを追加",
