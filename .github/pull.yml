@@ -1,0 +1,16 @@
+version: "1"
+rules:
+  - base: mydev
+    upstream: LmeSzinc:master
+    mergeMethod: merge
+    mergeUnstable: true
+  - base: master
+    upstrem: mydev
+    assignees:
+      - MengNianxiaoyao
+    reviewers:
+      - MengNianxiaoyao
+    conflictReviewers:
+      - MengNianxiaoyao
+label: ":arrow_heading_down: pull"
+conflictLabel: "merge-conflict": true

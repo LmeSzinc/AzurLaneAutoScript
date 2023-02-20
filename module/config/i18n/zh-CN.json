@@ -47,16 +47,24 @@
       "help": ""
     },
     "Main": {
-      "name": "主线图",
+      "name": "主线图-普通",
       "help": ""
     },
     "Main2": {
-      "name": "主线图-2",
+      "name": "主线图-困难",
       "help": ""
     },
     "Main3": {
-      "name": "主线图-3",
+      "name": "主线图",
       "help": ""
+    },
+    "Main4": {
+      "name": "主线图-2",
+      "help": ""
+    },
+    "WarArchives": {
+      "name": "作战档案",
+      "help": "由于作战档案缺少维护，开荒功能不一定能正常使用，如果发现Alas运行异常，请手动完成开荒后使用自律寻敌功能"
     },
     "GemsFarming": {
       "name": "刷紧急委托",
@@ -78,6 +86,10 @@
       "name": "活动图-2",
       "help": ""
     },
+    "Event3": {
+      "name": "活动图-3",
+      "help": ""
+    },
     "EventA": {
       "name": "活动每日A图",
       "help": ""
@@ -97,10 +109,6 @@
     "EventSp": {
       "name": "活动每日SP图",
       "help": ""
-    },
-    "WarArchives": {
-      "name": "作战档案",
-      "help": "由于作战档案缺少维护，开荒功能不一定能正常使用，如果发现Alas运行异常，请手动完成开荒后使用自律寻敌功能"
     },
     "Raid": {
       "name": "共斗活动",
@@ -804,7 +812,7 @@
       "diamond": "轮形阵"
     },
     "Fleet1Mode": {
-      "name": "一队自律模式",
+      "name": "一队行动模式",
       "help": "",
       "combat_auto": "自律战斗",
       "combat_manual": "手操",
@@ -838,7 +846,7 @@
       "diamond": "轮形阵"
     },
     "Fleet2Mode": {
-      "name": "二队自律模式",
+      "name": "二队行动模式",
       "help": "",
       "combat_auto": "自律战斗",
       "combat_manual": "手操",
@@ -1128,7 +1136,7 @@
     },
     "TimeLimit": {
       "name": "活动时间限制",
-      "help": "当本地时间超过给定数值后，禁用所有活动任务，'2020-01-01 00:00:00' 表示不限制，触发一次后时间将被重置\n设置后能防止活动结束后忘记关闭任务的事情发生"
+      "help": "当本地时间超过给定数值后，禁用所有活动任务，'2023-01-01 00:00:00' 表示不限制，触发一次后时间将被重置\n设置后能防止活动结束后忘记关闭任务的事情发生"
     }
   },
   "TaskBalancer": {
@@ -1147,9 +1155,10 @@
     "TaskCall": {
       "name": "物资过低时呼叫任务X",
       "help": "提醒: 玩家需提前设置好被调用的任务，否则将不会作用",
-      "Main": "主线图",
-      "Main2": "主线图-2",
-      "Main3": "主线图-3"
+      "Main": "主线图-普通",
+      "Main2": "主线图-困难",
+      "Main3": "主线图",
+      "Main4": "主线图-2"
     }
   },
   "EventDaily": {
@@ -2112,6 +2121,14 @@
       "3": "3",
       "4": "4"
     },
+    "FleetMode": {
+      "name": "行动模式",
+      "help": "",
+      "combat_auto": "自律战斗",
+      "combat_manual": "手操",
+      "stand_still_in_the_middle": "中路站桩",
+      "hide_in_bottom_left": "躲左下角"
+    },
     "Submarine": {
       "name": "呼叫潜艇",
       "help": "开启后，运行间隔将增加至60分钟"
@@ -2323,6 +2340,305 @@
       "help": "游戏被强制结束后自动登录游戏"
     }
   },
+  "GGHandler": {
+    "_info": {
+      "name": "GG管理器",
+      "help": ""
+    },
+    "Enabled": {
+      "name": "启用该功能",
+      "help": "注意事项！若GG打开则应该启用该功能以达成防弹窗卡重启\n只能使用指定的lua，会自动推送至/sdcard/Notes/Multiplier.lua\n演习，共斗，Meta信标时会自动关闭倍率"
+    },
+    "ServerLocation": {
+      "name": "服务器地区",
+      "help": "",
+      "cn": "国服",
+      "jp": "日服",
+      "en": "国际服",
+      "tw": "台服"
+    },
+    "GGMethod": {
+      "name": "GG操作方法",
+      "help": "推荐UiAutomator2，但未填写包名时会使用截图\n截图兼容性较差（已知逍遥模拟器无法使用）\n无法安装UiAutomator2（如红手指，vmos环境，以及蓝叠模拟器大概率有问题）时可尝试使用\n使用截图时，开启模拟器后需要手动打开GG，将GG悬浮窗遮挡住石油图标。第一次使用还需要手动指定好lua路径。",
+      "screenshot": "截图",
+      "u2": "UiAutomator2"
+    },
+    "GGPackageName": {
+      "name": "GG包名",
+      "help": "GG安装后请自行前往/Android/Data文件夹查看包名，应是com.一串乱码"
+    },
+    "AutoRestartGG": {
+      "name": "启用倍率",
+      "help": "总开关，打开后才会开启倍率模式"
+    },
+    "RestartEverytime": {
+      "name": "每次启动Alas时重启",
+      "help": "打开以初始化倍率属性。如果你没有手动操作的坏习惯，可以关闭此选项"
+    },
+    "GGMultiplyingFactor": {
+      "name": "倍率",
+      "help": "建议数值1-9999，没做数字检查，乱输后果自负"
+    },
+    "DisabledTask": {
+      "name": "禁用倍率的项目",
+      "help": "会关闭倍率的项目，建议敏感项目全关。打开的项目导致封号后果自负。\n敏感项目：共斗，Meta与演习\n注意：战力限制依旧生效，但大舰队没有这个玩意无法检测\n（虽然大舰队无所谓，只是一直有人问才加的）。",
+      "disable_all_dangerous_task": "禁用敏感项目",
+      "disable_guild_and_dangerous": "禁用大舰队，以及敏感项目",
+      "disable_meta_and_exercise": "禁用Meta和演习",
+      "disable_exercise": "禁用演习",
+      "enable_all": "百无禁忌"
+    },
+    "ALLowLowLevelInGemsFarming": {
+      "name": "刷紧急委托可更换低等级前排",
+      "help": "倍率打开时，刷紧急委托时前排等级限制改为10以上即可"
+    }
+  },
+  "PowerLimit": {
+    "_info": {
+      "name": "战力限制",
+      "help": "敏感项目前的最后一道保险\n若前排战力高于此值强制重启，并视为需要使用GG（打开GG开关以及GG自动重启倍率开关）"
+    },
+    "Exercise": {
+      "name": "演习",
+      "help": ""
+    },
+    "Raid": {
+      "name": "共斗",
+      "help": ""
+    },
+    "Ash": {
+      "name": "余烬信标",
+      "help": ""
+    }
+  },
+  "Oil": {
+    "_info": {
+      "name": "Oil._info.name",
+      "help": "Oil._info.help"
+    },
+    "Value": {
+      "name": "Oil.Value.name",
+      "help": "Oil.Value.help"
+    },
+    "Limit": {
+      "name": "Oil.Limit.name",
+      "help": "Oil.Limit.help"
+    },
+    "Color": {
+      "name": "Oil.Color.name",
+      "help": "Oil.Color.help"
+    },
+    "Record": {
+      "name": "Oil.Record.name",
+      "help": "Oil.Record.help"
+    }
+  },
+  "Coin": {
+    "_info": {
+      "name": "Coin._info.name",
+      "help": "Coin._info.help"
+    },
+    "Value": {
+      "name": "Coin.Value.name",
+      "help": "Coin.Value.help"
+    },
+    "Limit": {
+      "name": "Coin.Limit.name",
+      "help": "Coin.Limit.help"
+    },
+    "Color": {
+      "name": "Coin.Color.name",
+      "help": "Coin.Color.help"
+    },
+    "Record": {
+      "name": "Coin.Record.name",
+      "help": "Coin.Record.help"
+    }
+  },
+  "Gem": {
+    "_info": {
+      "name": "Gem._info.name",
+      "help": "Gem._info.help"
+    },
+    "Value": {
+      "name": "Gem.Value.name",
+      "help": "Gem.Value.help"
+    },
+    "Color": {
+      "name": "Gem.Color.name",
+      "help": "Gem.Color.help"
+    },
+    "Record": {
+      "name": "Gem.Record.name",
+      "help": "Gem.Record.help"
+    }
+  },
+  "Pt": {
+    "_info": {
+      "name": "Pt._info.name",
+      "help": "Pt._info.help"
+    },
+    "Value": {
+      "name": "Pt.Value.name",
+      "help": "Pt.Value.help"
+    },
+    "Color": {
+      "name": "Pt.Color.name",
+      "help": "Pt.Color.help"
+    },
+    "Record": {
+      "name": "Pt.Record.name",
+      "help": "Pt.Record.help"
+    }
+  },
+  "YellowCoin": {
+    "_info": {
+      "name": "YellowCoin._info.name",
+      "help": "YellowCoin._info.help"
+    },
+    "Value": {
+      "name": "YellowCoin.Value.name",
+      "help": "YellowCoin.Value.help"
+    },
+    "Color": {
+      "name": "YellowCoin.Color.name",
+      "help": "YellowCoin.Color.help"
+    },
+    "Record": {
+      "name": "YellowCoin.Record.name",
+      "help": "YellowCoin.Record.help"
+    }
+  },
+  "PurpleCoin": {
+    "_info": {
+      "name": "PurpleCoin._info.name",
+      "help": "PurpleCoin._info.help"
+    },
+    "Value": {
+      "name": "PurpleCoin.Value.name",
+      "help": "PurpleCoin.Value.help"
+    },
+    "Color": {
+      "name": "PurpleCoin.Color.name",
+      "help": "PurpleCoin.Color.help"
+    },
+    "Record": {
+      "name": "PurpleCoin.Record.name",
+      "help": "PurpleCoin.Record.help"
+    }
+  },
+  "ActionPoint": {
+    "_info": {
+      "name": "ActionPoint._info.name",
+      "help": "ActionPoint._info.help"
+    },
+    "Value": {
+      "name": "ActionPoint.Value.name",
+      "help": "ActionPoint.Value.help"
+    },
+    "Total": {
+      "name": "ActionPoint.Total.name",
+      "help": "ActionPoint.Total.help"
+    },
+    "Color": {
+      "name": "ActionPoint.Color.name",
+      "help": "ActionPoint.Color.help"
+    },
+    "Record": {
+      "name": "ActionPoint.Record.name",
+      "help": "ActionPoint.Record.help"
+    }
+  },
+  "Merit": {
+    "_info": {
+      "name": "Merit._info.name",
+      "help": "Merit._info.help"
+    },
+    "Value": {
+      "name": "Merit.Value.name",
+      "help": "Merit.Value.help"
+    },
+    "Color": {
+      "name": "Merit.Color.name",
+      "help": "Merit.Color.help"
+    },
+    "Record": {
+      "name": "Merit.Record.name",
+      "help": "Merit.Record.help"
+    }
+  },
+  "Cube": {
+    "_info": {
+      "name": "Cube._info.name",
+      "help": "Cube._info.help"
+    },
+    "Value": {
+      "name": "Cube.Value.name",
+      "help": "Cube.Value.help"
+    },
+    "Color": {
+      "name": "Cube.Color.name",
+      "help": "Cube.Color.help"
+    },
+    "Record": {
+      "name": "Cube.Record.name",
+      "help": "Cube.Record.help"
+    }
+  },
+  "Core": {
+    "_info": {
+      "name": "Core._info.name",
+      "help": "Core._info.help"
+    },
+    "Value": {
+      "name": "Core.Value.name",
+      "help": "Core.Value.help"
+    },
+    "Color": {
+      "name": "Core.Color.name",
+      "help": "Core.Color.help"
+    },
+    "Record": {
+      "name": "Core.Record.name",
+      "help": "Core.Record.help"
+    }
+  },
+  "Medal": {
+    "_info": {
+      "name": "Medal._info.name",
+      "help": "Medal._info.help"
+    },
+    "Value": {
+      "name": "Medal.Value.name",
+      "help": "Medal.Value.help"
+    },
+    "Color": {
+      "name": "Medal.Color.name",
+      "help": "Medal.Color.help"
+    },
+    "Record": {
+      "name": "Medal.Record.name",
+      "help": "Medal.Record.help"
+    }
+  },
+  "GuildCoin": {
+    "_info": {
+      "name": "GuildCoin._info.name",
+      "help": "GuildCoin._info.help"
+    },
+    "Value": {
+      "name": "GuildCoin.Value.name",
+      "help": "GuildCoin.Value.help"
+    },
+    "Color": {
+      "name": "GuildCoin.Color.name",
+      "help": "GuildCoin.Color.help"
+    },
+    "Record": {
+      "name": "GuildCoin.Record.name",
+      "help": "GuildCoin.Record.help"
+    }
+  },
   "Storage": {
     "_info": {
       "name": "任务状态",
@@ -2346,6 +2662,8 @@
       "Stop": "停止",
       "ScrollON": "自动滚动 开",
       "ScrollOFF": "自动滚动 关",
+      "DashboardON": "折叠",
+      "DashboardOFF": "展开",
       "ClearLog": "清空日志",
       "Setting": "设置",
       "CheckUpdate": "检查更新",
@@ -2357,7 +2675,9 @@
       "DisableTranslateMode": "点击这里关闭翻译模式",
       "ConfigSaved": "设置已保存",
       "AlasIsRunning": "调度器已在运行中",
-      "ClickToUpdate": "有更新可用，点击这里进行更新"
+      "ClickToUpdate": "有更新可用，点击这里进行更新",
+      "AlasRestart": "Alas将于3秒后重启",
+      "ReloadEnabled": "重新加载未启用"
     },
     "Status": {
       "Running": "运行中",
@@ -2374,10 +2694,32 @@
       "Translate": "翻译",
       "Update": "更新器",
       "Remote": "远程控制",
-      "Utils": "工具"
+      "Utils": "工具",
+      "RaiseException": "抛出异常",
+      "ForceRestart": "强制重启"
     },
     "Overview": {
       "Scheduler": "调度器",
+      "Dashboard": "仪表盘",
+      "SecondsAgo": "秒前",
+      "MinutesAgo": "分钟前",
+      "HoursAgo": "小时前",
+      "DaysAgo": "天前",
+      "MonthsAgo": "月前",
+      "YearsAgo": "年前",
+      "NoData": "无数据",
+      "Oil": "石油",
+      "Coin": "物资",
+      "Gem": "钻石",
+      "Cube": "魔方",
+      "Pt": "活动PT",
+      "YellowCoin": "大世界黄币",
+      "PurpleCoin": "大世界紫币",
+      "ActionPoint": "行动力",
+      "Merit": "功勋",
+      "Medal": "勋章",
+      "Core": "核心数据",
+      "GuildCoin": "舰队币",
       "Log": "日志",
       "Running": "运行中",
       "Pending": "队列中",

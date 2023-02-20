@@ -11,7 +11,7 @@ class GeneratedConfig:
 
     # Group `Scheduler`
     Scheduler_Enable = False
-    Scheduler_NextRun = datetime.datetime(2020, 1, 1, 0, 0)
+    Scheduler_NextRun = datetime.datetime(2023, 1, 1, 0, 0)
     Scheduler_Command = 'Alas'
     Scheduler_SuccessInterval = 0
     Scheduler_FailureInterval = 120
@@ -112,12 +112,12 @@ class GeneratedConfig:
     # Group `Emotion`
     Emotion_Mode = 'calculate'  # calculate, ignore, calculate_ignore
     Emotion_Fleet1Value = 119
-    Emotion_Fleet1Record = datetime.datetime(2020, 1, 1, 0, 0)
+    Emotion_Fleet1Record = datetime.datetime(2023, 1, 1, 0, 0)
     Emotion_Fleet1Control = 'prevent_yellow_face'  # keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face
     Emotion_Fleet1Recover = 'not_in_dormitory'  # not_in_dormitory, dormitory_floor_1, dormitory_floor_2
     Emotion_Fleet1Oath = False
     Emotion_Fleet2Value = 119
-    Emotion_Fleet2Record = datetime.datetime(2020, 1, 1, 0, 0)
+    Emotion_Fleet2Record = datetime.datetime(2023, 1, 1, 0, 0)
     Emotion_Fleet2Control = 'prevent_yellow_face'  # keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face
     Emotion_Fleet2Recover = 'not_in_dormitory'  # not_in_dormitory, dormitory_floor_1, dormitory_floor_2
     Emotion_Fleet2Oath = False
@@ -160,12 +160,12 @@ class GeneratedConfig:
 
     # Group `EventGeneral`
     EventGeneral_PtLimit = 0
-    EventGeneral_TimeLimit = datetime.datetime(2020, 1, 1, 0, 0)
+    EventGeneral_TimeLimit = datetime.datetime(2023, 1, 1, 0, 0)
 
     # Group `TaskBalancer`
     TaskBalancer_Enable = False
     TaskBalancer_CoinLimit = 10000
-    TaskBalancer_TaskCall = 'Main'  # Main, Main2, Main3
+    TaskBalancer_TaskCall = 'Main3'  # Main, Main2, Main3, Main4
 
     # Group `EventDaily`
     EventDaily_StageFilter = 'A1 > A2 > A3'
@@ -339,7 +339,7 @@ class GeneratedConfig:
     Exercise_LowHpThreshold = 0.4
     Exercise_LowHpConfirmWait = 0.1
     Exercise_OpponentRefreshValue = 0
-    Exercise_OpponentRefreshRecord = datetime.datetime(2020, 1, 1, 0, 0)
+    Exercise_OpponentRefreshRecord = datetime.datetime(2023, 1, 1, 0, 0)
 
     # Group `Sos`
     Sos_Chapter = 3  # 3, 4, 5, 6, 7, 8, 9, 10
@@ -366,6 +366,7 @@ class GeneratedConfig:
 
     # Group `OpsiFleet`
     OpsiFleet_Fleet = 1  # 1, 2, 3, 4
+    OpsiFleet_FleetMode = 'combat_auto'  # combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left
     OpsiFleet_Submarine = False
 
     # Group `OpsiExplore`
@@ -421,6 +422,85 @@ class GeneratedConfig:
 
     # Group `GameManager`
     GameManager_AutoRestart = True
+
+    # Group `GGHandler`
+    GGHandler_Enabled = False
+    GGHandler_ServerLocation = 'cn'  # cn, jp, en, tw
+    GGHandler_GGMethod = 'u2'  # screenshot, u2
+    GGHandler_GGPackageName = 'com.'
+    GGHandler_AutoRestartGG = False
+    GGHandler_RestartEverytime = True
+    GGHandler_GGMultiplyingFactor = 200
+    GGHandler_DisabledTask = 'disable_all_dangerous_task'  # disable_all_dangerous_task, disable_guild_and_dangerous, disable_meta_and_exercise, disable_exercise, enable_all
+    GGHandler_ALLowLowLevelInGemsFarming = False
+
+    # Group `PowerLimit`
+    PowerLimit_Exercise = 16500
+    PowerLimit_Raid = 16500
+    PowerLimit_Ash = 16500
+
+    # Group `Oil`
+    Oil_Value = 0
+    Oil_Limit = 0
+    Oil_Color = '^000000'
+    Oil_Record = datetime.datetime(2023, 1, 1, 0, 0)
+
+    # Group `Coin`
+    Coin_Value = 0
+    Coin_Limit = 0
+    Coin_Color = '^000000'
+    Coin_Record = datetime.datetime(2023, 1, 1, 0, 0)
+
+    # Group `Gem`
+    Gem_Value = 0
+    Gem_Color = '^000000'
+    Gem_Record = datetime.datetime(2023, 1, 1, 0, 0)
+
+    # Group `Pt`
+    Pt_Value = 0
+    Pt_Color = '^000000'
+    Pt_Record = datetime.datetime(2023, 1, 1, 0, 0)
+
+    # Group `YellowCoin`
+    YellowCoin_Value = 0
+    YellowCoin_Color = '^000000'
+    YellowCoin_Record = datetime.datetime(2023, 1, 1, 0, 0)
+
+    # Group `PurpleCoin`
+    PurpleCoin_Value = 0
+    PurpleCoin_Color = '^000000'
+    PurpleCoin_Record = datetime.datetime(2023, 1, 1, 0, 0)
+
+    # Group `ActionPoint`
+    ActionPoint_Value = 0
+    ActionPoint_Total = 0
+    ActionPoint_Color = '^000000'
+    ActionPoint_Record = datetime.datetime(2023, 1, 1, 0, 0)
+
+    # Group `Merit`
+    Merit_Value = 0
+    Merit_Color = '^000000'
+    Merit_Record = datetime.datetime(2023, 1, 1, 0, 0)
+
+    # Group `Cube`
+    Cube_Value = 0
+    Cube_Color = '^000000'
+    Cube_Record = datetime.datetime(2023, 1, 1, 0, 0)
+
+    # Group `Core`
+    Core_Value = 0
+    Core_Color = '^000000'
+    Core_Record = datetime.datetime(2023, 1, 1, 0, 0)
+
+    # Group `Medal`
+    Medal_Value = 0
+    Medal_Color = '^000000'
+    Medal_Record = datetime.datetime(2023, 1, 1, 0, 0)
+
+    # Group `GuildCoin`
+    GuildCoin_Value = 0
+    GuildCoin_Color = '^000000'
+    GuildCoin_Record = datetime.datetime(2023, 1, 1, 0, 0)
 
     # Group `Storage`
     Storage_Storage = {}

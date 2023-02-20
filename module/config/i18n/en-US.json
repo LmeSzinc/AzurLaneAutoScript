@@ -58,6 +58,14 @@
       "name": "Main-3",
       "help": ""
     },
+    "Main4": {
+      "name": "Main-4",
+      "help": ""
+    },
+    "WarArchives": {
+      "name": "War Archives",
+      "help": "Due to the lack of maintenance of war archives, continuous clear may not work normally, if Alas runs abnormally, Please manually finish clearing and use auto search"
+    },
     "GemsFarming": {
       "name": "Commission Farming",
       "help": ""
@@ -78,6 +86,10 @@
       "name": "Event-2",
       "help": ""
     },
+    "Event3": {
+      "name": "Event-3",
+      "help": "Task.Event3.help"
+    },
     "EventA": {
       "name": "Event Daily A",
       "help": ""
@@ -97,10 +109,6 @@
     "EventSp": {
       "name": "Event Daily SP",
       "help": ""
-    },
-    "WarArchives": {
-      "name": "War Archives",
-      "help": "Due to the lack of maintenance of war archives, continuous clear may not work normally, if Alas runs abnormally, Please manually finish clearing and use auto search"
     },
     "Raid": {
       "name": "Raid",
@@ -804,7 +812,7 @@
       "diamond": "diamond"
     },
     "Fleet1Mode": {
-      "name": "Fleet 1 Mode",
+      "name": "Fleet1 Action Mode",
       "help": "",
       "combat_auto": "combat_auto",
       "combat_manual": "combat_manual",
@@ -838,7 +846,7 @@
       "diamond": "diamond"
     },
     "Fleet2Mode": {
-      "name": "Fleet 2 Mode",
+      "name": "Fleet2 Action Mode",
       "help": "",
       "combat_auto": "combat_auto",
       "combat_manual": "combat_manual",
@@ -1128,7 +1136,7 @@
     },
     "TimeLimit": {
       "name": "Event Time Limit",
-      "help": "When the local time exceeds the given value, disable all event tasks. '2020-01-01 00:00:00' means no limit and the time will be reset once it's triggered\nThis can prevent the occurrence of forgetting to disable event tasks after the event ends"
+      "help": "When the local time exceeds the given value, disable all event tasks. '2023-01-01 00:00:00' means no limit and the time will be reset once it's triggered\nThis can prevent the occurrence of forgetting to disable event tasks after the event ends"
     }
   },
   "TaskBalancer": {
@@ -1149,7 +1157,8 @@
       "help": "Reminder: Players need to check task config before running, or TaskCall may not work.",
       "Main": "Main",
       "Main2": "Main-2",
-      "Main3": "Main-3"
+      "Main3": "Main-3",
+      "Main4": "Main-4"
     }
   },
   "EventDaily": {
@@ -2112,6 +2121,14 @@
       "3": "3",
       "4": "4"
     },
+    "FleetMode": {
+      "name": "Action Mode",
+      "help": "",
+      "combat_auto": "combat_auto",
+      "combat_manual": "combat_manual",
+      "stand_still_in_the_middle": "stand_still_in_the_middle",
+      "hide_in_bottom_left": "hide_in_bottom_left"
+    },
     "Submarine": {
       "name": "Call Submarine",
       "help": "If enabled, interval increases from 30 to 60 minutes instead"
@@ -2323,6 +2340,305 @@
       "help": "Log back into the game when the game has been ended."
     }
   },
+  "GGHandler": {
+    "_info": {
+      "name": "GG Handler",
+      "help": ""
+    },
+    "Enabled": {
+      "name": "Enabled",
+      "help": ""
+    },
+    "ServerLocation": {
+      "name": "Server location",
+      "help": "",
+      "cn": "CN",
+      "jp": "JP",
+      "en": "EN",
+      "tw": "TW"
+    },
+    "GGMethod": {
+      "name": "Control Method",
+      "help": "Screenshot is slow and has some bugs, only for environments that not support UiAutomator",
+      "screenshot": "Screenshot",
+      "u2": "UiAutomator"
+    },
+    "GGPackageName": {
+      "name": "GG Package Name",
+      "help": "In /Android/data/com.xxxxxxx. (xxxxxxx means a lot of random characters)"
+    },
+    "AutoRestartGG": {
+      "name": "Auto Restart GG",
+      "help": "Start GG before tasks"
+    },
+    "RestartEverytime": {
+      "name": "Restart Everytime Alas starts",
+      "help": "For sake of safety"
+    },
+    "GGMultiplyingFactor": {
+      "name": "GG Multiplying Factor",
+      "help": "1 - 9999 Recommended"
+    },
+    "DisabledTask": {
+      "name": "Disabled Tasks",
+      "help": "",
+      "disable_all_dangerous_task": "Disable_all_dangerous_task",
+      "disable_guild_and_dangerous": "disable_guild_and_dangerous",
+      "disable_meta_and_exercise": "Disable_meta_and_exercise",
+      "disable_exercise": "Disable_exercise",
+      "enable_all": "Enable_all"
+    },
+    "ALLowLowLevelInGemsFarming": {
+      "name": "ALLow Low Level In GemsFarming",
+      "help": "Destryers over level 10 will now be used."
+    }
+  },
+  "PowerLimit": {
+    "_info": {
+      "name": "Power Limit",
+      "help": "Power over this will cause a restart and enable GG in config"
+    },
+    "Exercise": {
+      "name": "Exercise",
+      "help": ""
+    },
+    "Raid": {
+      "name": "Raid",
+      "help": ""
+    },
+    "Ash": {
+      "name": "Ash",
+      "help": ""
+    }
+  },
+  "Oil": {
+    "_info": {
+      "name": "Oil._info.name",
+      "help": "Oil._info.help"
+    },
+    "Value": {
+      "name": "Oil.Value.name",
+      "help": "Oil.Value.help"
+    },
+    "Limit": {
+      "name": "Oil.Limit.name",
+      "help": "Oil.Limit.help"
+    },
+    "Color": {
+      "name": "Oil.Color.name",
+      "help": "Oil.Color.help"
+    },
+    "Record": {
+      "name": "Oil.Record.name",
+      "help": "Oil.Record.help"
+    }
+  },
+  "Coin": {
+    "_info": {
+      "name": "Coin._info.name",
+      "help": "Coin._info.help"
+    },
+    "Value": {
+      "name": "Coin.Value.name",
+      "help": "Coin.Value.help"
+    },
+    "Limit": {
+      "name": "Coin.Limit.name",
+      "help": "Coin.Limit.help"
+    },
+    "Color": {
+      "name": "Coin.Color.name",
+      "help": "Coin.Color.help"
+    },
+    "Record": {
+      "name": "Coin.Record.name",
+      "help": "Coin.Record.help"
+    }
+  },
+  "Gem": {
+    "_info": {
+      "name": "Gem._info.name",
+      "help": "Gem._info.help"
+    },
+    "Value": {
+      "name": "Gem.Value.name",
+      "help": "Gem.Value.help"
+    },
+    "Color": {
+      "name": "Gem.Color.name",
+      "help": "Gem.Color.help"
+    },
+    "Record": {
+      "name": "Gem.Record.name",
+      "help": "Gem.Record.help"
+    }
+  },
+  "Pt": {
+    "_info": {
+      "name": "Pt._info.name",
+      "help": "Pt._info.help"
+    },
+    "Value": {
+      "name": "Pt.Value.name",
+      "help": "Pt.Value.help"
+    },
+    "Color": {
+      "name": "Pt.Color.name",
+      "help": "Pt.Color.help"
+    },
+    "Record": {
+      "name": "Pt.Record.name",
+      "help": "Pt.Record.help"
+    }
+  },
+  "YellowCoin": {
+    "_info": {
+      "name": "YellowCoin._info.name",
+      "help": "YellowCoin._info.help"
+    },
+    "Value": {
+      "name": "YellowCoin.Value.name",
+      "help": "YellowCoin.Value.help"
+    },
+    "Color": {
+      "name": "YellowCoin.Color.name",
+      "help": "YellowCoin.Color.help"
+    },
+    "Record": {
+      "name": "YellowCoin.Record.name",
+      "help": "YellowCoin.Record.help"
+    }
+  },
+  "PurpleCoin": {
+    "_info": {
+      "name": "PurpleCoin._info.name",
+      "help": "PurpleCoin._info.help"
+    },
+    "Value": {
+      "name": "PurpleCoin.Value.name",
+      "help": "PurpleCoin.Value.help"
+    },
+    "Color": {
+      "name": "PurpleCoin.Color.name",
+      "help": "PurpleCoin.Color.help"
+    },
+    "Record": {
+      "name": "PurpleCoin.Record.name",
+      "help": "PurpleCoin.Record.help"
+    }
+  },
+  "ActionPoint": {
+    "_info": {
+      "name": "ActionPoint._info.name",
+      "help": "ActionPoint._info.help"
+    },
+    "Value": {
+      "name": "ActionPoint.Value.name",
+      "help": "ActionPoint.Value.help"
+    },
+    "Total": {
+      "name": "ActionPoint.Total.name",
+      "help": "ActionPoint.Total.help"
+    },
+    "Color": {
+      "name": "ActionPoint.Color.name",
+      "help": "ActionPoint.Color.help"
+    },
+    "Record": {
+      "name": "ActionPoint.Record.name",
+      "help": "ActionPoint.Record.help"
+    }
+  },
+  "Merit": {
+    "_info": {
+      "name": "Merit._info.name",
+      "help": "Merit._info.help"
+    },
+    "Value": {
+      "name": "Merit.Value.name",
+      "help": "Merit.Value.help"
+    },
+    "Color": {
+      "name": "Merit.Color.name",
+      "help": "Merit.Color.help"
+    },
+    "Record": {
+      "name": "Merit.Record.name",
+      "help": "Merit.Record.help"
+    }
+  },
+  "Cube": {
+    "_info": {
+      "name": "Cube._info.name",
+      "help": "Cube._info.help"
+    },
+    "Value": {
+      "name": "Cube.Value.name",
+      "help": "Cube.Value.help"
+    },
+    "Color": {
+      "name": "Cube.Color.name",
+      "help": "Cube.Color.help"
+    },
+    "Record": {
+      "name": "Cube.Record.name",
+      "help": "Cube.Record.help"
+    }
+  },
+  "Core": {
+    "_info": {
+      "name": "Core._info.name",
+      "help": "Core._info.help"
+    },
+    "Value": {
+      "name": "Core.Value.name",
+      "help": "Core.Value.help"
+    },
+    "Color": {
+      "name": "Core.Color.name",
+      "help": "Core.Color.help"
+    },
+    "Record": {
+      "name": "Core.Record.name",
+      "help": "Core.Record.help"
+    }
+  },
+  "Medal": {
+    "_info": {
+      "name": "Medal._info.name",
+      "help": "Medal._info.help"
+    },
+    "Value": {
+      "name": "Medal.Value.name",
+      "help": "Medal.Value.help"
+    },
+    "Color": {
+      "name": "Medal.Color.name",
+      "help": "Medal.Color.help"
+    },
+    "Record": {
+      "name": "Medal.Record.name",
+      "help": "Medal.Record.help"
+    }
+  },
+  "GuildCoin": {
+    "_info": {
+      "name": "GuildCoin._info.name",
+      "help": "GuildCoin._info.help"
+    },
+    "Value": {
+      "name": "GuildCoin.Value.name",
+      "help": "GuildCoin.Value.help"
+    },
+    "Color": {
+      "name": "GuildCoin.Color.name",
+      "help": "GuildCoin.Color.help"
+    },
+    "Record": {
+      "name": "GuildCoin.Record.name",
+      "help": "GuildCoin.Record.help"
+    }
+  },
   "Storage": {
     "_info": {
       "name": "Task status",
@@ -2346,6 +2662,8 @@
       "Stop": "Stop",
       "ScrollON": "Auto Scroll ON",
       "ScrollOFF": "Auto Scroll OFF",
+      "DashboardON": "Fold",
+      "DashboardOFF": "Unfold",
       "ClearLog": "Clear Log",
       "Setting": "Setting",
       "CheckUpdate": "Check update",
@@ -2357,7 +2675,9 @@
       "DisableTranslateMode": "Click here to disable translate mode",
       "ConfigSaved": "Config saved",
       "AlasIsRunning": "Scheduler is already running",
-      "ClickToUpdate": "New update avaliable, click here to update"
+      "ClickToUpdate": "New update avaliable, click here to update",
+      "AlasRestart": "Alas will restart in 3 seconds",
+      "ReloadEnabled": "Reload not enabled"
     },
     "Status": {
       "Running": "Running",
@@ -2374,10 +2694,32 @@
       "Translate": "Translate",
       "Update": "Updater",
       "Remote": "Remote access",
-      "Utils": "Utils"
+      "Utils": "Utils",
+      "RaiseException": "Raise Exception",
+      "ForceRestart": "Force Restart"
     },
     "Overview": {
       "Scheduler": "Scheduler",
+      "Dashboard": "Gui.Overview.Dashboard",
+      "SecondsAgo": "Seconds ago",
+      "MinutesAgo": "Minutes ago",
+      "HoursAgo": "Hours ago",
+      "DaysAgo": "Days ago",
+      "MonthsAgo": "Months ago",
+      "YearsAgo": "Years ago",
+      "NoData": "No data",
+      "Oil": "Oil",
+      "Coin": "Coin",
+      "Gem": "Gem",
+      "Cube": "Cube",
+      "Pt": "Event Pt",
+      "YellowCoin": "Operation Supply Coin",
+      "PurpleCoin": "Special Item Token",
+      "ActionPoint": "Action Point",
+      "Merit": "Merit",
+      "Medal": "Medal",
+      "Core": "Core Data",
+      "GuildCoin": "Guild Coin",
       "Log": "Log",
       "Running": "Running",
       "Pending": "Pending",

@@ -9,6 +9,8 @@
       "Main",
       "Main2",
       "Main3",
+      "Main4",
+      "WarArchives",
       "GemsFarming",
       "Sos"
     ],
@@ -16,24 +18,24 @@
       "EventGeneral",
       "Event",
       "Event2",
+      "Event3",
       "EventA",
       "EventB",
       "EventC",
       "EventD",
       "EventSp",
-      "WarArchives",
       "Raid",
       "RaidDaily",
       "MaritimeEscort"
     ],
     "Reward": [
+      "Reward",
       "Commission",
-      "Tactical",
       "Research",
+      "Tactical",
       "Dorm",
       "Meowfficer",
-      "Guild",
-      "Reward"
+      "Guild"
     ],
     "DailyMission": [
       "Daily",

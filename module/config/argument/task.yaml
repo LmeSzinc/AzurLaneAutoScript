@@ -2,6 +2,7 @@
 # Define argument group of tasks.
 # --------------------
 
+
 # ==================== Alas ====================
 
 Alas:
@@ -47,6 +48,24 @@ Main3:
   - Emotion
   - HpControl
   - EnemyPriority
+Main4:
+  - Scheduler
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
+WarArchives:
+  - Scheduler
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
 GemsFarming:
   - Scheduler
   - GemsFarming
@@ -82,6 +101,15 @@ Event:
   - HpControl
   - EnemyPriority
 Event2:
+  - Scheduler
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
+Event3:
   - Scheduler
   - Campaign
   - StopCondition
@@ -139,15 +167,6 @@ EventSp:
   - Emotion
   - HpControl
   - EnemyPriority
-WarArchives:
-  - Scheduler
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
 Raid:
   - Scheduler
   - Raid
@@ -166,17 +185,20 @@ MaritimeEscort:
 
 # ==================== Reward ====================
 
+Reward:
+  - Scheduler
+  - Reward
 Commission:
   - Scheduler
   - Commission
+Research:
+  - Scheduler
+  - Research
 Tactical:
   - Scheduler
   - Tactical
   - ControlExpOverflow
   - AddNewStudent
-Research:
-  - Scheduler
-  - Research
 Dorm:
   - Scheduler
   - Dorm
@@ -188,9 +210,6 @@ Guild:
   - Scheduler
   - GuildLogistics
   - GuildOperation
-Reward:
-  - Scheduler
-  - Reward
 
 # ==================== DailyMission ====================
 
@@ -293,3 +312,5 @@ AzurLaneUncensored:
   - AzurLaneUncensored
 GameManager:
   - GameManager
+  - GGHandler
+  - PowerLimit

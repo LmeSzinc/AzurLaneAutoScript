@@ -69,7 +69,7 @@
   "Restart": {
     "Scheduler": {
       "Enable": true,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "Restart",
       "SuccessInterval": 0,
       "FailureInterval": 0,
@@ -82,7 +82,7 @@
   "Main": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "Main",
       "SuccessInterval": 0,
       "FailureInterval": 120,
@@ -126,12 +126,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Record": "2023-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -156,7 +156,7 @@
   "Main2": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "Main2",
       "SuccessInterval": 0,
       "FailureInterval": 120,
@@ -165,7 +165,7 @@
     "Campaign": {
       "Name": "12-4",
       "Event": "campaign_main",
-      "Mode": "normal",
+      "Mode": "hard",
       "UseClearMode": true,
       "UseFleetLock": true,
       "UseAutoSearch": true,
@@ -173,7 +173,7 @@
       "AmbushEvade": true
     },
     "StopCondition": {
-      "RunCount": 0,
+      "RunCount": 3,
       "OilLimit": 1000,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
@@ -200,12 +200,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Record": "2023-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -230,7 +230,7 @@
   "Main3": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "Main3",
       "SuccessInterval": 0,
       "FailureInterval": 120,
@@ -274,12 +274,160 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Record": "2023-01-01 00:00:00",
+      "Fleet2Control": "prevent_yellow_face",
+      "Fleet2Recover": "not_in_dormitory",
+      "Fleet2Oath": false
+    },
+    "HpControl": {
+      "UseHpBalance": false,
+      "UseEmergencyRepair": false,
+      "UseLowHpRetreat": false,
+      "HpBalanceThreshold": 0.2,
+      "HpBalanceWeight": "1000, 1000, 1000",
+      "RepairUseSingleThreshold": 0.3,
+      "RepairUseMultiThreshold": 0.6,
+      "LowHpRetreatThreshold": 0.3
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": "default_mode"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "Main4": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2023-01-01 00:00:00",
+      "Command": "Main4",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "Campaign": {
+      "Name": "12-4",
+      "Event": "campaign_main",
+      "Mode": "normal",
+      "UseClearMode": true,
+      "UseFleetLock": true,
+      "UseAutoSearch": true,
+      "Use2xBook": false,
+      "AmbushEvade": true
+    },
+    "StopCondition": {
+      "RunCount": 0,
+      "OilLimit": 1000,
+      "MapAchievement": "non_stop",
+      "StageIncrease": false,
+      "GetNewShip": false,
+      "ReachLevel": 0
+    },
+    "Fleet": {
+      "Fleet1": 1,
+      "Fleet1Formation": "double_line",
+      "Fleet1Mode": "combat_auto",
+      "Fleet1Step": 3,
+      "Fleet2": 2,
+      "Fleet2Formation": "double_line",
+      "Fleet2Mode": "combat_auto",
+      "Fleet2Step": 2,
+      "FleetOrder": "fleet1_mob_fleet2_boss"
+    },
+    "Submarine": {
+      "Fleet": 0,
+      "Mode": "do_not_use",
+      "AutoSearchMode": "sub_standby",
+      "DistanceToBoss": "2_grid_to_boss"
+    },
+    "Emotion": {
+      "Mode": "calculate",
+      "Fleet1Value": 119,
+      "Fleet1Record": "2023-01-01 00:00:00",
+      "Fleet1Control": "prevent_yellow_face",
+      "Fleet1Recover": "not_in_dormitory",
+      "Fleet1Oath": false,
+      "Fleet2Value": 119,
+      "Fleet2Record": "2023-01-01 00:00:00",
+      "Fleet2Control": "prevent_yellow_face",
+      "Fleet2Recover": "not_in_dormitory",
+      "Fleet2Oath": false
+    },
+    "HpControl": {
+      "UseHpBalance": false,
+      "UseEmergencyRepair": false,
+      "UseLowHpRetreat": false,
+      "HpBalanceThreshold": 0.2,
+      "HpBalanceWeight": "1000, 1000, 1000",
+      "RepairUseSingleThreshold": 0.3,
+      "RepairUseMultiThreshold": 0.6,
+      "LowHpRetreatThreshold": 0.3
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": "default_mode"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "WarArchives": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2023-01-01 00:00:00",
+      "Command": "WarArchives",
+      "SuccessInterval": 30,
+      "FailureInterval": 30,
+      "ServerUpdate": "00:00"
+    },
+    "Campaign": {
+      "Name": "12-4",
+      "Event": "war_archives_20210819_cn",
+      "Mode": "normal",
+      "UseClearMode": true,
+      "UseFleetLock": true,
+      "UseAutoSearch": true,
+      "Use2xBook": false,
+      "AmbushEvade": true
+    },
+    "StopCondition": {
+      "RunCount": 0,
+      "OilLimit": 1000,
+      "MapAchievement": "non_stop",
+      "StageIncrease": false,
+      "GetNewShip": false,
+      "ReachLevel": 0
+    },
+    "Fleet": {
+      "Fleet1": 1,
+      "Fleet1Formation": "double_line",
+      "Fleet1Mode": "combat_auto",
+      "Fleet1Step": 3,
+      "Fleet2": 2,
+      "Fleet2Formation": "double_line",
+      "Fleet2Mode": "combat_auto",
+      "Fleet2Step": 2,
+      "FleetOrder": "fleet1_mob_fleet2_boss"
+    },
+    "Submarine": {
+      "Fleet": 0,
+      "Mode": "do_not_use",
+      "AutoSearchMode": "sub_standby",
+      "DistanceToBoss": "2_grid_to_boss"
+    },
+    "Emotion": {
+      "Mode": "calculate",
+      "Fleet1Value": 119,
+      "Fleet1Record": "2023-01-01 00:00:00",
+      "Fleet1Control": "prevent_yellow_face",
+      "Fleet1Recover": "not_in_dormitory",
+      "Fleet1Oath": false,
+      "Fleet2Value": 119,
+      "Fleet2Record": "2023-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -304,7 +452,7 @@
   "GemsFarming": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "GemsFarming",
       "SuccessInterval": 0,
       "FailureInterval": 120,
@@ -357,12 +505,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Record": "2023-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -377,7 +525,7 @@
   "Sos": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "Sos",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -424,12 +572,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Record": "2023-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -454,12 +602,12 @@
   "EventGeneral": {
     "EventGeneral": {
       "PtLimit": 0,
-      "TimeLimit": "2020-01-01 00:00:00"
+      "TimeLimit": "2023-01-01 00:00:00"
     },
     "TaskBalancer": {
       "Enable": false,
       "CoinLimit": 10000,
-      "TaskCall": "Main"
+      "TaskCall": "Main3"
     },
     "Storage": {
       "Storage": {}
@@ -468,7 +616,7 @@
   "Event": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "Event",
       "SuccessInterval": 0,
       "FailureInterval": 120,
@@ -512,12 +660,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Record": "2023-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -542,7 +690,7 @@
   "Event2": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "Event2",
       "SuccessInterval": 0,
       "FailureInterval": 120,
@@ -586,12 +734,86 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Record": "2023-01-01 00:00:00",
+      "Fleet2Control": "prevent_yellow_face",
+      "Fleet2Recover": "not_in_dormitory",
+      "Fleet2Oath": false
+    },
+    "HpControl": {
+      "UseHpBalance": false,
+      "UseEmergencyRepair": false,
+      "UseLowHpRetreat": false,
+      "HpBalanceThreshold": 0.2,
+      "HpBalanceWeight": "1000, 1000, 1000",
+      "RepairUseSingleThreshold": 0.3,
+      "RepairUseMultiThreshold": 0.6,
+      "LowHpRetreatThreshold": 0.3
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": "default_mode"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "Event3": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2023-01-01 00:00:00",
+      "Command": "Event3",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "Campaign": {
+      "Name": "12-4",
+      "Event": "campaign_main",
+      "Mode": "normal",
+      "UseClearMode": true,
+      "UseFleetLock": true,
+      "UseAutoSearch": true,
+      "Use2xBook": false,
+      "AmbushEvade": true
+    },
+    "StopCondition": {
+      "RunCount": 0,
+      "OilLimit": 1000,
+      "MapAchievement": "non_stop",
+      "StageIncrease": false,
+      "GetNewShip": false,
+      "ReachLevel": 0
+    },
+    "Fleet": {
+      "Fleet1": 1,
+      "Fleet1Formation": "double_line",
+      "Fleet1Mode": "combat_auto",
+      "Fleet1Step": 3,
+      "Fleet2": 2,
+      "Fleet2Formation": "double_line",
+      "Fleet2Mode": "combat_auto",
+      "Fleet2Step": 2,
+      "FleetOrder": "fleet1_mob_fleet2_boss"
+    },
+    "Submarine": {
+      "Fleet": 0,
+      "Mode": "do_not_use",
+      "AutoSearchMode": "sub_standby",
+      "DistanceToBoss": "2_grid_to_boss"
+    },
+    "Emotion": {
+      "Mode": "calculate",
+      "Fleet1Value": 119,
+      "Fleet1Record": "2023-01-01 00:00:00",
+      "Fleet1Control": "prevent_yellow_face",
+      "Fleet1Recover": "not_in_dormitory",
+      "Fleet1Oath": false,
+      "Fleet2Value": 119,
+      "Fleet2Record": "2023-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -616,7 +838,7 @@
   "EventA": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "EventA",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -664,12 +886,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Record": "2023-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -694,7 +916,7 @@
   "EventB": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "EventB",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -742,12 +964,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Record": "2023-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -772,7 +994,7 @@
   "EventC": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "EventC",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -820,12 +1042,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Record": "2023-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -850,7 +1072,7 @@
   "EventD": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "EventD",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -898,12 +1120,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Record": "2023-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -928,7 +1150,7 @@
   "EventSp": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "EventSp",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -972,86 +1194,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
-      "Fleet2Control": "prevent_yellow_face",
-      "Fleet2Recover": "not_in_dormitory",
-      "Fleet2Oath": false
-    },
-    "HpControl": {
-      "UseHpBalance": false,
-      "UseEmergencyRepair": false,
-      "UseLowHpRetreat": false,
-      "HpBalanceThreshold": 0.2,
-      "HpBalanceWeight": "1000, 1000, 1000",
-      "RepairUseSingleThreshold": 0.3,
-      "RepairUseMultiThreshold": 0.6,
-      "LowHpRetreatThreshold": 0.3
-    },
-    "EnemyPriority": {
-      "EnemyScaleBalanceWeight": "default_mode"
-    },
-    "Storage": {
-      "Storage": {}
-    }
-  },
-  "WarArchives": {
-    "Scheduler": {
-      "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "WarArchives",
-      "SuccessInterval": 30,
-      "FailureInterval": 30,
-      "ServerUpdate": "00:00"
-    },
-    "Campaign": {
-      "Name": "12-4",
-      "Event": "war_archives_20210819_cn",
-      "Mode": "normal",
-      "UseClearMode": true,
-      "UseFleetLock": true,
-      "UseAutoSearch": true,
-      "Use2xBook": false,
-      "AmbushEvade": true
-    },
-    "StopCondition": {
-      "RunCount": 0,
-      "OilLimit": 1000,
-      "MapAchievement": "non_stop",
-      "StageIncrease": false,
-      "GetNewShip": false,
-      "ReachLevel": 0
-    },
-    "Fleet": {
-      "Fleet1": 1,
-      "Fleet1Formation": "double_line",
-      "Fleet1Mode": "combat_auto",
-      "Fleet1Step": 3,
-      "Fleet2": 2,
-      "Fleet2Formation": "double_line",
-      "Fleet2Mode": "combat_auto",
-      "Fleet2Step": 2,
-      "FleetOrder": "fleet1_mob_fleet2_boss"
-    },
-    "Submarine": {
-      "Fleet": 0,
-      "Mode": "do_not_use",
-      "AutoSearchMode": "sub_standby",
-      "DistanceToBoss": "2_grid_to_boss"
-    },
-    "Emotion": {
-      "Mode": "calculate",
-      "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
-      "Fleet1Control": "prevent_yellow_face",
-      "Fleet1Recover": "not_in_dormitory",
-      "Fleet1Oath": false,
-      "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Record": "2023-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -1076,7 +1224,7 @@
   "Raid": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "Raid",
       "SuccessInterval": 0,
       "FailureInterval": 120,
@@ -1107,12 +1255,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Record": "2023-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -1124,7 +1272,7 @@
   "RaidDaily": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "RaidDaily",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1154,12 +1302,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Record": "2023-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Record": "2023-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -1171,7 +1319,7 @@
   "MaritimeEscort": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "MaritimeEscort",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1184,10 +1332,30 @@
       "Storage": {}
     }
   },
+  "Reward": {
+    "Scheduler": {
+      "Enable": true,
+      "NextRun": "2023-01-01 00:00:00",
+      "Command": "Reward",
+      "SuccessInterval": "120-240",
+      "FailureInterval": "120-240",
+      "ServerUpdate": "00:00"
+    },
+    "Reward": {
+      "CollectOil": true,
+      "CollectCoin": true,
+      "CollectExp": true,
+      "CollectMission": true,
+      "CollectWeeklyMission": true
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "Commission": {
     "Scheduler": {
       "Enable": true,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "Commission",
       "SuccessInterval": "30-60",
       "FailureInterval": "30-60",
@@ -1202,10 +1370,31 @@
       "Storage": {}
     }
   },
+  "Research": {
+    "Scheduler": {
+      "Enable": true,
+      "NextRun": "2023-01-01 00:00:00",
+      "Command": "Research",
+      "SuccessInterval": "30-60",
+      "FailureInterval": "30-60",
+      "ServerUpdate": "00:00"
+    },
+    "Research": {
+      "UseCube": "only_05_hour",
+      "UseCoin": "always_use",
+      "UsePart": "always_use",
+      "AllowDelay": true,
+      "PresetFilter": "series_5_blueprint_152",
+      "CustomFilter": "S5-DR0.5 > S5-PRY0.5 > S5-H0.5 > S5-Q0.5 > S5-DR2.5 > 0.5 > S5-G1.5\n> S5-Q1 > S5-DR5 > S5-DR8 > S5-G4 > S5-PRY2.5 > 1 > S5-Q2 > reset\n> S5-G2.5 > S5-PRY5 > S5-PRY8 > 1.5 > 2 > S5-Q4 > 2.5 > 3\n> Q4 > G4 > 4 > 5 > S5-C6 > C6 > 6 > S5-C8 > 8\n> S5-C12 > 12"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "Tactical": {
     "Scheduler": {
       "Enable": true,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "Tactical",
       "SuccessInterval": "30-60",
       "FailureInterval": "120-240",
@@ -1230,31 +1419,10 @@
       "Storage": {}
     }
   },
-  "Research": {
-    "Scheduler": {
-      "Enable": true,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "Research",
-      "SuccessInterval": "30-60",
-      "FailureInterval": "30-60",
-      "ServerUpdate": "00:00"
-    },
-    "Research": {
-      "UseCube": "only_05_hour",
-      "UseCoin": "always_use",
-      "UsePart": "always_use",
-      "AllowDelay": true,
-      "PresetFilter": "series_5_blueprint_152",
-      "CustomFilter": "S5-DR0.5 > S5-PRY0.5 > S5-H0.5 > S5-Q0.5 > S5-DR2.5 > 0.5 > S5-G1.5\n> S5-Q1 > S5-DR5 > S5-DR8 > S5-G4 > S5-PRY2.5 > 1 > S5-Q2 > reset\n> S5-G2.5 > S5-PRY5 > S5-PRY8 > 1.5 > 2 > S5-Q4 > 2.5 > 3\n> Q4 > G4 > 4 > 5 > S5-C6 > C6 > 6 > S5-C8 > 8\n> S5-C12 > 12"
-    },
-    "Storage": {
-      "Storage": {}
-    }
-  },
   "Dorm": {
     "Scheduler": {
       "Enable": true,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "Dorm",
       "SuccessInterval": 278,
       "FailureInterval": 278,
@@ -1272,7 +1440,7 @@
   "Meowfficer": {
     "Scheduler": {
       "Enable": true,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "Meowfficer",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1296,7 +1464,7 @@
   "Guild": {
     "Scheduler": {
       "Enable": true,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "Guild",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1319,30 +1487,10 @@
       "Storage": {}
     }
   },
-  "Reward": {
-    "Scheduler": {
-      "Enable": true,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "Reward",
-      "SuccessInterval": "120-240",
-      "FailureInterval": "120-240",
-      "ServerUpdate": "00:00"
-    },
-    "Reward": {
-      "CollectOil": true,
-      "CollectCoin": true,
-      "CollectExp": true,
-      "CollectMission": true,
-      "CollectWeeklyMission": true
-    },
-    "Storage": {
-      "Storage": {}
-    }
-  },
   "Daily": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "Daily",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1369,7 +1517,7 @@
   "Hard": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "Hard",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1386,7 +1534,7 @@
   "Exercise": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "Exercise",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1399,7 +1547,7 @@
       "LowHpThreshold": 0.4,
       "LowHpConfirmWait": 0.1,
       "OpponentRefreshValue": 0,
-      "OpponentRefreshRecord": "2020-01-01 00:00:00"
+      "OpponentRefreshRecord": "2023-01-01 00:00:00"
     },
     "Storage": {
       "Storage": {}
@@ -1408,7 +1556,7 @@
   "ShopFrequent": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "ShopFrequent",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1427,7 +1575,7 @@
   "ShopOnce": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "ShopOnce",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1472,7 +1620,7 @@
   "Shipyard": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "Shipyard",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1495,7 +1643,7 @@
   "Gacha": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "Gacha",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1514,7 +1662,7 @@
   "Freebies": {
     "Scheduler": {
       "Enable": true,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "Freebies",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1555,7 +1703,7 @@
   "OpsiAshBeacon": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "OpsiAshBeacon",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1574,7 +1722,7 @@
   "OpsiAshAssist": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "OpsiAshAssist",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1590,7 +1738,7 @@
   "OpsiExplore": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "OpsiExplore",
       "SuccessInterval": 0,
       "FailureInterval": 0,
@@ -1603,6 +1751,7 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
+      "FleetMode": "combat_auto",
       "Submarine": false
     },
     "Storage": {
@@ -1612,7 +1761,7 @@
   "OpsiShop": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "OpsiShop",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1628,7 +1777,7 @@
   "OpsiVoucher": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "OpsiVoucher",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1644,7 +1793,7 @@
   "OpsiDaily": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "OpsiDaily",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1656,6 +1805,7 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
+      "FleetMode": "combat_auto",
       "Submarine": false
     },
     "Storage": {
@@ -1665,7 +1815,7 @@
   "OpsiObscure": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "OpsiObscure",
       "SuccessInterval": 60,
       "FailureInterval": 60,
@@ -1676,6 +1826,7 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
+      "FleetMode": "combat_auto",
       "Submarine": false
     },
     "Storage": {
@@ -1685,7 +1836,7 @@
   "OpsiAbyssal": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "OpsiAbyssal",
       "SuccessInterval": 60,
       "FailureInterval": 60,
@@ -1704,7 +1855,7 @@
   "OpsiArchive": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "OpsiArchive",
       "SuccessInterval": 60,
       "FailureInterval": 60,
@@ -1712,6 +1863,7 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
+      "FleetMode": "combat_auto",
       "Submarine": false
     },
     "Storage": {
@@ -1721,7 +1873,7 @@
   "OpsiStronghold": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "OpsiStronghold",
       "SuccessInterval": 60,
       "FailureInterval": 60,
@@ -1740,7 +1892,7 @@
   "OpsiMonthBoss": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "OpsiMonthBoss",
       "SuccessInterval": 0,
       "FailureInterval": 120,
@@ -1761,7 +1913,7 @@
   "OpsiMeowfficerFarming": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "OpsiMeowfficerFarming",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1774,6 +1926,7 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
+      "FleetMode": "combat_auto",
       "Submarine": false
     },
     "Storage": {
@@ -1783,7 +1936,7 @@
   "OpsiHazard1Leveling": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "OpsiHazard1Leveling",
       "SuccessInterval": 30,
       "FailureInterval": 60,
@@ -1794,6 +1947,7 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
+      "FleetMode": "combat_auto",
       "Submarine": false
     },
     "Storage": {
@@ -1803,7 +1957,7 @@
   "OpsiCrossMonth": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
+      "NextRun": "2023-01-01 00:00:00",
       "Command": "OpsiCrossMonth",
       "SuccessInterval": 0,
       "FailureInterval": 120,
@@ -1850,6 +2004,90 @@
   "GameManager": {
     "GameManager": {
       "AutoRestart": true
+    },
+    "GGHandler": {
+      "Enabled": false,
+      "ServerLocation": "cn",
+      "GGMethod": "u2",
+      "GGPackageName": "com.",
+      "AutoRestartGG": false,
+      "RestartEverytime": true,
+      "GGMultiplyingFactor": 200,
+      "DisabledTask": "disable_all_dangerous_task",
+      "ALLowLowLevelInGemsFarming": false
+    },
+    "PowerLimit": {
+      "Exercise": 16500,
+      "Raid": 16500,
+      "Ash": 16500
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "Dashboard": {
+    "Oil": {
+      "Value": 0,
+      "Limit": 0,
+      "Color": "^000000",
+      "Record": "2023-01-01 00:00:00"
+    },
+    "Coin": {
+      "Value": 0,
+      "Limit": 0,
+      "Color": "^FFAA33",
+      "Record": "2023-01-01 00:00:00"
+    },
+    "Gem": {
+      "Value": 0,
+      "Color": "^FF3333",
+      "Record": "2023-01-01 00:00:00"
+    },
+    "Cube": {
+      "Value": 0,
+      "Color": "^33FFFF",
+      "Record": "2023-01-01 00:00:00"
+    },
+    "Pt": {
+      "Value": 0,
+      "Color": "^00BFFF",
+      "Record": "2023-01-01 00:00:00"
+    },
+    "ActionPoint": {
+      "Value": 0,
+      "Total": 0,
+      "Color": "^0000FF",
+      "Record": "2023-01-01 00:00:00"
+    },
+    "YellowCoin": {
+      "Value": 0,
+      "Color": "^FF8800",
+      "Record": "2023-01-01 00:00:00"
+    },
+    "PurpleCoin": {
+      "Value": 0,
+      "Color": "^7700BB",
+      "Record": "2023-01-01 00:00:00"
+    },
+    "Core": {
+      "Value": 0,
+      "Color": "^AAAAAA",
+      "Record": "2023-01-01 00:00:00"
+    },
+    "Medal": {
+      "Value": 0,
+      "Color": "^FFDD00",
+      "Record": "2023-01-01 00:00:00"
+    },
+    "Merit": {
+      "Value": 0,
+      "Color": "^FFFF00",
+      "Record": "2023-01-01 00:00:00"
+    },
+    "GuildCoin": {
+      "Value": 0,
+      "Color": "^AAAAAA",
+      "Record": "2023-01-01 00:00:00"
     },
     "Storage": {
       "Storage": {}
