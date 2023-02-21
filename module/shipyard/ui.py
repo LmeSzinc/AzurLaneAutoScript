@@ -1,10 +1,11 @@
 from module.base.decorator import cached_property
 from module.base.timer import Timer
+from module.base.utils import area_pad
+from module.handler.assets import LOGIN_ANNOUNCE
 from module.logger import logger
-from module.shipyard.assets import *
 from module.shipyard.ui_globals import *
-from module.ui.navbar import Navbar
 from module.ui.assets import SHIPYARD_CHECK
+from module.ui.navbar import Navbar
 from module.ui.ui import UI
 
 
@@ -318,6 +319,14 @@ class ShipyardUI(UI):
                 continue
 
             if self.handle_info_bar():
+                self.interval_reset(button)
+                success = True
+                ocr_timer.reset()
+                confirm_timer.reset()
+                continue
+
+            # A popup of FATE info shows when ship DEV finished entering FATE
+            if self.appear_then_click(LOGIN_ANNOUNCE, offset=area_pad((-300, 127, -300, 127), pad=-50), interval=3):
                 self.interval_reset(button)
                 success = True
                 ocr_timer.reset()
