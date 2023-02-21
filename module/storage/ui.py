@@ -149,7 +149,8 @@ class StorageUI(UI):
 
     def _equipment_filter_enter(self):
         self.interval_clear(EQUIPMENT_FILTER)
-        self.ui_click(EQUIPMENT_FILTER, check_button=EQUIPMENT_FILTER_CONFIRM, skip_first_screenshot=True)
+        self.ui_click(EQUIPMENT_FILTER, appear_button=STORAGE_CHECK, check_button=EQUIPMENT_FILTER_CONFIRM,
+                      skip_first_screenshot=True)
 
     def _equipment_filter_confirm(self):
         self.interval_clear(EQUIPMENT_FILTER_CONFIRM)

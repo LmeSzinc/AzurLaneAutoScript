@@ -16,10 +16,16 @@ OCR_DOCK_AMOUNT = DigitCounter(
 class Enhancement(Dock):
     @property
     def _retire_amount(self):
-        # if self.config.Retirement_RetireAmount == 'retire_all':
-        #     return 2000
-        # if self.config.Retirement_RetireAmount == 'retire_10':
-        #     return 10
+        if self.config.Retirement_RetireMode == 'one_click_retire':
+            if self.config.OneClickRetire_RetireAmount == 'retire_all':
+                return 2000
+            if self.config.OneClickRetire_RetireAmount == 'retire_10':
+                return 10
+        if self.config.Retirement_RetireMode == 'old_retire':
+            if self.config.OldRetire_RetireAmount == 'retire_all':
+                return 2000
+            if self.config.OldRetire_RetireAmount == 'retire_10':
+                return 10
         return 2000
 
     def _enhance_enter(self, favourite=False, ship_type=None):
