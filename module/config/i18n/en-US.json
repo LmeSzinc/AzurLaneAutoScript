@@ -212,7 +212,7 @@
     },
     "OpsiArchive": {
       "name": "Archive Zones",
-      "help": "Clear archive zones. Archive zones are AP free.\nThe following must be satisfied:\n- OpSi story and mock battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "help": "Clear archive zones. Archive zones are AP free.\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "OpsiStronghold": {
       "name": "Siren Strongholds",
@@ -2120,7 +2120,7 @@
   "OpsiExplore": {
     "_info": {
       "name": "OpSi Explore Settings",
-      "help": "At the beginning of each month OpSi is reset\nThe following must be satisfied:\n- OpSi story and mock battles must be complete\nEach zone will be visited in a clockwise direction every 27 minutes until world has been been completely opened\nNo need to consume 5000 oil for special radar in OpSi voucher shop"
+      "help": "At the beginning of each month OpSi is reset\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\nEach zone will be visited in a clockwise direction every 27 minutes until world has been been completely opened\nNo need to consume 5000 oil for special radar in OpSi voucher shop"
     },
     "SpecialRadar": {
       "name": "SpecialRadar Bought",
@@ -2138,7 +2138,7 @@
   "OpsiShop": {
     "_info": {
       "name": "OpSi Shop Settings",
-      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story and mock battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "BuySupply": {
       "name": "Buy From Port Shops",
@@ -2148,7 +2148,7 @@
   "OpsiVoucher": {
     "_info": {
       "name": "OpSi Voucher Settings",
-      "help": "Buy monthly items from the OpSi voucher shop\nThe following must be satisfied:\n- OpSi story and mock battles must be complete"
+      "help": "Buy monthly items from the OpSi voucher shop\nThe following must be satisfied:\n- OpSi story and practice battles must be complete"
     },
     "Filter": {
       "name": "Item Filter",
@@ -2158,7 +2158,7 @@
   "OpsiDaily": {
     "_info": {
       "name": "OpSi Daily Settings",
-      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story and mock battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "DoMission": {
       "name": "Do Port Mission(s)",
@@ -2172,7 +2172,7 @@
   "OpsiObscure": {
     "_info": {
       "name": "OpSi Obscure Settings",
-      "help": "Clear obscure zones every 27 minutes\nThe following must be satisfied:\n- OpSi story and mock battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "help": "Clear obscure zones every 27 minutes\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "ForceRun": {
       "name": "Force Run",
@@ -2182,7 +2182,7 @@
   "OpsiAbyssal": {
     "_info": {
       "name": "OpSi Abyssal Settings",
-      "help": "Clear abyssal zones\nThe following must be satisfied:\n- OpSi story and mock battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "help": "Clear abyssal zones\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "ForceRun": {
       "name": "Force Run",
@@ -2192,7 +2192,7 @@
   "OpsiStronghold": {
     "_info": {
       "name": "OpSi Siren Stronghold Settings",
-      "help": "Clear the weekly siren strongholds\nThe following must be satisfied:\n- OpSi story and mock battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "help": "Clear the weekly siren strongholds\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "ForceRun": {
       "name": "Force Run",
@@ -2202,7 +2202,7 @@
   "OpsiMonthBoss": {
     "_info": {
       "name": "Monthly Boss",
-      "help": "To clear (normal/hard) monthly bosses, the following conditions must be met to use this function:\n- OpSi story and mock battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop\nIf failed on normal boss, attack until cleared; if failed on hard boss, stop task directly"
+      "help": "To clear (normal/hard) monthly bosses, the following conditions must be met to use this function:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop\nIf failed on normal boss, attack until cleared; if failed on hard boss, stop task directly"
     },
     "Mode": {
       "name": "Difficulty of clearing monthly bosses",
@@ -2222,7 +2222,7 @@
   "OpsiMeowfficerFarming": {
     "_info": {
       "name": "OpSi Meowfficer Farm Settings",
-      "help": "Attack target zones of the specified hazard level in a clockwise direction\nThe following must be satisfied:\n- OpSi story and mock battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "help": "Attack target zones of the specified hazard level in a clockwise direction\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
     "ActionPointPreserve": {
       "name": "Keep X Amount of AP",
