@@ -1833,7 +1833,7 @@
     },
     "DayOfWeek": {
       "name": "Days of the week",
-      "help": "Alas will delay free supply pack buying until the value",
+      "help": "Alas will delay free supply pack buying until the value\nIt is recommended to set it to weekdays, or alas may miss the purchase",
       "0": "Monday",
       "1": "Tuesday",
       "2": "Wednesday",
