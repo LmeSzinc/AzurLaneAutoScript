@@ -1721,6 +1721,10 @@
     "BuyAmount": {
       "name": "Buy Amount",
       "help": "The 1st and 2nd purchase everyday are free\nDiscounts are applied to the 3rd and onwards, gradually minimizing until full price\nExact discounts found at <https://azurlane.koumakan.jp/Research#Strengthening>"
+    },
+    "LastRun": {
+      "name": "Last Purchase Time",
+      "help": "Because AL does not display how many blueprints have been purchased today, the time of the last purchase is recorded here to prevent the task from running repeatedly. This value is automatically recorded and generally does not need to be modified."
     }
   },
   "Shipyard": {
@@ -1749,6 +1753,10 @@
     "BuyAmount": {
       "name": "Buy Amount",
       "help": "The 1st and 2nd purchase everyday are free\nDiscounts are applied to the 3rd and onwards, gradually minimizing until full price\nExact discounts found at <https://azurlane.koumakan.jp/Research#Strengthening>"
+    },
+    "LastRun": {
+      "name": "Last Purchase Time",
+      "help": "Because AL does not display how many blueprints have been purchased today, the time of the last purchase is recorded here to prevent the task from running repeatedly. This value is automatically recorded and generally does not need to be modified."
     }
   },
   "Gacha": {
