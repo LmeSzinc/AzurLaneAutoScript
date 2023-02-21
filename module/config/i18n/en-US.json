@@ -1838,6 +1838,17 @@
     "Collect": {
       "name": "Collect Weekly Free Supply Pack",
       "help": ""
+    },
+    "DayOfWeek": {
+      "name": "Days of the week",
+      "help": "Alas will delay free supply pack buying until the value\nIt is recommended to set it to weekdays, or alas may miss the purchase",
+      "0": "Monday",
+      "1": "Tuesday",
+      "2": "Wednesday",
+      "3": "Thursday",
+      "4": "Friday",
+      "5": "Saturday",
+      "6": "Sunday"
     }
   },
   "Daily": {
