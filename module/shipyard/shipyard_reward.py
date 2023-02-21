@@ -117,6 +117,7 @@ class RewardShipyard(ShipyardUI, GeneralShop):
         Args:
             count (int): Total to buy
         """
+        logger.hr('shipyard_buy')
         prev = 1
         start, count = self._shipyard_buy_calc(prev, count)
         while count > 0:
@@ -127,6 +128,12 @@ class RewardShipyard(ShipyardUI, GeneralShop):
             remain = self._shipyard_ensure_index(count)
             if remain is None:
                 break
+
+            if self._shipyard_bp_rarity == 'DR':
+                self.config.ShipyardDr_LastRun = datetime.now().replace(microsecond=0)
+            else:
+                self.config.Shipyard_LastRun = datetime.now().replace(microsecond=0)
+
             self._shipyard_buy_confirm('BP_BUY')
 
             # Pay for actual amount bought based on 'remain'
@@ -142,6 +149,7 @@ class RewardShipyard(ShipyardUI, GeneralShop):
         Spend all remaining extraneous BPs
         Supports using BPs in both DEV and FATE
         """
+        logger.hr('shipyard_use')
         count = self._shipyard_get_bp_count(index)
         while count > 0:
             if not self._shipyard_buy_enter() or \
@@ -207,7 +215,6 @@ class RewardShipyard(ShipyardUI, GeneralShop):
         if self.config.ShipyardDr_LastRun > get_server_last_update('04:00'):
             logger.warning('Task Shipyard DR has already been run today, skip')
         else:
-            self.config.ShipyardDr_LastRun = datetime.now().replace(microsecond=0)
             self._shipyard_bp_rarity = 'DR'
             self.shipyard_run(series=self.config.ShipyardDr_ResearchSeries,
                               index=self.config.ShipyardDr_ShipIndex,
@@ -220,7 +227,6 @@ class RewardShipyard(ShipyardUI, GeneralShop):
             self.config.task_delay(server_update=True)
             self.config.task_stop()
         else:
-            self.config.Shipyard_LastRun = datetime.now().replace(microsecond=0)
             self._shipyard_bp_rarity = 'PR'
             self.shipyard_run(series=self.config.Shipyard_ResearchSeries,
                               index=self.config.Shipyard_ShipIndex,
