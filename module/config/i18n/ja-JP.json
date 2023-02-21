@@ -1721,6 +1721,10 @@
     "BuyAmount": {
       "name": "ShipyardDr.BuyAmount.name",
       "help": "ShipyardDr.BuyAmount.help"
+    },
+    "LastRun": {
+      "name": "ShipyardDr.LastRun.name",
+      "help": "ShipyardDr.LastRun.help"
     }
   },
   "Shipyard": {
@@ -1749,6 +1753,10 @@
     "BuyAmount": {
       "name": "Shipyard.BuyAmount.name",
       "help": "Shipyard.BuyAmount.help"
+    },
+    "LastRun": {
+      "name": "Shipyard.LastRun.name",
+      "help": "Shipyard.LastRun.help"
     }
   },
   "Gacha": {
@@ -1838,6 +1846,17 @@
     "Collect": {
       "name": "SupplyPack.Collect.name",
       "help": "SupplyPack.Collect.help"
+    },
+    "DayOfWeek": {
+      "name": "SupplyPack.DayOfWeek.name",
+      "help": "SupplyPack.DayOfWeek.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     }
   },
   "Daily": {
