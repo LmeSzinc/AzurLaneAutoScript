@@ -131,4 +131,4 @@ class CampaignStatus(UI):
         }
         LogRes(self.config).Oil = _oil
         LogRes(self.config).Coin = _coin
-        return _oil['Value']
+        # return _oil['Value']

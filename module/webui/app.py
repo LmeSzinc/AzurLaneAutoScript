@@ -1,3 +1,4 @@
+import re
 import argparse
 import queue
 import threading
@@ -616,14 +617,18 @@ class AlasGUI(Frame):
             if group is None:
                 continue
 
+            value = str(group['Value'])
             if 'Limit' in group.keys():
-                value = str(group['Value'])
                 value_limit = f' / {group["Limit"]}'
                 value_total = ''
             elif 'Total' in group.keys():
-                value = str(group['Value'])
                 value_total = f' ({group["Total"]})'
                 value_limit = ''
+            elif group_name == 'Pt':
+                value_limit = ' / '+ re.sub(r'[,.\'"，。]', '',
+                                            str(deep_get(self.alas_config.data, 'EventGeneral.EventGeneral.PtLimit')))
+                if value_limit == ' / 0':
+                    value_limit = ''
             else:
                 value = str(group['Value'])
                 value_limit = ''
@@ -648,11 +653,11 @@ class AlasGUI(Frame):
 
             # if self._log.first_display:
             # Handle width
-            value_width = len(value) * 0.7 + 0.6 if value != 'None' else 4.5
-            value_width = str(value_width/1.12) + 'rem' if self.is_mobile else str(value_width) + 'rem'
+            # value_width = len(value) * 0.7 + 0.6 if value != 'None' else 4.5
+            # value_width = str(value_width/1.12) + 'rem' if self.is_mobile else str(value_width) + 'rem'
             value_limit = '' if value == 'None' else value_limit
-            limit_width = len(value_limit) * 0.7
-            limit_width = str(limit_width) + 'rem'
+            # limit_width = len(value_limit) * 0.7
+            # limit_width = str(limit_width) + 'rem'
             value_total = '' if value == 'None' else value_total
             limit_style = '--dashboard-limit--' if value_limit else '--dashboard-total--'
             value_limit = value_limit if value_limit else value_total

@@ -1,6 +1,7 @@
 from cached_property import cached_property
 from module.logger import logger
 from module.config.utils import deep_get
+from module.config.utils import read_file, filepath_argument
 from datetime import datetime
 
 
@@ -42,7 +43,6 @@ class LogRes:
 
     @cached_property
     def groups(self) -> dict:
-        from module.config.utils import read_file, filepath_argument
         return deep_get(d=read_file(filepath_argument("dashboard")), keys='Dashboard')
 
     """
