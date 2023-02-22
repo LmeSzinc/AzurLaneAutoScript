@@ -165,7 +165,7 @@ class GeneratedConfig:
     # Group `TaskBalancer`
     TaskBalancer_Enable = False
     TaskBalancer_CoinLimit = 10000
-    TaskBalancer_TaskCall = 'Main3'  # Main, Main2, Main3, Main4
+    TaskBalancer_TaskCall = 'Main3'  # MainNoral, MainHard, Main, Main2
 
     # Group `EventDaily`
     EventDaily_StageFilter = 'A1 > A2 > A3'

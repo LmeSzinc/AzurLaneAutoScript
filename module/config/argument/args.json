@@ -3160,8 +3160,8 @@
         "type": "select",
         "value": "Main",
         "option": [
-          "Main-Normal",
-          "Main-Hard",
+          "MainNormal",
+          "MainHard",
           "Main",
           "Main2"
         ]
