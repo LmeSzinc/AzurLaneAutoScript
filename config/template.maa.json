@@ -50,8 +50,8 @@
     "MaaFight": {
       "Stage": "custom",
       "CustomStage": "Annihilation",
+      "MedicineTactics": "no_use",
       "Medicine": 0,
-      "RunOutOfMedicine": false,
       "Stone": 0,
       "Times": 5,
       "Drops": null,
@@ -73,8 +73,8 @@
     "MaaFight": {
       "Stage": "last",
       "CustomStage": null,
+      "MedicineTactics": "no_use",
       "Medicine": null,
-      "RunOutOfMedicine": false,
       "Stone": null,
       "Times": null,
       "Drops": null,
@@ -96,8 +96,8 @@
     "MaaFight": {
       "Stage": "last",
       "CustomStage": null,
+      "MedicineTactics": "no_use",
       "Medicine": null,
-      "RunOutOfMedicine": false,
       "Stone": null,
       "Times": null,
       "Drops": null,

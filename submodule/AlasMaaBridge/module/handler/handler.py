@@ -240,8 +240,10 @@ class AssistantHandler:
 
         if self.config.MaaFight_Medicine is not None:
             args["medicine"] = self.config.MaaFight_Medicine
-        if self.config.MaaFight_RunOutOfMedicine:
+        if self.config.MaaFight_MedicineTactics == 'run_out':
             args["medicine"] = 999
+        if self.config.MaaFight_MedicineTactics == 'expiring':
+            args["expiring_medicine"] = 999
         if self.config.MaaFight_Stone is not None:
             args["stone"] = self.config.MaaFight_Stone
         if self.config.MaaFight_Times is not None:
@@ -319,15 +321,13 @@ class AssistantHandler:
         self.config.task_delay(success=True)
 
     def infrast(self):
-        # Todo: drom_trust_enabled已经在新版本中改为dorm_trust_enabled，需要在正式版更新之后删除
         args = {
             "facility": self.split_filter(self.config.MaaInfrast_Facility),
             "drones": self.config.MaaInfrast_Drones,
             "threshold": self.config.MaaInfrast_Threshold,
             "replenish": self.config.MaaInfrast_Replenish,
             "dorm_notstationed_enabled": self.config.MaaInfrast_Notstationed,
-            "dorm_trust_enabled": self.config.MaaInfrast_Trust,
-            "drom_trust_enabled": self.config.MaaInfrast_Trust
+            "dorm_trust_enabled": self.config.MaaInfrast_Trust
         }
 
         end_time = datetime.datetime.now() + datetime.timedelta(minutes=30)

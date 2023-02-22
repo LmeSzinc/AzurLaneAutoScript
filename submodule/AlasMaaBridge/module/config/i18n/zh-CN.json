@@ -203,14 +203,17 @@
     },
     "CustomStage": {
       "name": "自定义关卡",
-      "help": "使用 \"自定义关卡\" 需要将 \"关卡选择\" 设置为 \"自定义\","
+      "help": "使用 \"自定义关卡\" 需要将 \"关卡选择\" 设置为 \"自定义\"\n可在关卡结尾输入 \"Normal/Hard\" 表示需要切换标准与磨难难度，例如 \"H10-1-Hard\""
+    },
+    "MedicineTactics": {
+      "name": "理智药策略",
+      "help": "",
+      "no_use": "不使用理智药",
+      "expiring": "48小时内过期的理智药",
+      "run_out": "清空理智药"
     },
     "Medicine": {
       "name": "吃理智药",
-      "help": ""
-    },
-    "RunOutOfMedicine": {
-      "name": "清空理智药",
       "help": ""
     },
     "Stone": {
