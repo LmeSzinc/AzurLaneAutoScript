@@ -185,14 +185,19 @@
         "value": "Annihilation",
         "display": "hide"
       },
+      "MedicineTactics": {
+        "type": "select",
+        "value": "no_use",
+        "option": [
+          "no_use",
+          "expiring",
+          "run_out"
+        ],
+        "display": "hide"
+      },
       "Medicine": {
         "type": "input",
         "value": 0,
-        "display": "hide"
-      },
-      "RunOutOfMedicine": {
-        "type": "checkbox",
-        "value": false,
         "display": "hide"
       },
       "Stone": {
@@ -284,14 +289,19 @@
         "type": "input",
         "value": null
       },
+      "MedicineTactics": {
+        "type": "select",
+        "value": "no_use",
+        "option": [
+          "no_use",
+          "expiring",
+          "run_out"
+        ],
+        "display": "hide"
+      },
       "Medicine": {
         "type": "input",
         "value": null
-      },
-      "RunOutOfMedicine": {
-        "type": "checkbox",
-        "value": false,
-        "display": "hide"
       },
       "Stone": {
         "type": "input",
@@ -378,14 +388,19 @@
         "type": "input",
         "value": null
       },
+      "MedicineTactics": {
+        "type": "select",
+        "value": "no_use",
+        "option": [
+          "no_use",
+          "expiring",
+          "run_out"
+        ]
+      },
       "Medicine": {
         "type": "input",
         "value": null,
         "display": "hide"
-      },
-      "RunOutOfMedicine": {
-        "type": "checkbox",
-        "value": false
       },
       "Stone": {
         "type": "input",
@@ -885,6 +900,15 @@
       "CoreChar": {
         "type": "input",
         "value": null
+      },
+      "Support": {
+        "type": "select",
+        "value": "no_use",
+        "option": [
+          "no_use",
+          "friend_support",
+          "nonfriend_support"
+        ]
       }
     },
     "Storage": {

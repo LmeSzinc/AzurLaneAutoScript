@@ -16,7 +16,7 @@ from module.exception import RequestHumanTakeover
 from module.logger import logger
 
 from submodule.AlasMaaBridge.module.config.config import ArknightsConfig
-from submodule.AlasMaaBridge.module.handler import asst_backup
+from submodule.AlasMaaBridge.module.asst import asst, utils
 
 
 class AssistantHandler:
@@ -28,9 +28,9 @@ class AssistantHandler:
 
     @staticmethod
     def load(path, incremental_path=None):
-        AssistantHandler.Asst = asst_backup.Asst
-        AssistantHandler.Message = asst_backup.Message
-        AssistantHandler.InstanceOptionType = asst_backup.InstanceOptionType
+        AssistantHandler.Asst = asst.Asst
+        AssistantHandler.Message = utils.Message
+        AssistantHandler.InstanceOptionType = utils.InstanceOptionType
         AssistantHandler.Asst.load(path, user_dir=path, incremental_path=incremental_path)
 
         AssistantHandler.ASST_HANDLER = None
@@ -240,8 +240,10 @@ class AssistantHandler:
 
         if self.config.MaaFight_Medicine is not None:
             args["medicine"] = self.config.MaaFight_Medicine
-        if self.config.MaaFight_RunOutOfMedicine:
+        if self.config.MaaFight_MedicineTactics == 'run_out':
             args["medicine"] = 999
+        if self.config.MaaFight_MedicineTactics == 'expiring':
+            args["expiring_medicine"] = 999
         if self.config.MaaFight_Stone is not None:
             args["stone"] = self.config.MaaFight_Stone
         if self.config.MaaFight_Times is not None:
@@ -319,15 +321,13 @@ class AssistantHandler:
         self.config.task_delay(success=True)
 
     def infrast(self):
-        # Todo: drom_trust_enabled已经在新版本中改为dorm_trust_enabled，需要在正式版更新之后删除
         args = {
             "facility": self.split_filter(self.config.MaaInfrast_Facility),
             "drones": self.config.MaaInfrast_Drones,
             "threshold": self.config.MaaInfrast_Threshold,
             "replenish": self.config.MaaInfrast_Replenish,
             "dorm_notstationed_enabled": self.config.MaaInfrast_Notstationed,
-            "dorm_trust_enabled": self.config.MaaInfrast_Trust,
-            "drom_trust_enabled": self.config.MaaInfrast_Trust
+            "dorm_trust_enabled": self.config.MaaInfrast_Trust
         }
 
         end_time = datetime.datetime.now() + datetime.timedelta(minutes=30)
@@ -408,6 +408,10 @@ class AssistantHandler:
         }
         if self.config.MaaRoguelike_CoreChar:
             args["core_char"] = self.config.MaaRoguelike_CoreChar
+        if self.config.MaaRoguelike_Support != 'no_use':
+            args["use_support"] = True
+        if self.config.MaaRoguelike_Support == 'nonfriend_support':
+            args["use_nonfriend_support"] = True
 
         self.task_switch_timer = Timer(30).start()
         self.callback_list.append(self.roguelike_callback)

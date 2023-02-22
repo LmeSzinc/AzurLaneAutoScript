@@ -41,8 +41,8 @@ class GeneratedConfig:
     # Group `MaaFight`
     MaaFight_Stage = 'last'  # last, 1-7, LS-6, CA-5, SK-5, AP-5, CE-6, PR-A-1, PR-A-2, PR-B-1, PR-B-2, PR-C-1, PR-C-2, PR-D-1, PR-D-2, custom
     MaaFight_CustomStage = None
+    MaaFight_MedicineTactics = 'no_use'  # no_use, expiring, run_out
     MaaFight_Medicine = None
-    MaaFight_RunOutOfMedicine = False
     MaaFight_Stone = None
     MaaFight_Times = None
     MaaFight_Drops = None
@@ -96,6 +96,7 @@ class GeneratedConfig:
     MaaRoguelike_Squad = '指挥分队'  # 心胜于物分队, 物尽其用分队, 以人为本分队, 指挥分队, 集群分队, 后勤分队, 矛头分队, 突击战术分队, 堡垒战术分队, 远程战术分队, 破坏战术分队, 研究分队, 高规格分队
     MaaRoguelike_Roles = '取长补短'  # 先手必胜, 稳扎稳打, 取长补短, 随心所欲
     MaaRoguelike_CoreChar = None
+    MaaRoguelike_Support = 'no_use'  # no_use, friend_support, nonfriend_support
 
     # Group `MaaCopilot`
     MaaCopilot_FileName = None
