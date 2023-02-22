@@ -96,6 +96,7 @@ class GeneratedConfig:
     MaaRoguelike_Squad = '指挥分队'  # 心胜于物分队, 物尽其用分队, 以人为本分队, 指挥分队, 集群分队, 后勤分队, 矛头分队, 突击战术分队, 堡垒战术分队, 远程战术分队, 破坏战术分队, 研究分队, 高规格分队
     MaaRoguelike_Roles = '取长补短'  # 先手必胜, 稳扎稳打, 取长补短, 随心所欲
     MaaRoguelike_CoreChar = None
+    MaaRoguelike_Support = 'no_use'  # no_use, friend_support, nonfriend_support
 
     # Group `MaaCopilot`
     MaaCopilot_FileName = None

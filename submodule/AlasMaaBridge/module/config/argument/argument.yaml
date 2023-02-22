@@ -149,6 +149,9 @@ MaaRoguelike:
     value: 取长补短
     option: [先手必胜, 稳扎稳打, 取长补短, 随心所欲]
   CoreChar: null
+  Support:
+    value: no_use
+    option: [ no_use, friend_support, nonfriend_support ]
 
 # ==================== Tool ====================
 

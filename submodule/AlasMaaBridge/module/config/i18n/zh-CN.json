@@ -504,7 +504,14 @@
     },
     "CoreChar": {
       "name": "开局干员",
-      "help": "仅支持单个干员中文名，不填写则默认选择"
+      "help": "仅支持单个干员中文名，不填写则根据练度自动选择"
+    },
+    "Support": {
+      "name": "开局干员使用助战",
+      "help": "",
+      "no_use": "不使用",
+      "friend_support": "好友助战",
+      "nonfriend_support": "好友+非好友助战"
     }
   },
   "MaaCopilot": {

@@ -505,6 +505,13 @@
     "CoreChar": {
       "name": "MaaRoguelike.CoreChar.name",
       "help": "MaaRoguelike.CoreChar.help"
+    },
+    "Support": {
+      "name": "MaaRoguelike.Support.name",
+      "help": "MaaRoguelike.Support.help",
+      "no_use": "no_use",
+      "friend_support": "friend_support",
+      "nonfriend_support": "nonfriend_support"
     }
   },
   "MaaCopilot": {

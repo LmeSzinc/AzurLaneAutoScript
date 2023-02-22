@@ -215,7 +215,8 @@
       "StopWhenInvestmentFull": false,
       "Squad": "指挥分队",
       "Roles": "取长补短",
-      "CoreChar": null
+      "CoreChar": null,
+      "Support": "no_use"
     },
     "Storage": {
       "Storage": {}

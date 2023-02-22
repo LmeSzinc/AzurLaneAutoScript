@@ -408,6 +408,10 @@ class AssistantHandler:
         }
         if self.config.MaaRoguelike_CoreChar:
             args["core_char"] = self.config.MaaRoguelike_CoreChar
+        if self.config.MaaRoguelike_Support != 'no_use':
+            args["use_support"] = True
+        if self.config.MaaRoguelike_Support == 'nonfriend_support':
+            args["use_nonfriend_support"] = True
 
         self.task_switch_timer = Timer(30).start()
         self.callback_list.append(self.roguelike_callback)

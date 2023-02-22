@@ -900,6 +900,15 @@
       "CoreChar": {
         "type": "input",
         "value": null
+      },
+      "Support": {
+        "type": "select",
+        "value": "no_use",
+        "option": [
+          "no_use",
+          "friend_support",
+          "nonfriend_support"
+        ]
       }
     },
     "Storage": {
