@@ -479,7 +479,7 @@ ShipyardDr:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
   BuyAmount: 2
-  LastRun: 2020-01-01 00:00:00
+  LastRun: 2023-01-01 00:00:00
 Shipyard:
   ResearchSeries:
     value: 1
@@ -488,7 +488,7 @@ Shipyard:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
   BuyAmount: 2
-  LastRun: 2020-01-01 00:00:00
+  LastRun: 2023-01-01 00:00:00
 Gacha:
   Pool:
     value: light

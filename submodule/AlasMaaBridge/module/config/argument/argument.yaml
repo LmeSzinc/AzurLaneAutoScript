@@ -6,7 +6,7 @@
 
 Scheduler:
   Enable: false
-  NextRun: 2020-01-01 04:00:00
+  NextRun: 2023-01-01 04:00:00
   Command: Maa
   SuccessInterval:
     value: 60
