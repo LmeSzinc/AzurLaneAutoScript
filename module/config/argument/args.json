@@ -403,7 +403,7 @@
       }
     }
   },
-  "Main": {
+  "MainNormal": {
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
@@ -416,7 +416,7 @@
       },
       "Command": {
         "type": "input",
-        "value": "Main",
+        "value": "MainNormal",
         "display": "hide"
       },
       "SuccessInterval": {
@@ -776,7 +776,7 @@
       }
     }
   },
-  "Main2": {
+  "MainHard": {
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
@@ -789,7 +789,7 @@
       },
       "Command": {
         "type": "input",
-        "value": "Main2",
+        "value": "MainHard",
         "display": "hide"
       },
       "SuccessInterval": {
@@ -1149,7 +1149,7 @@
       }
     }
   },
-  "Main3": {
+  "Main": {
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
@@ -1162,7 +1162,7 @@
       },
       "Command": {
         "type": "input",
-        "value": "Main3",
+        "value": "Main",
         "display": "hide"
       },
       "SuccessInterval": {
@@ -1522,7 +1522,7 @@
       }
     }
   },
-  "Main4": {
+  "Main2": {
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
@@ -1535,7 +1535,7 @@
       },
       "Command": {
         "type": "input",
-        "value": "Main4",
+        "value": "Main2",
         "display": "hide"
       },
       "SuccessInterval": {
@@ -3158,12 +3158,12 @@
       },
       "TaskCall": {
         "type": "select",
-        "value": "Main3",
+        "value": "Main",
         "option": [
+          "Main-Normal",
+          "Main-Hard",
           "Main",
-          "Main2",
-          "Main3",
-          "Main4"
+          "Main2"
         ]
       }
     },

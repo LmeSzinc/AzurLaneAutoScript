@@ -46,20 +46,20 @@
       "name": "再起動設定",
       "help": ""
     },
+    "MainNormal": {
+      "name": "メイン海域(Normal)",
+      "help": ""
+    },
+    "MainHard": {
+      "name": "メイン海域(Hard)",
+      "help": ""
+    },
     "Main": {
       "name": "メイン海域",
       "help": ""
     },
     "Main2": {
       "name": "メイン海域-2",
-      "help": ""
-    },
-    "Main3": {
-      "name": "メイン海域-3",
-      "help": ""
-    },
-    "Main4": {
-      "name": "メイン海域-4",
       "help": ""
     },
     "WarArchives": {

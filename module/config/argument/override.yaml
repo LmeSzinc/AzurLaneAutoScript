@@ -15,18 +15,18 @@ Restart:
 
 # ==================== Farm ====================
 
-Main:
+MainNormal:
   Campaign:
     Event: campaign_main
-Main2:
+MainHard:
   Campaign:
     Event: campaign_main
     StopCondition:
       RunCount: 3
-Main3:
+Main:
   Campaign:
     Event: campaign_main
-Main4:
+Main2:
   Campaign:
     Event: campaign_main
 WarArchives:

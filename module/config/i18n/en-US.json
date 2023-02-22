@@ -46,20 +46,20 @@
       "name": "Restart",
       "help": ""
     },
+    "MainNorml": {
+      "name": "MainNorml",
+      "help": ""
+    },
+    "MainHard": {
+      "name": "MainHard",
+      "help": ""
+    },
     "Main": {
       "name": "Main",
       "help": ""
     },
     "Main2": {
       "name": "Main-2",
-      "help": ""
-    },
-    "Main3": {
-      "name": "Main-3",
-      "help": ""
-    },
-    "Main4": {
-      "name": "Main-4",
       "help": ""
     },
     "WarArchives": {
@@ -1155,10 +1155,10 @@
     "TaskCall": {
       "name": "Call task X if out of coin",
       "help": "Reminder: Players need to check task config before running, or TaskCall may not work.",
+      "MainNormal": "MainHard",
+      "MainHard": "MainHard",
       "Main": "Main",
-      "Main2": "Main-2",
-      "Main3": "Main-3",
-      "Main4": "Main-4"
+      "Main2": "Main-2"
     }
   },
   "EventDaily": {

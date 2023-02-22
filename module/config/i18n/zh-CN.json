@@ -46,19 +46,19 @@
       "name": "重启设置",
       "help": ""
     },
-    "Main": {
+    "MainNormal": {
       "name": "主线图-普通",
       "help": ""
     },
-    "Main2": {
+    "MainHard": {
       "name": "主线图-困难",
       "help": ""
     },
-    "Main3": {
+    "Main": {
       "name": "主线图",
       "help": ""
     },
-    "Main4": {
+    "Main2": {
       "name": "主线图-2",
       "help": ""
     },
@@ -1155,10 +1155,10 @@
     "TaskCall": {
       "name": "物资过低时呼叫任务X",
       "help": "提醒: 玩家需提前设置好被调用的任务，否则将不会作用",
-      "Main": "主线图-普通",
-      "Main2": "主线图-困难",
-      "Main3": "主线图",
-      "Main4": "主线图-2"
+      "MainNormal": "主线图-普通",
+      "MainHard": "主线图-困难",
+      "Main": "主线图",
+      "Main2": "主线图-2"
     }
   },
   "EventDaily": {

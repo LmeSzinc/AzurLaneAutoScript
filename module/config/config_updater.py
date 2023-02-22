@@ -519,7 +519,7 @@ class ConfigUpdater:
             f'{task}.Emotion.Mode',
             emotion_mode_redirect
         ) for task in [
-            'Main', 'Main2', 'Main3', 'Main4', 'GemsFarming',
+            'MainNormal', 'MainHard', 'Main', 'Main2', 'GemsFarming',
             'Event', 'Event2', 'Event3', 'EventA', 'EventB', 'EventC', 'EventD', 'EventSp', 'Raid', 'RaidDaily',
             'Sos', 'WarArchives',
         ]

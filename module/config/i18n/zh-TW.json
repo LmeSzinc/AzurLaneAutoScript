@@ -46,19 +46,19 @@
       "name": "重啟設定",
       "help": ""
     },
-    "Main": {
+    "MainNormal": {
       "name": "主線圖-普通",
       "help": ""
     },
-    "Main2": {
+    "MainHard": {
       "name": "主線圖-困難",
       "help": ""
     },
-    "Main3": {
+    "Main": {
       "name": "主線圖",
       "help": ""
     },
-    "Main4": {
+    "Main2": {
       "name": "主線圖-2",
       "help": ""
     },
