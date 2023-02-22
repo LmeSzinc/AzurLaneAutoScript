@@ -16,7 +16,7 @@ from module.exception import RequestHumanTakeover
 from module.logger import logger
 
 from submodule.AlasMaaBridge.module.config.config import ArknightsConfig
-from submodule.AlasMaaBridge.module.handler import asst_backup
+from submodule.AlasMaaBridge.module.asst import asst, utils
 
 
 class AssistantHandler:
@@ -28,9 +28,9 @@ class AssistantHandler:
 
     @staticmethod
     def load(path, incremental_path=None):
-        AssistantHandler.Asst = asst_backup.Asst
-        AssistantHandler.Message = asst_backup.Message
-        AssistantHandler.InstanceOptionType = asst_backup.InstanceOptionType
+        AssistantHandler.Asst = asst.Asst
+        AssistantHandler.Message = utils.Message
+        AssistantHandler.InstanceOptionType = utils.InstanceOptionType
         AssistantHandler.Asst.load(path, user_dir=path, incremental_path=incremental_path)
 
         AssistantHandler.ASST_HANDLER = None
