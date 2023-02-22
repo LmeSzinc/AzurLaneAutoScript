@@ -370,15 +370,15 @@ class Homography:
         self.lower_edge, self.upper_edge = separate_edges(hori, inner=self.map_inner[1])
         self.left_edge, self.right_edge = separate_edges(vert, inner=self.map_inner[0])
 
-    def generate(self):
+    def generate(self, edge_th=9):
         """
         Yields (tuple): ((x, y), [upper-left, upper-right, bottom-left, bottom-right])
         """
         area = [
-            self.left_edge - 5 if self.left_edge else 0,
-            self.lower_edge - 5 if self.lower_edge else 0,
-            self.right_edge + 5 if self.right_edge else self.homo_size[0],
-            self.upper_edge + 5 if self.upper_edge else self.homo_size[1]
+            self.left_edge - edge_th if self.left_edge else 0,
+            self.lower_edge - edge_th if self.lower_edge else 0,
+            self.right_edge + edge_th if self.right_edge else self.homo_size[0],
+            self.upper_edge + edge_th if self.upper_edge else self.homo_size[1]
         ]
         x = np.arange(-25, 25) * self.config.HOMO_TILE[0] + self.homo_loca[0]
         x = x[(x > area[0]) & (x < area[2])]
