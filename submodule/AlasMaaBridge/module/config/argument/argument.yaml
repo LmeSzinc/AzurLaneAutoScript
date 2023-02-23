@@ -59,8 +59,10 @@ MaaFight:
     value: last
     option: [last, 1-7, LS-6, CA-5, SK-5, AP-5, CE-6, PR-A-1, PR-A-2, PR-B-1, PR-B-2, PR-C-1, PR-C-2, PR-D-1, PR-D-2, custom]
   CustomStage: null
+  MedicineTactics:
+    value: no_use
+    option: [no_use, expiring, run_out]
   Medicine: null
-  RunOutOfMedicine: false
   Stone: null
   Times: null
   Drops:
@@ -147,6 +149,9 @@ MaaRoguelike:
     value: 取长补短
     option: [先手必胜, 稳扎稳打, 取长补短, 随心所欲]
   CoreChar: null
+  Support:
+    value: no_use
+    option: [ no_use, friend_support, nonfriend_support ]
 
 # ==================== Tool ====================
 
