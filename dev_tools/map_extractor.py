@@ -212,6 +212,10 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     # Parallel Superimposition
     'sairenboss15': 'SirenBoss15',
     'sairenboss16': 'SirenBoss16',
+
+    # Revelations of Dust
+    'xiafei': 'Joffre',
+    'lemaer': 'LeMars',
 }
 
 

@@ -132,3 +132,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20230118 | raid 20220127            |  - |  - |  - |  - | 演習神秘事件調查 |
 | 20230202 | event 20200806 cn | The Enigma and the Shark | - | - | - | 復刻最重要的寶物 |
 | 20230216 | event 20220224 cn | Abyssal Refrain | - | - | - | 深度回音 |
+| 20230223 | event 20230223 cn | Revelations of Dust | 湮烬尘墟 | Revelations of Dust | 黙示の遺構 | - |
