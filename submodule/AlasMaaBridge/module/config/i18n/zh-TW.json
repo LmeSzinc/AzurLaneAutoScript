@@ -205,13 +205,16 @@
       "name": "MaaFight.CustomStage.name",
       "help": "MaaFight.CustomStage.help"
     },
+    "MedicineTactics": {
+      "name": "MaaFight.MedicineTactics.name",
+      "help": "MaaFight.MedicineTactics.help",
+      "no_use": "no_use",
+      "expiring": "expiring",
+      "run_out": "run_out"
+    },
     "Medicine": {
       "name": "MaaFight.Medicine.name",
       "help": "MaaFight.Medicine.help"
-    },
-    "RunOutOfMedicine": {
-      "name": "MaaFight.RunOutOfMedicine.name",
-      "help": "MaaFight.RunOutOfMedicine.help"
     },
     "Stone": {
       "name": "MaaFight.Stone.name",
@@ -502,6 +505,13 @@
     "CoreChar": {
       "name": "MaaRoguelike.CoreChar.name",
       "help": "MaaRoguelike.CoreChar.help"
+    },
+    "Support": {
+      "name": "MaaRoguelike.Support.name",
+      "help": "MaaRoguelike.Support.help",
+      "no_use": "no_use",
+      "friend_support": "friend_support",
+      "nonfriend_support": "nonfriend_support"
     }
   },
   "MaaCopilot": {

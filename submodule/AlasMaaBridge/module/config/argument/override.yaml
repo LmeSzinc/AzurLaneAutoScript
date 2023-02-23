@@ -18,7 +18,7 @@ MaaAnnihilation:
     Stage: custom
     CustomStage: Annihilation
     Medicine: 0
-    RunOutOfMedicine: false
+    MedicineTactics: no_use
     Stone: 0
     Times: 5
     Drops: null
@@ -26,7 +26,7 @@ MaaAnnihilation:
 
 MaaMaterial:
   MaaFight:
-    RunOutOfMedicine: false
+    MedicineTactics: no_use
 
 MaaFight:
   MaaFight:
