@@ -4084,6 +4084,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "event_20230223_cn",
           "event_20220224_cn",
           "event_20200806_cn",
           "event_20210610_tw",
@@ -4140,10 +4141,10 @@
           "event_20200227_cn"
         ],
         "display": "disabled",
-        "tw": "event_20220224_cn",
-        "cn": "event_20210225_cn",
-        "en": "event_20210225_cn",
-        "jp": "event_20210225_cn"
+        "cn": "event_20230223_cn",
+        "en": "event_20230223_cn",
+        "jp": "event_20230223_cn",
+        "tw": "event_20220224_cn"
       },
       "Mode": {
         "type": "select",
