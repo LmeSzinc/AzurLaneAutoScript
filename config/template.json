@@ -1549,12 +1549,14 @@
     "ShipyardDr": {
       "ResearchSeries": 2,
       "ShipIndex": 0,
-      "BuyAmount": 2
+      "BuyAmount": 2,
+      "LastRun": "2020-01-01 00:00:00"
     },
     "Shipyard": {
       "ResearchSeries": 1,
       "ShipIndex": 0,
-      "BuyAmount": 2
+      "BuyAmount": 2,
+      "LastRun": "2020-01-01 00:00:00"
     },
     "Storage": {
       "Storage": {}
@@ -1601,7 +1603,8 @@
       "Delete": false
     },
     "SupplyPack": {
-      "Collect": true
+      "Collect": true,
+      "DayOfWeek": 0
     },
     "Storage": {
       "Storage": {}

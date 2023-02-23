@@ -350,11 +350,13 @@ class GeneratedConfig:
     ShipyardDr_ResearchSeries = 2  # 2
     ShipyardDr_ShipIndex = 0  # 0, 1, 2, 3, 4, 5, 6
     ShipyardDr_BuyAmount = 2
+    ShipyardDr_LastRun = datetime.datetime(2020, 1, 1, 0, 0)
 
     # Group `Shipyard`
     Shipyard_ResearchSeries = 1  # 1, 2, 3
     Shipyard_ShipIndex = 0  # 0, 1, 2, 3, 4, 5, 6
     Shipyard_BuyAmount = 2
+    Shipyard_LastRun = datetime.datetime(2020, 1, 1, 0, 0)
 
     # Group `Gacha`
     Gacha_Pool = 'light'  # light, heavy, special, event, wishing_well
@@ -376,6 +378,7 @@ class GeneratedConfig:
 
     # Group `SupplyPack`
     SupplyPack_Collect = True
+    SupplyPack_DayOfWeek = 0  # 0, 1, 2, 3, 4, 5, 6
 
     # Group `Daily`
     Daily_UseDailySkip = True

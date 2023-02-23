@@ -7820,6 +7820,11 @@
       "BuyAmount": {
         "type": "input",
         "value": 2
+      },
+      "LastRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
       }
     },
     "Shipyard": {
@@ -7848,6 +7853,11 @@
       "BuyAmount": {
         "type": "input",
         "value": 2
+      },
+      "LastRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
       }
     },
     "Storage": {
@@ -8003,6 +8013,19 @@
       "Collect": {
         "type": "checkbox",
         "value": true
+      },
+      "DayOfWeek": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
       }
     },
     "Storage": {

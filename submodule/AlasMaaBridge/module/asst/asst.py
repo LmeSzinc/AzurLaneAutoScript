@@ -1,18 +1,11 @@
 import ctypes
+import json
 import os
 import pathlib
 import platform
-import json
+from typing import Union, Optional
 
-from typing import Union, Dict, List, Any, Type, Optional
-from enum import Enum, IntEnum, unique, auto
-
-JSON = Union[Dict[str, Any], List[Any], int, str, float, bool, Type[None]]
-
-
-class InstanceOptionType(IntEnum):
-    touch_type = 2
-    deployment_with_pause = 3
+from .utils import InstanceOptionType, JSON
 
 
 class Asst:
@@ -20,6 +13,7 @@ class Asst:
         None, ctypes.c_int, ctypes.c_char_p, ctypes.c_void_p)
     """
     回调函数，使用实例可参照 my_callback
+
     :params:
         ``param1 message``: 消息类型
         ``param2 details``: json string
@@ -27,9 +21,11 @@ class Asst:
     """
 
     @staticmethod
-    def load(path: Union[pathlib.Path, str], incremental_path: Optional[Union[pathlib.Path, str]] = None, user_dir: Optional[Union[pathlib.Path, str]] = None) -> bool:
+    def load(path: Union[pathlib.Path, str], incremental_path: Optional[Union[pathlib.Path, str]] = None,
+             user_dir: Optional[Union[pathlib.Path, str]] = None) -> bool:
         """
         加载 dll 及资源
+
         :params:
             ``path``:    DLL及资源所在文件夹路径
             ``incremental_path``:   增量资源所在文件夹路径
@@ -50,10 +46,12 @@ class Asst:
                 'environ_var': 'LD_LIBRARY_PATH'
             }
         }
+        lib_import_func = None
 
         platform_type = platform.system().lower()
         if platform_type == 'windows':
             lib_import_func = ctypes.WinDLL
+            # 手动加载onnxruntime.dll以避免部分版本的python错误地从System32加载旧版本
             try:
                 lib_import_func(str(pathlib.Path(path) / 'onnxruntime.dll'))
             except Exception as e:
@@ -101,22 +99,25 @@ class Asst:
         """
         设置额外配置
         参见${MaaAssistantArknights}/src/MaaCore/Assistant.cpp#set_instance_option
+
         :params:
             ``externa_config``: 额外配置类型
             ``config_value``:   额外配置的值
+
         :return: 是否设置成功
         """
         return Asst.__lib.AsstSetInstanceOption(self.__ptr,
                                                 int(option_type), option_value.encode('utf-8'))
 
-
     def connect(self, adb_path: str, address: str, config: str = 'General'):
         """
         连接设备
+
         :params:
             ``adb_path``:       adb 程序的路径
             ``address``:        adb 地址+端口
             ``config``:         adb 配置，可参考 resource/config.json
+
         :return: 是否连接成功
         """
         return Asst.__lib.AsstConnect(self.__ptr,
@@ -127,19 +128,24 @@ class Asst:
     def append_task(self, type_name: str, params: JSON = {}) -> TaskId:
         """
         添加任务
+
         :params:
             ``type_name``:  任务类型，请参考 docs/集成文档.md
             ``params``:     任务参数，请参考 docs/集成文档.md
+
         :return: 任务 ID, 可用于 set_task_params 接口
         """
-        return Asst.__lib.AsstAppendTask(self.__ptr, type_name.encode('utf-8'), json.dumps(params, ensure_ascii=False).encode('utf-8'))
+        return Asst.__lib.AsstAppendTask(self.__ptr, type_name.encode('utf-8'),
+                                         json.dumps(params, ensure_ascii=False).encode('utf-8'))
 
     def set_task_params(self, task_id: TaskId, params: JSON) -> bool:
         """
         动态设置任务参数
+
         :params:
             ``task_id``:  任务 ID, 使用 append_task 接口的返回值
             ``params``:   任务参数，同 append_task 接口，请参考 docs/集成文档.md
+
         :return: 是否成功
         """
         return Asst.__lib.AsstSetTaskParams(self.__ptr, task_id, json.dumps(params, ensure_ascii=False).encode('utf-8'))
@@ -147,6 +153,7 @@ class Asst:
     def start(self) -> bool:
         """
         开始任务
+
         :return: 是否成功
         """
         return Asst.__lib.AsstStart(self.__ptr)
@@ -154,6 +161,7 @@ class Asst:
     def stop(self) -> bool:
         """
         停止并清空所有任务
+
         :return: 是否成功
         """
         return Asst.__lib.AsstStop(self.__ptr)
@@ -161,24 +169,27 @@ class Asst:
     def running(self) -> bool:
         """
         是否正在运行
+
         :return: 是否正在运行
         """
         return Asst.__lib.AsstRunning(self.__ptr)
 
     @staticmethod
     def log(level: str, message: str) -> None:
-        '''
+        """
         打印日志
+
         :params:
             ``level``:      日志等级标签
             ``message``:    日志内容
-        '''
+        """
 
         Asst.__lib.AsstLog(level.encode('utf-8'), message.encode('utf-8'))
 
     def get_version(self) -> str:
         """
         获取DLL版本号
+
         : return: 版本号
         """
         return Asst.__lib.AsstGetVersion().decode('utf-8')
@@ -232,38 +243,3 @@ class Asst:
         Asst.__lib.AsstLog.restype = None
         Asst.__lib.AsstLog.argtypes = (
             ctypes.c_char_p, ctypes.c_char_p)
-
-
-@unique
-class Message(Enum):
-    """
-    回调消息
-    请参考 docs/回调消息.md
-    """
-    InternalError = 0
-
-    InitFailed = auto()
-
-    ConnectionInfo = auto()
-
-    AllTasksCompleted = auto()
-
-    TaskChainError = 10000
-
-    TaskChainStart = auto()
-
-    TaskChainCompleted = auto()
-
-    TaskChainExtraInfo = auto()
-
-    TaskChainStopped = auto()
-
-    SubTaskError = 20000
-
-    SubTaskStart = auto()
-
-    SubTaskCompleted = auto()
-
-    SubTaskExtraInfo = auto()
-
-    SubTaskStopped = auto()
