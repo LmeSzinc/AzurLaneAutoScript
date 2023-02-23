@@ -271,7 +271,7 @@ class GuildLogistics(GuildBase):
             out: GUILD_LOGISTICS
         """
         logger.hr('Guild logistics')
-        logger.attr('Guild master/official', self.config.GuildOperation_SelectNewOperation)
+        logger.attr('Guild master/official', self.config.GuildLogistics_SelectNewMission)
         confirm_timer = Timer(1.5, count=3).start()
         exchange_interval = Timer(1.5, count=3)
         click_interval = Timer(0.5, count=1)

@@ -65,6 +65,13 @@ class CodeGenerator:
     def tab(self):
         return TabWrapper(self)
 
+    def Import(self, text):
+        for line in text.strip().split('\n'):
+            line = line.strip()
+            self.add(line)
+        self.add('')
+        self.add('')
+
     def Value(self, key=None, value=None, **kwargs):
         if key is not None:
             self.add(f'{key} = {self._repr(value)}')
@@ -87,6 +94,7 @@ class CodeGenerator:
 
 
 generator = CodeGenerator()
+Import = generator.Import
 Value = generator.Value
 Comment = generator.Comment
 Dict = generator.Dict
