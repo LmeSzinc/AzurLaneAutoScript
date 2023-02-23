@@ -47,6 +47,7 @@ class CampaignEvent(CampaignStatus):
         tasks = [
             'Event',
             'Event2',
+            'Event3',
             'EventA',
             'EventB',
             'EventC',
@@ -83,6 +84,7 @@ class CampaignEvent(CampaignStatus):
         tasks = [
             'Event',
             'Event2',
+            'Event3',
             'EventA',
             'EventB',
             'EventC',
@@ -120,6 +122,7 @@ class CampaignEvent(CampaignStatus):
         tasks = [
             'Event',
             'Event2',
+            'Event3',
             'Raid',
             'GemsFarming',
         ]
@@ -155,6 +158,7 @@ class CampaignEvent(CampaignStatus):
                 tasks = [
                     'Event',
                     'Event2',
+                    'Event3',
                     'EventA',
                     'EventB',
                     'EventC',
@@ -182,6 +186,7 @@ class CampaignEvent(CampaignStatus):
                 tasks = [
                     'Event',
                     'Event2',
+                    'Event3',
                     'EventA',
                     'EventB',
                     'EventC',

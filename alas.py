@@ -15,7 +15,7 @@ from module.logger import logger
 from module.notify import handle_notify
 from module.handler.login import LoginHandler
 from module.gg_handler.gg_handler import GGHandler
-from module.campaign.run import CampaignRun
+from module.campaign.run import (CampaignRun,CampaignRun_hard)
 from module.shop.shop_reward import RewardShop
 from module.event.campaign_abcd import CampaignABCD
 from module.campaign.os_run import OSCampaignRun
@@ -321,7 +321,7 @@ class AzurLaneAutoScript:
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
     def main_hard(self):
-        CampaignRun(config=self.config, device=self.device).run(
+        CampaignRun_hard(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
     def main(self):
