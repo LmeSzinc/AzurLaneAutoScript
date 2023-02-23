@@ -72,7 +72,7 @@ class GitManager(DeployConfig):
             self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
 
         logger.hr('Show Version', 1)
-        self.execute(f'"{self.git}" log --no-merges -1')
+        self.execute(f'"{self.git}" --no-pager log --no-merges -1')
 
     def git_install(self):
         logger.hr('Update Alas', 0)
