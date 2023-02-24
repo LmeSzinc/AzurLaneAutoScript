@@ -316,6 +316,7 @@
       "VanguardChange": false,
       "VanguardEquipChange": false,
       "LowEmotionRetreat": true,
+      "FleetNumberInHardMode": 0,
       "CommonCV": "any",
       "CommissionLimit": true
     },

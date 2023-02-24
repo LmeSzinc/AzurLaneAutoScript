@@ -1108,6 +1108,13 @@
       "name": "GemsFarming.LowEmotionRetreat.name",
       "help": "GemsFarming.LowEmotionRetreat.help"
     },
+    "FleetNumberInHardMode": {
+      "name": "GemsFarming.FleetNumberInHardMode.name",
+      "help": "GemsFarming.FleetNumberInHardMode.help",
+      "0": "0",
+      "1": "1",
+      "2": "2"
+    },
     "CommonCV": {
       "name": "GemsFarming.CommonCV.name",
       "help": "GemsFarming.CommonCV.help",

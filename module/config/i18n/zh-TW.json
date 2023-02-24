@@ -1108,6 +1108,13 @@
       "name": "紅臉後撤退",
       "help": "紅臉後撤退，同時更換前排和後排。"
     },
+    "FleetNumberInHardMode": {
+      "name": "GemsFarming.FleetNumberInHardMode.name",
+      "help": "GemsFarming.FleetNumberInHardMode.help",
+      "0": "0",
+      "1": "1",
+      "2": "2"
+    },
     "CommonCV": {
       "name": "指定旗艦航母",
       "help": "",

@@ -551,5 +551,5 @@ class AzurLaneAutoScript:
 
 
 if __name__ == '__main__':
-    alas = AzurLaneAutoScript()
+    alas = AzurLaneAutoScript('小号_雷电')
     alas.loop()
