@@ -118,7 +118,7 @@ footer {
 }
 
 .status-point {
-    margin: 55% 50% 45% 50%;
+    margin: 37% 50% 63% 50%;
     width: .75rem;
     height: .75rem;
     border-radius: 50%;
@@ -531,7 +531,7 @@ pre.rich-traceback-code {
 /*}*/
 
 *[style*="--dashboard-value--"] {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 400;
     margin: 0 0 0 0.6rem !important;
     font-family:
@@ -540,7 +540,7 @@ pre.rich-traceback-code {
 }
 
 *[style*="--dashboard-total--"] {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 400;
     margin: 0 0 0 0.15rem !important;
     font-family:
@@ -558,7 +558,7 @@ pre.rich-traceback-code {
 
 *[style*="--dashboard-limit--"] {
     font-weight: 400;
-    font-size: 1rem;
+    font-size: .9rem;
     margin: 0 0 0 0 !important;
     vertical-align: text-bottom;
     overflow-wrap: normal;
