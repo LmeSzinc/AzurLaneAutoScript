@@ -467,6 +467,7 @@ class AzurLaneAutoScript:
         return task.command
 
     def loop(self):
+        GGHandler(config=self.config, device=self.device).handle_before_restart()
         logger.set_file_logger(self.config_name)
         logger.info(f'Start scheduler loop: {self.config_name}')
         is_first = True
@@ -551,5 +552,5 @@ class AzurLaneAutoScript:
 
 
 if __name__ == '__main__':
-    alas = AzurLaneAutoScript('小号_雷电')
+    alas = AzurLaneAutoScript()
     alas.loop()

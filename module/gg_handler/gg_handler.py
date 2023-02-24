@@ -89,20 +89,25 @@ class GGHandler:
             f'Enabled={gg_data["gg_enable"]} AutoRestart={gg_data["gg_auto"]} Current stage={gg_data["gg_on"]}')
         return gg_data
 
-    def handle_restart(self):
-        """
-        Handle the restart errors of GG.
-        """
-        gg_data = GGData(config=self.config).get_data()
-        gg_enable = gg_data['gg_enable']
+    def handle_before_restart(self):
         try:
             timeout(self.device.restart_atx, 60)
+            import uiautomator2 as u2
+            logger.info('Reset UiAutomator')
+            u2.connect(self.config.Emulator_Serial).reset_uiautomator()
         except Exception:
             from module.notify import handle_notify
             handle_notify(self.config.Error_OnePushConfig,
                           title=f"Alas <{self.config.config_name}> Emulator error",
                           content=f"<{self.config.config_name}> RequestHumanTakeover\nMaybe your emulator died", )
             exit(1)
+
+    def handle_restart(self):
+        """
+        Handle the restart errors of GG.
+        """
+        gg_data = GGData(config=self.config).get_data()
+        gg_enable = gg_data['gg_enable']
         if gg_enable:
             GGData(config=self.config).set_data(target='gg_on', value=False)
             logger.info(f'GG status:')
