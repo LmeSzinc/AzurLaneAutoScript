@@ -350,10 +350,12 @@ class InfoHandler(ModuleBase):
             else:
                 self._story_option_record = options_count
                 self._story_option_confirm.reset()
-        if self.appear(STORY_SKIP, offset=(20, 20), interval=2):
+        if self.appear(STORY_SKIP, offset=(20, 20), interval=2) \
+                or self.appear(STORY_SKIP_2, offset=(20, 20), interval=2):
             # Confirm it's story
             # When story play speed is Very Fast, Alas clicked story skip but story disappeared
             # This click will interrupt auto search
+            self.interval_reset([STORY_SKIP, STORY_SKIP_2])
             if self._story_confirm.reached():
                 if drop:
                     drop.handle_add(self, before=2)
