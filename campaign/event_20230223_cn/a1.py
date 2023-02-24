@@ -5,8 +5,8 @@ from module.logger import logger
 
 MAP = CampaignMap('A1')
 MAP.shape = 'H8'
-MAP.camera_data = ['D2', 'D6', 'E2', 'E6']
-MAP.camera_data_spawn_point = ['E6', 'D6']
+MAP.camera_data = ['D2', 'D5', 'E2', 'E5']
+MAP.camera_data_spawn_point = ['D6']
 MAP.map_data = """
     ++ -- -- -- ME -- ME --
     -- MB -- ME ++ ME -- ++
