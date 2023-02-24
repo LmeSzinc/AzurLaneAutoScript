@@ -521,39 +521,24 @@ pre.rich-traceback-code {
     border: .2em solid currentColor;
 }
 
-/**[style*="--dashboard-value--"] {*/
-/*    font-size: 1.3rem;*/
-/*    font-weight: 400;*/
-/*    margin: 0 0 -0.2rem 0.6rem !important;*/
-/*    overflow-wrap: break-word;*/
-/*    overflow: visible;*/
-/*    border-bottom: 0;*/
-/*}*/
-
 *[style*="--dashboard-value--"] {
     font-size: 1.3rem;
     font-weight: 400;
     margin: 0 0 0 0.6rem !important;
-    font-family:
-             "Arial",
-             serif;
+    font-family: "Arial",serif;
 }
 
 *[style*="--dashboard-total--"] {
     font-size: 1.3rem;
     font-weight: 400;
     margin: 0 0 0 0.15rem !important;
-    font-family:
-             "Arial",
-             serif;
+    font-family: "Arial",serif;
 }
 
 *[style*="--dashboard-help--"] {
     font-size: .8rem;
     margin: 0 0 0 0.6rem !important;
-    font-family:
-             "Arial",
-             serif;
+    font-family: "Arial",serif;
 }
 
 *[style*="--dashboard-limit--"] {
@@ -562,7 +547,5 @@ pre.rich-traceback-code {
     margin: 0 0 0 0 !important;
     vertical-align: text-bottom;
     overflow-wrap: normal;
-    font-family:
-             "Arial",
-             serif;
+    font-family: "Arial",serif;
 }
