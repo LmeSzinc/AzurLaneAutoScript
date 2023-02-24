@@ -57,6 +57,9 @@ class CampaignRun(CampaignEvent, ShopStatus):
             logger.critical(f'Possible reason #1: This event ({folder}) does not have {name}')
             logger.critical(f'Possible reason #2: You are using an old Alas, '
                             'please check for update, or make map files yourself using dev_tools/map_extractor.py')
+            if self.config.SERVER == 'cn':
+                logger.critical(f'Possible reason #3: 对于看不懂以上英文的用户，此处是友情翻译：'
+                            f'还没更新呢急你妈急急急急。要么给极彩阿丽艾塔上总督催更，要么滚回去自己写')
             raise RequestHumanTakeover
 
         config = copy.deepcopy(self.config).merge(self.module.Config())
