@@ -6,13 +6,15 @@
       "Restart"
     ],
     "Farm": [
-      "MainNormal",
-      "MainHard",
-      "Main",
-      "Main2",
       "WarArchives",
       "GemsFarming",
       "Sos"
+    ],
+    "Main": [
+      "MainNormal",
+      "MainHard",
+      "Main",
+      "Main2"
     ],
     "Event": [
       "EventGeneral",

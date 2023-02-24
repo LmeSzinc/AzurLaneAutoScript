@@ -12,6 +12,10 @@
       "name": "出擊",
       "help": ""
     },
+    "Main": {
+      "name": "主線",
+      "help": ""
+    },
     "Event": {
       "name": "活動",
       "help": ""

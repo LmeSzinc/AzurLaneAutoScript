@@ -12,6 +12,10 @@
       "name": "Farm",
       "help": ""
     },
+    "Main": {
+      "name": "Main",
+      "help": ""
+    },
     "Event": {
       "name": "Event",
       "help": ""

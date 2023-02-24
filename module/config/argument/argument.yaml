@@ -113,6 +113,23 @@ OldRetire:
 
 # ==================== Farm ====================
 
+GemsFarming:
+  FlagshipChange: true
+  FlagshipEquipChange: false
+  VanguardChange: false
+  VanguardEquipChange: false
+  LowEmotionRetreat: true
+  CommonCV:
+    value: any
+    option: [ any, langley, bogue, ranger, hermes ]
+  CommissionLimit: true
+Sos:
+  Chapter:
+    value: 3
+    option: [ 3, 4, 5, 6, 7, 8, 9, 10 ]
+
+# ==================== Main ====================
+
 Campaign:
   Name: 12-4
   Event:
@@ -233,16 +250,6 @@ C124LargeLeveling:
   PickupAmmo:
     value: 3
     option: [ 3, 4, 5 ]
-GemsFarming:
-  FlagshipChange: true
-  FlagshipEquipChange: false
-  VanguardChange: false
-  VanguardEquipChange: false
-  LowEmotionRetreat: true
-  CommonCV:
-    value: any
-    option: [ any, langley, bogue, ranger, hermes ]
-  CommissionLimit: true
 
 # ==================== Event ====================
 
@@ -566,10 +573,6 @@ Exercise:
   LowHpConfirmWait: 0.1
   OpponentRefreshValue: 0
   OpponentRefreshRecord: 2023-01-01 00:00:00
-Sos:
-  Chapter:
-    value: 3
-    option: [ 3, 4, 5, 6, 7, 8, 9, 10 ]
 
 # ==================== Opsi ====================
 

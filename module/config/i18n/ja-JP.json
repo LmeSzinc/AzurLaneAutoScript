@@ -12,6 +12,10 @@
       "name": "出撃",
       "help": ""
     },
+    "Main": {
+      "name": "メイン",
+      "help": ""
+    },
     "Event": {
       "name": "イベント",
       "help": ""

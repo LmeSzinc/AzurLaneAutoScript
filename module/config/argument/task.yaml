@@ -21,6 +21,28 @@ Restart:
 
 # ==================== Farm ====================
 
+GemsFarming:
+  - Scheduler
+  - GemsFarming
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - EnemyPriority
+Sos:
+  - Scheduler
+  - Sos
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
+
+# ==================== Main ====================
+
 MainNormal:
   - Scheduler
   - Campaign
@@ -59,25 +81,6 @@ Main2:
   - EnemyPriority
 WarArchives:
   - Scheduler
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
-GemsFarming:
-  - Scheduler
-  - GemsFarming
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - EnemyPriority
-Sos:
-  - Scheduler
-  - Sos
   - Campaign
   - StopCondition
   - Fleet

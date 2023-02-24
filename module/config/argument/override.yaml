@@ -15,20 +15,6 @@ Restart:
 
 # ==================== Farm ====================
 
-MainNormal:
-  Campaign:
-    Event: campaign_main
-MainHard:
-  Campaign:
-    Event: campaign_main
-    StopCondition:
-      RunCount: 3
-Main:
-  Campaign:
-    Event: campaign_main
-Main2:
-  Campaign:
-    Event: campaign_main
 WarArchives:
   Scheduler:
     SuccessInterval: 30
@@ -50,6 +36,23 @@ GemsFarming:
     MapAchievement: non_stop
     StageIncrease: false
     GetNewShip: false
+
+# ==================== Main ====================
+
+MainNormal:
+  Campaign:
+    Event: campaign_main
+MainHard:
+  Campaign:
+    Event: campaign_main
+    StopCondition:
+      RunCount: 3
+Main:
+  Campaign:
+    Event: campaign_main
+Main2:
+  Campaign:
+    Event: campaign_main
 
 # ==================== Event ====================
 
