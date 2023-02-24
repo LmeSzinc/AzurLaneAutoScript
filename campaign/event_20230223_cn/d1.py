@@ -58,6 +58,12 @@ class Config:
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 33),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
     MAP_ENEMY_GENRE_DETECTION_SCALING = {
         'DD': 1.111,
         'CL': 1.111,

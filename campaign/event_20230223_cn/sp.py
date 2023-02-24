@@ -62,6 +62,12 @@ class Config:
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 33),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
     MAP_HAS_SIREN = True
     MAP_IS_ONE_TIME_STAGE = True
     MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
