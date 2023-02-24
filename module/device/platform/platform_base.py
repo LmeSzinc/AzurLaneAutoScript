@@ -1,13 +1,14 @@
+import sys
 import typing as t
 
 import yaml
 from pydantic import BaseModel, SecretStr
 
+from module.base.decorator import cached_property, del_cached_property
 from module.device.connection import Connection
 from module.device.platform.emulator_base import EmulatorInstanceBase, EmulatorManagerBase
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
-from module.base.decorator import cached_property, del_cached_property
 
 
 class EmulatorData(BaseModel):
@@ -36,13 +37,13 @@ class PlatformBase(Connection, EmulatorManagerBase):
         - Retry is required.
         - Using bored sleep to wait startup is forbidden.
         """
-        pass
+        logger.info(f'Current platform {sys.platform} does not support emulator_start, skip')
 
     def emulator_stop(self):
         """
         Stop a emulator.
         """
-        pass
+        logger.info(f'Current platform {sys.platform} does not support emulator_stop, skip')
 
     @cached_property
     def emulator_data(self) -> EmulatorData:

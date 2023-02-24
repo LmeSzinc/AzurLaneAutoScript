@@ -66,7 +66,8 @@ class EmulatorBase:
     LDPlayerFamily = [LDPlayer3, LDPlayer4, LDPlayer9]
     MumuPlayer = 'MumuPlayer'
     MumuPlayer9 = 'MumuPlayer9'
-    MumuPlayerFamily = [MumuPlayer, MumuPlayer9]
+    MumuPlayer12 = 'MumuPlayer12'
+    MumuPlayerFamily = [MumuPlayer, MumuPlayer9, MumuPlayer12]
     MemuPlayer = 'MemuPlayer'
 
     @classmethod

@@ -123,6 +123,8 @@ class Emulator(EmulatorBase):
                 return cls.MumuPlayer9
             else:
                 return cls.MumuPlayer
+        if exe == 'MuMuPlayer.exe':
+            return cls.MumuPlayer12
         if exe == 'MEmu.exe':
             return cls.MemuPlayer
 
@@ -148,6 +150,8 @@ class Emulator(EmulatorBase):
             yield exe.replace('dnmultiplayer.exe', 'dnplayer.exe')
         elif 'NemuMultiPlayer.exe' in exe:
             yield exe.replace('NemuMultiPlayer.exe', 'NemuPlayer.exe')
+        elif 'MuMuMultiPlayer.exe' in exe:
+            yield exe.replace('MuMuMultiPlayer.exe', 'MuMuManager.exe')
         elif 'MEmuConsole.exe' in exe:
             yield exe.replace('MEmuConsole.exe', 'MEmu.exe')
         else:
@@ -259,6 +263,17 @@ class Emulator(EmulatorBase):
             )
         elif self == Emulator.MumuPlayer9:
             # vms/nemu-12.0-x64-default
+            for folder in self.list_folder('../vms', is_dir=True):
+                for file in iter_folder(folder, ext='.nemu'):
+                    serial = Emulator.vbox_file_to_serial(file)
+                    if serial:
+                        yield EmulatorInstance(
+                            serial=serial,
+                            name=os.path.basename(folder),
+                            path=self.path,
+                        )
+        elif self == Emulator.MumuPlayer12:
+            # vms/MuMuPlayer-12.0-0
             for folder in self.list_folder('../vms', is_dir=True):
                 for file in iter_folder(folder, ext='.nemu'):
                     serial = Emulator.vbox_file_to_serial(file)
@@ -380,6 +395,7 @@ class EmulatorManager(EmulatorManagerBase):
             'leidian9',
             'Nemu',
             'Nemu9',
+            'MuMuPlayer-12.0'
             'MEmu',
         ]
         for path in known_uninstall_registry_path:
