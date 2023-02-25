@@ -119,6 +119,9 @@ GemsFarming:
   VanguardChange: false
   VanguardEquipChange: false
   LowEmotionRetreat: true
+  FleetNumberInHardMode:
+    value: 0
+    option: [ 0, 1, 2 ]
   CommonCV:
     value: any
     option: [ any, langley, bogue, ranger, hermes ]

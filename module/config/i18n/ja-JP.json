@@ -1116,6 +1116,13 @@
       "name": "GemsFarming.LowEmotionRetreat.name",
       "help": "GemsFarming.LowEmotionRetreat.help"
     },
+    "FleetNumberInHardMode": {
+      "name": "Fleet number used in hard mode",
+      "help": "Fleet number used in hard mode like Event C/D",
+      "0": "Not a hard mode",
+      "1": "Fleet 1",
+      "2": "Fleet 2"
+    },
     "CommonCV": {
       "name": "GemsFarming.CommonCV.name",
       "help": "GemsFarming.CommonCV.help",
