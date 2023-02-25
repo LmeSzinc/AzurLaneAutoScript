@@ -24,18 +24,18 @@ class GGHandler:
                                'GameManager.GGHandler.GGMethod',
                                default='screenshot')
 
-    def restart(self, crashed=False):
-        from module.handler.login import LoginHandler
-        try:
-            if crashed:
-                timeout(self.device.restart_atx, timeout=60)
-            timeout(LoginHandler(config=self.config, device=self.device).app_restart, timeout_sec=600)
-        except Exception as e:
-            from module.notify import handle_notify
-            handle_notify(self.config.Error_OnePushConfig,
-                          title=f"Alas <{self.config.config_name}> crashed",
-                          content=f"<{self.config.config_name}> RequestHumanTakeover\nMaybe your emulator died", )
-            exit(1)
+    # def restart(self, crashed=False):
+    #     from module.handler.login import LoginHandler
+    #     try:
+    #         if crashed:
+    #             timeout(self.device.restart_atx, timeout=60)
+    #         timeout(LoginHandler(config=self.config, device=self.device).app_restart, timeout_sec=600)
+    #     except Exception as e:
+    #         from module.notify import handle_notify
+    #         handle_notify(self.config.Error_OnePushConfig,
+    #                       title=f"Alas <{self.config.config_name}> crashed",
+    #                       content=f"<{self.config.config_name}> RequestHumanTakeover\nMaybe your emulator died", )
+    #         exit(1)
 
     def set(self, mode=True):
         """
@@ -89,19 +89,18 @@ class GGHandler:
             f'Enabled={gg_data["gg_enable"]} AutoRestart={gg_data["gg_auto"]} Current stage={gg_data["gg_on"]}')
         return gg_data
 
-    def handle_before_restart(self):
-        try:
-            timeout(self.device.restart_atx, 60)
-            # import uiautomator2 as u2
-            # logger.info('Reset UiAutomator')
-            # u2.connect(self.config.Emulator_Serial).reset_uiautomator()
-        except Exception:
-            from module.notify import handle_notify
-            # logger.critical(f'Failed to restart UiAutomator for {self.config.Emulator_Serial}')
-            handle_notify(self.config.Error_OnePushConfig,
-                          title=f"Alas <{self.config.config_name}> Emulator error",
-                          content=f"<{self.config.config_name}> RequestHumanTakeover\nMaybe your emulator died", )
-            exit(1)
+    # def handle_before_restart(self):
+    #     try:
+    #         timeout(self.device.restart_atx, 60)
+    #     except Exception:
+    #         from module.notify import handle_notify
+    #         handle_notify(self.config.Error_OnePushConfig,
+    #                       title=f"Alas <{self.config.config_name}> Emulator error",
+    #                       content=f"<{self.config.config_name}> RequestHumanTakeover\nMaybe your emulator died", )
+    #         exit(1)
+    #     import uiautomator2 as u2
+    #     logger.info('Reset UiAutomator')
+    #     u2.connect(self.config.Emulator_Serial).reset_uiautomator()
 
     def handle_restart(self):
         """

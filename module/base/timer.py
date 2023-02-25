@@ -3,49 +3,6 @@ from datetime import datetime, timedelta
 from functools import wraps
 
 
-# def timeout(_timeout):
-#     threadstop = thread._thread__stop
-#     from threading import thread
-#
-#     class TimeOutException:
-#         pass
-#
-#     def decorator(function):
-#         def decorator2(*args, **kwargs):
-#             class TimeLimited(thread):
-#                 def __init__(self, _error=None):
-#                     thread.__init__(self)
-#                     self._error = _error
-#
-#                 def run(self):
-#                     try:
-#                         self.result = function(*args, **kwargs)
-#                     except Exception as e:
-#                         self._error = str(e)
-#
-#                 def _stop(self):
-#                     if self.isalive():
-#                         threadstop(self)
-#
-#                 @property
-#                 def error(self):
-#                     return self._error
-#
-#             t = TimeLimited()
-#             t.start()
-#             t.join(timeout)
-#             if isinstance(t.error, TimeOutException):
-#                 t._stop()
-#                 raise TimeOutException('timeout for %s' % (repr(function)))
-#             if t.isalive():
-#                 t._stop()
-#                 raise TimeOutException('timeout for %s' % (repr(function)))
-#             if t._error is None:
-#                 return t.result
-#
-#         return decorator2
-#
-#     return decorator
 def timeout(func, timeout_sec=30.0, *args, **kwargs):
     """Won't kill that task until it finishes"""
     from threading import Thread

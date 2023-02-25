@@ -147,14 +147,14 @@ class LoginHandler(UI):
 
     def app_start(self):
         logger.hr('App start')
-        GGHandler(config=self.config, device=self.device).handle_before_restart()
+        # GGHandler(config=self.config, device=self.device).handle_before_restart()
         self.device.app_start()
         self.handle_app_login()
         # self.ensure_no_unfinished_campaign()
 
     def app_restart(self):
         logger.hr('App restart')
-        GGHandler(config=self.config, device=self.device).handle_before_restart()
+        # GGHandler(config=self.config, device=self.device).handle_before_restart()
         self.device.app_stop()
         self.device.app_start()
         self.handle_app_login()
