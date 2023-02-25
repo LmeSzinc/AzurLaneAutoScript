@@ -9321,6 +9321,10 @@
           "u2"
         ]
       },
+      "RestartATX": {
+        "type": "checkbox",
+        "value": true
+      },
       "GGPackageName": {
         "type": "input",
         "value": "com."

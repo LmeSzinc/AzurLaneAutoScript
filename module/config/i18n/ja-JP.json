@@ -2386,6 +2386,10 @@
       "screenshot": "screenshot",
       "u2": "u2"
     },
+    "RestartATX": {
+      "name": "GGHandler.RestartATX.name",
+      "help": "GGHandler.RestartATX.help"
+    },
     "GGPackageName": {
       "name": "GGHandler.GGPackageName.name",
       "help": "GGHandler.GGPackageName.help"

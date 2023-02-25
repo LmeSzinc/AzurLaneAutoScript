@@ -1939,6 +1939,7 @@
       "Enabled": false,
       "ServerLocation": "cn",
       "GGMethod": "u2",
+      "RestartATX": true,
       "GGPackageName": "com.",
       "AutoRestartGG": false,
       "RestartEverytime": true,

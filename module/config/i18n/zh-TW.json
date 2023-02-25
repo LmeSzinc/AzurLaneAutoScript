@@ -2386,6 +2386,10 @@
       "screenshot": "截圖",
       "u2": "UiAutomator2"
     },
+    "RestartATX": {
+      "name": "GGHandler.RestartATX.name",
+      "help": "GGHandler.RestartATX.help"
+    },
     "GGPackageName": {
       "name": "GG包名",
       "help": "GG安裝後請自行前往/Android/Data資料夾查看包名，應是com.一串亂碼"

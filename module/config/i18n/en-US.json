@@ -2386,6 +2386,10 @@
       "screenshot": "Screenshot",
       "u2": "UiAutomator"
     },
+    "RestartATX": {
+      "name": "GGHandler.RestartATX.name",
+      "help": "GGHandler.RestartATX.help"
+    },
     "GGPackageName": {
       "name": "GG Package Name",
       "help": "In /Android/data/com.xxxxxxx. (xxxxxxx means a lot of random characters)"

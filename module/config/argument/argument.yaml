@@ -674,6 +674,7 @@ GGHandler:
   GGMethod:
     value: u2
     option: [ screenshot, u2 ]
+  RestartATX: true
   GGPackageName: com.
   AutoRestartGG: false
   RestartEverytime: true

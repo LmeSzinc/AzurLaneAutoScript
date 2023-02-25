@@ -2386,6 +2386,10 @@
       "screenshot": "截图",
       "u2": "UiAutomator2"
     },
+    "RestartATX": {
+      "name": "重启ATX和U2",
+      "help": "蓝叠和红手指等环境重启会报错，此时设置为关闭。否则默认打开。\n雷电不出问题必须打开，就是为了你这碗醋下的饺子。"
+    },
     "GGPackageName": {
       "name": "GG包名",
       "help": "GG安装后请自行前往/Android/Data文件夹查看包名，应是com.一串乱码"
