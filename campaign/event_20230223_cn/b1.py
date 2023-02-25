@@ -2,21 +2,20 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from .c1 import Config as ConfigBase
 
-MAP = CampaignMap('C3')
+MAP = CampaignMap('B1')
 MAP.shape = 'I8'
-MAP.camera_data = ['D2', 'F2', 'F5']
-MAP.camera_data_spawn_point = ['D5']
+MAP.camera_data = ['D3', 'D6', 'F3', 'F6']
+MAP.camera_data_spawn_point = ['D2']
 MAP.map_data = """
-    ME -- ME -- -- -- -- ME --
-    -- ME -- Me -- ME ME -- ++
-    -- ++ ME __ -- ++ ++ ME ME
-    -- ++ MS -- MB ++ ++ -- --
-    -- -- -- MS -- Me -- -- ME
-    -- SP -- -- MS -- -- ME ++
-    -- -- SP -- Me -- ME -- ++
-    -- -- -- -- ++ ++ ++ -- --
+    ++ SP SP -- ++ -- -- ++ ++
+    -- -- -- -- ++ ME ME ++ ++
+    MS -- MS -- MS -- -- ME --
+    -- Me ++ -- -- -- ME -- ME
+    -- ++ ++ Me __ Me ++ ++ --
+    -- ME -- -- -- -- ++ ++ --
+    ++ -- ME -- Me -- MB MB --
+    ++ -- -- ME ++ -- -- -- --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -29,12 +28,12 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'siren': 2},
+    {'battle': 0, 'enemy': 2, 'siren': 1},
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 1},
-    {'battle': 5, 'boss': 1},
+    {'battle': 4, 'enemy': 2, 'boss': 1},
+    {'battle': 5, 'enemy': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, I1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, \
@@ -47,9 +46,9 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, \
     = MAP.flatten()
 
 
-class Config(ConfigBase):
+class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['LaGalissonniere']
+    MAP_SIREN_TEMPLATE = ['CL', 'CA']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -59,8 +58,21 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
-    MAP_SWIPE_MULTIPLY = 1.552
-    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.500
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 33),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    MAP_ENEMY_GENRE_DETECTION_SCALING = {
+        'DD': 1.111,
+        'CL': 1.111,
+        'CA': 1.111,
+        'CV': 1.111,
+        'BB': 1.111,
+    }
+    MAP_SWIPE_MULTIPLY = 1.826
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.765
 
 
 class Campaign(CampaignBase):
@@ -75,5 +87,5 @@ class Campaign(CampaignBase):
 
         return self.battle_default()
 
-    def battle_5(self):
-        return self.fleet_boss.clear_boss()
+    def battle_4(self):
+        return self.clear_boss()
