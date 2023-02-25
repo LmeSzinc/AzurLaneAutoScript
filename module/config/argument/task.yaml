@@ -6,7 +6,6 @@
 
 Alas:
   - Emulator
-  - RestartEmulator
   - Error
   - Optimization
   - DropRecord
@@ -17,6 +16,8 @@ General:
   - OldRetire
 Restart:
   - Scheduler
+  - RestartEmulator
+  - EmulatorInfo
 
 # ==================== Farm ====================
 

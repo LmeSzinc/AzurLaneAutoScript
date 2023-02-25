@@ -37,15 +37,32 @@ Emulator:
   AdbRestart: false
 RestartEmulator:
   Enable: false
-  EmulatorData:
-    type: textarea
-    mode: yaml
-    value: |-
-      emulator:
-      name:
-      path:
-  ErrorRestart: False
   DailyRestart: False
+EmulatorInfo:
+  Emulator:
+    value: auto
+    option: [
+      auto,
+      NoxPlayer,
+      NoxPlayer64,
+      BlueStacks4,
+      BlueStacks5,
+      BlueStacks4HyperV,
+      BlueStacks5HyperV,
+      LDPlayer3,
+      LDPlayer4,
+      LDPlayer9,
+      MumuPlayer,
+      MumuPlayer9,
+      MumuPlayer12,
+      MemuPlayer,
+    ]
+  name:
+    value: null
+    type: textarea
+  path:
+    value: null
+    type: textarea
 Error:
   HandleError: true
   SaveError: true

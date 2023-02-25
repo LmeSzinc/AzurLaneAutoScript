@@ -59,6 +59,8 @@ class EmulatorBase:
     NoxPlayerFamily = [NoxPlayer, NoxPlayer64]
     BlueStacks4 = 'BlueStacks4'
     BlueStacks5 = 'BlueStacks5'
+    BlueStacks4HyperV = 'BlueStacks4HyperV'
+    BlueStacks5HyperV = 'BlueStacks5HyperV'
     BlueStacksFamily = [BlueStacks4, BlueStacks5]
     LDPlayer3 = 'LDPlayer3'
     LDPlayer4 = 'LDPlayer4'

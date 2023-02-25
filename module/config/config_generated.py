@@ -28,9 +28,12 @@ class GeneratedConfig:
 
     # Group `RestartEmulator`
     RestartEmulator_Enable = False
-    RestartEmulator_EmulatorData = 'emulator:\nname:\npath:'
-    RestartEmulator_ErrorRestart = False
     RestartEmulator_DailyRestart = False
+
+    # Group `EmulatorInfo`
+    EmulatorInfo_Emulator = 'auto'  # auto, NoxPlayer, NoxPlayer64, BlueStacks4, BlueStacks5, BlueStacks4HyperV, BlueStacks5HyperV, LDPlayer3, LDPlayer4, LDPlayer9, MumuPlayer, MumuPlayer9, MumuPlayer12, MemuPlayer
+    EmulatorInfo_name = None
+    EmulatorInfo_path = None
 
     # Group `Error`
     Error_HandleError = True

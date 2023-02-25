@@ -11,14 +11,14 @@ from module.logger import logger
 from module.map.map_grids import SelectedGrids
 
 
-class EmulatorData(BaseModel):
+class EmulatorInfo(BaseModel):
     emulator: str = ''
     name: str = ''
     path: str = ''
 
     # For APIs of chinac.com, a phone cloud platform.
-    access_key: SecretStr = ''
-    secret: SecretStr = ''
+    # access_key: SecretStr = ''
+    # secret: SecretStr = ''
 
 
 class PlatformBase(Connection, EmulatorManagerBase):
@@ -46,14 +46,16 @@ class PlatformBase(Connection, EmulatorManagerBase):
         logger.info(f'Current platform {sys.platform} does not support emulator_stop, skip')
 
     @cached_property
-    def emulator_data(self) -> EmulatorData:
-        try:
-            data = yaml.safe_load(self.config.RestartEmulator_EmulatorData)
-            return EmulatorData(**data)
-        except Exception as e:
-            logger.error(e)
-            logger.error("Failed to load EmulatorData, no emulator_instance")
-            return EmulatorData()
+    def emulator_info(self) -> EmulatorInfo:
+        emulator = self.config.EmulatorInfo_Emulator
+        name = str(self.config.EmulatorInfo_name).strip().replace('\n', '')
+        path = str(self.config.EmulatorInfo_path).strip().replace('\n', '')
+
+        return EmulatorInfo(
+            emulator=emulator,
+            name=name,
+            path=path,
+        )
 
     @cached_property
     def emulator_instance(self) -> t.Optional[EmulatorInstanceBase]:
@@ -61,7 +63,7 @@ class PlatformBase(Connection, EmulatorManagerBase):
         Returns:
             EmulatorInstanceBase: Emulator instance or None
         """
-        data = self.emulator_data
+        data = self.emulator_info
         old_info = dict(
             emulator=data.emulator,
             path=data.path,
@@ -75,14 +77,18 @@ class PlatformBase(Connection, EmulatorManagerBase):
         )
 
         # Write complete emulator data
-        new_info = dict(
-            emulator=instance.type,
-            path=instance.path,
-            name=instance.name,
-        )
-        if new_info != old_info:
-            self.config.RestartEmulator_EmulatorData = yaml.safe_dump(new_info).strip()
-            del_cached_property(self, 'emulator_data')
+        if instance is not None:
+            new_info = dict(
+                emulator=instance.type,
+                path=instance.path,
+                name=instance.name,
+            )
+            if new_info != old_info:
+                with self.config.multi_set():
+                    self.config.EmulatorInfo_Emulator = instance.type
+                    self.config.EmulatorInfo_name = instance.name
+                    self.config.EmulatorInfo_path = instance.path
+                del_cached_property(self, 'emulator_info')
 
         return instance
 
