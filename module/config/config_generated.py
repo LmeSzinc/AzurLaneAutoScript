@@ -428,11 +428,12 @@ class GeneratedConfig:
 
     # Group `GGHandler`
     GGHandler_Enabled = False
+    GGHandler_RestartEverytime = True
+    GGHandler_RestartATX = True
     GGHandler_ServerLocation = 'cn'  # cn, jp, en, tw
-    GGHandler_GGMethod = 'u2'  # screenshot, u2
+    GGHandler_GGMethod = 'screenshot'  # screenshot, u2
     GGHandler_GGPackageName = 'com.'
     GGHandler_AutoRestartGG = False
-    GGHandler_RestartEverytime = True
     GGHandler_GGMultiplyingFactor = 200
     GGHandler_DisabledTask = 'disable_all_dangerous_task'  # disable_all_dangerous_task, disable_guild_and_dangerous, disable_meta_and_exercise, disable_exercise, enable_all
     GGHandler_ALLowLowLevelInGemsFarming = False

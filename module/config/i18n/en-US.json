@@ -2373,6 +2373,14 @@
       "name": "Enabled",
       "help": ""
     },
+    "RestartEverytime": {
+      "name": "Restart Everytime Alas starts",
+      "help": "For sake of safety"
+    },
+    "RestartATX": {
+      "name": "RestartATX",
+      "help": ""
+    },
     "ServerLocation": {
       "name": "Server location",
       "help": "",
@@ -2394,10 +2402,6 @@
     "AutoRestartGG": {
       "name": "Auto Restart GG",
       "help": "Start GG before tasks"
-    },
-    "RestartEverytime": {
-      "name": "Restart Everytime Alas starts",
-      "help": "For sake of safety"
     },
     "GGMultiplyingFactor": {
       "name": "GG Multiplying Factor",

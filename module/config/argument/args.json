@@ -9667,6 +9667,14 @@
         "type": "checkbox",
         "value": false
       },
+      "RestartEverytime": {
+        "type": "checkbox",
+        "value": true
+      },
+      "RestartATX": {
+        "type": "checkbox",
+        "value": true
+      },
       "ServerLocation": {
         "type": "select",
         "value": "cn",
@@ -9679,7 +9687,7 @@
       },
       "GGMethod": {
         "type": "select",
-        "value": "u2",
+        "value": "screenshot",
         "option": [
           "screenshot",
           "u2"
@@ -9692,10 +9700,6 @@
       "AutoRestartGG": {
         "type": "checkbox",
         "value": false
-      },
-      "RestartEverytime": {
-        "type": "checkbox",
-        "value": true
       },
       "GGMultiplyingFactor": {
         "type": "input",

@@ -2010,11 +2010,12 @@
     },
     "GGHandler": {
       "Enabled": false,
+      "RestartEverytime": true,
+      "RestartATX": true,
       "ServerLocation": "cn",
-      "GGMethod": "u2",
+      "GGMethod": "screenshot",
       "GGPackageName": "com.",
       "AutoRestartGG": false,
-      "RestartEverytime": true,
       "GGMultiplyingFactor": 200,
       "DisabledTask": "disable_all_dangerous_task",
       "ALLowLowLevelInGemsFarming": false

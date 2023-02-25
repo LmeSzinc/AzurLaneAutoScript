@@ -2373,6 +2373,14 @@
       "name": "GGHandler.Enabled.name",
       "help": "GGHandler.Enabled.help"
     },
+    "RestartEverytime": {
+      "name": "GGHandler.RestartEverytime.name",
+      "help": "GGHandler.RestartEverytime.help"
+    },
+    "RestartATX": {
+      "name": "RestartATX",
+      "help": ""
+    },
     "ServerLocation": {
       "name": "GGHandler.ServerLocation.name",
       "help": "GGHandler.ServerLocation.help",
@@ -2394,10 +2402,6 @@
     "AutoRestartGG": {
       "name": "GGHandler.AutoRestartGG.name",
       "help": "GGHandler.AutoRestartGG.help"
-    },
-    "RestartEverytime": {
-      "name": "GGHandler.RestartEverytime.name",
-      "help": "GGHandler.RestartEverytime.help"
     },
     "GGMultiplyingFactor": {
       "name": "GGHandler.GGMultiplyingFactor.name",
