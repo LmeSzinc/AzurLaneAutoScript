@@ -332,6 +332,8 @@ class RewardDorm(UI):
                 continue
             if self.handle_popup_cancel('DORM_FEED'):
                 continue
+            if self.ui_additional():
+                continue
 
     def dorm_run(self, feed=True, collect=True):
         """
