@@ -1161,8 +1161,7 @@
       "help": "Reminder: Players need to check task config before running, or TaskCall may not work.",
       "Main": "Main",
       "Main2": "Main-2",
-      "Main3": "Main-3",
-      "Main4": "Main-4"
+      "Main3": "Main-3"
     }
   },
   "EventDaily": {
