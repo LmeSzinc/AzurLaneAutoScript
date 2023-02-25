@@ -189,7 +189,7 @@ class UI(InfoHandler):
         def rotation_check():
             self.device.get_orientation()
 
-        timeout = Timer(5, count=10).start()
+        timeout = Timer(10, count=20).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
