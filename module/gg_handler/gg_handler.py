@@ -90,17 +90,18 @@ class GGHandler:
         return gg_data
 
     # def handle_before_restart(self):
-    #     try:
-    #         timeout(self.device.restart_atx, 60)
-    #     except Exception:
-    #         from module.notify import handle_notify
-    #         handle_notify(self.config.Error_OnePushConfig,
-    #                       title=f"Alas <{self.config.config_name}> Emulator error",
-    #                       content=f"<{self.config.config_name}> RequestHumanTakeover\nMaybe your emulator died", )
-    #         exit(1)
-    #     import uiautomator2 as u2
-    #     logger.info('Reset UiAutomator')
-    #     u2.connect(self.config.Emulator_Serial).reset_uiautomator()
+    #     if self.method == 'u2':
+    #         try:
+    #             timeout(self.device.restart_atx, 60)
+    #         except Exception:
+    #             from module.notify import handle_notify
+    #             handle_notify(self.config.Error_OnePushConfig,
+    #                           title=f"Alas <{self.config.config_name}> Emulator error",
+    #                           content=f"<{self.config.config_name}> RequestHumanTakeover\nMaybe your emulator died", )
+    #             exit(1)
+    #         import uiautomator2 as u2
+    #         logger.info('Reset UiAutomator')
+    #         u2.connect(self.config.Emulator_Serial).reset_uiautomator()
 
     def handle_restart(self):
         """

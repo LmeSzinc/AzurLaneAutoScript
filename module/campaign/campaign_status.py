@@ -57,7 +57,6 @@ class CampaignStatus(UI):
         else:
             logger.warning(f'Invalid pt result: {pt}')
             pt = 0
-            LogRes(self.config).Pt = pt
         if update:
             self.config.update()
         return pt
