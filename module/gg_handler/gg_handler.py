@@ -24,18 +24,18 @@ class GGHandler:
                                'GameManager.GGHandler.GGMethod',
                                default='screenshot')
 
-    # def restart(self, crashed=False):
-    #     from module.handler.login import LoginHandler
-    #     try:
-    #         if crashed:
-    #             timeout(self.device.restart_atx, timeout=60)
-    #         timeout(LoginHandler(config=self.config, device=self.device).app_restart, timeout_sec=600)
-    #     except Exception as e:
-    #         from module.notify import handle_notify
-    #         handle_notify(self.config.Error_OnePushConfig,
-    #                       title=f"Alas <{self.config.config_name}> crashed",
-    #                       content=f"<{self.config.config_name}> RequestHumanTakeover\nMaybe your emulator died", )
-    #         exit(1)
+    def restart(self, crashed=False):
+        from module.handler.login import LoginHandler
+        try:
+            # if crashed:
+            #     timeout(self.device.restart_atx, timeout=60)
+            timeout(LoginHandler(config=self.config, device=self.device).app_restart, timeout_sec=600)
+        except Exception as e:
+            from module.notify import handle_notify
+            handle_notify(self.config.Error_OnePushConfig,
+                          title=f"Alas <{self.config.config_name}> crashed",
+                          content=f"<{self.config.config_name}> RequestHumanTakeover\nMaybe your emulator died", )
+            exit(1)
 
     def set(self, mode=True):
         """
