@@ -1013,9 +1013,9 @@ class AlasGUI(Frame):
     @use_scope("content", clear=True)
     def dev_ChangeLog(self) -> None:
         self.init_menu(name="ChangeLog")
-        self.set_title(t("Gui.MenuDevelop.LinkChange"))
+        self.set_title(t("Gui.MenuDevelop.ChangeLog"))
         url = "https://gitee.com/MengNianxiaoyao/AzurLaneAutoScript/blob/master/README.md#%E6%9B%B4%E6%96%B0%E8%AF%B4%E6%98%8E"
-        put_text(t("Gui.MenuDevelop.ChangeLog"))
+        put_text(t("Gui.MenuDevelop.LinkChange"))
         put_html(f'<a href="{url}" target="_blank">{url}</a>')
 
     @use_scope("content", clear=True)
