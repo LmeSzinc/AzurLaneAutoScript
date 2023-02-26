@@ -70,6 +70,11 @@ class ConnectionAttr:
         """
         serial check
         """
+        # Chinese colon
+        if '：' in self.serial:
+            self.serial = self.serial.replace('：', ':')
+            logger.warning(f'Serial {self.config.Emulator_Serial} is revised to {self.serial}')
+            self.config.Emulator_Serial = self.serial
         if self.is_bluestacks4_hyperv:
             self.serial = self.find_bluestacks4_hyperv(self.serial)
         if self.is_bluestacks5_hyperv:
