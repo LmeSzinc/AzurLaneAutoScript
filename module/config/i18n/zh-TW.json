@@ -2685,6 +2685,10 @@
     }
   },
   "Gui": {
+    "Login": {
+      "Login": "請在下面登錄",
+      "LoginError": "密碼錯誤"
+    },
     "Aside": {
       "Install": "安裝",
       "Develop": "開發",

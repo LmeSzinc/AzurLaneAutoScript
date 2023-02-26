@@ -2685,6 +2685,10 @@
     }
   },
   "Gui": {
+    "Login": {
+      "Login": "请在下面登录",
+      "LoginError": "密码错误"
+    },
     "Aside": {
       "Install": "安装",
       "Develop": "开发",

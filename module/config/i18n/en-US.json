@@ -2685,6 +2685,10 @@
     }
   },
   "Gui": {
+    "Login": {
+      "Login": "Please login below.",
+      "LoginError": "Wrong password!"
+    },
     "Aside": {
       "Install": "Install",
       "Develop": "Develop",

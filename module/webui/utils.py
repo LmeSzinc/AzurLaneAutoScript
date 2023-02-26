@@ -13,6 +13,7 @@ from module.config.utils import deep_iter
 from module.logger import logger
 from module.webui.setting import State
 from pywebio.input import PASSWORD, input
+from module.webui.lang import _t, t
 from pywebio.output import PopupSize, popup, put_html, toast
 from pywebio.session import eval_js
 from pywebio.session import info as session_info
@@ -430,12 +431,12 @@ def parse_pin_value(val, valuetype: str = None):
 def login(password):
     if get_localstorage("password") == str(password):
         return True
-    pwd = input(label="Please login below.", type=PASSWORD, placeholder="PASSWORD")
+    pwd = input(label=t("Gui.Login.Login"), type=PASSWORD, placeholder="PASSWORD")
     if str(pwd) == str(password):
         set_localstorage("password", str(pwd))
         return True
     else:
-        toast("Wrong password!", color="error")
+        toast(t("Gui.Login.LoginError"), color="error")
         return False
 
 
