@@ -12,6 +12,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
     _auto_search_in_stage_timer = Timer(3, count=6)
     _auto_search_status_confirm = False
     auto_search_oil_limit_triggered = False
+    auto_search_coin_limit_triggered = False
 
     def _handle_auto_search_menu_missing(self):
         """
@@ -113,6 +114,28 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
 
         return checked
 
+    def auto_search_watch_coin(self, checked=False):
+        """
+        Watch coin.
+        This will set auto_search_coin_limit_triggered.
+        """
+        if not checked:
+            coin = self.get_coin()
+            if coin == 0:
+                logger.warning('Coin not found')
+            else:
+                if coin < max(500, self.config.TaskBalancer_CoinLimit):
+                    logger.info('Reach coin limit')
+                    self.auto_search_coin_limit_triggered = True
+                else:
+                    if self.auto_search_oil_limit_triggered:
+                        logger.warning('auto_search_coin_limit_triggered but coin recovered, '
+                                       'probably because of wrong OCR result before')
+                    self.auto_search_coin_limit_triggered = False
+                checked = True
+
+        return checked
+
     def _wait_until_in_map(self, skip_first_screenshot=True):
         """
         To handle a bug in Azur Lane game client.
@@ -146,6 +169,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
         self.device.stuck_record_clear()
         checked_fleet = False
         checked_oil = False
+        checked_coin = False
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -155,6 +179,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             if self.is_auto_search_running():
                 checked_fleet = self.auto_search_watch_fleet(checked_fleet)
                 checked_oil = self.auto_search_watch_oil(checked_oil)
+                checked_coin = self.auto_search_watch_coin(checked_coin)
             if self.handle_retirement():
                 self.map_offensive_auto_search()
                 continue

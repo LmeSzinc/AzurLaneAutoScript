@@ -83,7 +83,7 @@ class CampaignStatus(UI):
     def get_oil(self, skip_first_screenshot=True):
         """
         Returns:
-            int: Coin amount
+            int: Oil amount
         """
         amount = 0
         timeout = Timer(1, count=2).start()
@@ -94,7 +94,7 @@ class CampaignStatus(UI):
                 self.device.screenshot()
 
             if timeout.reached():
-                logger.warning('Get coin timeout')
+                logger.warning('Get oil timeout')
                 break
 
             amount = OCR_OIL.ocr(self.device.image)
