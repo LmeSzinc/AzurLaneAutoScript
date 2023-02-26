@@ -1,10 +1,11 @@
 from module.base.button import Button
 from module.base.decorator import run_once
 from module.base.timer import Timer
-from module.freebies.assets import PURCHASE_POPUP
 from module.combat.assets import GET_ITEMS_1, GET_SHIP
 from module.exception import (GameNotRunningError, GamePageUnknownError,
                               RequestHumanTakeover)
+from module.exercise.assets import EXERCISE_PREPARATION
+from module.freebies.assets import PURCHASE_POPUP
 from module.handler.assets import (AUTO_SEARCH_MENU_EXIT, BATTLE_PASS_NOTICE,
                                    GAME_TIPS, LOGIN_ANNOUNCE,
                                    LOGIN_CHECK, LOGIN_RETURN_SIGN,
@@ -548,6 +549,12 @@ class UI(InfoHandler):
 
         # Login
         if self.appear_then_click(LOGIN_CHECK, offset=(30, 30), interval=3):
+            return True
+
+        # Mistaken click
+        if self.appear(EXERCISE_PREPARATION, interval=3):
+            logger.info(f'UI additional: {EXERCISE_PREPARATION} -> {GOTO_MAIN}')
+            self.device.click(GOTO_MAIN)
             return True
 
         return False
