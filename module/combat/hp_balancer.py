@@ -85,8 +85,15 @@ class HPBalancer(ModuleBase):
         Logs:
             [HP]  98% ____ ____  98%  98%  98%
         """
+        # Chinese comma
+        weight = self.config.HpControl_HpBalanceWeight
+        if '，' in self.config.HpControl_HpBalanceWeight:
+            weight = self.config.HpControl_HpBalanceWeight.replace('，', ',')
+            logger.info(f'HpControl_HpBalanceWeight {self.config.HpControl_HpBalanceWeight} is revised to {weight}')
+            self.config.HpControl_HpBalanceWeight = weight
+
         hp = [self._calculate_hp(button.area) for button in self._hp_grid().buttons]
-        weight = to_list(self.config.HpControl_HpBalanceWeight)
+        weight = to_list(weight)
         scout = np.array(hp[3:]) * np.array(weight) / np.max(weight)
 
         self.hp = hp[:3] + scout.tolist()

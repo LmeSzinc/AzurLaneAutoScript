@@ -140,13 +140,23 @@ class Equipment(StorageHandler):
             return True
         return False
 
-    def _equip_take_off_one(self):
+    def _equip_take_off_one(self, skip_first_screenshot=True):
         bar_timer = Timer(5)
         off_timer = Timer(5)
         confirm_timer = Timer(5)
 
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                self.device.screenshot()
+            else:
+                skip_first_screenshot = False
+
+            # End
+            # if self.handle_info_bar():
+            #     break
+            if off_timer.started() and self.info_bar_count():
+                break
+
             if bar_timer.reached() and not self.appear(EQUIP_1, offset=10):
                 self.device.click(EQUIPMENT_OPEN)
                 bar_timer.reset()
@@ -161,12 +171,6 @@ class Equipment(StorageHandler):
                 continue
             if self.handle_storage_full():
                 continue
-
-            # End
-            # if self.handle_info_bar():
-            #     break
-            if off_timer.started() and self.info_bar_count():
-                break
 
     def equipment_take_off(self, enter, out, fleet):
         """
@@ -189,12 +193,21 @@ class Equipment(StorageHandler):
         self.ui_back(out)
         self.equipment_has_take_on = False
 
-    def _equip_take_on_one(self, index):
+    def _equip_take_on_one(self, index, skip_first_screenshot=True):
         bar_timer = Timer(5)
         on_timer = Timer(5)
 
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                self.device.screenshot()
+            else:
+                skip_first_screenshot = False
+
+            # End
+            # if self.handle_info_bar():
+            #     break
+            if on_timer.started() and self.info_bar_count():
+                break
 
             if bar_timer.reached() and not self.appear(EQUIP_1, offset=10):
                 self.device.click(EQUIPMENT_OPEN)
@@ -212,12 +225,6 @@ class Equipment(StorageHandler):
 
                 on_timer.reset()
                 continue
-
-            # End
-            # if self.handle_info_bar():
-            #     break
-            if on_timer.started() and self.info_bar_count():
-                break
 
     def equipment_take_on(self, enter, out, fleet):
         """
