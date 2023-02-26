@@ -2732,6 +2732,8 @@
       "HomePage": "主页",
       "Translate": "翻译",
       "Update": "更新器",
+      "ChangeLog": "更新日志",
+      "LinkChange": "点击下面的链接查看更新日志",
       "Remote": "远程控制",
       "Utils": "工具",
       "RaiseException": "抛出异常",

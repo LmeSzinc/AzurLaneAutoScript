@@ -2732,6 +2732,8 @@
       "HomePage": "Home",
       "Translate": "Translate",
       "Update": "Updater",
+      "ChangeLog": "ChangeLog",
+      "LinkChange": "LinkChange",
       "Remote": "Remote access",
       "Utils": "Utils",
       "RaiseException": "Raise Exception",

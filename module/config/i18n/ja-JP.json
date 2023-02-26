@@ -2730,6 +2730,8 @@
       "HomePage": "ホームページ",
       "Translate": "翻訳",
       "Update": "アップデータ",
+      "ChangeLog": "ChangeLog",
+      "LinkChange": "LinkChange",
       "Remote": "遠隔操作",
       "Utils": "ツール",
       "RaiseException": "Raise Exception",

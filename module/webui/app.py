@@ -818,6 +818,12 @@ class AlasGUI(Frame):
         ).style(f"--menu-Update--")
 
         put_button(
+            label=t("Gui.MenuDevelop.ChangeLog"),
+            onclick=self.dev_ChangeLog,
+            color="menu",
+        ).style(f"--menu-ChangeLog--")
+
+        put_button(
             label=t("Gui.MenuDevelop.Remote"),
             onclick=self.dev_remote,
             color="menu",
@@ -829,10 +835,10 @@ class AlasGUI(Frame):
             color="menu",
         ).style(f"--menu-Utils--")
 
-    def dev_translate(self) -> None:
-        go_app("translate", new_window=True)
-        lang.TRANSLATE_MODE = True
-        self.show()
+    # def dev_translate(self) -> None:
+    #     go_app("translate", new_window=True)
+    #     lang.TRANSLATE_MODE = True
+    #     self.show()
 
     @use_scope("content", clear=True)
     def dev_update(self) -> None:
@@ -1003,6 +1009,14 @@ class AlasGUI(Frame):
         self.task_handler.add(updater_switch.g(), delay=0.5, pending_delete=True)
 
         updater.check_update()
+    
+    @use_scope("content", clear=True)
+    def dev_ChangeLog(self) -> None:
+        self.init_menu(name="ChangeLog")
+        self.set_title(t("Gui.MenuDevelop.LinkChange"))
+        url = "https://gitee.com/MengNianxiaoyao/AzurLaneAutoScript/blob/master/README.md#%E6%9B%B4%E6%96%B0%E8%AF%B4%E6%98%8E"
+        put_text(t("Gui.MenuDevelop.ChangeLog"))
+        put_html(f'<a href="{url}" target="_blank">{url}</a>')
 
     @use_scope("content", clear=True)
     def dev_utils(self) -> None:
