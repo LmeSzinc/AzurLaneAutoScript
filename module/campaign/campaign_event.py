@@ -138,11 +138,16 @@ class CampaignEvent(CampaignStatus):
         limit = self.config.TaskBalancer_CoinLimit
         coin = self.get_coin()
         # Check Coin
-        if coin < limit and self.is_balancer_task:
-            logger.hr('Triggered task balancer: Coin limit')
-            return True
-        else:
+        if coin == 0:
+            # Avoid wrong/zero OCR result
+            logger.warning('Coin not found')
             return False
+        else:
+            if coin < limit and self.is_balancer_task:
+                logger.hr('Triggered task balancer: Coin limit')
+                return True
+            else:
+                return False
 
     def handle_task_balancer(self):
         self.config.task_delay(minute=5)
