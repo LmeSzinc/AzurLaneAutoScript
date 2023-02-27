@@ -1104,6 +1104,10 @@
       "name": "GemsFarming.VanguardEquipChange.name",
       "help": "GemsFarming.VanguardEquipChange.help"
     },
+    "ALLowLowVanguardLevel": {
+      "name": "GemsFarming.ALLowLowVanguardLevel.name",
+      "help": "GemsFarming.ALLowLowVanguardLevel.help"
+    },
     "LowEmotionRetreat": {
       "name": "GemsFarming.LowEmotionRetreat.name",
       "help": "GemsFarming.LowEmotionRetreat.help"
@@ -2413,10 +2417,6 @@
       "disable_meta_and_exercise": "disable_meta_and_exercise",
       "disable_exercise": "disable_exercise",
       "enable_all": "enable_all"
-    },
-    "ALLowLowLevelInGemsFarming": {
-      "name": "GGHandler.ALLowLowLevelInGemsFarming.name",
-      "help": "GGHandler.ALLowLowLevelInGemsFarming.help"
     }
   },
   "PowerLimit": {

@@ -198,7 +198,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         logger.hr('FINDING FLAGSHIP')
 
         scanner = ShipScanner(
-            level=(1, 31), emotion=(10, 150), fleet=self.config.Fleet_Fleet1, status='free')
+            level=(1, 31), emotion=(20, 150), fleet=self.config.Fleet_Fleet1, status='free')
         scanner.disable('rarity')
 
         if not self.server_support_status_fleet_scan():
@@ -264,17 +264,13 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             max_level = 70
         from module.gg_handler.gg_data import GGData
         _ggdata = GGData(self.config).get_data()
-        from module.config.utils import deep_get
-        _allow_low_level = deep_get(d=self.config.data,
-                                    keys='GameManager.GGHandler.AllowLowLevelInGemsFarming',
-                                    default=False)
-        if _ggdata['gg_enable'] and _ggdata['gg_auto'] and _allow_low_level:
+        if _ggdata['gg_enable'] and _ggdata['gg_auto'] and self.config.GemsFarming_ALLowLowVanguardLevel:
             min_level = 2
         else:
             min_level = max_level
         if self.hard_mode:
             min_level = max(min_level, 49)
-        scanner = ShipScanner(level=(min_level, max_level), emotion=(10, 150),
+        scanner = ShipScanner(level=(min_level, max_level), emotion=(20, 150),
                               fleet=self.config.Fleet_Fleet1, status='free')
         scanner.disable('rarity')
 

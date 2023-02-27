@@ -1104,6 +1104,10 @@
       "name": "Enable Vanguard Equipment Change",
       "help": "The vanguard's equipment is replaced when being switched out by first recording the current setup\nOnly populated equipment slots will be replaced"
     },
+    "ALLowLowVanguardLevel": {
+      "name": "ALLow Low Vanguard Level",
+      "help": "Destroyers over level 10 will now be used, 49 for Event CD"
+    },
     "LowEmotionRetreat": {
       "name": "Enable Low Emotion Retreat",
       "help": "Retreat when low emotion is detected and switch out both back and front ships at the same time"
@@ -2413,10 +2417,6 @@
       "disable_meta_and_exercise": "Disable_meta_and_exercise",
       "disable_exercise": "Disable_exercise",
       "enable_all": "Enable_all"
-    },
-    "ALLowLowLevelInGemsFarming": {
-      "name": "ALLow Low Level In GemsFarming",
-      "help": "Destryers over level 10 will now be used."
     }
   },
   "PowerLimit": {

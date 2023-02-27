@@ -1098,11 +1098,15 @@
     },
     "VanguardChange": {
       "name": "更换前排",
-      "help": "换前排通过找一艘心情不低于10、等级100的白鹰白皮驱逐完成，所以尽量保证有足够多的驱逐。\n国服以外则为等级70的白鹰白船驱逐。\n不启用将不更换前排"
+      "help": "换前排通过找一艘心情不低于20、等级100的白鹰白皮驱逐完成，所以尽量保证有足够多的驱逐。\n国服以外则为等级70的白鹰白船驱逐。\n不启用将不更换前排"
     },
     "VanguardEquipChange": {
       "name": "更换前排的装备",
       "help": "换船时更换前排装备，这通过记录之前的装备完成。\n只会更换正在装备中的栏位，即使是白装也会更换。"
+    },
+    "ALLowLowVanguardLevel": {
+      "name": "可更换低等级前排",
+      "help": "倍率打开时，前排等级限制改为10以上即可。若为困难模式（如CD图）改为49级。"
     },
     "LowEmotionRetreat": {
       "name": "红脸后撤退",
@@ -2413,10 +2417,6 @@
       "disable_meta_and_exercise": "禁用Meta和演习",
       "disable_exercise": "禁用演习",
       "enable_all": "百无禁忌"
-    },
-    "ALLowLowLevelInGemsFarming": {
-      "name": "刷紧急委托可更换低等级前排",
-      "help": "倍率打开时，刷紧急委托时前排等级限制改为10以上即可"
     }
   },
   "PowerLimit": {

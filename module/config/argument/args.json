@@ -1571,6 +1571,10 @@
         "type": "checkbox",
         "value": false
       },
+      "ALLowLowVanguardLevel": {
+        "type": "checkbox",
+        "value": true
+      },
       "LowEmotionRetreat": {
         "type": "checkbox",
         "value": true
@@ -9350,10 +9354,6 @@
           "disable_exercise",
           "enable_all"
         ]
-      },
-      "ALLowLowLevelInGemsFarming": {
-        "type": "checkbox",
-        "value": false
       }
     },
     "PowerLimit": {

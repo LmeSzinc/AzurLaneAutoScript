@@ -239,6 +239,7 @@ GemsFarming:
   FlagshipEquipChange: false
   VanguardChange: false
   VanguardEquipChange: false
+  ALLowLowVanguardLevel: true
   LowEmotionRetreat: true
   FleetNumberInHardMode:
     value: 0
@@ -688,7 +689,6 @@ GGHandler:
       disable_exercise,
       enable_all,
     ]
-  ALLowLowLevelInGemsFarming: false
 PowerLimit:
   Exercise: 16500
   Raid: 16500
