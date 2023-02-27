@@ -33,7 +33,7 @@ Deploy:
     # Filepath of python executable `python.exe`
     # [Easy installer] Use './toolkit/python.exe'
     # [Other] Use you own python, and its version should be 3.7.6 64bit
-    PythonExecutable: /app/pyroot/bin/python
+    PythonExecutable: /usr/local/bin/python
     # URL of pypi mirror
     # [CN user] Use 'https://pypi.tuna.tsinghua.edu.cn/simple' for faster and more stable download
     # [Other] Use null
