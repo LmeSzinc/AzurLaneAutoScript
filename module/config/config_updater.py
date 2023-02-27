@@ -413,7 +413,7 @@ class ConfigGenerator:
 
         docker = {
             'GitExecutable': '/usr/bin/git',
-            'PythonExecutable': '/app/pyroot/bin/python',
+            'PythonExecutable': '/usr/local/bin/python',
             'RequirementsFile': './deploy/docker/requirements.txt',
             'AdbExecutable': '/usr/bin/adb',
         }
