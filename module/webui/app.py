@@ -625,8 +625,8 @@ class AlasGUI(Frame):
                 value_total = f' ({group["Total"]})'
                 value_limit = ''
             elif group_name == 'Pt':
-                value_limit = ' / '+ re.sub(r'[,.\'"，。]', '',
-                                            str(deep_get(self.alas_config.data, 'EventGeneral.EventGeneral.PtLimit')))
+                value_limit = ' / ' + re.sub(r'[,.\'"，。]', '',
+                                             str(deep_get(self.alas_config.data, 'EventGeneral.EventGeneral.PtLimit')))
                 if value_limit == ' / 0':
                     value_limit = ''
             else:
@@ -675,14 +675,14 @@ class AlasGUI(Frame):
                                         put_row(
                                             [
                                                 put_text(value
-                                                          ).style(f'--dashboard-value--'),
+                                                         ).style(f'--dashboard-value--'),
                                                 put_text(value_limit
-                                                          ).style(limit_style),
+                                                         ).style(limit_style),
                                             ],
                                         ).style('grid-template-columns:min-content auto;align-items: baseline;'),
                                         put_text(
-                                                  t(f'Gui.Overview.{group_name}') + " - " + delta
-                                                  ).style('---dashboard-help--')
+                                            t(f'Gui.Overview.{group_name}') + " - " + delta
+                                        ).style('---dashboard-help--')
                                     ],
                                     size="auto auto",
                                 ),
@@ -702,7 +702,7 @@ class AlasGUI(Frame):
             return
         with use_scope("dashboard", clear=_clear):
             if not self._log.display_dashboard:
-                self._update_dashboard(num=4, groups_to_display=['Oil', 'Coin', 'Gem', 'Cube'])
+                self._update_dashboard(num=4, groups_to_display=['Oil', 'Coin', 'Gem', 'Pt'])
             elif self._log.display_dashboard:
                 self._update_dashboard()
 

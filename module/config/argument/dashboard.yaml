@@ -5,12 +5,12 @@
 # ==================== Dashboard ====================
 Dashboard:
   - Oil
+  - Coin
   - Gem
   - Pt
-  - YellowCoin
-  - Coin
   - Cube
   - ActionPoint
+  - YellowCoin
   - PurpleCoin
   - Core
   - Medal
