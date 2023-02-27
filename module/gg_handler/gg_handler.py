@@ -99,7 +99,7 @@ class GGHandler:
 
     def handle_before_restart(self):
         _need_restart_atx = deep_get(d=self.config.data, keys='GameManager.GGHandler.RestartATX')
-        if self.method == 'u2' and _need_restart_atx:
+        if _need_restart_atx:
             try:
                 timeout(self.device.restart_atx, 60)
             except Exception:
