@@ -12,7 +12,7 @@ class GGU2(Base):
         self.factor = 200
         self.config = config
         self.device = device
-        self.d = u2.connect(self.config.Emulator_Serial)
+        self.d = u2.connect(self.device.serial)
         self.gg_package_name = deep_get(self.config.data, keys='GameManager.GGHandler.GGPackageName')
         self.d.wait_timeout = 10.0
 
