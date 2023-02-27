@@ -108,26 +108,6 @@ class CampaignEvent(CampaignStatus):
         else:
             return False
 
-    def is_balancer_task(self):
-        """
-        Returns:
-             bool: If is event task but not daily event task
-        """
-        tasks = [
-            'Event',
-            'Event2',
-            'Raid',
-            'GemsFarming',
-        ]
-        command = self.config.Scheduler_Command
-        if command in tasks:
-            if self.config.Campaign_Event == 'campaign_main':
-                return False
-            else:
-                return True
-        else:
-            return False
-
     def triggered_task_balancer(self):
         """
         Returns:
@@ -143,9 +123,12 @@ class CampaignEvent(CampaignStatus):
             logger.warning('Coin not found')
             return False
         else:
-            if coin < limit and self.is_balancer_task:
-                logger.hr('Triggered task balancer: Coin limit')
-                return True
+            if self.is_balancer_task:
+                if coin < limit:
+                    logger.hr('Triggered task balancer: Coin limit')
+                    return True
+                else:
+                    return False
             else:
                 return False
 
