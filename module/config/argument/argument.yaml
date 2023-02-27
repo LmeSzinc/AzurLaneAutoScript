@@ -118,6 +118,7 @@ GemsFarming:
   FlagshipEquipChange: false
   VanguardChange: false
   VanguardEquipChange: false
+  ALLowLowVanguardLevel: true
   LowEmotionRetreat: true
   FleetNumberInHardMode:
     value: 0

@@ -463,6 +463,7 @@
       "FlagshipEquipChange": false,
       "VanguardChange": false,
       "VanguardEquipChange": false,
+      "ALLowLowVanguardLevel": true,
       "LowEmotionRetreat": true,
       "FleetNumberInHardMode": 0,
       "CommonCV": "any",
@@ -2018,8 +2019,7 @@
       "GGPackageName": "com.",
       "AutoRestartGG": false,
       "GGMultiplyingFactor": 200,
-      "DisabledTask": "disable_all_dangerous_task",
-      "ALLowLowLevelInGemsFarming": false
+      "DisabledTask": "disable_all_dangerous_task"
     },
     "PowerLimit": {
       "Exercise": 16500,

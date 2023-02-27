@@ -154,6 +154,7 @@ class GeneratedConfig:
     GemsFarming_FlagshipEquipChange = False
     GemsFarming_VanguardChange = False
     GemsFarming_VanguardEquipChange = False
+    GemsFarming_ALLowLowVanguardLevel = True
     GemsFarming_LowEmotionRetreat = True
     GemsFarming_FleetNumberInHardMode = 0  # 0, 1, 2
     GemsFarming_CommonCV = 'any'  # any, langley, bogue, ranger, hermes
@@ -437,7 +438,6 @@ class GeneratedConfig:
     GGHandler_AutoRestartGG = False
     GGHandler_GGMultiplyingFactor = 200
     GGHandler_DisabledTask = 'disable_all_dangerous_task'  # disable_all_dangerous_task, disable_guild_and_dangerous, disable_meta_and_exercise, disable_exercise, enable_all
-    GGHandler_ALLowLowLevelInGemsFarming = False
 
     # Group `PowerLimit`
     PowerLimit_Exercise = 16500
