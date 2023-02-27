@@ -100,6 +100,15 @@ class CampaignRun(CampaignEvent):
         if oil_check and self.campaign.event_pt_limit_triggered():
             logger.hr('Triggered stop condition: Event PT limit')
             return True
+        # Auto search TaskBalancer
+        if self.config.TaskBalancer_Enable and self.campaign.auto_search_coin_limit_triggered:
+            self.handle_task_balancer()
+            return True
+        # TaskBalancer
+        if oil_check and self.run_count >= 1:
+            if self.config.TaskBalancer_Enable and self.triggered_task_balancer():
+                self.handle_task_balancer()
+                return True
 
         return False
 
@@ -288,9 +297,6 @@ class CampaignRun(CampaignEvent):
             # End
             if self.triggered_stop_condition(oil_check=not self.campaign.is_in_auto_search_menu()):
                 break
-            # Auto search TaskBalancer
-            if self.config.TaskBalancer_Enable and self.campaign.auto_search_coin_limit_triggered:
-                self.handle_task_balancer()
 
             # Run
             try:
@@ -313,10 +319,6 @@ class CampaignRun(CampaignEvent):
                     logger.hr('Triggered one-time stage limit')
                     self.campaign.handle_map_stop()
                     break
-            # Task balancer
-            if self.run_count >= 1 and not self.campaign.map_is_auto_search:
-                if self.config.TaskBalancer_Enable and self.triggered_task_balancer():
-                    self.handle_task_balancer()
             # Loop stages
             if self.is_stage_loop:
                 if self.run_count >= 1:

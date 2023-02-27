@@ -114,17 +114,38 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
 
         return checked
 
+    def is_balancer_task(self):
+        """
+        Returns:
+             bool: If is event task but not daily event task
+        """
+        tasks = [
+            'Event',
+            'Event2',
+            'Raid',
+            'GemsFarming',
+        ]
+        command = self.config.Scheduler_Command
+        if command in tasks:
+            if self.config.Campaign_Event == 'campaign_main':
+                return False
+            else:
+                return True
+        else:
+            return False
+
     def auto_search_watch_coin(self, checked=False):
         """
         Watch coin.
         This will set auto_search_coin_limit_triggered.
         """
         if not checked:
+            limit = self.config.TaskBalancer_CoinLimit
             coin = self.get_coin()
             if coin == 0:
                 logger.warning('Coin not found')
             else:
-                if coin < max(500, self.config.TaskBalancer_CoinLimit):
+                if coin < max(500, limit) and self.is_balancer_task:
                     logger.info('Reach coin limit')
                     self.auto_search_coin_limit_triggered = True
                 else:
