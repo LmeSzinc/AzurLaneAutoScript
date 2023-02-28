@@ -26,8 +26,6 @@ class GemsCampaignOverride(CampaignBase):
         If GEMS_LOW_EMOTION_WITHDRAW is True, withdraw combat and change flag ship
         """
         if self.config.GemsFarming_LowEmotionRetreat:
-            if not self.emotion.is_ignore:
-                return False
             if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
                 self.config.GEMS_EMOTION_TRIGGRED = True
                 logger.hr('EMOTION WITHDRAW')
@@ -93,6 +91,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             pass
 
         self.campaign = GemsCampaign(device=self.campaign.device, config=self.campaign.config)
+        self.campaign.config.override(Emotion_Mode='ignore')
 
     def _fleet_detail_enter(self):
         """
