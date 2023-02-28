@@ -672,7 +672,7 @@ GameManager:
 GGHandler:
   Enabled: false
   RestartEverytime: true
-  RestartATX: true
+  RestartATX: false
   ServerLocation:
     value: cn
     option: [ cn, jp, en, tw ]

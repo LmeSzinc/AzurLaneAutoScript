@@ -2013,7 +2013,7 @@
     "GGHandler": {
       "Enabled": false,
       "RestartEverytime": true,
-      "RestartATX": true,
+      "RestartATX": false,
       "ServerLocation": "cn",
       "GGMethod": "screenshot",
       "GGPackageName": "com.",
