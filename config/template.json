@@ -318,6 +318,7 @@
       "ALLowLowVanguardLevel": true,
       "LowEmotionRetreat": true,
       "FleetNumberInHardMode": 0,
+      "StopIFAutoNotEnsured": true,
       "CommonCV": "any",
       "CommissionLimit": true
     },
@@ -1940,7 +1941,7 @@
       "Enabled": false,
       "ServerLocation": "cn",
       "GGMethod": "u2",
-      "RestartATX": true,
+      "RestartATX": false,
       "GGPackageName": "com.",
       "AutoRestartGG": false,
       "RestartEverytime": true,
@@ -1963,6 +1964,12 @@
       "Color": "^000000",
       "Record": "2020-01-01 00:00:00"
     },
+    "Coin": {
+      "Value": 0,
+      "Limit": 0,
+      "Color": "^FFAA33",
+      "Record": "2020-01-01 00:00:00"
+    },
     "Gem": {
       "Value": 0,
       "Color": "^FF3333",
@@ -1971,17 +1978,6 @@
     "Pt": {
       "Value": 0,
       "Color": "^00BFFF",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "YellowCoin": {
-      "Value": 0,
-      "Color": "^FF8800",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "Coin": {
-      "Value": 0,
-      "Limit": 0,
-      "Color": "^FFAA33",
       "Record": "2020-01-01 00:00:00"
     },
     "Cube": {
@@ -1993,6 +1989,11 @@
       "Value": 0,
       "Total": 0,
       "Color": "^0000FF",
+      "Record": "2020-01-01 00:00:00"
+    },
+    "YellowCoin": {
+      "Value": 0,
+      "Color": "^FF8800",
       "Record": "2020-01-01 00:00:00"
     },
     "PurpleCoin": {

@@ -157,6 +157,7 @@ class GeneratedConfig:
     GemsFarming_ALLowLowVanguardLevel = True
     GemsFarming_LowEmotionRetreat = True
     GemsFarming_FleetNumberInHardMode = 0  # 0, 1, 2
+    GemsFarming_StopIFAutoNotEnsured = True
     GemsFarming_CommonCV = 'any'  # any, langley, bogue, ranger, hermes
     GemsFarming_CommissionLimit = True
 
@@ -432,7 +433,7 @@ class GeneratedConfig:
     GGHandler_Enabled = False
     GGHandler_ServerLocation = 'cn'  # cn, jp, en, tw
     GGHandler_GGMethod = 'u2'  # screenshot, u2
-    GGHandler_RestartATX = True
+    GGHandler_RestartATX = False
     GGHandler_GGPackageName = 'com.'
     GGHandler_AutoRestartGG = False
     GGHandler_RestartEverytime = True

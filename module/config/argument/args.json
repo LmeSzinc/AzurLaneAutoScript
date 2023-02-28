@@ -1588,6 +1588,10 @@
           2
         ]
       },
+      "StopIFAutoNotEnsured": {
+        "type": "checkbox",
+        "value": true
+      },
       "CommonCV": {
         "type": "select",
         "value": "any",
@@ -9326,7 +9330,7 @@
       },
       "RestartATX": {
         "type": "checkbox",
-        "value": true
+        "value": false
       },
       "GGPackageName": {
         "type": "input",
@@ -9400,6 +9404,26 @@
         "validate": "datetime"
       }
     },
+    "Coin": {
+      "Value": {
+        "type": "input",
+        "value": 0
+      },
+      "Limit": {
+        "type": "input",
+        "value": 0
+      },
+      "Color": {
+        "type": "input",
+        "value": "^FFAA33",
+        "display": "hide"
+      },
+      "Record": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      }
+    },
     "Gem": {
       "Value": {
         "type": "input",
@@ -9424,42 +9448,6 @@
       "Color": {
         "type": "input",
         "value": "^00BFFF",
-        "display": "hide"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "YellowCoin": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^FF8800",
-        "display": "hide"
-      },
-      "Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      }
-    },
-    "Coin": {
-      "Value": {
-        "type": "input",
-        "value": 0
-      },
-      "Limit": {
-        "type": "input",
-        "value": 0
-      },
-      "Color": {
-        "type": "input",
-        "value": "^FFAA33",
         "display": "hide"
       },
       "Record": {
@@ -9496,6 +9484,22 @@
       "Color": {
         "type": "input",
         "value": "^0000FF",
+        "display": "hide"
+      },
+      "Record": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      }
+    },
+    "YellowCoin": {
+      "Value": {
+        "type": "input",
+        "value": 0
+      },
+      "Color": {
+        "type": "input",
+        "value": "^FF8800",
         "display": "hide"
       },
       "Record": {
