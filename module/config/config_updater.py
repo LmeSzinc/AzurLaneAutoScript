@@ -188,7 +188,7 @@ class ConfigGenerator:
             if isinstance(v, dict):
                 if deep_get(v, keys='type') in ['lock']:
                     deep_default(v, keys='display', value="disabled")
-                else:
+                elif deep_get(v, keys='value') is not None:
                     deep_default(v, keys='display', value='hide')
                 for arg_k, arg_v in v.items():
                     deep_set(data, keys=p + [arg_k], value=arg_v)
@@ -500,6 +500,12 @@ class ConfigUpdater:
         ('General.Retirement.OldRetireR', 'General.OldRetire.R'),
         ('General.Retirement.OldRetireSR', 'General.OldRetire.SR'),
         ('General.Retirement.OldRetireSSR', 'General.OldRetire.SSR'),
+        (('GemsFarming.GemsFarming.FlagshipChange', 'GemsFarming.GemsFarming.FlagshipEquipChange'),
+         'GemsFarming.GemsFarming.ChangeFlagship',
+         change_ship_redirect),
+        (('GemsFarming.GemsFarming.VanguardChange', 'GemsFarming.GemsFarming.VanguardEquipChange'),
+         'GemsFarming.GemsFarming.ChangeVanguard',
+         change_ship_redirect),
     ]
     redirection += [
         (

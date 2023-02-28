@@ -234,11 +234,12 @@ C124LargeLeveling:
     value: 3
     option: [ 3, 4, 5 ]
 GemsFarming:
-  FlagshipChange: true
-  FlagshipEquipChange: false
-  VanguardChange: false
-  VanguardEquipChange: false
-  LowEmotionRetreat: true
+  ChangeFlagship:
+    value: ship
+    option: [ ship, ship_equip ]
+  ChangeVanguard:
+    value: ship
+    option: [ ship, ship_equip ]
   CommonCV:
     value: any
     option: [ any, langley, bogue, ranger, hermes ]
