@@ -25,7 +25,7 @@ class GGScreenshot(Base):
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
-                self.device.sleep(0.3)
+                self.device.sleep(0.8)
                 self.device.screenshot()
             if self.appear(button=BUTTON_GG_RESTART_ERROR, offset=(50, 50)):
                 logger.hr('Game died with GG panel')
