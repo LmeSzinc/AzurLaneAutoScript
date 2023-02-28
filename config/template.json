@@ -466,6 +466,7 @@
       "ALLowLowVanguardLevel": true,
       "LowEmotionRetreat": true,
       "FleetNumberInHardMode": 0,
+      "StopIFAutoNotEnsured": true,
       "CommonCV": "any",
       "CommissionLimit": true
     },

@@ -37,10 +37,10 @@ class GGHandler:
                 if _crashed:
                     from module.notify import handle_notify
                     handle_notify(self.config.Error_OnePushConfig,
-                                  title=f"Alas <{self.config.config_name}> crashed",
+                                  title=f"Alas <{self.config.config_name}> crashed(崩溃了)",
                                   content=f"<{self.config.config_name}> "
-                                          f"RequestHumanTakeover\n"
-                                          f"Maybe your emulator died"
+                                          f"RequestHumanTakeover(需要手动介入)\n"
+                                          f"Maybe your emulator died(也许你的模拟器死了)"
                                   )
                     exit(1)
                 _crashed = True
@@ -105,8 +105,8 @@ class GGHandler:
             except Exception:
                 from module.notify import handle_notify
                 handle_notify(self.config.Error_OnePushConfig,
-                              title=f"Alas <{self.config.config_name}> Emulator error",
-                              content=f"<{self.config.config_name}> RequestHumanTakeover\nMaybe your emulator died", )
+                              title=f"Alas <{self.config.config_name}> Emulator error(模拟器出错)",
+                              content=f"<{self.config.config_name}> RequestHumanTakeover(需要手动介入)\nMaybe your emulator died(也许你的模拟器死了)", )
                 exit(1)
             import uiautomator2 as u2
             logger.info('Reset UiAutomator')

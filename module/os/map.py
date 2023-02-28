@@ -397,7 +397,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         remain = get_os_reset_remain()
         if remain <= 0:
             if self.config.is_task_enabled('OpsiCrossMonth'):
-                logger.info('Just less than 1 day to OpSi reset, OpsiCrossMonth is enabled'
+                logger.info('Just less than 1 day to OpSi reset, OpsiCrossMonth is enabled, '
                             'set OpsiMeowfficerFarming.ActionPointPreserve to 300 temporarily')
                 return 300
             else:

@@ -157,6 +157,7 @@ class GeneratedConfig:
     GemsFarming_ALLowLowVanguardLevel = True
     GemsFarming_LowEmotionRetreat = True
     GemsFarming_FleetNumberInHardMode = 0  # 0, 1, 2
+    GemsFarming_StopIFAutoNotEnsured = True
     GemsFarming_CommonCV = 'any'  # any, langley, bogue, ranger, hermes
     GemsFarming_CommissionLimit = True
 

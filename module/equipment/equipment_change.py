@@ -62,7 +62,7 @@ class EquipmentChange(Equipment):
                 logger.info('Enter upgrade inform')
                 self.ui_click(click_button=UPGRADE_ENTER,
                               check_button=UPGRADE_ENTER_CHECK, skip_first_screenshot=True)
-                logger.info('Save equipment tamplate')
+                logger.info('Save equipment template')
                 self.equip_list[index] = self.image_crop(EQUIP_SAVE)
                 logger.info('Quit upgrade inform')
                 self.ui_click(

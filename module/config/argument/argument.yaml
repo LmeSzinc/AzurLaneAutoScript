@@ -123,6 +123,7 @@ GemsFarming:
   FleetNumberInHardMode:
     value: 0
     option: [ 0, 1, 2 ]
+  StopIFAutoNotEnsured: true
   CommonCV:
     value: any
     option: [ any, langley, bogue, ranger, hermes ]

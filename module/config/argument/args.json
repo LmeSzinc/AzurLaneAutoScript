@@ -2357,6 +2357,10 @@
           2
         ]
       },
+      "StopIFAutoNotEnsured": {
+        "type": "checkbox",
+        "value": true
+      },
       "CommonCV": {
         "type": "select",
         "value": "any",

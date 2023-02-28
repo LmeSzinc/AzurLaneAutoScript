@@ -98,8 +98,8 @@ class AzurLaneAutoScript:
                 self.save_error_log()
                 handle_notify(
                     self.config.Error_OnePushConfig,
-                    title=f"Alas <{self.config_name}> crashed",
-                    content=f"<{self.config_name}> GamePageUnknownError",
+                    title=f"Alas <{self.config_name}> crashed(崩溃了)",
+                    content=f"<{self.config_name}> GamePageUnknownError(游戏页面未知错误)",
                 )
                 logger.info('Restart to reset Game page in 10 seconds')
                 self.device.sleep(10)
@@ -113,25 +113,29 @@ class AzurLaneAutoScript:
             logger.critical('This is likely to be a mistake of developers, but sometimes just random issues')
             handle_notify(
                 self.config.Error_OnePushConfig,
-                title=f"Alas <{self.config_name}> crashed",
-                content=f"<{self.config_name}> ScriptError",
+                title=f"Alas <{self.config_name}> crashed(崩溃了)",
+                content=f"<{self.config_name}> ScriptError(脚本错误)",
             )
             exit(1)
         except RequestHumanTakeover:
             logger.critical('Request human takeover')
             handle_notify(
                 self.config.Error_OnePushConfig,
-                title=f"Alas <{self.config_name}> crashed",
-                content=f"<{self.config_name}> RequestHumanTakeover",
+                title=f"Alas <{self.config_name}> crashed(崩溃了)",
+                content=f"<{self.config_name}> RequestHumanTakeover(需要手动介入)",
             )
+            exit(1)
+        except AutoSearchSetError:
+            logger.critical('Auto search could not be set correctly. Maybe your ships in hard mode are changed.')
+            logger.critical('Request human takeover.')
             exit(1)
         except Exception as e:
             logger.exception(e)
             self.save_error_log()
             handle_notify(
                 self.config.Error_OnePushConfig,
-                title=f"Alas <{self.config_name}> crashed",
-                content=f"<{self.config_name}> Exception occured",
+                title=f"Alas <{self.config_name}> crashed(崩溃了)",
+                content=f"<{self.config_name}> Exception occured(发生异常)",
             )
             exit(1)
 
@@ -511,8 +515,8 @@ class AzurLaneAutoScript:
                 logger.critical('Request human takeover')
                 handle_notify(
                     self.config.Error_OnePushConfig,
-                    title=f"Alas <{self.config_name}> crashed",
-                    content=f"<{self.config_name}> RequestHumanTakeover\nTask `{task}` failed 3 or more times.",
+                    title=f"Alas <{self.config_name}> crashed(崩溃了)",
+                    content=f"<{self.config_name}> RequestHumanTakeover(需要手动介入)\nTask `{task}` failed 3 or more times(失败3次或更多次).",
                 )
                 exit(1)
 
