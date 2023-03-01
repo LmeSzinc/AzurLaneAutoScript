@@ -700,7 +700,6 @@ GGHandler:
     option: [
       disable_all_dangerous_task,
       disable_guild_and_dangerous,
-      disable_meta_and_exercise,
       disable_exercise,
       enable_all,
     ]

@@ -461,6 +461,9 @@
     "GemsFarming": {
       "ChangeFlagship": "ship",
       "ChangeVanguard": "ship",
+      "ALLowLowVanguardLevel": true,
+      "FleetNumberInHardMode": 0,
+      "StopIFAutoNotEnsured": true,
       "CommonCV": "any",
       "CommissionLimit": true
     },

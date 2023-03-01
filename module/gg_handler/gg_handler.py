@@ -110,7 +110,7 @@ class GGHandler:
                 exit(1)
             import uiautomator2 as u2
             logger.info('Reset UiAutomator')
-            u2.connect(self.config.Emulator_Serial).reset_uiautomator()
+            u2.connect(self.device.serial).reset_uiautomator()
 
     def handle_restart(self):
         """
