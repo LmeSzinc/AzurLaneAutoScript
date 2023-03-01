@@ -2340,19 +2340,6 @@
           "ship_equip"
         ]
       },
-      "FleetNumberInHardMode": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2
-        ]
-      },
-      "StopIFAutoNotEnsured": {
-        "type": "checkbox",
-        "value": true
-      },
       "CommonCV": {
         "type": "select",
         "value": "any",

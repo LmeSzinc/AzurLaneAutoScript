@@ -88,6 +88,31 @@ Main2:
   - Emotion
   - HpControl
   - EnemyPriority
+Main3:
+  - Scheduler
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
+GemsFarming:
+  - Scheduler
+  - GemsFarming
+  - Campaign
+  - StopCondition
+  - Fleet
+Sos:
+  - Scheduler
+  - Sos
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
 
 # ==================== Event ====================
 

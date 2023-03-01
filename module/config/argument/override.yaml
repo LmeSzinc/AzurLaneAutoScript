@@ -42,23 +42,6 @@ GemsFarming:
     FleetOrder:
       option: [ fleet1_all_fleet2_standby, fleet1_standby_fleet2_all ]
 
-# ==================== Main ====================
-
-MainNormal:
-  Campaign:
-    Event: campaign_main
-MainHard:
-  Campaign:
-    Event: campaign_main
-    StopCondition:
-      RunCount: 3
-Main:
-  Campaign:
-    Event: campaign_main
-Main2:
-  Campaign:
-    Event: campaign_main
-
 # ==================== Event ====================
 
 Event:

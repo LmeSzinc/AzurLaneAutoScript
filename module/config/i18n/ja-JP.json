@@ -1108,17 +1108,6 @@
       "ship": "ship",
       "ship_equip": "ship_equip"
     },
-    "FleetNumberInHardMode": {
-      "name": "Fleet number used in hard mode",
-      "help": "Fleet number used in hard mode like Event C/D",
-      "0": "Not a hard mode",
-      "1": "Fleet 1",
-      "2": "Fleet 2"
-    },
-    "StopIFAutoNotEnsured": {
-      "name": "GemsFarming.StopIFAutoNotEnsured.name",
-      "help": "GemsFarming.StopIFAutoNotEnsured.help"
-    },
     "CommonCV": {
       "name": "GemsFarming.CommonCV.name",
       "help": "GemsFarming.CommonCV.help",
