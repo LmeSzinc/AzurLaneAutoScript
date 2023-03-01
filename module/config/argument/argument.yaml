@@ -2,7 +2,6 @@
 # Define arguments.
 # --------------------
 
-
 # ==================== Alas ====================
 
 Scheduler:
@@ -235,12 +234,13 @@ C124LargeLeveling:
     value: 3
     option: [ 3, 4, 5 ]
 GemsFarming:
-  FlagshipChange: true
-  FlagshipEquipChange: false
-  VanguardChange: false
-  VanguardEquipChange: false
+  ChangeFlagship:
+    value: ship
+    option: [ ship, ship_equip ]
+  ChangeVanguard:
+    value: ship
+    option: [ ship, ship_equip ]
   ALLowLowVanguardLevel: true
-  LowEmotionRetreat: true
   FleetNumberInHardMode:
     value: 0
     option: [ 0, 1, 2 ]
@@ -259,7 +259,7 @@ TaskBalancer:
   Enable: false
   CoinLimit: 10000
   TaskCall:
-    value: Main3
+    value: Main
     option: [ Main, Main2, Main3 ]
 EventDaily:
   StageFilter: |-

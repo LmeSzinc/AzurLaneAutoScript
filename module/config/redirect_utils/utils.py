@@ -79,3 +79,14 @@ def emotion_mode_redirect(value):
         else:
             # Invalid, fallback to calculate
             return 'calculate'
+
+
+def change_ship_redirect(value):
+    """
+      FlagshipChange + FlagshipEquipChange -> ChangeFlagship
+    """
+    ship, equip = value
+    if equip:
+        return 'ship_equip'
+    else:
+        return 'ship'
