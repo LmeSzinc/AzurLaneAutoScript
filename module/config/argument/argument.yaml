@@ -676,6 +676,7 @@ GGHandler:
   GGMethod:
     value: u2
     option: [ screenshot, u2 ]
+  GGPanelConfirmTime: 5
   RestartATX: false
   GGPackageName: com.
   AutoRestartGG: false

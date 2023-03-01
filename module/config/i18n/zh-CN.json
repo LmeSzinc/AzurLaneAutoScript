@@ -2393,6 +2393,10 @@
       "screenshot": "截图",
       "u2": "UiAutomator2"
     },
+    "GGPanelConfirmTime": {
+      "name": "确认GG面板消失的时间",
+      "help": "手机越卡，重启碧蓝航线时GG面板出现的越晚，此时需要设置更长的阈值，单位秒。默认为5秒"
+    },
     "RestartATX": {
       "name": "重启ATX和U2",
       "help": "重启游戏时重启ATX和U2。默认关闭。蓝叠和红手指等环境重启会报错。雷电易丢ATX服务，需要打开。"

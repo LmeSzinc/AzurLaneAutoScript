@@ -1941,6 +1941,7 @@
       "Enabled": false,
       "ServerLocation": "cn",
       "GGMethod": "u2",
+      "GGPanelConfirmTime": 5,
       "RestartATX": false,
       "GGPackageName": "com.",
       "AutoRestartGG": false,

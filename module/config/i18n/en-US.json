@@ -2393,6 +2393,10 @@
       "screenshot": "Screenshot",
       "u2": "UiAutomator"
     },
+    "GGPanelConfirmTime": {
+      "name": "GGHandler.GGPanelConfirmTime.name",
+      "help": "GGHandler.GGPanelConfirmTime.help"
+    },
     "RestartATX": {
       "name": "GGHandler.RestartATX.name",
       "help": "GGHandler.RestartATX.help"

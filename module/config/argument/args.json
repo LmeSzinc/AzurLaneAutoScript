@@ -9328,6 +9328,10 @@
           "u2"
         ]
       },
+      "GGPanelConfirmTime": {
+        "type": "input",
+        "value": 5
+      },
       "RestartATX": {
         "type": "checkbox",
         "value": false
