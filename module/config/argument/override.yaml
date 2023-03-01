@@ -33,9 +33,14 @@ GemsFarming:
     Use2xBook: false
     AmbushEvade: true
   StopCondition:
+    RunCount: 0
     MapAchievement: non_stop
     StageIncrease: false
     GetNewShip: false
+    ReachLevel: 0
+  Fleet:
+    FleetOrder:
+      option: [ fleet1_all_fleet2_standby, fleet1_standby_fleet2_all ]
 
 # ==================== Main ====================
 

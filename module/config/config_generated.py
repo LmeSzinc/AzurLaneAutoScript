@@ -150,14 +150,8 @@ class GeneratedConfig:
     C124LargeLeveling_PickupAmmo = 3  # 3, 4, 5
 
     # Group `GemsFarming`
-    GemsFarming_FlagshipChange = True
-    GemsFarming_FlagshipEquipChange = False
-    GemsFarming_VanguardChange = False
-    GemsFarming_VanguardEquipChange = False
-    GemsFarming_ALLowLowVanguardLevel = True
-    GemsFarming_LowEmotionRetreat = True
-    GemsFarming_FleetNumberInHardMode = 0  # 0, 1, 2
-    GemsFarming_StopIFAutoNotEnsured = True
+    GemsFarming_ChangeFlagship = 'ship'  # ship, ship_equip
+    GemsFarming_ChangeVanguard = 'ship'  # ship, ship_equip
     GemsFarming_CommonCV = 'any'  # any, langley, bogue, ranger, hermes
     GemsFarming_CommissionLimit = True
 

@@ -44,6 +44,16 @@ class CampaignSos(CampaignRun, CampaignBase):
     def _sos_scroll(self):
         return Scroll(SOS_SCROLL_AREA, color=(164, 173, 189), name='SOS_SCROLL')
 
+    @cached_property
+    @Config.when(SERVER='tw')
+    def _sos_chapter_ocr(self):
+        return Digit([], letter=[173, 247, 74], threshold=180, name='OCR_SOS_CHAPTER')
+
+    @cached_property
+    @Config.when(SERVER=None)
+    def _sos_chapter_ocr(self):
+        return Digit([], letter=[132, 230, 115], threshold=136, name='OCR_SOS_CHAPTER')
+
     def _find_target_chapter(self, chapter):
         """
         find the target chapter search button or goto button.
@@ -63,8 +73,8 @@ class CampaignSos(CampaignRun, CampaignBase):
             return None
 
         chapter_buttons = [button.crop(self._sos_chapter_crop) for button in all_buttons]
-        ocr_chapters = Digit(chapter_buttons, letter=[132, 230, 115], threshold=136, name='OCR_SOS_CHAPTER')
-        chapter_list = ocr_chapters.ocr(self.device.image)
+        self._sos_chapter_ocr.buttons = chapter_buttons
+        chapter_list = self._sos_chapter_ocr.ocr(self.device.image)
         if not isinstance(chapter_list, list):
             chapter_list = [chapter_list]
         if chapter in chapter_list:

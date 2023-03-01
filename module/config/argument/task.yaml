@@ -30,6 +30,15 @@ GemsFarming:
   - Submarine
   - Emotion
   - EnemyPriority
+WarArchives:
+  - Scheduler
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
 Sos:
   - Scheduler
   - Sos
@@ -71,15 +80,6 @@ Main:
   - HpControl
   - EnemyPriority
 Main2:
-  - Scheduler
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
-WarArchives:
   - Scheduler
   - Campaign
   - StopCondition
