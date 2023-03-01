@@ -2414,7 +2414,6 @@
       "help": "会关闭倍率的项目，建议敏感项目全关。打开的项目导致封号后果自负。\n敏感项目：共斗，Meta与演习\n注意：战力限制依旧生效，但大舰队没有这个玩意无法检测\n（虽然大舰队无所谓，只是一直有人问才加的）。",
       "disable_all_dangerous_task": "禁用敏感项目",
       "disable_guild_and_dangerous": "禁用大舰队，以及敏感项目",
-      "disable_meta_and_exercise": "禁用Meta和演习",
       "disable_exercise": "禁用演习",
       "enable_all": "百无禁忌"
     }

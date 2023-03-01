@@ -2414,7 +2414,6 @@
       "help": "",
       "disable_all_dangerous_task": "Disable_all_dangerous_task",
       "disable_guild_and_dangerous": "disable_guild_and_dangerous",
-      "disable_meta_and_exercise": "Disable_meta_and_exercise",
       "disable_exercise": "Disable_exercise",
       "enable_all": "Enable_all"
     }
