@@ -129,13 +129,13 @@ class GGU2(Base):
         _confirmed = False
         import os
         os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                 f' {self.config.Emulator_Serial} shell mkdir /sdcard/Notes')
+                 f' {self.device.serial} shell mkdir /sdcard/Notes')
         self.device.sleep(0.5)
         os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                 f' {self.config.Emulator_Serial} shell rm /sdcard/Notes/Multiplier.lua')
+                 f' {self.device.serial} shell rm /sdcard/Notes/Multiplier.lua')
         self.device.sleep(0.5)
         os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                 f' {self.config.Emulator_Serial} push "bin/Lua/Multiplier.lua" /sdcard/Notes/Multiplier.lua')
+                 f' {self.device.serial} push "bin/Lua/Multiplier.lua" /sdcard/Notes/Multiplier.lua')
         self.device.sleep(0.5)
         logger.info('Lua Pushed')
         while 1:

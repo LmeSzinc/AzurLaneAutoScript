@@ -127,11 +127,11 @@
 #                 logger.info('Lua path set')
 #                 import os
 #                 _pop = os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" '
-#                             f'-s {self.config.Emulator_Serial} shell mkdir /sdcard/Notes')
+#                             f'-s {self.device.serial} shell mkdir /sdcard/Notes')
 #                 _pop = os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" '
-#                             f'-s {self.config.Emulator_Serial} shell rm /sdcard/Notes/Multiplier.lua')
+#                             f'-s {self.device.serial} shell rm /sdcard/Notes/Multiplier.lua')
 #                 _pop = os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" '
-#                             f'-s {self.config.Emulator_Serial} push "Multiplier.lua" /sdcard/Notes/Multiplier.lua')
+#                             f'-s {self.device.serial} push "Multiplier.lua" /sdcard/Notes/Multiplier.lua')
 #             Base.device.sleep(0.5)
 #             if self.appear_then_click('//*[@text="执行"]'):
 #                 logger.info('Click Run')
