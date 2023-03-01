@@ -11,6 +11,7 @@ class GGScreenshot(Base):
         super().__init__(config, device)
         self.device = device
         self.config = config
+        self.gg_panel_confirm_time = deep_get(self.config.data, 'GameHandler.GGHandler.GGPanelConfirmTime')
 
     def skip_error(self):
         """
@@ -20,12 +21,14 @@ class GGScreenshot(Base):
         """
         skip_first_screenshot = False
         count = 0
-        for i in range(10):
+        logger.attr('Confirm Time', f'{self.gg_panel_confirm_time}S')
+        times = self.gg_panel_confirm_time * 2
+        for i in range(times):
             skipped = 0
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
-                self.device.sleep(0.3)
+                self.device.sleep(0.5)
                 self.device.screenshot()
             if self.appear(button=BUTTON_GG_RESTART_ERROR, offset=(50, 50)):
                 logger.hr('Game died with GG panel')

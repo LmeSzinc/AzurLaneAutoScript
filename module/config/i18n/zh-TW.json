@@ -2388,6 +2388,14 @@
       "name": "啟用該功能",
       "help": "注意事項！若GG打開則應該啟用該功能以達成防彈窗卡重啓\n只能使用指定的lua，會自動推送至/sdcard/Notes/Multiplier.lua\n演習，共鬥，Meta信標時會自動關閉倍率"
     },
+    "RestartATX": {
+      "name": "重啟ATX和U2",
+      "help": "重啓游戲時重啓ATX和U2，默認關閉。藍叠和紅手指等環境重啓會報錯，雷電易丟ATX服務，需要打開。"
+    },
+    "GGPanelConfirmTime": {
+      "name": "确认GG面板消失的时间",
+      "help": "手机越卡，重启碧蓝航线时GG面板出现的越晚，此时需要设置更长的阈值，单位秒。默认为5秒"
+    },
     "ServerLocation": {
       "name": "Server location",
       "help": "",
@@ -2401,10 +2409,6 @@
       "help": "推薦UiAutomator2，但未填寫包名時會使用截圖\n截圖相容性較差（已知逍遙模擬器無法使用）\n無法安裝UiAutomator2（如紅手指，vmos環境）時可嘗試使用\n使用截圖時，開啟模擬器後需要手動打開GG，將GG懸浮窗遮擋住石油圖標。 第一次使用還需要手動指定好lua路徑。",
       "screenshot": "截圖",
       "u2": "UiAutomator2"
-    },
-    "RestartATX": {
-      "name": "重啟ATX和U2",
-      "help": "重啓游戲時重啓ATX和U2，默認關閉。藍叠和紅手指等環境重啓會報錯，雷電易丟ATX服務，需要打開。"
     },
     "GGPackageName": {
       "name": "GG包名",

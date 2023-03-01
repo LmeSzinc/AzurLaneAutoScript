@@ -2396,6 +2396,10 @@
       "name": "RestartATX",
       "help": ""
     },
+    "GGPanelConfirmTime": {
+      "name": "GGHandler.GGPanelConfirmTime.name",
+      "help": ""
+    },
     "ServerLocation": {
       "name": "Server location",
       "help": "",

@@ -2015,6 +2015,7 @@
       "Enabled": false,
       "RestartEverytime": true,
       "RestartATX": false,
+      "GGPanelConfirmTime": 5,
       "ServerLocation": "cn",
       "GGMethod": "screenshot",
       "GGPackageName": "com.",

@@ -433,6 +433,7 @@ class GeneratedConfig:
     GGHandler_Enabled = False
     GGHandler_RestartEverytime = True
     GGHandler_RestartATX = True
+    GGHandler_GGPanelConfirmTime = 5
     GGHandler_ServerLocation = 'cn'  # cn, jp, en, tw
     GGHandler_GGMethod = 'screenshot'  # screenshot, u2
     GGHandler_GGPackageName = 'com.'

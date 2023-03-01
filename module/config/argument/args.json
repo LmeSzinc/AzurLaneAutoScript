@@ -9692,6 +9692,10 @@
         "type": "checkbox",
         "value": true
       },
+      "GGPanelConfirmTime": {
+        "type": "input",
+        "value": 5
+      },
       "ServerLocation": {
         "type": "select",
         "value": "cn",
