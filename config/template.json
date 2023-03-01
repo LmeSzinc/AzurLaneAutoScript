@@ -379,11 +379,8 @@
       "ServerUpdate": "00:00"
     },
     "GemsFarming": {
-      "FlagshipChange": true,
-      "FlagshipEquipChange": false,
-      "VanguardChange": false,
-      "VanguardEquipChange": false,
-      "LowEmotionRetreat": true,
+      "ChangeFlagship": "ship",
+      "ChangeVanguard": "ship",
       "CommonCV": "any",
       "CommissionLimit": true
     },
@@ -415,28 +412,6 @@
       "Fleet2Mode": "combat_auto",
       "Fleet2Step": 2,
       "FleetOrder": "fleet1_mob_fleet2_boss"
-    },
-    "Submarine": {
-      "Fleet": 0,
-      "Mode": "do_not_use",
-      "AutoSearchMode": "sub_standby",
-      "DistanceToBoss": "2_grid_to_boss"
-    },
-    "Emotion": {
-      "Mode": "calculate",
-      "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
-      "Fleet1Control": "prevent_yellow_face",
-      "Fleet1Recover": "not_in_dormitory",
-      "Fleet1Oath": false,
-      "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
-      "Fleet2Control": "prevent_yellow_face",
-      "Fleet2Recover": "not_in_dormitory",
-      "Fleet2Oath": false
-    },
-    "EnemyPriority": {
-      "EnemyScaleBalanceWeight": "default_mode"
     },
     "Storage": {
       "Storage": {}
