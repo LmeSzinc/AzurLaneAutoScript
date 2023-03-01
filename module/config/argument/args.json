@@ -1555,25 +1555,21 @@
       }
     },
     "GemsFarming": {
-      "FlagshipChange": {
-        "type": "checkbox",
-        "value": true
+      "ChangeFlagship": {
+        "type": "select",
+        "value": "ship",
+        "option": [
+          "ship",
+          "ship_equip"
+        ]
       },
-      "FlagshipEquipChange": {
-        "type": "checkbox",
-        "value": false
-      },
-      "VanguardChange": {
-        "type": "checkbox",
-        "value": false
-      },
-      "VanguardEquipChange": {
-        "type": "checkbox",
-        "value": false
-      },
-      "LowEmotionRetreat": {
-        "type": "checkbox",
-        "value": true
+      "ChangeVanguard": {
+        "type": "select",
+        "value": "ship",
+        "option": [
+          "ship",
+          "ship_equip"
+        ]
       },
       "CommonCV": {
         "type": "select",
@@ -1700,7 +1696,8 @@
     "StopCondition": {
       "RunCount": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "display": "hide"
       },
       "OilLimit": {
         "type": "input",
@@ -1730,7 +1727,8 @@
       },
       "ReachLevel": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "display": "hide"
       }
     },
     "Fleet": {
@@ -1821,138 +1819,8 @@
         "type": "select",
         "value": "fleet1_mob_fleet2_boss",
         "option": [
-          "fleet1_mob_fleet2_boss",
-          "fleet1_boss_fleet2_mob",
           "fleet1_all_fleet2_standby",
           "fleet1_standby_fleet2_all"
-        ]
-      }
-    },
-    "Submarine": {
-      "Fleet": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2
-        ]
-      },
-      "Mode": {
-        "type": "select",
-        "value": "do_not_use",
-        "option": [
-          "do_not_use",
-          "hunt_only",
-          "boss_only",
-          "hunt_and_boss",
-          "every_combat"
-        ]
-      },
-      "AutoSearchMode": {
-        "type": "select",
-        "value": "sub_standby",
-        "option": [
-          "sub_standby",
-          "sub_auto_call"
-        ]
-      },
-      "DistanceToBoss": {
-        "type": "select",
-        "value": "2_grid_to_boss",
-        "option": [
-          "to_boss_position",
-          "1_grid_to_boss",
-          "2_grid_to_boss",
-          "use_open_ocean_support"
-        ]
-      }
-    },
-    "Emotion": {
-      "Mode": {
-        "type": "select",
-        "value": "calculate",
-        "option": [
-          "calculate",
-          "ignore",
-          "calculate_ignore"
-        ]
-      },
-      "Fleet1Value": {
-        "type": "input",
-        "value": 119
-      },
-      "Fleet1Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime",
-        "display": "disabled"
-      },
-      "Fleet1Control": {
-        "type": "select",
-        "value": "prevent_yellow_face",
-        "option": [
-          "keep_exp_bonus",
-          "prevent_green_face",
-          "prevent_yellow_face",
-          "prevent_red_face"
-        ]
-      },
-      "Fleet1Recover": {
-        "type": "select",
-        "value": "not_in_dormitory",
-        "option": [
-          "not_in_dormitory",
-          "dormitory_floor_1",
-          "dormitory_floor_2"
-        ]
-      },
-      "Fleet1Oath": {
-        "type": "checkbox",
-        "value": false
-      },
-      "Fleet2Value": {
-        "type": "input",
-        "value": 119
-      },
-      "Fleet2Record": {
-        "type": "datetime",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime",
-        "display": "disabled"
-      },
-      "Fleet2Control": {
-        "type": "select",
-        "value": "prevent_yellow_face",
-        "option": [
-          "keep_exp_bonus",
-          "prevent_green_face",
-          "prevent_yellow_face",
-          "prevent_red_face"
-        ]
-      },
-      "Fleet2Recover": {
-        "type": "select",
-        "value": "not_in_dormitory",
-        "option": [
-          "not_in_dormitory",
-          "dormitory_floor_1",
-          "dormitory_floor_2"
-        ]
-      },
-      "Fleet2Oath": {
-        "type": "checkbox",
-        "value": false
-      }
-    },
-    "EnemyPriority": {
-      "EnemyScaleBalanceWeight": {
-        "type": "select",
-        "value": "default_mode",
-        "option": [
-          "default_mode",
-          "S3_enemy_first",
-          "S1_enemy_first"
         ]
       }
     },

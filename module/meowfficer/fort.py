@@ -28,6 +28,12 @@ class MeowfficerFort(MeowfficerBase):
             else:
                 self.device.screenshot()
 
+            # Accidentally exit fort
+            if self.appear_then_click(MEOWFFICER_FORT_ENTER, offset=(20, 20), interval=3):
+                check_timer.reset()
+                confirm_timer.reset()
+                continue
+
             if self.appear(MEOWFFICER_FORT_GET_XP_1) or \
                     self.appear(MEOWFFICER_FORT_GET_XP_2):
                 check_timer.reset()
