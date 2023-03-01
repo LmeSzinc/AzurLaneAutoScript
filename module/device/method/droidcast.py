@@ -274,7 +274,7 @@ class DroidCast(Uiautomator2):
         """
         List all DroidCast processes.
         """
-        processes = self.proc_list_uiautomato2()
+        processes = self.proc_list_uiautomator2()
         for proc in processes:
             if 'com.rayworks.droidcast.Main' in proc.cmdline:
                 yield proc
