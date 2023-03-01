@@ -320,7 +320,7 @@ class EmulatorConnect:
         Returns:
             list[str]: All available emulator serial on current computer.
         """
-        serial = []
+        serial = ['127.0.0.1:7555']
         for emulator in self.emulators:
             serial += emulator.serial
             for s in emulator.serial:
