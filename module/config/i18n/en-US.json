@@ -1108,6 +1108,10 @@
       "ship": "Change Ship",
       "ship_equip": "Change Ship + Gears"
     },
+    "ALLowLowVanguardLevel": {
+      "name": "ALLow Low Vanguard Level",
+      "help": "Destroyers over level 10 will now be used, 49 for Event CD"
+    },
     "FleetNumberInHardMode": {
       "name": "Fleet number used in hard mode",
       "help": "Fleet number used in hard mode like Event C/D",

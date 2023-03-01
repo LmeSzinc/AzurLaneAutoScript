@@ -27,9 +27,6 @@ GemsFarming:
   - Campaign
   - StopCondition
   - Fleet
-  - Submarine
-  - Emotion
-  - EnemyPriority
 WarArchives:
   - Scheduler
   - Campaign

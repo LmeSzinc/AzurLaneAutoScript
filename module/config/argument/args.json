@@ -1250,6 +1250,10 @@
           "ship_equip"
         ]
       },
+      "ALLowLowVanguardLevel": {
+        "type": "checkbox",
+        "value": true
+      },
       "FleetNumberInHardMode": {
         "type": "select",
         "value": 0,

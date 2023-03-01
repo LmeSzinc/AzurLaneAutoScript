@@ -1108,6 +1108,10 @@
       "ship": "更換艦船",
       "ship_equip": "更換艦船 + 裝備"
     },
+    "ALLowLowVanguardLevel": {
+      "name": "可更換低等級前排",
+      "help": "倍率打開時，前排等級限制改為10以上即可"
+    },
     "FleetNumberInHardMode": {
       "name": "困难模式舰队编号",
       "help": "困难模式（如活动图CD等）下需要更换的舰队编号。\n使用时请保证另一个舰队为6个125级，否则可能会有等级限制出错",
