@@ -11,7 +11,7 @@ class GGScreenshot(Base):
         super().__init__(config, device)
         self.device = device
         self.config = config
-        self.gg_panel_confirm_time = deep_get(self.config.data, 'GameHandler.GGHandler.GGPanelConfirmTime')
+        self.gg_panel_confirm_time = deep_get(self.config.data, 'GameManager.GGHandler.GGPanelConfirmTime')
 
     def skip_error(self):
         """
