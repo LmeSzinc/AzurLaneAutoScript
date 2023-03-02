@@ -47,6 +47,7 @@ class CampaignEvent(CampaignStatus):
         tasks = [
             'Event',
             'Event2',
+            'Event3',
             'EventA',
             'EventB',
             'EventC',
@@ -85,6 +86,7 @@ class CampaignEvent(CampaignStatus):
         tasks = [
             'Event',
             'Event2',
+            'Event3',
             'EventA',
             'EventB',
             'EventC',
@@ -117,11 +119,14 @@ class CampaignEvent(CampaignStatus):
         Pages:
             in: page_event or page_sp
         """
+        from module.config.utils import deep_get
         limit = self.config.TaskBalancer_CoinLimit
-        coin = self.get_coin()
+        coin = deep_get(self.config.data, 'Dashboard.Coin.Value')
+        logger.attr('Coin Count', coin)
         tasks = [
             'Event',
             'Event2',
+            'Event3',
             'Raid',
             'GemsFarming',
         ]
