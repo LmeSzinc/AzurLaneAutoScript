@@ -60,10 +60,13 @@ def timeout(func, timeout_sec=30.0, *args, **kwargs):
         if p.is_alive():
             success = False
         t1 = time.time()
+        if t1 - t0 < 10:
+            success = False
         _success = 'Done' if success else 'Failed'
         logger.hr(f'{func.__name__}: {_success} in {str(round(t1 - t0, 1))}s', 1)
         if not success:
-            raise TimeoutError
+            return True
+        return False
     return function_timeout(func)
 
 
