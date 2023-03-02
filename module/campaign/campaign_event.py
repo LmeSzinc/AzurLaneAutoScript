@@ -134,6 +134,7 @@ class CampaignEvent(CampaignStatus):
 
     def handle_task_balancer(self):
         return
+        # Return null before fixed
         self.config.task_delay(minute=5)
         next_task = self.config.TaskBalancer_TaskCall
         self.config.task_call(next_task)
