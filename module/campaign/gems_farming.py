@@ -101,7 +101,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             index_list = range(0, 5)
         logger.hr('CHANGING FLAGSHIP.')
         logger.attr('ChangeFlagship', self.config.GemsFarming_ChangeFlagship)
-        if self.change_flagship:
+        if self.change_flagship_equip:
             logger.info('Record flagship equipment.')
             self._ship_detail_enter(FLEET_ENTER_FLAGSHIP)
             self.record_equipment(index_list=index_list)
@@ -131,7 +131,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         """
         logger.hr('CHANGING VANGUARD.')
         logger.attr('ChangeVanguard', self.config.GemsFarming_ChangeVanguard)
-        if self.change_vanguard:
+        if self.change_vanguard_equip:
             logger.info('Record vanguard equipment.')
             self._ship_detail_enter(FLEET_ENTER)
             self.record_equipment()
