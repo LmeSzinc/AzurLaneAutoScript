@@ -1817,11 +1817,12 @@
       },
       "FleetOrder": {
         "type": "select",
-        "value": "fleet1_mob_fleet2_boss",
+        "value": "fleet1_all_fleet2_standby",
         "option": [
           "fleet1_all_fleet2_standby",
           "fleet1_standby_fleet2_all"
-        ]
+        ],
+        "display": "display"
       }
     },
     "Storage": {
