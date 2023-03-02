@@ -136,6 +136,8 @@ class CampaignEvent(CampaignStatus):
             return False
 
     def handle_task_balancer(self):
+        return
+
         if self.config.TaskBalancer_Enable and self.triggered_task_balancer():
             self.config.task_delay(minute=5)
             next_task = self.config.TaskBalancer_TaskCall
