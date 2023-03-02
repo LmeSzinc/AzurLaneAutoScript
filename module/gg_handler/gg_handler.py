@@ -30,9 +30,10 @@ class GGHandler:
         for _ in range(2):
             try:
                 if _crashed:
-                    timeout(self.handle_before_restart, timeout=60)
-                timeout(LoginHandler(config=self.config, device=self.device).app_restart, timeout_sec=600)
-                return True
+                    timeout(self.handle_before_restart, timeout_sec=60)
+                if not timeout(LoginHandler(config=self.config, device=self.device).app_restart, timeout_sec=600):
+                    break
+                raise RuntimeError
             except Exception as e:
                 if _crashed:
                     from module.notify import handle_notify
