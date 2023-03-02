@@ -123,9 +123,9 @@ class CampaignEvent(CampaignStatus):
             logger.warning('Coin not found')
             return False
         else:
-            if self.is_balancer_task:
+            if self.is_balancer_task():
                 if coin < limit:
-                    logger.hr('Triggered task balancer: Coin limit')
+                    logger.hr('Reach Coin limit')
                     return True
                 else:
                     return False
@@ -133,10 +133,9 @@ class CampaignEvent(CampaignStatus):
                 return False
 
     def handle_task_balancer(self):
-        return
-        # Return null before fixed
         self.config.task_delay(minute=5)
         next_task = self.config.TaskBalancer_TaskCall
+        logger.hr(f'TaskBalancer triggered, switching task to {next_task}')
         self.config.task_call(next_task)
         self.config.task_stop()
 
