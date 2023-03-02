@@ -117,8 +117,10 @@ class CampaignEvent(CampaignStatus):
         Pages:
             in: page_event or page_sp
         """
+        from module.config.utils import deep_get
         limit = self.config.TaskBalancer_CoinLimit
-        coin = self.get_coin()
+        coin = deep_get(self.config.data, 'Dashboard.Coin.Value')
+        logger.attr('Coin Count', coin)
         tasks = [
             'Event',
             'Event2',
@@ -138,8 +140,6 @@ class CampaignEvent(CampaignStatus):
             return False
 
     def handle_task_balancer(self):
-        return
-
         if self.config.TaskBalancer_Enable and self.triggered_task_balancer():
             self.config.task_delay(minute=5)
             next_task = self.config.TaskBalancer_TaskCall
