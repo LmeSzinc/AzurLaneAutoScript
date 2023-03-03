@@ -131,3 +131,23 @@ class CampaignStatus(UI):
             self.config.update()
 
         return _oil['Value']
+
+    def is_balancer_task(self):
+        """
+        Returns:
+             bool: If is event task but not daily event task
+        """
+        tasks = [
+            'Event',
+            'Event2',
+            'Raid',
+            'GemsFarming',
+        ]
+        command = self.config.Scheduler_Command
+        if command in tasks:
+            if self.config.Campaign_Event == 'campaign_main':
+                return False
+            else:
+                return True
+        else:
+            return False

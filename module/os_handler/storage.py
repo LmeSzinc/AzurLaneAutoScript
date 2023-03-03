@@ -21,6 +21,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
             in: is_in_map, STORAGE_ENTER
             out: STORAGE_CHECK
         """
+        logger.info('Storage enter')
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -45,6 +46,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
             in: STORAGE_CHECK
             out: is_in_map
         """
+        logger.info('Storage quit')
         self.ui_back(STORAGE_ENTER, offset=(200, 5), skip_first_screenshot=True)
 
     def _storage_item_use(self, button, skip_first_screenshot=True):

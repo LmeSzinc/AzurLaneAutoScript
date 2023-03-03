@@ -132,20 +132,25 @@ class CampaignEvent(CampaignStatus):
         ]
         command = self.config.Scheduler_Command
         # Check Coin
-        if coin < limit:
-            if command in tasks:
-                if self.config.Campaign_Event == 'campaign_main':
-                    return False
-                else:
-                    logger.hr('Triggered task balancer: Coin limit')
-                    return True
-        else:
+        if coin == 0:
+            # Avoid wrong/zero OCR result
+            logger.warning('Coin not found')
             return False
+        else:
+            if self.is_balancer_task():
+                if coin < limit:
+                    logger.hr('Reach Coin limit')
+                    return True
+                else:
+                    return False
+            else:
+                return False
 
     def handle_task_balancer(self):
         if self.config.TaskBalancer_Enable and self.triggered_task_balancer():
             self.config.task_delay(minute=5)
             next_task = self.config.TaskBalancer_TaskCall
+            logger.hr(f'TaskBalancer triggered, switching task to {next_task}')
             self.config.task_call(next_task)
             self.config.task_stop()
 
