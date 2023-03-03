@@ -83,7 +83,7 @@ class CampaignStatus(UI):
     def get_oil(self, skip_first_screenshot=True):
         """
         Returns:
-            int: Coin amount
+            int: Oil amount
         """
         amount = 0
         timeout = Timer(1, count=2).start()
@@ -94,7 +94,7 @@ class CampaignStatus(UI):
                 self.device.screenshot()
 
             if timeout.reached():
-                logger.warning('Get coin timeout')
+                logger.warning('Get oil timeout')
                 break
 
             amount = OCR_OIL.ocr(self.device.image)
@@ -102,3 +102,23 @@ class CampaignStatus(UI):
                 break
 
         return amount
+
+    def is_balancer_task(self):
+        """
+        Returns:
+             bool: If is event task but not daily event task
+        """
+        tasks = [
+            'Event',
+            'Event2',
+            'Raid',
+            'GemsFarming',
+        ]
+        command = self.config.Scheduler_Command
+        if command in tasks:
+            if self.config.Campaign_Event == 'campaign_main':
+                return False
+            else:
+                return True
+        else:
+            return False
