@@ -107,7 +107,7 @@ class CampaignRun(CampaignEvent):
             return True
         # TaskBalancer
         if oil_check and self.run_count >= 1:
-            if self.config.TaskBalancer_Enable and self.triggered_task_balancer:
+            if self.config.TaskBalancer_Enable and self.triggered_task_balancer():
                 logger.hr('Triggered stop condition: Coin limit')
                 self.handle_task_balancer()
                 return True
