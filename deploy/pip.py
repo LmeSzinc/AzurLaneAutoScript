@@ -49,4 +49,4 @@ class PipManager(DeployConfig):
 
         logger.hr('Update Dependencies', 1)
         arg = ' ' + ' '.join(arg) if arg else ''
-        self.execute(f'{self.pip} install -r {self.requirements_file}{arg}')
+        self.execute(f'{self.pip} install -r {self.requirements_file}{arg} --no-deps')

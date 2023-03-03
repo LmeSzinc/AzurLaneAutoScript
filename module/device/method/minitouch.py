@@ -74,7 +74,7 @@ def insert_swipe(p0, p3, speed=15, min_distance=10):
     prev = (-100, -100)
     for t in ts:
         point = p0 * (1 - t) ** 3 + 3 * p1 * t * (1 - t) ** 2 + 3 * p2 * t ** 2 * (1 - t) + p3 * t ** 3
-        point = point.astype(np.int).tolist()
+        point = point.astype(int).tolist()
         if np.linalg.norm(np.subtract(point, prev)) < min_distance:
             continue
 

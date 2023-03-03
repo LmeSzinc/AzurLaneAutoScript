@@ -57,7 +57,7 @@ hm.load_homography(image=np.array(az.device.image))
 class SwipeSimulate:
     def __init__(self, swipe, simulate_count=4):
         self.simulate_count = simulate_count
-        self.swipe = np.array(swipe, dtype=np.float)
+        self.swipe = np.array(swipe, dtype=float)
         self.swipe_base = self.cal_swipe_base()
         logger.info(self.swipe_base)
 
