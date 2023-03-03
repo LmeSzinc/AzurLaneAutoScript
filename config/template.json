@@ -494,7 +494,7 @@
       "Fleet2Formation": "double_line",
       "Fleet2Mode": "combat_auto",
       "Fleet2Step": 2,
-      "FleetOrder": "fleet1_mob_fleet2_boss"
+      "FleetOrder": "fleet1_all_fleet2_standby"
     },
     "Storage": {
       "Storage": {}
