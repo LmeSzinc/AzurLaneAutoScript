@@ -15,14 +15,29 @@ class MapOrderHandler(MapOperation, ActionPointHandler, MapEventHandler, ZoneMan
     def is_in_map_order(self):
         return self.appear(ORDER_CHECK, offset=(20, 20))
 
-    def order_enter(self):
+    def order_enter(self, skip_first_screenshot=True):
         """
         Pages:
             in: is_in_map
             out: is_in_map_order
         """
-        self.ui_click(ORDER_ENTER, appear_button=self.is_in_map, check_button=self.is_in_map_order,
-                      skip_first_screenshot=True, additional=self.handle_map_event, retry_wait=2)
+        logger.info('Order enter')
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.is_in_map_order():
+                break
+
+            if self.is_in_map():
+                if self.appear_then_click(ORDER_ENTER, offset=(20, 20), interval=2):
+                    continue
+            # A game bug that AUTO_SEARCH_REWARD from the last cleared zone popups
+            if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
+                continue
 
     def order_quit(self):
         """
@@ -30,6 +45,7 @@ class MapOrderHandler(MapOperation, ActionPointHandler, MapEventHandler, ZoneMan
             in: is_in_map_order
             out: is_in_map
         """
+        logger.info('Order quit')
         self.ui_click(ORDER_CHECK, appear_button=self.is_in_map_order, check_button=self.is_in_map,
                       skip_first_screenshot=True)
 
