@@ -5,8 +5,12 @@ JSON = Union[Dict[str, Any], List[Any], int, str, float, bool, Type[None]]
 
 
 class InstanceOptionType(IntEnum):
+    # 触控模式设置， "minitouch" | "maatouch" | "adb"
     touch_type = 2
+    # 自动战斗、肉鸽、保全 是否使用 暂停下干员， "0" | "1"
     deployment_with_pause = 3
+    # 是否使用 AdbLite， "0" | "1"
+    adb_lite_enabled = 4
 
 
 @unique
