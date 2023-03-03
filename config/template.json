@@ -312,7 +312,7 @@
     },
     "GemsFarming": {
       "ChangeFlagship": "ship",
-      "ChangeVanguard": "ship",
+      "ChangeVanguard": "disabled",
       "CommonCV": "any",
       "CommissionLimit": true
     },
@@ -344,6 +344,9 @@
       "Fleet2Mode": "combat_auto",
       "Fleet2Step": 2,
       "FleetOrder": "fleet1_all_fleet2_standby"
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": "default_mode"
     },
     "Storage": {
       "Storage": {}

@@ -1559,6 +1559,7 @@
         "type": "select",
         "value": "ship",
         "option": [
+          "disabled",
           "ship",
           "ship_equip"
         ]
@@ -1567,6 +1568,7 @@
         "type": "select",
         "value": "ship",
         "option": [
+          "disabled",
           "ship",
           "ship_equip"
         ]
@@ -1823,6 +1825,17 @@
           "fleet1_standby_fleet2_all"
         ],
         "display": "display"
+      }
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": {
+        "type": "select",
+        "value": "default_mode",
+        "option": [
+          "default_mode",
+          "S3_enemy_first",
+          "S1_enemy_first"
+        ]
       }
     },
     "Storage": {

@@ -86,7 +86,9 @@ def change_ship_redirect(value):
       FlagshipChange + FlagshipEquipChange -> ChangeFlagship
     """
     ship, equip = value
-    if equip:
+    if ship == 'disabled':
+        return 'disabled'
+    elif equip:
         return 'ship_equip'
     else:
         return 'ship'
