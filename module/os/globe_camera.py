@@ -6,6 +6,7 @@ from module.os.assets import *
 from module.os.globe_detection import GLOBE_MAP_SHAPE, GlobeDetection
 from module.os.globe_operation import GlobeOperation
 from module.os.globe_zone import Zone, ZoneManager
+from module.os_handler.assets import AUTO_SEARCH_REWARD
 
 
 class GlobeCamera(GlobeOperation, ZoneManager):
@@ -28,6 +29,33 @@ class GlobeCamera(GlobeOperation, ZoneManager):
                 raise GameStuckError
 
             self.device.screenshot()
+
+            # A copy of os_map_goto_globe()
+            # May accidentally enter map
+            if self.appear_then_click(MAP_GOTO_GLOBE, offset=(200, 5), interval=3):
+                # Just to initialize interval timer of MAP_GOTO_GLOBE_FOG
+                self.appear(MAP_GOTO_GLOBE_FOG, interval=3)
+                timeout.reset()
+                continue
+            if self.appear_then_click(MAP_GOTO_GLOBE_FOG, interval=3):
+                # Encountered only in strongholds; AL will not prevent
+                # zone exit even with left over exploration rewards in map
+                self.interval_reset(MAP_GOTO_GLOBE)
+                timeout.reset()
+                continue
+            if self.handle_map_event():
+                timeout.reset()
+                continue
+            # Popup: AUTO_SEARCH_REWARD appears slowly
+            if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
+                timeout.reset()
+                continue
+            # Popup: Leaving current zone will terminate meowfficer searching.
+            # Popup: Leaving current zone will retreat submarines
+            # Searching reward will be shown after entering another zone.
+            if self.handle_popup_confirm('GOTO_GLOBE'):
+                timeout.reset()
+                continue
 
             if self.is_in_globe():
                 break
