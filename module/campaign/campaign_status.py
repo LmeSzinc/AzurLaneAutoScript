@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 
 from module.base.timer import Timer
-from module.campaign.assets import OCR_EVENT_PT, OCR_COIN, OCR_OIL, OCR_COIN_LIMIT, OCR_OIL_LIMIT
+from module.campaign.assets import OCR_EVENT_PT, OCR_COIN, OCR_OIL, OCR_GEM, OCR_COIN_LIMIT, OCR_OIL_LIMIT
 from module.logger import logger
 from module.ocr.ocr import Ocr, Digit
 from module.ui.ui import UI
@@ -131,3 +131,24 @@ class CampaignStatus(UI):
         LogRes(self.config).Oil = _oil
         LogRes(self.config).Coin = _coin
         return _oil['Value']
+
+    def is_balancer_task(self):
+        """
+        Returns:
+             bool: If is event task but not daily event task
+        """
+        tasks = [
+            'Event',
+            'Event2',
+            'Event3',
+            'Raid',
+            'GemsFarming',
+        ]
+        command = self.config.Scheduler_Command
+        if command in tasks:
+            if self.config.Campaign_Event == 'campaign_main':
+                return False
+            else:
+                return True
+        else:
+            return False
