@@ -26,6 +26,5 @@ onepush
 pydantic
 psutil<5.9.4 # pip19
 av
-chardet
 mxnet-alas
 watchfiles<0.15 # pip19, from uvicorn
