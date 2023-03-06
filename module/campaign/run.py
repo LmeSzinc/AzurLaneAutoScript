@@ -72,8 +72,13 @@ class CampaignRun(CampaignEvent):
         # Run count limit
         if self.run_limit and self.config.StopCondition_RunCount <= 0:
             logger.hr('Triggered stop condition: Run count')
-            self.config.StopCondition_RunCount = 0
-            self.config.Scheduler_Enable = False
+            if(self.config.Scheduler_Command == "MainHard"):
+                self.config.StopCondition_RunCount = 3
+                self.config.Scheduler_Enable = True
+                self.config.task_delay(server_update=True)
+            else:
+                self.config.StopCondition_RunCount = 0
+                self.config.Scheduler_Enable = False
             return True
         # Lv120 limit
         if self.config.StopCondition_ReachLevel and self.campaign.config.LV_TRIGGERED:

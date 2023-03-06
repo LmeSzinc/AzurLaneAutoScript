@@ -12,6 +12,10 @@
       "name": "出击",
       "help": ""
     },
+    "Main": {
+      "name": "主线",
+      "help": ""
+    },
     "Event": {
       "name": "活动",
       "help": ""
@@ -46,6 +50,26 @@
       "name": "重启设置",
       "help": ""
     },
+    "WarArchives": {
+      "name": "作战档案",
+      "help": "由于作战档案缺少维护，开荒功能不一定能正常使用，如果发现Alas运行异常，请手动完成开荒后使用自律寻敌功能"
+    },
+    "GemsFarming": {
+      "name": "刷紧急委托",
+      "help": ""
+    },
+    "Sos": {
+      "name": "潜艇图",
+      "help": ""
+    },
+    "MainNormal": {
+      "name": "主线图-普通",
+      "help": ""
+    },
+    "MainHard": {
+      "name": "主线图-困难",
+      "help": ""
+    },
     "Main": {
       "name": "主线图",
       "help": ""
@@ -58,14 +82,6 @@
       "name": "主线图-3",
       "help": ""
     },
-    "GemsFarming": {
-      "name": "刷紧急委托",
-      "help": ""
-    },
-    "Sos": {
-      "name": "潜艇图",
-      "help": ""
-    },
     "EventGeneral": {
       "name": "活动通用设置",
       "help": ""
@@ -76,6 +92,10 @@
     },
     "Event2": {
       "name": "活动图-2",
+      "help": ""
+    },
+    "Event3": {
+      "name": "活动图-3",
       "help": ""
     },
     "EventA": {
@@ -97,10 +117,6 @@
     "EventSp": {
       "name": "活动每日SP图",
       "help": ""
-    },
-    "WarArchives": {
-      "name": "作战档案",
-      "help": "由于作战档案缺少维护，开荒功能不一定能正常使用，如果发现Alas运行异常，请手动完成开荒后使用自律寻敌功能"
     },
     "Raid": {
       "name": "共斗活动",
@@ -1140,6 +1156,8 @@
     "TaskCall": {
       "name": "物资过低时呼叫任务X",
       "help": "提醒: 玩家需提前设置好被调用的任务，否则将不会作用",
+      "MainNormal": "主线图-普通",
+      "MainHard": "主线图-困难",
       "Main": "主线图",
       "Main2": "主线图-2",
       "Main3": "主线图-3"

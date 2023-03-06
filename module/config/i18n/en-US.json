@@ -12,6 +12,10 @@
       "name": "Farm",
       "help": ""
     },
+    "Main": {
+      "name": "Main",
+      "help": ""
+    },
     "Event": {
       "name": "Event",
       "help": ""
@@ -46,6 +50,26 @@
       "name": "Restart",
       "help": ""
     },
+    "WarArchives": {
+      "name": "War Archives",
+      "help": "Due to the lack of maintenance of war archives, continuous clear may not work normally, if Alas runs abnormally, Please manually finish clearing and use auto search"
+    },
+    "GemsFarming": {
+      "name": "Commission Farming",
+      "help": ""
+    },
+    "Sos": {
+      "name": "SOS",
+      "help": ""
+    },
+    "MainNormal": {
+      "name": "Main-Normal",
+      "help": ""
+    },
+    "MainHard": {
+      "name": "Main-Hard",
+      "help": ""
+    },
     "Main": {
       "name": "Main",
       "help": ""
@@ -58,14 +82,6 @@
       "name": "Main-3",
       "help": ""
     },
-    "GemsFarming": {
-      "name": "Commission Farming",
-      "help": ""
-    },
-    "Sos": {
-      "name": "SOS",
-      "help": ""
-    },
     "EventGeneral": {
       "name": "Event General",
       "help": ""
@@ -76,6 +92,10 @@
     },
     "Event2": {
       "name": "Event-2",
+      "help": ""
+    },
+    "Event3": {
+      "name": "Event-3",
       "help": ""
     },
     "EventA": {
@@ -97,10 +117,6 @@
     "EventSp": {
       "name": "Event Daily SP",
       "help": ""
-    },
-    "WarArchives": {
-      "name": "War Archives",
-      "help": "Due to the lack of maintenance of war archives, continuous clear may not work normally, if Alas runs abnormally, Please manually finish clearing and use auto search"
     },
     "Raid": {
       "name": "Raid",
@@ -1140,6 +1156,8 @@
     "TaskCall": {
       "name": "Call task X if out of coin",
       "help": "Reminder: Players need to check task config before running, or TaskCall may not work.",
+      "MainNormal": "Main-Normal",
+      "MainHard": "Main-Hard",
       "Main": "Main",
       "Main2": "Main-2",
       "Main3": "Main-3"

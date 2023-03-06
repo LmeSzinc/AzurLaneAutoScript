@@ -15,15 +15,14 @@ Restart:
 
 # ==================== Farm ====================
 
-Main:
+WarArchives:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
   Campaign:
-    Event: campaign_main
-Main2:
-  Campaign:
-    Event: campaign_main
-Main3:
-  Campaign:
-    Event: campaign_main
+    Mode: normal
+    AmbushEvade: true
 GemsFarming:
   Campaign:
     Event:
@@ -44,6 +43,48 @@ GemsFarming:
       display: display
       value: fleet1_all_fleet2_standby
       option: [ fleet1_all_fleet2_standby, fleet1_standby_fleet2_all ]
+Sos:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+  Campaign:
+    Name: dynamic
+    Event: campaign_main
+    Mode: normal
+    UseClearMode: true
+    UseFleetLock: true
+    UseAutoSearch: false
+    Use2xBook: false
+    AmbushEvade: true
+  StopCondition:
+    RunCount: 0
+    MapAchievement: non_stop
+    StageIncrease: false
+    GetNewShip: false
+    ReachLevel: 0
+  Submarine:
+    AutoSearchMode: sub_standby
+
+# ==================== Main ====================
+
+MainNormal:
+  Campaign:
+    Event: campaign_main
+MainHard:
+  Campaign:
+    Event: campaign_main
+    StopCondition:
+      RunCount: 3
+Main:
+  Campaign:
+    Event: campaign_main
+Main2:
+  Campaign:
+    Event: campaign_main
+Main3:
+  Campaign:
+    Event: campaign_main
 
 # ==================== Event ====================
 
@@ -54,6 +95,12 @@ Event:
       display: disabled
     AmbushEvade: true
 Event2:
+  Campaign:
+    Mode: normal
+    Event:
+      display: disabled
+    AmbushEvade: true
+Event3:
   Campaign:
     Mode: normal
     Event:
@@ -169,7 +216,7 @@ Raid:
     ReachLevel: 0
   Emotion:
     Fleet2Value: 119
-    Fleet2Record: 2020-01-01 00:00:00
+    Fleet2Record: 2023-01-01 00:00:00
     Fleet2Control: prevent_yellow_face
     Fleet2Recover: not_in_dormitory
     Fleet2Oath: false
@@ -196,7 +243,7 @@ RaidDaily:
     ReachLevel: 0
   Emotion:
     Fleet2Value: 119
-    Fleet2Record: 2020-01-01 00:00:00
+    Fleet2Record: 2023-01-01 00:00:00
     Fleet2Control: prevent_yellow_face
     Fleet2Recover: not_in_dormitory
     Fleet2Oath: false
@@ -295,36 +342,6 @@ Exercise:
     SuccessInterval: 30
     FailureInterval: 30
     ServerUpdate: 00:00, 12:00, 18:00
-Sos:
-  Scheduler:
-    SuccessInterval: 30
-    FailureInterval: 30
-    ServerUpdate: 00:00
-  Campaign:
-    Name: dynamic
-    Event: campaign_main
-    Mode: normal
-    UseClearMode: true
-    UseFleetLock: true
-    UseAutoSearch: false
-    Use2xBook: false
-    AmbushEvade: true
-  StopCondition:
-    RunCount: 0
-    MapAchievement: non_stop
-    StageIncrease: false
-    GetNewShip: false
-    ReachLevel: 0
-  Submarine:
-    AutoSearchMode: sub_standby
-WarArchives:
-  Scheduler:
-    SuccessInterval: 30
-    FailureInterval: 30
-    ServerUpdate: 00:00
-  Campaign:
-    Mode: normal
-    AmbushEvade: true
 
 # ==================== Opsi ====================
 

@@ -12,6 +12,10 @@
       "name": "出撃",
       "help": ""
     },
+    "Main": {
+      "name": "メイン",
+      "help": ""
+    },
     "Event": {
       "name": "イベント",
       "help": ""
@@ -46,6 +50,26 @@
       "name": "再起動設定",
       "help": ""
     },
+    "WarArchives": {
+      "name": "作戦履歴",
+      "help": ""
+    },
+    "GemsFarming": {
+      "name": "Commission Farming",
+      "help": ""
+    },
+    "Sos": {
+      "name": "Sos",
+      "help": ""
+    },
+    "MainNormal": {
+      "name": "メイン海域-通常",
+      "help": ""
+    },
+    "MainHard": {
+      "name": "メイン海域-困難",
+      "help": ""
+    },
     "Main": {
       "name": "メイン海域",
       "help": ""
@@ -58,14 +82,6 @@
       "name": "メイン海域-3",
       "help": ""
     },
-    "GemsFarming": {
-      "name": "Commission Farming",
-      "help": ""
-    },
-    "Sos": {
-      "name": "Sos",
-      "help": ""
-    },
     "EventGeneral": {
       "name": "イベント共通設定",
       "help": ""
@@ -76,6 +92,10 @@
     },
     "Event2": {
       "name": "イベント海域-2",
+      "help": ""
+    },
+    "Event3": {
+      "name": "イベント海域-3",
       "help": ""
     },
     "EventA": {
@@ -96,10 +116,6 @@
     },
     "EventSp": {
       "name": "毎日イベント海域SP",
-      "help": ""
-    },
-    "WarArchives": {
-      "name": "作戦履歴",
       "help": ""
     },
     "Raid": {
@@ -1140,6 +1156,8 @@
     "TaskCall": {
       "name": "TaskBalancer.TaskCall.name",
       "help": "TaskBalancer.TaskCall.help",
+      "MainNormal": "MainNormal",
+      "MainHard": "Main-Hard",
       "Main": "Main",
       "Main2": "Main2",
       "Main3": "Main3"

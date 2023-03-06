@@ -12,6 +12,10 @@
       "name": "出擊",
       "help": ""
     },
+    "Main": {
+      "name": "主綫",
+      "help": ""
+    },
     "Event": {
       "name": "活動",
       "help": ""
@@ -46,6 +50,26 @@
       "name": "重啟設定",
       "help": ""
     },
+    "WarArchives": {
+      "name": "作戰檔案",
+      "help": "由於作戰檔案缺少維護，開荒功能不一定能正常使用，如果發現Alas運行异常，請手動完成開荒後使用自律尋敵功能"
+    },
+    "GemsFarming": {
+      "name": "刷緊急委託",
+      "help": ""
+    },
+    "Sos": {
+      "name": "潛艇圖",
+      "help": ""
+    },
+    "MainNormal": {
+      "name": "主線圖-普通",
+      "help": ""
+    },
+    "MainHard": {
+      "name": "主線圖-困難",
+      "help": ""
+    },
     "Main": {
       "name": "主線圖",
       "help": ""
@@ -56,14 +80,6 @@
     },
     "Main3": {
       "name": "主線圖-3",
-      "help": ""
-    },
-    "GemsFarming": {
-      "name": "刷緊急委託",
-      "help": ""
-    },
-    "Sos": {
-      "name": "潛艇圖",
       "help": ""
     },
     "EventGeneral": {
@@ -97,10 +113,6 @@
     "EventSp": {
       "name": "活動每日SP圖",
       "help": ""
-    },
-    "WarArchives": {
-      "name": "作戰檔案",
-      "help": "由於作戰檔案缺少維護，開荒功能不一定能正常使用，如果發現Alas運行异常，請手動完成開荒後使用自律尋敵功能"
     },
     "Raid": {
       "name": "共鬥活動",
@@ -1140,6 +1152,8 @@
     "TaskCall": {
       "name": "物資過低時呼叫任務X",
       "help": "提醒: 玩家需提前設置好被調用的任務，否則將不會作用",
+      "MainNormal": "主線圖-普通",
+      "MainHard": "主線圖-困難",
       "Main": "主線圖",
       "Main2": "主線圖-2",
       "Main3": "主線圖-3"

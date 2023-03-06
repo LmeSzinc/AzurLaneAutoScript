@@ -6,22 +6,27 @@
       "Restart"
     ],
     "Farm": [
-      "Main",
-      "Main2",
-      "Main3",
+      "WarArchives",
       "GemsFarming",
       "Sos"
+    ],
+    "Main": [
+      "MainNormal",
+      "MainHard",
+      "Main",
+      "Main2",
+      "Main3"
     ],
     "Event": [
       "EventGeneral",
       "Event",
       "Event2",
+      "Event3",
       "EventA",
       "EventB",
       "EventC",
       "EventD",
       "EventSp",
-      "WarArchives",
       "Raid",
       "RaidDaily",
       "MaritimeEscort"

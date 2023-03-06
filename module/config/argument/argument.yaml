@@ -6,7 +6,7 @@
 
 Scheduler:
   Enable: false
-  NextRun: 2020-01-01 00:00:00
+  NextRun: 2023-01-01 00:00:00
   Command: Alas
   SuccessInterval:
     value: 0
@@ -111,7 +111,7 @@ OldRetire:
     value: retire_all
     option: [ retire_all, retire_10 ]
 
-# ==================== Farm ====================
+# ==================== Main ====================
 
 Campaign:
   Name: 12-4
@@ -182,7 +182,7 @@ Emotion:
     option: [ calculate, ignore, calculate_ignore ]
   Fleet1Value: 119
   Fleet1Record:
-    value: 2020-01-01 00:00:00
+    value: 2023-01-01 00:00:00
     display: disabled
   Fleet1Control:
     value: prevent_yellow_face
@@ -193,7 +193,7 @@ Emotion:
   Fleet1Oath: false
   Fleet2Value: 119
   Fleet2Record:
-    value: 2020-01-01 00:00:00
+    value: 2023-01-01 00:00:00
     display: disabled
   Fleet2Control:
     value: prevent_yellow_face
@@ -233,6 +233,9 @@ C124LargeLeveling:
   PickupAmmo:
     value: 3
     option: [ 3, 4, 5 ]
+
+# ==================== Farm ====================
+
 GemsFarming:
   ChangeFlagship:
     value: ship
@@ -249,7 +252,7 @@ GemsFarming:
 
 EventGeneral:
   PtLimit: 0
-  TimeLimit: 2020-01-01 00:00:00
+  TimeLimit: 2023-01-01 00:00:00
 TaskBalancer:
   Enable: false
   CoinLimit: 10000
@@ -480,7 +483,7 @@ ShipyardDr:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
   BuyAmount: 2
-  LastRun: 2020-01-01 00:00:00
+  LastRun: 2023-01-01 00:00:00
 Shipyard:
   ResearchSeries:
     value: 1
@@ -489,7 +492,7 @@ Shipyard:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
   BuyAmount: 2
-  LastRun: 2020-01-01 00:00:00
+  LastRun: 2023-01-01 00:00:00
 Gacha:
   Pool:
     value: light
@@ -566,7 +569,7 @@ Exercise:
   LowHpThreshold: 0.4
   LowHpConfirmWait: 0.1
   OpponentRefreshValue: 0
-  OpponentRefreshRecord: 2020-01-01 00:00:00
+  OpponentRefreshRecord: 2023-01-01 00:00:00
 Sos:
   Chapter:
     value: 3

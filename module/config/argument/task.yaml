@@ -20,6 +20,52 @@ Restart:
 
 # ==================== Farm ====================
 
+WarArchives:
+  - Scheduler
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
+GemsFarming:
+  - Scheduler
+  - GemsFarming
+  - Campaign
+  - StopCondition
+  - Fleet
+Sos:
+  - Scheduler
+  - Sos
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
+
+# ==================== Main ====================
+
+MainNormal:
+  - Scheduler
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
+MainHard:
+  - Scheduler
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
 Main:
   - Scheduler
   - Campaign
@@ -47,22 +93,6 @@ Main3:
   - Emotion
   - HpControl
   - EnemyPriority
-GemsFarming:
-  - Scheduler
-  - GemsFarming
-  - Campaign
-  - StopCondition
-  - Fleet
-Sos:
-  - Scheduler
-  - Sos
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
 
 # ==================== Event ====================
 
@@ -79,6 +109,15 @@ Event:
   - HpControl
   - EnemyPriority
 Event2:
+  - Scheduler
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
+Event3:
   - Scheduler
   - Campaign
   - StopCondition
@@ -128,15 +167,6 @@ EventD:
   - HpControl
   - EnemyPriority
 EventSp:
-  - Scheduler
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
-WarArchives:
   - Scheduler
   - Campaign
   - StopCondition
