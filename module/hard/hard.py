@@ -41,6 +41,7 @@ class CampaignHard(CampaignRun):
             name=self.config.Hard_HardStage,
             mode='hard'
         )
+        
         # Run
         remain = OCR_HARD_REMAIN.ocr(self.device.image)
         logger.attr('Remain', remain)
