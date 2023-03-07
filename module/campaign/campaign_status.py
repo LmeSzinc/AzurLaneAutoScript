@@ -123,6 +123,8 @@ class CampaignStatus(UI):
                 break
 
             amount = OCR_HARD_REMAIN.ocr(self.device.image)
+            if amount >= 1:
+                break
 
         return amount
 
