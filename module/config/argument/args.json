@@ -1963,7 +1963,8 @@
     "StopCondition": {
       "RunCount": {
         "type": "input",
-        "value": 0
+        "value": 3,
+        "display": "disabled"
       },
       "OilLimit": {
         "type": "input",
