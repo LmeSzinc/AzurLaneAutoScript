@@ -10,7 +10,9 @@ from module.logger import logger
 from module.ocr.ocr import Ocr, Digit
 from module.ui.ui import UI
 from module.log_res.log_res import LogRes
+from module.hard.assets import *
 
+OCR_HARD_REMAIN = Digit(OCR_HARD_REMAIN, letter=(123, 227, 66), threshold=128, alphabet='0123')
 OCR_OIL = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
 OCR_COIN = Digit(OCR_COIN, name='OCR_COIN', letter=(239, 239, 239), threshold=128)
 OCR_OIL_LIMIT = Digit(OCR_OIL_LIMIT, name='OCR_OIL_LIMIT', letter=(235, 235, 235), threshold=128)
@@ -77,6 +79,9 @@ class CampaignStatus(UI):
             if timeout.reached():
                 logger.warning('Get oil timeout')
                 break
+
+            if(self.config.Scheduler_Command == "MainHard"):
+                self.config.StopCondition_RunCount = OCR_HARD_REMAIN.ocr(self.device.image)
 
             _oil = {
                 'Value': OCR_OIL.ocr(self.device.image),
