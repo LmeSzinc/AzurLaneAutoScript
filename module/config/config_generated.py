@@ -11,7 +11,7 @@ class GeneratedConfig:
 
     # Group `Scheduler`
     Scheduler_Enable = False
-    Scheduler_NextRun = datetime.datetime(2023, 1, 1, 0, 0)
+    Scheduler_NextRun = datetime.datetime(2020, 1, 1, 0, 0)
     Scheduler_Command = 'Alas'
     Scheduler_SuccessInterval = 0
     Scheduler_FailureInterval = 120
@@ -112,12 +112,12 @@ class GeneratedConfig:
     # Group `Emotion`
     Emotion_Mode = 'calculate'  # calculate, ignore, calculate_ignore
     Emotion_Fleet1Value = 119
-    Emotion_Fleet1Record = datetime.datetime(2023, 1, 1, 0, 0)
+    Emotion_Fleet1Record = datetime.datetime(2020, 1, 1, 0, 0)
     Emotion_Fleet1Control = 'prevent_yellow_face'  # keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face
     Emotion_Fleet1Recover = 'not_in_dormitory'  # not_in_dormitory, dormitory_floor_1, dormitory_floor_2
     Emotion_Fleet1Oath = False
     Emotion_Fleet2Value = 119
-    Emotion_Fleet2Record = datetime.datetime(2023, 1, 1, 0, 0)
+    Emotion_Fleet2Record = datetime.datetime(2020, 1, 1, 0, 0)
     Emotion_Fleet2Control = 'prevent_yellow_face'  # keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face
     Emotion_Fleet2Recover = 'not_in_dormitory'  # not_in_dormitory, dormitory_floor_1, dormitory_floor_2
     Emotion_Fleet2Oath = False
@@ -157,7 +157,7 @@ class GeneratedConfig:
 
     # Group `EventGeneral`
     EventGeneral_PtLimit = 0
-    EventGeneral_TimeLimit = datetime.datetime(2023, 1, 1, 0, 0)
+    EventGeneral_TimeLimit = datetime.datetime(2020, 1, 1, 0, 0)
 
     # Group `TaskBalancer`
     TaskBalancer_Enable = False
@@ -284,13 +284,13 @@ class GeneratedConfig:
     ShipyardDr_ResearchSeries = 2  # 2
     ShipyardDr_ShipIndex = 0  # 0, 1, 2, 3, 4, 5, 6
     ShipyardDr_BuyAmount = 2
-    ShipyardDr_LastRun = datetime.datetime(2023, 1, 1, 0, 0)
+    ShipyardDr_LastRun = datetime.datetime(2020, 1, 1, 0, 0)
 
     # Group `Shipyard`
     Shipyard_ResearchSeries = 1  # 1, 2, 3
     Shipyard_ShipIndex = 0  # 0, 1, 2, 3, 4, 5, 6
     Shipyard_BuyAmount = 2
-    Shipyard_LastRun = datetime.datetime(2023, 1, 1, 0, 0)
+    Shipyard_LastRun = datetime.datetime(2020, 1, 1, 0, 0)
 
     # Group `Gacha`
     Gacha_Pool = 'light'  # light, heavy, special, event, wishing_well
@@ -339,7 +339,7 @@ class GeneratedConfig:
     Exercise_LowHpThreshold = 0.4
     Exercise_LowHpConfirmWait = 0.1
     Exercise_OpponentRefreshValue = 0
-    Exercise_OpponentRefreshRecord = datetime.datetime(2023, 1, 1, 0, 0)
+    Exercise_OpponentRefreshRecord = datetime.datetime(2020, 1, 1, 0, 0)
 
     # Group `Sos`
     Sos_Chapter = 3  # 3, 4, 5, 6, 7, 8, 9, 10

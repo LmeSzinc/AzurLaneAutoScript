@@ -6,13 +6,11 @@
       "Restart"
     ],
     "Farm": [
-      "GemsFarming",
-      "Sos"
-    ],
-    "Main": [
       "Main",
       "Main2",
-      "Main3"
+      "Main3",
+      "GemsFarming",
+      "Sos"
     ],
     "Event": [
       "EventGeneral",

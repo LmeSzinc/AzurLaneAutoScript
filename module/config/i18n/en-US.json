@@ -12,10 +12,6 @@
       "name": "Farm",
       "help": ""
     },
-    "Main": {
-      "name": "Main",
-      "help": ""
-    },
     "Event": {
       "name": "Event",
       "help": ""
@@ -1966,7 +1962,7 @@
   "Hard": {
     "_info": {
       "name": "Hard Settings",
-      "help": "Hard mode for chapter must be unlocked, stage must be in 100% CLEAR condition, and auto search is enabled temporarily.\nUse Farm Main task to assist unlocking and achieving 100% CLEAR conditions"
+      "help": "Running the Daily Difficulty graph defaults to unlocking cycle mode, and falls back to traditional sorties before unlocking"
     },
     "HardStage": {
       "name": "Hard Stage",

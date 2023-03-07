@@ -15,6 +15,15 @@ Restart:
 
 # ==================== Farm ====================
 
+Main:
+  Campaign:
+    Event: campaign_main
+Main2:
+  Campaign:
+    Event: campaign_main
+Main3:
+  Campaign:
+    Event: campaign_main
 GemsFarming:
   Campaign:
     Event:
@@ -57,18 +66,6 @@ Sos:
     ReachLevel: 0
   Submarine:
     AutoSearchMode: sub_standby
-
-# ==================== Main ====================
-
-Main:
-  Campaign:
-    Event: campaign_main
-Main2:
-  Campaign:
-    Event: campaign_main
-Main3:
-  Campaign:
-    Event: campaign_main
 
 # ==================== Event ====================
 
@@ -202,7 +199,7 @@ Raid:
     ReachLevel: 0
   Emotion:
     Fleet2Value: 119
-    Fleet2Record: 2023-01-01 00:00:00
+    Fleet2Record: 2020-01-01 00:00:00
     Fleet2Control: prevent_yellow_face
     Fleet2Recover: not_in_dormitory
     Fleet2Oath: false
@@ -229,7 +226,7 @@ RaidDaily:
     ReachLevel: 0
   Emotion:
     Fleet2Value: 119
-    Fleet2Record: 2023-01-01 00:00:00
+    Fleet2Record: 2020-01-01 00:00:00
     Fleet2Control: prevent_yellow_face
     Fleet2Recover: not_in_dormitory
     Fleet2Oath: false
