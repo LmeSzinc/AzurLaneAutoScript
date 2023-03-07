@@ -111,6 +111,24 @@ OldRetire:
     value: retire_all
     option: [ retire_all, retire_10 ]
 
+# ==================== Farm ====================
+
+GemsFarming:
+  ChangeFlagship:
+    value: ship
+    option: [ ship, ship_equip ]
+  ChangeVanguard:
+    value: ship
+    option: [ ship, ship_equip ]
+  CommonCV:
+    value: any
+    option: [ any, langley, bogue, ranger, hermes ]
+  CommissionLimit: true
+Sos:
+  Chapter:
+    value: 3
+    option: [ 3, 4, 5, 6, 7, 8, 9, 10 ]
+
 # ==================== Main ====================
 
 Campaign:
@@ -234,20 +252,6 @@ C124LargeLeveling:
     value: 3
     option: [ 3, 4, 5 ]
 
-# ==================== Farm ====================
-
-GemsFarming:
-  ChangeFlagship:
-    value: ship
-    option: [ ship, ship_equip ]
-  ChangeVanguard:
-    value: ship
-    option: [ ship, ship_equip ]
-  CommonCV:
-    value: any
-    option: [ any, langley, bogue, ranger, hermes ]
-  CommissionLimit: true
-
 # ==================== Event ====================
 
 EventGeneral:
@@ -258,7 +262,7 @@ TaskBalancer:
   CoinLimit: 10000
   TaskCall:
     value: Main
-    option: [ Main, Main2, Main3 ]
+    option: [ MainNormal, MainHard, Main, Main2, Main3 ]
 EventDaily:
   StageFilter: |-
     A1 > A2 > A3
@@ -570,10 +574,6 @@ Exercise:
   LowHpConfirmWait: 0.1
   OpponentRefreshValue: 0
   OpponentRefreshRecord: 2023-01-01 00:00:00
-Sos:
-  Chapter:
-    value: 3
-    option: [ 3, 4, 5, 6, 7, 8, 9, 10 ]
 
 # ==================== Opsi ====================
 
