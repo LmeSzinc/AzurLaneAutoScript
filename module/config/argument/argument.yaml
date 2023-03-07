@@ -114,12 +114,13 @@ OldRetire:
 # ==================== Farm ====================
 
 GemsFarming:
-  FlagshipChange: true
-  FlagshipEquipChange: false
-  VanguardChange: false
-  VanguardEquipChange: false
+  ChangeFlagship:
+    value: ship
+    option: [ ship, ship_equip ]
+  ChangeVanguard:
+    value: ship
+    option: [ ship, ship_equip ]
   ALLowLowVanguardLevel: true
-  LowEmotionRetreat: true
   FleetNumberInHardMode:
     value: 0
     option: [ 0, 1, 2 ]
@@ -255,17 +256,6 @@ C124LargeLeveling:
   PickupAmmo:
     value: 3
     option: [ 3, 4, 5 ]
-GemsFarming:
-  ChangeFlagship:
-    value: ship
-    option: [ ship, ship_equip ]
-  ChangeVanguard:
-    value: ship
-    option: [ ship, ship_equip ]
-  CommonCV:
-    value: any
-    option: [ any, langley, bogue, ranger, hermes ]
-  CommissionLimit: true
 
 # ==================== Event ====================
 
