@@ -136,6 +136,27 @@ class CampaignStatus(UI):
         LogRes(self.config).Oil = _oil
         LogRes(self.config).Coin = _coin
         return _oil['Value']
+    
+    def get_main_hard(self, skip_first_screenshot=True):
+        """
+        Returns:
+            int: main_hard amount
+        """
+        amount = 0
+        timeout = Timer(1, count=2).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if timeout.reached():
+                logger.warning('Get main_hard timeout')
+                break
+
+            amount = OCR_HARD_REMAIN.ocr(self.device.image)
+
+        return amount
 
     def is_balancer_task(self):
         """
