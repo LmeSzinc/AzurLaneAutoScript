@@ -102,6 +102,11 @@ class CampaignStatus(UI):
             amount = OCR_OIL.ocr(self.device.image)
             if(self.config.Scheduler_Command == "MainHard"):
                 self.config.StopCondition_RunCount = OCR_HARD_REMAIN.ocr(self.device.image)
+                if(self.config.StopCondition_RunCount == 0):
+                    self.config.StopCondition_RunCount = 3
+                    self.config.Scheduler_Enable = True
+                    self.config.task_delay(server_update=True)
+                    self.config.task_stop()
             if amount >= 100:
                 break
 
