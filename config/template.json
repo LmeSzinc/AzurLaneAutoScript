@@ -1445,6 +1445,7 @@
       "ServerUpdate": "00:00, 12:00, 18:00"
     },
     "Exercise": {
+      "DelayUntilHoursBeforeNextUpdate": 12,
       "OpponentChooseMode": "max_exp",
       "OpponentTrial": 1,
       "ExercisePreserve": 0,

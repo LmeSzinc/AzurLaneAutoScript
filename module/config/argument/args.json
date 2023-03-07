@@ -7520,6 +7520,18 @@
       }
     },
     "Exercise": {
+      "DelayUntilHoursBeforeNextUpdate": {
+        "type": "select",
+        "value": 12,
+        "option": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          12
+        ]
+      },
       "OpponentChooseMode": {
         "type": "select",
         "value": "max_exp",

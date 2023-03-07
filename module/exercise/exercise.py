@@ -1,11 +1,14 @@
+import datetime
 from module.config.utils import get_server_last_update
 from module.exercise.assets import *
 from module.exercise.combat import ExerciseCombat
 from module.logger import logger
-from module.ocr.ocr import Digit
+from module.ocr.ocr import Digit, Ocr
 from module.ui.ui import page_exercise
+from module.config.utils import get_server_next_update
 
 OCR_EXERCISE_REMAIN = Digit(OCR_EXERCISE_REMAIN, letter=(173, 247, 74), threshold=128)
+OCR_EXERCISE_TIME_REMAIN = Ocr(buttons=OCR_EXERCISE_TIME_REMAIN, lang='cnocr', letter=(252, 253, 254), alphabet='天1234567890:')
 
 
 class Exercise(ExerciseCombat):
@@ -106,30 +109,55 @@ class Exercise(ExerciseCombat):
             return 0
 
     def run(self):
-        self.ui_ensure(page_exercise)
+        server_update = self.config.Scheduler_ServerUpdate
+        hour_to_sec = 3600
+        sec_to_minutes = 60
+        if (get_server_next_update(server_update) - datetime.datetime.now()).seconds > \
+                hour_to_sec * self.config.Exercise_DelayUntilHoursBeforeNextUpdate:
+            run = False
+            logger.warning(f'Exercise should run at {self.config.Exercise_DelayUntilHoursBeforeNextUpdate} '
+                           f'hours before next update. Delay task to it')
+        else:
+            run = True
 
-        self.opponent_change_count = self._get_opponent_change_count()
-        logger.attr("Change_opponent_count", self.opponent_change_count)
-        while 1:
-            self.remain = OCR_EXERCISE_REMAIN.ocr(self.device.image)
-            if self.remain <= self.config.Exercise_ExercisePreserve:
-                break
+        exercise_preserve = 0
+        self.remain = 0
+        if run:
+            self.ui_ensure(page_exercise)
 
-            logger.hr(f'Exercise remain {self.remain}', level=1)
-            if self.config.Exercise_OpponentChooseMode == "easiest_else_exp":
-                success = self._exercise_easiest_else_exp()
-            else:
-                success = self._exercise_once()
-            if not success:
-                logger.info('New opponent exhausted')
-                break
+            self.opponent_change_count = self._get_opponent_change_count()
+            logger.attr("Change_opponent_count", self.opponent_change_count)
 
-        # self.equipment_take_off_when_finished()
+            ocr = OCR_EXERCISE_TIME_REMAIN.ocr(self.device.image)
+            exercise_preserve = 0 if '0天' in ocr or '天' not in ocr else self.config.Exercise_ExercisePreserve
+            logger.attr('Times To Preserve', exercise_preserve)
+
+            while 1:
+                self.remain = OCR_EXERCISE_REMAIN.ocr(self.device.image)
+                if self.remain <= exercise_preserve:
+                    break
+                logger.hr(f'Exercise remain {self.remain}', level=1)
+                if self.config.Exercise_OpponentChooseMode == "easiest_else_exp":
+                    success = self._exercise_easiest_else_exp()
+                else:
+                    success = self._exercise_once()
+                if not success:
+                    logger.info('New opponent exhausted')
+                    break
+
+            # self.equipment_take_off_when_finished()
 
         # Scheduler
         with self.config.multi_set():
             self.config.set_record(Exercise_OpponentRefreshValue=self.opponent_change_count)
-            if self.remain <= self.config.Exercise_ExercisePreserve or self.opponent_change_count >= 5:
-                self.config.task_delay(server_update=True)
+            if self.remain <= exercise_preserve or self.opponent_change_count >= 5:
+                next_run = get_server_next_update(self.config.Scheduler_ServerUpdate)\
+                           - datetime.timedelta(hours=self.config.Exercise_DelayUntilHoursBeforeNextUpdate)
+                now = datetime.datetime.now()
+                if next_run < now:
+                    self.config.task_delay(server_update=True)
+                    return
+                minutes_to_delay = int((next_run-now).total_seconds()/sec_to_minutes+1)
+                self.config.task_delay(minute=minutes_to_delay)
             else:
                 self.config.task_delay(success=False)

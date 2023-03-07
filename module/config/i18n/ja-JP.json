@@ -1999,6 +1999,16 @@
       "name": "Exercise._info.name",
       "help": "Exercise._info.help"
     },
+    "DelayUntilHoursBeforeNextUpdate": {
+      "name": "Exercise.DelayUntilHoursBeforeNextUpdate.name",
+      "help": "Exercise.DelayUntilHoursBeforeNextUpdate.help",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "12": "12"
+    },
     "OpponentChooseMode": {
       "name": "Exercise.OpponentChooseMode.name",
       "help": "Exercise.OpponentChooseMode.help",

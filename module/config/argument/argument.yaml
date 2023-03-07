@@ -563,6 +563,9 @@ Hard:
     value: 1
     option: [ 1, 2 ]
 Exercise:
+  DelayUntilHoursBeforeNextUpdate:
+    value: 12
+    option: [ 1, 2, 3, 4, 5, 12]
   OpponentChooseMode:
     value: max_exp
     option: [ max_exp, easiest, leftmost, easiest_else_exp ]
