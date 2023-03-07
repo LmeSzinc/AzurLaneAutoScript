@@ -8,9 +8,7 @@ from module.campaign.assets import OCR_EVENT_PT, OCR_COIN, OCR_OIL
 from module.logger import logger
 from module.ocr.ocr import Ocr, Digit
 from module.ui.ui import UI
-from module.hard.assets import *
 
-OCR_HARD_REMAIN = Digit(OCR_HARD_REMAIN, letter=(123, 227, 66), threshold=128, alphabet='0123')
 OCR_OIL = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
 OCR_COIN = Digit(OCR_COIN, name='OCR_COIN', letter=(239, 239, 239), threshold=128)
 
@@ -104,29 +102,6 @@ class CampaignStatus(UI):
                 break
 
         return amount
-    
-    def get_main_hard(self, skip_first_screenshot=True):
-        """
-        Returns:
-            int: main_hard amount
-        """
-        amount = 0
-        timeout = Timer(1, count=2).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if timeout.reached():
-                logger.warning('Get main_hard timeout')
-                break
-
-            amount = OCR_HARD_REMAIN.ocr(self.device.image)
-            if amount >= 1:
-                break
-
-        return amount
 
     def is_balancer_task(self):
         """
@@ -136,7 +111,6 @@ class CampaignStatus(UI):
         tasks = [
             'Event',
             'Event2',
-            'Event3',
             'Raid',
             'GemsFarming',
         ]
