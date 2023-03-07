@@ -33,7 +33,9 @@ class CampaignHard(CampaignRun):
         self.campaign.MAP = module.MAP
 
         # UI ensure
-        self.device.screenshot()
+        self.device.click_record_clear()
+        if not hasattr(self.device, 'image') or self.device.image is None:
+            self.device.screenshot()
         self.campaign.device.image = self.device.image
         self.campaign.ensure_campaign_ui(
             name=self.config.Hard_HardStage,
