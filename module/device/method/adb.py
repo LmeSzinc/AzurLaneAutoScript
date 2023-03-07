@@ -242,7 +242,7 @@ class Adb(Connection):
             package_name = self.package
         result = self.adb_shell([
             'monkey', '-p', package_name, '-c',
-            'android.intent.category.LAUNCHER', '1'
+            'android.intent.category.LAUNCHER', '--pct-syskeys', '0', '1'
         ])
         if 'No activities found' in result:
             # ** No activities found to run, monkey aborted.
