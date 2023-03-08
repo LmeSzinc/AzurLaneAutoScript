@@ -1962,7 +1962,7 @@
   "Hard": {
     "_info": {
       "name": "Hard Settings",
-      "help": "Running the Daily Difficulty graph defaults to unlocking cycle mode, and falls back to traditional sorties before unlocking"
+      "help": "Running Hard mode defaults to 100% CLEAR conditions\nIf not 100% CLEAR conditions,fallback to traditional steps to complete the mission"
     },
     "HardStage": {
       "name": "Hard Stage",

@@ -1961,16 +1961,16 @@
   },
   "Hard": {
     "_info": {
-      "name": "ハード海域",
-      "help": "デイリー難易度グラフを実行すると、デフォルトでロック解除サイクルモードになり，ロックを解除する前に従来の出撃にフォールバックします"
+      "name": "Hard._info.name",
+      "help": "Hard._info.help"
     },
     "HardStage": {
-      "name": "難しいレベル",
-      "help": "たとえば 11-2、12-2、12-4 などです"
+      "name": "Hard.HardStage.name",
+      "help": "Hard.HardStage.help"
     },
     "HardFleet": {
-      "name": "出撃艦隊",
-      "help": "",
+      "name": "Hard.HardFleet.name",
+      "help": "Hard.HardFleet.help",
       "1": "1",
       "2": "2"
     }
