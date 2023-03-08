@@ -1354,6 +1354,9 @@
       "HardStage": "11-4",
       "HardFleet": 1
     },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": "default_mode"
+    },
     "Storage": {
       "Storage": {}
     }

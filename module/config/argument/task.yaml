@@ -197,6 +197,7 @@ Daily:
 Hard:
   - Scheduler
   - Hard
+  - EnemyPriority
 Exercise:
   - Scheduler
   - Exercise
