@@ -1,4 +1,5 @@
 from abc import ABCMeta, abstractmethod
+from collections import deque
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Tuple, Union
 
@@ -554,7 +555,7 @@ class DockScanner(ShipScanner):
         self.zone_height: int = self.scan_zone[3] - self.scan_zone[1]
         self.grids_top: int = 76
         # For reposition and moving
-        self.mean_color = None
+        self.mean_color_set = deque(maxlen=2)
         self.moving_distance: int = 0
         self.bound = []
         # For status
@@ -575,6 +576,14 @@ class DockScanner(ShipScanner):
             return True
         else:
             return False
+
+    @property
+    def mean_color(self):
+        return self.mean_color_set[-1] if self.mean_color_set else None
+
+    @mean_color.setter
+    def mean_color(self, value):
+        self.mean_color_set.append(value)
 
     def no_change(self) -> bool:
         return self._no_change > 3
@@ -609,6 +618,7 @@ class DockScanner(ShipScanner):
         offset = 76 - self.grids_top
         self.grids_top += offset
         self.scanner.move((0, offset))
+        self.mean_color_set.append(self.mean_color_set[0])
 
     def reposition(self, image, bound) -> None:
         """
@@ -639,24 +649,31 @@ class DockScanner(ShipScanner):
         In both cases, len(results) < 14 means reaching the bottom.
         """
         if self._results:
-            if any([old.hash_ == new.hash_ for new, old in zip(results, self._results[-len(results):])]):
+            if all([old.hash_ == new.hash_ for new, old in zip(results, self._results[-len(results):])]):
                 self._no_change += 999 if len(results) < 14 else 1
                 return 0
-            elif any([old.hash_ == new.hash_ for new, old in zip(results[:7], self._results[-7:])]):
+            elif all([old.hash_ == new.hash_ for new, old in zip(results[:7], self._results[-7:])]):
                 self._results.extend(results[7-len(results):])
                 self._no_change = 999 if len(results) < 14 else 0
                 return len(results)-7
 
         self._no_change = 0
         self._results.extend(results)
-        return 14
+        return len(results)
 
     def _scan(self, image) -> None:
         bound = self._find_bound(image)
         if len(bound) == 1:
             # No ship appears
             self._stable = True
-            return 0
+            return
+        elif len(bound) == 2:
+            if self.bound != bound:
+                self._stable = False
+                self.bound = bound
+                return
+        else:
+            self.bound.clear()
 
         self.moving_distance = bound[-1] - (self.zone_height - 204 * 2 - 23 * 3) / 2 * 1.5
         self.reposition(image, bound)
@@ -673,13 +690,7 @@ class DockScanner(ShipScanner):
         else:
             self.retry = 0
 
-        if any([old.hash_ == new.hash_ for new, old in zip(results, self.last_results)]):
-        # if sum([old.hash_ == new.hash_ for new, old in zip(results, self.last_results)]) / len(results) >= 0.80:
-        # In the early test, the probability of hash conflict between two different ships is less than 0.002
-        # It can be boldly concluded that if any same position has a same hash value, then the two results is duplicate
-        # However, such a judgement will assume stable erroneously even when some cards are stiil loading
-        # Using any() is fast but may misjudge while using sum() / len() is slow but more accurate *maybe*
-        # not determine which is better
+        if all([old.hash_ == new.hash_ for new, old in zip(results, self.last_results)]):
             self._stable = True
             self._remove_duplicate(results)
 
@@ -701,7 +712,6 @@ class DockScanner(ShipScanner):
         Therefore, graying the image and filter by np.std can get
         the position of those blanks.
         """
-        main.device.disable_stuck_detection()
         if DOCK_SCROLL.appear(main):
             # can partly pre-load the image of ships,
             # which reduce the possibility of getting stuck
@@ -720,7 +730,9 @@ class DockScanner(ShipScanner):
             end = (start[0], start[1] - self.moving_distance)
             sharp_end = (end[0] - 165, end[1])
             main.device.swipe(start, end)
+            main.device.click_record.pop()
             main.device.swipe(end, sharp_end)
+            main.device.click_record.pop()
 
             if not DOCK_SCROLL.appear(main) or (DOCK_SCROLL.at_bottom(main) and self.no_change()):
                 break
