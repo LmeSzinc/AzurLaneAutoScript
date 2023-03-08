@@ -1,3 +1,5 @@
+import os
+import time
 from abc import ABCMeta, abstractmethod
 from collections import deque
 from dataclasses import dataclass, field
@@ -14,7 +16,8 @@ from module.base.utils import (color_similar, crop, extract_letters, get_color, 
 from module.combat.level import LevelOcr
 from module.logger import logger
 from module.ocr.ocr import Digit
-from module.retire.assets import (TEMPLATE_FLEET_1, TEMPLATE_FLEET_2,
+from module.retire.assets import (DOCK_CHECK, SHIP_DETAIL_CHECK,
+                                  TEMPLATE_FLEET_1, TEMPLATE_FLEET_2,
                                   TEMPLATE_FLEET_3, TEMPLATE_FLEET_4,
                                   TEMPLATE_FLEET_5, TEMPLATE_FLEET_6,
                                   TEMPLATE_IN_BATTLE, TEMPLATE_IN_COMMISSION, TEMPLATE_IN_HARD,
@@ -548,7 +551,7 @@ class DockScanner(ShipScanner):
     SCAN_ZONES: Dict[str, Tuple[int, int, int, int]] = {
         'dock': (93, 55, 1219, 719),
     }
-    def __init__(self, zone: str = 'dock') -> None:
+    def __init__(self, zone: str = 'dock', test_name: str = '') -> None:
         self._results = []
         self.scan_zone: Tuple[int, int, int, int] = self.SCAN_ZONES[zone]
         self.zone_top: int = self.scan_zone[1]
@@ -565,6 +568,23 @@ class DockScanner(ShipScanner):
         self.retry: int = 0
 
         self.scanner = ShipScanner(emotion=False, fleet=False, status=False)
+
+        # The following is for the debug
+        self.debug_folder = f'./log/dock_scan_test/{test_name}_{int(time.time()*1000):x}'
+        if not os.path.exists('./log/dock_scan_test'):
+            os.mkdir('./log/dock_scan_test')
+        if not os.path.exists(self.debug_folder):
+            os.mkdir(self.debug_folder)
+        self.debug_info = {
+            'time' : 0,
+            'ship_count' : 0,
+            'dock_size' : 0,
+            'ocr_mistake' : 0,
+            'reposition_retry' : 0,
+        }
+        self.ocr_mistake_image = []
+        self.extend_log = []
+        self.moving_distance_log = []
 
     def limit_value(self, value) -> Any:
         pass
@@ -661,6 +681,10 @@ class DockScanner(ShipScanner):
         self._results.extend(results)
         return len(results)
 
+    def ensure_in_dock(self, main) -> None:
+        if main.appear(SHIP_DETAIL_CHECK, offset=(30, 30)):
+            main.ui_back(DOCK_CHECK)
+
     def _scan(self, image) -> None:
         bound = self._find_bound(image)
         if len(bound) == 1:
@@ -676,10 +700,12 @@ class DockScanner(ShipScanner):
             self.bound.clear()
 
         self.moving_distance = bound[-1] - (self.zone_height - 204 * 2 - 23 * 3) / 2 * 1.5
+        self.moving_distance_log.append(self.moving_distance)
         self.reposition(image, bound)
         results = self.scanner.scan(image, cached=False, output=False)
         if not results:
             self.retry += 1
+            self.debug_info['reposition_retry'] += 1
             logger.info(f'No ship was detected, reset the position. Retry {self.retry} time(s)')
             self.reset_position()
             self.reposition(image, bound)
@@ -692,7 +718,22 @@ class DockScanner(ShipScanner):
 
         if all([old.hash_ == new.hash_ for new, old in zip(results, self.last_results)]):
             self._stable = True
-            self._remove_duplicate(results)
+            inc = self._remove_duplicate(results)
+            if inc:
+                level = [ship.level for ship in results]
+                self.extend_log.append((inc, self.grids_top, level, cv2.cvtColor(image, cv2.COLOR_BGR2RGB)))
+
+                level = [ship.level for ship in results]
+                greater_equal = [level[i-1] >= level[i] for i in range(1, len(level))]
+                in_order = all(x == greater_equal[0] for x in greater_equal)
+                if not in_order:
+                    interrupt = np.where(np.array(greater_equal)==False)[0].tolist()
+                    values = [level[i] for i in interrupt]
+                    level_info = '_'.join([f'{p,v}' for p,v in zip(interrupt,values)])
+                    self.ocr_mistake_image.append((
+                        f"{self.debug_info['ocr_mistake']}_{self.grids_top}_{level_info}.png", cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                    ))
+                    self.debug_info['ocr_mistake'] += 1
 
         self.last_results = results
 
@@ -712,15 +753,20 @@ class DockScanner(ShipScanner):
         Therefore, graying the image and filter by np.std can get
         the position of those blanks.
         """
+        from module.retire.enhancement import OCR_DOCK_AMOUNT
+        self.debug_info['dock_size'], _, _ = OCR_DOCK_AMOUNT.ocr(main.device.image)
+
         if DOCK_SCROLL.appear(main):
             # can partly pre-load the image of ships,
             # which reduce the possibility of getting stuck
             DOCK_SCROLL.set_bottom(main)
             DOCK_SCROLL.set_top(main)
 
+        start_time = time.time()
         while True:
             while not self.stable:
                 main.device.screenshot()
+                self.ensure_in_dock(main)
                 self._scan(main.device.image)
 
             click_zone_index = random_normal_distribution_int(0, 6)
@@ -736,6 +782,34 @@ class DockScanner(ShipScanner):
 
             if not DOCK_SCROLL.appear(main) or (DOCK_SCROLL.at_bottom(main) and self.no_change()):
                 break
+        end_time = time.time()
+        self.debug_info['time'] = end_time - start_time
+        self.debug_info['ship_count'] = len(self._results)
+
+        # save hash sims
+        hashs = [ship.hash_ for ship in self.results]
+        sims = []
+        for i in range(len(hashs)):
+            for j in range(i+1, len(hashs)):
+                sims.append(DHash.distance(hashs[i],hashs[j]))
+        np.save(f'{self.debug_folder}/{len(sims)}.npy', np.array(sims))
+        # save ocr mistake
+        for name, image in self.ocr_mistake_image:
+            cv2.imwrite(f'{self.debug_folder}/{name}.png', image)
+        # save another ocr mistake
+        self.extend_log.append((0, None))
+        for i in range(len(self.extend_log) - 1):
+            cnt, top, level, image = self.extend_log[i]
+            if cnt != 14 and cnt != 7 and self.extend_log[i+1][0] != 0:
+                cv2.imwrite(f'{self.debug_folder}/len={cnt}_top={top}_id={i}.png', image)
+                self.debug_info[f'len={cnt}_top={top}_id={i}'] = level
+        # save debug info
+        self.debug_info['moving_mean'] = np.mean(self.moving_distance_log)
+        with open(f'{self.debug_folder}/debug_info.txt', 'w', encoding='utf-8') as f:
+            for k,v in self.debug_info.items():
+                f.write(f'{k} = {v}\n')
+
+        logger.info(f'debug info has been saved in {self.debug_folder}')
 
     def scan(self, image, cached=False, output=True) -> Union[List, None]:
         """
