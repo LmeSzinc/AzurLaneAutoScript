@@ -30,9 +30,7 @@ class CampaignHard(CampaignRun):
         # campaign/campaign_hard/campaign_hard.py Campaign.fleet_preparation()
 
         # Initial
-        self.handle_stage_name(name, folder='campaign_main')
-        self.load_campaign(name, folder='campaign_main') # Load campaign file(Not UseClearMode)
-        # self.load_campaign(name='campaign_hard', folder='campaign_hard')  # Load campaign file
+        self.load_campaign(name='campaign_hard', folder='campaign_hard')  # Load campaign file
         module = importlib.import_module('.' + name, 'campaign.campaign_main')  # Load map from normal mode.
         self.campaign.MAP = module.MAP
 
@@ -41,26 +39,22 @@ class CampaignHard(CampaignRun):
         if not hasattr(self.device, 'image') or self.device.image is None:
             self.device.screenshot()
         self.campaign.device.image = self.device.image
-        self.campaign.ensure_campaign_ui(
-            name=self.config.Hard_HardStage,
-            mode='hard'
-        )
         if self.campaign.is_in_map():
             logger.info('Already in map, retreating.')
             try:
                 self.campaign.withdraw()
             except CampaignEnd:
                 pass
-            self.campaign.ensure_campaign_ui(name=self.stage, mode='hard')
+            self.campaign.ensure_campaign_ui(name=self.config.Hard_HardStage, mode='hard')
         elif self.campaign.is_in_auto_search_menu():
             if self.can_use_auto_search_continue():
                     logger.info('In auto search menu, skip ensure_campaign_ui.')
             else:
                 logger.info('In auto search menu, closing.')
                 self.campaign.ensure_auto_search_exit()
-                self.campaign.ensure_campaign_ui(name=self.stage, mode='hard')
+                self.campaign.ensure_campaign_ui(name=self.config.Hard_HardStage, mode='hard')
         else:
-            self.campaign.ensure_campaign_ui(name=self.stage, mode='hard')
+            self.campaign.ensure_campaign_ui(name=self.config.Hard_HardStage, mode='hard')
         self.handle_commission_notice()
         
         # Run
