@@ -7018,14 +7018,150 @@
       "HardStage": {
         "type": "input",
         "value": "11-4"
-      },
-      "HardFleet": {
+      }
+    },
+    "Fleet": {
+      "Fleet1": {
         "type": "select",
         "value": 1,
         "option": [
           1,
           2
         ]
+      },
+      "Fleet1Formation": {
+        "type": "select",
+        "value": "double_line",
+        "option": [
+          "line_ahead",
+          "double_line",
+          "diamond"
+        ]
+      },
+      "Fleet1Mode": {
+        "type": "select",
+        "value": "combat_auto",
+        "option": [
+          "combat_auto",
+          "combat_manual",
+          "stand_still_in_the_middle",
+          "hide_in_bottom_left"
+        ]
+      },
+      "Fleet2": {
+        "type": "select",
+        "value": 2,
+        "option": [
+          0,
+          1,
+          2
+        ]
+      },
+      "Fleet2Formation": {
+        "type": "select",
+        "value": "double_line",
+        "option": [
+          "line_ahead",
+          "double_line",
+          "diamond"
+        ]
+      },
+      "Fleet2Mode": {
+        "type": "select",
+        "value": "combat_auto",
+        "option": [
+          "combat_auto",
+          "combat_manual",
+          "stand_still_in_the_middle",
+          "hide_in_bottom_left"
+        ]
+      },
+      "FleetOrder": {
+        "type": "select",
+        "value": "fleet1_mob_fleet2_boss",
+        "option": [
+          "fleet1_mob_fleet2_boss",
+          "fleet1_boss_fleet2_mob",
+          "fleet1_all_fleet2_standby",
+          "fleet1_standby_fleet2_all"
+        ]
+      }
+    },
+    "Emotion": {
+      "Mode": {
+        "type": "select",
+        "value": "calculate",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ]
+      },
+      "Fleet1Value": {
+        "type": "input",
+        "value": 119
+      },
+      "Fleet1Record": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime",
+        "display": "disabled"
+      },
+      "Fleet1Control": {
+        "type": "select",
+        "value": "prevent_yellow_face",
+        "option": [
+          "keep_exp_bonus",
+          "prevent_green_face",
+          "prevent_yellow_face",
+          "prevent_red_face"
+        ]
+      },
+      "Fleet1Recover": {
+        "type": "select",
+        "value": "not_in_dormitory",
+        "option": [
+          "not_in_dormitory",
+          "dormitory_floor_1",
+          "dormitory_floor_2"
+        ]
+      },
+      "Fleet1Oath": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Fleet2Value": {
+        "type": "input",
+        "value": 119
+      },
+      "Fleet2Record": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime",
+        "display": "disabled"
+      },
+      "Fleet2Control": {
+        "type": "select",
+        "value": "prevent_yellow_face",
+        "option": [
+          "keep_exp_bonus",
+          "prevent_green_face",
+          "prevent_yellow_face",
+          "prevent_red_face"
+        ]
+      },
+      "Fleet2Recover": {
+        "type": "select",
+        "value": "not_in_dormitory",
+        "option": [
+          "not_in_dormitory",
+          "dormitory_floor_1",
+          "dormitory_floor_2"
+        ]
+      },
+      "Fleet2Oath": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "EnemyPriority": {
@@ -7036,8 +7172,7 @@
           "default_mode",
           "S3_enemy_first",
           "S1_enemy_first"
-        ],
-        "display": "hide"
+        ]
       }
     },
     "Storage": {

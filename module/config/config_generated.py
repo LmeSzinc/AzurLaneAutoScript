@@ -330,7 +330,6 @@ class GeneratedConfig:
 
     # Group `Hard`
     Hard_HardStage = '11-4'
-    Hard_HardFleet = 1  # 1, 2
 
     # Group `Exercise`
     Exercise_OpponentChooseMode = 'max_exp'  # max_exp, easiest, leftmost, easiest_else_exp

@@ -197,6 +197,8 @@ Daily:
 Hard:
   - Scheduler
   - Hard
+  - Fleet
+  - Emotion
   - EnemyPriority
 Exercise:
   - Scheduler

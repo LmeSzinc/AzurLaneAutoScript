@@ -1351,8 +1351,29 @@
       "ServerUpdate": "00:00"
     },
     "Hard": {
-      "HardStage": "11-4",
-      "HardFleet": 1
+      "HardStage": "11-4"
+    },
+    "Fleet": {
+      "Fleet1": 1,
+      "Fleet1Formation": "double_line",
+      "Fleet1Mode": "combat_auto",
+      "Fleet2": 2,
+      "Fleet2Formation": "double_line",
+      "Fleet2Mode": "combat_auto",
+      "FleetOrder": "fleet1_mob_fleet2_boss"
+    },
+    "Emotion": {
+      "Mode": "calculate",
+      "Fleet1Value": 119,
+      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Control": "prevent_yellow_face",
+      "Fleet1Recover": "not_in_dormitory",
+      "Fleet1Oath": false,
+      "Fleet2Value": 119,
+      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Control": "prevent_yellow_face",
+      "Fleet2Recover": "not_in_dormitory",
+      "Fleet2Oath": false
     },
     "EnemyPriority": {
       "EnemyScaleBalanceWeight": "default_mode"
