@@ -312,7 +312,7 @@
     },
     "GemsFarming": {
       "ChangeFlagship": "ship",
-      "ChangeVanguard": "ship",
+      "ChangeVanguard": "disabled",
       "CommonCV": "any",
       "CommissionLimit": true
     },

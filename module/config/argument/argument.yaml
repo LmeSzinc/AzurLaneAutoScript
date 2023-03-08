@@ -238,7 +238,7 @@ GemsFarming:
     value: ship
     option: [ disabled, ship, ship_equip ]
   ChangeVanguard:
-    value: ship
+    value: disabled
     option: [ disabled, ship, ship_equip ]
   CommonCV:
     value: any

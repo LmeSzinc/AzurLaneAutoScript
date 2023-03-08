@@ -1566,7 +1566,7 @@
       },
       "ChangeVanguard": {
         "type": "select",
-        "value": "ship",
+        "value": "disabled",
         "option": [
           "disabled",
           "ship",

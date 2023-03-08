@@ -151,7 +151,7 @@ class GeneratedConfig:
 
     # Group `GemsFarming`
     GemsFarming_ChangeFlagship = 'ship'  # disabled, ship, ship_equip
-    GemsFarming_ChangeVanguard = 'ship'  # disabled, ship, ship_equip
+    GemsFarming_ChangeVanguard = 'disabled'  # disabled, ship, ship_equip
     GemsFarming_CommonCV = 'any'  # any, langley, bogue, ranger, hermes
     GemsFarming_CommissionLimit = True
 
