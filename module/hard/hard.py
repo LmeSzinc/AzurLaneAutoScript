@@ -2,9 +2,9 @@ import importlib
 
 from campaign.campaign_hard.campaign_hard import Campaign
 from module.campaign.run import CampaignRun
-from module.exception import CampaignEnd
-from module.logger import logger
+from module.exception import CampaignEnd, ScriptEnd
 from module.hard.assets import *
+from module.logger import logger
 from module.ocr.ocr import Digit
 
 OCR_HARD_REMAIN = Digit(OCR_HARD_REMAIN, letter=(123, 227, 66), threshold=128, alphabet='0123')
@@ -58,7 +58,12 @@ class CampaignHard(CampaignRun):
         remain = OCR_HARD_REMAIN.ocr(self.device.image)
         logger.attr('Remain', remain)
         for n in range(remain):
-            self.campaign.run()
+            try:
+                self.campaign.run()
+            except ScriptEnd as e:
+                logger.hr('Script end')
+                logger.info(str(e))
+                break
 
         self.campaign.ensure_auto_search_exit()
         # self.campaign.equipment_take_off_when_finished()
