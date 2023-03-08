@@ -2025,6 +2025,10 @@
       "name": "Keep X Number Remain(s)",
       "help": "1 ~ 10\n1 means run until 1/10"
     },
+    "EmptyOnceOnSecondFriday": {
+      "name": "Exercise.EmptyOnceOnSecondFriday.name",
+      "help": "Exercise.EmptyOnceOnSecondFriday.help"
+    },
     "LowHpThreshold": {
       "name": "Low HP Threshold",
       "help": "0.0 ~ 1.0\nChecks the top HP bar"

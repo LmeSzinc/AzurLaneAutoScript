@@ -2025,6 +2025,10 @@
       "name": "Exercise.ExercisePreserve.name",
       "help": "Exercise.ExercisePreserve.help"
     },
+    "EmptyOnceOnSecondFriday": {
+      "name": "Exercise.EmptyOnceOnSecondFriday.name",
+      "help": "Exercise.EmptyOnceOnSecondFriday.help"
+    },
     "LowHpThreshold": {
       "name": "Exercise.LowHpThreshold.name",
       "help": "Exercise.LowHpThreshold.help"

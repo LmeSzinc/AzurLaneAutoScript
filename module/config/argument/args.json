@@ -7550,6 +7550,10 @@
         "type": "input",
         "value": 0
       },
+      "EmptyOnceOnSecondFriday": {
+        "type": "checkbox",
+        "value": false
+      },
       "LowHpThreshold": {
         "type": "input",
         "value": 0.4

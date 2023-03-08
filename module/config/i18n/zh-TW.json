@@ -2025,6 +2025,10 @@
       "name": "保留 X 次演習次數",
       "help": ""
     },
+    "EmptyOnceOnSecondFriday": {
+      "name": "Exercise.EmptyOnceOnSecondFriday.name",
+      "help": "Exercise.EmptyOnceOnSecondFriday.help"
+    },
     "LowHpThreshold": {
       "name": "血量低於 X 後撤退",
       "help": "0.0 ~ 1.0，檢測最上方的血條"
