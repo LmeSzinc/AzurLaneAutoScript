@@ -150,8 +150,8 @@ class GeneratedConfig:
     C124LargeLeveling_PickupAmmo = 3  # 3, 4, 5
 
     # Group `GemsFarming`
-    GemsFarming_ChangeFlagship = 'ship'  # ship, ship_equip
-    GemsFarming_ChangeVanguard = 'ship'  # ship, ship_equip
+    GemsFarming_ChangeFlagship = 'ship'  # disabled, ship, ship_equip
+    GemsFarming_ChangeVanguard = 'ship'  # disabled, ship, ship_equip
     GemsFarming_CommonCV = 'any'  # any, langley, bogue, ranger, hermes
     GemsFarming_CommissionLimit = True
 

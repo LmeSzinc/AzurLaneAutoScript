@@ -236,10 +236,10 @@ C124LargeLeveling:
 GemsFarming:
   ChangeFlagship:
     value: ship
-    option: [ ship, ship_equip ]
+    option: [ disabled, ship, ship_equip ]
   ChangeVanguard:
     value: ship
-    option: [ ship, ship_equip ]
+    option: [ disabled, ship, ship_equip ]
   CommonCV:
     value: any
     option: [ any, langley, bogue, ranger, hermes ]
