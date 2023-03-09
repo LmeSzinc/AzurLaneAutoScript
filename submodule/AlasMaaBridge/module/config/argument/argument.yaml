@@ -132,10 +132,10 @@ MaaMall:
   Shopping: true
   ForceShoppingIfCreditFull: false
   BuyFirst:
-    value: 招聘许可 > 龙门币
+    value: 招聘许可
     type: textarea
   BlackList:
-    value: 碳 > 家具
+    value: 碳 > 家具 > 加急许可
     type: textarea
 
 MaaRoguelike:

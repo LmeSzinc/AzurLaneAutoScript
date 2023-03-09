@@ -669,11 +669,11 @@
       },
       "WorkThreshold": {
         "type": "input",
-        "value": 0.5
+        "value": 12
       },
       "ShiftThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 4
       },
       "Notstationed": {
         "type": "checkbox",
@@ -774,11 +774,11 @@
       },
       "BuyFirst": {
         "type": "textarea",
-        "value": "招聘许可 > 龙门币"
+        "value": "招聘许可"
       },
       "BlackList": {
         "type": "textarea",
-        "value": "碳 > 家具"
+        "value": "碳 > 家具 > 加急许可"
       }
     },
     "Storage": {

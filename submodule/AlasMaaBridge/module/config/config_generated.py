@@ -71,8 +71,8 @@ class GeneratedConfig:
     # Group `MaaInfrast`
     MaaInfrast_Facility = 'Mfg > Trade > Power > Control > Reception > Office > Dorm'
     MaaInfrast_Drones = 'Money'  # _NotUse, Money, SyntheticJade, CombatRecord, PureGold, OriginStone, Chip
-    MaaInfrast_WorkThreshold = 0.5
-    MaaInfrast_ShiftThreshold = 0.3
+    MaaInfrast_WorkThreshold = 12
+    MaaInfrast_ShiftThreshold = 4
     MaaInfrast_Notstationed = True
     MaaInfrast_Trust = True
     MaaInfrast_Replenish = False
@@ -88,8 +88,8 @@ class GeneratedConfig:
     MaaMall_CreditFight = False
     MaaMall_Shopping = True
     MaaMall_ForceShoppingIfCreditFull = False
-    MaaMall_BuyFirst = '招聘许可 > 龙门币'
-    MaaMall_BlackList = '碳 > 家具'
+    MaaMall_BuyFirst = '招聘许可'
+    MaaMall_BlackList = '碳 > 家具 > 加急许可'
 
     # Group `MaaRoguelike`
     MaaRoguelike_Theme = 'Phantom'  # Phantom, Mizuki
