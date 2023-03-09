@@ -26,6 +26,7 @@ class GGHandler:
 
     def restart(self, crashed=False):
         from module.handler.login import LoginHandler
+        from module.exception import GameStuckError
         _crashed = crashed
         for _ in range(2):
             try:
@@ -34,14 +35,17 @@ class GGHandler:
                 if not timeout(LoginHandler(config=self.config, device=self.device).app_restart, timeout_sec=600):
                     break
                 raise RuntimeError
+            except GameStuckError as e:
+                pass
             except Exception as e:
+                logger.exception(e)
                 if _crashed:
                     from module.notify import handle_notify
                     handle_notify(self.config.Error_OnePushConfig,
                                   title=f"Alas <{self.config.config_name}> crashed",
                                   content=f"<{self.config.config_name}> "
-                                          f"RequestHumanTakeover\n"
-                                          f"Maybe your emulator died"
+                                          f"RequestHumanTakeover.\n"
+                                          f"Maybe your emulator died."
                                   )
                     exit(1)
                 _crashed = True
