@@ -391,9 +391,13 @@
       "OriginStone": "OriginStone",
       "Chip": "Chip"
     },
-    "Threshold": {
-      "name": "MaaInfrast.Threshold.name",
-      "help": "MaaInfrast.Threshold.help"
+    "WorkThreshold": {
+      "name": "MaaInfrast.WorkThreshold.name",
+      "help": "MaaInfrast.WorkThreshold.help"
+    },
+    "ShiftThreshold": {
+      "name": "MaaInfrast.ShiftThreshold.name",
+      "help": "MaaInfrast.ShiftThreshold.help"
     },
     "Notstationed": {
       "name": "MaaInfrast.Notstationed.name",
@@ -417,9 +421,27 @@
       "name": "MaaCustomInfrast.Enable.name",
       "help": "MaaCustomInfrast.Enable.help"
     },
+    "BuiltinConfig": {
+      "name": "MaaCustomInfrast.BuiltinConfig.name",
+      "help": "MaaCustomInfrast.BuiltinConfig.help",
+      "custom": "custom",
+      "153-3": "153-3",
+      "243-3": "243-3",
+      "243-4": "243-4",
+      "252-3": "252-3",
+      "333-3": "333-3"
+    },
     "Filename": {
       "name": "MaaCustomInfrast.Filename.name",
       "help": "MaaCustomInfrast.Filename.help"
+    },
+    "CustomPeriod": {
+      "name": "MaaCustomInfrast.CustomPeriod.name",
+      "help": "MaaCustomInfrast.CustomPeriod.help"
+    },
+    "PlanIndex": {
+      "name": "MaaCustomInfrast.PlanIndex.name",
+      "help": "MaaCustomInfrast.PlanIndex.help"
     }
   },
   "MaaMall": {

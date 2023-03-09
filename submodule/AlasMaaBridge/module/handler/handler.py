@@ -324,52 +324,82 @@ class AssistantHandler:
         args = {
             "facility": self.split_filter(self.config.MaaInfrast_Facility),
             "drones": self.config.MaaInfrast_Drones,
-            "threshold": self.config.MaaInfrast_Threshold,
+            "threshold": self.config.MaaInfrast_WorkThreshold,
             "replenish": self.config.MaaInfrast_Replenish,
             "dorm_notstationed_enabled": self.config.MaaInfrast_Notstationed,
             "dorm_trust_enabled": self.config.MaaInfrast_Trust
         }
 
-        end_time = datetime.datetime.now() + datetime.timedelta(minutes=30)
         if self.config.MaaCustomInfrast_Enable:
+            infrast_dict = {
+                '153-3': r'resource\custom_infrast\153_layout_3_times_a_day.json',
+                '243-3': r'resource\custom_infrast\243_layout_3_times_a_day.json',
+                '243-4': r'resource\custom_infrast\243_layout_4_times_a_day.json',
+                '252-3': r'resource\custom_infrast\252_layout_3_times_a_day.json',
+                '333-3': r'resource\custom_infrast\333_layout_for_Orundum_3_times_a_day.json'
+            }
+            if self.config.MaaCustomInfrast_BuiltinConfig != 'custom':
+                self.config.MaaCustomInfrast_Filename = os.path.join(
+                    self.config.MaaEmulator_MaaPath,
+                    infrast_dict[self.config.MaaCustomInfrast_BuiltinConfig]
+                )
             args['mode'] = 10000
             args['filename'] = self.config.MaaCustomInfrast_Filename
+
+            end_time = datetime.datetime.now() + datetime.timedelta(minutes=30)
             plans = deep_get(read_file(self.config.MaaCustomInfrast_Filename), keys='plans')
-            for i in range(len(plans)):
-                periods = deep_get(plans[i], keys='period')
-                if periods is None:
+            periods = deep_get(plans[0], keys='period')
+
+            if periods is None:
+                if self.config.MaaCustomInfrast_CustomPeriod == 'null':
                     logger.critical('无法找到配置文件中的排班周期，请检查文件是否有效')
                     raise RequestHumanTakeover
-                for j, period in enumerate(periods):
-                    start_time = datetime.datetime.combine(
-                        datetime.date.today(),
-                        datetime.datetime.strptime(period[0], '%H:%M').time()
-                    )
-                    end_time = datetime.datetime.combine(
-                        datetime.date.today(),
-                        datetime.datetime.strptime(period[1], '%H:%M').time()
-                    )
-                    now_time = datetime.datetime.now()
-                    if start_time <= now_time <= end_time:
-                        args['plan_index'] = i
-                        # 处理跨天的情形
-                        # 如："period": [["22:00", "23:59"], ["00:00","06:00"]]
-                        if j != len(periods) - 1 and period[1] == '23:59' and periods[j + 1][0] == '00:00':
-                            end_time = datetime.datetime.combine(
-                                datetime.date.today() + datetime.timedelta(days=1),
-                                datetime.datetime.strptime(periods[j + 1][1], '%H:%M').time()
-                            )
+                else:
+                    args['plan_index'] = self.config.MaaCustomInfrast_PlanIndex
+            else:
+                for i in range(len(plans)):
+                    periods = deep_get(plans[i], keys='period')
+                    for j, period in enumerate(periods):
+                        start_time = datetime.datetime.combine(
+                            datetime.date.today(),
+                            datetime.datetime.strptime(period[0], '%H:%M').time()
+                        )
+                        end_time = datetime.datetime.combine(
+                            datetime.date.today(),
+                            datetime.datetime.strptime(period[1], '%H:%M').time()
+                        )
+                        now_time = datetime.datetime.now()
+                        if start_time <= now_time <= end_time:
+                            args['plan_index'] = i
+                            # 处理跨天的情形
+                            # 如："period": [["22:00", "23:59"], ["00:00","06:00"]]
+                            if j != len(periods) - 1 and period[1] == '23:59' and periods[j + 1][0] == '00:00':
+                                end_time = datetime.datetime.combine(
+                                    datetime.date.today() + datetime.timedelta(days=1),
+                                    datetime.datetime.strptime(periods[j + 1][1], '%H:%M').time()
+                                )
+                            break
+                    if 'plan_index' in args:
                         break
-                if 'plan_index' in args:
-                    break
 
-        self.maa_start('Infrast', args)
-        if self.config.MaaCustomInfrast_Enable:
-            self.config.task_delay(target=end_time + datetime.timedelta(minutes=1))
+            self.maa_start('Infrast', args)
+            if periods is None:
+                custom_period = self.config.MaaCustomInfrast_CustomPeriod.replace('，', ',').split(',')
+                custom_period = [int(x) for x in custom_period]
+                self.config.task_delay(minute=60 * custom_period[self.config.MaaCustomInfrast_PlanIndex])
+                self.config.MaaCustomInfrast_PlanIndex = (self.config.MaaCustomInfrast_PlanIndex + 1) % len(plans)
+            else:
+                self.config.task_delay(target=end_time + datetime.timedelta(minutes=1))
         else:
+            if self.config.MaaInfrast_WorkThreshold >= self.config.MaaInfrast_ShiftThreshold:
+                logger.warning('基建换班心情阈值必须小于基建工作心情阈值，请调整基建设置')
+                raise RequestHumanTakeover
+
+            self.maa_start('Infrast', args)
             # 根据心情阈值计算下次换班时间
-            # 心情阈值 * 24 / 0.75 * 60
-            self.config.task_delay(minute=self.config.MaaInfrast_Threshold * 1920)
+            # (基建工作心情阈值 - 基建换班心情阈值) / 0.75 * 60
+            t = (self.config.MaaInfrast_WorkThreshold - self.config.MaaInfrast_ShiftThreshold) * 80
+            self.config.task_delay(minute=t)
 
     def mall(self):
         buy_first = self.split_filter(self.config.MaaMall_BuyFirst)

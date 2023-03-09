@@ -111,25 +111,31 @@ MaaInfrast:
   Drones:
     value: Money
     option: [_NotUse, Money, SyntheticJade, CombatRecord, PureGold, OriginStone, Chip]
-  Threshold: 0.3
+  WorkThreshold: 12
+  ShiftThreshold: 4
   Notstationed: true
   Trust: true
   Replenish: false
 MaaCustomInfrast:
   Enable: false
+  BuiltinConfig:
+    value: custom
+    option: [custom, 153-3, 243-3, 243-4, 252-3, 333-3]
   Filename:
     value: null
     type: textarea
+  CustomPeriod: 16, 4, 4
+  PlanIndex: 0
 
 MaaMall:
   CreditFight: false
   Shopping: true
   ForceShoppingIfCreditFull: false
   BuyFirst:
-    value: 招聘许可 > 龙门币
+    value: 招聘许可
     type: textarea
   BlackList:
-    value: 碳 > 家具
+    value: 碳 > 家具 > 加急许可
     type: textarea
 
 MaaRoguelike:
