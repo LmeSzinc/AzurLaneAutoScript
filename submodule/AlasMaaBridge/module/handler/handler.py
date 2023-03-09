@@ -391,7 +391,7 @@ class AssistantHandler:
             else:
                 self.config.task_delay(target=end_time + datetime.timedelta(minutes=1))
         else:
-            if self.config.MaaInfrast_WorkThreshold >= self.config.MaaInfrast_ShiftThreshold:
+            if self.config.MaaInfrast_WorkThreshold <= self.config.MaaInfrast_ShiftThreshold:
                 logger.warning('基建换班心情阈值必须小于基建工作心情阈值，请调整基建设置')
                 raise RequestHumanTakeover
 
