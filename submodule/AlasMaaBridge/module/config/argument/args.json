@@ -667,7 +667,11 @@
           "Chip"
         ]
       },
-      "Threshold": {
+      "WorkThreshold": {
+        "type": "input",
+        "value": 0.5
+      },
+      "ShiftThreshold": {
         "type": "input",
         "value": 0.3
       },
@@ -689,9 +693,29 @@
         "type": "checkbox",
         "value": false
       },
+      "BuiltinConfig": {
+        "type": "select",
+        "value": "custom",
+        "option": [
+          "custom",
+          "153-3",
+          "243-3",
+          "243-4",
+          "252-3",
+          "333-3"
+        ]
+      },
       "Filename": {
         "type": "textarea",
         "value": null
+      },
+      "CustomPeriod": {
+        "type": "input",
+        "value": "16, 4, 4"
+      },
+      "PlanIndex": {
+        "type": "input",
+        "value": 0
       }
     },
     "Storage": {
