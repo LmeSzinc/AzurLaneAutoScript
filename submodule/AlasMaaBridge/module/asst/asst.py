@@ -21,7 +21,7 @@ class Asst:
     """
 
     @staticmethod
-    def load(path: Union[pathlib.Path, str], incremental_path: Optional[Union[pathlib.Path, str]] = None,
+    def load(path: Union[pathlib.Path, str], incremental_path: Optional[Union[pathlib.Path, str, list]] = None,
              user_dir: Optional[Union[pathlib.Path, str]] = None) -> bool:
         """
         加载 dll 及资源
@@ -46,17 +46,18 @@ class Asst:
                 'environ_var': 'LD_LIBRARY_PATH'
             }
         }
-        lib_import_func = None
 
         platform_type = platform.system().lower()
         if platform_type == 'windows':
             lib_import_func = ctypes.WinDLL
+            # Todo: MAA v4.12.0正式版更新之后删除
             # 手动加载onnxruntime.dll以避免部分版本的python错误地从System32加载旧版本
             try:
                 lib_import_func(str(pathlib.Path(path) / 'onnxruntime.dll'))
             except Exception as e:
                 print(e)
                 pass
+            # Todo
         else:
             lib_import_func = ctypes.CDLL
 
@@ -74,8 +75,13 @@ class Asst:
 
         ret &= Asst.__lib.AsstLoadResource(str(path).encode('utf-8'))
         if incremental_path:
-            ret &= Asst.__lib.AsstLoadResource(
-                str(incremental_path).encode('utf-8'))
+            if isinstance(incremental_path, list):
+                for i_path in incremental_path:
+                    ret &= Asst.__lib.AsstLoadResource(
+                        str(i_path).encode('utf-8'))
+            else:
+                ret &= Asst.__lib.AsstLoadResource(
+                    str(incremental_path).encode('utf-8'))
 
         return ret
 

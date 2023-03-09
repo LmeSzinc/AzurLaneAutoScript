@@ -133,3 +133,5 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20230202 | event 20200806 cn | The Enigma and the Shark | - | - | - | 復刻最重要的寶物 |
 | 20230216 | event 20220224 cn | Abyssal Refrain | - | - | - | 深度回音 |
 | 20230223 | event 20230223 cn | Revelations of Dust | 湮烬尘墟 | Revelations of Dust | 黙示の遺構 | - |
+| 20230309 | event 20210624 cn | Swirling Cherry Blossoms | - | - | - | 復刻-浮櫻影華
+| 20230309 | event 20210422 cn | Daedalian Hymn | 复刻复兴的赞美诗 | Daedalian Hymn Rerun | 讃える復興の迷路（復刻） | - |
