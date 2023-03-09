@@ -152,14 +152,18 @@
     "MaaInfrast": {
       "Facility": "Mfg > Trade > Power > Control > Reception > Office > Dorm",
       "Drones": "Money",
-      "Threshold": 0.3,
+      "WorkThreshold": 12,
+      "ShiftThreshold": 4,
       "Notstationed": true,
       "Trust": true,
       "Replenish": false
     },
     "MaaCustomInfrast": {
       "Enable": false,
-      "Filename": null
+      "BuiltinConfig": "custom",
+      "Filename": null,
+      "CustomPeriod": "16, 4, 4",
+      "PlanIndex": 0
     },
     "Storage": {
       "Storage": {}
@@ -178,8 +182,8 @@
       "CreditFight": false,
       "Shopping": true,
       "ForceShoppingIfCreditFull": false,
-      "BuyFirst": "招聘许可 > 龙门币",
-      "BlackList": "碳 > 家具"
+      "BuyFirst": "招聘许可",
+      "BlackList": "碳 > 家具 > 加急许可"
     },
     "Storage": {
       "Storage": {}
