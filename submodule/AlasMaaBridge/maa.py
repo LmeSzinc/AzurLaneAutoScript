@@ -50,11 +50,15 @@ class ArknightsAutoScript(AzurLaneAutoScript):
 
         logger.info(f'MAA安装路径：{self.config.MaaEmulator_MaaPath}')
         try:
-            incremental_path = None
+            incremental_path = [os.path.join(self.config.MaaEmulator_MaaPath, './cache')]
             if self.config.MaaEmulator_PackageName in ["YoStarEN", "YoStarJP", "YoStarKR", "txwy"]:
-                incremental_path = os.path.join(
+                incremental_path.append(os.path.join(
                     self.config.MaaEmulator_MaaPath,
-                    './resource/global/' + self.config.MaaEmulator_PackageName
+                    './resource/global/' + self.config.MaaEmulator_PackageName)
+                )
+                incremental_path.append(os.path.join(
+                    self.config.MaaEmulator_MaaPath,
+                    './cache/resource/global/' + self.config.MaaEmulator_PackageName)
                 )
             AssistantHandler.load(self.config.MaaEmulator_MaaPath, incremental_path)
         except ModuleNotFoundError:
