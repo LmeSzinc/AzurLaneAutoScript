@@ -1,6 +1,5 @@
 import re
 
-from module.base.base import ModuleBase
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.filter import Filter
@@ -11,13 +10,19 @@ from module.shop.assets import *
 from module.shop.shop_select_globals import *
 from module.statistics.item import ItemGrid
 from module.tactical.tactical_class import Book
+from module.ui.ui import UI
 
 FILTER_REGEX = re.compile(
     '^(array|book|box|bulin|cat'
     '|chip|coin|cube|drill|food'
     '|plate|retrofit|pr|dr'
     '|logger|tuning'
-    '|hecombatplan)'
+    '|hecombatplan'
+    '|albacore|bataan|bluegill|carabiniere|casablanca|contedicavour|dukeofyork|echo'
+    '|eldridge|grenville|hibiki|hunter|kinggeorgev|kinu|kuroshio|lemalinmuse'
+    '|letemeraire|littorio|newcastle|oyashio|quincy|ryuujou|sanjuan|sheffieldmuse'
+    '|trento|vincennes|z26|z28|z36'
+    ')'
 
     '(neptune|monarch|ibuki|izumo|roon|saintlouis'
     '|seattle|georgia|kitakaze|azuma|friedrich'
@@ -79,7 +84,7 @@ class ShopItemGrid(ItemGrid):
         return self.items
 
 
-class ShopBase(ModuleBase):
+class ShopBase(UI):
     _currency = 0
     shop_template_folder = ''
 
@@ -184,12 +189,18 @@ class ShopBase(ModuleBase):
         """
         # Handle shop obstructions
         if self.appear(GET_SHIP, interval=1):
+            logger.info(f'Shop obstruct: {GET_SHIP} -> {SHOP_CLICK_SAFE_AREA}')
             self.device.click(SHOP_CLICK_SAFE_AREA)
             return True
+        # To lock new ships
+        if self.handle_popup_confirm('SHOP_OBSTRUCT'):
+            return True
         if self.appear(GET_ITEMS_1, interval=1):
+            logger.info(f'Shop obstruct: {GET_ITEMS_1} -> {SHOP_CLICK_SAFE_AREA}')
             self.device.click(SHOP_CLICK_SAFE_AREA)
             return True
         if self.appear(GET_ITEMS_3, interval=1):
+            logger.info(f'Shop obstruct: {GET_ITEMS_3} -> {SHOP_CLICK_SAFE_AREA}')
             self.device.click(SHOP_CLICK_SAFE_AREA)
             return True
 
