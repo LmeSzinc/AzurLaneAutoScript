@@ -667,9 +667,13 @@
           "Chip"
         ]
       },
-      "Threshold": {
+      "WorkThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 12
+      },
+      "ShiftThreshold": {
+        "type": "input",
+        "value": 4
       },
       "Notstationed": {
         "type": "checkbox",
@@ -689,9 +693,29 @@
         "type": "checkbox",
         "value": false
       },
+      "BuiltinConfig": {
+        "type": "select",
+        "value": "custom",
+        "option": [
+          "custom",
+          "153-3",
+          "243-3",
+          "243-4",
+          "252-3",
+          "333-3"
+        ]
+      },
       "Filename": {
         "type": "textarea",
         "value": null
+      },
+      "CustomPeriod": {
+        "type": "input",
+        "value": "16, 4, 4"
+      },
+      "PlanIndex": {
+        "type": "input",
+        "value": 0
       }
     },
     "Storage": {
@@ -750,11 +774,11 @@
       },
       "BuyFirst": {
         "type": "textarea",
-        "value": "招聘许可 > 龙门币"
+        "value": "招聘许可"
       },
       "BlackList": {
         "type": "textarea",
-        "value": "碳 > 家具"
+        "value": "碳 > 家具 > 加急许可"
       }
     },
     "Storage": {
