@@ -1559,14 +1559,16 @@
         "type": "select",
         "value": "ship",
         "option": [
+          "disabled",
           "ship",
           "ship_equip"
         ]
       },
       "ChangeVanguard": {
         "type": "select",
-        "value": "ship",
+        "value": "disabled",
         "option": [
+          "disabled",
           "ship",
           "ship_equip"
         ]

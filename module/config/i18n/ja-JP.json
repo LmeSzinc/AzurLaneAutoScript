@@ -1087,12 +1087,14 @@
     "ChangeFlagship": {
       "name": "GemsFarming.ChangeFlagship.name",
       "help": "GemsFarming.ChangeFlagship.help",
+      "disabled": "disabled",
       "ship": "ship",
       "ship_equip": "ship_equip"
     },
     "ChangeVanguard": {
       "name": "GemsFarming.ChangeVanguard.name",
       "help": "GemsFarming.ChangeVanguard.help",
+      "disabled": "disabled",
       "ship": "ship",
       "ship_equip": "ship_equip"
     },
