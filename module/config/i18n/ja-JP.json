@@ -499,8 +499,7 @@
       "name": "DropRecord.API.name",
       "help": "DropRecord.API.help",
       "default": "default",
-      "cn_gz_reverse_proxy": "cn_gz_reverse_proxy",
-      "cn_sh_reverse_proxy": "cn_sh_reverse_proxy"
+      "cn_gz_reverse_proxy": "cn_gz_reverse_proxy"
     },
     "ResearchRecord": {
       "name": "DropRecord.ResearchRecord.name",
@@ -1093,6 +1092,7 @@
     "ChangeVanguard": {
       "name": "GemsFarming.ChangeVanguard.name",
       "help": "GemsFarming.ChangeVanguard.help",
+      "disabled": "disabled",
       "ship": "ship",
       "ship_equip": "ship_equip"
     },

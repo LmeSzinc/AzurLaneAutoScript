@@ -66,7 +66,7 @@ DropRecord:
   AzurStatsID: null
   API:
     value: default
-    option: [ default, cn_gz_reverse_proxy, cn_sh_reverse_proxy ]
+    option: [ default, cn_gz_reverse_proxy]
   ResearchRecord:
     value: do_not
     option: [ do_not, save, upload, save_and_upload ]
@@ -239,7 +239,7 @@ GemsFarming:
     option: [ ship, ship_equip ]
   ChangeVanguard:
     value: ship
-    option: [ ship, ship_equip ]
+    option: [ disabled, ship, ship_equip ]
   CommonCV:
     value: any
     option: [ any, langley, bogue, ranger, hermes ]
