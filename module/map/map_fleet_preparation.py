@@ -129,13 +129,14 @@ class FleetOperator:
             else:
                 main.device.screenshot()
 
+            # Popups when clearing hard fleets
+            if self.main.handle_popup_confirm(str(self._clear)):
+                continue
+
             # End
             if not self.in_use():
                 break
 
-            # Popups when clearing hard fleets
-            if self.main.handle_popup_confirm(str(self._clear)):
-                continue
             # Click
             if click_timer.reached():
                 main.device.click(self._clear)
