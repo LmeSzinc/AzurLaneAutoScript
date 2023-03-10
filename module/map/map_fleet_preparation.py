@@ -16,11 +16,11 @@ class FleetOperator:
     FLEET_BAR_ACTIVE_STD = 45  # Active: 67, inactive: 12.
     FLEET_IN_USE_STD = 27  # In use 52, not in use (3, 6).
 
-    def __init__(self, choose, recommend, bar, clear, in_use, hard_satisfied, main):
+    def __init__(self, choose, advice, bar, clear, in_use, hard_satisfied, main):
         """
         Args:
             choose (Button): Button to activate or deactivate dropdown menu.
-            recommend (Button): Button to recommend ships.
+            advice (Button): Button to recommend ships.
             bar (Button): Dropdown menu for fleet selection。
             clear (Button): Button to clear current fleet.
             in_use (Button): Button to detect if it's using current fleet.
@@ -28,7 +28,7 @@ class FleetOperator:
             main (InfoHandler): Alas module.
         """
         self._choose = choose
-        self._recommend = recommend
+        self._advice = advice
         self._bar = bar
         self._clear = clear
         self._in_use = in_use
@@ -81,12 +81,12 @@ class FleetOperator:
         """
         return self.main.appear(self._choose, threshold=30)
 
-    def has_recommend(self):
+    def is_hard(self):
         """
         Returns:
             bool: Whether to have a recommend. If so, this stage is a hard campaign.
         """
-        return self.main.appear(self._recommend, offset=(20, 20))
+        return self.main.appear(self._advice, offset=(20, 20))
 
     def is_hard_satisfied(self):
         """
@@ -98,7 +98,7 @@ class FleetOperator:
             bool: If current fleet satisfies hard restrictions.
                 Or None if this is not a hard mode
         """
-        if not self.has_recommend():
+        if not self.is_hard():
             return None
 
         area = self._hard_satisfied.area
@@ -272,19 +272,19 @@ class FleetPreparation(InfoHandler):
             return False
 
         fleet_1 = FleetOperator(
-            choose=FLEET_1_CHOOSE, recommend=FLEET_1_RECOMMEND, bar=FLEET_1_BAR, clear=FLEET_1_CLEAR,
+            choose=FLEET_1_CHOOSE, advice=FLEET_1_ADVICE, bar=FLEET_1_BAR, clear=FLEET_1_CLEAR,
             in_use=FLEET_1_IN_USE, hard_satisfied=FLEET_1_HARD_SATIESFIED, main=self)
         fleet_2 = FleetOperator(
-            choose=FLEET_2_CHOOSE, recommend=FLEET_2_RECOMMEND, bar=FLEET_2_BAR, clear=FLEET_2_CLEAR,
+            choose=FLEET_2_CHOOSE, advice=FLEET_2_ADVICE, bar=FLEET_2_BAR, clear=FLEET_2_CLEAR,
             in_use=FLEET_2_IN_USE, hard_satisfied=FLEET_2_HARD_SATIESFIED, main=self)
         submarine = FleetOperator(
-            choose=SUBMARINE_CHOOSE, recommend=SUBMARINE_RECOMMEND, bar=SUBMARINE_BAR, clear=SUBMARINE_CLEAR,
+            choose=SUBMARINE_CHOOSE, advice=SUBMARINE_ADVICE, bar=SUBMARINE_BAR, clear=SUBMARINE_CLEAR,
             in_use=SUBMARINE_IN_USE, hard_satisfied=FLEET_1_HARD_SATIESFIED, main=self)
 
         # Check if ship is prepared in hard mode
         h1, h2, h3 = fleet_1.is_hard_satisfied(), fleet_2.is_hard_satisfied(), submarine.is_hard_satisfied()
         logger.info(f'Hard satisfied: Fleet_1: {h1}, Fleet_2: {h2}, Submarine: {h3}')
-        if self.config.SERVER in ['cn']:
+        if self.config.SERVER in ['cn', 'en', 'jp']:
             if self.config.Fleet_Fleet1:
                 fleet_1.raise_hard_not_satisfied()
             if self.config.Fleet_Fleet2:
