@@ -59,6 +59,7 @@ class Config:
     # ===== End of generated config =====
 
     MAP_HAS_MAZE = True
+    MAP_WALK_USE_CURRENT_FLEET = True
     MAP_SWIPE_MULTIPLY = 1.844
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.783
 
