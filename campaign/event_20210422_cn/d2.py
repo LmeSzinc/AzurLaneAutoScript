@@ -70,6 +70,8 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        self.fleet_2_protect()
+
         if self.clear_siren():
             return True
 
