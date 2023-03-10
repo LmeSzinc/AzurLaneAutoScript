@@ -110,13 +110,16 @@ class Campaign(CampaignBase):
         return True
 
     def battle_7(self):
-        self.fleet_boss.switch_to()
-        self.goto(D7)
-        self.goto(D5)
-        self.goto(D6)
-        self.goto(D5)
-        self.goto(D3)
-        self.goto(D4)
-        self.goto(D3)
-        self.clear_chosen_enemy(D1, expected='boss')
+        if self.fleet_boss_index == 2:
+            self.fleet_boss.switch_to()
+            self.goto(D7)
+            self.goto(D5)
+            self.goto(D6)
+            self.goto(D5)
+            self.goto(D3)
+            self.goto(D4)
+            self.goto(D3)
+            self.clear_chosen_enemy(D1, expected='boss')
+        else:
+            self.clear_chosen_enemy(D1, expected='boss')
         return True
