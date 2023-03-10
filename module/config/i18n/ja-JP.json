@@ -1086,7 +1086,6 @@
     "ChangeFlagship": {
       "name": "GemsFarming.ChangeFlagship.name",
       "help": "GemsFarming.ChangeFlagship.help",
-      "disabled": "disabled",
       "ship": "ship",
       "ship_equip": "ship_equip"
     },
