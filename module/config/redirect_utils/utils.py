@@ -92,3 +92,12 @@ def change_ship_redirect(value):
         return 'ship_equip'
     else:
         return 'ship'
+
+def api_redirect2(value):
+    """
+    remove shanghai proxy, use guangzhou
+    """
+    if value == 'cn_sh_reverse_proxy':
+        return 'cn_gz_reverse_proxy'
+    else:
+        return value

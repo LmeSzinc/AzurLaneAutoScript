@@ -499,8 +499,7 @@
       "name": "Upload API",
       "help": "If CN users cannot connect to AzurStat, recommend to use \"reverse proxy\"",
       "default": "Default (Cloudflare)",
-      "cn_gz_reverse_proxy": "Reverse proxy (Guangzhou, South China)",
-      "cn_sh_reverse_proxy": "Reverse proxy (Shanghai, East China)"
+      "cn_gz_reverse_proxy": "Reverse proxy (Guangzhou, South China)"
     },
     "ResearchRecord": {
       "name": "Research Record",

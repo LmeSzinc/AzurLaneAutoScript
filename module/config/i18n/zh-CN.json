@@ -499,8 +499,7 @@
       "name": "上传线路",
       "help": "如果国内用户无法连接到 AzurStat，可以使用\"国内反向代理\"",
       "default": "默认 (Cloudflare)",
-      "cn_gz_reverse_proxy": "国内反向代理 (广州)",
-      "cn_sh_reverse_proxy": "国内反向代理 (上海)"
+      "cn_gz_reverse_proxy": "国内反向代理 (广州)"
     },
     "ResearchRecord": {
       "name": "科研截图",

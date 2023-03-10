@@ -499,8 +499,7 @@
       "name": "上傳線路",
       "help": "如果大陸用戶無法連接到AzurStat，可以使用\"國內反向代理\"",
       "default": "默認 (Cloudflare)",
-      "cn_gz_reverse_proxy": "國內反向代理 (廣州)",
-      "cn_sh_reverse_proxy": "國內反向代理 (上海)"
+      "cn_gz_reverse_proxy": "國內反向代理 (廣州)"
     },
     "ResearchRecord": {
       "name": "科研截圖",
