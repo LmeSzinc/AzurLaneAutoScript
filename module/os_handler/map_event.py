@@ -9,7 +9,16 @@ from module.os_handler.enemy_searching import EnemySearchingHandler
 from module.statistics.azurstats import DropImage
 from module.ui.switch import Switch
 
-fleet_lock = Switch('Fleet_Lock', offset=(10, 120))
+
+class FleetLockSwitch(Switch):
+    def handle_additional(self, main):
+        # A game bug that AUTO_SEARCH_REWARD from the last cleared zone popups
+        if main.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
+            return True
+        return False
+
+
+fleet_lock = FleetLockSwitch('Fleet_Lock', offset=(10, 120))
 fleet_lock.add_status('on', check_button=OS_FLEET_LOCKED)
 fleet_lock.add_status('off', check_button=OS_FLEET_UNLOCKED)
 
