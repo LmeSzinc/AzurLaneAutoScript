@@ -169,11 +169,14 @@ class MapEventHandler(EnemySearchingHandler):
             self._os_in_map_confirm_timer.reset()
             return False
 
-    def ensure_no_map_event(self):
+    def ensure_no_map_event(self, skip_first_screenshot=True):
         self._os_in_map_confirm_timer.reset()
 
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
             if self.handle_map_event():
                 continue
