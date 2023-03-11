@@ -623,9 +623,10 @@ class Map(Fleet):
         Returns:
             bool: If clear an enemy.
         """
-        if self.fleet_boss_index != 2 or not self.config.MAP_HAS_MOVABLE_ENEMY:
+        if not self.config.FLEET_2 or not self.config.MAP_HAS_MOVABLE_ENEMY:
             return False
 
+        # When having 2 fleet
         for n in range(20):
             if not self.map.select(is_siren=True):
                 return False

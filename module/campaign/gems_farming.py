@@ -5,6 +5,7 @@ from module.equipment.assets import *
 from module.equipment.equipment_change import EquipmentChange
 from module.equipment.fleet_equipment import OCR_FLEET_INDEX
 from module.exception import CampaignEnd
+from module.handler.assets import AUTO_SEARCH_MAP_OPTION_OFF
 from module.logger import logger
 from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
 from module.retire.assets import DOCK_CHECK, TEMPLATE_BOGUE, TEMPLATE_HERMES, TEMPLATE_LANGLEY, TEMPLATE_RANGER
@@ -21,8 +22,15 @@ class GemsCampaignOverride(CampaignBase):
     def handle_combat_low_emotion(self):
         """
         Overwrite info_handler.handle_combat_low_emotion()
-        If GEMS_LOW_EMOTION_WITHDRAW is True, withdraw combat and change flag ship
+        If change vanguard is enabled, withdraw combat and change flagship and vanguard
         """
+        if self.config.GemsFarming_ChangeVanguard == 'disabled':
+            result = self.handle_popup_confirm('IGNORE_LOW_EMOTION')
+            if result:
+                # Avoid clicking AUTO_SEARCH_MAP_OPTION_OFF
+                self.interval_reset(AUTO_SEARCH_MAP_OPTION_OFF)
+            return result
+
         if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
             self.config.GEMS_EMOTION_TRIGGRED = True
             logger.hr('EMOTION WITHDRAW')
@@ -57,6 +65,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
         self.campaign = GemsCampaign(device=self.campaign.device, config=self.campaign.config)
         self.campaign.config.override(Emotion_Mode='ignore')
+        self.campaign.config.override(EnemyPriority_EnemyScaleBalanceWeight='S1_enemy_first')
 
     @property
     def change_flagship(self):
@@ -345,8 +354,9 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
             # End
             if self._trigger_lv32 or self._trigger_emotion:
-                success = self.flagship_change()
-
+                success = True
+                if self.change_flagship:
+                    success = self.flagship_change()
                 if self.change_vanguard:
                     success = success and self.vanguard_change()
 

@@ -70,6 +70,21 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        self.fleet_2_step_on(SelectedGrids([A1]), roadblocks=[])
+        if self.fleet_2_protect():
+            return True
+
+        if self.clear_siren():
+            return True
+
+        if self.clear_enemy(scale=(2,)):
+            return True
+        if self.clear_enemy(scale=(3,)):
+            return True
+
+        return self.battle_default()
+
+    def battle_2(self):
         if self.clear_siren():
             return True
 

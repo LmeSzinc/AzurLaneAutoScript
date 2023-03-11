@@ -71,6 +71,7 @@ class Config:
         # 'width': (0, 7),
         'wlen': 1000
     }
+    MAP_WALK_USE_CURRENT_FLEET = True
     MAP_HAS_MAZE = True
     MAP_SWIPE_MULTIPLY = 1.844
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.783

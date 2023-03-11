@@ -289,6 +289,7 @@ class AssistantHandler:
             else:
                 self.config.task_delay(success=False)
         else:
+            self.config.task_call('MaaAward', force_call=False)
             self.config.task_delay(success=True)
 
     def recruit(self):
@@ -324,7 +325,7 @@ class AssistantHandler:
         args = {
             "facility": self.split_filter(self.config.MaaInfrast_Facility),
             "drones": self.config.MaaInfrast_Drones,
-            "threshold": self.config.MaaInfrast_WorkThreshold,
+            "threshold": self.config.MaaInfrast_WorkThreshold / 24,
             "replenish": self.config.MaaInfrast_Replenish,
             "dorm_notstationed_enabled": self.config.MaaInfrast_Notstationed,
             "dorm_trust_enabled": self.config.MaaInfrast_Trust
