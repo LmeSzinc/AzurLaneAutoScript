@@ -289,6 +289,7 @@ class AssistantHandler:
             else:
                 self.config.task_delay(success=False)
         else:
+            self.config.task_call('MaaAward', force_call=False)
             self.config.task_delay(success=True)
 
     def recruit(self):
