@@ -727,8 +727,7 @@
       "name": "Upload API",
       "help": "If CN users cannot connect to AzurStat, recommend to use \"reverse proxy\"",
       "default": "Default (Cloudflare)",
-      "cn_gz_reverse_proxy": "Reverse proxy (Guangzhou, South China)",
-      "cn_sh_reverse_proxy": "Reverse proxy (Shanghai, East China)"
+      "cn_gz_reverse_proxy": "Reverse proxy (Guangzhou, South China)"
     },
     "ResearchRecord": {
       "name": "Research Record",
@@ -867,6 +866,8 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "event_20210422_cn": "Daedalian Hymn Rerun",
+      "event_20210624_cn": "Swirling Cherry Blossoms Rerun",
       "event_20230223_cn": "Revelations of Dust",
       "event_20220224_cn": "Abyssal Refrain",
       "event_20200806_cn": "The Enigma and the Shark Rerun",
@@ -901,7 +902,6 @@
       "event_20220428_cn": "Rondo at Rainbows End",
       "event_20220414_cn": "Aurora Noctis Rerun",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
-      "event_20210422_cn": "Daedalian Hymn",
       "event_20220310_tw": "復刻斯圖爾特的硝煙",
       "event_20200603_cn": "Counterattack Within the Fjord Rerun",
       "event_20220210_cn": "Northern Overture Rerun",
@@ -910,7 +910,6 @@
       "event_20210722_cn": "Azur Anthem",
       "event_20210819_cn": "Microlayer Medley Rerun",
       "event_20200723_cn": "Aurora Noctis",
-      "event_20210624_cn": "Swirling Cherry Blossoms Rerun",
       "event_20210624_tw": "穹頂下的聖詠曲",
       "event_20210527_tw": "微層混合",
       "event_20210429_tw": "復刻墨染的鋼鐵之花",
@@ -1314,13 +1313,14 @@
     },
     "ChangeFlagship": {
       "name": "Change Flagship",
-      "help": "Change flagship if flagship level >= 33 or emotion exhausted.\nSwitch out to new common CV/CVL whose level is in range of 1 to 32, after current has reached level 32+. Meanwhile, abandoned flagships will be retired. Any common CV/CVL whose level is 2+ will be regarded as targets. Do confirm that your own ships which is not a target has been locked\n\nThe flagship's equipment is replaced when being switched out by first recording the current setup\\nOnly populated equipment slots will be replaced. If the CV/CVL preference has been configured, all 5 slots will be populated otherwise only the auxiliary slots will be populated.",
+      "help": "Change flagship if flagship level >= 33 or either flagship or vanguard are emotion exhausted (if Change Vanguard is enabled).\nSwitch out to new common CV/CVL whose level is in range of 1 to 32, after current has reached level 32+. Meanwhile, abandoned flagships will be retired. Any common CV/CVL whose level is 2+ will be regarded as targets. Do confirm that your own ships which is not a target has been locked\n\nThe flagship's equipment is replaced when being switched out by first recording the current setup\nOnly populated equipment slots will be replaced. If the CV/CVL preference has been configured, all 5 slots will be populated otherwise only the auxiliary slots will be populated.",
       "ship": "Change Ship",
       "ship_equip": "Change Ship + Gears"
     },
     "ChangeVanguard": {
       "name": "Change Vanguard",
-      "help": "Change vanguard if emotion exhausted.\nSwitch out to new level 100(70) common vanguard after current flagship has reached level 32+ (Only CN players'0 limit break ship can reach level 100)\n\nThe vanguard's equipment is replaced when being switched out by first recording the current setup. Only populated equipment slots will be replaced.",
+      "help": "Change vanguard if flagship or vanguard are emotion exhausted.\nSwitch out to new level 100(70) common vanguard after current flagship has reached level 32+ (Only CN players'0 limit break ship can reach level 100)\n\nThe vanguard's equipment is replaced when being switched out by first recording the current setup. Only populated equipment slots will be replaced.",
+      "disabled": "Don't Change",
       "ship": "Change Ship",
       "ship_equip": "Change Ship + Gears"
     },
