@@ -96,6 +96,16 @@ class Switch:
         logger.warning(f'Switch {self.name} received an invalid status {status}')
         raise ScriptError(f'Switch {self.name} received an invalid status {status}')
 
+    def handle_additional(self, main):
+        """
+        Args:
+            main (ModuleBase):
+
+        Returns:
+            bool: If handled
+        """
+        return False
+
     def set(self, status, main, skip_first_screenshot=True):
         """
         Args:
@@ -121,6 +131,10 @@ class Switch:
             # Detect
             current = self.get(main=main)
             logger.attr(self.name, current)
+
+            # Handle additional popups
+            if self.handle_additional(main=main):
+                continue
 
             # End
             if current == status:
