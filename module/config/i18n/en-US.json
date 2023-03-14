@@ -1714,7 +1714,7 @@
     },
     "BuyAmount": {
       "name": "Buy Amount",
-      "help": "The 1st and 2nd purchase everyday are free\nDiscounts are applied to the 3rd and onwards, gradually minimizing until full price\nExact discounts found at <https://azurlane.koumakan.jp/Research#Strengthening>"
+      "help": "The 1st and 2nd purchase everyday are free\nDiscounts are applied to the 3rd and onwards, gradually minimizing until full price\nExact discounts found at <https://azurlane.koumakan.jp/wiki/Research#Enhancing>"
     },
     "LastRun": {
       "name": "Last Purchase Time",
