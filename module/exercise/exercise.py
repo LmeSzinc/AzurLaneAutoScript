@@ -128,7 +128,7 @@ class Exercise(ExerciseCombat):
 
             run = False
             # Try once on the second Friday if chosen to.
-            if '2天' in ocr and hour_current >= 18 and self.config.Exercise_EmptyOnceOnSecondFriday:
+            if '2天' in ocr and '12天' not in ocr and hour_current >= 18 and self.config.Exercise_EmptyOnceOnSecondFriday:
                 exercise_preserve = 0
                 run = True
         # Other servers.
