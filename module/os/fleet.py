@@ -528,6 +528,11 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
     def question_goto(self, has_fleet_step=False):
         logger.hr('Question goto')
         while 1:
+            # A game bug that AUTO_SEARCH_REWARD from the last cleared zone popups
+            if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
+                self.device.screenshot()
+                continue
+
             # Update local view
             # Not screenshots taking, reuse the old one
             self.update_os()
