@@ -33,7 +33,7 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20221013   | war archives 20201029 cn | Universe in Unison              | 激唱的UNIVERSE | Universe in Unison                  | 激唱のユニバース       | -                    |
 | 20221117   | war archives 20200903 cn | Stars of the Shimmering Fjord   | 峡湾间的星辰    | Stars of the Shimmering Fjord      | 輝ける峡湾の星        | -                    |
 | 20221117   | war archives 20210819 cn | Microlayer Medley               | 微层混合      | Microlayer Medley                  | 闇靄払う銀翼          | -                    |
-| 20211028   | war archives  20211028 cn| Skybound Oratorio               | 穹顶下的圣咏曲   | Skybound Oratorio              | 神穹を衝く聖歌        | -                    |
+| 20211028   | war archives 20211028 cn | Skybound Oratorio               | 穹顶下的圣咏曲   | Skybound Oratorio              | 神穹を衝く聖歌        | 穹頂下的聖詠曲         |
 | 20200227   | event 20200227 cn        | Northern Overture               | 北境序曲      | Northern Overture                   | 凍絶の北海          | -                    |
 | 20200312   | event 20200312 cn        | The Solomon Ranger              | 复刻斯图尔特的硝烟 | The Solomon Ranger Rerun            | 南洋に靡く硝煙（復刻）    | -                    |
 | 20200326   | event 20200326 cn        | Microlayer Medley               | 微层混合      | Microlayer Medley                   | 闇靄払う銀翼         | -                    |

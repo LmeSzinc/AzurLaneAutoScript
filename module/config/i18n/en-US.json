@@ -699,6 +699,7 @@
       "event_20200423_cn": "Crimson Echoes Rerun",
       "event_20200326_cn": "Microlayer Medley",
       "event_20200227_cn": "Northern Overture",
+      "war_archives_20211028_cn": "archives Skybound Oratorio",
       "war_archives_20210819_cn": "archives Microlayer Medley",
       "war_archives_20200903_cn": "archives Stars of the Shimmering Fjord",
       "war_archives_20201029_cn": "archives Universe in Unison",
@@ -717,8 +718,7 @@
       "war_archives_20190620_en": "archives Glorious Battle",
       "war_archives_20190321_en": "archives Visitors Dyed in Red",
       "war_archives_20191031_en": "archives Divergent Chessboard",
-      "war_archives_20181020_en": "archives Strive Wish and Strategize",
-      "war_archives_20211028_cn": "archives Skybound Oratorio"
+      "war_archives_20181020_en": "archives Strive Wish and Strategize"
     },
     "Mode": {
       "name": "Level Mode",
