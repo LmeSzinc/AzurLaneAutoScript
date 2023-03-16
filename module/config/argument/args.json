@@ -5874,13 +5874,13 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "war_archives_20211028_cn",
           "war_archives_20210819_cn",
           "war_archives_20200903_cn",
           "war_archives_20201029_cn",
           "war_archives_20200806_cn",
           "war_archives_20210624_cn",
           "war_archives_20210325_cn",
-          "war_archives_20211028_cn",
           "war_archives_20190911_cn",
           "war_archives_20211014_cn",
           "war_archives_20200820_cn",
@@ -5895,10 +5895,10 @@
           "war_archives_20191031_en",
           "war_archives_20181020_en"
         ],
-        "cn": "war_archives_20210819_cn",
-        "en": "war_archives_20210819_cn",
-        "jp": "war_archives_20210819_cn",
-        "tw": "war_archives_20181227_cn"
+        "cn": "war_archives_20211028_cn",
+        "en": "war_archives_20211028_cn",
+        "jp": "war_archives_20211028_cn",
+        "tw": "war_archives_20211028_cn"
       },
       "Mode": {
         "type": "select",
@@ -7316,7 +7316,7 @@
       },
       "EscortMissionFleet": {
         "type": "select",
-        "value": 5,
+        "value": 1,
         "option": [
           1,
           2,
@@ -7338,7 +7338,7 @@
       },
       "AdvanceMissionFleet": {
         "type": "select",
-        "value": 5,
+        "value": 1,
         "option": [
           1,
           2,
@@ -7360,7 +7360,7 @@
       },
       "FierceAssaultFleet": {
         "type": "select",
-        "value": 5,
+        "value": 1,
         "option": [
           1,
           2,
@@ -7382,7 +7382,7 @@
       },
       "TacticalTrainingFleet": {
         "type": "select",
-        "value": 5,
+        "value": 1,
         "option": [
           1,
           2,
@@ -7413,7 +7413,28 @@
       },
       "ModuleDevelopmentFleet": {
         "type": "select",
-        "value": 5,
+        "value": 1,
+        "option": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "EmergencyModuleDevelopment": {
+        "type": "select",
+        "value": "first",
+        "option": [
+          "skip",
+          "first",
+          "second"
+        ]
+      },
+      "EmergencyModuleDevelopmentFleet": {
+        "type": "select",
+        "value": 1,
         "option": [
           1,
           2,

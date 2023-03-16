@@ -528,25 +528,25 @@ Daily:
     value: first
     option: [ skip, first, second, third ]
   EscortMissionFleet:
-    value: 5
+    value: 1
     option: [ 1, 2, 3, 4, 5, 6 ]
   AdvanceMission:
     value: first
     option: [ skip, first, second, third ]
   AdvanceMissionFleet:
-    value: 5
+    value: 1
     option: [ 1, 2, 3, 4, 5, 6 ]
   FierceAssault:
     value: first
     option: [ skip, first, second, third ]
   FierceAssaultFleet:
-    value: 5
+    value: 1
     option: [ 1, 2, 3, 4, 5, 6 ]
   TacticalTraining:
     value: second
     option: [ skip, first, second, third ]
   TacticalTrainingFleet:
-    value: 5
+    value: 1
     option: [ 1, 2, 3, 4, 5, 6 ]
   SupplyLineDisruption:
     value: second
@@ -555,7 +555,13 @@ Daily:
     value: first
     option: [ skip, first, second ]
   ModuleDevelopmentFleet:
-    value: 5
+    value: 1
+    option: [ 1, 2, 3, 4, 5, 6 ]
+  EmergencyModuleDevelopment:
+    value: first
+    option: [ skip, first, second ]
+  EmergencyModuleDevelopmentFleet:
+    value: 1
     option: [ 1, 2, 3, 4, 5, 6 ]
 Hard:
   HardStage: 11-4
