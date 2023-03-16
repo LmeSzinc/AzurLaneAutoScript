@@ -137,10 +137,10 @@ class RewardDorm(UI):
             out: page_dorm, without info_bar
         """
         logger.hr('Dorm collect')
-        if self.config.Emulator_ControlMethod not in ['uiautomator2', 'minitouch']:
-            logger.warning(f'Current control method {self.config.Emulator_ControlMethod} '
-                           f'does not support 2 finger zoom out, skip dorm collect')
-            return
+        # if self.config.Emulator_ControlMethod not in ['uiautomator2', 'minitouch']:
+        #     logger.warning(f'Current control method {self.config.Emulator_ControlMethod} '
+        #                    f'does not support 2 finger zoom out, skip dorm collect')
+        #     return
 
         # Already at a high camera view now, no need to zoom-out.
         # for _ in range(2):
@@ -160,8 +160,12 @@ class RewardDorm(UI):
 
         # Collect
         _dorm_receive_attempt = 0
+        skip_first_screenshot = True
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
             # Handle all popups
             if self.ui_additional():
