@@ -927,6 +927,7 @@
       "event_20200423_cn": "Crimson Echoes Rerun",
       "event_20200326_cn": "Microlayer Medley",
       "event_20200227_cn": "Northern Overture",
+      "war_archives_20211028_cn": "檔案 穹頂下的聖詠曲",
       "war_archives_20210819_cn": "archives Microlayer Medley",
       "war_archives_20200903_cn": "archives Stars of the Shimmering Fjord",
       "war_archives_20201029_cn": "archives Universe in Unison",
@@ -945,8 +946,7 @@
       "war_archives_20190620_en": "檔案 光榮的一戰",
       "war_archives_20190321_en": "檔案 紅染的參訪者",
       "war_archives_20191031_en": "檔案 異色格",
-      "war_archives_20181020_en": "檔案 努力希望和計劃",
-      "war_archives_20211028_cn": "復刻穹頂下的聖詠曲"
+      "war_archives_20181020_en": "檔案 努力希望和計劃"
     },
     "Mode": {
       "name": "地圖模式",
@@ -2178,6 +2178,23 @@
       "second": "第二個"
     },
     "ModuleDevelopmentFleet": {
+      "name": "兵裝訓練出擊艦隊",
+      "help": "",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+"EmergencyModuleDevelopment": {
+      "name": "限時兵裝訓練（限時兵裝本）",
+      "help": "",
+      "skip": "不打",
+      "first": "第一個",
+      "second": "第二個"
+    },
+    "EmergencyModuleDevelopmentFleet": {
       "name": "兵裝訓練出擊艦隊",
       "help": "",
       "1": "1",

@@ -927,6 +927,7 @@
       "event_20200423_cn": "縹映る深緋の残響（復刻）",
       "event_20200326_cn": "闇靄払う銀翼",
       "event_20200227_cn": "凍絶の北海",
+      "war_archives_20211028_cn": "檔案 神穹を衝く聖歌",
       "war_archives_20210819_cn": "檔案 闇靄払う銀翼",
       "war_archives_20200903_cn": "檔案 輝ける峡湾の星",
       "war_archives_20201029_cn": "檔案 激唱のユニバース",
@@ -945,8 +946,7 @@
       "war_archives_20190620_en": "檔案 栄光なる最終戦",
       "war_archives_20190321_en": "檔案 紅染の来訪者",
       "war_archives_20191031_en": "檔案 鏡写されし異色",
-      "war_archives_20181020_en": "檔案 努力希望と計画",
-      "war_archives_20211028_cn": "檔案 神穹を衝く聖歌"
+      "war_archives_20181020_en": "檔案 努力希望と計画"
     },
     "Mode": {
       "name": "Campaign.Mode.name",
@@ -2180,6 +2180,23 @@
     "ModuleDevelopmentFleet": {
       "name": "Daily.ModuleDevelopmentFleet.name",
       "help": "Daily.ModuleDevelopmentFleet.help",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "EmergencyModuleDevelopment": {
+      "name": "Daily.EmergencyModuleDevelopment.name",
+      "help": "Daily.EmergencyModuleDevelopment.help",
+      "skip": "skip",
+      "first": "first",
+      "second": "second"
+    },
+    "EmergencyModuleDevelopmentFleet": {
+      "name": "Daily.EmergencyModuleDevelopmentFleet.name",
+      "help": "Daily.EmergencyModuleDevelopmentFleet.help",
       "1": "1",
       "2": "2",
       "3": "3",
