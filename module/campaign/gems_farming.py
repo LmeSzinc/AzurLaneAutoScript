@@ -108,21 +108,21 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             index_list = range(3, 5)
         else:
             index_list = range(0, 5)
-        logger.hr('CHANGING FLAGSHIP.')
+        logger.hr('Change flagship', level=1)
         logger.attr('ChangeFlagship', self.config.GemsFarming_ChangeFlagship)
         if self.change_flagship_equip:
-            logger.info('Record flagship equipment.')
+            logger.hr('Record flagship equipment', level=2)
             self._ship_detail_enter(FLEET_ENTER_FLAGSHIP)
             self.record_equipment(index_list=index_list)
             self._equip_take_off_one()
             self.ui_back(page_fleet.check_button)
 
+        logger.hr('Change flagship', level=2)
         self._fleet_detail_enter()
-
         success = self.flagship_change_execute()
 
         if self.change_flagship_equip:
-            logger.info('Record flagship equipment.')
+            logger.hr('Equip flagship equipment', level=2)
             self._ship_detail_enter(FLEET_ENTER_FLAGSHIP)
             self._equip_take_off_one()
 
@@ -138,21 +138,21 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         Returns:
             bool: True if vanguard changed
         """
-        logger.hr('CHANGING VANGUARD.')
+        logger.hr('Change vanguard', level=1)
         logger.attr('ChangeVanguard', self.config.GemsFarming_ChangeVanguard)
         if self.change_vanguard_equip:
-            logger.info('Record vanguard equipment.')
+            logger.hr('Record vanguard equipment', level=2)
             self._ship_detail_enter(FLEET_ENTER)
             self.record_equipment()
             self._equip_take_off_one()
             self.ui_back(page_fleet.check_button)
 
+        logger.hr('Change vanguard', level=2)
         self._fleet_detail_enter()
-
         success = self.vanguard_change_execute()
 
         if self.change_vanguard_equip:
-            logger.info('Equip vanguard equipment.')
+            logger.hr('Equip vanguard equipment', level=2)
             self._ship_detail_enter(FLEET_ENTER)
             self._equip_take_off_one()
 
