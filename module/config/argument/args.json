@@ -6866,7 +6866,7 @@
       },
       "EscortMissionFleet": {
         "type": "select",
-        "value": 5,
+        "value": 1,
         "option": [
           1,
           2,
@@ -6888,7 +6888,7 @@
       },
       "AdvanceMissionFleet": {
         "type": "select",
-        "value": 5,
+        "value": 1,
         "option": [
           1,
           2,
@@ -6910,7 +6910,7 @@
       },
       "FierceAssaultFleet": {
         "type": "select",
-        "value": 5,
+        "value": 1,
         "option": [
           1,
           2,
@@ -6932,7 +6932,7 @@
       },
       "TacticalTrainingFleet": {
         "type": "select",
-        "value": 5,
+        "value": 1,
         "option": [
           1,
           2,
@@ -6963,7 +6963,28 @@
       },
       "ModuleDevelopmentFleet": {
         "type": "select",
-        "value": 5,
+        "value": 1,
+        "option": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "EmergencyModuleDevelopment": {
+        "type": "select",
+        "value": "first",
+        "option": [
+          "skip",
+          "first",
+          "second"
+        ]
+      },
+      "EmergencyModuleDevelopmentFleet": {
+        "type": "select",
+        "value": 1,
         "option": [
           1,
           2,

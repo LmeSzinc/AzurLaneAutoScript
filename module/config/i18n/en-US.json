@@ -1950,7 +1950,24 @@
       "second": "second"
     },
     "ModuleDevelopmentFleet": {
-      "name": "Tactical Training Fleet",
+      "name": "Module Development Fleet",
+      "help": "",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "EmergencyModuleDevelopment": {
+      "name": "Emergency Module Development Preference",
+      "help": "",
+      "skip": "skip",
+      "first": "first",
+      "second": "second"
+    },
+    "EmergencyModuleDevelopmentFleet": {
+      "name": "Emergency Module Development Fleet",
       "help": "",
       "1": "1",
       "2": "2",

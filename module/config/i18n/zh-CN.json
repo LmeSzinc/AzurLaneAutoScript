@@ -1958,6 +1958,23 @@
       "4": "4",
       "5": "5",
       "6": "6"
+    },
+    "EmergencyModuleDevelopment": {
+      "name": "限时兵装训练（限时兵装本）",
+      "help": "",
+      "skip": "不打",
+      "first": "第一个",
+      "second": "第二个"
+    },
+    "EmergencyModuleDevelopmentFleet": {
+      "name": "兵装训练出击舰队",
+      "help": "",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     }
   },
   "Hard": {

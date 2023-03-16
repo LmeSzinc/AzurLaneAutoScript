@@ -1326,16 +1326,18 @@
     "Daily": {
       "UseDailySkip": true,
       "EscortMission": "first",
-      "EscortMissionFleet": 5,
+      "EscortMissionFleet": 1,
       "AdvanceMission": "first",
-      "AdvanceMissionFleet": 5,
+      "AdvanceMissionFleet": 1,
       "FierceAssault": "first",
-      "FierceAssaultFleet": 5,
+      "FierceAssaultFleet": 1,
       "TacticalTraining": "second",
-      "TacticalTrainingFleet": 5,
+      "TacticalTrainingFleet": 1,
       "SupplyLineDisruption": "second",
       "ModuleDevelopment": "first",
-      "ModuleDevelopmentFleet": 5
+      "ModuleDevelopmentFleet": 1,
+      "EmergencyModuleDevelopment": "first",
+      "EmergencyModuleDevelopmentFleet": 1
     },
     "Storage": {
       "Storage": {}

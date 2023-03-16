@@ -1958,6 +1958,23 @@
       "4": "4",
       "5": "5",
       "6": "6"
+    },
+    "EmergencyModuleDevelopment": {
+      "name": "Daily.EmergencyModuleDevelopment.name",
+      "help": "Daily.EmergencyModuleDevelopment.help",
+      "skip": "skip",
+      "first": "first",
+      "second": "second"
+    },
+    "EmergencyModuleDevelopmentFleet": {
+      "name": "Daily.EmergencyModuleDevelopmentFleet.name",
+      "help": "Daily.EmergencyModuleDevelopmentFleet.help",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     }
   },
   "Hard": {
