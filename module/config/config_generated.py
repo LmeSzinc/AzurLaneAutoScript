@@ -317,16 +317,18 @@ class GeneratedConfig:
     # Group `Daily`
     Daily_UseDailySkip = True
     Daily_EscortMission = 'first'  # skip, first, second, third
-    Daily_EscortMissionFleet = 5  # 1, 2, 3, 4, 5, 6
+    Daily_EscortMissionFleet = 1  # 1, 2, 3, 4, 5, 6
     Daily_AdvanceMission = 'first'  # skip, first, second, third
-    Daily_AdvanceMissionFleet = 5  # 1, 2, 3, 4, 5, 6
+    Daily_AdvanceMissionFleet = 1  # 1, 2, 3, 4, 5, 6
     Daily_FierceAssault = 'first'  # skip, first, second, third
-    Daily_FierceAssaultFleet = 5  # 1, 2, 3, 4, 5, 6
+    Daily_FierceAssaultFleet = 1  # 1, 2, 3, 4, 5, 6
     Daily_TacticalTraining = 'second'  # skip, first, second, third
-    Daily_TacticalTrainingFleet = 5  # 1, 2, 3, 4, 5, 6
+    Daily_TacticalTrainingFleet = 1  # 1, 2, 3, 4, 5, 6
     Daily_SupplyLineDisruption = 'second'  # skip, first, second, third
     Daily_ModuleDevelopment = 'first'  # skip, first, second
-    Daily_ModuleDevelopmentFleet = 5  # 1, 2, 3, 4, 5, 6
+    Daily_ModuleDevelopmentFleet = 1  # 1, 2, 3, 4, 5, 6
+    Daily_EmergencyModuleDevelopment = 'first'  # skip, first, second
+    Daily_EmergencyModuleDevelopmentFleet = 1  # 1, 2, 3, 4, 5, 6
 
     # Group `Hard`
     Hard_HardStage = '11-4'
