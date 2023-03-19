@@ -1,10 +1,11 @@
 import numpy as np
 from scipy import signal
 
-from module.base.base import ModuleBase
 from module.base.button import Button
 from module.base.timer import Timer
 from module.base.utils import *
+from module.exception import RequestHumanTakeover
+from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.assets import *
 
@@ -15,19 +16,23 @@ class FleetOperator:
     FLEET_BAR_ACTIVE_STD = 45  # Active: 67, inactive: 12.
     FLEET_IN_USE_STD = 27  # In use 52, not in use (3, 6).
 
-    def __init__(self, choose, bar, clear, in_use, main):
+    def __init__(self, choose, advice, bar, clear, in_use, hard_satisfied, main):
         """
         Args:
             choose (Button): Button to activate or deactivate dropdown menu.
+            advice (Button): Button to recommend ships.
             bar (Button): Dropdown menu for fleet selection。
             clear (Button): Button to clear current fleet.
             in_use (Button): Button to detect if it's using current fleet.
-            main (ModuleBase): Alas module.
+            hard_satisfied (Button): Area to detect if fleet satiesfies hard restrictions.
+            main (InfoHandler): Alas module.
         """
         self._choose = choose
+        self._advice = advice
         self._bar = bar
         self._clear = clear
         self._in_use = in_use
+        self._hard_satisfied = hard_satisfied
         self.main = main
 
     def __str__(self):
@@ -74,7 +79,43 @@ class FleetOperator:
         Returns:
             bool: If current fleet is allow to be chosen.
         """
-        return self.main.appear(self._choose)
+        return self.main.appear(self._choose, threshold=30)
+
+    def is_hard(self):
+        """
+        Returns:
+            bool: Whether to have a recommend. If so, this stage is a hard campaign.
+        """
+        return self.main.appear(self._advice, offset=(20, 20))
+
+    def is_hard_satisfied(self):
+        """
+        Detect how many light orange lines are there.
+        Having lines means current map has stat limits and user has satisfied at least one of them,
+        so this is a hard map.
+
+        Returns:
+            bool: If current fleet satisfies hard restrictions.
+                Or None if this is not a hard mode
+        """
+        if not self.is_hard():
+            return None
+
+        area = self._hard_satisfied.area
+        image = color_similarity_2d(self.main.image_crop(area), color=(249, 199, 0))
+        height = np.max(image, axis=1)
+        parameters = {'height': 180, 'distance': 5}
+        peaks, _ = signal.find_peaks(height, **parameters)
+        lines = len(peaks)
+        # logger.attr('Light_orange_line', lines)
+        return lines > 0
+
+    def raise_hard_not_satisfied(self):
+        if self.is_hard_satisfied() is False:
+            stage = self.main.config.Campaign_Name
+            logger.critical(f'Stage "{stage}" is a hard mode, '
+                            f'please prepare your fleet "{str(self)}" in game before running Alas')
+            raise RequestHumanTakeover
 
     def clear(self, skip_first_screenshot=True):
         """
@@ -87,6 +128,10 @@ class FleetOperator:
                 skip_first_screenshot = False
             else:
                 main.device.screenshot()
+
+            # Popups when clearing hard fleets
+            if self.main.handle_popup_confirm(str(self._clear)):
+                continue
 
             # End
             if not self.in_use():
@@ -213,27 +258,9 @@ class FleetOperator:
             self.click(index)
 
 
-class FleetPreparation(ModuleBase):
+class FleetPreparation(InfoHandler):
     map_fleet_checked = False
     map_is_hard_mode = False
-
-    def get_map_is_hard_mode(self):
-        """
-        Detect how many light orange lines are there.
-        Having lines means current map has stat limits and user has satisfied at least one of them,
-        so this is a hard map.
-
-        Returns:
-            bool:
-        """
-        area = (208, 130, 226, 551)
-        image = color_similarity_2d(self.image_crop(area), color=(249, 199, 0))
-        height = np.max(image, axis=1)
-        parameters = {'height': 180, 'distance': 5}
-        peaks, _ = signal.find_peaks(height, **parameters)
-        lines = len(peaks)
-        logger.attr('Light_orange_line', lines)
-        return lines > 0
 
     def fleet_preparation(self):
         """Change fleets.
@@ -245,17 +272,38 @@ class FleetPreparation(ModuleBase):
         if self.map_fleet_checked:
             return False
 
-        self.map_is_hard_mode = self.get_map_is_hard_mode()
+        fleet_1 = FleetOperator(
+            choose=FLEET_1_CHOOSE, advice=FLEET_1_ADVICE, bar=FLEET_1_BAR, clear=FLEET_1_CLEAR,
+            in_use=FLEET_1_IN_USE, hard_satisfied=FLEET_1_HARD_SATIESFIED, main=self)
+        fleet_2 = FleetOperator(
+            choose=FLEET_2_CHOOSE, advice=FLEET_2_ADVICE, bar=FLEET_2_BAR, clear=FLEET_2_CLEAR,
+            in_use=FLEET_2_IN_USE, hard_satisfied=FLEET_2_HARD_SATIESFIED, main=self)
+        submarine = FleetOperator(
+            choose=SUBMARINE_CHOOSE, advice=SUBMARINE_ADVICE, bar=SUBMARINE_BAR, clear=SUBMARINE_CLEAR,
+            in_use=SUBMARINE_IN_USE, hard_satisfied=FLEET_1_HARD_SATIESFIED, main=self)
+
+        # Check if ship is prepared in hard mode
+        h1, h2, h3 = fleet_1.is_hard_satisfied(), fleet_2.is_hard_satisfied(), submarine.is_hard_satisfied()
+        logger.info(f'Hard satisfied: Fleet_1: {h1}, Fleet_2: {h2}, Submarine: {h3}')
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            if self.config.Fleet_Fleet1:
+                fleet_1.raise_hard_not_satisfied()
+            if self.config.Fleet_Fleet2:
+                fleet_2.raise_hard_not_satisfied()
+            if self.config.Submarine_Fleet:
+                submarine.raise_hard_not_satisfied()
+
+        # Skip fleet preparation in hard mode
+        self.map_is_hard_mode = h1 or h2 or h3
         if self.map_is_hard_mode:
             logger.info('Hard Campaign. No fleet preparation')
+            # Clear submarine if user did not set a submarine fleet
+            if submarine.allow():
+                if self.config.Submarine_Fleet:
+                    pass
+                else:
+                    submarine.clear()
             return False
-
-        fleet_1 = FleetOperator(
-            choose=FLEET_1_CHOOSE, bar=FLEET_1_BAR, clear=FLEET_1_CLEAR, in_use=FLEET_1_IN_USE, main=self)
-        fleet_2 = FleetOperator(
-            choose=FLEET_2_CHOOSE, bar=FLEET_2_BAR, clear=FLEET_2_CLEAR, in_use=FLEET_2_IN_USE, main=self)
-        submarine = FleetOperator(
-            choose=SUBMARINE_CHOOSE, bar=SUBMARINE_BAR, clear=SUBMARINE_CLEAR, in_use=SUBMARINE_IN_USE, main=self)
 
         # Submarine.
         if submarine.allow():

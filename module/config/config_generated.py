@@ -50,7 +50,7 @@ class GeneratedConfig:
     # Group `DropRecord`
     DropRecord_SaveFolder = './screenshots'
     DropRecord_AzurStatsID = None
-    DropRecord_API = 'default'  # default, cn_gz_reverse_proxy, cn_sh_reverse_proxy
+    DropRecord_API = 'default'  # default, cn_gz_reverse_proxy
     DropRecord_ResearchRecord = 'do_not'  # do_not, save, upload, save_and_upload
     DropRecord_CommissionRecord = 'do_not'  # do_not, save, upload, save_and_upload
     DropRecord_CombatRecord = 'do_not'  # do_not, save
@@ -153,11 +153,8 @@ class GeneratedConfig:
     C124LargeLeveling_PickupAmmo = 3  # 3, 4, 5
 
     # Group `GemsFarming`
-    GemsFarming_FlagshipChange = True
-    GemsFarming_FlagshipEquipChange = False
-    GemsFarming_VanguardChange = False
-    GemsFarming_VanguardEquipChange = False
-    GemsFarming_LowEmotionRetreat = True
+    GemsFarming_ChangeFlagship = 'ship'  # ship, ship_equip
+    GemsFarming_ChangeVanguard = 'ship'  # disabled, ship, ship_equip
     GemsFarming_CommonCV = 'any'  # any, langley, bogue, ranger, hermes
     GemsFarming_CommissionLimit = True
 
@@ -323,16 +320,18 @@ class GeneratedConfig:
     # Group `Daily`
     Daily_UseDailySkip = True
     Daily_EscortMission = 'first'  # skip, first, second, third
-    Daily_EscortMissionFleet = 5  # 1, 2, 3, 4, 5, 6
+    Daily_EscortMissionFleet = 1  # 1, 2, 3, 4, 5, 6
     Daily_AdvanceMission = 'first'  # skip, first, second, third
-    Daily_AdvanceMissionFleet = 5  # 1, 2, 3, 4, 5, 6
+    Daily_AdvanceMissionFleet = 1  # 1, 2, 3, 4, 5, 6
     Daily_FierceAssault = 'first'  # skip, first, second, third
-    Daily_FierceAssaultFleet = 5  # 1, 2, 3, 4, 5, 6
+    Daily_FierceAssaultFleet = 1  # 1, 2, 3, 4, 5, 6
     Daily_TacticalTraining = 'second'  # skip, first, second, third
-    Daily_TacticalTrainingFleet = 5  # 1, 2, 3, 4, 5, 6
+    Daily_TacticalTrainingFleet = 1  # 1, 2, 3, 4, 5, 6
     Daily_SupplyLineDisruption = 'second'  # skip, first, second, third
     Daily_ModuleDevelopment = 'first'  # skip, first, second
-    Daily_ModuleDevelopmentFleet = 5  # 1, 2, 3, 4, 5, 6
+    Daily_ModuleDevelopmentFleet = 1  # 1, 2, 3, 4, 5, 6
+    Daily_EmergencyModuleDevelopment = 'first'  # skip, first, second
+    Daily_EmergencyModuleDevelopmentFleet = 1  # 1, 2, 3, 4, 5, 6
 
     # Group `Hard`
     Hard_HardStage = '11-4'

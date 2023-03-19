@@ -188,7 +188,7 @@ class ConfigGenerator:
             if isinstance(v, dict):
                 if deep_get(v, keys='type') in ['lock']:
                     deep_default(v, keys='display', value="disabled")
-                else:
+                elif deep_get(v, keys='value') is not None:
                     deep_default(v, keys='display', value='hide')
                 for arg_k, arg_v in v.items():
                     deep_set(data, keys=p + [arg_k], value=arg_v)
@@ -413,7 +413,7 @@ class ConfigGenerator:
 
         docker = {
             'GitExecutable': '/usr/bin/git',
-            'PythonExecutable': '/app/pyroot/bin/python',
+            'PythonExecutable': '/usr/local/bin/python',
             'RequirementsFile': './deploy/docker/requirements.txt',
             'AdbExecutable': '/usr/bin/adb',
         }
@@ -500,6 +500,13 @@ class ConfigUpdater:
         ('General.Retirement.OldRetireR', 'General.OldRetire.R'),
         ('General.Retirement.OldRetireSR', 'General.OldRetire.SR'),
         ('General.Retirement.OldRetireSSR', 'General.OldRetire.SSR'),
+        (('GemsFarming.GemsFarming.FlagshipChange', 'GemsFarming.GemsFarming.FlagshipEquipChange'),
+         'GemsFarming.GemsFarming.ChangeFlagship',
+         change_ship_redirect),
+        (('GemsFarming.GemsFarming.VanguardChange', 'GemsFarming.GemsFarming.VanguardEquipChange'),
+         'GemsFarming.GemsFarming.ChangeVanguard',
+         change_ship_redirect),
+        ('Alas.DropRecord.API', 'Alas.DropRecord.API', api_redirect2)
     ]
     redirection += [
         (
@@ -592,7 +599,7 @@ class ConfigUpdater:
                 value = []
                 error = False
                 for attribute in source:
-                    tmp = deep_get(old, keys=attribute, default=None)
+                    tmp = deep_get(old, keys=attribute)
                     if tmp is None:
                         error = True
                         continue
@@ -600,7 +607,7 @@ class ConfigUpdater:
                 if error:
                     continue
             else:
-                value = deep_get(old, keys=source, default=None)
+                value = deep_get(old, keys=source)
                 if value is None:
                     continue
 
@@ -608,10 +615,11 @@ class ConfigUpdater:
                 value = update_func(value)
 
             if isinstance(target, tuple):
-                for i in range(0, len(target)):
-                    if deep_get(old, keys=target[i], default=None) is None:
-                        deep_set(new, keys=target[i], value=value[i])
-            elif deep_get(old, keys=target, default=None) is None:
+                for k, v in zip(target, value):
+                    # Allow update same key
+                    if (deep_get(old, keys=k) is None) or (source == target):
+                        deep_set(new, keys=k, value=v)
+            elif (deep_get(old, keys=target) is None) or (source == target):
                 deep_set(new, keys=target, value=value)
 
         return new
@@ -628,7 +636,11 @@ class ConfigUpdater:
             dict:
         """
         old = read_file(filepath_config(config_name))
-        return self.config_update(old, is_template=is_template)
+        new = self.config_update(old, is_template=is_template)
+        # The updated config did not write into file, although it doesn't matters.
+        # Commented for performance issue
+        # self.write_file(config_name, new)
+        return new
 
     @staticmethod
     def write_file(config_name, data, mod_name='alas'):

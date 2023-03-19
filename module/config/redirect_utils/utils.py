@@ -79,3 +79,25 @@ def emotion_mode_redirect(value):
         else:
             # Invalid, fallback to calculate
             return 'calculate'
+
+
+def change_ship_redirect(value):
+    """
+      FlagshipChange + FlagshipEquipChange -> ChangeFlagship
+    """
+    ship, equip = value
+    if not ship:
+        return 'disabled'
+    elif equip:
+        return 'ship_equip'
+    else:
+        return 'ship'
+
+def api_redirect2(value):
+    """
+    remove shanghai proxy, use guangzhou
+    """
+    if value == 'cn_sh_reverse_proxy':
+        return 'cn_gz_reverse_proxy'
+    else:
+        return value

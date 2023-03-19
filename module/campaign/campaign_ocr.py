@@ -249,6 +249,10 @@ class CampaignOcr(ModuleBase):
         counter = collections.Counter(chapter)
         self.campaign_chapter = counter.most_common()[0][0]
 
+        if self.campaign_chapter == 0 or self.campaign_chapter == '0':
+            # ['0F', 'F-IB', 'IGI']
+            raise CampaignNameError
+
         # After OCR, recover button attributes.
         # These buttons are ready to be stage entrances for `MapOperation.enter_map()`
         # button.area: Area of stage name, such as 'CLEAR' and '%'.

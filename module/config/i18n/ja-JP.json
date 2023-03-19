@@ -523,8 +523,7 @@
       "name": "DropRecord.API.name",
       "help": "DropRecord.API.help",
       "default": "default",
-      "cn_gz_reverse_proxy": "cn_gz_reverse_proxy",
-      "cn_sh_reverse_proxy": "cn_sh_reverse_proxy"
+      "cn_gz_reverse_proxy": "cn_gz_reverse_proxy"
     },
     "ResearchRecord": {
       "name": "DropRecord.ResearchRecord.name",
@@ -663,6 +662,8 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "event_20210422_cn": "讃える復興の迷路（復刻）",
+      "event_20210624_cn": "翳りし満ちる影の華(復刻)",
       "event_20230223_cn": "黙示の遺構",
       "event_20220224_cn": "鳴動せし星霜の淵",
       "event_20200806_cn": "鉄血鮫とエニグマ（復刻）",
@@ -697,7 +698,6 @@
       "event_20220428_cn": "吟ずる瑠璃の楽章",
       "event_20220414_cn": "極夜照らす幻光（復刻）",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
-      "event_20210422_cn": "讃える復興の迷路",
       "event_20220310_tw": "復刻斯圖爾特的硝煙",
       "event_20200603_cn": "峡湾間の反撃（復刻）",
       "event_20220210_cn": "凍絶の北海（復刻）",
@@ -706,7 +706,6 @@
       "event_20210722_cn": "海に響くアイドルの歌",
       "event_20210819_cn": "闇靄払う銀翼（復刻）",
       "event_20200723_cn": "極夜照らす幻光",
-      "event_20210624_cn": "翳りし満ちる影の華(復刻)",
       "event_20210624_tw": "穹頂下的聖詠曲",
       "event_20210527_tw": "微層混合",
       "event_20210429_tw": "復刻墨染的鋼鐵之花",
@@ -724,6 +723,7 @@
       "event_20200423_cn": "縹映る深緋の残響（復刻）",
       "event_20200326_cn": "闇靄払う銀翼",
       "event_20200227_cn": "凍絶の北海",
+      "war_archives_20211028_cn": "檔案 神穹を衝く聖歌",
       "war_archives_20210819_cn": "檔案 闇靄払う銀翼",
       "war_archives_20200903_cn": "檔案 輝ける峡湾の星",
       "war_archives_20201029_cn": "檔案 激唱のユニバース",
@@ -1108,25 +1108,18 @@
       "name": "GemsFarming._info.name",
       "help": "GemsFarming._info.help"
     },
-    "FlagshipChange": {
-      "name": "GemsFarming.FlagshipChange.name",
-      "help": "GemsFarming.FlagshipChange.help"
+    "ChangeFlagship": {
+      "name": "GemsFarming.ChangeFlagship.name",
+      "help": "GemsFarming.ChangeFlagship.help",
+      "ship": "ship",
+      "ship_equip": "ship_equip"
     },
-    "FlagshipEquipChange": {
-      "name": "GemsFarming.FlagshipEquipChange.name",
-      "help": "GemsFarming.FlagshipEquipChange.help"
-    },
-    "VanguardChange": {
-      "name": "GemsFarming.VanguardChange.name",
-      "help": "GemsFarming.VanguardChange.help"
-    },
-    "VanguardEquipChange": {
-      "name": "GemsFarming.VanguardEquipChange.name",
-      "help": "GemsFarming.VanguardEquipChange.help"
-    },
-    "LowEmotionRetreat": {
-      "name": "GemsFarming.LowEmotionRetreat.name",
-      "help": "GemsFarming.LowEmotionRetreat.help"
+    "ChangeVanguard": {
+      "name": "GemsFarming.ChangeVanguard.name",
+      "help": "GemsFarming.ChangeVanguard.help",
+      "disabled": "disabled",
+      "ship": "ship",
+      "ship_equip": "ship_equip"
     },
     "CommonCV": {
       "name": "GemsFarming.CommonCV.name",
@@ -1983,6 +1976,23 @@
     "ModuleDevelopmentFleet": {
       "name": "Daily.ModuleDevelopmentFleet.name",
       "help": "Daily.ModuleDevelopmentFleet.help",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "EmergencyModuleDevelopment": {
+      "name": "Daily.EmergencyModuleDevelopment.name",
+      "help": "Daily.EmergencyModuleDevelopment.help",
+      "skip": "skip",
+      "first": "first",
+      "second": "second"
+    },
+    "EmergencyModuleDevelopmentFleet": {
+      "name": "Daily.EmergencyModuleDevelopmentFleet.name",
+      "help": "Daily.EmergencyModuleDevelopmentFleet.help",
       "1": "1",
       "2": "2",
       "3": "3",

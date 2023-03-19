@@ -292,7 +292,7 @@
     },
     "Serial": {
       "name": "模擬器 Serial",
-      "help": "填 \"auto\" 自動檢測模擬器，有多個模擬器正在運行時必須手動填寫 Serial\n模擬器預設 Serial：\n- 藍疊模擬器 127.0.0.1:5555\n- 藍疊模擬器4 Hyper-v版，填\"bluestacks4-hyperv\"自動連接，多開填\"bluestacks4-hyperv-2\"以此類推\n- 藍疊模擬器5 Hyper-v版，填\"bluestacks5-hyperv\"自動連接，多開填\"bluestacks5-hyperv-1\"以此類推\n- 夜神模擬器 127.0.0.1:62001\n- 夜神模擬器64位元 127.0.0.1:59865\n- MuMu模擬器/MuMu模擬器X 127.0.0.1:7555\n- 逍遙模擬器 127.0.0.1:21503\n- 雷電模擬器 emulator-5554 或 127.0.0.1:5555\n- WSA，填\"wsa-0\"使遊戲在後臺運行，需要使用第三方軟件操控或關閉\n如果你有多個模擬器，他們的 Serial 將不是預設的，可以在 console.bat 中執行 `adb devices` 查詢"
+      "help": "常見的模擬器 Serial 可以查詢下方列表\n填 \"auto\" 自動檢測模擬器，多個模擬器正在運行或使用不支持自動檢測的模擬器時無法使用 \"auto\"，必須手動填寫\n模擬器預設 Serial：\n- 藍疊模擬器 127.0.0.1:5555\n- 藍疊模擬器4 Hyper-v版，填\"bluestacks4-hyperv\"自動連接，多開填\"bluestacks4-hyperv-2\"以此類推\n- 藍疊模擬器5 Hyper-v版，填\"bluestacks5-hyperv\"自動連接，多開填\"bluestacks5-hyperv-1\"以此類推\n- 夜神模擬器 127.0.0.1:62001\n- 夜神模擬器64位元 127.0.0.1:59865\n- MuMu模擬器/MuMu模擬器X 127.0.0.1:7555\n- 逍遙模擬器 127.0.0.1:21503\n- 雷電模擬器 emulator-5554 或 127.0.0.1:5555\n- WSA，填\"wsa-0\"使遊戲在後臺運行，需要使用第三方軟件操控或關閉\n如果你使用了模擬器的多開功能，他們的 Serial 將不是預設的，可以在 console.bat 中執行 `adb devices` 查詢，或根據模擬器官方的教程填寫"
     },
     "PackageName": {
       "name": "遊戲伺服器",
@@ -523,8 +523,7 @@
       "name": "上傳線路",
       "help": "如果大陸用戶無法連接到AzurStat，可以使用\"國內反向代理\"",
       "default": "默認 (Cloudflare)",
-      "cn_gz_reverse_proxy": "國內反向代理 (廣州)",
-      "cn_sh_reverse_proxy": "國內反向代理 (上海)"
+      "cn_gz_reverse_proxy": "國內反向代理 (廣州)"
     },
     "ResearchRecord": {
       "name": "科研截圖",
@@ -663,6 +662,8 @@
       "name": "活動名稱",
       "help": "自動選擇至最新的活動圖",
       "campaign_main": "主線圖",
+      "event_20210422_cn": "復興的讚美詩",
+      "event_20210624_cn": "復刻-浮櫻影華",
       "event_20230223_cn": "Revelations of Dust",
       "event_20220224_cn": "深度回音",
       "event_20200806_cn": "復刻最重要的寶物",
@@ -697,7 +698,6 @@
       "event_20220428_cn": "Rondo at Rainbows End",
       "event_20220414_cn": "Aurora Noctis Rerun",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
-      "event_20210422_cn": "復興的讚美詩",
       "event_20220310_tw": "復刻斯圖爾特的硝煙",
       "event_20200603_cn": "峽灣間的反擊",
       "event_20220210_cn": "Northern Overture Rerun",
@@ -706,7 +706,6 @@
       "event_20210722_cn": "響徹碧海的偶像歌",
       "event_20210819_cn": "Microlayer Medley Rerun",
       "event_20200723_cn": "永夜幻光",
-      "event_20210624_cn": "Swirling Cherry Blossoms Rerun",
       "event_20210624_tw": "穹頂下的聖詠曲",
       "event_20210527_tw": "微層混合",
       "event_20210429_tw": "復刻墨染的鋼鐵之花",
@@ -724,6 +723,7 @@
       "event_20200423_cn": "Crimson Echoes Rerun",
       "event_20200326_cn": "Microlayer Medley",
       "event_20200227_cn": "Northern Overture",
+      "war_archives_20211028_cn": "檔案 穹頂下的聖詠曲",
       "war_archives_20210819_cn": "archives Microlayer Medley",
       "war_archives_20200903_cn": "archives Stars of the Shimmering Fjord",
       "war_archives_20201029_cn": "archives Universe in Unison",
@@ -1108,25 +1108,18 @@
       "name": "刷緊急委託",
       "help": "警告：這個功能可以讓玩家獲取少量的鑽石，但不是一個能高效獲取鑽石的方法\n玩碧藍航線不久的玩家，很容易迷信零破和低耗等，而忽視了角色養成\n執行這個功能只會讓你自己感覺很充實，而你的帳號實際零提升\n這個功能的主要用途，是讓陣容成型的玩家獲取額外的魔方，請理性地把鑽石當作副產物\n\n這個功能將在旗艦32級之後，將旗艦更換為1級白船零破航母\n關於緊急委託刷新機制，可閱讀 https://bbs.nga.cn/read.php?tid=27134956\n委託油耗比: A3 > A1 > 2-4 > 2-1，有活動圖時建議選活動圖，2-1會撿問號有更多物資\n一隊會完成所有的戰鬥，前排應當為百級零破驅逐帶輸出裝，後排應該為35級以下白船零破航母\n二隊會提供跨隊支援，應該有紐澤西和信濃"
     },
-    "FlagshipChange": {
+    "ChangeFlagship": {
       "name": "更換旗艦",
-      "help": "尋找等級在1-32之間的白船航母，同時會在退役時選擇更換下來的旗艦。\n所有等級大於1級的白船航母均會被視為退役目標，請務必鎖定不是目標的船。"
+      "help": "當旗艦等級>=33或紅臉時更換旗艦\n尋找等級在1-32之間的白皮航母，同時會在退役時選擇更換下來的旗艦。所有等級大於1級的白船航母均會被視為退役目標，請務必鎖定不是目標的船。換船時更換旗艦裝備，這通過記錄之前的裝備完成。\n\n換裝備只會更換正在裝備中的欄位，即使是白裝也會更換。如果指定了旗艦，則會更換全部5個裝備，未指定旗艦隻會更換設備。",
+      "ship": "更換艦船",
+      "ship_equip": "更換艦船 + 裝備"
     },
-    "FlagshipEquipChange": {
-      "name": "更換旗艦的裝備",
-      "help": "換船時更換旗艦裝備，這通過記錄之前的裝備完成。 \n只會更換正在裝備中的欄位，即使是白裝也會更換。 \n如果指定了旗艦，則會更換全部5個裝備，未指定旗艦隻會更換設備。"
-    },
-    "VanguardChange": {
+    "ChangeVanguard": {
       "name": "更換前排",
-      "help": "換前排通過找一艘心情不低於10、等級100的白鷹白船驅逐完成，所以盡量保證有足夠多的驅逐。\n國服以外則為等級70的白鷹白船驅逐。 \n不啟用將不更換前排"
-    },
-    "VanguardEquipChange": {
-      "name": "更換前排的裝備",
-      "help": "換船時更換前排裝備，這通過記錄之前的裝備完成。 \n只會更換正在裝備中的欄位，即使是白裝也會更換。"
-    },
-    "LowEmotionRetreat": {
-      "name": "紅臉後撤退",
-      "help": "紅臉後撤退，同時更換前排和後排。"
+      "help": "當前排紅臉時更換前排\n換前排通過找一艘心情不低於10、等級70的白鷹白船驅逐完成，所以盡量保證有足夠多的驅逐。國服則為等級100的白鷹白船驅逐。\n\n換裝備只會更換正在裝備中的欄位，即使是白裝也會更換。如果指定了旗艦，則會更換全部5個裝備，未指定旗艦隻會更換設備。",
+      "disabled": "不更换",
+      "ship": "更換艦船",
+      "ship_equip": "更換艦船 + 裝備"
     },
     "CommonCV": {
       "name": "指定旗艦航母",
@@ -1981,6 +1974,23 @@
       "second": "第二個"
     },
     "ModuleDevelopmentFleet": {
+      "name": "兵裝訓練出擊艦隊",
+      "help": "",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+"EmergencyModuleDevelopment": {
+      "name": "限時兵裝訓練（限時兵裝本）",
+      "help": "",
+      "skip": "不打",
+      "first": "第一個",
+      "second": "第二個"
+    },
+    "EmergencyModuleDevelopmentFleet": {
       "name": "兵裝訓練出擊艦隊",
       "help": "",
       "1": "1",

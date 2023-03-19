@@ -71,6 +71,8 @@ class Config:
         'CV': 1.111,
         'BB': 1.111,
     }
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+    MAP_WALK_USE_CURRENT_FLEET = True
     MAP_SWIPE_MULTIPLY = 1.826
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.765
 

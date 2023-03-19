@@ -50,7 +50,7 @@ class TwOcr(Ocr):
             str:
         """
         # There no letter `艦` in training dataset
-        result = result.replace('鑑', '艦')
+        result = result.replace('鑑', '艦').replace('盤', '艦')
         return result
 
 

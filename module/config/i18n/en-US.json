@@ -292,7 +292,7 @@
     },
     "Serial": {
       "name": "Serial",
-      "help": "Use \"auto\" to auto-detect emulators, but serial must be filled if multiple emulators are running\nDefault serial for select emulators:\n- BlueStacks 127.0.0.1:5555\n- BlueStacks4 Hyper-V use \"bluestacks4-hyperv\", \"bluestacks4-hyperv-2\" for multi instance, and so on\n- BlueStacks5 Hyper-V use \"bluestacks5-hyperv\", \"bluestacks5-hyperv-1\" for multi instance, and so on\n- NoxPlayer 127.0.0.1:62001\n- NoxPlayer64bit 127.0.0.1:59865\n- MuMuPlayer/MuMuPlayer X 127.0.0.1:7555\n- MemuPlayer 127.0.0.1:21503\n- LDPlayer emulator-5554 or 127.0.0.1:5555\n- WSA use \"wsa-0\" to make the game run in the background, which needs to be controlled or closed by third-party software\nIf there are multiple emulator instances running, the default is reserved for one of them and the others will use different serials to avoid conflicts\nOpen console.bat and run `adb devices` to find what they are"
+      "help": "Common emulator Serial can be queried in the list below\nUse \"auto\" to auto-detect emulators, but if multiple emulators are running or use emulators that do not support auto-detect, \"auto\" cannot be used and serial must be filled in manually\nDefault serial for select emulators:\n- BlueStacks 127.0.0.1:5555\n- BlueStacks4 Hyper-V use \"bluestacks4-hyperv\", \"bluestacks4-hyperv-2\" for multi instance, and so on\n- BlueStacks5 Hyper-V use \"bluestacks5-hyperv\", \"bluestacks5-hyperv-1\" for multi instance, and so on\n- NoxPlayer 127.0.0.1:62001\n- NoxPlayer64bit 127.0.0.1:59865\n- MuMuPlayer/MuMuPlayer X 127.0.0.1:7555\n- MemuPlayer 127.0.0.1:21503\n- LDPlayer emulator-5554 or 127.0.0.1:5555\n- WSA use \"wsa-0\" to make the game run in the background, which needs to be controlled or closed by third-party software\nIf there are multiple emulator instances running, the default is reserved for one of them and the others will use different serials to avoid conflicts\nOpen console.bat and run `adb devices` to find them or follow the emulator's official tutorial"
     },
     "PackageName": {
       "name": "Game Server",
@@ -523,8 +523,7 @@
       "name": "Upload API",
       "help": "If CN users cannot connect to AzurStat, recommend to use \"reverse proxy\"",
       "default": "Default (Cloudflare)",
-      "cn_gz_reverse_proxy": "Reverse proxy (Guangzhou, South China)",
-      "cn_sh_reverse_proxy": "Reverse proxy (Shanghai, East China)"
+      "cn_gz_reverse_proxy": "Reverse proxy (Guangzhou, South China)"
     },
     "ResearchRecord": {
       "name": "Research Record",
@@ -663,6 +662,8 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "event_20210422_cn": "Daedalian Hymn Rerun",
+      "event_20210624_cn": "Swirling Cherry Blossoms Rerun",
       "event_20230223_cn": "Revelations of Dust",
       "event_20220224_cn": "Abyssal Refrain",
       "event_20200806_cn": "The Enigma and the Shark Rerun",
@@ -697,7 +698,6 @@
       "event_20220428_cn": "Rondo at Rainbows End",
       "event_20220414_cn": "Aurora Noctis Rerun",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
-      "event_20210422_cn": "Daedalian Hymn",
       "event_20220310_tw": "復刻斯圖爾特的硝煙",
       "event_20200603_cn": "Counterattack Within the Fjord Rerun",
       "event_20220210_cn": "Northern Overture Rerun",
@@ -706,7 +706,6 @@
       "event_20210722_cn": "Azur Anthem",
       "event_20210819_cn": "Microlayer Medley Rerun",
       "event_20200723_cn": "Aurora Noctis",
-      "event_20210624_cn": "Swirling Cherry Blossoms Rerun",
       "event_20210624_tw": "穹頂下的聖詠曲",
       "event_20210527_tw": "微層混合",
       "event_20210429_tw": "復刻墨染的鋼鐵之花",
@@ -724,6 +723,7 @@
       "event_20200423_cn": "Crimson Echoes Rerun",
       "event_20200326_cn": "Microlayer Medley",
       "event_20200227_cn": "Northern Overture",
+      "war_archives_20211028_cn": "archives Skybound Oratorio",
       "war_archives_20210819_cn": "archives Microlayer Medley",
       "war_archives_20200903_cn": "archives Stars of the Shimmering Fjord",
       "war_archives_20201029_cn": "archives Universe in Unison",
@@ -1108,25 +1108,18 @@
       "name": "Commission Farming Settings",
       "help": "Warning: This task allows players to get a small amount of gems, but not an efficient way to farm.\nPlayers who have recently started Azur Lane are easily superstitious about 0LB and low oil consumption, while being ignorant about character leveling.\nRunning this function will only make you feel fulfilled however in reality your account will not actually progress very much.\nThe main purpose of this task is to get extra cubes for players with a formed lineup. Please rationally treat gems as a by-product.\n\nFleet 1 is expected to consist of 1 0LB CV/CVL and 1 0LB Vanguard, Fleet 2 is expected to consist of support ships such as New Jersey or Shinano to provide external battle assistance.\nFor information about the drop mechanism/rate of urgent commissions, you can refer to <https://bbs.nga.cn/read.php?tid=27134956> (in Chinese Simplified)"
     },
-    "FlagshipChange": {
-      "name": "Enable Flagship Change",
-      "help": "Switch out to new common CV/CVL whose level is in range of 1 to 32, after current has reached level 32+.\nMeanwhile, abandoned flagships will be retired. Any common CV/CVL whose level is 2+ will be regarded as targets.\nDo confirm that your own ships which is not a target has been locked"
+    "ChangeFlagship": {
+      "name": "Change Flagship",
+      "help": "Change flagship if flagship level >= 33 or either flagship or vanguard are emotion exhausted (if Change Vanguard is enabled).\nSwitch out to new common CV/CVL whose level is in range of 1 to 32, after current has reached level 32+. Meanwhile, abandoned flagships will be retired. Any common CV/CVL whose level is 2+ will be regarded as targets. Do confirm that your own ships which is not a target has been locked\n\nThe flagship's equipment is replaced when being switched out by first recording the current setup\nOnly populated equipment slots will be replaced. If the CV/CVL preference has been configured, all 5 slots will be populated otherwise only the auxiliary slots will be populated.",
+      "ship": "Change Ship",
+      "ship_equip": "Change Ship + Gears"
     },
-    "FlagshipEquipChange": {
-      "name": "Enable Flagship Equipment Change",
-      "help": "The flagship's equipment is replaced when being switched out by first recording the current setup\nOnly populated equipment slots will be replaced\nIf the CV/CVL preference has been configured, all 5 slots will be populated otherwise only the auxiliary slots will be populated"
-    },
-    "VanguardChange": {
-      "name": "Enable Vanguard Change",
-      "help": "Switch out to new level 100(70) common vanguard after current flagship has reached level 32+\n(Only CN players'0 limit break ship can reach level 100)"
-    },
-    "VanguardEquipChange": {
-      "name": "Enable Vanguard Equipment Change",
-      "help": "The vanguard's equipment is replaced when being switched out by first recording the current setup\nOnly populated equipment slots will be replaced"
-    },
-    "LowEmotionRetreat": {
-      "name": "Enable Low Emotion Retreat",
-      "help": "Retreat when low emotion is detected and switch out both back and front ships at the same time"
+    "ChangeVanguard": {
+      "name": "Change Vanguard",
+      "help": "Change vanguard if flagship or vanguard are emotion exhausted.\nSwitch out to new level 100(70) common vanguard after current flagship has reached level 32+ (Only CN players'0 limit break ship can reach level 100)\n\nThe vanguard's equipment is replaced when being switched out by first recording the current setup. Only populated equipment slots will be replaced.",
+      "disabled": "Don't Change",
+      "ship": "Change Ship",
+      "ship_equip": "Change Ship + Gears"
     },
     "CommonCV": {
       "name": "Flagship Common CV/CVL Preference",
@@ -1745,7 +1738,7 @@
     },
     "BuyAmount": {
       "name": "Buy Amount",
-      "help": "The 1st and 2nd purchase everyday are free\nDiscounts are applied to the 3rd and onwards, gradually minimizing until full price\nExact discounts found at <https://azurlane.koumakan.jp/Research#Strengthening>"
+      "help": "The 1st and 2nd purchase everyday are free\nDiscounts are applied to the 3rd and onwards, gradually minimizing until full price\nExact discounts found at <https://azurlane.koumakan.jp/wiki/Research#Enhancing>"
     },
     "LastRun": {
       "name": "Last Purchase Time",
@@ -1981,7 +1974,24 @@
       "second": "second"
     },
     "ModuleDevelopmentFleet": {
-      "name": "Tactical Training Fleet",
+      "name": "Module Development Fleet",
+      "help": "",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "EmergencyModuleDevelopment": {
+      "name": "Emergency Module Development Preference",
+      "help": "",
+      "skip": "skip",
+      "first": "first",
+      "second": "second"
+    },
+    "EmergencyModuleDevelopmentFleet": {
+      "name": "Emergency Module Development Fleet",
       "help": "",
       "1": "1",
       "2": "2",

@@ -33,8 +33,7 @@ class Ocr:
             name (str):
         """
         self.name = str(buttons) if isinstance(buttons, Button) else name
-        self.buttons = buttons if isinstance(buttons, list) else [buttons]
-        self.buttons = [button.area if isinstance(button, Button) else button for button in self.buttons]
+        self._buttons = buttons
         self.letter = letter
         self.threshold = threshold
         self.alphabet = alphabet
@@ -43,6 +42,17 @@ class Ocr:
     @property
     def cnocr(self) -> "AlOcr":
         return OCR_MODEL.__getattribute__(self.lang)
+
+    @property
+    def buttons(self):
+        buttons = self._buttons
+        buttons = buttons if isinstance(buttons, list) else [buttons]
+        buttons = [button.area if isinstance(button, Button) else button for button in buttons]
+        return buttons
+
+    @buttons.setter
+    def buttons(self, value):
+        self._buttons = value
 
     def pre_process(self, image):
         """

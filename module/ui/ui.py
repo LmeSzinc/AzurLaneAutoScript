@@ -20,10 +20,10 @@ from module.os_handler.assets import (AUTO_SEARCH_REWARD, EXCHANGE_CHECK,
 from module.raid.assets import RAID_FLEET_PREPARATION
 from module.ui.assets import (BACK_ARROW, DORM_FEED_CANCEL, DORM_INFO,
                               DORM_TROPHY_CONFIRM, EVENT_LIST_CHECK, GOTO_MAIN,
-                              MAIN_GOTO_CAMPAIGN, MEOWFFICER_INFO,
-                              MEOWFFICER_GOTO_DORMMENU, META_CHECK,
-                              PLAYER_CHECK, RAID_CHECK, SHIPYARD_CHECK,
-                              SHOP_GOTO_SUPPLY_PACK)
+                              MAIN_GOTO_CAMPAIGN, MAIN_GOTO_REWARD,
+                              MEOWFFICER_INFO, MEOWFFICER_GOTO_DORMMENU,
+                              META_CHECK, PLAYER_CHECK, RAID_CHECK,
+                              SHIPYARD_CHECK, SHOP_GOTO_SUPPLY_PACK)
 from module.ui.page import (Page, page_academy, page_archives,
                             page_battle_pass, page_build, page_campaign,
                             page_campaign_menu, page_commission, page_daily,
@@ -568,6 +568,9 @@ class UI(InfoHandler):
         """
         if button == MEOWFFICER_GOTO_DORMMENU:
             self.interval_reset(GET_SHIP)
+        for switch_button in page_main.links.values():
+            if button == switch_button:
+                self.interval_reset(GET_SHIP)
         if button == MAIN_GOTO_CAMPAIGN:
             self.interval_reset(GET_SHIP)
             # Shinano event has the same title as raid

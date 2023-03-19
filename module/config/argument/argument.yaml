@@ -83,7 +83,7 @@ DropRecord:
   AzurStatsID: null
   API:
     value: default
-    option: [ default, cn_gz_reverse_proxy, cn_sh_reverse_proxy ]
+    option: [ default, cn_gz_reverse_proxy]
   ResearchRecord:
     value: do_not
     option: [ do_not, save, upload, save_and_upload ]
@@ -251,11 +251,12 @@ C124LargeLeveling:
     value: 3
     option: [ 3, 4, 5 ]
 GemsFarming:
-  FlagshipChange: true
-  FlagshipEquipChange: false
-  VanguardChange: false
-  VanguardEquipChange: false
-  LowEmotionRetreat: true
+  ChangeFlagship:
+    value: ship
+    option: [ ship, ship_equip ]
+  ChangeVanguard:
+    value: ship
+    option: [ disabled, ship, ship_equip ]
   CommonCV:
     value: any
     option: [ any, langley, bogue, ranger, hermes ]
@@ -539,25 +540,25 @@ Daily:
     value: first
     option: [ skip, first, second, third ]
   EscortMissionFleet:
-    value: 5
+    value: 1
     option: [ 1, 2, 3, 4, 5, 6 ]
   AdvanceMission:
     value: first
     option: [ skip, first, second, third ]
   AdvanceMissionFleet:
-    value: 5
+    value: 1
     option: [ 1, 2, 3, 4, 5, 6 ]
   FierceAssault:
     value: first
     option: [ skip, first, second, third ]
   FierceAssaultFleet:
-    value: 5
+    value: 1
     option: [ 1, 2, 3, 4, 5, 6 ]
   TacticalTraining:
     value: second
     option: [ skip, first, second, third ]
   TacticalTrainingFleet:
-    value: 5
+    value: 1
     option: [ 1, 2, 3, 4, 5, 6 ]
   SupplyLineDisruption:
     value: second
@@ -566,7 +567,13 @@ Daily:
     value: first
     option: [ skip, first, second ]
   ModuleDevelopmentFleet:
-    value: 5
+    value: 1
+    option: [ 1, 2, 3, 4, 5, 6 ]
+  EmergencyModuleDevelopment:
+    value: first
+    option: [ skip, first, second ]
+  EmergencyModuleDevelopmentFleet:
+    value: 1
     option: [ 1, 2, 3, 4, 5, 6 ]
 Hard:
   HardStage: 11-4

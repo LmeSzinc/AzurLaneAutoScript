@@ -9,7 +9,16 @@ from module.os_handler.enemy_searching import EnemySearchingHandler
 from module.statistics.azurstats import DropImage
 from module.ui.switch import Switch
 
-fleet_lock = Switch('Fleet_Lock', offset=(10, 120))
+
+class FleetLockSwitch(Switch):
+    def handle_additional(self, main):
+        # A game bug that AUTO_SEARCH_REWARD from the last cleared zone popups
+        if main.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
+            return True
+        return False
+
+
+fleet_lock = FleetLockSwitch('Fleet_Lock', offset=(10, 120))
 fleet_lock.add_status('on', check_button=OS_FLEET_LOCKED)
 fleet_lock.add_status('off', check_button=OS_FLEET_UNLOCKED)
 
@@ -160,11 +169,14 @@ class MapEventHandler(EnemySearchingHandler):
             self._os_in_map_confirm_timer.reset()
             return False
 
-    def ensure_no_map_event(self):
+    def ensure_no_map_event(self, skip_first_screenshot=True):
         self._os_in_map_confirm_timer.reset()
 
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
             if self.handle_map_event():
                 continue

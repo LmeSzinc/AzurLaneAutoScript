@@ -279,7 +279,7 @@ class Uiautomator2(Connection):
         raise RequestHumanTakeover
 
     @retry
-    def proc_list_uiautomato2(self) -> t.List[ProcessInfo]:
+    def proc_list_uiautomator2(self) -> t.List[ProcessInfo]:
         """
         Get info about current processes.
         """
@@ -290,7 +290,7 @@ class Uiautomator2(Connection):
                 pid=proc['pid'],
                 ppid=proc['ppid'],
                 thread_count=proc['threadCount'],
-                cmdline=' '.join(proc['cmdline']),
+                cmdline=' '.join(proc['cmdline']) if proc['cmdline'] is not None else '',
                 name=proc['name'],
             ) for proc in resp.json()
         ]

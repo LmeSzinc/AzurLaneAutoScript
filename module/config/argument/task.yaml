@@ -54,9 +54,6 @@ GemsFarming:
   - Campaign
   - StopCondition
   - Fleet
-  - Submarine
-  - Emotion
-  - EnemyPriority
 Sos:
   - Scheduler
   - Sos

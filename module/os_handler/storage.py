@@ -15,14 +15,29 @@ class StorageHandler(GlobeOperation, ZoneManager):
     def is_in_storage(self):
         return self.appear(STORAGE_CHECK, offset=(20, 20))
 
-    def storage_enter(self):
+    def storage_enter(self, skip_first_screenshot=True):
         """
         Pages:
             in: is_in_map, STORAGE_ENTER
             out: STORAGE_CHECK
         """
-        self.ui_click(STORAGE_ENTER, check_button=self.is_in_storage,
-                      retry_wait=3, offset=(200, 5), skip_first_screenshot=True)
+        logger.info('Storage enter')
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.is_in_storage():
+                break
+
+            if self.appear_then_click(STORAGE_ENTER, offset=(200, 5), interval=3):
+                continue
+            # A game bug that AUTO_SEARCH_REWARD from the last cleared zone popups
+            if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
+                continue
+
         self.handle_info_bar()
 
     def storage_quit(self):
@@ -31,6 +46,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
             in: STORAGE_CHECK
             out: is_in_map
         """
+        logger.info('Storage quit')
         self.ui_back(STORAGE_ENTER, offset=(200, 5), skip_first_screenshot=True)
 
     def _storage_item_use(self, button, skip_first_screenshot=True):

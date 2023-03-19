@@ -20,7 +20,7 @@ from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
 from module.os_ash.ash import OSAsh
 from module.os_combat.combat import Combat
-from module.os_handler.assets import CLICK_SAFE_AREA, IN_MAP, PORT_ENTER, PORT_SUPPLY_CHECK
+from module.os_handler.assets import AUTO_SEARCH_REWARD, CLICK_SAFE_AREA, IN_MAP, PORT_ENTER, PORT_SUPPLY_CHECK
 
 FLEET_FILTER = Filter(regex=re.compile(r'fleet-?(\d)'), attr=('fleet',), preset=('callsubmarine',))
 
@@ -341,6 +341,11 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 result.add('akashi')
                 continue
 
+            # A game bug that AUTO_SEARCH_REWARD from the last cleared zone popups
+            if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
+                confirm_timer.reset()
+                continue
+
             # Enemy searching
             if not enemy_searching_appear and self.enemy_searching_appear():
                 enemy_searching_appear = True
@@ -523,6 +528,11 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
     def question_goto(self, has_fleet_step=False):
         logger.hr('Question goto')
         while 1:
+            # A game bug that AUTO_SEARCH_REWARD from the last cleared zone popups
+            if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
+                self.device.screenshot()
+                continue
+
             # Update local view
             # Not screenshots taking, reuse the old one
             self.update_os()
