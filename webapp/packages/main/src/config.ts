@@ -2,8 +2,49 @@ const yaml = require('yaml');
 const fs = require('fs');
 const path = require('path');
 
-// export const alasPath = 'D:/AzurLaneAutoScript';
-export const alasPath = process.cwd();
+function getAlasPath() {
+  const currentFilePath = process.cwd();
+  const pathLookup = [
+    // Current
+    './',
+    // Running from AzurLaneAutoScript/toolkit/WebApp/alas.exe
+    '../../',
+    // Running from AzurLaneAutoScript/webapp/dist/win-unpacked/alas.exe
+    '../../../',
+    // Running from `yarn watch`
+    '../'
+  ];
+  for (let i in pathLookup) {
+    var file = path.join(currentFilePath, pathLookup[i], './config/deploy.yaml');
+    if (fs.existsSync(file)) {
+      return path.join(currentFilePath, pathLookup[i])
+    }
+  }
+  for (let i in pathLookup) {
+    var file = path.join(currentFilePath, pathLookup[i], './config/deploy.template.yaml');
+    if (fs.existsSync(file)) {
+      return path.join(currentFilePath, pathLookup[i])
+    }
+  }
+  return currentFilePath
+}
+
+function getLauncherPath(alasPath: string) {
+  const pathLookup = [
+    './Alas.exe',
+    './Alas.bat',
+    './deploy/launcher/Alas.bat',
+  ];
+  for (let i in pathLookup) {
+    var file = path.join(alasPath, pathLookup[i]);
+    if (fs.existsSync(file)) {
+      return path.join(alasPath, pathLookup[i])
+    }
+  }
+  return path.join(alasPath, './Alas.exe')
+}
+
+export const alasPath = getAlasPath();
 
 const file = fs.readFileSync(path.join(alasPath, './config/deploy.yaml'), 'utf8');
 const config = yaml.parse(file);
