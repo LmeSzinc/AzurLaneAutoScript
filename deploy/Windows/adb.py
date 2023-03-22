@@ -1,7 +1,6 @@
 import logging
 
-from deploy.Windows.config import DeployConfig
-from deploy.Windows.emulator import EmulatorConnect
+from deploy.Windows.emulator import EmulatorManager
 from deploy.Windows.logger import logger
 from deploy.Windows.utils import *
 
@@ -17,26 +16,16 @@ def show_fix_tip(module):
     """)
 
 
-class AdbManager(DeployConfig):
-    @cached_property
-    def adb(self):
-        exe = self.filepath(self.AdbExecutable)
-        if os.path.exists(exe):
-            return exe
-
-        logger.warning(f'AdbExecutable: {exe} does not exists, use `adb` instead')
-        return 'adb'
-
+class AdbManager(EmulatorManager):
     def adb_install(self):
         logger.hr('Start ADB service', 0)
 
-        emulator = EmulatorConnect(adb=self.adb)
         if self.ReplaceAdb:
             logger.hr('Replace ADB', 1)
-            emulator.adb_replace()
+            self.adb_replace()
         elif self.AutoConnect:
             logger.hr('ADB Connect', 1)
-            emulator.brute_force_connect()
+            self.brute_force_connect()
 
         if self.InstallUiautomator2:
             logger.hr('Uiautomator2 Init', 1)

@@ -5,10 +5,10 @@ import typing as t
 import winreg
 from dataclasses import dataclass
 
-import psutil
-
-from module.base.decorator import cached_property
-from module.config.utils import iter_folder
+# module/device/platform/windows_base.py
+# module/device/platform/windows_emulator.py
+# Will be used in Alas Easy Install, they shouldn't import any Alas modules.
+from deploy.Windows.utils import cached_property, iter_folder
 from module.device.platform.emulator_base import EmulatorBase, EmulatorInstanceBase, EmulatorManagerBase
 
 
@@ -295,6 +295,27 @@ class Emulator(EmulatorBase):
                             path=self.path,
                         )
 
+    def iter_adb_binaries(self) -> t.Iterable[str]:
+        """
+        Yields:
+            str: Filepath to adb binaries found in this emulator
+        """
+        if self == Emulator.NoxPlayerFamily:
+            exe = self.abspath('./nox_adb.exe')
+            if os.path.exists(exe):
+                yield exe
+        if self == Emulator.MumuPlayerFamily:
+            # From MuMu9\emulator\nemu9\EmulatorShell
+            # to MuMu9\emulator\nemu9\vmonitor\bin\adb_server.exe
+            exe = self.abspath('../vmonitor/bin/adb_server.exe')
+            if os.path.exists(exe):
+                yield exe
+
+        # All emulators have adb.exe
+        exe = self.abspath('./adb.exe')
+        if os.path.exists(exe):
+            yield exe
+
 
 class EmulatorManager(EmulatorManagerBase):
     @staticmethod
@@ -417,15 +438,6 @@ class EmulatorManager(EmulatorManagerBase):
                         res = re.search('"(.*?)"', uninstall)
                         uninstall = res.group(1) if res else uninstall
                         yield uninstall
-
-    @staticmethod
-    def iter_running_emulator() -> t.Iterable[psutil.Process]:
-        """
-        This may cost some time.
-        """
-        for proc in psutil.process_iter():
-            if Emulator.is_emulator(str(proc.name())):
-                yield proc
 
     @cached_property
     def all_emulators(self) -> t.List[Emulator]:

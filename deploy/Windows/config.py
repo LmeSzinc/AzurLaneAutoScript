@@ -1,4 +1,5 @@
 import copy
+import subprocess
 from typing import Optional, Union
 
 from deploy.Windows.logger import logger
@@ -70,6 +71,7 @@ class DeployConfig(ConfigModel):
         """
         self.file = file
         self.config = {}
+        self.config_template = {}
         self.read()
         if self.Repository == 'https://gitee.com/LmeSzinc/AzurLaneAutoScript':
             self.Repository = 'https://gitee.com/lmeszinc/azur-lane-auto-script-mirror'
@@ -123,6 +125,35 @@ class DeployConfig(ConfigModel):
             .replace('"', '"')
         )
 
+    @cached_property
+    def adb(self) -> str:
+        exe = self.filepath(self.AdbExecutable)
+        if os.path.exists(exe):
+            return exe
+
+        logger.warning(f'AdbExecutable: {exe} does not exists, use `adb` instead')
+        return 'adb'
+
+    @cached_property
+    def git(self) -> str:
+        exe = self.filepath(self.GitExecutable)
+        if os.path.exists(exe):
+            return exe
+
+        logger.warning(f'GitExecutable: {exe} does not exists, use `git` instead')
+        return 'git'
+
+    @cached_property
+    def python(self) -> str:
+        return self.filepath(self.PythonExecutable)
+
+    @cached_property
+    def requirements_file(self) -> str:
+        if self.RequirementsFile == 'requirements.txt':
+            return 'requirements.txt'
+        else:
+            return self.filepath(self.RequirementsFile)
+
     def execute(self, command, allow_failure=False, output=True):
         """
         Args:
@@ -150,6 +181,26 @@ class DeployConfig(ConfigModel):
         else:
             logger.info(f"[ success ]")
             return True
+
+    def subprocess_execute(self, cmd, timeout=10):
+        """
+        Args:
+            cmd (list[str]):
+            timeout:
+
+        Returns:
+            str:
+        """
+        logger.info(' '.join(cmd))
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+        try:
+            stdout, stderr = process.communicate(timeout=timeout)
+            process.kill()
+        except subprocess.TimeoutExpired:
+            process.kill()
+            stdout, stderr = process.communicate()
+            logger.info(f'TimeoutExpired, stdout={stdout}, stderr={stderr}')
+        return stdout.decode()
 
     def show_error(self, command=None):
         logger.hr("Update failed", 0)

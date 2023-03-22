@@ -69,8 +69,16 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         return self.execute(f'taskkill /t /f /im ' + ''.join(process))
 
     @staticmethod
-    def find_running_emulator(instance: EmulatorInstance) -> t.Optional[psutil.Process]:
-        for proc in EmulatorManager.iter_running_emulator():
+    def iter_running_emulator() -> t.Iterable[psutil.Process]:
+        """
+        This may cost some time.
+        """
+        for proc in psutil.process_iter():
+            if Emulator.is_emulator(str(proc.name())):
+                yield proc
+
+    def find_running_emulator(self, instance: EmulatorInstance) -> t.Optional[psutil.Process]:
+        for proc in self.iter_running_emulator():
             cmdline = [arg.replace('\\', '/').replace(r'\\', '/') for arg in proc.cmdline()]
             cmdline = ' '.join(cmdline)
             if instance.path in cmdline and instance.name in cmdline:

@@ -204,6 +204,20 @@ def remove_prefix(s, prefix):
     return s[len(prefix):] if s.startswith(prefix) else s
 
 
+def remove_suffix(s, suffix):
+    """
+    Remove suffix of a string or bytes like `string.removesuffix(suffix)`, which is on Python3.9+
+
+    Args:
+        s (str, bytes):
+        suffix (str, bytes):
+
+    Returns:
+        str, bytes:
+    """
+    return s[:len(suffix)] if s.endswith(suffix) else s
+
+
 def remove_shell_warning(s):
     """
     Remove warnings from shell
