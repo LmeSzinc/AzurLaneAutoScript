@@ -2,7 +2,7 @@ import os
 import re
 
 
-def _patch_trust_env(file):
+def patch_trust_env(file):
     """
     People use proxies, but they never realize that proxy software leaves a
     global proxy pointing to itself even when the software is not running.
@@ -32,6 +32,26 @@ def _patch_trust_env(file):
         print(f'{file} trust_env no need to patch')
 
 
-def patch_trust_env():
-    _patch_trust_env('./toolkit/Lib/site-packages/requests/sessions.py')
-    _patch_trust_env('./toolkit/Lib/site-packages/pip/_vendor/requests/sessions.py')
+def check_running_directory():
+    """
+    An fool-proof mechanism.
+    Show error if user is running Easy Install in compressing software,
+    since Alas can't install in temp directories.
+    """
+    file = __file__.replace(r"\\", "/").replace("\\", "/")
+    # C:/Users/<user>/AppData/Local/Temp/360zip$temp/360$3/AzurLaneAutoScript
+    if 'Temp/360zip' in file:
+        print('请先解压Alas的压缩包，再安装Alas')
+        exit(1)
+    # C:/Users/<user>/AppData/Local/Temp/Rar$EXa9248.23428/AzurLaneAutoScript
+    if 'Temp/Rar' in file or 'Local/Temp' in file:
+        print('Please unzip ALAS installer first')
+        exit(1)
+
+
+def pre_checks():
+    check_running_directory()
+
+    # patch_trust_env
+    patch_trust_env('./toolkit/Lib/site-packages/requests/sessions.py')
+    patch_trust_env('./toolkit/Lib/site-packages/pip/_vendor/requests/sessions.py')

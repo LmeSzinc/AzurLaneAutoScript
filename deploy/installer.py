@@ -1,6 +1,6 @@
-from deploy.Windows.patch import patch_trust_env
+from deploy.Windows.patch import pre_checks
 
-patch_trust_env()
+pre_checks()
 
 from deploy.Windows.adb import AdbManager
 from deploy.Windows.alas import AlasManager
