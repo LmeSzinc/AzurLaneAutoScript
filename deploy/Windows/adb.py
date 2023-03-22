@@ -1,9 +1,9 @@
 import logging
 
-from deploy.config import DeployConfig
-from deploy.emulator import EmulatorConnect
-from deploy.logger import logger
-from deploy.utils import *
+from deploy.Windows.config import DeployConfig
+from deploy.Windows.emulator import EmulatorConnect
+from deploy.Windows.logger import logger
+from deploy.Windows.utils import *
 
 
 def show_fix_tip(module):

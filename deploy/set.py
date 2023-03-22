@@ -1,7 +1,7 @@
 import sys
 import typing as t
 
-from deploy.utils import poor_yaml_read, poor_yaml_write, DEPLOY_TEMPLATE
+from deploy.Windows.utils import poor_yaml_read, poor_yaml_write, DEPLOY_TEMPLATE
 
 """
 Set config/deploy.yaml with commands like

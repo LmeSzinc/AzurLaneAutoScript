@@ -2,7 +2,7 @@ import os
 import typing as t
 from dataclasses import dataclass
 
-from deploy.utils import cached_property, iter_folder
+from deploy.Windows.utils import cached_property, iter_folder
 
 
 def abspath(path):

@@ -1,13 +1,13 @@
-from deploy.patch import patch_trust_env
+from deploy.Windows.patch import patch_trust_env
 
 patch_trust_env()
 
-from deploy.adb import AdbManager
-from deploy.alas import AlasManager
-from deploy.app import AppManager
-from deploy.config import ExecutionError
-from deploy.git import GitManager
-from deploy.pip import PipManager
+from deploy.Windows.adb import AdbManager
+from deploy.Windows.alas import AlasManager
+from deploy.Windows.app import AppManager
+from deploy.Windows.config import ExecutionError
+from deploy.Windows.git import GitManager
+from deploy.Windows.pip import PipManager
 
 
 class Installer(GitManager, PipManager, AdbManager, AppManager, AlasManager):

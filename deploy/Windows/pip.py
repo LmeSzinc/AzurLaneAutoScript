@@ -1,8 +1,8 @@
 from urllib.parse import urlparse
 
-from deploy.config import DeployConfig
-from deploy.logger import logger
-from deploy.utils import *
+from deploy.Windows.config import DeployConfig
+from deploy.Windows.logger import logger
+from deploy.Windows.utils import *
 
 
 class PipManager(DeployConfig):

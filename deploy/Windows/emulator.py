@@ -6,8 +6,8 @@ import shutil
 import subprocess
 import winreg
 
-from deploy.logger import logger
-from deploy.utils import cached_property
+from deploy.Windows.logger import logger
+from deploy.Windows.utils import cached_property
 
 asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 

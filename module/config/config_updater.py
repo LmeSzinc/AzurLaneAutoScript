@@ -3,7 +3,7 @@ from copy import deepcopy
 
 from cached_property import cached_property
 
-from deploy.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
+from deploy.Windows.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
 from module.config.redirect_utils.utils import *
 from module.config.server import to_server, to_package, VALID_PACKAGE, VALID_CHANNEL_PACKAGE, VALID_SERVER_LIST

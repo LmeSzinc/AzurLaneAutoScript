@@ -1,8 +1,8 @@
 import copy
 from typing import Optional, Union
 
-from deploy.logger import logger
-from deploy.utils import *
+from deploy.Windows.logger import logger
+from deploy.Windows.utils import *
 
 
 class ExecutionError(Exception):
@@ -117,7 +117,7 @@ class DeployConfig(ConfigModel):
     @cached_property
     def root_filepath(self):
         return (
-            os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
+            os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
             .replace(r"\\", "/")
             .replace("\\", "/")
             .replace('"', '"')
