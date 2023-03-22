@@ -3,12 +3,19 @@ import filecmp
 import os
 import shutil
 import typing as t
+from dataclasses import dataclass
 
 from deploy.Windows.alas import AlasManager
 from deploy.Windows.logger import logger
 from deploy.Windows.utils import cached_property
 
 asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+
+
+@dataclass
+class DataAdbDevice:
+    serial: str
+    status: str
 
 
 class EmulatorManager(AlasManager):
@@ -36,25 +43,38 @@ class EmulatorManager(AlasManager):
     def adb_devices(self):
         """
         Returns:
-            list[str]: Connected devices in adb
+            list[DataAdbDevice]: Connected devices in adb
         """
+        logger.hr('Adb deivces', level=2)
         result = self.subprocess_execute([self.adb, 'devices'])
         devices = []
         for line in result.replace('\r\r\n', '\n').replace('\r\n', '\n').split('\n'):
             if line.startswith('List') or '\t' not in line:
                 continue
             serial, status = line.split('\t')
-            if status == 'device':
-                devices.append(serial)
-
-        logger.info(f'Devices: {devices}')
+            device = DataAdbDevice(
+                serial=serial,
+                status=status,
+            )
+            devices.append(device)
+            logger.info(device)
         return devices
 
     def brute_force_connect(self):
-        """ Brute-force connect all available emulator instances """
-        self.adb_devices()
+        """
+        Brute-force connect all available emulator instances
+        """
+        devices = self.adb_devices()
 
+        # Disconnect offline devices
+        for device in devices:
+            if device.status == 'offline':
+                self.subprocess_execute([self.adb, 'disconnect', device.serial])
+
+        # Get serial
         list_serial = self.emulator_manager.all_emulator_serials
+
+        logger.hr('Brute force connect', level=2)
 
         async def _connect(serial):
             try:
@@ -100,7 +120,6 @@ class EmulatorManager(AlasManager):
 
     def iter_adb_to_replace(self) -> t.Iterable[str]:
         for adb in self.emulator_manager.all_adb_binaries:
-            print(adb)
             if filecmp.cmp(adb, self.adb, shallow=True):
                 logger.info(f'{adb} is same as {self.adb}, skip')
                 continue
@@ -142,3 +161,9 @@ class EmulatorManager(AlasManager):
             else:
                 logger.info('No backup available, skip')
                 continue
+
+
+if __name__ == '__main__':
+    os.chdir(os.path.join(os.path.dirname(__file__), '../../'))
+    self = EmulatorManager()
+    self.brute_force_connect()
