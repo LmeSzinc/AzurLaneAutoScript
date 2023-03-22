@@ -8,14 +8,14 @@ from deploy.Windows.utils import *
 class PipManager(DeployConfig):
     @cached_property
     def python(self):
-        return self.filepath("PythonExecutable")
+        return self.filepath(self.PythonExecutable)
 
     @cached_property
     def requirements_file(self):
         if self.RequirementsFile == 'requirements.txt':
             return 'requirements.txt'
         else:
-            return self.filepath("RequirementsFile")
+            return self.filepath(self.RequirementsFile)
 
     @cached_property
     def pip(self):

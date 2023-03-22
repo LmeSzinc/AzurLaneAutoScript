@@ -17,7 +17,7 @@ class AlasManager(DeployConfig):
     @cached_property
     def alas_folder(self):
         return [
-            self.filepath("PythonExecutable"),
+            self.filepath(self.PythonExecutable),
             self.root_filepath
         ]
 

@@ -20,7 +20,12 @@ def show_fix_tip(module):
 class AdbManager(DeployConfig):
     @cached_property
     def adb(self):
-        return self.filepath('AdbExecutable')
+        exe = self.filepath(self.AdbExecutable)
+        if os.path.exists(exe):
+            return exe
+
+        logger.warning(f'AdbExecutable: {exe} does not exists, use `adb` instead')
+        return 'adb'
 
     def adb_install(self):
         logger.hr('Start ADB service', 0)

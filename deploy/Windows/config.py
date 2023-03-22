@@ -99,16 +99,16 @@ class DeployConfig(ConfigModel):
     def write(self):
         poor_yaml_write(self.config, self.file)
 
-    def filepath(self, key):
+    def filepath(self, path):
         """
         Args:
-            key (str):
+            path (str):
 
         Returns:
             str: Absolute filepath.
         """
         return (
-            os.path.abspath(os.path.join(self.root_filepath, self.config[key]))
+            os.path.abspath(os.path.join(self.root_filepath, path))
             .replace(r"\\", "/")
             .replace("\\", "/")
             .replace('"', '"')

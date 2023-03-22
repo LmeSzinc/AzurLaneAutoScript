@@ -5,8 +5,13 @@ from deploy.Windows.utils import *
 
 class GitManager(DeployConfig):
     @cached_property
-    def git(self):
-        return self.filepath('GitExecutable')
+    def git(self) -> str:
+        exe = self.filepath(self.GitExecutable)
+        if os.path.exists(exe):
+            return exe
+
+        logger.warning(f'GitExecutable: {exe} does not exists, use `git` instead')
+        return 'git'
 
     @staticmethod
     def remove(file):
