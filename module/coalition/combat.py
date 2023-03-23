@@ -1,0 +1,54 @@
+from module.campaign.campaign_base import CampaignBase
+from module.coalition.ui import CoalitionUI
+from module.exception import CampaignEnd
+from module.handler.assets import AUTO_SEARCH_MENU_EXIT
+from module.logger import logger
+from module.os_ash.assets import BATTLE_STATUS
+
+
+class CoalitionCombat(CoalitionUI, CampaignBase):
+    battle_status_click_interval = 2
+
+    def coalition_combat_re_enter(self, skip_first_screenshot=True):
+        """
+        Pages:
+            in: battle_status
+            out: is_combat_executing
+        """
+        logger.info('Coalition combat re-enter')
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.is_combat_executing():
+                break
+            if self.in_coalition():
+                raise CampaignEnd
+
+            if self.appear_then_click(BATTLE_STATUS, offset=(80, 20), interval=2):
+                # About (+53, +3)
+                continue
+            if self.appear_then_click(AUTO_SEARCH_MENU_EXIT, offset=(20, 20), interval=2):
+                continue
+            if self.handle_battle_status():
+                continue
+
+    def coalition_combat(self):
+        """
+        Pages:
+            in: is_coalition
+            out: is_coalition
+        """
+        self.combat_preparation(emotion_reduce=False)
+
+        try:
+            while 1:
+                logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)
+                self.auto_search_combat_execute(emotion_reduce=True, fleet_index=1)
+                self.coalition_combat_re_enter()
+                self.battle_count += 1
+        except CampaignEnd:
+            logger.info('Coalition combat end.')
