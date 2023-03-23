@@ -15,6 +15,7 @@ from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.assets import (FLEET_PREPARATION, MAP_PREPARATION,
                                MAP_PREPARATION_CANCEL, WITHDRAW)
+from module.meowfficer.assets import MEOWFFICER_BUY
 from module.ocr.ocr import Ocr
 from module.os_handler.assets import (AUTO_SEARCH_REWARD, EXCHANGE_CHECK,
                                       RESET_FLEET_PREPARATION, RESET_TICKET_POPUP)
@@ -518,11 +519,15 @@ class UI(InfoHandler):
         if self.appear_then_click(MEOWFFICER_INFO, offset=(30, 30), interval=3):
             self.interval_reset(GET_SHIP)
             return True
+        if self.appear(MEOWFFICER_BUY, offset=(30, 30), interval=3):
+            logger.info(f'UI additional: {MEOWFFICER_BUY} -> {BACK_ARROW}')
+            self.device.click(BACK_ARROW)
+            return True
 
         # Campaign preparation
         if self.appear(MAP_PREPARATION, offset=(30, 30), interval=3) \
                 or self.appear(FLEET_PREPARATION, offset=(30, 30), interval=3) \
-                or self.appear(RAID_FLEET_PREPARATION, offset=(30, 30), interval=3)\
+                or self.appear(RAID_FLEET_PREPARATION, offset=(30, 30), interval=3) \
                 or self.appear(COALITION_FLEET_PREPARATION, offset=(30, 30), interval=3):
             self.device.click(MAP_PREPARATION_CANCEL)
             return True
