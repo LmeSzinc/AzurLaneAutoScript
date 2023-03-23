@@ -17,6 +17,7 @@ FLEET_SWITCH.add_status('multi', FLEET_SWITCH_MULTI)
 
 class CoalitionUI(Combat):
     def in_coalition(self):
+        # The same as raid
         return self.appear(COALITION_CHECK, offset=(20, 20))
 
     def coalition_ensure_mode(self, mode):
@@ -71,6 +72,24 @@ class CoalitionUI(Combat):
             return FROSTFALL_EX
 
         raise CampaignNameError
+
+    @staticmethod
+    def coalition_get_battles(stage):
+        """
+        Args:
+            stage (str): Stage name.
+
+        Returns:
+            int: Number of battles
+        """
+        if stage == 'tc1':
+            return 1
+        if stage == 'tc2':
+            return 2
+        if stage == 'tc3':
+            return 3
+
+        return 1
 
     def handle_fleet_preparation(self, stage, fleet):
         stage = stage.lower()

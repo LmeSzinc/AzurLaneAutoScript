@@ -2,6 +2,7 @@ import re
 from datetime import datetime
 
 from module.campaign.campaign_status import CampaignStatus
+from module.config.config_updater import EVENTS, RAIDS, COALITIONS, GEMS_FARMINGS, MARITIME_ESCORTS
 from module.config.utils import DEFAULT_TIME
 from module.logger import logger
 from module.ui.assets import CAMPAIGN_MENU_NO_EVENT
@@ -44,18 +45,7 @@ class CampaignEvent(CampaignStatus):
         limit = int(
             re.sub(r'[,.\'"，。]', '', str(self.config.EventGeneral_PtLimit))
         )
-        tasks = [
-            'Event',
-            'Event2',
-            'EventA',
-            'EventB',
-            'EventC',
-            'EventD',
-            'EventSp',
-            'Raid',
-            'RaidDaily',
-            'GemsFarming',
-        ]
+        tasks = EVENTS + RAIDS + COALITIONS + GEMS_FARMINGS
         command = self.config.Scheduler_Command
         if limit <= 0 or command not in tasks:
             return False
@@ -80,19 +70,7 @@ class CampaignEvent(CampaignStatus):
             in: page_event or page_sp
         """
         limit = self.config.EventGeneral_TimeLimit
-        tasks = [
-            'Event',
-            'Event2',
-            'EventA',
-            'EventB',
-            'EventC',
-            'EventD',
-            'EventSp',
-            'GemsFarming',
-            'Raid',
-            'RaidDaily',
-            'MaritimeEscort',
-        ]
+        tasks = EVENTS + RAIDS + COALITIONS + MARITIME_ESCORTS
         command = self.config.Scheduler_Command
         if command not in tasks or limit == DEFAULT_TIME:
             return False
@@ -149,16 +127,7 @@ class CampaignEvent(CampaignStatus):
             # Check event availability
             if self.appear(CAMPAIGN_MENU_NO_EVENT, offset=(20, 20)):
                 logger.info('Event unavailable, disable task')
-                tasks = [
-                    'Event',
-                    'Event2',
-                    'EventA',
-                    'EventB',
-                    'EventC',
-                    'EventD',
-                    'EventSp',
-                    'GemsFarming',
-                ]
+                tasks = EVENTS + GEMS_FARMINGS
                 self._disable_tasks(tasks)
                 self.config.task_stop()
             else:
@@ -176,16 +145,7 @@ class CampaignEvent(CampaignStatus):
             # Check event availability
             if self.appear(CAMPAIGN_MENU_NO_EVENT, offset=(20, 20)):
                 logger.info('Event unavailable, disable task')
-                tasks = [
-                    'Event',
-                    'Event2',
-                    'EventA',
-                    'EventB',
-                    'EventC',
-                    'EventD',
-                    'EventSp',
-                    'GemsFarming',
-                ]
+                tasks = EVENTS + GEMS_FARMINGS
                 self._disable_tasks(tasks)
                 self.config.task_stop()
             else:

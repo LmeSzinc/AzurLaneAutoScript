@@ -23,7 +23,7 @@ class CoalitionCombat(CoalitionUI, CampaignBase):
                 self.device.screenshot()
 
             # End
-            if self.is_combat_executing():
+            if self.is_combat_loading():
                 break
             if self.in_coalition():
                 raise CampaignEnd

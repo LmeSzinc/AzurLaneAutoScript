@@ -33,6 +33,7 @@ GEMS_FARMINGS = ['GemsFarming']
 RAIDS = ['Raid', 'RaidDaily']
 WAR_ARCHIVES = ['WarArchives']
 COALITIONS = ['Coalition', 'CoalitionSp']
+MARITIME_ESCORTS = ['MaritimeEscort']
 
 
 class Event:
