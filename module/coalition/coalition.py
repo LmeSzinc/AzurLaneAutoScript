@@ -6,7 +6,6 @@ from module.coalition.combat import CoalitionCombat
 from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import Digit
-from module.ui.page import page_raid
 
 OCR_PT = Digit(FROSTFALL_OCR_PT, name='OCR_PT', letter=(198, 158, 82), threshold=128)
 
@@ -111,7 +110,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
                 logger.info(f'Count: {self.run_count}')
 
             # UI switches
-            self.ui_ensure(page_raid)
+            self.ui_goto_coalition()
             self.coalition_ensure_mode('battle')
 
             # End
