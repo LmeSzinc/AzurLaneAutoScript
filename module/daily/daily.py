@@ -103,7 +103,7 @@ class Daily(Combat, DailyEquipment):
             fleets = [
                 0,
                 self.config.Daily_TacticalTrainingFleet,
-                self.config.Daily_FierceAssault,
+                self.config.Daily_FierceAssaultFleet,
                 0,  # Supply Line Disruption, which needs to be done manually or to be done by daily skip
                 self.config.Daily_ModuleDevelopmentFleet,
                 0,  # Empty
