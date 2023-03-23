@@ -69,6 +69,18 @@ Sos:
 EventGeneral:
   - EventGeneral
   - TaskBalancer
+Coalition:
+  - Scheduler
+  - Campaign
+  - Coalition
+  - StopCondition
+  - Emotion
+CoalitionSp:
+  - Scheduler
+  - Campaign
+  - Coalition
+  - StopCondition
+  - Emotion
 Event:
   - Scheduler
   - Campaign
