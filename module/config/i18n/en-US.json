@@ -1219,8 +1219,8 @@
     "Fleet": {
       "name": "Fleet",
       "help": "",
-      "single": "Single Fleet",
-      "multi": "Multiple Fleets"
+      "single": "Solo Challenge",
+      "multi": "Coalition Battle"
     }
   },
   "Commission": {
