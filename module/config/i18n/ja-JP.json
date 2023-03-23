@@ -16,6 +16,10 @@
       "name": "イベント",
       "help": ""
     },
+    "EventDaily": {
+      "name": "Menu.EventDaily.name",
+      "help": "Menu.EventDaily.help"
+    },
     "Reward": {
       "name": "収穫",
       "help": ""
@@ -70,6 +74,10 @@
       "name": "イベント共通設定",
       "help": ""
     },
+    "Coalition": {
+      "name": "Task.Coalition.name",
+      "help": "Task.Coalition.help"
+    },
     "Event": {
       "name": "イベント海域",
       "help": ""
@@ -77,6 +85,22 @@
     "Event2": {
       "name": "イベント海域-2",
       "help": ""
+    },
+    "Raid": {
+      "name": "Raid",
+      "help": ""
+    },
+    "MaritimeEscort": {
+      "name": "Maritime Escort",
+      "help": ""
+    },
+    "WarArchives": {
+      "name": "作戦履歴",
+      "help": ""
+    },
+    "CoalitionSp": {
+      "name": "Task.CoalitionSp.name",
+      "help": "Task.CoalitionSp.help"
     },
     "EventA": {
       "name": "毎日イベント海域A",
@@ -98,20 +122,8 @@
       "name": "毎日イベント海域SP",
       "help": ""
     },
-    "WarArchives": {
-      "name": "作戦履歴",
-      "help": ""
-    },
-    "Raid": {
-      "name": "Raid",
-      "help": ""
-    },
     "RaidDaily": {
       "name": "Raid Daily",
-      "help": ""
-    },
-    "MaritimeEscort": {
-      "name": "Maritime Escort",
       "help": ""
     },
     "Commission": {
@@ -638,6 +650,7 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "coalition_20230323": "星霜海嵐",
       "raid_20220630": "アイリスの天使",
       "event_20210422_cn": "讃える復興の迷路（復刻）",
       "event_20210624_cn": "翳りし満ちる影の華(復刻)",
@@ -1196,6 +1209,18 @@
     "Enable": {
       "name": "MaritimeEscort.Enable.name",
       "help": "MaritimeEscort.Enable.help"
+    }
+  },
+  "Coalition": {
+    "_info": {
+      "name": "Coalition._info.name",
+      "help": "Coalition._info.help"
+    },
+    "Fleet": {
+      "name": "Coalition.Fleet.name",
+      "help": "Coalition.Fleet.help",
+      "single": "single",
+      "multi": "multi"
     }
   },
   "Commission": {

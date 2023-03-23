@@ -16,6 +16,10 @@
       "name": "活动",
       "help": ""
     },
+    "EventDaily": {
+      "name": "活动每日",
+      "help": ""
+    },
     "Reward": {
       "name": "收获",
       "help": ""
@@ -70,12 +74,32 @@
       "name": "活动通用设置",
       "help": ""
     },
+    "Coalition": {
+      "name": "极地风暴",
+      "help": ""
+    },
     "Event": {
       "name": "活动图",
       "help": ""
     },
     "Event2": {
       "name": "活动图-2",
+      "help": ""
+    },
+    "Raid": {
+      "name": "共斗活动",
+      "help": ""
+    },
+    "MaritimeEscort": {
+      "name": "商船护航",
+      "help": ""
+    },
+    "WarArchives": {
+      "name": "作战档案",
+      "help": "由于作战档案缺少维护，开荒功能不一定能正常使用，如果发现Alas运行异常，请手动完成开荒后使用自律寻敌功能"
+    },
+    "CoalitionSp": {
+      "name": "极地风暴每日SP",
       "help": ""
     },
     "EventA": {
@@ -98,20 +122,8 @@
       "name": "活动每日SP图",
       "help": ""
     },
-    "WarArchives": {
-      "name": "作战档案",
-      "help": "由于作战档案缺少维护，开荒功能不一定能正常使用，如果发现Alas运行异常，请手动完成开荒后使用自律寻敌功能"
-    },
-    "Raid": {
-      "name": "共斗活动",
-      "help": ""
-    },
     "RaidDaily": {
       "name": "共斗活动每日",
-      "help": ""
-    },
-    "MaritimeEscort": {
-      "name": "商船护航",
       "help": ""
     },
     "Commission": {
@@ -638,6 +650,7 @@
       "name": "活动名称",
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
+      "coalition_20230323": "极地风暴",
       "raid_20220630": "来自鸢尾的天使",
       "event_20210422_cn": "复刻复兴的赞美诗",
       "event_20210624_cn": "复刻浮樱影华",
@@ -1196,6 +1209,18 @@
     "Enable": {
       "name": "启用商船护航",
       "help": ""
+    }
+  },
+  "Coalition": {
+    "_info": {
+      "name": "活动设置",
+      "help": "出击前必须在游戏内手动配队"
+    },
+    "Fleet": {
+      "name": "出击队伍",
+      "help": "",
+      "single": "单队连战",
+      "multi": "多队出击"
     }
   },
   "Commission": {

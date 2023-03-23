@@ -137,3 +137,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20230309 | event 20210624 cn | Swirling Cherry Blossoms | - | - | - | 復刻-浮櫻影華 |
 | 20230309 | event 20210422 cn | Daedalian Hymn | 复刻复兴的赞美诗 | Daedalian Hymn Rerun | 讃える復興の迷路（復刻） | - |
 | 20230323 | raid 20220630 | Angel of Iris | - | - | - | 來自鳶尾的天使 |
+| 20230323 | coalition 20230323 | Frostfall | 极地风暴 | Frostfall | 星霜海嵐 | - |

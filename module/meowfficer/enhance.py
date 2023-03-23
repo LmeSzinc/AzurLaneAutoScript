@@ -291,9 +291,7 @@ class MeowfficerEnhance(MeowfficerBase):
         donate XP into a meowfficer target
 
         Returns:
-            bool: If success. False if failed,
-                probably because the meowfficer
-                to enhance has reached LV.30
+            str:
 
         Pages:
             in: page_meowfficer
@@ -308,13 +306,13 @@ class MeowfficerEnhance(MeowfficerBase):
         if not (1 <= self.config.MeowfficerTrain_EnhanceIndex <= 12):
             logger.warning(f'Meowfficer_EnhanceIndex={self.config.MeowfficerTrain_EnhanceIndex} '
                            f'is out of bounds. Please limit to 1~12, skip')
-            return
+            return 'invalid'
 
         coins = MEOWFFICER_COINS.ocr(self.device.image)
         if coins < 1000:
             logger.info(f'Coins ({coins}) < 1000. Not enough coins to complete '
                         f'enhancement, skip')
-            return
+            return 'coin_limit'
 
         for _ in range(2):
             # Select target meowfficer
@@ -323,7 +321,7 @@ class MeowfficerEnhance(MeowfficerBase):
 
             if self._meow_get_level() >= 30:
                 logger.info('Current meowfficer is already leveled max')
-                return
+                return 'leveled_max'
 
             # Transition to MEOWFFICER_FEED after
             # selection; broken up due to significant
@@ -350,7 +348,7 @@ class MeowfficerEnhance(MeowfficerBase):
                 # Re-enter page_meowfficer
                 self.ui_goto_main()
                 self.ui_goto(page_meowfficer)
-                return False
+                return 'in_battle'
             if not self.meow_feed_select():
                 break
             self.meow_enhance_confirm()
@@ -364,7 +362,7 @@ class MeowfficerEnhance(MeowfficerBase):
         # Exit back into page_meowfficer
         self.ui_click(MEOWFFICER_GOTO_DORMMENU, check_button=MEOWFFICER_ENHANCE_ENTER,
                       appear_button=MEOWFFICER_ENHANCE_CONFIRM, offset=None, skip_first_screenshot=True)
-        return True
+        return 'success'
 
     def meow_enhance(self):
         """
@@ -373,9 +371,11 @@ class MeowfficerEnhance(MeowfficerBase):
         increase if it reached LV.30
         """
         while 1:
-            if self._meow_enhance():
+            result = self._meow_enhance()
+            if result not in ['leveled_max']:
                 break
 
+            # Only for 'leveled_max'
             if self.config.MeowfficerTrain_EnhanceIndex < 12:
                 self.config.MeowfficerTrain_EnhanceIndex += 1
                 logger.info(f'Increase MeowfficerTrain_EnhanceIndex to {self.config.MeowfficerTrain_EnhanceIndex}')

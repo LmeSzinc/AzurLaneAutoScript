@@ -139,6 +139,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         if (
             func.startswith("Event")
             or func.startswith("Raid")
+            or func.startswith("Coalition")
             or func in ["MaritimeEscort", "GemsFarming"]
         ):
             func_set.add("EventGeneral")
