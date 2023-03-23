@@ -16,6 +16,10 @@
       "name": "イベント",
       "help": ""
     },
+    "EventDaily": {
+      "name": "Menu.EventDaily.name",
+      "help": "Menu.EventDaily.help"
+    },
     "Reward": {
       "name": "収穫",
       "help": ""
@@ -74,10 +78,6 @@
       "name": "Task.Coalition.name",
       "help": "Task.Coalition.help"
     },
-    "CoalitionSp": {
-      "name": "Task.CoalitionSp.name",
-      "help": "Task.CoalitionSp.help"
-    },
     "Event": {
       "name": "イベント海域",
       "help": ""
@@ -85,6 +85,22 @@
     "Event2": {
       "name": "イベント海域-2",
       "help": ""
+    },
+    "Raid": {
+      "name": "Raid",
+      "help": ""
+    },
+    "MaritimeEscort": {
+      "name": "Maritime Escort",
+      "help": ""
+    },
+    "WarArchives": {
+      "name": "作戦履歴",
+      "help": ""
+    },
+    "CoalitionSp": {
+      "name": "Task.CoalitionSp.name",
+      "help": "Task.CoalitionSp.help"
     },
     "EventA": {
       "name": "毎日イベント海域A",
@@ -106,20 +122,8 @@
       "name": "毎日イベント海域SP",
       "help": ""
     },
-    "WarArchives": {
-      "name": "作戦履歴",
-      "help": ""
-    },
-    "Raid": {
-      "name": "Raid",
-      "help": ""
-    },
     "RaidDaily": {
       "name": "Raid Daily",
-      "help": ""
-    },
-    "MaritimeEscort": {
-      "name": "Maritime Escort",
       "help": ""
     },
     "Commission": {

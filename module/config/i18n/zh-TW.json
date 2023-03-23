@@ -16,6 +16,10 @@
       "name": "活動",
       "help": ""
     },
+    "EventDaily": {
+      "name": "活動每日",
+      "help": ""
+    },
     "Reward": {
       "name": "收穫",
       "help": ""
@@ -74,16 +78,28 @@
       "name": "極地風暴",
       "help": ""
     },
-    "CoalitionSp": {
-      "name": "極地風暴每日SP",
-      "help": ""
-    },
     "Event": {
       "name": "活動圖",
       "help": ""
     },
     "Event2": {
       "name": "活動圖-2",
+      "help": ""
+    },
+    "Raid": {
+      "name": "共鬥活動",
+      "help": ""
+    },
+    "MaritimeEscort": {
+      "name": "商船護航",
+      "help": ""
+    },
+    "WarArchives": {
+      "name": "作戰檔案",
+      "help": "由於作戰檔案缺少維護，開荒功能不一定能正常使用，如果發現Alas運行异常，請手動完成開荒後使用自律尋敵功能"
+    },
+    "CoalitionSp": {
+      "name": "極地風暴每日SP",
       "help": ""
     },
     "EventA": {
@@ -106,20 +122,8 @@
       "name": "活動每日SP圖",
       "help": ""
     },
-    "WarArchives": {
-      "name": "作戰檔案",
-      "help": "由於作戰檔案缺少維護，開荒功能不一定能正常使用，如果發現Alas運行异常，請手動完成開荒後使用自律尋敵功能"
-    },
-    "Raid": {
-      "name": "共鬥活動",
-      "help": ""
-    },
     "RaidDaily": {
       "name": "共鬥活動每日",
-      "help": ""
-    },
-    "MaritimeEscort": {
-      "name": "商船護航",
       "help": ""
     },
     "Commission": {

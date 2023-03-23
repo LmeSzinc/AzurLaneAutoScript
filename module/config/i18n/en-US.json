@@ -16,6 +16,10 @@
       "name": "Event",
       "help": ""
     },
+    "EventDaily": {
+      "name": "Event Daily",
+      "help": ""
+    },
     "Reward": {
       "name": "Reward",
       "help": ""
@@ -74,16 +78,28 @@
       "name": "Frostfall",
       "help": ""
     },
-    "CoalitionSp": {
-      "name": "Frostfall Daily SP",
-      "help": ""
-    },
     "Event": {
       "name": "Event",
       "help": ""
     },
     "Event2": {
       "name": "Event-2",
+      "help": ""
+    },
+    "Raid": {
+      "name": "Raid",
+      "help": ""
+    },
+    "MaritimeEscort": {
+      "name": "Maritime Escort",
+      "help": ""
+    },
+    "WarArchives": {
+      "name": "War Archives",
+      "help": "Due to the lack of maintenance of war archives, continuous clear may not work normally, if Alas runs abnormally, Please manually finish clearing and use auto search"
+    },
+    "CoalitionSp": {
+      "name": "Frostfall Daily SP",
       "help": ""
     },
     "EventA": {
@@ -106,20 +122,8 @@
       "name": "Event Daily SP",
       "help": ""
     },
-    "WarArchives": {
-      "name": "War Archives",
-      "help": "Due to the lack of maintenance of war archives, continuous clear may not work normally, if Alas runs abnormally, Please manually finish clearing and use auto search"
-    },
-    "Raid": {
-      "name": "Raid",
-      "help": ""
-    },
     "RaidDaily": {
       "name": "Raid Daily",
-      "help": ""
-    },
-    "MaritimeEscort": {
-      "name": "Maritime Escort",
       "help": ""
     },
     "Commission": {
