@@ -1,6 +1,7 @@
 from module.base.button import Button
 from module.base.decorator import run_once
 from module.base.timer import Timer
+from module.coalition.assets import FLEET_PREPARATION as COALITION_FLEET_PREPARATION
 from module.combat.assets import GET_ITEMS_1, GET_SHIP
 from module.exception import (GameNotRunningError, GamePageUnknownError,
                               RequestHumanTakeover)
@@ -20,8 +21,7 @@ from module.os_handler.assets import (AUTO_SEARCH_REWARD, EXCHANGE_CHECK,
 from module.raid.assets import RAID_FLEET_PREPARATION
 from module.ui.assets import (BACK_ARROW, DORM_FEED_CANCEL, DORM_INFO,
                               DORM_TROPHY_CONFIRM, EVENT_LIST_CHECK, GOTO_MAIN,
-                              MAIN_GOTO_CAMPAIGN, MAIN_GOTO_REWARD,
-                              MEOWFFICER_INFO, MEOWFFICER_GOTO_DORMMENU,
+                              MAIN_GOTO_CAMPAIGN, MEOWFFICER_INFO, MEOWFFICER_GOTO_DORMMENU,
                               META_CHECK, PLAYER_CHECK, RAID_CHECK,
                               SHIPYARD_CHECK, SHOP_GOTO_SUPPLY_PACK)
 from module.ui.page import (Page, page_academy, page_archives,
@@ -522,7 +522,8 @@ class UI(InfoHandler):
         # Campaign preparation
         if self.appear(MAP_PREPARATION, offset=(30, 30), interval=3) \
                 or self.appear(FLEET_PREPARATION, offset=(30, 30), interval=3) \
-                or self.appear(RAID_FLEET_PREPARATION, offset=(30, 30), interval=3):
+                or self.appear(RAID_FLEET_PREPARATION, offset=(30, 30), interval=3)\
+                or self.appear(COALITION_FLEET_PREPARATION, offset=(30, 30), interval=3):
             self.device.click(MAP_PREPARATION_CANCEL)
             return True
         if self.appear_then_click(AUTO_SEARCH_MENU_EXIT, offset=(200, 30), interval=3):
