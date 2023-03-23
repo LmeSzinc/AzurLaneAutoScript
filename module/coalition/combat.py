@@ -1,3 +1,4 @@
+from module.base.timer import Timer
 from module.campaign.campaign_base import CampaignBase
 from module.coalition.ui import CoalitionUI
 from module.exception import CampaignEnd
@@ -16,6 +17,9 @@ class CoalitionCombat(CoalitionUI, CampaignBase):
             out: is_combat_executing
         """
         logger.info('Coalition combat re-enter')
+        status_clicked = False
+        click_timer = Timer(0.3)
+        click_last = Timer(2)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -34,7 +38,14 @@ class CoalitionCombat(CoalitionUI, CampaignBase):
             if self.appear_then_click(AUTO_SEARCH_MENU_EXIT, offset=(20, 20), interval=2):
                 continue
             if self.handle_battle_status():
+                status_clicked = True
+                click_last.start()
                 continue
+            # Keep clicking BATTLE_STATUS to skip animations
+            if status_clicked:
+                if click_timer.reached() and not click_last.reached():
+                    self.device.click(BATTLE_STATUS)
+                    click_timer.reset()
 
     def coalition_combat(self):
         """
