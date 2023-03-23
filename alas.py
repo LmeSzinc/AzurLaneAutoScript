@@ -361,6 +361,10 @@ class AzurLaneAutoScript:
         from module.coalition.coalition import Coalition
         Coalition(config=self.config, device=self.device).run()
 
+    def coalition_sp(self):
+        from module.coalition.coalition_sp import CoalitionSP
+        CoalitionSP(config=self.config, device=self.device).run()
+
     def c72_mystery_farming(self):
         from module.campaign.run import CampaignRun
         CampaignRun(config=self.config, device=self.device).run(

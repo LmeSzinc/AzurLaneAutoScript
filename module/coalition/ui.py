@@ -95,7 +95,7 @@ class CoalitionUI(Combat):
         stage = stage.lower()
 
         # No fleet switch in TC1
-        if stage == 'tc1':
+        if stage in ['tc1', 'sp']:
             return False
 
         self.coalition_ensure_fleet(fleet)

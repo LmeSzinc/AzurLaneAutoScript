@@ -66,8 +66,13 @@ class Coalition(CoalitionCombat, CampaignEvent):
         self.config.override(
             Campaign_Name=f'{event}_{stage}',
             Campaign_UseAutoSearch=False,
-            Fleet_FleetOrder='fleet1_all_fleet2_standby'
+            Fleet_FleetOrder='fleet1_all_fleet2_standby',
         )
+        if stage == 'sp':
+            # Multiple fleets are required in SP
+            self.config.override(
+                Coalition_Fleet='multi',
+            )
         self.emotion.check_reduce(battle=self.coalition_get_battles(stage))
 
         self.enter_map(stage=stage, fleet=fleet)
