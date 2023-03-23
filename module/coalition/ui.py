@@ -4,6 +4,7 @@ from module.combat.assets import BATTLE_PREPARATION
 from module.combat.combat import Combat
 from module.exception import CampaignNameError, RequestHumanTakeover
 from module.logger import logger
+from module.ui.assets import COALITION_CHECK
 from module.ui.switch import Switch
 
 MODE_SWITCH = Switch('CoalitionMode', offset=(20, 20))

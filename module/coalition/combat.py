@@ -42,6 +42,7 @@ class CoalitionCombat(CoalitionUI, CampaignBase):
             in: is_coalition
             out: is_coalition
         """
+        self.battle_count = 0
         self.combat_preparation(emotion_reduce=False)
 
         try:
