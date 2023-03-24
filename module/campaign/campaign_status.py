@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 
 from module.base.timer import Timer
-from module.campaign.assets import OCR_EVENT_PT, OCR_COIN, OCR_OIL, OCR_GEM, OCR_COIN_LIMIT, OCR_OIL_LIMIT
+from module.campaign.assets import OCR_EVENT_PT, OCR_COIN, OCR_OIL, OCR_COIN_LIMIT, OCR_OIL_LIMIT, OCR_OIL_CHECK
 from module.logger import logger
 from module.ocr.ocr import Ocr, Digit
 from module.ui.ui import UI
@@ -120,6 +120,10 @@ class CampaignStatus(UI):
                 logger.warning('Get oil timeout')
                 break
 
+            if not self.appear(OCR_OIL_CHECK, offset=(10, 2)):
+                logger.info('No oil icon')
+                continue
+
             _oil = {
                 'Value': OCR_OIL.ocr(self.device.image),
                 'Limit': OCR_OIL_LIMIT.ocr(self.device.image)
@@ -140,6 +144,9 @@ class CampaignStatus(UI):
         tasks = [
             'Event',
             'Event2',
+            'Event3',
+            'coalition',
+            'coalition_sp',
             'Raid',
             'GemsFarming',
         ]
