@@ -152,7 +152,10 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
 
         @run_once
         def check_coin():
-            self.handle_task_balancer()
+            if self.config.TaskBalancer_Enable and self.triggered_task_balancer():
+                logger.hr('Triggered stop condition: Coin limit')
+                self.handle_task_balancer()
+                return True
 
         while 1:
             if skip_first_screenshot:

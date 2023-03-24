@@ -16,6 +16,10 @@
       "name": "イベント",
       "help": ""
     },
+    "EventDaily": {
+      "name": "Menu.EventDaily.name",
+      "help": "Menu.EventDaily.help"
+    },
     "Reward": {
       "name": "収穫",
       "help": ""
@@ -70,6 +74,10 @@
       "name": "イベント共通設定",
       "help": ""
     },
+    "Coalition": {
+      "name": "Task.Coalition.name",
+      "help": "Task.Coalition.help"
+    },
     "Event": {
       "name": "イベント海域",
       "help": ""
@@ -77,6 +85,22 @@
     "Event2": {
       "name": "イベント海域-2",
       "help": ""
+    },
+    "Raid": {
+      "name": "Raid",
+      "help": ""
+    },
+    "MaritimeEscort": {
+      "name": "Maritime Escort",
+      "help": ""
+    },
+    "WarArchives": {
+      "name": "作戦履歴",
+      "help": ""
+    },
+    "CoalitionSp": {
+      "name": "Task.CoalitionSp.name",
+      "help": "Task.CoalitionSp.help"
     },
     "EventA": {
       "name": "毎日イベント海域A",
@@ -98,20 +122,8 @@
       "name": "毎日イベント海域SP",
       "help": ""
     },
-    "WarArchives": {
-      "name": "作戦履歴",
-      "help": ""
-    },
-    "Raid": {
-      "name": "Raid",
-      "help": ""
-    },
     "RaidDaily": {
       "name": "Raid Daily",
-      "help": ""
-    },
-    "MaritimeEscort": {
-      "name": "Maritime Escort",
       "help": ""
     },
     "Commission": {
@@ -866,6 +878,8 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "coalition_20230323": "星霜海嵐",
+      "raid_20220630": "アイリスの天使",
       "event_20210422_cn": "讃える復興の迷路（復刻）",
       "event_20210624_cn": "翳りし満ちる影の華(復刻)",
       "event_20230223_cn": "黙示の遺構",
@@ -892,7 +906,6 @@
       "event_20220728_cn": "鋼鷲の冒険譚",
       "event_20200917_cn": "刹那觀る胡蝶の夢（復刻）",
       "event_20201029_cn": "激唱のユニバース",
-      "raid_20220630": "アイリスの天使",
       "raid_20210708": "交錯する新たな波 (復刻)",
       "event_20200820_cn": "黒鉄の楽章 誓いの海（復刻）",
       "event_20201012_cn": "奔る彩帆の青（復刻）",
@@ -1424,6 +1437,18 @@
     "Enable": {
       "name": "MaritimeEscort.Enable.name",
       "help": "MaritimeEscort.Enable.help"
+    }
+  },
+  "Coalition": {
+    "_info": {
+      "name": "Coalition._info.name",
+      "help": "Coalition._info.help"
+    },
+    "Fleet": {
+      "name": "Coalition.Fleet.name",
+      "help": "Coalition.Fleet.help",
+      "single": "single",
+      "multi": "multi"
     }
   },
   "Commission": {
