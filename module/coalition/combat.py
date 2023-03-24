@@ -59,7 +59,10 @@ class CoalitionCombat(CoalitionUI, CampaignBase):
         try:
             while 1:
                 logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)
-                self.auto_search_combat_execute(emotion_reduce=True, fleet_index=1)
+                self.auto_search_combat_execute(
+                    emotion_reduce=self.battle_count==0 or self.config.Coalition_Fleet=='single',
+                    fleet_index=1
+                )
                 self.coalition_combat_re_enter()
                 self.battle_count += 1
         except CampaignEnd:
