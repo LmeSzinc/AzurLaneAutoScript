@@ -86,6 +86,10 @@
       "name": "活动图-2",
       "help": ""
     },
+    "Event3": {
+      "name": "活动图-3",
+      "help": ""
+    },
     "Raid": {
       "name": "共斗活动",
       "help": ""
@@ -100,10 +104,6 @@
     },
     "CoalitionSp": {
       "name": "极地风暴每日SP",
-      "help": ""
-    },
-    "Event3": {
-      "name": "活动图-3",
       "help": ""
     },
     "EventA": {

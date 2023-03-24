@@ -14,18 +14,22 @@
     ],
     "Event": [
       "EventGeneral",
+      "Coalition",
       "Event",
       "Event2",
       "Event3",
+      "Raid",
+      "MaritimeEscort",
+      "WarArchives"
+    ],
+    "EventDaily": [
+      "CoalitionSp",
       "EventA",
       "EventB",
       "EventC",
       "EventD",
       "EventSp",
-      "WarArchives",
-      "Raid",
-      "RaidDaily",
-      "MaritimeEscort"
+      "RaidDaily"
     ],
     "Reward": [
       "Commission",

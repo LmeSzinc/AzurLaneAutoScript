@@ -226,7 +226,9 @@ class GGHandler:
         ]
         _group_raid = [
             'raid',
-            'raid_daily'
+            'raid_daily',
+            'coalition',
+            'coalition_sp'
         ]
         _group_personal_choice = [
             'guild'
