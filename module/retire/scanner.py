@@ -242,7 +242,7 @@ class StatusScanner(Scanner):
 
     def _match(self, image) -> str:
         for template, status in self.templates.items():
-            if template.match(image):
+            if template.match(image, similarity=0.75):
                 return status
 
         return 'free'

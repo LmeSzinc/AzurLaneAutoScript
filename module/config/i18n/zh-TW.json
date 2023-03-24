@@ -16,6 +16,10 @@
       "name": "活動",
       "help": ""
     },
+    "EventDaily": {
+      "name": "活動每日",
+      "help": ""
+    },
     "Reward": {
       "name": "收穫",
       "help": ""
@@ -70,12 +74,32 @@
       "name": "活動通用",
       "help": ""
     },
+    "Coalition": {
+      "name": "極地風暴",
+      "help": ""
+    },
     "Event": {
       "name": "活動圖",
       "help": ""
     },
     "Event2": {
       "name": "活動圖-2",
+      "help": ""
+    },
+    "Raid": {
+      "name": "共鬥活動",
+      "help": ""
+    },
+    "MaritimeEscort": {
+      "name": "商船護航",
+      "help": ""
+    },
+    "WarArchives": {
+      "name": "作戰檔案",
+      "help": "由於作戰檔案缺少維護，開荒功能不一定能正常使用，如果發現Alas運行异常，請手動完成開荒後使用自律尋敵功能"
+    },
+    "CoalitionSp": {
+      "name": "極地風暴每日SP",
       "help": ""
     },
     "Event3": {
@@ -102,20 +126,8 @@
       "name": "活動每日SP圖",
       "help": ""
     },
-    "WarArchives": {
-      "name": "作戰檔案",
-      "help": "由於作戰檔案缺少維護，開荒功能不一定能正常使用，如果發現Alas運行异常，請手動完成開荒後使用自律尋敵功能"
-    },
-    "Raid": {
-      "name": "共鬥活動",
-      "help": ""
-    },
     "RaidDaily": {
       "name": "共鬥活動每日",
-      "help": ""
-    },
-    "MaritimeEscort": {
-      "name": "商船護航",
       "help": ""
     },
     "Commission": {
@@ -642,6 +654,8 @@
       "name": "活動名稱",
       "help": "自動選擇至最新的活動圖",
       "campaign_main": "主線圖",
+      "coalition_20230323": "Frostfall",
+      "raid_20220630": "來自鳶尾的天使",
       "event_20210422_cn": "復興的讚美詩",
       "event_20210624_cn": "復刻-浮櫻影華",
       "event_20230223_cn": "Revelations of Dust",
@@ -668,7 +682,6 @@
       "event_20220728_cn": "Aquilifers Ballade",
       "event_20200917_cn": "蝶海夢花",
       "event_20201029_cn": "激唱的UNIVERSE",
-      "raid_20220630": "Angel of Iris",
       "raid_20210708": "復刻穿越彼方的水線",
       "event_20200820_cn": "復刻鐵血音符誓言",
       "event_20201012_cn": "劃破海空之翼",
@@ -1215,6 +1228,18 @@
     "Enable": {
       "name": "啟用商船護航",
       "help": ""
+    }
+  },
+  "Coalition": {
+    "_info": {
+      "name": "活動設置",
+      "help": "出擊前必須在遊戲內手動配隊"
+    },
+    "Fleet": {
+      "name": "出擊隊伍",
+      "help": "",
+      "single": "單隊連戰",
+      "multi": "多隊出擊"
     }
   },
   "Commission": {
@@ -1978,7 +2003,7 @@
       "5": "5",
       "6": "6"
     },
-"EmergencyModuleDevelopment": {
+    "EmergencyModuleDevelopment": {
       "name": "限時兵裝訓練（限時兵裝本）",
       "help": "",
       "skip": "不打",

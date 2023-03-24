@@ -493,15 +493,15 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
             logger.info(f'Research queue full filled, queue added: {total}')
             return total
 
-    def receive_6th_research(self):
+    def receive_6th_research(self, skip_first_screenshot=True):
         """
         Returns:
             bool: If success
         """
         logger.hr('Receive 6th research', level=2)
 
+        # Wait animations
         timeout = Timer(2, count=6).start()
-        skip_first_screenshot = True
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -509,36 +509,47 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
                 self.device.screenshot()
 
             if timeout.reached():
-                logger.warning('receive_6th_research timeout')
+                logger.warning('receive_6th_research wait timeout')
                 break
 
-            # Check if it's finished
-            if self.research_has_finished():
-                logger.info(f'6th research finished at: {self._research_finished_index}')
-                success = self.research_receive()
-                if not success:
-                    return False
-            else:
-                logger.info('No research has finished')
-
-            # Check if it's waiting or running
             status = self.get_research_status(self.device.image)
-            if 'waiting' in status:
-                if self.get_queue_slot() > 0:
-                    self.research_project_start(status.index('waiting'))
-                else:
-                    logger.info('Queue full, stop appending waiting research')
-                break
-            if 'running' in status:
-                if self.get_queue_slot() > 0:
-                    self.research_project_start(status.index('running'))
-                else:
-                    logger.info('Queue full, stop appending running research')
-                break
+            # Project cards haven't fully loaded
             if 'unknown' in status:
                 continue
+            # When entering research, `waiting` (queued) project appears at the 2nd, then move to the 3rd
+            # When received rewards from queue then goto research,
+            # `waiting` (queued) project appears at the 4th, then move to the 3rd
+            # A `waiting` (queued) project should be at the 3rd slot by default
+            if 'waiting' in status:
+                if status.index('waiting') == 2:
+                    break
+                else:
+                    continue
+            # No 6th research
             if sum([s == 'detail' for s in status]) == 5:
                 break
+
+        # Check if it's finished
+        if self.research_has_finished():
+            logger.info(f'6th research finished at: {self._research_finished_index}')
+            success = self.research_receive()
+            if not success:
+                return False
+        else:
+            logger.info('No research has finished')
+
+        # Check if it's waiting or running
+        status = self.get_research_status(self.device.image)
+        if 'waiting' in status:
+            if self.get_queue_slot() > 0:
+                self.research_project_start(status.index('waiting'))
+            else:
+                logger.info('Queue full, stop appending waiting research')
+        if 'running' in status:
+            if self.get_queue_slot() > 0:
+                self.research_project_start(status.index('running'))
+            else:
+                logger.info('Queue full, stop appending running research')
 
         return True
 

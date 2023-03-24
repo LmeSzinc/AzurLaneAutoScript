@@ -275,6 +275,11 @@ RaidDaily:
     hard > normal > easy
 MaritimeEscort:
   Enable: true
+Coalition:
+  Fleet:
+    value: single
+    option: [ single, multi ]
+
 
 # ==================== Reward ====================
 
