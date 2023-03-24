@@ -3,7 +3,7 @@ import re
 from module.campaign.campaign_event import CampaignEvent
 from module.coalition.assets import *
 from module.coalition.combat import CoalitionCombat
-from module.exception import ScriptError
+from module.exception import ScriptError, ScriptEnd
 from module.logger import logger
 from module.ocr.ocr import Digit
 
@@ -118,7 +118,12 @@ class Coalition(CoalitionCombat, CampaignEvent):
                 break
 
             # Run
-            self.coalition_execute_once(event=name, stage=stage, fleet=fleet)
+            try:
+                self.coalition_execute_once(event=name, stage=stage, fleet=fleet)
+            except ScriptEnd as e:
+                logger.hr('Script end')
+                logger.info(str(e))
+                break
 
             # After run
             self.run_count += 1
