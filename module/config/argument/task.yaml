@@ -70,6 +70,12 @@ Sos:
 EventGeneral:
   - EventGeneral
   - TaskBalancer
+Coalition:
+  - Scheduler
+  - Campaign
+  - Coalition
+  - StopCondition
+  - Emotion
 Event:
   - Scheduler
   - Campaign
@@ -88,6 +94,34 @@ Event2:
   - Emotion
   - HpControl
   - EnemyPriority
+Raid:
+  - Scheduler
+  - Raid
+  - Campaign
+  - StopCondition
+  - Emotion
+MaritimeEscort:
+  - Scheduler
+  - MaritimeEscort
+WarArchives:
+  - Scheduler
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
+
+
+# ==================== EventDaily ====================
+
+CoalitionSp:
+  - Scheduler
+  - Campaign
+  - Coalition
+  - StopCondition
+  - Emotion
 EventA:
   - Scheduler
   - EventDaily
@@ -137,30 +171,12 @@ EventSp:
   - Emotion
   - HpControl
   - EnemyPriority
-WarArchives:
-  - Scheduler
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
-Raid:
-  - Scheduler
-  - Raid
-  - Campaign
-  - StopCondition
-  - Emotion
 RaidDaily:
   - Scheduler
   - RaidDaily
   - Campaign
   - StopCondition
   - Emotion
-MaritimeEscort:
-  - Scheduler
-  - MaritimeEscort
 
 # ==================== Reward ====================
 

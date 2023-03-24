@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 
 from module.base.timer import Timer
-from module.campaign.assets import OCR_EVENT_PT, OCR_COIN, OCR_OIL
+from module.campaign.assets import OCR_EVENT_PT, OCR_COIN, OCR_OIL, OCR_OIL_CHECK
 from module.logger import logger
 from module.ocr.ocr import Ocr, Digit
 from module.ui.ui import UI
@@ -96,6 +96,10 @@ class CampaignStatus(UI):
             if timeout.reached():
                 logger.warning('Get oil timeout')
                 break
+
+            if not self.appear(OCR_OIL_CHECK, offset=(10, 2)):
+                logger.info('No oil icon')
+                continue
 
             amount = OCR_OIL.ocr(self.device.image)
             if amount >= 100:

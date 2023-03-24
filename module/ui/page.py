@@ -72,6 +72,11 @@ page_sp.link(button=BACK_ARROW, destination=page_campaign)
 page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_sp)
 page_campaign.link(button=CAMPAIGN_GOTO_EVENT, destination=page_sp)
 
+page_coalition = Page(COALITION_CHECK)
+page_coalition.link(button=GOTO_MAIN, destination=page_main)
+page_coalition.link(button=BACK_ARROW, destination=page_campaign)
+page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_coalition)
+
 # Operation Siren
 page_os = Page(OS_CHECK)
 page_os.link(button=GOTO_MAIN, destination=page_main)

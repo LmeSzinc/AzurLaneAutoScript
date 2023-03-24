@@ -2,10 +2,11 @@ import re
 from datetime import datetime
 
 from module.campaign.campaign_status import CampaignStatus
+from module.config.config_updater import EVENTS, RAIDS, COALITIONS, GEMS_FARMINGS, MARITIME_ESCORTS
 from module.config.utils import DEFAULT_TIME
 from module.logger import logger
 from module.ui.assets import CAMPAIGN_MENU_NO_EVENT
-from module.ui.page import page_event, page_campaign_menu, page_sp
+from module.ui.page import page_event, page_campaign_menu, page_sp, page_coalition
 
 
 class CampaignEvent(CampaignStatus):
@@ -44,18 +45,7 @@ class CampaignEvent(CampaignStatus):
         limit = int(
             re.sub(r'[,.\'"，。]', '', str(self.config.EventGeneral_PtLimit))
         )
-        tasks = [
-            'Event',
-            'Event2',
-            'EventA',
-            'EventB',
-            'EventC',
-            'EventD',
-            'EventSp',
-            'Raid',
-            'RaidDaily',
-            'GemsFarming',
-        ]
+        tasks = EVENTS + RAIDS + COALITIONS + GEMS_FARMINGS
         command = self.config.Scheduler_Command
         if limit <= 0 or command not in tasks:
             return False
@@ -80,19 +70,7 @@ class CampaignEvent(CampaignStatus):
             in: page_event or page_sp
         """
         limit = self.config.EventGeneral_TimeLimit
-        tasks = [
-            'Event',
-            'Event2',
-            'EventA',
-            'EventB',
-            'EventC',
-            'EventD',
-            'EventSp',
-            'GemsFarming',
-            'Raid',
-            'RaidDaily',
-            'MaritimeEscort',
-        ]
+        tasks = EVENTS + RAIDS + COALITIONS + MARITIME_ESCORTS
         command = self.config.Scheduler_Command
         if command not in tasks or limit == DEFAULT_TIME:
             return False
@@ -139,6 +117,23 @@ class CampaignEvent(CampaignStatus):
         self.config.task_call(next_task)
         self.config.task_stop()
 
+    def is_event_entrance_available(self):
+        """
+        Returns:
+            bool: True if available
+
+        Raises:
+            TaskEnd: If unavailable
+        """
+        if self.appear(CAMPAIGN_MENU_NO_EVENT, offset=(20, 20)):
+            logger.info('Event unavailable, disable task')
+            tasks = EVENTS + COALITIONS + GEMS_FARMINGS
+            self._disable_tasks(tasks)
+            self.config.task_stop()
+        else:
+            logger.info('Event available')
+            return True
+
     def ui_goto_event(self):
         # Already in page_event, skip event_check.
         if self.ui_get_current_page() == page_event:
@@ -147,22 +142,7 @@ class CampaignEvent(CampaignStatus):
         else:
             self.ui_goto(page_campaign_menu)
             # Check event availability
-            if self.appear(CAMPAIGN_MENU_NO_EVENT, offset=(20, 20)):
-                logger.info('Event unavailable, disable task')
-                tasks = [
-                    'Event',
-                    'Event2',
-                    'EventA',
-                    'EventB',
-                    'EventC',
-                    'EventD',
-                    'EventSp',
-                    'GemsFarming',
-                ]
-                self._disable_tasks(tasks)
-                self.config.task_stop()
-            else:
-                logger.info('Event available, goto page_event')
+            if self.is_event_entrance_available():
                 self.ui_goto(page_event)
                 return True
 
@@ -174,23 +154,20 @@ class CampaignEvent(CampaignStatus):
         else:
             self.ui_goto(page_campaign_menu)
             # Check event availability
-            if self.appear(CAMPAIGN_MENU_NO_EVENT, offset=(20, 20)):
-                logger.info('Event unavailable, disable task')
-                tasks = [
-                    'Event',
-                    'Event2',
-                    'EventA',
-                    'EventB',
-                    'EventC',
-                    'EventD',
-                    'EventSp',
-                    'GemsFarming',
-                ]
-                self._disable_tasks(tasks)
-                self.config.task_stop()
-            else:
-                logger.info('Event available, goto page_sp')
-                self.ui_goto(destination=page_sp)
+            if self.is_event_entrance_available():
+                self.ui_goto(page_sp)
+                return True
+
+    def ui_goto_coalition(self):
+        # Already in page_event, skip event_check.
+        if self.ui_get_current_page() == page_coalition:
+            logger.info('Already at page_coalition')
+            return True
+        else:
+            self.ui_goto(page_campaign_menu)
+            # Check event availability
+            if self.is_event_entrance_available():
+                self.ui_goto(page_coalition)
                 return True
 
     @staticmethod
