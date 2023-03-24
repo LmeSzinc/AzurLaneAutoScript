@@ -27,6 +27,13 @@ ARCHIVES_PREFIX = {
     'jp': '檔案 ',
     'tw': '檔案 '
 }
+MAINS = ['Main', 'Main2', 'Main3']
+EVENTS = ['Event', 'Event2', 'EventA', 'EventB', 'EventC', 'EventD', 'EventSp']
+GEMS_FARMINGS = ['GemsFarming']
+RAIDS = ['Raid', 'RaidDaily']
+WAR_ARCHIVES = ['WarArchives']
+COALITIONS = ['Coalition', 'CoalitionSp']
+MARITIME_ESCORTS = ['MaritimeEscort']
 
 
 class Event:
@@ -41,6 +48,7 @@ class Event:
         self.tw = self.tw.replace('、', '')
         self.is_war_archives = self.directory.startswith('war_archives')
         self.is_raid = self.directory.startswith('raid_')
+        self.is_coalition = self.directory.startswith('coalition_')
         for server in ARCHIVES_PREFIX.keys():
             if self.__getattribute__(server) == '-':
                 self.__setattr__(server, None)
@@ -350,7 +358,7 @@ class ConfigGenerator:
         events = []
         with open('./campaign/Readme.md', encoding='utf-8') as f:
             for text in f.readlines():
-                if re.search('\d{8}', text):
+                if re.search(r'\d{8}', text):
                     event = Event(text)
                     events.append(event)
 
@@ -377,22 +385,20 @@ class ConfigGenerator:
 
                 if name:
                     if event.is_raid:
-                        insert('Raid')
-                        insert('RaidDaily')
+                        for task in RAIDS:
+                            insert(task)
                     elif event.is_war_archives:
-                        insert('WarArchives')
+                        for task in WAR_ARCHIVES:
+                            insert(task)
+                    elif event.is_coalition:
+                        for task in COALITIONS:
+                            insert(task)
                     else:
-                        insert('Event')
-                        insert('Event2')
-                        insert('EventA')
-                        insert('EventB')
-                        insert('EventC')
-                        insert('EventD')
-                        insert('EventSp')
-                        insert('GemsFarming')
+                        for task in EVENTS + GEMS_FARMINGS:
+                            insert(task)
 
         # Remove campaign_main from event list
-        for task in ['Event', 'Event2', 'EventA', 'EventB', 'EventC', 'EventD', 'EventSp', 'Raid', 'RaidDaily', 'WarArchives']:
+        for task in EVENTS + GEMS_FARMINGS + WAR_ARCHIVES + RAIDS + COALITIONS:
             options = deep_get(self.args, keys=f'{task}.Campaign.Event.option')
             options = [option for option in options if option != 'campaign_main']
             deep_set(self.args, keys=f'{task}.Campaign.Event.option', value=options)
@@ -554,7 +560,7 @@ class ConfigUpdater:
         # Update to latest event
         server = to_server(deep_get(new, 'Alas.Emulator.PackageName', 'cn'))
         if not is_template:
-            for task in ['Event', 'Event2', 'EventA', 'EventB', 'EventC', 'EventD', 'EventSp', 'Raid', 'RaidDaily']:
+            for task in EVENTS + RAIDS + COALITIONS:
                 deep_set(new,
                          keys=f'{task}.Campaign.Event',
                          value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
@@ -564,11 +570,21 @@ class ConfigUpdater:
                              keys=f'{task}.Campaign.Event',
                              value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
         # War archive does not allow campaign_main
-        for task in ['WarArchives']:
+        for task in WAR_ARCHIVES:
             if deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') == 'campaign_main':
                 deep_set(new,
                          keys=f'{task}.Campaign.Event',
                          value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
+
+        # Events does not allow default stage 12-4
+        def default_stage(t, stage):
+            if deep_get(new, keys=f'{t}.Campaign.Name', default='12-4') in ['7-2', '12-4']:
+                deep_set(new, keys=f'{t}.Campaign.Name', value=stage)
+
+        for task in EVENTS + WAR_ARCHIVES:
+            default_stage(task, 'D3')
+        for task in COALITIONS:
+            default_stage(task, 'TC-3')
 
         if not is_template:
             new = self.config_redirect(old, new)
@@ -685,6 +701,7 @@ if __name__ == '__main__':
     """
     # Ensure running in Alas root folder
     import os
+
     os.chdir(os.path.join(os.path.dirname(__file__), '../../'))
 
     ConfigGenerator().generate()

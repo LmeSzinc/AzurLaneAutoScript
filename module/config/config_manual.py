@@ -21,8 +21,9 @@ class ManualConfig:
     > OpsiDaily > OpsiShop > OpsiVoucher
     > OpsiAbyssal > OpsiStronghold > OpsiObscure > OpsiArchive
     > Daily > Hard > OpsiAshBeacon > OpsiAshAssist  > OpsiMonthBoss
-    > Sos > EventSp > EventA > EventB > EventC > EventD > RaidDaily > WarArchives > MaritimeEscort
-    > Event > Event2 > Raid > Main > Main2 > Main3
+    > Sos > EventSp > EventA > EventB > EventC > EventD
+    > RaidDaily > CoalitionSp > WarArchives > MaritimeEscort
+    > Event > Event2 > Raid > Coalition > Main > Main2 > Main3
     > OpsiMeowfficerFarming
     > GemsFarming
     > OpsiHazard1Leveling
