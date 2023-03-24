@@ -1,8 +1,8 @@
 from module.base.timer import Timer
 from module.campaign.campaign_base import CampaignBase
+from module.coalition.assets import *
 from module.coalition.ui import CoalitionUI
 from module.exception import CampaignEnd
-from module.handler.assets import AUTO_SEARCH_MENU_EXIT
 from module.logger import logger
 from module.os_ash.assets import BATTLE_STATUS
 
@@ -35,7 +35,7 @@ class CoalitionCombat(CoalitionUI, CampaignBase):
             if self.appear_then_click(BATTLE_STATUS, offset=(80, 20), interval=2):
                 # About (+53, +3)
                 continue
-            if self.appear_then_click(AUTO_SEARCH_MENU_EXIT, offset=(20, 20), interval=2):
+            if self.appear_then_click(COALITION_REWARD_CONFIRM, offset=(20, 20), interval=2):
                 continue
             if self.handle_battle_status():
                 status_clicked = True
