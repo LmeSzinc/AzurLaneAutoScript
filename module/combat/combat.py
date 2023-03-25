@@ -17,7 +17,7 @@ from module.ui.assets import BACK_ARROW, MUNITIONS_CHECK
 
 
 class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatManual, AutoSearchHandler):
-    _automation_set_timer = Timer(1)
+    _automation_set_timer = Timer(3)
     battle_status_click_interval = 0
 
     def combat_appear(self):
