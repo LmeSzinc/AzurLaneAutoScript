@@ -535,18 +535,27 @@ class AzurLaneAutoScript:
             failed = 0 if success else failed + 1
             deep_set(failure_record, keys=task, value=failed)
             if failed >= 3:
-                logger.critical(f"Task `{task}` failed 3 or more times.")
-                logger.critical("Possible reason #1: You haven't used it correctly. "
-                                "Please read the help text of the options.")
-                logger.critical("Possible reason #2: There is a problem with this task. "
-                                "Please contact developers or try to fix it yourself.")
-                logger.critical('Request human takeover')
-                handle_notify(
-                    self.config.Error_OnePushConfig,
-                    title=f"Alas <{self.config_name}> crashed",
-                    content=f"<{self.config_name}> RequestHumanTakeover\nTask `{task}` failed 3 or more times.",
-                )
-                exit(1)
+                if not self.GAME_HAS_RESTARTED:
+                    failed = 0
+                    self.config.task_call('Restart')
+                    self.GAME_HAS_RESTARTED = True
+                    self.GAME_RESTART_BECAUSE_ERROR = True
+                    self.device.sleep(10)
+                else:
+                    self.GAME_HAS_RESTARTED = False
+                    self.GAME_RESTART_BECAUSE_ERROR = False
+                    logger.critical(f"Task `{task}` failed 3 or more times.")
+                    logger.critical("Possible reason #1: You haven't used it correctly. "
+                                    "Please read the help text of the options.")
+                    logger.critical("Possible reason #2: There is a problem with this task. "
+                                    "Please contact developers or try to fix it yourself.")
+                    logger.critical('Request human takeover')
+                    handle_notify(
+                        self.config.Error_OnePushConfig,
+                        title=f"Alas <{self.config_name}> crashed",
+                        content=f"<{self.config_name}> RequestHumanTakeover\nTask `{task}` failed 3 or more times.",
+                    )
+                    exit(1)
 
             if success:
                 del self.__dict__['config']
