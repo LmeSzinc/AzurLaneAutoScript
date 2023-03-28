@@ -12,3 +12,4 @@ jobs:
       with:
         REMOTE: 'git@e.coding.net:llop18870/alas/AzurLaneAutoScript.git'
         GIT_SSH_PRIVATE_KEY: ${{ secrets.CODING_SSH_PRIVATE_KEY }}
+        GIT_SSH_NO_VERIFY_HOST: "true"
