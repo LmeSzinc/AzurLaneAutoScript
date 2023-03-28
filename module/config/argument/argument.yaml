@@ -690,12 +690,13 @@ GGHandler:
     option: [ cn, jp, en, tw ]
   GGMethod:
     value: u2
-    option: [ screenshot, u2 ]
-  GGPanelConfirmTime: 5
+    option: [ u2 ]
   RestartATX: false
   GGPackageName: com.
   AutoRestartGG: false
-  RestartEverytime: true
+  RestartEverytime:
+    value: true
+    display: disabled
   GGMultiplyingFactor: 200
   DisabledTask:
     value: disable_all_dangerous_task

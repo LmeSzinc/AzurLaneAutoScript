@@ -2439,12 +2439,7 @@
     "GGMethod": {
       "name": "Control Method",
       "help": "Screenshot is slow and has some bugs, only for environments that not support UiAutomator",
-      "screenshot": "Screenshot",
       "u2": "UiAutomator"
-    },
-    "GGPanelConfirmTime": {
-      "name": "GGHandler.GGPanelConfirmTime.name",
-      "help": "GGHandler.GGPanelConfirmTime.help"
     },
     "RestartATX": {
       "name": "GGHandler.RestartATX.name",

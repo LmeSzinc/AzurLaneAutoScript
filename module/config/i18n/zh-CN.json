@@ -2438,13 +2438,8 @@
     },
     "GGMethod": {
       "name": "GG操作方法",
-      "help": "推荐UiAutomator2，但未填写包名时会使用截图\n截图兼容性较差（已知逍遥模拟器无法使用）\n无法安装UiAutomator2（如红手指，vmos环境，以及蓝叠模拟器大概率有问题）时可尝试使用\n使用截图时，开启模拟器后需要手动打开GG，将GG悬浮窗遮挡住石油图标。第一次使用还需要手动指定好lua路径。",
-      "screenshot": "截图",
+      "help": "推荐UiAutomator2\n截图由于公版更新已经不再可用\n红手指，vmos环境，以及蓝叠模拟器有概率无法使用。",
       "u2": "UiAutomator2"
-    },
-    "GGPanelConfirmTime": {
-      "name": "确认GG面板消失的时间",
-      "help": "手机越卡，重启碧蓝航线时GG面板出现的越晚，此时需要设置更长的阈值，单位秒。默认为5秒"
     },
     "RestartATX": {
       "name": "重启ATX和U2",
@@ -2460,7 +2455,7 @@
     },
     "RestartEverytime": {
       "name": "每次启动Alas时重启",
-      "help": "打开以初始化倍率属性。如果你没有手动操作的坏习惯，可以关闭此选项"
+      "help": "打开以初始化倍率属性。如果你没有手动操作的坏习惯，可以关闭此选项。\n但是有坏习惯的人太多了，于是强制打开。"
     },
     "GGMultiplyingFactor": {
       "name": "倍率",

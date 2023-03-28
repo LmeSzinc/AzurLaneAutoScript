@@ -1,6 +1,6 @@
 from module.gg_handler.gg_data import GGData
 from module.gg_handler.gg_u2 import GGU2
-from module.gg_handler.gg_screenshot import GGScreenshot
+# from module.gg_handler.gg_screenshot import GGScreenshot
 from module.config.utils import deep_get, deep_set
 from module.logger import logger
 from module.base.timer import timeout
@@ -59,12 +59,13 @@ class GGHandler:
         logger.hr('Enabling GG')
         gg_package_name = deep_get(self.config.data, keys='GameManager.GGHandler.GGPackageName')
         if mode:
-            if self.method == 'screenshot' or gg_package_name == 'com.':
-                GGScreenshot(config=self.config, device=self.device) \
-                    .gg_set(mode=True, factor=self.factor)
-            elif self.method == 'u2':
-                GGU2(config=self.config, device=self.device) \
-                    .set_on(factor=self.factor)
+            # if self.method == 'screenshot' or gg_package_name == 'com.':
+            #     GGScreenshot(config=self.config, device=self.device) \
+            #         .gg_set(mode=True, factor=self.factor)
+            # elif self.method == 'u2':
+            #     GGU2(config=self.config, device=self.device) \
+            #         .set_on(factor=self.factor)
+            GGU2(config=self.config, device=self.device).set_on(factor=self.factor) # Not support screenshot anymore
         else:
             self.gg_reset()
 
@@ -76,12 +77,13 @@ class GGHandler:
             bool: Whether GG error panel occurs
         """
         gg_package_name = deep_get(self.config.data, keys='GameManager.GGHandler.GGPackageName')
-        if self.method == 'screenshot' or gg_package_name == 'com.':
-            return \
-                GGScreenshot(config=self.config, device=self.device).skip_error()
-        elif self.method == 'u2':
-            return \
-                GGU2(config=self.config, device=self.device).skip_error()
+        # if self.method == 'screenshot' or gg_package_name == 'com.':
+        #     return \
+        #         GGScreenshot(config=self.config, device=self.device).skip_error()
+        # elif self.method == 'u2':
+        #     return \
+        #         GGU2(config=self.config, device=self.device).skip_error()
+        return GGU2(config=self.config, device=self.device).skip_error() # Not support screenshot anymore
 
     def check_config(self) -> dict:
         """

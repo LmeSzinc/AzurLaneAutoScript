@@ -2439,12 +2439,7 @@
     "GGMethod": {
       "name": "GG操作方法",
       "help": "推薦UiAutomator2，但未填寫包名時會使用截圖\n截圖相容性較差（已知逍遙模擬器無法使用）\n無法安裝UiAutomator2（如紅手指，vmos環境）時可嘗試使用\n使用截圖時，開啟模擬器後需要手動打開GG，將GG懸浮窗遮擋住石油圖標。 第一次使用還需要手動指定好lua路徑。",
-      "screenshot": "截圖",
       "u2": "UiAutomator2"
-    },
-    "GGPanelConfirmTime": {
-      "name": "GGHandler.GGPanelConfirmTime.name",
-      "help": "GGHandler.GGPanelConfirmTime.help"
     },
     "RestartATX": {
       "name": "GGHandler.RestartATX.name",

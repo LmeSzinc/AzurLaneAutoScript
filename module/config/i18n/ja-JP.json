@@ -2439,12 +2439,7 @@
     "GGMethod": {
       "name": "GGHandler.GGMethod.name",
       "help": "GGHandler.GGMethod.help",
-      "screenshot": "screenshot",
       "u2": "u2"
-    },
-    "GGPanelConfirmTime": {
-      "name": "GGHandler.GGPanelConfirmTime.name",
-      "help": "GGHandler.GGPanelConfirmTime.help"
     },
     "RestartATX": {
       "name": "GGHandler.RestartATX.name",

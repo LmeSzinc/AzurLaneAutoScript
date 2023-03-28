@@ -9671,13 +9671,8 @@
         "type": "select",
         "value": "u2",
         "option": [
-          "screenshot",
           "u2"
         ]
-      },
-      "GGPanelConfirmTime": {
-        "type": "input",
-        "value": 5
       },
       "RestartATX": {
         "type": "checkbox",
@@ -9693,7 +9688,8 @@
       },
       "RestartEverytime": {
         "type": "checkbox",
-        "value": true
+        "value": true,
+        "display": "disabled"
       },
       "GGMultiplyingFactor": {
         "type": "input",
