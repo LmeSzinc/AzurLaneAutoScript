@@ -90,19 +90,6 @@ class CampaignStatus(UI):
 
         return _coin['Value']
 
-    def _watch_statistics_in_auto_search(self):
-        _coin = {
-            'Value': OCR_COIN.ocr(self.device.image),
-            'Limit': OCR_COIN_LIMIT.ocr(self.device.image)
-        }
-        _oil = {
-            'Value': OCR_OIL.ocr(self.device.image),
-            'Limit': OCR_OIL_LIMIT.ocr(self.device.image)
-        }
-        LogRes(self.config).Oil = _oil
-        LogRes(self.config).Coin = _coin
-        return _oil['Value']
-
     def get_oil(self, skip_first_screenshot=True, update=False):
         """
         Returns:
