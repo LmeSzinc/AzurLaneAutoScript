@@ -13,7 +13,8 @@ from module.ocr.ocr import Digit
 from module.retire.assets import (TEMPLATE_FLEET_1, TEMPLATE_FLEET_2,
                                   TEMPLATE_FLEET_3, TEMPLATE_FLEET_4,
                                   TEMPLATE_FLEET_5, TEMPLATE_FLEET_6,
-                                  TEMPLATE_IN_BATTLE, TEMPLATE_IN_COMMISSION)
+                                  TEMPLATE_IN_BATTLE, TEMPLATE_IN_COMMISSION,
+                                  TEMPLATE_IN_EVENT_FLEET)
 from module.retire.dock import (CARD_EMOTION_GRIDS, CARD_GRIDS,
                                 CARD_LEVEL_GRIDS, CARD_RARITY_GRIDS)
 
@@ -237,6 +238,7 @@ class StatusScanner(Scanner):
         self.templates = {
             TEMPLATE_IN_BATTLE: 'battle',
             TEMPLATE_IN_COMMISSION: 'commission',
+            TEMPLATE_IN_EVENT_FLEET: 'in_event_fleet',
         }
 
     def _match(self, image) -> str:
