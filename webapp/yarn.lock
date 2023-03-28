@@ -1531,10 +1531,10 @@ electron-updater@5.3.0:
     semver "^7.3.5"
     typed-emitter "^2.1.0"
 
-electron@23.1.4:
-  version "23.1.4"
-  resolved "https://registry.npmmirror.com/electron/-/electron-23.1.4.tgz#8e386a6e2d4f1028c77b5a0926abc8a23509db53"
-  integrity sha512-3Z6CpAPdhv6haYX9DTO7k0l6uAUreZM3/EngQYqGN3Gz7Fp0DPb/egt8BwR3ClG/jTlQM+PQ+5WkTK0eMjm07A==
+electron@22.3.4:
+  version "22.3.4"
+  resolved "https://registry.npmmirror.com/electron/-/electron-22.3.4.tgz#d5e30a5708d07f13af147d9e5ec8879cb56f4d09"
+  integrity sha512-EY/ieC3gnKYUNOQPJSCIbiMBwEnGs/j0yIAUf0pXPK4BRh2nvXTD5d9OdouAIN7bRNLLPgqoTm0uXgZPAWTVkg==
   dependencies:
     "@electron/get" "^2.0.0"
     "@types/node" "^16.11.26"
