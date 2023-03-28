@@ -234,11 +234,17 @@ class StatusScanner(Scanner):
         super().__init__()
         self._results = []
         self.grids = CARD_GRIDS
-        self.value_list: List[str] = ['free', 'battle', 'commission', 'hard']
+        self.value_list: List[str] = [
+            'free',
+            'battle',
+            'commission',
+            'in_hard_fleet',
+            'in_event_fleet',
+        ]
         self.templates = {
             TEMPLATE_IN_BATTLE: 'battle',
             TEMPLATE_IN_COMMISSION: 'commission',
-            TEMPLATE_IN_HARD: 'hard',
+            TEMPLATE_IN_HARD: 'in_hard_fleet',
             TEMPLATE_IN_EVENT_FLEET: 'in_event_fleet',
         }
 
@@ -275,7 +281,13 @@ class ShipScanner(Scanner):
         level (tuple): (lower, upper). Will be limited in range [1, 125]
         emotion (tuple): (lower, upper). Will be limited in range [0, 150]
         fleet (int): 0 means not in any fleet. Will be limited in range [0, 6]
-        status (str, list): ['any', 'commission', 'battle']
+        status (str, list): [
+            'free',
+            'battle',
+            'commission',
+            'in_hard_fleet',
+            'in_event_fleet',
+            ]
     """
     def __init__(
         self,
@@ -389,7 +401,13 @@ class ShipScanner(Scanner):
             level (tuple): (lower, upper). Will be limited in range [1, 125]
             emotion (tuple): (lower, upper). Will be limited in range [0, 150]
             fleet (int): 0 means not in any fleet. Will be limited in range [0, 6]
-            status (str, list): ['any', 'commission', 'battle', 'hard']
+            status (str, list): [
+                'free',
+                'battle',
+                'commission',
+                'in_hard_fleet',
+                'in_event_fleet',
+                ]
         """
         for attr in self.limitaion.keys():
             value = kwargs.get(attr, self.limitaion[attr])
