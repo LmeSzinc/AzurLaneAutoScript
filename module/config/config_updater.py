@@ -420,6 +420,7 @@ class ConfigGenerator:
         cn = {
             'Repository': 'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git',
             'PypiMirror': 'https://pypi.tuna.tsinghua.edu.cn/simple',
+            'Language': 'zh-CN',
         }
         aidlux = {
             'GitExecutable': '/usr/bin/git',

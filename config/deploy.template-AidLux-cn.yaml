@@ -135,7 +135,7 @@ Deploy:
     # 'en-US' for English
     # 'ja-JP' for Japanese
     # 'zh-TW' for Chinese traditional
-    Language: en-US
+    Language: zh-CN
     # Theme of web ui
     # 'default' for light theme
     # 'dark' for dark theme
