@@ -31,7 +31,7 @@ class GGHandler:
         for _ in range(2):
             try:
                 if _crashed:
-                    timeout(self.handle_before_restart, timeout_sec=60)
+                    timeout(self.handle_u2_restart, timeout_sec=60)
                 if not timeout(LoginHandler(config=self.config, device=self.device).app_restart, timeout_sec=600):
                     break
                 raise RuntimeError
@@ -65,7 +65,11 @@ class GGHandler:
             # elif self.method == 'u2':
             #     GGU2(config=self.config, device=self.device) \
             #         .set_on(factor=self.factor)
-            GGU2(config=self.config, device=self.device).set_on(factor=self.factor) # Not support screenshot anymore
+            self.handle_u2_restart()
+            if timeout(GGU2(config=self.config, device=self.device).set_on, timeout_sec=120, factor=self.factor):
+                from module.exception import GameStuckError
+                raise GameStuckError
+            # Not support screenshot anymore
         else:
             self.gg_reset()
 
@@ -104,7 +108,7 @@ class GGHandler:
             f'Enabled={gg_data["gg_enable"]} AutoRestart={gg_data["gg_auto"]} Current stage={gg_data["gg_on"]}')
         return gg_data
 
-    def handle_before_restart(self):
+    def handle_u2_restart(self):
         _need_restart_atx = deep_get(d=self.config.data, keys='GameManager.GGHandler.RestartATX')
         if _need_restart_atx:
             try:
@@ -117,7 +121,14 @@ class GGHandler:
                 exit(1)
             import uiautomator2 as u2
             logger.info('Reset UiAutomator')
-            u2.connect(self.device.serial).reset_uiautomator()
+            try:
+                u2.connect(self.device.serial).reset_uiautomator()
+            except Exception:
+                from module.notify import handle_notify
+                handle_notify(self.config.Error_OnePushConfig,
+                              title=f"Alas <{self.config.config_name}> Restart U2 failed",
+                              content=f"<{self.config.config_name}> RequestHumanTakeover. \nMaybe your emulator died", )
+                exit(1)
 
     def handle_restart(self):
         """
