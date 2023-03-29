@@ -21,6 +21,7 @@ class GitManager(DeployConfig):
             self.remove('./.git/config')
             self.remove('./.git/index')
             self.remove('./.git/HEAD')
+            self.remove('./.git/ORIG_HEAD')
             self.execute(f'"{self.git}" init')
 
         logger.hr('Set Git Proxy', 1)
@@ -63,7 +64,9 @@ class GitManager(DeployConfig):
                 self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
         else:
             self.execute(f'"{self.git}" reset --hard {source}/{branch}')
-            self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
+            # Since `git fetch` is already called, checkout is faster
+            if not self.execute(f'"{self.git}" checkout {branch}', allow_failure=True):
+                self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
 
         logger.hr('Show Version', 1)
         self.execute(f'"{self.git}" --no-pager log --no-merges -1')
