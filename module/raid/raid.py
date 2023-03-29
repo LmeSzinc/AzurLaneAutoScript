@@ -94,7 +94,10 @@ def raid_ocr(raid, mode):
             if server.server == 'jp':
                 return RaidCounter(button, letter=(148, 138, 123), threshold=128, lang='cnocr')
             else:
-                return DigitCounter(button, letter=(148, 138, 123), threshold=128, lang='cnocr')
+                if mode == 'ex':
+                    return Digit(button, letter=(255, 251, 255), threshold=128)
+                else:
+                    return DigitCounter(button, letter=(148, 138, 123), threshold=128, lang='cnocr')
         elif raid == "ALBION":
             return DigitCounter(button, letter=(99, 73, 57), threshold=128)
         elif raid == 'KUYBYSHEY':
