@@ -23,11 +23,11 @@ class AdbManager(EmulatorManager):
         if self.ReplaceAdb:
             logger.hr('Replace ADB', 1)
             self.adb_replace()
-        elif self.AutoConnect:
+        if self.AutoConnect:
             logger.hr('ADB Connect', 1)
             self.brute_force_connect()
 
-        if self.InstallUiautomator2:
+        if False:
             logger.hr('Uiautomator2 Init', 1)
             try:
                 import adbutils

@@ -57,8 +57,8 @@ class PipManager(DeployConfig):
                 if res:
                     dep = DataDependency(name=res.group(1), version=res.group(2))
                     data.append(dep)
-        except FileNotFoundError as e:
-            logger.error(e)
+        except FileNotFoundError:
+            logger.info(f'Directory not found: {self.python_site_packages}')
         return set(data)
 
     @cached_property
@@ -73,8 +73,8 @@ class PipManager(DeployConfig):
                     if res:
                         dep = DataDependency(name=res.group(1), version=res.group(2))
                         data.append(dep)
-        except FileNotFoundError as e:
-            logger.error(e)
+        except FileNotFoundError:
+            logger.info(f'File not found: {file}')
         return set(data)
 
     @cached_property
