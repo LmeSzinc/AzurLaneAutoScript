@@ -22,6 +22,9 @@ from module.gg_handler.gg_handler import GGHandler
 
 
 class LoginHandler(UI):
+    _app_u2_family = ['uiautomator2', 'minitouch', 'scrcpy', 'MaaTouch']
+    have_been_reset = False
+
     def _handle_app_login(self):
         """
         Pages:
@@ -142,19 +145,25 @@ class LoginHandler(UI):
         raise GameStuckError
 
     def app_stop(self):
-        GGHandler(config=self.config, device=self.device).handle_u2_restart()
+        if self.config.Emulator_ControlMethod in self._app_u2_family and not self.have_been_reset:
+            GGHandler(config=self.config, device=self.device).handle_u2_restart()
+            self.have_been_reset = True
         logger.hr('App stop')
         self.device.app_stop()
 
     def app_start(self):
-        GGHandler(config=self.config, device=self.device).handle_u2_restart()
+        if self.config.Emulator_ControlMethod in self._app_u2_family and not self.have_been_reset:
+            GGHandler(config=self.config, device=self.device).handle_u2_restart()
+            self.have_been_reset = True
         logger.hr('App start')
         self.device.app_start()
         self.handle_app_login()
         # self.ensure_no_unfinished_campaign()
 
     def app_restart(self):
-        GGHandler(config=self.config, device=self.device).handle_u2_restart()
+        if self.config.Emulator_ControlMethod in self._app_u2_family and not self.have_been_reset:
+            GGHandler(config=self.config, device=self.device).handle_u2_restart()
+            self.have_been_reset = True
         logger.hr('App restart')
         self.device.app_stop()
         self.device.app_start()
