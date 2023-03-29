@@ -1,9 +1,9 @@
 Deploy:
   Git:
     # URL of AzurLaneAutoScript repository
-    # [CN user] Use 'https://gitee.com/lmeszinc/azur-lane-auto-script-mirror' for faster and more stable download
+    # [CN user] Use 'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git' for faster and more stable download
     # [Other] Use 'https://github.com/LmeSzinc/AzurLaneAutoScript'
-    Repository: https://gitee.com/lmeszinc/azur-lane-auto-script-mirror
+    Repository: https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git
     # Branch of Alas
     # [Developer] Use 'dev', 'app', etc, to try new features
     # [Other] Use 'master', the stable branch
@@ -135,7 +135,7 @@ Deploy:
     # 'en-US' for English
     # 'ja-JP' for Japanese
     # 'zh-TW' for Chinese traditional
-    Language: en-US
+    Language: zh-CN
     # Theme of web ui
     # 'default' for light theme
     # 'dark' for dark theme

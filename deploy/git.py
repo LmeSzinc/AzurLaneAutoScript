@@ -38,9 +38,9 @@ class GitManager(DeployConfig):
             self.execute(f'"{self.git}" config --local --unset https.proxy', allow_failure=True)
 
         if ssl_verify:
-            self.execute(f'"{self.git}" config --local http.sslVerify true')
+            self.execute(f'"{self.git}" config --local http.sslVerify true', allow_failure=True)
         else:
-            self.execute(f'"{self.git}" config --local http.sslVerify false')
+            self.execute(f'"{self.git}" config --local http.sslVerify false', allow_failure=True)
 
         logger.hr('Set Git Repository', 1)
         if not self.execute(f'"{self.git}" remote set-url {source} {repo}', allow_failure=True):
