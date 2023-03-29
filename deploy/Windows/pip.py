@@ -21,8 +21,12 @@ class DataDependency:
         self.name = self.name.lower()
         self.version = self.version.strip()
 
-    def __str__(self):
+    @cached_property
+    def pretty_name(self):
         return f'{self.name}=={self.version}'
+
+    def __str__(self):
+        return self.pretty_name
 
     __repr__ = __str__
 
@@ -44,7 +48,7 @@ class PipManager(DeployConfig):
             .replace(r"\\", "/").replace("\\", "/")
 
     @cached_property
-    def list_installed_dependency(self) -> t.List[DataDependency]:
+    def set_installed_dependency(self) -> t.Set[DataDependency]:
         data = []
         regex = re.compile(r'(.*)-(.*).dist-info')
         try:
@@ -55,10 +59,10 @@ class PipManager(DeployConfig):
                     data.append(dep)
         except FileNotFoundError as e:
             logger.error(e)
-        return data
+        return set(data)
 
     @cached_property
-    def list_required_dependency(self) -> t.List[DataDependency]:
+    def set_required_dependency(self) -> t.Set[DataDependency]:
         data = []
         regex = re.compile('(.*)==(.*)[ ]*#')
         file = self.filepath('./requirements.txt')
@@ -71,18 +75,18 @@ class PipManager(DeployConfig):
                         data.append(dep)
         except FileNotFoundError as e:
             logger.error(e)
-        return data
+        return set(data)
 
     @cached_property
-    def list_dependency_to_install(self) -> t.List[DataDependency]:
+    def set_dependency_to_install(self) -> t.Set[DataDependency]:
         """
         A poor dependency comparison, but much much faster than `pip install` and `pip list`
         """
         data = []
-        for dep in self.list_required_dependency:
-            if dep not in self.list_installed_dependency:
+        for dep in self.set_required_dependency:
+            if dep not in self.set_installed_dependency:
                 data.append(dep)
-        return data
+        return set(data)
 
     def pip_install(self):
         logger.hr('Update Dependencies', 0)
@@ -91,11 +95,11 @@ class PipManager(DeployConfig):
             logger.info('InstallDependencies is disabled, skip')
             return
 
-        if not len(self.list_dependency_to_install):
+        if not len(self.set_dependency_to_install):
             logger.info('All dependencies installed')
             return
         else:
-            logger.info(f'Dependencies to install: {self.list_dependency_to_install}')
+            logger.info(f'Dependencies to install: {self.set_dependency_to_install}')
 
         # Install
         logger.hr('Check Python', 1)
