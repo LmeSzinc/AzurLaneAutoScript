@@ -6,7 +6,7 @@ from module.map.map_grids import RoadGrids, SelectedGrids
 MAP = CampaignMap('9-2')
 MAP.shape = 'H5'
 MAP.camera_data = ['E3']
-MAP.camera_data_spawn_point = ['D1', 'D3']
+MAP.camera_data_spawn_point = ['C1', 'C3']
 MAP.map_data = """
     SP -- ++ ++ ++ Me -- MB
     ++ -- ++ ++ ++ ME ++ ++
