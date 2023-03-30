@@ -22,6 +22,7 @@ def retry(func):
             try:
                 if callable(init):
                     retry_sleep(_)
+                    init()
                 return func(self, *args, **kwargs)
             # Can't handle
             except RequestHumanTakeover:
