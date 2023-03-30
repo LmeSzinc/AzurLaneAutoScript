@@ -4,9 +4,13 @@ from module.exercise.combat import ExerciseCombat
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.ui.ui import page_exercise
+from datetime import datetime, timedelta
+from module.config.utils import (get_server_next_update,
+                                 server_time_offset
+                                 DEFAULT_TIME)
 
 OCR_EXERCISE_REMAIN = Digit(OCR_EXERCISE_REMAIN, letter=(173, 247, 74), threshold=128)
-
+OCR_PERIOD_DAY = Digit(OCR_PERIOD_DAY, letter=(255, 255, 255), threshold=128)
 
 class Exercise(ExerciseCombat):
     opponent_change_count = 0
@@ -110,6 +114,15 @@ class Exercise(ExerciseCombat):
 
         self.opponent_change_count = self._get_opponent_change_count()
         logger.attr("Change_opponent_count", self.opponent_change_count)
+
+        days_remain = OCR_PERIOD_DAY.ocr(self.device.image)
+        next_reset = get_server_next_update("00:00") + timedelta(days=days_remain)
+        is_last_recovery = (next_reset - datetime.now() < timedelta(hours=6))
+        restore = self.config.Exercise_ExercisePreserve
+        if is_last_recovery and restore <= 5:   #If Exercise_ExercisePreserve >= 6, wasting is allowed.
+            logger.hr(f'Exercise period finish in 6 hours, using all attempts.')
+            self.config.override(Exercise_ExercisePreserve=0)
+
         while 1:
             self.remain = OCR_EXERCISE_REMAIN.ocr(self.device.image)
             if self.remain <= self.config.Exercise_ExercisePreserve:
@@ -123,6 +136,11 @@ class Exercise(ExerciseCombat):
             if not success:
                 logger.info('New opponent exhausted')
                 break
+        
+        # Restore user settings if necessary after final exercise.
+        if is_last_recovery and restore <= 5:
+            self.config.override(Exercise_ExercisePreserve=restore)
+            logger.hr(f'Exercise preserve times restored to {restore}.')
 
         # self.equipment_take_off_when_finished()
 
