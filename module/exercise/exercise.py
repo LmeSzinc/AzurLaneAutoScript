@@ -109,15 +109,44 @@ class Exercise(ExerciseCombat):
             self.config.set_record(Exercise_OpponentRefreshValue=0)
             return 0
 
+    def _get_exercise_next_reset(self):
+        """
+        Get the first day of next exercise period. 
+        
+        Returns:
+            datetime.datetime:
+        """
+        diff = server_time_offset()
+        server_now = datetime.now() - diff
+        days_remain = OCR_PERIOD_DAY.ocr(self.device.image)
+        server_reset = (server_now + timedelta(days=days_remain+1)) \
+            .replace(hour=0, minute=0, second=0, microsecond=0)
+        local_reset = server_reset + diff
+        return local_reset
+
+    def _get_exercise_reset_remain(self):
+        """
+        Returns:
+            datetime.datetime
+        """
+
+        from module.logger import logger
+
+        next_reset = self._get_exercise_next_reset()
+        now = datetime.now()
+        logger.attr('ExerciseNextReset', next_reset)
+
+        remain = next_reset - now
+        return remain
+
     def run(self):
         self.ui_ensure(page_exercise)
 
         self.opponent_change_count = self._get_opponent_change_count()
         logger.attr("Change_opponent_count", self.opponent_change_count)
 
-        days_remain = OCR_PERIOD_DAY.ocr(self.device.image)
-        next_reset = get_server_next_update("00:00") + timedelta(days=days_remain)
-        is_last_recovery = (next_reset - datetime.now() < timedelta(hours=6))
+        remain_time = self._get_exercise_reset_remain()
+        is_last_recovery = (int(remain_time.total_seconds() // 3600) < 6)
         restore = self.config.Exercise_ExercisePreserve
         if is_last_recovery and restore <= 5:   #If Exercise_ExercisePreserve >= 6, wasting is allowed.
             logger.hr(f'Exercise period finish in 6 hours, using all attempts.')
