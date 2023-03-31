@@ -1,6 +1,6 @@
-from deploy.patch import patch_trust_env
+from deploy.patch import pre_checks
 
-patch_trust_env()
+pre_checks()
 
 from deploy.adb import AdbManager
 from deploy.alas import AlasManager
