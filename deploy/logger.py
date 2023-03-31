@@ -1,5 +1,8 @@
 import logging
+import os
 import sys
+
+os.chdir(os.path.join(os.path.dirname(__file__), '../'))
 
 logger = logging.getLogger("deploy")
 _logger = logger
@@ -14,7 +17,7 @@ logger.setLevel(logging.INFO)
 def hr(title, level=3):
     if logger is not _logger:
         return logger.hr(title, level)
-        
+
     title = str(title).upper()
     if level == 0:
         middle = "|" + " " * 20 + title + " " * 20 + "|"
