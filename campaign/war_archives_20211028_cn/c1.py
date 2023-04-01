@@ -66,6 +66,7 @@ class Config:
         'distance': 50,
         'wlen': 1000
     }
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
     MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom-right'
     MAP_SWIPE_PREDICT_WITH_SEA_GRIDS = False
     MAP_SWIPE_MULTIPLY = 1.732
