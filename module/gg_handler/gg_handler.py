@@ -66,7 +66,8 @@ class GGHandler:
             #     GGU2(config=self.config, device=self.device) \
             #         .set_on(factor=self.factor)
             self.handle_u2_restart()
-            if timeout(GGU2(config=self.config, device=self.device).set_on, timeout_sec=120, factor=self.factor):
+            success = timeout(GGU2(config=self.config, device=self.device).set_on, timeout_sec=120, factor=self.factor)
+            if success:
                 from module.exception import GameStuckError
                 raise GameStuckError
             # Not support screenshot anymore

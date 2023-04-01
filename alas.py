@@ -486,6 +486,7 @@ class AzurLaneAutoScript:
         self.checker.wait_until_available()
         GGHandler(config=self.config, device=self.device).handle_restart_before_tasks()
         failure_record = {}
+        check_fail=0
         while 1:
             # Check update event from GUI
             if self.stop_event is not None:
@@ -521,7 +522,24 @@ class AzurLaneAutoScript:
 
             # Check GG config before a task begins (to reset temporary config), and decide to enable it.
             GGHandler(config=self.config, device=self.device).check_config()
-            GGHandler(config=self.config, device=self.device).check_then_set_gg_status(inflection.underscore(task))
+            try:
+                GGHandler(config=self.config, device=self.device).check_then_set_gg_status(inflection.underscore(task))
+                check_fail = 0
+            except GameStuckError:
+                del self.__dict__['config']
+                check_fail += 1
+                if check_fail <=3:
+                    continue
+                else:
+                    from module.notify import handle_notify
+                    handle_notify(self.config.Error_OnePushConfig,
+                                  title=f"Alas <{self.config.config_name}> crashed",
+                                  content=f"<{self.config.config_name}> "
+                                          f"RequestHumanTakeover.\n"
+                                          f"Maybe your emulator died."
+                                  )
+                    exit(1)
+
 
             # Run
             logger.info(f'Scheduler: Start task `{task}`')
