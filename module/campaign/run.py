@@ -77,8 +77,8 @@ class CampaignRun(CampaignEvent):
             self.config.Scheduler_Enable = False
             handle_notify(
                 self.config.Error_OnePushConfig,
-                title=f"Alas <{self.config_name}> campaign finished",
-                content=f"<{self.config_name}> {self.name} reached run count limit"
+                title=f"Alas <{self.config.config_name}> campaign finished",
+                content=f"<{self.config.config_name}> {self.name} reached run count limit"
             )
             return True
         # Lv120 limit
@@ -87,8 +87,8 @@ class CampaignRun(CampaignEvent):
             self.config.Scheduler_Enable = False
             handle_notify(
                 self.config.Error_OnePushConfig,
-                title=f"Alas <{self.config_name}> campaign finished",
-                content=f"<{self.config_name}> {self.name} reached level limit"
+                title=f"Alas <{self.config.config_name}> campaign finished",
+                content=f"<{self.config.config_name}> {self.name} reached level limit"
             )
             return True
         # Oil limit
@@ -108,8 +108,8 @@ class CampaignRun(CampaignEvent):
             self.config.Scheduler_Enable = False
             handle_notify(
                 self.config.Error_OnePushConfig,
-                title=f"Alas <{self.config_name}> campaign finished",
-                content=f"<{self.config_name}> {self.name} got new ship"
+                title=f"Alas <{self.config.config_name}> campaign finished",
+                content=f"<{self.config.config_name}> {self.name} got new ship"
             )
             return True
         # Event limit
