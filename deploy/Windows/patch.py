@@ -18,20 +18,22 @@ def patch_trust_env(file):
     Returns:
         bool: If patched.
     """
-    if os.path.exists(file):
+    try:
         with open(file, 'r', encoding='utf-8') as f:
             content = f.read()
-        if re.search('self.trust_env = True', content):
-            content = re.sub('self.trust_env = True', 'self.trust_env = False', content)
-            with open(file, 'w', encoding='utf-8') as f:
-                f.write(content)
-            logger.info(f'{file} trust_env patched')
-        elif re.search('self.trust_env = False', content):
-            logger.info(f'{file} trust_env already patched')
-        else:
-            logger.info(f'{file} trust_env not found')
+    except FileNotFoundError:
+        logger.info(f'{file} trust_env not exist')
+        return
+
+    if re.search('self.trust_env = True', content):
+        content = re.sub('self.trust_env = True', 'self.trust_env = False', content)
+        with open(file, 'w', encoding='utf-8') as f:
+            f.write(content)
+        logger.info(f'{file} trust_env patched')
+    elif re.search('self.trust_env = False', content):
+        logger.info(f'{file} trust_env already patched')
     else:
-        logger.info(f'{file} trust_env no need to patch')
+        logger.info(f'{file} trust_env is not in the file')
 
 
 def check_running_directory():
@@ -69,17 +71,17 @@ def patch_uiautomator2():
         for url in []:
             self.push_url(url)
     """
-    cache_dir = './toolkit/Lib/site-packages/uiautomator2cache/cache'
     init_file = './toolkit/Lib/site-packages/uiautomator2/init.py'
+    cache_dir = './toolkit/Lib/site-packages/uiautomator2cache/cache'
     appdir = "os.path.join(__file__, '../../uiautomator2cache')"
 
-    if not os.path.exists(init_file):
-        logger.info('uiautomator2 is not installed skip patching')
-        return
-
     modified = False
-    with open(init_file, 'r', encoding='utf-8') as f:
-        content = f.read()
+    try:
+        with open(init_file, 'r', encoding='utf-8') as f:
+            content = f.read()
+    except FileNotFoundError:
+        logger.info(f'{init_file} not exist')
+        return
 
     # Patch minicap_urls
     res = re.search(r'self.minicap_urls', content)
@@ -113,6 +115,30 @@ def patch_uiautomator2():
         logger.info(f'{init_file} content saved')
 
 
+def patch_apkutils2():
+    """
+    `adbutils/mixin.py` `ShellMixin.install` imports `apkutils2`, but `apkutils2` does not provide wheel files,
+    it may failed to install for unknown reasons. Since we never used that method, we just remove the import.
+    """
+    mixin = './toolkit/Lib/site-packages/adbutils/mixin.py'
+
+    try:
+        with open(mixin, 'r', encoding='utf-8') as f:
+            content = f.read()
+    except FileNotFoundError:
+        logger.info(f'{mixin} not exist')
+        return
+
+    res = re.search(r'import apkutils2', content)
+    if res:
+        content = re.sub(r'import apkutils2', '', content)
+        with open(mixin, 'w', encoding='utf-8') as f:
+            f.write(content)
+        logger.info(f'{mixin} apkutils2 patched')
+    else:
+        logger.info(f'{mixin} apkutils2 no need to patch')
+
+
 def pre_checks():
     check_running_directory()
 
@@ -121,6 +147,7 @@ def pre_checks():
     patch_trust_env('./toolkit/Lib/site-packages/pip/_vendor/requests/sessions.py')
 
     patch_uiautomator2()
+    patch_apkutils2()
 
 
 if __name__ == '__main__':
