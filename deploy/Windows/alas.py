@@ -1,29 +1,9 @@
 import time
 import typing as t
-from dataclasses import dataclass
 
 from deploy.Windows.config import DeployConfig
 from deploy.Windows.logger import logger
 from deploy.Windows.utils import *
-
-
-@dataclass
-class DataProcessInfo:
-    proc: object  # psutil.Process
-    name: str
-    pid: int
-
-    @cached_property
-    def cmdline(self):
-        # `cmdline` is lazy calculated
-        cmdline = ' '.join(self.proc.cmdline()).replace(r'\\', '/').replace('\\', '/')
-        return cmdline
-
-    def __str__(self):
-        # Don't print `proc`, it will take some time to get process properties
-        return f'DataProcessInfo(name="{self.name}", pid={self.pid}, cmdline="{self.cmdline}")'
-
-    __repr__ = __str__
 
 
 class AlasManager(DeployConfig):
@@ -41,23 +21,6 @@ class AlasManager(DeployConfig):
     def self_pid(self):
         return os.getpid()
 
-    @staticmethod
-    def _iter_process() -> t.Iterable[DataProcessInfo]:
-        try:
-            import psutil
-        except ModuleNotFoundError:
-            logger.info('psutil not installed, skip')
-            return False
-
-        # This will cost about 0.45s, even `attr` is given.
-        for proc in psutil.process_iter():
-            name = proc.name()
-            yield DataProcessInfo(
-                proc=proc,
-                name=name,
-                pid=proc.pid,
-            )
-
     def list_process(self, cache=5) -> t.List[DataProcessInfo]:
         """
         Args:
@@ -68,7 +31,8 @@ class AlasManager(DeployConfig):
             return self._process_cache
 
         logger.info('List process')
-        process = list(self._iter_process())
+        process = list(iter_process())
+        logger.info(f'Found {len(process)} processes')
         self._process_cache = process
         self._process_cache_time = time.time()
         return self._process_cache

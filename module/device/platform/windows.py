@@ -2,8 +2,7 @@ import ctypes
 import subprocess
 import typing as t
 
-import psutil
-
+from deploy.Windows.utils import iter_process, DataProcessInfo
 from module.base.decorator import run_once
 from module.base.timer import Timer
 from module.device.connection import AdbDeviceWithStatus
@@ -69,19 +68,12 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         return self.execute(f'taskkill /t /f /im ' + ''.join(process))
 
     @staticmethod
-    def iter_running_emulator() -> t.Iterable[psutil.Process]:
-        """
-        This may cost some time.
-        """
-        for proc in psutil.process_iter():
-            if Emulator.is_emulator(str(proc.name())):
-                yield proc
+    def find_running_emulator(instance: EmulatorInstance) -> t.Optional[DataProcessInfo]:
+        for proc in iter_process():
+            if not Emulator.is_emulator(proc.name):
+                continue
 
-    def find_running_emulator(self, instance: EmulatorInstance) -> t.Optional[psutil.Process]:
-        for proc in self.iter_running_emulator():
-            cmdline = [arg.replace('\\', '/').replace(r'\\', '/') for arg in proc.cmdline()]
-            cmdline = ' '.join(cmdline)
-            if instance.path in cmdline and instance.name in cmdline:
+            if instance.path in proc.cmdline and instance.name in proc.cmdline:
                 return proc
 
         logger.warning(f'Cannot find a running emulator process with path={instance.path}, name={instance.name}')
@@ -99,7 +91,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         """
         proc = self.find_running_emulator(instance)
         if proc is not None:
-            proc.kill()
+            proc.proc.kill()
             return True
         else:
             return False

@@ -1,6 +1,7 @@
 import os
 import re
-from typing import Callable, Generic, TypeVar
+from dataclasses import dataclass
+from typing import Callable, Iterable, Generic, TypeVar
 
 T = TypeVar("T")
 
@@ -111,3 +112,55 @@ def poor_yaml_write(data, file, template_file=DEPLOY_TEMPLATE):
 
     with open(file, 'w', encoding='utf-8', newline='') as f:
         f.write(text)
+
+
+@dataclass
+class DataProcessInfo:
+    proc: object  # psutil.Process or psutil._pswindows.Process
+    pid: int
+
+    @cached_property
+    def name(self):
+        name = self.proc.name()
+        return name
+
+    @cached_property
+    def cmdline(self):
+        try:
+            cmdline = self.proc.cmdline()
+        except:
+            # psutil.AccessDenied
+            cmdline = []
+        cmdline = ' '.join(cmdline).replace(r'\\', '/').replace('\\', '/')
+        return cmdline
+
+    def __str__(self):
+        # Don't print `proc`, it will take some time to get process properties
+        return f'DataProcessInfo(name="{self.name}", pid={self.pid}, cmdline="{self.cmdline}")'
+
+    __repr__ = __str__
+
+
+def iter_process() -> Iterable[DataProcessInfo]:
+    try:
+        import psutil
+    except ModuleNotFoundError:
+        return
+
+    if psutil.WINDOWS:
+        # Since this is a one-time-usage, we access psutil._psplatform.Process directly
+        # to bypass the call of psutil.Process.is_running().
+        # This only costs about 0.017s.
+        for pid in psutil.pids():
+            proc = psutil._psplatform.Process(pid)
+            yield DataProcessInfo(
+                proc=proc,
+                pid=proc.pid,
+            )
+    else:
+        # This will cost about 0.45s, even `attr` is given.
+        for proc in psutil.process_iter():
+            yield DataProcessInfo(
+                proc=proc,
+                pid=proc.pid,
+            )
