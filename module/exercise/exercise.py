@@ -2,15 +2,13 @@ from module.config.utils import get_server_last_update
 from module.exercise.assets import *
 from module.exercise.combat import ExerciseCombat
 from module.logger import logger
-from module.ocr.ocr import Digit
+from module.ocr.ocr import Digit, Ocr
 from module.ui.ui import page_exercise
-from datetime import datetime, timedelta
-from module.config.utils import (get_server_next_update,
-                                 server_time_offset
-                                 DEFAULT_TIME)
+from datetime import timedelta
+
 
 OCR_EXERCISE_REMAIN = Digit(OCR_EXERCISE_REMAIN, letter=(173, 247, 74), threshold=128)
-OCR_PERIOD_DAY = Digit(OCR_PERIOD_DAY, letter=(255, 255, 255), threshold=128)
+
 
 class Exercise(ExerciseCombat):
     opponent_change_count = 0
@@ -109,35 +107,16 @@ class Exercise(ExerciseCombat):
             self.config.set_record(Exercise_OpponentRefreshValue=0)
             return 0
 
-    def _get_exercise_next_reset(self):
-        """
-        Get the first day of next exercise period. 
-        
-        Returns:
-            datetime.datetime:
-        """
-        diff = server_time_offset()
-        server_now = datetime.now() - diff
-        days_remain = OCR_PERIOD_DAY.ocr(self.device.image)
-        server_reset = (server_now + timedelta(days=days_remain+1)) \
-            .replace(hour=0, minute=0, second=0, microsecond=0)
-        local_reset = server_reset + diff
-        return local_reset
-
     def _get_exercise_reset_remain(self):
         """
         Returns:
-            datetime.datetime
+            datetime.timedelta
         """
-
-        from module.logger import logger
-
-        next_reset = self._get_exercise_next_reset()
-        now = datetime.now()
-        logger.attr('ExerciseNextReset', next_reset)
-
-        remain = next_reset - now
-        return remain
+        period = Ocr(OCR_PERIOD_REMAIN, lang='cnocr').ocr(self.device.image)
+        period = period.replace(" ", "") # delete spaces
+        # period string has the form of 'DD*HH:MM:SS' or 'D*HH:MM:SS' 
+        day, hour, minute, second = int(period[:-9]), int(period[-8:-6]), int(period[-5:-3]), int(period[-2:])
+        return timedelta(days=day, hours=hour, minutes=minute, seconds=second)
 
     def run(self):
         self.ui_ensure(page_exercise)
