@@ -2406,7 +2406,7 @@
     },
     "Repository": {
       "name": "AzurLaneUncensored Repository",
-      "help": "Do not need to modify\nGithub: <https://github.com/LmeSzinc/AzurLaneUncensored>\nCN mirror: <https://gitee.com/LmeSzinc/AzurLaneUncensored>"
+      "help": "Do not need to modify\nGithub: <https://github.com/LmeSzinc/AzurLaneUncensored>\nCN mirror: <https://e.coding.net/llop18870/alas/AzurLaneUncensored.git>"
     }
   },
   "GameManager": {

@@ -15,10 +15,11 @@ from module.base.decorator import Config, cached_property, del_cached_property
 from module.base.utils import ensure_time
 from module.config.server import set_server
 from module.device.connection_attr import ConnectionAttr
-from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES, remove_shell_warning,
-                                        handle_adb_error, PackageNotInstalled,
-                                        recv_all, possible_reasons,
-                                        random_port, get_serial_pair)
+from module.device.method.utils import (
+    RETRY_TRIES, remove_shell_warning, retry_sleep,
+    handle_adb_error, PackageNotInstalled,
+    recv_all, possible_reasons,
+    random_port, get_serial_pair)
 from module.exception import RequestHumanTakeover, EmulatorNotRunningError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
@@ -35,7 +36,7 @@ def retry(func):
         for _ in range(RETRY_TRIES):
             try:
                 if callable(init):
-                    self.sleep(RETRY_DELAY)
+                    retry_sleep(_)
                     init()
                 return func(self, *args, **kwargs)
             # Can't handle
