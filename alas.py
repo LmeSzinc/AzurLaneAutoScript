@@ -531,7 +531,6 @@ class AzurLaneAutoScript:
                 if check_fail <=3:
                     continue
                 else:
-                    from module.notify import handle_notify
                     handle_notify(self.config.Error_OnePushConfig,
                                   title=f"Alas <{self.config.config_name}> crashed",
                                   content=f"<{self.config.config_name}> "
@@ -561,6 +560,7 @@ class AzurLaneAutoScript:
                 logger.critical("Possible reason #2: There is a problem with this task. "
                                 "Please contact developers or try to fix it yourself.")
                 logger.critical('Request human takeover')
+
                 handle_notify(
                     self.config.Error_OnePushConfig,
                     title=f"Alas <{self.config_name}> crashed",
