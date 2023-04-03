@@ -7,9 +7,6 @@ from deploy.Windows.utils import *
 
 
 class AlasManager(DeployConfig):
-    _process_cache = []
-    _process_cache_time = 0.
-
     @cached_property
     def alas_folder(self):
         return [
@@ -21,21 +18,11 @@ class AlasManager(DeployConfig):
     def self_pid(self):
         return os.getpid()
 
-    def list_process(self, cache=5) -> t.List[DataProcessInfo]:
-        """
-        Args:
-            cache: Cache expire time
-        """
-        if time.time() - self._process_cache_time <= cache and len(self._process_cache):
-            logger.info('Hit process cache')
-            return self._process_cache
-
+    def list_process(self) -> t.List[DataProcessInfo]:
         logger.info('List process')
         process = list(iter_process())
         logger.info(f'Found {len(process)} processes')
-        self._process_cache = process
-        self._process_cache_time = time.time()
-        return self._process_cache
+        return process
 
     def iter_process_by_names(self, names, in_alas=False) -> t.Iterable[DataProcessInfo]:
         """
@@ -69,7 +56,18 @@ class AlasManager(DeployConfig):
         self.execute(f'taskkill /f /t /pid {process.pid}', allow_failure=True, output=False)
 
     def alas_kill(self):
-        logger.hr(f'Kill existing Alas', 0)
-        for proc in self.iter_process_by_names(['alas.exe', 'python.exe'], in_alas=True):
-            logger.info(proc)
-            self.kill_process(proc)
+        while 1:
+            logger.hr(f'Kill existing Alas', 0)
+            proc_list = list(self.iter_process_by_names(['alas.exe', 'python.exe'], in_alas=True))
+            if not len(proc_list):
+                break
+            for proc in proc_list:
+                logger.info(proc)
+                self.kill_process(proc)
+
+
+if __name__ == '__main__':
+    self = AlasManager()
+    start = time.time()
+    self.alas_kill()
+    print(time.time() - start)
