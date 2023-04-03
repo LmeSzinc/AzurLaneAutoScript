@@ -47,6 +47,7 @@ class AzurLaneUncensored(LoginHandler):
         # Back to root folder
         os.chdir(prev)
         logger.hr('Restart AzurLane', level=1)
+        self.config.override(Error_HandleError=True)
         self.device.app_stop()
         self.device.app_start()
         self.handle_app_login()
