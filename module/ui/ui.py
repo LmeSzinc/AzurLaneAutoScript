@@ -2,7 +2,7 @@ from module.base.button import Button
 from module.base.decorator import run_once
 from module.base.timer import Timer
 from module.coalition.assets import FLEET_PREPARATION as COALITION_FLEET_PREPARATION
-from module.combat.assets import GET_ITEMS_1, GET_SHIP
+from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_SHIP
 from module.exception import (GameNotRunningError, GamePageUnknownError,
                               RequestHumanTakeover)
 from module.exercise.assets import EXERCISE_PREPARATION
@@ -405,7 +405,9 @@ class UI(InfoHandler):
         # Daily reset
         if self.appear_then_click(LOGIN_ANNOUNCE, offset=(30, 30), interval=3):
             return True
-        if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=3):
+        if self.appear_then_click(GET_ITEMS_1, offset=True, interval=3):
+            return True
+        if self.appear_then_click(GET_ITEMS_2, offset=True, interval=3):
             return True
         if get_ship:
             if self.appear_then_click(GET_SHIP, interval=5):
