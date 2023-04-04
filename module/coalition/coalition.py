@@ -67,6 +67,10 @@ class Coalition(CoalitionCombat, CampaignEvent):
             Campaign_UseAutoSearch=False,
             Fleet_FleetOrder='fleet1_all_fleet2_standby',
         )
+        if self.config.Coalition_Fleet == 'single' and self.config.Emotion_Fleet1Control == 'prevent_red_face':
+            logger.warning('AL does not allow single coalition with emotion < 30, '
+                           'emotion control is forced to prevent_yellow_face')
+            self.config.override(Emotion_Fleet1Control='prevent_yellow_face')
         if stage == 'sp':
             # Multiple fleets are required in SP
             self.config.override(

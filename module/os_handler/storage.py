@@ -2,6 +2,7 @@ from module.base.timer import Timer
 from module.base.utils import rgb2gray
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.exception import ScriptError
+from module.handler.assets import GET_MISSION
 from module.logger import logger
 from module.os.globe_operation import GlobeOperation
 from module.os.globe_zone import ZoneManager
@@ -65,6 +66,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
         self.interval_clear(GET_ITEMS_1)
         self.interval_clear(GET_ITEMS_2)
         self.interval_clear(GET_ADAPTABILITY)
+        self.interval_clear(GET_MISSION)
 
         while 1:
             if skip_first_screenshot:
@@ -72,9 +74,13 @@ class StorageHandler(GlobeOperation, ZoneManager):
             else:
                 self.device.screenshot()
 
-            if self.appear(STORAGE_CHECK, offset=(20, 20), interval=5):
-                self.device.click(button)
+            # Accidentally clicked on an item, having popups for its info
+            if self.appear(GET_MISSION, offset=True, interval=2):
+                logger.info(f'_storage_item_use item info -> {GET_MISSION}')
+                self.device.click(GET_MISSION)
+                self.interval_reset(STORAGE_CHECK)
                 continue
+            # Item rewards
             if self.appear_then_click(STORAGE_USE, offset=(180, 30), interval=5):
                 self.interval_reset(STORAGE_CHECK)
                 continue
@@ -89,6 +95,10 @@ class StorageHandler(GlobeOperation, ZoneManager):
             if self.appear(GET_ADAPTABILITY, offset=5, interval=2):
                 self.device.click(CLICK_SAFE_AREA)
                 success = True
+                continue
+            # Use item
+            if self.appear(STORAGE_CHECK, offset=(20, 20), interval=5):
+                self.device.click(button)
                 continue
 
             # End
