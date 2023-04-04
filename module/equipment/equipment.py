@@ -75,10 +75,11 @@ class Equipment(StorageHandler):
                 break
 
             # Long click accidentally became normal click, exit from dock
-            if self.appear(DOCK_CHECK, offset=(20, 20), interval=3):
-                logger.info(f'equip_enter {DOCK_CHECK} -> {BACK_ARROW}')
-                self.device.click(BACK_ARROW)
-                continue
+            if long_click:
+                if self.appear(DOCK_CHECK, offset=(20, 20), interval=3):
+                    logger.info(f'equip_enter {DOCK_CHECK} -> {BACK_ARROW}')
+                    self.device.click(BACK_ARROW)
+                    continue
             if enter_timer.reached():
                 if long_click:
                     self.device.long_click(click_button, duration=(1.5, 1.7))
