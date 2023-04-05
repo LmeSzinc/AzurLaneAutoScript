@@ -2037,7 +2037,20 @@
     },
     "ExercisePreserve": {
       "name": "Keep X Number Remain(s)",
-      "help": "1 ~ 10\n1 means run until 1/10"
+      "help": "0 means run until 0/10\n5 means run until 5/10 normally and use all remains on Sunday evening",
+      "0": "0",
+      "5": "5"
+    },
+    "AdmiralTrialTime": {
+      "name": "Try using all preserved remains for admiral at X",
+      "help": "Only applies if keeping 5 remains, will use all remains at X to go for admiral",
+      "sun18": "Sunday 18pm",
+      "sun12": "Sunday 12pm",
+      "sun0": "Sunday 12am",
+      "sat18": "Saturday 18pm",
+      "sat12": "Saturday 12pm",
+      "sat0": "Saturday 12am",
+      "fri18": "Friday 18pm"
     },
     "LowHpThreshold": {
       "name": "Low HP Threshold",

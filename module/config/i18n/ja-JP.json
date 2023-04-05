@@ -2037,7 +2037,20 @@
     },
     "ExercisePreserve": {
       "name": "Exercise.ExercisePreserve.name",
-      "help": "Exercise.ExercisePreserve.help"
+      "help": "Exercise.ExercisePreserve.help",
+      "0": "0",
+      "5": "5"
+    },
+    "AdmiralTrialTime": {
+      "name": "Exercise.AdmiralTrialTime.name",
+      "help": "Exercise.AdmiralTrialTime.help",
+      "sun18": "sun18",
+      "sun12": "sun12",
+      "sun0": "sun0",
+      "sat18": "sat18",
+      "sat12": "sat12",
+      "sat0": "sat0",
+      "fri18": "fri18"
     },
     "LowHpThreshold": {
       "name": "Exercise.LowHpThreshold.name",
