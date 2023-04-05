@@ -65,6 +65,7 @@ class ManualConfig:
     """
     LV_TRIGGERED = False
     LV32_TRIGGERED = False
+    LV_AWAKENABLE_TRIGGERED = False
     STOP_IF_REACH_LV32 = False
 
     """

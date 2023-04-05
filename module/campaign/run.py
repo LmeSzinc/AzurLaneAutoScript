@@ -80,6 +80,11 @@ class CampaignRun(CampaignEvent):
             logger.hr(f'Triggered stop condition: Reach level {self.config.StopCondition_ReachLevel}')
             self.config.Scheduler_Enable = False
             return True
+        # Reach awaken level
+        if self.config.StopCondition_ReachAwakenLevel and self.campaign.config.LV_AWAKENABLE_TRIGGERED:
+            logger.hr('Triggered stop condition: Reach awaken level')
+            self.config.Scheduler_Enable = False
+            return True
         # Oil limit
         if oil_check:
             if self.get_oil() < max(500, self.config.StopCondition_OilLimit):

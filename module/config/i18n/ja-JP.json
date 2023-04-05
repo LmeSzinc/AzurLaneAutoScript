@@ -817,6 +817,10 @@
     "ReachLevel": {
       "name": "StopCondition.ReachLevel.name",
       "help": "StopCondition.ReachLevel.help"
+    },
+    "ReachAwakenLevel": {
+      "name": "StopCondition.ReachAwakenLevel.name",
+      "help": "StopCondition.ReachAwakenLevel.help"
     }
   },
   "Fleet": {

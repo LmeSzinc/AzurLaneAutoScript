@@ -94,6 +94,7 @@ class GeneratedConfig:
     StopCondition_StageIncrease = False
     StopCondition_GetNewShip = False
     StopCondition_ReachLevel = 0
+    StopCondition_ReachAwakenLevel = False
 
     # Group `Fleet`
     Fleet_Fleet1 = 1  # 1, 2, 3, 4, 5, 6

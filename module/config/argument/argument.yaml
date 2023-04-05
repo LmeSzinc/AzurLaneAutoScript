@@ -152,6 +152,7 @@ StopCondition:
   StageIncrease: false
   GetNewShip: false
   ReachLevel: 0
+  ReachAwakenLevel: false
 Fleet:
   Fleet1:
     value: 1

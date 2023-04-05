@@ -528,6 +528,10 @@
       "ReachLevel": {
         "type": "input",
         "value": 0
+      },
+      "ReachAwakenLevel": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Fleet": {
@@ -901,6 +905,10 @@
       "ReachLevel": {
         "type": "input",
         "value": 0
+      },
+      "ReachAwakenLevel": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Fleet": {
@@ -1274,6 +1282,10 @@
       "ReachLevel": {
         "type": "input",
         "value": 0
+      },
+      "ReachAwakenLevel": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Fleet": {
@@ -1749,6 +1761,11 @@
         "type": "input",
         "value": 0,
         "display": "hide"
+      },
+      "ReachAwakenLevel": {
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       }
     },
     "Fleet": {
@@ -1987,6 +2004,10 @@
         "type": "input",
         "value": 0,
         "display": "hide"
+      },
+      "ReachAwakenLevel": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Fleet": {
@@ -2424,6 +2445,11 @@
         "type": "input",
         "value": 0,
         "display": "hide"
+      },
+      "ReachAwakenLevel": {
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       }
     },
     "Emotion": {
@@ -2681,6 +2707,10 @@
       "ReachLevel": {
         "type": "input",
         "value": 0
+      },
+      "ReachAwakenLevel": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Fleet": {
@@ -3114,6 +3144,10 @@
       "ReachLevel": {
         "type": "input",
         "value": 0
+      },
+      "ReachAwakenLevel": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Fleet": {
@@ -3523,6 +3557,11 @@
         "type": "input",
         "value": 0,
         "display": "hide"
+      },
+      "ReachAwakenLevel": {
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       }
     },
     "Emotion": {
@@ -3791,6 +3830,10 @@
       "ReachLevel": {
         "type": "input",
         "value": 0
+      },
+      "ReachAwakenLevel": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Fleet": {
@@ -4188,6 +4231,11 @@
         "type": "input",
         "value": 0,
         "display": "hide"
+      },
+      "ReachAwakenLevel": {
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       }
     },
     "Emotion": {
@@ -4461,6 +4509,11 @@
       "ReachLevel": {
         "type": "input",
         "value": 0,
+        "display": "hide"
+      },
+      "ReachAwakenLevel": {
+        "type": "checkbox",
+        "value": false,
         "display": "hide"
       }
     },
@@ -4912,6 +4965,11 @@
         "type": "input",
         "value": 0,
         "display": "hide"
+      },
+      "ReachAwakenLevel": {
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       }
     },
     "Fleet": {
@@ -5361,6 +5419,11 @@
       "ReachLevel": {
         "type": "input",
         "value": 0,
+        "display": "hide"
+      },
+      "ReachAwakenLevel": {
+        "type": "checkbox",
+        "value": false,
         "display": "hide"
       }
     },
@@ -5812,6 +5875,11 @@
         "type": "input",
         "value": 0,
         "display": "hide"
+      },
+      "ReachAwakenLevel": {
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       }
     },
     "Fleet": {
@@ -6252,6 +6320,11 @@
         "type": "input",
         "value": 0,
         "display": "hide"
+      },
+      "ReachAwakenLevel": {
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
       }
     },
     "Fleet": {
@@ -6652,6 +6725,11 @@
       "ReachLevel": {
         "type": "input",
         "value": 0,
+        "display": "hide"
+      },
+      "ReachAwakenLevel": {
+        "type": "checkbox",
+        "value": false,
         "display": "hide"
       }
     },

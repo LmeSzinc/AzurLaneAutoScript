@@ -39,6 +39,7 @@ GemsFarming:
     StageIncrease: false
     GetNewShip: false
     ReachLevel: 0
+    ReachAwakenLevel: false
   Fleet:
     FleetOrder:
       display: display
@@ -77,6 +78,7 @@ EventA:
     StageIncrease: false
     GetNewShip: false
     ReachLevel: 0
+    ReachAwakenLevel: false
 EventB:
   Scheduler:
     SuccessInterval: 30
@@ -95,6 +97,7 @@ EventB:
     StageIncrease: false
     GetNewShip: false
     ReachLevel: 0
+    ReachAwakenLevel: false
 EventC:
   Scheduler:
     SuccessInterval: 30
@@ -113,6 +116,7 @@ EventC:
     StageIncrease: false
     GetNewShip: false
     ReachLevel: 0
+    ReachAwakenLevel: false
 EventD:
   Scheduler:
     SuccessInterval: 30
@@ -131,6 +135,7 @@ EventD:
     StageIncrease: false
     GetNewShip: false
     ReachLevel: 0
+    ReachAwakenLevel: false
 EventSp:
   Scheduler:
     SuccessInterval: 30
@@ -149,6 +154,7 @@ EventSp:
     StageIncrease: false
     GetNewShip: false
     ReachLevel: 0
+    ReachAwakenLevel: false
   Submarine:
     AutoSearchMode: sub_standby
 Raid:
@@ -167,6 +173,7 @@ Raid:
     StageIncrease: false
     GetNewShip: false
     ReachLevel: 0
+    ReachAwakenLevel: false
   Emotion:
     Fleet2Value: 119
     Fleet2Record: 2020-01-01 00:00:00
@@ -194,6 +201,7 @@ RaidDaily:
     StageIncrease: false
     GetNewShip: false
     ReachLevel: 0
+    ReachAwakenLevel: false
   Emotion:
     Fleet2Value: 119
     Fleet2Record: 2020-01-01 00:00:00
@@ -224,6 +232,7 @@ Coalition:
     StageIncrease: false
     GetNewShip: false
     ReachLevel: 0
+    ReachAwakenLevel: false
   Emotion:
     Fleet2Value: 119
     Fleet2Record: 2020-01-01 00:00:00
@@ -250,6 +259,7 @@ CoalitionSp:
     StageIncrease: false
     GetNewShip: false
     ReachLevel: 0
+    ReachAwakenLevel: false
   Emotion:
     Fleet2Value: 119
     Fleet2Record: 2020-01-01 00:00:00

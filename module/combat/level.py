@@ -67,6 +67,7 @@ class Level(ModuleBase):
         if after_battle:
             self.lv_triggered()
             self.lv32_triggered()
+            self.lv_awaken_triggered()
 
         return self.lv
 
@@ -98,6 +99,20 @@ class Level(ModuleBase):
             logger.info(f'Position 0 LV.32 Reached')
             self.config.LV32_TRIGGERED = True
             return True
+
+        return False
+
+    def lv_awaken_triggered(self):
+        if not self.config.StopCondition_ReachAwakenLevel:
+            return False
+
+        for i in range(6):
+            before, after = self._lv_before_battle[i], self.lv[i]
+            if after > before > 95:
+                if after - before == 1 and after % 5 == 0:
+                    logger.info(f'Position {i} reached awaken level')
+                    self.config.LV_AWAKENABLE_TRIGGERED = True
+                    return True
 
         return False
 

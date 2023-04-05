@@ -817,6 +817,10 @@
     "ReachLevel": {
       "name": "艦船升至 X 級後停止",
       "help": "任意等級低於 X 的艦船升級至 X 級後停止\n0 表示不限制等級"
+    },
+    "ReachAwakenLevel": {
+      "name": "可認知覺醒時停止",
+      "help": ""
     }
   },
   "Fleet": {

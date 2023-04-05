@@ -817,6 +817,10 @@
     "ReachLevel": {
       "name": "Level X Reached",
       "help": "Stop current task if any ship under level X has reached level X; saving as 0 implies no limit to the level."
+    },
+    "ReachAwakenLevel": {
+      "name": "Awaken Level Reached",
+      "help": "Stop current task if any ship reached awaken level"
     }
   },
   "Fleet": {
