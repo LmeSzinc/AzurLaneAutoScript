@@ -1,14 +1,23 @@
+from datetime import timedelta
 from module.config.utils import get_server_last_update
 from module.exercise.assets import *
 from module.exercise.combat import ExerciseCombat
 from module.logger import logger
-from module.ocr.ocr import Digit, Ocr
+from module.ocr.ocr import Digit, DatedDuration
 from module.ui.ui import page_exercise
-from datetime import timedelta
 
 
 OCR_EXERCISE_REMAIN = Digit(OCR_EXERCISE_REMAIN, letter=(173, 247, 74), threshold=128)
-
+OCR_PERIOD_REMAIN = DatedDuration(OCR_PERIOD_REMAIN, letter=(255, 255, 255), threshold=128)
+ADMIRAL_TRIAL_HOUR_INTERVAL = {
+    "sun18": [6, 0],
+    "sun12": [12, 6],
+    "sun0": [24, 12],
+    "sat18": [30, 24],
+    "sat12": [36, 30],
+    "sat0": [48, 36],
+    "fri18": [56, 48]
+}
 
 class Exercise(ExerciseCombat):
     opponent_change_count = 0
@@ -107,16 +116,18 @@ class Exercise(ExerciseCombat):
             self.config.set_record(Exercise_OpponentRefreshValue=0)
             return 0
 
+
+    def server_support_ocr_reset_remain(self) -> bool:
+        return self.config.SERVER in ['jp']
+
+   
     def _get_exercise_reset_remain(self):
         """
         Returns:
             datetime.timedelta
         """
-        period = Ocr(OCR_PERIOD_REMAIN, lang='cnocr').ocr(self.device.image)
-        period = period.replace(" ", "") # delete spaces
-        # period string has the form of 'DD*HH:MM:SS' or 'D*HH:MM:SS' 
-        day, hour, minute, second = int(period[:-9]), int(period[-8:-6]), int(period[-5:-3]), int(period[-2:])
-        return timedelta(days=day, hours=hour, minutes=minute, seconds=second)
+        result = OCR_PERIOD_REMAIN.ocr(self.device.image)
+        return result
 
     def run(self):
         self.ui_ensure(page_exercise)
@@ -124,12 +135,29 @@ class Exercise(ExerciseCombat):
         self.opponent_change_count = self._get_opponent_change_count()
         logger.attr("Change_opponent_count", self.opponent_change_count)
 
-        remain_time = self._get_exercise_reset_remain()
-        is_last_recovery = (int(remain_time.total_seconds() // 3600) < 6)
-        restore = self.config.Exercise_ExercisePreserve
-        if is_last_recovery and restore <= 5:   #If Exercise_ExercisePreserve >= 6, wasting is allowed.
-            logger.hr(f'Exercise period finish in 6 hours, using all attempts.')
-            self.config.override(Exercise_ExercisePreserve=0)
+        if not self.server_support_ocr_reset_remain():
+            logger.info(f'Server {self.config.SERVER} does not yet support OCR exercise reset remain time')
+            logger.info('Please contact the developer to improve as soon as possible')
+            remain_time = timedelta(days=0)
+        else:
+            remain_time = OCR_PERIOD_REMAIN.ocr(self.device.image)
+    
+        needs_restore = False
+        if self.config.Exercise_ExercisePreserve == 5 and remain_time:
+            admiral_start, admiral_end = ADMIRAL_TRIAL_HOUR_INTERVAL[self.config.Exercise_AdmiralTrialTime]
+            
+            if admiral_start > int(remain_time.total_seconds() // 3600) >= admiral_end: #set time for getting admiral
+                needs_restore = True
+                logger.hr(f'Reach set time for admiral trial, using all attempts.')
+                backup = self.config.temporary(
+                    Exercise_ExercisePreserve=0
+                )    
+            elif int(remain_time.total_seconds() // 3600) < 6: #if not set to "sun18", still depleting at sunday 18pm.
+                needs_restore = True
+                logger.hr(f'Exercise period remain less than 6 hours, using all attempts.')
+                backup = self.config.temporary(
+                    Exercise_ExercisePreserve=0
+                )    
 
         while 1:
             self.remain = OCR_EXERCISE_REMAIN.ocr(self.device.image)
@@ -146,9 +174,8 @@ class Exercise(ExerciseCombat):
                 break
         
         # Restore user settings if necessary after final exercise.
-        if is_last_recovery and restore <= 5:
-            self.config.override(Exercise_ExercisePreserve=restore)
-            logger.hr(f'Exercise preserve times restored to {restore}.')
+        if needs_restore:
+            backup.recover()
 
         # self.equipment_take_off_when_finished()
 

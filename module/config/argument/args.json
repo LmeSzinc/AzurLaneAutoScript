@@ -7547,8 +7547,25 @@
         "value": 1
       },
       "ExercisePreserve": {
-        "type": "input",
-        "value": 0
+        "type": "select",
+        "value": 5,
+        "option": [
+          0,
+          5
+        ]
+      },
+      "AdmiralTrialTime": {
+        "type": "select",
+        "value": "sun18",
+        "option": [
+          "sun18",
+          "sun12",
+          "sun0",
+          "sat18",
+          "sat12",
+          "sat0",
+          "fri18"
+        ]
       },
       "LowHpThreshold": {
         "type": "input",
