@@ -31,6 +31,10 @@ class GlobeCamera(GlobeOperation, ZoneManager):
 
             self.device.screenshot()
 
+            # End
+            if self.is_in_globe():
+                break
+
             # A copy of os_map_goto_globe()
             # May accidentally enter map
             if self.appear_then_click(MAP_GOTO_GLOBE, offset=(200, 5), interval=3):
@@ -63,11 +67,8 @@ class GlobeCamera(GlobeOperation, ZoneManager):
                 timeout.reset()
                 continue
 
-            if self.is_in_globe():
-                break
-            else:
-                logger.warning('Trying to do globe_update(), but not in os globe map')
-                continue
+            logger.warning('Trying to do globe_update(), but not in os globe map')
+            continue
 
         self._globe_init()
         self.globe.load(self.device.image)
