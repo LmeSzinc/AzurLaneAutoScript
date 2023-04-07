@@ -500,7 +500,8 @@ class OperationSiren(OSMap):
             self.os_order_execute(
                 recon_scan=not self.config.OpsiExplore_SpecialRadar,
                 submarine_call=self.config.OpsiFleet_Submarine)
-            self._os_explore_task_delay()
+            if not self.config.OpsiExplore_SpecialRadar:
+                self._os_explore_task_delay()
             self.run_auto_search()
             self.config.OpsiExplore_LastZone = zone
             logger.info(f'Zone cleared: {self.name_to_zone(zone)}')
