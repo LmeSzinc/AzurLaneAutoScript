@@ -75,10 +75,12 @@ class AScreenCap(Connection):
     __screenshot_method = [0, 1, 2]
     __screenshot_method_fixed = [0, 1, 2]
     __bytepointer = 0
+    ascreencap_available = True
 
     def ascreencap_init(self):
         logger.hr('aScreenCap init')
         self.__bytepointer = 0
+        self.ascreencap_available = True
 
         arc = self.cpu_abi
         sdk = self.sdk_ver
@@ -94,8 +96,9 @@ class AScreenCap(Connection):
             ver = "0"
         filepath = os.path.join(self.config.ASCREENCAP_FILEPATH_LOCAL, ver, arc, 'ascreencap')
         if not os.path.exists(filepath):
-            logger.critical('No suitable version of aScreenCap lib available for this device')
-            logger.critical('Please use ADB or uiautomator2 for screenshots instead')
+            self.ascreencap_available = False
+            logger.error('No suitable version of aScreenCap lib available for this device, '
+                         'please use other screenshot methods instead')
             raise RequestHumanTakeover
 
         logger.info(f'pushing {filepath}')

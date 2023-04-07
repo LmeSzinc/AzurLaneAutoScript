@@ -38,6 +38,9 @@ class MapOrderHandler(MapOperation, ActionPointHandler, MapEventHandler, ZoneMan
             # A game bug that AUTO_SEARCH_REWARD from the last cleared zone popups
             if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
                 continue
+            # Skip TB guidance if user didn't have their game settings correctly set
+            if self.handle_map_event():
+                continue
 
     def order_quit(self):
         """

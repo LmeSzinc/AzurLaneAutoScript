@@ -125,6 +125,24 @@ class ZoneManager:
                     return zone
                 if name == parse_name(zone.tw):
                     return zone
+            # Normal arbiter, Hard arbiter, BOSS after hard arbiter cleared
+            # 普通难度：仲裁者·XXX, 困难难度：仲裁者·XXX, 困难模拟战：仲裁机关
+            for keyword in ['普通', '困难', '仲裁']:
+                if keyword in name:
+                    return self.name_to_zone(154)
+            # Normal - Arbiter: XXX, Hard - Arbiter: XXX, Hard - Arbiter (Practice)
+            for keyword in ['normal', 'hard', 'arbiter']:
+                if keyword in name:
+                    return self.name_to_zone(154)
+            # ノーマル：アビータ・XXX, ハード：アビータ・XXX, ハード模擬戦：アビータ
+            for keyword in ['ノーマル', 'ハード', 'アビータ',
+                            'ノ一マル', 'ハ一ド', 'アビ一タ']:
+                if keyword in name:
+                    return self.name_to_zone(154)
+            # 普通難度：仲裁者·XXX, 困難難度：仲裁者·XXX, 困難模擬戰：仲裁機關
+            for keyword in ['普通', '困難', '仲裁']:
+                if keyword in name:
+                    return self.name_to_zone(154)
             raise ScriptError(f'Unable to find OS globe zone: {name}')
 
     def zone_nearest_azur_port(self, zone):

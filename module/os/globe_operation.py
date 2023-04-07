@@ -297,6 +297,10 @@ class GlobeOperation(ActionPointHandler):
             else:
                 self.device.screenshot()
 
+            # End
+            if self.is_in_globe():
+                break
+
             if self.appear_then_click(MAP_GOTO_GLOBE, offset=(200, 5), interval=5):
                 # Just to initialize interval timer of MAP_GOTO_GLOBE_FOG
                 self.appear(MAP_GOTO_GLOBE_FOG, interval=5)
@@ -323,10 +327,6 @@ class GlobeOperation(ActionPointHandler):
             # Searching reward will be shown after entering another zone.
             if self.handle_popup_confirm('GOTO_GLOBE'):
                 continue
-
-            # End
-            if self.is_in_globe():
-                break
 
         skip_first_screenshot = True
         confirm_timer = Timer(1, count=2).start()
