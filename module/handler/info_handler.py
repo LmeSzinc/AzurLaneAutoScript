@@ -151,7 +151,7 @@ class InfoHandler(ModuleBase):
             self._hot_fix_check_wait.clear()
         if self._hot_fix_check_wait.started() and 3 <= self._hot_fix_check_wait.current() <= 6:
             if not self.device.app_is_running():
-                logger.warning('Detected hot fixes from game server, game died')
+                logger.error('Detected hot fixes from game server, game died')
                 raise GameNotRunningError
             self._hot_fix_check_wait.clear()
 
