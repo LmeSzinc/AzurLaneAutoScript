@@ -3,8 +3,10 @@ from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.equipment.assets import *
 from module.logger import logger
+from module.retire.assets import DOCK_CHECK
 from module.retire.assets import EQUIP_CONFIRM as RETIRE_EQUIP_CONFIRM
 from module.storage.storage import StorageHandler
+from module.ui.assets import BACK_ARROW
 from module.ui.navbar import Navbar
 from module.ui.switch import Switch
 
@@ -59,22 +61,31 @@ class Equipment(StorageHandler):
     def equip_view_prev(self, check_button=EQUIPMENT_OPEN):
         return self._equip_view_swipe(distance=SWIPE_DISTANCE, check_button=check_button)
 
-    def equip_enter(self, click_button, check_button=EQUIPMENT_OPEN, long_click=True):
+    def equip_enter(self, click_button, check_button=EQUIPMENT_OPEN, long_click=True, skil_first_screenshot=True):
         enter_timer = Timer(10)
 
         while 1:
+            if skil_first_screenshot:
+                skil_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(check_button):
+                break
+
+            # Long click accidentally became normal click, exit from dock
+            if long_click:
+                if self.appear(DOCK_CHECK, offset=(20, 20), interval=3):
+                    logger.info(f'equip_enter {DOCK_CHECK} -> {BACK_ARROW}')
+                    self.device.click(BACK_ARROW)
+                    continue
             if enter_timer.reached():
                 if long_click:
                     self.device.long_click(click_button, duration=(1.5, 1.7))
                 else:
                     self.device.click(click_button)
                 enter_timer.reset()
-
-            self.device.screenshot()
-
-            # End
-            if self.appear(check_button):
-                break
 
     @cached_property
     def _equip_side_navbar(self):
