@@ -9657,16 +9657,6 @@
         "type": "checkbox",
         "value": false
       },
-      "ServerLocation": {
-        "type": "select",
-        "value": "cn",
-        "option": [
-          "cn",
-          "jp",
-          "en",
-          "tw"
-        ]
-      },
       "GGMethod": {
         "type": "select",
         "value": "u2",

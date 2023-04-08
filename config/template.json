@@ -2012,7 +2012,6 @@
     },
     "GGHandler": {
       "Enabled": false,
-      "ServerLocation": "cn",
       "GGMethod": "u2",
       "RestartATX": false,
       "GGPackageName": "com.",

@@ -2428,14 +2428,6 @@
       "name": "Enabled",
       "help": ""
     },
-    "ServerLocation": {
-      "name": "Server location",
-      "help": "",
-      "cn": "CN",
-      "jp": "JP",
-      "en": "EN",
-      "tw": "TW"
-    },
     "GGMethod": {
       "name": "Control Method",
       "help": "Screenshot is slow and has some bugs, only for environments that not support UiAutomator",

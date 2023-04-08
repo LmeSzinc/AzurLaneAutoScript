@@ -2428,14 +2428,6 @@
       "name": "启用该功能",
       "help": "注意事项！若GG打开则应该启用该功能以达成防弹窗卡重启\n只能使用指定的lua，会自动推送至/sdcard/Notes/Multiplier.lua\n演习，共斗，Meta信标时会自动关闭倍率"
     },
-    "ServerLocation": {
-      "name": "服务器地区",
-      "help": "",
-      "cn": "国服",
-      "jp": "日服",
-      "en": "国际服",
-      "tw": "台服"
-    },
     "GGMethod": {
       "name": "GG操作方法",
       "help": "推荐UiAutomator2\n截图由于公版更新已经不再可用\n红手指，vmos环境，以及蓝叠模拟器有概率无法使用。",

@@ -435,7 +435,6 @@ class GeneratedConfig:
 
     # Group `GGHandler`
     GGHandler_Enabled = False
-    GGHandler_ServerLocation = 'cn'  # cn, jp, en, tw
     GGHandler_GGMethod = 'u2'  # u2
     GGHandler_RestartATX = False
     GGHandler_GGPackageName = 'com.'

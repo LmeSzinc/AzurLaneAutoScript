@@ -36,7 +36,7 @@ class GGU2(Base):
             'jp' : 'アズールレーン',
             'tw' : '碧藍航線'
         }
-        _server = deep_get(d=self.config.data, keys='GameManager.GGHandler.ServerLocation', default='cn')
+        _server = self.config.SERVER
         _name = _name_dict[_server]
         self.factor = factor
         ggdata = GGData(self.config).get_data()
@@ -115,7 +115,7 @@ class GGU2(Base):
                             self.device.sleep(0.3)
                             continue
                         if self.d.xpath('//*[@text="重启游戏"]').exists:
-                            self.d.d.xpath('//*[@text="重启游戏"]').click()
+                            self.d.xpath('//*[@text="重启游戏"]').click()
                             logger.info('GG Panel after game died exists, restart the game')
                             logger.info('Click Restart')
                             self.device.sleep(0.3)
