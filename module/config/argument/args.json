@@ -7546,18 +7546,11 @@
         "type": "input",
         "value": 1
       },
-      "ExercisePreserve": {
-        "type": "select",
-        "value": 5,
-        "option": [
-          0,
-          5
-        ]
-      },
-      "AdmiralTrialTime": {
+      "ExerciseStrategy": {
         "type": "select",
         "value": "sun18",
         "option": [
+          "aggressive",
           "sun18",
           "sun12",
           "sun0",

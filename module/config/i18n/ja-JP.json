@@ -2035,15 +2035,10 @@
       "name": "Exercise.OpponentTrial.name",
       "help": "Exercise.OpponentTrial.help"
     },
-    "ExercisePreserve": {
-      "name": "Exercise.ExercisePreserve.name",
-      "help": "Exercise.ExercisePreserve.help",
-      "0": "0",
-      "5": "5"
-    },
-    "AdmiralTrialTime": {
-      "name": "Exercise.AdmiralTrialTime.name",
-      "help": "Exercise.AdmiralTrialTime.help",
+    "ExerciseStrategy": {
+      "name": "Exercise.ExerciseStrategy.name",
+      "help": "Exercise.ExerciseStrategy.help",
+      "aggressive": "aggressive",
       "sun18": "sun18",
       "sun12": "sun12",
       "sun0": "sun0",

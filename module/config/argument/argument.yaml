@@ -573,12 +573,9 @@ Exercise:
     value: max_exp
     option: [ max_exp, easiest, leftmost, easiest_else_exp ]
   OpponentTrial: 1
-  ExercisePreserve: 
-    value: 5
-    option: [ 0, 5 ]
-  AdmiralTrialTime:
+  ExerciseStrategy:
     value: sun18
-    option: [ sun18, sun12, sun0, sat18, sat12, sat0, fri18 ]
+    option: [ aggressive, sun18, sun12, sun0, sat18, sat12, sat0, fri18 ]
   LowHpThreshold: 0.4
   LowHpConfirmWait: 0.1
   OpponentRefreshValue: 0
