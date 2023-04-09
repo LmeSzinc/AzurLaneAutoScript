@@ -62,6 +62,7 @@ class DatedDurationYuv(DatedDuration, OcrYuv):
 OCR_EXERCISE_REMAIN = Digit(OCR_EXERCISE_REMAIN, letter=(173, 247, 74), threshold=128)
 OCR_PERIOD_REMAIN = DatedDuration(OCR_PERIOD_REMAIN, letter=(255, 255, 255), threshold=128)
 ADMIRAL_TRIAL_HOUR_INTERVAL = {
+    # "aggressive": [336, 0]
     "sun18": [6, 0],
     "sun12": [12, 6],
     "sun0": [24, 12],
@@ -75,6 +76,8 @@ ADMIRAL_TRIAL_HOUR_INTERVAL = {
 class Exercise(ExerciseCombat):
     opponent_change_count = 0
     remain = 0
+    preserve = 0
+
 
     def _new_opponent(self):
         logger.info('New opponent')
@@ -171,7 +174,7 @@ class Exercise(ExerciseCombat):
 
 
     def server_support_ocr_reset_remain(self) -> bool:
-        return self.config.SERVER in ['jp']
+        return self.config.SERVER in ['cn', 'en', 'jp']
 
    
     def _get_exercise_reset_remain(self):
@@ -182,11 +185,27 @@ class Exercise(ExerciseCombat):
         result = OCR_PERIOD_REMAIN.ocr(self.device.image)
         return result
 
+    def _get_exercise_strategy(self):
+        """
+        Returns:
+            int: ExercisePreserve, X times to remain
+            list, int: Admiral trial time period
+        """
+        if self.config.Exercise_ExerciseStrategy == "aggressive":
+            preserve = 0
+            admiral_interval = None
+        else:
+            preserve = 5
+            admiral_interval = ADMIRAL_TRIAL_HOUR_INTERVAL[self.config.Exercise_ExerciseStrategy]
+            
+        return preserve, admiral_interval
+
     def run(self):
         self.ui_ensure(page_exercise)
 
         self.opponent_change_count = self._get_opponent_change_count()
         logger.attr("Change_opponent_count", self.opponent_change_count)
+        self.preserve, admiral_interval = self._get_exercise_strategy()
 
         if not self.server_support_ocr_reset_remain():
             logger.info(f'Server {self.config.SERVER} does not yet support OCR exercise reset remain time')
@@ -195,24 +214,19 @@ class Exercise(ExerciseCombat):
         else:
             remain_time = OCR_PERIOD_REMAIN.ocr(self.device.image)
     
-        backup = None
-        if self.config.Exercise_ExercisePreserve == 5 and remain_time:
-            admiral_start, admiral_end = ADMIRAL_TRIAL_HOUR_INTERVAL[self.config.Exercise_AdmiralTrialTime]
+        if admiral_interval is not None and remain_time:
+            admiral_start, admiral_end = admiral_interval
             
             if admiral_start > int(remain_time.total_seconds() // 3600) >= admiral_end: #set time for getting admiral
                 logger.hr(f'Reach set time for admiral trial, using all attempts.')
-                backup = self.config.temporary(
-                    Exercise_ExercisePreserve=0
-                )    
+                self.preserve = 0 
             elif int(remain_time.total_seconds() // 3600) < 6: #if not set to "sun18", still depleting at sunday 18pm.
                 logger.hr(f'Exercise period remain less than 6 hours, using all attempts.')
-                backup = self.config.temporary(
-                    Exercise_ExercisePreserve=0
-                )    
+                self.preserve = 0
 
         while 1:
             self.remain = OCR_EXERCISE_REMAIN.ocr(self.device.image)
-            if self.remain <= self.config.Exercise_ExercisePreserve:
+            if self.remain <= self.preserve:
                 break
 
             logger.hr(f'Exercise remain {self.remain}', level=1)
@@ -223,17 +237,14 @@ class Exercise(ExerciseCombat):
             if not success:
                 logger.info('New opponent exhausted')
                 break
-        
-        # Restore user settings if necessary after admiral trial.
-        if backup is not None:
-            backup.recover()
+
 
         # self.equipment_take_off_when_finished()
 
         # Scheduler
         with self.config.multi_set():
             self.config.set_record(Exercise_OpponentRefreshValue=self.opponent_change_count)
-            if self.remain <= self.config.Exercise_ExercisePreserve or self.opponent_change_count >= 5:
+            if self.remain <= self.preserve or self.opponent_change_count >= 5:
                 self.config.task_delay(server_update=True)
             else:
                 self.config.task_delay(success=False)

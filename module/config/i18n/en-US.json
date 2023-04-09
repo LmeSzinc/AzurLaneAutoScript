@@ -2035,22 +2035,17 @@
       "name": "Each Opponent Try X Time(s)",
       "help": "1 ~ Positive Infinity"
     },
-    "ExercisePreserve": {
-      "name": "Keep X Number Remain(s)",
-      "help": "0 means run until 0/10\n5 means run until 5/10 normally and use all remains on Sunday evening",
-      "0": "0",
-      "5": "5"
-    },
-    "AdmiralTrialTime": {
-      "name": "Try using all preserved remains for admiral at X",
-      "help": "Only applies if keeping 5 remains, will use all remains at X to go for admiral",
-      "sun18": "Sunday 18pm",
-      "sun12": "Sunday 12pm",
-      "sun0": "Sunday 12am",
-      "sat18": "Saturday 18pm",
-      "sat12": "Saturday 12pm",
-      "sat0": "Saturday 12am",
-      "fri18": "Friday 18pm"
+    "ExerciseStrategy": {
+      "name": "Exercise Strategy (Keep X number remains)",
+      "help": "If keeping 5 number remains, will try admiral at set time and clear number remains at last recover",
+      "aggressive": "0",
+      "sun18": "5 until Sunday 18pm",
+      "sun12": "5 until Sunday 12pm",
+      "sun0": "5 until Sunday 12am",
+      "sat18": "5 until Saturday 18pm",
+      "sat12": "5 until Saturday 12pm",
+      "sat0": "5 until Saturday 12am",
+      "fri18": "5 until Friday 18pm"
     },
     "LowHpThreshold": {
       "name": "Low HP Threshold",

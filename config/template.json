@@ -1466,8 +1466,7 @@
     "Exercise": {
       "OpponentChooseMode": "max_exp",
       "OpponentTrial": 1,
-      "ExercisePreserve": 5,
-      "AdmiralTrialTime": "sun18",
+      "ExerciseStrategy": "sun18",
       "LowHpThreshold": 0.4,
       "LowHpConfirmWait": 0.1,
       "OpponentRefreshValue": 0,
