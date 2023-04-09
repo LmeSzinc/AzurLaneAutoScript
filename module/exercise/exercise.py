@@ -218,10 +218,10 @@ class Exercise(ExerciseCombat):
             admiral_start, admiral_end = admiral_interval
             
             if admiral_start > int(remain_time.total_seconds() // 3600) >= admiral_end: #set time for getting admiral
-                logger.hr(f'Reach set time for admiral trial, using all attempts.')
+                logger.info(f'Reach set time for admiral trial, using all attempts.')
                 self.preserve = 0 
             elif int(remain_time.total_seconds() // 3600) < 6: #if not set to "sun18", still depleting at sunday 18pm.
-                logger.hr(f'Exercise period remain less than 6 hours, using all attempts.')
+                logger.info(f'Exercise period remain less than 6 hours, using all attempts.')
                 self.preserve = 0
 
         while 1:
