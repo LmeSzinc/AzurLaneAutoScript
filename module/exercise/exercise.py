@@ -142,18 +142,16 @@ class Exercise(ExerciseCombat):
         else:
             remain_time = OCR_PERIOD_REMAIN.ocr(self.device.image)
     
-        needs_restore = False
+        backup = None
         if self.config.Exercise_ExercisePreserve == 5 and remain_time:
             admiral_start, admiral_end = ADMIRAL_TRIAL_HOUR_INTERVAL[self.config.Exercise_AdmiralTrialTime]
             
             if admiral_start > int(remain_time.total_seconds() // 3600) >= admiral_end: #set time for getting admiral
-                needs_restore = True
                 logger.hr(f'Reach set time for admiral trial, using all attempts.')
                 backup = self.config.temporary(
                     Exercise_ExercisePreserve=0
                 )    
             elif int(remain_time.total_seconds() // 3600) < 6: #if not set to "sun18", still depleting at sunday 18pm.
-                needs_restore = True
                 logger.hr(f'Exercise period remain less than 6 hours, using all attempts.')
                 backup = self.config.temporary(
                     Exercise_ExercisePreserve=0
@@ -173,8 +171,8 @@ class Exercise(ExerciseCombat):
                 logger.info('New opponent exhausted')
                 break
         
-        # Restore user settings if necessary after final exercise.
-        if needs_restore:
+        # Restore user settings if necessary after admiral trial.
+        if backup is not None:
             backup.recover()
 
         # self.equipment_take_off_when_finished()
