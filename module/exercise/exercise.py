@@ -3,8 +3,60 @@ from module.config.utils import get_server_last_update
 from module.exercise.assets import *
 from module.exercise.combat import ExerciseCombat
 from module.logger import logger
-from module.ocr.ocr import Digit, DatedDuration
+from module.ocr.ocr import Digit, Ocr, OcrYuv
 from module.ui.ui import page_exercise
+
+
+class DatedDuration(Ocr):
+    def __init__(self, buttons, lang='cnocr', letter=(255, 255, 255), threshold=128, alphabet='0123456789:IDS天日d',
+                 name=None):
+        super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
+
+    def after_process(self, result):
+        result = super().after_process(result)
+        result = result.replace('I', '1').replace('D', '0').replace('S', '5')
+        return result
+    
+    def ocr(self, image, direct_ocr=False):
+        """
+        Do OCR on a dated duration, such as `10d 01:30:30` or `7日01:30:30`.
+        
+        Args:
+            image:
+            direct_ocr:
+            
+        Returns:
+            list, datetime.timedelta: timedelta object, or a list of it.
+        """
+        result_list = super().ocr(image, direct_ocr=direct_ocr)
+        if not isinstance(result_list, list):
+            result_list = [result_list]
+        result_list = [self.parse_time(result) for result in result_list]
+        if len(self.buttons) == 1:
+            result_list = result_list[0]
+        return result_list
+    
+    @staticmethod
+    def parse_time(string):
+        """
+        Args: 
+            string (str): `10d 01:30:30` or `7日01:30:30`
+        
+        Returns:
+            datetime.timedelta:
+        """
+        import re
+        result = re.search(r'(\d{1,2})\D?(\d{1,2}):?(\d{2}):?(\d{2})', string)
+        if result:
+            result = [int(s) for s in result.groups()]
+            return timedelta(days=result[0], hours=result[1], minutes=result[2], seconds=result[3])
+        else:
+            logger.warning(f'Invalid dated duration: {string}')
+            return timedelta(days=0, hours=0, minutes=0, seconds=0)
+        
+
+class DatedDurationYuv(DatedDuration, OcrYuv):
+    pass
 
 
 OCR_EXERCISE_REMAIN = Digit(OCR_EXERCISE_REMAIN, letter=(173, 247, 74), threshold=128)
@@ -18,6 +70,7 @@ ADMIRAL_TRIAL_HOUR_INTERVAL = {
     "sat0": [48, 36],
     "fri18": [56, 48]
 }
+
 
 class Exercise(ExerciseCombat):
     opponent_change_count = 0
