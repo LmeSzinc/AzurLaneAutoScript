@@ -7548,7 +7548,7 @@
       },
       "ExerciseStrategy": {
         "type": "select",
-        "value": "sun18",
+        "value": "aggressive",
         "option": [
           "aggressive",
           "sun18",
