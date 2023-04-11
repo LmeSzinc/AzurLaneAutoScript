@@ -2035,9 +2035,17 @@
       "name": "Each Opponent Try X Time(s)",
       "help": "1 ~ Positive Infinity"
     },
-    "ExercisePreserve": {
-      "name": "Keep X Number Remain(s)",
-      "help": "1 ~ 10\n1 means run until 1/10"
+    "ExerciseStrategy": {
+      "name": "Exercise Strategy (Keep X number remains)",
+      "help": "If keeping 5 number remains, will try admiral at set time and clear number remains at last recover",
+      "aggressive": "0",
+      "sun18": "5 until Sunday 18pm",
+      "sun12": "5 until Sunday 12pm",
+      "sun0": "5 until Sunday 12am",
+      "sat18": "5 until Saturday 18pm",
+      "sat12": "5 until Saturday 12pm",
+      "sat0": "5 until Saturday 12am",
+      "fri18": "5 until Friday 18pm"
     },
     "LowHpThreshold": {
       "name": "Low HP Threshold",

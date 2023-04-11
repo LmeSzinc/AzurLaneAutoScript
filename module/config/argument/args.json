@@ -7546,9 +7546,19 @@
         "type": "input",
         "value": 1
       },
-      "ExercisePreserve": {
-        "type": "input",
-        "value": 0
+      "ExerciseStrategy": {
+        "type": "select",
+        "value": "aggressive",
+        "option": [
+          "aggressive",
+          "sun18",
+          "sun12",
+          "sun0",
+          "sat18",
+          "sat12",
+          "sat0",
+          "fri18"
+        ]
       },
       "LowHpThreshold": {
         "type": "input",

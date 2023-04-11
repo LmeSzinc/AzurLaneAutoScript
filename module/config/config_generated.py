@@ -340,7 +340,7 @@ class GeneratedConfig:
     # Group `Exercise`
     Exercise_OpponentChooseMode = 'max_exp'  # max_exp, easiest, leftmost, easiest_else_exp
     Exercise_OpponentTrial = 1
-    Exercise_ExercisePreserve = 0
+    Exercise_ExerciseStrategy = 'aggressive'  # aggressive, sun18, sun12, sun0, sat18, sat12, sat0, fri18
     Exercise_LowHpThreshold = 0.4
     Exercise_LowHpConfirmWait = 0.1
     Exercise_OpponentRefreshValue = 0
