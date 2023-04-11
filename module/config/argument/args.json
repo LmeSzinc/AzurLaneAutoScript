@@ -7551,13 +7551,13 @@
         "value": "aggressive",
         "option": [
           "aggressive",
-          "sun18",
-          "sun12",
-          "sun0",
-          "sat18",
-          "sat12",
+          "fri18",
           "sat0",
-          "fri18"
+          "sat12",
+          "sat18",
+          "sun0",
+          "sun12",
+          "sun18"
         ]
       },
       "LowHpThreshold": {

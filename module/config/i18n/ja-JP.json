@@ -2039,13 +2039,13 @@
       "name": "Exercise.ExerciseStrategy.name",
       "help": "Exercise.ExerciseStrategy.help",
       "aggressive": "aggressive",
-      "sun18": "sun18",
-      "sun12": "sun12",
-      "sun0": "sun0",
-      "sat18": "sat18",
-      "sat12": "sat12",
+      "fri18": "fri18",
       "sat0": "sat0",
-      "fri18": "fri18"
+      "sat12": "sat12",
+      "sat18": "sat18",
+      "sun0": "sun0",
+      "sun12": "sun12",
+      "sun18": "sun18"
     },
     "LowHpThreshold": {
       "name": "Exercise.LowHpThreshold.name",

@@ -575,7 +575,7 @@ Exercise:
   OpponentTrial: 1
   ExerciseStrategy:
     value: aggressive
-    option: [ aggressive, sun18, sun12, sun0, sat18, sat12, sat0, fri18 ]
+    option: [ aggressive, fri18, sat0, sat12, sat18, sun0, sun12, sun18 ]
   LowHpThreshold: 0.4
   LowHpConfirmWait: 0.1
   OpponentRefreshValue: 0
