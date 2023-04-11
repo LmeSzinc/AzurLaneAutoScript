@@ -16,7 +16,7 @@ class DatedDuration(Ocr):
         result = super().after_process(result)
         result = result.replace('I', '1').replace('D', '0').replace('S', '5')
         return result
-    
+
     def ocr(self, image, direct_ocr=False):
         """
         Do OCR on a dated duration, such as `10d 01:30:30` or `7日01:30:30`.
@@ -35,7 +35,7 @@ class DatedDuration(Ocr):
         if len(self.buttons) == 1:
             result_list = result_list[0]
         return result_list
-    
+
     @staticmethod
     def parse_time(string):
         """
@@ -53,7 +53,7 @@ class DatedDuration(Ocr):
         else:
             logger.warning(f'Invalid dated duration: {string}')
             return timedelta(days=0, hours=0, minutes=0, seconds=0)
-        
+
 
 class DatedDurationYuv(DatedDuration, OcrYuv):
     pass
@@ -77,7 +77,6 @@ class Exercise(ExerciseCombat):
     opponent_change_count = 0
     remain = 0
     preserve = 0
-
 
     def _new_opponent(self):
         logger.info('New opponent')
@@ -172,11 +171,9 @@ class Exercise(ExerciseCombat):
             self.config.set_record(Exercise_OpponentRefreshValue=0)
             return 0
 
-
     def server_support_ocr_reset_remain(self) -> bool:
         return self.config.SERVER in ['cn', 'en', 'jp']
 
-   
     def _get_exercise_reset_remain(self):
         """
         Returns:
@@ -197,7 +194,7 @@ class Exercise(ExerciseCombat):
         else:
             preserve = 5
             admiral_interval = ADMIRAL_TRIAL_HOUR_INTERVAL[self.config.Exercise_ExerciseStrategy]
-            
+
         return preserve, admiral_interval
 
     def run(self):
@@ -205,6 +202,7 @@ class Exercise(ExerciseCombat):
 
         self.opponent_change_count = self._get_opponent_change_count()
         logger.attr("Change_opponent_count", self.opponent_change_count)
+        logger.attr('Exercise_ExerciseStrategy', self.config.Exercise_ExerciseStrategy)
         self.preserve, admiral_interval = self._get_exercise_strategy()
 
         if not self.server_support_ocr_reset_remain():
@@ -213,16 +211,19 @@ class Exercise(ExerciseCombat):
             remain_time = timedelta(days=0)
         else:
             remain_time = OCR_PERIOD_REMAIN.ocr(self.device.image)
-    
+        logger.info(f'Exercise period remain: {remain_time}')
+
         if admiral_interval is not None and remain_time:
             admiral_start, admiral_end = admiral_interval
-            
-            if admiral_start > int(remain_time.total_seconds() // 3600) >= admiral_end: #set time for getting admiral
+
+            if admiral_start > int(remain_time.total_seconds() // 3600) >= admiral_end:  # set time for getting admiral
                 logger.info('Reach set time for admiral trial, using all attempts.')
-                self.preserve = 0 
-            elif int(remain_time.total_seconds() // 3600) < 6: #if not set to "sun18", still depleting at sunday 18pm.
+                self.preserve = 0
+            elif int(remain_time.total_seconds() // 3600) < 6:  # if not set to "sun18", still depleting at sunday 18pm.
                 logger.info('Exercise period remain less than 6 hours, using all attempts.')
                 self.preserve = 0
+            else:
+                logger.info(f'Preserve {self.preserve} exercise')
 
         while 1:
             self.remain = OCR_EXERCISE_REMAIN.ocr(self.device.image)
@@ -237,7 +238,6 @@ class Exercise(ExerciseCombat):
             if not success:
                 logger.info('New opponent exhausted')
                 break
-
 
         # self.equipment_take_off_when_finished()
 
