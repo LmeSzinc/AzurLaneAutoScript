@@ -69,12 +69,6 @@ Sos:
 EventGeneral:
   - EventGeneral
   - TaskBalancer
-Coalition:
-  - Scheduler
-  - Campaign
-  - Coalition
-  - StopCondition
-  - Emotion
 Event:
   - Scheduler
   - Campaign
@@ -97,6 +91,12 @@ Raid:
   - Scheduler
   - Raid
   - Campaign
+  - StopCondition
+  - Emotion
+Coalition:
+  - Scheduler
+  - Campaign
+  - Coalition
   - StopCondition
   - Emotion
 MaritimeEscort:

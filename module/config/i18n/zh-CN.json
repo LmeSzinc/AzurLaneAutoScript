@@ -74,10 +74,6 @@
       "name": "活动通用设置",
       "help": ""
     },
-    "Coalition": {
-      "name": "极地风暴",
-      "help": ""
-    },
     "Event": {
       "name": "活动图",
       "help": ""
@@ -88,6 +84,10 @@
     },
     "Raid": {
       "name": "共斗活动",
+      "help": ""
+    },
+    "Coalition": {
+      "name": "极地风暴",
       "help": ""
     },
     "MaritimeEscort": {

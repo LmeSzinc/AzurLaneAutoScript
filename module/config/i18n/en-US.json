@@ -74,10 +74,6 @@
       "name": "Event General",
       "help": ""
     },
-    "Coalition": {
-      "name": "Frostfall",
-      "help": ""
-    },
     "Event": {
       "name": "Event",
       "help": ""
@@ -88,6 +84,10 @@
     },
     "Raid": {
       "name": "Raid",
+      "help": ""
+    },
+    "Coalition": {
+      "name": "Frostfall",
       "help": ""
     },
     "MaritimeEscort": {

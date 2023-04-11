@@ -74,10 +74,6 @@
       "name": "イベント共通設定",
       "help": ""
     },
-    "Coalition": {
-      "name": "Task.Coalition.name",
-      "help": "Task.Coalition.help"
-    },
     "Event": {
       "name": "イベント海域",
       "help": ""
@@ -89,6 +85,10 @@
     "Raid": {
       "name": "Raid",
       "help": ""
+    },
+    "Coalition": {
+      "name": "Task.Coalition.name",
+      "help": "Task.Coalition.help"
     },
     "MaritimeEscort": {
       "name": "Maritime Escort",
