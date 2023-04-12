@@ -74,10 +74,6 @@
       "name": "Event General",
       "help": ""
     },
-    "Coalition": {
-      "name": "Frostfall",
-      "help": ""
-    },
     "Event": {
       "name": "Event",
       "help": ""
@@ -88,6 +84,10 @@
     },
     "Raid": {
       "name": "Raid",
+      "help": ""
+    },
+    "Coalition": {
+      "name": "Frostfall",
       "help": ""
     },
     "MaritimeEscort": {
@@ -2254,18 +2254,26 @@
     "OpponentChooseMode": {
       "name": "Opponent Choose Mode",
       "help": "",
-      "max_exp": "max_exp",
-      "easiest": "easiest",
-      "leftmost": "leftmost",
-      "easiest_else_exp": "easiest_else_exp"
+      "max_exp": "Most Exp.",
+      "easiest": "Easiest",
+      "leftmost": "Highest ranking",
+      "easiest_else_exp": "Easiest else Exp."
     },
     "OpponentTrial": {
       "name": "Each Opponent Try X Time(s)",
       "help": "1 ~ Positive Infinity"
     },
-    "ExercisePreserve": {
-      "name": "Keep X Number Remain(s)",
-      "help": "1 ~ 10\n1 means run until 1/10"
+    "ExerciseStrategy": {
+      "name": "Exercise Strategy (Keep X number remains)",
+      "help": "If keeping 5 number remains, will try admiral at set time and clear number remains at last recover",
+      "aggressive": "Clear exercise remains",
+      "fri18": "Keep 5 until Friday 18pm",
+      "sat0": "Keep 5 until Saturday 12am",
+      "sat12": "Keep 5 until Saturday 12pm",
+      "sat18": "Keep 5 until Saturday 18pm",
+      "sun0": "Keep 5 until Sunday 12am",
+      "sun12": "Keep 5 until Sunday 12pm",
+      "sun18": "Keep 5 until Sunday 18pm"
     },
     "LowHpThreshold": {
       "name": "Low HP Threshold",

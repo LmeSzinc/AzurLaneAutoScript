@@ -124,7 +124,7 @@ class Camera(MapOperation):
                 logger.warning('Perspective error caused by info bar')
                 self.handle_info_bar()
                 return False
-            elif self.appear(GET_ITEMS_1):
+            elif self.appear(GET_ITEMS_1, offset=5):
                 logger.warning('Perspective error caused by get_items')
                 self.handle_mystery()
                 return False

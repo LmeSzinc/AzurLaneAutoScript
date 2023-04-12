@@ -325,19 +325,25 @@ class Radar:
 
         return None
 
-    def predict_question(self, image):
+    def predict_question(self, image, in_port=True):
         """
         Args:
             image: Screenshot.
+            in_port (bool): False to treat is_port as is_question
 
         Returns:
             tuple: Grid location of question mark on radar, or None if nothing found.
         """
         self.predict(image)
+        self.show()
         for location in [(0, 1), (-1, 0), (1, 0), (0, -1), (0, -2), (0, -3)]:
             grid = self[location]
-            if grid.is_question and not grid.predict_port():
-                return location
+            if in_port:
+                if grid.is_question and not grid.is_port:
+                    return location
+            else:
+                if grid.is_question or grid.is_port:
+                    return location
 
         return None
 
