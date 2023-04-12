@@ -177,6 +177,9 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             if self.handle_map_event():
                 timeout.reset()
                 continue
+            # A game bug that AUTO_SEARCH_REWARD from the last cleared zone popups
+            if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
+                continue
             # EXCHANGE_CHECK popups after monthly reset
             if self.is_in_globe():
                 self.os_globe_goto_map()
