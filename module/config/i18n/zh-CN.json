@@ -74,10 +74,6 @@
       "name": "活动通用设置",
       "help": ""
     },
-    "Coalition": {
-      "name": "极地风暴",
-      "help": ""
-    },
     "Event": {
       "name": "活动图",
       "help": ""
@@ -88,6 +84,10 @@
     },
     "Raid": {
       "name": "共斗活动",
+      "help": ""
+    },
+    "Coalition": {
+      "name": "极地风暴",
       "help": ""
     },
     "MaritimeEscort": {
@@ -2028,16 +2028,24 @@
       "help": "",
       "max_exp": "经验值最多",
       "easiest": "战力最低",
-      "leftmost": "最左边",
+      "leftmost": "排名最高",
       "easiest_else_exp": "先最简单再经验最多"
     },
     "OpponentTrial": {
       "name": "每个对手尝试 X 次",
       "help": ""
     },
-    "ExercisePreserve": {
-      "name": "保留 X 次演习次数",
-      "help": ""
+    "ExerciseStrategy": {
+      "name": "演习策略",
+      "help": "若保留 5 次，则会在设定时间尝试冲击元帅，并在周日 18 点刷新后清空所有次数",
+      "aggressive": "清空演习次数",
+      "fri18": "保留5次直到星期五18点",
+      "sat0": "保留5次直到星期六0点",
+      "sat12": "保留5次直到星期六12点",
+      "sat18": "保留5次直到星期六18点",
+      "sun0": "保留5次直到星期日0点",
+      "sun12": "保留5次直到星期日12点",
+      "sun18": "保留5次直到星期日18点"
     },
     "LowHpThreshold": {
       "name": "血量低于 X 后撤退",
