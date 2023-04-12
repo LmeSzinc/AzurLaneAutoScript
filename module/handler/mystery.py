@@ -44,7 +44,7 @@ class MysteryHandler(StrategyHandler, EnemySearchingHandler):
         if button is None or area_cross_area(button.button, MYSTERY_ITEM.area, threshold=5):
             button = MYSTERY_ITEM
 
-        if self.appear(GET_ITEMS_1):
+        if self.appear(GET_ITEMS_1, offset=5):
             logger.attr('Mystery', 'Get item')
             if drop:
                 drop.add(self.device.image)

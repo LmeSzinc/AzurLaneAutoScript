@@ -5,7 +5,7 @@ import numpy as np
 from module.base.timer import Timer
 from module.base.utils import area_offset
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_1_RYZA
-from module.exception import CampaignEnd, MapDetectionError
+from module.exception import CampaignEnd, GameNotRunningError, MapDetectionError
 from module.handler.assets import AUTO_SEARCH_MENU_CONTINUE, GAME_TIPS
 from module.logger import logger
 from module.map.map_base import CampaignMap, location2node
@@ -124,7 +124,7 @@ class Camera(MapOperation):
                 logger.warning('Perspective error caused by info bar')
                 self.handle_info_bar()
                 return False
-            elif self.appear(GET_ITEMS_1):
+            elif self.appear(GET_ITEMS_1, offset=5):
                 logger.warning('Perspective error caused by get_items')
                 self.handle_mystery()
                 return False
@@ -179,6 +179,10 @@ class Camera(MapOperation):
                 logger.warning(string)
                 x, y = string.split('=')[1].strip('() ').split(',')
                 self._map_swipe((-int(x.strip()), -int(y.strip())))
+            # Finally check if game is alive
+            elif not self.device.app_is_running():
+                logger.error('Trying to update camera but game died')
+                raise GameNotRunningError
             else:
                 raise e
 

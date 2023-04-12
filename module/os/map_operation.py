@@ -92,6 +92,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         # Katakana 'ペ' may be misread as Hiragana 'ぺ'.
         name = name.replace('一', 'ー').replace('力', 'カ').replace('ぺ', 'ペ')
         name = name.replace('ジブフルタル', 'ジブラルタル')
+        name = name.replace('タント', 'タラント')
         return name
 
     @Config.when(SERVER='tw')
@@ -175,6 +176,9 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             # Handle popups
             if self.handle_map_event():
                 timeout.reset()
+                continue
+            # A game bug that AUTO_SEARCH_REWARD from the last cleared zone popups
+            if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
                 continue
             # EXCHANGE_CHECK popups after monthly reset
             if self.is_in_globe():

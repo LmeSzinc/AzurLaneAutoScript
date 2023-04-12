@@ -163,7 +163,7 @@ class MeowfficerEnhance(MeowfficerBase):
         else:
             logger.info('Lack of feed material to complete enhancement, cancelling')
             self.ui_click(MEOWFFICER_FEED_CANCEL, check_button=MEOWFFICER_ENHANCE_CONFIRM,
-                          offset=(20, 20), skip_first_screenshot=True)
+                          offset=(10, 10), skip_first_screenshot=True)
         return current
 
     def meow_feed_enter(self, skip_first_screenshot=True):

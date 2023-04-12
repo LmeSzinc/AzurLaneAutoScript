@@ -189,7 +189,7 @@ class Daily(Combat, DailyEquipment):
             result = self.daily_enter(button)
             if not result:
                 break
-            if self.daily_current == 2:
+            if self.daily_current == self.supply_line_disruption_index:
                 logger.info('Submarine daily skip not unlocked, skip')
                 self.ui_click(click_button=BACK_ARROW, check_button=daily_enter_check, skip_first_screenshot=True)
                 break

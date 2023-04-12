@@ -74,10 +74,6 @@
       "name": "イベント共通設定",
       "help": ""
     },
-    "Coalition": {
-      "name": "Task.Coalition.name",
-      "help": "Task.Coalition.help"
-    },
     "Event": {
       "name": "イベント海域",
       "help": ""
@@ -89,6 +85,10 @@
     "Raid": {
       "name": "Raid",
       "help": ""
+    },
+    "Coalition": {
+      "name": "Task.Coalition.name",
+      "help": "Task.Coalition.help"
     },
     "MaritimeEscort": {
       "name": "Maritime Escort",
@@ -2059,9 +2059,17 @@
       "name": "Exercise.OpponentTrial.name",
       "help": "Exercise.OpponentTrial.help"
     },
-    "ExercisePreserve": {
-      "name": "Exercise.ExercisePreserve.name",
-      "help": "Exercise.ExercisePreserve.help"
+    "ExerciseStrategy": {
+      "name": "Exercise.ExerciseStrategy.name",
+      "help": "Exercise.ExerciseStrategy.help",
+      "aggressive": "aggressive",
+      "fri18": "fri18",
+      "sat0": "sat0",
+      "sat12": "sat12",
+      "sat18": "sat18",
+      "sun0": "sun0",
+      "sun12": "sun12",
+      "sun18": "sun18"
     },
     "LowHpThreshold": {
       "name": "Exercise.LowHpThreshold.name",
