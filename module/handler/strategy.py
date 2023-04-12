@@ -1,5 +1,4 @@
-import numpy as np
-
+from module.combat.assets import GET_ITEMS_1
 from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
@@ -25,27 +24,38 @@ class StrategyHandler(InfoHandler):
     fleet_1_formation_fixed = False
     fleet_2_formation_fixed = False
 
-    def strategy_open(self):
+    def strategy_open(self, skip_first_screenshot=True):
         logger.info('Strategy open')
         while 1:
-            if self.appear(IN_MAP, interval=5) and not self.appear(STRATEGY_OPENED, offset=120):
-                self.device.click(STRATEGY_OPEN)
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
             if self.appear(STRATEGY_OPENED, offset=120):
                 break
 
-            self.device.screenshot()
+            if self.appear(IN_MAP, interval=5) and not self.appear(STRATEGY_OPENED, offset=120):
+                self.device.click(STRATEGY_OPEN)
+                continue
 
-    def strategy_close(self):
+            # Handle missed mysteries
+            if self.appear_then_click(GET_ITEMS_1, offset=5):
+                continue
+
+    def strategy_close(self, skip_first_screenshot=True):
         logger.info('Strategy close')
         while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
             if self.appear_then_click(STRATEGY_OPENED, offset=120, interval=5):
-                pass
+                continue
 
             if not self.appear(STRATEGY_OPENED, offset=120):
                 break
-
-            self.device.screenshot()
 
     def strategy_set_execute(self, formation_index=None, sub_view=None, sub_hunt=None):
         """
