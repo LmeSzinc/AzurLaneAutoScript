@@ -15,11 +15,16 @@ app.on('second-instance', restoreWindow);
 
 /**
  * Disable Hardware Acceleration to save more system resources.
+ * Also `in-process-gpu` to avoid creating a gpu process which may `exited unexpectedly`
+ * See https://github.com/electron/electron/issues/30966
  */
 app.disableHardwareAcceleration();
-// app.commandLine.appendSwitch('enable-transparent-visuals');
-// app.commandLine.appendSwitch('disable-gpu');
-
+app.commandLine.appendSwitch('disable-gpu');
+app.commandLine.appendSwitch('disable-software-rasterizer');
+app.commandLine.appendSwitch('disable-gpu-compositing');
+app.commandLine.appendSwitch('disable-gpu-rasterization');
+app.commandLine.appendSwitch('disable-gpu-sandbox');
+app.commandLine.appendSwitch('in-process-gpu');
 /**
  * Shout down background process if all windows was closed
  */
