@@ -250,3 +250,4 @@ class Duration(Ocr):
 
 class DurationYuv(Duration, OcrYuv):
     pass
+
