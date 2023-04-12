@@ -133,6 +133,13 @@ class FleetEmotion:
                             f'Fleet {self.fleet} Recover Location=\"Docks\" can not be used together, '
                             'please check your emotion settings')
             raise RequestHumanTakeover
+        # In 14-4 with 2X book, expected emotion reduce is 32, can't keep happy bonus (>120),
+        # otherwise will infinite task delay
+        if self.control == 'keep_exp_bonus' and expected_reduce >= 29:
+            expected_reduce = 29
+            logger.info(f'Fleet {self.fleet} expected_reduce is limited to 29 '
+                        f'when Emotion Control=\"Keep Happy Bonus\"')
+
         recover_count = (self.limit + expected_reduce - self.current) // self.speed
         recovered = (int(datetime.now().timestamp()) // 360 + recover_count + 1) * 360
         return datetime.fromtimestamp(recovered)

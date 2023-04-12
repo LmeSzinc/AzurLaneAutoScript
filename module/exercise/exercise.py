@@ -3,18 +3,81 @@ from module.config.utils import get_server_last_update
 from module.exercise.assets import *
 from module.exercise.combat import ExerciseCombat
 from module.logger import logger
-from module.ocr.ocr import Digit, Ocr
+from module.ocr.ocr import Digit, Ocr, OcrYuv
 from module.ui.ui import page_exercise
 from module.config.utils import get_server_next_update
 
+
+class DatedDuration(Ocr):
+    def __init__(self, buttons, lang='cnocr', letter=(255, 255, 255), threshold=128, alphabet='0123456789:IDS天日d',
+                 name=None):
+        super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
+
+    def after_process(self, result):
+        result = super().after_process(result)
+        result = result.replace('I', '1').replace('D', '0').replace('S', '5')
+        return result
+
+    def ocr(self, image, direct_ocr=False):
+        """
+        Do OCR on a dated duration, such as `10d 01:30:30` or `7日01:30:30`.
+
+        Args:
+            image:
+            direct_ocr:
+
+        Returns:
+            list, datetime.timedelta: timedelta object, or a list of it.
+        """
+        result_list = super().ocr(image, direct_ocr=direct_ocr)
+        if not isinstance(result_list, list):
+            result_list = [result_list]
+        result_list = [self.parse_time(result) for result in result_list]
+        if len(self.buttons) == 1:
+            result_list = result_list[0]
+        return result_list
+
+    @staticmethod
+    def parse_time(string):
+        """
+        Args:
+            string (str): `10d 01:30:30` or `7日01:30:30`
+
+        Returns:
+            datetime.timedelta:
+        """
+        import re
+        result = re.search(r'(\d{1,2})\D?(\d{1,2}):?(\d{2}):?(\d{2})', string)
+        if result:
+            result = [int(s) for s in result.groups()]
+            return datetime.timedelta(days=result[0], hours=result[1], minutes=result[2], seconds=result[3])
+        else:
+            logger.warning(f'Invalid dated duration: {string}')
+            return datetime.timedelta(days=0, hours=0, minutes=0, seconds=0)
+
+
+class DatedDurationYuv(DatedDuration, OcrYuv):
+    pass
+
+
 OCR_EXERCISE_REMAIN = Digit(OCR_EXERCISE_REMAIN, letter=(173, 247, 74), threshold=128)
-OCR_EXERCISE_TIME_REMAIN = Ocr(buttons=OCR_EXERCISE_TIME_REMAIN, lang='cnocr', letter=(252, 253, 254),
-                               alphabet='天1234567890:')
+OCR_PERIOD_REMAIN = DatedDuration(OCR_PERIOD_REMAIN, letter=(255, 255, 255), threshold=128)
+ADMIRAL_TRIAL_HOUR_INTERVAL = {
+    # "aggressive": [336, 0]
+    "sun18": [6, 0],
+    "sun12": [12, 6],
+    "sun0": [24, 12],
+    "sat18": [30, 24],
+    "sat12": [36, 30],
+    "sat0": [48, 36],
+    "fri18": [56, 48]
+}
 
 
 class Exercise(ExerciseCombat):
     opponent_change_count = 0
     remain = 0
+    preserve = 0
 
     def _new_opponent(self):
         logger.info('New opponent')
@@ -109,74 +172,103 @@ class Exercise(ExerciseCombat):
             self.config.set_record(Exercise_OpponentRefreshValue=0)
             return 0
 
-    def run(self):
-        server_update = self.config.Scheduler_ServerUpdate
-        hour_to_sec = 3600
-        sec_to_minutes = 60
+    def server_support_ocr_reset_remain(self) -> bool:
+        return self.config.SERVER in ['cn', 'en', 'jp']
 
-        self.ui_ensure(page_exercise)
-        # Only support cn now.
-        if self.config.SERVER == 'cn':
-            ocr = OCR_EXERCISE_TIME_REMAIN.ocr(self.device.image)
-            hour_current = datetime.datetime.now().hour
+    def _get_exercise_reset_remain(self):
+        """
+        Returns:
+            datetime.timedelta
+        """
+        result = OCR_PERIOD_REMAIN.ocr(self.device.image)
+        return result
 
-            # If is at the last hours of the last day, empty remain.
-            if ('0天' in ocr or '天' not in ocr) and hour_current >= 18:
-                exercise_preserve = 0
-            else:
-                exercise_preserve = self.config.Exercise_ExercisePreserve
-
-            run = False
-            # Try once on the second Friday if chosen to.
-            if '2天' in ocr and '12天' not in ocr and hour_current >= 18 and self.config.Exercise_EmptyOnceOnSecondFriday:
-                exercise_preserve = 0
-                run = True
-        # Other servers.
+    def _get_exercise_strategy(self):
+        """
+        Returns:
+            int: ExercisePreserve, X times to remain
+            list, int: Admiral trial time period
+        """
+        if self.config.Exercise_ExerciseStrategy == "aggressive":
+            preserve = 0
+            admiral_interval = None
         else:
-            exercise_preserve = self.config.Exercise_ExercisePreserve
-            run = False
+            preserve = 5
+            admiral_interval = ADMIRAL_TRIAL_HOUR_INTERVAL[self.config.Exercise_ExerciseStrategy]
 
-        logger.attr('Times To Preserve', exercise_preserve)
+        return preserve, admiral_interval
+
+    def run(self):
+        self.ui_ensure(page_exercise)
+        server_update = self.config.Scheduler_ServerUpdate
+
+        self.opponent_change_count = self._get_opponent_change_count()
+        logger.attr("Change_opponent_count", self.opponent_change_count)
+        logger.attr('Exercise_ExerciseStrategy', self.config.Exercise_ExerciseStrategy)
+        self.preserve, admiral_interval = self._get_exercise_strategy()
+
+        if not self.server_support_ocr_reset_remain():
+            logger.info(f'Server {self.config.SERVER} does not yet support OCR exercise reset remain time')
+            logger.info('Please contact the developer to improve as soon as possible')
+            remain_time = datetime.timedelta(days=0)
+        else:
+            remain_time = OCR_PERIOD_REMAIN.ocr(self.device.image)
+        logger.info(f'Exercise period remain: {remain_time}')
+
+        if admiral_interval is not None and remain_time:
+            admiral_start, admiral_end = admiral_interval
+
+            if admiral_start > int(remain_time.total_seconds() // 3600) >= admiral_end:  # set time for getting admiral
+                logger.info('Reach set time for admiral trial, using all attempts.')
+                self.preserve = 0
+                forced_run =True
+            elif int(remain_time.total_seconds() // 3600) < 6:  # if not set to "sun18", still depleting at sunday 18pm.
+                logger.info('Exercise period remain less than 6 hours, using all attempts.')
+                self.preserve = 0
+                forced_run = True
+            else:
+                logger.info(f'Preserve {self.preserve} exercise')
+                forced_run = False
+        else:
+            forced_run = True
 
         # Delay task to the configured time
         if ((get_server_next_update(server_update) - datetime.datetime.now()).seconds >
-            hour_to_sec * self.config.Exercise_DelayUntilHoursBeforeNextUpdate) \
-                and not run:
+            3600 * self.config.Exercise_DelayUntilHoursBeforeNextUpdate)\
+                and not forced_run:
             logger.warning(f'Exercise should run at {self.config.Exercise_DelayUntilHoursBeforeNextUpdate} '
                            f'hours before next update. Delay task to it.')
+            run = False
         else:
             run = True
 
-        if run:
-            self.opponent_change_count = self._get_opponent_change_count()
-            logger.attr("Change_opponent_count", self.opponent_change_count)
+        while run:
+            self.remain = OCR_EXERCISE_REMAIN.ocr(self.device.image)
+            if self.remain <= self.preserve:
+                break
 
-            while 1:
-                self.remain = OCR_EXERCISE_REMAIN.ocr(self.device.image)
-                if self.remain <= exercise_preserve:
-                    break
-                logger.hr(f'Exercise remain {self.remain}', level=1)
-                if self.config.Exercise_OpponentChooseMode == "easiest_else_exp":
-                    success = self._exercise_easiest_else_exp()
-                else:
-                    success = self._exercise_once()
-                if not success:
-                    logger.info('New opponent exhausted')
-                    break
+            logger.hr(f'Exercise remain {self.remain}', level=1)
+            if self.config.Exercise_OpponentChooseMode == "easiest_else_exp":
+                success = self._exercise_easiest_else_exp()
+            else:
+                success = self._exercise_once()
+            if not success:
+                logger.info('New opponent exhausted')
+                break
 
-            # self.equipment_take_off_when_finished()
+        # self.equipment_take_off_when_finished()
 
         # Scheduler
         with self.config.multi_set():
             self.config.set_record(Exercise_OpponentRefreshValue=self.opponent_change_count)
-            if self.remain <= exercise_preserve or self.opponent_change_count >= 5:
+            if self.remain <= self.preserve or self.opponent_change_count >= 5:
                 next_run = get_server_next_update(server_update) \
                            - datetime.timedelta(hours=self.config.Exercise_DelayUntilHoursBeforeNextUpdate)
                 now = datetime.datetime.now()
                 if next_run < now or run:
                     self.config.task_delay(server_update=True)
                     return
-                minutes_to_delay = int((next_run - now).total_seconds() / sec_to_minutes + 1)
+                minutes_to_delay = int((next_run - now).total_seconds() / 60 + 1)
                 self.config.task_delay(minute=minutes_to_delay)
             else:
                 self.config.task_delay(success=False)

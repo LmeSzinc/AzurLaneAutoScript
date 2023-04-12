@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 
 from module.base.timer import Timer
 from module.config.config import Function
+from module.config.utils import get_server_next_update
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.ocr.ocr import Digit
@@ -34,6 +35,7 @@ class OSStatus(UI):
         such as recon scan cooldown and submarine call cooldown.
         """
         now = datetime.now()
+        update = get_server_next_update('00:00')
         cd_tasks = [
             'OpsiObscure',
             'OpsiAbyssal',
@@ -43,7 +45,7 @@ class OSStatus(UI):
 
         def func(task: Function):
             if task.command in cd_tasks and task.enable:
-                if task.next_run - now <= timedelta(minutes=60):
+                if task.next_run != update and task.next_run - now <= timedelta(minutes=60):
                     return True
 
             return False

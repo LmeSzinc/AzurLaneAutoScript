@@ -14,11 +14,11 @@
     ],
     "Event": [
       "EventGeneral",
-      "Coalition",
       "Event",
       "Event2",
       "Event3",
       "Raid",
+      "Coalition",
       "MaritimeEscort",
       "WarArchives"
     ],

@@ -600,7 +600,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         """
         logger.hr('Clear question', level=2)
         for _ in range(3):
-            grid = self.radar.predict_question(self.device.image)
+            grid = self.radar.predict_question(self.device.image, in_port=self.zone.is_port)
             if grid is None:
                 logger.info('No question mark above current fleet on this radar')
                 return False
@@ -804,9 +804,16 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         """
         logger.hr('Map rescan once', level=2)
         self.handle_info_bar()
-        self.map_init(map_=None)
         result = False
 
+        # Try current camera first
+        self.map_data_init(map_=None)
+        self.update()
+        if self.map_rescan_current(drop=drop):
+            logger.info(f'Map rescan once end, result={result}')
+            return result
+
+        self.map_init(map_=None)
         queue = self.map.camera_data
         while len(queue) > 0:
             logger.hr(f'Map rescan {queue[0]}')

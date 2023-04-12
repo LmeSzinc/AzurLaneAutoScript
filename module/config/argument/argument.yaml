@@ -581,8 +581,9 @@ Exercise:
     value: max_exp
     option: [ max_exp, easiest, leftmost, easiest_else_exp ]
   OpponentTrial: 1
-  ExercisePreserve: 0
-  EmptyOnceOnSecondFriday: false
+  ExerciseStrategy:
+    value: aggressive
+    option: [ aggressive, fri18, sat0, sat12, sat18, sun0, sun12, sun18 ]
   LowHpThreshold: 0.4
   LowHpConfirmWait: 0.1
   OpponentRefreshValue: 0

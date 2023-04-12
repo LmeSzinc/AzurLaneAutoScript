@@ -74,10 +74,6 @@
       "name": "活動通用",
       "help": ""
     },
-    "Coalition": {
-      "name": "極地風暴",
-      "help": ""
-    },
     "Event": {
       "name": "活動圖",
       "help": ""
@@ -92,6 +88,10 @@
     },
     "Raid": {
       "name": "共鬥活動",
+      "help": ""
+    },
+    "Coalition": {
+      "name": "極地風暴",
       "help": ""
     },
     "MaritimeEscort": {
@@ -2057,20 +2057,24 @@
       "help": "",
       "max_exp": "經驗值最多",
       "easiest": "戰力最低",
-      "leftmost": "最左邊",
+      "leftmost": "排名最高",
       "easiest_else_exp": "先最簡單再經驗最多"
     },
     "OpponentTrial": {
       "name": "每個對手嘗試 X 次",
       "help": ""
     },
-    "ExercisePreserve": {
-      "name": "保留 X 次演習次數",
-      "help": ""
-    },
-    "EmptyOnceOnSecondFriday": {
-      "name": "Exercise.EmptyOnceOnSecondFriday.name",
-      "help": "Exercise.EmptyOnceOnSecondFriday.help"
+    "ExerciseStrategy": {
+      "name": "演習策略",
+      "help": "若保留 5 次，則會在設定時間嘗試衝擊元帥，並在周日18點刷新后清空所有次數",
+      "aggressive": "清空演習次數",
+      "fri18": "保留5次直到星期五18點",
+      "sat0": "保留5次直到星期六0點",
+      "sat12": "保留5次直到星期六12點",
+      "sat18": "保留5次直到星期六18點",
+      "sun0": "保留5次直到星期日0點",
+      "sun12": "保留5次直到星期日12點",
+      "sun18": "保留5次直到星期日18點"
     },
     "LowHpThreshold": {
       "name": "血量低於 X 後撤退",
