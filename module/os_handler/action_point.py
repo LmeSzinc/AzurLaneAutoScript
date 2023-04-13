@@ -168,7 +168,8 @@ class ActionPointHandler(UI, MapEventHandler):
             if sum(self._action_point_box[1:]) > 0:
                 break
             # Or having oil
-            if self._action_point_box[0] > 0:
+            # Might be 0 or 1 when page is not fully loaded
+            if self._action_point_box[0] > 100:
                 break
 
     @staticmethod
