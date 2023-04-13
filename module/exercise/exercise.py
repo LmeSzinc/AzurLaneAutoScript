@@ -230,7 +230,7 @@ class Exercise(ExerciseCombat):
                 logger.info(f'Preserve {self.preserve} exercise')
                 forced_run = False
         else:
-            forced_run = True
+            forced_run = False
 
         # Delay task to the configured time
         if ((get_server_next_update(server_update) - datetime.datetime.now()).seconds >
