@@ -160,12 +160,19 @@ class ActionPointHandler(UI, MapEventHandler):
             # Having too many current AP, probably an OCR error
             if self._action_point_current > 600:
                 continue
+
+            oil, boxes = self._action_point_box[0], self._action_point_box[1:]
             # Having boxes
-            if sum(self._action_point_box[1:]) > 0:
-                break
+            if sum(boxes) > 0:
+                if oil > 100:
+                    break
+                else:
+                    # [11, 0, 1, 0]
+                    continue
             # Or having oil
             # Might be 0 or 1 when page is not fully loaded
-            if self._action_point_box[0] > 100:
+            # [1, 0, 0, 0]
+            if oil > 100:
                 break
 
     @staticmethod
