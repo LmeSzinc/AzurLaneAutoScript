@@ -2,10 +2,22 @@
   <div class="app-header">
     <div class="header-drag"></div>
     <div class="header-icon">
-      <ArrowDownOutlined class="icon" @click="trayWin"></ArrowDownOutlined>
-      <MinusOutlined class="icon" @click="minimizeWin"></MinusOutlined>
-      <BorderOutlined class="icon" @click="maximizeWin"></BorderOutlined>
-      <CloseOutlined class="icon" @click="closeWin"></CloseOutlined>
+      <ArrowDownOutlined
+        class="icon"
+        @click="trayWin"
+      ></ArrowDownOutlined>
+      <MinusOutlined
+        class="icon"
+        @click="minimizeWin"
+      ></MinusOutlined>
+      <BorderOutlined
+        class="icon"
+        @click="maximizeWin"
+      ></BorderOutlined>
+      <CloseOutlined
+        class="icon"
+        @click="closeWin"
+      ></CloseOutlined>
     </div>
   </div>
 </template>
@@ -51,6 +63,7 @@
     display: flex;
     flex-direction: row;
     -webkit-app-region: drag;
+      z-index: 999;
   }
 
   .header-drag {

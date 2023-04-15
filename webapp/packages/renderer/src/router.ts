@@ -2,10 +2,11 @@ import {createRouter, createWebHashHistory} from 'vue-router';
 import Alas from '/@/components/Alas.vue';
 
 const routes = [
-  {path: '/', name: 'Alas', component: Alas},
+    {path: '/', name: 'LunchPage', component: () => import('./views/Launch.vue')},
+    {path: '/Alas', name: 'Alas', component: Alas},
 ];
 
 export default createRouter({
-  routes,
-  history: createWebHashHistory(),
+    routes,
+    history: createWebHashHistory(),
 });

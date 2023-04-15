@@ -1,31 +1,34 @@
 <template>
-  <div id="app">
+  <div
+    id="app"
+    class="bg-white dark:bg-dark text-slate dark:text-neutral"
+  >
     <app-header></app-header>
     <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts">
-  import {defineComponent} from 'vue';
-  import AppHeader from '/@/components/AppHeader.vue'
+import {defineComponent} from 'vue';
+import AppHeader from '/@/components/AppHeader.vue';
 
-  export default defineComponent({
+export default defineComponent({
     name: 'App',
     components: {
-      AppHeader
+        AppHeader,
     },
-  });
+});
 </script>
 
 <style>
-  #app {
+#app {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-  }
+}
 
-  body {
+body {
     margin: 0;
     padding: 0;
-  }
+}
 </style>

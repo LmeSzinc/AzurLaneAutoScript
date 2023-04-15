@@ -27,6 +27,7 @@
   "devDependencies": {
     "@types/node": "18.15.3",
     "@typescript-eslint/eslint-plugin": "5.55.0",
+    "@typescript-eslint/parser": "^5.58.0",
     "@vitejs/plugin-vue": "4.0.0",
     "@vue/test-utils": "2.3.1",
     "cross-env": "7.0.3",
@@ -38,17 +39,23 @@
     "nano-staged": "0.8.0",
     "playwright": "1.31.2",
     "simple-git-hooks": "2.8.1",
+    "ts-node": "^10.9.1",
     "typescript": "4.9.5",
     "unplugin-auto-expose": "0.0.4",
     "vite": "4.1.4",
     "vitest": "0.29.3",
     "vue": "^3.2.47",
-    "vue-tsc": "1.2.0"
+    "vue-tsc": "1.2.0",
+    "vue-types": "^5.0.2"
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
+    "ant-design-vue": "^3.2.17",
+    "autoprefixer": "^10.4.14",
     "electron-updater": "5.3.0",
+    "postcss": "^8.4.21",
     "python-shell": "^5.0.0",
+    "tailwindcss": "^3.3.1",
     "tree-kill": "^1.2.2",
     "vue-router": "^4.1.6",
     "yaml": "^2.2.1"
