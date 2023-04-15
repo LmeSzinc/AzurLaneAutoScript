@@ -2,11 +2,11 @@ import os
 
 import cv2
 import numpy as np
-from cnocr import CnOcr
-from cnocr.cn_ocr import (check_model_name, data_dir, gen_network, load_module,
+from module.cnocr import CnOcr
+from module.cnocr.cn_ocr import (check_model_name, data_dir, gen_network, load_module,
                           read_charset)
-from cnocr.fit.ctc_metrics import CtcMetrics
-from cnocr.hyperparams.cn_hyperparams import CnHyperparams as Hyperparams
+from module.cnocr.fit.ctc_metrics import CtcMetrics
+from module.cnocr.hyperparams.cn_hyperparams import CnHyperparams as Hyperparams
 from PIL import Image
 
 from module.exception import RequestHumanTakeover
