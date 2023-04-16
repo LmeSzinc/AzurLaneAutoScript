@@ -1,26 +1,29 @@
 <template>
-  <iframe class="alas" :src="url"></iframe>
+  <iframe
+    class="alas"
+    :src="url"
+  ></iframe>
 </template>
 
 <script lang="ts">
-  import {defineComponent} from 'vue';
-  import {webuiUrl} from '../../../main/src/config';
+import {defineComponent} from 'vue';
+import {webuiUrl} from '../../../main/src/config';
 
-  export default defineComponent({
-    name: 'Alas',
+export default defineComponent({
+    name: 'AlasPage',
     computed: {
-      url: function () {
-        return webuiUrl;
-      },
+        url: function () {
+            return webuiUrl;
+        },
     },
-  });
+});
 </script>
 
 <style scoped>
-  .alas {
+.alas {
     border-width: 0;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-  }
+}
 </style>

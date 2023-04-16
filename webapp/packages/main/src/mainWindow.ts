@@ -1,21 +1,18 @@
 import {app, BrowserWindow, globalShortcut, ipcMain, Menu, nativeTheme, Tray} from 'electron';
 import {URL} from 'node:url';
 import {PyShell} from '/@/pyshell';
-import {dpiScaling, webuiTheme, webuiArgs, webuiPath} from '/@/config';
+import {dpiScaling, webuiTheme, webuiArgs, webuiPath, installerPath, installerArgs} from '/@/config';
 
 const path = require('path');
 /**
  * Load deploy settings and start Alas web server.
  */
+let installer: PyShell | null = null;
 let alas: PyShell | null = null;
 
 let browserWindow: BrowserWindow | null = null;
 
-try {
-    nativeTheme.themeSource = webuiTheme;
-} catch (e) {
-    console.log(e);
-}
+nativeTheme.themeSource = webuiTheme;
 
 export async function createWindow() {
     browserWindow = new BrowserWindow({
@@ -76,8 +73,8 @@ export async function createWindow() {
     });
 
 
-    ipcMain.on('window-ready', function (_, args) {
-        args && initWindowEvents();
+    ipcMain.on('window-ready', async function (_, args) {
+        args && await initWindowEvents();
     });
 
     // Tray
@@ -139,13 +136,20 @@ export function loadURL() {
         import.meta.env.DEV && import.meta.env.VITE_DEV_SERVER_URL !== undefined
             ? import.meta.env.VITE_DEV_SERVER_URL
             : new URL('../renderer/dist/index.html', 'file://' + __dirname).toString();
-
     browserWindow?.loadURL(pageUrl);
 }
 
-function initWindowEvents() {
-    alas = new PyShell(import.meta.env.DEV ? path.join('./', webuiPath) : webuiPath, webuiArgs);
 
+async function initWindowEvents() {
+
+    // Start installer and wait for it to finish.
+    await runInstaller();
+
+    ipcMain.on('install-success', async function () {
+        installer = null;
+        // Start Alas web server.
+        await runAlas();
+    });
     // Minimize, maximize, close window.
     ipcMain.on('window-tray', function () {
         browserWindow?.hide();
@@ -157,6 +161,18 @@ function initWindowEvents() {
         browserWindow?.isMaximized() ? browserWindow?.restore() : browserWindow?.maximize();
     });
     ipcMain.on('window-close', function () {
+        if (installer) {
+            installer?.removeAllListeners('stderr');
+            installer?.removeAllListeners('message');
+            installer?.removeAllListeners('stdout');
+            installer?.kill(function () {
+                browserWindow?.close();
+                browserWindow = null;
+                installer = null;
+            });
+            return;
+        }
+
         alas?.removeAllListeners('stderr');
         alas?.removeAllListeners('message');
         alas?.removeAllListeners('stdout');
@@ -167,18 +183,41 @@ function initWindowEvents() {
 
     });
 
+}
 
-    alas?.end(function (/* err: string */) {
-        // if (err) throw err;
+async function runInstaller() {
+    installer = new PyShell(installerPath, installerArgs);
+    installer?.end(function (err: string) {
+        sendLaunchLog(err);
+        if (err) throw err;
+    });
+    installer?.on('stdout', function (message) {
+        sendLaunchLog(message);
+    });
+
+    installer?.on('message', function (message) {
+        sendLaunchLog(message);
+    });
+    installer?.on('stderr', function (message: string) {
+        sendLaunchLog(message);
+    });
+}
+
+function runAlas() {
+    alas = new PyShell(webuiPath, webuiArgs);
+    alas?.end(function (err: string) {
+        sendLaunchLog(err);
+        if (err) throw err;
     });
     alas?.on('stdout', function (message) {
-        browserWindow?.webContents.send('alas-log', message);
+        sendLaunchLog(message);
     });
 
     alas?.on('message', function (message) {
-        browserWindow?.webContents.send('alas-log', message);
+        sendLaunchLog(message);
     });
     alas?.on('stderr', function (message: string) {
+        sendLaunchLog(message);
         /**
          * Receive logs, judge if Alas is ready
          * For starlette backend, there will have:
@@ -186,14 +225,18 @@ function initWindowEvents() {
          * Or backend has started already
          * `[Errno 10048] error while attempting to bind on address ('0.0.0.0', 22267): `
          */
-        browserWindow?.webContents.send('alas-log', message);
         if (message.includes('Application startup complete') || message.includes('bind on address')) {
             alas?.removeAllListeners('stderr');
             alas?.removeAllListeners('message');
             alas?.removeAllListeners('stdout');
             // loadURL();
         }
+
     });
+}
+
+function sendLaunchLog(message: string) {
+    browserWindow?.webContents.send('alas-log', message);
 }
 
 

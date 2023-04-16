@@ -53,7 +53,7 @@ const PythonExecutable = config.Deploy.Python.PythonExecutable;
 const WebuiPort = config.Deploy.Webui.WebuiPort.toString();
 const Theme = config.Deploy.Webui.Theme.toString();
 
-const ThemeObj: { [k in string]: 'light' |'dark' | 'system' } = {
+const ThemeObj: { [k in string]: 'light' | 'dark' | 'system' } = {
     default: 'light',
     light: 'light',
     dark: 'dark',
@@ -61,6 +61,8 @@ const ThemeObj: { [k in string]: 'light' |'dark' | 'system' } = {
 };
 
 export const pythonPath = (path.isAbsolute(PythonExecutable) ? PythonExecutable : path.join(alasPath, PythonExecutable));
+export const installerPath = import.meta.env.DEV ? 'installer_test.py' : 'installer.py' ;
+export const installerArgs = import.meta.env.DEV ? [] : [];
 export const webuiUrl = `http://127.0.0.1:${WebuiPort}`;
 export const webuiPath = 'gui.py';
 export const webuiArgs = ['--port', WebuiPort, '--electron'];

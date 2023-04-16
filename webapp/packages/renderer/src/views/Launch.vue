@@ -57,15 +57,8 @@ export default defineComponent({
                 logInfos.value.push(arg);
                 await nextTick();
                 scrollToBottom();
-                if (!arg.includes('Process')) return;
-                const processInfo = arg.match(/Process: \[\s(.+?)\s\]/g)?.pop();
-                const processVal = processInfo?.match(/\d+/g)?.pop();
-                processVal && (progress.value = Number(processVal));
-                if (progress.value !== 100) return;
-                setTimeout(() => {
-                    router.push('/alas');
-                }, 1000);
-
+                handelAlasInfo(arg);
+                handleProgress(arg);
             });
         });
 
@@ -74,6 +67,22 @@ export default defineComponent({
             scrollDiv?.scrollTo(0, scrollDiv?.scrollHeight);
         };
 
+        const handelAlasInfo = (logStr: string) => {
+            if (logStr?.includes('Application startup complete') || logStr?.includes('bind on address')) {
+                setTimeout(() => {
+                    router.push('/alas');
+                }, 1000);
+            }
+        };
+
+        const handleProgress = (logStr: string) => {
+            if (!logStr?.includes('Process')) return;
+            const processInfo = logStr.match(/Process: \[\s(.+?)\s\]/g)?.pop();
+            const processVal = processInfo?.match(/\d+/g)?.pop();
+            processVal && (progress.value = Number(processVal));
+            if (progress.value !== 100) return;
+            ipcRendererIns.send('install-success', true);
+        };
 
         return {
             logInfos,
