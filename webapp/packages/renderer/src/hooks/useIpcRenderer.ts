@@ -1,7 +1,8 @@
-import {ref} from 'vue';
-
 const useIpcRenderer = () => {
-    return ref(require('electron').ipcRenderer);
+    return {
+        ipcRendererSend: window.__electron_preload__ipcRendererSend,
+        ipcRendererOn: window.__electron_preload__ipcRendererOn,
+    };
 };
 
 export default useIpcRenderer;

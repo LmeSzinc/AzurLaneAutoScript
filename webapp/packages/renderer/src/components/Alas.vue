@@ -1,20 +1,21 @@
 <template>
   <iframe
     class="alas"
-    :src="url"
+    :src="alasConfig.webuiUrl"
   ></iframe>
 </template>
 
 <script lang="ts">
 import {defineComponent} from 'vue';
-import {webuiUrl} from '../../../main/src/config';
+import useAlasConfig from '/@/hooks/useAlasConfig';
 
 export default defineComponent({
     name: 'AlasPage',
-    computed: {
-        url: function () {
-            return webuiUrl;
-        },
+    setup() {
+        const alasConfig = useAlasConfig();
+        return {
+            alasConfig,
+        };
     },
 });
 </script>

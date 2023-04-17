@@ -48,12 +48,12 @@ function getLauncherPath(alasPath: string) {
 export const alasPath = getAlasPath();
 
 const file = fs.readFileSync(path.join(alasPath, './config/deploy.yaml'), 'utf8');
-const config = yaml.parse(file);
+const config = yaml.parse(file) as DefAlasConfig;
 const PythonExecutable = config.Deploy.Python.PythonExecutable;
 const WebuiPort = config.Deploy.Webui.WebuiPort.toString();
-const Theme = config.Deploy.Webui.Theme.toString();
+const Theme = config.Deploy.Webui.Theme;
 
-const ThemeObj: { [k in string]: 'light' | 'dark' | 'system' } = {
+export const ThemeObj: { [k in string]: 'light' | 'dark' | 'system' } = {
     default: 'light',
     light: 'light',
     dark: 'dark',
@@ -68,3 +68,5 @@ export const webuiPath = 'gui.py';
 export const webuiArgs = ['--port', WebuiPort, '--electron'];
 export const dpiScaling = Boolean(config.Deploy.Webui.DpiScaling) || (config.Deploy.Webui.DpiScaling === undefined);
 export const webuiTheme = ThemeObj[Theme] || 'light';
+
+export const language = config.Deploy.Webui.Language || 'en';

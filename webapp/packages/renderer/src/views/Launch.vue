@@ -46,14 +46,13 @@ export default defineComponent({
     setup() {
         const logInfos = ref<string[]>([]);
         const progress = ref<number>(0);
-        const ipcRenderer = useIpcRenderer();
-        const ipcRendererIns = ipcRenderer.value;
+        const {ipcRendererOn, ipcRendererSend} = useIpcRenderer();
         const scrollRef = ref<HTMLElement>();
 
         onMounted(() => {
-            ipcRendererIns.send('window-ready', true);
+            ipcRendererSend('window-ready', true);
 
-            ipcRendererIns.on('alas-log', async (_: never, arg: string) => {
+            ipcRendererOn('alas-log', async (_, arg: string) => {
                 logInfos.value.push(arg);
                 await nextTick();
                 scrollToBottom();
@@ -81,7 +80,7 @@ export default defineComponent({
             const processVal = processInfo?.match(/\d+/g)?.pop();
             processVal && (progress.value = Number(processVal));
             if (progress.value !== 100) return;
-            ipcRendererIns.send('install-success', true);
+            ipcRendererSend('install-success', true);
         };
 
         return {
