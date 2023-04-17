@@ -8,12 +8,12 @@
     "strict": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "types": ["node"],
+    "types": ["node", "vite/client"],
     "baseUrl": ".",
     "paths": {
       "#preload": ["../preload/src/index"],
       "/@/*": ["./src/*"],
-      "/#/*": ["types/*"],
+      "/#/*": ["types/*"]
     },
     "lib": ["ESNext", "dom", "dom.iterable"]
   },
@@ -25,5 +25,5 @@
     "../../types/**/*.d.ts"
   ],
   "exclude": ["**/*.spec.ts", "**/*.test.ts"],
-  "typeRoots": ["./node_modules/@types/","./types"],
+  "typeRoots": ["../../node_modules/@types/", "./types"]
 }

@@ -16,7 +16,8 @@
           >
             <pre class="w-full max-w-full whitespace-pre-wrap">
               {{ logInfo }}
-         </pre>
+         </pre
+            >
           </section>
         </main>
       </div>
@@ -37,57 +38,57 @@ import router from '../router';
 import {LoadingOutlined} from '@ant-design/icons-vue';
 
 export default defineComponent({
-    name: 'LaunchPage',
-    components: {
-        AlasTitle,
-        ProgressBar,
-        LoadingOutlined,
-    },
-    setup() {
-        const logInfos = ref<string[]>([]);
-        const progress = ref<number>(0);
-        const {ipcRendererOn, ipcRendererSend} = useIpcRenderer();
-        const scrollRef = ref<HTMLElement>();
+  name: 'LaunchPage',
+  components: {
+    AlasTitle,
+    ProgressBar,
+    LoadingOutlined,
+  },
+  setup() {
+    const logInfos = ref<string[]>([]);
+    const progress = ref<number>(0);
+    const {ipcRendererOn, ipcRendererSend} = useIpcRenderer();
+    const scrollRef = ref<HTMLElement>();
 
-        onMounted(() => {
-            ipcRendererSend('window-ready', true);
+    onMounted(() => {
+      ipcRendererSend('window-ready', true);
 
-            ipcRendererOn('alas-log', async (_, arg: string) => {
-                logInfos.value.push(arg);
-                await nextTick();
-                scrollToBottom();
-                handelAlasInfo(arg);
-                handleProgress(arg);
-            });
-        });
+      ipcRendererOn('alas-log', async (_, arg: string) => {
+        logInfos.value.push(arg);
+        await nextTick();
+        scrollToBottom();
+        handelAlasInfo(arg);
+        handleProgress(arg);
+      });
+    });
 
-        const scrollToBottom = () => {
-            const scrollDiv = unref(scrollRef);
-            scrollDiv?.scrollTo(0, scrollDiv?.scrollHeight);
-        };
+    const scrollToBottom = () => {
+      const scrollDiv = unref(scrollRef);
+      scrollDiv?.scrollTo(0, scrollDiv?.scrollHeight);
+    };
 
-        const handelAlasInfo = (logStr: string) => {
-            if (logStr?.includes('Application startup complete') || logStr?.includes('bind on address')) {
-                setTimeout(() => {
-                    router.push('/alas');
-                }, 1000);
-            }
-        };
+    const handelAlasInfo = (logStr: string) => {
+      if (logStr?.includes('Application startup complete') || logStr?.includes('bind on address')) {
+        setTimeout(() => {
+          router.push('/alas');
+        }, 1000);
+      }
+    };
 
-        const handleProgress = (logStr: string) => {
-            if (!logStr?.includes('Process')) return;
-            const processInfo = logStr.match(/Process: \[\s(.+?)\s\]/g)?.pop();
-            const processVal = processInfo?.match(/\d+/g)?.pop();
-            processVal && (progress.value = Number(processVal));
-            if (progress.value !== 100) return;
-            ipcRendererSend('install-success', true);
-        };
+    const handleProgress = (logStr: string) => {
+      if (!logStr?.includes('Process')) return;
+      const processInfo = logStr.match(/Process: \[\s(.+?)\s\]/g)?.pop();
+      const processVal = processInfo?.match(/\d+/g)?.pop();
+      processVal && (progress.value = Number(processVal));
+      if (progress.value !== 100) return;
+      ipcRendererSend('install-success', true);
+    };
 
-        return {
-            logInfos,
-            progress,
-            scrollRef,
-        };
-    },
+    return {
+      logInfos,
+      progress,
+      scrollRef,
+    };
+  },
 });
 </script>

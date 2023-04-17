@@ -3,7 +3,6 @@ import {alasPath, pythonPath} from '/@/config';
 const {PythonShell} = require('python-shell');
 const treeKill = require('tree-kill');
 
-
 export class PyShell extends PythonShell {
   constructor(script: string, args: Array<string> = []) {
     const options = {

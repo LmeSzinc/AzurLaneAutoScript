@@ -5,17 +5,16 @@ import './index.css';
 import {setupI18n} from '/@/locales/setupI18n';
 import {setupThemeSetting} from '/@/setting/themeSetting';
 
-
 async function bootstrap() {
-    const app = createApp(App);
+  const app = createApp(App);
 
-    app.use(router);
+  app.use(router);
 
-    setupThemeSetting();
+  setupThemeSetting();
 
-    setupI18n(app);
+  setupI18n(app);
 
-    app.mount('#app');
+  app.mount('#app');
 }
 
 await bootstrap();

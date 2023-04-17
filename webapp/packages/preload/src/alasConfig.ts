@@ -1,17 +1,15 @@
-import {webuiTheme, webuiUrl,language} from '../../main/src/config';
-
+import {webuiTheme, webuiUrl, language} from '../../main/src/config';
 
 export interface AlasConfig {
-    webuiUrl: string;
-    theme: 'light' | 'dark' | 'system';
-    language: DefAlasConfig['Deploy']['Webui']['Language'];
+  webuiUrl: string;
+  theme: 'light' | 'dark' | 'system';
+  language: DefAlasConfig['Deploy']['Webui']['Language'];
 }
 
-
 export function getAlasConfig(): AlasConfig {
-    return {
-        webuiUrl,
-        theme: webuiTheme,
-        language,
-    };
+  return {
+    webuiUrl,
+    theme: webuiTheme,
+    language,
+  };
 }

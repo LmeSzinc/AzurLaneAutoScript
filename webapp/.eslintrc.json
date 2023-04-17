@@ -8,7 +8,9 @@
   "extends": [
     "eslint:recommended",
     /** @see https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#recommended-configs */
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "plugin:prettier/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -47,6 +49,6 @@
         "avoidEscape": true
       }
     ],
-      "@typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }

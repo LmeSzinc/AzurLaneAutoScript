@@ -8,8 +8,8 @@ import {platform} from 'node:process';
  */
 const isSingleInstance = app.requestSingleInstanceLock();
 if (!isSingleInstance) {
-    app.quit();
-    process.exit(0);
+  app.quit();
+  process.exit(0);
 }
 app.on('second-instance', restoreWindow);
 
@@ -29,9 +29,9 @@ app.commandLine.appendSwitch('in-process-gpu');
  * Shout down background process if all windows was closed
  */
 app.on('window-all-closed', () => {
-    if (platform !== 'darwin') {
-        app.quit();
-    }
+  if (platform !== 'darwin') {
+    app.quit();
+  }
 });
 
 /**
@@ -42,10 +42,10 @@ app.on('activate', createWindow);
  * Create the application window when the background process is ready.
  */
 app
-    .whenReady()
-    .then(createWindow)
-    .then(loadURL)
-    .catch(e => console.error('Failed create window:', e));
+  .whenReady()
+  .then(createWindow)
+  .then(loadURL)
+  .catch(e => console.error('Failed create window:', e));
 
 /**
  * Install Vue.js or any other extension in development mode only.

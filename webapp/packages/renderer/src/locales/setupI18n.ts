@@ -1,11 +1,12 @@
-import type { I18n, I18nOptions} from 'vue-i18n';
+import type {I18n, I18nOptions} from 'vue-i18n';
 import {createI18n} from 'vue-i18n';
 import type {App} from 'vue';
 import {localeSetting} from '/@/setting/localSetting';
 
 export let i18n: ReturnType<typeof createI18n>;
 
-const { fallback, availableLocales } = localeSetting;
+const {fallback, availableLocales} = localeSetting;
+
 async function createI18nOptions(): Promise<I18nOptions> {
   // const localeStore = useLocaleStoreWithOut();
   const locale = window.__electron_preload__getAlasConfig().language;
@@ -35,8 +36,6 @@ async function createI18nOptions(): Promise<I18nOptions> {
 // setup i18n instance with glob
 export async function setupI18n(app: App) {
   const options = await createI18nOptions();
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   i18n = createI18n(options) as I18n;
   app.use(i18n);
 }
