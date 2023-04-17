@@ -12,7 +12,8 @@
     "baseUrl": ".",
     "paths": {
       "#preload": ["../preload/src/index"],
-      "/@/*": ["./src/*"]
+      "/@/*": ["./src/*"],
+      "/#/*": ["types/*"],
     },
     "lib": ["ESNext", "dom", "dom.iterable"]
   },
@@ -24,5 +25,5 @@
     "../../types/**/*.d.ts"
   ],
   "exclude": ["**/*.spec.ts", "**/*.test.ts"],
-  "typeRoots": ["./types"],
+  "typeRoots": ["./node_modules/@types/","./types"],
 }

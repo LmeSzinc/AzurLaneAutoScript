@@ -4,7 +4,7 @@ import type {AlasConfig} from '../../preload/src/alasConfig';
 export {};
 
 declare global {
-    interface Window {
+    interface Window{
         __electron_preload__sha256sum: (data: BinaryLike) => string;
         __electron_preload__versions: string;
         __electron_preload__ipcRendererSend: (channel: string, ...args: any[]) => void;
@@ -13,4 +13,3 @@ declare global {
     }
 
 }
-
