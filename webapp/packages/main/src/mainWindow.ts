@@ -20,7 +20,7 @@ import {
 } from '/@/config';
 import {isMacintosh} from '/@/utils/env';
 import relaunchApp from '/@/relaunchApp';
-import {UPDATE_APP} from '../../../constant/constant';
+import {ALAS_LOG, UPDATE_APP} from '../../../constant/constant';
 
 const path = require('path');
 /**
@@ -252,7 +252,7 @@ function runAlas() {
 
 function sendLaunchLog(message: string) {
   message?.includes(UPDATE_APP) && relaunchApp();
-  browserWindow?.webContents.send('ALAS_LOG', message);
+  browserWindow?.webContents.send(ALAS_LOG, message);
 }
 
 export async function restoreWindow() {

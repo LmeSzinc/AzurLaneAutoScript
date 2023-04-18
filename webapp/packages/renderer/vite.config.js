@@ -23,6 +23,10 @@ const config = {
         find: '/@/',
         replacement: join(PACKAGE_ROOT, 'src') + '/',
       },
+      {
+        find: 'vue-i18n',
+        replacement: 'vue-i18n/dist/vue-i18n.cjs.js',
+      },
     ],
   },
   base: '',

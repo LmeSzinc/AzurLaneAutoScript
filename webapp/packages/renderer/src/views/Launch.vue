@@ -36,6 +36,7 @@ import ProgressBar from '/@/components/ProgressBar.vue';
 import useIpcRenderer from '/@/hooks/useIpcRenderer';
 import router from '../router';
 import {LoadingOutlined} from '@ant-design/icons-vue';
+import {ALAS_LOG} from '../../../../constant/constant';
 
 export default defineComponent({
   name: 'LaunchPage',
@@ -53,7 +54,7 @@ export default defineComponent({
     onMounted(() => {
       ipcRendererSend('window-ready', true);
 
-      ipcRendererOn('alas-log', async (_, arg: string) => {
+      ipcRendererOn(ALAS_LOG, async (_, arg: string) => {
         logInfos.value.push(arg);
         await nextTick();
         scrollToBottom();

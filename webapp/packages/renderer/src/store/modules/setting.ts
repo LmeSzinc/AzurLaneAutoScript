@@ -3,13 +3,13 @@ import type {DefSetting, LocaleType} from '/#/config';
 import {defSetting} from '/@/setting';
 import {store} from '/@/store';
 
-interface LocaleState {
+interface SettingState {
   settingInfo: DefSetting;
 }
 
 export const useSettingStore = defineStore({
   id: 'app-setting',
-  state: (): LocaleState => ({
+  state: (): SettingState => ({
     settingInfo: defSetting,
   }),
   getters: {
