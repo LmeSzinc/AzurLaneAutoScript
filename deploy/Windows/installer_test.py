@@ -69,9 +69,9 @@ Process: [ 60% ]
 +-----------------------------------------------------------+
 All dependencies installed
 Process: [ 70% ]
-+-------------------------------------------------------+
-|                    UPDATE APP.ASAR                    |
-+-------------------------------------------------------+
++--------------------------------------------------+
+|                    UPDATE APP                    |
++--------------------------------------------------+
 Old file: D:\AlasRelease\AzurLaneAutoScript\toolkit\WebApp\resources\app.asar
 New version: 0.3.7
 New file: D:\AlasRelease\AzurLaneAutoScript\toolkit\lib\site-packages\alas_webapp\app.asar

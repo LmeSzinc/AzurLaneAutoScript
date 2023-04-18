@@ -35,7 +35,9 @@ class AppManager(DeployConfig):
                 logger.info('app.asar is already up to date')
                 return False
             else:
-                logger.info(f'Copy {update} -----> {source}')
+                # Keyword "Update app.asar" is used in AlasApp
+                # to determine whether there is a hot update
+                logger.info(f'Update app.asar {update} -----> {source}')
                 os.remove(source)
                 shutil.copy(update, source)
                 return True
@@ -44,7 +46,7 @@ class AppManager(DeployConfig):
             return False
 
     def app_update(self):
-        logger.hr(f'Update app.asar', 0)
+        logger.hr(f'Update app', 0)
 
         if not self.AutoUpdate:
             logger.info('AutoUpdate is disabled, skip')
