@@ -1,4 +1,13 @@
-import {app, BrowserWindow, globalShortcut, ipcMain, Menu, nativeTheme, Tray} from 'electron';
+import {
+  app,
+  BrowserWindow,
+  globalShortcut,
+  ipcMain,
+  Menu,
+  nativeTheme,
+  Tray,
+  nativeImage,
+} from 'electron';
 import {URL} from 'node:url';
 import {PyShell} from '/@/pyshell';
 import {
@@ -9,6 +18,9 @@ import {
   installerPath,
   installerArgs,
 } from '/@/config';
+import {isMacintosh} from '/@/utils/env';
+import relaunchApp from '/@/relaunchApp';
+import {UPDATE_APP} from '../../../constant/constant';
 
 const path = require('path');
 /**
@@ -82,8 +94,13 @@ export async function createWindow() {
     args && (await initWindowEvents());
   });
 
+  /*
+   * Fix oversize icon on bar in macOS
+   */
+  const icon = nativeImage.createFromPath(path.join(__dirname, './icon.png'));
+  const dockerIcon = icon.resize({width: 16, height: 16});
   // Tray
-  const tray = new Tray(path.join(__dirname, 'icon.png'));
+  const tray = new Tray(isMacintosh ? dockerIcon : icon);
   const contextMenu = Menu.buildFromTemplate([
     {
       label: 'Show',
@@ -194,7 +211,6 @@ async function runInstaller() {
   installer?.on('stdout', function (message) {
     sendLaunchLog(message);
   });
-
   installer?.on('message', function (message) {
     sendLaunchLog(message);
   });
@@ -235,7 +251,8 @@ function runAlas() {
 }
 
 function sendLaunchLog(message: string) {
-  browserWindow?.webContents.send('alas-log', message);
+  message?.includes(UPDATE_APP) && relaunchApp();
+  browserWindow?.webContents.send('ALAS_LOG', message);
 }
 
 export async function restoreWindow() {

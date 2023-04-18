@@ -8,6 +8,8 @@ declare module '*.mjs' {
   export default mjsValue;
 }
 
+declare type Recordable<T = any> = Record<string, T>;
+
 declare interface DefAlasConfig {
   Deploy: {
     Git: {

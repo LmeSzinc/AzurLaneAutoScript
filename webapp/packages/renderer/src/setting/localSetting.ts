@@ -1,20 +1,10 @@
-import type {LocaleSetting, LocaleType} from '/#/config';
+import type {LocaleType} from '/#/config';
 
 export const LOCALE: {[key: string]: LocaleType} = {
-  ZH_CN: 'zh_CN',
+  ZH_CN: 'zh-CN',
   EN_US: 'en-US',
   JA_JP: 'ja-JP',
   ZH_TW: 'zh-TW',
-};
-
-export const localeSetting: LocaleSetting = {
-  showPicker: true,
-  // Locale
-  locale: LOCALE.ZH_CN,
-  // Default locale
-  fallback: LOCALE.ZH_CN,
-  // available Locales
-  availableLocales: [LOCALE.ZH_CN, LOCALE.EN_US, LOCALE.JA_JP, LOCALE.ZH_TW],
 };
 
 // locale list

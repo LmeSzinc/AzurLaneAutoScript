@@ -1,3 +1,6 @@
+import {isMacintosh} from './utils/env';
+import getAlasABSPath from './utils/getAlasAbsPath';
+
 const yaml = require('yaml');
 const fs = require('fs');
 const path = require('path');
@@ -13,7 +16,7 @@ function getAlasPath() {
     // Running from AzurLaneAutoScript/webapp/dist/win-unpacked/alas.exe
     '../../../',
     // Running from `yarn watch`
-    '../',
+    './../',
   ];
   for (const i in pathLookup) {
     file = path.join(currentFilePath, pathLookup[i], './config/deploy.yaml');
@@ -41,7 +44,7 @@ function getLauncherPath(alasPath: string) {
   return path.join(alasPath, './Alas.exe');
 }
 
-export const alasPath = getAlasPath();
+export const alasPath = isMacintosh && import.meta.env.PROD ? getAlasABSPath() : getAlasPath();
 
 const file = fs.readFileSync(path.join(alasPath, './config/deploy.yaml'), 'utf8');
 const config = yaml.parse(file) as DefAlasConfig;
@@ -59,7 +62,7 @@ export const ThemeObj: {[k in string]: 'light' | 'dark' | 'system'} = {
 export const pythonPath = path.isAbsolute(PythonExecutable)
   ? PythonExecutable
   : path.join(alasPath, PythonExecutable);
-export const installerPath = import.meta.env.DEV ? 'installer_test.py' : 'installer.py';
+export const installerPath = import.meta.env.DEV ? 'installer_test.py' : 'installer_test.py';
 export const installerArgs = import.meta.env.DEV ? [] : [];
 export const webuiUrl = `http://127.0.0.1:${WebuiPort}`;
 export const webuiPath = 'gui.py';

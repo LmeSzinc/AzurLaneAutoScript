@@ -4,6 +4,7 @@ import router from '/@/router';
 import './index.css';
 import {setupI18n} from '/@/locales/setupI18n';
 import {setupThemeSetting} from '/@/setting/themeSetting';
+import {setupStore} from '/@/store';
 
 async function bootstrap() {
   const app = createApp(App);
@@ -11,6 +12,8 @@ async function bootstrap() {
   app.use(router);
 
   setupThemeSetting();
+
+  setupStore(app);
 
   setupI18n(app);
 
