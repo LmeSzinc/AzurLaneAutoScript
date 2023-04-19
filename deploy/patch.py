@@ -60,7 +60,7 @@ def patch_uiautomator2():
     So we patch `uiautomator2/init.py` to a local assets cache `uiautomator2cache/cache`.
         appdir = os.path.join(os.path.expanduser('~'), '.uiautomator2')
     to:
-        appdir = os.path.join(__file__, '../../uiautomator2cache')
+        appdir = os.path.abspath(os.path.join(__file__, '../../uiautomator2cache'))
 
     And we also remove minicap installations since emulators doesn't need it.
         for url in self.minicap_urls:
@@ -71,7 +71,7 @@ def patch_uiautomator2():
     """
     cache_dir = './toolkit/Lib/site-packages/uiautomator2cache/cache'
     init_file = './toolkit/Lib/site-packages/uiautomator2/init.py'
-    appdir = "os.path.join(__file__, '../../uiautomator2cache')"
+    appdir = "os.path.abspath(os.path.join(__file__, '../../uiautomator2cache'))"
 
     if not os.path.exists(init_file):
         logger.info('uiautomator2 is not installed skip patching')
