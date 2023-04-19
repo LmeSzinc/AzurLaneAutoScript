@@ -1,6 +1,10 @@
+import re
+
 import cv2
 import numpy as np
 from PIL import Image
+
+REGEX_NODE = re.compile(r'(-?[A-Za-z]+)(-?\d+)')
 
 
 def random_normal_distribution_int(a, b, n=3):
@@ -175,6 +179,7 @@ def ensure_int(*args):
     Returns:
         list:
     """
+
     def to_int(item):
         try:
             return int(item)
@@ -327,7 +332,7 @@ def area_cross_area(area1, area2, threshold=5):
     xa1, ya1, xa2, ya2 = area1
     xb1, yb1, xb2, yb2 = area2
     return abs(xb2 + xb1 - xa2 - xa1) <= xa2 - xa1 + xb2 - xb1 + threshold * 2 \
-            and abs(yb2 + yb1 - ya2 - ya1) <= ya2 - ya1 + yb2 - yb1 + threshold * 2
+           and abs(yb2 + yb1 - ya2 - ya1) <= ya2 - ya1 + yb2 - yb1 + threshold * 2
 
 
 def float2str(n, decimal=3):
@@ -355,26 +360,136 @@ def point2str(x, y, length=4):
     return '(%s, %s)' % (str(int(x)).rjust(length), str(int(y)).rjust(length))
 
 
-def node2location(node):
+def col2name(col):
     """
+    Convert a zero indexed column cell reference to a string.
+
     Args:
-        node(str): Example: 'E3'
+       col: The cell column. Int.
 
     Returns:
-        tuple: Example: (6, 4)
+        Column style string.
+
+    Examples:
+        0 -> A, 3 -> D, 35 -> AJ, -1 -> -A
     """
-    return ord(node[0]) % 32 - 1, int(node[1:]) - 1
+
+    col_neg = col < 0
+    if col_neg:
+        col_num = -col
+    else:
+        col_num = col + 1  # Change to 1-index.
+    col_str = ''
+
+    while col_num:
+        # Set remainder from 1 .. 26
+        remainder = col_num % 26
+
+        if remainder == 0:
+            remainder = 26
+
+        # Convert the remainder to a character.
+        col_letter = chr(remainder + 64)
+
+        # Accumulate the column letters, right to left.
+        col_str = col_letter + col_str
+
+        # Get the next order of magnitude.
+        col_num = int((col_num - 1) / 26)
+
+    if col_neg:
+        return '-' + col_str
+    else:
+        return col_str
+
+
+def name2col(col_str):
+    """
+    Convert a cell reference in A1 notation to a zero indexed row and column.
+
+    Args:
+       col_str:  A1 style string.
+
+    Returns:
+        row, col: Zero indexed cell row and column indices.
+    """
+    # Convert base26 column string to number.
+    expn = 0
+    col = 0
+    col_neg = col_str.startswith('-')
+    col_str = col_str.strip('-').upper()
+
+    for char in reversed(col_str):
+        col += (ord(char) - 64) * (26 ** expn)
+        expn += 1
+
+    if col_neg:
+        return -col
+    else:
+        return col - 1  # Convert 1-index to zero-index
+
+
+def node2location(node):
+    """
+    See location2node()
+
+    Args:
+        node (str): Example: 'E3'
+
+    Returns:
+        tuple[int]: Example: (4, 2)
+    """
+    res = REGEX_NODE.search(node)
+    if res:
+        x, y = res.group(1), res.group(2)
+        y = int(y)
+        if y > 0:
+            y -= 1
+        return name2col(x), y
+    else:
+        # Whatever
+        return ord(node[0]) % 32 - 1, int(node[1:]) - 1
 
 
 def location2node(location):
     """
+    Convert location tuple to an Excel-like cell.
+    Accept negative values also.
+
+         -2   -1    0    1    2    3
+    -2 -B-2 -A-2  A-2  B-2  C-2  D-2
+    -1 -B-1 -A-1  A-1  B-1  C-1  D-1
+     0  -B1  -A1   A1   B1   C1   D1
+     1  -B2  -A2   A2   B2   C2   D2
+     2  -B3  -A3   A3   B3   C3   D3
+     3  -B4  -A4   A4   B4   C4   D4
+
+    # To generate the table above
+    index = range(-2, 4)
+    row = '   ' + ' '.join([str(i).rjust(4) for i in index])
+    print(row)
+    for y in index:
+        row = str(y).rjust(2) + ' ' + ' '.join([location2node((x, y)).rjust(4) for x in index])
+        print(row)
+
+    def check(node):
+        return point2str(*node2location(location2node(node)), length=2)
+    row = '   ' + ' '.join([str(i).rjust(8) for i in index])
+    print(row)
+    for y in index:
+        row = str(y).rjust(2) + ' ' + ' '.join([check((x, y)).rjust(4) for x in index])
+        print(row)
+
     Args:
-        location(tuple): Example: (6, 4)
+        location (tuple[int]):
 
     Returns:
-        str: Example: 'E3'
+        str:
     """
-    return chr(location[0] + 64 + 1) + str(location[1] + 1)
+    x, y = location
+    if y >= 0:
+        y += 1
+    return col2name(x) + str(y)
 
 
 def load_image(file, area=None):

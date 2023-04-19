@@ -558,6 +558,8 @@ class UI(InfoHandler):
         # Login
         if self.appear_then_click(LOGIN_CHECK, offset=(30, 30), interval=3):
             return True
+        if self.appear_then_click(LOGIN_ANNOUNCE, offset=(30, 30), interval=3):
+            return True
 
         # Mistaken click
         if self.appear(EXERCISE_PREPARATION, interval=3):

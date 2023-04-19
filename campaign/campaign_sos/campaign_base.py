@@ -5,6 +5,10 @@ from module.exception import CampaignNameError
 from module.template.assets import TEMPLATE_STAGE_SOS
 
 
+class ConfigBase:
+    MAP_HAS_CLEAR_PERCENTAGE = False
+
+
 class CampaignBase(CampaignBase_):
     ENEMY_FILTER = '1T > 1L > 1E > 1M > 2T > 2L > 2E > 2M > 3T > 3L > 3E > 3M'
 

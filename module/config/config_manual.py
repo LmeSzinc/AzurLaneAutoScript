@@ -107,6 +107,7 @@ class ManualConfig:
     """
     module.map.fleet
     """
+    MAP_HAS_CLEAR_PERCENTAGE = True
     MAP_HAS_AMBUSH = True
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_MOVABLE_ENEMY = False
@@ -339,7 +340,7 @@ class ManualConfig:
     module.shop
     """
     # For dev purpose, auto extract new item templates
-    SHOP_EXTRACT_TEMPLATE = False
+    SHOP_EXTRACT_TEMPLATE = True
 
     """
     module.war_archives
