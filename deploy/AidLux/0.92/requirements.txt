@@ -27,4 +27,4 @@ onepush
 pydantic
 psutil==5.9.3
 av==10.0.0
-uiautomator2cache==0.3.0
+uiautomator2cache==0.3.0.1
