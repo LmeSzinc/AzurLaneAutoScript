@@ -21,6 +21,11 @@ class AzurLaneAutoScript:
     def __init__(self, config_name='alas'):
         logger.hr('Start', level=0)
         self.config_name = config_name
+        # Skip first restart
+        self.is_first_task = True
+        # Failure count of tasks
+        # Key: str, task name, value: int, failure count
+        self.failure_record = {}
 
     @cached_property
     def config(self):
@@ -427,6 +432,7 @@ class AzurLaneAutoScript:
 
             if task.next_run > datetime.now():
                 logger.info(f'Wait until {task.next_run} for task `{task.command}`')
+                self.is_first_task = False
                 method = self.config.Optimization_WhenTaskQueueEmpty
                 if method == 'close_game':
                     logger.info('Close game during wait')
@@ -434,7 +440,7 @@ class AzurLaneAutoScript:
                     release_resources()
                     self.device.release_during_wait()
                     if not self.wait_until(task.next_run):
-                        del self.__dict__['config']
+                        del_cached_property(self, 'config')
                         continue
                     self.run('start')
                 elif method == 'goto_main':
@@ -443,21 +449,21 @@ class AzurLaneAutoScript:
                     release_resources()
                     self.device.release_during_wait()
                     if not self.wait_until(task.next_run):
-                        del self.__dict__['config']
+                        del_cached_property(self, 'config')
                         continue
                 elif method == 'stay_there':
                     logger.info('Stay there during wait')
                     release_resources()
                     self.device.release_during_wait()
                     if not self.wait_until(task.next_run):
-                        del self.__dict__['config']
+                        del_cached_property(self, 'config')
                         continue
                 else:
                     logger.warning(f'Invalid Optimization_WhenTaskQueueEmpty: {method}, fallback to stay_there')
                     release_resources()
                     self.device.release_during_wait()
                     if not self.wait_until(task.next_run):
-                        del self.__dict__['config']
+                        del_cached_property(self, 'config')
                         continue
             break
 
@@ -467,8 +473,6 @@ class AzurLaneAutoScript:
     def loop(self):
         logger.set_file_logger(self.config_name)
         logger.info(f'Start scheduler loop: {self.config_name}')
-        is_first = True
-        failure_record = {}
 
         while 1:
             # Check update event from GUI
@@ -492,10 +496,10 @@ class AzurLaneAutoScript:
             # Init device and change server
             _ = self.device
             # Skip first restart
-            if is_first and task == 'Restart':
+            if self.is_first_task and task == 'Restart':
                 logger.info('Skip task `Restart` at scheduler start')
                 self.config.task_delay(server_update=True)
-                del self.__dict__['config']
+                del_cached_property(self, 'config')
                 continue
 
             # Run
@@ -505,12 +509,12 @@ class AzurLaneAutoScript:
             logger.hr(task, level=0)
             success = self.run(inflection.underscore(task))
             logger.info(f'Scheduler: End task `{task}`')
-            is_first = False
+            self.is_first_task = False
 
             # Check failures
-            failed = deep_get(failure_record, keys=task, default=0)
+            failed = deep_get(self.failure_record, keys=task, default=0)
             failed = 0 if success else failed + 1
-            deep_set(failure_record, keys=task, value=failed)
+            deep_set(self.failure_record, keys=task, value=failed)
             if failed >= 3:
                 logger.critical(f"Task `{task}` failed 3 or more times.")
                 logger.critical("Possible reason #1: You haven't used it correctly. "
@@ -526,11 +530,11 @@ class AzurLaneAutoScript:
                 exit(1)
 
             if success:
-                del self.__dict__['config']
+                del_cached_property(self, 'config')
                 continue
             elif self.config.Error_HandleError:
                 # self.config.task_delay(success=False)
-                del self.__dict__['config']
+                del_cached_property(self, 'config')
                 self.checker.check_now()
                 continue
             else:

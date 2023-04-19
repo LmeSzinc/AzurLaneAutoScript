@@ -1,8 +1,10 @@
 import os
+
 from deploy.logger import logger
 
 BASE_FOLDER = os.path.dirname(os.path.abspath(__file__))
 logger.info(BASE_FOLDER)
+
 
 def read_file(file):
     out = {}
@@ -31,11 +33,6 @@ def write_file(file, data):
 
 
 def docker_requirements_generate(requirements_in='requirements-in.txt'):
-
-    if not os.path.exists(requirements_in):
-        requirements_in = os.path.join(BASE_FOLDER+"/../../", requirements_in)
-        assert os.path.exists(requirements_in)
-
     requirements = read_file(requirements_in)
 
     logger.info(f'Generate requirements for Docker image')
@@ -54,6 +51,7 @@ def docker_requirements_generate(requirements_in='requirements-in.txt'):
         new[name] = version
 
     write_file(os.path.join(BASE_FOLDER, f'./requirements.txt'), data=new)
+
 
 if __name__ == '__main__':
     docker_requirements_generate()
