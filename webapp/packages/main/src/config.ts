@@ -1,5 +1,5 @@
-import {isMacintosh} from '/@/utils/env';
-import getAlasABSPath from '/@/utils/getAlasABSPath';
+import {isMacintosh} from './utils/env';
+import getAlasABSPath from './utils/getAlasABSPath';
 
 const yaml = require('yaml');
 const fs = require('fs');

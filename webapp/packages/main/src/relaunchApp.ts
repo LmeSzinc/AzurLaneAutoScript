@@ -1,5 +1,5 @@
 import {app} from 'electron';
-import {isMacintosh} from '/@/utils/env';
+import {isMacintosh} from './utils/env';
 
 export const isRelaunch = process.argv.includes('relaunch');
 

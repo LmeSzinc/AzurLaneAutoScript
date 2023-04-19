@@ -18,7 +18,7 @@ import {
   installerPath,
   installerArgs,
 } from '/@/config';
-import {isMacintosh} from '/@/utils/env';
+import {isMacintosh} from './utils/env';
 import relaunchApp from '/@/relaunchApp';
 import {ALAS_LOG, UPDATE_APP} from '../../../constant/constant';
 
