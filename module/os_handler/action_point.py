@@ -150,13 +150,14 @@ class ActionPointHandler(UI, MapEventHandler):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            
-            if self.info_bar_count() >= 2:
-                continue
 
             if timeout.reached():
                 logger.warning('Get action points timeout')
                 break
+
+            if self.info_bar_count() >= 2:
+                timeout.reset()
+                continue
 
             self.action_point_update()
 
