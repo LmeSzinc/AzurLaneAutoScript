@@ -104,8 +104,13 @@ DataAdbDevice(serial='127.0.0.1:7555', status='device')
 Process: [ 100% ]
 """
 
-if __name__ == '__main__':
+
+def run():
     for row in output.split('\n'):
         time.sleep(0.05)
         if row:
             logger.info(row)
+
+
+if __name__ == '__main__':
+    run()
