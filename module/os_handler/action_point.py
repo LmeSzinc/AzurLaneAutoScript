@@ -159,6 +159,10 @@ class ActionPointHandler(UI, MapEventHandler):
                 logger.warning('Get action points timeout')
                 break
 
+            if self.info_bar_count() >= 2:
+                timeout.reset()
+                continue
+
             self.action_point_update()
 
             # Having too many current AP, probably an OCR error

@@ -2,7 +2,7 @@ import typing as t
 
 
 class TabWrapper:
-    def __init__(self, generator, prefix='', suffix=''):
+    def __init__(self, generator, prefix='', suffix='', newline=True):
         """
         Args:
             generator (CodeGenerator):
@@ -10,10 +10,13 @@ class TabWrapper:
         self.generator = generator
         self.prefix = prefix
         self.suffix = suffix
+        self.newline = newline
+
+        self.nested = False
 
     def __enter__(self):
-        if self.prefix:
-            self.generator.add(self.prefix)
+        if not self.nested and self.prefix:
+            self.generator.add(self.prefix, newline=self.newline)
         self.generator.tab_count += 1
         return self
 
@@ -21,6 +24,13 @@ class TabWrapper:
         self.generator.tab_count -= 1
         if self.suffix:
             self.generator.add(self.suffix)
+
+    def __repr__(self):
+        return self.prefix
+
+    def set_nested(self, suffix=''):
+        self.nested = True
+        self.suffix += suffix
 
 
 class CodeGenerator:
@@ -52,25 +62,29 @@ class CodeGenerator:
         return out
 
     def _repr(self, obj):
-        if isinstance(obj, str) and '\n' in obj:
-            out = '"""\n'
-            with self.tab():
-                for line in obj.strip().split('\n'):
-                    line = line.strip()
-                    out += self._line_with_tabs(line)
-            out += self._line_with_tabs('"""', newline=False)
-            return out
+        if isinstance(obj, str):
+            if '\n' in obj:
+                out = '"""\n'
+                with self.tab():
+                    for line in obj.strip().split('\n'):
+                        line = line.strip()
+                        out += self._line_with_tabs(line)
+                out += self._line_with_tabs('"""', newline=False)
+                return out
         return repr(obj)
 
     def tab(self):
         return TabWrapper(self)
 
-    def Import(self, text):
+    def Empty(self):
+        self.add('')
+
+    def Import(self, text, empty=2):
         for line in text.strip().split('\n'):
             line = line.strip()
             self.add(line)
-        self.add('')
-        self.add('')
+        for _ in range(empty):
+            self.Empty()
 
     def Value(self, key=None, value=None, **kwargs):
         if key is not None:
@@ -83,14 +97,55 @@ class CodeGenerator:
             line = line.strip()
             self.add(line, comment=True)
 
-    def Dict(self, key):
-        return TabWrapper(self, prefix=str(key) + ' = {', suffix='}')
-
-    def DictItem(self, key=None, value=None, **kwargs):
+    def List(self, key=None):
         if key is not None:
-            self.add(f'{self._repr(key)}: {self._repr(value)},')
-        for key, value in kwargs.items():
-            self.DictItem(key, value)
+            return TabWrapper(self, prefix=str(key) + ' = [', suffix=']')
+        else:
+            return TabWrapper(self, prefix='[', suffix=']', newline=False)
+
+    def ListItem(self, value):
+        if isinstance(value, TabWrapper):
+            value.set_nested(suffix=',')
+            self.add(f'{self._repr(value)}')
+            return value
+        else:
+            self.add(f'{self._repr(value)},')
+
+    def Dict(self, key=None):
+        if key is not None:
+            return TabWrapper(self, prefix=str(key) + ' = {', suffix='}')
+        else:
+            return TabWrapper(self, prefix='{', suffix='}', newline=False)
+
+    def DictItem(self, key=None, value=None):
+        if isinstance(value, TabWrapper):
+            value.set_nested(suffix=',')
+            if key is not None:
+                self.add(f'{self._repr(key)}: {self._repr(value)}')
+            return value
+        else:
+            if key is not None:
+                self.add(f'{self._repr(key)}: {self._repr(value)},')
+
+    def Object(self, object_class, key=None):
+        if key is not None:
+            return TabWrapper(self, prefix=f'{key} = {object_class}(', suffix=')')
+        else:
+            return TabWrapper(self, prefix='(', suffix=')', newline=False)
+
+    def ObjectAttr(self, key=None, value=None):
+        if isinstance(value, TabWrapper):
+            value.set_nested(suffix=',')
+            if key is None:
+                self.add(f'{self._repr(value)}')
+            else:
+                self.add(f'{key}={self._repr(value)}')
+            return value
+        else:
+            if key is None:
+                self.add(f'{self._repr(value)},')
+            else:
+                self.add(f'{key}={self._repr(value)},')
 
 
 generator = CodeGenerator()

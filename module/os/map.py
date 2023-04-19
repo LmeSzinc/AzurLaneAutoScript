@@ -643,9 +643,11 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         Args:
             question (bool):
                 If clear nearing questions after auto search.
-            rescan (bool): Whether to rescan the whole map after running auto search.
+            rescan (bool, str): Whether to rescan the whole map after running auto search.
                 This will clear siren scanning devices, siren logging tower,
                 visit akashi's shop that auto search missed, and unlock mechanism that requires 2 fleets.
+                Accept str also, `current` to scan current camera only,
+                `full` to scan current then rescan the whole map
 
                 This option should be disabled in special tasks like OpsiObscure, OpsiAbyssal, OpsiStronghold.
             after_auto_search (bool):
@@ -653,6 +655,8 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         """
         if rescan is None:
             rescan = self.config.OpsiGeneral_DoRandomMapEvent
+        if rescan is True:
+            rescan = 'full'
         self.handle_ash_beacon_attack()
 
         logger.info(f'Run auto search, question={question}, rescan={rescan}')
@@ -680,9 +684,9 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
             self._solved_map_event = set()
             self._solved_fleet_mechanism = False
             if question:
-                self.clear_question(drop)
+                self.clear_question(drop=drop)
             if rescan:
-                self.map_rescan(drop)
+                self.map_rescan(rescan_mode=rescan, drop=drop)
 
             if drop.count == 1:
                 drop.clear()
@@ -796,42 +800,46 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         logger.info(f'No map event')
         return False
 
-    def map_rescan_once(self, drop=None):
+    def map_rescan_once(self, rescan_mode='full', drop=None):
         """
         Args:
+            rescan_mode (str): `current` to scan current camera only,
+                `full` to scan current then rescan the whole map
             drop:
 
         Returns:
             bool: If solved a map random event
         """
-        logger.hr('Map rescan once', level=2)
-        self.handle_info_bar()
         result = False
 
         # Try current camera first
+        logger.hr('Map rescan current', level=2)
         self.map_data_init(map_=None)
+        self.handle_info_bar()
         self.update()
         if self.map_rescan_current(drop=drop):
             logger.info(f'Map rescan once end, result={result}')
             return result
 
-        self.map_init(map_=None)
-        queue = self.map.camera_data
-        while len(queue) > 0:
-            logger.hr(f'Map rescan {queue[0]}')
-            queue = queue.sort_by_camera_distance(self.camera)
-            self.focus_to(queue[0], swipe_limit=(6, 5))
-            self.focus_to_grid_center(0.25)
+        if rescan_mode == 'full':
+            logger.hr('Map rescan full', level=2)
+            self.map_init(map_=None)
+            queue = self.map.camera_data
+            while len(queue) > 0:
+                logger.hr(f'Map rescan {queue[0]}')
+                queue = queue.sort_by_camera_distance(self.camera)
+                self.focus_to(queue[0], swipe_limit=(6, 5))
+                self.focus_to_grid_center(0.25)
 
-            if self.map_rescan_current(drop=drop):
-                result = True
-                break
-            queue = queue[1:]
+                if self.map_rescan_current(drop=drop):
+                    result = True
+                    break
+                queue = queue[1:]
 
         logger.info(f'Map rescan once end, result={result}')
         return result
 
-    def map_rescan(self, drop=None):
+    def map_rescan(self, rescan_mode='full', drop=None):
         if self.zone.is_port:
             logger.info('Current zone is a port, do not need rescan')
             return False
@@ -846,7 +854,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                 logger.attr('Solved_map_event', self._solved_map_event)
                 self.fleet_set(self.config.OpsiFleet_Fleet)
                 return False
-            result = self.map_rescan_once(drop=drop)
+            result = self.map_rescan_once(rescan_mode=rescan_mode, drop=drop)
             if not result:
                 logger.attr('Solved_map_event', self._solved_map_event)
                 self.fleet_set(self.config.OpsiFleet_Fleet)
