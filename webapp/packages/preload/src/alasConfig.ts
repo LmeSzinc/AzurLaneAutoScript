@@ -1,9 +1,10 @@
-import {webuiTheme, webuiUrl, language} from '../../main/src/config';
+import {webuiTheme, webuiUrl, language, repository} from '../../main/src/config';
 
 export interface AlasConfig {
   webuiUrl: string;
   theme: 'light' | 'dark' | 'system';
   language: DefAlasConfig['Deploy']['Webui']['Language'];
+  repository: DefAlasConfig['Deploy']['Git']['Repository'];
 }
 
 export function getAlasConfig(): AlasConfig {
@@ -11,5 +12,6 @@ export function getAlasConfig(): AlasConfig {
     webuiUrl,
     theme: webuiTheme,
     language,
+    repository,
   };
 }

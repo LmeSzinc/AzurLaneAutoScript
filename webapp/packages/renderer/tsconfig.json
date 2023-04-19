@@ -22,7 +22,8 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "types/**/*.d.ts",
-    "../../types/**/*.d.ts"
+    "../../types/**/*.d.ts",
+    "./components.d.ts"
   ],
   "exclude": ["**/*.spec.ts", "**/*.test.ts"],
   "typeRoots": ["../../node_modules/@types/", "./types"]

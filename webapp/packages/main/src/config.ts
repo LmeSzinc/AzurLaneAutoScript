@@ -1,5 +1,5 @@
-import {isMacintosh} from './utils/env';
-import getAlasABSPath from './utils/getAlasAbsPath';
+import {isMacintosh} from '/@/utils/env';
+import getAlasABSPath from '/@/utils/getAlasABSPath';
 
 const yaml = require('yaml');
 const fs = require('fs');
@@ -70,5 +70,5 @@ export const webuiArgs = ['--port', WebuiPort, '--electron'];
 export const dpiScaling =
   Boolean(config.Deploy.Webui.DpiScaling) || config.Deploy.Webui.DpiScaling === undefined;
 export const webuiTheme = ThemeObj[Theme] || 'light';
-
-export const language = config.Deploy.Webui.Language || 'en';
+export const language = config.Deploy.Webui.Language || 'en-US';
+export const repository = config.Deploy.Git.Repository;

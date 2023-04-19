@@ -1,7 +1,10 @@
 <template>
   <section class="w-full">
-    <span class="text-primary flex text-2xl ml-5 mb-3">{{ progressValue }}%</span>
-    <div
+    <CountTo
+      :class="'text-primary flex text-2xl ml-5 mb-3'"
+      :start-val="progressValue"
+      suffix="%"
+    /><div
       class="h-3 bg-primary ease-in-out duration-500"
       :style="getWrapStyle"
     ></div>
@@ -12,6 +15,7 @@
 import {propTypes} from '/@/utils/propTypes';
 import type {CSSProperties} from 'vue';
 import {computed, unref} from 'vue';
+import CountTo from './CountTo.vue';
 
 const props = defineProps({
   progressValue: propTypes.number.def(0),
