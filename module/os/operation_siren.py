@@ -229,7 +229,7 @@ class OperationSiren(OSMap):
                 self.os_order_execute(
                     recon_scan=True,
                     submarine_call=False)
-                self.run_auto_search(rescan=False)
+                self.run_auto_search(rescan='current')
                 self.map_exit()
                 self.handle_after_auto_search()
             else:
@@ -554,7 +554,7 @@ class OperationSiren(OSMap):
         self.os_order_execute(
             recon_scan=True,
             submarine_call=self.config.OpsiFleet_Submarine)
-        self.run_auto_search(rescan=False)
+        self.run_auto_search(rescan='current')
 
         self.map_exit()
         self.handle_after_auto_search()

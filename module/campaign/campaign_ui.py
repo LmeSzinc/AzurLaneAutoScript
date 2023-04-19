@@ -1,3 +1,4 @@
+from module.base.timer import Timer
 from module.campaign.assets import *
 from module.campaign.campaign_event import CampaignEvent
 from module.campaign.campaign_ocr import CampaignOcr
@@ -17,17 +18,45 @@ MODE_SWITCH_2.add_status('ex', SWITCH_2_EX)
 class CampaignUI(CampaignEvent, CampaignOcr):
     ENTRANCE = Button(area=(), color=(), button=(), name='default_button')
 
-    def campaign_ensure_chapter(self, index):
+    def campaign_ensure_chapter(self, index, skip_first_screenshot=True):
         """
         Args:
             index (int, str): Chapter. Such as 7, 'd', 'sp'.
+            skip_first_screenshot:
         """
         index = self._campaign_get_chapter_index(index)
 
-        # A tricky way to use ui_ensure_index.
-        self.ui_ensure_index(index, letter=self.get_chapter_index,
-                             prev_button=CHAPTER_PREV, next_button=CHAPTER_NEXT,
-                             fast=True, skip_first_screenshot=True)
+        # A copy of use ui_ensure_index.
+        logger.hr("UI ensure index")
+        retry = Timer(1, count=2)
+        error_confirm = Timer(0.2, count=0)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            current = self.get_chapter_index(self.device.image)
+
+            logger.attr("Index", current)
+            logger.info([index, current, index - current])
+            diff = index - current
+            if diff == 0:
+                break
+
+            # 14-4 may be OCR as 4-1 due to slow animation, confirm if it is 4-1
+            if index >= 11 and index % 10 == current:
+                error_confirm.start()
+                if not error_confirm.reached():
+                    continue
+            else:
+                error_confirm.reset()
+
+            # Switch
+            if retry.reached():
+                button = CHAPTER_NEXT if diff > 0 else CHAPTER_PREV
+                self.device.multi_click(button, n=abs(diff), interval=(0.2, 0.3))
+                retry.reset()
 
     def campaign_ensure_mode(self, mode='normal'):
         """
