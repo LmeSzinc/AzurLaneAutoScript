@@ -251,6 +251,9 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             self.map_clear_percentage_prev = -1
             self.map_clear_percentage_timer.reset()
             return False
+        if not self.config.MAP_HAS_CLEAR_PERCENTAGE:
+            logger.attr('MAP_HAS_CLEAR_PERCENTAGE', self.config.MAP_HAS_CLEAR_PERCENTAGE)
+            return True
 
         percent = self.get_map_clear_percentage()
         logger.attr('Map_clear_percentage', percent)

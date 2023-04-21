@@ -2,7 +2,7 @@ from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
-from .campaign_base import CampaignBase
+from .campaign_base import CampaignBase, ConfigBase
 
 MAP = CampaignMap('SOS')
 MAP.shape = 'H7'
@@ -43,7 +43,7 @@ A7, B7, C7, D7, E7, F7, G7, H7, \
     = MAP.flatten()
 
 
-class Config:
+class Config(ConfigBase):
     # ===== Start of generated config =====
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
@@ -91,4 +91,4 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_4(self):
-        self.fleet_boss.clear_boss()
+        return self.fleet_boss.clear_boss()
