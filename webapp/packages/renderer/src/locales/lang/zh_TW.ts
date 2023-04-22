@@ -1,8 +1,6 @@
-import {genMessage} from '../helper';
-
-const modules = import.meta.glob('./zh-TW/**/*.ts');
+import common from '/@/locales/lang/zh-TW/common';
 export default {
   message: {
-    ...genMessage(modules, 'zh-TW'),
+    common,
   },
 };

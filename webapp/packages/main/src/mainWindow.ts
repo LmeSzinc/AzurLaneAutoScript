@@ -20,7 +20,7 @@ import {
 } from '/@/config';
 import {isMacintosh} from './utils/env';
 import relaunchApp from '/@/relaunchApp';
-import {ALAS_LOG, UPDATE_APP} from '../../../constant/constant';
+import {ALAS_LOG, UPDATE_APP} from '../../common/constant/constant';
 
 const path = require('path');
 /**
@@ -160,6 +160,38 @@ export function loadURL() {
   browserWindow?.loadURL(pageUrl);
 }
 
+// Minimize, maximize, close window.
+ipcMain.on('window-tray', function () {
+  browserWindow?.hide();
+});
+ipcMain.on('window-min', function () {
+  browserWindow?.minimize();
+});
+ipcMain.on('window-max', function () {
+  browserWindow?.isMaximized() ? browserWindow?.restore() : browserWindow?.maximize();
+});
+ipcMain.on('window-close', function () {
+  if (installer) {
+    installer?.removeAllListeners('stderr');
+    installer?.removeAllListeners('message');
+    installer?.removeAllListeners('stdout');
+    installer?.kill(function () {
+      browserWindow?.close();
+      browserWindow = null;
+      installer = null;
+    });
+    return;
+  }
+
+  alas?.removeAllListeners('stderr');
+  alas?.removeAllListeners('message');
+  alas?.removeAllListeners('stdout');
+  alas?.kill(function () {
+    browserWindow?.close();
+    browserWindow = null;
+  });
+});
+
 async function initWindowEvents() {
   // Start installer and wait for it to finish.
   await runInstaller();
@@ -168,37 +200,6 @@ async function initWindowEvents() {
     installer = null;
     // Start Alas web server.
     await runAlas();
-  });
-  // Minimize, maximize, close window.
-  ipcMain.on('window-tray', function () {
-    browserWindow?.hide();
-  });
-  ipcMain.on('window-min', function () {
-    browserWindow?.minimize();
-  });
-  ipcMain.on('window-max', function () {
-    browserWindow?.isMaximized() ? browserWindow?.restore() : browserWindow?.maximize();
-  });
-  ipcMain.on('window-close', function () {
-    if (installer) {
-      installer?.removeAllListeners('stderr');
-      installer?.removeAllListeners('message');
-      installer?.removeAllListeners('stdout');
-      installer?.kill(function () {
-        browserWindow?.close();
-        browserWindow = null;
-        installer = null;
-      });
-      return;
-    }
-
-    alas?.removeAllListeners('stderr');
-    alas?.removeAllListeners('message');
-    alas?.removeAllListeners('stdout');
-    alas?.kill(function () {
-      browserWindow?.close();
-      browserWindow = null;
-    });
   });
 }
 

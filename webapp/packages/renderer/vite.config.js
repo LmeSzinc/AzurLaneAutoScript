@@ -5,8 +5,9 @@ import vue from '@vitejs/plugin-vue';
 import {renderer} from 'unplugin-auto-expose';
 import {join} from 'node:path';
 import {injectAppVersion} from '../../version/inject-app-version-plugin.mjs';
-import Components from 'unplugin-vue-components/vite';
-import {AntDesignVueResolver} from 'unplugin-vue-components/resolvers';
+import {vitePluginForArco} from '@arco-plugins/vite-vue';
+
+// your plugin installation
 
 const PACKAGE_ROOT = __dirname;
 const PROJECT_ROOT = join(PACKAGE_ROOT, '../..');
@@ -51,21 +52,31 @@ const config = {
   test: {
     environment: 'happy-dom',
   },
+  css: {
+    preprocessorOptions: {
+      less: {
+        javascriptEnabled: true,
+      },
+    },
+  },
   plugins: [
     vue(),
     renderer.vite({
       preloadEntry: join(PACKAGE_ROOT, '../preload/src/index.ts'),
     }),
     injectAppVersion(),
-    Components({
-      dts: true,
-      resolvers: [
-        AntDesignVueResolver({
-          importStyle: 'css',
-        }),
-      ],
+    new vitePluginForArco({
+      theme: '@arco-themes/vue-am-alas',
     }),
   ],
+  optimizeDeps: {
+    include: [
+      '@arco-design/web-vue/es/locale/lang/zh-cn',
+      '@arco-design/web-vue/es/locale/lang/en-us',
+      '@arco-design/web-vue/es/locale/lang/ja-jp',
+      '@arco-design/web-vue/es/locale/lang/zh-tw',
+    ],
+  },
 };
 
 export default config;

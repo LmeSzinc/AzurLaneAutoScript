@@ -9,6 +9,7 @@
     "isolatedModules": true,
     "types": ["node"],
     "typeRoots": ["node_modules/@types"],
-    "lib": ["ESNext"]
+    "lib": ["ESNext"],
+    "allowSyntheticDefaultImports": true
   }
 }

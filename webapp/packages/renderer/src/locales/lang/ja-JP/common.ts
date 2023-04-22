@@ -6,6 +6,8 @@ export default {
   language: '言語',
 
   update: '更新',
+  global: 'グローバル',
+  china: '中国',
 
   install: 'インストール',
   installTips: '以前にALASを使用したことがありますか？ここで設定をインポートします',

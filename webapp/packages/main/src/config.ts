@@ -69,6 +69,5 @@ export const webuiPath = 'gui.py';
 export const webuiArgs = ['--port', WebuiPort, '--electron'];
 export const dpiScaling =
   Boolean(config.Deploy.Webui.DpiScaling) || config.Deploy.Webui.DpiScaling === undefined;
+
 export const webuiTheme = ThemeObj[Theme] || 'light';
-export const language = config.Deploy.Webui.Language || 'en-US';
-export const repository = config.Deploy.Git.Repository;

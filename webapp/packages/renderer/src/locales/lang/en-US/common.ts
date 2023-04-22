@@ -6,6 +6,8 @@ export default {
   language: 'Language',
 
   update: 'Update',
+  global: 'Global',
+  china: 'China',
 
   install: 'Install',
   installTips: 'Used ALAS before? Import your settings here',

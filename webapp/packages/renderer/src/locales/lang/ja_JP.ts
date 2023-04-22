@@ -1,8 +1,6 @@
-import {genMessage} from '../helper';
-
-const modules = import.meta.glob('./ja-JP/**/*.ts');
+import common from '/@/locales/lang/ja-JP/common';
 export default {
   message: {
-    ...genMessage(modules, 'ja-JP'),
+    common,
   },
 };

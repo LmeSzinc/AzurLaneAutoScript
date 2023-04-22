@@ -1,20 +1,21 @@
 <template>
   <iframe
     class="alas"
-    :src="alasConfig.webuiUrl"
+    :src="webuiUrl"
   ></iframe>
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
-import useAlasConfig from '/@/hooks/useAlasConfig';
+import {computed, defineComponent} from 'vue';
+import {useAppStoreWithOut} from '/@/store/modules/app';
 
 export default defineComponent({
   name: 'AlasPage',
   setup() {
-    const alasConfig = useAlasConfig();
+    const appStore = useAppStoreWithOut();
+    const webuiUrl = computed(() => appStore.webuiUrl);
     return {
-      alasConfig,
+      webuiUrl,
     };
   },
 });

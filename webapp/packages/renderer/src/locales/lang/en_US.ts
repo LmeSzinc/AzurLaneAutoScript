@@ -1,8 +1,6 @@
- import { genMessage } from '../helper';
-
-const modules = import.meta.glob('./en-US/**/*.ts');
+import common from '/@/locales/lang/en-US/common';
 export default {
   message: {
-    ...genMessage(modules, 'en-US'),
+    common,
   },
 };

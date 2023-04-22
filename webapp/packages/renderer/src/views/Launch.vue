@@ -36,7 +36,7 @@ import ProgressBar from '/@/components/ProgressBar.vue';
 import useIpcRenderer from '/@/hooks/useIpcRenderer';
 import router from '../router';
 import {LoadingOutlined} from '@ant-design/icons-vue';
-import {ALAS_LOG} from '../../../../constant/constant';
+import {ALAS_LOG} from '../../../common/constant/constant';
 
 export default defineComponent({
   name: 'LaunchPage',
