@@ -2,11 +2,10 @@
  * Multi-language related operations
  */
 import type {LocaleType} from '/#/config';
-
 import {i18n} from './setupI18n';
 import {useLocaleStoreWithOut} from '/@/store/modules/locale';
 import {unref, computed} from 'vue';
-import {LocaleMap} from '/@/locales/localeMap';
+import messages from '@intlify/unplugin-vue-i18n/messages';
 
 function setI18nLanguage(locale: LocaleType) {
   const localeStore = useLocaleStoreWithOut();
@@ -34,12 +33,10 @@ export function useLocale() {
     if (currentLocale === locale) {
       return locale;
     }
-    const langModule = LocaleMap[locale];
+    const langModule = messages[locale];
     if (!langModule) return;
 
-    const {message} = langModule;
-
-    globalI18n.setLocaleMessage(locale, message);
+    globalI18n.setLocaleMessage(locale, langModule);
 
     setI18nLanguage(locale);
     return locale;

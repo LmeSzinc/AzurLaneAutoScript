@@ -28,6 +28,7 @@
     "@arco-design/web-vue": "^2.45.2",
     "@arco-plugins/vite-vue": "^1.4.5",
     "@arco-themes/vue-am-alas": "^0.0.1",
+    "@intlify/unplugin-vue-i18n": "^0.10.0",
     "@types/lodash-es": "^4.17.7",
     "@types/node": "18.15.3",
     "@typescript-eslint/eslint-plugin": "5.55.0",

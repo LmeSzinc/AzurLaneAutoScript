@@ -3,9 +3,10 @@
 import {chrome} from '../../electron-vendors.config.json';
 import vue from '@vitejs/plugin-vue';
 import {renderer} from 'unplugin-auto-expose';
-import {join} from 'node:path';
+import {join, resolve} from 'node:path';
 import {injectAppVersion} from '../../version/inject-app-version-plugin.mjs';
 import {vitePluginForArco} from '@arco-plugins/vite-vue';
+import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
 
 // your plugin installation
 
@@ -67,6 +68,9 @@ const config = {
     injectAppVersion(),
     new vitePluginForArco({
       theme: '@arco-themes/vue-am-alas',
+    }),
+    VueI18nPlugin({
+      include: resolve(PACKAGE_ROOT, './src/locales/lang/**'),
     }),
   ],
   optimizeDeps: {
