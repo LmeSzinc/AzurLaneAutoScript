@@ -12,5 +12,16 @@
 
     "install": "安裝",
     "installTips": "使用過ALAS嗎？在這裡導入你的設置"
+  },
+    "import": {
+    "title": "從已有Alas中導入用戶設置",
+    "tips": "請將你的 Alas 設定檔拖拽到這裡",
+    "error": "匯入失敗，請檢查檔是否正確",
+    "step1": "選擇舊的Alas",
+    "step2": "選擇要導入的設置",
+    "step3": "導入成功",
+    "file": {
+      "choose": "點擊此處選擇檔"
+    }
   }
 }

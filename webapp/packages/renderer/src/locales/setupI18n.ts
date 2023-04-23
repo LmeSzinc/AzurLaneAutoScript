@@ -13,7 +13,6 @@ const {fallback, availableLocales} = localeSetting;
 async function createI18nOptions(): Promise<I18nOptions> {
   const appStore = useAppStore();
   const locale = unref(appStore.getLanguage) || 'en-US';
-  console.log('createI18nOptions', locale, {messages});
   // setHtmlPageLang(locale);
   // setLoadLocalePool(loadLocalePool => {
   //   loadLocalePool.push(locale);

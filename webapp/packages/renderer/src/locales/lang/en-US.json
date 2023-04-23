@@ -9,5 +9,16 @@
     "china": "China",
     "install": "Install",
     "installTips": "Used ALAS before? Import your settings here"
-  }
+  },
+   "import": {
+     "title": "Import user settings from existing Alas",
+     "tips": "Import your settings from ALAS",
+     "error": "Import failed, please check your settings",
+     "step1": "Select your settings file",
+     "step2": "Importing",
+     "step3": "Import success",
+     "file": {
+       "choose": "Choose file"
+     }
+   }
 }

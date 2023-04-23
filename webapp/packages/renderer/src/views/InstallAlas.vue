@@ -45,7 +45,7 @@
       </a-form>
       <div class="w-full text-end">
         <a-button
-          type="text"
+          type="link"
           class="text-end mt-5 cursor-pointer"
           :onclick="goToImportPage"
         >

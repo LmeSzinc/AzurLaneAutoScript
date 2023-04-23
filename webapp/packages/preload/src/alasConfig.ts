@@ -16,7 +16,6 @@ export async function getAlasConfig() {
       language: config.Deploy.Webui.Language || 'en-US',
       repository: config.Deploy.Git.Repository,
     };
-    console.log(alasConfig);
   }
   return alasConfig;
 }
