@@ -10,9 +10,10 @@
     "types": ["node"],
     "baseUrl": ".",
     "paths": {
-      "/@/*": ["./src/*"]
+      "/@/*": ["./src/*"],
+      "@common/*": ["../common/*"]
     }
   },
-  "include": ["src/**/*.ts", "../../types/**/*.d.ts"],
+  "include": ["src/**/*.ts", "../../types/**/*.d.ts","../common/**/*.ts"],
   "exclude": ["**/*.spec.ts", "**/*.test.ts"]
 }

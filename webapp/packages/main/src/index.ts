@@ -1,51 +1,56 @@
-import {app} from 'electron';
+// import {app} from 'electron';
 import './security-restrictions';
-import {createWindow, restoreWindow, loadURL} from '/@/mainWindow';
-import {platform} from 'node:process';
+// import {createWindow, restoreWindow, loadURL} from '/@/mainWindow';
+// import {platform} from 'node:process';
+import {CoreService} from '/@/coreService';
+import {createApp} from '/@/eventFun/createApp';
+import {createMainWindow} from '/@/eventFun/createMainWindow';
+import {createIpcMainListen} from '/@/eventFun/createIpcMainListen';
+import {createInstaller} from '/@/eventFun/createInstaller';
 
 /**
  * Prevent electron from running multiple instances.
  */
-const isSingleInstance = app.requestSingleInstanceLock();
-if (!isSingleInstance) {
-  app.quit();
-  process.exit(0);
-}
-app.on('second-instance', restoreWindow);
+// const isSingleInstance = app.requestSingleInstanceLock();
+// if (!isSingleInstance) {
+//   app.quit();
+//   process.exit(0);
+// }
+// app.on('second-instance', restoreWindow);
 
 /**
  * Disable Hardware Acceleration to save more system resources.
  * Also `in-process-gpu` to avoid creating a gpu process which may `exited unexpectedly`
  * See https://github.com/electron/electron/issues/30966
  */
-app.disableHardwareAcceleration();
-app.commandLine.appendSwitch('disable-gpu');
-app.commandLine.appendSwitch('disable-software-rasterizer');
-app.commandLine.appendSwitch('disable-gpu-compositing');
-app.commandLine.appendSwitch('disable-gpu-rasterization');
-app.commandLine.appendSwitch('disable-gpu-sandbox');
-app.commandLine.appendSwitch('in-process-gpu');
+// app.disableHardwareAcceleration();
+// app.commandLine.appendSwitch('disable-gpu');
+// app.commandLine.appendSwitch('disable-software-rasterizer');
+// app.commandLine.appendSwitch('disable-gpu-compositing');
+// app.commandLine.appendSwitch('disable-gpu-rasterization');
+// app.commandLine.appendSwitch('disable-gpu-sandbox');
+// app.commandLine.appendSwitch('in-process-gpu');
 /**
  * Shout down background process if all windows was closed
  */
-app.on('window-all-closed', () => {
-  if (platform !== 'darwin') {
-    app.quit();
-  }
-});
+// app.on('window-all-closed', () => {
+//   if (platform !== 'darwin') {
+//     app.quit();
+//   }
+// });
 
 /**
  * @see https://www.electronjs.org/docs/latest/api/app#event-activate-macos Event: 'activate'.
  */
-app.on('activate', createWindow);
+// app.on('activate', createWindow);
 /**
  * Create the application window when the background process is ready.
  */
-app
-  .whenReady()
-  .then(createWindow)
-  .then(loadURL)
-  .catch(e => console.error('Failed create window:', e));
+// app
+//   .whenReady()
+//   .then(createWindow)
+//   .then(loadURL)
+//   .catch(e => console.error('Failed create window:', e));
 
 /**
  * Install Vue.js or any other extension in development mode only.
@@ -91,3 +96,19 @@ app
 //     })
 //     .catch(e => console.error('Failed check and install updates:', e));
 // }
+
+/***
+ * 尝试拆分
+ */
+const coreService = new CoreService({
+  appABSPath: '',
+  theme: 'light',
+  isFirstRun: false,
+});
+
+coreService.use(createApp);
+coreService.use(createMainWindow);
+coreService.use(createIpcMainListen);
+coreService.use(createInstaller);
+
+coreService.run();

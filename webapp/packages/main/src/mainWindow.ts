@@ -18,9 +18,9 @@ import {
   installerPath,
   installerArgs,
 } from '/@/config';
-import {isMacintosh} from './utils/env';
+import {isMacintosh} from '@common/utils/env';
 import relaunchApp from '/@/relaunchApp';
-import {ALAS_LOG, UPDATE_APP} from '../../common/constant/constant';
+import {ALAS_LOG, UPDATE_APP} from '@common/constant/constant';
 
 const path = require('path');
 /**
@@ -141,6 +141,8 @@ export async function createWindow() {
   tray.on('right-click', () => {
     tray.popUpContextMenu(contextMenu);
   });
+
+  return browserWindow;
 }
 
 // No DPI scaling
@@ -192,6 +194,8 @@ ipcMain.on('window-close', function () {
     browserWindow?.close();
     browserWindow = null;
   });
+
+  browserWindow?.close();
 });
 
 async function initWindowEvents() {

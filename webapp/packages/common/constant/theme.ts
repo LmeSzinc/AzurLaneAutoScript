@@ -1,6 +1,5 @@
-export const ThemeObj: {[k in string]: 'light' | 'dark' | 'system'} = {
+export const ThemeObj: {[k in string]: 'light' | 'dark'} = {
   default: 'light',
   light: 'light',
   dark: 'dark',
-  system: 'system',
 };

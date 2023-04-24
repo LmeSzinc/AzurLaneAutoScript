@@ -14,6 +14,14 @@ const config = {
   mode: process.env.MODE,
   root: PACKAGE_ROOT,
   envDir: PROJECT_ROOT,
+  resolve: {
+    alias: [
+      {
+        find: '@common',
+        replacement: join(PACKAGE_ROOT, '../common'),
+      },
+    ],
+  },
   build: {
     ssr: true,
     sourcemap: 'inline',

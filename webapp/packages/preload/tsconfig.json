@@ -8,8 +8,11 @@
     "strict": true,
     "isolatedModules": true,
     "types": ["node"],
-    "baseUrl": "."
+    "baseUrl": ".",
+     "paths": {
+      "@common/*": ["../common/*"]
+    }
   },
-  "include": ["src/**/*.ts", "../../types/**/*.d.ts"],
+  "include": ["src/**/*.ts", "../../types/**/*.d.ts","../common/**/*.ts"],
   "exclude": ["**/*.spec.ts", "**/*.test.ts"]
 }
