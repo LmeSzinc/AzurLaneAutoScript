@@ -49,16 +49,20 @@
           class="text-end mt-5 cursor-pointer"
           :onclick="goToImportPage"
         >
-          <span class="text-slate dark:text-white">{{ t('common.installTips') }}</span>
+          <a-typography-text>
+            {{ t('common.installTips') }}
+          </a-typography-text>
         </a-button>
       </div>
     </section>
     <a-Button
       type="primary"
       size="large"
-      class="mt-16 w-32"
+      class="mt-16 w-48 h-16 !bg-primary rounded-xl"
     >
-      <span class="text-current">{{ t('common.install') }}</span>
+      <a-typography-text class="text-2xl text-current dark:text-dark">
+        {{ t('common.install') }}
+      </a-typography-text>
     </a-Button>
   </div>
 </template>
@@ -69,7 +73,7 @@ import {useI18n} from '/@/hooks/useI18n';
 import {computed, ref, unref} from 'vue';
 import {localeList} from '/@/settings/localSetting';
 import {useAppStoreWithOut} from '/@/store/modules/app';
-import type {LocaleType} from '/#/config';
+import type {LocaleType, ThemeVal} from '/#/config';
 import {setupThemeSetting} from '/@/settings/themeSetting';
 import {useLocale} from '/@/locales/useLocale';
 import router from '/@/router';
@@ -81,7 +85,7 @@ const {changeLocale} = useLocale();
 const configForm = ref<{
   language: LocaleType;
   repository: string;
-  theme: AlasConfig['theme'];
+  theme: ThemeVal;
 }>({
   language: unref(appStore.getLanguage),
   repository: unref(appStore.getRepository),
@@ -117,7 +121,7 @@ const selectLanguage = (value: LocaleType) => {
 const selectRepository = (value: string) => {
   appStore.setRepository(value);
 };
-const selectTheme = (value: AlasConfig['theme']) => {
+const selectTheme = (value: ThemeVal) => {
   appStore.setTheme(value);
   setupThemeSetting(value);
 };
@@ -127,4 +131,32 @@ const goToImportPage = () => {
 };
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+.alas-install {
+  :deep(.arco-select-view-single) {
+    min-width: 100px;
+    background: var(--color-bg);
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom: 2px solid rgb(var(--primary-6));
+    border-radius: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    .arco-select-view-value {
+      justify-content: center;
+    }
+    .arco-select-view-suffix {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      .arco-select-view-arrow-icon {
+        transition: ease-in-out 0.2s;
+      }
+    }
+  }
+}
+</style>

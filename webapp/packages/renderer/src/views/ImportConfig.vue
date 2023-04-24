@@ -84,41 +84,14 @@ const goBack = () => {
     .arco-steps-item-node {
       .arco-steps-icon {
         border: 2px solid rgb(var(--primary-6));
-        background: #f0f0f0;
         color: rgb(var(--primary-6));
-      }
-    }
-  }
-}
-[arco-theme='light'] {
-  .alas-upload {
-    border: 2px solid #f0f0f0;
-  }
-  :deep(.arco-steps-item-wait) {
-    .arco-steps-item-node {
-      .arco-steps-icon {
-        background: white;
-      }
-    }
-  }
-}
-
-[arco-theme='dark'] {
-  .alas-upload {
-    border: 2px solid rgba(240, 240, 240, 0.53);
-  }
-  :deep(.arco-steps-item-wait) {
-    .arco-steps-item-node {
-      .arco-steps-icon {
-        background: #f0f0f0;
       }
     }
   }
 }
 
 .alas-upload {
-  border: 2px solid rgba(240, 240, 240, 0.53);
-  border-radius: 2.5rem;
+  border-radius: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -127,5 +100,35 @@ const goBack = () => {
   height: calc(100vh - 22rem);
   max-width: 789px;
   max-height: 485px;
+}
+
+body[arco-theme='light'] {
+  .alas-upload {
+    border: 2px solid var(--color-border-1);
+  }
+  .alas-steps {
+    :deep(.arco-steps-item-wait) {
+      .arco-steps-item-node {
+        .arco-steps-icon {
+          background: var(--color-bg-4);
+        }
+      }
+    }
+  }
+}
+
+body[arco-theme='dark'] {
+  .alas-upload {
+    border: 2px solid var(--color-border-3);
+  }
+  .alas-steps {
+    :deep(.arco-steps-item-wait) {
+      .arco-steps-item-node {
+        .arco-steps-icon {
+          background: var(--color-bg-4);
+        }
+      }
+    }
+  }
 }
 </style>

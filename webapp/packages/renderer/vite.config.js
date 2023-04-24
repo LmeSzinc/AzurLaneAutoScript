@@ -6,6 +6,9 @@ import {renderer} from 'unplugin-auto-expose';
 import {join, resolve} from 'node:path';
 import {injectAppVersion} from '../../version/inject-app-version-plugin.mjs';
 import {vitePluginForArco} from '@arco-plugins/vite-vue';
+/**
+ * https://github.com/arco-design/arco-plugins/blob/main/packages/plugin-vite-react/README.md
+ */
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
 
 // your plugin installation

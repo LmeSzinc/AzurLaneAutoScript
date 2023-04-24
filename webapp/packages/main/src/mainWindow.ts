@@ -49,6 +49,8 @@ export async function createWindow() {
     },
   });
 
+  browserWindow.setMinimumSize(700, 530);
+
   /**
    * If the 'show' property of the BrowserWindow's constructor is omitted from the initialization options,
    * it then defaults to 'true'. This can cause flickering as the window loads the html content,

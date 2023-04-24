@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia';
 import {store} from '/@/store';
-import type {LocaleType} from '/#/config';
+import type {LocaleType, ThemeVal} from '/#/config';
 
 export const useAppStore = defineStore({
   id: 'app',
@@ -25,7 +25,7 @@ export const useAppStore = defineStore({
     },
   },
   actions: {
-    setTheme(theme: AlasConfig['theme']) {
+    setTheme(theme: ThemeVal) {
       this.theme = theme;
     },
     setLanguage(language: LocaleType) {

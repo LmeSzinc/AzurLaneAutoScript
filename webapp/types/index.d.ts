@@ -12,7 +12,7 @@ declare type Recordable<T = any> = Record<string, T>;
 
 declare interface AlasConfig {
   webuiUrl: string;
-  theme: 'light' | 'dark' | 'system';
+  theme: 'light' | 'dark';
   language: DefAlasConfig['Deploy']['Webui']['Language'];
   repository: DefAlasConfig['Deploy']['Git']['Repository'];
 }
