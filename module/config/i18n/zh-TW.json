@@ -427,48 +427,48 @@
   },
   "RestartEmulator": {
     "_info": {
-      "name": "重啓模擬器",
+      "name": "重啟模擬器",
       "help": ""
     },
     "Enable": {
-      "name": "RestartEmulator.Enable.name",
-      "help": "RestartEmulator.Enable.help"
+      "name": "啟用模擬器控制",
+      "help": "啟用後 Alas 可以自動啟動模擬器並登錄遊戲"
     },
     "DailyRestart": {
-      "name": "服務器重繪時重啓模擬器",
-      "help": "每天主動重啓模擬器以解决記憶體洩漏問題"
+      "name": "服務器刷新時重啟模擬器",
+      "help": "每天0點主動重啟模擬器以解決內存洩漏問題"
     }
   },
   "EmulatorInfo": {
     "_info": {
-      "name": "EmulatorInfo._info.name",
-      "help": "EmulatorInfo._info.help"
+      "name": "模擬器設置",
+      "help": "下列數值是根據Serial自動填充的，如果不懂請不要隨意修改"
     },
     "Emulator": {
-      "name": "EmulatorInfo.Emulator.name",
-      "help": "EmulatorInfo.Emulator.help",
-      "auto": "auto",
-      "NoxPlayer": "NoxPlayer",
-      "NoxPlayer64": "NoxPlayer64",
-      "BlueStacks4": "BlueStacks4",
-      "BlueStacks5": "BlueStacks5",
-      "BlueStacks4HyperV": "BlueStacks4HyperV",
-      "BlueStacks5HyperV": "BlueStacks5HyperV",
-      "LDPlayer3": "LDPlayer3",
-      "LDPlayer4": "LDPlayer4",
-      "LDPlayer9": "LDPlayer9",
-      "MumuPlayer": "MumuPlayer",
-      "MumuPlayer9": "MumuPlayer9",
-      "MumuPlayer12": "MumuPlayer12",
-      "MemuPlayer": "MemuPlayer"
+      "name": "模擬器類型",
+      "help": "",
+      "auto": "自動檢測",
+      "NoxPlayer": "夜神模擬器",
+      "NoxPlayer64": "夜神模擬器64位",
+      "BlueStacks4": "藍疊模擬器4",
+      "BlueStacks5": "藍疊模擬器5",
+      "BlueStacks4HyperV": "藍疊模擬器4 Hyper-V",
+      "BlueStacks5HyperV": "藍疊模擬器5 Hyper-V",
+      "LDPlayer3": "雷電模擬器3",
+      "LDPlayer4": "雷電模擬器4",
+      "LDPlayer9": "雷電模擬器9",
+      "MuMuPlayer": "MuMu模擬器",
+      "MuMuPlayerX": "MuMu模擬器X",
+      "MuMuPlayer12": "MuMu模擬器12",
+      "MEmuPlayer": "逍遙模擬器"
     },
     "name": {
-      "name": "EmulatorInfo.name.name",
-      "help": "EmulatorInfo.name.help"
+      "name": "模擬器實例名稱",
+      "help": ""
     },
     "path": {
-      "name": "EmulatorInfo.path.name",
-      "help": "EmulatorInfo.path.help"
+      "name": "模擬器安裝路徑",
+      "help": ""
     }
   },
   "Error": {

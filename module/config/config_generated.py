@@ -31,7 +31,7 @@ class GeneratedConfig:
     RestartEmulator_DailyRestart = False
 
     # Group `EmulatorInfo`
-    EmulatorInfo_Emulator = 'auto'  # auto, NoxPlayer, NoxPlayer64, BlueStacks4, BlueStacks5, BlueStacks4HyperV, BlueStacks5HyperV, LDPlayer3, LDPlayer4, LDPlayer9, MumuPlayer, MumuPlayer9, MumuPlayer12, MemuPlayer
+    EmulatorInfo_Emulator = 'auto'  # auto, NoxPlayer, NoxPlayer64, BlueStacks4, BlueStacks5, BlueStacks4HyperV, BlueStacks5HyperV, LDPlayer3, LDPlayer4, LDPlayer9, MuMuPlayer, MuMuPlayerX, MuMuPlayer12, MEmuPlayer
     EmulatorInfo_name = None
     EmulatorInfo_path = None
 

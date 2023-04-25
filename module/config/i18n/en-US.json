@@ -431,44 +431,44 @@
       "help": ""
     },
     "Enable": {
-      "name": "RestartEmulator.Enable.name",
-      "help": "RestartEmulator.Enable.help"
+      "name": "Enable Emulator Control",
+      "help": "When enabled, auto start emulator and login to the game"
     },
     "DailyRestart": {
       "name": "Restart Emulator when Server Refreshes",
-      "help": "Restart emulator every day to solve the memory leak problem"
+      "help": "Restart emulator at 12 AM everyday to solve memory leak"
     }
   },
   "EmulatorInfo": {
     "_info": {
-      "name": "EmulatorInfo._info.name",
-      "help": "EmulatorInfo._info.help"
+      "name": "Emulator Settings",
+      "help": "The following values are auto-filled according to \"Serial\", if you don’t understand, please don't modify them"
     },
     "Emulator": {
-      "name": "EmulatorInfo.Emulator.name",
-      "help": "EmulatorInfo.Emulator.help",
-      "auto": "auto",
-      "NoxPlayer": "NoxPlayer",
-      "NoxPlayer64": "NoxPlayer64",
-      "BlueStacks4": "BlueStacks4",
-      "BlueStacks5": "BlueStacks5",
-      "BlueStacks4HyperV": "BlueStacks4HyperV",
-      "BlueStacks5HyperV": "BlueStacks5HyperV",
-      "LDPlayer3": "LDPlayer3",
-      "LDPlayer4": "LDPlayer4",
-      "LDPlayer9": "LDPlayer9",
-      "MumuPlayer": "MumuPlayer",
-      "MumuPlayer9": "MumuPlayer9",
-      "MumuPlayer12": "MumuPlayer12",
-      "MemuPlayer": "MemuPlayer"
+      "name": "Emulator Type",
+      "help": "",
+      "auto": "Auto-detect",
+      "NoxPlayer": "Nox Player",
+      "NoxPlayer64": "Nox Player 64bit",
+      "BlueStacks4": "BlueStacks 4",
+      "BlueStacks5": "BlueStacks 5",
+      "BlueStacks4HyperV": "BlueStacks 4 Hyper-V",
+      "BlueStacks5HyperV": "BlueStacks 5 Hyper-V",
+      "LDPlayer3": "LD Player 3",
+      "LDPlayer4": "LD Player 4",
+      "LDPlayer9": "LD Player 9",
+      "MuMuPlayer": "MuMu Player",
+      "MuMuPlayerX": "MuMu Player X",
+      "MuMuPlayer12": "MuMu Player 12",
+      "MEmuPlayer": "MEmu Player"
     },
     "name": {
-      "name": "EmulatorInfo.name.name",
-      "help": "EmulatorInfo.name.help"
+      "name": "Emulator Instance Name",
+      "help": ""
     },
     "path": {
-      "name": "EmulatorInfo.path.name",
-      "help": "EmulatorInfo.path.help"
+      "name": "Emulator Installation Path",
+      "help": ""
     }
   },
   "Error": {

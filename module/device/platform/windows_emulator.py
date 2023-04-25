@@ -118,15 +118,15 @@ class Emulator(EmulatorBase):
                 return cls.LDPlayer3
         if exe == 'NemuPlayer.exe':
             if dir2 == 'nemu':
-                return cls.MumuPlayer
+                return cls.MuMuPlayer
             elif dir2 == 'nemu9':
-                return cls.MumuPlayer9
+                return cls.MuMuPlayerX
             else:
-                return cls.MumuPlayer
+                return cls.MuMuPlayer
         if exe == 'MuMuPlayer.exe':
-            return cls.MumuPlayer12
+            return cls.MuMuPlayer12
         if exe == 'MEmu.exe':
-            return cls.MemuPlayer
+            return cls.MEmuPlayer
 
         return ''
 
@@ -254,14 +254,14 @@ class Emulator(EmulatorBase):
                     name=folder,
                     path=self.path
                 )
-        elif self == Emulator.MumuPlayer:
+        elif self == Emulator.MuMuPlayer:
             # MuMu has no multi instances, on 7555 only
             yield EmulatorInstance(
                 serial='127.0.0.1:7555',
                 name='',
                 path=self.path,
             )
-        elif self == Emulator.MumuPlayer9:
+        elif self == Emulator.MuMuPlayerX:
             # vms/nemu-12.0-x64-default
             for folder in self.list_folder('../vms', is_dir=True):
                 for file in iter_folder(folder, ext='.nemu'):
@@ -272,7 +272,7 @@ class Emulator(EmulatorBase):
                             name=os.path.basename(folder),
                             path=self.path,
                         )
-        elif self == Emulator.MumuPlayer12:
+        elif self == Emulator.MuMuPlayer12:
             # vms/MuMuPlayer-12.0-0
             for folder in self.list_folder('../vms', is_dir=True):
                 for file in iter_folder(folder, ext='.nemu'):
@@ -283,7 +283,7 @@ class Emulator(EmulatorBase):
                             name=os.path.basename(folder),
                             path=self.path,
                         )
-        elif self == Emulator.MemuPlayer:
+        elif self == Emulator.MEmuPlayer:
             # ./MemuHyperv VMs/{name}/{name}.memu
             for folder in self.list_folder('./MemuHyperv VMs', is_dir=True):
                 for file in iter_folder(folder, ext='.memu'):
@@ -304,7 +304,7 @@ class Emulator(EmulatorBase):
             exe = self.abspath('./nox_adb.exe')
             if os.path.exists(exe):
                 yield exe
-        if self == Emulator.MumuPlayerFamily:
+        if self == Emulator.MuMuPlayerFamily:
             # From MuMu9\emulator\nemu9\EmulatorShell
             # to MuMu9\emulator\nemu9\vmonitor\bin\adb_server.exe
             exe = self.abspath('../vmonitor/bin/adb_server.exe')

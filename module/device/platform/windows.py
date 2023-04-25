@@ -101,10 +101,10 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         Start a emulator without error handling
         """
         exe = instance.emulator.path
-        if instance == Emulator.MumuPlayer:
+        if instance == Emulator.MuMuPlayer:
             # NemuPlayer.exe
             self.execute(exe)
-        if instance == Emulator.MumuPlayer9:
+        if instance == Emulator.MuMuPlayerX:
             # NemuPlayer.exe -m nemu-12.0-x64-default
             self.execute(f'{exe} -m {instance.name}')
         elif instance == Emulator.NoxPlayerFamily:

@@ -80,6 +80,7 @@ class EmulatorInstanceBase:
 
 
 class EmulatorBase:
+    # Values here must match those in argument.yaml EmulatorInfo.Emulator.option
     NoxPlayer = 'NoxPlayer'
     NoxPlayer64 = 'NoxPlayer64'
     NoxPlayerFamily = [NoxPlayer, NoxPlayer64]
@@ -92,11 +93,11 @@ class EmulatorBase:
     LDPlayer4 = 'LDPlayer4'
     LDPlayer9 = 'LDPlayer9'
     LDPlayerFamily = [LDPlayer3, LDPlayer4, LDPlayer9]
-    MumuPlayer = 'MumuPlayer'
-    MumuPlayer9 = 'MumuPlayer9'
-    MumuPlayer12 = 'MumuPlayer12'
-    MumuPlayerFamily = [MumuPlayer, MumuPlayer9, MumuPlayer12]
-    MemuPlayer = 'MemuPlayer'
+    MuMuPlayer = 'MuMuPlayer'
+    MuMuPlayerX = 'MuMuPlayerX'
+    MuMuPlayer12 = 'MuMuPlayer12'
+    MuMuPlayerFamily = [MuMuPlayer, MuMuPlayerX, MuMuPlayer12]
+    MEmuPlayer = 'MEmuPlayer'
 
     @classmethod
     def path_to_type(cls, path: str) -> str:

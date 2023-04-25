@@ -457,10 +457,10 @@
       "LDPlayer3": "LDPlayer3",
       "LDPlayer4": "LDPlayer4",
       "LDPlayer9": "LDPlayer9",
-      "MumuPlayer": "MumuPlayer",
-      "MumuPlayer9": "MumuPlayer9",
-      "MumuPlayer12": "MumuPlayer12",
-      "MemuPlayer": "MemuPlayer"
+      "MuMuPlayer": "MuMuPlayer",
+      "MuMuPlayerX": "MuMuPlayerX",
+      "MuMuPlayer12": "MuMuPlayer12",
+      "MEmuPlayer": "MEmuPlayer"
     },
     "name": {
       "name": "EmulatorInfo.name.name",

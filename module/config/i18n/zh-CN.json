@@ -457,10 +457,10 @@
       "LDPlayer3": "雷电模拟器3",
       "LDPlayer4": "雷电模拟器4",
       "LDPlayer9": "雷电模拟器9",
-      "MumuPlayer": "MuMu模拟器",
-      "MumuPlayer9": "MuMu模拟器X",
-      "MumuPlayer12": "MuMu模拟器12",
-      "MemuPlayer": "逍遥模拟器"
+      "MuMuPlayer": "MuMu模拟器",
+      "MuMuPlayerX": "MuMu模拟器X",
+      "MuMuPlayer12": "MuMu模拟器12",
+      "MEmuPlayer": "逍遥模拟器"
     },
     "name": {
       "name": "模拟器实例名称",
