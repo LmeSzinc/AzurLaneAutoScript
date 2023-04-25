@@ -1,4 +1,5 @@
 import {alasPath, ThemeObj} from '../../main/src/config';
+import {checkIsFirst} from '@common/utils/checkIsFirst';
 const path = require('path');
 const yaml = require('yaml');
 const fs = require('fs');
@@ -18,4 +19,8 @@ export async function getAlasConfig() {
     };
   }
   return alasConfig;
+}
+
+export function checkIsNeedInstall() {
+  return checkIsFirst();
 }

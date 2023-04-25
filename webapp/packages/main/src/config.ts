@@ -52,11 +52,11 @@ const PythonExecutable = config.Deploy.Python.PythonExecutable;
 const WebuiPort = config.Deploy.Webui.WebuiPort.toString();
 const Theme = config.Deploy.Webui.Theme;
 
-export const ThemeObj: {[k in string]: 'light' | 'dark' | 'system'} = {
+export const ThemeObj: {[k in string]: 'light' | 'dark'} = {
   default: 'light',
   light: 'light',
   dark: 'dark',
-  system: 'system',
+  system: 'light',
 };
 
 export const pythonPath = path.isAbsolute(PythonExecutable)

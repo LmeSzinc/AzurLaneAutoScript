@@ -6,6 +6,11 @@ import {renderer} from 'unplugin-auto-expose';
 import {join, resolve} from 'node:path';
 import {injectAppVersion} from '../../version/inject-app-version-plugin.mjs';
 import {vitePluginForArco} from '@arco-plugins/vite-vue';
+import UnoCSS from 'unocss/vite';
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import {ArcoResolver} from 'unplugin-vue-components/resolvers';
+
 /**
  * https://github.com/arco-design/arco-plugins/blob/main/packages/plugin-vite-react/README.md
  */
@@ -73,11 +78,24 @@ const config = {
       preloadEntry: join(PACKAGE_ROOT, '../preload/src/index.ts'),
     }),
     injectAppVersion(),
+    AutoImport({
+      resolvers: [ArcoResolver()],
+    }),
+    Components({
+      resolvers: [
+        ArcoResolver({
+          sideEffect: true,
+        }),
+      ],
+    }),
     new vitePluginForArco({
       theme: '@arco-themes/vue-am-alas',
     }),
     VueI18nPlugin({
       include: resolve(PACKAGE_ROOT, './src/locales/lang/**'),
+    }),
+    UnoCSS({
+      configFile: './uno.config.ts',
     }),
   ],
   optimizeDeps: {

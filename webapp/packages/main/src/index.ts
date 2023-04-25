@@ -100,11 +100,7 @@ import {createInstaller} from '/@/eventFun/createInstaller';
 /***
  * 尝试拆分
  */
-const coreService = new CoreService({
-  appABSPath: '',
-  theme: 'light',
-  isFirstRun: false,
-});
+const coreService = new CoreService();
 
 coreService.use(createApp);
 coreService.use(createMainWindow);

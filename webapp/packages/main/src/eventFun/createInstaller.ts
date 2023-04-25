@@ -1,12 +1,12 @@
-import type {UseCallback} from '/@/coreService';
+import type {CallbackFun} from '/@/coreService';
 import {PyShell} from '/@/pyshell';
 import {installerArgs, installerPath} from '/@/config';
 import {ALAS_LOG, UPDATE_APP} from '@common/constant/constant';
 
-export const createInstaller: UseCallback = async (ctx, next) => {
-  const {mainWindow, installerService: installer} = ctx;
-
-  ctx.setInstaller(new PyShell(installerPath, installerArgs));
+export const createInstaller: CallbackFun = async (ctx, next) => {
+  const {mainWindow} = ctx;
+  const installer = new PyShell(installerPath, installerArgs);
+  ctx.setInstaller(installer);
   installer?.end(function (err: string) {
     sendLaunchLog(err);
     if (err) throw err;

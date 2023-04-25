@@ -12,13 +12,13 @@
 </template>
 
 <script lang="ts" setup>
-import {propTypes} from '/@/utils/propTypes';
+import VueTypes from 'vue-types';
 import type {CSSProperties} from 'vue';
 import {computed, unref} from 'vue';
 import CountTo from './CountTo.vue';
 
 const props = defineProps({
-  progressValue: propTypes.number.def(0),
+  progressValue: VueTypes.number.def(0),
 });
 
 const getWrapStyle = computed((): CSSProperties => {

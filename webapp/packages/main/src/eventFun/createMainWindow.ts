@@ -1,10 +1,10 @@
-import type {UseCallback} from '/@/coreService';
+import type {CallbackFun} from '/@/coreService';
 import {app, BrowserWindow, globalShortcut, Menu, nativeImage, Tray} from 'electron';
 import {join} from 'node:path';
 import {isMacintosh} from '@common/utils/env';
 import {URL} from 'node:url';
 
-export const createMainWindow: UseCallback = async (ctx, next) => {
+export const createMainWindow: CallbackFun = async (ctx, next) => {
   const browserWindow = new BrowserWindow({
     width: 1280,
     height: 880,

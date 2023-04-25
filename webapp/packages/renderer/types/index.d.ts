@@ -1,5 +1,7 @@
 import type {BinaryLike} from 'node:crypto';
 import type {AlasConfig} from '../../preload/src/alasConfig';
+import type {ThemeVal} from '/#/config';
+import {checkIsNeedInstall} from '../../preload/src/alasConfig';
 
 export {};
 
@@ -13,5 +15,6 @@ declare global {
       listener: (event: Electron.IpcRendererEvent, ...args: any[]) => void,
     ) => Electron.IpcRenderer;
     __electron_preload__getAlasConfig: () => AlasConfig;
+    __electron_preload__checkIsNeedInstall: () => boolean;
   }
 }

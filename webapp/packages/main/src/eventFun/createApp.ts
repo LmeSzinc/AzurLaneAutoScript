@@ -1,8 +1,8 @@
-import type {UseCallback} from '/@/coreService';
+import type {CallbackFun} from '/@/coreService';
 import {app} from 'electron';
 import {restoreWindow} from '/@/mainWindow';
 import {isMacintosh} from '@common/utils/env';
-export const createApp: UseCallback = async (ctx, next) => {
+export const createApp: CallbackFun = async (ctx, next) => {
   /**
    * Prevent electron from running multiple instances.
    */

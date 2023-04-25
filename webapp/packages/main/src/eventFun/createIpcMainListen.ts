@@ -1,8 +1,9 @@
-import type {UseCallback} from '/@/coreService';
-import {ipcMain} from 'electron';
+import type {CallbackFun} from '/@/coreService';
+import {ipcMain, nativeTheme} from 'electron';
 import {isMacintosh} from '@common/utils/env';
+import {INSTALLER_READY, WINDOW_READY} from '@common/constant/constant';
 
-export const createIpcMainListen: UseCallback = async (ctx, next) => {
+export const createIpcMainListen: CallbackFun = async (ctx, next) => {
   const {mainWindow, installerService: installer, alasService: alas} = ctx;
   // Minimize, maximize, close window.
   ipcMain.on('window-tray', function () {
@@ -44,7 +45,15 @@ export const createIpcMainListen: UseCallback = async (ctx, next) => {
     mainWindow?.close();
   });
 
-  ipcMain.on('window-ready', async function (_, args) {
+  ipcMain.on(WINDOW_READY, async function (_, args) {
     args && next();
+  });
+
+  ipcMain.on(INSTALLER_READY, function () {
+    next();
+  });
+
+  ipcMain.on('electron-theme', (_, args) => {
+    nativeTheme.themeSource = args;
   });
 };

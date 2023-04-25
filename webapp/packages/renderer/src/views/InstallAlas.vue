@@ -55,15 +55,15 @@
         </a-button>
       </div>
     </section>
-    <a-Button
+    <AButton
       type="primary"
       size="large"
-      class="mt-16 w-48 h-16 !bg-primary rounded-xl"
+      class="!mt-16 !w-48 !h-16 !bg-primary !rounded-xl"
     >
       <a-typography-text class="text-2xl text-current dark:text-dark">
         {{ t('common.install') }}
       </a-typography-text>
-    </a-Button>
+    </AButton>
   </div>
 </template>
 

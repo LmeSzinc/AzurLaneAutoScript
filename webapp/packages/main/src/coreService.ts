@@ -13,7 +13,7 @@ const defOptions = {
   isFirstRun: false,
 };
 
-export type UseCallback<T = any> = (
+export type CallbackFun<T = any> = (
   coreService: CoreService,
   next: (...args: any[]) => void,
   ...args1: (any | T)[]
@@ -26,11 +26,11 @@ export class CoreService {
   public mainWindow: Electron.BrowserWindow | null = null;
   public installerService: PyShell | null = null;
   public alasService: PyShell | null = null;
-  private eventQueue: Array<UseCallback> = [];
+  private eventQueue: Array<CallbackFun> = [];
   private stepIndex = 0;
 
-  constructor(options: CoreServiceOption) {
-    const {appABSPath, theme, isFirstRun} = Object.assign(defOptions, options);
+  constructor(options?: CoreServiceOption) {
+    const {appABSPath, theme, isFirstRun} = Object.assign(defOptions, options || {});
     this.appABSPath = appABSPath;
     this.theme = theme;
     this.isFirstRun = isFirstRun;
@@ -51,7 +51,7 @@ export class CoreService {
     }
   }
 
-  use(fun: UseCallback) {
+  use(fun: CallbackFun) {
     this.eventQueue.push(fun);
     return this;
   }
