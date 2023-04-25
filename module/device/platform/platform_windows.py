@@ -108,6 +108,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         """
         Stop a emulator without error handling
         """
+        logger.hr('Emulator stop', level=2)
         exe = instance.emulator.path
         if instance == Emulator.MuMuPlayer:
             # MuMu6 does not have multi instance, kill one means kill all
@@ -185,6 +186,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             bool: True if startup completed
                 False if timeout
         """
+        logger.hr('Emulator start', level=2)
         current_window = get_focused_window()
         serial = self.emulator_instance.serial
         logger.info(f'Current window: {current_window}')

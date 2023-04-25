@@ -109,7 +109,7 @@ class PlatformBase(Connection, EmulatorManagerBase):
         Returns:
             EmulatorInstance: Emulator instance or None if no instances not found.
         """
-        logger.hr('Find emulator instance', level=1)
+        logger.hr('Find emulator instance', level=2)
         instances = SelectedGrids(self.all_emulator_instances)
         for instance in instances:
             logger.info(instance)

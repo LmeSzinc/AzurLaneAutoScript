@@ -1,3 +1,4 @@
+import sys
 from collections import deque
 from datetime import datetime
 
@@ -6,13 +7,23 @@ from module.config.utils import get_server_next_update
 from module.device.app_control import AppControl
 from module.device.control import Control
 from module.device.screenshot import Screenshot
-from module.exception import (GameNotRunningError, GameStuckError,
-                              GameTooManyClickError, RequestHumanTakeover)
+from module.exception import (
+    EmulatorNotRunningError,
+    GameNotRunningError,
+    GameStuckError,
+    GameTooManyClickError,
+    RequestHumanTakeover
+)
 from module.handler.assets import GET_MISSION
 from module.logger import logger
 
+if sys.platform == 'win32':
+    from module.device.platform.platform_windows import PlatformWindows as Platform
+else:
+    from module.device.platform.platform_base import PlatformBase as Platform
 
-class Device(Screenshot, Control, AppControl):
+
+class Device(Screenshot, Control, AppControl, Platform):
     _screen_size_checked = False
     detect_record = set()
     click_record = deque(maxlen=15)
@@ -21,7 +32,28 @@ class Device(Screenshot, Control, AppControl):
     stuck_long_wait_list = ['BATTLE_STATUS_S', 'PAUSE', 'LOGIN_CHECK']
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        for _ in range(2):
+            try:
+                super().__init__(*args, **kwargs)
+                break
+            except EmulatorNotRunningError:
+                # Try to start emulator
+                if self.emulator_instance is not None:
+                    if self.config.RestartEmulator_Enable:
+                        self.emulator_start()
+                    else:
+                        logger.critical(
+                            'Emulator is not running, '
+                            'please start emulator manually or enable RestartEmulator.Enable'
+                        )
+                        raise
+                else:
+                    logger.critical(
+                        f'No emulator with serial "{self.config.Emulator_Serial}" found, '
+                        f'please set a correct serial'
+                    )
+                    raise
+
         self.screenshot_interval_set()
 
         # Auto-select the fastest screenshot method
