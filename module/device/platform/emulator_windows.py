@@ -5,8 +5,8 @@ import typing as t
 import winreg
 from dataclasses import dataclass
 
-# module/device/platform/windows_base.py
-# module/device/platform/windows_emulator.py
+# module/device/platform/emulator_base.py
+# module/device/platform/emulator_windows.py
 # Will be used in Alas Easy Install, they shouldn't import any Alas modules.
 from deploy.Windows.utils import cached_property, iter_folder
 from module.device.platform.emulator_base import EmulatorBase, EmulatorInstanceBase, EmulatorManagerBase

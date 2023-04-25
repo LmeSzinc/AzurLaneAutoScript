@@ -109,7 +109,7 @@ class PlatformBase(Connection, EmulatorManagerBase):
         Returns:
             EmulatorInstance: Emulator instance or None if no instances not found.
         """
-        logger.hr('Find emulator instance')
+        logger.hr('Find emulator instance', level=1)
         instances = SelectedGrids(self.all_emulator_instances)
         for instance in instances:
             logger.info(instance)
@@ -122,6 +122,7 @@ class PlatformBase(Connection, EmulatorManagerBase):
             return None
         if select.count == 1:
             instance = select[0]
+            logger.hr('Emulator instance', level=2)
             logger.info(f'Found emulator instance: {instance}')
             return instance
 
@@ -134,6 +135,7 @@ class PlatformBase(Connection, EmulatorManagerBase):
                 return None
             if select.count == 1:
                 instance = select[0]
+                logger.hr('Emulator instance', level=2)
                 logger.info(f'Found emulator instance: {instance}')
                 return instance
 
@@ -146,6 +148,7 @@ class PlatformBase(Connection, EmulatorManagerBase):
                 return None
             if select.count == 1:
                 instance = select[0]
+                logger.hr('Emulator instance', level=2)
                 logger.info(f'Found emulator instance: {instance}')
                 return instance
 
@@ -158,6 +161,7 @@ class PlatformBase(Connection, EmulatorManagerBase):
                 return None
             if select.count == 1:
                 instance = select[0]
+                logger.hr('Emulator instance', level=2)
                 logger.info(f'Found emulator instance: {instance}')
                 return instance
 

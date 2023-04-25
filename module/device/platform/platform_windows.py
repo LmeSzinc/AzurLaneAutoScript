@@ -9,7 +9,7 @@ from module.base.decorator import run_once
 from module.base.timer import Timer
 from module.device.connection import AdbDeviceWithStatus
 from module.device.platform.platform_base import PlatformBase
-from module.device.platform.windows_emulator import Emulator, EmulatorInstance, EmulatorManager
+from module.device.platform.emulator_windows import Emulator, EmulatorInstance, EmulatorManager
 from module.logger import logger
 
 
@@ -284,6 +284,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         return True
 
     def emulator_start(self):
+        logger.hr('Emulator start', level=1)
         for _ in range(3):
             # Stop
             if not self._emulator_function_wrapper(self._emulator_stop):
@@ -304,6 +305,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         return False
 
     def emulator_stop(self):
+        logger.hr('Emulator stop', level=1)
         return self._emulator_function_wrapper(self._emulator_stop)
 
 

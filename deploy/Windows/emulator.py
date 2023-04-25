@@ -21,7 +21,7 @@ class DataAdbDevice:
 class EmulatorManager(AlasManager):
     @cached_property
     def emulator_manager(self):
-        from module.device.platform.windows_emulator import EmulatorManager
+        from module.device.platform.emulator_windows import EmulatorManager
         return EmulatorManager()
 
     def adb_kill(self):
