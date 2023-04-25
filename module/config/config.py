@@ -130,7 +130,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
             func_set (set): Set of tasks to be bound
         """
         if func_set is None:
-            func_set = {"General", "Alas"}
+            func_set = {"General", "Alas", "Restart"}
         if isinstance(func, Function):
             func = func.command
         func_set.add(func)

@@ -1,4 +1,5 @@
 import os
+import re
 import typing as t
 from dataclasses import dataclass
 
@@ -77,6 +78,22 @@ class EmulatorInstanceBase:
 
     def __bool__(self):
         return True
+
+    @cached_property
+    def MuMuPlayer12_id(self):
+        """
+        Convert MuMu 12 instance name to instance id.
+        Example name: MuMuPlayer-12.0-3
+        Example ID  : 3
+
+        Returns:
+            int: Instance ID, or None if this is not a MuMu 12 instance
+        """
+        res = re.search(r'MuMuPlayer-12.0-(\d+)', self.name)
+        if res:
+            return int(res.group(1))
+        else:
+            return None
 
 
 class EmulatorBase:
