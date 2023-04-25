@@ -1,5 +1,7 @@
 import type {PyShell} from '/@/pyshell';
 import {app} from 'electron';
+import {ALAS_LOG, UPDATE_APP} from '@common/constant/constant';
+import relaunchApp from '/@/relaunchApp';
 
 export interface CoreServiceOption {
   appABSPath: string;
@@ -72,6 +74,14 @@ export class CoreService {
   }
   setAlasService(alasService: PyShell) {
     this.alasService = alasService;
+  }
+
+  sendLaunchLog(message: string) {
+    if (message?.includes(UPDATE_APP)) {
+      relaunchApp();
+      this.kill();
+    }
+    this.mainWindow?.webContents.send(ALAS_LOG, message);
   }
 
   killAlas(cb: (...args: any[]) => void) {

@@ -7,6 +7,7 @@ import {createApp} from '/@/eventFun/createApp';
 import {createMainWindow} from '/@/eventFun/createMainWindow';
 import {createIpcMainListen} from '/@/eventFun/createIpcMainListen';
 import {createInstaller} from '/@/eventFun/createInstaller';
+import {createAlas} from '/@/eventFun/createAlas';
 
 /**
  * Prevent electron from running multiple instances.
@@ -106,5 +107,6 @@ coreService.use(createApp);
 coreService.use(createMainWindow);
 coreService.use(createIpcMainListen);
 coreService.use(createInstaller);
+coreService.use(createAlas);
 
 coreService.run();
