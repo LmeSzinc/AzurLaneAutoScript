@@ -123,33 +123,34 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         for path, value in self.modified.items():
             deep_set(self.data, keys=path, value=value)
 
-    def bind(self, func, func_set=None):
+    def bind(self, func, func_list=None):
         """
         Args:
             func (str, Function): Function to run
-            func_set (set): Set of tasks to be bound
+            func_list (set): Set of tasks to be bound
         """
-        if func_set is None:
-            func_set = {"General", "Alas", "Restart"}
+        if func_list is None:
+            func_list = ["General", "Alas"]
         if isinstance(func, Function):
             func = func.command
-        func_set.add(func)
+        func_list.append(func)
         if func.startswith("Opsi"):
-            func_set.add("OpsiGeneral")
+            func_list.append("OpsiGeneral")
         if (
             func.startswith("Event")
             or func.startswith("Raid")
             or func.startswith("Coalition")
             or func in ["MaritimeEscort", "GemsFarming"]
         ):
-            func_set.add("EventGeneral")
-            func_set.add("TaskBalancer")
-        logger.info(f"Bind task {func_set}")
+            func_list.append("EventGeneral")
+            func_list.append("TaskBalancer")
+        func_list.append("Restart")
+        logger.info(f"Bind task {func_list}")
 
         # Bind arguments
         visited = set()
         self.bound.clear()
-        for func in func_set:
+        for func in func_list:
             func_data = self.data.get(func, {})
             for group, group_data in func_data.items():
                 for arg, value in group_data.items():
