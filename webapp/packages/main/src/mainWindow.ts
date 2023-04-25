@@ -20,7 +20,7 @@ import {
 } from '/@/config';
 import {isMacintosh} from '@common/utils/env';
 import relaunchApp from '/@/relaunchApp';
-import {ALAS_LOG, UPDATE_APP} from '@common/constant/constant';
+import {ALAS_LOG, UPDATE_APP} from '@common/constant/eventNames';
 
 const path = require('path');
 /**

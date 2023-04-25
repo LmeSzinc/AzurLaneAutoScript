@@ -2528,7 +2528,7 @@ csstype@^2.6.8:
   resolved "https://registry.nlark.com/csstype/download/csstype-2.6.18.tgz#980a8b53085f34af313410af064f2bd241784218"
   integrity sha1-mAqLUwhfNK8xNBCvBk8r0kF4Qhg=
 
-dayjs@^1.10.3:
+dayjs@^1.10.3, dayjs@^1.11.7:
   version "1.11.7"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.7.tgz#4b296922642f70999544d1144a2c25730fce63e2"
   integrity sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==

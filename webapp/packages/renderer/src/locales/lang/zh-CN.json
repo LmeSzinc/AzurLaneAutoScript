@@ -17,6 +17,13 @@
     "step1": "选择旧的Alas",
     "step2": "确认配置文件",
     "step3": "导入完成",
+    "filePathTips": " 下存在的配置文件：",
+    "btnOk": "确认",
+    "btnImport": "导入",
+    "btnGoBack": "返回",
+    "btnReimport": "重新导入",
+    "fileName": "文件名",
+    "lastModify": "最后修改时间",
     "file": {
       "choose": "点击此处选择文件"
     }

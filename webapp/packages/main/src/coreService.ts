@@ -1,6 +1,6 @@
 import type {PyShell} from '/@/pyshell';
 import {app} from 'electron';
-import {ALAS_LOG, UPDATE_APP} from '@common/constant/constant';
+import {ALAS_LOG, UPDATE_APP} from '@common/constant/eventNames';
 import relaunchApp from '/@/relaunchApp';
 
 export interface CoreServiceOption {
@@ -36,6 +36,10 @@ export class CoreService {
     this.appABSPath = appABSPath;
     this.theme = theme;
     this.isFirstRun = isFirstRun;
+    this.setAlasService.bind(this);
+    this.setInstaller.bind(this);
+    this.setMainWindow.bind(this);
+    this.sendLaunchLog.bind(this);
   }
 
   async run(...rags: any[]) {
@@ -81,11 +85,12 @@ export class CoreService {
       relaunchApp();
       this.kill();
     }
-    this.mainWindow?.webContents.send(ALAS_LOG, message);
+    this.mainWindow?.webContents?.send(ALAS_LOG, message);
   }
 
   killAlas(cb: (...args: any[]) => void) {
     this.alasService?.kill(cb);
+    this.alasService = null;
   }
 
   kill() {

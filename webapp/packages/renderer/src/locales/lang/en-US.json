@@ -10,15 +10,22 @@
     "install": "Install",
     "installTips": "Used ALAS before? Import your settings here"
   },
-   "import": {
-     "title": "Import user settings from existing Alas",
-     "tips": "Import your settings from ALAS",
-     "error": "Import failed, please check your settings",
-     "step1": "Select your settings file",
-     "step2": "Importing",
-     "step3": "Import success",
-     "file": {
-       "choose": "Choose file"
-     }
-   }
+  "import": {
+    "title": "Import user settings from existing Alas",
+    "tips": "Import your settings from ALAS",
+    "error": "Import failed, please check your settings",
+    "step1": "Select your settings file",
+    "step2": "Importing",
+    "step3": "Import success",
+    "filePathTips": " under Present profile：",
+    "btnOk": "Confirm",
+    "btnImport": "Import",
+    "btnGoBack": "Back",
+    "btnReimport": "Reimport",
+    "fileName": "file name",
+    "lastModify": "last modify time",
+    "file": {
+      "choose": "Choose file"
+    }
+  }
 }

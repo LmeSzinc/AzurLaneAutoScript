@@ -1,11 +1,11 @@
 <template>
   <div class="flex flex-col h-full px-5 py-10 relative">
     <a-button
-      type="link"
-      class="!absolute !left-9 !top-16"
+      type="text"
+      class="!absolute !left-9 !top-18 !hover:bg-white"
       :onclick="goBack"
     >
-      <arrow-left-outlined class="text-3xl text-primary" />
+      <arrow-left-outlined class="text-3xl text-slate opacity-25" />
     </a-button>
     <section class="ml-20 mt-2">
       <AlasTitle />
@@ -17,74 +17,141 @@
         direction="vertical"
         class="mt-5 ml-64 w-32 alas-steps h-64"
       >
-        <a-step class="">{{ t('import.step1') }}</a-step>
-        <a-step>{{ t('import.step2') }}</a-step>
-        <a-step>{{ t('import.step3') }}</a-step>
+        <a-step>
+          {{ t('import.step1') }}
+          <template #icon> 1 </template>
+        </a-step>
+        <a-step>
+          {{ t('import.step2') }}
+          <template #icon> 2 </template>
+        </a-step>
+        <a-step>
+          {{ t('import.step3') }}
+          <template #icon> 3 </template>
+        </a-step>
       </a-steps>
       <div class="w-fit h-full relative overflow-hidden alas-step-con-box">
         <div
-          class="w-full h-full transition-all duration-500 ease-in-out absolute top-0 left-0"
+          class="w-full h-full transition-all duration-500 ease-in-out absolute top-0 left-0 flex flex-col justify-between"
           :style="transformStep1"
         >
-          <a-typography-title :heading="3">{{ stepTipsOptions[current] }}</a-typography-title>
-          <a-upload
-            draggable
-            multiple
-            :custom-request="customRequest"
-            accept=".json,.yaml"
-          >
-            <template #upload-button>
-              <div class="alas-upload">
-                <div>
-                  <a-typography-title
-                    :heading="4"
-                    class="opacity-25"
-                  >
-                    {{ t('import.file.choose') }}
-                  </a-typography-title>
+          <div>
+            <a-typography-title :heading="3">{{ stepTipsOptions[current] }}</a-typography-title>
+            <a-upload
+              draggable
+              multiple
+              :custom-request="customRequest"
+              accept=".json,.yaml"
+            >
+              <template #upload-button>
+                <div class="alas-upload">
+                  <div>
+                    <a-typography-title
+                      :heading="4"
+                      class="opacity-25"
+                    >
+                      {{ t('import.file.choose') }}
+                    </a-typography-title>
+                  </div>
                 </div>
-              </div>
-            </template>
-            <template #upload-item="{fileItem}">
-              <div :key="fileItem.key"></div>
-            </template>
-            <!--          <template #extra-button>-->
-            <!--            <AButton type="primary">text</AButton>-->
-            <!--          </template>-->
-          </a-upload>
+              </template>
+              <template #upload-item> </template>
+            </a-upload>
+          </div>
         </div>
         <div
-          class="w-full h-full transition-all duration-500 ease-in-out absolute top-0 left-0 z-36"
+          class="w-full h-full transition-all duration-500 ease-in-out absolute top-0 left-0 z-36 flex flex-col justify-between"
           :style="transformStep2"
         >
-          <a-typography-title :heading="3">{{ stepTipsOptions[current] }}</a-typography-title>
-          <a-list>
-            <a-list-item
-              v-for="idx in 4"
-              :key="idx"
-            >
-              <a-list-item-meta
-                title="Beijing Bytedance Technology Co., Ltd."
-                description="Beijing ByteDance Technology Co., Ltd. is an enterprise located in China."
+          <div>
+            <a-typography-title :heading="3">{{ stepTipsOptions[current] }}</a-typography-title>
+            <a-typography-text ellipsis>
+              {{ fileParentPath }}{{ t('import.filePathTips') }}
+            </a-typography-text>
+            <section class="flex justify-between w-full">
+              <a-typography-title :heading="6">{{ t('import.fileName') }}</a-typography-title>
+              <a-typography-title :heading="6">{{ t('import.lastModify') }}</a-typography-title>
+            </section>
+            <a-list>
+              <a-list-item
+                v-for="fileItem in fileItems"
+                :key="fileItem.uid"
               >
-              </a-list-item-meta>
-            </a-list-item>
-          </a-list>
+                <a-list-item-meta :title="fileItem.name"> </a-list-item-meta>
+                <template #actions>
+                  <span>{{ fileItem.lastModifyTime }}</span>
+                </template>
+              </a-list-item>
+            </a-list>
+          </div>
+
           <a-space class="mt-10 flex justify-end">
-            <a-button :onclick="onCancel">取消</a-button>
+            <a-button
+              :onclick="onCancel"
+              size="large"
+            >
+              {{ t('import.btnGoBack') }}
+            </a-button>
             <a-button
               type="primary"
               :onclick="onOkSave"
+              size="large"
             >
-              确定
+              {{ t('import.btnImport') }}
             </a-button>
           </a-space>
         </div>
         <div
-          class="w-full h-full transition-all duration-500 ease-in-out absolute top-0 left-0 z-36"
+          class="w-full h-full transition-all duration-500 ease-in-out absolute top-0 left-0 z-36 flex flex-col justify-between"
           :style="transformStep3"
         >
-          Success Icon
+          <div>
+            <a-typography-title :heading="3">{{ stepTipsOptions[current] }}</a-typography-title>
+            <section class="flex justify-start">
+              <a-typography-text
+                :ellipsis="{
+                  rows: 1,
+                  showTooltip: true,
+                  css: true,
+                }"
+              >
+                {{ fileParentPath }}
+              </a-typography-text>
+              <a-typography-text class="min-w-[250px]">
+                {{ t('import.filePathTips') }}
+              </a-typography-text>
+            </section>
+            <section class="flex justify-between w-full">
+              <a-typography-title :heading="6">{{ t('import.fileName') }}</a-typography-title>
+              <a-typography-title :heading="6">{{ t('import.lastModify') }}</a-typography-title>
+            </section>
+            <a-list>
+              <a-list-item
+                v-for="fileItem in fileItems"
+                :key="fileItem.uid"
+              >
+                <a-list-item-meta :title="fileItem.name"> </a-list-item-meta>
+                <template #actions>
+                  <span>{{ fileItem.lastModifyTime }}</span>
+                </template>
+              </a-list-item>
+            </a-list>
+          </div>
+          <a-space class="mt-10 flex justify-end">
+            <a-button
+              :onclick="onReimport"
+              size="large"
+            >
+              {{ t('import.btnReimport') }}
+            </a-button>
+            <a-button
+              type="primary"
+              :onclick="goBack"
+              size="large"
+            >
+              {{ t('import.btnOk') }}
+            </a-button>
+          </a-space>
         </div>
       </div>
     </div>
@@ -92,11 +159,12 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, unref, computed} from 'vue';
+import {computed, ref} from 'vue';
 import AlasTitle from '/@/components/AlasTitle.vue';
 import {ArrowLeftOutlined} from '@ant-design/icons-vue';
 import router from '/@/router';
 import {useI18n} from '/@/hooks/useI18n';
+import dayjs from 'dayjs';
 
 const {t} = useI18n();
 
@@ -106,39 +174,48 @@ const stepTipsOptions = ref({
   3: t('import.step3'),
 });
 
+console.log(navigator.userAgent);
+
+const fileItems = ref<{file: File; uid: string; name: string; lastModifyTime: string}[]>([]);
+
 const current = ref(1);
 
-const transformStep1 = computed(
-  () => {
-    if (current.value === 1) return {transform: 'translateY(0)'};
-    return {transform: 'translateY(-100%)'};
-  },
-  {
-    onTrack: e => {
-      console.log(e);
-    },
-  },
-);
+const fileParentPath = computed(() => {
+  let pathStr = '';
+  fileItems.value.forEach(item => {
+    const [path] = item.file.path.split('AzurLaneAutoScript');
+    if (pathStr !== path) pathStr = path;
+  });
+  return pathStr + 'AzurLaneAutoScript';
+});
+
+const transformStep1 = computed(() => {
+  if (current.value === 1) return {transform: 'translateY(0)'};
+  return {transform: 'translateY(-100%)', opacity: 0};
+});
 const transformStep2 = computed(() => {
-  if (current.value === 1) return {transform: 'translateY(100%)'};
+  if (current.value === 1) return {transform: 'translateY(100%)', opacity: 0};
   if (current.value === 2) return {transform: 'translateY(0)'};
-  return {transform: 'translateY(-100%)'};
+  return {transform: 'translateY(-100%)', opacity: 0};
 });
 const transformStep3 = computed(() => {
-  if (current.value === 1) return {transform: 'translateY(100%)'};
-  if (current.value === 2) return {transform: 'translateY(100%)'};
-  return {transform: 'translateY(0)'};
+  if (current.value === 3) return {transform: 'translateY(0)'};
+  return {transform: 'translateY(100%)', opacity: 0};
 });
 
 const goBack = () => {
   router.back();
 };
 
-const customRequest = (option: {fileItem: any}) => {
+const customRequest = (option: {fileItem: {file: File; name: string}}) => {
   const {fileItem} = option;
-  console.log(fileItem);
   current.value = 2;
-  // TODO  保存一份文件的绝对路径
+  fileItems.value.push({
+    file: fileItem.file,
+    uid: fileItem.file.name,
+    name: fileItem.file.name,
+    lastModifyTime: dayjs(fileItem.file.lastModified).format('YYYY-MM-DD HH:mm:ss'),
+  });
 };
 
 const onOkSave = () => {
@@ -147,9 +224,11 @@ const onOkSave = () => {
 };
 
 const onCancel = () => {
-  // TODO 清除保存的文件信息
   current.value = 1;
+  fileItems.value = [];
 };
+
+const onReimport = onCancel;
 </script>
 
 <style lang="less" scoped>
@@ -175,7 +254,7 @@ const onCancel = () => {
 }
 .alas-step-con-box {
   width: calc(100vw - 32rem);
-  height: calc(100vh - 5rem);
+  height: calc(100vh - 15rem);
 }
 
 .alas-upload {

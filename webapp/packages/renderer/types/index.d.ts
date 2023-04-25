@@ -1,8 +1,5 @@
 import type {BinaryLike} from 'node:crypto';
 import type {AlasConfig} from '../../preload/src/alasConfig';
-import type {ThemeVal} from '/#/config';
-import {checkIsNeedInstall} from '../../preload/src/alasConfig';
-
 export {};
 
 declare global {

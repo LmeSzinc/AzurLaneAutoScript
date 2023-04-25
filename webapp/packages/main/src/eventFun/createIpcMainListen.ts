@@ -1,7 +1,7 @@
 import type {CallbackFun} from '/@/coreService';
 import {ipcMain, nativeTheme} from 'electron';
 import {isMacintosh} from '@common/utils/env';
-import {INSTALLER_READY, WINDOW_READY} from '@common/constant/constant';
+import {INSTALLER_READY, WINDOW_READY} from '@common/constant/eventNames';
 
 export const createIpcMainListen: CallbackFun = async (ctx, next) => {
   const {mainWindow, installerService: installer, alasService: alas} = ctx;

@@ -3,22 +3,22 @@ import {PyShell} from '/@/pyshell';
 import type {CallbackFun} from '/@/coreService';
 
 export const createAlas: CallbackFun = async (ctx, next) => {
-  const {setAlasService, sendLaunchLog} = ctx;
+  if (ctx.alasService) return;
   const alas = new PyShell(webuiPath, webuiArgs);
-  setAlasService(alas);
-  alas?.end(function (err: string) {
-    sendLaunchLog(err);
+  ctx.setAlasService(alas);
+  alas.end(function (err: string) {
+    ctx.sendLaunchLog(err);
     if (err) throw err;
   });
-  alas?.on('stdout', function (message) {
-    sendLaunchLog(message);
+  alas.on('stdout', function (message) {
+    ctx.sendLaunchLog(message);
   });
 
-  alas?.on('message', function (message) {
-    sendLaunchLog(message);
+  alas.on('message', function (message) {
+    ctx.sendLaunchLog(message);
   });
-  alas?.on('stderr', function (message: string) {
-    sendLaunchLog(message);
+  alas.on('stderr', function (message: string) {
+    ctx.sendLaunchLog(message);
     /**
      * Receive logs, judge if Alas is ready
      * For starlette backend, there will have:

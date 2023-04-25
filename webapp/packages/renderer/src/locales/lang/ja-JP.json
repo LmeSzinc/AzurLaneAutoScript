@@ -17,6 +17,13 @@
     "step1": "インポートファイルを選択",
     "step2": "インポート中",
     "step3": "インポート完了",
+    "filePathTips": " [現在のプロファイル] の下：",
+    "btnOk": "確認する",
+    "btnImport": "輸入",
+    "btnGoBack": "帰る",
+    "btnReimport": "再インポート",
+    "fileName": "ファイル名",
+    "lastModify": "最終変更日時",
     "file": {
       "choose": "ファイルを選択"
     }

@@ -14,7 +14,8 @@
     "paths": {
       "#preload": ["../preload/src/index"],
       "/@/*": ["./src/*"],
-      "/#/*": ["types/*"]
+      "/#/*": ["types/*"],
+      "@common/*": ["../common/*"]
     },
     "lib": ["ESNext", "dom", "dom.iterable"]
   },

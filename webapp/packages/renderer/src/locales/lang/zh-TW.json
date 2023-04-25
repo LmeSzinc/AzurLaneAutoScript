@@ -3,23 +3,27 @@
     "theme": "主題",
     "light": "亮色主題",
     "dark": "黑暗主題",
-
     "language": "語言",
-
     "update": "更新",
     "global": "全球",
     "china": "中國大陸",
-
     "install": "安裝",
     "installTips": "使用過ALAS嗎？在這裡導入你的設置"
   },
-    "import": {
+  "import": {
     "title": "從已有Alas中導入用戶設置",
     "tips": "請將你的 Alas 設定檔拖拽到這裡",
     "error": "匯入失敗，請檢查檔是否正確",
     "step1": "選擇舊的Alas",
     "step2": "選擇要導入的設置",
     "step3": "導入成功",
+    "filePathTips": " 下存在的配置檔：",
+    "btnOk": "確定",
+    "btnImport": "導入",
+    "btnGoBack": "返回",
+    "btnReimport": "重新導入",
+    "fileName": "檔名稱",
+    "lastModify": "最後修改時間",
     "file": {
       "choose": "點擊此處選擇檔"
     }

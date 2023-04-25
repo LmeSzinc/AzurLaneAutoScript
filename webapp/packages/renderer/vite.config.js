@@ -41,7 +41,7 @@ const config = {
       },
       {
         find: '@common',
-        replacement: join(PACKAGE_ROOT, '../common/src') + '/',
+        replacement: join(PACKAGE_ROOT, '../common') + '/',
       },
     ],
   },

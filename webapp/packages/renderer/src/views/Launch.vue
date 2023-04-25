@@ -36,7 +36,7 @@ import ProgressBar from '/@/components/ProgressBar.vue';
 import useIpcRenderer from '/@/hooks/useIpcRenderer';
 import router from '../router';
 import {LoadingOutlined} from '@ant-design/icons-vue';
-import {ALAS_LOG, WINDOW_READY} from '../../../common/constant/constant';
+import {ALAS_LOG, INSTALLER_READY, WINDOW_READY} from '@common/constant/eventNames';
 
 export default defineComponent({
   name: 'LaunchPage',
@@ -82,7 +82,7 @@ export default defineComponent({
       const processVal = processInfo?.match(/\d+/g)?.pop();
       processVal && (progress.value = Number(processVal));
       if (progress.value !== 100) return;
-      ipcRendererSend('install-success', true);
+      ipcRendererSend(INSTALLER_READY, true);
     };
 
     return {
