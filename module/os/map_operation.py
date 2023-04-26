@@ -80,7 +80,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         self.is_zone_name_hidden = '安全' in name
         # Remove punctuations
         for char in '・':
-            name = name.replace(char, '')
+            name = name.replace(char, '')フ
         # Remove '異常海域' and 'セイレーン要塞海域'
         if '異' in name:
             name = name.split('異')[0]
@@ -92,7 +92,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         # Katakana 'ペ' may be misread as Hiragana 'ぺ'.
         name = name.replace('一', 'ー').replace('力', 'カ').replace('ぺ', 'ペ')
         name = name.replace('ジブフルタル', 'ジブラルタル')
-        name = name.replace('タント', 'タラント')
+        name = name.replace('タント', 'タラント').replace('タフント', 'タラント')
         return name
 
     @Config.when(SERVER='tw')
