@@ -2,6 +2,7 @@ import type {PyShell} from '/@/pyshell';
 import {app} from 'electron';
 import {ALAS_LOG, UPDATE_APP} from '@common/constant/eventNames';
 import relaunchApp from '/@/relaunchApp';
+import {createAlas, createInstaller} from '/@/serviceLogic';
 
 export interface CoreServiceOption {
   appABSPath: string;
@@ -27,17 +28,13 @@ export class CoreService {
   public mainWindow: Electron.BrowserWindow | null = null;
   public installerService: PyShell | null = null;
   public alasService: PyShell | null = null;
-  private eventQueue: Array<CallbackFun> = [];
+  private eventQueue: Array<CallbackFun> = [createInstaller, createAlas];
   private stepIndex = 0;
 
   constructor(options?: CoreServiceOption) {
     const {appABSPath, theme} = Object.assign(defOptions, options || {});
     this.appABSPath = appABSPath;
     this.theme = theme;
-    this.setAlasService.bind(this);
-    this.setInstaller.bind(this);
-    this.setMainWindow.bind(this);
-    this.sendLaunchLog.bind(this);
   }
 
   async run(...rags: any[]) {
@@ -55,16 +52,11 @@ export class CoreService {
     }
   }
 
-  use(fun: CallbackFun) {
-    this.eventQueue.push(fun);
-    return this;
-  }
-
   reset() {
     this.stepIndex = 0;
+    this.killAlas(this.cb);
+    this.killInstaller(this.cb);
   }
-
-  updateConfigInfo(options: CoreServiceOption) {}
 
   setMainWindow(mainWindow: Electron.BrowserWindow) {
     this.mainWindow = mainWindow;

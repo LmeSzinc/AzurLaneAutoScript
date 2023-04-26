@@ -1,38 +1,30 @@
-// import {app} from 'electron';
+import {app} from 'electron';
 import './security-restrictions';
-// import {createWindow, restoreWindow, loadURL} from '/@/mainWindow';
+import {restoreWindow} from '/@/mainWindow';
 // import {platform} from 'node:process';
-import {CoreService} from '/@/coreService';
-import {
-  createIpcMainListen,
-  createAlas,
-  createInstaller,
-  createApp,
-  createMainWindow,
-} from '/@/eventLogic';
 
 /**
  * Prevent electron from running multiple instances.
  */
-// const isSingleInstance = app.requestSingleInstanceLock();
-// if (!isSingleInstance) {
-//   app.quit();
-//   process.exit(0);
-// }
-// app.on('second-instance', restoreWindow);
+const isSingleInstance = app.requestSingleInstanceLock();
+if (!isSingleInstance) {
+  app.quit();
+  process.exit(0);
+}
+app.on('second-instance', restoreWindow);
 
 /**
  * Disable Hardware Acceleration to save more system resources.
  * Also `in-process-gpu` to avoid creating a gpu process which may `exited unexpectedly`
  * See https://github.com/electron/electron/issues/30966
  */
-// app.disableHardwareAcceleration();
-// app.commandLine.appendSwitch('disable-gpu');
-// app.commandLine.appendSwitch('disable-software-rasterizer');
-// app.commandLine.appendSwitch('disable-gpu-compositing');
-// app.commandLine.appendSwitch('disable-gpu-rasterization');
-// app.commandLine.appendSwitch('disable-gpu-sandbox');
-// app.commandLine.appendSwitch('in-process-gpu');
+app.disableHardwareAcceleration();
+app.commandLine.appendSwitch('disable-gpu');
+app.commandLine.appendSwitch('disable-software-rasterizer');
+app.commandLine.appendSwitch('disable-gpu-compositing');
+app.commandLine.appendSwitch('disable-gpu-rasterization');
+app.commandLine.appendSwitch('disable-gpu-sandbox');
+app.commandLine.appendSwitch('in-process-gpu');
 /**
  * Shout down background process if all windows was closed
  */
@@ -100,15 +92,12 @@ import {
 //     .catch(e => console.error('Failed check and install updates:', e));
 // }
 
-/***
- * 尝试拆分
+/**
+ *  1. app 实例相关创建监听在这里问完成
+ *  2. 此处补充 createApp 内部相关需要的窗口和服务事件
  */
-const coreService = new CoreService();
-
-coreService.use(createApp);
-coreService.use(createMainWindow);
-coreService.use(createIpcMainListen);
-coreService.use(createInstaller);
-coreService.use(createAlas);
-
-coreService.run();
+app.whenReady().then(() => {
+  /**
+   * TODO createAPP
+   */
+});

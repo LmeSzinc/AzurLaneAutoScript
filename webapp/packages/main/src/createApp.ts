@@ -1,7 +1,7 @@
-import type {CallbackFun} from '/@/coreService';
-import {app} from 'electron';
+import {app, BrowserWindow} from 'electron';
 import {isMacintosh} from '@common/utils/env';
-export const createApp: CallbackFun = async (ctx, next) => {
+export const createApp = async () => {
+  const mainWindow = new BrowserWindow({});
   /**
    * Prevent electron from running multiple instances.
    */
@@ -14,10 +14,10 @@ export const createApp: CallbackFun = async (ctx, next) => {
 
   async function restoreWindow() {
     // Someone tried to run a second instance, we should focus our window.
-    if (ctx.mainWindow) {
-      if (ctx.mainWindow.isMinimized()) ctx.mainWindow.restore();
-      if (!ctx.mainWindow.isVisible()) ctx.mainWindow.show();
-      ctx.mainWindow.focus();
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore();
+      if (mainWindow.isVisible()) mainWindow.show();
+      mainWindow.focus();
     }
   }
 
@@ -46,21 +46,10 @@ export const createApp: CallbackFun = async (ctx, next) => {
    * @see https://www.electronjs.org/docs/latest/api/app#event-activate-macos Event: 'activate'.
    */
   app.on('activate', () => {
-    if (ctx.mainWindow) {
-      ctx.mainWindow.show();
+    if (mainWindow) {
+      mainWindow.show();
       return;
     }
-    ctx.reset();
-    next();
   });
-  isMacintosh &&
-    app.on('will-quit', () => {
-      ctx.kill();
-    });
-
-  /**
-   * Create the application window when the background process is ready.
-   */
-  await app.whenReady();
-  next();
+  isMacintosh && app.on('will-quit', () => {});
 };
