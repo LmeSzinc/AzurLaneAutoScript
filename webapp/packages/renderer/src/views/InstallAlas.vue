@@ -80,6 +80,7 @@ import {setupThemeSetting} from '/@/settings/themeSetting';
 import {useLocale} from '/@/locales/useLocale';
 import router from '/@/router';
 import {AlasGuiTheme} from '@common/constant/theme';
+import {repositoryMap} from '/@/settings/repositorySeeing';
 
 const {t} = useI18n();
 const appStore = useAppStoreWithOut();
@@ -139,7 +140,7 @@ const installAlas = async () => {
   installLoading.value = true;
   const modifyConfig = {
     Language: unref(appStore.getLanguage),
-    Repository: unref(appStore.getRepository),
+    Repository: repositoryMap[unref(appStore.getRepository)],
     Theme: AlasGuiTheme[unref(appStore.theme)],
   };
   const filePath = unref(appStore.alasPath);

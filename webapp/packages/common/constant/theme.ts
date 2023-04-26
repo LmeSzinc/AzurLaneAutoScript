@@ -4,7 +4,7 @@ export const ThemeObj: {[k in string]: 'light' | 'dark'} = {
   dark: 'dark',
 };
 
-export const  AlasGuiTheme = {
-    light: 'default',
-    dark: 'dark',
-}
+export const AlasGuiTheme = {
+  light: 'default',
+  dark: 'dark',
+};

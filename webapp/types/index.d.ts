@@ -14,7 +14,7 @@ declare interface AlasConfig {
   webuiUrl: string;
   theme: 'dark' | 'light';
   language: DefAlasConfig['Deploy']['Webui']['Language'];
-  repository: DefAlasConfig['Deploy']['Git']['Repository'];
+  repository: 'global' | 'china';
   alasPath: string;
 }
 

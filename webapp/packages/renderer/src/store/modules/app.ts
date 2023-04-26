@@ -1,13 +1,14 @@
 import {defineStore} from 'pinia';
 import {store} from '/@/store';
 import type {LocaleType, ThemeVal} from '/#/config';
+import type {repositoryMap} from '/@/settings/repositorySeeing';
 
 export const useAppStore = defineStore({
   id: 'app',
   state: (): AlasConfig => ({
     theme: 'light',
     language: 'zh-CN',
-    repository: '',
+    repository: 'global',
     webuiUrl: '',
     alasPath: '',
   }),
@@ -18,7 +19,7 @@ export const useAppStore = defineStore({
     getLanguage(): LocaleType {
       return this.language;
     },
-    getRepository(): string {
+    getRepository(): keyof typeof repositoryMap {
       return this.repository;
     },
     getWebuiUrl(): string {
