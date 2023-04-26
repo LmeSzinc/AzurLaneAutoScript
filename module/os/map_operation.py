@@ -80,7 +80,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         self.is_zone_name_hidden = '安全' in name
         # Remove punctuations
         for char in '・':
-            name = name.replace(char, '')フ
+            name = name.replace(char, '')
         # Remove '異常海域' and 'セイレーン要塞海域'
         if '異' in name:
             name = name.split('異')[0]
