@@ -60,6 +60,10 @@ export class CoreService {
     return this;
   }
 
+  reset() {
+    this.stepIndex = 0;
+  }
+
   updateConfigInfo(options: CoreServiceOption) {}
 
   setMainWindow(mainWindow: Electron.BrowserWindow) {

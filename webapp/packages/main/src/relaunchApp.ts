@@ -1,5 +1,4 @@
 import {app} from 'electron';
-import {isMacintosh} from '@common/utils/env';
 import {ALAS_RELAUNCH_ARGV} from '@common/constant/config';
 
 export const isRelaunch = process.argv.includes(ALAS_RELAUNCH_ARGV);

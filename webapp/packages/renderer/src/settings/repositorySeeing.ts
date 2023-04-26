@@ -1,8 +1,8 @@
 import type {OptionItem} from '/#/config';
 
 export const repositoryMap = {
-  global: 'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git',
-  china: 'https://github.com/LmeSzinc/AzurLaneAutoScript',
+  china: 'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git',
+  global: 'https://github.com/LmeSzinc/AzurLaneAutoScript',
 };
 
 export const repositoryValueMap = {

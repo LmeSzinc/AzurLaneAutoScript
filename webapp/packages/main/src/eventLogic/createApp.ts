@@ -45,13 +45,14 @@ export const createApp: CallbackFun = async (ctx, next) => {
   /**
    * @see https://www.electronjs.org/docs/latest/api/app#event-activate-macos Event: 'activate'.
    */
-  isMacintosh &&
-    app.on('activate', () => {
-      /**
-       * 这里有个问题 如果主窗口已经存在了，那么就不需要再次创建了 但是不是很清楚什么情况下需要被触发再次创建主窗口的操作
-       */
-      ctx.mainWindow && ctx.mainWindow.show();
-    });
+  app.on('activate', () => {
+    if (ctx.mainWindow) {
+      ctx.mainWindow.show();
+      return;
+    }
+    ctx.reset();
+    next();
+  });
   isMacintosh &&
     app.on('will-quit', () => {
       ctx.kill();
