@@ -12,9 +12,10 @@ declare type Recordable<T = any> = Record<string, T>;
 
 declare interface AlasConfig {
   webuiUrl: string;
-  theme: 'light' | 'dark';
+  theme: 'dark' | 'light';
   language: DefAlasConfig['Deploy']['Webui']['Language'];
   repository: DefAlasConfig['Deploy']['Git']['Repository'];
+  alasPath: string;
 }
 
 declare interface DefAlasConfig {

@@ -1,28 +1,25 @@
 import type {CallbackFun} from '/@/coreService';
 import {PyShell} from '/@/pyshell';
 import {installerArgs, installerPath} from '/@/config';
-import {ALAS_LOG, UPDATE_APP} from '@common/constant/eventNames';
+import {ALAS_RELAUNCH_ARGV} from "@common/constant/config";
 
 export const createInstaller: CallbackFun = async (ctx, next) => {
-  const {mainWindow} = ctx;
+  if(process.argv.includes(ALAS_RELAUNCH_ARGV)) return next();
+  const {mainWindow,sendLaunchLog} = ctx;
   const installer = new PyShell(installerPath, installerArgs);
   ctx.setInstaller(installer);
-  installer?.end(function (err: string) {
+  ctx.installerService?.end(function (err: string) {
     sendLaunchLog(err);
     if (err) throw err;
   });
-  installer?.on('stdout', function (message) {
+  ctx.installerService?.on('stdout', function (message) {
     sendLaunchLog(message);
   });
-  installer?.on('message', function (message) {
+  ctx.installerService?.on('message', function (message) {
     sendLaunchLog(message);
   });
-  installer?.on('stderr', function (message: string) {
+  ctx.installerService?.on('stderr', function (message: string) {
     sendLaunchLog(message);
   });
 
-  function sendLaunchLog(message: string) {
-    message?.includes(UPDATE_APP) && next();
-    mainWindow?.webContents.send(ALAS_LOG, message);
-  }
 };

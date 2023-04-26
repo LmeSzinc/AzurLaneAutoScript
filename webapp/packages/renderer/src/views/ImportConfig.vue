@@ -19,15 +19,15 @@
       >
         <a-step>
           {{ t('import.step1') }}
-          <template #icon> 1 </template>
+          <template #icon> 1</template>
         </a-step>
         <a-step>
           {{ t('import.step2') }}
-          <template #icon> 2 </template>
+          <template #icon> 2</template>
         </a-step>
         <a-step>
           {{ t('import.step3') }}
-          <template #icon> 3 </template>
+          <template #icon> 3</template>
         </a-step>
       </a-steps>
       <div class="w-fit h-full relative overflow-hidden alas-step-con-box">
@@ -55,7 +55,7 @@
                   </div>
                 </div>
               </template>
-              <template #upload-item> </template>
+              <template #upload-item></template>
             </a-upload>
           </div>
         </div>
@@ -77,7 +77,7 @@
                 v-for="fileItem in fileItems"
                 :key="fileItem.uid"
               >
-                <a-list-item-meta :title="fileItem.name"> </a-list-item-meta>
+                <a-list-item-meta :title="fileItem.name"></a-list-item-meta>
                 <template #actions>
                   <span>{{ fileItem.lastModifyTime }}</span>
                 </template>
@@ -96,6 +96,7 @@
               type="primary"
               :onclick="onOkSave"
               size="large"
+              :loading="saveLoading"
             >
               {{ t('import.btnImport') }}
             </a-button>
@@ -130,7 +131,7 @@
                 v-for="fileItem in fileItems"
                 :key="fileItem.uid"
               >
-                <a-list-item-meta :title="fileItem.name"> </a-list-item-meta>
+                <a-list-item-meta :title="fileItem.name"></a-list-item-meta>
                 <template #actions>
                   <span>{{ fileItem.lastModifyTime }}</span>
                 </template>
@@ -165,6 +166,9 @@ import {ArrowLeftOutlined} from '@ant-design/icons-vue';
 import router from '/@/router';
 import {useI18n} from '/@/hooks/useI18n';
 import dayjs from 'dayjs';
+import {useAppStore} from '/@/store/modules/app';
+import {Modal} from '@arco-design/web-vue';
+import {RequestOption} from "@arco-design/web-vue/es/upload/interfaces";
 
 const {t} = useI18n();
 
@@ -174,16 +178,18 @@ const stepTipsOptions = ref({
   3: t('import.step3'),
 });
 
-console.log(navigator.userAgent);
+const appStore = useAppStore();
 
-const fileItems = ref<{file: File; uid: string; name: string; lastModifyTime: string}[]>([]);
+const saveLoading = ref<boolean>(false);
+
+const fileItems = ref<{file: File | undefined; uid: string; name: string; lastModifyTime: string}[]>([]);
 
 const current = ref(1);
 
 const fileParentPath = computed(() => {
   let pathStr = '';
   fileItems.value.forEach(item => {
-    const [path] = item.file.path.split('AzurLaneAutoScript');
+    const [path] = item?.file?.path.split('AzurLaneAutoScript')|| ['unknown'];
     if (pathStr !== path) pathStr = path;
   });
   return pathStr + 'AzurLaneAutoScript';
@@ -207,19 +213,33 @@ const goBack = () => {
   router.back();
 };
 
-const customRequest = (option: {fileItem: {file: File; name: string}}) => {
-  const {fileItem} = option;
-  current.value = 2;
-  fileItems.value.push({
-    file: fileItem.file,
-    uid: fileItem.file.name,
-    name: fileItem.file.name,
-    lastModifyTime: dayjs(fileItem.file.lastModified).format('YYYY-MM-DD HH:mm:ss'),
-  });
+const customRequest = (option:RequestOption) => {
+
+    const {fileItem} = option;
+    current.value = 2;
+    fileItems.value.push({
+        file: fileItem.file,
+        uid: fileItem.uid,
+        name: fileItem?.file?.name || '',
+        lastModifyTime: dayjs(fileItem?.file?.lastModified || new Date()).format('YYYY-MM-DD HH:mm:ss'),
+    });
 };
 
-const onOkSave = () => {
+const onOkSave = async () => {
+  saveLoading.value = true;
+  const paths = fileItems.value.map(item => item.file.path);
   // TODO 复制一份文件到指定目录
+  await window.__electron_preload__copyFilesToDir(paths, appStore.getAlasPath + '/config', {
+    filedCallback: e => {
+      Modal.error({
+        title: 'Error Notification',
+        content: e.toString(),
+      });
+    },
+  });
+
+  saveLoading.value = false;
+
   current.value = 3;
 };
 
@@ -229,6 +249,7 @@ const onCancel = () => {
 };
 
 const onReimport = onCancel;
+
 </script>
 
 <style lang="less" scoped>
@@ -237,6 +258,7 @@ const onReimport = onCancel;
     overflow: visible;
     width: 100px;
   }
+
   :deep(.arco-steps-item-content) {
     width: 200px;
     text-align: right;
@@ -252,6 +274,7 @@ const onReimport = onCancel;
     }
   }
 }
+
 .alas-step-con-box {
   width: calc(100vw - 32rem);
   height: calc(100vh - 15rem);
@@ -273,6 +296,7 @@ body[arco-theme='light'] {
   .alas-upload {
     border: 2px solid var(--color-border-1);
   }
+
   .alas-steps {
     :deep(.arco-steps-item-wait) {
       .arco-steps-item-node {
@@ -288,6 +312,7 @@ body[arco-theme='dark'] {
   .alas-upload {
     border: 2px solid var(--color-border-3);
   }
+
   .alas-steps {
     :deep(.arco-steps-item-wait) {
       .arco-steps-item-node {

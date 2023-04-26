@@ -3,7 +3,7 @@ import {PyShell} from '/@/pyshell';
 import type {CallbackFun} from '/@/coreService';
 
 export const createAlas: CallbackFun = async (ctx, next) => {
-  if (ctx.alasService) return;
+  if (ctx.alasService) return next();
   const alas = new PyShell(webuiPath, webuiArgs);
   ctx.setAlasService(alas);
   alas.end(function (err: string) {
@@ -27,9 +27,9 @@ export const createAlas: CallbackFun = async (ctx, next) => {
      * `[Errno 10048] error while attempting to bind on address ('0.0.0.0', 22267): `
      */
     if (message.includes('Application startup complete') || message.includes('bind on address')) {
-      alas?.removeAllListeners('stderr');
-      alas?.removeAllListeners('message');
-      alas?.removeAllListeners('stdout');
+      alas.removeAllListeners('stderr');
+      alas.removeAllListeners('message');
+      alas.removeAllListeners('stdout');
     }
   });
   next();

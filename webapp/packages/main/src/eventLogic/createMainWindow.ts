@@ -1,10 +1,12 @@
 import type {CallbackFun} from '/@/coreService';
-import {app, BrowserWindow, globalShortcut, Menu, nativeImage, Tray} from 'electron';
+import {app, BrowserWindow, globalShortcut, Menu, nativeImage, nativeTheme, Tray} from 'electron';
 import {join} from 'node:path';
 import {isMacintosh} from '@common/utils/env';
 import {URL} from 'node:url';
+import {ThemeObj} from "@common/constant/theme";
 
 export const createMainWindow: CallbackFun = async (ctx, next) => {
+  nativeTheme.themeSource = ThemeObj[ctx.theme];
   const browserWindow = new BrowserWindow({
     width: 1280,
     height: 880,
@@ -20,7 +22,7 @@ export const createMainWindow: CallbackFun = async (ctx, next) => {
     },
   });
   ctx.setMainWindow(browserWindow);
-  browserWindow.setMinimumSize(700, 530);
+  browserWindow.setMinimumSize(576, 396);
   /**
    * If the 'show' property of the BrowserWindow's constructor is omitted from the initialization options,
    * it then defaults to 'true'. This can cause flickering as the window loads the html content,
@@ -82,16 +84,7 @@ export const createMainWindow: CallbackFun = async (ctx, next) => {
     {
       label: 'Exit',
       click: function () {
-        ctx.installerService?.kill(() => {
-          browserWindow?.close();
-          app.quit();
-        });
-        ctx.alasService?.kill(function () {
-          browserWindow?.close();
-          app.quit();
-        });
-        app.quit();
-        // ctx.kill();
+        ctx.kill();
       },
     },
   ]);

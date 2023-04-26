@@ -3,11 +3,13 @@ import './security-restrictions';
 // import {createWindow, restoreWindow, loadURL} from '/@/mainWindow';
 // import {platform} from 'node:process';
 import {CoreService} from '/@/coreService';
-import {createApp} from '/@/eventFun/createApp';
-import {createMainWindow} from '/@/eventFun/createMainWindow';
-import {createIpcMainListen} from '/@/eventFun/createIpcMainListen';
-import {createInstaller} from '/@/eventFun/createInstaller';
-import {createAlas} from '/@/eventFun/createAlas';
+import {
+  createIpcMainListen,
+  createAlas,
+  createInstaller,
+  createApp,
+  createMainWindow,
+} from '/@/eventLogic';
 
 /**
  * Prevent electron from running multiple instances.

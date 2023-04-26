@@ -1,5 +1,6 @@
 import {isMacintosh} from '@common/utils/env';
 import getAlasABSPath from '@common/utils/getAlasABSPath';
+import {ALAS_INSTR_FILE, ALAS_INSTR_TEST_FILE} from "@common/constant/config";
 
 const yaml = require('yaml');
 const fs = require('fs');
@@ -62,7 +63,7 @@ export const ThemeObj: {[k in string]: 'light' | 'dark'} = {
 export const pythonPath = path.isAbsolute(PythonExecutable)
   ? PythonExecutable
   : path.join(alasPath, PythonExecutable);
-export const installerPath = import.meta.env.DEV ? 'installer_test.py' : 'installer_test.py';
+export const installerPath = import.meta.env.DEV ? ALAS_INSTR_TEST_FILE : ALAS_INSTR_FILE;
 export const installerArgs = import.meta.env.DEV ? [] : [];
 export const webuiUrl = `http://127.0.0.1:${WebuiPort}`;
 export const webuiPath = 'gui.py';

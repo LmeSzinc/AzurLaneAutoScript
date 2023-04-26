@@ -13,11 +13,18 @@ import {onMounted} from 'vue';
 import router from '/@/router';
 onMounted(() => {
   const isFirst = window.__electron_preload__checkIsNeedInstall();
-  if (!isFirst) {
-    router.push('/Install');
-  } else {
-    router.push('/Lunch');
-  }
+  setTimeout(() => {
+    if (!isFirst) {
+      router.push('/Install');
+    } else {
+      router.push('/Lunch');
+    }
+  }, 1000);
+  // if (!isFirst) {
+  //   router.push('/Install');
+  // } else {
+  //   router.push('/Lunch');
+  // }
 });
 </script>
 

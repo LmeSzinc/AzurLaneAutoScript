@@ -13,6 +13,15 @@ export const createApp: CallbackFun = async (ctx, next) => {
   }
   app.on('second-instance', restoreWindow);
 
+  async function restoreWindow() {
+  // Someone tried to run a second instance, we should focus our window.
+  if (ctx.mainWindow) {
+    if (ctx.mainWindow.isMinimized()) ctx.mainWindow.restore();
+    if (!ctx.mainWindow.isVisible()) ctx.mainWindow.show();
+    ctx.mainWindow.focus();
+  }
+}
+
   /**
    * Disable Hardware Acceleration to save more system resources.
    * Also `in-process-gpu` to avoid creating a gpu process which may `exited unexpectedly`

@@ -1,8 +1,8 @@
 import type {CopyOptions} from 'fs-extra';
 import fsExtra from 'fs-extra';
-import {join} from 'path';
+import {join,sep,normalize} from 'path';
 
-interface CopyToDirOptions {
+export interface CopyToDirOptions {
   successCallback?: (pathStr: string) => void;
   filedCallback?: (pathStr: string, error: any) => void;
   fsExtraOptions?: CopyOptions;
@@ -24,7 +24,7 @@ export async function copyFilesToDir(
     try {
       await fsExtra.copy(
         pathStr,
-        join(targetDirPath + '/' + pathStr.split('/').pop()),
+        join(normalize(targetDirPath) + sep + pathStr.split(sep).pop()),
         fsExtraOptions,
       );
       successCallback?.(pathStr);

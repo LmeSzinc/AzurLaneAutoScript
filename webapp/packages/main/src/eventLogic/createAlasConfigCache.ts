@@ -7,5 +7,5 @@ export const createAlasConfigCache: CallbackFun = async (ctx, next) => {
   const config = {};
   const alasPath = getAlasABSPath();
 
-  console.log({config});
+  next();
 };

@@ -1303,7 +1303,7 @@
     "@unocss/core" "0.51.8"
     ofetch "^1.0.1"
 
-"@unocss/preset-wind@0.51.8":
+"@unocss/preset-wind@0.51.8", "@unocss/preset-wind@^0.51.8":
   version "0.51.8"
   resolved "http://npm.petkit.com/@unocss%2fpreset-wind/-/preset-wind-0.51.8.tgz#0848e788124b4eb75780ea8497677c72da266021"
   integrity sha512-L8zqVQigmPiclCuUdXwzNpj3CcC0PX38m5DAb9fkYyEdeSMkM2BYsKgR56oxah+0crN1dRTjJsqK45MAjJiVKQ==

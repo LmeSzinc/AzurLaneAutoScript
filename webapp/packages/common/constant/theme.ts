@@ -3,3 +3,8 @@ export const ThemeObj: {[k in string]: 'light' | 'dark'} = {
   light: 'light',
   dark: 'dark',
 };
+
+export const  AlasGuiTheme = {
+    light: 'default',
+    dark: 'dark',
+}

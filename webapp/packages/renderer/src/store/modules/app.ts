@@ -9,6 +9,7 @@ export const useAppStore = defineStore({
     language: 'zh-CN',
     repository: '',
     webuiUrl: '',
+    alasPath: '',
   }),
   getters: {
     getTheme(): string {
@@ -23,6 +24,9 @@ export const useAppStore = defineStore({
     getWebuiUrl(): string {
       return this.webuiUrl;
     },
+    getAlasPath(): string {
+      return this.alasPath;
+    },
   },
   actions: {
     setTheme(theme: ThemeVal) {
@@ -36,6 +40,9 @@ export const useAppStore = defineStore({
     },
     setWebuiUrl(webuiUrl: AlasConfig['webuiUrl']) {
       this.webuiUrl = webuiUrl;
+    },
+    setAlasPath(alasPath: AlasConfig['alasPath']) {
+      this.alasPath = alasPath;
     },
   },
 });

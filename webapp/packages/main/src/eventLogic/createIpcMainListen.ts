@@ -1,7 +1,8 @@
 import type {CallbackFun} from '/@/coreService';
 import {ipcMain, nativeTheme} from 'electron';
 import {isMacintosh} from '@common/utils/env';
-import {INSTALLER_READY, WINDOW_READY} from '@common/constant/eventNames';
+import {ELECTRON_THEME, INSTALLER_READY, WINDOW_READY} from '@common/constant/eventNames';
+import {ThemeObj} from "@common/constant/theme";
 
 export const createIpcMainListen: CallbackFun = async (ctx, next) => {
   const {mainWindow, installerService: installer, alasService: alas} = ctx;
@@ -53,7 +54,7 @@ export const createIpcMainListen: CallbackFun = async (ctx, next) => {
     next();
   });
 
-  ipcMain.on('electron-theme', (_, args) => {
-    nativeTheme.themeSource = args;
+  ipcMain.on(ELECTRON_THEME, (_, args) => {
+    nativeTheme.themeSource = ThemeObj[args];
   });
 };
