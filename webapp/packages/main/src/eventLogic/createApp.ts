@@ -1,6 +1,5 @@
 import type {CallbackFun} from '/@/coreService';
 import {app} from 'electron';
-import {restoreWindow} from '/@/mainWindow';
 import {isMacintosh} from '@common/utils/env';
 export const createApp: CallbackFun = async (ctx, next) => {
   /**
@@ -14,13 +13,13 @@ export const createApp: CallbackFun = async (ctx, next) => {
   app.on('second-instance', restoreWindow);
 
   async function restoreWindow() {
-  // Someone tried to run a second instance, we should focus our window.
-  if (ctx.mainWindow) {
-    if (ctx.mainWindow.isMinimized()) ctx.mainWindow.restore();
-    if (!ctx.mainWindow.isVisible()) ctx.mainWindow.show();
-    ctx.mainWindow.focus();
+    // Someone tried to run a second instance, we should focus our window.
+    if (ctx.mainWindow) {
+      if (ctx.mainWindow.isMinimized()) ctx.mainWindow.restore();
+      if (!ctx.mainWindow.isVisible()) ctx.mainWindow.show();
+      ctx.mainWindow.focus();
+    }
   }
-}
 
   /**
    * Disable Hardware Acceleration to save more system resources.

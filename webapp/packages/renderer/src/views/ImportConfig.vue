@@ -168,7 +168,7 @@ import {useI18n} from '/@/hooks/useI18n';
 import dayjs from 'dayjs';
 import {useAppStore} from '/@/store/modules/app';
 import {Modal} from '@arco-design/web-vue';
-import {RequestOption} from "@arco-design/web-vue/es/upload/interfaces";
+import type {RequestOption} from '@arco-design/web-vue/es/upload/interfaces';
 
 const {t} = useI18n();
 
@@ -182,14 +182,16 @@ const appStore = useAppStore();
 
 const saveLoading = ref<boolean>(false);
 
-const fileItems = ref<{file: File | undefined; uid: string; name: string; lastModifyTime: string}[]>([]);
+const fileItems = ref<
+  {file: File | undefined; uid: string; name: string; lastModifyTime: string}[]
+>([]);
 
 const current = ref(1);
 
 const fileParentPath = computed(() => {
   let pathStr = '';
   fileItems.value.forEach(item => {
-    const [path] = item?.file?.path.split('AzurLaneAutoScript')|| ['unknown'];
+    const [path] = item?.file?.path.split('AzurLaneAutoScript') || ['unknown'];
     if (pathStr !== path) pathStr = path;
   });
   return pathStr + 'AzurLaneAutoScript';
@@ -213,16 +215,15 @@ const goBack = () => {
   router.back();
 };
 
-const customRequest = (option:RequestOption) => {
-
-    const {fileItem} = option;
-    current.value = 2;
-    fileItems.value.push({
-        file: fileItem.file,
-        uid: fileItem.uid,
-        name: fileItem?.file?.name || '',
-        lastModifyTime: dayjs(fileItem?.file?.lastModified || new Date()).format('YYYY-MM-DD HH:mm:ss'),
-    });
+const customRequest = (option: RequestOption) => {
+  const {fileItem} = option;
+  current.value = 2;
+  fileItems.value.push({
+    file: fileItem.file,
+    uid: fileItem.uid,
+    name: fileItem?.file?.name || '',
+    lastModifyTime: dayjs(fileItem?.file?.lastModified || new Date()).format('YYYY-MM-DD HH:mm:ss'),
+  });
 };
 
 const onOkSave = async () => {
@@ -249,7 +250,6 @@ const onCancel = () => {
 };
 
 const onReimport = onCancel;
-
 </script>
 
 <style lang="less" scoped>

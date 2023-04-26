@@ -3,7 +3,7 @@ import {app, BrowserWindow, globalShortcut, Menu, nativeImage, nativeTheme, Tray
 import {join} from 'node:path';
 import {isMacintosh} from '@common/utils/env';
 import {URL} from 'node:url';
-import {ThemeObj} from "@common/constant/theme";
+import {ThemeObj} from '@common/constant/theme';
 
 export const createMainWindow: CallbackFun = async (ctx, next) => {
   nativeTheme.themeSource = ThemeObj[ctx.theme];
