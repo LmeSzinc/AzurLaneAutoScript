@@ -1,7 +1,7 @@
-import {app} from 'electron';
+import {app, BrowserWindow} from 'electron';
 import './security-restrictions';
-import {restoreWindow} from '/@/mainWindow';
-// import {platform} from 'node:process';
+import {createApp} from '/@/createApp';
+import {join} from 'path';
 
 /**
  * Prevent electron from running multiple instances.
@@ -11,7 +11,7 @@ if (!isSingleInstance) {
   app.quit();
   process.exit(0);
 }
-app.on('second-instance', restoreWindow);
+// app.on('second-instance', restoreWindow);
 
 /**
  * Disable Hardware Acceleration to save more system resources.
@@ -25,14 +25,18 @@ app.commandLine.appendSwitch('disable-gpu-compositing');
 app.commandLine.appendSwitch('disable-gpu-rasterization');
 app.commandLine.appendSwitch('disable-gpu-sandbox');
 app.commandLine.appendSwitch('in-process-gpu');
+
+/**
+ *Set App Error Log Path
+ */
+app.setAppLogsPath(join(app.getAppPath(), '/AlasAppError'));
+
 /**
  * Shout down background process if all windows was closed
  */
-// app.on('window-all-closed', () => {
-//   if (platform !== 'darwin') {
-//     app.quit();
-//   }
-// });
+app.on('window-all-closed', () => {
+  app.quit();
+});
 
 /**
  * @see https://www.electronjs.org/docs/latest/api/app#event-activate-macos Event: 'activate'.
@@ -92,12 +96,13 @@ app.commandLine.appendSwitch('in-process-gpu');
 //     .catch(e => console.error('Failed check and install updates:', e));
 // }
 
-/**
- *  1. app 实例相关创建监听在这里问完成
- *  2. 此处补充 createApp 内部相关需要的窗口和服务事件
- */
-app.whenReady().then(() => {
-  /**
-   * TODO createAPP
-   */
+app.whenReady().then(createApp);
+
+app.on('activate', () => {
+  const [curWindow] = BrowserWindow.getAllWindows();
+  if (!curWindow) {
+    createApp();
+  } else {
+    curWindow.focus();
+  }
 });

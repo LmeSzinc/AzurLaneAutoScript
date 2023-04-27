@@ -1,12 +1,11 @@
-import type {CallbackFun} from '/@/coreService';
 import {app, BrowserWindow, globalShortcut, Menu, nativeImage, nativeTheme, Tray} from 'electron';
 import {join} from 'node:path';
 import {isMacintosh} from '@common/utils/env';
 import {URL} from 'node:url';
 import {ThemeObj} from '@common/constant/theme';
 
-export const createMainWindow: CallbackFun = async (ctx, next) => {
-  nativeTheme.themeSource = ThemeObj[ctx.theme];
+export const createMainWindow = async () => {
+  nativeTheme.themeSource = ThemeObj['light'];
   const browserWindow = new BrowserWindow({
     width: 1280,
     height: 880,
@@ -14,14 +13,13 @@ export const createMainWindow: CallbackFun = async (ctx, next) => {
     frame: false,
     icon: join(__dirname, './icon.png'),
     webPreferences: {
-      nodeIntegration: true,
+      nodeIntegration: false,
       contextIsolation: true,
       sandbox: false, // Sandbox disabled because the demo of preload script depend on the Node.js api
       webviewTag: false, // The webview tag is not recommended. Consider alternatives like an iframe or Electron's BrowserView. @see https://www.electronjs.org/docs/latest/api/webview-tag#warning
       preload: join(app.getAppPath(), 'packages/preload/dist/index.cjs'),
     },
   });
-  ctx.setMainWindow(browserWindow);
   browserWindow.setMinimumSize(576, 396);
   /**
    * If the 'show' property of the BrowserWindow's constructor is omitted from the initialization options,
@@ -84,7 +82,8 @@ export const createMainWindow: CallbackFun = async (ctx, next) => {
     {
       label: 'Exit',
       click: function () {
-        ctx.kill();
+        app.quit();
+        process.exit(0);
       },
     },
   ]);
@@ -115,5 +114,6 @@ export const createMainWindow: CallbackFun = async (ctx, next) => {
       ? import.meta.env.VITE_DEV_SERVER_URL
       : new URL('../renderer/dist/index.html', 'file://' + __dirname).toString();
   await browserWindow.loadURL(pageUrl);
-  next();
+
+  return browserWindow;
 };

@@ -2,10 +2,8 @@ import {webuiArgs, webuiPath} from '/@/config';
 import {PyShell} from '/@/pyshell';
 import type {CallbackFun} from '/@/coreService';
 
-export const createAlas: CallbackFun = async (ctx, next) => {
-  if (ctx.alasService) return next();
+export const createAlas: CallbackFun = async ctx => {
   const alas = new PyShell(webuiPath, webuiArgs);
-  ctx.setAlasService(alas);
   alas.end(function (err: string) {
     ctx.sendLaunchLog(err);
     if (err) throw err;
@@ -32,5 +30,5 @@ export const createAlas: CallbackFun = async (ctx, next) => {
       alas.removeAllListeners('stdout');
     }
   });
-  next();
+  return alas;
 };
