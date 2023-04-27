@@ -69,7 +69,7 @@
   "Restart": {
     "Scheduler": {
       "Enable": true,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Restart",
       "SuccessInterval": 0,
       "FailureInterval": 0,
@@ -82,7 +82,7 @@
   "Main": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Main",
       "SuccessInterval": 0,
       "FailureInterval": 120,
@@ -126,12 +126,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2023-01-01 00:00:00",
+      "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2023-01-01 00:00:00",
+      "Fleet2Record": "2020-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -156,7 +156,7 @@
   "Main2": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Main2",
       "SuccessInterval": 0,
       "FailureInterval": 120,
@@ -200,12 +200,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2023-01-01 00:00:00",
+      "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2023-01-01 00:00:00",
+      "Fleet2Record": "2020-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -230,7 +230,7 @@
   "Main3": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Main3",
       "SuccessInterval": 0,
       "FailureInterval": 120,
@@ -274,12 +274,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2023-01-01 00:00:00",
+      "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2023-01-01 00:00:00",
+      "Fleet2Record": "2020-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -304,7 +304,7 @@
   "GemsFarming": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "GemsFarming",
       "SuccessInterval": 0,
       "FailureInterval": 120,
@@ -355,7 +355,7 @@
   "Sos": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Sos",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -402,12 +402,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2023-01-01 00:00:00",
+      "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2023-01-01 00:00:00",
+      "Fleet2Record": "2020-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -432,7 +432,7 @@
   "EventGeneral": {
     "EventGeneral": {
       "PtLimit": 0,
-      "TimeLimit": "2023-01-01 00:00:00"
+      "TimeLimit": "2020-01-01 00:00:00"
     },
     "TaskBalancer": {
       "Enable": false,
@@ -446,7 +446,7 @@
   "Event": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Event",
       "SuccessInterval": 0,
       "FailureInterval": 120,
@@ -490,12 +490,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2023-01-01 00:00:00",
+      "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2023-01-01 00:00:00",
+      "Fleet2Record": "2020-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -520,7 +520,7 @@
   "Event2": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Event2",
       "SuccessInterval": 0,
       "FailureInterval": 120,
@@ -564,12 +564,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2023-01-01 00:00:00",
+      "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2023-01-01 00:00:00",
+      "Fleet2Record": "2020-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -594,7 +594,7 @@
   "Event3": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Event3",
       "SuccessInterval": 0,
       "FailureInterval": 120,
@@ -638,12 +638,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2023-01-01 00:00:00",
+      "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2023-01-01 00:00:00",
+      "Fleet2Record": "2020-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -668,7 +668,7 @@
   "Raid": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Raid",
       "SuccessInterval": 0,
       "FailureInterval": 120,
@@ -699,7 +699,7 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2023-01-01 00:00:00",
+      "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
@@ -716,7 +716,7 @@
   "Coalition": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Coalition",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -746,7 +746,7 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2023-01-01 00:00:00",
+      "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
@@ -763,7 +763,7 @@
   "MaritimeEscort": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "MaritimeEscort",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -779,7 +779,7 @@
   "WarArchives": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "WarArchives",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -823,12 +823,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2023-01-01 00:00:00",
+      "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2023-01-01 00:00:00",
+      "Fleet2Record": "2020-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -853,7 +853,7 @@
   "CoalitionSp": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "CoalitionSp",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -883,7 +883,7 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2023-01-01 00:00:00",
+      "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
@@ -900,7 +900,7 @@
   "EventA": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "EventA",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -948,12 +948,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2023-01-01 00:00:00",
+      "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2023-01-01 00:00:00",
+      "Fleet2Record": "2020-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -978,7 +978,7 @@
   "EventB": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "EventB",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1026,12 +1026,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2023-01-01 00:00:00",
+      "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2023-01-01 00:00:00",
+      "Fleet2Record": "2020-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -1056,7 +1056,7 @@
   "EventC": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "EventC",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1104,12 +1104,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2023-01-01 00:00:00",
+      "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2023-01-01 00:00:00",
+      "Fleet2Record": "2020-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -1134,7 +1134,7 @@
   "EventD": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "EventD",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1182,12 +1182,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2023-01-01 00:00:00",
+      "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2023-01-01 00:00:00",
+      "Fleet2Record": "2020-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -1212,7 +1212,7 @@
   "EventSp": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "EventSp",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1256,12 +1256,12 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2023-01-01 00:00:00",
+      "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
       "Fleet2Value": 119,
-      "Fleet2Record": "2023-01-01 00:00:00",
+      "Fleet2Record": "2020-01-01 00:00:00",
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
@@ -1286,7 +1286,7 @@
   "RaidDaily": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "RaidDaily",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1316,7 +1316,7 @@
     "Emotion": {
       "Mode": "calculate",
       "Fleet1Value": 119,
-      "Fleet1Record": "2023-01-01 00:00:00",
+      "Fleet1Record": "2020-01-01 00:00:00",
       "Fleet1Control": "prevent_yellow_face",
       "Fleet1Recover": "not_in_dormitory",
       "Fleet1Oath": false,
@@ -1333,7 +1333,7 @@
   "Commission": {
     "Scheduler": {
       "Enable": true,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Commission",
       "SuccessInterval": "30-60",
       "FailureInterval": "30-60",
@@ -1351,7 +1351,7 @@
   "Tactical": {
     "Scheduler": {
       "Enable": true,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Tactical",
       "SuccessInterval": "30-60",
       "FailureInterval": "120-240",
@@ -1379,7 +1379,7 @@
   "Research": {
     "Scheduler": {
       "Enable": true,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Research",
       "SuccessInterval": "30-60",
       "FailureInterval": "30-60",
@@ -1400,7 +1400,7 @@
   "Dorm": {
     "Scheduler": {
       "Enable": true,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Dorm",
       "SuccessInterval": 278,
       "FailureInterval": 278,
@@ -1418,7 +1418,7 @@
   "Meowfficer": {
     "Scheduler": {
       "Enable": true,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Meowfficer",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1442,7 +1442,7 @@
   "Guild": {
     "Scheduler": {
       "Enable": true,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Guild",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1468,7 +1468,7 @@
   "Reward": {
     "Scheduler": {
       "Enable": true,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Reward",
       "SuccessInterval": "120-240",
       "FailureInterval": "120-240",
@@ -1488,7 +1488,7 @@
   "Daily": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Daily",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1517,7 +1517,7 @@
   "Hard": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Hard",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1534,7 +1534,7 @@
   "Exercise": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Exercise",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1548,7 +1548,7 @@
       "LowHpThreshold": 0.4,
       "LowHpConfirmWait": 0.1,
       "OpponentRefreshValue": 0,
-      "OpponentRefreshRecord": "2023-01-01 00:00:00"
+      "OpponentRefreshRecord": "2020-01-01 00:00:00"
     },
     "Storage": {
       "Storage": {}
@@ -1557,7 +1557,7 @@
   "ShopFrequent": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "ShopFrequent",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1576,7 +1576,7 @@
   "ShopOnce": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "ShopOnce",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1621,7 +1621,7 @@
   "Shipyard": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Shipyard",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1646,7 +1646,7 @@
   "Gacha": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Gacha",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1665,7 +1665,7 @@
   "Freebies": {
     "Scheduler": {
       "Enable": true,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "Freebies",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1707,7 +1707,7 @@
   "OpsiAshBeacon": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "OpsiAshBeacon",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1726,7 +1726,7 @@
   "OpsiAshAssist": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "OpsiAshAssist",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1742,7 +1742,7 @@
   "OpsiExplore": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "OpsiExplore",
       "SuccessInterval": 0,
       "FailureInterval": 0,
@@ -1765,7 +1765,7 @@
   "OpsiShop": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "OpsiShop",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1781,7 +1781,7 @@
   "OpsiVoucher": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "OpsiVoucher",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1797,7 +1797,7 @@
   "OpsiDaily": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "OpsiDaily",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1819,7 +1819,7 @@
   "OpsiObscure": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "OpsiObscure",
       "SuccessInterval": 60,
       "FailureInterval": 60,
@@ -1840,7 +1840,7 @@
   "OpsiAbyssal": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "OpsiAbyssal",
       "SuccessInterval": 60,
       "FailureInterval": 60,
@@ -1859,7 +1859,7 @@
   "OpsiArchive": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "OpsiArchive",
       "SuccessInterval": 60,
       "FailureInterval": 60,
@@ -1877,7 +1877,7 @@
   "OpsiStronghold": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "OpsiStronghold",
       "SuccessInterval": 60,
       "FailureInterval": 60,
@@ -1896,7 +1896,7 @@
   "OpsiMonthBoss": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "OpsiMonthBoss",
       "SuccessInterval": 0,
       "FailureInterval": 120,
@@ -1917,7 +1917,7 @@
   "OpsiMeowfficerFarming": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "OpsiMeowfficerFarming",
       "SuccessInterval": 30,
       "FailureInterval": 30,
@@ -1940,7 +1940,7 @@
   "OpsiHazard1Leveling": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "OpsiHazard1Leveling",
       "SuccessInterval": 30,
       "FailureInterval": 60,
@@ -1961,7 +1961,7 @@
   "OpsiCrossMonth": {
     "Scheduler": {
       "Enable": false,
-      "NextRun": "2023-01-01 00:00:00",
+      "NextRun": "2020-01-01 00:00:00",
       "Command": "OpsiCrossMonth",
       "SuccessInterval": 0,
       "FailureInterval": 120,
