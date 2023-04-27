@@ -6,56 +6,6 @@ from datetime import datetime
 from functools import partial
 from typing import Dict, List, Optional
 
-import module.webui.lang as lang
-from module.config.config import AzurLaneConfig, Function
-from module.config.utils import (
-    alas_instance,
-    alas_template,
-    deep_get,
-    deep_iter,
-    deep_set,
-    dict_to_kv,
-    filepath_args,
-    filepath_config,
-    read_file,
-)
-from module.logger import logger
-from module.ocr.rpc import start_ocr_server_process, stop_ocr_server_process
-from module.submodule.submodule import load_config
-from module.submodule.utils import get_config_mod
-from module.webui.base import Frame
-from module.webui.discord_presence import close_discord_rpc, init_discord_rpc
-from module.webui.fastapi import asgi_app
-from module.webui.lang import _t, t
-from module.webui.pin import put_input, put_select
-from module.webui.process_manager import ProcessManager
-from module.webui.remote_access import RemoteAccess
-from module.webui.setting import State
-from module.webui.translate import translate
-from module.webui.updater import updater
-from module.webui.utils import (
-    Icon,
-    Switch,
-    TaskHandler,
-    add_css,
-    filepath_css,
-    get_alas_config_listen_path,
-    get_localstorage,
-    get_window_visibility_state,
-    login,
-    parse_pin_value,
-    raise_exception,
-    re_fullmatch,
-)
-from module.webui.widgets import (
-    BinarySwitchButton,
-    RichLog,
-    T_Output_Kwargs,
-    put_icon_buttons,
-    put_loading_text,
-    put_none,
-    put_output,
-)
 from pywebio import config as webconfig
 from pywebio.output import (
     Output,
@@ -81,6 +31,56 @@ from pywebio.output import (
 )
 from pywebio.pin import pin, pin_on_change
 from pywebio.session import go_app, info, local, register_thread, run_js, set_env
+
+import module.webui.lang as lang
+from module.config.config import AzurLaneConfig, Function
+from module.config.utils import (
+    alas_instance,
+    alas_template,
+    deep_get,
+    deep_iter,
+    deep_set,
+    dict_to_kv,
+    filepath_args,
+    filepath_config,
+    read_file,
+)
+from module.logger import logger
+from module.ocr.rpc import start_ocr_server_process, stop_ocr_server_process
+from module.submodule.submodule import load_config
+from module.submodule.utils import get_config_mod
+from module.webui.base import Frame
+from module.webui.discord_presence import close_discord_rpc, init_discord_rpc
+from module.webui.fastapi import asgi_app
+from module.webui.lang import _t, t
+from module.webui.pin import put_input, put_select
+from module.webui.process_manager import ProcessManager
+from module.webui.remote_access import RemoteAccess
+from module.webui.setting import State
+from module.webui.updater import updater
+from module.webui.utils import (
+    Icon,
+    Switch,
+    TaskHandler,
+    add_css,
+    filepath_css,
+    get_alas_config_listen_path,
+    get_localstorage,
+    get_window_visibility_state,
+    login,
+    parse_pin_value,
+    raise_exception,
+    re_fullmatch,
+)
+from module.webui.widgets import (
+    BinarySwitchButton,
+    RichLog,
+    T_Output_Kwargs,
+    put_icon_buttons,
+    put_loading_text,
+    put_none,
+    put_output,
+)
 
 task_handler = TaskHandler()
 
@@ -111,7 +111,7 @@ class AlasGUI(Frame):
         put_icon_buttons(
             Icon.DEVELOP,
             buttons=[
-                {"label": t("Gui.Aside.Develop"), "value": "Develop", "color": "aside"}
+                {"label": t("Gui.Aside.Home"), "value": "Home", "color": "aside"}
             ],
             onclick=[self.ui_develop],
         ),
@@ -921,8 +921,8 @@ class AlasGUI(Frame):
         if not self.is_mobile:
             self.show()
             return
-        self.init_aside(name="Develop")
-        self.set_title(t("Gui.Aside.Develop"))
+        self.init_aside(name="Home")
+        self.set_title(t("Gui.Aside.Home"))
         self.dev_set_menu()
         self.alas_name = ""
         if hasattr(self, "alas"):
@@ -996,7 +996,7 @@ class AlasGUI(Frame):
     def show(self) -> None:
         self._show()
         self.set_aside()
-        self.init_aside(name="Develop")
+        self.init_aside(name="Home")
         self.dev_set_menu()
         self.init_menu(name="HomePage")
         self.alas_name = ""
@@ -1147,7 +1147,7 @@ class AlasGUI(Frame):
         self.task_handler.start()
 
         # Return to previous page
-        if aside not in ["Develop", None]:
+        if aside not in ["Home", None]:
             self.ui_alas(aside)
 
 
