@@ -1,4 +1,3 @@
-import re
 from datetime import datetime, timedelta
 
 import module.config.server as server
@@ -150,8 +149,8 @@ class Commission:
             1: 'running',
             2: 'pending'
         }
-        color = get_color(self.image, area)
-        if self.genre == 'event_daily':
+        color = np.array(get_color(self.image, area))
+        if self.genre == 'daily_event':
             color -= [50, 30, 20]
         self.status = dic[int(np.argmax(color))]
 
@@ -194,8 +193,8 @@ class Commission:
             1: 'running',
             2: 'pending'
         }
-        color = get_color(self.image, area)
-        if self.genre == 'event_daily':
+        color = np.array(get_color(self.image, area))
+        if self.genre == 'daily_event':
             color -= [50, 30, 20]
         self.status = dic[int(np.argmax(color))]
 
@@ -238,8 +237,8 @@ class Commission:
             1: 'running',
             2: 'pending'
         }
-        color = get_color(self.image, area)
-        if self.genre == 'event_daily':
+        color = np.array(get_color(self.image, area))
+        if self.genre == 'daily_event':
             color -= [50, 30, 20]
         self.status = dic[int(np.argmax(color))]
 
@@ -282,8 +281,8 @@ class Commission:
             1: 'running',
             2: 'pending'
         }
-        color = get_color(self.image, area)
-        if self.genre == 'event_daily':
+        color = np.array(get_color(self.image, area))
+        if self.genre == 'daily_event':
             color -= [50, 30, 20]
         self.status = dic[int(np.argmax(color))]
 
@@ -459,6 +458,11 @@ class Commission:
         # 2021.07.22 Event commissions in The Idol Master event, with
         # area = area_offset((5, 5, 30, 30), self.area[0:2])
         # return color_similar(color1=get_color(self.image, area), color2=(235, 173, 161))
+
+        # 2023.04.27 Vacation Lane Rerun, pink yellow gradient like Idol Master event
+        area = area_offset((5, 5, 30, 30), self.area[0:2])
+        if color_similar(color1=get_color(self.image, area), color2=(235, 173, 161), threshold=30):
+            return True
 
         return False
 

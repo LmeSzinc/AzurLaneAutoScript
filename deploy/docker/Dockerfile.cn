@@ -20,6 +20,7 @@ deb-src https://mirrors.aliyun.com/debian/ bullseye-backports main non-free cont
 > /etc/apt/sources.list \
  && apt update \
  && apt install -y git adb netcat libgomp1 \
+ && git config --global --add safe.directory '*' \
  && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
  && echo 'Asia/Shanghai' > /etc/timezone \
  && pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple \
