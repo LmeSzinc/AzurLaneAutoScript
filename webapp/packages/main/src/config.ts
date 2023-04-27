@@ -9,11 +9,7 @@ const yaml = require('yaml');
 const fs = require('fs');
 const path = require('path');
 
-try {
-  validateConfigFile(join(getAlasABSPath(), '/config'));
-} catch (e) {
-  logger.error((e as unknown as any).toString());
-}
+
 
 function getAlasPath() {
   let file;
@@ -55,6 +51,12 @@ function getLauncherPath(alasPath: string) {
 }
 
 export const alasPath = isMacintosh && import.meta.env.PROD ? getAlasABSPath() : getAlasPath();
+
+try {
+  validateConfigFile(join(alasPath, '/config'));
+} catch (e) {
+  logger.error((e as unknown as any).toString());
+}
 
 const file = fs.readFileSync(path.join(alasPath, './config/deploy.yaml'), 'utf8');
 const config = yaml.parse(file) as DefAlasConfig;

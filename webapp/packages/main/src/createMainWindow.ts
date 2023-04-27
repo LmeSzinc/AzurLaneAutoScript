@@ -1,6 +1,5 @@
-import {app, BrowserWindow, globalShortcut, Menu, nativeImage, nativeTheme, Tray} from 'electron';
+import {app, BrowserWindow, globalShortcut, nativeTheme} from 'electron';
 import {join} from 'node:path';
-import {isMacintosh} from '@common/utils/env';
 import {URL} from 'node:url';
 import {ThemeObj} from '@common/constant/theme';
 import logger from '/@/logger';
@@ -34,10 +33,6 @@ export const createMainWindow = async () => {
     logger.info('-----ready-to-show-----');
     browserWindow?.show();
 
-    // Hide menu
-    const {Menu} = require('electron');
-    Menu.setApplicationMenu(null);
-
     if (import.meta.env.DEV) {
       browserWindow?.webContents.openDevTools();
     }
@@ -62,48 +57,6 @@ export const createMainWindow = async () => {
   });
   browserWindow.on('blur', function () {
     globalShortcut.unregisterAll();
-  });
-
-  const icon = nativeImage.createFromPath(join(__dirname, './icon.png'));
-  const dockerIcon = icon.resize({width: 16, height: 16});
-  // Tray
-  const tray = new Tray(isMacintosh ? dockerIcon : icon);
-  const contextMenu = Menu.buildFromTemplate([
-    {
-      label: 'Show',
-      click: function () {
-        browserWindow?.show();
-      },
-    },
-    {
-      label: 'Hide',
-      click: function () {
-        browserWindow?.hide();
-      },
-    },
-    {
-      label: 'Exit',
-      click: function () {
-        app.quit();
-        process.exit(0);
-      },
-    },
-  ]);
-  tray.setToolTip('Alas');
-  tray.setContextMenu(contextMenu);
-  tray.on('click', () => {
-    if (browserWindow?.isVisible()) {
-      if (browserWindow?.isMinimized()) {
-        browserWindow?.show();
-      } else {
-        browserWindow?.hide();
-      }
-    } else {
-      browserWindow?.show();
-    }
-  });
-  tray.on('right-click', () => {
-    tray.popUpContextMenu(contextMenu);
   });
 
   /**
