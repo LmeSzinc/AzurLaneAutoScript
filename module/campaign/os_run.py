@@ -66,7 +66,7 @@ class OSCampaignRun(OSMapOperation):
             self.load_campaign()
             self.campaign.os_hazard1_leveling()
         except ActionPointLimit:
-            self.config.task_delay(server_update=True)
+            self.config.task_delay(ap_limit=True)
 
     def opsi_obscure(self):
         try:

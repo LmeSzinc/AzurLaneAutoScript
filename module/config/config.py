@@ -510,6 +510,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
                     "OpsiAbyssal",
                     "OpsiStronghold",
                     "OpsiMeowfficerFarming",
+                    "OpsiHazard1Leveling"
                 ]
             )
             if get_os_reset_remain() > 0:
