@@ -39,7 +39,6 @@ class CampaignUI(CampaignEvent, CampaignOcr):
             current = self.get_chapter_index(self.device.image)
 
             logger.attr("Index", current)
-            logger.info([index, current, index - current])
             diff = index - current
             if diff == 0:
                 break
