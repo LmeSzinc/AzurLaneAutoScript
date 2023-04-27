@@ -92,7 +92,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         # Katakana 'ペ' may be misread as Hiragana 'ぺ'.
         name = name.replace('一', 'ー').replace('力', 'カ').replace('ぺ', 'ペ')
         name = name.replace('ジブフルタル', 'ジブラルタル')
-        name = name.replace('タント', 'タラント')
+        name = name.replace('タント', 'タラント').replace('タフント', 'タラント')
         return name
 
     @Config.when(SERVER='tw')
