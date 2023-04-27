@@ -333,15 +333,25 @@ def put_arg_select(kwargs: T_Output_Kwargs) -> Output:
     disabled: bool = kwargs.pop("disabled", False)
     _: str = kwargs.pop("invalid_feedback", None)
 
-    option = []
-    if options:
-        for opt, label in zip(options, options_label):
-            o = {"label": label, "value": opt}
-            if value == opt:
-                o["selected"] = True
-            else:
-                o["disabled"] = disabled
-            option.append(o)
+    if disabled:
+        label = value
+        for opt, opt_label in zip(options, options_label):
+            if opt == value:
+                label = opt_label
+                break
+        option = [{
+            "label": label,
+            "value": value,
+            "selected": True,
+        }]
+    else:
+        option = []
+        if options:
+            for opt, label in zip(options, options_label):
+                o = {"label": label, "value": opt}
+                if value == opt:
+                    o["selected"] = True
+                option.append(o)
     kwargs["options"] = option
 
     return put_scope(
