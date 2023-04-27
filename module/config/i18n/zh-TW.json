@@ -98,10 +98,6 @@
       "name": "作戰檔案",
       "help": "由於作戰檔案缺少維護，開荒功能不一定能正常使用，如果發現Alas運行异常，請手動完成開荒後使用自律尋敵功能"
     },
-    "CoalitionSp": {
-      "name": "極地風暴每日SP",
-      "help": ""
-    },
     "EventA": {
       "name": "活動每日A圖",
       "help": ""
@@ -124,6 +120,10 @@
     },
     "RaidDaily": {
       "name": "共鬥活動每日",
+      "help": ""
+    },
+    "CoalitionSp": {
+      "name": "極地風暴每日SP",
       "help": ""
     },
     "Commission": {

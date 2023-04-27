@@ -22,13 +22,13 @@
       "WarArchives"
     ],
     "EventDaily": [
-      "CoalitionSp",
       "EventA",
       "EventB",
       "EventC",
       "EventD",
       "EventSp",
-      "RaidDaily"
+      "RaidDaily",
+      "CoalitionSp"
     ],
     "Reward": [
       "Commission",

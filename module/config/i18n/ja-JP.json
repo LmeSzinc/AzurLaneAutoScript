@@ -98,10 +98,6 @@
       "name": "作戦履歴",
       "help": ""
     },
-    "CoalitionSp": {
-      "name": "Task.CoalitionSp.name",
-      "help": "Task.CoalitionSp.help"
-    },
     "EventA": {
       "name": "毎日イベント海域A",
       "help": ""
@@ -125,6 +121,10 @@
     "RaidDaily": {
       "name": "Raid Daily",
       "help": ""
+    },
+    "CoalitionSp": {
+      "name": "Task.CoalitionSp.name",
+      "help": "Task.CoalitionSp.help"
     },
     "Commission": {
       "name": "委託",
