@@ -3,6 +3,7 @@ import {join} from 'node:path';
 import {isMacintosh} from '@common/utils/env';
 import {URL} from 'node:url';
 import {ThemeObj} from '@common/constant/theme';
+import logger from '/@/logger';
 
 export const createMainWindow = async () => {
   nativeTheme.themeSource = ThemeObj['light'];
@@ -30,6 +31,7 @@ export const createMainWindow = async () => {
    * @see https://github.com/electron/electron/issues/25012 for the afford mentioned issue.
    */
   browserWindow.on('ready-to-show', () => {
+    logger.info('-----ready-to-show-----');
     browserWindow?.show();
 
     // Hide menu

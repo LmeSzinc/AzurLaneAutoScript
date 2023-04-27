@@ -2,6 +2,7 @@ import {app, BrowserWindow} from 'electron';
 import './security-restrictions';
 import {createApp} from '/@/createApp';
 import {join} from 'path';
+import logger from '/@/logger';
 
 /**
  * Prevent electron from running multiple instances.
@@ -96,7 +97,13 @@ app.on('window-all-closed', () => {
 //     .catch(e => console.error('Failed check and install updates:', e));
 // }
 
-app.whenReady().then(createApp);
+app
+  .whenReady()
+  .then(createApp)
+  .catch(e => {
+    logger.error('Failed create window:' + e);
+    console.error('Failed create window:', e);
+  });
 
 app.on('activate', () => {
   const [curWindow] = BrowserWindow.getAllWindows();

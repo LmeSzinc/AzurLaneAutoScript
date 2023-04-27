@@ -1,11 +1,17 @@
 import {webuiArgs, webuiPath} from '/@/config';
 import {PyShell} from '/@/pyshell';
 import type {CallbackFun} from '/@/coreService';
+import logger from '/@/logger';
 
 export const createAlas: CallbackFun = async ctx => {
   const alas = new PyShell(webuiPath, webuiArgs);
+  alas.on('error', function (err: string) {
+    logger.error(err);
+    ctx.sendLaunchLog(err);
+  });
   alas.end(function (err: string) {
     ctx.sendLaunchLog(err);
+    logger.error(err);
     if (err) throw err;
   });
   alas.on('stdout', function (message) {

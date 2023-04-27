@@ -1,8 +1,14 @@
 import type {CoreService} from '/@/coreService';
 import type {BrowserWindow} from 'electron';
 import {app, ipcMain, nativeTheme} from 'electron';
-import {ELECTRON_THEME, INSTALLER_READY, WINDOW_READY} from '@common/constant/eventNames';
+import {
+  ELECTRON_THEME,
+  INSTALLER_READY,
+  PAGE_ERROR,
+  WINDOW_READY,
+} from '@common/constant/eventNames';
 import {ThemeObj} from '@common/constant/theme';
+import logger from '/@/logger';
 
 export const addIpcMainListener = async (mainWindow: BrowserWindow, coreService: CoreService) => {
   // Minimize, maximize, close window.
@@ -22,14 +28,21 @@ export const addIpcMainListener = async (mainWindow: BrowserWindow, coreService:
   });
 
   ipcMain.on(WINDOW_READY, async function (_, args) {
+    logger.info('-----WINDOW_READY-----');
     args && coreService.run();
   });
 
   ipcMain.on(INSTALLER_READY, function () {
+    logger.info('-----INSTALLER_READY-----');
     coreService.run();
   });
 
   ipcMain.on(ELECTRON_THEME, (_, args) => {
+    logger.info('-----ELECTRON_THEME-----');
     nativeTheme.themeSource = ThemeObj[args];
+  });
+
+  ipcMain.on(PAGE_ERROR, (_, args) => {
+    logger.error(args);
   });
 };

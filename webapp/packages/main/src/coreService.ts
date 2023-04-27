@@ -1,7 +1,8 @@
 import type {PyShell} from '/@/pyshell';
 import {createAlas, createInstaller} from '/@/serviceLogic';
 import {ALAS_LOG} from '@common/constant/eventNames';
-import {BrowserWindow} from "electron";
+import {BrowserWindow} from 'electron';
+import logger from './logger';
 
 export interface CoreServiceOption {
   appABSPath?: string;
@@ -39,6 +40,8 @@ export class CoreService {
   }
 
   async run(...rags: any[]) {
+    logger.info('-----run-----');
+    logger.info('stepIndex:' + this.stepIndex);
     const cb = this.eventQueue[this.stepIndex++];
     const next = (...rags1: any[]) => {
       return this.run(...rags1);
@@ -49,7 +52,7 @@ export class CoreService {
       /**
        * 1. 事件执行失败，记录日志
        */
-      console.error(e);
+      logger.error((e as unknown as any).toString());
     }
     return this.curService;
   }
