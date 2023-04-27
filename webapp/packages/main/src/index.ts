@@ -1,8 +1,10 @@
 import {app, BrowserWindow} from 'electron';
 import './security-restrictions';
 import {createApp} from '/@/createApp';
-import {join} from 'path';
+// import {join} from 'path';
 import logger from '/@/logger';
+import {createMainWindow} from '/@/createMainWindow';
+// import {restoreWindow} from "/@/mainWindow";
 
 /**
  * Prevent electron from running multiple instances.
@@ -12,7 +14,12 @@ if (!isSingleInstance) {
   app.quit();
   process.exit(0);
 }
-// app.on('second-instance', restoreWindow);
+app.on('second-instance', async () => {
+  logger.info('second-instance');
+  const win = await createMainWindow();
+  if (win?.isMinimized()) win?.restore();
+  win?.focus();
+});
 
 /**
  * Disable Hardware Acceleration to save more system resources.
@@ -30,7 +37,7 @@ app.commandLine.appendSwitch('in-process-gpu');
 /**
  *Set App Error Log Path
  */
-app.setAppLogsPath(join(app.getAppPath(), '/AlasAppError'));
+// app.setAppLogsPath(join(app.getAppPath(), '/AlasAppError'));
 
 /**
  * Shout down background process if all windows was closed
@@ -106,10 +113,13 @@ app
   });
 
 app.on('activate', () => {
+  logger.info('------activate------');
   const [curWindow] = BrowserWindow.getAllWindows();
   if (!curWindow) {
+    logger.info('------createApp------');
     createApp();
   } else {
+    logger.info('------curWindow.focus------');
     curWindow.focus();
   }
 });

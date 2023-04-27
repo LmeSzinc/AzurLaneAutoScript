@@ -8,4 +8,8 @@ export const createApp = async () => {
   const mainWindow = await createMainWindow();
   const coreService = new CoreService({mainWindow});
   await addIpcMainListener(mainWindow, coreService);
+  return {
+    mainWindow,
+    coreService,
+  };
 };

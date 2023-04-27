@@ -13,7 +13,7 @@ export const createInstaller: CallbackFun = async (ctx, next) => {
     ctx.sendLaunchLog(err);
   });
   installer?.end(function (err: string) {
-    logger.error('installer.end' + err);
+    logger.info('installer.end:' + err);
     ctx.sendLaunchLog(err);
     if (err) throw err;
   });

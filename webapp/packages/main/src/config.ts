@@ -3,12 +3,17 @@ import getAlasABSPath from '@common/utils/getAlasABSPath';
 import {ALAS_INSTR_FILE, ALAS_INSTR_TEST_FILE} from '@common/constant/config';
 import {validateConfigFile} from '@common/utils/validate';
 import {join} from 'path';
+import logger from '/@/logger';
 
 const yaml = require('yaml');
 const fs = require('fs');
 const path = require('path');
 
-validateConfigFile(join(getAlasABSPath(), '/config'));
+try {
+  validateConfigFile(join(getAlasABSPath(), '/config'));
+} catch (e) {
+  logger.error((e as unknown as any).toString());
+}
 
 function getAlasPath() {
   let file;

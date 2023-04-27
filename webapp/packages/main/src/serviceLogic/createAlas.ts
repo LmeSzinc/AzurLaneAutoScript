@@ -10,7 +10,7 @@ export const createAlas: CallbackFun = async ctx => {
     ctx.sendLaunchLog(err);
   });
   alas.end(function (err: string) {
-    logger.error('alas.end:' + err);
+    logger.info('alas.end:' + err);
     ctx.sendLaunchLog(err);
     if (err) throw err;
   });

@@ -7,7 +7,7 @@ logger.transports.file.level = 'info';
 logger.transports.file.maxSize = 1024 * 1024;
 logger.transports.file.format = '[{y}-{m}-{d} {h}:{i}:{s}.{ms}] [{level}]{scope} {text}';
 const dateStr = dayjs(new Date()).format('YYYY-MM-DD');
-const logPath = join(getAlasABSPath(), `./AlasAppError/alas-webapp-${dateStr}.log`);
+const logPath = join(getAlasABSPath(), `./log/${dateStr}_webapp.txt`);
 logger.transports.file.resolvePath = () => logPath;
 export default {
   info(params: string) {
