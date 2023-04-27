@@ -8961,7 +8961,7 @@
       },
       "ServerUpdate": {
         "type": "input",
-        "value": "00:00",
+        "value": "00:00, 12:00",
         "display": "hide"
       }
     },
