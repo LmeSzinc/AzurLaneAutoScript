@@ -1861,7 +1861,7 @@
       "Command": "OpsiHazard1Leveling",
       "SuccessInterval": 30,
       "FailureInterval": 60,
-      "ServerUpdate": "00:00"
+      "ServerUpdate": "00:00, 12:00"
     },
     "OpsiHazard1Leveling": {
       "TargetZone": 0
