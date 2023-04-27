@@ -125,7 +125,7 @@ class RewardCommission(UI, InfoHandler):
         total = total[::-1]
         self.max_commission = 4
         for comm in total:
-            if comm.genre == 'event_daily':
+            if comm.genre == 'daily_event':
                 self.max_commission = 5
         running_count = int(
             np.sum([1 for c in total if c.status == 'running']))
