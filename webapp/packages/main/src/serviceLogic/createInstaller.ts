@@ -9,12 +9,12 @@ export const createInstaller: CallbackFun = async (ctx, next) => {
   }
   const installer = new PyShell(installerPath, installerArgs);
   installer.on('error', function (err: string) {
-    logger.error(err);
+    logger.error('installer.error:' + err);
     ctx.sendLaunchLog(err);
   });
   installer?.end(function (err: string) {
+    logger.error('installer.end' + err);
     ctx.sendLaunchLog(err);
-    logger.error(err);
     if (err) throw err;
   });
   installer?.on('stdout', function (message) {

@@ -6,12 +6,12 @@ import logger from '/@/logger';
 export const createAlas: CallbackFun = async ctx => {
   const alas = new PyShell(webuiPath, webuiArgs);
   alas.on('error', function (err: string) {
-    logger.error(err);
+    logger.error('alas.error:' + err);
     ctx.sendLaunchLog(err);
   });
   alas.end(function (err: string) {
+    logger.error('alas.end:' + err);
     ctx.sendLaunchLog(err);
-    logger.error(err);
     if (err) throw err;
   });
   alas.on('stdout', function (message) {

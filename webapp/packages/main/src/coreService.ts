@@ -2,7 +2,7 @@ import type {PyShell} from '/@/pyshell';
 import {createAlas, createInstaller} from '/@/serviceLogic';
 import {ALAS_LOG} from '@common/constant/eventNames';
 import {BrowserWindow} from 'electron';
-import logger from './logger';
+import logger from '/@/logger';
 
 export interface CoreServiceOption {
   appABSPath?: string;
@@ -52,7 +52,7 @@ export class CoreService {
       /**
        * 1. 事件执行失败，记录日志
        */
-      logger.error((e as unknown as any).toString());
+      logger.error('currentService:' + (e as unknown as any).toString());
     }
     return this.curService;
   }
