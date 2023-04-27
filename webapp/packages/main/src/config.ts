@@ -1,10 +1,14 @@
 import {isMacintosh} from '@common/utils/env';
 import getAlasABSPath from '@common/utils/getAlasABSPath';
 import {ALAS_INSTR_FILE, ALAS_INSTR_TEST_FILE} from '@common/constant/config';
+import {validateConfigFile} from '@common/utils/validate';
+import {join} from 'path';
 
 const yaml = require('yaml');
 const fs = require('fs');
 const path = require('path');
+
+validateConfigFile(join(getAlasABSPath(), '/config'));
 
 function getAlasPath() {
   let file;
