@@ -98,10 +98,6 @@
       "name": "作戦履歴",
       "help": ""
     },
-    "CoalitionSp": {
-      "name": "Task.CoalitionSp.name",
-      "help": "Task.CoalitionSp.help"
-    },
     "EventA": {
       "name": "毎日イベント海域A",
       "help": ""
@@ -125,6 +121,10 @@
     "RaidDaily": {
       "name": "Raid Daily",
       "help": ""
+    },
+    "CoalitionSp": {
+      "name": "Task.CoalitionSp.name",
+      "help": "Task.CoalitionSp.help"
     },
     "Commission": {
       "name": "委託",
@@ -653,6 +653,7 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "event_20201126_cn": "バケーションレーン",
       "event_20210819_cn": "闇靄払う銀翼（復刻）",
       "event_20211111_cn": "復刻-燈火のシニエ",
       "coalition_20230323": "星霜海嵐",
@@ -703,7 +704,6 @@
       "event_20210429_tw": "復刻墨染的鋼鐵之花",
       "event_20210415_tw": "復刻圍剿施佩伯爵",
       "event_20210225_tw": "北境序曲",
-      "event_20201126_cn": "バケーションレーン",
       "event_20200312_cn": "南洋に靡く硝煙（復刻）",
       "event_20201002_en": "Counterattack Within the Fjord",
       "event_20200716_en": "Ink Stained Steel Sakura Rerun",
@@ -2402,6 +2402,7 @@
   "Gui": {
     "Aside": {
       "Install": "インストール",
+      "Home": "Gui.Aside.Home",
       "Develop": "開発",
       "Performance": "機能",
       "Setting": "設定",

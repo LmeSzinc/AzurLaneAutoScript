@@ -98,10 +98,6 @@
       "name": "作战档案",
       "help": "由于作战档案缺少维护，开荒功能不一定能正常使用，如果发现Alas运行异常，请手动完成开荒后使用自律寻敌功能"
     },
-    "CoalitionSp": {
-      "name": "极地风暴每日SP",
-      "help": ""
-    },
     "EventA": {
       "name": "活动每日A图",
       "help": ""
@@ -124,6 +120,10 @@
     },
     "RaidDaily": {
       "name": "共斗活动每日",
+      "help": ""
+    },
+    "CoalitionSp": {
+      "name": "极地风暴每日SP",
       "help": ""
     },
     "Commission": {
@@ -653,6 +653,7 @@
       "name": "活动名称",
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
+      "event_20201126_cn": "假日航线",
       "event_20210819_cn": "复刻微层混合",
       "event_20211111_cn": "复刻杰诺瓦的焰火",
       "coalition_20230323": "极地风暴",
@@ -703,7 +704,6 @@
       "event_20210429_tw": "復刻墨染的鋼鐵之花",
       "event_20210415_tw": "復刻圍剿施佩伯爵",
       "event_20210225_tw": "北境序曲",
-      "event_20201126_cn": "假日航线",
       "event_20200312_cn": "复刻斯图尔特的硝烟",
       "event_20201002_en": "Counterattack Within the Fjord",
       "event_20200716_en": "Ink Stained Steel Sakura Rerun",
@@ -2402,6 +2402,7 @@
   "Gui": {
     "Aside": {
       "Install": "安装",
+      "Home": "主页",
       "Develop": "开发",
       "Performance": "性能",
       "Setting": "设置",

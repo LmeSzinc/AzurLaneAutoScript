@@ -438,6 +438,6 @@ OpsiHazard1Leveling:
   Scheduler:
     SuccessInterval: 30
     FailureInterval: 60
-    ServerUpdate: 00:00
+    ServerUpdate: 00:00, 12:00
   OpsiFleet:
     Submarine: false
