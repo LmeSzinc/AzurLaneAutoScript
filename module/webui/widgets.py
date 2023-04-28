@@ -1,8 +1,13 @@
 import json
 import random
 import string
-import time
 from typing import TYPE_CHECKING, Any, Callable, Dict, Generator, List, Optional, Union
+
+from pywebio.exceptions import SessionException
+from pywebio.io_ctrl import Output
+from pywebio.output import *
+from pywebio.session import eval_js, local, run_js
+from rich.console import ConsoleRenderable
 
 from module.logger import WEB_THEME, Highlighter, HTMLConsole
 from module.webui.lang import t
@@ -15,12 +20,6 @@ from module.webui.utils import (
     LOG_CODE_FORMAT,
     Switch,
 )
-from pywebio.exceptions import SessionException
-from pywebio.io_ctrl import Output
-from pywebio.output import *
-from pywebio.pin import pin
-from pywebio.session import eval_js, local, run_js
-from rich.console import ConsoleRenderable
 
 if TYPE_CHECKING:
     from module.webui.app import AlasGUI
@@ -333,15 +332,18 @@ def put_arg_select(kwargs: T_Output_Kwargs) -> Output:
     disabled: bool = kwargs.pop("disabled", False)
     _: str = kwargs.pop("invalid_feedback", None)
 
-    option = []
-    if options:
-        for opt, label in zip(options, options_label):
-            o = {"label": label, "value": opt}
-            if value == opt:
-                o["selected"] = True
-            else:
-                o["disabled"] = disabled
-            option.append(o)
+    if disabled:
+        option = [{
+            "label": next((opt_label for opt, opt_label in zip(options, options_label) if opt == value), value),
+            "value": value,
+            "selected": True,
+        }]
+    else:
+        option = [{
+            "label": opt_label,
+            "value": opt,
+            "select": opt == value,
+        } for opt, opt_label in zip(options, options_label)]
     kwargs["options"] = option
 
     return put_scope(
