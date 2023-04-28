@@ -140,4 +140,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20230323   | coalition 20230323       | Frostfall                                    | 极地风暴               | Frostfall                                    | 星霜海嵐                             | -                        |
 | 20230413   | event 20211111 cn        | The Flame-Touched Dagger                     | 复刻杰诺瓦的焰火       | The Flame-Touched Dagger Rerun               | 復刻-燈火のシニエ                    | -                        |
 | 20230413   | event 20210819 cn        | Microlayer Medley                            | -                      | -                                            | -                                    | 復刻-微層混合            |
-| 20230427   | event 20201126 cn        | Vacation Lane                                | 假日航线               | Vacation Lane                                | バケーションレーン                   | -                        |
+| 20230427   | event 20201126 cn        | Vacation Lane                                | 假日航线               | Vacation Lane                                | バケーションレーン                   | 假日航線   |
