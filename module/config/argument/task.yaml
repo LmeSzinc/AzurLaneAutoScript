@@ -115,12 +115,6 @@ WarArchives:
 
 # ==================== EventDaily ====================
 
-CoalitionSp:
-  - Scheduler
-  - Campaign
-  - Coalition
-  - StopCondition
-  - Emotion
 EventA:
   - Scheduler
   - EventDaily
@@ -174,6 +168,12 @@ RaidDaily:
   - Scheduler
   - RaidDaily
   - Campaign
+  - StopCondition
+  - Emotion
+CoalitionSp:
+  - Scheduler
+  - Campaign
+  - Coalition
   - StopCondition
   - Emotion
 

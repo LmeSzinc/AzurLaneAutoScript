@@ -52,13 +52,15 @@ class CampaignBase(CampaignBase_):
             else:
                 raise CampaignNameError
 
-    def campaign_set_chapter_sp(self, chapter, mode='normal'):
-        if chapter == 'sp':
-            self.ui_goto_event()
-            self.campaign_ensure_chapter(index=chapter)
-            return True
-        else:
-            return False
+    def campaign_set_chapter_event(self, chapter, mode='normal'):
+        self.ui_goto_event()
+        self.campaign_ensure_chapter(index=chapter)
+        return True
+
+    def campaign_get_entrance(self, name):
+        if name == 'sp':
+            name = 'vsp'
+        return super().campaign_get_entrance(name)
 
     def is_event_animation(self):
         """
