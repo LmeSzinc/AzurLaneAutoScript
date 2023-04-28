@@ -102,10 +102,6 @@
       "name": "作战档案",
       "help": "由于作战档案缺少维护，开荒功能不一定能正常使用，如果发现Alas运行异常，请手动完成开荒后使用自律寻敌功能"
     },
-    "CoalitionSp": {
-      "name": "极地风暴每日SP",
-      "help": ""
-    },
     "EventA": {
       "name": "活动每日A图",
       "help": ""
@@ -128,6 +124,10 @@
     },
     "RaidDaily": {
       "name": "共斗活动每日",
+      "help": ""
+    },
+    "CoalitionSp": {
+      "name": "极地风暴每日SP",
       "help": ""
     },
     "Commission": {
@@ -359,7 +359,7 @@
       "cn_android-20": "[国服] 水星行动",
       "cn_android-21": "[国服] 莱茵河卫兵",
       "cn_android-22": "[国服] 北极光计划",
-      "cn_android-23": "[国服]  长戟计划",
+      "cn_android-23": "[国服] 长戟计划",
       "cn_ios-0": "[国服] 夏威夷",
       "cn_ios-1": "[国服] 珊瑚海",
       "cn_ios-2": "[国服] 中途岛",
@@ -2728,6 +2728,7 @@
   "Gui": {
     "Aside": {
       "Install": "安装",
+      "Home": "主页",
       "Develop": "开发",
       "Performance": "性能",
       "Setting": "设置",

@@ -7,6 +7,32 @@ from datetime import datetime
 from functools import partial
 from typing import Dict, List, Optional
 
+from pywebio import config as webconfig
+from pywebio.output import (
+    Output,
+    clear,
+    close_popup,
+    popup,
+    put_button,
+    put_buttons,
+    put_collapse,
+    put_column,
+    put_error,
+    put_html,
+    put_link,
+    put_loading,
+    put_markdown,
+    put_row,
+    put_scope,
+    put_table,
+    put_text,
+    put_warning,
+    toast,
+    use_scope,
+)
+from pywebio.pin import pin, pin_on_change
+from pywebio.session import go_app, info, local, register_thread, run_js, set_env
+
 import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
 from module.config.utils import (
@@ -34,7 +60,6 @@ from module.webui.pin import put_input, put_select, pin_update
 from module.webui.process_manager import ProcessManager
 from module.webui.remote_access import RemoteAccess
 from module.webui.setting import State
-from module.webui.translate import translate
 from module.webui.updater import updater
 from module.webui.utils import (
     Icon,
@@ -59,31 +84,6 @@ from module.webui.widgets import (
     put_none,
     put_output,
 )
-from pywebio import config as webconfig
-from pywebio.output import (
-    Output,
-    clear,
-    close_popup,
-    popup,
-    put_button,
-    put_buttons,
-    put_collapse,
-    put_column,
-    put_error,
-    put_html,
-    put_link,
-    put_loading,
-    put_markdown,
-    put_row,
-    put_scope,
-    put_table,
-    put_text,
-    put_warning,
-    toast,
-    use_scope,
-)
-from pywebio.pin import pin, pin_on_change
-from pywebio.session import go_app, info, local, register_thread, run_js, set_env
 
 task_handler = TaskHandler()
 
@@ -138,7 +138,7 @@ class AlasGUI(Frame):
         put_icon_buttons(
             Icon.DEVELOP,
             buttons=[
-                {"label": t("Gui.Aside.Develop"), "value": "Develop", "color": "aside"}
+                {"label": t("Gui.Aside.Home"), "value": "Home", "color": "aside"}
             ],
             onclick=[self.ui_develop],
         ),
@@ -1086,8 +1086,8 @@ class AlasGUI(Frame):
         if not self.is_mobile:
             self.show()
             return
-        self.init_aside(name="Develop")
-        self.set_title(t("Gui.Aside.Develop"))
+        self.init_aside(name="Home")
+        self.set_title(t("Gui.Aside.Home"))
         self.dev_set_menu()
         self.alas_name = ""
         if hasattr(self, "alas"):
@@ -1161,7 +1161,7 @@ class AlasGUI(Frame):
     def show(self) -> None:
         self._show()
         self.set_aside()
-        self.init_aside(name="Develop")
+        self.init_aside(name="Home")
         self.dev_set_menu()
         self.init_menu(name="HomePage")
         self.alas_name = ""
@@ -1312,7 +1312,7 @@ class AlasGUI(Frame):
         self.task_handler.start()
 
         # Return to previous page
-        if aside not in ["Develop", None]:
+        if aside not in ["Home", None]:
             self.ui_alas(aside)
 
 

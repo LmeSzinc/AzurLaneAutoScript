@@ -850,53 +850,6 @@
       "Storage": {}
     }
   },
-  "CoalitionSp": {
-    "Scheduler": {
-      "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "CoalitionSp",
-      "SuccessInterval": 30,
-      "FailureInterval": 30,
-      "ServerUpdate": "00:00"
-    },
-    "Campaign": {
-      "Name": "sp",
-      "Event": "campaign_main",
-      "Mode": "normal",
-      "UseClearMode": true,
-      "UseFleetLock": true,
-      "UseAutoSearch": false,
-      "Use2xBook": false,
-      "AmbushEvade": true
-    },
-    "Coalition": {
-      "Fleet": "single"
-    },
-    "StopCondition": {
-      "RunCount": 0,
-      "OilLimit": 1000,
-      "MapAchievement": "non_stop",
-      "StageIncrease": false,
-      "GetNewShip": false,
-      "ReachLevel": 0
-    },
-    "Emotion": {
-      "Mode": "calculate",
-      "Fleet1Value": 119,
-      "Fleet1Record": "2020-01-01 00:00:00",
-      "Fleet1Control": "prevent_yellow_face",
-      "Fleet1Recover": "not_in_dormitory",
-      "Fleet1Oath": false,
-      "Fleet2Value": 119,
-      "Fleet2Record": "2020-01-01 00:00:00",
-      "Fleet2Control": "prevent_yellow_face",
-      "Fleet2Recover": "not_in_dormitory",
-      "Fleet2Oath": false
-    },
-    "Storage": {
-      "Storage": {}
-    }
-  },
   "EventA": {
     "Scheduler": {
       "Enable": false,
@@ -1304,6 +1257,53 @@
       "UseAutoSearch": false,
       "Use2xBook": false,
       "AmbushEvade": true
+    },
+    "StopCondition": {
+      "RunCount": 0,
+      "OilLimit": 1000,
+      "MapAchievement": "non_stop",
+      "StageIncrease": false,
+      "GetNewShip": false,
+      "ReachLevel": 0
+    },
+    "Emotion": {
+      "Mode": "calculate",
+      "Fleet1Value": 119,
+      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Control": "prevent_yellow_face",
+      "Fleet1Recover": "not_in_dormitory",
+      "Fleet1Oath": false,
+      "Fleet2Value": 119,
+      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Control": "prevent_yellow_face",
+      "Fleet2Recover": "not_in_dormitory",
+      "Fleet2Oath": false
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "CoalitionSp": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "CoalitionSp",
+      "SuccessInterval": 30,
+      "FailureInterval": 30,
+      "ServerUpdate": "00:00"
+    },
+    "Campaign": {
+      "Name": "sp",
+      "Event": "campaign_main",
+      "Mode": "normal",
+      "UseClearMode": true,
+      "UseFleetLock": true,
+      "UseAutoSearch": false,
+      "Use2xBook": false,
+      "AmbushEvade": true
+    },
+    "Coalition": {
+      "Fleet": "single"
     },
     "StopCondition": {
       "RunCount": 0,
@@ -1944,7 +1944,7 @@
       "Command": "OpsiHazard1Leveling",
       "SuccessInterval": 30,
       "FailureInterval": 60,
-      "ServerUpdate": "00:00"
+      "ServerUpdate": "00:00, 12:00"
     },
     "OpsiHazard1Leveling": {
       "TargetZone": 0
