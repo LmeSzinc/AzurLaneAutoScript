@@ -178,6 +178,12 @@ class MetaReward(Combat, UI):
             if self.ui_page_appear(page_meta):
                 break
 
+    def meta_reward_check(self):
+        if self.meta_reward_notice_appear():
+            self.meta_reward_enter()
+            self.meta_reward_receive()
+            self.meta_reward_exit()
+    
     def run(self, dossier=True):
         if self.config.SERVER in ['cn', 'en', 'jp']:
             pass
@@ -187,10 +193,7 @@ class MetaReward(Combat, UI):
 
         self.ui_ensure(page_meta)
 
-        if self.meta_reward_notice_appear():
-            self.meta_reward_enter()
-            self.meta_reward_receive()
-            self.meta_reward_exit()
+        self.meta_reward_check()
 
         # If dossier beacon is not enabled, or MetaReward is invoked by AshBeaconAssist, 
         # do not need to check dossier 
@@ -198,5 +201,7 @@ class MetaReward(Combat, UI):
             return
         
         while 1:
-            if not self.dossier_reward_search():
+            if self.dossier_reward_search():
+                self.meta_reward_check()
+            else:
                 break
