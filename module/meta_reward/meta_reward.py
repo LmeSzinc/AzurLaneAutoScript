@@ -9,12 +9,22 @@ from module.ui.ui import UI, BACK_ARROW
 
 
 class MetaReward(Combat, UI):
-    def _meta_dock_get_entrance(self):
+    def meta_ship_get_entrance(self):
+        """
+        Get entrance button of dossier ship.
+
+        Returns:
+            list[Button]: Enter button
+
+        Pages:
+            in: page_meta
+        """
         # Where the click buttons are
         detection_area = (8, 385, 147, 680)
         # Offset inside to avoid clicking on edge
         pad = 2
 
+        list_enter = []
         dots = TEMPLATE_META_DOCK_RED_DOT.match_multi(self.image_crop(detection_area), threshold=5)
         logger.info(f'Possible meta ships found: {len(dots)}')
         for button in dots:
@@ -22,10 +32,10 @@ class MetaReward(Combat, UI):
             enter = button.crop(area=(-129, 3, 3, 42), name='META_SHIP_ENTRANCE')
             enter.area = area_limit(enter.area, detection_area)
             enter._button = area_pad(enter.area, pad)
-        
-        return enter   
+            list_enter.append(enter)
+        return list_enter   
 
-    def _meta_dock_swipe(self, downward=True, skip_first_screenshot=True):
+    def dossier_ship_swipe(self, downward=True, skip_first_screenshot=True):
         """
         Swipe down meta dock to search for red dots.
         After clicking the ship icon will enlarge.
@@ -49,7 +59,7 @@ class MetaReward(Combat, UI):
             else:
                 self.device.screenshot()
 
-            entrance = self._meta_dock_get_entrance()
+            entrance = self.meta_ship_get_entrance()
             if len(entrance):
                 return True
             
@@ -61,17 +71,33 @@ class MetaReward(Combat, UI):
         logger.warning('No more dossier reward for receiving')
         return False
 
-    def dossier_reward_search(self):
+    def dossier_ship_enter(self, skip_first_screenshot=True):
         """
-        Search for dossier rewards
-        
+        Returns:
+            bool: If entered
+
         Pages: 
             in: page_meta
             out: page_meta
         """
-        logger.hr('Search for dossier red dots')
-        return self._meta_dock_swipe()
+        timer = Timer(2, count=5)
+        entered = False
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
+            entrance = self.meta_ship_get_entrance()
+            if not len(entrance):
+                break
+            if timer.reached():
+                self.device.click(entrance[0])
+                timer.reset()
+                entered = True
+                continue
+        
+        return entered 
 
     def meta_reward_notice_appear(self):
         """
@@ -200,8 +226,6 @@ class MetaReward(Combat, UI):
         if not dossier or self.config.OpsiAshBeacon_AttackMode != 'current_dossier':
             return
         
-        while 1:
-            if self.dossier_reward_search():
-                self.meta_reward_check()
-            else:
-                break
+        while self.dossier_ship_swipe():
+            self.dossier_ship_enter()
+            self.meta_reward_check()
