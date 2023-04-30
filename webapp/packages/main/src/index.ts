@@ -33,6 +33,7 @@ app.commandLine.appendSwitch('disable-gpu-compositing');
 app.commandLine.appendSwitch('disable-gpu-rasterization');
 app.commandLine.appendSwitch('disable-gpu-sandbox');
 app.commandLine.appendSwitch('in-process-gpu');
+app.commandLine.appendSwitch('--no-sandbox');
 
 /**
  *Set App Error Log Path
