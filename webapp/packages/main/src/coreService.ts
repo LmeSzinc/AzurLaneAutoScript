@@ -40,7 +40,7 @@ export class CoreService {
   }
 
   async run(...rags: any[]) {
-    logger.info('-----run-----');
+    logger.info('---------------run---------------');
     logger.info('stepIndex:' + this.stepIndex);
     const cb = this.eventQueue[this.stepIndex++];
     const next = (...rags1: any[]) => {
@@ -67,6 +67,7 @@ export class CoreService {
 
   sendLaunchLog(message: string) {
     if (!this.mainWindow || this.mainWindow.isDestroyed()) return;
+    logger.info(message);
     this.mainWindow?.webContents.send(ALAS_LOG, message);
   }
 
