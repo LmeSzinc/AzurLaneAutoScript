@@ -1,0 +1,22 @@
+# Image processing
+numpy
+scipy
+pillow
+opencv-python
+imageio
+
+# Device connection
+adbutils
+uiautomator2==2.16.17
+uiautomator2cache==0.3.0.1
+lz4
+av==10.0.0
+psutil==5.9.3
+
+# Utils
+tqdm
+jellyfish
+pyyaml
+inflection
+prettytable==2.2.1
+pydantic
