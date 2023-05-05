@@ -27,5 +27,11 @@
     "file": {
       "choose": "ファイルを選択"
     }
+  },
+  "modal": {
+    "closeTipTitle": "プロンプト",
+    "closeTipContent": "ALASを閉じることを確認してください？",
+    "cancelText": "キャンセル",
+    "okText": "確かですか"
   }
 }

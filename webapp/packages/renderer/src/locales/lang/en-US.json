@@ -27,5 +27,11 @@
     "file": {
       "choose": "Choose file"
     }
+  },
+  "modal": {
+    "closeTipTitle": "Tip",
+    "closeTipContent": "Are you sure you want to turn off Alas？",
+    "cancelText": "Cancel",
+    "okText": "Ok"
   }
 }

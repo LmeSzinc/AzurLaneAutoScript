@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
+import {defineComponent, h} from 'vue';
 import {
   BorderOutlined,
   CloseOutlined,
@@ -31,6 +31,8 @@ import {
   ArrowDownOutlined,
 } from '@ant-design/icons-vue';
 import useIpcRenderer from '/@/hooks/useIpcRenderer';
+import {Modal} from '@arco-design/web-vue';
+import {useI18n} from '/@/hooks/useI18n';
 
 export default defineComponent({
   name: 'AppHeader',
@@ -41,6 +43,8 @@ export default defineComponent({
     CloseOutlined,
   },
   setup() {
+    const {t} = useI18n();
+
     const {ipcRendererSend} = useIpcRenderer();
     const trayWin = () => {
       ipcRendererSend('window-tray');
@@ -52,7 +56,26 @@ export default defineComponent({
       ipcRendererSend('window-maximize');
     };
     const closeWin = () => {
-      ipcRendererSend('window-close');
+      Modal.confirm({
+        title: t('modal.closeTipTitle'),
+        content: () =>
+          h(
+            'div',
+            {
+              class: 'flex justify-center items-center',
+            },
+            t('modal.closeTipContent'),
+          ),
+        cancelText: t('modal.cancelText'),
+        okText: t('modal.okText'),
+        titleAlign: 'center',
+        okButtonProps: {
+          size: 'medium',
+        },
+        onOk() {
+          ipcRendererSend('window-close');
+        },
+      });
     };
     return {
       trayWin,

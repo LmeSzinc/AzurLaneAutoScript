@@ -27,5 +27,11 @@
     "file": {
       "choose": "點擊此處選擇檔"
     }
+  },
+  "modal": {
+    "closeTipTitle": "提示",
+    "closeTipContent": "確定要關閉Alas嗎？",
+    "cancelText": "取消",
+    "okText": "確定"
   }
 }
