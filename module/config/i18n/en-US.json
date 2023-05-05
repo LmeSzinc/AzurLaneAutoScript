@@ -2457,7 +2457,8 @@
       "CopyFrom": "Copy from existing config",
       "Confirm": "Add",
       "FileExist": "A config with the same name exists, please choose another one",
-      "InvalidChar": "Config name cannot contain any of the following characters: .\\/:*?\"<>|"
+      "InvalidChar": "Config name cannot contain any of the following characters: .\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "Config name cannot start with 'template'"
     },
     "Update": {
       "UpToDate": "Latest version",
