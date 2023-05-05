@@ -29,6 +29,7 @@
     "@arco-plugins/vite-vue": "^1.4.5",
     "@arco-themes/vue-am-alas": "^0.0.1",
     "@intlify/unplugin-vue-i18n": "^0.10.0",
+    "@types/fs-extra": "^11.0.1",
     "@types/lodash-es": "^4.17.7",
     "@types/node": "18.15.3",
     "@typescript-eslint/eslint-plugin": "5.55.0",
@@ -66,7 +67,6 @@
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
     "@vueuse/core": "^10.0.2",
-    "@vueuse/electron": "^10.0.2",
     "autoprefixer": "^10.4.14",
     "dayjs": "^1.11.7",
     "electron-log": "^4.4.8",

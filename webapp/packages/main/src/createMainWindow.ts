@@ -20,7 +20,29 @@ export const createMainWindow = async () => {
       preload: join(app.getAppPath(), 'packages/preload/dist/index.cjs'),
     },
   });
+
   browserWindow.setMinimumSize(576, 396);
+
+  browserWindow.webContents.on('preload-error', (event, preloadPath, error) => {
+    logger.error('------------preload-error------------');
+    logger.error(`event:${JSON.stringify(event)}`);
+    logger.error(`preloadPath:${preloadPath}`);
+    logger.error(`error:${error}`);
+  });
+
+  browserWindow.webContents.on('console-message', (event, level, message, line, sourceId) => {
+    if (level === 2) {
+      logger.warn(`console-message:${message} line:${line} sourceId:${sourceId}`);
+      return;
+    }
+    if (level === 3) {
+      logger.info('------------console-message------------');
+      logger.error(`event:${JSON.stringify(event)}`);
+      logger.error(`console-message:${message} line:${line} sourceId:${sourceId}`);
+      return;
+    }
+  });
+
   /**
    * If the 'show' property of the BrowserWindow's constructor is omitted from the initialization options,
    * it then defaults to 'true'. This can cause flickering as the window loads the html content,

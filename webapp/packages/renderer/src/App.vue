@@ -6,7 +6,7 @@
     >
       <app-header></app-header>
       <router-view>
-        <template v-slot="{Component, route}">
+        <template #default="{Component, route}">
           <transition
             name="fade-slide"
             mode="out-in"

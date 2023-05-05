@@ -67,7 +67,7 @@ export class CoreService {
 
   sendLaunchLog(message: string) {
     if (!this.mainWindow || this.mainWindow.isDestroyed()) return;
-    logger.info(message);
+    logger.info(`pyShellLaunch:   ${message}`);
     this.mainWindow?.webContents.send(ALAS_LOG, message);
   }
 

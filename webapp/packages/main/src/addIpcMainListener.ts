@@ -29,7 +29,7 @@ export const addIpcMainListener = async (mainWindow: BrowserWindow, coreService:
 
   ipcMain.on(WINDOW_READY, async function (_, args) {
     logger.info('-----WINDOW_READY-----');
-    args && coreService.run();
+    args && (await coreService.run());
   });
 
   ipcMain.on(INSTALLER_READY, function () {
@@ -43,6 +43,7 @@ export const addIpcMainListener = async (mainWindow: BrowserWindow, coreService:
   });
 
   ipcMain.on(PAGE_ERROR, (_, args) => {
+    logger.info('-----PAGE_ERROR-----');
     logger.error(args);
   });
 };

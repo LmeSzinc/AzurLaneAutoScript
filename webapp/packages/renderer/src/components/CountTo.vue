@@ -8,6 +8,7 @@
 </template>
 
 <script lang="ts">
+import type {PropType} from 'vue';
 import {defineComponent, ref, watchEffect, computed, unref, watch, onMounted} from 'vue';
 import {useTransition, TransitionPresets} from '@vueuse/core';
 import {isNumber} from '/@/utils/is';
@@ -32,7 +33,7 @@ export default defineComponent({
     prefixClass: {type: String, default: ''},
     color: {type: String},
     useEasing: {type: Boolean, default: true},
-    transition: {type: String, default: 'linear'},
+    transition: {type: String as PropType<keyof typeof TransitionPresets>, default: 'linear'},
   },
   emits: ['onStarted', 'onFinished'],
   setup(props, {emit}) {

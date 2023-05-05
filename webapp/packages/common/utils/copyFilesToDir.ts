@@ -1,6 +1,6 @@
 import type {CopyOptions} from 'fs-extra';
 import fsExtra from 'fs-extra';
-import {join,sep,normalize} from 'path';
+import {join, sep, normalize} from 'path';
 
 export interface CopyToDirOptions {
   successCallback?: (pathStr: string) => void;
