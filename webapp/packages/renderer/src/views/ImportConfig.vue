@@ -40,7 +40,7 @@
             <a-upload
               draggable
               multiple
-              :custom-request="customRequest"
+              :custom-request="customRequest as any"
               accept=".json,.yaml"
             >
               <template #upload-button>
@@ -64,15 +64,23 @@
           :style="transformStep2"
         >
           <div>
-            <a-typography-title :heading="3">{{ stepTipsOptions[current] }}</a-typography-title>
-            <a-typography-text ellipsis>
+            <a-typography-title
+              class="px-2 box-border"
+              :heading="3"
+            >
+              {{ stepTipsOptions[current] }}
+            </a-typography-title>
+            <a-typography-text
+              class="px-2 box-border"
+              ellipsis
+            >
               {{ fileParentPath }}{{ t('import.filePathTips') }}
             </a-typography-text>
-            <section class="flex justify-between w-full">
+            <section class="flex justify-between w-full px-2 box-border">
               <a-typography-title :heading="6">{{ t('import.fileName') }}</a-typography-title>
               <a-typography-title :heading="6">{{ t('import.lastModify') }}</a-typography-title>
             </section>
-            <a-list>
+            <a-list class="alas-file-list">
               <a-list-item
                 v-for="fileItem in fileItems"
                 :key="fileItem.uid"
@@ -107,26 +115,20 @@
           :style="transformStep3"
         >
           <div>
-            <a-typography-title :heading="3">{{ stepTipsOptions[current] }}</a-typography-title>
-            <section class="flex justify-start">
-              <a-typography-text
-                :ellipsis="{
-                  rows: 1,
-                  showTooltip: true,
-                  css: true,
-                }"
-              >
-                {{ fileParentPath }}
-              </a-typography-text>
-              <a-typography-text class="min-w-[250px]">
-                {{ t('import.filePathTips') }}
-              </a-typography-text>
-            </section>
-            <section class="flex justify-between w-full">
+            <a-typography-title
+              class="px-2 box-border"
+              :heading="3"
+            >
+              {{ stepTipsOptions[current] }}
+            </a-typography-title>
+            <a-typography-text class="px-2 box-border">
+              {{ fileParentPath }} {{ t('import.filePathTips') }}
+            </a-typography-text>
+            <section class="flex justify-between w-full px-2 box-border">
               <a-typography-title :heading="6">{{ t('import.fileName') }}</a-typography-title>
               <a-typography-title :heading="6">{{ t('import.lastModify') }}</a-typography-title>
             </section>
-            <a-list>
+            <a-list class="alas-file-list">
               <a-list-item
                 v-for="fileItem in fileItems"
                 :key="fileItem.uid"
@@ -168,7 +170,7 @@ import {useI18n} from '/@/hooks/useI18n';
 import dayjs from 'dayjs';
 import {useAppStore} from '/@/store/modules/app';
 import {Modal} from '@arco-design/web-vue';
-import type {RequestOption} from '@arco-design/web-vue/es/upload/interfaces';
+import type {RequestOption, UploadRequest} from '@arco-design/web-vue/es/upload/interfaces';
 
 const {t} = useI18n();
 
@@ -194,7 +196,7 @@ const fileParentPath = computed(() => {
     const [path] = item?.file?.path.split('AzurLaneAutoScript') || ['unknown'];
     if (pathStr !== path) pathStr = path;
   });
-  return pathStr + 'AzurLaneAutoScript';
+  return pathStr;
 });
 
 const transformStep1 = computed(() => {
@@ -215,7 +217,7 @@ const goBack = () => {
   router.back();
 };
 
-const customRequest = (option: RequestOption) => {
+const customRequest = (option: RequestOption): UploadRequest | undefined => {
   const {fileItem} = option;
   current.value = 2;
   fileItems.value.push({
@@ -224,12 +226,15 @@ const customRequest = (option: RequestOption) => {
     name: fileItem?.file?.name || '',
     lastModifyTime: dayjs(fileItem?.file?.lastModified || new Date()).format('YYYY-MM-DD HH:mm:ss'),
   });
+  return undefined;
 };
 
 const onOkSave = async () => {
   saveLoading.value = true;
-  const paths = fileItems.value.map(item => item.file.path);
-  // TODO 复制一份文件到指定目录
+  const paths = fileItems.value.map(item => item.file?.path || '');
+  if (paths.includes('')) {
+    throw new Error('Wrong file path, please try again');
+  }
   await window.__electron_preload__copyFilesToDir(paths, appStore.getAlasPath + '/config', {
     filedCallback: e => {
       Modal.error({
@@ -290,6 +295,19 @@ const onReimport = onCancel;
   height: calc(100vh - 22rem);
   max-width: 789px;
   max-height: 485px;
+}
+
+.alas-file-list {
+  border-top: 2px solid var(--color-border-1);
+  :deep(.arco-list-wrapper) {
+    border: none;
+  }
+  :deep(.arco-list-bordered) {
+    border: none;
+  }
+  .arco-list-medium .arco-list-content-wrapper .arco-list-content > .arco-list-item {
+    padding: 13px 0.5rem;
+  }
 }
 
 body[arco-theme='light'] {
