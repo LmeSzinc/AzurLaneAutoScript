@@ -9,8 +9,6 @@ const yaml = require('yaml');
 const fs = require('fs');
 const path = require('path');
 
-
-
 function getAlasPath() {
   let file;
   const currentFilePath = process.cwd();
