@@ -1,0 +1,203 @@
+{
+  "Menu": {
+    "Task": {
+      "name": "",
+      "help": ""
+    },
+    "Fpy": {
+      "name": "FGO-py",
+      "help": ""
+    },
+    "Farm": {
+      "name": "出击",
+      "help": ""
+    },
+    "Daily": {
+      "name": "每日",
+      "help": ""
+    },
+    "Tool": {
+      "name": "工具",
+      "help": ""
+    }
+  },
+  "Task": {
+    "Fpy": {
+      "name": "FGO-py设置",
+      "help": ""
+    },
+    "FpyHeartbeat": {
+      "name": "心跳",
+      "help": "当在一个复杂的环境中创建FGO-py进程时，你可能需要每隔一小段时间ping一下防止连接断开"
+    },
+    "FpyMain": {
+      "name": "清空体力",
+      "help": "按下按钮，清空体力。哦，现在是按下一次按钮，7*24清空体力"
+    },
+    "FpyDailyFpSummon": {
+      "name": "抽友情",
+      "help": ""
+    },
+    "FpyBattle": {
+      "name": "完成战斗",
+      "help": ""
+    },
+    "FpyBenchmark": {
+      "name": "性能测试",
+      "help": ""
+    }
+  },
+  "Scheduler": {
+    "_info": {
+      "name": "Scheduler._info.name",
+      "help": "Scheduler._info.help"
+    },
+    "Enable": {
+      "name": "Scheduler.Enable.name",
+      "help": "Scheduler.Enable.help"
+    },
+    "NextRun": {
+      "name": "Scheduler.NextRun.name",
+      "help": "Scheduler.NextRun.help"
+    },
+    "Command": {
+      "name": "Scheduler.Command.name",
+      "help": "Scheduler.Command.help"
+    },
+    "SuccessInterval": {
+      "name": "Scheduler.SuccessInterval.name",
+      "help": "Scheduler.SuccessInterval.help"
+    },
+    "FailureInterval": {
+      "name": "Scheduler.FailureInterval.name",
+      "help": "Scheduler.FailureInterval.help"
+    },
+    "ServerUpdate": {
+      "name": "Scheduler.ServerUpdate.name",
+      "help": "Scheduler.ServerUpdate.help"
+    }
+  },
+  "Emulator": {
+    "_info": {
+      "name": "Emulator._info.name",
+      "help": "Emulator._info.help"
+    },
+    "ServerName": {
+      "name": "Emulator.ServerName.name",
+      "help": "Emulator.ServerName.help"
+    }
+  },
+  "Error": {
+    "_info": {
+      "name": "Error._info.name",
+      "help": "Error._info.help"
+    },
+    "SaveError": {
+      "name": "Error.SaveError.name",
+      "help": "Error.SaveError.help"
+    },
+    "OnePushConfig": {
+      "name": "Error.OnePushConfig.name",
+      "help": "Error.OnePushConfig.help"
+    }
+  },
+  "Optimization": {
+    "_info": {
+      "name": "Optimization._info.name",
+      "help": "Optimization._info.help"
+    },
+    "WhenTaskQueueEmpty": {
+      "name": "Optimization.WhenTaskQueueEmpty.name",
+      "help": "Optimization.WhenTaskQueueEmpty.help"
+    }
+  },
+  "FpyEmulator": {
+    "_info": {
+      "name": "运行环境",
+      "help": ""
+    },
+    "Serial": {
+      "name": "模拟器 Serial",
+      "help": "等效于在「连接到设备」对话框中输入的值\n可以在Alas本体的这个选项中找到常用模拟器的Serial，其他内容记载于FGO-py readme的「连接到设备」章节中"
+    },
+    "Cmdline": {
+      "name": "命令行",
+      "help": "使用此命令创建运行FGO-py的进程\n示例1：\npython D:/FGO-py/FGO-py/fgo.py cli --no-color\n示例2：\nssh hgjazhgj@raspberrypi -o StrictHostKeyChecking=no \"sudo docker run -v ~/hgjazhgj/FGO-py/FGO-py:/FGO-py --name fgo-py -e NO_COLOR=1 -i --rm hgjazhgj/fgo-py\""
+    }
+  },
+  "Interval": {
+    "_info": {
+      "name": "运行间隔",
+      "help": "每当一次调用完成后，隔一段时间再次调用"
+    },
+    "Interval": {
+      "name": "间隔时间",
+      "help": "HH:MM"
+    }
+  },
+  "Apple": {
+    "_info": {
+      "name": "苹果",
+      "help": "吃一定数量的苹果"
+    },
+    "AppleKind": {
+      "name": "苹果种类",
+      "help": "苹果种类",
+      "gold": "金",
+      "silver": "银",
+      "bronze": "青",
+      "copper": "铜",
+      "quartz": "彩"
+    },
+    "AppleCount": {
+      "name": "苹果数量",
+      "help": "苹果数量"
+    },
+    "EatOnce": {
+      "name": "只吃一次",
+      "help": "一次调用之后将「苹果数量」清零，之后只是清空体力\n如果关闭，则每次调用都会吃苹果"
+    },
+    "AppleTotal": {
+      "name": "苹果总量",
+      "help": "当「只吃一次」关闭时，这个数值会自动减少，防止吃不存在的苹果"
+    }
+  },
+  "Limit": {
+    "_info": {
+      "name": "停止条件",
+      "help": "满足特定条件时禁用本任务"
+    },
+    "Defeated": {
+      "name": "战败",
+      "help": "当战败撤退时禁用本任务"
+    },
+    "KizunaReisou": {
+      "name": "羁绊礼装",
+      "help": "当获取到羁绊礼装时禁用本任务"
+    },
+    "SpecialDrop": {
+      "name": "特殊掉落",
+      "help": "当周回关卡累计掉落一定数量的★5礼装后禁用本任务\n这个数值会在触发一次后清零"
+    }
+  },
+  "Command": {
+    "_info": {
+      "name": "性能测试",
+      "help": "虽然这名字叫性能测试，但是你可以在这里执行任意FGO-py cli命令"
+    },
+    "Command": {
+      "name": "命令（们）",
+      "help": "一行一个顺序执行\n运行前会自动连接到「模拟器 Serial」所指定的设备"
+    }
+  },
+  "Storage": {
+    "_info": {
+      "name": "Storage._info.name",
+      "help": "Storage._info.help"
+    },
+    "Storage": {
+      "name": "Storage.Storage.name",
+      "help": "Storage.Storage.help"
+    }
+  }
+}

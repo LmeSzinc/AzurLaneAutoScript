@@ -1,22 +1,42 @@
 import os
 
-MOD_DICT = {'maa': 'AlasMaaBridge'}
+MOD_DICT = {
+    'maa': 'AlasMaaBridge',
+    'fpy': 'AlasFpyBridge',
+}
+MOD_FUNC_DICT = {
+    'MaaCopilot': 'maa',
+    'FpyBattle': 'fpy',
+    'FpyBenchmark': 'fpy',
+}
 MOD_CONFIG_DICT = {}
 
 
-def list_mod():
+def get_available_mod():
+    return set(MOD_DICT)
+
+
+def get_available_mod_func():
+    return set(MOD_FUNC_DICT)
+
+
+def get_func_mod(func):
+    return MOD_FUNC_DICT.get(func)
+
+
+def list_mod_dir():
     return list(MOD_DICT.items())
 
 
-def get_dir_name(name):
+def get_mod_dir(name):
     return MOD_DICT.get(name)
 
 
-def filepath_mod(name):
-    return os.path.join('./submodule', get_dir_name(name))
+def get_mod_filepath(name):
+    return os.path.join('./submodule', get_mod_dir(name))
 
 
-def mod_template():
+def list_mod_template():
     out = []
     for file in os.listdir('./config'):
         name, extension = os.path.splitext(file)
@@ -28,7 +48,7 @@ def mod_template():
     return out
 
 
-def mod_instance():
+def list_mod_instance():
     global MOD_CONFIG_DICT
     MOD_CONFIG_DICT.clear()
     out = []

@@ -1,0 +1,90 @@
+{
+  "Fpy": {
+    "FpyEmulator": {
+      "Serial": "127.0.0.1:5555",
+      "Cmdline": "python3 fgo.py cli --no-color"
+    },
+    "Emulator": {
+      "ServerName": "disabled"
+    },
+    "Error": {
+      "SaveError": false,
+      "OnePushConfig": "provider: null"
+    },
+    "Optimization": {
+      "WhenTaskQueueEmpty": "stay_there"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "FpyHeartbeat": {
+    "Scheduler": {
+      "Enable": true,
+      "NextRun": "2023-01-01 05:00:00",
+      "Command": "FpyHeartbeat",
+      "SuccessInterval": 60,
+      "FailureInterval": 120,
+      "ServerUpdate": "05:00"
+    },
+    "Interval": {
+      "Interval": "00:05"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "FpyMain": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2023-01-01 05:00:00",
+      "Command": "FpyMain",
+      "SuccessInterval": 60,
+      "FailureInterval": 120,
+      "ServerUpdate": "05:00"
+    },
+    "Apple": {
+      "AppleKind": "gold",
+      "AppleCount": 0,
+      "EatOnce": true,
+      "AppleTotal": 999
+    },
+    "Limit": {
+      "Defeated": true,
+      "KizunaReisou": true,
+      "SpecialDrop": 0
+    },
+    "Interval": {
+      "Interval": "07:00"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "FpyDailyFpSummon": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2023-01-01 05:00:00",
+      "Command": "FpyDailyFpSummon",
+      "SuccessInterval": 60,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "FpyBattle": {
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "FpyBenchmark": {
+    "Command": {
+      "Command": "bench"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  }
+}

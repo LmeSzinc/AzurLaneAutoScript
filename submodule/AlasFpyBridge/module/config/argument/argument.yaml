@@ -1,0 +1,75 @@
+# --------------------
+# Define arguments.
+# --------------------
+
+Scheduler:
+  Enable: False
+  NextRun: 2023-01-01 05:00:00
+  Command: Fpy
+  SuccessInterval:
+    value: 60
+    display: hide
+  FailureInterval:
+    value: 120
+    display: hide
+  ServerUpdate:
+    value: 05:00
+    display: hide
+
+Emulator:
+  ServerName:
+    value: disabled
+    display: hide
+Error:
+  SaveError:
+    value: False
+    display: hide
+  OnePushConfig:
+    mode: yaml
+    value: 'provider: null'
+    display: hide
+Optimization:
+  WhenTaskQueueEmpty:
+    value: stay_there
+    display: hide
+
+FpyEmulator:
+  Serial:
+    value: 127.0.0.1:5555
+    valuetype: str
+  Cmdline:
+    value: python3 fgo.py cli --no-color
+    type: textarea
+
+Interval:
+  Interval:
+    value: 07:00
+
+Apple:
+  AppleKind:
+    value: gold
+    option:
+      - gold
+      - silver
+      - bronze
+      - copper
+      - quartz
+  AppleCount:
+    value: 0
+  EatOnce:
+    value: True
+  AppleTotal:
+    value: 999
+
+Limit:
+  Defeated:
+    value: True
+  KizunaReisou:
+    value: True
+  SpecialDrop:
+    value: 0
+
+Command:
+  Command:
+    value: bench
+    type: textarea

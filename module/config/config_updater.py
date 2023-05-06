@@ -341,8 +341,8 @@ class ConfigGenerator:
                     group = line.strip('#=- ')
                     tasks = []
                 if group:
-                    if line.endswith(':'):
-                        tasks.append(line.strip('\n=-#: '))
+                    if line.endswith(':') or line.endswith('[]'):
+                        tasks.append(line.split(':',1)[0])
         if tasks:
             deep_set(data, keys=f'Task.{group}', value=tasks)
 
