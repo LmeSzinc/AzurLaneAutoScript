@@ -43,6 +43,9 @@
       "FailureInterval": 120,
       "ServerUpdate": "05:00"
     },
+    "Team": {
+      "Index": 0
+    },
     "Apple": {
       "AppleKind": "gold",
       "AppleCount": 0,

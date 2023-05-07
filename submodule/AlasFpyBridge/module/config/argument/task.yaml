@@ -18,6 +18,7 @@ FpyHeartbeat:
 
 FpyMain:
   - Scheduler
+  - Team
   - Apple
   - Limit
   - Interval

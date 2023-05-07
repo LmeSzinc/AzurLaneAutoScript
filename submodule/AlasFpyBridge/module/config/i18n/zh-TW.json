@@ -135,6 +135,16 @@
       "help": "Interval.Interval.help"
     }
   },
+  "Team": {
+    "_info": {
+      "name": "Team._info.name",
+      "help": "Team._info.help"
+    },
+    "Index": {
+      "name": "Team.Index.name",
+      "help": "Team.Index.help"
+    }
+  },
   "Apple": {
     "_info": {
       "name": "Apple._info.name",

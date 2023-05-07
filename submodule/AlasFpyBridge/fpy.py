@@ -57,6 +57,7 @@ class FgoAutoScript(AzurLaneAutoScript):
         assert self.app.run(f"config stopOnDefeated {self.config.Limit_Defeated}")
         assert self.app.run(f"config stopOnKizunaReisou {self.config.Limit_KizunaReisou}")
         assert self.app.run(f"config stopOnSpecialDrop {self.config.Limit_SpecialDrop}")
+        assert self.app.run(f"teamup set index {self.config.Team_Index}")
         assert self.app.run(f"main {self.config.Apple_AppleCount} {self.config.Apple_AppleKind}")
         if self.config.Apple_EatOnce:
             self.config.Apple_AppleCount = 0

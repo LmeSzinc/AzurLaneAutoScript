@@ -45,6 +45,10 @@ Interval:
   Interval:
     value: 07:00
 
+Team:
+  Index:
+    value: 0
+
 Apple:
   AppleKind:
     value: gold

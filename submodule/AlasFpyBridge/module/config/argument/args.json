@@ -126,6 +126,12 @@
         "display": "hide"
       }
     },
+    "Team": {
+      "Index": {
+        "type": "input",
+        "value": 0
+      }
+    },
     "Apple": {
       "AppleKind": {
         "type": "select",

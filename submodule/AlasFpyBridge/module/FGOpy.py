@@ -37,7 +37,7 @@ class FGOpy(HeadlessCliApplication):
         if match is None:
             logger.info(f"... {line}")
             return
-        head, datetimems, level, module, content = match.groups()
+        head, datetime, level, module, content = match.groups()
         getattr(logger, level.lower())(content)
 
         if head:
@@ -54,8 +54,8 @@ class FGOpy(HeadlessCliApplication):
     def run(self, cmd):
         self.mutex.acquire()
         self.feed(cmd)
-        while self.mutex.locked():
-            time.sleep(1)
+        with self.mutex:
+            pass
         if self.last_error == "exited":
             exit(not self.success)
         return self.success

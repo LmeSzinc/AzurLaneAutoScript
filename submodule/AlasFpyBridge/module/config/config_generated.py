@@ -34,6 +34,9 @@ class GeneratedConfig:
     # Group `Interval`
     Interval_Interval = '07:00'
 
+    # Group `Team`
+    Team_Index = 0
+
     # Group `Apple`
     Apple_AppleKind = 'gold'  # gold, silver, bronze, copper, quartz
     Apple_AppleCount = 0
