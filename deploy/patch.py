@@ -113,6 +113,30 @@ def patch_uiautomator2():
         logger.info(f'{init_file} content saved')
 
 
+def patch_apkutils2():
+    """
+    `adbutils/mixin.py` `ShellMixin.install` imports `apkutils2`, but `apkutils2` does not provide wheel files,
+    it may failed to install for unknown reasons. Since we never used that method, we just remove the import.
+    """
+    mixin = './toolkit/Lib/site-packages/adbutils/mixin.py'
+
+    try:
+        with open(mixin, 'r', encoding='utf-8') as f:
+            content = f.read()
+    except FileNotFoundError:
+        logger.info(f'{mixin} not exist')
+        return
+
+    res = re.search(r'import apkutils2', content)
+    if res:
+        content = re.sub(r'import apkutils2', '', content)
+        with open(mixin, 'w', encoding='utf-8') as f:
+            f.write(content)
+        logger.info(f'{mixin} apkutils2 patched')
+    else:
+        logger.info(f'{mixin} apkutils2 no need to patch')
+
+
 def pre_checks():
     check_running_directory()
 
@@ -121,6 +145,7 @@ def pre_checks():
     patch_trust_env('./toolkit/Lib/site-packages/pip/_vendor/requests/sessions.py')
 
     patch_uiautomator2()
+    patch_apkutils2()
 
 
 if __name__ == '__main__':

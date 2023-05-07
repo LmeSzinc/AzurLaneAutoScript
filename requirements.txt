@@ -34,7 +34,7 @@ greenlet==1.1.2           # via gevent
 h11==0.12.0               # via uvicorn
 httptools==0.4.0          # via uvicorn
 idna==2.6                 # via requests
-imageio==2.9.0            # via -r requirements-in.txt
+imageio==2.27.0           # via -r requirements-in.txt
 importlib-metadata==4.8.1  # via click, prettytable
 inflection==0.5.1         # via -r requirements-in.txt
 jellyfish==0.8.8          # via -r requirements-in.txt
