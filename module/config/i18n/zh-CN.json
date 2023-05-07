@@ -2481,7 +2481,8 @@
       "CopyFrom": "从现有的配置中复制",
       "Confirm": "添加",
       "FileExist": "存在同名的配置文件，请重新输入一个",
-      "InvalidChar": "配置文件名不能包含下列任何字符：.\\/:*?\"<>|"
+      "InvalidChar": "配置文件名不能包含下列任何字符：.\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "配置文件名不能以 template 开头"
     },
     "Update": {
       "UpToDate": "已是最新版本",
