@@ -233,12 +233,22 @@ class StorageHandler(StorageUI):
             return 0
 
         skip_first_screenshot = True
+        click_count = 0
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
+
+            if click_count >= 3:
+                # Probably because no item is selected,
+                # _storage_disassemble_equipment_execute() will retry selecting
+                logger.warning('Failed to confirm disassemble after 3 trial')
+                disassembled = 0
+                break
+
             if self.appear_then_click(DISASSEMBLE_CONFIRM, offset=(20, 20), interval=5):
+                click_count += 1
                 continue
             if self.appear_then_click(DISASSEMBLE_POPUP_CONFIRM, offset=(-15, -5, 5, 70), interval=5):
                 continue
@@ -256,6 +266,7 @@ class StorageHandler(StorageUI):
             if success and self.appear(DISASSEMBLE_CANCEL, offset=(20, 20)):
                 self.wait_until_stable(MATERIAL_STABLE_CHECK)
                 break
+
         return disassembled
 
     def _storage_disassemble_equipment_execute(self, rarity=1, amount=40):
