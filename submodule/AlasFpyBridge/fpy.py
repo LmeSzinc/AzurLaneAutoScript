@@ -64,12 +64,13 @@ class FgoAutoScript(AzurLaneAutoScript):
         else:
             self.config.Apple_AppleTotal -= self.config.Apple_AppleCount
             self.config.Apple_AppleCount = min(self.config.Apple_AppleCount, self.config.Apple_AppleTotal)
-        hh, mm = self.config.Interval_Interval.split(":")
-        self.config.task_delay(minute=int(hh)*60+int(mm))
         if self.app.last_error.startswith("Script Stopped"):
             if self.app.last_error == "Script Stopped: Special Drop":
                 self.config.Limit_SpecialDrop = 0
             self.config.Scheduler_Enable = False
+            return
+        hh, mm = self.config.Interval_Interval.split(":")
+        self.config.task_delay(minute=int(hh)*60+int(mm))
 
     def fpy_daily_fp_summon(self):
         assert self.app.run("call dailyFpSummon")
