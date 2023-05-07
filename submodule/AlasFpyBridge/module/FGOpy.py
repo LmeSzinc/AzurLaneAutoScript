@@ -39,11 +39,7 @@ class FGOpy(HeadlessCliApplication):
             return
         head, datetime, level, module, content = match.groups()
         getattr(logger, level.lower())(content)
-
-        if head:
-            self.success = True
-            self.last_error = ""
-            return
+    
         if level == "CRITICAL":
             self.last_error = content
             return
@@ -53,6 +49,8 @@ class FGOpy(HeadlessCliApplication):
 
     def run(self, cmd):
         self.mutex.acquire()
+        self.success = True
+        self.last_error = ""
         self.feed(cmd)
         with self.mutex:
             pass
