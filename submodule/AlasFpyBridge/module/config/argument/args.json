@@ -8,7 +8,8 @@
       },
       "Cmdline": {
         "type": "textarea",
-        "value": "python3 fgo.py cli --no-color"
+        "value": "python3 fgo.py cli --no-color",
+        "mode": "shell"
       }
     },
     "Emulator": {
@@ -241,7 +242,8 @@
     "Command": {
       "Command": {
         "type": "textarea",
-        "value": "bench"
+        "value": "bench",
+        "mode": "shell"
       }
     },
     "Storage": {

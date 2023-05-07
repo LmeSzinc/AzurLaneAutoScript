@@ -40,6 +40,7 @@ FpyEmulator:
   Cmdline:
     value: python3 fgo.py cli --no-color
     type: textarea
+    mode: shell
 
 Interval:
   Interval:
@@ -77,3 +78,4 @@ Command:
   Command:
     value: bench
     type: textarea
+    mode: shell
