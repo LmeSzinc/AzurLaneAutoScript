@@ -38,9 +38,7 @@ class MetaReward(Combat, UI):
     def dossier_ship_swipe(self, downward=True, skip_first_screenshot=True):
         """
         Swipe down meta dock to search for red dots.
-        After clicking the ship icon will enlarge.
-        Red dots means possible tactical skills finished or possible rewards, 
-        so need to use meta_reward_notice_appear to check.
+        
         
         Args:
             downward (boot): direction of vertical swipe
@@ -50,7 +48,7 @@ class MetaReward(Combat, UI):
             bool: If found possible red dot.
         """
         # Where meta dock scroll part is
-        detection_area = (8, 392, 233, 680) # 140, 680 for click button area
+        detection_area = (8, 392, 233, 680) 
         direction_vector = (0, -200) if downward else (0, 200)
 
         for _ in range(5):
@@ -68,11 +66,13 @@ class MetaReward(Combat, UI):
             self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(-3, 0, 3, 0))
             self.device.sleep(0.3)
         
-        logger.warning('No more dossier reward for receiving')
+        logger.info('No more dossier reward for receiving')
         return False
 
     def dossier_ship_enter(self, skip_first_screenshot=True):
         """
+        Click possible dossier ship if red dot appears.
+        
         Returns:
             bool: If entered
 
@@ -92,10 +92,11 @@ class MetaReward(Combat, UI):
             if not len(entrance):
                 break
             if timer.reached():
+                logger.info('Enter possible dossier ship')
                 self.device.click(entrance[0])
                 timer.reset()
                 entered = True
-                continue
+                break
         
         return entered 
 
@@ -205,12 +206,18 @@ class MetaReward(Combat, UI):
                 break
 
     def meta_reward_check(self):
+        '''
+        Wrapper for actual meta reward check and receive.
+
+        Pages: page_meta
+        '''
         if self.meta_reward_notice_appear():
             self.meta_reward_enter()
             self.meta_reward_receive()
             self.meta_reward_exit()
     
     def run(self, dossier=True):
+        # Server check
         if self.config.SERVER in ['cn', 'en', 'jp']:
             pass
         else:
@@ -218,14 +225,25 @@ class MetaReward(Combat, UI):
             return
 
         self.ui_ensure(page_meta)
-
+        
+        # OpsiAshBeacon currently does not have a is_dossier property, so needs to do if/else here.
+        # Deal current reward first.
+        logger.info('Check current ship')
         self.meta_reward_check()
 
-        # If dossier beacon is not enabled, or MetaReward is invoked by AshBeaconAssist, 
-        # do not need to check dossier 
+        # If dossier beacon is not enabled, or MetaReward is invoked 
+        # by AshBeaconAssist, do not need to check dossier 
         if not dossier or self.config.OpsiAshBeacon_AttackMode != 'current_dossier':
+            logger.info('MetaReward is called by current beacon, skip dossier ship check')
             return
         
+        # Check for red dots on dossier ship lists
+        logger.info('Search for dossier ship')
         while self.dossier_ship_swipe():
+            # After clicking the ship icon will enlarge.
             self.dossier_ship_enter()
+
+            # Red dots for dossier ship means possible tactical skills finished 
+            # or possible rewards, so need to use meta_reward_check() to check.
+            logger.info('Check dossier ship')
             self.meta_reward_check()
