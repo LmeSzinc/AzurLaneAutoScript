@@ -14,12 +14,14 @@ class FGOpy(HeadlessCliApplication):
         self.last_error = ""
         self.tracebacking = False
         self.log_pattern = re.compile(
-            r"((?:FGO-py@.*?\(.*?\)> )?)\[(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d,\d\d\d)\]\[(DEBUG|INFO|WARNING|CRITICAL|ERROR)\]<([a-zA-Z0-9_.]+?)> (.*)"
+            r"((?:FGO-py@.*?\(.*?\)> )*)\[(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d,\d\d\d)\]\[(DEBUG|INFO|WARNING|CRITICAL|ERROR)\]<([a-zA-Z0-9_.]+?)> (.*)"
         )
 
     def callback(self, line):
         if line == "exited":
             self.last_error = "exited"
+            if self.mutex.locked():
+                self.mutex.release()
             return
         if line.startswith("Traceback"):
             self.success = False
@@ -37,9 +39,9 @@ class FGOpy(HeadlessCliApplication):
         if match is None:
             logger.info(f"... {line}")
             return
-        head, datetime, level, module, content = match.groups()
+        prompt, datetime, level, module, content = match.groups()
         getattr(logger, level.lower())(content)
-    
+
         if level == "CRITICAL":
             self.last_error = content
             return
