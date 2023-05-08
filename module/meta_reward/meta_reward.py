@@ -96,7 +96,7 @@ class MetaReward(Combat, UI):
                 self.device.click(entrance[0])
                 timer.reset()
                 entered = True
-                break
+                continue
         
         return entered 
 
