@@ -4,6 +4,7 @@ import {createApp} from '/@/createApp';
 // import {join} from 'path';
 import logger from '/@/logger';
 import {createMainWindow} from '/@/createMainWindow';
+import {noSandbox} from '/@/config';
 // import {restoreWindow} from "/@/mainWindow";
 
 /**
@@ -33,7 +34,7 @@ app.commandLine.appendSwitch('disable-gpu-compositing');
 app.commandLine.appendSwitch('disable-gpu-rasterization');
 app.commandLine.appendSwitch('disable-gpu-sandbox');
 app.commandLine.appendSwitch('in-process-gpu');
-app.commandLine.appendSwitch('--no-sandbox');
+noSandbox && app.commandLine.appendSwitch('no-sandbox');
 
 /**
  *Set App Error Log Path
@@ -110,15 +111,14 @@ app
   .then(createApp)
   .catch(e => {
     logger.error('Failed create window:' + e);
-    console.error('Failed create window:', e);
   });
 
-app.on('activate', () => {
-  logger.info('------activate------');
+app.on('activate', async () => {
+  logger.info('------app activate------');
   const [curWindow] = BrowserWindow.getAllWindows();
   if (!curWindow) {
     logger.info('------createApp------');
-    createApp();
+    await createApp();
   } else {
     logger.info('------curWindow.focus------');
     curWindow.focus();

@@ -81,3 +81,5 @@ export const dpiScaling =
   Boolean(config.Deploy.Webui.DpiScaling) || config.Deploy.Webui.DpiScaling === undefined;
 
 export const webuiTheme = ThemeObj[Theme] || 'light';
+
+export const noSandbox = config.Deploy.Webui.NoSandbox;
