@@ -4,11 +4,11 @@ import fs from 'fs';
 /**
  * Get the absolute path of the project root directory
  * @param files
- * @param defineWord
+ * @param rootName
  */
 const getAlasABSPath = (
   files: string[] = ['**/config/deploy.yaml', '**/config/deploy.template.yaml'],
-  defineWord = 'AzurLaneAutoScript',
+  rootName: string | string[] = ['AzurLaneAutoScript', 'Alas'],
 ) => {
   const path = require('path');
   const sep = path.sep;
@@ -24,10 +24,20 @@ const getAlasABSPath = (
 
   let alasABSPath = '';
 
-  if (appAbsPath.includes(defineWord)) {
+  let hasRootName = false;
+
+  if (typeof rootName === 'string') {
+    hasRootName = appAbsPath.includes(rootName);
+  } else if (Array.isArray(rootName)) {
+    hasRootName = rootName.some(item =>
+      appAbsPath.toLocaleLowerCase().includes(item.toLocaleLowerCase()),
+    );
+  }
+
+  if (hasRootName) {
     const appAbsPathArr = appAbsPath.split(sep);
     let flag = false;
-    while (appAbsPathArr.includes(defineWord) && !flag) {
+    while (hasRootName && !flag) {
       const entries = fg.sync(files, {
         dot: true,
         cwd: appAbsPathArr.join(sep) as string,
