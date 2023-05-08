@@ -57,6 +57,10 @@ export class CoreService {
     return this.curService;
   }
 
+  async next(...rags: any[]) {
+    return this.run(...rags);
+  }
+
   get curService() {
     return this.currentService;
   }

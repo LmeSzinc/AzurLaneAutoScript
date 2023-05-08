@@ -34,7 +34,7 @@ export const addIpcMainListener = async (mainWindow: BrowserWindow, coreService:
 
   ipcMain.on(INSTALLER_READY, function () {
     logger.info('-----INSTALLER_READY-----');
-    coreService.run();
+    coreService.next();
   });
 
   ipcMain.on(ELECTRON_THEME, (_, args) => {
