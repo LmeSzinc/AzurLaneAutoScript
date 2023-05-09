@@ -83,8 +83,17 @@
     }
   },
   "FpyBenchmark": {
-    "Command": {
-      "Command": "bench"
+    "Benchmark": {
+      "BenchTouch": true,
+      "BenchScreen": true
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "FpyCall": {
+    "Call": {
+      "Function": "lottery"
     },
     "Storage": {
       "Storage": {}

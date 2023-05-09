@@ -8,6 +8,7 @@ MOD_FUNC_DICT = {
     'MaaCopilot': 'maa',
     'FpyBattle': 'fpy',
     'FpyBenchmark': 'fpy',
+    'FpyCall': 'fpy',
 }
 MOD_CONFIG_DICT = {}
 

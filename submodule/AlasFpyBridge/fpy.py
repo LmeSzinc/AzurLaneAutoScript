@@ -1,6 +1,8 @@
 import json
 import os
+from functools import wraps
 
+import inflection
 from cached_property import cached_property
 
 from alas import AzurLaneAutoScript
@@ -80,8 +82,10 @@ class FgoAutoScript(AzurLaneAutoScript):
         assert self.app.run("battle")
     
     def fpy_benchmark(self):
-        for cmd in self.config.Command_Command.splitlines():
-            assert self.app.run(cmd)
+        assert self.app.run(f"bench{' -i' if self.config.Benchmark_BenchTouch else ''}{' -o' if self.config.Benchmark_BenchScreen else ''}")
+
+    def fpy_call(self):
+        assert self.app.run(f"call {self.config.Call_Function}")
 
 
 def loop(config_name):
@@ -92,14 +96,25 @@ def set_stop_event(e):
     FgoAutoScript().stop_event = e
 
 
+def export_method(func):
+    @wraps(func)
+    def wrapper(config_name):
+        script = FgoAutoScript(config_name)
+        script.config.bind(inflection.camelize(func.__name__))
+        getattr(script, func.__name__)()
+    return wrapper
+
+
+@export_method
 def fpy_battle(config_name):
-    FgoAutoScript(config_name).fpy_battle()
+    pass
 
 
+@export_method
 def fpy_benchmark(config_name):
-    script = FgoAutoScript(config_name)
-    script.config.bind("FpyBenchmark")
-    script.fpy_benchmark()
+    pass
 
-if __name__ == "__main__":
-    fpy_benchmark("fpy")
+
+@export_method
+def fpy_call(config_name):
+    pass

@@ -48,8 +48,12 @@ class GeneratedConfig:
     Limit_KizunaReisou = True
     Limit_SpecialDrop = 0
 
-    # Group `Command`
-    Command_Command = 'bench'
+    # Group `Benchmark`
+    Benchmark_BenchTouch = True
+    Benchmark_BenchScreen = True
+
+    # Group `Call`
+    Call_Function = 'lottery'  # fpSummon, lottery, mining, mail, synthesis, summonHistory
 
     # Group `Storage`
     Storage_Storage = {}

@@ -45,6 +45,10 @@
     "FpyBenchmark": {
       "name": "性能测试",
       "help": ""
+    },
+    "FpyCall": {
+      "name": "小组件",
+      "help": ""
     }
   },
   "Scheduler": {
@@ -190,14 +194,34 @@
       "help": "当周回关卡累计掉落一定数量的★5礼装后禁用本任务\n这个数值会在触发一次后清零"
     }
   },
-  "Command": {
+  "Benchmark": {
     "_info": {
       "name": "性能测试",
-      "help": "虽然这名字叫性能测试，但是你可以在这里执行任意FGO-py cli命令"
+      "help": "如果以下两项均关闭，那么视为这两项都开启"
     },
-    "Command": {
-      "name": "命令（们）",
-      "help": "一行一个顺序执行\n运行前会自动连接到「模拟器 Serial」所指定的设备"
+    "BenchTouch": {
+      "name": "点击",
+      "help": "测量一次点击所需要的时间"
+    },
+    "BenchScreen": {
+      "name": "截图",
+      "help": "测量一次截图所需要的时间"
+    }
+  },
+  "Call": {
+    "_info": {
+      "name": "小组件",
+      "help": "调用FGO-py中的一些独立存在的小组件"
+    },
+    "Function": {
+      "name": "功能",
+      "help": "要调用的小组件名称",
+      "fpSummon": "抽友情",
+      "lottery": "抽奖池",
+      "mining": "一键挖掘",
+      "mail": "清理邮箱",
+      "synthesis": "强化",
+      "summonHistory": "召唤记录"
     }
   },
   "Storage": {

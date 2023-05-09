@@ -239,11 +239,38 @@
     }
   },
   "FpyBenchmark": {
-    "Command": {
-      "Command": {
-        "type": "textarea",
-        "value": "bench",
-        "mode": "shell"
+    "Benchmark": {
+      "BenchTouch": {
+        "type": "checkbox",
+        "value": true
+      },
+      "BenchScreen": {
+        "type": "checkbox",
+        "value": true
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
+  "FpyCall": {
+    "Call": {
+      "Function": {
+        "type": "select",
+        "value": "lottery",
+        "option": [
+          "fpSummon",
+          "lottery",
+          "mining",
+          "mail",
+          "synthesis",
+          "summonHistory"
+        ]
       }
     },
     "Storage": {

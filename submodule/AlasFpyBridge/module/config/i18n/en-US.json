@@ -45,6 +45,10 @@
     "FpyBenchmark": {
       "name": "Task.FpyBenchmark.name",
       "help": "Task.FpyBenchmark.help"
+    },
+    "FpyCall": {
+      "name": "Task.FpyCall.name",
+      "help": "Task.FpyCall.help"
     }
   },
   "Scheduler": {
@@ -190,14 +194,34 @@
       "help": "Limit.SpecialDrop.help"
     }
   },
-  "Command": {
+  "Benchmark": {
     "_info": {
-      "name": "Command._info.name",
-      "help": "Command._info.help"
+      "name": "Benchmark._info.name",
+      "help": "Benchmark._info.help"
     },
-    "Command": {
-      "name": "Command.Command.name",
-      "help": "Command.Command.help"
+    "BenchTouch": {
+      "name": "Benchmark.BenchTouch.name",
+      "help": "Benchmark.BenchTouch.help"
+    },
+    "BenchScreen": {
+      "name": "Benchmark.BenchScreen.name",
+      "help": "Benchmark.BenchScreen.help"
+    }
+  },
+  "Call": {
+    "_info": {
+      "name": "Call._info.name",
+      "help": "Call._info.help"
+    },
+    "Function": {
+      "name": "Call.Function.name",
+      "help": "Call.Function.help",
+      "fpSummon": "fpSummon",
+      "lottery": "lottery",
+      "mining": "mining",
+      "mail": "mail",
+      "synthesis": "synthesis",
+      "summonHistory": "summonHistory"
     }
   },
   "Storage": {

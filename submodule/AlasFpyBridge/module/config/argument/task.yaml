@@ -33,4 +33,7 @@ FpyDailyFpSummon:
 FpyBattle: []
 
 FpyBenchmark:
-  - Command
+  - Benchmark
+
+FpyCall:
+  - Call
