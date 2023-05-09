@@ -198,10 +198,9 @@ class MetaReward(Combat, UI):
             if self.appear(REWARD_CHECK, offset=(20, 20)):
                 if self.appear_then_click(BACK_ARROW, offset=(20, 20), interval=3):
                     continue
-            elif self.ui_page_appear(page_meta):
-                return
-            else:
-                self.ui_ensure(page_meta)
+            
+            #ENd
+            if self.appear(REWARD_ENTER, offset=(20, 20)):
                 return
 
     def get_meta_reward(self):
