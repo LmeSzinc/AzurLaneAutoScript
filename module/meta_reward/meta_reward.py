@@ -9,9 +9,9 @@ from module.ui.ui import UI, BACK_ARROW
 
 
 class MetaReward(Combat, UI):
-    def meta_ship_get_entrance(self):
+    def meta_labo_get_sidebar_icon_button(self):
         """
-        Get entrance button of dossier ship.
+        Get icon button of meta ship.
 
         Returns:
             list[Button]: Enter button
@@ -35,9 +35,9 @@ class MetaReward(Combat, UI):
             list_enter.append(enter)
         return list_enter   
 
-    def dossier_ship_swipe(self, downward=True, skip_first_screenshot=True):
+    def meta_labo_sidebar_swipe(self, downward=True, skip_first_screenshot=True):
         """
-        Swipe down meta dock to search for red dots.
+        Swipe down meta lab sidebar to search for red dots.
         
         
         Args:
@@ -57,8 +57,8 @@ class MetaReward(Combat, UI):
             else:
                 self.device.screenshot()
 
-            entrance = self.meta_ship_get_entrance()
-            if len(entrance):
+            icon = self.meta_labo_get_sidebar_icon_button()
+            if len(icon):
                 return True
             
             p1, p2 = random_rectangle_vector(
@@ -69,36 +69,33 @@ class MetaReward(Combat, UI):
         logger.info('No more dossier reward for receiving')
         return False
 
-    def dossier_ship_enter(self, skip_first_screenshot=True):
+    def meta_labo_sidebar_icon_button_click(self, skip_first_screenshot=True):
         """
-        Click possible dossier ship if red dot appears.
+        Click possible dossier ship icon if red dot appears.
         
         Returns:
-            bool: If entered
-
-        Pages: 
-            in: page_meta
-            out: page_meta
+            bool: If clicked
         """
         timer = Timer(2, count=5)
-        entered = False
+        clicked = False
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
-            entrance = self.meta_ship_get_entrance()
-            if not len(entrance):
+            icon = self.meta_labo_get_sidebar_icon_button()
+            if not len(icon):
                 break
             if timer.reached():
-                logger.info('Enter possible dossier ship')
-                self.device.click(entrance[0])
+                logger.info('Click on possible ship icon for further check')
+                self.device.click(icon[0])
+                # After clicking the icon will enlarge, resulting in original icon to no more match.
                 timer.reset()
-                entered = True
+                clicked = True
                 continue
         
-        return entered 
+        return clicked 
 
     def meta_reward_notice_appear(self):
         """
@@ -198,24 +195,39 @@ class MetaReward(Combat, UI):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(BACK_ARROW, offset=(20, 20), interval=3):
-                continue
+            if self.appear(REWARD_CHECK, offset=(20, 20)):
+                if self.appear_then_click(BACK_ARROW, offset=(20, 20), interval=3):
+                    continue
+            elif self.ui_page_appear(page_meta):
+                return
+            else:
+                self.ui_ensure(page_meta)
+                return
 
-            #End
-            if self.ui_page_appear(page_meta):
-                break
-
-    def meta_reward_check(self):
+    def get_meta_reward(self):
         '''
-        Wrapper for actual meta reward check and receive.
+        Wrapper for actual meta reward check and obtain process.
 
         Pages: page_meta
         '''
+        logger.info('Check meta ship reward status')
         if self.meta_reward_notice_appear():
             self.meta_reward_enter()
             self.meta_reward_receive()
             self.meta_reward_exit()
     
+    def search_for_dossier_reward(self):
+        # Check for red dots on dossier ship lists
+        logger.info('Search for dossier ship')
+        while self.meta_labo_sidebar_swipe():
+            # After clicking the ship icon will enlarge.
+            self.meta_labo_sidebar_icon_button_click()
+            logger.info('Check dossier ship')
+            self.get_meta_reward()
+
+    def has_possible_dossier_reward(self, is_dossier):
+        return (is_dossier and "dossier" in self.config.OpsiAshBeacon_AttackMode)
+
     def run(self, dossier=True):
         # Server check
         if self.config.SERVER in ['cn', 'en', 'jp']:
@@ -227,23 +239,15 @@ class MetaReward(Combat, UI):
         self.ui_ensure(page_meta)
         
         # OpsiAshBeacon currently does not have a is_dossier property, so needs to do if/else here.
-        # Deal current reward first.
+        # Deal current ship reward first.
         logger.info('Check current ship')
-        self.meta_reward_check()
+        self.get_meta_reward()
 
         # If dossier beacon is not enabled, or MetaReward is invoked 
         # by AshBeaconAssist, do not need to check dossier 
-        if not dossier or self.config.OpsiAshBeacon_AttackMode != 'current_dossier':
-            logger.info('MetaReward is called by current beacon, skip dossier ship check')
+        if self.has_possible_dossier_reward(is_dossier=dossier):
+            self.search_for_dossier_reward()
+        else:
+            logger.info('MetaReward is called by current beacon, skip dossier reward check')
             return
         
-        # Check for red dots on dossier ship lists
-        logger.info('Search for dossier ship')
-        while self.dossier_ship_swipe():
-            # After clicking the ship icon will enlarge.
-            self.dossier_ship_enter()
-
-            # Red dots for dossier ship means possible tactical skills finished 
-            # or possible rewards, so need to use meta_reward_check() to check.
-            logger.info('Check dossier ship')
-            self.meta_reward_check()
