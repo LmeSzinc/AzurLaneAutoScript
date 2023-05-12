@@ -202,7 +202,7 @@ class OSShopHandler(OSStatus, MapEventHandler):
         count = self.os_shop_buy(select_func=self.os_shop_get_item_to_buy_in_port)
         return count > 0 or len(self.os_shop_items.items) == 0
 
-    def handle_akashi_supply_buy(self, grid, drop=None):
+    def handle_akashi_supply_buy(self, grid):
         """
         Args:
             grid: Grid where akashi stands.
