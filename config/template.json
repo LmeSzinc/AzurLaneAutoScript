@@ -35,6 +35,7 @@
       "CommissionRecord": "do_not",
       "CombatRecord": "do_not",
       "OpsiRecord": "do_not",
+      "AkashiRecord": "do_not",
       "MeowfficerBuy": "do_not",
       "MeowfficerTalent": "do_not"
     },

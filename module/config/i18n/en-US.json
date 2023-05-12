@@ -546,6 +546,12 @@
       "upload": "Upload",
       "save_and_upload": "Save and upload"
     },
+    "AkashiRecord": {
+      "name": "Opsi Akashi Shop Record",
+      "help": "",
+      "do_not": "Do nothing",
+      "save": "Save"
+    },
     "MeowfficerBuy": {
       "name": "Meowfficer Buy",
       "help": "",

@@ -546,6 +546,12 @@
       "upload": "上传",
       "save_and_upload": "保存并上传"
     },
+    "AkashiRecord": {
+      "name": "大世界明石商店购买截图",
+      "help": "",
+      "do_not": "无操作",
+      "save": "保存"
+    },
     "MeowfficerBuy": {
       "name": "指挥喵购买截图",
       "help": "",

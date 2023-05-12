@@ -252,6 +252,14 @@
           "save_and_upload"
         ]
       },
+      "AkashiRecord": {
+        "type": "select",
+        "value": "do_not",
+        "option": [
+          "do_not",
+          "save"
+        ]
+      },
       "MeowfficerBuy": {
         "type": "select",
         "value": "do_not",

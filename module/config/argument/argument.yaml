@@ -79,6 +79,9 @@ DropRecord:
   OpsiRecord:
     value: do_not
     option: [ do_not, save, upload, save_and_upload ]
+  AkashiRecord:
+    value: do_not
+    option: [ do_not, save ]
   MeowfficerBuy:
     value: do_not
     option: [ do_not, save ]

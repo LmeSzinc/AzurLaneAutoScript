@@ -546,6 +546,12 @@
       "upload": "upload",
       "save_and_upload": "save_and_upload"
     },
+    "AkashiRecord": {
+      "name": "DropRecord.AkashiRecord.name",
+      "help": "DropRecord.AkashiRecord.help",
+      "do_not": "do_not",
+      "save": "save"
+    },
     "MeowfficerBuy": {
       "name": "DropRecord.MeowfficerBuy.name",
       "help": "DropRecord.MeowfficerBuy.help",
