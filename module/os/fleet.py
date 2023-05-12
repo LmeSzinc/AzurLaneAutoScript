@@ -336,7 +336,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             # Akashi shop
             if self.appear(PORT_SUPPLY_CHECK, offset=(20, 20)):
                 self.interval_clear(PORT_SUPPLY_CHECK)
-                self.handle_akashi_supply_buy(CLICK_SAFE_AREA)
+                self.handle_akashi_supply_buy(CLICK_SAFE_AREA, drop=drop)
                 confirm_timer.reset()
                 result.add('akashi')
                 continue

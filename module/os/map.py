@@ -742,7 +742,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                     return False
             else:
                 logger.info(f'Akashi ({grid}) is near current fleet ({fleet})')
-                self.handle_akashi_supply_buy(grid)
+                self.handle_akashi_supply_buy(grid, drop=drop)
                 self._solved_map_event.add('is_akashi')
                 return True
 
