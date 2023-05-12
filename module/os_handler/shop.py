@@ -214,7 +214,7 @@ class OSShopHandler(OSStatus, MapEventHandler):
         self.ui_click(grid, appear_button=self.is_in_map, check_button=PORT_SUPPLY_CHECK,
                       additional=self.handle_story_skip, skip_first_screenshot=True)
         with self.stat.new(
-            genre="Opsi_AkashiRecord", method=self.config.DropRecord_AkashiRecord
+            genre="opsi_akashi", method=self.config.DropRecord_AkashiRecord
         ) as drop:
             # drop.handle_add(self)
             self.os_shop_buy(select_func=self.os_shop_get_item_to_buy_in_akashi)
