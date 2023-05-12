@@ -84,8 +84,7 @@
   },
   "FpyBenchmark": {
     "Benchmark": {
-      "BenchTouch": true,
-      "BenchScreen": true
+      "BenchOption": "all"
     },
     "Storage": {
       "Storage": {}

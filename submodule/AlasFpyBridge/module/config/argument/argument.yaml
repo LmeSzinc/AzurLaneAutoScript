@@ -45,6 +45,7 @@ FpyEmulator:
 Interval:
   Interval:
     value: 07:00
+    validate: "\\d+:\\d"
 
 Team:
   Index:
@@ -75,10 +76,12 @@ Limit:
     value: 0
 
 Benchmark:
-  BenchTouch:
-    value: True
-  BenchScreen:
-    value: True
+  BenchOption:
+    value: all
+    option:
+      - touch
+      - screen
+      - all
 
 Call:
   Function:

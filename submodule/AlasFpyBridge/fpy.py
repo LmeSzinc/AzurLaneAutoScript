@@ -61,18 +61,19 @@ class FgoAutoScript(AzurLaneAutoScript):
         assert self.app.run(f"config stopOnSpecialDrop {self.config.Limit_SpecialDrop}")
         assert self.app.run(f"teamup set index {self.config.Team_Index}")
         assert self.app.run(f"main {self.config.Apple_AppleCount} {self.config.Apple_AppleKind}")
-        if self.config.Apple_EatOnce:
-            self.config.Apple_AppleCount = 0
-        else:
-            self.config.Apple_AppleTotal -= self.config.Apple_AppleCount
-            self.config.Apple_AppleCount = min(self.config.Apple_AppleCount, self.config.Apple_AppleTotal)
-        if self.app.last_error.startswith("Script Stopped"):
-            if self.app.last_error == "Script Stopped: Special Drop":
-                self.config.Limit_SpecialDrop = 0
-            self.config.Scheduler_Enable = False
-            return
-        hh, mm = self.config.Interval_Interval.split(":")
-        self.config.task_delay(minute=int(hh)*60+int(mm))
+        with self.config.multi_set():
+            if self.config.Apple_EatOnce:
+                self.config.Apple_AppleCount = 0
+            else:
+                self.config.Apple_AppleTotal -= self.config.Apple_AppleCount
+                self.config.Apple_AppleCount = min(self.config.Apple_AppleCount, self.config.Apple_AppleTotal)
+            if self.app.last_error.startswith("Script Stopped"):
+                if self.app.last_error == "Script Stopped: Special Drop":
+                    self.config.Limit_SpecialDrop = 0
+                self.config.Scheduler_Enable = False
+                return
+            hh, mm = self.config.Interval_Interval.split(":")
+            self.config.task_delay(minute=int(hh)*60+int(mm))
 
     def fpy_daily_fp_summon(self):
         assert self.app.run("call dailyFpSummon")
@@ -82,7 +83,7 @@ class FgoAutoScript(AzurLaneAutoScript):
         assert self.app.run("battle")
     
     def fpy_benchmark(self):
-        assert self.app.run(f"bench{' -i' if self.config.Benchmark_BenchTouch else ''}{' -o' if self.config.Benchmark_BenchScreen else ''}")
+        assert self.app.run(f"bench {dict([('touch','-i'),('screen','-o'),('all','')])[self.config.Benchmark_BenchOption]}")
 
     def fpy_call(self):
         assert self.app.run(f"call {self.config.Call_Function}")

@@ -199,13 +199,12 @@
       "name": "Benchmark._info.name",
       "help": "Benchmark._info.help"
     },
-    "BenchTouch": {
-      "name": "Benchmark.BenchTouch.name",
-      "help": "Benchmark.BenchTouch.help"
-    },
-    "BenchScreen": {
-      "name": "Benchmark.BenchScreen.name",
-      "help": "Benchmark.BenchScreen.help"
+    "BenchOption": {
+      "name": "Benchmark.BenchOption.name",
+      "help": "Benchmark.BenchOption.help",
+      "touch": "touch",
+      "screen": "screen",
+      "all": "all"
     }
   },
   "Call": {

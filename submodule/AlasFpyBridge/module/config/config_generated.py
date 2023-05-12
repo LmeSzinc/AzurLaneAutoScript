@@ -49,8 +49,7 @@ class GeneratedConfig:
     Limit_SpecialDrop = 0
 
     # Group `Benchmark`
-    Benchmark_BenchTouch = True
-    Benchmark_BenchScreen = True
+    Benchmark_BenchOption = 'all'  # touch, screen, all
 
     # Group `Call`
     Call_Function = 'lottery'  # fpSummon, lottery, mining, mail, synthesis, summonHistory

@@ -83,7 +83,8 @@
     "Interval": {
       "Interval": {
         "type": "input",
-        "value": "00:05"
+        "value": "00:05",
+        "validate": "\\d+:\\d"
       }
     },
     "Storage": {
@@ -175,7 +176,8 @@
     "Interval": {
       "Interval": {
         "type": "input",
-        "value": "07:00"
+        "value": "07:00",
+        "validate": "\\d+:\\d"
       }
     },
     "Storage": {
@@ -240,13 +242,14 @@
   },
   "FpyBenchmark": {
     "Benchmark": {
-      "BenchTouch": {
-        "type": "checkbox",
-        "value": true
-      },
-      "BenchScreen": {
-        "type": "checkbox",
-        "value": true
+      "BenchOption": {
+        "type": "select",
+        "value": "all",
+        "option": [
+          "touch",
+          "screen",
+          "all"
+        ]
       }
     },
     "Storage": {
