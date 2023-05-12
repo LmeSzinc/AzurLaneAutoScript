@@ -10,6 +10,7 @@ from module.exception import CampaignEnd, RequestHumanTakeover
 from module.exception import GameTooManyClickError
 from module.exception import MapWalkError, ScriptError
 from module.exercise.assets import QUIT_CONFIRM, QUIT_RECONFIRM
+from module.handler.assets import MAINTENANCE_ANNOUNCE
 from module.handler.login import LoginHandler
 from module.logger import logger
 from module.map.map import Map
@@ -530,6 +531,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
 
     def interrupt_auto_search(self, skip_first_screenshot=True):
         logger.info('Interrupting auto search')
+        self.appear(MAINTENANCE_ANNOUNCE, interval=5)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -543,13 +545,16 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
 
             if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
                 continue
-            if self.appear_then_click(PAUSE, interval=0.5):
-                continue
             if self.appear_then_click(QUIT_CONFIRM, offset=(20, 20), interval=5):
+                self.interval_reset(MAINTENANCE_ANNOUNCE)
                 continue
             if self.appear_then_click(QUIT_RECONFIRM, offset=True, interval=5):
+                self.interval_reset(MAINTENANCE_ANNOUNCE)
                 continue
-
+            if self.appear_then_click(PAUSE, interval=0.5):
+                self.interval_reset(MAINTENANCE_ANNOUNCE)
+                continue
+    
             if self.appear_then_click(GOTO_MAIN, offset=(20, 20), interval=3):
                 continue
             if self.ui_additional():
