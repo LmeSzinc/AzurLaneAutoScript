@@ -1,0 +1,273 @@
+{
+  "Menu": {
+    "Task": {
+      "name": "",
+      "help": ""
+    },
+    "Alas": {
+      "name": "SRC",
+      "help": ""
+    }
+  },
+  "Task": {
+    "Alas": {
+      "name": "SRC Settings",
+      "help": ""
+    },
+    "Restart": {
+      "name": "Error Handling",
+      "help": ""
+    }
+  },
+  "Scheduler": {
+    "_info": {
+      "name": "Scheduler",
+      "help": ""
+    },
+    "Enable": {
+      "name": "Enable Task",
+      "help": "Join this task to scheduler.\nTask commission, research, reward are force to enable."
+    },
+    "NextRun": {
+      "name": "Next Run",
+      "help": "Updated automatically after completing the task to set next scheduled run, typically not manually modified\nHowever you can force immediate scheduling if you clear this text field"
+    },
+    "Command": {
+      "name": "Command",
+      "help": ""
+    },
+    "ServerUpdate": {
+      "name": "Server Update",
+      "help": "Series of server refresh time(s) as to when this task will next run, this is automatically converted to respective time zone, generally do not need to modify"
+    }
+  },
+  "Emulator": {
+    "_info": {
+      "name": "Emulator Settings",
+      "help": ""
+    },
+    "Serial": {
+      "name": "Serial",
+      "help": "Common emulator Serial can be queried in the list below\nUse \"auto\" to auto-detect emulators, but if multiple emulators are running or use emulators that do not support auto-detect, \"auto\" cannot be used and serial must be filled in manually\nDefault serial for select emulators:\n- BlueStacks 127.0.0.1:5555\n- BlueStacks4 Hyper-V use \"bluestacks4-hyperv\", \"bluestacks4-hyperv-2\" for multi instance, and so on\n- BlueStacks5 Hyper-V use \"bluestacks5-hyperv\", \"bluestacks5-hyperv-1\" for multi instance, and so on\n- NoxPlayer 127.0.0.1:62001\n- NoxPlayer64bit 127.0.0.1:59865\n- MuMuPlayer/MuMuPlayer X 127.0.0.1:7555\n- MemuPlayer 127.0.0.1:21503\n- LDPlayer emulator-5554 or 127.0.0.1:5555\n- WSA use \"wsa-0\" to make the game run in the background, which needs to be controlled or closed by third-party software\nIf there are multiple emulator instances running, the default is reserved for one of them and the others will use different serials to avoid conflicts\nOpen console.bat and run `adb devices` to find them or follow the emulator's official tutorial"
+    },
+    "PackageName": {
+      "name": "Game Server",
+      "help": "Manual select is required if multiple game clients are installed on emulator",
+      "auto": "Auto-detect",
+      "com.miHoYo.hkrpg": "CN",
+      "com.HoYoverse.hkrpgoversea": "OVERSEA",
+      "com.miHoYo.hkrpg.bilibili": "CN com.miHoYo.hkrpg.bilibili"
+    },
+    "ScreenshotMethod": {
+      "name": "Screenshot Method",
+      "help": "When using auto-select, a benchmark will be performed and automatically changed to the fastest screenshot method.\nGeneral speed: DroidCast_raw >> aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB.\nRun Tools - Performance Test to find the fastest method.",
+      "auto": "Auto-select the fastest",
+      "ADB": "ADB ",
+      "ADB_nc": "ADB_nc",
+      "uiautomator2": "uiautomator2",
+      "aScreenCap": "aScreenCap",
+      "aScreenCap_nc": "aScreenCap_nc",
+      "DroidCast": "DroidCast",
+      "DroidCast_raw": "DroidCast_raw",
+      "scrcpy": "scrcpy"
+    },
+    "ControlMethod": {
+      "name": "Control Method",
+      "help": "Speed: MaaTouch = minitouch >>> uiautomator2 ~= ADB\nMaaTouch is recommended",
+      "minitouch": "minitouch",
+      "MaaTouch": "MaaTouch"
+    },
+    "ScreenshotDedithering": {
+      "name": "Image Color De-dithering",
+      "help": "Enable when running Alas on phones"
+    },
+    "AdbRestart": {
+      "name": "Try to restart adb when no device found",
+      "help": ""
+    }
+  },
+  "EmulatorInfo": {
+    "_info": {
+      "name": "Emulator Settings",
+      "help": "The following values are auto-filled according to \"Serial\", if you don’t understand, please don't modify them"
+    },
+    "Emulator": {
+      "name": "Emulator Type",
+      "help": "",
+      "auto": "Auto-detect",
+      "NoxPlayer": "Nox Player",
+      "NoxPlayer64": "Nox Player 64bit",
+      "BlueStacks4": "BlueStacks 4",
+      "BlueStacks5": "BlueStacks 5",
+      "BlueStacks4HyperV": "BlueStacks 4 Hyper-V",
+      "BlueStacks5HyperV": "BlueStacks 5 Hyper-V",
+      "LDPlayer3": "LD Player 3",
+      "LDPlayer4": "LD Player 4",
+      "LDPlayer9": "LD Player 9",
+      "MuMuPlayer": "MuMu Player",
+      "MuMuPlayerX": "MuMu Player X",
+      "MuMuPlayer12": "MuMu Player 12",
+      "MEmuPlayer": "MEmu Player"
+    },
+    "name": {
+      "name": "Emulator Instance Name",
+      "help": ""
+    },
+    "path": {
+      "name": "Emulator Installation Path",
+      "help": ""
+    }
+  },
+  "Error": {
+    "_info": {
+      "name": "Debug Settings",
+      "help": ""
+    },
+    "Restart": {
+      "name": "Restart Game on Error",
+      "help": "",
+      "game": "Restart game",
+      "game_emulator": "Restart emulator and game"
+    },
+    "SaveError": {
+      "name": "Record Exception",
+      "help": "Records exception and log into directory for review or sharing"
+    },
+    "ScreenshotLength": {
+      "name": "Record Screenshot(s)",
+      "help": "Number of screenshots saved when exception occurs"
+    },
+    "OnePushConfig": {
+      "name": "Error notify config",
+      "help": "When Alas cannot handle exception, send a message through Onepush. Configuration document: \nhttps://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BEN%5D"
+    }
+  },
+  "Optimization": {
+    "_info": {
+      "name": "Optimization Settings",
+      "help": ""
+    },
+    "ScreenshotInterval": {
+      "name": "Take Screenshots Every X Second(s)",
+      "help": "Minimum interval between 2 screenshots, limited in 0.1 ~ 0.3, can help reduce CPU on high-end PCs"
+    },
+    "CombatScreenshotInterval": {
+      "name": "Take Screenshots Every X Second(s) In Combat",
+      "help": "Minimum interval between 2 screenshots, limited in 0.1 ~ 1.0, can help reduce CPU during battle"
+    },
+    "TaskHoardingDuration": {
+      "name": "Hoard Tasks For X Minute(s)",
+      "help": "By purposely not adding ready tasks to pending, allows for larger subsets to be built and run en masse at a later time\nCan reduce the frequency of operating AL"
+    },
+    "WhenTaskQueueEmpty": {
+      "name": "When Task Queue is Empty",
+      "help": "Close AL when there are no pending tasks, can help reduce CPU",
+      "stay_there": "Stay There",
+      "goto_main": "Goto Main Page",
+      "close_game": "Close Game"
+    }
+  },
+  "Storage": {
+    "_info": {
+      "name": "Task status",
+      "help": "Store internal status of the task. Clear manually when the task is abnormal"
+    },
+    "Storage": {
+      "name": "Storage.Storage.name",
+      "help": "Storage.Storage.help"
+    }
+  },
+  "Gui": {
+    "Aside": {
+      "Install": "Install",
+      "Home": "Home",
+      "Develop": "Develop",
+      "Performance": "Perf.",
+      "Setting": "Settings",
+      "AddAlas": "Add"
+    },
+    "Button": {
+      "Start": "Start",
+      "Stop": "Stop",
+      "ScrollON": "Auto Scroll ON",
+      "ScrollOFF": "Auto Scroll OFF",
+      "ClearLog": "Clear Log",
+      "Setting": "Setting",
+      "CheckUpdate": "Check update",
+      "ClickToUpdate": "Click to update",
+      "RetryUpdate": "Retry update",
+      "CancelUpdate": "Cancel update"
+    },
+    "Toast": {
+      "DisableTranslateMode": "Click here to disable translate mode",
+      "ConfigSaved": "Config saved",
+      "AlasIsRunning": "Scheduler is already running",
+      "ClickToUpdate": "New update available, click here to update"
+    },
+    "Status": {
+      "Running": "Running",
+      "Inactive": "Inactive",
+      "Warning": "Warning",
+      "Updating": "Waiting Update"
+    },
+    "MenuAlas": {
+      "Overview": "Overview",
+      "Log": "Logs"
+    },
+    "MenuDevelop": {
+      "HomePage": "Home",
+      "Translate": "Translate",
+      "Update": "Updater",
+      "Remote": "Remote access",
+      "Utils": "Utils"
+    },
+    "Overview": {
+      "Scheduler": "Scheduler",
+      "Log": "Log",
+      "Running": "Running",
+      "Pending": "Pending",
+      "Waiting": "Waiting",
+      "NoTask": "No Task"
+    },
+    "AddAlas": {
+      "PopupTitle": "Add new config",
+      "NewName": "New name",
+      "CopyFrom": "Copy from existing config",
+      "Confirm": "Add",
+      "FileExist": "A config with the same name exists, please choose another one",
+      "InvalidChar": "Config name cannot contain any of the following characters: .\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "Config name cannot start with 'template'"
+    },
+    "Update": {
+      "UpToDate": "Latest version",
+      "HaveUpdate": "A new version is available",
+      "UpdateStart": "Start update",
+      "UpdateWait": "Waiting for all alas complete current task",
+      "UpdateRun": "Updating",
+      "UpdateSuccess": "Update succeeded, restarting",
+      "UpdateFailed": "Update failed. Logs can be found in ./log/*_gui.txt",
+      "UpdateChecking": "Checking for updates",
+      "UpdateCancel": "Update canceled, restarting Alas",
+      "UpdateFinish": "Update succeeded, please restart manually",
+      "Local": "Local",
+      "Upstream": "Upstream",
+      "Author": "Author",
+      "Time": "Commit time",
+      "Message": "Commit message",
+      "DisabledWarn": "Updater module is disabled. You need to manually restart Alas to update",
+      "DetailedHistory": "Detailed Commit History"
+    },
+    "Remote": {
+      "Running": "Remote access on",
+      "NotRunning": "Not running, server disconnected or offline",
+      "NotEnable": "Disabled, set webui password in deploy.yaml and enable remote access",
+      "EntryPoint": "Entry point:",
+      "ConfigureHint": "Configuration tutorial:",
+      "SSHNotInstall": "No SSH command in your system. Please refer to the tutorial to download or install one"
+    },
+    "Text": {
+      "InvalidFeedBack": "Invalid format. Example: {0}",
+      "Clear": "Clear"
+    }
+  }
+}

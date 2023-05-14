@@ -1,0 +1,168 @@
+{
+  "Alas": {
+    "Emulator": {
+      "Serial": {
+        "type": "input",
+        "value": "auto",
+        "valuetype": "str"
+      },
+      "PackageName": {
+        "type": "select",
+        "value": "auto",
+        "option": [
+          "auto",
+          "com.miHoYo.hkrpg",
+          "com.HoYoverse.hkrpgoversea",
+          "com.miHoYo.hkrpg.bilibili"
+        ]
+      },
+      "ScreenshotMethod": {
+        "type": "select",
+        "value": "auto",
+        "option": [
+          "auto",
+          "ADB",
+          "ADB_nc",
+          "uiautomator2",
+          "aScreenCap",
+          "aScreenCap_nc",
+          "DroidCast",
+          "DroidCast_raw",
+          "scrcpy"
+        ]
+      },
+      "ControlMethod": {
+        "type": "select",
+        "value": "MaaTouch",
+        "option": [
+          "minitouch",
+          "MaaTouch"
+        ]
+      },
+      "ScreenshotDedithering": {
+        "type": "checkbox",
+        "value": false
+      },
+      "AdbRestart": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
+    "EmulatorInfo": {
+      "Emulator": {
+        "type": "select",
+        "value": "auto",
+        "option": [
+          "auto",
+          "NoxPlayer",
+          "NoxPlayer64",
+          "BlueStacks4",
+          "BlueStacks5",
+          "BlueStacks4HyperV",
+          "BlueStacks5HyperV",
+          "LDPlayer3",
+          "LDPlayer4",
+          "LDPlayer9",
+          "MuMuPlayer",
+          "MuMuPlayerX",
+          "MuMuPlayer12",
+          "MEmuPlayer"
+        ]
+      },
+      "name": {
+        "type": "textarea",
+        "value": null
+      },
+      "path": {
+        "type": "textarea",
+        "value": null
+      }
+    },
+    "Error": {
+      "Restart": {
+        "type": "select",
+        "value": "game",
+        "option": [
+          "game",
+          "game_emulator"
+        ]
+      },
+      "SaveError": {
+        "type": "checkbox",
+        "value": true
+      },
+      "ScreenshotLength": {
+        "type": "input",
+        "value": 1
+      },
+      "OnePushConfig": {
+        "type": "textarea",
+        "value": "provider: null",
+        "mode": "yaml"
+      }
+    },
+    "Optimization": {
+      "ScreenshotInterval": {
+        "type": "input",
+        "value": 0.3
+      },
+      "CombatScreenshotInterval": {
+        "type": "input",
+        "value": 1.0
+      },
+      "TaskHoardingDuration": {
+        "type": "input",
+        "value": 0
+      },
+      "WhenTaskQueueEmpty": {
+        "type": "select",
+        "value": "goto_main",
+        "option": [
+          "stay_there",
+          "goto_main",
+          "close_game"
+        ]
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
+  "Restart": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": true,
+        "display": "disabled"
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "Restart",
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  }
+}

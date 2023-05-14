@@ -1,0 +1,79 @@
+# --------------------
+# Define arguments.
+# --------------------
+
+# ==================== Alas ====================
+
+Scheduler:
+  Enable: false
+  NextRun: 2020-01-01 00:00:00
+  Command: Alas
+  ServerUpdate:
+    value: 00:00
+    display: hide
+Emulator:
+  Serial:
+    value: auto
+    valuetype: str
+  PackageName:
+    value: auto
+    option: [ auto, ]
+  ScreenshotMethod:
+    value: auto
+    option: [ auto, ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc, DroidCast, DroidCast_raw, scrcpy ]
+  ControlMethod:
+    value: MaaTouch
+    option: [ minitouch, MaaTouch ]
+  ScreenshotDedithering: false
+  AdbRestart: false
+EmulatorInfo:
+  Emulator:
+    value: auto
+    option: [
+      auto,
+      NoxPlayer,
+      NoxPlayer64,
+      BlueStacks4,
+      BlueStacks5,
+      BlueStacks4HyperV,
+      BlueStacks5HyperV,
+      LDPlayer3,
+      LDPlayer4,
+      LDPlayer9,
+      MuMuPlayer,
+      MuMuPlayerX,
+      MuMuPlayer12,
+      MEmuPlayer,
+    ]
+  name:
+    value: null
+    type: textarea
+  path:
+    value: null
+    type: textarea
+Error:
+  Restart:
+    value: game
+    option: [ game, game_emulator ]
+  SaveError: true
+  ScreenshotLength: 1
+  OnePushConfig:
+    type: textarea
+    mode: yaml
+    value: 'provider: null'
+Optimization:
+  ScreenshotInterval: 0.3
+  CombatScreenshotInterval: 1.0
+  TaskHoardingDuration: 0
+  WhenTaskQueueEmpty:
+    value: goto_main
+    option: [ stay_there, goto_main, close_game ]
+
+# ==================== Farm ====================
+
+
+# ==================== Daily ====================
+
+
+# ==================== Tools ====================
+

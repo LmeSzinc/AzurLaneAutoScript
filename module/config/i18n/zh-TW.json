@@ -1,0 +1,273 @@
+{
+  "Menu": {
+    "Task": {
+      "name": "",
+      "help": ""
+    },
+    "Alas": {
+      "name": "SRC",
+      "help": ""
+    }
+  },
+  "Task": {
+    "Alas": {
+      "name": "SRC設定",
+      "help": ""
+    },
+    "Restart": {
+      "name": "除錯",
+      "help": ""
+    }
+  },
+  "Scheduler": {
+    "_info": {
+      "name": "任務設定",
+      "help": ""
+    },
+    "Enable": {
+      "name": "啟用該功能",
+      "help": "將這個任務加入調度器\n委託、科研、收穫任務是強制打開的"
+    },
+    "NextRun": {
+      "name": "下一次執行時間",
+      "help": "自動計算的數值，不需要手動修改。清空後將立刻執行"
+    },
+    "Command": {
+      "name": "內部任務名稱",
+      "help": ""
+    },
+    "ServerUpdate": {
+      "name": "伺服器更新時間",
+      "help": "一些任務執行成功後，將推遲下一次執行伺服器更新的時間\n自動換算時區，一般不需要修改"
+    }
+  },
+  "Emulator": {
+    "_info": {
+      "name": "模擬器設定",
+      "help": ""
+    },
+    "Serial": {
+      "name": "模擬器 Serial",
+      "help": "常見的模擬器 Serial 可以查詢下方列表\n填 \"auto\" 自動檢測模擬器，多個模擬器正在運行或使用不支持自動檢測的模擬器時無法使用 \"auto\"，必須手動填寫\n模擬器預設 Serial：\n- 藍疊模擬器 127.0.0.1:5555\n- 藍疊模擬器4 Hyper-v版，填\"bluestacks4-hyperv\"自動連接，多開填\"bluestacks4-hyperv-2\"以此類推\n- 藍疊模擬器5 Hyper-v版，填\"bluestacks5-hyperv\"自動連接，多開填\"bluestacks5-hyperv-1\"以此類推\n- 夜神模擬器 127.0.0.1:62001\n- 夜神模擬器64位元 127.0.0.1:59865\n- MuMu模擬器/MuMu模擬器X 127.0.0.1:7555\n- 逍遙模擬器 127.0.0.1:21503\n- 雷電模擬器 emulator-5554 或 127.0.0.1:5555\n- WSA，填\"wsa-0\"使遊戲在後臺運行，需要使用第三方軟件操控或關閉\n如果你使用了模擬器的多開功能，他們的 Serial 將不是預設的，可以在 console.bat 中執行 `adb devices` 查詢，或根據模擬器官方的教程填寫"
+    },
+    "PackageName": {
+      "name": "遊戲伺服器",
+      "help": "模擬器上裝有多個遊戲客戶端時，需要手動選擇伺服器",
+      "auto": "自動檢測",
+      "com.miHoYo.hkrpg": "CN",
+      "com.HoYoverse.hkrpgoversea": "OVERSEA",
+      "com.miHoYo.hkrpg.bilibili": "CN com.miHoYo.hkrpg.bilibili"
+    },
+    "ScreenshotMethod": {
+      "name": "模擬器截圖方案",
+      "help": "使用自動選擇時，將執行一次性能測試並自動更改為最快的截圖方案\n一般情況下的速度: DroidCast_raw >> aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB\n運行 工具 - 性能測試 以尋找最快的方案",
+      "auto": "自動選擇最快的",
+      "ADB": "ADB",
+      "ADB_nc": "ADB_nc",
+      "uiautomator2": "uiautomator2",
+      "aScreenCap": "aScreenCap",
+      "aScreenCap_nc": "aScreenCap_nc",
+      "DroidCast": "DroidCast",
+      "DroidCast_raw": "DroidCast_raw",
+      "scrcpy": "scrcpy"
+    },
+    "ControlMethod": {
+      "name": "模擬器控制方案",
+      "help": "速度: MaaTouch = minitouch > Hermit >>> uiautomator2 ~= ADB\n建議選MaaTouch",
+      "minitouch": "minitouch",
+      "MaaTouch": "MaaTouch"
+    },
+    "ScreenshotDedithering": {
+      "name": "去除圖片色彩抖動",
+      "help": "在手機上運行時開啟"
+    },
+    "AdbRestart": {
+      "name": "在檢測不到設備的時候嘗試重啟adb",
+      "help": ""
+    }
+  },
+  "EmulatorInfo": {
+    "_info": {
+      "name": "模擬器設置",
+      "help": "下列數值是根據Serial自動填充的，如果不懂請不要隨意修改"
+    },
+    "Emulator": {
+      "name": "模擬器類型",
+      "help": "",
+      "auto": "自動檢測",
+      "NoxPlayer": "夜神模擬器",
+      "NoxPlayer64": "夜神模擬器64位",
+      "BlueStacks4": "藍疊模擬器4",
+      "BlueStacks5": "藍疊模擬器5",
+      "BlueStacks4HyperV": "藍疊模擬器4 Hyper-V",
+      "BlueStacks5HyperV": "藍疊模擬器5 Hyper-V",
+      "LDPlayer3": "雷電模擬器3",
+      "LDPlayer4": "雷電模擬器4",
+      "LDPlayer9": "雷電模擬器9",
+      "MuMuPlayer": "MuMu模擬器",
+      "MuMuPlayerX": "MuMu模擬器X",
+      "MuMuPlayer12": "MuMu模擬器12",
+      "MEmuPlayer": "逍遙模擬器"
+    },
+    "name": {
+      "name": "模擬器實例名稱",
+      "help": ""
+    },
+    "path": {
+      "name": "模擬器安裝路徑",
+      "help": ""
+    }
+  },
+  "Error": {
+    "_info": {
+      "name": "除錯設定",
+      "help": ""
+    },
+    "Restart": {
+      "name": "出錯時，重啟遊戲",
+      "help": "",
+      "game": "重啟遊戲",
+      "game_emulator": "重啟模擬器和遊戲"
+    },
+    "SaveError": {
+      "name": "出錯時，保存 Log 和截圖",
+      "help": ""
+    },
+    "ScreenshotLength": {
+      "name": "出錯時，保留最後 X 張截圖",
+      "help": ""
+    },
+    "OnePushConfig": {
+      "name": "錯誤推送設定",
+      "help": "發生無法處理的异常後，使用 Onepush 推送错误消息。設定參考文檔：https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BCN%5D"
+    }
+  },
+  "Optimization": {
+    "_info": {
+      "name": "優化設定",
+      "help": ""
+    },
+    "ScreenshotInterval": {
+      "name": "放慢截圖速度至 X 秒一張",
+      "help": "執行兩次截圖之間的最小間隔，限制在 0.1 ~ 0.3，對於高配置電腦能降低 CPU 佔用"
+    },
+    "CombatScreenshotInterval": {
+      "name": "戰鬥中放慢截圖速度至 X 秒一張",
+      "help": "執行兩次截圖之間的最小間隔，限制在 0.1 ~ 1.0，能降低戰鬥時的 CPU 佔用"
+    },
+    "TaskHoardingDuration": {
+      "name": "囤積任務 X 分鐘",
+      "help": "能在收穫期間降低操作遊戲的頻率\n任務觸發後，等待 X 分鐘後，一次性執行佇列中的任務"
+    },
+    "WhenTaskQueueEmpty": {
+      "name": "當任務隊列清空後",
+      "help": "無任務時關閉遊戲，能在收菜期間降低 CPU 佔用",
+      "stay_there": "停在原處",
+      "goto_main": "前往主界面",
+      "close_game": "關閉遊戲"
+    }
+  },
+  "Storage": {
+    "_info": {
+      "name": "任務狀態",
+      "help": "存放任務內部狀態，任務异常時可以手動清除"
+    },
+    "Storage": {
+      "name": "Storage.Storage.name",
+      "help": "Storage.Storage.help"
+    }
+  },
+  "Gui": {
+    "Aside": {
+      "Install": "安裝",
+      "Home": "主頁",
+      "Develop": "開發",
+      "Performance": "性能",
+      "Setting": "設定",
+      "AddAlas": "新增"
+    },
+    "Button": {
+      "Start": "啟動",
+      "Stop": "停止",
+      "ScrollON": "自動滾動 開",
+      "ScrollOFF": "自動滾動 關",
+      "ClearLog": "清空日誌",
+      "Setting": "設定",
+      "CheckUpdate": "檢查更新",
+      "ClickToUpdate": "進行更新",
+      "RetryUpdate": "重試更新",
+      "CancelUpdate": "取消更新"
+    },
+    "Toast": {
+      "DisableTranslateMode": "點擊這裡關閉翻譯模式",
+      "ConfigSaved": "設定已儲存",
+      "AlasIsRunning": "調度器已在執行中",
+      "ClickToUpdate": "有更新可用，點擊這裡進行更新"
+    },
+    "Status": {
+      "Running": "執行中",
+      "Inactive": "閒置",
+      "Warning": "發生錯誤",
+      "Updating": "等待更新"
+    },
+    "MenuAlas": {
+      "Overview": "總覽",
+      "Log": "執行日誌"
+    },
+    "MenuDevelop": {
+      "HomePage": "主頁",
+      "Translate": "翻譯",
+      "Update": "更新器",
+      "Remote": "遠程控制",
+      "Utils": "工具"
+    },
+    "Overview": {
+      "Scheduler": "調度器",
+      "Log": "日誌",
+      "Running": "執行中",
+      "Pending": "佇列中",
+      "Waiting": "等待中",
+      "NoTask": "無任務"
+    },
+    "AddAlas": {
+      "PopupTitle": "添加新的設定",
+      "NewName": "新設定的檔案名",
+      "CopyFrom": "從現有的設定中複製",
+      "Confirm": "添加",
+      "FileExist": "存在同名的設定檔案，請重新命名",
+      "InvalidChar": "設定檔案名不可以包含下列任意字元：.\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "設定檔案名不能以 template 開頭"
+    },
+    "Update": {
+      "UpToDate": "已是最新版本",
+      "HaveUpdate": "有新版本可用",
+      "UpdateStart": "開始更新",
+      "UpdateWait": "等待所有 Alas 完成當前任務",
+      "UpdateRun": "更新中",
+      "UpdateSuccess": "更新成功，正在重啓",
+      "UpdateFailed": "更新失敗，可在./log/*_gui.txt中找到錯誤日誌",
+      "UpdateChecking": "檢查更新中",
+      "UpdateCancel": "取消更新，重啓 Alas 中",
+      "UpdateFinish": "更新成功，請手動重啓",
+      "Local": "本地",
+      "Upstream": "上游倉庫",
+      "Author": "作者",
+      "Time": "提交時間",
+      "Message": "提交資訊",
+      "DisabledWarn": "更新模塊未啟用，你需要手動重啓 Alas 進行更新",
+      "DetailedHistory": "詳細提交歷史"
+    },
+    "Remote": {
+      "Running": "運行中",
+      "NotRunning": "未運行，与伺服器的連接斷開或伺服器離線",
+      "NotEnable": "未啟用，在 deploy.yaml 中設定 webui 密碼並啟用遠程控制",
+      "EntryPoint": "遠程控制 url 連結:",
+      "ConfigureHint": "配寘教程：",
+      "SSHNotInstall": "系統中沒有 ssh 工具，請參閱教程下載安裝 ssh"
+    },
+    "Text": {
+      "InvalidFeedBack": "格式錯誤。 示例：{0}",
+      "Clear": "清除"
+    }
+  }
+}

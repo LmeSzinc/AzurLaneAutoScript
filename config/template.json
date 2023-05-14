@@ -1,0 +1,43 @@
+{
+  "Alas": {
+    "Emulator": {
+      "Serial": "auto",
+      "PackageName": "auto",
+      "ScreenshotMethod": "auto",
+      "ControlMethod": "MaaTouch",
+      "ScreenshotDedithering": false,
+      "AdbRestart": false
+    },
+    "EmulatorInfo": {
+      "Emulator": "auto",
+      "name": null,
+      "path": null
+    },
+    "Error": {
+      "Restart": "game",
+      "SaveError": true,
+      "ScreenshotLength": 1,
+      "OnePushConfig": "provider: null"
+    },
+    "Optimization": {
+      "ScreenshotInterval": 0.3,
+      "CombatScreenshotInterval": 1.0,
+      "TaskHoardingDuration": 0,
+      "WhenTaskQueueEmpty": "goto_main"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "Restart": {
+    "Scheduler": {
+      "Enable": true,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Restart",
+      "ServerUpdate": "00:00"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  }
+}

@@ -14,9 +14,16 @@ av==10.0.0
 psutil==5.9.3
 
 # Utils
+rich
 tqdm
 jellyfish
 pyyaml
 inflection
 prettytable==2.2.1
 pydantic
+
+# Webui
+pywebio==1.6.2
+starlette==0.14.2
+uvicorn[standard]==0.17.6
+aiofiles

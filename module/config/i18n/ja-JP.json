@@ -1,0 +1,273 @@
+{
+  "Menu": {
+    "Task": {
+      "name": "",
+      "help": ""
+    },
+    "Alas": {
+      "name": "Menu.Alas.name",
+      "help": "Menu.Alas.help"
+    }
+  },
+  "Task": {
+    "Alas": {
+      "name": "Task.Alas.name",
+      "help": "Task.Alas.help"
+    },
+    "Restart": {
+      "name": "再起動設定",
+      "help": ""
+    }
+  },
+  "Scheduler": {
+    "_info": {
+      "name": "Scheduler._info.name",
+      "help": "Scheduler._info.help"
+    },
+    "Enable": {
+      "name": "Scheduler.Enable.name",
+      "help": "Scheduler.Enable.help"
+    },
+    "NextRun": {
+      "name": "Scheduler.NextRun.name",
+      "help": "Scheduler.NextRun.help"
+    },
+    "Command": {
+      "name": "Scheduler.Command.name",
+      "help": "Scheduler.Command.help"
+    },
+    "ServerUpdate": {
+      "name": "Scheduler.ServerUpdate.name",
+      "help": "Scheduler.ServerUpdate.help"
+    }
+  },
+  "Emulator": {
+    "_info": {
+      "name": "Emulator._info.name",
+      "help": "Emulator._info.help"
+    },
+    "Serial": {
+      "name": "Emulator.Serial.name",
+      "help": "Emulator.Serial.help"
+    },
+    "PackageName": {
+      "name": "Emulator.PackageName.name",
+      "help": "Emulator.PackageName.help",
+      "auto": "auto",
+      "com.miHoYo.hkrpg": "CN",
+      "com.HoYoverse.hkrpgoversea": "OVERSEA",
+      "com.miHoYo.hkrpg.bilibili": "CN com.miHoYo.hkrpg.bilibili"
+    },
+    "ScreenshotMethod": {
+      "name": "Emulator.ScreenshotMethod.name",
+      "help": "Emulator.ScreenshotMethod.help",
+      "auto": "auto",
+      "ADB": "ADB",
+      "ADB_nc": "ADB_nc",
+      "uiautomator2": "uiautomator2",
+      "aScreenCap": "aScreenCap",
+      "aScreenCap_nc": "aScreenCap_nc",
+      "DroidCast": "DroidCast",
+      "DroidCast_raw": "DroidCast_raw",
+      "scrcpy": "scrcpy"
+    },
+    "ControlMethod": {
+      "name": "Emulator.ControlMethod.name",
+      "help": "Emulator.ControlMethod.help",
+      "minitouch": "minitouch",
+      "MaaTouch": "MaaTouch"
+    },
+    "ScreenshotDedithering": {
+      "name": "Emulator.ScreenshotDedithering.name",
+      "help": "Emulator.ScreenshotDedithering.help"
+    },
+    "AdbRestart": {
+      "name": "Emulator.AdbRestart.name",
+      "help": "Emulator.AdbRestart.help"
+    }
+  },
+  "EmulatorInfo": {
+    "_info": {
+      "name": "EmulatorInfo._info.name",
+      "help": "EmulatorInfo._info.help"
+    },
+    "Emulator": {
+      "name": "EmulatorInfo.Emulator.name",
+      "help": "EmulatorInfo.Emulator.help",
+      "auto": "auto",
+      "NoxPlayer": "NoxPlayer",
+      "NoxPlayer64": "NoxPlayer64",
+      "BlueStacks4": "BlueStacks4",
+      "BlueStacks5": "BlueStacks5",
+      "BlueStacks4HyperV": "BlueStacks4HyperV",
+      "BlueStacks5HyperV": "BlueStacks5HyperV",
+      "LDPlayer3": "LDPlayer3",
+      "LDPlayer4": "LDPlayer4",
+      "LDPlayer9": "LDPlayer9",
+      "MuMuPlayer": "MuMuPlayer",
+      "MuMuPlayerX": "MuMuPlayerX",
+      "MuMuPlayer12": "MuMuPlayer12",
+      "MEmuPlayer": "MEmuPlayer"
+    },
+    "name": {
+      "name": "EmulatorInfo.name.name",
+      "help": "EmulatorInfo.name.help"
+    },
+    "path": {
+      "name": "EmulatorInfo.path.name",
+      "help": "EmulatorInfo.path.help"
+    }
+  },
+  "Error": {
+    "_info": {
+      "name": "Error._info.name",
+      "help": "Error._info.help"
+    },
+    "Restart": {
+      "name": "Error.Restart.name",
+      "help": "Error.Restart.help",
+      "game": "game",
+      "game_emulator": "game_emulator"
+    },
+    "SaveError": {
+      "name": "Error.SaveError.name",
+      "help": "Error.SaveError.help"
+    },
+    "ScreenshotLength": {
+      "name": "Error.ScreenshotLength.name",
+      "help": "Error.ScreenshotLength.help"
+    },
+    "OnePushConfig": {
+      "name": "Error.OnePushConfig.name",
+      "help": "Error.OnePushConfig.help"
+    }
+  },
+  "Optimization": {
+    "_info": {
+      "name": "Optimization._info.name",
+      "help": "Optimization._info.help"
+    },
+    "ScreenshotInterval": {
+      "name": "Optimization.ScreenshotInterval.name",
+      "help": "Optimization.ScreenshotInterval.help"
+    },
+    "CombatScreenshotInterval": {
+      "name": "Optimization.CombatScreenshotInterval.name",
+      "help": "Optimization.CombatScreenshotInterval.help"
+    },
+    "TaskHoardingDuration": {
+      "name": "Optimization.TaskHoardingDuration.name",
+      "help": "Optimization.TaskHoardingDuration.help"
+    },
+    "WhenTaskQueueEmpty": {
+      "name": "Optimization.WhenTaskQueueEmpty.name",
+      "help": "Optimization.WhenTaskQueueEmpty.help",
+      "stay_there": "stay_there",
+      "goto_main": "goto_main",
+      "close_game": "close_game"
+    }
+  },
+  "Storage": {
+    "_info": {
+      "name": "Storage._info.name",
+      "help": "Storage._info.help"
+    },
+    "Storage": {
+      "name": "Storage.Storage.name",
+      "help": "Storage.Storage.help"
+    }
+  },
+  "Gui": {
+    "Aside": {
+      "Install": "インストール",
+      "Home": "Gui.Aside.Home",
+      "Develop": "開発",
+      "Performance": "機能",
+      "Setting": "設定",
+      "AddAlas": "追加"
+    },
+    "Button": {
+      "Start": "実行",
+      "Stop": "中止",
+      "ScrollON": "自動スクロール ON",
+      "ScrollOFF": "自動スクロール OFF",
+      "ClearLog": "ログクリーニング",
+      "Setting": "設定",
+      "CheckUpdate": "アップデータチェック",
+      "ClickToUpdate": "アップデータ実行",
+      "RetryUpdate": "アップデータ再試行",
+      "CancelUpdate": "アップデータ中止"
+    },
+    "Toast": {
+      "DisableTranslateMode": "クリックして翻訳モードを中止します",
+      "ConfigSaved": "コンフィグ設定は保存されました",
+      "AlasIsRunning": "スケジューラーはもう実行しています",
+      "ClickToUpdate": "新しいアップデータがあります。クリックしてアップデータ"
+    },
+    "Status": {
+      "Running": "実行中",
+      "Inactive": "実行中止",
+      "Warning": "エラー発生",
+      "Updating": "アップデータを待っています"
+    },
+    "MenuAlas": {
+      "Overview": "概要",
+      "Log": "実行ログ"
+    },
+    "MenuDevelop": {
+      "HomePage": "ホームページ",
+      "Translate": "翻訳",
+      "Update": "アップデータ",
+      "Remote": "遠隔操作",
+      "Utils": "ツール"
+    },
+    "Overview": {
+      "Scheduler": "スケジューラー",
+      "Log": "ログ",
+      "Running": "実行中",
+      "Pending": "隊列中",
+      "Waiting": "Waiting",
+      "NoTask": "No Task"
+    },
+    "AddAlas": {
+      "PopupTitle": "新しいコンフィグを追加",
+      "NewName": "コンフィグ名",
+      "CopyFrom": "既存コンフィグからコピー",
+      "Confirm": "追加",
+      "FileExist": "既存コンフィグと同じネーミングとなっていますから別名前を入力してください",
+      "InvalidChar": "コンフィグ名には下記の文字を含めることはできません：.\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "設定ファイル名は temlpate で始めることはできません"
+    },
+    "Update": {
+      "UpToDate": "今Alasは最新バージョンです",
+      "HaveUpdate": "新しいアップデータがあります",
+      "UpdateStart": "アップデータ開始",
+      "UpdateWait": "全てのプロセスの完了を待っています",
+      "UpdateRun": "アップデータ中",
+      "UpdateSuccess": "アップデータ完了、再起動しています",
+      "UpdateFailed": "アップデータ失敗、./log/*_gui.txtでログをチェックしてください",
+      "UpdateChecking": "アップデータチェック中",
+      "UpdateCancel": "アップデータ中止、再起動しています",
+      "UpdateFinish": "アップデータ完了、再起動してください",
+      "Local": "ロケール",
+      "Upstream": "オンライン",
+      "Author": "提出者",
+      "Time": "提出時間",
+      "Message": "提出内容",
+      "DisabledWarn": "アップデータモジュールは稼働されませんのでAlasを再起動してください",
+      "DetailedHistory": "詳しい提出履歴"
+    },
+    "Remote": {
+      "Running": "実行中",
+      "NotRunning": "サーバーとの接続が中断したため、実行していない",
+      "NotEnable": "未启用，在 deploy.yaml 中设置 webui 密码并启用远程控制",
+      "EntryPoint": "远程访问 url 地址:",
+      "ConfigureHint": "配置教程：",
+      "SSHNotInstall": "システムでsshツールが探さない、sshツールをインストールしてください"
+    },
+    "Text": {
+      "InvalidFeedBack": "フォーマットエラー。 例：{0}",
+      "Clear": "消除"
+    }
+  }
+}
