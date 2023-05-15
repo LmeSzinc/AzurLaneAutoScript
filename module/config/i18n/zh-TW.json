@@ -2148,6 +2148,10 @@
       "name": "一擊即走",
       "help": "對每個信標只出擊一次，之後每半個小時呼叫支援\n在檔案信標中不生效"
     },
+    "DossierAutoAttackMode": {
+      "name": "OpsiAshBeacon.DossierAutoAttackMode.name",
+      "help": "OpsiAshBeacon.DossierAutoAttackMode.help"
+    },
     "RequestAssist": {
       "name": "呼叫支援",
       "help": "打信標之前，從好友、艦隊、世界呼叫支援\n在檔案信標中不生效"

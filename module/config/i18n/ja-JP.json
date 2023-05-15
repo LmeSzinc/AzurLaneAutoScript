@@ -2148,6 +2148,10 @@
       "name": "OpsiAshBeacon.OneHitMode.name",
       "help": "OpsiAshBeacon.OneHitMode.help"
     },
+    "DossierAutoAttackMode": {
+      "name": "OpsiAshBeacon.DossierAutoAttackMode.name",
+      "help": "OpsiAshBeacon.DossierAutoAttackMode.help"
+    },
     "RequestAssist": {
       "name": "OpsiAshBeacon.RequestAssist.name",
       "help": "OpsiAshBeacon.RequestAssist.help"
