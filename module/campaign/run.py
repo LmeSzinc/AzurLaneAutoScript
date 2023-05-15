@@ -7,11 +7,13 @@ import re
 from module.campaign.campaign_base import CampaignBase
 from module.campaign.campaign_event import CampaignEvent
 from module.shop.shop_status import ShopStatus
+from module.campaign.campaign_ui import MODE_SWITCH_1
 from module.config.config import AzurLaneConfig
 from module.exception import CampaignEnd, RequestHumanTakeover, ScriptEnd
 from module.handler.fast_forward import map_files, to_map_file_name
 from module.logger import logger
 from module.notify import handle_notify
+from module.ui.page import page_campaign
 
 
 class CampaignRun(CampaignEvent, ShopStatus):
@@ -318,6 +320,15 @@ class CampaignRun(CampaignEvent, ShopStatus):
             else:
                 self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
             self.handle_commission_notice()
+
+            # if in hard mode, check remain times
+            if self.ui_page_appear(page_campaign) and MODE_SWITCH_1.get(main=self) == 'normal':
+                from module.hard.hard import OCR_HARD_REMAIN
+                remain = OCR_HARD_REMAIN.ocr(self.device.image)
+                if not remain:
+                    logger.info('Remaining number of times of hard mode campaign_main is 0, delay task to next day')
+                    self.config.task_delay(server_update=True)
+                    break
 
             # End
             if self.triggered_stop_condition(oil_check=not self.campaign.is_in_auto_search_menu()):

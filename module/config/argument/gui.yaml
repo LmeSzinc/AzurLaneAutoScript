@@ -81,6 +81,7 @@ AddAlas:
   Confirm:
   FileExist:
   InvalidChar:
+  InvalidPrefixTemplate:
 
 Update:
   UpToDate:

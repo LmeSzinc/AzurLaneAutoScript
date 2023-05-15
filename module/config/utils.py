@@ -96,6 +96,8 @@ def read_file(file):
                 data = list(yaml.safe_load_all(s))
                 if len(data) == 1:
                     data = data[0]
+                if not data:
+                    data = {}
                 return data
         elif ext == '.json':
             with open(file, mode='r', encoding='utf-8') as f:

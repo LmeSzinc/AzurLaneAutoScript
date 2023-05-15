@@ -19,6 +19,16 @@ from module.retire.dock import (CARD_EMOTION_GRIDS, CARD_GRIDS,
                                 CARD_LEVEL_GRIDS, CARD_RARITY_GRIDS)
 
 
+class EmotionDigit(Digit):
+    def after_process(self, result):
+        # Random OCR error on Downes' hair
+        # OCR DOCK_EMOTION_OCR: Result "044" is revised to "44"
+        if result == '044' or result == 'D44':
+            result = '0'
+
+        return super().after_process(result)
+
+
 @dataclass(frozen=True)
 class Ship:
     rarity: str = ''
@@ -122,8 +132,8 @@ class EmotionScanner(Scanner):
         super().__init__()
         self._results = []
         self.grids = CARD_EMOTION_GRIDS
-        self.ocr_model = Digit(self.grids.buttons,
-                               name='DOCK_EMOTION_OCR', threshold=176)
+        self.ocr_model = EmotionDigit(self.grids.buttons,
+                                      name='DOCK_EMOTION_OCR', threshold=176)
 
     def _scan(self, image) -> List:
         return self.ocr_model.ocr(image)

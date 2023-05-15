@@ -719,6 +719,8 @@
       "event_20200423_cn": "复刻苍红的回响",
       "event_20200326_cn": "微层混合",
       "event_20200227_cn": "北境序曲",
+      "war_archives_20220414_cn": "档案 永夜幻光",
+      "war_archives_20220210_cn": "档案 北境序曲",
       "war_archives_20211028_cn": "档案 穹顶下的圣咏曲",
       "war_archives_20210819_cn": "档案 微层混合",
       "war_archives_20200903_cn": "档案 峡湾间的星辰",
@@ -2805,7 +2807,8 @@
       "CopyFrom": "从现有的配置中复制",
       "Confirm": "添加",
       "FileExist": "存在同名的配置文件，请重新输入一个",
-      "InvalidChar": "配置文件名不能包含下列任何字符：.\\/:*?\"<>|"
+      "InvalidChar": "配置文件名不能包含下列任何字符：.\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "配置文件名不能以 template 开头"
     },
     "Update": {
       "UpToDate": "已是最新版本",
