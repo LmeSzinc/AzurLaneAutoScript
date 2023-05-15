@@ -1122,16 +1122,19 @@ class AlasGUI(Frame):
             def add():
                 name = pin["AddAlas_name"]
                 origin = pin["AddAlas_copyfrom"]
-
-                if set(name) & set(".\\/:*?\"'<>|"):
-                    clear(s)
-                    put(name, origin)
-                    put_error(t("Gui.AddAlas.InvalidChar"), scope=s)
-                    return
+                
                 if name in alas_instance():
+                    err="Gui.AddAlas.FileExist"
+                elif set(name) & set(".\\/:*?\"'<>|"):
+                    err="Gui.AddAlas.InvalidChar"
+                elif name.lower().startswith("template"):
+                    err="Gui.AddAlas.InvalidPrefixTemplate"
+                else:
+                    err=""
+                if err:
                     clear(s)
                     put(name, origin)
-                    put_error(t("Gui.AddAlas.FileExist"), scope=s)
+                    put_error(t(err), scope=s)
                     return
 
                 r = load_config(origin).read_file(origin)

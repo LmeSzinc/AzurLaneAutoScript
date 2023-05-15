@@ -943,6 +943,8 @@
       "event_20200423_cn": "Crimson Echoes Rerun",
       "event_20200326_cn": "Microlayer Medley",
       "event_20200227_cn": "Northern Overture",
+      "war_archives_20220414_cn": "檔案 永夜幻光",
+      "war_archives_20220210_cn": "檔案 北境序曲",
       "war_archives_20211028_cn": "檔案 穹頂下的聖詠曲",
       "war_archives_20210819_cn": "archives Microlayer Medley",
       "war_archives_20200903_cn": "archives Stars of the Shimmering Fjord",
@@ -2707,7 +2709,8 @@
       "CopyFrom": "從現有的設定中複製",
       "Confirm": "添加",
       "FileExist": "存在同名的設定檔案，請重新命名",
-      "InvalidChar": "設定檔案名不可以包含下列任意字元：.\\/:*?\"<>|"
+      "InvalidChar": "設定檔案名不可以包含下列任意字元：.\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "設定檔案名不能以 template 開頭"
     },
     "Update": {
       "UpToDate": "已是最新版本",
