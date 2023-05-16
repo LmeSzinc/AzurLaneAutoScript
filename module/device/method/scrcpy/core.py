@@ -6,14 +6,14 @@ import typing as t
 from time import sleep
 
 import numpy as np
-from adbutils import _AdbStreamConnection, AdbError, Network
+from adbutils import AdbError, Network
 
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.device.connection import Connection
 from module.device.method.scrcpy.control import ControlSender
 from module.device.method.scrcpy.options import ScrcpyOptions
-from module.device.method.utils import recv_all
+from module.device.method.utils import AdbConnection, recv_all
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -32,7 +32,7 @@ class ScrcpyCore(Connection):
     _scrcpy_last_frame_time: float = 0.
 
     _scrcpy_alive = False
-    _scrcpy_server_stream: t.Optional[_AdbStreamConnection] = None
+    _scrcpy_server_stream: t.Optional[AdbConnection] = None
     _scrcpy_video_socket: t.Optional[socket.socket] = None
     _scrcpy_control_socket: t.Optional[socket.socket] = None
     _scrcpy_control_socket_lock = threading.Lock()
@@ -68,7 +68,7 @@ class ScrcpyCore(Connection):
         """
         logger.hr('Scrcpy server start')
         commands = ScrcpyOptions.command_v120(jar_path=self.config.SCRCPY_FILEPATH_REMOTE)
-        self._scrcpy_server_stream: _AdbStreamConnection = self.adb.shell(
+        self._scrcpy_server_stream: AdbConnection = self.adb.shell(
             commands,
             stream=True,
         )
