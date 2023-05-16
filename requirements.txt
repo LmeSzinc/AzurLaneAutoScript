@@ -67,5 +67,5 @@ watchgod==0.8.2           # via uvicorn
 wcwidth==0.2.6            # via prettytable
 websockets==11.0.3        # via uvicorn
 whichcraft==0.6.1         # via adbutils, uiautomator2
-wrapt==1.13.1             # via deprecated
+wrapt==1.15.0             # via -r requirements-in.txt, deprecated
 xmltodict==0.13.0         # via apkutils2

@@ -9,6 +9,7 @@ imageio
 adbutils
 uiautomator2==2.16.17
 uiautomator2cache==0.3.0.1
+wrapt>=1.14.0
 lz4
 av==10.0.0
 psutil==5.9.3
