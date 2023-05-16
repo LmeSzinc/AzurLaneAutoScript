@@ -13,11 +13,14 @@ from module.config.server import VALID_SERVER
 from module.config.utils import deep_get, deep_iter, deep_set, iter_folder
 from module.logger import logger
 
+SHARE_SERVER = 'share'
+ASSET_SERVER = [SHARE_SERVER] + VALID_SERVER
+
 
 class AssetsImage:
     REGEX_ASSETS = re.compile(
         f'^{AzurLaneConfig.ASSETS_FOLDER}/'
-        f'(?P<server>{"|".join(VALID_SERVER).lower()})/'
+        f'(?P<server>{"|".join(ASSET_SERVER).lower()})/'
         f'(?P<module>[a-zA-Z0-9_/]+?)/'
         f'(?P<assets>\w+)'
         f'(?P<frame>\.\d+)?'
@@ -86,7 +89,7 @@ class AssetsImage:
 
 
 def iter_images():
-    for server in VALID_SERVER:
+    for server in ASSET_SERVER:
         for path, folders, files in os.walk(os.path.join(AzurLaneConfig.ASSETS_FOLDER, server)):
             for file in files:
                 file = os.path.join(path, file).replace('\\', '/')
@@ -169,11 +172,13 @@ def iter_assets():
     for image in images:
         if image.attr == '':
             row = DataAssets.product(image)
+            row.load_image(image)
             deep_set(data, keys=[image.module, image.assets, image.server, image.frame], value=row)
     # Load attribute images
     for image in images:
-        row = deep_get(data, keys=[image.module, image.assets, image.server, image.frame])
-        row.load_image(image)
+        if image.attr != '':
+            row = deep_get(data, keys=[image.module, image.assets, image.server, image.frame])
+            row.load_image(image)
     # Apply `search` of the first frame to all
     for path, frames in deep_iter(data, depth=3):
         print(path, frames)
@@ -201,29 +206,38 @@ def generate_code():
         path = os.path.join(AzurLaneConfig.ASSETS_MODULE, module.split('/', maxsplit=1)[0])
         output = os.path.join(path, 'assets')
         gen = CodeGenerator()
+        gen.add('from module.base.button import Button, ButtonWrapper')
+        gen.Empty()
+        gen.Comment('This file was auto-generated, do not modify it manually. To generate:')
+        gen.Comment('``` python -m dev_tools.button_extract ```')
+        gen.Empty()
         for assets, assets_data in module_data.items():
-            with gen.Object(key=assets, object_class='AssetsWrapper'):
-                for server in VALID_SERVER:
+            has_share = SHARE_SERVER in assets_data
+            with gen.Object(key=assets, object_class='ButtonWrapper'):
+                gen.ObjectAttr(key='name', value=assets)
+                if has_share:
+                    servers = assets_data.keys()
+                else:
+                    servers = VALID_SERVER
+                for server in servers:
                     frames = list(assets_data.get(server, {}).values())
                     if len(frames) > 1:
                         with gen.ObjectAttr(key=server, value=gen.List()):
                             for index, frame in enumerate(frames):
-                                with gen.ListItem(gen.Object(object_class='Assets')):
+                                with gen.ListItem(gen.Object(object_class='Button')):
                                     gen.ObjectAttr(key='file', value=frame.file)
                                     gen.ObjectAttr(key='area', value=frame.area)
                                     gen.ObjectAttr(key='search', value=frame.search)
                                     gen.ObjectAttr(key='color', value=frame.color)
                                     gen.ObjectAttr(key='button', value=frame.button)
-                                    gen.ObjectAttr(key='name', value=f'{assets}__{server.upper()}__{index}')
                     elif len(frames) == 1:
                         frame = frames[0]
-                        with gen.ObjectAttr(key=server, value=gen.Object(object_class='Assets')):
+                        with gen.ObjectAttr(key=server, value=gen.Object(object_class='Button')):
                             gen.ObjectAttr(key='file', value=frame.file)
                             gen.ObjectAttr(key='area', value=frame.area)
                             gen.ObjectAttr(key='search', value=frame.search)
                             gen.ObjectAttr(key='color', value=frame.color)
                             gen.ObjectAttr(key='button', value=frame.button)
-                            gen.ObjectAttr(key='name', value=f'{assets}__{server.upper()}__1')
                     else:
                         gen.ObjectAttr(key=server, value=None)
         gen.write(os.path.join(output, f'assets_{module.replace("/", "_")}.py'))

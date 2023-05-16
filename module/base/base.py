@@ -1,9 +1,8 @@
-from module.base.button import Button
+from module.base.button import Button, ButtonWrapper, ClickButton
 from module.base.timer import Timer
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
 from module.device.device import Device
-from module.device.method.utils import HierarchyButton
 from module.logger import logger
 
 
@@ -16,7 +15,7 @@ class ModuleBase:
         Args:
             config (AzurLaneConfig, str):
                 Name of the user config under ./config
-            device (Device):
+            device (Device, str):
                 To reuse a device.
                 If None, create a new Device object.
                 If str, create a new Device object and use the given device as serial.
@@ -45,20 +44,12 @@ class ModuleBase:
 
         self.interval_timer = {}
 
-    def ensure_button(self, button):
-        if isinstance(button, str):
-            button = HierarchyButton(self.device.hierarchy, button)
-
-        return button
-
-    def appear(self, button, offset=0, interval=0, threshold=None):
+    def match_template(self, button, interval=5, similarity=0.85):
         """
         Args:
-            button (Button, Template, HierarchyButton, str):
-            offset (bool, int):
+            button (ButtonWrapper):
             interval (int, float): interval between two active events.
-            threshold (int, float): 0 to 1 if use offset, bigger means more similar,
-                0 to 255 if not use offset, smaller means more similar
+            similarity (int, float): 0 to 1.
 
         Returns:
             bool:
@@ -70,94 +61,71 @@ class ModuleBase:
             self.appear(Button(area=(...), color=(...), button=(...))
             self.appear(Template(file='...')
             ```
-
-            Hierarchy detection (detect elements with xpath):
-            ```
-            self.device.dump_hierarchy()
-            self.appear('//*[@resource-id="..."]')
-            ```
         """
-        button = self.ensure_button(button)
         self.device.stuck_record_add(button)
 
-        if interval:
-            if button.name in self.interval_timer:
-                if self.interval_timer[button.name].limit != interval:
-                    self.interval_timer[button.name] = Timer(interval)
-            else:
-                self.interval_timer[button.name] = Timer(interval)
-            if not self.interval_timer[button.name].reached():
-                return False
+        if interval and not self.interval_is_reached(button, interval=interval):
+            return False
 
-        if isinstance(button, HierarchyButton):
-            appear = bool(button)
-        elif offset:
-            if isinstance(offset, bool):
-                offset = self.config.BUTTON_OFFSET
-            appear = button.match(self.device.image, offset=offset,
-                                  threshold=self.config.BUTTON_MATCH_SIMILARITY if threshold is None else threshold)
-        else:
-            appear = button.appear_on(self.device.image,
-                                      threshold=self.config.COLOR_SIMILAR_THRESHOLD if threshold is None else threshold)
+        appear = button.match_template(self.device.image, similarity=similarity)
 
         if appear and interval:
-            self.interval_timer[button.name].reset()
+            self.interval_reset(button, interval=interval)
 
         return appear
 
-    def appear_then_click(self, button, screenshot=False, genre='items', offset=0, interval=0, threshold=None):
-        button = self.ensure_button(button)
-        appear = self.appear(button, offset=offset, interval=interval, threshold=threshold)
+    def match_color(self, button, interval=5, threshold=10):
+        """
+        Args:
+            button (ButtonWrapper):
+            interval (int, float): interval between two active events.
+            threshold (int): 0 to 255, smaller means more similar
+
+        Returns:
+            bool:
+        """
+        self.device.stuck_record_add(button)
+
+        if interval and not self.interval_is_reached(button, interval=interval):
+            return False
+
+        appear = button.match_color(self.device.image, threshold=threshold)
+
+        if appear and interval:
+            self.interval_reset(button, interval=interval)
+
+        return appear
+
+    def match_template_color(self, button, interval=5, similarity=0.85, threshold=30):
+        """
+        Args:
+            button (ButtonWrapper):
+            interval (int, float): interval between two active events.
+            similarity (int, float): 0 to 1.
+            threshold (int): 0 to 255, smaller means more similar
+
+        Returns:
+            bool:
+        """
+        self.device.stuck_record_add(button)
+
+        if interval and not self.interval_is_reached(button, interval=interval):
+            return False
+
+        appear = button.match_template_color(self.device.image, similarity=similarity, threshold=threshold)
+
+        if appear and interval:
+            self.interval_reset(button, interval=interval)
+
+        return appear
+
+    appear = match_template
+
+    def appear_then_click(self, button, interval=5, similarity=0.85):
+        appear = self.appear(button, interval=interval, similarity=similarity)
         if appear:
-            if screenshot:
-                self.device.sleep(self.config.WAIT_BEFORE_SAVING_SCREEN_SHOT)
-                self.device.screenshot()
-                self.device.save_screenshot(genre=genre)
             self.device.click(button)
         return appear
-
-    def wait_until_appear(self, button, offset=0, skip_first_screenshot=False):
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-            if self.appear(button, offset=offset):
-                break
-
-    def wait_until_appear_then_click(self, button, offset=0):
-        self.wait_until_appear(button, offset=offset)
-        self.device.click(button)
-
-    def wait_until_disappear(self, button, offset=0):
-        while 1:
-            self.device.screenshot()
-            if not self.appear(button, offset=offset):
-                break
-
-    def wait_until_stable(self, button, timer=Timer(0.3, count=1), timeout=Timer(5, count=10), skip_first_screenshot=True):
-        button._match_init = False
-        timeout.reset()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if button._match_init:
-                if button.match(self.device.image, offset=(0, 0)):
-                    if timer.reached():
-                        break
-                else:
-                    button.load_color(self.device.image)
-                    timer.reset()
-            else:
-                button.load_color(self.device.image)
-                button._match_init = True
-
-            if timeout.reached():
-                logger.warning(f'wait_until_stable({button}) timeout')
-                break
 
     def image_crop(self, button):
         """Extract the area from image.
@@ -166,6 +134,8 @@ class ModuleBase:
             button(Button, tuple): Button instance or area tuple.
         """
         if isinstance(button, Button):
+            return crop(self.device.image, button.area)
+        if isinstance(button, ButtonWrapper):
             return crop(self.device.image, button.area)
         else:
             return crop(self.device.image, button)
@@ -208,10 +178,9 @@ class ModuleBase:
         point = fit_points(points, mod=image_size(image), encourage=encourage)
         point = ensure_int(point + area[:2])
         button_area = area_offset((-encourage, -encourage, encourage, encourage), offset=point)
-        color = get_color(self.device.image, button_area)
-        return Button(area=button_area, color=color, button=button_area, name=name)
+        return ClickButton(button=button_area, name=name)
 
-    def interval_reset(self, button):
+    def interval_reset(self, button, interval=5):
         if isinstance(button, (list, tuple)):
             for b in button:
                 self.interval_reset(b)
@@ -220,9 +189,9 @@ class ModuleBase:
         if button.name in self.interval_timer:
             self.interval_timer[button.name].reset()
         else:
-            self.interval_timer[button.name] = Timer(3).reset()
+            self.interval_timer[button.name] = Timer(interval).reset()
 
-    def interval_clear(self, button):
+    def interval_clear(self, button, interval=5):
         if isinstance(button, (list, tuple)):
             for b in button:
                 self.interval_clear(b)
@@ -231,7 +200,16 @@ class ModuleBase:
         if button.name in self.interval_timer:
             self.interval_timer[button.name].clear()
         else:
-            self.interval_timer[button.name] = Timer(3).clear()
+            self.interval_timer[button.name] = Timer(interval).clear()
+
+    def interval_is_reached(self, button, interval=5):
+        if button.name in self.interval_timer:
+            if self.interval_timer[button.name].limit != interval:
+                self.interval_timer[button.name] = Timer(interval)
+        else:
+            self.interval_timer[button.name] = Timer(interval)
+
+        return self.interval_timer[button.name].reached()
 
     _image_file = ''
 
@@ -252,14 +230,3 @@ class ModuleBase:
             value = load_image(value)
 
         self.device.image = value
-
-    def set_server(self, server):
-        """
-        For development.
-        Change server and this will effect globally,
-        including assets and server specific methods.
-        """
-        package = to_package(server)
-        self.device.package = package
-        set_server(server)
-        logger.attr('Server', self.config.SERVER)

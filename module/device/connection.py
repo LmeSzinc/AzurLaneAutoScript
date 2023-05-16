@@ -13,7 +13,6 @@ from adbutils.errors import AdbError
 
 from module.base.decorator import Config, cached_property, del_cached_property
 from module.base.utils import ensure_time
-from module.config.server import set_server
 from module.device.connection_attr import ConnectionAttr
 from module.device.method.utils import (
     RETRY_TRIES, remove_shell_warning, retry_sleep,
