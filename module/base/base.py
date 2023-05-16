@@ -21,7 +21,7 @@ class ModuleBase:
         Args:
             config (AzurLaneConfig, str):
                 Name of the user config under ./config
-            device (Device):
+            device (Device, str):
                 To reuse a device.
                 If None, create a new Device object.
                 If str, create a new Device object and use the given device as serial.
