@@ -86,9 +86,12 @@ class CodeGenerator:
         for _ in range(empty):
             self.Empty()
 
-    def Value(self, key=None, value=None, **kwargs):
+    def Value(self, key=None, value=None, type_=None, **kwargs):
         if key is not None:
-            self.add(f'{key} = {self._repr(value)}')
+            if type_ is not None:
+                self.add(f'{key}: {type_} = {self._repr(value)}')
+            else:
+                self.add(f'{key} = {self._repr(value)}')
         for key, value in kwargs.items():
             self.Value(key, value)
 
@@ -131,7 +134,7 @@ class CodeGenerator:
         if key is not None:
             return TabWrapper(self, prefix=f'{key} = {object_class}(', suffix=')')
         else:
-            return TabWrapper(self, prefix='(', suffix=')', newline=False)
+            return TabWrapper(self, prefix=f'{object_class}(', suffix=')', newline=False)
 
     def ObjectAttr(self, key=None, value=None):
         if isinstance(value, TabWrapper):
@@ -146,6 +149,15 @@ class CodeGenerator:
                 self.add(f'{self._repr(value)},')
             else:
                 self.add(f'{key}={self._repr(value)},')
+
+    def Class(self, name, inherit=None):
+        if inherit is not None:
+            return TabWrapper(self, prefix=f'class {name}({inherit}):')
+        else:
+            return TabWrapper(self, prefix=f'class {name}:')
+
+    def Def(self, name, args=''):
+        return TabWrapper(self, prefix=f'def {name}({args}):')
 
 
 generator = CodeGenerator()
