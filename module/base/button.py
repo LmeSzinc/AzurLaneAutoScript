@@ -218,7 +218,7 @@ class Button(Resource):
                 offset = np.array(offset)
         else:
             offset = np.array((-3, -offset, 3, offset))
-        image = crop(image, offset + self.area)
+        image = crop(image, offset + self.area, copy=False)
 
         if self.is_gif:
             for template in self.image:
@@ -256,7 +256,7 @@ class Button(Resource):
                 offset = np.array(offset)
         else:
             offset = np.array((-3, -offset, 3, offset))
-        image = crop(image, offset + self.area)
+        image = crop(image, offset + self.area, copy=False)
 
         if self.is_gif:
             for template in self.image_binary:
@@ -304,7 +304,7 @@ class Button(Resource):
                 offset = np.array(offset)
         else:
             offset = np.array((-3, -offset, 3, offset))
-        image = crop(image, offset + self.area)
+        image = crop(image, offset + self.area, copy=False)
 
         if self.is_gif:
             image_luma = rgb2luma(image)
