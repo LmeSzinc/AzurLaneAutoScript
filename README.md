@@ -1,6 +1,6 @@
 # StarRailCopilot
 
-Star Rail auto script / bot | 星铁副驾驶，崩坏：星穹铁道脚本，基于下一代Alas框架
+Star Rail auto script, bot | 星铁副驾驶，崩坏：星穹铁道脚本，基于下一代Alas框架
 
 ## 安装
 
@@ -37,6 +37,8 @@ pip install -r requirements.txt
 ## 使用
 
 阿巴阿巴，没写完怎么用（
+
+QQ群 SRC使用与开发 752620927
 
 
 
