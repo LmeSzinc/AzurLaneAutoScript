@@ -176,9 +176,9 @@ class SelectedGrids:
         Returns:
 
         """
-        if self:
+        try:
             return self.grids[0]
-        else:
+        except IndexError:
             return None
 
     def add(self, grids):

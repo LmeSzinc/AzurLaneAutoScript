@@ -16,6 +16,8 @@ class ManualConfig:
     module.assets
     """
     ASSETS_FOLDER = './assets'
+    ASSETS_MODULE = './tasks'
+    ASSETS_RESOLUTION = (1280, 720)
 
     """
     module.base
