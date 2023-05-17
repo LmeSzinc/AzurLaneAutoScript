@@ -53,7 +53,8 @@ class GitManager(DeployConfig):
         # Remove git lock
         for lock_file in [
             './.git/index.lock',
-            './.git/HEAD.lock'
+            './.git/HEAD.lock',
+            './.git/refs/heads/master.lock',
         ]:
             if os.path.exists(lock_file):
                 logger.info(f'Lock file {lock_file} exists, removing')

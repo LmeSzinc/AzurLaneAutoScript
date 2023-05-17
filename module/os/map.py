@@ -189,8 +189,15 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
 
             logger.info('Goto another port then re-enter')
             prev = self.zone
-            self.globe_goto(self.zone_nearest_azur_port(self.zone))
+            if prev == self.name_to_zone('NY City'):
+                other = self.name_to_zone('Liverpool')
+            else:
+                other = self.zone_nearest_azur_port(self.zone)
+            self.globe_goto(other)
             self.globe_goto(prev)
+
+        logger.warning('Failed to solve MapWalkError when going to port')
+        return False
 
     def fleet_repair(self, revert=True):
         """
@@ -556,10 +563,11 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                 continue
             if self.handle_map_event():
                 continue
-            if self.handle_battle_status():
-                continue
-            if self.handle_exp_info():
-                continue
+            if not self.is_combat_loading():
+                if self.handle_battle_status():
+                    continue
+                if self.handle_exp_info():
+                    continue
 
     def os_auto_search_run(self, drop=None, strategic=False):
         for _ in range(5):

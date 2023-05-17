@@ -96,12 +96,12 @@ class LoginHandler(UI):
 
         confirm = self.image_color_button(
             area=(640, 360, 1280, 720), color=(78, 189, 234),
-            color_threshold=250, encourage=25, name='AGREEMENT_CONFIRM')
+            color_threshold=245, encourage=25, name='AGREEMENT_CONFIRM')
         if confirm is None:
             return False
         scroll = self.image_color_button(
             area=(640, 0, 1280, 720), color=(182, 189, 202),
-            color_threshold=250, encourage=5, name='AGREEMENT_SCROLL'
+            color_threshold=245, encourage=5, name='AGREEMENT_SCROLL'
         )
         if scroll is not None:
             # User agreement
