@@ -44,7 +44,7 @@ class ModuleBase:
 
         self.interval_timer = {}
 
-    def match_template(self, button, interval=5, similarity=0.85):
+    def match_template(self, button, interval=0, similarity=0.85):
         """
         Args:
             button (ButtonWrapper):
@@ -74,7 +74,7 @@ class ModuleBase:
 
         return appear
 
-    def match_color(self, button, interval=5, threshold=10):
+    def match_color(self, button, interval=0, threshold=10):
         """
         Args:
             button (ButtonWrapper):
@@ -96,7 +96,7 @@ class ModuleBase:
 
         return appear
 
-    def match_template_color(self, button, interval=5, similarity=0.85, threshold=30):
+    def match_template_color(self, button, interval=0, similarity=0.85, threshold=30):
         """
         Args:
             button (ButtonWrapper):
