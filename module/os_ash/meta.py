@@ -540,7 +540,7 @@ class AshBeaconAssist(Meta):
         self.ui_ensure(page_reward)
 
         if self._begin_meta_assist():
-            MetaReward(self.config, self.device).run()
+            MetaReward(self.config, self.device).run(dossier=False)
             self.config.task_delay(server_update=True)
         else:
             self.config.task_delay(minute=(10, 20))
