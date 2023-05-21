@@ -5,11 +5,12 @@ from ppocronnx.predict_system import BoxedResult
 import module.config.server as server
 from module.base.button import ButtonWrapper
 from module.base.decorator import cached_property
-from module.base.utils import area_pad, crop, float2str
+from module.base.utils import area_pad, corner2area, crop, float2str
 from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.models import OCR_MODEL
 from module.ocr.ppocr import TextSystem
+from module.ocr.utils import merge_buttons
 
 
 class OcrResultButton:
@@ -27,7 +28,6 @@ class OcrResultButton:
             self.matched_keyword = None
             self.name = boxed_result.ocr_text
 
-        self.image = boxed_result.text_img
         self.text = boxed_result.ocr_text
         self.score = boxed_result.score
 
@@ -47,6 +47,10 @@ class OcrResultButton:
 
 
 class Ocr:
+    # Merge results with box distance <= thres
+    merge_thres_x = 0
+    merge_thres_y = 0
+
     def __init__(self, button: ButtonWrapper, lang=None, name=None):
         self.button: ButtonWrapper = button
         self.lang: str = lang if lang is not None else Ocr.server2lang()
@@ -99,31 +103,49 @@ class Ocr:
                     text=str(result))
         return result
 
-    def detect_and_ocr(self, image) -> list[BoxedResult]:
+    def detect_and_ocr(self, image, direct_ocr=False) -> list[BoxedResult]:
+        """
+        Args:
+            image:
+            direct_ocr: True to ignore `button` attribute and feed the image to OCR model without cropping.
+
+        Returns:
+
+        """
         # pre process
         start_time = time.time()
-        image = crop(image, self.button.area)
+        if not direct_ocr:
+            image = crop(image, self.button.area)
         image = self.pre_process(image)
         # ocr
         results: list[BoxedResult] = self.model.detect_and_ocr(image)
         # after proces
         for result in results:
             result.ocr_text = self.after_process(result.ocr_text)
+            if not direct_ocr:
+                result.box += self.button.area[:2]
+            result.box = tuple(corner2area(result.box))
+        results = merge_buttons(results, thres_x=self.merge_thres_x, thres_y=self.merge_thres_y)
+
         logger.attr(name='%s %ss' % (self.name, float2str(time.time() - start_time)),
                     text=str([result.ocr_text for result in results]))
         return results
 
-    def matched_ocr(self, image, keyword_class) -> list[OcrResultButton]:
+    def matched_ocr(self, image, keyword_class, direct_ocr=False) -> list[OcrResultButton]:
         """
         Args:
             image: Screenshot
-            keyword_class: `Keyword` class or classes inherited `Keyword`
+            keyword_class: `Keyword` class or classes inherited `Keyword`.
+            direct_ocr: True to ignore `button` attribute and feed the image to OCR model without cropping.
 
         Returns:
             List of matched OcrResultButton.
             OCR result which didn't matched known keywords will be dropped.
         """
-        results = [OcrResultButton(result, keyword_class) for result in self.detect_and_ocr(image)]
+        results = [
+            OcrResultButton(result, keyword_class)
+            for result in self.detect_and_ocr(image, direct_ocr=direct_ocr)
+        ]
         results = [result for result in results if result.matched_keyword is not None]
         logger.attr(name=f'{self.name} matched',
                     text='[' + ', '.join([result.name for result in results]) + ']')
