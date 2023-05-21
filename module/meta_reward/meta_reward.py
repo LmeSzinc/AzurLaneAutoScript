@@ -69,7 +69,7 @@ class MetaReward(Combat, UI):
         logger.info('No more dossier reward for receiving')
         return False
 
-    def meta_labo_sidebar_icon_button_click(self, skip_first_screenshot=True):
+    def meta_labo_sidebar_icon_button_click(self, icon, skip_first_screenshot=True):
         """
         Click possible dossier ship icon if red dot appears.
         
@@ -84,12 +84,10 @@ class MetaReward(Combat, UI):
             else:
                 self.device.screenshot()
 
-            icon = self.meta_labo_get_sidebar_icon_button()
-            if not len(icon):
-                break
-            if timer.reached():
+            unclicked_icon = TEMPLATE_META_DOCK_RED_DOT.match_multi(self.image_crop(icon), threshold=5)
+            if len(unclicked_icon):
                 logger.info('Click on possible ship icon for further check')
-                self.device.click(icon[0])
+                self.device.click(icon)
                 # After clicking the icon will enlarge, resulting in original icon to no more match.
                 timer.reset()
                 clicked = True
@@ -219,10 +217,13 @@ class MetaReward(Combat, UI):
         # Check for red dots on dossier ship lists
         logger.info('Search for dossier ship')
         while self.meta_labo_sidebar_swipe():
-            # After clicking the ship icon will enlarge.
-            self.meta_labo_sidebar_icon_button_click()
-            logger.info('Check dossier ship')
-            self.get_meta_reward()
+            # Should deal with multiple possible buttons.
+            icons = self.meta_labo_get_sidebar_icon_button()
+            for icon in icons:
+                # After clicking the ship icon will enlarge.
+                self.meta_labo_sidebar_icon_button_click(icon)
+                logger.info('Check dossier ship')
+                self.get_meta_reward()
 
     def has_possible_dossier_reward(self, is_dossier):
         return (is_dossier and "dossier" in self.config.OpsiAshBeacon_AttackMode)
