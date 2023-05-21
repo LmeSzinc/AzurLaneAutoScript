@@ -18,12 +18,12 @@ git clone https://github.com/LmeSzinc/StarRailCopilot
 cd StarRailCopilot
 ```
 
-使用 conda 新建 python 3.11.2 环境，假设新环境的名字叫 `src`。
+使用 conda 新建 python 3.10.10 环境，假设新环境的名字叫 `src`。
 
-> 注意：我们不维护更高或者更低版本的依赖，建议使用 3.11.2
+> 注意：我们不维护更高或者更低版本的依赖，建议使用 3.10.10
 
 ```bash
-conda create -n src python==3.11.2
+conda create -n src python==3.10.10
 ```
 
 安装 requirements.txt 中的依赖。

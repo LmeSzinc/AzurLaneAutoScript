@@ -23,8 +23,14 @@ inflection
 prettytable==2.2.1
 pydantic
 
+# OCR
+ppocr-onnx
+
 # Webui
 pywebio==1.6.2
 starlette==0.14.2
 uvicorn[standard]==0.17.6
 aiofiles
+
+# For dev
+# pip-tools
