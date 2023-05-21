@@ -164,6 +164,10 @@ class UI(PopupHandler):
             return True
         if self.handle_battle_pass_notification():
             return True
+        if self.handle_monthly_card_reward():
+            return True
+
+        return False
 
     def ui_button_interval_reset(self, button):
         """

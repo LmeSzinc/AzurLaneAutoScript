@@ -23,3 +23,23 @@ GET_REWARD = ButtonWrapper(
         button=(741, 495, 1071, 644),
     ),
 )
+MONTHLY_CARD_GET_ITEM = ButtonWrapper(
+    name='MONTHLY_CARD_GET_ITEM',
+    share=Button(
+        file='./assets/share/base/popup/MONTHLY_CARD_GET_ITEM.png',
+        area=(612, 328, 652, 368),
+        search=(592, 308, 672, 388),
+        color=(209, 187, 179),
+        button=(741, 495, 1071, 644),
+    ),
+)
+MONTHLY_CARD_REWARD = ButtonWrapper(
+    name='MONTHLY_CARD_REWARD',
+    share=Button(
+        file='./assets/share/base/popup/MONTHLY_CARD_REWARD.png',
+        area=(696, 407, 736, 447),
+        search=(676, 387, 756, 467),
+        color=(137, 107, 91),
+        button=(741, 495, 1071, 644),
+    ),
+)

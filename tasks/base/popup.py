@@ -30,3 +30,20 @@ class PopupHandler(ModuleBase):
             return True
 
         return False
+
+    def handle_monthly_card_reward(self, interval=5) -> bool:
+        """
+        Popup at 04:00 server time if you have purchased the monthly card.
+
+        Args:
+            interval:
+
+        Returns:
+            If handled.
+        """
+        if self.appear_then_click(MONTHLY_CARD_REWARD, interval=interval):
+            return True
+        if self.appear_then_click(MONTHLY_CARD_GET_ITEM, interval=interval):
+            return True
+
+        return False
