@@ -4,8 +4,15 @@ import socket
 import time
 
 import uiautomator2 as u2
-from adbutils import AdbTimeout, _AdbStreamConnection
+from adbutils import AdbTimeout
 from lxml import etree
+
+try:
+    # adbutils 0.x
+    from adbutils import _AdbStreamConnection as AdbConnection
+except ImportError:
+    # adbutils >= 1.0
+    from adbutils import AdbConnection
 
 from module.base.decorator import cached_property
 from module.logger import logger
@@ -51,7 +58,7 @@ def recv_all(stream, chunk_size=4096, recv_interval=0.000) -> bytes:
     Raises:
         AdbTimeout
     """
-    if isinstance(stream, _AdbStreamConnection):
+    if isinstance(stream, AdbConnection):
         stream = stream.conn
         stream.settimeout(10)
     else:

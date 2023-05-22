@@ -194,6 +194,7 @@ def ensure_int(*args):
 
 def area_offset(area, offset):
     """
+    Move an area.
 
     Args:
         area: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
@@ -202,11 +203,14 @@ def area_offset(area, offset):
     Returns:
         tuple: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
     """
-    return tuple(np.array(area) + np.append(offset, offset))
+    upper_left_x, upper_left_y, bottom_right_x, bottom_right_y = area
+    x, y = offset
+    return upper_left_x + x, upper_left_y + y, bottom_right_x + x, bottom_right_y + y
 
 
 def area_pad(area, pad=10):
     """
+    Inner offset an area.
 
     Args:
         area: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
@@ -215,7 +219,8 @@ def area_pad(area, pad=10):
     Returns:
         tuple: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
     """
-    return tuple(np.array(area) + np.array([pad, pad, -pad, -pad]))
+    upper_left_x, upper_left_y, bottom_right_x, bottom_right_y = area
+    return upper_left_x + pad, upper_left_y + pad, bottom_right_x - pad, bottom_right_y - pad
 
 
 def limit_in(x, lower, upper):
@@ -526,7 +531,7 @@ def save_image(image, file):
     Image.fromarray(image).save(file)
 
 
-def crop(image, area):
+def crop(image, area, copy=True):
     """
     Crop image like pillow, when using opencv / numpy.
     Provides a black background if cropping outside of image.
@@ -534,6 +539,7 @@ def crop(image, area):
     Args:
         image (np.ndarray):
         area:
+        copy (bool):
 
     Returns:
         np.ndarray:
@@ -542,9 +548,11 @@ def crop(image, area):
     h, w = image.shape[:2]
     border = np.maximum((0 - y1, y2 - h, 0 - x1, x2 - w), 0)
     x1, y1, x2, y2 = np.maximum((x1, y1, x2, y2), 0)
-    image = image[y1:y2, x1:x2].copy()
+    image = image[y1:y2, x1:x2]
     if sum(border) > 0:
         image = cv2.copyMakeBorder(image, *border, borderType=cv2.BORDER_CONSTANT, value=(0, 0, 0))
+    if copy:
+        image = image.copy()
     return image
 
 
@@ -656,7 +664,7 @@ def get_color(image, area):
     Returns:
         tuple: (r, g, b)
     """
-    temp = crop(image, area)
+    temp = crop(image, area, copy=False)
     color = cv2.mean(temp)
     return color[:3]
 
