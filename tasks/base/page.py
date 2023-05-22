@@ -76,6 +76,11 @@ page_menu = Page(MENU_CHECK)
 page_menu.link(CLOSE, destination=page_main)
 page_main.link(MAIN_GOTO_MENU, destination=page_menu)
 
+# Character
+page_character = Page(CHARACTER_CHECK)
+page_character.link(CLOSE, destination=page_main)
+page_main.link(MAIN_GOTO_CHARACTER, destination=page_character)
+
 # Team
 page_team = Page(TEAM_CHECK)
 page_team.link(CLOSE, destination=page_main)

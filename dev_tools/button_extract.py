@@ -183,7 +183,7 @@ def iter_assets():
     for path, frames in deep_iter(data, depth=3):
         print(path, frames)
         first = frames[1]
-        search = DataAssets.area_to_search(first.area)
+        search = first.search if first.search else DataAssets.area_to_search(first.area)
         for frame in frames.values():
             frame.search = search
 
