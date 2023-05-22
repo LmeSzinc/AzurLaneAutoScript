@@ -89,6 +89,7 @@ class MaaTouch(Connection):
     max_x: int
     max_y: int
     _maatouch_stream = socket.socket
+    _maatouch_stream_storage = None
 
     @cached_property
     def maatouch_builder(self):
@@ -107,6 +108,8 @@ class MaaTouch(Connection):
             stream=True,
             recvall=False
         )
+        # Prevent shell stream from being deleted causing socket close
+        self._maatouch_stream_storage = stream
         stream = stream.conn
         stream.settimeout(10)
         self._maatouch_stream = stream
