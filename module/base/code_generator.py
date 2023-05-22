@@ -100,6 +100,19 @@ class CodeGenerator:
             line = line.strip()
             self.add(line, comment=True)
 
+    def CommentAutoGenerage(self, file):
+        """
+        Args:
+            file: dev_tools.button_extract
+        """
+        # Only leave one blank line at above
+        if len(self.lines) >= 2:
+            if self.lines[-2:] == ['\n', '\n']:
+                self.lines.pop(-1)
+        self.Comment('This file was auto-generated, do not modify it manually. To generate:')
+        self.Comment(f'``` python -m {file} ```')
+        self.Empty()
+
     def List(self, key=None):
         if key is not None:
             return TabWrapper(self, prefix=str(key) + ' = [', suffix=']')

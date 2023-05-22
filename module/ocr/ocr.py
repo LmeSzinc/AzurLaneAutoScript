@@ -23,7 +23,7 @@ class OcrResultButton:
         try:
             self.matched_keyword = keyword_class.find(
                 boxed_result.ocr_text, in_current_server=True, ignore_punctuation=True)
-            self.name = f'{keyword_class.__name__}_{self.matched_keyword.id}'
+            self.name = str(self.matched_keyword)
         except ScriptError:
             self.matched_keyword = None
             self.name = boxed_result.ocr_text
@@ -148,5 +148,5 @@ class Ocr:
         ]
         results = [result for result in results if result.matched_keyword is not None]
         logger.attr(name=f'{self.name} matched',
-                    text='[' + ', '.join([result.name for result in results]) + ']')
+                    text=results)
         return results

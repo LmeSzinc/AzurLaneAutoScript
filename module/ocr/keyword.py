@@ -6,12 +6,18 @@ from typing import ClassVar
 from module.exception import ScriptError
 import module.config.server as server
 
-REGEX_PUNCTUATION = re.compile(r'[,.\'"，。\-—/\\\n\t]')
+REGEX_PUNCTUATION = re.compile(r'[ ,.\'"，。\-—/\\\n\t()（）]')
 
 
 def parse_name(n):
     n = REGEX_PUNCTUATION.sub('', str(n)).lower()
     return n
+
+
+def text_to_variable(text):
+    text = re.sub('[ \-]', '_', text)
+    text = re.sub('[()]', '', text)
+    return text
 
 
 @dataclass
@@ -20,7 +26,7 @@ class Keyword:
     cn: str
     en: str
     jp: str
-    tw: str
+    cht: str
 
     """
     Instance attributes and methods
@@ -39,8 +45,26 @@ class Keyword:
         return parse_name(self.jp)
 
     @cached_property
-    def tw_parsed(self) -> str:
-        return parse_name(self.tw)
+    def cht_parsed(self) -> str:
+        return parse_name(self.cht)
+
+    @cached_property
+    def name(self) -> str:
+        return text_to_variable(self.en)
+
+    def __str__(self):
+        return self.name
+
+    __repr__ = __str__
+
+    def __eq__(self, other):
+        return str(self) == str(other)
+
+    def __hash__(self):
+        return hash(self.name)
+
+    def __bool__(self):
+        return True
 
     def _keywords_to_find(self, in_current_server=False, ignore_punctuation=True):
         if in_current_server:
@@ -62,23 +86,23 @@ class Keyword:
                         return [self.jp]
                 case 'tw':
                     if ignore_punctuation:
-                        return [self.tw_parsed]
+                        return [self.cht_parsed]
                     else:
-                        return [self.tw]
+                        return [self.cht]
         else:
             if ignore_punctuation:
                 return [
                     self.cn_parsed,
                     self.en_parsed,
                     self.jp_parsed,
-                    self.tw_parsed,
+                    self.cht_parsed,
                 ]
             else:
                 return [
                     self.cn,
                     self.en,
                     self.jp,
-                    self.tw,
+                    self.cht,
                 ]
 
     """
@@ -114,7 +138,10 @@ class Keyword:
             except KeyError:
                 pass
 
-        name = parse_name(name)
+        if ignore_punctuation:
+            name = parse_name(name)
+        else:
+            name = str(name)
         instance: Keyword
         for instance in cls.instances.values():
             for keyword in instance._keywords_to_find(
@@ -123,27 +150,3 @@ class Keyword:
                     return instance
 
         raise ScriptError(f'Cannot find a {cls.__name__} instance that matches "{name}"')
-
-
-@dataclass
-class Zone(Keyword):
-    shape: str
-    hazard_level: int
-    region: int
-
-
-DIC = {
-    0: {'shape': 'J10', 'hazard_level': 1, 'cn': 'NY', 'en': 'NY City', 'jp': 'NYシティ', 'tw': '紐約',
-        'area_pos': (262, 567), 'offset_pos': (15, 15), 'region': 3},
-    1: {'shape': 'J10', 'hazard_level': 1, 'cn': '利维浦', 'en': 'Liverpool', 'jp': 'リバープール', 'tw': '利物浦',
-        'area_pos': (1446, 887), 'offset_pos': (15, 15), 'region': 2},
-    2: {'shape': 'J10', 'hazard_level': 1, 'cn': '直布罗特', 'en': 'Gibraltar', 'jp': 'ジブラルタル', 'tw': '直布羅陀',
-        'area_pos': (1418, 495), 'offset_pos': (15, 15), 'region': 4},
-    3: {'shape': 'J10', 'hazard_level': 1, 'cn': '圣彼得伯格', 'en': 'St. Petersburg', 'jp': 'ペテルブルク', 'tw': '聖彼得堡',
-        'area_pos': (1998, 1095), 'offset_pos': (15, 15), 'region': 2},
-}
-Zone(id=0, cn='NY', en='NY City', jp='NYシティ', tw='紐約', shape='J10', hazard_level=1, region=3)
-Zone(id=1, cn='利维浦', en='Liverpool', jp='リバープール', tw='利物浦', shape='J10', hazard_level=1, region=2)
-Zone(id=2, cn='直布罗特', en='Gibraltar', jp='ジブラルタル', tw='直布羅陀', shape='J10', hazard_level=1, region=3)
-
-print(Zone.find('直布羅陀'))

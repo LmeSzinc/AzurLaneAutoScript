@@ -206,11 +206,10 @@ def generate_code():
         path = os.path.join(AzurLaneConfig.ASSETS_MODULE, module.split('/', maxsplit=1)[0])
         output = os.path.join(path, 'assets')
         gen = CodeGenerator()
-        gen.add('from module.base.button import Button, ButtonWrapper')
-        gen.Empty()
-        gen.Comment('This file was auto-generated, do not modify it manually. To generate:')
-        gen.Comment('``` python -m dev_tools.button_extract ```')
-        gen.Empty()
+        gen.Import("""
+        from module.base.button import Button, ButtonWrapper
+        """)
+        gen.CommentAutoGenerage('dev_tools.button_extract')
         for assets, assets_data in module_data.items():
             has_share = SHARE_SERVER in assets_data
             with gen.Object(key=assets, object_class='ButtonWrapper'):
