@@ -758,7 +758,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         if 'is_scanning_device' not in self._solved_map_event and grids and grids[0].is_scanning_device:
             grid = grids[0]
             logger.info(f'Found scanning device on {grid}')
-            if self.is_cl1_enabled:
+            if self.is_cl1_enabled and self.zone.zone_id in [22, 44, 154]:
                 logger.info('CL1 leveling enabled, mark scanning device as solved')
                 self._solved_map_event.add('is_scanning_device')
                 return True
