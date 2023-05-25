@@ -56,6 +56,7 @@ class CampaignOcr(ModuleBase):
         Returns:
             tuple[str]: Campaign_name and stage index in lowercase, Such as ['7', '2'], ['d', '3'], ['sp', '3'].
         """
+        name = name.strip('-')
         if name == 'sp':
             return 'ex_sp', '1'
         elif name.startswith('extra'):
@@ -66,6 +67,10 @@ class CampaignOcr(ModuleBase):
             return 'sp', name[-1]
         elif name[-1].isdigit():
             return name[:-1], name[-1]
+        elif name[0].isdigit() and name[-1].isalpha():
+            # 49X
+            logger.warning(f'Unknown stage name: {name}')
+            return '', ''
 
         logger.warning(f'Unknown stage name: {name}')
         return name[0], name[1:]
