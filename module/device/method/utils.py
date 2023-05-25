@@ -2,10 +2,45 @@ import random
 import re
 import socket
 import time
+import typing as t
 
 import uiautomator2 as u2
-from adbutils import AdbTimeout, _AdbStreamConnection
+from adbutils import AdbTimeout
 from lxml import etree
+
+try:
+    # adbutils 0.x
+    from adbutils import _AdbStreamConnection as AdbConnection
+except ImportError:
+    # adbutils >= 1.0
+    from adbutils import AdbConnection
+    # Patch list2cmdline back to subprocess.list2cmdline
+    # We expect `screencap | nc 192.168.0.1 20298` instead of `screencap '|' nc 192.168.80.1 20298`
+    import adbutils
+    import subprocess
+    adbutils._utils.list2cmdline = subprocess.list2cmdline
+    adbutils._device.list2cmdline = subprocess.list2cmdline
+
+    # BaseDevice.shell() is missing a check_okay() call before reading output,
+    # resulting in an `OKAY` prefix in output.
+    def shell(self,
+              cmdargs: t.Union[str, list, tuple],
+              stream: bool = False,
+              timeout: t.Optional[float] = None,
+              rstrip=True) -> t.Union[AdbConnection, str]:
+        if isinstance(cmdargs, (list, tuple)):
+            cmdargs = subprocess.list2cmdline(cmdargs)
+        if stream:
+            timeout = None
+        c = self.open_transport(timeout=timeout)
+        c.send_command("shell:" + cmdargs)
+        c.check_okay()  # check_okay() is missing here
+        if stream:
+            return c
+        output = c.read_until_close()
+        return output.rstrip() if rstrip else output
+
+    adbutils._device.BaseDevice.shell = shell
 
 from module.base.decorator import cached_property
 from module.logger import logger
@@ -51,7 +86,7 @@ def recv_all(stream, chunk_size=4096, recv_interval=0.000) -> bytes:
     Raises:
         AdbTimeout
     """
-    if isinstance(stream, _AdbStreamConnection):
+    if isinstance(stream, AdbConnection):
         stream = stream.conn
         stream.settimeout(10)
     else:

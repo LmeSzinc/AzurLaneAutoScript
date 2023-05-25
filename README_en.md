@@ -54,6 +54,12 @@ Modify the in-game settings according to this table.
 |               Story Autoplay               |  Enable   |
 |           Text Auto-Scroll Speed           | Very Fast |
 
+Operation Siren => Navigation Orders => Submarine Support:
+
+|              Name             | Value |
+|:-----------------------------:|:-----:|
+| Automatically call submarines |  Off  |
+
 Main Page => Build =>  Retirement => Quick Retire Options(left gear icon)：
 
 |                Name                |                  Value                  |
