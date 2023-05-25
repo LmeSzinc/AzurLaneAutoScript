@@ -329,6 +329,8 @@ class ManualConfig:
         'distance': 35,
         'wlen': 500,
     }
+    # On minitouch, Screen swipe (200, 200) = Map swipe (382, 442)
+    OS_GLOBE_SWIPE_MULTIPLY = (1.91, 2.21)
 
     """
     module.retire

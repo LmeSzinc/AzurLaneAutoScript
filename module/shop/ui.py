@@ -39,18 +39,8 @@ class ShopUI(UI):
         shop_swipe
 
         Args:
-            left (int):
-                1 for medal
-                2 for guild.
-                3 for prototype.
-                4 for core.
-                5 for merit.
+            left (int): Depends on ship navs
             right (int):
-                5 for medal
-                4 for guild.
-                3 for prototype.
-                2 for core.
-                1 for merit.
 
         Returns:
             bool: if bottom_navbar set ensured
@@ -114,15 +104,15 @@ class ShopUI(UI):
         detection_area = (480, 640, 960, 660)
         swipe_interval = Timer(0.6, count=2)
 
-        for _ in range(5):
+        for _ in range(3):
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
             # Swipe to the left, medal shop on the leftmost and merit shop on the right most
-            if self.appear(SHOP_MEDAL_SWIPE_END, offset=(15, 5)) or \
-                    self.appear(SHOP_MERIT_SWIPE_END, offset=(15, 5)):
+            if self.appear(SHOP_META_SWIPE_END, offset=(15, 5)) or \
+                    self.appear(SHOP_CORE_SWIPE_END, offset=(15, 5)):
                 return True
 
             if swipe_interval.reached():

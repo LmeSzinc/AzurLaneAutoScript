@@ -35,7 +35,7 @@ class AshCombat(Combat):
             return False
         if super().handle_battle_status(drop=drop):
             return True
-        if self.appear(BATTLE_STATUS, offset=(20, 20), interval=self.battle_status_click_interval):
+        if self.appear(BATTLE_STATUS, offset=(120, 20), interval=self.battle_status_click_interval):
             if drop:
                 drop.handle_add(self)
             else:
