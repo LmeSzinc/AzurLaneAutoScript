@@ -11,6 +11,7 @@ from module.statistics.item import Item, ItemGrid
 class OSShopPrice(DigitYuv):
     def after_process(self, result):
         result = result.replace('I', '1').replace('D', '0').replace('S', '5')
+        result = result.replace('B', '8')
 
         prev = result
         if result.startswith('0'):

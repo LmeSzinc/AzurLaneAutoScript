@@ -215,6 +215,9 @@ class StorageHandler(StorageUI):
         self.handle_info_bar()
         self.wait_until_stable(MATERIAL_STABLE_CHECK)
         items = EQUIPMENT_ITEMS.predict(self.device.image, name=False, amount=True)
+        if not len(items):
+            logger.warning('No items in storage to disassemble')
+            return 0
         cumsum = np.cumsum([item.amount for item in items])
         for item, total in zip(items, cumsum):
             if item.amount <= 0:
@@ -222,11 +225,27 @@ class StorageHandler(StorageUI):
             self.device.click(item)
             self.device.click_record.pop()
             if total >= amount:
+                amount = total
                 break
+        amount = min(cumsum[-1], amount)
 
-        self.device.sleep((0.1, 0.2))
-        self.device.screenshot()
-        disassembled, _, _ = OCR_DISASSEMBLE_COUNT.ocr(self.device.image)
+        # Wait items being selected
+        logger.info(f'Disassemble once, in_storage amount: {amount}')
+        timeout = Timer(1, count=2).start()
+        prev_disassemble = 0
+        while 1:
+            self.device.screenshot()
+            disassembled, _, _ = OCR_DISASSEMBLE_COUNT.ocr(self.device.image)
+            if disassembled >= amount:
+                logger.info('Disassemble amount reached expected amount')
+                break
+            if timeout.reached():
+                logger.warning('Wait disassemble amount timeout')
+                break
+            if disassembled > prev_disassemble:
+                prev_disassemble = disassembled
+                timeout.reset()
+
         logger.info(f'Disassemble once, actual amount: {disassembled}')
         if disassembled <= 0:
             logger.warning('No items selected to disassemble')
