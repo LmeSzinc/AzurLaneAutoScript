@@ -30,7 +30,7 @@ class CampaignOcr(ModuleBase):
         else:
             if name.isdigit():
                 return int(name)
-            elif name in ['a', 'c', 'as', 'cs', 't', 'sp', 'ex_sp']:
+            elif name in ['a', 'c', 'as', 'cs', 't', 'ht', 'ts', 'hts', 'sp', 'ex_sp']:
                 return 1
             elif name in ['b', 'd', 'bs', 'ds', 'ex_ex']:
                 return 2
@@ -257,9 +257,8 @@ class CampaignOcr(ModuleBase):
         if not isinstance(result, list):
             result = [result]
         result = [self._campaign_ocr_result_process(res) for res in result]
-        result = [res for res in result if res]
 
-        chapter = [self._campaign_separate_name(res)[0] for res in result]
+        chapter = [self._campaign_separate_name(res)[0] for res in result if res]
         chapter = list(filter(('').__ne__, chapter))
         if not chapter:
             raise CampaignNameError
