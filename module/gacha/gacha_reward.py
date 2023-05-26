@@ -275,15 +275,15 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
         # Go to Gacha
         self.ui_goto_gacha()
 
+        # OCR Gold and Cubes
+        self.shop_currency()
+        self.build_cube_count = OCR_BUILD_CUBE_COUNT.ocr(self.device.image)
+
         # Flush queue of any pre-existing
         # builds to ensure starting fresh
         # Upon exit, expected to be in
         # main Build page
         self.gacha_flush_queue()
-
-        # OCR Gold and Cubes
-        self.shop_currency()
-        self.build_cube_count = OCR_BUILD_CUBE_COUNT.ocr(self.device.image)
 
         # Transition to appropriate target construction pool
         # Returns appropriate costs for gacha as well
