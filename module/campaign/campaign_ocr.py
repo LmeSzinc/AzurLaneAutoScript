@@ -198,6 +198,18 @@ class CampaignOcr(ModuleBase):
                 image, extract_letters(self._stage_image, letter=(99, 223, 239), threshold=153),
                 name_offset=(60, 12), name_size=(60, 16)
             )
+        if 'green' in self.config.STAGE_ENTRANCE:
+            digits += self.campaign_match_multi(
+                TEMPLATE_STAGE_GREEN_CLEAR,
+                image, self._stage_image_gray,
+                name_offset=(60, 0), name_size=(60, 22)
+            )
+            digits += self.campaign_match_multi(
+                TEMPLATE_STAGE_PERCENT,
+                image, self._stage_image_gray,
+                similarity=0.6,
+                name_offset=(52, 0), name_size=(60, 22)
+            )
 
         return digits
 
@@ -245,6 +257,7 @@ class CampaignOcr(ModuleBase):
         if not isinstance(result, list):
             result = [result]
         result = [self._campaign_ocr_result_process(res) for res in result]
+        result = [res for res in result if res]
 
         chapter = [self._campaign_separate_name(res)[0] for res in result]
         chapter = list(filter(('').__ne__, chapter))
