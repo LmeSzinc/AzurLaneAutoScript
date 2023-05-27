@@ -10,23 +10,27 @@ from submodule.AlasFpyBridge.module.utils.headlessCliApplication import Headless
 
 class FGOpy(HeadlessCliApplication):
     def __init__(self, path):
-        suffix = {
-            "Windows": ".bat",
-            "Linux": ".sh",
+        ext = {
+            "Windows": "bat",
+            "Linux": "sh",
         }.get(platform.system(), "")
-        launch = os.path.join(path, "launch" + suffix)
+        launch = os.path.join(path, f"launch.{ext}")
         assert os.path.exists(launch)
-        halt = os.path.join(path, "halt" + suffix)
+        halt = os.path.join(path, f"halt.{ext}")
         if not os.path.exists(halt):
             halt = ""
-        super().__init__(launch, halt)
         self.mutex = Lock()
         self.success = True
         self.last_error = ""
         self.tracebacking = False
+        self.first_log = True
         self.log_pattern = re.compile(
             r"((?:FGO-py@.*?\(.*?\)> )*)\[(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d,\d\d\d)\]\[(DEBUG|INFO|WARNING|CRITICAL|ERROR)\]<([a-zA-Z0-9_.]+?)> (.*)"
         )
+        super().__init__(launch)
+        while self.first_log:
+            time.sleep(.5)
+        self.reg_halt(self.info["PID"], halt)
 
     def callback(self, line):
         if line == "exited":
@@ -52,6 +56,11 @@ class FGOpy(HeadlessCliApplication):
             return
         prompt, datetime, level, module, content = match.groups()
         getattr(logger, level.lower())(content)
+
+        if self.first_log:
+            self.first_log = False
+            self.info = (lambda x: dict(zip(x, x)))(iter(content.split()))
+            return
 
         if level == "CRITICAL":
             self.last_error = content

@@ -7,18 +7,11 @@ from threading import Thread
 class HeadlessCliApplication:
     """Wrap a cli application to provide programmable interactive access"""
 
-    def __init__(self, launch, halt = ""):
+    def __init__(self, launch):
         self.pipe = Popen(
             [launch],
             stdin=PIPE, stdout=PIPE, stderr=STDOUT, text=True
         )
-        self.orphanSlayer = Popen([
-            "python",
-            os.path.join(os.path.dirname(__file__), "orphanSlayer.py"),
-            str(os.getpid()),
-            str(self.pipe.pid),
-            halt,
-        ])
 
         def f():
             while True:
@@ -37,6 +30,15 @@ class HeadlessCliApplication:
 
     def callback(self, line):
         print(line)
+
+    def reg_halt(self, pid, halt):
+        self.orphan_slayer = Popen([
+            "python",
+            os.path.join(os.path.dirname(__file__), "orphanSlayer.py"),
+            str(os.getpid()),
+            pid,
+            halt,
+        ])
 
     def feed(self, cmd):
         self.pipe.stdin.write(cmd.strip() + "\n")

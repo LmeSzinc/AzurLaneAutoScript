@@ -16,7 +16,7 @@ else:
             return True
 
 
-def orphanSlayer(ppid, spid, prekill = ""):
+def orphanSlayer(ppid, spid, kill = ""):
     """
     module.webui.process_manager.ProcessManager.stop() uses kill() to stop subprocess
     and to a large extent it cannot be changed to terminate(), see #883
@@ -40,9 +40,10 @@ def orphanSlayer(ppid, spid, prekill = ""):
         if not isProcessExist(spid):
             return
         time.sleep(1)
-    if prekill:
-        os.system(prekill)
-    os.kill(spid, 9)
+    if kill:
+        os.system(kill)
+    else:
+        os.kill(spid, 9)
 
 
 if __name__ == "__main__":
