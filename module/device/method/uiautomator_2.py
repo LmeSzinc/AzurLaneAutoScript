@@ -274,6 +274,8 @@ class Uiautomator2(Connection):
             return (width, height)
         if width == 720 and height == 1280:
             return (width, height)
+        else:
+            return (720, 1280)
 
         logger.critical(f'Resolution not supported: {width}x{height}')
         logger.critical('Please set emulator resolution to 1280x720')

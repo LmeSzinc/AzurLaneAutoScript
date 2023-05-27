@@ -81,7 +81,12 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
         width, height = image_size(self.image)
         if width == 1280 and height == 720:
             return image
-
+        else:
+            image = Image.fromarray(image)
+            image = image.resize((1280, 720), Image.ANTIALIAS)
+            image = np.array(image)
+            width, height = image_size(self.image)
+            return image        
         # Rotate screenshots only when they're not 1280x720
         if self.orientation == 0:
             pass

@@ -201,7 +201,7 @@ class DroidCast(Uiautomator2):
         # DroidCast_raw returns a RGB565 bitmap
 
         try:
-            arr = np.frombuffer(image, dtype=np.uint16).reshape((720, 1280))
+            arr = np.frombuffer(image, dtype=np.uint16).reshape((1080, 1920))
         except ValueError as e:
             # Try to load as `DroidCast`
             image = np.frombuffer(image, np.uint8)
