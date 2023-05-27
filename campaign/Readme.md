@@ -34,7 +34,7 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20221117   | war archives 20200903 cn | Stars of the Shimmering Fjord                | 峡湾间的星辰           | Stars of the Shimmering Fjord                | 輝ける峡湾の星                       | -                        |
 | 20221117   | war archives 20210819 cn | Microlayer Medley                            | 微层混合               | Microlayer Medley                            | 闇靄払う銀翼                         | -                        |
 | 20211028   | war archives 20211028 cn | Skybound Oratorio                            | 穹顶下的圣咏曲         | Skybound Oratorio                            | 神穹を衝く聖歌                       | 穹頂下的聖詠曲           |
-| 20230420   | war archives 20220210 cn | Northern Overture                            | 北境序曲               | Northern Overture                            | 凍絶の北海                           | 北境序曲                |    
+| 20230420   | war archives 20220210 cn | Northern Overture                            | 北境序曲               | Northern Overture                            | 凍絶の北海                           | 北境序曲                |
 | 20230511   | war archives 20220414 cn | Aurora Noctis                                | 永夜幻光               | Aurora Noctis                                | 極夜照らす幻光                       | 永夜幻光              |
 | 20200227   | event 20200227 cn        | Northern Overture                            | 北境序曲               | Northern Overture                            | 凍絶の北海                           | -                        |
 | 20200312   | event 20200312 cn        | The Solomon Ranger                           | 复刻斯图尔特的硝烟     | The Solomon Ranger Rerun                     | 南洋に靡く硝煙（復刻）               | -                        |
@@ -143,3 +143,5 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20230413   | event 20211111 cn        | The Flame-Touched Dagger                     | 复刻杰诺瓦的焰火       | The Flame-Touched Dagger Rerun               | 復刻-燈火のシニエ                    | -                        |
 | 20230413   | event 20210819 cn        | Microlayer Medley                            | -                      | -                                            | -                                    | 復刻-微層混合            |
 | 20230427   | event 20201126 cn        | Vacation Lane                                | 假日航线               | Vacation Lane                                | バケーションレーン                   | 假日航線   |
+| 20230525   | event 20220526 cn        | Pledge of the Radiant Court                  | -               | -                  | -                    | 泠誓光庭                        |
+| 20230525 | event 20230525 cn | Confluence of Nothingness | 空相交汇点 | Confluence of Nothingness | 覆天せし万象の塵 | - |

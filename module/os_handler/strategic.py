@@ -1,13 +1,13 @@
 from module.base.utils import get_color
 from module.logger import logger
 from module.os_handler.assets import *
-from module.os_handler.enemy_searching import EnemySearchingHandler
+from module.os_handler.map_event import MapEventHandler
 from module.ui.scroll import Scroll
 
 STRATEGIC_SEARCH_SCROLL = Scroll(STRATEGIC_SEARCH_SCROLL_AREA, color=(247, 211, 66), name='STRATEGIC_SEARCH_SCROLL')
 
 
-class StrategicSearchHandler(EnemySearchingHandler):
+class StrategicSearchHandler(MapEventHandler):
     def strategy_search_enter(self, skip_first_screenshot=False):
         logger.info('Strategic search enter')
         self.interval_clear(STRATEGIC_SEARCH_MAP_OPTION_OFF)
@@ -17,12 +17,15 @@ class StrategicSearchHandler(EnemySearchingHandler):
             else:
                 self.device.screenshot()
 
+            if self.appear(STRATEGIC_SEARCH_POPUP_CHECK, offset=(20, 20)):
+                return True
+
+            if self.handle_map_event():
+                continue
             if self.appear(STRATEGIC_SEARCH_MAP_OPTION_OFF, offset=(20, 20), interval=2) \
                     and STRATEGIC_SEARCH_MAP_OPTION_OFF.match_appear_on(self.device.image):
                 self.device.click(STRATEGIC_SEARCH_MAP_OPTION_OFF)
                 continue
-            if self.appear(STRATEGIC_SEARCH_POPUP_CHECK, offset=(20, 20)):
-                return True
 
     def strategic_search_set_option(self, skip_first_screenshot=False):
         logger.info('Strategic search set option')

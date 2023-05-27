@@ -21,6 +21,7 @@ VALID_CHANNEL_PACKAGE = {
     'com.bilibili.blhx.nearme.gamecenter': ('cn', 'oppo'),
     'com.bilibili.blhx.vivo': ('cn', 'vivo'),
     'com.bilibili.blhx.mz': ('cn', '魅族'),
+    'com.bilibili.blhx.dl': ('cn', '当乐'),
     # 'com.bilibili.blhx.letv': ('cn', '乐视'),  # Not confirmed
     # 'com.bilibili.blhx.gionee': ('cn', '金立'),  # Not confirmed
 

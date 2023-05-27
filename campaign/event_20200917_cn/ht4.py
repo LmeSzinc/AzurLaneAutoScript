@@ -75,8 +75,9 @@ class Config(ConfigBase):
     MAP_HAS_PORTAL = True
     # ===== End of generated config =====
 
-    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.82
-    MAP_SWIPE_MULTIPLY = 1.88
+    MAP_SWIPE_MULTIPLY = (1.230, 1.253)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.190, 1.212)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.155, 1.176)
 
 
 class Campaign(CampaignBase):

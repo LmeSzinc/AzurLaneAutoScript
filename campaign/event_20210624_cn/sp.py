@@ -59,8 +59,9 @@ class Config:
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
-    MAP_SWIPE_MULTIPLY = 1.531
-    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.480
+    MAP_SWIPE_MULTIPLY = (1.002, 1.021)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (0.969, 0.987)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.941, 0.958)
 
 
 class Campaign(CampaignBase):

@@ -75,8 +75,9 @@ class Config:
         'width': (0, 10),
         'wlen': 1000,
     }
-    MAP_SWIPE_MULTIPLY = 1.827
-    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.766
+    MAP_SWIPE_MULTIPLY = (1.196, 1.218)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.156, 1.178)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.122, 1.143)
     MAP_ENEMY_GENRE_DETECTION_SCALING = {
         'DD': 1.111,
         'CL': 1.111,

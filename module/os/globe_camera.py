@@ -89,6 +89,8 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         if np.any(np.abs(vector) > 25):
             if self.config.DEVICE_CONTROL_METHOD == 'minitouch':
                 distance = self.config.MAP_SWIPE_MULTIPLY_MINITOUCH
+            elif self.config.DEVICE_CONTROL_METHOD == 'MaaTouch':
+                distance = self.config.MAP_SWIPE_MULTIPLY_MAATOUCH
             else:
                 distance = self.config.MAP_SWIPE_MULTIPLY
             vector = np.array(distance) * vector
