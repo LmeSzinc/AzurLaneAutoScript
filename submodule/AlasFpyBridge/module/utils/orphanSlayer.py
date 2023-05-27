@@ -41,7 +41,7 @@ def orphanSlayer(ppid, spid, kill = ""):
             return
         time.sleep(1)
     if kill:
-        os.system(kill)
+        os.system(f"{kill} {spid}")
     else:
         os.kill(spid, 9)
 
