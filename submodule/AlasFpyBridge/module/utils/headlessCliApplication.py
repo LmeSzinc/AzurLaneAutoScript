@@ -31,13 +31,13 @@ class HeadlessCliApplication:
     def callback(self, line):
         print(line)
 
-    def reg_halt(self, pid, halt):
+    def start_orphan_slayer(self, pid, cmd):
         self.orphan_slayer = Popen([
             "python",
             os.path.join(os.path.dirname(__file__), "orphanSlayer.py"),
             str(os.getpid()),
             pid,
-            halt,
+            cmd,
         ])
 
     def feed(self, cmd):

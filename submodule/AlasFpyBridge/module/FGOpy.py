@@ -30,11 +30,12 @@ class FGOpy(HeadlessCliApplication):
         super().__init__(launch)
         while self.first_log:
             time.sleep(.5)
-        self.reg_halt(self.info["PID"], halt)
+        self.start_orphan_slayer(self.info["PID"], halt)
 
     def callback(self, line):
         if line == "exited":
             self.last_error = "exited"
+            self.orphan_slayer.kill()
             if self.mutex.locked():
                 self.mutex.release()
             return
