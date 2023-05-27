@@ -10,8 +10,8 @@ from submodule.AlasFpyBridge.module.config.config_updater import ConfigUpdater
 
 class FgoConfig(AzurLaneConfig, ConfigUpdater, GeneratedConfig):
     SCHEDULER_PRIORITY = """
-        FpyDailyFpSummon
-      > FpyMain
+        FpyMain
+      > FpyDailyFpSummon
       > FpyHeartbeat
         """
 
