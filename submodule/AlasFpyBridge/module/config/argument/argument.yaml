@@ -38,7 +38,7 @@ FpyEmulator:
     value: 127.0.0.1:5555
     valuetype: str
   LaunchPath:
-    value: /absolute_path_to_FGO-py/deploy/Alas
+    value: /absolute_path_to_FGO-py/deploy/AzurLaneAutoScript
     type: textarea
 
 Interval:

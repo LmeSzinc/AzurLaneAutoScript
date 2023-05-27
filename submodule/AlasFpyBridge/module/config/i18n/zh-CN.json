@@ -126,7 +126,7 @@
     },
     "LaunchPath": {
       "name": "启动路径",
-      "help": "FGO-py的deploy目录下Alas子目录的路径\n你可以把Alas子目录拷贝至其他位置方便分布式部署"
+      "help": "FGO-py的deploy目录下AzurLaneAutoScript子目录的路径\n你可以把这个子目录拷贝至其他位置方便分布式部署"
     }
   },
   "Interval": {
