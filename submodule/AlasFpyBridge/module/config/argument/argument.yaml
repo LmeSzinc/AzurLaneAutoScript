@@ -37,10 +37,9 @@ FpyEmulator:
   Serial:
     value: 127.0.0.1:5555
     valuetype: str
-  Cmdline:
-    value: python3 fgo.py cli --no-color
+  LaunchPath:
+    value: /absolute_path_to_FGO-py/deploy/Alas
     type: textarea
-    mode: shell
 
 Interval:
   Interval:

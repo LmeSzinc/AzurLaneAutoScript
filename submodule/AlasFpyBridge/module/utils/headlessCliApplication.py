@@ -7,11 +7,18 @@ from threading import Thread
 class HeadlessCliApplication:
     """Wrap a cli application to provide programmable interactive access"""
 
-    def __init__(self, cmd):
+    def __init__(self, launch, halt = ""):
         self.pipe = Popen(
-            shlex.split(cmd, posix=os.name=="posix"),
+            [launch],
             stdin=PIPE, stdout=PIPE, stderr=STDOUT, text=True
         )
+        self.orphanSlayer = Popen([
+            "python",
+            os.path.join(os.path.dirname(__file__), "orphanSlayer.py"),
+            str(os.getpid()),
+            str(self.pipe.pid),
+            halt,
+        ])
 
         def f():
             while True:

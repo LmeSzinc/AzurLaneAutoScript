@@ -29,7 +29,7 @@ class GeneratedConfig:
 
     # Group `FpyEmulator`
     FpyEmulator_Serial = '127.0.0.1:5555'
-    FpyEmulator_Cmdline = 'python3 fgo.py cli --no-color'
+    FpyEmulator_LaunchPath = '/absolute_path_to_FGO-py/deploy/Alas'
 
     # Group `Interval`
     Interval_Interval = '07:00'

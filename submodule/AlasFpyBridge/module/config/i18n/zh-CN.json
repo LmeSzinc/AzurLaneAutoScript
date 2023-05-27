@@ -124,9 +124,9 @@
       "name": "模拟器 Serial",
       "help": "等效于在「连接到设备」对话框中输入的值\n可以在Alas本体的这个选项中找到常用模拟器的Serial，其他内容记载于FGO-py readme的「连接到设备」章节中"
     },
-    "Cmdline": {
-      "name": "命令行",
-      "help": "使用此命令创建运行FGO-py的进程\n示例1：\npython D:/FGO-py/FGO-py/fgo.py cli --no-color\n示例2：\nssh hgjazhgj@raspberrypi -o StrictHostKeyChecking=no \"sudo docker run -v ~/hgjazhgj/FGO-py/FGO-py:/FGO-py --name fgo-py -e NO_COLOR=1 -i --rm hgjazhgj/fgo-py\""
+    "LaunchPath": {
+      "name": "启动路径",
+      "help": "FGO-py的deploy目录下Alas子目录的路径\n你可以把Alas子目录拷贝至其他位置方便分布式部署"
     }
   },
   "Interval": {

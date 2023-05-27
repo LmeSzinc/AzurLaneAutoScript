@@ -41,7 +41,7 @@ class FgoAutoScript(AzurLaneAutoScript):
 
     @cached_property
     def app(self):
-        app = FGOpy(self.config.FpyEmulator_Cmdline)
+        app = FGOpy(self.config.FpyEmulator_LaunchPath)
         if not app.run(f"connect {self.config.FpyEmulator_Serial}"):
             logger.critical("Unable to connect to device")
             logger.info("Here are avaliable devices:")

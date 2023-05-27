@@ -1,3 +1,5 @@
+import os
+import platform
 import re
 import time
 from threading import Lock
@@ -7,8 +9,17 @@ from submodule.AlasFpyBridge.module.utils.headlessCliApplication import Headless
 
 
 class FGOpy(HeadlessCliApplication):
-    def __init__(self, cmd):
-        super().__init__(cmd)
+    def __init__(self, path):
+        suffix = {
+            "Windows": ".bat",
+            "Linux": ".sh",
+        }.get(platform.system(), "")
+        launch = os.path.join(path, "launch" + suffix)
+        assert os.path.exists(launch)
+        halt = os.path.join(path, "halt" + suffix)
+        if not os.path.exists(halt):
+            halt = ""
+        super().__init__(launch, halt)
         self.mutex = Lock()
         self.success = True
         self.last_error = ""

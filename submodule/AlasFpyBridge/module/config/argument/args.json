@@ -6,10 +6,9 @@
         "value": "127.0.0.1:5555",
         "valuetype": "str"
       },
-      "Cmdline": {
+      "LaunchPath": {
         "type": "textarea",
-        "value": "python3 fgo.py cli --no-color",
-        "mode": "shell"
+        "value": "/absolute_path_to_FGO-py/deploy/Alas"
       }
     },
     "Emulator": {

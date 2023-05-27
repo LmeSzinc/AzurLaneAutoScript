@@ -124,9 +124,9 @@
       "name": "FpyEmulator.Serial.name",
       "help": "FpyEmulator.Serial.help"
     },
-    "Cmdline": {
-      "name": "FpyEmulator.Cmdline.name",
-      "help": "FpyEmulator.Cmdline.help"
+    "LaunchPath": {
+      "name": "FpyEmulator.LaunchPath.name",
+      "help": "FpyEmulator.LaunchPath.help"
     }
   },
   "Interval": {

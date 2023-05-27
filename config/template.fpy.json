@@ -2,7 +2,7 @@
   "Fpy": {
     "FpyEmulator": {
       "Serial": "127.0.0.1:5555",
-      "Cmdline": "python3 fgo.py cli --no-color"
+      "LaunchPath": "/absolute_path_to_FGO-py/deploy/Alas"
     },
     "Emulator": {
       "ServerName": "disabled"
