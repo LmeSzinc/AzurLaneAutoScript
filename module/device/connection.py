@@ -13,7 +13,7 @@ from adbutils.errors import AdbError
 
 from module.base.decorator import Config, cached_property, del_cached_property
 from module.base.utils import ensure_time
-from module.config.server import VALID_CHANNEL_PACKAGE, set_server
+from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, set_server
 from module.device.connection_attr import ConnectionAttr
 from module.device.method.utils import (PackageNotInstalled, RETRY_TRIES, get_serial_pair, handle_adb_error,
                                         possible_reasons, random_port, recv_all, remove_shell_warning, retry_sleep)
@@ -803,7 +803,7 @@ class Connection(ConnectionAttr):
             list[str]: List of package names
         """
         packages = self.list_package(show_log=show_log)
-        packages = [p for p in packages if p in VALID_CHANNEL_PACKAGE or p in VALID_CHANNEL_PACKAGE]
+        packages = [p for p in packages if p in VALID_PACKAGE or p in VALID_CHANNEL_PACKAGE]
         return packages
 
     def detect_package(self, set_config=True):
