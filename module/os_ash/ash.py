@@ -33,8 +33,6 @@ class AshCombat(Combat):
         """
         if self.is_combat_executing():
             return False
-        if super().handle_battle_status(drop=drop):
-            return True
         if self.appear(BATTLE_STATUS, offset=(120, 20), interval=self.battle_status_click_interval):
             if drop:
                 drop.handle_add(self)
@@ -44,6 +42,8 @@ class AshCombat(Combat):
             return True
         if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=2):
             self.device.click(BACK_ARROW)
+            return True
+        if super().handle_battle_status(drop=drop):
             return True
 
         return False

@@ -70,8 +70,9 @@ class Config(ConfigBase):
     # ===== End of generated config =====
 
     MAP_HAS_FORTRESS = True
-    MAP_SWIPE_MULTIPLY = 1.794
-    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.734
+    MAP_SWIPE_MULTIPLY = (1.174, 1.196)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.135, 1.156)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.102, 1.122)
 
 
 class Campaign(CampaignBase):
