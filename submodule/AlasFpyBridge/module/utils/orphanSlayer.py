@@ -1,14 +1,19 @@
 import os
+import platform
 import time
 
-
-def is_process_exist(pid):
-    try:
-        os.kill(pid, 0)
-    except OSError:
-        return False
-    else:
-        return True
+if platform.system() == "Windows":
+    def isProcessExist(pid):
+        with os.popen(f'tasklist /NH /FI "PID eq {pid}"') as p:
+            return p.read()[0] == "\n"
+else:
+    def isProcessExist(pid):
+        try:
+            os.kill(pid, 0)
+        except OSError:
+            return False
+        else:
+            return True
 
 
 def orphanSlayer(ppid, spid, prekill = ""):
@@ -31,8 +36,8 @@ def orphanSlayer(ppid, spid, prekill = ""):
 
     Lme曰：「你可以通过经常拉屎，来结交朋友（」
     """
-    while is_process_exist(ppid):
-        if not is_process_exist(spid):
+    while isProcessExist(ppid):
+        if not isProcessExist(spid):
             return
         time.sleep(1)
     if prekill:
