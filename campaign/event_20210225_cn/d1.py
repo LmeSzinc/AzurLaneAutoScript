@@ -76,8 +76,9 @@ class Config:
         'BBred': 1.111,
         'CV': 1.111,
     }
-    MAP_SWIPE_MULTIPLY = 1.823
-    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.762
+    MAP_SWIPE_MULTIPLY = (1.193, 1.215)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.154, 1.175)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.120, 1.140)
 
 class Campaign(CampaignBase):
     MAP = MAP

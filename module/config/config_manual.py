@@ -33,6 +33,8 @@ class ManualConfig:
     module.assets
     """
     ASSETS_FOLDER = './assets'
+    ASSETS_MODULE = './module'
+    ASSETS_RESOLUTION = (1280, 720)
 
     """
     module.base
@@ -145,9 +147,18 @@ class ManualConfig:
     # Convert map grid distance to swipe distance
     # Usually range from 1/0.62 to 1/0.61
     # Value may be different in different maps
-    MAP_SWIPE_MULTIPLY = 1.626
-    # When using minitouch, MAP_SWIPE_MULTIPLY is a fixed value.
-    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.572
+    # Before 2023.05.25
+    # MAP_SWIPE_MULTIPLY = 1.626
+    # MAP_SWIPE_MULTIPLY_MINITOUCH = 1.572
+    # MAP_SWIPE_MULTIPLY_MINITOUCH = 1.525
+    # 2023.05.25, swipe fit in 14-1
+    # MAP_SWIPE_MULTIPLY = (1.006, 1.025)
+    # MAP_SWIPE_MULTIPLY_MINITOUCH = (0.973, 0.991)
+    # MAP_SWIPE_MULTIPLY_MAATOUCH = (0.944, 0.961)
+    # 2023.05.25, swipe converts to 7-2 baseline
+    MAP_SWIPE_MULTIPLY = (1.064, 1.084)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.029, 1.048)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.999, 1.017)
     # Swipe distance in map grid lower than this will be dropped,
     # because a closing swipe will be treat as a click in game.
     MAP_SWIPE_DROP = 0.15
@@ -327,6 +338,8 @@ class ManualConfig:
         'distance': 35,
         'wlen': 500,
     }
+    # On minitouch, Screen swipe (200, 200) = Map swipe (382, 442)
+    OS_GLOBE_SWIPE_MULTIPLY = (1.91, 2.21)
 
     """
     module.retire

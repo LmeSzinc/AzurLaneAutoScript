@@ -55,7 +55,9 @@ class Config:
 
     MAP_HAS_AMBUSH = False
     MAP_HAS_MOVABLE_ENEMY = True
-    MAP_SWIPE_MULTIPLY = 1.796
+    MAP_SWIPE_MULTIPLY = (1.175, 1.197)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.137, 1.158)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.103, 1.123)
     STAR_REQUIRE_3 = 0  # SP map don't need to clear all enemies.
 
 

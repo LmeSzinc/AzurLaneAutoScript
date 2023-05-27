@@ -13,14 +13,11 @@ from adbutils.errors import AdbError
 
 from module.base.decorator import Config, cached_property, del_cached_property
 from module.base.utils import ensure_time
-from module.config.server import set_server
+from module.config.server import VALID_CHANNEL_PACKAGE, set_server
 from module.device.connection_attr import ConnectionAttr
-from module.device.method.utils import (
-    RETRY_TRIES, remove_shell_warning, retry_sleep,
-    handle_adb_error, PackageNotInstalled,
-    recv_all, possible_reasons,
-    random_port, get_serial_pair)
-from module.exception import RequestHumanTakeover, EmulatorNotRunningError
+from module.device.method.utils import (PackageNotInstalled, RETRY_TRIES, get_serial_pair, handle_adb_error,
+                                        possible_reasons, random_port, recv_all, remove_shell_warning, retry_sleep)
+from module.exception import EmulatorNotRunningError, RequestHumanTakeover
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 
@@ -797,25 +794,24 @@ class Connection(ConnectionAttr):
         packages = re.findall(r'package:([^\s]+)', output)
         return packages
 
-    def list_azurlane_packages(self, keywords=('azurlane', 'blhx'), show_log=True):
+    def list_known_packages(self, show_log=True):
         """
         Args:
-            keywords:
             show_log:
 
         Returns:
             list[str]: List of package names
         """
         packages = self.list_package(show_log=show_log)
-        packages = [p for p in packages if any([k in p.lower() for k in keywords])]
+        packages = [p for p in packages if p in VALID_CHANNEL_PACKAGE or p in VALID_CHANNEL_PACKAGE]
         return packages
 
-    def detect_package(self, keywords=('azurlane', 'blhx'), set_config=True):
+    def detect_package(self, set_config=True):
         """
-        Show all possible packages with the given keyword on this device.
+        Show all game client on this device.
         """
         logger.hr('Detect package')
-        packages = self.list_azurlane_packages(keywords=keywords)
+        packages = self.list_known_packages()
 
         # Show packages
         logger.info(f'Here are the available packages in device "{self.serial}", '
@@ -828,8 +824,8 @@ class Connection(ConnectionAttr):
 
         # Auto package detection
         if len(packages) == 0:
-            logger.critical(f'No {keywords[0]} package found, '
-                            f'please confirm {keywords[0]} has been installed on device "{self.serial}"')
+            logger.critical(f'No AzurLane package found, '
+                            f'please confirm AzurLane has been installed on device "{self.serial}"')
             raise RequestHumanTakeover
         if len(packages) == 1:
             logger.info('Auto package detection found only one package, using it')
@@ -842,6 +838,6 @@ class Connection(ConnectionAttr):
             set_server(self.package)
         else:
             logger.critical(
-                f'Multiple {keywords[0]} packages found, auto package detection cannot decide which to choose, '
+                f'Multiple AzurLane packages found, auto package detection cannot decide which to choose, '
                 'please copy one of the available devices listed above to Alas.Emulator.PackageName')
             raise RequestHumanTakeover

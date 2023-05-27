@@ -20,7 +20,7 @@ GUI development, thanks **[@18870](https://github.com/18870)** , say HURRAY.
 
 
 
-## Features  
+## Features
 
 - **Farm**: Main chapter, events, raids, 1-1 affinity farming, 7-2 mystery farming, 12-2 medium leveling, 12-4 large leveling, gems farming.
 - **Reward**: Commission, tactical class, research, dorm, meowfficer, guild, missions, shop, shipyard, gacha, data key.
@@ -41,7 +41,34 @@ GUI development, thanks **[@18870](https://github.com/18870)** , say HURRAY.
 
 Refers to [Installation tutorial](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_en), including easy-installer manual, use manual, manual installation tutorial, remote access manul.
 
+## Modify Game Settings
 
+Modify the in-game settings according to this table.
+
+|                    Name                    |   Value   |
+|:------------------------------------------:|:---------:|
+|            Frame Rate Settings             |  60 FPS   |
+|         OpSi - Reduce TB Guidance          |    On     |
+|   OpSi - Auto use items during Auto Mode   |    On     |
+| OpSi - Default to Auto Mode in Threat Safe |    Off    |
+|               Story Autoplay               |  Enable   |
+|           Text Auto-Scroll Speed           | Very Fast |
+
+Operation Siren => Navigation Orders => Submarine Support:
+
+|              Name             | Value |
+|:-----------------------------:|:-----:|
+| Automatically call submarines |  Off  |
+
+Main Page => Build =>  Retirement => Quick Retire Options(left gear icon)：
+
+|                Name                |                  Value                  |
+|:----------------------------------:|:---------------------------------------:|
+|        Prioritize Rarity 1         |                    R                    |
+|        Prioritize Rarity 2         |                    E                    |
+|        Prioritize Rarity 3         |                    N                    |
+|   「own」a fully Limit Broken ship   |               Don't Keep                |
+| 「has not」a fully Limit Broken ship | `Keep Enough to Max LB` or `Don't Keep` |
 
 ## How to Report Bugs
 

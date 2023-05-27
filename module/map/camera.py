@@ -8,6 +8,7 @@ from module.combat.assets import GET_ITEMS_1, GET_ITEMS_1_RYZA
 from module.exception import CampaignEnd, GameNotRunningError, MapDetectionError
 from module.handler.assets import AUTO_SEARCH_MENU_CONTINUE, GAME_TIPS
 from module.logger import logger
+from module.map.assets import MAP_PREPARATION
 from module.map.map_base import CampaignMap, location2node
 from module.map.map_operation import MapOperation
 from module.map.utils import location_ensure, random_direction
@@ -42,6 +43,8 @@ class Camera(MapOperation):
             # Map grid fit
             if self.config.DEVICE_CONTROL_METHOD == 'minitouch':
                 distance = self.view.swipe_base * self.config.MAP_SWIPE_MULTIPLY_MINITOUCH
+            elif self.config.DEVICE_CONTROL_METHOD == 'MaaTouch':
+                distance = self.view.swipe_base * self.config.MAP_SWIPE_MULTIPLY_MAATOUCH
             else:
                 distance = self.view.swipe_base * self.config.MAP_SWIPE_MULTIPLY
             # Optimize swipe path
@@ -139,6 +142,10 @@ class Camera(MapOperation):
             elif self.is_in_stage():
                 logger.warning('Image is in stage')
                 raise CampaignEnd('Image is in stage')
+            elif self.appear(MAP_PREPARATION, offset=(20, 20)):
+                logger.warning('Image is in MAP_PREPARATION')
+                self.enter_map_cancel()
+                raise CampaignEnd('Image is in MAP_PREPARATION')
             elif self.appear(AUTO_SEARCH_MENU_CONTINUE, offset=self._auto_search_menu_offset):
                 logger.warning('Image is in auto search menu')
                 self.ensure_auto_search_exit()

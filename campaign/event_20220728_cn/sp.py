@@ -88,8 +88,9 @@ class Config:
         'BB': 1.111,
     }
     MAP_ENEMY_TEMPLATE = ['Light', 'Main', 'Carrier', 'Treasure', 'Vestal_ghost']
-    MAP_SWIPE_MULTIPLY = 1.516
-    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.466
+    MAP_SWIPE_MULTIPLY = (0.992, 1.011)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (0.959, 0.977)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.931, 0.948)
 
 
 class Campaign(CampaignBase):

@@ -189,8 +189,15 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
 
             logger.info('Goto another port then re-enter')
             prev = self.zone
-            self.globe_goto(self.zone_nearest_azur_port(self.zone))
+            if prev == self.name_to_zone('NY City'):
+                other = self.name_to_zone('Liverpool')
+            else:
+                other = self.zone_nearest_azur_port(self.zone)
+            self.globe_goto(other)
             self.globe_goto(prev)
+
+        logger.warning('Failed to solve MapWalkError when going to port')
+        return False
 
     def fleet_repair(self, revert=True):
         """
@@ -556,10 +563,11 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                 continue
             if self.handle_map_event():
                 continue
-            if self.handle_battle_status():
-                continue
-            if self.handle_exp_info():
-                continue
+            if not self.is_combat_loading():
+                if self.handle_battle_status():
+                    continue
+                if self.handle_exp_info():
+                    continue
 
     def os_auto_search_run(self, drop=None, strategic=False):
         for _ in range(5):
@@ -750,8 +758,8 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         if 'is_scanning_device' not in self._solved_map_event and grids and grids[0].is_scanning_device:
             grid = grids[0]
             logger.info(f'Found scanning device on {grid}')
-            if self.is_cl1_enabled:
-                logger.info('CL1 leveling enabled, mark scanning device as solved')
+            if self.is_in_task_cl1_leveling:
+                logger.info('In CL1 leveling, mark scanning device as solved')
                 self._solved_map_event.add('is_scanning_device')
                 return True
 
