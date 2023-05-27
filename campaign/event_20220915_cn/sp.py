@@ -79,8 +79,9 @@ class Config:
         'wlen': 1000
     }
     HOMO_STORAGE = ((9, 7), [(185.75, 67.44), (1183.65, 67.44), (28.601, 705.824), (1380.695, 705.824)])
-    MAP_SWIPE_MULTIPLY = 1.517
-    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.467
+    MAP_SWIPE_MULTIPLY = (0.993, 1.011)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (0.960, 0.978)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.932, 0.949)
 
 
 class Campaign(CampaignBase):

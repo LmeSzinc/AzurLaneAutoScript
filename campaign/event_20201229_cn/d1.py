@@ -89,8 +89,9 @@ class Config:
         'CV': 1.111,
         'BB': 1.111,
     }
-    MAP_SWIPE_MULTIPLY = 1.579
-    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.527
+    MAP_SWIPE_MULTIPLY = (1.033, 1.053)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (0.999, 1.018)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.970, 0.988)
     MAP_ENEMY_TEMPLATE = ['LightInvertedOrthant', 'MainInvertedOrthant', 'CarrierInvertedOrthant']
     MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
 

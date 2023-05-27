@@ -51,8 +51,9 @@ class Config:
     # ===== End of generated config =====
 
     STAGE_ENTRANCE = ['normal', 'half']  # normal, blue, half
-    MAP_SWIPE_MULTIPLY = 1.866
-    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.804
+    MAP_SWIPE_MULTIPLY = (1.221, 1.244)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.181, 1.203)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.146, 1.167)
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 40),
         'width': (0.9, 10),
