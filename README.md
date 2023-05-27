@@ -168,7 +168,8 @@ Alas 仍在活跃开发中，我们会不定期发布未来的工作在 [Issues]
 ## 联系我们 Contact Us
 
 - Discord: [https://discord.gg/AQN6GeJ](https://discord.gg/AQN6GeJ)
-- QQ 二群：[576458886](https://jq.qq.com/?_wv=1027&k=FUIOAAOm)
+- QQ 三群：[576458886](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Q611gtXy-y0ttnfHOQNegXjerUI2tWIy&authKey=VjW7e8fxtXTN0twcU6%2FZabZ03gKy%2FuhZETQlFDaswupHRDzVO33lsqZloKG8IfR6&noverify=0&group_code=834210833)
+- QQ 二群（已满）：[576458886](https://jq.qq.com/?_wv=1027&k=FUIOAAOm)
 - QQ 一群（已满）：[1087735381](https://jq.qq.com/?_wv=1027&k=I4NSqX7g)
 - Bilibili 直播间：https://live.bilibili.com/22216705 ，偶尔直播写Alas，~~为了拯救Alas，Lme决定出道成为偶像~~
 

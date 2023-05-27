@@ -8,6 +8,7 @@ from module.logger import logger
 # Here manually type coordinates, because the ball appears in this event only.
 BALL = Button(area=(589, 279, 685, 374), color=(), button=(589, 279, 685, 374))
 
+
 class CampaignBase(CampaignBase_):
     STAGE_INCREASE = [
         'T1 > T2 > TS1 > T3',

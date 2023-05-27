@@ -245,7 +245,8 @@ class MetaReward(Combat, UI):
         # If dossier beacon is not enabled, or MetaReward is invoked 
         # by AshBeaconAssist, do not need to check dossier 
         if self.has_possible_dossier_reward(is_dossier=dossier):
-            self.search_for_dossier_reward()
+            # self.search_for_dossier_reward()
+            logger.info('Dossier meta reward receiving feature is temporarily disabled by the developer. \nPlease receive it by yourself for the time.')
         else:
             logger.info('MetaReward is called by current beacon, skip dossier reward check')
             return
