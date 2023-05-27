@@ -53,8 +53,9 @@ class Config:
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
-    MAP_SWIPE_MULTIPLY = 1.676
-    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.621
+    MAP_SWIPE_MULTIPLY = (1.097, 1.117)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.061, 1.080)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.030, 1.048)
     MAP_ENEMY_GENRE_DETECTION_SCALING = {
         'DD': 1.111,
         'CL': 1.111,

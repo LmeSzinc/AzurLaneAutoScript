@@ -120,11 +120,11 @@ class CampaignUI(CampaignEvent, CampaignOcr):
             return False
 
     def campaign_set_chapter_event(self, chapter, mode='normal'):
-        if chapter in ['a', 'b', 'c', 'd', 'ex_sp', 'as', 'bs', 'cs', 'ds', 't']:
+        if chapter in ['a', 'b', 'c', 'd', 'ex_sp', 'as', 'bs', 'cs', 'ds', 't', 'ts', 'hts']:
             self.ui_goto_event()
-            if chapter in ['a', 'b', 'as', 'bs', 't']:
+            if chapter in ['a', 'b', 'as', 'bs', 't', 'ts']:
                 self.campaign_ensure_mode('normal')
-            elif chapter in ['c', 'd', 'cs', 'ds']:
+            elif chapter in ['c', 'd', 'cs', 'ds', 'hts']:
                 self.campaign_ensure_mode('hard')
             elif chapter == 'ex_sp':
                 self.campaign_ensure_mode('ex')

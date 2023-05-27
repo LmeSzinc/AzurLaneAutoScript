@@ -71,7 +71,9 @@ class Config:
 
     HOMO_EDGE_HOUGHLINES_THRESHOLD = 280
     MAP_SIREN_TEMPLATE = ['Deutschland', 'Tirpitz', 'Gneisenau', 'Scharnhorst', 'Spee']
-    MAP_SWIPE_MULTIPLY = 1.537
+    MAP_SWIPE_MULTIPLY = (1.006, 1.025)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (0.973, 0.991)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.944, 0.961)
 
 
 class Campaign(CampaignBase):

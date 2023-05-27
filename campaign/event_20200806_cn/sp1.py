@@ -50,8 +50,9 @@ class Config:
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
-    MAP_SWIPE_MULTIPLY = 1.741
-    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.683
+    MAP_SWIPE_MULTIPLY = (1.139, 1.161)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.102, 1.122)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.070, 1.089)
 
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 40),

@@ -55,8 +55,9 @@ class Config:
     # ===== End of generated config =====
 
     HOMO_EDGE_HOUGHLINES_THRESHOLD = 210
-    MAP_SWIPE_MULTIPLY = 1.839
-    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.778
+    MAP_SWIPE_MULTIPLY = (1.203, 1.226)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.164, 1.185)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.130, 1.150)
 
 
 class Campaign(CampaignBase):

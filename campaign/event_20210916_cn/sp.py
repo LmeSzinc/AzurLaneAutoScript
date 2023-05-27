@@ -91,8 +91,9 @@ class Config:
     #     'CV': 1.111,
     #     'BB': 1.111,
     # }
-    MAP_SWIPE_MULTIPLY = 1.527
-    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.476
+    MAP_SWIPE_MULTIPLY = (0.999, 1.018)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (0.966, 0.984)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.938, 0.955)
 
 
 class Campaign(CampaignBase):

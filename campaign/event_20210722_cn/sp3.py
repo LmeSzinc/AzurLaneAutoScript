@@ -59,8 +59,9 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
-    MAP_SWIPE_MULTIPLY = 1.835
-    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.774
+    MAP_SWIPE_MULTIPLY = (1.201, 1.223)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.161, 1.183)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.127, 1.148)
     MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
 
 
