@@ -37,8 +37,6 @@ def orphanSlayer(ppid, spid, kill = ""):
     Lme曰：「你可以通过经常拉屎，来结交朋友（」
     """
     while isProcessExist(ppid):
-        if not isProcessExist(spid):
-            return
         time.sleep(1)
     if kill:
         os.system(f"{kill} {spid}")
