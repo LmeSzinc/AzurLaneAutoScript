@@ -72,7 +72,7 @@ Limit:
   KizunaReisou:
     value: True
   SpecialDrop:
-    value: 0
+    value: 999
 
 Benchmark:
   BenchOption:

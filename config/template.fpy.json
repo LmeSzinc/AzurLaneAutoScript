@@ -55,7 +55,7 @@
     "Limit": {
       "Defeated": true,
       "KizunaReisou": true,
-      "SpecialDrop": 0
+      "SpecialDrop": 999
     },
     "Interval": {
       "Interval": "07:00"

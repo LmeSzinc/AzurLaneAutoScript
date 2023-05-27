@@ -3,10 +3,13 @@ import platform
 import time
 
 if platform.system() == "Windows":
+
     def isProcessExist(pid):
         with os.popen(f'tasklist /NH /FI "PID eq {pid}"') as p:
             return p.read()[0] == "\n"
+
 else:
+
     def isProcessExist(pid):
         try:
             os.kill(pid, 0)
@@ -16,7 +19,7 @@ else:
             return True
 
 
-def orphanSlayer(ppid, spid, kill = ""):
+def orphanSlayer(ppid, spid, kill=""):
     """
     module.webui.process_manager.ProcessManager.stop() uses kill() to stop subprocess
     and to a large extent it cannot be changed to terminate(), see #883

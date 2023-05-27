@@ -9,16 +9,18 @@ from submodule.AlasFpyBridge.module.utils.headlessCliApplication import Headless
 
 
 class FGOpy(HeadlessCliApplication):
-    def __init__(self, path):
+    def __init__(self, path, counter={}): # Caution that a mutable object is used for default paprameter
         ext = {
             "Windows": "bat",
             "Linux": "sh",
+            "Darwin": "sh",
         }.get(platform.system(), "")
         launch = os.path.join(path, f"launch.{ext}")
         assert os.path.exists(launch)
         halt = os.path.join(path, f"halt.{ext}")
         if not os.path.exists(halt):
             halt = ""
+        self.counter = counter
         self.mutex = Lock()
         self.success = True
         self.last_error = ""
@@ -57,6 +59,9 @@ class FGOpy(HeadlessCliApplication):
             return
         prompt, datetime, level, module, content = match.groups()
         getattr(logger, level.lower())(content)
+        item = self.counter.get(content)
+        if item:
+            setattr(self.config, item, getattr(self.config, item) - 1)
 
         if self.first_log:
             self.first_log = False

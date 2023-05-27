@@ -46,7 +46,7 @@ class GeneratedConfig:
     # Group `Limit`
     Limit_Defeated = True
     Limit_KizunaReisou = True
-    Limit_SpecialDrop = 0
+    Limit_SpecialDrop = 999
 
     # Group `Benchmark`
     Benchmark_BenchOption = 'all'  # touch, screen, all

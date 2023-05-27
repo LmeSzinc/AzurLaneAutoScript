@@ -169,7 +169,7 @@
       },
       "SpecialDrop": {
         "type": "input",
-        "value": 0
+        "value": 999
       }
     },
     "Interval": {

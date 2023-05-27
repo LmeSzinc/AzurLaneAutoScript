@@ -41,7 +41,9 @@ class FgoAutoScript(AzurLaneAutoScript):
 
     @cached_property
     def app(self):
-        app = FGOpy(self.config.FpyEmulator_LaunchPath)
+        app = FGOpy(self.config.FpyEmulator_LaunchPath, {
+            "Special Drop": "Limit_SpecialDrop",
+        })
         assert app.run("ping")
         if not app.run(f"connect {self.config.FpyEmulator_Serial}"):
             logger.critical("Unable to connect to device")
@@ -63,16 +65,14 @@ class FgoAutoScript(AzurLaneAutoScript):
         assert self.app.run(f"teamup set index {self.config.Team_Index}")
         assert self.app.run(f"main {self.config.Apple_AppleCount} {self.config.Apple_AppleKind}")
         with self.config.multi_set():
+            if self.app.last_error.startswith("Script Stopped"):
+                self.config.Scheduler_Enable = False
+                return
             if self.config.Apple_EatOnce:
                 self.config.Apple_AppleCount = 0
             else:
                 self.config.Apple_AppleTotal -= self.config.Apple_AppleCount
                 self.config.Apple_AppleCount = min(self.config.Apple_AppleCount, self.config.Apple_AppleTotal)
-            if self.app.last_error.startswith("Script Stopped"):
-                if self.app.last_error == "Script Stopped: Special Drop":
-                    self.config.Limit_SpecialDrop = 0
-                self.config.Scheduler_Enable = False
-                return
             hh, mm = self.config.Interval_Interval.split(":")
             self.config.task_delay(minute=int(hh)*60+int(mm))
 
