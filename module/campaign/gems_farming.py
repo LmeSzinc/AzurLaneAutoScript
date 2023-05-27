@@ -68,7 +68,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         HARDMODEMAPS = [
             'c1', 'c2', 'c3',
             'd1', 'd2', 'd3',
-            'ht1', 'ht2', 'ht3', 'ht4', 'ht5'
+            'ht1', 'ht2', 'ht3', 'ht4', 'ht5', 'ht6',
         ]
         if inflection.underscore(self.config.Campaign_Name) in HARDMODEMAPS:
             logger.info('Is in hard mode, switch ship changing method.')
