@@ -29,7 +29,7 @@ class GeneratedConfig:
 
     # Group `FpyEmulator`
     FpyEmulator_Serial = '127.0.0.1:5555'
-    FpyEmulator_LaunchPath = '/absolute_path_to_FGO-py/deploy/Alas'
+    FpyEmulator_LaunchPath = '/absolute_path_to_FGO-py/deploy/AzurLaneAutoScript'
 
     # Group `Interval`
     Interval_Interval = '07:00'
@@ -52,7 +52,7 @@ class GeneratedConfig:
     Benchmark_BenchOption = 'all'  # touch, screen, all
 
     # Group `Call`
-    Call_Function = 'lottery'  # fpSummon, lottery, mining, mail, synthesis, summonHistory
+    Call_Function = 'lottery'  # fpSummon, lottery, mail, synthesis, summonHistory
 
     # Group `Storage`
     Storage_Storage = {}

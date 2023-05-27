@@ -88,7 +88,6 @@ Call:
     option:
       - fpSummon
       - lottery
-      - mining
       - mail
       - synthesis
       - summonHistory
