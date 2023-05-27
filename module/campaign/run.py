@@ -196,7 +196,11 @@ class CampaignRun(CampaignEvent, ShopStatus):
             'd2': 'ht5',
             'd3': 'ht6',
         }
-        if folder in ['event_20200917_cn', 'event_20221124_cn']:
+        if folder in [
+            'event_20200917_cn',
+            'event_20221124_cn',
+            'event_20230525_cn',
+        ]:
             name = convert.get(name, name)
         else:
             reverse = {v: k for k, v in convert.items()}
