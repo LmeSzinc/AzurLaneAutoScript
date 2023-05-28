@@ -137,7 +137,15 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         button_area = self.campaign.ENTRANCE.button
         button = Button(area=button_area, color=(0, 0, 0), button=button_area)
         self.device.click(button)
-        self.ui_click(click_button=MAP_PREPARATION, check_button=FLEET_PREPARATION)
+        for _ in range(3):
+            self.ui_click(click_button=MAP_PREPARATION, check_button=FLEET_PREPARATION)
+            from module.retire.retirement import Retirement
+            if Retirement(config=self.config, device=self.device).handle_retirement():
+                continue
+            if self.appear(button=FLEET_PREPARATION, offset=(50,50)):
+                return
+        from module.exception import RequestHumanTakeover
+        raise RequestHumanTakeover
 
     def _ship_detail_enter_hard(self, button):
         self._fleet_detail_enter_hard()
