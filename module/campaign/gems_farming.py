@@ -43,6 +43,11 @@ class GemsCampaignOverride(CampaignBase):
 
                 if self.appear(BATTLE_PREPARATION, offset=(20, 20), interval=2):
                     self.device.click(BACK_ARROW)
+                    continue
+                if self.handle_auto_search_exit():
+                    continue
+                if self.is_in_stage():
+                    break
 
                 if self.is_in_map():
                     self.withdraw()
