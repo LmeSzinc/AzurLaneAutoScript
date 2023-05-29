@@ -22,6 +22,10 @@
       "name": "Task.MaaStartup.name",
       "help": "Task.MaaStartup.help"
     },
+    "MaaRestart": {
+      "name": "Task.MaaRestart.name",
+      "help": "Task.MaaRestart.help"
+    },
     "MaaAnnihilation": {
       "name": "Task.MaaAnnihilation.name",
       "help": "Task.MaaAnnihilation.help"
@@ -174,6 +178,16 @@
     "PenguinID": {
       "name": "MaaRecord.PenguinID.name",
       "help": "MaaRecord.PenguinID.help"
+    }
+  },
+  "MaaRestart": {
+    "_info": {
+      "name": "MaaRestart._info.name",
+      "help": "MaaRestart._info.help"
+    },
+    "TimeInterval": {
+      "name": "MaaRestart.TimeInterval.name",
+      "help": "MaaRestart.TimeInterval.help"
     }
   },
   "MaaFight": {
@@ -534,6 +548,10 @@
       "no_use": "no_use",
       "friend_support": "friend_support",
       "nonfriend_support": "nonfriend_support"
+    },
+    "RestartGameWhenSwitchNeeded": {
+      "name": "MaaRoguelike.RestartGameWhenSwitchNeeded.name",
+      "help": "MaaRoguelike.RestartGameWhenSwitchNeeded.help"
     }
   },
   "MaaCopilot": {
