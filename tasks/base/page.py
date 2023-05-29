@@ -125,3 +125,8 @@ page_main.link(MAIN_GOTO_MISSION, destination=page_mission)
 page_message = Page(MESSAGE_CLOSE)
 page_message.link(MESSAGE_CLOSE, destination=page_main)
 page_main.link(MAIN_GOTO_MESSAGE, destination=page_message)
+
+# Camera
+page_camera = Page(CAMERA_CHECK)
+page_camera.link(CLOSE, destination=page_menu)
+page_menu.link(MENU_GOTO_CAMERA, destination=page_camera)
