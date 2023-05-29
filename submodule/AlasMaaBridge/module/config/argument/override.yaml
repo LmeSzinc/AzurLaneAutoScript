@@ -13,6 +13,15 @@ MaaStartup:
     FailureInterval: 0
     ServerUpdate: 04:00
 
+MaaRestart:
+  Scheduler:
+    Enable:
+      value: true
+      display: disabled
+    SuccessInterval: 0
+    FailureInterval: 0
+    ServerUpdate: 04:00
+
 MaaAnnihilation:
   MaaFight:
     Stage: custom
@@ -42,4 +51,4 @@ MaaRecruit:
 
 MaaAward:
   Scheduler:
-    ServerUpdate: 04:00, 16:00
+    ServerUpdate: 04:00, 16:00, 23:00

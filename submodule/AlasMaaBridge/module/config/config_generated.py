@@ -38,6 +38,9 @@ class GeneratedConfig:
     MaaRecord_ReportToPenguin = False
     MaaRecord_PenguinID = None
 
+    # Group `MaaRestart`
+    MaaRestart_TimeInterval = 0
+
     # Group `MaaFight`
     MaaFight_Stage = 'last'  # last, 1-7, LS-6, CA-5, SK-5, AP-5, CE-6, PR-A-1, PR-A-2, PR-B-1, PR-B-2, PR-C-1, PR-C-2, PR-D-1, PR-D-2, custom
     MaaFight_CustomStage = None
@@ -101,6 +104,7 @@ class GeneratedConfig:
     MaaRoguelike_Roles = '取长补短'  # 先手必胜, 稳扎稳打, 取长补短, 随心所欲
     MaaRoguelike_CoreChar = None
     MaaRoguelike_Support = 'no_use'  # no_use, friend_support, nonfriend_support
+    MaaRoguelike_RestartGameWhenSwitchNeeded = False
 
     # Group `MaaCopilot`
     MaaCopilot_FileName = None

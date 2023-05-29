@@ -7,6 +7,10 @@ MaaStartup:
   Scheduler:
     Enable: true
 
+MaaRestart:
+  Scheduler:
+    Enable: true
+
 MaaMaterial:
   Scheduler:
     FailureInterval: 240
