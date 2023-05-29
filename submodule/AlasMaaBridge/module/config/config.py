@@ -10,7 +10,7 @@ from submodule.AlasMaaBridge.module.config.config_updater import ConfigUpdater
 
 class ArknightsConfig(AzurLaneConfig, ConfigUpdater, GeneratedConfig):
     SCHEDULER_PRIORITY = """
-            MaaStartup
+            MaaStartup > MaaRestart
             > MaaRecruit > MaaInfrast
             > MaaVisit > MaaMall
             > MaaAnnihilation > MaaMaterial

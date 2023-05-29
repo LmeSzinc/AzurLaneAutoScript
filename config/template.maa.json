@@ -38,6 +38,22 @@
       "Storage": {}
     }
   },
+  "MaaRestart": {
+    "Scheduler": {
+      "Enable": true,
+      "NextRun": "2020-01-01 04:00:00",
+      "Command": "MaaRestart",
+      "SuccessInterval": 0,
+      "FailureInterval": 0,
+      "ServerUpdate": "04:00"
+    },
+    "MaaRestart": {
+      "TimeInterval": 0
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "MaaAnnihilation": {
     "Scheduler": {
       "Enable": false,
@@ -196,7 +212,7 @@
       "Command": "MaaAward",
       "SuccessInterval": 60,
       "FailureInterval": 120,
-      "ServerUpdate": "04:00, 16:00"
+      "ServerUpdate": "04:00, 16:00, 23:00"
     },
     "Storage": {
       "Storage": {}
@@ -220,7 +236,8 @@
       "Squad": "指挥分队",
       "Roles": "取长补短",
       "CoreChar": null,
-      "Support": "no_use"
+      "Support": "no_use",
+      "RestartGameWhenSwitchNeeded": false
     },
     "Storage": {
       "Storage": {}
