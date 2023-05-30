@@ -3,11 +3,13 @@ import numpy as np
 from module.base.timer import Timer
 from module.base.utils import get_color
 from module.logger import logger
+from module.ocr.ocr import Ocr
+from module.ui.draggable_list import DraggableList
 from module.ui.switch import Switch
 from tasks.base.page import page_guide
 from tasks.base.ui import UI
 from tasks.dungeon.assets.assets_dungeon_ui import *
-from tasks.dungeon.keywords import DungeonTab, KEYWORDS_DUNGEON_TAB
+from tasks.dungeon.keywords import DungeonNav, DungeonTab, KEYWORDS_DUNGEON_NAV, KEYWORDS_DUNGEON_TAB
 
 
 class DungeonTabSwitch(Switch):
@@ -38,6 +40,8 @@ SWITCH_DUNGEON_TAB.add_state(
     check_button=SURVIVAL_INDEX_CHECK,
     click_button=SURVIVAL_INDEX_CLICK
 )
+DUNGEON_NAV_LIST = DraggableList(
+    'DungeonNavList', keyword_class=DungeonNav, ocr_class=Ocr, search_button=OCR_DUNGEON_NAV)
 
 
 class DungeonUI(UI):

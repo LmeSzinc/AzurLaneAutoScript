@@ -1,4 +1,4 @@
-from module.base.button import Button, ButtonWrapper, ClickButton
+from module.base.button import Button, ButtonWrapper, ClickButton, match_template
 from module.base.timer import Timer
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
@@ -127,6 +127,30 @@ class ModuleBase:
             self.device.click(button)
         return appear
 
+    def wait_until_stable(self, button, timer=Timer(0.3, count=1), timeout=Timer(5, count=10)):
+        """
+        A terrible method, don't rely too much on it.
+        """
+        logger.info(f'Wait until stable: {button}')
+        prev_image = self.image_crop(button)
+        timer.reset()
+        timeout.reset()
+        while 1:
+            self.device.screenshot()
+
+            if timeout.reached():
+                logger.warning(f'wait_until_stable({button}) timeout')
+                break
+
+            image = self.image_crop(button)
+            if match_template(image, prev_image):
+                if timer.reached():
+                    logger.info(f'{button} stabled')
+                    break
+            else:
+                prev_image = image
+                timer.reset()
+
     def image_crop(self, button):
         """Extract the area from image.
 
@@ -135,7 +159,9 @@ class ModuleBase:
         """
         if isinstance(button, Button):
             return crop(self.device.image, button.area)
-        if isinstance(button, ButtonWrapper):
+        elif isinstance(button, ButtonWrapper):
+            return crop(self.device.image, button.area)
+        elif hasattr(button, 'area'):
             return crop(self.device.image, button.area)
         else:
             return crop(self.device.image, button)

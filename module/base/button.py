@@ -182,20 +182,28 @@ class ButtonWrapper(Resource):
             return self._matched_button
 
     @property
-    def area(self):
+    def area(self) -> tuple[int, int, int, int]:
         return self.matched_button.area
 
     @property
-    def search(self):
+    def search(self) -> tuple[int, int, int, int]:
         return self.matched_button.search
 
     @property
-    def color(self):
+    def color(self) -> tuple[int, int, int]:
         return self.matched_button.color
 
     @property
-    def button(self):
+    def button(self) -> tuple[int, int, int, int]:
         return self.matched_button.button
+
+    @property
+    def width(self) -> int:
+        return area_size(self.area)[0]
+
+    @property
+    def height(self) -> int:
+        return area_size(self.area)[1]
 
 
 class ClickButton:
@@ -216,3 +224,20 @@ class ClickButton:
 
     def __bool__(self):
         return True
+
+
+def match_template(image, template, similarity=0.85):
+    """
+    Args:
+        image (np.ndarray): Screenshot
+        template (np.ndarray):
+        area (tuple): Crop area of image.
+        offset (int, tuple): Detection area offset.
+        similarity (float): 0-1. Similarity. Lower than this value will return float(0).
+
+    Returns:
+        bool:
+    """
+    res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
+    _, sim, _, point = cv2.minMaxLoc(res)
+    return sim > similarity

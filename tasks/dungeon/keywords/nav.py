@@ -38,8 +38,15 @@ Cavern_of_Corrosion = DungeonNav(
     en='Cavern of Corrosion',
     jp='侵蝕トンネル',
 )
-Forgotten_Hall = DungeonNav(
+Echo_of_War = DungeonNav(
     id=6,
+    cn='历战余响',
+    cht='歷戰餘響',
+    en='Echo of War',
+    jp='歴戦余韻',
+)
+Forgotten_Hall = DungeonNav(
+    id=7,
     cn='忘却之庭',
     cht='忘卻之庭',
     en='Forgotten Hall',

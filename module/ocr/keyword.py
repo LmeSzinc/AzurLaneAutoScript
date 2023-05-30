@@ -84,7 +84,7 @@ class Keyword:
                         return [self.jp_parsed]
                     else:
                         return [self.jp]
-                case 'tw':
+                case 'cht':
                     if ignore_punctuation:
                         return [self.cht_parsed]
                     else:
@@ -107,6 +107,14 @@ class Keyword:
 
     """
     Class attributes and methods
+
+    Note that dataclasses inherited `Keyword` must override `instances` attribute,
+    or `instances` will still be a class attribute of base class.
+    ```
+    @dataclass
+    class DungeonNav(Keyword):
+        instances: ClassVar = {}
+    ```
     """
 
     instances: ClassVar = {}

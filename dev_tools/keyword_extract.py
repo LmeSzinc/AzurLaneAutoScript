@@ -97,7 +97,7 @@ class KeywordExtract:
 
 def generate():
     ex = KeywordExtract()
-    ex.load_keywords(['模拟宇宙', '拟造花萼（金）', '拟造花萼（赤）', '凝滞虚影', '侵蚀隧洞', '忘却之庭'])
+    ex.load_keywords(['模拟宇宙', '拟造花萼（金）', '拟造花萼（赤）', '凝滞虚影', '侵蚀隧洞', '历战余响', '忘却之庭'])
     ex.write_keywords(keyword_class='DungeonNav', output_file='./tasks/dungeon/keywords/nav.py')
     ex.load_keywords(['行动摘要', '生存索引', '每日实训'])
     ex.write_keywords(keyword_class='DungeonTab', output_file='./tasks/dungeon/keywords/tab.py')
