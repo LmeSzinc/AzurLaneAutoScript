@@ -35,7 +35,7 @@ MAP.spawn_data = [
     {'battle': 1},
     {'battle': 2},
     {'battle': 3},
-    {'battle': 4,'enemy': 14},
+    {'battle': 4, 'enemy': 14},
     {'battle': 5},
     {'battle': 6},
     {'battle': 7, 'boss': 1},
@@ -65,11 +65,14 @@ class Config(ConfigBase):
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
+    MAP_IS_ONE_TIME_STAGE = True
+
+
 # hard to find a dynamic solution
 # therefore overwrite all MAP girds with ME
 # and use a serial of static actions
 actions = {
-    4 : [
+    4: [
         ['1_R_2_', '1_L_2_', '1_R_2_B'],
         ['2_U_2_', '1_S_0_B'],
         ['1_L_1_B'],
@@ -78,7 +81,7 @@ actions = {
         ['1_L_2_', '1_L_1_B'],
         ['1_R_2_', '1_R_1_B']
     ],
-    5 : [
+    5: [
         ['1_L_2_', '1_R_2_', '1_L_2_B'],
         ['2_U_2_', '1_S_0_B'],
         ['1_RU_2_', '1_RU_2_B'],
@@ -89,10 +92,11 @@ actions = {
     ]
 }
 
+
 def parse_move(movement: str, step: int):
     if step % len(movement) != 0:
         raise ScriptError('Invalid movement')
-    
+
     movement = movement * int(step / len(movement))
     dx, dy = 0, 0
     for direction in movement:
@@ -126,7 +130,8 @@ class Campaign(CampaignBase):
 
                 fleet_location = self.__getattribute__(f'fleet_{fleet_index}_location')
                 if fleet_location not in [src, dst]:
-                    raise RequestHumanTakeover(f'Fleet{fleet_index} fail to move {src} -> {dst}, now on {fleet_location}')
+                    raise RequestHumanTakeover(
+                        f'Fleet{fleet_index} fail to move {src} -> {dst}, now on {fleet_location}')
                 elif fleet_location == dst:
                     break
                 else:
@@ -140,19 +145,19 @@ class Campaign(CampaignBase):
 
     def battle_1(self):
         return self.execute_actions(1)
-    
+
     def battle_2(self):
         return self.execute_actions(2)
-    
+
     def battle_3(self):
         return self.execute_actions(3)
-    
+
     def battle_4(self):
         return self.execute_actions(4)
-    
+
     def battle_5(self):
         return self.execute_actions(5)
-    
+
     def battle_6(self):
         return self.execute_actions(6)
 
