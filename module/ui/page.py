@@ -129,8 +129,8 @@ page_main.link(button=MAIN_GOTO_EVENT_LIST, destination=page_event_list)
 
 # Raid
 page_raid = Page(RAID_CHECK)
-page_raid.link(button=GOTO_MAIN, destination=page_main)
-page_main.link(button=MAIN_GOTO_RAID, destination=page_raid)
+# page_raid.link(button=GOTO_MAIN, destination=page_main)
+# page_main.link(button=MAIN_GOTO_RAID, destination=page_raid)
 
 # Research
 # Please don't goto page_research from page_reward.
