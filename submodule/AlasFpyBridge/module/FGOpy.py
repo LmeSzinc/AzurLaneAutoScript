@@ -55,7 +55,7 @@ class FGOpy(HeadlessCliApplication):
 
         match = self.log_pattern.fullmatch(line)
         if match is None:
-            logger.info(f"... {line}")
+            logger.info(f": {line}")
             return
         prompt, datetime, level, module, content = match.groups()
         getattr(logger, level.lower())(content)

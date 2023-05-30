@@ -104,6 +104,7 @@ def export_method(func):
         script = FgoAutoScript(config_name)
         script.config.bind(inflection.camelize(func.__name__))
         getattr(script, func.__name__)()
+        script.app.logger.join(10)
     return wrapper
 
 

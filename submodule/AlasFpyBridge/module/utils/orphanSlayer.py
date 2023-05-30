@@ -19,7 +19,7 @@ else:
             return True
 
 
-def orphanSlayer(ppid, spid, kill=""):
+def main(ppid, spid, kill=""):
     """
     module.webui.process_manager.ProcessManager.stop() uses kill() to stop subprocess
     and to a large extent it cannot be changed to terminate(), see #883
@@ -51,4 +51,4 @@ if __name__ == "__main__":
     # python orphanSlayer.py 114 514 "docker stop ..."
     import sys
 
-    orphanSlayer(int(sys.argv[1]), int(sys.argv[2]), sys.argv[3])
+    main(int(sys.argv[1]), int(sys.argv[2]), sys.argv[3])

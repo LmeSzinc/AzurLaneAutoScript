@@ -26,7 +26,8 @@ class HeadlessCliApplication:
             finally:
                 self.callback("exited")
 
-        Thread(target=f, daemon=True).start()
+        self.logger = Thread(target=f, daemon=True)
+        self.logger.start()
 
     def callback(self, line):
         print(line)
