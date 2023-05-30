@@ -237,6 +237,11 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
                 if confirm_timer.reached():
                     break
 
+        # Wishing pool no longer shows coins, go back to normal pools
+        if self.appear(BUILD_SUBMIT_WW_ORDERS):
+            logger.info('In wishing pool, go back to normal pools')
+            self.gacha_side_navbar_ensure(upper=1)
+
     def gacha_submit(self, skip_first_screenshot=True):
         """
         Pages:
