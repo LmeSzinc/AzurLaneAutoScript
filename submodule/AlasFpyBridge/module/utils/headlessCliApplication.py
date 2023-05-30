@@ -19,12 +19,10 @@ class HeadlessCliApplication:
                 if not line:
                     break
                 self.callback(line[:-1])
-            try:
-                self.pipe.wait(10)
-            except TimeoutExpired:
-                self.pipe.kill()
-            finally:
-                self.callback("exited")
+            if hasattr(self, "orphan_slayer"):
+                self.orphan_slayer.kill()
+            self.pipe.kill()
+            self.callback("exited")
 
         self.logger = Thread(target=f, daemon=True)
         self.logger.start()

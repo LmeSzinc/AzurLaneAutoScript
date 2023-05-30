@@ -37,7 +37,6 @@ class FGOpy(HeadlessCliApplication):
     def callback(self, line):
         if line == "exited":
             self.last_error = "exited"
-            self.orphan_slayer.kill()
             if self.mutex.locked():
                 self.mutex.release()
             return
