@@ -769,7 +769,7 @@ class ResearchPool:
         Returns:
             np.ndarray: Shape (188,), lower index means to be selected first. 1000 for not selected projects.
         """
-        out = np.ones((PROJECTS.count,), dtype=np.int64) * 1000
+        out = np.ones((PROJECTS.count,), dtype=int) * 1000
         for index, project in enumerate(self.filter):
             if index != self.reset_index:
                 out[project.index] = index
