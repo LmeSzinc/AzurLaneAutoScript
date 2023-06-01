@@ -1,5 +1,5 @@
 from module.base.button import ButtonGrid
-from module.base.decorator import cached_property
+from module.base.decorator import Config, cached_property
 from module.base.timer import Timer
 from module.handler.assets import POPUP_CONFIRM
 from module.shop.assets import *
@@ -39,18 +39,8 @@ class ShopUI(UI):
         shop_swipe
 
         Args:
-            left (int):
-                1 for medal
-                2 for guild.
-                3 for prototype.
-                4 for core.
-                5 for merit.
+            left (int): Depends on ship navs
             right (int):
-                5 for medal
-                4 for guild.
-                3 for prototype.
-                2 for core.
-                1 for merit.
 
         Returns:
             bool: if bottom_navbar set ensured
@@ -100,6 +90,7 @@ class ShopUI(UI):
         self.handle_info_bar()
         return refreshed
 
+    @Config.when(SERVER='tw')
     def shop_swipe(self, skip_first_screenshot=True):
         """
         Swipes bottom navbar one way, right only
@@ -114,7 +105,7 @@ class ShopUI(UI):
         detection_area = (480, 640, 960, 660)
         swipe_interval = Timer(0.6, count=2)
 
-        for _ in range(5):
+        for _ in range(3):
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
@@ -123,6 +114,38 @@ class ShopUI(UI):
             # Swipe to the left, medal shop on the leftmost and merit shop on the right most
             if self.appear(SHOP_MEDAL_SWIPE_END, offset=(15, 5)) or \
                     self.appear(SHOP_MERIT_SWIPE_END, offset=(15, 5)):
+                return True
+
+            if swipe_interval.reached():
+                self.device.swipe_vector((480, 0), box=detection_area, random_range=(-50, -10, 50, 10), padding=0)
+                swipe_interval.reset()
+
+        return False
+
+    @Config.when(SERVER=None)
+    def shop_swipe(self, skip_first_screenshot=True):
+        """
+        Swipes bottom navbar one way, right only
+
+        Args:
+            skip_first_screenshot (bool):
+
+        Returns:
+            bool: True if detected correct exit
+                  condition otherwise False
+        """
+        detection_area = (480, 640, 960, 660)
+        swipe_interval = Timer(0.6, count=2)
+
+        for _ in range(3):
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # Swipe to the left, medal shop on the leftmost and merit shop on the right most
+            if self.appear(SHOP_META_SWIPE_END, offset=(15, 5)) or \
+                    self.appear(SHOP_CORE_SWIPE_END, offset=(15, 5)):
                 return True
 
             if swipe_interval.reached():

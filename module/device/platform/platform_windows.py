@@ -263,7 +263,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             show_ping(pong)
 
             # Check azuelane package
-            packages = self.list_azurlane_packages(show_log=False)
+            packages = self.list_known_packages(show_log=False)
             if len(packages):
                 pass
             else:

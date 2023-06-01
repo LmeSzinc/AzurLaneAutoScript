@@ -21,6 +21,8 @@ VALID_CHANNEL_PACKAGE = {
     'com.bilibili.blhx.nearme.gamecenter': ('cn', 'oppo'),
     'com.bilibili.blhx.vivo': ('cn', 'vivo'),
     'com.bilibili.blhx.mz': ('cn', '魅族'),
+    'com.bilibili.blhx.dl': ('cn', '当乐'),
+    'com.bilibili.blhx.lenovo': ('cn', '联想'),
     # 'com.bilibili.blhx.letv': ('cn', '乐视'),  # Not confirmed
     # 'com.bilibili.blhx.gionee': ('cn', '金立'),  # Not confirmed
 
@@ -29,6 +31,7 @@ VALID_CHANNEL_PACKAGE = {
     'com.bilibili.blhx.mzw': ('cn', '拇指玩'),
     'com.yiwu.blhx.yx15': ('cn', '一五游戏'),
     'com.bilibili.blhx.m4399': ('cn', '4399'),
+    'com.bilibili.blhx.bilibiliMove': ('cn', '迁移'),
 
     # Tw
     'com.hkmanjuu.azurlane.gp.mc': ('tw', 'MyCard'),

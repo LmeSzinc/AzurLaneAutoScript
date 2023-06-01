@@ -323,6 +323,10 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             if self.handle_os_game_tips():
                 confirm_timer.reset()
                 continue
+            if self.is_in_map_order():
+                self.order_quit()
+                confirm_timer.reset()
+                continue
 
             # Combat
             if self.combat_appear():

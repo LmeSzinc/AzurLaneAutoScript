@@ -508,7 +508,7 @@ class Fleet(Camera, AmbushHandler):
         if self.fleet_2_location:
             self.map[self.fleet_2_location].is_fleet = True
         location_dict = {}
-        if self.config.FLEET_2:
+        if self.fleet_2_location:
             location_dict[2] = self.fleet_2_location
         location_dict[1] = self.fleet_1_location
         # Release fortress block
