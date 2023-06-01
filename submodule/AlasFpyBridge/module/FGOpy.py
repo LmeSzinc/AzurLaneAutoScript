@@ -1,25 +1,24 @@
 import os
-import platform
 import re
+import shutil
 import time
 from threading import Lock
 
+from deploy.config import DeployConfig
 from module.logger import logger
 from submodule.AlasFpyBridge.module.utils.headlessCliApplication import HeadlessCliApplication
 
 
 class FGOpy(HeadlessCliApplication):
     def __init__(self, path, counter={}): # Caution that a mutable object is used for default paprameter
-        ext = {
-            "Windows": "bat",
-            "Linux": "sh",
-            "Darwin": "sh",
-        }.get(platform.system(), "")
-        launch = os.path.join(path, f"launch.{ext}")
-        assert os.path.exists(launch)
-        halt = os.path.join(path, f"halt.{ext}")
-        if not os.path.exists(halt):
-            halt = ""
+        assert os.path.isabs(path) and os.path.exists(path)
+        launch = shutil.which("launch", path=path)
+        assert launch
+        halt = shutil.which("halt", path=path) # If you filled in `/usr/sbin` as the path, and there happened to be an executable named `launch`, and Alas had root privileges...
+        os.environ["PATH"] = os.pathsep.join([
+            os.path.abspath(os.path.dirname(DeployConfig().AdbExecutable)),
+            os.environ["PATH"],
+        ])
         self.counter = counter
         self.mutex = Lock()
         self.success = True
@@ -27,7 +26,11 @@ class FGOpy(HeadlessCliApplication):
         self.tracebacking = False
         self.first_log = True
         self.log_pattern = re.compile(
-            r"((?:FGO-py@.*?\(.*?\)> )*)\[(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d,\d\d\d)\]\[(DEBUG|INFO|WARNING|CRITICAL|ERROR)\]<([a-zA-Z0-9_.]+?)> (.*)"
+            r"((?:FGO-py@.*?\(.*?\)> )*)"
+            r"\[(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d,\d\d\d)\]"
+            r"\[(DEBUG|INFO|WARNING|CRITICAL|ERROR)\]"
+            r"<([a-zA-Z0-9_.]+?)> "
+            r"(.*)"
         )
         super().__init__(launch)
         while self.first_log:

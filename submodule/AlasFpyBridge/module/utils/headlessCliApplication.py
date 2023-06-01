@@ -1,5 +1,6 @@
 import os
 import shlex
+import sys
 from subprocess import PIPE, STDOUT, Popen, TimeoutExpired
 from threading import Thread
 
@@ -32,11 +33,11 @@ class HeadlessCliApplication:
 
     def start_orphan_slayer(self, pid, cmd):
         self.orphan_slayer = Popen([
-            "python",
+            sys.executable,
             os.path.join(os.path.dirname(__file__), "orphanSlayer.py"),
             str(os.getpid()),
             pid,
-            cmd,
+            "" if cmd is None else cmd,
         ])
 
     def feed(self, cmd):
