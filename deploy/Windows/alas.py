@@ -56,14 +56,17 @@ class AlasManager(DeployConfig):
         self.execute(f'taskkill /f /t /pid {process.pid}', allow_failure=True, output=False)
 
     def alas_kill(self):
-        while 1:
+        for _ in range(10):
             logger.hr(f'Kill existing Alas', 0)
             proc_list = list(self.iter_process_by_names(['alas.exe', 'python.exe'], in_alas=True))
             if not len(proc_list):
-                break
+                return True
             for proc in proc_list:
                 logger.info(proc)
                 self.kill_process(proc)
+
+        logger.warning('Unable to kill existing Alas, skip')
+        return False
 
 
 if __name__ == '__main__':
