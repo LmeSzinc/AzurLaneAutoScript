@@ -13,7 +13,7 @@ class FgoConfig(AzurLaneConfig, ConfigUpdater, GeneratedConfig):
         FpyMain
       > FpyDailyFpSummon
       > FpyHeartbeat
-        """
+    """
 
     # @override
     def __init__(self, config_name, task=None):

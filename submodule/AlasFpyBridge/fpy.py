@@ -41,9 +41,12 @@ class FgoAutoScript(AzurLaneAutoScript):
 
     @cached_property
     def app(self):
-        app = FGOpy(self.config.FpyEmulator_LaunchPath, {
-            "Special Drop": "Limit_SpecialDrop",
-        })
+        app = FGOpy(
+            self.config.FpyEmulator_LaunchPath,
+            {
+                "Special Drop": "Limit_SpecialDrop",
+            },
+        )
         assert app.run("ping")
         if not app.run(f"connect {self.config.FpyEmulator_Serial}"):
             logger.critical("Unable to connect to device")
@@ -56,7 +59,7 @@ class FgoAutoScript(AzurLaneAutoScript):
     def fpy_heartbeat(self):
         assert self.app.run("ping")
         hh, mm = self.config.Interval_Interval.split(":")
-        self.config.task_delay(minute=int(hh)*60+int(mm))
+        self.config.task_delay(minute=int(hh) * 60 + int(mm))
 
     def fpy_main(self):
         assert self.app.run(f"config stopOnDefeated {self.config.Limit_Defeated}")
@@ -72,9 +75,12 @@ class FgoAutoScript(AzurLaneAutoScript):
                 self.config.Apple_AppleCount = 0
             else:
                 self.config.Apple_AppleTotal -= self.config.Apple_AppleCount
-                self.config.Apple_AppleCount = min(self.config.Apple_AppleCount, self.config.Apple_AppleTotal)
+                self.config.Apple_AppleCount = min(
+                    self.config.Apple_AppleCount,
+                    self.config.Apple_AppleTotal,
+                )
             hh, mm = self.config.Interval_Interval.split(":")
-            self.config.task_delay(minute=int(hh)*60+int(mm))
+            self.config.task_delay(minute=int(hh) * 60 + int(mm))
 
     def fpy_daily_fp_summon(self):
         assert self.app.run("call dailyFpSummon")
@@ -82,7 +88,7 @@ class FgoAutoScript(AzurLaneAutoScript):
 
     def fpy_battle(self):
         assert self.app.run("battle")
-    
+
     def fpy_benchmark(self):
         assert self.app.run(f"bench {dict([('touch','-i'),('screen','-o'),('all','')])[self.config.Benchmark_BenchOption]}")
 
@@ -106,6 +112,7 @@ def export_method(func):
         getattr(script, func.__name__)()
         script.app.pipe.stdin.close()
         script.app.logger.join(10)
+
     return wrapper
 
 

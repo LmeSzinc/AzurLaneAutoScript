@@ -10,11 +10,13 @@ from submodule.AlasFpyBridge.module.utils.headlessCliApplication import Headless
 
 
 class FGOpy(HeadlessCliApplication):
-    def __init__(self, path, counter={}): # Caution that a mutable object is used for default paprameter
+    def __init__(self, path, counter={}):
+        # Caution that a mutable object is used for default paprameter
         assert os.path.isabs(path) and os.path.exists(path)
         launch = shutil.which("launch", path=path)
         assert launch
-        halt = shutil.which("halt", path=path) # If you filled in `/usr/sbin` as the path, and there happened to be an executable named `launch`, and Alas had root privileges...
+        # If you filled in `/usr/sbin` as the path, and there happened to be an executable named `launch`, and Alas had root privileges...
+        halt = shutil.which("halt", path=path)
         os.environ["PATH"] = os.pathsep.join([
             os.path.abspath(os.path.dirname(DeployConfig().AdbExecutable)),
             os.environ["PATH"],
@@ -34,7 +36,7 @@ class FGOpy(HeadlessCliApplication):
         )
         super().__init__(launch)
         while self.first_log:
-            time.sleep(.5)
+            time.sleep(0.5)
         self.start_orphan_slayer(self.info["PID"], halt)
 
     def callback(self, line):
