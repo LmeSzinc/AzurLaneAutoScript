@@ -121,7 +121,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
         """
         if not checked:
             limit = self.config.TaskBalancer_CoinLimit
-            coin = self.get_coin()
+            coin = self._get_coin()
             if coin == 0:
                 logger.warning('Coin not found')
             else:
