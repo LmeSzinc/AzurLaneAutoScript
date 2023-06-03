@@ -110,6 +110,9 @@ def parse_move(movement: str, step: int):
 class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
+    siren_list = [C7, D6, G6, H7]
+    patched = False
+    action = []
 
     def execute_actions(self, step):
         for action in self.action[step]:
@@ -140,26 +143,22 @@ class Campaign(CampaignBase):
         return True
 
     def battle_0(self):
-        self.action = actions[self.fleet_1_location[0]]
-        return self.execute_actions(0)
+        if not self.patched:
+            for battle_count in range(1, 7):
+                setattr(self, f'battle_{battle_count}', self.battle_0)
+            self.patched = True
 
-    def battle_1(self):
-        return self.execute_actions(1)
-
-    def battle_2(self):
-        return self.execute_actions(2)
-
-    def battle_3(self):
-        return self.execute_actions(3)
-
-    def battle_4(self):
-        return self.execute_actions(4)
-
-    def battle_5(self):
-        return self.execute_actions(5)
-
-    def battle_6(self):
-        return self.execute_actions(6)
+        if self.map_is_clear_mode:
+            if self.siren_list:
+                self.fleet_1.clear_chosen_enemy(self.siren_list.pop())
+                return True
+            else:
+                if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
+                    return True
+        else:
+            if not self.action:
+                self.action = actions[self.fleet_1_location[0]]
+            return self.execute_actions(self.battle_count)
 
     def battle_7(self):
         return self.fleet_boss.clear_boss()
