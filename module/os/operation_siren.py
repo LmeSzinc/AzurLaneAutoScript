@@ -401,12 +401,12 @@ class OperationSiren(OSMap):
 
             self.get_current_zone()
 
-            # Preset action point to 100
+            # Preset action point to 70
             # When running CL1 oil is for running CL1, not meowfficer farming
             keep_current_ap = True
             if self.config.OpsiGeneral_BuyActionPointLimit > 0:
                 keep_current_ap = False
-            self.action_point_set(cost=100, keep_current_ap=keep_current_ap, check_rest_ap=True)
+            self.action_point_set(cost=70, keep_current_ap=keep_current_ap, check_rest_ap=True)
             if self._action_point_total >= 3000:
                 with self.config.multi_set():
                     self.config.task_delay(server_update=True)
@@ -441,13 +441,6 @@ class OperationSiren(OSMap):
                 if current < next_run:
                     logger.info(f'Delay task `{task}` to {next_run}')
                     self.config.cross_set(keys=keys, value=next_run)
-
-            # ResetActionPointPreserve
-            # Unbound attribute, default to 500
-            preserve = self.config.OpsiMeowfficerFarming_ActionPointPreserve
-            logger.info(f'Set OpsiMeowfficerFarming.ActionPointPreserve to {preserve}')
-            self.config.cross_set(
-                keys='OpsiMeowfficerFarming.OpsiMeowfficerFarming.ActionPointPreserve', value=preserve)
 
     def _os_explore(self):
         """
