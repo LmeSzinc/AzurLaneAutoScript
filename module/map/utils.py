@@ -147,7 +147,7 @@ def match_movable(before, spawn, after, fleets, fleet_step=2):
     after = after + fleets
     x = len(after)
     y = len(before)
-    distance = np.ones((y, x), dtype=np.int) * base_weight
+    distance = np.ones((y, x), dtype=int) * base_weight
     for i1, g1 in enumerate(before):
         for i2, g2 in enumerate(after):
             distance[i1, i2] = fleet_step - sum(abs(np.subtract(g1, g2)))
