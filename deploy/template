@@ -1,7 +1,7 @@
 Deploy:
   Git:
     # URL of AzurLaneAutoScript repository
-    # [CN user] Use 'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git' for faster and more stable download
+    # [CN user] Use 'git://git.lyoko.io/AzurLaneAutoScript' for faster and more stable download
     # [Other] Use 'https://github.com/LmeSzinc/AzurLaneAutoScript'
     Repository: 'https://github.com/LmeSzinc/AzurLaneAutoScript'
     # Branch of Alas
