@@ -2680,12 +2680,12 @@
     },
     "Overview": {
       "Scheduler": "Scheduler",
+      "Dashboard": "Dashboard",
       "Log": "Log",
       "Running": "Running",
       "Pending": "Pending",
       "Waiting": "Waiting",
       "NoTask": "No Task",
-      "Dashboard": "Dashboard",
       "SecondsAgo": "Seconds ago",
       "MinutesAgo": "Minutes ago",
       "HoursAgo": "Hours ago",

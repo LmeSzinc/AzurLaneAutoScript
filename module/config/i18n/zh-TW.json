@@ -2681,12 +2681,12 @@
     },
     "Overview": {
       "Scheduler": "調度器",
+      "Dashboard": "儀表盤",
       "Log": "日誌",
       "Running": "執行中",
       "Pending": "佇列中",
       "Waiting": "等待中",
       "NoTask": "無任務",
-      "Dashboard": "儀表盤",
       "SecondsAgo": "秒前",
       "MinutesAgo": "分鐘前",
       "HoursAgo": "小時前",

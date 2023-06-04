@@ -2681,12 +2681,12 @@
     },
     "Overview": {
       "Scheduler": "スケジューラー",
+      "Dashboard": "ダッシュボード",
       "Log": "ログ",
       "Running": "実行中",
       "Pending": "隊列中",
       "Waiting": "Waiting",
       "NoTask": "No Task",
-      "Dashboard": "Dashboard",
       "SecondsAgo": "Seconds ago",
       "MinutesAgo": "Minutes ago",
       "HoursAgo": "Hours ago",
