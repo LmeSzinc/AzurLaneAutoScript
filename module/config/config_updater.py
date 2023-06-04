@@ -407,7 +407,7 @@ class ConfigGenerator:
     def generate_deploy_template():
         template = poor_yaml_read(DEPLOY_TEMPLATE)
         cn = {
-            'Repository': 'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git',
+            'Repository': 'git://git.lyoko.io/AzurLaneAutoScript',
             'PypiMirror': 'https://pypi.tuna.tsinghua.edu.cn/simple',
             'Language': 'zh-CN',
         }
