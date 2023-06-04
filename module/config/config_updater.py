@@ -139,6 +139,15 @@ class ConfigGenerator:
         return read_file(filepath_argument('gui'))
 
     @cached_property
+    def dashboard(self):
+        """
+        <dashboard>
+          - <group>
+        """
+        return read_file(filepath_argument('dashboard'))
+
+
+    @cached_property
     @timer
     def args(self):
         """
@@ -152,7 +161,9 @@ class ConfigGenerator:
         """
         # Construct args
         data = {}
-        for task, groups in self.task.items():
+        # Add dashboard to args
+        dashboard_and_task = {**self.dashboard,**self.task}
+        for task, groups in dashboard_and_task.items():
             # Add storage to all task
             groups.append('Storage')
             for group in groups:

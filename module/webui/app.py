@@ -1,3 +1,4 @@
+import re
 import argparse
 import queue
 import threading
@@ -45,6 +46,8 @@ from module.config.utils import (
     filepath_config,
     read_file,
 )
+from module.config.utils import time_delta
+from module.log_res.log_res import LogRes
 from module.logger import logger
 from module.ocr.rpc import start_ocr_server_process, stop_ocr_server_process
 from module.submodule.submodule import load_config
@@ -53,7 +56,7 @@ from module.webui.base import Frame
 from module.webui.discord_presence import close_discord_rpc, init_discord_rpc
 from module.webui.fastapi import asgi_app
 from module.webui.lang import _t, t
-from module.webui.pin import put_input, put_select
+from module.webui.pin import put_input, put_select, pin_update
 from module.webui.process_manager import ProcessManager
 from module.webui.remote_access import RemoteAccess
 from module.webui.setting import State
@@ -85,10 +88,34 @@ from module.webui.widgets import (
 task_handler = TaskHandler()
 
 
+def timedelta_to_text(delta=None):
+    time_delta_name_suffix_dict = {
+        'Y': 'YearsAgo',
+        'M': 'MonthsAgo',
+        'D': 'DaysAgo',
+        'h': 'HoursAgo',
+        'm': 'MinutesAgo',
+        's': 'SecondsAgo',
+    }
+    time_delta_name_prefix = 'Gui.Overview.'
+    time_delta_name_suffix = 'NoData'
+    time_delta_display = ''
+    if isinstance(delta, dict):
+        for _key in delta:
+            if delta[_key]:
+                time_delta_name_suffix = time_delta_name_suffix_dict[_key]
+                time_delta_display = delta[_key]
+                break
+    time_delta_display = str(time_delta_display)
+    time_delta_name = time_delta_name_prefix + time_delta_name_suffix
+    return time_delta_display + t(time_delta_name)
+
+
 class AlasGUI(Frame):
     ALAS_MENU: Dict[str, Dict[str, List[str]]]
     ALAS_ARGS: Dict[str, Dict[str, Dict[str, Dict[str, str]]]]
     theme = "default"
+    _log = RichLog
 
     def initial(self) -> None:
         self.ALAS_MENU = read_file(filepath_args("menu", self.alas_mod))
@@ -292,7 +319,7 @@ class AlasGUI(Frame):
             put_html('<hr class="hr-group">')
             for output in output_list:
                 output.show()
-        
+
         return len(output_list)
 
     @use_scope("navigator")
@@ -363,22 +390,43 @@ class AlasGUI(Frame):
         )
 
         log = RichLog("log")
+        self._log = log
+        self._log.dashboard_arg_group = LogRes(self.alas_config).groups
 
         with use_scope("logs"):
-            put_scope(
-                "log-bar",
-                [
-                    put_text(t("Gui.Overview.Log")).style(
-                        "font-size: 1.25rem; margin: auto .5rem auto;"
-                    ),
-                    put_scope(
-                        "log-bar-btns",
-                        [
-                            put_scope("log_scroll_btn"),
-                        ],
-                    ),
-                ],
-            ),
+            if 'Maa' in self.ALAS_ARGS:
+                put_scope(
+                    "log-bar",
+                    [
+                        put_text(t("Gui.Overview.Log")).style(
+                            "font-size: 1.25rem; margin: auto .5rem auto;"
+                        ),
+                        put_scope(
+                            "log-bar-btns",
+                            [
+                                put_scope("log_scroll_btn"),
+                            ],
+                        ),
+                    ],
+                ),
+            else:
+                put_scope(
+                    "log-bar",
+                    [
+                        put_text(t("Gui.Overview.Log")).style(
+                            "font-size: 1.25rem; margin: auto .5rem auto;"
+                        ),
+                        put_scope(
+                            "log-bar-btns",
+                            [
+                                put_scope("log_scroll_btn"),
+                                put_scope("dashboard_btn"),
+                            ],
+                        ),
+                        put_html('<hr class="hr-group">'),
+                        put_scope("dashboard"),
+                    ],
+                ),
             put_scope("log", [put_html("")])
 
         log.console.width = log.get_width()
@@ -393,11 +441,28 @@ class AlasGUI(Frame):
             color_off="off",
             scope="log_scroll_btn",
         )
-
+        switch_dashboard = BinarySwitchButton(
+            label_on=t("Gui.Button.DashboardON"),
+            label_off=t("Gui.Button.DashboardOFF"),
+            onclick_on=lambda: self.set_dashboard_display(False),
+            onclick_off=lambda: self.set_dashboard_display(True),
+            get_state=lambda: log.display_dashboard,
+            color_on="off",
+            color_off="on",
+            scope="dashboard_btn",
+        )
         self.task_handler.add(switch_scheduler.g(), 1, True)
         self.task_handler.add(switch_log_scroll.g(), 1, True)
+        if 'Maa' not in self.ALAS_ARGS:
+            self.task_handler.add(switch_dashboard.g(), 1, True)
         self.task_handler.add(self.alas_update_overview_task, 10, True)
+        if 'Maa' not in self.ALAS_ARGS:
+            self.task_handler.add(self.alas_update_dashboard, 10, True)
         self.task_handler.add(log.put_log(self.alas), 0.25, True)
+
+    def set_dashboard_display(self, b):
+        self._log.set_dashboard_display(b)
+        self.alas_update_dashboard(True)
 
     def _init_alas_config_watcher(self) -> None:
         def put_queue(path, value):
@@ -430,13 +495,14 @@ class AlasGUI(Frame):
                     break
 
     def _save_config(
-        self,
-        modified: Dict[str, str],
-        config_name: str,
-        read=State.config_updater.read_file,
-        write=State.config_updater.write_file,
+            self,
+            modified: Dict[str, str],
+            config_name: str,
+            read=State.config_updater.read_file,
+            write=State.config_updater.write_file,
     ) -> None:
         try:
+            skip_time_record = False
             valid = []
             invalid = []
             config = read(config_name)
@@ -540,6 +606,105 @@ class AlasGUI(Frame):
                     put_task(task)
             else:
                 put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
+
+    def _update_dashboard(self, num=None, groups_to_display=None):
+        x = 0
+        _num = 10000 if num is None else num
+        _arg_group = self._log.dashboard_arg_group if groups_to_display is None else groups_to_display
+        time_now = datetime.now().replace(microsecond=0)
+        for group_name in _arg_group:
+            group = deep_get(d=self.alas_config.data, keys=f'Dashboard.{group_name}')
+            if group is None:
+                continue
+
+            value = str(group['Value'])
+            if 'Limit' in group.keys():
+                value_limit = f' / {group["Limit"]}'
+                value_total = ''
+            elif 'Total' in group.keys():
+                value_total = f' ({group["Total"]})'
+                value_limit = ''
+            elif group_name == 'Pt':
+                value_limit = ' / ' + re.sub(r'[,.\'"，。]', '',
+                                             str(deep_get(self.alas_config.data, 'EventGeneral.EventGeneral.PtLimit')))
+                if value_limit == ' / 0':
+                    value_limit = ''
+            else:
+                value_limit = ''
+                value_total = ''
+            # value = value + value_limit + value_total
+
+            value_time = group['Record']
+            if value_time is None or value_time == datetime(2020, 1, 1, 0, 0, 0):
+                value_time = datetime(2023, 1, 1, 0, 0, 0)
+
+            # Handle time delta
+            if value_time == datetime(2023, 1, 1, 0, 0, 0):
+                value = 'None'
+                delta = timedelta_to_text()
+            else:
+                delta = timedelta_to_text(time_delta(value_time - time_now))
+            if group_name not in self._log.last_display_time.keys():
+                self._log.last_display_time[group_name] = ''
+            if self._log.last_display_time[group_name] == delta and not self._log.first_display:
+                continue
+            self._log.last_display_time[group_name] = delta
+
+            # if self._log.first_display:
+            # Handle width
+            # value_width = len(value) * 0.7 + 0.6 if value != 'None' else 4.5
+            # value_width = str(value_width/1.12) + 'rem' if self.is_mobile else str(value_width) + 'rem'
+            value_limit = '' if value == 'None' else value_limit
+            # limit_width = len(value_limit) * 0.7
+            # limit_width = str(limit_width) + 'rem'
+            value_total = '' if value == 'None' else value_total
+            limit_style = '--dashboard-limit--' if value_limit else '--dashboard-total--'
+            value_limit = value_limit if value_limit else value_total
+            # Handle dot color
+            _color = f"""background-color:{deep_get(d=group, keys='Color').replace('^', '#')}"""
+            color = f'<div class="status-point" style={_color}>'
+            with use_scope(group_name, clear=True):
+                put_row(
+                    [
+                        put_html(color),
+                        put_scope(
+                            f"{group_name}_group",
+                            [
+                                put_column(
+                                    [
+                                        put_row(
+                                            [
+                                                put_text(value
+                                                         ).style(f'--dashboard-value--'),
+                                                put_text(value_limit
+                                                         ).style(limit_style),
+                                            ],
+                                        ).style('grid-template-columns:min-content auto;align-items: baseline;'),
+                                        put_text(
+                                            t(f'Gui.Overview.{group_name}') + " - " + delta
+                                        ).style('---dashboard-help--')
+                                    ],
+                                    size="auto auto",
+                                ),
+                            ],
+                        ),
+                    ],
+                    size="20px 1fr"
+                ).style("height: 1fr"),
+            x += 1
+            if x >= _num:
+                break
+        if self._log.first_display:
+            self._log.first_display = False
+
+    def alas_update_dashboard(self, _clear=False):
+        if not self.visible:
+            return
+        with use_scope("dashboard", clear=_clear):
+            if not self._log.display_dashboard:
+                self._update_dashboard(num=4, groups_to_display=['Oil', 'Coin', 'Gem', 'Pt'])
+            elif self._log.display_dashboard:
+                self._update_dashboard()
 
     @use_scope("content", clear=True)
     def alas_daemon_overview(self, task: str) -> None:
@@ -842,17 +1007,17 @@ class AlasGUI(Frame):
     def dev_utils(self) -> None:
         self.init_menu(name="Utils")
         self.set_title(t("Gui.MenuDevelop.Utils"))
-        put_button(label="Raise exception", onclick=raise_exception)
+        put_button(label=t("Gui.MenuDevelop.RaiseException"), onclick=raise_exception)
 
         def _force_restart():
             if State.restart_event is not None:
-                toast("Alas will restart in 3 seconds", duration=0, color="error")
+                toast(t("Gui.Toast.AlasRestart"), duration=0, color="error")
                 clearup()
                 State.restart_event.set()
             else:
-                toast("Reload not enabled", color="error")
+                toast(t("Gui.Toast.ReloadEnabled"), color="error")
 
-        put_button(label="Force restart", onclick=_force_restart)
+        put_button(label=t("Gui.MenuDevelop.ForceRestart"), onclick=_force_restart)
 
     @use_scope("content", clear=True)
     def dev_remote(self) -> None:
@@ -891,8 +1056,8 @@ class AlasGUI(Frame):
                     "--loading-border-fill--"
                 )
                 if (
-                    State.deploy_config.EnableRemoteAccess
-                    and State.deploy_config.Password
+                        State.deploy_config.EnableRemoteAccess
+                        and State.deploy_config.Password
                 ):
                     put_text(t("Gui.Remote.NotRunning"), scope="remote_state")
                 else:
@@ -1178,8 +1343,8 @@ def startup():
     if State.deploy_config.StartOcrServer:
         start_ocr_server_process(State.deploy_config.OcrServerPort)
     if (
-        State.deploy_config.EnableRemoteAccess
-        and State.deploy_config.Password is not None
+            State.deploy_config.EnableRemoteAccess
+            and State.deploy_config.Password is not None
     ):
         task_handler.add(RemoteAccess.keep_ssh_alive(), 60)
 
