@@ -17,9 +17,9 @@ TAKE_PICTURE = ButtonWrapper(
     name='TAKE_PICTURE',
     share=Button(
         file='./assets/share/daily/TAKE_PICTURE.png',
-        area=(1120, 346, 1160, 375),
-        search=(1100, 326, 1180, 395),
-        color=(215, 215, 215),
-        button=(1120, 346, 1160, 375),
+        area=(1120, 344, 1160, 375),
+        search=(1100, 324, 1180, 395),
+        color=(172, 173, 172),
+        button=(1120, 344, 1160, 375),
     ),
 )

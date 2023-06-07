@@ -17,10 +17,10 @@ CAMERA_CHECK = ButtonWrapper(
     name='CAMERA_CHECK',
     share=Button(
         file='./assets/share/base/page/CAMERA_CHECK.png',
-        area=(1120, 346, 1160, 375),
-        search=(1100, 326, 1180, 395),
-        color=(215, 215, 215),
-        button=(1120, 346, 1160, 375),
+        area=(1120, 344, 1160, 375),
+        search=(1100, 324, 1180, 395),
+        color=(172, 173, 172),
+        button=(1120, 344, 1160, 375),
     ),
 )
 CHARACTER_CHECK = ButtonWrapper(
