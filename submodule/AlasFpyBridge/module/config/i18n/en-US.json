@@ -1,54 +1,54 @@
 {
   "Menu": {
     "Task": {
-      "name": "Menu.Task.name",
-      "help": "Menu.Task.help"
+      "name": "",
+      "help": ""
     },
     "Fpy": {
-      "name": "Menu.Fpy.name",
-      "help": "Menu.Fpy.help"
+      "name": "FGO-py",
+      "help": ""
     },
     "Farm": {
-      "name": "Menu.Farm.name",
-      "help": "Menu.Farm.help"
+      "name": "Farm",
+      "help": ""
     },
     "Daily": {
-      "name": "Menu.Daily.name",
-      "help": "Menu.Daily.help"
+      "name": "Daily",
+      "help": ""
     },
     "Tool": {
-      "name": "Menu.Tool.name",
-      "help": "Menu.Tool.help"
+      "name": "Tool",
+      "help": ""
     }
   },
   "Task": {
     "Fpy": {
-      "name": "Task.Fpy.name",
-      "help": "Task.Fpy.help"
+      "name": "FGO-py",
+      "help": "Requries FGO-py v11.2.0 or higher"
     },
     "FpyHeartbeat": {
-      "name": "Task.FpyHeartbeat.name",
-      "help": "Task.FpyHeartbeat.help"
+      "name": "Heartbeat",
+      "help": "When creating an FGO-py process in a complex environment, you may need to ping it every little while to prevent disconnections"
     },
     "FpyMain": {
-      "name": "Task.FpyMain.name",
-      "help": "Task.FpyMain.help"
+      "name": "Main",
+      "help": "Press the button and AP gauge emptied\nOh, it's now once button pressed, empty AP gauge forever"
     },
     "FpyDailyFpSummon": {
-      "name": "Task.FpyDailyFpSummon.name",
-      "help": "Task.FpyDailyFpSummon.help"
+      "name": "DailyFpSummon",
+      "help": ""
     },
     "FpyBattle": {
-      "name": "Task.FpyBattle.name",
-      "help": "Task.FpyBattle.help"
+      "name": "Battle",
+      "help": ""
     },
     "FpyBenchmark": {
-      "name": "Task.FpyBenchmark.name",
-      "help": "Task.FpyBenchmark.help"
+      "name": "Benchmark",
+      "help": ""
     },
     "FpyCall": {
-      "name": "Task.FpyCall.name",
-      "help": "Task.FpyCall.help"
+      "name": "Call",
+      "help": ""
     }
   },
   "Scheduler": {
@@ -117,46 +117,46 @@
   },
   "FpyEmulator": {
     "_info": {
-      "name": "FpyEmulator._info.name",
-      "help": "FpyEmulator._info.help"
+      "name": "Environment",
+      "help": ""
     },
     "Serial": {
-      "name": "FpyEmulator.Serial.name",
-      "help": "FpyEmulator.Serial.help"
+      "name": "Serial",
+      "help": "Equivalent to `Connect to a device` dialog in FGO-py\nYou can find the Serial of common emulators in this option of the Alas body, and the rest is described in the `Connecting to Devices` section of the FGO-py readme."
     },
     "LaunchPath": {
-      "name": "FpyEmulator.LaunchPath.name",
-      "help": "FpyEmulator.LaunchPath.help"
+      "name": "LaunchPath",
+      "help": "The absolute path of the `AzurLaneAutoScript` subdirectory in the `deploy` directory of FGO-py\nYou can copy this subdirectory to another location for distributed deployment"
     }
   },
   "Interval": {
     "_info": {
-      "name": "Interval._info.name",
-      "help": "Interval._info.help"
+      "name": "Interval",
+      "help": "Whenever a call to this task is completed, call it again after a certain period of time"
     },
     "Interval": {
-      "name": "Interval.Interval.name",
-      "help": "Interval.Interval.help"
+      "name": "Interval",
+      "help": "HH:MM, HH cannot be omitted, MM can be greater than 60"
     }
   },
   "Team": {
     "_info": {
-      "name": "Team._info.name",
-      "help": "Team._info.help"
+      "name": "Team",
+      "help": "Team"
     },
     "Index": {
-      "name": "Team.Index.name",
-      "help": "Team.Index.help"
+      "name": "TeamIndex",
+      "help": "The position of the selected team in the team formation interface, left to right 1-10, 0 to disable"
     }
   },
   "Apple": {
     "_info": {
-      "name": "Apple._info.name",
-      "help": "Apple._info.help"
+      "name": "Apple",
+      "help": "Apple"
     },
     "AppleKind": {
-      "name": "Apple.AppleKind.name",
-      "help": "Apple.AppleKind.help",
+      "name": "AppleKind",
+      "help": "AppleKind",
       "gold": "gold",
       "silver": "silver",
       "bronze": "bronze",
@@ -164,44 +164,44 @@
       "quartz": "quartz"
     },
     "AppleCount": {
-      "name": "Apple.AppleCount.name",
-      "help": "Apple.AppleCount.help"
+      "name": "AppleCount",
+      "help": "AppleCount"
     },
     "EatOnce": {
-      "name": "Apple.EatOnce.name",
-      "help": "Apple.EatOnce.help"
+      "name": "EatOnce",
+      "help": "After this task is called once, the `AppleCount` will be cleared to zero, and after that, just clears the AP gauge\nIf this option is turned off, then every time it is called, apples will be eaten"
     },
     "AppleTotal": {
-      "name": "Apple.AppleTotal.name",
-      "help": "Apple.AppleTotal.help"
+      "name": "AppleTotal",
+      "help": "When `EatOnce` is turned off, this value will automatically reduced to prevent eating non-existent apples"
     }
   },
   "Limit": {
     "_info": {
-      "name": "Limit._info.name",
-      "help": "Limit._info.help"
+      "name": "Limit",
+      "help": "Disable this task when certain conditions met"
     },
     "Defeated": {
-      "name": "Limit.Defeated.name",
-      "help": "Limit.Defeated.help"
+      "name": "Defeated",
+      "help": "Disable this task when defeated"
     },
     "KizunaReisou": {
-      "name": "Limit.KizunaReisou.name",
-      "help": "Limit.KizunaReisou.help"
+      "name": "KizunaReisou",
+      "help": "Disable this task when bond essences earned"
     },
     "SpecialDrop": {
-      "name": "Limit.SpecialDrop.name",
-      "help": "Limit.SpecialDrop.help"
+      "name": "SpecialDrop",
+      "help": "Disable this task after several ★5 essences earned\nThis value is automatically reduced"
     }
   },
   "Benchmark": {
     "_info": {
-      "name": "Benchmark._info.name",
-      "help": "Benchmark._info.help"
+      "name": "Benchmark",
+      "help": "Get the time cost for a single touch and screenshot"
     },
     "BenchOption": {
-      "name": "Benchmark.BenchOption.name",
-      "help": "Benchmark.BenchOption.help",
+      "name": "BenchOption",
+      "help": "Able to be tested individually for touch or screenshots",
       "touch": "touch",
       "screen": "screen",
       "all": "all"
@@ -209,12 +209,12 @@
   },
   "Call": {
     "_info": {
-      "name": "Call._info.name",
-      "help": "Call._info.help"
+      "name": "Call",
+      "help": "Calling some standalone widgets in FGO-py"
     },
     "Function": {
-      "name": "Call.Function.name",
-      "help": "Call.Function.help",
+      "name": "Function",
+      "help": "Name of the widget to be called",
       "fpSummon": "fpSummon",
       "lottery": "lottery",
       "mail": "mail",

@@ -1,54 +1,54 @@
 {
   "Menu": {
     "Task": {
-      "name": "Menu.Task.name",
-      "help": "Menu.Task.help"
+      "name": "",
+      "help": ""
     },
     "Fpy": {
-      "name": "Menu.Fpy.name",
-      "help": "Menu.Fpy.help"
+      "name": "FGO-py",
+      "help": ""
     },
     "Farm": {
-      "name": "Menu.Farm.name",
-      "help": "Menu.Farm.help"
+      "name": "出撃",
+      "help": ""
     },
     "Daily": {
-      "name": "Menu.Daily.name",
-      "help": "Menu.Daily.help"
+      "name": "日課",
+      "help": ""
     },
     "Tool": {
-      "name": "Menu.Tool.name",
-      "help": "Menu.Tool.help"
+      "name": "ツール",
+      "help": ""
     }
   },
   "Task": {
     "Fpy": {
-      "name": "Task.Fpy.name",
-      "help": "Task.Fpy.help"
+      "name": "FGO-py設定",
+      "help": "FGO-py v11.2.0以降が必要です"
     },
     "FpyHeartbeat": {
-      "name": "Task.FpyHeartbeat.name",
-      "help": "Task.FpyHeartbeat.help"
+      "name": "心拍",
+      "help": "複雑な環境でFGO-pyのプロセスを作成する場合、切断を防ぐために少しづつpingを打つ必要がある場合があります"
     },
     "FpyMain": {
-      "name": "Task.FpyMain.name",
-      "help": "Task.FpyMain.help"
+      "name": "APをクリアする",
+      "help": "ボタンを押すとAPゲージが空っぽになる\nあ、今は一回ボタン押したら永遠にAPゲージが空っぽなんだ"
     },
     "FpyDailyFpSummon": {
-      "name": "Task.FpyDailyFpSummon.name",
-      "help": "Task.FpyDailyFpSummon.help"
+      "name": "毎日FP召喚",
+      "help": ""
     },
     "FpyBattle": {
-      "name": "Task.FpyBattle.name",
-      "help": "Task.FpyBattle.help"
+      "name": "戦闘",
+      "help": ""
     },
     "FpyBenchmark": {
-      "name": "Task.FpyBenchmark.name",
-      "help": "Task.FpyBenchmark.help"
+      "name": "性能評価",
+      "help": ""
     },
     "FpyCall": {
-      "name": "Task.FpyCall.name",
-      "help": "Task.FpyCall.help"
+      "name": "呼び出す",
+      "help": ""
     }
   },
   "Scheduler": {
@@ -117,109 +117,109 @@
   },
   "FpyEmulator": {
     "_info": {
-      "name": "FpyEmulator._info.name",
-      "help": "FpyEmulator._info.help"
+      "name": "環境",
+      "help": ""
     },
     "Serial": {
-      "name": "FpyEmulator.Serial.name",
-      "help": "FpyEmulator.Serial.help"
+      "name": "Serial",
+      "help": "FGO-pyの`デバイスに接続する`ダイアログに相当する。\n一般的なエミュレータのシリアルはこのAlas本体のオプションに、それ以外はFGO-pyのreadmeの`Connecting to Devices`のセクションに記載されています。"
     },
     "LaunchPath": {
-      "name": "FpyEmulator.LaunchPath.name",
-      "help": "FpyEmulator.LaunchPath.help"
+      "name": "起動パス",
+      "help": "FGO-pyの`deploy`ディレクトリにある`AzurLaneAutoScript`サブディレクトリの絶対パスです\nこのサブディレクトリを別の場所にコピーして、分散配置することも可能です"
     }
   },
   "Interval": {
     "_info": {
-      "name": "Interval._info.name",
-      "help": "Interval._info.help"
+      "name": "間隔",
+      "help": "このタスクの呼び出しが完了するたびに、一定時間後に再度呼び出します"
     },
     "Interval": {
-      "name": "Interval.Interval.name",
-      "help": "Interval.Interval.help"
+      "name": "時間",
+      "help": "HH:MM、HHは省略不可、MMは60以上可能"
     }
   },
   "Team": {
     "_info": {
-      "name": "Team._info.name",
-      "help": "Team._info.help"
+      "name": "パーティー",
+      "help": "パーティー"
     },
     "Index": {
-      "name": "Team.Index.name",
-      "help": "Team.Index.help"
+      "name": "索引",
+      "help": "パーティー編成インターフェイスで選択したパーティーの位置、左から1~10、0は無効にする"
     }
   },
   "Apple": {
     "_info": {
-      "name": "Apple._info.name",
-      "help": "Apple._info.help"
+      "name": "林檎",
+      "help": "りんご"
     },
     "AppleKind": {
-      "name": "Apple.AppleKind.name",
-      "help": "Apple.AppleKind.help",
-      "gold": "gold",
-      "silver": "silver",
-      "bronze": "bronze",
-      "copper": "copper",
-      "quartz": "quartz"
+      "name": "種類",
+      "help": "種類",
+      "gold": "金",
+      "silver": "銀",
+      "bronze": "青",
+      "copper": "銅",
+      "quartz": "石"
     },
     "AppleCount": {
-      "name": "Apple.AppleCount.name",
-      "help": "Apple.AppleCount.help"
+      "name": "数",
+      "help": "数"
     },
     "EatOnce": {
-      "name": "Apple.EatOnce.name",
-      "help": "Apple.EatOnce.help"
+      "name": "一回だけ",
+      "help": "このタスクが一度呼ばれると、「数」は0にリセットされ、その後はAPゲージをクリアするだけです\nこのオプションをオフにすると、毎回このタスクを呼び出すたびに林檎が食べられます。"
     },
     "AppleTotal": {
-      "name": "Apple.AppleTotal.name",
-      "help": "Apple.AppleTotal.help"
+      "name": "在庫数",
+      "help": "「一回だけ」をオフにすると、存在しない林檎を食べるのを防ぐために、この数値は自動的に減少します。"
     }
   },
   "Limit": {
     "_info": {
-      "name": "Limit._info.name",
-      "help": "Limit._info.help"
+      "name": "停止条件",
+      "help": "特定の条件を満たした場合に、このタスクを無効にする"
     },
     "Defeated": {
-      "name": "Limit.Defeated.name",
-      "help": "Limit.Defeated.help"
+      "name": "敗戦",
+      "help": "敗戦時にこのタスクを無効にする"
     },
     "KizunaReisou": {
-      "name": "Limit.KizunaReisou.name",
-      "help": "Limit.KizunaReisou.help"
+      "name": "絆礼装",
+      "help": "絆礼装を入手した時にこのタスクを無効にする"
     },
     "SpecialDrop": {
-      "name": "Limit.SpecialDrop.name",
-      "help": "Limit.SpecialDrop.help"
+      "name": "特殊ドロップ",
+      "help": "★5礼装ドロップを一定数入手した時にこのタスクを無効にする"
     }
   },
   "Benchmark": {
     "_info": {
-      "name": "Benchmark._info.name",
-      "help": "Benchmark._info.help"
+      "name": "性能評価",
+      "help": "タッチとスクリーンショットにかかる時間を取得する"
     },
     "BenchOption": {
-      "name": "Benchmark.BenchOption.name",
-      "help": "Benchmark.BenchOption.help",
-      "touch": "touch",
-      "screen": "screen",
-      "all": "all"
+      "name": "選択肢",
+      "help": "タッチやスクリーンショットを個別にテストすることが出来ます",
+      "touch": "タッチ",
+      "screen": "スクリーンショット",
+      "all": "全部"
     }
   },
   "Call": {
     "_info": {
-      "name": "Call._info.name",
-      "help": "Call._info.help"
+      "name": "呼び出す",
+      "help": "FGO-pyのスタンドアロン機能を呼び出す"
     },
     "Function": {
-      "name": "Call.Function.name",
-      "help": "Call.Function.help",
-      "fpSummon": "fpSummon",
-      "lottery": "lottery",
-      "mail": "mail",
-      "synthesis": "synthesis",
-      "summonHistory": "summonHistory"
+      "name": "機能",
+      "help": "スタンドアロン機能名",
+      "fpSummon": "FP召喚",
+      "lottery": "BOXイベント抽選",
+      "mail": "メールボックス",
+      "synthesis": "強化",
+      "summonHistory": "召喚履歴"
     }
   },
   "Storage": {
