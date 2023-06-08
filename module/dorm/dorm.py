@@ -1,5 +1,5 @@
-import re
 import time
+import typing as t
 
 from module.base.button import ButtonGrid
 from module.base.decorator import Config, cached_property
@@ -258,10 +258,28 @@ class RewardDorm(UI):
         Pages:
             in: DORM_FEED_CHECK
         """
-        self.device.screenshot()
-        self.handle_info_bar()
+        timeout = Timer(1.5, count=3).start()
+        food: t.List[Food] = []
+        fill: int = 0
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
-        food, fill = self.dorm_food_get()
+            # End
+            if timeout.reached():
+                logger.warning('Get dorm food timeout, probably because food is empty')
+                break
+
+            if self.handle_info_bar():
+                continue
+
+            # Get
+            food, fill = self.dorm_food_get()
+            if sum([f.amount for f in food]) > 0:
+                break
 
         FOOD_FILTER.load(self.config.Dorm_FeedFilter)
         for selected in FOOD_FILTER.apply(food):
