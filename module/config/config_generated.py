@@ -362,6 +362,7 @@ class GeneratedConfig:
     # Group `OpsiAshBeacon`
     OpsiAshBeacon_AttackMode = 'current'  # current, current_dossier
     OpsiAshBeacon_OneHitMode = True
+    OpsiAshBeacon_DossierAutoAttackMode = False
     OpsiAshBeacon_RequestAssist = True
     OpsiAshBeacon_EnsureFullyCollected = True
 

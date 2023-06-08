@@ -53,16 +53,6 @@ GemsFarming:
   - Campaign
   - StopCondition
   - Fleet
-Sos:
-  - Scheduler
-  - Sos
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
 
 # ==================== Event ====================
 
@@ -246,7 +236,6 @@ OpsiGeneral:
 OpsiAshBeacon:
   - Scheduler
   - OpsiAshBeacon
-  - OpsiDossierBeacon
 OpsiAshAssist:
   - Scheduler
   - OpsiAshAssist
