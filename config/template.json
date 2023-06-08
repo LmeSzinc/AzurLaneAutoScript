@@ -47,8 +47,7 @@
       "RetireMode": "one_click_retire"
     },
     "OneClickRetire": {
-      "KeepLimitBreak": "keep_limit_break",
-      "RetireAmount": "retire_all"
+      "KeepLimitBreak": "keep_limit_break"
     },
     "Enhance": {
       "ShipToEnhance": "all",

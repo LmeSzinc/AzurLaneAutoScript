@@ -30,7 +30,7 @@ class CampaignOcr(ModuleBase):
         else:
             if name.isdigit():
                 return int(name)
-            elif name in ['a', 'c', 'as', 'cs', 't', 'sp', 'ex_sp']:
+            elif name in ['a', 'c', 'as', 'cs', 't', 'ht', 'ts', 'hts', 'sp', 'ex_sp']:
                 return 1
             elif name in ['b', 'd', 'bs', 'ds', 'ex_ex']:
                 return 2
@@ -153,6 +153,18 @@ class CampaignOcr(ModuleBase):
                 image, extract_letters(self._stage_image, letter=(99, 223, 239), threshold=153),
                 name_offset=(60, 12), name_size=(60, 16)
             )
+        if 'green' in self.config.STAGE_ENTRANCE:
+            digits += self.campaign_match_multi(
+                TEMPLATE_STAGE_GREEN_CLEAR,
+                image, self._stage_image_gray,
+                name_offset=(60, 0), name_size=(60, 22)
+            )
+            digits += self.campaign_match_multi(
+                TEMPLATE_STAGE_PERCENT,
+                image, self._stage_image_gray,
+                similarity=0.6,
+                name_offset=(52, 0), name_size=(60, 22)
+            )
 
         return digits
 
@@ -197,6 +209,18 @@ class CampaignOcr(ModuleBase):
                 TEMPLATE_STAGE_BLUE_CLEAR,
                 image, extract_letters(self._stage_image, letter=(99, 223, 239), threshold=153),
                 name_offset=(60, 12), name_size=(60, 16)
+            )
+        if 'green' in self.config.STAGE_ENTRANCE:
+            digits += self.campaign_match_multi(
+                TEMPLATE_STAGE_GREEN_CLEAR,
+                image, self._stage_image_gray,
+                name_offset=(60, 0), name_size=(60, 22)
+            )
+            digits += self.campaign_match_multi(
+                TEMPLATE_STAGE_PERCENT,
+                image, self._stage_image_gray,
+                similarity=0.6,
+                name_offset=(52, 0), name_size=(60, 22)
             )
 
         return digits
@@ -246,7 +270,7 @@ class CampaignOcr(ModuleBase):
             result = [result]
         result = [self._campaign_ocr_result_process(res) for res in result]
 
-        chapter = [self._campaign_separate_name(res)[0] for res in result]
+        chapter = [self._campaign_separate_name(res)[0] for res in result if res]
         chapter = list(filter(('').__ne__, chapter))
         if not chapter:
             raise CampaignNameError

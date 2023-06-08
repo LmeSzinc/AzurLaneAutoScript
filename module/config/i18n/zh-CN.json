@@ -322,10 +322,13 @@
       "com.bilibili.blhx.nearme.gamecenter": "国服 oppo渠道服 com.bilibili.blhx.nearme.gamecenter",
       "com.bilibili.blhx.vivo": "国服 vivo渠道服 com.bilibili.blhx.vivo",
       "com.bilibili.blhx.mz": "国服 魅族渠道服 com.bilibili.blhx.mz",
+      "com.bilibili.blhx.dl": "国服 当乐渠道服 com.bilibili.blhx.dl",
+      "com.bilibili.blhx.lenovo": "国服 联想渠道服 com.bilibili.blhx.lenovo",
       "com.bilibili.blhx.uc": "国服 UC九游渠道服 com.bilibili.blhx.uc",
       "com.bilibili.blhx.mzw": "国服 拇指玩渠道服 com.bilibili.blhx.mzw",
       "com.yiwu.blhx.yx15": "国服 一五游戏渠道服 com.yiwu.blhx.yx15",
       "com.bilibili.blhx.m4399": "国服 4399渠道服 com.bilibili.blhx.m4399",
+      "com.bilibili.blhx.bilibiliMove": "国服 迁移渠道服 com.bilibili.blhx.bilibiliMove",
       "com.hkmanjuu.azurlane.gp.mc": "台服 com.hkmanjuu.azurlane.gp.mc"
     },
     "ServerName": {
@@ -584,12 +587,6 @@
       "help": "没有满星的同名舰船时，保留几艘符合退役条件的同名舰船\n如果一键退役无法退役，请设置为 \"不保留\"",
       "keep_limit_break": "保留满星所需",
       "do_not_keep": "不保留"
-    },
-    "RetireAmount": {
-      "name": "退役数量",
-      "help": "",
-      "retire_all": "退役全部",
-      "retire_10": "退役10个"
     }
   },
   "Enhance": {
@@ -653,6 +650,8 @@
       "name": "活动名称",
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
+      "event_20230525_cn": "空相交汇点",
+      "event_20220526_cn": "泠誓光庭",
       "event_20201126_cn": "假日航线",
       "event_20210819_cn": "复刻微层混合",
       "event_20211111_cn": "复刻杰诺瓦的焰火",
@@ -687,7 +686,6 @@
       "event_20200820_cn": "复刻铁血音符誓言",
       "event_20201012_cn": "复刻划破海空之翼",
       "event_20210527_cn": "镜位螺旋",
-      "event_20220526_cn": "泠誓光庭",
       "raid_20200624": "复刻特别演习埃塞克斯级",
       "event_20220428_cn": "虹彩的终幕曲",
       "event_20220414_cn": "复刻永夜幻光",

@@ -322,10 +322,13 @@
       "com.bilibili.blhx.nearme.gamecenter": "CN com.bilibili.blhx.nearme.gamecenter",
       "com.bilibili.blhx.vivo": "CN com.bilibili.blhx.vivo",
       "com.bilibili.blhx.mz": "CN com.bilibili.blhx.mz",
+      "com.bilibili.blhx.dl": "CN com.bilibili.blhx.dl",
+      "com.bilibili.blhx.lenovo": "CN com.bilibili.blhx.lenovo",
       "com.bilibili.blhx.uc": "CN com.bilibili.blhx.uc",
       "com.bilibili.blhx.mzw": "CN com.bilibili.blhx.mzw",
       "com.yiwu.blhx.yx15": "CN com.yiwu.blhx.yx15",
       "com.bilibili.blhx.m4399": "CN com.bilibili.blhx.m4399",
+      "com.bilibili.blhx.bilibiliMove": "CN com.bilibili.blhx.bilibiliMove",
       "com.hkmanjuu.azurlane.gp.mc": "TW com.hkmanjuu.azurlane.gp.mc"
     },
     "ServerName": {
@@ -584,12 +587,6 @@
       "help": "If you own multiple copies of a ship that has not been fully Limit Broken, this option determines what you want to do with those copies.\nIf one-click retire cannot retire ships, please set to \"Don't Keep\"",
       "keep_limit_break": "Keep Enough to Max LB",
       "do_not_keep": "Don't Keep"
-    },
-    "RetireAmount": {
-      "name": "Retire Amount",
-      "help": "",
-      "retire_all": "Retire All",
-      "retire_10": "Retire 10"
     }
   },
   "Enhance": {
@@ -653,6 +650,8 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "event_20230525_cn": "Confluence of Nothingness",
+      "event_20220526_cn": "Pledge of the Radiant Court",
       "event_20201126_cn": "Vacation Lane",
       "event_20210819_cn": "Microlayer Medley Rerun",
       "event_20211111_cn": "The Flame-Touched Dagger Rerun",
@@ -687,7 +686,6 @@
       "event_20200820_cn": "Scherzo of Iron and Blood Rerun",
       "event_20201012_cn": "Sundered Blue Rerun",
       "event_20210527_cn": "Mirror Involution",
-      "event_20220526_cn": "Pledge of the Radiant Court",
       "raid_20200624": "Air Raid Drills with Essex Rerun",
       "event_20220428_cn": "Rondo at Rainbows End",
       "event_20220414_cn": "Aurora Noctis Rerun",

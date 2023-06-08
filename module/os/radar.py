@@ -171,7 +171,7 @@ class Radar:
             for y in range(*self.shape[1]):
                 if np.linalg.norm([x, y]) > radius:
                     continue
-                grid_center = np.round(delta * (x, y) + center).astype(np.int)
+                grid_center = np.round(delta * (x, y) + center).astype(int)
                 self.grids[(x, y)] = RadarGrid(location=(x, y), image=None, center=grid_center, config=self.config)
 
     def __iter__(self):
