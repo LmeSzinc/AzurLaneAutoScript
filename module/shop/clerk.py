@@ -69,7 +69,7 @@ class ShopClerk(ShopBase, Retirement):
         except Exception:
             logger.critical(f'No configuration with name '
                             f'\'{class_name}_{ugroup}{postfix}\'')
-            raise ScriptError
+            raise
 
     def shop_get_select(self, item):
         """
