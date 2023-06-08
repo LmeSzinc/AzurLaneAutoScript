@@ -2146,6 +2146,10 @@
       "name": "One Hit Mode",
       "help": "Strike each beacon only once, then call for support every half hour thereafter\nNot effective in META dossiers"
     },
+    "DossierAutoAttackMode": {
+      "name": "OpsiAshBeacon.DossierAutoAttackMode.name",
+      "help": "OpsiAshBeacon.DossierAutoAttackMode.help"
+    },
     "RequestAssist": {
       "name": "Request Assists",
       "help": "Before the attack, request assists from friends, guild and world\nNot effective in META dossiers"

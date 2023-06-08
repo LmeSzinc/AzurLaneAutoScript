@@ -1637,6 +1637,7 @@
     "OpsiAshBeacon": {
       "AttackMode": "current",
       "OneHitMode": true,
+      "DossierAutoAttackMode": false,
       "RequestAssist": true,
       "EnsureFullyCollected": true
     },

@@ -8275,6 +8275,10 @@
         "type": "checkbox",
         "value": true
       },
+      "DossierAutoAttackMode": {
+        "type": "checkbox",
+        "value": false
+      },
       "RequestAssist": {
         "type": "checkbox",
         "value": true
