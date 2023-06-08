@@ -2,6 +2,7 @@ from module.base.button import ButtonGrid
 from module.base.decorator import Config, cached_property
 from module.base.timer import Timer
 from module.handler.assets import POPUP_CONFIRM
+from module.logger import logger
 from module.shop.assets import *
 from module.ui.assets import BACK_ARROW
 from module.ui.navbar import Navbar
@@ -136,23 +137,28 @@ class ShopUI(UI):
         """
         detection_area = (480, 640, 960, 660)
         swipe_interval = Timer(0.6, count=2)
+        trial = 0
 
-        for _ in range(3):
+        while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
+            # End
+            if trial > 5:
+                logger.warning('shop_swipe trail exhausted, assume end reached')
+                return False
+
             # Swipe to the left, medal shop on the leftmost and merit shop on the right most
-            if self.appear(SHOP_META_SWIPE_END, offset=(15, 5)) or \
-                    self.appear(SHOP_CORE_SWIPE_END, offset=(15, 5)):
+            if self.appear(SHOP_GIFT_SWIPE_END, offset=(15, 5)) or \
+                    self.appear(SHOP_PROTOTYPE_SWIPE_END, offset=(15, 5)):
                 return True
 
             if swipe_interval.reached():
-                self.device.swipe_vector((480, 0), box=detection_area, random_range=(-50, -10, 50, 10), padding=0)
+                self.device.swipe_vector((360, 0), box=detection_area, random_range=(-50, -10, 50, 10), padding=0)
                 swipe_interval.reset()
-
-        return False
+                trial += 1
 
     def ui_goto_shop(self):
         """
