@@ -283,11 +283,11 @@ class OpsiAshBeacon(Meta):
                 continue
 
         # Here use simple clicks. Dropping some clicks is acceptable, no need to confirm they are selected.
-        self.device.click(HELP_1)
+        self.device.click(HELP_3)
         self.device.sleep((0.1, 0.3))
         self.device.click(HELP_2)
         self.device.sleep((0.1, 0.3))
-        self.device.click(HELP_3)
+        self.device.click(HELP_1)
 
         skip_first_screenshot = True
         while 1:
