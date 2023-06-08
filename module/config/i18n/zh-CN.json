@@ -815,12 +815,6 @@
       "help": "没有满星的同名舰船时，保留几艘符合退役条件的同名舰船\n如果一键退役无法退役，请设置为 \"不保留\"",
       "keep_limit_break": "保留满星所需",
       "do_not_keep": "不保留"
-    },
-    "RetireAmount": {
-      "name": "退役数量",
-      "help": "",
-      "retire_all": "退役全部",
-      "retire_10": "退役10个"
     }
   },
   "Enhance": {

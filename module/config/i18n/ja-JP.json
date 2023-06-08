@@ -815,12 +815,6 @@
       "help": "OneClickRetire.KeepLimitBreak.help",
       "keep_limit_break": "keep_limit_break",
       "do_not_keep": "do_not_keep"
-    },
-    "RetireAmount": {
-      "name": "OneClickRetire.RetireAmount.name",
-      "help": "OneClickRetire.RetireAmount.help",
-      "retire_all": "retire_all",
-      "retire_10": "retire_10"
     }
   },
   "Enhance": {
