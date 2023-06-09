@@ -66,10 +66,6 @@
       "name": "刷緊急委託",
       "help": ""
     },
-    "Sos": {
-      "name": "潛艇圖",
-      "help": ""
-    },
     "EventGeneral": {
       "name": "活動通用",
       "help": ""
@@ -2174,6 +2170,10 @@
     "OneHitMode": {
       "name": "一擊即走",
       "help": "對每個信標只出擊一次，之後每半個小時呼叫支援\n在檔案信標中不生效"
+    },
+    "DossierAutoAttackMode": {
+      "name": "OpsiAshBeacon.DossierAutoAttackMode.name",
+      "help": "OpsiAshBeacon.DossierAutoAttackMode.help"
     },
     "RequestAssist": {
       "name": "呼叫支援",
