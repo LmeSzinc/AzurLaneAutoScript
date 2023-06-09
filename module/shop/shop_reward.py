@@ -65,6 +65,7 @@ class RewardShop(ShopUI):
 
         self.shop_swipe()
         # gift, meta, medal, guild, prototype
+        # meta, gift, medal, guild, prototype [EN]
         if self.shop_bottom_navbar_ensure(left=4):
             GuildShop(self.config, self.device).run()
 
