@@ -12,28 +12,28 @@ Fpy:
 
 FpyHeartbeat:
   - Scheduler
-  - Interval
+  - FpyInterval
 
-# ==================== Farm ====================
+# ==================== FpyFarm ====================
 
 FpyMain:
   - Scheduler
-  - Team
-  - Apple
-  - Limit
-  - Interval
+  - FpyTeam
+  - FpyApple
+  - FpyLimit
+  - FpyInterval
 
-# ==================== Daily ====================
+# ==================== FpyDaily ====================
 
 FpyDailyFpSummon:
   - Scheduler
 
-# ==================== Tool ====================
+# ==================== FpyTool ====================
 
 FpyBattle: []
 
 FpyBenchmark:
-  - Benchmark
+  - FpyBenchmark
 
 FpyCall:
-  - Call
+  - FpyCall

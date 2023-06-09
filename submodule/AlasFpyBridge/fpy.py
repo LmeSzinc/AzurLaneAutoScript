@@ -44,7 +44,7 @@ class FgoAutoScript(AzurLaneAutoScript):
         app = FGOpy(
             self.config.FpyEmulator_LaunchPath,
             {
-                "Special Drop": "Limit_SpecialDrop",
+                "Special Drop": "FpyLimit_SpecialDrop",
             },
         )
         assert app.run("ping")
@@ -58,28 +58,28 @@ class FgoAutoScript(AzurLaneAutoScript):
 
     def fpy_heartbeat(self):
         assert self.app.run("ping")
-        hh, mm = self.config.Interval_Interval.split(":")
+        hh, mm = self.config.FpyInterval_Interval.split(":")
         self.config.task_delay(minute=int(hh) * 60 + int(mm))
 
     def fpy_main(self):
-        assert self.app.run(f"config stopOnDefeated {self.config.Limit_Defeated}")
-        assert self.app.run(f"config stopOnKizunaReisou {self.config.Limit_KizunaReisou}")
-        assert self.app.run(f"config stopOnSpecialDrop {self.config.Limit_SpecialDrop}")
-        assert self.app.run(f"teamup set index {self.config.Team_Index}")
-        assert self.app.run(f"main {self.config.Apple_AppleCount} {self.config.Apple_AppleKind}")
+        assert self.app.run(f"config stopOnDefeated {self.config.FpyLimit_Defeated}")
+        assert self.app.run(f"config stopOnKizunaReisou {self.config.FpyLimit_KizunaReisou}")
+        assert self.app.run(f"config stopOnSpecialDrop {self.config.FpyLimit_SpecialDrop}")
+        assert self.app.run(f"teamup set index {self.config.FpyTeam_Index}")
+        assert self.app.run(f"main {self.config.FpyApple_AppleCount} {self.config.FpyApple_AppleKind}")
         with self.config.multi_set():
             if self.app.last_error.startswith("Script Stopped"):
                 self.config.Scheduler_Enable = False
                 return
-            if self.config.Apple_EatOnce:
-                self.config.Apple_AppleCount = 0
+            if self.config.FpyApple_EatOnce:
+                self.config.FpyApple_AppleCount = 0
             else:
-                self.config.Apple_AppleTotal -= self.config.Apple_AppleCount
-                self.config.Apple_AppleCount = min(
-                    self.config.Apple_AppleCount,
-                    self.config.Apple_AppleTotal,
+                self.config.FpyApple_AppleTotal -= self.config.FpyApple_AppleCount
+                self.config.FpyApple_AppleCount = min(
+                    self.config.FpyApple_AppleCount,
+                    self.config.FpyApple_AppleTotal,
                 )
-            hh, mm = self.config.Interval_Interval.split(":")
+            hh, mm = self.config.FpyInterval_Interval.split(":")
             self.config.task_delay(minute=int(hh) * 60 + int(mm))
 
     def fpy_daily_fp_summon(self):
@@ -90,10 +90,10 @@ class FgoAutoScript(AzurLaneAutoScript):
         assert self.app.run("battle")
 
     def fpy_benchmark(self):
-        assert self.app.run(f"bench {dict([('touch','-i'),('screen','-o'),('all','')])[self.config.Benchmark_BenchOption]}")
+        assert self.app.run(f"bench {dict([('touch','-i'),('screen','-o'),('all','')])[self.config.FpyBenchmark_BenchOption]}")
 
     def fpy_call(self):
-        assert self.app.run(f"call {self.config.Call_Function}")
+        assert self.app.run(f"call {self.config.FpyCall_Function}")
 
 
 def loop(config_name):

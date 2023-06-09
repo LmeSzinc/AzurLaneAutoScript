@@ -5,5 +5,5 @@
 FpyHeartbeat:
   Scheduler:
     Enable: True
-  Interval:
+  FpyInterval:
     Interval: 00:05

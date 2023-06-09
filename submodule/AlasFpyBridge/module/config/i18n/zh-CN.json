@@ -8,15 +8,15 @@
       "name": "FGO-py",
       "help": ""
     },
-    "Farm": {
+    "FpyFarm": {
       "name": "出击",
       "help": ""
     },
-    "Daily": {
+    "FpyDaily": {
       "name": "每日",
       "help": ""
     },
-    "Tool": {
+    "FpyTool": {
       "name": "工具",
       "help": ""
     }
@@ -129,7 +129,7 @@
       "help": "FGO-py的deploy目录下AzurLaneAutoScript子目录的绝对路径\n你可以把这个子目录拷贝至其他位置方便分布式部署"
     }
   },
-  "Interval": {
+  "FpyInterval": {
     "_info": {
       "name": "运行间隔",
       "help": "每当调用本任务完成，隔一段时间后再次调用"
@@ -139,7 +139,7 @@
       "help": "HH:MM，HH不可省略，MM可以大于60"
     }
   },
-  "Team": {
+  "FpyTeam": {
     "_info": {
       "name": "编队",
       "help": "编队信息"
@@ -149,7 +149,7 @@
       "help": "在「队伍编成」界面的位置，由左至右1-10，0表示使用上一次的编队，不进行切换"
     }
   },
-  "Apple": {
+  "FpyApple": {
     "_info": {
       "name": "苹果",
       "help": "吃一定数量的苹果"
@@ -176,7 +176,7 @@
       "help": "当「只吃一次」关闭时，这个数值会自动减少，防止吃不存在的苹果"
     }
   },
-  "Limit": {
+  "FpyLimit": {
     "_info": {
       "name": "停止条件",
       "help": "满足特定条件时禁用本任务"
@@ -194,7 +194,7 @@
       "help": "当周回关卡累计掉落一定数量的★5礼装后禁用本任务\n这个数值会自动减少"
     }
   },
-  "Benchmark": {
+  "FpyBenchmark": {
     "_info": {
       "name": "性能测试",
       "help": "获取单次触摸和截图所需要的时间"
@@ -207,7 +207,7 @@
       "all": "触摸 + 截图"
     }
   },
-  "Call": {
+  "FpyCall": {
     "_info": {
       "name": "小组件",
       "help": "调用FGO-py中的一些独立存在的小组件"

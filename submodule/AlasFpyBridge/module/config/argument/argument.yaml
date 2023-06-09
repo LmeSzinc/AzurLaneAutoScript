@@ -41,16 +41,16 @@ FpyEmulator:
     value: /absolute_path_to_FGO-py/deploy/AzurLaneAutoScript
     type: textarea
 
-Interval:
+FpyInterval:
   Interval:
     value: 07:00
     validate: "\\d+:\\d"
 
-Team:
+FpyTeam:
   Index:
     value: 0
 
-Apple:
+FpyApple:
   AppleKind:
     value: gold
     option:
@@ -66,7 +66,7 @@ Apple:
   AppleTotal:
     value: 999
 
-Limit:
+FpyLimit:
   Defeated:
     value: True
   KizunaReisou:
@@ -74,7 +74,7 @@ Limit:
   SpecialDrop:
     value: 999
 
-Benchmark:
+FpyBenchmark:
   BenchOption:
     value: all
     option:
@@ -82,7 +82,7 @@ Benchmark:
       - screen
       - all
 
-Call:
+FpyCall:
   Function:
     value: lottery
     option:

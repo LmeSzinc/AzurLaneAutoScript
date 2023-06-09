@@ -4,13 +4,13 @@
       "Fpy",
       "FpyHeartbeat"
     ],
-    "Farm": [
+    "FpyFarm": [
       "FpyMain"
     ],
-    "Daily": [
+    "FpyDaily": [
       "FpyDailyFpSummon"
     ],
-    "Tool": [
+    "FpyTool": [
       "FpyBattle",
       "FpyBenchmark",
       "FpyCall"

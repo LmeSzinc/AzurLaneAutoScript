@@ -27,7 +27,7 @@
       "FailureInterval": 120,
       "ServerUpdate": "05:00"
     },
-    "Interval": {
+    "FpyInterval": {
       "Interval": "00:05"
     },
     "Storage": {
@@ -43,21 +43,21 @@
       "FailureInterval": 120,
       "ServerUpdate": "05:00"
     },
-    "Team": {
+    "FpyTeam": {
       "Index": 0
     },
-    "Apple": {
+    "FpyApple": {
       "AppleKind": "gold",
       "AppleCount": 0,
       "EatOnce": true,
       "AppleTotal": 999
     },
-    "Limit": {
+    "FpyLimit": {
       "Defeated": true,
       "KizunaReisou": true,
       "SpecialDrop": 999
     },
-    "Interval": {
+    "FpyInterval": {
       "Interval": "07:00"
     },
     "Storage": {
@@ -83,7 +83,7 @@
     }
   },
   "FpyBenchmark": {
-    "Benchmark": {
+    "FpyBenchmark": {
       "BenchOption": "all"
     },
     "Storage": {
@@ -91,7 +91,7 @@
     }
   },
   "FpyCall": {
-    "Call": {
+    "FpyCall": {
       "Function": "lottery"
     },
     "Storage": {

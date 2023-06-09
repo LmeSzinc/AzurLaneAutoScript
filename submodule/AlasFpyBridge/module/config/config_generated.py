@@ -31,28 +31,28 @@ class GeneratedConfig:
     FpyEmulator_Serial = '127.0.0.1:5555'
     FpyEmulator_LaunchPath = '/absolute_path_to_FGO-py/deploy/AzurLaneAutoScript'
 
-    # Group `Interval`
-    Interval_Interval = '07:00'
+    # Group `FpyInterval`
+    FpyInterval_Interval = '07:00'
 
-    # Group `Team`
-    Team_Index = 0
+    # Group `FpyTeam`
+    FpyTeam_Index = 0
 
-    # Group `Apple`
-    Apple_AppleKind = 'gold'  # gold, silver, bronze, copper, quartz
-    Apple_AppleCount = 0
-    Apple_EatOnce = True
-    Apple_AppleTotal = 999
+    # Group `FpyApple`
+    FpyApple_AppleKind = 'gold'  # gold, silver, bronze, copper, quartz
+    FpyApple_AppleCount = 0
+    FpyApple_EatOnce = True
+    FpyApple_AppleTotal = 999
 
-    # Group `Limit`
-    Limit_Defeated = True
-    Limit_KizunaReisou = True
-    Limit_SpecialDrop = 999
+    # Group `FpyLimit`
+    FpyLimit_Defeated = True
+    FpyLimit_KizunaReisou = True
+    FpyLimit_SpecialDrop = 999
 
-    # Group `Benchmark`
-    Benchmark_BenchOption = 'all'  # touch, screen, all
+    # Group `FpyBenchmark`
+    FpyBenchmark_BenchOption = 'all'  # touch, screen, all
 
-    # Group `Call`
-    Call_Function = 'lottery'  # fpSummon, lottery, mail, synthesis, summonHistory
+    # Group `FpyCall`
+    FpyCall_Function = 'lottery'  # fpSummon, lottery, mail, synthesis, summonHistory
 
     # Group `Storage`
     Storage_Storage = {}

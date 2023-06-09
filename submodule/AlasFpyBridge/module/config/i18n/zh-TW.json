@@ -8,17 +8,17 @@
       "name": "Menu.Fpy.name",
       "help": "Menu.Fpy.help"
     },
-    "Farm": {
-      "name": "Menu.Farm.name",
-      "help": "Menu.Farm.help"
+    "FpyFarm": {
+      "name": "Menu.FpyFarm.name",
+      "help": "Menu.FpyFarm.help"
     },
-    "Daily": {
-      "name": "Menu.Daily.name",
-      "help": "Menu.Daily.help"
+    "FpyDaily": {
+      "name": "Menu.FpyDaily.name",
+      "help": "Menu.FpyDaily.help"
     },
-    "Tool": {
-      "name": "Menu.Tool.name",
-      "help": "Menu.Tool.help"
+    "FpyTool": {
+      "name": "Menu.FpyTool.name",
+      "help": "Menu.FpyTool.help"
     }
   },
   "Task": {
@@ -129,34 +129,34 @@
       "help": "FpyEmulator.LaunchPath.help"
     }
   },
-  "Interval": {
+  "FpyInterval": {
     "_info": {
-      "name": "Interval._info.name",
-      "help": "Interval._info.help"
+      "name": "FpyInterval._info.name",
+      "help": "FpyInterval._info.help"
     },
     "Interval": {
-      "name": "Interval.Interval.name",
-      "help": "Interval.Interval.help"
+      "name": "FpyInterval.Interval.name",
+      "help": "FpyInterval.Interval.help"
     }
   },
-  "Team": {
+  "FpyTeam": {
     "_info": {
-      "name": "Team._info.name",
-      "help": "Team._info.help"
+      "name": "FpyTeam._info.name",
+      "help": "FpyTeam._info.help"
     },
     "Index": {
-      "name": "Team.Index.name",
-      "help": "Team.Index.help"
+      "name": "FpyTeam.Index.name",
+      "help": "FpyTeam.Index.help"
     }
   },
-  "Apple": {
+  "FpyApple": {
     "_info": {
-      "name": "Apple._info.name",
-      "help": "Apple._info.help"
+      "name": "FpyApple._info.name",
+      "help": "FpyApple._info.help"
     },
     "AppleKind": {
-      "name": "Apple.AppleKind.name",
-      "help": "Apple.AppleKind.help",
+      "name": "FpyApple.AppleKind.name",
+      "help": "FpyApple.AppleKind.help",
       "gold": "gold",
       "silver": "silver",
       "bronze": "bronze",
@@ -164,57 +164,57 @@
       "quartz": "quartz"
     },
     "AppleCount": {
-      "name": "Apple.AppleCount.name",
-      "help": "Apple.AppleCount.help"
+      "name": "FpyApple.AppleCount.name",
+      "help": "FpyApple.AppleCount.help"
     },
     "EatOnce": {
-      "name": "Apple.EatOnce.name",
-      "help": "Apple.EatOnce.help"
+      "name": "FpyApple.EatOnce.name",
+      "help": "FpyApple.EatOnce.help"
     },
     "AppleTotal": {
-      "name": "Apple.AppleTotal.name",
-      "help": "Apple.AppleTotal.help"
+      "name": "FpyApple.AppleTotal.name",
+      "help": "FpyApple.AppleTotal.help"
     }
   },
-  "Limit": {
+  "FpyLimit": {
     "_info": {
-      "name": "Limit._info.name",
-      "help": "Limit._info.help"
+      "name": "FpyLimit._info.name",
+      "help": "FpyLimit._info.help"
     },
     "Defeated": {
-      "name": "Limit.Defeated.name",
-      "help": "Limit.Defeated.help"
+      "name": "FpyLimit.Defeated.name",
+      "help": "FpyLimit.Defeated.help"
     },
     "KizunaReisou": {
-      "name": "Limit.KizunaReisou.name",
-      "help": "Limit.KizunaReisou.help"
+      "name": "FpyLimit.KizunaReisou.name",
+      "help": "FpyLimit.KizunaReisou.help"
     },
     "SpecialDrop": {
-      "name": "Limit.SpecialDrop.name",
-      "help": "Limit.SpecialDrop.help"
+      "name": "FpyLimit.SpecialDrop.name",
+      "help": "FpyLimit.SpecialDrop.help"
     }
   },
-  "Benchmark": {
+  "FpyBenchmark": {
     "_info": {
-      "name": "Benchmark._info.name",
-      "help": "Benchmark._info.help"
+      "name": "FpyBenchmark._info.name",
+      "help": "FpyBenchmark._info.help"
     },
     "BenchOption": {
-      "name": "Benchmark.BenchOption.name",
-      "help": "Benchmark.BenchOption.help",
+      "name": "FpyBenchmark.BenchOption.name",
+      "help": "FpyBenchmark.BenchOption.help",
       "touch": "touch",
       "screen": "screen",
       "all": "all"
     }
   },
-  "Call": {
+  "FpyCall": {
     "_info": {
-      "name": "Call._info.name",
-      "help": "Call._info.help"
+      "name": "FpyCall._info.name",
+      "help": "FpyCall._info.help"
     },
     "Function": {
-      "name": "Call.Function.name",
-      "help": "Call.Function.help",
+      "name": "FpyCall.Function.name",
+      "help": "FpyCall.Function.help",
       "fpSummon": "fpSummon",
       "lottery": "lottery",
       "mail": "mail",

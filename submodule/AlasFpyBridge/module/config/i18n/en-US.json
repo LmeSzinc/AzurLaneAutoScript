@@ -8,15 +8,15 @@
       "name": "FGO-py",
       "help": ""
     },
-    "Farm": {
+    "FpyFarm": {
       "name": "Farm",
       "help": ""
     },
-    "Daily": {
+    "FpyDaily": {
       "name": "Daily",
       "help": ""
     },
-    "Tool": {
+    "FpyTool": {
       "name": "Tool",
       "help": ""
     }
@@ -129,7 +129,7 @@
       "help": "The absolute path of the `AzurLaneAutoScript` subdirectory in the `deploy` directory of FGO-py\nYou can copy this subdirectory to another location for distributed deployment"
     }
   },
-  "Interval": {
+  "FpyInterval": {
     "_info": {
       "name": "Interval",
       "help": "Whenever a call to this task is completed, call it again after a certain period of time"
@@ -139,7 +139,7 @@
       "help": "HH:MM, HH cannot be omitted, MM can be greater than 60"
     }
   },
-  "Team": {
+  "FpyTeam": {
     "_info": {
       "name": "Team",
       "help": "Team"
@@ -149,7 +149,7 @@
       "help": "The position of the selected team in the team formation interface, left to right 1-10, 0 to disable"
     }
   },
-  "Apple": {
+  "FpyApple": {
     "_info": {
       "name": "Apple",
       "help": "Apple"
@@ -176,7 +176,7 @@
       "help": "When `EatOnce` is turned off, this value will automatically reduced to prevent eating non-existent apples"
     }
   },
-  "Limit": {
+  "FpyLimit": {
     "_info": {
       "name": "Limit",
       "help": "Disable this task when certain conditions met"
@@ -194,7 +194,7 @@
       "help": "Disable this task after several ★5 essences earned\nThis value is automatically reduced"
     }
   },
-  "Benchmark": {
+  "FpyBenchmark": {
     "_info": {
       "name": "Benchmark",
       "help": "Get the time cost for a single touch and screenshot"
@@ -207,7 +207,7 @@
       "all": "all"
     }
   },
-  "Call": {
+  "FpyCall": {
     "_info": {
       "name": "Call",
       "help": "Calling some standalone widgets in FGO-py"

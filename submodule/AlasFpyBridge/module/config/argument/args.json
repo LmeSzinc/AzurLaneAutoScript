@@ -79,7 +79,7 @@
         "display": "hide"
       }
     },
-    "Interval": {
+    "FpyInterval": {
       "Interval": {
         "type": "input",
         "value": "00:05",
@@ -127,13 +127,13 @@
         "display": "hide"
       }
     },
-    "Team": {
+    "FpyTeam": {
       "Index": {
         "type": "input",
         "value": 0
       }
     },
-    "Apple": {
+    "FpyApple": {
       "AppleKind": {
         "type": "select",
         "value": "gold",
@@ -158,7 +158,7 @@
         "value": 999
       }
     },
-    "Limit": {
+    "FpyLimit": {
       "Defeated": {
         "type": "checkbox",
         "value": true
@@ -172,7 +172,7 @@
         "value": 999
       }
     },
-    "Interval": {
+    "FpyInterval": {
       "Interval": {
         "type": "input",
         "value": "07:00",
@@ -240,7 +240,7 @@
     }
   },
   "FpyBenchmark": {
-    "Benchmark": {
+    "FpyBenchmark": {
       "BenchOption": {
         "type": "select",
         "value": "all",
@@ -261,7 +261,7 @@
     }
   },
   "FpyCall": {
-    "Call": {
+    "FpyCall": {
       "Function": {
         "type": "select",
         "value": "lottery",
