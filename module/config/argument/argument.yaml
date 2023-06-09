@@ -601,6 +601,7 @@ OpsiAshBeacon:
     value: current
     option: [ current, current_dossier ]
   OneHitMode: true
+  DossierAutoAttackMode: false
   RequestAssist: true
   EnsureFullyCollected: true
 OpsiFleetFilter:
