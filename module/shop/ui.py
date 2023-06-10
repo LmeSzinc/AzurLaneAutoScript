@@ -4,9 +4,9 @@ from module.base.timer import Timer
 from module.handler.assets import POPUP_CONFIRM
 from module.logger import logger
 from module.shop.assets import *
-from module.ui.assets import BACK_ARROW
+from module.ui.assets import ACADEMY_GOTO_MUNITIONS, BACK_ARROW
 from module.ui.navbar import Navbar
-from module.ui.page import page_munitions
+from module.ui.page import page_academy, page_munitions
 from module.ui.ui import UI
 
 
@@ -202,5 +202,23 @@ class ShopUI(UI):
         Goes to page_munitions
         This route guarantees start
         in general shop
+
+        Pages:
+            in: Any
+            out: page_munitions
         """
-        self.ui_ensure(page_munitions)
+        self.ui_ensure(page_academy)
+
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(page_munitions.check_button, offset=(20, 20)):
+                break
+
+            # Large offset cause it camera in academy can be move around
+            if self.appear_then_click(ACADEMY_GOTO_MUNITIONS, offset=(200, 200), interval=5):
+                continue
