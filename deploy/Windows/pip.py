@@ -20,6 +20,7 @@ class DataDependency:
         # PyYaml -> pyyaml
         self.name = self.name.lower()
         self.version = self.version.strip()
+        self.version = re.sub(r'\.0$', '', self.version)
 
     @cached_property
     def pretty_name(self):
