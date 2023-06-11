@@ -1,26 +1,19 @@
 import {app, BrowserWindow} from 'electron';
 import './security-restrictions';
 import {createApp} from '/@/createApp';
-// import {join} from 'path';
 import logger from '/@/logger';
-import {createMainWindow} from '/@/createMainWindow';
 import {noSandbox} from '/@/config';
-// import {restoreWindow} from "/@/mainWindow";
 
 /**
  * Prevent electron from running multiple instances.
  */
 const isSingleInstance = app.requestSingleInstanceLock();
+logger.info(`isSingleInstance:${isSingleInstance}`);
 if (!isSingleInstance) {
   app.quit();
   process.exit(0);
 }
-app.on('second-instance', async () => {
-  logger.info('second-instance');
-  const win = await createMainWindow();
-  if (win?.isMinimized()) win?.restore();
-  win?.focus();
-});
+
 
 /**
  * Disable Hardware Acceleration to save more system resources.
