@@ -223,6 +223,16 @@ MENU_GOTO_CAMERA = ButtonWrapper(
         button=(1219, 465, 1255, 495),
     ),
 )
+MENU_GOTO_SYNTHESIZE = ButtonWrapper(
+    name='MENU_GOTO_SYNTHESIZE',
+    share=Button(
+        file='./assets/share/base/page/MENU_GOTO_SYNTHESIZE.png',
+        area=(994, 389, 1035, 424),
+        search=(974, 369, 1055, 444),
+        color=(85, 85, 85),
+        button=(994, 389, 1035, 424),
+    ),
+)
 MESSAGE_CLOSE = ButtonWrapper(
     name='MESSAGE_CLOSE',
     share=Button(
@@ -241,6 +251,16 @@ MISSION_CHECK = ButtonWrapper(
         search=(24, 13, 90, 75),
         color=(194, 177, 139),
         button=(44, 33, 70, 55),
+    ),
+)
+SYNTHESIZE_CHECK = ButtonWrapper(
+    name='SYNTHESIZE_CHECK',
+    share=Button(
+        file='./assets/share/base/page/SYNTHESIZE_CHECK.png',
+        area=(39, 23, 75, 52),
+        search=(19, 3, 95, 72),
+        color=(109, 101, 89),
+        button=(39, 23, 75, 52),
     ),
 )
 TEAM_CHECK = ButtonWrapper(

@@ -130,3 +130,8 @@ page_main.link(MAIN_GOTO_MESSAGE, destination=page_message)
 page_camera = Page(CAMERA_CHECK)
 page_camera.link(CLOSE, destination=page_menu)
 page_menu.link(MENU_GOTO_CAMERA, destination=page_camera)
+
+# Synthesize
+page_synthesize = Page(SYNTHESIZE_CHECK)
+page_synthesize.link(CLOSE, destination=page_menu)
+page_menu.link(MENU_GOTO_SYNTHESIZE, destination=page_synthesize)
