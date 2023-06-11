@@ -1,6 +1,6 @@
 import {isMacintosh} from '@common/utils/env';
 import getAlasABSPath from '@common/utils/getAlasABSPath';
-import {ALAS_INSTR_FILE, ALAS_INSTR_TEST_FILE} from '@common/constant/config';
+import {ALAS_INSTR_FILE} from '@common/constant/config';
 import {validateConfigFile} from '@common/utils/validate';
 import {join} from 'path';
 import logger from '/@/logger';
@@ -72,8 +72,8 @@ export const ThemeObj: {[k in string]: 'light' | 'dark'} = {
 export const pythonPath = path.isAbsolute(PythonExecutable)
   ? PythonExecutable
   : path.join(alasPath, PythonExecutable);
-export const installerPath = import.meta.env.DEV ? ALAS_INSTR_TEST_FILE : ALAS_INSTR_FILE;
-export const installerArgs = import.meta.env.DEV ? [] : ['--print-test'];
+export const installerPath = ALAS_INSTR_FILE;
+export const installerArgs = import.meta.env.DEV ? ['--print-test'] : [];
 export const webuiUrl = `http://127.0.0.1:${WebuiPort}`;
 export const webuiPath = 'gui.py';
 export const webuiArgs = ['--port', WebuiPort, '--electron'];

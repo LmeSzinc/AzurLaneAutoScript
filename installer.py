@@ -6,6 +6,11 @@ Alas installer
 """
 
 
+def run_install():
+    from deploy.installer import run
+    run()
+
+
 def run_print_test():
     from deploy.Windows.installer_test import run
     run()
@@ -38,8 +43,9 @@ if __name__ == "__main__":
     )
     args, _ = parser.parse_known_args()
 
-    if args.print_test:
-        run_print_test()
-
     if args.set:
         run_set(args.set)
+    elif args.print_test:
+        run_print_test()
+    else:
+        run_install()

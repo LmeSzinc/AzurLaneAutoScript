@@ -1,10 +1,12 @@
+import os
+import re
 import typing as t
 from dataclasses import dataclass
 from urllib.parse import urlparse
 
 from deploy.Windows.config import DeployConfig
-from deploy.Windows.logger import logger
-from deploy.Windows.utils import *
+from deploy.Windows.logger import logger, Progress
+from deploy.Windows.utils import cached_property
 
 
 @dataclass
@@ -94,10 +96,12 @@ class PipManager(DeployConfig):
 
         if not self.InstallDependencies:
             logger.info('InstallDependencies is disabled, skip')
+            Progress.UpdateDependency()
             return
 
         if not len(self.set_dependency_to_install):
             logger.info('All dependencies installed')
+            Progress.UpdateDependency()
             return
         else:
             logger.info(f'Dependencies to install: {self.set_dependency_to_install}')
@@ -125,3 +129,4 @@ class PipManager(DeployConfig):
         logger.hr('Update Dependencies', 1)
         arg = ' ' + ' '.join(arg) if arg else ''
         self.execute(f'{self.pip} install -r {self.requirements_file}{arg}')
+        Progress.UpdateDependency()

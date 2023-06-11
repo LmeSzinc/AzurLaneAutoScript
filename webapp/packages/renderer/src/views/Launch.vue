@@ -70,9 +70,7 @@ export default defineComponent({
 
     const handelAlasInfo = (logStr: string) => {
       if (logStr?.includes('Application startup complete') || logStr?.includes('bind on address')) {
-        setTimeout(() => {
-          router.push('/alas');
-        }, 1000);
+        router.push('/alas')
       }
     };
 

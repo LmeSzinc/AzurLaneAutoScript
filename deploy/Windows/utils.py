@@ -1,7 +1,7 @@
 import os
 import re
 from dataclasses import dataclass
-from typing import Callable, Iterable, Generic, TypeVar
+from typing import Callable, Generic, Iterable, TypeVar
 
 T = TypeVar("T")
 

@@ -1,3 +1,4 @@
+from deploy.Windows.logger import Progress, logger
 from deploy.Windows.patch import pre_checks
 
 pre_checks()
@@ -22,5 +23,12 @@ class Installer(GitManager, PipManager, AdbManager, AppManager, AlasManager):
             exit(1)
 
 
-if __name__ == '__main__':
-    Installer().install()
+def run():
+    Progress.Start()
+    installer = Installer()
+    Progress.ShowDeployConfig()
+
+    installer.install()
+
+    logger.info('Finish')
+    Progress.Finish()
