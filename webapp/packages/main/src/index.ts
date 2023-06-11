@@ -11,9 +11,19 @@ const isSingleInstance = app.requestSingleInstanceLock();
 logger.info(`isSingleInstance:${isSingleInstance}`);
 if (!isSingleInstance) {
   app.quit();
-  process.exit(0);
+} else {
+  app.on('second-instance', async () => {
+    logger.info('second-instance');
+    const [curWindow] = BrowserWindow.getAllWindows();
+    if (!curWindow) {
+      logger.info('------createApp------');
+      await createApp();
+    } else {
+      logger.info('------curWindow.focus------');
+      curWindow.focus?.();
+    }
+  });
 }
-
 
 /**
  * Disable Hardware Acceleration to save more system resources.
