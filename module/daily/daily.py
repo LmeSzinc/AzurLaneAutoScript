@@ -12,7 +12,7 @@ from module.ui.ui import (BACK_ARROW, page_campaign_menu,
                           page_daily)
 
 DAILY_MISSION_LIST = [DAILY_MISSION_1, DAILY_MISSION_2, DAILY_MISSION_3]
-OCR_REMAIN = Digit(OCR_REMAIN, threshold=128, alphabet='0123')
+OCR_REMAIN = Digit(OCR_REMAIN, threshold=128, alphabet='01234')
 OCR_DAILY_FLEET_INDEX = Digit(OCR_DAILY_FLEET_INDEX, letter=(90, 154, 255), threshold=128, alphabet='123456')
 
 
