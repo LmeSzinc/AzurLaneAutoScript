@@ -43,8 +43,9 @@ class AlasManager(DeployConfig):
                 if proc.pid == self.self_pid:
                     continue
                 if in_alas:
+                    cmdline = proc.cmdline.replace(r"\\", "/").replace("\\", "/")
                     for folder in self.alas_folder:
-                        if folder in proc.cmdline:
+                        if folder in cmdline:
                             yield proc
                 else:
                     yield proc
@@ -58,7 +59,7 @@ class AlasManager(DeployConfig):
     def alas_kill(self):
         for _ in range(10):
             logger.hr(f'Kill existing Alas', 0)
-            proc_list = list(self.iter_process_by_names(['alas.exe', 'python.exe'], in_alas=True))
+            proc_list = list(self.iter_process_by_names(['python.exe'], in_alas=True))
             if not len(proc_list):
                 return True
             for proc in proc_list:
