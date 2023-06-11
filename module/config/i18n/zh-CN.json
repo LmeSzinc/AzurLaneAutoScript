@@ -66,10 +66,6 @@
       "name": "刷紧急委托",
       "help": ""
     },
-    "Sos": {
-      "name": "潜艇图",
-      "help": ""
-    },
     "EventGeneral": {
       "name": "活动通用设置",
       "help": ""
@@ -2373,6 +2369,10 @@
     "OneHitMode": {
       "name": "一击即走",
       "help": "对每个信标只出击一次，之后每半个小时呼叫支援\n在档案信标中不生效"
+    },
+    "DossierAutoAttackMode": {
+      "name": "档案信标自动作战",
+      "help": "在档案信标首次战斗后进行自动作战"
     },
     "RequestAssist": {
       "name": "呼叫支援",

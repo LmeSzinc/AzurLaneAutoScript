@@ -66,10 +66,6 @@
       "name": "Commission Farming",
       "help": ""
     },
-    "Sos": {
-      "name": "SOS",
-      "help": ""
-    },
     "EventGeneral": {
       "name": "Event General",
       "help": ""
@@ -2373,6 +2369,10 @@
     "OneHitMode": {
       "name": "One Hit Mode",
       "help": "Strike each beacon only once, then call for support every half hour thereafter\nNot effective in META dossiers"
+    },
+    "DossierAutoAttackMode": {
+      "name": "OpsiAshBeacon.DossierAutoAttackMode.name",
+      "help": "OpsiAshBeacon.DossierAutoAttackMode.help"
     },
     "RequestAssist": {
       "name": "Request Assists",
