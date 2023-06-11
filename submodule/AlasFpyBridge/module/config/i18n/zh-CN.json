@@ -1,0 +1,235 @@
+{
+  "Menu": {
+    "Task": {
+      "name": "",
+      "help": ""
+    },
+    "Fpy": {
+      "name": "FGO-py",
+      "help": ""
+    },
+    "FpyFarm": {
+      "name": "出击",
+      "help": ""
+    },
+    "FpyDaily": {
+      "name": "每日",
+      "help": ""
+    },
+    "FpyTool": {
+      "name": "工具",
+      "help": ""
+    }
+  },
+  "Task": {
+    "Fpy": {
+      "name": "FGO-py设置",
+      "help": "需要FGO-py v11.2.0或更高"
+    },
+    "FpyHeartbeat": {
+      "name": "心跳",
+      "help": "当在一个复杂的环境中创建FGO-py进程时，你可能需要每隔一小段时间ping一下防止连接断开"
+    },
+    "FpyMain": {
+      "name": "清空体力",
+      "help": "按下按钮，清空体力\n哦，现在是按下一次按钮，7*24清空体力"
+    },
+    "FpyDailyFpSummon": {
+      "name": "抽友情",
+      "help": ""
+    },
+    "FpyBattle": {
+      "name": "完成战斗",
+      "help": ""
+    },
+    "FpyBenchmark": {
+      "name": "性能测试",
+      "help": ""
+    },
+    "FpyCall": {
+      "name": "小组件",
+      "help": ""
+    }
+  },
+  "Scheduler": {
+    "_info": {
+      "name": "Scheduler._info.name",
+      "help": "Scheduler._info.help"
+    },
+    "Enable": {
+      "name": "Scheduler.Enable.name",
+      "help": "Scheduler.Enable.help"
+    },
+    "NextRun": {
+      "name": "Scheduler.NextRun.name",
+      "help": "Scheduler.NextRun.help"
+    },
+    "Command": {
+      "name": "Scheduler.Command.name",
+      "help": "Scheduler.Command.help"
+    },
+    "SuccessInterval": {
+      "name": "Scheduler.SuccessInterval.name",
+      "help": "Scheduler.SuccessInterval.help"
+    },
+    "FailureInterval": {
+      "name": "Scheduler.FailureInterval.name",
+      "help": "Scheduler.FailureInterval.help"
+    },
+    "ServerUpdate": {
+      "name": "Scheduler.ServerUpdate.name",
+      "help": "Scheduler.ServerUpdate.help"
+    }
+  },
+  "Emulator": {
+    "_info": {
+      "name": "Emulator._info.name",
+      "help": "Emulator._info.help"
+    },
+    "ServerName": {
+      "name": "Emulator.ServerName.name",
+      "help": "Emulator.ServerName.help"
+    }
+  },
+  "Error": {
+    "_info": {
+      "name": "Error._info.name",
+      "help": "Error._info.help"
+    },
+    "SaveError": {
+      "name": "Error.SaveError.name",
+      "help": "Error.SaveError.help"
+    },
+    "OnePushConfig": {
+      "name": "Error.OnePushConfig.name",
+      "help": "Error.OnePushConfig.help"
+    }
+  },
+  "Optimization": {
+    "_info": {
+      "name": "Optimization._info.name",
+      "help": "Optimization._info.help"
+    },
+    "WhenTaskQueueEmpty": {
+      "name": "Optimization.WhenTaskQueueEmpty.name",
+      "help": "Optimization.WhenTaskQueueEmpty.help"
+    }
+  },
+  "FpyEmulator": {
+    "_info": {
+      "name": "运行环境",
+      "help": ""
+    },
+    "Serial": {
+      "name": "模拟器 Serial",
+      "help": "等效于在「连接到设备」对话框中输入的值\n可以在Alas本体的这个选项中找到常用模拟器的Serial，其他内容记载于FGO-py readme的「连接到设备」章节中"
+    },
+    "LaunchPath": {
+      "name": "启动路径",
+      "help": "FGO-py的deploy目录下AzurLaneAutoScript子目录的绝对路径\n你可以把这个子目录拷贝至其他位置方便分布式部署"
+    }
+  },
+  "FpyInterval": {
+    "_info": {
+      "name": "运行间隔",
+      "help": "每当调用本任务完成，隔一段时间后再次调用"
+    },
+    "Interval": {
+      "name": "间隔时间",
+      "help": "HH:MM，HH不可省略，MM可以大于60"
+    }
+  },
+  "FpyTeam": {
+    "_info": {
+      "name": "编队",
+      "help": "编队信息"
+    },
+    "Index": {
+      "name": "序号",
+      "help": "在「队伍编成」界面的位置，由左至右1-10，0表示使用上一次的编队，不进行切换"
+    }
+  },
+  "FpyApple": {
+    "_info": {
+      "name": "苹果",
+      "help": "吃一定数量的苹果"
+    },
+    "AppleKind": {
+      "name": "种类",
+      "help": "苹果种类",
+      "gold": "金",
+      "silver": "银",
+      "bronze": "青",
+      "copper": "铜",
+      "quartz": "彩"
+    },
+    "AppleCount": {
+      "name": "数量",
+      "help": "苹果数量"
+    },
+    "EatOnce": {
+      "name": "只吃一次",
+      "help": "本任务被调用一次之后将「苹果数量」清零，之后只是清空体力\n如果此选项关闭，那么每次调用都会吃苹果"
+    },
+    "AppleTotal": {
+      "name": "苹果库存",
+      "help": "当「只吃一次」关闭时，这个数值会自动减少，防止吃不存在的苹果"
+    }
+  },
+  "FpyLimit": {
+    "_info": {
+      "name": "停止条件",
+      "help": "满足特定条件时禁用本任务"
+    },
+    "Defeated": {
+      "name": "战败",
+      "help": "当战败撤退时禁用本任务"
+    },
+    "KizunaReisou": {
+      "name": "羁绊礼装",
+      "help": "当获取到羁绊礼装时禁用本任务"
+    },
+    "SpecialDrop": {
+      "name": "特殊掉落",
+      "help": "当周回关卡累计掉落一定数量的★5礼装后禁用本任务\n这个数值会自动减少"
+    }
+  },
+  "FpyBenchmark": {
+    "_info": {
+      "name": "性能测试",
+      "help": "获取单次触摸和截图所需要的时间"
+    },
+    "BenchOption": {
+      "name": "选项",
+      "help": "可以单独测试触摸或截图",
+      "touch": "测试触摸",
+      "screen": "测试截图",
+      "all": "触摸 + 截图"
+    }
+  },
+  "FpyCall": {
+    "_info": {
+      "name": "小组件",
+      "help": "调用FGO-py中的一些独立存在的小组件"
+    },
+    "Function": {
+      "name": "功能",
+      "help": "要调用的小组件名称",
+      "fpSummon": "抽友情",
+      "lottery": "抽奖池",
+      "mail": "清理邮箱",
+      "synthesis": "强化",
+      "summonHistory": "召唤记录"
+    }
+  },
+  "Storage": {
+    "_info": {
+      "name": "Storage._info.name",
+      "help": "Storage._info.help"
+    },
+    "Storage": {
+      "name": "Storage.Storage.name",
+      "help": "Storage.Storage.help"
+    }
+  }
+}

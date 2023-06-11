@@ -66,10 +66,6 @@
       "name": "刷緊急委託",
       "help": ""
     },
-    "Sos": {
-      "name": "潛艇圖",
-      "help": ""
-    },
     "EventGeneral": {
       "name": "活動通用",
       "help": ""
@@ -611,12 +607,6 @@
       "help": "沒有滿星的同名艦船時，保留幾艘符合退役條件的同名艦船\n如果一鍵退役無法退役，請設置為 \"不保留\"",
       "keep_limit_break": "保留滿星所需",
       "do_not_keep": "不保留"
-    },
-    "RetireAmount": {
-      "name": "退役數量",
-      "help": "",
-      "retire_all": "退役全部",
-      "retire_10": "退役10個"
     }
   },
   "Enhance": {
@@ -2175,6 +2165,10 @@
     "OneHitMode": {
       "name": "一擊即走",
       "help": "對每個信標只出擊一次，之後每半個小時呼叫支援\n在檔案信標中不生效"
+    },
+    "DossierAutoAttackMode": {
+      "name": "OpsiAshBeacon.DossierAutoAttackMode.name",
+      "help": "OpsiAshBeacon.DossierAutoAttackMode.help"
     },
     "RequestAssist": {
       "name": "呼叫支援",

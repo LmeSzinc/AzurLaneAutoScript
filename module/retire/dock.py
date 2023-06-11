@@ -129,19 +129,19 @@ class Dock(Equipment):
             button (Button): Ship button to select
             skip_first_screenshot:
         """
-        if self.config.SERVER == 'en':
-            logger.info('EN has no dock_selected check currently, use plain click')
-
-            self.device.click(button)
-
-            while 1:
-                self.device.screenshot()
-
-                if self.appear(DOCK_CHECK, offset=(20, 20)):
-                    break
-                if self.handle_popup_confirm('DOCK_SELECT'):
-                    continue
-            return
+        # if self.config.SERVER == 'en':
+        #     logger.info('EN has no dock_selected check currently, use plain click')
+        #
+        #     self.device.click(button)
+        #
+        #     while 1:
+        #         self.device.screenshot()
+        #
+        #         if self.appear(DOCK_CHECK, offset=(20, 20)):
+        #             break
+        #         if self.handle_popup_confirm('DOCK_SELECT'):
+        #             continue
+        #     return
 
         while 1:
             if skip_first_screenshot:
@@ -167,9 +167,9 @@ class Dock(Equipment):
             bool: If selected a ship in dock.
                 True for ship counter 1/1, False for 0/1.
         """
-        if self.config.SERVER == 'en':
-            logger.info('EN has no dock_selected check currently, assume not selected')
-            return False
+        # if self.config.SERVER == 'en':
+        #     logger.info('EN has no dock_selected check currently, assume not selected')
+        #     return False
 
         current = 0
         timeout = Timer(1.5, count=3).start()

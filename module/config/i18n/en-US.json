@@ -66,10 +66,6 @@
       "name": "Commission Farming",
       "help": ""
     },
-    "Sos": {
-      "name": "SOS",
-      "help": ""
-    },
     "EventGeneral": {
       "name": "Event General",
       "help": ""
@@ -611,12 +607,6 @@
       "help": "If you own multiple copies of a ship that has not been fully Limit Broken, this option determines what you want to do with those copies.\nIf one-click retire cannot retire ships, please set to \"Don't Keep\"",
       "keep_limit_break": "Keep Enough to Max LB",
       "do_not_keep": "Don't Keep"
-    },
-    "RetireAmount": {
-      "name": "Retire Amount",
-      "help": "",
-      "retire_all": "Retire All",
-      "retire_10": "Retire 10"
     }
   },
   "Enhance": {
@@ -2175,6 +2165,10 @@
     "OneHitMode": {
       "name": "One Hit Mode",
       "help": "Strike each beacon only once, then call for support every half hour thereafter\nNot effective in META dossiers"
+    },
+    "DossierAutoAttackMode": {
+      "name": "OpsiAshBeacon.DossierAutoAttackMode.name",
+      "help": "OpsiAshBeacon.DossierAutoAttackMode.help"
     },
     "RequestAssist": {
       "name": "Request Assists",
