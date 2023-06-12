@@ -10,7 +10,7 @@
     "FpyDaily": [
       "FpyDailyFpSummon"
     ],
-    "FpyTool": [
+    "Tool": [
       "FpyBattle",
       "FpyBenchmark",
       "FpyCall"

@@ -16,9 +16,9 @@
       "name": "Menu.FpyDaily.name",
       "help": "Menu.FpyDaily.help"
     },
-    "FpyTool": {
-      "name": "Menu.FpyTool.name",
-      "help": "Menu.FpyTool.help"
+    "Tool": {
+      "name": "Menu.Tool.name",
+      "help": "Menu.Tool.help"
     }
   },
   "Task": {
