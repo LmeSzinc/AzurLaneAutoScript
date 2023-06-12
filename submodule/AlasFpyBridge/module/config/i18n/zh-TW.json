@@ -1,0 +1,235 @@
+{
+  "Menu": {
+    "Task": {
+      "name": "Menu.Task.name",
+      "help": "Menu.Task.help"
+    },
+    "Fpy": {
+      "name": "Menu.Fpy.name",
+      "help": "Menu.Fpy.help"
+    },
+    "FpyFarm": {
+      "name": "Menu.FpyFarm.name",
+      "help": "Menu.FpyFarm.help"
+    },
+    "FpyDaily": {
+      "name": "Menu.FpyDaily.name",
+      "help": "Menu.FpyDaily.help"
+    },
+    "FpyTool": {
+      "name": "Menu.FpyTool.name",
+      "help": "Menu.FpyTool.help"
+    }
+  },
+  "Task": {
+    "Fpy": {
+      "name": "Task.Fpy.name",
+      "help": "Task.Fpy.help"
+    },
+    "FpyHeartbeat": {
+      "name": "Task.FpyHeartbeat.name",
+      "help": "Task.FpyHeartbeat.help"
+    },
+    "FpyMain": {
+      "name": "Task.FpyMain.name",
+      "help": "Task.FpyMain.help"
+    },
+    "FpyDailyFpSummon": {
+      "name": "Task.FpyDailyFpSummon.name",
+      "help": "Task.FpyDailyFpSummon.help"
+    },
+    "FpyBattle": {
+      "name": "Task.FpyBattle.name",
+      "help": "Task.FpyBattle.help"
+    },
+    "FpyBenchmark": {
+      "name": "Task.FpyBenchmark.name",
+      "help": "Task.FpyBenchmark.help"
+    },
+    "FpyCall": {
+      "name": "Task.FpyCall.name",
+      "help": "Task.FpyCall.help"
+    }
+  },
+  "Scheduler": {
+    "_info": {
+      "name": "Scheduler._info.name",
+      "help": "Scheduler._info.help"
+    },
+    "Enable": {
+      "name": "Scheduler.Enable.name",
+      "help": "Scheduler.Enable.help"
+    },
+    "NextRun": {
+      "name": "Scheduler.NextRun.name",
+      "help": "Scheduler.NextRun.help"
+    },
+    "Command": {
+      "name": "Scheduler.Command.name",
+      "help": "Scheduler.Command.help"
+    },
+    "SuccessInterval": {
+      "name": "Scheduler.SuccessInterval.name",
+      "help": "Scheduler.SuccessInterval.help"
+    },
+    "FailureInterval": {
+      "name": "Scheduler.FailureInterval.name",
+      "help": "Scheduler.FailureInterval.help"
+    },
+    "ServerUpdate": {
+      "name": "Scheduler.ServerUpdate.name",
+      "help": "Scheduler.ServerUpdate.help"
+    }
+  },
+  "Emulator": {
+    "_info": {
+      "name": "Emulator._info.name",
+      "help": "Emulator._info.help"
+    },
+    "ServerName": {
+      "name": "Emulator.ServerName.name",
+      "help": "Emulator.ServerName.help"
+    }
+  },
+  "Error": {
+    "_info": {
+      "name": "Error._info.name",
+      "help": "Error._info.help"
+    },
+    "SaveError": {
+      "name": "Error.SaveError.name",
+      "help": "Error.SaveError.help"
+    },
+    "OnePushConfig": {
+      "name": "Error.OnePushConfig.name",
+      "help": "Error.OnePushConfig.help"
+    }
+  },
+  "Optimization": {
+    "_info": {
+      "name": "Optimization._info.name",
+      "help": "Optimization._info.help"
+    },
+    "WhenTaskQueueEmpty": {
+      "name": "Optimization.WhenTaskQueueEmpty.name",
+      "help": "Optimization.WhenTaskQueueEmpty.help"
+    }
+  },
+  "FpyEmulator": {
+    "_info": {
+      "name": "FpyEmulator._info.name",
+      "help": "FpyEmulator._info.help"
+    },
+    "Serial": {
+      "name": "FpyEmulator.Serial.name",
+      "help": "FpyEmulator.Serial.help"
+    },
+    "LaunchPath": {
+      "name": "FpyEmulator.LaunchPath.name",
+      "help": "FpyEmulator.LaunchPath.help"
+    }
+  },
+  "FpyInterval": {
+    "_info": {
+      "name": "FpyInterval._info.name",
+      "help": "FpyInterval._info.help"
+    },
+    "Interval": {
+      "name": "FpyInterval.Interval.name",
+      "help": "FpyInterval.Interval.help"
+    }
+  },
+  "FpyTeam": {
+    "_info": {
+      "name": "FpyTeam._info.name",
+      "help": "FpyTeam._info.help"
+    },
+    "Index": {
+      "name": "FpyTeam.Index.name",
+      "help": "FpyTeam.Index.help"
+    }
+  },
+  "FpyApple": {
+    "_info": {
+      "name": "FpyApple._info.name",
+      "help": "FpyApple._info.help"
+    },
+    "AppleKind": {
+      "name": "FpyApple.AppleKind.name",
+      "help": "FpyApple.AppleKind.help",
+      "gold": "gold",
+      "silver": "silver",
+      "bronze": "bronze",
+      "copper": "copper",
+      "quartz": "quartz"
+    },
+    "AppleCount": {
+      "name": "FpyApple.AppleCount.name",
+      "help": "FpyApple.AppleCount.help"
+    },
+    "EatOnce": {
+      "name": "FpyApple.EatOnce.name",
+      "help": "FpyApple.EatOnce.help"
+    },
+    "AppleTotal": {
+      "name": "FpyApple.AppleTotal.name",
+      "help": "FpyApple.AppleTotal.help"
+    }
+  },
+  "FpyLimit": {
+    "_info": {
+      "name": "FpyLimit._info.name",
+      "help": "FpyLimit._info.help"
+    },
+    "Defeated": {
+      "name": "FpyLimit.Defeated.name",
+      "help": "FpyLimit.Defeated.help"
+    },
+    "KizunaReisou": {
+      "name": "FpyLimit.KizunaReisou.name",
+      "help": "FpyLimit.KizunaReisou.help"
+    },
+    "SpecialDrop": {
+      "name": "FpyLimit.SpecialDrop.name",
+      "help": "FpyLimit.SpecialDrop.help"
+    }
+  },
+  "FpyBenchmark": {
+    "_info": {
+      "name": "FpyBenchmark._info.name",
+      "help": "FpyBenchmark._info.help"
+    },
+    "BenchOption": {
+      "name": "FpyBenchmark.BenchOption.name",
+      "help": "FpyBenchmark.BenchOption.help",
+      "touch": "touch",
+      "screen": "screen",
+      "all": "all"
+    }
+  },
+  "FpyCall": {
+    "_info": {
+      "name": "FpyCall._info.name",
+      "help": "FpyCall._info.help"
+    },
+    "Function": {
+      "name": "FpyCall.Function.name",
+      "help": "FpyCall.Function.help",
+      "fpSummon": "fpSummon",
+      "lottery": "lottery",
+      "mail": "mail",
+      "synthesis": "synthesis",
+      "summonHistory": "summonHistory"
+    }
+  },
+  "Storage": {
+    "_info": {
+      "name": "Storage._info.name",
+      "help": "Storage._info.help"
+    },
+    "Storage": {
+      "name": "Storage.Storage.name",
+      "help": "Storage.Storage.help"
+    }
+  }
+}

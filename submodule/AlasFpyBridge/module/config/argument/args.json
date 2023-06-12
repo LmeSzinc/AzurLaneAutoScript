@@ -1,0 +1,286 @@
+{
+  "Fpy": {
+    "FpyEmulator": {
+      "Serial": {
+        "type": "input",
+        "value": "127.0.0.1:5555",
+        "valuetype": "str"
+      },
+      "LaunchPath": {
+        "type": "textarea",
+        "value": "/absolute_path_to_FGO-py/deploy/AzurLaneAutoScript"
+      }
+    },
+    "Emulator": {
+      "ServerName": {
+        "type": "input",
+        "value": "disabled",
+        "display": "hide"
+      }
+    },
+    "Error": {
+      "SaveError": {
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
+      },
+      "OnePushConfig": {
+        "type": "input",
+        "value": "provider: null",
+        "mode": "yaml",
+        "display": "hide"
+      }
+    },
+    "Optimization": {
+      "WhenTaskQueueEmpty": {
+        "type": "input",
+        "value": "stay_there",
+        "display": "hide"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
+  "FpyHeartbeat": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": true
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2023-01-01 05:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "FpyHeartbeat",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 60,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 120,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "05:00",
+        "display": "hide"
+      }
+    },
+    "FpyInterval": {
+      "Interval": {
+        "type": "input",
+        "value": "00:05",
+        "validate": "\\d+:\\d"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
+  "FpyMain": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2023-01-01 05:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "FpyMain",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 60,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 120,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "05:00",
+        "display": "hide"
+      }
+    },
+    "FpyTeam": {
+      "Index": {
+        "type": "input",
+        "value": 0
+      }
+    },
+    "FpyApple": {
+      "AppleKind": {
+        "type": "select",
+        "value": "gold",
+        "option": [
+          "gold",
+          "silver",
+          "bronze",
+          "copper",
+          "quartz"
+        ]
+      },
+      "AppleCount": {
+        "type": "input",
+        "value": 0
+      },
+      "EatOnce": {
+        "type": "checkbox",
+        "value": true
+      },
+      "AppleTotal": {
+        "type": "input",
+        "value": 999
+      }
+    },
+    "FpyLimit": {
+      "Defeated": {
+        "type": "checkbox",
+        "value": true
+      },
+      "KizunaReisou": {
+        "type": "checkbox",
+        "value": true
+      },
+      "SpecialDrop": {
+        "type": "input",
+        "value": 999
+      }
+    },
+    "FpyInterval": {
+      "Interval": {
+        "type": "input",
+        "value": "07:00",
+        "validate": "\\d+:\\d"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
+  "FpyDailyFpSummon": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2023-01-01 05:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "FpyDailyFpSummon",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 60,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 120,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
+  "FpyBattle": {
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
+  "FpyBenchmark": {
+    "FpyBenchmark": {
+      "BenchOption": {
+        "type": "select",
+        "value": "all",
+        "option": [
+          "touch",
+          "screen",
+          "all"
+        ]
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
+  "FpyCall": {
+    "FpyCall": {
+      "Function": {
+        "type": "select",
+        "value": "lottery",
+        "option": [
+          "fpSummon",
+          "lottery",
+          "mail",
+          "synthesis",
+          "summonHistory"
+        ]
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  }
+}
