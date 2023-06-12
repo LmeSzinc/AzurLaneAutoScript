@@ -44,7 +44,7 @@ road_main = RoadGrids([B6, C6, D6, E5, F4, G2, [G1, H2], G3, G4, G5, [H5, G6]])
 
 
 class Config:
-    DETECTION_BACKEND = 'perspective'
+    DETECTION_BACKEND = 'homography'
     HOMO_STORAGE = ((7, 6), [(471.806, 82.471), (1249.283, 82.471), (420.72, 615.64), (1435.387, 615.64)])
 
     INTERNAL_LINES_HOUGHLINES_THRESHOLD = 30
