@@ -1,10 +1,10 @@
 from module.ocr.ocr import *
 from module.ui.scroll import Scroll
-from tasks.base.page import Page, page_synthesize, page_menu
-from tasks.base.ui import UI
 from tasks.base.assets.assets_base_page import MENU_CHECK, SYNTHESIZE_CHECK
-from tasks.daily.assets.assets_daily import *
 from tasks.base.assets.assets_base_popup import GET_REWARD
+from tasks.base.page import Page, page_menu, page_synthesize
+from tasks.base.ui import UI
+from tasks.daily.assets.assets_daily import *
 
 
 class SynthesizeUI(UI):
@@ -110,8 +110,12 @@ class SynthesizeConsumablesUI(SynthesizeUI):
             if item.match_template_color(self.device.image):
                 logger.info('Find an item that can be synthesized')
                 # Ensure that item is selected
+                skip_first_screenshot = True
                 while 1:
-                    self.device.screenshot()
+                    if skip_first_screenshot:
+                        skip_first_screenshot = False
+                    else:
+                        self.device.screenshot()
                     if self.appear(item_check):
                         logger.info('Consumables that can be synthesized have been selected')
                         return True
