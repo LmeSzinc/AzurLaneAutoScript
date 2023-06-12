@@ -1,9 +1,9 @@
 from module.logger import logger
-from module.ocr.ocr import *
+from tasks.base.assets.assets_base_page import CLOSE
 from tasks.base.page import page_camera
 from tasks.base.ui import UI
-from tasks.base.assets.assets_base_page import CLOSE
 from tasks.daily.assets.assets_daily import *
+
 
 class CameraUI(UI):
     def take_picture(self, skip_first_screenshot=True):
@@ -12,6 +12,10 @@ class CameraUI(UI):
             self = CameraUI('alas')
             self.device.screenshot()
             self.take_picture()
+
+        Pages:
+            in: Any
+            out: page_camera, TAKE_PICTURE
         """
         self.ui_ensure(page_camera, skip_first_screenshot)
         # Take picture
@@ -40,4 +44,3 @@ class CameraUI(UI):
             if self.appear_then_click(CLOSE):
                 logger.info('Photo page was exited')
                 continue
-                
