@@ -1,4 +1,5 @@
 import os
+import re
 import typing as t
 from functools import cached_property
 
@@ -54,6 +55,19 @@ class TextMap:
         return 0, ''
 
 
+def replace_templates(text: str) -> str:
+    """
+    Replace templates in data to make sure it equals to what is shown in game
+
+    Examples:
+        replace_templates("Complete Echo of War #4 time(s)")
+        == "Complete Echo of War 1 time(s)"
+    """
+    text = re.sub(r'#4', '1', text)
+    text = re.sub(r'</?\w+>', '', text)
+    return text
+
+
 class KeywordExtract:
     def __init__(self):
         self.text_map: dict[str, TextMap] = {lang: TextMap(lang) for lang in UI_LANGUAGES}
@@ -90,9 +104,16 @@ class KeywordExtract:
             with gen.Object(key=en, object_class=keyword_class):
                 gen.ObjectAttr(key='id', value=index + 1)
                 for lang in UI_LANGUAGES:
-                    gen.ObjectAttr(key=lang, value=self.find_keyword(keyword, lang=lang)[1])
+                    gen.ObjectAttr(key=lang, value=replace_templates(self.find_keyword(keyword, lang=lang)[1]))
 
         gen.write(output_file)
+
+    def load_daily_quests_keywords(self, lang='cn'):
+        daily_quest = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'DailyQuest.json'))
+        quest_data = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'QuestData.json'))
+        quests_hash = [quest_data[quest_id]["QuestTitle"]["Hash"] for quest_id in daily_quest]
+        quest_keywords = [self.text_map[lang].find(quest_hash)[1] for quest_hash in quests_hash]
+        self.load_keywords(quest_keywords, lang)
 
 
 def generate():
@@ -101,6 +122,8 @@ def generate():
     ex.write_keywords(keyword_class='DungeonNav', output_file='./tasks/dungeon/keywords/nav.py')
     ex.load_keywords(['行动摘要', '生存索引', '每日实训'])
     ex.write_keywords(keyword_class='DungeonTab', output_file='./tasks/dungeon/keywords/tab.py')
+    ex.load_daily_quests_keywords()
+    ex.write_keywords(keyword_class='DailyQuest', output_file='./tasks/daily/keywords/daily_quest.py')
 
 
 if __name__ == '__main__':
