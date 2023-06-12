@@ -542,10 +542,11 @@ class RewardTacticalClass(Dock):
         return True
 
     def select_suitable_ship(self):
+        logger.hr(f'Select suitable ship')
+
         # reset filter
         self.dock_filter_set()
 
-        logger.hr(f'Select suitable ship')
         # Set if favorite from config
         self.dock_favourite_set(enable=self.config.AddNewStudent_Favorite)
 
