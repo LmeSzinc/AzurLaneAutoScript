@@ -5,6 +5,7 @@ from .classes import DungeonNav
 
 Simulated_Universe = DungeonNav(
     id=1,
+    name='Simulated_Universe',
     cn='模拟宇宙',
     cht='模擬宇宙',
     en='Simulated Universe',
@@ -12,6 +13,7 @@ Simulated_Universe = DungeonNav(
 )
 Calyx_Golden = DungeonNav(
     id=2,
+    name='Calyx_Golden',
     cn='拟造花萼（金）',
     cht='擬造花萼（金）',
     en='Calyx (Golden)',
@@ -19,6 +21,7 @@ Calyx_Golden = DungeonNav(
 )
 Calyx_Crimson = DungeonNav(
     id=3,
+    name='Calyx_Crimson',
     cn='拟造花萼（赤）',
     cht='擬造花萼（赤）',
     en='Calyx (Crimson)',
@@ -26,6 +29,7 @@ Calyx_Crimson = DungeonNav(
 )
 Stagnant_Shadow = DungeonNav(
     id=4,
+    name='Stagnant_Shadow',
     cn='凝滞虚影',
     cht='凝滯虛影',
     en='Stagnant Shadow',
@@ -33,6 +37,7 @@ Stagnant_Shadow = DungeonNav(
 )
 Cavern_of_Corrosion = DungeonNav(
     id=5,
+    name='Cavern_of_Corrosion',
     cn='侵蚀隧洞',
     cht='侵蝕隧洞',
     en='Cavern of Corrosion',
@@ -40,6 +45,7 @@ Cavern_of_Corrosion = DungeonNav(
 )
 Echo_of_War = DungeonNav(
     id=6,
+    name='Echo_of_War',
     cn='历战余响',
     cht='歷戰餘響',
     en='Echo of War',
@@ -47,6 +53,7 @@ Echo_of_War = DungeonNav(
 )
 Forgotten_Hall = DungeonNav(
     id=7,
+    name='Forgotten_Hall',
     cn='忘却之庭',
     cht='忘卻之庭',
     en='Forgotten Hall',
