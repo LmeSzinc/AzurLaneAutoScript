@@ -28,7 +28,7 @@ FpyMain:
 FpyDailyFpSummon:
   - Scheduler
 
-# ==================== FpyTool ====================
+# ==================== Tool ====================
 
 FpyBattle: []
 
