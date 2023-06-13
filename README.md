@@ -26,6 +26,12 @@ cd StarRailCopilot
 conda create -n src python==3.10.10
 ```
 
+激活刚刚创建的虚拟环境。
+
+```bash
+conda activate src
+```
+
 安装 requirements.txt 中的依赖。
 
 ```bash
