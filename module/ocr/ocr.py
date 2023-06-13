@@ -1,5 +1,6 @@
 import time
 
+import cv2
 from ppocronnx.predict_system import BoxedResult
 
 import module.config.server as server
@@ -11,6 +12,20 @@ from module.logger import logger
 from module.ocr.models import OCR_MODEL
 from module.ocr.ppocr import TextSystem
 from module.ocr.utils import merge_buttons
+
+
+def enlarge_canvas(image):
+    """
+    Enlarge image into a square fill with black background. In the structure of PaddleOCR,
+    image with w:h=1:1 is the best while 3:1 rectangles takes three times as long.
+    Also enlarge into the integer multiple of 32 cause PaddleOCR will downscale images to 1/32.
+    """
+    height, width = image.shape[:2]
+    length = int(max(width, width) // 32 * 32 + 32)
+    border = (0, length - height, 0, length - width)
+    if sum(border) > 0:
+        image = cv2.copyMakeBorder(image, *border, borderType=cv2.BORDER_CONSTANT, value=(0, 0, 0))
+    return image
 
 
 class OcrResultButton:
@@ -88,6 +103,8 @@ class Ocr:
         Returns:
             str:
         """
+        if result.startswith('UID'):
+            result = 'UID'
         return result
 
     def ocr_single_line(self, image):
@@ -118,6 +135,7 @@ class Ocr:
             image = crop(image, self.button.area)
         image = self.pre_process(image)
         # ocr
+        image = enlarge_canvas(image)
         results: list[BoxedResult] = self.model.detect_and_ocr(image)
         # after proces
         for result in results:
