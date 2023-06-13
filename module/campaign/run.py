@@ -151,7 +151,7 @@ class CampaignRun(CampaignEvent):
 
         return False
 
-    def handle_stage_name(self, name, folder):
+    def handle_stage_name(self, name, folder, mode='normal'):
         """
         Handle wrong stage names.
         In some events, the name of SP may be different, such as 'vsp', muse sp.
@@ -241,7 +241,11 @@ class CampaignRun(CampaignEvent):
                                 f'run ordered stage: {stage}')
                 name = stage.lower()
                 self.is_stage_loop = True
-
+        # Convert campaign_main to campaign hard if mode is hard and file exists
+        if mode == 'hard' and folder == 'campaign_main'\
+                and name in map_files('campaign_hard'):
+            folder = 'campaign_hard'
+            
         return name, folder
 
     def can_use_auto_search_continue(self):
@@ -276,7 +280,7 @@ class CampaignRun(CampaignEvent):
             mode (str): `normal` or `hard`
             total (int):
         """
-        name, folder = self.handle_stage_name(name, folder)
+        name, folder = self.handle_stage_name(name, folder, mode=mode)
         self.config.override(Campaign_Name=name, Campaign_Event=folder)
         self.load_campaign(name, folder=folder)
         self.run_count = 0
