@@ -198,6 +198,10 @@ class ButtonWrapper(Resource):
         return self.matched_button.button
 
     @property
+    def button_offset(self) -> tuple[int, int]:
+        return self.matched_button._button_offset
+
+    @property
     def width(self) -> int:
         return area_size(self.area)[0]
 
