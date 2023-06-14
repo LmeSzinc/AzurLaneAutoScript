@@ -573,6 +573,9 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                     continue
                 if self.handle_exp_info():
                     continue
+            elif self.is_combat_executing():
+                is_loading = False
+                continue
 
     def os_auto_search_run(self, drop=None, strategic=False):
         for _ in range(5):
