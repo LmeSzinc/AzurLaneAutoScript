@@ -41,3 +41,8 @@ class DungeonList(Keyword):
     @property
     def is_Simulated_Universe(self):
         return 'Simulated_Universe' in self.name
+
+
+@dataclass
+class DungeonEntrance(Keyword):
+    instances: ClassVar = {}

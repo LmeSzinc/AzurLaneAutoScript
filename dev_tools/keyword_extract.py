@@ -164,6 +164,8 @@ class KeywordExtract:
         self.load_keywords(list(self.iter_guide()))
         self.write_keywords(keyword_class='DungeonList', output_file='./tasks/dungeon/keywords/dungeon.py',
                             text_convert=dungeon_name)
+        self.load_keywords(['传送', '追踪'])
+        self.write_keywords(keyword_class='DungeonEntrance', output_file='./tasks/dungeon/keywords/dungeon_entrance.py')
 
 
 if __name__ == '__main__':

@@ -2,6 +2,8 @@ import itertools
 
 from ppocronnx.predict_system import BoxedResult
 
+from module.base.utils import area_in_area, area_offset
+
 
 def area_cross_area(area1, area2, thres_x=20, thres_y=20):
     """
@@ -55,3 +57,69 @@ def merge_buttons(buttons: list[BoxedResult], thres_x=20, thres_y=20) -> list[Bo
             set_merged.add(right_box)
 
     return [button for box, button in dic_button.items() if box not in set_merged]
+
+
+# def pair_buttons(
+#         group1: list["OcrResultButton"],
+#         group2: list["OcrResultButton"],
+#         relative_area: tuple[int, int, int, int]
+# ) -> t.Generator["OcrResultButton", "OcrResultButton"]:
+#     pass
+
+def pair_buttons(group1, group2, relative_area):
+    """
+    Pair buttons in group1 with those in group2 in the relative_area.
+
+    Args:
+        group1 (list[OcrResultButton]):
+        group2 (list[OcrResultButton]):
+        relative_area (tuple[int, int, int, int]):
+
+    Yields:
+        OcrResultButton, OcrResultButton:
+    """
+    for button1 in group1:
+        area = area_offset(relative_area, offset=button1.area[:2])
+        for button2 in group2:
+            if area_in_area(button2.area, area, threshold=0):
+                yield button1, button2
+
+
+def split_and_pair_buttons(buttons, split_func, relative_area):
+    """
+    Pair buttons in group1 with those in group2 in the relative_area.
+
+    Args:
+        buttons (list[OcrResultButton]):
+        split_func (callable):
+            A function that accepts an OcrResultButton object returns a bool,
+            button that has a True return join group1, False join group2.
+        relative_area (tuple[int, int, int, int]):
+
+    Yields:
+        OcrResultButton, OcrResultButton:
+    """
+    group1 = [button for button in buttons if split_func(button)]
+    group2 = [button for button in buttons if not split_func(button)]
+    for ret in pair_buttons(group1, group2, relative_area):
+        yield ret
+
+
+def split_and_pair_button_attr(buttons, split_func, relative_area):
+    """
+    Pair buttons in group1 with those in group2 in the relative_area,
+    and treat group2 as the BUTTON attribute of group1.
+
+    Args:
+        buttons (list[OcrResultButton]):
+        split_func (callable):
+            A function that accepts an OcrResultButton object returns a bool,
+            button that has a True return join group1, False join group2.
+        relative_area (tuple[int, int, int, int]):
+
+    Yields:
+        OcrResultButton:
+    """
+    for button1, button2 in split_and_pair_buttons(buttons, split_func, relative_area):
+        button1.button = button2.button
+        yield button1

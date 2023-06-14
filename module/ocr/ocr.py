@@ -29,15 +29,19 @@ def enlarge_canvas(image):
 
 
 class OcrResultButton:
-    def __init__(self, boxed_result: BoxedResult, keyword_class):
+    def __init__(self, boxed_result: BoxedResult, keyword_classes: list):
+        """
+        Args:
+            boxed_result: BoxedResult from ppocr-onnx
+            keyword_classes: List of Keyword classes
+        """
         self.area = boxed_result.box
         self.search = area_pad(self.area, pad=-20)
         # self.color =
         self.button = boxed_result.box
 
         try:
-            self.matched_keyword = keyword_class.find(
-                boxed_result.ocr_text, in_current_server=True, ignore_punctuation=True)
+            self.matched_keyword = self.match_keyword(boxed_result.ocr_text, keyword_classes)
             self.name = str(self.matched_keyword)
         except ScriptError:
             self.matched_keyword = None
@@ -45,6 +49,27 @@ class OcrResultButton:
 
         self.text = boxed_result.ocr_text
         self.score = boxed_result.score
+
+    def match_keyword(self, ocr_text, keyword_classes):
+        """
+        Args:
+            ocr_text (str):
+            keyword_classes: List of Keyword classes
+
+        Returns:
+            Keyword:
+
+        Raises:
+            ScriptError: If no keywords matched
+        """
+        for keyword_class in keyword_classes:
+            try:
+                matched = keyword_class.find(ocr_text, in_current_server=True, ignore_punctuation=True)
+                return matched
+            except ScriptError:
+                continue
+
+        raise ScriptError
 
     def __str__(self):
         return self.name
@@ -139,30 +164,41 @@ class Ocr:
         results: list[BoxedResult] = self.model.detect_and_ocr(image)
         # after proces
         for result in results:
-            result.ocr_text = self.after_process(result.ocr_text)
             if not direct_ocr:
                 result.box += self.button.area[:2]
             result.box = tuple(corner2area(result.box))
         results = merge_buttons(results, thres_x=self.merge_thres_x, thres_y=self.merge_thres_y)
+        for result in results:
+            result.ocr_text = self.after_process(result.ocr_text)
 
         logger.attr(name='%s %ss' % (self.name, float2str(time.time() - start_time)),
                     text=str([result.ocr_text for result in results]))
         return results
 
-    def matched_ocr(self, image, keyword_class, direct_ocr=False) -> list[OcrResultButton]:
+    def matched_ocr(self, image, keyword_classes, direct_ocr=False) -> list[OcrResultButton]:
         """
         Args:
             image: Screenshot
-            keyword_class: `Keyword` class or classes inherited `Keyword`.
+            keyword_classes: `Keyword` class or classes inherited `Keyword`, or a list of them.
             direct_ocr: True to ignore `button` attribute and feed the image to OCR model without cropping.
 
         Returns:
             List of matched OcrResultButton.
             OCR result which didn't matched known keywords will be dropped.
         """
+        if not isinstance(keyword_classes, list):
+            keyword_classes = [keyword_classes]
+
+        def is_valid(keyword):
+            # Digits will be considered as the index of keyword
+            if keyword.isdigit():
+                return False
+            return True
+
+        results = self.detect_and_ocr(image, direct_ocr=direct_ocr)
         results = [
-            OcrResultButton(result, keyword_class)
-            for result in self.detect_and_ocr(image, direct_ocr=direct_ocr)
+            OcrResultButton(result, keyword_classes)
+            for result in results if is_valid(result.ocr_text)
         ]
         results = [result for result in results if result.matched_keyword is not None]
         logger.attr(name=f'{self.name} matched',

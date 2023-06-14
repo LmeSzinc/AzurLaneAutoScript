@@ -212,6 +212,7 @@ class ButtonWrapper(Resource):
 
 class ClickButton:
     def __init__(self, button, name='CLICK_BUTTON'):
+        self.area = button
         self.button = button
         self.name = name
 

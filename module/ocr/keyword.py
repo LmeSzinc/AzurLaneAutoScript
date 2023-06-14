@@ -6,7 +6,7 @@ from typing import ClassVar
 from module.exception import ScriptError
 import module.config.server as server
 
-REGEX_PUNCTUATION = re.compile(r'[ ,.\'"，。\-—/\\\n\t()（）「」『』【】]')
+REGEX_PUNCTUATION = re.compile(r'[ ,.\'"，。·•\-—/\\\n\t()（）「」『』【】]')
 
 
 def parse_name(n):
@@ -44,7 +44,7 @@ class Keyword:
         return parse_name(self.cht)
 
     def __str__(self):
-        return self.name
+        return f'{self.__class__.__name__}({self.name})'
 
     __repr__ = __str__
 

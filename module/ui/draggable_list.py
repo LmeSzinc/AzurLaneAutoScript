@@ -5,7 +5,7 @@ import numpy as np
 from module.base.base import ModuleBase
 from module.base.button import ButtonWrapper
 from module.base.timer import Timer
-from module.base.utils import area_size
+from module.base.utils import area_size, random_rectangle_vector_opted
 from module.logger import logger
 from module.ocr.keyword import Keyword
 from module.ocr.ocr import OcrResultButton
@@ -20,6 +20,7 @@ class DraggableList:
     - Stagnant Shadow
     - Cavern of Corrosion
     """
+    drag_vector = (0.65, 0.85)
 
     def __init__(
             self,
@@ -37,6 +38,8 @@ class DraggableList:
         self.name = name
         self.keyword_class = keyword_class
         self.ocr_class = ocr_class
+        if isinstance(keyword_class, list):
+            keyword_class = keyword_class[0]
         self.known_rows = list(keyword_class.instances.values())
         self.search_button = search_button
 
@@ -45,8 +48,6 @@ class DraggableList:
         self.cur_min = 1
         self.cur_max = 1
         self.cur_buttons: list[OcrResultButton] = []
-
-        self.drag_vector = (0.65, 0.85)
 
     def __str__(self):
         return f'DraggableList({self.name})'
@@ -63,7 +64,7 @@ class DraggableList:
         try:
             return self.known_rows.index(row) + 1
         except ValueError:
-            logger.warning(f'Row "{row}" does not belong to {self}')
+            # logger.warning(f'Row "{row}" does not belong to {self}')
             return 0
 
     def keyword2button(self, row: Keyword) -> Optional[OcrResultButton]:
@@ -80,7 +81,7 @@ class DraggableList:
         Parse current rows to get list position.
         """
         self.cur_buttons = self.ocr_class(self.search_button) \
-            .matched_ocr(main.device.image, keyword_class=self.keyword_class)
+            .matched_ocr(main.device.image, self.keyword_class)
         # Get indexes
         indexes = [self.keyword2index(row.matched_keyword) for row in self.cur_buttons]
         indexes = [index for index in indexes if index]
@@ -96,22 +97,31 @@ class DraggableList:
         self.cur_max = max(indexes)
         logger.attr(self.name, f'{self.cur_min} - {self.cur_max}')
 
-    def _page_drag(self, direction: str, main: ModuleBase):
-        vector = np.random.uniform(*self.drag_vector)
+    def drag_page(self, direction: str, main: ModuleBase, vector=None):
+        """
+        Args:
+            direction: up, down, left, right
+            main:
+            vector (tuple[float, float]): Specific `drag_vector`, None by default to use `self.drag_vector`
+        """
+        if vector is None:
+            vector = self.drag_vector
+        vector = np.random.uniform(*vector)
         width, height = area_size(self.search_button.button)
-        if direction == 'down':
+        if direction == 'up':
             vector = (0, vector * height)
-        elif direction == 'up':
+        elif direction == 'down':
             vector = (0, -vector * height)
         elif direction == 'left':
-            vector = (-vector * width, 0)
-        elif direction == 'right':
             vector = (vector * width, 0)
+        elif direction == 'right':
+            vector = (-vector * width, 0)
         else:
             logger.warning(f'Unknown drag direction: {direction}')
             return
-        main.device.swipe_vector(
-            vector, box=self.search_button.button, random_range=(-10, -10, 10, 10), name=f'{self.name}_DRAG')
+
+        p1, p2 = random_rectangle_vector_opted(vector, box=self.search_button.button)
+        main.device.drag(p1, p2, name=f'{self.name}_DRAG')
 
     def insight_row(self, row: Keyword, main: ModuleBase, skip_first_screenshot=True) -> bool:
         """
@@ -143,9 +153,9 @@ class DraggableList:
 
             # Drag pages
             if row_index < self.cur_min:
-                self._page_drag('down', main=main)
+                self.drag_page('up', main=main)
             elif self.cur_max < row_index:
-                self._page_drag('up', main=main)
+                self.drag_page('down', main=main)
             # Wait for bottoming out
             main.wait_until_stable(self.search_button, timer=Timer(0, count=0), timeout=Timer(1.5, count=5))
             skip_first_screenshot = True

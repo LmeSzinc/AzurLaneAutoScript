@@ -118,7 +118,7 @@ class Switch:
             skip_first_screenshot (bool):
 
         Returns:
-            bool:
+            bool: If clicked
         """
         logger.info(f'{self.name} set to {state}')
         self.get_data(state)
