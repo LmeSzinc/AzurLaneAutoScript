@@ -790,6 +790,21 @@ class AlasGUI(Frame):
                 continue
             self.set_group(group, arg_dict, config, task)
 
+        run_js("""
+            $("#pywebio-scope-log").css(
+                "grid-row-start",
+                -2 - $("#pywebio-scope-_daemon").children().filter(
+                    function(){
+                        return $(this).css("display") === "none";
+                    }
+                ).length
+            );
+            $("#pywebio-scope-log").css(
+                "grid-row-end",
+                -1
+            );
+        """)
+
         self.task_handler.add(switch_scheduler.g(), 1, True)
         self.task_handler.add(switch_log_scroll.g(), 1, True)
         self.task_handler.add(log.put_log(self.alas), 0.25, True)

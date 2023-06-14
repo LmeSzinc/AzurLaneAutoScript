@@ -1,0 +1,19 @@
+{
+  "Task": {
+    "Fpy": [
+      "Fpy",
+      "FpyHeartbeat"
+    ],
+    "FpyFarm": [
+      "FpyMain"
+    ],
+    "FpyDaily": [
+      "FpyDailyFpSummon"
+    ],
+    "Tool": [
+      "FpyBattle",
+      "FpyBenchmark",
+      "FpyCall"
+    ]
+  }
+}

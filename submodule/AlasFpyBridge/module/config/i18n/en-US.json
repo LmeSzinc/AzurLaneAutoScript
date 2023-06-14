@@ -1,0 +1,235 @@
+{
+  "Menu": {
+    "Task": {
+      "name": "",
+      "help": ""
+    },
+    "Fpy": {
+      "name": "FGO-py",
+      "help": ""
+    },
+    "FpyFarm": {
+      "name": "Farm",
+      "help": ""
+    },
+    "FpyDaily": {
+      "name": "Daily",
+      "help": ""
+    },
+    "Tool": {
+      "name": "Tool",
+      "help": ""
+    }
+  },
+  "Task": {
+    "Fpy": {
+      "name": "FGO-py",
+      "help": "Requries FGO-py v11.2.0 or higher"
+    },
+    "FpyHeartbeat": {
+      "name": "Heartbeat",
+      "help": "When creating an FGO-py process in a complex environment, you may need to ping it every little while to prevent disconnections"
+    },
+    "FpyMain": {
+      "name": "Main",
+      "help": "Press the button and AP gauge emptied\nOh, it's now once button pressed, empty AP gauge forever"
+    },
+    "FpyDailyFpSummon": {
+      "name": "DailyFpSummon",
+      "help": ""
+    },
+    "FpyBattle": {
+      "name": "Battle",
+      "help": ""
+    },
+    "FpyBenchmark": {
+      "name": "Benchmark",
+      "help": ""
+    },
+    "FpyCall": {
+      "name": "Call",
+      "help": ""
+    }
+  },
+  "Scheduler": {
+    "_info": {
+      "name": "Scheduler._info.name",
+      "help": "Scheduler._info.help"
+    },
+    "Enable": {
+      "name": "Scheduler.Enable.name",
+      "help": "Scheduler.Enable.help"
+    },
+    "NextRun": {
+      "name": "Scheduler.NextRun.name",
+      "help": "Scheduler.NextRun.help"
+    },
+    "Command": {
+      "name": "Scheduler.Command.name",
+      "help": "Scheduler.Command.help"
+    },
+    "SuccessInterval": {
+      "name": "Scheduler.SuccessInterval.name",
+      "help": "Scheduler.SuccessInterval.help"
+    },
+    "FailureInterval": {
+      "name": "Scheduler.FailureInterval.name",
+      "help": "Scheduler.FailureInterval.help"
+    },
+    "ServerUpdate": {
+      "name": "Scheduler.ServerUpdate.name",
+      "help": "Scheduler.ServerUpdate.help"
+    }
+  },
+  "Emulator": {
+    "_info": {
+      "name": "Emulator._info.name",
+      "help": "Emulator._info.help"
+    },
+    "ServerName": {
+      "name": "Emulator.ServerName.name",
+      "help": "Emulator.ServerName.help"
+    }
+  },
+  "Error": {
+    "_info": {
+      "name": "Error._info.name",
+      "help": "Error._info.help"
+    },
+    "SaveError": {
+      "name": "Error.SaveError.name",
+      "help": "Error.SaveError.help"
+    },
+    "OnePushConfig": {
+      "name": "Error.OnePushConfig.name",
+      "help": "Error.OnePushConfig.help"
+    }
+  },
+  "Optimization": {
+    "_info": {
+      "name": "Optimization._info.name",
+      "help": "Optimization._info.help"
+    },
+    "WhenTaskQueueEmpty": {
+      "name": "Optimization.WhenTaskQueueEmpty.name",
+      "help": "Optimization.WhenTaskQueueEmpty.help"
+    }
+  },
+  "FpyEmulator": {
+    "_info": {
+      "name": "Environment",
+      "help": ""
+    },
+    "Serial": {
+      "name": "Serial",
+      "help": "Equivalent to `Connect to a device` dialog in FGO-py\nYou can find the Serial of common emulators in this option of the Alas body, and the rest is described in the `Connecting to Devices` section of the FGO-py readme."
+    },
+    "LaunchPath": {
+      "name": "LaunchPath",
+      "help": "The absolute path of the `AzurLaneAutoScript` subdirectory in the `deploy` directory of FGO-py\nYou can copy this subdirectory to another location for distributed deployment"
+    }
+  },
+  "FpyInterval": {
+    "_info": {
+      "name": "Interval",
+      "help": "Whenever a call to this task is completed, call it again after a certain period of time"
+    },
+    "Interval": {
+      "name": "Interval",
+      "help": "HH:MM, HH cannot be omitted, MM can be greater than 60"
+    }
+  },
+  "FpyTeam": {
+    "_info": {
+      "name": "Team",
+      "help": "Team"
+    },
+    "Index": {
+      "name": "TeamIndex",
+      "help": "The position of the selected team in the team formation interface, left to right 1-10, 0 to disable"
+    }
+  },
+  "FpyApple": {
+    "_info": {
+      "name": "Apple",
+      "help": "Apple"
+    },
+    "AppleKind": {
+      "name": "AppleKind",
+      "help": "AppleKind",
+      "gold": "gold",
+      "silver": "silver",
+      "bronze": "bronze",
+      "copper": "copper",
+      "quartz": "quartz"
+    },
+    "AppleCount": {
+      "name": "AppleCount",
+      "help": "AppleCount"
+    },
+    "EatOnce": {
+      "name": "EatOnce",
+      "help": "After this task is called once, the `AppleCount` will be cleared to zero, and after that, just clears the AP gauge\nIf this option is turned off, then every time it is called, apples will be eaten"
+    },
+    "AppleTotal": {
+      "name": "AppleTotal",
+      "help": "When `EatOnce` is turned off, this value will automatically reduced to prevent eating non-existent apples"
+    }
+  },
+  "FpyLimit": {
+    "_info": {
+      "name": "Limit",
+      "help": "Disable this task when certain conditions met"
+    },
+    "Defeated": {
+      "name": "Defeated",
+      "help": "Disable this task when defeated"
+    },
+    "KizunaReisou": {
+      "name": "KizunaReisou",
+      "help": "Disable this task when bond essences earned"
+    },
+    "SpecialDrop": {
+      "name": "SpecialDrop",
+      "help": "Disable this task after several ★5 essences earned\nThis value is automatically reduced"
+    }
+  },
+  "FpyBenchmark": {
+    "_info": {
+      "name": "Benchmark",
+      "help": "Get the time cost for a single touch and screenshot"
+    },
+    "BenchOption": {
+      "name": "BenchOption",
+      "help": "Able to be tested individually for touch or screenshots",
+      "touch": "touch",
+      "screen": "screen",
+      "all": "all"
+    }
+  },
+  "FpyCall": {
+    "_info": {
+      "name": "Call",
+      "help": "Calling some standalone widgets in FGO-py"
+    },
+    "Function": {
+      "name": "Function",
+      "help": "Name of the widget to be called",
+      "fpSummon": "fpSummon",
+      "lottery": "lottery",
+      "mail": "mail",
+      "synthesis": "synthesis",
+      "summonHistory": "summonHistory"
+    }
+  },
+  "Storage": {
+    "_info": {
+      "name": "Storage._info.name",
+      "help": "Storage._info.help"
+    },
+    "Storage": {
+      "name": "Storage.Storage.name",
+      "help": "Storage.Storage.help"
+    }
+  }
+}

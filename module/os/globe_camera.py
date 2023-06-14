@@ -86,22 +86,23 @@ class GlobeCamera(GlobeOperation, ZoneManager):
             bool: if camera moved.
         """
         name = 'GLOBE_SWIPE_' + '_'.join([str(int(round(x))) for x in vector])
-        if np.linalg.norm(vector) > 25:
-            if self.config.DEVICE_CONTROL_METHOD == 'minitouch':
-                distance = self.config.MAP_SWIPE_MULTIPLY_MINITOUCH
-            elif self.config.DEVICE_CONTROL_METHOD == 'MaaTouch':
-                distance = self.config.MAP_SWIPE_MULTIPLY_MAATOUCH
-            else:
-                distance = self.config.MAP_SWIPE_MULTIPLY
-            vector = np.array(distance) * vector
+        if np.linalg.norm(vector) <= 25:
+            logger.warning(f'Globe swipe to short: {vector}')
+            vector = np.sign(vector) * 25
 
-            vector = -vector
-            self.device.swipe_vector(vector, name=name, box=box)
-            self.device.sleep(0.3)
-
-            self.globe_update()
+        if self.config.DEVICE_CONTROL_METHOD == 'minitouch':
+            distance = self.config.MAP_SWIPE_MULTIPLY_MINITOUCH
+        elif self.config.DEVICE_CONTROL_METHOD == 'MaaTouch':
+            distance = self.config.MAP_SWIPE_MULTIPLY_MAATOUCH
         else:
-            logger.warning(f'Globe swipe to short: {vector}, dropped')
+            distance = self.config.MAP_SWIPE_MULTIPLY
+        vector = np.array(distance) * vector
+
+        vector = -vector
+        self.device.swipe_vector(vector, name=name, box=box)
+        self.device.sleep(0.3)
+
+        self.globe_update()
 
     def globe_wait_until_stable(self):
         prev = self.globe_camera
