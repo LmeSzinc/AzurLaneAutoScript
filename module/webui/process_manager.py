@@ -5,13 +5,15 @@ import threading
 from multiprocessing import Process
 from typing import Dict, List, Union
 
+import inflection
 from filelock import FileLock
+from rich.console import Console, ConsoleRenderable
+
 from module.config.utils import filepath_config
 from module.logger import logger, set_file_logger, set_func_logger
 from module.submodule.submodule import load_mod
-from module.submodule.utils import get_config_mod, mod_instance
+from module.submodule.utils import get_available_mod, get_available_mod_func, get_config_mod, get_func_mod, list_mod_instance
 from module.webui.setting import State
-from rich.console import Console, ConsoleRenderable
 
 
 class ProcessManager:
@@ -167,15 +169,14 @@ class ProcessManager:
                 from module.daemon.game_manager import GameManager
 
                 GameManager(config=config_name, task="GameManager").run()
-            elif func == 'maa':
-                mod = load_mod('maa')
+            elif func in get_available_mod():
+                mod = load_mod(func)
 
                 if e is not None:
                     mod.set_stop_event(e)
                 mod.loop(config_name)
-            elif func == "MaaCopilot":
-                mod = load_mod('maa')
-                mod.maa_copilot(config_name)
+            elif func in get_available_mod_func():
+                getattr(load_mod(get_func_mod(func)), inflection.underscore(func))(config_name)
             else:
                 logger.critical(f"No function matched: {func}")
             logger.info(f"[{config_name}] exited. Reason: Finish\n")
@@ -201,7 +202,7 @@ class ProcessManager:
         logger.hr("Restart alas")
 
         # Load MOD_CONFIG_DICT
-        mod_instance()
+        list_mod_instance()
 
         if instances is None:
             instances = []
