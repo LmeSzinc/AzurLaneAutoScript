@@ -1,3 +1,4 @@
+from module.base.timer import Timer
 from module.base.utils import get_color
 from module.logger import logger
 from module.os_handler.assets import *
@@ -27,8 +28,8 @@ class StrategicSearchHandler(MapEventHandler):
                 self.device.click(STRATEGIC_SEARCH_MAP_OPTION_OFF)
                 continue
 
-    def strategic_search_set_option(self, skip_first_screenshot=False):
-        logger.info('Strategic search set option')
+    def strategic_search_set_tab(self, skip_first_screenshot=False):
+        logger.info('Strategic search set tab')
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -39,9 +40,37 @@ class StrategicSearchHandler(MapEventHandler):
                 self.device.click(STRATEGIC_SEARCH_TAB_SECURED)
                 continue
             if get_color(self.device.image, STRATEGIC_SEARCH_TAB_SECURED.area)[2] > 150:
-                skip_first_screenshot = True
                 break
 
+    def _strategy_search_scroll_appear(self, skip_first_screenshot=True):
+        """
+        Returns:
+            bool: If it still exists
+        """
+        timeout = Timer(2, count=4).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if STRATEGIC_SEARCH_SCROLL.appear(main=self):
+                return True
+            else:
+                logger.warning('STRATEGIC_SEARCH_SCROLL disappeared')
+            if timeout.reached():
+                logger.warning('STRATEGIC_SEARCH_SCROLL disappeared confirm')
+                return False
+
+    def strategic_search_set_option(self, skip_first_screenshot=True):
+        """
+        Args:
+            skip_first_screenshot:
+
+        Returns:
+            If success. False if strategic settings closed for unknown reason.
+        """
+        logger.info('Strategic search set option')
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -64,6 +93,9 @@ class StrategicSearchHandler(MapEventHandler):
 
         STRATEGIC_SEARCH_SCROLL.drag_threshold = 0.1
         STRATEGIC_SEARCH_SCROLL.set(0.5, main=self)
+        if not self._strategy_search_scroll_appear():
+            return False
+
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -86,6 +118,9 @@ class StrategicSearchHandler(MapEventHandler):
         STRATEGIC_SEARCH_SCROLL.drag_threshold = 0.05
         STRATEGIC_SEARCH_SCROLL.edge_add = (0.5, 0.8)
         STRATEGIC_SEARCH_SCROLL.set_bottom(main=self)
+        if not self._strategy_search_scroll_appear():
+            return False
+
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -104,6 +139,8 @@ class StrategicSearchHandler(MapEventHandler):
                 logger.attr('auto_submit', 'on')
                 break
 
+        return True
+
     def strategic_search_confirm(self, skip_first_screenshot=False):
         logger.info('Strategic search confirm')
         while 1:
@@ -121,11 +158,22 @@ class StrategicSearchHandler(MapEventHandler):
 
     def strategic_search_start(self, skip_first_screenshot=False):
         """
+        Returns:
+            If success.
+
         Pages:
             in: IN_MAP
             out: IN_MAP, with strategic search running
         """
         logger.hr('Strategic search start')
-        self.strategy_search_enter(skip_first_screenshot=skip_first_screenshot)
-        self.strategic_search_set_option(skip_first_screenshot=True)
-        self.strategic_search_confirm(skip_first_screenshot=True)
+        for _ in range(3):
+            self.strategy_search_enter(skip_first_screenshot=skip_first_screenshot)
+            self.strategic_search_set_tab(skip_first_screenshot=True)
+            success = self.strategic_search_set_option(skip_first_screenshot=True)
+            if not success:
+                continue
+            self.strategic_search_confirm(skip_first_screenshot=True)
+            return True
+
+        logger.warning('Failed to start strategic search')
+        return False

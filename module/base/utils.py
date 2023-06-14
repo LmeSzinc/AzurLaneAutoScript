@@ -54,8 +54,8 @@ def random_rectangle_vector(vector, box, random_range=(0, 0, 0, 0), padding=15):
         tuple(int), tuple(int): start_point, end_point.
     """
     vector = np.array(vector) + random_rectangle_point(random_range)
-    vector = np.round(vector).astype(np.int)
-    half_vector = np.round(vector / 2).astype(np.int)
+    vector = np.round(vector).astype(int)
+    half_vector = np.round(vector / 2).astype(int)
     box = np.array(box) + np.append(np.abs(half_vector) + padding, -np.abs(half_vector) - padding)
     center = random_rectangle_point(box)
     start_point = center - half_vector
@@ -86,8 +86,8 @@ def random_rectangle_vector_opted(
         tuple(int), tuple(int): start_point, end_point.
     """
     vector = np.array(vector) + random_rectangle_point(random_range)
-    vector = np.round(vector).astype(np.int)
-    half_vector = np.round(vector / 2).astype(np.int)
+    vector = np.round(vector).astype(int)
+    half_vector = np.round(vector / 2).astype(int)
     box_pad = np.array(box) + np.append(np.abs(half_vector) + padding, -np.abs(half_vector) - padding)
     box_pad = area_offset(box_pad, half_vector)
     segment = int(np.linalg.norm(vector) // 70) + 1

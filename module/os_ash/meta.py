@@ -70,6 +70,10 @@ def _server_support():
     return server.server in ['cn', 'en', 'jp']
 
 
+def _server_support_dossier_auto_attack():
+    return server.server in ['cn']
+
+
 class OpsiAshBeacon(Meta):
     _meta_receive_count = 0
 
@@ -230,7 +234,8 @@ class OpsiAshBeacon(Meta):
         In beacon:
             ask for help if needed
         In dossier:
-            do nothing this version
+            [cn]: auto attack if needed
+            others: do nothing this version
         """
         # Page beacon or dossier
         if self.appear(BEACON_LIST, offset=(20, 20)):
@@ -239,6 +244,10 @@ class OpsiAshBeacon(Meta):
                     return False
             return True
         if self.appear(DOSSIER_LIST, offset=(20, 20)):
+            # can auto attack but not auto attacking
+            if _server_support_dossier_auto_attack() and self.config.OpsiAshBeacon_DossierAutoAttackMode \
+                    and self.appear(META_AUTO_ATTACK_START, offset=(5, 5)):
+                return self._dossier_auto_attack()
             return True
         return False
 
@@ -274,11 +283,11 @@ class OpsiAshBeacon(Meta):
                 continue
 
         # Here use simple clicks. Dropping some clicks is acceptable, no need to confirm they are selected.
-        self.device.click(HELP_1)
+        self.device.click(HELP_3)
         self.device.sleep((0.1, 0.3))
         self.device.click(HELP_2)
         self.device.sleep((0.1, 0.3))
-        self.device.click(HELP_3)
+        self.device.click(HELP_1)
 
         skip_first_screenshot = True
         while 1:
@@ -295,6 +304,40 @@ class OpsiAshBeacon(Meta):
                 return False
             # Click
             if self.appear_then_click(HELP_CONFIRM, offset=(30, 30), interval=3):
+                continue
+
+    def _dossier_auto_attack(self):
+        """
+        Auto attack dossier
+
+        Returns:
+            bool: Whether success to do auto attack.
+
+        Pages:
+            in: is_in_meta & not auto attacking
+            out: is_in_meta
+        """
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(META_AUTO_ATTACKING, offset=(5, 5)):
+                return True
+            # Finished by others
+            if self.appear(BEACON_REWARD, offset=(30, 30)):
+                return False
+            # Click
+            if self.appear_then_click(META_AUTO_ATTACK_CONFIRM, offset=(5, 5), interval=3):
+                continue
+            if self.appear_then_click(META_AUTO_ATTACK_START, offset=(5, 5), interval=3):
+                continue
+            # Wrongly entered BATTLE_PREPARATION
+            if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=2):
+                self.device.click(BACK_ARROW)
                 continue
 
     def _begin_meta(self):

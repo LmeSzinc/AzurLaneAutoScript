@@ -51,22 +51,25 @@ class RewardShop(ShopUI):
 
         if current is not None:
             current += 1
-            # prototype, core, merit, general, event
+            # core_monthly, core, merit, general, event
             # core, merit, general, event, event (2 event shops sometimes)
             if self.shop_bottom_navbar_ensure(left=current - 1):
                 MeritShop(self.config, self.device).run()
-
-            if self.shop_bottom_navbar_ensure(left=current - 2):
-                CoreShop(self.config, self.device).run()
+            if current - 3 >= 1:
+                if self.shop_bottom_navbar_ensure(left=current - 3):
+                    CoreShop(self.config, self.device).run()
+            else:
+                logger.warning('Cannot navigate to core shop, skip')
         else:
             logger.error('Cannot get the position of general shop, skip merit shop and core shop')
 
         self.shop_swipe()
-        # meta, medal, guild, prototype, core
-        if self.shop_bottom_navbar_ensure(left=3):
+        # gift, meta, medal, guild, prototype
+        # meta, gift, medal, guild, prototype [EN]
+        if self.shop_bottom_navbar_ensure(left=4):
             GuildShop(self.config, self.device).run()
 
-        if self.shop_bottom_navbar_ensure(left=2):
+        if self.shop_bottom_navbar_ensure(left=3):
             MedalShop2(self.config, self.device).run()
 
         # Cannot go back to general shop so don't stay in page_munitions

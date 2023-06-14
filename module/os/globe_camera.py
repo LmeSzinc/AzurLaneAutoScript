@@ -86,20 +86,23 @@ class GlobeCamera(GlobeOperation, ZoneManager):
             bool: if camera moved.
         """
         name = 'GLOBE_SWIPE_' + '_'.join([str(int(round(x))) for x in vector])
-        if np.any(np.abs(vector) > 25):
-            if self.config.DEVICE_CONTROL_METHOD == 'minitouch':
-                distance = self.config.MAP_SWIPE_MULTIPLY_MINITOUCH
-            elif self.config.DEVICE_CONTROL_METHOD == 'MaaTouch':
-                distance = self.config.MAP_SWIPE_MULTIPLY_MAATOUCH
-            else:
-                distance = self.config.MAP_SWIPE_MULTIPLY
-            vector = np.array(distance) * vector
+        if np.linalg.norm(vector) <= 25:
+            logger.warning(f'Globe swipe to short: {vector}')
+            vector = np.sign(vector) * 25
 
-            vector = -vector
-            self.device.swipe_vector(vector, name=name, box=box)
-            self.device.sleep(0.3)
+        if self.config.DEVICE_CONTROL_METHOD == 'minitouch':
+            distance = self.config.MAP_SWIPE_MULTIPLY_MINITOUCH
+        elif self.config.DEVICE_CONTROL_METHOD == 'MaaTouch':
+            distance = self.config.MAP_SWIPE_MULTIPLY_MAATOUCH
+        else:
+            distance = self.config.MAP_SWIPE_MULTIPLY
+        vector = np.array(distance) * vector
 
-            self.globe_update()
+        vector = -vector
+        self.device.swipe_vector(vector, name=name, box=box)
+        self.device.sleep(0.3)
+
+        self.globe_update()
 
     def globe_wait_until_stable(self):
         prev = self.globe_camera
@@ -164,8 +167,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
             area = (400, 200, GLOBE_MAP_SHAPE[0] - 400, GLOBE_MAP_SHAPE[1] - 250)
             loca = point_limit(zone.location, area=area)
             vector = np.array(loca) - self.globe_camera
-            # TODO: Yeah, 0.8 multiplier is shit, better implement needed
-            vector = vector * 0.8 / self.config.OS_GLOBE_SWIPE_MULTIPLY
+            vector = vector / self.config.OS_GLOBE_SWIPE_MULTIPLY
             swipe = tuple(np.min([np.abs(vector), swipe_limit], axis=0) * np.sign(vector))
             self.globe_swipe(swipe)
 

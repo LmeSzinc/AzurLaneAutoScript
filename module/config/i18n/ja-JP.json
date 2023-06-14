@@ -66,10 +66,6 @@
       "name": "Commission Farming",
       "help": ""
     },
-    "Sos": {
-      "name": "Sos",
-      "help": ""
-    },
     "EventGeneral": {
       "name": "イベント共通設定",
       "help": ""
@@ -327,10 +323,12 @@
       "com.bilibili.blhx.vivo": "CN com.bilibili.blhx.vivo",
       "com.bilibili.blhx.mz": "CN com.bilibili.blhx.mz",
       "com.bilibili.blhx.dl": "CN com.bilibili.blhx.dl",
+      "com.bilibili.blhx.lenovo": "CN com.bilibili.blhx.lenovo",
       "com.bilibili.blhx.uc": "CN com.bilibili.blhx.uc",
       "com.bilibili.blhx.mzw": "CN com.bilibili.blhx.mzw",
       "com.yiwu.blhx.yx15": "CN com.yiwu.blhx.yx15",
       "com.bilibili.blhx.m4399": "CN com.bilibili.blhx.m4399",
+      "com.bilibili.blhx.bilibiliMove": "CN com.bilibili.blhx.bilibiliMove",
       "com.hkmanjuu.azurlane.gp.mc": "TW com.hkmanjuu.azurlane.gp.mc"
     },
     "ServerName": {
@@ -589,12 +587,6 @@
       "help": "OneClickRetire.KeepLimitBreak.help",
       "keep_limit_break": "keep_limit_break",
       "do_not_keep": "do_not_keep"
-    },
-    "RetireAmount": {
-      "name": "OneClickRetire.RetireAmount.name",
-      "help": "OneClickRetire.RetireAmount.help",
-      "retire_all": "retire_all",
-      "retire_10": "retire_10"
     }
   },
   "Enhance": {
@@ -2178,6 +2170,10 @@
     "OneHitMode": {
       "name": "OpsiAshBeacon.OneHitMode.name",
       "help": "OpsiAshBeacon.OneHitMode.help"
+    },
+    "DossierAutoAttackMode": {
+      "name": "OpsiAshBeacon.DossierAutoAttackMode.name",
+      "help": "OpsiAshBeacon.DossierAutoAttackMode.help"
     },
     "RequestAssist": {
       "name": "OpsiAshBeacon.RequestAssist.name",

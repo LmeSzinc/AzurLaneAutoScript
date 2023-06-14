@@ -344,6 +344,10 @@ pre.rich-traceback-code {
     overflow-y: auto;
 }
 
+#pywebio-scope-groups:not(:has(*)) {
+    display: none;
+}
+
 #pywebio-scope-navigator {
     margin: .5rem 1rem .5rem;
     height: min-content;

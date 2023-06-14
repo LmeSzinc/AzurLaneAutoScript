@@ -824,8 +824,8 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         self.handle_info_bar()
         self.update()
         if self.map_rescan_current(drop=drop):
-            logger.info(f'Map rescan once end, result={result}')
-            return result
+            logger.info(f'Map rescan once end, result={True}')
+            return True
 
         if rescan_mode == 'full':
             logger.hr('Map rescan full', level=2)

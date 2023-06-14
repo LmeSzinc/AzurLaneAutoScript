@@ -93,9 +93,6 @@ OneClickRetire:
   KeepLimitBreak:
     value: keep_limit_break
     option: [ keep_limit_break, do_not_keep ]
-  RetireAmount:
-    value: retire_all
-    option: [ retire_all, retire_10 ]
 Enhance:
   ShipToEnhance:
     value: all
@@ -612,6 +609,7 @@ OpsiAshBeacon:
     value: current
     option: [ current, current_dossier ]
   OneHitMode: true
+  DossierAutoAttackMode: false
   RequestAssist: true
   EnsureFullyCollected: true
 OpsiFleetFilter:
