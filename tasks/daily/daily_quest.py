@@ -16,8 +16,9 @@ class DailyQuestOcr(Ocr):
     def after_process(self, result):
         result = super().after_process(result)
         if self.lang == 'ch':
+            result = result.replace("J", "」")
+            result = result.replace(";", "」")
             result = result.replace("宇审", "宇宙")
-            result = result.replace("响J", "响」")
         return result
 
 
