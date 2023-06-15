@@ -3,6 +3,7 @@ from scipy import signal
 
 from module.base.timer import Timer
 from module.base.utils import rgb2gray
+from module.logger import logger
 from tasks.base.ui import UI
 from tasks.combat.assets.assets_combat_state import COMBAT_AUTO, COMBAT_PAUSE, COMBAT_SPEED_2X
 
@@ -18,33 +19,34 @@ class CombatState(UI):
 
         return False
 
-    def is_combat_auto(self) -> bool:
-        image = rgb2gray(self.image_crop(COMBAT_AUTO))
-        line = cv2.reduce(image, 1, cv2.REDUCE_AVG).flatten()
+    def _is_combat_button_active(self, button):
+        image = rgb2gray(self.image_crop(button))
+        lines = cv2.reduce(image, 1, cv2.REDUCE_AVG).flatten()
         # [122 122 122 182 141 127 139 135 130 135 136 141 147 149 149 150 147 145
         #  148 150 150 150 150 150 144 138 134 141 136 133 173 183 130 128 127 126]
         parameters = {
             # Border is about 188-190
-            'height': 160,
+            'height': 128,
             # Background is about 120-122
             'prominence': 35,
+            'width': (0, 7),
+            'distance': 7,
         }
-        peaks, _ = signal.find_peaks(line, **parameters)
-        return len(peaks) == 2
+        peaks, _ = signal.find_peaks(lines, **parameters)
+        count = len(peaks)
+        if count == 0:
+            return False
+        elif count == 2:
+            return True
+        else:
+            logger.warning(f'Unexpected peak amount on {button}: {count}, lines={lines}')
+            return False
+
+    def is_combat_auto(self) -> bool:
+        return self._is_combat_button_active(COMBAT_AUTO)
 
     def is_combat_speed_2x(self) -> bool:
-        image = rgb2gray(self.image_crop(COMBAT_SPEED_2X))
-        line = cv2.reduce(image, 1, cv2.REDUCE_AVG).flatten()
-        # [122 122 122 182 141 127 139 135 130 135 136 141 147 149 149 150 147 145
-        #  148 150 150 150 150 150 144 138 134 141 136 133 173 183 130 128 127 126]
-        parameters = {
-            # Border is about 188-190
-            'height': 160,
-            # Background is about 120-122
-            'prominence': 35,
-        }
-        peaks, _ = signal.find_peaks(line, **parameters)
-        return len(peaks) == 2
+        return self._is_combat_button_active(COMBAT_SPEED_2X)
 
     def handle_combat_state(self, auto=True, speed_2x=True):
         """
