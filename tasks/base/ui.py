@@ -2,6 +2,7 @@ from module.base.decorator import run_once
 from module.base.timer import Timer
 from module.exception import GameNotRunningError, GamePageUnknownError
 from module.logger import logger
+from module.ocr.ocr import Ocr
 from tasks.base.assets.assets_base_page import CLOSE
 from tasks.base.page import Page, page_main
 from tasks.base.popup import PopupHandler
@@ -151,6 +152,55 @@ class UI(PopupHandler):
             logger.info("Goto %s" % destination)
             self.ui_goto(destination, skip_first_screenshot=True)
             return True
+
+    def ui_ensure_index(
+            self,
+            index,
+            letter,
+            next_button,
+            prev_button,
+            skip_first_screenshot=False,
+            fast=True,
+            interval=(0.2, 0.3),
+    ):
+        """
+        Args:
+            index (int):
+            letter (Ocr, callable): OCR button.
+            next_button (Button):
+            prev_button (Button):
+            skip_first_screenshot (bool):
+            fast (bool): Default true. False when index is not continuous.
+            interval (tuple, int, float): Seconds between two click.
+        """
+        logger.hr("UI ensure index")
+        retry = Timer(1, count=2)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if isinstance(letter, Ocr):
+                current = letter.ocr_single_line(self.device.image)
+            else:
+                current = letter(self.device.image)
+
+            logger.attr("Index", current)
+            diff = index - current
+            if diff == 0:
+                break
+            if current == 0:
+                logger.warning(f'ui_ensure_index got an empty current value: {current}')
+                continue
+
+            if retry.reached():
+                button = next_button if diff > 0 else prev_button
+                if fast:
+                    self.device.multi_click(button, n=abs(diff), interval=interval)
+                else:
+                    self.device.click(button)
+                retry.reset()
 
     def ui_goto_main(self):
         return self.ui_ensure(destination=page_main)
