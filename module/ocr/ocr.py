@@ -1,6 +1,7 @@
 import time
 
 import cv2
+import re
 from ppocronnx.predict_system import BoxedResult
 
 import module.config.server as server
@@ -204,3 +205,48 @@ class Ocr:
         logger.attr(name=f'{self.name} matched',
                     text=results)
         return results
+
+
+class Digit(Ocr):
+    def __init__(self, button: ButtonWrapper, lang='ch', name=None):
+        super().__init__(button, lang=lang, name=name)
+
+    def after_process(self, result) -> int:
+        """
+        Returns:
+            int:
+        """
+        result = super().after_process(result)
+        logger.attr(name=self.name, text=str(result))
+
+        res = re.search(r'(\d+)', result)
+        if res:
+            return int(res.group(1))
+        else:
+            logger.warning(f'No digit found in {result}')
+            return 0
+
+
+class DigitCounter(Ocr):
+    def __init__(self, button: ButtonWrapper, lang='ch', name=None):
+        super().__init__(button, lang=lang, name=name)
+
+    def after_process(self, result) -> tuple[int, int, int]:
+        """
+        Do OCR on a counter, such as `14/15`, and returns 14, 1, 15
+
+        Returns:
+            int:
+        """
+        result = super().after_process(result)
+        logger.attr(name=self.name, text=str(result))
+
+        res = re.search(r'(\d+)/(\d+)', result)
+        if res:
+            groups = [int(s) for s in res.groups()]
+            current, total = int(groups[0]), int(groups[1])
+            current = min(current, total)
+            return current, total - current, total
+        else:
+            logger.warning(f'No digit counter found in {result}')
+            return 0, 0, 0

@@ -13,6 +13,16 @@ COMBAT_PREPARE = ButtonWrapper(
         button=(956, 640, 1224, 676),
     ),
 )
+OCR_TRAILBLAZE_POWER = ButtonWrapper(
+    name='OCR_TRAILBLAZE_POWER',
+    share=Button(
+        file='./assets/share/combat/prepare/OCR_TRAILBLAZE_POWER.png',
+        area=(1043, 26, 1131, 48),
+        search=(1023, 6, 1151, 68),
+        color=(43, 46, 53),
+        button=(1043, 26, 1131, 48),
+    ),
+)
 OCR_WAVE_COUNT = ButtonWrapper(
     name='OCR_WAVE_COUNT',
     share=Button(
