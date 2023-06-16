@@ -3,7 +3,7 @@
     "Emulator": {
       "Serial": "auto",
       "PackageName": "auto",
-      "ScreenshotMethod": "auto",
+      "ScreenshotMethod": "scrcpy",
       "ControlMethod": "MaaTouch",
       "ScreenshotDedithering": false,
       "AdbRestart": false

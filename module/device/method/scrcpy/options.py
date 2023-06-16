@@ -4,7 +4,7 @@ import module.device.method.scrcpy.const as const
 
 
 class ScrcpyOptions:
-    frame_rate = 6
+    frame_rate = 10
 
     @classmethod
     def codec_options(cls) -> str:

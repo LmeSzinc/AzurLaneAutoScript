@@ -238,9 +238,9 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
                 self._screen_black_checked = False
                 return False
             else:
-                logger.warning(f'Received pure black screenshots from emulator, color: {color}')
-                logger.warning(f'Screenshot method `{self.config.Emulator_ScreenshotMethod}` '
-                               f'may not work on emulator `{self.serial}`, or the emulator is not fully started')
+                # logger.warning(f'Received pure black screenshots from emulator, color: {color}')
+                # logger.warning(f'Screenshot method `{self.config.Emulator_ScreenshotMethod}` '
+                #                f'may not work on emulator `{self.serial}`, or the emulator is not fully started')
                 if self.is_mumu_family:
                     if self.config.Emulator_ScreenshotMethod == 'DroidCast':
                         self.droidcast_stop()

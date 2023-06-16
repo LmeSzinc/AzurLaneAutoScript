@@ -18,7 +18,7 @@
       },
       "ScreenshotMethod": {
         "type": "select",
-        "value": "auto",
+        "value": "scrcpy",
         "option": [
           "auto",
           "ADB",
@@ -29,7 +29,8 @@
           "DroidCast",
           "DroidCast_raw",
           "scrcpy"
-        ]
+        ],
+        "display": "hide"
       },
       "ControlMethod": {
         "type": "select",
@@ -37,7 +38,8 @@
         "option": [
           "minitouch",
           "MaaTouch"
-        ]
+        ],
+        "display": "hide"
       },
       "ScreenshotDedithering": {
         "type": "checkbox",

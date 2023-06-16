@@ -5,6 +5,10 @@
 
 # ==================== Alas ====================
 
+Alas:
+  Emulator:
+    ScreenshotMethod: scrcpy
+    ControlMethod: MaaTouch
 Restart:
   Scheduler:
     Enable:
