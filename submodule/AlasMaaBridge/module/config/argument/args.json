@@ -124,6 +124,54 @@
       }
     }
   },
+  "MaaRestart": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": true,
+        "display": "disabled"
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 04:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "MaaRestart",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 0,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 0,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "04:00",
+        "display": "hide"
+      }
+    },
+    "MaaRestart": {
+      "TimeInterval": {
+        "type": "input",
+        "value": 0
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
   "MaaAnnihilation": {
     "Scheduler": {
       "Enable": {
@@ -818,7 +866,7 @@
       },
       "ServerUpdate": {
         "type": "input",
-        "value": "04:00, 16:00",
+        "value": "04:00, 16:00, 23:00",
         "display": "hide"
       }
     },
@@ -933,6 +981,10 @@
           "friend_support",
           "nonfriend_support"
         ]
+      },
+      "RestartGameWhenSwitchNeeded": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Storage": {

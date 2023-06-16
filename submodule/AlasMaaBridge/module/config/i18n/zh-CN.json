@@ -22,6 +22,10 @@
       "name": "开始唤醒",
       "help": ""
     },
+    "MaaRestart": {
+      "name": "重启游戏",
+      "help": ""
+    },
     "MaaAnnihilation": {
       "name": "剿灭作战",
       "help": ""
@@ -174,6 +178,16 @@
     "PenguinID": {
       "name": "企鹅物流ID",
       "help": "留空即可，第一次上传后会自动生成"
+    }
+  },
+  "MaaRestart": {
+    "_info": {
+      "name": "定时重启",
+      "help": ""
+    },
+    "TimeInterval": {
+      "name": "每隔X分钟定时重启游戏",
+      "help": "特别地，0表示每天4点重启\nX不能大于1440"
     }
   },
   "MaaFight": {
@@ -534,6 +548,10 @@
       "no_use": "不使用",
       "friend_support": "好友助战",
       "nonfriend_support": "好友+非好友助战"
+    },
+    "RestartGameWhenSwitchNeeded": {
+      "name": "切换任务时强制结束肉鸽",
+      "help": "当其它任务需要运行时，立刻重启游戏以强制结束肉鸽\n若不勾选，则当前探索结束才会切换任务"
     }
   },
   "MaaCopilot": {

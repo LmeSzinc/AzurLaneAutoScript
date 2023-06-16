@@ -171,6 +171,12 @@ class AssistantHandler:
                 self.params['starts_count'] = 0
                 self.asst.set_task_params(self.task_id, self.params)
                 self.callback_list.remove(self.roguelike_callback)
+                if self.config.MaaRoguelike_RestartGameWhenSwitchNeeded:
+                    # Stop Roguelike
+                    self.asst.stop()
+                    # Restart Game
+                    self.config.task_call('MaaRestart', force_call=True)
+                    return
             else:
                 self.task_switch_timer.reset()
 
@@ -214,6 +220,18 @@ class AssistantHandler:
             "start_game_enabled": True
         })
         self.config.task_delay(server_update=True)
+
+    def restart(self):
+        self.maa_start('CloseDown', {})
+        time.sleep(5)
+        self.maa_start('StartUp', {
+            "client_type": self.config.MaaEmulator_PackageName,
+            "start_game_enabled": True
+        })
+        if self.config.MaaRestart_TimeInterval <= 0 or self.config.MaaRestart_TimeInterval > 24*60:
+            self.config.task_delay(server_update=True)
+        else:
+            self.config.task_delay(minute=self.config.MaaRestart_TimeInterval)
 
     def fight(self):
         args = {

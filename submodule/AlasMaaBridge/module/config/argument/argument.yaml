@@ -54,6 +54,9 @@ MaaRecord:
   ReportToPenguin: false
   PenguinID: null
 
+MaaRestart:
+  TimeInterval: 0
+
 MaaFight:
   Stage:
     value: last
@@ -158,6 +161,7 @@ MaaRoguelike:
   Support:
     value: no_use
     option: [ no_use, friend_support, nonfriend_support ]
+  RestartGameWhenSwitchNeeded: false
 
 # ==================== Tool ====================
 

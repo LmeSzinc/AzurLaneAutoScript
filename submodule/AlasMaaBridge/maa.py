@@ -114,6 +114,9 @@ class ArknightsAutoScript(AzurLaneAutoScript):
     def maa_startup(self):
         AssistantHandler(config=self.config, asst=self.asst).startup()
 
+    def maa_restart(self):
+        AssistantHandler(config=self.config, asst=self.asst).restart()
+    
     def maa_annihilation(self):
         AssistantHandler(config=self.config, asst=self.asst).fight()
 
