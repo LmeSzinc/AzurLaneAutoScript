@@ -3,8 +3,9 @@ import numpy as np
 from module.base.timer import Timer
 from module.logger import *
 from module.ocr.ocr import Ocr, OcrResultButton
+from module.ocr.utils import split_and_pair_buttons
 from tasks.daily.assets.assets_daily_reward import *
-from tasks.daily.keywords import DailyQuest
+from tasks.daily.keywords import DailyQuest, DailyQuestState, KEYWORDS_DAILY_QUEST_STATE
 from tasks.dungeon.keywords import KEYWORDS_DUNGEON_TAB
 from tasks.dungeon.ui import DungeonUI
 
@@ -61,12 +62,20 @@ class DailyQuestUI(DungeonUI):
     def _ocr_single_page(self) -> list[OcrResultButton]:
         ocr = DailyQuestOcr(OCR_DAILY_QUEST)
         ocr.merge_thres_y = 20
-        results = ocr.matched_ocr(self.device.image, DailyQuest)
-        if len(results) < 4:
-            logger.warning(f"Recognition failed at {4 - len(results)} quests on one page")
-        return results
+        results = ocr.matched_ocr(self.device.image, [DailyQuestState, DailyQuest])
+        if len(results) < 8:
+            logger.warning(f"Recognition failed at {8 - len(results)} quests on one page")
+
+        def completed_state(state):
+            return state != KEYWORDS_DAILY_QUEST_STATE.Go and state != KEYWORDS_DAILY_QUEST_STATE.In_Progress
+
+        return [quest for quest, _ in
+                split_and_pair_buttons(results, split_func=completed_state, relative_area=(0, 0, 200, 720))]
 
     def daily_quests_recognition(self):
+        """
+        Returns incomplete quests only
+        """
         logger.info("Recognizing daily quests")
         self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Daily_Training)
         self._ensure_position('left')
@@ -86,7 +95,7 @@ class DailyQuestUI(DungeonUI):
 
             if self.appear(DAILY_QUEST_FULL) or self.appear(DAILY_QUEST_GOTO):
                 break
-            if self.appear_then_click(DAILY_QUEST_REWARD):
+            if self.appear_then_click(DAILY_QUEST_REWARD, interval=1):
                 continue
 
     def _no_reward_to_get(self):

@@ -161,6 +161,8 @@ class KeywordExtract:
         self.write_keywords(keyword_class='DungeonTab', output_file='./tasks/dungeon/keywords/tab.py')
         self.load_daily_quests_keywords()
         self.write_keywords(keyword_class='DailyQuest', output_file='./tasks/daily/keywords/daily_quest.py')
+        self.load_keywords(['前往', '领取', '进行中', '已领取', '本日活跃度已满'])
+        self.write_keywords(keyword_class='DailyQuestState', output_file='./tasks/daily/keywords/daily_quest_state.py')
         self.load_keywords(list(self.iter_guide()))
         self.write_keywords(keyword_class='DungeonList', output_file='./tasks/dungeon/keywords/dungeon.py',
                             text_convert=dungeon_name)
