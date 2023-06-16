@@ -9,7 +9,9 @@ from tasks.combat.assets.assets_combat_state import COMBAT_AUTO, COMBAT_PAUSE, C
 
 
 class CombatState(UI):
-    _combat_click_interval = Timer(1, count=2)
+    _combat_click_interval = Timer(2, count=4)
+    _combat_auto_checked = False
+    _combat_2x_checked = False
 
     def is_combat_executing(self) -> bool:
         appear = self.appear(COMBAT_PAUSE)
@@ -26,7 +28,7 @@ class CombatState(UI):
         #  148 150 150 150 150 150 144 138 134 141 136 133 173 183 130 128 127 126]
         parameters = {
             # Border is about 188-190
-            'height': 128,
+            'height': 96,
             # Background is about 120-122
             'prominence': 35,
             'width': (0, 7),
@@ -39,7 +41,8 @@ class CombatState(UI):
         elif count == 2:
             return True
         else:
-            logger.warning(f'Unexpected peak amount on {button}: {count}, lines={lines}')
+            # logger.warning(f'Unexpected peak amount on {button}: {count}, lines={lines}')
+            # self.device.image_save()
             return False
 
     def is_combat_auto(self) -> bool:
@@ -48,6 +51,10 @@ class CombatState(UI):
     def is_combat_speed_2x(self) -> bool:
         return self._is_combat_button_active(COMBAT_SPEED_2X)
 
+    def combat_state_reset(self):
+        self._combat_auto_checked = False
+        self._combat_2x_checked = False
+
     def handle_combat_state(self, auto=True, speed_2x=True):
         """
         Set combat auto and 2X speed. Enable both by default.
@@ -55,28 +62,49 @@ class CombatState(UI):
         Returns:
             bool: If clicked
         """
+        if self._combat_auto_checked and self._combat_2x_checked:
+            return False
         if not self.is_combat_executing():
             return False
 
-        if speed_2x and not self.is_combat_speed_2x():
-            if self._combat_click_interval.reached():
-                self.device.click(COMBAT_SPEED_2X)
-                self._combat_click_interval.reset()
-                return True
-        if not speed_2x and self.is_combat_speed_2x():
-            if self._combat_click_interval.reached():
-                self.device.click(COMBAT_SPEED_2X)
-                self._combat_click_interval.reset()
-                return True
-        if auto and not self.is_combat_auto():
-            if self._combat_click_interval.reached():
-                self.device.click(COMBAT_AUTO)
-                self._combat_click_interval.reset()
-                return True
-        if not auto and self.is_combat_auto():
-            if self._combat_click_interval.reached():
-                self.device.click(COMBAT_AUTO)
-                self._combat_click_interval.reset()
-                return True
+        if not self._combat_2x_checked:
+            if speed_2x:
+                if self.is_combat_speed_2x():
+                    logger.info('_combat_2x_checked')
+                    self._combat_2x_checked = True
+                else:
+                    if self._combat_click_interval.reached():
+                        self.device.click(COMBAT_SPEED_2X)
+                        self._combat_click_interval.reset()
+                        return True
+            else:
+                if self.is_combat_speed_2x():
+                    if self._combat_click_interval.reached():
+                        self.device.click(COMBAT_SPEED_2X)
+                        self._combat_click_interval.reset()
+                        return True
+                else:
+                    logger.info('_combat_2x_checked')
+                    self._combat_2x_checked = True
+
+        if not self._combat_auto_checked:
+            if auto:
+                if self.is_combat_auto():
+                    logger.info('_combat_auto_checked')
+                    self._combat_auto_checked = True
+                else:
+                    if self._combat_click_interval.reached():
+                        self.device.click(COMBAT_AUTO)
+                        self._combat_click_interval.reset()
+                        return True
+            else:
+                if self.is_combat_auto():
+                    if self._combat_click_interval.reached():
+                        self.device.click(COMBAT_AUTO)
+                        self._combat_click_interval.reset()
+                        return True
+                else:
+                    logger.info('_combat_auto_checked')
+                    self._combat_auto_checked = True
 
         return False

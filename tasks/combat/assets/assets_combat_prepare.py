@@ -47,9 +47,9 @@ WAVE_PLUS = ButtonWrapper(
     name='WAVE_PLUS',
     share=Button(
         file='./assets/share/combat/prepare/WAVE_PLUS.png',
-        area=(1203, 578, 1239, 598),
-        search=(1183, 558, 1259, 618),
-        color=(23, 24, 25),
-        button=(1203, 578, 1239, 598),
+        area=(1204, 578, 1236, 598),
+        search=(1184, 558, 1256, 618),
+        color=(229, 229, 229),
+        button=(1204, 578, 1236, 598),
     ),
 )

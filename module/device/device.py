@@ -25,8 +25,6 @@ class Device(Screenshot, Control, AppControl, Platform):
     detect_record = set()
     click_record = deque(maxlen=15)
     stuck_timer = Timer(60, count=60).start()
-    stuck_timer_long = Timer(180, count=180).start()
-    stuck_long_wait_list = ['BATTLE_STATUS_S', 'PAUSE', 'LOGIN_CHECK']
 
     def __init__(self, *args, **kwargs):
         for _ in range(2):
@@ -96,7 +94,6 @@ class Device(Screenshot, Control, AppControl, Platform):
     def stuck_record_clear(self):
         self.detect_record = set()
         self.stuck_timer.reset()
-        self.stuck_timer_long.reset()
 
     def stuck_record_check(self):
         """
@@ -104,14 +101,8 @@ class Device(Screenshot, Control, AppControl, Platform):
             GameStuckError:
         """
         reached = self.stuck_timer.reached()
-        reached_long = self.stuck_timer_long.reached()
-
         if not reached:
             return False
-        if not reached_long:
-            for button in self.stuck_long_wait_list:
-                if button in self.detect_record:
-                    return False
 
         logger.warning('Wait too long')
         logger.warning(f'Waiting for {self.detect_record}')

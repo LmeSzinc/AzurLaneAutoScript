@@ -174,7 +174,9 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
             image = self.image
         Image.fromarray(image).show()
 
-    def image_save(self, file):
+    def image_save(self, file=None):
+        if file is None:
+            file = f'{int(time.time() * 1000)}.png'
         save_image(self.image, file)
 
     def check_screen_size(self):

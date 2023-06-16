@@ -245,7 +245,7 @@ class DigitCounter(Ocr):
         if res:
             groups = [int(s) for s in res.groups()]
             current, total = int(groups[0]), int(groups[1])
-            current = min(current, total)
+            # current = min(current, total)
             return current, total - current, total
         else:
             logger.warning(f'No digit counter found in {result}')

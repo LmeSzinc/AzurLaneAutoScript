@@ -39,17 +39,38 @@ class CombatTeam(UI):
         # logger.warning(f'No team selected')
         return 0
 
-    def team_set(self, team: int = 1, skip_first_screenshot=True):
+    def team_set(self, team: int = 1, skip_first_screenshot=True) -> bool:
         """
         Args:
             team: Team index, 1 to 6.
             skip_first_screenshot:
 
+        Returns:
+            bool: If clicked
+
         Pages:
             in: page_team
         """
         logger.info(f'Team set: {team}')
+        # Wait teams show up
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            current = self._get_team_selected()
+            if current:
+                if current == team:
+                    logger.info(f'Selected to the correct team')
+                    return False
+                else:
+                    break
+
+        # Set team
         interval = Timer(2)
+        skip_first_screenshot = True
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -61,7 +82,7 @@ class CombatTeam(UI):
             logger.attr('Team', current)
             if current and current == team:
                 logger.info(f'Selected to the correct team')
-                break
+                return True
 
             # Click
             if interval.reached():
