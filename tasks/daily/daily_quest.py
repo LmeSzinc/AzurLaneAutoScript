@@ -48,7 +48,7 @@ class DailyQuestUI(DungeonUI):
                 continue
 
     def _daily_quests_swipe(self, direction: str):
-        vector = np.random.uniform(0.65, 0.85)
+        vector = np.random.uniform(0.4, 0.5)
         if direction == 'left':
             swipe_vector = (vector * OCR_DAILY_QUEST.width, 0)
         elif direction == 'right':
@@ -72,7 +72,7 @@ class DailyQuestUI(DungeonUI):
         return [quest for quest, _ in
                 split_and_pair_buttons(results, split_func=completed_state, relative_area=(0, 0, 200, 720))]
 
-    def daily_quests_recognition(self):
+    def daily_quests_recognition(self) -> list[DailyQuest]:
         """
         Returns incomplete quests only
         """
@@ -82,7 +82,11 @@ class DailyQuestUI(DungeonUI):
         results = self._ocr_single_page()
         self._ensure_position('right')
         results += [result for result in self._ocr_single_page() if result not in results]
+        results = [result.matched_keyword for result in results]
         logger.info("Daily quests recognition complete")
+        logger.info(f"Daily quests: {results}")
+        if len(results) != 6:
+            logger.warning(f'Unexpected amount of daily quests: {len(results)}')
         return results
 
     def _get_quest_reward(self, skip_first_screenshot=True):
