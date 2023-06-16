@@ -4,17 +4,17 @@ from typing import ClassVar
 from module.ocr.keyword import Keyword
 
 
-@dataclass
+@dataclass(repr=False)
 class DungeonNav(Keyword):
     instances: ClassVar = {}
 
 
-@dataclass
+@dataclass(repr=False)
 class DungeonTab(Keyword):
     instances: ClassVar = {}
 
 
-@dataclass
+@dataclass(repr=False)
 class DungeonList(Keyword):
     instances: ClassVar = {}
 
@@ -43,6 +43,6 @@ class DungeonList(Keyword):
         return 'Simulated_Universe' in self.name
 
 
-@dataclass
+@dataclass(repr=False)
 class DungeonEntrance(Keyword):
     instances: ClassVar = {}

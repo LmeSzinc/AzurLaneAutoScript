@@ -4,11 +4,11 @@ from typing import ClassVar
 from module.ocr.keyword import Keyword
 
 
-@dataclass
+@dataclass(repr=False)
 class DailyQuest(Keyword):
     instances: ClassVar = {}
 
 
-@dataclass
+@dataclass(repr=False)
 class DailyQuestState(Keyword):
     instances: ClassVar = {}
