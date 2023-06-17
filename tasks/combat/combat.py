@@ -1,4 +1,5 @@
 from module.logger import logger
+from tasks.base.assets.assets_base_page import CLOSE
 from tasks.base.page import page_main
 from tasks.combat.assets.assets_combat_finish import COMBAT_AGAIN, COMBAT_EXIT
 from tasks.combat.assets.assets_combat_prepare import COMBAT_PREPARE
@@ -29,12 +30,20 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam):
         if self._combat_has_multi_wave:
             wave = min(current // self.combat_cost, 6)
             logger.info(f'Current has {current}, combat costs {self.combat_cost}, able to do {wave} waves')
-            self.combat_set_wave(wave)
+            if wave > 0:
+                self.combat_set_wave(wave)
         else:
             logger.info(f'Current has {current}, combat costs {self.combat_cost}, do 1 wave')
 
     def combat_prepare(self, team=1):
         """
+        Args:
+            team: 1 to 6.
+
+        Returns:
+            bool: True if success to enter combat
+                False if trialblaze power is not enough
+
         Pages:
             in: COMBAT_PREPARE
             out: is_combat_executing
@@ -49,11 +58,13 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam):
 
             # End
             if self.is_combat_executing():
-                break
+                return True
 
             # Click
             if self.appear(COMBAT_PREPARE, interval=2):
                 self.handle_combat_prepare()
+                if self.state.TrailblazePower < self.combat_cost:
+                    return False
                 self.device.click(COMBAT_PREPARE)
                 self.interval_reset(COMBAT_PREPARE)
                 continue
@@ -147,6 +158,38 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam):
                     self.device.click(COMBAT_EXIT)
                 self.interval_reset(COMBAT_AGAIN)
 
+    def combat_exit(self, skip_first_screenshot=True):
+        """
+        Pages:
+            in: Any page during combat
+            out: page_main
+        """
+        logger.info('Combat exit')
+        self.interval_clear([COMBAT_PREPARE, COMBAT_TEAM_PREPARE, COMBAT_AGAIN])
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(page_main.check_button):
+                break
+
+            # Click
+            if self.appear(COMBAT_PREPARE, interval=2):
+                logger.info(f'{COMBAT_PREPARE} -> {CLOSE}')
+                self.device.click(CLOSE)
+                continue
+            if self.appear(COMBAT_TEAM_PREPARE, interval=2):
+                logger.info(f'{COMBAT_TEAM_PREPARE} -> {CLOSE}')
+                self.device.click(CLOSE)
+                continue
+            if self.appear(COMBAT_AGAIN, interval=2):
+                logger.info(f'{COMBAT_AGAIN} -> {COMBAT_EXIT}')
+                self.device.click(COMBAT_EXIT)
+                continue
+
     def combat(self, team: int = 1, skip_first_screenshot=True):
         """
         Combat until trailblaze power runs out.
@@ -165,8 +208,14 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam):
 
         while 1:
             logger.hr('Combat', level=2)
-            self.combat_prepare(team)
+            # Prepare
+            prepare = self.combat_prepare(team)
+            if not prepare:
+                self.combat_exit()
+                break
+            # Execute
             self.combat_execute()
+            # Finish
             finish = self.combat_finish()
             if self.state.TrailblazePower >= self.combat_cost:
                 logger.info('Still having some trailblaze power run with less waves to empty it')
