@@ -3,6 +3,10 @@
     "Alas": {
       "name": "Menu.Alas.name",
       "help": "Menu.Alas.help"
+    },
+    "Daily": {
+      "name": "Menu.Daily.name",
+      "help": "Menu.Daily.help"
     }
   },
   "Task": {
@@ -13,6 +17,10 @@
     "Restart": {
       "name": "再起動設定",
       "help": ""
+    },
+    "Dungeon": {
+      "name": "Task.Dungeon.name",
+      "help": "Task.Dungeon.help"
     }
   },
   "Scheduler": {
@@ -155,14 +163,49 @@
       "close_game": "close_game"
     }
   },
-  "Storage": {
+  "Dungeon": {
     "_info": {
-      "name": "Storage._info.name",
-      "help": "Storage._info.help"
+      "name": "Dungeon._info.name",
+      "help": "Dungeon._info.help"
     },
-    "Storage": {
-      "name": "Storage.Storage.name",
-      "help": "Storage.Storage.help"
+    "Name": {
+      "name": "Dungeon.Name.name",
+      "help": "Dungeon.Name.help",
+      "Calyx_Golden_Memories": "疑似花萼（金）・回憶の蕾",
+      "Calyx_Golden_Aether": "疑似花萼（金）・エーテルの蕾",
+      "Calyx_Golden_Treasures": "疑似花萼（金）・秘蔵の蕾",
+      "Calyx_Crimson_Destruction": "疑似花萼（赤）・壊滅の蕾",
+      "Calyx_Crimson_Preservation": "疑似花萼（赤）・存護の蕾",
+      "Calyx_Crimson_Calyx_Crimson_Hunt": "疑似花萼（赤）・巡狩の蕾",
+      "Calyx_Crimson_Abundance": "疑似花萼（赤）・豊穣の蕾",
+      "Calyx_Crimson_Erudition": "疑似花萼（赤）・知恵の蕾",
+      "Calyx_Crimson_Harmony": "疑似花萼（赤）・調和の蕾",
+      "Calyx_Crimson_Nihility": "疑似花萼（赤）・虚無の蕾",
+      "Stagnant_Shadow_Quanta": "凝結虚影・虚海の形",
+      "Stagnant_Shadow_Gust": "凝結虚影・薫風の形",
+      "Stagnant_Shadow_Fulmination": "凝結虚影・鳴雷の形",
+      "Stagnant_Shadow_Blaze": "凝結虚影・炎華の形",
+      "Stagnant_Shadow_Spike": "凝結虚影・切先の形",
+      "Stagnant_Shadow_Rime": "凝結虚影・霜晶の形",
+      "Stagnant_Shadow_Mirage": "凝結虚影・幻光の形",
+      "Stagnant_Shadow_Icicle": "凝結虚影・氷柱の形",
+      "Stagnant_Shadow_Doom": "凝結虚影・震厄の形",
+      "Cavern_of_Corrosion_Path_of_Gelid_Wind": "侵蝕トンネル・霜風の路",
+      "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "侵蝕トンネル・迅拳の路",
+      "Cavern_of_Corrosion_Path_of_Drifting": "侵蝕トンネル・漂泊の路",
+      "Cavern_of_Corrosion_Path_of_Providence": "侵蝕トンネル・睿治の路",
+      "Cavern_of_Corrosion_Path_of_Holy_Hymn": "侵蝕トンネル・聖頌の路",
+      "Cavern_of_Corrosion_Path_of_Conflagration": "侵蝕トンネル・野焔の路"
+    },
+    "Team": {
+      "name": "Dungeon.Team.name",
+      "help": "Dungeon.Team.help",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     }
   },
   "Gui": {

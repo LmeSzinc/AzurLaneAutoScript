@@ -42,6 +42,14 @@ class DungeonList(Keyword):
     def is_Simulated_Universe(self):
         return 'Simulated_Universe' in self.name
 
+    @property
+    def is_daily_dungeon(self):
+        return self.is_Calyx_Golden or self.is_Calyx_Crimson or self.is_Stagnant_Shadow or self.is_Cavern_of_Corrosion
+
+    @property
+    def is_weekly_dungeon(self):
+        return self.is_Echo_of_War
+
 
 @dataclass(repr=False)
 class DungeonEntrance(Keyword):

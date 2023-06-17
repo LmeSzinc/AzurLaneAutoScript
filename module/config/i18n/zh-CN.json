@@ -3,6 +3,10 @@
     "Alas": {
       "name": "SRC",
       "help": ""
+    },
+    "Daily": {
+      "name": "每日",
+      "help": ""
     }
   },
   "Task": {
@@ -12,6 +16,10 @@
     },
     "Restart": {
       "name": "异常处理",
+      "help": ""
+    },
+    "Dungeon": {
+      "name": "每日副本",
       "help": ""
     }
   },
@@ -155,14 +163,49 @@
       "close_game": "关闭游戏"
     }
   },
-  "Storage": {
+  "Dungeon": {
     "_info": {
-      "name": "任务状态",
-      "help": "存放任务内部状态，任务异常时可以手动清除"
+      "name": "每日副本设置",
+      "help": "打本清体力直到清空"
     },
-    "Storage": {
-      "name": "Storage.Storage.name",
-      "help": "Storage.Storage.help"
+    "Name": {
+      "name": "副本名称",
+      "help": "",
+      "Calyx_Golden_Memories": "回忆之蕾•拟造花萼（金）",
+      "Calyx_Golden_Aether": "以太之蕾•拟造花萼（金）",
+      "Calyx_Golden_Treasures": "藏珍之蕾•拟造花萼（金）",
+      "Calyx_Crimson_Destruction": "毁灭之蕾•拟造花萼（赤）",
+      "Calyx_Crimson_Preservation": "存护之蕾•拟造花萼（赤）",
+      "Calyx_Crimson_Calyx_Crimson_Hunt": "巡猎之蕾•拟造花萼（赤）",
+      "Calyx_Crimson_Abundance": "丰饶之蕾•拟造花萼（赤）",
+      "Calyx_Crimson_Erudition": "智识之蕾•拟造花萼（赤）",
+      "Calyx_Crimson_Harmony": "同谐之蕾•拟造花萼（赤）",
+      "Calyx_Crimson_Nihility": "虚无之蕾•拟造花萼（赤）",
+      "Stagnant_Shadow_Quanta": "空海之形•凝滞虚影",
+      "Stagnant_Shadow_Gust": "巽风之形•凝滞虚影",
+      "Stagnant_Shadow_Fulmination": "鸣雷之形•凝滞虚影",
+      "Stagnant_Shadow_Blaze": "炎华之形•凝滞虚影",
+      "Stagnant_Shadow_Spike": "锋芒之形•凝滞虚影",
+      "Stagnant_Shadow_Rime": "霜晶之形•凝滞虚影",
+      "Stagnant_Shadow_Mirage": "幻光之形•凝滞虚影",
+      "Stagnant_Shadow_Icicle": "冰棱之形•凝滞虚影",
+      "Stagnant_Shadow_Doom": "震厄之形•凝滞虚影",
+      "Cavern_of_Corrosion_Path_of_Gelid_Wind": "霜风之径•侵蚀隧洞",
+      "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "迅拳之径•侵蚀隧洞",
+      "Cavern_of_Corrosion_Path_of_Drifting": "漂泊之径•侵蚀隧洞",
+      "Cavern_of_Corrosion_Path_of_Providence": "睿治之径•侵蚀隧洞",
+      "Cavern_of_Corrosion_Path_of_Holy_Hymn": "圣颂之径•侵蚀隧洞",
+      "Cavern_of_Corrosion_Path_of_Conflagration": "野焰之径•侵蚀隧洞"
+    },
+    "Team": {
+      "name": "打本队伍",
+      "help": "",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     }
   },
   "Gui": {

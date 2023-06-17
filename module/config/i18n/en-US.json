@@ -3,6 +3,10 @@
     "Alas": {
       "name": "SRC",
       "help": ""
+    },
+    "Daily": {
+      "name": "Daily",
+      "help": ""
     }
   },
   "Task": {
@@ -12,6 +16,10 @@
     },
     "Restart": {
       "name": "Error Handling",
+      "help": ""
+    },
+    "Dungeon": {
+      "name": "Dungeon",
       "help": ""
     }
   },
@@ -155,14 +163,49 @@
       "close_game": "Close Game"
     }
   },
-  "Storage": {
+  "Dungeon": {
     "_info": {
-      "name": "Task status",
-      "help": "Store internal status of the task. Clear manually when the task is abnormal"
+      "name": "Dungeon Settings",
+      "help": "Brush a dungeon until trailblaze power runs out"
     },
-    "Storage": {
-      "name": "Storage.Storage.name",
-      "help": "Storage.Storage.help"
+    "Name": {
+      "name": "Dungeon Name",
+      "help": "",
+      "Calyx_Golden_Memories": "Bud of Memories",
+      "Calyx_Golden_Aether": "Bud of Aether",
+      "Calyx_Golden_Treasures": "Bud of Treasures",
+      "Calyx_Crimson_Destruction": "Bud of Destruction",
+      "Calyx_Crimson_Preservation": "Bud of Preservation",
+      "Calyx_Crimson_Calyx_Crimson_Hunt": "Calyx (Crimson): Bud of Hunt",
+      "Calyx_Crimson_Abundance": "Bud of Abundance",
+      "Calyx_Crimson_Erudition": "Bud of Erudition",
+      "Calyx_Crimson_Harmony": "Bud of Harmony",
+      "Calyx_Crimson_Nihility": "Bud of Nihility",
+      "Stagnant_Shadow_Quanta": "Shape of Quanta",
+      "Stagnant_Shadow_Gust": "Shape of Gust",
+      "Stagnant_Shadow_Fulmination": "Shape of Fulmination",
+      "Stagnant_Shadow_Blaze": "Shape of Blaze",
+      "Stagnant_Shadow_Spike": "Shape of Spike",
+      "Stagnant_Shadow_Rime": "Shape of Rime",
+      "Stagnant_Shadow_Mirage": "Shape of Mirage",
+      "Stagnant_Shadow_Icicle": "Shape of Icicle",
+      "Stagnant_Shadow_Doom": "Shape of Doom",
+      "Cavern_of_Corrosion_Path_of_Gelid_Wind": "Cavern of Corrosion: Path of Gelid Wind",
+      "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "Cavern of Corrosion: Path of Jabbing Punch",
+      "Cavern_of_Corrosion_Path_of_Drifting": "Cavern of Corrosion: Path of Drifting",
+      "Cavern_of_Corrosion_Path_of_Providence": "Cavern of Corrosion: Path of Providence",
+      "Cavern_of_Corrosion_Path_of_Holy_Hymn": "Cavern of Corrosion: Path of Holy Hymn",
+      "Cavern_of_Corrosion_Path_of_Conflagration": "Cavern of Corrosion: Path of Conflagration"
+    },
+    "Team": {
+      "name": "Dungeon Team",
+      "help": "",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     }
   },
   "Gui": {

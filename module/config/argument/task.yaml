@@ -16,10 +16,12 @@ Alas:
     Restart:
       - Scheduler
 
-# ==================== Farm ====================
-
-
 # ==================== Daily ====================
 
-
-# ==================== Tools ====================
+Daily:
+  menu: 'list'
+  page: 'setting'
+  tasks:
+    Dungeon:
+      - Scheduler
+      - Dungeon

@@ -107,7 +107,7 @@ class Keyword:
         instances: ClassVar = {}
     ```
     """
-
+    # Key: instance ID. Value: instance object.
     instances: ClassVar = {}
 
     def __post_init__(self):

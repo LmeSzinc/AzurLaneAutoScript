@@ -21,6 +21,16 @@ class GeneratedConfig:
     """
 '''.strip().split('\n')
 
+DICT_GUI_TO_INGAME = {
+    'zh-CN': 'cn',
+    'en-US': 'en',
+    'ja-JP': 'jp',
+    'zh-TW': 'cht',
+}
+
+
+def gui_lang_to_ingame_lang(lang: str) -> str:
+    return DICT_GUI_TO_INGAME.get(lang, 'en')
 
 
 class ConfigGenerator:
@@ -55,13 +65,13 @@ class ConfigGenerator:
             deep_set(data, keys=path, value=arg)
 
         # Define storage group
-        arg = {
-            'type': 'storage',
-            'value': {},
-            'valuetype': 'ignore',
-            'display': 'disabled',
-        }
-        deep_set(data, keys=['Storage', 'Storage'], value=arg)
+        # arg = {
+        #     'type': 'storage',
+        #     'value': {},
+        #     'valuetype': 'ignore',
+        #     'display': 'disabled',
+        # }
+        # deep_set(data, keys=['Storage', 'Storage'], value=arg)
         return data
 
     @cached_property
@@ -118,7 +128,7 @@ class ConfigGenerator:
                 continue
             task = path[2]
             # Add storage to all task
-            groups.append('Storage')
+            # groups.append('Storage')
             for group in groups:
                 if group not in self.argument:
                     print(f'`{task}.{group}` is not related to any argument group')
@@ -248,7 +258,6 @@ class ConfigGenerator:
             path = ['Emulator', 'PackageName', package]
             if deep_get(new, keys=path) == package:
                 deep_set(new, keys=path, value=server.upper())
-
         for package, server_and_channel in VALID_CHANNEL_PACKAGE.items():
             server, channel = server_and_channel
             name = deep_get(new, keys=['Emulator', 'PackageName', to_package(server)])
@@ -264,6 +273,16 @@ class ConfigGenerator:
         #         prefix = server.split('_')[0].upper()
         #         prefix = '国服' if prefix == 'CN' else prefix
         #         deep_set(new, keys=path, value=f'[{prefix}] {_list[index]}')
+
+        # Dungeon names
+        ingame_lang = gui_lang_to_ingame_lang(lang)
+        from tasks.dungeon.keywords import DungeonList
+        dailies = deep_get(self.argument, keys='Dungeon.Name.option')
+        for dungeon in DungeonList.instances.values():
+            if dungeon.name in dailies:
+                value = dungeon.__getattribute__(ingame_lang)
+                deep_set(new, keys=['Dungeon', 'Name', dungeon.name], value=value)
+
         # GUI i18n
         for path, _ in deep_iter(self.gui, depth=2):
             group, key = path
@@ -331,6 +350,12 @@ class ConfigGenerator:
         # update('template-docker', docker)
         # update('template-docker-cn', docker, cn)
 
+    def insert_dungeon(self):
+        from tasks.dungeon.keywords import DungeonList
+        dungeons = [dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_daily_dungeon]
+        deep_set(self.argument, keys='Dungeon.Name.option', value=dungeons)
+        deep_set(self.args, keys='Dungeon.Dungeon.Name.option', value=dungeons)
+
     def insert_package(self):
         option = deep_get(self.argument, keys='Emulator.PackageName.option')
         option += list(VALID_PACKAGE.keys())
@@ -343,7 +368,7 @@ class ConfigGenerator:
         _ = self.args
         _ = self.menu
         # _ = self.event
-        # self.insert_event()
+        self.insert_dungeon()
         self.insert_package()
         # self.insert_server()
         write_file(filepath_args(), self.args)

@@ -22,9 +22,6 @@
       "ScreenshotInterval": 0.2,
       "CombatScreenshotInterval": 1.0,
       "WhenTaskQueueEmpty": "goto_main"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Restart": {
@@ -33,9 +30,18 @@
       "NextRun": "2020-01-01 00:00:00",
       "Command": "Restart",
       "ServerUpdate": "00:00"
+    }
+  },
+  "Dungeon": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Dungeon",
+      "ServerUpdate": "00:00"
     },
-    "Storage": {
-      "Storage": {}
+    "Dungeon": {
+      "Name": "Calyx_Golden_Memories",
+      "Team": 1
     }
   }
 }
