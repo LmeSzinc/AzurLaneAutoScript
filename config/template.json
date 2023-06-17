@@ -9,6 +9,10 @@
       "ScreenshotDedithering": false,
       "AdbRestart": false
     },
+    "RestartEmulator": {
+      "Enable": false,
+      "DailyRestart": false
+    },
     "Error": {
       "HandleError": true,
       "SaveError": true,

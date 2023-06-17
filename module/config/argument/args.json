@@ -139,6 +139,16 @@
         "value": false
       }
     },
+    "RestartEmulator": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "DailyRestart": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
     "Error": {
       "HandleError": {
         "type": "checkbox",
