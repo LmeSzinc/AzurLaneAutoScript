@@ -133,6 +133,12 @@ class Ocr:
             result = 'UID'
         return result
 
+    def format_result(self, result):
+        """
+        Will be overriden.
+        """
+        return result
+
     def ocr_single_line(self, image):
         # pre process
         start_time = time.time()
@@ -142,6 +148,7 @@ class Ocr:
         result, _ = self.model.ocr_single_line(image)
         # after proces
         result = self.after_process(result)
+        result = self.format_result(result)
         logger.attr(name='%s %ss' % (self.name, float2str(time.time() - start_time)),
                     text=str(result))
         return result
@@ -211,7 +218,7 @@ class Digit(Ocr):
     def __init__(self, button: ButtonWrapper, lang='ch', name=None):
         super().__init__(button, lang=lang, name=name)
 
-    def after_process(self, result) -> int:
+    def format_result(self, result) -> int:
         """
         Returns:
             int:
@@ -231,7 +238,7 @@ class DigitCounter(Ocr):
     def __init__(self, button: ButtonWrapper, lang='ch', name=None):
         super().__init__(button, lang=lang, name=name)
 
-    def after_process(self, result) -> tuple[int, int, int]:
+    def format_result(self, result) -> tuple[int, int, int]:
         """
         Do OCR on a counter, such as `14/15`, and returns 14, 1, 15
 

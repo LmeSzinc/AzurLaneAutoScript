@@ -1,3 +1,5 @@
+import re
+
 from module.base.timer import Timer
 from module.ocr.ocr import Digit, DigitCounter
 from tasks.base.ui import UI
@@ -7,6 +9,15 @@ from tasks.combat.assets.assets_combat_prepare import (
     WAVE_MINUS,
     WAVE_PLUS
 )
+
+
+class TrailblazePowerOcr(DigitCounter):
+    def after_process(self, result):
+        result = super().after_process(result)
+        # The trailblaze power icon is recognized as 买
+        # OCR_TRAILBLAZE_POWER includes the icon because the length varies by value
+        result = re.sub(r'[买米装：（）]', '', result)
+        return result
 
 
 class CombatPrepare(UI):
@@ -47,7 +58,7 @@ class CombatPrepare(UI):
             else:
                 self.device.screenshot()
 
-            current, _, _ = DigitCounter(OCR_TRAILBLAZE_POWER).ocr_single_line(self.device.image)
+            current, _, _ = TrailblazePowerOcr(OCR_TRAILBLAZE_POWER).ocr_single_line(self.device.image)
             # Confirm if it is > 180, sometimes just OCR errors
             if current > 180 and timeout.reached():
                 break
