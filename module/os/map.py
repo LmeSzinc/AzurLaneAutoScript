@@ -535,6 +535,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
 
     def interrupt_auto_search(self, skip_first_screenshot=True):
         logger.info('Interrupting auto search')
+        is_loading = False
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -561,11 +562,18 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                 continue
             if self.handle_map_event():
                 continue
-            if not self.is_combat_loading():
+            # Only print once when detected
+            if not is_loading:
+                if self.is_combat_loading():
+                    is_loading = True
+                    continue
                 if self.handle_battle_status():
                     continue
                 if self.handle_exp_info():
                     continue
+            elif self.is_combat_executing():
+                is_loading = False
+                continue
 
     def os_auto_search_run(self, drop=None, strategic=False):
         for _ in range(5):
