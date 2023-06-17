@@ -38,6 +38,9 @@ class Login(UI):
             # Login
             if self.appear_then_click(LOGIN_CONFIRM):
                 continue
+            # Additional
+            if self.ui_additional():
+                continue
 
         return True
 
