@@ -22,6 +22,10 @@ class StarRailCopilot(AzurLaneAutoScript):
             Login(self.config, device=self.device).app_start()
             UI(self.config, device=self.device).ui_goto_main()
 
+    def dungeon(self):
+        from tasks.dungeon.dungeon import Dungeon
+        Dungeon(config=self.config, device=self.device).run()
+
 
 if __name__ == '__main__':
     src = StarRailCopilot('src')

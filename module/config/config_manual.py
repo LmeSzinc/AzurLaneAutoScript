@@ -10,6 +10,7 @@ class ManualConfig:
 
     SCHEDULER_PRIORITY = """
     Restart
+    > Dungeon
     """
 
     """
