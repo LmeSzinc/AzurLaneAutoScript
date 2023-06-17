@@ -19,19 +19,13 @@ class PreservedAssets:
     def ui(self):
         assets = set()
         assets |= get_assets_from_file(
-            file='./module/ui/assets.py',
+            file='./tasks/base/assets/assets_base_page.py',
             regex=re.compile(r'^([A-Za-z][A-Za-z0-9_]+) = ')
         )
         assets |= get_assets_from_file(
-            file='./module/ui/ui.py',
-            regex=re.compile(r'\(([A-Z][A-Z0-9_]+),')
+            file='./tasks/base/assets/assets_base_popup.py',
+            regex=re.compile(r'^([A-Za-z][A-Za-z0-9_]+) = ')
         )
-        assets |= get_assets_from_file(
-            file='./module/handler/info_handler.py',
-            regex=re.compile(r'\(([A-Z][A-Z0-9_]+),')
-        )
-        # MAIN_CHECK == MAIN_GOTO_CAMPAIGN
-        assets.add('MAIN_GOTO_CAMPAIGN')
         return assets
 
 
@@ -65,25 +59,8 @@ class Resource:
                 continue
             logger.info(f'{obj}: {key}')
 
-def release_resources(next_task=''):
-    # Release all OCR models
-    # Usually to have 2 models loaded and each model takes about 20MB
-    # This will release 20-40MB
-    from module.webui.setting import State
-    if not State.deploy_config.UseOcrServer:
-        # Release only when using per-instance OCR
-        from module.ocr.ocr import OCR_MODEL
-        if 'Opsi' in next_task or 'commission' in next_task:
-            # OCR models will be used soon, don't release
-            models = []
-        elif next_task:
-            # Release OCR models except 'azur_lane'
-            models = ['cnocr', 'jp', 'tw']
-        else:
-            models = ['azur_lane', 'cnocr', 'jp', 'tw']
-        for model in models:
-            del_cached_property(OCR_MODEL, model)
 
+def release_resources(next_task=''):
     # Release assets cache
     # module.ui has about 80 assets and takes about 3MB
     # Alas has about 800 assets, but they are not all loaded.
@@ -95,21 +72,6 @@ def release_resources(next_task=''):
         # if Resource.is_loaded(obj):
         #     logger.info(f'Release {obj}')
         obj.resource_release()
-
-    # Release cached images for map detection
-    from module.map_detection.utils_assets import ASSETS
-    attr_list = [
-        'ui_mask',
-        'ui_mask_os',
-        'ui_mask_stroke',
-        'ui_mask_in_map',
-        'ui_mask_os_in_map',
-        'tile_center_image',
-        'tile_corner_image',
-        'tile_corner_image_list'
-    ]
-    for attr in attr_list:
-        del_cached_property(ASSETS, attr)
 
     # Useless in most cases, but just call it
     # gc.collect()
