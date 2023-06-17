@@ -77,10 +77,6 @@
       "minitouch": "minitouch",
       "MaaTouch": "MaaTouch"
     },
-    "ScreenshotDedithering": {
-      "name": "Emulator.ScreenshotDedithering.name",
-      "help": "Emulator.ScreenshotDedithering.help"
-    },
     "AdbRestart": {
       "name": "Emulator.AdbRestart.name",
       "help": "Emulator.AdbRestart.help"
@@ -154,10 +150,6 @@
     "CombatScreenshotInterval": {
       "name": "Optimization.CombatScreenshotInterval.name",
       "help": "Optimization.CombatScreenshotInterval.help"
-    },
-    "TaskHoardingDuration": {
-      "name": "Optimization.TaskHoardingDuration.name",
-      "help": "Optimization.TaskHoardingDuration.help"
     },
     "WhenTaskQueueEmpty": {
       "name": "Optimization.WhenTaskQueueEmpty.name",

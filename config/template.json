@@ -5,7 +5,6 @@
       "PackageName": "auto",
       "ScreenshotMethod": "scrcpy",
       "ControlMethod": "MaaTouch",
-      "ScreenshotDedithering": false,
       "AdbRestart": false
     },
     "EmulatorInfo": {
@@ -20,9 +19,8 @@
       "OnePushConfig": "provider: null"
     },
     "Optimization": {
-      "ScreenshotInterval": 0.3,
+      "ScreenshotInterval": 0.2,
       "CombatScreenshotInterval": 1.0,
-      "TaskHoardingDuration": 0,
       "WhenTaskQueueEmpty": "goto_main"
     },
     "Storage": {

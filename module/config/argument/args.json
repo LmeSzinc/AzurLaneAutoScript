@@ -41,10 +41,6 @@
         ],
         "display": "hide"
       },
-      "ScreenshotDedithering": {
-        "type": "checkbox",
-        "value": false
-      },
       "AdbRestart": {
         "type": "checkbox",
         "value": false
@@ -106,15 +102,13 @@
     "Optimization": {
       "ScreenshotInterval": {
         "type": "input",
-        "value": 0.3
+        "value": 0.2,
+        "display": "hide"
       },
       "CombatScreenshotInterval": {
         "type": "input",
-        "value": 1.0
-      },
-      "TaskHoardingDuration": {
-        "type": "input",
-        "value": 0
+        "value": 1.0,
+        "display": "hide"
       },
       "WhenTaskQueueEmpty": {
         "type": "select",

@@ -20,7 +20,6 @@ class GeneratedConfig:
     Emulator_PackageName = 'auto'  # auto, com.miHoYo.hkrpg, com.HoYoverse.hkrpgoversea, com.miHoYo.hkrpg.bilibili
     Emulator_ScreenshotMethod = 'auto'  # auto, ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc, DroidCast, DroidCast_raw, scrcpy
     Emulator_ControlMethod = 'MaaTouch'  # minitouch, MaaTouch
-    Emulator_ScreenshotDedithering = False
     Emulator_AdbRestart = False
 
     # Group `EmulatorInfo`
@@ -37,7 +36,6 @@ class GeneratedConfig:
     # Group `Optimization`
     Optimization_ScreenshotInterval = 0.3
     Optimization_CombatScreenshotInterval = 1.0
-    Optimization_TaskHoardingDuration = 0
     Optimization_WhenTaskQueueEmpty = 'goto_main'  # stay_there, goto_main, close_game
 
     # Group `Storage`

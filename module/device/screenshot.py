@@ -55,9 +55,9 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
             )
             self.image = method()
 
-            if self.config.Emulator_ScreenshotDedithering:
-                # This will take 40-60ms
-                cv2.fastNlMeansDenoising(self.image, self.image, h=17, templateWindowSize=1, searchWindowSize=2)
+            # if self.config.Emulator_ScreenshotDedithering:
+            #     # This will take 40-60ms
+            #     cv2.fastNlMeansDenoising(self.image, self.image, h=17, templateWindowSize=1, searchWindowSize=2)
             self.image = self._handle_orientated_image(self.image)
 
             if self.config.Error_SaveError:

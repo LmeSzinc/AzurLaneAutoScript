@@ -9,6 +9,9 @@ Alas:
   Emulator:
     ScreenshotMethod: scrcpy
     ControlMethod: MaaTouch
+  Optimization:
+    ScreenshotInterval: 0.2
+    CombatScreenshotInterval: 1.0
 Restart:
   Scheduler:
     Enable:

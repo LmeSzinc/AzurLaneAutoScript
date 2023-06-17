@@ -77,10 +77,6 @@
       "minitouch": "minitouch",
       "MaaTouch": "MaaTouch"
     },
-    "ScreenshotDedithering": {
-      "name": "去除圖片色彩抖動",
-      "help": "在手機上運行時開啟"
-    },
     "AdbRestart": {
       "name": "在檢測不到設備的時候嘗試重啟adb",
       "help": ""
@@ -154,10 +150,6 @@
     "CombatScreenshotInterval": {
       "name": "戰鬥中放慢截圖速度至 X 秒一張",
       "help": "執行兩次截圖之間的最小間隔，限制在 0.1 ~ 1.0，能降低戰鬥時的 CPU 佔用"
-    },
-    "TaskHoardingDuration": {
-      "name": "囤積任務 X 分鐘",
-      "help": "能在收穫期間降低操作遊戲的頻率\n任務觸發後，等待 X 分鐘後，一次性執行佇列中的任務"
     },
     "WhenTaskQueueEmpty": {
       "name": "當任務隊列清空後",

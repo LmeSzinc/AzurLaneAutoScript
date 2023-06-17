@@ -54,7 +54,7 @@ class ConfigModel:
 
     # Webui
     WebuiHost: str = "0.0.0.0"
-    WebuiPort: int = 22267
+    WebuiPort: int = 22367
     Language: str = "en-US"
     Theme: str = "default"
     DpiScaling: bool = True

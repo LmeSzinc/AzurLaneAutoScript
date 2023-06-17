@@ -77,10 +77,6 @@
       "minitouch": "minitouch",
       "MaaTouch": "MaaTouch"
     },
-    "ScreenshotDedithering": {
-      "name": "Image Color De-dithering",
-      "help": "Enable when running Alas on phones"
-    },
     "AdbRestart": {
       "name": "Try to restart adb when no device found",
       "help": ""
@@ -154,10 +150,6 @@
     "CombatScreenshotInterval": {
       "name": "Take Screenshots Every X Second(s) In Combat",
       "help": "Minimum interval between 2 screenshots, limited in 0.1 ~ 1.0, can help reduce CPU during battle"
-    },
-    "TaskHoardingDuration": {
-      "name": "Hoard Tasks For X Minute(s)",
-      "help": "By purposely not adding ready tasks to pending, allows for larger subsets to be built and run en masse at a later time\nCan reduce the frequency of operating AL"
     },
     "WhenTaskQueueEmpty": {
       "name": "When Task Queue is Empty",
