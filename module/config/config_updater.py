@@ -67,8 +67,9 @@ class ConfigGenerator:
     @cached_property
     def task(self):
         """
-        <task>:
-            - <group>
+        <task_group>:
+            <task>:
+                <group>:
         """
         return read_file(filepath_argument('task'))
 
@@ -112,7 +113,10 @@ class ConfigGenerator:
         """
         # Construct args
         data = {}
-        for task, groups in self.task.items():
+        for path, groups in deep_iter(self.task, depth=3):
+            if 'tasks' not in path:
+                continue
+            task = path[2]
             # Add storage to all task
             groups.append('Storage')
             for group in groups:
@@ -164,7 +168,10 @@ class ConfigGenerator:
                 deep_set(data, keys=p + ['value'], value=v)
                 deep_set(data, keys=p + ['display'], value='hide')
         # Set command
-        for task in self.task.keys():
+        for path, groups in deep_iter(self.task, depth=3):
+            if 'tasks' not in path:
+                continue
+            task = path[2]
             if deep_get(data, keys=f'{task}.Scheduler.Command'):
                 deep_set(data, keys=f'{task}.Scheduler.Command.value', value=task)
                 deep_set(data, keys=f'{task}.Scheduler.Command.display', value='hide')
@@ -220,12 +227,12 @@ class ConfigGenerator:
                 deep_set(new, keys=k, value=v)
 
         # Menu
-        for path, data in deep_iter(self.menu, depth=2):
-            func, group = path
-            deep_load(['Menu', func])
-            deep_load(['Menu', group])
-            for task in data:
-                deep_load([func, task])
+        for path, data in deep_iter(self.task, depth=3):
+            if 'tasks' not in path:
+                continue
+            task_group, _, task = path
+            deep_load(['Menu', task_group])
+            deep_load(['Task', task])
         # Arguments
         visited_group = set()
         for path, data in deep_iter(self.argument, depth=2):
@@ -273,23 +280,18 @@ class ConfigGenerator:
 
         """
         data = {}
-
-        # Task menu
-        group = ''
-        tasks = []
-        with open(filepath_argument('task'), 'r', encoding='utf-8') as f:
-            for line in f.readlines():
-                line = line.strip('\n')
-                if '=====' in line:
-                    if tasks:
-                        deep_set(data, keys=f'Task.{group}', value=tasks)
-                    group = line.strip('#=- ')
-                    tasks = []
-                if group:
-                    if line.endswith(':'):
-                        tasks.append(line.strip('\n=-#: '))
-        if tasks:
-            deep_set(data, keys=f'Task.{group}', value=tasks)
+        for task_group in self.task.keys():
+            value = deep_get(self.task, keys=[task_group, 'menu'])
+            if value not in ['collapse', 'list']:
+                value = 'collapse'
+            deep_set(data, keys=[task_group, 'menu'], value=value)
+            value = deep_get(self.task, keys=[task_group, 'page'])
+            if value not in ['setting', 'tool']:
+                value = 'setting'
+            deep_set(data, keys=[task_group, 'page'], value=value)
+            tasks = deep_get(self.task, keys=[task_group, 'tasks'], default={})
+            tasks = list(tasks.keys())
+            deep_set(data, keys=[task_group, 'tasks'], value=tasks)
 
         return data
 

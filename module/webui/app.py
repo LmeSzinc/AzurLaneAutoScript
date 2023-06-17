@@ -167,41 +167,50 @@ class AlasGUI(Frame):
         Set menu
         """
         put_buttons(
-            [
-                {
-                    "label": t("Gui.MenuAlas.Overview"),
-                    "value": "Overview",
-                    "color": "menu",
-                }
-            ],
+            [{
+                "label": t("Gui.MenuAlas.Overview"),
+                "value": "Overview",
+                "color": "menu",
+            }],
             onclick=[self.alas_overview],
-        ).style(f"--menu-Overview--"),
+        ).style(f"--menu-Overview--")
 
-        for key, tasks in deep_iter(self.ALAS_MENU, depth=2):
-            # path = '.'.join(key)
-            menu = key[1]
-
-            if menu == "Tool":
+        for menu, task_data in self.ALAS_MENU.items():
+            if task_data.get("page") == "tool":
                 _onclick = self.alas_daemon_overview
             else:
                 _onclick = self.alas_set_group
 
-            task_btn_list = []
-            for task in tasks:
-                task_btn_list.append(
+            if task_data.get("menu") == "collapse":
+                task_btn_list = [
                     put_buttons(
-                        [
-                            {
-                                "label": t(f"Task.{task}.name"),
-                                "value": task,
-                                "color": "menu",
-                            }
-                        ],
+                        [{
+                            "label": t(f"Task.{task}.name"),
+                            "value": task,
+                            "color": "menu",
+                        }],
                         onclick=_onclick,
                     ).style(f"--menu-{task}--")
-                )
-
-            put_collapse(title=t(f"Menu.{menu}.name"), content=task_btn_list)
+                    for task in task_data.get("tasks", [])
+                ]
+                put_collapse(title=t(f"Menu.{menu}.name"), content=task_btn_list)
+            else:
+                title = t(f"Menu.{menu}.name")
+                put_html('<div class="hr-task-group-box">'
+                         '<span class="hr-task-group-line"></span>'
+                         f'<span class="hr-task-group-text">{title}</span>'
+                         '<span class="hr-task-group-line"></span>'
+                         '</div>'
+                         )
+                for task in task_data.get("tasks", []):
+                    put_buttons(
+                        [{
+                            "label": t(f"Task.{task}.name"),
+                            "value": task,
+                            "color": "menu",
+                        }],
+                        onclick=_onclick,
+                    ).style(f"--menu-{task}--").style(f"padding-left: 0.75rem")
 
         self.alas_overview()
 
@@ -624,6 +633,21 @@ class AlasGUI(Frame):
             if group[0] == "Storage":
                 continue
             self.set_group(group, arg_dict, config, task)
+
+        run_js("""
+            $("#pywebio-scope-log").css(
+                "grid-row-start",
+                -2 - $("#pywebio-scope-_daemon").children().filter(
+                    function(){
+                        return $(this).css("display") === "none";
+                    }
+                ).length
+            );
+            $("#pywebio-scope-log").css(
+                "grid-row-end",
+                -1
+            );
+        """)
 
         self.task_handler.add(switch_scheduler.g(), 1, True)
         self.task_handler.add(switch_log_scroll.g(), 1, True)

@@ -5,12 +5,16 @@
 # ==================== Alas ====================
 
 Alas:
-  - Emulator
-  - EmulatorInfo
-  - Error
-  - Optimization
-Restart:
-  - Scheduler
+  menu: 'list'
+  page: 'setting'
+  tasks:
+    Alas:
+      - Emulator
+      - EmulatorInfo
+      - Error
+      - Optimization
+    Restart:
+      - Scheduler
 
 # ==================== Farm ====================
 

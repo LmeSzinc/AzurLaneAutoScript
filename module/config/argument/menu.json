@@ -1,6 +1,8 @@
 {
-  "Task": {
-    "Alas": [
+  "Alas": {
+    "menu": "list",
+    "page": "setting",
+    "tasks": [
       "Alas",
       "Restart"
     ]
