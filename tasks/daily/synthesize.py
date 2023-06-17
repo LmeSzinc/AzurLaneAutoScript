@@ -4,7 +4,7 @@ from tasks.base.assets.assets_base_page import MENU_CHECK, SYNTHESIZE_CHECK
 from tasks.base.assets.assets_base_popup import GET_REWARD
 from tasks.base.page import Page, page_menu, page_synthesize
 from tasks.base.ui import UI
-from tasks.daily.assets.assets_daily import *
+from tasks.daily.assets.assets_daily_synthesize_consumable import *
 
 
 class SynthesizeUI(UI):
