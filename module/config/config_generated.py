@@ -60,7 +60,6 @@ class GeneratedConfig:
 
     # Group `OneClickRetire`
     OneClickRetire_KeepLimitBreak = 'keep_limit_break'  # keep_limit_break, do_not_keep
-    OneClickRetire_RetireAmount = 'retire_all'  # retire_all, retire_10
 
     # Group `Enhance`
     Enhance_ShipToEnhance = 'all'  # all, favourite
@@ -363,6 +362,7 @@ class GeneratedConfig:
     # Group `OpsiAshBeacon`
     OpsiAshBeacon_AttackMode = 'current'  # current, current_dossier
     OpsiAshBeacon_OneHitMode = True
+    OpsiAshBeacon_DossierAutoAttackMode = False
     OpsiAshBeacon_RequestAssist = True
     OpsiAshBeacon_EnsureFullyCollected = True
 

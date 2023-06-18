@@ -189,9 +189,9 @@ class ConnectionAttr:
         logger.info("Reading Realtime adb port")
 
         if serial == "bluestacks5-hyperv":
-            parameter_name = r"bst\.instance\.(Nougat64|Pie64)\.status\.adb_port"
+            parameter_name = r"bst\.instance\.(Nougat64|Pie64|Rvc64)\.status\.adb_port"
         else:
-            parameter_name = rf"bst\.instance\.(Nougat64|Pie64)_{serial[19:]}\.status.adb_port"
+            parameter_name = rf"bst\.instance\.(Nougat64|Pie64|Rvc64)_{serial[19:]}\.status.adb_port"
 
         try:
             with OpenKey(HKEY_LOCAL_MACHINE, r"SOFTWARE\BlueStacks_nxt") as key:

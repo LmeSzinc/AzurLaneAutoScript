@@ -1,9 +1,5 @@
 {
   "Menu": {
-    "Task": {
-      "name": "",
-      "help": ""
-    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -64,10 +60,6 @@
     },
     "GemsFarming": {
       "name": "刷紧急委托",
-      "help": ""
-    },
-    "Sos": {
-      "name": "潜艇图",
       "help": ""
     },
     "EventGeneral": {
@@ -587,12 +579,6 @@
       "help": "没有满星的同名舰船时，保留几艘符合退役条件的同名舰船\n如果一键退役无法退役，请设置为 \"不保留\"",
       "keep_limit_break": "保留满星所需",
       "do_not_keep": "不保留"
-    },
-    "RetireAmount": {
-      "name": "退役数量",
-      "help": "",
-      "retire_all": "退役全部",
-      "retire_10": "退役10个"
     }
   },
   "Enhance": {
@@ -2151,6 +2137,10 @@
     "OneHitMode": {
       "name": "一击即走",
       "help": "对每个信标只出击一次，之后每半个小时呼叫支援\n在档案信标中不生效"
+    },
+    "DossierAutoAttackMode": {
+      "name": "档案信标自动作战",
+      "help": "在档案信标首次战斗后进行自动作战"
     },
     "RequestAssist": {
       "name": "呼叫支援",

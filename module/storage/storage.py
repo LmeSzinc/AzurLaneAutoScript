@@ -6,7 +6,7 @@ from module.base.utils import rgb2gray
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.exception import ScriptError
 from module.logger import logger
-from module.ocr.ocr import DigitCounter
+from module.ocr.ocr import Digit
 from module.statistics.item import ItemGrid
 from module.storage.assets import *
 from module.storage.ui import StorageUI
@@ -18,7 +18,7 @@ MATERIAL_SCROLL = Scroll(METERIAL_SCROLL, color=(247, 211, 66))
 EQUIPMENT_GRIDS = ButtonGrid(origin=(140, 88), delta=(159, 178), button_shape=(124, 124),
                              grid_shape=(7, 3), name='EQUIPMENT')
 EQUIPMENT_ITEMS = ItemGrid(EQUIPMENT_GRIDS, templates={}, amount_area=(90, 98, 123, 123))
-OCR_DISASSEMBLE_COUNT = DigitCounter(DISASSEMBLE_COUNT_OCR, letter=(235, 235, 235))
+OCR_DISASSEMBLE_COUNT = Digit(DISASSEMBLE_COUNT_OCR, letter=(235, 235, 235))
 
 
 class StorageFull(Exception):
@@ -235,7 +235,7 @@ class StorageHandler(StorageUI):
         prev_disassemble = 0
         while 1:
             self.device.screenshot()
-            disassembled, _, _ = OCR_DISASSEMBLE_COUNT.ocr(self.device.image)
+            disassembled = OCR_DISASSEMBLE_COUNT.ocr(self.device.image)
             if disassembled >= amount:
                 logger.info('Disassemble amount reached expected amount')
                 break

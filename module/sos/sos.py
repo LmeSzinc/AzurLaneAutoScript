@@ -202,6 +202,11 @@ class CampaignSos(CampaignRun, CampaignBase):
             in: Any page
             out: page_campaign
         """
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            logger.warning('AL no longer has SOS maps, disable task')
+            self.config.Scheduler_Enable = False
+            self.config.task_stop()
+
         logger.hr('Campaign SOS', level=1)
         self.ui_ensure(page_campaign)
 

@@ -1,9 +1,5 @@
 {
   "Menu": {
-    "Task": {
-      "name": "",
-      "help": ""
-    },
     "Fpy": {
       "name": "FGO-py",
       "help": ""

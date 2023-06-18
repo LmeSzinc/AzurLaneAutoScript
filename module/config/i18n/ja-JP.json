@@ -1,9 +1,5 @@
 {
   "Menu": {
-    "Task": {
-      "name": "",
-      "help": ""
-    },
     "Alas": {
       "name": "Alas",
       "help": ""
@@ -64,10 +60,6 @@
     },
     "GemsFarming": {
       "name": "Commission Farming",
-      "help": ""
-    },
-    "Sos": {
-      "name": "Sos",
       "help": ""
     },
     "EventGeneral": {
@@ -587,12 +579,6 @@
       "help": "OneClickRetire.KeepLimitBreak.help",
       "keep_limit_break": "keep_limit_break",
       "do_not_keep": "do_not_keep"
-    },
-    "RetireAmount": {
-      "name": "OneClickRetire.RetireAmount.name",
-      "help": "OneClickRetire.RetireAmount.help",
-      "retire_all": "retire_all",
-      "retire_10": "retire_10"
     }
   },
   "Enhance": {
@@ -2151,6 +2137,10 @@
     "OneHitMode": {
       "name": "OpsiAshBeacon.OneHitMode.name",
       "help": "OpsiAshBeacon.OneHitMode.help"
+    },
+    "DossierAutoAttackMode": {
+      "name": "OpsiAshBeacon.DossierAutoAttackMode.name",
+      "help": "OpsiAshBeacon.DossierAutoAttackMode.help"
     },
     "RequestAssist": {
       "name": "OpsiAshBeacon.RequestAssist.name",
