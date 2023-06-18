@@ -1,9 +1,5 @@
 {
   "Menu": {
-    "Task": {
-      "name": "Menu.Task.name",
-      "help": "Menu.Task.help"
-    },
     "Fpy": {
       "name": "Menu.Fpy.name",
       "help": "Menu.Fpy.help"
@@ -16,7 +12,7 @@
       "name": "Menu.FpyDaily.name",
       "help": "Menu.FpyDaily.help"
     },
-    "Tool": {
+    "FpyTool": {
       "name": "Menu.Tool.name",
       "help": "Menu.Tool.help"
     }
