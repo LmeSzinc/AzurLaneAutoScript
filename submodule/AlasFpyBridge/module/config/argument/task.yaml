@@ -39,11 +39,11 @@ FpyDaily:
     FpyDailyFpSummon:
       - Scheduler
 
-# ==================== Tool ====================
+# ==================== FpyTool ====================
 
-Tool:
+FpyTool:
   menu: 'list'
-  page: 'setting'
+  page: 'tool'
   tasks:
     FpyBattle: []
     FpyBenchmark:
