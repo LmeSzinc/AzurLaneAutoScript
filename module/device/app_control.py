@@ -9,7 +9,9 @@ from module.logger import logger
 
 class AppControl(Adb, WSA, Uiautomator2):
     hierarchy: etree._Element
-    _app_u2_family = ['uiautomator2', 'minitouch', 'scrcpy', 'MaaTouch']
+    # Use ADB for all
+    # See https://github.com/openatx/uiautomator2/issues/565
+    _app_u2_family = []
 
     def app_is_running(self) -> bool:
         method = self.config.Emulator_ControlMethod
