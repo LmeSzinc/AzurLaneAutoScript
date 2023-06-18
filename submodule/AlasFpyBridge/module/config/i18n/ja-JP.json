@@ -12,7 +12,7 @@
       "name": "日課",
       "help": ""
     },
-    "Tool": {
+    "FpyTool": {
       "name": "ツール",
       "help": ""
     }
@@ -122,7 +122,7 @@
     },
     "LaunchPath": {
       "name": "起動パス",
-      "help": "FGO-pyの`deploy`ディレクトリにある`AzurLaneAutoScript`サブディレクトリの絶対パスです\nこのサブディレクトリを別の場所にコピーして、分散配置することも可能です"
+      "help": "FGO-pyの`deploy`ディレクトリにある`AzurLaneAutoScript`サブディレクトリの絶対パスです\nFGO-py readmeの「AzurLaneAutoScriptで実行する」を先にお読みください"
     }
   },
   "FpyInterval": {

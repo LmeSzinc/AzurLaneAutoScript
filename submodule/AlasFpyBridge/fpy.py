@@ -101,7 +101,7 @@ def loop(config_name):
 
 
 def set_stop_event(e):
-    FgoAutoScript().stop_event = e
+    FgoAutoScript.stop_event = e
 
 
 def export_method(func):
