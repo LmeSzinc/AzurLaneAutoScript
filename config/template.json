@@ -29,7 +29,7 @@
       "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "Restart",
-      "ServerUpdate": "00:00"
+      "ServerUpdate": "04:00"
     }
   },
   "Dungeon": {

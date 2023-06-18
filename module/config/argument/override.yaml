@@ -17,7 +17,7 @@ Restart:
     Enable:
       value: true
       display: disabled
-    ServerUpdate: 00:00
+    ServerUpdate: 04:00
 
 # ==================== Farm ====================
 
