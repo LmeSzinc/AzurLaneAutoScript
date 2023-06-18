@@ -9,7 +9,7 @@ Scheduler:
   NextRun: 2020-01-01 00:00:00
   Command: Alas
   ServerUpdate:
-    value: 00:00
+    value: 04:00
     display: hide
 Emulator:
   Serial:
@@ -67,7 +67,7 @@ Optimization:
     value: goto_main
     option: [ stay_there, goto_main, close_game ]
 
-# ==================== Farm ====================
+# ==================== Daily ====================
 
 Dungeon:
   Name:
@@ -77,9 +77,3 @@ Dungeon:
   Team:
     value: 1
     option: [ 1, 2, 3, 4, 5, 6 ]
-
-# ==================== Daily ====================
-
-
-# ==================== Tools ====================
-

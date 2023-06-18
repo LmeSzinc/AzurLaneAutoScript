@@ -57,7 +57,7 @@ class SynthesizeUI(UI):
 
 
 class SynthesizeConsumablesUI(SynthesizeUI):
-    def synthesize(self) -> bool:
+    def synthesize_consumables(self) -> bool:
         """
         Returns:
             bool:
@@ -65,9 +65,9 @@ class SynthesizeConsumablesUI(SynthesizeUI):
         Examples:
             self = SynthesizeConsumablesUI('alas')
             self.device.screenshot()
-            result = self.synthesize()
+            result = self.synthesize_consumables()
         """
-
+        logger.hr('Synthesize consumables', level=2)
         # If the current page is not the menu page,
         # the menu scroll bar must be at the top when opening the menu page from other page,
         # so first step is determine whether the scroll bar is at the top

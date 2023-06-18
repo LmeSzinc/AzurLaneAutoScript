@@ -21,6 +21,10 @@
     "Dungeon": {
       "name": "每日副本",
       "help": ""
+    },
+    "DailyQuest": {
+      "name": "每日任務",
+      "help": ""
     }
   },
   "Scheduler": {

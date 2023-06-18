@@ -17,6 +17,7 @@ class CameraUI(UI):
             in: Any
             out: page_camera, TAKE_PICTURE
         """
+        logger.hr('Take picture', level=2)
         self.ui_ensure(page_camera, skip_first_screenshot)
         # Take picture
         skip_first_screenshot = True

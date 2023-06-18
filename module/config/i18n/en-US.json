@@ -21,6 +21,10 @@
     "Dungeon": {
       "name": "Dungeon",
       "help": ""
+    },
+    "DailyQuest": {
+      "name": "Daily Quest",
+      "help": ""
     }
   },
   "Scheduler": {
