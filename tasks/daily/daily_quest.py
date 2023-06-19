@@ -6,6 +6,7 @@ from module.ocr.ocr import Ocr, OcrResultButton
 from module.ocr.utils import split_and_pair_buttons
 from tasks.daily.assets.assets_daily_reward import *
 from tasks.daily.camera import CameraUI
+from tasks.daily.consumable_usage import ConsumableUsageUI
 from tasks.daily.keywords import DailyQuest, DailyQuestState, KEYWORDS_DAILY_QUEST, KEYWORDS_DAILY_QUEST_STATE
 from tasks.daily.synthesize import SynthesizeConsumablesUI
 from tasks.dungeon.keywords import KEYWORDS_DUNGEON_TAB
@@ -179,6 +180,9 @@ class DailyQuestUI(DungeonUI):
         if KEYWORDS_DAILY_QUEST.Synthesize_Consumable_1_time in quests:
             SynthesizeConsumablesUI(self.config, self.device).synthesize_consumables()
             done += 1
+        if KEYWORDS_DAILY_QUEST.Use_Consumables_1_time in quests:
+            if ConsumableUsageUI(self.config, self.device).use_consumable():
+                done += 1
 
         return done
 

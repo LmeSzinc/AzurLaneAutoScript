@@ -10,13 +10,14 @@ class ConsumableUsageUI(UI):
     def use_consumable(self) -> bool:
         """
         Returns:
-            bool:
+            bool: If success
 
         Examples:
             self = ConsumableUsageUI('alas')
             self.device.screenshot()
             result = self.use_consumable()
         """
+        logger.hr('Use consumable', level=2)
         self.ui_ensure(page_item)
         self._switch_tag_to_consumables()
         if self._search_and_select_consumable():
@@ -43,6 +44,7 @@ class ConsumableUsageUI(UI):
                 continue
 
     def _search_and_select_consumable(self, skip_first_screenshot=True) -> bool:
+        logger.info('Search consumable')
         # If the default subpage is the consumables page, it is necessary to screenshot and check subpage again,
         # because in this scenario, scroll bar delay appears and the previous screenshot was
         # taken after clicking on the "item" to determine whether to enter the "item", which may be inaccurate
