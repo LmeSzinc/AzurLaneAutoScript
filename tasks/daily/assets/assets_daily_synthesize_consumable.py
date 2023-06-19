@@ -125,8 +125,8 @@ SYNTHESIZE_GOTO_CONSUMABLES = ButtonWrapper(
 )
 SYNTHESIZE_SCROLL = ButtonWrapper(
     name='SYNTHESIZE_SCROLL',
-    cn=Button(
-        file='./assets/cn/daily/synthesize_consumable/SYNTHESIZE_SCROLL.png',
+    share=Button(
+        file='./assets/share/daily/synthesize_consumable/SYNTHESIZE_SCROLL.png',
         area=(458, 80, 464, 628),
         search=(438, 60, 484, 648),
         color=(134, 130, 144),

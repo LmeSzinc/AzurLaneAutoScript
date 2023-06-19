@@ -15,8 +15,8 @@ ITEM_CONSUMABLE_CHECK = ButtonWrapper(
 )
 ITEM_CONSUMABLE_SCROLL = ButtonWrapper(
     name='ITEM_CONSUMABLE_SCROLL',
-    cn=Button(
-        file='./assets/cn/daily/consumable_usage/ITEM_CONSUMABLE_SCROLL.png',
+    share=Button(
+        file='./assets/share/daily/consumable_usage/ITEM_CONSUMABLE_SCROLL.png',
         area=(837, 89, 843, 615),
         search=(817, 69, 863, 635),
         color=(118, 117, 121),
