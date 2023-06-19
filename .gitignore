@@ -249,3 +249,4 @@ adb_port.ini
 *.zip
 console.bat
 .vscode/*
+dev_tools/AzurLaneLuaScripts
