@@ -25,6 +25,10 @@
     "DailyQuest": {
       "name": "每日任务",
       "help": ""
+    },
+    "BattlePass": {
+      "name": "无名勋礼",
+      "help": ""
     }
   },
   "Scheduler": {

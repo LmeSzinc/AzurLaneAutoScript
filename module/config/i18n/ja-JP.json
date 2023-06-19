@@ -25,6 +25,10 @@
     "DailyQuest": {
       "name": "Task.DailyQuest.name",
       "help": "Task.DailyQuest.help"
+    },
+    "BattlePass": {
+      "name": "ナナシの勲功",
+      "help": ""
     }
   },
   "Scheduler": {

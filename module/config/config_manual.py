@@ -1,5 +1,3 @@
-from pywebio.io_ctrl import Output
-
 import module.config.server as server
 
 
@@ -10,7 +8,7 @@ class ManualConfig:
 
     SCHEDULER_PRIORITY = """
     Restart
-    > Dungeon > DailyQuest
+    > Dungeon > DailyQuest > BattlePass
     """
 
     """

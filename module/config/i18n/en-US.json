@@ -25,6 +25,10 @@
     "DailyQuest": {
       "name": "Daily Quest",
       "help": ""
+    },
+    "BattlePass": {
+      "name": "Nameless Honor",
+      "help": ""
     }
   },
   "Scheduler": {

@@ -27,3 +27,5 @@ Daily:
       - Dungeon
     DailyQuest:
       - Scheduler
+    BattlePass:
+      - Scheduler

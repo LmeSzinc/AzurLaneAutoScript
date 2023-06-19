@@ -168,6 +168,8 @@ class KeywordExtract:
                             text_convert=dungeon_name)
         self.load_keywords(['传送', '追踪'])
         self.write_keywords(keyword_class='DungeonEntrance', output_file='./tasks/dungeon/keywords/dungeon_entrance.py')
+        self.load_keywords(['奖励', '任务'])
+        self.write_keywords(keyword_class='BattlePassTab', output_file='./tasks/battle_pass/keywords/tab.py')
 
 
 if __name__ == '__main__':
