@@ -13,6 +13,26 @@ BATTLE_PASS_NOTIFICATION = ButtonWrapper(
         button=(895, 595, 1180, 630),
     ),
 )
+CANCEL_POPUP = ButtonWrapper(
+    name='CANCEL_POPUP',
+    cn=Button(
+        file='./assets/cn/base/popup/CANCEL_POPUP.png',
+        area=(427, 536, 503, 562),
+        search=(321, 432, 661, 668),
+        color=(157, 156, 152),
+        button=(427, 536, 503, 562),
+    ),
+)
+CONFIRM_POPUP = ButtonWrapper(
+    name='CONFIRM_POPUP',
+    cn=Button(
+        file='./assets/cn/base/popup/CONFIRM_POPUP.png',
+        area=(774, 534, 855, 563),
+        search=(617, 434, 966, 652),
+        color=(170, 169, 166),
+        button=(774, 534, 855, 563),
+    ),
+)
 GET_REWARD = ButtonWrapper(
     name='GET_REWARD',
     share=Button(
