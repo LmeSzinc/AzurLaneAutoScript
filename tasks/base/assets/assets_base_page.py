@@ -233,6 +233,16 @@ MENU_GOTO_SYNTHESIZE = ButtonWrapper(
         button=(994, 389, 1035, 424),
     ),
 )
+MENU_SCROLL = ButtonWrapper(
+    name='MENU_SCROLL',
+    share=Button(
+        file='./assets/share/base/page/MENU_SCROLL.png',
+        area=(1178, 261, 1184, 681),
+        search=(1158, 241, 1204, 701),
+        color=(100, 100, 105),
+        button=(1178, 261, 1184, 681),
+    ),
+)
 MESSAGE_CLOSE = ButtonWrapper(
     name='MESSAGE_CLOSE',
     share=Button(
