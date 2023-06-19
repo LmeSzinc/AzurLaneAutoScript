@@ -20,25 +20,24 @@ ASSIGNMENT_DURATION_SWITCH.add_state('20', DURATION_20)
 class AssignmentDispatch(AssignmentUI):
     dispatched: dict[AssignmentEntry, datetime] = dict()
 
-    def dispatch(self, assignment: AssignmentEntry, duration: int, check_limit: bool = True) -> bool:
+    def dispatch(self, assignment: AssignmentEntry, duration: int):
         """
+        Dispatch assignment.
+        Should be called only when limit is checked
+
         Args:
             assignment (AssignmentEntry):
             duration (int): user specified duration
-            check_limit (bool):
 
         Pages:
             in: EMPTY_SLOT
-            out: DISPATCHED(succeed) or EMPTY_SLOT(fail)
+            out: DISPATCHED
         """
-        if check_limit and self._limit_status[1] == 0:
-            return False
         self._select_characters()
         self._select_duration(duration)
         self._confirm_assignment(CONFIRM_ASSIGNMENT)
         self.dispatched[assignment] = datetime.now() + \
             timedelta(hours=duration)
-        return True
 
     def _select_characters(self):
         """

@@ -98,14 +98,13 @@ class AssignmentUI(UI):
     def goto_group(self, group: AssignmentGroup):
         """
         Args:
-            group: AssignmentGroup
+            group (AssignmentGroup):
 
         Examples:
             self = AssignmentUI('src')
             self.device.screenshot()
             self.goto_group(KEYWORDS_ASSIGNMENT_GROUP.Character_Materials)
         """
-        self.ui_ensure(page_assignment)
         logger.hr('Assignment group goto', level=3)
         if ASSIGNMENT_TOP_SWITCH.set(group, main=self):
             self._wait_until_entry_loaded()
@@ -113,7 +112,7 @@ class AssignmentUI(UI):
     def goto_entry(self, entry: AssignmentEntry):
         """
         Args:
-            entry: AssignmentEntry
+            entry (AssignmentEntry):
 
         Examples:
             self = AssignmentUI('src')

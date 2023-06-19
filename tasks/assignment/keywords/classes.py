@@ -5,13 +5,13 @@ from typing import ClassVar
 from module.ocr.keyword import Keyword
 
 
-@dataclass
+@dataclass(repr=False)
 class AssignmentGroup(Keyword):
     instances: ClassVar = {}
     entries: tuple[AssignmentEntry] = ()
 
 
-@dataclass
+@dataclass(repr=False)
 class AssignmentEntry(Keyword):
     instances: ClassVar = {}
     group: AssignmentGroup = None

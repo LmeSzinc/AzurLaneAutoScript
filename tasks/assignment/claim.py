@@ -19,7 +19,7 @@ class AssignmentClaim(AssignmentDispatch):
 
         Pages:
             in: CLAIM
-            out: DISPATCHED(succeed) or EMPTY_SLOT(fail)
+            out: DISPATCHED or EMPTY_SLOT
         """
         redispatched = False
         skip_first_screenshot = True
@@ -50,7 +50,7 @@ class AssignmentClaim(AssignmentDispatch):
                 continue
         # Re-select duration and dispatch
         if should_redispatch and not redispatched:
-            self.dispatch(assignment, duration_expected, check_limit=False)
+            self.dispatch(assignment, duration_expected)
 
     def _is_duration_expected(self, duration: int) -> bool:
         """

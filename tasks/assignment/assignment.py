@@ -8,10 +8,13 @@ from tasks.assignment.assets.assets_assignment_ui import (DISPATCHED,
                                                           OCR_ASSIGNMENT_TIME)
 from tasks.assignment.claim import AssignmentClaim
 from tasks.assignment.keywords import *
-from tasks.base.page import page_assignment
+from tasks.base.page import page_assignment, page_menu
+from tasks.daily.synthesize import SynthesizeUI
 
 
-class Assignment(AssignmentClaim):
+class Assignment(AssignmentClaim, SynthesizeUI):
+    dispatched: dict[AssignmentEntry, datetime] = dict()
+
     def run(self, assignments: list[AssignmentEntry] = None, duration: int = None):
         if assignments is None:
             assignments = [AssignmentEntry.find(
@@ -19,21 +22,21 @@ class Assignment(AssignmentClaim):
         if duration is None:
             duration = self.config.Assignment_Duration
 
+        self.ensure_scroll_top(page_menu)
         self.ui_ensure(page_assignment)
         # Iterate in user-specified order, return undispatched ones
         undispatched = list(self._check_inlist(assignments, duration))
-        _, _, total = self._limit_status
+        remain = self._check_all()
         # There are unchecked assignments
-        if total > len(self.dispatched):
-            self._check_all()
-            _, remain, _ = self._limit_status
+        if remain > 0:
             for assignment in undispatched[:remain]:
                 self.goto_entry(assignment)
-                self.dispatch(assignment, duration, check_limit=False)
+                self.dispatch(assignment, duration)
             if remain < len(undispatched):
-                logger.warning(
-                    f'The following assignments can not be dispatched due to limit: {", ".join([x.name for x in undispatched])}')
-            self._dispatch_remain(duration, remain - len(undispatched))
+                logger.warning('The following assignments can not be dispatched due to limit: '
+                               f'{", ".join([x.name for x in undispatched[remain:]])}')
+            elif remain > len(undispatched):
+                self._dispatch_remain(duration, remain - len(undispatched))
 
         # Scheduler
         delay = min(self.dispatched.values())
@@ -53,6 +56,7 @@ class Assignment(AssignmentClaim):
         logger.hr('Assignment check inlist', level=2)
         logger.info(
             f'User specified assignments: {", ".join([x.name for x in assignments])}')
+        _, remain, _ = self._limit_status
         for assignment in assignments:
             self.goto_entry(assignment)
             if self.appear(CLAIM):
@@ -63,8 +67,10 @@ class Assignment(AssignmentClaim):
                     OCR_ASSIGNMENT_TIME).ocr_single_line(self.device.image)
                 continue
             if self.appear(EMPTY_SLOT):
-                dispatched = self.dispatch(assignment, duration)
-                if not dispatched:
+                if remain > 0:
+                    self.dispatch(assignment, duration)
+                    remain -= 1
+                else:
                     yield assignment
 
     def _check_all(self):
@@ -76,6 +82,9 @@ class Assignment(AssignmentClaim):
         Break when a dispatchable assignment is encountered
         """
         logger.hr('Assignment check all', level=2)
+        _, remain, total = self._limit_status
+        if total == len(self.dispatched):
+            return remain
         for group in self._iter_groups():
             self.goto_group(group)
             entries = self._iter_entries()
@@ -86,6 +95,7 @@ class Assignment(AssignmentClaim):
                 self.goto_entry(assignment)
                 if self.appear(CLAIM):
                     self.claim(assignment, None, should_redispatch=False)
+                    remain += 1
                     continue
                 if self.appear(DISPATCHED):
                     self.dispatched[assignment] = datetime.now() + Duration(
@@ -93,6 +103,7 @@ class Assignment(AssignmentClaim):
                     continue
                 if self.appear(EMPTY_SLOT):
                     break
+        return remain
 
     def _dispatch_remain(self, duration: int, remain: int):
         """
@@ -120,7 +131,7 @@ class Assignment(AssignmentClaim):
                 if assignment in self.dispatched:
                     continue
                 self.goto_entry(assignment)
-                self.dispatch(assignment, duration, check_limit=False)
+                self.dispatch(assignment, duration)
                 remain -= 1
                 if remain <= 0:
                     return
