@@ -1,9 +1,5 @@
 {
   "Menu": {
-    "Task": {
-      "name": "Menu.Task.name",
-      "help": "Menu.Task.help"
-    },
     "Maa": {
       "name": "Menu.Maa.name",
       "help": "Menu.Maa.help"

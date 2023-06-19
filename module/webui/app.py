@@ -193,41 +193,50 @@ class AlasGUI(Frame):
         Set menu
         """
         put_buttons(
-            [
-                {
-                    "label": t("Gui.MenuAlas.Overview"),
-                    "value": "Overview",
-                    "color": "menu",
-                }
-            ],
+            [{
+                "label": t("Gui.MenuAlas.Overview"),
+                "value": "Overview",
+                "color": "menu",
+            }],
             onclick=[self.alas_overview],
-        ).style(f"--menu-Overview--"),
+        ).style(f"--menu-Overview--")
 
-        for key, tasks in deep_iter(self.ALAS_MENU, depth=2):
-            # path = '.'.join(key)
-            menu = key[1]
-
-            if menu == "Tool":
+        for menu, task_data in self.ALAS_MENU.items():
+            if task_data.get("page") == "tool":
                 _onclick = self.alas_daemon_overview
             else:
                 _onclick = self.alas_set_group
 
-            task_btn_list = []
-            for task in tasks:
-                task_btn_list.append(
+            if task_data.get("menu") == "collapse":
+                task_btn_list = [
                     put_buttons(
-                        [
-                            {
-                                "label": t(f"Task.{task}.name"),
-                                "value": task,
-                                "color": "menu",
-                            }
-                        ],
+                        [{
+                            "label": t(f"Task.{task}.name"),
+                            "value": task,
+                            "color": "menu",
+                        }],
                         onclick=_onclick,
                     ).style(f"--menu-{task}--")
-                )
-
-            put_collapse(title=t(f"Menu.{menu}.name"), content=task_btn_list)
+                    for task in task_data.get("tasks", [])
+                ]
+                put_collapse(title=t(f"Menu.{menu}.name"), content=task_btn_list)
+            else:
+                title = t(f"Menu.{menu}.name")
+                put_html('<div class="hr-task-group-box">'
+                         '<span class="hr-task-group-line"></span>'
+                         f'<span class="hr-task-group-text">{title}</span>'
+                         '<span class="hr-task-group-line"></span>'
+                         '</div>'
+                         )
+                for task in task_data.get("tasks", []):
+                    put_buttons(
+                        [{
+                            "label": t(f"Task.{task}.name"),
+                            "value": task,
+                            "color": "menu",
+                        }],
+                        onclick=_onclick,
+                    ).style(f"--menu-{task}--").style(f"padding-left: 0.75rem")
 
         self.alas_overview()
 
@@ -318,7 +327,7 @@ class AlasGUI(Frame):
             put_html('<hr class="hr-group">')
             for output in output_list:
                 output.show()
-        
+
         return len(output_list)
 
     @use_scope("navigator")
@@ -495,11 +504,11 @@ class AlasGUI(Frame):
                     break
 
     def _save_config(
-        self,
-        modified: Dict[str, str],
-        config_name: str,
-        read=State.config_updater.read_file,
-        write=State.config_updater.write_file,
+            self,
+            modified: Dict[str, str],
+            config_name: str,
+            read=State.config_updater.read_file,
+            write=State.config_updater.write_file,
     ) -> None:
         try:
             skip_time_record = False
@@ -1062,8 +1071,8 @@ class AlasGUI(Frame):
                     "--loading-border-fill--"
                 )
                 if (
-                    State.deploy_config.EnableRemoteAccess
-                    and State.deploy_config.Password
+                        State.deploy_config.EnableRemoteAccess
+                        and State.deploy_config.Password
                 ):
                     put_text(t("Gui.Remote.NotRunning"), scope="remote_state")
                 else:
@@ -1128,15 +1137,15 @@ class AlasGUI(Frame):
             def add():
                 name = pin["AddAlas_name"]
                 origin = pin["AddAlas_copyfrom"]
-                
+
                 if name in alas_instance():
-                    err="Gui.AddAlas.FileExist"
+                    err = "Gui.AddAlas.FileExist"
                 elif set(name) & set(".\\/:*?\"'<>|"):
-                    err="Gui.AddAlas.InvalidChar"
+                    err = "Gui.AddAlas.InvalidChar"
                 elif name.lower().startswith("template"):
-                    err="Gui.AddAlas.InvalidPrefixTemplate"
+                    err = "Gui.AddAlas.InvalidPrefixTemplate"
                 else:
-                    err=""
+                    err = ""
                 if err:
                     clear(s)
                     put(name, origin)
@@ -1349,8 +1358,8 @@ def startup():
     if State.deploy_config.StartOcrServer:
         start_ocr_server_process(State.deploy_config.OcrServerPort)
     if (
-        State.deploy_config.EnableRemoteAccess
-        and State.deploy_config.Password is not None
+            State.deploy_config.EnableRemoteAccess
+            and State.deploy_config.Password is not None
     ):
         task_handler.add(RemoteAccess.keep_ssh_alive(), 60)
 
