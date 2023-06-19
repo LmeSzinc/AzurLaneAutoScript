@@ -26,6 +26,9 @@ class Keyword:
     """
     Instance attributes and methods
     """
+    @cached_property
+    def ch(self) -> str:
+        return self.cn
 
     @cached_property
     def cn_parsed(self) -> str:

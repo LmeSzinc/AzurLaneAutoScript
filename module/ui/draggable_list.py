@@ -28,6 +28,7 @@ class DraggableList:
             keyword_class,
             ocr_class,
             search_button: ButtonWrapper,
+            active_color: tuple[int, int, int]
     ):
         """
         Args:
@@ -42,6 +43,7 @@ class DraggableList:
             keyword_class = keyword_class[0]
         self.known_rows = list(keyword_class.instances.values())
         self.search_button = search_button
+        self.active_color = active_color
 
         self.row_min = 1
         self.row_max = len(self.known_rows)
@@ -83,12 +85,14 @@ class DraggableList:
         self.cur_buttons = self.ocr_class(self.search_button) \
             .matched_ocr(main.device.image, self.keyword_class)
         # Get indexes
-        indexes = [self.keyword2index(row.matched_keyword) for row in self.cur_buttons]
+        indexes = [self.keyword2index(row.matched_keyword)
+                   for row in self.cur_buttons]
         indexes = [index for index in indexes if index]
         # Check row order
         if len(indexes) >= 2:
             if not np.all(np.diff(indexes) > 0):
-                logger.warning(f'Rows given to {self} are not ascending sorted')
+                logger.warning(
+                    f'Rows given to {self} are not ascending sorted')
         if not indexes:
             logger.warning(f'No valid rows loaded into {self}')
             return
@@ -157,7 +161,8 @@ class DraggableList:
             elif self.cur_max < row_index:
                 self.drag_page('down', main=main)
             # Wait for bottoming out
-            main.wait_until_stable(self.search_button, timer=Timer(0, count=0), timeout=Timer(1.5, count=5))
+            main.wait_until_stable(self.search_button, timer=Timer(
+                0, count=0), timeout=Timer(1.5, count=5))
             skip_first_screenshot = True
 
         return True
@@ -168,7 +173,7 @@ class DraggableList:
             return False
 
         # Having gold letters
-        if main.image_color_count(button, color=(190, 175, 124), threshold=221, count=50):
+        if main.image_color_count(button, color=self.active_color, threshold=221, count=50):
             return True
 
         return False
@@ -183,7 +188,8 @@ class DraggableList:
         Returns:
             If success
         """
-        result = self.insight_row(row, main=main, skip_first_screenshot=skip_first_screenshot)
+        result = self.insight_row(
+            row, main=main, skip_first_screenshot=skip_first_screenshot)
         if not result:
             return False
 

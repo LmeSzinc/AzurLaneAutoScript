@@ -2,6 +2,7 @@ import os
 import re
 import typing as t
 from functools import cached_property
+from collections import namedtuple
 
 from module.base.code_generator import CodeGenerator
 from module.config.utils import deep_get, read_file
@@ -12,7 +13,7 @@ UI_LANGUAGES = ['cn', 'cht', 'en', 'jp']
 
 def text_to_variable(text):
     text = re.sub("'s |s' ", '_', text)
-    text = re.sub('[ \-—:\']+', '_', text)
+    text = re.sub('[ \-—:\'/]+', '_', text)
     text = re.sub(r'[(),#]|</?\w+>', '', text)
     # text = re.sub(r'[#_]?\d+(_times?)?', '', text)
     return text
@@ -154,6 +155,16 @@ class KeywordExtract:
         quest_keywords = [self.text_map[lang].find(quest_hash)[1] for quest_hash in quests_hash]
         self.load_keywords(quest_keywords, lang)
 
+    def generate_assignment_keywords(self):
+        KeywordFromFile = namedtuple('KeywordFromFile', ('file', 'class_name', 'output_file'))
+        for keyword in (
+            KeywordFromFile('ExpeditionGroup.json', 'AssignmentGroup', './tasks/assignment/keywords/group.py'),
+            KeywordFromFile('ExpeditionData.json', 'AssignmentEntry','./tasks/assignment/keywords/entry.py')
+        ):
+            file = os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', keyword.file)
+            self.load_keywords(deep_get(data, 'Name.Hash') for data in read_file(file).values())
+            self.write_keywords(keyword_class=keyword.class_name, output_file=keyword.output_file)
+
     def generate(self):
         self.load_keywords(['模拟宇宙', '拟造花萼（金）', '拟造花萼（赤）', '凝滞虚影', '侵蚀隧洞', '历战余响', '忘却之庭'])
         self.write_keywords(keyword_class='DungeonNav', output_file='./tasks/dungeon/keywords/nav.py')
@@ -170,6 +181,7 @@ class KeywordExtract:
         self.write_keywords(keyword_class='DungeonEntrance', output_file='./tasks/dungeon/keywords/dungeon_entrance.py')
         self.load_keywords(['奖励', '任务'])
         self.write_keywords(keyword_class='BattlePassTab', output_file='./tasks/battle_pass/keywords/tab.py')
+        self.generate_assignment_keywords()
 
 
 if __name__ == '__main__':

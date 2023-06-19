@@ -92,10 +92,10 @@ class DraggableDungeonList(DraggableList):
 
 
 DUNGEON_NAV_LIST = DraggableList(
-    'DungeonNavList', keyword_class=DungeonNav, ocr_class=OcrDungeonNav, search_button=OCR_DUNGEON_NAV)
+    'DungeonNavList', keyword_class=DungeonNav, ocr_class=OcrDungeonNav, search_button=OCR_DUNGEON_NAV, active_color=(190, 175, 124))
 DUNGEON_LIST = DraggableDungeonList(
     'DungeonList', keyword_class=[DungeonList, DungeonEntrance],
-    ocr_class=OcrDungeonList, search_button=OCR_DUNGEON_LIST)
+    ocr_class=OcrDungeonList, search_button=OCR_DUNGEON_LIST, active_color=(190, 175, 124))
 
 
 class DungeonUI(UI):
