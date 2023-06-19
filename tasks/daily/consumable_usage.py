@@ -2,13 +2,20 @@ from module.ocr.ocr import *
 from module.ui.scroll import Scroll
 from tasks.base.page import page_item
 from tasks.base.ui import UI
+from tasks.daily.synthesize import SynthesizeConsumablesUI
 from tasks.base.assets.assets_base_popup import CONFIRM_POPUP
 from tasks.daily.assets.assets_daily_consumable_usage import *
+from tasks.daily.assets.assets_daily_synthesize_consumable import \
+    SIMPLE_PROTECTIVE_GEAR as SYNTHESIZE_SIMPLE_PROTECTIVE_GEAR, \
+    SIMPLE_PROTECTIVE_GEAR_CHECK as SYNTHESIZE_SIMPLE_PROTECTIVE_GEAR_CHECK
 
 
 class ConsumableUsageUI(UI):
-    def use_consumable(self) -> bool:
+    def use_consumable(self, synthesize_or_not: bool = True) -> bool:
         """
+        Args:
+            synthesize_or_not(bool):
+
         Returns:
             bool:
 
@@ -24,7 +31,15 @@ class ConsumableUsageUI(UI):
             self._confirm_use()
             return True
         else:
-            return False
+            # Prevent matching errors from causing continuous synthesis of consumables
+            if not synthesize_or_not:
+                return False
+            if SynthesizeConsumablesUI(self.config, self.device).synthesize_consumables(
+                SYNTHESIZE_SIMPLE_PROTECTIVE_GEAR, SYNTHESIZE_SIMPLE_PROTECTIVE_GEAR_CHECK
+            ):
+                return self.use_consumable(synthesize_or_not=False)
+            else:
+                return False
 
     def _switch_tag_to_consumables(self, skip_first_screenshot=True):
         while 1:
