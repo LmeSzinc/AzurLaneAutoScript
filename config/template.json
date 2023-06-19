@@ -59,5 +59,17 @@
       "Command": "BattlePass",
       "ServerUpdate": "04:00"
     }
+  },
+  "Assignment": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Assignment",
+      "ServerUpdate": "04:00"
+    },
+    "Assignment": {
+      "Filter": "Nameless Land Nameless People > Akashic Records > The Invisible Hand > Root Out the Turpitude",
+      "Duration": 20
+    }
   }
 }

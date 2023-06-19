@@ -29,6 +29,10 @@
     "BattlePass": {
       "name": "ナナシの勲功",
       "help": ""
+    },
+    "Assignment": {
+      "name": "Task.Assignment.name",
+      "help": "Task.Assignment.help"
     }
   },
   "Scheduler": {
@@ -214,6 +218,24 @@
       "4": "4",
       "5": "5",
       "6": "6"
+    }
+  },
+  "Assignment": {
+    "_info": {
+      "name": "Assignment._info.name",
+      "help": "Assignment._info.help"
+    },
+    "Filter": {
+      "name": "Assignment.Filter.name",
+      "help": "Assignment.Filter.help"
+    },
+    "Duration": {
+      "name": "Assignment.Duration.name",
+      "help": "Assignment.Duration.help",
+      "4": "4",
+      "8": "8",
+      "12": "12",
+      "20": "20"
     }
   },
   "Gui": {

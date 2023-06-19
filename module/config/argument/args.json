@@ -258,5 +258,44 @@
         "display": "hide"
       }
     }
+  },
+  "Assignment": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "Assignment",
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "04:00",
+        "display": "hide"
+      }
+    },
+    "Assignment": {
+      "Filter": {
+        "type": "textarea",
+        "value": "Nameless Land Nameless People > Akashic Records > The Invisible Hand > Root Out the Turpitude"
+      },
+      "Duration": {
+        "type": "select",
+        "value": 20,
+        "option": [
+          4,
+          8,
+          12,
+          20
+        ]
+      }
+    }
   }
 }
