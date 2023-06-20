@@ -37,6 +37,7 @@ class AssignmentClaim(AssignmentDispatch):
             # Claim reward
             if self.appear(CLAIM, interval=2):
                 self.device.click(CLAIM)
+                counter.reset()
                 continue
             if self.appear(REDISPATCH):
                 redispatched = should_redispatch and self._is_duration_expected(
