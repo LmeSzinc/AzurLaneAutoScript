@@ -1,7 +1,7 @@
 # docker build -t hgjazhgj/alas:latest .
 # docker run -v ${PWD}:/app/AzurLaneAutoScript -p 22267:22267 --name alas -it --rm hgjazhgj/alas
 
-FROM python:3.7-slim
+FROM python:3.7-slim-bullseye
 
 WORKDIR /app/AzurLaneAutoScript
 

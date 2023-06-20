@@ -36,8 +36,16 @@
     background-color: #40444b !important;
 }
 
+.hr-task-group-line {
+    border-top-color: #adb5bd;
+}
+
+.hr-task-group-text {
+    color: #adb5bd;
+}
+
 .form-control,
-.bootstrap-select>select {
+.bootstrap-select > select {
     border-bottom: .125rem solid #7a77bb;
 }
 
@@ -59,7 +67,7 @@ textarea {
     border: 1px solid #21262d;
 }
 
-.aside-icon>path {
+.aside-icon > path {
     fill: #c9d1d9;
 }
 
@@ -122,7 +130,7 @@ pre.rich-traceback-code {
 }
 
 *[style*="--arg-help--"],
-[id^="pywebio-scope-group_"]>p+p {
+[id^="pywebio-scope-group_"] > p + p {
     color: #adb5bd;
 }
 

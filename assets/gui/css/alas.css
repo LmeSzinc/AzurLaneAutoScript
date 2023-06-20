@@ -4,11 +4,11 @@ details {
     margin-bottom: .25rem !important;
 }
 
-details[open]>summary {
+details[open] > summary {
     border-bottom: unset !important;
 }
 
-details[open]>div {
+details[open] > div {
     margin-left: 0.625rem;
 }
 
@@ -117,11 +117,20 @@ footer {
     margin-bottom: .25rem !important;
 }
 
-.status-point {
-    margin: 37% 50% 63% 50%;
-    width: .75rem;
-    height: .75rem;
-    border-radius: 50%;
+.hr-task-group-box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.hr-task-group-line {
+    border-top: 0.125rem solid;
+    flex-grow: 1;
+}
+
+.hr-task-group-text {
+    margin: 0 0.5rem;
+    font-size: 0.875rem;
 }
 
 input[type="checkbox"] {
@@ -178,7 +187,7 @@ button.btn.dropdown-toggle {
     display: none;
 }
 
-.bootstrap-select>select {
+.bootstrap-select > select {
     position: unset !important;
     bottom: unset !important;
     left: unset !important;
@@ -206,7 +215,7 @@ button.btn.dropdown-toggle {
 }
 
 .alas-icon,
-.alas-icon>image {
+.alas-icon > image {
     width: 42px;
     height: 42px;
 }
@@ -253,6 +262,7 @@ pre.rich-traceback-code {
 #pywebio-scope-menu {
     z-index: 90;
     padding-left: .5rem;
+    padding-right: .5rem;
     padding-top: 1.2rem;
     overflow-y: auto;
     width: 12rem;
@@ -287,7 +297,7 @@ pre.rich-traceback-code {
     margin: auto;
 }
 
-#pywebio-scope-header_title>p {
+#pywebio-scope-header_title > p {
     font-size: 1.2rem;
     margin: auto;
     overflow: hidden;
@@ -300,7 +310,7 @@ pre.rich-traceback-code {
     margin-bottom: auto;
 }
 
-#pywebio-scope-header_status>div>div+div+p {
+#pywebio-scope-header_status > div > div + div + p {
     margin: 0;
 }
 
@@ -318,7 +328,7 @@ pre.rich-traceback-code {
     grid-template-columns: 1fr minmax(25rem, 5fr) 2fr;
 }
 
-#pywebio-scope-group__info>p {
+#pywebio-scope-group__info > p {
     font-size: .80rem !important;
     font-weight: 400;
 }
@@ -329,19 +339,23 @@ pre.rich-traceback-code {
     padding: 1rem;
 }
 
-[id^="pywebio-scope-group_"]>p {
+[id^="pywebio-scope-group_"] > p {
     font-size: 1.25rem;
     font-weight: 500;
     margin: 0 .25rem 0 .25rem !important;
 }
 
-[id^="pywebio-scope-group_"]>p+p {
+[id^="pywebio-scope-group_"] > p + p {
     font-size: .80rem;
     margin: .2rem .25rem .1rem .25rem !important;
 }
 
 #pywebio-scope-groups {
     overflow-y: auto;
+}
+
+#pywebio-scope-groups:not(:has(*)) {
+    display: none;
 }
 
 #pywebio-scope-navigator {
@@ -375,30 +389,10 @@ pre.rich-traceback-code {
     justify-content: space-between;
 }
 
-#pywebio-scope-log-bar {
-    flex-wrap: wrap;
-}
-
 #pywebio-scope-log-bar-btns {
     display: grid;
     grid-auto-flow: column;
 }
-
-#pywebio-scope-log-bar .hr-group {
-    width: 100%;
-}
-
-#pywebio-scope-dashboard {
-    font-weight: 400;
-    width: 100%;
-    display: grid;
-    grid-auto-flow: row;
-    grid-template-columns: repeat(auto-fit,minmax(10rem,1fr));
-}
-
-#pywebio-scope-dashboard .form-control{
-    padding: 0 0 0;
-    }
 
 #pywebio-scope-log {
     line-height: 1.2;
@@ -415,9 +409,9 @@ pre.rich-traceback-code {
     grid-template-rows: auto auto 1fr;
 }
 
-#pywebio-scope-running>p,
-#pywebio-scope-pending>p,
-#pywebio-scope-waiting>p {
+#pywebio-scope-running > p,
+#pywebio-scope-pending > p,
+#pywebio-scope-waiting > p {
     font-size: 1.25rem;
     font-weight: 500;
     margin: 0 0.625rem 0 !important;
@@ -519,50 +513,4 @@ pre.rich-traceback-code {
     width: 1.5rem;
     height: 1.5rem;
     border: .2em solid currentColor;
-}
-
-/**[style*="--dashboard-value--"] {*/
-/*    font-size: 1.3rem;*/
-/*    font-weight: 400;*/
-/*    margin: 0 0 -0.2rem 0.6rem !important;*/
-/*    overflow-wrap: break-word;*/
-/*    overflow: visible;*/
-/*    border-bottom: 0;*/
-/*}*/
-
-*[style*="--dashboard-value--"] {
-    font-size: 1.2rem;
-    font-weight: 400;
-    margin: 0 0 0 0.6rem !important;
-    font-family:
-             "Arial",
-             serif;
-}
-
-*[style*="--dashboard-total--"] {
-    font-size: 1.2rem;
-    font-weight: 400;
-    margin: 0 0 0 0.15rem !important;
-    font-family:
-             "Arial",
-             serif;
-}
-
-*[style*="--dashboard-help--"] {
-    font-size: .8rem;
-    margin: 0 0 0 0.6rem !important;
-    font-family:
-             "Arial",
-             serif;
-}
-
-*[style*="--dashboard-limit--"] {
-    font-weight: 400;
-    font-size: .9rem;
-    margin: 0 0 0 0 !important;
-    vertical-align: text-bottom;
-    overflow-wrap: normal;
-    font-family:
-             "Arial",
-             serif;
 }
