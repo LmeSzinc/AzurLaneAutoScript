@@ -48,7 +48,7 @@ Maa:
 
 Tool:
   menu: 'list'
-  page: 'setting'
+  page: 'tool'
   tasks:
     MaaCopilot:
       - MaaCopilot
