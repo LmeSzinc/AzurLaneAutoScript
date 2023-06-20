@@ -61,17 +61,19 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam):
                 return True
 
             # Click
+            if self.appear(COMBAT_TEAM_PREPARE, interval=2):
+                self.team_set(team)
+                self.device.click(COMBAT_TEAM_PREPARE)
+                self.interval_reset(COMBAT_TEAM_PREPARE)
+                continue
+            if self.appear(COMBAT_TEAM_PREPARE):
+                self.interval_reset(COMBAT_PREPARE)
             if self.appear(COMBAT_PREPARE, interval=2):
                 self.handle_combat_prepare()
                 if self.state.TrailblazePower < self.combat_cost:
                     return False
                 self.device.click(COMBAT_PREPARE)
                 self.interval_reset(COMBAT_PREPARE)
-                continue
-            if self.appear(COMBAT_TEAM_PREPARE, interval=2):
-                self.team_set(team)
-                self.device.click(COMBAT_TEAM_PREPARE)
-                self.interval_reset(COMBAT_TEAM_PREPARE)
                 continue
             if self.handle_combat_interact():
                 continue
