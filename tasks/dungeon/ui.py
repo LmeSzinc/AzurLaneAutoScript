@@ -1,5 +1,6 @@
 import numpy as np
 
+from module.base.base import ModuleBase
 from module.base.button import ClickButton
 from module.base.timer import Timer
 from module.base.utils import get_color
@@ -71,9 +72,28 @@ class OcrDungeonListLimitEntrance(OcrDungeonList):
         self.button = ClickButton((*self.button.area[:3], self.button.area[3] - 70))
 
 
+class DraggableDungeonList(DraggableList):
+    teleports: list[OcrResultButton] = []
+    navigates: list[OcrResultButton] = []
+
+    def load_rows(self, main: ModuleBase):
+        super().load_rows(main=main)
+        # Replace dungeon.button with teleport
+        self.teleports = list(split_and_pair_button_attr(
+            DUNGEON_LIST.cur_buttons,
+            split_func=lambda x: x != KEYWORDS_DUNGEON_ENTRANCE.Teleport,
+            relative_area=(0, 0, 1280, 120)
+        ))
+        self.navigates = list(split_and_pair_button_attr(
+            DUNGEON_LIST.cur_buttons,
+            split_func=lambda x: x != KEYWORDS_DUNGEON_ENTRANCE.Navigate,
+            relative_area=(0, 0, 1280, 120)
+        ))
+
+
 DUNGEON_NAV_LIST = DraggableList(
     'DungeonNavList', keyword_class=DungeonNav, ocr_class=OcrDungeonNav, search_button=OCR_DUNGEON_NAV)
-DUNGEON_LIST = DraggableList(
+DUNGEON_LIST = DraggableDungeonList(
     'DungeonList', keyword_class=[DungeonList, DungeonEntrance],
     ocr_class=OcrDungeonList, search_button=OCR_DUNGEON_LIST)
 
@@ -142,12 +162,7 @@ class DungeonUI(UI):
         # Insight dungeon
         DUNGEON_LIST.insight_row(dungeon, main=self)
         # Check if dungeon unlocked
-        navigates = split_and_pair_button_attr(
-            DUNGEON_LIST.cur_buttons,
-            split_func=lambda x: x == KEYWORDS_DUNGEON_ENTRANCE.Navigate,
-            relative_area=(0, 0, 1280, 120)
-        )
-        for entrance in navigates:
+        for entrance in DUNGEON_LIST.navigates:
             entrance: OcrResultButton = entrance
             logger.warning(f'Teleport {entrance.matched_keyword} is not unlocked')
             if entrance == dungeon:
@@ -155,12 +170,7 @@ class DungeonUI(UI):
                 return False
 
         # Find teleport button
-        teleports = list(split_and_pair_button_attr(
-            DUNGEON_LIST.cur_buttons,
-            split_func=lambda x: x != KEYWORDS_DUNGEON_ENTRANCE.Teleport,
-            relative_area=(0, 0, 1280, 120)
-        ))
-        if dungeon not in [tp.matched_keyword for tp in teleports]:
+        if dungeon not in [tp.matched_keyword for tp in DUNGEON_LIST.teleports]:
             # Dungeon name is insight but teleport button is not
             logger.info('Dungeon name is insight, swipe down a little bit to find the teleport button')
             DUNGEON_LIST.drag_vector = (0.2, 0.4)
@@ -170,21 +180,10 @@ class DungeonUI(UI):
             DUNGEON_LIST.ocr_class = OcrDungeonList
             DUNGEON_LIST.load_rows(main=self)
             # Check if dungeon unlocked
-            navigates = split_and_pair_button_attr(
-                DUNGEON_LIST.cur_buttons,
-                split_func=lambda x: x == KEYWORDS_DUNGEON_ENTRANCE.Navigate,
-                relative_area=(0, 0, 1280, 120)
-            )
-            for entrance in navigates:
+            for entrance in DUNGEON_LIST.navigates:
                 if entrance == dungeon:
                     logger.error(f'Trying to enter dungeon {dungeon}, but teleport is not unlocked')
                     return False
-            # Replace dungeon.button with teleport
-            _ = list(split_and_pair_button_attr(
-                DUNGEON_LIST.cur_buttons,
-                split_func=lambda x: x != KEYWORDS_DUNGEON_ENTRANCE.Teleport,
-                relative_area=(0, 0, 1280, 120)
-            ))
 
         return True
 
