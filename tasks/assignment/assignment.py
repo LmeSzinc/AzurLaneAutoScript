@@ -13,8 +13,6 @@ from tasks.daily.synthesize import SynthesizeUI
 
 
 class Assignment(AssignmentClaim, SynthesizeUI):
-    dispatched: dict[AssignmentEntry, datetime] = dict()
-
     def run(self, assignments: list[AssignmentEntry] = None, duration: int = None):
         if assignments is None:
             assignments = [AssignmentEntry.find(
