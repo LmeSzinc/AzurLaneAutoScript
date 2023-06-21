@@ -28,7 +28,7 @@ class DraggableList:
             keyword_class,
             ocr_class,
             search_button: ButtonWrapper,
-            active_color: tuple[int, int, int]
+            active_color: tuple[int, int, int] = (190, 175, 124)
     ):
         """
         Args:

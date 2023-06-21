@@ -61,8 +61,11 @@ class AssignmentOcr(Ocr):
         matched = self.ocr_regex.fullmatch(result)
         if matched is None:
             return result
+        keyword_lang = self.lang
+        if self.lang == 'ch':
+            keyword_lang = 'cn'
         matched = getattr(KEYWORDS_ASSIGNMENT_ENTRY, matched.lastgroup)
-        matched = getattr(matched, self.lang)
+        matched = getattr(matched, keyword_lang)
         logger.attr(name=f'{self.name} after_process',
                     text=f'{result} -> {matched}')
         return matched

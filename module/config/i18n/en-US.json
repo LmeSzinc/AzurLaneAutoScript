@@ -223,11 +223,11 @@
   "Assignment": {
     "_info": {
       "name": "Assignment Settings",
-      "help": ""
+      "help": "Claim rewards and dispatch, handling specified assignments first\nIf the assignment limit is not reached after that, others will be dispatched according to preset priority (EXP Materials/Credits → Character Materials → Synthesis Materials)"
     },
     "Filter": {
       "name": "Assignment Priority",
-      "help": "Example: Nameless Land Nameless People > Akashic Records > The Invisible Hand > Root Out the Turpitude"
+      "help": "Make sure there are no typos\nExample: Nameless Land Nameless People > Akashic Records > The Invisible Hand > Root Out the Turpitude"
     },
     "Duration": {
       "name": "Assignment Duration",

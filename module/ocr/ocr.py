@@ -263,22 +263,11 @@ class DigitCounter(Ocr):
 class Duration(Ocr):
     @cached_property
     def timedelta_regex(self):
-        hour_regex = {
-            'ch': '小时',
-            'en': 'h\s*'
+        regex_str = {
+            'ch': r'\D*((?P<hours>\d{1,2})小时)?((?P<minutes>\d{1,2})分钟)?((?P<seconds>\d{1,2})秒})?',
+            'en': r'\D*((?P<hours>\d{1,2})h\s*)?((?P<minutes>\d{1,2})m\s*)?((?P<seconds>\d{1,2})s)?'
         }[self.lang]
-        minute_regex = {
-            'ch': '分钟',
-            'en': 'm\s*'
-        }[self.lang]
-        second_regex = {
-            'ch': '秒',
-            'en': 's'
-        }[self.lang]
-        ret = rf'\D*((?P<hours>\d{{1,2}}){hour_regex})?'
-        ret += rf'((?P<minutes>\d{{1,2}}){minute_regex})?'
-        ret += rf'((?P<seconds>\d{{1,2}}){second_regex})?'
-        return re.compile(ret)
+        return re.compile(regex_str)
 
     def format_result(self, result: str) -> timedelta:
         """
