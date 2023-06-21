@@ -1,16 +1,30 @@
 {
-  "Task": {
-    "Fpy": [
+  "Fpy": {
+    "menu": "list",
+    "page": "setting",
+    "tasks": [
       "Fpy",
       "FpyHeartbeat"
-    ],
-    "FpyFarm": [
+    ]
+  },
+  "FpyFarm": {
+    "menu": "list",
+    "page": "setting",
+    "tasks": [
       "FpyMain"
-    ],
-    "FpyDaily": [
+    ]
+  },
+  "FpyDaily": {
+    "menu": "list",
+    "page": "setting",
+    "tasks": [
       "FpyDailyFpSummon"
-    ],
-    "Tool": [
+    ]
+  },
+  "FpyTool": {
+    "menu": "list",
+    "page": "tool",
+    "tasks": [
       "FpyBattle",
       "FpyBenchmark",
       "FpyCall"

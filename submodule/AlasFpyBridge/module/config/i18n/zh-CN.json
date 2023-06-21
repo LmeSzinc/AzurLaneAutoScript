@@ -1,9 +1,5 @@
 {
   "Menu": {
-    "Task": {
-      "name": "",
-      "help": ""
-    },
     "Fpy": {
       "name": "FGO-py",
       "help": ""
@@ -16,7 +12,7 @@
       "name": "每日",
       "help": ""
     },
-    "Tool": {
+    "FpyTool": {
       "name": "工具",
       "help": ""
     }
@@ -126,7 +122,7 @@
     },
     "LaunchPath": {
       "name": "启动路径",
-      "help": "FGO-py的deploy目录下AzurLaneAutoScript子目录的绝对路径\n你可以把这个子目录拷贝至其他位置方便分布式部署"
+      "help": "FGO-py的deploy目录下AzurLaneAutoScript子目录的绝对路径\n请先阅读FGO-py readme的「在AzurLaneAutoScript中运行」章节"
     }
   },
   "FpyInterval": {

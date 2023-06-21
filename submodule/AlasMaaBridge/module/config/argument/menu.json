@@ -1,6 +1,8 @@
 {
-  "Task": {
-    "Maa": [
+  "Maa": {
+    "menu": "list",
+    "page": "setting",
+    "tasks": [
       "Maa",
       "MaaStartup",
       "MaaAnnihilation",
@@ -12,8 +14,12 @@
       "MaaAward",
       "MaaRoguelike",
       "MaaReclamationAlgorithm"
-    ],
-    "Tool": [
+    ]
+  },
+  "Tool": {
+    "menu": "list",
+    "page": "tool",
+    "tasks": [
       "MaaCopilot"
     ]
   }
