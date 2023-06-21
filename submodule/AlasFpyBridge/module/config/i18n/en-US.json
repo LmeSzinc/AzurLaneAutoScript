@@ -1,9 +1,5 @@
 {
   "Menu": {
-    "Task": {
-      "name": "",
-      "help": ""
-    },
     "Fpy": {
       "name": "FGO-py",
       "help": ""
@@ -16,7 +12,7 @@
       "name": "Daily",
       "help": ""
     },
-    "Tool": {
+    "FpyTool": {
       "name": "Tool",
       "help": ""
     }
@@ -126,7 +122,7 @@
     },
     "LaunchPath": {
       "name": "LaunchPath",
-      "help": "The absolute path of the `AzurLaneAutoScript` subdirectory in the `deploy` directory of FGO-py\nYou can copy this subdirectory to another location for distributed deployment"
+      "help": "The absolute path of the `AzurLaneAutoScript` subdirectory in the `deploy` directory of FGO-py\nPlease read the `Run with AzurLaneAutoScript` section of the FGO-py readme first."
     }
   },
   "FpyInterval": {

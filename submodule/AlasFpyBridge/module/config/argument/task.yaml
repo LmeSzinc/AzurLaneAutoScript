@@ -5,35 +5,48 @@
 # ==================== Fpy ====================
 
 Fpy:
-  - FpyEmulator
-  - Emulator
-  - Error
-  - Optimization
-
-FpyHeartbeat:
-  - Scheduler
-  - FpyInterval
+  menu: 'list'
+  page: 'setting'
+  tasks:
+    Fpy:
+      - FpyEmulator
+      - Emulator
+      - Error
+      - Optimization
+    FpyHeartbeat:
+      - Scheduler
+      - FpyInterval
 
 # ==================== FpyFarm ====================
 
-FpyMain:
-  - Scheduler
-  - FpyTeam
-  - FpyApple
-  - FpyLimit
-  - FpyInterval
+FpyFarm:
+  menu: 'list'
+  page: 'setting'
+  tasks:
+    FpyMain:
+      - Scheduler
+      - FpyTeam
+      - FpyApple
+      - FpyLimit
+      - FpyInterval
 
 # ==================== FpyDaily ====================
 
-FpyDailyFpSummon:
-  - Scheduler
+FpyDaily:
+  menu: 'list'
+  page: 'setting'
+  tasks:
+    FpyDailyFpSummon:
+      - Scheduler
 
-# ==================== Tool ====================
+# ==================== FpyTool ====================
 
-FpyBattle: []
-
-FpyBenchmark:
-  - FpyBenchmark
-
-FpyCall:
-  - FpyCall
+FpyTool:
+  menu: 'list'
+  page: 'tool'
+  tasks:
+    FpyBattle: []
+    FpyBenchmark:
+      - FpyBenchmark
+    FpyCall:
+      - FpyCall

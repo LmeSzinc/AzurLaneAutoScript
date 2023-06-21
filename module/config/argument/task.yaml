@@ -6,304 +6,336 @@
 # ==================== Alas ====================
 
 Alas:
-  - Emulator
-  - RestartEmulator
-  - Error
-  - Optimization
-  - DropRecord
-General:
-  - Retirement
-  - OneClickRetire
-  - Enhance
-  - OldRetire
-Restart:
-  - Scheduler
+  menu: 'collapse'
+  page: 'setting'
+  tasks:
+    Alas:
+      - Emulator
+      - RestartEmulator
+      - Error
+      - Optimization
+      - DropRecord
+    General:
+      - Retirement
+      - OneClickRetire
+      - Enhance
+      - OldRetire
+    Restart:
+      - Scheduler
 
 # ==================== Farm ====================
 
-Main:
-  - Scheduler
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
-Main2:
-  - Scheduler
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
-Main3:
-  - Scheduler
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
-GemsFarming:
-  - Scheduler
-  - GemsFarming
-  - Campaign
-  - StopCondition
-  - Fleet
+Farm:
+  menu: 'collapse'
+  page: 'setting'
+  tasks:
+    Main:
+      - Scheduler
+      - Campaign
+      - StopCondition
+      - Fleet
+      - Submarine
+      - Emotion
+      - HpControl
+      - EnemyPriority
+    Main2:
+      - Scheduler
+      - Campaign
+      - StopCondition
+      - Fleet
+      - Submarine
+      - Emotion
+      - HpControl
+      - EnemyPriority
+    Main3:
+      - Scheduler
+      - Campaign
+      - StopCondition
+      - Fleet
+      - Submarine
+      - Emotion
+      - HpControl
+      - EnemyPriority
+    GemsFarming:
+      - Scheduler
+      - GemsFarming
+      - Campaign
+      - StopCondition
+      - Fleet
 
 # ==================== Event ====================
 
-EventGeneral:
-  - EventGeneral
-  - TaskBalancer
 Event:
-  - Scheduler
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
-Event2:
-  - Scheduler
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
-Event3:
-  - Scheduler
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
-Raid:
-  - Scheduler
-  - Raid
-  - Campaign
-  - StopCondition
-  - Emotion
-Coalition:
-  - Scheduler
-  - Campaign
-  - Coalition
-  - StopCondition
-  - Emotion
-MaritimeEscort:
-  - Scheduler
-  - MaritimeEscort
-WarArchives:
-  - Scheduler
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
+  menu: 'collapse'
+  page: 'setting'
+  tasks:
+    EventGeneral:
+      - EventGeneral
+      - TaskBalancer
+    Event:
+      - Scheduler
+      - Campaign
+      - StopCondition
+      - Fleet
+      - Submarine
+      - Emotion
+      - HpControl
+      - EnemyPriority
+    Event2:
+      - Scheduler
+      - Campaign
+      - StopCondition
+      - Fleet
+      - Submarine
+      - Emotion
+      - HpControl
+      - EnemyPriority
+    Event3:
+      - Scheduler
+      - Campaign
+      - StopCondition
+      - Fleet
+      - Submarine
+      - Emotion
+      - HpControl
+      - EnemyPriority
+    Raid:
+      - Scheduler
+      - Raid
+      - Campaign
+      - StopCondition
+      - Emotion
+    Coalition:
+      - Scheduler
+      - Campaign
+      - Coalition
+      - StopCondition
+      - Emotion
+    MaritimeEscort:
+      - Scheduler
+      - MaritimeEscort
+    WarArchives:
+      - Scheduler
+      - Campaign
+      - StopCondition
+      - Fleet
+      - Submarine
+      - Emotion
+      - HpControl
+      - EnemyPriority
 
 
 # ==================== EventDaily ====================
 
-EventA:
-  - Scheduler
-  - EventDaily
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
-EventB:
-  - Scheduler
-  - EventDaily
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
-EventC:
-  - Scheduler
-  - EventDaily
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
-EventD:
-  - Scheduler
-  - EventDaily
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
-EventSp:
-  - Scheduler
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
-RaidDaily:
-  - Scheduler
-  - RaidDaily
-  - Campaign
-  - StopCondition
-  - Emotion
-CoalitionSp:
-  - Scheduler
-  - Campaign
-  - Coalition
-  - StopCondition
-  - Emotion
+EventDaily:
+  menu: 'collapse'
+  page: 'setting'
+  tasks:
+    EventA:
+      - Scheduler
+      - EventDaily
+      - Campaign
+      - StopCondition
+      - Fleet
+      - Submarine
+      - Emotion
+      - HpControl
+      - EnemyPriority
+    EventB:
+      - Scheduler
+      - EventDaily
+      - Campaign
+      - StopCondition
+      - Fleet
+      - Submarine
+      - Emotion
+      - HpControl
+      - EnemyPriority
+    EventC:
+      - Scheduler
+      - EventDaily
+      - Campaign
+      - StopCondition
+      - Fleet
+      - Submarine
+      - Emotion
+      - HpControl
+      - EnemyPriority
+    EventD:
+      - Scheduler
+      - EventDaily
+      - Campaign
+      - StopCondition
+      - Fleet
+      - Submarine
+      - Emotion
+      - HpControl
+      - EnemyPriority
+    EventSp:
+      - Scheduler
+      - Campaign
+      - StopCondition
+      - Fleet
+      - Submarine
+      - Emotion
+      - HpControl
+      - EnemyPriority
+    RaidDaily:
+      - Scheduler
+      - RaidDaily
+      - Campaign
+      - StopCondition
+      - Emotion
+    CoalitionSp:
+      - Scheduler
+      - Campaign
+      - Coalition
+      - StopCondition
+      - Emotion
 
 # ==================== Reward ====================
 
-Commission:
-  - Scheduler
-  - Commission
-Tactical:
-  - Scheduler
-  - Tactical
-  - ControlExpOverflow
-  - AddNewStudent
-Research:
-  - Scheduler
-  - Research
-Dorm:
-  - Scheduler
-  - Dorm
-Meowfficer:
-  - Scheduler
-  - Meowfficer
-  - MeowfficerTrain
-Guild:
-  - Scheduler
-  - GuildLogistics
-  - GuildOperation
 Reward:
-  - Scheduler
-  - Reward
+  menu: 'collapse'
+  page: 'setting'
+  tasks:
+    Commission:
+      - Scheduler
+      - Commission
+    Tactical:
+      - Scheduler
+      - Tactical
+      - ControlExpOverflow
+      - AddNewStudent
+    Research:
+      - Scheduler
+      - Research
+    Dorm:
+      - Scheduler
+      - Dorm
+    Meowfficer:
+      - Scheduler
+      - Meowfficer
+      - MeowfficerTrain
+    Guild:
+      - Scheduler
+      - GuildLogistics
+      - GuildOperation
+    Reward:
+      - Scheduler
+      - Reward
 
 # ==================== DailyMission ====================
 
-Daily:
-  - Scheduler
-  - Daily
-Hard:
-  - Scheduler
-  - Hard
-Exercise:
-  - Scheduler
-  - Exercise
-ShopFrequent:
-  - Scheduler
-  - GeneralShop
-ShopOnce:
-  - Scheduler
-  - GuildShop
-  - MedalShop2
-  - MeritShop
-  - CoreShop
-Shipyard:
-  - Scheduler
-  - ShipyardDr
-  - Shipyard
-Gacha:
-  - Scheduler
-  - Gacha
-Freebies:
-  - Scheduler
-  - BattlePass
-  - DataKey
-  - Mail
-  - SupplyPack
+DailyMission:
+  menu: 'collapse'
+  page: 'setting'
+  tasks:
+    Daily:
+      - Scheduler
+      - Daily
+    Hard:
+      - Scheduler
+      - Hard
+    Exercise:
+      - Scheduler
+      - Exercise
+    ShopFrequent:
+      - Scheduler
+      - GeneralShop
+    ShopOnce:
+      - Scheduler
+      - GuildShop
+      - MedalShop2
+      - MeritShop
+      - CoreShop
+    Shipyard:
+      - Scheduler
+      - ShipyardDr
+      - Shipyard
+    Gacha:
+      - Scheduler
+      - Gacha
+    Freebies:
+      - Scheduler
+      - BattlePass
+      - DataKey
+      - Mail
+      - SupplyPack
 
 # ==================== Opsi ====================
 
-OpsiGeneral:
-  - OpsiGeneral
-OpsiAshBeacon:
-  - Scheduler
-  - OpsiAshBeacon
-OpsiAshAssist:
-  - Scheduler
-  - OpsiAshAssist
-OpsiExplore:
-  - Scheduler
-  - OpsiExplore
-  - OpsiFleet
-OpsiShop:
-  - Scheduler
-  - OpsiShop
-OpsiVoucher:
-  - Scheduler
-  - OpsiVoucher
-OpsiDaily:
-  - Scheduler
-  - OpsiDaily
-  - OpsiFleet
-OpsiObscure:
-  - Scheduler
-  - OpsiObscure
-  - OpsiFleet
-OpsiAbyssal:
-  - Scheduler
-  - OpsiAbyssal
-  - OpsiFleetFilter
-OpsiArchive:
-  - Scheduler
-  - OpsiFleet
-OpsiStronghold:
-  - Scheduler
-  - OpsiStronghold
-  - OpsiFleetFilter
-OpsiMonthBoss:
-  - Scheduler
-  - OpsiMonthBoss
-  - OpsiFleetFilter
-OpsiMeowfficerFarming:
-  - Scheduler
-  - OpsiMeowfficerFarming
-  - OpsiFleet
-OpsiHazard1Leveling:
-  - Scheduler
-  - OpsiHazard1Leveling
-  - OpsiFleet
-OpsiCrossMonth:
-  - Scheduler
+Opsi:
+  menu: 'collapse'
+  page: 'setting'
+  tasks:
+    OpsiGeneral:
+      - OpsiGeneral
+    OpsiAshBeacon:
+      - Scheduler
+      - OpsiAshBeacon
+    OpsiAshAssist:
+      - Scheduler
+      - OpsiAshAssist
+    OpsiExplore:
+      - Scheduler
+      - OpsiExplore
+      - OpsiFleet
+    OpsiShop:
+      - Scheduler
+      - OpsiShop
+    OpsiVoucher:
+      - Scheduler
+      - OpsiVoucher
+    OpsiDaily:
+      - Scheduler
+      - OpsiDaily
+      - OpsiFleet
+    OpsiObscure:
+      - Scheduler
+      - OpsiObscure
+      - OpsiFleet
+    OpsiAbyssal:
+      - Scheduler
+      - OpsiAbyssal
+      - OpsiFleetFilter
+    OpsiArchive:
+      - Scheduler
+      - OpsiFleet
+    OpsiStronghold:
+      - Scheduler
+      - OpsiStronghold
+      - OpsiFleetFilter
+    OpsiMonthBoss:
+      - Scheduler
+      - OpsiMonthBoss
+      - OpsiFleetFilter
+    OpsiMeowfficerFarming:
+      - Scheduler
+      - OpsiMeowfficerFarming
+      - OpsiFleet
+    OpsiHazard1Leveling:
+      - Scheduler
+      - OpsiHazard1Leveling
+      - OpsiFleet
+    OpsiCrossMonth:
+      - Scheduler
 
 # ==================== Tool ====================
 
-Daemon:
-  - Daemon
-OpsiDaemon:
-  - OpsiDaemon
-Benchmark:
-  - Benchmark
-AzurLaneUncensored:
-  - AzurLaneUncensored
-GameManager:
-  - GameManager
-  - GGHandler
-  - PowerLimit
+Tool:
+  menu: 'collapse'
+  page: 'tool'
+  tasks:
+    Daemon:
+      - Daemon
+    OpsiDaemon:
+      - OpsiDaemon
+    Benchmark:
+      - Benchmark
+    AzurLaneUncensored:
+      - AzurLaneUncensored
+    GameManager:
+      - GameManager
+      - GGHandler
+      - PowerLimit
