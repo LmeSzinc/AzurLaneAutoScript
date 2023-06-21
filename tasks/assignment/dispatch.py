@@ -35,7 +35,8 @@ class AssignmentDispatch(AssignmentUI):
         """
         self._select_characters()
         self._select_duration(duration)
-        self._confirm_assignment(CONFIRM_ASSIGNMENT)
+        self._confirm_assignment()
+        self._wait_until_assignment_started()
         self.dispatched[assignment] = datetime.now() + \
             timedelta(hours=duration)
 
@@ -73,31 +74,54 @@ class AssignmentDispatch(AssignmentUI):
             duration = 20
         ASSIGNMENT_DURATION_SWITCH.set(str(duration), self)
 
-    def _confirm_assignment(self, dispatch_button: ButtonWrapper) -> bool:
+    def _confirm_assignment(self):
         """
-        Args:
-            dispatch_button (ButtonWrapper): 
-                Button to be clicked, CONFIRM_ASSIGNMENT or REDISPATCH
-
         Pages:
-            in: CONFIRM_ASSIGNMENT or REDISPATCH
+            in: CONFIRM_ASSIGNMENT
             out: DISPATCHED
         """
         skip_first_screenshot = True
-        counter = Timer(1, count=3).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
             # End
-            if self.appear(DISPATCHED) and self.appear(ASSIGNMENT_STARTED_CHECK):
-                if counter.reached():
-                    logger.info(f'Assignment started')
-                    break
-                continue
+            if self.appear(DISPATCHED):
+                logger.info(f'Assignment dispatched')
+                break
             # Click
-            if self.appear(dispatch_button, interval=2):
-                self.device.click(dispatch_button)
-                counter.reset()
+            if self.appear_then_click(CONFIRM_ASSIGNMENT, interval=2):
                 continue
+
+    def _wait_until_assignment_started(self):
+        """
+        Pages:
+            in: DISPATCHED
+            out: ASSIGNMENT_STARTED_CHECK
+        """
+        skip_first_screenshot = True
+        timeout = Timer(2, count=4).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            # End
+            if self.appear(ASSIGNMENT_START):
+                logger.info('Assignment start')
+                break
+            # Timeout
+            if timeout.reached():
+                logger.warning('Wait for assignment start timeout')
+                break
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            # End
+            if self.appear(ASSIGNMENT_STARTED_CHECK):
+                logger.info('Assignment started')
+                break

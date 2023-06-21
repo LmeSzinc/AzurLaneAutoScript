@@ -3,6 +3,16 @@ from module.base.button import Button, ButtonWrapper
 # This file was auto-generated, do not modify it manually. To generate:
 # ``` python -m dev_tools.button_extract ```
 
+ASSIGNMENT_START = ButtonWrapper(
+    name='ASSIGNMENT_START',
+    cn=Button(
+        file='./assets/cn/assignment/dispatch/ASSIGNMENT_START.png',
+        area=(581, 321, 699, 349),
+        search=(561, 301, 719, 369),
+        color=(93, 84, 66),
+        button=(581, 321, 699, 349),
+    ),
+)
 ASSIGNMENT_STARTED_CHECK = ButtonWrapper(
     name='ASSIGNMENT_STARTED_CHECK',
     share=Button(

@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 from module.base.timer import Timer
+from module.logger import logger
 from module.ocr.ocr import Duration
 from tasks.assignment.assets.assets_assignment_claim import *
 from tasks.assignment.assets.assets_assignment_dispatch import EMPTY_SLOT
@@ -22,36 +23,63 @@ class AssignmentClaim(AssignmentDispatch):
             out: DISPATCHED or EMPTY_SLOT
         """
         redispatched = False
+        self._wait_for_report()
+        if should_redispatch:
+            redispatched = self._is_duration_expected(duration_expected)
+        self._exit_report(redispatched)
+        if redispatched:
+            self._wait_until_assignment_started()
+            self.dispatched[assignment] = datetime.now(
+            ) + timedelta(hours=duration_expected)
+        elif should_redispatch:
+            # Re-select duration and dispatch
+            self.dispatch(assignment, duration_expected)
+
+    def _wait_for_report(self):
+        """
+        Pages:
+            in: CLAIM
+            out: REDISPATCH
+        """
         skip_first_screenshot = True
-        counter = Timer(1, count=4).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
             # End
-            if self.appear(EMPTY_SLOT) or self.appear(DISPATCHED):
-                if counter.reached():
-                    break
-                continue
-            # Claim reward
-            if self.appear(CLAIM, interval=2):
-                self.device.click(CLAIM)
-                counter.reset()
-                continue
             if self.appear(REDISPATCH):
-                redispatched = should_redispatch and self._is_duration_expected(
-                    duration_expected)
-                if redispatched:
-                    self._confirm_assignment(REDISPATCH)
-                    self.dispatched[assignment] = datetime.now(
-                    ) + timedelta(hours=duration_expected)
-                else:
-                    self.device.click(CLOSE_REPORT)
+                logger.info('Assignment report appears')
+                break
+            # Claim rewards
+            if self.appear_then_click(CLAIM, interval=2):
                 continue
-        # Re-select duration and dispatch
-        if should_redispatch and not redispatched:
-            self.dispatch(assignment, duration_expected)
+
+    def _exit_report(self, should_redispatch: bool):
+        """
+        Args:
+            should_redispatch (bool): determined by user config and duration in report
+
+        Pages:
+            in: CLOSE_REPORT and REDISPATCH
+            out: EMPTY_SLOT or DISPATCHED
+        """
+        click_button, check_button = CLOSE_REPORT, EMPTY_SLOT
+        if should_redispatch:
+            click_button, check_button = REDISPATCH, DISPATCHED
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            # End
+            if self.appear(check_button):
+                logger.info('Assignment report is closed')
+                break
+            # Close report
+            if self.appear_then_click(click_button, interval=2):
+                continue
 
     def _is_duration_expected(self, duration: int) -> bool:
         """
