@@ -47,7 +47,7 @@ class AssignmentDispatch(AssignmentUI):
             out: CHARACTER_LIST
         """
         skip_first_screenshot = True
-        list_timer = Timer(1, count=3)
+        list_timer = Timer(2, count=3)
         select_timer = Timer(2, count=3)
         while 1:
             if skip_first_screenshot:
