@@ -64,12 +64,11 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                 self.dispatched[assignment] = datetime.now() + Duration(
                     OCR_ASSIGNMENT_TIME).ocr_single_line(self.device.image)
                 continue
-            if self.appear(EMPTY_SLOT):
-                if remain > 0:
-                    self.dispatch(assignment, duration)
-                    remain -= 1
-                else:
-                    yield assignment
+            if remain > 0:
+                self.dispatch(assignment, duration)
+                remain -= 1
+            else:
+                yield assignment
 
     def _check_all(self):
         """
@@ -99,8 +98,7 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                     self.dispatched[assignment] = datetime.now() + Duration(
                         OCR_ASSIGNMENT_TIME).ocr_single_line(self.device.image)
                     continue
-                if self.appear(EMPTY_SLOT):
-                    break
+                break
         return remain
 
     def _dispatch_remain(self, duration: int, remain: int):

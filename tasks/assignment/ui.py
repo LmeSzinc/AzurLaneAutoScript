@@ -155,10 +155,6 @@ class AssignmentUI(UI):
         """
         Iterate entries from top to bottom
         """
-        while 1:
-            ASSIGNMENT_ENTRY_LIST.load_rows(self)
-            for button in ASSIGNMENT_ENTRY_LIST.cur_buttons:
-                yield button.matched_keyword
-            ASSIGNMENT_ENTRY_LIST.drag_page('down', self)
-            self.wait_until_stable(ASSIGNMENT_ENTRY_LIST.search_button, timer=Timer(
-                0, count=0), timeout=Timer(1.5, count=5))
+        ASSIGNMENT_ENTRY_LIST.load_rows(main=self)
+        for button in ASSIGNMENT_ENTRY_LIST.cur_buttons:
+            yield button.matched_keyword

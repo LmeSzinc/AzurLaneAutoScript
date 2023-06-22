@@ -47,25 +47,28 @@ class AssignmentDispatch(AssignmentUI):
             out: CHARACTER_LIST
         """
         skip_first_screenshot = True
-        click_timer = Timer(1, count=3).start()
+        list_timer = Timer(1, count=3)
+        select_timer = Timer(2, count=3)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
             # End
-            if not self.appear(EMPTY_SLOT):
-                logger.info('Assignment slots are all filled')
+            if self.match_template_color(CONFIRM_ASSIGNMENT):
+                logger.info('Characters are all selected')
                 break
             # Ensure character list
             if not self.appear(CHARACTER_LIST):
-                if click_timer.reached_and_reset():
+                if list_timer.reached_and_reset():
                     self.device.click(EMPTY_SLOT)
                 continue
             # Select
-            if click_timer.reached_and_reset():
-                self.device.click(CHARACTER_1)
-                self.device.click(CHARACTER_2)
+            if select_timer.reached_and_reset():
+                if not self.image_color_count(CHARACTER_1_SELECTED, (240, 240, 240)):
+                    self.device.click(CHARACTER_1)
+                if not self.image_color_count(CHARACTER_2_SELECTED, (240, 240, 240)):
+                    self.device.click(CHARACTER_2)
 
     def _select_duration(self, duration: int):
         if duration not in {4, 8, 12, 20}:
