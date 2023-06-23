@@ -9,7 +9,7 @@ COPY requirements.txt /tmp/requirements.txt
 
 # Initial download of UiAutomator2 is slow outside of China using appetizer mirror, switch to GitHub
 RUN apt update \
- && apt install -y git adb netcat libgomp1 \
+ && apt install -y git adb netcat-openbsd libgomp1 \
  && git config --global --add safe.directory '*' \
  && pip install -r /tmp/requirements.txt \
  && sed -i "s#path = mirror_download(url,#path = cache_download(url,#" /usr/local/lib/python3.7/site-packages/uiautomator2/init.py \
