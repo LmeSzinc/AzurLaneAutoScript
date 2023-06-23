@@ -7,9 +7,13 @@ from tasks.base.ui import UI
 from tasks.base.assets.assets_base_page import MENU_SCROLL
 from tasks.base.assets.assets_base_popup import CONFIRM_POPUP
 from tasks.daily.assets.assets_daily_synthesize_consumable import *
+from tasks.daily.assets.assets_daily_synthesize_material import *
 
 
 class SynthesizeUI(UI):
+    # Default list of candidate items
+    default_candidate_items = {}
+
     def ensure_scroll_top(self, page: str | Page, skip_first_screenshot=False) -> None:
         """
         Args:
@@ -57,54 +61,28 @@ class SynthesizeUI(UI):
                 scroll.set_top(main=self)
                 continue
 
-
-class SynthesizeConsumablesUI(SynthesizeUI):
-    def synthesize_consumables(self, target_button: ButtonWrapper = None,
-                               target_button_check: ButtonWrapper = None) -> bool:
-        """
-        Args:
-            target_button(ButtonWrapper):
-            target_button_check(ButtonWrapper):
-
-        Returns:
-            bool:
-
-        Examples:
-            self = SynthesizeConsumablesUI('alas')
-            self.device.screenshot()
-            result = self.synthesize_consumables()
-        """
-
-        logger.hr('Synthesize consumables', level=2)
+    def _ensure_synthesize_page(self):
         # If the current page is not the menu page,
         # the menu scroll bar must be at the top when opening the menu page from other page,
         # so first step is determine whether the scroll bar is at the top
         self.ensure_scroll_top(page=page_menu)
-
         self.ui_ensure(page_synthesize)
-        self._switch_tag_to_consumables()
-        self.ensure_scroll_top(page=page_synthesize)
-        if self._search_and_select_items(target_button, target_button_check):
-            self._open_synthesize_popup()
-            self._synthesize_confirm()
-            self._back_to_synthesize_page()
-            return True
-        else:
-            return False
 
-    def _switch_tag_to_consumables(self, skip_first_screenshot=True):
+    # Default subpage is consumables
+    def _switch_subpage(self, skip_first_screenshot=True, subpage: ButtonWrapper = SYNTHESIZE_GOTO_CONSUMABLES,
+                        subpage_check: ButtonWrapper = SYNTHESIZE_CONSUMABLES_CHECK):
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
-            if self.appear(SYNTHESIZE_CONSUMABLES_CHECK):
-                logger.info('Synthesize consumables page appear')
+            if self.appear(subpage_check):
+                logger.info(f'Synthesize {subpage.name} subpage appear')
                 break
-            # Switch to consumables subpage
-            if self.appear_then_click(SYNTHESIZE_GOTO_CONSUMABLES):
-                logger.info('Switch to consumables subpage')
+            # Switch to subpage
+            if self.appear_then_click(subpage):
+                logger.info(f'Switch to {subpage.name} subpage')
                 continue
 
     def _select_items(self, candidate_items: dict[ButtonWrapper, ButtonWrapper]) -> bool:
@@ -120,7 +98,7 @@ class SynthesizeConsumablesUI(SynthesizeUI):
                     else:
                         self.device.screenshot()
                     if self.appear(item_check):
-                        logger.info('Consumables that can be synthesized have been selected')
+                        logger.info('Item that can be synthesized has been selected')
                         return True
                     if self.appear_then_click(item, similarity=0.7):
                         continue
@@ -129,11 +107,8 @@ class SynthesizeConsumablesUI(SynthesizeUI):
 
     def _search_and_select_items(self, target_button: ButtonWrapper = None,
                                  target_button_check: ButtonWrapper = None) -> bool:
-        candidate_items = {target_button: target_button_check} if target_button and target_button_check else {
-            CONSUMABLES_TRICK_SNACK: CONSUMABLES_TRICK_SNACK_CHECK,
-            CONSUMABLES_COMFORT_FOOD: CONSUMABLES_COMFORT_FOOD_CHECK,
-            CONSUMABLES_SIMPLE_AED: CONSUMABLES_SIMPLE_AED_CHECK
-        }
+        candidate_items = {target_button: target_button_check} if target_button and target_button_check \
+            else self.__class__.default_candidate_items
 
         # Search target button from top to bottom
         scroll = Scroll(SYNTHESIZE_SCROLL.button, color=(210, 210, 210), name=SYNTHESIZE_SCROLL.name)
@@ -197,10 +172,81 @@ class SynthesizeConsumablesUI(SynthesizeUI):
             else:
                 self.device.screenshot()
 
-            if self.appear(SYNTHESIZE_CONSUMABLES_CHECK):
+            if self.appear(SYNTHESIZE_CHECK):
                 logger.info('Synthesize consumables page appear')
                 break
             # Go back to the previous page
             if self.appear_then_click(GET_REWARD):
-                logger.info('Click on the blank space to back to the synthesize consumables page')
+                logger.info('Click on the blank space to back to synthesize page')
                 continue
+
+    def _synthesize(self, target_button: ButtonWrapper = None,
+                    target_button_check: ButtonWrapper = None) -> bool:
+        self.ensure_scroll_top(page=page_synthesize)
+        if self._search_and_select_items(target_button, target_button_check):
+            self._open_synthesize_popup()
+            self._synthesize_confirm()
+            self._back_to_synthesize_page()
+            return True
+        else:
+            return False
+
+
+class SynthesizeConsumablesUI(SynthesizeUI):
+    # Selected three items that are easiest to obtain their synthetic materials
+    default_candidate_items = {
+        CONSUMABLES_TRICK_SNACK: CONSUMABLES_TRICK_SNACK_CHECK,
+        CONSUMABLES_COMFORT_FOOD: CONSUMABLES_COMFORT_FOOD_CHECK,
+        CONSUMABLES_SIMPLE_AED: CONSUMABLES_SIMPLE_AED_CHECK
+    }
+
+    def synthesize_consumables(self, target_button: ButtonWrapper = None,
+                               target_button_check: ButtonWrapper = None) -> bool:
+        """
+        Args:
+            target_button(ButtonWrapper):
+            target_button_check(ButtonWrapper):
+
+        Returns:
+            bool:
+
+        Examples:
+            self = SynthesizeConsumablesUI('alas')
+            self.device.screenshot()
+            result = self.synthesize_consumables()
+        """
+
+        logger.hr('Synthesize consumables', level=2)
+        self._ensure_synthesize_page()
+        self._switch_subpage(subpage=SYNTHESIZE_GOTO_CONSUMABLES, subpage_check=SYNTHESIZE_CONSUMABLES_CHECK)
+        return self._synthesize(target_button, target_button_check)
+
+
+class SynthesizeMaterialUI(SynthesizeUI):
+    # Selected three items that are easiest to obtain their synthetic materials
+    default_candidate_items = {
+        GLIMMERING_CORE: GLIMMERING_CORE_CHECK,
+        USURPERS_SCHEME: USURPERS_SCHEME_CHECK,
+        SILVERMANE_INSIGNIA: SILVERMANE_INSIGNIA_CHECK
+    }
+
+    def synthesize_material(self, target_button: ButtonWrapper = None,
+                            target_button_check: ButtonWrapper = None) -> bool:
+        """
+        Args:
+            target_button(ButtonWrapper):
+            target_button_check(ButtonWrapper):
+
+        Returns:
+            bool:
+
+        Examples:
+            self = SynthesizeMaterialUI('alas')
+            self.device.screenshot()
+            result = self.synthesize_material()
+        """
+
+        logger.hr('Synthesize material', level=2)
+        self._ensure_synthesize_page()
+        self._switch_subpage(subpage=SYNTHESIZE_GOTO_MATERIAL, subpage_check=SYNTHESIZE_MATERIAL_CHECK)
+        return self._synthesize(target_button, target_button_check)
