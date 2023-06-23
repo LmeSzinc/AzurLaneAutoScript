@@ -3,6 +3,7 @@ import numpy as np
 from module.base.timer import Timer
 from module.base.utils import get_color
 from module.logger.logger import logger
+from module.ocr.ocr import Digit
 from module.ui.switch import Switch
 from tasks.base.assets.assets_base_page import BATTLE_PASS_CHECK
 from tasks.base.assets.assets_base_popup import GET_REWARD
@@ -93,6 +94,7 @@ class BattlePassUI(UI):
 
     def _claim_exp(self, skip_first_screenshot=True):
         self.battle_pass_goto(KEYWORD_BATTLE_PASS_TAB.Missions)
+        claimed = False
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -102,8 +104,10 @@ class BattlePassUI(UI):
             if not self.appear(EXP_CLAIM_ALL):
                 break
             if self.appear_then_click(EXP_CLAIM_ALL):
+                claimed = True
                 logger.info("All EXP claimed")
                 continue
+        return claimed
 
     def _claim_rewards(self, skip_first_screenshot=True):
         self.battle_pass_goto(KEYWORD_BATTLE_PASS_TAB.Rewards)
@@ -134,15 +138,23 @@ class BattlePassUI(UI):
             if self.handle_reward():
                 continue
 
+    def _get_battle_pass_level(self):
+        digit = Digit(OCR_LEVEL)
+        return digit.ocr_single_line(self.device.image)
+
     def claim_battle_pass_rewards(self):
         """
         Examples:
             self = BattlePassUI('alas')
             self.device.screenshot()
-            self.claim_rewards()
+            self.claim_battle_pass_rewards()
         """
-        self._claim_exp()
-        self._claim_rewards()
+        self.ui_ensure(page_battle_pass)
+        previous_level = self._get_battle_pass_level()
+        claimed_exp = self._claim_exp()
+        if claimed_exp and previous_level != 50 and self._get_battle_pass_level() > previous_level:
+            logger.info("Upgraded, go to claim rewards")
+            self._claim_rewards()
         return True
 
     def run(self):

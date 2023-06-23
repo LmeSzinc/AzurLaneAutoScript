@@ -53,6 +53,16 @@ MISSIONS_LOADED = ButtonWrapper(
         button=(1163, 573, 1179, 589),
     ),
 )
+OCR_LEVEL = ButtonWrapper(
+    name='OCR_LEVEL',
+    share=Button(
+        file='./assets/share/battle_pass/OCR_LEVEL.png',
+        area=(183, 93, 240, 134),
+        search=(163, 73, 260, 154),
+        color=(90, 79, 60),
+        button=(183, 93, 240, 134),
+    ),
+)
 REWARDS_CHECK = ButtonWrapper(
     name='REWARDS_CHECK',
     share=Button(
