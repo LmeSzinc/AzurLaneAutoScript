@@ -427,6 +427,15 @@ class ConfigGenerator:
             'AdbExecutable': '/usr/bin/adb',
         }
 
+        linux = {
+            'GitExecutable': '/usr/bin/git',
+            'PythonExecutable': 'python',
+            'RequirementsFile': './deploy/headless/requirements.txt',
+            'AdbExecutable': '/usr/bin/adb',
+            'SSHExecutable': '/usr/bin/ssh',
+            'ReplaceAdb': 'false'
+        }
+
         def update(suffix, *args):
             file = f'./config/deploy.{suffix}.yaml'
             new = deepcopy(template)
@@ -440,6 +449,8 @@ class ConfigGenerator:
         update('template-AidLux-cn', aidlux, cn)
         update('template-docker', docker)
         update('template-docker-cn', docker, cn)
+        update('template-linux', linux)
+        update('template-linux-cn', linux, cn)
 
     def insert_package(self):
         option = deep_get(self.argument, keys='Emulator.PackageName.option')
