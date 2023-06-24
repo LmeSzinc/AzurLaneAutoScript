@@ -12,7 +12,6 @@ RUN apt update \
  && apt install -y git adb libgomp1 \
  && git config --global --add safe.directory '*' \
  && pip install -r /tmp/requirements.txt \
- && sed -i "s#path = mirror_download(url,#path = cache_download(url,#" /usr/local/lib/python3.7/site-packages/uiautomator2/init.py \
  && rm /tmp/requirements.txt \
  && rm -r ~/.cache/pip
 
