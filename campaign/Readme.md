@@ -146,3 +146,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20230525   | event 20220526 cn        | Pledge of the Radiant Court                  | -               | -                  | -                    | 泠誓光庭                        |
 | 20230525 | event 20230525 cn | Confluence of Nothingness | 空相交汇点 | Confluence of Nothingness | 覆天せし万象の塵 | - |
 | 20230621   | event 20210527 cn        | Mirror Involution Rerun                           | 复刻镜位螺旋               | Mirror Involution Rerun                           | 照らす螺旋の鏡海（復刻）                     | -                        |
+| 20230624   | event 20200603 cn        | Counterattack Within the Fjord               | -                      | -                                            | -                                    | 復刻峽灣間的反擊          |
