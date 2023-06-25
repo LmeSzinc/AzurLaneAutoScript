@@ -12,7 +12,7 @@ from module.ocr.ocr import Digit, DigitCounter
 from module.raid.assets import *
 from module.raid.combat import RaidCombat
 from module.ui.assets import RAID_CHECK
-from module.log_res.log_res import LogRes
+from module.log_res import LogRes
 
 
 class OilExhausted(Exception):

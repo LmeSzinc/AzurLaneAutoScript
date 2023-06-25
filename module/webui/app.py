@@ -47,7 +47,7 @@ from module.config.utils import (
     read_file,
 )
 from module.config.utils import time_delta
-from module.log_res.log_res import LogRes
+from module.log_res import LogRes
 from module.logger import logger
 from module.ocr.rpc import start_ocr_server_process, stop_ocr_server_process
 from module.submodule.submodule import load_config
