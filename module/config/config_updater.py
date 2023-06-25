@@ -276,11 +276,15 @@ class ConfigGenerator:
                 deep_load(['Task', task])
         # Arguments
         visited_group = set()
+        key=[]
+        for i in range(1):
+            key = deep_get(d=read_file(filepath_argument("task")), keys='Dashboard.tasks.Dashboard')
         for path, data in deep_iter(self.argument, depth=2):
-            if path[0] not in visited_group:
-                deep_load([path[0], '_info'])
-                visited_group.add(path[0])
-            deep_load(path)
+            if path[0] not in key:
+                if path[0] not in visited_group:
+                    deep_load([path[0], '_info'])
+                    visited_group.add(path[0])
+                deep_load(path)
             if 'option' in data:
                 deep_load(path, words=data['option'], default=False)
         # Event names
