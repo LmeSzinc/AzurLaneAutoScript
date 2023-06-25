@@ -49,6 +49,11 @@ MenuDevelop:
 Overview:
   Scheduler:
   Dashboard:
+  Log:
+  Running:
+  Pending:
+  Waiting:
+  NoTask:
   SecondsAgo:
   MinutesAgo:
   HoursAgo:
@@ -68,11 +73,6 @@ Overview:
   Medal:
   Core:
   GuildCoin:
-  Log:
-  Running:
-  Pending:
-  Waiting:
-  NoTask:
 
 AddAlas:
   PopupTitle:

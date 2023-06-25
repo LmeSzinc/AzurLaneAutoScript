@@ -421,6 +421,7 @@ OpsiHazard1Leveling:
     Submarine: false
 
 # ==================== Dashboard ====================
+
 Dashboard:
   Oil:
     Color: ^000000
