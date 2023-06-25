@@ -93,6 +93,7 @@ ASSIGNMENT_ENTRY_LIST = DraggableList(
     keyword_class=AssignmentEntry,
     ocr_class=AssignmentOcr,
     search_button=OCR_ASSIGNMENT_LIST,
+    check_row_order=False,
     active_color=(40, 40, 40)
 )
 

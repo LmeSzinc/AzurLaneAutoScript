@@ -15,8 +15,15 @@ from tasks.daily.synthesize import SynthesizeUI
 class Assignment(AssignmentClaim, SynthesizeUI):
     def run(self, assignments: list[AssignmentEntry] = None, duration: int = None):
         if assignments is None:
-            assignments = [AssignmentEntry.find(
-                x.strip()) for x in self.config.Assignment_Filter.split('>')]
+            assignments = (
+                getattr(self.config, f'Assignment_Name_{i+1}', None) for i in range(4))
+            # remove duplicate while keeping order
+            assignments = list(dict.fromkeys(
+                x for x in assignments if x is not None))
+            assignments = [AssignmentEntry.find(x) for x in assignments]
+            if len(assignments) < 4:
+                logger.warning(
+                    'There are duplicate assignments in config, check it out')
         if duration is None:
             duration = self.config.Assignment_Duration
 

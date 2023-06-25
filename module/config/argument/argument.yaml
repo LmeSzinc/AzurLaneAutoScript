@@ -79,8 +79,19 @@ Dungeon:
     option: [ 1, 2, 3, 4, 5, 6 ]
 
 Assignment:
-  Filter: |-
-    Nameless Land Nameless People > Akashic Records > The Invisible Hand > Root Out the Turpitude
   Duration:
     value: 20
     option: [4, 8, 12, 20]
+  # Options in Name_x will be injected in config updater
+  Name_1:
+    value: Nameless_Land_Nameless_People
+    option: [Nameless_Land_Nameless_People, ] 
+  Name_2:
+    value: Akashic_Records
+    option: [Nameless_Land_Nameless_People, ] 
+  Name_3:
+    value: The_Invisible_Hand
+    option: [Nameless_Land_Nameless_People, ] 
+  Name_4:
+    value: Nine_Billion_Names
+    option: [Nameless_Land_Nameless_People, ] 

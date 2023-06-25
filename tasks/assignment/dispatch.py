@@ -47,8 +47,8 @@ class AssignmentDispatch(AssignmentUI):
             out: CHARACTER_LIST
         """
         skip_first_screenshot = True
-        list_timer = Timer(2, count=3)
-        select_timer = Timer(2, count=3)
+        self.interval_clear(
+            (CHARACTER_LIST, CHARACTER_1_SELECTED, CHARACTER_2_SELECTED), interval=2)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -60,13 +60,17 @@ class AssignmentDispatch(AssignmentUI):
                 break
             # Ensure character list
             if not self.appear(CHARACTER_LIST):
-                if list_timer.reached_and_reset():
+                if self.interval_is_reached(CHARACTER_LIST, interval=2):
+                    self.interval_reset(CHARACTER_LIST, interval=2)
                     self.device.click(EMPTY_SLOT)
                 continue
             # Select
-            if select_timer.reached_and_reset():
+            if self.interval_is_reached(CHARACTER_1_SELECTED, interval=2):
+                self.interval_reset(CHARACTER_1_SELECTED, interval=2)
                 if not self.image_color_count(CHARACTER_1_SELECTED, (240, 240, 240)):
                     self.device.click(CHARACTER_1)
+            if self.interval_is_reached(CHARACTER_2_SELECTED, interval=2):
+                self.interval_reset(CHARACTER_2_SELECTED, interval=2)
                 if not self.image_color_count(CHARACTER_2_SELECTED, (240, 240, 240)):
                     self.device.click(CHARACTER_2)
 

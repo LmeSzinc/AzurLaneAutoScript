@@ -31,8 +31,8 @@
       "help": ""
     },
     "Assignment": {
-      "name": "Task.Assignment.name",
-      "help": "Task.Assignment.help"
+      "name": "依頼設定",
+      "help": ""
     }
   },
   "Scheduler": {
@@ -222,20 +222,84 @@
   },
   "Assignment": {
     "_info": {
-      "name": "Assignment._info.name",
-      "help": "Assignment._info.help"
-    },
-    "Filter": {
-      "name": "Assignment.Filter.name",
-      "help": "Assignment.Filter.help"
+      "name": "依頼設定",
+      "help": ""
     },
     "Duration": {
-      "name": "Assignment.Duration.name",
-      "help": "Assignment.Duration.help",
+      "name": "派遣時間",
+      "help": "",
       "4": "4",
       "8": "8",
       "12": "12",
       "20": "20"
+    },
+    "Name_1": {
+      "name": "依頼 1",
+      "help": "",
+      "Nine_Billion_Names": "消滅した原核（九十億の御名）",
+      "Destruction_of_the_Destroyer": "略奪の本能（壊滅者の覆没）",
+      "Winter_Soldiers": "シルバーメインの釦（寒冬の戦士たち）",
+      "Born_to_Obey": "古代パーツ（生まれながらに服従する）",
+      "Root_Out_the_Turpitude": "永寿の萌芽（悪孽を根絶やしに）",
+      "Fire_Lord_Inflames_Blades_of_War": "工造機関（剣戟を焼却する火帝炉）",
+      "Nameless_Land_Nameless_People": "キャラクターの経験値素材（無名の地、無名の人）",
+      "Akashic_Records": "光円錐強化素材（アーカーシャの記録）",
+      "The_Invisible_Hand": "信用ポイント（見えざる手）",
+      "Abandoned_and_Insulted": "燃素と金属（捨てられしものと傷つけられしもの）",
+      "Spring_of_Life": "仮想粒子と固形純水（生命の泉）",
+      "The_Land_of_Gold": "タンパク米と基本食材（黄金の大地）",
+      "The_Blossom_in_the_Storm": "気態流体と種子（嵐の中で咲き誇る花）"
+    },
+    "Name_2": {
+      "name": "依頼 2",
+      "help": "",
+      "Nine_Billion_Names": "消滅した原核（九十億の御名）",
+      "Destruction_of_the_Destroyer": "略奪の本能（壊滅者の覆没）",
+      "Winter_Soldiers": "シルバーメインの釦（寒冬の戦士たち）",
+      "Born_to_Obey": "古代パーツ（生まれながらに服従する）",
+      "Root_Out_the_Turpitude": "永寿の萌芽（悪孽を根絶やしに）",
+      "Fire_Lord_Inflames_Blades_of_War": "工造機関（剣戟を焼却する火帝炉）",
+      "Nameless_Land_Nameless_People": "キャラクターの経験値素材（無名の地、無名の人）",
+      "Akashic_Records": "光円錐強化素材（アーカーシャの記録）",
+      "The_Invisible_Hand": "信用ポイント（見えざる手）",
+      "Abandoned_and_Insulted": "燃素と金属（捨てられしものと傷つけられしもの）",
+      "Spring_of_Life": "仮想粒子と固形純水（生命の泉）",
+      "The_Land_of_Gold": "タンパク米と基本食材（黄金の大地）",
+      "The_Blossom_in_the_Storm": "気態流体と種子（嵐の中で咲き誇る花）"
+    },
+    "Name_3": {
+      "name": "依頼 3",
+      "help": "",
+      "Nine_Billion_Names": "消滅した原核（九十億の御名）",
+      "Destruction_of_the_Destroyer": "略奪の本能（壊滅者の覆没）",
+      "Winter_Soldiers": "シルバーメインの釦（寒冬の戦士たち）",
+      "Born_to_Obey": "古代パーツ（生まれながらに服従する）",
+      "Root_Out_the_Turpitude": "永寿の萌芽（悪孽を根絶やしに）",
+      "Fire_Lord_Inflames_Blades_of_War": "工造機関（剣戟を焼却する火帝炉）",
+      "Nameless_Land_Nameless_People": "キャラクターの経験値素材（無名の地、無名の人）",
+      "Akashic_Records": "光円錐強化素材（アーカーシャの記録）",
+      "The_Invisible_Hand": "信用ポイント（見えざる手）",
+      "Abandoned_and_Insulted": "燃素と金属（捨てられしものと傷つけられしもの）",
+      "Spring_of_Life": "仮想粒子と固形純水（生命の泉）",
+      "The_Land_of_Gold": "タンパク米と基本食材（黄金の大地）",
+      "The_Blossom_in_the_Storm": "気態流体と種子（嵐の中で咲き誇る花）"
+    },
+    "Name_4": {
+      "name": "依頼 4",
+      "help": "",
+      "Nine_Billion_Names": "消滅した原核（九十億の御名）",
+      "Destruction_of_the_Destroyer": "略奪の本能（壊滅者の覆没）",
+      "Winter_Soldiers": "シルバーメインの釦（寒冬の戦士たち）",
+      "Born_to_Obey": "古代パーツ（生まれながらに服従する）",
+      "Root_Out_the_Turpitude": "永寿の萌芽（悪孽を根絶やしに）",
+      "Fire_Lord_Inflames_Blades_of_War": "工造機関（剣戟を焼却する火帝炉）",
+      "Nameless_Land_Nameless_People": "キャラクターの経験値素材（無名の地、無名の人）",
+      "Akashic_Records": "光円錐強化素材（アーカーシャの記録）",
+      "The_Invisible_Hand": "信用ポイント（見えざる手）",
+      "Abandoned_and_Insulted": "燃素と金属（捨てられしものと傷つけられしもの）",
+      "Spring_of_Life": "仮想粒子と固形純水（生命の泉）",
+      "The_Land_of_Gold": "タンパク米と基本食材（黄金の大地）",
+      "The_Blossom_in_the_Storm": "気態流体と種子（嵐の中で咲き誇る花）"
     }
   },
   "Gui": {

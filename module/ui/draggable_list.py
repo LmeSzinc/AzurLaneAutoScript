@@ -28,6 +28,7 @@ class DraggableList:
             keyword_class,
             ocr_class,
             search_button: ButtonWrapper,
+            check_row_order: bool = True,
             active_color: tuple[int, int, int] = (190, 175, 124)
     ):
         """
@@ -43,6 +44,7 @@ class DraggableList:
             keyword_class = keyword_class[0]
         self.known_rows = list(keyword_class.instances.values())
         self.search_button = search_button
+        self.check_row_order = check_row_order
         self.active_color = active_color
 
         self.row_min = 1
@@ -89,7 +91,7 @@ class DraggableList:
                    for row in self.cur_buttons]
         indexes = [index for index in indexes if index]
         # Check row order
-        if len(indexes) >= 2:
+        if self.check_row_order and len(indexes) >= 2:
             if not np.all(np.diff(indexes) > 0):
                 logger.warning(
                     f'Rows given to {self} are not ascending sorted')
