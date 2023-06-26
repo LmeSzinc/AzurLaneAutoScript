@@ -68,7 +68,6 @@ class BattlePassUI(UI):
             self.battle_pass_goto(KEYWORDS_DUNGEON_TAB.Missions)
             self.battle_pass_goto(KEYWORDS_DUNGEON_TAB.Rewards)
         """
-        logger.hr('Battle pass tab goto', level=2)
         self.ui_ensure(page_battle_pass)
         if SWITCH_BATTLE_PASS_TAB.set(state, main=self):
             logger.info(f'Tab goto {state}, wait until loaded')
@@ -93,6 +92,7 @@ class BattlePassUI(UI):
         return False
 
     def _claim_exp(self, skip_first_screenshot=True):
+        logger.hr('Claim EXP', level=1)
         self.battle_pass_goto(KEYWORD_BATTLE_PASS_TAB.Missions)
         claimed = False
         while 1:
@@ -102,14 +102,18 @@ class BattlePassUI(UI):
                 self.device.screenshot()
 
             if not self.appear(EXP_CLAIM_ALL):
+                logger.info('No more EXP to claim')
                 break
             if self.appear_then_click(EXP_CLAIM_ALL):
                 claimed = True
                 logger.info("All EXP claimed")
                 continue
+
+        logger.attr('EXP claimed', claimed)
         return claimed
 
     def _claim_rewards(self, skip_first_screenshot=True):
+        logger.hr('Claim rewards', level=1)
         self.battle_pass_goto(KEYWORD_BATTLE_PASS_TAB.Rewards)
         while 1:
             if skip_first_screenshot:
@@ -117,7 +121,11 @@ class BattlePassUI(UI):
             else:
                 self.device.screenshot()
 
-            if self.appear(GET_REWARD) or self.appear(CLOSE_CHOOSE_GIFT):
+            if self.appear(GET_REWARD):
+                logger.info('Get reward')
+                break
+            if self.appear(CLOSE_CHOOSE_GIFT):
+                logger.info('Got reward but have gift to choose')
                 break
             if self.appear_then_click(REWARDS_CLAIM_ALL):
                 continue
