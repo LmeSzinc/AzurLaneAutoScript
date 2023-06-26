@@ -3,6 +3,16 @@ from module.base.button import Button, ButtonWrapper
 # This file was auto-generated, do not modify it manually. To generate:
 # ``` python -m dev_tools.button_extract ```
 
+ASSIGNMENT_CHECK = ButtonWrapper(
+    name='ASSIGNMENT_CHECK',
+    share=Button(
+        file='./assets/share/base/page/ASSIGNMENT_CHECK.png',
+        area=(45, 21, 70, 53),
+        search=(25, 1, 90, 73),
+        color=(162, 145, 112),
+        button=(45, 21, 70, 53),
+    ),
+)
 BATTLE_PASS_CHECK = ButtonWrapper(
     name='BATTLE_PASS_CHECK',
     share=Button(
@@ -211,6 +221,16 @@ MENU_CHECK = ButtonWrapper(
         search=(1202, 618, 1272, 689),
         color=(57, 50, 39),
         button=(1222, 638, 1252, 669),
+    ),
+)
+MENU_GOTO_ASSIGNMENT = ButtonWrapper(
+    name='MENU_GOTO_ASSIGNMENT',
+    share=Button(
+        file='./assets/share/base/page/MENU_GOTO_ASSIGNMENT.png',
+        area=(1090, 269, 1153, 328),
+        search=(1070, 249, 1173, 348),
+        color=(71, 71, 74),
+        button=(1090, 269, 1153, 328),
     ),
 )
 MENU_GOTO_CAMERA = ButtonWrapper(

@@ -1,7 +1,8 @@
+import re
 import time
+from datetime import timedelta
 
 import cv2
-import re
 from ppocronnx.predict_system import BoxedResult
 
 import module.config.server as server
@@ -257,3 +258,33 @@ class DigitCounter(Ocr):
         else:
             logger.warning(f'No digit counter found in {result}')
             return 0, 0, 0
+
+
+class Duration(Ocr):
+    @cached_property
+    def timedelta_regex(self):
+        regex_str = {
+            'ch': r'\D*((?P<hours>\d{1,2})小时)?((?P<minutes>\d{1,2})分钟)?((?P<seconds>\d{1,2})秒})?',
+            'en': r'\D*((?P<hours>\d{1,2})h\s*)?((?P<minutes>\d{1,2})m\s*)?((?P<seconds>\d{1,2})s)?'
+        }[self.lang]
+        return re.compile(regex_str)
+
+    def format_result(self, result: str) -> timedelta:
+        """
+        Do OCR on a duration, such as `2h 13m 30s`, `2h`, `13m 30s`, `9s`
+
+        Returns:
+            timedelta:
+        """
+        matched = self.timedelta_regex.match(result)
+        if matched is None:
+            return timedelta()
+        hours = self._sanitize_number(matched.group('hours'))
+        minutes = self._sanitize_number(matched.group('minutes'))
+        seconds = self._sanitize_number(matched.group('seconds'))
+        return timedelta(hours=hours, minutes=minutes, seconds=seconds)
+
+    def _sanitize_number(self, number) -> int:
+        if number is None:
+            return 0
+        return int(number)

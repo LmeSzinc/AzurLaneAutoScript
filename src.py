@@ -34,6 +34,10 @@ class StarRailCopilot(AzurLaneAutoScript):
         from tasks.battle_pass.battle_pass import BattlePassUI
         BattlePassUI(config=self.config, device=self.device).run()
 
+    def assignment(self):
+        from tasks.assignment.assignment import Assignment
+        Assignment(config=self.config, device=self.device).run()
+
 
 if __name__ == '__main__':
     src = StarRailCopilot('src')

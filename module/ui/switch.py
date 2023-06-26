@@ -7,7 +7,7 @@ from module.logger import logger
 
 class Switch:
     """
-    A wrapper to handle switches in game, switch among states with reties.
+    A wrapper to handle switches in game, switch among states with retries.
 
     Examples:
         # Definitions

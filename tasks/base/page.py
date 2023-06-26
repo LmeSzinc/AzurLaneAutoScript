@@ -135,3 +135,8 @@ page_menu.link(MENU_GOTO_CAMERA, destination=page_camera)
 page_synthesize = Page(SYNTHESIZE_CHECK)
 page_synthesize.link(CLOSE, destination=page_menu)
 page_menu.link(MENU_GOTO_SYNTHESIZE, destination=page_synthesize)
+
+# Assignment
+page_assignment = Page(ASSIGNMENT_CHECK)
+page_assignment.link(CLOSE, destination=page_main)
+page_menu.link(MENU_GOTO_ASSIGNMENT, destination=page_assignment)

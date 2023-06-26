@@ -29,6 +29,10 @@
     "BattlePass": {
       "name": "Nameless Honor",
       "help": ""
+    },
+    "Assignment": {
+      "name": "Assignment",
+      "help": ""
     }
   },
   "Scheduler": {
@@ -214,6 +218,88 @@
       "4": "4",
       "5": "5",
       "6": "6"
+    }
+  },
+  "Assignment": {
+    "_info": {
+      "name": "Assignment Settings",
+      "help": "Claim rewards and dispatch, handling specified assignments first\nIf the assignment limit is not reached after that, others will be dispatched according to preset priority (EXP Materials/Credits → Character Materials → Synthesis Materials)"
+    },
+    "Duration": {
+      "name": "Dispatch Duration",
+      "help": "",
+      "4": "4",
+      "8": "8",
+      "12": "12",
+      "20": "20"
+    },
+    "Name_1": {
+      "name": "Assignment 1 Preference",
+      "help": "",
+      "Nine_Billion_Names": "Extinguished Core (Nine Billion Names)",
+      "Destruction_of_the_Destroyer": "Thief's Instinct (Destruction of the Destroyer)",
+      "Winter_Soldiers": "Silvermane Badge (Winter Soldiers)",
+      "Born_to_Obey": "Ancient Part (Born to Obey)",
+      "Root_Out_the_Turpitude": "Immortal Scionette (Root Out the Turpitude)",
+      "Fire_Lord_Inflames_Blades_of_War": "Artifex's Module (Fire Lord Inflames Blades of War)",
+      "Nameless_Land_Nameless_People": "Character EXP Material (Nameless Land, Nameless People)",
+      "Akashic_Records": "Light Cone EXP Material (Akashic Records)",
+      "The_Invisible_Hand": "Credit (The Invisible Hand)",
+      "Abandoned_and_Insulted": "Phlogiston & Metal (Abandoned and Insulted)",
+      "Spring_of_Life": "Virtual Particle & Solid Water (Spring of Life)",
+      "The_Land_of_Gold": "Protein Rice & Basic Ingredients (The Land of Gold)",
+      "The_Blossom_in_the_Storm": "Gaseous Liquid & Seed (The Blossom in the Storm)"
+    },
+    "Name_2": {
+      "name": "Assignment 2 Preference",
+      "help": "",
+      "Nine_Billion_Names": "Extinguished Core (Nine Billion Names)",
+      "Destruction_of_the_Destroyer": "Thief's Instinct (Destruction of the Destroyer)",
+      "Winter_Soldiers": "Silvermane Badge (Winter Soldiers)",
+      "Born_to_Obey": "Ancient Part (Born to Obey)",
+      "Root_Out_the_Turpitude": "Immortal Scionette (Root Out the Turpitude)",
+      "Fire_Lord_Inflames_Blades_of_War": "Artifex's Module (Fire Lord Inflames Blades of War)",
+      "Nameless_Land_Nameless_People": "Character EXP Material (Nameless Land, Nameless People)",
+      "Akashic_Records": "Light Cone EXP Material (Akashic Records)",
+      "The_Invisible_Hand": "Credit (The Invisible Hand)",
+      "Abandoned_and_Insulted": "Phlogiston & Metal (Abandoned and Insulted)",
+      "Spring_of_Life": "Virtual Particle & Solid Water (Spring of Life)",
+      "The_Land_of_Gold": "Protein Rice & Basic Ingredients (The Land of Gold)",
+      "The_Blossom_in_the_Storm": "Gaseous Liquid & Seed (The Blossom in the Storm)"
+    },
+    "Name_3": {
+      "name": "Assignment 3 Preference",
+      "help": "",
+      "Nine_Billion_Names": "Extinguished Core (Nine Billion Names)",
+      "Destruction_of_the_Destroyer": "Thief's Instinct (Destruction of the Destroyer)",
+      "Winter_Soldiers": "Silvermane Badge (Winter Soldiers)",
+      "Born_to_Obey": "Ancient Part (Born to Obey)",
+      "Root_Out_the_Turpitude": "Immortal Scionette (Root Out the Turpitude)",
+      "Fire_Lord_Inflames_Blades_of_War": "Artifex's Module (Fire Lord Inflames Blades of War)",
+      "Nameless_Land_Nameless_People": "Character EXP Material (Nameless Land, Nameless People)",
+      "Akashic_Records": "Light Cone EXP Material (Akashic Records)",
+      "The_Invisible_Hand": "Credit (The Invisible Hand)",
+      "Abandoned_and_Insulted": "Phlogiston & Metal (Abandoned and Insulted)",
+      "Spring_of_Life": "Virtual Particle & Solid Water (Spring of Life)",
+      "The_Land_of_Gold": "Protein Rice & Basic Ingredients (The Land of Gold)",
+      "The_Blossom_in_the_Storm": "Gaseous Liquid & Seed (The Blossom in the Storm)"
+    },
+    "Name_4": {
+      "name": "Assignment 4 Preference",
+      "help": "",
+      "Nine_Billion_Names": "Extinguished Core (Nine Billion Names)",
+      "Destruction_of_the_Destroyer": "Thief's Instinct (Destruction of the Destroyer)",
+      "Winter_Soldiers": "Silvermane Badge (Winter Soldiers)",
+      "Born_to_Obey": "Ancient Part (Born to Obey)",
+      "Root_Out_the_Turpitude": "Immortal Scionette (Root Out the Turpitude)",
+      "Fire_Lord_Inflames_Blades_of_War": "Artifex's Module (Fire Lord Inflames Blades of War)",
+      "Nameless_Land_Nameless_People": "Character EXP Material (Nameless Land, Nameless People)",
+      "Akashic_Records": "Light Cone EXP Material (Akashic Records)",
+      "The_Invisible_Hand": "Credit (The Invisible Hand)",
+      "Abandoned_and_Insulted": "Phlogiston & Metal (Abandoned and Insulted)",
+      "Spring_of_Life": "Virtual Particle & Solid Water (Spring of Life)",
+      "The_Land_of_Gold": "Protein Rice & Basic Ingredients (The Land of Gold)",
+      "The_Blossom_in_the_Storm": "Gaseous Liquid & Seed (The Blossom in the Storm)"
     }
   },
   "Gui": {

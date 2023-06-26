@@ -13,7 +13,8 @@
     "tasks": [
       "Dungeon",
       "DailyQuest",
-      "BattlePass"
+      "BattlePass",
+      "Assignment"
     ]
   }
 }

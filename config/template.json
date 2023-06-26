@@ -59,5 +59,20 @@
       "Command": "BattlePass",
       "ServerUpdate": "04:00"
     }
+  },
+  "Assignment": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Assignment",
+      "ServerUpdate": "04:00"
+    },
+    "Assignment": {
+      "Duration": 20,
+      "Name_1": "Nameless_Land_Nameless_People",
+      "Name_2": "Akashic_Records",
+      "Name_3": "The_Invisible_Hand",
+      "Name_4": "Nine_Billion_Names"
+    }
   }
 }

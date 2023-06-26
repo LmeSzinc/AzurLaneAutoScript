@@ -258,5 +258,116 @@
         "display": "hide"
       }
     }
+  },
+  "Assignment": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "Assignment",
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "04:00",
+        "display": "hide"
+      }
+    },
+    "Assignment": {
+      "Duration": {
+        "type": "select",
+        "value": 20,
+        "option": [
+          4,
+          8,
+          12,
+          20
+        ]
+      },
+      "Name_1": {
+        "type": "select",
+        "value": "Nameless_Land_Nameless_People",
+        "option": [
+          "Nine_Billion_Names",
+          "Destruction_of_the_Destroyer",
+          "Winter_Soldiers",
+          "Born_to_Obey",
+          "Root_Out_the_Turpitude",
+          "Fire_Lord_Inflames_Blades_of_War",
+          "Nameless_Land_Nameless_People",
+          "Akashic_Records",
+          "The_Invisible_Hand",
+          "Abandoned_and_Insulted",
+          "Spring_of_Life",
+          "The_Land_of_Gold",
+          "The_Blossom_in_the_Storm"
+        ]
+      },
+      "Name_2": {
+        "type": "select",
+        "value": "Akashic_Records",
+        "option": [
+          "Nine_Billion_Names",
+          "Destruction_of_the_Destroyer",
+          "Winter_Soldiers",
+          "Born_to_Obey",
+          "Root_Out_the_Turpitude",
+          "Fire_Lord_Inflames_Blades_of_War",
+          "Nameless_Land_Nameless_People",
+          "Akashic_Records",
+          "The_Invisible_Hand",
+          "Abandoned_and_Insulted",
+          "Spring_of_Life",
+          "The_Land_of_Gold",
+          "The_Blossom_in_the_Storm"
+        ]
+      },
+      "Name_3": {
+        "type": "select",
+        "value": "The_Invisible_Hand",
+        "option": [
+          "Nine_Billion_Names",
+          "Destruction_of_the_Destroyer",
+          "Winter_Soldiers",
+          "Born_to_Obey",
+          "Root_Out_the_Turpitude",
+          "Fire_Lord_Inflames_Blades_of_War",
+          "Nameless_Land_Nameless_People",
+          "Akashic_Records",
+          "The_Invisible_Hand",
+          "Abandoned_and_Insulted",
+          "Spring_of_Life",
+          "The_Land_of_Gold",
+          "The_Blossom_in_the_Storm"
+        ]
+      },
+      "Name_4": {
+        "type": "select",
+        "value": "Nine_Billion_Names",
+        "option": [
+          "Nine_Billion_Names",
+          "Destruction_of_the_Destroyer",
+          "Winter_Soldiers",
+          "Born_to_Obey",
+          "Root_Out_the_Turpitude",
+          "Fire_Lord_Inflames_Blades_of_War",
+          "Nameless_Land_Nameless_People",
+          "Akashic_Records",
+          "The_Invisible_Hand",
+          "Abandoned_and_Insulted",
+          "Spring_of_Life",
+          "The_Land_of_Gold",
+          "The_Blossom_in_the_Storm"
+        ]
+      }
+    }
   }
 }

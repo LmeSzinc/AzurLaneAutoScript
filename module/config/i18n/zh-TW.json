@@ -29,6 +29,10 @@
     "BattlePass": {
       "name": "無名勳禮",
       "help": ""
+    },
+    "Assignment": {
+      "name": "委託設置",
+      "help": ""
     }
   },
   "Scheduler": {
@@ -214,6 +218,88 @@
       "4": "4",
       "5": "5",
       "6": "6"
+    }
+  },
+  "Assignment": {
+    "_info": {
+      "name": "委託設置",
+      "help": "領取獎勵並派遣，優先處理指定委託\n若處理指定委託之後未達到上限，則按經驗材料 → 角色專屬素材 → 合成材料的順序來派遣委託"
+    },
+    "Duration": {
+      "name": "派遣時間",
+      "help": "",
+      "4": "4",
+      "8": "8",
+      "12": "12",
+      "20": "20"
+    },
+    "Name_1": {
+      "name": "第1個委託選擇",
+      "help": "",
+      "Nine_Billion_Names": "熄滅原核（九十億個名字）",
+      "Destruction_of_the_Destroyer": "掠奪的本能（毀滅者的覆滅）",
+      "Winter_Soldiers": "鐵衛扣飾（寒冬的戰士們）",
+      "Born_to_Obey": "古代零件（生而服從）",
+      "Root_Out_the_Turpitude": "永壽幼芽（根除惡孽）",
+      "Fire_Lord_Inflames_Blades_of_War": "工造機杼（火帝動爐銷劍戟）",
+      "Nameless_Land_Nameless_People": "角色經驗材料（無名之地，無名之人）",
+      "Akashic_Records": "光錐強化材料（阿卡夏記錄）",
+      "The_Invisible_Hand": "信用點（看不見的手）",
+      "Abandoned_and_Insulted": "燃素&金屬（被廢棄與損害的）",
+      "Spring_of_Life": "虛粒子&固態淨水（生命之泉）",
+      "The_Land_of_Gold": "蛋白米&基本食材（黃金大地）",
+      "The_Blossom_in_the_Storm": "氣態流體&種子（風暴中怒放的花）"
+    },
+    "Name_2": {
+      "name": "第2個委託選擇",
+      "help": "",
+      "Nine_Billion_Names": "熄滅原核（九十億個名字）",
+      "Destruction_of_the_Destroyer": "掠奪的本能（毀滅者的覆滅）",
+      "Winter_Soldiers": "鐵衛扣飾（寒冬的戰士們）",
+      "Born_to_Obey": "古代零件（生而服從）",
+      "Root_Out_the_Turpitude": "永壽幼芽（根除惡孽）",
+      "Fire_Lord_Inflames_Blades_of_War": "工造機杼（火帝動爐銷劍戟）",
+      "Nameless_Land_Nameless_People": "角色經驗材料（無名之地，無名之人）",
+      "Akashic_Records": "光錐強化材料（阿卡夏記錄）",
+      "The_Invisible_Hand": "信用點（看不見的手）",
+      "Abandoned_and_Insulted": "燃素&金屬（被廢棄與損害的）",
+      "Spring_of_Life": "虛粒子&固態淨水（生命之泉）",
+      "The_Land_of_Gold": "蛋白米&基本食材（黃金大地）",
+      "The_Blossom_in_the_Storm": "氣態流體&種子（風暴中怒放的花）"
+    },
+    "Name_3": {
+      "name": "第3個委託選擇",
+      "help": "",
+      "Nine_Billion_Names": "熄滅原核（九十億個名字）",
+      "Destruction_of_the_Destroyer": "掠奪的本能（毀滅者的覆滅）",
+      "Winter_Soldiers": "鐵衛扣飾（寒冬的戰士們）",
+      "Born_to_Obey": "古代零件（生而服從）",
+      "Root_Out_the_Turpitude": "永壽幼芽（根除惡孽）",
+      "Fire_Lord_Inflames_Blades_of_War": "工造機杼（火帝動爐銷劍戟）",
+      "Nameless_Land_Nameless_People": "角色經驗材料（無名之地，無名之人）",
+      "Akashic_Records": "光錐強化材料（阿卡夏記錄）",
+      "The_Invisible_Hand": "信用點（看不見的手）",
+      "Abandoned_and_Insulted": "燃素&金屬（被廢棄與損害的）",
+      "Spring_of_Life": "虛粒子&固態淨水（生命之泉）",
+      "The_Land_of_Gold": "蛋白米&基本食材（黃金大地）",
+      "The_Blossom_in_the_Storm": "氣態流體&種子（風暴中怒放的花）"
+    },
+    "Name_4": {
+      "name": "第4個委託選擇",
+      "help": "",
+      "Nine_Billion_Names": "熄滅原核（九十億個名字）",
+      "Destruction_of_the_Destroyer": "掠奪的本能（毀滅者的覆滅）",
+      "Winter_Soldiers": "鐵衛扣飾（寒冬的戰士們）",
+      "Born_to_Obey": "古代零件（生而服從）",
+      "Root_Out_the_Turpitude": "永壽幼芽（根除惡孽）",
+      "Fire_Lord_Inflames_Blades_of_War": "工造機杼（火帝動爐銷劍戟）",
+      "Nameless_Land_Nameless_People": "角色經驗材料（無名之地，無名之人）",
+      "Akashic_Records": "光錐強化材料（阿卡夏記錄）",
+      "The_Invisible_Hand": "信用點（看不見的手）",
+      "Abandoned_and_Insulted": "燃素&金屬（被廢棄與損害的）",
+      "Spring_of_Life": "虛粒子&固態淨水（生命之泉）",
+      "The_Land_of_Gold": "蛋白米&基本食材（黃金大地）",
+      "The_Blossom_in_the_Storm": "氣態流體&種子（風暴中怒放的花）"
     }
   },
   "Gui": {

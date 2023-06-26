@@ -209,7 +209,7 @@ class ModuleBase:
     def interval_reset(self, button, interval=5):
         if isinstance(button, (list, tuple)):
             for b in button:
-                self.interval_reset(b)
+                self.interval_reset(b, interval)
             return
 
         if button.name in self.interval_timer:
@@ -220,7 +220,7 @@ class ModuleBase:
     def interval_clear(self, button, interval=5):
         if isinstance(button, (list, tuple)):
             for b in button:
-                self.interval_clear(b)
+                self.interval_clear(b, interval)
             return
 
         if button.name in self.interval_timer:
