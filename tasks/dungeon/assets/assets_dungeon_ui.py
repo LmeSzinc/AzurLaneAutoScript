@@ -98,7 +98,7 @@ SURVIVAL_INDEX_LOADED = ButtonWrapper(
     share=Button(
         file='./assets/share/dungeon/ui/SURVIVAL_INDEX_LOADED.png',
         area=(451, 244, 481, 265),
-        search=(446, 239, 486, 269),
+        search=(442, 239, 482, 301),
         color=(143, 150, 203),
         button=(451, 244, 481, 265),
     ),
