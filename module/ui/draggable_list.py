@@ -169,11 +169,7 @@ class DraggableList:
 
         return True
 
-    def is_row_selected(self, row: Keyword, main: ModuleBase) -> bool:
-        button = self.keyword2button(row)
-        if not button:
-            return False
-
+    def is_row_selected(self, button: OcrResultButton, main: ModuleBase) -> bool:
         # Having gold letters
         if main.image_color_count(button, color=self.active_color, threshold=221, count=50):
             return True
@@ -194,6 +190,9 @@ class DraggableList:
             row, main=main, skip_first_screenshot=skip_first_screenshot)
         if not result:
             return False
+        button = self.keyword2button(row)
+        if not button:
+            return False
 
         logger.info(f'Select row: {row}')
         skip_first_screenshot = True
@@ -205,11 +204,11 @@ class DraggableList:
                 main.device.screenshot()
 
             # End
-            if self.is_row_selected(row, main=main):
+            if self.is_row_selected(button, main=main):
                 logger.info('Row selected')
-                break
+                return True
 
             # Click
             if interval.reached():
-                main.device.click(self.keyword2button(row))
+                main.device.click(button)
                 interval.reset()
