@@ -11,29 +11,20 @@ from tasks.combat.team import CombatTeam
 
 
 class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam):
-    _combat_has_multi_wave = True
-
-    @property
-    def combat_cost(self):
-        if self._combat_has_multi_wave:
-            return 10
-        else:
-            return 30
-
     def handle_combat_prepare(self):
         """
         Pages:
             in: COMBAT_PREPARE
         """
         current = self.combat_get_trailblaze_power()
-        self._combat_has_multi_wave = self.combat_has_multi_wave()
-        if self._combat_has_multi_wave:
-            wave = min(current // self.combat_cost, 6)
-            logger.info(f'Current has {current}, combat costs {self.combat_cost}, able to do {wave} waves')
+        cost = self.combat_get_wave_cost()
+        if cost == 10:
+            wave = min(current // self.combat_wave_cost, 6)
+            logger.info(f'Current has {current}, combat costs {self.combat_wave_cost}, able to do {wave} waves')
             if wave > 0:
                 self.combat_set_wave(wave)
         else:
-            logger.info(f'Current has {current}, combat costs {self.combat_cost}, do 1 wave')
+            logger.info(f'Current has {current}, combat costs {self.combat_wave_cost}, do 1 wave')
 
     def combat_prepare(self, team=1):
         """
@@ -70,7 +61,7 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam):
                 self.interval_reset(COMBAT_PREPARE)
             if self.appear(COMBAT_PREPARE, interval=2):
                 self.handle_combat_prepare()
-                if self.state.TrailblazePower < self.combat_cost:
+                if self.state.TrailblazePower < self.combat_wave_cost:
                     return False
                 self.device.click(COMBAT_PREPARE)
                 self.interval_reset(COMBAT_PREPARE)
@@ -115,16 +106,20 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam):
             in: COMBAT_AGAIN
         """
         current = self.combat_get_trailblaze_power(expect_reduce=True)
-        if self._combat_has_multi_wave:
-            if current >= self.combat_cost * 6:
-                logger.info(f'Current has {current}, combat costs {self.combat_cost}, can run again')
+        if self.combat_wave_cost == 10:
+            if current >= self.combat_wave_cost * 6:
+                logger.info(f'Current has {current}, combat costs {self.combat_wave_cost}, can run again')
                 return True
             else:
-                logger.info(f'Current has {current}, combat costs {self.combat_cost}, can not run again')
+                logger.info(f'Current has {current}, combat costs {self.combat_wave_cost}, can not run again')
                 return False
         else:
-            logger.info(f'Current has {current}, combat costs {self.combat_cost}, no again')
-            return False
+            if current >= self.combat_wave_cost:
+                logger.info(f'Current has {current}, combat costs {self.combat_wave_cost}, can run again')
+                return True
+            else:
+                logger.info(f'Current has {current}, combat costs {self.combat_wave_cost}, can not run again')
+                return False
 
     def combat_finish(self) -> bool:
         """
@@ -219,7 +214,7 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam):
             self.combat_execute()
             # Finish
             finish = self.combat_finish()
-            if self.state.TrailblazePower >= self.combat_cost:
+            if self.state.TrailblazePower >= self.combat_wave_cost:
                 logger.info('Still having some trailblaze power run with less waves to empty it')
                 continue
             if finish:

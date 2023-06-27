@@ -1,10 +1,12 @@
 import re
 
 from module.base.timer import Timer
+from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
 from tasks.base.ui import UI
 from tasks.combat.assets.assets_combat_prepare import (
     OCR_TRAILBLAZE_POWER,
+    OCR_WAVE_COST,
     OCR_WAVE_COUNT,
     WAVE_MINUS,
     WAVE_PLUS
@@ -21,6 +23,8 @@ class TrailblazePowerOcr(DigitCounter):
 
 
 class CombatPrepare(UI):
+    combat_wave_cost = True
+
     def combat_set_wave(self, count=6):
         """
         Args:
@@ -69,3 +73,49 @@ class CombatPrepare(UI):
 
         self.state.TrailblazePower = current
         return current
+
+    def combat_get_wave_cost(self):
+        """
+        Get traiblaze power cost and set it to `combat_cost`
+
+        Returns
+            int: 10, 30, 40
+
+        Pages:
+            in: COMBAT_PREPARE
+        """
+        multi = self.combat_has_multi_wave()
+        logger.attr('CombatMultiWave', multi)
+        if multi:
+            cost = 10
+        else:
+            cost = 40
+
+        timeout = Timer(1.5, count=6).start()
+        for _ in range(2):
+            cost = Digit(OCR_WAVE_COST).ocr_single_line(self.device.image)
+            if cost == 10:
+                if multi:
+                    self.combat_wave_cost = cost
+                    return cost
+                else:
+                    logger.warning(f'Combat wave costs {cost} but does not has multiple waves')
+                    self.combat_wave_cost = cost
+                    return cost
+            elif cost in [30, 40]:
+                if multi:
+                    logger.warning(f'Combat wave costs {cost} but has multiple waves, '
+                                   f'probably wave amount is preset')
+                    self.combat_set_wave(1)
+                    timeout.reset()
+                    continue
+                else:
+                    self.combat_wave_cost = cost
+                    return cost
+            else:
+                logger.warning(f'Unexpected combat wave cost: {cost}')
+                continue
+
+        logger.warning(f'Get combat wave cost timeout, assume it costs {cost}')
+        self.combat_wave_cost = cost
+        return cost

@@ -261,6 +261,11 @@ class DungeonUI(UI):
             self._dungeon_insight(dungeon)
             self._dungeon_enter(dungeon)
             return True
+        if dungeon.is_Cavern_of_Corrosion:
+            DUNGEON_NAV_LIST.select_row(KEYWORDS_DUNGEON_NAV.Cavern_of_Corrosion, main=self)
+            self._dungeon_insight(dungeon)
+            self._dungeon_enter(dungeon)
+            return True
 
         logger.error(f'Goto dungeon {dungeon} is not supported')
         return False
