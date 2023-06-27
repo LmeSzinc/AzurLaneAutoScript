@@ -275,13 +275,14 @@ class ConfigGenerator:
         #         deep_set(new, keys=path, value=f'[{prefix}] {_list[index]}')
 
         # Dungeon names
-        ingame_lang = gui_lang_to_ingame_lang(lang)
-        from tasks.dungeon.keywords import DungeonList
-        dailies = deep_get(self.argument, keys='Dungeon.Name.option')
-        for dungeon in DungeonList.instances.values():
-            if dungeon.name in dailies:
-                value = dungeon.__getattribute__(ingame_lang)
-                deep_set(new, keys=['Dungeon', 'Name', dungeon.name], value=value)
+        if lang not in ['zh-CN', 'zh-TW', 'en-US']:
+            ingame_lang = gui_lang_to_ingame_lang(lang)
+            from tasks.dungeon.keywords import DungeonList
+            dailies = deep_get(self.argument, keys='Dungeon.Name.option')
+            for dungeon in DungeonList.instances.values():
+                if dungeon.name in dailies:
+                    value = dungeon.__getattribute__(ingame_lang)
+                    deep_set(new, keys=['Dungeon', 'Name', dungeon.name], value=value)
 
         # GUI i18n
         for path, _ in deep_iter(self.gui, depth=2):

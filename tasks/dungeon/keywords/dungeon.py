@@ -43,9 +43,9 @@ Calyx_Crimson_Preservation = DungeonList(
     en='Bud of Preservation',
     jp='疑似花萼（赤）・存護の蕾',
 )
-Calyx_Crimson_Calyx_Crimson_Hunt = DungeonList(
+Calyx_Crimson_Hunt = DungeonList(
     id=6,
-    name='Calyx_Crimson_Calyx_Crimson_Hunt',
+    name='Calyx_Crimson_Hunt',
     cn='巡猎之蕾•拟造花萼（赤）',
     cht='巡獵之蕾•擬造花萼（赤）',
     en='Calyx (Crimson): Bud of Hunt',
