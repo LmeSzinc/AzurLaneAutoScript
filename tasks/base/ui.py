@@ -203,6 +203,9 @@ class UI(PopupHandler, StateMixin):
                     self.device.click(button)
                 retry.reset()
 
+    def is_in_main(self):
+        return self.appear(page_main.check_button)
+
     def ui_goto_main(self):
         return self.ui_ensure(destination=page_main)
 

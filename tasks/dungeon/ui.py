@@ -59,6 +59,7 @@ class OcrDungeonNav(Ocr):
         result = super().after_process(result)
         if self.lang == 'ch':
             result = result.replace('萼喜', '萼')
+            result = result.replace('带', '滞')  # 凝带虚影
         return result
 
 
@@ -258,6 +259,11 @@ class DungeonUI(UI):
             return True
         if dungeon.is_Calyx_Crimson:
             DUNGEON_NAV_LIST.select_row(KEYWORDS_DUNGEON_NAV.Calyx_Crimson, main=self)
+            self._dungeon_insight(dungeon)
+            self._dungeon_enter(dungeon)
+            return True
+        if dungeon.is_Stagnant_Shadow:
+            DUNGEON_NAV_LIST.select_row(KEYWORDS_DUNGEON_NAV.Stagnant_Shadow, main=self)
             self._dungeon_insight(dungeon)
             self._dungeon_enter(dungeon)
             return True

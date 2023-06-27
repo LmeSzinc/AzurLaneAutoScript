@@ -1,6 +1,5 @@
 from module.logger import logger
 from tasks.base.assets.assets_base_page import CLOSE
-from tasks.base.page import page_main
 from tasks.combat.assets.assets_combat_finish import COMBAT_AGAIN, COMBAT_EXIT
 from tasks.combat.assets.assets_combat_prepare import COMBAT_PREPARE
 from tasks.combat.assets.assets_combat_team import COMBAT_TEAM_PREPARE
@@ -8,9 +7,10 @@ from tasks.combat.interact import CombatInteract
 from tasks.combat.prepare import CombatPrepare
 from tasks.combat.state import CombatState
 from tasks.combat.team import CombatTeam
+from tasks.map.control.joystick import MapControlJoystick
 
 
-class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam):
+class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, MapControlJoystick):
     def handle_combat_prepare(self):
         """
         Pages:
@@ -25,6 +25,17 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam):
                 self.combat_set_wave(wave)
         else:
             logger.info(f'Current has {current}, combat costs {self.combat_wave_cost}, do 1 wave')
+
+    def handle_ascension_dungeon_prepare(self):
+        """
+        Returns:
+            bool: If clicked.
+        """
+        if self.is_in_main():
+            if self.handle_map_A():
+                return True
+
+        return False
 
     def combat_prepare(self, team=1):
         """
@@ -59,6 +70,7 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam):
                 continue
             if self.appear(COMBAT_TEAM_PREPARE):
                 self.interval_reset(COMBAT_PREPARE)
+                self._map_A_timer.reset()
             if self.appear(COMBAT_PREPARE, interval=2):
                 self.handle_combat_prepare()
                 if self.state.TrailblazePower < self.combat_wave_cost:
@@ -67,6 +79,8 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam):
                 self.interval_reset(COMBAT_PREPARE)
                 continue
             if self.handle_combat_interact():
+                continue
+            if self.handle_ascension_dungeon_prepare():
                 continue
 
     def combat_execute(self):
@@ -140,7 +154,7 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam):
                 self.device.screenshot()
 
             # End
-            if self.appear(page_main.check_button):
+            if self.is_in_main():
                 logger.info('Combat finishes at page_main')
                 return True
             if self.is_combat_executing():
@@ -170,7 +184,7 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam):
                 self.device.screenshot()
 
             # End
-            if self.appear(page_main.check_button):
+            if self.is_in_main():
                 break
 
             # Click
