@@ -7775,6 +7775,20 @@
         ]
       }
     },
+    "Minigame": {
+      "Collect": {
+        "type": "checkbox",
+        "value": false
+      },
+      "PlayAfterCollect": {
+        "type": "checkbox",
+        "value": false
+      },
+      "ForceExec": {
+        "type": "input",
+        "value": 0
+      }
+    },
     "Storage": {
       "Storage": {
         "type": "storage",

@@ -22,7 +22,7 @@ from module.raid.assets import RAID_FLEET_PREPARATION
 from module.ui.assets import (BACK_ARROW, DORM_FEED_CANCEL, DORM_INFO, DORM_TROPHY_CONFIRM, EVENT_LIST_CHECK, GOTO_MAIN,
                               MAIN_GOTO_CAMPAIGN, MEOWFFICER_GOTO_DORMMENU, MEOWFFICER_INFO, META_CHECK, PLAYER_CHECK,
                               RAID_CHECK, SHIPYARD_CHECK, SHOP_GOTO_SUPPLY_PACK)
-from module.ui.page import (Page, page_academy, page_archives,
+from module.ui.page import (Page, page_academy, page_game_room, page_archives,
                             page_battle_pass, page_build, page_campaign,
                             page_campaign_menu, page_commission, page_daily,
                             page_dorm, page_dormmenu, page_event,
@@ -66,6 +66,7 @@ class UI(InfoHandler):
         page_dorm,
         page_meowfficer,
         page_academy,
+        page_game_room,
         page_shop,
         page_storage,
         page_munitions,

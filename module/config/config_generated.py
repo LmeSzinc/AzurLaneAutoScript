@@ -316,6 +316,11 @@ class GeneratedConfig:
     SupplyPack_Collect = True
     SupplyPack_DayOfWeek = 0  # 0, 1, 2, 3, 4, 5, 6
 
+    # Group `Minigame`
+    Minigame_Collect = False
+    Minigame_PlayAfterCollect = False
+    Minigame_ForceExec = 0
+
     # Group `Daily`
     Daily_UseDailySkip = True
     Daily_EscortMission = 'first'  # skip, first, second, third

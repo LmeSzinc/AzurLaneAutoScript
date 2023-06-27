@@ -1873,6 +1873,24 @@
       "6": "6"
     }
   },
+  "Minigame": {
+    "_info": {
+      "name": "Minigame._info.name",
+      "help": "Minigame._info.help"
+    },
+    "Collect": {
+      "name": "Minigame.Collect.name",
+      "help": "Minigame.Collect.help"
+    },
+    "PlayAfterCollect": {
+      "name": "Minigame.PlayAfterCollect.name",
+      "help": "Minigame.PlayAfterCollect.help"
+    },
+    "ForceExec": {
+      "name": "Minigame.ForceExec.name",
+      "help": "Minigame.ForceExec.help"
+    }
+  },
   "Daily": {
     "_info": {
       "name": "Daily._info.name",
