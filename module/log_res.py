@@ -18,7 +18,7 @@ class LogRes:
 
     def __setattr__(self, key, value):
         if key in self.groups:
-            _key_group = f'Dashboard.{key}'
+            _key_group = f'Resource.{key}'
             _mod = False
             original = deep_get(self.config.data, keys=_key_group)
             if isinstance(value, int):
