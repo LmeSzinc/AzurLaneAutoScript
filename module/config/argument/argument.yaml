@@ -672,6 +672,7 @@ GameManager:
   AutoRestart: true
 
 # ==================== Dashboard ====================
+
 Oil:
   Value: 0
   Limit: 0

@@ -332,17 +332,18 @@ Tool:
 # ==================== Dashboard ====================
 
 Dashboard:
+  page: 'dashboard'
   tasks:
-    Dashboard:
-    - Oil
-    - Coin
-    - Gem
-    - Pt
-    - Cube
-    - ActionPoint
-    - YellowCoin
-    - PurpleCoin
-    - Core
-    - Medal
-    - Merit
-    - GuildCoin
+    Resources:
+      - Oil
+      - Coin
+      - Gem
+      - Pt
+      - Cube
+      - ActionPoint
+      - YellowCoin
+      - PurpleCoin
+      - Core
+      - Medal
+      - Merit
+      - GuildCoin

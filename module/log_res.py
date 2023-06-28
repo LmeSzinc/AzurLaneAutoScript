@@ -43,4 +43,4 @@ class LogRes:
 
     @cached_property
     def groups(self) -> dict:
-        return deep_get(d=read_file(filepath_argument("task")), keys='Dashboard.tasks.Dashboard')
+        return deep_get(read_file(filepath_argument("task")), 'Dashboard.tasks.Resources')

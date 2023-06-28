@@ -622,7 +622,7 @@ class AlasGUI(Frame):
         _arg_group = self._log.dashboard_arg_group if groups_to_display is None else groups_to_display
         time_now = datetime.now().replace(microsecond=0)
         for group_name in _arg_group:
-            group = deep_get(d=self.alas_config.data, keys=f'Dashboard.{group_name}')
+            group = deep_get(d=self.alas_config.data, keys=f'Resources.{group_name}')
             if group is None:
                 continue
 
@@ -664,7 +664,7 @@ class AlasGUI(Frame):
             limit_style = '--dashboard-limit--' if value_limit else '--dashboard-total--'
             value_limit = value_limit if value_limit else value_total
             # Handle dot color
-            _color = f"""background-color:{deep_get(d=group, keys='Color').replace('^', '#')}"""
+            _color = f"""background-color:{deep_get(group, 'Color').replace('^', '#')}"""
             color = f'<div class="status-point" style={_color}>'
             with use_scope(group_name, clear=True):
                 put_row(
@@ -677,12 +677,11 @@ class AlasGUI(Frame):
                                     [
                                         put_row(
                                             [
-                                                put_text(value).style(f'--dashboard-value--'),
+                                                put_text(value).style("--dashboard-value--"),
                                                 put_text(value_limit).style(limit_style),
                                             ],
-                                        ).style('grid-template-columns:min-content auto;align-items: baseline;'),
-                                        put_text(t(f'Gui.Overview.{group_name}') + " - " + delta
-                                                 ).style('---dashboard-help--')
+                                        ).style("grid-template-columns:min-content auto;align-items: baseline;"),
+                                        put_text(t(f"Gui.Overview.{group_name}") + " - " + delta).style("---dashboard-help--")
                                     ],
                                     size="auto auto",
                                 ),
