@@ -31,7 +31,7 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, MapControlJ
         Returns:
             bool: If clicked.
         """
-        if self.is_in_main():
+        if self.combat_wave_cost == 30 and self.is_in_main():
             if self.handle_map_A():
                 return True
 

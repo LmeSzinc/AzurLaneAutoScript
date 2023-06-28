@@ -74,11 +74,11 @@ class CombatPrepare(UI):
         self.state.TrailblazePower = current
         return current
 
-    def combat_get_wave_cost(self):
+    def combat_get_wave_cost(self, skip_first_screenshot=True):
         """
         Get traiblaze power cost and set it to `combat_cost`
 
-        Returns
+        Returns:
             int: 10, 30, 40
 
         Pages:
@@ -86,13 +86,14 @@ class CombatPrepare(UI):
         """
         multi = self.combat_has_multi_wave()
         logger.attr('CombatMultiWave', multi)
-        if multi:
-            cost = 10
-        else:
-            cost = 40
 
         timeout = Timer(1.5, count=6).start()
-        for _ in range(2):
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
             cost = Digit(OCR_WAVE_COST).ocr_single_line(self.device.image)
             if cost == 10:
                 if multi:
@@ -107,6 +108,7 @@ class CombatPrepare(UI):
                     logger.warning(f'Combat wave costs {cost} but has multiple waves, '
                                    f'probably wave amount is preset')
                     self.combat_set_wave(1)
+                    skip_first_screenshot = True
                     timeout.reset()
                     continue
                 else:
@@ -116,6 +118,10 @@ class CombatPrepare(UI):
                 logger.warning(f'Unexpected combat wave cost: {cost}')
                 continue
 
+        if multi:
+            cost = 10
+        else:
+            cost = 40
         logger.warning(f'Get combat wave cost timeout, assume it costs {cost}')
         self.combat_wave_cost = cost
         return cost
