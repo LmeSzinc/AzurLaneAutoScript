@@ -334,7 +334,7 @@ Tool:
 Dashboard:
   page: 'dashboard'
   tasks:
-    Resources:
+    Resource:
       - Oil
       - Coin
       - Gem

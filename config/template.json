@@ -1852,7 +1852,7 @@
       "Storage": {}
     }
   },
-  "Resources": {
+  "Resource": {
     "Oil": {
       "Value": 0,
       "Limit": 0,

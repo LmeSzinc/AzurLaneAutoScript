@@ -8755,7 +8755,7 @@
       }
     }
   },
-  "Resources": {
+  "Resource": {
     "Oil": {
       "Value": {
         "type": "input",

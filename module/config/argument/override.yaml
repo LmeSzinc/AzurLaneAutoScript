@@ -422,7 +422,7 @@ OpsiHazard1Leveling:
 
 # ==================== Dashboard ====================
 
-Resources:
+Resource:
   Oil:
     Color: ^000000
   Coin:
