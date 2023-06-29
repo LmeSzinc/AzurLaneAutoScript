@@ -140,3 +140,7 @@ page_menu.link(MENU_GOTO_SYNTHESIZE, destination=page_synthesize)
 page_assignment = Page(ASSIGNMENT_CHECK)
 page_assignment.link(CLOSE, destination=page_main)
 page_menu.link(MENU_GOTO_ASSIGNMENT, destination=page_assignment)
+
+# Forgotten Hall
+page_forgotten_hall = Page(FORGOTTEN_HALL_CHECK)
+page_forgotten_hall.link(CLOSE, destination=page_main)
