@@ -192,7 +192,7 @@ class DungeonUI(UI):
 
         return True
 
-    def _dungeon_enter(self, dungeon, skip_first_screenshot=True):
+    def _dungeon_enter(self, dungeon, enter_check_button=COMBAT_PREPARE, skip_first_screenshot=True):
         """
         Pages:
             in: page_guide, Survival_Index, nav including dungeon
@@ -207,8 +207,8 @@ class DungeonUI(UI):
                 self.device.screenshot()
 
             # End
-            if self.appear(COMBAT_PREPARE) or self.appear(FORGOTTEN_HALL_CHECK):
-                logger.info('Arrive COMBAT_PREPARE')
+            if self.appear(enter_check_button):
+                logger.info(f'Arrive {enter_check_button.name}')
                 break
 
             # Additional
@@ -279,7 +279,7 @@ class DungeonUI(UI):
         if dungeon.is_Forgotten_Hall:
             DUNGEON_NAV_LIST.select_row(KEYWORDS_DUNGEON_NAV.Forgotten_Hall, main=self)
             self._dungeon_insight(dungeon)
-            self._dungeon_enter(dungeon)
+            self._dungeon_enter(dungeon, enter_check_button=FORGOTTEN_HALL_CHECK)
             return True
 
         logger.error(f'Goto dungeon {dungeon} is not supported')
