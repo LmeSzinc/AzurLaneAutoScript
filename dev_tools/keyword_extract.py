@@ -155,6 +155,25 @@ class KeywordExtract:
         quest_keywords = [self.text_map[lang].find(quest_hash)[1] for quest_hash in quests_hash]
         self.load_keywords(quest_keywords, lang)
 
+    def generate_forgotten_hall_stages(self):
+        keyword_class = "ForgottenHallStage"
+        output_file = './tasks/forgotten_hall/keywords/stage.py'
+        gen = CodeGenerator()
+        gen.Import(f"""
+        from .classes import {keyword_class}
+        """)
+        gen.CommentAutoGenerage('dev_tools.keyword_extract')
+        for stage_id in range(1, 16):
+            id_str = str(stage_id).rjust(2, '0')
+            with gen.Object(key=f"Stage_{stage_id}", object_class=keyword_class):
+                gen.ObjectAttr(key='id', value=stage_id)
+                gen.ObjectAttr(key='name', value=id_str)
+                for lang in UI_LANGUAGES:
+                    gen.ObjectAttr(key=lang, value=id_str)
+
+        print(f'Write {output_file}')
+        gen.write(output_file)
+
     def generate_assignment_keywords(self):
         KeywordFromFile = namedtuple('KeywordFromFile', ('file', 'class_name', 'output_file'))
         for keyword in (
@@ -182,6 +201,7 @@ class KeywordExtract:
         self.load_keywords(['奖励', '任务'])
         self.write_keywords(keyword_class='BattlePassTab', output_file='./tasks/battle_pass/keywords/tab.py')
         self.generate_assignment_keywords()
+        self.generate_forgotten_hall_stages()
 
 
 if __name__ == '__main__':
