@@ -1,8 +1,8 @@
 import os
 import re
 import typing as t
-from functools import cached_property
 from collections import namedtuple
+from functools import cached_property
 
 from module.base.code_generator import CodeGenerator
 from module.config.utils import deep_get, read_file
@@ -97,8 +97,8 @@ class KeywordExtract:
         for data in read_file(file).values():
             hash_ = deep_get(data, keys='Name.Hash')
             _, name = self.find_keyword(hash_, lang='cn')
-            if '忘却之庭' in name or '遗秘' in name:
-                continue
+            # if '忘却之庭' in name:
+            #     continue
             yield hash_
 
     def find_keyword(self, keyword, lang) -> tuple[int, str]:
@@ -158,8 +158,8 @@ class KeywordExtract:
     def generate_assignment_keywords(self):
         KeywordFromFile = namedtuple('KeywordFromFile', ('file', 'class_name', 'output_file'))
         for keyword in (
-            KeywordFromFile('ExpeditionGroup.json', 'AssignmentGroup', './tasks/assignment/keywords/group.py'),
-            KeywordFromFile('ExpeditionData.json', 'AssignmentEntry','./tasks/assignment/keywords/entry.py')
+                KeywordFromFile('ExpeditionGroup.json', 'AssignmentGroup', './tasks/assignment/keywords/group.py'),
+                KeywordFromFile('ExpeditionData.json', 'AssignmentEntry', './tasks/assignment/keywords/entry.py')
         ):
             file = os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', keyword.file)
             self.load_keywords(deep_get(data, 'Name.Hash') for data in read_file(file).values())

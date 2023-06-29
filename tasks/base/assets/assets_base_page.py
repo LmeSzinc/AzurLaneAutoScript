@@ -63,6 +63,16 @@ EVENT_CHECK = ButtonWrapper(
         button=(39, 19, 75, 56),
     ),
 )
+FORGOTTEN_HALL_CHECK = ButtonWrapper(
+    name='FORGOTTEN_HALL_CHECK',
+    share=Button(
+        file='./assets/share/base/page/FORGOTTEN_HALL_CHECK.png',
+        area=(44, 27, 71, 47),
+        search=(24, 7, 91, 67),
+        color=(91, 87, 90),
+        button=(44, 27, 71, 47),
+    ),
+)
 GACHA_CHECK = ButtonWrapper(
     name='GACHA_CHECK',
     share=Button(

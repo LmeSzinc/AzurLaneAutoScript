@@ -164,7 +164,7 @@ class DraggableList:
                 self.drag_page('down', main=main)
             # Wait for bottoming out
             main.wait_until_stable(self.search_button, timer=Timer(
-                0, count=0), timeout=Timer(1.5, count=5))
+                0.3, count=1), timeout=Timer(1.5, count=5))
             skip_first_screenshot = True
 
         return True
