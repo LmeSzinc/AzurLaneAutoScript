@@ -203,7 +203,7 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
             else:
                 self.device.screenshot()
 
-            if self.image_color_count(BUILD_QUEUE_EMPTY, color=(98, 96, 95), threshold=180, count=50):
+            if self.appear(BUILD_QUEUE_EMPTY, offset=(20, 20)):
                 self.gacha_side_navbar_ensure(upper=1)
                 break
             
