@@ -200,6 +200,10 @@ class DraggableList:
         Returns:
             If success
         """
+        result = self.insight_row(
+            row, main=main, skip_first_screenshot=skip_first_screenshot)
+        if not result:
+            return False
         logger.info(f'Select row: {row}')
         skip_first_screenshot = True
         interval = Timer(5)
@@ -208,11 +212,8 @@ class DraggableList:
                 skip_first_screenshot = False
             else:
                 main.device.screenshot()
+                self.load_rows(main=main)
 
-            result = self.insight_row(
-                row, main=main, skip_first_screenshot=skip_first_screenshot)
-            if not result:
-                return False
             button = self.keyword2button(row)
             if not button:
                 return False
