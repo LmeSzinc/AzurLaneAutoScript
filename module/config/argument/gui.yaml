@@ -54,12 +54,12 @@ Overview:
   Pending:
   Waiting:
   NoTask:
-  SecondsAgo:
-  MinutesAgo:
-  HoursAgo:
-  DaysAgo:
-  MonthsAgo:
-  YearsAgo:
+  s:
+  m:
+  h:
+  D:
+  M:
+  Y:
   NoData:
   Oil:
   Coin:

@@ -87,27 +87,6 @@ from module.webui.widgets import (
 
 task_handler = TaskHandler()
 
-def timedelta_to_text(delta=None):
-    time_delta_name_suffix_dict = {
-        'Y': 'YearsAgo',
-        'M': 'MonthsAgo',
-        'D': 'DaysAgo',
-        'h': 'HoursAgo',
-        'm': 'MinutesAgo',
-        's': 'SecondsAgo',
-    }
-    time_delta_name_prefix = 'Gui.Overview.'
-    time_delta_name_suffix = 'NoData'
-    time_delta_display = ''
-    if isinstance(delta, dict):
-        for _key in delta:
-            if delta[_key]:
-                time_delta_name_suffix = time_delta_name_suffix_dict[_key]
-                time_delta_display = delta[_key]
-                break
-    time_delta_display = str(time_delta_display)
-    time_delta_name = time_delta_name_prefix + time_delta_name_suffix
-    return time_delta_display + t(time_delta_name)
 
 
 class AlasGUI(Frame):
@@ -650,9 +629,16 @@ class AlasGUI(Frame):
             # Handle time delta
             if value_time == datetime(2020, 1, 1, 0, 0, 0):
                 value = 'None'
-                delta = timedelta_to_text()
+                delta = '' + t('Gui.Overview.NoData')
             else:
-                delta = timedelta_to_text(time_delta(value_time - time_now))
+                time = time_delta(value_time - time_now)
+                if isinstance(time, dict):
+                    for _key in time:
+                        if time[_key]:
+                            time_name = _key
+                            time = time[_key]
+                            break
+                delta = str(time) + t(f'Gui.Overview.{time_name}')
             if group_name not in self._log.last_display_time.keys():
                 self._log.last_display_time[group_name] = ''
             if self._log.last_display_time[group_name] == delta and not self._log.first_display:
