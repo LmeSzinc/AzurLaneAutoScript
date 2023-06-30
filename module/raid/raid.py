@@ -46,6 +46,8 @@ def raid_name_shorten(name):
         return "ALBION"
     elif name == "raid_20230118":
         return "KUYBYSHEY"
+    elif name == "raid_20230629":
+        return "GORIZIA"
     else:
         raise ScriptError(f'Unknown raid name: {name}')
 
@@ -103,6 +105,8 @@ def raid_ocr(raid, mode):
                 return Digit(button, letter=(189, 203, 214), threshold=128)
             else:
                 return DigitCounter(button, letter=(231, 239, 247), threshold=128)
+        elif raid == 'GORIZIA':
+            return DigitCounter(button, letter=(82, 89, 66), threshold=128)
     except KeyError:
         raise ScriptError(f'Raid entrance asset not exists: {key}')
 
@@ -125,6 +129,8 @@ def pt_ocr(raid):
             return Digit(button, letter=(23, 20, 9), threshold=128)
         elif raid == 'KUYBYSHEY':
             return Digit(button, letter=(16, 24, 33), threshold=64)
+        elif raid == 'GORIZIA':
+            return Digit(button, letter=(255, 255, 255), threshold=64)
     except KeyError:
         # raise ScriptError(f'Raid pt ocr asset not exists: {key}')
         return None
