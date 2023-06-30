@@ -203,10 +203,9 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
             else:
                 self.device.screenshot()
 
-            if self.appear(BUILD_QUEUE_CLEAN):
+            if self.image_color_count(BUILD_QUEUE_EMPTY, color=(98, 96, 95), threshold=180, count=50):
                 self.gacha_side_navbar_ensure(upper=1)
-                if confirm_timer.reached():
-                    break
+                break
             
             if self.appear_then_click(BUILD_FINISH_ORDERS, interval=3):
                 confirm_timer.reset()
