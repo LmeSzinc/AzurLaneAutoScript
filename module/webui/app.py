@@ -87,8 +87,6 @@ from module.webui.widgets import (
 
 task_handler = TaskHandler()
 
-
-
 class AlasGUI(Frame):
     ALAS_MENU: Dict[str, Dict[str, List[str]]]
     ALAS_ARGS: Dict[str, Dict[str, Dict[str, Dict[str, str]]]]
