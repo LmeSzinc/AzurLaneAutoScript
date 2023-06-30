@@ -720,6 +720,8 @@ Benchmark:
     value: screenshot_click
     option: [ screenshot_click, screenshot, click ]
 AzurLaneUncensored:
-  Repository: https://gitee.com/LmeSzinc/AzurLaneUncensored
+  Repository:
+    value: https://gitee.com/LmeSzinc/AzurLaneUncensored
+    display: disabled
 GameManager:
   AutoRestart: true

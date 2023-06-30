@@ -206,6 +206,10 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
             else:
                 self.device.screenshot()
 
+            if self.appear(BUILD_QUEUE_EMPTY, offset=(20, 20)):
+                self.gacha_side_navbar_ensure(upper=1)
+                break
+            
             if self.appear_then_click(BUILD_FINISH_ORDERS, interval=3):
                 confirm_timer.reset()
                 continue
