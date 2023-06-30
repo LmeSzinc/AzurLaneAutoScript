@@ -291,56 +291,8 @@ Everwinter_Trials_Forgotten_Hall = DungeonList(
     en='Everwinter Trials — Forgotten Hall',
     jp='常冬の試練・忘却の庭',
 )
-Favor_of_Amber_Forgotten_Hall = DungeonList(
-    id=37,
-    name='Favor_of_Amber_Forgotten_Hall',
-    cn='琥珀恩赐•忘却之庭',
-    cht='琥珀恩賜•忘卻之庭',
-    en='Favor of Amber — Forgotten Hall',
-    jp='琥珀の賜物・忘却の庭',
-)
-Frostscar_Reverie_Forgotten_Hall = DungeonList(
-    id=38,
-    name='Frostscar_Reverie_Forgotten_Hall',
-    cn='霜痕旧梦•忘却之庭',
-    cht='霜痕舊夢•忘卻之庭',
-    en='Frostscar Reverie — Forgotten Hall',
-    jp='霜跡に旧夢・忘却の庭',
-)
-Everwinter_Trials_Forgotten_Hall = DungeonList(
-    id=39,
-    name='Everwinter_Trials_Forgotten_Hall',
-    cn='永冬试炼•忘却之庭',
-    cht='永冬試煉•忘卻之庭',
-    en='Everwinter Trials — Forgotten Hall',
-    jp='常冬の試練・忘却の庭',
-)
-Favor_of_Amber_Forgotten_Hall = DungeonList(
-    id=40,
-    name='Favor_of_Amber_Forgotten_Hall',
-    cn='琥珀恩赐•忘却之庭',
-    cht='琥珀恩賜•忘卻之庭',
-    en='Favor of Amber — Forgotten Hall',
-    jp='琥珀の賜物・忘却の庭',
-)
-Frostscar_Reverie_Forgotten_Hall = DungeonList(
-    id=41,
-    name='Frostscar_Reverie_Forgotten_Hall',
-    cn='霜痕旧梦•忘却之庭',
-    cht='霜痕舊夢•忘卻之庭',
-    en='Frostscar Reverie — Forgotten Hall',
-    jp='霜跡に旧夢・忘却の庭',
-)
-Everwinter_Trials_Forgotten_Hall = DungeonList(
-    id=42,
-    name='Everwinter_Trials_Forgotten_Hall',
-    cn='永冬试炼•忘却之庭',
-    cht='永冬試煉•忘卻之庭',
-    en='Everwinter Trials — Forgotten Hall',
-    jp='常冬の試練・忘却の庭',
-)
 ColdironTribulation = DungeonList(
-    id=43,
+    id=37,
     name='ColdironTribulation',
     cn='寒铁砥砺•忘却之庭',
     cht='寒鐵砥礪•忘卻之庭',
@@ -348,7 +300,7 @@ ColdironTribulation = DungeonList(
     jp='寒鉄練磨・忘却の庭',
 )
 Hyperborean_Search_for_Warmth = DungeonList(
-    id=44,
+    id=38,
     name='Hyperborean_Search_for_Warmth',
     cn='蹈冰寻火•忘却之庭',
     cht='蹈冰尋火•忘卻之庭',
@@ -356,42 +308,10 @@ Hyperborean_Search_for_Warmth = DungeonList(
     jp='氷踏みて炎求む・忘却の庭',
 )
 Stormquell = DungeonList(
-    id=45,
+    id=39,
     name='Stormquell',
     cn='风暴止息•忘却之庭',
     cht='風暴止息•忘卻之庭',
     en='Stormquell',
     jp='止息せし嵐・忘却の庭',
-)
-Favor_of_Amber_Forgotten_Hall = DungeonList(
-    id=46,
-    name='Favor_of_Amber_Forgotten_Hall',
-    cn='琥珀恩赐•忘却之庭',
-    cht='琥珀恩賜•忘卻之庭',
-    en='Favor of Amber — Forgotten Hall',
-    jp='琥珀の賜物・忘却の庭',
-)
-Favor_of_Amber_Forgotten_Hall = DungeonList(
-    id=47,
-    name='Favor_of_Amber_Forgotten_Hall',
-    cn='琥珀恩赐•忘却之庭',
-    cht='琥珀恩賜•忘卻之庭',
-    en='Favor of Amber — Forgotten Hall',
-    jp='琥珀の賜物・忘却の庭',
-)
-Favor_of_Amber_Forgotten_Hall = DungeonList(
-    id=48,
-    name='Favor_of_Amber_Forgotten_Hall',
-    cn='琥珀恩赐•忘却之庭',
-    cht='琥珀恩賜•忘卻之庭',
-    en='Favor of Amber — Forgotten Hall',
-    jp='琥珀の賜物・忘却の庭',
-)
-Favor_of_Amber_Forgotten_Hall = DungeonList(
-    id=49,
-    name='Favor_of_Amber_Forgotten_Hall',
-    cn='琥珀恩赐•忘却之庭',
-    cht='琥珀恩賜•忘卻之庭',
-    en='Favor of Amber — Forgotten Hall',
-    jp='琥珀の賜物・忘却の庭',
 )
