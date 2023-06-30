@@ -635,7 +635,7 @@ class AlasGUI(Frame):
                 if isinstance(time, dict):
                     for _key in time:
                         if time[_key]:
-                            time_name = _key
+                            time_name = _key.replace('s','SecondsAgo').replace('m','MinutesAgo').replace('h','HoursAgo').replace('D','DaysAgo').replace('M','MonthsAgo').replace('Y','YearsAgo')
                             time = time[_key]
                             break
                 delta = str(time) + t(f'Gui.Overview.{time_name}')
