@@ -113,12 +113,11 @@ class CampaignEvent(CampaignStatus):
                 return False
 
     def handle_task_balancer(self):
-        if self.config.TaskBalancer_Enable and self.triggered_task_balancer():
-            self.config.task_delay(minute=5)
-            next_task = self.config.TaskBalancer_TaskCall
-            logger.hr(f'TaskBalancer triggered, switching task to {next_task}')
-            self.config.task_call(next_task)
-            self.config.task_stop()
+        self.config.task_delay(minute=5)
+        next_task = self.config.TaskBalancer_TaskCall
+        logger.hr(f'TaskBalancer triggered, switching task to {next_task}')
+        self.config.task_call(next_task)
+        self.config.task_stop()
 
     def is_event_entrance_available(self):
         """
