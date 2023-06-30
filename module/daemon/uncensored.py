@@ -1,10 +1,28 @@
+import shutil
+
 from deploy.git import GitManager
 from deploy.utils import *
 from module.handler.login import LoginHandler
 from module.logger import logger
 
+localization_txt = """
+Localization = true
+Localization_skin = true
+""".strip() + '\n'
+
 
 class AzurLaneUncensored(LoginHandler):
+    def create_level1_uncensored(self):
+        logger.info('Create level 1 uncensored')
+        folder = './files'
+        try:
+            shutil.rmtree(folder)
+        except FileNotFoundError:
+            pass
+        os.makedirs(folder, exist_ok=True)
+        with open(os.path.join(folder, 'localization.txt'), 'w', encoding='utf-8') as f:
+            f.write(localization_txt)
+
     def run(self):
         """
         This will do:
@@ -29,13 +47,14 @@ class AzurLaneUncensored(LoginHandler):
         # Running in ./toolkit/AzurLaneUncensored
         os.chdir(folder)
         # Monkey patch `print()` build-in to show logs.
-        manager.git_repository_init(
-            repo=repo,
-            source='origin',
-            branch='master',
-            proxy=manager.config['GitProxy'],
-            keep_changes=False
-        )
+        self.create_level1_uncensored()
+        # manager.git_repository_init(
+        #     repo=repo,
+        #     source='origin',
+        #     branch='master',
+        #     proxy=manager.config['GitProxy'],
+        #     keep_changes=False
+        # )
 
         logger.hr('Push Uncensored Files', level=1)
         logger.info('This will take a few seconds')
