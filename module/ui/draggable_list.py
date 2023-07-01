@@ -29,13 +29,15 @@ class DraggableList:
             ocr_class,
             search_button: ButtonWrapper,
             check_row_order: bool = True,
-            active_color: tuple[int, int, int] = (190, 175, 124)
+            active_color: tuple[int, int, int] = (190, 175, 124),
+            drag_direction: str = "down"
     ):
         """
         Args:
             name:
             keyword_class: Keyword
             search_button:
+            drag_direction: Default drag direction to higher index
         """
         self.name = name
         self.keyword_class = keyword_class
@@ -46,6 +48,7 @@ class DraggableList:
         self.search_button = search_button
         self.check_row_order = check_row_order
         self.active_color = active_color
+        self.drag_direction = drag_direction
 
         self.row_min = 1
         self.row_max = len(self.known_rows)
@@ -129,6 +132,16 @@ class DraggableList:
         p1, p2 = random_rectangle_vector_opted(vector, box=self.search_button.button)
         main.device.drag(p1, p2, name=f'{self.name}_DRAG')
 
+    def reverse_direction(self, direction):
+        if direction == 'up':
+            return 'down'
+        if direction == 'down':
+            return 'up'
+        if direction == 'left':
+            return 'right'
+        if direction == 'right':
+            return 'left'
+
     def insight_row(self, row: Keyword, main: ModuleBase, skip_first_screenshot=True) -> bool:
         """
         Args:
@@ -159,9 +172,10 @@ class DraggableList:
 
             # Drag pages
             if row_index < self.cur_min:
-                self.drag_page('up', main=main)
+                self.drag_page(self.reverse_direction(self.drag_direction), main=main)
             elif self.cur_max < row_index:
-                self.drag_page('down', main=main)
+                self.drag_page(self.drag_direction, main=main)
+
             # Wait for bottoming out
             main.wait_until_stable(self.search_button, timer=Timer(
                 0, count=0), timeout=Timer(1.5, count=5))
@@ -190,18 +204,27 @@ class DraggableList:
             row, main=main, skip_first_screenshot=skip_first_screenshot)
         if not result:
             return False
-        button = self.keyword2button(row)
-        if not button:
-            return False
-
         logger.info(f'Select row: {row}')
         skip_first_screenshot = True
         interval = Timer(5)
+        skip_first_load_rows = True
+        load_rows_interval = Timer(1)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 main.device.screenshot()
+
+            if skip_first_load_rows:
+                skip_first_load_rows = False
+            else:
+                if load_rows_interval.reached():
+                    self.load_rows(main=main)
+                    load_rows_interval.reset()
+
+            button = self.keyword2button(row)
+            if not button:
+                return False
 
             # End
             if self.is_row_selected(button, main=main):

@@ -9,6 +9,7 @@ from module.ocr.ocr import Ocr, OcrResultButton
 from module.ocr.utils import split_and_pair_button_attr
 from module.ui.draggable_list import DraggableList
 from module.ui.switch import Switch
+from tasks.base.assets.assets_base_page import FORGOTTEN_HALL_CHECK
 from tasks.base.page import page_guide
 from tasks.base.ui import UI
 from tasks.combat.assets.assets_combat_prepare import COMBAT_PREPARE
@@ -174,7 +175,10 @@ class DungeonUI(UI):
         if dungeon not in [tp.matched_keyword for tp in DUNGEON_LIST.teleports]:
             # Dungeon name is insight but teleport button is not
             logger.info('Dungeon name is insight, swipe down a little bit to find the teleport button')
-            DUNGEON_LIST.drag_vector = (0.2, 0.4)
+            if dungeon.is_Forgotten_Hall:
+                DUNGEON_LIST.drag_vector = (-0.4, -0.2)  # Keyword loaded is reversed
+            else:
+                DUNGEON_LIST.drag_vector = (0.2, 0.4)
             DUNGEON_LIST.ocr_class = OcrDungeonListLimitEntrance
             DUNGEON_LIST.insight_row(dungeon, main=self)
             DUNGEON_LIST.drag_vector = DraggableList.drag_vector
@@ -188,11 +192,11 @@ class DungeonUI(UI):
 
         return True
 
-    def _dungeon_enter(self, dungeon, skip_first_screenshot=True):
+    def _dungeon_enter(self, dungeon, enter_check_button=COMBAT_PREPARE, skip_first_screenshot=True):
         """
         Pages:
             in: page_guide, Survival_Index, nav including dungeon
-            out: COMBAT_PREPARE
+            out: COMBAT_PREPARE, FORGOTTEN_HALL_CHECK
         """
         logger.hr('Dungeon enter', level=2)
         skip_first_load = True
@@ -203,8 +207,8 @@ class DungeonUI(UI):
                 self.device.screenshot()
 
             # End
-            if self.appear(COMBAT_PREPARE):
-                logger.info('Arrive COMBAT_PREPARE')
+            if self.appear(enter_check_button):
+                logger.info(f'Arrive {enter_check_button.name}')
                 break
 
             # Additional
@@ -271,6 +275,11 @@ class DungeonUI(UI):
             DUNGEON_NAV_LIST.select_row(KEYWORDS_DUNGEON_NAV.Cavern_of_Corrosion, main=self)
             self._dungeon_insight(dungeon)
             self._dungeon_enter(dungeon)
+            return True
+        if dungeon.is_Forgotten_Hall:
+            DUNGEON_NAV_LIST.select_row(KEYWORDS_DUNGEON_NAV.Forgotten_Hall, main=self)
+            self._dungeon_insight(dungeon)
+            self._dungeon_enter(dungeon, enter_check_button=FORGOTTEN_HALL_CHECK)
             return True
 
         logger.error(f'Goto dungeon {dungeon} is not supported')

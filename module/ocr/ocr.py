@@ -154,6 +154,20 @@ class Ocr:
                     text=str(result))
         return result
 
+    def ocr_multi_lines(self, image_list):
+        # pre process
+        start_time = time.time()
+        image_list = [self.pre_process(image) for image in image_list]
+        # ocr
+        result_list = self.model.ocr_lines(image_list)
+        result_list = [(result, score) for result, score in result_list]
+        # after process
+        result_list = [(self.after_process(result), score) for result, score in result_list]
+        result_list = [(self.format_result(result), score) for result, score in result_list]
+        logger.attr(name="%s %ss" % (self.name, float2str(time.time() - start_time)),
+                    text=str([result for result, _ in result_list]))
+        return result_list
+
     def detect_and_ocr(self, image, direct_ocr=False) -> list[BoxedResult]:
         """
         Args:

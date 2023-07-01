@@ -43,6 +43,14 @@ class DungeonList(Keyword):
         return 'Simulated_Universe' in self.name
 
     @property
+    def is_Forgotten_Hall(self):
+        return 'Forgotten_Hall' or 'Last_Vestiges' in self.name
+
+    @property
+    def is_Last_Vestiges(self):
+        return 'Last_Vestiges' in self.name
+
+    @property
     def is_daily_dungeon(self):
         return self.is_Calyx_Golden or self.is_Calyx_Crimson or self.is_Stagnant_Shadow or self.is_Cavern_of_Corrosion
 
