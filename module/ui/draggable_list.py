@@ -207,12 +207,20 @@ class DraggableList:
         logger.info(f'Select row: {row}')
         skip_first_screenshot = True
         interval = Timer(5)
+        skip_first_load_rows = True
+        load_rows_interval = Timer(1)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 main.device.screenshot()
-                self.load_rows(main=main)
+
+            if skip_first_load_rows:
+                skip_first_load_rows = False
+            else:
+                if load_rows_interval.reached():
+                    self.load_rows(main=main)
+                    load_rows_interval.reset()
 
             button = self.keyword2button(row)
             if not button:
