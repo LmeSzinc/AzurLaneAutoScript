@@ -13,6 +13,16 @@ ASSIGNMENT_CHECK = ButtonWrapper(
         button=(45, 21, 70, 53),
     ),
 )
+BACK = ButtonWrapper(
+    name='BACK',
+    share=Button(
+        file='./assets/share/base/page/BACK.png',
+        area=(1217, 21, 1248, 51),
+        search=(1197, 1, 1268, 71),
+        color=(56, 59, 71),
+        button=(1217, 21, 1248, 51),
+    ),
+)
 BATTLE_PASS_CHECK = ButtonWrapper(
     name='BATTLE_PASS_CHECK',
     share=Button(
@@ -173,6 +183,16 @@ MAIN_GOTO_ITEM = ButtonWrapper(
         button=(1064, 35, 1098, 59),
     ),
 )
+MAIN_GOTO_MAP = ButtonWrapper(
+    name='MAIN_GOTO_MAP',
+    share=Button(
+        file='./assets/share/base/page/MAIN_GOTO_MAP.png',
+        area=(70, 78, 166, 174),
+        search=(50, 58, 186, 194),
+        color=(91, 105, 119),
+        button=(70, 78, 166, 174),
+    ),
+)
 MAIN_GOTO_MENU = ButtonWrapper(
     name='MAIN_GOTO_MENU',
     share=Button(
@@ -221,6 +241,26 @@ MAIN_GOTO_TUTORIAL = ButtonWrapper(
         search=(175, 38, 227, 102),
         color=(127, 131, 139),
         button=(195, 58, 207, 82),
+    ),
+)
+MAP_CHECK = ButtonWrapper(
+    name='MAP_CHECK',
+    share=Button(
+        file='./assets/share/base/page/MAP_CHECK.png',
+        area=(46, 19, 68, 54),
+        search=(26, 0, 88, 74),
+        color=(75, 75, 75),
+        button=(46, 19, 68, 54),
+    ),
+)
+MAP_GOTO_WORLD = ButtonWrapper(
+    name='MAP_GOTO_WORLD',
+    share=Button(
+        file='./assets/share/base/page/MAP_GOTO_WORLD.png',
+        area=(896, 80, 1225, 116),
+        search=(876, 60, 1245, 136),
+        color=(132, 132, 132),
+        button=(896, 80, 1225, 116),
     ),
 )
 MENU_CHECK = ButtonWrapper(
@@ -321,5 +361,15 @@ TUTORIAL_CHECK = ButtonWrapper(
         search=(24, 10, 90, 76),
         color=(141, 126, 99),
         button=(44, 30, 70, 56),
+    ),
+)
+WORLD_CHECK = ButtonWrapper(
+    name='WORLD_CHECK',
+    share=Button(
+        file='./assets/share/base/page/WORLD_CHECK.png',
+        area=(46, 19, 68, 54),
+        search=(26, 0, 88, 74),
+        color=(110, 102, 87),
+        button=(46, 19, 68, 54),
     ),
 )
