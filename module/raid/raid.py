@@ -105,7 +105,10 @@ def raid_ocr(raid, mode):
             else:
                 return DigitCounter(button, letter=(231, 239, 247), threshold=128)
         elif raid == 'GORIZIA':
-            return DigitCounter(button, letter=(82, 89, 66), threshold=128)
+            if mode == 'ex':
+                return Digit(button, letter=(198, 223, 140), threshold=128)
+            else:
+                return DigitCounter(button, letter=(82, 89, 66), threshold=128)
     except KeyError:
         raise ScriptError(f'Raid entrance asset not exists: {key}')
 

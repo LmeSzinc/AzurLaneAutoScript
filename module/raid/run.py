@@ -100,6 +100,10 @@ class RaidRun(Raid, CampaignEvent):
                 if not self.get_remain(mode):
                     logger.info('Triggered stop condition: Zero '
                                 'raid tickets to do EX mode')
+                    if self.config.task.command == 'Raid':
+                        with self.config.multi_set():
+                            self.config.StopCondition_RunCount = 0
+                            self.config.Scheduler_Enable = False
                     break
 
             # Run
@@ -121,6 +125,6 @@ class RaidRun(Raid, CampaignEvent):
             # End
             if self.triggered_stop_condition():
                 break
-            ## Scheduler
+            # Scheduler
             if self.config.task_switched():
                 self.config.task_stop()
