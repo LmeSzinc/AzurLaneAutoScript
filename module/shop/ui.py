@@ -123,43 +123,6 @@ class ShopUI(UI):
 
         return False
 
-    @Config.when(SERVER='en')
-    def shop_swipe(self, skip_first_screenshot=True):
-        """
-        Swipes bottom navbar one way, right only
-
-        Args:
-            skip_first_screenshot (bool):
-
-        Returns:
-            bool: True if detected correct exit
-                  condition otherwise False
-        """
-        detection_area = (480, 640, 960, 660)
-        swipe_interval = Timer(0.6, count=2)
-        trial = 0
-
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            # End
-            if trial > 5:
-                logger.warning('shop_swipe trail exhausted, assume end reached')
-                return False
-
-            # Swipe to the left, medal shop on the leftmost and merit shop on the right most
-            if self.appear(SHOP_META_SWIPE_END, offset=(15, 5)) or \
-                    self.appear(SHOP_PROTOTYPE_SWIPE_END, offset=(15, 5)):
-                return True
-
-            if swipe_interval.reached():
-                self.device.swipe_vector((360, 0), box=detection_area, random_range=(-50, -10, 50, 10), padding=0)
-                swipe_interval.reset()
-                trial += 1
-
     @Config.when(SERVER=None)
     def shop_swipe(self, skip_first_screenshot=True):
         """
