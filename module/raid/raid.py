@@ -105,7 +105,10 @@ def raid_ocr(raid, mode):
             else:
                 return DigitCounter(button, letter=(231, 239, 247), threshold=128)
         elif raid == 'GORIZIA':
-            return DigitCounter(button, letter=(82, 89, 66), threshold=128)
+            if mode == 'ex':
+                return Digit(button, letter=(198, 223, 140), threshold=128)
+            else:
+                return DigitCounter(button, letter=(82, 89, 66), threshold=128)
     except KeyError:
         raise ScriptError(f'Raid entrance asset not exists: {key}')
 
@@ -240,7 +243,9 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
                 break
 
     def raid_expected_end(self):
-        return self.appear(RAID_CHECK, offset=(30, 30))
+        if self.appear_then_click(RAID_REWARDS, offset=(30,30), interval=3):
+            return False
+        return self.appear(RAID_CHECK, offset=(30,30))
 
     def raid_execute_once(self, mode, raid):
         """

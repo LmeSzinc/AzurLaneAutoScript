@@ -1,7 +1,7 @@
 from module.meowfficer.buy import MeowfficerBuy
 from module.meowfficer.fort import MeowfficerFort
 from module.meowfficer.train import MeowfficerTrain
-from module.ui.ui import page_meowfficer
+from module.ui.page import page_meowfficer
 
 
 class RewardMeowfficer(MeowfficerBuy, MeowfficerFort, MeowfficerTrain):

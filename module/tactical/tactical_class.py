@@ -18,7 +18,7 @@ from module.tactical.assets import *
 from module.ui.assets import (BACK_ARROW, MAIN_GOTO_REWARD,
                               REWARD_GOTO_TACTICAL, REWARD_CHECK,
                               TACTICAL_CHECK)
-from module.ui.ui import page_reward
+from module.ui.page import page_reward
 
 SKILL_GRIDS = ButtonGrid(origin=(315, 140), delta=(621, 132), button_shape=(621, 119), grid_shape=(1, 3), name='SKILL')
 SKILL_LEVEL_GRIDS = SKILL_GRIDS.crop(area=(406, 98, 618, 116), name='EXP')
