@@ -52,7 +52,8 @@ class OcrResultButton:
         self.text = boxed_result.ocr_text
         self.score = boxed_result.score
 
-    def match_keyword(self, ocr_text, keyword_classes):
+    @staticmethod
+    def match_keyword(ocr_text, keyword_classes):
         """
         Args:
             ocr_text (str):
@@ -95,7 +96,7 @@ class Ocr:
 
     def __init__(self, button: ButtonWrapper, lang=None, name=None):
         self.button: ButtonWrapper = button
-        self.lang: str = lang if lang is not None else Ocr.server2lang()
+        self._lang = lang
         self.name: str = name if name is not None else button.name
 
     @classmethod
@@ -107,6 +108,10 @@ class Ocr:
                 return 'ch'
             case _:
                 return 'ch'
+
+    @cached_property
+    def lang(self) -> str:
+        return self._lang if self._lang is not None else Ocr.server2lang()
 
     @cached_property
     def model(self) -> TextSystem:
@@ -298,7 +303,8 @@ class Duration(Ocr):
         seconds = self._sanitize_number(matched.group('seconds'))
         return timedelta(hours=hours, minutes=minutes, seconds=seconds)
 
-    def _sanitize_number(self, number) -> int:
+    @staticmethod
+    def _sanitize_number(number) -> int:
         if number is None:
             return 0
         return int(number)
