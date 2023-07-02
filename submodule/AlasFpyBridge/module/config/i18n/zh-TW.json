@@ -12,7 +12,7 @@
       "name": "Menu.FpyDaily.name",
       "help": "Menu.FpyDaily.help"
     },
-    "Tool": {
+    "FpyTool": {
       "name": "Menu.Tool.name",
       "help": "Menu.Tool.help"
     }

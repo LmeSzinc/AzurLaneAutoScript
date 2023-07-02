@@ -1,7 +1,7 @@
 # docker build -t hgjazhgj/alas:latest .
 # docker run -v ${PWD}:/app/AzurLaneAutoScript -p 22267:22267 --name alas -it --rm hgjazhgj/alas
 
-FROM python:3.7-slim
+FROM python:3.7-slim-bullseye
 
 WORKDIR /app/AzurLaneAutoScript
 
@@ -19,7 +19,7 @@ deb https://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib\
 deb-src https://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib" \
 > /etc/apt/sources.list \
  && apt update \
- && apt install -y git adb netcat libgomp1 \
+ && apt install -y git adb libgomp1 \
  && git config --global --add safe.directory '*' \
  && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
  && echo 'Asia/Shanghai' > /etc/timezone \

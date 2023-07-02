@@ -126,10 +126,14 @@ class Scroll:
             random_range (tuple(int, float)):
             distance_check (bool): Whether to drop short swipes
             skip_first_screenshot:
+
+        Returns:
+            bool: If dragged.
         """
         logger.info(f'{self.name} set to {position}')
         self.drag_interval.clear()
         self.drag_timeout.reset()
+        dragged = 0
         if position <= self.edge_threshold:
             random_range = np.subtract(0, self.edge_add)
         if position >= 1 - self.edge_threshold:
@@ -158,6 +162,9 @@ class Scroll:
                 p2 = random_rectangle_point(self.position_to_screen(position, random_range=random_range), n=1)
                 main.device.swipe(p1, p2, name=self.name, distance_check=distance_check)
                 self.drag_interval.reset()
+                dragged += 1
+
+        return dragged
 
     def set_top(self, main, random_range=(-0.05, 0.05), skip_first_screenshot=True):
         return self.set(0.00, main=main, random_range=random_range, skip_first_screenshot=skip_first_screenshot)

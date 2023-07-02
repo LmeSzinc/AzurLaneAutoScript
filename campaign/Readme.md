@@ -140,8 +140,12 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20230309   | event 20210422 cn        | Daedalian Hymn                               | 复刻复兴的赞美诗       | Daedalian Hymn Rerun                         | 讃える復興の迷路（復刻）             | -                        |
 | 20230323   | raid 20220630            | Angel of Iris                                | -                      | -                                            | -                                    | 來自鳶尾的天使           |
 | 20230323   | coalition 20230323       | Frostfall                                    | 极地风暴               | Frostfall                                    | 星霜海嵐                             | -                        |
-| 20230413   | event 20211111 cn        | The Flame-Touched Dagger                     | 复刻杰诺瓦的焰火       | The Flame-Touched Dagger Rerun               | 復刻-燈火のシニエ                    | -                        |
+| 20230413   | event 20211111 cn        | The Flame-Touched Dagger                     | 复刻杰诺瓦的焰火        | The Flame-Touched Dagger Rerun               | 復刻-燈火のシニエ                    | -                        |
 | 20230413   | event 20210819 cn        | Microlayer Medley                            | -                      | -                                            | -                                    | 復刻-微層混合            |
-| 20230427   | event 20201126 cn        | Vacation Lane                                | 假日航线               | Vacation Lane                                | バケーションレーン                   | 假日航線   |
-| 20230525   | event 20220526 cn        | Pledge of the Radiant Court                  | -               | -                  | -                    | 泠誓光庭                        |
-| 20230525 | event 20230525 cn | Confluence of Nothingness | 空相交汇点 | Confluence of Nothingness | 覆天せし万象の塵 | - |
+| 20230427   | event 20201126 cn        | Vacation Lane                                | 假日航线                | Vacation Lane                                | バケーションレーン                   | 假日航線   |
+| 20230525   | event 20220526 cn        | Pledge of the Radiant Court                  | -                      | -                                            | -                    | 泠誓光庭                        |
+| 20230525   | event 20230525 cn        | Confluence of Nothingness                    | 空相交汇点              | Confluence of Nothingness                    | 覆天せし万象の塵                      | - |
+| 20230615   | event 20200603 cn        | Counterattack Within the Fjord               | -                      | -                                            | -                                    | 復刻峽灣間的反擊          |
+| 20230621   | event 20210527 cn        | Mirror Involution Rerun                      | 复刻镜位螺旋            | Mirror Involution Rerun                      | 照らす螺旋の鏡海（復刻）               | -                        |
+| 20230629   | event 20220428 cn        | Rondo at Rainbow's End                       | -                      | -                                            | -                                    | 虹彩的終幕曲              |
+| 20230629 | raid 20230629 | Reflections of the Oasis | 绿洲往事 | Reflections of the Oasis | 緑地伽話 | - |

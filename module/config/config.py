@@ -510,6 +510,9 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
                     "OpsiObscure",
                     "OpsiAbyssal",
                     "OpsiStronghold",
+                    # Delay OpsiArchive, since OpsiArchive and OpsiDaily share the same mission list,
+                    # although it does not requires any AP to enter.
+                    "OpsiArchive",
                     "OpsiMeowfficerFarming",
                 ]
             )
