@@ -4,7 +4,7 @@ from module.exercise.assets import *
 from module.exercise.combat import ExerciseCombat
 from module.logger import logger
 from module.ocr.ocr import Digit, Ocr, OcrYuv
-from module.ui.ui import page_exercise
+from module.ui.page import page_exercise
 
 
 class DatedDuration(Ocr):
