@@ -47,8 +47,7 @@ class RaidCombat(Combat):
         """
         if self.is_combat_executing():
             return False
-        if self.appear_then_click(RAID_REWARD):
-            self.device.sleep((0.25, 0.5))
+        if self.appear_then_click(RAID_REWARD, offset=(30, 30), interval=3):
             return True
         if super().handle_exp_info():
             return True
