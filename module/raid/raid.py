@@ -243,7 +243,7 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
                 break
 
     def raid_expected_end(self):
-        return self.appear(RAID_CHECK, offset=(30, 30))
+        return self.appear(RAID_CHECK, offset=(30, 30)) or self.appear_then_click(RAID_REWARDS, offset=(30, 30))
 
     def raid_execute_once(self, mode, raid):
         """
