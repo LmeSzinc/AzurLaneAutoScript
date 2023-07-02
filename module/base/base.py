@@ -212,10 +212,11 @@ class ModuleBase:
                 self.interval_reset(b, interval)
             return
 
-        if button.name in self.interval_timer:
-            self.interval_timer[button.name].reset()
-        else:
-            self.interval_timer[button.name] = Timer(interval).reset()
+        if button is not None:
+            if button.name in self.interval_timer:
+                self.interval_timer[button.name].reset()
+            else:
+                self.interval_timer[button.name] = Timer(interval).reset()
 
     def interval_clear(self, button, interval=5):
         if isinstance(button, (list, tuple)):
@@ -223,10 +224,11 @@ class ModuleBase:
                 self.interval_clear(b, interval)
             return
 
-        if button.name in self.interval_timer:
-            self.interval_timer[button.name].clear()
-        else:
-            self.interval_timer[button.name] = Timer(interval).clear()
+        if button is not None:
+            if button.name in self.interval_timer:
+                self.interval_timer[button.name].clear()
+            else:
+                self.interval_timer[button.name] = Timer(interval).clear()
 
     def interval_is_reached(self, button, interval=5):
         if button.name in self.interval_timer:
