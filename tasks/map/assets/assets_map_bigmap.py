@@ -3,6 +3,36 @@ from module.base.button import Button, ButtonWrapper
 # This file was auto-generated, do not modify it manually. To generate:
 # ``` python -m dev_tools.button_extract ```
 
+FLOOR_1 = ButtonWrapper(
+    name='FLOOR_1',
+    share=Button(
+        file='./assets/share/map/bigmap/FLOOR_1.png',
+        area=(37, 623, 72, 660),
+        search=(17, 603, 92, 680),
+        color=(149, 149, 149),
+        button=(37, 623, 72, 660),
+    ),
+)
+FLOOR_2 = ButtonWrapper(
+    name='FLOOR_2',
+    share=Button(
+        file='./assets/share/map/bigmap/FLOOR_2.png',
+        area=(37, 552, 71, 589),
+        search=(17, 532, 91, 609),
+        color=(171, 171, 171),
+        button=(37, 552, 71, 589),
+    ),
+)
+FLOOR_3 = ButtonWrapper(
+    name='FLOOR_3',
+    share=Button(
+        file='./assets/share/map/bigmap/FLOOR_3.png',
+        area=(37, 480, 71, 518),
+        search=(17, 460, 91, 538),
+        color=(152, 152, 152),
+        button=(37, 480, 71, 518),
+    ),
+)
 OCR_PLANE = ButtonWrapper(
     name='OCR_PLANE',
     share=Button(
