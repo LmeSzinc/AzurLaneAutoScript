@@ -119,37 +119,51 @@ class KeywordExtract:
 
     def load_keywords(self, keywords: list[str | int], lang='cn'):
         text_map = self.text_map[lang]
-        self.keywords_id = [text_map.find(keyword)[0] for keyword in keywords]
-        self.keywords_id = [keyword for keyword in self.keywords_id if keyword != 0]
+        keywords_id = [text_map.find(keyword)[0] for keyword in keywords]
+        self.keywords_id = [keyword for keyword in keywords_id if keyword != 0]
+
+    def clear_keywords(self):
+        self.keywords_id = []
 
     def write_keywords(
             self,
             keyword_class,
-            output_file: str,
+            output_file: str = '',
             text_convert=text_to_variable,
+            generator: CodeGenerator = None
     ):
         """
         Args:
             keyword_class:
             output_file:
             text_convert:
+            generator: Reuse an existing code generator
         """
-        gen = CodeGenerator()
-        gen.Import(f"""
-        from .classes import {keyword_class}
-        """)
-        gen.CommentAutoGenerage('dev_tools.keyword_extract')
+        if generator is None:
+            gen = CodeGenerator()
+            gen.Import(f"""
+            from .classes import {keyword_class}
+            """)
+            gen.CommentAutoGenerage('dev_tools.keyword_extract')
+        else:
+            gen = generator
+
+        last_id = getattr(gen, 'last_id', 0)
         for index, keyword in enumerate(self.keywords_id):
             _, name = self.find_keyword(keyword, lang='en')
             name = text_convert(replace_templates(name))
             with gen.Object(key=name, object_class=keyword_class):
-                gen.ObjectAttr(key='id', value=index + 1)
+                gen.ObjectAttr(key='id', value=index + last_id + 1)
                 gen.ObjectAttr(key='name', value=name)
                 for lang in UI_LANGUAGES:
                     gen.ObjectAttr(key=lang, value=replace_templates(self.find_keyword(keyword, lang=lang)[1]))
+                gen.last_id = index + last_id + 1
 
-        print(f'Write {output_file}')
-        gen.write(output_file)
+        if output_file:
+            print(f'Write {output_file}')
+            gen.write(output_file)
+            self.clear_keywords()
+        return gen
 
     def load_daily_quests_keywords(self, lang='cn'):
         daily_quest = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'DailyQuest.json'))
@@ -176,6 +190,7 @@ class KeywordExtract:
 
         print(f'Write {output_file}')
         gen.write(output_file)
+        self.clear_keywords()
 
     def generate_assignment_keywords(self):
         KeywordFromFile = namedtuple('KeywordFromFile', ('file', 'class_name', 'output_file'))
@@ -186,6 +201,29 @@ class KeywordExtract:
             file = os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', keyword.file)
             self.load_keywords(deep_get(data, 'Name.Hash') for data in read_file(file).values())
             self.write_keywords(keyword_class=keyword.class_name, output_file=keyword.output_file)
+
+    def generate_map_planes(self):
+        planes = {
+            'Herta': ['观景车厢', '主控舱段', '基座舱段', '收容舱段', '支援舱段'],
+            'Jarilo': ['行政区', '城郊雪原', '边缘通路', '铁卫禁区', '残响回廊', '永冬岭',
+                       '磐岩镇', '大矿区', '铆钉镇', '机械聚落'],
+            'Luofu': ['星槎海中枢', '长乐天', '流云渡', '迴星港', '太卜司', '工造司'],
+        }
+
+        def text_convert(world_):
+            def text_convert_wrapper(name):
+                name = text_to_variable(name).replace('_', '')
+                name = f'{world_}_{name}'
+                return name
+
+            return text_convert_wrapper
+
+        gen = None
+        for world, plane in planes.items():
+            self.load_keywords(plane)
+            gen = self.write_keywords(keyword_class='MapPlane', output_file='',
+                                      text_convert=text_convert(world), generator=gen)
+        gen.write('./tasks/map/keywords/plane.py')
 
     def generate(self):
         self.load_keywords(['模拟宇宙', '拟造花萼（金）', '拟造花萼（赤）', '凝滞虚影', '侵蚀隧洞', '历战余响', '忘却之庭'])
@@ -205,6 +243,7 @@ class KeywordExtract:
         self.write_keywords(keyword_class='BattlePassTab', output_file='./tasks/battle_pass/keywords/tab.py')
         self.generate_assignment_keywords()
         self.generate_forgotten_hall_stages()
+        self.generate_map_planes()
 
 
 if __name__ == '__main__':

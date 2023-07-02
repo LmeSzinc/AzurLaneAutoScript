@@ -1,3 +1,4 @@
+from module.base.button import ButtonWrapper
 from module.base.decorator import run_once
 from module.base.timer import Timer
 from module.exception import GameNotRunningError, GamePageUnknownError
@@ -202,6 +203,62 @@ class UI(PopupHandler, StateMixin):
                 else:
                     self.device.click(button)
                 retry.reset()
+
+    def ui_click(
+            self,
+            click_button,
+            check_button,
+            appear_button=None,
+            additional=None,
+            retry_wait=5,
+            skip_first_screenshot=True,
+    ):
+        """
+        Args:
+            click_button (ButtonWrapper):
+            check_button (ButtonWrapper, callable, list[ButtonWrapper], tuple[ButtonWrapper]):
+            appear_button (ButtonWrapper, callable, list[ButtonWrapper], tuple[ButtonWrapper]):
+            additional (callable):
+            retry_wait (int, float):
+            skip_first_screenshot (bool):
+        """
+        if appear_button is None:
+            appear_button = click_button
+        logger.info(f'UI click: {appear_button} -> {check_button}')
+
+        def process_appear(button):
+            if isinstance(button, ButtonWrapper):
+                return self.appear(button)
+            elif callable(button):
+                return button()
+            elif isinstance(button, (list, tuple)):
+                for b in button:
+                    if self.appear(b):
+                        return True
+                return False
+            else:
+                return self.appear(button)
+
+        click_timer = Timer(retry_wait, count=retry_wait // 0.5)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if process_appear(check_button):
+                break
+
+            # Click
+            if click_timer.reached():
+                if process_appear(appear_button):
+                    self.device.click(click_button)
+                    click_timer.reset()
+                    continue
+            if additional is not None:
+                if additional():
+                    continue
 
     def is_in_main(self):
         return self.appear(page_main.check_button)

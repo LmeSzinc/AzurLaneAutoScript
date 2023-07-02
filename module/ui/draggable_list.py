@@ -190,20 +190,32 @@ class DraggableList:
 
         return False
 
-    def select_row(self, row: Keyword, main: ModuleBase, skip_first_screenshot=True):
+    def get_selected_row(self, main: ModuleBase) -> Optional[OcrResultButton]:
+        """
+        `load_rows()` must be called before `get_selected_row()`.
+        """
+        for row in self.cur_buttons:
+            if self.is_row_selected(row, main=main):
+                return row
+        return None
+
+    def select_row(self, row: Keyword, main: ModuleBase, insight=True, skip_first_screenshot=True):
         """
         Args:
             row:
             main:
+            insight: If call `insight_row()` before selecting
             skip_first_screenshot:
 
         Returns:
             If success
         """
-        result = self.insight_row(
-            row, main=main, skip_first_screenshot=skip_first_screenshot)
-        if not result:
-            return False
+        if insight:
+            result = self.insight_row(
+                row, main=main, skip_first_screenshot=skip_first_screenshot)
+            if not result:
+                return False
+
         logger.info(f'Select row: {row}')
         skip_first_screenshot = True
         interval = Timer(5)
