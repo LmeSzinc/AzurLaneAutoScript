@@ -12,7 +12,7 @@ from module.retire.assets import DOCK_CHECK, TEMPLATE_BOGUE, TEMPLATE_HERMES, TE
 from module.retire.dock import Dock
 from module.retire.scanner import ShipScanner
 from module.ui.page import page_fleet
-from module.ui.ui import BACK_ARROW
+from module.ui.assets import BACK_ARROW
 
 SIM_VALUE = 0.95
 

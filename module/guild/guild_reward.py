@@ -1,7 +1,7 @@
 from module.guild.lobby import GuildLobby
 from module.guild.logistics import GuildLogistics
 from module.guild.operations import GuildOperations
-from module.ui.ui import page_guild, page_main
+from module.ui.page import page_guild, page_main
 
 
 class RewardGuild(GuildLobby, GuildLogistics, GuildOperations):

@@ -224,27 +224,29 @@ class ModuleBase:
         color = get_color(self.device.image, button_area)
         return Button(area=button_area, color=color, button=button_area, name=name)
 
-    def interval_reset(self, button):
+    def interval_reset(self, button, interval=3):
         if isinstance(button, (list, tuple)):
             for b in button:
                 self.interval_reset(b)
             return
 
-        if button.name in self.interval_timer:
-            self.interval_timer[button.name].reset()
-        else:
-            self.interval_timer[button.name] = Timer(3).reset()
+        if button is not None:
+            if button.name in self.interval_timer:
+                self.interval_timer[button.name].reset()
+            else:
+                self.interval_timer[button.name] = Timer(interval).reset()
 
-    def interval_clear(self, button):
+    def interval_clear(self, button, interval=3):
         if isinstance(button, (list, tuple)):
             for b in button:
                 self.interval_clear(b)
             return
 
-        if button.name in self.interval_timer:
-            self.interval_timer[button.name].clear()
-        else:
-            self.interval_timer[button.name] = Timer(3).clear()
+        if button is not None:
+            if button.name in self.interval_timer:
+                self.interval_timer[button.name].clear()
+            else:
+                self.interval_timer[button.name] = Timer(interval).clear()
 
     _image_file = ''
 
