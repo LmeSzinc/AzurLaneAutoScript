@@ -29,6 +29,30 @@ class Navbar:
         self.inactive_count = inactive_count
         self.name = name if name is not None else grids._name
 
+    def is_button_active(self, button, main):
+        """
+        Args:
+            button (Button):
+            main (ModuleBase):
+
+        Returns:
+            bool:
+        """
+        return main.image_color_count(
+                    button, color=self.active_color, threshold=self.active_threshold, count=self.active_count)
+
+    def is_button_inactive(self, button, main):
+        """
+        Args:
+            button (Button):
+            main (ModuleBase):
+
+        Returns:
+            bool:
+        """
+        return main.image_color_count(
+            button, color=self.inactive_color, threshold=self.inactive_threshold, count=self.inactive_count)
+
     def get_info(self, main):
         """
         Args:
@@ -40,12 +64,10 @@ class Navbar:
         total = []
         active = []
         for index, button in enumerate(self.grids.buttons):
-            if main.image_color_count(
-                    button, color=self.active_color, threshold=self.active_threshold, count=self.active_count):
+            if self.is_button_active(button, main=main):
                 total.append(index)
                 active.append(index)
-            elif main.image_color_count(
-                    button, color=self.inactive_color, threshold=self.inactive_threshold, count=self.inactive_count):
+            elif self.is_button_inactive(button, main=main):
                 total.append(index)
 
         if len(active) == 0:
