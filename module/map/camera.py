@@ -129,7 +129,8 @@ class Camera(MapOperation):
                 return False
             elif self.appear(GET_ITEMS_1, offset=5):
                 logger.warning('Perspective error caused by get_items')
-                self.handle_mystery()
+                # Don't use handle_mystery() here since OpSi overrides it.
+                self.device.click(GET_ITEMS_1)
                 return False
             elif self.appear(GET_ITEMS_1_RYZA, offset=(20, 20)):
                 logger.warning('Perspective error caused by GET_ITEMS_1_RYZA')
