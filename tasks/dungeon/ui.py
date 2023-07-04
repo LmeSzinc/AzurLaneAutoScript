@@ -65,8 +65,11 @@ class OcrDungeonNav(Ocr):
 
 
 class OcrDungeonList(Ocr):
-    pass
-
+    def after_process(self, result):
+        result = super().after_process(result)
+        if self.lang == 'ch':
+            result = result.replace('翼', '巽')  # 巽风之形
+        return result
 
 class OcrDungeonListLimitEntrance(OcrDungeonList):
     def __init__(self, *args, **kwargs):
