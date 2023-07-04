@@ -1531,6 +1531,9 @@
       "Collect": true,
       "DayOfWeek": 0
     },
+    "Minigame": {
+      "Collect": false
+    },
     "Storage": {
       "Storage": {}
     }
