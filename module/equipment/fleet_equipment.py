@@ -3,7 +3,7 @@ from module.equipment.equipment import Equipment
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.ui.assets import FLEET_CHECK
-from module.ui.ui import page_fleet
+from module.ui.page import page_fleet
 
 OCR_FLEET_INDEX = Digit(OCR_FLEET_INDEX, letter=(90, 154, 255), threshold=128, alphabet='123456')
 

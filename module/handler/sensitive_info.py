@@ -1,7 +1,8 @@
 import re
 
 from module.base.mask import Mask
-from module.ui.page import *
+from module.ui.assets import PLAYER_CHECK
+from module.ui.page import MAIN_CHECK
 
 MASK_MAIN = Mask('./assets/mask/MASK_MAIN.png')
 MASK_PLAYER = Mask('./assets/mask/MASK_PLAYER.png')

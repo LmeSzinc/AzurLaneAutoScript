@@ -61,6 +61,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
             out: STORAGE_CHECK
         """
         success = False
+        get_mission_counter = 0
         self.interval_clear(STORAGE_CHECK)
         self.interval_clear(STORAGE_USE)
         self.interval_clear(GET_ITEMS_1)
@@ -79,6 +80,10 @@ class StorageHandler(GlobeOperation, ZoneManager):
                 logger.info(f'_storage_item_use item info -> {GET_MISSION}')
                 self.device.click(GET_MISSION)
                 self.interval_reset(STORAGE_CHECK)
+                get_mission_counter += 1
+                if get_mission_counter >= 3:
+                    logger.warning('Possibly stuck on energy storage device, redetecting logger items.')
+                    break
                 continue
             # Item rewards
             if self.appear_then_click(STORAGE_USE, offset=(180, 30), interval=5):

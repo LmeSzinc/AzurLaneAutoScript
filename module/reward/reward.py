@@ -4,8 +4,9 @@ from module.base.timer import Timer
 from module.combat.assets import *
 from module.logger import logger
 from module.reward.assets import *
+from module.ui.assets import MISSION_CHECK
 from module.ui.navbar import Navbar
-from module.ui.page import *
+from module.ui.page import page_main, page_mission, page_reward
 from module.ui.ui import UI
 
 

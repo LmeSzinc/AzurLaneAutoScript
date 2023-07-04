@@ -9,6 +9,16 @@ from module.ui.navbar import Navbar
 from module.ui.ui import UI
 
 
+class ShipyardNavbar(Navbar):
+    def is_button_active(self, button, main):
+        if main.image_color_count(button, color=(33, 113, 222), threshold=221, count=400):
+            return True
+        # Color on Odin's shoulder
+        if main.image_color_count(button, color=(41, 85, 165), threshold=221, count=400):
+            return True
+        return False
+
+
 class ShipyardUI(UI):
     def _shipyard_cannot_strengthen(self):
         """
@@ -168,9 +178,9 @@ class ShipyardUI(UI):
         Location varies on own's research progress, so users
         must verify the index for themselves
         """
-        return Navbar(grids=SHIPYARD_FACE_GRID,
-                      active_color=(33, 113, 222), active_threshold=221, active_count=50,
-                      inactive_color=(49, 60, 82), inactive_threshold=221, inactive_count=50)
+        return ShipyardNavbar(
+            grids=SHIPYARD_FACE_GRID,
+            inactive_color=(49, 60, 82), inactive_threshold=221, inactive_count=50)
 
     def shipyard_bottom_navbar_ensure(self, left=None, right=None, skip_first_screenshot=True):
         """
@@ -228,8 +238,8 @@ class ShipyardUI(UI):
         if series > 2 and index > 5:
             logger.warning(f'Research Series {series} is limited to indexes 1-5, cannot set focus to index {index}')
             return False
-        return self._shipyard_set_series(series, skip_first_screenshot) and \
-            self.shipyard_bottom_navbar_ensure(left=index, skip_first_screenshot=skip_first_screenshot)
+        return self._shipyard_set_series(series, skip_first_screenshot) \
+               and self.shipyard_bottom_navbar_ensure(left=index, skip_first_screenshot=skip_first_screenshot)
 
     def _shipyard_get_ship(self, skip_first_screenshot=True):
         """
@@ -334,8 +344,7 @@ class ShipyardUI(UI):
                 continue
 
             # End
-            if success and \
-                self._shipyard_in_ui():
+            if success and self._shipyard_in_ui():
                 if confirm_timer.reached():
                     break
             else:
@@ -348,8 +357,8 @@ class ShipyardUI(UI):
         Returns:
             bool whether entered
         """
-        if self.appear(SHIPYARD_RESEARCH_INCOMPLETE, offset=(20, 20)) or \
-           self.appear(SHIPYARD_RESEARCH_IN_PROGRESS, offset=(20, 20)):
+        if self.appear(SHIPYARD_RESEARCH_INCOMPLETE, offset=(20, 20)) \
+                or self.appear(SHIPYARD_RESEARCH_IN_PROGRESS, offset=(20, 20)):
             logger.warning('Cannot enter buy interface, focused '
                            'ship has not yet been fully researched')
             return False
