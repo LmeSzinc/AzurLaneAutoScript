@@ -3,7 +3,8 @@ import numpy as np
 from ppocronnx.predict_system import BoxedResult
 
 from module.base.base import ModuleBase
-from module.base.utils import area_offset, color_similarity_2d, crop
+from module.base.timer import Timer
+from module.base.utils import area_offset, color_similarity_2d, crop, get_color
 from module.logger.logger import logger
 from module.ocr.keyword import Keyword
 from module.ocr.ocr import Ocr, OcrResultButton
@@ -14,6 +15,7 @@ from tasks.dungeon.keywords import DungeonList
 from tasks.dungeon.ui import DungeonUI
 from tasks.forgotten_hall.assets.assets_forgotten_hall import *
 from tasks.forgotten_hall.keywords import *
+from tasks.map.control.joystick import MapControlJoystick
 
 
 class ForgottenHallStageOcr(Ocr):
@@ -116,3 +118,68 @@ class ForgottenHallUI(UI):
             dungeon_ui = DungeonUI(config=self.config, device=self.device)
             dungeon_ui.dungeon_goto(forgotten_hall)
         STAGE_LIST.select_row(stage_keyword, main=self)
+
+    def exit_dungeon(self, skip_first_screenshot=True):
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(FORGOTTEN_HALL_CHECK):
+                logger.info("Forgotten hall dungeon exited")
+                break
+
+            if self.appear_then_click(EXIT_DUNGEON):
+                continue
+            if self.appear_then_click(EXIT_CONFIRM):
+                continue
+
+    def _choose_first_character(self, skip_first_screenshot=True):
+        """
+        A temporary method used to choose the first character only
+        """
+        interval = Timer(1)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if np.mean(get_color(self.device.image, ENTER_FORGOTTEN_HALL_DUNGEON.area)) > 128:
+                logger.info("First character is chosen")
+                break
+            if interval.reached():
+                self.device.click(FIRST_CHARACTER)
+                interval.reset()
+
+    def _enter_forgotten_hall_dungeon(self, skip_first_screenshot=True):
+        """
+        called after team is set
+        """
+        interval = Timer(1)
+        joystick = MapControlJoystick(self.config, self.device)
+        while 1:  # enter ui -> popup
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(EFFECT_NOTIFICATION):
+                break
+
+            if interval.reached() and np.mean(get_color(self.device.image, ENTER_FORGOTTEN_HALL_DUNGEON.area)) > 128:
+                self.device.click(ENTER_FORGOTTEN_HALL_DUNGEON)
+                interval.reset()
+
+        skip_first_screenshot = True
+        while 1:  # pop up -> dungeon inside
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.match_template_color(DUNGEON_ENTER_CHECKED):
+                logger.info("Forgotten hall dungeon entered")
+                break
+            joystick.handle_map_run()
