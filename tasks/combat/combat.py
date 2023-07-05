@@ -162,7 +162,8 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, MapControlJ
                 return False
 
             # Click
-            if self.appear(COMBAT_AGAIN, interval=2):
+            # Game client might slow to response COMBAT_AGAIN clicks
+            if self.appear(COMBAT_AGAIN, interval=5):
                 if self._combat_can_again():
                     self.device.click(COMBAT_AGAIN)
                 else:

@@ -62,7 +62,10 @@ class CombatPrepare(UI):
             else:
                 self.device.screenshot()
 
-            current, _, _ = TrailblazePowerOcr(OCR_TRAILBLAZE_POWER).ocr_single_line(self.device.image)
+            current, _, total = TrailblazePowerOcr(OCR_TRAILBLAZE_POWER).ocr_single_line(self.device.image)
+            # Empty result
+            if total == 0:
+                continue
             # Confirm if it is > 180, sometimes just OCR errors
             if current > 180 and timeout.reached():
                 break
