@@ -69,6 +69,7 @@ class OcrDungeonList(Ocr):
         result = super().after_process(result)
         if self.lang == 'ch':
             result = result.replace('翼', '巽')  # 巽风之形
+            result = result.replace('皖A0', '50').replace('皖', '')
         return result
 
 
@@ -116,6 +117,9 @@ class DungeonUI(UI):
         Args:
             state:
 
+        Returns:
+            bool: If UI switched
+
         Examples:
             self = DungeonUI('alas')
             self.device.screenshot()
@@ -124,14 +128,19 @@ class DungeonUI(UI):
             self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
         """
         logger.hr('Dungeon tab goto', level=2)
-        self.ui_ensure(page_guide)
-        if SWITCH_DUNGEON_TAB.set(state, main=self):
+        ui_switched = self.ui_ensure(page_guide)
+        tab_switched = SWITCH_DUNGEON_TAB.set(state, main=self)
+
+        if ui_switched or tab_switched:
             if state == KEYWORDS_DUNGEON_TAB.Daily_Training:
                 logger.info(f'Tab goto {state}, wait until loaded')
                 self._dungeon_wait_daily_training_loaded()
             elif state == KEYWORDS_DUNGEON_TAB.Survival_Index:
                 logger.info(f'Tab goto {state}, wait until loaded')
                 self._dungeon_wait_survival_loaded()
+            return True
+        else:
+            return False
 
     def _dungeon_wait_daily_training_loaded(self, skip_first_screenshot=True):
         """
@@ -209,13 +218,34 @@ class DungeonUI(UI):
                     logger.info('DungeonNav row Forgotten_Hall stabled')
                     return True
 
-    def _dungeon_nav_select(self, dungeon: DungeonList):
+    def _dungeon_nav_goto(self, dungeon: DungeonList, use_fast=False, skip_first_screenshot=True):
         """
         Equivalent to `DUNGEON_NAV_LIST.select_row(dungeon.dungeon_nav, main=self)`
         but with tricks to be faster
+
+        Args:
+            dungeon:
+            use_fast: True to use a faster method to navigate but can only start from list top,
+                False to start from any list states.
+            skip_first_screenshot:
         """
+        logger.hr('Dungeon nav goto', level=2)
+        logger.info(f'Dungeon nav goto {dungeon.dungeon_nav}, use_fast={use_fast}')
+        if not use_fast:
+            DUNGEON_NAV_LIST.select_row(dungeon.dungeon_nav, main=self)
+            return True
+
+        # Wait rows
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            DUNGEON_NAV_LIST.load_rows(main=self)
+            if DUNGEON_NAV_LIST.cur_buttons:
+                break
+
         # Check the first page
-        DUNGEON_NAV_LIST.load_rows(main=self)
         if dungeon.dungeon_nav in [
             KEYWORDS_DUNGEON_NAV.Simulated_Universe,
             KEYWORDS_DUNGEON_NAV.Calyx_Golden,
@@ -327,10 +357,10 @@ class DungeonUI(UI):
             self.dungeon_goto(KEYWORDS_DUNGEON_LIST.Calyx_Crimson_Harmony)
         """
         logger.hr('Dungeon goto', level=1)
-        self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
+        switched = self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
 
         if dungeon.is_Simulated_Universe:
-            DUNGEON_NAV_LIST.select_row(KEYWORDS_DUNGEON_NAV.Simulated_Universe, main=self)
+            self._dungeon_nav_goto(dungeon, use_fast=switched)
             pass
             self._dungeon_insight(dungeon)
             return True
@@ -343,12 +373,12 @@ class DungeonUI(UI):
                 or dungeon.is_Stagnant_Shadow \
                 or dungeon.is_Stagnant_Shadow \
                 or dungeon.is_Cavern_of_Corrosion:
-            self._dungeon_nav_select(dungeon)
+            self._dungeon_nav_goto(dungeon, use_fast=switched)
             self._dungeon_insight(dungeon)
             self._dungeon_enter(dungeon)
             return True
         if dungeon.is_Forgotten_Hall:
-            self._dungeon_nav_select(dungeon)
+            self._dungeon_nav_goto(dungeon, use_fast=switched)
             self._dungeon_insight(dungeon)
             self._dungeon_enter(dungeon, enter_check_button=FORGOTTEN_HALL_CHECK)
             return True
