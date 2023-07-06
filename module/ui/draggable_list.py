@@ -229,6 +229,7 @@ class DraggableList:
 
             if skip_first_load_rows:
                 skip_first_load_rows = False
+                load_rows_interval.reset()
             else:
                 if load_rows_interval.reached():
                     self.load_rows(main=main)
@@ -240,7 +241,7 @@ class DraggableList:
 
             # End
             if self.is_row_selected(button, main=main):
-                logger.info('Row selected')
+                logger.info(f'Row selected at {row}')
                 return True
 
             # Click
