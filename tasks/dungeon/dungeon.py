@@ -20,7 +20,11 @@ class Dungeon(DungeonUI, Combat):
         self.combat(team)
 
         # Scheduler
+        if dungeon.is_Cavern_of_Corrosion:
+            limit = 80
+        else:
+            limit = 60
         # Recover 1 trailbaze power each 6 minutes
-        cover = max(60 - self.state.TrailblazePower, 0) * 6
-        logger.info(f'Currently has {self.state.TrailblazePower} Need {cover} minutes to reach 60')
+        cover = max(limit - self.state.TrailblazePower, 0) * 6
+        logger.info(f'Currently has {self.state.TrailblazePower} need {cover} minutes to reach {limit}')
         self.config.task_delay(minute=cover)
