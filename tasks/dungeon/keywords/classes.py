@@ -46,7 +46,7 @@ class DungeonList(Keyword):
 
     @cached_property
     def is_Forgotten_Hall(self):
-        return 'Forgotten_Hall' or 'Last_Vestiges' in self.name
+        return ('Forgotten_Hall' in self.name) or ('Last_Vestiges' in self.name)
 
     @cached_property
     def is_Last_Vestiges(self):
