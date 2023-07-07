@@ -2,6 +2,7 @@ from module.base.timer import Timer
 from module.campaign.campaign_event import CampaignEvent
 from module.exception import ScriptEnd, ScriptError
 from module.logger import logger
+from module.raid.assets import RAID_REWARDS
 from module.raid.raid import OilExhausted, Raid, raid_ocr
 from module.ui.page import page_raid
 
@@ -48,6 +49,10 @@ class RaidRun(Raid, CampaignEvent):
             else:
                 remain, _, _ = result
             logger.attr(f'{mode.capitalize()} Remain', remain)
+
+            if self.appear_then_click(RAID_REWARDS, offset=(30, 30), interval=3):
+                confirm_timer.reset()
+                continue
 
             # End
             if remain == prev:
