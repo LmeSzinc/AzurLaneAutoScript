@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
 
-from module.base.timer import Timer
 from module.logger import logger
 from module.ocr.ocr import Duration
 from tasks.assignment.assets.assets_assignment_claim import *

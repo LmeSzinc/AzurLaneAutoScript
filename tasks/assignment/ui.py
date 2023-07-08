@@ -10,7 +10,6 @@ from module.ui.draggable_list import DraggableList
 from module.ui.switch import Switch
 from tasks.assignment.assets.assets_assignment_ui import *
 from tasks.assignment.keywords import *
-from tasks.base.page import page_assignment
 from tasks.base.ui import UI
 
 

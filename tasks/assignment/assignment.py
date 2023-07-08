@@ -3,7 +3,6 @@ from datetime import datetime
 from module.logger import logger
 from module.ocr.ocr import Duration
 from tasks.assignment.assets.assets_assignment_claim import CLAIM
-from tasks.assignment.assets.assets_assignment_dispatch import EMPTY_SLOT
 from tasks.assignment.assets.assets_assignment_ui import (DISPATCHED,
                                                           OCR_ASSIGNMENT_TIME)
 from tasks.assignment.claim import AssignmentClaim
