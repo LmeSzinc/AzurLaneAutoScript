@@ -3,7 +3,7 @@ import numpy as np
 from module.base.timer import Timer
 from module.base.utils import get_color
 from module.logger.logger import logger
-from module.ocr.ocr import Digit
+from module.ocr.ocr import Digit, Duration
 from module.ui.switch import Switch
 from tasks.base.assets.assets_base_page import BATTLE_PASS_CHECK
 from tasks.base.assets.assets_base_popup import GET_REWARD
@@ -26,6 +26,8 @@ SWITCH_BATTLE_PASS_TAB.add_state(
 
 
 class BattlePassUI(UI):
+    MAX_LEVEL = 50
+
     def _battle_pass_wait_rewards_loaded(self, skip_first_screenshot=True):
         timeout = Timer(2, count=4).start()
         while 1:
@@ -150,6 +152,9 @@ class BattlePassUI(UI):
         digit = Digit(OCR_LEVEL)
         return digit.ocr_single_line(self.device.image)
 
+    def _get_remaining_time(self):
+        return Duration(OCR_REMAINING_TIME).ocr_single_line(self.device.image)
+
     def claim_battle_pass_rewards(self):
         """
         Examples:
@@ -159,16 +164,19 @@ class BattlePassUI(UI):
         """
         self.ui_ensure(page_battle_pass)
         previous_level = self._get_battle_pass_level()
+        if previous_level == self.MAX_LEVEL:
+            return previous_level
         claimed_exp = self._claim_exp()
-        if claimed_exp and previous_level != 50 and self._get_battle_pass_level() > previous_level:
+        current_level = self._get_battle_pass_level()
+        if claimed_exp and current_level > previous_level:
             logger.info("Upgraded, go to claim rewards")
             self._claim_rewards()
-        return True
+        return current_level
 
     def run(self):
-        for _ in range(5):
-            claimed = self.claim_battle_pass_rewards()
-            if claimed:
-                break
-
-        self.config.task_delay(server_update=True)
+        current_level = self.claim_battle_pass_rewards()
+        if current_level == self.MAX_LEVEL:
+            remaining_time = self._get_remaining_time()
+            self.config.task_delay(minute=remaining_time.total_seconds() / 60)
+        else:
+            self.config.task_delay(server_update=True)

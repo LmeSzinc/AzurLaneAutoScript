@@ -283,14 +283,14 @@ class Duration(Ocr):
     @cached_property
     def timedelta_regex(self):
         regex_str = {
-            'ch': r'\D*((?P<hours>\d{1,2})小时)?((?P<minutes>\d{1,2})分钟)?((?P<seconds>\d{1,2})秒})?',
-            'en': r'\D*((?P<hours>\d{1,2})h\s*)?((?P<minutes>\d{1,2})m\s*)?((?P<seconds>\d{1,2})s)?'
+            'ch': r'\D*((?P<days>\d{1,2})天)?((?P<hours>\d{1,2})小时)?((?P<minutes>\d{1,2})分钟)?((?P<seconds>\d{1,2})秒})?',
+            'en': r'\D*((?P<days>\d{1,2})d\s*)?((?P<hours>\d{1,2})h\s*)?((?P<minutes>\d{1,2})m\s*)?((?P<seconds>\d{1,2})s)?'
         }[self.lang]
         return re.compile(regex_str)
 
     def format_result(self, result: str) -> timedelta:
         """
-        Do OCR on a duration, such as `2h 13m 30s`, `2h`, `13m 30s`, `9s`
+        Do OCR on a duration, such as `18d 2h 13m 30s`, `2h`, `13m 30s`, `9s`
 
         Returns:
             timedelta:
@@ -298,10 +298,11 @@ class Duration(Ocr):
         matched = self.timedelta_regex.match(result)
         if matched is None:
             return timedelta()
+        days = self._sanitize_number(matched.group('days'))
         hours = self._sanitize_number(matched.group('hours'))
         minutes = self._sanitize_number(matched.group('minutes'))
         seconds = self._sanitize_number(matched.group('seconds'))
-        return timedelta(hours=hours, minutes=minutes, seconds=seconds)
+        return timedelta(days=days, hours=hours, minutes=minutes, seconds=seconds)
 
     @staticmethod
     def _sanitize_number(number) -> int:

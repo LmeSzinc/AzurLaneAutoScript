@@ -63,6 +63,16 @@ OCR_LEVEL = ButtonWrapper(
         button=(183, 93, 240, 134),
     ),
 )
+OCR_REMAINING_TIME = ButtonWrapper(
+    name='OCR_REMAINING_TIME',
+    share=Button(
+        file='./assets/share/battle_pass/OCR_REMAINING_TIME.png',
+        area=(289, 89, 630, 132),
+        search=(269, 69, 650, 152),
+        color=(66, 63, 57),
+        button=(289, 89, 630, 132),
+    ),
+)
 REWARDS_CHECK = ButtonWrapper(
     name='REWARDS_CHECK',
     share=Button(
