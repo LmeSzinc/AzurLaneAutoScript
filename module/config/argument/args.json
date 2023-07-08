@@ -8097,7 +8097,7 @@
     "OpsiVoucher": {
       "Filter": {
         "type": "textarea",
-        "value": "LoggerAbyssal > LoggerObscure > Book > Coin"
+        "value": "LoggerAbyssal > LoggerObscure > Book > Coin > Fragment"
       }
     },
     "Storage": {

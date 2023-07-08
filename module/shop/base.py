@@ -17,7 +17,7 @@ FILTER_REGEX = re.compile(
     '|chip|coin|cube|drill|food'
     '|plate|retrofit|pr|dr'
     '|logger|tuning'
-    '|hecombatplan'
+    '|hecombatplan|fragment'
     '|albacore|bataan|bluegill|carabiniere|casablanca|contedicavour|dukeofyork|echo'
     '|eldridge|grenville|hibiki|hunter|kinggeorgev|kinu|kuroshio|lemalinmuse'
     '|letemeraire|littorio|newcastle|oyashio|quincy|ryuujou|sanjuan|sheffieldmuse'
