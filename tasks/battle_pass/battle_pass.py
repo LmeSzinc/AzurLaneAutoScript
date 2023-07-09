@@ -1,7 +1,10 @@
+import datetime
+
 import numpy as np
 
 from module.base.timer import Timer
 from module.base.utils import get_color
+from module.config.utils import get_server_next_update
 from module.logger.logger import logger
 from module.ocr.ocr import Digit, Duration
 from module.ui.switch import Switch
@@ -148,15 +151,21 @@ class BattlePassUI(UI):
             if self.handle_reward():
                 continue
 
-    def _get_battle_pass_level(self):
+    def _get_battle_pass_level(self) -> int:
         digit = Digit(OCR_LEVEL)
         return digit.ocr_single_line(self.device.image)
 
-    def _get_remaining_time(self):
-        return Duration(OCR_REMAINING_TIME).ocr_single_line(self.device.image)
+    def _get_battle_pass_end(self) -> datetime.datetime:
+        remain = Duration(OCR_REMAINING_TIME).ocr_single_line(self.device.image)
+        future = get_server_next_update(self.config.Scheduler_ServerUpdate)
+        future += datetime.timedelta(days=remain.days)
+        return future
 
     def claim_battle_pass_rewards(self):
         """
+        Returns:
+            int: Current battle pass level
+
         Examples:
             self = BattlePassUI('alas')
             self.device.screenshot()
@@ -176,7 +185,6 @@ class BattlePassUI(UI):
     def run(self):
         current_level = self.claim_battle_pass_rewards()
         if current_level == self.MAX_LEVEL:
-            remaining_time = self._get_remaining_time()
-            self.config.task_delay(minute=remaining_time.total_seconds() / 60)
+            self.config.task_delay(target=self._get_battle_pass_end())
         else:
             self.config.task_delay(server_update=True)
