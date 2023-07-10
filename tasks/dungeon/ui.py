@@ -218,22 +218,17 @@ class DungeonUI(UI):
                     logger.info('DungeonNav row Forgotten_Hall stabled')
                     return True
 
-    def _dungeon_nav_goto(self, dungeon: DungeonList, use_fast=False, skip_first_screenshot=True):
+    def _dungeon_nav_goto(self, dungeon: DungeonList, skip_first_screenshot=True):
         """
         Equivalent to `DUNGEON_NAV_LIST.select_row(dungeon.dungeon_nav, main=self)`
         but with tricks to be faster
 
         Args:
             dungeon:
-            use_fast: True to use a faster method to navigate but can only start from list top,
-                False to start from any list states.
             skip_first_screenshot:
         """
         logger.hr('Dungeon nav goto', level=2)
-        logger.info(f'Dungeon nav goto {dungeon.dungeon_nav}, use_fast={use_fast}')
-        if not use_fast:
-            DUNGEON_NAV_LIST.select_row(dungeon.dungeon_nav, main=self)
-            return True
+        logger.info(f'Dungeon nav goto {dungeon.dungeon_nav}')
 
         # Wait rows
         while 1:
@@ -244,6 +239,16 @@ class DungeonUI(UI):
             DUNGEON_NAV_LIST.load_rows(main=self)
             if DUNGEON_NAV_LIST.cur_buttons:
                 break
+
+        # Check if it's at the first page.
+        if DUNGEON_NAV_LIST.keyword2button(KEYWORDS_DUNGEON_NAV.Simulated_Universe, show_warning=False):
+            # Going to use a faster method to navigate but can only start from list top
+            logger.info('DUNGEON_NAV_LIST at top')
+        else:
+            # To start from any list states.
+            logger.info('DUNGEON_NAV_LIST not at top')
+            DUNGEON_NAV_LIST.select_row(dungeon.dungeon_nav, main=self)
+            return True
 
         # Check the first page
         if dungeon.dungeon_nav in [
@@ -347,20 +352,19 @@ class DungeonUI(UI):
             bool: If success
 
         Pages:
-            in: Any
+            in: page_guide, Survival_Index
             out: COMBAT_PREPARE if success
                 page_guide if failed
 
         Examples:
+            from tasks.dungeon.keywords import KEYWORDS_DUNGEON_LIST
             self = DungeonUI('alas')
             self.device.screenshot()
+            self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
             self.dungeon_goto(KEYWORDS_DUNGEON_LIST.Calyx_Crimson_Harmony)
         """
-        logger.hr('Dungeon goto', level=1)
-        switched = self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
-
         if dungeon.is_Simulated_Universe:
-            self._dungeon_nav_goto(dungeon, use_fast=switched)
+            self._dungeon_nav_goto(dungeon)
             pass
             self._dungeon_insight(dungeon)
             return True
@@ -371,14 +375,13 @@ class DungeonUI(UI):
         if dungeon.is_Calyx_Golden \
                 or dungeon.is_Calyx_Crimson \
                 or dungeon.is_Stagnant_Shadow \
-                or dungeon.is_Stagnant_Shadow \
                 or dungeon.is_Cavern_of_Corrosion:
-            self._dungeon_nav_goto(dungeon, use_fast=switched)
+            self._dungeon_nav_goto(dungeon)
             self._dungeon_insight(dungeon)
             self._dungeon_enter(dungeon)
             return True
         if dungeon.is_Forgotten_Hall:
-            self._dungeon_nav_goto(dungeon, use_fast=switched)
+            self._dungeon_nav_goto(dungeon)
             self._dungeon_insight(dungeon)
             self._dungeon_enter(dungeon, enter_check_button=FORGOTTEN_HALL_CHECK)
             return True

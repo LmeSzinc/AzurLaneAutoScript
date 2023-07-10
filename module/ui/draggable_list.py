@@ -74,13 +74,14 @@ class DraggableList:
             # logger.warning(f'Row "{row}" does not belong to {self}')
             return 0
 
-    def keyword2button(self, row: Keyword) -> Optional[OcrResultButton]:
+    def keyword2button(self, row: Keyword, show_warning=True) -> Optional[OcrResultButton]:
         for button in self.cur_buttons:
             if button == row:
                 return button
 
-        logger.warning(f'Keyword {row} is not in current rows of {self}')
-        logger.warning(f'Current rows: {self.cur_buttons}')
+        if show_warning:
+            logger.warning(f'Keyword {row} is not in current rows of {self}')
+            logger.warning(f'Current rows: {self.cur_buttons}')
         return None
 
     def load_rows(self, main: ModuleBase):

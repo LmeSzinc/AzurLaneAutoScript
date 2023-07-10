@@ -10,8 +10,7 @@ from module.ocr.keyword import Keyword
 from module.ocr.ocr import Ocr, OcrResultButton
 from module.ui.draggable_list import DraggableList
 from tasks.base.assets.assets_base_page import FORGOTTEN_HALL_CHECK
-from tasks.base.ui import UI
-from tasks.dungeon.keywords import DungeonList
+from tasks.dungeon.keywords import DungeonList, KEYWORDS_DUNGEON_TAB
 from tasks.dungeon.ui import DungeonUI
 from tasks.forgotten_hall.assets.assets_forgotten_hall import *
 from tasks.forgotten_hall.keywords import *
@@ -98,7 +97,7 @@ STAGE_LIST = DraggableStageList("ForgottenHallStageList", keyword_class=Forgotte
                                 check_row_order=False, drag_direction="right")
 
 
-class ForgottenHallUI(UI):
+class ForgottenHallUI(DungeonUI):
     def stage_goto(self, forgotten_hall: DungeonList, stage_keyword: ForgottenHallStage):
         """
         Examples:
@@ -115,8 +114,8 @@ class ForgottenHallUI(UI):
             return
 
         if not self.appear(FORGOTTEN_HALL_CHECK):
-            dungeon_ui = DungeonUI(config=self.config, device=self.device)
-            dungeon_ui.dungeon_goto(forgotten_hall)
+            self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
+            self.dungeon_goto(forgotten_hall)
         STAGE_LIST.select_row(stage_keyword, main=self)
 
     def exit_dungeon(self, skip_first_screenshot=True):

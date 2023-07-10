@@ -1,7 +1,7 @@
 from module.base.utils import area_offset
 from module.logger import logger
 from tasks.combat.combat import Combat
-from tasks.dungeon.keywords import DungeonList, KEYWORDS_DUNGEON_LIST
+from tasks.dungeon.keywords import DungeonList, KEYWORDS_DUNGEON_LIST, KEYWORDS_DUNGEON_TAB
 from tasks.dungeon.ui import DungeonUI
 
 
@@ -13,6 +13,7 @@ class Dungeon(DungeonUI, Combat):
             team = self.config.Dungeon_Team
 
         # Run
+        self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
         if not self.dungeon_goto(dungeon):
             logger.error('Please check you dungeon settings')
             self.config.Scheduler_Enable = False
@@ -20,6 +21,7 @@ class Dungeon(DungeonUI, Combat):
 
         if dungeon == KEYWORDS_DUNGEON_LIST.Stagnant_Shadow_Blaze:
             if self.handle_destructible_around_blaze():
+                self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
                 self.dungeon_goto(dungeon)
 
         self.combat(team)

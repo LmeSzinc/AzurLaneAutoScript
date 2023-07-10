@@ -1,5 +1,4 @@
 from module.logger import logger
-from tasks.base.page import page_main
 from tasks.dungeon.keywords import KEYWORDS_DUNGEON_LIST
 from tasks.forgotten_hall.keywords import KEYWORDS_FORGOTTEN_HALL_STAGE
 from tasks.forgotten_hall.ui import ForgottenHallUI
@@ -25,7 +24,7 @@ class UseTechniqueUI(MapControlJoystick, ForgottenHallUI):
                 break
             self.handle_map_E()
 
-    def use_technique(self, count: int, skip_first_screenshot=True):
+    def use_technique(self, count: int = 2, skip_first_screenshot=True):
         """
         Args:
             skip_first_screenshot:
@@ -41,7 +40,6 @@ class UseTechniqueUI(MapControlJoystick, ForgottenHallUI):
             out: page_forgotten_hall, FORGOTTEN_HALL_CHECKED
         """
         logger.hr('Use techniques', level=2)
-        self.ui_ensure(page_main)
         self.stage_goto(KEYWORDS_DUNGEON_LIST.The_Last_Vestiges_of_Towering_Citadel,
                         KEYWORDS_FORGOTTEN_HALL_STAGE.Stage_1)
         self._choose_first_character()
@@ -49,3 +47,7 @@ class UseTechniqueUI(MapControlJoystick, ForgottenHallUI):
         self._use_technique(count, skip_first_screenshot=skip_first_screenshot)
         self.exit_dungeon()
         self.ui_goto_main()
+if __name__ == '__main__':
+    self = UseTechniqueUI('alas')
+    self.device.screenshot()
+    self.use_technique(2)
