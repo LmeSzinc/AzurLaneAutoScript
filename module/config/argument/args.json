@@ -170,7 +170,7 @@
     "Dungeon": {
       "Name": {
         "type": "select",
-        "value": "Calyx_Golden_Memories",
+        "value": "Calyx_Golden_Treasures",
         "option": [
           "Calyx_Golden_Memories",
           "Calyx_Golden_Aether",
@@ -197,6 +197,23 @@
           "Cavern_of_Corrosion_Path_of_Providence",
           "Cavern_of_Corrosion_Path_of_Holy_Hymn",
           "Cavern_of_Corrosion_Path_of_Conflagration"
+        ]
+      },
+      "NameAtDoubleCalyx": {
+        "type": "select",
+        "value": "Calyx_Golden_Treasures",
+        "option": [
+          "do_not_participate",
+          "Calyx_Golden_Memories",
+          "Calyx_Golden_Aether",
+          "Calyx_Golden_Treasures",
+          "Calyx_Crimson_Destruction",
+          "Calyx_Crimson_Preservation",
+          "Calyx_Crimson_Hunt",
+          "Calyx_Crimson_Abundance",
+          "Calyx_Crimson_Erudition",
+          "Calyx_Crimson_Harmony",
+          "Calyx_Crimson_Nihility"
         ]
       },
       "Team": {

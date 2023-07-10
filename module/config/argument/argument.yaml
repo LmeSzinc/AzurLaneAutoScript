@@ -72,8 +72,12 @@ Optimization:
 Dungeon:
   Name:
     # Options will be injected in config updater
-    value: Calyx_Golden_Memories
-    option: [Calyx_Golden_Memories, ]
+    value: Calyx_Golden_Treasures
+    option: [Calyx_Golden_Treasures, ]
+  NameAtDoubleCalyx:
+    # Options will be injected in config updater
+    value: Calyx_Golden_Treasures
+    option: [ do_not_participate, ]
   Team:
     value: 1
     option: [ 1, 2, 3, 4, 5, 6 ]

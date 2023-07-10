@@ -40,7 +40,8 @@
       "ServerUpdate": "04:00"
     },
     "Dungeon": {
-      "Name": "Calyx_Golden_Memories",
+      "Name": "Calyx_Golden_Treasures",
+      "NameAtDoubleCalyx": "Calyx_Golden_Treasures",
       "Team": 1
     }
   },

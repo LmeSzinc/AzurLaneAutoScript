@@ -182,7 +182,7 @@
     },
     "Name": {
       "name": "副本名稱",
-      "help": "",
+      "help": "默認打本設置",
       "Calyx_Golden_Memories": "材料：角色經驗（回憶之蕾•擬造花萼金）",
       "Calyx_Golden_Aether": "材料：武器經驗（乙太之蕾•擬造花萼金）",
       "Calyx_Golden_Treasures": "材料：信用點（藏珍之蕾•擬造花萼金）",
@@ -208,6 +208,21 @@
       "Cavern_of_Corrosion_Path_of_Providence": "遺器：鐵衛套+量子套（睿治之徑•侵蝕隧洞）",
       "Cavern_of_Corrosion_Path_of_Holy_Hymn": "遺器：防禦套+雷套（聖頌之徑•侵蝕隧洞）",
       "Cavern_of_Corrosion_Path_of_Conflagration": "遺器：火套+虛數套（野焰之徑•侵蝕隧洞）"
+    },
+    "NameAtDoubleCalyx": {
+      "name": "有雙倍花活動時，選擇副本",
+      "help": "次數耗儘後回退到默認打本設置",
+      "do_not_participate": "不參與活動",
+      "Calyx_Golden_Memories": "材料：角色經驗（回憶之蕾•擬造花萼金）",
+      "Calyx_Golden_Aether": "材料：武器經驗（乙太之蕾•擬造花萼金）",
+      "Calyx_Golden_Treasures": "材料：信用點（藏珍之蕾•擬造花萼金）",
+      "Calyx_Crimson_Destruction": "行跡材料：毀滅（毀滅之蕾•擬造花萼赤）",
+      "Calyx_Crimson_Preservation": "行跡材料：存護（存護之蕾•擬造花萼赤）",
+      "Calyx_Crimson_Hunt": "行跡材料：巡獵（存護之蕾•擬造花萼赤）",
+      "Calyx_Crimson_Abundance": "行跡材料：豐饒（豐饒之蕾•擬造花萼赤）",
+      "Calyx_Crimson_Erudition": "行跡材料：智識（智識之蕾•擬造花萼赤）",
+      "Calyx_Crimson_Harmony": "行跡材料：同諧（同諧之蕾•擬造花萼赤）",
+      "Calyx_Crimson_Nihility": "行跡材料：虛無（虛無之蕾•擬造花萼赤）"
     },
     "Team": {
       "name": "打本隊伍",

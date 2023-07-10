@@ -283,6 +283,12 @@ class ConfigGenerator:
                 if dungeon.name in dailies:
                     value = dungeon.__getattribute__(ingame_lang)
                     deep_set(new, keys=['Dungeon', 'Name', dungeon.name], value=value)
+        # Copy dungeon i18n to double events
+        for dungeon in deep_get(new, keys='Dungeon.NameAtDoubleCalyx').values():
+            if '_' in dungeon:
+                value = deep_get(new, keys=['Dungeon', 'Name', dungeon])
+                if value:
+                    deep_set(new, keys=['Dungeon', 'NameAtDoubleCalyx', dungeon], value=value)
 
         # GUI i18n
         for path, _ in deep_iter(self.gui, depth=2):
@@ -356,13 +362,18 @@ class ConfigGenerator:
         dungeons = [dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_daily_dungeon]
         deep_set(self.argument, keys='Dungeon.Name.option', value=dungeons)
         deep_set(self.args, keys='Dungeon.Dungeon.Name.option', value=dungeons)
-    
+        dungeons = deep_get(self.argument, keys='Dungeon.NameAtDoubleCalyx.option')
+        dungeons += [dungeon.name for dungeon in DungeonList.instances.values()
+                    if dungeon.is_Calyx_Golden or dungeon.is_Calyx_Crimson]
+        deep_set(self.argument, keys='Dungeon.NameAtDoubleCalyx.option', value=dungeons)
+        deep_set(self.args, keys='Dungeon.Dungeon.NameAtDoubleCalyx.option', value=dungeons)
+
     def insert_assignment(self):
         from tasks.assignment.keywords import AssignmentEntry
         assignments = [entry.name for entry in AssignmentEntry.instances.values()]
         for i in range(4):
-            deep_set(self.argument, keys=f'Assignment.Name_{i+1}.option', value=assignments)
-            deep_set(self.args, keys=f'Assignment.Assignment.Name_{i+1}.option', value=assignments)
+            deep_set(self.argument, keys=f'Assignment.Name_{i + 1}.option', value=assignments)
+            deep_set(self.args, keys=f'Assignment.Assignment.Name_{i + 1}.option', value=assignments)
 
     def insert_package(self):
         option = deep_get(self.argument, keys='Emulator.PackageName.option')

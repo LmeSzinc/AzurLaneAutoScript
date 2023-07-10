@@ -209,6 +209,21 @@
       "Cavern_of_Corrosion_Path_of_Holy_Hymn": "侵蝕トンネル・聖頌の路",
       "Cavern_of_Corrosion_Path_of_Conflagration": "侵蝕トンネル・野焔の路"
     },
+    "NameAtDoubleCalyx": {
+      "name": "Dungeon.NameAtDoubleCalyx.name",
+      "help": "Dungeon.NameAtDoubleCalyx.help",
+      "do_not_participate": "do_not_participate",
+      "Calyx_Golden_Memories": "疑似花萼（金）・回憶の蕾",
+      "Calyx_Golden_Aether": "疑似花萼（金）・エーテルの蕾",
+      "Calyx_Golden_Treasures": "疑似花萼（金）・秘蔵の蕾",
+      "Calyx_Crimson_Destruction": "疑似花萼（赤）・壊滅の蕾",
+      "Calyx_Crimson_Preservation": "疑似花萼（赤）・存護の蕾",
+      "Calyx_Crimson_Hunt": "疑似花萼（赤）・巡狩の蕾",
+      "Calyx_Crimson_Abundance": "疑似花萼（赤）・豊穣の蕾",
+      "Calyx_Crimson_Erudition": "疑似花萼（赤）・知恵の蕾",
+      "Calyx_Crimson_Harmony": "疑似花萼（赤）・調和の蕾",
+      "Calyx_Crimson_Nihility": "疑似花萼（赤）・虚無の蕾"
+    },
     "Team": {
       "name": "Dungeon.Team.name",
       "help": "Dungeon.Team.help",

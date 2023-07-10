@@ -269,6 +269,10 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, MapControlJ
             wave_limit: Limit combat runs, 0 means no limit.
             skip_first_screenshot:
 
+        Returns:
+            bool: True if trailblaze power exhausted
+                False if reached wave_limit but still have trailblaze power
+
         Pages:
             in: COMBAT_PREPARE
                 or page_main with DUNGEON_COMBAT_INTERACT
@@ -295,3 +299,5 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, MapControlJ
                 continue
             if finish:
                 break
+
+        return self.state.TrailblazePower < self.combat_wave_cost

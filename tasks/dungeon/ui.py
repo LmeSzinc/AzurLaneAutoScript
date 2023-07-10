@@ -58,6 +58,7 @@ SWITCH_DUNGEON_TAB.add_state(
 class OcrDungeonNav(Ocr):
     def after_process(self, result):
         result = super().after_process(result)
+        result = result.replace('#', '')
         if self.lang == 'ch':
             result = result.replace('萼喜', '萼')
             result = result.replace('带', '滞')  # 凝带虚影

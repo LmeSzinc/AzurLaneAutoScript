@@ -182,7 +182,7 @@
     },
     "Name": {
       "name": "Dungeon Name",
-      "help": "",
+      "help": "Default dungeon setting",
       "Calyx_Golden_Memories": "Material: Character EXP (Bud of Memories)",
       "Calyx_Golden_Aether": "Material: Light Cone EXP (Bud of Aether)",
       "Calyx_Golden_Treasures": "Material: Credit (Bud of Treasures)",
@@ -208,6 +208,21 @@
       "Cavern_of_Corrosion_Path_of_Providence": "Relics: Guard Set & Quantum Set (Path of Providence)",
       "Cavern_of_Corrosion_Path_of_Holy_Hymn": "Relics: DEF Set & Lighting Set (Path of Holy Hymn)",
       "Cavern_of_Corrosion_Path_of_Conflagration": "Relics: Fire Set & Imaginary Set (Path of Conflagration)"
+    },
+    "NameAtDoubleCalyx": {
+      "name": "At Double Calyx Event, choose dungeon",
+      "help": "Return to the default dungeon settings after double times exhausted",
+      "do_not_participate": "Dont participate in event",
+      "Calyx_Golden_Memories": "Material: Character EXP (Bud of Memories)",
+      "Calyx_Golden_Aether": "Material: Light Cone EXP (Bud of Aether)",
+      "Calyx_Golden_Treasures": "Material: Credit (Bud of Treasures)",
+      "Calyx_Crimson_Destruction": "Trace: Destruction (Bud of Destruction)",
+      "Calyx_Crimson_Preservation": "Trace: Preservation (Bud of Preservation)",
+      "Calyx_Crimson_Hunt": "Trace: Hunt (Bud of Hunt)",
+      "Calyx_Crimson_Abundance": "Trace: Abundance (Bud of Abundance)",
+      "Calyx_Crimson_Erudition": "Trace: Erudition (Bud of Erudition)",
+      "Calyx_Crimson_Harmony": "Trace: Harmony (Bud of Harmony)",
+      "Calyx_Crimson_Nihility": "Trace: Nihility (Bud of Nihility)"
     },
     "Team": {
       "name": "Dungeon Team",
