@@ -1509,6 +1509,10 @@
       "name": "GeneralShop.BuySkinBox.name",
       "help": "GeneralShop.BuySkinBox.help"
     },
+    "ConsumeCoins": {
+      "name": "GeneralShop.ConsumeCoins.name",
+      "help": "GeneralShop.ConsumeCoins.help"
+    },
     "Filter": {
       "name": "GeneralShop.Filter.name",
       "help": "GeneralShop.Filter.help"
