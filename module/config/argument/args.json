@@ -7243,6 +7243,10 @@
         "type": "checkbox",
         "value": false
       },
+      "ConsumeCoins": {
+        "type": "checkbox",
+        "value": false
+      },
       "Filter": {
         "type": "textarea",
         "value": "BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2\n> Cube\n> FoodT6 > FoodT5"
