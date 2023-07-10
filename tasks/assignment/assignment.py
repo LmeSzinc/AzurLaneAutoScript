@@ -26,6 +26,7 @@ class Assignment(AssignmentClaim, SynthesizeUI):
         if duration is None:
             duration = self.config.Assignment_Duration
 
+        self.dispatched = dict()
         self.ensure_scroll_top(page_menu)
         self.ui_ensure(page_assignment)
         # Iterate in user-specified order, return undispatched ones
@@ -103,6 +104,8 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                 if self.appear(DISPATCHED):
                     self.dispatched[assignment] = datetime.now() + Duration(
                         OCR_ASSIGNMENT_TIME).ocr_single_line(self.device.image)
+                    if total == len(self.dispatched):
+                        return remain
                     continue
                 break
         return remain
