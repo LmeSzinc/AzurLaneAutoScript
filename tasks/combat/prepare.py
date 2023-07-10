@@ -23,7 +23,13 @@ class TrailblazePowerOcr(DigitCounter):
 
 
 class CombatPrepare(UI):
-    combat_wave_cost = True
+    # Current combat waves,
+    combat_waves = 1
+    # Limit combat runs, 0 means no limit.
+    combat_wave_limit = 0
+    combat_wave_done = 0
+    # E.g. 10, 30, 40
+    combat_wave_cost = 10
 
     def combat_set_wave(self, count=6):
         """
@@ -82,7 +88,7 @@ class CombatPrepare(UI):
         Get traiblaze power cost and set it to `combat_cost`
 
         Returns:
-            int: 10, 30, 40
+            int: E.g. 10, 30, 40
 
         Pages:
             in: COMBAT_PREPARE
