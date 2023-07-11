@@ -178,6 +178,10 @@
       "name": "免費獎勵",
       "help": ""
     },
+    "Minigame": {
+      "name": "小遊戲",
+      "help": "遊戲幣不會溢出時自動領取遊戲幣，有遊戲幣且獎勵沒滿時自動進行小遊戲"
+    },
     "OpsiGeneral": {
       "name": "通用設定",
       "help": ""
@@ -1876,12 +1880,12 @@
   },
   "Minigame": {
     "_info": {
-      "name": "Minigame._info.name",
-      "help": "Minigame._info.help"
+      "name": "小遊戲",
+      "help": ""
     },
     "Collect": {
-      "name": "Minigame.Collect.name",
-      "help": "Minigame.Collect.help"
+      "name": "啟用",
+      "help": ""
     }
   },
   "Daily": {

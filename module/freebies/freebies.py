@@ -3,7 +3,6 @@ from module.freebies.battle_pass import BattlePass
 from module.freebies.data_key import DataKey
 from module.freebies.mail import Mail
 from module.freebies.supply_pack import SupplyPack
-from module.minigame.minigame import Minigame
 from module.logger import logger
 
 
@@ -27,9 +26,5 @@ class Freebies(ModuleBase):
         if self.config.SupplyPack_Collect:
             logger.hr('Supply pack', level=1)
             SupplyPack(self.config, self.device).run()
-
-        if self.config.Minigame_Collect:
-            logger.hr('Minigame', level=1)
-            Minigame(self.config, self.device).run()
 
         self.config.task_delay(server_update=True)

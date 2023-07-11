@@ -178,6 +178,10 @@
       "name": "他ギフト",
       "help": ""
     },
+    "Minigame": {
+      "name": "Task.Minigame.name",
+      "help": "Task.Minigame.help"
+    },
     "OpsiGeneral": {
       "name": "一般設定",
       "help": ""

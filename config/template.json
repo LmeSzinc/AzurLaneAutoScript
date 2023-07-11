@@ -1531,8 +1531,18 @@
       "Collect": true,
       "DayOfWeek": 0
     },
-    "Minigame": {
-      "Collect": false
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "Minigame": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Minigame",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
     },
     "Storage": {
       "Storage": {}

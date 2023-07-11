@@ -15,7 +15,7 @@ class ManualConfig:
     > Exercise
     > Dorm > Meowfficer > Guild > Gacha
     > Reward
-    > ShopFrequent > ShopOnce > Shipyard > Freebies
+    > ShopFrequent > ShopOnce > Shipyard > Freebies > Minigame
     > OpsiExplore
     > OpsiAshBeacon
     > OpsiDaily > OpsiShop > OpsiVoucher

@@ -178,6 +178,10 @@
       "name": "Freebies",
       "help": ""
     },
+    "Minigame": {
+      "name": "Minigame",
+      "help": "Receive credits and spend them"
+    },
     "OpsiGeneral": {
       "name": "OpSi General",
       "help": ""
@@ -1876,12 +1880,12 @@
   },
   "Minigame": {
     "_info": {
-      "name": "Minigame._info.name",
-      "help": "Minigame._info.help"
+      "name": "",
+      "help": ""
     },
     "Collect": {
-      "name": "Minigame.Collect.name",
-      "help": "Minigame.Collect.help"
+      "name": "Enable",
+      "help": ""
     }
   },
   "Daily": {
