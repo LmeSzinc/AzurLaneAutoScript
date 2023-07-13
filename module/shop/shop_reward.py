@@ -10,6 +10,11 @@ from module.shop.ui import ShopUI
 
 class RewardShop(ShopUI):
     def run_frequent(self):
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            logger.warning(f'Task ShopOnce is disabled in server {self.config.SERVER.upper()} until assets are updated')
+            self.config.task_delay(server_update=True)
+            self.config.task_stop()
+
         # Munitions shops
         self.ui_goto_shop()
 
@@ -43,6 +48,11 @@ class RewardShop(ShopUI):
 
     @Config.when(SERVER=None)
     def run_once(self):
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            logger.warning(f'Task ShopOnce is disabled in server {self.config.SERVER.upper()} until assets are updated')
+            self.config.task_delay(server_update=True)
+            self.config.task_stop()
+
         # Munitions shops
         self.ui_goto_shop()
 
