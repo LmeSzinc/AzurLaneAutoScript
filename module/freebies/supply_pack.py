@@ -70,6 +70,10 @@ class SupplyPack(CampaignStatus):
             in: Any page
             out: page_supply_pack, supply pack tab
         """
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            logger.warning(f'SupplyPack is disabled in server {self.config.SERVER.upper()} until assets are updated')
+            return
+
         self.ui_ensure(page_supply_pack)
 
         if self.get_oil() < 21000:
