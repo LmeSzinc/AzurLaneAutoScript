@@ -307,6 +307,9 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 self.device.screenshot()
 
             ships = scanner.scan(self.device.image)
+            if not ships:
+                # exit if nothing can be retired
+                break
             if keep_one:
                 if len(ships) < 2:
                     break

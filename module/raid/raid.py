@@ -149,6 +149,7 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
         """
         logger.info('Combat preparation.')
         skip_first_screenshot = True
+
         # No need, already waited in `raid_execute_once()`
         # if emotion_reduce:
         #     self.emotion.wait(fleet_index)
@@ -243,9 +244,9 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
                 break
 
     def raid_expected_end(self):
-        if self.appear_then_click(RAID_REWARDS, offset=(30,30), interval=3):
+        if self.appear_then_click(RAID_REWARDS, offset=(30, 30), interval=3):
             return False
-        return self.appear(RAID_CHECK, offset=(30,30))
+        return self.appear(RAID_CHECK, offset=(30, 30))
 
     def raid_execute_once(self, mode, raid):
         """
