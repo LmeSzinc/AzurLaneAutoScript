@@ -2,6 +2,7 @@ from module.base.timer import Timer
 from module.campaign.campaign_event import CampaignEvent
 from module.exception import ScriptEnd, ScriptError
 from module.logger import logger
+from module.raid.assets import RAID_REWARDS
 from module.raid.raid import OilExhausted, Raid, raid_ocr
 from module.ui.page import page_raid
 
@@ -48,6 +49,10 @@ class RaidRun(Raid, CampaignEvent):
             else:
                 remain, _, _ = result
             logger.attr(f'{mode.capitalize()} Remain', remain)
+
+            if self.appear_then_click(RAID_REWARDS, offset=(30, 30), interval=3):
+                confirm_timer.reset()
+                continue
 
             # End
             if remain == prev:
@@ -100,6 +105,10 @@ class RaidRun(Raid, CampaignEvent):
                 if not self.get_remain(mode):
                     logger.info('Triggered stop condition: Zero '
                                 'raid tickets to do EX mode')
+                    if self.config.task.command == 'Raid':
+                        with self.config.multi_set():
+                            self.config.StopCondition_RunCount = 0
+                            self.config.Scheduler_Enable = False
                     break
 
             # Run
@@ -121,6 +130,6 @@ class RaidRun(Raid, CampaignEvent):
             # End
             if self.triggered_stop_condition():
                 break
-            ## Scheduler
+            # Scheduler
             if self.config.task_switched():
                 self.config.task_stop()

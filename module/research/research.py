@@ -12,7 +12,8 @@ from module.research.project import get_research_finished
 from module.research.rqueue import ResearchQueue
 from module.research.selector import RESEARCH_ENTRANCE, ResearchSelector
 from module.storage.storage import StorageHandler
-from module.ui.page import *
+from module.ui.assets import RESEARCH_CHECK
+from module.ui.page import page_research
 
 OCR_DURATION = Duration(RESEARCH_LAB_DURATION_REMAIN, letter=(255, 255, 255), threshold=64,
                         name='RESEARCH_LAB_DURATION_REMAIN')

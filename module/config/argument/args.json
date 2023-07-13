@@ -2798,6 +2798,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "raid_20230629",
           "raid_20220630",
           "raid_20220127",
           "raid_20230118",
@@ -2806,10 +2807,10 @@
           "raid_20200624"
         ],
         "display": "disabled",
-        "tw": "raid_20220630",
-        "cn": "raid_20230118",
-        "en": "raid_20230118",
-        "jp": "raid_20230118"
+        "cn": "raid_20230629",
+        "en": "raid_20230629",
+        "jp": "raid_20230629",
+        "tw": "raid_20220630"
       },
       "Mode": {
         "type": "select",
@@ -5933,6 +5934,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "raid_20230629",
           "raid_20220630",
           "raid_20220127",
           "raid_20230118",
@@ -5941,10 +5943,10 @@
           "raid_20200624"
         ],
         "display": "disabled",
-        "tw": "raid_20220630",
-        "cn": "raid_20230118",
-        "en": "raid_20230118",
-        "jp": "raid_20230118"
+        "cn": "raid_20230629",
+        "en": "raid_20230629",
+        "jp": "raid_20230629",
+        "tw": "raid_20220630"
       },
       "Mode": {
         "type": "select",
@@ -8727,7 +8729,8 @@
     "AzurLaneUncensored": {
       "Repository": {
         "type": "input",
-        "value": "https://gitee.com/LmeSzinc/AzurLaneUncensored"
+        "value": "https://gitee.com/LmeSzinc/AzurLaneUncensored",
+        "display": "disabled"
       }
     },
     "Storage": {

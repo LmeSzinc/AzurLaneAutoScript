@@ -45,6 +45,8 @@ def raid_name_shorten(name):
         return "ALBION"
     elif name == "raid_20230118":
         return "KUYBYSHEY"
+    elif name == "raid_20230629":
+        return "GORIZIA"
     else:
         raise ScriptError(f'Unknown raid name: {name}')
 
@@ -102,6 +104,11 @@ def raid_ocr(raid, mode):
                 return Digit(button, letter=(189, 203, 214), threshold=128)
             else:
                 return DigitCounter(button, letter=(231, 239, 247), threshold=128)
+        elif raid == 'GORIZIA':
+            if mode == 'ex':
+                return Digit(button, letter=(198, 223, 140), threshold=128)
+            else:
+                return DigitCounter(button, letter=(82, 89, 66), threshold=128)
     except KeyError:
         raise ScriptError(f'Raid entrance asset not exists: {key}')
 
@@ -124,6 +131,8 @@ def pt_ocr(raid):
             return Digit(button, letter=(23, 20, 9), threshold=128)
         elif raid == 'KUYBYSHEY':
             return Digit(button, letter=(16, 24, 33), threshold=64)
+        elif raid == 'GORIZIA':
+            return Digit(button, letter=(255, 255, 255), threshold=64)
     except KeyError:
         # raise ScriptError(f'Raid pt ocr asset not exists: {key}')
         return None
@@ -140,6 +149,7 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
         """
         logger.info('Combat preparation.')
         skip_first_screenshot = True
+
         # No need, already waited in `raid_execute_once()`
         # if emotion_reduce:
         #     self.emotion.wait(fleet_index)
@@ -234,6 +244,8 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
                 break
 
     def raid_expected_end(self):
+        if self.appear_then_click(RAID_REWARDS, offset=(30, 30), interval=3):
+            return False
         return self.appear(RAID_CHECK, offset=(30, 30))
 
     def raid_execute_once(self, mode, raid):
