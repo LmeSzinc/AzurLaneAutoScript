@@ -1,307 +1,307 @@
 {
   "Menu": {
     "Alas": {
-      "name": "Alas",
-      "help": ""
+      "name": "Menu.Alas.name",
+      "help": "Menu.Alas.help"
     },
     "Farm": {
-      "name": "Farm",
-      "help": ""
+      "name": "Menu.Farm.name",
+      "help": "Menu.Farm.help"
     },
     "Event": {
-      "name": "Event",
-      "help": ""
+      "name": "Menu.Event.name",
+      "help": "Menu.Event.help"
     },
     "EventDaily": {
-      "name": "Event Daily",
-      "help": ""
+      "name": "Menu.EventDaily.name",
+      "help": "Menu.EventDaily.help"
     },
     "Reward": {
-      "name": "Reward",
-      "help": ""
+      "name": "Menu.Reward.name",
+      "help": "Menu.Reward.help"
     },
     "DailyMission": {
-      "name": "Daily Mission",
-      "help": ""
+      "name": "Menu.DailyMission.name",
+      "help": "Menu.DailyMission.help"
     },
     "Opsi": {
-      "name": "OpSi",
-      "help": ""
+      "name": "Menu.Opsi.name",
+      "help": "Menu.Opsi.help"
     },
     "Tool": {
-      "name": "Tools",
-      "help": ""
+      "name": "Menu.Tool.name",
+      "help": "Menu.Tool.help"
     }
   },
   "Task": {
     "Alas": {
-      "name": "Alas",
-      "help": ""
+      "name": "Task.Alas.name",
+      "help": "Task.Alas.help"
     },
     "General": {
-      "name": "General",
-      "help": ""
+      "name": "Task.General.name",
+      "help": "Task.General.help"
     },
     "Restart": {
-      "name": "Restart",
-      "help": ""
+      "name": "Task.Restart.name",
+      "help": "Task.Restart.help"
     },
     "Main": {
-      "name": "Main",
-      "help": ""
+      "name": "Task.Main.name",
+      "help": "Task.Main.help"
     },
     "Main2": {
-      "name": "Main-2",
-      "help": ""
+      "name": "Task.Main2.name",
+      "help": "Task.Main2.help"
     },
     "Main3": {
-      "name": "Main-3",
-      "help": ""
+      "name": "Task.Main3.name",
+      "help": "Task.Main3.help"
     },
     "GemsFarming": {
-      "name": "Commission Farming",
-      "help": ""
+      "name": "Task.GemsFarming.name",
+      "help": "Task.GemsFarming.help"
     },
     "EventGeneral": {
-      "name": "Event General",
-      "help": ""
+      "name": "Task.EventGeneral.name",
+      "help": "Task.EventGeneral.help"
     },
     "Event": {
-      "name": "Event",
-      "help": ""
+      "name": "Task.Event.name",
+      "help": "Task.Event.help"
     },
     "Event2": {
-      "name": "Event-2",
-      "help": ""
+      "name": "Task.Event2.name",
+      "help": "Task.Event2.help"
     },
     "Raid": {
-      "name": "Raid",
-      "help": ""
+      "name": "Task.Raid.name",
+      "help": "Task.Raid.help"
     },
     "Coalition": {
-      "name": "Frostfall",
-      "help": ""
+      "name": "Task.Coalition.name",
+      "help": "Task.Coalition.help"
     },
     "MaritimeEscort": {
-      "name": "Maritime Escort",
-      "help": ""
+      "name": "Task.MaritimeEscort.name",
+      "help": "Task.MaritimeEscort.help"
     },
     "WarArchives": {
-      "name": "War Archives",
-      "help": "Due to the lack of maintenance of war archives, continuous clear may not work normally, if Alas runs abnormally, Please manually finish clearing and use auto search"
+      "name": "Task.WarArchives.name",
+      "help": "Task.WarArchives.help"
     },
     "EventA": {
-      "name": "Event Daily A",
-      "help": ""
+      "name": "Task.EventA.name",
+      "help": "Task.EventA.help"
     },
     "EventB": {
-      "name": "Event Daily B",
-      "help": ""
+      "name": "Task.EventB.name",
+      "help": "Task.EventB.help"
     },
     "EventC": {
-      "name": "Event Daily C",
-      "help": ""
+      "name": "Task.EventC.name",
+      "help": "Task.EventC.help"
     },
     "EventD": {
-      "name": "Event Daily D",
-      "help": ""
+      "name": "Task.EventD.name",
+      "help": "Task.EventD.help"
     },
     "EventSp": {
-      "name": "Event Daily SP",
-      "help": ""
+      "name": "Task.EventSp.name",
+      "help": "Task.EventSp.help"
     },
     "RaidDaily": {
-      "name": "Raid Daily",
-      "help": ""
+      "name": "Task.RaidDaily.name",
+      "help": "Task.RaidDaily.help"
     },
     "CoalitionSp": {
-      "name": "Frostfall Daily SP",
-      "help": ""
+      "name": "Task.CoalitionSp.name",
+      "help": "Task.CoalitionSp.help"
     },
     "Commission": {
-      "name": "Commission",
-      "help": ""
+      "name": "Task.Commission.name",
+      "help": "Task.Commission.help"
     },
     "Tactical": {
-      "name": "Tactical",
-      "help": ""
+      "name": "Task.Tactical.name",
+      "help": "Task.Tactical.help"
     },
     "Research": {
-      "name": "Research",
-      "help": ""
+      "name": "Task.Research.name",
+      "help": "Task.Research.help"
     },
     "Dorm": {
-      "name": "Dorm",
-      "help": ""
+      "name": "Task.Dorm.name",
+      "help": "Task.Dorm.help"
     },
     "Meowfficer": {
-      "name": "Meowfficer",
-      "help": ""
+      "name": "Task.Meowfficer.name",
+      "help": "Task.Meowfficer.help"
     },
     "Guild": {
-      "name": "Guild",
-      "help": ""
+      "name": "Task.Guild.name",
+      "help": "Task.Guild.help"
     },
     "Reward": {
-      "name": "Reward",
-      "help": ""
+      "name": "Task.Reward.name",
+      "help": "Task.Reward.help"
     },
     "Daily": {
-      "name": "Daily",
-      "help": ""
+      "name": "Task.Daily.name",
+      "help": "Task.Daily.help"
     },
     "Hard": {
-      "name": "Hard",
-      "help": ""
+      "name": "Task.Hard.name",
+      "help": "Task.Hard.help"
     },
     "Exercise": {
-      "name": "Exercise",
-      "help": ""
+      "name": "Task.Exercise.name",
+      "help": "Task.Exercise.help"
     },
     "ShopFrequent": {
-      "name": "Shop Frequent",
-      "help": ""
+      "name": "Task.ShopFrequent.name",
+      "help": "Task.ShopFrequent.help"
     },
     "ShopOnce": {
-      "name": "Shop Once",
-      "help": ""
+      "name": "Task.ShopOnce.name",
+      "help": "Task.ShopOnce.help"
     },
     "Shipyard": {
-      "name": "Shipyard",
-      "help": ""
+      "name": "Task.Shipyard.name",
+      "help": "Task.Shipyard.help"
     },
     "Gacha": {
-      "name": "Gacha",
-      "help": ""
+      "name": "Task.Gacha.name",
+      "help": "Task.Gacha.help"
     },
     "Freebies": {
-      "name": "Freebies",
-      "help": ""
+      "name": "Task.Freebies.name",
+      "help": "Task.Freebies.help"
     },
     "OpsiGeneral": {
-      "name": "OpSi General",
-      "help": ""
+      "name": "Task.OpsiGeneral.name",
+      "help": "Task.OpsiGeneral.help"
     },
     "OpsiAshBeacon": {
-      "name": "Ash Beacon",
-      "help": ""
+      "name": "Task.OpsiAshBeacon.name",
+      "help": "Task.OpsiAshBeacon.help"
     },
     "OpsiAshAssist": {
-      "name": "OpSi Ash Assist",
-      "help": ""
+      "name": "Task.OpsiAshAssist.name",
+      "help": "Task.OpsiAshAssist.help"
     },
     "OpsiExplore": {
-      "name": "OpSi Explore",
-      "help": ""
+      "name": "Task.OpsiExplore.name",
+      "help": "Task.OpsiExplore.help"
     },
     "OpsiShop": {
-      "name": "OpSi Shop",
-      "help": ""
+      "name": "Task.OpsiShop.name",
+      "help": "Task.OpsiShop.help"
     },
     "OpsiVoucher": {
-      "name": "OpSi Voucher",
-      "help": ""
+      "name": "Task.OpsiVoucher.name",
+      "help": "Task.OpsiVoucher.help"
     },
     "OpsiDaily": {
-      "name": "OpSi Daily",
-      "help": ""
+      "name": "Task.OpsiDaily.name",
+      "help": "Task.OpsiDaily.help"
     },
     "OpsiObscure": {
-      "name": "Obscure Zones",
-      "help": ""
+      "name": "Task.OpsiObscure.name",
+      "help": "Task.OpsiObscure.help"
     },
     "OpsiAbyssal": {
-      "name": "Abyssal Zones",
-      "help": ""
+      "name": "Task.OpsiAbyssal.name",
+      "help": "Task.OpsiAbyssal.help"
     },
     "OpsiArchive": {
-      "name": "Archive Zones",
-      "help": "Clear archive zones. Archive zones are AP free.\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "name": "Task.OpsiArchive.name",
+      "help": "Task.OpsiArchive.help"
     },
     "OpsiStronghold": {
-      "name": "Siren Strongholds",
-      "help": ""
+      "name": "Task.OpsiStronghold.name",
+      "help": "Task.OpsiStronghold.help"
     },
     "OpsiMonthBoss": {
-      "name": "Monthly Boss",
-      "help": "To clear (easy/difficult) monthly bosses, the following conditions must be met to use this function:\n- Clear the main task of the big world\n- Enable the Great World Land Reclamation Mission or use the Battle Information Recorder (5000 oil props)\nIf the easy difficulty fails, the attack will be repeated according to the submarine settings; if the difficult difficulty fails, the mission will be terminated directly"
+      "name": "Task.OpsiMonthBoss.name",
+      "help": "Task.OpsiMonthBoss.help"
     },
     "OpsiMeowfficerFarming": {
-      "name": "Meowfficer Farming",
-      "help": ""
+      "name": "Task.OpsiMeowfficerFarming.name",
+      "help": "Task.OpsiMeowfficerFarming.help"
     },
     "OpsiHazard1Leveling": {
-      "name": "CL1 Leveling",
-      "help": ""
+      "name": "Task.OpsiHazard1Leveling.name",
+      "help": "Task.OpsiHazard1Leveling.help"
     },
     "OpsiCrossMonth": {
-      "name": "Cross Month Daily",
-      "help": "    ALAS will enter OpSi 10min before OpSi reset, wait until OpSi reset but not exit OpSi. Then do the daily, obscure, abyssal and meowfficer farming to get extra gold plates. When running dailies, settings in task \"OpSiDaily\" are used, the rest function are the same.\n    IMPORTANT: Please do not touch the game while ALAS is waiting for OpSi reset."
+      "name": "Task.OpsiCrossMonth.name",
+      "help": "Task.OpsiCrossMonth.help"
     },
     "Daemon": {
-      "name": "Normal Semi-auto",
-      "help": ""
+      "name": "Task.Daemon.name",
+      "help": "Task.Daemon.help"
     },
     "OpsiDaemon": {
-      "name": "OpSi Semi-auto",
-      "help": ""
+      "name": "Task.OpsiDaemon.name",
+      "help": "Task.OpsiDaemon.help"
     },
     "Benchmark": {
-      "name": "Performance Test",
-      "help": ""
+      "name": "Task.Benchmark.name",
+      "help": "Task.Benchmark.help"
     },
     "AzurLaneUncensored": {
-      "name": "[CN] Uncensored Patch",
-      "help": ""
+      "name": "Task.AzurLaneUncensored.name",
+      "help": "Task.AzurLaneUncensored.help"
     },
     "GameManager": {
-      "name": "Game Manager(WIP)",
-      "help": ""
+      "name": "Task.GameManager.name",
+      "help": "Task.GameManager.help"
     }
   },
   "Scheduler": {
     "_info": {
-      "name": "Scheduler",
-      "help": ""
+      "name": "Scheduler._info.name",
+      "help": "Scheduler._info.help"
     },
     "Enable": {
-      "name": "Enable Task",
-      "help": "Join this task to scheduler.\nTask commission, research, reward are force to enable."
+      "name": "Scheduler.Enable.name",
+      "help": "Scheduler.Enable.help"
     },
     "NextRun": {
-      "name": "Next Run",
-      "help": "Updated automatically after completing the task to set next scheduled run, typically not manually modified\nHowever you can force immediate scheduling if you clear this text field"
+      "name": "Scheduler.NextRun.name",
+      "help": "Scheduler.NextRun.help"
     },
     "Command": {
-      "name": "Command",
-      "help": ""
+      "name": "Scheduler.Command.name",
+      "help": "Scheduler.Command.help"
     },
     "SuccessInterval": {
-      "name": "Success Interval",
-      "help": "After successful, postpone next run for X minutes"
+      "name": "Scheduler.SuccessInterval.name",
+      "help": "Scheduler.SuccessInterval.help"
     },
     "FailureInterval": {
-      "name": "Failure Interval",
-      "help": "After failure, postpone next run for X minutes"
+      "name": "Scheduler.FailureInterval.name",
+      "help": "Scheduler.FailureInterval.help"
     },
     "ServerUpdate": {
-      "name": "Server Update",
-      "help": "Series of server refresh time(s) as to when this task will next run, this is automatically converted to respective time zone, generally do not need to modify"
+      "name": "Scheduler.ServerUpdate.name",
+      "help": "Scheduler.ServerUpdate.help"
     }
   },
   "Emulator": {
     "_info": {
-      "name": "Emulator Settings",
-      "help": ""
+      "name": "Emulator._info.name",
+      "help": "Emulator._info.help"
     },
     "Serial": {
-      "name": "Serial",
-      "help": "Common emulator Serial can be queried in the list below\nUse \"auto\" to auto-detect emulators, but if multiple emulators are running or use emulators that do not support auto-detect, \"auto\" cannot be used and serial must be filled in manually\nDefault serial for select emulators:\n- BlueStacks 127.0.0.1:5555\n- BlueStacks4 Hyper-V use \"bluestacks4-hyperv\", \"bluestacks4-hyperv-2\" for multi instance, and so on\n- BlueStacks5 Hyper-V use \"bluestacks5-hyperv\", \"bluestacks5-hyperv-1\" for multi instance, and so on\n- NoxPlayer 127.0.0.1:62001\n- NoxPlayer64bit 127.0.0.1:59865\n- MuMuPlayer/MuMuPlayer X 127.0.0.1:7555\n- MuMuPlayer12 127.0.0.1:16384\n- MemuPlayer 127.0.0.1:21503\n- LDPlayer emulator-5554 or 127.0.0.1:5555\n- WSA use \"wsa-0\" to make the game run in the background, which needs to be controlled or closed by third-party software\nIf there are multiple emulator instances running, the default is reserved for one of them and the others will use different serials to avoid conflicts\nOpen console.bat and run `adb devices` to find them or follow the emulator's official tutorial"
+      "name": "Emulator.Serial.name",
+      "help": "Emulator.Serial.help"
     },
     "PackageName": {
-      "name": "Game Server",
-      "help": "Manual select is required if multiple game clients are installed on emulator",
-      "auto": "Auto-detect",
+      "name": "Emulator.PackageName.name",
+      "help": "Emulator.PackageName.help",
+      "auto": "auto",
       "com.bilibili.azurlane": "CN",
       "com.YoStarEN.AzurLane": "EN",
       "com.YoStarJP.AzurLane": "JP",
@@ -324,8 +324,8 @@
       "com.hkmanjuu.azurlane.gp.mc": "TW com.hkmanjuu.azurlane.gp.mc"
     },
     "ServerName": {
-      "name": "Server in Game Client",
-      "help": "Select the server where you are in the game to enable server status detection\nScript will hang up when server is being maintained or network is broken",
+      "name": "Emulator.ServerName.name",
+      "help": "Emulator.ServerName.help",
       "disabled": "disabled",
       "cn_android-0": "[国服] 莱茵演习",
       "cn_android-1": "[国服] 巴巴罗萨",
@@ -393,10 +393,10 @@
       "jp-17": "[JP] スイートバン"
     },
     "ScreenshotMethod": {
-      "name": "Screenshot Method",
-      "help": "When using auto-select, a benchmark will be performed and automatically changed to the fastest screenshot method.\nGeneral speed: DroidCast_raw >> aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB.\nRun Tools - Performance Test to find the fastest method.",
-      "auto": "Auto-select the fastest",
-      "ADB": "ADB ",
+      "name": "Emulator.ScreenshotMethod.name",
+      "help": "Emulator.ScreenshotMethod.help",
+      "auto": "auto",
+      "ADB": "ADB",
       "ADB_nc": "ADB_nc",
       "uiautomator2": "uiautomator2",
       "aScreenCap": "aScreenCap",
@@ -406,8 +406,8 @@
       "scrcpy": "scrcpy"
     },
     "ControlMethod": {
-      "name": "Control Method",
-      "help": "Speed: minitouch > Hermit >>> uiautomator2 ~= ADB\nminitouch is recommended, hermit is not recommended unless on vmos",
+      "name": "Emulator.ControlMethod.name",
+      "help": "Emulator.ControlMethod.help",
       "ADB": "ADB",
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
@@ -415,18 +415,18 @@
       "MaaTouch": "MaaTouch"
     },
     "ScreenshotDedithering": {
-      "name": "Image Color De-dithering",
-      "help": "Enable when running Alas on phones"
+      "name": "Emulator.ScreenshotDedithering.name",
+      "help": "Emulator.ScreenshotDedithering.help"
     },
     "AdbRestart": {
-      "name": "Try to restart adb when no device found",
-      "help": ""
+      "name": "Emulator.AdbRestart.name",
+      "help": "Emulator.AdbRestart.help"
     }
   },
   "RestartEmulator": {
     "_info": {
-      "name": "Restart Emulator",
-      "help": ""
+      "name": "RestartEmulator._info.name",
+      "help": "RestartEmulator._info.help"
     },
     "Enable": {
       "name": "RestartEmulator.Enable.name",
@@ -437,215 +437,213 @@
       "help": "RestartEmulator.EmulatorData.help"
     },
     "ErrorRestart": {
-      "name": "Restart Emulator on Error",
-      "help": "Automatically restart the emulator when it cannot be connected"
+      "name": "RestartEmulator.ErrorRestart.name",
+      "help": "RestartEmulator.ErrorRestart.help"
     },
     "DailyRestart": {
-      "name": "Restart Emulator when Server Refreshes",
-      "help": "Restart emulator every day to solve the memory leak problem"
+      "name": "RestartEmulator.DailyRestart.name",
+      "help": "RestartEmulator.DailyRestart.help"
     }
   },
   "Error": {
     "_info": {
-      "name": "Debug Settings",
-      "help": ""
+      "name": "Error._info.name",
+      "help": "Error._info.help"
     },
     "HandleError": {
-      "name": "Enable Exception Handling",
-      "help": "Handles select exceptions, will retreat if in battle"
+      "name": "Error.HandleError.name",
+      "help": "Error.HandleError.help"
     },
     "SaveError": {
-      "name": "Record Exception",
-      "help": "Records exception and log into directory for review or sharing"
+      "name": "Error.SaveError.name",
+      "help": "Error.SaveError.help"
     },
     "OnePushConfig": {
-      "name": "Error notify config",
-      "help": "When Alas cannot handle exception, send a message through Onepush. Configuration document: \nhttps://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BEN%5D"
+      "name": "Error.OnePushConfig.name",
+      "help": "Error.OnePushConfig.help"
     },
     "ScreenshotLength": {
-      "name": "Record Screenshot(s)",
-      "help": "Number of screenshots saved when exception occurs"
+      "name": "Error.ScreenshotLength.name",
+      "help": "Error.ScreenshotLength.help"
     }
   },
   "Optimization": {
     "_info": {
-      "name": "Optimization Settings",
-      "help": ""
+      "name": "Optimization._info.name",
+      "help": "Optimization._info.help"
     },
     "ScreenshotInterval": {
-      "name": "Take Screenshots Every X Second(s)",
-      "help": "Minimum interval between 2 screenshots, limited in 0.1 ~ 0.3, can help reduce CPU on high-end PCs"
+      "name": "Optimization.ScreenshotInterval.name",
+      "help": "Optimization.ScreenshotInterval.help"
     },
     "CombatScreenshotInterval": {
-      "name": "Take Screenshots Every X Second(s) In Combat",
-      "help": "Minimum interval between 2 screenshots, limited in 0.1 ~ 1.0, can help reduce CPU during battle"
+      "name": "Optimization.CombatScreenshotInterval.name",
+      "help": "Optimization.CombatScreenshotInterval.help"
     },
     "TaskHoardingDuration": {
-      "name": "Hoard Tasks For X Minute(s)",
-      "help": "By purposely not adding ready tasks to pending, allows for larger subsets to be built and run en masse at a later time\nCan reduce the frequency of operating AL"
+      "name": "Optimization.TaskHoardingDuration.name",
+      "help": "Optimization.TaskHoardingDuration.help"
     },
     "WhenTaskQueueEmpty": {
-      "name": "When Task Queue is Empty",
-      "help": "Close AL when there are no pending tasks, can help reduce CPU",
-      "stay_there": "Stay There",
-      "goto_main": "Goto Main Page",
-      "close_game": "Close Game"
+      "name": "Optimization.WhenTaskQueueEmpty.name",
+      "help": "Optimization.WhenTaskQueueEmpty.help",
+      "stay_there": "stay_there",
+      "goto_main": "goto_main",
+      "close_game": "close_game"
     }
   },
   "DropRecord": {
     "_info": {
-      "name": "Drop Record Settings",
-      "help": ""
+      "name": "DropRecord._info.name",
+      "help": "DropRecord._info.help"
     },
     "SaveFolder": {
-      "name": "Drop Save Directory",
-      "help": ""
+      "name": "DropRecord.SaveFolder.name",
+      "help": "DropRecord.SaveFolder.help"
     },
     "AzurStatsID": {
-      "name": "AzurStat ID",
-      "help": "Used to identify your upload to <https://azur-stats.lyoko.io>, the ID consists of random characters and can be changed at any time"
+      "name": "DropRecord.AzurStatsID.name",
+      "help": "DropRecord.AzurStatsID.help"
     },
     "API": {
-      "name": "Upload API",
-      "help": "If CN users cannot connect to AzurStat, recommend to use \"reverse proxy\"",
-      "default": "Default (Cloudflare)",
-      "cn_gz_reverse_proxy": "Reverse proxy (Guangzhou, South China)"
+      "name": "DropRecord.API.name",
+      "help": "DropRecord.API.help",
+      "default": "default",
+      "cn_gz_reverse_proxy": "cn_gz_reverse_proxy"
     },
     "ResearchRecord": {
-      "name": "Research Record",
-      "help": "",
-      "do_not": "Do nothing",
-      "save": "Save",
-      "upload": "Upload",
-      "save_and_upload": "Save and upload"
+      "name": "DropRecord.ResearchRecord.name",
+      "help": "DropRecord.ResearchRecord.help",
+      "do_not": "do_not",
+      "save": "save",
+      "upload": "upload",
+      "save_and_upload": "save_and_upload"
     },
     "CommissionRecord": {
-      "name": "Commission Record",
-      "help": "",
-      "do_not": "Do nothing",
-      "save": "Save",
-      "upload": "Upload",
-      "save_and_upload": "Save and upload"
+      "name": "DropRecord.CommissionRecord.name",
+      "help": "DropRecord.CommissionRecord.help",
+      "do_not": "do_not",
+      "save": "save",
+      "upload": "upload",
+      "save_and_upload": "save_and_upload"
     },
     "CombatRecord": {
-      "name": "Combat Record",
-      "help": "",
-      "do_not": "Do nothing",
-      "save": "Save"
+      "name": "DropRecord.CombatRecord.name",
+      "help": "DropRecord.CombatRecord.help",
+      "do_not": "do_not",
+      "save": "save"
     },
     "OpsiRecord": {
-      "name": "OpSi Record",
-      "help": "",
-      "do_not": "Do nothing",
-      "save": "Save",
-      "upload": "Upload",
-      "save_and_upload": "Save and upload"
+      "name": "DropRecord.OpsiRecord.name",
+      "help": "DropRecord.OpsiRecord.help",
+      "do_not": "do_not",
+      "save": "save",
+      "upload": "upload",
+      "save_and_upload": "save_and_upload"
     },
     "MeowfficerBuy": {
-      "name": "Meowfficer Buy",
-      "help": "",
-      "do_not": "Do nothing",
-      "save": "Save"
+      "name": "DropRecord.MeowfficerBuy.name",
+      "help": "DropRecord.MeowfficerBuy.help",
+      "do_not": "do_not",
+      "save": "save"
     },
     "MeowfficerTalent": {
-      "name": "Meowfficer Talent",
-      "help": "",
-      "do_not": "Do nothing",
-      "save": "Save",
-      "upload": "Upload",
-      "save_and_upload": "Save and upload"
+      "name": "DropRecord.MeowfficerTalent.name",
+      "help": "DropRecord.MeowfficerTalent.help",
+      "do_not": "do_not",
+      "save": "save",
+      "upload": "upload",
+      "save_and_upload": "save_and_upload"
     }
   },
   "Retirement": {
     "_info": {
-      "name": "Retirement Settings",
-      "help": ""
+      "name": "Retirement._info.name",
+      "help": "Retirement._info.help"
     },
     "RetireMode": {
-      "name": "Retirement Mode",
-      "help": "If mode is one click retire, in game retire settings are enforced\nIf mode is enhance but unable to do so, will fallback to one click retire as default",
-      "one_click_retire": "One-click Retire",
-      "enhance": "Enhance",
-      "old_retire": "Old Retire"
+      "name": "Retirement.RetireMode.name",
+      "help": "Retirement.RetireMode.help",
+      "one_click_retire": "one_click_retire",
+      "enhance": "enhance",
+      "old_retire": "old_retire"
     }
   },
   "OneClickRetire": {
     "_info": {
-      "name": "One-click Retire Settings",
-      "help": "Only applies to \"One-click Retire\""
+      "name": "OneClickRetire._info.name",
+      "help": "OneClickRetire._info.help"
     },
     "KeepLimitBreak": {
-      "name": "Keep Copies of Max LB Ships",
-      "help": "If you own multiple copies of a ship that has not been fully Limit Broken, this option determines what you want to do with those copies.\nIf one-click retire cannot retire ships, please set to \"Don't Keep\"",
-      "keep_limit_break": "Keep Enough to Max LB",
-      "do_not_keep": "Don't Keep"
+      "name": "OneClickRetire.KeepLimitBreak.name",
+      "help": "OneClickRetire.KeepLimitBreak.help",
+      "keep_limit_break": "keep_limit_break",
+      "do_not_keep": "do_not_keep"
     }
   },
   "Enhance": {
     "_info": {
-      "name": "Enhance Settings",
-      "help": "Only applies to \"Enhance\""
+      "name": "Enhance._info.name",
+      "help": "Enhance._info.help"
     },
     "ShipToEnhance": {
-      "name": "Ship to Enhance",
-      "help": "",
-      "all": "Enhance All Ships",
-      "favourite": "Enhance Favourite Ships Only"
+      "name": "Enhance.ShipToEnhance.name",
+      "help": "Enhance.ShipToEnhance.help",
+      "all": "all",
+      "favourite": "favourite"
     },
     "Filter": {
-      "name": "Ship Type(s) Filter for Enhance",
-      "help": "\"cv > bb > ...\"; may substitute a type with \"?\" to have Alas select a type at random\nMust enter at least 1 whitespace character to disable type filtering"
+      "name": "Enhance.Filter.name",
+      "help": "Enhance.Filter.help"
     },
     "CheckPerCategory": {
-      "name": "Number Checked Per Category for Enhance",
-      "help": "Restricts the number of ships to be checked per category before moving onto the next if any\nSuitable enhance material is checked continously until reaching the unenhanceable state (in battle or stat full), after which this number is decremented for the current session\nRecommend to configure 3+ if there are non-max level ships in active fleet else <= 2 is generally sufficient"
+      "name": "Enhance.CheckPerCategory.name",
+      "help": "Enhance.CheckPerCategory.help"
     }
   },
   "OldRetire": {
     "_info": {
-      "name": "Old Retire Settings",
-      "help": "Only applies to \"Old Retire\".\nNote that old retire is based on rarity, it will retire Bulins"
+      "name": "OldRetire._info.name",
+      "help": "OldRetire._info.help"
     },
     "N": {
-      "name": "Retire Common",
-      "help": ""
+      "name": "OldRetire.N.name",
+      "help": "OldRetire.N.help"
     },
     "R": {
-      "name": "Retire Rare",
-      "help": ""
+      "name": "OldRetire.R.name",
+      "help": "OldRetire.R.help"
     },
     "SR": {
-      "name": "Retire Elite",
-      "help": ""
+      "name": "OldRetire.SR.name",
+      "help": "OldRetire.SR.help"
     },
     "SSR": {
-      "name": "Retire Super Rare",
-      "help": ""
+      "name": "OldRetire.SSR.name",
+      "help": "OldRetire.SSR.help"
     },
     "RetireAmount": {
-      "name": "Retire Amount",
-      "help": "",
-      "retire_all": "Retire All",
-      "retire_10": "Retire 10"
+      "name": "OldRetire.RetireAmount.name",
+      "help": "OldRetire.RetireAmount.help",
+      "retire_all": "retire_all",
+      "retire_10": "retire_10"
     }
   },
   "Campaign": {
     "_info": {
-      "name": "Level Settings",
-      "help": ""
+      "name": "Campaign._info.name",
+      "help": "Campaign._info.help"
     },
     "Name": {
-      "name": "Level Name",
-      "help": "7-2, 12-4, or SP4; case insensitive; if the level is missing, please wait for next update"
+      "name": "Campaign.Name.name",
+      "help": "Campaign.Name.help"
     },
     "Event": {
-      "name": "Event Name",
-      "help": "Automatically selects to the latest event",
+      "name": "Campaign.Event.name",
+      "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
-<<<<<<< HEAD
-=======
+      "event_20220818_cn": "Operation Convergence",
       "raid_20230629": "Reflections of the Oasis",
->>>>>>> 54d4920a63fba5cffdecc83365037edca2391d27
       "event_20220428_cn": "Rondo at Rainbows End",
       "event_20210527_cn": "Mirror Involution Rerun",
       "event_20200603_cn": "Counterattack Within the Fjord Rerun",
@@ -675,7 +673,6 @@
       "event_20220915_cn": "Violet Tempest Blooming Lycoris",
       "event_20210916_cn": "Upon the Shimmering Blue",
       "event_20200903_en": "Stars of the Shimmering Fjord",
-      "event_20220818_cn": "Operation Convergence",
       "event_20220324_cn": "Virtual Tower",
       "event_20211028_cn": "Skybound Oratorio Rerun",
       "event_20220728_cn": "Aquilifers Ballade",
@@ -733,75 +730,75 @@
       "war_archives_20181020_en": "archives Strive Wish and Strategize"
     },
     "Mode": {
-      "name": "Level Mode",
-      "help": "Only configurable in Farm Main",
+      "name": "Campaign.Mode.name",
+      "help": "Campaign.Mode.help",
       "normal": "normal",
       "hard": "hard"
     },
     "UseClearMode": {
-      "name": "Use Clear Mode",
-      "help": ""
+      "name": "Campaign.UseClearMode.name",
+      "help": "Campaign.UseClearMode.help"
     },
     "UseFleetLock": {
-      "name": "Use Fleet Lock",
-      "help": ""
+      "name": "Campaign.UseFleetLock.name",
+      "help": "Campaign.UseFleetLock.help"
     },
     "UseAutoSearch": {
-      "name": "Use Auto Search",
-      "help": ""
+      "name": "Campaign.UseAutoSearch.name",
+      "help": "Campaign.UseAutoSearch.help"
     },
     "Use2xBook": {
-      "name": "Use High-Efficiency Combat Logistics Plan",
-      "help": "Twice the oil consumption but also twice the exp and drops"
+      "name": "Campaign.Use2xBook.name",
+      "help": "Campaign.Use2xBook.help"
     },
     "AmbushEvade": {
-      "name": "Evade Ambush(es)",
-      "help": ""
+      "name": "Campaign.AmbushEvade.name",
+      "help": "Campaign.AmbushEvade.help"
     }
   },
   "StopCondition": {
     "_info": {
-      "name": "Stop Condition Settings",
-      "help": "After triggering any of following conditions, the current task will be stopped"
+      "name": "StopCondition._info.name",
+      "help": "StopCondition._info.help"
     },
     "RunCount": {
-      "name": "Run Level X Time(s)",
-      "help": "Automatically decreases by 1 for every completion and stops the current task upon reaching zero; saving as 0 implies unlimited runs until a different stop condition is met"
+      "name": "StopCondition.RunCount.name",
+      "help": "StopCondition.RunCount.help"
     },
     "OilLimit": {
-      "name": "Keep Oil Above X",
-      "help": "Stop current task if oil is found to be below this number"
+      "name": "StopCondition.OilLimit.name",
+      "help": "StopCondition.OilLimit.help"
     },
     "MapAchievement": {
-      "name": "Level Achievement",
-      "help": "Stop current task if level has been 100% Clear, 3 Stars, Threat Safe, or Threat Safe without 3 Stars. Non-stop implies no achievement requirement and loops until different stop condition is met",
-      "non_stop": "Non-stop",
-      "100_percent_clear": "100% Clear",
-      "map_3_stars": "100% Clear + 3 Stars",
-      "threat_safe": "100% Clear + 3 Stars + Threat Safe",
-      "threat_safe_without_3_stars": "100% Clear + Threat Safe"
+      "name": "StopCondition.MapAchievement.name",
+      "help": "StopCondition.MapAchievement.help",
+      "non_stop": "non_stop",
+      "100_percent_clear": "100_percent_clear",
+      "map_3_stars": "map_3_stars",
+      "threat_safe": "threat_safe",
+      "threat_safe_without_3_stars": "threat_safe_without_3_stars"
     },
     "StageIncrease": {
-      "name": "Enable Continuous Clear",
-      "help": "Suited for 100% Clear, requires sufficient fleet strength and satisfying level attribute restrictions for every level involved\n1-1 to 14-4, A1 to A3, B1 to B3, C1 to C3, D1 to D3, SP1 to SP4"
+      "name": "StopCondition.StageIncrease.name",
+      "help": "StopCondition.StageIncrease.help"
     },
     "GetNewShip": {
-      "name": "New Ship Get",
-      "help": "Stop current task if detected new ship has been acquired"
+      "name": "StopCondition.GetNewShip.name",
+      "help": "StopCondition.GetNewShip.help"
     },
     "ReachLevel": {
-      "name": "Level X Reached",
-      "help": "Stop current task if any ship under level X has reached level X; saving as 0 implies no limit to the level."
+      "name": "StopCondition.ReachLevel.name",
+      "help": "StopCondition.ReachLevel.help"
     }
   },
   "Fleet": {
     "_info": {
-      "name": "Fleet Settings",
-      "help": "Fleet 1 == Mob Fleet, Fleet 2 == Boss Fleet"
+      "name": "Fleet._info.name",
+      "help": "Fleet._info.help"
     },
     "Fleet1": {
-      "name": "Fleet 1 Number",
-      "help": "",
+      "name": "Fleet.Fleet1.name",
+      "help": "Fleet.Fleet1.help",
       "1": "1",
       "2": "2",
       "3": "3",
@@ -810,32 +807,32 @@
       "6": "6"
     },
     "Fleet1Formation": {
-      "name": "Fleet 1 Formation",
-      "help": "",
+      "name": "Fleet.Fleet1Formation.name",
+      "help": "Fleet.Fleet1Formation.help",
       "line_ahead": "line_ahead",
       "double_line": "double_line",
       "diamond": "diamond"
     },
     "Fleet1Mode": {
-      "name": "Fleet 1 Mode",
-      "help": "",
+      "name": "Fleet.Fleet1Mode.name",
+      "help": "Fleet.Fleet1Mode.help",
       "combat_auto": "combat_auto",
       "combat_manual": "combat_manual",
       "stand_still_in_the_middle": "stand_still_in_the_middle",
       "hide_in_bottom_left": "hide_in_bottom_left"
     },
     "Fleet1Step": {
-      "name": "Fleet 1 Step Number",
-      "help": "Restrict tile step movement in non-cleared levels to configured number",
+      "name": "Fleet.Fleet1Step.name",
+      "help": "Fleet.Fleet1Step.help",
       "2": "2",
       "3": "3",
       "4": "4",
       "5": "5"
     },
     "Fleet2": {
-      "name": "Fleet 2 Number",
-      "help": "",
-      "0": "do_not_use",
+      "name": "Fleet.Fleet2.name",
+      "help": "Fleet.Fleet2.help",
+      "0": "0",
       "1": "1",
       "2": "2",
       "3": "3",
@@ -844,31 +841,31 @@
       "6": "6"
     },
     "Fleet2Formation": {
-      "name": "Fleet 2 Formation",
-      "help": "",
+      "name": "Fleet.Fleet2Formation.name",
+      "help": "Fleet.Fleet2Formation.help",
       "line_ahead": "line_ahead",
       "double_line": "double_line",
       "diamond": "diamond"
     },
     "Fleet2Mode": {
-      "name": "Fleet 2 Mode",
-      "help": "",
+      "name": "Fleet.Fleet2Mode.name",
+      "help": "Fleet.Fleet2Mode.help",
       "combat_auto": "combat_auto",
       "combat_manual": "combat_manual",
       "stand_still_in_the_middle": "stand_still_in_the_middle",
       "hide_in_bottom_left": "hide_in_bottom_left"
     },
     "Fleet2Step": {
-      "name": "Fleet 2 Step Number",
-      "help": "Restrict tile step movement in non-cleared levels to configured number",
+      "name": "Fleet.Fleet2Step.name",
+      "help": "Fleet.Fleet2Step.help",
       "2": "2",
       "3": "3",
       "4": "4",
       "5": "5"
     },
     "FleetOrder": {
-      "name": "Fleet Roles",
-      "help": "With non-auto-search, alas will pick up question marks and ammunition\nWith non-auto-search and battle <=4, Alas will force the use of \"fleet1_all_fleet2_standby\"",
+      "name": "Fleet.FleetOrder.name",
+      "help": "Fleet.FleetOrder.help",
       "fleet1_mob_fleet2_boss": "fleet1_mob_fleet2_boss",
       "fleet1_boss_fleet2_mob": "fleet1_boss_fleet2_mob",
       "fleet1_all_fleet2_standby": "fleet1_all_fleet2_standby",
@@ -877,186 +874,186 @@
   },
   "Submarine": {
     "_info": {
-      "name": "Submarine Settings",
-      "help": ""
+      "name": "Submarine._info.name",
+      "help": "Submarine._info.help"
     },
     "Fleet": {
-      "name": "Submarine Fleet Number",
-      "help": "",
-      "0": "Don't Use",
+      "name": "Submarine.Fleet.name",
+      "help": "Submarine.Fleet.help",
+      "0": "0",
       "1": "1",
       "2": "2"
     },
     "Mode": {
-      "name": "Submarine Mode",
-      "help": "Effective only when auto search disabled. Reminder: 'Hunt and Boss' is actually a mix of 'Hunt Only' and 'Boss Only', it does hunt and summon submarines at boss if available.",
-      "do_not_use": "Don't Use",
-      "hunt_only": "Hunt Only",
-      "boss_only": "BOSS Only",
-      "hunt_and_boss": "Hunt and BOSS",
-      "every_combat": "Every Combat"
+      "name": "Submarine.Mode.name",
+      "help": "Submarine.Mode.help",
+      "do_not_use": "do_not_use",
+      "hunt_only": "hunt_only",
+      "boss_only": "boss_only",
+      "hunt_and_boss": "hunt_and_boss",
+      "every_combat": "every_combat"
     },
     "AutoSearchMode": {
-      "name": "Submarine Roles in Auto Search",
-      "help": "Effective only for auto search",
-      "sub_standby": "Standby",
-      "sub_auto_call": "Auto Call"
+      "name": "Submarine.AutoSearchMode.name",
+      "help": "Submarine.AutoSearchMode.help",
+      "sub_standby": "sub_standby",
+      "sub_auto_call": "sub_auto_call"
     },
     "DistanceToBoss": {
-      "name": "Before BOSS battle move the submarine near BOSS",
-      "help": "Effective only if \"Submarine Mode\" is \"BOSS Only\" or \"Hunt and BOSS\"\nSelecting \"X Grids To BOSS\" needs to ensure that the submarine hunting range can cover the BOSS. Distance is calculated using the Manhattan Distance. Selecting \"Use Open Ocean Support\" requires U522/Leonardo da Vinci in the submarine fleet.",
-      "to_boss_position": "To BOSS Location",
-      "1_grid_to_boss": "1 Grid To BOSS",
-      "2_grid_to_boss": "2 Grids To BOSS",
-      "use_open_ocean_support": "Use Open Ocean Support"
+      "name": "Submarine.DistanceToBoss.name",
+      "help": "Submarine.DistanceToBoss.help",
+      "to_boss_position": "to_boss_position",
+      "1_grid_to_boss": "1_grid_to_boss",
+      "2_grid_to_boss": "2_grid_to_boss",
+      "use_open_ocean_support": "use_open_ocean_support"
     }
   },
   "Emotion": {
     "_info": {
-      "name": "Emotion Settings",
-      "help": "At least one or both \"Calculate Emotion Consumption\" and \"Ignore Low Emotion Warning\" is used for these settings to be enabled"
+      "name": "Emotion._info.name",
+      "help": "Emotion._info.help"
     },
     "Mode": {
-      "name": "Emotion Settings",
-      "help": "",
-      "calculate": "Calculate Emotion Consumption",
-      "ignore": "Ignore Low Emotion Warning",
-      "calculate_ignore": "Calculate + Ignore"
+      "name": "Emotion.Mode.name",
+      "help": "Emotion.Mode.help",
+      "calculate": "calculate",
+      "ignore": "ignore",
+      "calculate_ignore": "calculate_ignore"
     },
     "Fleet1Value": {
-      "name": "Fleet 1 Emotion Value",
-      "help": ""
+      "name": "Emotion.Fleet1Value.name",
+      "help": "Emotion.Fleet1Value.help"
     },
     "Fleet1Record": {
-      "name": "Fleet 1 Emotion Record",
-      "help": ""
+      "name": "Emotion.Fleet1Record.name",
+      "help": "Emotion.Fleet1Record.help"
     },
     "Fleet1Control": {
-      "name": "Fleet 1 Emotion Control",
-      "help": "Measures will be taken to ensure control is maintained i.e. wait for recovery in level or stop current task if others can be executed while waiting",
-      "keep_exp_bonus": "Keep Happy Bonus (>120)",
-      "prevent_green_face": "Keep Content (>40)",
-      "prevent_yellow_face": "Prevent Moody (>30)",
-      "prevent_red_face": "Prevent Exhausted (>20)"
+      "name": "Emotion.Fleet1Control.name",
+      "help": "Emotion.Fleet1Control.help",
+      "keep_exp_bonus": "keep_exp_bonus",
+      "prevent_green_face": "prevent_green_face",
+      "prevent_yellow_face": "prevent_yellow_face",
+      "prevent_red_face": "prevent_red_face"
     },
     "Fleet1Recover": {
-      "name": "Fleet 1 Recover Location",
-      "help": "Configure accordingly to accurately calculate emotion",
-      "not_in_dormitory": "Docks (20/hr)",
-      "dormitory_floor_1": "Dorm Floor 1 (40/hr)",
-      "dormitory_floor_2": "Dorm Floor 2 (50/hr)"
+      "name": "Emotion.Fleet1Recover.name",
+      "help": "Emotion.Fleet1Recover.help",
+      "not_in_dormitory": "not_in_dormitory",
+      "dormitory_floor_1": "dormitory_floor_1",
+      "dormitory_floor_2": "dormitory_floor_2"
     },
     "Fleet1Oath": {
-      "name": "Fleet 1 All Oath",
-      "help": "+10/hr emotion recovery is included into calculation"
+      "name": "Emotion.Fleet1Oath.name",
+      "help": "Emotion.Fleet1Oath.help"
     },
     "Fleet2Value": {
-      "name": "Fleet 2 Emotion Value",
-      "help": ""
+      "name": "Emotion.Fleet2Value.name",
+      "help": "Emotion.Fleet2Value.help"
     },
     "Fleet2Record": {
-      "name": "Fleet 2 Emotion Record",
-      "help": ""
+      "name": "Emotion.Fleet2Record.name",
+      "help": "Emotion.Fleet2Record.help"
     },
     "Fleet2Control": {
-      "name": "Fleet 2 Emotion Control",
-      "help": "Measures will be taken to ensure control is maintained i.e. wait for recovery in level or stop current task if others can be executed while waiting",
-      "keep_exp_bonus": "Keep Happy Bonus (>120)",
-      "prevent_green_face": "Keep Content (>40)",
-      "prevent_yellow_face": "Prevent Moody (>30)",
-      "prevent_red_face": "Prevent Exhausted (>20)"
+      "name": "Emotion.Fleet2Control.name",
+      "help": "Emotion.Fleet2Control.help",
+      "keep_exp_bonus": "keep_exp_bonus",
+      "prevent_green_face": "prevent_green_face",
+      "prevent_yellow_face": "prevent_yellow_face",
+      "prevent_red_face": "prevent_red_face"
     },
     "Fleet2Recover": {
-      "name": "Fleet 2 Recover Location",
-      "help": "",
-      "not_in_dormitory": "Docks (20/hr)",
-      "dormitory_floor_1": "Dorm Floor 1 (40/hr)",
-      "dormitory_floor_2": "Dorm Floor 2 (50/hr)"
+      "name": "Emotion.Fleet2Recover.name",
+      "help": "Emotion.Fleet2Recover.help",
+      "not_in_dormitory": "not_in_dormitory",
+      "dormitory_floor_1": "dormitory_floor_1",
+      "dormitory_floor_2": "dormitory_floor_2"
     },
     "Fleet2Oath": {
-      "name": "Fleet 2 All Oath",
-      "help": "+10/hr emotion recovery is included into calculation"
+      "name": "Emotion.Fleet2Oath.name",
+      "help": "Emotion.Fleet2Oath.help"
     }
   },
   "HpControl": {
     "_info": {
-      "name": "HP Control Settings",
-      "help": "Effective only if fleet lock is disabled"
+      "name": "HpControl._info.name",
+      "help": "HpControl._info.help"
     },
     "UseHpBalance": {
-      "name": "Use HP Balance",
-      "help": "Enable monitor of HP across the front row ships and re-position them if needed"
+      "name": "HpControl.UseHpBalance.name",
+      "help": "HpControl.UseHpBalance.help"
     },
     "UseEmergencyRepair": {
-      "name": "Use Emergency Repair",
-      "help": ""
+      "name": "HpControl.UseEmergencyRepair.name",
+      "help": "HpControl.UseEmergencyRepair.help"
     },
     "UseLowHpRetreat": {
-      "name": "Use Low HP Retreat",
-      "help": ""
+      "name": "HpControl.UseLowHpRetreat.name",
+      "help": "HpControl.UseLowHpRetreat.help"
     },
     "HpBalanceThreshold": {
-      "name": "HP Balance Threshold",
-      "help": "If the difference in HP volume is found greater than this threshold then Alas will re-position the ships"
+      "name": "HpControl.HpBalanceThreshold.name",
+      "help": "HpControl.HpBalanceThreshold.help"
     },
     "HpBalanceWeight": {
-      "name": "HP Balance Weight",
-      "help": "Assists in Alas to accurately monitor the HP volume\nEnter your fleet data in the exemplified order \"front-most, middle, back-most\" --> \"6000, 3000, 4000\" (no quotations)"
+      "name": "HpControl.HpBalanceWeight.name",
+      "help": "HpControl.HpBalanceWeight.help"
     },
     "RepairUseSingleThreshold": {
-      "name": "Single Emergency Repair Use Threshold",
-      "help": "Use one repair kit if any one ship's HP is below this threshold"
+      "name": "HpControl.RepairUseSingleThreshold.name",
+      "help": "HpControl.RepairUseSingleThreshold.help"
     },
     "RepairUseMultiThreshold": {
-      "name": "Multi Emergency Repair Use Threshold",
-      "help": "Use all repair kits if the sum HP volume back or front row is below this threshold"
+      "name": "HpControl.RepairUseMultiThreshold.name",
+      "help": "HpControl.RepairUseMultiThreshold.help"
     },
     "LowHpRetreatThreshold": {
-      "name": "Low HP Retreat Threshold",
-      "help": "Retreat if the sum HP volume back or front row is below this threshold"
+      "name": "HpControl.LowHpRetreatThreshold.name",
+      "help": "HpControl.LowHpRetreatThreshold.help"
     }
   },
   "EnemyPriority": {
     "_info": {
-      "name": "Enemy Priority ",
-      "help": "Customize the priority of the enemy you want to fight"
+      "name": "EnemyPriority._info.name",
+      "help": "EnemyPriority._info.help"
     },
     "EnemyScaleBalanceWeight": {
-      "name": "Enemy Priority",
-      "help": "First clear the enemies on the mob to the boss, and then clean up other enemies according to priority",
-      "default_mode": "According to map file",
-      "S3_enemy_first": "3-Stars enemies first",
-      "S1_enemy_first": "1-Star enemies first"
+      "name": "EnemyPriority.EnemyScaleBalanceWeight.name",
+      "help": "EnemyPriority.EnemyScaleBalanceWeight.help",
+      "default_mode": "default_mode",
+      "S3_enemy_first": "S3_enemy_first",
+      "S1_enemy_first": "S1_enemy_first"
     }
   },
   "C11AffinityFarming": {
     "_info": {
-      "name": "C1-1 Affinity Farm Settings",
-      "help": "After entering, repeatedly moves between tiles to initiate ambush encounters"
+      "name": "C11AffinityFarming._info.name",
+      "help": "C11AffinityFarming._info.help"
     },
     "RunCount": {
-      "name": "Encounter Count",
-      "help": "Number of encounters until retreat and repeating again, recommended 32+"
+      "name": "C11AffinityFarming.RunCount.name",
+      "help": "C11AffinityFarming.RunCount.help"
     }
   },
   "C72MysteryFarming": {
     "_info": {
-      "name": "C7-2 Mystery Farm Settings",
-      "help": "Performs minimum number of battles to acquire all mystery tiles then retreat and repeating again"
+      "name": "C72MysteryFarming._info.name",
+      "help": "C72MysteryFarming._info.help"
     },
     "StepOnA3": {
-      "name": "Step A3",
-      "help": "Effectively prevents mystery on A2 from being blocked"
+      "name": "C72MysteryFarming.StepOnA3.name",
+      "help": "C72MysteryFarming.StepOnA3.help"
     }
   },
   "C122MediumLeveling": {
     "_info": {
-      "name": "C12-2 Medium Level Farm Settings",
-      "help": "Use low strength fleet to level up at 12-2 and retreat after fighting all non-large escorts\nImprove exp/oil consumption ratio by reducing strength of fleet"
+      "name": "C122MediumLeveling._info.name",
+      "help": "C122MediumLeveling._info.help"
     },
     "LargeEnemyTolerance": {
-      "name": "Large Enemy Tolerance",
-      "help": "Number of large enemy battle(s) allowed before retreating",
+      "name": "C122MediumLeveling.LargeEnemyTolerance.name",
+      "help": "C122MediumLeveling.LargeEnemyTolerance.help",
       "0": "0",
       "1": "1",
       "2": "2",
@@ -1065,27 +1062,27 @@
   },
   "C124LargeLeveling": {
     "_info": {
-      "name": "C12-4 Large Level Farm Settings",
-      "help": "Use high strength fleet to level up at 12-4 and retreat after fighting all escorts\nImprove exp/oil consumption ratio by reducing strength of fleet"
+      "name": "C124LargeLeveling._info.name",
+      "help": "C124LargeLeveling._info.help"
     },
     "NonLargeEnterTolerance": {
-      "name": "Non-Large Enter Tolerance",
-      "help": "Retreat after configured number of battles if no large escorts are detected",
+      "name": "C124LargeLeveling.NonLargeEnterTolerance.name",
+      "help": "C124LargeLeveling.NonLargeEnterTolerance.help",
       "0": "0",
       "1": "1",
       "2": "2"
     },
     "NonLargeRetreatTolerance": {
-      "name": "Non-Large Retreat Tolerance",
-      "help": "Number of battles allowed against non-large escorts after no remaining large escorts are detected",
+      "name": "C124LargeLeveling.NonLargeRetreatTolerance.name",
+      "help": "C124LargeLeveling.NonLargeRetreatTolerance.help",
       "0": "0",
       "1": "1",
       "2": "2",
       "10": "10"
     },
     "PickupAmmo": {
-      "name": "Pick Up Ammo",
-      "help": "Number of battles before picking up ammo",
+      "name": "C124LargeLeveling.PickupAmmo.name",
+      "help": "C124LargeLeveling.PickupAmmo.help",
       "3": "3",
       "4": "4",
       "5": "5"
@@ -1093,25 +1090,25 @@
   },
   "GemsFarming": {
     "_info": {
-      "name": "Commission Farming Settings",
-      "help": "Warning: This task allows players to get a small amount of gems, but not an efficient way to farm.\nPlayers who have recently started Azur Lane are easily superstitious about 0LB and low oil consumption, while being ignorant about character leveling.\nRunning this function will only make you feel fulfilled however in reality your account will not actually progress very much.\nThe main purpose of this task is to get extra cubes for players with a formed lineup. Please rationally treat gems as a by-product.\n\nFleet 1 is expected to consist of 1 0LB CV/CVL and 1 0LB Vanguard, Fleet 2 is expected to consist of support ships such as New Jersey or Shinano to provide external battle assistance.\nFor information about the drop mechanism/rate of urgent commissions, you can refer to <https://bbs.nga.cn/read.php?tid=27134956> (in Chinese Simplified)"
+      "name": "GemsFarming._info.name",
+      "help": "GemsFarming._info.help"
     },
     "ChangeFlagship": {
-      "name": "Change Flagship",
-      "help": "Change flagship if flagship level >= 33 or either flagship or vanguard are emotion exhausted (if Change Vanguard is enabled).\nSwitch out to new common CV/CVL whose level is in range of 1 to 32, after current has reached level 32+. Meanwhile, abandoned flagships will be retired. Any common CV/CVL whose level is 2+ will be regarded as targets. Do confirm that your own ships which is not a target has been locked\n\nThe flagship's equipment is replaced when being switched out by first recording the current setup\nOnly populated equipment slots will be replaced. If the CV/CVL preference has been configured, all 5 slots will be populated otherwise only the auxiliary slots will be populated.",
-      "ship": "Change Ship",
-      "ship_equip": "Change Ship + Gears"
+      "name": "GemsFarming.ChangeFlagship.name",
+      "help": "GemsFarming.ChangeFlagship.help",
+      "ship": "ship",
+      "ship_equip": "ship_equip"
     },
     "ChangeVanguard": {
-      "name": "Change Vanguard",
-      "help": "Change vanguard if flagship or vanguard are emotion exhausted.\nSwitch out to new level 100(70) common vanguard after current flagship has reached level 32+ (Only CN players'0 limit break ship can reach level 100)\n\nThe vanguard's equipment is replaced when being switched out by first recording the current setup. Only populated equipment slots will be replaced.",
-      "disabled": "Don't Change",
-      "ship": "Change Ship",
-      "ship_equip": "Change Ship + Gears"
+      "name": "GemsFarming.ChangeVanguard.name",
+      "help": "GemsFarming.ChangeVanguard.help",
+      "disabled": "disabled",
+      "ship": "ship",
+      "ship_equip": "ship_equip"
     },
     "CommonCV": {
-      "name": "Flagship Common CV/CVL Preference",
-      "help": "",
+      "name": "GemsFarming.CommonCV.name",
+      "help": "GemsFarming.CommonCV.help",
       "any": "any",
       "langley": "langley",
       "bogue": "bogue",
@@ -1119,466 +1116,466 @@
       "hermes": "hermes"
     },
     "CommissionLimit": {
-      "name": "Prevent Too Many Urgent Commissions",
-      "help": "When running 7x24, prevent having a lot of urgent commissions and not being able to complete daily commissions. It is recommended to select only short-terms and high-yields in the commission filter"
+      "name": "GemsFarming.CommissionLimit.name",
+      "help": "GemsFarming.CommissionLimit.help"
     }
   },
   "EventGeneral": {
     "_info": {
-      "name": "Event General Settings",
-      "help": ""
+      "name": "EventGeneral._info.name",
+      "help": "EventGeneral._info.help"
     },
     "PtLimit": {
-      "name": "Event PT Limit",
-      "help": "When the total PT reaches the given value, disable all event tasks. 0 means no limit. Cannot trigger instantly when using auto search\nWith this enabled, you only need to enable all the event tasks, and you don't need to count how many times to run"
+      "name": "EventGeneral.PtLimit.name",
+      "help": "EventGeneral.PtLimit.help"
     },
     "TimeLimit": {
-      "name": "Event Time Limit",
-      "help": "When the local time exceeds the given value, disable all event tasks. '2020-01-01 00:00:00' means no limit and the time will be reset once it's triggered\nThis can prevent the occurrence of forgetting to disable event tasks after the event ends"
+      "name": "EventGeneral.TimeLimit.name",
+      "help": "EventGeneral.TimeLimit.help"
     }
   },
   "TaskBalancer": {
     "_info": {
-      "name": "Task Balancer Settings",
-      "help": "Prevent coin shortage when farming event maps."
+      "name": "TaskBalancer._info.name",
+      "help": "TaskBalancer._info.help"
     },
     "Enable": {
-      "name": "Enable Task Balancer",
-      "help": "When enabled, the coin amount will be checked after each run."
+      "name": "TaskBalancer.Enable.name",
+      "help": "TaskBalancer.Enable.help"
     },
     "CoinLimit": {
-      "name": "Keep Coin Above X",
-      "help": "Start chosen task if coin is found to be below this number."
+      "name": "TaskBalancer.CoinLimit.name",
+      "help": "TaskBalancer.CoinLimit.help"
     },
     "TaskCall": {
-      "name": "Call task X if out of coin",
-      "help": "Reminder: Players need to check task config before running, or TaskCall may not work.",
+      "name": "TaskBalancer.TaskCall.name",
+      "help": "TaskBalancer.TaskCall.help",
       "Main": "Main",
-      "Main2": "Main-2",
-      "Main3": "Main-3"
+      "Main2": "Main2",
+      "Main3": "Main3"
     }
   },
   "EventDaily": {
     "_info": {
-      "name": "Event Daily Settings",
-      "help": ""
+      "name": "EventDaily._info.name",
+      "help": "EventDaily._info.help"
     },
     "StageFilter": {
-      "name": "Event Daily Stage Filter",
-      "help": ""
+      "name": "EventDaily.StageFilter.name",
+      "help": "EventDaily.StageFilter.help"
     },
     "LastStage": {
-      "name": "Last Event Daily Stage",
-      "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
+      "name": "EventDaily.LastStage.name",
+      "help": "EventDaily.LastStage.help"
     }
   },
   "Raid": {
     "_info": {
-      "name": "Raid Settings",
-      "help": ""
+      "name": "Raid._info.name",
+      "help": "Raid._info.help"
     },
     "Mode": {
-      "name": "Raid Mode",
-      "help": "",
+      "name": "Raid.Mode.name",
+      "help": "Raid.Mode.help",
       "easy": "easy",
       "normal": "normal",
       "hard": "hard",
       "ex": "ex"
     },
     "UseTicket": {
-      "name": "Use Ticket(s)",
-      "help": ""
+      "name": "Raid.UseTicket.name",
+      "help": "Raid.UseTicket.help"
     }
   },
   "RaidDaily": {
     "_info": {
-      "name": "Raid Daily Settings",
-      "help": "Recommend manual play for faster contribution and climbing of prize ladder as raid points are awarded proportionally by speed\nEnable task if slow contribution and climbing is acceptable\nFleet compositions must be made manually for each difficulty"
+      "name": "RaidDaily._info.name",
+      "help": "RaidDaily._info.help"
     },
     "StageFilter": {
-      "name": "Raid Daily Stage Filter",
-      "help": "Generally does not need to be modified or re-arranged but can do so if desired\nCan save on oil consumption if less are attacked\nSupports EX difficulty if specified, submarine is force called to increase clearing rate"
+      "name": "RaidDaily.StageFilter.name",
+      "help": "RaidDaily.StageFilter.help"
     }
   },
   "MaritimeEscort": {
     "_info": {
-      "name": "Maritime Escort",
-      "help": "Enter then retreat, get about 70% of maximum rewards"
+      "name": "MaritimeEscort._info.name",
+      "help": "MaritimeEscort._info.help"
     },
     "Enable": {
-      "name": "Enable maritime Escort",
-      "help": ""
+      "name": "MaritimeEscort.Enable.name",
+      "help": "MaritimeEscort.Enable.help"
     }
   },
   "Coalition": {
     "_info": {
-      "name": "Event Settings",
-      "help": "Fleets must be prepared manually in game before running"
+      "name": "Coalition._info.name",
+      "help": "Coalition._info.help"
     },
     "Fleet": {
-      "name": "Fleet",
-      "help": "",
-      "single": "Solo Challenge",
-      "multi": "Coalition Battle"
+      "name": "Coalition.Fleet.name",
+      "help": "Coalition.Fleet.help",
+      "single": "single",
+      "multi": "multi"
     }
   },
   "Commission": {
     "_info": {
-      "name": "Commission Settings",
-      "help": ""
+      "name": "Commission._info.name",
+      "help": "Commission._info.help"
     },
     "PresetFilter": {
-      "name": "Preset Filter Select",
-      "help": "People without a basic knowledge of commission drops rates and spawn are recommended to use pre-optimized presets instead of writing custom filters\nIf the commission farming is running 24 hours a day, the (7x24 Commission Farming) filter should be used\nIt is not recommended to use the oil priority filter while running commission farming",
-      "cube": "Gems > Cube > Oil",
-      "cube_24h": "Gems > Cube > Oil (7x24 Commission Farming)",
-      "chip": "Gems > Chip > Cube",
-      "chip_24h": "Gems > Chip > Cube (7x24 Commission Farming)",
-      "oil": "Gems > Oil > Cube",
-      "custom": "Custom"
+      "name": "Commission.PresetFilter.name",
+      "help": "Commission.PresetFilter.help",
+      "cube": "cube",
+      "cube_24h": "cube_24h",
+      "chip": "chip",
+      "chip_24h": "chip_24h",
+      "oil": "oil",
+      "custom": "custom"
     },
     "CustomFilter": {
-      "name": "Custom Commission Priority",
-      "help": "To use your own filter, set \"Preset Filter Select\" to \"Custom\". All options have been defined at  <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en>"
+      "name": "Commission.CustomFilter.name",
+      "help": "Commission.CustomFilter.help"
     },
     "DoMajorCommission": {
-      "name": "Do Major Commissions",
-      "help": "1200 oil commission is now outdated, the yield is very low, it is recommended to disable"
+      "name": "Commission.DoMajorCommission.name",
+      "help": "Commission.DoMajorCommission.help"
     }
   },
   "Tactical": {
     "_info": {
-      "name": "Tactical Academy Settings",
-      "help": ""
+      "name": "Tactical._info.name",
+      "help": "Tactical._info.help"
     },
     "TacticalFilter": {
-      "name": "Tactical Book Priority",
-      "help": "Generally does not need to be modified or re-arranged but can do so if desired"
+      "name": "Tactical.TacticalFilter.name",
+      "help": "Tactical.TacticalFilter.help"
     },
     "RapidTrainingSlot": {
-      "name": "Use Rapid Training",
-      "help": "During events, use rapid training 10 times",
-      "do_not_use": "Don't Use",
-      "slot_1": "Use on Slot #1",
-      "slot_2": "Use on Slot #2",
-      "slot_3": "Use on Slot #3",
-      "slot_4": "Use on Slot #4"
+      "name": "Tactical.RapidTrainingSlot.name",
+      "help": "Tactical.RapidTrainingSlot.help",
+      "do_not_use": "do_not_use",
+      "slot_1": "slot_1",
+      "slot_2": "slot_2",
+      "slot_3": "slot_3",
+      "slot_4": "slot_4"
     }
   },
   "ControlExpOverflow": {
     "_info": {
-      "name": "Control EXP Overflow Settings",
-      "help": "Control waste amount of EXP on a specific book tier to save on time\nFor example, if remain = 1100, use ColorT3_Exp despite losing out on 100 EXP"
+      "name": "ControlExpOverflow._info.name",
+      "help": "ControlExpOverflow._info.help"
     },
     "Enable": {
-      "name": "Enable",
-      "help": "Disable for no overflow across all tiers\nOtherwise enable then set specific tier's overflow for customization"
+      "name": "ControlExpOverflow.Enable.name",
+      "help": "ControlExpOverflow.Enable.help"
     },
     "T4Allow": {
-      "name": "T4 Overflow Allow",
-      "help": "0 ~ any positive integer"
+      "name": "ControlExpOverflow.T4Allow.name",
+      "help": "ControlExpOverflow.T4Allow.help"
     },
     "T3Allow": {
-      "name": "T3 Overflow Allow",
-      "help": "0 ~ any positive integer"
+      "name": "ControlExpOverflow.T3Allow.name",
+      "help": "ControlExpOverflow.T3Allow.help"
     },
     "T2Allow": {
-      "name": "T2 Overflow Allow",
-      "help": "0 ~ any positive integer"
+      "name": "ControlExpOverflow.T2Allow.name",
+      "help": "ControlExpOverflow.T2Allow.help"
     },
     "T1Allow": {
-      "name": "T1 Overflow Allow",
-      "help": "0 ~ any positive integer"
+      "name": "ControlExpOverflow.T1Allow.name",
+      "help": "ControlExpOverflow.T1Allow.help"
     }
   },
   "AddNewStudent": {
     "_info": {
-      "name": "Level Skills",
-      "help": "When there is a vacant position in the Tactical Academy, the 1st slot ship girl in dock will be assigned as a student and improve any non-max level skill"
+      "name": "AddNewStudent._info.name",
+      "help": "AddNewStudent._info.help"
     },
     "Enable": {
-      "name": "Enable",
-      "help": ""
+      "name": "AddNewStudent.Enable.name",
+      "help": "AddNewStudent.Enable.help"
     },
     "Favorite": {
-      "name": "Use Favorite Filter",
-      "help": "During student selection apply the favorite filter\nThereby, giving priority to certain ship girls\nApply the favorite status to a ship girl in-game"
+      "name": "AddNewStudent.Favorite.name",
+      "help": "AddNewStudent.Favorite.help"
     }
   },
   "Research": {
     "_info": {
-      "name": "Research Academy Settings",
-      "help": "For convenience a few preset filters are provided\nHowever it is recommended to use \"custom\" and author your own priority for projects\nNote that combined with other settings, Alas will choose projects that satisfy all the conditions. For example, if \"Use Cube\" is disabled but your list consists of projects that cost cubes, Alas will not choose them"
+      "name": "Research._info.name",
+      "help": "Research._info.help"
     },
     "UseCube": {
-      "name": "Use Cube",
-      "help": "Allow to undertake projects that require cubes",
-      "always_use": "Always Use",
-      "only_05_hour": "0.5 Hour+No project available",
-      "only_no_project": "Only no project available",
-      "do_not_use": "Don't Use"
+      "name": "Research.UseCube.name",
+      "help": "Research.UseCube.help",
+      "always_use": "always_use",
+      "only_05_hour": "only_05_hour",
+      "only_no_project": "only_no_project",
+      "do_not_use": "do_not_use"
     },
     "UseCoin": {
-      "name": "Use Coin",
-      "help": "Allow to undertake projects that require coins",
-      "always_use": "Always Use",
-      "only_05_hour": "0.5 Hour+No project available",
-      "only_no_project": "Only no project available",
-      "do_not_use": "Don't Use"
+      "name": "Research.UseCoin.name",
+      "help": "Research.UseCoin.help",
+      "always_use": "always_use",
+      "only_05_hour": "only_05_hour",
+      "only_no_project": "only_no_project",
+      "do_not_use": "do_not_use"
     },
     "UsePart": {
-      "name": "Use Part/Plate",
-      "help": "Allow to undertake projects that require parts/plates",
-      "always_use": "Always Use",
-      "only_05_hour": "0.5 Hour+No project available",
-      "only_no_project": "Only no project available",
-      "do_not_use": "Don't Use"
+      "name": "Research.UsePart.name",
+      "help": "Research.UsePart.help",
+      "always_use": "always_use",
+      "only_05_hour": "only_05_hour",
+      "only_no_project": "only_no_project",
+      "do_not_use": "do_not_use"
     },
     "AllowDelay": {
-      "name": "Delay research when resources are insufficient",
-      "help": "When the resources are insufficient, Alas will delay research until the conditions are met or research queue is about to be emptied, which will not cause the research to stop\nIf the resources are insufficient for a long time or the time of running alas is not long enough, you can cancel this option to keep the research queue full"
+      "name": "Research.AllowDelay.name",
+      "help": "Research.AllowDelay.help"
     },
     "PresetFilter": {
-      "name": "Preset Filter Select",
-      "help": "See research drops rates and spawn rates in https://azur-stats.lyoko.io/. People without a basic knowledge of these are recommended to use pre-optimized presets instead of writing custom filters",
+      "name": "Research.PresetFilter.name",
+      "help": "Research.PresetFilter.help",
       "custom": "custom",
-      "series_5_blueprint_152": "Series 5 Blueprints+152",
-      "series_5_blueprint_only": "Series 5 Blueprints Only",
-      "series_5_152_only": "Series 5 152 Only",
-      "series_4_blueprint_tenrai": "Series 4 Blueprints+Tenrai",
-      "series_4_blueprint_only": "Series 4 Blueprints Only",
-      "series_4_tenrai_only": "Series 4 Tenrai Only",
-      "series_3_blueprint_234": "Series 3 Blueprints+234",
-      "series_3_blueprint_only": "Series 3 Blueprints Only",
-      "series_3_234_only": "Series 3 234 Only",
-      "series_2_than_3_457_234": "Series 2+3 457+234",
-      "series_2_blueprint_457": "Series 2 Blueprints+457",
-      "series_2_blueprint_only": "Series 2 Blueprints Only",
-      "series_2_457_only": "Series 2 457 Only"
+      "series_5_blueprint_152": "series_5_blueprint_152",
+      "series_5_blueprint_only": "series_5_blueprint_only",
+      "series_5_152_only": "series_5_152_only",
+      "series_4_blueprint_tenrai": "series_4_blueprint_tenrai",
+      "series_4_blueprint_only": "series_4_blueprint_only",
+      "series_4_tenrai_only": "series_4_tenrai_only",
+      "series_3_blueprint_234": "series_3_blueprint_234",
+      "series_3_blueprint_only": "series_3_blueprint_only",
+      "series_3_234_only": "series_3_234_only",
+      "series_2_than_3_457_234": "series_2_than_3_457_234",
+      "series_2_blueprint_457": "series_2_blueprint_457",
+      "series_2_blueprint_only": "series_2_blueprint_only",
+      "series_2_457_only": "series_2_457_only"
     },
     "CustomFilter": {
-      "name": "Custom Research Priority",
-      "help": "To use your own filter, set \"Preset Filter Select\" to \"custom\". All options have been defined at  <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en>"
+      "name": "Research.CustomFilter.name",
+      "help": "Research.CustomFilter.help"
     }
   },
   "Dorm": {
     "_info": {
-      "name": "Dorm Settings",
-      "help": ""
+      "name": "Dorm._info.name",
+      "help": "Dorm._info.help"
     },
     "Collect": {
-      "name": "Collect Coins and Loves",
-      "help": ""
+      "name": "Dorm.Collect.name",
+      "help": "Dorm.Collect.help"
     },
     "Feed": {
-      "name": "Restock Dorm Snacks",
-      "help": ""
+      "name": "Dorm.Feed.name",
+      "help": "Dorm.Feed.help"
     },
     "FeedFilter": {
-      "name": "Snack Filter",
-      "help": "Generally does not need to be modified or re-arranged but can do so if desired"
+      "name": "Dorm.FeedFilter.name",
+      "help": "Dorm.FeedFilter.help"
     }
   },
   "Meowfficer": {
     "_info": {
-      "name": "Mewofficer Settings",
-      "help": ""
+      "name": "Meowfficer._info.name",
+      "help": "Meowfficer._info.help"
     },
     "BuyAmount": {
-      "name": "Buy Amount",
-      "help": "The 1st meowfficer box purchase everyday is free"
+      "name": "Meowfficer.BuyAmount.name",
+      "help": "Meowfficer.BuyAmount.help"
     },
     "FortChoreMeowfficer": {
-      "name": "Do Fort Chores",
-      "help": "Completes all 3 chores; clean, feed, and play with meowfficer to get fort exp"
+      "name": "Meowfficer.FortChoreMeowfficer.name",
+      "help": "Meowfficer.FortChoreMeowfficer.help"
     }
   },
   "MeowfficerTrain": {
     "_info": {
-      "name": "Meowfficer Training Settings",
-      "help": ""
+      "name": "MeowfficerTrain._info.name",
+      "help": "MeowfficerTrain._info.help"
     },
     "Enable": {
-      "name": "Enable Meowfficer Training",
-      "help": ""
+      "name": "MeowfficerTrain.Enable.name",
+      "help": "MeowfficerTrain.Enable.help"
     },
     "Mode": {
-      "name": "Meowfficer Training Mode",
-      "help": "Train Seamlessly means collecting trained meowfficer(s) every 2.5 ~ 3.5 hours.\nTrain Once a Day means collecting 1 trained meowfficer each day; emptying the training queue and do the enhancing on Sunday in order to finish weekly mission.",
-      "seamlessly": "Train Seamlessly",
-      "once_a_day": "Train Once a Day"
+      "name": "MeowfficerTrain.Mode.name",
+      "help": "MeowfficerTrain.Mode.help",
+      "seamlessly": "seamlessly",
+      "once_a_day": "once_a_day"
     },
     "RetainTalentedGold": {
-      "name": "Retain Talented SR Meowfficer(s)",
-      "help": "During collection, SR cats are examined for special talent abilities i.e. has no tiers or is colored rainbow.\nIf detected these are locked to prevent being used as feed material. Players must manually check and enhance themselves an SR meowfficer's personal skill."
+      "name": "MeowfficerTrain.RetainTalentedGold.name",
+      "help": "MeowfficerTrain.RetainTalentedGold.help"
     },
     "RetainTalentedPurple": {
-      "name": "Retain Talented Elite Meowfficer(s)",
-      "help": "During collection, Elite cats are examined for special talent abilities i.e. has no tiers or is colored rainbow.\nIf detected these are locked to prevent being used as feed material. Players must manually check and enhance themselves an Elite meowfficer's personal skill."
+      "name": "MeowfficerTrain.RetainTalentedPurple.name",
+      "help": "MeowfficerTrain.RetainTalentedPurple.help"
     },
     "EnhanceIndex": {
-      "name": "Enhance Index",
-      "help": "Index of target meowfficer to enhance. Limited in 1 ~ 12; indices are in ascending order from left to right of the 4 x 3 grid."
+      "name": "MeowfficerTrain.EnhanceIndex.name",
+      "help": "MeowfficerTrain.EnhanceIndex.help"
     }
   },
   "GuildLogistics": {
     "_info": {
-      "name": "Guild Logistics Settings",
-      "help": "Master or Officers must choose a guild mission manually"
+      "name": "GuildLogistics._info.name",
+      "help": "GuildLogistics._info.help"
     },
     "Enable": {
-      "name": "Enable Guild Logistics",
-      "help": "Enables the following:\n- Accept and complete guild missions\n- Submit items in exchange for guild coins\n- Collect other guild rewards"
+      "name": "GuildLogistics.Enable.name",
+      "help": "GuildLogistics.Enable.help"
     },
     "SelectNewMission": {
-      "name": "Select A New Fleet Mission",
-      "help": "This account must be a guild master or officer to use this.\nThe easiest mission Siren Subjugation III is selected by default, and the objective is to defeat 300 enemies\n(Not supported, please contact an EN developer if you would like to assist in alleviating this)"
+      "name": "GuildLogistics.SelectNewMission.name",
+      "help": "GuildLogistics.SelectNewMission.help"
     },
     "ExchangeFilter": {
-      "name": "Item Exchange Filter",
-      "help": "Generally does not need to be modified or re-arranged but can do so if desired\nIf there is an item that you lack, priority for that exchange is lowered"
+      "name": "GuildLogistics.ExchangeFilter.name",
+      "help": "GuildLogistics.ExchangeFilter.help"
     }
   },
   "GuildOperation": {
     "_info": {
-      "name": "Guild Operation Settings",
-      "help": ""
+      "name": "GuildOperation._info.name",
+      "help": "GuildOperation._info.help"
     },
     "Enable": {
-      "name": "Enable Guild Operation",
-      "help": "Enables the following:\n- Start new / Join ongoing guild operations\n- Dispatch ships to complete objectives\n- Optionally attack guild boss when available"
+      "name": "GuildOperation.Enable.name",
+      "help": "GuildOperation.Enable.help"
     },
     "SelectNewOperation": {
-      "name": "Start New Guild Operations",
-      "help": "This account must be a guild master or officer to use this.\nThe most rewarding operation Solomon Air-Sea Battle is selected by default"
+      "name": "GuildOperation.SelectNewOperation.name",
+      "help": "GuildOperation.SelectNewOperation.help"
     },
     "NewOperationMaxDate": {
-      "name": "Don't Start Guild Operation After Date X of Every Month",
-      "help": "Only takes effect when \"Start New Guild Operations\" is enabled.\nStarting a third operation in the same month is not recommended. Members are limited in joining up to 2 operations each month; a third operation will unlikely be finished as most cannot participate and spill over to the following month. This will affect the evaluation of the dispatch event, resulting in a reduction of the final reward"
+      "name": "GuildOperation.NewOperationMaxDate.name",
+      "help": "GuildOperation.NewOperationMaxDate.help"
     },
     "JoinThreshold": {
-      "name": "Join Threshold",
-      "help": "0.0 ~ 1.0\n0.5 means only join when progress is less than halfway through\n1 means join regardless of current progress even if basically finished\nRemember you are limited to joining only 2 on a monthly basis\nMaximize rewards and participation by joining newly started operations"
+      "name": "GuildOperation.JoinThreshold.name",
+      "help": "GuildOperation.JoinThreshold.help"
     },
     "AttackBoss": {
-      "name": "Attack Guild Boss",
-      "help": ""
+      "name": "GuildOperation.AttackBoss.name",
+      "help": "GuildOperation.AttackBoss.help"
     },
     "BossFleetRecommend": {
-      "name": "Enable Fleet Recommend",
-      "help": "This will automatically select your own ships to fill all 6 ship slots\nRecommended to keep disabled to form your own fleet along with fellow member's support units\nHowever if members are frequently changing their support units, may be worth to enable otherwise attacks only with 4 ships"
+      "name": "GuildOperation.BossFleetRecommend.name",
+      "help": "GuildOperation.BossFleetRecommend.help"
     }
   },
   "Reward": {
     "_info": {
-      "name": "Reward Settings",
-      "help": ""
+      "name": "Reward._info.name",
+      "help": "Reward._info.help"
     },
     "CollectOil": {
-      "name": "Collect Oil",
-      "help": ""
+      "name": "Reward.CollectOil.name",
+      "help": "Reward.CollectOil.help"
     },
     "CollectCoin": {
-      "name": "Collect Coin",
-      "help": ""
+      "name": "Reward.CollectCoin.name",
+      "help": "Reward.CollectCoin.help"
     },
     "CollectExp": {
-      "name": "Collect Experience Books",
-      "help": ""
+      "name": "Reward.CollectExp.name",
+      "help": "Reward.CollectExp.help"
     },
     "CollectMission": {
-      "name": "Collect Mission Rewards",
-      "help": ""
+      "name": "Reward.CollectMission.name",
+      "help": "Reward.CollectMission.help"
     },
     "CollectWeeklyMission": {
-      "name": "Collect Weekly Mission Rewards",
-      "help": ""
+      "name": "Reward.CollectWeeklyMission.name",
+      "help": "Reward.CollectWeeklyMission.help"
     }
   },
   "GeneralShop": {
     "_info": {
-      "name": "General Shop Settings",
-      "help": ""
+      "name": "GeneralShop._info.name",
+      "help": "GeneralShop._info.help"
     },
     "UseGems": {
-      "name": "Use Gems",
-      "help": ""
+      "name": "GeneralShop.UseGems.name",
+      "help": "GeneralShop.UseGems.help"
     },
     "Refresh": {
-      "name": "Allow Shop Refresh",
-      "help": "Refreshing will consume 50 gems"
+      "name": "GeneralShop.Refresh.name",
+      "help": "GeneralShop.Refresh.help"
     },
     "BuySkinBox": {
-      "name": "Buy Equip Skin Boxes",
-      "help": "In order to reduce maintenance costs, the skin box selectors in the filter will not be updated with the game, but Alas will consider any unknown items with a quantity of 1 and consume 7000 coins as skin boxes and buy them."
+      "name": "GeneralShop.BuySkinBox.name",
+      "help": "GeneralShop.BuySkinBox.help"
     },
     "Filter": {
-      "name": "Item Filter",
-      "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>"
+      "name": "GeneralShop.Filter.name",
+      "help": "GeneralShop.Filter.help"
     }
   },
   "GuildShop": {
     "_info": {
-      "name": "Guild Shop Settings",
-      "help": ""
+      "name": "GuildShop._info.name",
+      "help": "GuildShop._info.help"
     },
     "Refresh": {
-      "name": "Allow Shop Refresh",
-      "help": "Refreshing will consume 50 guild coins, these are not valuable and it is recommended to have this enabled"
+      "name": "GuildShop.Refresh.name",
+      "help": "GuildShop.Refresh.help"
     },
     "Filter": {
-      "name": "Item Filter",
-      "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>\nHowever unlike other shops you cannot specify the exact item, you are limited to just category and grade\nThe select options below are used to substitute this incapability"
+      "name": "GuildShop.Filter.name",
+      "help": "GuildShop.Filter.help"
     },
     "BOX_T3": {
-      "name": "Faction Preference BoxT3",
-      "help": "",
+      "name": "GuildShop.BOX_T3.name",
+      "help": "GuildShop.BOX_T3.help",
       "eagle": "eagle",
       "royal": "royal",
       "sakura": "sakura",
       "ironblood": "ironblood"
     },
     "BOX_T4": {
-      "name": "Faction Preference BoxT4",
-      "help": "",
+      "name": "GuildShop.BOX_T4.name",
+      "help": "GuildShop.BOX_T4.help",
       "eagle": "eagle",
       "royal": "royal",
       "sakura": "sakura",
       "ironblood": "ironblood"
     },
     "BOOK_T2": {
-      "name": "Color Preference BookT2",
-      "help": "",
+      "name": "GuildShop.BOOK_T2.name",
+      "help": "GuildShop.BOOK_T2.help",
       "red": "red",
       "blue": "blue",
       "yellow": "yellow"
     },
     "BOOK_T3": {
-      "name": "Color Preference BookT3",
-      "help": "",
+      "name": "GuildShop.BOOK_T3.name",
+      "help": "GuildShop.BOOK_T3.help",
       "red": "red",
       "blue": "blue",
       "yellow": "yellow"
     },
     "RETROFIT_T2": {
-      "name": "Type Preference RetrofitT2",
-      "help": "",
+      "name": "GuildShop.RETROFIT_T2.name",
+      "help": "GuildShop.RETROFIT_T2.help",
       "dd": "dd",
       "cl": "cl",
       "bb": "bb",
       "cv": "cv"
     },
     "RETROFIT_T3": {
-      "name": "Type Preference RetrofitT3",
-      "help": "",
+      "name": "GuildShop.RETROFIT_T3.name",
+      "help": "GuildShop.RETROFIT_T3.help",
       "dd": "dd",
       "cl": "cl",
       "bb": "bb",
       "cv": "cv"
     },
     "PLATE_T2": {
-      "name": "Type Preference PlateT2",
-      "help": "",
+      "name": "GuildShop.PLATE_T2.name",
+      "help": "GuildShop.PLATE_T2.help",
       "general": "general",
       "gun": "gun",
       "torpedo": "torpedo",
@@ -1586,8 +1583,8 @@
       "plane": "plane"
     },
     "PLATE_T3": {
-      "name": "Type Preference PlateT3",
-      "help": "",
+      "name": "GuildShop.PLATE_T3.name",
+      "help": "GuildShop.PLATE_T3.help",
       "general": "general",
       "gun": "gun",
       "torpedo": "torpedo",
@@ -1595,8 +1592,8 @@
       "plane": "plane"
     },
     "PLATE_T4": {
-      "name": "Type Preference PlateT4",
-      "help": "",
+      "name": "GuildShop.PLATE_T4.name",
+      "help": "GuildShop.PLATE_T4.help",
       "general": "general",
       "gun": "gun",
       "torpedo": "torpedo",
@@ -1604,8 +1601,8 @@
       "plane": "plane"
     },
     "PR1": {
-      "name": "PR1 BP Preference",
-      "help": "",
+      "name": "GuildShop.PR1.name",
+      "help": "GuildShop.PR1.help",
       "neptune": "neptune",
       "monarch": "monarch",
       "ibuki": "ibuki",
@@ -1614,16 +1611,16 @@
       "saintlouis": "saintlouis"
     },
     "PR2": {
-      "name": "PR2 BP Preference",
-      "help": "",
+      "name": "GuildShop.PR2.name",
+      "help": "GuildShop.PR2.help",
       "seattle": "seattle",
       "georgia": "georgia",
       "kitakaze": "kitakaze",
       "gascogne": "gascogne"
     },
     "PR3": {
-      "name": "PR3 BP Preference",
-      "help": "",
+      "name": "GuildShop.PR3.name",
+      "help": "GuildShop.PR3.help",
       "cheshire": "cheshire",
       "mainz": "mainz",
       "odin": "odin",
@@ -1632,40 +1629,40 @@
   },
   "MedalShop2": {
     "_info": {
-      "name": "Medal Shop Settings",
-      "help": ""
+      "name": "MedalShop2._info.name",
+      "help": "MedalShop2._info.help"
     },
     "Filter": {
-      "name": "Item Filter",
-      "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>\nDifferent from other shops, the below select options assist with filling the unknowns for the vague items 'Retrofit' and 'Plate'\nFurthermore restricted for 'Plate', there are both specific and wild types\nIf you are targeting a specific type then use a string combination such as 'PlateGeneralT3 > PlateWildT3' otherwise 'PlateT3' will purchase every available T3 Plate\nFor research blueprints it is adviseable to use 'DR > PR', players should convert surplus into Prototype Core currency"
+      "name": "MedalShop2.Filter.name",
+      "help": "MedalShop2.Filter.help"
     },
     "RETROFIT_T1": {
-      "name": "Type Preference RetrofitT1",
-      "help": "",
+      "name": "MedalShop2.RETROFIT_T1.name",
+      "help": "MedalShop2.RETROFIT_T1.help",
       "dd": "dd",
       "cl": "cl",
       "bb": "bb",
       "cv": "cv"
     },
     "RETROFIT_T2": {
-      "name": "Type Preference RetrofitT2",
-      "help": "",
+      "name": "MedalShop2.RETROFIT_T2.name",
+      "help": "MedalShop2.RETROFIT_T2.help",
       "dd": "dd",
       "cl": "cl",
       "bb": "bb",
       "cv": "cv"
     },
     "RETROFIT_T3": {
-      "name": "Type Preference RetrofitT3",
-      "help": "",
+      "name": "MedalShop2.RETROFIT_T3.name",
+      "help": "MedalShop2.RETROFIT_T3.help",
       "dd": "dd",
       "cl": "cl",
       "bb": "bb",
       "cv": "cv"
     },
     "PLATE_T1": {
-      "name": "Type Preference PlateT1",
-      "help": "",
+      "name": "MedalShop2.PLATE_T1.name",
+      "help": "MedalShop2.PLATE_T1.help",
       "general": "general",
       "gun": "gun",
       "torpedo": "torpedo",
@@ -1673,8 +1670,8 @@
       "plane": "plane"
     },
     "PLATE_T2": {
-      "name": "Type Preference PlateT2",
-      "help": "",
+      "name": "MedalShop2.PLATE_T2.name",
+      "help": "MedalShop2.PLATE_T2.help",
       "general": "general",
       "gun": "gun",
       "torpedo": "torpedo",
@@ -1682,8 +1679,8 @@
       "plane": "plane"
     },
     "PLATE_T3": {
-      "name": "Type Preference PlateT3",
-      "help": "",
+      "name": "MedalShop2.PLATE_T3.name",
+      "help": "MedalShop2.PLATE_T3.help",
       "general": "general",
       "gun": "gun",
       "torpedo": "torpedo",
@@ -1693,42 +1690,42 @@
   },
   "MeritShop": {
     "_info": {
-      "name": "Merit Shop Settings",
-      "help": ""
+      "name": "MeritShop._info.name",
+      "help": "MeritShop._info.help"
     },
     "Refresh": {
-      "name": "Allow Shop Refresh",
-      "help": "Refreshing will consume 50 gems"
+      "name": "MeritShop.Refresh.name",
+      "help": "MeritShop.Refresh.help"
     },
     "Filter": {
-      "name": "Item Filter",
-      "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>"
+      "name": "MeritShop.Filter.name",
+      "help": "MeritShop.Filter.help"
     }
   },
   "CoreShop": {
     "_info": {
-      "name": "Core Shop Settings",
-      "help": ""
+      "name": "CoreShop._info.name",
+      "help": "CoreShop._info.help"
     },
     "Filter": {
-      "name": "Item Filter",
-      "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>\nHowever unlike other shops, only Chip and Array are supported\nALAS does not browse, scroll, or recognize any other items displayed besides those two"
+      "name": "CoreShop.Filter.name",
+      "help": "CoreShop.Filter.help"
     }
   },
   "ShipyardDr": {
     "_info": {
-      "name": "DR Blueprints Purchase Settings",
-      "help": "Purchase research blueprints every day, discount of DR and PRY blueprints are counted independently."
+      "name": "ShipyardDr._info.name",
+      "help": "ShipyardDr._info.help"
     },
     "ResearchSeries": {
-      "name": "Research Series",
-      "help": "",
-      "2": "PR2"
+      "name": "ShipyardDr.ResearchSeries.name",
+      "help": "ShipyardDr.ResearchSeries.help",
+      "2": "2"
     },
     "ShipIndex": {
-      "name": "Ship Index",
-      "help": "Position varies depending on progress, so must manually verify the target ship's position yourself\nStarting from left to right; 1 ~ 6",
-      "0": "Don't buy",
+      "name": "ShipyardDr.ShipIndex.name",
+      "help": "ShipyardDr.ShipIndex.help",
+      "0": "0",
       "1": "1",
       "2": "2",
       "3": "3",
@@ -1737,30 +1734,30 @@
       "6": "6"
     },
     "BuyAmount": {
-      "name": "Buy Amount",
-      "help": "The 1st and 2nd purchase everyday are free\nDiscounts are applied to the 3rd and onwards, gradually minimizing until full price\nExact discounts found at <https://azurlane.koumakan.jp/wiki/Research#Enhancing>"
+      "name": "ShipyardDr.BuyAmount.name",
+      "help": "ShipyardDr.BuyAmount.help"
     },
     "LastRun": {
-      "name": "Last Purchase Time",
-      "help": "Because AL does not display how many blueprints have been purchased today, the time of the last purchase is recorded here to prevent the task from running repeatedly. This value is automatically recorded and generally does not need to be modified."
+      "name": "ShipyardDr.LastRun.name",
+      "help": "ShipyardDr.LastRun.help"
     }
   },
   "Shipyard": {
     "_info": {
-      "name": "PRY Blueprints Purchase Settings",
-      "help": ""
+      "name": "Shipyard._info.name",
+      "help": "Shipyard._info.help"
     },
     "ResearchSeries": {
-      "name": "Research Series",
-      "help": "",
-      "1": "PR1",
-      "2": "PR2",
-      "3": "PR3"
+      "name": "Shipyard.ResearchSeries.name",
+      "help": "Shipyard.ResearchSeries.help",
+      "1": "1",
+      "2": "2",
+      "3": "3"
     },
     "ShipIndex": {
-      "name": "Ship Index",
-      "help": "Position varies depending on progress, so must manually verify the target ship's position yourself\nStarting from left to right; 1 ~ 6",
-      "0": "Don't buy",
+      "name": "Shipyard.ShipIndex.name",
+      "help": "Shipyard.ShipIndex.help",
+      "0": "0",
       "1": "1",
       "2": "2",
       "3": "3",
@@ -1769,22 +1766,22 @@
       "6": "6"
     },
     "BuyAmount": {
-      "name": "Buy Amount",
-      "help": "The 1st and 2nd purchase everyday are free\nDiscounts are applied to the 3rd and onwards, gradually minimizing until full price\nExact discounts found at <https://azurlane.koumakan.jp/Research#Strengthening>"
+      "name": "Shipyard.BuyAmount.name",
+      "help": "Shipyard.BuyAmount.help"
     },
     "LastRun": {
-      "name": "Last Purchase Time",
-      "help": "Because AL does not display how many blueprints have been purchased today, the time of the last purchase is recorded here to prevent the task from running repeatedly. This value is automatically recorded and generally does not need to be modified."
+      "name": "Shipyard.LastRun.name",
+      "help": "Shipyard.LastRun.help"
     }
   },
   "Gacha": {
     "_info": {
-      "name": "Gacha Settings",
-      "help": "Submit new build order(s) for daily achievement\nPrevious orders will be dequeued before submission to allow for maximum inputs and if any are still in progress, drills will be used to expedite them\nRetirement settings will be enforced if dock is full"
+      "name": "Gacha._info.name",
+      "help": "Gacha._info.help"
     },
     "Pool": {
-      "name": "Pool",
-      "help": "",
+      "name": "Gacha.Pool.name",
+      "help": "Gacha.Pool.help",
       "light": "light",
       "heavy": "heavy",
       "special": "special",
@@ -1792,8 +1789,8 @@
       "wishing_well": "wishing_well"
     },
     "Amount": {
-      "name": "Amount",
-      "help": "",
+      "name": "Gacha.Amount.name",
+      "help": "Gacha.Amount.help",
       "1": "1",
       "2": "2",
       "3": "3",
@@ -1806,97 +1803,97 @@
       "10": "10"
     },
     "UseTicket": {
-      "name": "Use Build Ticket(s)",
-      "help": "Use build tickets first for event pool. Use cubes if tickets run out or build general pools"
+      "name": "Gacha.UseTicket.name",
+      "help": "Gacha.UseTicket.help"
     },
     "UseDrill": {
-      "name": "Use Drill(s)",
-      "help": "Expedite the recently submitted orders"
+      "name": "Gacha.UseDrill.name",
+      "help": "Gacha.UseDrill.help"
     }
   },
   "BattlePass": {
     "_info": {
-      "name": "Battle Pass Settings",
-      "help": ""
+      "name": "BattlePass._info.name",
+      "help": "BattlePass._info.help"
     },
     "Collect": {
-      "name": "Collect Cruise Missions Rewards",
-      "help": ""
+      "name": "BattlePass.Collect.name",
+      "help": "BattlePass.Collect.help"
     }
   },
   "DataKey": {
     "_info": {
-      "name": "Data Key Settings",
-      "help": ""
+      "name": "DataKey._info.name",
+      "help": "DataKey._info.help"
     },
     "Collect": {
-      "name": "Collect Data Key",
-      "help": ""
+      "name": "DataKey.Collect.name",
+      "help": "DataKey.Collect.help"
     },
     "ForceCollect": {
-      "name": "Force Collect Data Key",
-      "help": "Force collect data key when data key is full to eliminate red dots"
+      "name": "DataKey.ForceCollect.name",
+      "help": "DataKey.ForceCollect.help"
     }
   },
   "Mail": {
     "_info": {
-      "name": "Mail Settings",
-      "help": ""
+      "name": "Mail._info.name",
+      "help": "Mail._info.help"
     },
     "Collect": {
-      "name": "Collect Mail Rewards",
-      "help": "Only collects the top 3 mail entries"
+      "name": "Mail.Collect.name",
+      "help": "Mail.Collect.help"
     },
     "Filter": {
-      "name": "Mail Filter",
-      "help": "Filter as to which mail types should be collected\nSupports Merit, Coolant, Coin, DecorCoin, Cube, Oil, and/or Gem"
+      "name": "Mail.Filter.name",
+      "help": "Mail.Filter.help"
     },
     "Delete": {
-      "name": "Delete Collected Mail Rewards",
-      "help": "Delete the already collected mail entries\nMark any entries \"important\" in-game to avoid accidental deletion"
+      "name": "Mail.Delete.name",
+      "help": "Mail.Delete.help"
     }
   },
   "SupplyPack": {
     "_info": {
-      "name": "Supply Pack Settings",
-      "help": ""
+      "name": "SupplyPack._info.name",
+      "help": "SupplyPack._info.help"
     },
     "Collect": {
-      "name": "Collect Weekly Free Supply Pack",
-      "help": ""
+      "name": "SupplyPack.Collect.name",
+      "help": "SupplyPack.Collect.help"
     },
     "DayOfWeek": {
-      "name": "Days of the week",
-      "help": "Alas will delay free supply pack buying until the value\nIt is recommended to set it to weekdays, or alas may miss the purchase",
-      "0": "Monday",
-      "1": "Tuesday",
-      "2": "Wednesday",
-      "3": "Thursday",
-      "4": "Friday",
-      "5": "Saturday",
-      "6": "Sunday"
+      "name": "SupplyPack.DayOfWeek.name",
+      "help": "SupplyPack.DayOfWeek.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     }
   },
   "Daily": {
     "_info": {
-      "name": "Daily Settings",
-      "help": ""
+      "name": "Daily._info.name",
+      "help": "Daily._info.help"
     },
     "UseDailySkip": {
-      "name": "Use Daily Skip",
-      "help": "Requires S Rank for respective missions to be unlocked\nIf not unlocked, then Alas will automatically fallback to traditional steps to complete the mission"
+      "name": "Daily.UseDailySkip.name",
+      "help": "Daily.UseDailySkip.help"
     },
     "EscortMission": {
-      "name": "Escort Mission Preference",
-      "help": "",
+      "name": "Daily.EscortMission.name",
+      "help": "Daily.EscortMission.help",
       "skip": "skip",
       "first": "first",
       "second": "second",
       "third": "third"
     },
     "EscortMissionFleet": {
-      "name": "Escort Mission Fleet",
-      "help": "",
+      "name": "Daily.EscortMissionFleet.name",
+      "help": "Daily.EscortMissionFleet.help",
       "1": "1",
       "2": "2",
       "3": "3",
@@ -1905,16 +1902,16 @@
       "6": "6"
     },
     "AdvanceMission": {
-      "name": "Advance Mission Preference",
-      "help": "",
+      "name": "Daily.AdvanceMission.name",
+      "help": "Daily.AdvanceMission.help",
       "skip": "skip",
       "first": "first",
       "second": "second",
       "third": "third"
     },
     "AdvanceMissionFleet": {
-      "name": "Advance Mission Fleet",
-      "help": "",
+      "name": "Daily.AdvanceMissionFleet.name",
+      "help": "Daily.AdvanceMissionFleet.help",
       "1": "1",
       "2": "2",
       "3": "3",
@@ -1923,16 +1920,16 @@
       "6": "6"
     },
     "FierceAssault": {
-      "name": "Fierce Assault Preference",
-      "help": "",
+      "name": "Daily.FierceAssault.name",
+      "help": "Daily.FierceAssault.help",
       "skip": "skip",
       "first": "first",
       "second": "second",
       "third": "third"
     },
     "FierceAssaultFleet": {
-      "name": "Fierce Assault Fleet",
-      "help": "",
+      "name": "Daily.FierceAssaultFleet.name",
+      "help": "Daily.FierceAssaultFleet.help",
       "1": "1",
       "2": "2",
       "3": "3",
@@ -1941,16 +1938,16 @@
       "6": "6"
     },
     "TacticalTraining": {
-      "name": "Tactical Training Preference",
-      "help": "",
+      "name": "Daily.TacticalTraining.name",
+      "help": "Daily.TacticalTraining.help",
       "skip": "skip",
       "first": "first",
       "second": "second",
       "third": "third"
     },
     "TacticalTrainingFleet": {
-      "name": "Tactical Training Fleet",
-      "help": "",
+      "name": "Daily.TacticalTrainingFleet.name",
+      "help": "Daily.TacticalTrainingFleet.help",
       "1": "1",
       "2": "2",
       "3": "3",
@@ -1959,23 +1956,23 @@
       "6": "6"
     },
     "SupplyLineDisruption": {
-      "name": "Supply Line Disruption Preference",
-      "help": "This will be skipped if daily skip has not been unlocked",
+      "name": "Daily.SupplyLineDisruption.name",
+      "help": "Daily.SupplyLineDisruption.help",
       "skip": "skip",
       "first": "first",
       "second": "second",
       "third": "third"
     },
     "ModuleDevelopment": {
-      "name": "Module Development Preference",
-      "help": "",
+      "name": "Daily.ModuleDevelopment.name",
+      "help": "Daily.ModuleDevelopment.help",
       "skip": "skip",
       "first": "first",
       "second": "second"
     },
     "ModuleDevelopmentFleet": {
-      "name": "Module Development Fleet",
-      "help": "",
+      "name": "Daily.ModuleDevelopmentFleet.name",
+      "help": "Daily.ModuleDevelopmentFleet.help",
       "1": "1",
       "2": "2",
       "3": "3",
@@ -1984,15 +1981,15 @@
       "6": "6"
     },
     "EmergencyModuleDevelopment": {
-      "name": "Emergency Module Development Preference",
-      "help": "",
+      "name": "Daily.EmergencyModuleDevelopment.name",
+      "help": "Daily.EmergencyModuleDevelopment.help",
       "skip": "skip",
       "first": "first",
       "second": "second"
     },
     "EmergencyModuleDevelopmentFleet": {
-      "name": "Emergency Module Development Fleet",
-      "help": "",
+      "name": "Daily.EmergencyModuleDevelopmentFleet.name",
+      "help": "Daily.EmergencyModuleDevelopmentFleet.help",
       "1": "1",
       "2": "2",
       "3": "3",
@@ -2003,74 +2000,74 @@
   },
   "Hard": {
     "_info": {
-      "name": "Hard Settings",
-      "help": "Hard mode for chapter must be unlocked, stage must be in 100% CLEAR condition, and auto search is enabled temporarily.\nUse Farm Main task to assist unlocking and achieving 100% CLEAR conditions"
+      "name": "Hard._info.name",
+      "help": "Hard._info.help"
     },
     "HardStage": {
-      "name": "Hard Stage",
-      "help": "11-4, 12-2, 12-4, and etc."
+      "name": "Hard.HardStage.name",
+      "help": "Hard.HardStage.help"
     },
     "HardFleet": {
-      "name": "Hard Fleet",
-      "help": "Must in game manually set up the fleet and ensure level attribute restrictions are satisfied",
+      "name": "Hard.HardFleet.name",
+      "help": "Hard.HardFleet.help",
       "1": "1",
       "2": "2"
     }
   },
   "Exercise": {
     "_info": {
-      "name": "Exercise Settings",
-      "help": "Runs exercise and automatically retreats when sum HP volume is low"
+      "name": "Exercise._info.name",
+      "help": "Exercise._info.help"
     },
     "OpponentChooseMode": {
-      "name": "Opponent Choose Mode",
-      "help": "",
-      "max_exp": "Most Exp.",
-      "easiest": "Easiest",
-      "leftmost": "Highest ranking",
-      "easiest_else_exp": "Easiest else Exp."
+      "name": "Exercise.OpponentChooseMode.name",
+      "help": "Exercise.OpponentChooseMode.help",
+      "max_exp": "max_exp",
+      "easiest": "easiest",
+      "leftmost": "leftmost",
+      "easiest_else_exp": "easiest_else_exp"
     },
     "OpponentTrial": {
-      "name": "Each Opponent Try X Time(s)",
-      "help": "1 ~ Positive Infinity"
+      "name": "Exercise.OpponentTrial.name",
+      "help": "Exercise.OpponentTrial.help"
     },
     "ExerciseStrategy": {
-      "name": "Exercise Strategy (Keep X number remains)",
-      "help": "If keeping 5 number remains, will try admiral at set time and clear number remains at last recover",
-      "aggressive": "Clear exercise remains",
-      "fri18": "Keep 5 until Friday 18pm",
-      "sat0": "Keep 5 until Saturday 12am",
-      "sat12": "Keep 5 until Saturday 12pm",
-      "sat18": "Keep 5 until Saturday 18pm",
-      "sun0": "Keep 5 until Sunday 12am",
-      "sun12": "Keep 5 until Sunday 12pm",
-      "sun18": "Keep 5 until Sunday 18pm"
+      "name": "Exercise.ExerciseStrategy.name",
+      "help": "Exercise.ExerciseStrategy.help",
+      "aggressive": "aggressive",
+      "fri18": "fri18",
+      "sat0": "sat0",
+      "sat12": "sat12",
+      "sat18": "sat18",
+      "sun0": "sun0",
+      "sun12": "sun12",
+      "sun18": "sun18"
     },
     "LowHpThreshold": {
-      "name": "Low HP Threshold",
-      "help": "0.0 ~ 1.0\nChecks the top HP bar"
+      "name": "Exercise.LowHpThreshold.name",
+      "help": "Exercise.LowHpThreshold.help"
     },
     "LowHpConfirmWait": {
-      "name": "Low HP Confirm Wait",
-      "help": "After HP is below the threshold, Alas will confirm the retreat after the configured period of time\nRecommend 1.0 ~ 3.0\nFor cases if both you and the opponent are on the verge but waiting an additional seconds can be the difference between victory or loss"
+      "name": "Exercise.LowHpConfirmWait.name",
+      "help": "Exercise.LowHpConfirmWait.help"
     },
     "OpponentRefreshValue": {
-      "name": "Refreshed X Time(s)",
-      "help": "Automatically updated, resets back to 0 daily\nIf you manually refresh, you should update this count"
+      "name": "Exercise.OpponentRefreshValue.name",
+      "help": "Exercise.OpponentRefreshValue.help"
     },
     "OpponentRefreshRecord": {
-      "name": "Last Refresh Record",
-      "help": ""
+      "name": "Exercise.OpponentRefreshRecord.name",
+      "help": "Exercise.OpponentRefreshRecord.help"
     }
   },
   "Sos": {
     "_info": {
-      "name": "SOS Settings",
-      "help": ""
+      "name": "Sos._info.name",
+      "help": "Sos._info.help"
     },
     "Chapter": {
-      "name": "SOS Chapter",
-      "help": "",
+      "name": "Sos.Chapter.name",
+      "help": "Sos.Chapter.help",
       "3": "3",
       "4": "4",
       "5": "5",
@@ -2083,316 +2080,316 @@
   },
   "OpsiAshAssist": {
     "_info": {
-      "name": "OpSi Ash Assist Settings",
-      "help": "Limited to 3 everyday"
+      "name": "OpsiAshAssist._info.name",
+      "help": "OpsiAshAssist._info.help"
     },
     "Tier": {
-      "name": "Target Level Beacons >= X",
-      "help": "If target level beacon cannot be found, Alas will choose the next available level beacon regardless of conditions"
+      "name": "OpsiAshAssist.Tier.name",
+      "help": "OpsiAshAssist.Tier.help"
     }
   },
   "OpsiGeneral": {
     "_info": {
-      "name": "OpSi General Settings",
-      "help": "All OpSi activities will use these settings"
+      "name": "OpsiGeneral._info.name",
+      "help": "OpsiGeneral._info.help"
     },
     "UseLogger": {
-      "name": "Use Logger(s)",
-      "help": "Use all coordinate loggers when entering the storage"
+      "name": "OpsiGeneral.UseLogger.name",
+      "help": "OpsiGeneral.UseLogger.help"
     },
     "BuyActionPointLimit": {
-      "name": "Buy AP X time(s)",
-      "help": "Maximum number of buying AP.",
-      "0": "Don't buy",
-      "1": "1 (1000oil, 100AP)",
-      "2": "2 (2000oil, 200AP)",
-      "3": "3 (4000oil, 400AP)",
-      "4": "4 (6000oil, 600AP)",
-      "5": "5 (10000oil, 1000AP)"
+      "name": "OpsiGeneral.BuyActionPointLimit.name",
+      "help": "OpsiGeneral.BuyActionPointLimit.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
     },
     "OilLimit": {
-      "name": "Keep Oil Above X",
-      "help": "Refrain buying AP if below this number"
+      "name": "OpsiGeneral.OilLimit.name",
+      "help": "OpsiGeneral.OilLimit.help"
     },
     "RepairThreshold": {
-      "name": "Repair Threshold",
-      "help": "After completion of an OpSi map; if any one ship's HP is below threshold, retreat back to nearest port for repairs\n0.0 ~ 1.0"
+      "name": "OpsiGeneral.RepairThreshold.name",
+      "help": "OpsiGeneral.RepairThreshold.help"
     },
     "DoRandomMapEvent": {
-      "name": "Do Random Map Events",
-      "help": "Rescan the whole map after auto search, purchase akashi's shop, use siren logging tower, use siren scanning device, unlock mechanism that require 2 fleets,"
+      "name": "OpsiGeneral.DoRandomMapEvent.name",
+      "help": "OpsiGeneral.DoRandomMapEvent.help"
     },
     "AkashiShopFilter": {
-      "name": "Akashi Shop Filter",
-      "help": "Generally does not need to be modified or re-arranged but can do so if desired\nBuy AP boxes and Purple Coins"
+      "name": "OpsiGeneral.AkashiShopFilter.name",
+      "help": "OpsiGeneral.AkashiShopFilter.help"
     }
   },
   "OpsiAshBeacon": {
     "_info": {
-      "name": "Ash Beacon Settings",
-      "help": ""
+      "name": "OpsiAshBeacon._info.name",
+      "help": "OpsiAshBeacon._info.help"
     },
     "AttackMode": {
-      "name": "META Attack",
-      "help": "",
-      "current": "Current",
-      "current_dossier": "Current + Dossier"
+      "name": "OpsiAshBeacon.AttackMode.name",
+      "help": "OpsiAshBeacon.AttackMode.help",
+      "current": "current",
+      "current_dossier": "current_dossier"
     },
     "OneHitMode": {
-      "name": "One Hit Mode",
-      "help": "Strike each beacon only once, then call for support every half hour thereafter\nNot effective in META dossiers"
+      "name": "OpsiAshBeacon.OneHitMode.name",
+      "help": "OpsiAshBeacon.OneHitMode.help"
     },
     "DossierAutoAttackMode": {
       "name": "OpsiAshBeacon.DossierAutoAttackMode.name",
       "help": "OpsiAshBeacon.DossierAutoAttackMode.help"
     },
     "RequestAssist": {
-      "name": "Request Assists",
-      "help": "Before the attack, request assists from friends, guild and world\nNot effective in META dossiers"
+      "name": "OpsiAshBeacon.RequestAssist.name",
+      "help": "OpsiAshBeacon.RequestAssist.help"
     },
     "EnsureFullyCollected": {
-      "name": "Ensure 200 Beacon Data Fully Collected",
-      "help": "Ignore AP limit setting temporarily before ash beacon fully collected. \"Meowfficer Farming\" must be enabled"
+      "name": "OpsiAshBeacon.EnsureFullyCollected.name",
+      "help": "OpsiAshBeacon.EnsureFullyCollected.help"
     }
   },
   "OpsiFleetFilter": {
     "_info": {
-      "name": "Fleet Settings",
-      "help": ""
+      "name": "OpsiFleetFilter._info.name",
+      "help": "OpsiFleetFilter._info.help"
     },
     "Filter": {
-      "name": "Fleet Filter",
-      "help": "All fleets take turns to attack the boss. If one fleet is dead, change to another.\nPlease make sure fleets are powerful enough to kill the boss eventually.\nUse \"CallSubmarine\" to call submarines before the attack, but run interval will be increased to 60 minutes."
+      "name": "OpsiFleetFilter.Filter.name",
+      "help": "OpsiFleetFilter.Filter.help"
     }
   },
   "OpsiFleet": {
     "_info": {
-      "name": "Fleet Settings",
-      "help": ""
+      "name": "OpsiFleet._info.name",
+      "help": "OpsiFleet._info.help"
     },
     "Fleet": {
-      "name": "Fleet",
-      "help": "",
+      "name": "OpsiFleet.Fleet.name",
+      "help": "OpsiFleet.Fleet.help",
       "1": "1",
       "2": "2",
       "3": "3",
       "4": "4"
     },
     "Submarine": {
-      "name": "Call Submarine",
-      "help": "If enabled, interval increases from 30 to 60 minutes instead"
+      "name": "OpsiFleet.Submarine.name",
+      "help": "OpsiFleet.Submarine.help"
     }
   },
   "OpsiExplore": {
     "_info": {
-      "name": "OpSi Explore Settings",
-      "help": "At the beginning of each month OpSi is reset\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\nEach zone will be visited in a clockwise direction every 27 minutes until world has been been completely opened\nNo need to consume 5000 oil for special radar in OpSi voucher shop"
+      "name": "OpsiExplore._info.name",
+      "help": "OpsiExplore._info.help"
     },
     "SpecialRadar": {
-      "name": "SpecialRadar Bought",
-      "help": "Enable if you have purchased the special radar\nAllows Alas to explore OpSi continously without having to wait 27 minutes between each zone clear\nCannot be selected when not purchased and used manually"
+      "name": "OpsiExplore.SpecialRadar.name",
+      "help": "OpsiExplore.SpecialRadar.help"
     },
     "ForceRun": {
-      "name": "Force Run",
-      "help": "Ignore interval, clear all obscure zones, and use AP to submit scan orders (and submarine if enabled)\nGenerally not needed to force run, just run in intervals unless in a rush"
+      "name": "OpsiExplore.ForceRun.name",
+      "help": "OpsiExplore.ForceRun.help"
     },
     "LastZone": {
-      "name": "Last Zone Completed",
-      "help": "Automatically updated with map ID\nReplace with 0 to reset progress\nAlready completed zones will be skipped\nSupports either Zone ID or Name in CN/EN/JP/TW, i.e. \"51\", \"NA Ocean SE Sector E\""
+      "name": "OpsiExplore.LastZone.name",
+      "help": "OpsiExplore.LastZone.help"
     }
   },
   "OpsiShop": {
     "_info": {
-      "name": "OpSi Shop Settings",
-      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "name": "OpsiShop._info.name",
+      "help": "OpsiShop._info.help"
     },
     "BuySupply": {
-      "name": "Buy From Port Shops",
-      "help": "Buy all items from port shops\nShop inventory consists of a fixed pool that is reset monthly, items not bought during a cycle has the chance of re-appearing and blocking preferable high value items"
+      "name": "OpsiShop.BuySupply.name",
+      "help": "OpsiShop.BuySupply.help"
     }
   },
   "OpsiVoucher": {
     "_info": {
-      "name": "OpSi Voucher Settings",
-      "help": "Buy monthly items from the OpSi voucher shop\nThe following must be satisfied:\n- OpSi story and practice battles must be complete"
+      "name": "OpsiVoucher._info.name",
+      "help": "OpsiVoucher._info.help"
     },
     "Filter": {
-      "name": "Item Filter",
-      "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>"
+      "name": "OpsiVoucher.Filter.name",
+      "help": "OpsiVoucher.Filter.help"
     }
   },
   "OpsiDaily": {
     "_info": {
-      "name": "OpSi Daily Settings",
-      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "name": "OpsiDaily._info.name",
+      "help": "OpsiDaily._info.help"
     },
     "DoMission": {
-      "name": "Do Port Mission(s)",
-      "help": "Accept and complete mission(s) from ports"
+      "name": "OpsiDaily.DoMission.name",
+      "help": "OpsiDaily.DoMission.help"
     },
     "UseTuningSample": {
-      "name": "Use Tuning Samples",
-      "help": "Use all tuning samples and quality tuning samples"
+      "name": "OpsiDaily.UseTuningSample.name",
+      "help": "OpsiDaily.UseTuningSample.help"
     }
   },
   "OpsiObscure": {
     "_info": {
-      "name": "OpSi Obscure Settings",
-      "help": "Clear obscure zones every 27 minutes\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "name": "OpsiObscure._info.name",
+      "help": "OpsiObscure._info.help"
     },
     "ForceRun": {
-      "name": "Force Run",
-      "help": "Ignore interval, clear all obscure zones, and use AP to submit scan orders (and submarine if enabled)\nGenerally not needed to force run, just run in intervals unless in a rush"
+      "name": "OpsiObscure.ForceRun.name",
+      "help": "OpsiObscure.ForceRun.help"
     }
   },
   "OpsiAbyssal": {
     "_info": {
-      "name": "OpSi Abyssal Settings",
-      "help": "Clear abyssal zones\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "name": "OpsiAbyssal._info.name",
+      "help": "OpsiAbyssal._info.help"
     },
     "ForceRun": {
-      "name": "Force Run",
-      "help": "Ignore interval, clear all abyssal zones, and use AP to submit scan orders (and submarine if enabled)\nGenerally not needed to force run, just run in intervals unless in a rush"
+      "name": "OpsiAbyssal.ForceRun.name",
+      "help": "OpsiAbyssal.ForceRun.help"
     }
   },
   "OpsiStronghold": {
     "_info": {
-      "name": "OpSi Siren Stronghold Settings",
-      "help": "Clear the weekly siren strongholds\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "name": "OpsiStronghold._info.name",
+      "help": "OpsiStronghold._info.help"
     },
     "ForceRun": {
-      "name": "Force Run",
-      "help": "Ignore interval, clear all siren strongholds, and use AP to submit scan orders (and submarine if enabled)\nGenerally not needed to force run, just run in intervals unless in a rush"
+      "name": "OpsiStronghold.ForceRun.name",
+      "help": "OpsiStronghold.ForceRun.help"
     }
   },
   "OpsiMonthBoss": {
     "_info": {
-      "name": "Monthly Boss",
-      "help": "To clear (normal/hard) monthly bosses, the following conditions must be met to use this function:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop\nIf failed on normal boss, attack until cleared; if failed on hard boss, stop task directly"
+      "name": "OpsiMonthBoss._info.name",
+      "help": "OpsiMonthBoss._info.help"
     },
     "Mode": {
-      "name": "Difficulty of clearing monthly bosses",
-      "help": "",
+      "name": "OpsiMonthBoss.Mode.name",
+      "help": "OpsiMonthBoss.Mode.help",
       "normal": "normal",
-      "normal_hard": "normal + hard"
+      "normal_hard": "normal_hard"
     },
     "CheckAdaptability": {
-      "name": "Only attack boss when adaptability >= 203/203/156",
-      "help": ""
+      "name": "OpsiMonthBoss.CheckAdaptability.name",
+      "help": "OpsiMonthBoss.CheckAdaptability.help"
     },
     "ForceRun": {
-      "name": "Force Run",
-      "help": "Ignore interval, clear all abyssal zones, and use AP to submit scan orders (and submarine if enabled)\nGenerally not needed to force run, just run in intervals unless in a rush"
+      "name": "OpsiMonthBoss.ForceRun.name",
+      "help": "OpsiMonthBoss.ForceRun.help"
     }
   },
   "OpsiMeowfficerFarming": {
     "_info": {
-      "name": "OpSi Meowfficer Farm Settings",
-      "help": "Attack target zones of the specified hazard level in a clockwise direction\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "name": "OpsiMeowfficerFarming._info.name",
+      "help": "OpsiMeowfficerFarming._info.help"
     },
     "ActionPointPreserve": {
-      "name": "Keep X Amount of AP",
-      "help": "Stops task if total AP (including AP boxes in inventory) is below this number, 1000 is recommended\nThis value will be auto reduced to 300 at 3 days before OpSi reset, or 1000 if CL1 leveling enabled, and to 0 at day before reset"
+      "name": "OpsiMeowfficerFarming.ActionPointPreserve.name",
+      "help": "OpsiMeowfficerFarming.ActionPointPreserve.help"
     },
     "HazardLevel": {
-      "name": "Target Zone Hazard Level",
-      "help": "Recommend 3 or 5 as these have higher meowfficer ratio to AP cost",
+      "name": "OpsiMeowfficerFarming.HazardLevel.name",
+      "help": "OpsiMeowfficerFarming.HazardLevel.help",
       "3": "3",
       "4": "4",
       "5": "5",
       "6": "6",
-      "10": "Center Zones"
+      "10": "10"
     },
     "TargetZone": {
-      "name": "Target Zone ID",
-      "help": "Supports either Zone ID or Name in CN/EN/JP/TW, i.e. \"51\", \"NA Ocean SE Sector E\"\nIf specified, Alas will loop on this same zone after each clear\nUse default value 0 or clear the field to remove the specification\nZone information can be acquired from <./module/os/map_data.py>"
+      "name": "OpsiMeowfficerFarming.TargetZone.name",
+      "help": "OpsiMeowfficerFarming.TargetZone.help"
     }
   },
   "OpsiHazard1Leveling": {
     "_info": {
-      "name": "CL1 leveling",
-      "help": "Consume operation coins to gain a lot of experience and a little action points.\nRecommended to carry 1-2 pre-loaded CV to obtain the highest average hourly benefit.\n\nTo avoid being unable to buying goods from port shops, Alas will retain 100,000 operation coins\nSince buying action points at the mystery shop requires a large number of operation points, this function will be supplemented by running meowfficer farming with overflow action points."
+      "name": "OpsiHazard1Leveling._info.name",
+      "help": "OpsiHazard1Leveling._info.help"
     },
     "TargetZone": {
-      "name": "Target Zone ID",
-      "help": "Only attack target zone, which can be used to avoid the event that the map cannot be refreshed due to game bug",
-      "0": "No Specification",
-      "44": "44 | West Continental Shelf D",
-      "22": "22 | NA Ocean SW Sector B"
+      "name": "OpsiHazard1Leveling.TargetZone.name",
+      "help": "OpsiHazard1Leveling.TargetZone.help",
+      "0": "0",
+      "44": "44",
+      "22": "22"
     }
   },
   "Daemon": {
     "_info": {
-      "name": "Semi-auto Clicking",
-      "help": "Useful when attacking a stage that has not yet been adapted by Alas, can save on tons of manual clicks\nAlas will click combat preparation, click combat drop, skip story, auto-retire, and close popups\nYou only need to move your attacking fleet if movement is restricted and choose the enemies yourself"
+      "name": "Daemon._info.name",
+      "help": "Daemon._info.help"
     },
     "EnterMap": {
-      "name": "Auto Click Stage Preparation",
-      "help": "Prepare your fleets before running this tool if enabled"
+      "name": "Daemon.EnterMap.name",
+      "help": "Daemon.EnterMap.help"
     }
   },
   "OpsiDaemon": {
     "_info": {
-      "name": "OpSi Semi-auto Clicking",
-      "help": "Useful when attacking logger zones or OpSi story, can save on tons of manual clicks\nAlas will click combat preparation, click combat drop, skip story, and close popups\nYou only need to choose the enemies and switch to different zones yourself"
+      "name": "OpsiDaemon._info.name",
+      "help": "OpsiDaemon._info.help"
     },
     "RepairShip": {
-      "name": "Repair Ships When Nearing Port",
-      "help": "Once a fleet is in range of a port, Alas will enter, repair your ships, then exit\nWhen it is done, please move the fleet away and out of range from the port within 30s, otherwise the actions will be repeated"
+      "name": "OpsiDaemon.RepairShip.name",
+      "help": "OpsiDaemon.RepairShip.help"
     },
     "SelectEnemy": {
-      "name": "Clear nearby enemies and resources",
-      "help": "Clean nearby enemies and resources, and find new enemies or materials after cleaning, which usually clears the entire map. If some of them haven't been cleared, you need to solve them manually"
+      "name": "OpsiDaemon.SelectEnemy.name",
+      "help": "OpsiDaemon.SelectEnemy.help"
     }
   },
   "Benchmark": {
     "_info": {
-      "name": "Performance Test",
-      "help": "Test which screenshot method and click method combination is the fastest and best for you.\nSpeed can vary on the emulator being used and your PC build.\nAfter testing, select the fastest screenshot and control method in \"Alas\" - \"Emulator Settings\""
+      "name": "Benchmark._info.name",
+      "help": "Benchmark._info.help"
     },
     "DeviceType": {
-      "name": "Device Type",
-      "help": "",
-      "emulator": "Emulator (Android <= 9)",
-      "emulator_android_12": "Emulator (Android > 9)",
-      "plone_cloud_with_adb": "Phone cloud with public network ADB",
-      "phone_cloud_without_adb": "Phone cloud without public network ADB",
-      "android_phone": "Android Phone (Android <= 9)",
-      "android_phone_12": "Android Phone (Android > 9)",
-      "android_phone_vmos": "Android Phone (VMOS emulator)"
+      "name": "Benchmark.DeviceType.name",
+      "help": "Benchmark.DeviceType.help",
+      "emulator": "emulator",
+      "emulator_android_12": "emulator_android_12",
+      "plone_cloud_with_adb": "plone_cloud_with_adb",
+      "phone_cloud_without_adb": "phone_cloud_without_adb",
+      "android_phone": "android_phone",
+      "android_phone_12": "android_phone_12",
+      "android_phone_vmos": "android_phone_vmos"
     },
     "TestScene": {
-      "name": "Test Scene",
-      "help": "",
-      "screenshot_click": "Screenshot + Click speed tests",
-      "screenshot": "Screenshot speed tests",
-      "click": "Click speed tests"
+      "name": "Benchmark.TestScene.name",
+      "help": "Benchmark.TestScene.help",
+      "screenshot_click": "screenshot_click",
+      "screenshot": "screenshot",
+      "click": "click"
     }
   },
   "AzurLaneUncensored": {
     "_info": {
-      "name": "[CN] Uncensored Patch",
-      "help": "Applicable to CN only\nAzurLaneUncensored files are downloaded if not present otherwise updated to the latest revision\nThese files are then pushed into the emulator and restarts AL afterwards to complete the patching process"
+      "name": "AzurLaneUncensored._info.name",
+      "help": "AzurLaneUncensored._info.help"
     },
     "Repository": {
-      "name": "AzurLaneUncensored Repository",
-      "help": "Do not need to modify\nGithub: <https://github.com/LmeSzinc/AzurLaneUncensored>\nCN mirror: <https://e.coding.net/llop18870/alas/AzurLaneUncensored.git>"
+      "name": "AzurLaneUncensored.Repository.name",
+      "help": "AzurLaneUncensored.Repository.help"
     }
   },
   "GameManager": {
     "_info": {
-      "name": "Game Manager",
-      "help": "This is a semi-finished product, currently only implemented to force close the game and start it after closing."
+      "name": "GameManager._info.name",
+      "help": "GameManager._info.help"
     },
     "AutoRestart": {
-      "name": "Automatic Login",
-      "help": "Log back into the game when the game has been ended."
+      "name": "GameManager.AutoRestart.name",
+      "help": "GameManager.AutoRestart.help"
     }
   },
   "Storage": {
     "_info": {
-      "name": "Task status",
-      "help": "Store internal status of the task. Clear manually when the task is abnormal"
+      "name": "Storage._info.name",
+      "help": "Storage._info.help"
     },
     "Storage": {
       "name": "Storage.Storage.name",
@@ -2401,95 +2398,95 @@
   },
   "Gui": {
     "Aside": {
-      "Install": "Install",
-      "Home": "Home",
-      "Develop": "Develop",
-      "Performance": "Perf.",
-      "Setting": "Settings",
-      "AddAlas": "Add"
+      "Install": "Gui.Aside.Install",
+      "Home": "Gui.Aside.Home",
+      "Develop": "Gui.Aside.Develop",
+      "Performance": "Gui.Aside.Performance",
+      "Setting": "Gui.Aside.Setting",
+      "AddAlas": "Gui.Aside.AddAlas"
     },
     "Button": {
-      "Start": "Start",
-      "Stop": "Stop",
-      "ScrollON": "Auto Scroll ON",
-      "ScrollOFF": "Auto Scroll OFF",
-      "ClearLog": "Clear Log",
-      "Setting": "Setting",
-      "CheckUpdate": "Check update",
-      "ClickToUpdate": "Click to update",
-      "RetryUpdate": "Retry update",
-      "CancelUpdate": "Cancel update"
+      "Start": "Gui.Button.Start",
+      "Stop": "Gui.Button.Stop",
+      "ScrollON": "Gui.Button.ScrollON",
+      "ScrollOFF": "Gui.Button.ScrollOFF",
+      "ClearLog": "Gui.Button.ClearLog",
+      "Setting": "Gui.Button.Setting",
+      "CheckUpdate": "Gui.Button.CheckUpdate",
+      "ClickToUpdate": "Gui.Button.ClickToUpdate",
+      "RetryUpdate": "Gui.Button.RetryUpdate",
+      "CancelUpdate": "Gui.Button.CancelUpdate"
     },
     "Toast": {
-      "DisableTranslateMode": "Click here to disable translate mode",
-      "ConfigSaved": "Config saved",
-      "AlasIsRunning": "Scheduler is already running",
-      "ClickToUpdate": "New update available, click here to update"
+      "DisableTranslateMode": "Gui.Toast.DisableTranslateMode",
+      "ConfigSaved": "Gui.Toast.ConfigSaved",
+      "AlasIsRunning": "Gui.Toast.AlasIsRunning",
+      "ClickToUpdate": "Gui.Toast.ClickToUpdate"
     },
     "Status": {
-      "Running": "Running",
-      "Inactive": "Inactive",
-      "Warning": "Warning",
-      "Updating": "Waiting Update"
+      "Running": "Gui.Status.Running",
+      "Inactive": "Gui.Status.Inactive",
+      "Warning": "Gui.Status.Warning",
+      "Updating": "Gui.Status.Updating"
     },
     "MenuAlas": {
-      "Overview": "Overview",
-      "Log": "Logs"
+      "Overview": "Gui.MenuAlas.Overview",
+      "Log": "Gui.MenuAlas.Log"
     },
     "MenuDevelop": {
-      "HomePage": "Home",
-      "Translate": "Translate",
-      "Update": "Updater",
-      "Remote": "Remote access",
-      "Utils": "Utils"
+      "HomePage": "Gui.MenuDevelop.HomePage",
+      "Translate": "Gui.MenuDevelop.Translate",
+      "Update": "Gui.MenuDevelop.Update",
+      "Remote": "Gui.MenuDevelop.Remote",
+      "Utils": "Gui.MenuDevelop.Utils"
     },
     "Overview": {
-      "Scheduler": "Scheduler",
-      "Log": "Log",
-      "Running": "Running",
-      "Pending": "Pending",
-      "Waiting": "Waiting",
-      "NoTask": "No Task"
+      "Scheduler": "Gui.Overview.Scheduler",
+      "Log": "Gui.Overview.Log",
+      "Running": "Gui.Overview.Running",
+      "Pending": "Gui.Overview.Pending",
+      "Waiting": "Gui.Overview.Waiting",
+      "NoTask": "Gui.Overview.NoTask"
     },
     "AddAlas": {
-      "PopupTitle": "Add new config",
-      "NewName": "New name",
-      "CopyFrom": "Copy from existing config",
-      "Confirm": "Add",
-      "FileExist": "A config with the same name exists, please choose another one",
-      "InvalidChar": "Config name cannot contain any of the following characters: .\\/:*?\"<>|",
-      "InvalidPrefixTemplate": "Config name cannot start with 'template'"
+      "PopupTitle": "Gui.AddAlas.PopupTitle",
+      "NewName": "Gui.AddAlas.NewName",
+      "CopyFrom": "Gui.AddAlas.CopyFrom",
+      "Confirm": "Gui.AddAlas.Confirm",
+      "FileExist": "Gui.AddAlas.FileExist",
+      "InvalidChar": "Gui.AddAlas.InvalidChar",
+      "InvalidPrefixTemplate": "Gui.AddAlas.InvalidPrefixTemplate"
     },
     "Update": {
-      "UpToDate": "Latest version",
-      "HaveUpdate": "A new version is available",
-      "UpdateStart": "Start update",
-      "UpdateWait": "Waiting for all alas complete current task",
-      "UpdateRun": "Updating",
-      "UpdateSuccess": "Update succeeded, restarting",
-      "UpdateFailed": "Update failed. Logs can be found in ./log/*_gui.txt",
-      "UpdateChecking": "Checking for updates",
-      "UpdateCancel": "Update canceled, restarting Alas",
-      "UpdateFinish": "Update succeeded, please restart manually",
-      "Local": "Local",
-      "Upstream": "Upstream",
-      "Author": "Author",
-      "Time": "Commit time",
-      "Message": "Commit message",
-      "DisabledWarn": "Updater module is disabled. You need to manually restart Alas to update",
-      "DetailedHistory": "Detailed Commit History"
+      "UpToDate": "Gui.Update.UpToDate",
+      "HaveUpdate": "Gui.Update.HaveUpdate",
+      "UpdateStart": "Gui.Update.UpdateStart",
+      "UpdateWait": "Gui.Update.UpdateWait",
+      "UpdateRun": "Gui.Update.UpdateRun",
+      "UpdateSuccess": "Gui.Update.UpdateSuccess",
+      "UpdateFailed": "Gui.Update.UpdateFailed",
+      "UpdateChecking": "Gui.Update.UpdateChecking",
+      "UpdateCancel": "Gui.Update.UpdateCancel",
+      "UpdateFinish": "Gui.Update.UpdateFinish",
+      "Local": "Gui.Update.Local",
+      "Upstream": "Gui.Update.Upstream",
+      "Author": "Gui.Update.Author",
+      "Time": "Gui.Update.Time",
+      "Message": "Gui.Update.Message",
+      "DisabledWarn": "Gui.Update.DisabledWarn",
+      "DetailedHistory": "Gui.Update.DetailedHistory"
     },
     "Remote": {
-      "Running": "Remote access on",
-      "NotRunning": "Not running, server disconnected or offline",
-      "NotEnable": "Disabled, set webui password in deploy.yaml and enable remote access",
-      "EntryPoint": "Entry point:",
-      "ConfigureHint": "Configuration tutorial:",
-      "SSHNotInstall": "No SSH command in your system. Please refer to the tutorial to download or install one"
+      "Running": "Gui.Remote.Running",
+      "NotRunning": "Gui.Remote.NotRunning",
+      "NotEnable": "Gui.Remote.NotEnable",
+      "EntryPoint": "Gui.Remote.EntryPoint",
+      "ConfigureHint": "Gui.Remote.ConfigureHint",
+      "SSHNotInstall": "Gui.Remote.SSHNotInstall"
     },
     "Text": {
-      "InvalidFeedBack": "Invalid format. Example: {0}",
-      "Clear": "Clear"
+      "InvalidFeedBack": "Gui.Text.InvalidFeedBack",
+      "Clear": "Gui.Text.Clear"
     }
   }
 }

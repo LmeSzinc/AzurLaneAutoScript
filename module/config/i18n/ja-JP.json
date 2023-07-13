@@ -1,262 +1,262 @@
 {
   "Menu": {
     "Alas": {
-      "name": "Alas",
-      "help": ""
+      "name": "Menu.Alas.name",
+      "help": "Menu.Alas.help"
     },
     "Farm": {
-      "name": "出撃",
-      "help": ""
+      "name": "Menu.Farm.name",
+      "help": "Menu.Farm.help"
     },
     "Event": {
-      "name": "イベント",
-      "help": ""
+      "name": "Menu.Event.name",
+      "help": "Menu.Event.help"
     },
     "EventDaily": {
       "name": "Menu.EventDaily.name",
       "help": "Menu.EventDaily.help"
     },
     "Reward": {
-      "name": "収穫",
-      "help": ""
+      "name": "Menu.Reward.name",
+      "help": "Menu.Reward.help"
     },
     "DailyMission": {
-      "name": "日課任務",
-      "help": ""
+      "name": "Menu.DailyMission.name",
+      "help": "Menu.DailyMission.help"
     },
     "Opsi": {
-      "name": "セイレーン作戦",
-      "help": ""
+      "name": "Menu.Opsi.name",
+      "help": "Menu.Opsi.help"
     },
     "Tool": {
-      "name": "ツール",
-      "help": ""
+      "name": "Menu.Tool.name",
+      "help": "Menu.Tool.help"
     }
   },
   "Task": {
     "Alas": {
-      "name": "Alas設定",
-      "help": ""
+      "name": "Task.Alas.name",
+      "help": "Task.Alas.help"
     },
     "General": {
-      "name": "通用設定",
-      "help": ""
+      "name": "Task.General.name",
+      "help": "Task.General.help"
     },
     "Restart": {
-      "name": "再起動設定",
-      "help": ""
+      "name": "Task.Restart.name",
+      "help": "Task.Restart.help"
     },
     "Main": {
-      "name": "メイン海域",
-      "help": ""
+      "name": "Task.Main.name",
+      "help": "Task.Main.help"
     },
     "Main2": {
-      "name": "メイン海域-2",
-      "help": ""
+      "name": "Task.Main2.name",
+      "help": "Task.Main2.help"
     },
     "Main3": {
-      "name": "メイン海域-3",
-      "help": ""
+      "name": "Task.Main3.name",
+      "help": "Task.Main3.help"
     },
     "GemsFarming": {
-      "name": "Commission Farming",
-      "help": ""
+      "name": "Task.GemsFarming.name",
+      "help": "Task.GemsFarming.help"
     },
     "EventGeneral": {
-      "name": "イベント共通設定",
-      "help": ""
+      "name": "Task.EventGeneral.name",
+      "help": "Task.EventGeneral.help"
     },
     "Event": {
-      "name": "イベント海域",
-      "help": ""
+      "name": "Task.Event.name",
+      "help": "Task.Event.help"
     },
     "Event2": {
-      "name": "イベント海域-2",
-      "help": ""
+      "name": "Task.Event2.name",
+      "help": "Task.Event2.help"
     },
     "Raid": {
-      "name": "Raid",
-      "help": ""
+      "name": "Task.Raid.name",
+      "help": "Task.Raid.help"
     },
     "Coalition": {
       "name": "Task.Coalition.name",
       "help": "Task.Coalition.help"
     },
     "MaritimeEscort": {
-      "name": "Maritime Escort",
-      "help": ""
+      "name": "Task.MaritimeEscort.name",
+      "help": "Task.MaritimeEscort.help"
     },
     "WarArchives": {
-      "name": "作戦履歴",
-      "help": ""
+      "name": "Task.WarArchives.name",
+      "help": "Task.WarArchives.help"
     },
     "EventA": {
-      "name": "毎日イベント海域A",
-      "help": ""
+      "name": "Task.EventA.name",
+      "help": "Task.EventA.help"
     },
     "EventB": {
-      "name": "毎日イベント海域B",
-      "help": ""
+      "name": "Task.EventB.name",
+      "help": "Task.EventB.help"
     },
     "EventC": {
-      "name": "毎日イベント海域C",
-      "help": ""
+      "name": "Task.EventC.name",
+      "help": "Task.EventC.help"
     },
     "EventD": {
-      "name": "毎日イベント海域D",
-      "help": ""
+      "name": "Task.EventD.name",
+      "help": "Task.EventD.help"
     },
     "EventSp": {
-      "name": "毎日イベント海域SP",
-      "help": ""
+      "name": "Task.EventSp.name",
+      "help": "Task.EventSp.help"
     },
     "RaidDaily": {
-      "name": "Raid Daily",
-      "help": ""
+      "name": "Task.RaidDaily.name",
+      "help": "Task.RaidDaily.help"
     },
     "CoalitionSp": {
       "name": "Task.CoalitionSp.name",
       "help": "Task.CoalitionSp.help"
     },
     "Commission": {
-      "name": "委託",
-      "help": ""
+      "name": "Task.Commission.name",
+      "help": "Task.Commission.help"
     },
     "Tactical": {
-      "name": "戦術教室",
-      "help": ""
+      "name": "Task.Tactical.name",
+      "help": "Task.Tactical.help"
     },
     "Research": {
-      "name": "研究",
-      "help": ""
+      "name": "Task.Research.name",
+      "help": "Task.Research.help"
     },
     "Dorm": {
-      "name": "寮舎",
-      "help": ""
+      "name": "Task.Dorm.name",
+      "help": "Task.Dorm.help"
     },
     "Meowfficer": {
-      "name": "オフニャ",
-      "help": ""
+      "name": "Task.Meowfficer.name",
+      "help": "Task.Meowfficer.help"
     },
     "Guild": {
-      "name": "大艦隊",
-      "help": ""
+      "name": "Task.Guild.name",
+      "help": "Task.Guild.help"
     },
     "Reward": {
-      "name": "収穫",
-      "help": ""
+      "name": "Task.Reward.name",
+      "help": "Task.Reward.help"
     },
     "Daily": {
-      "name": "デイリー",
-      "help": ""
+      "name": "Task.Daily.name",
+      "help": "Task.Daily.help"
     },
     "Hard": {
-      "name": "ハード海域",
-      "help": ""
+      "name": "Task.Hard.name",
+      "help": "Task.Hard.help"
     },
     "Exercise": {
-      "name": "演習",
-      "help": ""
+      "name": "Task.Exercise.name",
+      "help": "Task.Exercise.help"
     },
     "ShopFrequent": {
-      "name": "一般ショップ",
-      "help": ""
+      "name": "Task.ShopFrequent.name",
+      "help": "Task.ShopFrequent.help"
     },
     "ShopOnce": {
-      "name": "他ショップ",
-      "help": ""
+      "name": "Task.ShopOnce.name",
+      "help": "Task.ShopOnce.help"
     },
     "Shipyard": {
-      "name": "開発ドック",
-      "help": ""
+      "name": "Task.Shipyard.name",
+      "help": "Task.Shipyard.help"
     },
     "Gacha": {
-      "name": "毎日建造",
-      "help": ""
+      "name": "Task.Gacha.name",
+      "help": "Task.Gacha.help"
     },
     "Freebies": {
-      "name": "他ギフト",
-      "help": ""
+      "name": "Task.Freebies.name",
+      "help": "Task.Freebies.help"
     },
     "OpsiGeneral": {
-      "name": "一般設定",
-      "help": ""
+      "name": "Task.OpsiGeneral.name",
+      "help": "Task.OpsiGeneral.help"
     },
     "OpsiAshBeacon": {
-      "name": "Ash Beacon",
-      "help": ""
+      "name": "Task.OpsiAshBeacon.name",
+      "help": "Task.OpsiAshBeacon.help"
     },
     "OpsiAshAssist": {
-      "name": "OpSi Ash Assist",
-      "help": ""
+      "name": "Task.OpsiAshAssist.name",
+      "help": "Task.OpsiAshAssist.help"
     },
     "OpsiExplore": {
-      "name": "OpSi Explore",
-      "help": ""
+      "name": "Task.OpsiExplore.name",
+      "help": "Task.OpsiExplore.help"
     },
     "OpsiShop": {
-      "name": "OpSi Shop",
-      "help": ""
+      "name": "Task.OpsiShop.name",
+      "help": "Task.OpsiShop.help"
     },
     "OpsiVoucher": {
-      "name": "OpSi Voucher",
-      "help": ""
+      "name": "Task.OpsiVoucher.name",
+      "help": "Task.OpsiVoucher.help"
     },
     "OpsiDaily": {
-      "name": "OpSi Daily",
-      "help": ""
+      "name": "Task.OpsiDaily.name",
+      "help": "Task.OpsiDaily.help"
     },
     "OpsiObscure": {
-      "name": "Obscure Zones",
-      "help": ""
+      "name": "Task.OpsiObscure.name",
+      "help": "Task.OpsiObscure.help"
     },
     "OpsiAbyssal": {
-      "name": "Abyssal Zones",
-      "help": ""
+      "name": "Task.OpsiAbyssal.name",
+      "help": "Task.OpsiAbyssal.help"
     },
     "OpsiArchive": {
-      "name": "Archive Zones",
-      "help": "Clear archive zones. Archive zones are AP free.\nThe following must be satisfied:\n- OpSi story must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "name": "Task.OpsiArchive.name",
+      "help": "Task.OpsiArchive.help"
     },
     "OpsiStronghold": {
-      "name": "Siren Strongholds",
-      "help": ""
+      "name": "Task.OpsiStronghold.name",
+      "help": "Task.OpsiStronghold.help"
     },
     "OpsiMonthBoss": {
-      "name": "Monthly Boss",
-      "help": "To clear (easy/difficult) monthly bosses, the following conditions must be met to use this function:\n- Clear the main task of the big world\n- Enable the Great World Land Reclamation Mission or use the Battle Information Recorder (5000 oil props)\nIf the easy difficulty fails, the attack will be repeated according to the submarine settings; if the difficult difficulty fails, the mission will be terminated directly"
+      "name": "Task.OpsiMonthBoss.name",
+      "help": "Task.OpsiMonthBoss.help"
     },
     "OpsiMeowfficerFarming": {
-      "name": "Meowfficer Farming",
-      "help": ""
+      "name": "Task.OpsiMeowfficerFarming.name",
+      "help": "Task.OpsiMeowfficerFarming.help"
     },
     "OpsiHazard1Leveling": {
-      "name": "CL1 Leveling",
-      "help": ""
+      "name": "Task.OpsiHazard1Leveling.name",
+      "help": "Task.OpsiHazard1Leveling.help"
     },
     "OpsiCrossMonth": {
-      "name": "Cross Month Daily",
-      "help": "    ALAS will enter OpSi 10min before OpSi reset, wait until OpSi reset but not exit OpSi. Then do the daily, obscure, abyssal and meowfficer farming to get extra gold plates. When running dailies, settings in task \"OpSiDaily\" are used, the rest function are the same.\n    IMPORTANT: Please do not touch the game while ALAS is waiting for OpSi reset."
+      "name": "Task.OpsiCrossMonth.name",
+      "help": "Task.OpsiCrossMonth.help"
     },
     "Daemon": {
-      "name": "半自動クリック",
-      "help": ""
+      "name": "Task.Daemon.name",
+      "help": "Task.Daemon.help"
     },
     "OpsiDaemon": {
-      "name": "セイレーン作戦半自動",
-      "help": ""
+      "name": "Task.OpsiDaemon.name",
+      "help": "Task.OpsiDaemon.help"
     },
     "Benchmark": {
-      "name": "機能テスト",
-      "help": ""
+      "name": "Task.Benchmark.name",
+      "help": "Task.Benchmark.help"
     },
     "AzurLaneUncensored": {
-      "name": "中国サーバー規制解除",
-      "help": ""
+      "name": "Task.AzurLaneUncensored.name",
+      "help": "Task.AzurLaneUncensored.help"
     },
     "GameManager": {
-      "name": "Game Manager(WIP)",
-      "help": ""
+      "name": "Task.GameManager.name",
+      "help": "Task.GameManager.help"
     }
   },
   "Scheduler": {
@@ -642,10 +642,8 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
-<<<<<<< HEAD
-=======
+      "event_20220818_cn": "結像点作戦",
       "raid_20230629": "緑地伽話",
->>>>>>> 54d4920a63fba5cffdecc83365037edca2391d27
       "event_20220428_cn": "吟ずる瑠璃の楽章",
       "event_20210527_cn": "照らす螺旋の鏡海（復刻）",
       "event_20200603_cn": "峡湾間の反撃（復刻）",
@@ -675,7 +673,6 @@
       "event_20220915_cn": "赫の涙月 菫の暁風",
       "event_20210916_cn": "駆けよ 碧海の吹き風",
       "event_20200903_en": "輝ける峡湾の星（復刻）",
-      "event_20220818_cn": "結像点作戦",
       "event_20220324_cn": "幻像の塔",
       "event_20211028_cn": "神穹を衝く聖歌（復刻）",
       "event_20220728_cn": "鋼鷲の冒険譚",
@@ -1293,16 +1290,16 @@
   },
   "AddNewStudent": {
     "_info": {
-      "name": "新しいスキルを学ぶ",
-      "help": "戦術学院に空席があると自動的に艦娘が配属され、初の下級スキルが習得される"
+      "name": "AddNewStudent._info.name",
+      "help": "AddNewStudent._info.help"
     },
     "Enable": {
-      "name": "この機能を有効にする",
-      "help": ""
+      "name": "AddNewStudent.Enable.name",
+      "help": "AddNewStudent.Enable.help"
     },
     "Favorite": {
-      "name": "好ましい選択",
-      "help": ""
+      "name": "AddNewStudent.Favorite.name",
+      "help": "AddNewStudent.Favorite.help"
     }
   },
   "Research": {
@@ -1345,16 +1342,16 @@
       "series_5_blueprint_152": "series_5_blueprint_152",
       "series_5_blueprint_only": "series_5_blueprint_only",
       "series_5_152_only": "series_5_152_only",
-      "series_4_blueprint_tenrai": "Series 4 Blueprints+Tenrai",
-      "series_4_blueprint_only": "Series 4 Blueprints Only",
-      "series_4_tenrai_only": "Series 4 Tenrai Only",
-      "series_3_blueprint_234": "Series 3 Blueprints+234",
-      "series_3_blueprint_only": "Series 3 Blueprints Only",
-      "series_3_234_only": "Series 3 234 Only",
-      "series_2_than_3_457_234": "Series 2+3 457+234",
-      "series_2_blueprint_457": "Series 2 Blueprints+457",
-      "series_2_blueprint_only": "Series 2 Blueprints Only",
-      "series_2_457_only": "Series 2 457 Only"
+      "series_4_blueprint_tenrai": "series_4_blueprint_tenrai",
+      "series_4_blueprint_only": "series_4_blueprint_only",
+      "series_4_tenrai_only": "series_4_tenrai_only",
+      "series_3_blueprint_234": "series_3_blueprint_234",
+      "series_3_blueprint_only": "series_3_blueprint_only",
+      "series_3_234_only": "series_3_234_only",
+      "series_2_than_3_457_234": "series_2_than_3_457_234",
+      "series_2_blueprint_457": "series_2_blueprint_457",
+      "series_2_blueprint_only": "series_2_blueprint_only",
+      "series_2_457_only": "series_2_457_only"
     },
     "CustomFilter": {
       "name": "Research.CustomFilter.name",
@@ -1632,40 +1629,40 @@
   },
   "MedalShop2": {
     "_info": {
-      "name": "MedalShop._info.name",
-      "help": "MedalShop._info.help"
+      "name": "MedalShop2._info.name",
+      "help": "MedalShop2._info.help"
     },
     "Filter": {
-      "name": "MedalShop.Filter.name",
-      "help": "MedalShop.Filter.help"
+      "name": "MedalShop2.Filter.name",
+      "help": "MedalShop2.Filter.help"
     },
     "RETROFIT_T1": {
-      "name": "MedalShop.RETROFIT_T1.name",
-      "help": "MedalShop.RETROFIT_T1.help",
+      "name": "MedalShop2.RETROFIT_T1.name",
+      "help": "MedalShop2.RETROFIT_T1.help",
       "dd": "dd",
       "cl": "cl",
       "bb": "bb",
       "cv": "cv"
     },
     "RETROFIT_T2": {
-      "name": "MedalShop.RETROFIT_T2.name",
-      "help": "MedalShop.RETROFIT_T2.help",
+      "name": "MedalShop2.RETROFIT_T2.name",
+      "help": "MedalShop2.RETROFIT_T2.help",
       "dd": "dd",
       "cl": "cl",
       "bb": "bb",
       "cv": "cv"
     },
     "RETROFIT_T3": {
-      "name": "MedalShop.RETROFIT_T3.name",
-      "help": "MedalShop.RETROFIT_T3.help",
+      "name": "MedalShop2.RETROFIT_T3.name",
+      "help": "MedalShop2.RETROFIT_T3.help",
       "dd": "dd",
       "cl": "cl",
       "bb": "bb",
       "cv": "cv"
     },
     "PLATE_T1": {
-      "name": "MedalShop.PLATE_T1.name",
-      "help": "MedalShop.PLATE_T1.help",
+      "name": "MedalShop2.PLATE_T1.name",
+      "help": "MedalShop2.PLATE_T1.help",
       "general": "general",
       "gun": "gun",
       "torpedo": "torpedo",
@@ -1673,8 +1670,8 @@
       "plane": "plane"
     },
     "PLATE_T2": {
-      "name": "MedalShop.PLATE_T2.name",
-      "help": "MedalShop.PLATE_T2.help",
+      "name": "MedalShop2.PLATE_T2.name",
+      "help": "MedalShop2.PLATE_T2.help",
       "general": "general",
       "gun": "gun",
       "torpedo": "torpedo",
@@ -1682,8 +1679,8 @@
       "plane": "plane"
     },
     "PLATE_T3": {
-      "name": "MedalShop.PLATE_T3.name",
-      "help": "MedalShop.PLATE_T3.help",
+      "name": "MedalShop2.PLATE_T3.name",
+      "help": "MedalShop2.PLATE_T3.help",
       "general": "general",
       "gun": "gun",
       "torpedo": "torpedo",
@@ -2101,14 +2098,14 @@
       "help": "OpsiGeneral.UseLogger.help"
     },
     "BuyActionPointLimit": {
-      "name": "Buy AP X time(s)",
-      "help": "Maximum number of buying AP.",
-      "0": "Don't buy",
-      "1": "1 (1000oil, 100AP)",
-      "2": "2 (2000oil, 200AP)",
-      "3": "3 (4000oil, 400AP)",
-      "4": "4 (6000oil, 600AP)",
-      "5": "5 (10000oil, 1000AP)"
+      "name": "OpsiGeneral.BuyActionPointLimit.name",
+      "help": "OpsiGeneral.BuyActionPointLimit.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
     },
     "OilLimit": {
       "name": "OpsiGeneral.OilLimit.name",
@@ -2371,12 +2368,12 @@
   },
   "AzurLaneUncensored": {
     "_info": {
-      "name": "規制解除（中国サーバー以外実行しないでください）",
-      "help": "中国サーバーしかつかえない、実行しないでください。\n仅国服使用。这个工具将执行：\n- 下载反和谐文件\n- 将文件推送至模拟器内\n- 重启游戏客户端"
+      "name": "AzurLaneUncensored._info.name",
+      "help": "AzurLaneUncensored._info.help"
     },
     "Repository": {
-      "name": "反和谐仓库",
-      "help": "一般不需要修改\n仓库 https://github.com/LmeSzinc/AzurLaneUncensored\n国内镜像（默认） https://gitee.com/LmeSzinc/AzurLaneUncensored"
+      "name": "AzurLaneUncensored.Repository.name",
+      "help": "AzurLaneUncensored.Repository.help"
     }
   },
   "GameManager": {
@@ -2401,95 +2398,95 @@
   },
   "Gui": {
     "Aside": {
-      "Install": "インストール",
+      "Install": "Gui.Aside.Install",
       "Home": "Gui.Aside.Home",
-      "Develop": "開発",
-      "Performance": "機能",
-      "Setting": "設定",
-      "AddAlas": "追加"
+      "Develop": "Gui.Aside.Develop",
+      "Performance": "Gui.Aside.Performance",
+      "Setting": "Gui.Aside.Setting",
+      "AddAlas": "Gui.Aside.AddAlas"
     },
     "Button": {
-      "Start": "実行",
-      "Stop": "中止",
-      "ScrollON": "自動スクロール ON",
-      "ScrollOFF": "自動スクロール OFF",
-      "ClearLog": "ログクリーニング",
-      "Setting": "設定",
-      "CheckUpdate": "アップデータチェック",
-      "ClickToUpdate": "アップデータ実行",
-      "RetryUpdate": "アップデータ再試行",
-      "CancelUpdate": "アップデータ中止"
+      "Start": "Gui.Button.Start",
+      "Stop": "Gui.Button.Stop",
+      "ScrollON": "Gui.Button.ScrollON",
+      "ScrollOFF": "Gui.Button.ScrollOFF",
+      "ClearLog": "Gui.Button.ClearLog",
+      "Setting": "Gui.Button.Setting",
+      "CheckUpdate": "Gui.Button.CheckUpdate",
+      "ClickToUpdate": "Gui.Button.ClickToUpdate",
+      "RetryUpdate": "Gui.Button.RetryUpdate",
+      "CancelUpdate": "Gui.Button.CancelUpdate"
     },
     "Toast": {
-      "DisableTranslateMode": "クリックして翻訳モードを中止します",
-      "ConfigSaved": "コンフィグ設定は保存されました",
-      "AlasIsRunning": "スケジューラーはもう実行しています",
-      "ClickToUpdate": "新しいアップデータがあります。クリックしてアップデータ"
+      "DisableTranslateMode": "Gui.Toast.DisableTranslateMode",
+      "ConfigSaved": "Gui.Toast.ConfigSaved",
+      "AlasIsRunning": "Gui.Toast.AlasIsRunning",
+      "ClickToUpdate": "Gui.Toast.ClickToUpdate"
     },
     "Status": {
-      "Running": "実行中",
-      "Inactive": "実行中止",
-      "Warning": "エラー発生",
-      "Updating": "アップデータを待っています"
+      "Running": "Gui.Status.Running",
+      "Inactive": "Gui.Status.Inactive",
+      "Warning": "Gui.Status.Warning",
+      "Updating": "Gui.Status.Updating"
     },
     "MenuAlas": {
-      "Overview": "概要",
-      "Log": "実行ログ"
+      "Overview": "Gui.MenuAlas.Overview",
+      "Log": "Gui.MenuAlas.Log"
     },
     "MenuDevelop": {
-      "HomePage": "ホームページ",
-      "Translate": "翻訳",
-      "Update": "アップデータ",
-      "Remote": "遠隔操作",
-      "Utils": "ツール"
+      "HomePage": "Gui.MenuDevelop.HomePage",
+      "Translate": "Gui.MenuDevelop.Translate",
+      "Update": "Gui.MenuDevelop.Update",
+      "Remote": "Gui.MenuDevelop.Remote",
+      "Utils": "Gui.MenuDevelop.Utils"
     },
     "Overview": {
-      "Scheduler": "スケジューラー",
-      "Log": "ログ",
-      "Running": "実行中",
-      "Pending": "隊列中",
-      "Waiting": "Waiting",
-      "NoTask": "No Task"
+      "Scheduler": "Gui.Overview.Scheduler",
+      "Log": "Gui.Overview.Log",
+      "Running": "Gui.Overview.Running",
+      "Pending": "Gui.Overview.Pending",
+      "Waiting": "Gui.Overview.Waiting",
+      "NoTask": "Gui.Overview.NoTask"
     },
     "AddAlas": {
-      "PopupTitle": "新しいコンフィグを追加",
-      "NewName": "コンフィグ名",
-      "CopyFrom": "既存コンフィグからコピー",
-      "Confirm": "追加",
-      "FileExist": "既存コンフィグと同じネーミングとなっていますから別名前を入力してください",
-      "InvalidChar": "コンフィグ名には下記の文字を含めることはできません：.\\/:*?\"<>|",
-      "InvalidPrefixTemplate": "設定ファイル名は temlpate で始めることはできません"
+      "PopupTitle": "Gui.AddAlas.PopupTitle",
+      "NewName": "Gui.AddAlas.NewName",
+      "CopyFrom": "Gui.AddAlas.CopyFrom",
+      "Confirm": "Gui.AddAlas.Confirm",
+      "FileExist": "Gui.AddAlas.FileExist",
+      "InvalidChar": "Gui.AddAlas.InvalidChar",
+      "InvalidPrefixTemplate": "Gui.AddAlas.InvalidPrefixTemplate"
     },
     "Update": {
-      "UpToDate": "今Alasは最新バージョンです",
-      "HaveUpdate": "新しいアップデータがあります",
-      "UpdateStart": "アップデータ開始",
-      "UpdateWait": "全てのプロセスの完了を待っています",
-      "UpdateRun": "アップデータ中",
-      "UpdateSuccess": "アップデータ完了、再起動しています",
-      "UpdateFailed": "アップデータ失敗、./log/*_gui.txtでログをチェックしてください",
-      "UpdateChecking": "アップデータチェック中",
-      "UpdateCancel": "アップデータ中止、再起動しています",
-      "UpdateFinish": "アップデータ完了、再起動してください",
-      "Local": "ロケール",
-      "Upstream": "オンライン",
-      "Author": "提出者",
-      "Time": "提出時間",
-      "Message": "提出内容",
-      "DisabledWarn": "アップデータモジュールは稼働されませんのでAlasを再起動してください",
-      "DetailedHistory": "詳しい提出履歴"
+      "UpToDate": "Gui.Update.UpToDate",
+      "HaveUpdate": "Gui.Update.HaveUpdate",
+      "UpdateStart": "Gui.Update.UpdateStart",
+      "UpdateWait": "Gui.Update.UpdateWait",
+      "UpdateRun": "Gui.Update.UpdateRun",
+      "UpdateSuccess": "Gui.Update.UpdateSuccess",
+      "UpdateFailed": "Gui.Update.UpdateFailed",
+      "UpdateChecking": "Gui.Update.UpdateChecking",
+      "UpdateCancel": "Gui.Update.UpdateCancel",
+      "UpdateFinish": "Gui.Update.UpdateFinish",
+      "Local": "Gui.Update.Local",
+      "Upstream": "Gui.Update.Upstream",
+      "Author": "Gui.Update.Author",
+      "Time": "Gui.Update.Time",
+      "Message": "Gui.Update.Message",
+      "DisabledWarn": "Gui.Update.DisabledWarn",
+      "DetailedHistory": "Gui.Update.DetailedHistory"
     },
     "Remote": {
-      "Running": "実行中",
-      "NotRunning": "サーバーとの接続が中断したため、実行していない",
-      "NotEnable": "未启用，在 deploy.yaml 中设置 webui 密码并启用远程控制",
-      "EntryPoint": "远程访问 url 地址:",
-      "ConfigureHint": "配置教程：",
-      "SSHNotInstall": "システムでsshツールが探さない、sshツールをインストールしてください"
+      "Running": "Gui.Remote.Running",
+      "NotRunning": "Gui.Remote.NotRunning",
+      "NotEnable": "Gui.Remote.NotEnable",
+      "EntryPoint": "Gui.Remote.EntryPoint",
+      "ConfigureHint": "Gui.Remote.ConfigureHint",
+      "SSHNotInstall": "Gui.Remote.SSHNotInstall"
     },
     "Text": {
-      "InvalidFeedBack": "フォーマットエラー。 例：{0}",
-      "Clear": "消除"
+      "InvalidFeedBack": "Gui.Text.InvalidFeedBack",
+      "Clear": "Gui.Text.Clear"
     }
   }
 }
