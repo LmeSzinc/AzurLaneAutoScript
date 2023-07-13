@@ -80,6 +80,8 @@ def translate(string: str, target='series_4_tenrai_only_cube', for_simulate=Fals
 
 def convert_name(name, series):
     name = re.sub(r'series_\d', f'series_{series}', name)
+    if 'series_6' in name:
+        name = name.replace('tenrai', '203')
     if 'series_5' in name:
         name = name.replace('tenrai', '152')
     if 'series_4' in name:
@@ -98,7 +100,7 @@ if __name__ == '__main__':
     Value(
         FILTER_STRING_CHEAPEST='Q1 > Q2 > T3 > T4 > Q4 > C6 > T6 > C8 > C12 > G1.5 > D2.5 > G2.5 > D5 > Q0.5 > G4 > D8 > H1 > H2 > H0.5 > D0.5 > H4')
     with Dict('DICT_FILTER_PRESET'):
-        for series in [5, 4, 3, 2]:
+        for series in [6, 5, 4, 3, 2]:
             def new_filter(**kwargs):
                 for k, v in kwargs.items():
                     k = convert_name(k, series)
@@ -185,7 +187,7 @@ if __name__ == '__main__':
             """)
 
         Comment('Old community filters')
-        DictItem(series_2_than_3_457_234=beautify_filter("""
+        DictItem('series_2_than_3_457_234', beautify_filter("""
             S2-Q0.5 > S2-PRY0.5 > S2-DR0.5 > S2-Q4 > S2-Q1 > S2-Q2 > S2-H0.5 > 0.5
             > S3-Q1 > S3-Q2 > S2-G4 > S3-Q4 > S2-G1.5 > S2-DR2.5 > reset > Q1 > S2-PRY2.5 > S2-G2.5 > H1 > 1.5
             > Q2 > 2.5 > S2-DR5 > S2-PRY5 > Q4 > G4 > 5 > H2 > S2-C6 > S2-DR8 > S2-PRY8 > S2-C8
