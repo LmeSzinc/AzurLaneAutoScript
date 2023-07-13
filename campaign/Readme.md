@@ -150,6 +150,3 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20230629   | event 20220428 cn        | Rondo at Rainbow's End                       | -                      | -                                            | -                                    | 虹彩的終幕曲              |
 | 20230629   | raid 20230629            | Reflections of the Oasis                     | 绿洲往事                | Reflections of the Oasis                     | 緑地伽話                              | -                         |
 | 20220818   | event 20220818 cn        | Operation Convergence                        | -                      | -                                            | 結像点作戦                            | 遠匯點作戰                        |
-<<<<<<< HEAD
-=======
->>>>>>> 54d4920a63fba5cffdecc83365037edca2391d27
