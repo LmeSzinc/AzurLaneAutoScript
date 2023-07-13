@@ -12,13 +12,14 @@ from module.research.project import research_detect, research_jp_detect
 from module.research.ui import ResearchUI
 
 RESEARCH_ENTRANCE = [ENTRANCE_1, ENTRANCE_2, ENTRANCE_3, ENTRANCE_4, ENTRANCE_5]
-FILTER_REGEX = re.compile('(s[12345])?'
+FILTER_REGEX = re.compile('(s[123456])?'
                           '-?'
                           '(neptune|monarch|ibuki|izumo|roon|saintlouis'
                           '|seattle|georgia|kitakaze|azuma|friedrich'
                           '|gascogne|champagne|cheshire|drake|mainz|odin'
                           '|anchorage|hakuryu|agir|august|marcopolo'
-                          '|plymouth|rupprecht|harbin|chkalov|brest)?'
+                          '|plymouth|rupprecht|harbin|chkalov|brest'
+                          '|kearsarge|hindenburg|shimanto|schultz|flandre)?'
                           '(dr|pry)?'
                           '([bcdeghqt])?'
                           '-?'
