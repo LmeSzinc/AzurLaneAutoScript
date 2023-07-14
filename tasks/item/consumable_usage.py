@@ -1,16 +1,18 @@
 from module.ocr.ocr import *
 from module.ui.scroll import Scroll
-from tasks.base.page import page_item
-from tasks.base.ui import UI
-from tasks.daily.synthesize import SynthesizeConsumablesUI
 from tasks.base.assets.assets_base_popup import CONFIRM_POPUP
-from tasks.daily.assets.assets_daily_consumable_usage import *
+from tasks.base.page import page_item
 from tasks.daily.assets.assets_daily_synthesize_consumable import \
     SIMPLE_PROTECTIVE_GEAR as SYNTHESIZE_SIMPLE_PROTECTIVE_GEAR, \
     SIMPLE_PROTECTIVE_GEAR_CHECK as SYNTHESIZE_SIMPLE_PROTECTIVE_GEAR_CHECK
+from tasks.daily.synthesize import SynthesizeConsumablesUI
+from tasks.item.assets.assets_item_consumable_usage import *
+from tasks.item.assets.assets_item_ui import CONSUMABLE_CHECK
+from tasks.item.keywords import KEYWORD_ITEM_TAB
+from tasks.item.ui import ItemUI
 
 
-class ConsumableUsageUI(UI):
+class ConsumableUsageUI(ItemUI):
     def use_consumable(self, synthesize_or_not: bool = True) -> bool:
         """
         Args:
@@ -26,7 +28,7 @@ class ConsumableUsageUI(UI):
         """
         logger.hr('Use consumable', level=2)
         self.ui_ensure(page_item)
-        self._switch_tag_to_consumables()
+        self.item_goto(KEYWORD_ITEM_TAB.Consumables)
         if self._search_and_select_consumable():
             self._click_use()
             self._confirm_use()
@@ -36,34 +38,35 @@ class ConsumableUsageUI(UI):
             if not synthesize_or_not:
                 return False
             if SynthesizeConsumablesUI(self.config, self.device).synthesize_consumables(
-                SYNTHESIZE_SIMPLE_PROTECTIVE_GEAR, SYNTHESIZE_SIMPLE_PROTECTIVE_GEAR_CHECK
+                    SYNTHESIZE_SIMPLE_PROTECTIVE_GEAR, SYNTHESIZE_SIMPLE_PROTECTIVE_GEAR_CHECK
             ):
                 return self.use_consumable(synthesize_or_not=False)
             else:
                 return False
 
-    def _switch_tag_to_consumables(self, skip_first_screenshot=True):
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            # Scroll bar delay appears, need an interval here
-            if self.appear(ITEM_CONSUMABLE_CHECK, interval=1):
-                logger.info('Item consumables page appear')
-                break
-            # Switch to consumables subpage
-            if self.appear_then_click(ITEM_GOTO_CONSUMABLE):
-                logger.info('Switch to consumables subpage')
-                continue
+    # def _switch_tag_to_consumables(self, skip_first_screenshot=True):
+    #     while 1:
+    #         if skip_first_screenshot:
+    #             skip_first_screenshot = False
+    #         else:
+    #             self.device.screenshot()
+    #
+    #         # Scroll bar delay appears, need an interval here
+    #         if self.appear(ITEM_CONSUMABLE_CHECK, interval=1):
+    #             logger.info('Item consumables page appear')
+    #             break
+    #         # Switch to consumables subpage
+    #         if self.appear_then_click(ITEM_GOTO_CONSUMABLE):
+    #             logger.info('Switch to consumables subpage')
+    #             continue
 
     def _search_and_select_consumable(self, skip_first_screenshot=True) -> bool:
         logger.info('Search consumable')
         # If the default subpage is the consumables page, it is necessary to screenshot and check subpage again,
         # because in this scenario, scroll bar delay appears and the previous screenshot was
         # taken after clicking on the "item" to determine whether to enter the "item", which may be inaccurate
-        self._switch_tag_to_consumables(False)
+        # self._switch_tag_to_consumables(False)
+        self.item_goto(KEYWORD_ITEM_TAB.Consumables)
 
         # Determine if there is a scroll bar. If there is a scroll bar,
         # pull it down and check if the consumable to be used can be found
@@ -83,6 +86,8 @@ class ConsumableUsageUI(UI):
                     return True
                 if scroll.at_bottom(main=self) and not self.appear(SIMPLE_PROTECTIVE_GEAR, similarity=0.7):
                     logger.info('Can not find the consumable which to be used, just skip')
+                    from PIL import Image
+                    Image.fromarray(self.device.image).save("./screenshots/image3.png")
                     return False
                 if self.appear_then_click(SIMPLE_PROTECTIVE_GEAR, similarity=0.7):
                     logger.info('Select the consumable which to be used')
@@ -137,7 +142,7 @@ class ConsumableUsageUI(UI):
             else:
                 self.device.screenshot()
 
-            if self.appear(ITEM_CONSUMABLE_CHECK):
+            if self.appear(CONSUMABLE_CHECK):
                 logger.info('Complete using consumables')
                 break
             # If there is already consumable effect, a confirmation box will pop up again,
