@@ -12,6 +12,7 @@ from module.ui.scroll import Scroll
 
 MEDAL_SHOP_SCROLL = Scroll(MEDAL_SHOP_SCROLL_AREA, color=(247, 211, 66))
 MEDAL_SHOP_SCROLL.edge_threshold = 0.15
+MEDAL_SHOP_SCROLL.drag_threshold = 0.15
 
 
 class ShopPriceOcr(DigitYuv):
