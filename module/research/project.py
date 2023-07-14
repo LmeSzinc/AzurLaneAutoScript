@@ -1,4 +1,3 @@
-import re
 from datetime import timedelta
 
 from scipy import signal
@@ -104,6 +103,14 @@ def _get_research_series(img):
 
 
 def get_research_series(image, series_button=RESEARCH_SERIES):
+    """
+        Args:
+        image (np.ndarray):
+        series_button:
+
+    Returns:
+        list[int]: Such as [1, 1, 1, 2, 3]
+    """
     result = []
     for button in series_button:
         img = resize(crop(image, button.area), (46, 25))
@@ -199,7 +206,7 @@ def get_research_series_jp_old(image):
         image (np.ndarray): Screenshot
 
     Returns:
-        series (string):
+        str: Series like "S4"
     """
     # Set 'prominence = 50' to ignore possible noise.
     parameters = {'height': 160, 'prominence': 50, 'width': 1}
@@ -225,6 +232,20 @@ def get_research_series_jp_old(image):
         series = 0
         logger.warning(f'Unknown research series: upper={upper}, lower={lower}')
 
+    return f'S{series}'
+
+
+def get_research_series_jp(image):
+    """
+    Args:
+        image:
+
+    Returns:
+        str: Series like "S4"
+    """
+    area = SERIES_DETAIL.area
+    img = crop(image, area)
+    series = _get_research_series(img)
     return f'S{series}'
 
 
@@ -338,7 +359,7 @@ def research_jp_detect(image):
         project (ResearchProjectJp):
     """
     project = ResearchProjectJp()
-    project.series = get_research_series(image)
+    project.series = get_research_series_jp(image)
     project.duration = str(get_research_duration_jp(image) / 3600).rstrip('.0')
     project.genre = get_research_genre_jp(image)
     costs = get_research_cost_jp(image)
