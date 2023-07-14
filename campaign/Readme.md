@@ -148,4 +148,5 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20230615   | event 20200603 cn        | Counterattack Within the Fjord               | -                      | -                                            | -                                    | 復刻峽灣間的反擊          |
 | 20230621   | event 20210527 cn        | Mirror Involution Rerun                      | 复刻镜位螺旋            | Mirror Involution Rerun                      | 照らす螺旋の鏡海（復刻）               | -                        |
 | 20230629   | event 20220428 cn        | Rondo at Rainbow's End                       | -                      | -                                            | -                                    | 虹彩的終幕曲              |
-| 20230629 | raid 20230629 | Reflections of the Oasis | 绿洲往事 | Reflections of the Oasis | 緑地伽話 | - |
+| 20230629   | raid 20230629            | Reflections of the Oasis                     | 绿洲往事                | Reflections of the Oasis                     | 緑地伽話                              | -                         |
+| 20220818   | event 20220818 cn        | Operation Convergence                        | -                      | -                                            | 結像点作戦                            | 遠匯點作戰                        |
