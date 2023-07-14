@@ -44,22 +44,6 @@ class ConsumableUsageUI(ItemUI):
             else:
                 return False
 
-    # def _switch_tag_to_consumables(self, skip_first_screenshot=True):
-    #     while 1:
-    #         if skip_first_screenshot:
-    #             skip_first_screenshot = False
-    #         else:
-    #             self.device.screenshot()
-    #
-    #         # Scroll bar delay appears, need an interval here
-    #         if self.appear(ITEM_CONSUMABLE_CHECK, interval=1):
-    #             logger.info('Item consumables page appear')
-    #             break
-    #         # Switch to consumables subpage
-    #         if self.appear_then_click(ITEM_GOTO_CONSUMABLE):
-    #             logger.info('Switch to consumables subpage')
-    #             continue
-
     def _search_and_select_consumable(self, skip_first_screenshot=True) -> bool:
         logger.info('Search consumable')
         # If the default subpage is the consumables page, it is necessary to screenshot and check subpage again,
@@ -86,10 +70,8 @@ class ConsumableUsageUI(ItemUI):
                     return True
                 if scroll.at_bottom(main=self) and not self.appear(SIMPLE_PROTECTIVE_GEAR, similarity=0.7):
                     logger.info('Can not find the consumable which to be used, just skip')
-                    from PIL import Image
-                    Image.fromarray(self.device.image).save("./screenshots/image3.png")
                     return False
-                if self.appear_then_click(SIMPLE_PROTECTIVE_GEAR, similarity=0.7):
+                if self.appear_then_click(SIMPLE_PROTECTIVE_GEAR, similarity=0.7, interval=2):
                     logger.info('Select the consumable which to be used')
                     continue
                 # Scroll bar flipping
@@ -108,7 +90,7 @@ class ConsumableUsageUI(ItemUI):
                     if self.appear(SIMPLE_PROTECTIVE_GEAR_CHECK):
                         logger.info('The consumable to be used have been selected')
                         return True
-                    if self.appear_then_click(SIMPLE_PROTECTIVE_GEAR, similarity=0.7):
+                    if self.appear_then_click(SIMPLE_PROTECTIVE_GEAR, similarity=0.7, interval=2):
                         logger.info('Select the consumable which to be used')
                         continue
             else:
@@ -131,7 +113,7 @@ class ConsumableUsageUI(ItemUI):
             if self.appear(CONFIRM_POPUP):
                 logger.info('Item consumable usage popup appear')
                 break
-            if self.appear_then_click(USE_CONSUMABLE):
+            if self.appear_then_click(USE_CONSUMABLE, interval=2):
                 logger.info('Click the "use" button')
                 continue
 
