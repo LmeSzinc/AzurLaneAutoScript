@@ -23,10 +23,20 @@ GOTO_SALVAGE = ButtonWrapper(
         button=(668, 652, 690, 674),
     ),
 )
-REVERSE_ORDER = ButtonWrapper(
-    name='REVERSE_ORDER',
+ORDER_ASCENDING = ButtonWrapper(
+    name='ORDER_ASCENDING',
     share=Button(
-        file='./assets/share/item/relics/REVERSE_ORDER.png',
+        file='./assets/share/item/relics/ORDER_ASCENDING.png',
+        area=(720, 649, 737, 667),
+        search=(700, 629, 757, 687),
+        color=(176, 176, 178),
+        button=(720, 649, 737, 667),
+    ),
+)
+ORDER_DESCENDING = ButtonWrapper(
+    name='ORDER_DESCENDING',
+    share=Button(
+        file='./assets/share/item/relics/ORDER_DESCENDING.png',
         area=(720, 649, 738, 667),
         search=(700, 629, 758, 687),
         color=(179, 180, 180),
@@ -38,7 +48,7 @@ SALVAGE = ButtonWrapper(
     share=Button(
         file='./assets/share/item/relics/SALVAGE.png',
         area=(1038, 646, 1062, 670),
-        search=(1018, 626, 1082, 690),
+        search=(936, 642, 1213, 675),
         color=(122, 115, 98),
         button=(1038, 646, 1062, 670),
     ),
