@@ -425,17 +425,26 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 continue
             if self.handle_get_items(drop=drop):
                 continue
-            if not exp_info and self.handle_battle_status(drop=drop):
-                battle_status = True
-                continue
             if self.handle_popup_confirm('COMBAT_STATUS'):
                 if battle_status and not exp_info:
                     logger.info('Locking a new ship')
                     self.config.GET_SHIP_TRIGGERED = True
                 continue
-            if self.handle_exp_info():
-                exp_info = True
-                continue
+            if not battle_status:
+                if not exp_info and self.handle_battle_status(drop=drop):
+                    battle_status = True
+                    continue
+                if self.handle_exp_info():
+                    exp_info = True
+                    continue
+            else:
+                # Check exp_info first if battle_status has been clicked.
+                if self.handle_exp_info():
+                    exp_info = True
+                    continue
+                if not exp_info and self.handle_battle_status(drop=drop):
+                    battle_status = True
+                    continue
             if self.handle_urgent_commission(drop=drop):
                 continue
             if self.handle_guild_popup_cancel():

@@ -8,7 +8,7 @@ from module.combat.assets import *
 from module.freebies.assets import *
 from module.logger import logger
 from module.statistics.item import ItemGrid
-from module.ui.page import *
+from module.ui.page import page_main
 from module.ui.ui import UI
 
 MAIL_BUTTON_GRID = ButtonGrid(

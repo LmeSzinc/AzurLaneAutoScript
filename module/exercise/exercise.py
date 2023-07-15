@@ -4,9 +4,8 @@ from module.exercise.assets import *
 from module.exercise.combat import ExerciseCombat
 from module.logger import logger
 from module.ocr.ocr import Digit, Ocr, OcrYuv
-from module.ui.ui import page_exercise
+from module.ui.page import page_exercise
 from module.config.utils import get_server_next_update
-
 
 class DatedDuration(Ocr):
     def __init__(self, buttons, lang='cnocr', letter=(255, 255, 255), threshold=128, alphabet='0123456789:IDS天日d',

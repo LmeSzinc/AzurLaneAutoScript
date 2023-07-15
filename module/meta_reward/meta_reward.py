@@ -4,8 +4,9 @@ from module.combat.combat import Combat
 from module.logger import logger
 from module.meta_reward.assets import *
 from module.template.assets import TEMPLATE_META_DOCK_RED_DOT
+from module.ui.assets import BACK_ARROW
 from module.ui.page import page_meta
-from module.ui.ui import UI, BACK_ARROW
+from module.ui.ui import UI
 
 
 class MetaReward(Combat, UI):
