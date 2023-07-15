@@ -1,4 +1,3 @@
-import re
 from datetime import timedelta
 
 from scipy import signal
@@ -19,7 +18,7 @@ RESEARCH_DETAIL_GENRE = [DETAIL_GENRE_B, DETAIL_GENRE_C, DETAIL_GENRE_D, DETAIL_
                          DETAIL_GENRE_H_0, DETAIL_GENRE_H_1, DETAIL_GENRE_Q, DETAIL_GENRE_T]
 
 
-def get_research_series(image, series_button=RESEARCH_SERIES):
+def get_research_series_old(image, series_button=RESEARCH_SERIES):
     """
     Get research series using a simple color detection.
     Counting white lines to detect Roman numerals.
@@ -65,6 +64,58 @@ def get_research_series(image, series_button=RESEARCH_SERIES):
             logger.warning(f'Unknown research series: button={button}, upper={upper}, lower={lower}')
         result.append(series)
 
+    return result
+
+
+def _get_research_series(img):
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    pos = img.shape[0] * 2 // 5
+
+    img = img[pos - 4:pos + 5]
+    img = cv2.GaussianBlur(img, (5, 5), 1)
+    img = img[3:6]
+
+    threshold = np.mean(img)
+    edge = np.where(np.diff((img[1] > threshold).astype(np.uint8)) == 1)[0]
+
+    grad_x = cv2.Sobel(img, cv2.CV_16S, 1, 0)[1]
+    grad_y = cv2.Sobel(img, cv2.CV_16S, 0, 1)[1]
+
+    edge = np.arctan([
+        grad_y[i] / grad_x[i]
+        for i in edge
+    ])
+    edge = tuple(
+        0 if i > -.1
+        else 1
+        for i in edge
+        if i < .1
+    )
+
+    return {
+        (0,): 1,
+        (0, 0): 2,
+        (0, 0, 0): 3,
+        (0, 1): 4,
+        (1,): 5,
+        (1, 0): 6
+    }.get(edge, 0)
+
+
+def get_research_series(image, series_button=RESEARCH_SERIES):
+    """
+        Args:
+        image (np.ndarray):
+        series_button:
+
+    Returns:
+        list[int]: Such as [1, 1, 1, 2, 3]
+    """
+    result = []
+    for button in series_button:
+        img = resize(crop(image, button.area), (46, 25))
+        series = _get_research_series(img)
+        result.append(series)
     return result
 
 
@@ -147,7 +198,7 @@ def match_template(image, template, area, offset=30, threshold=0.85):
     return similarity
 
 
-def get_research_series_jp(image):
+def get_research_series_jp_old(image):
     """
     Almost the same as get_research_series except the button area.
 
@@ -155,7 +206,7 @@ def get_research_series_jp(image):
         image (np.ndarray): Screenshot
 
     Returns:
-        series (string):
+        str: Series like "S4"
     """
     # Set 'prominence = 50' to ignore possible noise.
     parameters = {'height': 160, 'prominence': 50, 'width': 1}
@@ -181,6 +232,20 @@ def get_research_series_jp(image):
         series = 0
         logger.warning(f'Unknown research series: upper={upper}, lower={lower}')
 
+    return f'S{series}'
+
+
+def get_research_series_jp(image):
+    """
+    Args:
+        image:
+
+    Returns:
+        str: Series like "S4"
+    """
+    area = SERIES_DETAIL.area
+    img = crop(image, area)
+    series = _get_research_series(img)
     return f'S{series}'
 
 
@@ -332,9 +397,10 @@ class ResearchProject:
         '|seattle|georgia|kitakaze|azuma|friedrich'
         '|gascogne|champagne|cheshire|drake|mainz|odin'
         '|anchorage|hakuryu|agir|august|marcopolo'
-        '|plymouth|rupprecht|harbin|chkalov|brest)')
+        '|plymouth|rupprecht|harbin|chkalov|brest'
+        '|kearsarge|hindenburg|shimanto|schultz|flandre)')
     REGEX_INPUT = re.compile('(coin|cube|part)')
-    REGEX_DR_SHIP = re.compile('azuma|friedrich|drake|hakuryu|agir|plymouth|brest')
+    REGEX_DR_SHIP = re.compile('azuma|friedrich|drake|hakuryu|agir|plymouth|brest|kearsarge|hindenburg')
     # Generate with:
     """
     out = []
@@ -349,10 +415,11 @@ class ResearchProject:
         '718', '731', '744', '759', '774', '792', '318', '331', '344', '359', '374', '392', '705', '712', '746', '757',
         '779', '794', '305', '312', '346', '357', '379', '394', '721', '722', '772', '777', '795', '321', '322', '372',
         '377', '395', '708', '763', '775', '782', '768', '308', '363', '375', '382', '368', '719', '778', '786', '788',
-        '793', '319', '378', '386', '388', '393', '418', '431', '444', '459', '474', '492', '018', '031', '044', '059',
-        '074', '092', '405', '412', '446', '457', '479', '494', '005', '012', '046', '057', '079', '094', '421', '422',
-        '472', '477', '495', '021', '022', '072', '077', '095', '408', '463', '475', '482', '468', '008', '063', '075',
-        '082', '068', '419', '478', '486', '488', '493', '019', '078', '086', '088', '093']
+        '793', '319', '378', '386', '388', '393', '783', '713', '739', '771', '796', '383', '313', '339', '371', '396',
+        '418', '431', '444', '459', '474', '492', '018', '031', '044', '059', '074', '092', '405', '412', '446', '457',
+        '479', '494', '005', '012', '046', '057', '079', '094', '421', '422', '472', '477', '495', '021', '022', '072',
+        '077', '095', '408', '463', '475', '482', '468', '008', '063', '075', '082', '068', '419', '478', '486', '488',
+        '493', '019', '078', '086', '088', '093', '483', '413', '439', '471', '496', '083', '013', '039', '071', '096']
 
     def __init__(self, name, series):
         """
@@ -525,8 +592,9 @@ class ResearchProjectJp:
     SHIP_S3 = ['champagne', 'cheshire', 'drake', 'mainz', 'odin']
     SHIP_S4 = ['anchorage', 'hakuryu', 'agir', 'august', 'marcopolo']
     SHIP_S5 = ['plymouth', 'rupprecht', 'harbin', 'chkalov', 'brest']
-    SHIP_ALL = SHIP_S1 + SHIP_S2 + SHIP_S3 + SHIP_S4 + SHIP_S5
-    DR_SHIP = ['azuma', 'friedrich', 'drake', 'hakuryu', 'agir', 'plymouth', 'brest']
+    SHIP_S6 = ['kearsarge', 'hindenburg', 'shimanto', 'schultz', 'flandre']
+    SHIP_ALL = SHIP_S1 + SHIP_S2 + SHIP_S3 + SHIP_S4 + SHIP_S5 + SHIP_S6
+    DR_SHIP = ['azuma', 'friedrich', 'drake', 'hakuryu', 'agir', 'plymouth', 'brest', 'kearsarge', 'hindenburg']
 
     def __init__(self):
         self.valid = True
