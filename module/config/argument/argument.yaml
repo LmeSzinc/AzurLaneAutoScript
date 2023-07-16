@@ -352,9 +352,12 @@ Research:
     option: [ always_use, only_05_hour, only_no_project, do_not_use ]
   AllowDelay: true
   PresetFilter:
-    value: series_5_blueprint_152
+    value: series_6_blueprint_203
     option:
       - custom
+      - series_6_blueprint_203
+      - series_6_blueprint_only
+      - series_6_203_only
       - series_5_blueprint_152
       - series_5_blueprint_only
       - series_5_152_only

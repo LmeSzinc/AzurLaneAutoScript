@@ -4,6 +4,72 @@ DICT_FILTER_PRESET = {
     # Goal: DR_blurprint=0, PRY_blueprint=0, tanrai_blueprint=150
     # Average time cost: 153.41706666666678
     # Average rewards: [238.69016631 238.37881965 529.71190834 528.92520834 528.39586667 150.07973333]
+    'series_6_203_only_cube': """
+        S6-Q0.5 > S6-DR0.5 > S6-PRY0.5 > Q0.5 > S6-Q4 > S6-Q2 > S6-Q1 > 0.5
+        > S6-E-315 > S6-G1.5 > S6-G4 > Q1 > reset > S6-H1 > H1 > 1 > S6-E-031
+        > S6-DR2.5 > S6-PRY2.5 > S6-G2.5 > G1.5 > 1.5 > Q2 > E2 > S6-H2 > H2
+        > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S6-DR5 > S6-PRY5 > Q4 > G4
+        > S6-H4 > H4 > 4 > S6-C6 > DR5 > PRY5 > 5 > S6-DR8 > S6-PRY8 > S6-C8
+        > C6 > 6 > S6-C12 > DR8 > PRY8 > C8 > 8 > C12 > 12
+    """,
+    # Goal: DR_blurprint=0, PRY_blueprint=0, tanrai_blueprint=150
+    # Average time cost: 161.37177965277806
+    # Average rewards: [241.92774575 241.13046242 421.82134358 421.04494941 420.46893024 150.07799978]
+    'series_6_203_only': """
+        S6-Q0.5 > S6-PRY0.5 > S6-DR0.5 > Q0.5 > S6-Q4 > S6-Q2 > S6-Q1 > 0.5
+        > S6-E-315 > S6-G4 > S6-G1.5 > Q1 > 1 > S6-E-031 > S6-DR2.5 > reset
+        > S6-G2.5 > S6-PRY2.5 > G1.5 > 1.5 > Q2 > E2 > 2 > DR2.5 > PRY2.5
+        > G2.5 > 2.5 > S6-DR5 > S6-PRY5 > Q4 > G4 > 4 > S6-C6 > DR5 > PRY5
+        > 5 > S6-DR8 > S6-PRY8 > S6-C8 > C6 > 6 > DR8 > PRY8 > C8 > 8
+        > S6-C12 > C12 > 12
+    """,
+    # Goal: DR_blurprint=513, PRY_blueprint=343, tanrai_blueprint=100
+    # Average time cost: 124.67622465277958
+    # Average rewards: [531.93022864 529.81919864 510.27473326 510.18530159 510.11215826 100.8088164]
+    'series_6_blueprint_203_cube': """
+        S6-DR0.5 > S6-Q0.5 > S6-PRY0.5 > 0.5 > S6-DR2.5 > S6-Q1 > S6-Q2
+        > S6-H1 > S6-E-315 > S6-G1.5 > reset > S6-Q4 > S6-G4 > S6-H2 > Q1
+        > H1 > 1 > S6-G2.5 > S6-DR5 > S6-PRY2.5 > G1.5 > 1.5 > S6-E-031
+        > S6-DR8 > Q2 > E2 > H2 > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S6-H4
+        > S6-PRY5 > Q4 > G4 > H4 > 4 > S6-C6 > S6-PRY8 > DR5 > PRY5 > 5 > C6
+        > 6 > S6-C8 > DR8 > PRY8 > C8 > 8 > S6-C12 > C12 > 12
+    """,
+    # Goal: DR_blurprint=513, PRY_blueprint=343, tanrai_blueprint=100
+    # Average time cost: 143.56399131945145
+    # Average rewards: [520.06195858 519.19883191 392.86544828 392.64870495 392.49383995 102.2368499]
+    'series_6_blueprint_203': """
+        S6-DR0.5 > S6-PRY0.5 > S6-Q0.5 > S6-H0.5 > Q0.5 > S6-DR2.5
+        > S6-G1.5 > S6-Q1 > S6-DR5 > 0.5 > S6-G4 > S6-Q2 > S6-PRY2.5 > reset
+        > S6-DR8 > Q1 > 1 > S6-E-315 > S6-G2.5 > G1.5 > 1.5 > S6-E-031
+        > S6-Q4 > Q2 > E2 > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S6-PRY5
+        > S6-PRY8 > Q4 > G4 > 4 > S6-C6 > DR5 > PRY5 > 5 > C6 > 6 > S6-C8
+        > S6-C12 > DR8 > PRY8 > C8 > 8 > C12 > 12
+    """,
+    # Goal: DR_blurprint=513, PRY_blueprint=343, tanrai_blueprint=0
+    # Average time cost: 82.0121088194467
+    # Average rewards: [519.0311752  514.64003687 653.77171198 653.72126532 653.66129615 26.97694791]
+    'series_6_blueprint_only_cube': """
+        S6-DR0.5 > S6-PRY0.5 > S6-H0.5 > S6-H1 > S6-H2 > S6-DR2.5 > S6-DR5
+        > 0.5 > S6-DR8 > reset > S6-H4 > S6-Q1 > Q1 > H1 > 1 > S6-G1.5 > G1.5
+        > 1.5 > S6-G2.5 > S6-Q2 > S6-E-315 > S6-E-031 > Q2 > E2 > H2 > 2
+        > S6-PRY2.5 > S6-G4 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S6-Q4 > Q4 > G4
+        > H4 > 4 > S6-PRY5 > S6-PRY8 > S6-C6 > DR5 > PRY5 > 5 > C6 > 6
+        > S6-C8 > S6-C12 > DR8 > PRY8 > C8 > 8 > C12 > 12
+    """,
+    # Goal: DR_blurprint=513, PRY_blueprint=343, tanrai_blueprint=0
+    # Average time cost: 124.71616166666873
+    # Average rewards: [514.96354877 514.70099977 355.58865468 354.96831385 354.66888635 56.48432238]
+    'series_6_blueprint_only': """
+        S6-DR0.5 > S6-H0.5 > S6-PRY0.5 > S6-DR8 > S6-DR5 > S6-DR2.5
+        > S6-G1.5 > S6-PRY2.5 > 0.5 > S6-G2.5 > S6-G4 > reset > S6-Q1 > Q1
+        > 1 > S6-PRY5 > G1.5 > 1.5 > S6-Q2 > S6-E-031 > S6-E-315 > Q2 > E2
+        > 2 > S6-PRY8 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S6-Q4 > Q4 > G4 > 4
+        > S6-C6 > DR5 > PRY5 > 5 > C6 > 6 > S6-C8 > DR8 > PRY8 > C8 > 8
+        > S6-C12 > C12 > 12
+    """,
+    # Goal: DR_blurprint=0, PRY_blueprint=0, tanrai_blueprint=150
+    # Average time cost: 153.41706666666678
+    # Average rewards: [238.69016631 238.37881965 529.71190834 528.92520834 528.39586667 150.07973333]
     'series_5_152_only_cube': """
         S5-Q0.5 > S5-DR0.5 > S5-PRY0.5 > Q0.5 > S5-Q4 > S5-Q2 > S5-Q1 > 0.5
         > S5-E-315 > S5-G1.5 > S5-G4 > Q1 > reset > S5-H1 > H1 > 1 > S5-E-031

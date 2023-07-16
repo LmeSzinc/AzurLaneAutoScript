@@ -68,19 +68,21 @@ class GeneralShop(ShopClerk, ShopUI, ShopStatus):
                 logger.warning('Failed to handle fix currency bug in general shop, skip')
                 break
 
-            if self._currency == 0 and self.gems == 0:
-                logger.info('Game bugged, coins and gems disappeared, switch between shops to reset')
-                self.currency_rechecked += 1
-
-                # 2022.06.01 General shop no longer at an expected location
-                # NavBar 'get_active' (0 index-based) and swap with its left
-                # adjacent neighbor then back (NavBar 'set' is 1 index-based)
-                index = self._shop_bottom_navbar.get_active(self)
-                self.shop_bottom_navbar_ensure(left=index)
-                self.shop_bottom_navbar_ensure(left=index + 1)
-                continue
-            else:
-                break
+            # if self._currency == 0 and self.gems == 0:
+            #     logger.info('Game bugged, coins and gems disappeared, switch between shops to reset')
+            #     self.currency_rechecked += 1
+            #
+            #     # 2022.06.01 General shop no longer at an expected location
+            #     # NavBar 'get_active' (0 index-based) and swap with its left
+            #     # adjacent neighbor then back (NavBar 'set' is 1 index-based)
+            #     index = self._shop_bottom_navbar.get_active(self)
+            #     self.shop_bottom_navbar_ensure(left=index)
+            #     self.shop_bottom_navbar_ensure(left=index + 1)
+            #     continue
+            # else:
+            #     break
+            # 2023.07.13 Shop UI changed entirely, remove all these
+            break
 
         return self._currency
 
