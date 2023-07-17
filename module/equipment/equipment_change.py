@@ -118,7 +118,9 @@ class EquipmentChange(Equipment):
         logger.info('Equip equipment')
         button = Button(area=(), color=(), button=(point[0], point[1], point[0] + offset[0], point[1] + offset[1]),
                         name='EQUIPMENT')
+        self.device.sleep(1)
         self.ui_click(appear_button=EQUIPPING_OFF, click_button=button, check_button=EQUIP_CONFIRM)
+        self.device.sleep(1)
         logger.info('Equip confirm')
         self.ui_click(click_button=EQUIP_CONFIRM, check_button=SHIP_INFO_EQUIPMENT_CHECK)
 
@@ -141,7 +143,7 @@ class EquipmentChange(Equipment):
 
         for _ in range(0, 15):
             self._equipment_swipe()
-
+            self.device.sleep(1)
             if self.appear(EQUIP_CONFIRM, offset=(20, 20), interval=2):
                 self.device.click(BACK_ARROW)
                 continue
