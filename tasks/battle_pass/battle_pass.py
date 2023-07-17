@@ -10,7 +10,7 @@ from module.ocr.ocr import Digit, Duration
 from module.ui.switch import Switch
 from tasks.base.assets.assets_base_page import BATTLE_PASS_CHECK
 from tasks.base.assets.assets_base_popup import GET_REWARD
-from tasks.base.page import page_battle_pass
+from tasks.base.page import page_battle_pass, page_main
 from tasks.base.ui import UI
 from tasks.battle_pass.assets.assets_battle_pass import *
 from tasks.battle_pass.keywords import KEYWORD_BATTLE_PASS_TAB
@@ -171,7 +171,6 @@ class BattlePassUI(UI):
             self.device.screenshot()
             self.claim_battle_pass_rewards()
         """
-        self.ui_ensure(page_battle_pass)
         previous_level = self._get_battle_pass_level()
         if previous_level == self.MAX_LEVEL:
             return previous_level
@@ -183,6 +182,13 @@ class BattlePassUI(UI):
         return current_level
 
     def run(self):
+        self.ui_ensure(page_main)
+        if not self.appear(page_battle_pass.check_button):
+            logger.info('No battle pass entrance, probably a gap between two periods')
+            self.config.task_delay(server_update=True)
+            self.config.task_stop()
+
+        self.ui_goto(page_battle_pass)
         current_level = self.claim_battle_pass_rewards()
         if current_level == self.MAX_LEVEL:
             self.config.task_delay(target=self._get_battle_pass_end())
