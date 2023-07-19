@@ -8,7 +8,7 @@ from module.config.utils import get_server_next_update
 from module.logger.logger import logger
 from module.ocr.ocr import Digit, Duration
 from module.ui.switch import Switch
-from tasks.base.assets.assets_base_page import BATTLE_PASS_CHECK
+from tasks.base.assets.assets_base_page import BATTLE_PASS_CHECK, MAIN_GOTO_BATTLE_PASS
 from tasks.base.assets.assets_base_popup import GET_REWARD
 from tasks.base.page import page_battle_pass, page_main
 from tasks.base.ui import UI
@@ -183,7 +183,7 @@ class BattlePassUI(UI):
 
     def run(self):
         self.ui_ensure(page_main)
-        if not self.appear(page_battle_pass.check_button):
+        if not self.appear(MAIN_GOTO_BATTLE_PASS):
             logger.info('No battle pass entrance, probably a gap between two periods')
             self.config.task_delay(server_update=True)
             self.config.task_stop()
