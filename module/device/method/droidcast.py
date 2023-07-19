@@ -91,7 +91,7 @@ def retry(func):
 class DroidCast(Uiautomator2):
     """
     DroidCast, another screenshot method, https://github.com/rayworks/DroidCast
-    DroidCast_raw, a modified version of DroidCast sending raw bitmap https://github.com/Torther/DroidCastS
+    DroidCast_raw, a modified version of DroidCast sending raw bitmap and png, https://github.com/Torther/DroidCastS
     """
 
     _droidcast_port: int = 0
@@ -101,76 +101,31 @@ class DroidCast(Uiautomator2):
         session = requests.Session()
         session.trust_env = False  # Ignore proxy
         self._droidcast_port = self.adb_forward('tcp:53516')
-        self._droidcast_raw_port = self.adb_forward('tcp:53517')
         return session
 
-    def droidcast_url(self, url='/screenshot?format=png'):
-        """
-        Check APIs from source code:
-        https://github.com/rayworks/DroidCast/blob/master/app/src/main/java/com/rayworks/droidcast/Main.java
-
-        Available APIs:
-        - /screenshot
-            To get JPG screenshots.
-        - /screenshot?format=png
-            To get PNG screenshots.
-        - /screenshot?format=webp
-            To get WEBP screenshots.
-        - /src
-            Websocket to get JPG screenshots.
-
-        Note that /screenshot?format=jpg is unavailable.
-        """
+    """
+    Check APIs from source code:
+    https://github.com/Torther/DroidCast_raw/blob/DroidCast_raw/app/src/main/java/ink/mol/droidcast_raw/KtMain.kt
+    Available APIs:
+    - /screenshot
+        To get a RGB565 bitmap
+    - /preview
+        To get PNG screenshots.
+    """
+    def droidcast_url(self, url='/preview'):
         return f'http://127.0.0.1:{self._droidcast_port}{url}'
 
     def droidcast_raw_url(self, url='/screenshot'):
-        """
-        Check APIs from source code:
-        https://github.com/Torther/DroidCast_raw/blob/DroidCast_raw/app/src/main/java/ink/mol/droidcast_raw/KtMain.kt
+        return f'http://127.0.0.1:{self._droidcast_port}{url}'
 
-        Available APIs:
-        - /screenshot
-            To get a RGB565 bitmap
-        - /preview
-            To get PNG screenshots.
-        """
-        return f'http://127.0.0.1:{self._droidcast_raw_port}{url}'
-
-    @Config.when(DROIDCAST_VERSION='DroidCast')
     def droidcast_init(self):
-        logger.hr('Droidcast init')
+        logger.hr('DroidCast init')
         self.droidcast_stop()
 
         logger.info('Pushing DroidCast apk')
         self.adb_push(self.config.DROIDCAST_FILEPATH_LOCAL, self.config.DROIDCAST_FILEPATH_REMOTE)
 
         logger.info('Starting DroidCast apk')
-        # CLASSPATH=/data/local/tmp/DroidCast.apk app_process / com.rayworks.droidcast.Main > /dev/null
-        resp = self.u2_shell_background([
-            'CLASSPATH=/data/local/tmp/DroidCast.apk',
-            'app_process',
-            '/',
-            'com.rayworks.droidcast.Main',
-            '>',
-            '/dev/null'
-        ])
-        logger.info(resp)
-
-        del_cached_property(self, 'droidcast_session')
-        _ = self.droidcast_session
-        logger.attr('DroidCast', self.droidcast_url())
-        self.droidcast_wait_startup()
-
-    @Config.when(DROIDCAST_VERSION='DroidCast_raw')
-    def droidcast_init(self):
-        logger.hr('Droidcast_raw init')
-        self.resolution_check_uiautomator2()
-        self.droidcast_stop()
-
-        logger.info('Pushing DroidCast_raw apk')
-        self.adb_push(self.config.DROIDCAST_RAW_FILEPATH_LOCAL, self.config.DROIDCAST_RAW_FILEPATH_REMOTE)
-
-        logger.info('Starting DroidCast_raw apk')
         # DroidCast_raw-release-1.0.apk
         # CLASSPATH=/data/local/tmp/DroidCast_raw.apk app_process / ink.mol.droidcast_raw.Main > /dev/null
         # adb shell CLASSPATH=/data/local/tmp/DroidCast_raw.apk app_process / ink.mol.droidcast_raw.Main
@@ -179,16 +134,26 @@ class DroidCast(Uiautomator2):
             'app_process',
             '/',
             'ink.mol.droidcast_raw.Main',
-            '--port=53517',
             '>',
             '/dev/null'
         ])
         logger.info(resp)
-
         del_cached_property(self, 'droidcast_session')
         _ = self.droidcast_session
+
+    @Config.when(DROIDCAST_VERSION='DroidCast')
+    def droidcast_start(self):
+        self.droidcast_init()
+
+        logger.attr('DroidCast', self.droidcast_url())
+        self.droidcast_wait_startup()
+
+    @Config.when(DROIDCAST_VERSION='DroidCast_raw')
+    def droidcast_raw_start(self):
+        self.droidcast_init()
+
         logger.attr('DroidCast_raw', self.droidcast_raw_url())
-        self.droidcast_raw_wait_startup()
+        self.droidcast_wait_startup()
 
     @retry
     def screenshot_droidcast(self):
@@ -276,37 +241,14 @@ class DroidCast(Uiautomator2):
         logger.warning('Wait DroidCast startup timeout, assume started')
         return False
 
-    def droidcast_raw_wait_startup(self):
-            """
-            Wait until DroidCast_raw startup completed.
-            """
-            timeout = Timer(10).start()
-            while 1:
-                self.sleep(0.25)
-                if timeout.reached():
-                    break
-
-                try:
-                    resp = self.droidcast_session.get(self.droidcast_raw_url('/'), timeout=3)
-                    # Route `/` is unavailable, but 404 means startup completed
-                    if resp.status_code == 404:
-                        logger.attr('DroidCast_raw', 'online')
-                        return True
-                except requests.exceptions.ConnectionError:
-                    logger.attr('DroidCast_raw', 'offline')
-
-            logger.warning('Wait DroidCast_raw startup timeout, assume started')
-            return False
-
     def droidcast_uninstall(self):
         """
-        Stop all DroidCast processes and remove DroidCast APK.
-        DroidCast has't been installed but a JAVA class call, uninstall is a file delete.
+        Stop DroidCast processes and remove DroidCast APK.
+        DroidCast hasn't been installed but a JAVA class call, uninstall is a file delete.
         """
         self.droidcast_stop()
         logger.info('Removing DroidCast')
         self.adb_shell(["rm", self.config.DROIDCAST_FILEPATH_REMOTE])
-        self.adb_shell(["rm", self.config.DROIDCAST_RAW_FILEPATH_REMOTE])
 
     def _iter_droidcast_proc(self) -> t.Iterable[ProcessInfo]:
         """
@@ -314,14 +256,12 @@ class DroidCast(Uiautomator2):
         """
         processes = self.proc_list_uiautomator2()
         for proc in processes:
-            if 'com.rayworks.droidcast.Main' in proc.cmdline:
-                yield proc
-            if 'com.torther.droidcasts.Main' in proc.cmdline:
+            if 'ink.mol.droidcast_raw.Main' in proc.cmdline:
                 yield proc
 
     def droidcast_stop(self):
         """
-        Stop all DroidCast processes.
+        Stop DroidCast processes.
         """
         logger.info('Stopping DroidCast')
         for proc in self._iter_droidcast_proc():
