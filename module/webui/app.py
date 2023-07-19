@@ -622,10 +622,6 @@ class AlasGUI(Frame):
 
             value_time = group['Record']
             if value_time is None or value_time == datetime(2020, 1, 1, 0, 0, 0):
-                value_time = datetime(2020, 1, 1, 0, 0, 0)
-
-            # Handle time delta
-            if value_time == datetime(2020, 1, 1, 0, 0, 0):
                 value = 'None'
                 delta = '' + t('Gui.Overview.NoData')
             else:
