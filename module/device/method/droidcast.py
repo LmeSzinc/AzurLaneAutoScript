@@ -256,6 +256,10 @@ class DroidCast(Uiautomator2):
         """
         processes = self.proc_list_uiautomator2()
         for proc in processes:
+            if 'com.rayworks.droidcast.Main' in proc.cmdline:
+                yield proc
+            if 'com.torther.droidcasts.Main' in proc.cmdline:
+                yield proc
             if 'ink.mol.droidcast_raw.Main' in proc.cmdline:
                 yield proc
 
