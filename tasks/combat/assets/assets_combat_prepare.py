@@ -37,10 +37,10 @@ OCR_WAVE_COUNT = ButtonWrapper(
     name='OCR_WAVE_COUNT',
     share=Button(
         file='./assets/share/combat/prepare/OCR_WAVE_COUNT.png',
-        area=(911, 549, 1151, 581),
-        search=(891, 529, 1171, 601),
-        color=(27, 29, 32),
-        button=(911, 549, 1151, 581),
+        area=(911, 555, 1151, 581),
+        search=(891, 535, 1171, 601),
+        color=(32, 34, 37),
+        button=(911, 555, 1151, 581),
     ),
 )
 WAVE_MINUS = ButtonWrapper(

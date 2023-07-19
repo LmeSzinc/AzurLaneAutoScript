@@ -2,7 +2,7 @@ from module.base.timer import Timer
 from module.logger import logger
 from tasks.base.page import page_main
 from tasks.base.ui import UI
-from tasks.login.assets.assets_login import LOGIN_CONFIRM
+from tasks.login.assets.assets_login import LOGIN_CONFIRM, USER_AGREEMENT_ACCEPT
 
 
 class Login(UI):
@@ -37,6 +37,8 @@ class Login(UI):
 
             # Login
             if self.appear_then_click(LOGIN_CONFIRM):
+                continue
+            if self.appear_then_click(USER_AGREEMENT_ACCEPT):
                 continue
             # Additional
             if self.ui_additional():
