@@ -32,6 +32,10 @@ class CampaignBase(CampaignBase_):
             return 1
         if name == 'ex_sp':
             return 2
+        if name == 'ex_ex':
+            return 3
+        if name == 'tss':
+            return 3
 
         return super(CampaignBase, CampaignBase)._campaign_get_chapter_index(name)
 
@@ -46,6 +50,8 @@ class CampaignBase(CampaignBase_):
         """
         if 'sss' in name:
             return ['ex_sp', '1']
+        if 'ex' in name:
+            return ['ex_ex', '1']
 
         return super(CampaignBase, CampaignBase)._campaign_separate_name(name)
 
