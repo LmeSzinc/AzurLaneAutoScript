@@ -91,6 +91,12 @@ class DraggableStageList(DraggableList):
     def is_row_selected(self, button: OcrResultButton, main: ModuleBase) -> bool:
         return main.appear(ENTRANCE_CHECKED)
 
+    def load_rows(self, main: ModuleBase):
+        if not main.appear(FORGOTTEN_HALL_CHECK):
+            logger.info('Not in forgotten hall, skip load_rows()')
+            return
+        return super().load_rows(main=main)
+
 
 STAGE_LIST = DraggableStageList("ForgottenHallStageList", keyword_class=ForgottenHallStage,
                                 ocr_class=ForgottenHallStageOcr, search_button=OCR_STAGE,

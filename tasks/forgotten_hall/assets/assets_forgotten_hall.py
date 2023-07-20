@@ -37,10 +37,10 @@ ENTRANCE_CHECKED = ButtonWrapper(
     name='ENTRANCE_CHECKED',
     share=Button(
         file='./assets/share/forgotten_hall/ENTRANCE_CHECKED.png',
-        area=(62, 662, 80, 680),
-        search=(42, 642, 100, 700),
-        color=(160, 162, 162),
-        button=(62, 662, 80, 680),
+        area=(55, 632, 71, 650),
+        search=(35, 612, 91, 670),
+        color=(156, 156, 157),
+        button=(55, 632, 71, 650),
     ),
 )
 EXIT_CONFIRM = ButtonWrapper(
