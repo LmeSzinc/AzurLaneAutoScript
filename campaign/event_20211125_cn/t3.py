@@ -24,9 +24,9 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
+    90 90 90 50 50 50 50 50
+    90 90 90 50 50 50 50 50
+    90 90 90 90 50 50 50 50
 """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 3, 'siren': 2},
@@ -58,6 +58,10 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
+    MAP_SWIPE_MULTIPLY = (1.064, 1.084)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.029, 1.048)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.999, 1.017)
 
 
 class Campaign(CampaignBase):
