@@ -55,6 +55,35 @@ class ResearchSelector(ResearchUI):
                 self.wait_until_appear(RESEARCH_COST_CHECKER, offset=(20, 20), skip_first_screenshot=True)
                 break
 
+    def _research_jp_detect(self, skip_first_screenshot=True):
+        """
+        Wraps research_jp_detect() with error handling
+
+        Args:
+            skip_first_screenshot:
+
+        Returns:
+            ResearchProjectJp
+        """
+        timeout = Timer(2, count=6).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.info_bar_count():
+                logger.info('Handle info_bar')
+                timeout.reset()
+                continue
+
+            project = research_jp_detect(self.device.image)
+            if project.duration == '0':
+                logger.warning(f'Invalid research duration: {project}')
+                continue
+            else:
+                return project
+
     @Config.when(SERVER='jp')
     def research_detect(self):
         """
@@ -74,7 +103,7 @@ class ResearchSelector(ResearchUI):
             'image' is a null argument as described above.
             What we need here is the current screen 'self.device.image'.
             """
-            project = research_jp_detect(self.device.image)
+            project = self._research_jp_detect()
             logger.attr('Project', project)
             projects.append(project)
             self.research_detail_quit()
