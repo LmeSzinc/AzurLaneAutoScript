@@ -189,6 +189,21 @@ class CampaignRun(CampaignEvent):
             name = 'sp'
         if folder == 'event_20221124_cn' and name in ['asp', 'a.sp']:
             name = 'sp'
+        # Convert to chapter T
+        convert = {
+            'a1': 't1',
+            'a2': 't2',
+            'a3': 't3',
+            'a4': 't4',
+            'sp1': 't1',
+            'sp2': 't2',
+            'sp3': 't3',
+            'sp4': 't4',
+        }
+        if folder in [
+            'event_20211125_cn',
+        ]:
+            name = convert.get(name, name)
         # Convert between A/B/C/D and T/HT
         convert = {
             'a1': 't1',
@@ -208,6 +223,7 @@ class CampaignRun(CampaignEvent):
             'event_20200917_cn',
             'event_20221124_cn',
             'event_20230525_cn',
+            'event_20211125_cn',  # chapter T
         ]:
             name = convert.get(name, name)
         else:
