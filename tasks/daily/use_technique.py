@@ -1,3 +1,4 @@
+from module.base.timer import Timer
 from module.logger import logger
 from tasks.dungeon.keywords import KEYWORDS_DUNGEON_LIST
 from tasks.forgotten_hall.keywords import KEYWORDS_FORGOTTEN_HALL_STAGE
@@ -12,6 +13,15 @@ class UseTechniqueUI(MapControlJoystick, ForgottenHallUI):
         if count > remains:
             logger.warning(f"Try to use technique {count} times but only have {remains}")
             return
+
+        # Handle technique animation when it's being used
+        # INFO │ Click ( 900,  600) @ E_BUTTON
+        # INFO │ [TechniquePoints] 4
+        # INFO │ [TechniquePoints] 3
+        # INFO │ [TechniquePoints] 4
+        # INFO │ [TechniquePoints] 3
+        # INFO │ [TechniquePoints] 3
+        confirm = Timer(0.5, count=2).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -20,8 +30,12 @@ class UseTechniqueUI(MapControlJoystick, ForgottenHallUI):
 
             remains_after = self.map_get_technique_points()
             if remains - remains_after >= count:
-                logger.info(f"{remains - remains_after} techniques used")
-                break
+                if confirm.reached():
+                    logger.info(f"{remains - remains_after} techniques used")
+                    break
+            else:
+                confirm.reset()
+
             self.handle_map_E()
 
     def use_technique(self, count: int = 2, skip_first_screenshot=True):
