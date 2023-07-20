@@ -18,6 +18,7 @@ class GuildShop(ShopClerk, ShopUI, ShopStatus):
         """
         return self.config.GuildShop_Filter.strip()
 
+    @cached_property
     def shop_guild_items(self):
         """
         Returns:
