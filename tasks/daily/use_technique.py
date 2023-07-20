@@ -47,7 +47,3 @@ class UseTechniqueUI(MapControlJoystick, ForgottenHallUI):
         self._use_technique(count, skip_first_screenshot=skip_first_screenshot)
         self.exit_dungeon()
         self.ui_goto_main()
-if __name__ == '__main__':
-    self = UseTechniqueUI('alas')
-    self.device.screenshot()
-    self.use_technique(2)

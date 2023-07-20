@@ -7,10 +7,10 @@ DUNGEON_ENTER_CHECKED = ButtonWrapper(
     name='DUNGEON_ENTER_CHECKED',
     share=Button(
         file='./assets/share/forgotten_hall/DUNGEON_ENTER_CHECKED.png',
-        area=(26, 247, 40, 256),
-        search=(6, 227, 60, 276),
-        color=(175, 180, 183),
-        button=(26, 247, 40, 256),
+        area=(29, 242, 43, 251),
+        search=(9, 222, 63, 271),
+        color=(173, 173, 173),
+        button=(29, 242, 43, 251),
     ),
 )
 EFFECT_NOTIFICATION = ButtonWrapper(
