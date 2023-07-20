@@ -1489,6 +1489,7 @@
       "UseGems": false,
       "Refresh": false,
       "BuySkinBox": false,
+      "ConsumeCoins": false,
       "Filter": "BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2\n> Cube\n> FoodT6 > FoodT5"
     },
     "Storage": {

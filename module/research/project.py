@@ -5,7 +5,7 @@ from scipy import signal
 from module.base.decorator import cached_property
 from module.base.utils import *
 from module.logger import logger
-from module.ocr.ocr import Ocr
+from module.ocr.ocr import Ocr, Duration
 from module.research.assets import *
 from module.research.project_data import LIST_RESEARCH_PROJECT
 from module.statistics.utils import *
@@ -68,7 +68,7 @@ def get_research_series_old(image, series_button=RESEARCH_SERIES):
 
 
 def _get_research_series(img):
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img = rgb2luma(img)
     pos = img.shape[0] * 2 // 5
 
     img = img[pos - 4:pos + 5]
@@ -257,8 +257,8 @@ def get_research_duration_jp(image):
     Returns:
         duration (int): number of seconds
     """
-    ocr = Ocr(DURATION_DETAIL, alphabet='0123456789:')
-    duration = parse_time(ocr.ocr(image)).total_seconds()
+    ocr = Duration(DURATION_DETAIL)
+    duration = ocr.ocr(image).total_seconds()
     return duration
 
 
@@ -272,7 +272,7 @@ def get_research_genre_jp(image):
     """
     genre = ''
     for button in RESEARCH_DETAIL_GENRE:
-        if button.match(image, offset=10, threshold=0.9):
+        if button.match(image, offset=(30, 20), threshold=0.9):
             # DETAIL_GENRE_H_0.name.split("_")[2] == 'H'
             genre = button.name.split("_")[2]
             break
