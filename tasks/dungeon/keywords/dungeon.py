@@ -259,16 +259,8 @@ Simulated_Universe_World_6 = DungeonList(
     en='Simulated Universe — World 6',
     jp='第六世界・模擬宇宙',
 )
-The_Last_Vestiges_of_Towering_Citadel = DungeonList(
-    id=33,
-    name='The_Last_Vestiges_of_Towering_Citadel',
-    cn='永屹之城遗秘',
-    cht='永屹之城遺秘',
-    en='The Last Vestiges of Towering Citadel',
-    jp='永屹の城の秘密',
-)
 Favor_of_Amber_Forgotten_Hall = DungeonList(
-    id=34,
+    id=33,
     name='Favor_of_Amber_Forgotten_Hall',
     cn='琥珀恩赐•忘却之庭',
     cht='琥珀恩賜•忘卻之庭',
@@ -276,7 +268,7 @@ Favor_of_Amber_Forgotten_Hall = DungeonList(
     jp='琥珀の賜物・忘却の庭',
 )
 Frostscar_Reverie_Forgotten_Hall = DungeonList(
-    id=35,
+    id=34,
     name='Frostscar_Reverie_Forgotten_Hall',
     cn='霜痕旧梦•忘却之庭',
     cht='霜痕舊夢•忘卻之庭',
@@ -284,7 +276,7 @@ Frostscar_Reverie_Forgotten_Hall = DungeonList(
     jp='霜跡に旧夢・忘却の庭',
 )
 Everwinter_Trials_Forgotten_Hall = DungeonList(
-    id=36,
+    id=35,
     name='Everwinter_Trials_Forgotten_Hall',
     cn='永冬试炼•忘却之庭',
     cht='永冬試煉•忘卻之庭',
@@ -292,7 +284,7 @@ Everwinter_Trials_Forgotten_Hall = DungeonList(
     jp='常冬の試練・忘却の庭',
 )
 ColdironTribulation = DungeonList(
-    id=37,
+    id=36,
     name='ColdironTribulation',
     cn='寒铁砥砺•忘却之庭',
     cht='寒鐵砥礪•忘卻之庭',
@@ -300,7 +292,7 @@ ColdironTribulation = DungeonList(
     jp='寒鉄練磨・忘却の庭',
 )
 Hyperborean_Search_for_Warmth = DungeonList(
-    id=38,
+    id=37,
     name='Hyperborean_Search_for_Warmth',
     cn='蹈冰寻火•忘却之庭',
     cht='蹈冰尋火•忘卻之庭',
@@ -308,10 +300,18 @@ Hyperborean_Search_for_Warmth = DungeonList(
     jp='氷踏みて炎求む・忘却の庭',
 )
 Stormquell = DungeonList(
-    id=39,
+    id=38,
     name='Stormquell',
     cn='风暴止息•忘却之庭',
     cht='風暴止息•忘卻之庭',
     en='Stormquell',
     jp='止息せし嵐・忘却の庭',
+)
+The_Last_Vestiges_of_Towering_Citadel = DungeonList(
+    id=39,
+    name='The_Last_Vestiges_of_Towering_Citadel',
+    cn='永屹之城遗秘',
+    cht='永屹之城遺秘',
+    en='The Last Vestiges of Towering Citadel',
+    jp='永屹の城の秘密',
 )
