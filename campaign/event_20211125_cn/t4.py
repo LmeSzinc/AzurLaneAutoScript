@@ -7,7 +7,7 @@ from .t1 import Config as ConfigBase
 MAP = CampaignMap('T4')
 MAP.shape = 'K7'
 MAP.camera_data = ['D2', 'D5', 'H2', 'H5']
-MAP.camera_data_spawn_point = ['F5']
+MAP.camera_data_spawn_point = ['H5', 'D5']
 MAP.map_data = """
     ME -- ME ++ ++ -- ++ ++ ME -- ME
     ++ ME Me ++ -- MB -- ++ Me ME ++
@@ -29,7 +29,7 @@ MAP.weight_data = """
 MAP.fortress_data = [('C2', 'C6', 'I2', 'I6'), 'F3']
 MAP.map_covered = ['F2', 'I1']
 MAP.spawn_data = [
-    {'battle': 0, 'siren': 1},
+    {'battle': 0, 'enemy': 4, 'siren': 1},
     {'battle': 1, 'enemy': 1, 'siren': 1},
     {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
@@ -50,7 +50,7 @@ MAP.ignore_prediction(H3, enemy_scale=1, enemy_genre='Enemy')
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['GridmanCL', 'GridmanCA']
+    MAP_SIREN_TEMPLATE = ['zhongxun_gulite', 'zhanlie_gulite', 'hangmu_gulite']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
