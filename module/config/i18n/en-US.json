@@ -870,6 +870,7 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "event_20211125_cn": "World-spanning Arclight Rerun",
       "event_20220818_cn": "Operation Convergence",
       "raid_20230629": "Reflections of the Oasis",
       "event_20220428_cn": "Rondo at Rainbows End",
@@ -914,7 +915,6 @@
       "event_20220407_tw": "蒼紅的迴響(復刻)",
       "event_20220310_tw": "復刻斯圖爾特的硝煙",
       "event_20220210_cn": "Northern Overture Rerun",
-      "event_20211125_cn": "World-spanning Arclight",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
       "event_20210722_cn": "Azur Anthem",
       "event_20200723_cn": "Aurora Noctis",
@@ -1739,6 +1739,10 @@
     "BuySkinBox": {
       "name": "Buy Equip Skin Boxes",
       "help": "In order to reduce maintenance costs, the skin box selectors in the filter will not be updated with the game, but Alas will consider any unknown items with a quantity of 1 and consume 7000 coins as skin boxes and buy them."
+    },
+    "ConsumeCoins": {
+      "name": "Consume Spilled Coins",
+      "help": "Buy all items when the coins exceed 550000"
     },
     "Filter": {
       "name": "Item Filter",
