@@ -123,6 +123,20 @@ class DailyQuestUI(DungeonUI):
         return self.appear(ACTIVE_POINTS_5_CHECKED)
 
     def _get_active_point_reward(self, skip_first_screenshot=True):
+        def get_active():
+            for button in [
+                ACTIVE_POINTS_1_UNLOCK,
+                ACTIVE_POINTS_2_UNLOCK,
+                ACTIVE_POINTS_3_UNLOCK,
+                ACTIVE_POINTS_4_UNLOCK,
+                ACTIVE_POINTS_5_UNLOCK
+            ]:
+                # Black gift icon
+                if self.image_color_count(button, color=(61, 53, 53), threshold=221, count=100):
+                    return button
+            return None
+
+        interval = Timer(2)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -133,16 +147,10 @@ class DailyQuestUI(DungeonUI):
                 break
             if self.handle_reward():
                 continue
-            if self.appear_then_click(ACTIVE_POINTS_1_UNLOCK):
-                continue
-            if self.appear_then_click(ACTIVE_POINTS_2_UNLOCK):
-                continue
-            if self.appear_then_click(ACTIVE_POINTS_3_UNLOCK):
-                continue
-            if self.appear_then_click(ACTIVE_POINTS_4_UNLOCK):
-                continue
-            if self.appear_then_click(ACTIVE_POINTS_5_UNLOCK):
-                continue
+            if interval.reached():
+                if active := get_active():
+                    self.device.click(active)
+                    interval.reset()
 
     def get_daily_rewards(self):
         """
