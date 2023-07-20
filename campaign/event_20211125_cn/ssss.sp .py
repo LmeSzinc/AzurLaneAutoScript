@@ -2,21 +2,20 @@ from .campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from .t1 import Config as ConfigBase
 
-MAP = CampaignMap('T2')
+MAP = CampaignMap('SSSS.SP ')
 MAP.shape = 'H8'
 MAP.camera_data = ['D2', 'D6', 'E2', 'E6']
 MAP.camera_data_spawn_point = ['E6']
 MAP.map_data = """
-    -- MB -- -- -- ++ -- ME
-    Me -- -- ME -- -- -- --
-    ME -- ++ ++ Me -- ME ME
-    -- ME ++ ++ -- -- ++ --
-    -- -- -- MS __ -- ++ Me
-    ME -- ME -- ME -- -- MS
-    -- ++ ++ -- -- -- ME --
-    -- ME Me -- SP SP ++ ++
+    ++ MB -- ++ ++ -- Me --
+    ++ -- -- -- Me -- -- --
+    ME ++ MS __ -- -- ++ ++
+    -- -- -- ++ ++ MS -- ME
+    Me -- MS ++ ++ -- -- --
+    ++ ++ -- -- __ MS ++ ME
+    -- -- -- Me -- -- -- ++
+    -- Me -- ++ ++ SP SP ++
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50
@@ -29,11 +28,14 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 3, 'siren': 1},
-    {'battle': 1, 'enemy': 2},
+    {'battle': 0, 'siren': 2},
+    {'battle': 1, 'enemy': 1, 'siren': 2},
     {'battle': 2, 'enemy': 1},
-    {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'boss': 1},
+    {'battle': 3, 'enemy': 2},
+    {'battle': 4},
+    {'battle': 5},
+    {'battle': 6},
+    {'battle': 7, 'boss': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, \
 A2, B2, C2, D2, E2, F2, G2, H2, \
@@ -46,16 +48,19 @@ A8, B8, C8, D8, E8, F8, G8, H8, \
     = MAP.flatten()
 
 
-class Config(ConfigBase):
+class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['qingxun_gulite']
+    MAP_SIREN_TEMPLATE = ['zhongxun_gulite', 'zhanlie_gulite', 'hangmu_gulite']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
-    MAP_HAS_MAP_STORY = True
+    MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
+    STAR_REQUIRE_1 = 0
+    STAR_REQUIRE_2 = 0
+    STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
 
@@ -66,10 +71,18 @@ class Campaign(CampaignBase):
     def battle_0(self):
         if self.clear_siren():
             return True
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=2):
+            return True
+
+        return self.battle_default()
+
+    def battle_5(self):
+        if self.clear_siren():
+            return True
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
         return self.battle_default()
 
-    def battle_4(self):
-        return self.clear_boss()
+    def battle_7(self):
+        return self.fleet_boss.clear_boss()

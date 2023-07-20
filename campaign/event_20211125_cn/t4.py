@@ -1,14 +1,13 @@
-from module.logger import logger
-from module.map.map_base import CampaignMap
-from module.map.map_grids import RoadGrids, SelectedGrids
-
 from .campaign_base import CampaignBase
+from module.map.map_base import CampaignMap
+from module.map.map_grids import SelectedGrids, RoadGrids
+from module.logger import logger
 from .t1 import Config as ConfigBase
 
 MAP = CampaignMap('T4')
 MAP.shape = 'K7'
 MAP.camera_data = ['D2', 'D5', 'H2', 'H5']
-MAP.camera_data_spawn_point = ['F5']
+MAP.camera_data_spawn_point = ['H5', 'D5']
 MAP.map_data = """
     ME -- ME ++ ++ -- ++ ++ ME -- ME
     ++ ME Me ++ -- MB -- ++ Me ME ++
@@ -27,10 +26,8 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
 """
-MAP.fortress_data = [('C2', 'C6', 'I2', 'I6'), 'F3']
-MAP.map_covered = ['F2', 'I1']
 MAP.spawn_data = [
-    {'battle': 0, 'siren': 1},
+    {'battle': 0, 'enemy': 4, 'siren': 1},
     {'battle': 1, 'enemy': 1, 'siren': 1},
     {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
@@ -46,12 +43,10 @@ A6, B6, C6, D6, E6, F6, G6, H6, I6, J6, K6, \
 A7, B7, C7, D7, E7, F7, G7, H7, I7, J7, K7, \
     = MAP.flatten()
 
-MAP.ignore_prediction(H3, enemy_scale=1, enemy_genre='Enemy')
-
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['GridmanCL', 'GridmanCA']
+    MAP_SIREN_TEMPLATE = ['zhongxun_gulite', 'zhanlie_gulite', 'hangmu_gulite']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -60,12 +55,6 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
-
-    # MAP_ENSURE_EDGE_INSIGHT_CORNER = 'upper'
-    MAP_HAS_FORTRESS = True
-    MAP_SWIPE_MULTIPLY = (1.050, 1.070)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.016, 1.034)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.986, 1.004)
 
 
 class Campaign(CampaignBase):
@@ -81,27 +70,4 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_5(self):
-        if not self.map_is_clear_mode:
-            if self.clear_siren():
-                return True
-
         return self.fleet_boss.clear_boss()
-
-    def catch_camera_repositioning(self, destination):
-        if super().catch_camera_repositioning(destination):
-            return True
-        if not self.map_is_clear_mode and destination.is_fortress:
-            logger.info('Catch camera re-positioning after fortress cleared')
-            # Poor implementation to wait camera move
-            self.device.sleep(3)
-            return True
-        return False
-
-    def map_data_init(self, map_):
-        # Clear mode still has fortress
-        self.config.MAP_HAS_FORTRESS = True
-        super().map_data_init(map_)
-
-    def handle_clear_mode_config_cover(self):
-        # Preserve fortress data, but release fortress block
-        self.map.fortress_data = [self.map.fortress_data[0], ()]
