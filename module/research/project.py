@@ -272,7 +272,7 @@ def get_research_genre_jp(image):
     """
     genre = ''
     for button in RESEARCH_DETAIL_GENRE:
-        if button.match(image, offset=10, threshold=0.9):
+        if button.match(image, offset=(30, 20), threshold=0.9):
             # DETAIL_GENRE_H_0.name.split("_")[2] == 'H'
             genre = button.name.split("_")[2]
             break
