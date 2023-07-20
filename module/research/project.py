@@ -68,7 +68,7 @@ def get_research_series_old(image, series_button=RESEARCH_SERIES):
 
 
 def _get_research_series(img):
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img = rgb2luma(img)
     pos = img.shape[0] * 2 // 5
 
     img = img[pos - 4:pos + 5]
