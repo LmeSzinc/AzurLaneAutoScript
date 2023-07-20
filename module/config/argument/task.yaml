@@ -339,3 +339,5 @@ Tool:
       - GameManager
       - GGHandler
       - PowerLimit
+    SomethingSpecial:
+      - InfiniteDelay

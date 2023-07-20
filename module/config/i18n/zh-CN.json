@@ -261,6 +261,10 @@
     "GameManager": {
       "name": "游戏管理器(未完成)",
       "help": ""
+    },
+    "SomethingSpecial": {
+      "name": "特别的东西",
+      "help": ""
     }
   },
   "Scheduler": {
@@ -2484,6 +2488,24 @@
     },
     "Ash": {
       "name": "余烬信标",
+      "help": ""
+    }
+  },
+  "InfiniteDelay": {
+    "_info": {
+      "name": "无限推迟",
+      "help": "开启后会无限推迟任务，就像这个任务没有开启过一样\n用于某些强制开启的任务"
+    },
+    "Commission": {
+      "name": "委托",
+      "help": ""
+    },
+    "Research": {
+      "name": "科研",
+      "help": ""
+    },
+    "Reward": {
+      "name": "收获",
       "help": ""
     }
   },

@@ -571,7 +571,16 @@ class AzurLaneAutoScript:
             self.device.stuck_record_clear()
             self.device.click_record_clear()
             logger.hr(task, level=0)
-            success = self.run(inflection.underscore(task))
+            success = True
+            if task in ["Research", "Reward", "Commission"]:
+                InfiniteDelay = deep_get(self.config.data, f"SomethingSpecial.InfiniteDelay.{task}")
+                if InfiniteDelay:
+                    logger.warning(f"Task '{task}' infinite delay: {InfiniteDelay}")
+                    self.config.task_delay(target=datetime.now() + timedelta(hours=6, seconds=-1), task=task)
+                else:
+                    success = self.run(inflection.underscore(task))
+            else:
+                success = self.run(inflection.underscore(task))
             logger.info(f'Scheduler: End task `{task}`')
             self.is_first_task = False
 

@@ -261,6 +261,10 @@
     "GameManager": {
       "name": "Game Manager(WIP)",
       "help": ""
+    },
+    "SomethingSpecial": {
+      "name": "Task.SomethingSpecial.name",
+      "help": "Task.SomethingSpecial.help"
     }
   },
   "Scheduler": {
@@ -2485,6 +2489,24 @@
     "Ash": {
       "name": "PowerLimit.Ash.name",
       "help": "PowerLimit.Ash.help"
+    }
+  },
+  "InfiniteDelay": {
+    "_info": {
+      "name": "InfiniteDelay._info.name",
+      "help": "InfiniteDelay._info.help"
+    },
+    "Commission": {
+      "name": "InfiniteDelay.Commission.name",
+      "help": "InfiniteDelay.Commission.help"
+    },
+    "Research": {
+      "name": "InfiniteDelay.Research.name",
+      "help": "InfiniteDelay.Research.help"
+    },
+    "Reward": {
+      "name": "InfiniteDelay.Reward.name",
+      "help": "InfiniteDelay.Reward.help"
     }
   },
   "Oil": {

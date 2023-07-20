@@ -712,6 +712,15 @@ PowerLimit:
   Raid: 16500
   Ash: 16500
 
+InfiniteDelay:
+  Commission:
+    value: false
+  Research:
+    value: false
+  Reward:
+    value: false
+
+
 # ==================== Dashboard ====================
 Oil:
   Value: 0

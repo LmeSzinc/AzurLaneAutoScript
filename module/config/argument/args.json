@@ -9554,5 +9554,21 @@
         "display": "disabled"
       }
     }
+  },
+  "SomethingSpecial": {
+    "InfiniteDelay": {
+      "Commission": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Research": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Reward": {
+        "type": "checkbox",
+        "value": false
+      }
+    }
   }
 }

@@ -447,6 +447,11 @@ class GeneratedConfig:
     PowerLimit_Raid = 16500
     PowerLimit_Ash = 16500
 
+    # Group `InfiniteDelay`
+    InfiniteDelay_Commission = False
+    InfiniteDelay_Research = False
+    InfiniteDelay_Reward = False
+
     # Group `Oil`
     Oil_Value = 0
     Oil_Limit = 0
