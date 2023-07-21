@@ -199,8 +199,10 @@ class CampaignMap:
     @fortress_data.setter
     def fortress_data(self, data):
         enemy, block = data
-        enemy = self.to_selected((enemy,) if not isinstance(enemy, (tuple, list)) else enemy)
-        block = self.to_selected((block,) if not isinstance(block, (tuple, list)) else block)
+        if not isinstance(enemy, SelectedGrids):
+            enemy = self.to_selected((enemy,) if not isinstance(enemy, (tuple, list)) else enemy)
+        if not isinstance(block, SelectedGrids):
+            block = self.to_selected((block,) if not isinstance(block, (tuple, list)) else block)
         self._fortress_data = [enemy, block]
 
     def _load_fortress_data(self, data):

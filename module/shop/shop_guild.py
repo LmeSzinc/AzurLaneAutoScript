@@ -1,4 +1,4 @@
-from module.base.decorator import Config, cached_property
+from module.base.decorator import cached_property
 from module.logger import logger
 from module.shop.assets import *
 from module.shop.base import ShopItemGrid
@@ -8,7 +8,7 @@ from module.shop.ui import ShopUI
 
 
 class GuildShop(ShopClerk, ShopUI, ShopStatus):
-    shop_template_folder = './assets/shop/guild_cn'
+    shop_template_folder = './assets/shop/guild'
 
     @cached_property
     def shop_filter(self):
@@ -19,49 +19,6 @@ class GuildShop(ShopClerk, ShopUI, ShopStatus):
         return self.config.GuildShop_Filter.strip()
 
     @cached_property
-    @Config.when(SERVER='cn')
-    def shop_guild_items(self):
-        """
-        Returns:
-            ShopItemGrid:
-        """
-        shop_grid = self.shop_grid
-        shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        self.shop_template_folder = './assets/shop/guild_cn'
-        shop_guild_items.load_template_folder(self.shop_template_folder)
-        shop_guild_items.load_cost_template_folder('./assets/shop/cost')
-        return shop_guild_items
-
-    @cached_property
-    @Config.when(SERVER='jp')
-    def shop_guild_items(self):
-        """
-        Returns:
-            ShopItemGrid:
-        """
-        shop_grid = self.shop_grid
-        shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        self.shop_template_folder = './assets/shop/guild_cn'
-        shop_guild_items.load_template_folder(self.shop_template_folder)
-        shop_guild_items.load_cost_template_folder('./assets/shop/cost')
-        return shop_guild_items
-
-    @cached_property
-    @Config.when(SERVER='tw')
-    def shop_guild_items(self):
-        """
-        Returns:
-            ShopItemGrid:
-        """
-        shop_grid = self.shop_grid
-        shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        self.shop_template_folder = './assets/shop/guild_cn'
-        shop_guild_items.load_template_folder(self.shop_template_folder)
-        shop_guild_items.load_cost_template_folder('./assets/shop/cost')
-        return shop_guild_items
-
-    @cached_property
-    @Config.when(SERVER=None)
     def shop_guild_items(self):
         """
         Returns:
