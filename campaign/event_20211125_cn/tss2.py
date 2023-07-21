@@ -44,6 +44,7 @@ class Config(ConfigBase):
     STAR_REQUIRE_2 = 0
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
+    MAP_IS_ONE_TIME_STAGE = True
 
 
 class Campaign(CampaignBase):
