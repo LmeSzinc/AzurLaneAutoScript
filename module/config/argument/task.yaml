@@ -341,3 +341,4 @@ Tool:
       - PowerLimit
     SomethingSpecial:
       - InfiniteDelay
+      - TurnOffForcedOnSettings

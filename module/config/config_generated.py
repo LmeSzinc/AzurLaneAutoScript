@@ -453,6 +453,9 @@ class GeneratedConfig:
     InfiniteDelay_Research = False
     InfiniteDelay_Reward = False
 
+    # Group `TurnOffForcedOnSettings`
+    TurnOffForcedOnSettings_OpsiMeowfficerFarmingFromOpsiHazard1Leveling = False
+
     # Group `Oil`
     Oil_Value = 0
     Oil_Limit = 0

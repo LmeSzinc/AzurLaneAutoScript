@@ -2017,7 +2017,7 @@
       "Record": "2020-01-01 00:00:00"
     },
     "Storage": {
-        "Storage": {}
+      "Storage": {}
     }
   },
   "SomethingSpecial": {
@@ -2025,6 +2025,12 @@
       "Commission": false,
       "Research": false,
       "Reward": false
+    },
+    "TurnOffForcedOnSettings": {
+      "OpsiMeowfficerFarmingFromOpsiHazard1Leveling": false
+    },
+    "Storage": {
+      "Storage": {}
     }
   }
 }

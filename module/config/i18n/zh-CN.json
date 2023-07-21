@@ -2513,6 +2513,16 @@
       "help": ""
     }
   },
+  "TurnOffForcedOnSettings": {
+    "_info": {
+      "name": "关闭强制开启的项目",
+      "help": "不一定有用"
+    },
+    "OpsiMeowfficerFarmingFromOpsiHazard1Leveling": {
+      "name": "71自动开启的短猫",
+      "help": ""
+    }
+  },
   "Oil": {
     "_info": {
       "name": "Oil._info.name",

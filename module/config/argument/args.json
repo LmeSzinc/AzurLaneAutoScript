@@ -2798,6 +2798,13 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "event_20211125_cn",
+          "event_20220818_cn",
+          "event_20220428_cn",
+          "event_20210527_cn",
+          "event_20200603_cn",
+          "event_20230525_cn",
+          "event_20220526_cn",
           "event_20201126_cn",
           "event_20210819_cn",
           "event_20211111_cn",
@@ -2817,7 +2824,6 @@
           "event_20220915_cn",
           "event_20210916_cn",
           "event_20200903_en",
-          "event_20220818_cn",
           "event_20220324_cn",
           "event_20211028_cn",
           "event_20220728_cn",
@@ -2825,15 +2831,10 @@
           "event_20201029_cn",
           "event_20200820_cn",
           "event_20201012_cn",
-          "event_20210527_cn",
-          "event_20220526_cn",
-          "event_20220428_cn",
           "event_20220414_cn",
           "event_20220407_tw",
           "event_20220310_tw",
-          "event_20200603_cn",
           "event_20220210_cn",
-          "event_20211125_cn",
           "event_20211028_tw",
           "event_20210722_cn",
           "event_20200723_cn",
@@ -2855,10 +2856,10 @@
           "event_20200227_cn"
         ],
         "display": "disabled",
-        "cn": "event_20201126_cn",
-        "en": "event_20201126_cn",
-        "jp": "event_20201126_cn",
-        "tw": "event_20210819_cn"
+        "cn": "event_20211125_cn",
+        "en": "event_20211125_cn",
+        "jp": "event_20211125_cn",
+        "tw": "event_20220818_cn"
       },
       "Mode": {
         "type": "select",
@@ -9572,6 +9573,20 @@
       "Reward": {
         "type": "checkbox",
         "value": false
+      }
+    },
+    "TurnOffForcedOnSettings": {
+      "OpsiMeowfficerFarmingFromOpsiHazard1Leveling": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
       }
     }
   }

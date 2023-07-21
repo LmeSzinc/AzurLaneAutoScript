@@ -2513,6 +2513,16 @@
       "help": "InfiniteDelay.Reward.help"
     }
   },
+  "TurnOffForcedOnSettings": {
+    "_info": {
+      "name": "TurnOffForcedOnSettings._info.name",
+      "help": "TurnOffForcedOnSettings._info.help"
+    },
+    "OpsiMeowfficerFarmingFromOpsiHazard1Leveling": {
+      "name": "TurnOffForcedOnSettings.OpsiMeowfficerFarmingFromOpsiHazard1Leveling.name",
+      "help": "TurnOffForcedOnSettings.OpsiMeowfficerFarmingFromOpsiHazard1Leveling.help"
+    }
+  },
   "Oil": {
     "_info": {
       "name": "Oil._info.name",

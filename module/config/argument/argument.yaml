@@ -720,6 +720,9 @@ InfiniteDelay:
     value: false
   Reward:
     value: false
+TurnOffForcedOnSettings:
+  OpsiMeowfficerFarmingFromOpsiHazard1Leveling:
+    value: false
 
 
 # ==================== Dashboard ====================
