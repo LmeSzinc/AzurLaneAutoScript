@@ -35,7 +35,7 @@ class CampaignBase(CampaignBase_):
         if name == 'ex_ex':
             return 3
         if name == 'tss':
-            return 3
+            return 4
 
         return super(CampaignBase, CampaignBase)._campaign_get_chapter_index(name)
 
