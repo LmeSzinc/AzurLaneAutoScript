@@ -261,7 +261,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         self.bind(self.task)
         self.save()
 
-    def config_override(self):
+    def override(self, **kwargs):
         now = datetime.now().replace(microsecond=0)
         limited = set()
 
@@ -295,7 +295,6 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         limit_next_run(["OpsiArchive"], limit=now + timedelta(days=7, seconds=-1))
         limit_next_run(self.args.keys(), limit=now + timedelta(hours=24, seconds=-1))
 
-    def override(self, **kwargs):
         """
         Override anything you want.
         Variables stall remain overridden even config is reloaded from yaml file.
@@ -304,6 +303,8 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         for arg, value in kwargs.items():
             self.overridden[arg] = value
             super().__setattr__(arg, value)
+
+    config_override = override
 
     def set_record(self, **kwargs):
         """
