@@ -2521,6 +2521,10 @@
     "OpsiMeowfficerFarmingFromOpsiHazard1Leveling": {
       "name": "71自动开启的短猫",
       "help": ""
+    },
+    "OpsiHazard1LevelingYellowCoinLimit": {
+      "name": "71黄币限制",
+      "help": ""
     }
   },
   "Oil": {

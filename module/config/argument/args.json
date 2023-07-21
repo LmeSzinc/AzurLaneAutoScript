@@ -9579,6 +9579,10 @@
       "OpsiMeowfficerFarmingFromOpsiHazard1Leveling": {
         "type": "checkbox",
         "value": false
+      },
+      "OpsiHazard1LevelingYellowCoinLimit": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Storage": {

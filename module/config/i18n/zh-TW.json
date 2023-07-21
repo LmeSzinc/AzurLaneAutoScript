@@ -2521,6 +2521,10 @@
     "OpsiMeowfficerFarmingFromOpsiHazard1Leveling": {
       "name": "TurnOffForcedOnSettings.OpsiMeowfficerFarmingFromOpsiHazard1Leveling.name",
       "help": "TurnOffForcedOnSettings.OpsiMeowfficerFarmingFromOpsiHazard1Leveling.help"
+    },
+    "OpsiHazard1LevelingYellowCoinLimit": {
+      "name": "TurnOffForcedOnSettings.OpsiHazard1LevelingYellowCoinLimit.name",
+      "help": "TurnOffForcedOnSettings.OpsiHazard1LevelingYellowCoinLimit.help"
     }
   },
   "Oil": {

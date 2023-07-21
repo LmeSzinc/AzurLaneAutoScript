@@ -723,6 +723,8 @@ InfiniteDelay:
 TurnOffForcedOnSettings:
   OpsiMeowfficerFarmingFromOpsiHazard1Leveling:
     value: false
+  OpsiHazard1LevelingYellowCoinLimit:
+    value: false
 
 
 # ==================== Dashboard ====================

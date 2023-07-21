@@ -455,6 +455,7 @@ class GeneratedConfig:
 
     # Group `TurnOffForcedOnSettings`
     TurnOffForcedOnSettings_OpsiMeowfficerFarmingFromOpsiHazard1Leveling = False
+    TurnOffForcedOnSettings_OpsiHazard1LevelingYellowCoinLimit = False
 
     # Group `Oil`
     Oil_Value = 0

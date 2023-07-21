@@ -406,14 +406,18 @@ class OperationSiren(OSMap):
                 self.config.OS_ACTION_POINT_PRESERVE = 0
             logger.attr('OS_ACTION_POINT_PRESERVE', self.config.OS_ACTION_POINT_PRESERVE)
 
-            if self.get_yellow_coins() < self.config.OS_CL1_YELLOW_COINS_PRESERVE:
-                logger.info(f'Reach the limit of yellow coins, preserve={self.config.OS_CL1_YELLOW_COINS_PRESERVE}')
-                with self.config.multi_set():
-                    self.config.task_delay(server_update=True)
-                    if not self.is_in_opsi_explore():
-                        if not IsDisableOpsiMeowfficerFarming:
-                            self.config.task_call('OpsiMeowfficerFarming')
-                self.config.task_stop()
+            IsDisableOpsiHazard1LevelingYellowCoinLimit = deep_get(self.config.data, "SomethingSpecial.TurnOffForcedOnSettings.OpsiHazard1LevelingYellowCoinLimit")
+            if not IsDisableOpsiHazard1LevelingYellowCoinLimit:
+                if self.get_yellow_coins() < self.config.OS_CL1_YELLOW_COINS_PRESERVE:
+                    logger.info(f'Reach the limit of yellow coins, preserve={self.config.OS_CL1_YELLOW_COINS_PRESERVE}')
+                    with self.config.multi_set():
+                        self.config.task_delay(server_update=True)
+                        if not self.is_in_opsi_explore():
+                            if not IsDisableOpsiMeowfficerFarming:
+                                self.config.task_call('OpsiMeowfficerFarming')
+                    self.config.task_stop()
+            else:
+                logger.warning(f"Disable OpsiHazard1Leveling yellow coin limit : {IsDisableOpsiHazard1LevelingYellowCoinLimit}")
 
             self.get_current_zone()
 
