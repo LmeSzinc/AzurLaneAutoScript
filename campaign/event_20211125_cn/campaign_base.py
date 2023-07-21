@@ -1,14 +1,17 @@
 from module.base.mask import Mask
+from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.map_detection.utils_assets import ASSETS
 
-# Patch ui_mask, get rid of map mechanism
-_ = ASSETS.ui_mask
-ASSETS.ui_mask = Mask(file='./assets/mask/MASK_MAP_UI_20211125.png').image
-
-from module.campaign.campaign_base import CampaignBase as CampaignBase_
+MASK_MAP_UI_20211125 = Mask(file='./assets/mask/MASK_MAP_UI_20211125.png')
 
 
 class CampaignBase(CampaignBase_):
+    def map_data_init(self, map_):
+        super().map_data_init(map_)
+        # Patch ui_mask, get rid of map mechanism
+        _ = ASSETS.ui_mask
+        ASSETS.ui_mask = MASK_MAP_UI_20211125.image
+
     def campaign_ensure_mode(self, mode='normal'):
         """
         Args:
