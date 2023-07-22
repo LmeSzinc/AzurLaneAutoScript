@@ -360,6 +360,11 @@ WarArchives:
   Campaign:
     Mode: normal
     AmbushEvade: true
+SmallGame:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
 
 # ==================== Opsi ====================
 

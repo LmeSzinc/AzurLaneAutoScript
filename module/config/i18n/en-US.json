@@ -182,6 +182,10 @@
       "name": "Freebies",
       "help": ""
     },
+    "SmallGame": {
+      "name": "Task.SmallGame.name",
+      "help": "Task.SmallGame.help"
+    },
     "OpsiGeneral": {
       "name": "OpSi General",
       "help": ""
@@ -2116,6 +2120,16 @@
       "8": "8",
       "9": "9",
       "10": "10"
+    }
+  },
+  "SmallGame": {
+    "_info": {
+      "name": "SmallGame._info.name",
+      "help": "SmallGame._info.help"
+    },
+    "Buy": {
+      "name": "SmallGame.Buy.name",
+      "help": "SmallGame.Buy.help"
     }
   },
   "OpsiAshAssist": {

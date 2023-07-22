@@ -262,6 +262,9 @@ DailyMission:
       - DataKey
       - Mail
       - SupplyPack
+    SmallGame:
+      - Scheduler
+      - SmallGame
 
 # ==================== Opsi ====================
 

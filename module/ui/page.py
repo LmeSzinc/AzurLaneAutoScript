@@ -243,3 +243,8 @@ page_supply_pack.link(button=GOTO_MAIN, destination=page_main)
 page_build = Page(BUILD_CHECK)
 page_main.link(button=MAIN_GOTO_BUILD, destination=page_build)
 page_build.link(button=GOTO_MAIN, destination=page_main)
+
+# Game Room
+page_game_room = Page(GAME_ROOM_CHECK)
+page_academy.link(button=ACADEMY_GOTO_GAME_ROOM, destination=page_game_room)
+page_game_room.link(button=GAME_ROOM_TO_MAIN, destination=page_main)

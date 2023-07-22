@@ -182,6 +182,10 @@
       "name": "白嫖奖励",
       "help": ""
     },
+    "SmallGame": {
+      "name": "小游戏",
+      "help": ""
+    },
     "OpsiGeneral": {
       "name": "通用设置",
       "help": ""
@@ -2116,6 +2120,16 @@
       "8": "8",
       "9": "9",
       "10": "10"
+    }
+  },
+  "SmallGame": {
+    "_info": {
+      "name": "小游戏",
+      "help": ""
+    },
+    "Buy": {
+      "name": "每天买多少游戏币",
+      "help": ""
     }
   },
   "OpsiAshAssist": {
