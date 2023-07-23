@@ -4,6 +4,7 @@ from module.ocr.ocr import Digit
 from module.ui.page import page_main, page_game_room
 from module.ui.ui import UI
 from module.small_game.assets import *
+from module.config.utils import deep_set
 
 MAX_GAME_COIN = 40
 LIMIT = 10000
@@ -79,7 +80,6 @@ class SmallGame(UI):
         self.ui_ensure(page_game_room)
         Coin = self.GetGameCoin()
         BuyCoin = self.config.SmallGame_Buy
-        key = "SmallGame.Scheduler.NextRun"
         if self.SelectGame():
             for _ in range(self.CalculatePlayTime(Coin)):
                 if not self.PlayGame():
@@ -89,16 +89,17 @@ class SmallGame(UI):
                     return
             self.GotoGameRoom()
             if BuyCoin:
-                while True:
-                    self.BuyGameCoin(MAX_GAME_COIN)
-                    self.SelectGame()
-                    for _ in range(self.CalculatePlayTime(MAX_GAME_COIN)):
-                        if not self.PlayGame():
-                            self.GotoGameRoom()
-                            self.ui_goto(page_main)
-                            self.config.task_delay(target=get_first_day_of_next_week())
-                            return
-                    self.GotoGameRoom()
+                if self.config.SmallGame_Count > MAX_GAME_COIN:
+                    deep_set(self.config.data, "SmallGame.SmallGame.Count", MAX_GAME_COIN)
+                self.BuyGameCoin(self.config.SmallGame_Count)
+                self.SelectGame()
+                for _ in range(self.CalculatePlayTime(self.config.SmallGame_Count)):
+                    if not self.PlayGame():
+                        self.GotoGameRoom()
+                        self.ui_goto(page_main)
+                        self.config.task_delay(target=get_first_day_of_next_week())
+                        return
+                self.GotoGameRoom()
             else:
                 self.ui_goto(page_main)
                 self.config.task_delay(target=get_first_day_of_next_week())

@@ -1417,7 +1417,8 @@
       "ServerUpdate": "00:00"
     },
     "SmallGame": {
-      "Buy": false
+      "Buy": false,
+      "Count": 0
     },
     "Storage": {
       "Storage": {}

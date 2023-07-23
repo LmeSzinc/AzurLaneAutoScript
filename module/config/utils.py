@@ -472,7 +472,7 @@ def get_first_day_of_next_month() -> datetime:
 
 
 def get_first_day_of_next_week() -> datetime:
-    return datetime.now().replace(hour=1, minute=0, second=0, microsecond=0) + timedelta(
+    return datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(
         days=7 - datetime.weekday(datetime.now()))
 
 

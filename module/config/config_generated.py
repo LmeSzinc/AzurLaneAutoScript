@@ -322,6 +322,7 @@ class GeneratedConfig:
 
     # Group `SmallGame`
     SmallGame_Buy = False
+    SmallGame_Count = 0
 
     # Group `Daily`
     Daily_UseDailySkip = True

@@ -7355,6 +7355,10 @@
       "Buy": {
         "type": "checkbox",
         "value": false
+      },
+      "Count": {
+        "type": "input",
+        "value": 0
       }
     },
     "Storage": {
