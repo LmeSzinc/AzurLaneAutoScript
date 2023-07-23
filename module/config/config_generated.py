@@ -320,6 +320,9 @@ class GeneratedConfig:
     SupplyPack_Collect = True
     SupplyPack_DayOfWeek = 0  # 0, 1, 2, 3, 4, 5, 6
 
+    # Group `SmallGame`
+    SmallGame_Buy = False
+
     # Group `Daily`
     Daily_UseDailySkip = True
     Daily_EscortMission = 'first'  # skip, first, second, third
@@ -352,9 +355,6 @@ class GeneratedConfig:
 
     # Group `Sos`
     Sos_Chapter = 3  # 3, 4, 5, 6, 7, 8, 9, 10
-
-    # Group `SmallGame`
-    SmallGame_Buy = 0
 
     # Group `OpsiAshAssist`
     OpsiAshAssist_Tier = 15

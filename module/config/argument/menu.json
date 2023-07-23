@@ -55,7 +55,8 @@
       "Dorm",
       "Meowfficer",
       "Guild",
-      "Reward"
+      "Reward",
+      "SmallGame"
     ]
   },
   "DailyMission": {
@@ -69,8 +70,7 @@
       "ShopOnce",
       "Shipyard",
       "Gacha",
-      "Freebies",
-      "SmallGame"
+      "Freebies"
     ]
   },
   "Opsi": {

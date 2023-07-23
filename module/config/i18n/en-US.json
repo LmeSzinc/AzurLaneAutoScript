@@ -150,6 +150,10 @@
       "name": "Reward",
       "help": ""
     },
+    "SmallGame": {
+      "name": "Task.SmallGame.name",
+      "help": "Task.SmallGame.help"
+    },
     "Daily": {
       "name": "Daily",
       "help": ""
@@ -181,10 +185,6 @@
     "Freebies": {
       "name": "Freebies",
       "help": ""
-    },
-    "SmallGame": {
-      "name": "Task.SmallGame.name",
-      "help": "Task.SmallGame.help"
     },
     "OpsiGeneral": {
       "name": "OpSi General",
@@ -1908,6 +1908,16 @@
       "6": "Sunday"
     }
   },
+  "SmallGame": {
+    "_info": {
+      "name": "SmallGame._info.name",
+      "help": "SmallGame._info.help"
+    },
+    "Buy": {
+      "name": "SmallGame.Buy.name",
+      "help": "SmallGame.Buy.help"
+    }
+  },
   "Daily": {
     "_info": {
       "name": "Daily Settings",
@@ -2120,16 +2130,6 @@
       "8": "8",
       "9": "9",
       "10": "10"
-    }
-  },
-  "SmallGame": {
-    "_info": {
-      "name": "SmallGame._info.name",
-      "help": "SmallGame._info.help"
-    },
-    "Buy": {
-      "name": "SmallGame.Buy.name",
-      "help": "SmallGame.Buy.help"
     }
   },
   "OpsiAshAssist": {

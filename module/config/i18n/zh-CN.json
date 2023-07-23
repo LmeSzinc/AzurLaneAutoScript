@@ -150,6 +150,10 @@
       "name": "收获",
       "help": ""
     },
+    "SmallGame": {
+      "name": "小游戏",
+      "help": ""
+    },
     "Daily": {
       "name": "每日任务",
       "help": ""
@@ -180,10 +184,6 @@
     },
     "Freebies": {
       "name": "白嫖奖励",
-      "help": ""
-    },
-    "SmallGame": {
-      "name": "小游戏",
       "help": ""
     },
     "OpsiGeneral": {
@@ -1908,6 +1908,16 @@
       "6": "周日"
     }
   },
+  "SmallGame": {
+    "_info": {
+      "name": "小游戏",
+      "help": ""
+    },
+    "Buy": {
+      "name": "买游戏币",
+      "help": ""
+    }
+  },
   "Daily": {
     "_info": {
       "name": "每日任务",
@@ -2120,16 +2130,6 @@
       "8": "8",
       "9": "9",
       "10": "10"
-    }
-  },
-  "SmallGame": {
-    "_info": {
-      "name": "小游戏",
-      "help": ""
-    },
-    "Buy": {
-      "name": "每天买多少游戏币",
-      "help": ""
     }
   },
   "OpsiAshAssist": {

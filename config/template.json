@@ -1407,6 +1407,22 @@
       "Storage": {}
     }
   },
+  "SmallGame": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "SmallGame",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "SmallGame": {
+      "Buy": false
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "Daily": {
     "Scheduler": {
       "Enable": false,
@@ -1609,22 +1625,6 @@
     "SupplyPack": {
       "Collect": true,
       "DayOfWeek": 0
-    },
-    "Storage": {
-      "Storage": {}
-    }
-  },
-  "SmallGame": {
-    "Scheduler": {
-      "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "SmallGame",
-      "SuccessInterval": 0,
-      "FailureInterval": 120,
-      "ServerUpdate": "00:00"
-    },
-    "SmallGame": {
-      "Buy": 0
     },
     "Storage": {
       "Storage": {}
