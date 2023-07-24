@@ -13,7 +13,7 @@ UI_LANGUAGES = ['cn', 'cht', 'en', 'jp']
 
 def text_to_variable(text):
     text = re.sub("'s |s' ", '_', text)
-    text = re.sub('[ \-—:\'/]+', '_', text)
+    text = re.sub('[ \-—:\'/•]+', '_', text)
     text = re.sub(r'[(),#]|</?\w+>', '', text)
     # text = re.sub(r'[#_]?\d+(_times?)?', '', text)
     return text
@@ -100,6 +100,7 @@ def replace_templates(text: str) -> str:
 class KeywordExtract:
     def __init__(self):
         self.text_map: dict[str, TextMap] = {lang: TextMap(lang) for lang in UI_LANGUAGES}
+        self.text_map['cn'] = TextMap('chs')
         self.keywords_id: list[int] = []
 
     def iter_guide(self) -> t.Iterable[int]:

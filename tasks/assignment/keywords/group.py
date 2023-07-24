@@ -23,7 +23,7 @@ Synthesis_Materials = AssignmentGroup(
     id=3,
     name='Synthesis_Materials',
     cn='合成材料',
-    cht='合成材料',
+    cht='合成素材',
     en='Synthesis Materials',
     jp='合成材料',
 )

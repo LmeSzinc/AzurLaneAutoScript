@@ -48,7 +48,7 @@ Calyx_Crimson_Hunt = DungeonList(
     name='Calyx_Crimson_Hunt',
     cn='巡猎之蕾•拟造花萼（赤）',
     cht='巡獵之蕾•擬造花萼（赤）',
-    en='Calyx (Crimson): Bud of Hunt',
+    en='Bud of Hunt',
     jp='疑似花萼（赤）・巡狩の蕾',
 )
 Calyx_Crimson_Abundance = DungeonList(
@@ -155,56 +155,72 @@ Stagnant_Shadow_Doom = DungeonList(
     en='Shape of Doom',
     jp='凝結虚影・震厄の形',
 )
-Cavern_of_Corrosion_Path_of_Gelid_Wind = DungeonList(
+Stagnant_Shadow_Celestial = DungeonList(
     id=20,
-    name='Cavern_of_Corrosion_Path_of_Gelid_Wind',
+    name='Stagnant_Shadow_Celestial',
+    cn='天人之形•凝滞虚影',
+    cht='天人之形•凝滯虛影',
+    en='Shape of Celestial',
+    jp='凝結虚影・天人の形',
+)
+Path_of_Gelid_Wind = DungeonList(
+    id=21,
+    name='Path_of_Gelid_Wind',
     cn='霜风之径•侵蚀隧洞',
     cht='霜風之徑•侵蝕隧洞',
-    en='Cavern of Corrosion: Path of Gelid Wind',
+    en='Path of Gelid Wind',
     jp='侵蝕トンネル・霜風の路',
 )
-Cavern_of_Corrosion_Path_of_Jabbing_Punch = DungeonList(
-    id=21,
-    name='Cavern_of_Corrosion_Path_of_Jabbing_Punch',
+Path_of_Jabbing_Punch = DungeonList(
+    id=22,
+    name='Path_of_Jabbing_Punch',
     cn='迅拳之径•侵蚀隧洞',
     cht='迅拳之徑•侵蝕隧洞',
-    en='Cavern of Corrosion: Path of Jabbing Punch',
+    en='Path of Jabbing Punch',
     jp='侵蝕トンネル・迅拳の路',
 )
-Cavern_of_Corrosion_Path_of_Drifting = DungeonList(
-    id=22,
-    name='Cavern_of_Corrosion_Path_of_Drifting',
+Path_of_Drifting = DungeonList(
+    id=23,
+    name='Path_of_Drifting',
     cn='漂泊之径•侵蚀隧洞',
     cht='漂泊之徑•侵蝕隧洞',
-    en='Cavern of Corrosion: Path of Drifting',
+    en='Path of Drifting',
     jp='侵蝕トンネル・漂泊の路',
 )
-Cavern_of_Corrosion_Path_of_Providence = DungeonList(
-    id=23,
-    name='Cavern_of_Corrosion_Path_of_Providence',
+Path_of_Providence = DungeonList(
+    id=24,
+    name='Path_of_Providence',
     cn='睿治之径•侵蚀隧洞',
     cht='睿治之徑•侵蝕隧洞',
-    en='Cavern of Corrosion: Path of Providence',
+    en='Path of Providence',
     jp='侵蝕トンネル・睿治の路',
 )
-Cavern_of_Corrosion_Path_of_Holy_Hymn = DungeonList(
-    id=24,
-    name='Cavern_of_Corrosion_Path_of_Holy_Hymn',
+Path_of_Holy_Hymn = DungeonList(
+    id=25,
+    name='Path_of_Holy_Hymn',
     cn='圣颂之径•侵蚀隧洞',
     cht='聖頌之徑•侵蝕隧洞',
-    en='Cavern of Corrosion: Path of Holy Hymn',
+    en='Path of Holy Hymn',
     jp='侵蝕トンネル・聖頌の路',
 )
-Cavern_of_Corrosion_Path_of_Conflagration = DungeonList(
-    id=25,
-    name='Cavern_of_Corrosion_Path_of_Conflagration',
+Path_of_Conflagration = DungeonList(
+    id=26,
+    name='Path_of_Conflagration',
     cn='野焰之径•侵蚀隧洞',
     cht='野焰之徑•侵蝕隧洞',
-    en='Cavern of Corrosion: Path of Conflagration',
+    en='Path of Conflagration',
     jp='侵蝕トンネル・野焔の路',
 )
+Path_of_Elixir_Seekers = DungeonList(
+    id=27,
+    name='Path_of_Elixir_Seekers',
+    cn='药使之径•侵蚀隧洞',
+    cht='藥使之徑•侵蝕隧洞',
+    en='Path of Elixir Seekers',
+    jp='侵蝕トンネル・薬使の路',
+)
 Destruction_Beginning = DungeonList(
-    id=26,
+    id=28,
     name='Destruction_Beginning',
     cn='毁灭的开端•历战余响',
     cht='毀滅的開端•歷戰餘響',
@@ -212,15 +228,23 @@ Destruction_Beginning = DungeonList(
     jp='歴戦余韻・壊滅の始まり',
 )
 Echo_of_War_End_of_the_Eternal_Freeze = DungeonList(
-    id=27,
+    id=29,
     name='Echo_of_War_End_of_the_Eternal_Freeze',
     cn='寒潮的落幕•历战余响',
     cht='寒潮的落幕•歷戰餘響',
     en='End of the Eternal Freeze',
     jp='歴戦余韻・寒波の幕切れ',
 )
+Divine_Seed = DungeonList(
+    id=30,
+    name='Divine_Seed',
+    cn='不死的神实•历战余响',
+    cht='不死的神實•歷戰餘響',
+    en='Divine Seed',
+    jp='歴戦余韻・不死の神実',
+)
 Simulated_Universe_World_1 = DungeonList(
-    id=28,
+    id=31,
     name='Simulated_Universe_World_1',
     cn='第一世界•模拟宇宙',
     cht='第一世界•模擬宇宙',
@@ -228,7 +252,7 @@ Simulated_Universe_World_1 = DungeonList(
     jp='第一世界・模擬宇宙',
 )
 Simulated_Universe_World_3 = DungeonList(
-    id=29,
+    id=32,
     name='Simulated_Universe_World_3',
     cn='第三世界•模拟宇宙',
     cht='第三世界•模擬宇宙',
@@ -236,7 +260,7 @@ Simulated_Universe_World_3 = DungeonList(
     jp='第三世界・模擬宇宙',
 )
 Simulated_Universe_World_4 = DungeonList(
-    id=30,
+    id=33,
     name='Simulated_Universe_World_4',
     cn='第四世界•模拟宇宙',
     cht='第四世界•模擬宇宙',
@@ -244,7 +268,7 @@ Simulated_Universe_World_4 = DungeonList(
     jp='第四世界・模擬宇宙',
 )
 Simulated_Universe_World_5 = DungeonList(
-    id=31,
+    id=34,
     name='Simulated_Universe_World_5',
     cn='第五世界•模拟宇宙',
     cht='第五世界•模擬宇宙',
@@ -252,47 +276,63 @@ Simulated_Universe_World_5 = DungeonList(
     jp='第五世界・模擬宇宙',
 )
 Simulated_Universe_World_6 = DungeonList(
-    id=32,
+    id=35,
     name='Simulated_Universe_World_6',
     cn='第六世界•模拟宇宙',
     cht='第六世界•模擬宇宙',
     en='Simulated Universe — World 6',
     jp='第六世界・模擬宇宙',
 )
-Favor_of_Amber_Forgotten_Hall = DungeonList(
-    id=33,
-    name='Favor_of_Amber_Forgotten_Hall',
+Simulated_Universe_World_7 = DungeonList(
+    id=36,
+    name='Simulated_Universe_World_7',
+    cn='第七世界•模拟宇宙',
+    cht='第七世界•模擬宇宙',
+    en='Simulated Universe — World 7',
+    jp='第七世界・模擬宇宙',
+)
+The_Voyage_of_Navis_Astriger = DungeonList(
+    id=37,
+    name='The_Voyage_of_Navis_Astriger',
+    cn='天艟求仙迷航录',
+    cht='天艟求仙迷航錄',
+    en='The Voyage of Navis Astriger',
+    jp='天艟求仙放浪記',
+)
+Favor_of_Amber = DungeonList(
+    id=38,
+    name='Favor_of_Amber',
     cn='琥珀恩赐•忘却之庭',
     cht='琥珀恩賜•忘卻之庭',
-    en='Favor of Amber — Forgotten Hall',
+    en='Favor of Amber',
     jp='琥珀の賜物・忘却の庭',
 )
-Frostscar_Reverie_Forgotten_Hall = DungeonList(
-    id=34,
-    name='Frostscar_Reverie_Forgotten_Hall',
+Frostscar_Reverie = DungeonList(
+    id=39,
+    name='Frostscar_Reverie',
     cn='霜痕旧梦•忘却之庭',
     cht='霜痕舊夢•忘卻之庭',
-    en='Frostscar Reverie — Forgotten Hall',
+    en='Frostscar Reverie',
     jp='霜跡に旧夢・忘却の庭',
 )
-Everwinter_Trials_Forgotten_Hall = DungeonList(
-    id=35,
-    name='Everwinter_Trials_Forgotten_Hall',
+Everwinter_Trials = DungeonList(
+    id=40,
+    name='Everwinter_Trials',
     cn='永冬试炼•忘却之庭',
     cht='永冬試煉•忘卻之庭',
-    en='Everwinter Trials — Forgotten Hall',
+    en='Everwinter Trials',
     jp='常冬の試練・忘却の庭',
 )
-ColdironTribulation = DungeonList(
-    id=36,
-    name='ColdironTribulation',
+Coldiron_Tribulation = DungeonList(
+    id=41,
+    name='Coldiron_Tribulation',
     cn='寒铁砥砺•忘却之庭',
     cht='寒鐵砥礪•忘卻之庭',
-    en='ColdironTribulation',
+    en='Coldiron Tribulation',
     jp='寒鉄練磨・忘却の庭',
 )
 Hyperborean_Search_for_Warmth = DungeonList(
-    id=37,
+    id=42,
     name='Hyperborean_Search_for_Warmth',
     cn='蹈冰寻火•忘却之庭',
     cht='蹈冰尋火•忘卻之庭',
@@ -300,15 +340,39 @@ Hyperborean_Search_for_Warmth = DungeonList(
     jp='氷踏みて炎求む・忘却の庭',
 )
 Stormquell = DungeonList(
-    id=38,
+    id=43,
     name='Stormquell',
     cn='风暴止息•忘却之庭',
     cht='風暴止息•忘卻之庭',
     en='Stormquell',
     jp='止息せし嵐・忘却の庭',
 )
+Adrift_in_Astral_Seas = DungeonList(
+    id=44,
+    name='Adrift_in_Astral_Seas',
+    cn='孤航天海•忘却之庭',
+    cht='孤航太海•忘卻之庭',
+    en='Adrift in Astral Seas',
+    jp='天海の孤航・忘却の庭',
+)
+Raintear_Strife = DungeonList(
+    id=45,
+    name='Raintear_Strife',
+    cn='泪雨长战•忘却之庭',
+    cht='淚雨長戰•忘卻之庭',
+    en='Raintear Strife',
+    jp='涙雨戦争・忘却の庭',
+)
+Traces_of_Sanctus_Medicus = DungeonList(
+    id=46,
+    name='Traces_of_Sanctus_Medicus',
+    cn='药王垂迹•忘却之庭',
+    cht='藥王垂跡•忘卻之庭',
+    en='Traces of Sanctus Medicus',
+    jp='薬王の垂迹・忘却の庭',
+)
 The_Last_Vestiges_of_Towering_Citadel = DungeonList(
-    id=39,
+    id=47,
     name='The_Last_Vestiges_of_Towering_Citadel',
     cn='永屹之城遗秘',
     cht='永屹之城遺秘',

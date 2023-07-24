@@ -79,7 +79,7 @@ Use_Technique_2_times = DailyQuest(
     id=10,
     name='Use_Technique_2_times',
     cn='累计施放2次秘技',
-    cht='累計施放2次秘技',
+    cht='累積施放2次秘技',
     en='Use Technique 2 times',
     jp='秘技を累計2回発動する',
 )
@@ -103,7 +103,7 @@ Destroy_3_destructible_objects = DailyQuest(
     id=13,
     name='Destroy_3_destructible_objects',
     cn='累计击碎3个可破坏物',
-    cht='累計擊碎3個可破壞物',
+    cht='累積擊碎3個可破壞物',
     en='Destroy 3 destructible objects',
     jp='破壊できるオブジェクトを累計で3つ破壊する',
 )
