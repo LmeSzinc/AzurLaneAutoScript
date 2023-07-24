@@ -21,6 +21,7 @@ class RelicsUI(ItemUI):
                 self.device.screenshot()
 
             if self._is_in_salvage():
+                logger.info('_is_in_salvage')
                 break
             if self.appear_then_click(GOTO_SALVAGE, interval=2):
                 continue
@@ -33,11 +34,16 @@ class RelicsUI(ItemUI):
             else:
                 self.device.screenshot()
 
-            if SALVAGE.match_template_color(self.device.image):
+            # The first frame entering relic page, SALVAGE is a white button as it's the default state.
+            # At the second frame, SALVAGE is disabled since no items are selected.
+            # So here uses the minus button on the first relic.
+            if self.image_color_count(FIRST_RELIC_SELECTED, color=(245, 245, 245), threshold=221, count=50):
+                logger.info('First relic selected')
                 break
             if self.appear_then_click(ORDER_DESCENDING, interval=2):
                 continue
-            if interval.reached() and self.image_color_count(FIRST_RELIC, (233, 192, 108)):
+            if interval.reached() and self.appear(ORDER_ASCENDING) \
+                    and self.image_color_count(FIRST_RELIC, (233, 192, 108)):
                 self.device.click(FIRST_RELIC)
                 interval.reset()
                 continue

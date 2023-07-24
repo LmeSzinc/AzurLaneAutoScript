@@ -13,6 +13,16 @@ FIRST_RELIC = ButtonWrapper(
         button=(434, 160, 530, 260),
     ),
 )
+FIRST_RELIC_SELECTED = ButtonWrapper(
+    name='FIRST_RELIC_SELECTED',
+    share=Button(
+        file='./assets/share/item/relics/FIRST_RELIC_SELECTED.png',
+        area=(424, 136, 452, 164),
+        search=(404, 116, 472, 184),
+        color=(193, 194, 198),
+        button=(424, 136, 452, 164),
+    ),
+)
 GOTO_SALVAGE = ButtonWrapper(
     name='GOTO_SALVAGE',
     share=Button(
