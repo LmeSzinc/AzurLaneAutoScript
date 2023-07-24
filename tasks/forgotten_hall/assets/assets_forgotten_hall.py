@@ -27,10 +27,10 @@ ENTER_FORGOTTEN_HALL_DUNGEON = ButtonWrapper(
     name='ENTER_FORGOTTEN_HALL_DUNGEON',
     share=Button(
         file='./assets/share/forgotten_hall/ENTER_FORGOTTEN_HALL_DUNGEON.png',
-        area=(1233, 653, 1241, 680),
-        search=(1213, 633, 1261, 700),
-        color=(219, 221, 221),
-        button=(1233, 653, 1241, 680),
+        area=(989, 649, 1231, 684),
+        search=(969, 629, 1251, 704),
+        color=(214, 214, 217),
+        button=(989, 649, 1231, 684),
     ),
 )
 ENTRANCE_CHECKED = ButtonWrapper(

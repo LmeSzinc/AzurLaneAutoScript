@@ -151,19 +151,24 @@ class ForgottenHallUI(DungeonUI):
             else:
                 self.device.screenshot()
 
-            if np.mean(get_color(self.device.image, ENTER_FORGOTTEN_HALL_DUNGEON.area)) > 128:
+            if self._forgotten_hall_enter_appear():
                 logger.info("First character is chosen")
                 break
             if interval.reached():
                 self.device.click(FIRST_CHARACTER)
                 interval.reset()
 
+    def _forgotten_hall_enter_appear(self):
+        # White button, with a color of (214, 214, 214)
+        color = get_color(self.device.image, ENTER_FORGOTTEN_HALL_DUNGEON.area)
+        return np.mean(color) > 180
+
     def _enter_forgotten_hall_dungeon(self, skip_first_screenshot=True):
         """
         called after team is set
         """
-        interval = Timer(1)
-        joystick = MapControlJoystick(self.config, self.device)
+        interval = Timer(3)
+        timeout = Timer(3)
         while 1:  # enter ui -> popup
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -172,11 +177,19 @@ class ForgottenHallUI(DungeonUI):
 
             if self.appear(EFFECT_NOTIFICATION):
                 break
+            if self.match_template_color(DUNGEON_ENTER_CHECKED):
+                if timeout.reached():
+                    logger.info('Wait dungeon EFFECT_NOTIFICATION timeout')
+                    break
+            else:
+                timeout.reset()
 
-            if interval.reached() and np.mean(get_color(self.device.image, ENTER_FORGOTTEN_HALL_DUNGEON.area)) > 128:
+            if interval.reached() and self._forgotten_hall_enter_appear():
+                self.device.image_save()
                 self.device.click(ENTER_FORGOTTEN_HALL_DUNGEON)
                 interval.reset()
 
+        joystick = MapControlJoystick(self.config, self.device)
         skip_first_screenshot = True
         while 1:  # pop up -> dungeon inside
             if skip_first_screenshot:
