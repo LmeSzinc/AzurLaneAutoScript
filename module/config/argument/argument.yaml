@@ -81,6 +81,13 @@ Dungeon:
   Team:
     value: 1
     option: [ 1, 2, 3, 4, 5, 6 ]
+  Support:
+    value: when_daily
+    option: [do_not_use, always_use, when_daily]
+  SupportCharacter:
+    # Options will be injected in config updater
+    value: FirstCharacter
+    option: [FirstCharacter, ]
 
 Assignment:
   Duration:

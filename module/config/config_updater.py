@@ -1,11 +1,10 @@
-import re
 from copy import deepcopy
 
 from cached_property import cached_property
 
 from deploy.Windows.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
-from module.config.server import to_server, to_package, VALID_PACKAGE, VALID_CHANNEL_PACKAGE
+from module.config.server import to_package, VALID_PACKAGE, VALID_CHANNEL_PACKAGE
 from module.config.utils import *
 
 CONFIG_IMPORT = '''
@@ -290,6 +289,16 @@ class ConfigGenerator:
                 if value:
                     deep_set(new, keys=['Dungeon', 'NameAtDoubleCalyx', dungeon], value=value)
 
+        from tasks.character.keywords import CharacterList
+        ingame_lang = gui_lang_to_ingame_lang(lang)
+        characters = deep_get(self.argument, keys='Dungeon.SupportCharacter.option')
+        for character in CharacterList.instances.values():
+            if character.name in characters:
+                value = character.__getattribute__(ingame_lang)
+                if "Trailblazer" in value:
+                    continue
+                deep_set(new, keys=['Dungeon', 'SupportCharacter', character.name], value=value)
+
         # GUI i18n
         for path, _ in deep_iter(self.gui, depth=2):
             group, key = path
@@ -362,6 +371,12 @@ class ConfigGenerator:
         dungeons = [dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_daily_dungeon]
         deep_set(self.argument, keys='Dungeon.Name.option', value=dungeons)
         deep_set(self.args, keys='Dungeon.Dungeon.Name.option', value=dungeons)
+        
+        from tasks.character.keywords import CharacterList
+        characters = ['FirstCharacter'] + [character.name for character in CharacterList.instances.values()]
+        deep_set(self.argument, keys='Dungeon.SupportCharacter.option', value=characters)
+        deep_set(self.args, keys='Dungeon.Dungeon.SupportCharacter.option', value=characters)
+        
         dungeons = deep_get(self.argument, keys='Dungeon.NameAtDoubleCalyx.option')
         dungeons += [dungeon.name for dungeon in DungeonList.instances.values()
                     if dungeon.is_Calyx_Golden or dungeon.is_Calyx_Crimson]

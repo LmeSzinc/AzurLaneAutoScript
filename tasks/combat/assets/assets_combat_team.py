@@ -3,6 +3,16 @@ from module.base.button import Button, ButtonWrapper
 # This file was auto-generated, do not modify it manually. To generate:
 # ``` python -m dev_tools.button_extract ```
 
+COMBAT_TEAM_DISMISSSUPPORT = ButtonWrapper(
+    name='COMBAT_TEAM_DISMISSSUPPORT',
+    share=Button(
+        file='./assets/share/combat/team/COMBAT_TEAM_DISMISSSUPPORT.png',
+        area=(1127, 477, 1154, 501),
+        search=(1107, 457, 1174, 521),
+        color=(132, 140, 150),
+        button=(1127, 477, 1154, 501),
+    ),
+)
 COMBAT_TEAM_PREPARE = ButtonWrapper(
     name='COMBAT_TEAM_PREPARE',
     cn=Button(
@@ -11,6 +21,16 @@ COMBAT_TEAM_PREPARE = ButtonWrapper(
         search=(1017, 628, 1136, 687),
         color=(159, 159, 159),
         button=(958, 641, 1193, 676),
+    ),
+)
+COMBAT_TEAM_SUPPORT = ButtonWrapper(
+    name='COMBAT_TEAM_SUPPORT',
+    share=Button(
+        file='./assets/share/combat/team/COMBAT_TEAM_SUPPORT.png',
+        area=(1123, 477, 1158, 503),
+        search=(1103, 457, 1178, 523),
+        color=(195, 215, 201),
+        button=(1123, 477, 1158, 503),
     ),
 )
 TEAM_1 = ButtonWrapper(

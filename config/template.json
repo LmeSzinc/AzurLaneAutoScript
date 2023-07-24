@@ -42,7 +42,9 @@
     "Dungeon": {
       "Name": "Calyx_Golden_Treasures",
       "NameAtDoubleCalyx": "Calyx_Golden_Treasures",
-      "Team": 1
+      "Team": 1,
+      "Support": "when_daily",
+      "SupportCharacter": "FirstCharacter"
     }
   },
   "DailyQuest": {

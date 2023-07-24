@@ -3,15 +3,17 @@ from module.logger import logger
 from tasks.base.assets.assets_base_page import CLOSE
 from tasks.combat.assets.assets_combat_finish import COMBAT_AGAIN, COMBAT_EXIT
 from tasks.combat.assets.assets_combat_prepare import COMBAT_PREPARE
-from tasks.combat.assets.assets_combat_team import COMBAT_TEAM_PREPARE
+from tasks.combat.assets.assets_combat_team import COMBAT_TEAM_PREPARE, COMBAT_TEAM_SUPPORT, COMBAT_TEAM_DISMISSSUPPORT
+from tasks.combat.assets.assets_combat_support import COMBAT_SUPPORT_ADD, COMBAT_SUPPORT_LIST
 from tasks.combat.interact import CombatInteract
 from tasks.combat.prepare import CombatPrepare
 from tasks.combat.state import CombatState
 from tasks.combat.team import CombatTeam
+from tasks.combat.support import CombatSupport
 from tasks.map.control.joystick import MapControlJoystick
 
 
-class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, MapControlJoystick):
+class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSupport, MapControlJoystick):
     def handle_combat_prepare(self):
         """
         Returns:
@@ -63,11 +65,13 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, MapControlJ
 
         return False
 
-    def combat_prepare(self, team=1):
+    def combat_prepare(self, team=1, support_character: str = None):
         """
         Args:
             team: 1 to 6.
-
+            skip_first_screenshot:
+            support_character: Support character name
+            
         Returns:
             bool: True if success to enter combat
                 False if trialblaze power is not enough
@@ -78,6 +82,7 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, MapControlJ
         """
         logger.hr('Combat prepare')
         skip_first_screenshot = True
+        pre_set_team = bool(support_character)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -89,6 +94,13 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, MapControlJ
                 return True
 
             # Click
+            if self.appear(COMBAT_TEAM_SUPPORT) and support_character:
+                if pre_set_team:
+                    self.team_set(team)
+                    pre_set_team = False
+                    continue
+                self.support_set(support_character)
+                continue
             if self.appear(COMBAT_TEAM_PREPARE, interval=2):
                 self.team_set(team)
                 self.device.click(COMBAT_TEAM_PREPARE)
@@ -260,7 +272,7 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, MapControlJ
                 self.device.click(COMBAT_EXIT)
                 continue
 
-    def combat(self, team: int = 1, wave_limit: int = 0, skip_first_screenshot=True):
+    def combat(self, team: int = 1, wave_limit: int = 0, skip_first_screenshot=True, support_character: str = None):
         """
         Combat until trailblaze power runs out.
 
@@ -268,6 +280,9 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, MapControlJ
             team: 1 to 6.
             wave_limit: Limit combat runs, 0 means no limit.
             skip_first_screenshot:
+            use_support: "do_not_use", "always_use", "when_daily"
+            is_daily: True if is a daily task
+            support_character: Support character name
 
         Returns:
             bool: True if trailblaze power exhausted
@@ -287,7 +302,7 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, MapControlJ
             logger.hr('Combat', level=2)
             logger.info(f'Combat, team={team}, wave={self.combat_wave_done}/{self.combat_wave_limit}')
             # Prepare
-            prepare = self.combat_prepare(team)
+            prepare = self.combat_prepare(team, support_character)
             if not prepare:
                 self.combat_exit()
                 break
