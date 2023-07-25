@@ -16,7 +16,7 @@ from module.map_detection.grid import Grid
 from module.map_detection.utils import area2corner, trapezoid2area
 from module.map_detection.view import View
 from module.os.assets import GLOBE_GOTO_MAP
-from module.os_handler.assets import AUTO_SEARCH_REWARD, PORT_SUPPLY_CHECK
+from module.os_handler.assets import AUTO_SEARCH_REWARD, GET_ADAPTABILITY, PORT_SUPPLY_CHECK
 from module.ui.assets import BACK_ARROW
 
 
@@ -135,6 +135,10 @@ class Camera(MapOperation):
             elif self.appear(GET_ITEMS_1_RYZA, offset=(20, 20)):
                 logger.warning('Perspective error caused by GET_ITEMS_1_RYZA')
                 self.device.click(GET_ITEMS_1_RYZA)
+                return False
+            elif self.appear(GET_ADAPTABILITY, offset=(20, 20)):
+                logger.warning('Perspective error caused by GET_ADAPTABILITY')
+                self.device.click(GET_ADAPTABILITY)
                 return False
             elif self.handle_story_skip():
                 logger.warning('Perspective error caused by story')
