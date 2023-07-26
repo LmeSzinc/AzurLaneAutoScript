@@ -163,65 +163,65 @@ Stagnant_Shadow_Celestial = DungeonList(
     en='Shape of Celestial',
     jp='凝結虚影・天人の形',
 )
-Path_of_Gelid_Wind = DungeonList(
+Cavern_of_Corrosion_Path_of_Gelid_Wind = DungeonList(
     id=21,
-    name='Path_of_Gelid_Wind',
+    name='Cavern_of_Corrosion_Path_of_Gelid_Wind',
     cn='霜风之径•侵蚀隧洞',
     cht='霜風之徑•侵蝕隧洞',
     en='Path of Gelid Wind',
     jp='侵蝕トンネル・霜風の路',
 )
-Path_of_Jabbing_Punch = DungeonList(
+Cavern_of_Corrosion_Path_of_Jabbing_Punch = DungeonList(
     id=22,
-    name='Path_of_Jabbing_Punch',
+    name='Cavern_of_Corrosion_Path_of_Jabbing_Punch',
     cn='迅拳之径•侵蚀隧洞',
     cht='迅拳之徑•侵蝕隧洞',
     en='Path of Jabbing Punch',
     jp='侵蝕トンネル・迅拳の路',
 )
-Path_of_Drifting = DungeonList(
+Cavern_of_Corrosion_Path_of_Drifting = DungeonList(
     id=23,
-    name='Path_of_Drifting',
+    name='Cavern_of_Corrosion_Path_of_Drifting',
     cn='漂泊之径•侵蚀隧洞',
     cht='漂泊之徑•侵蝕隧洞',
     en='Path of Drifting',
     jp='侵蝕トンネル・漂泊の路',
 )
-Path_of_Providence = DungeonList(
+Cavern_of_Corrosion_Path_of_Providence = DungeonList(
     id=24,
-    name='Path_of_Providence',
+    name='Cavern_of_Corrosion_Path_of_Providence',
     cn='睿治之径•侵蚀隧洞',
     cht='睿治之徑•侵蝕隧洞',
     en='Path of Providence',
     jp='侵蝕トンネル・睿治の路',
 )
-Path_of_Holy_Hymn = DungeonList(
+Cavern_of_Corrosion_Path_of_Holy_Hymn = DungeonList(
     id=25,
-    name='Path_of_Holy_Hymn',
+    name='Cavern_of_Corrosion_Path_of_Holy_Hymn',
     cn='圣颂之径•侵蚀隧洞',
     cht='聖頌之徑•侵蝕隧洞',
     en='Path of Holy Hymn',
     jp='侵蝕トンネル・聖頌の路',
 )
-Path_of_Conflagration = DungeonList(
+Cavern_of_Corrosion_Path_of_Conflagration = DungeonList(
     id=26,
-    name='Path_of_Conflagration',
+    name='Cavern_of_Corrosion_Path_of_Conflagration',
     cn='野焰之径•侵蚀隧洞',
     cht='野焰之徑•侵蝕隧洞',
     en='Path of Conflagration',
     jp='侵蝕トンネル・野焔の路',
 )
-Path_of_Elixir_Seekers = DungeonList(
+Cavern_of_Corrosion_Path_of_Elixir_Seekers = DungeonList(
     id=27,
-    name='Path_of_Elixir_Seekers',
+    name='Cavern_of_Corrosion_Path_of_Elixir_Seekers',
     cn='药使之径•侵蚀隧洞',
     cht='藥使之徑•侵蝕隧洞',
     en='Path of Elixir Seekers',
     jp='侵蝕トンネル・薬使の路',
 )
-Destruction_Beginning = DungeonList(
+Echo_of_War_Destruction_Beginning = DungeonList(
     id=28,
-    name='Destruction_Beginning',
+    name='Echo_of_War_Destruction_Beginning',
     cn='毁灭的开端•历战余响',
     cht='毀滅的開端•歷戰餘響',
     en="Destruction's Beginning",
@@ -235,9 +235,9 @@ Echo_of_War_End_of_the_Eternal_Freeze = DungeonList(
     en='End of the Eternal Freeze',
     jp='歴戦余韻・寒波の幕切れ',
 )
-Divine_Seed = DungeonList(
+Echo_of_War_Divine_Seed = DungeonList(
     id=30,
-    name='Divine_Seed',
+    name='Echo_of_War_Divine_Seed',
     cn='不死的神实•历战余响',
     cht='不死的神實•歷戰餘響',
     en='Divine Seed',

@@ -24,7 +24,8 @@ def dungeon_name(name: str) -> str:
     name = re.sub('Bud_of_(Memories|Aether|Treasures)', r'Calyx_Golden_\1', name)
     name = re.sub('Bud_of_(.*)', r'Calyx_Crimson_\1', name).replace('Calyx_Crimson_Calyx_Crimson_', 'Calyx_Crimson_')
     name = re.sub('Shape_of_(.*)', r'Stagnant_Shadow_\1', name)
-    if name in ['Destructions_Beginning', 'End_of_the_Eternal_Freeze']:
+    name = re.sub('Path_of_(.*)', r'Cavern_of_Corrosion_Path_of_\1', name)
+    if name in ['Destruction_Beginning', 'End_of_the_Eternal_Freeze', 'Divine_Seed']:
         name = f'Echo_of_War_{name}'
     return name
 
