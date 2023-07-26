@@ -203,7 +203,9 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             logger.info('EMERGENCY_REPAIR_AVAILABLE')
             if not len(self.hp):
                 return False
-            if np.min(np.array(self.hp)[np.array(self.hp) > 0.001]) < self.config.HpControl_RepairUseSingleThreshold \
+            hp = np.array(self.hp)
+            hp = hp[hp > 0.001]
+            if (len(hp) and np.min(hp) < self.config.HpControl_RepairUseSingleThreshold) \
                     or np.max(self.hp[:3]) < self.config.HpControl_RepairUseMultiThreshold \
                     or np.max(self.hp[3:]) < self.config.HpControl_RepairUseMultiThreshold:
                 logger.info('Use emergency repair')
