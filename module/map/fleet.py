@@ -332,6 +332,9 @@ class Fleet(Camera, AmbushHandler):
 
                     if self.catch_camera_repositioning(self.map[location]):
                         self.handle_boss_appear_refocus()
+                        if sum(self.hp) < 0.01:
+                            logger.warning('Empty HP on all slots, trying hp_get again')
+                            self.hp_get()
                     if self.config.MAP_FOCUS_ENEMY_AFTER_BATTLE:
                         self.camera = location
                         self.update()
