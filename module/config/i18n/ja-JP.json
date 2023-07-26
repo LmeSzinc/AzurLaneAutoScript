@@ -642,6 +642,10 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+<<<<<<< HEAD
+=======
+      "event_20211125_cn": "弧光は交わる世界にて（復刻）",
+>>>>>>> 61aca93cfb9cfafc51cdcdaaaa3b2adfc638a29b
       "event_20220818_cn": "結像点作戦",
       "raid_20230629": "緑地伽話",
       "event_20220428_cn": "吟ずる瑠璃の楽章",
@@ -686,7 +690,6 @@
       "event_20220407_tw": "蒼紅的迴響(復刻)",
       "event_20220310_tw": "復刻斯圖爾特的硝煙",
       "event_20220210_cn": "凍絶の北海（復刻）",
-      "event_20211125_cn": "弧光は交わる世界にて",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
       "event_20210722_cn": "海に響くアイドルの歌",
       "event_20200723_cn": "極夜照らす幻光",
@@ -1339,6 +1342,9 @@
       "name": "Research.PresetFilter.name",
       "help": "Research.PresetFilter.help",
       "custom": "custom",
+      "series_6_blueprint_203": "series_6_blueprint_203",
+      "series_6_blueprint_only": "series_6_blueprint_only",
+      "series_6_203_only": "series_6_203_only",
       "series_5_blueprint_152": "series_5_blueprint_152",
       "series_5_blueprint_only": "series_5_blueprint_only",
       "series_5_152_only": "series_5_152_only",
@@ -1508,6 +1514,10 @@
     "BuySkinBox": {
       "name": "GeneralShop.BuySkinBox.name",
       "help": "GeneralShop.BuySkinBox.help"
+    },
+    "ConsumeCoins": {
+      "name": "GeneralShop.ConsumeCoins.name",
+      "help": "GeneralShop.ConsumeCoins.help"
     },
     "Filter": {
       "name": "GeneralShop.Filter.name",
