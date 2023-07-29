@@ -181,10 +181,32 @@ class BattlePassUI(UI):
             self._claim_rewards()
         return current_level
 
+    def has_battle_pass_entrance(self, skip_first_screenshot=True):
+        """
+        Pages:
+            in: page_main
+        """
+        timeout = Timer(0.5, count=2).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if timeout.reached():
+                break
+
+            if self.appear(MAIN_GOTO_BATTLE_PASS, similarity=0.75):
+                return True
+            else:
+                logger.info('No battle pass entrance, probably a gap between two periods')
+                continue
+
+        return False
+
     def run(self):
         self.ui_ensure(page_main)
-        if not self.appear(MAIN_GOTO_BATTLE_PASS):
-            logger.info('No battle pass entrance, probably a gap between two periods')
+        if not self.has_battle_pass_entrance():
             self.config.task_delay(server_update=True)
             self.config.task_stop()
 
