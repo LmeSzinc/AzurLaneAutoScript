@@ -243,6 +243,16 @@ class CampaignRun(CampaignEvent, ShopStatus):
                 logger.info(f'When running chapter TH of event_20221124_cn, '
                             f'StopCondition.MapAchievement is forced set to threat_safe')
                 self.config.override(StopCondition_MapAchievement='threat_safe')
+        # event_20211125_cn, TSS maps are on time maps
+        if folder == 'event_20211125_cn' and 'tss' in name:
+            self.config.override(
+                StopCondition_OilLimit=0,  # No oil cost
+                StopCondition_MapAchievement='100_percent_clear',
+                StopCondition_StageIncrease=True,
+                Emotion_Mode='ignore',  # No emotion cost
+                Fleet_Fleet2=0,  # Has only one fleet
+                Submarine_Fleet=0,  # No submarine
+            )
         # Stage loop
         for alias, stages in self.config.STAGE_LOOP_ALIAS.items():
             alias_folder, alias = alias
