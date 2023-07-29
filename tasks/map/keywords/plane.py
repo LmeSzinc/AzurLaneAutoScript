@@ -131,16 +131,8 @@ Luofu_CentralStarskiffHaven = MapPlane(
     en='Central Starskiff Haven',
     jp='星槎海中枢',
 )
-Luofu_ExaltingSanctum = MapPlane(
-    id=17,
-    name='Luofu_ExaltingSanctum',
-    cn='长乐天',
-    cht='長樂天',
-    en='Exalting Sanctum',
-    jp='長楽天',
-)
 Luofu_Cloudford = MapPlane(
-    id=18,
+    id=17,
     name='Luofu_Cloudford',
     cn='流云渡',
     cht='流雲渡',
@@ -148,12 +140,20 @@ Luofu_Cloudford = MapPlane(
     jp='流雲渡し',
 )
 Luofu_StargazerNavalia = MapPlane(
-    id=19,
+    id=18,
     name='Luofu_StargazerNavalia',
     cn='迴星港',
     cht='迴星港',
     en='Stargazer Navalia',
     jp='廻星港',
+)
+Luofu_ExaltingSanctum = MapPlane(
+    id=19,
+    name='Luofu_ExaltingSanctum',
+    cn='长乐天',
+    cht='長樂天',
+    en='Exalting Sanctum',
+    jp='長楽天',
 )
 Luofu_DivinationCommission = MapPlane(
     id=20,
@@ -170,4 +170,20 @@ Luofu_ArtisanshipCommission = MapPlane(
     cht='工造司',
     en='Artisanship Commission',
     jp='工造司',
+)
+Luofu_AlchemyCommission = MapPlane(
+    id=22,
+    name='Luofu_AlchemyCommission',
+    cn='丹鼎司',
+    cht='丹鼎司',
+    en='Alchemy Commission',
+    jp='丹鼎司',
+)
+Luofu_ScalegorgeWaterscape = MapPlane(
+    id=23,
+    name='Luofu_ScalegorgeWaterscape',
+    cn='鳞渊境',
+    cht='鱗淵境',
+    en='Scalegorge Waterscape',
+    jp='鱗淵境',
 )
