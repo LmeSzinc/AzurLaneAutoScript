@@ -26,54 +26,6 @@ def world_entrance(plane: MapPlane) -> ButtonWrapper:
     raise ScriptError(f'world_entrance() got unknown plane: {plane}')
 
 
-def convert_ingame_floor(plane: MapPlane, floor: int | str) -> int:
-    """
-    Convert floor name in game to the name in SRC.
-
-    Args:
-        plane:
-        floor: Floor name in game, such as -1, 1, 2, "B1", "F1", "F2"
-
-    Returns:
-        int: 1 to 3 counted from bottom.
-
-    Raises:
-        KeyError: If failed to convert.
-    """
-    if isinstance(floor, str):
-        try:
-            floor = int(floor)
-        except ValueError:
-            dic_floor = {
-                'B2': -2,
-                'B1': -1,
-                'F1': 1,
-                'F2': 2,
-                'F3': 3,
-                'F4': 4,
-                'F5': 5,
-            }
-            floor = dic_floor[floor.upper()]
-
-    dic_floor = {}
-    if plane == KEYWORDS_MAP_PLANE.Herta_StorageZone:
-        dic_floor = {-1: 1, 1: 2, 2: 3}
-    if plane == KEYWORDS_MAP_PLANE.Herta_SupplyZone:
-        dic_floor = {1: 1, 2: 2}
-    if plane == KEYWORDS_MAP_PLANE.Jarilo_AdministrativeDistrict:
-        dic_floor = {-1: 1, 1: 2}
-    if plane in [KEYWORDS_MAP_PLANE.Jarilo_RivetTown,
-                 KEYWORDS_MAP_PLANE.Jarilo_RobotSettlement]:
-        dic_floor = {1: 1, 2: 2}
-    if plane in [KEYWORDS_MAP_PLANE.Luofu_Cloudford,
-                 KEYWORDS_MAP_PLANE.Luofu_StargazerNavalia,
-                 KEYWORDS_MAP_PLANE.Luofu_DivinationCommission]:
-        dic_floor = {1: 1, 2: 2}
-
-    floor = dic_floor[floor]
-    return floor
-
-
 class OcrMapPlane(Ocr):
     merge_thres_y = 20
 
@@ -105,10 +57,8 @@ PLANE_LIST = DraggablePlaneList('PlaneList', keyword_class=MapPlane, ocr_class=O
 class BigmapPlane(UI):
     # Current plane
     plane: MapPlane = KEYWORDS_MAP_PLANE.Herta_ParlorCar
-    # Current floor
-    # Note that floor always starts from 1 (1, 2, 3, ...)
-    # which is different from the floor in game (B1, F1, F2, ...)
-    floor: int = 1
+    # Floor name in game (B1, F1, F2, ...)
+    floor: str = 'F1'
 
     def _bigmap_world_set(self, plane: MapPlane):
         """
@@ -200,35 +150,17 @@ class BigmapPlane(UI):
             self._bigmap_world_set(plane)
             PLANE_LIST.load_rows(main=self)
 
-        if plane.is_HertaSpaceStation:
-            PLANE_LIST.select_row(plane, main=self, insight=False)
-            self.plane = plane
-            return True
-        elif plane.is_JariloVI:
-            if plane in [
-                KEYWORDS_MAP_PLANE.Jarilo_AdministrativeDistrict,
-                KEYWORDS_MAP_PLANE.Jarilo_OutlyingSnowPlains,
-                KEYWORDS_MAP_PLANE.Jarilo_BackwaterPass,
-                KEYWORDS_MAP_PLANE.Jarilo_SilvermaneGuardRestrictedZone,
-                KEYWORDS_MAP_PLANE.Jarilo_CorridorofFadingEchoes,
-                KEYWORDS_MAP_PLANE.Jarilo_EverwinterHill,
-            ]:
+        if SCROLL_PLANE.appear(main=self):
+            if plane.page == 'top':
                 if SCROLL_PLANE.set_top(main=self):
                     PLANE_LIST.load_rows(main=self)
-            else:
+            elif plane.page == 'bottom':
                 if SCROLL_PLANE.set_bottom(main=self):
                     PLANE_LIST.load_rows(main=self)
 
-            PLANE_LIST.select_row(plane, main=self, insight=False)
-            self.plane = plane
-            return True
-        elif plane.is_Luofu:
-            PLANE_LIST.select_row(plane, main=self, insight=False)
-            self.plane = plane
-            return True
-
-        logger.error(f'Goto plane {plane} is not supported')
-        return False
+        PLANE_LIST.select_row(plane, main=self, insight=False)
+        self.plane = plane
+        return True
 
     def _bigmap_get_current_floor(self) -> int:
         """
@@ -241,17 +173,16 @@ class BigmapPlane(UI):
                 continue
             # White button, current floor
             if self.image_color_count(button, color=(233, 233, 233), threshold=221, count=200):
-                self.floor = index + 1
-                return self.floor
+                return index + 1
 
         # logger.warning('Cannot get current floor')
-        self.floor = 0
-        return self.floor
+        return 0
 
-    def _bigmap_floor_set_execute(self, floor: int, skip_first_screenshot=True) -> bool:
+    def _bigmap_floor_set_execute(self, index: int, skip_first_screenshot=True) -> bool:
         """
         Args:
-            floor: 1 to 3
+            index: 1 to 3, note that floor always starts from 1 (1, 2, 3, ...),
+                different from the floor name in game (B1, F1, F2).
 
         Returns:
             bool: If success.
@@ -259,11 +190,11 @@ class BigmapPlane(UI):
         Pages:
             in: page_map
         """
-        logger.info(f'Bigmap floor set: {floor}')
+        logger.info(f'Bigmap floor index set: {index}')
         try:
-            button = FLOOR_BUTTONS[floor - 1]
+            button = FLOOR_BUTTONS[index - 1]
         except IndexError:
-            logger.error(f'No floor button matches floor index: {floor}')
+            logger.error(f'No floor button matches floor index: {index}')
             return False
 
         interval = Timer(2)
@@ -274,12 +205,12 @@ class BigmapPlane(UI):
             else:
                 self.device.screenshot()
 
-            self._bigmap_get_current_floor()
-            logger.attr('CurrentFloor', self.floor)
+            current = self._bigmap_get_current_floor()
+            logger.attr('FloorIndex', current)
 
             # End
-            if self.floor == floor:
-                logger.info('Selected at target row')
+            if current == index:
+                logger.info('Selected at target floor index')
                 return True
             if click_count >= 3:
                 logger.warning('Unable to set floor after 3 trial, assume floor set')
@@ -292,31 +223,35 @@ class BigmapPlane(UI):
                 click_count += 1
                 continue
 
-    def bigmap_floor_set(self, floor: int = 0, ingame_floor: int | str = 0, skip_first_screenshot=True) -> bool:
+    def bigmap_floor_set(self, floor: int | str, skip_first_screenshot=True) -> bool:
         """
-        bigmap_plane_set() or _bigmap_get_current_plane_wrapped() must be called first.
+        bigmap_plane_set() or _bigmap_get_current_plane_wrapped() must be called first
+        which means `self.plane` is set.
 
         Args:
-            floor: 1 to 3 counted from bottom.
-                If `floor` given, use it first. One of `floor` and `ingame_floor`
-            ingame_floor: Floor name in game, such as -1, 1, 2, "B1", "F1", "F2"
+            floor: int for floor index counted from bottom, started from 1, such as 1, 2, 3.
+                str for flooe name in game, such as "B1", "F1", "F2".
             skip_first_screenshot:
 
         Returns:
             bool: If success.
 
+        Raises:
+            ScriptError: If the given floor doesn't exist on current plane.
+
         Pages:
             in: page_map
-        """
-        if not floor:
-            if ingame_floor:
-                try:
-                    floor = convert_ingame_floor(plane=self.plane, floor=ingame_floor)
-                except KeyError:
-                    logger.error(f'Plane {self.plane} does not have floor {ingame_floor}')
-                    return False
-            else:
-                logger.error('bigmap_floor_set() did not receive any floor inputs')
-                return False
 
-        return self._bigmap_floor_set_execute(floor, skip_first_screenshot=skip_first_screenshot)
+        Examples:
+            self = BigmapPlane('alas')
+            self.bigmap_plane_set(KEYWORDS_MAP_PLANE.Jarilo_RivetTown)
+            self.bigmap_floor_set('F2')
+        """
+        if isinstance(floor, int):
+            self.plane.convert_to_floor_name(floor)
+            index = floor
+        else:
+            floor = str(floor)
+            index = self.plane.convert_to_floor_index(floor)
+
+        return self._bigmap_floor_set_execute(index, skip_first_screenshot=skip_first_screenshot)
