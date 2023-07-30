@@ -202,12 +202,14 @@
       "Stagnant_Shadow_Mirage": "Ascension: Imaginary (Shape of Mirage)",
       "Stagnant_Shadow_Icicle": "Ascension: Ice (Shape of Icicle)",
       "Stagnant_Shadow_Doom": "Ascension: Lighting (Shape of Doom)",
+      "Stagnant_Shadow_Celestial": "Ascension: Wind (Shape of Celestial)",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "Relics: Ice Set & Wind Set (Path of Gelid Wind)",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "Relics: Physical Set & Break Effect Set (Path of Jabbing Punch)",
       "Cavern_of_Corrosion_Path_of_Drifting": "Relics: Healing Set & Musketeer Set (Path of Drifting)",
       "Cavern_of_Corrosion_Path_of_Providence": "Relics: Guard Set & Quantum Set (Path of Providence)",
       "Cavern_of_Corrosion_Path_of_Holy_Hymn": "Relics: DEF Set & Lighting Set (Path of Holy Hymn)",
-      "Cavern_of_Corrosion_Path_of_Conflagration": "Relics: Fire Set & Imaginary Set (Path of Conflagration)"
+      "Cavern_of_Corrosion_Path_of_Conflagration": "Relics: Fire Set & Imaginary Set (Path of Conflagration)",
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "Relics: HP Set & SPD Set (Path of Elixir Seekers)"
     },
     "NameAtDoubleCalyx": {
       "name": "At Double Calyx Event, choose dungeon",
@@ -248,6 +250,7 @@
       "Arlan": "Arlan",
       "Asta": "Asta",
       "Bailu": "Bailu",
+      "Blade": "Blade",
       "Bronya": "Bronya",
       "Clara": "Clara",
       "DanHeng": "Dan Heng",
@@ -256,7 +259,6 @@
       "Himeko": "Himeko",
       "Hook": "Hook",
       "JingYuan": "Jing Yuan",
-      "Kafka": "Kafka",
       "Luocha": "Luocha",
       "March7th": "March 7th",
       "Natasha": "Natasha",
@@ -268,8 +270,8 @@
       "SilverWolf": "Silver Wolf",
       "Sushang": "Sushang",
       "Tingyun": "Tingyun",
-      "TrailblazertheDestruction": "Trailblazer: the Destruction",
-      "TrailblazerthePreservation": "Trailblazer: the Preservation",
+      "TrailblazerDestruction": "TrailblazerDestruction",
+      "TrailblazerPreservation": "TrailblazerPreservation",
       "Welt": "Welt",
       "Yanqing": "Yanqing",
       "Yukong": "Yukong"

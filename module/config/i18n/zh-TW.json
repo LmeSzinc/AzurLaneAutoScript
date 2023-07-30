@@ -202,12 +202,14 @@
       "Stagnant_Shadow_Mirage": "角色晉階材料：虛數（幻光之形•凝滯虛影）",
       "Stagnant_Shadow_Icicle": "角色晉階材料：冰（冰稜之形•凝滯虛影）",
       "Stagnant_Shadow_Doom": "角色晉階材料：雷（震厄之形•凝滯虛影）",
+      "Stagnant_Shadow_Celestial": "角色晉階材料：風（天人之形•凝滯虛影）",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "遺器：冰套+風套（霜風之徑•侵蝕隧洞）",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "遺器：物理套+擊破套（迅拳之徑•侵蝕隧洞）",
       "Cavern_of_Corrosion_Path_of_Drifting": "遺器：治療套+快槍手（漂泊之徑•侵蝕隧洞）",
       "Cavern_of_Corrosion_Path_of_Providence": "遺器：鐵衛套+量子套（睿治之徑•侵蝕隧洞）",
       "Cavern_of_Corrosion_Path_of_Holy_Hymn": "遺器：防禦套+雷套（聖頌之徑•侵蝕隧洞）",
-      "Cavern_of_Corrosion_Path_of_Conflagration": "遺器：火套+虛數套（野焰之徑•侵蝕隧洞）"
+      "Cavern_of_Corrosion_Path_of_Conflagration": "遺器：火套+虛數套（野焰之徑•侵蝕隧洞）",
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "遺器：生命套+速度套（藥使之徑•侵蝕隧洞）"
     },
     "NameAtDoubleCalyx": {
       "name": "有雙倍花活動時，選擇副本",
@@ -248,6 +250,7 @@
       "Arlan": "阿蘭",
       "Asta": "艾絲妲",
       "Bailu": "白露",
+      "Blade": "刃",
       "Bronya": "布洛妮婭",
       "Clara": "克拉拉",
       "DanHeng": "丹恆",
@@ -256,7 +259,6 @@
       "Himeko": "姬子",
       "Hook": "虎克",
       "JingYuan": "景元",
-      "Kafka": "卡芙卡",
       "Luocha": "羅剎",
       "March7th": "三月七",
       "Natasha": "娜塔莎",
@@ -268,8 +270,8 @@
       "SilverWolf": "銀狼",
       "Sushang": "素裳",
       "Tingyun": "停雲",
-      "TrailblazertheDestruction": "Trailblazer•毀滅",
-      "TrailblazerthePreservation": "Trailblazer•存護",
+      "TrailblazerDestruction": "TrailblazerDestruction",
+      "TrailblazerPreservation": "TrailblazerPreservation",
       "Welt": "瓦爾特",
       "Yanqing": "彥卿",
       "Yukong": "馭空"

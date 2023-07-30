@@ -202,12 +202,14 @@
       "Stagnant_Shadow_Mirage": "凝結虚影・幻光の形",
       "Stagnant_Shadow_Icicle": "凝結虚影・氷柱の形",
       "Stagnant_Shadow_Doom": "凝結虚影・震厄の形",
+      "Stagnant_Shadow_Celestial": "凝結虚影・天人の形",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "侵蝕トンネル・霜風の路",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "侵蝕トンネル・迅拳の路",
       "Cavern_of_Corrosion_Path_of_Drifting": "侵蝕トンネル・漂泊の路",
       "Cavern_of_Corrosion_Path_of_Providence": "侵蝕トンネル・睿治の路",
       "Cavern_of_Corrosion_Path_of_Holy_Hymn": "侵蝕トンネル・聖頌の路",
-      "Cavern_of_Corrosion_Path_of_Conflagration": "侵蝕トンネル・野焔の路"
+      "Cavern_of_Corrosion_Path_of_Conflagration": "侵蝕トンネル・野焔の路",
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "侵蝕トンネル・薬使の路"
     },
     "NameAtDoubleCalyx": {
       "name": "Dungeon.NameAtDoubleCalyx.name",
@@ -248,6 +250,7 @@
       "Arlan": "アーラン",
       "Asta": "アスター",
       "Bailu": "白露",
+      "Blade": "刃",
       "Bronya": "ブローニャ",
       "Clara": "クラーラ",
       "DanHeng": "丹恒",
@@ -256,7 +259,6 @@
       "Himeko": "姫子",
       "Hook": "フック",
       "JingYuan": "景元",
-      "Kafka": "カフカ",
       "Luocha": "羅刹",
       "March7th": "三月なのか",
       "Natasha": "ナターシャ",
@@ -268,8 +270,8 @@
       "SilverWolf": "銀狼",
       "Sushang": "素裳",
       "Tingyun": "停雲",
-      "TrailblazertheDestruction": "Trailblazer・壊滅",
-      "TrailblazerthePreservation": "Trailblazer・存護",
+      "TrailblazerDestruction": "TrailblazerDestruction",
+      "TrailblazerPreservation": "TrailblazerPreservation",
       "Welt": "ヴェルト",
       "Yanqing": "彦卿",
       "Yukong": "御空"

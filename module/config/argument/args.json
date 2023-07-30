@@ -191,12 +191,14 @@
           "Stagnant_Shadow_Mirage",
           "Stagnant_Shadow_Icicle",
           "Stagnant_Shadow_Doom",
+          "Stagnant_Shadow_Celestial",
           "Cavern_of_Corrosion_Path_of_Gelid_Wind",
           "Cavern_of_Corrosion_Path_of_Jabbing_Punch",
           "Cavern_of_Corrosion_Path_of_Drifting",
           "Cavern_of_Corrosion_Path_of_Providence",
           "Cavern_of_Corrosion_Path_of_Holy_Hymn",
-          "Cavern_of_Corrosion_Path_of_Conflagration"
+          "Cavern_of_Corrosion_Path_of_Conflagration",
+          "Cavern_of_Corrosion_Path_of_Elixir_Seekers"
         ]
       },
       "NameAtDoubleCalyx": {
@@ -245,6 +247,7 @@
           "Arlan",
           "Asta",
           "Bailu",
+          "Blade",
           "Bronya",
           "Clara",
           "DanHeng",
@@ -253,7 +256,6 @@
           "Himeko",
           "Hook",
           "JingYuan",
-          "Kafka",
           "Luocha",
           "March7th",
           "Natasha",
@@ -265,8 +267,8 @@
           "SilverWolf",
           "Sushang",
           "Tingyun",
-          "TrailblazertheDestruction",
-          "TrailblazerthePreservation",
+          "TrailblazerDestruction",
+          "TrailblazerPreservation",
           "Welt",
           "Yanqing",
           "Yukong"

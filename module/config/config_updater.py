@@ -371,15 +371,17 @@ class ConfigGenerator:
         dungeons = [dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_daily_dungeon]
         deep_set(self.argument, keys='Dungeon.Name.option', value=dungeons)
         deep_set(self.args, keys='Dungeon.Dungeon.Name.option', value=dungeons)
-        
+
         from tasks.character.keywords import CharacterList
-        characters = ['FirstCharacter'] + [character.name for character in CharacterList.instances.values()]
+        unsupported_characters = ["DanHengImbibitorLunae", 'Kafka', 'Luka']
+        characters = ['FirstCharacter'] + [character.name for character in CharacterList.instances.values() if
+                                           character.name not in unsupported_characters]
         deep_set(self.argument, keys='Dungeon.SupportCharacter.option', value=characters)
         deep_set(self.args, keys='Dungeon.Dungeon.SupportCharacter.option', value=characters)
-        
+
         dungeons = deep_get(self.argument, keys='Dungeon.NameAtDoubleCalyx.option')
         dungeons += [dungeon.name for dungeon in DungeonList.instances.values()
-                    if dungeon.is_Calyx_Golden or dungeon.is_Calyx_Crimson]
+                     if dungeon.is_Calyx_Golden or dungeon.is_Calyx_Crimson]
         deep_set(self.argument, keys='Dungeon.NameAtDoubleCalyx.option', value=dungeons)
         deep_set(self.args, keys='Dungeon.Dungeon.NameAtDoubleCalyx.option', value=dungeons)
 
