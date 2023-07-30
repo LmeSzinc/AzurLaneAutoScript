@@ -317,9 +317,9 @@ def area_in_area(area1, area2, threshold=5):
         bool:
     """
     return area2[0] - threshold <= area1[0] \
-           and area2[1] - threshold <= area1[1] \
-           and area1[2] <= area2[2] + threshold \
-           and area1[3] <= area2[3] + threshold
+        and area2[1] - threshold <= area1[1] \
+        and area1[2] <= area2[2] + threshold \
+        and area1[3] <= area2[3] + threshold
 
 
 def area_cross_area(area1, area2, threshold=5):
@@ -337,7 +337,7 @@ def area_cross_area(area1, area2, threshold=5):
     xa1, ya1, xa2, ya2 = area1
     xb1, yb1, xb2, yb2 = area2
     return abs(xb2 + xb1 - xa2 - xa1) <= xa2 - xa1 + xb2 - xb1 + threshold * 2 \
-           and abs(yb2 + yb1 - ya2 - ya1) <= ya2 - ya1 + yb2 - yb1 + threshold * 2
+        and abs(yb2 + yb1 - ya2 - ya1) <= ya2 - ya1 + yb2 - yb1 + threshold * 2
 
 
 def float2str(n, decimal=3):
@@ -594,6 +594,21 @@ def image_size(image):
     return shape[1], shape[0]
 
 
+def image_paste(image, background, origin):
+    """
+    Paste an image on background.
+    This method does not return a value, but instead updates the array "background".
+
+    Args:
+        image:
+        background:
+        origin: Upper-left corner, (x, y)
+    """
+    x, y = origin
+    w, h = image_size(image)
+    background[y:y + h, x:x + w] = image
+
+
 def rgb2gray(image):
     """
     Args:
@@ -684,6 +699,24 @@ def get_bbox(image, threshold=0):
         image = np.max(image, axis=2)
     x = np.where(np.max(image, axis=0) > threshold)[0]
     y = np.where(np.max(image, axis=1) > threshold)[0]
+    return x[0], y[0], x[-1] + 1, y[-1] + 1
+
+
+def get_bbox_reversed(image, threshold=0):
+    """
+    Similar to `get_bbox` but for black contents on white background.
+
+    Args:
+        image (np.ndarray): Screenshot.
+        threshold (int): Color >= threshold will be considered white
+
+    Returns:
+        tuple: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y)
+    """
+    if image_channel(image) == 3:
+        image = np.min(image, axis=2)
+    x = np.where(np.min(image, axis=0) < threshold)[0]
+    y = np.where(np.min(image, axis=1) < threshold)[0]
     return x[0], y[0], x[-1] + 1, y[-1] + 1
 
 
