@@ -48,12 +48,13 @@ class MapPlane(Keyword):
 
     @cached_property
     def has_multiple_floors(self):
-        return self.floors == ['F1']
+        return self.floors and self.floors != ['F1']
 
-    def convert_to_floor_index(self, floor: str) -> int:
+    def convert_to_floor_index(self, floor: str | int) -> int:
         """
         Args:
-            floor: Floor names in game, such as "B1", "F1", "F2"
+            floor: int for floor index counted from bottom, such as 1, 2, 3
+                str for floor names in game, such as "B1", "F1", "F2"
 
         Returns:
             int: 1 to 3 counted from bottom.
@@ -61,16 +62,28 @@ class MapPlane(Keyword):
         Raises:
             ScriptError: If floor doesn't exist
         """
-        floor = floor.upper()
-        try:
-            return self.floors.index(floor) + 1
-        except IndexError:
-            raise ScriptError(f'Plane {self} does not have floor name {floor}')
+        if isinstance(floor, int):
+            # Check exist
+            try:
+                _ = self.floors[floor - 1]
+                return floor
+            except IndexError:
+                raise ScriptError(f'Plane {self} does not have floor index {floor}')
+        elif isinstance(floor, str):
+            # Convert to floor index
+            floor = floor.upper()
+            try:
+                return self.floors.index(floor) + 1
+            except IndexError:
+                raise ScriptError(f'Plane {self} does not have floor name {floor}')
+        else:
+            raise ScriptError(f'Plane {self} does not have floor {floor}')
 
-    def convert_to_floor_name(self, floor: int) -> str:
+    def convert_to_floor_name(self, floor: str | int) -> str:
         """
         Args:
-            floor: Floor index counted from bottom, such as 1, 2, 3
+            floor: int for floor index counted from bottom, such as 1, 2, 3
+                str for floor names in game, such as "B1", "F1", "F2"
 
         Returns:
             str: Floor names in game, such as "B1", "F1", "F2"
@@ -78,7 +91,19 @@ class MapPlane(Keyword):
         Raises:
             ScriptError: If floor doesn't exist
         """
-        try:
-            return self.floors[floor - 1]
-        except IndexError:
-            raise ScriptError(f'Plane {self} does not have floor index {floor}')
+        if isinstance(floor, int):
+            # Convert to floor index
+            try:
+                return self.floors[floor - 1]
+            except IndexError:
+                raise ScriptError(f'Plane {self} does not have floor index {floor}')
+        elif isinstance(floor, str):
+            # Check exist
+            floor = floor.upper()
+            try:
+                _ = self.floors.index(floor) + 1
+                return floor
+            except IndexError:
+                raise ScriptError(f'Plane {self} does not have floor name {floor}')
+        else:
+            raise ScriptError(f'Plane {self} does not have floor {floor}')
