@@ -168,7 +168,7 @@ class DraggableList:
             self.load_rows(main=main)
 
             # End
-            if self.cur_min <= row_index <= self.cur_max:
+            if self.cur_buttons and self.cur_min <= row_index <= self.cur_max:
                 break
 
             # Drag pages
