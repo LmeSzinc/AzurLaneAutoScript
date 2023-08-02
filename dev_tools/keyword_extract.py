@@ -14,7 +14,7 @@ UI_LANGUAGES = ['cn', 'cht', 'en', 'jp']
 def text_to_variable(text):
     text = re.sub("'s |s' ", '_', text)
     text = re.sub('[ \-—:\'/•]+', '_', text)
-    text = re.sub(r'[(),#]|</?\w+>', '', text)
+    text = re.sub(r'[(),#"?]|</?\w+>', '', text)
     # text = re.sub(r'[#_]?\d+(_times?)?', '', text)
     return text
 
@@ -182,12 +182,24 @@ class KeywordExtract:
             self.clear_keywords()
         return gen
 
-    def load_daily_quests_keywords(self, lang='cn'):
-        daily_quest = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'DailyQuest.json'))
+    def load_quests(self, quests, lang='cn'):
+        """
+        Load a set of quest keywords
+
+        Args:
+            quests: iterable quest id collection
+            lang:
+
+        """
         quest_data = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'QuestData.json'))
-        quests_hash = [quest_data[quest_id]["QuestTitle"]["Hash"] for quest_id in daily_quest]
-        quest_keywords = [self.text_map[lang].find(quest_hash)[1] for quest_hash in quests_hash]
+        quests_hash = [quest_data[str(quest_id)]["QuestTitle"]["Hash"] for quest_id in quests]
+        quest_keywords = list(dict.fromkeys([self.text_map[lang].find(quest_hash)[1] for quest_hash in quests_hash]))
         self.load_keywords(quest_keywords, lang)
+
+    def generate_daily_quests(self):
+        daily_quest = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'DailyQuest.json'))
+        self.load_quests(daily_quest.keys())
+        self.write_keywords(keyword_class='DailyQuest', output_file='./tasks/daily/keywords/daily_quest.py')
 
     def load_character_name_keywords(self, lang='en'):
         file_name = 'ItemConfigAvatarPlayerIcon.json'
@@ -259,26 +271,40 @@ class KeywordExtract:
         self.write_keywords(keyword_class='CharacterList', output_file='./tasks/character/keywords/character_list.py',
                             text_convert=character_name)
 
+    def generate_battle_pass_quests(self):
+        battle_pass_quests = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'BattlePassConfig.json'))
+        latest_quests = list(battle_pass_quests.values())[-1]
+        quests = deep_get(latest_quests, "DailyQuestList") + deep_get(latest_quests, "WeekQuestList") + deep_get(
+            latest_quests, "WeekOrder1")
+        self.load_quests(quests)
+        self.write_keywords(keyword_class='BattlePassQuest', output_file='./tasks/battle_pass/keywords/quest.py')
+
     def generate(self):
         self.load_keywords(['模拟宇宙', '拟造花萼（金）', '拟造花萼（赤）', '凝滞虚影', '侵蚀隧洞', '历战余响', '忘却之庭'])
         self.write_keywords(keyword_class='DungeonNav', output_file='./tasks/dungeon/keywords/nav.py')
         self.load_keywords(['行动摘要', '生存索引', '每日实训'])
         self.write_keywords(keyword_class='DungeonTab', output_file='./tasks/dungeon/keywords/tab.py')
-        self.load_daily_quests_keywords()
-        self.write_keywords(keyword_class='DailyQuest', output_file='./tasks/daily/keywords/daily_quest.py')
         self.load_keywords(['前往', '领取', '进行中', '已领取', '本日活跃度已满'])
         self.write_keywords(keyword_class='DailyQuestState', output_file='./tasks/daily/keywords/daily_quest_state.py')
+        self.load_keywords(['领取', '追踪'])
+        self.write_keywords(keyword_class='BattlePassQuestState',
+                            output_file='./tasks/battle_pass/keywords/quest_state.py')
         self.load_keywords(list(self.iter_guide()))
         self.write_keywords(keyword_class='DungeonList', output_file='./tasks/dungeon/keywords/dungeon.py',
                             text_convert=dungeon_name)
         self.load_keywords(['传送', '追踪'])
         self.write_keywords(keyword_class='DungeonEntrance', output_file='./tasks/dungeon/keywords/dungeon_entrance.py')
-        self.load_keywords(['奖励', '任务'])
+        self.load_keywords(['奖励', '任务', ])
         self.write_keywords(keyword_class='BattlePassTab', output_file='./tasks/battle_pass/keywords/tab.py')
+        self.load_keywords(['本日任务', '本周任务', '本期任务'])
+        self.write_keywords(keyword_class='BattlePassMissionTab',
+                            output_file='./tasks/battle_pass/keywords/mission_tab.py')
         self.generate_assignment_keywords()
         self.generate_forgotten_hall_stages()
         self.generate_map_planes()
         self.generate_character_keywords()
+        self.generate_daily_quests()
+        self.generate_battle_pass_quests()
         self.load_keywords(['养成材料', '光锥', '遗器', '其他材料', '消耗品', '任务', '贵重物'])
         self.write_keywords(keyword_class='ItemTab', text_convert=lambda name: name.replace(' ', ''),
                             output_file='./tasks/item/keywords/tab.py')

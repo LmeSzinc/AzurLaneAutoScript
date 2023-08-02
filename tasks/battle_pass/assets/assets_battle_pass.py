@@ -53,6 +53,26 @@ MISSIONS_LOADED = ButtonWrapper(
         button=(1163, 573, 1179, 589),
     ),
 )
+MISSION_PAGE_SCROLL = ButtonWrapper(
+    name='MISSION_PAGE_SCROLL',
+    share=Button(
+        file='./assets/share/battle_pass/MISSION_PAGE_SCROLL.png',
+        area=(1186, 215, 1190, 601),
+        search=(1166, 195, 1210, 621),
+        color=(140, 140, 140),
+        button=(1186, 215, 1190, 601),
+    ),
+)
+OCR_BATTLE_PASS_QUEST = ButtonWrapper(
+    name='OCR_BATTLE_PASS_QUEST',
+    share=Button(
+        file='./assets/share/battle_pass/OCR_BATTLE_PASS_QUEST.png',
+        area=(372, 216, 1173, 591),
+        search=(352, 196, 1193, 611),
+        color=(185, 184, 180),
+        button=(372, 216, 1173, 591),
+    ),
+)
 OCR_LEVEL = ButtonWrapper(
     name='OCR_LEVEL',
     share=Button(
@@ -71,6 +91,16 @@ OCR_REMAINING_TIME = ButtonWrapper(
         search=(269, 69, 650, 152),
         color=(66, 63, 57),
         button=(289, 89, 630, 132),
+    ),
+)
+PERIOD_MISSION_CLICK = ButtonWrapper(
+    name='PERIOD_MISSION_CLICK',
+    share=Button(
+        file='./assets/share/battle_pass/PERIOD_MISSION_CLICK.png',
+        area=(128, 478, 323, 578),
+        search=(108, 458, 343, 598),
+        color=(72, 65, 45),
+        button=(128, 478, 323, 578),
     ),
 )
 REWARDS_CHECK = ButtonWrapper(
@@ -111,5 +141,25 @@ REWARDS_LOADED = ButtonWrapper(
         search=(153, 266, 268, 344),
         color=(96, 96, 94),
         button=(173, 286, 248, 324),
+    ),
+)
+TODAY_MISSION_CLICK = ButtonWrapper(
+    name='TODAY_MISSION_CLICK',
+    share=Button(
+        file='./assets/share/battle_pass/TODAY_MISSION_CLICK.png',
+        area=(128, 192, 323, 334),
+        search=(108, 172, 343, 354),
+        color=(65, 59, 40),
+        button=(128, 192, 323, 334),
+    ),
+)
+WEEK_MISSION_CLICK = ButtonWrapper(
+    name='WEEK_MISSION_CLICK',
+    share=Button(
+        file='./assets/share/battle_pass/WEEK_MISSION_CLICK.png',
+        area=(128, 336, 323, 477),
+        search=(108, 316, 343, 497),
+        color=(68, 62, 42),
+        button=(128, 336, 323, 477),
     ),
 )
