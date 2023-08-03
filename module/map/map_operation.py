@@ -148,6 +148,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 # Map preparation
                 if map_timer.reached() and self.handle_map_preparation():
                     self.map_get_info()
+                    self.handle_map_walk_speedup()
                     self.handle_fast_forward()
                     self.handle_auto_search()
                     if self.triggered_map_stop():
