@@ -68,7 +68,8 @@ def get_research_series_old(image, series_button=RESEARCH_SERIES):
 
 
 def _get_research_series(img):
-    img = rgb2luma(img)
+    # img = rgb2luma(img)
+    img = extract_white_letters(img)
     pos = img.shape[0] * 2 // 5
 
     img = img[pos - 4:pos + 5]
@@ -113,7 +114,9 @@ def get_research_series(image, series_button=RESEARCH_SERIES):
     """
     result = []
     for button in series_button:
-        img = resize(crop(image, button.area), (46, 25))
+        # img = resize(crop(image, button.area), (46, 25))
+        img = crop(image, button.area)
+        img = cv2.resize(img, (46, 25), interpolation=cv2.INTER_AREA)
         series = _get_research_series(img)
         result.append(series)
     return result
