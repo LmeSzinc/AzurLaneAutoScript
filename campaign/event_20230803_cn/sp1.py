@@ -51,6 +51,7 @@ class Config:
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    MAP_HAS_WALK_SPEEDUP = True
     MAP_HAS_MOVABLE_NORMAL_ENEMY = True
     MOVABLE_NORMAL_ENEMY_TURN = (2,)
     MAP_SIREN_MOVE_WAIT = 0.5
