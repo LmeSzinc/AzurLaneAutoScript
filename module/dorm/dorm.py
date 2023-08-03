@@ -326,10 +326,11 @@ class RewardDorm(UI):
             if self.appear(DORM_FEED_CHECK, offset=(20, 20)):
                 break
 
-            if self.appear(DORM_CHECK, offset=(20, 20), interval=2):
-                self.device.click(DORM_FEED_ENTER)
-                continue
             if self.ui_additional():
+                self.interval_clear(DORM_CHECK)
+                continue
+            if self.appear(DORM_CHECK, offset=(20, 20), interval=5):
+                self.device.click(DORM_FEED_ENTER)
                 continue
 
     def dorm_feed_quit(self, skip_first_screenshot=False):
@@ -349,12 +350,14 @@ class RewardDorm(UI):
             if self.appear(DORM_CHECK, offset=(20, 20)):
                 break
 
-            if self.appear(DORM_FEED_CHECK, offset=(20, 20), interval=2):
+            if self.appear(DORM_FEED_CHECK, offset=(20, 20), interval=5):
                 self.device.click(DORM_FEED_ENTER)
                 continue
             if self.handle_popup_cancel('DORM_FEED'):
+                self.interval_clear(DORM_CHECK)
                 continue
             if self.ui_additional():
+                self.interval_clear(DORM_CHECK)
                 continue
 
     def dorm_run(self, feed=True, collect=True):

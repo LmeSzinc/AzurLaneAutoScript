@@ -1,5 +1,5 @@
 from module.base.button import ButtonGrid
-from module.base.decorator import cached_property, del_cached_property, Config
+from module.base.decorator import cached_property, del_cached_property
 from module.base.timer import Timer
 from module.logger import logger
 from module.map_detection.utils import Points
@@ -73,47 +73,6 @@ class MedalShop2(ShopClerk, ShopStatus):
     def shop_grid(self):
         return self.shop_medal_grid()
 
-    @Config.when(SERVER='tw')
-    def shop_medal_grid(self):
-        """
-        Returns:
-            ButtonGrid:
-        """
-        medals = self._get_medals()
-        count = len(medals)
-        if count == 0:
-            logger.warning('Unable to find medal icon, assume item list is at top')
-            origin_y = 152
-            delta_y = 213
-            row = 2
-        elif count == 1:
-            y_list = medals[:, 1]
-            # +256, top of the crop area in _get_medals()
-            # -125, from the top of medal icon to the top of shop item
-            origin_y = y_list[0] + 256 - 125
-            delta_y = 213
-            row = 1
-        elif count == 2:
-            y_list = medals[:, 1]
-            y1, y2 = y_list[0], y_list[1]
-            origin_y = min(y1, y2) + 256 - 125
-            delta_y = abs(y1 - y2)
-            row = 2
-        else:
-            logger.warning(f'Unexpected medal icon match result: {[m.area for m in medals]}')
-            origin_y = 152
-            delta_y = 213
-            row = 2
-
-        # Make up a ButtonGrid
-        # Original grid is:
-        # shop_grid = ButtonGrid(
-        #     origin=(489, 152), delta=(156, 213), button_shape=(96, 96), grid_shape=(5, 2), name='SHOP_GRID')
-        shop_grid = ButtonGrid(
-            origin=(477, origin_y), delta=(156, delta_y), button_shape=(96, 96), grid_shape=(5, row), name='SHOP_GRID')
-        return shop_grid
-
-    @Config.when(SERVER=None)
     def shop_medal_grid(self):
         """
         Returns:
