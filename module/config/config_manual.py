@@ -110,6 +110,7 @@ class ManualConfig:
     module.map.fleet
     """
     MAP_HAS_CLEAR_PERCENTAGE = True
+    MAP_HAS_WALK_SPEEDUP = False
     MAP_HAS_AMBUSH = True
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_MOVABLE_ENEMY = False
