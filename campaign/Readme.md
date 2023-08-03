@@ -152,3 +152,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20230713   | event 20220818 cn        | Operation Convergence                        | -                      | -                                            | 結像点作戦                            | 遠匯點作戰                |
 | 20230720   | event 20211125 cn        | World-spanning Arclight                      | 复刻交汇世界的弧光       | World-spanning Arclight Rerun                | 弧光は交わる世界にて（復刻）           | -                        |
 | 20230727   | event 20200917 cn        | Dreamwaker's Butterfly                       | -                      | -                                            | -                                    | 復刻-蝶海夢花              |
+| 20230803   | event 20211125 cn        | World-spanning Arclight                      | -                      | -                                            | -                                    | 復刻-交匯世界的弧光                        |
