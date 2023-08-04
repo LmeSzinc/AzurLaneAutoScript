@@ -184,7 +184,7 @@ class CommandBuilder:
     max_x = 1280
     max_y = 720
 
-    def __init__(self, device):
+    def __init__(self, device, handle_orientation=True):
         """
         Args:
             device:
@@ -192,10 +192,18 @@ class CommandBuilder:
         self.device = device
         self.commands = []
         self.delay = 0
+        self.handle_orientation = handle_orientation
+
+    @property
+    def orientation(self):
+        if self.handle_orientation:
+            return self.device.orientation
+        else:
+            return 0
 
     def convert(self, x, y):
         max_x, max_y = self.device.max_x, self.device.max_y
-        orientation = self.device.orientation
+        orientation = self.orientation
 
         if orientation == 0:
             pass
