@@ -181,20 +181,23 @@ class Equipment(StorageHandler):
             if off_timer.started() and self.info_bar_count():
                 break
 
-            if bar_timer.reached() and not self.appear(EQUIP_1, offset=10):
-                self.device.click(EQUIPMENT_OPEN)
-                bar_timer.reset()
-                continue
-
-            if off_timer.reached() and not self.info_bar_count() and self.appear_then_click(EQUIP_OFF, offset=10):
-                off_timer.reset()
+            if self.handle_storage_full():
                 continue
 
             if confirm_timer.reached() and self.handle_popup_confirm():
                 confirm_timer.reset()
                 continue
-            if self.handle_storage_full():
-                continue
+
+            if off_timer.reached():
+                if not self.info_bar_count() and self.appear_then_click(EQUIP_OFF, offset=(20, 20)):
+                    off_timer.reset()
+                    continue
+
+            if bar_timer.reached():
+                if self.appear(EQUIPMENT_OPEN, offset=(20, 20)) and not self.appear(EQUIP_OFF, offset=(20, 20)):
+                    self.device.click(EQUIPMENT_OPEN)
+                    bar_timer.reset()
+                    continue
 
     def equipment_take_off(self, enter, out, fleet):
         """
