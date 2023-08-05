@@ -497,14 +497,14 @@ class Connection(ConnectionAttr):
         # Disconnect offline device before connecting
         for device in self.list_device():
             if device.status == 'offline':
-                logger.warning(f'Device {serial} is offline, disconnect it before connecting')
-                self.adb_disconnect(serial)
+                logger.warning(f'Device {device.serial} is offline, disconnect it before connecting')
+                self.adb_disconnect(device.serial)
             elif device.status == 'unauthorized':
-                logger.error(f'Device {serial} is unauthorized, please accept ADB debugging on your device')
+                logger.error(f'Device {device.serial} is unauthorized, please accept ADB debugging on your device')
             elif device.status == 'device':
                 pass
             else:
-                logger.warning(f'Device {serial} is is having a unknown status: {device.status}')
+                logger.warning(f'Device {device.serial} is is having a unknown status: {device.status}')
 
         # Skip for emulator-5554
         if 'emulator-' in serial:
