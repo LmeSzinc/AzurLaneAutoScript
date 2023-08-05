@@ -140,7 +140,7 @@ MaaMall:
 
 MaaRoguelike:
   Theme:
-    value: Phantom
+    value: Sami
     option: [Phantom, Mizuki, Sami]
   Mode:
     value: 0

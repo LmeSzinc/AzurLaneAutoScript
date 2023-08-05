@@ -866,7 +866,7 @@
     "MaaRoguelike": {
       "Theme": {
         "type": "select",
-        "value": "Phantom",
+        "value": "Sami",
         "option": [
           "Phantom",
           "Mizuki",
