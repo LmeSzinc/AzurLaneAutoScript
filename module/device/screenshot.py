@@ -38,6 +38,7 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
             'DroidCast': self.screenshot_droidcast,
             'DroidCast_raw': self.screenshot_droidcast_raw,
             'scrcpy': self.screenshot_scrcpy,
+            'WSA': self.screenshot_wsa
         }
 
     def screenshot(self):
