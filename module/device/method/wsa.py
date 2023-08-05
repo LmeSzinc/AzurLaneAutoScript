@@ -6,9 +6,10 @@ from adbutils.errors import AdbError
 from module.device.connection import Connection
 from module.device.method.utils import (RETRY_TRIES, retry_sleep,
                                         handle_adb_error, PackageNotInstalled)
-from module.exception import RequestHumanTakeover
+from module.exception import (RequestHumanTakeover, GameNotRunningError)
 from module.logger import logger
 
+from module.device.method.winapiutils import Winapiutils
 
 def retry(func):
     @wraps(func)
@@ -46,6 +47,13 @@ def retry(func):
 
                 def init():
                     self.detect_package()
+            # Application hasn't started yet
+            except GameNotRunningError as e:
+                logger.error(e)
+                logger.error('Application is not running, please run application before using the script')
+
+                def init():
+                    pass
             # Unknown, probably a trucked image
             except Exception as e:
                 logger.exception(e)
@@ -59,7 +67,7 @@ def retry(func):
     return retry_wrapper
 
 
-class WSA(Connection):
+class WSA(Connection, Winapiutils):
 
     @retry
     def app_current_wsa(self):
@@ -145,5 +153,10 @@ class WSA(Connection):
 
     @retry
     def display_resize_wsa(self, display):
-        logger.warning('display ' + str(display) + ' should be resized')
-        self.adb_shell(['wm', 'size', '1280x720', '-d', str(display)])
+        logger.warning('display ' + str(display) + ' auto resizing...')
+
+    @retry
+    def screenshot_wsa(self):
+        # TODO: support other server
+        self.find_window("碧蓝航线")
+        return self.get_frame()

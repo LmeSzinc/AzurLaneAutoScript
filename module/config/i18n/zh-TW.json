@@ -403,7 +403,8 @@
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
-      "scrcpy": "scrcpy"
+      "scrcpy": "scrcpy",
+      "WSA": "WSA"
     },
     "ControlMethod": {
       "name": "模擬器控制方案",
