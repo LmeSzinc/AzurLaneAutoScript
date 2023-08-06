@@ -4,16 +4,9 @@ from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3, GET_ITEM
 from module.logger import logger
 from module.research.assets import *
 from module.research.project import RESEARCH_STATUS
+from module.research.series import RESEARCH_SCALING
 from module.ui.assets import RESEARCH_CHECK
 from module.ui.ui import UI
-
-TEMPLATE_SCALING = [
-    424 / 558,
-    491 / 558,
-    1.0,
-    491 / 558,
-    424 / 558,
-]
 
 
 class ResearchUI(UI):
@@ -91,7 +84,7 @@ class ResearchUI(UI):
             list[str]: List of project status
         """
         out = []
-        for index, status, scaling in zip(range(5), RESEARCH_STATUS, TEMPLATE_SCALING):
+        for index, status, scaling in zip(range(5), RESEARCH_STATUS, RESEARCH_SCALING):
             info = status.crop((0, -40, 200, 0))
             piece = rgb2gray(crop(image, info.area))
             if TEMPLATE_WAITING.match(piece, scaling=scaling, similarity=0.75):
