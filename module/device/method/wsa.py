@@ -157,6 +157,5 @@ class WSA(Connection, Winapiutils):
 
     @retry
     def screenshot_wsa(self):
-        # TODO: support other server
-        self.find_window("碧蓝航线")
+        self.find_window()
         return self.get_frame()

@@ -5,6 +5,8 @@ import win32con
 import cv2
 import numpy as np
 
+import module.config.server as server
+
 from module.exception import GameNotRunningError
 
 from module.device.method.utils import ImageTruncated
@@ -12,18 +14,27 @@ from module.device.method.utils import ImageTruncated
 
 class Winapiutils:
     hwnd = None
+    # Need other server player support
+    windowname = {'jp': 'アズールレーン'}
     def __init__(self):
         self.windowposx = 0
         self.windowposy = 0
         self.windowwidth = 0
         self.windowheight = 0
 
-    def find_window(self, winname = None):
+
+    def find_window(self):
         """
         Args:
             winname (str): window name
 
         """
+
+        try:
+            winname = self.windowname[server.server]
+        except KeyError:
+            winname = '碧蓝航线'
+
         self.hwnd = win32gui.FindWindow(None, winname)
         if not self.hwnd:
             raise GameNotRunningError
