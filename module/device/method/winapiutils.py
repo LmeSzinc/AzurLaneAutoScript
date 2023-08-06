@@ -14,8 +14,7 @@ from module.device.method.utils import ImageTruncated
 
 class Winapiutils:
     hwnd = None
-    # Need other server player support
-    windowname = {'jp': 'アズールレーン'}
+    windowname = {'jp': 'アズールレーン', 'tw': '碧藍航線', 'en': 'Azur Lane'}
     def __init__(self):
         self.windowposx = 0
         self.windowposy = 0
