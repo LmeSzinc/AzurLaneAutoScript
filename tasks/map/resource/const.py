@@ -43,6 +43,12 @@ class ResourceConst:
     # Pad 600px, cause camera sight in game is larger than GIMAP
     BIGMAP_BORDER_PAD = int(600 * BIGMAP_SEARCH_SCALE)
 
+    # Swipe 400px is about 85~90 degree
+    # <rotation_diff> * ROTATION_SWIPE_MULTIPLY = <distance_to_swipe>
+    ROTATION_SWIPE_MULTIPLY = 400 / 85
+    # Max distance in one swipe, limited in -600px~600px
+    ROTATION_SWIPE_MAX_DISTANCE = 600
+
     def __init__(self):
         # Usually to be 0.4~0.5
         self.position_similarity = 0.
@@ -50,6 +56,8 @@ class ResourceConst:
         self.position_similarity_local = 0.
         # Current position on GIMAP with an error of about 0.1 pixel
         self.position: tuple[float, float] = (0, 0)
+        # Minimap scale factor, 1.0~1.25
+        self.position_scale = 1.0
 
         # Usually > 0.3
         # Warnings will be logged if similarity <= 0.8
@@ -82,3 +90,51 @@ class ResourceConst:
         file = self.filepath(file)
         print(f'Save image: {file}')
         Image.fromarray(image).save(file)
+
+    def position_diff(self, target):
+        """
+        Args:
+            target: Target position (x, y)
+
+        Returns:
+            float: Distance to current position
+        """
+        x1, y1 = self.position
+        x2, y2 = target
+        diff = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
+        return diff
+
+    def is_position_near(self, target, threshold=5):
+        return self.position_diff(target) <= threshold
+
+    def direction_diff(self, target):
+        """
+        Args:
+            target: Target degree (0~360)
+
+        Returns:
+            float: Diff to current direction (-180~180)
+        """
+        diff = (self.direction - target) % 360
+        if diff > 180:
+            diff -= 360
+        return diff
+
+    def is_direction_near(self, target, threshold=15):
+        return abs(self.direction_diff(target)) <= threshold
+
+    def rotation_diff(self, target):
+        """
+        Args:
+            target: Target degree (0~360)
+
+        Returns:
+            float: Diff to current rotation (-180~180)
+        """
+        diff = (self.rotation - target) % 360
+        if diff > 180:
+            diff -= 360
+        return diff
+
+    def is_rotation_near(self, target, threshold=15):
+        return abs(self.rotation_diff(target)) <= threshold

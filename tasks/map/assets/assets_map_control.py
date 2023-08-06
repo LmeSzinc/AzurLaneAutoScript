@@ -33,6 +33,16 @@ JOYSTICK = ButtonWrapper(
         button=(234, 546, 262, 574),
     ),
 )
+ROTATION_SWIPE_AREA = ButtonWrapper(
+    name='ROTATION_SWIPE_AREA',
+    share=Button(
+        file='./assets/share/map/control/ROTATION_SWIPE_AREA.png',
+        area=(264, 87, 990, 219),
+        search=(244, 67, 1010, 239),
+        color=(255, 255, 255),
+        button=(264, 87, 990, 219),
+    ),
+)
 RUN_BUTTON = ButtonWrapper(
     name='RUN_BUTTON',
     share=Button(

@@ -363,7 +363,9 @@ class Minimap(MapResource):
         self.update_position(image)
         self.update_direction(image)
         self.update_rotation(image)
+        self.log_minimap()
 
+    def log_minimap(self):
         # MiniMap P:(567.5, 862.8) (1.00x|0.439|0.157), D:303.8 (0.253), R:304 (0.846)
         logger.info(
             f'MiniMap '
