@@ -3,6 +3,7 @@ from module.logger import logger
 from module.minigame.assets import *
 from module.minigame.minigame import MinigameRun
 from module.ocr.ocr import Digit
+from module.ui.page import page_game_room
 from module.ui.scroll import Scroll
 
 OCR_GAME_NEW_YEAR_COIN_COST = Digit(NEW_YEAR_CHALLENGE_COIN_COST_HOLDER,
@@ -52,7 +53,8 @@ class NewYearChallenge(MinigameRun):
                 self.device.click(NEW_YEAR_CHALLENGE_ENTRANCE)
                 continue
             # swipe down
-            if not MINIGAME_SCROLL.at_bottom(main=self):
+            if self.ui_page_appear(page_game_room) and MINIGAME_SCROLL.appear(main=self) \
+                    and not MINIGAME_SCROLL.at_bottom(main=self):
                 MINIGAME_SCROLL.set_bottom(main=self)
                 continue
 
