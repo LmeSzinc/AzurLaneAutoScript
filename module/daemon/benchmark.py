@@ -197,14 +197,10 @@ class Benchmark(DaemonBase, CampaignUI):
         return tuple(screenshot), tuple(click)
 
     def run(self):
-        try:
-            self.config.override(Emulator_ScreenshotMethod='ADB')
-            self.device.uninstall_minicap()
-            self.ui_goto_campaign()
-            self.campaign_set_chapter('7-2')
-        except RequestHumanTakeover:
-            logger.critical('Request human takeover')
-            return
+        self.config.override(Emulator_ScreenshotMethod='ADB')
+        self.device.uninstall_minicap()
+        self.ui_goto_campaign()
+        self.campaign_set_chapter('7-2')
 
         logger.attr('DeviceType', self.config.Benchmark_DeviceType)
         logger.attr('TestScene', self.config.Benchmark_TestScene)
@@ -236,6 +232,10 @@ class Benchmark(DaemonBase, CampaignUI):
         return method
 
 
-if __name__ == '__main__':
-    b = Benchmark('alas', task='Benchmark')
-    b.run()
+def run_benchmark(config):
+    try:
+        Benchmark(config, task='Benchmark').run()
+        return True
+    except RequestHumanTakeover:
+        logger.critical('Request human takeover')
+        return False
