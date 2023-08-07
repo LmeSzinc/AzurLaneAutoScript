@@ -92,7 +92,7 @@ class MetaReward(Combat, UI):
         logger.info(f'Meta reward receive finished, received={received}')
         return received
 
-    def run(self):
+    def run(self, category=1):
         if self.config.SERVER in ['cn', 'en', 'jp']:
             pass
         else:

@@ -75,7 +75,8 @@ def _server_support_dossier_auto_attack():
 
 
 class OpsiAshBeacon(Meta):
-    _meta_receive_count = 0
+    _meta_receive = []
+    _meta_category = 0
 
     def _attack_meta(self, skip_first_screenshot=True):
         """
@@ -98,7 +99,10 @@ class OpsiAshBeacon(Meta):
             if MetaState.UNDEFINED == state:
                 continue
             if MetaState.INIT == state:
-                if self._begin_meta():
+                category = self._begin_meta()
+                if category != 0:
+                    if category in [1, 2]:
+                        _meta_category = category
                     continue
                 else:
                     # Normal finish
@@ -111,7 +115,7 @@ class OpsiAshBeacon(Meta):
                     continue
             if MetaState.COMPLETE == state:
                 self._handle_ash_beacon_reward()
-                self._meta_receive_count += 1
+                self._meta_receive.append(_meta_category)
                 # Check other tasks after kill a meta
                 self.config.check_task_switch()
                 continue
@@ -347,6 +351,13 @@ class OpsiAshBeacon(Meta):
             select beacon or dossier entrance into if needed, or end task
         In beacon or dossier:
             begin a new meta if needed, or back to meta main page
+        
+        Returns:
+            0: No meta
+            1: Beacon Meta
+            2: Dossier Meta
+            3: Already chosen
+            4: Unknown page
         """
         # Page meta main
         if self.appear(ASH_SHOWDOWN, offset=(30, 30), interval=2):
@@ -354,17 +365,17 @@ class OpsiAshBeacon(Meta):
             if self._check_beacon_point():
                 self.device.click(META_MAIN_BEACON_ENTRANCE)
                 logger.info('Select beacon entrance into')
-                return True
+                return 1
             # Dossier
             if _server_support() \
                     and self.config.OpsiAshBeacon_AttackMode == 'current_dossier' \
                     and self._check_dossier_point():
                 if self.appear_then_click(META_MAIN_DOSSIER_ENTRANCE, offset=(20, 20), interval=2):
                     logger.info('Select dossier entrance into')
-                    return True
+                    return 2
                 else:
                     logger.info('None dossier has been selected')
-            return False
+            return 0
         # Page beacon
         elif self.appear(BEACON_LIST, offset=(20, 20), interval=2):
             if self._check_beacon_point():
@@ -373,9 +384,9 @@ class OpsiAshBeacon(Meta):
             else:
                 # TW only support current meta
                 if server.server == 'tw':
-                    return False
+                    return 0
                 self.appear_then_click(ASH_QUIT, offset=(10, 10), interval=2)
-            return True
+            return 1
         # Page dossier
         elif _server_support() \
                 and self.appear(DOSSIER_LIST, offset=(20, 20), interval=2):
@@ -383,14 +394,14 @@ class OpsiAshBeacon(Meta):
                     and self._check_dossier_point():
                 if self.appear_then_click(META_BEGIN_ENTRANCE, offset=(20, 20), interval=2):
                     logger.info('Begin a dossier')
-                    return True
+                    return 2
                 else:
                     logger.info('None dossier has been selected')
             self.appear_then_click(ASH_QUIT, offset=(10, 10), interval=2)
-            return True
+            return 3
         # UnKnown Page
         else:
-            return True
+            return 4
 
     def _check_beacon_point(self) -> bool:
         if self.appear(META_BEACON_FLAG, offset=(180, 20)):
@@ -453,8 +464,9 @@ class OpsiAshBeacon(Meta):
         self._begin_beacon()
 
         with self.config.multi_set():
-            if self._meta_receive_count > 0:
-                MetaReward(self.config, self.device).run()
+            for category in self._meta_receive:
+                MetaReward(self.config, self.device).run(category)
+            self._meta_receive = []
             self.config.task_delay(server_update=True)
 
 
