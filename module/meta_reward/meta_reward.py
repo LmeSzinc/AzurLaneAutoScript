@@ -6,7 +6,7 @@ from module.ui.page import page_meta
 from module.ui.ui import UI
 
 
-class MetaReward(Combat, UI):
+class BeaconReward(Combat, UI):
     def meta_reward_notice_appear(self):
         """
         Returns:
@@ -92,7 +92,7 @@ class MetaReward(Combat, UI):
         logger.info(f'Meta reward receive finished, received={received}')
         return received
 
-    def run(self, category=1):
+    def run(self):
         if self.config.SERVER in ['cn', 'en', 'jp']:
             pass
         else:
@@ -104,3 +104,18 @@ class MetaReward(Combat, UI):
         if self.meta_reward_notice_appear():
             self.meta_reward_enter()
             self.meta_reward_receive()
+
+
+class DossierReward(Combat, UI):
+    def run(self):
+        pass
+
+
+class MetaReward(BeaconReward, DossierReward):
+    def run(self, category=1):
+        if category == 1:
+            BeaconReward(self.config, self.device).run()
+        elif category == 2:
+            DossierReward(self.config, self.device).run(category)
+        else:
+            logger.info('Possible wrong parameter, please contact the developers.')
