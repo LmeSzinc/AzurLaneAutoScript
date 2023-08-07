@@ -3,6 +3,7 @@ from module.logger import logger
 from module.minigame.assets import *
 from module.minigame.minigame import MinigameRun
 from module.ocr.ocr import Digit
+from module.ui.scroll import Scroll
 
 OCR_GAME_NEW_YEAR_COIN_COST = Digit(NEW_YEAR_CHALLENGE_COIN_COST_HOLDER,
                                     name='OCR_GAME_NEW_YEAR_COIN_COST',
@@ -12,6 +13,7 @@ OCR_NEW_YEAR_BATTLE_SCORE = Digit(NEW_YEAR_CHALLENGE_SCORE_HOLDER,
                                   name='OCR_NEW_YEAR_BATTLE_SCORE',
                                   letter=(231, 215, 82),
                                   threshold=128)
+MINIGAME_SCROLL = Scroll(MINIGAME_SCROLL_AREA, color=(247, 247, 247), name='MINIGAME_SCROLL')
 
 
 class NewYearChallenge(MinigameRun):
@@ -35,7 +37,6 @@ class NewYearChallenge(MinigameRun):
         return False
 
     def choose_game(self, skip_first_screenshot=True):
-        swipe_interval = Timer(0.6, count=2).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -51,12 +52,9 @@ class NewYearChallenge(MinigameRun):
                 self.device.click(NEW_YEAR_CHALLENGE_ENTRANCE)
                 continue
             # swipe down
-            if swipe_interval.reached():
-                self.device.swipe_vector((0, -500),
-                                         box=(10, 110, 60, 1060),
-                                         random_range=(-10, -10, 10, 10),
-                                         padding=0)
-                swipe_interval.reset()
+            if not MINIGAME_SCROLL.at_bottom(main=self):
+                MINIGAME_SCROLL.set_bottom(main=self)
+                continue
 
     def use_coin(self, skip_first_screenshot=True):
         return self.use_coin_new_year_challenge(count=5)
@@ -165,7 +163,3 @@ class NewYearChallenge(MinigameRun):
                 click_interval.reset()
             if not to_clicks:
                 break
-
-
-
-
