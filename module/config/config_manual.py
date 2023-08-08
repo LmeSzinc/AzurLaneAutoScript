@@ -12,6 +12,7 @@ class ManualConfig:
     Restart
     > OpsiCrossMonth
     > Commission > Tactical > Research
+    > RestartCloudPhone
     > Exercise
     > Dorm > Meowfficer > Guild > Gacha
     > Reward

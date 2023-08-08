@@ -46,6 +46,10 @@
       "name": "重启设置",
       "help": ""
     },
+    "RestartCloudPhone": {
+      "name": "重启云手机",
+      "help": "本功能仅适配 星界链™ 云手机，星界链™ 为第三方云服务提供商，与 Alas 无关\n此功能将在 Alas 空闲时重启云手机，可缓解云手机卡顿、截图缓慢等问题"
+    },
     "Main": {
       "name": "主线图",
       "help": ""
@@ -421,6 +425,28 @@
     "AdbRestart": {
       "name": "在检测不到设备的时候尝试重启adb",
       "help": ""
+    }
+  },
+  "RestartChinacCloudPhone": {
+    "_info": {
+      "name": "云手机设置",
+      "help": "使用此功能需申请星界链 api key\n申请方法：网页打开云手机控制台 -> 右上角头像 -> API密钥 -> 新建"
+    },
+    "AccessKey": {
+      "name": "Access Key",
+      "help": ""
+    },
+    "AccessKeySecret": {
+      "name": "Access Key Secret",
+      "help": ""
+    },
+    "CloudPhoneRegion": {
+      "name": "云手机地域",
+      "help": "参考 https://www.chinac.com/docs/api/overview/content/Region#云手机可用地域"
+    },
+    "CloudPhoneID": {
+      "name": "云手机 ID",
+      "help": "获取方法：网页打开云手机控制台 -> 切换为列表显示 -> 名称/ID 第二行"
     }
   },
   "RestartEmulator": {

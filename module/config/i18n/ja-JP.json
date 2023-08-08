@@ -46,6 +46,10 @@
       "name": "再起動設定",
       "help": ""
     },
+    "RestartCloudPhone": {
+      "name": "Task.RestartCloudPhone.name",
+      "help": "Task.RestartCloudPhone.help"
+    },
     "Main": {
       "name": "メイン海域",
       "help": ""
@@ -421,6 +425,28 @@
     "AdbRestart": {
       "name": "Emulator.AdbRestart.name",
       "help": "Emulator.AdbRestart.help"
+    }
+  },
+  "RestartChinacCloudPhone": {
+    "_info": {
+      "name": "RestartChinacCloudPhone._info.name",
+      "help": "RestartChinacCloudPhone._info.help"
+    },
+    "AccessKey": {
+      "name": "RestartChinacCloudPhone.AccessKey.name",
+      "help": "RestartChinacCloudPhone.AccessKey.help"
+    },
+    "AccessKeySecret": {
+      "name": "RestartChinacCloudPhone.AccessKeySecret.name",
+      "help": "RestartChinacCloudPhone.AccessKeySecret.help"
+    },
+    "CloudPhoneRegion": {
+      "name": "RestartChinacCloudPhone.CloudPhoneRegion.name",
+      "help": "RestartChinacCloudPhone.CloudPhoneRegion.help"
+    },
+    "CloudPhoneID": {
+      "name": "RestartChinacCloudPhone.CloudPhoneID.name",
+      "help": "RestartChinacCloudPhone.CloudPhoneID.help"
     }
   },
   "RestartEmulator": {

@@ -26,6 +26,12 @@ class GeneratedConfig:
     Emulator_ScreenshotDedithering = False
     Emulator_AdbRestart = False
 
+    # Group `RestartChinacCloudPhone`
+    RestartChinacCloudPhone_AccessKey = None
+    RestartChinacCloudPhone_AccessKeySecret = None
+    RestartChinacCloudPhone_CloudPhoneRegion = None
+    RestartChinacCloudPhone_CloudPhoneID = None
+
     # Group `RestartEmulator`
     RestartEmulator_Enable = False
     RestartEmulator_EmulatorData = 'emulator:\nname:\npath:'

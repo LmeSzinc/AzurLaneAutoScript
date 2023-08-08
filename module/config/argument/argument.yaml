@@ -35,6 +35,11 @@ Emulator:
     option: [ ADB, uiautomator2, minitouch, Hermit, MaaTouch ]
   ScreenshotDedithering: false
   AdbRestart: false
+RestartChinacCloudPhone:
+  AccessKey: null
+  AccessKeySecret: null
+  CloudPhoneRegion: null
+  CloudPhoneID: null
 RestartEmulator:
   Enable: false
   EmulatorData:

@@ -78,6 +78,25 @@
       "Storage": {}
     }
   },
+  "RestartCloudPhone": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "RestartCloudPhone",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "RestartChinacCloudPhone": {
+      "AccessKey": null,
+      "AccessKeySecret": null,
+      "CloudPhoneRegion": null,
+      "CloudPhoneID": null
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "Main": {
     "Scheduler": {
       "Enable": false,

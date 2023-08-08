@@ -169,6 +169,10 @@ class AzurLaneAutoScript:
         from module.handler.login import LoginHandler
         LoginHandler(self.config, device=self.device).app_start()
 
+    def restart_cloud_phone(self):
+        from module.device.cloud_phone import CloudPhoneManager
+        CloudPhoneManager(self.config, self.device).restart()
+
     def goto_main(self):
         from module.handler.login import LoginHandler
         from module.ui.ui import UI

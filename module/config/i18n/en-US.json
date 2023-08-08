@@ -46,6 +46,10 @@
       "name": "Restart",
       "help": ""
     },
+    "RestartCloudPhone": {
+      "name": "Restart Cloud Phone",
+      "help": "Only available for Chinac™ cloud phone, which is a third-party cloud service provider and has nothing to do with Alas"
+    },
     "Main": {
       "name": "Main",
       "help": ""
@@ -421,6 +425,28 @@
     "AdbRestart": {
       "name": "Try to restart adb when no device found",
       "help": ""
+    }
+  },
+  "RestartChinacCloudPhone": {
+    "_info": {
+      "name": "Cloud Phone Settings",
+      "help": "To use this function, you need to apply for an api key\nSteps: open the cloud phone console -> upper right avatar -> API key -> create a new one"
+    },
+    "AccessKey": {
+      "name": "Access Key",
+      "help": ""
+    },
+    "AccessKeySecret": {
+      "name": "Access Key Secret",
+      "help": ""
+    },
+    "CloudPhoneRegion": {
+      "name": "Cloud Phone Region",
+      "help": "Reference: https://www.chinac.com/docs/api/overview/content/Region#云手机可用地域"
+    },
+    "CloudPhoneID": {
+      "name": "Cloud Phone ID",
+      "help": "Open the cloud phone console -> Switch to list <列表> mode -> second line of <名称/ID>"
     }
   },
   "RestartEmulator": {

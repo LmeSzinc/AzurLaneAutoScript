@@ -21,6 +21,9 @@ Alas:
       - OldRetire
     Restart:
       - Scheduler
+    RestartCloudPhone:
+      - Scheduler
+      - RestartChinacCloudPhone
 
 # ==================== Farm ====================
 

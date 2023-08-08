@@ -46,6 +46,10 @@
       "name": "重啟設定",
       "help": ""
     },
+    "RestartCloudPhone": {
+      "name": "重啓云手機",
+      "help": "本功能僅適配 星界鏈™ 雲手機，星界鏈™ 為第三方雲服務提供商，與 Alas 無關"
+    },
     "Main": {
       "name": "主線圖",
       "help": ""
@@ -421,6 +425,28 @@
     "AdbRestart": {
       "name": "在檢測不到設備的時候嘗試重啟adb",
       "help": ""
+    }
+  },
+  "RestartChinacCloudPhone": {
+    "_info": {
+      "name": "雲手機設置",
+      "help": "使用此功能需申請星界鏈 api key\n申請方法：網頁打開雲手機控制臺 -> 右上角頭像 -> API密钥 -> 新建"
+    },
+    "AccessKey": {
+      "name": "Access Key",
+      "help": ""
+    },
+    "AccessKeySecret": {
+      "name": "Access Key Secret",
+      "help": ""
+    },
+    "CloudPhoneRegion": {
+      "name": "雲手機地域",
+      "help": "參考 https://www.chinac.com/docs/api/overview/content/Region#云手机可用地域"
+    },
+    "CloudPhoneID": {
+      "name": "雲手機 ID",
+      "help": "獲取方法：網頁打開雲手機控制臺 -> 切換為列表顯示 -> 名称/ID 第二行"
     }
   },
   "RestartEmulator": {
