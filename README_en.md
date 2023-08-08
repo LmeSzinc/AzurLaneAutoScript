@@ -71,6 +71,8 @@ Keep the bot running, SRC will auto login and empty trailblaze power when it's r
 
 Discord https://discord.gg/aJkt3mKDEr QQ Group 752620927
 
+- [Minimap Tracking](https://github.com/LmeSzinc/StarRailCopilot/wiki/MinimapTracking)
+
 - Development Docs (menu is on sidebar): [Alas wiki](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/1.-Start) (in Chinese). However, there is ton of code newly written, it is recommended to read the source code and historical commits.
 
 - Development Road Map: [#10](https://github.com/LmeSzinc/StarRailCopilot/issues/10). Pull Requests are welcomed, just pick the part you interested to work on.
