@@ -48,6 +48,12 @@ class ArknightsAutoScript(AzurLaneAutoScript):
             if self.config.task.command != 'MaaStartup':
                 self.config.task_stop()
 
+        # Fix MaaPath=*\MAA.exe
+        if os.path.isfile(self.config.MaaEmulator_MaaPath):
+            path = os.path.dirname(self.config.MaaEmulator_MaaPath)
+            logger.info(f'MaaEmulator_MaaPath: {self.config.MaaEmulator_MaaPath} is revised to {path}')
+            self.config.MaaEmulator_MaaPath = path
+
         logger.info(f'MAA安装路径：{self.config.MaaEmulator_MaaPath}')
         if not os.path.exists(self.config.MaaEmulator_MaaPath):
             logger.critical(
