@@ -43,7 +43,7 @@ class GeneratedConfig:
     Dungeon_NameAtDoubleCalyx = 'Calyx_Golden_Treasures'  # do_not_participate, Calyx_Golden_Memories, Calyx_Golden_Aether, Calyx_Golden_Treasures, Calyx_Crimson_Destruction, Calyx_Crimson_Preservation, Calyx_Crimson_Hunt, Calyx_Crimson_Abundance, Calyx_Crimson_Erudition, Calyx_Crimson_Harmony, Calyx_Crimson_Nihility
     Dungeon_Team = 1  # 1, 2, 3, 4, 5, 6
     Dungeon_Support = 'when_daily'  # do_not_use, always_use, when_daily
-    Dungeon_SupportCharacter = 'FirstCharacter'  # FirstCharacter, Arlan, Asta, Bailu, Blade, Bronya, Clara, DanHeng, Gepard, Herta, Himeko, Hook, JingYuan, Luocha, March7th, Natasha, Pela, Qingque, Sampo, Seele, Serval, SilverWolf, Sushang, Tingyun, TrailblazerDestruction, TrailblazerPreservation, Welt, Yanqing, Yukong
+    Dungeon_SupportCharacter = 'FirstCharacter'  # FirstCharacter, Arlan, Asta, Bailu, Blade, Bronya, Clara, DanHeng, Gepard, Herta, Himeko, Hook, JingYuan, Kafka, Luka, Luocha, March7th, Natasha, Pela, Qingque, Sampo, Seele, Serval, SilverWolf, Sushang, Tingyun, TrailblazerDestruction, TrailblazerPreservation, Welt, Yanqing, Yukong
 
     # Group `Assignment`
     Assignment_Duration = 20  # 4, 8, 12, 20

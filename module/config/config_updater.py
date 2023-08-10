@@ -373,7 +373,7 @@ class ConfigGenerator:
         deep_set(self.args, keys='Dungeon.Dungeon.Name.option', value=dungeons)
 
         from tasks.character.keywords import CharacterList
-        unsupported_characters = ["DanHengImbibitorLunae", 'Kafka', 'Luka']
+        unsupported_characters = ["DanHengImbibitorLunae"]
         characters = ['FirstCharacter'] + [character.name for character in CharacterList.instances.values() if
                                            character.name not in unsupported_characters]
         deep_set(self.argument, keys='Dungeon.SupportCharacter.option', value=characters)

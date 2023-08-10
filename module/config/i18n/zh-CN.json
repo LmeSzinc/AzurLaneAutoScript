@@ -209,7 +209,7 @@
       "Cavern_of_Corrosion_Path_of_Providence": "遗器：铁卫套+量子套（睿治之径•侵蚀隧洞）",
       "Cavern_of_Corrosion_Path_of_Holy_Hymn": "遗器：防御套+雷套（圣颂之径•侵蚀隧洞）",
       "Cavern_of_Corrosion_Path_of_Conflagration": "遗器：火套+虚数套（野焰之径•侵蚀隧洞）",
-      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "遗器：生命套+速度套 （药使之径•侵蚀隧洞）"
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "遗器：生命套+速度套（药使之径•侵蚀隧洞）"
     },
     "NameAtDoubleCalyx": {
       "name": "有双倍花活动时，选择副本",
@@ -259,6 +259,8 @@
       "Himeko": "姬子",
       "Hook": "虎克",
       "JingYuan": "景元",
+      "Kafka": "卡芙卡",
+      "Luka": "卢卡",
       "Luocha": "罗刹",
       "March7th": "三月七",
       "Natasha": "娜塔莎",
