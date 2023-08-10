@@ -30,12 +30,16 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
     @cached_property
     def screenshot_methods(self):
         return {
+            # add WSA adaptation
             'ADB': self.screenshot_adb,
+            # WSA adaptation
             'ADB_nc': self.screenshot_adb_nc,
+            # add WSA adaptation
             'uiautomator2': self.screenshot_uiautomator2,
             'aScreenCap': self.screenshot_ascreencap,
             'aScreenCap_nc': self.screenshot_ascreencap_nc,
             'DroidCast': self.screenshot_droidcast,
+            # add WSA adaptation
             'DroidCast_raw': self.screenshot_droidcast_raw,
             'scrcpy': self.screenshot_scrcpy,
             'WSA': self.screenshot_wsa

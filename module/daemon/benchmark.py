@@ -171,7 +171,7 @@ class Benchmark(DaemonBase, CampaignUI):
     def get_test_methods(self) -> t.Tuple[t.Tuple[str], t.Tuple[str]]:
         device = self.config.Benchmark_DeviceType
         # device == 'emulator'
-        screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw']
+        screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw', 'WSA']
         click = ['ADB', 'uiautomator2', 'minitouch']
 
         def remove(*args):

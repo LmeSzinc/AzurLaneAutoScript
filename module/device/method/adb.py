@@ -11,9 +11,10 @@ from module.base.decorator import Config
 from module.device.connection import Connection
 from module.device.method.utils import (RETRY_TRIES, retry_sleep, remove_prefix, handle_adb_error,
                                         ImageTruncated, PackageNotInstalled)
-from module.exception import RequestHumanTakeover, ScriptError
+from module.exception import (RequestHumanTakeover, ScriptError, GameNotRunningError)
 from module.logger import logger
 
+from module.device.method.winapiutils import Winapiutils
 
 def retry(func):
     @wraps(func)
@@ -51,6 +52,13 @@ def retry(func):
 
                 def init():
                     self.detect_package()
+            # Application hasn't started yet
+            except GameNotRunningError as e:
+                logger.error(e)
+                logger.error('Application is not running, please run application before using the script')
+
+                def init():
+                    pass
             # ImageTruncated
             except ImageTruncated as e:
                 logger.error(e)
@@ -100,7 +108,7 @@ def load_screencap(data):
     return image
 
 
-class Adb(Connection):
+class Adb(Connection, Winapiutils):
     __screenshot_method = [0, 1, 2]
     __screenshot_method_fixed = [0, 1, 2]
 
@@ -151,28 +159,37 @@ class Adb(Connection):
     @retry
     @Config.when(DEVICE_OVER_HTTP=False)
     def screenshot_adb(self):
+        if self.is_wsa:
+            self.resize_window(self.package)
+
         data = self.adb_shell(['screencap', '-p'], stream=True)
         if len(data) < 500:
             logger.warning(f'Unexpected screenshot: {data}')
 
-        return self.__process_screenshot(data)
+        return self.__process_screenshot(data)[0:720, 0:1280]
 
     @retry
     @Config.when(DEVICE_OVER_HTTP=True)
     def screenshot_adb(self):
+        if self.is_wsa:
+            self.resize_window(self.package)
+
         data = self.adb_shell(['screencap'], stream=True)
         if len(data) < 500:
             logger.warning(f'Unexpected screenshot: {data}')
 
-        return load_screencap(data)
+        return load_screencap(data)[0:720, 0:1280]
 
     @retry
     def screenshot_adb_nc(self):
+        if self.is_wsa:
+            self.resize_window(self.package)
+
         data = self.adb_shell_nc(['screencap'])
         if len(data) < 500:
             logger.warning(f'Unexpected screenshot: {data}')
 
-        return load_screencap(data)
+        return load_screencap(data)[0:720, 0:1280]
 
     @retry
     def click_adb(self, x, y):
