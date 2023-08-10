@@ -2,18 +2,18 @@ import re
 
 import numpy as np
 
-from dev_tools.keyword_extract import UI_LANGUAGES
-from module.base.filter import Filter
+from module.base.filter import MultiLangFilter
 from module.base.timer import Timer
 from module.base.utils import area_offset, get_color
 from module.logger import logger
+from module.ocr.keyword import Keyword
 from module.ocr.ocr import Ocr, OcrResultButton, DigitCounter
 from tasks.rogue.assets.assets_rogue_blessing import *
 from tasks.rogue.keywords import *
 from tasks.rogue.preset import *
 from tasks.rogue.ui import RogueUI
 
-REGEX_PUNCTUATION = re.compile(r'[ ,.\'"“”，。:：!！?？·•—/()（）「」『』【】]')
+REGEX_PUNCTUATION = re.compile(r'[ ,.\'"“”，。:：!！?？·•—/()（）「」『』【】《》]')
 
 
 def parse_name(n):
@@ -22,44 +22,44 @@ def parse_name(n):
 
 
 def get_regex_from_keyword_name(keyword, attr_name):
-    regex_pat = ""
-    attrs = tuple()
-    for server in UI_LANGUAGES:
-        string = ""
-        for path in keyword.instances.values():
-            string += f"{parse_name(getattr(path, server))}|"
-        # some pattern contain each other, make sure each pattern end with "-" or the end of string
-        regex_pat += f"(?:({string[:-1]})(?:-|$))?"
-        attrs += (f"{attr_name}_{server}",)
-    return regex_pat, attrs
+    string = ""
+    for instance in keyword.instances.values():
+        if hasattr(instance, attr_name):
+            for name in instance.__getattribute__(attr_name):
+                string += f"{name}|"
+    # some pattern contain each other, make sure each pattern end with "-" or the end of string
+    return f"(?:({string[:-1]})(?:-|$))?"
 
 
 # normal blessing
 pattern = ""
 BLESSING_FILTER_ATTR = tuple()
-PATH_ATTR_NAME = 'path'
-path_regex, path_attr = get_regex_from_keyword_name(RoguePath, PATH_ATTR_NAME)
+PATH_ATTR_NAME = 'path_name'
+path_regex = get_regex_from_keyword_name(RoguePath, PATH_ATTR_NAME)
 pattern += path_regex
-BLESSING_FILTER_ATTR += path_attr
+BLESSING_FILTER_ATTR += (PATH_ATTR_NAME,)
 
 pattern += "([123])?-?"
 BLESSING_FILTER_ATTR += ("rarity",)
-BLESSING_ATTR_NAME = 'blessing'
-blessing_regex, blessing_attr = get_regex_from_keyword_name(RogueBlessing, BLESSING_ATTR_NAME)
+BLESSING_ATTR_NAME = 'blessing_name'
+blessing_regex = get_regex_from_keyword_name(RogueBlessing, BLESSING_ATTR_NAME)
 pattern += blessing_regex
-BLESSING_FILTER_ATTR += blessing_attr
+BLESSING_FILTER_ATTR += (BLESSING_ATTR_NAME,)
 
 FILETER_REGEX = re.compile(pattern)
 BLESSING_FILTER_PRESET = ("reset", "same_path", "random")
-BLESSING_FILTER = Filter(FILETER_REGEX, BLESSING_FILTER_ATTR, BLESSING_FILTER_PRESET)
+print(FILETER_REGEX)
+print(BLESSING_FILTER_ATTR)
+print(BLESSING_FILTER_PRESET)
+BLESSING_FILTER = MultiLangFilter(FILETER_REGEX, BLESSING_FILTER_ATTR, BLESSING_FILTER_PRESET)
 
 # resonance
-RESONANCE_ATTR_NAME = 'resonance'
-pattern, RESONANCE_FILTER_ATTR = get_regex_from_keyword_name(RogueResonance, 'resonance')
+RESONANCE_ATTR_NAME = 'resonance_name'
+pattern = get_regex_from_keyword_name(RogueResonance, 'resonance')
 
 FILETER_REGEX = re.compile(pattern)
 RESONANCE_FILTER_PRESET = ("random",)
-RESONANCE_FILTER = Filter(FILETER_REGEX, RESONANCE_FILTER_ATTR, RESONANCE_FILTER_PRESET)
+RESONANCE_FILTER = MultiLangFilter(FILETER_REGEX, (RESONANCE_ATTR_NAME,), RESONANCE_FILTER_PRESET)
 
 
 class RogueBuffOcr(Ocr):
@@ -226,20 +226,16 @@ class RogueBlessingSelector(RogueBlessingUI):
     """
 
     def apply_filter(self):
-        paths = RoguePath.instances
+        def match_ocr_result(matched_keyword: Keyword):
+            for blessing in self.blessings:
+                if blessing.matched_keyword == matched_keyword:
+                    return blessing
+            return None
 
         if not self.blessings:
             return []
 
         if isinstance(self.blessings[0].matched_keyword, RogueBlessing):
-            for blessing in self.blessings:
-                path = paths[blessing.matched_keyword.path_id]
-                for server in UI_LANGUAGES:
-                    setattr(blessing, f"{PATH_ATTR_NAME}_{server}", parse_name(getattr(path, server)))
-                    setattr(blessing, f"{BLESSING_ATTR_NAME}_{server}",
-                            parse_name(getattr(blessing.matched_keyword, server)))
-                setattr(blessing, "rarity", getattr(blessing.matched_keyword, "rarity"))
-
             if self.config.Rogue_PresetBlessingFilter == 'preset-1':
                 BLESSING_FILTER.load(parse_name(BLESSING_PRESET_1))
             if self.config.Rogue_PresetBlessingFilter == 'custom':
@@ -248,17 +244,14 @@ class RogueBlessingSelector(RogueBlessingUI):
         if isinstance(self.blessings[0].matched_keyword, RogueResonance):
             if len(self.blessings) == 1:  # resonance can not be reset. So have not choice when there's only one option
                 return self.blessings
-            for blessing in self.blessings:
-                for server in UI_LANGUAGES:
-                    setattr(blessing, f"{RESONANCE_ATTR_NAME}_{server}",
-                            parse_name(getattr(blessing.matched_keyword, server)))
-
             if self.config.Rogue_PresetResonanceFilter == 'preset-1':
                 RESONANCE_FILTER.load(parse_name(RESONANCE_PRESET_1))
             if self.config.Rogue_PresetResonanceFilter == 'custom':
                 RESONANCE_FILTER.load(parse_name(self.config.Rogue_CustomResonanceFilter))
 
-        priority = BLESSING_FILTER.apply(self.blessings)
+        blessing_keywords = [blessing.matched_keyword for blessing in self.blessings]
+        priority = BLESSING_FILTER.apply(blessing_keywords)
+        priority = [option if isinstance(option, str) else match_ocr_result(option) for option in priority]
         return priority
 
     def select_blessing(self, priority: list):
