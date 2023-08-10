@@ -75,7 +75,7 @@ def _server_support_dossier_auto_attack():
 
 
 class OpsiAshBeacon(Meta):
-    _meta_receive = []
+    _meta_receive = 0
     _meta_category = 0
 
     def _attack_meta(self, skip_first_screenshot=True):
@@ -101,8 +101,8 @@ class OpsiAshBeacon(Meta):
             if MetaState.INIT == state:
                 category = self._begin_meta()
                 if category != 0:
-                    if category in [1, 2]:
-                        _meta_category = category
+                    if category in [1, 2, 3]:
+                        self._meta_category = category
                     continue
                 else:
                     # Normal finish
@@ -115,7 +115,7 @@ class OpsiAshBeacon(Meta):
                     continue
             if MetaState.COMPLETE == state:
                 self._handle_ash_beacon_reward()
-                self._meta_receive.append(_meta_category)
+                self._meta_receive = self._meta_receive | self._meta_category
                 # Check other tasks after kill a meta
                 self.config.check_task_switch()
                 continue
@@ -452,6 +452,21 @@ class OpsiAshBeacon(Meta):
             if self.appear_then_click(META_ENTRANCE, offset=(20, 300), interval=2):
                 continue
 
+    def ensure_dossier_page(self):
+        self.ui_ensure(page_reward)
+        self._ensure_meta_page()
+        logger.info('Ensure dossier meta page')
+        while 1:
+            self.device.screenshot()
+            
+            if self.appear(DOSSIER_LIST, offset=(20, 20)):
+                logger.info('In dossier page')
+                return True
+            if self.handle_map_event():
+                continue
+            if self.appear_then_click(META_MAIN_DOSSIER_ENTRANCE, offset=(20, 20), interval=2):
+                continue
+
     def _begin_beacon(self):
         logger.hr('Meta Beacon Attack')
         if not _server_support():
@@ -464,9 +479,11 @@ class OpsiAshBeacon(Meta):
         self._begin_beacon()
 
         with self.config.multi_set():
-            for category in self._meta_receive:
-                MetaReward(self.config, self.device).run(category)
-            self._meta_receive = []
+            if self._meta_receive & 1 == 1:
+                MetaReward(self.config, self.device).run()
+            if self._meta_receive & 2 == 2:
+                MetaReward(self.config, self.device).run(category=2)
+            self._meta_receive = 0
             self.config.task_delay(server_update=True)
 
 
