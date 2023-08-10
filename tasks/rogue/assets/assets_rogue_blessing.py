@@ -33,6 +33,16 @@ BLESSING_STABLE_FLAG = ButtonWrapper(
         button=(846, 520, 896, 542),
     ),
 )
+BOTTOM_WHITE_BAR = ButtonWrapper(
+    name='BOTTOM_WHITE_BAR',
+    share=Button(
+        file='./assets/share/rogue/blessing/BOTTOM_WHITE_BAR.png',
+        area=(166, 520, 1114, 542),
+        search=(146, 500, 1134, 562),
+        color=(210, 211, 211),
+        button=(166, 520, 1114, 542),
+    ),
+)
 CONFIRM = ButtonWrapper(
     name='CONFIRM',
     share=Button(

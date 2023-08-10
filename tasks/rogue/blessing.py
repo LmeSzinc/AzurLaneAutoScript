@@ -5,7 +5,7 @@ import numpy as np
 from dev_tools.keyword_extract import UI_LANGUAGES
 from module.base.filter import Filter
 from module.base.timer import Timer
-from module.base.utils import area_offset
+from module.base.utils import area_offset, get_color
 from module.logger import logger
 from module.ocr.ocr import Ocr, OcrResultButton, DigitCounter
 from tasks.rogue.assets.assets_rogue_blessing import *
@@ -83,6 +83,8 @@ class RogueBuffOcr(Ocr):
                 "[沦沧]肌髓": "沦浃肌髓",
                 "进发": "迸发",
                 "永缩体": "永坍缩体",
+                "完美体验：绒默": "完美体验：缄默",
+                "^灾$": "禳灾",
             }
             for pattern, replace in replace_pattern_dict.items():
                 result = re.sub(pattern, replace, result)
@@ -90,14 +92,21 @@ class RogueBuffOcr(Ocr):
 
 
 class RogueBlessingUI(RogueUI):
+    def get_blessing_count(self) -> int:
+        """
+        Returns: The number of blessing
+        """
+        color = get_color(self.device.image, BOTTOM_WHITE_BAR.area)
+        mean = np.mean(color)
+        return int(mean // 60)  # the magic number that maps blessing num with mean_color
+
     def buffs_recognition(self):
         ocr = RogueBuffOcr(OCR_ROGUE_BUFF)
         results = ocr.matched_ocr(self.device.image, [RogueBlessing, RogueResonance])
-
-        if results:
-            logger.info(f"Buffs recognized: {len(results)}")
-        else:
-            logger.warning("No buff recognized")
+        blessing_count = self.get_blessing_count()
+        if blessing_count != len(results):
+            logger.warning(f"The OCR result does not match the blessing count. "
+                           f"Expect {blessing_count}, but recognized {len(results)} only.")
         self.blessings = results
         return results
 
