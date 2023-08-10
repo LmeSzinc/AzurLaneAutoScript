@@ -85,11 +85,11 @@ class ConnectionAttr:
             raise RequestHumanTakeover
         if self.is_wsa:
             self.serial = '127.0.0.1:58526'
-            # Emulator_ControlMethod only support ADB currently
-            if self.config.Emulator_ScreenshotMethod != 'WSA' \
+            # Emulator_ControlMethod only support ADB, uiautomator2 currently
+            if self.config.Emulator_ScreenshotMethod != 'DroidCast' \
                     or self.config.Emulator_ControlMethod != 'ADB':
                 with self.config.multi_set():
-                    self.config.Emulator_ScreenshotMethod = 'WSA'
+                    self.config.Emulator_ScreenshotMethod = 'DroidCast'
                     self.config.Emulator_ControlMethod = 'ADB'
         if self.is_over_http:
             if self.config.Emulator_ScreenshotMethod not in ["ADB", "uiautomator2", "aScreenCap"] \

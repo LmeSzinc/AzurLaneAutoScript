@@ -157,5 +157,4 @@ class WSA(Connection, Winapiutils):
 
     @retry
     def screenshot_wsa(self):
-        self.find_window()
-        return self.get_frame()
+        return self.get_frame(self.package)

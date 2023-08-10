@@ -12,9 +12,10 @@ from module.base.utils import *
 from module.device.connection import Connection
 from module.device.method.utils import (RETRY_TRIES, retry_sleep, handle_adb_error,
                                         ImageTruncated, PackageNotInstalled, possible_reasons)
-from module.exception import RequestHumanTakeover
+from module.exception import (RequestHumanTakeover, GameNotRunningError)
 from module.logger import logger
 
+from module.device.method.winapiutils import Winapiutils
 
 def retry(func):
     @wraps(func)
@@ -75,6 +76,13 @@ def retry(func):
 
                 def init():
                     self.detect_package()
+            # Application hasn't started yet
+            except GameNotRunningError as e:
+                logger.error(e)
+                logger.error('Application is not running, please run application before using the script')
+
+                def init():
+                    pass
             # ImageTruncated
             except ImageTruncated as e:
                 logger.error(e)
@@ -110,15 +118,18 @@ class ShellBackgroundResponse:
     description: str
 
 
-class Uiautomator2(Connection):
+class Uiautomator2(Connection, Winapiutils):
     @retry
     def screenshot_uiautomator2(self):
+        if self.is_wsa:
+            self.resize_window(self.package)
+
         image = self.u2.screenshot(format='raw')
         image = np.frombuffer(image, np.uint8)
         if image is None:
             raise ImageTruncated('Empty image after reading from buffer')
 
-        image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+        image = cv2.imdecode(image, cv2.IMREAD_COLOR)[0:720, 0:1280]
         if image is None:
             raise ImageTruncated('Empty image after cv2.imdecode')
 

@@ -14,48 +14,36 @@ from module.device.method.utils import ImageTruncated
 
 class Winapiutils:
     hwnd = None
-    windowname = {'jp': 'アズールレーン', 'tw': '碧藍航線', 'en': 'Azur Lane'}
+
     def __init__(self):
         self.windowposx = 0
         self.windowposy = 0
         self.windowwidth = 0
         self.windowheight = 0
 
-
-    def find_window(self):
-        """
-        Args:
-            winname (str): window name
-
-        """
-
-        try:
-            winname = self.windowname[server.server]
-        except KeyError:
-            winname = '碧蓝航线'
-
-        self.hwnd = win32gui.FindWindow(None, winname)
-        if not self.hwnd:
-            raise GameNotRunningError
-
-        self.resize_window()
-
-    def resize_window(self):
+    def resize_window(self, windowname, width = 1280, height = 720):
         # ignore the effect of dpi scaling
         windll.user32.SetProcessDPIAware()
+        self.hwnd = win32gui.FindWindow(windowname, None)
+        if not self.hwnd:
+            raise GameNotRunningError
+        try:
+            # get application window information
+            winpos = win32gui.GetWindowRect(self.hwnd)
+        except:
+            raise GetWSAWindowHandler
 
-        # get application window information
-        winpos = win32gui.GetWindowRect(self.hwnd)
         self.windowposx = winpos[0]
         self.windowposy = winpos[1]
         self.windowwidth = winpos[2] - winpos[0]
         self.windowheight = winpos[3] - winpos[1]
-        if (self.windowposx != 0 and self.windowposy != 0) or (self.windowwidth != 1280 and self.windowheight != 720):
+        if (self.windowposx != 0 and self.windowposy != 0) or (
+                self.windowwidth != width and self.windowheight != height):
             win32gui.SetWindowLong(self.hwnd, win32con.GWL_STYLE, win32con.WS_SYSMENU)
-            win32gui.SetWindowPos(self.hwnd, None, 0, 0, 1280, 720,
+            win32gui.SetWindowPos(self.hwnd, None, 0, 0, width, height,
                                   win32con.SWP_NOSENDCHANGING | win32con.SWP_SHOWWINDOW)
 
-    def get_frame(self):
+    def get_frame(self, windowname):
         """
 
         return:
@@ -63,7 +51,7 @@ class Winapiutils:
 
         """
 
-        self.resize_window()
+        self.resize_window(windowname)
 
         # return window handle
         hwndc = win32gui.GetWindowDC(self.hwnd)

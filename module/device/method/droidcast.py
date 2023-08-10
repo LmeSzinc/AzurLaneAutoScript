@@ -150,7 +150,8 @@ class DroidCast(Uiautomator2):
     @Config.when(DROIDCAST_VERSION='DroidCast_raw')
     def droidcast_init(self):
         logger.hr('Droidcast init')
-        self.resolution_check_uiautomator2()
+        if not self.is_wsa:
+            self.resolution_check_uiautomator2()
         self.droidcast_stop()
 
         logger.info('Pushing DroidCast apk')
@@ -196,12 +197,19 @@ class DroidCast(Uiautomator2):
 
     @retry
     def screenshot_droidcast_raw(self):
+        if self.is_wsa:
+            self.resize_window(self.package)
+
         self.config.DROIDCAST_VERSION = 'DroidCast_raw'
         image = self.droidcast_session.get(self.droidcast_url(), timeout=3).content
         # DroidCast_raw returns a RGB565 bitmap
 
         try:
-            arr = np.frombuffer(image, dtype=np.uint16).reshape((720, 1280))
+            if self.is_wsa:
+                height, width = self.resolution_uiautomator2()
+                arr = np.frombuffer(image, dtype = np.uint16).reshape((width, height))[0:720, 0:1280]
+            else:
+                arr = np.frombuffer(image, dtype=np.uint16).reshape((720, 1280))
         except ValueError as e:
             # Try to load as `DroidCast`
             image = np.frombuffer(image, np.uint8)
