@@ -7,6 +7,10 @@
     "Daily": {
       "name": "每日",
       "help": ""
+    },
+    "Rogue": {
+      "name": "模拟宇宙",
+      "help": ""
     }
   },
   "Task": {
@@ -32,6 +36,10 @@
     },
     "Assignment": {
       "name": "委托设置",
+      "help": ""
+    },
+    "Rogue": {
+      "name": "模拟宇宙",
       "help": ""
     }
   },
@@ -357,6 +365,43 @@
       "Spring_of_Life": "虚粒子&固态净水（生命之泉）",
       "The_Land_of_Gold": "蛋白米&基本食材（黄金大地）",
       "The_Blossom_in_the_Storm": "气态流体&种子（风暴中怒放的花）"
+    }
+  },
+  "Rogue": {
+    "_info": {
+      "name": "模拟宇宙",
+      "help": ""
+    },
+    "Path": {
+      "name": "命途",
+      "help": "",
+      "Preservation": "存护",
+      "Remembrance": "记忆",
+      "Nihility": "虚无",
+      "Abundance": "丰饶",
+      "The Hunt": "巡猎",
+      "Destruction": "毁灭",
+      "Elation": "欢愉"
+    },
+    "PresetResonanceFilter": {
+      "name": "命途回响过滤器",
+      "help": "",
+      "preset-1": "预设 1",
+      "custom": "自定义"
+    },
+    "CustomResonanceFilter": {
+      "name": "自定义命途回响过滤器",
+      "help": ""
+    },
+    "PresetBlessingFilter": {
+      "name": "祝福过滤器",
+      "help": "",
+      "preset-1": "预设 1",
+      "custom": "自定义"
+    },
+    "CustomBlessingFilter": {
+      "name": "自定义祝福过滤器",
+      "help": ""
     }
   },
   "Gui": {

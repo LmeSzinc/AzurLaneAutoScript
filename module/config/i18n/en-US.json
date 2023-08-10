@@ -7,6 +7,10 @@
     "Daily": {
       "name": "Daily",
       "help": ""
+    },
+    "Rogue": {
+      "name": "Menu.Rogue.name",
+      "help": "Menu.Rogue.help"
     }
   },
   "Task": {
@@ -33,6 +37,10 @@
     "Assignment": {
       "name": "Assignment",
       "help": ""
+    },
+    "Rogue": {
+      "name": "Task.Rogue.name",
+      "help": "Task.Rogue.help"
     }
   },
   "Scheduler": {
@@ -357,6 +365,43 @@
       "Spring_of_Life": "Virtual Particle & Solid Water (Spring of Life)",
       "The_Land_of_Gold": "Protein Rice & Basic Ingredients (The Land of Gold)",
       "The_Blossom_in_the_Storm": "Gaseous Liquid & Seed (The Blossom in the Storm)"
+    }
+  },
+  "Rogue": {
+    "_info": {
+      "name": "Rogue._info.name",
+      "help": "Rogue._info.help"
+    },
+    "Path": {
+      "name": "Rogue.Path.name",
+      "help": "Rogue.Path.help",
+      "Preservation": "Preservation",
+      "Remembrance": "Remembrance",
+      "Nihility": "Nihility",
+      "Abundance": "Abundance",
+      "The Hunt": "The Hunt",
+      "Destruction": "Destruction",
+      "Elation": "Elation"
+    },
+    "PresetResonanceFilter": {
+      "name": "Rogue.PresetResonanceFilter.name",
+      "help": "Rogue.PresetResonanceFilter.help",
+      "preset-1": "preset-1",
+      "custom": "custom"
+    },
+    "CustomResonanceFilter": {
+      "name": "Rogue.CustomResonanceFilter.name",
+      "help": "Rogue.CustomResonanceFilter.help"
+    },
+    "PresetBlessingFilter": {
+      "name": "Rogue.PresetBlessingFilter.name",
+      "help": "Rogue.PresetBlessingFilter.help",
+      "preset-1": "preset-1",
+      "custom": "custom"
+    },
+    "CustomBlessingFilter": {
+      "name": "Rogue.CustomBlessingFilter.name",
+      "help": "Rogue.CustomBlessingFilter.help"
     }
   },
   "Gui": {

@@ -7,6 +7,10 @@
     "Daily": {
       "name": "每日",
       "help": ""
+    },
+    "Rogue": {
+      "name": "Menu.Rogue.name",
+      "help": "Menu.Rogue.help"
     }
   },
   "Task": {
@@ -33,6 +37,10 @@
     "Assignment": {
       "name": "委託設置",
       "help": ""
+    },
+    "Rogue": {
+      "name": "Task.Rogue.name",
+      "help": "Task.Rogue.help"
     }
   },
   "Scheduler": {
@@ -357,6 +365,43 @@
       "Spring_of_Life": "虛粒子&固態淨水（生命之泉）",
       "The_Land_of_Gold": "蛋白米&基本食材（黃金大地）",
       "The_Blossom_in_the_Storm": "氣態流體&種子（風暴中怒放的花）"
+    }
+  },
+  "Rogue": {
+    "_info": {
+      "name": "Rogue._info.name",
+      "help": "Rogue._info.help"
+    },
+    "Path": {
+      "name": "Rogue.Path.name",
+      "help": "Rogue.Path.help",
+      "Preservation": "Preservation",
+      "Remembrance": "Remembrance",
+      "Nihility": "Nihility",
+      "Abundance": "Abundance",
+      "The Hunt": "The Hunt",
+      "Destruction": "Destruction",
+      "Elation": "Elation"
+    },
+    "PresetResonanceFilter": {
+      "name": "Rogue.PresetResonanceFilter.name",
+      "help": "Rogue.PresetResonanceFilter.help",
+      "preset-1": "preset-1",
+      "custom": "custom"
+    },
+    "CustomResonanceFilter": {
+      "name": "Rogue.CustomResonanceFilter.name",
+      "help": "Rogue.CustomResonanceFilter.help"
+    },
+    "PresetBlessingFilter": {
+      "name": "Rogue.PresetBlessingFilter.name",
+      "help": "Rogue.PresetBlessingFilter.help",
+      "preset-1": "preset-1",
+      "custom": "custom"
+    },
+    "CustomBlessingFilter": {
+      "name": "Rogue.CustomBlessingFilter.name",
+      "help": "Rogue.CustomBlessingFilter.help"
     }
   },
   "Gui": {
