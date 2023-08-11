@@ -32,7 +32,7 @@ class Device(Screenshot, Control, AppControl, EmulatorManager):
         self.screenshot_interval_set()
 
         # Temp fix for MuMu 12 before DroidCast updated
-        if self.serial.startswith('127.0.0.1:755') or self.serial.startswith('127.0.0.1:16'):
+        if self.is_mumu_family:
             logger.info('Patching screenshot method for mumu')
             self.config.override(Emulator_ScreenshotMethod='ADB_nc')
         # Auto-select the fastest screenshot method
