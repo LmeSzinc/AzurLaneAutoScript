@@ -3,6 +3,16 @@ from module.base.button import Button, ButtonWrapper
 # This file was auto-generated, do not modify it manually. To generate:
 # ``` python -m dev_tools.button_extract ```
 
+CONFIRM = ButtonWrapper(
+    name='CONFIRM',
+    share=Button(
+        file='./assets/share/rogue/ui/CONFIRM.png',
+        area=(960, 629, 1233, 677),
+        search=(940, 609, 1253, 697),
+        color=(217, 218, 218),
+        button=(960, 629, 1233, 677),
+    ),
+)
 PAGE_CHOOSE_BUFF = ButtonWrapper(
     name='PAGE_CHOOSE_BUFF',
     share=Button(

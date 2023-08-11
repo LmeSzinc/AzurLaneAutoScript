@@ -9,27 +9,11 @@ from module.logger import logger
 from module.ocr.keyword import Keyword
 from module.ocr.ocr import Ocr, OcrResultButton, DigitCounter
 from tasks.rogue.assets.assets_rogue_blessing import *
+from tasks.rogue.assets.assets_rogue_ui import CONFIRM
 from tasks.rogue.keywords import *
 from tasks.rogue.preset import *
 from tasks.rogue.ui import RogueUI
-
-REGEX_PUNCTUATION = re.compile(r'[ ,.\'"“”，。:：!！?？·•—/()（）「」『』【】《》]')
-
-
-def parse_name(n):
-    n = REGEX_PUNCTUATION.sub('', str(n)).lower()
-    return n
-
-
-def get_regex_from_keyword_name(keyword, attr_name):
-    string = ""
-    for instance in keyword.instances.values():
-        if hasattr(instance, attr_name):
-            for name in instance.__getattribute__(attr_name):
-                string += f"{name}|"
-    # some pattern contain each other, make sure each pattern end with "-" or the end of string
-    return f"(?:({string[:-1]})(?:-|$))?"
-
+from tasks.rogue.utils import get_regex_from_keyword_name, parse_name
 
 # normal blessing
 pattern = ""
@@ -48,14 +32,11 @@ BLESSING_FILTER_ATTR += (BLESSING_ATTR_NAME,)
 
 FILETER_REGEX = re.compile(pattern)
 BLESSING_FILTER_PRESET = ("reset", "same_path", "random")
-print(FILETER_REGEX)
-print(BLESSING_FILTER_ATTR)
-print(BLESSING_FILTER_PRESET)
 BLESSING_FILTER = MultiLangFilter(FILETER_REGEX, BLESSING_FILTER_ATTR, BLESSING_FILTER_PRESET)
 
 # resonance
 RESONANCE_ATTR_NAME = 'resonance_name'
-pattern = get_regex_from_keyword_name(RogueResonance, 'resonance')
+pattern = get_regex_from_keyword_name(RogueResonance, RESONANCE_ATTR_NAME)
 
 FILETER_REGEX = re.compile(pattern)
 RESONANCE_FILTER_PRESET = ("random",)
@@ -79,12 +60,13 @@ class RogueBuffOcr(Ocr):
                 "追摩物": "追孽物",
                 "特月": "狩月",
                 "彤弓素增": "彤弓素矰",
+                "白决射御": "白矢决射御",
                 "苦表": "苦衷",
                 "[沦沧]肌髓": "沦浃肌髓",
                 "进发": "迸发",
                 "永缩体": "永坍缩体",
                 "完美体验：绒默": "完美体验：缄默",
-                "^灾$": "禳灾",
+                r"\w*灾$": "禳灾",
             }
             for pattern, replace in replace_pattern_dict.items():
                 result = re.sub(pattern, replace, result)
@@ -101,6 +83,7 @@ class RogueBlessingUI(RogueUI):
         return int(mean // 60)  # the magic number that maps blessing num with mean_color
 
     def buffs_recognition(self):
+        self.wait_until_blessing_loaded()
         ocr = RogueBuffOcr(OCR_ROGUE_BUFF)
         results = ocr.matched_ocr(self.device.image, [RogueBlessing, RogueResonance])
         blessing_count = self.get_blessing_count()
@@ -175,20 +158,25 @@ class RogueBlessingUI(RogueUI):
         current, _, _ = DigitCounter(OCR_RESET_COUNT).ocr_single_line(self.device.image)
         return current
 
-    def wait_until_blessing_loaded(self, skip_first_screenshot=True):
-        timeout = Timer(2, count=4).start()
+    def wait_until_blessing_loaded(self, timer=Timer(0.3, count=1), timeout=Timer(5, count=10)):
+        timer.reset()
+        timeout.reset()
+        previous_count = self.get_blessing_count()
         while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
+            self.device.screenshot()
+            blessing_count = self.get_blessing_count()
 
             if timeout.reached():
                 logger.warning('Wait blessing page loaded timeout')
-                return False
-            if self.image_color_count(BLESSING_STABLE_FLAG, (255, 255, 255)):
-                logger.info("Blessing page loaded")
-                return True
+                break
+
+            if previous_count and previous_count == blessing_count:
+                if timer.reached():
+                    logger.info('Blessing page stabled')
+                    break
+            else:
+                previous_count = blessing_count
+                timer.reset()
 
     def reset_blessing_list(self, skip_first_screenshot=True):
         if not self.is_page_choose_blessing():
@@ -225,6 +213,25 @@ class RogueBlessingSelector(RogueBlessingUI):
         self.select_blessing(self.)
     """
 
+    def load_filter(self) -> MultiLangFilter:
+        filter_ = None
+        keyword = self.blessings[0].matched_keyword
+        if isinstance(keyword, RogueBlessing):
+            filter_ = BLESSING_FILTER
+            if self.config.Rogue_PresetBlessingFilter == 'preset-1':
+                filter_.load(parse_name(BLESSING_PRESET_1))
+            if self.config.Rogue_PresetBlessingFilter == 'custom':
+                filter_.load(parse_name(self.config.Rogue_CustomBlessingFilter))
+        if isinstance(keyword, RogueResonance):
+            if len(self.blessings) == 1:
+                return filter_
+            filter_ = RESONANCE_FILTER
+            if self.config.Rogue_PresetResonanceFilter == 'preset-1':
+                RESONANCE_FILTER.load(parse_name(RESONANCE_PRESET_1))
+            if self.config.Rogue_PresetResonanceFilter == 'custom':
+                RESONANCE_FILTER.load(parse_name(self.config.Rogue_CustomResonanceFilter))
+        return filter_
+
     def apply_filter(self):
         def match_ocr_result(matched_keyword: Keyword):
             for blessing in self.blessings:
@@ -235,22 +242,11 @@ class RogueBlessingSelector(RogueBlessingUI):
         if not self.blessings:
             return []
 
-        if isinstance(self.blessings[0].matched_keyword, RogueBlessing):
-            if self.config.Rogue_PresetBlessingFilter == 'preset-1':
-                BLESSING_FILTER.load(parse_name(BLESSING_PRESET_1))
-            if self.config.Rogue_PresetBlessingFilter == 'custom':
-                BLESSING_FILTER.load(parse_name(self.config.Rogue_CustomBlessingFilter))
-
-        if isinstance(self.blessings[0].matched_keyword, RogueResonance):
-            if len(self.blessings) == 1:  # resonance can not be reset. So have not choice when there's only one option
-                return self.blessings
-            if self.config.Rogue_PresetResonanceFilter == 'preset-1':
-                RESONANCE_FILTER.load(parse_name(RESONANCE_PRESET_1))
-            if self.config.Rogue_PresetResonanceFilter == 'custom':
-                RESONANCE_FILTER.load(parse_name(self.config.Rogue_CustomResonanceFilter))
-
+        filter_ = self.load_filter()
+        if not filter_:
+            return self.blessings
         blessing_keywords = [blessing.matched_keyword for blessing in self.blessings]
-        priority = BLESSING_FILTER.apply(blessing_keywords)
+        priority = filter_.apply(blessing_keywords)
         priority = [option if isinstance(option, str) else match_ocr_result(option) for option in priority]
         return priority
 
@@ -280,7 +276,7 @@ class RogueBlessingSelector(RogueBlessingUI):
                 if option.lower() == 'same_path':
                     chosen = False
                     for blessing in self.blessings:
-                        if blessing.path_id == self.path.id:
+                        if blessing.matched_keyword.path_id == self.path.id:
                             self.ui_select_blessing(blessing)
                             chosen = True
                     if chosen:

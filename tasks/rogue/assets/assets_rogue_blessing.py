@@ -43,16 +43,6 @@ BOTTOM_WHITE_BAR = ButtonWrapper(
         button=(166, 520, 1114, 542),
     ),
 )
-CONFIRM = ButtonWrapper(
-    name='CONFIRM',
-    share=Button(
-        file='./assets/share/rogue/blessing/CONFIRM.png',
-        area=(960, 629, 1233, 677),
-        search=(940, 609, 1253, 697),
-        color=(217, 218, 218),
-        button=(960, 629, 1233, 677),
-    ),
-)
 OCR_RESET_COUNT = ButtonWrapper(
     name='OCR_RESET_COUNT',
     share=Button(
