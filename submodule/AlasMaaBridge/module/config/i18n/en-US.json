@@ -475,7 +475,8 @@
       "name": "MaaRoguelike.Theme.name",
       "help": "MaaRoguelike.Theme.help",
       "Phantom": "Phantom",
-      "Mizuki": "Mizuki"
+      "Mizuki": "Mizuki",
+      "Sami": "Sami"
     },
     "Mode": {
       "name": "MaaRoguelike.Mode.name",
