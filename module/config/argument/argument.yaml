@@ -130,3 +130,8 @@ Rogue:
   CustomBlessingFilter: |-
     巡猎-3 > 《冠军晚餐·猫的摇篮》 > 丰饶众生，一法界心 > 毁灭-3 
     > 火堆外的夜 > 巡猎-2 > 毁灭-2 > 巡猎 > reset > random
+  PresetCurioFilter:
+    value: preset-1
+    option: [ preset-1, custom ]
+  CustomCurioFilter: |-
+    博士之袍 > 福灵胶 > 分裂金币 > 信仰债券 > 换境桂冠 > 俱乐部券 > 碎星芳饵 > random

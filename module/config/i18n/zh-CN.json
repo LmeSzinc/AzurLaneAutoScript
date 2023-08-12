@@ -402,6 +402,16 @@
     "CustomBlessingFilter": {
       "name": "自定义祝福过滤器",
       "help": ""
+    },
+    "PresetCurioFilter": {
+      "name": "奇物过滤器",
+      "help": "",
+      "preset-1": "预设 1",
+      "custom": "自定义"
+    },
+    "CustomCurioFilter": {
+      "name": "自定义祝福过滤器",
+      "help": ""
     }
   },
   "Gui": {

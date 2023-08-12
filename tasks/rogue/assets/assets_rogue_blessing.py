@@ -43,6 +43,16 @@ BOTTOM_WHITE_BAR = ButtonWrapper(
         button=(166, 520, 1114, 542),
     ),
 )
+OCR_RESET_COST = ButtonWrapper(
+    name='OCR_RESET_COST',
+    share=Button(
+        file='./assets/share/rogue/blessing/OCR_RESET_COST.png',
+        area=(689, 642, 715, 665),
+        search=(669, 622, 735, 685),
+        color=(39, 23, 25),
+        button=(689, 642, 715, 665),
+    ),
+)
 OCR_RESET_COUNT = ButtonWrapper(
     name='OCR_RESET_COUNT',
     share=Button(

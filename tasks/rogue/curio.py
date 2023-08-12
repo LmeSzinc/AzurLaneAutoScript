@@ -2,6 +2,7 @@ import re
 
 import numpy as np
 
+from module.base.filter import MultiLangFilter
 from module.base.timer import Timer
 from module.base.utils import get_color
 from module.logger import logger
@@ -9,7 +10,18 @@ from module.ocr.ocr import Ocr, OcrResultButton
 from tasks.rogue.assets.assets_rogue_curio import *
 from tasks.rogue.assets.assets_rogue_ui import CONFIRM
 from tasks.rogue.keywords import RogueCurio
+from tasks.rogue.preset import CURIO_PRESET_1
+from tasks.rogue.selector import RogueSelector
 from tasks.rogue.ui import RogueUI
+from tasks.rogue.utils import get_regex_from_keyword_name, parse_name
+
+CURIO_FILTER_ATTR = tuple()
+CURIO_ATTR_NAME = 'curio_name'
+pattern = get_regex_from_keyword_name(RogueCurio, CURIO_ATTR_NAME)
+CURIO_FILTER_ATTR += (CURIO_ATTR_NAME,)
+CURIO_FILTER_PRESET = ('random',)
+FILTER_REGEX = re.compile(pattern)
+CURIO_FILTER = MultiLangFilter(FILTER_REGEX, CURIO_FILTER_ATTR, CURIO_FILTER_PRESET)
 
 
 class RogueCurioOcr(Ocr):
@@ -17,27 +29,28 @@ class RogueCurioOcr(Ocr):
         result = super().after_process(result)
         if self.lang == 'ch':
             replace_pattern_dict = {
-                "降维般子": "降维骰子"
+                "般": "骰",
             }
             for pattern, replace in replace_pattern_dict.items():
                 result = re.sub(pattern, replace, result)
         return result
 
 
-class RogueCurioUI(RogueUI):
-    def curio_recognition(self):
+class RogueCurioSelector(RogueUI, RogueSelector):
+    def recognition(self):
+        self.ocr_results = []
         ocr = RogueCurioOcr(OCR_ROGUE_CURIO)
         results = ocr.matched_ocr(self.device.image, RogueCurio)
         expect_num = 3
         if len(results) != expect_num:
             logger.warning(f"The OCR result does not match the curio count. "
                            f"Expect {expect_num}, but recognized {len(results)} only.")
-        self.ocr_curios = results
+        self.ocr_results = results
         return results
 
-    def ui_select_curio(self, curio: OcrResultButton | None, skip_first_screenshot=True, enforce=True):
+    def ui_select(self, target: OcrResultButton | None, skip_first_screenshot=True):
         def is_curio_selected():
-            return np.mean(get_color(self.device.image, tuple(curio.area))) > 70
+            return np.mean(get_color(self.device.image, tuple(target.area))) > 70  # shiny background
 
         def is_select_curio_complete():
             """
@@ -45,6 +58,9 @@ class RogueCurioUI(RogueUI):
             """
             return self.is_in_main()
 
+        enforce = False
+        if not target:
+            enforce = True
         interval = Timer(1)
         # start -> selected
         while 1:
@@ -57,13 +73,13 @@ class RogueCurioUI(RogueUI):
                 if enforce:
                     logger.info("Curio selected (enforce)")
                 else:
-                    logger.info(f"Curio {curio} selected")
+                    logger.info(f"Curio {target} selected")
                 break
             if interval.reached():
                 if enforce:
                     self.device.click(CURIO_ENFORCE)
                 else:
-                    self.device.click(curio)
+                    self.device.click(target)
                 interval.reset()
 
         skip_first_screenshot = True
@@ -79,3 +95,21 @@ class RogueCurioUI(RogueUI):
             if interval.reached():
                 self.device.click(CONFIRM)
                 interval.reset()
+
+    def try_select(self, option: OcrResultButton | str):
+        if option == 'random':
+            target = np.random.choice(self.ocr_results)
+            self.ui_select(target)
+            return True
+        if isinstance(option, OcrResultButton):
+            self.ui_select(option)
+            return True
+        return False
+
+    def load_filter(self):
+        filter_ = CURIO_FILTER
+        if self.config.Rogue_PresetCurioFilter == 'preset-1':
+            filter_.load(parse_name(CURIO_PRESET_1))
+        if self.config.Rogue_PresetCurioFilter == 'custom':
+            filter_.load(parse_name(self.config.Rogue_CustomCurioFilter))
+        self.filter_ = filter_

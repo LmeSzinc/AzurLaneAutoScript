@@ -402,6 +402,16 @@
     "CustomBlessingFilter": {
       "name": "Rogue.CustomBlessingFilter.name",
       "help": "Rogue.CustomBlessingFilter.help"
+    },
+    "PresetCurioFilter": {
+      "name": "Rogue.PresetCurioFilter.name",
+      "help": "Rogue.PresetCurioFilter.help",
+      "preset-1": "preset-1",
+      "custom": "custom"
+    },
+    "CustomCurioFilter": {
+      "name": "Rogue.CustomCurioFilter.name",
+      "help": "Rogue.CustomCurioFilter.help"
     }
   },
   "Gui": {

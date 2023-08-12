@@ -6,12 +6,12 @@ from module.base.filter import MultiLangFilter
 from module.base.timer import Timer
 from module.base.utils import area_offset, get_color
 from module.logger import logger
-from module.ocr.keyword import Keyword
-from module.ocr.ocr import Ocr, OcrResultButton, DigitCounter
+from module.ocr.ocr import Ocr, OcrResultButton, DigitCounter, Digit
 from tasks.rogue.assets.assets_rogue_blessing import *
 from tasks.rogue.assets.assets_rogue_ui import CONFIRM
 from tasks.rogue.keywords import *
 from tasks.rogue.preset import *
+from tasks.rogue.selector import RogueSelector
 from tasks.rogue.ui import RogueUI
 from tasks.rogue.utils import get_regex_from_keyword_name, parse_name
 
@@ -54,46 +54,61 @@ class RogueBuffOcr(Ocr):
                 "柘弓危失": "柘弓危矢",
                 "飞虹凿齿": "飞虹诛凿齿",
                 "天培步危": "天棓步危",
-                "云[摘销]": "云镝",
+                "云[摘销]?逐步离": "云镝逐步离",
                 "制桑": "制穹桑",
                 "乌号基": "乌号綦",
                 "追摩物": "追孽物",
                 "特月": "狩月",
-                "彤弓素增": "彤弓素矰",
+                "彤弓素增?": "彤弓素矰",
                 "白决射御": "白矢决射御",
                 "苦表": "苦衷",
                 "[沦沧]肌髓": "沦浃肌髓",
                 "进发": "迸发",
                 "永缩体": "永坍缩体",
                 "完美体验：绒默": "完美体验：缄默",
-                r"\w*灾$": "禳灾",
+                "灭回归不等式": "湮灭回归不等式",
+                r".*灾$": "禳灾",
+                "虚安供品": "虚妄供品",
+                "原初的苦$": "原初的苦衷",
+                "厌离邪苦": "厌离邪秽苦",
+                r".*繁.*": "葳蕤繁祉，延彼遐龄"
             }
-            for pattern, replace in replace_pattern_dict.items():
-                result = re.sub(pattern, replace, result)
+            for pat, replace in replace_pattern_dict.items():
+                result = re.sub(pat, replace, result)
         return result
 
 
-class RogueBlessingUI(RogueUI):
+class RogueBlessingSelector(RogueUI, RogueSelector):
+    """
+    Usage:
+        self = RogueBlessingSelector('alas')
+        self.device.screenshot()
+        self.recognize_and_select()
+    """
+
     def get_blessing_count(self) -> int:
         """
         Returns: The number of blessing
         """
+        if not self.image_color_count(BOTTOM_WHITE_BAR.area, color=(255, 255, 255), count=5000):
+            return 0
         color = get_color(self.device.image, BOTTOM_WHITE_BAR.area)
         mean = np.mean(color)
         return int(mean // 60)  # the magic number that maps blessing num with mean_color
 
-    def buffs_recognition(self):
-        self.wait_until_blessing_loaded()
+    def recognition(self):
+        self.ocr_results = []
+        self._wait_until_blessing_loaded()
         ocr = RogueBuffOcr(OCR_ROGUE_BUFF)
         results = ocr.matched_ocr(self.device.image, [RogueBlessing, RogueResonance])
         blessing_count = self.get_blessing_count()
         if blessing_count != len(results):
             logger.warning(f"The OCR result does not match the blessing count. "
                            f"Expect {blessing_count}, but recognized {len(results)} only.")
-        self.blessings = results
+        self.ocr_results = results
         return results
 
-    def ui_select_blessing(self, blessing: OcrResultButton | None, skip_first_screenshot=True, enforce=False):
+    def ui_select(self, target: OcrResultButton | None, skip_first_screenshot=True):
         """
         Select buff once. Multiple calls needed if there's more than one time to choose
         It might occur that all listed blessings are not recognized
@@ -104,7 +119,7 @@ class RogueBlessingUI(RogueUI):
             """
             There is a white border if a blessing is selected.
             """
-            top_border = area_offset(blessing.area, (0, -180))
+            top_border = area_offset(target.area, (0, -180))
             return self.image_color_count(top_border, (255, 255, 255))
 
         def is_select_blessing_complete():
@@ -117,7 +132,9 @@ class RogueBlessingUI(RogueUI):
                     or (self.is_page_choose_blessing() and not is_blessing_selected()))
 
         interval = Timer(1)
-        if not blessing:
+        enforce = False
+
+        if not target:
             enforce = True
 
         # start -> selected
@@ -131,13 +148,13 @@ class RogueBlessingUI(RogueUI):
                 if enforce:
                     logger.info("Buff selected (enforce)")
                 else:
-                    logger.info(f"Buff {blessing} selected")
+                    logger.info(f"Buff {target} selected")
                 break
             if interval.reached():
                 if enforce:
                     self.device.click(BLESSING_ENFORCE)
                 else:
-                    self.device.click(blessing)
+                    self.device.click(target)
                 interval.reset()
 
         skip_first_screenshot = True
@@ -154,11 +171,11 @@ class RogueBlessingUI(RogueUI):
                 self.device.click(CONFIRM)
                 interval.reset()
 
-    def get_reset_count(self):
+    def _get_reset_count(self):
         current, _, _ = DigitCounter(OCR_RESET_COUNT).ocr_single_line(self.device.image)
         return current
 
-    def wait_until_blessing_loaded(self, timer=Timer(0.3, count=1), timeout=Timer(5, count=10)):
+    def _wait_until_blessing_loaded(self, timer=Timer(0.3, count=1), timeout=Timer(5, count=10)):
         timer.reset()
         timeout.reset()
         previous_count = self.get_blessing_count()
@@ -182,8 +199,14 @@ class RogueBlessingUI(RogueUI):
         if not self.is_page_choose_blessing():
             return False
 
-        reset_count = self.get_reset_count()
+        reset_count = self._get_reset_count()
         if not reset_count:
+            logger.info("Does not have enough reset count")
+            return False
+
+        reset_cost = Digit(OCR_RESET_COST).ocr_single_line(self.device.image)
+        if reset_cost > self.cosmic_fragment:
+            logger.info("Does not have enough cosmic fragment")
             return False
 
         interval = Timer(1)
@@ -193,7 +216,7 @@ class RogueBlessingUI(RogueUI):
             else:
                 self.device.screenshot()
 
-            new_count = self.get_reset_count()
+            new_count = self._get_reset_count()
 
             if reset_count - new_count == 1:
                 logger.info("Reset once")
@@ -203,19 +226,9 @@ class RogueBlessingUI(RogueUI):
                 interval.reset()
         return True
 
-
-class RogueBlessingSelector(RogueBlessingUI):
-    """
-    Usage:
-        self = RogueBlessingSelector('alas')
-        self.device.screenshot()
-        self.buff_recognition()
-        self.select_blessing(self.)
-    """
-
-    def load_filter(self) -> MultiLangFilter:
+    def load_filter(self):
         filter_ = None
-        keyword = self.blessings[0].matched_keyword
+        keyword = self.ocr_results[0].matched_keyword
         if isinstance(keyword, RogueBlessing):
             filter_ = BLESSING_FILTER
             if self.config.Rogue_PresetBlessingFilter == 'preset-1':
@@ -223,61 +236,25 @@ class RogueBlessingSelector(RogueBlessingUI):
             if self.config.Rogue_PresetBlessingFilter == 'custom':
                 filter_.load(parse_name(self.config.Rogue_CustomBlessingFilter))
         if isinstance(keyword, RogueResonance):
-            if len(self.blessings) == 1:
-                return filter_
             filter_ = RESONANCE_FILTER
             if self.config.Rogue_PresetResonanceFilter == 'preset-1':
                 RESONANCE_FILTER.load(parse_name(RESONANCE_PRESET_1))
             if self.config.Rogue_PresetResonanceFilter == 'custom':
                 RESONANCE_FILTER.load(parse_name(self.config.Rogue_CustomResonanceFilter))
-        return filter_
+        self.filter_ = filter_
 
-    def apply_filter(self):
-        def match_ocr_result(matched_keyword: Keyword):
-            for blessing in self.blessings:
-                if blessing.matched_keyword == matched_keyword:
-                    return blessing
-            return None
+    def try_select(self, option: OcrResultButton | str):
+        if isinstance(option, str):
+            if option.lower() == 'reset':
+                if self.reset_blessing_list():
+                    self.recognize_and_select()
+                    return True
+            if option.lower() == 'random':
+                choose = np.random.choice(self.ocr_results)
+                self.ui_select(choose)
+                return True
 
-        if not self.blessings:
-            return []
-
-        filter_ = self.load_filter()
-        if not filter_:
-            return self.blessings
-        blessing_keywords = [blessing.matched_keyword for blessing in self.blessings]
-        priority = filter_.apply(blessing_keywords)
-        priority = [option if isinstance(option, str) else match_ocr_result(option) for option in priority]
-        return priority
-
-    def select_blessing(self, priority: list):
-        if not self.blessings:
-            logger.info('No blessing recognized, randomly choose one')
-            self.ui_select_blessing(None, enforce=True)
-            return
-
-        if not len(priority):
-            logger.info('No blessing project satisfies current filter, randomly choose one')
-            choose = np.random.choice(self.blessings)
-            self.ui_select_blessing(choose)
-            return
-
-        for option in priority:
-            # preset
-            if isinstance(option, str):
-                if option.lower() == 'reset':
-                    if self.reset_blessing_list():
-                        self.wait_until_blessing_loaded()
-                        self.buffs_recognition()
-                        self.select_blessing(self.apply_filter())
-                        return
-                    else:
-                        continue
-                if option.lower() == 'random':
-                    choose = np.random.choice(self.blessings)
-                    self.ui_select_blessing(choose)
-                    return
-
-            if isinstance(option, OcrResultButton):
-                self.ui_select_blessing(option)
-                return
+        if isinstance(option, OcrResultButton):
+            self.ui_select(option)
+            return True
+        return False

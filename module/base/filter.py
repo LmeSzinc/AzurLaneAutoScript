@@ -125,13 +125,11 @@ class MultiLangFilter(Filter):
                 continue
 
             obj_value = obj.__getattribute__(attr)
-            if isinstance(obj_value, str):
-                if obj_value.lower() != str(value):
+            if isinstance(obj_value, (str, int)):
+                if str(obj_value).lower() != str(value):
                     return False
             if isinstance(obj_value, list):
-                for candidate in obj_value:
-                    if str(candidate) == str(value):
-                        return True
-                return False
+                if value not in obj_value:
+                    return False
 
         return True
