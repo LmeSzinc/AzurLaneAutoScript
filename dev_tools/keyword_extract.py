@@ -331,6 +331,17 @@ class KeywordExtract:
         self.write_keywords(keyword_class='RogueResonance', output_file='./tasks/rogue/keywords/resonance.py',
                             text_convert=blessing_name, extra_attrs=extra_attrs)
 
+    def iter_rogue_miracles(self):
+        miracles = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'RogueMiracle.json'))
+        visited = set()
+        for data in miracles.values():
+            hash_ = deep_get(data, keys='MiracleName.Hash')
+            _, name = self.find_keyword(hash_, lang='cn')
+            if name in visited:
+                continue
+            visited.add(name)
+            yield hash_
+
     def generate(self):
         self.load_keywords(['模拟宇宙', '拟造花萼（金）', '拟造花萼（赤）', '凝滞虚影', '侵蚀隧洞', '历战余响', '忘却之庭'])
         self.write_keywords(keyword_class='DungeonNav', output_file='./tasks/dungeon/keywords/nav.py')
@@ -361,6 +372,8 @@ class KeywordExtract:
         self.write_keywords(keyword_class='ItemTab', text_convert=lambda name: name.replace(' ', ''),
                             output_file='./tasks/item/keywords/tab.py')
         self.generate_rogue_buff()
+        self.load_keywords(list(self.iter_rogue_miracles()))
+        self.write_keywords(keyword_class='RogueCurio', output_file='./tasks/rogue/keywords/curio.py')
 
 
 if __name__ == '__main__':

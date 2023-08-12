@@ -31,7 +31,7 @@ pattern += blessing_regex
 BLESSING_FILTER_ATTR += (BLESSING_ATTR_NAME,)
 
 FILETER_REGEX = re.compile(pattern)
-BLESSING_FILTER_PRESET = ("reset", "same_path", "random")
+BLESSING_FILTER_PRESET = ("reset", "random")
 BLESSING_FILTER = MultiLangFilter(FILETER_REGEX, BLESSING_FILTER_ATTR, BLESSING_FILTER_PRESET)
 
 # resonance
@@ -270,16 +270,6 @@ class RogueBlessingSelector(RogueBlessingUI):
                         self.wait_until_blessing_loaded()
                         self.buffs_recognition()
                         self.select_blessing(self.apply_filter())
-                        return
-                    else:
-                        continue
-                if option.lower() == 'same_path':
-                    chosen = False
-                    for blessing in self.blessings:
-                        if blessing.matched_keyword.path_id == self.path.id:
-                            self.ui_select_blessing(blessing)
-                            chosen = True
-                    if chosen:
                         return
                     else:
                         continue

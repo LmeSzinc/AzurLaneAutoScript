@@ -42,3 +42,8 @@ class RogueResonance(Keyword):
     def resonance_name(self):
         return [self.__getattribute__(f"{server}_parsed")
                 for server in UI_LANGUAGES if hasattr(self, f"{server}_parsed")]
+
+
+@dataclass(repr=False)
+class RogueCurio(Keyword):
+    instances: ClassVar = {}

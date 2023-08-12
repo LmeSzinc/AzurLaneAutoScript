@@ -14,4 +14,4 @@ class RogueUI(UI):
         return self.image_color_count(PAGE_CHOOSE_BUFF, (245, 245, 245), count=200)
 
     def is_page_choose_curio(self):
-        return self.appear(PAGE_CHOOSE_MIRACLE)
+        return self.appear(PAGE_CHOOSE_CURIO)

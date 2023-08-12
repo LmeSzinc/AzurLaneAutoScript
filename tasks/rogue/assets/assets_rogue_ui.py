@@ -23,10 +23,10 @@ PAGE_CHOOSE_BUFF = ButtonWrapper(
         button=(1105, 95, 1154, 113),
     ),
 )
-PAGE_CHOOSE_MIRACLE = ButtonWrapper(
-    name='PAGE_CHOOSE_MIRACLE',
+PAGE_CHOOSE_CURIO = ButtonWrapper(
+    name='PAGE_CHOOSE_CURIO',
     share=Button(
-        file='./assets/share/rogue/ui/PAGE_CHOOSE_MIRACLE.png',
+        file='./assets/share/rogue/ui/PAGE_CHOOSE_CURIO.png',
         area=(988, 17, 1028, 57),
         search=(968, 0, 1048, 77),
         color=(40, 39, 34),
