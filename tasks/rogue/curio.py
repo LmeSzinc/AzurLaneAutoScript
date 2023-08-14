@@ -12,7 +12,6 @@ from tasks.rogue.assets.assets_rogue_ui import CONFIRM
 from tasks.rogue.keywords import RogueCurio
 from tasks.rogue.preset import CURIO_PRESET_1
 from tasks.rogue.selector import RogueSelector
-from tasks.rogue.ui import RogueUI
 from tasks.rogue.utils import get_regex_from_keyword_name, parse_name
 
 CURIO_FILTER_ATTR = tuple()
@@ -36,11 +35,11 @@ class RogueCurioOcr(Ocr):
         return result
 
 
-class RogueCurioSelector(RogueUI, RogueSelector):
+class RogueCurioSelector(RogueSelector):
     def recognition(self):
         self.ocr_results = []
         ocr = RogueCurioOcr(OCR_ROGUE_CURIO)
-        results = ocr.matched_ocr(self.device.image, RogueCurio)
+        results = ocr.matched_ocr(self.main.device.image, RogueCurio)
         expect_num = 3
         if len(results) != expect_num:
             logger.warning(f"The OCR result does not match the curio count. "
@@ -50,13 +49,13 @@ class RogueCurioSelector(RogueUI, RogueSelector):
 
     def ui_select(self, target: OcrResultButton | None, skip_first_screenshot=True):
         def is_curio_selected():
-            return np.mean(get_color(self.device.image, tuple(target.area))) > 70  # shiny background
+            return np.mean(get_color(self.main.device.image, tuple(target.area))) > 70  # shiny background
 
         def is_select_curio_complete():
             """
                 Case 1: back to main page
             """
-            return self.is_in_main()
+            return self.main.is_in_main()
 
         enforce = False
         if not target:
@@ -67,7 +66,7 @@ class RogueCurioSelector(RogueUI, RogueSelector):
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
-                self.device.screenshot()
+                self.main.device.screenshot()
 
             if is_curio_selected():
                 if enforce:
@@ -77,9 +76,9 @@ class RogueCurioSelector(RogueUI, RogueSelector):
                 break
             if interval.reached():
                 if enforce:
-                    self.device.click(CURIO_ENFORCE)
+                    self.main.device.click(CURIO_ENFORCE)
                 else:
-                    self.device.click(target)
+                    self.main.device.click(target)
                 interval.reset()
 
         skip_first_screenshot = True
@@ -88,12 +87,12 @@ class RogueCurioSelector(RogueUI, RogueSelector):
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
-                self.device.screenshot()
+                self.main.device.screenshot()
 
             if is_select_curio_complete():
                 break
             if interval.reached():
-                self.device.click(CONFIRM)
+                self.main.device.click(CONFIRM)
                 interval.reset()
 
     def try_select(self, option: OcrResultButton | str):
@@ -108,8 +107,8 @@ class RogueCurioSelector(RogueUI, RogueSelector):
 
     def load_filter(self):
         filter_ = CURIO_FILTER
-        if self.config.Rogue_PresetCurioFilter == 'preset-1':
+        if self.main.config.Rogue_PresetCurioFilter == 'preset-1':
             filter_.load(parse_name(CURIO_PRESET_1))
-        if self.config.Rogue_PresetCurioFilter == 'custom':
-            filter_.load(parse_name(self.config.Rogue_CustomCurioFilter))
+        if self.main.config.Rogue_PresetCurioFilter == 'custom':
+            filter_.load(parse_name(self.main.config.Rogue_CustomCurioFilter))
         self.filter_ = filter_

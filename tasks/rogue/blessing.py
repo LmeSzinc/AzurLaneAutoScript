@@ -12,7 +12,6 @@ from tasks.rogue.assets.assets_rogue_ui import CONFIRM
 from tasks.rogue.keywords import *
 from tasks.rogue.preset import *
 from tasks.rogue.selector import RogueSelector
-from tasks.rogue.ui import RogueUI
 from tasks.rogue.utils import get_regex_from_keyword_name, parse_name, is_card_selected
 
 # normal blessing
@@ -78,7 +77,7 @@ class RogueBuffOcr(Ocr):
         return result
 
 
-class RogueBlessingSelector(RogueUI, RogueSelector):
+class RogueBlessingSelector(RogueSelector):
     """
     Usage:
         self = RogueBlessingSelector('alas')
@@ -90,9 +89,9 @@ class RogueBlessingSelector(RogueUI, RogueSelector):
         """
         Returns: The number of blessing
         """
-        if not self.image_color_count(BOTTOM_WHITE_BAR.area, color=(255, 255, 255), count=5000):
+        if not self.main.image_color_count(BOTTOM_WHITE_BAR.area, color=(255, 255, 255), count=5000):
             return 0
-        color = get_color(self.device.image, BOTTOM_WHITE_BAR.area)
+        color = get_color(self.main.device.image, BOTTOM_WHITE_BAR.area)
         mean = np.mean(color)
         return int(mean // 60)  # the magic number that maps blessing num with mean_color
 
@@ -100,7 +99,7 @@ class RogueBlessingSelector(RogueUI, RogueSelector):
         self.ocr_results = []
         self._wait_until_blessing_loaded()
         ocr = RogueBuffOcr(OCR_ROGUE_BUFF)
-        results = ocr.matched_ocr(self.device.image, [RogueBlessing, RogueResonance])
+        results = ocr.matched_ocr(self.main.device.image, [RogueBlessing, RogueResonance])
         blessing_count = self.get_blessing_count()
         if blessing_count != len(results):
             logger.warning(f"The OCR result does not match the blessing count. "
@@ -121,8 +120,9 @@ class RogueBlessingSelector(RogueUI, RogueSelector):
                 Case 2: choose curio
                 Case 3: another choose blessings, but no blessing is selected when the new selection page loaded
             """
-            return (self.is_in_main() or self.is_page_choose_curio()
-                    or (self.is_page_choose_blessing() and not is_card_selected(self, target, confirm_button=CONFIRM)))
+            return (self.main.is_in_main() or self.main.is_page_choose_curio()
+                    or (self.main.is_page_choose_blessing() and
+                        not is_card_selected(self.main, target, confirm_button=CONFIRM)))
 
         interval = Timer(1)
         enforce = False
@@ -135,9 +135,9 @@ class RogueBlessingSelector(RogueUI, RogueSelector):
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
-                self.device.screenshot()
+                self.main.device.screenshot()
 
-            if is_card_selected(self, target, confirm_button=CONFIRM):
+            if is_card_selected(self.main, target, confirm_button=CONFIRM):
                 if enforce:
                     logger.info("Buff selected (enforce)")
                 else:
@@ -145,9 +145,9 @@ class RogueBlessingSelector(RogueUI, RogueSelector):
                 break
             if interval.reached():
                 if enforce:
-                    self.device.click(BLESSING_ENFORCE)
+                    self.main.device.click(BLESSING_ENFORCE)
                 else:
-                    self.device.click(target)
+                    self.main.device.click(target)
                 interval.reset()
 
         skip_first_screenshot = True
@@ -156,16 +156,16 @@ class RogueBlessingSelector(RogueUI, RogueSelector):
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
-                self.device.screenshot()
+                self.main.device.screenshot()
 
             if is_select_blessing_complete():
                 break
             if interval.reached():
-                self.device.click(CONFIRM)
+                self.main.device.click(CONFIRM)
                 interval.reset()
 
     def _get_reset_count(self):
-        current, _, _ = DigitCounter(OCR_RESET_COUNT).ocr_single_line(self.device.image)
+        current, _, _ = DigitCounter(OCR_RESET_COUNT).ocr_single_line(self.main.device.image)
         return current
 
     def _wait_until_blessing_loaded(self, timer=Timer(0.3, count=1), timeout=Timer(5, count=10)):
@@ -173,7 +173,7 @@ class RogueBlessingSelector(RogueUI, RogueSelector):
         timeout.reset()
         previous_count = self.get_blessing_count()
         while 1:
-            self.device.screenshot()
+            self.main.device.screenshot()
             blessing_count = self.get_blessing_count()
 
             if timeout.reached():
@@ -189,7 +189,7 @@ class RogueBlessingSelector(RogueUI, RogueSelector):
                 timer.reset()
 
     def reset_blessing_list(self, skip_first_screenshot=True):
-        if not self.is_page_choose_blessing():
+        if not self.main.is_page_choose_blessing():
             return False
 
         reset_count = self._get_reset_count()
@@ -197,8 +197,8 @@ class RogueBlessingSelector(RogueUI, RogueSelector):
             logger.info("Does not have enough reset count")
             return False
 
-        reset_cost = Digit(OCR_RESET_COST).ocr_single_line(self.device.image)
-        if reset_cost > self.cosmic_fragment:
+        reset_cost = Digit(OCR_RESET_COST).ocr_single_line(self.main.device.image)
+        if reset_cost > self.main.cosmic_fragment:
             logger.info("Does not have enough cosmic fragment")
             return False
 
@@ -207,7 +207,7 @@ class RogueBlessingSelector(RogueUI, RogueSelector):
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
-                self.device.screenshot()
+                self.main.device.screenshot()
 
             new_count = self._get_reset_count()
 
@@ -215,7 +215,7 @@ class RogueBlessingSelector(RogueUI, RogueSelector):
                 logger.info("Reset once")
                 break
             if interval.reached():
-                self.device.click(BLESSING_RESET)
+                self.main.device.click(BLESSING_RESET)
                 interval.reset()
         return True
 
@@ -224,16 +224,16 @@ class RogueBlessingSelector(RogueUI, RogueSelector):
         keyword = self.ocr_results[0].matched_keyword
         if isinstance(keyword, RogueBlessing):
             filter_ = BLESSING_FILTER
-            if self.config.Rogue_PresetBlessingFilter == 'preset-1':
+            if self.main.config.Rogue_PresetBlessingFilter == 'preset-1':
                 filter_.load(parse_name(BLESSING_PRESET_1))
-            if self.config.Rogue_PresetBlessingFilter == 'custom':
-                filter_.load(parse_name(self.config.Rogue_CustomBlessingFilter))
+            if self.main.config.Rogue_PresetBlessingFilter == 'custom':
+                filter_.load(parse_name(self.main.config.Rogue_CustomBlessingFilter))
         if isinstance(keyword, RogueResonance):
             filter_ = RESONANCE_FILTER
-            if self.config.Rogue_PresetResonanceFilter == 'preset-1':
+            if self.main.config.Rogue_PresetResonanceFilter == 'preset-1':
                 RESONANCE_FILTER.load(parse_name(RESONANCE_PRESET_1))
-            if self.config.Rogue_PresetResonanceFilter == 'custom':
-                RESONANCE_FILTER.load(parse_name(self.config.Rogue_CustomResonanceFilter))
+            if self.main.config.Rogue_PresetResonanceFilter == 'custom':
+                RESONANCE_FILTER.load(parse_name(self.main.config.Rogue_CustomResonanceFilter))
         self.filter_ = filter_
 
     def try_select(self, option: OcrResultButton | str):

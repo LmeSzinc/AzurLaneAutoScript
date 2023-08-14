@@ -4,12 +4,17 @@ from module.base.filter import MultiLangFilter
 from module.logger import logger
 from module.ocr.keyword import Keyword
 from module.ocr.ocr import OcrResultButton
+from tasks.rogue.ui import RogueUI
 
 
 class RogueSelector:
     """
     An Interface used in blessing, curio, and other ui selection in rogue
     """
+
+    def __init__(self, main: RogueUI):
+        self.main = main
+
     ocr_results: list[OcrResultButton]
     filter_: MultiLangFilter
     preset_methods: dict[str, callable]
