@@ -29,6 +29,7 @@ class RogueCurioOcr(Ocr):
         if self.lang == 'ch':
             replace_pattern_dict = {
                 "般": "骰",
+                "漂灭": "湮灭",
             }
             for pattern, replace in replace_pattern_dict.items():
                 result = re.sub(pattern, replace, result)
@@ -54,8 +55,9 @@ class RogueCurioSelector(RogueSelector):
         def is_select_curio_complete():
             """
                 Case 1: back to main page
+                Case 2: event page
             """
-            return self.main.is_in_main()
+            return self.main.is_in_main() or self.main.is_page_event()
 
         enforce = False
         if not target:

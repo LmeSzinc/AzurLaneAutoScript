@@ -37,3 +37,6 @@ class RogueUI(UI):
 
     def is_page_choose_bonus(self):
         return self.appear(PAGE_CHOOSE_BONUS)
+
+    def is_page_event(self):
+        return self.appear(PAGE_EVENT)

@@ -73,3 +73,13 @@ PAGE_CHOOSE_CURIO = ButtonWrapper(
         button=(988, 17, 1028, 57),
     ),
 )
+PAGE_EVENT = ButtonWrapper(
+    name='PAGE_EVENT',
+    share=Button(
+        file='./assets/share/rogue/ui/PAGE_EVENT.png',
+        area=(983, 485, 1007, 509),
+        search=(963, 465, 1027, 529),
+        color=(51, 48, 42),
+        button=(983, 485, 1007, 509),
+    ),
+)

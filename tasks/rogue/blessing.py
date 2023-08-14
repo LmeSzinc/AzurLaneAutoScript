@@ -119,10 +119,11 @@ class RogueBlessingSelector(RogueSelector):
                 Case 1: back to main page
                 Case 2: choose curio
                 Case 3: another choose blessings, but no blessing is selected when the new selection page loaded
+                Case 4: event ui
             """
             return (self.main.is_in_main() or self.main.is_page_choose_curio()
-                    or (self.main.is_page_choose_blessing() and
-                        not is_card_selected(self.main, target, confirm_button=CONFIRM)))
+                    or (self.main.is_page_choose_blessing() and not is_card_selected(self.main, target, CONFIRM))
+                    or self.main.is_page_event())
 
         interval = Timer(1)
         enforce = False
