@@ -52,3 +52,8 @@ class RogueCurio(Keyword):
     def curio_name(self):
         return [self.__getattribute__(f"{server}_parsed")
                 for server in UI_LANGUAGES if hasattr(self, f"{server}_parsed")]
+
+
+@dataclass(repr=False)
+class RogueBonus(Keyword):
+    instances: ClassVar = {}

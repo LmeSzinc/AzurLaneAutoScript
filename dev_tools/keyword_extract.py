@@ -331,6 +331,16 @@ class KeywordExtract:
         self.write_keywords(keyword_class='RogueResonance', output_file='./tasks/rogue/keywords/resonance.py',
                             text_convert=blessing_name, extra_attrs=extra_attrs)
 
+    def iter_without_duplication(self, file: dict, keys):
+        visited = set()
+        for data in file.values():
+            hash_ = deep_get(data, keys=keys)
+            _, name = self.find_keyword(hash_, lang='cn')
+            if name in visited:
+                continue
+            visited.add(name)
+            yield hash_
+
     def iter_rogue_miracles(self):
         miracles = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'RogueMiracle.json'))
         visited = set()
@@ -372,8 +382,12 @@ class KeywordExtract:
         self.write_keywords(keyword_class='ItemTab', text_convert=lambda name: name.replace(' ', ''),
                             output_file='./tasks/item/keywords/tab.py')
         self.generate_rogue_buff()
-        self.load_keywords(list(self.iter_rogue_miracles()))
+        self.load_keywords(list(self.iter_without_duplication(
+            read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'RogueMiracle.json')), 'MiracleName.Hash')))
         self.write_keywords(keyword_class='RogueCurio', output_file='./tasks/rogue/keywords/curio.py')
+        self.load_keywords(list(self.iter_without_duplication(
+            read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'RogueBonus.json')), 'BonusTitle.Hash')))
+        self.write_keywords(keyword_class='RogueBonus', output_file='./tasks/rogue/keywords/bonus.py')
 
 
 if __name__ == '__main__':

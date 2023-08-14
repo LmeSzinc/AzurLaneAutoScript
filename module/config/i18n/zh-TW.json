@@ -383,6 +383,13 @@
       "Destruction": "Destruction",
       "Elation": "Elation"
     },
+    "Bonus": {
+      "name": "Rogue.Bonus.name",
+      "help": "Rogue.Bonus.help",
+      "Blessing Cosmos": "Blessing Cosmos",
+      "Miracle Cosmos": "Miracle Cosmos",
+      "Fragmented Cosmos": "Fragmented Cosmos"
+    },
     "PresetResonanceFilter": {
       "name": "Rogue.PresetResonanceFilter.name",
       "help": "Rogue.PresetResonanceFilter.help",

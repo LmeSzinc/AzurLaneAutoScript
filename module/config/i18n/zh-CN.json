@@ -383,6 +383,13 @@
       "Destruction": "毁灭",
       "Elation": "欢愉"
     },
+    "Bonus": {
+      "name": "开拓祝福",
+      "help": "开局三选一",
+      "Blessing Cosmos": "祝福宇宙",
+      "Miracle Cosmos": "奇物宇宙",
+      "Fragmented Cosmos": "破碎宇宙"
+    },
     "PresetResonanceFilter": {
       "name": "命途回响过滤器",
       "help": "",

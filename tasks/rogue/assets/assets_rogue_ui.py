@@ -3,6 +3,26 @@ from module.base.button import Button, ButtonWrapper
 # This file was auto-generated, do not modify it manually. To generate:
 # ``` python -m dev_tools.button_extract ```
 
+BONUS_BOTTOM_WHITE_BAR = ButtonWrapper(
+    name='BONUS_BOTTOM_WHITE_BAR',
+    share=Button(
+        file='./assets/share/rogue/ui/BONUS_BOTTOM_WHITE_BAR.png',
+        area=(182, 568, 1098, 590),
+        search=(162, 548, 1118, 610),
+        color=(221, 221, 222),
+        button=(182, 568, 1098, 590),
+    ),
+)
+BONUS_CONFIRM = ButtonWrapper(
+    name='BONUS_CONFIRM',
+    share=Button(
+        file='./assets/share/rogue/ui/BONUS_CONFIRM.png',
+        area=(504, 629, 620, 677),
+        search=(484, 609, 640, 697),
+        color=(222, 224, 224),
+        button=(504, 629, 620, 677),
+    ),
+)
 CHECK_BLESSING = ButtonWrapper(
     name='CHECK_BLESSING',
     share=Button(
@@ -41,6 +61,16 @@ OCR_COSMIC_FRAGMENT = ButtonWrapper(
         search=(1163, 7, 1276, 66),
         color=(30, 32, 32),
         button=(1183, 27, 1256, 46),
+    ),
+)
+PAGE_CHOOSE_BONUS = ButtonWrapper(
+    name='PAGE_CHOOSE_BONUS',
+    share=Button(
+        file='./assets/share/rogue/ui/PAGE_CHOOSE_BONUS.png',
+        area=(503, 180, 555, 230),
+        search=(483, 160, 575, 250),
+        color=(33, 29, 54),
+        button=(503, 180, 555, 230),
     ),
 )
 PAGE_CHOOSE_BUFF = ButtonWrapper(

@@ -469,6 +469,15 @@
           "Elation"
         ]
       },
+      "Bonus": {
+        "type": "select",
+        "value": "Blessing Cosmos",
+        "option": [
+          "Blessing Cosmos",
+          "Miracle Cosmos",
+          "Fragmented Cosmos"
+        ]
+      },
       "PresetResonanceFilter": {
         "type": "select",
         "value": "preset-1",
@@ -503,7 +512,7 @@
       },
       "CustomCurioFilter": {
         "type": "textarea",
-        "value": "博士之袍 > 福灵胶 > 巡猎火漆 > 分裂金币 > 信仰债券 > random"
+        "value": "博士之袍 > 福灵胶 > 分裂金币 > 信仰债券 > 换境桂冠 > 俱乐部券 > 碎星芳饵 > random"
       }
     }
   }

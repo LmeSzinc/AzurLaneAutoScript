@@ -113,6 +113,9 @@ Rogue:
   Path:
     value: The Hunt
     option: [ Preservation, Remembrance, Nihility, Abundance, The Hunt, Destruction, Elation ]
+  Bonus:
+    value: Blessing Cosmos
+    option: [ Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos ]
   PresetResonanceFilter:
     value: preset-1
     option: [ preset-1, custom ]

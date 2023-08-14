@@ -4,7 +4,7 @@ import numpy as np
 
 from module.base.filter import MultiLangFilter
 from module.base.timer import Timer
-from module.base.utils import area_offset, get_color
+from module.base.utils import get_color
 from module.logger import logger
 from module.ocr.ocr import Ocr, OcrResultButton, DigitCounter, Digit
 from tasks.rogue.assets.assets_rogue_blessing import *
@@ -13,7 +13,7 @@ from tasks.rogue.keywords import *
 from tasks.rogue.preset import *
 from tasks.rogue.selector import RogueSelector
 from tasks.rogue.ui import RogueUI
-from tasks.rogue.utils import get_regex_from_keyword_name, parse_name
+from tasks.rogue.utils import get_regex_from_keyword_name, parse_name, is_card_selected
 
 # normal blessing
 pattern = ""
@@ -115,13 +115,6 @@ class RogueBlessingSelector(RogueUI, RogueSelector):
         So this method provides a hard code way to choose one, which fit in case when blessing num is 1-3
         """
 
-        def is_blessing_selected():
-            """
-            There is a white border if a blessing is selected.
-            """
-            top_border = area_offset(target.area, (0, -180))
-            return self.image_color_count(top_border, (255, 255, 255))
-
         def is_select_blessing_complete():
             """
                 Case 1: back to main page
@@ -129,7 +122,7 @@ class RogueBlessingSelector(RogueUI, RogueSelector):
                 Case 3: another choose blessings, but no blessing is selected when the new selection page loaded
             """
             return (self.is_in_main() or self.is_page_choose_curio()
-                    or (self.is_page_choose_blessing() and not is_blessing_selected()))
+                    or (self.is_page_choose_blessing() and not is_card_selected(self, target, confirm_button=CONFIRM)))
 
         interval = Timer(1)
         enforce = False
@@ -144,7 +137,7 @@ class RogueBlessingSelector(RogueUI, RogueSelector):
             else:
                 self.device.screenshot()
 
-            if is_blessing_selected():
+            if is_card_selected(self, target, confirm_button=CONFIRM):
                 if enforce:
                     logger.info("Buff selected (enforce)")
                 else:
