@@ -14,12 +14,7 @@ from module.device.method.utils import ImageTruncated
 
 class Winapiutils:
     hwnd = None
-<<<<<<< HEAD
-    # Need other server player support
-    windowname = {'jp': 'アズールレーン'}
-=======
 
->>>>>>> 206bb138 (Optional: Add other screenshot method support)
     def __init__(self):
         self.windowposx = 0
         self.windowposy = 0
