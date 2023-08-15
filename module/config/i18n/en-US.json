@@ -1096,13 +1096,13 @@
     },
     "ChangeFlagship": {
       "name": "Change Flagship",
-      "help": "Change flagship if flagship level >= 33 or either flagship or vanguard are emotion exhausted (if Change Vanguard is enabled).\nSwitch out to new common CV/CVL whose level is in range of 1 to 32, after current has reached level 32+. Meanwhile, abandoned flagships will be retired. Any common CV/CVL whose level is 2+ will be regarded as targets. Do confirm that your own ships which is not a target has been locked\n\nThe flagship's equipment is replaced when being switched out by first recording the current setup\nOnly populated equipment slots will be replaced. If the CV/CVL preference has been configured, all 5 slots will be populated otherwise only the auxiliary slots will be populated.",
+      "help": "Change flagship if flagship level >= 33 or either flagship or vanguard are emotion exhausted (if Change Vanguard is enabled).If you choose not to change, your fleet will ignore the low emotion warning and continue combat.\nSwitch out to new common CV/CVL whose level is in range of 1 to 32, after current has reached level 32+. Meanwhile, abandoned flagships will be retired. Any common CV/CVL whose level is 2+ will be regarded as targets. Do confirm that your own ships which is not a target has been locked\n\nThe flagship's equipment is replaced when being switched out by first recording the current setup\nOnly populated equipment slots will be replaced. If the CV/CVL preference has been configured, all 5 slots will be populated otherwise only the auxiliary slots will be populated.",
       "ship": "Change Ship",
       "ship_equip": "Change Ship + Gears"
     },
     "ChangeVanguard": {
       "name": "Change Vanguard",
-      "help": "Change vanguard if flagship or vanguard are emotion exhausted.\nSwitch out to new level 100(70) common vanguard after current flagship has reached level 32+ (Only CN players'0 limit break ship can reach level 100)\n\nThe vanguard's equipment is replaced when being switched out by first recording the current setup. Only populated equipment slots will be replaced.",
+      "help": "Change vanguard if flagship or vanguard are emotion exhausted.If you choose not to change, your fleet will ignore the low emotion warning and continue combat.\nSwitch out to new level 100(70) common vanguard after current flagship has reached level 32+ (Only CN players'0 limit break ship can reach level 100)\n\nThe vanguard's equipment is replaced when being switched out by first recording the current setup. Only populated equipment slots will be replaced.",
       "disabled": "Don't Change",
       "ship": "Change Ship",
       "ship_equip": "Change Ship + Gears"
