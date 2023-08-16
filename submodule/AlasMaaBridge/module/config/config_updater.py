@@ -1,3 +1,6 @@
+import sys
+sys.path.append('i:/AzurLaneAutoScript')
+
 from cached_property import cached_property
 
 from module.base.timer import timer
@@ -124,7 +127,7 @@ if __name__ == '__main__':
     """
     # Ensure running in mod root folder
     import os
-    os.chdir('../../')
+    os.chdir(os.path.join(os.path.dirname(__file__), "../../"))
     ConfigGenerator().generate()
     os.chdir('../../')
     ConfigUpdater().update_file('template', is_template=True)
