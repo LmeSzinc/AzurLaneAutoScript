@@ -2,6 +2,7 @@ from module.base.timer import Timer
 from module.combat.combat import Combat
 from module.logger import logger
 from module.meta_reward.assets import *
+from module.os_ash.assets import DOSSIER_LIST
 from module.ui.page import page_meta
 from module.ui.ui import UI
 
@@ -136,7 +137,8 @@ class DossierReward(Combat, UI):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(DOSSIER_REWARD_ENTER, offset=(20, 20), interval=3):
+            if self.appear(DOSSIER_LIST, offset=(20, 20)):
+                self.device.click(DOSSIER_REWARD_ENTER)
                 continue
 
             # End

@@ -459,7 +459,8 @@ class OpsiAshBeacon(Meta):
                 return True
             if self.handle_map_event():
                 continue
-            if self.appear_then_click(META_MAIN_DOSSIER_ENTRANCE, offset=(20, 20), interval=2):
+            if self.appear(ASH_SHOWDOWN, offset=(30, 30)):
+                self.device.click(META_MAIN_DOSSIER_ENTRANCE)
                 continue
 
     def _begin_beacon(self):
