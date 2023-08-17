@@ -216,6 +216,11 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     # Revelations of Dust
     'xiafei': 'Joffre',
     'lemaer': 'LeMars',
+
+    # The Fool's Scales
+    'sairenboss18': 'SirenBoss18',
+    'sairenboss19': 'SirenBoss19',
+    'srjiaohuangjijia': 'Dilloy',
 }
 
 
