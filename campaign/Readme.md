@@ -154,3 +154,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20230727   | event 20200917 cn        | Dreamwaker's Butterfly                       | -                      | -                                            | -                                    | 復刻-蝶海夢花              |
 | 20230803   | event 20211125 cn        | World-spanning Arclight                      | -                      | -                                            | -                                    | 復刻-交匯世界的弧光                        |
 | 20230803 | event 20230803 cn | Anthem of Remembrance | 奏响鸢尾之歌 | Anthem of Remembrance | 燃ゆる聖都の回想曲 | - |
+| 20230817 | event 20230817 cn | The Fool's Scales | 愚者的天平 | The Fool's Scales | 愚者の天秤 | - |
