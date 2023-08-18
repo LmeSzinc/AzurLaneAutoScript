@@ -1,5 +1,5 @@
 from module.base.timer import Timer
-from module.campaign.assets import EVENT_20230817_STORY
+from module.campaign.assets import EVENT_20230817_STORY, EVENT_20230817_STORY_2
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.logger import logger
 from module.ui.page import page_event
@@ -7,7 +7,7 @@ from module.ui.page import page_event
 
 class CampaignBase(CampaignBase_):
     def handle_chapter_additional(self):
-        if self.appear(EVENT_20230817_STORY, offset=(20, 20)):
+        if self.appear(EVENT_20230817_STORY, offset=(20, 20)) or self.appear(EVENT_20230817_STORY_2, offset=(20, 20)):
             self.event_20230817_story()
             return True
         else:
@@ -29,6 +29,8 @@ class CampaignBase(CampaignBase_):
                 confirm.reset()
 
             if self.appear_then_click(EVENT_20230817_STORY, offset=(20, 20), interval=1):
+                continue
+            if self.appear_then_click(EVENT_20230817_STORY_2, offset=(20, 20), interval=1):
                 continue
             if self.handle_story_skip():
                 continue
