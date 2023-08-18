@@ -67,7 +67,7 @@ class Minimap(MapResource):
             search_position = np.array(self.position, dtype=np.int64)
             search_position += self.POSITION_FEATURE_PAD
             search_size = np.array(image_size(local)) * self.POSITION_SEARCH_RADIUS
-            search_half = (search_size // 2 * 2).astype(np.int64)
+            search_half = (search_size // 2).astype(np.int64)
             search_area = area_offset((0, 0, *(search_half * 2)), offset=-search_half)
             search_area = area_offset(search_area, offset=np.multiply(search_position, self.POSITION_SEARCH_SCALE))
             search_area = np.array(search_area).astype(np.int64)
@@ -269,11 +269,12 @@ class Minimap(MapResource):
         # Extract
         minimap = self.get_minimap(image, radius=self.MINIMAP_RADIUS)
         _, _, v = cv2.split(rgb2yuv(minimap))
-        image = cv2.subtract(255, v)
 
-        # image = cv2.GaussianBlur(image, (3, 3), 0)
+        image = cv2.subtract(128, v)
+
+        image = cv2.GaussianBlur(image, (3, 3), 0)
         # Expand circle into rectangle
-        remap = cv2.remap(image, *self.RotationRemapData, cv2.INTER_LINEAR)[d * 2 // 10:d * 6 // 10].astype(np.float32)
+        remap = cv2.remap(image, *self.RotationRemapData, cv2.INTER_LINEAR)[d * 1 // 10:d * 6 // 10].astype(np.float32)
         remap = cv2.resize(remap, None, fx=scale, fy=scale, interpolation=cv2.INTER_LINEAR)
         # Find derivative
         gradx = cv2.Scharr(remap, cv2.CV_32F, 1, 0)
@@ -284,7 +285,7 @@ class Minimap(MapResource):
         # Magic parameters for scipy.find_peaks
         para = {
             # 'height': (50, 800),
-            'height': 50,
+            'height': 35,
             # 'prominence': (0, 400),
             # 'width': (0, d * scale / 20),
             # 'distance': d * scale / 18,
@@ -356,14 +357,15 @@ class Minimap(MapResource):
         self.rotation_confidence = rotation_confidence
         self.rotation = rotation
 
-    def update(self, image):
+    def update(self, image, show_log=True):
         """
         Update minimap, costs about 7.88ms.
         """
         self.update_position(image)
         self.update_direction(image)
         self.update_rotation(image)
-        self.log_minimap()
+        if show_log:
+            self.log_minimap()
 
     def log_minimap(self):
         # MiniMap P:(567.5, 862.8) (1.00x|0.439|0.157), D:303.8 (0.253), R:304 (0.846)

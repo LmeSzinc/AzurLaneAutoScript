@@ -1,5 +1,6 @@
 import os
 
+import numpy as np
 from PIL import Image
 
 from module.base.utils import load_image
@@ -16,13 +17,14 @@ class ResourceConst:
     # Downscale GIMAP and minimap for faster run
     POSITION_SEARCH_SCALE = 0.5
     # Search the area that is 1.666x minimap, about 100px in wild on GIMAP
-    POSITION_SEARCH_RADIUS = 1.333
+    POSITION_SEARCH_RADIUS = 1.666
     # Can't figure out why but the result_of_0.5_lookup_scale + 0.5 ~= result_of_1.0_lookup_scale
     POSITION_MOVE_PATCH = (0.5, 0.5)
     # Position starting from the upper-left corner of the template image
     # but search an area larger than map
     # MINIMAP_RADIUS * POSITION_SEARCH_RADIUS * <max_scale>
-    POSITION_FEATURE_PAD = int(MINIMAP_RADIUS * POSITION_SEARCH_RADIUS * 1.5)
+    # POSITION_FEATURE_PAD = int(MINIMAP_RADIUS * POSITION_SEARCH_RADIUS * 1.5)
+    POSITION_FEATURE_PAD = 155
     # Must be odd, equals int(9 * POSITION_SEARCH_SCALE) + 1
     POSITION_AREA_DILATE = 5
 
@@ -99,13 +101,24 @@ class ResourceConst:
         Returns:
             float: Distance to current position
         """
-        x1, y1 = self.position
-        x2, y2 = target
-        diff = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
-        return diff
+        return np.linalg.norm(np.subtract(target, self.position))
 
     def is_position_near(self, target, threshold=5):
         return self.position_diff(target) <= threshold
+
+    def position2direction(self, target):
+        """
+        Args:
+            target: Target position (x, y)
+
+        Returns:
+            float: Direction from current position to target position (0~360)
+        """
+        diff = np.subtract(target, self.position)
+        theta = np.rad2deg(np.arccos(-diff[1] / np.linalg.norm(diff)))
+        if diff[0] < 0:
+            theta = 360 - theta
+        return theta
 
     def direction_diff(self, target):
         """
@@ -136,5 +149,5 @@ class ResourceConst:
             diff -= 360
         return diff
 
-    def is_rotation_near(self, target, threshold=15):
+    def is_rotation_near(self, target, threshold=10):
         return abs(self.rotation_diff(target)) <= threshold
