@@ -20,6 +20,7 @@ class CampaignBase(CampaignBase_):
             self.event_20230817_story()
             return True
         else:
+            logger.info('No event_20230817_story')
             return False
 
     def get_story_button(self):

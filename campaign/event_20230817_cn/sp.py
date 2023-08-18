@@ -5,8 +5,8 @@ from module.logger import logger
 
 MAP = CampaignMap('SP')
 MAP.shape = 'J8'
-MAP.camera_data = ['D3', 'D6', 'G3', 'G6']
-MAP.camera_data_spawn_point = ['G6', 'D6']
+MAP.camera_data = ['D6', 'E3', 'F6']
+MAP.camera_data_spawn_point = ['D6']
 MAP.map_data = """
     ++ ++ ++ -- -- -- -- ++ ++ ++
     -- -- -- MS -- -- MS -- -- --
@@ -27,8 +27,25 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50
 """
+MAP.wall_data = """
+    ·   ·   ·   ·   ·   ·   ·   ·   ·   · ,
+              +               +           ,
+    ·   ·   · | ·   ·   ·   · | ·   ·   · ,
+              +               +           ,
+    ·   ·   ·   ·   ·   ·   ·   ·   ·   · ,
+              +               +           ,
+    ·   ·   · | ·   ·   ·   · | ·   ·   · ,
+    --+   +---+               +---+   +---,
+    ·   ·   ·   ·   ·   ·   ·   ·   ·   · ,
+                                          ,
+    ·   ·   ·   ·   ·   ·   ·   ·   ·   · ,
+                                          ,
+    ·   ·   ·   ·   ·   ·   ·   ·   ·   · ,
+                                          ,
+    ·   ·   ·   ·   ·   ·   ·   ·   ·   · ,
+"""
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 8},
+    {'battle': 0, 'siren': 4, 'enemy': 8},
     {'battle': 1},
     {'battle': 2},
     {'battle': 3},
@@ -47,9 +64,19 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, J7, \
 A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, \
     = MAP.flatten()
 
+MAP.ignore_prediction(D1, is_siren=True)
+MAP.ignore_prediction(E1, is_siren=True)
+MAP.ignore_prediction(F1, is_siren=True)
+MAP.ignore_prediction(H1, is_siren=True)
+
 
 class Config:
     # ===== Start of generated config =====
+    # Actually there's a pink dog at D2 and one red at G2
+    MAP_SIREN_TEMPLATE = ['Gascogne', 'Champagne', 'DogPink']
+    MOVABLE_ENEMY_TURN = (2,)
+    MAP_HAS_SIREN = True
+    MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_AMBUSH = False
@@ -59,13 +86,40 @@ class Config:
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
+    MAP_IS_ONE_TIME_STAGE = True
+    MAP_HAS_WALL = True
+
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (150, 255 - 17),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 17, 255),
+        'prominence': 10,
+        'distance': 50,
+        # 'width': (0, 7),
+        'wlen': 1000
+    }
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 180
+    HOMO_EDGE_COLOR_RANGE = (0, 17)
+    MAP_WALK_USE_CURRENT_FLEET = True
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+
+    MAP_SWIPE_MULTIPLY = (1.087, 1.107)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.051, 1.070)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.020, 1.039)
+
 
 class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     def battle_0(self):
-        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=2):
+        if self.clear_siren():
+            return True
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
         return self.battle_default()
