@@ -6,7 +6,7 @@ from .d1 import Config as ConfigBase
 
 MAP = CampaignMap('D2')
 MAP.shape = 'K7'
-MAP.camera_data = ['D2', 'D4', 'H2', 'H4']
+MAP.camera_data = ['D2', 'D4', 'F2', 'H2']
 MAP.camera_data_spawn_point = ['H4']
 MAP.map_data = """
     -- ME ME ME ++ ME -- -- ME ++ --
@@ -25,6 +25,21 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
+"""
+MAP.wall_data = """
+    ·   · | ·   ·   ·   ·   ·   ·   ·   ·   · ,
+          +                                   ,
+    ·   ·   ·   ·   ·   ·   ·   ·   ·   · | · ,
+          +       +   +               +   +   ,
+    ·   · | ·   · | · | ·   ·   ·   · | ·   · ,
+          +---+---+   |               |   +   ,
+    ·   ·   · | ·   · | ·   ·   ·   · | · | · ,
+              +---+   +---+       +---+   +-- ,
+    ·   ·   ·   ·   ·   ·   ·   ·   ·   ·   · ,
+                                              ,
+    ·   ·   ·   ·   ·   ·   ·   ·   ·   ·   · ,
+                                              ,
+    ·   ·   ·   ·   ·   ·   ·   ·   ·   ·   · ,
 """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'siren': 2},
@@ -56,6 +71,11 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
+    MAP_HAS_WALL = True
+    MAP_SWIPE_MULTIPLY = (1.125, 1.146)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.088, 1.108)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.056, 1.075)
 
 
 class Campaign(CampaignBase):

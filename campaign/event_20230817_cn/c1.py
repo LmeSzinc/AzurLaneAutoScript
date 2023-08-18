@@ -5,8 +5,8 @@ from module.logger import logger
 
 MAP = CampaignMap('C1')
 MAP.shape = 'K7'
-MAP.camera_data = ['D2', 'D5', 'H2', 'H5']
-MAP.camera_data_spawn_point = ['H5', 'D5']
+MAP.camera_data = ['D2', 'G3', 'E5']
+MAP.camera_data_spawn_point = ['E5']
 MAP.map_data = """
     -- ME ++ ++ ++ -- ++ ++ ++ ME --
     ME -- -- Me -- ++ -- Me -- -- ME
@@ -53,6 +53,35 @@ class Config:
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (150, 255 - 17),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 17, 255),
+        'prominence': 10,
+        'distance': 50,
+        # 'width': (0, 7),
+        'wlen': 1000
+    }
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 180
+    HOMO_EDGE_COLOR_RANGE = (0, 17)
+    MAP_WALK_USE_CURRENT_FLEET = True
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+
+    MAP_ENEMY_GENRE_DETECTION_SCALING = {
+        'DD': 1.111,
+        'CL': 1.111,
+        'CA': 1.111,
+        'CV': 1.111,
+        'BB': 1.111,
+    }
+    MAP_SWIPE_MULTIPLY = (1.108, 1.129)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.072, 1.092)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.041, 1.059)
 
 
 class Campaign(CampaignBase):

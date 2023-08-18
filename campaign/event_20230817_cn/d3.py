@@ -6,8 +6,8 @@ from .d1 import Config as ConfigBase
 
 MAP = CampaignMap('D3')
 MAP.shape = 'N10'
-MAP.camera_data = ['F2', 'F6', 'F8', 'I2', 'I6', 'I8']
-MAP.camera_data_spawn_point = ['F8', 'I8']
+MAP.camera_data = ['G6', 'F3', 'H4']
+MAP.camera_data_spawn_point = ['G8']
 MAP.map_data = """
     -- -- -- -- -- ME -- -- ME -- -- -- -- ++
     -- -- -- ME -- -- MB MB -- -- ME -- -- --
@@ -31,6 +31,27 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50 50 50 50
+"""
+MAP.wall_data = """
+    ·   ·   ·   ·   · | ·   ·   ·   · | ·   ·   ·   ·   · ,
+          +-----------+               +-----------+       ,
+    ·   · | ·   ·   · | ·   ·   ·   · | ·   ·   · | ·   · ,
+          |           |               |           |       ,
+    ·   · | ·   ·   · | ·   ·   ·   · | ·   ·   · | ·   · ,
+          +---+       +---+       +----+       +---+       ,
+    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+              |                               |           ,
+    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+              |                               |           ,
+    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+              |                               |            ,
+    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+              |                               |           ,
+    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+              |                               |           ,
+    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+              +-----------+       +-----------+           ,
+    ·   ·   ·   ·   ·   · | ·   · | ·   ·   ·   ·   ·   · ,
 """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'siren': 2},
@@ -65,6 +86,11 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
+    MAP_HAS_WALL = True
+    MAP_SWIPE_MULTIPLY = (1.001, 1.020)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (0.968, 0.986)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.940, 0.957)
 
 
 class Campaign(CampaignBase):
