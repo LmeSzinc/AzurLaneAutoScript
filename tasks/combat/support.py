@@ -25,6 +25,11 @@ class SupportCharacter:
         # __bool__ is called when use an object of the class in a boolean context
         return self.button is not None
 
+    def __str__(self):
+        return f'SupportCharacter({self.name})'
+
+    __repr__ = __str__
+
     def _scale_character(self):
         """
         Returns:
