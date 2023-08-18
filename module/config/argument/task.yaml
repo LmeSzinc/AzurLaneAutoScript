@@ -224,9 +224,6 @@ Reward:
     Reward:
       - Scheduler
       - Reward
-    SmallGame:
-      - Scheduler
-      - SmallGame
 # ==================== DailyMission ====================
 
 DailyMission:

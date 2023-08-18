@@ -427,10 +427,6 @@ class AzurLaneAutoScript:
         GemsFarming(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
-    def small_game(self):
-        from module.small_game.small_game import SmallGame
-        SmallGame(config=self.config, device=self.device).run()
-
     def wait_until(self, future):
         """
         Wait until a specific time.

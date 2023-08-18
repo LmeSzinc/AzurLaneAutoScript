@@ -150,10 +150,6 @@
       "name": "Reward",
       "help": ""
     },
-    "SmallGame": {
-      "name": "Task.SmallGame.name",
-      "help": "Task.SmallGame.help"
-    },
     "Daily": {
       "name": "Daily",
       "help": ""
@@ -1907,20 +1903,6 @@
       "4": "Friday",
       "5": "Saturday",
       "6": "Sunday"
-    }
-  },
-  "SmallGame": {
-    "_info": {
-      "name": "SmallGame._info.name",
-      "help": "SmallGame._info.help"
-    },
-    "Buy": {
-      "name": "SmallGame.Buy.name",
-      "help": "SmallGame.Buy.help"
-    },
-    "Count": {
-      "name": "SmallGame.Count.name",
-      "help": "SmallGame.Count.help"
     }
   },
   "Daily": {
