@@ -311,7 +311,7 @@ class KeywordExtract:
         resonances_id = [deep_get(blessing, '1.MazeBuffID') for blessing in blessings_info.values()
                          if deep_get(blessing, '1.AeonID')]
 
-        def get_blessing_infos(id_list):
+        def get_blessing_infos(id_list, with_enhancement: bool):
             blessings_hash = [deep_get(blessings_name_map, f"{blessing_id}.1.BuffName.Hash")
                               for blessing_id in id_list]
             blessings_path_id = {blessing_hash: int(deep_get(blessings_info, f'{blessing_id}.1.RogueBuffType')) - 119
@@ -319,14 +319,19 @@ class KeywordExtract:
                                  for blessing_hash, blessing_id in zip(blessings_hash, id_list)}
             blessings_rarity = {blessing_hash: deep_get(blessings_info, f'{blessing_id}.1.RogueBuffRarity')
                                 for blessing_hash, blessing_id in zip(blessings_hash, id_list)}
-            return blessings_hash, {'path_id': blessings_path_id, 'rarity': blessings_rarity}
+            enhancement = {blessing_hash: "" for blessing_hash in blessings_hash}
+            if with_enhancement:
+                return blessings_hash, {'path_id': blessings_path_id, 'rarity': blessings_rarity,
+                                        'enhancement': enhancement}
+            else:
+                return blessings_hash, {'path_id': blessings_path_id, 'rarity': blessings_rarity}
 
-        hash_list, extra_attrs = get_blessing_infos(blessings_id)
+        hash_list, extra_attrs = get_blessing_infos(blessings_id, with_enhancement=True)
         self.keywords_id = hash_list
         self.write_keywords(keyword_class='RogueBlessing', output_file='./tasks/rogue/keywords/blessing.py',
                             text_convert=blessing_name, extra_attrs=extra_attrs)
 
-        hash_list, extra_attrs = get_blessing_infos(resonances_id)
+        hash_list, extra_attrs = get_blessing_infos(resonances_id, with_enhancement=False)
         self.keywords_id = hash_list
         self.write_keywords(keyword_class='RogueResonance', output_file='./tasks/rogue/keywords/resonance.py',
                             text_convert=blessing_name, extra_attrs=extra_attrs)
@@ -382,6 +387,8 @@ class KeywordExtract:
         self.write_keywords(keyword_class='ItemTab', text_convert=lambda name: name.replace(' ', ''),
                             output_file='./tasks/item/keywords/tab.py')
         self.generate_rogue_buff()
+        self.load_keywords(['已强化'])
+        self.write_keywords(keyword_class='RogueEnhancement', output_file='./tasks/rogue/keywords/enhancement.py')
         self.load_keywords(list(self.iter_without_duplication(
             read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'RogueMiracle.json')), 'MiracleName.Hash')))
         self.write_keywords(keyword_class='RogueCurio', output_file='./tasks/rogue/keywords/curio.py')

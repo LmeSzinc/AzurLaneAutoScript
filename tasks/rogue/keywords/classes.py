@@ -10,6 +10,7 @@ class RogueBlessing(Keyword):
     instances: ClassVar = {}
     path_id: int
     rarity: int
+    enhancement: str
 
     @property
     def path_name(self):
@@ -57,3 +58,13 @@ class RogueCurio(Keyword):
 @dataclass(repr=False)
 class RogueBonus(Keyword):
     instances: ClassVar = {}
+
+
+@dataclass(repr=False)
+class RogueEnhancement(Keyword):
+    instances: ClassVar = {}
+
+    @property
+    def enhancement_keyword(self):
+        return [self.__getattribute__(f"{server}_parsed")
+                for server in UI_LANGUAGES if hasattr(self, f"{server}_parsed")]

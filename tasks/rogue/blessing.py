@@ -7,6 +7,7 @@ from module.base.timer import Timer
 from module.base.utils import get_color
 from module.logger import logger
 from module.ocr.ocr import Ocr, OcrResultButton, DigitCounter, Digit
+from module.ocr.utils import split_and_pair_buttons
 from tasks.rogue.assets.assets_rogue_blessing import *
 from tasks.rogue.assets.assets_rogue_ui import CONFIRM
 from tasks.rogue.keywords import *
@@ -14,7 +15,8 @@ from tasks.rogue.preset import *
 from tasks.rogue.selector import RogueSelector
 from tasks.rogue.utils import get_regex_from_keyword_name, parse_name, is_card_selected
 
-# normal blessing
+# normal blessing filter
+# path name
 pattern = ""
 BLESSING_FILTER_ATTR = tuple()
 PATH_ATTR_NAME = 'path_name'
@@ -22,18 +24,27 @@ path_regex = get_regex_from_keyword_name(RoguePath, PATH_ATTR_NAME)
 pattern += path_regex
 BLESSING_FILTER_ATTR += (PATH_ATTR_NAME,)
 
+# rarity
 pattern += "([123])?-?"
 BLESSING_FILTER_ATTR += ("rarity",)
+
+# blessing name
 BLESSING_ATTR_NAME = 'blessing_name'
 blessing_regex = get_regex_from_keyword_name(RogueBlessing, BLESSING_ATTR_NAME)
 pattern += blessing_regex
 BLESSING_FILTER_ATTR += (BLESSING_ATTR_NAME,)
 
+# enhanced
+ENHANCEMENT_ATTR_NAME = "enhancement"
+enhancement_regex = get_regex_from_keyword_name(RogueEnhancement, "enhancement_keyword")
+pattern += enhancement_regex
+BLESSING_FILTER_ATTR += (ENHANCEMENT_ATTR_NAME,)
+
 FILETER_REGEX = re.compile(pattern)
 BLESSING_FILTER_PRESET = ("reset", "random")
 BLESSING_FILTER = MultiLangFilter(FILETER_REGEX, BLESSING_FILTER_ATTR, BLESSING_FILTER_PRESET)
 
-# resonance
+# resonance filter
 RESONANCE_ATTR_NAME = 'resonance_name'
 pattern = get_regex_from_keyword_name(RogueResonance, RESONANCE_ATTR_NAME)
 
@@ -96,14 +107,26 @@ class RogueBlessingSelector(RogueSelector):
         return int(mean // 60)  # the magic number that maps blessing num with mean_color
 
     def recognition(self):
+        def not_enhancement_keyword(keyword):
+            return keyword != KEYWORDS_ROGUE_ENHANCEMENT.Already_Enhanced
+
         self.ocr_results = []
-        self._wait_until_blessing_loaded()
+        # self._wait_until_blessing_loaded()
         ocr = RogueBuffOcr(OCR_ROGUE_BUFF)
-        results = ocr.matched_ocr(self.main.device.image, [RogueBlessing, RogueResonance])
+        results = ocr.matched_ocr(self.main.device.image,
+                                  [RogueBlessing, RogueResonance, RogueEnhancement])
+
+        enhanced_blessing = [result for result, _ in
+                             split_and_pair_buttons(results, split_func=not_enhancement_keyword,
+                                                    relative_area=(-300, -720, 0, 0))]
+        results = [result for result in results if not_enhancement_keyword(result)]
         blessing_count = self.get_blessing_count()
         if blessing_count != len(results):
             logger.warning(f"The OCR result does not match the blessing count. "
                            f"Expect {blessing_count}, but recognized {len(results)} only.")
+        for result in results:
+            if result in enhanced_blessing:
+                result.matched_keyword.enhancement = KEYWORDS_ROGUE_ENHANCEMENT.Already_Enhanced.enhancement_keyword
         self.ocr_results = results
         return results
 

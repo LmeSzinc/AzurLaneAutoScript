@@ -12,6 +12,7 @@ Divine_Construct_Resonance_Transfer = RogueBlessing(
     jp='神性構築・共鳴伝達',
     path_id=1,
     rarity=3,
+    enhancement='',
 )
 Divine_Construct_Metastatic_Field = RogueBlessing(
     id=2,
@@ -22,6 +23,7 @@ Divine_Construct_Metastatic_Field = RogueBlessing(
     jp='神性構築・不静定構造',
     path_id=1,
     rarity=3,
+    enhancement='',
 )
 Divine_Construct_Macrosegregation = RogueBlessing(
     id=3,
@@ -32,6 +34,7 @@ Divine_Construct_Macrosegregation = RogueBlessing(
     jp='神性構築・マクロ偏析',
     path_id=1,
     rarity=3,
+    enhancement='',
 )
 Interstellar_Construct_Shear_Structure = RogueBlessing(
     id=4,
@@ -42,6 +45,7 @@ Interstellar_Construct_Shear_Structure = RogueBlessing(
     jp='星間構築・剪断構造',
     path_id=1,
     rarity=2,
+    enhancement='',
 )
 Interstellar_Construct_Burst_Lattice = RogueBlessing(
     id=5,
@@ -52,6 +56,7 @@ Interstellar_Construct_Burst_Lattice = RogueBlessing(
     jp='星間構築・格子欠陥',
     path_id=1,
     rarity=2,
+    enhancement='',
 )
 Interstellar_Construct_Solid_Solution = RogueBlessing(
     id=6,
@@ -62,6 +67,7 @@ Interstellar_Construct_Solid_Solution = RogueBlessing(
     jp='星間構築・固溶強化',
     path_id=1,
     rarity=2,
+    enhancement='',
 )
 Interstellar_Construct_Safe_Load = RogueBlessing(
     id=7,
@@ -72,6 +78,7 @@ Interstellar_Construct_Safe_Load = RogueBlessing(
     jp='星間構築・安全荷重',
     path_id=1,
     rarity=2,
+    enhancement='',
 )
 Interstellar_Construct_Sanctuary = RogueBlessing(
     id=8,
@@ -82,6 +89,7 @@ Interstellar_Construct_Sanctuary = RogueBlessing(
     jp='星間構築・反作用庇護',
     path_id=1,
     rarity=2,
+    enhancement='',
 )
 Interstellar_Construct_Quadrangular_Pyramid = RogueBlessing(
     id=9,
@@ -92,6 +100,7 @@ Interstellar_Construct_Quadrangular_Pyramid = RogueBlessing(
     jp='星間構築・四角錐',
     path_id=1,
     rarity=2,
+    enhancement='',
 )
 Interstellar_Construct_Hypoeutectoid = RogueBlessing(
     id=10,
@@ -102,6 +111,7 @@ Interstellar_Construct_Hypoeutectoid = RogueBlessing(
     jp='星間構築・亜共晶',
     path_id=1,
     rarity=2,
+    enhancement='',
 )
 Construct_Assemble = RogueBlessing(
     id=11,
@@ -112,6 +122,7 @@ Construct_Assemble = RogueBlessing(
     jp='構築・集塑',
     path_id=1,
     rarity=1,
+    enhancement='',
 )
 Construct_Sentinel = RogueBlessing(
     id=12,
@@ -122,6 +133,7 @@ Construct_Sentinel = RogueBlessing(
     jp='構築・哨戒',
     path_id=1,
     rarity=1,
+    enhancement='',
 )
 Construct_Patch = RogueBlessing(
     id=13,
@@ -132,6 +144,7 @@ Construct_Patch = RogueBlessing(
     jp='構築・溶着',
     path_id=1,
     rarity=1,
+    enhancement='',
 )
 Construct_Compensation = RogueBlessing(
     id=14,
@@ -142,6 +155,7 @@ Construct_Compensation = RogueBlessing(
     jp='構築・補填',
     path_id=1,
     rarity=1,
+    enhancement='',
 )
 Construct_Firmness = RogueBlessing(
     id=15,
@@ -152,6 +166,7 @@ Construct_Firmness = RogueBlessing(
     jp='構築・確固',
     path_id=1,
     rarity=1,
+    enhancement='',
 )
 Construct_Rotation = RogueBlessing(
     id=16,
@@ -162,6 +177,7 @@ Construct_Rotation = RogueBlessing(
     jp='構築・回転',
     path_id=1,
     rarity=1,
+    enhancement='',
 )
 Construct_Burst = RogueBlessing(
     id=17,
@@ -172,6 +188,7 @@ Construct_Burst = RogueBlessing(
     jp='構築・勃発',
     path_id=1,
     rarity=1,
+    enhancement='',
 )
 Construct_Concentration = RogueBlessing(
     id=18,
@@ -182,6 +199,7 @@ Construct_Concentration = RogueBlessing(
     jp='構築・専念',
     path_id=1,
     rarity=1,
+    enhancement='',
 )
 Perfect_Experience_Fuli = RogueBlessing(
     id=19,
@@ -192,6 +210,7 @@ Perfect_Experience_Fuli = RogueBlessing(
     jp='完璧体験：浮黎',
     path_id=2,
     rarity=3,
+    enhancement='',
 )
 Perfect_Experience_Innocence = RogueBlessing(
     id=20,
@@ -202,6 +221,7 @@ Perfect_Experience_Innocence = RogueBlessing(
     jp='完璧体験：純真',
     path_id=2,
     rarity=3,
+    enhancement='',
 )
 Perfect_Experience_Reticence = RogueBlessing(
     id=21,
@@ -212,6 +232,7 @@ Perfect_Experience_Reticence = RogueBlessing(
     jp='完璧体験：沈黙',
     path_id=2,
     rarity=3,
+    enhancement='',
 )
 Ultimate_Experience_Melancholia = RogueBlessing(
     id=22,
@@ -222,6 +243,7 @@ Ultimate_Experience_Melancholia = RogueBlessing(
     jp='極端体験：茫然自失',
     path_id=2,
     rarity=2,
+    enhancement='',
 )
 Ultimate_Experience_Dizziness = RogueBlessing(
     id=23,
@@ -232,6 +254,7 @@ Ultimate_Experience_Dizziness = RogueBlessing(
     jp='極端体験：眩暈',
     path_id=2,
     rarity=2,
+    enhancement='',
 )
 Ultimate_Experience_Insensitivity = RogueBlessing(
     id=24,
@@ -242,6 +265,7 @@ Ultimate_Experience_Insensitivity = RogueBlessing(
     jp='極端体験：無感覚',
     path_id=2,
     rarity=2,
+    enhancement='',
 )
 Ultimate_Experience_Sentimentality = RogueBlessing(
     id=25,
@@ -252,6 +276,7 @@ Ultimate_Experience_Sentimentality = RogueBlessing(
     jp='極端体験：多感',
     path_id=2,
     rarity=2,
+    enhancement='',
 )
 Ultimate_Experience_Indelibility = RogueBlessing(
     id=26,
@@ -262,6 +287,7 @@ Ultimate_Experience_Indelibility = RogueBlessing(
     jp='極端体験：感銘',
     path_id=2,
     rarity=2,
+    enhancement='',
 )
 Ultimate_Experience_Shudder = RogueBlessing(
     id=27,
@@ -272,6 +298,7 @@ Ultimate_Experience_Shudder = RogueBlessing(
     jp='極端体験：戦慄',
     path_id=2,
     rarity=2,
+    enhancement='',
 )
 Ultimate_Experience_Maverick = RogueBlessing(
     id=28,
@@ -282,6 +309,7 @@ Ultimate_Experience_Maverick = RogueBlessing(
     jp='極端体験：異端児',
     path_id=2,
     rarity=2,
+    enhancement='',
 )
 Experience_Unspeakable_Shame = RogueBlessing(
     id=29,
@@ -292,6 +320,7 @@ Experience_Unspeakable_Shame = RogueBlessing(
     jp='体験：言えない恥',
     path_id=2,
     rarity=1,
+    enhancement='',
 )
 Experience_The_Torment_of_Alienation = RogueBlessing(
     id=30,
@@ -302,6 +331,7 @@ Experience_The_Torment_of_Alienation = RogueBlessing(
     jp='体験：疎遠の苦しみ',
     path_id=2,
     rarity=1,
+    enhancement='',
 )
 Experience_Lost_Memory = RogueBlessing(
     id=31,
@@ -312,6 +342,7 @@ Experience_Lost_Memory = RogueBlessing(
     jp='体験：失われた記憶',
     path_id=2,
     rarity=1,
+    enhancement='',
 )
 Experience_Stone_Cold_Hatred = RogueBlessing(
     id=32,
@@ -322,6 +353,7 @@ Experience_Stone_Cold_Hatred = RogueBlessing(
     jp='体験：凄烈な憎悪',
     path_id=2,
     rarity=1,
+    enhancement='',
 )
 Experience_Pain__Suffering = RogueBlessing(
     id=33,
@@ -332,6 +364,7 @@ Experience_Pain__Suffering = RogueBlessing(
     jp='体験：病の苛み',
     path_id=2,
     rarity=1,
+    enhancement='',
 )
 Experience_Primordial_Hardship = RogueBlessing(
     id=34,
@@ -342,6 +375,7 @@ Experience_Primordial_Hardship = RogueBlessing(
     jp='体験：原初の苦衷',
     path_id=2,
     rarity=1,
+    enhancement='',
 )
 Experience_Thrill_of_Escalation = RogueBlessing(
     id=35,
@@ -352,6 +386,7 @@ Experience_Thrill_of_Escalation = RogueBlessing(
     jp='体験：上昇の刺激',
     path_id=2,
     rarity=1,
+    enhancement='',
 )
 Experience_Responsive_Excitement = RogueBlessing(
     id=36,
@@ -362,6 +397,7 @@ Experience_Responsive_Excitement = RogueBlessing(
     jp='体験：反響の興奮',
     path_id=2,
     rarity=1,
+    enhancement='',
 )
 Funeral_of_Sensory_Pursuivant = RogueBlessing(
     id=37,
@@ -372,6 +408,7 @@ Funeral_of_Sensory_Pursuivant = RogueBlessing(
     jp='感覚追奉者の葬式',
     path_id=3,
     rarity=3,
+    enhancement='',
 )
 The_Man_in_the_Cover = RogueBlessing(
     id=38,
@@ -382,6 +419,7 @@ The_Man_in_the_Cover = RogueBlessing(
     jp='箱に入った人',
     path_id=3,
     rarity=3,
+    enhancement='',
 )
 Why_Hasn_t_Everything_Already_Disappeared = RogueBlessing(
     id=39,
@@ -392,6 +430,7 @@ Why_Hasn_t_Everything_Already_Disappeared = RogueBlessing(
     jp='なぜすべては消えぬか',
     path_id=3,
     rarity=3,
+    enhancement='',
 )
 Beginning_and_End = RogueBlessing(
     id=40,
@@ -402,6 +441,7 @@ Beginning_and_End = RogueBlessing(
     jp='発端と結末',
     path_id=3,
     rarity=2,
+    enhancement='',
 )
 Café_Self_Deceit = RogueBlessing(
     id=41,
@@ -412,6 +452,7 @@ Café_Self_Deceit = RogueBlessing(
     jp='自己欺瞞カフェ',
     path_id=3,
     rarity=2,
+    enhancement='',
 )
 Call_of_the_Wilderness = RogueBlessing(
     id=42,
@@ -422,6 +463,7 @@ Call_of_the_Wilderness = RogueBlessing(
     jp='広野の呼び声',
     path_id=3,
     rarity=2,
+    enhancement='',
 )
 Night_Beyond_Pyre = RogueBlessing(
     id=43,
@@ -432,6 +474,7 @@ Night_Beyond_Pyre = RogueBlessing(
     jp='焚火の外の夜',
     path_id=3,
     rarity=2,
+    enhancement='',
 )
 Hell_is_Other_People = RogueBlessing(
     id=44,
@@ -442,6 +485,7 @@ Hell_is_Other_People = RogueBlessing(
     jp='他人は地獄',
     path_id=3,
     rarity=2,
+    enhancement='',
 )
 Twilight_of_Existence = RogueBlessing(
     id=45,
@@ -452,6 +496,7 @@ Twilight_of_Existence = RogueBlessing(
     jp='存在の黄昏',
     path_id=3,
     rarity=2,
+    enhancement='',
 )
 All_Things_are_Possible = RogueBlessing(
     id=46,
@@ -462,6 +507,7 @@ All_Things_are_Possible = RogueBlessing(
     jp='根拠なき賛歌',
     path_id=3,
     rarity=2,
+    enhancement='',
 )
 Ignosticism = RogueBlessing(
     id=47,
@@ -472,6 +518,7 @@ Ignosticism = RogueBlessing(
     jp='漠視主義',
     path_id=3,
     rarity=1,
+    enhancement='',
 )
 Questioning_of_Purpose = RogueBlessing(
     id=48,
@@ -482,6 +529,7 @@ Questioning_of_Purpose = RogueBlessing(
     jp='意義への詰問',
     path_id=3,
     rarity=1,
+    enhancement='',
 )
 Blind_Vision = RogueBlessing(
     id=49,
@@ -492,6 +540,7 @@ Blind_Vision = RogueBlessing(
     jp='盲目の視界',
     path_id=3,
     rarity=1,
+    enhancement='',
 )
 Tragic_Lecture = RogueBlessing(
     id=50,
@@ -502,6 +551,7 @@ Tragic_Lecture = RogueBlessing(
     jp='悲劇講座',
     path_id=3,
     rarity=1,
+    enhancement='',
 )
 Sensory_Labyrinth = RogueBlessing(
     id=51,
@@ -512,6 +562,7 @@ Sensory_Labyrinth = RogueBlessing(
     jp='知覚の壁',
     path_id=3,
     rarity=1,
+    enhancement='',
 )
 Emotional_Decluttering = RogueBlessing(
     id=52,
@@ -522,6 +573,7 @@ Emotional_Decluttering = RogueBlessing(
     jp='情緒捨離',
     path_id=3,
     rarity=1,
+    enhancement='',
 )
 Offerings_of_Deception = RogueBlessing(
     id=53,
@@ -532,6 +584,7 @@ Offerings_of_Deception = RogueBlessing(
     jp='虚妄の供物',
     path_id=3,
     rarity=1,
+    enhancement='',
 )
 Before_Sunrise = RogueBlessing(
     id=54,
@@ -542,6 +595,7 @@ Before_Sunrise = RogueBlessing(
     jp='日の出前',
     path_id=3,
     rarity=1,
+    enhancement='',
 )
 Prosperity_Longevity = RogueBlessing(
     id=55,
@@ -552,6 +606,7 @@ Prosperity_Longevity = RogueBlessing(
     jp='彼の遐齢を延さん',
     path_id=4,
     rarity=3,
+    enhancement='',
 )
 Mudra_of_Blessing = RogueBlessing(
     id=56,
@@ -562,6 +617,7 @@ Mudra_of_Blessing = RogueBlessing(
     jp='若の罪福、皆に施願を',
     path_id=4,
     rarity=3,
+    enhancement='',
 )
 Being_of_Abundance_Becoming_One_Mind = RogueBlessing(
     id=57,
@@ -572,6 +628,7 @@ Being_of_Abundance_Becoming_One_Mind = RogueBlessing(
     jp='衆生に豊穣を',
     path_id=4,
     rarity=3,
+    enhancement='',
 )
 Good_Deeds_Come_After_Old_Sins = RogueBlessing(
     id=58,
@@ -582,6 +639,7 @@ Good_Deeds_Come_After_Old_Sins = RogueBlessing(
     jp='滅罪生善',
     path_id=4,
     rarity=2,
+    enhancement='',
 )
 Mortals_of_the_Buddha_Field = RogueBlessing(
     id=59,
@@ -592,6 +650,7 @@ Mortals_of_the_Buddha_Field = RogueBlessing(
     jp='天人不動衆',
     path_id=4,
     rarity=2,
+    enhancement='',
 )
 Salvation_From_Damnation = RogueBlessing(
     id=60,
@@ -602,6 +661,7 @@ Salvation_From_Damnation = RogueBlessing(
     jp='慧海を渡る慈航',
     path_id=4,
     rarity=2,
+    enhancement='',
 )
 Precious_Moon_Like_Candlelight = RogueBlessing(
     id=61,
@@ -612,6 +672,7 @@ Precious_Moon_Like_Candlelight = RogueBlessing(
     jp='日月を燭らす宝光',
     path_id=4,
     rarity=2,
+    enhancement='',
 )
 Aversion_to_Suffering = RogueBlessing(
     id=62,
@@ -622,6 +683,7 @@ Aversion_to_Suffering = RogueBlessing(
     jp='邪穢の苦を厭離す',
     path_id=4,
     rarity=2,
+    enhancement='',
 )
 Clear_Lucite_Body = RogueBlessing(
     id=63,
@@ -632,6 +694,7 @@ Clear_Lucite_Body = RogueBlessing(
     jp='明澄琉璃の身',
     path_id=4,
     rarity=2,
+    enhancement='',
 )
 Prajna_Boat = RogueBlessing(
     id=64,
@@ -642,6 +705,7 @@ Prajna_Boat = RogueBlessing(
     jp='大愿、般若の船',
     path_id=4,
     rarity=2,
+    enhancement='',
 )
 Rain_of_Truth = RogueBlessing(
     id=65,
@@ -652,6 +716,7 @@ Rain_of_Truth = RogueBlessing(
     jp='法雨',
     path_id=4,
     rarity=1,
+    enhancement='',
 )
 Sweet_Dew = RogueBlessing(
     id=66,
@@ -662,6 +727,7 @@ Sweet_Dew = RogueBlessing(
     jp='甘露',
     path_id=4,
     rarity=1,
+    enhancement='',
 )
 Extended_Life = RogueBlessing(
     id=67,
@@ -672,6 +738,7 @@ Extended_Life = RogueBlessing(
     jp='延寿',
     path_id=4,
     rarity=1,
+    enhancement='',
 )
 Seal = RogueBlessing(
     id=68,
@@ -682,6 +749,7 @@ Seal = RogueBlessing(
     jp='願印',
     path_id=4,
     rarity=1,
+    enhancement='',
 )
 Dispel_Disaster = RogueBlessing(
     id=69,
@@ -692,6 +760,7 @@ Dispel_Disaster = RogueBlessing(
     jp='厄払い',
     path_id=4,
     rarity=1,
+    enhancement='',
 )
 Rebirth = RogueBlessing(
     id=70,
@@ -702,6 +771,7 @@ Rebirth = RogueBlessing(
     jp='回生',
     path_id=4,
     rarity=1,
+    enhancement='',
 )
 Victorious_Force = RogueBlessing(
     id=71,
@@ -712,6 +782,7 @@ Victorious_Force = RogueBlessing(
     jp='勝軍',
     path_id=4,
     rarity=1,
+    enhancement='',
 )
 Blessing = RogueBlessing(
     id=72,
@@ -722,6 +793,7 @@ Blessing = RogueBlessing(
     jp='加持',
     path_id=4,
     rarity=1,
+    enhancement='',
 )
 Imperial_Reign = RogueBlessing(
     id=73,
@@ -732,6 +804,7 @@ Imperial_Reign = RogueBlessing(
     jp='帝星臨めば穹桑を制す',
     path_id=5,
     rarity=3,
+    enhancement='',
 )
 Imperishable_Victory = RogueBlessing(
     id=74,
@@ -742,6 +815,7 @@ Imperishable_Victory = RogueBlessing(
     jp='光越す制勝の帝車',
     path_id=5,
     rarity=3,
+    enhancement='',
 )
 Celestial_Annihilation = RogueBlessing(
     id=75,
@@ -752,6 +826,7 @@ Celestial_Annihilation = RogueBlessing(
     jp='太清を徹す断空の帝弓',
     path_id=5,
     rarity=3,
+    enhancement='',
 )
 Battle_Against_the_Old_Foe = RogueBlessing(
     id=76,
@@ -762,6 +837,7 @@ Battle_Against_the_Old_Foe = RogueBlessing(
     jp='夙敵繳める天舟',
     path_id=5,
     rarity=2,
+    enhancement='',
 )
 Archery_Duel = RogueBlessing(
     id=77,
@@ -772,6 +848,7 @@ Archery_Duel = RogueBlessing(
     jp='射御を決する白矢',
     path_id=5,
     rarity=2,
+    enhancement='',
 )
 Adept_Bow = RogueBlessing(
     id=78,
@@ -782,6 +859,7 @@ Adept_Bow = RogueBlessing(
     jp='遅彝弓を執る序師',
     path_id=5,
     rarity=2,
+    enhancement='',
 )
 Flowing_Mist = RogueBlessing(
     id=79,
@@ -792,6 +870,7 @@ Flowing_Mist = RogueBlessing(
     jp='忌み物を追う流嵐',
     path_id=5,
     rarity=2,
+    enhancement='',
 )
 Auspicious_Star = RogueBlessing(
     id=80,
@@ -802,6 +881,7 @@ Auspicious_Star = RogueBlessing(
     jp='狩月を助ける景星',
     path_id=5,
     rarity=2,
+    enhancement='',
 )
 Ejecting_the_Borisin = RogueBlessing(
     id=81,
@@ -812,6 +892,7 @@ Ejecting_the_Borisin = RogueBlessing(
     jp='歩離を駆逐せし雲鏑',
     path_id=5,
     rarity=2,
+    enhancement='',
 )
 Monster_Expelling_Rainbow = RogueBlessing(
     id=82,
@@ -822,6 +903,7 @@ Monster_Expelling_Rainbow = RogueBlessing(
     jp='鑿齒を誅つ飛虹',
     path_id=5,
     rarity=2,
+    enhancement='',
 )
 Vermeil_Bow_and_White_Arrow = RogueBlessing(
     id=83,
@@ -832,6 +914,7 @@ Vermeil_Bow_and_White_Arrow = RogueBlessing(
     jp='緋弓素矢',
     path_id=5,
     rarity=1,
+    enhancement='',
 )
 Skirting_Life_and_Death = RogueBlessing(
     id=84,
@@ -842,6 +925,7 @@ Skirting_Life_and_Death = RogueBlessing(
     jp='背生撃死',
     path_id=5,
     rarity=1,
+    enhancement='',
 )
 Shrewd_Arrangement = RogueBlessing(
     id=85,
@@ -852,6 +936,7 @@ Shrewd_Arrangement = RogueBlessing(
     jp='背孤撃虚',
     path_id=5,
     rarity=1,
+    enhancement='',
 )
 Thundering_Chariot = RogueBlessing(
     id=86,
@@ -862,6 +947,7 @@ Thundering_Chariot = RogueBlessing(
     jp='雷車動地',
     path_id=5,
     rarity=1,
+    enhancement='',
 )
 Constellation_Surge = RogueBlessing(
     id=87,
@@ -872,6 +958,7 @@ Constellation_Surge = RogueBlessing(
     jp='牛斗射る紫電',
     path_id=5,
     rarity=1,
+    enhancement='',
 )
 Catastrophic_Constellation = RogueBlessing(
     id=88,
@@ -882,6 +969,7 @@ Catastrophic_Constellation = RogueBlessing(
     jp='危宮へ歩む天棓',
     path_id=5,
     rarity=1,
+    enhancement='',
 )
 Vaulting_Ambition = RogueBlessing(
     id=89,
@@ -892,6 +980,7 @@ Vaulting_Ambition = RogueBlessing(
     jp='桑弧蓬矢',
     path_id=5,
     rarity=1,
+    enhancement='',
 )
 Blessed_Bow_and_Arrow = RogueBlessing(
     id=90,
@@ -902,6 +991,7 @@ Blessed_Bow_and_Arrow = RogueBlessing(
     jp='烏号綦箭',
     path_id=5,
     rarity=1,
+    enhancement='',
 )
 Non_Inverse_Antimatter_Equation = RogueBlessing(
     id=91,
@@ -912,6 +1002,7 @@ Non_Inverse_Antimatter_Equation = RogueBlessing(
     jp='反物質非可逆方程式',
     path_id=6,
     rarity=3,
+    enhancement='',
 )
 Universal_Heat_Death_Characteristic = RogueBlessing(
     id=92,
@@ -922,6 +1013,7 @@ Universal_Heat_Death_Characteristic = RogueBlessing(
     jp='熱的死の固有値',
     path_id=6,
     rarity=3,
+    enhancement='',
 )
 Regression_Inequality_of_Annihilation = RogueBlessing(
     id=93,
@@ -932,6 +1024,7 @@ Regression_Inequality_of_Annihilation = RogueBlessing(
     jp='対消滅回帰不等式',
     path_id=6,
     rarity=3,
+    enhancement='',
 )
 Incremental_Doomsday = RogueBlessing(
     id=94,
@@ -942,6 +1035,7 @@ Incremental_Doomsday = RogueBlessing(
     jp='逓増的終末',
     path_id=6,
     rarity=2,
+    enhancement='',
 )
 Catastrophic_Resonance = RogueBlessing(
     id=95,
@@ -952,6 +1046,7 @@ Catastrophic_Resonance = RogueBlessing(
     jp='災難的共振',
     path_id=6,
     rarity=2,
+    enhancement='',
 )
 Indicative_Depth_of_Field = RogueBlessing(
     id=96,
@@ -962,6 +1057,7 @@ Indicative_Depth_of_Field = RogueBlessing(
     jp='予兆的被写界深度',
     path_id=6,
     rarity=2,
+    enhancement='',
 )
 Devastating_Accretion = RogueBlessing(
     id=97,
@@ -972,6 +1068,7 @@ Devastating_Accretion = RogueBlessing(
     jp='壊滅的降着',
     path_id=6,
     rarity=2,
+    enhancement='',
 )
 Destructive_Flare = RogueBlessing(
     id=98,
@@ -982,6 +1079,7 @@ Destructive_Flare = RogueBlessing(
     jp='破壊的フレア',
     path_id=6,
     rarity=2,
+    enhancement='',
 )
 Disciplinary_Flicker = RogueBlessing(
     id=99,
@@ -992,6 +1090,7 @@ Disciplinary_Flicker = RogueBlessing(
     jp='戒律的フラッシュ',
     path_id=6,
     rarity=2,
+    enhancement='',
 )
 Hazardous_Lucent_Residue = RogueBlessing(
     id=100,
@@ -1002,6 +1101,7 @@ Hazardous_Lucent_Residue = RogueBlessing(
     jp='危害的余光',
     path_id=6,
     rarity=2,
+    enhancement='',
 )
 Primordial_Black_Hole = RogueBlessing(
     id=101,
@@ -1012,6 +1112,7 @@ Primordial_Black_Hole = RogueBlessing(
     jp='原始ブラックホール',
     path_id=6,
     rarity=1,
+    enhancement='',
 )
 Reflection = RogueBlessing(
     id=102,
@@ -1022,6 +1123,7 @@ Reflection = RogueBlessing(
     jp='光壊変',
     path_id=6,
     rarity=1,
+    enhancement='',
 )
 Orbital_Redshift = RogueBlessing(
     id=103,
@@ -1032,6 +1134,7 @@ Orbital_Redshift = RogueBlessing(
     jp='軌道赤方偏移',
     path_id=6,
     rarity=1,
+    enhancement='',
 )
 Instability_Strip = RogueBlessing(
     id=104,
@@ -1042,6 +1145,7 @@ Instability_Strip = RogueBlessing(
     jp='不安定帯',
     path_id=6,
     rarity=1,
+    enhancement='',
 )
 Metric_Reservation = RogueBlessing(
     id=105,
@@ -1052,6 +1156,7 @@ Metric_Reservation = RogueBlessing(
     jp='備蓄計量',
     path_id=6,
     rarity=1,
+    enhancement='',
 )
 Sentinel_Satellite = RogueBlessing(
     id=106,
@@ -1062,6 +1167,7 @@ Sentinel_Satellite = RogueBlessing(
     jp='哨戒衛星',
     path_id=6,
     rarity=1,
+    enhancement='',
 )
 Polarization_Receptor = RogueBlessing(
     id=107,
@@ -1072,6 +1178,7 @@ Polarization_Receptor = RogueBlessing(
     jp='偏光受容体',
     path_id=6,
     rarity=1,
+    enhancement='',
 )
 Eternally_Collapsing_Object = RogueBlessing(
     id=108,
@@ -1082,6 +1189,7 @@ Eternally_Collapsing_Object = RogueBlessing(
     jp='永久崩壊天体',
     path_id=6,
     rarity=1,
+    enhancement='',
 )
 Auto_Harmonica_Whitest_Night = RogueBlessing(
     id=109,
@@ -1092,6 +1200,7 @@ Auto_Harmonica_Whitest_Night = RogueBlessing(
     jp='『自動ハーモニカ・茫々たる白夜』',
     path_id=7,
     rarity=3,
+    enhancement='',
 )
 Slaughterhouse_No_4_Rest_in_Peace = RogueBlessing(
     id=110,
@@ -1102,6 +1211,7 @@ Slaughterhouse_No_4_Rest_in_Peace = RogueBlessing(
     jp='『四番屠畜場・皆眠りて』',
     path_id=7,
     rarity=3,
+    enhancement='',
 )
 Champion_Dinner_Cat_Cradle = RogueBlessing(
     id=111,
@@ -1112,6 +1222,7 @@ Champion_Dinner_Cat_Cradle = RogueBlessing(
     jp='『チャンピオンのディナー・猫のゆりかご』',
     path_id=7,
     rarity=3,
+    enhancement='',
 )
 Portrait_of_A_Man_On_Fire = RogueBlessing(
     id=112,
@@ -1122,6 +1233,7 @@ Portrait_of_A_Man_On_Fire = RogueBlessing(
     jp='『燃ゆる男の肖像』',
     path_id=7,
     rarity=2,
+    enhancement='',
 )
 Just_Keep_on_Crying = RogueBlessing(
     id=113,
@@ -1132,6 +1244,7 @@ Just_Keep_on_Crying = RogueBlessing(
     jp='『流れよ汝が涙』',
     path_id=7,
     rarity=2,
+    enhancement='',
 )
 The_Hourglass_Kindergarten = RogueBlessing(
     id=114,
@@ -1142,6 +1255,7 @@ The_Hourglass_Kindergarten = RogueBlessing(
     jp='『砂時計の幼稚園』',
     path_id=7,
     rarity=2,
+    enhancement='',
 )
 The_Painted_Albatross = RogueBlessing(
     id=115,
@@ -1152,6 +1266,7 @@ The_Painted_Albatross = RogueBlessing(
     jp='『汚されたアホウドリ』',
     path_id=7,
     rarity=2,
+    enhancement='',
 )
 _12_Monkeys_and_Angry_Men = RogueBlessing(
     id=116,
@@ -1162,6 +1277,7 @@ _12_Monkeys_and_Angry_Men = RogueBlessing(
     jp='『十二のサルと怒れる男』',
     path_id=7,
     rarity=2,
+    enhancement='',
 )
 Aiden_Gravitational_Rainbow = RogueBlessing(
     id=117,
@@ -1172,6 +1288,7 @@ Aiden_Gravitational_Rainbow = RogueBlessing(
     jp='『リルタ重力の虹』',
     path_id=7,
     rarity=2,
+    enhancement='',
 )
 Twenty_First_Military_Rule = RogueBlessing(
     id=118,
@@ -1182,6 +1299,7 @@ Twenty_First_Military_Rule = RogueBlessing(
     jp='『キャッチ=21』',
     path_id=7,
     rarity=2,
+    enhancement='',
 )
 Exemplary_Conduct = RogueBlessing(
     id=119,
@@ -1192,6 +1310,7 @@ Exemplary_Conduct = RogueBlessing(
     jp='『素行満点』',
     path_id=7,
     rarity=1,
+    enhancement='',
 )
 Mostly_Harmful = RogueBlessing(
     id=120,
@@ -1202,6 +1321,7 @@ Mostly_Harmful = RogueBlessing(
     jp='『ほとんど有害』',
     path_id=7,
     rarity=1,
+    enhancement='',
 )
 Suspiria = RogueBlessing(
     id=121,
@@ -1212,6 +1332,7 @@ Suspiria = RogueBlessing(
     jp='『サスペンス』',
     path_id=7,
     rarity=1,
+    enhancement='',
 )
 Pale_Fire = RogueBlessing(
     id=122,
@@ -1222,6 +1343,7 @@ Pale_Fire = RogueBlessing(
     jp='『仄暗い炎』',
     path_id=7,
     rarity=1,
+    enhancement='',
 )
 Back_to_the_Lighthouse = RogueBlessing(
     id=123,
@@ -1232,6 +1354,7 @@ Back_to_the_Lighthouse = RogueBlessing(
     jp='『灯台へ戻ろう』',
     path_id=7,
     rarity=1,
+    enhancement='',
 )
 Doctor_of_Love = RogueBlessing(
     id=124,
@@ -1242,6 +1365,7 @@ Doctor_of_Love = RogueBlessing(
     jp='『医者の異常な愛情』',
     path_id=7,
     rarity=1,
+    enhancement='',
 )
 Platinum_Age = RogueBlessing(
     id=125,
@@ -1252,6 +1376,7 @@ Platinum_Age = RogueBlessing(
     jp='『白金時代』',
     path_id=7,
     rarity=1,
+    enhancement='',
 )
 Clockwork_Apple = RogueBlessing(
     id=126,
@@ -1262,4 +1387,5 @@ Clockwork_Apple = RogueBlessing(
     jp='『時計仕掛けのリンゴ』',
     path_id=7,
     rarity=1,
+    enhancement='',
 )
