@@ -8,6 +8,7 @@ MAP = CampaignMap('B2')
 MAP.shape = 'K7'
 MAP.camera_data = ['D2', 'D4', 'F2', 'H2']
 MAP.camera_data_spawn_point = ['H4']
+MAP.map_covered = ['J5']
 MAP.map_data = """
     -- ME ME ME ++ ME -- -- ME ++ --
     ME -- -- -- -- -- ++ ++ -- -- Me
