@@ -45,11 +45,16 @@ class EnemySearchingHandler(InfoHandler):
             self.in_stage_timer.reset()
             return False
 
-    def is_in_stage(self):
-        appear = [self.appear(check, offset=(20, 20)) for check in [CAMPAIGN_CHECK, EVENT_CHECK, SP_CHECK]]
-        if not any(appear):
-            return False
+    def is_in_stage_page(self):
+        for check in [CAMPAIGN_CHECK, EVENT_CHECK, SP_CHECK]:
+            if self.appear(check, offset=(20, 20)):
+                return True
+        return False
 
+    def is_stage_page_has_entrance(self):
+        """
+        Has any stage entrance, which means stage page is fully loaded
+        """
         # campaign_extract_name_image in CampaignOcr.
         try:
             if hasattr(self, 'campaign_extract_name_image'):
@@ -60,6 +65,13 @@ class EnemySearchingHandler(InfoHandler):
         except IndexError:
             return False
 
+        return True
+
+    def is_in_stage(self):
+        if not self.is_in_stage_page():
+            return False
+        if not self.is_stage_page_has_entrance():
+            return False
         return True
 
     def is_in_map(self):
