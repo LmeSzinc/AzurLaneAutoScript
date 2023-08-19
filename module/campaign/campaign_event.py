@@ -95,7 +95,7 @@ class CampaignEvent(CampaignStatus):
         """
         from module.config.utils import deep_get
         limit = self.config.TaskBalancer_CoinLimit
-        coin = deep_get(self.config.data, 'Dashboard.Coin.Value')
+        coin = deep_get(self.config.data, 'Resource.Coin.Value')
         logger.attr('Coin Count', coin)
         # Check Coin
         if coin == 0:
