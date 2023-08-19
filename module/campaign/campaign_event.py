@@ -93,9 +93,8 @@ class CampaignEvent(CampaignStatus):
         Pages:
             in: page_event or page_sp
         """
-        from module.config.utils import deep_get
         limit = self.config.TaskBalancer_CoinLimit
-        coin = deep_get(self.config.data, 'Resource.Coin.Value')
+        coin = self._get_coin()
         logger.attr('Coin Count', coin)
         # Check Coin
         if coin == 0:
