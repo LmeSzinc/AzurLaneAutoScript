@@ -635,11 +635,14 @@ class Fleet(Camera, AmbushHandler):
         missing = missing['siren'] if siren else missing['enemy']
         if diff and missing != 0:
             logger.warning(f'Movable enemy tracking lost: {diff}')
+
+            # Calculate covered grids
             covered = self.map.grid_covered(self.map[self.fleet_current], location=[(0, -2)])
             if self.fleet_1_location:
                 covered = covered.add(self.map.grid_covered(self.map[self.fleet_1_location], location=[(0, -1)]))
             if self.fleet_2_location:
                 covered = covered.add(self.map.grid_covered(self.map[self.fleet_2_location], location=[(0, -1)]))
+            covered = covered.add(self.map._map_covered)
             if siren:
                 for grid in after:
                     covered = covered.add(self.map.grid_covered(grid))
@@ -647,14 +650,30 @@ class Fleet(Camera, AmbushHandler):
                 for grid in self.map.select(is_siren=True):
                     covered = covered.add(self.map.grid_covered(grid))
             logger.attr('enemy_covered', covered)
+
+            # Calculate siren accessible grids
             accessible = SelectedGrids([])
+            if self.config.MAP_HAS_WALL:
+                # Sirens ignore walls
+                self.map.grid_connection_initial(
+                    wall=False,
+                    portal=self.config.MAP_HAS_PORTAL,
+                )
             for grid in diff:
                 self.map.find_path_initial(grid, has_ambush=False)
                 accessible = accessible.add(self.map.select(cost=0)).add(self.map.select(cost=1))
                 if siren:
                     accessible = accessible.add(self.map.select(cost=2))
+            # Revert path findings
+            if self.config.MAP_HAS_WALL:
+                self.map.grid_connection_initial(
+                    wall=self.config.MAP_HAS_WALL,
+                    portal=self.config.MAP_HAS_PORTAL,
+                )
             self.map.find_path_initial(self.fleet_current, has_ambush=self.config.MAP_HAS_AMBUSH)
             logger.attr('enemy_accessible', accessible)
+
+            # Intersect to predict
             predict = accessible.intersect(covered).select(is_sea=True, is_fleet=False)
             logger.info(f'Movable enemy predict: {predict}')
             matched_after = matched_after.add(predict)
