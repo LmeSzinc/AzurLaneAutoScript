@@ -216,6 +216,23 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     # Revelations of Dust
     'xiafei': 'Joffre',
     'lemaer': 'LeMars',
+
+    # Confluence of Nothingness
+    'shenyuanboss4': 'AbyssalBoss4',
+    'shenyuanboss4_alter': 'AbyssalBoss4',
+    'shenyuanboss5': 'AbyssalBoss5',
+    'shenyuanboss5_alter': 'AbyssalBoss5',
+    'sairenquzhu_m': 'DD',
+    'sairenqingxun_m': 'CL',
+    'sairenzhongxun_m': 'CAred',
+    'sairenzhanlie_m': 'BBred',
+    'sairenhangmu_m': 'CV',
+    'sairenqianting_m': 'SS',
+
+    # The Fool's Scales
+    'sairenboss18': 'SirenBoss18',
+    'sairenboss19': 'SirenBoss19',
+    'srjiaohuangjijia': 'Dilloy',
 }
 
 
