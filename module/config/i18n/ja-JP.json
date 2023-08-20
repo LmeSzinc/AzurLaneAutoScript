@@ -226,6 +226,18 @@
       "Calyx_Crimson_Harmony": "疑似花萼（赤）・調和の蕾",
       "Calyx_Crimson_Nihility": "疑似花萼（赤）・虚無の蕾"
     },
+    "NameAtDoubleRelic": {
+      "name": "Dungeon.NameAtDoubleRelic.name",
+      "help": "Dungeon.NameAtDoubleRelic.help",
+      "do_not_participate": "do_not_participate",
+      "Cavern_of_Corrosion_Path_of_Gelid_Wind": "侵蝕トンネル・霜風の路",
+      "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "侵蝕トンネル・迅拳の路",
+      "Cavern_of_Corrosion_Path_of_Drifting": "侵蝕トンネル・漂泊の路",
+      "Cavern_of_Corrosion_Path_of_Providence": "侵蝕トンネル・睿治の路",
+      "Cavern_of_Corrosion_Path_of_Holy_Hymn": "侵蝕トンネル・聖頌の路",
+      "Cavern_of_Corrosion_Path_of_Conflagration": "侵蝕トンネル・野焔の路",
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "侵蝕トンネル・薬使の路"
+    },
     "Team": {
       "name": "Dungeon.Team.name",
       "help": "Dungeon.Team.help",

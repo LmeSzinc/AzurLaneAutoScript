@@ -13,6 +13,16 @@ DOUBLE_CALYX_EVENT_TAG = ButtonWrapper(
         button=(329, 224, 425, 392),
     ),
 )
+DOUBLE_RELIC_EVENT_TAG = ButtonWrapper(
+    name='DOUBLE_RELIC_EVENT_TAG',
+    share=Button(
+        file='./assets/share/dungeon/event/DOUBLE_RELIC_EVENT_TAG.png',
+        area=(329, 505, 425, 589),
+        search=(309, 485, 445, 609),
+        color=(211, 206, 198),
+        button=(329, 505, 425, 589),
+    ),
+)
 OCR_DOUBLE_EVENT_REMAIN = ButtonWrapper(
     name='OCR_DOUBLE_EVENT_REMAIN',
     share=Button(

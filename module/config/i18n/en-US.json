@@ -226,6 +226,18 @@
       "Calyx_Crimson_Harmony": "Trace: Harmony (Bud of Harmony)",
       "Calyx_Crimson_Nihility": "Trace: Nihility (Bud of Nihility)"
     },
+    "NameAtDoubleRelic": {
+      "name": "At Double Relic Event, choose dungeon",
+      "help": "Return to the default dungeon settings after double times exhausted",
+      "do_not_participate": "Dont participate in event",
+      "Cavern_of_Corrosion_Path_of_Gelid_Wind": "Relics: Ice Set & Wind Set (Path of Gelid Wind)",
+      "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "Relics: Physical Set & Break Effect Set (Path of Jabbing Punch)",
+      "Cavern_of_Corrosion_Path_of_Drifting": "Relics: Healing Set & Musketeer Set (Path of Drifting)",
+      "Cavern_of_Corrosion_Path_of_Providence": "Relics: Guard Set & Quantum Set (Path of Providence)",
+      "Cavern_of_Corrosion_Path_of_Holy_Hymn": "Relics: DEF Set & Lighting Set (Path of Holy Hymn)",
+      "Cavern_of_Corrosion_Path_of_Conflagration": "Relics: Fire Set & Imaginary Set (Path of Conflagration)",
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "Relics: HP Set & SPD Set (Path of Elixir Seekers)"
+    },
     "Team": {
       "name": "Dungeon Team",
       "help": "",

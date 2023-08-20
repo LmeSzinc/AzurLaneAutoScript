@@ -78,6 +78,10 @@ Dungeon:
     # Options will be injected in config updater
     value: Calyx_Golden_Treasures
     option: [ do_not_participate, ]
+  NameAtDoubleRelic:
+    # Options will be injected in config updater
+    value: Cavern_of_Corrosion_Path_of_Providence
+    option: [ do_not_participate, ]
   Team:
     value: 1
     option: [ 1, 2, 3, 4, 5, 6 ]

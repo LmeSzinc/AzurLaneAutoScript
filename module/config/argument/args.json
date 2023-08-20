@@ -218,6 +218,20 @@
           "Calyx_Crimson_Nihility"
         ]
       },
+      "NameAtDoubleRelic": {
+        "type": "select",
+        "value": "Cavern_of_Corrosion_Path_of_Providence",
+        "option": [
+          "do_not_participate",
+          "Cavern_of_Corrosion_Path_of_Gelid_Wind",
+          "Cavern_of_Corrosion_Path_of_Jabbing_Punch",
+          "Cavern_of_Corrosion_Path_of_Drifting",
+          "Cavern_of_Corrosion_Path_of_Providence",
+          "Cavern_of_Corrosion_Path_of_Holy_Hymn",
+          "Cavern_of_Corrosion_Path_of_Conflagration",
+          "Cavern_of_Corrosion_Path_of_Elixir_Seekers"
+        ]
+      },
       "Team": {
         "type": "select",
         "value": 1,

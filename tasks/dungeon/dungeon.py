@@ -34,6 +34,14 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
                 if self.combat(team, wave_limit=remain, support_character=support_character):
                     self.delay_dungeon_task(calyx)
                 self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
+        if self.config.Dungeon_NameAtDoubleRelic != 'do_not_participate' and self.has_double_relic_event():
+            calyx = DungeonList.find(self.config.Dungeon_NameAtDoubleRelic)
+            self._dungeon_nav_goto(calyx)
+            if remain := self.get_double_event_remain():
+                self.dungeon_goto(calyx)
+                if self.combat(team, wave_limit=remain, support_character=support_character):
+                    self.delay_dungeon_task(calyx)
+                self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
 
         # Combat
         self.dungeon_goto(dungeon)
@@ -55,6 +63,7 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
         cover = max(limit - self.state.TrailblazePower, 0) * 6
         logger.info(f'Currently has {self.state.TrailblazePower} need {cover} minutes to reach {limit}')
         self.config.task_delay(minute=cover)
+        self.config.task_stop()
 
     def handle_destructible_around_blaze(self):
         """

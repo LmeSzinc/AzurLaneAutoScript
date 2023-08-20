@@ -288,6 +288,11 @@ class ConfigGenerator:
                 value = deep_get(new, keys=['Dungeon', 'Name', dungeon])
                 if value:
                     deep_set(new, keys=['Dungeon', 'NameAtDoubleCalyx', dungeon], value=value)
+        for dungeon in deep_get(new, keys='Dungeon.NameAtDoubleRelic').values():
+            if '_' in dungeon:
+                value = deep_get(new, keys=['Dungeon', 'Name', dungeon])
+                if value:
+                    deep_set(new, keys=['Dungeon', 'NameAtDoubleRelic', dungeon], value=value)
 
         from tasks.character.keywords import CharacterList
         ingame_lang = gui_lang_to_ingame_lang(lang)
@@ -379,11 +384,16 @@ class ConfigGenerator:
         deep_set(self.argument, keys='Dungeon.SupportCharacter.option', value=characters)
         deep_set(self.args, keys='Dungeon.Dungeon.SupportCharacter.option', value=characters)
 
+        # Double events
         dungeons = deep_get(self.argument, keys='Dungeon.NameAtDoubleCalyx.option')
         dungeons += [dungeon.name for dungeon in DungeonList.instances.values()
                      if dungeon.is_Calyx_Golden or dungeon.is_Calyx_Crimson]
         deep_set(self.argument, keys='Dungeon.NameAtDoubleCalyx.option', value=dungeons)
         deep_set(self.args, keys='Dungeon.Dungeon.NameAtDoubleCalyx.option', value=dungeons)
+        dungeons = deep_get(self.argument, keys='Dungeon.NameAtDoubleRelic.option')
+        dungeons += [dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Cavern_of_Corrosion]
+        deep_set(self.argument, keys='Dungeon.NameAtDoubleRelic.option', value=dungeons)
+        deep_set(self.args, keys='Dungeon.Dungeon.NameAtDoubleRelic.option', value=dungeons)
 
     def insert_assignment(self):
         from tasks.assignment.keywords import AssignmentEntry

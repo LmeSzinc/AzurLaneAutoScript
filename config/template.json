@@ -42,6 +42,7 @@
     "Dungeon": {
       "Name": "Calyx_Golden_Treasures",
       "NameAtDoubleCalyx": "Calyx_Golden_Treasures",
+      "NameAtDoubleRelic": "Cavern_of_Corrosion_Path_of_Providence",
       "Team": 1,
       "Support": "when_daily",
       "SupportCharacter": "FirstCharacter"
