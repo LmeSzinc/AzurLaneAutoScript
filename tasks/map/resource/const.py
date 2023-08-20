@@ -128,10 +128,7 @@ class ResourceConst:
         Returns:
             float: Diff to current direction (-180~180)
         """
-        diff = (self.direction - target) % 360
-        if diff > 180:
-            diff -= 360
-        return diff
+        return diff_to_180_180(self.direction - target)
 
     def is_direction_near(self, target, threshold=15):
         return abs(self.direction_diff(target)) <= threshold
@@ -144,10 +141,32 @@ class ResourceConst:
         Returns:
             float: Diff to current rotation (-180~180)
         """
-        diff = (self.rotation - target) % 360
-        if diff > 180:
-            diff -= 360
-        return diff
+        return diff_to_180_180(self.rotation - target)
 
     def is_rotation_near(self, target, threshold=10):
         return abs(self.rotation_diff(target)) <= threshold
+
+
+def diff_to_180_180(diff):
+    """
+    Args:
+        diff: Degree diff
+
+    Returns:
+        float: Degree diff (-180~180)
+    """
+    diff = diff % 360
+    if diff > 180:
+        diff -= 360
+    return round(diff, 3)
+
+
+def diff_to_0_360(diff):
+    """
+    Args:
+        diff: Degree diff
+
+    Returns:
+        float: Degree diff (0~360)
+    """
+    return round(diff % 360, 3)
