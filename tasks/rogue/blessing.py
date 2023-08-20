@@ -146,10 +146,19 @@ class RogueBlessingSelector(RogueSelector):
                 Case 3: another choose blessings, but no blessing is selected when the new selection page loaded
                 Case 4: event ui
             """
-            return (self.main.is_in_main() or self.main.is_page_choose_curio()
-                    or (self.main.is_page_choose_blessing() and not is_card_selected(self.main, target,
-                                                                                     BLESSING_CONFIRM))
-                    or self.main.is_page_event())
+            if self.main.is_in_main():
+                logger.info("Main page checked")
+                return True
+            if self.main.is_page_choose_curio():
+                logger.info("Choose curio page checked")
+                return True
+            if self.main.is_page_choose_blessing() and not is_card_selected(self.main, target, BLESSING_CONFIRM):
+                logger.info("A new choose blessing page checked")
+                return True
+            if self.main.is_page_event():
+                logger.info("Event page checked")
+                return True
+            return False
 
         interval = Timer(1)
         enforce = False
@@ -186,6 +195,7 @@ class RogueBlessingSelector(RogueSelector):
                 self.main.device.screenshot()
 
             if is_select_blessing_complete():
+                logger.info("Select blessing complete")
                 break
             if interval.reached():
                 self.main.device.click(BLESSING_CONFIRM)
