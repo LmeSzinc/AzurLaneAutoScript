@@ -20,13 +20,15 @@ class RogueBonusOcr(Ocr):
 
 class RogueUI(UI):
     path: RoguePath
-    cosmic_fragment_cache: int
 
     @property
     def cosmic_fragment(self):
+        """
+        Return valid result only when template appear
+        """
         if self.appear(COSMIC_FRAGMENT):
-            self.cosmic_fragment_cache = Digit(OCR_COSMIC_FRAGMENT).ocr_single_line(self.device.image)
-        return self.cosmic_fragment_cache
+            return Digit(OCR_COSMIC_FRAGMENT).ocr_single_line(self.device.image)
+        return 0
 
     def is_page_choose_blessing(self):
         return (self.image_color_count(PAGE_CHOOSE_BUFF, (245, 245, 245), count=200)
