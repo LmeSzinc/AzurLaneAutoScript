@@ -364,7 +364,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
 
         return False
 
-    def handle_get_ship(self, drop=None, skip_first_screenshot=True):
+    def handle_get_ship(self, drop=None):
         """
         Args:
             drop (DropImage):
@@ -372,39 +372,35 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         Returns:
             bool:
         """
-
-        confirm_timer = Timer(1)
-        confirm_timer.start()
-
+        if not self.appear(GET_SHIP):
+            return False
+        
+        # First appear of GET_SHIP
+        self.device.sleep(1.5)  # Sleep time for ship drop anime
+        ship_record = False
         while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-            
+            self.device.screenshot()
             if not self.appear(GET_SHIP):
-                if confirm_timer.reached():
-                    return False
-                else:
-                    continue
-            else:
-                if self.appear(NEW_SHIP):
-                    logger.info('Get a new SHIP')
-                    if drop:
-                        drop.handle_add(self)
-                    self.config.GET_SHIP_TRIGGERED = True
-                self.device.click(GET_SHIP)
-                return True
-
-        if self.appear_then_click(GET_SHIP, interval=1):
+                break
+            
             if self.appear(NEW_SHIP):
                 logger.info('Get a new SHIP')
                 if drop:
-                    drop.handle_add(self)
+                    drop.handle_add(self, before=0.5)   #Sleep time for new ship anime
                 self.config.GET_SHIP_TRIGGERED = True
-            return True
-
-        return False
+                if not ship_record:                    
+                    with self.stat.new(
+                        genre='new_ship',
+                        method=self.config.DropRecord_NewShipRecord
+                    ) as drop2:
+                        drop2.add(self.device.image)
+                    ship_record = True
+                else:
+                    self.device.click(GET_SHIP)
+            else:
+                self.device.click(GET_SHIP)
+        
+        return True
 
     def handle_combat_mis_click(self):
         """
