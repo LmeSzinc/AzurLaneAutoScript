@@ -7,10 +7,10 @@ BONUS_BOTTOM_WHITE_BAR = ButtonWrapper(
     name='BONUS_BOTTOM_WHITE_BAR',
     share=Button(
         file='./assets/share/rogue/bonus/BONUS_BOTTOM_WHITE_BAR.png',
-        area=(182, 568, 1098, 590),
-        search=(162, 548, 1118, 610),
-        color=(221, 221, 222),
-        button=(182, 568, 1098, 590),
+        area=(731, 568, 774, 590),
+        search=(711, 548, 794, 610),
+        color=(250, 250, 250),
+        button=(731, 568, 774, 590),
     ),
 )
 BONUS_CONFIRM = ButtonWrapper(

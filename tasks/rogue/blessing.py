@@ -9,7 +9,7 @@ from module.logger import logger
 from module.ocr.ocr import Ocr, OcrResultButton, DigitCounter, Digit
 from module.ocr.utils import split_and_pair_buttons
 from tasks.rogue.assets.assets_rogue_blessing import *
-from tasks.rogue.assets.assets_rogue_ui import CONFIRM
+from tasks.rogue.assets.assets_rogue_ui import BLESSING_CONFIRM
 from tasks.rogue.keywords import *
 from tasks.rogue.preset import *
 from tasks.rogue.selector import RogueSelector
@@ -56,7 +56,7 @@ RESONANCE_FILTER = MultiLangFilter(FILETER_REGEX, (RESONANCE_ATTR_NAME,), RESONA
 
 
 class RogueBuffOcr(Ocr):
-    merge_thres_x = 40
+    merge_thres_y = 40
 
     def after_process(self, result):
         result = super().after_process(result)
@@ -147,7 +147,8 @@ class RogueBlessingSelector(RogueSelector):
                 Case 4: event ui
             """
             return (self.main.is_in_main() or self.main.is_page_choose_curio()
-                    or (self.main.is_page_choose_blessing() and not is_card_selected(self.main, target, CONFIRM))
+                    or (self.main.is_page_choose_blessing() and not is_card_selected(self.main, target,
+                                                                                     BLESSING_CONFIRM))
                     or self.main.is_page_event())
 
         interval = Timer(1)
@@ -163,7 +164,7 @@ class RogueBlessingSelector(RogueSelector):
             else:
                 self.main.device.screenshot()
 
-            if is_card_selected(self.main, target, confirm_button=CONFIRM):
+            if is_card_selected(self.main, target, confirm_button=BLESSING_CONFIRM):
                 if enforce:
                     logger.info("Buff selected (enforce)")
                 else:
@@ -187,7 +188,7 @@ class RogueBlessingSelector(RogueSelector):
             if is_select_blessing_complete():
                 break
             if interval.reached():
-                self.main.device.click(CONFIRM)
+                self.main.device.click(BLESSING_CONFIRM)
                 interval.reset()
 
     def _get_reset_count(self):

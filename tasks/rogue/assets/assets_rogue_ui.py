@@ -3,6 +3,16 @@ from module.base.button import Button, ButtonWrapper
 # This file was auto-generated, do not modify it manually. To generate:
 # ``` python -m dev_tools.button_extract ```
 
+BLESSING_CONFIRM = ButtonWrapper(
+    name='BLESSING_CONFIRM',
+    share=Button(
+        file='./assets/share/rogue/ui/BLESSING_CONFIRM.png',
+        area=(960, 629, 1233, 677),
+        search=(940, 609, 1253, 697),
+        color=(217, 218, 218),
+        button=(960, 629, 1233, 677),
+    ),
+)
 CHECK_BLESSING = ButtonWrapper(
     name='CHECK_BLESSING',
     share=Button(
@@ -11,16 +21,6 @@ CHECK_BLESSING = ButtonWrapper(
         search=(926, 0, 1006, 77),
         color=(50, 48, 43),
         button=(946, 17, 986, 57),
-    ),
-)
-CONFIRM = ButtonWrapper(
-    name='CONFIRM',
-    share=Button(
-        file='./assets/share/rogue/ui/CONFIRM.png',
-        area=(960, 629, 1233, 677),
-        search=(940, 609, 1253, 697),
-        color=(217, 218, 218),
-        button=(960, 629, 1233, 677),
     ),
 )
 COSMIC_FRAGMENT = ButtonWrapper(
@@ -57,10 +57,10 @@ PAGE_CHOOSE_BUFF = ButtonWrapper(
     name='PAGE_CHOOSE_BUFF',
     share=Button(
         file='./assets/share/rogue/ui/PAGE_CHOOSE_BUFF.png',
-        area=(1105, 95, 1154, 113),
-        search=(1085, 75, 1174, 133),
-        color=(81, 82, 83),
-        button=(1105, 95, 1154, 113),
+        area=(1016, 94, 1135, 113),
+        search=(996, 74, 1155, 133),
+        color=(71, 71, 73),
+        button=(1016, 94, 1135, 113),
     ),
 )
 PAGE_CHOOSE_CURIO = ButtonWrapper(

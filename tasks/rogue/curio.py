@@ -8,7 +8,7 @@ from module.base.utils import get_color
 from module.logger import logger
 from module.ocr.ocr import Ocr, OcrResultButton
 from tasks.rogue.assets.assets_rogue_curio import *
-from tasks.rogue.assets.assets_rogue_ui import CONFIRM
+from tasks.rogue.assets.assets_rogue_ui import BLESSING_CONFIRM
 from tasks.rogue.keywords import RogueCurio
 from tasks.rogue.preset import CURIO_PRESET_1
 from tasks.rogue.selector import RogueSelector
@@ -24,6 +24,8 @@ CURIO_FILTER = MultiLangFilter(FILTER_REGEX, CURIO_FILTER_ATTR, CURIO_FILTER_PRE
 
 
 class RogueCurioOcr(Ocr):
+    merge_thres_y = 40
+
     def after_process(self, result):
         result = super().after_process(result)
         if self.lang == 'ch':
@@ -94,7 +96,7 @@ class RogueCurioSelector(RogueSelector):
             if is_select_curio_complete():
                 break
             if interval.reached():
-                self.main.device.click(CONFIRM)
+                self.main.device.click(BLESSING_CONFIRM)
                 interval.reset()
 
     def try_select(self, option: OcrResultButton | str):

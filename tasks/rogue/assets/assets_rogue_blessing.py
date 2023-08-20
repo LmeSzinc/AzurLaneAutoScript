@@ -57,10 +57,10 @@ OCR_RESET_COUNT = ButtonWrapper(
     name='OCR_RESET_COUNT',
     share=Button(
         file='./assets/share/rogue/blessing/OCR_RESET_COUNT.png',
-        area=(714, 595, 824, 620),
-        search=(694, 575, 844, 640),
-        color=(37, 37, 41),
-        button=(714, 595, 824, 620),
+        area=(655, 593, 873, 623),
+        search=(635, 573, 893, 643),
+        color=(23, 24, 26),
+        button=(655, 593, 873, 623),
     ),
 )
 OCR_ROGUE_BUFF = ButtonWrapper(
