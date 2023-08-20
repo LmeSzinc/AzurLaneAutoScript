@@ -29,7 +29,7 @@ class RoguePath(Keyword):
 
     @property
     def path_name(self):
-        return [self.__getattribute__(f"{server}_parsed")
+        return [self.__getattribute__(f"{server}_parsed").replace("the", '')
                 for server in UI_LANGUAGES if hasattr(self, f"{server}_parsed")]
 
 

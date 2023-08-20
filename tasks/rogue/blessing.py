@@ -22,6 +22,8 @@ BLESSING_FILTER_ATTR = tuple()
 PATH_ATTR_NAME = 'path_name'
 path_regex = get_regex_from_keyword_name(RoguePath, PATH_ATTR_NAME)
 pattern += path_regex
+# remove 'the' in path 'the hunt'
+pattern = pattern.lower().replace('the', '')
 BLESSING_FILTER_ATTR += (PATH_ATTR_NAME,)
 
 # rarity
@@ -111,7 +113,7 @@ class RogueBlessingSelector(RogueSelector):
             return keyword != KEYWORDS_ROGUE_ENHANCEMENT.Already_Enhanced
 
         self.ocr_results = []
-        # self._wait_until_blessing_loaded()
+        self._wait_until_blessing_loaded()
         ocr = RogueBuffOcr(OCR_ROGUE_BUFF)
         results = ocr.matched_ocr(self.main.device.image,
                                   [RogueBlessing, RogueResonance, RogueEnhancement])
