@@ -1,6 +1,5 @@
 import numpy as np
 
-from module.base.filter import MultiLangFilter
 from module.logger import logger
 from module.ocr.keyword import Keyword
 from module.ocr.ocr import OcrResultButton
@@ -14,10 +13,8 @@ class RogueSelector:
 
     def __init__(self, main: RogueUI):
         self.main = main
-
-    ocr_results: list[OcrResultButton]
-    filter_: MultiLangFilter
-    preset_methods: dict[str, callable]
+        self.filter_ = None
+        self.ocr_results = []
 
     def recognition(self):
         ...
