@@ -533,6 +533,12 @@
       "do_not": "無操作",
       "save": "保存"
     },
+    "NewShipRecord": {
+      "name": "新船掉落截圖",
+      "help": "",
+      "do_not": "無操作",
+      "save": "保存"
+    },
     "OpsiRecord": {
       "name": "大世界掉落截圖",
       "help": "",
@@ -642,8 +648,8 @@
       "name": "活動名稱",
       "help": "自動選擇至最新的活動圖",
       "campaign_main": "主線圖",
-      "event_20230817_cn": "The Fools Scales",
       "event_20220414_cn": "復刻-永夜幻光",
+      "event_20230817_cn": "The Fools Scales",
       "event_20230803_cn": "Anthem of Remembrance",
       "event_20211125_cn": "復刻-交匯世界的弧光",
       "event_20200917_cn": "復刻-蝶海夢花",
