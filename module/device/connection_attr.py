@@ -101,7 +101,9 @@ class ConnectionAttr:
 
     @cached_property
     def is_mumu_family(self):
-        return self.serial == '127.0.0.1:7555'
+        # 127.0.0.1:7555
+        # 127.0.0.1:16384 + 32*n
+        return self.serial == '127.0.0.1:7555' or self.serial.startswith('127.0.0.1:16')
 
     @cached_property
     def is_emulator(self):

@@ -111,6 +111,8 @@ class Connection(ConnectionAttr):
         logger.attr('PackageName', self.package)
         logger.attr('Server', self.config.SERVER)
 
+        self.check_mumu_app_keep_alive()
+
     @Config.when(DEVICE_OVER_HTTP=False)
     def adb_command(self, cmd, timeout=10):
         """
@@ -216,13 +218,25 @@ class Connection(ConnectionAttr):
             # str
             return result
 
+    def adb_getprop(self, name):
+        """
+        Get system property in Android, same as `getprop <name>`
+
+        Args:
+            name (str): Property name
+
+        Returns:
+            str:
+        """
+        return self.adb_shell(['getprop', name]).strip()
+
     @cached_property
     def cpu_abi(self) -> str:
         """
         Returns:
             str: arm64-v8a, armeabi-v7a, x86, x86_64
         """
-        abi = self.adb_shell(['getprop', 'ro.product.cpu.abi']).strip()
+        abi = self.adb_getprop('ro.product.cpu.abi')
         if not len(abi):
             logger.error(f'CPU ABI invalid: "{abi}"')
         return abi
@@ -232,7 +246,7 @@ class Connection(ConnectionAttr):
         """
         Android SDK/API levels, see https://apilevels.com/
         """
-        sdk = self.adb_shell(['getprop', 'ro.build.version.sdk']).strip()
+        sdk = self.adb_getprop('ro.build.version.sdk')
         try:
             return int(sdk)
         except ValueError:
@@ -244,11 +258,31 @@ class Connection(ConnectionAttr):
     def is_avd(self):
         if get_serial_pair(self.serial)[0] is None:
             return False
-        if 'ranchu' in self.adb_shell(['getprop', 'ro.hardware']):
+        if 'ranchu' in self.adb_getprop('ro.hardware'):
             return True
-        if 'goldfish' in self.adb_shell(['getprop', 'ro.hardware.audio.primary']):
+        if 'goldfish' in self.adb_getprop('ro.hardware.audio.primary'):
             return True
         return False
+
+    def check_mumu_app_keep_alive(self):
+        if not self.is_mumu_family:
+            return False
+
+        res = self.adb_getprop('nemud.app_keep_alive')
+        logger.attr('nemud.app_keep_alive', res)
+        if res == '':
+            # Empry property, might not be a mumu emulator or might be an old mumu
+            return True
+        elif res == 'false':
+            # Disabled
+            return True
+        elif res == 'true':
+            # https://mumu.163.com/help/20230802/35047_1102450.html
+            logger.critical('请在MuMu模拟器设置内关闭 "后台挂机时保活运行"')
+            raise RequestHumanTakeover
+        else:
+            logger.warning(f'Invalid nemud.app_keep_alive value: {res}')
+            return False
 
     @cached_property
     def _nc_server_host_port(self):
