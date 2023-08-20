@@ -112,7 +112,7 @@ Assignment:
 Rogue:
   Path:
     value: The Hunt
-    option: [ Preservation, Remembrance, Nihility, Abundance, The Hunt, Destruction, Elation ]
+    option: [ Preservation, Remembrance, Nihility, Abundance, Hunt, Destruction, Elation ]
   Bonus:
     value: Blessing Cosmos
     option: [ Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos ]

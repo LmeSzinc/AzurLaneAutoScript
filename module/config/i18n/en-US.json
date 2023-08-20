@@ -9,8 +9,8 @@
       "help": ""
     },
     "Rogue": {
-      "name": "Menu.Rogue.name",
-      "help": "Menu.Rogue.help"
+      "name": "Simulated Universe",
+      "help": ""
     }
   },
   "Task": {
@@ -39,8 +39,8 @@
       "help": ""
     },
     "Rogue": {
-      "name": "Task.Rogue.name",
-      "help": "Task.Rogue.help"
+      "name": "Simulated Universe",
+      "help": ""
     }
   },
   "Scheduler": {
@@ -369,56 +369,56 @@
   },
   "Rogue": {
     "_info": {
-      "name": "Rogue._info.name",
-      "help": "Rogue._info.help"
+      "name": "Simulated Universe",
+      "help": ""
     },
     "Path": {
-      "name": "Rogue.Path.name",
-      "help": "Rogue.Path.help",
+      "name": "Fate",
+      "help": "",
       "Preservation": "Preservation",
       "Remembrance": "Remembrance",
       "Nihility": "Nihility",
       "Abundance": "Abundance",
-      "The Hunt": "The Hunt",
+      "Hunt": "The Hunt",
       "Destruction": "Destruction",
       "Elation": "Elation"
     },
     "Bonus": {
-      "name": "Rogue.Bonus.name",
-      "help": "Rogue.Bonus.help",
-      "Blessing Cosmos": "Blessing Cosmos",
-      "Miracle Cosmos": "Miracle Cosmos",
-      "Fragmented Cosmos": "Fragmented Cosmos"
+      "name": "Blessings of Trailblaze",
+      "help": "",
+      "Blessing Cosmos": "Blessing Cosmos (Choose a blessing)",
+      "Miracle Cosmos": "Miracle Cosmos (Choose a curio)",
+      "Fragmented Cosmos": "Fragmented Cosmos (Claim some Cosmic Fragments)"
     },
     "PresetResonanceFilter": {
-      "name": "Rogue.PresetResonanceFilter.name",
-      "help": "Rogue.PresetResonanceFilter.help",
+      "name": "Preset Resonance Filter",
+      "help": "",
       "preset-1": "preset-1",
       "custom": "custom"
     },
     "CustomResonanceFilter": {
-      "name": "Rogue.CustomResonanceFilter.name",
-      "help": "Rogue.CustomResonanceFilter.help"
+      "name": "Custom Resonance Filter",
+      "help": ""
     },
     "PresetBlessingFilter": {
-      "name": "Rogue.PresetBlessingFilter.name",
-      "help": "Rogue.PresetBlessingFilter.help",
+      "name": "Preset Blessing Filter",
+      "help": "",
       "preset-1": "preset-1",
       "custom": "custom"
     },
     "CustomBlessingFilter": {
-      "name": "Rogue.CustomBlessingFilter.name",
-      "help": "Rogue.CustomBlessingFilter.help"
+      "name": "Custom Blessing Filter",
+      "help": ""
     },
     "PresetCurioFilter": {
-      "name": "Rogue.PresetCurioFilter.name",
-      "help": "Rogue.PresetCurioFilter.help",
+      "name": "Preset Curio Filter",
+      "help": "",
       "preset-1": "preset-1",
       "custom": "custom"
     },
     "CustomCurioFilter": {
-      "name": "Rogue.CustomCurioFilter.name",
-      "help": "Rogue.CustomCurioFilter.help"
+      "name": "Custom Curio Filter",
+      "help": ""
     }
   },
   "Gui": {

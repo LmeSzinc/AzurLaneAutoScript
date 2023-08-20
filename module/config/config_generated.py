@@ -53,7 +53,7 @@ class GeneratedConfig:
     Assignment_Name_4 = 'Nine_Billion_Names'  # Nine_Billion_Names, Destruction_of_the_Destroyer, Winter_Soldiers, Born_to_Obey, Root_Out_the_Turpitude, Fire_Lord_Inflames_Blades_of_War, Nameless_Land_Nameless_People, Akashic_Records, The_Invisible_Hand, Abandoned_and_Insulted, Spring_of_Life, The_Land_of_Gold, The_Blossom_in_the_Storm
 
     # Group `Rogue`
-    Rogue_Path = 'The Hunt'  # Preservation, Remembrance, Nihility, Abundance, The Hunt, Destruction, Elation
+    Rogue_Path = 'The Hunt'  # Preservation, Remembrance, Nihility, Abundance, Hunt, Destruction, Elation
     Rogue_Bonus = 'Blessing Cosmos'  # Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos
     Rogue_PresetResonanceFilter = 'preset-1'  # preset-1, custom
     Rogue_CustomResonanceFilter = '回响构音：均晶转变 > 回响构音：零维强化\n> 回响构音：第二次初恋 > 回响构音：体验的富翁\n> 回响构音：局外人 > 回响构音：怀疑的四重根\n> 回响构音：诸法无我 > 回响构音：诸行无常\n> 回响构音：射不主皮 > 回响构音：柘弓危矢\n> 回响构音：激变变星 > 回响构音：极端氦闪\n> 回响构音：末日狂欢 > 回响构音：树苗长高舞'

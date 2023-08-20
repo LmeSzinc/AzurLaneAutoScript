@@ -9,8 +9,8 @@
       "help": ""
     },
     "Rogue": {
-      "name": "Menu.Rogue.name",
-      "help": "Menu.Rogue.help"
+      "name": "模擬宇宙",
+      "help": ""
     }
   },
   "Task": {
@@ -39,8 +39,8 @@
       "help": ""
     },
     "Rogue": {
-      "name": "Task.Rogue.name",
-      "help": "Task.Rogue.help"
+      "name": "模擬宇宙",
+      "help": ""
     }
   },
   "Scheduler": {
@@ -369,56 +369,56 @@
   },
   "Rogue": {
     "_info": {
-      "name": "Rogue._info.name",
-      "help": "Rogue._info.help"
+      "name": "模擬宇宙",
+      "help": ""
     },
     "Path": {
-      "name": "Rogue.Path.name",
-      "help": "Rogue.Path.help",
-      "Preservation": "Preservation",
-      "Remembrance": "Remembrance",
-      "Nihility": "Nihility",
-      "Abundance": "Abundance",
-      "The Hunt": "The Hunt",
-      "Destruction": "Destruction",
-      "Elation": "Elation"
+      "name": "命途",
+      "help": "",
+      "Preservation": "存護",
+      "Remembrance": "記憶",
+      "Nihility": "虛無",
+      "Abundance": "丰饶",
+      "Hunt": "巡獵",
+      "Destruction": "毀滅",
+      "Elation": "歡愉"
     },
     "Bonus": {
-      "name": "Rogue.Bonus.name",
-      "help": "Rogue.Bonus.help",
-      "Blessing Cosmos": "Blessing Cosmos",
-      "Miracle Cosmos": "Miracle Cosmos",
-      "Fragmented Cosmos": "Fragmented Cosmos"
+      "name": "開拓祝福",
+      "help": "开局三选一",
+      "Blessing Cosmos": "祝福宇宙（獲得一個祝福）",
+      "Miracle Cosmos": "神奇宇宙（獲得一個奇物）",
+      "Fragmented Cosmos": "破碎宇宙（獲得宇宙碎片）"
     },
     "PresetResonanceFilter": {
-      "name": "Rogue.PresetResonanceFilter.name",
-      "help": "Rogue.PresetResonanceFilter.help",
-      "preset-1": "preset-1",
-      "custom": "custom"
+      "name": "命途迴響过滤器",
+      "help": "",
+      "preset-1": "預設 1",
+      "custom": "自訂"
     },
     "CustomResonanceFilter": {
-      "name": "Rogue.CustomResonanceFilter.name",
-      "help": "Rogue.CustomResonanceFilter.help"
+      "name": "自訂命途迴響过滤器",
+      "help": ""
     },
     "PresetBlessingFilter": {
-      "name": "Rogue.PresetBlessingFilter.name",
-      "help": "Rogue.PresetBlessingFilter.help",
-      "preset-1": "preset-1",
-      "custom": "custom"
+      "name": "祝福过滤器",
+      "help": "",
+      "preset-1": "預設 1",
+      "custom": "自訂"
     },
     "CustomBlessingFilter": {
-      "name": "Rogue.CustomBlessingFilter.name",
-      "help": "Rogue.CustomBlessingFilter.help"
+      "name": "自訂祝福过滤器",
+      "help": ""
     },
     "PresetCurioFilter": {
-      "name": "Rogue.PresetCurioFilter.name",
-      "help": "Rogue.PresetCurioFilter.help",
+      "name": "奇物过滤器",
+      "help": "",
       "preset-1": "preset-1",
       "custom": "custom"
     },
     "CustomCurioFilter": {
-      "name": "Rogue.CustomCurioFilter.name",
-      "help": "Rogue.CustomCurioFilter.help"
+      "name": "自訂奇物过滤器",
+      "help": ""
     }
   },
   "Gui": {
