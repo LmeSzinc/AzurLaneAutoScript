@@ -67,9 +67,9 @@ OCR_ROGUE_BUFF = ButtonWrapper(
     name='OCR_ROGUE_BUFF',
     share=Button(
         file='./assets/share/rogue/blessing/OCR_ROGUE_BUFF.png',
-        area=(155, 139, 1125, 337),
-        search=(135, 119, 1145, 357),
-        color=(79, 86, 104),
-        button=(155, 139, 1125, 337),
+        area=(165, 146, 1125, 370),
+        search=(145, 126, 1145, 390),
+        color=(93, 96, 105),
+        button=(165, 146, 1125, 370),
     ),
 )
