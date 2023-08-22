@@ -18,7 +18,7 @@ CURIO_FILTER_ATTR = tuple()
 CURIO_ATTR_NAME = 'curio_name'
 pattern = get_regex_from_keyword_name(RogueCurio, CURIO_ATTR_NAME)
 CURIO_FILTER_ATTR += (CURIO_ATTR_NAME,)
-CURIO_FILTER_PRESET = ('random',)
+CURIO_FILTER_PRESET = ('random', 'unrecorded')
 FILTER_REGEX = re.compile(pattern)
 CURIO_FILTER = MultiLangFilter(FILTER_REGEX, CURIO_FILTER_ATTR, CURIO_FILTER_PRESET)
 
@@ -104,6 +104,13 @@ class RogueCurioSelector(RogueSelector):
             target = np.random.choice(self.ocr_results)
             self.ui_select(target)
             return True
+        if option == 'unrecorded':
+            for result in self.ocr_results:
+                if self.main.is_unrecorded(result, (0, -720, 300, 0)):
+                    self.ui_select(result)
+                    return True
+            return False
+
         if isinstance(option, OcrResultButton):
             self.ui_select(option)
             return True
@@ -111,8 +118,19 @@ class RogueCurioSelector(RogueSelector):
 
     def load_filter(self):
         filter_ = CURIO_FILTER
-        if self.main.config.Rogue_PresetCurioFilter == 'preset-1':
-            filter_.load(parse_name(CURIO_PRESET_1))
-        if self.main.config.Rogue_PresetCurioFilter == 'custom':
-            filter_.load(parse_name(self.main.config.Rogue_CustomCurioFilter))
+        string = ""
+        match self.main.config.Rogue_PresetCurioFilter:
+            case 'preset-1':
+                string = CURIO_PRESET_1
+            case 'custom':
+                string = self.main.config.Rogue_CustomCurioFilter
+        string = parse_name(string)
+
+        match self.main.config.Rogue_CurioSelectionStrategy:
+            case 'unrecorded-first':
+                string = 'unrecorded > ' + string
+            case 'before-random':
+                string = string.replace('random', 'unrecorded > random')
+
+        filter_.load(string)
         self.filter_ = filter_

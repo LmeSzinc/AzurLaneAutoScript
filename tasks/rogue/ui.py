@@ -1,6 +1,7 @@
 import re
 
-from module.ocr.ocr import Digit, Ocr
+from module.base.utils import area_offset
+from module.ocr.ocr import Digit, Ocr, OcrResultButton
 from tasks.base.ui import UI
 from tasks.rogue.assets.assets_rogue_ui import *
 from tasks.rogue.keywords import *
@@ -42,3 +43,10 @@ class RogueUI(UI):
 
     def is_page_event(self):
         return self.appear(PAGE_EVENT)
+
+    def is_unrecorded(self, target: OcrResultButton, relative_area):
+        """
+        To check a rogue keyword is not record in game index by finding template
+        """
+        FLAG_UNRECORD.matched_button.search = area_offset(relative_area, target.area[:2])
+        return self.appear(FLAG_UNRECORD)

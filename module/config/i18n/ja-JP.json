@@ -400,6 +400,13 @@
       "name": "Rogue.CustomResonanceFilter.name",
       "help": "Rogue.CustomResonanceFilter.help"
     },
+    "ResonanceSelectionStrategy": {
+      "name": "Rogue.ResonanceSelectionStrategy.name",
+      "help": "Rogue.ResonanceSelectionStrategy.help",
+      "follow-presets": "follow-presets",
+      "unrecorded-first": "unrecorded-first",
+      "before-random": "before-random"
+    },
     "PresetBlessingFilter": {
       "name": "Rogue.PresetBlessingFilter.name",
       "help": "Rogue.PresetBlessingFilter.help",
@@ -410,6 +417,13 @@
       "name": "Rogue.CustomBlessingFilter.name",
       "help": "Rogue.CustomBlessingFilter.help"
     },
+    "BlessingSelectionStrategy": {
+      "name": "Rogue.BlessingSelectionStrategy.name",
+      "help": "Rogue.BlessingSelectionStrategy.help",
+      "follow-presets": "follow-presets",
+      "unrecorded-first": "unrecorded-first",
+      "before-random": "before-random"
+    },
     "PresetCurioFilter": {
       "name": "Rogue.PresetCurioFilter.name",
       "help": "Rogue.PresetCurioFilter.help",
@@ -419,6 +433,13 @@
     "CustomCurioFilter": {
       "name": "Rogue.CustomCurioFilter.name",
       "help": "Rogue.CustomCurioFilter.help"
+    },
+    "CurioSelectionStrategy": {
+      "name": "Rogue.CurioSelectionStrategy.name",
+      "help": "Rogue.CurioSelectionStrategy.help",
+      "follow-presets": "follow-presets",
+      "unrecorded-first": "unrecorded-first",
+      "before-random": "before-random"
     }
   },
   "Gui": {

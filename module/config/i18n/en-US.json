@@ -400,6 +400,13 @@
       "name": "Custom Resonance Filter",
       "help": ""
     },
+    "ResonanceSelectionStrategy": {
+      "name": "Resonance Selection Strategy",
+      "help": "",
+      "follow-presets": "Follow presets",
+      "unrecorded-first": "Choose index locked resonance first",
+      "before-random": "Follow presets, but choose index locked one first when filter goes to randomly choose"
+    },
     "PresetBlessingFilter": {
       "name": "Preset Blessing Filter",
       "help": "",
@@ -410,6 +417,13 @@
       "name": "Custom Blessing Filter",
       "help": ""
     },
+    "BlessingSelectionStrategy": {
+      "name": "Blessing jSelection Strategy",
+      "help": "",
+      "follow-presets": "Follow presets",
+      "unrecorded-first": "Choose index locked blessing first",
+      "before-random": "Follow presets, but choose index locked one first when filter goes to randomly choose"
+    },
     "PresetCurioFilter": {
       "name": "Preset Curio Filter",
       "help": "",
@@ -419,6 +433,13 @@
     "CustomCurioFilter": {
       "name": "Custom Curio Filter",
       "help": ""
+    },
+    "CurioSelectionStrategy": {
+      "name": "Curio Selection Strategy",
+      "help": "",
+      "follow-presets": "Follow presets",
+      "unrecorded-first": "Choose index locked curio first",
+      "before-random": "Follow presets, but choose index locked one first when filter goes to randomly choose"
     }
   },
   "Gui": {

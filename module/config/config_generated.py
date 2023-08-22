@@ -57,7 +57,10 @@ class GeneratedConfig:
     Rogue_Bonus = 'Blessing Cosmos'  # Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos
     Rogue_PresetResonanceFilter = 'preset-1'  # preset-1, custom
     Rogue_CustomResonanceFilter = '回响构音：均晶转变 > 回响构音：零维强化\n> 回响构音：第二次初恋 > 回响构音：体验的富翁\n> 回响构音：局外人 > 回响构音：怀疑的四重根\n> 回响构音：诸法无我 > 回响构音：诸行无常\n> 回响构音：射不主皮 > 回响构音：柘弓危矢\n> 回响构音：激变变星 > 回响构音：极端氦闪\n> 回响构音：末日狂欢 > 回响构音：树苗长高舞'
+    Rogue_ResonanceSelectionStrategy = 'follow-presets'  # follow-presets, unrecorded-first, before-random
     Rogue_PresetBlessingFilter = 'preset-1'  # preset-1, custom
     Rogue_CustomBlessingFilter = '巡猎-3 > 《冠军晚餐·猫的摇篮》 > 丰饶众生，一法界心 > 毁灭-3 \n> 火堆外的夜 > 巡猎-2 > 毁灭-2 > 巡猎 > reset > random'
+    Rogue_BlessingSelectionStrategy = 'follow-presets'  # follow-presets, unrecorded-first, before-random
     Rogue_PresetCurioFilter = 'preset-1'  # preset-1, custom
     Rogue_CustomCurioFilter = '博士之袍 > 福灵胶 > 分裂金币 > 信仰债券 > 换境桂冠 > 俱乐部券 > 碎星芳饵 > random'
+    Rogue_CurioSelectionStrategy = 'follow-presets'  # follow-presets, unrecorded-first, before-random

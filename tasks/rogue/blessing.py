@@ -43,7 +43,7 @@ pattern += enhancement_regex
 BLESSING_FILTER_ATTR += (ENHANCEMENT_ATTR_NAME,)
 
 FILETER_REGEX = re.compile(pattern)
-BLESSING_FILTER_PRESET = ("reset", "random")
+BLESSING_FILTER_PRESET = ("reset", "random", "unrecorded")
 BLESSING_FILTER = MultiLangFilter(FILETER_REGEX, BLESSING_FILTER_ATTR, BLESSING_FILTER_PRESET)
 
 # resonance filter
@@ -51,12 +51,13 @@ RESONANCE_ATTR_NAME = 'resonance_name'
 pattern = get_regex_from_keyword_name(RogueResonance, RESONANCE_ATTR_NAME)
 
 FILETER_REGEX = re.compile(pattern)
-RESONANCE_FILTER_PRESET = ("random",)
+RESONANCE_FILTER_PRESET = ("random", "unrecorded")
 RESONANCE_FILTER = MultiLangFilter(FILETER_REGEX, (RESONANCE_ATTR_NAME,), RESONANCE_FILTER_PRESET)
 
 
 class RogueBuffOcr(Ocr):
-    merge_thres_y = 40
+    merge_thres_x = 40
+    merge_thres_y = 20
 
     def after_process(self, result):
         result = super().after_process(result)
@@ -64,9 +65,9 @@ class RogueBuffOcr(Ocr):
             replace_pattern_dict = {
                 "蓬失": "蓬矢",
                 "柘弓危失": "柘弓危矢",
-                "飞虹凿齿": "飞虹诛凿齿",
+                "飞虹珠?凿?齿": "飞虹诛凿齿",
                 "天培步危": "天棓步危",
-                "云[摘销]?逐步离": "云镝逐步离",
+                "云[摘销锅]?逐步离": "云镝逐步离",
                 "制桑": "制穹桑",
                 "乌号基": "乌号綦",
                 "追摩物": "追孽物",
@@ -83,7 +84,7 @@ class RogueBuffOcr(Ocr):
                 "虚安供品": "虚妄供品",
                 "原初的苦$": "原初的苦衷",
                 "厌离邪苦": "厌离邪秽苦",
-                r".*繁.*": "葳蕤繁祉，延彼遐龄"
+                r".*繁.*": "葳蕤繁祉，延彼遐龄",
             }
             for pat, replace in replace_pattern_dict.items():
                 result = re.sub(pat, replace, result)
@@ -257,20 +258,45 @@ class RogueBlessingSelector(RogueSelector):
         return True
 
     def load_filter(self):
-        filter_ = None
         keyword = self.ocr_results[0].matched_keyword
-        if isinstance(keyword, RogueBlessing):
-            filter_ = BLESSING_FILTER
-            if self.main.config.Rogue_PresetBlessingFilter == 'preset-1':
-                filter_.load(parse_name(BLESSING_PRESET_1))
-            if self.main.config.Rogue_PresetBlessingFilter == 'custom':
-                filter_.load(parse_name(self.main.config.Rogue_CustomBlessingFilter))
-        if isinstance(keyword, RogueResonance):
-            filter_ = RESONANCE_FILTER
-            if self.main.config.Rogue_PresetResonanceFilter == 'preset-1':
-                RESONANCE_FILTER.load(parse_name(RESONANCE_PRESET_1))
-            if self.main.config.Rogue_PresetResonanceFilter == 'custom':
-                RESONANCE_FILTER.load(parse_name(self.main.config.Rogue_CustomResonanceFilter))
+        if not isinstance(keyword, (RogueBlessing, RogueResonance)):
+            return
+        filter_configs = {
+            RogueBlessing: {
+                "filter_": BLESSING_FILTER,
+                "preset_config": self.main.config.Rogue_PresetBlessingFilter,
+                "strategy_config": self.main.config.Rogue_BlessingSelectionStrategy,
+                "preset_values": {
+                    'preset-1': BLESSING_PRESET_1,
+                    'custom': self.main.config.Rogue_CustomBlessingFilter
+                },
+            },
+            RogueResonance: {
+                "filter_": RESONANCE_FILTER,
+                "preset_config": self.main.config.Rogue_PresetResonanceFilter,
+                "strategy_config": self.main.config.Rogue_ResonanceSelectionStrategy,
+                "preset_values": {
+                    'preset-1': RESONANCE_PRESET_1,
+                    'custom': self.main.config.Rogue_PresetResonanceFilter,
+                },
+            }
+        }
+        # preset
+        config = filter_configs[type(keyword)]
+        filter_ = config['filter_']
+        preset_config = config['preset_config']
+        preset_values = config['preset_values']
+        string = preset_values[preset_config]
+        string = parse_name(string)
+
+        # strategy
+        strategy_config = config['strategy_config']
+        if strategy_config == 'unrecorded-first':
+            string = "unrecorded > " + string
+        if strategy_config == 'before-random':
+            string = string.replace('random', 'unrecorded > random')
+
+        filter_.load(string)
         self.filter_ = filter_
 
     def try_select(self, option: OcrResultButton | str):
@@ -283,6 +309,12 @@ class RogueBlessingSelector(RogueSelector):
                 choose = np.random.choice(self.ocr_results)
                 self.ui_select(choose)
                 return True
+            if option.lower() == 'unrecorded':
+                for result in self.ocr_results:
+                    if self.main.is_unrecorded(result, (0, -720, 300, 0)):
+                        self.ui_select(result)
+                        return True
+                return False
 
         if isinstance(option, OcrResultButton):
             self.ui_select(option)

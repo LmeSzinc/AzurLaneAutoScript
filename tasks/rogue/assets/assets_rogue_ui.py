@@ -33,6 +33,16 @@ COSMIC_FRAGMENT = ButtonWrapper(
         button=(1146, 19, 1181, 55),
     ),
 )
+FLAG_UNRECORD = ButtonWrapper(
+    name='FLAG_UNRECORD',
+    share=Button(
+        file='./assets/share/rogue/ui/FLAG_UNRECORD.png',
+        area=(746, 149, 778, 181),
+        search=(726, 129, 798, 201),
+        color=(133, 130, 161),
+        button=(746, 149, 778, 181),
+    ),
+)
 OCR_COSMIC_FRAGMENT = ButtonWrapper(
     name='OCR_COSMIC_FRAGMENT',
     share=Button(

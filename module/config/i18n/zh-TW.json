@@ -391,14 +391,21 @@
       "Fragmented Cosmos": "破碎宇宙（獲得宇宙碎片）"
     },
     "PresetResonanceFilter": {
-      "name": "命途迴響过滤器",
+      "name": "迴響構音过滤器",
       "help": "",
       "preset-1": "預設 1",
       "custom": "自訂"
     },
     "CustomResonanceFilter": {
-      "name": "自訂命途迴響过滤器",
+      "name": "自訂迴響構音过滤器",
       "help": ""
+    },
+    "ResonanceSelectionStrategy": {
+      "name": "迴響構音選擇策略",
+      "help": "",
+      "follow-presets": "遵循預設",
+      "unrecorded-first": "優先選擇圖鑑未解鎖的迴響構音",
+      "before-random": "遵循預設，但選擇\"圖鑑未解鎖\"的優先級高於\"隨機選擇\""
     },
     "PresetBlessingFilter": {
       "name": "祝福过滤器",
@@ -410,6 +417,13 @@
       "name": "自訂祝福过滤器",
       "help": ""
     },
+    "BlessingSelectionStrategy": {
+      "name": "祝福選擇策略",
+      "help": "",
+      "follow-presets": "遵循預設",
+      "unrecorded-first": "優先選擇圖鑑未解鎖的祝福",
+      "before-random": "遵循預設，但選擇\"圖鑑未解鎖\"的優先級高於\"隨機選擇\""
+    },
     "PresetCurioFilter": {
       "name": "奇物过滤器",
       "help": "",
@@ -419,6 +433,13 @@
     "CustomCurioFilter": {
       "name": "自訂奇物过滤器",
       "help": ""
+    },
+    "CurioSelectionStrategy": {
+      "name": "奇物選擇策略",
+      "help": "",
+      "follow-presets": "遵循預設",
+      "unrecorded-first": "優先選擇圖鑑未解鎖的奇物",
+      "before-random": "遵循預設，但選擇\"圖鑑未解鎖\"的優先級高於\"隨機選擇\""
     }
   },
   "Gui": {
