@@ -167,13 +167,19 @@ class OperationSiren(OSMap):
                 continue
 
         logger.hr('OpSi reset', level=3)
-        logger.hr('OpSi clear daily', level=1)
 
         def false_func(*args, **kwargs):
             return False
 
         self.is_in_opsi_explore = false_func
         self.config.task_switched = false_func
+
+        logger.hr('OpSi clear daily', level=1)
+        self.config.override(
+            OpsiGeneral_DoRandomMapEvent=True,
+            OpsiFleet_Fleet=self.config.cross_get('OpsiDaily.OpsiFleet.Fleet'),
+            OpsiFleet_Submarine=False,
+        )
         count = 0
         empty_trial = 0
         while 1:
@@ -305,6 +311,7 @@ class OperationSiren(OSMap):
             self.config.override(
                 OpsiGeneral_DoRandomMapEvent=True,
                 OpsiGeneral_AkashiShopFilter='ActionPoint',
+                OpsiFleet_Submarine=False,
             )
             cd = self.nearest_task_cooling_down
             logger.attr('Task cooling down', cd)
