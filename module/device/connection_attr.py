@@ -75,6 +75,11 @@ class ConnectionAttr:
             self.serial = self.serial.replace('：', ':')
             logger.warning(f'Serial {self.config.Emulator_Serial} is revised to {self.serial}')
             self.config.Emulator_Serial = self.serial
+        # fool-proof
+        if self.serial.startswith('127.0.0.1.'):
+            self.serial = self.serial.replace('127.0.0.1.', '127.0.0.1:')
+            logger.warning(f'Serial {self.config.Emulator_Serial} is revised to {self.serial}')
+            self.config.Emulator_Serial = self.serial
         if self.is_bluestacks4_hyperv:
             self.serial = self.find_bluestacks4_hyperv(self.serial)
         if self.is_bluestacks5_hyperv:
