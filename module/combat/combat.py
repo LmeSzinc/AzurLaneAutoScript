@@ -376,14 +376,15 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return False
         
         # First appear of GET_SHIP
-        self.device.sleep(1.5)  # Sleep time for ship drop anime
+        confirm_timer = Timer(1.5)   # Sleep time for ship drop anime
+        confirm_timer.start() 
         ship_record = False
         while 1:
             self.device.screenshot()
             if not self.appear(GET_SHIP):
                 break
             
-            if self.appear(NEW_SHIP):
+            if self.appear(NEW_SHIP) and confirm_timer.reached():
                 logger.info('Get a new SHIP')
                 if drop:
                     drop.handle_add(self, before=0.5)   #Sleep time for new ship anime
@@ -398,7 +399,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 else:
                     self.device.click(GET_SHIP)
             else:
-                self.device.click(GET_SHIP)
+                if confirm_timer.reached():
+                    self.device.click(GET_SHIP)
         
         return True
 
