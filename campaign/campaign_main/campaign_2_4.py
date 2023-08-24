@@ -32,6 +32,7 @@ A3, B3, C3, D3, E3, F3, G3, \
 A4, B4, C4, D4, E4, F4, G4, \
     = MAP.flatten()
 
+road_main = RoadGrids([[F2, F1], [F2, E1], [C2, C3, B4]])
 
 class Config(ConfigBase):
     # Don't know why 2-4 is slimmer
@@ -44,10 +45,19 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        # Even adding these precautions, there is still possibility that F2 and E1 spawns at the same time.
+        # However adding these can reduce the other possibilities.
+        if self.clear_roadblocks([road_main]):
+            return True
+        if self.clear_potential_roadblocks([road_main]):
+            return True
+
         return self.battle_default()
 
     def battle_3(self):
         if not self.check_accessibility(G1, fleet='boss'):
+            if self.clear_roadblocks([road_main]):
+                return True
             return self.battle_default()
 
         return self.fleet_boss.clear_boss()
