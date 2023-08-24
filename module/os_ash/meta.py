@@ -317,6 +317,7 @@ class OpsiAshBeacon(Meta):
             in: is_in_meta & not auto attacking
             out: is_in_meta
         """
+        timeout = Timer(10, count=20).start()
         skip_first_screenshot = True
         while 1:
             if skip_first_screenshot:
@@ -327,9 +328,13 @@ class OpsiAshBeacon(Meta):
             # End
             if self.appear(META_AUTO_ATTACKING, offset=(5, 5)):
                 return True
+            if timeout.reached():
+                logger.warning('Run _dossier_auto_attack timeout, probably because META_AUTO_ATTACK_START was missing')
+                return False
             # Finished by others
             if self.appear(BEACON_REWARD, offset=(30, 30)):
                 return False
+
             # Click
             if self.appear_then_click(META_AUTO_ATTACK_CONFIRM, offset=(5, 5), interval=3):
                 continue
