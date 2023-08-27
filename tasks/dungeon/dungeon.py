@@ -117,16 +117,7 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
                                      support_character=support_character)
 
     def run(self):
-        # Update daily quests
-        if self.config.stored.DailyActivity.is_expired():
-            logger.info('Daily activity expired, call task to update')
-            self.config.task_call('DailyQuest')
-            self.config.task_stop()
-        if self.config.stored.DailyQuest.is_expired():
-            logger.info('Daily quests expired, call task to update')
-            self.config.task_call('DailyQuest')
-            self.config.task_stop()
-
+        self.config.update_daily_quests()
         self.called_daily_support = False
         self.achieved_daily_quest = False
         self.daily_quests = self.config.stored.DailyQuest.load_quests()

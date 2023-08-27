@@ -484,6 +484,20 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
     def is_task_enabled(self, task):
         return bool(self.cross_get(keys=[task, 'Scheduler', 'Enable'], default=False))
 
+    def update_daily_quests(self):
+        """
+        Raises:
+            TaskEnd: Call task `DailyQuest` and stop current task
+        """
+        if self.stored.DailyActivity.is_expired():
+            logger.info('Daily activity expired, call task to update')
+            self.task_call('DailyQuest')
+            self.task_stop()
+        if self.stored.DailyQuest.is_expired():
+            logger.info('Daily quests expired, call task to update')
+            self.task_call('DailyQuest')
+            self.task_stop()
+
     @property
     def DEVICE_SCREENSHOT_METHOD(self):
         return self.Emulator_ScreenshotMethod
