@@ -72,8 +72,8 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
                 logger.info('Achieve daily quest Obtain_victory_in_combat_with_support_characters_1_time')
                 self.achieved_daily_quest = True
 
-        # Check stamina, this may stop current task
-        if self.is_stamina_exhausted():
+        # Check trailblaze power, this may stop current task
+        if self.is_trailblaze_power_exhausted():
             self.delay_dungeon_task(dungeon)
         return count
 
@@ -212,8 +212,9 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
         else:
             limit = 60
         # Recover 1 trailbaze power each 6 minutes
-        cover = max(limit - self.state.TrailblazePower, 0) * 6
-        logger.info(f'Currently has {self.state.TrailblazePower} need {cover} minutes to reach {limit}')
+        current = self.config.stored.TrailblazePower.value
+        cover = max(limit - current, 0) * 6
+        logger.info(f'Currently has {current} need {cover} minutes to reach {limit}')
         logger.attr('achieved_daily_quest', self.achieved_daily_quest)
         with self.config.multi_set():
             if self.achieved_daily_quest:

@@ -357,6 +357,10 @@
       "name": "DungeonStorage._info.name",
       "help": "DungeonStorage._info.help"
     },
+    "TrailblazePower": {
+      "name": "DungeonStorage.TrailblazePower.name",
+      "help": "DungeonStorage.TrailblazePower.help"
+    },
     "DungeonDouble": {
       "name": "DungeonStorage.DungeonDouble.name",
       "help": "DungeonStorage.DungeonDouble.help"

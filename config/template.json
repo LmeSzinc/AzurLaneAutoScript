@@ -56,6 +56,7 @@
       "Character": "FirstCharacter"
     },
     "DungeonStorage": {
+      "TrailblazePower": {},
       "DungeonDouble": {}
     }
   },

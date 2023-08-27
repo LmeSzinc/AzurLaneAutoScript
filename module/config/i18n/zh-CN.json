@@ -357,9 +357,13 @@
       "name": "DungeonStorage._info.name",
       "help": "DungeonStorage._info.help"
     },
+    "TrailblazePower": {
+      "name": "开拓力",
+      "help": ""
+    },
     "DungeonDouble": {
-      "name": "DungeonStorage.DungeonDouble.name",
-      "help": "DungeonStorage.DungeonDouble.help"
+      "name": "副本双倍",
+      "help": ""
     }
   },
   "AchievableQuest": {
@@ -549,12 +553,12 @@
       "help": "DailyStorage._info.help"
     },
     "DailyActivity": {
-      "name": "DailyStorage.DailyActivity.name",
-      "help": "DailyStorage.DailyActivity.help"
+      "name": "活跃度",
+      "help": ""
     },
     "DailyQuest": {
-      "name": "DailyStorage.DailyQuest.name",
-      "help": "DailyStorage.DailyQuest.help"
+      "name": "每日任务",
+      "help": ""
     }
   },
   "Assignment": {

@@ -55,6 +55,7 @@ class GeneratedConfig:
     DungeonSupport_Character = 'FirstCharacter'  # FirstCharacter, Arlan, Asta, Bailu, Blade, Bronya, Clara, DanHeng, Gepard, Herta, Himeko, Hook, JingYuan, Kafka, Luka, Luocha, March7th, Natasha, Pela, Qingque, Sampo, Seele, Serval, SilverWolf, Sushang, Tingyun, TrailblazerDestruction, TrailblazerPreservation, Welt, Yanqing, Yukong
 
     # Group `DungeonStorage`
+    DungeonStorage_TrailblazePower = {}
     DungeonStorage_DungeonDouble = {}
 
     # Group `AchievableQuest`

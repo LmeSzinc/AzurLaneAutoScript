@@ -109,6 +109,8 @@ DungeonSupport:
     value: FirstCharacter
     option: [ FirstCharacter, ]
 DungeonStorage:
+  TrailblazePower:
+    stored: StoredTrailblazePower
   DungeonDouble:
     stored: StoredDungeonDouble
 

@@ -357,9 +357,13 @@
       "name": "DungeonStorage._info.name",
       "help": "DungeonStorage._info.help"
     },
+    "TrailblazePower": {
+      "name": "Power",
+      "help": ""
+    },
     "DungeonDouble": {
-      "name": "DungeonStorage.DungeonDouble.name",
-      "help": "DungeonStorage.DungeonDouble.help"
+      "name": "Dungeon Double",
+      "help": ""
     }
   },
   "AchievableQuest": {
@@ -549,12 +553,12 @@
       "help": "DailyStorage._info.help"
     },
     "DailyActivity": {
-      "name": "DailyStorage.DailyActivity.name",
-      "help": "DailyStorage.DailyActivity.help"
+      "name": "Activity",
+      "help": ""
     },
     "DailyQuest": {
-      "name": "DailyStorage.DailyQuest.name",
-      "help": "DailyStorage.DailyQuest.help"
+      "name": "Daily Quest",
+      "help": ""
     }
   },
   "Assignment": {

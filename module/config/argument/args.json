@@ -360,6 +360,12 @@
       }
     },
     "DungeonStorage": {
+      "TrailblazePower": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredTrailblazePower"
+      },
       "DungeonDouble": {
         "type": "stored",
         "value": {},
