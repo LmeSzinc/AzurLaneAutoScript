@@ -77,6 +77,19 @@ def retry(func):
     return retry_wrapper
 
 
+class MaatouchBuilder(CommandBuilder):
+    def __init__(self, device, contact=0, handle_orientation=False):
+        """
+        Args:
+            device (MaaTouch):
+        """
+
+        super().__init__(device, contact, handle_orientation)
+
+    def send(self):
+        return self.device.maatouch_send(builder=self)
+
+
 class MaaTouchNotInstalledError(Exception):
     pass
 
@@ -94,7 +107,7 @@ class MaaTouch(Connection):
     @cached_property
     def maatouch_builder(self):
         self.maatouch_init()
-        return CommandBuilder(self, handle_orientation=False)
+        return MaatouchBuilder(self)
 
     def maatouch_init(self):
         logger.hr('MaaTouch init')
@@ -165,14 +178,14 @@ class MaaTouch(Connection):
             )
         )
 
-    def maatouch_send(self):
-        content = self.maatouch_builder.to_minitouch()
+    def maatouch_send(self, builder: MaatouchBuilder):
+        content = builder.to_minitouch()
         # logger.info("send operation: {}".format(content.replace("\n", "\\n")))
         byte_content = content.encode('utf-8')
         self._maatouch_stream.sendall(byte_content)
         self._maatouch_stream.recv(0)
-        self.sleep(self.maatouch_builder.delay / 1000 + self.maatouch_builder.DEFAULT_DELAY)
-        self.maatouch_builder.clear()
+        self.sleep(self.maatouch_builder.delay / 1000 + builder.DEFAULT_DELAY)
+        builder.clear()
 
     def maatouch_install(self):
         logger.hr('MaaTouch install')
@@ -187,7 +200,7 @@ class MaaTouch(Connection):
         builder = self.maatouch_builder
         builder.down(x, y).commit()
         builder.up().commit()
-        self.maatouch_send()
+        builder.send()
 
     @retry
     def long_click_maatouch(self, x, y, duration=1.0):
@@ -195,7 +208,7 @@ class MaaTouch(Connection):
         builder = self.maatouch_builder
         builder.down(x, y).commit().wait(duration)
         builder.up().commit()
-        self.maatouch_send()
+        builder.send()
 
     @retry
     def swipe_maatouch(self, p1, p2):
@@ -203,14 +216,14 @@ class MaaTouch(Connection):
         builder = self.maatouch_builder
 
         builder.down(*points[0]).commit()
-        self.maatouch_send()
+        builder.send()
 
         for point in points[1:]:
             builder.move(*point).commit().wait(10)
-        self.maatouch_send()
+        builder.send()
 
         builder.up().commit()
-        self.maatouch_send()
+        builder.send()
 
     @retry
     def drag_maatouch(self, p1, p2, point_random=(-10, -10, 10, 10)):
@@ -220,15 +233,15 @@ class MaaTouch(Connection):
         builder = self.maatouch_builder
 
         builder.down(*points[0]).commit()
-        self.maatouch_send()
+        builder.send()
 
         for point in points[1:]:
             builder.move(*point).commit().wait(10)
-        self.maatouch_send()
+        builder.send()
 
         builder.move(*p2).commit().wait(140)
         builder.move(*p2).commit().wait(140)
-        self.maatouch_send()
+        builder.send()
 
         builder.up().commit()
-        self.maatouch_send()
+        builder.send()

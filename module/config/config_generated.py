@@ -43,8 +43,50 @@ class GeneratedConfig:
     Dungeon_NameAtDoubleCalyx = 'Calyx_Golden_Treasures'  # do_not_participate, Calyx_Golden_Memories, Calyx_Golden_Aether, Calyx_Golden_Treasures, Calyx_Crimson_Destruction, Calyx_Crimson_Preservation, Calyx_Crimson_Hunt, Calyx_Crimson_Abundance, Calyx_Crimson_Erudition, Calyx_Crimson_Harmony, Calyx_Crimson_Nihility
     Dungeon_NameAtDoubleRelic = 'Cavern_of_Corrosion_Path_of_Providence'  # do_not_participate, Cavern_of_Corrosion_Path_of_Gelid_Wind, Cavern_of_Corrosion_Path_of_Jabbing_Punch, Cavern_of_Corrosion_Path_of_Drifting, Cavern_of_Corrosion_Path_of_Providence, Cavern_of_Corrosion_Path_of_Holy_Hymn, Cavern_of_Corrosion_Path_of_Conflagration, Cavern_of_Corrosion_Path_of_Elixir_Seekers
     Dungeon_Team = 1  # 1, 2, 3, 4, 5, 6
-    Dungeon_Support = 'when_daily'  # do_not_use, always_use, when_daily
-    Dungeon_SupportCharacter = 'FirstCharacter'  # FirstCharacter, Arlan, Asta, Bailu, Blade, Bronya, Clara, DanHeng, Gepard, Herta, Himeko, Hook, JingYuan, Kafka, Luka, Luocha, March7th, Natasha, Pela, Qingque, Sampo, Seele, Serval, SilverWolf, Sushang, Tingyun, TrailblazerDestruction, TrailblazerPreservation, Welt, Yanqing, Yukong
+
+    # Group `DungeonDaily`
+    DungeonDaily_CalyxGolden = 'Calyx_Golden_Treasures'  # do_not_achieve, Calyx_Golden_Memories, Calyx_Golden_Aether, Calyx_Golden_Treasures
+    DungeonDaily_CalyxCrimson = 'Calyx_Crimson_Erudition'  # do_not_achieve, Calyx_Crimson_Destruction, Calyx_Crimson_Preservation, Calyx_Crimson_Hunt, Calyx_Crimson_Abundance, Calyx_Crimson_Erudition, Calyx_Crimson_Harmony, Calyx_Crimson_Nihility
+    DungeonDaily_StagnantShadow = 'do_not_archive'  # do_not_achieve, Stagnant_Shadow_Quanta, Stagnant_Shadow_Gust, Stagnant_Shadow_Fulmination, Stagnant_Shadow_Blaze, Stagnant_Shadow_Spike, Stagnant_Shadow_Rime, Stagnant_Shadow_Mirage, Stagnant_Shadow_Icicle, Stagnant_Shadow_Doom, Stagnant_Shadow_Celestial
+    DungeonDaily_CavernOfCorrosion = 'Cavern_of_Corrosion_Path_of_Providence'  # do_not_achieve, Cavern_of_Corrosion_Path_of_Gelid_Wind, Cavern_of_Corrosion_Path_of_Jabbing_Punch, Cavern_of_Corrosion_Path_of_Drifting, Cavern_of_Corrosion_Path_of_Providence, Cavern_of_Corrosion_Path_of_Holy_Hymn, Cavern_of_Corrosion_Path_of_Conflagration, Cavern_of_Corrosion_Path_of_Elixir_Seekers
+
+    # Group `DungeonSupport`
+    DungeonSupport_Use = 'when_daily'  # always_use, when_daily, do_not_use
+    DungeonSupport_Character = 'FirstCharacter'  # FirstCharacter, Arlan, Asta, Bailu, Blade, Bronya, Clara, DanHeng, Gepard, Herta, Himeko, Hook, JingYuan, Kafka, Luka, Luocha, March7th, Natasha, Pela, Qingque, Sampo, Seele, Serval, SilverWolf, Sushang, Tingyun, TrailblazerDestruction, TrailblazerPreservation, Welt, Yanqing, Yukong
+
+    # Group `DungeonStorage`
+    DungeonStorage_DungeonDouble = {}
+
+    # Group `AchievableQuest`
+    AchievableQuest_Complete_1_Daily_Mission = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Clear_Calyx_Golden_1_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Complete_Calyx_Crimson_1_time = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Clear_Stagnant_Shadow_1_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Clear_Cavern_of_Corrosion_1_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_In_a_single_battle_inflict_3_Weakness_Break_of_different_Types = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Inflict_Weakness_Break_5_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Defeat_a_total_of_20_enemies = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Enter_combat_by_attacking_enemy_Weakness_and_win_3_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Use_Technique_2_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Go_on_assignment_1_time = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Take_1_photo = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Destroy_3_destructible_objects = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Complete_Forgotten_Hall_1_time = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Complete_Echo_of_War_1_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Complete_1_stage_in_Simulated_Universe_Any_world = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Obtain_victory_in_combat_with_support_characters_1_time = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Use_an_Ultimate_to_deal_the_final_blow_1_time = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Level_up_any_character_1_time = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Level_up_any_Light_Cone_1_time = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Level_up_any_Relic_1_time = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Salvage_any_Relic = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Synthesize_Consumable_1_time = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Synthesize_material_1_time = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Use_Consumables_1_time = 'achievable'  # achievable, not_set, not_supported
+
+    # Group `DailyStorage`
+    DailyStorage_DailyActivity = {}
+    DailyStorage_DailyQuest = {}
 
     # Group `Assignment`
     Assignment_Duration = 20  # 4, 8, 12, 20

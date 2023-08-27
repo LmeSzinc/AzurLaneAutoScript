@@ -99,6 +99,7 @@ class DailyQuestUI(DungeonUI):
         results = [result.matched_keyword for result in results]
         logger.info("Daily quests recognition complete")
         logger.info(f"Daily quests: {results}")
+        self.config.stored.DailyQuest.write_quests(results)
         return results
 
     def _get_quest_reward(self, skip_first_screenshot=True):
@@ -128,7 +129,7 @@ class DailyQuestUI(DungeonUI):
 
     def _get_active_point_reward(self, skip_first_screenshot=True):
         def get_active():
-            for button in [
+            for b in [
                 ACTIVE_POINTS_1_UNLOCK,
                 ACTIVE_POINTS_2_UNLOCK,
                 ACTIVE_POINTS_3_UNLOCK,
@@ -136,8 +137,8 @@ class DailyQuestUI(DungeonUI):
                 ACTIVE_POINTS_5_UNLOCK
             ]:
                 # Black gift icon
-                if self.image_color_count(button, color=(61, 53, 53), threshold=221, count=100):
-                    return button
+                if self.image_color_count(b, color=(61, 53, 53), threshold=221, count=100):
+                    return b
             return None
 
         interval = Timer(2)
@@ -155,6 +156,26 @@ class DailyQuestUI(DungeonUI):
                 if active := get_active():
                     self.device.click(active)
                     interval.reset()
+
+        # Write stored
+        point = 0
+        for progress, button in zip(
+                [100, 200, 300, 400, 500],
+                [
+                    ACTIVE_POINTS_1_CHECKED,
+                    ACTIVE_POINTS_2_CHECKED,
+                    ACTIVE_POINTS_3_CHECKED,
+                    ACTIVE_POINTS_4_CHECKED,
+                    ACTIVE_POINTS_5_CHECKED
+                ]
+        ):
+            if self.appear(button):
+                point = progress
+        logger.attr('Daily activity', point)
+        with self.config.multi_set():
+            self.config.stored.DailyActivity.set(point)
+            if point == 500:
+                self.config.stored.DailyQuest.write_quests([])
 
     def get_daily_rewards(self):
         """

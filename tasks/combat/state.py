@@ -94,6 +94,7 @@ class CombatState(UI):
                     self._combat_auto_checked = True
                 else:
                     if self._combat_click_interval.reached():
+                        self.device.image_save()
                         self.device.click(COMBAT_AUTO)
                         self._combat_click_interval.reset()
                         return True

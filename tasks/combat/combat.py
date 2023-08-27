@@ -3,13 +3,12 @@ from module.logger import logger
 from tasks.base.assets.assets_base_page import CLOSE
 from tasks.combat.assets.assets_combat_finish import COMBAT_AGAIN, COMBAT_EXIT
 from tasks.combat.assets.assets_combat_prepare import COMBAT_PREPARE
-from tasks.combat.assets.assets_combat_team import COMBAT_TEAM_PREPARE, COMBAT_TEAM_SUPPORT, COMBAT_TEAM_DISMISSSUPPORT
-from tasks.combat.assets.assets_combat_support import COMBAT_SUPPORT_ADD, COMBAT_SUPPORT_LIST
+from tasks.combat.assets.assets_combat_team import COMBAT_TEAM_PREPARE, COMBAT_TEAM_SUPPORT
 from tasks.combat.interact import CombatInteract
 from tasks.combat.prepare import CombatPrepare
 from tasks.combat.state import CombatState
-from tasks.combat.team import CombatTeam
 from tasks.combat.support import CombatSupport
+from tasks.combat.team import CombatTeam
 from tasks.map.control.joystick import MapControlJoystick
 
 
@@ -69,9 +68,8 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
         """
         Args:
             team: 1 to 6.
-            skip_first_screenshot:
             support_character: Support character name
-            
+
         Returns:
             bool: True if success to enter combat
                 False if trialblaze power is not enough
@@ -272,21 +270,23 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
                 self.device.click(COMBAT_EXIT)
                 continue
 
-    def combat(self, team: int = 1, wave_limit: int = 0, skip_first_screenshot=True, support_character: str = None):
+    def is_stamina_exhausted(self) -> bool:
+        flag = self.state.TrailblazePower < self.combat_wave_cost
+        logger.attr('StaminaExhausted', flag)
+        return flag
+
+    def combat(self, team: int = 1, wave_limit: int = 0, support_character: str = None, skip_first_screenshot=True):
         """
         Combat until trailblaze power runs out.
 
         Args:
             team: 1 to 6.
             wave_limit: Limit combat runs, 0 means no limit.
-            skip_first_screenshot:
-            use_support: "do_not_use", "always_use", "when_daily"
-            is_daily: True if is a daily task
             support_character: Support character name
+            skip_first_screenshot:
 
         Returns:
-            bool: True if trailblaze power exhausted
-                False if reached wave_limit but still have trailblaze power
+            int: Run count
 
         Pages:
             in: COMBAT_PREPARE
@@ -298,6 +298,7 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
 
         self.combat_wave_limit = wave_limit
         self.combat_wave_done = 0
+        run_count = 0
         while 1:
             logger.hr('Combat', level=2)
             logger.info(f'Combat, team={team}, wave={self.combat_wave_done}/{self.combat_wave_limit}')
@@ -312,7 +313,9 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
             finish = self.combat_finish()
             if self._combat_should_reenter():
                 continue
+            run_count += 1
             if finish:
                 break
 
-        return self.state.TrailblazePower < self.combat_wave_cost
+        logger.attr('CombatRunCount', run_count)
+        return run_count

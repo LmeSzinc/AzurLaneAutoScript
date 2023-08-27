@@ -71,27 +71,56 @@ Optimization:
 
 Dungeon:
   Name:
-    # Options will be injected in config updater
+    # Dungeon names will be injected in config updater
     value: Calyx_Golden_Treasures
-    option: [Calyx_Golden_Treasures, ]
+    option: [ ]
   NameAtDoubleCalyx:
-    # Options will be injected in config updater
     value: Calyx_Golden_Treasures
     option: [ do_not_participate, ]
   NameAtDoubleRelic:
-    # Options will be injected in config updater
     value: Cavern_of_Corrosion_Path_of_Providence
     option: [ do_not_participate, ]
   Team:
     value: 1
     option: [ 1, 2, 3, 4, 5, 6 ]
-  Support:
+DungeonDaily:
+  # Dungeon names will be injected in config updater
+  CalyxGolden:
+    value: Calyx_Golden_Treasures
+    option: [ do_not_achieve, ]
+  CalyxCrimson:
+    value: Calyx_Crimson_Erudition
+    option: [ do_not_achieve, ]
+  StagnantShadow:
+    value: do_not_archive
+    option: [ do_not_achieve, ]
+  CavernOfCorrosion:
+    value: Cavern_of_Corrosion_Path_of_Providence
+    option: [ do_not_achieve, ]
+DungeonSupport:
+  Use:
     value: when_daily
-    option: [do_not_use, always_use, when_daily]
-  SupportCharacter:
+    option: [ always_use, when_daily, do_not_use ]
+  Character:
     # Options will be injected in config updater
     value: FirstCharacter
-    option: [FirstCharacter, ]
+    option: [ FirstCharacter, ]
+DungeonStorage:
+  DungeonDouble:
+    stored: StoredDungeonDouble
+
+AchievableQuest:
+  # Quests will be injected in config updater
+#  Complete_1_Daily_Mission:
+#    type: state
+#    value: achievable
+#    option: [ achievable, not_set, not_supported ]
+#    option_bold: [ achievable, ]
+DailyStorage:
+  DailyActivity:
+    stored: StoredDailyActivity
+  DailyQuest:
+    stored: StoredDaily
 
 Assignment:
   Duration:

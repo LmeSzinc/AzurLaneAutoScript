@@ -1,3 +1,4 @@
+import copy
 import json
 import random
 import string
@@ -324,6 +325,35 @@ def put_arg_input(kwargs: T_Output_Kwargs) -> Output:
     )
 
 
+def product_stored_row(kwargs: T_Output_Kwargs, key, value):
+    kwargs = copy.copy(kwargs)
+    kwargs["name"] += f'_{key}'
+    kwargs["value"] = value
+    return put_input(**kwargs).style("--input--")
+
+
+def put_arg_stored(kwargs: T_Output_Kwargs) -> Output:
+    name: str = kwargs["name"]
+    kwargs["disabled"] = True
+
+    values = kwargs.pop("value", {})
+    time_ = values.pop("time", "")
+
+    rows = [product_stored_row(kwargs, key, value) for key, value in values.items() if value]
+    if time_:
+        rows += [product_stored_row(kwargs, "time", time_)]
+    return put_scope(
+        f"arg_container-stored-{name}",
+        [
+            get_title_help(kwargs),
+            put_scope(
+                f"arg_stored-stored-value-{name}",
+                rows,
+            )
+        ]
+    )
+
+
 def put_arg_select(kwargs: T_Output_Kwargs) -> Output:
     name: str = kwargs["name"]
     value: str = kwargs["value"]
@@ -344,6 +374,37 @@ def put_arg_select(kwargs: T_Output_Kwargs) -> Output:
             "value": opt,
             "select": opt == value,
         } for opt, opt_label in zip(options, options_label)]
+    kwargs["options"] = option
+
+    return put_scope(
+        f"arg_container-select-{name}",
+        [
+            get_title_help(kwargs),
+            put_select(**kwargs).style("--input--"),
+        ],
+    )
+
+
+def put_arg_state(kwargs: T_Output_Kwargs) -> Output:
+    name: str = kwargs["name"]
+    value: str = kwargs["value"]
+    options: List[str] = kwargs["options"]
+    options_label: List[str] = kwargs.pop("options_label", [])
+    _: str = kwargs.pop("invalid_feedback", None)
+    bold: bool = value in kwargs.pop("option_bold", [])
+    light: bool = value in kwargs.pop("option_light", [])
+
+    option = [{
+        "label": next((opt_label for opt, opt_label in zip(options, options_label) if opt == value), value),
+        "value": value,
+        "selected": True,
+    }]
+    if bold:
+        kwargs["class"] = "form-control state state-bold"
+    elif light:
+        kwargs["class"] = "form-control state state-light"
+    else:
+        kwargs["class"] = "form-control state"
     kwargs["options"] = option
 
     return put_scope(
@@ -437,6 +498,8 @@ _widget_type_to_func: Dict[str, Callable] = {
     "textarea": put_arg_textarea,
     "checkbox": put_arg_checkbox,
     "storage": put_arg_storage,
+    "state": put_arg_state,
+    "stored": put_arg_stored,
 }
 
 

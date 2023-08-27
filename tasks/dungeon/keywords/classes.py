@@ -29,6 +29,10 @@ class DungeonList(Keyword):
         return 'Calyx_Crimson' in self.name
 
     @cached_property
+    def is_Calyx(self):
+        return self.is_Calyx_Golden or self.is_Calyx_Crimson
+
+    @cached_property
     def is_Stagnant_Shadow(self):
         return 'Stagnant_Shadow' in self.name
 
