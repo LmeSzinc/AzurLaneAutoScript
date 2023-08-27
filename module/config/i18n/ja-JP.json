@@ -42,7 +42,9 @@
     },
     "Enable": {
       "name": "Scheduler.Enable.name",
-      "help": "Scheduler.Enable.help"
+      "help": "Scheduler.Enable.help",
+      "True": "True",
+      "False": "False"
     },
     "NextRun": {
       "name": "Scheduler.NextRun.name",

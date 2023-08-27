@@ -42,7 +42,9 @@
     },
     "Enable": {
       "name": "启用该功能",
-      "help": "将这个任务加入调度器"
+      "help": "将这个任务加入调度器",
+      "True": "已启用",
+      "False": "False"
     },
     "NextRun": {
       "name": "下一次运行时间",
