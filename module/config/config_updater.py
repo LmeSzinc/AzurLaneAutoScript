@@ -323,6 +323,20 @@ class ConfigGenerator:
         for path, _ in deep_iter(self.gui, depth=2):
             group, key = path
             deep_load(keys=['Gui', group], words=(key,))
+        # zh-TW
+        dic_repl = {
+            '設置': '設定',
+            '支持': '支援',
+            '啓': '啟',
+            '异': '異',
+            '服務器': '伺服器',
+            '文件': '檔案',
+        }
+        if lang == 'zh-TW':
+            for path, value in deep_iter(new, depth=3):
+                for before, after in dic_repl.items():
+                    value = value.replace(before, after)
+                deep_set(new, keys=path, value=value)
 
         write_file(filepath_i18n(lang), new)
 
