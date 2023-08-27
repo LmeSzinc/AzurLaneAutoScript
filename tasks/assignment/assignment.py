@@ -3,19 +3,27 @@ from datetime import datetime
 from module.logger import logger
 from module.ocr.ocr import Duration
 from tasks.assignment.assets.assets_assignment_claim import CLAIM
-from tasks.assignment.assets.assets_assignment_ui import (DISPATCHED,
-                                                          OCR_ASSIGNMENT_TIME)
+from tasks.assignment.assets.assets_assignment_ui import (
+    DISPATCHED,
+    OCR_ASSIGNMENT_TIME,
+)
 from tasks.assignment.claim import AssignmentClaim
-from tasks.assignment.keywords import *
+from tasks.assignment.keywords import (
+    AssignmentEntry,
+    KEYWORDS_ASSIGNMENT_GROUP,
+)
 from tasks.base.page import page_assignment, page_menu
+from tasks.daily.keywords import KEYWORDS_DAILY_QUEST
 from tasks.daily.synthesize import SynthesizeUI
 
 
 class Assignment(AssignmentClaim, SynthesizeUI):
     def run(self, assignments: list[AssignmentEntry] = None, duration: int = None):
+        self.config.update_daily_quests()
+
         if assignments is None:
             assignments = (
-                getattr(self.config, f'Assignment_Name_{i+1}', None) for i in range(4))
+                getattr(self.config, f'Assignment_Name_{i + 1}', None) for i in range(4))
             # remove duplicate while keeping order
             assignments = list(dict.fromkeys(
                 x for x in assignments if x is not None))
@@ -46,7 +54,12 @@ class Assignment(AssignmentClaim, SynthesizeUI):
         # Scheduler
         delay = min(self.dispatched.values())
         logger.info(f'Delay assignment check to {str(delay)}')
-        self.config.task_delay(target=delay)
+        with self.config.multi_set():
+            quests = self.config.stored.DailyQuest.load_quests()
+            if KEYWORDS_DAILY_QUEST.Go_on_assignment_1_time in quests:
+                logger.info('Achieved daily quest Go_on_assignment_1_time')
+                self.config.task_call('DailyQuest')
+            self.config.task_delay(target=delay)
 
     def _check_inlist(self, assignments: list[AssignmentEntry], duration: int):
         """

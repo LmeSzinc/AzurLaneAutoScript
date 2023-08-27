@@ -72,8 +72,8 @@ python gui.py
 
 Discord https://discord.gg/aJkt3mKDEr QQ群 752620927
 
+- [小地图识别原理](https://github.com/LmeSzinc/StarRailCopilot/wiki/MinimapTracking)
 - 开发文档（目录在侧边栏）：[Alas wiki](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/1.-Start)，但很多内容是新写的，建议阅读源码和历史提交。
-
 - 开发路线图：[#10](https://github.com/LmeSzinc/StarRailCopilot/issues/10) ，欢迎提交 PR，挑选你感兴趣的部分进行开发即可。
 
 > **如何添加多语言/多服务器支持？** 需要适配 assets，参考 [开发文档 “添加一个 Button” 一节](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/4.1.-Detection-objects#%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA-button)。

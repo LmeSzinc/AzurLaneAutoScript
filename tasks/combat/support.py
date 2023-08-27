@@ -25,6 +25,11 @@ class SupportCharacter:
         # __bool__ is called when use an object of the class in a boolean context
         return self.button is not None
 
+    def __str__(self):
+        return f'SupportCharacter({self.name})'
+
+    __repr__ = __str__
+
     def _scale_character(self):
         """
         Returns:
@@ -154,7 +159,10 @@ class CombatSupport(UI):
                                    name=COMBAT_SUPPORT_LIST_SCROLL.name)
         if scroll.appear(main=self):
             if not scroll.at_bottom(main=self):
+                # Dropdown to load the entire support list, so large threshold is acceptable
+                scroll.drag_threshold, backup = 0.2, scroll.drag_threshold
                 scroll.set_bottom(main=self)
+                scroll.drag_threshold = backup
                 scroll.set_top(main=self)
 
             logger.info("Searching support")

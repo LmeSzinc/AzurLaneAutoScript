@@ -42,9 +42,21 @@
     "Dungeon": {
       "Name": "Calyx_Golden_Treasures",
       "NameAtDoubleCalyx": "Calyx_Golden_Treasures",
-      "Team": 1,
-      "Support": "when_daily",
-      "SupportCharacter": "FirstCharacter"
+      "NameAtDoubleRelic": "Cavern_of_Corrosion_Path_of_Providence",
+      "Team": 1
+    },
+    "DungeonDaily": {
+      "CalyxGolden": "Calyx_Golden_Treasures",
+      "CalyxCrimson": "Calyx_Crimson_Erudition",
+      "StagnantShadow": "do_not_archive",
+      "CavernOfCorrosion": "Cavern_of_Corrosion_Path_of_Providence"
+    },
+    "DungeonSupport": {
+      "Use": "when_daily",
+      "Character": "FirstCharacter"
+    },
+    "DungeonStorage": {
+      "DungeonDouble": {}
     }
   },
   "DailyQuest": {
@@ -53,6 +65,37 @@
       "NextRun": "2020-01-01 00:00:00",
       "Command": "DailyQuest",
       "ServerUpdate": "04:00"
+    },
+    "AchievableQuest": {
+      "Complete_1_Daily_Mission": "not_supported",
+      "Clear_Calyx_Golden_1_times": "not_set",
+      "Complete_Calyx_Crimson_1_time": "not_set",
+      "Clear_Stagnant_Shadow_1_times": "not_set",
+      "Clear_Cavern_of_Corrosion_1_times": "not_set",
+      "In_a_single_battle_inflict_3_Weakness_Break_of_different_Types": "not_supported",
+      "Inflict_Weakness_Break_5_times": "not_supported",
+      "Defeat_a_total_of_20_enemies": "not_supported",
+      "Enter_combat_by_attacking_enemy_Weakness_and_win_3_times": "not_supported",
+      "Use_Technique_2_times": "achievable",
+      "Go_on_assignment_1_time": "not_set",
+      "Take_1_photo": "achievable",
+      "Destroy_3_destructible_objects": "not_supported",
+      "Complete_Forgotten_Hall_1_time": "not_supported",
+      "Complete_Echo_of_War_1_times": "not_supported",
+      "Complete_1_stage_in_Simulated_Universe_Any_world": "not_supported",
+      "Obtain_victory_in_combat_with_support_characters_1_time": "not_set",
+      "Use_an_Ultimate_to_deal_the_final_blow_1_time": "not_supported",
+      "Level_up_any_character_1_time": "not_supported",
+      "Level_up_any_Light_Cone_1_time": "not_supported",
+      "Level_up_any_Relic_1_time": "not_supported",
+      "Salvage_any_Relic": "achievable",
+      "Synthesize_Consumable_1_time": "achievable",
+      "Synthesize_material_1_time": "achievable",
+      "Use_Consumables_1_time": "achievable"
+    },
+    "DailyStorage": {
+      "DailyActivity": {},
+      "DailyQuest": {}
     }
   },
   "BattlePass": {

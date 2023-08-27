@@ -112,6 +112,10 @@ class Timer:
         else:
             return 0.
 
+    def set_current(self, current, count=0):
+        self._current = time.time() - current
+        self._reach_count = count
+
     def reached(self):
         """
         Returns:

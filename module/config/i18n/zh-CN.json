@@ -35,7 +35,7 @@
       "help": ""
     },
     "Assignment": {
-      "name": "委托设置",
+      "name": "委托",
       "help": ""
     },
     "Rogue": {
@@ -217,7 +217,7 @@
       "Cavern_of_Corrosion_Path_of_Providence": "遗器：铁卫套+量子套（睿治之径•侵蚀隧洞）",
       "Cavern_of_Corrosion_Path_of_Holy_Hymn": "遗器：防御套+雷套（圣颂之径•侵蚀隧洞）",
       "Cavern_of_Corrosion_Path_of_Conflagration": "遗器：火套+虚数套（野焰之径•侵蚀隧洞）",
-      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "遗器：生命套+速度套 （药使之径•侵蚀隧洞）"
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "遗器：生命套+速度套（药使之径•侵蚀隧洞）"
     },
     "NameAtDoubleCalyx": {
       "name": "有双倍花活动时，选择副本",
@@ -234,6 +234,18 @@
       "Calyx_Crimson_Harmony": "行迹材料：同谐（同谐之蕾•拟造花萼赤）",
       "Calyx_Crimson_Nihility": "行迹材料：虚无（虚无之蕾•拟造花萼赤）"
     },
+    "NameAtDoubleRelic": {
+      "name": "有遗器活动时，选择副本",
+      "help": "次数耗尽后回退到默认打本设置",
+      "do_not_participate": "不参与活动",
+      "Cavern_of_Corrosion_Path_of_Gelid_Wind": "遗器：冰套+风套（霜风之径•侵蚀隧洞）",
+      "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "遗器：物理套+击破套（迅拳之径•侵蚀隧洞）",
+      "Cavern_of_Corrosion_Path_of_Drifting": "遗器：治疗套+快枪手（漂泊之径•侵蚀隧洞）",
+      "Cavern_of_Corrosion_Path_of_Providence": "遗器：铁卫套+量子套（睿治之径•侵蚀隧洞）",
+      "Cavern_of_Corrosion_Path_of_Holy_Hymn": "遗器：防御套+雷套（圣颂之径•侵蚀隧洞）",
+      "Cavern_of_Corrosion_Path_of_Conflagration": "遗器：火套+虚数套（野焰之径•侵蚀隧洞）",
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "遗器：生命套+速度套（药使之径•侵蚀隧洞）"
+    },
     "Team": {
       "name": "打本队伍",
       "help": "",
@@ -243,15 +255,74 @@
       "4": "4",
       "5": "5",
       "6": "6"
+    }
+  },
+  "DungeonDaily": {
+    "_info": {
+      "name": "每日任务设置",
+      "help": "打一次特定的本，以满足每日任务的要求"
     },
-    "Support": {
-      "name": "启用好友支援",
-      "help": "是否启用好友支援",
-      "do_not_use": "否",
-      "always_use": "是",
-      "when_daily": "仅当每日任务需要时"
+    "CalyxGolden": {
+      "name": "完成1次拟造花萼（金）",
+      "help": "",
+      "do_not_achieve": "不完成这个任务",
+      "Calyx_Golden_Memories": "材料：角色经验（回忆之蕾•拟造花萼金）",
+      "Calyx_Golden_Aether": "材料：武器经验（以太之蕾•拟造花萼金）",
+      "Calyx_Golden_Treasures": "材料：信用点（藏珍之蕾•拟造花萼金）"
     },
-    "SupportCharacter": {
+    "CalyxCrimson": {
+      "name": "完成1次拟造花萼（赤）",
+      "help": "",
+      "do_not_achieve": "不完成这个任务",
+      "Calyx_Crimson_Destruction": "行迹材料：毁灭（毁灭之蕾•拟造花萼赤）",
+      "Calyx_Crimson_Preservation": "行迹材料：存护（存护之蕾•拟造花萼赤）",
+      "Calyx_Crimson_Hunt": "行迹材料：巡猎（存护之蕾•拟造花萼赤）",
+      "Calyx_Crimson_Abundance": "行迹材料：丰饶（丰饶之蕾•拟造花萼赤）",
+      "Calyx_Crimson_Erudition": "行迹材料：智识（智识之蕾•拟造花萼赤）",
+      "Calyx_Crimson_Harmony": "行迹材料：同谐（同谐之蕾•拟造花萼赤）",
+      "Calyx_Crimson_Nihility": "行迹材料：虚无（虚无之蕾•拟造花萼赤）"
+    },
+    "StagnantShadow": {
+      "name": "完成1次凝滞虚影",
+      "help": "",
+      "do_not_achieve": "不完成这个任务",
+      "Stagnant_Shadow_Quanta": "角色晋阶材料：量子（空海之形•凝滞虚影）",
+      "Stagnant_Shadow_Gust": "角色晋阶材料：风（巽风之形•凝滞虚影）",
+      "Stagnant_Shadow_Fulmination": "角色晋阶材料：雷（鸣雷之形•凝滞虚影）",
+      "Stagnant_Shadow_Blaze": "角色晋阶材料：火（炎华之形•凝滞虚影）",
+      "Stagnant_Shadow_Spike": "角色晋阶材料：物理（锋芒之形•凝滞虚影）",
+      "Stagnant_Shadow_Rime": "角色晋阶材料：冰（霜晶之形•凝滞虚影）",
+      "Stagnant_Shadow_Mirage": "角色晋阶材料：虚数（幻光之形•凝滞虚影）",
+      "Stagnant_Shadow_Icicle": "角色晋阶材料：冰（冰棱之形•凝滞虚影）",
+      "Stagnant_Shadow_Doom": "角色晋阶材料：雷（震厄之形•凝滞虚影）",
+      "Stagnant_Shadow_Celestial": "角色晋阶材料：风（天人之形•凝滞虚影）"
+    },
+    "CavernOfCorrosion": {
+      "name": "完成1次侵蚀隧洞",
+      "help": "",
+      "do_not_achieve": "不完成这个任务",
+      "Cavern_of_Corrosion_Path_of_Gelid_Wind": "遗器：冰套+风套（霜风之径•侵蚀隧洞）",
+      "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "遗器：物理套+击破套（迅拳之径•侵蚀隧洞）",
+      "Cavern_of_Corrosion_Path_of_Drifting": "遗器：治疗套+快枪手（漂泊之径•侵蚀隧洞）",
+      "Cavern_of_Corrosion_Path_of_Providence": "遗器：铁卫套+量子套（睿治之径•侵蚀隧洞）",
+      "Cavern_of_Corrosion_Path_of_Holy_Hymn": "遗器：防御套+雷套（圣颂之径•侵蚀隧洞）",
+      "Cavern_of_Corrosion_Path_of_Conflagration": "遗器：火套+虚数套（野焰之径•侵蚀隧洞）",
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "遗器：生命套+速度套（药使之径•侵蚀隧洞）"
+    }
+  },
+  "DungeonSupport": {
+    "_info": {
+      "name": "支援设置",
+      "help": ""
+    },
+    "Use": {
+      "name": "使用好友支援",
+      "help": "",
+      "always_use": "总是使用",
+      "when_daily": "仅当每日任务需要时使用",
+      "do_not_use": "不使用"
+    },
+    "Character": {
       "name": "好友支援角色",
       "help": "选择好友支援角色，未找到则选择默认（第一个）角色",
       "FirstCharacter": "支援列表第一个角色",
@@ -267,6 +338,8 @@
       "Himeko": "姬子",
       "Hook": "虎克",
       "JingYuan": "景元",
+      "Kafka": "卡芙卡",
+      "Luka": "卢卡",
       "Luocha": "罗刹",
       "March7th": "三月七",
       "Natasha": "娜塔莎",
@@ -283,6 +356,211 @@
       "Welt": "瓦尔特",
       "Yanqing": "彦卿",
       "Yukong": "驭空"
+    }
+  },
+  "DungeonStorage": {
+    "_info": {
+      "name": "DungeonStorage._info.name",
+      "help": "DungeonStorage._info.help"
+    },
+    "DungeonDouble": {
+      "name": "DungeonStorage.DungeonDouble.name",
+      "help": "DungeonStorage.DungeonDouble.help"
+    }
+  },
+  "AchievableQuest": {
+    "_info": {
+      "name": "可完成的任务",
+      "help": "任务状态为 \"未设置\" 时需要按照要求设置SRC，才能启用任务\n注意：请让更多的任务处于 \"可完成\" 状态，否则SRC可能无法完成500点的活跃度要求"
+    },
+    "Complete_1_Daily_Mission": {
+      "name": "完成1个日常任务",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Clear_Calyx_Golden_1_times": {
+      "name": "完成1次「拟造花萼（金）」",
+      "help": "需要设置并启用\"每日副本\"任务",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Complete_Calyx_Crimson_1_time": {
+      "name": "完成1次「拟造花萼（赤）」",
+      "help": "需要设置并启用\"每日副本\"任务",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Clear_Stagnant_Shadow_1_times": {
+      "name": "完成1次「凝滞虚影」",
+      "help": "需要设置并启用\"每日副本\"任务",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Clear_Cavern_of_Corrosion_1_times": {
+      "name": "完成1次「侵蚀隧洞」",
+      "help": "需要设置并启用\"每日副本\"任务",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "In_a_single_battle_inflict_3_Weakness_Break_of_different_Types": {
+      "name": "单场战斗中，触发3种不同属性的弱点击破",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Inflict_Weakness_Break_5_times": {
+      "name": "累计触发弱点击破效果5次",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Defeat_a_total_of_20_enemies": {
+      "name": "累计消灭20个敌人",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Enter_combat_by_attacking_enemy_Weakness_and_win_3_times": {
+      "name": "利用弱点进入战斗并获胜3次",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Use_Technique_2_times": {
+      "name": "累计施放2次秘技",
+      "help": "默认可完成，将前往深渊一施放2次秘技",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Go_on_assignment_1_time": {
+      "name": "派遣1次委托",
+      "help": "需要设置并启用\"委托\"任务",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Take_1_photo": {
+      "name": "拍照1次",
+      "help": "默认可完成",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Destroy_3_destructible_objects": {
+      "name": "累计击碎3个可破坏物",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Complete_Forgotten_Hall_1_time": {
+      "name": "完成1次「忘却之庭」",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Complete_Echo_of_War_1_times": {
+      "name": "完成1次「历战余响」",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Complete_1_stage_in_Simulated_Universe_Any_world": {
+      "name": "通关「模拟宇宙」（任意世界）的1个区域",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Obtain_victory_in_combat_with_support_characters_1_time": {
+      "name": "使用支援角色并获得战斗胜利1次",
+      "help": "需要设置并启用\"每日副本\"，且设置好友支援",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Use_an_Ultimate_to_deal_the_final_blow_1_time": {
+      "name": "施放终结技造成制胜一击1次",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Level_up_any_character_1_time": {
+      "name": "将任意角色等级提升1次",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Level_up_any_Light_Cone_1_time": {
+      "name": "将任意光锥等级提升1次",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Level_up_any_Relic_1_time": {
+      "name": "将任意遗器等级提升1次",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Salvage_any_Relic": {
+      "name": "分解任意1件遗器",
+      "help": "默认可完成，将分解遗器稀有度倒序的第一个",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Synthesize_Consumable_1_time": {
+      "name": "合成1次消耗品",
+      "help": "默认可完成，将合成最低级零食",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Synthesize_material_1_time": {
+      "name": "合成1次材料",
+      "help": "默认可完成，将合成最低级材料",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Use_Consumables_1_time": {
+      "name": "使用1件消耗品",
+      "help": "默认可完成，将使用护具，无材料时先合成再使用",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    }
+  },
+  "DailyStorage": {
+    "_info": {
+      "name": "DailyStorage._info.name",
+      "help": "DailyStorage._info.help"
+    },
+    "DailyActivity": {
+      "name": "DailyStorage.DailyActivity.name",
+      "help": "DailyStorage.DailyActivity.help"
+    },
+    "DailyQuest": {
+      "name": "DailyStorage.DailyQuest.name",
+      "help": "DailyStorage.DailyQuest.help"
     }
   },
   "Assignment": {

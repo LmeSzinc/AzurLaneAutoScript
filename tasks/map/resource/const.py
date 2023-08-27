@@ -1,5 +1,6 @@
 import os
 
+import numpy as np
 from PIL import Image
 
 from module.base.utils import load_image
@@ -16,13 +17,14 @@ class ResourceConst:
     # Downscale GIMAP and minimap for faster run
     POSITION_SEARCH_SCALE = 0.5
     # Search the area that is 1.666x minimap, about 100px in wild on GIMAP
-    POSITION_SEARCH_RADIUS = 1.333
+    POSITION_SEARCH_RADIUS = 1.666
     # Can't figure out why but the result_of_0.5_lookup_scale + 0.5 ~= result_of_1.0_lookup_scale
     POSITION_MOVE_PATCH = (0.5, 0.5)
     # Position starting from the upper-left corner of the template image
     # but search an area larger than map
     # MINIMAP_RADIUS * POSITION_SEARCH_RADIUS * <max_scale>
-    POSITION_FEATURE_PAD = int(MINIMAP_RADIUS * POSITION_SEARCH_RADIUS * 1.5)
+    # POSITION_FEATURE_PAD = int(MINIMAP_RADIUS * POSITION_SEARCH_RADIUS * 1.5)
+    POSITION_FEATURE_PAD = 155
     # Must be odd, equals int(9 * POSITION_SEARCH_SCALE) + 1
     POSITION_AREA_DILATE = 5
 
@@ -43,6 +45,12 @@ class ResourceConst:
     # Pad 600px, cause camera sight in game is larger than GIMAP
     BIGMAP_BORDER_PAD = int(600 * BIGMAP_SEARCH_SCALE)
 
+    # Swipe 400px is about 85~90 degree
+    # <rotation_diff> * ROTATION_SWIPE_MULTIPLY = <distance_to_swipe>
+    ROTATION_SWIPE_MULTIPLY = 400 / 85
+    # Max distance in one swipe, limited in -600px~600px
+    ROTATION_SWIPE_MAX_DISTANCE = 600
+
     def __init__(self):
         # Usually to be 0.4~0.5
         self.position_similarity = 0.
@@ -50,6 +58,8 @@ class ResourceConst:
         self.position_similarity_local = 0.
         # Current position on GIMAP with an error of about 0.1 pixel
         self.position: tuple[float, float] = (0, 0)
+        # Minimap scale factor, 1.0~1.25
+        self.position_scale = 1.0
 
         # Usually > 0.3
         # Warnings will be logged if similarity <= 0.8
@@ -82,3 +92,81 @@ class ResourceConst:
         file = self.filepath(file)
         print(f'Save image: {file}')
         Image.fromarray(image).save(file)
+
+    def position_diff(self, target):
+        """
+        Args:
+            target: Target position (x, y)
+
+        Returns:
+            float: Distance to current position
+        """
+        return np.linalg.norm(np.subtract(target, self.position))
+
+    def is_position_near(self, target, threshold=5):
+        return self.position_diff(target) <= threshold
+
+    def position2direction(self, target):
+        """
+        Args:
+            target: Target position (x, y)
+
+        Returns:
+            float: Direction from current position to target position (0~360)
+        """
+        diff = np.subtract(target, self.position)
+        theta = np.rad2deg(np.arccos(-diff[1] / np.linalg.norm(diff)))
+        if diff[0] < 0:
+            theta = 360 - theta
+        return theta
+
+    def direction_diff(self, target):
+        """
+        Args:
+            target: Target degree (0~360)
+
+        Returns:
+            float: Diff to current direction (-180~180)
+        """
+        return diff_to_180_180(self.direction - target)
+
+    def is_direction_near(self, target, threshold=15):
+        return abs(self.direction_diff(target)) <= threshold
+
+    def rotation_diff(self, target):
+        """
+        Args:
+            target: Target degree (0~360)
+
+        Returns:
+            float: Diff to current rotation (-180~180)
+        """
+        return diff_to_180_180(self.rotation - target)
+
+    def is_rotation_near(self, target, threshold=10):
+        return abs(self.rotation_diff(target)) <= threshold
+
+
+def diff_to_180_180(diff):
+    """
+    Args:
+        diff: Degree diff
+
+    Returns:
+        float: Degree diff (-180~180)
+    """
+    diff = diff % 360
+    if diff > 180:
+        diff -= 360
+    return round(diff, 3)
+
+
+def diff_to_0_360(diff):
+    """
+    Args:
+        diff: Degree diff
+
+    Returns:
+        float: Degree diff (0~360)
+    """
+    return round(diff % 360, 3)
