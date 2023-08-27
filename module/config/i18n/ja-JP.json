@@ -646,8 +646,8 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
-      "event_20230817_cn": "愚者の天秤",
       "event_20220414_cn": "極夜照らす幻光（復刻）",
+      "event_20230817_cn": "愚者の天秤",
       "event_20230803_cn": "燃ゆる聖都の回想曲",
       "event_20211125_cn": "弧光は交わる世界にて（復刻）",
       "event_20200917_cn": "刹那觀る胡蝶の夢（復刻）",
@@ -2461,6 +2461,10 @@
     "RestartEverytime": {
       "name": "GGHandler.RestartEverytime.name",
       "help": "GGHandler.RestartEverytime.help"
+    },
+    "RepushLua": {
+      "name": "GGHandler.RepushLua.name",
+      "help": "GGHandler.RepushLua.help"
     },
     "GGMultiplyingFactor": {
       "name": "GGHandler.GGMultiplyingFactor.name",

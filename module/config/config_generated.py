@@ -440,6 +440,7 @@ class GeneratedConfig:
     GGHandler_GGPackageName = 'com.'
     GGHandler_AutoRestartGG = False
     GGHandler_RestartEverytime = True
+    GGHandler_RepushLua = True
     GGHandler_GGMultiplyingFactor = 200
     GGHandler_DisabledTask = 'disable_all_dangerous_task'  # disable_all_dangerous_task, disable_guild_and_dangerous, disable_exercise, enable_all
 

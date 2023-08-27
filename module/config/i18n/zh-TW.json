@@ -646,8 +646,8 @@
       "name": "活動名稱",
       "help": "自動選擇至最新的活動圖",
       "campaign_main": "主線圖",
-      "event_20230817_cn": "The Fools Scales",
       "event_20220414_cn": "復刻-永夜幻光",
+      "event_20230817_cn": "The Fools Scales",
       "event_20230803_cn": "Anthem of Remembrance",
       "event_20211125_cn": "復刻-交匯世界的弧光",
       "event_20200917_cn": "復刻-蝶海夢花",
@@ -2461,6 +2461,10 @@
     "RestartEverytime": {
       "name": "每次啟動Alas時重啓",
       "help": "打開以初始化倍率内容。 如果你沒有手動操作的壞習慣，可以關閉此選項"
+    },
+    "RepushLua": {
+      "name": "GGHandler.RepushLua.name",
+      "help": "GGHandler.RepushLua.help"
     },
     "GGMultiplyingFactor": {
       "name": "倍率",

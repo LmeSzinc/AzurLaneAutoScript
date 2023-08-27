@@ -699,6 +699,7 @@ GGHandler:
   RestartEverytime:
     value: true
     display: disabled
+  RepushLua: true
   GGMultiplyingFactor: 200
   DisabledTask:
     value: disable_all_dangerous_task

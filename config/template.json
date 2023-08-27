@@ -1940,6 +1940,7 @@
       "GGPackageName": "com.",
       "AutoRestartGG": false,
       "RestartEverytime": true,
+      "RepushLua": true,
       "GGMultiplyingFactor": 200,
       "DisabledTask": "disable_all_dangerous_task"
     },
