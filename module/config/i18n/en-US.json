@@ -560,14 +560,6 @@
       "name": "Assignment Settings",
       "help": "Claim rewards and dispatch, handling specified assignments first\nIf the assignment limit is not reached after that, others will be dispatched according to preset priority (EXP Materials/Credits → Character Materials → Synthesis Materials)"
     },
-    "Duration": {
-      "name": "Dispatch Duration",
-      "help": "",
-      "4": "4",
-      "8": "8",
-      "12": "12",
-      "20": "20"
-    },
     "Name_1": {
       "name": "Assignment 1 Preference",
       "help": "",
@@ -635,6 +627,14 @@
       "Spring_of_Life": "Virtual Particle & Solid Water (Spring of Life)",
       "The_Land_of_Gold": "Protein Rice & Basic Ingredients (The Land of Gold)",
       "The_Blossom_in_the_Storm": "Gaseous Liquid & Seed (The Blossom in the Storm)"
+    },
+    "Duration": {
+      "name": "Dispatch Duration",
+      "help": "",
+      "4": "4 Hours",
+      "8": "8 Hours",
+      "12": "12 Hours",
+      "20": "20 Hours"
     }
   },
   "Gui": {

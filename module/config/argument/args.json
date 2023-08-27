@@ -819,16 +819,6 @@
       }
     },
     "Assignment": {
-      "Duration": {
-        "type": "select",
-        "value": 20,
-        "option": [
-          4,
-          8,
-          12,
-          20
-        ]
-      },
       "Name_1": {
         "type": "select",
         "value": "Nameless_Land_Nameless_People",
@@ -903,6 +893,16 @@
           "Spring_of_Life",
           "The_Land_of_Gold",
           "The_Blossom_in_the_Storm"
+        ]
+      },
+      "Duration": {
+        "type": "select",
+        "value": 20,
+        "option": [
+          4,
+          8,
+          12,
+          20
         ]
       }
     }
