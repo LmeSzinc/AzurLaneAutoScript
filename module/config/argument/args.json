@@ -391,6 +391,20 @@
         "display": "hide"
       }
     },
+    "AutoRestart": {
+      "Enabled": {
+        "type": "checkbox",
+        "value": false
+      },
+      "AttemptsToRestart": {
+        "type": "input",
+        "value": 114514
+      },
+      "NotifyWhenAutoRestart": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
     "Storage": {
       "Storage": {
         "type": "storage",
@@ -9321,8 +9335,7 @@
       },
       "RestartEverytime": {
         "type": "checkbox",
-        "value": true,
-        "display": "disabled"
+        "value": true
       },
       "GGMultiplyingFactor": {
         "type": "input",

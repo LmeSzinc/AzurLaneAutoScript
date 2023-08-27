@@ -2464,7 +2464,7 @@
     },
     "RestartEverytime": {
       "name": "每次启动Alas时重启",
-      "help": "打开以初始化倍率属性。如果你没有手动操作的坏习惯，可以关闭此选项。\n但是有坏习惯的人太多了，于是强制打开。"
+      "help": "打开以初始化倍率属性。如果你没有手动操作的坏习惯，可以关闭此选项。"
     },
     "GGMultiplyingFactor": {
       "name": "倍率",
@@ -2755,6 +2755,24 @@
     "Record": {
       "name": "GuildCoin.Record.name",
       "help": "GuildCoin.Record.help"
+    }
+  },
+  "AutoRestart": {
+    "_info": {
+      "name": "自动重启",
+      "help": "遇到某些问题时自动重启"
+    },
+    "Enabled": {
+      "name": "启用",
+      "help": ""
+    },
+    "AttemptsToRestart": {
+      "name": "最大尝试自动重启次数",
+      "help": ""
+    },
+    "NotifyWhenAutoRestart": {
+      "name": "重启时通知",
+      "help": "因出错而自动重启时通知，不建议开启，因为可能会很烦"
     }
   },
   "Storage": {

@@ -698,7 +698,7 @@ GGHandler:
   AutoRestartGG: false
   RestartEverytime:
     value: true
-    display: disabled
+#    display: disabled
   GGMultiplyingFactor: 200
   DisabledTask:
     value: disable_all_dangerous_task
@@ -803,3 +803,17 @@ GuildCoin:
     value: ^000000
     display: hide
   Record: 2020-01-01 00:00:00
+
+
+
+# ==================== AutoRestart ====================
+AutoRestart:
+  Enabled:
+    type: checkbox
+    value: false
+  AttemptsToRestart:
+    type: input
+    value: 114514
+  NotifyWhenAutoRestart:
+    type: checkbox
+    value: false

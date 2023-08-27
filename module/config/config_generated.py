@@ -520,5 +520,10 @@ class GeneratedConfig:
     GuildCoin_Color = '^000000'
     GuildCoin_Record = datetime.datetime(2020, 1, 1, 0, 0)
 
+    # Group `AutoRestart`
+    AutoRestart_Enabled = False
+    AutoRestart_AttemptsToRestart = 114514
+    AutoRestart_NotifyWhenAutoRestart = False
+
     # Group `Storage`
     Storage_Storage = {}
