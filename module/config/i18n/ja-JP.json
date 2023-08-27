@@ -247,17 +247,76 @@
       "4": "4",
       "5": "5",
       "6": "6"
+    }
+  },
+  "DungeonDaily": {
+    "_info": {
+      "name": "DungeonDaily._info.name",
+      "help": "DungeonDaily._info.help"
     },
-    "Support": {
-      "name": "Dungeon.Support.name",
-      "help": "Dungeon.Support.help",
-      "do_not_use": "do_not_use",
+    "CalyxGolden": {
+      "name": "DungeonDaily.CalyxGolden.name",
+      "help": "DungeonDaily.CalyxGolden.help",
+      "do_not_achieve": "do_not_achieve",
+      "Calyx_Golden_Memories": "疑似花萼（金）・回憶の蕾",
+      "Calyx_Golden_Aether": "疑似花萼（金）・エーテルの蕾",
+      "Calyx_Golden_Treasures": "疑似花萼（金）・秘蔵の蕾"
+    },
+    "CalyxCrimson": {
+      "name": "DungeonDaily.CalyxCrimson.name",
+      "help": "DungeonDaily.CalyxCrimson.help",
+      "do_not_achieve": "do_not_achieve",
+      "Calyx_Crimson_Destruction": "疑似花萼（赤）・壊滅の蕾",
+      "Calyx_Crimson_Preservation": "疑似花萼（赤）・存護の蕾",
+      "Calyx_Crimson_Hunt": "疑似花萼（赤）・巡狩の蕾",
+      "Calyx_Crimson_Abundance": "疑似花萼（赤）・豊穣の蕾",
+      "Calyx_Crimson_Erudition": "疑似花萼（赤）・知恵の蕾",
+      "Calyx_Crimson_Harmony": "疑似花萼（赤）・調和の蕾",
+      "Calyx_Crimson_Nihility": "疑似花萼（赤）・虚無の蕾"
+    },
+    "StagnantShadow": {
+      "name": "DungeonDaily.StagnantShadow.name",
+      "help": "DungeonDaily.StagnantShadow.help",
+      "do_not_achieve": "do_not_achieve",
+      "Stagnant_Shadow_Quanta": "凝結虚影・虚海の形",
+      "Stagnant_Shadow_Gust": "凝結虚影・薫風の形",
+      "Stagnant_Shadow_Fulmination": "凝結虚影・鳴雷の形",
+      "Stagnant_Shadow_Blaze": "凝結虚影・炎華の形",
+      "Stagnant_Shadow_Spike": "凝結虚影・切先の形",
+      "Stagnant_Shadow_Rime": "凝結虚影・霜晶の形",
+      "Stagnant_Shadow_Mirage": "凝結虚影・幻光の形",
+      "Stagnant_Shadow_Icicle": "凝結虚影・氷柱の形",
+      "Stagnant_Shadow_Doom": "凝結虚影・震厄の形",
+      "Stagnant_Shadow_Celestial": "凝結虚影・天人の形"
+    },
+    "CavernOfCorrosion": {
+      "name": "DungeonDaily.CavernOfCorrosion.name",
+      "help": "DungeonDaily.CavernOfCorrosion.help",
+      "do_not_achieve": "do_not_achieve",
+      "Cavern_of_Corrosion_Path_of_Gelid_Wind": "侵蝕トンネル・霜風の路",
+      "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "侵蝕トンネル・迅拳の路",
+      "Cavern_of_Corrosion_Path_of_Drifting": "侵蝕トンネル・漂泊の路",
+      "Cavern_of_Corrosion_Path_of_Providence": "侵蝕トンネル・睿治の路",
+      "Cavern_of_Corrosion_Path_of_Holy_Hymn": "侵蝕トンネル・聖頌の路",
+      "Cavern_of_Corrosion_Path_of_Conflagration": "侵蝕トンネル・野焔の路",
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "侵蝕トンネル・薬使の路"
+    }
+  },
+  "DungeonSupport": {
+    "_info": {
+      "name": "DungeonSupport._info.name",
+      "help": "DungeonSupport._info.help"
+    },
+    "Use": {
+      "name": "DungeonSupport.Use.name",
+      "help": "DungeonSupport.Use.help",
       "always_use": "always_use",
-      "when_daily": "when_daily"
+      "when_daily": "when_daily",
+      "do_not_use": "do_not_use"
     },
-    "SupportCharacter": {
-      "name": "Dungeon.SupportCharacter.name",
-      "help": "Dungeon.SupportCharacter.help",
+    "Character": {
+      "name": "DungeonSupport.Character.name",
+      "help": "DungeonSupport.Character.help",
       "FirstCharacter": "FirstCharacter",
       "Arlan": "アーラン",
       "Asta": "アスター",
@@ -289,6 +348,211 @@
       "Welt": "ヴェルト",
       "Yanqing": "彦卿",
       "Yukong": "御空"
+    }
+  },
+  "DungeonStorage": {
+    "_info": {
+      "name": "DungeonStorage._info.name",
+      "help": "DungeonStorage._info.help"
+    },
+    "DungeonDouble": {
+      "name": "DungeonStorage.DungeonDouble.name",
+      "help": "DungeonStorage.DungeonDouble.help"
+    }
+  },
+  "AchievableQuest": {
+    "_info": {
+      "name": "AchievableQuest._info.name",
+      "help": "AchievableQuest._info.help"
+    },
+    "Complete_1_Daily_Mission": {
+      "name": "デイリークエストを1回クリアする",
+      "help": "AchievableQuest.Complete_1_Daily_Mission.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Clear_Calyx_Golden_1_times": {
+      "name": "「疑似花萼（金）」を1回クリアする",
+      "help": "AchievableQuest.Clear_Calyx_Golden_1_times.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Complete_Calyx_Crimson_1_time": {
+      "name": "「疑似花萼（赤）」を1回クリアする",
+      "help": "AchievableQuest.Complete_Calyx_Crimson_1_time.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Clear_Stagnant_Shadow_1_times": {
+      "name": "「凝結虚影」を1回クリアする",
+      "help": "AchievableQuest.Clear_Stagnant_Shadow_1_times.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Clear_Cavern_of_Corrosion_1_times": {
+      "name": "「侵蝕トンネル」を1回クリアする",
+      "help": "AchievableQuest.Clear_Cavern_of_Corrosion_1_times.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "In_a_single_battle_inflict_3_Weakness_Break_of_different_Types": {
+      "name": "一度の戦闘で、異なる3種の属性の弱点撃破を発動する",
+      "help": "AchievableQuest.In_a_single_battle_inflict_3_Weakness_Break_of_different_Types.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Inflict_Weakness_Break_5_times": {
+      "name": "累計で弱点撃破効果を5回発動する",
+      "help": "AchievableQuest.Inflict_Weakness_Break_5_times.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Defeat_a_total_of_20_enemies": {
+      "name": "敵を累計で20体倒す",
+      "help": "AchievableQuest.Defeat_a_total_of_20_enemies.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Enter_combat_by_attacking_enemy_Weakness_and_win_3_times": {
+      "name": "弱点を攻撃して戦闘に入り、3回勝利する",
+      "help": "AchievableQuest.Enter_combat_by_attacking_enemy_Weakness_and_win_3_times.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Use_Technique_2_times": {
+      "name": "秘技を累計2回発動する",
+      "help": "AchievableQuest.Use_Technique_2_times.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Go_on_assignment_1_time": {
+      "name": "依頼に1回派遣する",
+      "help": "AchievableQuest.Go_on_assignment_1_time.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Take_1_photo": {
+      "name": "1回撮影する",
+      "help": "AchievableQuest.Take_1_photo.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Destroy_3_destructible_objects": {
+      "name": "破壊できるオブジェクトを累計で3つ破壊する",
+      "help": "AchievableQuest.Destroy_3_destructible_objects.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Complete_Forgotten_Hall_1_time": {
+      "name": "「忘却の庭」を1回クリアする",
+      "help": "AchievableQuest.Complete_Forgotten_Hall_1_time.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Complete_Echo_of_War_1_times": {
+      "name": "「歴戦余韻」を1回クリアする",
+      "help": "AchievableQuest.Complete_Echo_of_War_1_times.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Complete_1_stage_in_Simulated_Universe_Any_world": {
+      "name": "「模擬宇宙」のエリアを1つクリアする（任意の世界）",
+      "help": "AchievableQuest.Complete_1_stage_in_Simulated_Universe_Any_world.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Obtain_victory_in_combat_with_support_characters_1_time": {
+      "name": "サポートキャラを使い、戦闘に1回勝利する",
+      "help": "AchievableQuest.Obtain_victory_in_combat_with_support_characters_1_time.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Use_an_Ultimate_to_deal_the_final_blow_1_time": {
+      "name": "必殺技で最後の一撃を1回与える",
+      "help": "AchievableQuest.Use_an_Ultimate_to_deal_the_final_blow_1_time.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Level_up_any_character_1_time": {
+      "name": "任意のキャラを1回レベルアップする",
+      "help": "AchievableQuest.Level_up_any_character_1_time.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Level_up_any_Light_Cone_1_time": {
+      "name": "任意の光円錐を1回レベルアップする",
+      "help": "AchievableQuest.Level_up_any_Light_Cone_1_time.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Level_up_any_Relic_1_time": {
+      "name": "任意の遺物を1回レベルアップする",
+      "help": "AchievableQuest.Level_up_any_Relic_1_time.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Salvage_any_Relic": {
+      "name": "任意の遺物1つを分解する",
+      "help": "AchievableQuest.Salvage_any_Relic.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Synthesize_Consumable_1_time": {
+      "name": "消耗品を1回合成する",
+      "help": "AchievableQuest.Synthesize_Consumable_1_time.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Synthesize_material_1_time": {
+      "name": "素材を1回合成する",
+      "help": "AchievableQuest.Synthesize_material_1_time.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Use_Consumables_1_time": {
+      "name": "消耗品を1個使う",
+      "help": "AchievableQuest.Use_Consumables_1_time.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    }
+  },
+  "DailyStorage": {
+    "_info": {
+      "name": "DailyStorage._info.name",
+      "help": "DailyStorage._info.help"
+    },
+    "DailyActivity": {
+      "name": "DailyStorage.DailyActivity.name",
+      "help": "DailyStorage.DailyActivity.help"
+    },
+    "DailyQuest": {
+      "name": "DailyStorage.DailyQuest.name",
+      "help": "DailyStorage.DailyQuest.help"
     }
   },
   "Assignment": {

@@ -3,11 +3,14 @@ import datetime
 import operator
 import threading
 
+from module.base.decorator import cached_property, del_cached_property
 from module.base.filter import Filter
 from module.base.utils import SelectedGrids
 from module.config.config_generated import GeneratedConfig
 from module.config.config_manual import ManualConfig
 from module.config.config_updater import ConfigUpdater
+from module.config.stored.stored_generated import StoredGenerated
+from module.config.stored.classes import iter_attribute
 from module.config.utils import *
 from module.config.watcher import ConfigWatcher
 from module.exception import RequestHumanTakeover, ScriptError
@@ -168,6 +171,15 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
             self.data, keys="Alas.Optimization.CloseGameDuringWait", default=False
         )
 
+    @cached_property
+    def stored(self) -> StoredGenerated:
+        stored = StoredGenerated()
+        # Bind config
+        for _, value in iter_attribute(stored):
+            value._bind(self)
+            del_cached_property(value, '_stored')
+        return stored
+
     def get_next_task(self):
         """
         Calculate tasks, set pending_task and waiting_task
@@ -241,6 +253,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         )
         # Don't use self.modified = {}, that will create a new object.
         self.modified.clear()
+        del_cached_property(self, 'stored')
         self.write_file(self.config_name, data=self.data)
 
     def update(self):

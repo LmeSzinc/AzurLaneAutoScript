@@ -31,7 +31,7 @@
       "help": ""
     },
     "Assignment": {
-      "name": "委託設置",
+      "name": "委託",
       "help": ""
     }
   },
@@ -247,18 +247,77 @@
       "4": "4",
       "5": "5",
       "6": "6"
+    }
+  },
+  "DungeonDaily": {
+    "_info": {
+      "name": "每日任務設定",
+      "help": "打一次特定的本，以滿足每日任務的要求"
     },
-    "Support": {
-      "name": "Dungeon.Support.name",
-      "help": "Dungeon.Support.help",
-      "do_not_use": "do_not_use",
-      "always_use": "always_use",
-      "when_daily": "when_daily"
+    "CalyxGolden": {
+      "name": "完成1次擬造花萼（金）",
+      "help": "",
+      "do_not_achieve": "不完成這個任務",
+      "Calyx_Golden_Memories": "材料：角色經驗（回憶之蕾•擬造花萼金）",
+      "Calyx_Golden_Aether": "材料：武器經驗（乙太之蕾•擬造花萼金）",
+      "Calyx_Golden_Treasures": "材料：信用點（藏珍之蕾•擬造花萼金）"
     },
-    "SupportCharacter": {
-      "name": "Dungeon.SupportCharacter.name",
-      "help": "Dungeon.SupportCharacter.help",
-      "FirstCharacter": "FirstCharacter",
+    "CalyxCrimson": {
+      "name": "完成1次擬造花萼（赤）",
+      "help": "",
+      "do_not_achieve": "不完成這個任務",
+      "Calyx_Crimson_Destruction": "行跡材料：毀滅（毀滅之蕾•擬造花萼赤）",
+      "Calyx_Crimson_Preservation": "行跡材料：存護（存護之蕾•擬造花萼赤）",
+      "Calyx_Crimson_Hunt": "行跡材料：巡獵（存護之蕾•擬造花萼赤）",
+      "Calyx_Crimson_Abundance": "行跡材料：豐饒（豐饒之蕾•擬造花萼赤）",
+      "Calyx_Crimson_Erudition": "行跡材料：智識（智識之蕾•擬造花萼赤）",
+      "Calyx_Crimson_Harmony": "行跡材料：同諧（同諧之蕾•擬造花萼赤）",
+      "Calyx_Crimson_Nihility": "行跡材料：虛無（虛無之蕾•擬造花萼赤）"
+    },
+    "StagnantShadow": {
+      "name": "完成1次凝滯虛影",
+      "help": "",
+      "do_not_achieve": "不完成這個任務",
+      "Stagnant_Shadow_Quanta": "角色晉階材料：量子（空海之形•凝滯虛影）",
+      "Stagnant_Shadow_Gust": "角色晉階材料：風（巽風之形•凝滯虛影）",
+      "Stagnant_Shadow_Fulmination": "角色晉階材料：雷（鳴雷之形•凝滯虛影）",
+      "Stagnant_Shadow_Blaze": "角色晉階材料：火（炎華之形•凝滯虛影）",
+      "Stagnant_Shadow_Spike": "角色晉階材料：物理（鋒芒之形•凝滯虛影）",
+      "Stagnant_Shadow_Rime": "角色晉階材料：冰（霜晶之形•凝滯虛影）",
+      "Stagnant_Shadow_Mirage": "角色晉階材料：虛數（幻光之形•凝滯虛影）",
+      "Stagnant_Shadow_Icicle": "角色晉階材料：冰（冰稜之形•凝滯虛影）",
+      "Stagnant_Shadow_Doom": "角色晉階材料：雷（震厄之形•凝滯虛影）",
+      "Stagnant_Shadow_Celestial": "角色晉階材料：風（天人之形•凝滯虛影）"
+    },
+    "CavernOfCorrosion": {
+      "name": "完成1次侵蝕隧洞",
+      "help": "",
+      "do_not_achieve": "不完成這個任務",
+      "Cavern_of_Corrosion_Path_of_Gelid_Wind": "遺器：冰套+風套（霜風之徑•侵蝕隧洞）",
+      "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "遺器：物理套+擊破套（迅拳之徑•侵蝕隧洞）",
+      "Cavern_of_Corrosion_Path_of_Drifting": "遺器：治療套+快槍手（漂泊之徑•侵蝕隧洞）",
+      "Cavern_of_Corrosion_Path_of_Providence": "遺器：鐵衛套+量子套（睿治之徑•侵蝕隧洞）",
+      "Cavern_of_Corrosion_Path_of_Holy_Hymn": "遺器：防禦套+雷套（聖頌之徑•侵蝕隧洞）",
+      "Cavern_of_Corrosion_Path_of_Conflagration": "遺器：火套+虛數套（野焰之徑•侵蝕隧洞）",
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "遺器：生命套+速度套（藥使之徑•侵蝕隧洞）"
+    }
+  },
+  "DungeonSupport": {
+    "_info": {
+      "name": "支援設定",
+      "help": ""
+    },
+    "Use": {
+      "name": "使用好友支援",
+      "help": "",
+      "always_use": "總是使用",
+      "when_daily": "僅當每日任務需要時使用",
+      "do_not_use": "不使用"
+    },
+    "Character": {
+      "name": "好友支援角色",
+      "help": "選擇好友支援角色，未找到則選擇默認（第一個）角色",
+      "FirstCharacter": "支援列表第一個角色",
       "Arlan": "阿蘭",
       "Asta": "艾絲妲",
       "Bailu": "白露",
@@ -284,16 +343,221 @@
       "SilverWolf": "銀狼",
       "Sushang": "素裳",
       "Tingyun": "停雲",
-      "TrailblazerDestruction": "TrailblazerDestruction",
-      "TrailblazerPreservation": "TrailblazerPreservation",
+      "TrailblazerDestruction": "開拓者•毀滅",
+      "TrailblazerPreservation": "開拓者•存護",
       "Welt": "瓦爾特",
       "Yanqing": "彥卿",
       "Yukong": "馭空"
     }
   },
+  "DungeonStorage": {
+    "_info": {
+      "name": "DungeonStorage._info.name",
+      "help": "DungeonStorage._info.help"
+    },
+    "DungeonDouble": {
+      "name": "DungeonStorage.DungeonDouble.name",
+      "help": "DungeonStorage.DungeonDouble.help"
+    }
+  },
+  "AchievableQuest": {
+    "_info": {
+      "name": "可完成的任務",
+      "help": "任務狀態為 \"未設定\" 時需要按照要求設定SRC，才能啟用任務\n注意：請讓更多的任務處於 \"可完成\" 狀態，否則SRC可能無法完成500點的活躍度要求"
+    },
+    "Complete_1_Daily_Mission": {
+      "name": "完成1個每日任務",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Clear_Calyx_Golden_1_times": {
+      "name": "完成1次「擬造花萼（金）」",
+      "help": "需要設定並啟用\"每日副本\"任務",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Complete_Calyx_Crimson_1_time": {
+      "name": "完成1次「擬造花萼（赤）」",
+      "help": "需要設定並啟用\"每日副本\"任務",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Clear_Stagnant_Shadow_1_times": {
+      "name": "完成1次「凝滯虛影」",
+      "help": "需要設定並啟用\"每日副本\"任務",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Clear_Cavern_of_Corrosion_1_times": {
+      "name": "完成1次「侵蝕隧洞」",
+      "help": "需要設定並啟用\"每日副本\"任務",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "In_a_single_battle_inflict_3_Weakness_Break_of_different_Types": {
+      "name": "單場戰鬥中，觸發3種不同屬性的弱點擊破",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Inflict_Weakness_Break_5_times": {
+      "name": "累積觸發弱點擊破效果5次",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Defeat_a_total_of_20_enemies": {
+      "name": "累積消滅20個敵人",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Enter_combat_by_attacking_enemy_Weakness_and_win_3_times": {
+      "name": "利用弱點進入戰鬥並獲勝3次",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Use_Technique_2_times": {
+      "name": "累積施放2次秘技",
+      "help": "默認可完成，將前往深淵一施放2次秘技",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Go_on_assignment_1_time": {
+      "name": "派遣1次委託",
+      "help": "需要設定並啟用\"委託\"任務",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Take_1_photo": {
+      "name": "拍照1次",
+      "help": "默认可完成",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Destroy_3_destructible_objects": {
+      "name": "累積擊碎3個可破壞物",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Complete_Forgotten_Hall_1_time": {
+      "name": "完成1次「忘卻之庭」",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Complete_Echo_of_War_1_times": {
+      "name": "完成1次「歷戰餘響」",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Complete_1_stage_in_Simulated_Universe_Any_world": {
+      "name": "完成「模擬宇宙」任意世界的1個區域",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Obtain_victory_in_combat_with_support_characters_1_time": {
+      "name": "使用支援角色並獲得戰鬥勝利1次",
+      "help": "需要設定並啟用\"每日副本\"，且設並好友支援",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Use_an_Ultimate_to_deal_the_final_blow_1_time": {
+      "name": "施放終結技造成制勝一擊1次",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Level_up_any_character_1_time": {
+      "name": "將任意角色等級提升1次",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Level_up_any_Light_Cone_1_time": {
+      "name": "將任意光錐等級提升1次",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Level_up_any_Relic_1_time": {
+      "name": "將任意遺器等級提升1次",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Salvage_any_Relic": {
+      "name": "分解任意1件遺器",
+      "help": "默認可完成，將分解遺器稀有度倒序的第一個",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Synthesize_Consumable_1_time": {
+      "name": "合成1次消耗品",
+      "help": "默認可完成，將合成最低級零食",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Synthesize_material_1_time": {
+      "name": "合成1次素材",
+      "help": "默認可完成，將合成最低級素材",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Use_Consumables_1_time": {
+      "name": "使用1件消耗品",
+      "help": "默認可完成，將使用護具，無材料時先合成再使用",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    }
+  },
+  "DailyStorage": {
+    "_info": {
+      "name": "DailyStorage._info.name",
+      "help": "DailyStorage._info.help"
+    },
+    "DailyActivity": {
+      "name": "DailyStorage.DailyActivity.name",
+      "help": "DailyStorage.DailyActivity.help"
+    },
+    "DailyQuest": {
+      "name": "DailyStorage.DailyQuest.name",
+      "help": "DailyStorage.DailyQuest.help"
+    }
+  },
   "Assignment": {
     "_info": {
-      "name": "委託設置",
+      "name": "委託設定",
       "help": "領取獎勵並派遣，優先處理指定委託\n若處理指定委託之後未達到上限，則按經驗材料 → 角色專屬素材 → 合成材料的順序來派遣委託"
     },
     "Duration": {

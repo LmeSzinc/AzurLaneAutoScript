@@ -243,17 +243,76 @@
           5,
           6
         ]
+      }
+    },
+    "DungeonDaily": {
+      "CalyxGolden": {
+        "type": "select",
+        "value": "Calyx_Golden_Treasures",
+        "option": [
+          "do_not_achieve",
+          "Calyx_Golden_Memories",
+          "Calyx_Golden_Aether",
+          "Calyx_Golden_Treasures"
+        ]
       },
-      "Support": {
+      "CalyxCrimson": {
+        "type": "select",
+        "value": "Calyx_Crimson_Erudition",
+        "option": [
+          "do_not_achieve",
+          "Calyx_Crimson_Destruction",
+          "Calyx_Crimson_Preservation",
+          "Calyx_Crimson_Hunt",
+          "Calyx_Crimson_Abundance",
+          "Calyx_Crimson_Erudition",
+          "Calyx_Crimson_Harmony",
+          "Calyx_Crimson_Nihility"
+        ]
+      },
+      "StagnantShadow": {
+        "type": "select",
+        "value": "do_not_archive",
+        "option": [
+          "do_not_achieve",
+          "Stagnant_Shadow_Quanta",
+          "Stagnant_Shadow_Gust",
+          "Stagnant_Shadow_Fulmination",
+          "Stagnant_Shadow_Blaze",
+          "Stagnant_Shadow_Spike",
+          "Stagnant_Shadow_Rime",
+          "Stagnant_Shadow_Mirage",
+          "Stagnant_Shadow_Icicle",
+          "Stagnant_Shadow_Doom",
+          "Stagnant_Shadow_Celestial"
+        ]
+      },
+      "CavernOfCorrosion": {
+        "type": "select",
+        "value": "Cavern_of_Corrosion_Path_of_Providence",
+        "option": [
+          "do_not_achieve",
+          "Cavern_of_Corrosion_Path_of_Gelid_Wind",
+          "Cavern_of_Corrosion_Path_of_Jabbing_Punch",
+          "Cavern_of_Corrosion_Path_of_Drifting",
+          "Cavern_of_Corrosion_Path_of_Providence",
+          "Cavern_of_Corrosion_Path_of_Holy_Hymn",
+          "Cavern_of_Corrosion_Path_of_Conflagration",
+          "Cavern_of_Corrosion_Path_of_Elixir_Seekers"
+        ]
+      }
+    },
+    "DungeonSupport": {
+      "Use": {
         "type": "select",
         "value": "when_daily",
         "option": [
-          "do_not_use",
           "always_use",
-          "when_daily"
+          "when_daily",
+          "do_not_use"
         ]
       },
-      "SupportCharacter": {
+      "Character": {
         "type": "select",
         "value": "FirstCharacter",
         "option": [
@@ -290,6 +349,14 @@
           "Yukong"
         ]
       }
+    },
+    "DungeonStorage": {
+      "DungeonDouble": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredDungeonDouble"
+      }
     }
   },
   "DailyQuest": {
@@ -312,6 +379,397 @@
         "type": "input",
         "value": "04:00",
         "display": "hide"
+      }
+    },
+    "AchievableQuest": {
+      "Complete_1_Daily_Mission": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Clear_Calyx_Golden_1_times": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Complete_Calyx_Crimson_1_time": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Clear_Stagnant_Shadow_1_times": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Clear_Cavern_of_Corrosion_1_times": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "In_a_single_battle_inflict_3_Weakness_Break_of_different_Types": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Inflict_Weakness_Break_5_times": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Defeat_a_total_of_20_enemies": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Enter_combat_by_attacking_enemy_Weakness_and_win_3_times": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Use_Technique_2_times": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Go_on_assignment_1_time": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Take_1_photo": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Destroy_3_destructible_objects": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Complete_Forgotten_Hall_1_time": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Complete_Echo_of_War_1_times": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Complete_1_stage_in_Simulated_Universe_Any_world": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Obtain_victory_in_combat_with_support_characters_1_time": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Use_an_Ultimate_to_deal_the_final_blow_1_time": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Level_up_any_character_1_time": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Level_up_any_Light_Cone_1_time": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Level_up_any_Relic_1_time": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Salvage_any_Relic": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Synthesize_Consumable_1_time": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Synthesize_material_1_time": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Use_Consumables_1_time": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      }
+    },
+    "DailyStorage": {
+      "DailyActivity": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredDailyActivity"
+      },
+      "DailyQuest": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredDaily"
       }
     }
   },
