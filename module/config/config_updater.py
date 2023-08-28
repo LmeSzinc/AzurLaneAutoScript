@@ -216,7 +216,10 @@ class ConfigGenerator:
             if not check_override(p, v):
                 continue
             if isinstance(v, dict):
-                if deep_get(v, keys='type') in ['lock']:
+                typ = v.get('type')
+                if typ == 'state':
+                    pass
+                elif typ == 'lock':
                     deep_default(v, keys='display', value="disabled")
                 elif deep_get(v, keys='value') is not None:
                     deep_default(v, keys='display', value='hide')

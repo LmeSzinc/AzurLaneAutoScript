@@ -124,9 +124,14 @@
   "Restart": {
     "Scheduler": {
       "Enable": {
-        "type": "checkbox",
+        "type": "state",
         "value": true,
-        "display": "disabled"
+        "option": [
+          true
+        ],
+        "option_bold": [
+          true
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -149,7 +154,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -363,7 +372,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -777,7 +790,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -800,7 +817,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -819,16 +840,6 @@
       }
     },
     "Assignment": {
-      "Duration": {
-        "type": "select",
-        "value": 20,
-        "option": [
-          4,
-          8,
-          12,
-          20
-        ]
-      },
       "Name_1": {
         "type": "select",
         "value": "Nameless_Land_Nameless_People",
@@ -903,6 +914,16 @@
           "Spring_of_Life",
           "The_Land_of_Gold",
           "The_Blossom_in_the_Storm"
+        ]
+      },
+      "Duration": {
+        "type": "select",
+        "value": 20,
+        "option": [
+          4,
+          8,
+          12,
+          20
         ]
       }
     }

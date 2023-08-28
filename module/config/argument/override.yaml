@@ -15,8 +15,10 @@ Alas:
 Restart:
   Scheduler:
     Enable:
+      type: state
       value: true
-      display: disabled
+      option: [ true, ]
+      option_bold: [ true, ]
     ServerUpdate: 04:00
 
 # ==================== Farm ====================
