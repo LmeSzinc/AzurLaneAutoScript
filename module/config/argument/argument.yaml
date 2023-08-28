@@ -8,7 +8,7 @@ Scheduler:
   Enable:
     type: checkbox
     value: false
-    option: [ true, false]
+    option: [ true, false ]
   NextRun: 2020-01-01 00:00:00
   Command: Alas
   ServerUpdate:
@@ -95,7 +95,7 @@ DungeonDaily:
     value: Calyx_Crimson_Erudition
     option: [ do_not_achieve, ]
   StagnantShadow:
-    value: do_not_archive
+    value: do_not_achieve
     option: [ do_not_achieve, ]
   CavernOfCorrosion:
     value: Cavern_of_Corrosion_Path_of_Providence

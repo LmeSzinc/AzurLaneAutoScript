@@ -47,7 +47,7 @@ class GeneratedConfig:
     # Group `DungeonDaily`
     DungeonDaily_CalyxGolden = 'Calyx_Golden_Treasures'  # do_not_achieve, Calyx_Golden_Memories, Calyx_Golden_Aether, Calyx_Golden_Treasures
     DungeonDaily_CalyxCrimson = 'Calyx_Crimson_Erudition'  # do_not_achieve, Calyx_Crimson_Destruction, Calyx_Crimson_Preservation, Calyx_Crimson_Hunt, Calyx_Crimson_Abundance, Calyx_Crimson_Erudition, Calyx_Crimson_Harmony, Calyx_Crimson_Nihility
-    DungeonDaily_StagnantShadow = 'do_not_archive'  # do_not_achieve, Stagnant_Shadow_Quanta, Stagnant_Shadow_Gust, Stagnant_Shadow_Fulmination, Stagnant_Shadow_Blaze, Stagnant_Shadow_Spike, Stagnant_Shadow_Rime, Stagnant_Shadow_Mirage, Stagnant_Shadow_Icicle, Stagnant_Shadow_Doom, Stagnant_Shadow_Celestial
+    DungeonDaily_StagnantShadow = 'do_not_achieve'  # do_not_achieve, Stagnant_Shadow_Quanta, Stagnant_Shadow_Gust, Stagnant_Shadow_Fulmination, Stagnant_Shadow_Blaze, Stagnant_Shadow_Spike, Stagnant_Shadow_Rime, Stagnant_Shadow_Mirage, Stagnant_Shadow_Icicle, Stagnant_Shadow_Doom, Stagnant_Shadow_Celestial
     DungeonDaily_CavernOfCorrosion = 'Cavern_of_Corrosion_Path_of_Providence'  # do_not_achieve, Cavern_of_Corrosion_Path_of_Gelid_Wind, Cavern_of_Corrosion_Path_of_Jabbing_Punch, Cavern_of_Corrosion_Path_of_Drifting, Cavern_of_Corrosion_Path_of_Providence, Cavern_of_Corrosion_Path_of_Holy_Hymn, Cavern_of_Corrosion_Path_of_Conflagration, Cavern_of_Corrosion_Path_of_Elixir_Seekers
 
     # Group `DungeonSupport`
