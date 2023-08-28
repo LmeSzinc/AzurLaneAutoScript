@@ -246,7 +246,9 @@ class RewardDorm(UI):
         amount = self._dorm_food_ocr.ocr(self.device.image)
         amount = [a if hf else 0 for a, hf in zip(amount, has_food)]
         food = [Food(feed=f, amount=a) for f, a in zip(FOOD_FEED_AMOUNT, amount)]
-        _, fill, _ = OCR_FILL.ocr(self.device.image)
+        _, fill, total = OCR_FILL.ocr(self.device.image)
+        if total == 0:
+            fill = -1
         logger.info(f'Dorm food: {[f.amount for f in food]}, to fill: {fill}')
         return food, fill
 
@@ -278,8 +280,12 @@ class RewardDorm(UI):
 
             # Get
             food, fill = self.dorm_food_get()
+            if fill == -1:
+                continue
             if sum([f.amount for f in food]) > 0:
                 break
+        if fill < 0:
+            fill = 0
 
         FOOD_FILTER.load(self.config.Dorm_FeedFilter)
         for selected in FOOD_FILTER.apply(food):
@@ -326,10 +332,11 @@ class RewardDorm(UI):
             if self.appear(DORM_FEED_CHECK, offset=(20, 20)):
                 break
 
-            if self.appear(DORM_CHECK, offset=(20, 20), interval=2):
-                self.device.click(DORM_FEED_ENTER)
-                continue
             if self.ui_additional():
+                self.interval_clear(DORM_CHECK)
+                continue
+            if self.appear(DORM_CHECK, offset=(20, 20), interval=5):
+                self.device.click(DORM_FEED_ENTER)
                 continue
 
     def dorm_feed_quit(self, skip_first_screenshot=False):
@@ -349,12 +356,14 @@ class RewardDorm(UI):
             if self.appear(DORM_CHECK, offset=(20, 20)):
                 break
 
-            if self.appear(DORM_FEED_CHECK, offset=(20, 20), interval=2):
+            if self.appear(DORM_FEED_CHECK, offset=(20, 20), interval=5):
                 self.device.click(DORM_FEED_ENTER)
                 continue
             if self.handle_popup_cancel('DORM_FEED'):
+                self.interval_clear(DORM_CHECK)
                 continue
             if self.ui_additional():
+                self.interval_clear(DORM_CHECK)
                 continue
 
     def dorm_run(self, feed=True, collect=True):

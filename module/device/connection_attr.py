@@ -7,6 +7,7 @@ from adbutils import AdbClient, AdbDevice
 
 from module.base.decorator import cached_property
 from module.config.config import AzurLaneConfig
+from module.config.env import IS_ON_PHONE_CLOUD
 from module.config.utils import deep_iter
 from module.exception import RequestHumanTakeover
 from module.logger import logger
@@ -32,6 +33,8 @@ class ConnectionAttr:
             self.config = AzurLaneConfig(config, task=None)
         else:
             self.config = config
+
+        logger.attr('IS_ON_PHONE_CLOUD', IS_ON_PHONE_CLOUD)
 
         # Init adb client
         logger.attr('AdbBinary', self.adb_binary)
@@ -66,15 +69,37 @@ class ConnectionAttr:
         self.serial_check()
         self.config.DEVICE_OVER_HTTP = self.is_over_http
 
+    @staticmethod
+    def revise_serial(serial):
+        serial = serial.replace(' ', '')
+        # 127。0。0。1：5555
+        serial = serial.replace('。', '.').replace('，', '.').replace(',', '.').replace('：', ':')
+        # 127.0.0.1.5555
+        serial = serial.replace('127.0.0.1.', '127.0.0.1:')
+        # 16384
+        try:
+            port = int(serial)
+            if 1000 < port < 65536:
+                serial = f'127.0.0.1:{port}'
+        except ValueError:
+            pass
+        # 夜神模拟器 127.0.0.1:62001
+        if '模拟' in serial:
+            res = re.search(r'(\d+\.\d+\.\d+\.\d+:\d+)', serial)
+            if res:
+                serial = res.group(1)
+        return str(serial)
+
     def serial_check(self):
         """
         serial check
         """
-        # Chinese colon
-        if '：' in self.serial:
-            self.serial = self.serial.replace('：', ':')
-            logger.warning(f'Serial {self.config.Emulator_Serial} is revised to {self.serial}')
-            self.config.Emulator_Serial = self.serial
+        # fool-proof
+        new = self.revise_serial(self.serial)
+        if new != self.serial:
+            logger.warning(f'Serial "{self.config.Emulator_Serial}" is revised to "{new}"')
+            self.config.Emulator_Serial = new
+            self.serial = new
         if self.is_bluestacks4_hyperv:
             self.serial = self.find_bluestacks4_hyperv(self.serial)
         if self.is_bluestacks5_hyperv:
@@ -118,7 +143,9 @@ class ConnectionAttr:
 
     @cached_property
     def is_mumu_family(self):
-        return self.serial == '127.0.0.1:7555'
+        # 127.0.0.1:7555
+        # 127.0.0.1:16384 + 32*n
+        return self.serial == '127.0.0.1:7555' or self.serial.startswith('127.0.0.1:16')
 
     @cached_property
     def is_emulator(self):

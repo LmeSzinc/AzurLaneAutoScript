@@ -92,7 +92,7 @@ class GeneratedConfig:
     MaaMall_BlackList = '碳 > 家具 > 加急许可'
 
     # Group `MaaRoguelike`
-    MaaRoguelike_Theme = 'Phantom'  # Phantom, Mizuki
+    MaaRoguelike_Theme = 'Sami'  # Phantom, Mizuki, Sami
     MaaRoguelike_Mode = 0  # 0, 1
     MaaRoguelike_StartsCount = 9999999
     MaaRoguelike_InvestmentsCount = 9999999

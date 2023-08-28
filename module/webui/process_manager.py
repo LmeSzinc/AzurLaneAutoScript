@@ -162,9 +162,9 @@ class ProcessManager:
 
                 AzurLaneUncensored(config=config_name, task="AzurLaneUncensored").run()
             elif func == "Benchmark":
-                from module.daemon.benchmark import Benchmark
+                from module.daemon.benchmark import run_benchmark
 
-                Benchmark(config=config_name, task="Benchmark").run()
+                run_benchmark(config=config_name)
             elif func == "GameManager":
                 from module.daemon.game_manager import GameManager
 

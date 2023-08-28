@@ -16,7 +16,8 @@ from module.map_detection.grid import Grid
 from module.map_detection.utils import area2corner, trapezoid2area
 from module.map_detection.view import View
 from module.os.assets import GLOBE_GOTO_MAP
-from module.os_handler.assets import AUTO_SEARCH_REWARD, PORT_SUPPLY_CHECK
+from module.os_handler.assets import AUTO_SEARCH_REWARD, GET_ADAPTABILITY, MISSION_CHECK as OPSI_MISSION_CHECK, \
+    PORT_SUPPLY_CHECK
 from module.ui.assets import BACK_ARROW
 
 
@@ -136,6 +137,10 @@ class Camera(MapOperation):
                 logger.warning('Perspective error caused by GET_ITEMS_1_RYZA')
                 self.device.click(GET_ITEMS_1_RYZA)
                 return False
+            elif self.appear(GET_ADAPTABILITY, offset=(20, 20)):
+                logger.warning('Perspective error caused by GET_ADAPTABILITY')
+                self.device.click(GET_ADAPTABILITY)
+                return False
             elif self.handle_story_skip():
                 logger.warning('Perspective error caused by story')
                 self.ensure_no_story(skip_first_screenshot=False)
@@ -165,6 +170,16 @@ class Camera(MapOperation):
                     logger.warning('Cannot find method os_auto_search_quit(), use ui_click() instead')
                     self.ui_click(AUTO_SEARCH_REWARD, check_button=self.is_in_map, offset=(50, 50),
                                   retry_wait=3, skip_first_screenshot=True)
+                    return False
+            elif self.appear(OPSI_MISSION_CHECK, offset=(20, 20)):
+                logger.warning('Perspective error caused by OPSI_MISSION_CHECK')
+                if hasattr(self, 'os_mission_quit'):
+                    self.os_mission_quit()
+                    return False
+                else:
+                    logger.warning('Cannot find method os_mission_quit(), use ui_click() instead')
+                    self.ui_click(OPSI_MISSION_CHECK, check_button=self.is_in_map, offset=(200, 5),
+                                  skip_first_screenshot=True)
                     return False
             elif 'opsi' in self.config.task.command.lower() and self.handle_popup_confirm('OPSI'):
                 # Always confirm popups in OpSi, same popups in os_map_goto_globe()

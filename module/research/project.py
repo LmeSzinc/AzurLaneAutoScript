@@ -5,9 +5,10 @@ from scipy import signal
 from module.base.decorator import cached_property
 from module.base.utils import *
 from module.logger import logger
-from module.ocr.ocr import Ocr
+from module.ocr.ocr import Duration, Ocr
 from module.research.assets import *
 from module.research.project_data import LIST_RESEARCH_PROJECT
+from module.research.series import get_detail_series, get_research_series_3
 from module.statistics.utils import *
 
 RESEARCH_SERIES = (SERIES_1, SERIES_2, SERIES_3, SERIES_4, SERIES_5)
@@ -68,7 +69,8 @@ def get_research_series_old(image, series_button=RESEARCH_SERIES):
 
 
 def _get_research_series(img):
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    # img = rgb2luma(img)
+    img = extract_white_letters(img)
     pos = img.shape[0] * 2 // 5
 
     img = img[pos - 4:pos + 5]
@@ -113,7 +115,9 @@ def get_research_series(image, series_button=RESEARCH_SERIES):
     """
     result = []
     for button in series_button:
-        img = resize(crop(image, button.area), (46, 25))
+        # img = resize(crop(image, button.area), (46, 25))
+        img = crop(image, button.area)
+        img = cv2.resize(img, (46, 25), interpolation=cv2.INTER_AREA)
         series = _get_research_series(img)
         result.append(series)
     return result
@@ -243,9 +247,7 @@ def get_research_series_jp(image):
     Returns:
         str: Series like "S4"
     """
-    area = SERIES_DETAIL.area
-    img = crop(image, area)
-    series = _get_research_series(img)
+    series = get_detail_series(image)
     return f'S{series}'
 
 
@@ -257,8 +259,8 @@ def get_research_duration_jp(image):
     Returns:
         duration (int): number of seconds
     """
-    ocr = Ocr(DURATION_DETAIL, alphabet='0123456789:')
-    duration = parse_time(ocr.ocr(image)).total_seconds()
+    ocr = Duration(DURATION_DETAIL)
+    duration = ocr.ocr(image).total_seconds()
     return duration
 
 
@@ -272,7 +274,7 @@ def get_research_genre_jp(image):
     """
     genre = ''
     for button in RESEARCH_DETAIL_GENRE:
-        if button.match(image, offset=10, threshold=0.9):
+        if button.match(image, offset=(30, 20), threshold=0.9):
             # DETAIL_GENRE_H_0.name.split("_")[2] == 'H'
             genre = button.name.split("_")[2]
             break
@@ -384,7 +386,7 @@ def research_detect(image):
         list[ResearchProject]:
     """
     projects = []
-    for name, series in zip(get_research_name(image), get_research_series(image)):
+    for name, series in zip(get_research_name(image), get_research_series_3(image)):
         project = ResearchProject(name=name, series=series)
         logger.attr('Project', project)
         projects.append(project)
@@ -411,6 +413,7 @@ class ResearchProject:
             out.append(number)
     print(out)
     """
+    C_PROJECT_NUMBERS = ['153', '185', '038']
     D_PROJECT_NUMBERS = [
         '718', '731', '744', '759', '774', '792', '318', '331', '344', '359', '374', '392', '705', '712', '746', '757',
         '779', '794', '305', '312', '346', '357', '379', '394', '721', '722', '772', '777', '795', '321', '322', '372',
@@ -428,14 +431,14 @@ class ResearchProject:
             series (int): Such as 1, 2, 3
         """
         self.valid = True
-        # 'D-057-UL'
-        self.name = self.check_name(name)
-        if self.name != name:
-            logger.info(f'Research name {name} is revised to {self.name}')
         # '4'
         self.raw_series = series
         # 'S4'
         self.series = f'S{series}'
+        # 'D-057-UL'
+        self.name = self.check_name(name)
+        if self.name != name:
+            logger.info(f'Research name {name} is revised to {self.name}')
         # 'D'
         self.genre = ''
         # '057'
@@ -511,10 +514,15 @@ class ResearchProject:
             number = number.replace('D', '0').replace('O', '0').replace('S', '5')
             # E-316-MI -> E-315-MI
             number = number.replace('316', '315')
+            # [TW] S5 D-349-MI -> S5 D-319-MI
+            if prefix == 'D' and number == '349' and self.raw_series == 5:
+                number = '319'
 
             if prefix in ['I1', 'U']:
                 prefix = 'D'
             prefix = prefix.strip('I1')
+            # LC-038-RF -> C-038-RF
+            prefix = prefix.replace('LC', 'C')
 
             # S3 D-022-MI (S3-Drake-0.5) detected as 'D-022-ML', because of Drake's white cloth.
             suffix = suffix.replace('ML', 'MI').replace('MIL', 'MI').replace('M1', 'MI')
@@ -524,11 +532,18 @@ class ResearchProject:
             suffix = suffix.replace('DC5', 'UL').replace('DC3', 'UL').replace('DC', 'UL')
             # D-075-UL1 -> D-075-UL
             suffix = suffix.replace('UL1', 'UL').replace('ULI', 'UL').replace('UL5', 'UL')
+
             if suffix == 'U':
                 suffix = 'UL'
             # TW ocr errors, convert B to D
             if prefix == 'B' and number in ResearchProject.D_PROJECT_NUMBERS:
                 prefix = 'D'
+            # I-483-RF revised to -483-RF -> D-483-RF
+            if prefix == '' and number in ResearchProject.D_PROJECT_NUMBERS:
+                prefix = 'D'
+            # L-153-MI -> C-153-MI
+            if prefix == 'L' and number in ResearchProject.C_PROJECT_NUMBERS:
+                prefix = 'C'
             return '-'.join([prefix, number, suffix])
         elif len(parts) == 2:
             # Trying to insert '-', for results like H339-MI
