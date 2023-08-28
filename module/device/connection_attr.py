@@ -7,6 +7,7 @@ from adbutils import AdbClient, AdbDevice
 
 from module.base.decorator import cached_property
 from module.config.config import AzurLaneConfig
+from module.config.env import IS_ON_PHONE_CLOUD
 from module.config.utils import deep_iter
 from module.exception import RequestHumanTakeover
 from module.logger import logger
@@ -32,6 +33,8 @@ class ConnectionAttr:
             self.config = AzurLaneConfig(config, task=None)
         else:
             self.config = config
+
+        logger.attr('IS_ON_PHONE_CLOUD', IS_ON_PHONE_CLOUD)
 
         # Init adb client
         logger.attr('AdbBinary', self.adb_binary)

@@ -34,6 +34,7 @@ from pywebio.session import go_app, info, local, register_thread, run_js, set_en
 
 import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
+from module.config.env import IS_ON_PHONE_CLOUD
 from module.config.utils import (
     alas_instance,
     alas_template,
@@ -114,20 +115,21 @@ class AlasGUI(Frame):
                 {"label": t("Gui.Aside.Home"), "value": "Home", "color": "aside"}
             ],
             onclick=[self.ui_develop],
-        ),
+        )
         for name in alas_instance():
             put_icon_buttons(
                 Icon.RUN,
                 buttons=[{"label": name, "value": name, "color": "aside"}],
                 onclick=self.ui_alas,
             )
-        put_icon_buttons(
-            Icon.ADD,
-            buttons=[
-                {"label": t("Gui.Aside.AddAlas"), "value": "AddAlas", "color": "aside"}
-            ],
-            onclick=[self.ui_add_alas],
-        ),
+        if not IS_ON_PHONE_CLOUD:
+            put_icon_buttons(
+                Icon.ADD,
+                buttons=[
+                    {"label": t("Gui.Aside.AddAlas"), "value": "AddAlas", "color": "aside"}
+                ],
+                onclick=[self.ui_add_alas],
+            )
 
     @use_scope("header_status")
     def set_status(self, state: int) -> None:
@@ -1261,6 +1263,7 @@ def app():
     logger.attr("Language", lang.LANG)
     logger.attr("Password", True if key else False)
     logger.attr("CDN", cdn)
+    logger.attr("IS_ON_PHONE_CLOUD", IS_ON_PHONE_CLOUD)
 
     def index():
         if key is not None and not login(key):

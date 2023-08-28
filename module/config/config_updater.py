@@ -5,6 +5,7 @@ from cached_property import cached_property
 
 from deploy.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
+from module.config.env import IS_ON_PHONE_CLOUD
 from module.config.redirect_utils.utils import *
 from module.config.server import to_server, to_package, VALID_PACKAGE, VALID_CHANNEL_PACKAGE, VALID_SERVER_LIST
 from module.config.utils import *
@@ -616,6 +617,7 @@ class ConfigUpdater:
 
         if not is_template:
             new = self.config_redirect(old, new)
+        new = self._override(new)
 
         return new
 
@@ -667,6 +669,25 @@ class ConfigUpdater:
                 deep_set(new, keys=target, value=value)
 
         return new
+
+    def _override(self, data):
+        def remove_drop_save(key):
+            value = deep_get(data, keys=key, default='do_not')
+            if value == 'save_and_upload':
+                value = 'upload'
+                deep_set(data, keys=key, value=value)
+            elif value == 'save':
+                value = 'do_not'
+                deep_set(data, keys=key, value=value)
+
+        if IS_ON_PHONE_CLOUD:
+            deep_set(data, 'Alas.Emulator.Serial', '127.0.0.1:5555')
+            deep_set(data, 'Alas.Emulator.ScreenshotMethod', 'DroidCast_raw')
+            deep_set(data, 'Alas.Emulator.ControlMethod', 'MaaTouch')
+            for arg in deep_get(self.args, keys='Alas.DropRecord', default={}).keys():
+                remove_drop_save(arg)
+
+        return data
 
     def read_file(self, config_name, is_template=False):
         """
