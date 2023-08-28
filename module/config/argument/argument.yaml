@@ -5,7 +5,10 @@
 # ==================== Alas ====================
 
 Scheduler:
-  Enable: false
+  Enable:
+    type: checkbox
+    value: false
+    option: [ true, false ]
   NextRun: 2020-01-01 00:00:00
   Command: Alas
   ServerUpdate:
@@ -92,7 +95,7 @@ DungeonDaily:
     value: Calyx_Crimson_Erudition
     option: [ do_not_achieve, ]
   StagnantShadow:
-    value: do_not_archive
+    value: do_not_achieve
     option: [ do_not_achieve, ]
   CavernOfCorrosion:
     value: Cavern_of_Corrosion_Path_of_Providence
@@ -106,11 +109,13 @@ DungeonSupport:
     value: FirstCharacter
     option: [ FirstCharacter, ]
 DungeonStorage:
+  TrailblazePower:
+    stored: StoredTrailblazePower
   DungeonDouble:
     stored: StoredDungeonDouble
 
 AchievableQuest:
-  # Quests will be injected in config updater
+# Quests will be injected in config updater
 #  Complete_1_Daily_Mission:
 #    type: state
 #    value: achievable
@@ -123,19 +128,19 @@ DailyStorage:
     stored: StoredDaily
 
 Assignment:
-  Duration:
-    value: 20
-    option: [4, 8, 12, 20]
   # Options in Name_x will be injected in config updater
   Name_1:
     value: Nameless_Land_Nameless_People
-    option: [Nameless_Land_Nameless_People, ] 
+    option: [ Nameless_Land_Nameless_People, ]
   Name_2:
     value: Akashic_Records
-    option: [Nameless_Land_Nameless_People, ] 
+    option: [ Nameless_Land_Nameless_People, ]
   Name_3:
     value: The_Invisible_Hand
-    option: [Nameless_Land_Nameless_People, ] 
+    option: [ Nameless_Land_Nameless_People, ]
   Name_4:
     value: Nine_Billion_Names
-    option: [Nameless_Land_Nameless_People, ] 
+    option: [ Nameless_Land_Nameless_People, ]
+  Duration:
+    value: 20
+    option: [ 4, 8, 12, 20 ]

@@ -42,7 +42,9 @@
     },
     "Enable": {
       "name": "啟用該功能",
-      "help": "將這個任務加入調度器\n委託、科研、收穫任務是強制打開的"
+      "help": "將這個任務加入調度器\n委託、科研、收穫任務是強制打開的",
+      "True": "已啟用",
+      "False": "False"
     },
     "NextRun": {
       "name": "下一次執行時間",
@@ -355,9 +357,13 @@
       "name": "DungeonStorage._info.name",
       "help": "DungeonStorage._info.help"
     },
+    "TrailblazePower": {
+      "name": "開拓力",
+      "help": ""
+    },
     "DungeonDouble": {
-      "name": "DungeonStorage.DungeonDouble.name",
-      "help": "DungeonStorage.DungeonDouble.help"
+      "name": "副本雙倍",
+      "help": ""
     }
   },
   "AchievableQuest": {
@@ -547,26 +553,18 @@
       "help": "DailyStorage._info.help"
     },
     "DailyActivity": {
-      "name": "DailyStorage.DailyActivity.name",
-      "help": "DailyStorage.DailyActivity.help"
+      "name": "活躍度",
+      "help": ""
     },
     "DailyQuest": {
-      "name": "DailyStorage.DailyQuest.name",
-      "help": "DailyStorage.DailyQuest.help"
+      "name": "每日任務",
+      "help": ""
     }
   },
   "Assignment": {
     "_info": {
       "name": "委託設定",
       "help": "領取獎勵並派遣，優先處理指定委託\n若處理指定委託之後未達到上限，則按經驗材料 → 角色專屬素材 → 合成材料的順序來派遣委託"
-    },
-    "Duration": {
-      "name": "派遣時間",
-      "help": "",
-      "4": "4",
-      "8": "8",
-      "12": "12",
-      "20": "20"
     },
     "Name_1": {
       "name": "第1個委託選擇",
@@ -635,6 +633,14 @@
       "Spring_of_Life": "虛粒子&固態淨水（生命之泉）",
       "The_Land_of_Gold": "蛋白米&基本食材（黃金大地）",
       "The_Blossom_in_the_Storm": "氣態流體&種子（風暴中怒放的花）"
+    },
+    "Duration": {
+      "name": "派遣時間",
+      "help": "",
+      "4": "4小時",
+      "8": "8小時",
+      "12": "12小時",
+      "20": "20小時"
     }
   },
   "Gui": {

@@ -49,15 +49,38 @@ class ConnectionAttr:
         self.serial_check()
         self.config.DEVICE_OVER_HTTP = self.is_over_http
 
+
+    @staticmethod
+    def revise_serial(serial):
+        serial = serial.replace(' ', '')
+        # 127。0。0。1：5555
+        serial = serial.replace('。', '.').replace('，', '.').replace(',', '.').replace('：', ':')
+        # 127.0.0.1.5555
+        serial = serial.replace('127.0.0.1.', '127.0.0.1:')
+        # 16384
+        try:
+            port = int(serial)
+            if 1000 < port < 65536:
+                serial = f'127.0.0.1:{port}'
+        except ValueError:
+            pass
+        # 夜神模拟器 127.0.0.1:62001
+        if '模拟' in serial:
+            res = re.search(r'(\d+\.\d+\.\d+\.\d+:\d+)', serial)
+            if res:
+                serial = res.group(1)
+        return str(serial)
+
     def serial_check(self):
         """
         serial check
         """
-        # Chinese colon
-        if '：' in self.serial:
-            self.serial = self.serial.replace('：', ':')
-            logger.warning(f'Serial {self.config.Emulator_Serial} is revised to {self.serial}')
-            self.config.Emulator_Serial = self.serial
+        # fool-proof
+        new = self.revise_serial(self.serial)
+        if new != self.serial:
+            logger.warning(f'Serial "{self.config.Emulator_Serial}" is revised to "{new}"')
+            self.config.Emulator_Serial = new
+            self.serial = new
         if self.is_bluestacks4_hyperv:
             self.serial = self.find_bluestacks4_hyperv(self.serial)
         if self.is_bluestacks5_hyperv:

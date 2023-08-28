@@ -6,6 +6,7 @@ from module.config.stored.classes import (
     StoredDungeonDouble,
     StoredExpiredAt0400,
     StoredInt,
+    StoredTrailblazePower,
 )
 
 
@@ -13,6 +14,7 @@ from module.config.stored.classes import (
 # ``` python -m module/config/config_updater.py ```
 
 class StoredGenerated:
+    TrailblazePower = StoredTrailblazePower("Dungeon.DungeonStorage.TrailblazePower")
     DungeonDouble = StoredDungeonDouble("Dungeon.DungeonStorage.DungeonDouble")
     DailyActivity = StoredDailyActivity("DailyQuest.DailyStorage.DailyActivity")
     DailyQuest = StoredDaily("DailyQuest.DailyStorage.DailyQuest")

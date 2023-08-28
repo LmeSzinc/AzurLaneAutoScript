@@ -75,12 +75,12 @@ class CombatPrepare(UI):
             # Confirm if it is > 180, sometimes just OCR errors
             if current > 180 and timeout.reached():
                 break
-            if expect_reduce and current >= self.state.TrailblazePower:
+            if expect_reduce and current >= self.config.stored.TrailblazePower.value:
                 continue
             if current <= 180:
                 break
 
-        self.state.TrailblazePower = current
+        self.config.stored.TrailblazePower.value = current
         return current
 
     def combat_get_wave_cost(self, skip_first_screenshot=True):

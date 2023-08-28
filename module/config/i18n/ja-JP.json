@@ -42,7 +42,9 @@
     },
     "Enable": {
       "name": "Scheduler.Enable.name",
-      "help": "Scheduler.Enable.help"
+      "help": "Scheduler.Enable.help",
+      "True": "True",
+      "False": "False"
     },
     "NextRun": {
       "name": "Scheduler.NextRun.name",
@@ -355,6 +357,10 @@
       "name": "DungeonStorage._info.name",
       "help": "DungeonStorage._info.help"
     },
+    "TrailblazePower": {
+      "name": "DungeonStorage.TrailblazePower.name",
+      "help": "DungeonStorage.TrailblazePower.help"
+    },
     "DungeonDouble": {
       "name": "DungeonStorage.DungeonDouble.name",
       "help": "DungeonStorage.DungeonDouble.help"
@@ -560,14 +566,6 @@
       "name": "依頼設定",
       "help": ""
     },
-    "Duration": {
-      "name": "派遣時間",
-      "help": "",
-      "4": "4",
-      "8": "8",
-      "12": "12",
-      "20": "20"
-    },
     "Name_1": {
       "name": "依頼 1",
       "help": "",
@@ -635,6 +633,14 @@
       "Spring_of_Life": "仮想粒子と固形純水（生命の泉）",
       "The_Land_of_Gold": "タンパク米と基本食材（黄金の大地）",
       "The_Blossom_in_the_Storm": "気態流体と種子（嵐の中で咲き誇る花）"
+    },
+    "Duration": {
+      "name": "派遣時間",
+      "help": "",
+      "4": "4",
+      "8": "8",
+      "12": "12",
+      "20": "20"
     }
   },
   "Gui": {
