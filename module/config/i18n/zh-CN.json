@@ -2464,7 +2464,20 @@
       "Confirm": "添加",
       "FileExist": "存在同名的配置文件，请重新输入一个",
       "InvalidChar": "配置文件名不能包含下列任何字符：.\\/:*?\"<>|",
-      "InvalidPrefixTemplate": "配置文件名不能以 template 开头"
+      "InvalidPrefixTemplate": "配置文件名不能以 template 开头",
+      "Manage": "管理"
+    },
+    "AppManage": {
+      "PageTitle": "管理配置文件",
+      "Back": "返回",
+      "Import": "导入",
+      "Export": "导出",
+      "Delete": "删除",
+      "OverrideWarning": "将会覆盖现有的配置文件",
+      "ImportSuccess": "导入成功",
+      "Name": "配置名称",
+      "Mod": "插件",
+      "Actions": "操作"
     },
     "Update": {
       "UpToDate": "已是最新版本",
@@ -2495,7 +2508,8 @@
     },
     "Text": {
       "InvalidFeedBack": "格式错误。 示例：{0}",
-      "Clear": "清除"
+      "Clear": "清除",
+      "EnterPassword": "输入密码"
     }
   }
 }

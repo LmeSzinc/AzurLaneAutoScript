@@ -60,6 +60,19 @@ AddAlas:
   FileExist:
   InvalidChar:
   InvalidPrefixTemplate:
+  Manage:
+
+AppManage:
+  PageTitle:
+  Back:
+  Import:
+  Export:
+  Delete:
+  OverrideWarning:
+  ImportSuccess:
+  Name:
+  Mod:
+  Actions:
 
 Update:
   UpToDate:
@@ -91,3 +104,4 @@ Remote:
 Text:
   InvalidFeedBack:
   Clear:
+  EnterPassword:

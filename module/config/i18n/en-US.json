@@ -2464,7 +2464,20 @@
       "Confirm": "Add",
       "FileExist": "A config with the same name exists, please choose another one",
       "InvalidChar": "Config name cannot contain any of the following characters: .\\/:*?\"<>|",
-      "InvalidPrefixTemplate": "Config name cannot start with 'template'"
+      "InvalidPrefixTemplate": "Config name cannot start with 'template'",
+      "Manage": "Manage"
+    },
+    "AppManage": {
+      "PageTitle": "Manage configs",
+      "Back": "Back",
+      "Import": "Import",
+      "Export": "Export",
+      "Delete": "Delete",
+      "OverrideWarning": "This will override the current config!",
+      "ImportSuccess": "Import succeeded",
+      "Name": "Name",
+      "Mod": "Mod",
+      "Actions": "Actions"
     },
     "Update": {
       "UpToDate": "Latest version",
@@ -2495,7 +2508,8 @@
     },
     "Text": {
       "InvalidFeedBack": "Invalid format. Example: {0}",
-      "Clear": "Clear"
+      "Clear": "Clear",
+      "EnterPassword": "Enter password"
     }
   }
 }
