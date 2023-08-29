@@ -57,6 +57,7 @@ class GeneratedConfig:
     # Group `DungeonStorage`
     DungeonStorage_TrailblazePower = {}
     DungeonStorage_DungeonDouble = {}
+    DungeonStorage_SimulatedUniverse = {}
 
     # Group `AchievableQuest`
     AchievableQuest_Complete_1_Daily_Mission = 'achievable'  # achievable, not_set, not_supported
@@ -95,3 +96,4 @@ class GeneratedConfig:
     Assignment_Name_3 = 'The_Invisible_Hand'  # Nine_Billion_Names, Destruction_of_the_Destroyer, Winter_Soldiers, Born_to_Obey, Root_Out_the_Turpitude, Fire_Lord_Inflames_Blades_of_War, Nameless_Land_Nameless_People, Akashic_Records, The_Invisible_Hand, Abandoned_and_Insulted, Spring_of_Life, The_Land_of_Gold, The_Blossom_in_the_Storm
     Assignment_Name_4 = 'Nine_Billion_Names'  # Nine_Billion_Names, Destruction_of_the_Destroyer, Winter_Soldiers, Born_to_Obey, Root_Out_the_Turpitude, Fire_Lord_Inflames_Blades_of_War, Nameless_Land_Nameless_People, Akashic_Records, The_Invisible_Hand, Abandoned_and_Insulted, Spring_of_Life, The_Land_of_Gold, The_Blossom_in_the_Storm
     Assignment_Duration = 20  # 4, 8, 12, 20
+    Assignment_Assignment = {}

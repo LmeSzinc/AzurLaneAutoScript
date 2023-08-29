@@ -364,6 +364,10 @@
     "DungeonDouble": {
       "name": "DungeonStorage.DungeonDouble.name",
       "help": "DungeonStorage.DungeonDouble.help"
+    },
+    "SimulatedUniverse": {
+      "name": "DungeonStorage.SimulatedUniverse.name",
+      "help": "DungeonStorage.SimulatedUniverse.help"
     }
   },
   "AchievableQuest": {
@@ -641,6 +645,10 @@
       "8": "8",
       "12": "12",
       "20": "20"
+    },
+    "Assignment": {
+      "name": "Assignment.Assignment.name",
+      "help": "Assignment.Assignment.help"
     }
   },
   "Gui": {

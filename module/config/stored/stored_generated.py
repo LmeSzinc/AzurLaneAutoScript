@@ -1,4 +1,5 @@
 from module.config.stored.classes import (
+    StoredAssignment,
     StoredBase,
     StoredCounter,
     StoredDaily,
@@ -6,6 +7,7 @@ from module.config.stored.classes import (
     StoredDungeonDouble,
     StoredExpiredAt0400,
     StoredInt,
+    StoredSimulatedUniverse,
     StoredTrailblazePower,
 )
 
@@ -16,5 +18,7 @@ from module.config.stored.classes import (
 class StoredGenerated:
     TrailblazePower = StoredTrailblazePower("Dungeon.DungeonStorage.TrailblazePower")
     DungeonDouble = StoredDungeonDouble("Dungeon.DungeonStorage.DungeonDouble")
+    SimulatedUniverse = StoredSimulatedUniverse("Dungeon.DungeonStorage.SimulatedUniverse")
     DailyActivity = StoredDailyActivity("DailyQuest.DailyStorage.DailyActivity")
     DailyQuest = StoredDaily("DailyQuest.DailyStorage.DailyQuest")
+    Assignment = StoredAssignment("Assignment.Assignment.Assignment")

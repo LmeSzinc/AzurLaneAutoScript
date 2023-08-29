@@ -364,6 +364,10 @@
     "DungeonDouble": {
       "name": "副本双倍",
       "help": ""
+    },
+    "SimulatedUniverse": {
+      "name": "模拟宇宙",
+      "help": ""
     }
   },
   "AchievableQuest": {
@@ -641,6 +645,10 @@
       "8": "8小时",
       "12": "12小时",
       "20": "20小时"
+    },
+    "Assignment": {
+      "name": "委托",
+      "help": ""
     }
   },
   "Gui": {

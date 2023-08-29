@@ -373,6 +373,14 @@
         "value": {},
         "display": "hide",
         "stored": "StoredDungeonDouble"
+      },
+      "SimulatedUniverse": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredSimulatedUniverse",
+        "order": 5,
+        "color": "#8fb5fe"
       }
     }
   },
@@ -935,6 +943,14 @@
           12,
           20
         ]
+      },
+      "Assignment": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredAssignment",
+        "order": 3,
+        "color": "#deba95"
       }
     }
   }

@@ -169,6 +169,14 @@ class StoredTrailblazePower(StoredCounter):
     FIXED_TOTAL = 180
 
 
+class StoredSimulatedUniverse(StoredCounter, StoredExpiredAt0400):
+    pass
+
+
+class StoredAssignment(StoredCounter):
+    pass
+
+
 class StoredDaily(StoredExpiredAt0400):
     quest1 = ''
     quest2 = ''

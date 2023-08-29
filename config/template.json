@@ -57,7 +57,8 @@
     },
     "DungeonStorage": {
       "TrailblazePower": {},
-      "DungeonDouble": {}
+      "DungeonDouble": {},
+      "SimulatedUniverse": {}
     }
   },
   "DailyQuest": {
@@ -119,7 +120,8 @@
       "Name_2": "Akashic_Records",
       "Name_3": "The_Invisible_Hand",
       "Name_4": "Nine_Billion_Names",
-      "Duration": 20
+      "Duration": 20,
+      "Assignment": {}
     }
   }
 }

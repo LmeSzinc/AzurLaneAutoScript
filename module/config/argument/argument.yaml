@@ -115,6 +115,10 @@ DungeonStorage:
     color: "#eb8efe"
   DungeonDouble:
     stored: StoredDungeonDouble
+  SimulatedUniverse:
+    stored: StoredSimulatedUniverse
+    order: 5
+    color: "#8fb5fe"
 
 AchievableQuest:
 # Quests will be injected in config updater
@@ -148,3 +152,7 @@ Assignment:
   Duration:
     value: 20
     option: [ 4, 8, 12, 20 ]
+  Assignment:
+    stored: StoredAssignment
+    order: 3
+    color: "#deba95"

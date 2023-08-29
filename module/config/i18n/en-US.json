@@ -364,6 +364,10 @@
     "DungeonDouble": {
       "name": "Dungeon Double",
       "help": ""
+    },
+    "SimulatedUniverse": {
+      "name": "Sim.Uni.",
+      "help": ""
     }
   },
   "AchievableQuest": {
@@ -641,6 +645,10 @@
       "8": "8 Hours",
       "12": "12 Hours",
       "20": "20 Hours"
+    },
+    "Assignment": {
+      "name": "Assignment",
+      "help": ""
     }
   },
   "Gui": {

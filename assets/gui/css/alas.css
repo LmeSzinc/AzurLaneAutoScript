@@ -394,15 +394,25 @@ pre.rich-traceback-code {
     grid-auto-flow: column;
 }
 
-#pywebio-scope-log-bar {
-    height: 11.5rem;
-}
-
 #pywebio-scope-dashboard {
     display: flex;
-    align-content: flex-start;
+    align-content: space-between;
+    justify-content: flex-start;
     flex-flow: row wrap;
     overflow: auto;
+    margin-top: .5rem;
+}
+
+#pywebio-scope-dashboard > i {
+    flex-grow: 1;
+    align-self: flex-end;
+    width: 10rem;
+}
+
+[id^="pywebio-scope-dashboard-row-"] {
+    display: flex;
+    flex-grow: 1;
+    width: 10rem;
 }
 
 .dashboard-icon {
@@ -410,13 +420,6 @@ pre.rich-traceback-code {
     width: .5rem;
     height: .5rem;
     border-radius: 50%;
-}
-
-[id^="pywebio-scope-dashboard-row-"] {
-    display: flex;
-    flex-grow: 1;
-    min-width: 4rem;
-    max-width: 10rem;
 }
 
 *[style*="--dashboard-value--"] {

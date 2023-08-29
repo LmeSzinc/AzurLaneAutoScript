@@ -416,7 +416,8 @@ class AlasGUI(Frame):
                 put_scope("dashboard", [
                     # Empty dashboard, values will be updated in alas_update_overview_task()
                     put_scope(f"dashboard-row-{arg}", []) for arg in self.ALAS_STORED.keys()
-                ])
+                    # Empty content to left-align last row
+                ] + [put_html("<i></i>")] * len(self.ALAS_STORED))
             ])
             put_scope("log", [put_html("")])
 

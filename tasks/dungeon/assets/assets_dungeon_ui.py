@@ -53,6 +53,16 @@ OCR_DUNGEON_NAV = ButtonWrapper(
         button=(108, 132, 428, 613),
     ),
 )
+OCR_SIMUNI_POINT = ButtonWrapper(
+    name='OCR_SIMUNI_POINT',
+    share=Button(
+        file='./assets/share/dungeon/ui/OCR_SIMUNI_POINT.png',
+        area=(580, 190, 880, 235),
+        search=(560, 170, 900, 255),
+        color=(158, 164, 252),
+        button=(580, 190, 880, 235),
+    ),
+)
 OPERATION_BRIEFING_CHECK = ButtonWrapper(
     name='OPERATION_BRIEFING_CHECK',
     share=Button(
