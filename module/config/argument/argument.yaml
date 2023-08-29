@@ -111,8 +111,14 @@ DungeonSupport:
 DungeonStorage:
   TrailblazePower:
     stored: StoredTrailblazePower
+    order: 1
+    color: "#eb8efe"
   DungeonDouble:
     stored: StoredDungeonDouble
+  SimulatedUniverse:
+    stored: StoredSimulatedUniverse
+    order: 5
+    color: "#8fb5fe"
 
 AchievableQuest:
 # Quests will be injected in config updater
@@ -124,6 +130,8 @@ AchievableQuest:
 DailyStorage:
   DailyActivity:
     stored: StoredDailyActivity
+    order: 2
+    color: "#ffcf70"
   DailyQuest:
     stored: StoredDaily
 
@@ -144,3 +152,7 @@ Assignment:
   Duration:
     value: 20
     option: [ 4, 8, 12, 20 ]
+  Assignment:
+    stored: StoredAssignment
+    order: 3
+    color: "#deba95"

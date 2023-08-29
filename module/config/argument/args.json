@@ -364,13 +364,23 @@
         "type": "stored",
         "value": {},
         "display": "hide",
-        "stored": "StoredTrailblazePower"
+        "stored": "StoredTrailblazePower",
+        "order": 1,
+        "color": "#eb8efe"
       },
       "DungeonDouble": {
         "type": "stored",
         "value": {},
         "display": "hide",
         "stored": "StoredDungeonDouble"
+      },
+      "SimulatedUniverse": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredSimulatedUniverse",
+        "order": 5,
+        "color": "#8fb5fe"
       }
     }
   },
@@ -782,7 +792,9 @@
         "type": "stored",
         "value": {},
         "display": "hide",
-        "stored": "StoredDailyActivity"
+        "stored": "StoredDailyActivity",
+        "order": 2,
+        "color": "#ffcf70"
       },
       "DailyQuest": {
         "type": "stored",
@@ -931,6 +943,14 @@
           12,
           20
         ]
+      },
+      "Assignment": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredAssignment",
+        "order": 3,
+        "color": "#deba95"
       }
     }
   }

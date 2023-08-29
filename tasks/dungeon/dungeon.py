@@ -143,6 +143,9 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
             with self.config.multi_set():
                 self.config.stored.DungeonDouble.calyx = calyx
                 self.config.stored.DungeonDouble.relic = relic
+                # Update SimulatedUniverse points
+                logger.info('Get simulated universe points')
+                self.dungeon_get_simuni_point()
 
         # Run double events
         ran_calyx_golden = False

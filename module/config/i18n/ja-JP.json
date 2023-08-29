@@ -364,6 +364,10 @@
     "DungeonDouble": {
       "name": "DungeonStorage.DungeonDouble.name",
       "help": "DungeonStorage.DungeonDouble.help"
+    },
+    "SimulatedUniverse": {
+      "name": "DungeonStorage.SimulatedUniverse.name",
+      "help": "DungeonStorage.SimulatedUniverse.help"
     }
   },
   "AchievableQuest": {
@@ -641,6 +645,10 @@
       "8": "8",
       "12": "12",
       "20": "20"
+    },
+    "Assignment": {
+      "name": "Assignment.Assignment.name",
+      "help": "Assignment.Assignment.help"
     }
   },
   "Gui": {
@@ -694,6 +702,15 @@
       "Pending": "隊列中",
       "Waiting": "Waiting",
       "NoTask": "No Task"
+    },
+    "Dashboard": {
+      "NoData": "Gui.Dashboard.NoData",
+      "TimeError": "Gui.Dashboard.TimeError",
+      "JustNow": "Gui.Dashboard.JustNow",
+      "MinutesAgo": "Gui.Dashboard.MinutesAgo",
+      "HoursAgo": "Gui.Dashboard.HoursAgo",
+      "DaysAgo": "Gui.Dashboard.DaysAgo",
+      "LongTimeAgo": "Gui.Dashboard.LongTimeAgo"
     },
     "AddAlas": {
       "PopupTitle": "新しいコンフィグを追加",

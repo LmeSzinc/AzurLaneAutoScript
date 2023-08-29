@@ -5,7 +5,7 @@ from module.base.button import ClickButton
 from module.base.timer import Timer
 from module.base.utils import get_color
 from module.logger import logger
-from module.ocr.ocr import Ocr, OcrResultButton
+from module.ocr.ocr import DigitCounter, Ocr, OcrResultButton
 from module.ocr.utils import split_and_pair_button_attr
 from module.ui.draggable_list import DraggableList
 from module.ui.switch import Switch
@@ -72,6 +72,10 @@ class OcrDungeonList(Ocr):
             result = result.replace('翼', '巽')  # 巽风之形
             result = result.replace('皖A0', '50').replace('皖', '')
         return result
+
+
+class OcrSimUniPoint(DigitCounter):
+    merge_thres_x = 50
 
 
 class OcrDungeonListLimitEntrance(OcrDungeonList):
@@ -218,6 +222,22 @@ class DungeonUI(UI):
                 if button.area[1] > 513:
                     logger.info('DungeonNav row Forgotten_Hall stabled')
                     return True
+
+    def dungeon_get_simuni_point(self) -> int:
+        """
+        Page:
+            in: page_guide, Survival_Index, Simulated_Universe
+        """
+        ocr = OcrSimUniPoint(OCR_SIMUNI_POINT)
+        value, _, total = ocr.ocr_single_line(self.device.image)
+        if total and value <= total:
+            logger.attr('SimulatedUniverse', f'{value}/{total}')
+            self.config.stored.SimulatedUniverse.set(value, total)
+            return value
+        else:
+            logger.warning(f'Invalid SimulatedUniverse points: {value}/{total}')
+            self.config.stored.SimulatedUniverse.set(0, 0)
+            return 0
 
     def _dungeon_nav_goto(self, dungeon: DungeonList, skip_first_screenshot=True):
         """

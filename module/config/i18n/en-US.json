@@ -364,6 +364,10 @@
     "DungeonDouble": {
       "name": "Dungeon Double",
       "help": ""
+    },
+    "SimulatedUniverse": {
+      "name": "Sim.Uni.",
+      "help": ""
     }
   },
   "AchievableQuest": {
@@ -641,6 +645,10 @@
       "8": "8 Hours",
       "12": "12 Hours",
       "20": "20 Hours"
+    },
+    "Assignment": {
+      "name": "Assignment",
+      "help": ""
     }
   },
   "Gui": {
@@ -694,6 +702,15 @@
       "Pending": "Pending",
       "Waiting": "Waiting",
       "NoTask": "No Task"
+    },
+    "Dashboard": {
+      "NoData": "no data",
+      "TimeError": "time error",
+      "JustNow": "just now",
+      "MinutesAgo": "{time}min ago",
+      "HoursAgo": "{time}h ago",
+      "DaysAgo": "{time}d ago",
+      "LongTimeAgo": "long time ago"
     },
     "AddAlas": {
       "PopupTitle": "Add new config",
