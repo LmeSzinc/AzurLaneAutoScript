@@ -695,6 +695,15 @@
       "Waiting": "Waiting",
       "NoTask": "No Task"
     },
+    "Dashboard": {
+      "NoData": "Gui.Dashboard.NoData",
+      "TimeError": "Gui.Dashboard.TimeError",
+      "JustNow": "Gui.Dashboard.JustNow",
+      "MinutesAgo": "Gui.Dashboard.MinutesAgo",
+      "HoursAgo": "Gui.Dashboard.HoursAgo",
+      "DaysAgo": "Gui.Dashboard.DaysAgo",
+      "LongTimeAgo": "Gui.Dashboard.LongTimeAgo"
+    },
     "AddAlas": {
       "PopupTitle": "新しいコンフィグを追加",
       "NewName": "コンフィグ名",

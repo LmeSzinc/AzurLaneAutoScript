@@ -695,6 +695,15 @@
       "Waiting": "Waiting",
       "NoTask": "No Task"
     },
+    "Dashboard": {
+      "NoData": "no data",
+      "TimeError": "time error",
+      "JustNow": "just now",
+      "MinutesAgo": "{time}min ago",
+      "HoursAgo": "{time}h ago",
+      "DaysAgo": "{time}d ago",
+      "LongTimeAgo": "long time ago"
+    },
     "AddAlas": {
       "PopupTitle": "Add new config",
       "NewName": "New name",

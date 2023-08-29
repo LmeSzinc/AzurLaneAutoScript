@@ -88,11 +88,13 @@ task_handler = TaskHandler()
 class AlasGUI(Frame):
     ALAS_MENU: Dict[str, Dict[str, List[str]]]
     ALAS_ARGS: Dict[str, Dict[str, Dict[str, Dict[str, str]]]]
+    ALAS_STORED: Dict[str, Dict[str, Dict[str, str]]]
     theme = "default"
 
     def initial(self) -> None:
         self.ALAS_MENU = read_file(filepath_args("menu", self.alas_mod))
         self.ALAS_ARGS = read_file(filepath_args("args", self.alas_mod))
+        self.ALAS_STORED = read_file(filepath_args("stored", self.alas_mod))
         self._init_alas_config_watcher()
 
     def __init__(self) -> None:
@@ -318,6 +320,35 @@ class AlasGUI(Frame):
             color="navigator",
         )
 
+    def set_dashboard(self, arg, arg_dict, config):
+        i18n = arg_dict.get('i18n')
+        if i18n:
+            name = t(i18n)
+        else:
+            name = arg
+        color = arg_dict.get("color", "#777777")
+        nodata = t("Gui.Dashboard.NoData")
+
+        def set_value(dic):
+            if "total" in dic.get("attrs", []) and config.get("total") is not None:
+                return [
+                    put_text(config.get("value", nodata)).style("--dashboard-value--"),
+                    put_text(f' / {config.get("total", "")}').style("--dashboard-time--"),
+                ]
+            else:
+                return [
+                    put_text(config.get("value", nodata)).style("--dashboard-value--"),
+                ]
+
+        with use_scope(f"dashboard-row-{arg}", clear=True):
+            put_html(f'<div><div class="dashboard-icon" style="background-color:{color}"></div>'),
+            put_scope(f"dashboard-content-{arg}", [
+                put_scope(f"dashboard-value-{arg}", set_value(arg_dict)),
+                put_scope(f"dashboard-time-{arg}", [
+                    put_text(f"{name} - {lang.readable_time(config.get('time', ''))}").style("--dashboard-time--"),
+                ])
+            ])
+
     @use_scope("content", clear=True)
     def alas_overview(self) -> None:
         self.init_menu(name="Overview")
@@ -374,20 +405,19 @@ class AlasGUI(Frame):
         log = RichLog("log")
 
         with use_scope("logs"):
-            put_scope(
-                "log-bar",
-                [
-                    put_text(t("Gui.Overview.Log")).style(
-                        "font-size: 1.25rem; margin: auto .5rem auto;"
-                    ),
-                    put_scope(
-                        "log-bar-btns",
-                        [
-                            put_scope("log_scroll_btn"),
-                        ],
-                    ),
-                ],
-            ),
+            put_scope("log-bar", [
+                put_scope("log-title", [
+                    put_text(t("Gui.Overview.Log")).style("font-size: 1.25rem; margin: auto .5rem auto;"),
+                    put_scope("log-title-btns", [
+                        put_scope("log_scroll_btn"),
+                    ]),
+                ]),
+                put_html('<hr class="hr-group">'),
+                put_scope("dashboard", [
+                    # Empty dashboard, values will be updated in alas_update_overview_task()
+                    put_scope(f"dashboard-row-{arg}", []) for arg in self.ALAS_STORED.keys()
+                ])
+            ])
             put_scope("log", [put_html("")])
 
         log.console.width = log.get_width()
@@ -501,6 +531,7 @@ class AlasGUI(Frame):
         self.alas_config.load()
         self.alas_config.get_next_task()
 
+        alive = self.alas.alive
         if len(self.alas_config.pending_task) >= 1:
             if self.alas.alive:
                 running = self.alas_config.pending_task[:1]
@@ -528,27 +559,39 @@ class AlasGUI(Frame):
                     color="off",
                 )
 
-        clear("running_tasks")
-        clear("pending_tasks")
-        clear("waiting_tasks")
-        with use_scope("running_tasks"):
-            if running:
-                for task in running:
-                    put_task(task)
-            else:
-                put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
-        with use_scope("pending_tasks"):
-            if pending:
-                for task in pending:
-                    put_task(task)
-            else:
-                put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
-        with use_scope("waiting_tasks"):
-            if waiting:
-                for task in waiting:
-                    put_task(task)
-            else:
-                put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
+        if self.scope_expired("scheduler_alive", alive) \
+                or self.scope_expired("pending_task", self.alas_config.pending_task):
+            clear("running_tasks")
+            clear("pending_tasks")
+            clear("waiting_tasks")
+            with use_scope("running_tasks"):
+                if running:
+                    for task in running:
+                        put_task(task)
+                else:
+                    put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
+            with use_scope("pending_tasks"):
+                if pending:
+                    for task in pending:
+                        put_task(task)
+                else:
+                    put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
+            with use_scope("waiting_tasks"):
+                if waiting:
+                    for task in waiting:
+                        put_task(task)
+                else:
+                    put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
+            self.scope_add("scheduler_alive", alive)
+            self.scope_add("pending_task", self.alas_config.pending_task)
+
+        for arg, arg_dict in self.ALAS_STORED.items():
+            path = arg_dict["path"]
+            if self.scope_expired_then_add(
+                    key=f"dashboard-time-value-{arg}",
+                    value=lang.readable_time(deep_get(self.alas_config.data, keys=f"{path}.time"))
+            ):
+                self.set_dashboard(arg, arg_dict, deep_get(self.alas_config.data, keys=path, default={}))
 
     @use_scope("content", clear=True)
     def alas_daemon_overview(self, task: str) -> None:

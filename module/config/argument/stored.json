@@ -1,0 +1,84 @@
+{
+  "TrailblazePower": {
+    "name": "TrailblazePower",
+    "path": "Dungeon.DungeonStorage.TrailblazePower",
+    "i18n": "DungeonStorage.TrailblazePower.name",
+    "stored": "StoredTrailblazePower",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "total": 180,
+      "value": 0
+    },
+    "order": 1,
+    "color": "#eb8efe"
+  },
+  "DailyActivity": {
+    "name": "DailyActivity",
+    "path": "DailyQuest.DailyStorage.DailyActivity",
+    "i18n": "DailyStorage.DailyActivity.name",
+    "stored": "StoredDailyActivity",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "total": 500,
+      "value": 0
+    },
+    "order": 2,
+    "color": "#ffcf70"
+  },
+  "Assignment": {
+    "name": "Assignment",
+    "path": "Assignment.Assignment.Assignment",
+    "i18n": "Assignment.Assignment.name",
+    "stored": "StoredAssignment",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "total": 0,
+      "value": 0
+    },
+    "order": 3,
+    "color": "#deba95"
+  },
+  "SimulatedUniverse": {
+    "name": "SimulatedUniverse",
+    "path": "Dungeon.DungeonStorage.SimulatedUniverse",
+    "i18n": "DungeonStorage.SimulatedUniverse.name",
+    "stored": "StoredSimulatedUniverse",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "total": 0,
+      "value": 0
+    },
+    "order": 5,
+    "color": "#8fb5fe"
+  },
+  "DungeonDouble": {
+    "name": "DungeonDouble",
+    "path": "Dungeon.DungeonStorage.DungeonDouble",
+    "i18n": "DungeonStorage.DungeonDouble.name",
+    "stored": "StoredDungeonDouble",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "calyx": 0,
+      "relic": 0
+    },
+    "order": 0,
+    "color": "#777777"
+  },
+  "DailyQuest": {
+    "name": "DailyQuest",
+    "path": "DailyQuest.DailyStorage.DailyQuest",
+    "i18n": "DailyStorage.DailyQuest.name",
+    "stored": "StoredDaily",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "quest1": "",
+      "quest2": "",
+      "quest3": "",
+      "quest4": "",
+      "quest5": "",
+      "quest6": ""
+    },
+    "order": 0,
+    "color": "#777777"
+  }
+}

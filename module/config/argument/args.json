@@ -364,7 +364,9 @@
         "type": "stored",
         "value": {},
         "display": "hide",
-        "stored": "StoredTrailblazePower"
+        "stored": "StoredTrailblazePower",
+        "order": 1,
+        "color": "#eb8efe"
       },
       "DungeonDouble": {
         "type": "stored",
@@ -782,7 +784,9 @@
         "type": "stored",
         "value": {},
         "display": "hide",
-        "stored": "StoredDailyActivity"
+        "stored": "StoredDailyActivity",
+        "order": 2,
+        "color": "#ffcf70"
       },
       "DailyQuest": {
         "type": "stored",

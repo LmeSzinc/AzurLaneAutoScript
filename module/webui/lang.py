@@ -1,8 +1,9 @@
+import time
 from typing import Dict
 
 from module.config.utils import *
-from module.webui.setting import State
 from module.webui.fake import list_mod
+from module.webui.setting import State
 
 LANG = "zh-CN"
 TRANSLATE_MODE = False
@@ -67,3 +68,33 @@ def reload():
     for key in dic_lang["ja-JP"].keys():
         if dic_lang["ja-JP"][key] == key:
             dic_lang["ja-JP"][key] = dic_lang["en-US"][key]
+
+
+def readable_time(before: str) -> str:
+    """
+    Convert "2023-08-29 12:30:53" to "3 Minutes Ago"
+    """
+    if not before:
+        return t("Gui.Dashboard.NoData")
+    try:
+        ti = datetime.fromisoformat(before)
+    except ValueError:
+        return t("Gui.Dashboard.TimeError")
+    if ti == DEFAULT_TIME:
+        return t("Gui.Dashboard.NoData")
+
+    diff = time.time() - ti.timestamp()
+    if diff < -1:
+        return t("Gui.Dashboard.TimeError")
+    elif diff < 60:
+        # < 1 min
+        return t("Gui.Dashboard.JustNow")
+    elif diff < 3600:
+        return t("Gui.Dashboard.MinutesAgo", time=int(diff // 60))
+    elif diff < 86400:
+        return t("Gui.Dashboard.HoursAgo", time=int(diff // 3600))
+    elif diff < 129600:
+        return t("Gui.Dashboard.DaysAgo", time=int(diff // 86400))
+    else:
+        # > 15 days
+        return t("Gui.Dashboard.LongTimeAgo")

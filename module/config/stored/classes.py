@@ -1,4 +1,3 @@
-import time
 from datetime import datetime
 from functools import cached_property as functools_cached_property
 
@@ -111,29 +110,6 @@ class StoredBase:
         from module.logger import logger
         logger.attr(self._name, self._stored)
 
-    def dashboard(self) -> str:
-        """
-        Return a string to show on GUI
-        """
-        return 'None'
-
-    def readable_time(self):
-        diff = self.time.timestamp() - time.time()
-        if diff < -1:
-            return '', 'TimeError'
-        elif diff < 60:
-            # < 1 min
-            return '', 'JustNow'
-        elif diff < 3600:
-            return str(int(diff // 60)), 'MinutesAgo'
-        elif diff < 86400:
-            return str(int(diff // 86400)), 'HoursAgo'
-        elif diff < 129600:
-            return str(int(diff // 129600)), 'DaysAgo'
-        else:
-            # > 15 days
-            return '', 'LongTimeAgo'
-
 
 class StoredExpiredAt0400(StoredBase):
     def is_expired(self):
@@ -154,11 +130,11 @@ class StoredCounter(StoredBase):
 
     FIXED_TOTAL = 0
 
-    def set(self, current, total=0):
+    def set(self, value, total=0):
         if self.FIXED_TOTAL:
             total = self.FIXED_TOTAL
         with self._config.multi_set():
-            self.value = current
+            self.value = value
             self.total = total
 
     def to_counter(self) -> str:
@@ -169,6 +145,13 @@ class StoredCounter(StoredBase):
 
     def get_remain(self) -> int:
         return self.total - self.value
+
+    @cached_property
+    def _attrs(self) -> dict:
+        attrs = super()._attrs
+        if self.FIXED_TOTAL:
+            attrs['total'] = self.FIXED_TOTAL
+        return attrs
 
     @functools_cached_property
     def _stored(self):

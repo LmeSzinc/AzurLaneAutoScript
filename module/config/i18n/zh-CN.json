@@ -695,6 +695,15 @@
       "Waiting": "等待中",
       "NoTask": "无任务"
     },
+    "Dashboard": {
+      "NoData": "无数据",
+      "TimeError": "时间错误",
+      "JustNow": "刚刚",
+      "MinutesAgo": "{time}分钟前",
+      "HoursAgo": "{time}小时前",
+      "DaysAgo": "{time}天前",
+      "LongTimeAgo": "很久以前"
+    },
     "AddAlas": {
       "PopupTitle": "添加新配置",
       "NewName": "新的配置文件名",

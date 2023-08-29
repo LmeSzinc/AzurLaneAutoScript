@@ -52,6 +52,16 @@ Overview:
   Waiting:
   NoTask:
 
+Dashboard:
+  # From lang.readable_time()
+  NoData:
+  TimeError:
+  JustNow:
+  MinutesAgo:
+  HoursAgo:
+  DaysAgo:
+  LongTimeAgo:
+
 AddAlas:
   PopupTitle:
   NewName:

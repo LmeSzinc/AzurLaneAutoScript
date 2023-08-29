@@ -695,6 +695,15 @@
       "Waiting": "等待中",
       "NoTask": "無任務"
     },
+    "Dashboard": {
+      "NoData": "無數據",
+      "TimeError": "時間錯誤",
+      "JustNow": "剛剛",
+      "MinutesAgo": "{time}分鐘前",
+      "HoursAgo": "{time}小時前",
+      "DaysAgo": "{time}天前",
+      "LongTimeAgo": "很久以前"
+    },
     "AddAlas": {
       "PopupTitle": "添加新的設定",
       "NewName": "新設定的檔案名",

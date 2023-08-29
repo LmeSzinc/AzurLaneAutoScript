@@ -111,6 +111,8 @@ DungeonSupport:
 DungeonStorage:
   TrailblazePower:
     stored: StoredTrailblazePower
+    order: 1
+    color: "#eb8efe"
   DungeonDouble:
     stored: StoredDungeonDouble
 
@@ -124,6 +126,8 @@ AchievableQuest:
 DailyStorage:
   DailyActivity:
     stored: StoredDailyActivity
+    order: 2
+    color: "#ffcf70"
   DailyQuest:
     stored: StoredDaily
 
