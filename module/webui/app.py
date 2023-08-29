@@ -8,7 +8,7 @@ from functools import partial
 from typing import Dict, List, Optional
 
 from pywebio import config as webconfig
-from pywebio.input import file_upload
+from pywebio.input import file_upload, input_group, input, select
 from pywebio.output import (
     Output,
     clear,
@@ -130,30 +130,17 @@ class AlasGUI(Frame):
                 buttons=[{"label": name, "value": name, "color": "aside"}],
                 onclick=self.ui_alas,
             )
-        if not IS_ON_PHONE_CLOUD:
-            put_icon_buttons(
-                Icon.ADD,
-                buttons=[
-                    {
-                        "label": t("Gui.Aside.AddAlas"),
-                        "value": "AddAlas",
-                        "color": "aside",
-                    }
-                ],
-                onclick=[self.ui_add_alas],
-            )
-        else:
-            put_icon_buttons(
-                Icon.SETTING,
-                buttons=[
-                    {
-                        "label": t("Gui.AddAlas.Manage"),
-                        "value": "AddAlas",
-                        "color": "aside",
-                    }
-                ],
-                onclick=[lambda: go_app("manage", new_window=False)],
-            )
+        put_icon_buttons(
+            Icon.SETTING,
+            buttons=[
+                {
+                    "label": t("Gui.AddAlas.Manage"),
+                    "value": "AddAlas",
+                    "color": "aside",
+                }
+            ],
+            onclick=[lambda: go_app("manage", new_window=False)],
+        )
 
     @use_scope("header_status")
     def set_status(self, state: int) -> None:
@@ -1222,12 +1209,16 @@ class AlasGUI(Frame):
         if aside not in ["Home", None]:
             self.ui_alas(aside)
 
+
 def app_manage():
     def _import():
         resp = file_upload(
+            label=t("Gui.AppManage.Import"),
+            placeholder=t("Gui.Text.ChooseFile"),
             help_text=t("Gui.AppManage.OverrideWarning"),
             accept=".json",
             required=False,
+            max_size="1M",
         )
 
         if resp is None:
@@ -1266,6 +1257,54 @@ def app_manage():
         with open(filepath_config(config_name, mod_name), "rb") as f:
             download(filename, f.read())
 
+    def _new():
+        def get_unused_name():
+            all_name = alas_instance()
+            for i in range(2, 100):
+                if f"alas{i}" not in all_name:
+                    return f"alas{i}"
+            else:
+                return ""
+
+        def validate(s: str):
+            if s in alas_instance():
+                return t("Gui.AppManage.NameExist")
+            if set(s) & set(".\\/:*?\"'<>|"):
+                return t("Gui.AppManage.InvalidChar")
+            if s.lower().startswith("template"):
+                return t("Gui.AppManage.InvalidPrefixTemplate")
+            return None
+
+        resp = input_group(
+            label=t("Gui.AppManage.TitleNew"),
+            inputs=[
+                input(
+                    label=t("Gui.AppManage.NewName"),
+                    name="config_name",
+                    value=get_unused_name(),
+                    validate=validate,
+                ),
+                select(
+                    label=t("Gui.AppManage.CopyFrom"),
+                    name="copy_from",
+                    options=alas_template() + alas_instance(),
+                    value="template-alas",
+                ),
+            ],
+            cancelable=True,
+        )
+
+        if resp is None:
+            return
+
+        config_name = resp["config_name"]
+        origin = resp["copy_from"]
+
+        r = load_config(origin).read_file(origin)
+        State.config_updater.write_file(config_name, r, get_config_mod(origin))
+        toast(t("Gui.AppManage.NewSuccess"), color="success")
+        _show_table()
+
     def _show_table():
         clear("config_table")
         put_table(
@@ -1295,23 +1334,29 @@ def app_manage():
                     for name in alas_instance()
                 ]
             ),
-            header=[t("Gui.AppManage.Name"), t("Gui.AppManage.Mod"), t("Gui.AppManage.Actions")],
+            header=[
+                t("Gui.AppManage.Name"),
+                t("Gui.AppManage.Mod"),
+                t("Gui.AppManage.Actions"),
+            ],
             scope="config_table",
         )
 
     set_env(title="Alas", output_animation=False)
     run_js("$('head').append('<style>.footer{display:none}</style>')")
-    
-    put_html(f"<h1>{t('Gui.AppManage.PageTitle')}</h1>")
+
+    put_html(f"<h2>{t('Gui.AppManage.PageTitle')}</h2>")
     put_scope("config_table")
     put_buttons(
         buttons=[
+            {"label": t("Gui.AppManage.New"), "value": "new", "disabled": IS_ON_PHONE_CLOUD},
             {"label": t("Gui.AppManage.Import"), "value": "import"},
             {"label": t("Gui.AppManage.Back"), "value": "back"},
         ],
         onclick=[
-            lambda: _import(),
-            lambda: go_app("index", new_window=False),
+            _new,
+            _import,
+            partial(go_app, "index", new_window=False),
         ],
     )
     _show_table()

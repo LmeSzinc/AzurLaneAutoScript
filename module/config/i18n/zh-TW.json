@@ -2468,13 +2468,21 @@
       "Manage": "管理"
     },
     "AppManage": {
-      "PageTitle": "管理設定檔案",
+      "PageTitle": "設定檔案管理",
+      "TitleNew": "添加新的設定檔案",
+      "NewName": "新設定的檔案名",
+      "CopyFrom": "從現有的設定中複製",
+      "NameExist": "存在同名的設定檔案，請重新命名",
+      "InvalidChar": "設定檔案名不可以包含下列任意字元：.\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "設定檔案名不能以 template 開頭",
       "Back": "返回",
+      "New": "新增",
       "Import": "導入",
       "Export": "匯出",
       "Delete": "删除",
       "OverrideWarning": "将会覆蓋现有的設定檔案",
       "ImportSuccess": "設定檔案已導入",
+      "NewSuccess": "設定檔案已新增",
       "Name": "檔案名",
       "Mod": "插件",
       "Actions": "操作"
@@ -2509,7 +2517,8 @@
     "Text": {
       "InvalidFeedBack": "格式錯誤。 示例：{0}",
       "Clear": "清除",
-      "EnterPassword": "輸入密碼"
+      "EnterPassword": "輸入密碼",
+      "ChooseFile": "選擇檔案"
     }
   }
 }

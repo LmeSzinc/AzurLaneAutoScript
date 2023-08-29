@@ -64,12 +64,20 @@ AddAlas:
 
 AppManage:
   PageTitle:
+  TitleNew:
+  NewName:
+  CopyFrom:
+  NameExist:
+  InvalidChar:
+  InvalidPrefixTemplate:
   Back:
+  New:
   Import:
   Export:
   Delete:
   OverrideWarning:
   ImportSuccess:
+  NewSuccess:
   Name:
   Mod:
   Actions:
@@ -105,3 +113,4 @@ Text:
   InvalidFeedBack:
   Clear:
   EnterPassword:
+  ChooseFile:
