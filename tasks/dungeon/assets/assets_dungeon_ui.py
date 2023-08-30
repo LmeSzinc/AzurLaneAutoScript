@@ -27,10 +27,10 @@ DAILY_TRAINING_LOADED = ButtonWrapper(
     name='DAILY_TRAINING_LOADED',
     share=Button(
         file='./assets/share/dungeon/ui/DAILY_TRAINING_LOADED.png',
-        area=(919, 583, 926, 590),
-        search=(899, 563, 946, 610),
-        color=(61, 55, 48),
-        button=(919, 583, 926, 590),
+        area=(1143, 546, 1158, 561),
+        search=(1123, 526, 1178, 581),
+        color=(63, 56, 50),
+        button=(1143, 546, 1158, 561),
     ),
 )
 OCR_DUNGEON_LIST = ButtonWrapper(
@@ -57,10 +57,10 @@ OCR_SIMUNI_POINT = ButtonWrapper(
     name='OCR_SIMUNI_POINT',
     share=Button(
         file='./assets/share/dungeon/ui/OCR_SIMUNI_POINT.png',
-        area=(580, 190, 880, 235),
-        search=(560, 170, 900, 255),
-        color=(158, 164, 252),
-        button=(580, 190, 880, 235),
+        area=(580, 237, 820, 277),
+        search=(560, 217, 840, 297),
+        color=(166, 168, 252),
+        button=(580, 237, 820, 277),
     ),
 )
 OPERATION_BRIEFING_CHECK = ButtonWrapper(
@@ -108,7 +108,7 @@ SURVIVAL_INDEX_LOADED = ButtonWrapper(
     share=Button(
         file='./assets/share/dungeon/ui/SURVIVAL_INDEX_LOADED.png',
         area=(451, 286, 476, 302),
-        search=(450, 271, 488, 311),
+        search=(449, 263, 489, 356),
         color=(142, 150, 197),
         button=(451, 286, 476, 302),
     ),
