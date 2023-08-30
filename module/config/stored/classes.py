@@ -166,7 +166,7 @@ class StoredDailyActivity(StoredCounter, StoredExpiredAt0400):
 
 
 class StoredTrailblazePower(StoredCounter):
-    FIXED_TOTAL = 180
+    FIXED_TOTAL = 240
 
 
 class StoredSimulatedUniverse(StoredCounter, StoredExpiredAt0400):

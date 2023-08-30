@@ -73,11 +73,11 @@ class CombatPrepare(UI):
             if total == 0:
                 continue
             # Confirm if it is > 180, sometimes just OCR errors
-            if current > 180 and timeout.reached():
+            if current > 240 and timeout.reached():
                 break
             if expect_reduce and current >= self.config.stored.TrailblazePower.value:
                 continue
-            if current <= 180:
+            if current <= 240:
                 break
 
         self.config.stored.TrailblazePower.value = current
