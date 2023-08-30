@@ -97,20 +97,20 @@ GUIDE_CHECK = ButtonWrapper(
     name='GUIDE_CHECK',
     share=Button(
         file='./assets/share/base/page/GUIDE_CHECK.png',
-        area=(44, 216, 63, 248),
-        search=(24, 196, 83, 268),
-        color=(196, 198, 200),
-        button=(44, 216, 63, 248),
+        area=(64, 297, 83, 326),
+        search=(44, 277, 103, 346),
+        color=(197, 196, 197),
+        button=(64, 297, 83, 326),
     ),
 )
 GUIDE_CLOSE = ButtonWrapper(
     name='GUIDE_CLOSE',
     share=Button(
         file='./assets/share/base/page/GUIDE_CLOSE.png',
-        area=(1153, 56, 1183, 87),
-        search=(1133, 36, 1203, 107),
-        color=(79, 79, 79),
-        button=(1153, 56, 1183, 87),
+        area=(1215, 21, 1248, 54),
+        search=(1195, 1, 1268, 74),
+        color=(75, 82, 95),
+        button=(1215, 21, 1248, 54),
     ),
 )
 ITEM_CHECK = ButtonWrapper(
