@@ -282,6 +282,7 @@ class BattlePassUI(UI):
         self.battle_pass_mission_tab_goto(page)
         if not has_scroll:
             results = self.ocr_single_page()
+            results = [result.matched_keyword for result in results]
         else:
             scroll = Scroll(MISSION_PAGE_SCROLL, color=(198, 198, 198))
             scroll.set_top(main=self)
