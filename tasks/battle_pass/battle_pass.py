@@ -232,11 +232,18 @@ class BattlePassUI(UI):
             self.device.screenshot()
             self.claim_battle_pass_rewards()
         """
-        previous_level = self._get_battle_pass_level()
+        with self.config.multi_set():
+            previous_level = self._get_battle_pass_level()
+            self.config.stored.BattlePassLevel.set(previous_level)
+            quests = self.battle_pass_quests_recognition(
+                KEYWORD_BATTLE_PASS_MISSION_TAB.Today_Missions, has_scroll=False)
+            self.config.stored.BattlePassTodayQuest.write_quests(quests)
         if previous_level == self.MAX_LEVEL:
             return previous_level
+
         claimed_exp = self._claim_exp()
         current_level = self._get_battle_pass_level()
+        self.config.stored.BattlePassLevel.set(current_level)
         if claimed_exp and current_level > previous_level:
             logger.info("Upgraded, go to claim rewards")
             self._claim_rewards()
@@ -255,11 +262,17 @@ class BattlePassUI(UI):
         return [incomplete_quest for incomplete_quest, _ in
                 split_and_pair_buttons(results, split_func=completed_state, relative_area=(0, 0, 800, 100))]
 
-    def battle_pass_quests_recognition(self, page: KEYWORD_BATTLE_PASS_MISSION_TAB,
-                                       has_scroll=True) -> list[BattlePassQuest]:
+    def battle_pass_quests_recognition(
+            self,
+            page: KEYWORD_BATTLE_PASS_MISSION_TAB,
+            has_scroll=True,
+    ) -> list[BattlePassQuest]:
         """
         Args:
-            page:
+            page: One of the followings:
+                KEYWORD_BATTLE_PASS_MISSION_TAB.Today_Missions
+                KEYWORD_BATTLE_PASS_MISSION_TAB.This_Week_Missions
+                KEYWORD_BATTLE_PASS_MISSION_TAB.This_Period_Missions
             has_scroll: need to scroll to recognize all quests
 
         Returns:

@@ -570,6 +570,20 @@
       "help": "DailyStorage.DailyQuest.help"
     }
   },
+  "BattlePassStorage": {
+    "_info": {
+      "name": "BattlePassStorage._info.name",
+      "help": "BattlePassStorage._info.help"
+    },
+    "BattlePassLevel": {
+      "name": "BattlePassStorage.BattlePassLevel.name",
+      "help": "BattlePassStorage.BattlePassLevel.help"
+    },
+    "BattlePassTodayQuest": {
+      "name": "BattlePassStorage.BattlePassTodayQuest.name",
+      "help": "BattlePassStorage.BattlePassTodayQuest.help"
+    }
+  },
   "Assignment": {
     "_info": {
       "name": "依頼設定",

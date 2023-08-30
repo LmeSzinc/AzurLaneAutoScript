@@ -117,7 +117,7 @@ DungeonStorage:
     stored: StoredDungeonDouble
   SimulatedUniverse:
     stored: StoredSimulatedUniverse
-    order: 5
+    order: 6
     color: "#8fb5fe"
 
 AchievableQuest:
@@ -134,6 +134,14 @@ DailyStorage:
     color: "#ffcf70"
   DailyQuest:
     stored: StoredDaily
+
+BattlePassStorage:
+  BattlePassLevel:
+    stored: StoredBattlePassLevel
+    order: 5
+    color: "#cbe45b"
+  BattlePassTodayQuest:
+    stored: StoredBattlePassTodayQuest
 
 Assignment:
   # Options in Name_x will be injected in config updater
@@ -155,4 +163,4 @@ Assignment:
   Assignment:
     stored: StoredAssignment
     order: 3
-    color: "#deba95"
+    color: "#79dbc4"

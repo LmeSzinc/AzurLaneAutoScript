@@ -570,6 +570,20 @@
       "help": ""
     }
   },
+  "BattlePassStorage": {
+    "_info": {
+      "name": "BattlePassStorage._info.name",
+      "help": "BattlePassStorage._info.help"
+    },
+    "BattlePassLevel": {
+      "name": "Honor",
+      "help": ""
+    },
+    "BattlePassTodayQuest": {
+      "name": "Honor Mission",
+      "help": ""
+    }
+  },
   "Assignment": {
     "_info": {
       "name": "Assignment Settings",

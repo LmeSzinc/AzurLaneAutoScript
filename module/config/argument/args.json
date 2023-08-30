@@ -384,7 +384,7 @@
         "value": {},
         "display": "hide",
         "stored": "StoredSimulatedUniverse",
-        "order": 5,
+        "order": 6,
         "color": "#8fb5fe"
       }
     }
@@ -834,6 +834,22 @@
         "value": "04:00",
         "display": "hide"
       }
+    },
+    "BattlePassStorage": {
+      "BattlePassLevel": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredBattlePassLevel",
+        "order": 5,
+        "color": "#cbe45b"
+      },
+      "BattlePassTodayQuest": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredBattlePassTodayQuest"
+      }
     }
   },
   "Assignment": {
@@ -963,7 +979,7 @@
         "display": "hide",
         "stored": "StoredAssignment",
         "order": 3,
-        "color": "#deba95"
+        "color": "#79dbc4"
       }
     }
   }

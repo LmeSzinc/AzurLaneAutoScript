@@ -6,7 +6,12 @@ from module.ocr.ocr import Ocr, OcrResultButton
 from module.ocr.utils import split_and_pair_buttons
 from tasks.daily.assets.assets_daily_reward import *
 from tasks.daily.camera import CameraUI
-from tasks.daily.keywords import DailyQuest, DailyQuestState, KEYWORDS_DAILY_QUEST, KEYWORDS_DAILY_QUEST_STATE
+from tasks.daily.keywords import (
+    DailyQuest,
+    DailyQuestState,
+    KEYWORDS_DAILY_QUEST,
+    KEYWORDS_DAILY_QUEST_STATE,
+)
 from tasks.daily.synthesize import SynthesizeConsumablesUI, SynthesizeMaterialUI
 from tasks.daily.use_technique import UseTechniqueUI
 from tasks.dungeon.assets.assets_dungeon_ui import DAILY_TRAINING_CHECK
@@ -14,6 +19,7 @@ from tasks.dungeon.keywords import KEYWORDS_DUNGEON_TAB
 from tasks.dungeon.ui import DungeonUI
 from tasks.item.consumable_usage import ConsumableUsageUI
 from tasks.item.relics import RelicsUI
+from tasks.battle_pass.keywords import KEYWORD_BATTLE_PASS_QUEST
 
 
 class DailyQuestOcr(Ocr):
@@ -231,6 +237,8 @@ class DailyQuestUI(DungeonUI):
         return done
 
     def run(self):
+        self.config.update_battle_pass_quests()
+
         for _ in range(5):
             got = self.get_daily_rewards()
             if got:
@@ -241,4 +249,12 @@ class DailyQuestUI(DungeonUI):
                 break
 
         # Scheduler
-        self.config.task_delay(server_update=True)
+        with self.config.multi_set():
+            # Check battle pass
+            if self.config.stored.DailyActivity.value == 500:
+                quests = self.config.stored.BattlePassTodayQuest.load_quests()
+                if KEYWORD_BATTLE_PASS_QUEST.Reach_500_on_Daily_Training_Activity in quests:
+                    logger.info('Achieved battle pass quest Reach_500_on_Daily_Training_Activity')
+                    self.config.task_call('BattlePass')
+            # Delay self
+            self.config.task_delay(server_update=True)

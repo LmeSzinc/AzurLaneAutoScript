@@ -587,6 +587,9 @@ class AlasGUI(Frame):
                     put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
 
         for arg, arg_dict in self.ALAS_STORED.items():
+            # Skip order=0
+            if not arg_dict.get("order", 0):
+                continue
             path = arg_dict["path"]
             if self.scope_expired_then_add(f"dashboard-time-value-{arg}", [
                 deep_get(self.alas_config.data, keys=f"{path}.value"),

@@ -570,6 +570,20 @@
       "help": ""
     }
   },
+  "BattlePassStorage": {
+    "_info": {
+      "name": "BattlePassStorage._info.name",
+      "help": "BattlePassStorage._info.help"
+    },
+    "BattlePassLevel": {
+      "name": "無名勳禮",
+      "help": ""
+    },
+    "BattlePassTodayQuest": {
+      "name": "無名勳禮任務",
+      "help": ""
+    }
+  },
   "Assignment": {
     "_info": {
       "name": "委託設定",

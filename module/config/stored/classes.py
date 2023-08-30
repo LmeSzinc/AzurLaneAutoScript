@@ -177,13 +177,15 @@ class StoredAssignment(StoredCounter):
     pass
 
 
-class StoredDaily(StoredExpiredAt0400):
+class StoredDaily(StoredCounter, StoredExpiredAt0400):
     quest1 = ''
     quest2 = ''
     quest3 = ''
     quest4 = ''
     quest5 = ''
     quest6 = ''
+
+    FIXED_TOTAL = 6
 
     def load_quests(self):
         """
@@ -211,6 +213,7 @@ class StoredDaily(StoredExpiredAt0400):
         from tasks.daily.keywords import DailyQuest
         quests = [q.name if isinstance(q, DailyQuest) else q for q in quests]
         with self._config.multi_set():
+            self.set(value=max(self.FIXED_TOTAL - len(quests), 0))
             try:
                 self.quest1 = quests[0]
             except IndexError:
@@ -240,3 +243,60 @@ class StoredDaily(StoredExpiredAt0400):
 class StoredDungeonDouble(StoredExpiredAt0400):
     calyx = 0
     relic = 0
+
+
+class StoredBattlePassLevel(StoredCounter):
+    FIXED_TOTAL = 50
+
+
+class StoredBattlePassTodayQuest(StoredCounter, StoredExpiredAt0400):
+    quest1 = ''
+    quest2 = ''
+    quest3 = ''
+    quest4 = ''
+
+    FIXED_TOTAL = 4
+
+    def load_quests(self):
+        """
+        Returns:
+            list[DailyQuest]: Note that must check if quests are expired
+        """
+        # BattlePassQuest should be lazy loaded
+        from tasks.battle_pass.keywords import BattlePassQuest
+        quests = []
+        for name in [self.quest1, self.quest2, self.quest3, self.quest4]:
+            if not name:
+                continue
+            try:
+                quest = BattlePassQuest.find(name)
+                quests.append(quest)
+            except ScriptError:
+                pass
+        return quests
+
+    def write_quests(self, quests):
+        """
+        Args:
+            quests (list[DailyQuest, str]):
+        """
+        from tasks.battle_pass.keywords import BattlePassQuest
+        quests = [q.name if isinstance(q, BattlePassQuest) else q for q in quests]
+        with self._config.multi_set():
+            self.set(value=max(self.FIXED_TOTAL - len(quests), 0))
+            try:
+                self.quest1 = quests[0]
+            except IndexError:
+                self.quest1 = ''
+            try:
+                self.quest2 = quests[1]
+            except IndexError:
+                self.quest2 = ''
+            try:
+                self.quest3 = quests[2]
+            except IndexError:
+                self.quest3 = ''
+            try:
+                self.quest4 = quests[3]
+            except IndexError:
+                self.quest4 = ''
