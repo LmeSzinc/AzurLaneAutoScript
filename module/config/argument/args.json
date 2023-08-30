@@ -186,7 +186,7 @@
           "Calyx_Golden_Treasures",
           "Calyx_Crimson_Destruction",
           "Calyx_Crimson_Preservation",
-          "Calyx_Crimson_Hunt",
+          "Calyx_Crimson_The_Hunt",
           "Calyx_Crimson_Abundance",
           "Calyx_Crimson_Erudition",
           "Calyx_Crimson_Harmony",
@@ -200,6 +200,8 @@
           "Stagnant_Shadow_Mirage",
           "Stagnant_Shadow_Icicle",
           "Stagnant_Shadow_Doom",
+          "Stagnant_Shadow_Puppetry",
+          "Stagnant_Shadow_Abomination",
           "Stagnant_Shadow_Celestial",
           "Cavern_of_Corrosion_Path_of_Gelid_Wind",
           "Cavern_of_Corrosion_Path_of_Jabbing_Punch",
@@ -220,7 +222,7 @@
           "Calyx_Golden_Treasures",
           "Calyx_Crimson_Destruction",
           "Calyx_Crimson_Preservation",
-          "Calyx_Crimson_Hunt",
+          "Calyx_Crimson_The_Hunt",
           "Calyx_Crimson_Abundance",
           "Calyx_Crimson_Erudition",
           "Calyx_Crimson_Harmony",
@@ -272,7 +274,7 @@
           "do_not_achieve",
           "Calyx_Crimson_Destruction",
           "Calyx_Crimson_Preservation",
-          "Calyx_Crimson_Hunt",
+          "Calyx_Crimson_The_Hunt",
           "Calyx_Crimson_Abundance",
           "Calyx_Crimson_Erudition",
           "Calyx_Crimson_Harmony",
@@ -293,6 +295,8 @@
           "Stagnant_Shadow_Mirage",
           "Stagnant_Shadow_Icicle",
           "Stagnant_Shadow_Doom",
+          "Stagnant_Shadow_Puppetry",
+          "Stagnant_Shadow_Abomination",
           "Stagnant_Shadow_Celestial"
         ]
       },
@@ -333,6 +337,7 @@
           "Bronya",
           "Clara",
           "DanHeng",
+          "DanHengImbibitorLunae",
           "Gepard",
           "Herta",
           "Himeko",
@@ -874,7 +879,9 @@
           "Abandoned_and_Insulted",
           "Spring_of_Life",
           "The_Land_of_Gold",
-          "The_Blossom_in_the_Storm"
+          "The_Blossom_in_the_Storm",
+          "Legend_of_the_Puppet_Master",
+          "The_Wages_of_Humanity"
         ]
       },
       "Name_2": {
@@ -893,7 +900,9 @@
           "Abandoned_and_Insulted",
           "Spring_of_Life",
           "The_Land_of_Gold",
-          "The_Blossom_in_the_Storm"
+          "The_Blossom_in_the_Storm",
+          "Legend_of_the_Puppet_Master",
+          "The_Wages_of_Humanity"
         ]
       },
       "Name_3": {
@@ -912,7 +921,9 @@
           "Abandoned_and_Insulted",
           "Spring_of_Life",
           "The_Land_of_Gold",
-          "The_Blossom_in_the_Storm"
+          "The_Blossom_in_the_Storm",
+          "Legend_of_the_Puppet_Master",
+          "The_Wages_of_Humanity"
         ]
       },
       "Name_4": {
@@ -931,7 +942,9 @@
           "Abandoned_and_Insulted",
           "Spring_of_Life",
           "The_Land_of_Gold",
-          "The_Blossom_in_the_Storm"
+          "The_Blossom_in_the_Storm",
+          "Legend_of_the_Puppet_Master",
+          "The_Wages_of_Humanity"
         ]
       },
       "Duration": {

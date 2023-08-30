@@ -190,7 +190,7 @@
       "Calyx_Golden_Treasures": "材料：信用点（藏珍之蕾•拟造花萼金）",
       "Calyx_Crimson_Destruction": "行迹材料：毁灭（毁灭之蕾•拟造花萼赤）",
       "Calyx_Crimson_Preservation": "行迹材料：存护（存护之蕾•拟造花萼赤）",
-      "Calyx_Crimson_Hunt": "行迹材料：巡猎（存护之蕾•拟造花萼赤）",
+      "Calyx_Crimson_The_Hunt": "行迹材料：巡猎（存护之蕾•拟造花萼赤）",
       "Calyx_Crimson_Abundance": "行迹材料：丰饶（丰饶之蕾•拟造花萼赤）",
       "Calyx_Crimson_Erudition": "行迹材料：智识（智识之蕾•拟造花萼赤）",
       "Calyx_Crimson_Harmony": "行迹材料：同谐（同谐之蕾•拟造花萼赤）",
@@ -204,6 +204,8 @@
       "Stagnant_Shadow_Mirage": "角色晋阶材料：虚数（幻光之形•凝滞虚影）",
       "Stagnant_Shadow_Icicle": "角色晋阶材料：冰（冰棱之形•凝滞虚影）",
       "Stagnant_Shadow_Doom": "角色晋阶材料：雷（震厄之形•凝滞虚影）",
+      "Stagnant_Shadow_Puppetry": "角色晋阶材料：虚数（偃偶之形•凝滞虚影）",
+      "Stagnant_Shadow_Abomination": "角色晋阶材料：量子（孽兽之形•凝滞虚影）",
       "Stagnant_Shadow_Celestial": "角色晋阶材料：风（天人之形•凝滞虚影）",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "遗器：冰套+风套（霜风之径•侵蚀隧洞）",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "遗器：物理套+击破套（迅拳之径•侵蚀隧洞）",
@@ -222,7 +224,7 @@
       "Calyx_Golden_Treasures": "材料：信用点（藏珍之蕾•拟造花萼金）",
       "Calyx_Crimson_Destruction": "行迹材料：毁灭（毁灭之蕾•拟造花萼赤）",
       "Calyx_Crimson_Preservation": "行迹材料：存护（存护之蕾•拟造花萼赤）",
-      "Calyx_Crimson_Hunt": "行迹材料：巡猎（存护之蕾•拟造花萼赤）",
+      "Calyx_Crimson_The_Hunt": "行迹材料：巡猎（存护之蕾•拟造花萼赤）",
       "Calyx_Crimson_Abundance": "行迹材料：丰饶（丰饶之蕾•拟造花萼赤）",
       "Calyx_Crimson_Erudition": "行迹材料：智识（智识之蕾•拟造花萼赤）",
       "Calyx_Crimson_Harmony": "行迹材料：同谐（同谐之蕾•拟造花萼赤）",
@@ -270,7 +272,7 @@
       "do_not_achieve": "不完成这个任务",
       "Calyx_Crimson_Destruction": "行迹材料：毁灭（毁灭之蕾•拟造花萼赤）",
       "Calyx_Crimson_Preservation": "行迹材料：存护（存护之蕾•拟造花萼赤）",
-      "Calyx_Crimson_Hunt": "行迹材料：巡猎（存护之蕾•拟造花萼赤）",
+      "Calyx_Crimson_The_Hunt": "行迹材料：巡猎（存护之蕾•拟造花萼赤）",
       "Calyx_Crimson_Abundance": "行迹材料：丰饶（丰饶之蕾•拟造花萼赤）",
       "Calyx_Crimson_Erudition": "行迹材料：智识（智识之蕾•拟造花萼赤）",
       "Calyx_Crimson_Harmony": "行迹材料：同谐（同谐之蕾•拟造花萼赤）",
@@ -289,6 +291,8 @@
       "Stagnant_Shadow_Mirage": "角色晋阶材料：虚数（幻光之形•凝滞虚影）",
       "Stagnant_Shadow_Icicle": "角色晋阶材料：冰（冰棱之形•凝滞虚影）",
       "Stagnant_Shadow_Doom": "角色晋阶材料：雷（震厄之形•凝滞虚影）",
+      "Stagnant_Shadow_Puppetry": "角色晋阶材料：虚数（偃偶之形•凝滞虚影）",
+      "Stagnant_Shadow_Abomination": "角色晋阶材料：量子（孽兽之形•凝滞虚影）",
       "Stagnant_Shadow_Celestial": "角色晋阶材料：风（天人之形•凝滞虚影）"
     },
     "CavernOfCorrosion": {
@@ -327,6 +331,7 @@
       "Bronya": "布洛妮娅",
       "Clara": "克拉拉",
       "DanHeng": "丹恒",
+      "DanHengImbibitorLunae": "丹恒•饮月",
       "Gepard": "杰帕德",
       "Herta": "黑塔",
       "Himeko": "姬子",
@@ -585,7 +590,9 @@
       "Abandoned_and_Insulted": "燃素&金属（被废弃与损害的）",
       "Spring_of_Life": "虚粒子&固态净水（生命之泉）",
       "The_Land_of_Gold": "蛋白米&基本食材（黄金大地）",
-      "The_Blossom_in_the_Storm": "气态流体&种子（风暴中怒放的花）"
+      "The_Blossom_in_the_Storm": "气态流体&种子（风暴中怒放的花）",
+      "Legend_of_the_Puppet_Master": "玉兆单元&废弃机巧零件（偃师传说）",
+      "The_Wages_of_Humanity": "药草提取物&一人嘉禾（赡养人类）"
     },
     "Name_2": {
       "name": "第2个委托选择",
@@ -602,7 +609,9 @@
       "Abandoned_and_Insulted": "燃素&金属（被废弃与损害的）",
       "Spring_of_Life": "虚粒子&固态净水（生命之泉）",
       "The_Land_of_Gold": "蛋白米&基本食材（黄金大地）",
-      "The_Blossom_in_the_Storm": "气态流体&种子（风暴中怒放的花）"
+      "The_Blossom_in_the_Storm": "气态流体&种子（风暴中怒放的花）",
+      "Legend_of_the_Puppet_Master": "玉兆单元&废弃机巧零件（偃师传说）",
+      "The_Wages_of_Humanity": "药草提取物&一人嘉禾（赡养人类）"
     },
     "Name_3": {
       "name": "第3个委托选择",
@@ -619,7 +628,9 @@
       "Abandoned_and_Insulted": "燃素&金属（被废弃与损害的）",
       "Spring_of_Life": "虚粒子&固态净水（生命之泉）",
       "The_Land_of_Gold": "蛋白米&基本食材（黄金大地）",
-      "The_Blossom_in_the_Storm": "气态流体&种子（风暴中怒放的花）"
+      "The_Blossom_in_the_Storm": "气态流体&种子（风暴中怒放的花）",
+      "Legend_of_the_Puppet_Master": "玉兆单元&废弃机巧零件（偃师传说）",
+      "The_Wages_of_Humanity": "药草提取物&一人嘉禾（赡养人类）"
     },
     "Name_4": {
       "name": "第4个委托选择",
@@ -636,7 +647,9 @@
       "Abandoned_and_Insulted": "燃素&金属（被废弃与损害的）",
       "Spring_of_Life": "虚粒子&固态净水（生命之泉）",
       "The_Land_of_Gold": "蛋白米&基本食材（黄金大地）",
-      "The_Blossom_in_the_Storm": "气态流体&种子（风暴中怒放的花）"
+      "The_Blossom_in_the_Storm": "气态流体&种子（风暴中怒放的花）",
+      "Legend_of_the_Puppet_Master": "玉兆单元&废弃机巧零件（偃师传说）",
+      "The_Wages_of_Humanity": "药草提取物&一人嘉禾（赡养人类）"
     },
     "Duration": {
       "name": "派遣时长",

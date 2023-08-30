@@ -6,6 +6,7 @@ from deploy.Windows.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_writ
 from module.base.timer import timer
 from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, to_package
 from module.config.utils import *
+from module.config.convert import *
 
 CONFIG_IMPORT = '''
 import datetime
@@ -84,7 +85,7 @@ class ConfigGenerator:
             options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Cavern_of_Corrosion])
         # Insert characters
         from tasks.character.keywords import CharacterList
-        unsupported_characters = ["DanHengImbibitorLunae"]
+        unsupported_characters = ["FuXuan", "Lynx"]
         characters = [character.name for character in CharacterList.instances.values()
                       if character.name not in unsupported_characters]
         option_add(keys='DungeonSupport.Character.option', options=characters)
@@ -536,11 +537,15 @@ class ConfigGenerator:
         self.generate_deploy_template()
 
 
+
 class ConfigUpdater:
     # source, target, (optional)convert_func
     redirection = [
         ('Dungeon.Dungeon.Support', 'Dungeon.DungeonSupport.Use'),
         ('Dungeon.Dungeon.SupportCharacter', 'Dungeon.DungeonSupport.Character'),
+        ('Dungeon.Dungeon.Name', 'Dungeon.Dungeon.Name', convert_daily),
+        ('Dungeon.Dungeon.NameAtDoubleCalyx', 'Dungeon.Dungeon.NameAtDoubleCalyx', convert_daily),
+        ('Dungeon.DungeonDaily.CalyxCrimson', 'Dungeon.DungeonDaily.CalyxCrimson', convert_daily),
     ]
 
     @cached_property
