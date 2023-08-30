@@ -7,10 +7,10 @@ CHARACTER_MATERIALS = ButtonWrapper(
     name='CHARACTER_MATERIALS',
     share=Button(
         file='./assets/share/assignment/ui/CHARACTER_MATERIALS.png',
-        area=(123, 81, 307, 134),
-        search=(103, 61, 327, 154),
-        color=(234, 233, 229),
-        button=(123, 81, 307, 134),
+        area=(146, 91, 255, 124),
+        search=(126, 71, 275, 144),
+        color=(213, 213, 208),
+        button=(146, 91, 255, 124),
     ),
 )
 DISPATCHED = ButtonWrapper(
@@ -27,59 +27,59 @@ ENTRY_LOADED = ButtonWrapper(
     name='ENTRY_LOADED',
     share=Button(
         file='./assets/share/assignment/ui/ENTRY_LOADED.png',
-        area=(446, 164, 466, 615),
-        search=(426, 144, 486, 635),
-        color=(203, 202, 194),
-        button=(446, 164, 466, 615),
+        area=(467, 235, 498, 619),
+        search=(447, 215, 518, 639),
+        color=(217, 214, 205),
+        button=(467, 235, 498, 619),
     ),
 )
 EXP_MATERIALS_CREDITS = ButtonWrapper(
     name='EXP_MATERIALS_CREDITS',
     share=Button(
         file='./assets/share/assignment/ui/EXP_MATERIALS_CREDITS.png',
-        area=(343, 83, 527, 133),
-        search=(323, 63, 547, 153),
-        color=(222, 221, 217),
-        button=(343, 83, 527, 133),
+        area=(310, 85, 447, 134),
+        search=(290, 65, 467, 154),
+        color=(214, 214, 210),
+        button=(310, 85, 447, 134),
     ),
 )
 OCR_ASSIGNMENT_LIMIT = ButtonWrapper(
     name='OCR_ASSIGNMENT_LIMIT',
     share=Button(
         file='./assets/share/assignment/ui/OCR_ASSIGNMENT_LIMIT.png',
-        area=(1095, 86, 1179, 126),
-        search=(1075, 66, 1199, 146),
-        color=(62, 61, 60),
-        button=(1095, 86, 1179, 126),
+        area=(1095, 82, 1180, 125),
+        search=(1075, 62, 1200, 145),
+        color=(41, 44, 50),
+        button=(1095, 82, 1180, 125),
     ),
 )
 OCR_ASSIGNMENT_LIST = ButtonWrapper(
     name='OCR_ASSIGNMENT_LIST',
     share=Button(
         file='./assets/share/assignment/ui/OCR_ASSIGNMENT_LIST.png',
-        area=(141, 160, 502, 621),
-        search=(121, 140, 522, 641),
-        color=(202, 200, 194),
-        button=(141, 160, 502, 621),
+        area=(133, 139, 494, 620),
+        search=(113, 119, 514, 640),
+        color=(201, 199, 193),
+        button=(133, 139, 494, 620),
     ),
 )
 OCR_ASSIGNMENT_TIME = ButtonWrapper(
     name='OCR_ASSIGNMENT_TIME',
     share=Button(
         file='./assets/share/assignment/ui/OCR_ASSIGNMENT_TIME.png',
-        area=(588, 566, 926, 588),
-        search=(568, 546, 946, 608),
-        color=(128, 111, 89),
-        button=(588, 566, 926, 588),
+        area=(605, 564, 886, 589),
+        search=(585, 544, 906, 609),
+        color=(117, 104, 82),
+        button=(605, 564, 886, 589),
     ),
 )
 SYNTHESIS_MATERIALS = ButtonWrapper(
     name='SYNTHESIS_MATERIALS',
     share=Button(
         file='./assets/share/assignment/ui/SYNTHESIS_MATERIALS.png',
-        area=(558, 85, 748, 135),
-        search=(538, 65, 768, 155),
-        color=(230, 229, 225),
-        button=(558, 85, 748, 135),
+        area=(521, 91, 603, 128),
+        search=(501, 71, 623, 148),
+        color=(208, 208, 203),
+        button=(521, 91, 603, 128),
     ),
 )
