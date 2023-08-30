@@ -157,10 +157,10 @@ DAILY_QUEST_FULL = ButtonWrapper(
     name='DAILY_QUEST_FULL',
     cn=Button(
         file='./assets/cn/daily/reward/DAILY_QUEST_FULL.png',
-        area=(159, 546, 298, 564),
-        search=(139, 526, 318, 584),
-        color=(128, 111, 80),
-        button=(159, 546, 298, 564),
+        area=(164, 574, 301, 592),
+        search=(144, 554, 321, 612),
+        color=(131, 113, 82),
+        button=(164, 574, 301, 592),
     ),
 )
 DAILY_QUEST_GOTO = ButtonWrapper(

@@ -116,7 +116,11 @@ class DailyQuestUI(DungeonUI):
             else:
                 self.device.screenshot()
 
-            if self.appear(DAILY_QUEST_FULL) or self.appear(DAILY_QUEST_GOTO):
+            if self.appear(DAILY_QUEST_FULL):
+                logger.info('No more quests to get, activity full')
+                break
+            if self.appear(DAILY_QUEST_GOTO):
+                logger.info('No more quests to get, have quests uncompleted')
                 break
             if self.appear_then_click(DAILY_QUEST_REWARD, interval=1):
                 continue
@@ -155,6 +159,7 @@ class DailyQuestUI(DungeonUI):
                 self.device.screenshot()
 
             if self._no_reward_to_get():
+                logger.info('No more reward to get')
                 break
             if self.handle_reward():
                 continue
@@ -192,7 +197,7 @@ class DailyQuestUI(DungeonUI):
             in: Any
             out: page_guide, Daily_Training
         """
-        logger.hr('Get daily rewards', level=2)
+        logger.hr('Get daily rewards', level=1)
         self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Daily_Training)
         logger.info("Getting quest rewards")
         self._get_quest_reward()
