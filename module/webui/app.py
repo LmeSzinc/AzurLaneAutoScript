@@ -560,8 +560,10 @@ class AlasGUI(Frame):
                     color="off",
                 )
 
-        if self.scope_expired("scheduler_alive", alive) \
-                or self.scope_expired("pending_task", self.alas_config.pending_task):
+        if self.scope_expired_then_add("pending_task", [
+            alive,
+            self.alas_config.pending_task
+        ]):
             clear("running_tasks")
             clear("pending_tasks")
             clear("waiting_tasks")
@@ -583,15 +585,16 @@ class AlasGUI(Frame):
                         put_task(task)
                 else:
                     put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
-            self.scope_add("scheduler_alive", alive)
-            self.scope_add("pending_task", self.alas_config.pending_task)
 
         for arg, arg_dict in self.ALAS_STORED.items():
+            # Skip order=0
+            if not arg_dict.get("order", 0):
+                continue
             path = arg_dict["path"]
-            if self.scope_expired_then_add(
-                    key=f"dashboard-time-value-{arg}",
-                    value=lang.readable_time(deep_get(self.alas_config.data, keys=f"{path}.time"))
-            ):
+            if self.scope_expired_then_add(f"dashboard-time-value-{arg}", [
+                deep_get(self.alas_config.data, keys=f"{path}.value"),
+                lang.readable_time(deep_get(self.alas_config.data, keys=f"{path}.time")),
+            ]):
                 self.set_dashboard(arg, arg_dict, deep_get(self.alas_config.data, keys=path, default={}))
 
     @use_scope("content", clear=True)

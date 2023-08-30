@@ -7,9 +7,9 @@ DUNGEON_COMBAT_INTERACT = ButtonWrapper(
     name='DUNGEON_COMBAT_INTERACT',
     share=Button(
         file='./assets/share/combat/interact/DUNGEON_COMBAT_INTERACT.png',
-        area=(779, 419, 807, 442),
-        search=(759, 399, 827, 462),
-        color=(190, 191, 191),
-        button=(777, 412, 997, 446),
+        area=(753, 419, 781, 441),
+        search=(733, 399, 801, 461),
+        color=(199, 197, 198),
+        button=(750, 411, 997, 448),
     ),
 )

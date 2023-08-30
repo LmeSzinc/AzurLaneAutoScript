@@ -19,6 +19,7 @@ ASSIGNMENT_DURATION_SWITCH.add_state('20', DURATION_20)
 
 class AssignmentDispatch(AssignmentUI):
     dispatched: dict[AssignmentEntry, datetime] = dict()
+    has_new_dispatch: bool = False
 
     def dispatch(self, assignment: AssignmentEntry, duration: int):
         """
@@ -39,6 +40,7 @@ class AssignmentDispatch(AssignmentUI):
         self._wait_until_assignment_started()
         self.dispatched[assignment] = datetime.now() + \
             timedelta(hours=duration)
+        self.has_new_dispatch = True
 
     def _select_characters(self):
         """
