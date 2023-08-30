@@ -1232,17 +1232,10 @@ def app_manage():
         elif len(file_name.split(".")) == 2:
             config_name, _ = file_name.split(".")
             mod_name = "alas"
-        elif len(file_name.split(".")) == 3:
-            config_name, mod_name, _ = file_name.split(".")
+        else:
+            config_name, mod_name, _ = file_name.rsplit(".", maxsplit=2)
 
-        try:
-            config = json.loads(file.decode(encoding="utf-8"))
-        except Exception as e:
-            popup("Error", content=put_error(e), size="large")
-            return
-
-        if config_name in alas_instance():
-            _export(config_name)
+        config = json.loads(file.decode(encoding="utf-8"))
         State.config_updater.write_file(config_name, config, mod_name)
         toast(t("Gui.AppManage.ImportSuccess"), color="success")
 
@@ -1308,32 +1301,30 @@ def app_manage():
     def _show_table():
         clear("config_table")
         put_table(
-            tdata=(
-                [
-                    (
-                        name,
-                        get_config_mod(name),
-                        put_buttons(
-                            buttons=[
-                                {"label": t("Gui.AppManage.Export"), "value": name},
-                                # {
-                                #     "label": t("Gui.AppManage.Delete"),
-                                #     "value": name,
-                                #     "disabled": True,
-                                #     "color": "danger",
-                                # },
-                            ],
-                            onclick=[
-                                partial(_export, name),
-                                # partial(_delete, name),
-                            ],
-                            group=True,
-                            small=True,
-                        ),
-                    )
-                    for name in alas_instance()
-                ]
-            ),
+            tdata=[
+                (
+                    name,
+                    get_config_mod(name),
+                    put_buttons(
+                        buttons=[
+                            {"label": t("Gui.AppManage.Export"), "value": name},
+                            # {
+                            #     "label": t("Gui.AppManage.Delete"),
+                            #     "value": name,
+                            #     "disabled": True,
+                            #     "color": "danger",
+                            # },
+                        ],
+                        onclick=[
+                            partial(_export, name),
+                            # partial(_delete, name),
+                        ],
+                        group=True,
+                        small=True,
+                    ),
+                )
+                for name in alas_instance()
+            ],
             header=[
                 t("Gui.AppManage.Name"),
                 t("Gui.AppManage.Mod"),
@@ -1349,12 +1340,16 @@ def app_manage():
     put_scope("config_table")
     put_buttons(
         buttons=[
-            {"label": t("Gui.AppManage.New"), "value": "new", "disabled": IS_ON_PHONE_CLOUD},
+            {
+                "label": t("Gui.AppManage.New"),
+                "value": "new",
+                "disabled": IS_ON_PHONE_CLOUD,
+            },
             {"label": t("Gui.AppManage.Import"), "value": "import"},
             {"label": t("Gui.AppManage.Back"), "value": "back"},
         ],
         onclick=[
-            _new,
+            (lambda: None) if IS_ON_PHONE_CLOUD else _new,
             _import,
             partial(go_app, "index", new_window=False),
         ],
