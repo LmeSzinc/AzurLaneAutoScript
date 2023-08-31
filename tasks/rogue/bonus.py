@@ -63,7 +63,14 @@ class RogueBonusSelector(RogueSelector):
             else:
                 self.main.device.screenshot()
 
-            if self.main.is_in_main() or self.main.is_page_choose_curio() or self.main.is_page_choose_blessing():
+            if self.main.is_in_main():
+                logger.info("Main Page Checked")
+                break
+            if self.main.is_page_choose_curio():
+                logger.info("Choose curio page checked")
+                break
+            if self.main.is_page_choose_blessing():
+                logger.info("Choose blessing page checked")
                 break
             if interval.reached():
                 self.main.device.click(BONUS_CONFIRM)

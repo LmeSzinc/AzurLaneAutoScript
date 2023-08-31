@@ -59,7 +59,13 @@ class RogueCurioSelector(RogueSelector):
                 Case 1: back to main page
                 Case 2: event page
             """
-            return self.main.is_in_main() or self.main.is_page_event()
+            if self.main.is_in_main():
+                logger.info("Main page checked")
+                return True
+            if self.main.is_page_event():
+                logger.info("Event page checked")
+                return True
+            return False
 
         enforce = False
         if not target:
