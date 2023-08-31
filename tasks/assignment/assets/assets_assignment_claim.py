@@ -27,10 +27,10 @@ OCR_ASSIGNMENT_REPORT_TIME = ButtonWrapper(
     name='OCR_ASSIGNMENT_REPORT_TIME',
     share=Button(
         file='./assets/share/assignment/claim/OCR_ASSIGNMENT_REPORT_TIME.png',
-        area=(894, 191, 1003, 216),
-        search=(874, 171, 1023, 236),
-        color=(62, 63, 63),
-        button=(894, 191, 1003, 216),
+        area=(870, 222, 1002, 247),
+        search=(850, 202, 1022, 267),
+        color=(57, 57, 60),
+        button=(870, 222, 1002, 247),
     ),
 )
 REDISPATCH = ButtonWrapper(
