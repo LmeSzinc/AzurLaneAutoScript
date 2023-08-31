@@ -44,6 +44,12 @@ class RogueUI(UI):
     def is_page_event(self):
         return self.appear(PAGE_EVENT)
 
+    def handle_obtain_item_popup(self, interval=5) -> bool:
+        """After selecting some curio (e.g. Sealing_Wax_of_*), there will be a popup after back to main page"""
+        if self.appear_then_click(OBTAIN_ITEM_POPUP, interval=interval):
+            return True
+        return False
+
     def is_unrecorded(self, target: OcrResultButton, relative_area):
         """
         To check a rogue keyword is not record in game index by finding template

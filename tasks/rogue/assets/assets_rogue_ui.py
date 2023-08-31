@@ -43,6 +43,16 @@ FLAG_UNRECORD = ButtonWrapper(
         button=(746, 149, 778, 181),
     ),
 )
+OBTAIN_ITEM_POPUP = ButtonWrapper(
+    name='OBTAIN_ITEM_POPUP',
+    share=Button(
+        file='./assets/share/rogue/ui/OBTAIN_ITEM_POPUP.png',
+        area=(180, 573, 432, 720),
+        search=(160, 553, 452, 720),
+        color=(131, 109, 73),
+        button=(180, 573, 432, 720),
+    ),
+)
 OCR_COSMIC_FRAGMENT = ButtonWrapper(
     name='OCR_COSMIC_FRAGMENT',
     share=Button(
