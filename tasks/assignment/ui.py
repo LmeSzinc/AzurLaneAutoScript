@@ -43,6 +43,7 @@ class AssignmentOcr(Ocr):
             (KEYWORDS_ASSIGNMENT_ENTRY.Root_Out_the_Turpitude.name,
              '根除恶[擎薯尊掌鞋]?'),
             (KEYWORDS_ASSIGNMENT_ENTRY.Akashic_Records.name, '阿[未][夏复]记录'),
+            (KEYWORDS_ASSIGNMENT_ENTRY.The_Wages_of_Humanity.name, '[赠]养人类'),
         ]
     }
 

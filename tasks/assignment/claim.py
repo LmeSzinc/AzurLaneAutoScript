@@ -3,10 +3,9 @@ from datetime import datetime, timedelta
 from module.logger import logger
 from module.ocr.ocr import Duration
 from tasks.assignment.assets.assets_assignment_claim import *
-from tasks.assignment.assets.assets_assignment_dispatch import EMPTY_SLOT
-from tasks.assignment.assets.assets_assignment_ui import DISPATCHED
 from tasks.assignment.dispatch import AssignmentDispatch
 from tasks.assignment.keywords import AssignmentEntry
+from tasks.base.page import page_assignment
 
 
 class AssignmentClaim(AssignmentDispatch):
@@ -32,6 +31,7 @@ class AssignmentClaim(AssignmentDispatch):
             ) + timedelta(hours=duration_expected)
         elif should_redispatch:
             # Re-select duration and dispatch
+            self.goto_entry(assignment)
             self.dispatch(assignment, duration_expected)
 
     def _wait_for_report(self):
@@ -61,11 +61,9 @@ class AssignmentClaim(AssignmentDispatch):
 
         Pages:
             in: CLOSE_REPORT and REDISPATCH
-            out: EMPTY_SLOT or DISPATCHED
+            out: page_assignment
         """
-        click_button, check_button = CLOSE_REPORT, EMPTY_SLOT
-        if should_redispatch:
-            click_button, check_button = REDISPATCH, DISPATCHED
+        click_button = REDISPATCH if should_redispatch else CLOSE_REPORT
         skip_first_screenshot = True
         while 1:
             if skip_first_screenshot:
@@ -73,7 +71,7 @@ class AssignmentClaim(AssignmentDispatch):
             else:
                 self.device.screenshot()
             # End
-            if self.appear(check_button):
+            if self.appear(page_assignment.check_button):
                 logger.info('Assignment report is closed')
                 break
             # Close report

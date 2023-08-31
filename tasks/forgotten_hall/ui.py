@@ -185,7 +185,6 @@ class ForgottenHallUI(DungeonUI):
                 timeout.reset()
 
             if interval.reached() and self._forgotten_hall_enter_appear():
-                self.device.image_save()
                 self.device.click(ENTER_FORGOTTEN_HALL_DUNGEON)
                 interval.reset()
 
