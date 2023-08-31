@@ -382,7 +382,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         while 1:
             self.device.screenshot()
             if not self.appear(GET_SHIP):
-                break
+                return True
             
             if self.appear(NEW_SHIP) and confirm_timer.reached():
                 logger.info('Get a new SHIP')
@@ -396,13 +396,13 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                     ) as drop2:
                         drop2.add(self.device.image)
                     ship_record = True
-                else:
-                    self.device.click(GET_SHIP)
+                self.device.click(GET_SHIP)
+                return True
             else:
                 if confirm_timer.reached():
                     self.device.click(GET_SHIP)
+                    return True
         
-        return True
 
     def handle_combat_mis_click(self):
         """
