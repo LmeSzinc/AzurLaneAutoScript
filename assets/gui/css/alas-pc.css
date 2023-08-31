@@ -26,7 +26,16 @@
     overflow-y: auto;
 }
 
-#pywebio-scope-scheduler-bar,
+#pywebio-scope-log-bar {
+    display: flex;
+    flex-direction: column;
+    height: 11.5rem;
+}
+
+#pywebio-scope-dashboard {
+    flex: 1;
+}
+
 #pywebio-scope-log-bar,
 #pywebio-scope-log,
 #pywebio-scope-daemon-overview #pywebio-scope-groups {

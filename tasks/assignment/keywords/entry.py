@@ -107,3 +107,19 @@ The_Blossom_in_the_Storm = AssignmentEntry(
     en='The Blossom in the Storm',
     jp='嵐の中で咲き誇る花',
 )
+Legend_of_the_Puppet_Master = AssignmentEntry(
+    id=14,
+    name='Legend_of_the_Puppet_Master',
+    cn='偃师传说',
+    cht='偃師傳說',
+    en='Legend of the Puppet Master',
+    jp='傀儡師伝説',
+)
+The_Wages_of_Humanity = AssignmentEntry(
+    id=15,
+    name='The_Wages_of_Humanity',
+    cn='赡养人类',
+    cht='贍養人類',
+    en='The Wages of Humanity',
+    jp='人類扶養',
+)

@@ -198,7 +198,7 @@
       "Calyx_Golden_Treasures": "材料：信用點（藏珍之蕾•擬造花萼金）",
       "Calyx_Crimson_Destruction": "行跡材料：毀滅（毀滅之蕾•擬造花萼赤）",
       "Calyx_Crimson_Preservation": "行跡材料：存護（存護之蕾•擬造花萼赤）",
-      "Calyx_Crimson_Hunt": "行跡材料：巡獵（存護之蕾•擬造花萼赤）",
+      "Calyx_Crimson_The_Hunt": "行跡材料：巡獵（存護之蕾•擬造花萼赤）",
       "Calyx_Crimson_Abundance": "行跡材料：豐饒（豐饒之蕾•擬造花萼赤）",
       "Calyx_Crimson_Erudition": "行跡材料：智識（智識之蕾•擬造花萼赤）",
       "Calyx_Crimson_Harmony": "行跡材料：同諧（同諧之蕾•擬造花萼赤）",
@@ -212,6 +212,8 @@
       "Stagnant_Shadow_Mirage": "角色晉階材料：虛數（幻光之形•凝滯虛影）",
       "Stagnant_Shadow_Icicle": "角色晉階材料：冰（冰稜之形•凝滯虛影）",
       "Stagnant_Shadow_Doom": "角色晉階材料：雷（震厄之形•凝滯虛影）",
+      "Stagnant_Shadow_Puppetry": "角色晉階材料：虛數（偃偶之形•凝滯虛影）",
+      "Stagnant_Shadow_Abomination": "角色晉階材料：量子（孽獸之形•凝滯虛影）",
       "Stagnant_Shadow_Celestial": "角色晉階材料：風（天人之形•凝滯虛影）",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "遺器：冰套+風套（霜風之徑•侵蝕隧洞）",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "遺器：物理套+擊破套（迅拳之徑•侵蝕隧洞）",
@@ -230,7 +232,7 @@
       "Calyx_Golden_Treasures": "材料：信用點（藏珍之蕾•擬造花萼金）",
       "Calyx_Crimson_Destruction": "行跡材料：毀滅（毀滅之蕾•擬造花萼赤）",
       "Calyx_Crimson_Preservation": "行跡材料：存護（存護之蕾•擬造花萼赤）",
-      "Calyx_Crimson_Hunt": "行跡材料：巡獵（存護之蕾•擬造花萼赤）",
+      "Calyx_Crimson_The_Hunt": "行跡材料：巡獵（存護之蕾•擬造花萼赤）",
       "Calyx_Crimson_Abundance": "行跡材料：豐饒（豐饒之蕾•擬造花萼赤）",
       "Calyx_Crimson_Erudition": "行跡材料：智識（智識之蕾•擬造花萼赤）",
       "Calyx_Crimson_Harmony": "行跡材料：同諧（同諧之蕾•擬造花萼赤）",
@@ -278,7 +280,7 @@
       "do_not_achieve": "不完成這個任務",
       "Calyx_Crimson_Destruction": "行跡材料：毀滅（毀滅之蕾•擬造花萼赤）",
       "Calyx_Crimson_Preservation": "行跡材料：存護（存護之蕾•擬造花萼赤）",
-      "Calyx_Crimson_Hunt": "行跡材料：巡獵（存護之蕾•擬造花萼赤）",
+      "Calyx_Crimson_The_Hunt": "行跡材料：巡獵（存護之蕾•擬造花萼赤）",
       "Calyx_Crimson_Abundance": "行跡材料：豐饒（豐饒之蕾•擬造花萼赤）",
       "Calyx_Crimson_Erudition": "行跡材料：智識（智識之蕾•擬造花萼赤）",
       "Calyx_Crimson_Harmony": "行跡材料：同諧（同諧之蕾•擬造花萼赤）",
@@ -297,6 +299,8 @@
       "Stagnant_Shadow_Mirage": "角色晉階材料：虛數（幻光之形•凝滯虛影）",
       "Stagnant_Shadow_Icicle": "角色晉階材料：冰（冰稜之形•凝滯虛影）",
       "Stagnant_Shadow_Doom": "角色晉階材料：雷（震厄之形•凝滯虛影）",
+      "Stagnant_Shadow_Puppetry": "角色晉階材料：虛數（偃偶之形•凝滯虛影）",
+      "Stagnant_Shadow_Abomination": "角色晉階材料：量子（孽獸之形•凝滯虛影）",
       "Stagnant_Shadow_Celestial": "角色晉階材料：風（天人之形•凝滯虛影）"
     },
     "CavernOfCorrosion": {
@@ -335,6 +339,7 @@
       "Bronya": "布洛妮婭",
       "Clara": "克拉拉",
       "DanHeng": "丹恆",
+      "DanHengImbibitorLunae": "丹恆•飲月",
       "Gepard": "傑帕德",
       "Herta": "黑塔",
       "Himeko": "姬子",
@@ -365,9 +370,17 @@
       "name": "DungeonStorage._info.name",
       "help": "DungeonStorage._info.help"
     },
+    "TrailblazePower": {
+      "name": "開拓力",
+      "help": ""
+    },
     "DungeonDouble": {
-      "name": "DungeonStorage.DungeonDouble.name",
-      "help": "DungeonStorage.DungeonDouble.help"
+      "name": "副本雙倍",
+      "help": ""
+    },
+    "SimulatedUniverse": {
+      "name": "模擬宇宙",
+      "help": ""
     }
   },
   "AchievableQuest": {
@@ -557,12 +570,26 @@
       "help": "DailyStorage._info.help"
     },
     "DailyActivity": {
-      "name": "DailyStorage.DailyActivity.name",
-      "help": "DailyStorage.DailyActivity.help"
+      "name": "活躍度",
+      "help": ""
     },
     "DailyQuest": {
-      "name": "DailyStorage.DailyQuest.name",
-      "help": "DailyStorage.DailyQuest.help"
+      "name": "每日任務",
+      "help": ""
+    }
+  },
+  "BattlePassStorage": {
+    "_info": {
+      "name": "BattlePassStorage._info.name",
+      "help": "BattlePassStorage._info.help"
+    },
+    "BattlePassLevel": {
+      "name": "無名勳禮",
+      "help": ""
+    },
+    "BattlePassTodayQuest": {
+      "name": "無名勳禮任務",
+      "help": ""
     }
   },
   "Assignment": {
@@ -585,7 +612,9 @@
       "Abandoned_and_Insulted": "燃素&金屬（被廢棄與損害的）",
       "Spring_of_Life": "虛粒子&固態淨水（生命之泉）",
       "The_Land_of_Gold": "蛋白米&基本食材（黃金大地）",
-      "The_Blossom_in_the_Storm": "氣態流體&種子（風暴中怒放的花）"
+      "The_Blossom_in_the_Storm": "氣態流體&種子（風暴中怒放的花）",
+      "Legend_of_the_Puppet_Master": "玉兆單元&廢棄機巧零件（偃師傳說）",
+      "The_Wages_of_Humanity": "藥草萃取物&一人嘉禾（贍養人類）"
     },
     "Name_2": {
       "name": "第2個委託選擇",
@@ -602,7 +631,9 @@
       "Abandoned_and_Insulted": "燃素&金屬（被廢棄與損害的）",
       "Spring_of_Life": "虛粒子&固態淨水（生命之泉）",
       "The_Land_of_Gold": "蛋白米&基本食材（黃金大地）",
-      "The_Blossom_in_the_Storm": "氣態流體&種子（風暴中怒放的花）"
+      "The_Blossom_in_the_Storm": "氣態流體&種子（風暴中怒放的花）",
+      "Legend_of_the_Puppet_Master": "玉兆單元&廢棄機巧零件（偃師傳說）",
+      "The_Wages_of_Humanity": "藥草萃取物&一人嘉禾（贍養人類）"
     },
     "Name_3": {
       "name": "第3個委託選擇",
@@ -619,7 +650,9 @@
       "Abandoned_and_Insulted": "燃素&金屬（被廢棄與損害的）",
       "Spring_of_Life": "虛粒子&固態淨水（生命之泉）",
       "The_Land_of_Gold": "蛋白米&基本食材（黃金大地）",
-      "The_Blossom_in_the_Storm": "氣態流體&種子（風暴中怒放的花）"
+      "The_Blossom_in_the_Storm": "氣態流體&種子（風暴中怒放的花）",
+      "Legend_of_the_Puppet_Master": "玉兆單元&廢棄機巧零件（偃師傳說）",
+      "The_Wages_of_Humanity": "藥草萃取物&一人嘉禾（贍養人類）"
     },
     "Name_4": {
       "name": "第4個委託選擇",
@@ -636,7 +669,9 @@
       "Abandoned_and_Insulted": "燃素&金屬（被廢棄與損害的）",
       "Spring_of_Life": "虛粒子&固態淨水（生命之泉）",
       "The_Land_of_Gold": "蛋白米&基本食材（黃金大地）",
-      "The_Blossom_in_the_Storm": "氣態流體&種子（風暴中怒放的花）"
+      "The_Blossom_in_the_Storm": "氣態流體&種子（風暴中怒放的花）",
+      "Legend_of_the_Puppet_Master": "玉兆單元&廢棄機巧零件（偃師傳說）",
+      "The_Wages_of_Humanity": "藥草萃取物&一人嘉禾（贍養人類）"
     },
     "Duration": {
       "name": "派遣時間",
@@ -645,6 +680,10 @@
       "8": "8小時",
       "12": "12小時",
       "20": "20小時"
+    },
+    "Assignment": {
+      "name": "委託",
+      "help": ""
     }
   },
   "Rogue": {
@@ -773,6 +812,15 @@
       "Pending": "佇列中",
       "Waiting": "等待中",
       "NoTask": "無任務"
+    },
+    "Dashboard": {
+      "NoData": "無數據",
+      "TimeError": "時間錯誤",
+      "JustNow": "剛剛",
+      "MinutesAgo": "{time}分鐘前",
+      "HoursAgo": "{time}小時前",
+      "DaysAgo": "{time}天前",
+      "LongTimeAgo": "很久以前"
     },
     "AddAlas": {
       "PopupTitle": "添加新的設定",

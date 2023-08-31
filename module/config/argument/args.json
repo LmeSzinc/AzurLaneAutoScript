@@ -186,7 +186,7 @@
           "Calyx_Golden_Treasures",
           "Calyx_Crimson_Destruction",
           "Calyx_Crimson_Preservation",
-          "Calyx_Crimson_Hunt",
+          "Calyx_Crimson_The_Hunt",
           "Calyx_Crimson_Abundance",
           "Calyx_Crimson_Erudition",
           "Calyx_Crimson_Harmony",
@@ -200,6 +200,8 @@
           "Stagnant_Shadow_Mirage",
           "Stagnant_Shadow_Icicle",
           "Stagnant_Shadow_Doom",
+          "Stagnant_Shadow_Puppetry",
+          "Stagnant_Shadow_Abomination",
           "Stagnant_Shadow_Celestial",
           "Cavern_of_Corrosion_Path_of_Gelid_Wind",
           "Cavern_of_Corrosion_Path_of_Jabbing_Punch",
@@ -220,7 +222,7 @@
           "Calyx_Golden_Treasures",
           "Calyx_Crimson_Destruction",
           "Calyx_Crimson_Preservation",
-          "Calyx_Crimson_Hunt",
+          "Calyx_Crimson_The_Hunt",
           "Calyx_Crimson_Abundance",
           "Calyx_Crimson_Erudition",
           "Calyx_Crimson_Harmony",
@@ -272,7 +274,7 @@
           "do_not_achieve",
           "Calyx_Crimson_Destruction",
           "Calyx_Crimson_Preservation",
-          "Calyx_Crimson_Hunt",
+          "Calyx_Crimson_The_Hunt",
           "Calyx_Crimson_Abundance",
           "Calyx_Crimson_Erudition",
           "Calyx_Crimson_Harmony",
@@ -281,7 +283,7 @@
       },
       "StagnantShadow": {
         "type": "select",
-        "value": "do_not_archive",
+        "value": "do_not_achieve",
         "option": [
           "do_not_achieve",
           "Stagnant_Shadow_Quanta",
@@ -293,6 +295,8 @@
           "Stagnant_Shadow_Mirage",
           "Stagnant_Shadow_Icicle",
           "Stagnant_Shadow_Doom",
+          "Stagnant_Shadow_Puppetry",
+          "Stagnant_Shadow_Abomination",
           "Stagnant_Shadow_Celestial"
         ]
       },
@@ -333,6 +337,7 @@
           "Bronya",
           "Clara",
           "DanHeng",
+          "DanHengImbibitorLunae",
           "Gepard",
           "Herta",
           "Himeko",
@@ -360,11 +365,27 @@
       }
     },
     "DungeonStorage": {
+      "TrailblazePower": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredTrailblazePower",
+        "order": 1,
+        "color": "#eb8efe"
+      },
       "DungeonDouble": {
         "type": "stored",
         "value": {},
         "display": "hide",
         "stored": "StoredDungeonDouble"
+      },
+      "SimulatedUniverse": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredSimulatedUniverse",
+        "order": 6,
+        "color": "#8fb5fe"
       }
     }
   },
@@ -776,7 +797,9 @@
         "type": "stored",
         "value": {},
         "display": "hide",
-        "stored": "StoredDailyActivity"
+        "stored": "StoredDailyActivity",
+        "order": 2,
+        "color": "#ffcf70"
       },
       "DailyQuest": {
         "type": "stored",
@@ -810,6 +833,22 @@
         "type": "input",
         "value": "04:00",
         "display": "hide"
+      }
+    },
+    "BattlePassStorage": {
+      "BattlePassLevel": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredBattlePassLevel",
+        "order": 5,
+        "color": "#cbe45b"
+      },
+      "BattlePassTodayQuest": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredBattlePassTodayQuest"
       }
     }
   },
@@ -856,7 +895,9 @@
           "Abandoned_and_Insulted",
           "Spring_of_Life",
           "The_Land_of_Gold",
-          "The_Blossom_in_the_Storm"
+          "The_Blossom_in_the_Storm",
+          "Legend_of_the_Puppet_Master",
+          "The_Wages_of_Humanity"
         ]
       },
       "Name_2": {
@@ -875,7 +916,9 @@
           "Abandoned_and_Insulted",
           "Spring_of_Life",
           "The_Land_of_Gold",
-          "The_Blossom_in_the_Storm"
+          "The_Blossom_in_the_Storm",
+          "Legend_of_the_Puppet_Master",
+          "The_Wages_of_Humanity"
         ]
       },
       "Name_3": {
@@ -894,7 +937,9 @@
           "Abandoned_and_Insulted",
           "Spring_of_Life",
           "The_Land_of_Gold",
-          "The_Blossom_in_the_Storm"
+          "The_Blossom_in_the_Storm",
+          "Legend_of_the_Puppet_Master",
+          "The_Wages_of_Humanity"
         ]
       },
       "Name_4": {
@@ -913,7 +958,9 @@
           "Abandoned_and_Insulted",
           "Spring_of_Life",
           "The_Land_of_Gold",
-          "The_Blossom_in_the_Storm"
+          "The_Blossom_in_the_Storm",
+          "Legend_of_the_Puppet_Master",
+          "The_Wages_of_Humanity"
         ]
       },
       "Duration": {
@@ -925,6 +972,14 @@
           12,
           20
         ]
+      },
+      "Assignment": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredAssignment",
+        "order": 3,
+        "color": "#79dbc4"
       }
     }
   },

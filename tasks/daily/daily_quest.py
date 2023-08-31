@@ -6,7 +6,12 @@ from module.ocr.ocr import Ocr, OcrResultButton
 from module.ocr.utils import split_and_pair_buttons
 from tasks.daily.assets.assets_daily_reward import *
 from tasks.daily.camera import CameraUI
-from tasks.daily.keywords import DailyQuest, DailyQuestState, KEYWORDS_DAILY_QUEST, KEYWORDS_DAILY_QUEST_STATE
+from tasks.daily.keywords import (
+    DailyQuest,
+    DailyQuestState,
+    KEYWORDS_DAILY_QUEST,
+    KEYWORDS_DAILY_QUEST_STATE,
+)
 from tasks.daily.synthesize import SynthesizeConsumablesUI, SynthesizeMaterialUI
 from tasks.daily.use_technique import UseTechniqueUI
 from tasks.dungeon.assets.assets_dungeon_ui import DAILY_TRAINING_CHECK
@@ -14,6 +19,7 @@ from tasks.dungeon.keywords import KEYWORDS_DUNGEON_TAB
 from tasks.dungeon.ui import DungeonUI
 from tasks.item.consumable_usage import ConsumableUsageUI
 from tasks.item.relics import RelicsUI
+from tasks.battle_pass.keywords import KEYWORD_BATTLE_PASS_QUEST
 
 
 class DailyQuestOcr(Ocr):
@@ -110,7 +116,11 @@ class DailyQuestUI(DungeonUI):
             else:
                 self.device.screenshot()
 
-            if self.appear(DAILY_QUEST_FULL) or self.appear(DAILY_QUEST_GOTO):
+            if self.appear(DAILY_QUEST_FULL):
+                logger.info('No more quests to get, activity full')
+                break
+            if self.appear(DAILY_QUEST_GOTO):
+                logger.info('No more quests to get, have quests uncompleted')
                 break
             if self.appear_then_click(DAILY_QUEST_REWARD, interval=1):
                 continue
@@ -149,6 +159,7 @@ class DailyQuestUI(DungeonUI):
                 self.device.screenshot()
 
             if self._no_reward_to_get():
+                logger.info('No more reward to get')
                 break
             if self.handle_reward():
                 continue
@@ -186,7 +197,7 @@ class DailyQuestUI(DungeonUI):
             in: Any
             out: page_guide, Daily_Training
         """
-        logger.hr('Get daily rewards', level=2)
+        logger.hr('Get daily rewards', level=1)
         self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Daily_Training)
         logger.info("Getting quest rewards")
         self._get_quest_reward()
@@ -231,6 +242,8 @@ class DailyQuestUI(DungeonUI):
         return done
 
     def run(self):
+        self.config.update_battle_pass_quests()
+
         for _ in range(5):
             got = self.get_daily_rewards()
             if got:
@@ -241,4 +254,12 @@ class DailyQuestUI(DungeonUI):
                 break
 
         # Scheduler
-        self.config.task_delay(server_update=True)
+        with self.config.multi_set():
+            # Check battle pass
+            if self.config.stored.DailyActivity.value == 500:
+                quests = self.config.stored.BattlePassTodayQuest.load_quests()
+                if KEYWORD_BATTLE_PASS_QUEST.Reach_500_on_Daily_Training_Activity in quests:
+                    logger.info('Achieved battle pass quest Reach_500_on_Daily_Training_Activity')
+                    self.config.task_call('BattlePass')
+            # Delay self
+            self.config.task_delay(server_update=True)

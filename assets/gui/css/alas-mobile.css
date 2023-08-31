@@ -60,3 +60,10 @@
 #pywebio-scope-log {
     overflow-y: auto;
 }
+
+[id^="pywebio-scope-dashboard-row-"] {
+    display: flex;
+    flex-grow: 1;
+    min-width: 4rem;
+    max-width: 50%;
+}

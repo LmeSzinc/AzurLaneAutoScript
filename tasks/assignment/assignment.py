@@ -13,12 +13,14 @@ from tasks.assignment.keywords import (
     KEYWORDS_ASSIGNMENT_GROUP,
 )
 from tasks.base.page import page_assignment, page_menu
+from tasks.battle_pass.keywords import KEYWORD_BATTLE_PASS_QUEST
 from tasks.daily.keywords import KEYWORDS_DAILY_QUEST
 from tasks.daily.synthesize import SynthesizeUI
 
 
 class Assignment(AssignmentClaim, SynthesizeUI):
     def run(self, assignments: list[AssignmentEntry] = None, duration: int = None):
+        self.config.update_battle_pass_quests()
         self.config.update_daily_quests()
 
         if assignments is None:
@@ -35,6 +37,7 @@ class Assignment(AssignmentClaim, SynthesizeUI):
             duration = self.config.Assignment_Duration
 
         self.dispatched = dict()
+        self.has_new_dispatch = False
         self.ensure_scroll_top(page_menu)
         self.ui_ensure(page_assignment)
         # Iterate in user-specified order, return undispatched ones
@@ -52,13 +55,22 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                 self._dispatch_remain(duration, remain - len(undispatched))
 
         # Scheduler
+        logger.attr('has_new_dispatch', self.has_new_dispatch)
         delay = min(self.dispatched.values())
         logger.info(f'Delay assignment check to {str(delay)}')
         with self.config.multi_set():
+            # Check battle pass
+            quests = self.config.stored.BattlePassTodayQuest.load_quests()
+            if self.has_new_dispatch:
+                if KEYWORD_BATTLE_PASS_QUEST.Dispatch_1_assignments in quests:
+                    logger.info('Achieved battle pass quest Dispatch_1_assignments')
+                    self.config.task_call('BattlePass')
+            # Check daily
             quests = self.config.stored.DailyQuest.load_quests()
             if KEYWORDS_DAILY_QUEST.Go_on_assignment_1_time in quests:
                 logger.info('Achieved daily quest Go_on_assignment_1_time')
                 self.config.task_call('DailyQuest')
+            # Delay self
             self.config.task_delay(target=delay)
 
     def _check_inlist(self, assignments: list[AssignmentEntry], duration: int):

@@ -44,7 +44,7 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
                         f'do {self.combat_waves} wave')
 
         # Check limits
-        if self.state.TrailblazePower < self.combat_wave_cost:
+        if self.config.stored.TrailblazePower.value < self.combat_wave_cost:
             logger.info('Trailblaze power exhausted, cannot continue combat')
             return False
         if self.combat_waves <= 0:
@@ -192,7 +192,7 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
             else:
                 return False
         # Cost limit
-        if self.state.TrailblazePower >= self.combat_wave_cost:
+        if self.config.stored.TrailblazePower.value >= self.combat_wave_cost:
             logger.info('Still having some trailblaze power run with less waves to empty it')
             return True
 
@@ -270,9 +270,9 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
                 self.device.click(COMBAT_EXIT)
                 continue
 
-    def is_stamina_exhausted(self) -> bool:
-        flag = self.state.TrailblazePower < self.combat_wave_cost
-        logger.attr('StaminaExhausted', flag)
+    def is_trailblaze_power_exhausted(self) -> bool:
+        flag = self.config.stored.TrailblazePower.value < self.combat_wave_cost
+        logger.attr('TrailblazePowerExhausted', flag)
         return flag
 
     def combat(self, team: int = 1, wave_limit: int = 0, support_character: str = None, skip_first_screenshot=True):

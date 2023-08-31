@@ -152,3 +152,7 @@ pre.rich-traceback-code {
 [id^="pywebio-scope-group_"] > p + p {
     color: #777777;
 }
+
+*[style*="--dashboard-time--"] {
+    color: #777777;
+}

@@ -48,7 +48,7 @@
     "DungeonDaily": {
       "CalyxGolden": "Calyx_Golden_Treasures",
       "CalyxCrimson": "Calyx_Crimson_Erudition",
-      "StagnantShadow": "do_not_archive",
+      "StagnantShadow": "do_not_achieve",
       "CavernOfCorrosion": "Cavern_of_Corrosion_Path_of_Providence"
     },
     "DungeonSupport": {
@@ -56,7 +56,9 @@
       "Character": "FirstCharacter"
     },
     "DungeonStorage": {
-      "DungeonDouble": {}
+      "TrailblazePower": {},
+      "DungeonDouble": {},
+      "SimulatedUniverse": {}
     }
   },
   "DailyQuest": {
@@ -104,6 +106,10 @@
       "NextRun": "2020-01-01 00:00:00",
       "Command": "BattlePass",
       "ServerUpdate": "04:00"
+    },
+    "BattlePassStorage": {
+      "BattlePassLevel": {},
+      "BattlePassTodayQuest": {}
     }
   },
   "Assignment": {
@@ -118,7 +124,8 @@
       "Name_2": "Akashic_Records",
       "Name_3": "The_Invisible_Hand",
       "Name_4": "Nine_Billion_Names",
-      "Duration": 20
+      "Duration": 20,
+      "Assignment": {}
     }
   },
   "Rogue": {

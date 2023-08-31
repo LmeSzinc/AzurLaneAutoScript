@@ -145,7 +145,14 @@ class AssignmentUI(UI):
     @property
     def _limit_status(self) -> tuple[int, int, int]:
         self.device.screenshot()
-        return DigitCounter(OCR_ASSIGNMENT_LIMIT).ocr_single_line(self.device.image)
+        current, remain, total = DigitCounter(OCR_ASSIGNMENT_LIMIT).ocr_single_line(self.device.image)
+        if total and current <= total:
+            logger.attr('Assignment', f'{current}/{total}')
+            self.config.stored.Assignment.set(current, total)
+        else:
+            logger.warning(f'Invalid assignment limit: {current}/{total}')
+            self.config.stored.Assignment.set(0, 0)
+        return current, remain, total
 
     def _iter_groups(self) -> Iterator[AssignmentGroup]:
         for state in ASSIGNMENT_TOP_SWITCH.state_list:

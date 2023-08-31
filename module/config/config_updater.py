@@ -6,6 +6,7 @@ from deploy.Windows.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_writ
 from module.base.timer import timer
 from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, to_package
 from module.config.utils import *
+from module.config.convert import *
 
 CONFIG_IMPORT = '''
 import datetime
@@ -84,7 +85,7 @@ class ConfigGenerator:
             options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Cavern_of_Corrosion])
         # Insert characters
         from tasks.character.keywords import CharacterList
-        unsupported_characters = ["DanHengImbibitorLunae"]
+        unsupported_characters = ["FuXuan", "Lynx"]
         characters = [character.name for character in CharacterList.instances.values()
                       if character.name not in unsupported_characters]
         option_add(keys='DungeonSupport.Character.option', options=characters)
@@ -441,6 +442,32 @@ class ConfigGenerator:
 
         return data
 
+    @cached_property
+    def stored(self):
+        import module.config.stored.classes as classes
+        data = {}
+        for path, value in deep_iter(self.args, depth=3):
+            if value.get('type') != 'stored':
+                continue
+            name = path[-1]
+            stored = value.get('stored')
+            stored_class = getattr(classes, stored)
+            row = {
+                'name': name,
+                'path': '.'.join(path),
+                'i18n': f'{path[1]}.{path[2]}.name',
+                'stored': stored,
+                'attrs': stored_class('')._attrs,
+                'order': value.get('order', 0),
+                'color': value.get('color', '#777777')
+            }
+            data[name] = row
+
+        # sort by `order` ascending, but `order`==0 at last
+        data = sorted(data.items(), key=lambda kv: (kv[1]['order'] == 0, kv[1]['order']))
+        data = {k: v for k, v in data}
+        return data
+
     @staticmethod
     def generate_deploy_template():
         template = poor_yaml_read(DEPLOY_TEMPLATE)
@@ -495,12 +522,14 @@ class ConfigGenerator:
     def generate(self):
         _ = self.args
         _ = self.menu
+        _ = self.stored
         # _ = self.event
         self.insert_assignment()
         self.insert_package()
         # self.insert_server()
         write_file(filepath_args(), self.args)
         write_file(filepath_args('menu'), self.menu)
+        write_file(filepath_args('stored'), self.stored)
         self.generate_code()
         self.generate_stored()
         for lang in LANGUAGES:
@@ -508,11 +537,15 @@ class ConfigGenerator:
         self.generate_deploy_template()
 
 
+
 class ConfigUpdater:
     # source, target, (optional)convert_func
     redirection = [
         ('Dungeon.Dungeon.Support', 'Dungeon.DungeonSupport.Use'),
         ('Dungeon.Dungeon.SupportCharacter', 'Dungeon.DungeonSupport.Character'),
+        ('Dungeon.Dungeon.Name', 'Dungeon.Dungeon.Name', convert_daily),
+        ('Dungeon.Dungeon.NameAtDoubleCalyx', 'Dungeon.Dungeon.NameAtDoubleCalyx', convert_daily),
+        ('Dungeon.DungeonDaily.CalyxCrimson', 'Dungeon.DungeonDaily.CalyxCrimson', convert_daily),
     ]
 
     @cached_property

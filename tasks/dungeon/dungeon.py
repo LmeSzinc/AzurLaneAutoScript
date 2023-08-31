@@ -5,7 +5,7 @@ from tasks.daily.keywords import KEYWORDS_DAILY_QUEST
 from tasks.dungeon.event import DungeonEvent
 from tasks.dungeon.keywords import DungeonList, KEYWORDS_DUNGEON_LIST, KEYWORDS_DUNGEON_TAB
 from tasks.dungeon.ui import DungeonUI
-
+from tasks.battle_pass.keywords import KEYWORD_BATTLE_PASS_QUEST
 
 class Dungeon(DungeonUI, DungeonEvent, Combat):
     called_daily_support = False
@@ -72,8 +72,8 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
                 logger.info('Achieve daily quest Obtain_victory_in_combat_with_support_characters_1_time')
                 self.achieved_daily_quest = True
 
-        # Check stamina, this may stop current task
-        if self.is_stamina_exhausted():
+        # Check trailblaze power, this may stop current task
+        if self.is_trailblaze_power_exhausted():
             self.delay_dungeon_task(dungeon)
         return count
 
@@ -117,6 +117,7 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
                                      support_character=support_character)
 
     def run(self):
+        self.config.update_battle_pass_quests()
         self.config.update_daily_quests()
         self.called_daily_support = False
         self.achieved_daily_quest = False
@@ -143,6 +144,9 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
             with self.config.multi_set():
                 self.config.stored.DungeonDouble.calyx = calyx
                 self.config.stored.DungeonDouble.relic = relic
+                # Update SimulatedUniverse points
+                logger.info('Get simulated universe points')
+                self.dungeon_get_simuni_point()
 
         # Run double events
         ran_calyx_golden = False
@@ -212,12 +216,20 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
         else:
             limit = 60
         # Recover 1 trailbaze power each 6 minutes
-        cover = max(limit - self.state.TrailblazePower, 0) * 6
-        logger.info(f'Currently has {self.state.TrailblazePower} need {cover} minutes to reach {limit}')
+        current = self.config.stored.TrailblazePower.value
+        cover = max(limit - current, 0) * 6
+        logger.info(f'Currently has {current} need {cover} minutes to reach {limit}')
         logger.attr('achieved_daily_quest', self.achieved_daily_quest)
         with self.config.multi_set():
+            # Check battle pass
+            quests = self.config.stored.BattlePassTodayQuest.load_quests()
+            if KEYWORD_BATTLE_PASS_QUEST.Consume_1_Trailblaze_Power in quests:
+                logger.info('Probably achieved battle pass quest Consume_1_Trailblaze_Power')
+                self.config.task_call('BattlePass')
+            # Check daily
             if self.achieved_daily_quest:
                 self.config.task_call('DailyQuest')
+            # Delay self
             self.config.task_delay(minute=cover)
         self.config.task_stop()
 

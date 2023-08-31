@@ -198,7 +198,7 @@
       "Calyx_Golden_Treasures": "疑似花萼（金）・秘蔵の蕾",
       "Calyx_Crimson_Destruction": "疑似花萼（赤）・壊滅の蕾",
       "Calyx_Crimson_Preservation": "疑似花萼（赤）・存護の蕾",
-      "Calyx_Crimson_Hunt": "疑似花萼（赤）・巡狩の蕾",
+      "Calyx_Crimson_The_Hunt": "疑似花萼（赤）・巡狩の蕾",
       "Calyx_Crimson_Abundance": "疑似花萼（赤）・豊穣の蕾",
       "Calyx_Crimson_Erudition": "疑似花萼（赤）・知恵の蕾",
       "Calyx_Crimson_Harmony": "疑似花萼（赤）・調和の蕾",
@@ -212,6 +212,8 @@
       "Stagnant_Shadow_Mirage": "凝結虚影・幻光の形",
       "Stagnant_Shadow_Icicle": "凝結虚影・氷柱の形",
       "Stagnant_Shadow_Doom": "凝結虚影・震厄の形",
+      "Stagnant_Shadow_Puppetry": "凝結虚影・傀儡の形",
+      "Stagnant_Shadow_Abomination": "凝結虚影・厄獣の形",
       "Stagnant_Shadow_Celestial": "凝結虚影・天人の形",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "侵蝕トンネル・霜風の路",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "侵蝕トンネル・迅拳の路",
@@ -230,7 +232,7 @@
       "Calyx_Golden_Treasures": "疑似花萼（金）・秘蔵の蕾",
       "Calyx_Crimson_Destruction": "疑似花萼（赤）・壊滅の蕾",
       "Calyx_Crimson_Preservation": "疑似花萼（赤）・存護の蕾",
-      "Calyx_Crimson_Hunt": "疑似花萼（赤）・巡狩の蕾",
+      "Calyx_Crimson_The_Hunt": "疑似花萼（赤）・巡狩の蕾",
       "Calyx_Crimson_Abundance": "疑似花萼（赤）・豊穣の蕾",
       "Calyx_Crimson_Erudition": "疑似花萼（赤）・知恵の蕾",
       "Calyx_Crimson_Harmony": "疑似花萼（赤）・調和の蕾",
@@ -278,7 +280,7 @@
       "do_not_achieve": "do_not_achieve",
       "Calyx_Crimson_Destruction": "疑似花萼（赤）・壊滅の蕾",
       "Calyx_Crimson_Preservation": "疑似花萼（赤）・存護の蕾",
-      "Calyx_Crimson_Hunt": "疑似花萼（赤）・巡狩の蕾",
+      "Calyx_Crimson_The_Hunt": "疑似花萼（赤）・巡狩の蕾",
       "Calyx_Crimson_Abundance": "疑似花萼（赤）・豊穣の蕾",
       "Calyx_Crimson_Erudition": "疑似花萼（赤）・知恵の蕾",
       "Calyx_Crimson_Harmony": "疑似花萼（赤）・調和の蕾",
@@ -297,6 +299,8 @@
       "Stagnant_Shadow_Mirage": "凝結虚影・幻光の形",
       "Stagnant_Shadow_Icicle": "凝結虚影・氷柱の形",
       "Stagnant_Shadow_Doom": "凝結虚影・震厄の形",
+      "Stagnant_Shadow_Puppetry": "凝結虚影・傀儡の形",
+      "Stagnant_Shadow_Abomination": "凝結虚影・厄獣の形",
       "Stagnant_Shadow_Celestial": "凝結虚影・天人の形"
     },
     "CavernOfCorrosion": {
@@ -335,6 +339,7 @@
       "Bronya": "ブローニャ",
       "Clara": "クラーラ",
       "DanHeng": "丹恒",
+      "DanHengImbibitorLunae": "丹恒・飲月",
       "Gepard": "ジェパード",
       "Herta": "ヘルタ",
       "Himeko": "姫子",
@@ -353,8 +358,8 @@
       "SilverWolf": "銀狼",
       "Sushang": "素裳",
       "Tingyun": "停雲",
-      "TrailblazerDestruction": "TrailblazerDestruction",
-      "TrailblazerPreservation": "TrailblazerPreservation",
+      "TrailblazerDestruction": "開拓者・壊滅",
+      "TrailblazerPreservation": "開拓者・存護",
       "Welt": "ヴェルト",
       "Yanqing": "彦卿",
       "Yukong": "御空"
@@ -365,9 +370,17 @@
       "name": "DungeonStorage._info.name",
       "help": "DungeonStorage._info.help"
     },
+    "TrailblazePower": {
+      "name": "DungeonStorage.TrailblazePower.name",
+      "help": "DungeonStorage.TrailblazePower.help"
+    },
     "DungeonDouble": {
       "name": "DungeonStorage.DungeonDouble.name",
       "help": "DungeonStorage.DungeonDouble.help"
+    },
+    "SimulatedUniverse": {
+      "name": "DungeonStorage.SimulatedUniverse.name",
+      "help": "DungeonStorage.SimulatedUniverse.help"
     }
   },
   "AchievableQuest": {
@@ -565,6 +578,20 @@
       "help": "DailyStorage.DailyQuest.help"
     }
   },
+  "BattlePassStorage": {
+    "_info": {
+      "name": "BattlePassStorage._info.name",
+      "help": "BattlePassStorage._info.help"
+    },
+    "BattlePassLevel": {
+      "name": "BattlePassStorage.BattlePassLevel.name",
+      "help": "BattlePassStorage.BattlePassLevel.help"
+    },
+    "BattlePassTodayQuest": {
+      "name": "BattlePassStorage.BattlePassTodayQuest.name",
+      "help": "BattlePassStorage.BattlePassTodayQuest.help"
+    }
+  },
   "Assignment": {
     "_info": {
       "name": "依頼設定",
@@ -585,7 +612,9 @@
       "Abandoned_and_Insulted": "燃素と金属（捨てられしものと傷つけられしもの）",
       "Spring_of_Life": "仮想粒子と固形純水（生命の泉）",
       "The_Land_of_Gold": "タンパク米と基本食材（黄金の大地）",
-      "The_Blossom_in_the_Storm": "気態流体と種子（嵐の中で咲き誇る花）"
+      "The_Blossom_in_the_Storm": "気態流体と種子（嵐の中で咲き誇る花）",
+      "Legend_of_the_Puppet_Master": "玉兆単元&廃棄された機巧部品（傀儡師伝説）",
+      "The_Wages_of_Humanity": "薬草抽出物&一人稲（人類扶養）"
     },
     "Name_2": {
       "name": "依頼 2",
@@ -602,7 +631,9 @@
       "Abandoned_and_Insulted": "燃素と金属（捨てられしものと傷つけられしもの）",
       "Spring_of_Life": "仮想粒子と固形純水（生命の泉）",
       "The_Land_of_Gold": "タンパク米と基本食材（黄金の大地）",
-      "The_Blossom_in_the_Storm": "気態流体と種子（嵐の中で咲き誇る花）"
+      "The_Blossom_in_the_Storm": "気態流体と種子（嵐の中で咲き誇る花）",
+      "Legend_of_the_Puppet_Master": "玉兆単元&廃棄された機巧部品（傀儡師伝説）",
+      "The_Wages_of_Humanity": "薬草抽出物&一人稲（人類扶養）"
     },
     "Name_3": {
       "name": "依頼 3",
@@ -619,7 +650,9 @@
       "Abandoned_and_Insulted": "燃素と金属（捨てられしものと傷つけられしもの）",
       "Spring_of_Life": "仮想粒子と固形純水（生命の泉）",
       "The_Land_of_Gold": "タンパク米と基本食材（黄金の大地）",
-      "The_Blossom_in_the_Storm": "気態流体と種子（嵐の中で咲き誇る花）"
+      "The_Blossom_in_the_Storm": "気態流体と種子（嵐の中で咲き誇る花）",
+      "Legend_of_the_Puppet_Master": "玉兆単元&廃棄された機巧部品（傀儡師伝説）",
+      "The_Wages_of_Humanity": "薬草抽出物&一人稲（人類扶養）"
     },
     "Name_4": {
       "name": "依頼 4",
@@ -636,7 +669,9 @@
       "Abandoned_and_Insulted": "燃素と金属（捨てられしものと傷つけられしもの）",
       "Spring_of_Life": "仮想粒子と固形純水（生命の泉）",
       "The_Land_of_Gold": "タンパク米と基本食材（黄金の大地）",
-      "The_Blossom_in_the_Storm": "気態流体と種子（嵐の中で咲き誇る花）"
+      "The_Blossom_in_the_Storm": "気態流体と種子（嵐の中で咲き誇る花）",
+      "Legend_of_the_Puppet_Master": "玉兆単元&廃棄された機巧部品（傀儡師伝説）",
+      "The_Wages_of_Humanity": "薬草抽出物&一人稲（人類扶養）"
     },
     "Duration": {
       "name": "派遣時間",
@@ -645,6 +680,10 @@
       "8": "8",
       "12": "12",
       "20": "20"
+    },
+    "Assignment": {
+      "name": "Assignment.Assignment.name",
+      "help": "Assignment.Assignment.help"
     }
   },
   "Rogue": {
@@ -773,6 +812,15 @@
       "Pending": "隊列中",
       "Waiting": "Waiting",
       "NoTask": "No Task"
+    },
+    "Dashboard": {
+      "NoData": "Gui.Dashboard.NoData",
+      "TimeError": "Gui.Dashboard.TimeError",
+      "JustNow": "Gui.Dashboard.JustNow",
+      "MinutesAgo": "Gui.Dashboard.MinutesAgo",
+      "HoursAgo": "Gui.Dashboard.HoursAgo",
+      "DaysAgo": "Gui.Dashboard.DaysAgo",
+      "LongTimeAgo": "Gui.Dashboard.LongTimeAgo"
     },
     "AddAlas": {
       "PopupTitle": "新しいコンフィグを追加",

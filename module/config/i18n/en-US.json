@@ -198,7 +198,7 @@
       "Calyx_Golden_Treasures": "Material: Credit (Bud of Treasures)",
       "Calyx_Crimson_Destruction": "Trace: Destruction (Bud of Destruction)",
       "Calyx_Crimson_Preservation": "Trace: Preservation (Bud of Preservation)",
-      "Calyx_Crimson_Hunt": "Trace: Hunt (Bud of Hunt)",
+      "Calyx_Crimson_The_Hunt": "Trace: Hunt (Bud of Hunt)",
       "Calyx_Crimson_Abundance": "Trace: Abundance (Bud of Abundance)",
       "Calyx_Crimson_Erudition": "Trace: Erudition (Bud of Erudition)",
       "Calyx_Crimson_Harmony": "Trace: Harmony (Bud of Harmony)",
@@ -212,6 +212,8 @@
       "Stagnant_Shadow_Mirage": "Ascension: Imaginary (Shape of Mirage)",
       "Stagnant_Shadow_Icicle": "Ascension: Ice (Shape of Icicle)",
       "Stagnant_Shadow_Doom": "Ascension: Lighting (Shape of Doom)",
+      "Stagnant_Shadow_Puppetry": "Ascension: Imaginary (Shape of Puppetry)",
+      "Stagnant_Shadow_Abomination": "Ascension: Quantum (Shape of Abomination)",
       "Stagnant_Shadow_Celestial": "Ascension: Wind (Shape of Celestial)",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "Relics: Ice Set & Wind Set (Path of Gelid Wind)",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "Relics: Physical Set & Break Effect Set (Path of Jabbing Punch)",
@@ -230,7 +232,7 @@
       "Calyx_Golden_Treasures": "Material: Credit (Bud of Treasures)",
       "Calyx_Crimson_Destruction": "Trace: Destruction (Bud of Destruction)",
       "Calyx_Crimson_Preservation": "Trace: Preservation (Bud of Preservation)",
-      "Calyx_Crimson_Hunt": "Trace: Hunt (Bud of Hunt)",
+      "Calyx_Crimson_The_Hunt": "Trace: Hunt (Bud of Hunt)",
       "Calyx_Crimson_Abundance": "Trace: Abundance (Bud of Abundance)",
       "Calyx_Crimson_Erudition": "Trace: Erudition (Bud of Erudition)",
       "Calyx_Crimson_Harmony": "Trace: Harmony (Bud of Harmony)",
@@ -278,7 +280,7 @@
       "do_not_achieve": "Don't Do This Quest",
       "Calyx_Crimson_Destruction": "Trace: Destruction (Bud of Destruction)",
       "Calyx_Crimson_Preservation": "Trace: Preservation (Bud of Preservation)",
-      "Calyx_Crimson_Hunt": "Trace: Hunt (Bud of Hunt)",
+      "Calyx_Crimson_The_Hunt": "Trace: Hunt (Bud of Hunt)",
       "Calyx_Crimson_Abundance": "Trace: Abundance (Bud of Abundance)",
       "Calyx_Crimson_Erudition": "Trace: Erudition (Bud of Erudition)",
       "Calyx_Crimson_Harmony": "Trace: Harmony (Bud of Harmony)",
@@ -297,6 +299,8 @@
       "Stagnant_Shadow_Mirage": "Ascension: Imaginary (Shape of Mirage)",
       "Stagnant_Shadow_Icicle": "Ascension: Ice (Shape of Icicle)",
       "Stagnant_Shadow_Doom": "Ascension: Lighting (Shape of Doom)",
+      "Stagnant_Shadow_Puppetry": "Ascension: Imaginary (Shape of Puppetry)",
+      "Stagnant_Shadow_Abomination": "Ascension: Quantum (Shape of Abomination)",
       "Stagnant_Shadow_Celestial": "Ascension: Wind (Shape of Celestial)"
     },
     "CavernOfCorrosion": {
@@ -335,6 +339,7 @@
       "Bronya": "Bronya",
       "Clara": "Clara",
       "DanHeng": "Dan Heng",
+      "DanHengImbibitorLunae": "Dan Heng • Imbibitor Lunae",
       "Gepard": "Gepard",
       "Herta": "Herta",
       "Himeko": "Himeko",
@@ -365,9 +370,17 @@
       "name": "DungeonStorage._info.name",
       "help": "DungeonStorage._info.help"
     },
+    "TrailblazePower": {
+      "name": "Power",
+      "help": ""
+    },
     "DungeonDouble": {
-      "name": "DungeonStorage.DungeonDouble.name",
-      "help": "DungeonStorage.DungeonDouble.help"
+      "name": "Dungeon Double",
+      "help": ""
+    },
+    "SimulatedUniverse": {
+      "name": "Sim.Uni.",
+      "help": ""
     }
   },
   "AchievableQuest": {
@@ -557,12 +570,26 @@
       "help": "DailyStorage._info.help"
     },
     "DailyActivity": {
-      "name": "DailyStorage.DailyActivity.name",
-      "help": "DailyStorage.DailyActivity.help"
+      "name": "Activity",
+      "help": ""
     },
     "DailyQuest": {
-      "name": "DailyStorage.DailyQuest.name",
-      "help": "DailyStorage.DailyQuest.help"
+      "name": "Daily Quest",
+      "help": ""
+    }
+  },
+  "BattlePassStorage": {
+    "_info": {
+      "name": "BattlePassStorage._info.name",
+      "help": "BattlePassStorage._info.help"
+    },
+    "BattlePassLevel": {
+      "name": "Honor",
+      "help": ""
+    },
+    "BattlePassTodayQuest": {
+      "name": "Honor Mission",
+      "help": ""
     }
   },
   "Assignment": {
@@ -585,7 +612,9 @@
       "Abandoned_and_Insulted": "Phlogiston & Metal (Abandoned and Insulted)",
       "Spring_of_Life": "Virtual Particle & Solid Water (Spring of Life)",
       "The_Land_of_Gold": "Protein Rice & Basic Ingredients (The Land of Gold)",
-      "The_Blossom_in_the_Storm": "Gaseous Liquid & Seed (The Blossom in the Storm)"
+      "The_Blossom_in_the_Storm": "Gaseous Liquid & Seed (The Blossom in the Storm)",
+      "Legend_of_the_Puppet_Master": "Jade Abacus Unit & Discarded Ingenium Parts (Legend of the Puppet Master)",
+      "The_Wages_of_Humanity": "Extract of Medicinal Herbs & Human-Height Auspicious Crops (The Wages of Humanity)"
     },
     "Name_2": {
       "name": "Assignment 2 Preference",
@@ -602,7 +631,9 @@
       "Abandoned_and_Insulted": "Phlogiston & Metal (Abandoned and Insulted)",
       "Spring_of_Life": "Virtual Particle & Solid Water (Spring of Life)",
       "The_Land_of_Gold": "Protein Rice & Basic Ingredients (The Land of Gold)",
-      "The_Blossom_in_the_Storm": "Gaseous Liquid & Seed (The Blossom in the Storm)"
+      "The_Blossom_in_the_Storm": "Gaseous Liquid & Seed (The Blossom in the Storm)",
+      "Legend_of_the_Puppet_Master": "Jade Abacus Unit & Discarded Ingenium Parts (Legend of the Puppet Master)",
+      "The_Wages_of_Humanity": "Extract of Medicinal Herbs & Human-Height Auspicious Crops (The Wages of Humanity)"
     },
     "Name_3": {
       "name": "Assignment 3 Preference",
@@ -619,7 +650,9 @@
       "Abandoned_and_Insulted": "Phlogiston & Metal (Abandoned and Insulted)",
       "Spring_of_Life": "Virtual Particle & Solid Water (Spring of Life)",
       "The_Land_of_Gold": "Protein Rice & Basic Ingredients (The Land of Gold)",
-      "The_Blossom_in_the_Storm": "Gaseous Liquid & Seed (The Blossom in the Storm)"
+      "The_Blossom_in_the_Storm": "Gaseous Liquid & Seed (The Blossom in the Storm)",
+      "Legend_of_the_Puppet_Master": "Jade Abacus Unit & Discarded Ingenium Parts (Legend of the Puppet Master)",
+      "The_Wages_of_Humanity": "Extract of Medicinal Herbs & Human-Height Auspicious Crops (The Wages of Humanity)"
     },
     "Name_4": {
       "name": "Assignment 4 Preference",
@@ -636,7 +669,9 @@
       "Abandoned_and_Insulted": "Phlogiston & Metal (Abandoned and Insulted)",
       "Spring_of_Life": "Virtual Particle & Solid Water (Spring of Life)",
       "The_Land_of_Gold": "Protein Rice & Basic Ingredients (The Land of Gold)",
-      "The_Blossom_in_the_Storm": "Gaseous Liquid & Seed (The Blossom in the Storm)"
+      "The_Blossom_in_the_Storm": "Gaseous Liquid & Seed (The Blossom in the Storm)",
+      "Legend_of_the_Puppet_Master": "Jade Abacus Unit & Discarded Ingenium Parts (Legend of the Puppet Master)",
+      "The_Wages_of_Humanity": "Extract of Medicinal Herbs & Human-Height Auspicious Crops (The Wages of Humanity)"
     },
     "Duration": {
       "name": "Dispatch Duration",
@@ -645,6 +680,10 @@
       "8": "8 Hours",
       "12": "12 Hours",
       "20": "20 Hours"
+    },
+    "Assignment": {
+      "name": "Assignment",
+      "help": ""
     }
   },
   "Rogue": {
@@ -773,6 +812,15 @@
       "Pending": "Pending",
       "Waiting": "Waiting",
       "NoTask": "No Task"
+    },
+    "Dashboard": {
+      "NoData": "no data",
+      "TimeError": "time error",
+      "JustNow": "just now",
+      "MinutesAgo": "{time}min ago",
+      "HoursAgo": "{time}h ago",
+      "DaysAgo": "{time}d ago",
+      "LongTimeAgo": "long time ago"
     },
     "AddAlas": {
       "PopupTitle": "Add new config",

@@ -8,7 +8,7 @@ Scheduler:
   Enable:
     type: checkbox
     value: false
-    option: [ true, false]
+    option: [ true, false ]
   NextRun: 2020-01-01 00:00:00
   Command: Alas
   ServerUpdate:
@@ -95,7 +95,7 @@ DungeonDaily:
     value: Calyx_Crimson_Erudition
     option: [ do_not_achieve, ]
   StagnantShadow:
-    value: do_not_archive
+    value: do_not_achieve
     option: [ do_not_achieve, ]
   CavernOfCorrosion:
     value: Cavern_of_Corrosion_Path_of_Providence
@@ -109,8 +109,16 @@ DungeonSupport:
     value: FirstCharacter
     option: [ FirstCharacter, ]
 DungeonStorage:
+  TrailblazePower:
+    stored: StoredTrailblazePower
+    order: 1
+    color: "#eb8efe"
   DungeonDouble:
     stored: StoredDungeonDouble
+  SimulatedUniverse:
+    stored: StoredSimulatedUniverse
+    order: 6
+    color: "#8fb5fe"
 
 AchievableQuest:
 # Quests will be injected in config updater
@@ -122,8 +130,18 @@ AchievableQuest:
 DailyStorage:
   DailyActivity:
     stored: StoredDailyActivity
+    order: 2
+    color: "#ffcf70"
   DailyQuest:
     stored: StoredDaily
+
+BattlePassStorage:
+  BattlePassLevel:
+    stored: StoredBattlePassLevel
+    order: 5
+    color: "#cbe45b"
+  BattlePassTodayQuest:
+    stored: StoredBattlePassTodayQuest
 
 Assignment:
   # Options in Name_x will be injected in config updater
@@ -142,6 +160,10 @@ Assignment:
   Duration:
     value: 20
     option: [ 4, 8, 12, 20 ]
+  Assignment:
+    stored: StoredAssignment
+    order: 3
+    color: "#79dbc4"
 
 # ==================== Rogue ====================
 
