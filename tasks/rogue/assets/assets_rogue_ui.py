@@ -19,7 +19,7 @@ CHECK_BLESSING = ButtonWrapper(
         file='./assets/share/rogue/ui/CHECK_BLESSING.png',
         area=(946, 17, 986, 57),
         search=(926, 0, 1006, 77),
-        color=(50, 48, 43),
+        color=(61, 58, 52),
         button=(946, 17, 986, 57),
     ),
 )
@@ -67,10 +67,10 @@ PAGE_CHOOSE_BUFF = ButtonWrapper(
     name='PAGE_CHOOSE_BUFF',
     share=Button(
         file='./assets/share/rogue/ui/PAGE_CHOOSE_BUFF.png',
-        area=(1016, 94, 1135, 113),
-        search=(996, 74, 1155, 133),
-        color=(71, 71, 73),
-        button=(1016, 94, 1135, 113),
+        area=(1020, 78, 1160, 96),
+        search=(1000, 58, 1180, 116),
+        color=(38, 39, 41),
+        button=(1020, 78, 1160, 96),
     ),
 )
 PAGE_CHOOSE_CURIO = ButtonWrapper(
