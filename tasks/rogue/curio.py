@@ -52,7 +52,7 @@ class RogueCurioSelector(RogueSelector):
 
     def ui_select(self, target: OcrResultButton | None, skip_first_screenshot=True):
         def is_curio_selected():
-            return np.mean(get_color(self.main.device.image, tuple(target.area))) > 70  # shiny background
+            return np.mean(get_color(self.main.device.image, tuple(target.area))) > 60  # shiny background
 
         def is_select_curio_complete():
             """
