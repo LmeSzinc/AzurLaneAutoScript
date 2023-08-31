@@ -383,7 +383,7 @@ class GeneratedConfig:
     OpsiShop_BuySupply = True
 
     # Group `OpsiVoucher`
-    OpsiVoucher_Filter = 'LoggerAbyssal > LoggerObscure > Book > Coin'
+    OpsiVoucher_Filter = 'LoggerAbyssal > LoggerObscure > Book > Coin > Fragment'
 
     # Group `OpsiDaily`
     OpsiDaily_DoMission = True
