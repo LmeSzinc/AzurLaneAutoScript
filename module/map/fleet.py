@@ -363,6 +363,9 @@ class Fleet(Camera, AmbushHandler):
 
                 # Cat attack animation
                 if self.handle_map_cat_attack():
+                    # Already arrive, combat will appear later, but still need to wait siren moving
+                    arrive_timer.reset()
+                    arrive_unexpected_timer.reset()
                     walk_timeout.reset()
                     continue
 

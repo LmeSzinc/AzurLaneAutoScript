@@ -642,8 +642,9 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
-      "event_20230817_cn": "The Fools Scales",
+      "coalition_20230323": "Frostfall",
       "event_20220414_cn": "Aurora Noctis Rerun",
+      "event_20230817_cn": "The Fools Scales",
       "event_20230803_cn": "Anthem of Remembrance",
       "event_20211125_cn": "World-spanning Arclight Rerun",
       "event_20200917_cn": "Dreamwakers Butterfly Rerun",
@@ -657,7 +658,6 @@
       "event_20201126_cn": "Vacation Lane",
       "event_20210819_cn": "Microlayer Medley Rerun",
       "event_20211111_cn": "The Flame-Touched Dagger Rerun",
-      "coalition_20230323": "Frostfall",
       "raid_20220630": "Angel of Iris",
       "event_20210422_cn": "Daedalian Hymn Rerun",
       "event_20210624_cn": "Swirling Cherry Blossoms Rerun",
@@ -2317,7 +2317,7 @@
   "OpsiHazard1Leveling": {
     "_info": {
       "name": "CL1 leveling",
-      "help": "Consume operation coins to gain a lot of experience and a little action points.\nRecommended to carry 1-2 pre-loaded CV to obtain the highest average hourly benefit.\n\nTo avoid being unable to buying goods from port shops, Alas will retain 100,000 operation coins\nSince buying action points at the mystery shop requires a large number of operation points, this function will be supplemented by running meowfficer farming with overflow action points."
+      "help": "Consume operation coins to gain a lot of experience and a little action points.\nRecommended to carry 1-2 pre-loaded CV to obtain the highest average hourly benefit.\n\nTo avoid being unable to buying goods from port shops, Alas will retain 100,000 operation coins\nSince buying action points at the mystery shop requires a large number of operation coins, this function will be supplemented by running meowfficer farming with overflow action points."
     },
     "TargetZone": {
       "name": "Target Zone ID",
@@ -2486,7 +2486,28 @@
       "Confirm": "Add",
       "FileExist": "A config with the same name exists, please choose another one",
       "InvalidChar": "Config name cannot contain any of the following characters: .\\/:*?\"<>|",
-      "InvalidPrefixTemplate": "Config name cannot start with 'template'"
+      "InvalidPrefixTemplate": "Config name cannot start with 'template'",
+      "Manage": "Manage"
+    },
+    "AppManage": {
+      "PageTitle": "Manage config",
+      "TitleNew": "New config",
+      "NewName": "Config name",
+      "CopyFrom": "Copy from existing config",
+      "NameExist": "A config with the same name exists, please choose another one",
+      "InvalidChar": "Config name cannot contain any of the following characters: .\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "Config name cannot start with 'template'",
+      "Back": "Back",
+      "New": "New",
+      "Import": "Import",
+      "Export": "Export",
+      "Delete": "Delete",
+      "OverrideWarning": "This will override the current config!",
+      "ImportSuccess": "Import succeeded",
+      "NewSuccess": "Add config succeeded",
+      "Name": "Name",
+      "Mod": "Mod",
+      "Actions": "Actions"
     },
     "Update": {
       "UpToDate": "Latest version",
@@ -2517,7 +2538,9 @@
     },
     "Text": {
       "InvalidFeedBack": "Invalid format. Example: {0}",
-      "Clear": "Clear"
+      "Clear": "Clear",
+      "EnterPassword": "Enter password",
+      "ChooseFile": "Choose file"
     }
   }
 }
