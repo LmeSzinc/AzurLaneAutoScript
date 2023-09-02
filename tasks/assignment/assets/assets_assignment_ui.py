@@ -47,10 +47,10 @@ OCR_ASSIGNMENT_LIMIT = ButtonWrapper(
     name='OCR_ASSIGNMENT_LIMIT',
     share=Button(
         file='./assets/share/assignment/ui/OCR_ASSIGNMENT_LIMIT.png',
-        area=(1095, 82, 1180, 125),
-        search=(1075, 62, 1200, 145),
-        color=(41, 44, 50),
-        button=(1095, 82, 1180, 125),
+        area=(1095, 95, 1180, 119),
+        search=(1075, 75, 1200, 139),
+        color=(51, 54, 60),
+        button=(1095, 95, 1180, 119),
     ),
 )
 OCR_ASSIGNMENT_LIST = ButtonWrapper(
