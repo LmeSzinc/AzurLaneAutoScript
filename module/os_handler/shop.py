@@ -32,41 +32,49 @@ class OSShopHandler(OSStatus, MapEventHandler):
         self._shop_purple_coins = self.get_purple_coins()
         logger.info(f'Yellow coins: {self._shop_yellow_coins}, purple coins: {self._shop_purple_coins}')
 
-    @Config.when(SERVER='tw')
-    def _get_os_shop_grid(self):
-        """
-        Returns:
-            ButtonGrid:
-        """
-        return ButtonGrid(
-            origin=(237, 218), delta=(188, 225), button_shape=(98, 98), grid_shape=(4, 2), name='SHOP_GRID')
-
-    @Config.when(SERVER='en')
-    def _get_os_shop_grid(self):
-        """
-        Returns:
-            ButtonGrid:
-        """
-        return ButtonGrid(
-            origin=(233, 224), delta=(190, 224), button_shape=(98, 98), grid_shape=(4, 2), name='SHOP_GRID')
-
-    @Config.when(SERVER=None)
-    def _get_os_shop_grid(self):
-        """
-        Returns:
-            ButtonGrid:
-        """
-        return ButtonGrid(
-            origin=(233, 224), delta=(193.2, 228), button_shape=(98, 98), grid_shape=(4, 2), name='SHOP_GRID')
-
     @cached_property
+    @Config.when(SERVER='tw')
     def os_shop_items(self):
         """
         Returns:
             ItemGrid:
         """
-        shop_grid = self._get_os_shop_grid()
-        shop_items = ItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
+        shop_grid = ButtonGrid(
+            origin=(238, 220), delta=(188, 225), button_shape=(98, 98), grid_shape=(4, 2), name='SHOP_GRID')
+        shop_items = ItemGrid(
+            shop_grid, templates={}, amount_area=(60, 74, 96, 95), price_area=(52, 132, 132, 165))
+        shop_items.price_ocr = OSShopPrice([], letter=(255, 223, 57), threshold=32, name='Price_ocr')
+        shop_items.load_template_folder('./assets/shop/os')
+        shop_items.load_cost_template_folder('./assets/shop/os_cost')
+        return shop_items
+    
+    @cached_property
+    @Config.when(SERVER='en')
+    def os_shop_items(self):
+        """
+        Returns:
+            ItemGrid:
+        """
+        shop_grid = ButtonGrid(
+            origin=(231, 222), delta=(190, 224), button_shape=(98, 98), grid_shape=(4, 2), name='SHOP_GRID')
+        shop_items = ItemGrid(
+            shop_grid, templates={}, amount_area=(60, 74, 96, 95), price_area=(52, 132, 132, 165))
+        shop_items.price_ocr = OSShopPrice([], letter=(255, 223, 57), threshold=32, name='Price_ocr')
+        shop_items.load_template_folder('./assets/shop/os')
+        shop_items.load_cost_template_folder('./assets/shop/os_cost')
+        return shop_items
+
+    @cached_property
+    @Config.when(SERVER=None)
+    def os_shop_items(self):
+        """
+        Returns:
+            ItemGrid:
+        """
+        shop_grid = ButtonGrid(
+            origin=(233, 224), delta=(193.2, 228), button_shape=(98, 98), grid_shape=(4, 2), name='SHOP_GRID')
+        shop_items = ItemGrid(
+            shop_grid, templates={}, amount_area=(60, 74, 96, 95), price_area=(52, 132, 132, 165))
         shop_items.price_ocr = OSShopPrice([], letter=(255, 223, 57), threshold=32, name='Price_ocr')
         shop_items.load_template_folder('./assets/shop/os')
         shop_items.load_cost_template_folder('./assets/shop/os_cost')
