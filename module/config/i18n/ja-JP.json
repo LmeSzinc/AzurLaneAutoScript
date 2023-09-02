@@ -870,8 +870,9 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
-      "event_20230817_cn": "愚者の天秤",
+      "coalition_20230323": "星霜海嵐",
       "event_20220414_cn": "極夜照らす幻光（復刻）",
+      "event_20230817_cn": "愚者の天秤",
       "event_20230803_cn": "燃ゆる聖都の回想曲",
       "event_20211125_cn": "弧光は交わる世界にて（復刻）",
       "event_20200917_cn": "刹那觀る胡蝶の夢（復刻）",
@@ -885,7 +886,6 @@
       "event_20201126_cn": "バケーションレーン",
       "event_20210819_cn": "闇靄払う銀翼（復刻）",
       "event_20211111_cn": "復刻-燈火のシニエ",
-      "coalition_20230323": "星霜海嵐",
       "raid_20220630": "アイリスの天使",
       "event_20210422_cn": "讃える復興の迷路（復刻）",
       "event_20210624_cn": "翳りし満ちる影の華(復刻)",
@@ -2714,7 +2714,28 @@
       "Confirm": "追加",
       "FileExist": "既存コンフィグと同じネーミングとなっていますから別名前を入力してください",
       "InvalidChar": "コンフィグ名には下記の文字を含めることはできません：.\\/:*?\"<>|",
-      "InvalidPrefixTemplate": "設定ファイル名は temlpate で始めることはできません"
+      "InvalidPrefixTemplate": "設定ファイル名は temlpate で始めることはできません",
+      "Manage": "管理"
+    },
+    "AppManage": {
+      "PageTitle": "コンフィグ管理",
+      "TitleNew": "コンフィグを追加",
+      "NewName": "コンフィグ名",
+      "CopyFrom": "既存コンフィグからコピー",
+      "NameExist": "コンフィグ名が既に存在しています",
+      "InvalidChar": "コンフィグ名には下記の文字を含めることはできません：.\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "設定ファイル名は temlpate で始めることはできません",
+      "Back": "戻る",
+      "New": "追加",
+      "Import": "インポート",
+      "Export": "エクスポート",
+      "Delete": "削除",
+      "OverrideWarning": "This will override the current config!",
+      "ImportSuccess": "インポート成功",
+      "NewSuccess": "追加成功",
+      "Name": "コンフィグ名",
+      "Mod": "モジュール",
+      "Actions": "操作"
     },
     "Update": {
       "UpToDate": "今Alasは最新バージョンです",
@@ -2745,7 +2766,9 @@
     },
     "Text": {
       "InvalidFeedBack": "フォーマットエラー。 例：{0}",
-      "Clear": "消除"
+      "Clear": "消除",
+      "EnterPassword": "パスワードを入力してください",
+      "ChooseFile": "ファイルを選択してください"
     }
   }
 }

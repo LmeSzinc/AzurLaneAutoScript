@@ -677,7 +677,7 @@ OpsiShop:
   BuySupply: true
 OpsiVoucher:
   Filter: |-
-    LoggerAbyssal > LoggerObscure > Book > Coin
+    LoggerAbyssal > LoggerObscure > Book > Coin > Fragment
 OpsiDaily:
   DoMission: true
   UseTuningSample: true

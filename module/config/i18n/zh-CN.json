@@ -870,8 +870,9 @@
       "name": "活动名称",
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
-      "event_20230817_cn": "愚者的天平",
+      "coalition_20230323": "极地风暴",
       "event_20220414_cn": "复刻永夜幻光",
+      "event_20230817_cn": "愚者的天平",
       "event_20230803_cn": "奏响鸢尾之歌",
       "event_20211125_cn": "复刻交汇世界的弧光",
       "event_20200917_cn": "复刻蝶海梦花",
@@ -885,7 +886,6 @@
       "event_20201126_cn": "假日航线",
       "event_20210819_cn": "复刻微层混合",
       "event_20211111_cn": "复刻杰诺瓦的焰火",
-      "coalition_20230323": "极地风暴",
       "raid_20220630": "来自鸢尾的天使",
       "event_20210422_cn": "复刻复兴的赞美诗",
       "event_20210624_cn": "复刻浮樱影华",
@@ -2714,7 +2714,28 @@
       "Confirm": "添加",
       "FileExist": "存在同名的配置文件，请重新输入一个",
       "InvalidChar": "配置文件名不能包含下列任何字符：.\\/:*?\"<>|",
-      "InvalidPrefixTemplate": "配置文件名不能以 template 开头"
+      "InvalidPrefixTemplate": "配置文件名不能以 template 开头",
+      "Manage": "管理"
+    },
+    "AppManage": {
+      "PageTitle": "管理配置文件",
+      "TitleNew": "添加新配置",
+      "NewName": "新的配置文件名",
+      "CopyFrom": "从现有的配置中复制",
+      "NameExist": "存在同名的配置文件，请重新输入一个",
+      "InvalidChar": "配置文件名不能包含下列任何字符：.\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "配置文件名不能以 template 开头",
+      "Back": "返回",
+      "New": "添加",
+      "Import": "导入",
+      "Export": "导出",
+      "Delete": "删除",
+      "OverrideWarning": "将会覆盖现有的配置文件",
+      "ImportSuccess": "导入成功",
+      "NewSuccess": "添加成功",
+      "Name": "配置名称",
+      "Mod": "插件",
+      "Actions": "操作"
     },
     "Update": {
       "UpToDate": "已是最新版本",
@@ -2745,7 +2766,9 @@
     },
     "Text": {
       "InvalidFeedBack": "格式错误。 示例：{0}",
-      "Clear": "清除"
+      "Clear": "清除",
+      "EnterPassword": "输入密码",
+      "ChooseFile": "选择文件"
     }
   }
 }

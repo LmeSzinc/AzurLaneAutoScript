@@ -1796,8 +1796,8 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20230817_cn",
           "event_20220414_cn",
+          "event_20230817_cn",
           "event_20230803_cn",
           "event_20211125_cn",
           "event_20200917_cn",
@@ -2117,8 +2117,8 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20230817_cn",
           "event_20220414_cn",
+          "event_20230817_cn",
           "event_20230803_cn",
           "event_20211125_cn",
           "event_20200917_cn",
@@ -2553,8 +2553,8 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20230817_cn",
           "event_20220414_cn",
+          "event_20230817_cn",
           "event_20230803_cn",
           "event_20211125_cn",
           "event_20200917_cn",
@@ -3226,6 +3226,7 @@
           "coalition_20230323"
         ],
         "display": "disabled",
+        "tw": "coalition_20230323",
         "cn": "coalition_20230323",
         "en": "coalition_20230323",
         "jp": "coalition_20230323"
@@ -3900,8 +3901,8 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20230817_cn",
           "event_20220414_cn",
+          "event_20230817_cn",
           "event_20230803_cn",
           "event_20211125_cn",
           "event_20200917_cn",
@@ -4353,8 +4354,8 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20230817_cn",
           "event_20220414_cn",
+          "event_20230817_cn",
           "event_20230803_cn",
           "event_20211125_cn",
           "event_20200917_cn",
@@ -4806,8 +4807,8 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20230817_cn",
           "event_20220414_cn",
+          "event_20230817_cn",
           "event_20230803_cn",
           "event_20211125_cn",
           "event_20200917_cn",
@@ -5259,8 +5260,8 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20230817_cn",
           "event_20220414_cn",
+          "event_20230817_cn",
           "event_20230803_cn",
           "event_20211125_cn",
           "event_20200917_cn",
@@ -5702,8 +5703,8 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20230817_cn",
           "event_20220414_cn",
+          "event_20230817_cn",
           "event_20230803_cn",
           "event_20211125_cn",
           "event_20200917_cn",
@@ -6374,6 +6375,7 @@
           "coalition_20230323"
         ],
         "display": "disabled",
+        "tw": "coalition_20230323",
         "cn": "coalition_20230323",
         "en": "coalition_20230323",
         "jp": "coalition_20230323"
@@ -8322,7 +8324,7 @@
     "OpsiVoucher": {
       "Filter": {
         "type": "textarea",
-        "value": "LoggerAbyssal > LoggerObscure > Book > Coin"
+        "value": "LoggerAbyssal > LoggerObscure > Book > Coin > Fragment"
       }
     },
     "Storage": {

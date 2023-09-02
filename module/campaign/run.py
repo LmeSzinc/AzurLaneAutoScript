@@ -253,6 +253,10 @@ class CampaignRun(CampaignEvent, ShopStatus):
                 Fleet_Fleet2=0,  # Has only one fleet
                 Submarine_Fleet=0,  # No submarine
             )
+        # event_20230817_cn story states
+        if folder == 'event_20230817_cn':
+            if name.startswith('e0'):
+                name = 'a1'
         # Stage loop
         for alias, stages in self.config.STAGE_LOOP_ALIAS.items():
             alias_folder, alias = alias
