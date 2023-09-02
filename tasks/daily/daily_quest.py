@@ -31,6 +31,7 @@ class DailyQuestOcr(Ocr):
         if self.lang == 'ch':
             result = result.replace("J", "」")
             result = result.replace(";", "」")
+            result = result.replace("了", "」")
             result = result.replace("宇审", "宇宙")
             # 进行中」hbadarin
             if "进行中" in result:
