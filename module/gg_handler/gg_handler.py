@@ -56,9 +56,9 @@ class GGHandler:
             Args:
                 mode: bool
         """
-        logger.hr('Enabling GG')
         gg_package_name = deep_get(self.config.data, keys='GameManager.GGHandler.GGPackageName')
         if mode:
+            logger.hr('Enabling GG')
             # if self.method == 'screenshot' or gg_package_name == 'com.':
             #     GGScreenshot(config=self.config, device=self.device) \
             #         .gg_set(mode=True, factor=self.factor)
