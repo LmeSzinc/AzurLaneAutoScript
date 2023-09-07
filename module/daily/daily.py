@@ -320,7 +320,7 @@ class Daily(Combat, DailyEquipment):
         while 1:
             self.daily_run_one()
 
-            if self.emergency_module_development:
+            if self.emergency_module_development and self.config.Daily_EmergencyModuleDevelopment != 'skip':
                 self.daily_checked = [0]
 
             if max(self.daily_checked) >= 7:
