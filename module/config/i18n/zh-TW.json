@@ -732,6 +732,7 @@
       "event_20200423_cn": "Crimson Echoes Rerun",
       "event_20200326_cn": "Microlayer Medley",
       "event_20200227_cn": "Northern Overture",
+      "war_archives_20201229_cn": "檔案 負象限作戰",
       "war_archives_20220414_cn": "檔案 永夜幻光",
       "war_archives_20220210_cn": "檔案 北境序曲",
       "war_archives_20211028_cn": "檔案 穹頂下的聖詠曲",
@@ -2488,7 +2489,28 @@
       "Confirm": "添加",
       "FileExist": "存在同名的設定檔案，請重新命名",
       "InvalidChar": "設定檔案名不可以包含下列任意字元：.\\/:*?\"<>|",
-      "InvalidPrefixTemplate": "設定檔案名不能以 template 開頭"
+      "InvalidPrefixTemplate": "設定檔案名不能以 template 開頭",
+      "Manage": "管理"
+    },
+    "AppManage": {
+      "PageTitle": "設定檔案管理",
+      "TitleNew": "添加新的設定檔案",
+      "NewName": "新設定的檔案名",
+      "CopyFrom": "從現有的設定中複製",
+      "NameExist": "存在同名的設定檔案，請重新命名",
+      "InvalidChar": "設定檔案名不可以包含下列任意字元：.\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "設定檔案名不能以 template 開頭",
+      "Back": "返回",
+      "New": "新增",
+      "Import": "導入",
+      "Export": "匯出",
+      "Delete": "删除",
+      "OverrideWarning": "将会覆蓋现有的設定檔案",
+      "ImportSuccess": "設定檔案已導入",
+      "NewSuccess": "設定檔案已新增",
+      "Name": "檔案名",
+      "Mod": "插件",
+      "Actions": "操作"
     },
     "Update": {
       "UpToDate": "已是最新版本",
@@ -2519,7 +2541,9 @@
     },
     "Text": {
       "InvalidFeedBack": "格式錯誤。 示例：{0}",
-      "Clear": "清除"
+      "Clear": "清除",
+      "EnterPassword": "輸入密碼",
+      "ChooseFile": "選擇檔案"
     }
   }
 }

@@ -1640,7 +1640,7 @@
       "ServerUpdate": "00:00"
     },
     "OpsiVoucher": {
-      "Filter": "LoggerAbyssal > LoggerObscure > Book > Coin"
+      "Filter": "LoggerAbyssal > LoggerObscure > Book > Coin > Fragment"
     },
     "Storage": {
       "Storage": {}
