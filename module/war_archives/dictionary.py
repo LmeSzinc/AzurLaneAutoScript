@@ -23,4 +23,5 @@ dic_archives_template = {
     'war_archives_20210819_cn': TEMPLATE_MICROLAYER_MEDLEY,
     'war_archives_20220210_cn': TEMPLATE_NORTHERN_OVERTURE,
     'war_archives_20220414_cn': TEMPLATE_AURORA_NOCTIS,
+    'war_archives_20201229_cn': TEMPLATE_INVERTED_ORTHANT,
 }
