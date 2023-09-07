@@ -94,7 +94,8 @@ class MaaTouch(Connection):
     @cached_property
     def maatouch_builder(self):
         self.maatouch_init()
-        return CommandBuilder(self)
+        # Orientation is handled inside MaaTouch
+        return CommandBuilder(self, handle_orientation=False)
 
     def maatouch_init(self):
         logger.hr('MaaTouch init')

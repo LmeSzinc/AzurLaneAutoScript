@@ -67,7 +67,7 @@ class Meta(UI, MapEventHandler):
 
 
 def _server_support():
-    return server.server in ['cn', 'en', 'jp']
+    return server.server in ['cn', 'en', 'jp','tw']
 
 
 def _server_support_dossier_auto_attack():
@@ -317,6 +317,7 @@ class OpsiAshBeacon(Meta):
             in: is_in_meta & not auto attacking
             out: is_in_meta
         """
+        timeout = Timer(10, count=20).start()
         skip_first_screenshot = True
         while 1:
             if skip_first_screenshot:
@@ -327,9 +328,13 @@ class OpsiAshBeacon(Meta):
             # End
             if self.appear(META_AUTO_ATTACKING, offset=(5, 5)):
                 return True
+            if timeout.reached():
+                logger.warning('Run _dossier_auto_attack timeout, probably because META_AUTO_ATTACK_START was missing')
+                return False
             # Finished by others
             if self.appear(BEACON_REWARD, offset=(30, 30)):
                 return False
+
             # Click
             if self.appear_then_click(META_AUTO_ATTACK_CONFIRM, offset=(5, 5), interval=3):
                 continue
@@ -370,11 +375,6 @@ class OpsiAshBeacon(Meta):
             if self._check_beacon_point():
                 self.device.click(META_BEGIN_ENTRANCE)
                 logger.info('Begin a beacon')
-            else:
-                # TW only support current meta
-                if server.server == 'tw':
-                    return False
-                self.appear_then_click(ASH_QUIT, offset=(10, 10), interval=2)
             return True
         # Page dossier
         elif _server_support() \

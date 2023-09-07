@@ -1,7 +1,7 @@
 import re
 
 from module.base.button import ButtonGrid
-from module.base.decorator import cached_property
+from module.base.decorator import cached_property, Config
 from module.base.filter import Filter
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1, GET_SHIP, GET_ITEMS_3
@@ -17,7 +17,7 @@ FILTER_REGEX = re.compile(
     '|chip|coin|cube|drill|food'
     '|plate|retrofit|pr|dr'
     '|logger|tuning'
-    '|hecombatplan'
+    '|hecombatplan|fragment'
     '|albacore|bataan|bluegill|carabiniere|casablanca|contedicavour|dukeofyork|echo'
     '|eldridge|grenville|hibiki|hunter|kinggeorgev|kinu|kuroshio|lemalinmuse'
     '|letemeraire|littorio|newcastle|oyashio|quincy|ryuujou|sanjuan|sheffieldmuse'
@@ -103,7 +103,7 @@ class ShopBase(UI):
             ButtonGrid:
         """
         shop_grid = ButtonGrid(
-            origin=(477, 152), delta=(156, 214), button_shape=(96, 96), grid_shape=(5, 2), name='SHOP_GRID')
+            origin=(476, 246), delta=(156, 213), button_shape=(98, 98), grid_shape=(5, 2), name='SHOP_GRID')
         return shop_grid
 
     def shop_items(self):

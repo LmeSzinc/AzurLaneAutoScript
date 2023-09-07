@@ -31,6 +31,10 @@ class Device(Screenshot, Control, AppControl, EmulatorManager):
         super().__init__(*args, **kwargs)
         self.screenshot_interval_set()
 
+        # Temp fix for MuMu 12 before DroidCast updated
+        if self.is_mumu_family:
+            logger.info('Patching screenshot method for mumu')
+            self.config.override(Emulator_ScreenshotMethod='ADB_nc')
         # Auto-select the fastest screenshot method
         if not self.config.is_template_config and self.config.Emulator_ScreenshotMethod == 'auto':
             self.run_simple_screenshot_benchmark()

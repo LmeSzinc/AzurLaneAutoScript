@@ -50,6 +50,54 @@ class ShopUI(UI):
             return True
         return False
 
+    @cached_property
+    def shop_tab(self):
+        """
+        Set with `self.shop_tab.set(main=self, left={index})`
+        - index
+            1: Monthly shops
+            2: General supply shops
+        """
+        grids = ButtonGrid(
+            origin=(340, 93), delta=(189, 0),
+            button_shape=(188, 54), grid_shape=(2, 1),
+            name='SHOP_TAB')
+        return Navbar(
+            grids=grids,
+            # Yellow bottom dash
+            active_color=(255, 219, 83), active_threshold=221, active_count=100,
+            # Black bottom dash
+            inactive_color=(181, 178, 181), inactive_threshold=221, inactive_count=100,
+        )
+
+    @cached_property
+    def shop_nav(self):
+        """
+        Set with `self.shop_nav.set(main=self, upper={index})`
+        - index when `shop_tab` is at 1
+            1: Core shop (limited items)
+            2: Core shop monthly
+            3: Medal shop
+            4: Prototype shop
+        - index when `shop_tab` is at 2
+            1: General shop
+            2: Merit shop
+            3: Guild shop
+            4: Meta shop
+            5: Gift shop
+        """
+        grids = ButtonGrid(
+            origin=(339, 217), delta=(0, 65),
+            button_shape=(15, 64), grid_shape=(1, 5),
+            name='SHOP_NAV')
+        return Navbar(
+            grids=grids,
+            # White vertical line to the left of shop names
+            active_color=(255, 255, 255), active_threshold=221, active_count=100,
+            # Just whatever to make it match
+            inactive_color=(49, 56, 82), inactive_threshold=0, inactive_count=100,
+        )
+
     def shop_refresh(self, skip_first_screenshot=True):
         """
         Args:
@@ -170,6 +218,10 @@ class ShopUI(UI):
             in: Any
             out: page_munitions
         """
+        if self.ui_get_current_page() == page_munitions:
+            logger.info(f'Already at {page_munitions}')
+            return
+
         self.ui_ensure(page_academy)
 
         skip_first_screenshot = True

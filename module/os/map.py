@@ -173,7 +173,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         logger.error('Failed to solve uncollected rewards')
         raise GameTooManyClickError
 
-    def port_goto(self):
+    def port_goto(self, allow_port_arrive=True):
         """
         Wraps `port_goto()`, handle walk_out_of_step
 
@@ -182,7 +182,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         """
         for _ in range(3):
             try:
-                super().port_goto()
+                super().port_goto(allow_port_arrive=allow_port_arrive)
                 return True
             except MapWalkError:
                 pass
@@ -358,7 +358,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                     break
 
             logger.info('Solve EMP debuff by going somewhere else')
-            self.port_goto()
+            self.port_goto(allow_port_arrive=False)
             self.fleet_set(current)
 
         logger.warning('Failed to solve EMP debuff after 5 trial, assume solved')

@@ -20,8 +20,22 @@ class Filter:
         self.filter = []
 
     def load(self, string):
+        """
+        Load a filter string, filters are connected with ">"
+
+        There are also tons of unicode characters similar to ">"
+        > \u003E correct
+        ＞ \uFF1E
+        ﹥ \uFE65
+        › \u203a
+        ˃ \u02c3
+        ᐳ \u1433
+        ❯ \u276F
+        """
         string = str(string)
-        self.filter_raw = [f.strip(' \t\r\n') for f in string.split('>')]
+        string = re.sub(r'[ \t\r\n]', '', string)
+        string = re.sub(r'[＞﹥›˃ᐳ❯]', '>', string)
+        self.filter_raw = string.split('>')
         self.filter = [self.parse_filter(f) for f in self.filter_raw]
 
     def is_preset(self, filter):

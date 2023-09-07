@@ -37,7 +37,18 @@ class Equipment(StorageHandler):
                 swipe_timer.reset()
                 self.device.swipe_vector(vector=(distance, 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
                                          padding=0, duration=(0.1, 0.12), name='EQUIP_SWIPE')
-                self.wait_until_appear(check_button, offset=(30, 30))
+                # self.wait_until_appear(check_button, offset=(30, 30))
+                skip_first_screenshot = True
+                while 1:
+                    if skip_first_screenshot:
+                        skip_first_screenshot = False
+                    else:
+                        self.device.screenshot()
+                    if self.appear(check_button, offset=(30, 30)):
+                        break
+                    if self.appear(RETIRE_EQUIP_CONFIRM, offset=(30, 30)):
+                        logger.info('RETIRE_EQUIP_CONFIRM popup in _equip_view_swipe()')
+                        return False
                 swipe_count += 1
 
             self.device.screenshot()
@@ -168,20 +179,23 @@ class Equipment(StorageHandler):
             if off_timer.started() and self.info_bar_count():
                 break
 
-            if bar_timer.reached() and not self.appear(EQUIP_1, offset=10):
-                self.device.click(EQUIPMENT_OPEN)
-                bar_timer.reset()
-                continue
-
-            if off_timer.reached() and not self.info_bar_count() and self.appear_then_click(EQUIP_OFF, offset=10):
-                off_timer.reset()
+            if self.handle_storage_full():
                 continue
 
             if confirm_timer.reached() and self.handle_popup_confirm():
                 confirm_timer.reset()
                 continue
-            if self.handle_storage_full():
-                continue
+
+            if off_timer.reached():
+                if not self.info_bar_count() and self.appear_then_click(EQUIP_OFF, offset=(20, 20)):
+                    off_timer.reset()
+                    continue
+
+            if bar_timer.reached():
+                if self.appear(EQUIPMENT_OPEN, offset=(20, 20)) and not self.appear(EQUIP_OFF, offset=(20, 20)):
+                    self.device.click(EQUIPMENT_OPEN)
+                    bar_timer.reset()
+                    continue
 
     def equipment_take_off(self, enter, out, fleet):
         """
