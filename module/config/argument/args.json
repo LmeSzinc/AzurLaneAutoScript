@@ -3306,6 +3306,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "war_archives_20201229_cn",
           "war_archives_20220414_cn",
           "war_archives_20220210_cn",
           "war_archives_20211028_cn",
@@ -3329,10 +3330,10 @@
           "war_archives_20191031_en",
           "war_archives_20181020_en"
         ],
-        "cn": "war_archives_20220414_cn",
-        "en": "war_archives_20220414_cn",
-        "jp": "war_archives_20220414_cn",
-        "tw": "war_archives_20220414_cn"
+        "cn": "war_archives_20201229_cn",
+        "en": "war_archives_20201229_cn",
+        "jp": "war_archives_20201229_cn",
+        "tw": "war_archives_20201229_cn"
       },
       "Mode": {
         "type": "select",
