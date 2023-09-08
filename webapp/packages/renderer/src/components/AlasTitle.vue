@@ -1,5 +1,5 @@
 <template>
-  <section class="text-6xl text-current font-extralight tracking-wide">
+  <section class="text-6xl text-[#616161] font-extralight tracking-wide">
     <span class="text-7xl text-primary">A</span>zur<span class="text-7xl text-primary">L</span
     >ane<span class="text-7xl text-primary">A</span>uto<span class="text-7xl text-primary">S</span
     >cript

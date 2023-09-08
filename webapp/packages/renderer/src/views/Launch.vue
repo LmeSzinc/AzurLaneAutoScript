@@ -6,19 +6,14 @@
       <div
         id="scrollRef"
         ref="scrollRef"
-        class="w-10/12 max-w-3xl h-96 overflow-y-scroll overscroll-contain"
+        class="w-10/12 max-w-156 h-96 mt-5 overflow-y-scroll overscroll-contain"
       >
         <main class="w-full max-w-full">
-          <section
+          <pre
             v-for="logInfo in logInfos"
             :key="logInfo"
-            class="text-sm text-gray-400 leading-4"
-          >
-            <pre class="w-full max-w-full whitespace-pre-wrap">
-              {{ logInfo }}
-         </pre
-            >
-          </section>
+            class="text-xs text-gray-400 w-full max-w-full whitespace-pre-wrap"
+          >{{ logInfo }}</pre>
         </main>
       </div>
     </section>
@@ -91,3 +86,20 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="less" scoped>
+  #scrollRef::-webkit-scrollbar {
+    width: 3px;
+    height: 1px;
+  }
+
+  #scrollRef::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #aeaeae;
+  }
+
+  #scrollRef::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: #ededed;
+  }
+</style>

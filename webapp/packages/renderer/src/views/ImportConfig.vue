@@ -5,7 +5,7 @@
       class="!absolute !left-9 !top-18 !hover:bg-white"
       :onclick="goBack"
     >
-      <arrow-left-outlined class="text-3xl text-slate opacity-25" />
+      <arrow-left-outlined class="text-4xl text-slate opacity-25" />
     </a-button>
     <section class="ml-20 mt-2">
       <AlasTitle />
@@ -15,7 +15,7 @@
       <a-steps
         :current="current"
         direction="vertical"
-        class="mt-5 ml-64 w-32 alas-steps h-64"
+        class="mt-10 ml-64 w-32 alas-steps h-64"
       >
         <a-step>
           {{ t('import.step1') }}

@@ -5,8 +5,8 @@ export const ALAS_INSTR_FILE = 'installer.py';
 export const ALAS_RELAUNCH_ARGV = '--relaunch';
 
 export const RepositoryMap = {
-  china: 'git://git.lyoko.io/AzurLaneAutoScript',
-  global: 'https://github.com/LmeSzinc/AzurLaneAutoScript',
+  china: 'cn',
+  global: 'global',
 };
 
 export const GitExecutableMap = {

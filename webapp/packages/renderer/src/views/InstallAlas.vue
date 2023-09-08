@@ -1,9 +1,9 @@
 <template>
   <div class="w-full h-full flex justify-center items-center flex-col">
     <AlasTitle />
-    <section class="mt-5">
+    <section class="mt-5 w-148">
       <a-form
-        class="alas-install"
+        class="alas-install flex-auto w-full justify-between"
         layout="inline"
         :label-col="{style: 'width: 100px'}"
         :label-align="'left'"
@@ -46,7 +46,7 @@
       <div class="w-full text-end">
         <a-button
           type="link"
-          class="text-end mt-5 cursor-pointer"
+          class="text-end cursor-pointer p-0 install-tips"
           :onclick="goToImportPage"
         >
           <a-typography-text>
@@ -153,7 +153,7 @@ const installAlas = async () => {
 <style lang="less" scoped>
 .alas-install {
   :deep(.arco-select-view-single) {
-    min-width: 100px;
+    min-width: 120px;
     background: var(--color-bg);
     border-left: none;
     border-right: none;
@@ -179,6 +179,10 @@ const installAlas = async () => {
         transition: ease-in-out 0.2s;
       }
     }
+  }
+
+  .arco-form-item-layout-inline {
+    margin-right: 0;
   }
 }
 </style>

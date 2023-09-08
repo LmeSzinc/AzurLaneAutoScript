@@ -8,13 +8,13 @@
     "global": "Global",
     "china": "China",
     "install": "Install",
-    "installTips": "Used ALAS before? Import your settings here"
+    "installTips": "Used ALAS before? Import your configs here"
   },
   "import": {
-    "title": "Import user settings from existing Alas",
-    "tips": "Import your settings from ALAS",
-    "error": "Import failed, please check your settings",
-    "step1": "Select your settings file",
+    "title": "Import user configs from existing ALAS",
+    "tips": "Import your configs from ALAS",
+    "error": "Import failed, please check your configs",
+    "step1": "Select your config file",
     "step2": "Importing",
     "step3": "Import success",
     "filePathTips": " under Present profile：",
@@ -29,9 +29,9 @@
     }
   },
   "modal": {
-    "closeTipTitle": "Tip",
-    "closeTipContent": "Are you sure you want to turn off Alas？",
+    "closeTipTitle": "Sure to close ALAS ?",
+    "closeTipContent": "All running instances will be terminated",
     "cancelText": "Cancel",
-    "okText": "Ok"
+    "okText": "Confirm"
   }
 }

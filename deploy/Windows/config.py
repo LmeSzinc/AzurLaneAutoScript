@@ -75,6 +75,7 @@ class DeployConfig(ConfigModel):
         self.config_template = {}
         self.read()
         if self.Repository in [
+            'cn',
             'https://gitee.com/LmeSzinc/AzurLaneAutoScript',
             'https://gitee.com/lmeszinc/azur-lane-auto-script-mirror',
             'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git',
@@ -82,6 +83,10 @@ class DeployConfig(ConfigModel):
             'https://git.saarcenter.com/LmeSzinc/AzurLaneAutoScript.git',
         ]:
             self.Repository = 'git://git.lyoko.io/AzurLaneAutoScript'
+        if self.Repository in [
+            'global',
+        ]:
+            self.Repository = 'https://github.com/LmeSzinc/AzurLaneAutoScript'
         self.write()
         self.show_config()
 

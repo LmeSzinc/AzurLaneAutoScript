@@ -57,7 +57,14 @@ export default defineComponent({
     };
     const closeWin = () => {
       Modal.confirm({
-        title: t('modal.closeTipTitle'),
+        title: () =>
+          h(
+            'div',
+            {
+              class: 'flex justify-center items-center font-bold',
+            },
+            t('modal.closeTipTitle'),
+          ),
         content: () =>
           h(
             'div',
