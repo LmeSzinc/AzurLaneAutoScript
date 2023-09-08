@@ -27,6 +27,8 @@
 import {computed, defineComponent, unref} from 'vue';
 import AppHeader from '/@/components/AppHeader.vue';
 import {useLocale} from '/@/locales/useLocale';
+import {setTheme} from '/@/settings/themeSetting';
+import {useAppStoreWithOut} from '/@/store/modules/app';
 import zhCN from '@arco-design/web-vue/es/locale/lang/zh-cn';
 import enUS from '@arco-design/web-vue/es/locale/lang/en-us';
 import jaJP from '@arco-design/web-vue/es/locale/lang/ja-jp';
@@ -51,6 +53,8 @@ export default defineComponent({
       const language = unref(getLocale);
       return locales[language];
     });
+    const appStore = useAppStoreWithOut();
+    setTheme(appStore.theme);
     return {
       locale,
     };

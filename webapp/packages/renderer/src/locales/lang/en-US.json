@@ -1,8 +1,8 @@
 {
   "common": {
     "theme": "Theme",
-    "light": "light",
-    "dark": "dark",
+    "light": "Light",
+    "dark": "Dark",
     "language": "Language",
     "update": "Update",
     "global": "Global",
@@ -11,21 +11,21 @@
     "installTips": "Used ALAS before? Import your configs here"
   },
   "import": {
-    "title": "Import user configs from existing ALAS",
-    "tips": "Import your configs from ALAS",
+    "title": "Import user configs from old ALAS",
+    "tips": "Import configs from old ALAS",
     "error": "Import failed, please check your configs",
-    "step1": "Select your config file",
-    "step2": "Importing",
-    "step3": "Import success",
+    "step1": "Select old config files",
+    "step2": "Confirm import",
+    "step3": "Import succeed",
     "filePathTips": " under Present profile：",
     "btnOk": "Confirm",
     "btnImport": "Import",
     "btnGoBack": "Back",
     "btnReimport": "Reimport",
-    "fileName": "file name",
-    "lastModify": "last modify time",
+    "fileName": "File Name",
+    "lastModify": "Last Modify Time",
     "file": {
-      "choose": "Choose file"
+      "choose": "Choose files"
     }
   },
   "modal": {

@@ -17,7 +17,7 @@ export function setupThemeSetting(theme?: ThemeVal) {
   }
 }
 
-function setTheme(theme: ThemeVal) {
+export function setTheme(theme: ThemeVal) {
   if (theme === 'dark') {
     document.documentElement.classList.remove('light');
     document.documentElement.classList.add('dark');
