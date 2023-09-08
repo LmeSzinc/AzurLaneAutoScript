@@ -4,7 +4,6 @@ from datetime import timedelta
 
 import cv2
 from ppocronnx.predict_system import BoxedResult
-from pponnxcr import TextSystem
 
 import module.config.server as server
 from module.base.button import ButtonWrapper
@@ -12,7 +11,7 @@ from module.base.decorator import cached_property
 from module.base.utils import area_pad, corner2area, crop, float2str
 from module.exception import ScriptError
 from module.logger import logger
-from module.ocr.models import OCR_MODEL
+from module.ocr.models import OCR_MODEL, TextSystem
 from module.ocr.utils import merge_buttons
 
 

@@ -1,4 +1,4 @@
-from pponnxcr import TextSystem
+from pponnxcr import TextSystem as TextSystem_
 
 from module.base.decorator import cached_property
 from module.exception import ScriptError
@@ -34,6 +34,12 @@ def model2lang(model: str) -> str:
         if model == v:
             return k
     return model
+
+
+class TextSystem(TextSystem_):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.text_recognizer.rec_batch_num = 1
 
 
 class OcrModel:
