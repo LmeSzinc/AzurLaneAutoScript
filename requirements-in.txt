@@ -3,7 +3,6 @@ numpy
 scipy
 pillow
 opencv-python
-imageio
 
 # Device connection
 adbutils
@@ -24,7 +23,7 @@ prettytable==2.2.1
 pydantic
 
 # OCR
-ppocr-onnx
+pponnxcr==2.0
 
 # Webui
 pywebio==1.6.2
