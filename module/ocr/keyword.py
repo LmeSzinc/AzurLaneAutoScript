@@ -62,7 +62,7 @@ class Keyword:
 
     def _keywords_to_find(self, in_current_server=False, ignore_punctuation=True):
         if in_current_server:
-            match server.server:
+            match server.lang:
                 case 'cn':
                     if ignore_punctuation:
                         return [self.cn_parsed]

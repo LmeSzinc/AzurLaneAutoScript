@@ -395,7 +395,7 @@ def dict_to_kv(dictionary, allow_none=True):
 
 
 def server_timezone() -> timedelta:
-    return SERVER_TO_TIMEZONE.get(server_.server, SERVER_TO_TIMEZONE['cn'])
+    return SERVER_TO_TIMEZONE.get(server_.lang, SERVER_TO_TIMEZONE['cn'])
 
 
 def server_time_offset() -> timedelta:

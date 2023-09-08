@@ -68,7 +68,7 @@ SWITCH_BATTLE_PASS_MISSION_TAB.add_state(
 class BattlePassQuestOcr(Ocr):
     def after_process(self, result):
         result = super().after_process(result)
-        if self.lang == 'ch':
+        if self.lang == 'cn':
             result = re.sub("[jJ]", "」", result)
         return result
 

@@ -2,9 +2,9 @@
 This file stores server, such as 'cn', 'en'.
 Use 'import module.config.server as server' to import, don't use 'from xxx import xxx'.
 """
-server = 'cn'  # Setting default to cn, will avoid errors when using dev_tools
+lang = 'cn'  # Setting default to cn, will avoid errors when using dev_tools
 
-VALID_SERVER = ['cn', ]
+VALID_LANG = ['cn', 'en']
 VALID_PACKAGE = {
     'com.miHoYo.hkrpg': 'cn',
     'com.HoYoverse.hkrpgoversea': 'oversea'
@@ -14,16 +14,16 @@ VALID_CHANNEL_PACKAGE = {
 }
 
 
-def set_server(package_or_server: str):
+def set_lang(lang_: str):
     """
-    Change server and this will effect globally,
-    including assets and server specific methods.
+    Change language and this will affect globally,
+    including assets and language specific methods.
 
     Args:
-        package_or_server: package name or server.
+        lang_: package name or server.
     """
-    global server
-    server = to_server(package_or_server)
+    global lang
+    lang = lang_
 
     from module.base.resource import release_resources
     release_resources()

@@ -86,7 +86,7 @@ class UI(PopupHandler):
         logger.warning("Unknown ui page")
         logger.attr("EMULATOR__SCREENSHOT_METHOD", self.config.Emulator_ScreenshotMethod)
         logger.attr("EMULATOR__CONTROL_METHOD", self.config.Emulator_ControlMethod)
-        logger.attr("SERVER", self.config.SERVER)
+        logger.attr("Lang", self.config.LANG)
         logger.warning("Starting from current page is not supported")
         logger.warning(f"Supported page: {[str(page) for page in Page.iter_pages()]}")
         logger.warning('Supported page: Any page with a "HOME" button on the upper-right')

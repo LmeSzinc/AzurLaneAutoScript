@@ -3,8 +3,8 @@ import module.config.server as server
 
 class ManualConfig:
     @property
-    def SERVER(self):
-        return server.server
+    def LANG(self):
+        return server.lang
 
     SCHEDULER_PRIORITY = """
     Restart

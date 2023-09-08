@@ -4,6 +4,7 @@ from datetime import timedelta
 
 import cv2
 from ppocronnx.predict_system import BoxedResult
+from pponnxcr import TextSystem
 
 import module.config.server as server
 from module.base.button import ButtonWrapper
@@ -12,7 +13,6 @@ from module.base.utils import area_pad, corner2area, crop, float2str
 from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.models import OCR_MODEL
-from module.ocr.ppocr import TextSystem
 from module.ocr.utils import merge_buttons
 
 
@@ -21,6 +21,8 @@ def enlarge_canvas(image):
     Enlarge image into a square fill with black background. In the structure of PaddleOCR,
     image with w:h=1:1 is the best while 3:1 rectangles takes three times as long.
     Also enlarge into the integer multiple of 32 cause PaddleOCR will downscale images to 1/32.
+
+    No longer needed, already included in pponnxcr.
     """
     height, width = image.shape[:2]
     length = int(max(width, height) // 32 * 32 + 32)
@@ -95,27 +97,24 @@ class Ocr:
     merge_thres_y = 0
 
     def __init__(self, button: ButtonWrapper, lang=None, name=None):
+        """
+        Args:
+            button:
+            lang: If None, use in-game language
+            name: If None, use button.name
+        """
+        if lang is None:
+            lang = server.lang
+        if name is None:
+            name = button.name
+
         self.button: ButtonWrapper = button
-        self._lang = lang
-        self.name: str = name if name is not None else button.name
-
-    @classmethod
-    def server2lang(cls, ser=None) -> str:
-        if ser is None:
-            ser = server.server
-        match ser:
-            case 'cn':
-                return 'ch'
-            case _:
-                return 'ch'
-
-    @cached_property
-    def lang(self) -> str:
-        return self._lang if self._lang is not None else Ocr.server2lang()
+        self.lang: str = lang
+        self.name: str = name
 
     @cached_property
     def model(self) -> TextSystem:
-        return OCR_MODEL.__getattribute__(self.lang)
+        return OCR_MODEL.get_by_lang(self.lang)
 
     def pre_process(self, image):
         """
@@ -188,7 +187,7 @@ class Ocr:
             image = crop(image, self.button.area)
         image = self.pre_process(image)
         # ocr
-        image = enlarge_canvas(image)
+        # image = enlarge_canvas(image)
         results: list[BoxedResult] = self.model.detect_and_ocr(image)
         # after proces
         for result in results:
@@ -235,7 +234,7 @@ class Ocr:
 
 
 class Digit(Ocr):
-    def __init__(self, button: ButtonWrapper, lang='ch', name=None):
+    def __init__(self, button: ButtonWrapper, lang='en', name=None):
         super().__init__(button, lang=lang, name=name)
 
     def format_result(self, result) -> int:
@@ -255,7 +254,7 @@ class Digit(Ocr):
 
 
 class DigitCounter(Ocr):
-    def __init__(self, button: ButtonWrapper, lang='ch', name=None):
+    def __init__(self, button: ButtonWrapper, lang='en', name=None):
         super().__init__(button, lang=lang, name=name)
 
     def format_result(self, result) -> tuple[int, int, int]:
@@ -283,7 +282,7 @@ class Duration(Ocr):
     @cached_property
     def timedelta_regex(self):
         regex_str = {
-            'ch': r'\D*((?P<days>\d{1,2})天)?((?P<hours>\d{1,2})小时)?((?P<minutes>\d{1,2})分钟)?((?P<seconds>\d{1,2})秒)?',
+            'cn': r'\D*((?P<days>\d{1,2})天)?((?P<hours>\d{1,2})小时)?((?P<minutes>\d{1,2})分钟)?((?P<seconds>\d{1,2})秒)?',
             'en': r'\D*((?P<days>\d{1,2})d\s*)?((?P<hours>\d{1,2})h\s*)?((?P<minutes>\d{1,2})m\s*)?((?P<seconds>\d{1,2})s)?'
         }[self.lang]
         return re.compile(regex_str)

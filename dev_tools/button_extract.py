@@ -9,12 +9,12 @@ from tqdm import tqdm
 from module.base.code_generator import CodeGenerator
 from module.base.utils import SelectedGrids, area_limit, area_pad, get_bbox, get_color, image_size, load_image
 from module.config.config_manual import ManualConfig as AzurLaneConfig
-from module.config.server import VALID_SERVER
+from module.config.server import VALID_LANG
 from module.config.utils import deep_get, deep_iter, deep_set, iter_folder
 from module.logger import logger
 
 SHARE_SERVER = 'share'
-ASSET_SERVER = [SHARE_SERVER] + VALID_SERVER
+ASSET_SERVER = [SHARE_SERVER] + VALID_LANG
 
 
 class AssetsImage:
@@ -217,7 +217,7 @@ def generate_code():
                 if has_share:
                     servers = assets_data.keys()
                 else:
-                    servers = VALID_SERVER
+                    servers = VALID_LANG
                 for server in servers:
                     frames = list(assets_data.get(server, {}).values())
                     if len(frames) > 1:

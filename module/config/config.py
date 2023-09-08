@@ -74,7 +74,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
             super().__setattr__(key, value)
 
     def __init__(self, config_name, task=None):
-        logger.attr("Server", self.SERVER)
+        logger.attr("Lang", self.LANG)
         # This will read ./config/<config_name>.json
         self.config_name = config_name
         # Raw json data in yaml file.
