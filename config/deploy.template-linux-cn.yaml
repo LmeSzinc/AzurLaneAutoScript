@@ -157,3 +157,6 @@ Deploy:
     # '["alas"]' specified "alas" config
     # '["alas","alas2"]' specified "alas" "alas2" configs
     Run: null
+    # --no-sandbox. https://github.com/electron/electron/issues/30966
+    # Some Windows systems cannot call the GPU normally for virtualization, and you need to manually turn off sandbox mode
+    NoSandbox: false

@@ -102,6 +102,7 @@ DataAdbDevice(serial='127.0.0.1:16384', status='device')
 DataAdbDevice(serial='127.0.0.1:16480', status='device')
 DataAdbDevice(serial='127.0.0.1:7555', status='device')
 Process: [ 100% ]
+中文测试，！@#nfoir
 """
 
 
