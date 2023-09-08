@@ -146,7 +146,7 @@ const installAlas = async () => {
   const filePath = unref(appStore.alasPath);
   window.__electron_preload__modifyConfigYaml(filePath, modifyConfig);
   installLoading.value = false;
-  router.push('/Lunch');
+  router.push('/Launch');
 };
 </script>
 

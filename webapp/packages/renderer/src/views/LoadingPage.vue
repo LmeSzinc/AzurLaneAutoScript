@@ -16,7 +16,7 @@ onMounted(() => {
   if (!isFirst) {
     router.push('/Install');
   } else {
-    router.push('/Lunch');
+    router.push('/Launch');
   }
 });
 </script>
