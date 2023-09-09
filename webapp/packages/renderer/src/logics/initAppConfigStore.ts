@@ -9,6 +9,6 @@ export async function initAppConfigStore() {
   appStore.setRepository(
     (repositoryValueMap[config?.repository] as 'global' | 'china') ?? 'global',
   );
-  appStore.setWebuiUrl(config?.webuiUrl ?? '127.0.0.1:22267');
+  appStore.setWebuiUrl(config?.webuiUrl ?? '127.0.0.1:22367');
   appStore.setAlasPath(config?.alasPath ?? '');
 }

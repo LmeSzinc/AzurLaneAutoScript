@@ -55,13 +55,18 @@ class ConfigModel:
 
     # Webui
     WebuiHost: str = "0.0.0.0"
-    WebuiPort: int = 22267
+    WebuiPort: int = 22367
     Language: str = "en-US"
     Theme: str = "default"
     DpiScaling: bool = True
     Password: Optional[str] = None
     CDN: Union[str, bool] = False
     Run: Optional[str] = None
+    AppAsarUpdate: bool = True
+    NoSandbox: bool = True
+
+    # Dynamic
+    GitOverCdn: bool = False
 
 
 class DeployConfig(ConfigModel):
@@ -74,6 +79,13 @@ class DeployConfig(ConfigModel):
         self.config = {}
         self.config_template = {}
         self.read()
+
+        self.GitOverCdn = self.Repository in ['cn']
+        if self.Repository in [
+            'cn',
+            'global',
+        ]:
+            self.Repository = 'https://github.com/LmeSzinc/StarRailCopilot'
 
         self.write()
         self.show_config()

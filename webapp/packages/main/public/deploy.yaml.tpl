@@ -1,8 +1,8 @@
 Deploy:
   Git:
     # URL of AzurLaneAutoScript repository
-    # [CN user] Use 'git://git.lyoko.io/AzurLaneAutoScript' for faster and more stable download
-    # [Other] Use 'https://github.com/LmeSzinc/AzurLaneAutoScript'
+    # [CN user] Use 'cn' to get update from git-over-cdn service
+    # [Other] Use 'global' to get update from https://github.com/LmeSzinc/StarRailCopilot
     Repository: {{repository}}
     # Branch of Alas
     # [Developer] Use 'dev', 'app', etc, to try new features
@@ -128,8 +128,8 @@ Deploy:
     WebuiHost: 0.0.0.0
     # --port. Port to listen
     # You will be able to access webui via `http://{host}:{port}`
-    # [In most cases] Default to 22267
-    WebuiPort: 22267
+    # [In most cases] Default to 22367
+    WebuiPort: 22367
     # Language to use on web ui
     # 'zh-CN' for Chinese simplified
     # 'en-US' for English

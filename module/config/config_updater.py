@@ -504,6 +504,22 @@ class ConfigGenerator:
         # update('template-docker', docker)
         # update('template-docker-cn', docker, cn)
 
+        tpl = {
+            'Repository': '{{repository}}',
+            'GitExecutable': '{{gitExecutable}}',
+            'PythonExecutable': '{{pythonExecutable}}',
+            'AdbExecutable': '{{adbExecutable}}',
+            'Language': '{{language}}',
+            'Theme': '{{theme}}',
+        }
+        def update(file, *args):
+            new = deepcopy(template)
+            for dic in args:
+                new.update(dic)
+            poor_yaml_write(data=new, file=file)
+
+        update('./webapp/packages/main/public/deploy.yaml.tpl', tpl)
+
     def insert_assignment(self):
         from tasks.assignment.keywords import AssignmentEntry
         assignments = [entry.name for entry in AssignmentEntry.instances.values()]

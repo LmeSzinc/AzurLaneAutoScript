@@ -64,6 +64,7 @@ declare interface DefAlasConfig {
       Password: null | string;
       CDN: boolean;
       Run: null | string;
+      AppAsarUpdate: boolean;
       NoSandbox: boolean;
     };
   };

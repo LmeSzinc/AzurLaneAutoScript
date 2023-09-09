@@ -48,8 +48,8 @@ class AppManager(DeployConfig):
     def app_update(self):
         logger.hr(f'Update app', 0)
 
-        if not self.AutoUpdate:
-            logger.info('AutoUpdate is disabled, skip')
+        if not self.AppAsarUpdate:
+            logger.info('AppAsarUpdate is disabled, skip')
             Progress.UpdateAlasApp()
             return False
 
