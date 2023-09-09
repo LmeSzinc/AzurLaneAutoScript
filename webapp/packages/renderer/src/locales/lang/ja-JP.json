@@ -29,8 +29,8 @@
     }
   },
   "modal": {
-    "closeTipTitle": "ヒント",
-    "closeTipContent": "Alas を閉じますか？",
+    "closeTipTitle": "Alas を閉じますか？",
+    "closeTipContent": "稼働中のすべてのインスタンスも停止します",
     "cancelText": "キャンセル",
     "okText": "確認"
   }
