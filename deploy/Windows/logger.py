@@ -33,7 +33,12 @@ def hr(title, level=3):
         logger.info(f"<<< {title} >>>")
 
 
+def attr(name, text):
+    print(f'[{name}] {text}')
+
+
 logger.hr = hr
+logger.attr = attr
 
 
 class Percentage:
@@ -55,6 +60,9 @@ class Progress:
     GitReset = Percentage(45)
     GitCheckout = Percentage(48)
     GitShowVersion = Percentage(50)
+
+    GitLatestCommit = Percentage(25)
+    GitDownloadPack = Percentage(40)
 
     KillExisting = Percentage(60)
     UpdateDependency = Percentage(70)
