@@ -447,12 +447,15 @@ class OpsiAshBeacon(Meta):
             if self.appear_then_click(META_ENTRANCE, offset=(20, 300), interval=2):
                 continue
 
-    def ensure_dossier_page(self):
+    def ensure_dossier_page(self, skip_first_screenshot=True):
         self.ui_ensure(page_reward)
         self._ensure_meta_page()
         logger.info('Ensure dossier meta page')
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
             
             if self.appear(DOSSIER_LIST, offset=(20, 20)):
                 logger.info('In dossier page')
