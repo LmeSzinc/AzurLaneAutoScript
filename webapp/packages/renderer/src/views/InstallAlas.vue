@@ -62,7 +62,7 @@
       :onclick="installAlas"
       :loading="installLoading"
     >
-      <a-typography-text class="text-2xl text-current dark:text-dark">
+      <a-typography-text class="text-2xl !text-current !dark:text-dark">
         {{ t('common.install') }}
       </a-typography-text>
     </AButton>
