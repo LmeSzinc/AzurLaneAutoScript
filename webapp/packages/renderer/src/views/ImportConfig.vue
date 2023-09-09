@@ -1,17 +1,17 @@
 <template>
-  <div class="flex flex-col h-full px-5 py-10 relative">
+  <div class="flex flex-col h-full px-5 pt-10 relative">
     <a-button
       type="text"
-      class="!absolute !left-9 !top-18 !hover:bg-white"
+      class="!absolute !left-9 !top-18 !hover:bg-transparent"
       :onclick="goBack"
     >
-      <arrow-left-outlined class="text-4xl text-slate opacity-25" />
+      <arrow-left-outlined class="text-4xl text-slate dark:text-gray-200 opacity-25" />
     </a-button>
     <section class="ml-20 mt-2">
       <AlasTitle />
       <span>{{ t('import.title') }}</span>
     </section>
-    <div class="flex">
+    <div class="flex h-full">
       <a-steps
         :current="current"
         direction="vertical"
@@ -76,11 +76,11 @@
             >
               {{ fileParentPath }}{{ t('import.filePathTips') }}
             </a-typography-text>
-            <section class="flex justify-between w-full px-2 box-border">
+            <section class="flex justify-between w-full px-2 box-border alas-file-title">
               <a-typography-title :heading="6">{{ t('import.fileName') }}</a-typography-title>
               <a-typography-title :heading="6">{{ t('import.lastModify') }}</a-typography-title>
             </section>
-            <a-list class="alas-file-list">
+            <a-list class="alas-file-list overflow-y-auto overscroll-contain max-h-96">
               <a-list-item
                 v-for="fileItem in fileItems"
                 :key="fileItem.uid"
@@ -93,7 +93,7 @@
             </a-list>
           </div>
 
-          <a-space class="mt-10 flex justify-end">
+          <a-space class="pt-10 pb-15 flex justify-end align-content-end">
             <a-button
               :onclick="onCancel"
               size="large"
@@ -124,11 +124,11 @@
             <a-typography-text class="px-2 box-border">
               {{ fileParentPath }} {{ t('import.filePathTips') }}
             </a-typography-text>
-            <section class="flex justify-between w-full px-2 box-border">
+            <section class="flex justify-between w-full px-2 box-border  alas-file-title">
               <a-typography-title :heading="6">{{ t('import.fileName') }}</a-typography-title>
               <a-typography-title :heading="6">{{ t('import.lastModify') }}</a-typography-title>
             </section>
-            <a-list class="alas-file-list">
+            <a-list class="alas-file-list overflow-y-auto overscroll-contain max-h-96">
               <a-list-item
                 v-for="fileItem in fileItems"
                 :key="fileItem.uid"
@@ -140,7 +140,7 @@
               </a-list-item>
             </a-list>
           </div>
-          <a-space class="mt-10 flex justify-end">
+          <a-space class="pt-10 pb-15 flex justify-end align-content-end">
             <a-button
               :onclick="onReimport"
               size="large"
@@ -282,7 +282,6 @@ const onReimport = onCancel;
 
 .alas-step-con-box {
   width: calc(100vw - 32rem);
-  height: calc(100vh - 15rem);
 }
 
 .alas-upload {
@@ -296,17 +295,26 @@ const onReimport = onCancel;
   max-width: 789px;
   max-height: 485px;
 }
+.alas-file-title {
+  border-bottom: 2px solid var(--color-border-3);
+
+}
 
 .alas-file-list {
-  border-top: 2px solid var(--color-border-1);
   :deep(.arco-list-wrapper) {
     border: none;
   }
+
   :deep(.arco-list-bordered) {
     border: none;
   }
+
+  .arco-list-split .arco-list-header, .arco-list-split .arco-list-item:not(:last-child) {
+    border: none;
+  }
+
   .arco-list-medium .arco-list-content-wrapper .arco-list-content > .arco-list-item {
-    padding: 13px 0.5rem;
+    padding: 0.25rem 0.5rem;
   }
 }
 
