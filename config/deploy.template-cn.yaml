@@ -1,8 +1,9 @@
 Deploy:
   Git:
     # URL of AzurLaneAutoScript repository
-    # [Other] Use 'https://github.com/LmeSzinc/StarRailCopilot'
-    Repository: https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git
+    # [CN user] Use 'cn' to get update from git-over-cdn service
+    # [Other] Use 'global' to get update from https://github.com/LmeSzinc/StarRailCopilot
+    Repository: cn
     # Branch of Alas
     # [Developer] Use 'dev', 'app', etc, to try new features
     # [Other] Use 'master', the stable branch
@@ -156,3 +157,6 @@ Deploy:
     # '["alas"]' specified "alas" config
     # '["alas","alas2"]' specified "alas" "alas2" configs
     Run: null
+    # --no-sandbox. https://github.com/electron/electron/issues/30966
+    # Some Windows systems cannot call the GPU normally for virtualization, and you need to manually turn off sandbox mode
+    NoSandbox: false

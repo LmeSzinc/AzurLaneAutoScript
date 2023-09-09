@@ -1,9 +1,10 @@
+import os
 import time
 import typing as t
 
 from deploy.Windows.config import DeployConfig
-from deploy.Windows.logger import logger
-from deploy.Windows.utils import *
+from deploy.Windows.logger import Progress, logger
+from deploy.Windows.utils import DataProcessInfo, cached_property, iter_process
 
 
 class AlasManager(DeployConfig):
@@ -43,8 +44,9 @@ class AlasManager(DeployConfig):
                 if proc.pid == self.self_pid:
                     continue
                 if in_alas:
+                    cmdline = proc.cmdline.replace(r"\\", "/").replace("\\", "/")
                     for folder in self.alas_folder:
-                        if folder in proc.cmdline:
+                        if folder in cmdline:
                             yield proc
                 else:
                     yield proc
@@ -56,14 +58,19 @@ class AlasManager(DeployConfig):
         self.execute(f'taskkill /f /t /pid {process.pid}', allow_failure=True, output=False)
 
     def alas_kill(self):
-        while 1:
+        for _ in range(10):
             logger.hr(f'Kill existing Alas', 0)
-            proc_list = list(self.iter_process_by_names(['alas.exe', 'python.exe'], in_alas=True))
+            proc_list = list(self.iter_process_by_names(['python.exe'], in_alas=True))
             if not len(proc_list):
-                break
+                Progress.KillExisting()
+                return True
             for proc in proc_list:
                 logger.info(proc)
                 self.kill_process(proc)
+
+        logger.warning('Unable to kill existing Alas, skip')
+        Progress.KillExisting()
+        return False
 
 
 if __name__ == '__main__':

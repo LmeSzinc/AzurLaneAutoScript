@@ -1,9 +1,10 @@
 import copy
+import os
 import subprocess
 from typing import Optional, Union
 
 from deploy.Windows.logger import logger
-from deploy.Windows.utils import *
+from deploy.Windows.utils import DEPLOY_CONFIG, DEPLOY_TEMPLATE, cached_property, poor_yaml_read, poor_yaml_write
 
 
 class ExecutionError(Exception):
@@ -54,7 +55,7 @@ class ConfigModel:
 
     # Webui
     WebuiHost: str = "0.0.0.0"
-    WebuiPort: int = 22367
+    WebuiPort: int = 22267
     Language: str = "en-US"
     Theme: str = "default"
     DpiScaling: bool = True
@@ -73,10 +74,7 @@ class DeployConfig(ConfigModel):
         self.config = {}
         self.config_template = {}
         self.read()
-        if self.Repository == 'https://gitee.com/LmeSzinc/AzurLaneAutoScript':
-            self.Repository = 'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git'
-        if self.Repository == 'https://gitee.com/lmeszinc/azur-lane-auto-script-mirror':
-            self.Repository = 'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git'
+
         self.write()
         self.show_config()
 

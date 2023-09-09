@@ -1,8 +1,8 @@
 import logging
+import os
 
 from deploy.Windows.emulator import EmulatorManager
-from deploy.Windows.logger import logger
-from deploy.Windows.utils import *
+from deploy.Windows.logger import Progress, logger
 
 
 def show_fix_tip(module):
@@ -23,9 +23,11 @@ class AdbManager(EmulatorManager):
         if self.ReplaceAdb:
             logger.hr('Replace ADB', 1)
             self.adb_replace()
+            Progress.AdbReplace()
         if self.AutoConnect:
             logger.hr('ADB Connect', 1)
             self.brute_force_connect()
+            Progress.AdbConnect()
 
         if False:
             logger.hr('Uiautomator2 Init', 1)
