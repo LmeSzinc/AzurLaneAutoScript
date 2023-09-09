@@ -62,6 +62,8 @@ class ConfigModel:
     Password: Optional[str] = None
     CDN: Union[str, bool] = False
     Run: Optional[str] = None
+    AppAsarUpdate: bool = True
+    NoSandbox: bool = True
 
 
 class DeployConfig(ConfigModel):
@@ -87,8 +89,20 @@ class DeployConfig(ConfigModel):
             'global',
         ]:
             self.Repository = 'https://github.com/LmeSzinc/AzurLaneAutoScript'
+
+        if self.flag_feature_test_0_4_0:
+            self.AutoUpdate = True
+            self.Branch = 'feature'
+            self.AppAsarUpdate = False
+
         self.write()
         self.show_config()
+
+    @cached_property
+    def flag_feature_test_0_4_0(self):
+        flag = os.path.exists('./toolkit/flag_feature_test_0_4_0')
+        logger.info(f'flag_feature_test_0_4_0: {flag}')
+        return flag
 
     def show_config(self):
         logger.hr("Show deploy config", 1)
