@@ -203,7 +203,7 @@ async function initWindowEvents() {
   ipcMain.on('install-success', async function () {
     installer = null;
     // Start Alas web server.
-    await runAlas();
+    runAlas();
   });
 }
 

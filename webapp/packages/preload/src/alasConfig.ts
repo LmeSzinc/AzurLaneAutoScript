@@ -1,6 +1,7 @@
 import {ALAS_CONFIG_YAML} from '@common/constant/config';
 import {getAlasABSPath, checkIsFirst} from '@common/utils';
 import {ThemeObj} from '@common/constant/theme';
+import {Dirent} from 'fs';
 const path = require('path');
 const yaml = require('yaml');
 const fs = require('fs');
@@ -26,4 +27,33 @@ export async function getAlasConfig() {
 
 export function checkIsNeedInstall() {
   return checkIsFirst();
+}
+
+interface fileInfoItem {
+  name: string;
+  path: string;
+  lastModifyTime: Date;
+}
+export function getAlasConfigDirFiles() {
+  const alasPath = getAlasABSPath();
+  const configPath = path.join(alasPath, `./config`);
+  const files: Dirent[] = fs.readdirSync(configPath, {withFileTypes: true});
+  const filesInfoList: fileInfoItem[] = files.map((file: Dirent) => {
+    const name = file.name;
+    const filePath = path.join(configPath, name);
+    return {
+      name,
+      path: filePath,
+      lastModifyTime: getFileUpdateDate(filePath),
+    };
+  });
+  return {
+    configPath,
+    files: filesInfoList,
+  };
+}
+
+export function getFileUpdateDate(path: string) {
+  const stat = fs.statSync(path);
+  return stat.mtime;
 }

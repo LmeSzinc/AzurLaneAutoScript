@@ -75,6 +75,7 @@
     "fs-extra": "^11.1.1",
     "lodash-es": "^4.17.21",
     "mustache": "^4.2.0",
+    "nanoid": "^4.0.2",
     "pinia": "^2.0.34",
     "postcss": "^8.4.21",
     "python-shell": "^5.0.0",

@@ -122,15 +122,15 @@
               {{ stepTipsOptions[current] }}
             </a-typography-title>
             <a-typography-text class="px-2 box-border">
-              {{ fileParentPath }} {{ t('import.filePathTips') }}
+              {{ configDirPath }} {{ t('import.filePathTips') }}
             </a-typography-text>
-            <section class="flex justify-between w-full px-2 box-border  alas-file-title">
+            <section class="flex justify-between w-full px-2 box-border alas-file-title">
               <a-typography-title :heading="6">{{ t('import.fileName') }}</a-typography-title>
               <a-typography-title :heading="6">{{ t('import.lastModify') }}</a-typography-title>
             </section>
             <a-list class="alas-file-list overflow-y-auto overscroll-contain max-h-96">
               <a-list-item
-                v-for="fileItem in fileItems"
+                v-for="fileItem in configDirFiles"
                 :key="fileItem.uid"
               >
                 <a-list-item-meta :title="fileItem.name"></a-list-item-meta>
@@ -171,6 +171,7 @@ import dayjs from 'dayjs';
 import {useAppStore} from '/@/store/modules/app';
 import {Modal} from '@arco-design/web-vue';
 import type {RequestOption, UploadRequest} from '@arco-design/web-vue/es/upload/interfaces';
+import {nanoid} from 'nanoid';
 
 const {t} = useI18n();
 
@@ -187,6 +188,9 @@ const saveLoading = ref<boolean>(false);
 const fileItems = ref<
   {file: File | undefined; uid: string; name: string; lastModifyTime: string}[]
 >([]);
+
+const configDirFiles = ref<{uid: string; name: string; path: string; lastModifyTime: string}[]>([]);
+const configDirPath = ref('');
 
 const current = ref(1);
 
@@ -243,7 +247,15 @@ const onOkSave = async () => {
       });
     },
   });
-
+  const {configPath = '', files = []} = window.__electron_preload__getAlasConfigDirFiles();
+  configDirPath.value = configPath;
+  configDirFiles.value = files.map(item => ({
+    uid: nanoid(),
+    name: item.name || '--',
+    path: item.path || '--',
+    lastModifyTime: dayjs(item.lastModifyTime || 0).format('YYYY-MM-DD HH:mm:ss'),
+  }));
+  console.log(configDirFiles.value);
   saveLoading.value = false;
 
   current.value = 3;
@@ -297,7 +309,6 @@ const onReimport = onCancel;
 }
 .alas-file-title {
   border-bottom: 2px solid var(--color-border-3);
-
 }
 
 .alas-file-list {
@@ -309,7 +320,8 @@ const onReimport = onCancel;
     border: none;
   }
 
-  .arco-list-split .arco-list-header, .arco-list-split .arco-list-item:not(:last-child) {
+  .arco-list-split .arco-list-header,
+  .arco-list-split .arco-list-item:not(:last-child) {
     border: none;
   }
 
