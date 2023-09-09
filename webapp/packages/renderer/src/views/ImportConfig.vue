@@ -255,7 +255,7 @@ const onOkSave = async () => {
     path: item.path || '--',
     lastModifyTime: dayjs(item.lastModifyTime || 0).format('YYYY-MM-DD HH:mm:ss'),
   }));
-  console.log(configDirFiles.value);
+
   saveLoading.value = false;
 
   current.value = 3;
