@@ -1,6 +1,6 @@
 {
-  "name": "alas",
-  "description": "AzurLaneAutoScript desktop app",
+  "name": "src",
+  "description": "StarRailCopilot desktop app",
   "version": "0.4.0",
   "private": true,
   "main": "packages/main/dist/index.cjs",

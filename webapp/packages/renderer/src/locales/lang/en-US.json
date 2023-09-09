@@ -8,11 +8,11 @@
     "global": "Global",
     "china": "China",
     "install": "Install",
-    "installTips": "Used ALAS before? Import your configs here"
+    "installTips": "Used SRC before? Import your configs here"
   },
   "import": {
-    "title": "Import user configs from old ALAS",
-    "tips": "Import configs from old ALAS",
+    "title": "Import user configs from old SRC",
+    "tips": "Import configs from old SRC",
     "error": "Import failed, please check your configs",
     "step1": "Select old config files",
     "step2": "Confirm import",
@@ -29,7 +29,7 @@
     }
   },
   "modal": {
-    "closeTipTitle": "Sure to close ALAS ?",
+    "closeTipTitle": "Sure to close SRC ?",
     "closeTipContent": "All running instances will be terminated",
     "cancelText": "Cancel",
     "okText": "Confirm"

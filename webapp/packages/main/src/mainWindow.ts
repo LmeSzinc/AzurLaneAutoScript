@@ -123,7 +123,7 @@ export async function createWindow() {
       },
     },
   ]);
-  tray.setToolTip('Alas');
+  tray.setToolTip('SRC');
   tray.setContextMenu(contextMenu);
   tray.on('click', () => {
     if (browserWindow?.isVisible()) {

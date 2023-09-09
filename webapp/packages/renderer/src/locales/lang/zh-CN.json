@@ -8,13 +8,13 @@
     "global": "全球",
     "china": "中国大陆",
     "install": "安装",
-    "installTips": "以前使用过 Alas？在这里导入你的设置"
+    "installTips": "以前使用过 SRC？在这里导入你的设置"
   },
   "import": {
-    "title": "从已有Alas中导入用户设置",
-    "tips": "请将你的 Alas 设置文件拖拽到这里",
+    "title": "从已有SRC中导入用户设置",
+    "tips": "请将你的 SRC 设置文件拖拽到这里",
     "error": "导入失败，请检查文件是否正确",
-    "step1": "选择旧的 Alas",
+    "step1": "选择旧的 SRC",
     "step2": "确认配置文件",
     "step3": "导入完成",
     "filePathTips": " 下存在的配置文件：",
@@ -29,8 +29,8 @@
     }
   },
   "modal": {
-    "closeTipTitle": "确定要关闭Alas吗？",
-    "closeTipContent": "所有正在运行的Alas实例都将被终止",
+    "closeTipTitle": "确定要关闭SRC吗？",
+    "closeTipContent": "所有正在运行的SRC实例都将被终止",
     "cancelText": "取消",
     "okText": "确定"
   }
