@@ -1,7 +1,7 @@
 Deploy:
   Git:
     # URL of AzurLaneAutoScript repository
-    # [CN user] Use 'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git' for faster and more stable download
+    # [CN user] Use 'git://git.lyoko.io/AzurLaneAutoScript' for faster and more stable download
     # [Other] Use 'https://github.com/LmeSzinc/AzurLaneAutoScript'
     Repository: {{repository}}
     # Branch of Alas
@@ -157,6 +157,9 @@ Deploy:
     # '["alas"]' specified "alas" config
     # '["alas","alas2"]' specified "alas" "alas2" configs
     Run: null
+    # To update app.asar
+    # [In most cases] true
+    AppAsarUpdate: true
     # --no-sandbox. https://github.com/electron/electron/issues/30966
     # Some Windows systems cannot call the GPU normally for virtualization, and you need to manually turn off sandbox mode
     NoSandbox: false
