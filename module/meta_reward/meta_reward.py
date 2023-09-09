@@ -209,10 +209,10 @@ class DossierReward(Combat, UI):
 
 
 class MetaReward(BeaconReward, DossierReward):
-    def run(self, category=1):
-        if category == 1:
+    def run(self, category="beacon"):
+        if category == "beacon":
             BeaconReward(self.config, self.device).run()
-        elif category == 2:
+        elif category == "dossier":
             DossierReward(self.config, self.device).run()
         else:
-            logger.info('Possible wrong parameter, please contact the developers.')
+            logger.info(f'Possible wrong parameter {category}, please contact the developers.')
