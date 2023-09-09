@@ -12,7 +12,7 @@
           <pre
             v-for="logInfo in logInfos"
             :key="logInfo"
-            class="text-xs text-gray-400 w-full max-w-full whitespace-pre-wrap"
+            class="text-xs text-gray-400 w-full max-w-full whitespace-pre-wrap break-all"
           >{{ logInfo }}</pre>
         </main>
       </div>
