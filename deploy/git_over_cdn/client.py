@@ -215,6 +215,23 @@ class GitOverCdnClient:
         else:
             self.git_command('reset', '--hard', f'{self.source}/{self.branch}')
 
+    def is_uptodate(self):
+        """
+        Returns:
+            bool: If repo is up-to-date
+        """
+        _ = self.current_commit
+        _ = self.latest_commit
+        if not self.current_commit:
+            self.logger.error('Failed to get current commit')
+            return False
+        if not self.latest_commit:
+            self.logger.error('Failed to get latest commit')
+            return False
+        if self.current_commit == self.latest_commit:
+            self.logger.info('Already up to date')
+            return True
+
     def update(self, keep_changes=False):
         """
         Args:
