@@ -3,7 +3,7 @@ import time
 from datetime import timedelta
 
 import cv2
-from ppocronnx.predict_system import BoxedResult
+from pponnxcr.predict_system import BoxedResult
 
 import module.config.server as server
 from module.base.button import ButtonWrapper
