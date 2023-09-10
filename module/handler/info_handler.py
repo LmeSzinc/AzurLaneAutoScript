@@ -7,6 +7,7 @@ from module.base.utils import *
 from module.exception import GameNotRunningError
 from module.handler.assets import *
 from module.logger import logger
+from module.os_handler.assets import CLICK_SAFE_AREA as OS_CLICK_SAFE_AREA
 
 
 def info_letter_preprocess(image):
@@ -350,24 +351,26 @@ class InfoHandler(ModuleBase):
             else:
                 self._story_option_record = options_count
                 self._story_option_confirm.reset()
-        if self.config.STORY_ALLOW_SKIP:
-            if self.appear(STORY_SKIP, offset=(20, 20), interval=2) \
-                    or self.appear(STORY_SKIP_2, offset=(20, 20), interval=2):
-                # Confirm it's story
-                # When story play speed is Very Fast, Alas clicked story skip but story disappeared
-                # This click will interrupt auto search
-                self.interval_reset([STORY_SKIP, STORY_SKIP_2])
-                if self._story_confirm.reached():
-                    if drop:
-                        drop.handle_add(self, before=2)
+        if self.appear(STORY_SKIP, offset=(20, 20), interval=2) \
+                or self.appear(STORY_SKIP_2, offset=(20, 20), interval=2):
+            # Confirm it's story
+            # When story play speed is Very Fast, Alas clicked story skip but story disappeared
+            # This click will interrupt auto search
+            self.interval_reset([STORY_SKIP, STORY_SKIP_2])
+            if self._story_confirm.reached():
+                if drop:
+                    drop.handle_add(self, before=2)
+                if self.config.STORY_ALLOW_SKIP:
                     self.device.click(STORY_SKIP)
-                    self._story_confirm.reset()
-                    self.story_popup_timeout.reset()
-                    return True
                 else:
-                    self.interval_clear(STORY_SKIP)
-            else:
+                    self.device.click(OS_CLICK_SAFE_AREA)
                 self._story_confirm.reset()
+                self.story_popup_timeout.reset()
+                return True
+            else:
+                self.interval_clear(STORY_SKIP)
+        else:
+            self._story_confirm.reset()
         if self.appear_then_click(GAME_TIPS, offset=(20, 20), interval=2):
             self.story_popup_timeout.reset()
             return True
