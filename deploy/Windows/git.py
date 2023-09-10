@@ -133,6 +133,9 @@ class GitManager(DeployConfig):
         client = GitOverCdnClient(
             url='https://vip.123pan.cn/1815343254/pack/LmeSzinc_StarRailCopilot_master',
             folder=self.root_filepath,
+            source='origin',
+            branch='master',
+            git=self.git,
         )
         client.logger = logger
         return client
