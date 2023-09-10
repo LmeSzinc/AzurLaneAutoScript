@@ -1,9 +1,9 @@
 import filecmp
+import os
 import shutil
 
 from deploy.Windows.config import DeployConfig
-from deploy.Windows.logger import logger
-from deploy.Windows.utils import *
+from deploy.Windows.logger import Progress, logger
 
 
 class AppManager(DeployConfig):
@@ -48,8 +48,10 @@ class AppManager(DeployConfig):
     def app_update(self):
         logger.hr(f'Update app', 0)
 
-        if not self.AutoUpdate:
-            logger.info('AutoUpdate is disabled, skip')
+        if not self.AppAsarUpdate:
+            logger.info('AppAsarUpdate is disabled, skip')
+            Progress.UpdateAlasApp()
             return False
 
-        return self.app_asar_replace(os.getcwd())
+        # self.app_asar_replace(os.getcwd())
+        # Progress.UpdateAlasApp()

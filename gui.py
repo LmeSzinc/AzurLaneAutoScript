@@ -61,7 +61,7 @@ def func(ev: threading.Event):
     if State.electron:
         # https://github.com/LmeSzinc/AzurLaneAutoScript/issues/2051
         logger.info("Electron detected, remove log output to stdout")
-        from module.logger import console_hdlr
+        from module.logger.logger import console_hdlr
         logger.removeHandler(console_hdlr)
 
     uvicorn.run("module.webui.app:app", host=host, port=port, factory=True)

@@ -1109,9 +1109,9 @@ class AlasGUI(Frame):
             # show something
             put_markdown(
                 """
-            Alas is a free open source software, if you paid for Alas from any channel, please refund.
-            Alas 是一款免费开源软件，如果你在任何渠道付费购买了Alas，请退款。
-            Project repository 项目地址：`https://github.com/LmeSzinc/AzurLaneAutoScript`
+            SRC is a free open source software, if you paid for SRC from any channel, please refund.
+            SRC 是一款免费开源软件，如果你在任何渠道付费购买了SRC，请退款。
+            Project repository 项目地址：`https://github.com/LmeSzinc/StarRailCopilot`
             """
             ).style("text-align: center")
 
@@ -1131,7 +1131,7 @@ class AlasGUI(Frame):
 
     def run(self) -> None:
         # setup gui
-        set_env(title="Alas", output_animation=False)
+        set_env(title="SRC", output_animation=False)
         add_css(filepath_css("alas"))
         if self.is_mobile:
             add_css(filepath_css("alas-mobile"))

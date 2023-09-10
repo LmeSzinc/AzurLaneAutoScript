@@ -3,7 +3,6 @@ from module.base.button import Button, ButtonWrapper, ClickButton, match_templat
 from module.base.timer import Timer
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
-from module.config.server import set_server, to_package
 from module.device.device import Device
 from module.logger import logger
 
@@ -261,22 +260,11 @@ class ModuleBase:
 
         self.device.image = value
 
-    def set_server(self, server):
-        """
-        For development.
-        Change server and  affect globally,
-        including assets and server specific methods.
-        """
-        package = to_package(server)
-        self.device.package = package
-        set_server(server)
-        logger.attr('Server', self.config.SERVER)
-
     def set_lang(self, lang):
         """
         For development.
         Change lang and affect globally,
         including assets and server specific methods.
         """
-        server_.server = lang
-        logger.attr('Language', self.config.SERVER)
+        server_.set_lang(lang)
+        logger.attr('Lang', self.config.LANG)

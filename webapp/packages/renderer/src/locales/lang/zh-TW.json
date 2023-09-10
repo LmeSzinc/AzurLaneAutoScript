@@ -1,0 +1,37 @@
+{
+  "common": {
+    "theme": "主題",
+    "light": "亮色主題",
+    "dark": "黑暗主題",
+    "language": "語言",
+    "update": "更新",
+    "global": "全球",
+    "china": "中國大陸",
+    "install": "安裝",
+    "installTips": "先前使用過SRC？在這裡導入你的設定"
+  },
+  "import": {
+    "title": "從已有SRC中導入用戶設定",
+    "tips": "請將你的 SRC 設定檔拖拽到這裡",
+    "error": "匯入失敗，請檢查檔是否正確",
+    "step1": "選擇舊的SRC",
+    "step2": "選擇要導入的設定",
+    "step3": "導入成功",
+    "filePathTips": " 下存在的配置檔：",
+    "btnOk": "確定",
+    "btnImport": "導入",
+    "btnGoBack": "返回",
+    "btnReimport": "重新導入",
+    "fileName": "檔名稱",
+    "lastModify": "最後修改時間",
+    "file": {
+      "choose": "點擊此處選擇檔"
+    }
+  },
+  "modal": {
+    "closeTipTitle": "確認要關閉SRC嗎？",
+    "closeTipContent": "所有正在運行的SRC實例都將被終止",
+    "cancelText": "取消",
+    "okText": "確定"
+  }
+}

@@ -109,7 +109,7 @@ class Connection(ConnectionAttr):
         # else:
         #     set_server(self.package)
         logger.attr('PackageName', self.package)
-        logger.attr('Server', self.config.SERVER)
+        logger.attr('Lang', self.config.LANG)
 
         self.check_mumu_app_keep_alive()
 

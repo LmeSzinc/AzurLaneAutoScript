@@ -59,7 +59,7 @@ class OcrDungeonNav(Ocr):
     def after_process(self, result):
         result = super().after_process(result)
         result = result.replace('#', '')
-        if self.lang == 'ch':
+        if self.lang == 'cn':
             result = result.replace('萼喜', '萼')
             result = result.replace('带', '滞')  # 凝带虚影
         return result
@@ -68,7 +68,7 @@ class OcrDungeonNav(Ocr):
 class OcrDungeonList(Ocr):
     def after_process(self, result):
         result = super().after_process(result)
-        if self.lang == 'ch':
+        if self.lang == 'cn':
             result = result.replace('翼', '巽')  # 巽风之形
             result = result.replace('皖A0', '50').replace('皖', '')
         return result

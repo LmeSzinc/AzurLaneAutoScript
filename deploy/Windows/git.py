@@ -1,8 +1,10 @@
 import configparser
+import os
 
 from deploy.Windows.config import DeployConfig
-from deploy.Windows.logger import logger
-from deploy.Windows.utils import *
+from deploy.Windows.logger import Progress, logger
+from deploy.Windows.utils import cached_property
+from deploy.git_over_cdn.client import GitOverCdnClient
 
 
 class GitConfigParser(configparser.ConfigParser):
@@ -13,6 +15,25 @@ class GitConfigParser(configparser.ConfigParser):
             return True
         else:
             return False
+
+
+class GitOverCdnClientWindows(GitOverCdnClient):
+    def update(self, *args, **kwargs):
+        Progress.GitInit()
+        _ = super().update(*args, **kwargs)
+        Progress.GitShowVersion()
+        return _
+
+    @cached_property
+    def latest_commit(self) -> str:
+        _ = super().latest_commit
+        Progress.GitLatestCommit()
+        return _
+
+    def download_pack(self):
+        _ = super().download_pack()
+        Progress.GitDownloadPack()
+        return _
 
 
 class GitManager(DeployConfig):
@@ -41,6 +62,7 @@ class GitManager(DeployConfig):
             self.remove('./.git/HEAD')
             self.remove('./.git/ORIG_HEAD')
             self.execute(f'"{self.git}" init')
+        Progress.GitInit()
 
         logger.hr('Set Git Proxy', 1)
         if proxy:
@@ -60,14 +82,17 @@ class GitManager(DeployConfig):
         else:
             if not self.git_config.check('http', 'sslVerify', value='false'):
                 self.execute(f'"{self.git}" config --local http.sslVerify false', allow_failure=True)
+        Progress.GitSetConfig()
 
         logger.hr('Set Git Repository', 1)
         if not self.git_config.check(f'remote "{source}"', 'url', value=repo):
             if not self.execute(f'"{self.git}" remote set-url {source} {repo}', allow_failure=True):
                 self.execute(f'"{self.git}" remote add {source} {repo}')
+        Progress.GitSetRepo()
 
         logger.hr('Fetch Repository Branch', 1)
         self.execute(f'"{self.git}" fetch {source} {branch}')
+        Progress.GitFetch()
 
         logger.hr('Pull Repository Branch', 1)
         # Remove git lock
@@ -93,19 +118,36 @@ class GitManager(DeployConfig):
                 self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
         else:
             self.execute(f'"{self.git}" reset --hard {source}/{branch}')
+            Progress.GitReset()
             # Since `git fetch` is already called, checkout is faster
             if not self.execute(f'"{self.git}" checkout {branch}', allow_failure=True):
                 self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
+            Progress.GitCheckout()
 
         logger.hr('Show Version', 1)
         self.execute(f'"{self.git}" --no-pager log --no-merges -1')
+        Progress.GitShowVersion()
+
+    def git_over_cdn(self):
+        client = GitOverCdnClient(
+            url='https://vip.123pan.cn/1815343254/pack/LmeSzinc_StarRailCopilot_master',
+            folder=self.root_filepath,
+        )
+        client.logger = logger
+        _ = client.update(keep_changes=self.KeepLocalChanges)
+        return _
 
     def git_install(self):
         logger.hr('Update Alas', 0)
 
         if not self.AutoUpdate:
             logger.info('AutoUpdate is disabled, skip')
+            Progress.GitShowVersion()
             return
+
+        if self.GitOverCdn:
+            if self.git_over_cdn():
+                return
 
         self.git_repository_init(
             repo=self.Repository,

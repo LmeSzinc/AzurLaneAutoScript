@@ -472,7 +472,7 @@ class ConfigGenerator:
     def generate_deploy_template():
         template = poor_yaml_read(DEPLOY_TEMPLATE)
         cn = {
-            'Repository': 'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git',
+            'Repository': 'cn',
             'PypiMirror': 'https://pypi.tuna.tsinghua.edu.cn/simple',
             'Language': 'zh-CN',
         }
@@ -503,6 +503,22 @@ class ConfigGenerator:
         # update('template-AidLux-cn', aidlux, cn)
         # update('template-docker', docker)
         # update('template-docker-cn', docker, cn)
+
+        tpl = {
+            'Repository': '{{repository}}',
+            'GitExecutable': '{{gitExecutable}}',
+            'PythonExecutable': '{{pythonExecutable}}',
+            'AdbExecutable': '{{adbExecutable}}',
+            'Language': '{{language}}',
+            'Theme': '{{theme}}',
+        }
+        def update(file, *args):
+            new = deepcopy(template)
+            for dic in args:
+                new.update(dic)
+            poor_yaml_write(data=new, file=file)
+
+        update('./webapp/packages/main/public/deploy.yaml.tpl', tpl)
 
     def insert_assignment(self):
         from tasks.assignment.keywords import AssignmentEntry

@@ -143,7 +143,7 @@ class ButtonWrapper(Resource):
 
     @cached_property
     def buttons(self) -> t.List[Button]:
-        for trial in [server.server, 'share', 'cn']:
+        for trial in [server.lang, 'share', 'cn']:
             assets = self.data_buttons.get(trial, None)
             if assets is not None:
                 if isinstance(assets, Button):
@@ -151,7 +151,7 @@ class ButtonWrapper(Resource):
                 elif isinstance(assets, list):
                     return assets
 
-        raise ScriptError(f'ButtonWrapper({self}) on server {server.server} has no fallback button')
+        raise ScriptError(f'ButtonWrapper({self}) on server {server.lang} has no fallback button')
 
     def match_color(self, image, threshold=10) -> bool:
         for assets in self.buttons:

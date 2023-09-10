@@ -62,8 +62,6 @@ class AssignmentOcr(Ocr):
         if matched is None:
             return result
         keyword_lang = self.lang
-        if self.lang == 'ch':
-            keyword_lang = 'cn'
         matched = getattr(KEYWORDS_ASSIGNMENT_ENTRY, matched.lastgroup)
         matched = getattr(matched, keyword_lang)
         logger.attr(name=f'{self.name} after_process',

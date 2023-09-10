@@ -1,9 +1,10 @@
 import copy
+import os
 import subprocess
 from typing import Optional, Union
 
 from deploy.Windows.logger import logger
-from deploy.Windows.utils import *
+from deploy.Windows.utils import DEPLOY_CONFIG, DEPLOY_TEMPLATE, cached_property, poor_yaml_read, poor_yaml_write
 
 
 class ExecutionError(Exception):
@@ -61,6 +62,11 @@ class ConfigModel:
     Password: Optional[str] = None
     CDN: Union[str, bool] = False
     Run: Optional[str] = None
+    AppAsarUpdate: bool = True
+    NoSandbox: bool = True
+
+    # Dynamic
+    GitOverCdn: bool = False
 
 
 class DeployConfig(ConfigModel):
@@ -73,10 +79,13 @@ class DeployConfig(ConfigModel):
         self.config = {}
         self.config_template = {}
         self.read()
-        if self.Repository == 'https://gitee.com/LmeSzinc/AzurLaneAutoScript':
-            self.Repository = 'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git'
-        if self.Repository == 'https://gitee.com/lmeszinc/azur-lane-auto-script-mirror':
-            self.Repository = 'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git'
+
+        # Bypass webui.config.DeployConfig.__setattr__()
+        # Don't write these into deploy.yaml
+        super().__setattr__('GitOverCdn', self.Repository in ['cn'])
+        if self.Repository in ['global', 'cn']:
+            super().__setattr__('Repository', 'https://github.com/LmeSzinc/StarRailCopilot')
+
         self.write()
         self.show_config()
 
@@ -111,11 +120,13 @@ class DeployConfig(ConfigModel):
         Returns:
             str: Absolute filepath.
         """
+        if os.path.isabs(path):
+            return path
+
         return (
             os.path.abspath(os.path.join(self.root_filepath, path))
             .replace(r"\\", "/")
             .replace("\\", "/")
-            .replace('"', '"')
         )
 
     @cached_property
@@ -124,7 +135,6 @@ class DeployConfig(ConfigModel):
             os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
             .replace(r"\\", "/")
             .replace("\\", "/")
-            .replace('"', '"')
         )
 
     @cached_property

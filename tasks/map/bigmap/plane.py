@@ -32,7 +32,7 @@ class OcrMapPlane(Ocr):
     def after_process(self, result):
         result = super().after_process(result)
         result = re.sub(r'[+→★“”,.，、。]', '', result).strip()
-        if self.lang == 'ch':
+        if self.lang == 'cn':
             result = result.replace('迎星港', '迴星港')
             if result == '星港':
                 result = '迴星港'
