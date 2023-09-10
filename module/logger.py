@@ -13,6 +13,7 @@ from rich.theme import Theme
 from rich.traceback import Traceback
 
 sys.stdout.reconfigure(encoding='utf-8')
+sys.stderr.reconfigure(encoding='utf-8')
 
 
 def empty_function(*args, **kwargs):
