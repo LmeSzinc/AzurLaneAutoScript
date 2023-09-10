@@ -16,10 +16,10 @@ from tasks.rogue.utils import get_regex_from_keyword_name, parse_name
 
 CURIO_FILTER_ATTR = tuple()
 CURIO_ATTR_NAME = 'curio_name'
-pattern = get_regex_from_keyword_name(RogueCurio, CURIO_ATTR_NAME)
+patt = get_regex_from_keyword_name(RogueCurio, CURIO_ATTR_NAME)
 CURIO_FILTER_ATTR += (CURIO_ATTR_NAME,)
 CURIO_FILTER_PRESET = ('random', 'unrecorded')
-FILTER_REGEX = re.compile(pattern)
+FILTER_REGEX = re.compile(patt)
 CURIO_FILTER = MultiLangFilter(FILTER_REGEX, CURIO_FILTER_ATTR, CURIO_FILTER_PRESET)
 
 
@@ -32,6 +32,7 @@ class RogueCurioOcr(Ocr):
             replace_pattern_dict = {
                 "般": "骰",
                 "漂灭": "湮灭",
+                "殷子": "骰子",
             }
             for pattern, replace in replace_pattern_dict.items():
                 result = re.sub(pattern, replace, result)

@@ -61,18 +61,18 @@ class RogueBuffOcr(Ocr):
 
     def after_process(self, result):
         result = super().after_process(result)
-        if self.lang == 'ch':
+        if self.lang == 'cn':
             replace_pattern_dict = {
                 "蓬失": "蓬矢",
                 "柘弓危失": "柘弓危矢",
                 "飞虹珠?凿?齿": "飞虹诛凿齿",
-                "天培步危": "天棓步危",
+                "天[培梧]步危": "天棓步危",
                 "云[摘销锅]?逐步离": "云镝逐步离",
                 "制桑": "制穹桑",
                 "乌号基": "乌号綦",
                 "追摩物": "追孽物",
                 "特月": "狩月",
-                "彤弓素增?": "彤弓素矰",
+                "彤弓素.*": "彤弓素矰",
                 "白决射御": "白矢决射御",
                 "苦表": "苦衷",
                 "[沦沧]肌髓": "沦浃肌髓",
@@ -260,7 +260,10 @@ class RogueBlessingSelector(RogueSelector):
         return True
 
     def load_filter(self):
-        keyword = self.ocr_results[0].matched_keyword
+        try:
+            keyword = self.ocr_results[0].matched_keyword
+        except IndexError:
+            return
         if not isinstance(keyword, (RogueBlessing, RogueResonance)):
             return
         filter_configs = {
