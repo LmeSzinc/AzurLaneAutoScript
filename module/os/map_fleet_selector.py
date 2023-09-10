@@ -103,6 +103,10 @@ class FleetSelector:
             else:
                 main.device.screenshot()
 
+            if main.handle_map_event():
+                click_timer.reset()
+                continue
+
             # End
             if self.bar_opened():
                 break
