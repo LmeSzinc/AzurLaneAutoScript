@@ -204,11 +204,16 @@ class GitOverCdnClient:
             self.logger.warning(f'TimeoutExpired when calling {cmd}, stdout={stdout}, stderr={stderr}')
         return stdout.decode()
 
-    def git_reset(self):
+    def git_reset(self, keep_changes=False):
         """
         git reset --hard <commit>
         """
-        return self.git_command('reset', '--hard', f'{self.source}/{self.branch}')
+        if keep_changes:
+            self.git_command('stash')
+            self.git_command('reset', '--hard', f'{self.source}/{self.branch}')
+            self.git_command('stash', 'pop')
+        else:
+            self.git_command('reset', '--hard', f'{self.source}/{self.branch}')
 
     def update(self, keep_changes=False):
         """
@@ -216,7 +221,7 @@ class GitOverCdnClient:
             keep_changes:
 
         Returns:
-            bool: If repo is up to date
+            bool: If repo is up-to-date
         """
         _ = self.current_commit
         _ = self.latest_commit
@@ -228,17 +233,13 @@ class GitOverCdnClient:
             return False
         if self.current_commit == self.latest_commit:
             self.logger.info('Already up to date')
+            self.git_reset(keep_changes=keep_changes)
             return True
 
         if not self.download_pack():
             return False
         if not self.update_refs():
             return False
-        if keep_changes:
-            self.git_command('stash')
-            self.git_reset()
-            self.git_command('stash', 'pop')
-        else:
-            self.git_reset()
+        self.git_reset(keep_changes=keep_changes)
         self.logger.info('Update success')
         return True
