@@ -423,20 +423,6 @@
       "help": ""
     }
   },
-  "RestartEmulator": {
-    "_info": {
-      "name": "Restart Emulator",
-      "help": ""
-    },
-    "Enable": {
-      "name": "Enable Emulator Control",
-      "help": "When enabled, auto start emulator and login to the game"
-    },
-    "DailyRestart": {
-      "name": "Restart Emulator when Server Refreshes",
-      "help": "Restart emulator at 12 AM everyday to solve memory leak"
-    }
-  },
   "EmulatorInfo": {
     "_info": {
       "name": "Emulator Settings",

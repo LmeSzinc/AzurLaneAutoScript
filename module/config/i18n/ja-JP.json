@@ -423,20 +423,6 @@
       "help": "Emulator.AdbRestart.help"
     }
   },
-  "RestartEmulator": {
-    "_info": {
-      "name": "RestartEmulator._info.name",
-      "help": "RestartEmulator._info.help"
-    },
-    "Enable": {
-      "name": "RestartEmulator.Enable.name",
-      "help": "RestartEmulator.Enable.help"
-    },
-    "DailyRestart": {
-      "name": "RestartEmulator.DailyRestart.name",
-      "help": "RestartEmulator.DailyRestart.help"
-    }
-  },
   "EmulatorInfo": {
     "_info": {
       "name": "EmulatorInfo._info.name",

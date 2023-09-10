@@ -139,14 +139,34 @@
         "value": false
       }
     },
-    "RestartEmulator": {
-      "Enable": {
-        "type": "checkbox",
-        "value": false
+    "EmulatorInfo": {
+      "Emulator": {
+        "type": "select",
+        "value": "auto",
+        "option": [
+          "auto",
+          "NoxPlayer",
+          "NoxPlayer64",
+          "BlueStacks4",
+          "BlueStacks5",
+          "BlueStacks4HyperV",
+          "BlueStacks5HyperV",
+          "LDPlayer3",
+          "LDPlayer4",
+          "LDPlayer9",
+          "MuMuPlayer",
+          "MuMuPlayerX",
+          "MuMuPlayer12",
+          "MEmuPlayer"
+        ]
       },
-      "DailyRestart": {
-        "type": "checkbox",
-        "value": false
+      "name": {
+        "type": "textarea",
+        "value": null
+      },
+      "path": {
+        "type": "textarea",
+        "value": null
       }
     },
     "Error": {
@@ -380,46 +400,6 @@
         "type": "input",
         "value": "00:00",
         "display": "hide"
-      }
-    },
-    "RestartEmulator": {
-      "Enable": {
-        "type": "checkbox",
-        "value": false
-      },
-      "DailyRestart": {
-        "type": "checkbox",
-        "value": false
-      }
-    },
-    "EmulatorInfo": {
-      "Emulator": {
-        "type": "select",
-        "value": "auto",
-        "option": [
-          "auto",
-          "NoxPlayer",
-          "NoxPlayer64",
-          "BlueStacks4",
-          "BlueStacks5",
-          "BlueStacks4HyperV",
-          "BlueStacks5HyperV",
-          "LDPlayer3",
-          "LDPlayer4",
-          "LDPlayer9",
-          "MuMuPlayer",
-          "MuMuPlayerX",
-          "MuMuPlayer12",
-          "MEmuPlayer"
-        ]
-      },
-      "name": {
-        "type": "textarea",
-        "value": null
-      },
-      "path": {
-        "type": "textarea",
-        "value": null
       }
     },
     "Storage": {

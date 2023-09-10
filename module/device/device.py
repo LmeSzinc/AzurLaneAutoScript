@@ -39,14 +39,7 @@ class Device(Screenshot, Control, AppControl, Platform):
             except EmulatorNotRunningError:
                 # Try to start emulator
                 if self.emulator_instance is not None:
-                    if self.config.RestartEmulator_Enable:
-                        self.emulator_start()
-                    else:
-                        logger.critical(
-                            'Emulator is not running, '
-                            'please start emulator manually or enable RestartEmulator.Enable'
-                        )
-                        raise
+                    self.emulator_start()
                 else:
                     logger.critical(
                         f'No emulator with serial "{self.config.Emulator_Serial}" found, '

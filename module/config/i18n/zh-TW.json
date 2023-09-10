@@ -423,20 +423,6 @@
       "help": ""
     }
   },
-  "RestartEmulator": {
-    "_info": {
-      "name": "重啟模擬器",
-      "help": ""
-    },
-    "Enable": {
-      "name": "RestartEmulator.Enable.name",
-      "help": "RestartEmulator.Enable.help"
-    },
-    "DailyRestart": {
-      "name": "伺服器刷新時重啟模擬器",
-      "help": "每天0點主動重啟模擬器以解決內存洩漏問題"
-    }
-  },
   "EmulatorInfo": {
     "_info": {
       "name": "模擬器設定",

@@ -35,9 +35,6 @@ Emulator:
     option: [ ADB, uiautomator2, minitouch, Hermit, MaaTouch ]
   ScreenshotDedithering: false
   AdbRestart: false
-RestartEmulator:
-  Enable: false
-  DailyRestart: False
 EmulatorInfo:
   Emulator:
     value: auto

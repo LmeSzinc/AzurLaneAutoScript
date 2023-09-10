@@ -9,9 +9,10 @@
       "ScreenshotDedithering": false,
       "AdbRestart": false
     },
-    "RestartEmulator": {
-      "Enable": false,
-      "DailyRestart": false
+    "EmulatorInfo": {
+      "Emulator": "auto",
+      "name": null,
+      "path": null
     },
     "Error": {
       "HandleError": true,
@@ -71,15 +72,6 @@
       "SuccessInterval": 0,
       "FailureInterval": 0,
       "ServerUpdate": "00:00"
-    },
-    "RestartEmulator": {
-      "Enable": false,
-      "DailyRestart": false
-    },
-    "EmulatorInfo": {
-      "Emulator": "auto",
-      "name": null,
-      "path": null
     },
     "Storage": {
       "Storage": {}

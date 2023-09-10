@@ -10,7 +10,7 @@ Alas:
   tasks:
     Alas:
       - Emulator
-      - RestartEmulator
+      - EmulatorInfo
       - Error
       - Optimization
       - DropRecord
@@ -22,7 +22,6 @@ Alas:
     Restart:
       - Scheduler
       - RestartEmulator
-      - EmulatorInfo
 
 # ==================== Farm ====================
 

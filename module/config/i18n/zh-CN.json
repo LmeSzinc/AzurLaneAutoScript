@@ -423,20 +423,6 @@
       "help": ""
     }
   },
-  "RestartEmulator": {
-    "_info": {
-      "name": "重启模拟器",
-      "help": ""
-    },
-    "Enable": {
-      "name": "启用模拟器控制",
-      "help": "启用后 Alas 可以自动启动模拟器并登录游戏"
-    },
-    "DailyRestart": {
-      "name": "服务器刷新时重启模拟器",
-      "help": "每天0点主动重启模拟器以解决内存泄漏问题"
-    }
-  },
   "EmulatorInfo": {
     "_info": {
       "name": "模拟器设置",
