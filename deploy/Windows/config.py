@@ -76,8 +76,9 @@ class DeployConfig(ConfigModel):
         self.config = {}
         self.config_template = {}
         self.read()
+
+        # Redirection
         if self.Repository in [
-            'cn',
             'https://gitee.com/LmeSzinc/AzurLaneAutoScript',
             'https://gitee.com/lmeszinc/azur-lane-auto-script-mirror',
             'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git',
@@ -85,15 +86,17 @@ class DeployConfig(ConfigModel):
             'https://git.saarcenter.com/LmeSzinc/AzurLaneAutoScript.git',
         ]:
             self.Repository = 'git://git.lyoko.io/AzurLaneAutoScript'
-        if self.Repository in [
-            'global',
-        ]:
-            self.Repository = 'https://github.com/LmeSzinc/AzurLaneAutoScript'
 
+        # Bypass webui.config.DeployConfig.__setattr__()
+        # Don't write these into deploy.yaml
+        if self.Repository in ['global']:
+            super().__setattr__('Repository', 'https://github.com/LmeSzinc/AzurLaneAutoScript')
+        if self.Repository in ['cn']:
+            super().__setattr__('Repository', 'git://git.lyoko.io/AzurLaneAutoScript')
         if self.flag_feature_test_0_4_0:
-            self.AutoUpdate = True
-            self.Branch = 'feature'
-            self.AppAsarUpdate = False
+            super().__setattr__('AutoUpdate', True)
+            super().__setattr__('Branch', 'feature')
+            super().__setattr__('AppAsarUpdate', False)
 
         self.write()
         self.show_config()
@@ -135,11 +138,13 @@ class DeployConfig(ConfigModel):
         Returns:
             str: Absolute filepath.
         """
+        if os.path.isabs(path):
+            return path
+
         return (
             os.path.abspath(os.path.join(self.root_filepath, path))
             .replace(r"\\", "/")
             .replace("\\", "/")
-            .replace('"', '"')
         )
 
     @cached_property
@@ -148,7 +153,6 @@ class DeployConfig(ConfigModel):
             os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
             .replace(r"\\", "/")
             .replace("\\", "/")
-            .replace('"', '"')
         )
 
     @cached_property
