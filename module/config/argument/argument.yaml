@@ -169,8 +169,8 @@ Assignment:
 
 RoguePath:
   Path:
-    value: Hunt
-    option: [ Preservation, Remembrance, Nihility, Abundance, Hunt, Destruction, Elation ]
+    value: The_Hunt
+    option: [ Preservation, Remembrance, Nihility, Abundance, The_Hunt, Destruction, Elation ]
   Bonus:
     value: Blessing Cosmos
     option: [ Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos ]

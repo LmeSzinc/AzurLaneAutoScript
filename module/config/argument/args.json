@@ -1012,13 +1012,13 @@
     "RoguePath": {
       "Path": {
         "type": "select",
-        "value": "Hunt",
+        "value": "The_Hunt",
         "option": [
           "Preservation",
           "Remembrance",
           "Nihility",
           "Abundance",
-          "Hunt",
+          "The_Hunt",
           "Destruction",
           "Elation"
         ]

@@ -136,7 +136,7 @@
       "ServerUpdate": "04:00"
     },
     "RoguePath": {
-      "Path": "Hunt",
+      "Path": "The_Hunt",
       "Bonus": "Blessing Cosmos",
       "PresetResonanceFilter": "preset-1",
       "ResonanceSelectionStrategy": "follow-presets",
