@@ -7,6 +7,10 @@
     "Daily": {
       "name": "Daily",
       "help": ""
+    },
+    "Rogue": {
+      "name": "Simulated Universe",
+      "help": ""
     }
   },
   "Task": {
@@ -32,6 +36,10 @@
     },
     "Assignment": {
       "name": "Assignment",
+      "help": ""
+    },
+    "Rogue": {
+      "name": "Simulated Universe",
       "help": ""
     }
   },
@@ -676,6 +684,81 @@
     "Assignment": {
       "name": "Assignment",
       "help": ""
+    }
+  },
+  "Rogue": {
+    "_info": {
+      "name": "Simulated Universe",
+      "help": ""
+    },
+    "Path": {
+      "name": "Fate",
+      "help": "",
+      "Preservation": "Preservation",
+      "Remembrance": "Remembrance",
+      "Nihility": "Nihility",
+      "Abundance": "Abundance",
+      "Hunt": "The Hunt",
+      "Destruction": "Destruction",
+      "Elation": "Elation"
+    },
+    "Bonus": {
+      "name": "Blessings of Trailblaze",
+      "help": "",
+      "Blessing Cosmos": "Blessing Cosmos (Choose a blessing)",
+      "Miracle Cosmos": "Miracle Cosmos (Choose a curio)",
+      "Fragmented Cosmos": "Fragmented Cosmos (Claim some Cosmic Fragments)"
+    },
+    "PresetResonanceFilter": {
+      "name": "Preset Resonance Filter",
+      "help": "",
+      "preset-1": "preset-1",
+      "custom": "custom"
+    },
+    "CustomResonanceFilter": {
+      "name": "Custom Resonance Filter",
+      "help": ""
+    },
+    "ResonanceSelectionStrategy": {
+      "name": "Resonance Selection Strategy",
+      "help": "",
+      "follow-presets": "Follow presets",
+      "unrecorded-first": "Choose index locked resonance first",
+      "before-random": "Follow presets, but choose index locked one first when filter goes to randomly choose"
+    },
+    "PresetBlessingFilter": {
+      "name": "Preset Blessing Filter",
+      "help": "",
+      "preset-1": "preset-1",
+      "custom": "custom"
+    },
+    "CustomBlessingFilter": {
+      "name": "Custom Blessing Filter",
+      "help": ""
+    },
+    "BlessingSelectionStrategy": {
+      "name": "Blessing jSelection Strategy",
+      "help": "",
+      "follow-presets": "Follow presets",
+      "unrecorded-first": "Choose index locked blessing first",
+      "before-random": "Follow presets, but choose index locked one first when filter goes to randomly choose"
+    },
+    "PresetCurioFilter": {
+      "name": "Preset Curio Filter",
+      "help": "",
+      "preset-1": "preset-1",
+      "custom": "custom"
+    },
+    "CustomCurioFilter": {
+      "name": "Custom Curio Filter",
+      "help": ""
+    },
+    "CurioSelectionStrategy": {
+      "name": "Curio Selection Strategy",
+      "help": "",
+      "follow-presets": "Follow presets",
+      "unrecorded-first": "Choose index locked curio first",
+      "before-random": "Follow presets, but choose index locked one first when filter goes to randomly choose"
     }
   },
   "Gui": {

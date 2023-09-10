@@ -7,6 +7,10 @@
     "Daily": {
       "name": "Menu.Daily.name",
       "help": "Menu.Daily.help"
+    },
+    "Rogue": {
+      "name": "Menu.Rogue.name",
+      "help": "Menu.Rogue.help"
     }
   },
   "Task": {
@@ -33,6 +37,10 @@
     "Assignment": {
       "name": "依頼設定",
       "help": ""
+    },
+    "Rogue": {
+      "name": "Task.Rogue.name",
+      "help": "Task.Rogue.help"
     }
   },
   "Scheduler": {
@@ -676,6 +684,81 @@
     "Assignment": {
       "name": "Assignment.Assignment.name",
       "help": "Assignment.Assignment.help"
+    }
+  },
+  "Rogue": {
+    "_info": {
+      "name": "Rogue._info.name",
+      "help": "Rogue._info.help"
+    },
+    "Path": {
+      "name": "Rogue.Path.name",
+      "help": "Rogue.Path.help",
+      "Preservation": "Preservation",
+      "Remembrance": "Remembrance",
+      "Nihility": "Nihility",
+      "Abundance": "Abundance",
+      "Hunt": "Hunt",
+      "Destruction": "Destruction",
+      "Elation": "Elation"
+    },
+    "Bonus": {
+      "name": "Rogue.Bonus.name",
+      "help": "Rogue.Bonus.help",
+      "Blessing Cosmos": "Blessing Cosmos",
+      "Miracle Cosmos": "Miracle Cosmos",
+      "Fragmented Cosmos": "Fragmented Cosmos"
+    },
+    "PresetResonanceFilter": {
+      "name": "Rogue.PresetResonanceFilter.name",
+      "help": "Rogue.PresetResonanceFilter.help",
+      "preset-1": "preset-1",
+      "custom": "custom"
+    },
+    "CustomResonanceFilter": {
+      "name": "Rogue.CustomResonanceFilter.name",
+      "help": "Rogue.CustomResonanceFilter.help"
+    },
+    "ResonanceSelectionStrategy": {
+      "name": "Rogue.ResonanceSelectionStrategy.name",
+      "help": "Rogue.ResonanceSelectionStrategy.help",
+      "follow-presets": "follow-presets",
+      "unrecorded-first": "unrecorded-first",
+      "before-random": "before-random"
+    },
+    "PresetBlessingFilter": {
+      "name": "Rogue.PresetBlessingFilter.name",
+      "help": "Rogue.PresetBlessingFilter.help",
+      "preset-1": "preset-1",
+      "custom": "custom"
+    },
+    "CustomBlessingFilter": {
+      "name": "Rogue.CustomBlessingFilter.name",
+      "help": "Rogue.CustomBlessingFilter.help"
+    },
+    "BlessingSelectionStrategy": {
+      "name": "Rogue.BlessingSelectionStrategy.name",
+      "help": "Rogue.BlessingSelectionStrategy.help",
+      "follow-presets": "follow-presets",
+      "unrecorded-first": "unrecorded-first",
+      "before-random": "before-random"
+    },
+    "PresetCurioFilter": {
+      "name": "Rogue.PresetCurioFilter.name",
+      "help": "Rogue.PresetCurioFilter.help",
+      "preset-1": "preset-1",
+      "custom": "custom"
+    },
+    "CustomCurioFilter": {
+      "name": "Rogue.CustomCurioFilter.name",
+      "help": "Rogue.CustomCurioFilter.help"
+    },
+    "CurioSelectionStrategy": {
+      "name": "Rogue.CurioSelectionStrategy.name",
+      "help": "Rogue.CurioSelectionStrategy.help",
+      "follow-presets": "follow-presets",
+      "unrecorded-first": "unrecorded-first",
+      "before-random": "before-random"
     }
   },
   "Gui": {

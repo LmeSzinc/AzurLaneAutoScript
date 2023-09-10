@@ -13,8 +13,8 @@ UI_LANGUAGES = ['cn', 'cht', 'en', 'jp']
 
 def text_to_variable(text):
     text = re.sub("'s |s' ", '_', text)
-    text = re.sub('[ \-—:\'/•]+', '_', text)
-    text = re.sub(r'[(),#"?]|</?\w+>', '', text)
+    text = re.sub('[ \-—:\'/•.]+', '_', text)
+    text = re.sub(r'[(),#"?!&]|</?\w+>', '', text)
     # text = re.sub(r'[#_]?\d+(_times?)?', '', text)
     return text
 
@@ -27,6 +27,12 @@ def dungeon_name(name: str) -> str:
     name = re.sub('Path_of_(.*)', r'Cavern_of_Corrosion_Path_of_\1', name)
     if name in ['Destruction_Beginning', 'End_of_the_Eternal_Freeze', 'Divine_Seed']:
         name = f'Echo_of_War_{name}'
+    return name
+
+
+def blessing_name(name: str) -> str:
+    name = text_to_variable(name)
+    name = re.sub(r'^\d', lambda match: f"_{match.group(0)}", name)
     return name
 
 
@@ -147,7 +153,8 @@ class KeywordExtract:
             keyword_class,
             output_file: str = '',
             text_convert=text_to_variable,
-            generator: CodeGenerator = None
+            generator: CodeGenerator = None,
+            extra_attrs: dict[str, dict] = None
     ):
         """
         Args:
@@ -155,6 +162,7 @@ class KeywordExtract:
             output_file:
             text_convert:
             generator: Reuse an existing code generator
+            extra_attrs: Extra attributes write in keywords
         """
         if generator is None:
             gen = CodeGenerator()
@@ -166,6 +174,12 @@ class KeywordExtract:
             gen = generator
 
         last_id = getattr(gen, 'last_id', 0)
+        if extra_attrs:
+            keyword_num = len(self.keywords_id)
+            for attr_key, attr_value in extra_attrs.items():
+                if len(attr_value) != keyword_num:
+                    print(f"Extra attribute {attr_key} does not match the size of keywords")
+                    return
         for index, keyword in enumerate(self.keywords_id):
             _, name = self.find_keyword(keyword, lang='en')
             name = text_convert(replace_templates(name))
@@ -174,6 +188,9 @@ class KeywordExtract:
                 gen.ObjectAttr(key='name', value=name)
                 for lang in UI_LANGUAGES:
                     gen.ObjectAttr(key=lang, value=replace_templates(self.find_keyword(keyword, lang=lang)[1]))
+                if extra_attrs:
+                    for attr_key, attr_value in extra_attrs.items():
+                        gen.ObjectAttr(key=attr_key, value=attr_value[keyword])
                 gen.last_id = index + last_id + 1
 
         if output_file:
@@ -279,6 +296,67 @@ class KeywordExtract:
         self.load_quests(quests)
         self.write_keywords(keyword_class='BattlePassQuest', output_file='./tasks/battle_pass/keywords/quest.py')
 
+    def generate_rogue_buff(self):
+        # paths
+        aeons = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'RogueAeon.json'))
+        aeons_hash = [deep_get(aeon, '1.RogueAeonPathName2.Hash') for aeon in aeons.values()]
+        self.keywords_id = aeons_hash
+        self.write_keywords(keyword_class='RoguePath', output_file='./tasks/rogue/keywords/path.py')
+
+        # blessings
+        blessings_info = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'RogueBuff.json'))
+        blessings_name_map = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'RogueMazeBuff.json'))
+        blessings_id = [deep_get(blessing, '1.MazeBuffID') for blessing in blessings_info.values()
+                        if not deep_get(blessing, '1.AeonID')][1:]
+        resonances_id = [deep_get(blessing, '1.MazeBuffID') for blessing in blessings_info.values()
+                         if deep_get(blessing, '1.AeonID')]
+
+        def get_blessing_infos(id_list, with_enhancement: bool):
+            blessings_hash = [deep_get(blessings_name_map, f"{blessing_id}.1.BuffName.Hash")
+                              for blessing_id in id_list]
+            blessings_path_id = {blessing_hash: int(deep_get(blessings_info, f'{blessing_id}.1.RogueBuffType')) - 119
+                                 # 119 is the magic number make type match with path in keyword above
+                                 for blessing_hash, blessing_id in zip(blessings_hash, id_list)}
+            blessings_rarity = {blessing_hash: deep_get(blessings_info, f'{blessing_id}.1.RogueBuffRarity')
+                                for blessing_hash, blessing_id in zip(blessings_hash, id_list)}
+            enhancement = {blessing_hash: "" for blessing_hash in blessings_hash}
+            if with_enhancement:
+                return blessings_hash, {'path_id': blessings_path_id, 'rarity': blessings_rarity,
+                                        'enhancement': enhancement}
+            else:
+                return blessings_hash, {'path_id': blessings_path_id, 'rarity': blessings_rarity}
+
+        hash_list, extra_attrs = get_blessing_infos(blessings_id, with_enhancement=True)
+        self.keywords_id = hash_list
+        self.write_keywords(keyword_class='RogueBlessing', output_file='./tasks/rogue/keywords/blessing.py',
+                            text_convert=blessing_name, extra_attrs=extra_attrs)
+
+        hash_list, extra_attrs = get_blessing_infos(resonances_id, with_enhancement=False)
+        self.keywords_id = hash_list
+        self.write_keywords(keyword_class='RogueResonance', output_file='./tasks/rogue/keywords/resonance.py',
+                            text_convert=blessing_name, extra_attrs=extra_attrs)
+
+    def iter_without_duplication(self, file: dict, keys):
+        visited = set()
+        for data in file.values():
+            hash_ = deep_get(data, keys=keys)
+            _, name = self.find_keyword(hash_, lang='cn')
+            if name in visited:
+                continue
+            visited.add(name)
+            yield hash_
+
+    def iter_rogue_miracles(self):
+        miracles = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'RogueMiracle.json'))
+        visited = set()
+        for data in miracles.values():
+            hash_ = deep_get(data, keys='MiracleName.Hash')
+            _, name = self.find_keyword(hash_, lang='cn')
+            if name in visited:
+                continue
+            visited.add(name)
+            yield hash_
+
     def generate(self):
         self.load_keywords(['模拟宇宙', '拟造花萼（金）', '拟造花萼（赤）', '凝滞虚影', '侵蚀隧洞', '历战余响', '忘却之庭'])
         self.write_keywords(keyword_class='DungeonNav', output_file='./tasks/dungeon/keywords/nav.py')
@@ -308,6 +386,15 @@ class KeywordExtract:
         self.load_keywords(['养成材料', '光锥', '遗器', '其他材料', '消耗品', '任务', '贵重物'])
         self.write_keywords(keyword_class='ItemTab', text_convert=lambda name: name.replace(' ', ''),
                             output_file='./tasks/item/keywords/tab.py')
+        self.generate_rogue_buff()
+        self.load_keywords(['已强化'])
+        self.write_keywords(keyword_class='RogueEnhancement', output_file='./tasks/rogue/keywords/enhancement.py')
+        self.load_keywords(list(self.iter_without_duplication(
+            read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'RogueMiracle.json')), 'MiracleName.Hash')))
+        self.write_keywords(keyword_class='RogueCurio', output_file='./tasks/rogue/keywords/curio.py')
+        self.load_keywords(list(self.iter_without_duplication(
+            read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'RogueBonus.json')), 'BonusTitle.Hash')))
+        self.write_keywords(keyword_class='RogueBonus', output_file='./tasks/rogue/keywords/bonus.py')
 
 
 if __name__ == '__main__':

@@ -7,6 +7,10 @@
     "Daily": {
       "name": "每日",
       "help": ""
+    },
+    "Rogue": {
+      "name": "模拟宇宙",
+      "help": ""
     }
   },
   "Task": {
@@ -32,6 +36,10 @@
     },
     "Assignment": {
       "name": "委托",
+      "help": ""
+    },
+    "Rogue": {
+      "name": "模拟宇宙",
       "help": ""
     }
   },
@@ -676,6 +684,81 @@
     "Assignment": {
       "name": "委托",
       "help": ""
+    }
+  },
+  "Rogue": {
+    "_info": {
+      "name": "模拟宇宙",
+      "help": ""
+    },
+    "Path": {
+      "name": "命途",
+      "help": "",
+      "Preservation": "存护",
+      "Remembrance": "记忆",
+      "Nihility": "虚无",
+      "Abundance": "丰饶",
+      "Hunt": "巡猎",
+      "Destruction": "毁灭",
+      "Elation": "欢愉"
+    },
+    "Bonus": {
+      "name": "开拓祝福",
+      "help": "开局三选一",
+      "Blessing Cosmos": "祝福宇宙（获得一个祝福）",
+      "Miracle Cosmos": "神奇宇宙（获得一个奇物）",
+      "Fragmented Cosmos": "破碎宇宙（获得宇宙碎片）"
+    },
+    "PresetResonanceFilter": {
+      "name": "回响构音过滤器",
+      "help": "",
+      "preset-1": "预设 1",
+      "custom": "自定义"
+    },
+    "CustomResonanceFilter": {
+      "name": "自定义回响构音过滤器",
+      "help": ""
+    },
+    "ResonanceSelectionStrategy": {
+      "name": "回响构音选择策略",
+      "help": "",
+      "follow-presets": "遵循预设",
+      "unrecorded-first": "优先选择图鉴未解锁的回响构音",
+      "before-random": "遵循预设，但选择\"图鉴未解锁\"的优先级高于\"随机选择\""
+    },
+    "PresetBlessingFilter": {
+      "name": "祝福过滤器",
+      "help": "",
+      "preset-1": "预设 1",
+      "custom": "自定义"
+    },
+    "CustomBlessingFilter": {
+      "name": "自定义祝福过滤器",
+      "help": ""
+    },
+    "BlessingSelectionStrategy": {
+      "name": "祝福选择策略",
+      "help": "",
+      "follow-presets": "遵循预设",
+      "unrecorded-first": "优先选择图鉴未解锁的祝福",
+      "before-random": "遵循预设，但选择\"图鉴未解锁\"的优先级高于\"随机选择\""
+    },
+    "PresetCurioFilter": {
+      "name": "奇物过滤器",
+      "help": "",
+      "preset-1": "预设 1",
+      "custom": "自定义"
+    },
+    "CustomCurioFilter": {
+      "name": "自定义祝福过滤器",
+      "help": ""
+    },
+    "CurioSelectionStrategy": {
+      "name": "奇物选择策略",
+      "help": "",
+      "follow-presets": "遵循预设",
+      "unrecorded-first": "优先选择图鉴未解锁的奇物",
+      "before-random": "遵循预设，但选择\"图鉴未解锁\"的优先级高于\"随机选择\""
     }
   },
   "Gui": {

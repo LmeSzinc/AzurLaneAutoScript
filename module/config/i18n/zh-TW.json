@@ -7,6 +7,10 @@
     "Daily": {
       "name": "每日",
       "help": ""
+    },
+    "Rogue": {
+      "name": "模擬宇宙",
+      "help": ""
     }
   },
   "Task": {
@@ -32,6 +36,10 @@
     },
     "Assignment": {
       "name": "委託",
+      "help": ""
+    },
+    "Rogue": {
+      "name": "模擬宇宙",
       "help": ""
     }
   },
@@ -676,6 +684,81 @@
     "Assignment": {
       "name": "委託",
       "help": ""
+    }
+  },
+  "Rogue": {
+    "_info": {
+      "name": "模擬宇宙",
+      "help": ""
+    },
+    "Path": {
+      "name": "命途",
+      "help": "",
+      "Preservation": "存護",
+      "Remembrance": "記憶",
+      "Nihility": "虛無",
+      "Abundance": "丰饶",
+      "Hunt": "巡獵",
+      "Destruction": "毀滅",
+      "Elation": "歡愉"
+    },
+    "Bonus": {
+      "name": "開拓祝福",
+      "help": "开局三选一",
+      "Blessing Cosmos": "祝福宇宙（獲得一個祝福）",
+      "Miracle Cosmos": "神奇宇宙（獲得一個奇物）",
+      "Fragmented Cosmos": "破碎宇宙（獲得宇宙碎片）"
+    },
+    "PresetResonanceFilter": {
+      "name": "迴響構音过滤器",
+      "help": "",
+      "preset-1": "預設 1",
+      "custom": "自訂"
+    },
+    "CustomResonanceFilter": {
+      "name": "自訂迴響構音过滤器",
+      "help": ""
+    },
+    "ResonanceSelectionStrategy": {
+      "name": "迴響構音選擇策略",
+      "help": "",
+      "follow-presets": "遵循預設",
+      "unrecorded-first": "優先選擇圖鑑未解鎖的迴響構音",
+      "before-random": "遵循預設，但選擇\"圖鑑未解鎖\"的優先級高於\"隨機選擇\""
+    },
+    "PresetBlessingFilter": {
+      "name": "祝福过滤器",
+      "help": "",
+      "preset-1": "預設 1",
+      "custom": "自訂"
+    },
+    "CustomBlessingFilter": {
+      "name": "自訂祝福过滤器",
+      "help": ""
+    },
+    "BlessingSelectionStrategy": {
+      "name": "祝福選擇策略",
+      "help": "",
+      "follow-presets": "遵循預設",
+      "unrecorded-first": "優先選擇圖鑑未解鎖的祝福",
+      "before-random": "遵循預設，但選擇\"圖鑑未解鎖\"的優先級高於\"隨機選擇\""
+    },
+    "PresetCurioFilter": {
+      "name": "奇物过滤器",
+      "help": "",
+      "preset-1": "preset-1",
+      "custom": "custom"
+    },
+    "CustomCurioFilter": {
+      "name": "自訂奇物过滤器",
+      "help": ""
+    },
+    "CurioSelectionStrategy": {
+      "name": "奇物選擇策略",
+      "help": "",
+      "follow-presets": "遵循預設",
+      "unrecorded-first": "優先選擇圖鑑未解鎖的奇物",
+      "before-random": "遵循預設，但選擇\"圖鑑未解鎖\"的優先級高於\"隨機選擇\""
     }
   },
   "Gui": {

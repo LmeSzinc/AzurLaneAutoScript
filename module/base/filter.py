@@ -101,3 +101,35 @@ class Filter:
             # Invalid filter will be ignored.
             # Return strange things and make it impossible to match
             return ['1nVa1d'] + [None] * (len(self.attr) - 1)
+
+
+class MultiLangFilter(Filter):
+    """
+    To support multi-language, there might be different correct matches of same object.
+    """
+
+    def apply_filter_to_obj(self, obj, filter):
+        """
+        Args:
+            obj (object): In this case, attributes of object are array (instead of plain string).
+            Any match of element in it will return True
+            filter (list[str]):
+
+        Returns:
+            bool: If an object satisfy a filter.
+        """
+        for attr, value in zip(self.attr, filter):
+            if not value:
+                continue
+            if not hasattr(obj, attr):
+                continue
+
+            obj_value = obj.__getattribute__(attr)
+            if isinstance(obj_value, (str, int)):
+                if str(obj_value).lower() != str(value):
+                    return False
+            if isinstance(obj_value, list):
+                if value not in obj_value:
+                    return False
+
+        return True
