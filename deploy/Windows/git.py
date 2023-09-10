@@ -129,10 +129,9 @@ class GitManager(DeployConfig):
         Progress.GitShowVersion()
 
     def git_over_cdn(self):
-        folder = os.path.abspath(os.path.join(__file__, '../../../'))
         client = GitOverCdnClient(
             url='https://vip.123pan.cn/1815343254/pack/LmeSzinc_StarRailCopilot_master',
-            folder=folder,
+            folder=self.root_filepath,
         )
         client.logger = logger
         _ = client.update(keep_changes=self.KeepLocalChanges)

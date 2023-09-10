@@ -189,7 +189,7 @@ def alas_instance():
     # out.extend(mod_instance())
 
     if not len(out):
-        out = ['alas']
+        out = ['src']
 
     return out
 

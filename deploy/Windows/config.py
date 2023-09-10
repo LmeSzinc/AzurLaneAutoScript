@@ -80,12 +80,11 @@ class DeployConfig(ConfigModel):
         self.config_template = {}
         self.read()
 
-        self.GitOverCdn = self.Repository in ['cn']
-        if self.Repository in [
-            'cn',
-            'global',
-        ]:
-            self.Repository = 'https://github.com/LmeSzinc/StarRailCopilot'
+        # Bypass webui.config.DeployConfig.__setattr__()
+        # Don't write these into deploy.yaml
+        super().__setattr__('GitOverCdn', self.Repository in ['cn'])
+        if self.Repository in ['global', 'cn']:
+            super().__setattr__('Repository', 'https://github.com/LmeSzinc/StarRailCopilot')
 
         self.write()
         self.show_config()
@@ -121,11 +120,13 @@ class DeployConfig(ConfigModel):
         Returns:
             str: Absolute filepath.
         """
+        if os.path.isabs(path):
+            return path
+
         return (
             os.path.abspath(os.path.join(self.root_filepath, path))
             .replace(r"\\", "/")
             .replace("\\", "/")
-            .replace('"', '"')
         )
 
     @cached_property
@@ -134,7 +135,6 @@ class DeployConfig(ConfigModel):
             os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
             .replace(r"\\", "/")
             .replace("\\", "/")
-            .replace('"', '"')
         )
 
     @cached_property
