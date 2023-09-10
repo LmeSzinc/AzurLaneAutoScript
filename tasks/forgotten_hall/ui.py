@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from ppocronnx.predict_system import BoxedResult
+from pponnxcr.predict_system import BoxedResult
 
 from module.base.base import ModuleBase
 from module.base.timer import Timer

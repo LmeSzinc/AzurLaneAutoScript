@@ -2,70 +2,27 @@
 
 # StarRailCopilot
 
-Star Rail Copilot, a bot for Honkai: Star Rail, based on the next generation ALAS framework.
+Star Rail Instant Tea, a bot for Honkai: Star Rail, based on the next generation of ALAS framework.
 
-# Install
 
-### Get source code
 
-SRC is still in development, does not have an auto-installer yet, requires classic python project deployment.
+## Features
 
-Clone this repository.
+- **Dungeons**: Dungeons, dungeons at double event
+- **Rewards**: Complete daily quests if possible, Assignment, Nameless Hourner.
+- **AFK Auto Farming**: Automatically launch emulators and games, do dungeons and quests in the background.
 
-```bash
-git clone https://github.com/LmeSzinc/StarRailCopilot
-```
 
-Enter project directory.
 
-```bash
-cd StarRailCopilot
-```
+## Install [![](https://img.shields.io/github/downloads/LmeSzinc/StarRailCopilot/total?color=4e4c97)](https://github.com/LmeSzinc/StarRailCopilot/releases)
 
-Create a python 3.10.10 environment using conda. Let's say the new environment is named `src`.
-
->Note that we don't maintain requirements for lower or higher python versions, 3.10.10 is recommended.
-
-```bash
-conda create -n src python==3.10.10
-```
-
-Activate the environment just created.
-
-```bash
-conda activate src
-```
-
-Install requirements.
-
-```
-pip install -r requirements.txt
-```
-
-### Install an Emulator
-
-1. Download [ADB](https://developer.android.com/tools/releases/platform-tools) and configure it into environment variables.
-2. Install the game client in emulator, not the desktop client. BlueStacks is recommented.
+Refers to [Installation tutorial](https://github.com/LmeSzinc/StarRailCopilot/wiki/Installation_cn), including easy-installer manual, use manual, manual installation tutorial.
 
 > **Why use emulators?** If you run a bot on the desktop client, game windows must stay at front. I guess you don't wanna baby-sit there without being able to move the mouse and keyboard while running the bot, so use the emulators.
 
 > **How's the performance?** Lme's 8700k+1080ti using MuMu12 emulator with graphic settings very high  gets 40 fps. It shouldn't be a problem to run with maximum graphic settings and 60 fps if you have newer PC specs.
 
-## Usage
 
-Still in the environment just now, launch the GUI backend. (running on port 22367 by default)
-
-```bash
-python gui.py
-```
-
-Access `127.0.0.1:22367` in browser.
-
-Goto `SRC settings` - `Emulator Settings` - `Serial`, fill it according to help texts.
-
-Goto `Overview` page, click `Run` button. (SRC will auto launch emulator and game client if they are not running. Emulator launch only supports MuMu family and Nox Player family for now)
-
-Keep the bot running, SRC will auto login and empty trailblaze power when it's recovered. To save resources, set `SRC Settings` - `Optimazation Settings` - `When Task Queue is Empty` to `Close Game`.
 
 ## Development
 

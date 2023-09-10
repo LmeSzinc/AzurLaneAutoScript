@@ -128,14 +128,14 @@ class GitManager(DeployConfig):
         self.execute(f'"{self.git}" --no-pager log --no-merges -1')
         Progress.GitShowVersion()
 
-    def git_over_cdn(self):
+    @property
+    def goc_client(self):
         client = GitOverCdnClient(
             url='https://vip.123pan.cn/1815343254/pack/LmeSzinc_StarRailCopilot_master',
             folder=self.root_filepath,
         )
         client.logger = logger
-        _ = client.update(keep_changes=self.KeepLocalChanges)
-        return _
+        return client
 
     def git_install(self):
         logger.hr('Update Alas', 0)
@@ -146,7 +146,7 @@ class GitManager(DeployConfig):
             return
 
         if self.GitOverCdn:
-            if self.git_over_cdn():
+            if self.goc_client.update(keep_changes=self.KeepLocalChanges):
                 return
 
         self.git_repository_init(

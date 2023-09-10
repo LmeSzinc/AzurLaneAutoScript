@@ -1,6 +1,6 @@
 import itertools
 
-from ppocronnx.predict_system import BoxedResult
+from pponnxcr.predict_system import BoxedResult
 
 from module.base.utils import area_in_area, area_offset
 
@@ -45,6 +45,9 @@ def merge_buttons(buttons: list[BoxedResult], thres_x=20, thres_y=20) -> list[Bo
     Returns:
 
     """
+    if thres_x <= 0 and thres_y <= 0:
+        return buttons
+
     dic_button = {button.box: button for button in buttons}
     set_merged = set()
     for left, right in itertools.combinations(dic_button.items(), 2):
