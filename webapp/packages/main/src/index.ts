@@ -19,6 +19,10 @@ if (!isSingleInstance) {
       logger.info('------createApp------');
       await createApp();
     } else {
+      logger.info('------curWindow.restore------');
+      if (curWindow.isMinimized?.()) curWindow.restore?.();
+      logger.info('------curWindow.show------');
+      if (!curWindow.isVisible?.()) curWindow.show?.();
       logger.info('------curWindow.focus------');
       curWindow.focus?.();
     }
