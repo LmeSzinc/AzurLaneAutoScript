@@ -686,14 +686,14 @@
       "help": "Assignment.Assignment.help"
     }
   },
-  "Rogue": {
+  "RoguePath": {
     "_info": {
-      "name": "Rogue._info.name",
-      "help": "Rogue._info.help"
+      "name": "RoguePath._info.name",
+      "help": "RoguePath._info.help"
     },
     "Path": {
-      "name": "Rogue.Path.name",
-      "help": "Rogue.Path.help",
+      "name": "RoguePath.Path.name",
+      "help": "RoguePath.Path.help",
       "Preservation": "Preservation",
       "Remembrance": "Remembrance",
       "Nihility": "Nihility",
@@ -703,62 +703,74 @@
       "Elation": "Elation"
     },
     "Bonus": {
-      "name": "Rogue.Bonus.name",
-      "help": "Rogue.Bonus.help",
+      "name": "RoguePath.Bonus.name",
+      "help": "RoguePath.Bonus.help",
       "Blessing Cosmos": "Blessing Cosmos",
       "Miracle Cosmos": "Miracle Cosmos",
       "Fragmented Cosmos": "Fragmented Cosmos"
     },
     "PresetResonanceFilter": {
-      "name": "Rogue.PresetResonanceFilter.name",
-      "help": "Rogue.PresetResonanceFilter.help",
+      "name": "RoguePath.PresetResonanceFilter.name",
+      "help": "RoguePath.PresetResonanceFilter.help",
       "preset-1": "preset-1",
       "custom": "custom"
-    },
-    "CustomResonanceFilter": {
-      "name": "Rogue.CustomResonanceFilter.name",
-      "help": "Rogue.CustomResonanceFilter.help"
     },
     "ResonanceSelectionStrategy": {
-      "name": "Rogue.ResonanceSelectionStrategy.name",
-      "help": "Rogue.ResonanceSelectionStrategy.help",
+      "name": "RoguePath.ResonanceSelectionStrategy.name",
+      "help": "RoguePath.ResonanceSelectionStrategy.help",
       "follow-presets": "follow-presets",
       "unrecorded-first": "unrecorded-first",
       "before-random": "before-random"
+    },
+    "CustomResonanceFilter": {
+      "name": "RoguePath.CustomResonanceFilter.name",
+      "help": "RoguePath.CustomResonanceFilter.help"
+    }
+  },
+  "RogueBlessing": {
+    "_info": {
+      "name": "RogueBlessing._info.name",
+      "help": "RogueBlessing._info.help"
     },
     "PresetBlessingFilter": {
-      "name": "Rogue.PresetBlessingFilter.name",
-      "help": "Rogue.PresetBlessingFilter.help",
+      "name": "RogueBlessing.PresetBlessingFilter.name",
+      "help": "RogueBlessing.PresetBlessingFilter.help",
       "preset-1": "preset-1",
       "custom": "custom"
-    },
-    "CustomBlessingFilter": {
-      "name": "Rogue.CustomBlessingFilter.name",
-      "help": "Rogue.CustomBlessingFilter.help"
     },
     "BlessingSelectionStrategy": {
-      "name": "Rogue.BlessingSelectionStrategy.name",
-      "help": "Rogue.BlessingSelectionStrategy.help",
+      "name": "RogueBlessing.BlessingSelectionStrategy.name",
+      "help": "RogueBlessing.BlessingSelectionStrategy.help",
       "follow-presets": "follow-presets",
       "unrecorded-first": "unrecorded-first",
       "before-random": "before-random"
     },
+    "CustomBlessingFilter": {
+      "name": "RogueBlessing.CustomBlessingFilter.name",
+      "help": "RogueBlessing.CustomBlessingFilter.help"
+    }
+  },
+  "RogueCurio": {
+    "_info": {
+      "name": "RogueCurio._info.name",
+      "help": "RogueCurio._info.help"
+    },
     "PresetCurioFilter": {
-      "name": "Rogue.PresetCurioFilter.name",
-      "help": "Rogue.PresetCurioFilter.help",
+      "name": "RogueCurio.PresetCurioFilter.name",
+      "help": "RogueCurio.PresetCurioFilter.help",
       "preset-1": "preset-1",
       "custom": "custom"
     },
-    "CustomCurioFilter": {
-      "name": "Rogue.CustomCurioFilter.name",
-      "help": "Rogue.CustomCurioFilter.help"
-    },
     "CurioSelectionStrategy": {
-      "name": "Rogue.CurioSelectionStrategy.name",
-      "help": "Rogue.CurioSelectionStrategy.help",
+      "name": "RogueCurio.CurioSelectionStrategy.name",
+      "help": "RogueCurio.CurioSelectionStrategy.help",
       "follow-presets": "follow-presets",
       "unrecorded-first": "unrecorded-first",
       "before-random": "before-random"
+    },
+    "CustomCurioFilter": {
+      "name": "RogueCurio.CustomCurioFilter.name",
+      "help": "RogueCurio.CustomCurioFilter.help"
     }
   },
   "Gui": {

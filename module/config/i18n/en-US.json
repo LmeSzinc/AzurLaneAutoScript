@@ -40,7 +40,7 @@
     },
     "Rogue": {
       "name": "Simulated Universe",
-      "help": ""
+      "help": "Simulated Universe is in development, task will not be run"
     }
   },
   "Scheduler": {
@@ -686,19 +686,19 @@
       "help": ""
     }
   },
-  "Rogue": {
+  "RoguePath": {
     "_info": {
-      "name": "Simulated Universe",
+      "name": "Path Settings",
       "help": ""
     },
     "Path": {
-      "name": "Fate",
+      "name": "Path",
       "help": "",
       "Preservation": "Preservation",
       "Remembrance": "Remembrance",
       "Nihility": "Nihility",
       "Abundance": "Abundance",
-      "Hunt": "The Hunt",
+      "Hunt": "Hunt",
       "Destruction": "Destruction",
       "Elation": "Elation"
     },
@@ -715,16 +715,22 @@
       "preset-1": "preset-1",
       "custom": "custom"
     },
+    "ResonanceSelectionStrategy": {
+      "name": "Index Locked Blessing",
+      "help": "",
+      "follow-presets": "Don't affect choice",
+      "unrecorded-first": "Select first",
+      "before-random": "Select only when nothing satisfy the filter"
+    },
     "CustomResonanceFilter": {
       "name": "Custom Resonance Filter",
+      "help": "Only takes effect when \"Preset Resonance Filter\" is \"custom\""
+    }
+  },
+  "RogueBlessing": {
+    "_info": {
+      "name": "Blessing Settings",
       "help": ""
-    },
-    "ResonanceSelectionStrategy": {
-      "name": "Resonance Selection Strategy",
-      "help": "",
-      "follow-presets": "Follow presets",
-      "unrecorded-first": "Choose index locked resonance first",
-      "before-random": "Follow presets, but choose index locked one first when filter goes to randomly choose"
     },
     "PresetBlessingFilter": {
       "name": "Preset Blessing Filter",
@@ -732,16 +738,22 @@
       "preset-1": "preset-1",
       "custom": "custom"
     },
+    "BlessingSelectionStrategy": {
+      "name": "Index Locked Blessing",
+      "help": "",
+      "follow-presets": "Don't affect choice",
+      "unrecorded-first": "Select first",
+      "before-random": "Select only when nothing satisfy the filter"
+    },
     "CustomBlessingFilter": {
       "name": "Custom Blessing Filter",
+      "help": "Only takes effect when \"Preset Blessing Filter\" is \"custom\""
+    }
+  },
+  "RogueCurio": {
+    "_info": {
+      "name": "Curio Settings",
       "help": ""
-    },
-    "BlessingSelectionStrategy": {
-      "name": "Blessing jSelection Strategy",
-      "help": "",
-      "follow-presets": "Follow presets",
-      "unrecorded-first": "Choose index locked blessing first",
-      "before-random": "Follow presets, but choose index locked one first when filter goes to randomly choose"
     },
     "PresetCurioFilter": {
       "name": "Preset Curio Filter",
@@ -749,16 +761,16 @@
       "preset-1": "preset-1",
       "custom": "custom"
     },
+    "CurioSelectionStrategy": {
+      "name": "Index Locked Curio",
+      "help": "",
+      "follow-presets": "Don't affect choice",
+      "unrecorded-first": "Select first",
+      "before-random": "Select only when nothing satisfy the filter"
+    },
     "CustomCurioFilter": {
       "name": "Custom Curio Filter",
-      "help": ""
-    },
-    "CurioSelectionStrategy": {
-      "name": "Curio Selection Strategy",
-      "help": "",
-      "follow-presets": "Follow presets",
-      "unrecorded-first": "Choose index locked curio first",
-      "before-random": "Follow presets, but choose index locked one first when filter goes to randomly choose"
+      "help": "Only takes effect when \"Preset Curio Filter\" is \"custom\""
     }
   },
   "Gui": {

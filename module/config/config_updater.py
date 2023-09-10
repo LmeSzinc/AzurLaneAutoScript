@@ -409,6 +409,7 @@ class ConfigGenerator:
             '异': '異',
             '服務器': '伺服器',
             '文件': '檔案',
+            '自定義': '自訂'
         }
         if lang == 'zh-TW':
             for path, value in deep_iter(new, depth=3):

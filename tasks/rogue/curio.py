@@ -125,14 +125,14 @@ class RogueCurioSelector(RogueSelector):
     def load_filter(self):
         filter_ = CURIO_FILTER
         string = ""
-        match self.main.config.Rogue_PresetCurioFilter:
+        match self.main.config.RogueCurio_PresetCurioFilter:
             case 'preset-1':
                 string = CURIO_PRESET_1
             case 'custom':
-                string = self.main.config.Rogue_CustomCurioFilter
+                string = self.main.config.RogueCurio_CustomCurioFilter
         string = parse_name(string)
 
-        match self.main.config.Rogue_CurioSelectionStrategy:
+        match self.main.config.RogueCurio_CurioSelectionStrategy:
             case 'unrecorded-first':
                 string = 'unrecorded > ' + string
             case 'before-random':
