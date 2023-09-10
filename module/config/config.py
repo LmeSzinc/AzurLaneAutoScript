@@ -745,6 +745,12 @@ class ConfigBackup:
         for key, value in self.backup.items():
             self.config.__setattr__(key, value)
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.recover()
+
 
 class MultiSetWrapper:
     def __init__(self, main):

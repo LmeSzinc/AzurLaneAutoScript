@@ -602,7 +602,8 @@ class OperationSiren(OSMap):
         logger.hr('OS clear abyssal', level=1)
         self.cl1_ap_preserve()
 
-        result = self.storage_get_next_item('ABYSSAL', use_logger=self.config.OpsiGeneral_UseLogger)
+        with self.config.temporary(STORY_ALLOW_SKIP=False):
+            result = self.storage_get_next_item('ABYSSAL', use_logger=self.config.OpsiGeneral_UseLogger)
         if not result:
             self.delay_abyssal(result=False)
 

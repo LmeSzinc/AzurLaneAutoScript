@@ -83,6 +83,9 @@ GUI development, thanks **[@18870](https://github.com/18870)** , say HURRAY.
 | 大型作战设置 - 安全海域默认开启自律 | 关   |
 | 剧情自动播放                        | 开启 |
 | 剧情自动播放速度调整                | 特快 |
+| 其他设置 - 重复角色获得提示         | 关   |
+| 其他设置 - 快速更换二次确认界面     | 关   |
+| 其他设置 - 展示结算角色             | 关   |
 
 大世界 => 右上角：雷达 => 指令模块(order)：潜艇支援：
 | 设置名称                                                 | 值               |
@@ -168,8 +171,9 @@ Alas 仍在活跃开发中，我们会不定期发布未来的工作在 [Issues]
 ## 联系我们 Contact Us
 
 - Discord: [https://discord.gg/AQN6GeJ](https://discord.gg/AQN6GeJ)
-- QQ 三群：[576458886](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Q611gtXy-y0ttnfHOQNegXjerUI2tWIy&authKey=VjW7e8fxtXTN0twcU6%2FZabZ03gKy%2FuhZETQlFDaswupHRDzVO33lsqZloKG8IfR6&noverify=0&group_code=834210833)
+- QQ 四群：[851150687](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=GlV_kVLn8JU573fIfhbFHUezm3QUtQ9L&authKey=xff5ZAfrxMKpZ67Bqx2ljd%2BAYT18ic7a21MnizNfqOQrkQAAPxS0uIRZE6LbePUG&noverify=0&group_code=851150687)
+- QQ 三群（已满）：[576458886](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Q611gtXy-y0ttnfHOQNegXjerUI2tWIy&authKey=VjW7e8fxtXTN0twcU6%2FZabZ03gKy%2FuhZETQlFDaswupHRDzVO33lsqZloKG8IfR6&noverify=0&group_code=834210833)
 - QQ 二群（已满）：[576458886](https://jq.qq.com/?_wv=1027&k=FUIOAAOm)
-- QQ 一群（已满）：[1087735381](https://jq.qq.com/?_wv=1027&k=I4NSqX7g)
+- QQ 一群：[1087735381](https://jq.qq.com/?_wv=1027&k=I4NSqX7g) （有开发意向请加一群，入群需要提供你的Github用户名）
 - Bilibili 直播间：https://live.bilibili.com/22216705 ，偶尔直播写Alas，~~为了拯救Alas，Lme决定出道成为偶像~~
 
