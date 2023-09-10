@@ -92,6 +92,8 @@ class RogueCurioSelector(RogueSelector):
                 interval.reset()
 
         skip_first_screenshot = True
+        # Avoid double-clicking
+        interval = Timer(3, count=6)
         # selected -> confirm
         while 1:
             if skip_first_screenshot:
