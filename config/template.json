@@ -9,11 +9,10 @@
       "ScreenshotDedithering": false,
       "AdbRestart": false
     },
-    "RestartEmulator": {
-      "Enable": false,
-      "EmulatorData": "emulator:\nname:\npath:",
-      "ErrorRestart": false,
-      "DailyRestart": false
+    "EmulatorInfo": {
+      "Emulator": "auto",
+      "name": null,
+      "path": null
     },
     "Error": {
       "HandleError": true,
@@ -709,7 +708,7 @@
     },
     "Campaign": {
       "Name": "D3",
-      "Event": "war_archives_20220414_cn",
+      "Event": "war_archives_20201229_cn",
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,

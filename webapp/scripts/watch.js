@@ -4,14 +4,11 @@ const {createServer, build, createLogger} = require('vite');
 const electronPath = require('electron');
 const {spawn} = require('child_process');
 
-
 /** @type 'production' | 'development' | 'test' */
-const mode = process.env.MODE = process.env.MODE || 'development';
-
+const mode = (process.env.MODE = process.env.MODE || 'development');
 
 /** @type {import('vite').LogLevel} */
 const LOG_LEVEL = 'warn';
-
 
 /** @type {import('vite').InlineConfig} */
 const sharedConfig = {
@@ -21,7 +18,6 @@ const sharedConfig = {
   },
   logLevel: LOG_LEVEL,
 };
-
 
 /**
  * @param configFile
@@ -37,13 +33,12 @@ const getWatcher = ({name, configFile, writeBundle}) => {
   });
 };
 
-
 /**
  * Start or restart App when source files are changed
  * @param {import('vite').ViteDevServer} viteDevServer
  * @returns {Promise<import('vite').RollupOutput | Array<import('vite').RollupOutput> | import('vite').RollupWatcher>}
  */
-const setupMainPackageWatcher = (viteDevServer) => {
+const setupMainPackageWatcher = viteDevServer => {
   // Write a value to an environment variable to pass it to the main process.
   {
     const protocol = `http${viteDevServer.config.server.https ? 's' : ''}:`;
@@ -71,19 +66,24 @@ const setupMainPackageWatcher = (viteDevServer) => {
 
       spawnProcess = spawn(String(electronPath), ['.']);
 
-      spawnProcess.stdout.on('data', d => d.toString().trim() && logger.warn(d.toString(), {timestamp: true}));
-      spawnProcess.stderr.on('data', d => d.toString().trim() && logger.error(d.toString(), {timestamp: true}));
+      spawnProcess.stdout.on(
+        'data',
+        d => d.toString().trim() && logger.warn(d.toString(), {timestamp: true}),
+      );
+      spawnProcess.stderr.on(
+        'data',
+        d => d.toString().trim() && logger.error(d.toString(), {timestamp: true}),
+      );
     },
   });
 };
-
 
 /**
  * Start or restart App when source files are changed
  * @param {import('vite').ViteDevServer} viteDevServer
  * @returns {Promise<import('vite').RollupOutput | Array<import('vite').RollupOutput> | import('vite').RollupWatcher>}
  */
-const setupPreloadPackageWatcher = (viteDevServer) => {
+const setupPreloadPackageWatcher = viteDevServer => {
   return getWatcher({
     name: 'reload-page-on-preload-package-change',
     configFile: 'packages/preload/vite.config.js',

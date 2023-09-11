@@ -49,6 +49,9 @@ class AzurLaneAutoScript:
         except RequestHumanTakeover:
             logger.critical('Request human takeover')
             exit(1)
+        except EmulatorNotRunningError:
+            logger.critical('EmulatorNotRunningError')
+            exit(1)
         except Exception as e:
             logger.exception(e)
             exit(1)
