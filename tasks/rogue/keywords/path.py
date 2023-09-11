@@ -59,3 +59,11 @@ Elation = RoguePath(
     en='Elation',
     jp='愉悦',
 )
+Propagation = RoguePath(
+    id=8,
+    name='Propagation',
+    cn='繁育',
+    cht='繁育',
+    en='Propagation',
+    jp='繁殖',
+)

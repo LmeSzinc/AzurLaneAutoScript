@@ -298,8 +298,8 @@ class KeywordExtract:
 
     def generate_rogue_buff(self):
         # paths
-        aeons = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'RogueAeon.json'))
-        aeons_hash = [deep_get(aeon, '1.RogueAeonPathName2.Hash') for aeon in aeons.values()]
+        aeons = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'RogueAeonDisplay.json'))
+        aeons_hash = [deep_get(aeon, 'RogueAeonPathName2.Hash') for aeon in aeons.values()]
         self.keywords_id = aeons_hash
         self.write_keywords(keyword_class='RoguePath', output_file='./tasks/rogue/keywords/path.py')
 
@@ -346,17 +346,6 @@ class KeywordExtract:
             visited.add(name)
             yield hash_
 
-    def iter_rogue_miracles(self):
-        miracles = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'RogueMiracle.json'))
-        visited = set()
-        for data in miracles.values():
-            hash_ = deep_get(data, keys='MiracleName.Hash')
-            _, name = self.find_keyword(hash_, lang='cn')
-            if name in visited:
-                continue
-            visited.add(name)
-            yield hash_
-
     def generate(self):
         self.load_keywords(['模拟宇宙', '拟造花萼（金）', '拟造花萼（赤）', '凝滞虚影', '侵蚀隧洞', '历战余响', '忘却之庭'])
         self.write_keywords(keyword_class='DungeonNav', output_file='./tasks/dungeon/keywords/nav.py')
@@ -390,7 +379,8 @@ class KeywordExtract:
         self.load_keywords(['已强化'])
         self.write_keywords(keyword_class='RogueEnhancement', output_file='./tasks/rogue/keywords/enhancement.py')
         self.load_keywords(list(self.iter_without_duplication(
-            read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'RogueMiracle.json')), 'MiracleName.Hash')))
+            read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'RogueMiracleDisplay.json')),
+            'MiracleName.Hash')))
         self.write_keywords(keyword_class='RogueCurio', output_file='./tasks/rogue/keywords/curio.py')
         self.load_keywords(list(self.iter_without_duplication(
             read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'RogueBonus.json')), 'BonusTitle.Hash')))

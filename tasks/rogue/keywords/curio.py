@@ -231,7 +231,7 @@ Corrupted_Code = RogueCurio(
     id=29,
     name='Corrupted_Code',
     cn='乱七八糟的代码',
-    cht='亂七八糟的程式碼',
+    cht='亂七八糟的代碼',
     en='Corrupted Code',
     jp='ぐちゃぐちゃなコード',
 )
@@ -323,12 +323,12 @@ Space_Time_Prism = RogueCurio(
     en='Space-Time Prism',
     jp='時空のプリズム',
 )
-Galactic_Big_Lotto = RogueCurio(
+Cosmic_Big_Lotto = RogueCurio(
     id=41,
-    name='Galactic_Big_Lotto',
+    name='Cosmic_Big_Lotto',
     cn='银河大乐透',
     cht='銀河大樂透',
-    en='Galactic Big Lotto',
+    en='Cosmic Big Lotto',
     jp='銀河ビッグロッタリー',
 )
 Divination_Cuckoo_Clock = RogueCurio(
@@ -378,4 +378,172 @@ IPC_Cuckoo_Clock = RogueCurio(
     cht='公司咕咕鐘',
     en='IPC Cuckoo Clock',
     jp='カンパニー鳩時計',
+)
+Triangular_Drum_roll_Device = RogueCurio(
+    id=48,
+    name='Triangular_Drum_roll_Device',
+    cn='三角滚奏器',
+    cht='三角滾奏器',
+    en='Triangular Drum-roll Device',
+    jp='トライアングル',
+)
+Silver_Coin_of_Discord = RogueCurio(
+    id=49,
+    name='Silver_Coin_of_Discord',
+    cn='分裂银币',
+    cht='分裂銀幣',
+    en='Silver Coin of Discord',
+    jp='分裂銀貨',
+)
+Family_Ties = RogueCurio(
+    id=50,
+    name='Family_Ties',
+    cn='家族缘结',
+    cht='家族緣結',
+    en='Family Ties',
+    jp='ファミリーの絆結び',
+)
+Medal_of_the_Gloryblood_Era = RogueCurio(
+    id=51,
+    name='Medal_of_the_Gloryblood_Era',
+    cn='血锦之纪徽章',
+    cht='血錦之紀徽章',
+    en='Medal of the Gloryblood Era',
+    jp='血錦の徽章',
+)
+Black_Hole_Trap = RogueCurio(
+    id=52,
+    name='Black_Hole_Trap',
+    cn='黑洞之阱',
+    cht='黑洞之阱',
+    en='Black Hole Trap',
+    jp='ブラックホールの罠',
+)
+Interastral_Big_Lotto = RogueCurio(
+    id=53,
+    name='Interastral_Big_Lotto',
+    cn='星际大乐透',
+    cht='星際大樂透',
+    en='Interastral Big Lotto',
+    jp='星間ビッグロッタリー',
+)
+Fissured_Cuckoo_Clock = RogueCurio(
+    id=54,
+    name='Fissured_Cuckoo_Clock',
+    cn='分裂咕咕钟',
+    cht='分裂咕咕鐘',
+    en='Fissured Cuckoo Clock',
+    jp='分裂鳩時計',
+)
+Typical_Genius_Society_Gossip = RogueCurio(
+    id=55,
+    name='Typical_Genius_Society_Gossip',
+    cn='天才俱乐部普通八卦',
+    cht='天才俱樂部普通八卦',
+    en='Typical Genius Society Gossip',
+    jp='天才クラブの他愛もない噂話',
+)
+Tonic_of_Efficacious_Chaos = RogueCurio(
+    id=56,
+    name='Tonic_of_Efficacious_Chaos',
+    cn='混沌特效灵药',
+    cht='混沌特效靈藥',
+    en='Tonic of Efficacious Chaos',
+    jp='混沌の特效霊薬',
+)
+Rubert_Empire_Mechanical_Cogwheel = RogueCurio(
+    id=57,
+    name='Rubert_Empire_Mechanical_Cogwheel',
+    cn='鲁珀特帝国机械齿轮',
+    cht='魯珀特帝國機械齒輪',
+    en='Rubert Empire Mechanical Cogwheel',
+    jp='ルパート帝国の機械歯車',
+)
+Cavity_System_Model = RogueCurio(
+    id=58,
+    name='Cavity_System_Model',
+    cn='龋齿星系模型',
+    cht='齲齒星系模型',
+    en='Cavity System Model',
+    jp='虫歯星系模型',
+)
+Tousled_Detective = RogueCurio(
+    id=59,
+    name='Tousled_Detective',
+    cn='《鸡窝头侦探》',
+    cht='《雞窩頭偵探》',
+    en='Tousled Detective',
+    jp='『ボサ頭探偵』',
+)
+Fool_Mask = RogueCurio(
+    id=60,
+    name='Fool_Mask',
+    cn='愚者面具',
+    cht='愚者面具',
+    en="Fool's Mask",
+    jp='愚者の仮面',
+)
+Vile_Mechanical_Satellite_900 = RogueCurio(
+    id=61,
+    name='Vile_Mechanical_Satellite_900',
+    cn='邪恶机械卫星#900',
+    cht='邪惡機械衛星#900',
+    en='Vile Mechanical Satellite #900',
+    jp='邪悪な機械衛星#900',
+)
+Spirit_of_the_Knights_of_Beauty = RogueCurio(
+    id=62,
+    name='Spirit_of_the_Knights_of_Beauty',
+    cn='纯美骑士精神',
+    cht='純美騎士精神',
+    en='Spirit of the Knights of Beauty',
+    jp='純美の騎士道',
+)
+Illusory_Automaton = RogueCurio(
+    id=63,
+    name='Illusory_Automaton',
+    cn='虚构机兵',
+    cht='虛構機兵',
+    en='Illusory Automaton',
+    jp='虚構機兵',
+)
+A_Pinch_of_Bearded_Gunpowder = RogueCurio(
+    id=64,
+    name='A_Pinch_of_Bearded_Gunpowder',
+    cn='一撮胡须火药',
+    cht='一撮鬍鬚火藥',
+    en='A Pinch of Bearded Gunpowder',
+    jp='ひげの爆薬',
+)
+Man_Made_Meteorite = RogueCurio(
+    id=65,
+    name='Man_Made_Meteorite',
+    cn='人造陨石球',
+    cht='人造隕石球',
+    en='Man-Made Meteorite',
+    jp='人造隕石',
+)
+Thalan_Toxi_Flame = RogueCurio(
+    id=66,
+    name='Thalan_Toxi_Flame',
+    cn='塔拉毒火焰',
+    cht='塔拉毒火焰',
+    en='Thalan Toxi-Flame',
+    jp='ターラの毒火炎',
+)
+The_Pinkest_Collision = RogueCurio(
+    id=67,
+    name='The_Pinkest_Collision',
+    cn='粉红冲撞',
+    cht='粉紅衝撞',
+    en='The Pinkest Collision',
+    jp='ピンクショック',
+)
+Sealing_Wax_of_Propagation = RogueCurio(
+    id=68,
+    name='Sealing_Wax_of_Propagation',
+    cn='繁育火漆',
+    cht='繁育火漆',
+    en='Sealing Wax of Propagation',
+    jp='繁殖の封蝋',
 )
