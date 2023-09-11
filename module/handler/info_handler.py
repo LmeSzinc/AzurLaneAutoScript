@@ -7,6 +7,7 @@ from module.base.utils import *
 from module.exception import GameNotRunningError
 from module.handler.assets import *
 from module.logger import logger
+from module.os_handler.assets import CLICK_SAFE_AREA as OS_CLICK_SAFE_AREA
 
 
 def info_letter_preprocess(image):
@@ -359,7 +360,10 @@ class InfoHandler(ModuleBase):
             if self._story_confirm.reached():
                 if drop:
                     drop.handle_add(self, before=2)
-                self.device.click(STORY_SKIP)
+                if self.config.STORY_ALLOW_SKIP:
+                    self.device.click(STORY_SKIP)
+                else:
+                    self.device.click(OS_CLICK_SAFE_AREA)
                 self._story_confirm.reset()
                 self.story_popup_timeout.reset()
                 return True

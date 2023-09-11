@@ -1,3 +1,4 @@
+import threading
 import io
 import json
 import os
@@ -9,6 +10,7 @@ from requests.adapters import HTTPAdapter
 
 from module.base.utils import save_image
 from module.config.config import AzurLaneConfig
+from module.config.utils import deep_get
 from module.exception import ScriptError
 from module.logger import logger
 from module.statistics.utils import pack
@@ -37,7 +39,8 @@ class DropImage:
         """
         if self:
             self.images.append(image)
-            logger.info(f'Drop record added, genre={self.genre}, amount={self.count}')
+            logger.info(
+                f'Drop record added, genre={self.genre}, amount={self.count}')
 
     def handle_add(self, main, before=None):
         """
@@ -71,7 +74,8 @@ class DropImage:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         if self:
-            self.stat.commit(images=self.images, genre=self.genre, save=self.save, upload=self.upload, info=self.info)
+            self.stat.commit(images=self.images, genre=self.genre,
+                             save=self.save, upload=self.upload, info=self.info)
 
 
 class AzurStats:
@@ -90,9 +94,9 @@ class AzurStats:
         if method == 'default':
             return 'https://azurstats.lyoko.io/api/upload/'
         elif method == 'cn_gz_reverse_proxy':
-            return 'https://service-rjfzwz8i-1301182309.gz.apigw.tencentcs.com/api/upload'
+            return 'https://image.tyy.akagiyui.com/api/upload'
         elif method == 'cn_sh_reverse_proxy':
-            return 'https://service-nlvjetab-1301182309.sh.apigw.tencentcs.com/api/upload'
+            return 'https://image.tyy.akagiyui.com/api/upload'
         else:
             logger.critical('Invalid upload API, please check your settings')
             raise ScriptError('Invalid upload API')
@@ -122,7 +126,8 @@ class AzurStats:
         session.mount('http://', HTTPAdapter(max_retries=5))
         session.mount('https://', HTTPAdapter(max_retries=5))
         try:
-            resp = session.post(self._api, files=data, headers=headers, timeout=self.TIMEOUT)
+            resp = session.post(self._api, files=data,
+                                headers=headers, timeout=self.TIMEOUT)
         except Exception as e:
             logger.warning(f'Image upload failed, {e}')
             return False
@@ -130,13 +135,30 @@ class AzurStats:
         if resp.status_code == 200:
             # print(resp.text)
             info = json.loads(resp.text)
-            code = info.get("code", 500)
-            if code == 200:
-                logger.info(f'Image upload success, imgid: {info.get("imgid", "")}')
-                return True
-            elif code == 0:
-                logger.warning(f'Image upload failed, msg: {info.get("msg", "")}')
-                return False
+
+            # Lsky response
+            status = deep_get(info, keys='status', default=None)
+            if status is not None:
+                if status:
+                    md5 = deep_get(info, keys='data.md5', default='')
+                    logger.info(f'Image upload success, md5: {md5}')
+                    return True
+                else:
+                    message = deep_get(info, keys='message', default='')
+                    logger.warning(f'Image upload failed, message: {message}')
+                    return False
+
+            # Imgurl response
+            code = deep_get(info, keys='code', default=None)
+            if code is not None:
+                if code == 200:
+                    imgid = deep_get(info, keys='imgid', default='')
+                    logger.info(f'Image upload success, imgid: {imgid}')
+                    return True
+                elif code == 0:
+                    msg = deep_get(info, keys='msg', default='')
+                    logger.warning(f'Image upload failed, msg: {msg}')
+                    return False
 
         logger.warning(f'Image upload failed, unexpected server returns, '
                        f'status_code: {resp.status_code}, returns: {resp.text}')
@@ -153,7 +175,8 @@ class AzurStats:
             bool: If success
         """
         try:
-            folder = os.path.join(str(self.config.DropRecord_SaveFolder), genre)
+            folder = os.path.join(
+                str(self.config.DropRecord_SaveFolder), genre)
             os.makedirs(folder, exist_ok=True)
             file = os.path.join(folder, filename)
             save_image(image, file)
@@ -180,7 +203,8 @@ class AzurStats:
             return False
 
         save, upload = bool(save), bool(upload)
-        logger.info(f'Drop record commit, genre={genre}, amount={len(images)}, save={save}, upload={upload}')
+        logger.info(
+            f'Drop record commit, genre={genre}, amount={len(images)}, save={save}, upload={upload}')
         image = pack(images)
         now = int(time.time() * 1000)
 
@@ -190,9 +214,13 @@ class AzurStats:
             filename = f'{now}.png'
 
         if save:
-            self._save(image, genre=genre, filename=filename)
+            save_thread = threading.Thread(
+                target=self._save, args=(image, genre, filename))
+            save_thread.start()
         if upload:
-            self._upload(image, genre=genre, filename=filename)
+            upload_thread = threading.Thread(
+                target=self._upload, args=(image, genre, filename))
+            upload_thread.start()
 
         return True
 
