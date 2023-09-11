@@ -22,6 +22,7 @@ CANCEL_POPUP = ButtonWrapper(
         color=(157, 156, 152),
         button=(427, 536, 503, 562),
     ),
+    en=None,
 )
 CONFIRM_POPUP = ButtonWrapper(
     name='CONFIRM_POPUP',
@@ -32,6 +33,7 @@ CONFIRM_POPUP = ButtonWrapper(
         color=(170, 169, 166),
         button=(774, 534, 855, 563),
     ),
+    en=None,
 )
 GET_REWARD = ButtonWrapper(
     name='GET_REWARD',

@@ -12,6 +12,7 @@ ASSIGNMENT_START = ButtonWrapper(
         color=(93, 84, 66),
         button=(581, 321, 699, 349),
     ),
+    en=None,
 )
 ASSIGNMENT_STARTED_CHECK = ButtonWrapper(
     name='ASSIGNMENT_STARTED_CHECK',
@@ -72,6 +73,7 @@ CHARACTER_LIST = ButtonWrapper(
         color=(156, 154, 152),
         button=(90, 165, 170, 186),
     ),
+    en=None,
 )
 CONFIRM_ASSIGNMENT = ButtonWrapper(
     name='CONFIRM_ASSIGNMENT',
@@ -82,6 +84,7 @@ CONFIRM_ASSIGNMENT = ButtonWrapper(
         color=(154, 154, 153),
         button=(920, 645, 1208, 682),
     ),
+    en=None,
 )
 DURATION_12 = ButtonWrapper(
     name='DURATION_12',

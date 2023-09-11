@@ -12,6 +12,7 @@ PICTURE_TAKEN = ButtonWrapper(
         color=(153, 153, 155),
         button=(1030, 620, 1069, 639),
     ),
+    en=None,
 )
 TAKE_PICTURE = ButtonWrapper(
     name='TAKE_PICTURE',

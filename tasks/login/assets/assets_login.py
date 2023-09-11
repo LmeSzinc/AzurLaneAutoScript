@@ -22,4 +22,5 @@ USER_AGREEMENT_ACCEPT = ButtonWrapper(
         color=(196, 167, 111),
         button=(678, 459, 867, 496),
     ),
+    en=None,
 )

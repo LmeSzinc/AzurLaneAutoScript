@@ -122,6 +122,7 @@ REWARDS_CLAIM_ALL = ButtonWrapper(
         color=(172, 136, 69),
         button=(827, 665, 907, 684),
     ),
+    en=None,
 )
 REWARDS_CLICK = ButtonWrapper(
     name='REWARDS_CLICK',

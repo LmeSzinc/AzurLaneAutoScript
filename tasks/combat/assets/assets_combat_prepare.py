@@ -12,6 +12,7 @@ COMBAT_PREPARE = ButtonWrapper(
         color=(141, 140, 141),
         button=(956, 640, 1224, 676),
     ),
+    en=None,
 )
 OCR_TRAILBLAZE_POWER = ButtonWrapper(
     name='OCR_TRAILBLAZE_POWER',

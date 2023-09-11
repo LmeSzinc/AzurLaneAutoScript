@@ -72,6 +72,7 @@ RECIPE_UNLOCK = ButtonWrapper(
         color=(167, 167, 167),
         button=(836, 647, 913, 668),
     ),
+    en=None,
 )
 SIMPLE_PROTECTIVE_GEAR = ButtonWrapper(
     name='SIMPLE_PROTECTIVE_GEAR',
@@ -102,6 +103,7 @@ SYNTHESIZE_CONFIRM = ButtonWrapper(
         color=(189, 190, 190),
         button=(847, 645, 895, 672),
     ),
+    en=None,
 )
 SYNTHESIZE_CONSUMABLES_CHECK = ButtonWrapper(
     name='SYNTHESIZE_CONSUMABLES_CHECK',

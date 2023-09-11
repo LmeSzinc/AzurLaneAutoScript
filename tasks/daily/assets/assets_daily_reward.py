@@ -162,6 +162,7 @@ DAILY_QUEST_FULL = ButtonWrapper(
         color=(131, 113, 82),
         button=(164, 574, 301, 592),
     ),
+    en=None,
 )
 DAILY_QUEST_GOTO = ButtonWrapper(
     name='DAILY_QUEST_GOTO',
