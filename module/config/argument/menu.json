@@ -16,12 +16,5 @@
       "BattlePass",
       "Assignment"
     ]
-  },
-  "Rogue": {
-    "menu": "list",
-    "page": "setting",
-    "tasks": [
-      "Rogue"
-    ]
   }
 }
