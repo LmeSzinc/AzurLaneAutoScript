@@ -38,3 +38,15 @@ Daily:
     Assignment:
       - Scheduler
       - Assignment
+
+# ==================== Rogue ====================
+
+Rogue:
+  menu: 'list'
+  page: 'setting'
+  tasks:
+    Rogue:
+      - Scheduler
+      - RoguePath
+      - RogueBlessing
+      - RogueCurio

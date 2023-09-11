@@ -2,7 +2,7 @@ import {app, BrowserWindow} from 'electron';
 import './security-restrictions';
 import {createApp} from '/@/createApp';
 import logger from '/@/logger';
-import {noSandbox} from '/@/config';
+import {dpiScaling} from '/@/config';
 
 /**
  * Prevent electron from running multiple instances.
@@ -19,6 +19,10 @@ if (!isSingleInstance) {
       logger.info('------createApp------');
       await createApp();
     } else {
+      logger.info('------curWindow.restore------');
+      if (curWindow.isMinimized?.()) curWindow.restore?.();
+      logger.info('------curWindow.show------');
+      if (!curWindow.isVisible?.()) curWindow.show?.();
       logger.info('------curWindow.focus------');
       curWindow.focus?.();
     }
@@ -38,6 +42,12 @@ app.commandLine.appendSwitch('disable-gpu-rasterization');
 app.commandLine.appendSwitch('disable-gpu-sandbox');
 app.commandLine.appendSwitch('in-process-gpu');
 app.commandLine.appendSwitch('no-sandbox');
+
+// No DPI scaling
+if (!dpiScaling) {
+  app.commandLine.appendSwitch('high-dpi-support', '1');
+  app.commandLine.appendSwitch('force-device-scale-factor', '1');
+}
 
 /**
  *Set App Error Log Path

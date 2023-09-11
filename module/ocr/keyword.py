@@ -3,10 +3,10 @@ from dataclasses import dataclass
 from functools import cached_property
 from typing import ClassVar
 
-from module.exception import ScriptError
 import module.config.server as server
+from module.exception import ScriptError
 
-REGEX_PUNCTUATION = re.compile(r'[ ,.\'"“”，。!！?？·•\-—/\\\n\t()\[\]（）「」『』【】]')
+REGEX_PUNCTUATION = re.compile(r'[ ,.\'"“”，。:：!！?？·•\-—/\\\n\t()\[\]（）「」『』【】《》［］]')
 
 
 def parse_name(n):
@@ -26,6 +26,7 @@ class Keyword:
     """
     Instance attributes and methods
     """
+
     @cached_property
     def ch(self) -> str:
         return self.cn

@@ -7,6 +7,10 @@
     "Daily": {
       "name": "每日",
       "help": ""
+    },
+    "Rogue": {
+      "name": "模拟宇宙",
+      "help": ""
     }
   },
   "Task": {
@@ -33,6 +37,10 @@
     "Assignment": {
       "name": "委托",
       "help": ""
+    },
+    "Rogue": {
+      "name": "模拟宇宙",
+      "help": "模拟宇宙还在开发中，任务不会被运行"
     }
   },
   "Scheduler": {
@@ -676,6 +684,93 @@
     "Assignment": {
       "name": "委托",
       "help": ""
+    }
+  },
+  "RoguePath": {
+    "_info": {
+      "name": "命途设置",
+      "help": ""
+    },
+    "Path": {
+      "name": "命途",
+      "help": "",
+      "Preservation": "存护",
+      "Remembrance": "记忆",
+      "Nihility": "虚无",
+      "Abundance": "丰饶",
+      "The_Hunt": "巡猎",
+      "Destruction": "毁灭",
+      "Elation": "欢愉"
+    },
+    "Bonus": {
+      "name": "开拓祝福三选一",
+      "help": "",
+      "Blessing Cosmos": "祝福宇宙（获得一个祝福）",
+      "Miracle Cosmos": "神奇宇宙（获得一个奇物）",
+      "Fragmented Cosmos": "破碎宇宙（获得宇宙碎片）"
+    },
+    "PresetResonanceFilter": {
+      "name": "回响构音过滤器",
+      "help": "",
+      "preset-1": "预设 1",
+      "custom": "自定义"
+    },
+    "ResonanceSelectionStrategy": {
+      "name": "图鉴未解锁的回响构音",
+      "help": "",
+      "follow-presets": "不影响选择",
+      "unrecorded-first": "优先选择",
+      "before-random": "无回响构音满足过滤器设置时才选择"
+    },
+    "CustomResonanceFilter": {
+      "name": "自定义回响构音过滤器",
+      "help": "仅在\"回响构音过滤器\"设置为\"自定义\"时生效"
+    }
+  },
+  "RogueBlessing": {
+    "_info": {
+      "name": "祝福设置",
+      "help": ""
+    },
+    "PresetBlessingFilter": {
+      "name": "祝福过滤器",
+      "help": "",
+      "preset-1": "预设 1",
+      "custom": "自定义"
+    },
+    "BlessingSelectionStrategy": {
+      "name": "图鉴未解锁的祝福",
+      "help": "",
+      "follow-presets": "不影响选择",
+      "unrecorded-first": "优先选择",
+      "before-random": "无祝福满足过滤器设置时才选择"
+    },
+    "CustomBlessingFilter": {
+      "name": "自定义祝福过滤器",
+      "help": "仅在\"祝福过滤器\"设置为\"自定义\"时生效"
+    }
+  },
+  "RogueCurio": {
+    "_info": {
+      "name": "奇物设置",
+      "help": ""
+    },
+    "PresetCurioFilter": {
+      "name": "奇物过滤器",
+      "help": "",
+      "preset-1": "预设 1",
+      "custom": "自定义"
+    },
+    "CurioSelectionStrategy": {
+      "name": "图鉴未解锁的奇物",
+      "help": "",
+      "follow-presets": "不影响选择",
+      "unrecorded-first": "优先选择",
+      "before-random": "无奇物满足过滤器设置时才选择"
+    },
+    "CustomCurioFilter": {
+      "name": "自定义奇物过滤器",
+      "help": "仅在\"奇物过滤器\"设置为\"自定义\"时生效"
     }
   },
   "Gui": {

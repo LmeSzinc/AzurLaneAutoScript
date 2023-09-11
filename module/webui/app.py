@@ -1020,8 +1020,8 @@ class AlasGUI(Frame):
             def get_unused_name():
                 all_name = alas_instance()
                 for i in range(2, 100):
-                    if f"alas{i}" not in all_name:
-                        return f"alas{i}"
+                    if f"src{i}" not in all_name:
+                        return f"src{i}"
                 else:
                     return ""
 
@@ -1060,7 +1060,7 @@ class AlasGUI(Frame):
                     name="AddAlas_copyfrom",
                     label=t("Gui.AddAlas.CopyFrom"),
                     options=alas_template() + alas_instance(),
-                    value=origin or "template-alas",
+                    value=origin or "template-src",
                     scope=s,
                 ),
                 put_button(label=t("Gui.AddAlas.Confirm"), onclick=add, scope=s)

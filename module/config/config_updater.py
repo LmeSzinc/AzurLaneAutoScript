@@ -409,6 +409,7 @@ class ConfigGenerator:
             '异': '異',
             '服務器': '伺服器',
             '文件': '檔案',
+            '自定義': '自訂'
         }
         if lang == 'zh-TW':
             for path, value in deep_iter(new, depth=3):
@@ -439,6 +440,11 @@ class ConfigGenerator:
             tasks = deep_get(self.task, keys=[task_group, 'tasks'], default={})
             tasks = list(tasks.keys())
             deep_set(data, keys=[task_group, 'tasks'], value=tasks)
+
+        # Simulated universe is WIP, task won't show on GUI but can still be bound
+        # e.g. `RogueUI('src', task='Rogue')`
+        # Comment this for development
+        data.pop('Rogue')
 
         return data
 
@@ -512,6 +518,7 @@ class ConfigGenerator:
             'Language': '{{language}}',
             'Theme': '{{theme}}',
         }
+
         def update(file, *args):
             new = deepcopy(template)
             for dic in args:
@@ -551,7 +558,6 @@ class ConfigGenerator:
         for lang in LANGUAGES:
             self.generate_i18n(lang)
         self.generate_deploy_template()
-
 
 
 class ConfigUpdater:

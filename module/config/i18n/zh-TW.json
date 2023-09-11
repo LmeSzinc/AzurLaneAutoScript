@@ -7,6 +7,10 @@
     "Daily": {
       "name": "每日",
       "help": ""
+    },
+    "Rogue": {
+      "name": "模擬宇宙",
+      "help": ""
     }
   },
   "Task": {
@@ -33,6 +37,10 @@
     "Assignment": {
       "name": "委託",
       "help": ""
+    },
+    "Rogue": {
+      "name": "模擬宇宙",
+      "help": "模擬宇宙還在開發中，任務不會被運行"
     }
   },
   "Scheduler": {
@@ -676,6 +684,93 @@
     "Assignment": {
       "name": "委託",
       "help": ""
+    }
+  },
+  "RoguePath": {
+    "_info": {
+      "name": "命途設定",
+      "help": ""
+    },
+    "Path": {
+      "name": "命途",
+      "help": "",
+      "Preservation": "存護",
+      "Remembrance": "記憶",
+      "Nihility": "虛無",
+      "Abundance": "豐饒",
+      "The_Hunt": "巡獵",
+      "Destruction": "毀滅",
+      "Elation": "歡愉"
+    },
+    "Bonus": {
+      "name": "開拓祝福三選一",
+      "help": "",
+      "Blessing Cosmos": "祝福宇宙（獲得一個祝福）",
+      "Miracle Cosmos": "神奇宇宙（獲得一個奇物）",
+      "Fragmented Cosmos": "破碎宇宙（獲得宇宙碎片）"
+    },
+    "PresetResonanceFilter": {
+      "name": "迴響構音過濾器",
+      "help": "",
+      "preset-1": "預設 1",
+      "custom": "自訂"
+    },
+    "ResonanceSelectionStrategy": {
+      "name": "圖鑑未解鎖的迴響構音",
+      "help": "",
+      "follow-presets": "不影響選擇",
+      "unrecorded-first": "優先選擇",
+      "before-random": "無迴響構音滿足過濾器設定時才選擇"
+    },
+    "CustomResonanceFilter": {
+      "name": "自訂迴響構音過濾器",
+      "help": "僅在\"迴響構音過濾器\"設定為\"自訂\"時生效"
+    }
+  },
+  "RogueBlessing": {
+    "_info": {
+      "name": "祝福設定",
+      "help": ""
+    },
+    "PresetBlessingFilter": {
+      "name": "祝福過濾器",
+      "help": "",
+      "preset-1": "預設 1",
+      "custom": "自訂"
+    },
+    "BlessingSelectionStrategy": {
+      "name": "圖鑑未解鎖的祝福",
+      "help": "",
+      "follow-presets": "不影響選擇",
+      "unrecorded-first": "優先選擇",
+      "before-random": "無祝福滿足過濾器設定時才選擇"
+    },
+    "CustomBlessingFilter": {
+      "name": "自訂祝福過濾器",
+      "help": "僅在\"祝福過濾器\"設定為\"自訂\"時生效"
+    }
+  },
+  "RogueCurio": {
+    "_info": {
+      "name": "奇物設定",
+      "help": ""
+    },
+    "PresetCurioFilter": {
+      "name": "奇物過濾器",
+      "help": "",
+      "preset-1": "預設 1",
+      "custom": "自訂"
+    },
+    "CurioSelectionStrategy": {
+      "name": "圖鑑未解鎖的奇物",
+      "help": "",
+      "follow-presets": "不影響選擇",
+      "unrecorded-first": "優先選擇",
+      "before-random": "無奇物滿足過濾器設定時才選擇"
+    },
+    "CustomCurioFilter": {
+      "name": "自訂奇物過濾器",
+      "help": "僅在\"奇物過濾器\"設定為\"自訂\"時生效"
     }
   },
   "Gui": {
