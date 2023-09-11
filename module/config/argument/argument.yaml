@@ -95,7 +95,7 @@ DungeonDaily:
     value: Calyx_Crimson_Erudition
     option: [ do_not_achieve, ]
   StagnantShadow:
-    value: do_not_achieve
+    value: Stagnant_Shadow_Quanta
     option: [ do_not_achieve, ]
   CavernOfCorrosion:
     value: Cavern_of_Corrosion_Path_of_Providence

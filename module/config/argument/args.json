@@ -283,7 +283,7 @@
       },
       "StagnantShadow": {
         "type": "select",
-        "value": "do_not_achieve",
+        "value": "Stagnant_Shadow_Quanta",
         "option": [
           "do_not_achieve",
           "Stagnant_Shadow_Quanta",
