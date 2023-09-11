@@ -630,7 +630,9 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
 
             grid = self.convert_radar_to_local(grid)
             self.device.click(grid)
-            result = self.wait_until_walk_stable(drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=4))
+            with self.config.temporary(STORY_ALLOW_SKIP=False):
+                result = self.wait_until_walk_stable(
+                    drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=4))
             if 'akashi' in result:
                 self._solved_map_event.add('is_akashi')
                 return True
@@ -770,8 +772,9 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                 return True
 
             self.device.click(grid)
-            result = self.wait_until_walk_stable(drop=drop, walk_out_of_step=False,
-                                                 confirm_timer=Timer(1.5, count=4))
+            with self.config.temporary(STORY_ALLOW_SKIP=False):
+                result = self.wait_until_walk_stable(
+                    drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=4))
             self.os_auto_search_run(drop=drop)
             if 'event' in result:
                 self._solved_map_event.add('is_scanning_device')
@@ -784,7 +787,9 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
             grid = grids[0]
             logger.info(f'Found logging tower on {grid}')
             self.device.click(grid)
-            result = self.wait_until_walk_stable(drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=4))
+            with self.config.temporary(STORY_ALLOW_SKIP=False):
+                result = self.wait_until_walk_stable(
+                    drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=4))
             if 'event' in result:
                 self._solved_map_event.add('is_logging_tower')
                 return True
