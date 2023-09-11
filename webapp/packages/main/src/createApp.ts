@@ -42,7 +42,7 @@ export const createApp = async () => {
       },
     },
   ]);
-  tray.setToolTip('Alas');
+  tray.setToolTip('SRC');
   tray.setContextMenu(contextMenu);
   tray.on('click', () => {
     if (mainWindow?.isVisible()) {
