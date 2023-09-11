@@ -36,3 +36,4 @@ srcmap==1.1.0
 
 # For dev
 # pip-tools
+pynput
