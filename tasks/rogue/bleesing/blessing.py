@@ -11,9 +11,9 @@ from module.ocr.utils import split_and_pair_buttons
 from tasks.rogue.assets.assets_rogue_blessing import *
 from tasks.rogue.assets.assets_rogue_ui import BLESSING_CONFIRM
 from tasks.rogue.keywords import *
-from tasks.rogue.preset import *
-from tasks.rogue.selector import RogueSelector
-from tasks.rogue.utils import get_regex_from_keyword_name, parse_name, is_card_selected
+from tasks.rogue.bleesing.preset import *
+from tasks.rogue.bleesing.selector import RogueSelector
+from tasks.rogue.bleesing.utils import get_regex_from_keyword_name, parse_name, is_card_selected
 
 # normal blessing filter
 # path name

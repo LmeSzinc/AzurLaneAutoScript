@@ -10,9 +10,9 @@ from module.ocr.ocr import Ocr, OcrResultButton
 from tasks.rogue.assets.assets_rogue_curio import *
 from tasks.rogue.assets.assets_rogue_ui import BLESSING_CONFIRM
 from tasks.rogue.keywords import RogueCurio
-from tasks.rogue.preset import CURIO_PRESET_1
-from tasks.rogue.selector import RogueSelector
-from tasks.rogue.utils import get_regex_from_keyword_name, parse_name
+from tasks.rogue.bleesing.preset import CURIO_PRESET_1
+from tasks.rogue.bleesing.selector import RogueSelector
+from tasks.rogue.bleesing.utils import get_regex_from_keyword_name, parse_name
 
 CURIO_FILTER_ATTR = tuple()
 CURIO_ATTR_NAME = 'curio_name'

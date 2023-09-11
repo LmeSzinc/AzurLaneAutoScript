@@ -3,7 +3,7 @@ import numpy as np
 from module.logger import logger
 from module.ocr.keyword import Keyword
 from module.ocr.ocr import OcrResultButton
-from tasks.rogue.ui import RogueUI
+from tasks.rogue.bleesing.ui import RogueUI
 
 
 class RogueSelector:
