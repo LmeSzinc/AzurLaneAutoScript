@@ -47,15 +47,13 @@ class RogueSelector:
             else:
                 logger.info(f"Can not choose option: {option}")
 
-    def recognize_and_select(self):
+    def apply_filter(self) -> list[Keyword | str]:
         def match_ocr_result(matched_keyword: Keyword):
             for result in self.ocr_results:
                 if result.matched_keyword == matched_keyword:
                     return result
             return None
 
-        self.recognition()
-        self.load_filter()
         if self.filter_:
             keywords = [result.matched_keyword for result in self.ocr_results]
             priority = self.filter_.apply(keywords)
@@ -63,5 +61,18 @@ class RogueSelector:
         else:
             logger.warning("No filter loaded, use random instead")
             priority = ['random']
+        priority = self.after_process(priority)
+        return priority
+
+    def after_process(self, priority) -> list[Keyword | str]:
+        """
+        Usage: add extra logics to modify the priority
+        """
+        return priority
+
+    def recognize_and_select(self):
+        self.recognition()
+        self.load_filter()
+        priority = self.apply_filter()
         logger.info(f"Priority: {priority}")
         self.perform_selection(priority)
