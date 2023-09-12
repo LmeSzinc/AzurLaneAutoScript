@@ -47,3 +47,18 @@ class PopupHandler(ModuleBase):
             return True
 
         return False
+
+    def handle_popup_single(self, interval=2) -> bool:
+        """
+        Popup with one single confirm button in the middle.
+
+        Args:
+            interval:
+
+        Returns:
+            If handled.
+        """
+        if self.appear_then_click(POPUP_SINGLE, interval=interval):
+            return True
+
+        return False

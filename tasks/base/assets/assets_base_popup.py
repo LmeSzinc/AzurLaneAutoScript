@@ -65,3 +65,13 @@ MONTHLY_CARD_REWARD = ButtonWrapper(
         button=(741, 495, 1071, 644),
     ),
 )
+POPUP_SINGLE = ButtonWrapper(
+    name='POPUP_SINGLE',
+    share=Button(
+        file='./assets/share/base/popup/POPUP_SINGLE.png',
+        area=(602, 458, 626, 482),
+        search=(511, 365, 771, 575),
+        color=(95, 90, 77),
+        button=(578, 451, 705, 489),
+    ),
+)
