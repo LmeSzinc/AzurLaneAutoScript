@@ -4,6 +4,7 @@ from typing import Iterator
 
 from module.base.base import ModuleBase
 from module.base.timer import Timer
+from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import DigitCounter, Ocr
 from module.ui.draggable_list import DraggableList
@@ -37,12 +38,13 @@ class AssignmentSwitch(Switch):
 
 class AssignmentOcr(Ocr):
     OCR_REPLACE = {
-        'ch': [
+        'cn': [
             (KEYWORDS_ASSIGNMENT_ENTRY.Winter_Soldiers.name, '[黑]冬的战士们'),
             (KEYWORDS_ASSIGNMENT_ENTRY.Born_to_Obey.name, '[牛]而服从'),
             (KEYWORDS_ASSIGNMENT_ENTRY.Root_Out_the_Turpitude.name,
              '根除恶[擎薯尊掌鞋]?'),
             (KEYWORDS_ASSIGNMENT_ENTRY.Akashic_Records.name, '阿[未][夏复]记录'),
+            (KEYWORDS_ASSIGNMENT_ENTRY.Legend_of_the_Puppet_Master.name, '^师传说'),
             (KEYWORDS_ASSIGNMENT_ENTRY.The_Wages_of_Humanity.name, '[赠]养人类'),
         ]
     }
@@ -121,8 +123,17 @@ class AssignmentUI(UI):
             self.device.screenshot()
             self.goto_entry(KEYWORDS_ASSIGNMENT_ENTRY.Nameless_Land_Nameless_People)
         """
-        self.goto_group(entry.group)
-        ASSIGNMENT_ENTRY_LIST.select_row(entry, self)
+        if entry.group is None:
+            err_msg = f'{entry} is not in any group, please inform developers if possible'
+            logger.warning(err_msg)
+            for group in self._iter_groups():
+                self.goto_group(group)
+                if ASSIGNMENT_ENTRY_LIST.select_row(entry, self):
+                    return
+            raise ScriptError(err_msg)
+        else:
+            self.goto_group(entry.group)
+            ASSIGNMENT_ENTRY_LIST.select_row(entry, self)
 
     def _wait_until_entry_loaded(self):
         skip_first_screenshot = True
@@ -144,7 +155,8 @@ class AssignmentUI(UI):
     @property
     def _limit_status(self) -> tuple[int, int, int]:
         self.device.screenshot()
-        current, remain, total = DigitCounter(OCR_ASSIGNMENT_LIMIT).ocr_single_line(self.device.image)
+        current, remain, total = DigitCounter(
+            OCR_ASSIGNMENT_LIMIT).ocr_single_line(self.device.image)
         if total and current <= total:
             logger.attr('Assignment', f'{current}/{total}')
             self.config.stored.Assignment.set(current, total)

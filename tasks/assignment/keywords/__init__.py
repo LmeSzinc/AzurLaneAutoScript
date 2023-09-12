@@ -20,6 +20,8 @@ KEYWORDS_ASSIGNMENT_GROUP.Synthesis_Materials.entries = (
     KEYWORDS_ASSIGNMENT_ENTRY.Spring_of_Life,
     KEYWORDS_ASSIGNMENT_ENTRY.The_Land_of_Gold,
     KEYWORDS_ASSIGNMENT_ENTRY.The_Blossom_in_the_Storm,
+    KEYWORDS_ASSIGNMENT_ENTRY.Legend_of_the_Puppet_Master,
+    KEYWORDS_ASSIGNMENT_ENTRY.The_Wages_of_Humanity,
 )
 for group in (
         KEYWORDS_ASSIGNMENT_GROUP.Character_Materials,
@@ -27,4 +29,5 @@ for group in (
         KEYWORDS_ASSIGNMENT_GROUP.Synthesis_Materials,
 ):
     for entry in group.entries:
+        assert entry.group is None
         entry.group = group
