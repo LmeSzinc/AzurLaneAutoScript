@@ -16,6 +16,15 @@
           "com.miHoYo.hkrpg.bilibili"
         ]
       },
+      "GameLanguage": {
+        "type": "select",
+        "value": "auto",
+        "option": [
+          "auto",
+          "cn",
+          "en"
+        ]
+      },
       "ScreenshotMethod": {
         "type": "select",
         "value": "scrcpy",

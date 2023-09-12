@@ -18,6 +18,7 @@ class GeneratedConfig:
     # Group `Emulator`
     Emulator_Serial = 'auto'
     Emulator_PackageName = 'auto'  # auto, com.miHoYo.hkrpg, com.HoYoverse.hkrpgoversea, com.miHoYo.hkrpg.bilibili
+    Emulator_GameLanguage = 'auto'  # auto, cn, en
     Emulator_ScreenshotMethod = 'auto'  # auto, ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc, DroidCast, DroidCast_raw, scrcpy
     Emulator_ControlMethod = 'MaaTouch'  # minitouch, MaaTouch
     Emulator_AdbRestart = False

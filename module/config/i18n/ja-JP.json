@@ -84,6 +84,13 @@
       "com.HoYoverse.hkrpgoversea": "OVERSEA",
       "com.miHoYo.hkrpg.bilibili": "CN com.miHoYo.hkrpg.bilibili"
     },
+    "GameLanguage": {
+      "name": "Emulator.GameLanguage.name",
+      "help": "Emulator.GameLanguage.help",
+      "auto": "auto",
+      "cn": "cn",
+      "en": "en"
+    },
     "ScreenshotMethod": {
       "name": "Emulator.ScreenshotMethod.name",
       "help": "Emulator.ScreenshotMethod.help",

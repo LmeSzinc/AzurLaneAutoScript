@@ -11,17 +11,15 @@ import uiautomator2 as u2
 from adbutils import AdbClient, AdbDevice, AdbTimeout, ForwardItem, ReverseItem
 from adbutils.errors import AdbError
 
+import module.config.server as server_
 from module.base.decorator import Config, cached_property, del_cached_property
-from module.base.utils import ensure_time
+from module.base.utils import SelectedGrids, ensure_time
 from module.device.connection_attr import ConnectionAttr
 from module.device.method.utils import (
-    RETRY_TRIES, remove_shell_warning, retry_sleep,
-    handle_adb_error, PackageNotInstalled,
-    recv_all, possible_reasons,
-    random_port, get_serial_pair)
-from module.exception import RequestHumanTakeover, EmulatorNotRunningError
+    PackageNotInstalled, RETRY_TRIES, get_serial_pair, handle_adb_error,
+    possible_reasons, random_port, recv_all, remove_shell_warning, retry_sleep)
+from module.exception import EmulatorNotRunningError, RequestHumanTakeover
 from module.logger import logger
-from module.base.utils import SelectedGrids
 
 
 def retry(func):
@@ -109,6 +107,7 @@ class Connection(ConnectionAttr):
         # else:
         #     set_server(self.package)
         logger.attr('PackageName', self.package)
+        server_.lang = self.config.Emulator_GameLanguage
         logger.attr('Lang', self.config.LANG)
 
         self.check_mumu_app_keep_alive()

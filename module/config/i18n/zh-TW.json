@@ -84,6 +84,13 @@
       "com.HoYoverse.hkrpgoversea": "OVERSEA",
       "com.miHoYo.hkrpg.bilibili": "CN com.miHoYo.hkrpg.bilibili"
     },
+    "GameLanguage": {
+      "name": "遊戲內文本語言",
+      "help": "",
+      "auto": "自動檢測",
+      "cn": "简体中文",
+      "en": "English"
+    },
     "ScreenshotMethod": {
       "name": "模擬器截圖方案",
       "help": "使用自動選擇時，將執行一次性能測試並自動更改為最快的截圖方案\n一般情況下的速度: DroidCast_raw >> aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB\n運行 工具 - 性能測試 以尋找最快的方案",
