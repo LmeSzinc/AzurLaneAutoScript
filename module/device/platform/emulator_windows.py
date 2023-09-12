@@ -476,11 +476,9 @@ class EmulatorManager(EmulatorManagerBase):
                 if Emulator.is_emulator(file) and os.path.exists(file):
                     exe.add(file)
             # MuMu specific directory
-            folder = abspath(os.path.join(os.path.dirname(uninstall), 'EmulatorShell'))
-            if os.path.exists(folder):
-                for file in iter_folder(folder, ext='.exe'):
-                    if Emulator.is_emulator(file) and os.path.exists(file):
-                        exe.add(file)
+            for file in iter_folder(abspath(os.path.join(os.path.dirname(uninstall), 'EmulatorShell')), ext='.exe'):
+                if Emulator.is_emulator(file) and os.path.exists(file):
+                    exe.add(file)
 
         exe = [Emulator(path).path for path in exe if Emulator.is_emulator(path)]
         exe = sorted(set(exe))

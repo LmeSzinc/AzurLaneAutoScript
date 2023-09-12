@@ -35,7 +35,12 @@ def iter_folder(folder, is_dir=False, ext=None):
     Yields:
         str: Absolute path of files
     """
-    for file in os.listdir(folder):
+    try:
+        files = os.listdir(folder)
+    except FileNotFoundError:
+        return
+
+    for file in files:
         sub = os.path.join(folder, file)
         if is_dir:
             if os.path.isdir(sub):
