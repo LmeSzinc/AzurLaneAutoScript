@@ -2446,7 +2446,7 @@
     },
     "Enabled": {
       "name": "啟用該功能",
-      "help": "注意事項！若GG打開則應該啟用該功能以達成防彈窗卡重啓\n只能使用指定的lua，會自動推送至/sdcard/Notes/Multiplier.lua\n演習，共鬥，Meta信標時會自動關閉倍率"
+      "help": "注意事項！若GG打開則應該啟用該功能以達成防彈窗卡重啟\n只能使用指定的lua，會自動推送至/sdcard/Notes/Multiplier.lua\n演習，共鬥，Meta信標時會自動關閉倍率"
     },
     "GGMethod": {
       "name": "GG操作方法",
@@ -2466,7 +2466,7 @@
       "help": "是否在重啟後自動重啟倍率"
     },
     "RestartEverytime": {
-      "name": "每次啟動Alas時重啓",
+      "name": "每次啟動Alas時重啟",
       "help": "打開以初始化倍率内容。 如果你沒有手動操作的壞習慣，可以關閉此選項"
     },
     "RepushLua": {
@@ -2489,7 +2489,7 @@
   "PowerLimit": {
     "_info": {
       "name": "戰力限制",
-      "help": "敏感項目前的最後一道保險\n若前排戰力高於此值強制重啓"
+      "help": "敏感項目前的最後一道保險\n若前排戰力高於此值強制重啟"
     },
     "Exercise": {
       "name": "演習",
