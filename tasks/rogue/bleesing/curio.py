@@ -28,7 +28,7 @@ class RogueCurioOcr(Ocr):
 
     def after_process(self, result):
         result = super().after_process(result)
-        if self.lang == 'ch':
+        if self.lang == 'cn':
             replace_pattern_dict = {
                 "般": "骰",
                 "漂灭": "湮灭",

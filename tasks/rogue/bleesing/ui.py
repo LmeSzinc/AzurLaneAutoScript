@@ -10,7 +10,7 @@ from tasks.rogue.keywords import *
 class RogueBonusOcr(Ocr):
     def after_process(self, result):
         result = super().after_process(result)
-        if self.lang == 'ch':
+        if self.lang == 'cn':
             replace_pattern_dict = {
                 "[宇宝][宙审]": "宇宙",
             }
