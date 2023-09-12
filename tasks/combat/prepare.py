@@ -1,5 +1,6 @@
 import re
 
+import module.config.server as server
 from module.base.timer import Timer
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
@@ -40,7 +41,7 @@ class CombatPrepare(UI):
             in: COMBAT_PREPARE
         """
         self.ui_ensure_index(
-            count, letter=Digit(OCR_WAVE_COUNT),
+            count, letter=Digit(OCR_WAVE_COUNT, lang=server.lang),
             next_button=WAVE_PLUS, prev_button=WAVE_MINUS,
             skip_first_screenshot=True
         )
