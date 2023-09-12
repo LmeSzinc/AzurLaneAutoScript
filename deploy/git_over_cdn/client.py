@@ -231,6 +231,7 @@ class GitOverCdnClient:
         if self.current_commit == self.latest_commit:
             self.logger.info('Already up to date')
             return True
+        return False
 
     def update(self, keep_changes=False):
         """

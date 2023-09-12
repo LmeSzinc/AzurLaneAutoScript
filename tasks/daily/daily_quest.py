@@ -33,6 +33,7 @@ class DailyQuestOcr(Ocr):
             result = result.replace(";", "」")
             result = result.replace("了", "」")
             result = result.replace("宇审", "宇宙")
+            result = result.replace("凝带", "凝滞")
             # 进行中」hbadarin
             if "进行中" in result:
                 result = "进行中"

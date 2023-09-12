@@ -22,6 +22,7 @@ CANCEL_POPUP = ButtonWrapper(
         color=(157, 156, 152),
         button=(427, 536, 503, 562),
     ),
+    en=None,
 )
 CONFIRM_POPUP = ButtonWrapper(
     name='CONFIRM_POPUP',
@@ -32,6 +33,7 @@ CONFIRM_POPUP = ButtonWrapper(
         color=(170, 169, 166),
         button=(774, 534, 855, 563),
     ),
+    en=None,
 )
 GET_REWARD = ButtonWrapper(
     name='GET_REWARD',
@@ -61,5 +63,15 @@ MONTHLY_CARD_REWARD = ButtonWrapper(
         search=(676, 387, 756, 467),
         color=(137, 107, 91),
         button=(741, 495, 1071, 644),
+    ),
+)
+POPUP_SINGLE = ButtonWrapper(
+    name='POPUP_SINGLE',
+    share=Button(
+        file='./assets/share/base/popup/POPUP_SINGLE.png',
+        area=(602, 458, 626, 482),
+        search=(511, 365, 771, 575),
+        color=(95, 90, 77),
+        button=(578, 451, 705, 489),
     ),
 )

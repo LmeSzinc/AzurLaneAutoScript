@@ -13,6 +13,16 @@ LOGIN_CONFIRM = ButtonWrapper(
         button=(683, 327, 1143, 620),
     ),
 )
+LOGIN_LOADING = ButtonWrapper(
+    name='LOGIN_LOADING',
+    share=Button(
+        file='./assets/share/login/LOGIN_LOADING.png',
+        area=(1103, 599, 1119, 616),
+        search=(1083, 579, 1139, 636),
+        color=(98, 98, 106),
+        button=(1103, 599, 1119, 616),
+    ),
+)
 USER_AGREEMENT_ACCEPT = ButtonWrapper(
     name='USER_AGREEMENT_ACCEPT',
     cn=Button(
@@ -22,4 +32,5 @@ USER_AGREEMENT_ACCEPT = ButtonWrapper(
         color=(196, 167, 111),
         button=(678, 459, 867, 496),
     ),
+    en=None,
 )

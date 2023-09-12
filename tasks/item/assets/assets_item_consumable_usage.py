@@ -42,4 +42,5 @@ USE_CONSUMABLE = ButtonWrapper(
         color=(158, 158, 159),
         button=(1042, 647, 1084, 669),
     ),
+    en=None,
 )

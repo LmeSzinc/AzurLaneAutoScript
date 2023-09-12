@@ -12,6 +12,7 @@ CLAIM = ButtonWrapper(
         color=(169, 134, 66),
         button=(920, 644, 1210, 683),
     ),
+    en=None,
 )
 CLOSE_REPORT = ButtonWrapper(
     name='CLOSE_REPORT',
@@ -22,6 +23,7 @@ CLOSE_REPORT = ButtonWrapper(
         color=(159, 157, 153),
         button=(290, 592, 579, 630),
     ),
+    en=None,
 )
 OCR_ASSIGNMENT_REPORT_TIME = ButtonWrapper(
     name='OCR_ASSIGNMENT_REPORT_TIME',
@@ -42,4 +44,5 @@ REDISPATCH = ButtonWrapper(
         color=(158, 157, 155),
         button=(700, 592, 987, 629),
     ),
+    en=None,
 )

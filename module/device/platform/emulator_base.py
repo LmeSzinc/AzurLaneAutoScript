@@ -197,10 +197,7 @@ class EmulatorBase:
             list[str]:
         """
         folder = self.abspath(folder)
-        try:
-            return list(iter_folder(folder, is_dir=is_dir, ext=ext))
-        except FileNotFoundError:
-            return []
+        return list(iter_folder(folder, is_dir=is_dir, ext=ext))
 
 
 class EmulatorManagerBase:

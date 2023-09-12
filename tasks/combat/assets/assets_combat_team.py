@@ -22,6 +22,7 @@ COMBAT_TEAM_PREPARE = ButtonWrapper(
         color=(159, 159, 159),
         button=(958, 641, 1193, 676),
     ),
+    en=None,
 )
 COMBAT_TEAM_SUPPORT = ButtonWrapper(
     name='COMBAT_TEAM_SUPPORT',

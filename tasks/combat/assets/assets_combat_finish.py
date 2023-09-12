@@ -12,6 +12,7 @@ COMBAT_AGAIN = ButtonWrapper(
         color=(162, 162, 162),
         button=(709, 592, 979, 628),
     ),
+    en=None,
 )
 COMBAT_EXIT = ButtonWrapper(
     name='COMBAT_EXIT',
@@ -22,4 +23,5 @@ COMBAT_EXIT = ButtonWrapper(
         color=(156, 156, 156),
         button=(301, 593, 570, 628),
     ),
+    en=None,
 )

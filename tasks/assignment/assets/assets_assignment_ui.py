@@ -22,6 +22,7 @@ DISPATCHED = ButtonWrapper(
         color=(99, 93, 85),
         button=(1032, 652, 1095, 674),
     ),
+    en=None,
 )
 ENTRY_LOADED = ButtonWrapper(
     name='ENTRY_LOADED',
