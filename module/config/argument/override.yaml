@@ -50,20 +50,20 @@ GemsFarming:
 Event:
   Campaign:
     Mode: normal
-    Event:
-      display: disabled
+#    Event:
+#      display: disabled
     AmbushEvade: true
 Event2:
   Campaign:
     Mode: normal
-    Event:
-      display: disabled
+#    Event:
+#      display: disabled
     AmbushEvade: true
 Event3:
   Campaign:
     Mode: normal
-    Event:
-      display: disabled
+#    Event:
+#      display: disabled
     AmbushEvade: true
 EventA:
   Scheduler:
