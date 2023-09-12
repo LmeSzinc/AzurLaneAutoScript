@@ -232,6 +232,7 @@ class BattlePassUI(UI):
             self.device.screenshot()
             self.claim_battle_pass_rewards()
         """
+        logger.hr('Quest recognise', level=1)
         with self.config.multi_set():
             previous_level = self._get_battle_pass_level()
             self.config.stored.BattlePassLevel.set(previous_level)

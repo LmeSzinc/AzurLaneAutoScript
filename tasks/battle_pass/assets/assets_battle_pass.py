@@ -122,7 +122,13 @@ REWARDS_CLAIM_ALL = ButtonWrapper(
         color=(172, 136, 69),
         button=(827, 665, 907, 684),
     ),
-    en=None,
+    en=Button(
+        file='./assets/en/battle_pass/REWARDS_CLAIM_ALL.png',
+        area=(822, 666, 910, 682),
+        search=(802, 646, 930, 702),
+        color=(178, 140, 66),
+        button=(822, 666, 910, 682),
+    ),
 )
 REWARDS_CLICK = ButtonWrapper(
     name='REWARDS_CLICK',
