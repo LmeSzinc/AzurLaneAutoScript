@@ -268,14 +268,35 @@ class BinarySwitchButton(Switch):
 
 def put_icon_buttons(
     icon_html: str,
+    signal: str,
     buttons: List[Dict[str, str]],
     onclick: Union[List[Callable[[], None]], Callable[[], None]],
 ) -> Output:
     value = buttons[0]["value"]
+    
+    if signal == "true":
+        state = ProcessManager.get_manager(value).state
+        if state == 1 or state == 4:
+            circle_c = "green"
+        elif state == 2:
+            circle_c = "gray"
+        elif state == 3:
+            circle_c = "red"
+        status = output(put_html(f'<div class="circle" style="background-color: {circle_c};"></div>')).style(
+            "z-index: 1; padding: 0px; grid-column: 2 / 3; grid-row: 1 / 2;"
+        )
+    else:
+        status = put_none()
+
     return put_column(
         [
-            output(put_html(icon_html)).style(
-                "z-index: 1; margin-left: 8px;text-align: center"
+            put_row(
+                [
+                    output(put_html(icon_html)).style(
+                        "z-index: 1; margin-left: 8px;text-align: center; grid-column: 1 / 3; grid-row: 1 / 2"
+                    ),
+                    status,
+                ]
             ),
             put_buttons(buttons, onclick).style(f"z-index: 2; --aside-{value}--;"),
         ],

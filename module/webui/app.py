@@ -116,22 +116,22 @@ class AlasGUI(Frame):
         self.alas_config = AzurLaneConfig("template")
         self.initial()
 
+    aside_status_cache = []
+    load_home = False
+
     @use_scope("aside", clear=True)
     def set_aside(self) -> None:
         # TODO: update put_icon_buttons()
         put_icon_buttons(
             Icon.DEVELOP,
+            "false",
             buttons=[{"label": t("Gui.Aside.Home"), "value": "Home", "color": "aside"}],
             onclick=[self.ui_develop],
         )
-        for name in alas_instance():
-            put_icon_buttons(
-                Icon.RUN,
-                buttons=[{"label": name, "value": name, "color": "aside"}],
-                onclick=self.ui_alas,
-            )
+        self.set_aside_status(0)
         put_icon_buttons(
             Icon.SETTING,
+            "false",
             buttons=[
                 {
                     "label": t("Gui.AddAlas.Manage"),
@@ -141,6 +141,36 @@ class AlasGUI(Frame):
             ],
             onclick=[lambda: go_app("manage", new_window=False)],
         )
+
+    @use_scope("aside_status")
+    def set_aside_status(self, state: int) -> None:
+        flag = True
+        if (len(self.aside_status_cache) != len(alas_instance())) or self.load_home:
+            # Reload when add new instance / first start app.py / go to HomePage
+            flag = False
+        if flag:
+            for index, inst in enumerate(alas_instance()):
+                # Check for state change
+                state = ProcessManager.get_manager(inst).state
+                if state != self.aside_status_cache[index]:
+                    flag = False
+                    break
+        if flag:
+            return
+        clear()
+        self.aside_status_cache.clear()
+        for name in alas_instance():
+            self.aside_status_cache.append(ProcessManager.get_manager(name).state)
+            put_icon_buttons(
+                Icon.RUN,
+                "true",
+                buttons=[{"label": name, "value": name, "color": "aside"}],
+                onclick=self.ui_alas,
+            )
+        self.load_home = False
+        aside_name = get_localstorage("aside")
+        self.active_button("aside", aside_name)
+        return
 
     @use_scope("header_status")
     def set_status(self, state: int) -> None:
@@ -974,6 +1004,7 @@ class AlasGUI(Frame):
         if hasattr(self, "alas"):
             del self.alas
         self.state_switch.switch()
+        self.aside_state_switch.switch()
 
     def ui_alas(self, config_name: str) -> None:
         if config_name == self.alas_name:
@@ -986,6 +1017,7 @@ class AlasGUI(Frame):
         self.alas = ProcessManager.get_manager(config_name)
         self.alas_config = load_config(config_name)
         self.state_switch.switch()
+        self.aside_state_switch.switch()
         self.initial()
         self.alas_set_menu()
 
@@ -1054,6 +1086,7 @@ class AlasGUI(Frame):
 
     def show(self) -> None:
         self._show()
+        self.load_home = True
         self.set_aside()
         self.init_aside(name="Home")
         self.dev_set_menu()
@@ -1182,6 +1215,12 @@ class AlasGUI(Frame):
             name="state",
         )
 
+        self.aside_state_switch = Switch(
+            status=self.set_aside_status,
+            get_state=lambda: getattr(getattr(self, "alas", -1), "state", 0),
+            name="aside_state",
+        )
+
         def goto_update():
             self.ui_develop()
             self.dev_update()
@@ -1201,6 +1240,7 @@ class AlasGUI(Frame):
         )
 
         self.task_handler.add(self.state_switch.g(), 2)
+        self.task_handler.add(self.aside_state_switch.g(),2)
         self.task_handler.add(visibility_state_switch.g(), 15)
         self.task_handler.add(update_switch.g(), 1)
         self.task_handler.start()
