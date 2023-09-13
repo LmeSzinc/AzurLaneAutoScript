@@ -25,7 +25,6 @@ export const createMainWindow = async () => {
 
   browserWindow.webContents.on('preload-error', (event, preloadPath, error) => {
     logger.error('------------preload-error------------');
-    logger.error(`event:${JSON.stringify(event)}`);
     logger.error(`preloadPath:${preloadPath}`);
     logger.error(`error:${error}`);
   });
@@ -37,8 +36,7 @@ export const createMainWindow = async () => {
     }
     if (level === 3) {
       logger.info('------------console-message------------');
-      logger.error(`event:${JSON.stringify(event)}`);
-      logger.error(`console-message:${message} line:${line} sourceId:${sourceId}`);
+      logger.error(`console-message:${message} \n line:${line} \n sourceId:${sourceId}`);
       return;
     }
   });
