@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 from module.base.timer import Timer
+from module.config.stored.classes import now
 from module.logger import logger
 from tasks.assignment.assets.assets_assignment_dispatch import *
 from tasks.assignment.assets.assets_assignment_ui import DISPATCHED
@@ -38,8 +39,9 @@ class AssignmentDispatch(AssignmentUI):
         self._select_duration(duration)
         self._confirm_assignment()
         self._wait_until_assignment_started()
-        self.dispatched[assignment] = datetime.now() + \
-            timedelta(hours=duration)
+        future = now() + timedelta(hours=duration)
+        logger.info(f'Assignment dispatched, will finish at {future}')
+        self.dispatched[assignment] = future
         self.has_new_dispatch = True
 
     def _select_characters(self):
