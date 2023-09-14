@@ -316,6 +316,7 @@ class InfoHandler(ModuleBase):
 
         image = color_similarity_2d(self.image_crop(story_detect_area), color=story_option_color)
         line = cv2.reduce(image, 1, cv2.REDUCE_AVG).flatten()
+        line[line < 128] = 0
 
         parameters = {
             # Option is 300`320px x 50~52px.
@@ -326,8 +327,8 @@ class InfoHandler(ModuleBase):
             # 1.0 calculates the width of the peak at its lowest contour line,
             # while 0.5 evaluates at half the prominence height.
             # Must be at least 0.
-            'rel_height': 3,
-            'wlen': 75,
+            # rel_height is about 240 / 48
+            'rel_height': 4,
         }
         peaks, properties = signal.find_peaks(line, **parameters)
         buttons = []
@@ -335,7 +336,6 @@ class InfoHandler(ModuleBase):
         if not total:
             return []
         for n, bases in enumerate(zip(properties['left_bases'], properties['right_bases'])):
-            print(n, bases)
             area = (
                 story_option_area[0], story_option_area[1] + bases[0],
                 story_option_area[2], story_option_area[1] + bases[1],
