@@ -49,6 +49,10 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    MAP_ENEMY_GENRE_DETECTION_SCALING = {
+        'Kawakaze': 0.78,
+        'Sakawa': 0.78,
+    }
     MAP_SWIPE_MULTIPLY = (1.269, 1.293)
     MAP_SWIPE_MULTIPLY_MINITOUCH = (1.227, 1.250)
     MAP_SWIPE_MULTIPLY_MAATOUCH = (1.191, 1.213)
