@@ -632,7 +632,7 @@
     },
     "Campaign": {
       "Name": "D3",
-      "Event": "war_archives_20220414_cn",
+      "Event": "war_archives_20201229_cn",
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,
@@ -1633,7 +1633,7 @@
       "ServerUpdate": "00:00"
     },
     "OpsiVoucher": {
-      "Filter": "LoggerAbyssal > LoggerObscure > Book > Coin"
+      "Filter": "LoggerAbyssal > LoggerObscure > Book > Coin > Fragment"
     },
     "Storage": {
       "Storage": {}

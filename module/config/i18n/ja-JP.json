@@ -642,6 +642,7 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "event_20220915_cn": "赫の涙月 菫の暁風",
       "coalition_20230323": "星霜海嵐",
       "event_20220414_cn": "極夜照らす幻光（復刻）",
       "event_20230817_cn": "愚者の天秤",
@@ -675,7 +676,6 @@
       "event_20201229_cn": "虚畳なりし限象（復刻）",
       "raid_20221027": "戦え！ロイヤルメイド隊3rd",
       "event_20210121_cn": "悲歎せし焔海の詩（復刻）",
-      "event_20220915_cn": "赫の涙月 菫の暁風",
       "event_20210916_cn": "駆けよ 碧海の吹き風",
       "event_20200903_en": "輝ける峡湾の星（復刻）",
       "event_20220324_cn": "幻像の塔",
@@ -708,6 +708,7 @@
       "event_20200423_cn": "縹映る深緋の残響（復刻）",
       "event_20200326_cn": "闇靄払う銀翼",
       "event_20200227_cn": "凍絶の北海",
+      "war_archives_20201229_cn": "檔案 虚畳なりし限象",
       "war_archives_20220414_cn": "檔案 極夜照らす幻光",
       "war_archives_20220210_cn": "檔案 凍絶の北海",
       "war_archives_20211028_cn": "檔案 神穹を衝く聖歌",
@@ -2464,7 +2465,28 @@
       "Confirm": "追加",
       "FileExist": "既存コンフィグと同じネーミングとなっていますから別名前を入力してください",
       "InvalidChar": "コンフィグ名には下記の文字を含めることはできません：.\\/:*?\"<>|",
-      "InvalidPrefixTemplate": "設定ファイル名は temlpate で始めることはできません"
+      "InvalidPrefixTemplate": "設定ファイル名は temlpate で始めることはできません",
+      "Manage": "管理"
+    },
+    "AppManage": {
+      "PageTitle": "コンフィグ管理",
+      "TitleNew": "コンフィグを追加",
+      "NewName": "コンフィグ名",
+      "CopyFrom": "既存コンフィグからコピー",
+      "NameExist": "コンフィグ名が既に存在しています",
+      "InvalidChar": "コンフィグ名には下記の文字を含めることはできません：.\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "設定ファイル名は temlpate で始めることはできません",
+      "Back": "戻る",
+      "New": "追加",
+      "Import": "インポート",
+      "Export": "エクスポート",
+      "Delete": "削除",
+      "OverrideWarning": "This will override the current config!",
+      "ImportSuccess": "インポート成功",
+      "NewSuccess": "追加成功",
+      "Name": "コンフィグ名",
+      "Mod": "モジュール",
+      "Actions": "操作"
     },
     "Update": {
       "UpToDate": "今Alasは最新バージョンです",
@@ -2495,7 +2517,9 @@
     },
     "Text": {
       "InvalidFeedBack": "フォーマットエラー。 例：{0}",
-      "Clear": "消除"
+      "Clear": "消除",
+      "EnterPassword": "パスワードを入力してください",
+      "ChooseFile": "ファイルを選択してください"
     }
   }
 }
