@@ -1,72 +1,4 @@
 {
-  "Dashboard": {
-    "Oil": {
-      "Value": 0,
-      "Limit": 0,
-      "Color": "^000000",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "Coin": {
-      "Value": 0,
-      "Limit": 0,
-      "Color": "^FFAA33",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "Gem": {
-      "Value": 0,
-      "Color": "^FF3333",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "Pt": {
-      "Value": 0,
-      "Color": "^00BFFF",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "Cube": {
-      "Value": 0,
-      "Color": "^33FFFF",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "ActionPoint": {
-      "Value": 0,
-      "Total": 0,
-      "Color": "^0000FF",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "YellowCoin": {
-      "Value": 0,
-      "Color": "^FF8800",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "PurpleCoin": {
-      "Value": 0,
-      "Color": "^7700BB",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "Core": {
-      "Value": 0,
-      "Color": "^AAAAAA",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "Medal": {
-      "Value": 0,
-      "Color": "^FFDD00",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "Merit": {
-      "Value": 0,
-      "Color": "^FFFF00",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "GuildCoin": {
-      "Value": 0,
-      "Color": "^AAAAAA",
-      "Record": "2020-01-01 00:00:00"
-    },
-    "Storage": {
-      "Storage": {}
-    }
-  },
   "Alas": {
     "Emulator": {
       "Serial": "auto",
@@ -700,7 +632,7 @@
     },
     "Campaign": {
       "Name": "D3",
-      "Event": "war_archives_20220414_cn",
+      "Event": "war_archives_20201229_cn",
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,
