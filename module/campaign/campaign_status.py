@@ -95,8 +95,8 @@ class CampaignStatus(UI):
                 ocr = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
                 ocrlimit = Digit(OCR_OIL_LIMIT, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
             _oil = {
-                'Value': ocr,
-                'Limit': ocrlimit
+                'Value': ocr.ocr(self.device.image),
+                'Limit': ocrlimit.ocr(self.device.image)
             }
             if _oil['Value'] >= 100:
                 break
@@ -151,8 +151,8 @@ class CampaignStatus(UI):
             ocr = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
             ocrlimit = Digit(OCR_OIL_LIMIT, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
         _oil = {
-            'Value': ocr,
-            'Limit': ocrlimit
+            'Value': ocr.ocr(self.device.image),
+            'Limit': ocrlimit.ocr(self.device.image)
         }
         LogRes(self.config).Oil = _oil
         return _oil['Value']
