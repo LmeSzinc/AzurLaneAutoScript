@@ -102,6 +102,7 @@ class CampaignStatus(UI):
             ocr = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
 
         return ocr.ocr(self.device.image)
+
     def _get_num(self, _button, name):
         # Update offset
         _ = self.appear(OCR_OIL_CHECK)
@@ -132,13 +133,13 @@ class CampaignStatus(UI):
             else:
                 self.device.screenshot()
 
+            if not self.appear(OCR_OIL_CHECK, offset=(10, 2)):
+                logger.info('No oil icon')
+                self.device.sleep(1)
+
             if timeout.reached():
                 logger.warning('Get oil timeout')
                 break
-
-            if not self.appear(OCR_OIL_CHECK, offset=(10, 2)):
-                logger.info('No oil icon')
-                continue
 
             _oil = {
                 'Value': self._get_num(OCR_OIL, 'OCR_OIL'),
