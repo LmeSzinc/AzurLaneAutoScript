@@ -419,6 +419,9 @@ class InfoHandler(ModuleBase):
         if self.appear_then_click(GAME_TIPS, offset=(20, 20), interval=2):
             self.story_popup_timeout.reset()
             return True
+        if self.appear_then_click(STORY_CLOSE, offset=(10, 10), interval=2):
+            self.story_popup_timeout.reset()
+            return True
 
         return False
 
