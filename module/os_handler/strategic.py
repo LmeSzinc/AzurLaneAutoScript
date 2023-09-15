@@ -23,6 +23,8 @@ class StrategicSearchHandler(MapEventHandler):
 
             if self.handle_map_event():
                 continue
+            if self.appear(AUTO_SEARCH_REWARD, offset=(50, 50)):
+                continue
             if self.appear(STRATEGIC_SEARCH_MAP_OPTION_OFF, offset=(20, 20), interval=2) \
                     and STRATEGIC_SEARCH_MAP_OPTION_OFF.match_appear_on(self.device.image):
                 self.device.click(STRATEGIC_SEARCH_MAP_OPTION_OFF)
