@@ -5,8 +5,8 @@ from module.logger import logger
 
 MAP = CampaignMap('SP')
 MAP.shape = 'H5'
-MAP.camera_data = ['D2', 'D3', 'E2', 'E3']
-MAP.camera_data_spawn_point = ['E3']
+MAP.camera_data = ['E3']
+MAP.camera_data_spawn_point = ['D3']
 MAP.map_data = """
     -- ++ ++ ++ ++ -- ME --
     SP -- -- -- ++ ME -- ME
@@ -50,6 +50,27 @@ class Config:
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 17),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 17, 255),
+        'prominence': 10,
+        'distance': 50,
+        'wlen': 1000
+    }
+    HOMO_EDGE_COLOR_RANGE = (0, 17)
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 210
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+    MAP_IS_ONE_TIME_STAGE = True
+
+    MAP_SWIPE_MULTIPLY = (1.229, 1.253)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.189, 1.211)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.154, 1.175)
+
 
 class Campaign(CampaignBase):
     MAP = MAP
@@ -73,7 +94,11 @@ class Campaign(CampaignBase):
         return True
 
     def battle_2(self):
-        self.clear_chosen_enemy(C3)
+        if self._is_a2:
+            self.goto(C3)
+            self.clear_chosen_enemy(D3)
+        else:
+            self.clear_chosen_enemy(D2)
 
         return True
 
