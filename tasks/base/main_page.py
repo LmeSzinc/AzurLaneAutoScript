@@ -48,6 +48,7 @@ class MainPage(ModuleBase):
                 logger.info(f'check_lang_from_map_plane matched lang: {lang}')
                 if lang_unknown or lang != server.lang:
                     self.config.Emulator_GameLanguage = lang
+                    server.set_lang(lang)
                 return lang
 
         if lang_unknown:

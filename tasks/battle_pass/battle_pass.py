@@ -193,7 +193,7 @@ class BattlePassUI(UI):
             if self.appear(CLOSE_CHOOSE_GIFT):
                 logger.info('Got reward but have gift to choose')
                 break
-            if self.appear_then_click(REWARDS_CLAIM_ALL):
+            if self.appear_then_click(REWARDS_CLAIM_ALL, interval=2):
                 continue
 
         skip_first_screenshot = True
