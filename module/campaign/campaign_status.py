@@ -11,6 +11,9 @@ from module.ocr.ocr import Digit, Ocr
 from module.ui.ui import UI
 from module.log_res import LogRes
 
+OCR_COIN = Digit(OCR_COIN, name='OCR_COIN', letter=(239, 239, 239), threshold=128)
+OCR_COIN_LIMIT = Digit(OCR_COIN_LIMIT, name='OCR_COIN_LIMIT', letter=(239, 239, 239), threshold=128)
+
 
 class PtOcr(Ocr):
     def __init__(self, *args, **kwargs):
@@ -105,8 +108,8 @@ class CampaignStatus(UI):
                 break
 
             _coin = {
-                'Value': self._get_num(OCR_COIN, 'OCR_COIN'),
-                'Limit': self._get_num(OCR_COIN_LIMIT, 'OCR_COIN_LIMIT')
+                'Value': OCR_COIN.ocr(self.device.image),
+                'Limit': OCR_COIN_LIMIT.ocr(self.device.image)
             }
             if _coin['Value'] >= 100:
                 break
@@ -125,8 +128,8 @@ class CampaignStatus(UI):
 
     def _get_coin(self):
         _coin = {
-            'Value': self._get_num(OCR_COIN, 'OCR_COIN'),
-            'Limit': self._get_num(OCR_COIN_LIMIT, 'OCR_COIN_LIMIT')
+            'Value': OCR_COIN.ocr(self.device.image),
+            'Limit': OCR_COIN_LIMIT.ocr(self.device.image)
         }
         LogRes(self.config).Coin = _coin
         return _coin['Value']
