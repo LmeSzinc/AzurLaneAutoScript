@@ -56,8 +56,6 @@ class Assignment(AssignmentClaim, SynthesizeUI):
 
         # Scheduler
         logger.attr('has_new_dispatch', self.has_new_dispatch)
-        delay = min(self.dispatched.values())
-        logger.info(f'Delay assignment check to {str(delay)}')
         with self.config.multi_set():
             # Check battle pass
             quests = self.config.stored.BattlePassTodayQuest.load_quests()
@@ -71,7 +69,14 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                 logger.info('Achieved daily quest Go_on_assignment_1_time')
                 self.config.task_call('DailyQuest')
             # Delay self
-            self.config.task_delay(target=delay)
+            if len(self.dispatched):
+                delay = min(self.dispatched.values())
+                logger.info(f'Delay assignment check to {str(delay)}')
+                self.config.task_delay(target=delay)
+            else:
+                # ValueError: min() arg is an empty sequence
+                logger.error('Empty dispatched list, delay 2 hours instead')
+                self.config.task_delay(minute=120)
 
     def _check_inlist(self, assignments: list[AssignmentEntry], duration: int):
         """
