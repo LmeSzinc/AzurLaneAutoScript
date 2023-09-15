@@ -110,7 +110,7 @@ class ManualConfig:
     # but ridiculous that options that must be selected are skipped too
     # such as compulsory confirm before abyssal, interaction of siren scanning devices and logging devices
     # Don't click SKIP at the situation above
-    STORY_ALLOW_SKIP = False
+    STORY_ALLOW_SKIP = True
 
     """
     module.map.fleet
