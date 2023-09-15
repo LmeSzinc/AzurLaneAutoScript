@@ -62,10 +62,14 @@ class AssignmentOcr(Ocr):
 
     def after_process(self, result: str):
         result = super().after_process(result)
-
         # Drop duration
         result = Duration.timedelta_regex(self.lang).sub('', result)
         result = result.strip()
+
+        if self.lang == 'cn':
+            # Hourglass icon may be detected as "豆"
+            result = result.replace('豆', '')
+            result = re.sub(r'\d$', '', result)
 
         if self.ocr_regex is None:
             return result

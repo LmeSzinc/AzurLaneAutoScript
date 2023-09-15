@@ -88,11 +88,13 @@ class Assignment(AssignmentClaim, SynthesizeUI):
         """
         if not assignments:
             return
-        logger.hr('Assignment check inlist', level=2)
+        logger.hr('Assignment check inlist', level=1)
         logger.info(
             f'User specified assignments: {", ".join([x.name for x in assignments])}')
         _, remain, _ = self._limit_status
         for assignment in assignments:
+            logger.hr('Assignment inlist', level=2)
+            logger.info(f'Check assignment inlist: {assignment}')
             self.goto_entry(assignment)
             if self.appear(CLAIM):
                 self.claim(assignment, duration, should_redispatch=True)
@@ -115,7 +117,7 @@ class Assignment(AssignmentClaim, SynthesizeUI):
             3. Dispatchable
         Break when a dispatchable assignment is encountered
         """
-        logger.hr('Assignment check all', level=2)
+        logger.hr('Assignment check all', level=1)
         _, remain, total = self._limit_status
         if total == len(self.dispatched):
             return remain
@@ -126,6 +128,8 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                 assignment = next(entries)
                 if assignment in self.dispatched:
                     continue
+                logger.hr('Assignment all', level=2)
+                logger.info(f'Check assignment all: {assignment}')
                 self.goto_entry(assignment)
                 if self.appear(CLAIM):
                     self.claim(assignment, None, should_redispatch=False)
