@@ -12,7 +12,13 @@ ASSIGNMENT_START = ButtonWrapper(
         color=(93, 84, 66),
         button=(581, 321, 699, 349),
     ),
-    en=None,
+    en=Button(
+        file='./assets/en/assignment/dispatch/ASSIGNMENT_START.png',
+        area=(679, 323, 784, 347),
+        search=(659, 303, 804, 367),
+        color=(93, 83, 65),
+        button=(679, 323, 784, 347),
+    ),
 )
 ASSIGNMENT_STARTED_CHECK = ButtonWrapper(
     name='ASSIGNMENT_STARTED_CHECK',
@@ -73,7 +79,13 @@ CHARACTER_LIST = ButtonWrapper(
         color=(156, 154, 152),
         button=(90, 165, 170, 186),
     ),
-    en=None,
+    en=Button(
+        file='./assets/en/assignment/dispatch/CHARACTER_LIST.png',
+        area=(91, 163, 136, 180),
+        search=(71, 143, 156, 200),
+        color=(159, 158, 155),
+        button=(91, 163, 136, 180),
+    ),
 )
 CONFIRM_ASSIGNMENT = ButtonWrapper(
     name='CONFIRM_ASSIGNMENT',
@@ -84,7 +96,13 @@ CONFIRM_ASSIGNMENT = ButtonWrapper(
         color=(154, 154, 153),
         button=(920, 645, 1208, 682),
     ),
-    en=None,
+    en=Button(
+        file='./assets/en/assignment/dispatch/CONFIRM_ASSIGNMENT.png',
+        area=(964, 655, 1164, 671),
+        search=(944, 635, 1184, 691),
+        color=(161, 160, 160),
+        button=(928, 645, 1201, 681),
+    ),
 )
 DURATION_12 = ButtonWrapper(
     name='DURATION_12',

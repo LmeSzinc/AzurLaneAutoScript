@@ -22,7 +22,13 @@ DISPATCHED = ButtonWrapper(
         color=(99, 93, 85),
         button=(1032, 652, 1095, 674),
     ),
-    en=None,
+    en=Button(
+        file='./assets/en/assignment/ui/DISPATCHED.png',
+        area=(1011, 655, 1117, 671),
+        search=(991, 635, 1137, 691),
+        color=(106, 101, 94),
+        button=(1011, 655, 1117, 671),
+    ),
 )
 ENTRY_LOADED = ButtonWrapper(
     name='ENTRY_LOADED',
