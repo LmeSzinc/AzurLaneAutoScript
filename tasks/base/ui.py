@@ -153,8 +153,10 @@ class UI(PopupHandler, MainPage):
             bool: If UI switched.
         """
         logger.hr("UI ensure")
-        self.acquire_lang_checked()
         self.ui_get_current_page(skip_first_screenshot=skip_first_screenshot)
+        if self.acquire_lang_checked():
+            self.ui_get_current_page(skip_first_screenshot=skip_first_screenshot)
+
         if self.ui_current == destination:
             logger.info("Already at %s" % destination)
             return False

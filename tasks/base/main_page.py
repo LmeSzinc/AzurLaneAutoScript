@@ -58,17 +58,29 @@ class MainPage(ModuleBase):
             return server.lang
 
     def handle_lang_check(self, page: Page):
+        """
+        Args:
+            page:
+
+        Returns:
+            bool: If checked
+        """
         if MainPage._lang_checked:
-            return
+            return False
         if page != page_main:
-            return
+            return False
 
         self.check_lang_from_map_plane()
         MainPage._lang_checked = True
+        return True
 
     def acquire_lang_checked(self):
+        """
+        Returns:
+            bool: If checked
+        """
         if MainPage._lang_checked:
-            return
+            return False
 
         logger.info('acquire_lang_checked')
         try:
@@ -78,3 +90,4 @@ class MainPage(ModuleBase):
             raise ScriptError
 
         self.handle_lang_check(page=page_main)
+        return True
