@@ -61,9 +61,12 @@ class Keyword:
     def __bool__(self):
         return True
 
-    def _keywords_to_find(self, in_current_server=False, ignore_punctuation=True):
-        if in_current_server:
-            match server.lang:
+    def _keywords_to_find(self, lang: str = None, ignore_punctuation=True):
+        if lang is None:
+            lang = server.lang
+
+        if lang in server.VALID_LANG:
+            match lang:
                 case 'cn':
                     if ignore_punctuation:
                         return [self.cn_parsed]
@@ -122,11 +125,12 @@ class Keyword:
         return name == keyword
 
     @classmethod
-    def find(cls, name, in_current_server=False, ignore_punctuation=True):
+    def find(cls, name, lang: str = None, ignore_punctuation=True):
         """
         Args:
             name: Name in any server or instance id.
-            in_current_server: True to search the names from current server only.
+            lang: Lang to find from
+                None to search the names from current server only.
             ignore_punctuation: True to remove punctuations and turn into lowercase before searching.
 
         Returns:
@@ -157,7 +161,7 @@ class Keyword:
         instance: Keyword
         for instance in cls.instances.values():
             for keyword in instance._keywords_to_find(
-                    in_current_server=in_current_server, ignore_punctuation=ignore_punctuation):
+                    lang=lang, ignore_punctuation=ignore_punctuation):
                 if cls._compare(name, keyword):
                     return instance
 

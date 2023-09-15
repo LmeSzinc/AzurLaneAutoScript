@@ -1,8 +1,9 @@
 import re
 import time
 from datetime import timedelta
+from typing import Optional
 
-import cv2
+import numpy as np
 from pponnxcr.predict_system import BoxedResult
 
 import module.config.server as server
@@ -11,69 +12,32 @@ from module.base.decorator import cached_property
 from module.base.utils import area_pad, corner2area, crop, float2str
 from module.exception import ScriptError
 from module.logger import logger
+from module.ocr.keyword import Keyword
 from module.ocr.models import OCR_MODEL, TextSystem
 from module.ocr.utils import merge_buttons
 
 
-def enlarge_canvas(image):
-    """
-    Enlarge image into a square fill with black background. In the structure of PaddleOCR,
-    image with w:h=1:1 is the best while 3:1 rectangles takes three times as long.
-    Also enlarge into the integer multiple of 32 cause PaddleOCR will downscale images to 1/32.
-
-    No longer needed, already included in pponnxcr.
-    """
-    height, width = image.shape[:2]
-    length = int(max(width, height) // 32 * 32 + 32)
-    border = (0, length - height, 0, length - width)
-    if sum(border) > 0:
-        image = cv2.copyMakeBorder(image, *border, borderType=cv2.BORDER_CONSTANT, value=(0, 0, 0))
-    return image
-
-
 class OcrResultButton:
-    def __init__(self, boxed_result: BoxedResult, keyword_classes: list):
+    def __init__(self, boxed_result: BoxedResult, matched_keyword: Optional[Keyword]):
         """
         Args:
             boxed_result: BoxedResult from ppocr-onnx
-            keyword_classes: List of Keyword classes
+            matched_keyword: Keyword object or None
         """
         self.area = boxed_result.box
         self.search = area_pad(self.area, pad=-20)
         # self.color =
         self.button = boxed_result.box
 
-        try:
-            self.matched_keyword = self.match_keyword(boxed_result.ocr_text, keyword_classes)
-            self.name = str(self.matched_keyword)
-        except ScriptError:
+        if matched_keyword is not None:
+            self.matched_keyword = matched_keyword
+            self.name = str(matched_keyword)
+        else:
             self.matched_keyword = None
             self.name = boxed_result.ocr_text
 
         self.text = boxed_result.ocr_text
         self.score = boxed_result.score
-
-    @staticmethod
-    def match_keyword(ocr_text, keyword_classes):
-        """
-        Args:
-            ocr_text (str):
-            keyword_classes: List of Keyword classes
-
-        Returns:
-            Keyword:
-
-        Raises:
-            ScriptError: If no keywords matched
-        """
-        for keyword_class in keyword_classes:
-            try:
-                matched = keyword_class.find(ocr_text, in_current_server=True, ignore_punctuation=True)
-                return matched
-            except ScriptError:
-                continue
-
-        raise ScriptError
 
     def __str__(self):
         return self.name
@@ -88,6 +52,10 @@ class OcrResultButton:
 
     def __bool__(self):
         return True
+
+    @property
+    def is_keyword_matched(self) -> bool:
+        return self.matched_keyword is not None
 
 
 class Ocr:
@@ -201,6 +169,127 @@ class Ocr:
                     text=str([result.ocr_text for result in results]))
         return results
 
+    def _match_result(
+            self,
+            result: str,
+            keyword_classes,
+            lang: str = None,
+            ignore_punctuation=True,
+            ignore_digit=True):
+        """
+        Args:
+            result (str):
+            keyword_classes: A list of `Keyword` class or classes inherited `Keyword`
+
+        Returns:
+            If matched, return `Keyword` object or objects inherited `Keyword`
+            If not match, return None
+        """
+        if not isinstance(keyword_classes, list):
+            keyword_classes = [keyword_classes]
+
+        # Digits will be considered as the index of keyword
+        if ignore_digit:
+            if result.isdigit():
+                return None
+
+        # Try in current lang
+        for keyword_class in keyword_classes:
+            try:
+                matched = keyword_class.find(
+                    result,
+                    lang=lang,
+                    ignore_punctuation=ignore_punctuation
+                )
+                return matched
+            except ScriptError:
+                continue
+
+        return None
+
+    def matched_single_line(
+            self,
+            image,
+            keyword_classes,
+            lang: str = None,
+            ignore_punctuation=True
+    ) -> OcrResultButton:
+        """
+        Args:
+            image: Image to detect
+            keyword_classes: `Keyword` class or classes inherited `Keyword`, or a list of them.
+            lang:
+            ignore_punctuation:
+
+        Returns:
+            OcrResultButton: Or None if it didn't matched known keywords.
+        """
+        result = self.ocr_single_line(image)
+
+        result = self._match_result(
+            result,
+            keyword_classes=keyword_classes,
+            lang=lang,
+            ignore_punctuation=ignore_punctuation,
+        )
+
+        logger.attr(name=f'{self.name} matched',
+                    text=result)
+        return result
+
+    def matched_multi_lines(
+            self,
+            image_list,
+            keyword_classes,
+            lang: str = None,
+            ignore_punctuation=True
+    ) -> list[OcrResultButton]:
+        """
+        Args:
+            image_list:
+            keyword_classes: `Keyword` class or classes inherited `Keyword`, or a list of them.
+            lang:
+            ignore_punctuation:
+
+        Returns:
+            List of matched OcrResultButton.
+            OCR result which didn't matched known keywords will be dropped.
+        """
+        results = self.ocr_multi_lines(image_list)
+
+        results = [self._match_result(
+            result,
+            keyword_classes=keyword_classes,
+            lang=lang,
+            ignore_punctuation=ignore_punctuation,
+        ) for result in results]
+        results = [result for result in results if result.is_keyword_matched]
+
+        logger.attr(name=f'{self.name} matched',
+                    text=results)
+        return results
+
+    def _product_button(
+            self,
+            boxed_result: BoxedResult,
+            keyword_classes,
+            lang: str = None,
+            ignore_punctuation=True,
+            ignore_digit=True
+    ) -> OcrResultButton:
+        if not isinstance(keyword_classes, list):
+            keyword_classes = [keyword_classes]
+
+        matched_keyword = self._match_result(
+            boxed_result.ocr_text,
+            keyword_classes=keyword_classes,
+            lang=lang,
+            ignore_punctuation=ignore_punctuation,
+            ignore_digit=ignore_digit,
+        )
+        button = OcrResultButton(boxed_result, matched_keyword)
+        return button
+
     def matched_ocr(self, image, keyword_classes, direct_ocr=False) -> list[OcrResultButton]:
         """
         Args:
@@ -212,21 +301,11 @@ class Ocr:
             List of matched OcrResultButton.
             OCR result which didn't matched known keywords will be dropped.
         """
-        if not isinstance(keyword_classes, list):
-            keyword_classes = [keyword_classes]
-
-        def is_valid(keyword):
-            # Digits will be considered as the index of keyword
-            if keyword.isdigit():
-                return False
-            return True
-
         results = self.detect_and_ocr(image, direct_ocr=direct_ocr)
-        results = [
-            OcrResultButton(result, keyword_classes)
-            for result in results if is_valid(result.ocr_text)
-        ]
-        results = [result for result in results if result.matched_keyword is not None]
+
+        results = [self._product_button(result, keyword_classes) for result in results]
+        results = [result for result in results if result.is_keyword_matched]
+
         logger.attr(name=f'{self.name} matched',
                     text=results)
         return results
