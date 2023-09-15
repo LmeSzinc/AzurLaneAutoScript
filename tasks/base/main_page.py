@@ -15,6 +15,7 @@ from tasks.map.keywords import KEYWORDS_MAP_PLANE, MapPlane
 class OcrPlaneName(Ocr):
     def after_process(self, result):
         # RobotSettlement1
+        result = re.sub(r'-[Ii1]$', '', result)
         result = re.sub(r'\d+$', '', result)
 
         return super().after_process(result)

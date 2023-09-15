@@ -111,6 +111,12 @@ class Ocr:
         """
         return result
 
+    def _log_change(self, attr, func, before):
+        after = func(before)
+        if after != before:
+            logger.attr(f'{self.name} {attr}', f'{before} -> {after}')
+        return after
+
     def ocr_single_line(self, image):
         # pre process
         start_time = time.time()
@@ -119,8 +125,8 @@ class Ocr:
         # ocr
         result, _ = self.model.ocr_single_line(image)
         # after proces
-        result = self.after_process(result)
-        result = self.format_result(result)
+        result = self._log_change('after', self.after_process, result)
+        result = self._log_change('format', self.format_result, result)
         logger.attr(name='%s %ss' % (self.name, float2str(time.time() - start_time)),
                     text=str(result))
         return result
@@ -357,12 +363,18 @@ class DigitCounter(Ocr):
 
 
 class Duration(Ocr):
-    @cached_property
-    def timedelta_regex(self):
+    @classmethod
+    def timedelta_regex(cls, lang):
         regex_str = {
-            'cn': r'\D*((?P<days>\d{1,2})天)?((?P<hours>\d{1,2})小时)?((?P<minutes>\d{1,2})分钟)?((?P<seconds>\d{1,2})秒)?',
-            'en': r'\D*((?P<days>\d{1,2})d\s*)?((?P<hours>\d{1,2})h\s*)?((?P<minutes>\d{1,2})m\s*)?((?P<seconds>\d{1,2})s)?'
-        }[self.lang]
+            'cn': r'((?P<days>\d{1,2})天)?'
+                  r'((?P<hours>\d{1,2})小时)?'
+                  r'((?P<minutes>\d{1,2})分钟)?'
+                  r'((?P<seconds>\d{1,2})秒)',
+            'en': r'((?P<days>\d{1,2})\s*d\s*)?'
+                  r'((?P<hours>\d{1,2})\s*h\s*)?'
+                  r'((?P<minutes>\d{1,2})\s*m\s*)?'
+                  r'((?P<seconds>\d{1,2})\s*s)'
+        }[lang]
         return re.compile(regex_str)
 
     def format_result(self, result: str) -> timedelta:
@@ -372,8 +384,8 @@ class Duration(Ocr):
         Returns:
             timedelta:
         """
-        matched = self.timedelta_regex.match(result)
-        if matched is None:
+        matched = self.timedelta_regex(self.lang).search(result)
+        if not matched:
             return timedelta()
         days = self._sanitize_number(matched.group('days'))
         hours = self._sanitize_number(matched.group('hours'))
