@@ -4,9 +4,9 @@ from cached_property import cached_property
 
 from deploy.Windows.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
-from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, to_package
-from module.config.utils import *
 from module.config.convert import *
+from module.config.server import VALID_SERVER
+from module.config.utils import *
 
 CONFIG_IMPORT = '''
 import datetime
@@ -58,6 +58,8 @@ class ConfigGenerator:
             options = deep_get(raw, keys=keys, default=[]) + options
             deep_set(raw, keys=keys, value=options)
 
+        # Insert packages
+        option_add(keys='Emulator.PackageName.option', options=list(VALID_SERVER.keys()))
         # Insert dungeons
         from tasks.dungeon.keywords import DungeonList
         option_add(
@@ -328,18 +330,18 @@ class ConfigGenerator:
                 deep_load(path, words=data['option'], default=False)
 
         # Package names
-        for package, server in VALID_PACKAGE.items():
-            path = ['Emulator', 'PackageName', package]
-            if deep_get(new, keys=path) == package:
-                deep_set(new, keys=path, value=server.upper())
-        for package, server_and_channel in VALID_CHANNEL_PACKAGE.items():
-            server, channel = server_and_channel
-            name = deep_get(new, keys=['Emulator', 'PackageName', to_package(server)])
-            if lang == SERVER_TO_LANG[server]:
-                value = f'{name} {channel}渠道服 {package}'
-            else:
-                value = f'{name} {package}'
-            deep_set(new, keys=['Emulator', 'PackageName', package], value=value)
+        # for package, server in VALID_PACKAGE.items():
+        #     path = ['Emulator', 'PackageName', package]
+        #     if deep_get(new, keys=path) == package:
+        #         deep_set(new, keys=path, value=server.upper())
+        # for package, server_and_channel in VALID_CHANNEL_PACKAGE.items():
+        #     server, channel = server_and_channel
+        #     name = deep_get(new, keys=['Emulator', 'PackageName', to_package(server)])
+        #     if lang == SERVER_TO_LANG[server]:
+        #         value = f'{name} {channel}渠道服 {package}'
+        #     else:
+        #         value = f'{name} {package}'
+        #     deep_set(new, keys=['Emulator', 'PackageName', package], value=value)
         # Game server names
         # for server, _list in VALID_SERVER_LIST.items():
         #     for index in range(len(_list)):
@@ -534,13 +536,6 @@ class ConfigGenerator:
             deep_set(self.argument, keys=f'Assignment.Name_{i + 1}.option', value=assignments)
             deep_set(self.args, keys=f'Assignment.Assignment.Name_{i + 1}.option', value=assignments)
 
-    def insert_package(self):
-        option = deep_get(self.argument, keys='Emulator.PackageName.option')
-        option += list(VALID_PACKAGE.keys())
-        option += list(VALID_CHANNEL_PACKAGE.keys())
-        deep_set(self.argument, keys='Emulator.PackageName.option', value=option)
-        deep_set(self.args, keys='Alas.Emulator.PackageName.option', value=option)
-
     @timer
     def generate(self):
         _ = self.args
@@ -548,7 +543,6 @@ class ConfigGenerator:
         _ = self.stored
         # _ = self.event
         self.insert_assignment()
-        self.insert_package()
         # self.insert_server()
         write_file(filepath_args(), self.args)
         write_file(filepath_args('menu'), self.menu)

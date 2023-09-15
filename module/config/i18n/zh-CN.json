@@ -78,15 +78,18 @@
     },
     "PackageName": {
       "name": "游戏服务器",
-      "help": "模拟器上装有多个游戏客户端时，需要手动选择服务器",
+      "help": "无法区分国际服的不同地区，请手动选择服务器",
       "auto": "自动检测",
-      "com.miHoYo.hkrpg": "CN",
-      "com.HoYoverse.hkrpgoversea": "OVERSEA",
-      "com.miHoYo.hkrpg.bilibili": "CN Bilibili渠道服 com.miHoYo.hkrpg.bilibili"
+      "CN-Official": "[国服]-官服",
+      "CN-Bilibili": "[国服]-B服 ",
+      "OVERSEA-America": "[国际服]-美洲",
+      "OVERSEA-Asia": "[国际服]-亚洲",
+      "OVERSEA-Europe": "[国际服]-欧洲",
+      "OVERSEA-TWHKMO": "[国际服]-港澳台"
     },
     "GameLanguage": {
       "name": "游戏内文本语言",
-      "help": "",
+      "help": "目前仅支持简体中文和英文，请将游戏内设置文本语言设置为其中的一种",
       "auto": "自动检测",
       "cn": "简体中文",
       "en": "English"

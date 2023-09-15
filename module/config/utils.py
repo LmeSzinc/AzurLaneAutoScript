@@ -11,18 +11,13 @@ import module.config.server as server_
 from module.config.atomicwrites import atomic_write
 
 LANGUAGES = ['zh-CN', 'en-US', 'ja-JP', 'zh-TW']
-SERVER_TO_LANG = {
-    'cn': 'zh-CN',
-    'en': 'en-US',
-    'jp': 'ja-JP',
-    'tw': 'zh-TW',
-}
-LANG_TO_SERVER = {v: k for k, v in SERVER_TO_LANG.items()}
 SERVER_TO_TIMEZONE = {
-    'cn': timedelta(hours=8),
-    'en': timedelta(hours=-7),
-    'jp': timedelta(hours=9),
-    'tw': timedelta(hours=8),
+    'CN-Official': timedelta(hours=8),
+    'CN-Bilibili': timedelta(hours=8),
+    'OVERSEA-America': timedelta(hours=-5),
+    'OVERSEA-Asia': timedelta(hours=8),
+    'OVERSEA-Europe': timedelta(hours=1),
+    'OVERSEA-TWHKMO': timedelta(hours=8),
 }
 DEFAULT_TIME = datetime(2020, 1, 1, 0, 0)
 
@@ -395,7 +390,7 @@ def dict_to_kv(dictionary, allow_none=True):
 
 
 def server_timezone() -> timedelta:
-    return SERVER_TO_TIMEZONE.get(server_.lang, SERVER_TO_TIMEZONE['cn'])
+    return SERVER_TO_TIMEZONE.get(server_.server, SERVER_TO_TIMEZONE['CN-Official'])
 
 
 def server_time_offset() -> timedelta:

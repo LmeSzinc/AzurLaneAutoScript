@@ -3,15 +3,18 @@ This file stores server, such as 'cn', 'en'.
 Use 'import module.config.server as server' to import, don't use 'from xxx import xxx'.
 """
 lang = 'cn'  # Setting default to cn, will avoid errors when using dev_tools
+server = 'CN-Official'
 
 VALID_LANG = ['cn', 'en']
-VALID_PACKAGE = {
-    'com.miHoYo.hkrpg': 'cn',
-    'com.HoYoverse.hkrpgoversea': 'oversea'
+VALID_SERVER = {
+    'CN-Official': 'com.miHoYo.hkrpg',
+    'CN-Bilibili': 'com.miHoYo.hkrpg.bilibili',
+    'OVERSEA-America': 'com.HoYoverse.hkrpgoversea',
+    'OVERSEA-Asia': 'com.HoYoverse.hkrpgoversea',
+    'OVERSEA-Europe': 'com.HoYoverse.hkrpgoversea',
+    'OVERSEA-TWHKMO': 'com.HoYoverse.hkrpgoversea',
 }
-VALID_CHANNEL_PACKAGE = {
-    'com.miHoYo.hkrpg.bilibili': ('cn', 'Bilibili'),
-}
+VALID_PACKAGE = set(list(VALID_SERVER.values()))
 
 
 def set_lang(lang_: str):
@@ -34,26 +37,28 @@ def to_server(package_or_server: str) -> str:
     Convert package/server to server.
     To unknown packages, consider they are a CN channel servers.
     """
-    if package_or_server in VALID_SERVER:
-        return package_or_server
-    elif package_or_server in VALID_PACKAGE:
-        return VALID_PACKAGE[package_or_server]
-    elif package_or_server in VALID_CHANNEL_PACKAGE:
-        return VALID_CHANNEL_PACKAGE[package_or_server][0]
-    else:
-        return 'cn'
+    # Can't distinguish different regions of oversea servers,
+    # assume it's 'OVERSEA-Asia'
+    if package_or_server == 'com.HoYoverse.hkrpgoversea':
+        return 'OVERSEA-Asia'
+
+    for key, value in VALID_SERVER.items():
+        if value == package_or_server:
+            return key
+        if key == package_or_server:
+            return key
+
+    raise ValueError(f'Package invalid: {package_or_server}')
 
 
 def to_package(package_or_server: str) -> str:
     """
     Convert package/server to package.
     """
-    package_or_server = package_or_server.lower()
-    if package_or_server in VALID_PACKAGE:
-        return package_or_server
-
-    for key, value in VALID_PACKAGE.items():
+    for key, value in VALID_SERVER.items():
         if value == package_or_server:
-            return key
+            return value
+        if key == package_or_server:
+            return value
 
     raise ValueError(f'Server invalid: {package_or_server}')
