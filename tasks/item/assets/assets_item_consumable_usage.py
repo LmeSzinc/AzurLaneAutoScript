@@ -42,5 +42,11 @@ USE_CONSUMABLE = ButtonWrapper(
         color=(158, 158, 159),
         button=(1042, 647, 1084, 669),
     ),
-    en=None,
+    en=Button(
+        file='./assets/en/item/consumable_usage/USE_CONSUMABLE.png',
+        area=(1037, 643, 1091, 672),
+        search=(1017, 623, 1111, 692),
+        color=(206, 207, 208),
+        button=(1037, 643, 1091, 672),
+    ),
 )
