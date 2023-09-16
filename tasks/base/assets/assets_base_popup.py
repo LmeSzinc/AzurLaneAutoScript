@@ -13,28 +13,6 @@ BATTLE_PASS_NOTIFICATION = ButtonWrapper(
         button=(895, 595, 1180, 630),
     ),
 )
-CANCEL_POPUP = ButtonWrapper(
-    name='CANCEL_POPUP',
-    cn=Button(
-        file='./assets/cn/base/popup/CANCEL_POPUP.png',
-        area=(427, 536, 503, 562),
-        search=(321, 432, 661, 668),
-        color=(157, 156, 152),
-        button=(427, 536, 503, 562),
-    ),
-    en=None,
-)
-CONFIRM_POPUP = ButtonWrapper(
-    name='CONFIRM_POPUP',
-    cn=Button(
-        file='./assets/cn/base/popup/CONFIRM_POPUP.png',
-        area=(774, 534, 855, 563),
-        search=(617, 434, 966, 652),
-        color=(170, 169, 166),
-        button=(774, 534, 855, 563),
-    ),
-    en=None,
-)
 GET_REWARD = ButtonWrapper(
     name='GET_REWARD',
     share=Button(
@@ -63,6 +41,26 @@ MONTHLY_CARD_REWARD = ButtonWrapper(
         search=(676, 387, 756, 467),
         color=(137, 107, 91),
         button=(741, 495, 1071, 644),
+    ),
+)
+POPUP_CANCEL = ButtonWrapper(
+    name='POPUP_CANCEL',
+    share=Button(
+        file='./assets/share/base/popup/POPUP_CANCEL.png',
+        area=(428, 537, 452, 561),
+        search=(334, 453, 594, 653),
+        color=(98, 92, 80),
+        button=(419, 531, 512, 567),
+    ),
+)
+POPUP_CONFIRM = ButtonWrapper(
+    name='POPUP_CONFIRM',
+    share=Button(
+        file='./assets/share/base/popup/POPUP_CONFIRM.png',
+        area=(776, 537, 800, 561),
+        search=(683, 464, 943, 644),
+        color=(95, 90, 78),
+        button=(767, 531, 862, 567),
     ),
 )
 POPUP_SINGLE = ButtonWrapper(

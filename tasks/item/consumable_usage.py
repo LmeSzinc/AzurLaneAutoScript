@@ -1,6 +1,6 @@
 from module.ocr.ocr import *
 from module.ui.scroll import Scroll
-from tasks.base.assets.assets_base_popup import CONFIRM_POPUP
+from tasks.base.assets.assets_base_popup import POPUP_CONFIRM
 from tasks.base.page import page_item
 from tasks.daily.assets.assets_daily_synthesize_consumable import \
     SIMPLE_PROTECTIVE_GEAR as SYNTHESIZE_SIMPLE_PROTECTIVE_GEAR, \
@@ -110,7 +110,7 @@ class ConsumableUsageUI(ItemUI):
             else:
                 self.device.screenshot()
 
-            if self.appear(CONFIRM_POPUP):
+            if self.appear(POPUP_CONFIRM):
                 logger.info('Item consumable usage popup appear')
                 break
             if self.appear_then_click(USE_CONSUMABLE, interval=2):
@@ -129,6 +129,6 @@ class ConsumableUsageUI(ItemUI):
                 break
             # If there is already consumable effect, a confirmation box will pop up again,
             # so shorten the judgment interval of the confirmation box
-            if self.appear_then_click(CONFIRM_POPUP, interval=1):
+            if self.handle_popup_confirm(interval=1):
                 logger.info('Confirm the use of consumable')
                 continue
