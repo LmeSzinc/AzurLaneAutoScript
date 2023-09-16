@@ -20,6 +20,8 @@ class TrailblazePowerOcr(DigitCounter):
         # The trailblaze power icon is recognized as 买
         # OCR_TRAILBLAZE_POWER includes the icon because the length varies by value
         result = re.sub(r'[买米装：（）]', '', result)
+        # 61240 -> 6/240
+        result = re.sub(r'1240$', '/240', result)
         return result
 
 
