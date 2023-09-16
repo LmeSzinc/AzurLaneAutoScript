@@ -5,7 +5,7 @@ import subprocess
 
 from adbutils.errors import AdbError
 
-from deploy.emulator import VirtualBoxEmulator
+from deploy.Windows.emulator import VirtualBoxEmulator
 from module.base.decorator import cached_property
 from module.device.connection import Connection
 from module.device.method.utils import get_serial_pair

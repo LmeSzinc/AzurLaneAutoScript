@@ -49,6 +49,9 @@ class AzurLaneAutoScript:
         except RequestHumanTakeover:
             logger.critical('Request human takeover')
             exit(1)
+        except EmulatorNotRunningError:
+            logger.critical('EmulatorNotRunningError')
+            exit(1)
         except Exception as e:
             logger.exception(e)
             exit(1)
@@ -535,13 +538,8 @@ class AzurLaneAutoScript:
                 if check_fail <= 3:
                     continue
                 else:
-                    handle_notify(self.config.Error_OnePushConfig,
-                                  title=f"Alas <{self.config.config_name}> crashed",
-                                  content=f"<{self.config.config_name}> "
-                                          f"RequestHumanTakeover.\n"
-                                          f"Maybe your emulator died."
-                                  )
-                    exit(1)
+                    logger.critical('Maybe your emulator died, trying to restart it')
+                    self.device.emulator_start()
 
             # Run
             logger.info(f'Scheduler: Start task `{task}`')

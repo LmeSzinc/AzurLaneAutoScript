@@ -35,17 +35,31 @@ Emulator:
     option: [ ADB, uiautomator2, minitouch, Hermit, MaaTouch ]
   ScreenshotDedithering: false
   AdbRestart: false
-RestartEmulator:
-  Enable: false
-  EmulatorData:
+EmulatorInfo:
+  Emulator:
+    value: auto
+    option: [
+      auto,
+      NoxPlayer,
+      NoxPlayer64,
+      BlueStacks4,
+      BlueStacks5,
+      BlueStacks4HyperV,
+      BlueStacks5HyperV,
+      LDPlayer3,
+      LDPlayer4,
+      LDPlayer9,
+      MuMuPlayer,
+      MuMuPlayerX,
+      MuMuPlayer12,
+      MEmuPlayer,
+    ]
+  name:
+    value: null
     type: textarea
-    mode: yaml
-    value: |-
-      emulator:
-      name:
-      path:
-  ErrorRestart: False
-  DailyRestart: False
+  path:
+    value: null
+    type: textarea
 Error:
   HandleError: true
   SaveError: true
