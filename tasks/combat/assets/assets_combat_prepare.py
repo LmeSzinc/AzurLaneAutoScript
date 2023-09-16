@@ -12,7 +12,13 @@ COMBAT_PREPARE = ButtonWrapper(
         color=(141, 140, 141),
         button=(956, 640, 1224, 676),
     ),
-    en=None,
+    en=Button(
+        file='./assets/en/combat/prepare/COMBAT_PREPARE.png',
+        area=(1043, 650, 1137, 666),
+        search=(1023, 630, 1157, 686),
+        color=(153, 154, 155),
+        button=(956, 640, 1225, 676),
+    ),
 )
 OCR_TRAILBLAZE_POWER = ButtonWrapper(
     name='OCR_TRAILBLAZE_POWER',

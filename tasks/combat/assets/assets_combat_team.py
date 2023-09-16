@@ -22,7 +22,13 @@ COMBAT_TEAM_PREPARE = ButtonWrapper(
         color=(159, 159, 159),
         button=(958, 641, 1193, 676),
     ),
-    en=None,
+    en=Button(
+        file='./assets/en/combat/team/COMBAT_TEAM_PREPARE.png',
+        area=(1000, 650, 1104, 666),
+        search=(980, 630, 1124, 686),
+        color=(169, 169, 170),
+        button=(959, 640, 1193, 676),
+    ),
 )
 COMBAT_TEAM_SUPPORT = ButtonWrapper(
     name='COMBAT_TEAM_SUPPORT',
