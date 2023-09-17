@@ -3,8 +3,16 @@ from .classes import MapPlane
 # This file was auto-generated, do not modify it manually. To generate:
 # ``` python -m dev_tools.keyword_extract ```
 
-Herta_ParlorCar = MapPlane(
+Herta_HertaOffice = MapPlane(
     id=1,
+    name='Herta_HertaOffice',
+    cn='黑塔的办公室',
+    cht='黑塔的辦公室',
+    en="Herta's Office",
+    jp='ヘルタのオフィス',
+)
+Herta_ParlorCar = MapPlane(
+    id=2,
     name='Herta_ParlorCar',
     cn='观景车厢',
     cht='觀景車廂',
@@ -12,7 +20,7 @@ Herta_ParlorCar = MapPlane(
     jp='列車のラウンジ',
 )
 Herta_MasterControlZone = MapPlane(
-    id=2,
+    id=3,
     name='Herta_MasterControlZone',
     cn='主控舱段',
     cht='主控艙段',
@@ -20,7 +28,7 @@ Herta_MasterControlZone = MapPlane(
     jp='主制御部分',
 )
 Herta_BaseZone = MapPlane(
-    id=3,
+    id=4,
     name='Herta_BaseZone',
     cn='基座舱段',
     cht='基座艙段',
@@ -28,7 +36,7 @@ Herta_BaseZone = MapPlane(
     jp='ベース部分',
 )
 Herta_StorageZone = MapPlane(
-    id=4,
+    id=5,
     name='Herta_StorageZone',
     cn='收容舱段',
     cht='收容艙段',
@@ -36,7 +44,7 @@ Herta_StorageZone = MapPlane(
     jp='収容部分',
 )
 Herta_SupplyZone = MapPlane(
-    id=5,
+    id=6,
     name='Herta_SupplyZone',
     cn='支援舱段',
     cht='支援艙段',
@@ -44,7 +52,7 @@ Herta_SupplyZone = MapPlane(
     jp='サポート部分',
 )
 Jarilo_AdministrativeDistrict = MapPlane(
-    id=6,
+    id=7,
     name='Jarilo_AdministrativeDistrict',
     cn='行政区',
     cht='行政區',
@@ -52,7 +60,7 @@ Jarilo_AdministrativeDistrict = MapPlane(
     jp='行政区',
 )
 Jarilo_OutlyingSnowPlains = MapPlane(
-    id=7,
+    id=8,
     name='Jarilo_OutlyingSnowPlains',
     cn='城郊雪原',
     cht='城郊雪原',
@@ -60,7 +68,7 @@ Jarilo_OutlyingSnowPlains = MapPlane(
     jp='郊外雪原',
 )
 Jarilo_BackwaterPass = MapPlane(
-    id=8,
+    id=9,
     name='Jarilo_BackwaterPass',
     cn='边缘通路',
     cht='邊緣通道',
@@ -68,7 +76,7 @@ Jarilo_BackwaterPass = MapPlane(
     jp='外縁通路',
 )
 Jarilo_SilvermaneGuardRestrictedZone = MapPlane(
-    id=9,
+    id=10,
     name='Jarilo_SilvermaneGuardRestrictedZone',
     cn='铁卫禁区',
     cht='鐵衛禁區',
@@ -76,7 +84,7 @@ Jarilo_SilvermaneGuardRestrictedZone = MapPlane(
     jp='シルバーメイン禁区',
 )
 Jarilo_CorridorofFadingEchoes = MapPlane(
-    id=10,
+    id=11,
     name='Jarilo_CorridorofFadingEchoes',
     cn='残响回廊',
     cht='殘響迴廊',
@@ -84,7 +92,7 @@ Jarilo_CorridorofFadingEchoes = MapPlane(
     jp='残響回廊',
 )
 Jarilo_EverwinterHill = MapPlane(
-    id=11,
+    id=12,
     name='Jarilo_EverwinterHill',
     cn='永冬岭',
     cht='永冬嶺',
@@ -92,7 +100,7 @@ Jarilo_EverwinterHill = MapPlane(
     jp='常冬峰',
 )
 Jarilo_BoulderTown = MapPlane(
-    id=12,
+    id=13,
     name='Jarilo_BoulderTown',
     cn='磐岩镇',
     cht='磐岩鎮',
@@ -100,7 +108,7 @@ Jarilo_BoulderTown = MapPlane(
     jp='ボルダータウン',
 )
 Jarilo_GreatMine = MapPlane(
-    id=13,
+    id=14,
     name='Jarilo_GreatMine',
     cn='大矿区',
     cht='大礦區',
@@ -108,7 +116,7 @@ Jarilo_GreatMine = MapPlane(
     jp='大鉱区',
 )
 Jarilo_RivetTown = MapPlane(
-    id=14,
+    id=15,
     name='Jarilo_RivetTown',
     cn='铆钉镇',
     cht='鉚釘鎮',
@@ -116,7 +124,7 @@ Jarilo_RivetTown = MapPlane(
     jp='リベットタウン',
 )
 Jarilo_RobotSettlement = MapPlane(
-    id=15,
+    id=16,
     name='Jarilo_RobotSettlement',
     cn='机械聚落',
     cht='機械聚落',
@@ -124,7 +132,7 @@ Jarilo_RobotSettlement = MapPlane(
     jp='機械集落',
 )
 Luofu_CentralStarskiffHaven = MapPlane(
-    id=16,
+    id=17,
     name='Luofu_CentralStarskiffHaven',
     cn='星槎海中枢',
     cht='星槎海中樞',
@@ -132,7 +140,7 @@ Luofu_CentralStarskiffHaven = MapPlane(
     jp='星槎海中枢',
 )
 Luofu_Cloudford = MapPlane(
-    id=17,
+    id=18,
     name='Luofu_Cloudford',
     cn='流云渡',
     cht='流雲渡',
@@ -140,7 +148,7 @@ Luofu_Cloudford = MapPlane(
     jp='流雲渡し',
 )
 Luofu_StargazerNavalia = MapPlane(
-    id=18,
+    id=19,
     name='Luofu_StargazerNavalia',
     cn='迴星港',
     cht='迴星港',
@@ -148,7 +156,7 @@ Luofu_StargazerNavalia = MapPlane(
     jp='廻星港',
 )
 Luofu_ExaltingSanctum = MapPlane(
-    id=19,
+    id=20,
     name='Luofu_ExaltingSanctum',
     cn='长乐天',
     cht='長樂天',
@@ -156,7 +164,7 @@ Luofu_ExaltingSanctum = MapPlane(
     jp='長楽天',
 )
 Luofu_DivinationCommission = MapPlane(
-    id=20,
+    id=21,
     name='Luofu_DivinationCommission',
     cn='太卜司',
     cht='太卜司',
@@ -164,7 +172,7 @@ Luofu_DivinationCommission = MapPlane(
     jp='太卜司',
 )
 Luofu_ArtisanshipCommission = MapPlane(
-    id=21,
+    id=22,
     name='Luofu_ArtisanshipCommission',
     cn='工造司',
     cht='工造司',
@@ -172,7 +180,7 @@ Luofu_ArtisanshipCommission = MapPlane(
     jp='工造司',
 )
 Luofu_AlchemyCommission = MapPlane(
-    id=22,
+    id=23,
     name='Luofu_AlchemyCommission',
     cn='丹鼎司',
     cht='丹鼎司',
@@ -180,7 +188,7 @@ Luofu_AlchemyCommission = MapPlane(
     jp='丹鼎司',
 )
 Luofu_ScalegorgeWaterscape = MapPlane(
-    id=23,
+    id=24,
     name='Luofu_ScalegorgeWaterscape',
     cn='鳞渊境',
     cht='鱗淵境',
