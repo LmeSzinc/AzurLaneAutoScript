@@ -145,6 +145,12 @@ class Ocr:
                     text=str([result for result, _ in result_list]))
         return result_list
 
+    def filter_detected(self, result: BoxedResult) -> bool:
+        """
+        Return False to drop result.
+        """
+        return True
+
     def detect_and_ocr(self, image, direct_ocr=False) -> list[BoxedResult]:
         """
         Args:
@@ -160,13 +166,14 @@ class Ocr:
             image = crop(image, self.button.area)
         image = self.pre_process(image)
         # ocr
-        # image = enlarge_canvas(image)
         results: list[BoxedResult] = self.model.detect_and_ocr(image)
         # after proces
         for result in results:
             if not direct_ocr:
                 result.box += self.button.area[:2]
             result.box = tuple(corner2area(result.box))
+
+        results = [result for result in results if self.filter_detected(result)]
         results = merge_buttons(results, thres_x=self.merge_thres_x, thres_y=self.merge_thres_y)
         for result in results:
             result.ocr_text = self.after_process(result.ocr_text)
@@ -366,14 +373,18 @@ class Duration(Ocr):
     @classmethod
     def timedelta_regex(cls, lang):
         regex_str = {
-            'cn': r'((?P<days>\d{1,2})天)?'
+            'cn': r'^(?P<prefix>.*?)'
+                  r'((?P<days>\d{1,2})天)?'
                   r'((?P<hours>\d{1,2})小时)?'
                   r'((?P<minutes>\d{1,2})分钟)?'
-                  r'((?P<seconds>\d{1,2})秒)',
-            'en': r'((?P<days>\d{1,2})\s*d\s*)?'
+                  r'((?P<seconds>\d{1,2})秒)?'
+                  r'$',
+            'en': r'^(?P<prefix>.*?)'
+                  r'((?P<days>\d{1,2})\s*d\s*)?'
                   r'((?P<hours>\d{1,2})\s*h\s*)?'
                   r'((?P<minutes>\d{1,2})\s*m\s*)?'
-                  r'((?P<seconds>\d{1,2})\s*s)'
+                  r'((?P<seconds>\d{1,2})\s*s)?'
+                  r'$'
         }[lang]
         return re.compile(regex_str)
 
