@@ -4,6 +4,8 @@
 
 Star Rail Instant Tea, a bot for Honkai: Star Rail, based on the next generation of ALAS framework.
 
+![gui](https://raw.githubusercontent.com/LmeSzinc/StarRailCopilot/master/doc/README.assets/gui_en.png)
+
 
 
 ## Features
