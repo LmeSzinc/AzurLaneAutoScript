@@ -117,10 +117,11 @@ class Ocr:
             logger.attr(f'{self.name} {attr}', f'{before} -> {after}')
         return after
 
-    def ocr_single_line(self, image):
+    def ocr_single_line(self, image, direct_ocr=False):
         # pre process
         start_time = time.time()
-        image = crop(image, self.button.area)
+        if not direct_ocr:
+            image = crop(image, self.button.area)
         image = self.pre_process(image)
         # ocr
         result, _ = self.model.ocr_single_line(image)
