@@ -75,7 +75,10 @@ class OcrDungeonList(Ocr):
 
 
 class OcrSimUniPoint(DigitCounter):
-    merge_thres_x = 50
+    def after_process(self, result):
+        result = super().after_process(result)
+        result = result.replace('O', '0').replace('o', '0')
+        return result
 
 
 class OcrDungeonListLimitEntrance(OcrDungeonList):
@@ -228,15 +231,24 @@ class DungeonUI(UI):
         Page:
             in: page_guide, Survival_Index, Simulated_Universe
         """
+        logger.info('Get simulated universe points')
+        _ = self.appear(OCR_SIMUNI_POINT_OFFSET)
+        OCR_SIMUNI_POINT.load_offset(OCR_SIMUNI_POINT_OFFSET)
+        area = (
+            OCR_SIMUNI_POINT.area[0],
+            OCR_SIMUNI_POINT.button[1],
+            OCR_SIMUNI_POINT.area[2],
+            OCR_SIMUNI_POINT.button[3],
+        )
+
         ocr = OcrSimUniPoint(OCR_SIMUNI_POINT)
-        value, _, total = ocr.ocr_single_line(self.device.image)
+        value, _, total = ocr.ocr_single_line(self.image_crop(area), direct_ocr=True)
         if total and value <= total:
             logger.attr('SimulatedUniverse', f'{value}/{total}')
             self.config.stored.SimulatedUniverse.set(value, total)
             return value
         else:
             logger.warning(f'Invalid SimulatedUniverse points: {value}/{total}')
-            self.config.stored.SimulatedUniverse.set(0, 0)
             return 0
 
     def _dungeon_nav_goto(self, dungeon: DungeonList, skip_first_screenshot=True):
@@ -261,10 +273,28 @@ class DungeonUI(UI):
             if DUNGEON_NAV_LIST.cur_buttons:
                 break
 
+        # Wait first row selected
+        timeout = Timer(0.5, count=2).start()
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            if timeout.reached():
+                logger.info('DUNGEON_NAV_LIST not selected')
+                break
+            if button := DUNGEON_NAV_LIST.get_selected_row(main=self):
+                logger.info(f'DUNGEON_NAV_LIST selected at {button}')
+                break
+
         # Check if it's at the first page.
-        if DUNGEON_NAV_LIST.keyword2button(KEYWORDS_DUNGEON_NAV.Simulated_Universe, show_warning=False):
+        if button := DUNGEON_NAV_LIST.keyword2button(KEYWORDS_DUNGEON_NAV.Simulated_Universe, show_warning=False):
             # Going to use a faster method to navigate but can only start from list top
             logger.info('DUNGEON_NAV_LIST at top')
+            # Update points if possible
+            if DUNGEON_NAV_LIST.is_row_selected(button, main=self):
+                self.dungeon_get_simuni_point()
         else:
             # To start from any list states.
             logger.info('DUNGEON_NAV_LIST not at top')

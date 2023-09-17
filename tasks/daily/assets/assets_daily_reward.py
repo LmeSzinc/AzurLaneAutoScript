@@ -162,7 +162,13 @@ DAILY_QUEST_FULL = ButtonWrapper(
         color=(131, 113, 82),
         button=(164, 574, 301, 592),
     ),
-    en=None,
+    en=Button(
+        file='./assets/en/daily/reward/DAILY_QUEST_FULL.png',
+        area=(182, 592, 282, 603),
+        search=(162, 572, 302, 623),
+        color=(142, 122, 87),
+        button=(182, 592, 282, 603),
+    ),
 )
 DAILY_QUEST_GOTO = ButtonWrapper(
     name='DAILY_QUEST_GOTO',

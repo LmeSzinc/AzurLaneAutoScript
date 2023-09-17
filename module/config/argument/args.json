@@ -11,9 +11,21 @@
         "value": "auto",
         "option": [
           "auto",
-          "com.miHoYo.hkrpg",
-          "com.HoYoverse.hkrpgoversea",
-          "com.miHoYo.hkrpg.bilibili"
+          "CN-Official",
+          "CN-Bilibili",
+          "OVERSEA-America",
+          "OVERSEA-Asia",
+          "OVERSEA-Europe",
+          "OVERSEA-TWHKMO"
+        ]
+      },
+      "GameLanguage": {
+        "type": "select",
+        "value": "auto",
+        "option": [
+          "auto",
+          "cn",
+          "en"
         ]
       },
       "ScreenshotMethod": {

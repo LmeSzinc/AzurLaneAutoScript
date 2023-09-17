@@ -5,6 +5,8 @@
 
 Star Rail auto script | 星铁速溶茶，崩坏：星穹铁道脚本，基于下一代Alas框架。
 
+![gui](https://raw.githubusercontent.com/LmeSzinc/StarRailCopilot/master/doc/README.assets/gui_cn.png)
+
 
 
 ## 功能

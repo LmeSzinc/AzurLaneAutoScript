@@ -28,6 +28,9 @@ class Button(Resource):
     def button(self):
         return area_offset(self._button, self._button_offset)
 
+    def load_offset(self, button):
+        self._button_offset = button._button_offset
+
     def clear_offset(self):
         self._button_offset = (0, 0)
 
@@ -208,6 +211,22 @@ class ButtonWrapper(Resource):
     @property
     def height(self) -> int:
         return area_size(self.area)[1]
+
+    def load_offset(self, button):
+        """
+        Load offset from another button.
+
+        Args:
+            button (Button, ButtonWrapper):
+        """
+        if isinstance(button, ButtonWrapper):
+            button = button.matched_button
+        for b in self.buttons:
+            b.load_offset(button)
+
+    def clear_offset(self):
+        for b in self.buttons:
+            b.clear_offset()
 
 
 class ClickButton:

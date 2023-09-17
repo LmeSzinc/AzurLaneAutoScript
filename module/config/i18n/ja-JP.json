@@ -80,9 +80,19 @@
       "name": "Emulator.PackageName.name",
       "help": "Emulator.PackageName.help",
       "auto": "auto",
-      "com.miHoYo.hkrpg": "CN",
-      "com.HoYoverse.hkrpgoversea": "OVERSEA",
-      "com.miHoYo.hkrpg.bilibili": "CN com.miHoYo.hkrpg.bilibili"
+      "CN-Official": "CN-Official",
+      "CN-Bilibili": "CN-Bilibili",
+      "OVERSEA-America": "OVERSEA-America",
+      "OVERSEA-Asia": "OVERSEA-Asia",
+      "OVERSEA-Europe": "OVERSEA-Europe",
+      "OVERSEA-TWHKMO": "OVERSEA-TWHKMO"
+    },
+    "GameLanguage": {
+      "name": "Emulator.GameLanguage.name",
+      "help": "Emulator.GameLanguage.help",
+      "auto": "auto",
+      "cn": "cn",
+      "en": "en"
     },
     "ScreenshotMethod": {
       "name": "Emulator.ScreenshotMethod.name",

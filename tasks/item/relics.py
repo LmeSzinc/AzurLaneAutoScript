@@ -1,7 +1,7 @@
 from module.base.timer import Timer
 from module.logger import logger
 from tasks.base.assets.assets_base_page import CLOSE
-from tasks.base.assets.assets_base_popup import CONFIRM_POPUP, GET_REWARD
+from tasks.base.assets.assets_base_popup import GET_REWARD
 from tasks.item.assets.assets_item_relics import *
 from tasks.item.keywords import KEYWORD_ITEM_TAB
 from tasks.item.ui import ItemUI
@@ -60,7 +60,7 @@ class RelicsUI(ItemUI):
                 break
             if self.appear_then_click(SALVAGE, interval=2):
                 continue
-            if self.appear_then_click(CONFIRM_POPUP, interval=2):
+            if self.handle_popup_confirm():
                 continue
 
         skip_first_screenshot = True

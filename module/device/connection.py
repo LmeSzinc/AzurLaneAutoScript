@@ -11,17 +11,15 @@ import uiautomator2 as u2
 from adbutils import AdbClient, AdbDevice, AdbTimeout, ForwardItem, ReverseItem
 from adbutils.errors import AdbError
 
+import module.config.server as server_
 from module.base.decorator import Config, cached_property, del_cached_property
-from module.base.utils import ensure_time
+from module.base.utils import SelectedGrids, ensure_time
 from module.device.connection_attr import ConnectionAttr
 from module.device.method.utils import (
-    RETRY_TRIES, remove_shell_warning, retry_sleep,
-    handle_adb_error, PackageNotInstalled,
-    recv_all, possible_reasons,
-    random_port, get_serial_pair)
-from module.exception import RequestHumanTakeover, EmulatorNotRunningError
+    PackageNotInstalled, RETRY_TRIES, get_serial_pair, handle_adb_error,
+    possible_reasons, random_port, recv_all, remove_shell_warning, retry_sleep)
+from module.exception import EmulatorNotRunningError, RequestHumanTakeover
 from module.logger import logger
-from module.base.utils import SelectedGrids
 
 
 def retry(func):
@@ -102,13 +100,17 @@ class Connection(ConnectionAttr):
         logger.attr('AdbDevice', self.adb)
 
         # Package
-        self.package = self.config.Emulator_PackageName
-        if self.package == 'auto':
+        if self.config.Emulator_PackageName == 'auto':
             self.detect_package()
+        else:
+            self.package = server_.to_package(self.config.Emulator_PackageName)
         # No set_server cause game client and UI language can be different
         # else:
         #     set_server(self.package)
+        logger.attr('Server', self.config.Emulator_PackageName)
+        server_.server = self.config.Emulator_PackageName
         logger.attr('PackageName', self.package)
+        server_.lang = self.config.Emulator_GameLanguage
         logger.attr('Lang', self.config.LANG)
 
         self.check_mumu_app_keep_alive()
@@ -831,25 +833,24 @@ class Connection(ConnectionAttr):
         packages = re.findall(r'package:([^\s]+)', output)
         return packages
 
-    def list_azurlane_packages(self, keywords=('hkrpg', ), show_log=True):
+    def list_azurlane_packages(self, show_log=True):
         """
         Args:
-            keywords:
             show_log:
 
         Returns:
             list[str]: List of package names
         """
         packages = self.list_package(show_log=show_log)
-        packages = [p for p in packages if any([k in p.lower() for k in keywords])]
+        packages = [p for p in packages if p in server_.VALID_PACKAGE]
         return packages
 
-    def detect_package(self, keywords=('hkrpg', ), set_config=True):
+    def detect_package(self, set_config=True):
         """
         Show all possible packages with the given keyword on this device.
         """
         logger.hr('Detect package')
-        packages = self.list_azurlane_packages(keywords=keywords)
+        packages = self.list_azurlane_packages()
 
         # Show packages
         logger.info(f'Here are the available packages in device "{self.serial}", '
@@ -862,20 +863,20 @@ class Connection(ConnectionAttr):
 
         # Auto package detection
         if len(packages) == 0:
-            logger.critical(f'No {keywords[0]} package found, '
-                            f'please confirm {keywords[0]} has been installed on device "{self.serial}"')
+            logger.critical(f'No Star Rail package found, '
+                            f'please confirm Star Rail has been installed on device "{self.serial}"')
             raise RequestHumanTakeover
         if len(packages) == 1:
             logger.info('Auto package detection found only one package, using it')
             self.package = packages[0]
             # Set config
             if set_config:
-                self.config.Emulator_PackageName = self.package
+                self.config.Emulator_PackageName = server_.to_server(self.package)
             # Set server
             # logger.info('Server changed, release resources')
             # set_server(self.package)
         else:
             logger.critical(
-                f'Multiple {keywords[0]} packages found, auto package detection cannot decide which to choose, '
+                f'Multiple Star Rail packages found, auto package detection cannot decide which to choose, '
                 'please copy one of the available devices listed above to Alas.Emulator.PackageName')
             raise RequestHumanTakeover

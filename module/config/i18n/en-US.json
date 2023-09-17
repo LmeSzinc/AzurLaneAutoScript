@@ -78,11 +78,21 @@
     },
     "PackageName": {
       "name": "Game Server",
-      "help": "Manual select is required if multiple game clients are installed on emulator",
+      "help": "Can't distinguish different regions of oversea servers, please select the server manually.",
       "auto": "Auto-detect",
-      "com.miHoYo.hkrpg": "CN",
-      "com.HoYoverse.hkrpgoversea": "OVERSEA",
-      "com.miHoYo.hkrpg.bilibili": "CN com.miHoYo.hkrpg.bilibili"
+      "CN-Official": "[CN]-Official",
+      "CN-Bilibili": "[CN]-Bilibili",
+      "OVERSEA-America": "[OVERSEA]-America",
+      "OVERSEA-Asia": "[OVERSEA]-Asia",
+      "OVERSEA-Europe": "[OVERSEA]-Europe",
+      "OVERSEA-TWHKMO": "[OVERSEA]-TW,HK,MO"
+    },
+    "GameLanguage": {
+      "name": "In-game Text Language",
+      "help": "Currently, only Simplified Chinese and English are supported. Please set the text language in game to one of them.",
+      "auto": "Auto-detect",
+      "cn": "简体中文",
+      "en": "English"
     },
     "ScreenshotMethod": {
       "name": "Screenshot Method",

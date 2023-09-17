@@ -7,7 +7,7 @@ from module.base.timer import Timer
 from module.base.utils import area_size, crop, rgb2luma, load_image, crop
 from module.logger import logger
 from module.ui.scroll import Scroll
-from tasks.base.assets.assets_base_popup import CANCEL_POPUP
+from tasks.base.assets.assets_base_popup import POPUP_CANCEL
 from tasks.base.ui import UI
 from tasks.combat.assets.assets_combat_support import COMBAT_SUPPORT_ADD, COMBAT_SUPPORT_LIST, \
     COMBAT_SUPPORT_LIST_SCROLL, COMBAT_SUPPORT_SELECTED, COMBAT_SUPPORT_LIST_GRID
@@ -209,12 +209,12 @@ class CombatSupport(UI):
                 self.device.click(COMBAT_TEAM_SUPPORT)
                 self.interval_reset(COMBAT_TEAM_SUPPORT)
                 continue
-            if self.appear(CANCEL_POPUP, interval=1):
+            if self.appear(POPUP_CANCEL, interval=1):
                 logger.warning(
                     "selected identical character, trying select another")
                 self._cancel_popup()
                 self._select_next_support()
-                self.interval_reset(CANCEL_POPUP)
+                self.interval_reset(POPUP_CANCEL)
                 continue
             if self.appear(COMBAT_SUPPORT_LIST, interval=1):
                 if support_character_name != "FirstCharacter":
@@ -326,8 +326,7 @@ class CombatSupport(UI):
                 logger.info("Popup canceled")
                 return
 
-            if self.appear(CANCEL_POPUP):
-                self.device.click(CANCEL_POPUP)
+            if self.handle_popup_cancel():
                 continue
 
     def _select_next_support(self):

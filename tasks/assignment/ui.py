@@ -6,7 +6,7 @@ from module.base.base import ModuleBase
 from module.base.timer import Timer
 from module.exception import ScriptError
 from module.logger import logger
-from module.ocr.ocr import DigitCounter, Ocr
+from module.ocr.ocr import DigitCounter, Duration, Ocr
 from module.ui.draggable_list import DraggableList
 from module.ui.switch import Switch
 from tasks.assignment.assets.assets_assignment_ui import *
@@ -37,6 +37,10 @@ class AssignmentSwitch(Switch):
 
 
 class AssignmentOcr(Ocr):
+    # EN has names in multiple rows
+    merge_thres_y = 20
+    merge_thres_x = 20
+
     OCR_REPLACE = {
         'cn': [
             (KEYWORDS_ASSIGNMENT_ENTRY.Winter_Soldiers.name, '[黑]冬的战士们'),
@@ -56,8 +60,14 @@ class AssignmentOcr(Ocr):
             return None
         return re.compile('|'.join('(?P<%s>%s)' % pair for pair in rules))
 
+    def filter_detected(self, result) -> bool:
+        # Drop duration rows
+        res = Duration.timedelta_regex(self.lang).search(result.ocr_text)
+        return not bool(res.group('seconds'))
+
     def after_process(self, result: str):
         result = super().after_process(result)
+
         if self.ocr_regex is None:
             return result
         matched = self.ocr_regex.fullmatch(result)

@@ -78,11 +78,21 @@
     },
     "PackageName": {
       "name": "遊戲伺服器",
-      "help": "模擬器上裝有多個遊戲客戶端時，需要手動選擇伺服器",
+      "help": "無法區分國際服的不同地區，請手動選擇伺服器",
       "auto": "自動檢測",
-      "com.miHoYo.hkrpg": "CN",
-      "com.HoYoverse.hkrpgoversea": "OVERSEA",
-      "com.miHoYo.hkrpg.bilibili": "CN com.miHoYo.hkrpg.bilibili"
+      "CN-Official": "[國服]-官服",
+      "CN-Bilibili": "[國服]-B服 ",
+      "OVERSEA-America": "[國際服]-美洲",
+      "OVERSEA-Asia": "[國際服]-亞洲",
+      "OVERSEA-Europe": "[國際服]-歐洲",
+      "OVERSEA-TWHKMO": "[國際服]-台港澳"
+    },
+    "GameLanguage": {
+      "name": "遊戲內文本語言",
+      "help": "目前僅支援簡體中文和英文，請在遊戲內設定文本語言為其中的一種",
+      "auto": "自動檢測",
+      "cn": "简体中文",
+      "en": "English"
     },
     "ScreenshotMethod": {
       "name": "模擬器截圖方案",

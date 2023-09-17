@@ -39,6 +39,12 @@ class DailyQuestOcr(Ocr):
                 result = "进行中"
             if "已领取" in result:
                 result = "已领取"
+        if self.lang == 'en':
+            result = result.replace('wor(d', 'world')
+            if "progress" in result.lower():
+                result = "In Progress"
+            if "claimed" in result.lower():
+                result = "Claimed"
         return result
 
 

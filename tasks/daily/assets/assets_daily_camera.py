@@ -12,7 +12,13 @@ PICTURE_TAKEN = ButtonWrapper(
         color=(153, 153, 155),
         button=(1030, 620, 1069, 639),
     ),
-    en=None,
+    en=Button(
+        file='./assets/en/daily/camera/PICTURE_TAKEN.png',
+        area=(1027, 622, 1072, 638),
+        search=(1007, 602, 1092, 658),
+        color=(160, 161, 162),
+        button=(1027, 622, 1072, 638),
+    ),
 )
 TAKE_PICTURE = ButtonWrapper(
     name='TAKE_PICTURE',

@@ -56,8 +56,6 @@ class Assignment(AssignmentClaim, SynthesizeUI):
 
         # Scheduler
         logger.attr('has_new_dispatch', self.has_new_dispatch)
-        delay = min(self.dispatched.values())
-        logger.info(f'Delay assignment check to {str(delay)}')
         with self.config.multi_set():
             # Check battle pass
             quests = self.config.stored.BattlePassTodayQuest.load_quests()
@@ -71,7 +69,14 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                 logger.info('Achieved daily quest Go_on_assignment_1_time')
                 self.config.task_call('DailyQuest')
             # Delay self
-            self.config.task_delay(target=delay)
+            if len(self.dispatched):
+                delay = min(self.dispatched.values())
+                logger.info(f'Delay assignment check to {str(delay)}')
+                self.config.task_delay(target=delay)
+            else:
+                # ValueError: min() arg is an empty sequence
+                logger.error('Empty dispatched list, delay 2 hours instead')
+                self.config.task_delay(minute=120)
 
     def _check_inlist(self, assignments: list[AssignmentEntry], duration: int):
         """
@@ -83,11 +88,13 @@ class Assignment(AssignmentClaim, SynthesizeUI):
         """
         if not assignments:
             return
-        logger.hr('Assignment check inlist', level=2)
+        logger.hr('Assignment check inlist', level=1)
         logger.info(
             f'User specified assignments: {", ".join([x.name for x in assignments])}')
         _, remain, _ = self._limit_status
         for assignment in assignments:
+            logger.hr('Assignment inlist', level=2)
+            logger.info(f'Check assignment inlist: {assignment}')
             self.goto_entry(assignment)
             if self.appear(CLAIM):
                 self.claim(assignment, duration, should_redispatch=True)
@@ -110,7 +117,7 @@ class Assignment(AssignmentClaim, SynthesizeUI):
             3. Dispatchable
         Break when a dispatchable assignment is encountered
         """
-        logger.hr('Assignment check all', level=2)
+        logger.hr('Assignment check all', level=1)
         _, remain, total = self._limit_status
         if total == len(self.dispatched):
             return remain
@@ -121,6 +128,8 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                 assignment = next(entries)
                 if assignment in self.dispatched:
                     continue
+                logger.hr('Assignment all', level=2)
+                logger.info(f'Check assignment all: {assignment}')
                 self.goto_entry(assignment)
                 if self.appear(CLAIM):
                     self.claim(assignment, None, should_redispatch=False)

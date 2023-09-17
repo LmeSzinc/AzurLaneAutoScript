@@ -5,13 +5,14 @@ from module.exception import GameNotRunningError, GamePageUnknownError
 from module.logger import logger
 from module.ocr.ocr import Ocr
 from tasks.base.assets.assets_base_page import CLOSE
+from tasks.base.main_page import MainPage
 from tasks.base.page import Page, page_main
 from tasks.base.popup import PopupHandler
 from tasks.combat.assets.assets_combat_finish import COMBAT_EXIT
 from tasks.combat.assets.assets_combat_prepare import COMBAT_PREPARE
 
 
-class UI(PopupHandler):
+class UI(PopupHandler, MainPage):
     ui_current: Page
     ui_main_confirm_timer = Timer(0.2, count=0)
 
@@ -124,6 +125,7 @@ class UI(PopupHandler):
                     continue
                 if self.appear(page.check_button, interval=5):
                     logger.info(f'Page switch: {page} -> {page.parent}')
+                    self.handle_lang_check(page)
                     if self.ui_page_confirm(page):
                         logger.info(f'Page arrive confirm {page}')
                     button = page.links[page.parent]
@@ -152,6 +154,9 @@ class UI(PopupHandler):
         """
         logger.hr("UI ensure")
         self.ui_get_current_page(skip_first_screenshot=skip_first_screenshot)
+        if self.acquire_lang_checked():
+            self.ui_get_current_page(skip_first_screenshot=skip_first_screenshot)
+
         if self.ui_current == destination:
             logger.info("Already at %s" % destination)
             return False

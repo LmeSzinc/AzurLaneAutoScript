@@ -5,25 +5,23 @@ from module.base.button import Button, ButtonWrapper
 
 CLAIM = ButtonWrapper(
     name='CLAIM',
-    cn=Button(
-        file='./assets/cn/assignment/claim/CLAIM.png',
-        area=(1031, 652, 1101, 674),
-        search=(1011, 632, 1121, 694),
-        color=(169, 134, 66),
-        button=(920, 644, 1210, 683),
+    share=Button(
+        file='./assets/share/assignment/claim/CLAIM.png',
+        area=(1034, 653, 1054, 673),
+        search=(920, 644, 1210, 683),
+        color=(106, 89, 56),
+        button=(1023, 644, 1135, 683),
     ),
-    en=None,
 )
 CLOSE_REPORT = ButtonWrapper(
     name='CLOSE_REPORT',
-    cn=Button(
-        file='./assets/cn/assignment/claim/CLOSE_REPORT.png',
-        area=(397, 598, 472, 623),
-        search=(377, 578, 492, 643),
-        color=(159, 157, 153),
-        button=(290, 592, 579, 630),
+    share=Button(
+        file='./assets/share/assignment/claim/CLOSE_REPORT.png',
+        area=(398, 598, 422, 622),
+        search=(290, 592, 579, 630),
+        color=(99, 93, 80),
+        button=(385, 592, 505, 630),
     ),
-    en=None,
 )
 OCR_ASSIGNMENT_REPORT_TIME = ButtonWrapper(
     name='OCR_ASSIGNMENT_REPORT_TIME',
@@ -37,12 +35,11 @@ OCR_ASSIGNMENT_REPORT_TIME = ButtonWrapper(
 )
 REDISPATCH = ButtonWrapper(
     name='REDISPATCH',
-    cn=Button(
-        file='./assets/cn/assignment/claim/REDISPATCH.png',
-        area=(784, 598, 901, 622),
-        search=(764, 578, 921, 642),
-        color=(158, 157, 155),
-        button=(700, 592, 987, 629),
+    share=Button(
+        file='./assets/share/assignment/claim/REDISPATCH.png',
+        area=(786, 598, 810, 622),
+        search=(700, 592, 987, 629),
+        color=(96, 90, 78),
+        button=(779, 592, 905, 629),
     ),
-    en=None,
 )

@@ -22,7 +22,7 @@ class ForgottenHallStageOcr(Ocr):
         raw = image.copy()
         area = OCR_STAGE.area
         image = crop(raw, area)
-        yellow = color_similarity_2d(image, color=(250, 201, 111))
+        yellow = color_similarity_2d(image, color=(255, 200, 112))
         gray = color_similarity_2d(image, color=(100, 109, 134))
         image = np.maximum(yellow, gray)
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
@@ -36,7 +36,7 @@ class ForgottenHallStageOcr(Ocr):
         for cont in contours:
             rect = cv2.boundingRect(cv2.convexHull(cont).astype(np.float32))
             # Filter with rectangle width, usually to be 62~64
-            if not 62 - 10 < rect[2] < 62 + 10:
+            if not 62 - 10 < rect[2] < 65 + 10:
                 continue
             rect = (rect[0], rect[1], rect[0] + rect[2], rect[1] + rect[3])
             rect = area_offset(rect, offset=area[:2])
@@ -52,16 +52,16 @@ class ForgottenHallStageOcr(Ocr):
         boxes = self._find_number(image)
         image_list = [crop(image, area) for area in boxes]
         results = self.ocr_multi_lines(image_list)
-        boxed_results = [
+        results = [
             BoxedResult(area_offset(boxes[index], (-50, 0)), image_list[index], text, score)
             for index, (text, score) in enumerate(results)
         ]
-        results_buttons = [
-            OcrResultButton(result, keyword_classes)
-            for result in boxed_results
-        ]
-        logger.attr(name=f'{self.name} matched', text=results_buttons)
-        return results_buttons
+
+        results = [self._product_button(result, keyword_classes, ignore_digit=False) for result in results]
+        results = [result for result in results if result.is_keyword_matched]
+
+        logger.attr(name=f'{self.name} matched', text=results)
+        return results
 
 
 class DraggableStageList(DraggableList):

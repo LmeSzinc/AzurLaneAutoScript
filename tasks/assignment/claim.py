@@ -1,5 +1,6 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 
+from module.config.stored.classes import now
 from module.logger import logger
 from module.ocr.ocr import Duration
 from tasks.assignment.assets.assets_assignment_claim import *
@@ -27,8 +28,10 @@ class AssignmentClaim(AssignmentDispatch):
         self._exit_report(redispatched)
         if redispatched:
             self._wait_until_assignment_started()
-            self.dispatched[assignment] = datetime.now(
-            ) + timedelta(hours=duration_expected)
+            future = now() + timedelta(hours=duration_expected)
+            logger.info(f'Assignment redispatched, will finish at {future}')
+            self.dispatched[assignment] = future
+            self.has_new_dispatch = True
         elif should_redispatch:
             # Re-select duration and dispatch
             self.goto_entry(assignment)
@@ -91,4 +94,4 @@ class AssignmentClaim(AssignmentDispatch):
         """
         duration_reported: timedelta = Duration(
             OCR_ASSIGNMENT_REPORT_TIME).ocr_single_line(self.device.image)
-        return duration_reported.total_seconds() == duration*3600
+        return duration_reported.total_seconds() == duration * 3600

@@ -5,7 +5,7 @@ from tasks.base.assets.assets_base_popup import GET_REWARD
 from tasks.base.page import Page, page_menu, page_synthesize
 from tasks.base.ui import UI
 from tasks.base.assets.assets_base_page import MENU_SCROLL
-from tasks.base.assets.assets_base_popup import CONFIRM_POPUP
+from tasks.base.assets.assets_base_popup import POPUP_CONFIRM
 from tasks.daily.assets.assets_daily_synthesize_consumable import *
 from tasks.daily.assets.assets_daily_synthesize_material import *
 
@@ -137,7 +137,7 @@ class SynthesizeUI(UI):
             else:
                 self.device.screenshot()
 
-            if self.appear(CONFIRM_POPUP):
+            if self.appear(POPUP_CONFIRM):
                 logger.info('Synthesize confirm popup window appear')
                 break
             # The recipe of the item has not been unlocked yet, but it can be unlocked now
@@ -161,8 +161,7 @@ class SynthesizeUI(UI):
                 logger.info('Synthesize consumable completed')
                 break
             # Synthesize confirm
-            if self.appear_then_click(CONFIRM_POPUP):
-                logger.info('Click the confirm button')
+            if self.handle_popup_confirm():
                 continue
 
     def _back_to_synthesize_page(self, skip_first_screenshot=True):
