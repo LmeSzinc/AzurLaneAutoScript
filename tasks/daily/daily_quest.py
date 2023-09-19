@@ -41,6 +41,8 @@ class DailyQuestOcr(Ocr):
                 result = "已领取"
         if self.lang == 'en':
             result = result.replace('wor(d', 'world')
+            # Echo/ofWar
+            result = result.replace('cho/of', 'cho of')
             if "progress" in result.lower():
                 result = "In Progress"
             if "claimed" in result.lower():
