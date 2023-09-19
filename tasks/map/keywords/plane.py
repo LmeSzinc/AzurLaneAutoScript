@@ -163,8 +163,16 @@ Luofu_ExaltingSanctum = MapPlane(
     en='Exalting Sanctum',
     jp='長楽天',
 )
-Luofu_DivinationCommission = MapPlane(
+Luofu_AurumAlley = MapPlane(
     id=21,
+    name='Luofu_AurumAlley',
+    cn='金人巷',
+    cht='金人巷',
+    en='Aurum Alley',
+    jp='金人巷',
+)
+Luofu_DivinationCommission = MapPlane(
+    id=22,
     name='Luofu_DivinationCommission',
     cn='太卜司',
     cht='太卜司',
@@ -172,7 +180,7 @@ Luofu_DivinationCommission = MapPlane(
     jp='太卜司',
 )
 Luofu_ArtisanshipCommission = MapPlane(
-    id=22,
+    id=23,
     name='Luofu_ArtisanshipCommission',
     cn='工造司',
     cht='工造司',
@@ -180,7 +188,7 @@ Luofu_ArtisanshipCommission = MapPlane(
     jp='工造司',
 )
 Luofu_AlchemyCommission = MapPlane(
-    id=23,
+    id=24,
     name='Luofu_AlchemyCommission',
     cn='丹鼎司',
     cht='丹鼎司',
@@ -188,7 +196,7 @@ Luofu_AlchemyCommission = MapPlane(
     jp='丹鼎司',
 )
 Luofu_ScalegorgeWaterscape = MapPlane(
-    id=24,
+    id=25,
     name='Luofu_ScalegorgeWaterscape',
     cn='鳞渊境',
     cht='鱗淵境',
