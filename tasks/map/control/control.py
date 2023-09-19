@@ -130,7 +130,7 @@ class MapControl(MapControlJoystick):
                 if allow_straight_run and diff < 15:
                     logger.info(f'Approaching target, diff={round(diff, 1)}, disallow straight_run')
                     direction_interval = Timer(0.2)
-                    self._map_2x_run_timer.reset()
+                    self.map_2x_run_timer.reset()
                     allow_straight_run = False
                 if allow_run and diff < 7:
                     logger.info(f'Approaching target, diff={round(diff, 1)}, disallow run')
@@ -244,7 +244,7 @@ class MapControl(MapControlJoystick):
 if __name__ == '__main__':
     # Control test in Himeko trail
     # Must manually enter Himeko trail first and dismiss popup
-    self = MapControl('alas')
+    self = MapControl('src')
     self.minimap.set_plane('Jarilo_BackwaterPass', floor='F1')
     self.device.screenshot()
     self.minimap.init_position((519, 359))

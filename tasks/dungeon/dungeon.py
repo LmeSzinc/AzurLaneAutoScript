@@ -248,7 +248,7 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
         area = area_offset((-50, -150, 0, 0), offset=self.config.ASSETS_RESOLUTION)
 
         skip_first_screenshot = True
-        self._map_A_timer.reset()
+        self.map_A_timer.reset()
         handled = False
         while 1:
             if skip_first_screenshot:
@@ -265,7 +265,7 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
                 logger.info(f'No destructible object')
                 if not handled:
                     break
-                if self._map_A_timer.reached():
+                if self.map_A_timer.reached():
                     break
 
         return handled
