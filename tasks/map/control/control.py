@@ -4,7 +4,7 @@ from module.base.timer import Timer
 from module.logger import logger
 from tasks.map.assets.assets_map_control import ROTATION_SWIPE_AREA
 from tasks.map.control.joystick import JoystickContact, MapControlJoystick
-from tasks.map.control.waypoint import Waypoint, WaypointRun, WaypointStraightRun, ensure_waypoint
+from tasks.map.control.waypoint import Waypoint, ensure_waypoint
 from tasks.map.minimap.minimap import Minimap
 from tasks.map.resource.const import diff_to_180_180
 
@@ -76,7 +76,7 @@ class MapControl(MapControlJoystick):
             self,
             contact: JoystickContact,
             waypoint: Waypoint,
-            end_point_opt=True,
+            end_opt=True,
             skip_first_screenshot=False
     ):
         """
@@ -88,7 +88,7 @@ class MapControl(MapControlJoystick):
                 `with JoystickContact(self) as contact:`
             waypoint:
                 Position to goto, (x, y)
-            end_point_opt:
+            end_opt:
                 True to enable endpoint optimizations,
                 character will smoothly approach target position
             skip_first_screenshot:
@@ -98,7 +98,7 @@ class MapControl(MapControlJoystick):
         self.device.stuck_record_clear()
         self.device.click_record_clear()
 
-        end_point_opt = end_point_opt and waypoint.end_point_opt
+        end_opt = end_opt and waypoint.end_opt
         allow_2x_run = waypoint.speed in ['2x_run']
         allow_straight_run = waypoint.speed in ['2x_run', 'straight_run']
         allow_run = waypoint.speed in ['2x_run', 'straight_run', 'run']
@@ -117,13 +117,13 @@ class MapControl(MapControlJoystick):
             self.minimap.update(self.device.image)
 
             # Arrive
-            if self.minimap.is_position_near(waypoint.position, threshold=waypoint.get_threshold(end_point_opt)):
+            if self.minimap.is_position_near(waypoint.position, threshold=waypoint.get_threshold(end_opt)):
                 logger.info(f'Arrive {waypoint}')
                 break
 
             # Switch run case
             diff = self.minimap.position_diff(waypoint.position)
-            if end_point_opt:
+            if end_opt:
                 if allow_2x_run and diff < 20:
                     logger.info(f'Approaching target, diff={round(diff, 1)}, disallow 2x_run')
                     allow_2x_run = False
@@ -160,7 +160,7 @@ class MapControl(MapControlJoystick):
                     direction_interval.reset()
                 self.handle_map_2x_run(run=True)
             elif allow_straight_run:
-                # Run with 2x_run button
+                # Run straight forward
                 # - Set rotation once
                 # - Continuous fine-tuning direction
                 # - Disable 2x_run
@@ -204,7 +204,7 @@ class MapControl(MapControlJoystick):
 
     def goto(
             self,
-            waypoints,
+            *waypoints,
             skip_first_screenshot=True
     ):
         """
@@ -218,8 +218,6 @@ class MapControl(MapControlJoystick):
             skip_first_screenshot:
         """
         logger.hr('Goto', level=1)
-        if not isinstance(waypoints, list):
-            waypoints = [waypoints]
         waypoints = [ensure_waypoint(point) for point in waypoints]
         logger.info(f'Go along {len(waypoints)} waypoints')
         end_list = [False for _ in waypoints]
@@ -231,35 +229,36 @@ class MapControl(MapControlJoystick):
                 self._goto(
                     contact=contact,
                     waypoint=point,
-                    end_point_opt=end,
+                    end_opt=end,
                     skip_first_screenshot=skip_first_screenshot
                 )
                 skip_first_screenshot = True
 
         end_point = waypoints[-1]
-        if end_point.end_point_rotation is not None:
-            self.rotation_set(end_point.end_point_rotation, threshold=end_point.end_point_rotation_threshold)
+        if end_point.end_rotation is not None:
+            logger.hr('End rotation', level=1)
+            self.rotation_set(end_point.end_rotation, threshold=end_point.end_rotation_threshold)
 
 
 if __name__ == '__main__':
-    # Control test in Himeko trail
-    # Must manually enter Himeko trail first and dismiss popup
+    # Control test in Himeko trial
+    # Must manually enter Himeko trial first and dismiss popup
     self = MapControl('src')
     self.minimap.set_plane('Jarilo_BackwaterPass', floor='F1')
     self.device.screenshot()
     self.minimap.init_position((519, 359))
     # Visit 3 items
-    self.goto([
-        WaypointRun((577.6, 363.4)),
-    ])
-    self.goto([
-        WaypointStraightRun((577.5, 369.4), end_point_rotation=200),
-    ])
-    self.goto([
-        WaypointRun((581.5, 387.3)),
-        WaypointRun((577.4, 411.5)),
-    ])
+    self.goto(
+        Waypoint((577.6, 363.4)),
+    )
+    self.goto(
+        Waypoint((577.5, 369.4), end_rotation=200),
+    )
+    self.goto(
+        Waypoint((581.5, 387.3)),
+        Waypoint((577.4, 411.5)),
+    )
     # Goto boss
-    self.goto([
-        WaypointStraightRun((607.6, 425.3)),
-    ])
+    self.goto(
+        Waypoint((607.6, 425.3)),
+    )

@@ -13,17 +13,17 @@ class Waypoint:
     endpoint_threshold: int = 3
     # Max move speed, '2x_run', 'straight_run', 'run', 'walk'
     # See MapControl._goto() for details of each speed level
-    speed: str = '2x_run'
+    speed: str = 'straight_run'
 
     """
     The following attributes are only be used if this waypoint is the end point of goto()
     """
     # True to enable endpoint optimizations, character will smoothly approach target position
     # False to stop all controls at arrive
-    end_point_opt: bool = True
+    end_opt: bool = True
     # Set rotation after arrive, 0~360
-    end_point_rotation: int = None
-    end_point_rotation_threshold: int = 15
+    end_rotation: int = None
+    end_rotation_threshold: int = 15
 
     def __str__(self):
         return f'Waypoint({self.position})'
