@@ -61,6 +61,8 @@ class Login(UI):
             # Additional
             if self.handle_popup_single():
                 continue
+            if self.handle_popup_confirm():
+                continue
             if self.ui_additional():
                 continue
 
