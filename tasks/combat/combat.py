@@ -106,7 +106,7 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
                 continue
             if self.appear(COMBAT_TEAM_PREPARE):
                 self.interval_reset(COMBAT_PREPARE)
-                self._map_A_timer.reset()
+                self.map_A_timer.reset()
             if self.appear(COMBAT_PREPARE, interval=2):
                 if not self.handle_combat_prepare():
                     return False

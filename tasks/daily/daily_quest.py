@@ -1,9 +1,12 @@
+import cv2
 import numpy as np
 
 from module.base.timer import Timer
-from module.logger import *
+from module.base.utils import crop
+from module.logger import logger
 from module.ocr.ocr import Ocr, OcrResultButton
 from module.ocr.utils import split_and_pair_buttons
+from tasks.battle_pass.keywords import KEYWORD_BATTLE_PASS_QUEST
 from tasks.daily.assets.assets_daily_reward import *
 from tasks.daily.camera import CameraUI
 from tasks.daily.keywords import (
@@ -19,12 +22,18 @@ from tasks.dungeon.keywords import KEYWORDS_DUNGEON_TAB
 from tasks.dungeon.ui import DungeonUI
 from tasks.item.consumable_usage import ConsumableUsageUI
 from tasks.item.relics import RelicsUI
-from tasks.battle_pass.keywords import KEYWORD_BATTLE_PASS_QUEST
 
 
 class DailyQuestOcr(Ocr):
-    def __init__(self, button: ButtonWrapper, lang=None, name=None):
-        super().__init__(button, lang, name)
+    merge_thres_y = 20
+
+    def pre_process(self, image):
+        image = super().pre_process(image)
+        image = crop(image, OCR_DAILY_QUEST.area)
+        mask = MASK_DAILY_QUEST.matched_button.image
+        # Remove "+200Activity"
+        cv2.bitwise_and(image, mask, dst=image)
+        return image
 
     def after_process(self, result):
         result = super().after_process(result)
@@ -91,8 +100,7 @@ class DailyQuestUI(DungeonUI):
 
     def _ocr_single_page(self) -> list[OcrResultButton]:
         ocr = DailyQuestOcr(OCR_DAILY_QUEST)
-        ocr.merge_thres_y = 20
-        results = ocr.matched_ocr(self.device.image, [DailyQuestState, DailyQuest])
+        results = ocr.matched_ocr(self.device.image, [DailyQuestState, DailyQuest], direct_ocr=True)
         if len(results) < 8:
             logger.warning(f"Recognition failed at {8 - len(results)} quests on one page")
 

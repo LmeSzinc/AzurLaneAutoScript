@@ -152,20 +152,21 @@ class ModuleBase:
                 prev_image = image
                 timer.reset()
 
-    def image_crop(self, button):
+    def image_crop(self, button, copy=True):
         """Extract the area from image.
 
         Args:
             button(Button, tuple): Button instance or area tuple.
+            copy:
         """
         if isinstance(button, Button):
-            return crop(self.device.image, button.area)
+            return crop(self.device.image, button.area, copy=copy)
         elif isinstance(button, ButtonWrapper):
-            return crop(self.device.image, button.area)
+            return crop(self.device.image, button.area, copy=copy)
         elif hasattr(button, 'area'):
-            return crop(self.device.image, button.area)
+            return crop(self.device.image, button.area, copy=copy)
         else:
-            return crop(self.device.image, button)
+            return crop(self.device.image, button, copy=copy)
 
     def image_color_count(self, button, color, threshold=221, count=50):
         """
@@ -178,9 +179,14 @@ class ModuleBase:
         Returns:
             bool:
         """
-        image = self.image_crop(button)
-        mask = color_similarity_2d(image, color=color) > threshold
-        return np.sum(mask) > count
+        if isinstance(button, np.ndarray):
+            image = button
+        else:
+            image = self.image_crop(button, copy=False)
+        mask = color_similarity_2d(image, color=color)
+        cv2.inRange(mask, threshold, 255, dst=mask)
+        sum_ = cv2.countNonZero(mask)
+        return sum_ > count
 
     def image_color_button(self, area, color, color_threshold=250, encourage=5, name='COLOR_BUTTON'):
         """
