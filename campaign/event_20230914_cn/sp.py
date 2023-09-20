@@ -6,7 +6,7 @@ from module.logger import logger
 MAP = CampaignMap('SP')
 MAP.shape = 'H5'
 MAP.camera_data = ['E3']
-MAP.camera_data_spawn_point = ['D3']
+MAP.camera_data_spawn_point = ['C3']
 MAP.map_data = """
     -- ++ ++ ++ ++ -- ME --
     SP -- -- -- ++ ME -- ME
@@ -62,9 +62,10 @@ class Config:
         'distance': 50,
         'wlen': 1000
     }
+    HOMO_STORAGE = ((9, 7), [(158.102, 59.806), (1142.124, 59.806), (-34.052, 695.951), (1324.267, 695.951)])
     HOMO_EDGE_COLOR_RANGE = (0, 17)
     HOMO_EDGE_HOUGHLINES_THRESHOLD = 210
-    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom-right'
     MAP_IS_ONE_TIME_STAGE = True
 
     MAP_SWIPE_MULTIPLY = (1.229, 1.253)
