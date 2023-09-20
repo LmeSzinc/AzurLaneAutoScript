@@ -2,9 +2,9 @@ import configparser
 import os
 
 from deploy.Windows.config import DeployConfig
+from deploy.git_over_cdn.client import GitOverCdnClient
 from deploy.Windows.logger import Progress, logger
-from deploy.Windows.utils import cached_property
-
+from deploy.Windows.utils import *
 
 class GitConfigParser(configparser.ConfigParser):
     def check(self, section, option, value):
@@ -108,6 +108,18 @@ class GitManager(DeployConfig):
         self.execute(f'"{self.git}" --no-pager log --no-merges -1')
         Progress.GitShowVersion()
 
+    @property
+    def goc_client(self):
+        client = GitOverCdnClient(
+            url='https://vip.123pan.cn/1818706573/pack/LmeSzinc_AzurLaneAutoScript_master',
+            folder=self.root_filepath,
+            source='origin',
+            branch='master',
+            git=self.git,
+        )
+        client.logger = logger
+        return client
+
     def git_install(self):
         logger.hr('Update Alas', 0)
 
@@ -115,6 +127,10 @@ class GitManager(DeployConfig):
             logger.info('AutoUpdate is disabled, skip')
             Progress.GitShowVersion()
             return
+
+        if self.GitOverCdn:
+            if self.goc_client.update(keep_changes=self.KeepLocalChanges):
+                return
 
         self.git_repository_init(
             repo=self.Repository,

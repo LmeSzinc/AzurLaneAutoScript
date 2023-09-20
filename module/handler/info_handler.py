@@ -316,7 +316,8 @@ class InfoHandler(ModuleBase):
 
         image = color_similarity_2d(self.image_crop(story_detect_area), color=story_option_color)
         line = cv2.reduce(image, 1, cv2.REDUCE_AVG).flatten()
-        line[line < 128] = 0
+        line[line < 200] = 0
+        line[line >= 200] = 255
 
         parameters = {
             # Option is 300`320px x 50~52px.
