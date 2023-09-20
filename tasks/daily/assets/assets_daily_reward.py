@@ -210,13 +210,23 @@ DAILY_QUEST_RIGHT_END = ButtonWrapper(
         button=(401, 259, 411, 632),
     ),
 )
+MASK_DAILY_QUEST = ButtonWrapper(
+    name='MASK_DAILY_QUEST',
+    share=Button(
+        file='./assets/share/daily/reward/MASK_DAILY_QUEST.png',
+        area=(117, 308, 1173, 630),
+        search=(97, 288, 1193, 650),
+        color=(208, 208, 208),
+        button=(117, 308, 1173, 630),
+    ),
+)
 OCR_DAILY_QUEST = ButtonWrapper(
     name='OCR_DAILY_QUEST',
     share=Button(
         file='./assets/share/daily/reward/OCR_DAILY_QUEST.png',
-        area=(117, 257, 1173, 630),
-        search=(97, 237, 1193, 650),
-        color=(208, 206, 202),
-        button=(117, 257, 1173, 630),
+        area=(117, 308, 1173, 630),
+        search=(97, 288, 1193, 650),
+        color=(204, 202, 199),
+        button=(117, 308, 1173, 630),
     ),
 )
