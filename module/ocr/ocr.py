@@ -389,6 +389,11 @@ class Duration(Ocr):
         }[lang]
         return re.compile(regex_str)
 
+    def after_process(self, result):
+        result = super().after_process(result)
+        result = result.strip('.,。，')
+        return result
+
     def format_result(self, result: str) -> timedelta:
         """
         Do OCR on a duration, such as `18d 2h 13m 30s`, `2h`, `13m 30s`, `9s`
