@@ -33,4 +33,9 @@ def hr(title, level=3):
         logger.info(f"<<< {title} >>>")
 
 
+def attr(name, text):
+    print(f'[{name}] {text}')
+
+
 logger.hr = hr
+logger.attr = attr
