@@ -117,6 +117,7 @@ class AlasGUI(Frame):
         self.initial()
 
     aside_status_cache = []
+    current_aside_cache = []
     load_home = False
 
     @use_scope("aside", clear=True)
@@ -145,11 +146,12 @@ class AlasGUI(Frame):
     @use_scope("aside_status")
     def set_aside_status(self, state: int) -> None:
         flag = True
-        if (len(self.aside_status_cache) != len(alas_instance())) or self.load_home:
+        self.current_aside_cache = alas_instance()
+        if (len(self.aside_status_cache) != len(self.current_aside_cache)) or self.load_home:
             # Reload when add new instance / first start app.py / go to HomePage
             flag = False
         if flag:
-            for index, inst in enumerate(alas_instance()):
+            for index, inst in enumerate(self.current_aside_cache):
                 # Check for state change
                 state = ProcessManager.get_manager(inst).state
                 if state != self.aside_status_cache[index]:
@@ -159,7 +161,7 @@ class AlasGUI(Frame):
             return
         clear()
         self.aside_status_cache.clear()
-        for name in alas_instance():
+        for name in self.current_aside_cache:
             self.aside_status_cache.append(ProcessManager.get_manager(name).state)
             put_icon_buttons(
                 Icon.RUN,
@@ -168,6 +170,7 @@ class AlasGUI(Frame):
                 onclick=self.ui_alas,
             )
         self.load_home = False
+        self.current_aside_cache.clear()
         aside_name = get_localstorage("aside")
         self.active_button("aside", aside_name)
         return

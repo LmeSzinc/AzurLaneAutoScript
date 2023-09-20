@@ -19,6 +19,8 @@ from module.webui.utils import (
     LIGHT_TERMINAL_THEME,
     LOG_CODE_FORMAT,
     Switch,
+    _read,
+    filepath_icon,
 )
 
 if TYPE_CHECKING:
@@ -273,18 +275,19 @@ def put_icon_buttons(
     onclick: Union[List[Callable[[], None]], Callable[[], None]],
 ) -> Output:
     value = buttons[0]["value"]
-    
+    circle_c = ""
+    status_html = ""
     if signal == "true":
         state = ProcessManager.get_manager(value).state
-        if state == 1 or state == 4:
-            circle_c = "green"
+        if state == 1:
+            circle_c = "running"
         elif state == 2:
-            circle_c = "gray"
+            circle_c = "pause"
         elif state == 3:
-            circle_c = "red"
-        status = output(put_html(f'<div class="circle" style="background-color: {circle_c};"></div>')).style(
-            "z-index: 1; padding: 0px; grid-column: 2 / 3; grid-row: 1 / 2;"
-        )
+            circle_c = "error"
+        elif state == 4:
+            circle_c = "update"
+        status_html = _read(filepath_icon(f'status_{circle_c}'))
     else:
         status = put_none()
 
@@ -295,7 +298,9 @@ def put_icon_buttons(
                     output(put_html(icon_html)).style(
                         "z-index: 1; margin-left: 8px;text-align: center; grid-column: 1 / 3; grid-row: 1 / 2"
                     ),
-                    status,
+                    output(put_html(status_html)).style(
+                        "z-index: 1; margin-left: 8px;text-align: center; grid-column: 2 / 3; grid-row: 1 / 2"
+                    ),
                 ]
             ),
             put_buttons(buttons, onclick).style(f"z-index: 2; --aside-{value}--;"),
