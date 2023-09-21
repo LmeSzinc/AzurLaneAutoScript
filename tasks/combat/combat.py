@@ -136,6 +136,10 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
 
             # End
             if self.appear(COMBAT_AGAIN):
+                logger.info(f'Combat execute ended at {COMBAT_AGAIN}')
+                break
+            if self.is_in_main():
+                logger.info(f'Combat execute ended at page_main')
                 break
 
             # Daemon

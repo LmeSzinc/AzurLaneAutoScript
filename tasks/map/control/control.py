@@ -2,14 +2,16 @@ from functools import cached_property
 
 from module.base.timer import Timer
 from module.logger import logger
+from tasks.combat.combat import Combat
 from tasks.map.assets.assets_map_control import ROTATION_SWIPE_AREA
-from tasks.map.control.joystick import JoystickContact, MapControlJoystick
-from tasks.map.control.waypoint import Waypoint, ensure_waypoint
+from tasks.map.control.joystick import JoystickContact
+from tasks.map.control.waypoint import Waypoint, ensure_waypoints
+from tasks.map.interact.aim import AimDetectorMixin
 from tasks.map.minimap.minimap import Minimap
 from tasks.map.resource.const import diff_to_180_180
 
 
-class MapControl(MapControlJoystick):
+class MapControl(Combat, AimDetectorMixin):
     @cached_property
     def minimap(self) -> Minimap:
         return Minimap()
@@ -78,7 +80,7 @@ class MapControl(MapControlJoystick):
             waypoint: Waypoint,
             end_opt=True,
             skip_first_screenshot=False
-    ):
+    ) -> list[str]:
         """
         Point to point walk.
 
@@ -92,6 +94,9 @@ class MapControl(MapControlJoystick):
                 True to enable endpoint optimizations,
                 character will smoothly approach target position
             skip_first_screenshot:
+
+        Returns:
+            list[str]: A list of walk result
         """
         logger.hr('Goto', level=2)
         logger.info(f'Goto {waypoint}')
@@ -99,51 +104,119 @@ class MapControl(MapControlJoystick):
         self.device.click_record_clear()
 
         end_opt = end_opt and waypoint.end_opt
-        allow_2x_run = waypoint.speed in ['2x_run']
-        allow_straight_run = waypoint.speed in ['2x_run', 'straight_run']
-        allow_run = waypoint.speed in ['2x_run', 'straight_run', 'run']
+        allow_run_2x = waypoint.speed in ['run_2x']
+        allow_straight_run = waypoint.speed in ['run_2x', 'straight_run']
+        allow_run = waypoint.speed in ['run_2x', 'straight_run', 'run']
+        allow_walk = True
         allow_rotation_set = True
         last_rotation = 0
 
+        result = []
+
         direction_interval = Timer(0.5, count=1)
         rotation_interval = Timer(0.3, count=1)
+        aim_interval = Timer(0.3, count=1)
+        attacked_enemy = Timer(1.2, count=4)
+        attacked_item = Timer(0.6, count=2)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
+            # End
+            for expected in waypoint.expected_end:
+                if callable(expected):
+                    if expected():
+                        logger.info(f'Walk result add: {expected.__name__}')
+                        result.append(expected.__name__)
+                        return result
+            if self.is_combat_executing():
+                logger.info('Walk result add: enemy')
+                result.append('enemy')
+                contact.up()
+                self.combat_execute()
+                if waypoint.early_stop:
+                    return result
+
+            # The following detection require page_main
+            if not self.is_in_main():
+                attacked_enemy.clear()
+                attacked_item.clear()
+                continue
+
             # Update
             self.minimap.update(self.device.image)
+            if aim_interval.reached_and_reset():
+                self.aim.predict(self.device.image)
+            diff = self.minimap.position_diff(waypoint.position)
+            direction = self.minimap.position2direction(waypoint.position)
+            rotation_diff = self.minimap.direction_diff(direction)
+            logger.info(f'Position diff: {diff}, rotation: {rotation_diff}')
+
+            # Interact
+            if self.aim.aimed_enemy:
+                if 'enemy' in waypoint.expected_end:
+                    if self.handle_map_A():
+                        allow_run_2x = allow_straight_run = allow_run = allow_walk = False
+                        attacked_enemy.reset()
+                        direction_interval.reset()
+                        rotation_interval.reset()
+                if attacked_enemy.started():
+                    attacked_enemy.reset()
+            if self.aim.aimed_item:
+                if 'item' in waypoint.expected_end:
+                    if self.handle_map_A():
+                        allow_run_2x = allow_straight_run = allow_run = allow_walk = False
+                        attacked_item.reset()
+                        direction_interval.reset()
+                        rotation_interval.reset()
+                if attacked_item.started():
+                    attacked_item.reset()
+            else:
+                if attacked_item.started() and attacked_item.reached():
+                    logger.info('Walk result add: item')
+                    result.append('item')
+                    if waypoint.early_stop:
+                        return result
 
             # Arrive
-            if self.minimap.is_position_near(waypoint.position, threshold=waypoint.get_threshold(end_opt)):
-                logger.info(f'Arrive {waypoint}')
-                break
+            if not attacked_enemy.started() and not attacked_item.started():
+                if self.minimap.is_position_near(waypoint.position, threshold=waypoint.get_threshold(end_opt)):
+                    if not waypoint.expected_end or waypoint.match_results(result):
+                        logger.info(f'Arrive waypoint: {waypoint}')
+                        return result
+                    else:
+                        if waypoint.unexpected_confirm.reached():
+                            logger.info(f'Arrive waypoint with unexpected result: {waypoint}')
+                            return result
+                else:
+                    waypoint.unexpected_confirm.reset()
 
             # Switch run case
-            diff = self.minimap.position_diff(waypoint.position)
+
             if end_opt:
-                if allow_2x_run and diff < 20:
-                    logger.info(f'Approaching target, diff={round(diff, 1)}, disallow 2x_run')
-                    allow_2x_run = False
-                if allow_straight_run and diff < 15:
+                if allow_run_2x and diff < 20:
+                    logger.info(f'Approaching target, diff={round(diff, 1)}, disallow run_2x')
+                    allow_run_2x = False
+                if allow_straight_run and diff < 15 and not allow_rotation_set:
                     logger.info(f'Approaching target, diff={round(diff, 1)}, disallow straight_run')
                     direction_interval = Timer(0.2)
-                    self.map_2x_run_timer.reset()
+                    aim_interval = Timer(0.1)
+                    self.map_run_2x_timer.reset()
                     allow_straight_run = False
                 if allow_run and diff < 7:
                     logger.info(f'Approaching target, diff={round(diff, 1)}, disallow run')
                     direction_interval = Timer(0.2)
+                    aim_interval = Timer(0.2)
                     allow_run = False
 
             # Control
-            direction = self.minimap.position2direction(waypoint.position)
-            if allow_2x_run:
-                # Run with 2x_run button
+            if allow_run_2x:
+                # Run with run_2x button
                 # - Set rotation once
                 # - Continuous fine-tuning direction
-                # - Enable 2x_run
+                # - Enable run_2x
                 if allow_rotation_set:
                     # Cache rotation cause rotation detection has a higher error rate
                     last_rotation = self.minimap.rotation
@@ -158,12 +231,12 @@ class MapControl(MapControlJoystick):
                 if direction_interval.reached():
                     contact.set(direction=diff_to_180_180(direction - last_rotation), run=True)
                     direction_interval.reset()
-                self.handle_map_2x_run(run=True)
+                self.handle_map_run_2x(run=True)
             elif allow_straight_run:
                 # Run straight forward
                 # - Set rotation once
                 # - Continuous fine-tuning direction
-                # - Disable 2x_run
+                # - Disable run_2x
                 if allow_rotation_set:
                     # Cache rotation cause rotation detection has a higher error rate
                     last_rotation = self.minimap.rotation
@@ -178,66 +251,101 @@ class MapControl(MapControlJoystick):
                 if direction_interval.reached():
                     contact.set(direction=diff_to_180_180(direction - last_rotation), run=True)
                     direction_interval.reset()
-                self.handle_map_2x_run(run=False)
+                self.handle_map_run_2x(run=False)
             elif allow_run:
                 # Run
                 # - No rotation set
                 # - Continuous fine-tuning direction
-                # - Disable 2x_run
+                # - Disable run_2x
                 if allow_rotation_set:
                     last_rotation = self.minimap.rotation
                     allow_rotation_set = False
                 if direction_interval.reached():
                     contact.set(direction=diff_to_180_180(direction - last_rotation), run=True)
-                self.handle_map_2x_run(run=False)
-            else:
+                    direction_interval.reset()
+                self.handle_map_run_2x(run=False)
+            elif allow_walk:
                 # Walk
                 # - Continuous fine-tuning direction
-                # - Disable 2x_run
+                # - Disable run_2x
                 if allow_rotation_set:
                     last_rotation = self.minimap.rotation
                     allow_rotation_set = False
                 if direction_interval.reached():
                     contact.set(direction=diff_to_180_180(direction - last_rotation), run=False)
                     direction_interval.reset()
-                self.handle_map_2x_run(run=False)
+                self.handle_map_run_2x(run=False)
+            else:
+                contact.up()
 
-    def goto(
-            self,
-            *waypoints,
-            skip_first_screenshot=True
-    ):
+    def goto(self, *waypoints):
         """
-        Go along a list of position, or goto target position
+        Go along a list of position, or goto target position.
 
         Args:
-            waypoints:
-                position (x, y) to goto, or a list of position to go along.
-                Waypoint object to goto, or a list of Waypoint objects to go along.
-
-            skip_first_screenshot:
+            waypoints: position (x, y), a list of position to go along,
+                or a list of Waypoint objects to go along.
         """
         logger.hr('Goto', level=1)
-        waypoints = [ensure_waypoint(point) for point in waypoints]
+        self.map_A_timer.clear()
+        self.map_E_timer.clear()
+        self.map_run_2x_timer.clear()
+        waypoints = ensure_waypoints(waypoints)
         logger.info(f'Go along {len(waypoints)} waypoints')
         end_list = [False for _ in waypoints]
         end_list[-1] = True
 
         with JoystickContact(self) as contact:
-            for point, end in zip(waypoints, end_list):
-                point: Waypoint
-                self._goto(
+            for waypoint, end in zip(waypoints, end_list):
+                waypoint: Waypoint
+                result = self._goto(
                     contact=contact,
-                    waypoint=point,
+                    waypoint=waypoint,
                     end_opt=end,
-                    skip_first_screenshot=skip_first_screenshot
+                    skip_first_screenshot=True,
                 )
-                skip_first_screenshot = True
+                expected = waypoint.expected_to_str(waypoint.expected_end)
+                logger.info(f'Arrive waypoint, expected: {expected}, result: {result}')
+                matched = waypoint.match_results(result)
+                if not waypoint.expected_end or matched:
+                    logger.info(f'Arrive waypoint with expected result: {matched}')
+                else:
+                    logger.warning(f'Arrive waypoint with unexpected result: {result}')
 
         end_point = waypoints[-1]
         if end_point.end_rotation is not None:
-            logger.hr('End rotation', level=1)
+            logger.hr('End rotation', level=2)
             self.rotation_set(end_point.end_rotation, threshold=end_point.end_rotation_threshold)
+
+    def clear_item(self, *waypoints):
+        """
+        Go along a list of position and clear destructive object at last.
+
+        Args:
+            waypoints: position (x, y), a list of position to go along.
+                or a list of Waypoint objects to go along.
+        """
+        logger.hr('Clear item', level=1)
+        waypoints = ensure_waypoints(waypoints)
+        end_point = waypoints[-1]
+        end_point.expected_end.append('item')
+
+        self.goto(*waypoints)
+
+    def clear_enemy(self, *waypoints):
+        """
+        Go along a list of position and enemy at last.
+
+        Args:
+            waypoints: position (x, y), a list of position to go along.
+                or a list of Waypoint objects to go along.
+        """
+        logger.hr('Clear item', level=1)
+        waypoints = ensure_waypoints(waypoints)
+        end_point = waypoints[-1]
+        end_point.expected_end.append('enemy')
+
+        self.goto(*waypoints)
 
 
 if __name__ == '__main__':
@@ -248,17 +356,14 @@ if __name__ == '__main__':
     self.device.screenshot()
     self.minimap.init_position((519, 359))
     # Visit 3 items
-    self.goto(
-        Waypoint((577.6, 363.4)),
+    self.clear_item(
+        Waypoint.run_2x((587.6, 366.9)),
     )
-    self.goto(
-        Waypoint((577.5, 369.4), end_rotation=200),
-    )
-    self.goto(
-        Waypoint((581.5, 387.3)),
-        Waypoint((577.4, 411.5)),
+    self.clear_item((575.5, 377.4))
+    self.clear_item(
+        # Go through arched door
+        Waypoint.run((581.5, 383.3), threshold=3),
+        Waypoint.run((575.7, 417.2)),
     )
     # Goto boss
-    self.goto(
-        Waypoint((607.6, 425.3)),
-    )
+    self.clear_enemy((613.5, 427.3))

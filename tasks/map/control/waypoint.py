@@ -1,4 +1,6 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+
+from module.base.timer import Timer
 
 
 @dataclass
@@ -11,7 +13,7 @@ class Waypoint:
     # If `threshold` is not set, `waypoint_threshold` and `endpoint_threshold` are used
     waypoint_threshold: int = 10
     endpoint_threshold: int = 3
-    # Max move speed, '2x_run', 'straight_run', 'run', 'walk'
+    # Max move speed, 'run_2x', 'straight_run', 'run', 'walk'
     # See MapControl._goto() for details of each speed level
     speed: str = 'straight_run'
 
@@ -25,10 +27,49 @@ class Waypoint:
     end_rotation: int = None
     end_rotation_threshold: int = 15
 
+    """
+    Walk
+    """
+    # A list of expected events, e.g. ['enemy', 'item']
+    # - "enemy", finished any combat
+    # - "item", destroyed any destructive objects
+    # - "interact", have map interact option (interact is not handled)
+    # - callable, A function that returns bool, True represents stop
+    # Or empty list [] for just walking
+    expected_end: list = field(default_factory=lambda: [])
+    # If triggered any expected event, consider arrive and stop walking
+    early_stop: bool = True
+    # Confirm timer if arrived but didn't trigger any expected event
+    unexpected_confirm: Timer = field(default_factory=lambda: Timer(2, count=6))
+
     def __str__(self):
         return f'Waypoint({self.position})'
 
     __repr__ = __str__
+
+    @classmethod
+    def run_2x(cls, *args, **kwargs) -> "Waypoint":
+        """
+        Product a Waypoint object with overridden "speed",
+        see Waypoint class for args.
+        """
+        kwargs['speed'] = 'run_2x'
+        return cls(*args, **kwargs)
+
+    @classmethod
+    def straight_run(cls, *args, **kwargs) -> "Waypoint":
+        kwargs['speed'] = 'straight_run'
+        return cls(*args, **kwargs)
+
+    @classmethod
+    def run(cls, *args, **kwargs) -> "Waypoint":
+        kwargs['speed'] = 'run'
+        return cls(*args, **kwargs)
+
+    @classmethod
+    def walk(cls, *args, **kwargs) -> "Waypoint":
+        kwargs['speed'] = 'walk'
+        return cls(*args, **kwargs)
 
     def get_threshold(self, end):
         """
@@ -45,6 +86,27 @@ class Waypoint:
         else:
             return self.waypoint_threshold
 
+    @staticmethod
+    def expected_to_str(results: list) -> list[str]:
+        return [result.__name__ if callable(result) else str(result) for result in results]
+
+    def match_results(self, results) -> list[str]:
+        """
+        Args:
+            results:
+
+        Returns:
+            list[str]: A list if matched results
+        """
+        if not results and not self.expected_end:
+            return []
+
+        results = set(self.expected_to_str(results))
+        expected_end = set(self.expected_to_str(self.expected_end))
+        same = results.intersection(expected_end)
+
+        return list(same)
+
 
 def ensure_waypoint(point) -> Waypoint:
     """
@@ -54,26 +116,13 @@ def ensure_waypoint(point) -> Waypoint:
     Returns:
         Waypoint:
     """
+
     if isinstance(point, Waypoint):
         return point
     return Waypoint(point)
 
 
-@dataclass(repr=False)
-class Waypoint2xRun(Waypoint):
-    speed: str = '2x_run'
-
-
-@dataclass(repr=False)
-class WaypointStraightRun(Waypoint):
-    speed: str = 'straight_run'
-
-
-@dataclass(repr=False)
-class WaypointRun(Waypoint):
-    speed: str = 'run'
-
-
-@dataclass(repr=False)
-class WaypointWalk(Waypoint):
-    speed: str = 'walk'
+def ensure_waypoints(points) -> list[Waypoint]:
+    if not isinstance(points, (list, tuple)):
+        points = [points]
+    return [ensure_waypoint(point) for point in points]

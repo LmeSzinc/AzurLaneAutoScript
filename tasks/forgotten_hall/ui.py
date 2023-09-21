@@ -199,4 +199,4 @@ class ForgottenHallUI(DungeonUI):
             if self.match_template_color(DUNGEON_ENTER_CHECKED):
                 logger.info("Forgotten hall dungeon entered")
                 break
-            joystick.handle_map_2x_run()
+            joystick.handle_map_run_2x()
