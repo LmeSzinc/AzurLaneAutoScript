@@ -281,15 +281,12 @@ def put_icon_buttons(
         state = ProcessManager.get_manager(value).state
         if state == 1:
             circle_c = "running"
-        elif state == 2:
-            circle_c = "pause"
         elif state == 3:
             circle_c = "error"
         elif state == 4:
             circle_c = "update"
+    if circle_c != "":
         status_html = _read(filepath_icon(f'status_{circle_c}'))
-    else:
-        status = put_none()
 
     return put_column(
         [
