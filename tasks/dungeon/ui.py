@@ -218,12 +218,15 @@ class DungeonUI(UI):
             DUNGEON_NAV_LIST.load_rows(main=self)
 
             # End
-            button = DUNGEON_NAV_LIST.keyword2button(KEYWORDS_DUNGEON_NAV.Forgotten_Hall)
+            button = DUNGEON_NAV_LIST.keyword2button(KEYWORDS_DUNGEON_NAV.Forgotten_Hall, show_warning=False)
             if button:
                 # 513 is the top of the last row of DungeonNav
                 if button.area[1] > 513:
                     logger.info('DungeonNav row Forgotten_Hall stabled')
                     return True
+            else:
+                logger.info('No Forgotten_Hall in list skip waiting')
+                return False
 
     def dungeon_get_simuni_point(self) -> int:
         """
