@@ -4,7 +4,7 @@ from pponnxcr.predict_system import BoxedResult
 
 from module.base.base import ModuleBase
 from module.base.timer import Timer
-from module.base.utils import area_offset, color_similarity_2d, crop, get_color
+from module.base.utils import area_offset, color_similarity_2d, crop
 from module.logger.logger import logger
 from module.ocr.keyword import Keyword
 from module.ocr.ocr import Ocr, OcrResultButton
@@ -12,8 +12,9 @@ from module.ui.draggable_list import DraggableList
 from tasks.base.assets.assets_base_page import FORGOTTEN_HALL_CHECK, MAP_EXIT
 from tasks.dungeon.keywords import DungeonList, KEYWORDS_DUNGEON_TAB
 from tasks.dungeon.ui import DungeonUI
-from tasks.forgotten_hall.assets.assets_forgotten_hall import *
+from tasks.forgotten_hall.assets.assets_forgotten_hall_ui import *
 from tasks.forgotten_hall.keywords import ForgottenHallStage
+from tasks.forgotten_hall.team import ForgottenHallTeam
 from tasks.map.control.joystick import MapControlJoystick
 
 
@@ -103,7 +104,7 @@ STAGE_LIST = DraggableStageList("ForgottenHallStageList", keyword_class=Forgotte
                                 check_row_order=False, drag_direction="right")
 
 
-class ForgottenHallUI(DungeonUI):
+class ForgottenHallUI(DungeonUI, ForgottenHallTeam):
     def stage_goto(self, forgotten_hall: DungeonList, stage_keyword: ForgottenHallStage):
         """
         Examples:
@@ -141,29 +142,6 @@ class ForgottenHallUI(DungeonUI):
             if self.handle_popup_confirm():
                 continue
 
-    def _choose_first_character(self, skip_first_screenshot=True):
-        """
-        A temporary method used to choose the first character only
-        """
-        interval = Timer(1)
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self._forgotten_hall_enter_appear():
-                logger.info("First character is chosen")
-                break
-            if interval.reached():
-                self.device.click(FIRST_CHARACTER)
-                interval.reset()
-
-    def _forgotten_hall_enter_appear(self):
-        # White button, with a color of (214, 214, 214)
-        color = get_color(self.device.image, ENTER_FORGOTTEN_HALL_DUNGEON.area)
-        return np.mean(color) > 180
-
     def _enter_forgotten_hall_dungeon(self, skip_first_screenshot=True):
         """
         called after team is set
@@ -185,7 +163,7 @@ class ForgottenHallUI(DungeonUI):
             else:
                 timeout.reset()
 
-            if interval.reached() and self._forgotten_hall_enter_appear():
+            if interval.reached() and self.team_prepared():
                 self.device.click(ENTER_FORGOTTEN_HALL_DUNGEON)
                 interval.reset()
 
