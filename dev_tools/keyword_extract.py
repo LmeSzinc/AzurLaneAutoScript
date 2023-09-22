@@ -112,7 +112,7 @@ class KeywordExtract:
 
     def iter_guide(self) -> t.Iterable[int]:
         file = os.path.join(TextMap.DATA_FOLDER, './ExcelOutput/GameplayGuideData.json')
-        visited = set()
+        # visited = set()
         temp_save = ""
         for data in read_file(file).values():
             hash_ = deep_get(data, keys='Name.Hash')
@@ -121,11 +121,14 @@ class KeywordExtract:
                 temp_save = hash_
                 continue
             if '忘却之庭' in name:
-                if name in visited:
-                    continue
-                visited.add(name)
+                continue
+                # if name in visited:
+                #     continue
+                # visited.add(name)
             yield hash_
         yield temp_save
+        # 'Memory of Chaos' is not a real dungeon, but represents a group
+        yield '混沌回忆'
 
     def find_keyword(self, keyword, lang) -> tuple[int, str]:
         """

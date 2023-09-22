@@ -315,107 +315,19 @@ The_Voyage_of_Navis_Astriger = DungeonList(
     en='The Voyage of Navis Astriger',
     jp='天艟求仙放浪記',
 )
-Favor_of_Amber = DungeonList(
-    id=40,
-    name='Favor_of_Amber',
-    cn='琥珀恩赐•忘却之庭',
-    cht='琥珀恩賜•忘卻之庭',
-    en='Favor of Amber',
-    jp='琥珀の賜物・忘却の庭',
-)
-Frostscar_Reverie = DungeonList(
-    id=41,
-    name='Frostscar_Reverie',
-    cn='霜痕旧梦•忘却之庭',
-    cht='霜痕舊夢•忘卻之庭',
-    en='Frostscar Reverie',
-    jp='霜跡に旧夢・忘却の庭',
-)
-Everwinter_Trials = DungeonList(
-    id=42,
-    name='Everwinter_Trials',
-    cn='永冬试炼•忘却之庭',
-    cht='永冬試煉•忘卻之庭',
-    en='Everwinter Trials',
-    jp='常冬の試練・忘却の庭',
-)
-Coldiron_Tribulation = DungeonList(
-    id=43,
-    name='Coldiron_Tribulation',
-    cn='寒铁砥砺•忘却之庭',
-    cht='寒鐵砥礪•忘卻之庭',
-    en='Coldiron Tribulation',
-    jp='寒鉄練磨・忘却の庭',
-)
-Hyperborean_Search_for_Warmth = DungeonList(
-    id=44,
-    name='Hyperborean_Search_for_Warmth',
-    cn='蹈冰寻火•忘却之庭',
-    cht='蹈冰尋火•忘卻之庭',
-    en='Hyperborean Search for Warmth',
-    jp='氷踏みて炎求む・忘却の庭',
-)
-Stormquell = DungeonList(
-    id=45,
-    name='Stormquell',
-    cn='风暴止息•忘却之庭',
-    cht='風暴止息•忘卻之庭',
-    en='Stormquell',
-    jp='止息せし嵐・忘却の庭',
-)
-Adrift_in_Astral_Seas = DungeonList(
-    id=46,
-    name='Adrift_in_Astral_Seas',
-    cn='孤航天海•忘却之庭',
-    cht='孤航太海•忘卻之庭',
-    en='Adrift in Astral Seas',
-    jp='天海の孤航・忘却の庭',
-)
-Raintear_Strife = DungeonList(
-    id=47,
-    name='Raintear_Strife',
-    cn='泪雨长战•忘却之庭',
-    cht='淚雨長戰•忘卻之庭',
-    en='Raintear Strife',
-    jp='涙雨戦争・忘却の庭',
-)
-Traces_of_Sanctus_Medicus = DungeonList(
-    id=48,
-    name='Traces_of_Sanctus_Medicus',
-    cn='药王垂迹•忘却之庭',
-    cht='藥王垂跡•忘卻之庭',
-    en='Traces of Sanctus Medicus',
-    jp='薬王の垂迹・忘却の庭',
-)
-Ethereal_Shipcraft_Forgotten_Hall = DungeonList(
-    id=49,
-    name='Ethereal_Shipcraft_Forgotten_Hall',
-    cn='迷梦造舸•忘却之庭',
-    cht='迷夢造舸•忘卻之庭',
-    en='Ethereal Shipcraft — Forgotten Hall',
-    jp='迷夢造舟・忘却の庭',
-)
-A_Shot_From_the_Sky_Forgotten_Hall = DungeonList(
-    id=50,
-    name='A_Shot_From_the_Sky_Forgotten_Hall',
-    cn='天裂一射•忘却之庭',
-    cht='天裂一射•忘卻之庭',
-    en='A Shot From the Sky — Forgotten Hall',
-    jp='天裂の一射・忘却の庭',
-)
-Mara_and_Null_Forgotten_Hall = DungeonList(
-    id=51,
-    name='Mara_and_Null_Forgotten_Hall',
-    cn='魔阴空劫•忘却之庭',
-    cht='魔陰空劫•忘卻之庭',
-    en='Mara and Null — Forgotten Hall',
-    jp='魔陰空劫・忘却の庭',
-)
 The_Last_Vestiges_of_Towering_Citadel = DungeonList(
-    id=52,
+    id=40,
     name='The_Last_Vestiges_of_Towering_Citadel',
     cn='永屹之城遗秘',
     cht='永屹之城遺秘',
     en='The Last Vestiges of Towering Citadel',
     jp='永屹の城の秘密',
+)
+Memory_of_Chaos = DungeonList(
+    id=41,
+    name='Memory_of_Chaos',
+    cn='混沌回忆',
+    cht='混沌回憶',
+    en='Memory of Chaos',
+    jp='混沌の記憶',
 )
