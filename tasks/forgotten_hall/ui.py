@@ -13,7 +13,7 @@ from tasks.base.assets.assets_base_page import FORGOTTEN_HALL_CHECK, MAP_EXIT
 from tasks.dungeon.keywords import DungeonList, KEYWORDS_DUNGEON_TAB
 from tasks.dungeon.ui import DungeonUI
 from tasks.forgotten_hall.assets.assets_forgotten_hall import *
-from tasks.forgotten_hall.keywords import *
+from tasks.forgotten_hall.keywords import ForgottenHallStage
 from tasks.map.control.joystick import MapControlJoystick
 
 
@@ -125,6 +125,7 @@ class ForgottenHallUI(DungeonUI):
         STAGE_LIST.select_row(stage_keyword, main=self)
 
     def exit_dungeon(self, skip_first_screenshot=True):
+        logger.info('Exit dungeon')
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -137,7 +138,7 @@ class ForgottenHallUI(DungeonUI):
 
             if self.appear_then_click(MAP_EXIT):
                 continue
-            if self.appear_then_click(EXIT_CONFIRM):
+            if self.handle_popup_confirm():
                 continue
 
     def _choose_first_character(self, skip_first_screenshot=True):

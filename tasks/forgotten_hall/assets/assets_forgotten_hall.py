@@ -43,16 +43,6 @@ ENTRANCE_CHECKED = ButtonWrapper(
         button=(55, 632, 71, 650),
     ),
 )
-EXIT_CONFIRM = ButtonWrapper(
-    name='EXIT_CONFIRM',
-    share=Button(
-        file='./assets/share/forgotten_hall/EXIT_CONFIRM.png',
-        area=(776, 458, 800, 482),
-        search=(756, 438, 820, 502),
-        color=(94, 88, 76),
-        button=(776, 458, 800, 482),
-    ),
-)
 FIRST_CHARACTER = ButtonWrapper(
     name='FIRST_CHARACTER',
     share=Button(

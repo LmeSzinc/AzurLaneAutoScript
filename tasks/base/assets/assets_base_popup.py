@@ -48,7 +48,7 @@ POPUP_CANCEL = ButtonWrapper(
     share=Button(
         file='./assets/share/base/popup/POPUP_CANCEL.png',
         area=(428, 537, 452, 561),
-        search=(334, 453, 594, 653),
+        search=(339, 446, 482, 653),
         color=(98, 92, 80),
         button=(419, 531, 512, 567),
     ),
@@ -58,7 +58,7 @@ POPUP_CONFIRM = ButtonWrapper(
     share=Button(
         file='./assets/share/base/popup/POPUP_CONFIRM.png',
         area=(776, 537, 800, 561),
-        search=(683, 464, 943, 644),
+        search=(686, 446, 829, 644),
         color=(95, 90, 78),
         button=(767, 531, 862, 567),
     ),
@@ -68,7 +68,7 @@ POPUP_SINGLE = ButtonWrapper(
     share=Button(
         file='./assets/share/base/popup/POPUP_SINGLE.png',
         area=(602, 458, 626, 482),
-        search=(511, 365, 771, 575),
+        search=(512, 446, 655, 644),
         color=(95, 90, 77),
         button=(578, 451, 705, 489),
     ),
