@@ -46,7 +46,7 @@ class PositionPredictState:
 
 
 class Minimap(MapResource):
-    def init_position(self, position: tuple[int, int]):
+    def init_position(self, position: tuple[int | float, int | float]):
         logger.info(f"init_position:{position}")
         self.position = position
 
@@ -388,7 +388,7 @@ if __name__ == '__main__':
     # MapResource.SRCMAP = '../srcmap/srcmap'
     self = Minimap()
     # Set plane, assume starting from Jarilo_AdministrativeDistrict
-    self.set_plane('Jarilo_AdministrativeDistrict', floor='F1')
+    self.set_plane('Jarilo_BackwaterPass', floor='F1')
 
     ui = UI('src')
     ui.device.disable_stuck_detection()

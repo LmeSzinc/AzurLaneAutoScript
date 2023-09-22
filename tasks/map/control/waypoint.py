@@ -47,29 +47,29 @@ class Waypoint:
 
     __repr__ = __str__
 
-    @classmethod
-    def run_2x(cls, *args, **kwargs) -> "Waypoint":
+    def run_2x(self) -> "Waypoint":
         """
         Product a Waypoint object with overridden "speed",
         see Waypoint class for args.
         """
-        kwargs['speed'] = 'run_2x'
-        return cls(*args, **kwargs)
+        self.speed = 'run_2x'
+        return self
 
-    @classmethod
-    def straight_run(cls, *args, **kwargs) -> "Waypoint":
-        kwargs['speed'] = 'straight_run'
-        return cls(*args, **kwargs)
+    def straight_run(self) -> "Waypoint":
+        self.speed = 'straight_run'
+        return self
 
-    @classmethod
-    def run(cls, *args, **kwargs) -> "Waypoint":
-        kwargs['speed'] = 'run'
-        return cls(*args, **kwargs)
+    def run(self) -> "Waypoint":
+        self.speed = 'run'
+        return self
 
-    @classmethod
-    def walk(cls, *args, **kwargs) -> "Waypoint":
-        kwargs['speed'] = 'walk'
-        return cls(*args, **kwargs)
+    def walk(self) -> "Waypoint":
+        self.speed = 'walk'
+        return self
+
+    def set_threshold(self, threshold) -> "Waypoint":
+        self.threshold = threshold
+        return self
 
     def get_threshold(self, end):
         """

@@ -357,13 +357,13 @@ if __name__ == '__main__':
     self.minimap.init_position((519, 359))
     # Visit 3 items
     self.clear_item(
-        Waypoint.run_2x((587.6, 366.9)),
+        Waypoint((587.6, 366.9)).run_2x(),
     )
     self.clear_item((575.5, 377.4))
     self.clear_item(
         # Go through arched door
-        Waypoint.run((581.5, 383.3), threshold=3),
-        Waypoint.run((575.7, 417.2)),
+        Waypoint((581.5, 383.3)).run().set_threshold(3),
+        Waypoint((575.7, 417.2)).run(),
     )
     # Goto boss
     self.clear_enemy((613.5, 427.3))
