@@ -4,7 +4,7 @@ from module.base.timer import Timer
 from module.exception import GameNotRunningError, GamePageUnknownError
 from module.logger import logger
 from module.ocr.ocr import Ocr
-from tasks.base.assets.assets_base_page import CLOSE
+from tasks.base.assets.assets_base_page import CLOSE, MAP_EXIT
 from tasks.base.main_page import MainPage
 from tasks.base.page import Page, page_main
 from tasks.base.popup import PopupHandler
@@ -271,7 +271,7 @@ class UI(PopupHandler, MainPage):
                     continue
 
     def is_in_main(self):
-        return self.appear(page_main.check_button)
+        return self.appear(page_main.check_button) or self.appear(MAP_EXIT)
 
     def ui_goto_main(self):
         return self.ui_ensure(destination=page_main)
