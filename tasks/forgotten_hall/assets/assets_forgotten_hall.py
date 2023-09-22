@@ -53,16 +53,6 @@ EXIT_CONFIRM = ButtonWrapper(
         button=(776, 458, 800, 482),
     ),
 )
-EXIT_DUNGEON = ButtonWrapper(
-    name='EXIT_DUNGEON',
-    share=Button(
-        file='./assets/share/forgotten_hall/EXIT_DUNGEON.png',
-        area=(15, 45, 45, 75),
-        search=(0, 25, 65, 95),
-        color=(113, 117, 124),
-        button=(15, 45, 45, 75),
-    ),
-)
 FIRST_CHARACTER = ButtonWrapper(
     name='FIRST_CHARACTER',
     share=Button(

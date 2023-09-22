@@ -9,7 +9,7 @@ from module.logger.logger import logger
 from module.ocr.keyword import Keyword
 from module.ocr.ocr import Ocr, OcrResultButton
 from module.ui.draggable_list import DraggableList
-from tasks.base.assets.assets_base_page import FORGOTTEN_HALL_CHECK
+from tasks.base.assets.assets_base_page import FORGOTTEN_HALL_CHECK, MAP_EXIT
 from tasks.dungeon.keywords import DungeonList, KEYWORDS_DUNGEON_TAB
 from tasks.dungeon.ui import DungeonUI
 from tasks.forgotten_hall.assets.assets_forgotten_hall import *
@@ -135,7 +135,7 @@ class ForgottenHallUI(DungeonUI):
                 logger.info("Forgotten hall dungeon exited")
                 break
 
-            if self.appear_then_click(EXIT_DUNGEON):
+            if self.appear_then_click(MAP_EXIT):
                 continue
             if self.appear_then_click(EXIT_CONFIRM):
                 continue
