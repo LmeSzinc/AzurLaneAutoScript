@@ -50,7 +50,7 @@
     },
     "Enable": {
       "name": "啟用該功能",
-      "help": "將這個任務加入調度器\n委託、科研、收穫任務是強制打開的",
+      "help": "將這個任務加入調度器",
       "True": "已啟用",
       "False": "False"
     },
@@ -493,7 +493,7 @@
     },
     "Complete_Forgotten_Hall_1_time": {
       "name": "完成1次「忘卻之庭」",
-      "help": "",
+      "help": "選前四個角色打一次深淵一，請確保帳號練度足夠打深淵一",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"

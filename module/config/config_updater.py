@@ -677,7 +677,7 @@ class ConfigUpdater:
         set_daily('Go_on_assignment_1_time', deep_get(data, 'Assignment.Scheduler.Enable'))
         set_daily('Take_1_photo', 'achievable')
         set_daily('Destroy_3_destructible_objects', 'not_supported')
-        set_daily('Complete_Forgotten_Hall_1_time', 'not_supported')
+        set_daily('Complete_Forgotten_Hall_1_time', 'achievable')
         set_daily('Complete_Echo_of_War_1_times', 'not_supported')
         set_daily('Complete_1_stage_in_Simulated_Universe_Any_world', 'not_supported')
         set_daily('Obtain_victory_in_combat_with_support_characters_1_time',

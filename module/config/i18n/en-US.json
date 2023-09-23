@@ -50,7 +50,7 @@
     },
     "Enable": {
       "name": "Enable Task",
-      "help": "Join this task to scheduler.\nTask commission, research, reward are force to enable.",
+      "help": "Join this task to scheduler.",
       "True": "Enabled",
       "False": "False"
     },
@@ -493,7 +493,7 @@
     },
     "Complete_Forgotten_Hall_1_time": {
       "name": "Complete Forgotten Hall 1 time",
-      "help": "",
+      "help": "Choose the first four characters to do stage 1 once, please ensure that account build is sufficient to do stage 1",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
