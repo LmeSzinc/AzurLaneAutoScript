@@ -264,6 +264,47 @@ class DailyQuestUI(DungeonUI, RouteLoader):
             self.route_run(ROUTE_DAILY.ForgottenHallStage1__route)
             done += 1
 
+        """
+        enemy x1 In_a_single_battle_inflict_3_Weakness_Break_of_different_Types
+        enemy x1 Inflict_Weakness_Break_5_times
+        enemy x2 Defeat_a_total_of_20_enemies
+        enemy x3 Enter_combat_by_attacking_enemy_Weakness_and_win_3_times
+        item x1 Destroy_3_destructible_objects
+        enemy x1 Use_an_Ultimate_to_deal_the_final_blow_1_time
+        """
+        enemy = 0
+        item = 0
+        quests = [
+            KEYWORDS_DAILY_QUEST.Enter_combat_by_attacking_enemy_Weakness_and_win_3_times,
+        ]
+        if KEYWORDS_DAILY_QUEST.In_a_single_battle_inflict_3_Weakness_Break_of_different_Types in quests:
+            enemy = max(enemy, 1)
+        if KEYWORDS_DAILY_QUEST.Inflict_Weakness_Break_5_times in quests:
+            enemy = max(enemy, 1)
+        if KEYWORDS_DAILY_QUEST.Defeat_a_total_of_20_enemies in quests:
+            enemy = max(enemy, 2)
+        if KEYWORDS_DAILY_QUEST.Enter_combat_by_attacking_enemy_Weakness_and_win_3_times in quests:
+            enemy = max(enemy, 3)
+        if KEYWORDS_DAILY_QUEST.Destroy_3_destructible_objects in quests:
+            item = max(item, 1)
+        if KEYWORDS_DAILY_QUEST.Use_an_Ultimate_to_deal_the_final_blow_1_time in quests:
+            enemy = max(enemy, 1)
+        logger.info(f'Himeko trial, enemy={enemy}, item={item}')
+        for run in [1, 2, 3]:
+            if enemy >= run and item >= run:
+                self.route_run(ROUTE_DAILY.HimekoTrial__route_item_enemy)
+                done += 1
+            elif enemy >= run:
+                self.route_run(ROUTE_DAILY.HimekoTrial__route_enemy)
+                done += 1
+            elif item >= run:
+                self.route_run(ROUTE_DAILY.HimekoTrial__route_item)
+                done += 1
+            else:
+                break
+        if max(enemy, item) > 0:
+            self.route_run(ROUTE_DAILY.HimekoTrial__exit)
+
         return done
 
     def run(self):
