@@ -9401,6 +9401,40 @@
       }
     }
   },
+  "SomethingSpecial": {
+    "InfiniteDelay": {
+      "Commission": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Research": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Reward": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
+    "TurnOffForcedOnSettings": {
+      "OpsiMeowfficerFarmingFromOpsiHazard1Leveling": {
+        "type": "checkbox",
+        "value": false
+      },
+      "OpsiHazard1LevelingYellowCoinLimit": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
   "Dashboard": {
     "Oil": {
       "Value": {
@@ -9604,40 +9638,6 @@
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
-      }
-    },
-    "Storage": {
-      "Storage": {
-        "type": "storage",
-        "value": {},
-        "valuetype": "ignore",
-        "display": "disabled"
-      }
-    }
-  },
-  "SomethingSpecial": {
-    "InfiniteDelay": {
-      "Commission": {
-        "type": "checkbox",
-        "value": false
-      },
-      "Research": {
-        "type": "checkbox",
-        "value": false
-      },
-      "Reward": {
-        "type": "checkbox",
-        "value": false
-      }
-    },
-    "TurnOffForcedOnSettings": {
-      "OpsiMeowfficerFarmingFromOpsiHazard1Leveling": {
-        "type": "checkbox",
-        "value": false
-      },
-      "OpsiHazard1LevelingYellowCoinLimit": {
-        "type": "checkbox",
-        "value": false
       }
     },
     "Storage": {
