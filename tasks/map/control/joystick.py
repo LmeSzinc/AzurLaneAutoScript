@@ -16,7 +16,7 @@ from tasks.map.assets.assets_map_control import *
 class JoystickContact:
     CENTER = (JOYSTICK.area[0] + JOYSTICK.area[2]) / 2, (JOYSTICK.area[1] + JOYSTICK.area[3]) / 2
     # Minimum radius 49px
-    RADIUS_WALK = (55, 65)
+    RADIUS_WALK = (25, 40)
     # Minimum radius 103px
     RADIUS_RUN = (105, 115)
 
@@ -114,7 +114,7 @@ class JoystickContact:
             direction (int, float): Direction to goto (0~360)
             run: True for character running, False for walking
         """
-        logger.info(f'JoystickContact set to {direction}')
+        logger.info(f'JoystickContact set to {direction}, run={run}')
         point = JoystickContact.direction2screen(direction, run=run)
         builder = self.builder
 
@@ -136,7 +136,7 @@ class JoystickContact:
             # Character starts moving, RUN button is still unavailable in a short time.
             # Assume available in 0.3s
             # We still have reties if 0.3s is incorrect.
-            self.main.map_2x_run_timer.set_current(0.7)
+            self.main.map_run_2x_timer.set_current(0.7)
             self.main.joystick_lost_timer.reset()
 
         self.prev_point = point
@@ -145,7 +145,7 @@ class JoystickContact:
 class MapControlJoystick(UI):
     map_A_timer = Timer(1)
     map_E_timer = Timer(1)
-    map_2x_run_timer = Timer(1)
+    map_run_2x_timer = Timer(1)
 
     joystick_lost_timer = Timer(1, count=2)
 
@@ -235,7 +235,7 @@ class MapControlJoystick(UI):
 
         return False
 
-    def handle_map_2x_run(self, run=True):
+    def handle_map_run_2x(self, run=True):
         """
         Keep character running.
         Note that RUN button can only be clicked when character is moving.
@@ -245,13 +245,13 @@ class MapControlJoystick(UI):
         """
         is_running = self.image_color_count(RUN_BUTTON, color=(208, 183, 138), threshold=221, count=100)
 
-        if run and not is_running and self.map_2x_run_timer.reached():
+        if run and not is_running and self.map_run_2x_timer.reached():
             self.device.click(RUN_BUTTON)
-            self.map_2x_run_timer.reset()
+            self.map_run_2x_timer.reset()
             return True
-        if not run and is_running and self.map_2x_run_timer.reached():
+        if not run and is_running and self.map_run_2x_timer.reached():
             self.device.click(RUN_BUTTON)
-            self.map_2x_run_timer.reset()
+            self.map_run_2x_timer.reset()
             return True
 
         return False

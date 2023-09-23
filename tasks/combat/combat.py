@@ -118,8 +118,11 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
             if self.handle_ascension_dungeon_prepare():
                 continue
 
-    def combat_execute(self):
+    def combat_execute(self, expected_end=None):
         """
+        Args:
+            expected_end: A function returns bool, True represents end.
+
         Pages:
             in: is_combat_executing
             out: COMBAT_AGAIN
@@ -135,7 +138,14 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
                 self.device.screenshot()
 
             # End
+            if callable(expected_end) and expected_end():
+                logger.info(f'Combat execute ended at {expected_end.__name__}')
+                break
             if self.appear(COMBAT_AGAIN):
+                logger.info(f'Combat execute ended at {COMBAT_AGAIN}')
+                break
+            if self.is_in_main():
+                logger.info(f'Combat execute ended at page_main')
                 break
 
             # Daemon

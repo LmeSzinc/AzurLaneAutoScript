@@ -493,7 +493,7 @@
     },
     "Complete_Forgotten_Hall_1_time": {
       "name": "完成1次「忘却之庭」",
-      "help": "",
+      "help": "选前四个角色打一次深渊一，请保证帐号练度足够打深渊一",
       "achievable": "可完成",
       "not_set": "未设置",
       "not_supported": "暂未支持"

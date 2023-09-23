@@ -9,7 +9,6 @@ from module.ocr.ocr import DigitCounter, Ocr, OcrResultButton
 from module.ocr.utils import split_and_pair_button_attr
 from module.ui.draggable_list import DraggableList
 from module.ui.switch import Switch
-from tasks.base.assets.assets_base_page import FORGOTTEN_HALL_CHECK
 from tasks.base.page import page_guide
 from tasks.base.ui import UI
 from tasks.combat.assets.assets_combat_prepare import COMBAT_PREPARE
@@ -219,12 +218,15 @@ class DungeonUI(UI):
             DUNGEON_NAV_LIST.load_rows(main=self)
 
             # End
-            button = DUNGEON_NAV_LIST.keyword2button(KEYWORDS_DUNGEON_NAV.Forgotten_Hall)
+            button = DUNGEON_NAV_LIST.keyword2button(KEYWORDS_DUNGEON_NAV.Forgotten_Hall, show_warning=False)
             if button:
                 # 513 is the top of the last row of DungeonNav
                 if button.area[1] > 513:
                     logger.info('DungeonNav row Forgotten_Hall stabled')
                     return True
+            else:
+                logger.info('No Forgotten_Hall in list skip waiting')
+                return False
 
     def dungeon_get_simuni_point(self) -> int:
         """
@@ -430,11 +432,6 @@ class DungeonUI(UI):
             self._dungeon_nav_goto(dungeon)
             self._dungeon_insight(dungeon)
             self._dungeon_enter(dungeon)
-            return True
-        if dungeon.is_Forgotten_Hall:
-            self._dungeon_nav_goto(dungeon)
-            self._dungeon_insight(dungeon)
-            self._dungeon_enter(dungeon, enter_check_button=FORGOTTEN_HALL_CHECK)
             return True
 
         logger.error(f'Goto dungeon {dungeon} is not supported')

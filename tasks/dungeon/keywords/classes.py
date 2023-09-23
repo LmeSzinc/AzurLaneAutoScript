@@ -50,11 +50,15 @@ class DungeonList(Keyword):
 
     @cached_property
     def is_Forgotten_Hall(self):
-        return ('Forgotten_Hall' in self.name) or ('Last_Vestiges' in self.name)
-
-    @cached_property
-    def is_Last_Vestiges(self):
-        return 'Last_Vestiges' in self.name
+        for word in [
+            'Forgotten_Hall',
+            'Memory_of_Chaos',
+            'Last_Vestiges',
+            'Navis_Astriger',
+        ]:
+            if word in self.name:
+                return True
+        return False
 
     @cached_property
     def is_daily_dungeon(self):

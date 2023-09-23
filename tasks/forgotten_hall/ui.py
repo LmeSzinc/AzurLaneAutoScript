@@ -4,16 +4,17 @@ from pponnxcr.predict_system import BoxedResult
 
 from module.base.base import ModuleBase
 from module.base.timer import Timer
-from module.base.utils import area_offset, color_similarity_2d, crop, get_color
+from module.base.utils import area_offset, color_similarity_2d, crop
 from module.logger.logger import logger
 from module.ocr.keyword import Keyword
 from module.ocr.ocr import Ocr, OcrResultButton
 from module.ui.draggable_list import DraggableList
-from tasks.base.assets.assets_base_page import FORGOTTEN_HALL_CHECK
-from tasks.dungeon.keywords import DungeonList, KEYWORDS_DUNGEON_TAB
+from tasks.base.assets.assets_base_page import FORGOTTEN_HALL_CHECK, MAP_EXIT
+from tasks.dungeon.keywords import DungeonList, KEYWORDS_DUNGEON_LIST, KEYWORDS_DUNGEON_TAB
 from tasks.dungeon.ui import DungeonUI
-from tasks.forgotten_hall.assets.assets_forgotten_hall import *
-from tasks.forgotten_hall.keywords import *
+from tasks.forgotten_hall.assets.assets_forgotten_hall_ui import *
+from tasks.forgotten_hall.keywords import ForgottenHallStage
+from tasks.forgotten_hall.team import ForgottenHallTeam
 from tasks.map.control.joystick import MapControlJoystick
 
 
@@ -103,8 +104,60 @@ STAGE_LIST = DraggableStageList("ForgottenHallStageList", keyword_class=Forgotte
                                 check_row_order=False, drag_direction="right")
 
 
-class ForgottenHallUI(DungeonUI):
-    def stage_goto(self, forgotten_hall: DungeonList, stage_keyword: ForgottenHallStage):
+class ForgottenHallUI(DungeonUI, ForgottenHallTeam):
+    def handle_effect_popup(self):
+        if self.appear(EFFECT_NOTIFICATION, interval=2):
+            if self.appear_then_click(MEMORY_OF_CHAOS_CHECK):
+                return True
+            if self.appear_then_click(MEMORY_OF_CHAOS_CLICK):
+                return True
+            # No match, click whatever
+            MEMORY_OF_CHAOS_CHECK.clear_offset()
+            self.device.click(MEMORY_OF_CHAOS_CHECK)
+            return True
+
+        return False
+
+    def stage_choose(self, dungeon: DungeonList, skip_first_screenshot=True):
+        """
+        Pages:
+            in: page_forgotten_hall, FORGOTTEN_HALL_CHECK
+                or page_guide, Survival_Index, Forgotten_Hall
+            out: page_forgotten_hall, FORGOTTEN_HALL_CHECK, selected at the given dungeon tab
+        """
+        logger.info(f'Stage choose {dungeon}')
+        if dungeon == KEYWORDS_DUNGEON_LIST.Memory_of_Chaos:
+            check_button = MEMORY_OF_CHAOS_CHECK
+            click_button = MEMORY_OF_CHAOS_CLICK
+        elif dungeon == KEYWORDS_DUNGEON_LIST.The_Last_Vestiges_of_Towering_Citadel:
+            check_button = LAST_VASTIGES_CHECK
+            click_button = LAST_VASTIGES_CLICK
+        else:
+            logger.error(f'Choosing {dungeon} in forgotten hall is not supported')
+            return
+
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # interval used in end condition
+            # After clicking `click_button`, `click_button` appears, then screen goes black for a little while
+            # interval prevents `check_button` being triggered in the next 0.3s
+            if self.match_template_color(check_button, interval=0.3):
+                logger.info(f'Stage chose at {dungeon}')
+                break
+            if self.handle_effect_popup():
+                continue
+            if self.appear_then_click(TELEPORT, interval=2):
+                continue
+            if self.match_template_color(click_button, interval=1):
+                self.device.click(click_button)
+                self.interval_reset(check_button)
+                continue
+
+    def stage_goto(self, dungeon: DungeonList, stage_keyword: ForgottenHallStage):
         """
         Examples:
             self = ForgottenHallUI('alas')
@@ -112,19 +165,34 @@ class ForgottenHallUI(DungeonUI):
             self.stage_goto(KEYWORDS_DUNGEON_LIST.The_Last_Vestiges_of_Towering_Citadel,
                             KEYWORDS_FORGOTTEN_HALL_STAGE.Stage_8)
         """
-        if not forgotten_hall.is_Forgotten_Hall:
-            logger.warning("DungeonList Chosen is not a forgotten hall")
+        if not dungeon in [
+            KEYWORDS_DUNGEON_LIST.Memory_of_Chaos,
+            KEYWORDS_DUNGEON_LIST.The_Last_Vestiges_of_Towering_Citadel,
+
+        ]:
+            logger.error(f'DungeonList Chosen is not a forgotten hall: {dungeon}')
             return
-        if not forgotten_hall.is_Last_Vestiges and stage_keyword.id > 10:
-            logger.warning(f"This dungeon does not have stage that greater than 10. {stage_keyword.id} is chosen")
+        if dungeon == KEYWORDS_DUNGEON_LIST.Memory_of_Chaos and stage_keyword.id > 10:
+            logger.error(f'This dungeon "{dungeon}" does not have stage that greater than 10. '
+                         f'{stage_keyword.id} is chosen')
             return
 
-        if not self.appear(FORGOTTEN_HALL_CHECK):
+        if self.appear(FORGOTTEN_HALL_CHECK):
+            logger.info('Already in forgotten hall')
+        else:
             self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
-            self.dungeon_goto(forgotten_hall)
+            self._dungeon_nav_goto(dungeon)
+
+        self.stage_choose(dungeon)
         STAGE_LIST.select_row(stage_keyword, main=self)
 
     def exit_dungeon(self, skip_first_screenshot=True):
+        """
+        Pages:
+            in: page_main, in forgotten hall map
+            out: page_forgotten_hall, FORGOTTEN_HALL_CHECK
+        """
+        logger.info('Exit dungeon')
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -135,37 +203,20 @@ class ForgottenHallUI(DungeonUI):
                 logger.info("Forgotten hall dungeon exited")
                 break
 
-            if self.appear_then_click(EXIT_DUNGEON):
+            if self.appear_then_click(MAP_EXIT):
                 continue
-            if self.appear_then_click(EXIT_CONFIRM):
+            if self.handle_popup_confirm():
+                continue
+            if self.handle_popup_single():
                 continue
 
-    def _choose_first_character(self, skip_first_screenshot=True):
-        """
-        A temporary method used to choose the first character only
-        """
-        interval = Timer(1)
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self._forgotten_hall_enter_appear():
-                logger.info("First character is chosen")
-                break
-            if interval.reached():
-                self.device.click(FIRST_CHARACTER)
-                interval.reset()
-
-    def _forgotten_hall_enter_appear(self):
-        # White button, with a color of (214, 214, 214)
-        color = get_color(self.device.image, ENTER_FORGOTTEN_HALL_DUNGEON.area)
-        return np.mean(color) > 180
-
-    def _enter_forgotten_hall_dungeon(self, skip_first_screenshot=True):
+    def enter_forgotten_hall_dungeon(self, skip_first_screenshot=True):
         """
         called after team is set
+
+        Pages:
+            in: ENTRANCE_CHECKED, ENTER_FORGOTTEN_HALL_DUNGEON
+            out: page_main, in forgotten hall map
         """
         interval = Timer(3)
         timeout = Timer(3)
@@ -184,7 +235,7 @@ class ForgottenHallUI(DungeonUI):
             else:
                 timeout.reset()
 
-            if interval.reached() and self._forgotten_hall_enter_appear():
+            if interval.reached() and self.team_prepared():
                 self.device.click(ENTER_FORGOTTEN_HALL_DUNGEON)
                 interval.reset()
 
@@ -199,4 +250,4 @@ class ForgottenHallUI(DungeonUI):
             if self.match_template_color(DUNGEON_ENTER_CHECKED):
                 logger.info("Forgotten hall dungeon entered")
                 break
-            joystick.handle_map_2x_run()
+            joystick.handle_map_run_2x()

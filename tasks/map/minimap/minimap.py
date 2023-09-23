@@ -46,8 +46,8 @@ class PositionPredictState:
 
 
 class Minimap(MapResource):
-    def init_position(self, position: tuple[int, int]):
-        logger.info(f"init_position:{position}")
+    def init_position(self, position: tuple[int | float, int | float]):
+        logger.info(f"init_position: {position}")
         self.position = position
 
     def _predict_position(self, image, scale=1.0):
@@ -388,9 +388,9 @@ if __name__ == '__main__':
     # MapResource.SRCMAP = '../srcmap/srcmap'
     self = Minimap()
     # Set plane, assume starting from Jarilo_AdministrativeDistrict
-    self.set_plane('Jarilo_AdministrativeDistrict', floor='F1')
+    self.set_plane('Jarilo_BackwaterPass', floor='F1')
 
-    ui = UI('alas')
+    ui = UI('src')
     ui.device.disable_stuck_detection()
     # Set starter point. Starter point will be calculated if it's missing but may contain errors.
     # With starter point set, position is only searched around starter point and new position becomes new starter point.

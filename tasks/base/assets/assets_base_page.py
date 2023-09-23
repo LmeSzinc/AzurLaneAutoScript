@@ -253,6 +253,16 @@ MAP_CHECK = ButtonWrapper(
         button=(46, 19, 68, 54),
     ),
 )
+MAP_EXIT = ButtonWrapper(
+    name='MAP_EXIT',
+    share=Button(
+        file='./assets/share/base/page/MAP_EXIT.png',
+        area=(27, 46, 44, 74),
+        search=(7, 26, 64, 94),
+        color=(142, 144, 148),
+        button=(27, 46, 44, 74),
+    ),
+)
 MAP_GOTO_WORLD = ButtonWrapper(
     name='MAP_GOTO_WORLD',
     share=Button(

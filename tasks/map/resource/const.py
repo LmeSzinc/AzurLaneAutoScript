@@ -101,7 +101,9 @@ class ResourceConst:
         Returns:
             float: Distance to current position
         """
-        return np.linalg.norm(np.subtract(target, self.position))
+        diff = np.linalg.norm(np.subtract(target, self.position))
+        diff = round(diff, 3)
+        return diff
 
     def is_position_near(self, target, threshold=5):
         return self.position_diff(target) <= threshold
@@ -118,6 +120,7 @@ class ResourceConst:
         theta = np.rad2deg(np.arccos(-diff[1] / np.linalg.norm(diff)))
         if diff[0] < 0:
             theta = 360 - theta
+        theta = round(theta, 3)
         return theta
 
     def direction_diff(self, target):
