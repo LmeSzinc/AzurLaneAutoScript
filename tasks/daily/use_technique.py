@@ -57,7 +57,7 @@ class UseTechniqueUI(MapControlJoystick, ForgottenHallUI):
         self.stage_goto(KEYWORDS_DUNGEON_LIST.The_Last_Vestiges_of_Towering_Citadel,
                         KEYWORDS_FORGOTTEN_HALL_STAGE.Stage_1)
         self.team_choose_first()
-        self._enter_forgotten_hall_dungeon()
+        self.enter_forgotten_hall_dungeon()
         self._use_technique(count, skip_first_screenshot=skip_first_screenshot)
         self.exit_dungeon()
         self.ui_goto_main()

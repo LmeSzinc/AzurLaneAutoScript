@@ -135,6 +135,7 @@ class MapControl(Combat, AimDetectorMixin):
                 logger.info('Walk result add: enemy')
                 result.append('enemy')
                 contact.up()
+                logger.hr('Combat', level=2)
                 self.combat_execute()
                 if waypoint.early_stop:
                     return result

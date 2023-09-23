@@ -22,6 +22,7 @@ from tasks.dungeon.keywords import KEYWORDS_DUNGEON_TAB
 from tasks.dungeon.ui import DungeonUI
 from tasks.item.consumable_usage import ConsumableUsageUI
 from tasks.item.relics import RelicsUI
+from tasks.map.route.loader import RouteLoader
 
 
 class DailyQuestOcr(Ocr):
@@ -61,7 +62,7 @@ class DailyQuestOcr(Ocr):
         return result
 
 
-class DailyQuestUI(DungeonUI):
+class DailyQuestUI(DungeonUI, RouteLoader):
     def _ensure_position(self, direction: str, skip_first_screenshot=True):
         interval = Timer(5)
         if direction == 'left':
@@ -258,6 +259,9 @@ class DailyQuestUI(DungeonUI):
         if KEYWORDS_DAILY_QUEST.Salvage_any_Relic in quests:
             if RelicsUI(self.config, self.device).salvage_relic():
                 done += 1
+        if KEYWORDS_DAILY_QUEST.Complete_Forgotten_Hall_1_time in quests:
+            self.route_run('daily.forgotten_hall.stage_1')
+            done += 1
 
         return done
 

@@ -207,8 +207,10 @@ class ForgottenHallUI(DungeonUI, ForgottenHallTeam):
                 continue
             if self.handle_popup_confirm():
                 continue
+            if self.handle_popup_single():
+                continue
 
-    def _enter_forgotten_hall_dungeon(self, skip_first_screenshot=True):
+    def enter_forgotten_hall_dungeon(self, skip_first_screenshot=True):
         """
         called after team is set
 
