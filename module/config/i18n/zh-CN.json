@@ -437,28 +437,28 @@
     },
     "In_a_single_battle_inflict_3_Weakness_Break_of_different_Types": {
       "name": "单场战斗中，触发3种不同属性的弱点击破",
-      "help": "",
+      "help": "默认可完成，将做姬子试用",
       "achievable": "可完成",
       "not_set": "未设置",
       "not_supported": "暂未支持"
     },
     "Inflict_Weakness_Break_5_times": {
       "name": "累计触发弱点击破效果5次",
-      "help": "",
+      "help": "默认可完成，将做姬子试用",
       "achievable": "可完成",
       "not_set": "未设置",
       "not_supported": "暂未支持"
     },
     "Defeat_a_total_of_20_enemies": {
       "name": "累计消灭20个敌人",
-      "help": "",
+      "help": "默认可完成，将做姬子试用",
       "achievable": "可完成",
       "not_set": "未设置",
       "not_supported": "暂未支持"
     },
     "Enter_combat_by_attacking_enemy_Weakness_and_win_3_times": {
       "name": "利用弱点进入战斗并获胜3次",
-      "help": "",
+      "help": "默认可完成，将做姬子试用",
       "achievable": "可完成",
       "not_set": "未设置",
       "not_supported": "暂未支持"
@@ -486,14 +486,14 @@
     },
     "Destroy_3_destructible_objects": {
       "name": "累计击碎3个可破坏物",
-      "help": "",
+      "help": "默认可完成，将做姬子试用",
       "achievable": "可完成",
       "not_set": "未设置",
       "not_supported": "暂未支持"
     },
     "Complete_Forgotten_Hall_1_time": {
       "name": "完成1次「忘却之庭」",
-      "help": "选前四个角色打一次深渊一，请保证帐号练度足够打深渊一",
+      "help": "默认可完成，将使用前四个角色打一次深渊一，请保证帐号练度足够打深渊一",
       "achievable": "可完成",
       "not_set": "未设置",
       "not_supported": "暂未支持"
@@ -521,7 +521,7 @@
     },
     "Use_an_Ultimate_to_deal_the_final_blow_1_time": {
       "name": "施放终结技造成制胜一击1次",
-      "help": "",
+      "help": "默认可完成，将做姬子试用",
       "achievable": "可完成",
       "not_set": "未设置",
       "not_supported": "暂未支持"
