@@ -47,7 +47,7 @@ class PositionPredictState:
 
 class Minimap(MapResource):
     def init_position(self, position: tuple[int | float, int | float]):
-        logger.info(f"init_position:{position}")
+        logger.info(f"init_position: {position}")
         self.position = position
 
     def _predict_position(self, image, scale=1.0):
