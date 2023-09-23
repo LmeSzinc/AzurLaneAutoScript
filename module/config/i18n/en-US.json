@@ -431,26 +431,36 @@
       "help": ""
     }
   },
-  "RestartEmulator": {
+  "EmulatorInfo": {
     "_info": {
-      "name": "Restart Emulator",
+      "name": "Emulator Settings",
+      "help": "The following values are auto-filled according to \"Serial\", if you don’t understand, please don't modify them"
+    },
+    "Emulator": {
+      "name": "Emulator Type",
+      "help": "",
+      "auto": "Auto-detect",
+      "NoxPlayer": "Nox Player",
+      "NoxPlayer64": "Nox Player 64bit",
+      "BlueStacks4": "BlueStacks 4",
+      "BlueStacks5": "BlueStacks 5",
+      "BlueStacks4HyperV": "BlueStacks 4 Hyper-V",
+      "BlueStacks5HyperV": "BlueStacks 5 Hyper-V",
+      "LDPlayer3": "LD Player 3",
+      "LDPlayer4": "LD Player 4",
+      "LDPlayer9": "LD Player 9",
+      "MuMuPlayer": "MuMu Player",
+      "MuMuPlayerX": "MuMu Player X",
+      "MuMuPlayer12": "MuMu Player 12",
+      "MEmuPlayer": "MEmu Player"
+    },
+    "name": {
+      "name": "Emulator Instance Name",
       "help": ""
     },
-    "Enable": {
-      "name": "RestartEmulator.Enable.name",
-      "help": "RestartEmulator.Enable.help"
-    },
-    "EmulatorData": {
-      "name": "RestartEmulator.EmulatorData.name",
-      "help": "RestartEmulator.EmulatorData.help"
-    },
-    "ErrorRestart": {
-      "name": "Restart Emulator on Error",
-      "help": "Automatically restart the emulator when it cannot be connected"
-    },
-    "DailyRestart": {
-      "name": "Restart Emulator when Server Refreshes",
-      "help": "Restart emulator every day to solve the memory leak problem"
+    "path": {
+      "name": "Emulator Installation Path",
+      "help": ""
     }
   },
   "Error": {

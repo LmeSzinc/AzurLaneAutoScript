@@ -1,21 +1,33 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "module": "esnext",
+    "target": "esnext",
+    "sourceMap": false,
+    "moduleResolution": "Node",
+    "skipLibCheck": true,
+    "strict": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "types": ["node", "vite/client"],
     "baseUrl": ".",
     "paths": {
-      "/@/*": [
-        "./src/*"
-      ]
+      "#preload": ["../preload/src/index"],
+      "/@/*": ["./src/*"],
+      "/#/*": ["types/*"],
+      "@common/*": ["../common/*"]
     },
     "lib": ["ESNext", "dom", "dom.iterable"]
   },
-
   "include": [
     "src/**/*.vue",
     "src/**/*.ts",
     "src/**/*.tsx",
     "types/**/*.d.ts",
     "../../types/**/*.d.ts",
-    "../preload/types/electron-api.d.ts"
-  ]
+    "../../../types/**/*.d.ts",
+    "./components.d.ts"
+  ],
+  "exclude": ["**/*.spec.ts", "**/*.test.ts"],
+  "typeRoots": ["../../node_modules/@types/", "./types", "../../../types"]
 }

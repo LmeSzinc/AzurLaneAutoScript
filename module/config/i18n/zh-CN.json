@@ -431,26 +431,36 @@
       "help": ""
     }
   },
-  "RestartEmulator": {
+  "EmulatorInfo": {
     "_info": {
-      "name": "重启模拟器",
+      "name": "模拟器设置",
+      "help": "下列数值是根据Serial自动填充的，如果不懂请不要随意修改"
+    },
+    "Emulator": {
+      "name": "模拟器类型",
+      "help": "",
+      "auto": "自动检测",
+      "NoxPlayer": "夜神模拟器",
+      "NoxPlayer64": "夜神模拟器64位",
+      "BlueStacks4": "蓝叠模拟器4",
+      "BlueStacks5": "蓝叠模拟器5",
+      "BlueStacks4HyperV": "蓝叠模拟器4 Hyper-V",
+      "BlueStacks5HyperV": "蓝叠模拟器5 Hyper-V",
+      "LDPlayer3": "雷电模拟器3",
+      "LDPlayer4": "雷电模拟器4",
+      "LDPlayer9": "雷电模拟器9",
+      "MuMuPlayer": "MuMu模拟器",
+      "MuMuPlayerX": "MuMu模拟器X",
+      "MuMuPlayer12": "MuMu模拟器12",
+      "MEmuPlayer": "逍遥模拟器"
+    },
+    "name": {
+      "name": "模拟器实例名称",
       "help": ""
     },
-    "Enable": {
-      "name": "RestartEmulator.Enable.name",
-      "help": "RestartEmulator.Enable.help"
-    },
-    "EmulatorData": {
-      "name": "RestartEmulator.EmulatorData.name",
-      "help": "RestartEmulator.EmulatorData.help"
-    },
-    "ErrorRestart": {
-      "name": "出错时重启模拟器",
-      "help": "在无法连接到模拟器时自动重启模拟器"
-    },
-    "DailyRestart": {
-      "name": "服务器刷新时重启模拟器",
-      "help": "每天主动重启模拟器以解决内存泄漏问题"
+    "path": {
+      "name": "模拟器安装路径",
+      "help": ""
     }
   },
   "Error": {

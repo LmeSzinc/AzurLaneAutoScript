@@ -139,23 +139,34 @@
         "value": false
       }
     },
-    "RestartEmulator": {
-      "Enable": {
-        "type": "checkbox",
-        "value": false
+    "EmulatorInfo": {
+      "Emulator": {
+        "type": "select",
+        "value": "auto",
+        "option": [
+          "auto",
+          "NoxPlayer",
+          "NoxPlayer64",
+          "BlueStacks4",
+          "BlueStacks5",
+          "BlueStacks4HyperV",
+          "BlueStacks5HyperV",
+          "LDPlayer3",
+          "LDPlayer4",
+          "LDPlayer9",
+          "MuMuPlayer",
+          "MuMuPlayerX",
+          "MuMuPlayer12",
+          "MEmuPlayer"
+        ]
       },
-      "EmulatorData": {
+      "name": {
         "type": "textarea",
-        "value": "emulator:\nname:\npath:",
-        "mode": "yaml"
+        "value": null
       },
-      "ErrorRestart": {
-        "type": "checkbox",
-        "value": false
-      },
-      "DailyRestart": {
-        "type": "checkbox",
-        "value": false
+      "path": {
+        "type": "textarea",
+        "value": null
       }
     },
     "Error": {

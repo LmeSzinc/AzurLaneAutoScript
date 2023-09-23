@@ -4,7 +4,7 @@ import shutil
 import time
 from threading import Lock
 
-from deploy.config import DeployConfig
+from deploy.Windows.config import DeployConfig
 from module.logger import logger
 from submodule.AlasFpyBridge.module.utils.headlessCliApplication import HeadlessCliApplication
 

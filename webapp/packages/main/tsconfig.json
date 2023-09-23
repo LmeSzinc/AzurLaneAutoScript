@@ -1,17 +1,19 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "module": "esnext",
+    "target": "esnext",
+    "sourceMap": false,
+    "moduleResolution": "Node",
+    "skipLibCheck": true,
+    "strict": true,
+    "isolatedModules": true,
+    "types": ["node"],
     "baseUrl": ".",
     "paths": {
-      "/@/*": [
-        "./src/*"
-      ]
-    },
+      "/@/*": ["./src/*"],
+      "@common/*": ["../common/*"]
+    }
   },
-  "files": [
-    "src/index.ts"
-  ],
-  "include": [
-    "../../types/**/*.d.ts"
-  ]
+  "include": ["src/**/*.ts", "../../types/**/*.d.ts","../common/**/*.ts"],
+  "exclude": ["**/*.spec.ts", "**/*.test.ts"]
 }
