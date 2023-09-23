@@ -23,6 +23,7 @@ from tasks.dungeon.ui import DungeonUI
 from tasks.item.consumable_usage import ConsumableUsageUI
 from tasks.item.relics import RelicsUI
 from tasks.map.route.loader import RouteLoader
+from tasks.map.route.route import ROUTE_DAILY
 
 
 class DailyQuestOcr(Ocr):
@@ -260,7 +261,7 @@ class DailyQuestUI(DungeonUI, RouteLoader):
             if RelicsUI(self.config, self.device).salvage_relic():
                 done += 1
         if KEYWORDS_DAILY_QUEST.Complete_Forgotten_Hall_1_time in quests:
-            self.route_run('daily.forgotten_hall.stage_1')
+            self.route_run(ROUTE_DAILY.ForgottenHallStage1__route)
             done += 1
 
         return done
