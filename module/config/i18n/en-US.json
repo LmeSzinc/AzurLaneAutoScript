@@ -38,6 +38,10 @@
       "name": "Assignment",
       "help": ""
     },
+    "DataUpdate": {
+      "name": "Dashboard Upd",
+      "help": ""
+    },
     "Rogue": {
       "name": "Simulated Universe",
       "help": "Simulated Universe is in development, task will not be run"
@@ -694,7 +698,21 @@
       "20": "20 Hours"
     },
     "Assignment": {
-      "name": "Assignment",
+      "name": "Assign.",
+      "help": ""
+    }
+  },
+  "ItemStorage": {
+    "_info": {
+      "name": "ItemStorage._info.name",
+      "help": "ItemStorage._info.help"
+    },
+    "Credit": {
+      "name": "Credit",
+      "help": ""
+    },
+    "StallerJade": {
+      "name": "Jade",
       "help": ""
     }
   },

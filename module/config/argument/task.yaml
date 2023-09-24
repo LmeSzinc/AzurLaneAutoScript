@@ -38,6 +38,9 @@ Daily:
     Assignment:
       - Scheduler
       - Assignment
+    DataUpdate:
+      - Scheduler
+      - ItemStorage
 
 # ==================== Rogue ====================
 

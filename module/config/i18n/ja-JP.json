@@ -38,6 +38,10 @@
       "name": "依頼設定",
       "help": ""
     },
+    "DataUpdate": {
+      "name": "Task.DataUpdate.name",
+      "help": "Task.DataUpdate.help"
+    },
     "Rogue": {
       "name": "Task.Rogue.name",
       "help": "Task.Rogue.help"
@@ -696,6 +700,20 @@
     "Assignment": {
       "name": "Assignment.Assignment.name",
       "help": "Assignment.Assignment.help"
+    }
+  },
+  "ItemStorage": {
+    "_info": {
+      "name": "ItemStorage._info.name",
+      "help": "ItemStorage._info.help"
+    },
+    "Credit": {
+      "name": "ItemStorage.Credit.name",
+      "help": "ItemStorage.Credit.help"
+    },
+    "StallerJade": {
+      "name": "ItemStorage.StallerJade.name",
+      "help": "ItemStorage.StallerJade.help"
     }
   },
   "RoguePath": {

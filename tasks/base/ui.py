@@ -143,10 +143,11 @@ class UI(PopupHandler, MainPage):
         # Reset connection
         Page.clear_connection()
 
-    def ui_ensure(self, destination, skip_first_screenshot=True):
+    def ui_ensure(self, destination, acquire_lang_checked=True, skip_first_screenshot=True):
         """
         Args:
             destination (Page):
+            acquire_lang_checked:
             skip_first_screenshot:
 
         Returns:
@@ -154,8 +155,10 @@ class UI(PopupHandler, MainPage):
         """
         logger.hr("UI ensure")
         self.ui_get_current_page(skip_first_screenshot=skip_first_screenshot)
-        if self.acquire_lang_checked():
-            self.ui_get_current_page(skip_first_screenshot=skip_first_screenshot)
+
+        if acquire_lang_checked:
+            if self.acquire_lang_checked():
+                self.ui_get_current_page(skip_first_screenshot=skip_first_screenshot)
 
         if self.ui_current == destination:
             logger.info("Already at %s" % destination)

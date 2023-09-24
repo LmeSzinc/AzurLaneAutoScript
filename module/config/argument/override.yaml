@@ -21,10 +21,12 @@ Restart:
       option_bold: [ true, ]
     ServerUpdate: 04:00
 
-# ==================== Farm ====================
-
-
 # ==================== Daily ====================
 
-
-# ==================== Tools ====================
+DataUpdate:
+  Scheduler:
+    Enable:
+      type: state
+      value: true
+      option: [ true, ]
+      option_bold: [ true, ]

@@ -327,5 +327,6 @@ class DailyQuestUI(DungeonUI, RouteLoader):
                 if KEYWORD_BATTLE_PASS_QUEST.Reach_500_on_Daily_Training_Activity in quests:
                     logger.info('Achieved battle pass quest Reach_500_on_Daily_Training_Activity')
                     self.config.task_call('BattlePass')
+                    self.config.task_call('DataUpdate')
             # Delay self
             self.config.task_delay(server_update=True)

@@ -14,7 +14,8 @@
       "Dungeon",
       "DailyQuest",
       "BattlePass",
-      "Assignment"
+      "Assignment",
+      "DataUpdate"
     ]
   }
 }

@@ -129,6 +129,18 @@
       "Assignment": {}
     }
   },
+  "DataUpdate": {
+    "Scheduler": {
+      "Enable": true,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "DataUpdate",
+      "ServerUpdate": "04:00"
+    },
+    "ItemStorage": {
+      "Credit": {},
+      "StallerJade": {}
+    }
+  },
   "Rogue": {
     "Scheduler": {
       "Enable": false,
