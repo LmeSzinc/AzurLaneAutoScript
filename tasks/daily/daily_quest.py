@@ -274,9 +274,6 @@ class DailyQuestUI(DungeonUI, RouteLoader):
         """
         enemy = 0
         item = 0
-        quests = [
-            KEYWORDS_DAILY_QUEST.Enter_combat_by_attacking_enemy_Weakness_and_win_3_times,
-        ]
         if KEYWORDS_DAILY_QUEST.In_a_single_battle_inflict_3_Weakness_Break_of_different_Types in quests:
             enemy = max(enemy, 1)
         if KEYWORDS_DAILY_QUEST.Inflict_Weakness_Break_5_times in quests:
@@ -327,5 +324,6 @@ class DailyQuestUI(DungeonUI, RouteLoader):
                 if KEYWORD_BATTLE_PASS_QUEST.Reach_500_on_Daily_Training_Activity in quests:
                     logger.info('Achieved battle pass quest Reach_500_on_Daily_Training_Activity')
                     self.config.task_call('BattlePass')
+                    self.config.task_call('DataUpdate')
             # Delay self
             self.config.task_delay(server_update=True)

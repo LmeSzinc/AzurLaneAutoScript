@@ -168,6 +168,16 @@ Assignment:
     order: 3
     color: "#79dbc4"
 
+ItemStorage:
+  Credit:
+    stored: StoredInt
+    order: 7
+    color: "#ab7cf2"
+  StallerJade:
+    stored: StoredInt
+    order: 8
+    color: "#fc8f8b"
+
 # ==================== Rogue ====================
 
 RoguePath:

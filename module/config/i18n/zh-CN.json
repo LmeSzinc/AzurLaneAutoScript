@@ -38,6 +38,10 @@
       "name": "委托",
       "help": ""
     },
+    "DataUpdate": {
+      "name": "仪表盘更新",
+      "help": ""
+    },
     "Rogue": {
       "name": "模拟宇宙",
       "help": "模拟宇宙还在开发中，任务不会被运行"
@@ -695,6 +699,20 @@
     },
     "Assignment": {
       "name": "委托",
+      "help": ""
+    }
+  },
+  "ItemStorage": {
+    "_info": {
+      "name": "ItemStorage._info.name",
+      "help": "ItemStorage._info.help"
+    },
+    "Credit": {
+      "name": "信用点",
+      "help": ""
+    },
+    "StallerJade": {
+      "name": "星琼",
       "help": ""
     }
   },

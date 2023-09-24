@@ -1,5 +1,7 @@
 from tasks.map.route.base import RouteData
 
+# This file was auto-generated, do not modify it manually. To generate:
+# ``` python -m dev_tools.route_extract ```
 
 ForgottenHallStage1__route = RouteData(
     name='ForgottenHallStage1__route',
