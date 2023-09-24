@@ -1,0 +1,890 @@
+{
+  "Menu": {
+    "Alas": {
+      "name": "SRC",
+      "help": ""
+    },
+    "Daily": {
+      "name": "Diario",
+      "help": ""
+    },
+    "Rogue": {
+      "name": "Universo Simulado",
+      "help": ""
+    }
+  },
+  "Task": {
+    "Alas": {
+      "name": "Ajustes de SRC",
+      "help": ""
+    },
+    "Restart": {
+      "name": "Gestión de errores",
+      "help": ""
+    },
+    "Dungeon": {
+      "name": "Mazmorra",
+      "help": ""
+    },
+    "DailyQuest": {
+      "name": "Misión diaria",
+      "help": ""
+    },
+    "BattlePass": {
+      "name": "Honor anónimo",
+      "help": ""
+    },
+    "Assignment": {
+      "name": "Encargos",
+      "help": ""
+    },
+    "Rogue": {
+      "name": "Universo Simulado",
+      "help": "El Universo Simulado está en desarrollo, y no se ejecutará"
+    }
+  },
+  "Scheduler": {
+    "_info": {
+      "name": "Planificador",
+      "help": ""
+    },
+    "Enable": {
+      "name": "Activar tarea",
+      "help": "Añadir tarea al Planificador.",
+      "True": "Verdadero",
+      "False": "Falso"
+    },
+    "NextRun": {
+      "name": "Siguiente ejecución",
+      "help": "Se actualiza automáticamente a la siguiente vez que hay que ejecutar la tarea, normalmente no se modifica manualmente.\nSin embargo, puedes forzar la ejecución dejando este campo en blanco."
+    },
+    "Command": {
+      "name": "Comando",
+      "help": ""
+    },
+    "ServerUpdate": {
+      "name": "Actualización de servidor",
+      "help": "Conjunto de horas a las que se actualiza el servidor (se resetea). Se convierte automáticamente a la zona horaria, y no es necesario modificarlo manualmente."
+    }
+  },
+  "Emulator": {
+    "_info": {
+      "name": "Ajustes de emulador",
+      "help": ""
+    },
+    "Serial": {
+      "name": "Serial",
+      "help": "Los serial de emuladores comunes pueden ser consultados aquí:\nUsa \"auto\" para detectar automáticamente el emulador, pero si hay varios ejecutando a la vez o no se puede detectar de forma automática, \"auto\" no podrá ser usado y tendrás que ajustarlo manualmente.\nSerial comunes de algunos emuladores:\n- BlueStacks 127.0.0.1:5555\n- BlueStacks4 Hyper-V usa \"bluestacks4-hyperv\", \"bluestacks4-hyperv-2\" para multi-instancia, etc...\n- BlueStacks5 Hyper-V usa \"bluestacks5-hyperv\", \"bluestacks5-hyperv-1\" para multi-instancia, etc...\n- NoxPlayer 127.0.0.1:62001\n- NoxPlayer64bit 127.0.0.1:59865\n- MuMuPlayer/MuMuPlayer X 127.0.0.1:7555\n- MuMuPlayer12 127.0.0.1:16384\n- MemuPlayer 127.0.0.1:21503\n- LDPlayer emulator-5554 or 127.0.0.1:5555\n- WSA usa \"wsa-0\" para ejecutar el juego en segundo plano, que será cerrado/controlado por software externo.\nSi hay varias instancias ejecutándose a la vez, se usará la predeterminada para la primera y las demás se reajustarán.\nAbre console.bat y ejecuta `adb devices` para encontrarlas o usa la guía oficial del emulador."
+    },
+    "PackageName": {
+      "name": "Región del juego",
+      "help": "No es posible detectar regiones que no sean de China, por tanto, ajústalo manualmente si se da la situación.",
+      "auto": "Detectar automaticamente",
+      "CN-Official": "[CN]-Oficial",
+      "CN-Bilibili": "[CN]-Bilibili",
+      "OVERSEA-America": "[OVERSEA]-America",
+      "OVERSEA-Asia": "[OVERSEA]-Asia",
+      "OVERSEA-Europe": "[OVERSEA]-Europa",
+      "OVERSEA-TWHKMO": "[OVERSEA]-TW,HK,MO"
+    },
+    "GameLanguage": {
+      "name": "Idioma dentro del juego",
+      "help": "En la actualidad, solo funcionan el chino tradicional y el inglés.",
+      "auto": "Detectar automaticamente",
+      "cn": "Chino tradicional",
+      "en": "Inglés"
+    },
+    "ScreenshotMethod": {
+      "name": "Método de captura",
+      "help": "Cuando seleccionas detectar auto, se ejecutará una prueba para determinar el método más rápido.\nNormalmente, el orden es: DroidCast_raw >> aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB.\nEjecuta Herramientas - Prueba de rendimiento para encontrar el método más rápido.",
+      "auto": "Detectar auto. el más rápido",
+      "ADB": "ADB ",
+      "ADB_nc": "ADB_nc",
+      "uiautomator2": "uiautomator2",
+      "aScreenCap": "aScreenCap",
+      "aScreenCap_nc": "aScreenCap_nc",
+      "DroidCast": "DroidCast",
+      "DroidCast_raw": "DroidCast_raw",
+      "scrcpy": "scrcpy"
+    },
+    "ControlMethod": {
+      "name": "Método de control",
+      "help": "Velocidad: MaaTouch = minitouch >>> uiautomator2 ~= ADB\nMaaTouch es el recomendado.",
+      "minitouch": "minitouch",
+      "MaaTouch": "MaaTouch"
+    },
+    "AdbRestart": {
+      "name": "Intentar reiniciar el ADB cuando no se encuentre ninguno.",
+      "help": ""
+    }
+  },
+  "EmulatorInfo": {
+    "_info": {
+      "name": "Ajustes de emulador",
+      "help": "Los siguientes ajustes son rellenados de manera automática de acuerdo al \"Serial\", si no lo entiendes, por favor no los modifiques."
+    },
+    "Emulator": {
+      "name": "Tipo de emulador",
+      "help": "",
+      "auto": "Detectar automáticamente",
+      "NoxPlayer": "Nox Player",
+      "NoxPlayer64": "Nox Player 64bit",
+      "BlueStacks4": "BlueStacks 4",
+      "BlueStacks5": "BlueStacks 5",
+      "BlueStacks4HyperV": "BlueStacks 4 Hyper-V",
+      "BlueStacks5HyperV": "BlueStacks 5 Hyper-V",
+      "LDPlayer3": "LD Player 3",
+      "LDPlayer4": "LD Player 4",
+      "LDPlayer9": "LD Player 9",
+      "MuMuPlayer": "MuMu Player",
+      "MuMuPlayerX": "MuMu Player X",
+      "MuMuPlayer12": "MuMu Player 12",
+      "MEmuPlayer": "MEmu Player"
+    },
+    "name": {
+      "name": "Nombre de la instancia del emulador",
+      "help": ""
+    },
+    "path": {
+      "name": "Ruta de instalación del emulador",
+      "help": ""
+    }
+  },
+  "Error": {
+    "_info": {
+      "name": "Ajustes de depuración",
+      "help": ""
+    },
+    "Restart": {
+      "name": "Reiniciar el juego cuando haya un error",
+      "help": "",
+      "game": "Reiniciar juego",
+      "game_emulator": "Reiniciar emulador y el juego"
+    },
+    "SaveError": {
+      "name": "Guardar errores",
+      "help": "Graba los errores y los guarda automáticamente en la carpeta de logs para que puedas compartirlos fácilmente."
+    },
+    "ScreenshotLength": {
+      "name": "Tomar capturas de pantalla",
+      "help": "Número de capturas de pantalla tomadas cuando ocurra un error"
+    },
+    "OnePushConfig": {
+      "name": "Configuración para notificar errores",
+      "help": "Cuando SRC no puede manejar un error, envía un mensaje automáticamente. Puedes leer más información sobre este ajuste aquí:\nhttps://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BEN%5D"
+    }
+  },
+  "Optimization": {
+    "_info": {
+      "name": "Ajustes de optimización",
+      "help": ""
+    },
+    "ScreenshotInterval": {
+      "name": "Tomar capturas cada X segundos",
+      "help": "El intervalo mínimo entre 2 capturas, limitarlo a 0.1 ~ 0.3, puede ayudar a reducir el consumo de CPU."
+    },
+    "CombatScreenshotInterval": {
+      "name": "Tomar capturas cada X segundos en combate",
+      "help": "El intervalo mínimo entre 2 capturas, limitarlo a 0.1 ~ 1.0, puede ayudar a reducir el consumo de CPU."
+    },
+    "WhenTaskQueueEmpty": {
+      "name": "Cuando no haya tareas",
+      "help": "Cerrar Honkai: Star Rail cuando no haya tareas puede ayudar a reducir el consumo de CPU.",
+      "stay_there": "Quedarse en el sitio",
+      "goto_main": "Ir al lugar principal",
+      "close_game": "Cerrar el juego"
+    }
+  },
+  "Dungeon": {
+    "_info": {
+      "name": "Ajustes de Mazmorra",
+      "help": "Combate continuamente hasta agotar la energía (poder trazacaminos)"
+    },
+    "Name": {
+      "name": "Nombre de la Mazmorra",
+      "help": "Ajustes predeterminados de las mazmorras",
+      "Calyx_Golden_Memories": "Material: EXP de personaje (Flor de los recuerdos)",
+      "Calyx_Golden_Aether": "Material: EXP de conos de luz (Flor de éter)",
+      "Calyx_Golden_Treasures": "Material: Créditos (Flor de tesoros)",
+      "Calyx_Crimson_Destruction": "Rastros: Destrucción (Flor de la Destrucción)",
+      "Calyx_Crimson_Preservation": "Rastros: Conservación (Flor de la Conservación)",
+      "Calyx_Crimson_The_Hunt": "Rastros: Cacería (Flor de la Cacería)",
+      "Calyx_Crimson_Abundance": "Rastros: Abundancia (Flor de la Abundancia)",
+      "Calyx_Crimson_Erudition": "Rastros: Erudición (Flor de la Erudición)",
+      "Calyx_Crimson_Harmony": "Rastros: Armonía (Flor de la Armonía)",
+      "Calyx_Crimson_Nihility": "Rastros: Nihilidad (Flor de la Nihilidad)",
+      "Stagnant_Shadow_Quanta": "Ascension: Cuántico (Forma del cuanto)",
+      "Stagnant_Shadow_Gust": "Ascension: Viento (Forma del aire)",
+      "Stagnant_Shadow_Fulmination": "Ascension: Trueno (Forma del trueno)",
+      "Stagnant_Shadow_Blaze": "Ascension: Fuego (Forma de las llamas)",
+      "Stagnant_Shadow_Spike": "Ascension: Físico (Forma afilada)",
+      "Stagnant_Shadow_Rime": "Ascension: Hielo (Forma de la escarcha)",
+      "Stagnant_Shadow_Mirage": "Ascension: Imaginario (Forma del espejismo)",
+      "Stagnant_Shadow_Icicle": "Ascension: Hielo (Forma del témpano)",
+      "Stagnant_Shadow_Doom": "Ascension: Trueno (Forma de la perdición)",
+      "Stagnant_Shadow_Puppetry": "Ascension: Imaginario (Forma de las marionetas)",
+      "Stagnant_Shadow_Abomination": "Ascension: Cuántico (Forma de la abominación)",
+      "Stagnant_Shadow_Celestial": "Ascension: Viento (Forma de lo celestial)",
+      "Cavern_of_Corrosion_Path_of_Gelid_Wind": "Artefactos: Hielo y Viento (Senda del viento gélido)",
+      "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "Artefactos: Físico y Efecto de Ruptura (Senda de los puños rápidos)",
+      "Cavern_of_Corrosion_Path_of_Drifting": "Artefactos: Curación y Pistolera de la espiga silvestre (Senda de la deriva)",
+      "Cavern_of_Corrosion_Path_of_Providence": "Artefactos: Guardia de la nieve y Cuántico (Senda de al providencia)",
+      "Cavern_of_Corrosion_Path_of_Holy_Hymn": "Artefactos: Defensa y Trueno (Senda del himno sagrado)",
+      "Cavern_of_Corrosion_Path_of_Conflagration": "Artefactos: Fuego e Imaginario (Senda de la conflagración)",
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "Artefactos: HP y SPD (Senda de los elixires)"
+    },
+    "NameAtDoubleCalyx": {
+      "name": "En los eventos de x2 de Cáliz",
+      "help": "Se volverán a los ajustes predeterminados una vez se acaben los intentos del evento",
+      "do_not_participate": "No participar en el evento",
+      "Calyx_Golden_Memories": "Material: EXP de personaje (Flor de los recuerdos)",
+      "Calyx_Golden_Aether": "Material: EXP de conos de luz (Flor de éter)",
+      "Calyx_Golden_Treasures": "Material: Créditos (Flor de tesoros)",
+      "Calyx_Crimson_Destruction": "Rastros: Destrucción (Flor de la Destrucción)",
+      "Calyx_Crimson_Preservation": "Rastros: Conservación (Flor de la Conservación)",
+      "Calyx_Crimson_The_Hunt": "Rastros: Cacería (Flor de la Cacería)",
+      "Calyx_Crimson_Abundance": "Rastros: Abundancia (Flor de la Abundancia)",
+      "Calyx_Crimson_Erudition": "Rastros: Erudición (Flor de la Erudición)",
+      "Calyx_Crimson_Harmony": "Rastros: Armonía (Flor de la Armonía)",
+      "Calyx_Crimson_Nihility": "Rastros: Nihilidad (Flor de la Nihilidad)"
+    },
+    "NameAtDoubleRelic": {
+      "name": "En los eventos de x2 de Caverna de la corrosión",
+      "help": "Se volverán a los ajustes predeterminados una vez se acaben los intentos del evento",
+      "do_not_participate": "No participar en el evento",
+      "Cavern_of_Corrosion_Path_of_Gelid_Wind": "Artefactos: Hielo y Viento (Senda del viento gélido)",
+      "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "Artefactos: Físico y Efecto de Ruptura (Senda de los puños rápidos)",
+      "Cavern_of_Corrosion_Path_of_Drifting": "Artefactos: Curación y Pistolera de la espiga silvestre (Senda de la deriva)",
+      "Cavern_of_Corrosion_Path_of_Providence": "Artefactos: Guardia de la nieve y Cuántico (Senda de al providencia)",
+      "Cavern_of_Corrosion_Path_of_Holy_Hymn": "Artefactos: Defensa y Trueno (Senda del himno sagrado)",
+      "Cavern_of_Corrosion_Path_of_Conflagration": "Artefactos: Fuego e Imaginario (Senda de la conflagración)",
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "Artefactos: HP y SPD (Senda de los elixires)"
+    },
+    "Team": {
+      "name": "Equipo de mazmorra",
+      "help": "",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    }
+  },
+  "DungeonDaily": {
+    "_info": {
+      "name": "Ajustes de Entrenamiento diario",
+      "help": "Se limpiará la mazmorra requerida una vez para completar la misión diaria."
+    },
+    "CalyxGolden": {
+      "name": "Completar Cáliz (oro) 1 vez",
+      "help": "",
+      "do_not_achieve": "No hacer esta misión",
+      "Calyx_Golden_Memories": "Material: EXP de personaje (Flor de los recuerdos)",
+      "Calyx_Golden_Aether": "Material: EXP de conos de luz (Flor de éter)",
+      "Calyx_Golden_Treasures": "Material: Créditos (Flor de tesoros)"
+    },
+    "CalyxCrimson": {
+      "name": "Completar Cáliz (carmesí) 1 vez",
+      "help": "",
+      "do_not_achieve": "No hacer esta misión",
+      "Calyx_Crimson_Destruction": "Rastros: Destrucción (Flor de la Destrucción)",
+      "Calyx_Crimson_Preservation": "Rastros: Conservación (Flor de la Conservación)",
+      "Calyx_Crimson_The_Hunt": "Rastros: Cacería (Flor de la Cacería)",
+      "Calyx_Crimson_Abundance": "Rastros: Abundancia (Flor de la Abundancia)",
+      "Calyx_Crimson_Erudition": "Rastros: Erudición (Flor de la Erudición)",
+      "Calyx_Crimson_Harmony": "Rastros: Armonía (Flor de la Armonía)",
+      "Calyx_Crimson_Nihility": "Rastros: Nihilidad (Flor de la Nihilidad)"
+    },
+    "StagnantShadow": {
+      "name": "Completar Sombra paralizada 1 vez",
+      "help": "",
+      "do_not_achieve": "No hacer esta misión",
+      "Stagnant_Shadow_Quanta": "Ascension: Cuántico (Forma del cuanto)",
+      "Stagnant_Shadow_Gust": "Ascension: Viento (Forma del aire)",
+      "Stagnant_Shadow_Fulmination": "Ascension: Trueno (Forma del trueno)",
+      "Stagnant_Shadow_Blaze": "Ascension: Fuego (Forma de las llamas)",
+      "Stagnant_Shadow_Spike": "Ascension: Físico (Forma afilada)",
+      "Stagnant_Shadow_Rime": "Ascension: Hielo (Forma de la escarcha)",
+      "Stagnant_Shadow_Mirage": "Ascension: Imaginario (Forma del espejismo)",
+      "Stagnant_Shadow_Icicle": "Ascension: Hielo (Forma del témpano)",
+      "Stagnant_Shadow_Doom": "Ascension: Trueno (Forma de la perdición)",
+      "Stagnant_Shadow_Puppetry": "Ascension: Imaginario (Forma de las marionetas)",
+      "Stagnant_Shadow_Abomination": "Ascension: Cuántico (Forma de la abominación)",
+      "Stagnant_Shadow_Celestial": "Ascension: Viento (Forma de lo celestial)"
+    },
+    "CavernOfCorrosion": {
+      "name": "Completar Caverna de la corrosión 1 vez",
+      "help": "",
+      "do_not_achieve": "No hacer esta misión",
+      "Cavern_of_Corrosion_Path_of_Gelid_Wind": "Artefactos: Hielo y Viento (Senda del viento gélido)",
+      "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "Artefactos: Físico y Efecto de Ruptura (Senda de los puños rápidos)",
+      "Cavern_of_Corrosion_Path_of_Drifting": "Artefactos: Curación y Pistolera de la espiga silvestre (Senda de la deriva)",
+      "Cavern_of_Corrosion_Path_of_Providence": "Artefactos: Guardia de la nieve y Cuántico (Senda de al providencia)",
+      "Cavern_of_Corrosion_Path_of_Holy_Hymn": "Artefactos: Defensa y Trueno (Senda del himno sagrado)",
+      "Cavern_of_Corrosion_Path_of_Conflagration": "Artefactos: Fuego e Imaginario (Senda de la conflagración)",
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "Artefactos: HP y SPD (Senda de los elixires)"
+    }
+  },
+  "DungeonSupport": {
+    "_info": {
+      "name": "Ajustes de Apoyo",
+      "help": ""
+    },
+    "Use": {
+      "name": "Usar Apoyo de amigo",
+      "help": "",
+      "always_use": "Siempre",
+      "when_daily": "Solo cuando lo requiera una misión",
+      "do_not_use": "Nunca"
+    },
+    "Character": {
+      "name": "Personaje de apoyo",
+      "help": "Selecciona qué personaje de apoyo de un amigo se usará. Si no se encuentra, se seleccionará al predeterminado.",
+      "FirstCharacter": "Primer personaje",
+      "Arlan": "Arlan",
+      "Asta": "Asta",
+      "Bailu": "Bailu",
+      "Blade": "Blade",
+      "Bronya": "Bronya",
+      "Clara": "Clara",
+      "DanHeng": "Dan Heng",
+      "DanHengImbibitorLunae": "Dan Heng • Imbibitor Lunae",
+      "FuXuan": "Fu Xuan",
+      "Gepard": "Gepard",
+      "Herta": "Herta",
+      "Himeko": "Himeko",
+      "Hook": "Hook",
+      "JingYuan": "Jing Yuan",
+      "Kafka": "Kafka",
+      "Luka": "Luka",
+      "Luocha": "Luocha",
+      "Lynx": "Lynx",
+      "March7th": "March 7th",
+      "Natasha": "Natasha",
+      "Pela": "Pela",
+      "Qingque": "Qingque",
+      "Sampo": "Sampo",
+      "Seele": "Seele",
+      "Serval": "Serval",
+      "SilverWolf": "Silver Wolf",
+      "Sushang": "Sushang",
+      "Tingyun": "Tingyun",
+      "TrailblazerDestruction": "Trailblazer de Destrucción",
+      "TrailblazerPreservation": "Trailblazer de Conservación",
+      "Welt": "Welt",
+      "Yanqing": "Yanqing",
+      "Yukong": "Yukong"
+    }
+  },
+  "DungeonStorage": {
+    "_info": {
+      "name": "DungeonStorage._info.name",
+      "help": "DungeonStorage._info.help"
+    },
+    "TrailblazePower": {
+      "name": "Poder trazacaminos",
+      "help": ""
+    },
+    "DungeonDouble": {
+      "name": "Mazmorra x2",
+      "help": ""
+    },
+    "SimulatedUniverse": {
+      "name": "Universo Sim.",
+      "help": ""
+    }
+  },
+  "AchievableQuest": {
+    "_info": {
+      "name": "Misiones completables",
+      "help": "Cuando el estado de una tarea sea \"No configurado\", deberás de configurar SRC para que pueda realizarla.\nNota: Por favor, ten más tareas en estado \"Completable\", sino SRC podría no llegar a los 500 pts. de actividad"
+    },
+    "Complete_1_Daily_Mission": {
+      "name": "Completa 1 misión diaria",
+      "help": "",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Clear_Calyx_Golden_1_times": {
+      "name": "Completa Cáliz (oro) 1 vez",
+      "help": "Necesitas configurar y activar la tarea \"Mazmorra\"",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Complete_Calyx_Crimson_1_time": {
+      "name": "Completa Cáliz (carmesí) 1 vez",
+      "help": "Necesitas configurar y activar la tarea \"Mazmorra\"",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Clear_Stagnant_Shadow_1_times": {
+      "name": "Completa Sombra paralizada 1 vez",
+      "help": "Necesitas configurar y activar la tarea \"Mazmorra\"",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Clear_Cavern_of_Corrosion_1_times": {
+      "name": "Completa Caverna de la corrosión 1 vez",
+      "help": "Necesitas configurar y activar la tarea \"Mazmorra\"",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "In_a_single_battle_inflict_3_Weakness_Break_of_different_Types": {
+      "name": "En una sola batalla, inflinge 3 tipos de Ruptura de diferente tipo",
+      "help": "Completable por defecto, se hará el desafío de Himeko",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Inflict_Weakness_Break_5_times": {
+      "name": "Inflinge ruptura de debilidad 5 veces",
+      "help": "Completable por defecto, se hará el desafío de Himeko",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Defeat_a_total_of_20_enemies": {
+      "name": "Derrota un total de 20 enemigos",
+      "help": "Completable por defecto, se hará el desafío de Himeko",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Enter_combat_by_attacking_enemy_Weakness_and_win_3_times": {
+      "name": "Entra en combate atacando la Debilidad de un enemigo y gana 3 veces",
+      "help": "Completable por defecto, se hará el desafío de Himeko",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Use_Technique_2_times": {
+      "name": "Usar la Técnica 2 veces.",
+      "help": "Alcanzable por defecto, irá al abismo y usará la técnica 2 veces.",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Go_on_assignment_1_time": {
+      "name": "Asigna un encargo 1 vez",
+      "help": "Necesitas configurar y activar la tarea de \"Encargos\"",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Take_1_photo": {
+      "name": "Haz 1 foto",
+      "help": "Completable por defecto.",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Destroy_3_destructible_objects": {
+      "name": "Rompe 3 objetos destructibles",
+      "help": "Completable por defecto, se hará el desafío de Himeko",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Complete_Forgotten_Hall_1_time": {
+      "name": "Completa Salón Olvidado 1 vez",
+      "help": "Completable por defecto, se seleccionarán los primeros 4 personajes y se hará el primer nivel. Por favor, asegúrate de que estos pueden hacerlo.",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Complete_Echo_of_War_1_times": {
+      "name": "Completa Ecos de la guerra 1 vez.",
+      "help": "",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Complete_1_stage_in_Simulated_Universe_Any_world": {
+      "name": "Completa 1 nivel de Universo Simulado",
+      "help": "",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Obtain_victory_in_combat_with_support_characters_1_time": {
+      "name": "Gana 1 combate con un personaje de apoyo.",
+      "help": "Necesitas configurar la tarea de \"Mazmorra\", así como configurar a los héroes de apoyo.",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Use_an_Ultimate_to_deal_the_final_blow_1_time": {
+      "name": "Usa la habilidad definitiva para asestar un golpe final.",
+      "help": "Completable por defecto, se hará el desafío de Himeko",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Level_up_any_character_1_time": {
+      "name": "Sube de nivel cualquier personaje 1 vez.",
+      "help": "",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Level_up_any_Light_Cone_1_time": {
+      "name": "Sube de nivel cualquier Cono de luz 1 vez.",
+      "help": "",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Level_up_any_Relic_1_time": {
+      "name": "Sube de nivel cualquier Reliquia 1 vez.",
+      "help": "",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Salvage_any_Relic": {
+      "name": "Destruye cualquier Reliquia",
+      "help": "Completable por defecto. Se destruirá la última ordenado ascendentemente por rareza.",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Synthesize_Consumable_1_time": {
+      "name": "Sintetiza cualqueir consumible 1 vez.",
+      "help": "Completable por defecto, se sintetizará un snack.",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Synthesize_material_1_time": {
+      "name": "Sintetiza cualquier material 1 vez.",
+      "help": "Completable por defecto, se sintetizará un material de nivel bajo.",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Use_Consumables_1_time": {
+      "name": "Usa consumibles 1 vez",
+      "help": "Completable por defecto. Se sintetizará uno si no tienes ninguno.",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    }
+  },
+  "DailyStorage": {
+    "_info": {
+      "name": "DailyStorage._info.name",
+      "help": "DailyStorage._info.help"
+    },
+    "DailyActivity": {
+      "name": "Actividad",
+      "help": ""
+    },
+    "DailyQuest": {
+      "name": "Misión Diaria",
+      "help": ""
+    }
+  },
+  "BattlePassStorage": {
+    "_info": {
+      "name": "BattlePassStorage._info.name",
+      "help": "BattlePassStorage._info.help"
+    },
+    "BattlePassLevel": {
+      "name": "Honor",
+      "help": ""
+    },
+    "BattlePassTodayQuest": {
+      "name": "Misión de Honor",
+      "help": ""
+    }
+  },
+  "Assignment": {
+    "_info": {
+      "name": "Ajustes de Encargos",
+      "help": "Reclama recompensas y hace nuevos encargos.\nSi no se alcanza el límite de encargos tras ello, se realizarán nuevos encargos siguiendo la prioridad de los ajustes (EXP/Créditos → Materiales de personaje → Materiales de síntesis)"
+    },
+    "Name_1": {
+      "name": "Preferencia de Encargo 1",
+      "help": "",
+      "Nine_Billion_Names": "Núcleo apagado (Nueve mil millones de nombres)",
+      "Destruction_of_the_Destroyer": "Instinto del ladrón (La destrucci´pon del destructor)",
+      "Winter_Soldiers": "Pin del guardia (Los guerreros del invierno)",
+      "Born_to_Obey": "Componente antiguo (Creados para obedecer)",
+      "Root_Out_the_Turpitude": "Brote verde inmortal (La raíz del mal)",
+      "Fire_Lord_Inflames_Blades_of_War": "Componente artificial mecánico (Prendan los fuelles, fundan las armas)",
+      "Nameless_Land_Nameless_People": "Material de EXP de personaje (Lugar anónimo, personas anónimas)",
+      "Akashic_Records": "Material de EXP de cono de luz (Los Registros de Akasha)",
+      "The_Invisible_Hand": "Créditos (La mano invisible)",
+      "Abandoned_and_Insulted": "Flogisto y Metal (Abandonado e insultado)",
+      "Spring_of_Life": "Partícula virtual y Agua sólida (La fuente de la vida)",
+      "The_Land_of_Gold": "Arroz protéico e Ingredientes básicos (Tierra de oportunidades)",
+      "The_Blossom_in_the_Storm": "Líquido gaseoso y Semilla (Flores en la tormenta)",
+      "Legend_of_the_Puppet_Master": "Unidad de ábaco de jade y Componentes mecánicos abandonados (La leyenda del titiritero)",
+      "The_Wages_of_Humanity": "Extracto de hierbas medicinales y Cosecha tan alta como una persona (La paga de la humanidad)"
+    },
+    "Name_2": {
+      "name": "Preferencia de Encargo 2",
+      "help": "",
+      "Nine_Billion_Names": "Núcleo apagado (Nueve mil millones de nombres)",
+      "Destruction_of_the_Destroyer": "Instinto del ladrón (La destrucci´pon del destructor)",
+      "Winter_Soldiers": "Pin del guardia (Los guerreros del invierno)",
+      "Born_to_Obey": "Componente antiguo (Creados para obedecer)",
+      "Root_Out_the_Turpitude": "Brote verde inmortal (La raíz del mal)",
+      "Fire_Lord_Inflames_Blades_of_War": "Componente artificial mecánico (Prendan los fuelles, fundan las armas)",
+      "Nameless_Land_Nameless_People": "Material de EXP de personaje (Lugar anónimo, personas anónimas)",
+      "Akashic_Records": "Material de EXP de cono de luz (Los Registros de Akasha)",
+      "The_Invisible_Hand": "Créditos (La mano invisible)",
+      "Abandoned_and_Insulted": "Flogisto y Metal (Abandonado e insultado)",
+      "Spring_of_Life": "Partícula virtual y Agua sólida (La fuente de la vida)",
+      "The_Land_of_Gold": "Arroz protéico e Ingredientes básicos (Tierra de oportunidades)",
+      "The_Blossom_in_the_Storm": "Líquido gaseoso y Semilla (Flores en la tormenta)",
+      "Legend_of_the_Puppet_Master": "Unidad de ábaco de jade y Componentes mecánicos abandonados (La leyenda del titiritero)",
+      "The_Wages_of_Humanity": "Extracto de hierbas medicinales y Cosecha tan alta como una persona (La paga de la humanidad)"
+    },
+    "Name_3": {
+      "name": "Preferencia de Encargo 3",
+      "help": "",
+      "Nine_Billion_Names": "Núcleo apagado (Nueve mil millones de nombres)",
+      "Destruction_of_the_Destroyer": "Instinto del ladrón (La destrucci´pon del destructor)",
+      "Winter_Soldiers": "Pin del guardia (Los guerreros del invierno)",
+      "Born_to_Obey": "Componente antiguo (Creados para obedecer)",
+      "Root_Out_the_Turpitude": "Brote verde inmortal (La raíz del mal)",
+      "Fire_Lord_Inflames_Blades_of_War": "Componente artificial mecánico (Prendan los fuelles, fundan las armas)",
+      "Nameless_Land_Nameless_People": "Material de EXP de personaje (Lugar anónimo, personas anónimas)",
+      "Akashic_Records": "Material de EXP de cono de luz (Los Registros de Akasha)",
+      "The_Invisible_Hand": "Créditos (La mano invisible)",
+      "Abandoned_and_Insulted": "Flogisto y Metal (Abandonado e insultado)",
+      "Spring_of_Life": "Partícula virtual y Agua sólida (La fuente de la vida)",
+      "The_Land_of_Gold": "Arroz protéico e Ingredientes básicos (Tierra de oportunidades)",
+      "The_Blossom_in_the_Storm": "Líquido gaseoso y Semilla (Flores en la tormenta)",
+      "Legend_of_the_Puppet_Master": "Unidad de ábaco de jade y Componentes mecánicos abandonados (La leyenda del titiritero)",
+      "The_Wages_of_Humanity": "Extracto de hierbas medicinales y Cosecha tan alta como una persona (La paga de la humanidad)"
+    },
+    "Name_4": {
+      "name": "Preferencia de Encargo 4",
+      "help": "",
+      "Nine_Billion_Names": "Núcleo apagado (Nueve mil millones de nombres)",
+      "Destruction_of_the_Destroyer": "Instinto del ladrón (La destrucci´pon del destructor)",
+      "Winter_Soldiers": "Pin del guardia (Los guerreros del invierno)",
+      "Born_to_Obey": "Componente antiguo (Creados para obedecer)",
+      "Root_Out_the_Turpitude": "Brote verde inmortal (La raíz del mal)",
+      "Fire_Lord_Inflames_Blades_of_War": "Componente artificial mecánico (Prendan los fuelles, fundan las armas)",
+      "Nameless_Land_Nameless_People": "Material de EXP de personaje (Lugar anónimo, personas anónimas)",
+      "Akashic_Records": "Material de EXP de cono de luz (Los Registros de Akasha)",
+      "The_Invisible_Hand": "Créditos (La mano invisible)",
+      "Abandoned_and_Insulted": "Flogisto y Metal (Abandonado e insultado)",
+      "Spring_of_Life": "Partícula virtual y Agua sólida (La fuente de la vida)",
+      "The_Land_of_Gold": "Arroz protéico e Ingredientes básicos (Tierra de oportunidades)",
+      "The_Blossom_in_the_Storm": "Líquido gaseoso y Semilla (Flores en la tormenta)",
+      "Legend_of_the_Puppet_Master": "Unidad de ábaco de jade y Componentes mecánicos abandonados (La leyenda del titiritero)",
+      "The_Wages_of_Humanity": "Extracto de hierbas medicinales y Cosecha tan alta como una persona (La paga de la humanidad)"
+    },
+    "Duration": {
+      "name": "Duración del encargo",
+      "help": "",
+      "4": "4 horas",
+      "8": "8 horas",
+      "12": "12 horas",
+      "20": "20 horas"
+    },
+    "Assignment": {
+      "name": "Encargo",
+      "help": ""
+    }
+  },
+  "RoguePath": {
+    "_info": {
+      "name": "Ajustes de Vía",
+      "help": ""
+    },
+    "Path": {
+      "name": "Vía",
+      "help": "",
+      "Preservation": "Conservación",
+      "Remembrance": "Reminiscencia",
+      "Nihility": "Nihilidad",
+      "Abundance": "Abundancia",
+      "The_Hunt": "Cacería",
+      "Destruction": "Destrucción",
+      "Elation": "Exultación"
+    },
+    "Bonus": {
+      "name": "Bendiciones",
+      "help": "",
+      "Blessing Cosmos": "Cosmos de Bendición (Elige una bendición)",
+      "Miracle Cosmos": "Cosmos milagroso (Elige un objeto raro)",
+      "Fragmented Cosmos": "Fragmented Cosmos (Claim some Cosmic Fragments)"
+    },
+    "PresetResonanceFilter": {
+      "name": "Filtro de preajuste de resonancia",
+      "help": "",
+      "preset-1": "preset-1",
+      "custom": "custom"
+    },
+    "ResonanceSelectionStrategy": {
+      "name": "Index Locked Blessing",
+      "help": "",
+      "follow-presets": "Don't affect choice",
+      "unrecorded-first": "Select first",
+      "before-random": "Select only when nothing satisfy the filter"
+    },
+    "CustomResonanceFilter": {
+      "name": "Custom Resonance Filter",
+      "help": "Only takes effect when \"Preset Resonance Filter\" is \"custom\""
+    }
+  },
+  "RogueBlessing": {
+    "_info": {
+      "name": "Blessing Settings",
+      "help": ""
+    },
+    "PresetBlessingFilter": {
+      "name": "Preset Blessing Filter",
+      "help": "",
+      "preset-1": "preset-1",
+      "custom": "custom"
+    },
+    "BlessingSelectionStrategy": {
+      "name": "Index Locked Blessing",
+      "help": "",
+      "follow-presets": "Don't affect choice",
+      "unrecorded-first": "Select first",
+      "before-random": "Select only when nothing satisfy the filter"
+    },
+    "CustomBlessingFilter": {
+      "name": "Custom Blessing Filter",
+      "help": "Only takes effect when \"Preset Blessing Filter\" is \"custom\""
+    }
+  },
+  "RogueCurio": {
+    "_info": {
+      "name": "Ajustes de Objeto raro",
+      "help": ""
+    },
+    "PresetCurioFilter": {
+      "name": "Filtro de preajuste de Objeto raro",
+      "help": "",
+      "preset-1": "preset-1",
+      "custom": "custom"
+    },
+    "CurioSelectionStrategy": {
+      "name": "Index Locked Curio",
+      "help": "",
+      "follow-presets": "Don't affect choice",
+      "unrecorded-first": "Select first",
+      "before-random": "Select only when nothing satisfy the filter"
+    },
+    "CustomCurioFilter": {
+      "name": "Custom Curio Filter",
+      "help": "Only takes effect when \"Preset Curio Filter\" is \"custom\""
+    }
+  },
+  "Gui": {
+    "Aside": {
+      "Install": "Instalar",
+      "Home": "Inicio",
+      "Develop": "Desarrollo",
+      "Performance": "Rendimiento",
+      "Setting": "Ajustes",
+      "AddAlas": "Añadir"
+    },
+    "Button": {
+      "Start": "Iniciar",
+      "Stop": "Detener",
+      "ScrollON": "Autodeslizamiento ON",
+      "ScrollOFF": "Autodeslizamiento OFF",
+      "ClearLog": "Borrar log",
+      "Setting": "Ajustes",
+      "CheckUpdate": "Comprobar actualización",
+      "ClickToUpdate": "Click para actualizar",
+      "RetryUpdate": "Reintentar actualización",
+      "CancelUpdate": "Cancelar actualización"
+    },
+    "Toast": {
+      "DisableTranslateMode": "Click aquí para deshabilitar el modo traducido",
+      "ConfigSaved": "Configuración guardada",
+      "AlasIsRunning": "El planificador ya se está ejecutando",
+      "ClickToUpdate": "Nueva actualización disponible, haz click aquí para actualizar"
+    },
+    "Status": {
+      "Running": "En ejecución",
+      "Inactive": "Inactivo",
+      "Warning": "¡Advertencia!",
+      "Updating": "Esperando actualización"
+    },
+    "MenuAlas": {
+      "Overview": "Vista general",
+      "Log": "Logs"
+    },
+    "MenuDevelop": {
+      "HomePage": "Inicio",
+      "Translate": "Traducir",
+      "Update": "Actualizador",
+      "Remote": "Acceso remoto",
+      "Utils": "Utilidades"
+    },
+    "Overview": {
+      "Scheduler": "Planificador",
+      "Log": "Log",
+      "Running": "En ejecución",
+      "Pending": "Pendiente",
+      "Waiting": "En espera",
+      "NoTask": "Sin tarea"
+    },
+    "Dashboard": {
+      "NoData": "sin datos",
+      "TimeError": "error de tiempo",
+      "JustNow": "justo ahora",
+      "MinutesAgo": "hace {time}m",
+      "HoursAgo": "hace {time}h",
+      "DaysAgo": "hace {time}d",
+      "LongTimeAgo": "hace mucho tiempo"
+    },
+    "AddAlas": {
+      "PopupTitle": "Añadir nueva configuración",
+      "NewName": "Nuevo nombre",
+      "CopyFrom": "Copiar configuración existente",
+      "Confirm": "Añadir",
+      "FileExist": "Ya existe uan configuración con ese nombre, elige otro por favor.",
+      "InvalidChar": "El nombre de la configuración no puede tener los siguientes caracteres: .\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "El nombre de la configuración no puede empezar por 'template'"
+    },
+    "Update": {
+      "UpToDate": "Última versión",
+      "HaveUpdate": "Nueva versión disponible",
+      "UpdateStart": "Empezar actualización",
+      "UpdateWait": "Esperando a que SRC complete todas las tareas",
+      "UpdateRun": "Actualizando",
+      "UpdateSuccess": "Actualización exitosa, reiniciando...",
+      "UpdateFailed": "La actualización ha fallado. Puedes ver más detalles en ./log/*_gui.txt",
+      "UpdateChecking": "Comprobando actualizaciones",
+      "UpdateCancel": "Actualización cancelada, reiniciando SRC",
+      "UpdateFinish": "Actualización exitosa, reinicia manualmente por favor",
+      "Local": "Local",
+      "Upstream": "Remoto",
+      "Author": "Autor",
+      "Time": "Hora del commit",
+      "Message": "Mensaje del commit",
+      "DisabledWarn": "El módulo actualizador está deshabilitado. Reinicia manualmente para la actualización.",
+      "DetailedHistory": "Historial de commmits detallado"
+    },
+    "Remote": {
+      "Running": "Acceso remoto ON",
+      "NotRunning": "No se está ejecutando, servidor desconectado u offline.",
+      "NotEnable": "Deshabilitado. Establece la contraseña para webui en deploy.yaml y activa el acceso remoto.",
+      "EntryPoint": "Punto de entrada:",
+      "ConfigureHint": "Tutorial de configuración:",
+      "SSHNotInstall": "No existe el comando SSH en tu sistema. Por favor, sigue el tutorial e instala uno."
+    },
+    "Text": {
+      "InvalidFeedBack": "Formato inválido. Ejemplo: {0}",
+      "Clear": "Limpiar"
+    }
+  }
+}
