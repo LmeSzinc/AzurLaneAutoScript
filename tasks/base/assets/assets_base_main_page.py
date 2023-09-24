@@ -13,3 +13,13 @@ OCR_MAP_NAME = ButtonWrapper(
         button=(48, 15, 373, 32),
     ),
 )
+ROGUE_LEAVE_FOR_NOW = ButtonWrapper(
+    name='ROGUE_LEAVE_FOR_NOW',
+    share=Button(
+        file='./assets/share/base/main_page/ROGUE_LEAVE_FOR_NOW.png',
+        area=(729, 475, 765, 519),
+        search=(709, 455, 785, 539),
+        color=(82, 74, 59),
+        button=(729, 475, 765, 519),
+    ),
+)
