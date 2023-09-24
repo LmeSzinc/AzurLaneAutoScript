@@ -2,6 +2,7 @@ from functools import cached_property
 
 from module.base.timer import Timer
 from module.logger import logger
+from tasks.base.assets.assets_base_page import CLOSE
 from tasks.combat.combat import Combat
 from tasks.map.assets.assets_map_control import ROTATION_SWIPE_AREA
 from tasks.map.control.joystick import JoystickContact
@@ -74,6 +75,18 @@ class MapControl(Combat, AimDetectorMixin):
                     interval.reset()
                     continue
 
+    def walk_additional(self) -> bool:
+        """
+        Handle popups during walk
+
+        Returns:
+            bool: If handled
+        """
+        if self.appear_then_click(CLOSE):
+            return True
+
+        return False
+
     def _goto(
             self,
             contact: JoystickContact,
@@ -139,6 +152,10 @@ class MapControl(Combat, AimDetectorMixin):
                 self.combat_execute()
                 if waypoint.early_stop:
                     return result
+            if self.walk_additional():
+                attacked_enemy.clear()
+                attacked_item.clear()
+                continue
 
             # The following detection require page_main
             if not self.is_in_main():

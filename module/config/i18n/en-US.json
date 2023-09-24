@@ -437,28 +437,28 @@
     },
     "In_a_single_battle_inflict_3_Weakness_Break_of_different_Types": {
       "name": "In a single battle, inflict 3 Weakness Break of different Types",
-      "help": "",
+      "help": "Achievable by default, will do Himeko trial",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
     },
     "Inflict_Weakness_Break_5_times": {
       "name": "Inflict Weakness Break 5 times",
-      "help": "",
+      "help": "Achievable by default, will do Himeko trial",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
     },
     "Defeat_a_total_of_20_enemies": {
       "name": "Defeat a total of 20 enemies",
-      "help": "",
+      "help": "Achievable by default, will do Himeko trial",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
     },
     "Enter_combat_by_attacking_enemy_Weakness_and_win_3_times": {
       "name": "Enter combat by attacking enemy's Weakness and win 3 times",
-      "help": "",
+      "help": "Achievable by default, will do Himeko trial",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
@@ -486,14 +486,14 @@
     },
     "Destroy_3_destructible_objects": {
       "name": "Destroy 3 destructible objects",
-      "help": "",
+      "help": "Achievable by default, will do Himeko trial",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
     },
     "Complete_Forgotten_Hall_1_time": {
       "name": "Complete Forgotten Hall 1 time",
-      "help": "Choose the first four characters to do stage 1 once, please ensure that account build is sufficient to do stage 1",
+      "help": "Achievable by default, will choose the first four characters to do stage 1 once, please ensure that account build is sufficient to do stage 1",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
@@ -521,7 +521,7 @@
     },
     "Use_an_Ultimate_to_deal_the_final_blow_1_time": {
       "name": "Use an Ultimate to deal the final blow 1 time",
-      "help": "",
+      "help": "Achievable by default, will do Himeko trial",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"

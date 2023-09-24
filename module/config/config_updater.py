@@ -668,21 +668,21 @@ class ConfigUpdater:
         set_daily('Clear_Cavern_of_Corrosion_1_times',
                   dungeon and deep_get(data, 'Dungeon.DungeonDaily.CavernOfCorrosion') != 'do_not_achieve')
         # Combat requirements
-        set_daily('In_a_single_battle_inflict_3_Weakness_Break_of_different_Types', 'not_supported')
-        set_daily('Inflict_Weakness_Break_5_times', 'not_supported')
-        set_daily('Defeat_a_total_of_20_enemies', 'not_supported')
-        set_daily('Enter_combat_by_attacking_enemy_Weakness_and_win_3_times', 'not_supported')
+        set_daily('In_a_single_battle_inflict_3_Weakness_Break_of_different_Types', 'achievable')
+        set_daily('Inflict_Weakness_Break_5_times', 'achievable')
+        set_daily('Defeat_a_total_of_20_enemies', 'achievable')
+        set_daily('Enter_combat_by_attacking_enemy_Weakness_and_win_3_times', 'achievable')
         set_daily('Use_Technique_2_times', 'achievable')
         # Other game systems
         set_daily('Go_on_assignment_1_time', deep_get(data, 'Assignment.Scheduler.Enable'))
         set_daily('Take_1_photo', 'achievable')
-        set_daily('Destroy_3_destructible_objects', 'not_supported')
+        set_daily('Destroy_3_destructible_objects', 'achievable')
         set_daily('Complete_Forgotten_Hall_1_time', 'achievable')
         set_daily('Complete_Echo_of_War_1_times', 'not_supported')
         set_daily('Complete_1_stage_in_Simulated_Universe_Any_world', 'not_supported')
         set_daily('Obtain_victory_in_combat_with_support_characters_1_time',
                   dungeon and deep_get(data, 'Dungeon.DungeonSupport.Use') in ['when_daily', 'always_use'])
-        set_daily('Use_an_Ultimate_to_deal_the_final_blow_1_time', 'not_supported')
+        set_daily('Use_an_Ultimate_to_deal_the_final_blow_1_time', 'achievable')
         # Build
         set_daily('Level_up_any_character_1_time', 'not_supported')
         set_daily('Level_up_any_Light_Cone_1_time', 'not_supported')

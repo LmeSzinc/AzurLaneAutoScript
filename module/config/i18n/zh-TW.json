@@ -437,35 +437,35 @@
     },
     "In_a_single_battle_inflict_3_Weakness_Break_of_different_Types": {
       "name": "單場戰鬥中，觸發3種不同屬性的弱點擊破",
-      "help": "",
+      "help": "預設可完成，將做姬子試用",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
     "Inflict_Weakness_Break_5_times": {
       "name": "累積觸發弱點擊破效果5次",
-      "help": "",
+      "help": "預設可完成，將做姬子試用",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
     "Defeat_a_total_of_20_enemies": {
       "name": "累積消滅20個敵人",
-      "help": "",
+      "help": "預設可完成，將做姬子試用",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
     "Enter_combat_by_attacking_enemy_Weakness_and_win_3_times": {
       "name": "利用弱點進入戰鬥並獲勝3次",
-      "help": "",
+      "help": "預設可完成，將做姬子試用",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
     "Use_Technique_2_times": {
       "name": "累積施放2次秘技",
-      "help": "默認可完成，將前往深淵一施放2次秘技",
+      "help": "預設可完成，將前往深淵一施放2次秘技",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
@@ -479,21 +479,21 @@
     },
     "Take_1_photo": {
       "name": "拍照1次",
-      "help": "默认可完成",
+      "help": "預設可完成",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
     "Destroy_3_destructible_objects": {
       "name": "累積擊碎3個可破壞物",
-      "help": "",
+      "help": "預設可完成，將做姬子試用",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
     "Complete_Forgotten_Hall_1_time": {
       "name": "完成1次「忘卻之庭」",
-      "help": "選前四個角色打一次深淵一，請確保帳號練度足夠打深淵一",
+      "help": "預設可完成，將使用前四個角色打一次深淵一，請確保帳號練度足夠打深淵一",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
@@ -521,7 +521,7 @@
     },
     "Use_an_Ultimate_to_deal_the_final_blow_1_time": {
       "name": "施放終結技造成制勝一擊1次",
-      "help": "",
+      "help": "預設可完成，將做姬子試用",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
@@ -549,28 +549,28 @@
     },
     "Salvage_any_Relic": {
       "name": "分解任意1件遺器",
-      "help": "默認可完成，將分解遺器稀有度倒序的第一個",
+      "help": "預設可完成，將分解遺器稀有度倒序的第一個",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
     "Synthesize_Consumable_1_time": {
       "name": "合成1次消耗品",
-      "help": "默認可完成，將合成最低級零食",
+      "help": "預設可完成，將合成最低級零食",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
     "Synthesize_material_1_time": {
       "name": "合成1次素材",
-      "help": "默認可完成，將合成最低級素材",
+      "help": "預設可完成，將合成最低級素材",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
     "Use_Consumables_1_time": {
       "name": "使用1件消耗品",
-      "help": "默認可完成，將使用護具，無材料時先合成再使用",
+      "help": "預設可完成，將使用護具，無材料時先合成再使用",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
