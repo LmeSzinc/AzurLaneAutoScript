@@ -274,9 +274,6 @@ class DailyQuestUI(DungeonUI, RouteLoader):
         """
         enemy = 0
         item = 0
-        quests = [
-            KEYWORDS_DAILY_QUEST.Enter_combat_by_attacking_enemy_Weakness_and_win_3_times,
-        ]
         if KEYWORDS_DAILY_QUEST.In_a_single_battle_inflict_3_Weakness_Break_of_different_Types in quests:
             enemy = max(enemy, 1)
         if KEYWORDS_DAILY_QUEST.Inflict_Weakness_Break_5_times in quests:
