@@ -415,9 +415,10 @@ class AlasGUI(Frame):
                 put_html('<hr class="hr-group">'),
                 put_scope("dashboard", [
                     # Empty dashboard, values will be updated in alas_update_overview_task()
-                    put_scope(f"dashboard-row-{arg}", []) for arg in self.ALAS_STORED.keys()
+                    put_scope(f"dashboard-row-{arg}", [])
+                    for arg in self.ALAS_STORED.keys() if deep_get(self.ALAS_STORED, keys=[arg, "order"], default=0)
                     # Empty content to left-align last row
-                ] + [put_html("<i></i>")] * len(self.ALAS_STORED))
+                ] + [put_html("<i></i>")] * min(len(self.ALAS_STORED), 4))
             ])
             put_scope("log", [put_html("")])
 

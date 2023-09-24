@@ -75,6 +75,8 @@ class RouteExtract:
         gen.Import("""
         from tasks.map.route.base import RouteData
         """)
+        gen.CommentAutoGenerage('dev_tools.route_extract')
+
         for f in self.iter_files():
             for row in self.extract_route(f):
                 with gen.Object(key=row.name, object_class='RouteData'):

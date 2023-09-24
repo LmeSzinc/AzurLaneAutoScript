@@ -51,6 +51,10 @@ class CombatSkill(UI):
                     logger.info(f'Skill used: {button}')
                     break
 
+    def _is_skill_active(self, button):
+        flag = self.image_color_count(button, color=(220, 196, 145), threshold=221, count=50)
+        return flag
+
     def _skill_switch(self, check_button, click_button, skip_first_screenshot=True):
         """
         Switch to A or E
@@ -64,11 +68,11 @@ class CombatSkill(UI):
                 self.device.screenshot()
 
             # Raw brown border
-            if self.image_color_count(check_button, color=(220, 196, 145), threshold=221, count=50):
+            if self._is_skill_active(check_button):
                 logger.info(f'Skill switched: {check_button}')
                 break
 
-            if self.is_in_skill():
+            if self.is_in_skill() and (self._is_skill_active(CHECK_A) or self._is_skill_active(CHECK_E)):
                 if interval.reached():
                     self.device.click(click_button)
                     interval.reset()

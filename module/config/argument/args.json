@@ -997,6 +997,53 @@
       }
     }
   },
+  "DataUpdate": {
+    "Scheduler": {
+      "Enable": {
+        "type": "state",
+        "value": true,
+        "option": [
+          true
+        ],
+        "option_bold": [
+          true
+        ]
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "DataUpdate",
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "04:00",
+        "display": "hide"
+      }
+    },
+    "ItemStorage": {
+      "Credit": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredInt",
+        "order": 7,
+        "color": "#ab7cf2"
+      },
+      "StallerJade": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredInt",
+        "order": 8,
+        "color": "#fc8f8b"
+      }
+    }
+  },
   "Rogue": {
     "Scheduler": {
       "Enable": {

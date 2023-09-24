@@ -26,3 +26,5 @@ class StoredGenerated:
     BattlePassLevel = StoredBattlePassLevel("BattlePass.BattlePassStorage.BattlePassLevel")
     BattlePassTodayQuest = StoredBattlePassTodayQuest("BattlePass.BattlePassStorage.BattlePassTodayQuest")
     Assignment = StoredAssignment("Assignment.Assignment.Assignment")
+    Credit = StoredInt("DataUpdate.ItemStorage.Credit")
+    StallerJade = StoredInt("DataUpdate.ItemStorage.StallerJade")

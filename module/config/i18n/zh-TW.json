@@ -38,6 +38,10 @@
       "name": "委託",
       "help": ""
     },
+    "DataUpdate": {
+      "name": "儀表板更新",
+      "help": ""
+    },
     "Rogue": {
       "name": "模擬宇宙",
       "help": "模擬宇宙還在開發中，任務不會被運行"
@@ -695,6 +699,20 @@
     },
     "Assignment": {
       "name": "委託",
+      "help": ""
+    }
+  },
+  "ItemStorage": {
+    "_info": {
+      "name": "ItemStorage._info.name",
+      "help": "ItemStorage._info.help"
+    },
+    "Credit": {
+      "name": "信用點",
+      "help": ""
+    },
+    "StallerJade": {
+      "name": "星瓊",
       "help": ""
     }
   },

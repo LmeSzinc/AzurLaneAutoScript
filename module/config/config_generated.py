@@ -103,6 +103,10 @@ class GeneratedConfig:
     Assignment_Duration = 20  # 4, 8, 12, 20
     Assignment_Assignment = {}
 
+    # Group `ItemStorage`
+    ItemStorage_Credit = {}
+    ItemStorage_StallerJade = {}
+
     # Group `RoguePath`
     RoguePath_Path = 'The_Hunt'  # Preservation, Remembrance, Nihility, Abundance, The_Hunt, Destruction, Elation
     RoguePath_Bonus = 'Blessing Cosmos'  # Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos
