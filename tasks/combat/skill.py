@@ -43,13 +43,13 @@ class CombatSkill(UI):
             else:
                 # Skill animation on going
                 if clicked:
-                    logger.info(f'Skill used: {button}')
+                    logger.info(f'Skill used: {button} (skill ongoing)')
                     break
-            # New skill icon
-            if prev_image is not None:
-                if not match_template(self.image_crop(button), prev_image):
-                    logger.info(f'Skill used: {button}')
-                    break
+                # New skill icon
+                if prev_image is not None:
+                    if not match_template(self.image_crop(button), prev_image):
+                        logger.info(f'Skill used: {button} (icon changed)')
+                        break
 
     def _is_skill_active(self, button):
         flag = self.image_color_count(button, color=(220, 196, 145), threshold=221, count=50)
@@ -126,5 +126,6 @@ class CombatSkill(UI):
             return False
 
         self._skill_click(button)
+        self.wait_next_skill()
         self._skill_click(USE_Q_AIM)
         return True
