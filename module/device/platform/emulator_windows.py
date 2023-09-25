@@ -333,14 +333,19 @@ class EmulatorManager(EmulatorManagerBase):
         with winreg.OpenKey(winreg.HKEY_CURRENT_USER, path) as reg:
             folders = list_key(reg)
         for folder in folders:
-            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, f'{path}\\{folder}\\Count') as reg:
-                for key in list_reg(reg):
-                    key = codecs.decode(key.name, 'rot-13')
-                    # Skip those with hash
-                    if regex_hash.search(key):
-                        continue
-                    for file in Emulator.multi_to_single(key):
-                        yield file
+            try:
+                with winreg.OpenKey(winreg.HKEY_CURRENT_USER, f'{path}\\{folder}\\Count') as reg:
+                    for key in list_reg(reg):
+                        key = codecs.decode(key.name, 'rot-13')
+                        # Skip those with hash
+                        if regex_hash.search(key):
+                            continue
+                        for file in Emulator.multi_to_single(key):
+                            yield file
+            except FileNotFoundError:
+                # FileNotFoundError: [WinError 2] 系统找不到指定的文件。
+                # Might be a random directory without "Count" subdirectory
+                continue
 
     @staticmethod
     def iter_mui_cache():
