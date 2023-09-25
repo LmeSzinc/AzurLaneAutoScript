@@ -9,11 +9,10 @@
       "ScreenshotDedithering": false,
       "AdbRestart": false
     },
-    "RestartEmulator": {
-      "Enable": false,
-      "EmulatorData": "emulator:\nname:\npath:",
-      "ErrorRestart": false,
-      "DailyRestart": false
+    "EmulatorInfo": {
+      "Emulator": "auto",
+      "name": null,
+      "path": null
     },
     "Error": {
       "HandleError": true,
@@ -73,6 +72,11 @@
       "SuccessInterval": 0,
       "FailureInterval": 0,
       "ServerUpdate": "00:00"
+    },
+    "AutoRestart": {
+      "Enabled": false,
+      "AttemptsToRestart": 114514,
+      "NotifyWhenAutoRestart": false
     },
     "Storage": {
       "Storage": {}
@@ -709,7 +713,7 @@
     },
     "Campaign": {
       "Name": "D3",
-      "Event": "war_archives_20220414_cn",
+      "Event": "war_archives_20201229_cn",
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,
@@ -1407,23 +1411,6 @@
       "Storage": {}
     }
   },
-  "SmallGame": {
-    "Scheduler": {
-      "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "SmallGame",
-      "SuccessInterval": 0,
-      "FailureInterval": 120,
-      "ServerUpdate": "00:00"
-    },
-    "SmallGame": {
-      "Buy": false,
-      "Count": 0
-    },
-    "Storage": {
-      "Storage": {}
-    }
-  },
   "Daily": {
     "Scheduler": {
       "Enable": false,
@@ -1729,7 +1716,7 @@
       "ServerUpdate": "00:00"
     },
     "OpsiVoucher": {
-      "Filter": "LoggerAbyssal > LoggerObscure > Book > Coin"
+      "Filter": "LoggerAbyssal > LoggerObscure > Book > Coin > Fragment"
     },
     "Storage": {
       "Storage": {}
@@ -1957,6 +1944,7 @@
       "GGPackageName": "com.",
       "AutoRestartGG": false,
       "RestartEverytime": true,
+      "RepushLua": true,
       "GGMultiplyingFactor": 200,
       "DisabledTask": "disable_all_dangerous_task"
     },
@@ -1964,6 +1952,20 @@
       "Exercise": 16500,
       "Raid": 16500,
       "Ash": 16500
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "SomethingSpecial": {
+    "InfiniteDelay": {
+      "Commission": false,
+      "Research": false,
+      "Reward": false
+    },
+    "TurnOffForcedOnSettings": {
+      "OpsiMeowfficerFarmingFromOpsiHazard1Leveling": false,
+      "OpsiHazard1LevelingYellowCoinLimit": false
     },
     "Storage": {
       "Storage": {}
@@ -2032,20 +2034,6 @@
       "Value": 0,
       "Color": "^AAAAAA",
       "Record": "2020-01-01 00:00:00"
-    },
-    "Storage": {
-      "Storage": {}
-    }
-  },
-  "SomethingSpecial": {
-    "InfiniteDelay": {
-      "Commission": false,
-      "Research": false,
-      "Reward": false
-    },
-    "TurnOffForcedOnSettings": {
-      "OpsiMeowfficerFarmingFromOpsiHazard1Leveling": false,
-      "OpsiHazard1LevelingYellowCoinLimit": false
     },
     "Storage": {
       "Storage": {}

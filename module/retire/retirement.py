@@ -188,8 +188,8 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                     break
 
                 # Click
-                if click_count >= 3:
-                    logger.warning('Failed to select ships using ONE_CLICK_RETIREMENT after 3 trial, '
+                if click_count >= 7:
+                    logger.warning('Failed to select ships using ONE_CLICK_RETIREMENT after 7 trial, '
                                    'probably because game bugged, a re-enter should fix it')
                     # Mark as retire finished, higher level will call retires
                     end = True

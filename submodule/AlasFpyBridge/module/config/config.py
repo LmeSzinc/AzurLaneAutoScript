@@ -27,7 +27,7 @@ class FgoConfig(AzurLaneConfig, ConfigUpdater, GeneratedConfig):
     # @override
     def bind(self, func, func_set=None):
         if func_set is None:
-            func_set = {"Fpy"}
+            func_set = ["Fpy"]
         super().bind(func, func_set)
 
     # @override

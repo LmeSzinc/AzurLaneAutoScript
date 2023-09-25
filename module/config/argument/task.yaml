@@ -11,7 +11,7 @@ Alas:
   tasks:
     Alas:
       - Emulator
-      - RestartEmulator
+      - EmulatorInfo
       - Error
       - Optimization
       - DropRecord
@@ -22,6 +22,8 @@ Alas:
       - OldRetire
     Restart:
       - Scheduler
+      - RestartEmulator
+      - AutoRestart
 
 # ==================== Farm ====================
 
@@ -224,9 +226,7 @@ Reward:
     Reward:
       - Scheduler
       - Reward
-    SmallGame:
-      - Scheduler
-      - SmallGame
+
 # ==================== DailyMission ====================
 
 DailyMission:
@@ -264,7 +264,6 @@ DailyMission:
       - DataKey
       - Mail
       - SupplyPack
-
 
 # ==================== Opsi ====================
 

@@ -106,6 +106,12 @@ class ManualConfig:
     module.handler
     """
     STORY_OPTION = 0
+    # Dirty patch to fix a game bug on game client
+    # 2023.09.07 AL story skip will skip story options
+    # but ridiculous that options that must be selected are skipped too
+    # such as compulsory confirm before abyssal, interaction of siren scanning devices and logging devices
+    # Don't click SKIP at the situation above
+    STORY_ALLOW_SKIP = True
 
     """
     module.map.fleet

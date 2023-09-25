@@ -7,6 +7,7 @@ from module.base.utils import *
 from module.exception import GameNotRunningError
 from module.handler.assets import *
 from module.logger import logger
+from module.os_handler.assets import CLICK_SAFE_AREA as OS_CLICK_SAFE_AREA
 
 
 def info_letter_preprocess(image):
@@ -259,10 +260,6 @@ class InfoHandler(ModuleBase):
     map_is_threat_safe = False
 
     _story_confirm = Timer(0.5, count=1)
-    # Area to detect the options, should include at least 3 options.
-    _story_option_area = (730, 188, 1140, 480)
-    # Background color of the left part of the option.
-    _story_option_color = (99, 121, 156)
     _story_option_timer = Timer(2)
     _story_option_record = 0
     _story_option_confirm = Timer(0.3, count=0)
@@ -272,7 +269,11 @@ class InfoHandler(ModuleBase):
         Returns:
             list[Button]: List of story options, from upper to bottom. If no option found, return an empty list.
         """
-        image = color_similarity_2d(self.image_crop(self._story_option_area), color=self._story_option_color) > 225
+        # Area to detect the options, should include at least 3 options.
+        story_option_area = (730, 188, 1140, 480)
+        # Background color of the left part of the option.
+        story_option_color = (99, 121, 156)
+        image = color_similarity_2d(self.image_crop(story_option_area), color=story_option_color) > 225
         x_count = np.where(np.sum(image, axis=0) > 40)[0]
         if not len(x_count):
             return []
@@ -297,9 +298,52 @@ class InfoHandler(ModuleBase):
             return []
         for n, bases in enumerate(zip(properties['left_bases'], properties['right_bases'])):
             area = (x_min, bases[0], x_max, bases[1])
-            area = area_pad(area_offset(area, offset=self._story_option_area[:2]), pad=5)
+            area = area_pad(area_offset(area, offset=story_option_area[:2]), pad=5)
             buttons.append(
-                Button(area=area, color=self._story_option_color, button=area, name=f'STORY_OPTION_{n + 1}_OF_{total}'))
+                Button(area=area, color=story_option_color, button=area, name=f'STORY_OPTION_{n + 1}_OF_{total}'))
+
+        return buttons
+
+    def _story_option_buttons_2(self):
+        """
+        Returns:
+            list[Button]: List of story options, from upper to bottom. If no option found, return an empty list.
+        """
+        # Area to detect the options, should include at least 3 options.
+        story_option_area = (330, 200, 980, 465)
+        story_detect_area = (330, 200, 355, 465)
+        story_option_color = (247, 247, 247)
+
+        image = color_similarity_2d(self.image_crop(story_detect_area), color=story_option_color)
+        line = cv2.reduce(image, 1, cv2.REDUCE_AVG).flatten()
+        line[line < 200] = 0
+        line[line >= 200] = 255
+
+        parameters = {
+            # Option is 300`320px x 50~52px.
+            'height': 200,
+            'width': 40,
+            'distance': 40,
+            # Chooses the relative height at which the peak width is measured as a percentage of its prominence.
+            # 1.0 calculates the width of the peak at its lowest contour line,
+            # while 0.5 evaluates at half the prominence height.
+            # Must be at least 0.
+            # rel_height is about 240 / 48
+            'rel_height': 4,
+        }
+        peaks, properties = signal.find_peaks(line, **parameters)
+        buttons = []
+        total = len(peaks)
+        if not total:
+            return []
+        for n, bases in enumerate(zip(properties['left_bases'], properties['right_bases'])):
+            area = (
+                story_option_area[0], story_option_area[1] + bases[0],
+                story_option_area[2], story_option_area[1] + bases[1],
+            )
+            area = area_pad(area, pad=5)
+            buttons.append(
+                Button(area=area, color=story_option_color, button=area, name=f'STORY_OPTION_{n + 1}_OF_{total}'))
 
         return buttons
 
@@ -316,18 +360,22 @@ class InfoHandler(ModuleBase):
         return False
 
     def story_skip(self, drop=None):
+        """
+        2023.09.14 Story options changed with big white options in the middle,
+            Check STORY_SKIP_3 but click the original STORY_SKIP.
+        """
         if self.story_popup_timeout.started() and not self.story_popup_timeout.reached():
             if self.handle_popup_confirm('STORY_SKIP'):
                 self.story_popup_timeout = Timer(10)
-                self.interval_reset(STORY_SKIP)
+                self.interval_reset(STORY_SKIP_3)
                 self.interval_reset(STORY_LETTERS_ONLY)
                 return True
         if self._is_story_black():
             if self.appear_then_click(STORY_LETTERS_ONLY, offset=(20, 20), interval=2):
                 self.story_popup_timeout.reset()
                 return True
-        if self._story_option_timer.reached() and self.appear(STORY_SKIP, offset=(20, 20), interval=0):
-            options = self._story_option_buttons()
+        if self._story_option_timer.reached() and self.appear(STORY_SKIP_3, offset=(20, 20), interval=0):
+            options = self._story_option_buttons_2()
             options_count = len(options)
             logger.attr('Story_options', options_count)
             if not options_count:
@@ -342,7 +390,7 @@ class InfoHandler(ModuleBase):
                     self.device.click(select)
                     self._story_option_timer.reset()
                     self.story_popup_timeout.reset()
-                    self.interval_reset(STORY_SKIP)
+                    self.interval_reset(STORY_SKIP_3)
                     self.interval_reset(STORY_LETTERS_ONLY)
                     self._story_option_record = 0
                     self._story_option_confirm.reset()
@@ -350,24 +398,29 @@ class InfoHandler(ModuleBase):
             else:
                 self._story_option_record = options_count
                 self._story_option_confirm.reset()
-        if self.appear(STORY_SKIP, offset=(20, 20), interval=2) \
-                or self.appear(STORY_SKIP_2, offset=(20, 20), interval=2):
+        if self.appear(STORY_SKIP_3, offset=(20, 20), interval=2):
             # Confirm it's story
             # When story play speed is Very Fast, Alas clicked story skip but story disappeared
             # This click will interrupt auto search
-            self.interval_reset([STORY_SKIP, STORY_SKIP_2])
+            self.interval_reset([STORY_SKIP_3])
             if self._story_confirm.reached():
                 if drop:
                     drop.handle_add(self, before=2)
-                self.device.click(STORY_SKIP)
+                if self.config.STORY_ALLOW_SKIP:
+                    self.device.click(STORY_SKIP)
+                else:
+                    self.device.click(OS_CLICK_SAFE_AREA)
                 self._story_confirm.reset()
                 self.story_popup_timeout.reset()
                 return True
             else:
-                self.interval_clear(STORY_SKIP)
+                self.interval_clear(STORY_SKIP_3)
         else:
             self._story_confirm.reset()
         if self.appear_then_click(GAME_TIPS, offset=(20, 20), interval=2):
+            self.story_popup_timeout.reset()
+            return True
+        if self.appear_then_click(STORY_CLOSE, offset=(10, 10), interval=2):
             self.story_popup_timeout.reset()
             return True
 

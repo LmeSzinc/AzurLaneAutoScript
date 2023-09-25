@@ -150,10 +150,6 @@
       "name": "收获",
       "help": ""
     },
-    "SmallGame": {
-      "name": "小游戏",
-      "help": ""
-    },
     "Daily": {
       "name": "每日任务",
       "help": ""
@@ -435,26 +431,36 @@
       "help": ""
     }
   },
-  "RestartEmulator": {
+  "EmulatorInfo": {
     "_info": {
-      "name": "重启模拟器",
+      "name": "模拟器设置",
+      "help": "下列数值是根据Serial自动填充的，如果不懂请不要随意修改"
+    },
+    "Emulator": {
+      "name": "模拟器类型",
+      "help": "",
+      "auto": "自动检测",
+      "NoxPlayer": "夜神模拟器",
+      "NoxPlayer64": "夜神模拟器64位",
+      "BlueStacks4": "蓝叠模拟器4",
+      "BlueStacks5": "蓝叠模拟器5",
+      "BlueStacks4HyperV": "蓝叠模拟器4 Hyper-V",
+      "BlueStacks5HyperV": "蓝叠模拟器5 Hyper-V",
+      "LDPlayer3": "雷电模拟器3",
+      "LDPlayer4": "雷电模拟器4",
+      "LDPlayer9": "雷电模拟器9",
+      "MuMuPlayer": "MuMu模拟器",
+      "MuMuPlayerX": "MuMu模拟器X",
+      "MuMuPlayer12": "MuMu模拟器12",
+      "MEmuPlayer": "逍遥模拟器"
+    },
+    "name": {
+      "name": "模拟器实例名称",
       "help": ""
     },
-    "Enable": {
-      "name": "RestartEmulator.Enable.name",
-      "help": "RestartEmulator.Enable.help"
-    },
-    "EmulatorData": {
-      "name": "RestartEmulator.EmulatorData.name",
-      "help": "RestartEmulator.EmulatorData.help"
-    },
-    "ErrorRestart": {
-      "name": "出错时重启模拟器",
-      "help": "在无法连接到模拟器时自动重启模拟器"
-    },
-    "DailyRestart": {
-      "name": "服务器刷新时重启模拟器",
-      "help": "每天主动重启模拟器以解决内存泄漏问题"
+    "path": {
+      "name": "模拟器安装路径",
+      "help": ""
     }
   },
   "Error": {
@@ -654,6 +660,11 @@
       "name": "活动名称",
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
+      "event_20230914_cn": "须臾望月抄",
+      "event_20220915_cn": "紫绛槿岚",
+      "coalition_20230323": "极地风暴",
+      "event_20220414_cn": "复刻永夜幻光",
+      "event_20230817_cn": "愚者的天平",
       "event_20230803_cn": "奏响鸢尾之歌",
       "event_20211125_cn": "复刻交汇世界的弧光",
       "event_20200917_cn": "复刻蝶海梦花",
@@ -667,7 +678,6 @@
       "event_20201126_cn": "假日航线",
       "event_20210819_cn": "复刻微层混合",
       "event_20211111_cn": "复刻杰诺瓦的焰火",
-      "coalition_20230323": "极地风暴",
       "raid_20220630": "来自鸢尾的天使",
       "event_20210422_cn": "复刻复兴的赞美诗",
       "event_20210624_cn": "复刻浮樱影华",
@@ -685,7 +695,6 @@
       "event_20201229_cn": "复刻负象限作战",
       "raid_20221027": "战斗！皇家女仆队3rd",
       "event_20210121_cn": "复刻神圣的悲喜剧",
-      "event_20220915_cn": "紫绛槿岚",
       "event_20210916_cn": "碧海光粼",
       "event_20200903_en": "复刻峡湾间的星辰",
       "event_20220324_cn": "虚像构筑之塔",
@@ -696,7 +705,6 @@
       "event_20200820_cn": "复刻铁血音符誓言",
       "event_20201012_cn": "复刻划破海空之翼",
       "raid_20200624": "复刻特别演习埃塞克斯级",
-      "event_20220414_cn": "复刻永夜幻光",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
       "event_20220310_tw": "復刻斯圖爾特的硝煙",
       "event_20220210_cn": "复刻北境序曲",
@@ -719,6 +727,7 @@
       "event_20200423_cn": "复刻苍红的回响",
       "event_20200326_cn": "微层混合",
       "event_20200227_cn": "北境序曲",
+      "war_archives_20201229_cn": "档案 负象限作战",
       "war_archives_20220414_cn": "档案 永夜幻光",
       "war_archives_20220210_cn": "档案 北境序曲",
       "war_archives_20211028_cn": "档案 穹顶下的圣咏曲",
@@ -1108,13 +1117,13 @@
     },
     "ChangeFlagship": {
       "name": "更换旗舰",
-      "help": "当旗舰等级>=33或红脸时更换旗舰\n寻找等级在1-32之间的白皮航母，同时会在退役时选择更换下来的旗舰。所有等级大于1级的白皮航母均会被视为退役目标，请务必锁定不是目标的船。换船时更换旗舰装备，这通过记录之前的装备完成。\n\n换装备只会更换正在装备中的栏位，即使是白装也会更换。如果指定了旗舰，则会更换全部5个装备，未指定旗舰只会更换设备。",
+      "help": "当旗舰等级>=33或红脸时更换旗舰，选择不更换则会强制红脸出击\n寻找等级在1-32之间的白皮航母，同时会在退役时选择更换下来的旗舰。所有等级大于1级的白皮航母均会被视为退役目标，请务必锁定不是目标的船。换船时更换旗舰装备，这通过记录之前的装备完成。\n\n换装备只会更换正在装备中的栏位，即使是白装也会更换。如果指定了旗舰，则会更换全部5个装备，未指定旗舰只会更换设备。",
       "ship": "更换舰船",
       "ship_equip": "更换舰船 + 装备"
     },
     "ChangeVanguard": {
       "name": "更换前排",
-      "help": "当前排红脸时更换前排\n换前排通过找一艘心情不低于16、等级100的白鹰白皮驱逐完成，所以尽量保证有足够多的驱逐。国服以外则为等级70的白鹰白船驱逐。\n\n换装备只会更换正在装备中的栏位，即使是白装也会更换。如果指定了旗舰，则会更换全部5个装备，未指定旗舰只会更换设备。",
+      "help": "当前排红脸时更换前排，选择不更换则会强制红脸出击\n换前排通过找一艘心情不低于16、等级100的白鹰白皮驱逐完成，所以尽量保证有足够多的驱逐。国服以外则为等级70的白鹰白船驱逐。\n\n换装备只会更换正在装备中的栏位，即使是白装也会更换。如果指定了旗舰，则会更换全部5个装备，未指定旗舰只会更换设备。",
       "disabled": "不更换",
       "ship": "更换舰船",
       "ship_equip": "更换舰船 + 装备"
@@ -1909,20 +1918,6 @@
       "6": "周日"
     }
   },
-  "SmallGame": {
-    "_info": {
-      "name": "小游戏",
-      "help": ""
-    },
-    "Buy": {
-      "name": "买游戏币",
-      "help": ""
-    },
-    "Count": {
-      "name": "每周买多少游戏币",
-      "help": "不得大于40"
-    }
-  },
   "Daily": {
     "_info": {
       "name": "每日任务",
@@ -2481,7 +2476,11 @@
     },
     "RestartEverytime": {
       "name": "每次启动Alas时重启",
-      "help": "打开以初始化倍率属性。如果你没有手动操作的坏习惯，可以关闭此选项。\n但是有坏习惯的人太多了，于是强制打开。"
+      "help": "打开以初始化倍率属性。如果你没有手动操作的坏习惯，可以关闭此选项。"
+    },
+    "RepushLua": {
+      "name": "重新推送Lua",
+      "help": "有时推送时会失败，若出现此情况可尝试开关此选项。"
     },
     "GGMultiplyingFactor": {
       "name": "倍率",
@@ -2774,6 +2773,24 @@
       "help": "GuildCoin.Record.help"
     }
   },
+  "AutoRestart": {
+    "_info": {
+      "name": "自动重启",
+      "help": "遇到某些问题时自动重启"
+    },
+    "Enabled": {
+      "name": "启用",
+      "help": ""
+    },
+    "AttemptsToRestart": {
+      "name": "最大尝试自动重启次数",
+      "help": ""
+    },
+    "NotifyWhenAutoRestart": {
+      "name": "重启时通知",
+      "help": "因出错而自动重启时通知，不建议开启，因为可能会很烦"
+    }
+  },
   "Storage": {
     "_info": {
       "name": "任务状态",
@@ -2865,7 +2882,28 @@
       "Confirm": "添加",
       "FileExist": "存在同名的配置文件，请重新输入一个",
       "InvalidChar": "配置文件名不能包含下列任何字符：.\\/:*?\"<>|",
-      "InvalidPrefixTemplate": "配置文件名不能以 template 开头"
+      "InvalidPrefixTemplate": "配置文件名不能以 template 开头",
+      "Manage": "管理"
+    },
+    "AppManage": {
+      "PageTitle": "管理配置文件",
+      "TitleNew": "添加新配置",
+      "NewName": "新的配置文件名",
+      "CopyFrom": "从现有的配置中复制",
+      "NameExist": "存在同名的配置文件，请重新输入一个",
+      "InvalidChar": "配置文件名不能包含下列任何字符：.\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "配置文件名不能以 template 开头",
+      "Back": "返回",
+      "New": "添加",
+      "Import": "导入",
+      "Export": "导出",
+      "Delete": "删除",
+      "OverrideWarning": "将会覆盖现有的配置文件",
+      "ImportSuccess": "导入成功",
+      "NewSuccess": "添加成功",
+      "Name": "配置名称",
+      "Mod": "插件",
+      "Actions": "操作"
     },
     "Update": {
       "UpToDate": "已是最新版本",
@@ -2896,7 +2934,9 @@
     },
     "Text": {
       "InvalidFeedBack": "格式错误。 示例：{0}",
-      "Clear": "清除"
+      "Clear": "清除",
+      "EnterPassword": "输入密码",
+      "ChooseFile": "选择文件"
     }
   }
 }

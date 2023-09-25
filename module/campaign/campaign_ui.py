@@ -36,6 +36,9 @@ class CampaignUI(CampaignEvent, CampaignOcr):
             else:
                 self.device.screenshot()
 
+            if self.handle_chapter_additional():
+                continue
+
             current = self.get_chapter_index(self.device.image)
 
             logger.attr("Index", current)
@@ -56,6 +59,15 @@ class CampaignUI(CampaignEvent, CampaignOcr):
                 button = CHAPTER_NEXT if diff > 0 else CHAPTER_PREV
                 self.device.multi_click(button, n=abs(diff), interval=(0.2, 0.3))
                 retry.reset()
+
+    def handle_chapter_additional(self):
+        """
+        Called in campaign_ensure_chapter()
+
+        Returns:
+            bool: True if handled
+        """
+        return False
 
     def campaign_ensure_mode(self, mode='normal'):
         """

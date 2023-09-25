@@ -5,10 +5,10 @@ import time
 from typing import Generator, List, Tuple
 
 import requests
-from deploy.config import ExecutionError
-from deploy.git import GitManager
-from deploy.pip import PipManager
-from deploy.utils import DEPLOY_CONFIG
+from deploy.Windows.config import ExecutionError
+from deploy.Windows.git import GitManager
+from deploy.Windows.pip import PipManager
+from deploy.Windows.utils import DEPLOY_CONFIG
 from module.base.retry import retry
 from module.logger import logger
 from module.webui.config import DeployConfig
@@ -68,6 +68,15 @@ class Updater(DeployConfig, GitManager, PipManager):
 
     def _check_update(self) -> bool:
         self.state = "checking"
+
+        if State.deploy_config.GitOverCdn:
+            if self.goc_client.is_uptodate():
+                logger.info(f"No update")
+                return False
+            else:
+                logger.info(f"New update available")
+                return True
+
         source = "origin"
         for _ in range(3):
             if self.execute(

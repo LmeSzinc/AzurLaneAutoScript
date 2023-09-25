@@ -150,10 +150,6 @@
       "name": "Reward",
       "help": ""
     },
-    "SmallGame": {
-      "name": "Task.SmallGame.name",
-      "help": "Task.SmallGame.help"
-    },
     "Daily": {
       "name": "Daily",
       "help": ""
@@ -435,26 +431,36 @@
       "help": ""
     }
   },
-  "RestartEmulator": {
+  "EmulatorInfo": {
     "_info": {
-      "name": "Restart Emulator",
+      "name": "Emulator Settings",
+      "help": "The following values are auto-filled according to \"Serial\", if you don’t understand, please don't modify them"
+    },
+    "Emulator": {
+      "name": "Emulator Type",
+      "help": "",
+      "auto": "Auto-detect",
+      "NoxPlayer": "Nox Player",
+      "NoxPlayer64": "Nox Player 64bit",
+      "BlueStacks4": "BlueStacks 4",
+      "BlueStacks5": "BlueStacks 5",
+      "BlueStacks4HyperV": "BlueStacks 4 Hyper-V",
+      "BlueStacks5HyperV": "BlueStacks 5 Hyper-V",
+      "LDPlayer3": "LD Player 3",
+      "LDPlayer4": "LD Player 4",
+      "LDPlayer9": "LD Player 9",
+      "MuMuPlayer": "MuMu Player",
+      "MuMuPlayerX": "MuMu Player X",
+      "MuMuPlayer12": "MuMu Player 12",
+      "MEmuPlayer": "MEmu Player"
+    },
+    "name": {
+      "name": "Emulator Instance Name",
       "help": ""
     },
-    "Enable": {
-      "name": "RestartEmulator.Enable.name",
-      "help": "RestartEmulator.Enable.help"
-    },
-    "EmulatorData": {
-      "name": "RestartEmulator.EmulatorData.name",
-      "help": "RestartEmulator.EmulatorData.help"
-    },
-    "ErrorRestart": {
-      "name": "Restart Emulator on Error",
-      "help": "Automatically restart the emulator when it cannot be connected"
-    },
-    "DailyRestart": {
-      "name": "Restart Emulator when Server Refreshes",
-      "help": "Restart emulator every day to solve the memory leak problem"
+    "path": {
+      "name": "Emulator Installation Path",
+      "help": ""
     }
   },
   "Error": {
@@ -654,6 +660,11 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "event_20230914_cn": "Effulgence Before Eclipse",
+      "event_20220915_cn": "Violet Tempest Blooming Lycoris",
+      "coalition_20230323": "Frostfall",
+      "event_20220414_cn": "Aurora Noctis Rerun",
+      "event_20230817_cn": "The Fools Scales",
       "event_20230803_cn": "Anthem of Remembrance",
       "event_20211125_cn": "World-spanning Arclight Rerun",
       "event_20200917_cn": "Dreamwakers Butterfly Rerun",
@@ -667,7 +678,6 @@
       "event_20201126_cn": "Vacation Lane",
       "event_20210819_cn": "Microlayer Medley Rerun",
       "event_20211111_cn": "The Flame-Touched Dagger Rerun",
-      "coalition_20230323": "Frostfall",
       "raid_20220630": "Angel of Iris",
       "event_20210422_cn": "Daedalian Hymn Rerun",
       "event_20210624_cn": "Swirling Cherry Blossoms Rerun",
@@ -685,7 +695,6 @@
       "event_20201229_cn": "Inverted Orthant Rerun",
       "raid_20221027": "Fight On Royal Maids!(Part 3)",
       "event_20210121_cn": "Empyreal Tragicomedy Rerun",
-      "event_20220915_cn": "Violet Tempest Blooming Lycoris",
       "event_20210916_cn": "Upon the Shimmering Blue",
       "event_20200903_en": "Stars of the Shimmering Fjord",
       "event_20220324_cn": "Virtual Tower",
@@ -696,7 +705,6 @@
       "event_20200820_cn": "Scherzo of Iron and Blood Rerun",
       "event_20201012_cn": "Sundered Blue Rerun",
       "raid_20200624": "Air Raid Drills with Essex Rerun",
-      "event_20220414_cn": "Aurora Noctis Rerun",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
       "event_20220310_tw": "復刻斯圖爾特的硝煙",
       "event_20220210_cn": "Northern Overture Rerun",
@@ -719,6 +727,7 @@
       "event_20200423_cn": "Crimson Echoes Rerun",
       "event_20200326_cn": "Microlayer Medley",
       "event_20200227_cn": "Northern Overture",
+      "war_archives_20201229_cn": "archives Inverted Orthant",
       "war_archives_20220414_cn": "archives Aurora Noctis",
       "war_archives_20220210_cn": "archives Northern Overture",
       "war_archives_20211028_cn": "archives Skybound Oratorio",
@@ -1108,13 +1117,13 @@
     },
     "ChangeFlagship": {
       "name": "Change Flagship",
-      "help": "Change flagship if flagship level >= 33 or either flagship or vanguard are emotion exhausted (if Change Vanguard is enabled).\nSwitch out to new common CV/CVL whose level is in range of 1 to 32, after current has reached level 32+. Meanwhile, abandoned flagships will be retired. Any common CV/CVL whose level is 2+ will be regarded as targets. Do confirm that your own ships which is not a target has been locked\n\nThe flagship's equipment is replaced when being switched out by first recording the current setup\nOnly populated equipment slots will be replaced. If the CV/CVL preference has been configured, all 5 slots will be populated otherwise only the auxiliary slots will be populated.",
+      "help": "Change flagship if flagship level >= 33 or either flagship or vanguard are emotion exhausted (if Change Vanguard is enabled).If you choose not to change, your fleet will ignore the low emotion warning and continue combat.\nSwitch out to new common CV/CVL whose level is in range of 1 to 32, after current has reached level 32+. Meanwhile, abandoned flagships will be retired. Any common CV/CVL whose level is 2+ will be regarded as targets. Do confirm that your own ships which is not a target has been locked\n\nThe flagship's equipment is replaced when being switched out by first recording the current setup\nOnly populated equipment slots will be replaced. If the CV/CVL preference has been configured, all 5 slots will be populated otherwise only the auxiliary slots will be populated.",
       "ship": "Change Ship",
       "ship_equip": "Change Ship + Gears"
     },
     "ChangeVanguard": {
       "name": "Change Vanguard",
-      "help": "Change vanguard if flagship or vanguard are emotion exhausted.\nSwitch out to new level 100(70) common vanguard after current flagship has reached level 32+ (Only CN players'0 limit break ship can reach level 100)\n\nThe vanguard's equipment is replaced when being switched out by first recording the current setup. Only populated equipment slots will be replaced.",
+      "help": "Change vanguard if flagship or vanguard are emotion exhausted.If you choose not to change, your fleet will ignore the low emotion warning and continue combat.\nSwitch out to new level 100(70) common vanguard after current flagship has reached level 32+ (Only CN players'0 limit break ship can reach level 100)\n\nThe vanguard's equipment is replaced when being switched out by first recording the current setup. Only populated equipment slots will be replaced.",
       "disabled": "Don't Change",
       "ship": "Change Ship",
       "ship_equip": "Change Ship + Gears"
@@ -1909,20 +1918,6 @@
       "6": "Sunday"
     }
   },
-  "SmallGame": {
-    "_info": {
-      "name": "SmallGame._info.name",
-      "help": "SmallGame._info.help"
-    },
-    "Buy": {
-      "name": "SmallGame.Buy.name",
-      "help": "SmallGame.Buy.help"
-    },
-    "Count": {
-      "name": "SmallGame.Count.name",
-      "help": "SmallGame.Count.help"
-    }
-  },
   "Daily": {
     "_info": {
       "name": "Daily Settings",
@@ -2375,7 +2370,7 @@
   "OpsiHazard1Leveling": {
     "_info": {
       "name": "CL1 leveling",
-      "help": "Consume operation coins to gain a lot of experience and a little action points.\nRecommended to carry 1-2 pre-loaded CV to obtain the highest average hourly benefit.\n\nTo avoid being unable to buying goods from port shops, Alas will retain 100,000 operation coins\nSince buying action points at the mystery shop requires a large number of operation points, this function will be supplemented by running meowfficer farming with overflow action points."
+      "help": "Consume operation coins to gain a lot of experience and a little action points.\nRecommended to carry 1-2 pre-loaded CV to obtain the highest average hourly benefit.\n\nTo avoid being unable to buying goods from port shops, Alas will retain 100,000 operation coins\nSince buying action points at the mystery shop requires a large number of operation coins, this function will be supplemented by running meowfficer farming with overflow action points."
     },
     "TargetZone": {
       "name": "Target Zone ID",
@@ -2482,6 +2477,10 @@
     "RestartEverytime": {
       "name": "Restart Everytime Alas starts",
       "help": "For sake of safety"
+    },
+    "RepushLua": {
+      "name": "GGHandler.RepushLua.name",
+      "help": "GGHandler.RepushLua.help"
     },
     "GGMultiplyingFactor": {
       "name": "GG Multiplying Factor",
@@ -2774,6 +2773,24 @@
       "help": "GuildCoin.Record.help"
     }
   },
+  "AutoRestart": {
+    "_info": {
+      "name": "AutoRestart._info.name",
+      "help": "AutoRestart._info.help"
+    },
+    "Enabled": {
+      "name": "AutoRestart.Enabled.name",
+      "help": "AutoRestart.Enabled.help"
+    },
+    "AttemptsToRestart": {
+      "name": "AutoRestart.AttemptsToRestart.name",
+      "help": "AutoRestart.AttemptsToRestart.help"
+    },
+    "NotifyWhenAutoRestart": {
+      "name": "AutoRestart.NotifyWhenAutoRestart.name",
+      "help": "AutoRestart.NotifyWhenAutoRestart.help"
+    }
+  },
   "Storage": {
     "_info": {
       "name": "Task status",
@@ -2865,7 +2882,28 @@
       "Confirm": "Add",
       "FileExist": "A config with the same name exists, please choose another one",
       "InvalidChar": "Config name cannot contain any of the following characters: .\\/:*?\"<>|",
-      "InvalidPrefixTemplate": "Config name cannot start with 'template'"
+      "InvalidPrefixTemplate": "Config name cannot start with 'template'",
+      "Manage": "Manage"
+    },
+    "AppManage": {
+      "PageTitle": "Manage config",
+      "TitleNew": "New config",
+      "NewName": "Config name",
+      "CopyFrom": "Copy from existing config",
+      "NameExist": "A config with the same name exists, please choose another one",
+      "InvalidChar": "Config name cannot contain any of the following characters: .\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "Config name cannot start with 'template'",
+      "Back": "Back",
+      "New": "New",
+      "Import": "Import",
+      "Export": "Export",
+      "Delete": "Delete",
+      "OverrideWarning": "This will override the current config!",
+      "ImportSuccess": "Import succeeded",
+      "NewSuccess": "Add config succeeded",
+      "Name": "Name",
+      "Mod": "Mod",
+      "Actions": "Actions"
     },
     "Update": {
       "UpToDate": "Latest version",
@@ -2896,7 +2934,9 @@
     },
     "Text": {
       "InvalidFeedBack": "Invalid format. Example: {0}",
-      "Clear": "Clear"
+      "Clear": "Clear",
+      "EnterPassword": "Enter password",
+      "ChooseFile": "Choose file"
     }
   }
 }

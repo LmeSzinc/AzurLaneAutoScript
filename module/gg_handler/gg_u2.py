@@ -128,16 +128,18 @@ class GGU2(Base):
         _set = False
         _confirmed = False
         import os
-        os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                 f' {self.device.serial} shell mkdir /sdcard/Notes')
-        self.device.sleep(0.5)
-        os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                 f' {self.device.serial} shell rm /sdcard/Notes/Multiplier.lua')
-        self.device.sleep(0.5)
-        os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                 f' {self.device.serial} push "bin/Lua/Multiplier.lua" /sdcard/Notes/Multiplier.lua')
-        self.device.sleep(0.5)
-        logger.info('Lua Pushed')
+        _repush = deep_get(self.config.data, keys='GameManager.GGHandler.RepushLua')
+        if _repush:
+            os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+                     f' {self.device.serial} shell mkdir /sdcard/Notes')
+            self.device.sleep(0.5)
+            os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+                     f' {self.device.serial} shell rm /sdcard/Notes/Multiplier.lua')
+            self.device.sleep(0.5)
+            os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+                     f' {self.device.serial} push "bin/Lua/Multiplier.lua" /sdcard/Notes/Multiplier.lua')
+            self.device.sleep(0.5)
+            logger.info('Lua Pushed')
         while 1:
             self.device.sleep(1)
             if self.d(resourceId=f"{self.gg_package_name}:id/file").exists:
@@ -153,7 +155,7 @@ class GGU2(Base):
                 self.device.sleep(0.5)
             if self.d(resourceId=f"{self.gg_package_name}:id/edit").exists:
                 self.d(resourceId=f"{self.gg_package_name}:id/edit").send_keys(f"{self.factor}")
-                logger.info('Factor Set')
+                logger.info(f'Factor Set: {self.factor}')
                 self.device.sleep(0.5)
                 _set = True
             if _set and self.d.xpath('//*[@text="确定"]').exists:

@@ -26,11 +26,10 @@ class GeneratedConfig:
     Emulator_ScreenshotDedithering = False
     Emulator_AdbRestart = False
 
-    # Group `RestartEmulator`
-    RestartEmulator_Enable = False
-    RestartEmulator_EmulatorData = 'emulator:\nname:\npath:'
-    RestartEmulator_ErrorRestart = False
-    RestartEmulator_DailyRestart = False
+    # Group `EmulatorInfo`
+    EmulatorInfo_Emulator = 'auto'  # auto, NoxPlayer, NoxPlayer64, BlueStacks4, BlueStacks5, BlueStacks4HyperV, BlueStacks5HyperV, LDPlayer3, LDPlayer4, LDPlayer9, MuMuPlayer, MuMuPlayerX, MuMuPlayer12, MEmuPlayer
+    EmulatorInfo_name = None
+    EmulatorInfo_path = None
 
     # Group `Error`
     Error_HandleError = True
@@ -320,10 +319,6 @@ class GeneratedConfig:
     SupplyPack_Collect = True
     SupplyPack_DayOfWeek = 0  # 0, 1, 2, 3, 4, 5, 6
 
-    # Group `SmallGame`
-    SmallGame_Buy = False
-    SmallGame_Count = 0
-
     # Group `Daily`
     Daily_UseDailySkip = True
     Daily_EscortMission = 'first'  # skip, first, second, third
@@ -392,7 +387,7 @@ class GeneratedConfig:
     OpsiShop_BuySupply = True
 
     # Group `OpsiVoucher`
-    OpsiVoucher_Filter = 'LoggerAbyssal > LoggerObscure > Book > Coin'
+    OpsiVoucher_Filter = 'LoggerAbyssal > LoggerObscure > Book > Coin > Fragment'
 
     # Group `OpsiDaily`
     OpsiDaily_DoMission = True
@@ -444,6 +439,7 @@ class GeneratedConfig:
     GGHandler_GGPackageName = 'com.'
     GGHandler_AutoRestartGG = False
     GGHandler_RestartEverytime = True
+    GGHandler_RepushLua = True
     GGHandler_GGMultiplyingFactor = 200
     GGHandler_DisabledTask = 'disable_all_dangerous_task'  # disable_all_dangerous_task, disable_guild_and_dangerous, disable_exercise, enable_all
 
@@ -523,6 +519,11 @@ class GeneratedConfig:
     GuildCoin_Value = 0
     GuildCoin_Color = '^000000'
     GuildCoin_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `AutoRestart`
+    AutoRestart_Enabled = False
+    AutoRestart_AttemptsToRestart = 114514
+    AutoRestart_NotifyWhenAutoRestart = False
 
     # Group `Storage`
     Storage_Storage = {}

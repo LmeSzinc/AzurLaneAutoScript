@@ -3,10 +3,11 @@ from copy import deepcopy
 
 from cached_property import cached_property
 
-from deploy.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
+from deploy.Windows.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
+from module.config.env import IS_ON_PHONE_CLOUD
 from module.config.redirect_utils.utils import *
-from module.config.server import to_server, to_package, VALID_PACKAGE, VALID_CHANNEL_PACKAGE, VALID_SERVER_LIST
+from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, VALID_SERVER_LIST, to_package, to_server
 from module.config.utils import *
 
 CONFIG_IMPORT = '''
@@ -165,9 +166,9 @@ class ConfigGenerator:
         # Add dashboard to args
         dashboard_and_task = {**self.task, **self.dashboard}
         for path, groups in deep_iter(dashboard_and_task, depth=3):
-            if 'tasks' not in path:
+            if 'tasks' not in path and 'Dashboard' not in path:
                 continue
-            task = path[2]
+            task = path[2] if 'tasks' in path else path[0]
             # Add storage to all task
             groups.append('Storage')
             for group in groups:
@@ -334,6 +335,20 @@ class ConfigGenerator:
         for path, _ in deep_iter(self.gui, depth=2):
             group, key = path
             deep_load(keys=['Gui', group], words=(key,))
+        # zh-TW
+        dic_repl = {
+            '設置': '設定',
+            '支持': '支援',
+            '啓': '啟',
+            '异': '異',
+            '服務器': '伺服器',
+            '文件': '檔案',
+        }
+        if lang == 'zh-TW':
+            for path, value in deep_iter(new, depth=3):
+                for before, after in dic_repl.items():
+                    value = value.replace(before, after)
+                deep_set(new, keys=path, value=value)
 
         write_file(filepath_i18n(lang), new)
 
@@ -462,6 +477,22 @@ class ConfigGenerator:
         update('template-docker-cn', docker, cn)
         update('template-linux', linux)
         update('template-linux-cn', linux, cn)
+
+        tpl = {
+            'Repository': '{{repository}}',
+            'GitExecutable': '{{gitExecutable}}',
+            'PythonExecutable': '{{pythonExecutable}}',
+            'AdbExecutable': '{{adbExecutable}}',
+            'Language': '{{language}}',
+            'Theme': '{{theme}}',
+        }
+        def update(file, *args):
+            new = deepcopy(template)
+            for dic in args:
+                new.update(dic)
+            poor_yaml_write(data=new, file=file)
+
+        update('./webapp/packages/main/public/deploy.yaml.tpl', tpl)
 
     def insert_package(self):
         option = deep_get(self.argument, keys='Emulator.PackageName.option')
@@ -613,6 +644,7 @@ class ConfigUpdater:
 
         if not is_template:
             new = self.config_redirect(old, new)
+        new = self._override(new)
 
         return new
 
@@ -664,6 +696,25 @@ class ConfigUpdater:
                 deep_set(new, keys=target, value=value)
 
         return new
+
+    def _override(self, data):
+        def remove_drop_save(key):
+            value = deep_get(data, keys=key, default='do_not')
+            if value == 'save_and_upload':
+                value = 'upload'
+                deep_set(data, keys=key, value=value)
+            elif value == 'save':
+                value = 'do_not'
+                deep_set(data, keys=key, value=value)
+
+        if IS_ON_PHONE_CLOUD:
+            deep_set(data, 'Alas.Emulator.Serial', '127.0.0.1:5555')
+            deep_set(data, 'Alas.Emulator.ScreenshotMethod', 'DroidCast_raw')
+            deep_set(data, 'Alas.Emulator.ControlMethod', 'MaaTouch')
+            for arg in deep_get(self.args, keys='Alas.DropRecord', default={}).keys():
+                remove_drop_save(arg)
+
+        return data
 
     def read_file(self, config_name, is_template=False):
         """

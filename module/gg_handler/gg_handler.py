@@ -40,14 +40,8 @@ class GGHandler:
             except Exception as e:
                 logger.exception(e)
                 if _crashed:
-                    from module.notify import handle_notify
-                    handle_notify(self.config.Error_OnePushConfig,
-                                  title=f"Alas <{self.config.config_name}> crashed",
-                                  content=f"<{self.config.config_name}> "
-                                          f"RequestHumanTakeover.\n"
-                                          f"Maybe your emulator died."
-                                  )
-                    exit(1)
+                    logger.critical('Maybe your emulator died, trying to restart it')
+                    self.device.emulator_start()
                 _crashed = True
 
     def set(self, mode=True):
@@ -56,9 +50,9 @@ class GGHandler:
             Args:
                 mode: bool
         """
-        logger.hr('Enabling GG')
         gg_package_name = deep_get(self.config.data, keys='GameManager.GGHandler.GGPackageName')
         if mode:
+            logger.hr('Enabling GG')
             # if self.method == 'screenshot' or gg_package_name == 'com.':
             #     GGScreenshot(config=self.config, device=self.device) \
             #         .gg_set(mode=True, factor=self.factor)
@@ -88,7 +82,7 @@ class GGHandler:
         # elif self.method == 'u2':
         #     return \
         #         GGU2(config=self.config, device=self.device).skip_error()
-        return GGU2(config=self.config, device=self.device).skip_error() # Not support screenshot anymore
+        return GGU2(config=self.config, device=self.device).skip_error()  # Not support screenshot anymore
 
     def check_config(self) -> dict:
         """
@@ -115,21 +109,15 @@ class GGHandler:
             try:
                 timeout(self.device.restart_atx, 60)
             except Exception:
-                from module.notify import handle_notify
-                handle_notify(self.config.Error_OnePushConfig,
-                              title=f"Alas <{self.config.config_name}> Emulator error",
-                              content=f"<{self.config.config_name}> RequestHumanTakeover\nMaybe your emulator died", )
-                exit(1)
+                logger.critical('Maybe your emulator died, trying to restart it')
+                self.device.emulator_start()
             import uiautomator2 as u2
             logger.info('Reset UiAutomator')
             try:
                 u2.connect(self.device.serial).reset_uiautomator()
             except Exception:
-                from module.notify import handle_notify
-                handle_notify(self.config.Error_OnePushConfig,
-                              title=f"Alas <{self.config.config_name}> Restart U2 failed",
-                              content=f"<{self.config.config_name}> RequestHumanTakeover. \nMaybe your emulator died", )
-                exit(1)
+                logger.critical('Maybe your emulator died, trying to restart it')
+                self.device.emulator_start()
 
     def handle_restart(self):
         """

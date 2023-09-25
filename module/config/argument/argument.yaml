@@ -35,17 +35,31 @@ Emulator:
     option: [ ADB, uiautomator2, minitouch, Hermit, MaaTouch ]
   ScreenshotDedithering: false
   AdbRestart: false
-RestartEmulator:
-  Enable: false
-  EmulatorData:
+EmulatorInfo:
+  Emulator:
+    value: auto
+    option: [
+      auto,
+      NoxPlayer,
+      NoxPlayer64,
+      BlueStacks4,
+      BlueStacks5,
+      BlueStacks4HyperV,
+      BlueStacks5HyperV,
+      LDPlayer3,
+      LDPlayer4,
+      LDPlayer9,
+      MuMuPlayer,
+      MuMuPlayerX,
+      MuMuPlayer12,
+      MEmuPlayer,
+    ]
+  name:
+    value: null
     type: textarea
-    mode: yaml
-    value: |-
-      emulator:
-      name:
-      path:
-  ErrorRestart: False
-  DailyRestart: False
+  path:
+    value: null
+    type: textarea
 Error:
   HandleError: true
   SaveError: true
@@ -525,13 +539,6 @@ SupplyPack:
   DayOfWeek:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
-SmallGame:
-  Buy:
-    type: checkbox
-    value: false
-  Count:
-    type: input
-    value: 0
 
 # ==================== Daily ====================
 
@@ -642,7 +649,7 @@ OpsiShop:
   BuySupply: true
 OpsiVoucher:
   Filter: |-
-    LoggerAbyssal > LoggerObscure > Book > Coin
+    LoggerAbyssal > LoggerObscure > Book > Coin > Fragment
 OpsiDaily:
   DoMission: true
   UseTuningSample: true
@@ -705,7 +712,8 @@ GGHandler:
   AutoRestartGG: false
   RestartEverytime:
     value: true
-    display: disabled
+#    display: disabled
+  RepushLua: true
   GGMultiplyingFactor: 200
   DisabledTask:
     value: disable_all_dangerous_task
@@ -810,3 +818,17 @@ GuildCoin:
     value: ^000000
     display: hide
   Record: 2020-01-01 00:00:00
+
+
+
+# ==================== AutoRestart ====================
+AutoRestart:
+  Enabled:
+    type: checkbox
+    value: false
+  AttemptsToRestart:
+    type: input
+    value: 114514
+  NotifyWhenAutoRestart:
+    type: checkbox
+    value: false

@@ -1,0 +1,37 @@
+{
+  "common": {
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "language": "Language",
+    "update": "Update",
+    "global": "Global",
+    "china": "China",
+    "install": "Install",
+    "installTips": "Used ALAS before? Import your configs here"
+  },
+  "import": {
+    "title": "Import user configs from old ALAS",
+    "tips": "Import configs from old ALAS",
+    "error": "Import failed, please check your configs",
+    "step1": "Select old config files",
+    "step2": "Confirm import",
+    "step3": "Import succeed",
+    "filePathTips": " under Present profile：",
+    "btnOk": "Confirm",
+    "btnImport": "Import",
+    "btnGoBack": "Back",
+    "btnReimport": "Reimport",
+    "fileName": "File Name",
+    "lastModify": "Last Modify Time",
+    "file": {
+      "choose": "Choose files"
+    }
+  },
+  "modal": {
+    "closeTipTitle": "Sure to close ALAS ?",
+    "closeTipContent": "All running instances will be terminated",
+    "cancelText": "Cancel",
+    "okText": "Confirm"
+  }
+}

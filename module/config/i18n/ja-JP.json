@@ -150,10 +150,6 @@
       "name": "収穫",
       "help": ""
     },
-    "SmallGame": {
-      "name": "Task.SmallGame.name",
-      "help": "Task.SmallGame.help"
-    },
     "Daily": {
       "name": "デイリー",
       "help": ""
@@ -435,26 +431,36 @@
       "help": "Emulator.AdbRestart.help"
     }
   },
-  "RestartEmulator": {
+  "EmulatorInfo": {
     "_info": {
-      "name": "RestartEmulator._info.name",
-      "help": "RestartEmulator._info.help"
+      "name": "EmulatorInfo._info.name",
+      "help": "EmulatorInfo._info.help"
     },
-    "Enable": {
-      "name": "RestartEmulator.Enable.name",
-      "help": "RestartEmulator.Enable.help"
+    "Emulator": {
+      "name": "EmulatorInfo.Emulator.name",
+      "help": "EmulatorInfo.Emulator.help",
+      "auto": "auto",
+      "NoxPlayer": "NoxPlayer",
+      "NoxPlayer64": "NoxPlayer64",
+      "BlueStacks4": "BlueStacks4",
+      "BlueStacks5": "BlueStacks5",
+      "BlueStacks4HyperV": "BlueStacks4HyperV",
+      "BlueStacks5HyperV": "BlueStacks5HyperV",
+      "LDPlayer3": "LDPlayer3",
+      "LDPlayer4": "LDPlayer4",
+      "LDPlayer9": "LDPlayer9",
+      "MuMuPlayer": "MuMuPlayer",
+      "MuMuPlayerX": "MuMuPlayerX",
+      "MuMuPlayer12": "MuMuPlayer12",
+      "MEmuPlayer": "MEmuPlayer"
     },
-    "EmulatorData": {
-      "name": "RestartEmulator.EmulatorData.name",
-      "help": "RestartEmulator.EmulatorData.help"
+    "name": {
+      "name": "EmulatorInfo.name.name",
+      "help": "EmulatorInfo.name.help"
     },
-    "ErrorRestart": {
-      "name": "RestartEmulator.ErrorRestart.name",
-      "help": "RestartEmulator.ErrorRestart.help"
-    },
-    "DailyRestart": {
-      "name": "RestartEmulator.DailyRestart.name",
-      "help": "RestartEmulator.DailyRestart.help"
+    "path": {
+      "name": "EmulatorInfo.path.name",
+      "help": "EmulatorInfo.path.help"
     }
   },
   "Error": {
@@ -654,6 +660,11 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "event_20230914_cn": "須臾望月抄",
+      "event_20220915_cn": "赫の涙月 菫の暁風",
+      "coalition_20230323": "星霜海嵐",
+      "event_20220414_cn": "極夜照らす幻光（復刻）",
+      "event_20230817_cn": "愚者の天秤",
       "event_20230803_cn": "燃ゆる聖都の回想曲",
       "event_20211125_cn": "弧光は交わる世界にて（復刻）",
       "event_20200917_cn": "刹那觀る胡蝶の夢（復刻）",
@@ -667,7 +678,6 @@
       "event_20201126_cn": "バケーションレーン",
       "event_20210819_cn": "闇靄払う銀翼（復刻）",
       "event_20211111_cn": "復刻-燈火のシニエ",
-      "coalition_20230323": "星霜海嵐",
       "raid_20220630": "アイリスの天使",
       "event_20210422_cn": "讃える復興の迷路（復刻）",
       "event_20210624_cn": "翳りし満ちる影の華(復刻)",
@@ -685,7 +695,6 @@
       "event_20201229_cn": "虚畳なりし限象（復刻）",
       "raid_20221027": "戦え！ロイヤルメイド隊3rd",
       "event_20210121_cn": "悲歎せし焔海の詩（復刻）",
-      "event_20220915_cn": "赫の涙月 菫の暁風",
       "event_20210916_cn": "駆けよ 碧海の吹き風",
       "event_20200903_en": "輝ける峡湾の星（復刻）",
       "event_20220324_cn": "幻像の塔",
@@ -696,7 +705,6 @@
       "event_20200820_cn": "黒鉄の楽章 誓いの海（復刻）",
       "event_20201012_cn": "奔る彩帆の青（復刻）",
       "raid_20200624": "特別演習超空強襲波（復刻）",
-      "event_20220414_cn": "極夜照らす幻光（復刻）",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
       "event_20220310_tw": "復刻斯圖爾特的硝煙",
       "event_20220210_cn": "凍絶の北海（復刻）",
@@ -719,6 +727,7 @@
       "event_20200423_cn": "縹映る深緋の残響（復刻）",
       "event_20200326_cn": "闇靄払う銀翼",
       "event_20200227_cn": "凍絶の北海",
+      "war_archives_20201229_cn": "檔案 虚畳なりし限象",
       "war_archives_20220414_cn": "檔案 極夜照らす幻光",
       "war_archives_20220210_cn": "檔案 凍絶の北海",
       "war_archives_20211028_cn": "檔案 神穹を衝く聖歌",
@@ -1909,20 +1918,6 @@
       "6": "6"
     }
   },
-  "SmallGame": {
-    "_info": {
-      "name": "SmallGame._info.name",
-      "help": "SmallGame._info.help"
-    },
-    "Buy": {
-      "name": "SmallGame.Buy.name",
-      "help": "SmallGame.Buy.help"
-    },
-    "Count": {
-      "name": "SmallGame.Count.name",
-      "help": "SmallGame.Count.help"
-    }
-  },
   "Daily": {
     "_info": {
       "name": "Daily._info.name",
@@ -2483,6 +2478,10 @@
       "name": "GGHandler.RestartEverytime.name",
       "help": "GGHandler.RestartEverytime.help"
     },
+    "RepushLua": {
+      "name": "GGHandler.RepushLua.name",
+      "help": "GGHandler.RepushLua.help"
+    },
     "GGMultiplyingFactor": {
       "name": "GGHandler.GGMultiplyingFactor.name",
       "help": "GGHandler.GGMultiplyingFactor.help"
@@ -2774,6 +2773,24 @@
       "help": "GuildCoin.Record.help"
     }
   },
+  "AutoRestart": {
+    "_info": {
+      "name": "AutoRestart._info.name",
+      "help": "AutoRestart._info.help"
+    },
+    "Enabled": {
+      "name": "AutoRestart.Enabled.name",
+      "help": "AutoRestart.Enabled.help"
+    },
+    "AttemptsToRestart": {
+      "name": "AutoRestart.AttemptsToRestart.name",
+      "help": "AutoRestart.AttemptsToRestart.help"
+    },
+    "NotifyWhenAutoRestart": {
+      "name": "AutoRestart.NotifyWhenAutoRestart.name",
+      "help": "AutoRestart.NotifyWhenAutoRestart.help"
+    }
+  },
   "Storage": {
     "_info": {
       "name": "Storage._info.name",
@@ -2865,7 +2882,28 @@
       "Confirm": "追加",
       "FileExist": "既存コンフィグと同じネーミングとなっていますから別名前を入力してください",
       "InvalidChar": "コンフィグ名には下記の文字を含めることはできません：.\\/:*?\"<>|",
-      "InvalidPrefixTemplate": "設定ファイル名は temlpate で始めることはできません"
+      "InvalidPrefixTemplate": "設定ファイル名は temlpate で始めることはできません",
+      "Manage": "管理"
+    },
+    "AppManage": {
+      "PageTitle": "コンフィグ管理",
+      "TitleNew": "コンフィグを追加",
+      "NewName": "コンフィグ名",
+      "CopyFrom": "既存コンフィグからコピー",
+      "NameExist": "コンフィグ名が既に存在しています",
+      "InvalidChar": "コンフィグ名には下記の文字を含めることはできません：.\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "設定ファイル名は temlpate で始めることはできません",
+      "Back": "戻る",
+      "New": "追加",
+      "Import": "インポート",
+      "Export": "エクスポート",
+      "Delete": "削除",
+      "OverrideWarning": "This will override the current config!",
+      "ImportSuccess": "インポート成功",
+      "NewSuccess": "追加成功",
+      "Name": "コンフィグ名",
+      "Mod": "モジュール",
+      "Actions": "操作"
     },
     "Update": {
       "UpToDate": "今Alasは最新バージョンです",
@@ -2896,7 +2934,9 @@
     },
     "Text": {
       "InvalidFeedBack": "フォーマットエラー。 例：{0}",
-      "Clear": "消除"
+      "Clear": "消除",
+      "EnterPassword": "パスワードを入力してください",
+      "ChooseFile": "ファイルを選択してください"
     }
   }
 }

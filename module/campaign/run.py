@@ -14,7 +14,8 @@ from module.handler.fast_forward import map_files, to_map_file_name
 from module.logger import logger
 from module.notify import handle_notify
 from module.ui.page import page_campaign
-
+from module.config.utils import deep_get, deep_set
+from datetime import datetime, timedelta
 
 class CampaignRun(CampaignEvent, ShopStatus):
     folder: str
@@ -256,6 +257,10 @@ class CampaignRun(CampaignEvent, ShopStatus):
                 Fleet_Fleet2=0,  # Has only one fleet
                 Submarine_Fleet=0,  # No submarine
             )
+        # event_20230817_cn story states
+        if folder == 'event_20230817_cn':
+            if name.startswith('e0'):
+                name = 'a1'
         # Stage loop
         for alias, stages in self.config.STAGE_LOOP_ALIAS.items():
             alias_folder, alias = alias
@@ -301,9 +306,14 @@ class CampaignRun(CampaignEvent, ShopStatus):
             in: page_campaign
         """
         if self.campaign.commission_notice_show_at_campaign():
-            logger.info('Commission notice found')
-            self.config.task_call('Commission', force_call=True)
-            self.config.task_stop('Commission notice found')
+            InfiniteDelayCommission = deep_get(self.config.data, "SomethingSpecial.InfiniteDelay.Commission")
+            if InfiniteDelayCommission:
+                logger.warning("Commission notice found, but skip to call task 'Commission' and delay it")
+                self.config.task_delay(target=datetime.now() + timedelta(hours=6, seconds=-1), task="Commission")
+            else:
+                logger.info('Commission notice found')
+                self.config.task_call('Commission', force_call=True)
+                self.config.task_stop('Commission notice found')
 
     def run(self, name, folder='campaign_main', mode='normal', total=0):
         """

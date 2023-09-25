@@ -51,6 +51,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         self.config.override(
             Submarine_Fleet=1,
             Submarine_Mode='every_combat',
+            STORY_ALLOW_SKIP=False,
             **kwargs
         )
 
@@ -173,7 +174,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         logger.error('Failed to solve uncollected rewards')
         raise GameTooManyClickError
 
-    def port_goto(self):
+    def port_goto(self, allow_port_arrive=True):
         """
         Wraps `port_goto()`, handle walk_out_of_step
 
@@ -182,7 +183,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         """
         for _ in range(3):
             try:
-                super().port_goto()
+                super().port_goto(allow_port_arrive=allow_port_arrive)
                 return True
             except MapWalkError:
                 pass
@@ -358,7 +359,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                     break
 
             logger.info('Solve EMP debuff by going somewhere else')
-            self.port_goto()
+            self.port_goto(allow_port_arrive=False)
             self.fleet_set(current)
 
         logger.warning('Failed to solve EMP debuff after 5 trial, assume solved')
@@ -630,7 +631,9 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
 
             grid = self.convert_radar_to_local(grid)
             self.device.click(grid)
-            result = self.wait_until_walk_stable(drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=4))
+            with self.config.temporary(STORY_ALLOW_SKIP=False):
+                result = self.wait_until_walk_stable(
+                    drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=4))
             if 'akashi' in result:
                 self._solved_map_event.add('is_akashi')
                 return True
@@ -748,7 +751,8 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
             fleet = self.convert_radar_to_local((0, 0))
             if fleet.distance_to(grid) > 1:
                 self.device.click(grid)
-                result = self.wait_until_walk_stable(drop=drop, walk_out_of_step=False)
+                with self.config.temporary(STORY_ALLOW_SKIP=False):
+                    result = self.wait_until_walk_stable(drop=drop, walk_out_of_step=False)
                 if 'akashi' in result:
                     self._solved_map_event.add('is_akashi')
                     return True
@@ -770,8 +774,9 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                 return True
 
             self.device.click(grid)
-            result = self.wait_until_walk_stable(drop=drop, walk_out_of_step=False,
-                                                 confirm_timer=Timer(1.5, count=4))
+            with self.config.temporary(STORY_ALLOW_SKIP=False):
+                result = self.wait_until_walk_stable(
+                    drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=4))
             self.os_auto_search_run(drop=drop)
             if 'event' in result:
                 self._solved_map_event.add('is_scanning_device')
@@ -784,7 +789,9 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
             grid = grids[0]
             logger.info(f'Found logging tower on {grid}')
             self.device.click(grid)
-            result = self.wait_until_walk_stable(drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=4))
+            with self.config.temporary(STORY_ALLOW_SKIP=False):
+                result = self.wait_until_walk_stable(
+                    drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=4))
             if 'event' in result:
                 self._solved_map_event.add('is_logging_tower')
                 return True
