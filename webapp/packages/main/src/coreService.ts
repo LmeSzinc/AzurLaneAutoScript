@@ -65,6 +65,10 @@ export class CoreService {
     return this.currentService;
   }
 
+  onError(e: Error | any) {
+    logger.error(`currentServiceIndex:${this.stepIndex}` + (e as unknown as any).toString());
+  }
+
   reset() {
     this.stepIndex = 0;
   }
