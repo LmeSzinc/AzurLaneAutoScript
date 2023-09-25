@@ -402,6 +402,20 @@
         "display": "hide"
       }
     },
+    "AutoRestart": {
+      "Enabled": {
+        "type": "checkbox",
+        "value": false
+      },
+      "AttemptsToRestart": {
+        "type": "input",
+        "value": 114514
+      },
+      "NotifyWhenAutoRestart": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
     "Storage": {
       "Storage": {
         "type": "storage",
@@ -2004,7 +2018,6 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
-        "display": "disabled",
         "cn": "event_20230914_cn",
         "en": "event_20230914_cn",
         "jp": "event_20230914_cn",
@@ -2441,7 +2454,6 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
-        "display": "disabled",
         "cn": "event_20230914_cn",
         "en": "event_20230914_cn",
         "jp": "event_20230914_cn",
@@ -2878,7 +2890,6 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
-        "display": "disabled",
         "cn": "event_20230914_cn",
         "en": "event_20230914_cn",
         "jp": "event_20230914_cn",
@@ -9346,8 +9357,7 @@
       },
       "RestartEverytime": {
         "type": "checkbox",
-        "value": true,
-        "display": "disabled"
+        "value": true
       },
       "RepushLua": {
         "type": "checkbox",
@@ -9380,6 +9390,40 @@
       "Ash": {
         "type": "input",
         "value": 16500
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
+  "SomethingSpecial": {
+    "InfiniteDelay": {
+      "Commission": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Research": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Reward": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
+    "TurnOffForcedOnSettings": {
+      "OpsiMeowfficerFarmingFromOpsiHazard1Leveling": {
+        "type": "checkbox",
+        "value": false
+      },
+      "OpsiHazard1LevelingYellowCoinLimit": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Storage": {

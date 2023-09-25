@@ -243,3 +243,4 @@ page_supply_pack.link(button=GOTO_MAIN, destination=page_main)
 page_build = Page(BUILD_CHECK)
 page_main.link(button=MAIN_GOTO_BUILD, destination=page_build)
 page_build.link(button=GOTO_MAIN, destination=page_main)
+

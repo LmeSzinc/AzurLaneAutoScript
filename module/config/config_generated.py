@@ -448,6 +448,15 @@ class GeneratedConfig:
     PowerLimit_Raid = 16500
     PowerLimit_Ash = 16500
 
+    # Group `InfiniteDelay`
+    InfiniteDelay_Commission = False
+    InfiniteDelay_Research = False
+    InfiniteDelay_Reward = False
+
+    # Group `TurnOffForcedOnSettings`
+    TurnOffForcedOnSettings_OpsiMeowfficerFarmingFromOpsiHazard1Leveling = False
+    TurnOffForcedOnSettings_OpsiHazard1LevelingYellowCoinLimit = False
+
     # Group `Oil`
     Oil_Value = 0
     Oil_Limit = 0
@@ -510,6 +519,11 @@ class GeneratedConfig:
     GuildCoin_Value = 0
     GuildCoin_Color = '^000000'
     GuildCoin_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `AutoRestart`
+    AutoRestart_Enabled = False
+    AutoRestart_AttemptsToRestart = 114514
+    AutoRestart_NotifyWhenAutoRestart = False
 
     # Group `Storage`
     Storage_Storage = {}

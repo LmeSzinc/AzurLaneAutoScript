@@ -261,6 +261,10 @@
     "GameManager": {
       "name": "游戏管理器(未完成)",
       "help": ""
+    },
+    "SomethingSpecial": {
+      "name": "特别的东西",
+      "help": ""
     }
   },
   "Scheduler": {
@@ -488,11 +492,11 @@
     },
     "ScreenshotInterval": {
       "name": "放慢截图速度至 X 秒一张",
-      "help": "执行两次截图之间的最小间隔，限制在 0.1 ~ 0.3，对于高配置电脑能降低 CPU 占用"
+      "help": "执行两次截图之间的最小间隔，限制在 0.1 ~ 2.0，根据需要自行调整\n建议调整为较短的间隔，比如0.1s\n我也不知道为什么，但这似乎对于减少Alas的部分报错有一定的帮助 : )"
     },
     "CombatScreenshotInterval": {
       "name": "战斗中放慢截图速度至 X 秒一张",
-      "help": "执行两次截图之间的最小间隔，限制在 0.1 ~ 1.0，能降低战斗时的 CPU 占用"
+      "help": "执行两次截图之间的最小间隔，限制在 0.1 ~ 5.0，根据需要自行调整\n建议调整为较短的间隔，比如0.5s\n我也不知道为什么，但这似乎对于减少Alas的部分报错有一定的帮助 : )"
     },
     "TaskHoardingDuration": {
       "name": "囤积任务 X 分钟",
@@ -2472,7 +2476,7 @@
     },
     "RestartEverytime": {
       "name": "每次启动Alas时重启",
-      "help": "打开以初始化倍率属性。如果你没有手动操作的坏习惯，可以关闭此选项。\n但是有坏习惯的人太多了，于是强制打开。"
+      "help": "打开以初始化倍率属性。如果你没有手动操作的坏习惯，可以关闭此选项。"
     },
     "RepushLua": {
       "name": "重新推送Lua",
@@ -2506,6 +2510,38 @@
     },
     "Ash": {
       "name": "余烬信标",
+      "help": ""
+    }
+  },
+  "InfiniteDelay": {
+    "_info": {
+      "name": "无限推迟",
+      "help": "开启后会无限推迟任务，就像这个任务没有开启过一样\n用于某些强制开启的任务"
+    },
+    "Commission": {
+      "name": "委托",
+      "help": ""
+    },
+    "Research": {
+      "name": "科研",
+      "help": ""
+    },
+    "Reward": {
+      "name": "收获",
+      "help": ""
+    }
+  },
+  "TurnOffForcedOnSettings": {
+    "_info": {
+      "name": "关闭强制开启的项目",
+      "help": "不一定有用"
+    },
+    "OpsiMeowfficerFarmingFromOpsiHazard1Leveling": {
+      "name": "71自动开启的短猫",
+      "help": ""
+    },
+    "OpsiHazard1LevelingYellowCoinLimit": {
+      "name": "71黄币限制",
       "help": ""
     }
   },
@@ -2735,6 +2771,24 @@
     "Record": {
       "name": "GuildCoin.Record.name",
       "help": "GuildCoin.Record.help"
+    }
+  },
+  "AutoRestart": {
+    "_info": {
+      "name": "自动重启",
+      "help": "遇到某些问题时自动重启"
+    },
+    "Enabled": {
+      "name": "启用",
+      "help": ""
+    },
+    "AttemptsToRestart": {
+      "name": "最大尝试自动重启次数",
+      "help": ""
+    },
+    "NotifyWhenAutoRestart": {
+      "name": "重启时通知",
+      "help": "因出错而自动重启时通知，不建议开启，因为可能会很烦"
     }
   },
   "Storage": {

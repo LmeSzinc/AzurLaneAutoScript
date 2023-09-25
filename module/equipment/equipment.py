@@ -168,10 +168,12 @@ class Equipment(StorageHandler):
         confirm_timer = Timer(5)
 
         while 1:
-            if skip_first_screenshot:
-                self.device.screenshot()
-            else:
-                skip_first_screenshot = False
+            # if skip_first_screenshot:
+            #     self.device.screenshot()
+            # else:
+            #     skip_first_screenshot = False
+            self.device.sleep(1)
+            self.device.screenshot()
 
             # End
             # if self.handle_info_bar():
@@ -223,10 +225,12 @@ class Equipment(StorageHandler):
         on_timer = Timer(5)
 
         while 1:
-            if skip_first_screenshot:
-                self.device.screenshot()
-            else:
-                skip_first_screenshot = False
+            # if skip_first_screenshot:
+            #     self.device.screenshot()
+            # else:
+            #     skip_first_screenshot = False
+            self.device.sleep(1)
+            self.device.screenshot()
 
             # End
             # if self.handle_info_bar():

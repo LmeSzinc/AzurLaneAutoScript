@@ -73,6 +73,11 @@
       "FailureInterval": 0,
       "ServerUpdate": "00:00"
     },
+    "AutoRestart": {
+      "Enabled": false,
+      "AttemptsToRestart": 114514,
+      "NotifyWhenAutoRestart": false
+    },
     "Storage": {
       "Storage": {}
     }
@@ -1947,6 +1952,20 @@
       "Exercise": 16500,
       "Raid": 16500,
       "Ash": 16500
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "SomethingSpecial": {
+    "InfiniteDelay": {
+      "Commission": false,
+      "Research": false,
+      "Reward": false
+    },
+    "TurnOffForcedOnSettings": {
+      "OpsiMeowfficerFarmingFromOpsiHazard1Leveling": false,
+      "OpsiHazard1LevelingYellowCoinLimit": false
     },
     "Storage": {
       "Storage": {}

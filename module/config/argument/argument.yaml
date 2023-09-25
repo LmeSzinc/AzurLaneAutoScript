@@ -712,7 +712,7 @@ GGHandler:
   AutoRestartGG: false
   RestartEverytime:
     value: true
-    display: disabled
+#    display: disabled
   RepushLua: true
   GGMultiplyingFactor: 200
   DisabledTask:
@@ -727,6 +727,20 @@ PowerLimit:
   Exercise: 16500
   Raid: 16500
   Ash: 16500
+
+InfiniteDelay:
+  Commission:
+    value: false
+  Research:
+    value: false
+  Reward:
+    value: false
+TurnOffForcedOnSettings:
+  OpsiMeowfficerFarmingFromOpsiHazard1Leveling:
+    value: false
+  OpsiHazard1LevelingYellowCoinLimit:
+    value: false
+
 
 # ==================== Dashboard ====================
 Oil:
@@ -804,3 +818,17 @@ GuildCoin:
     value: ^000000
     display: hide
   Record: 2020-01-01 00:00:00
+
+
+
+# ==================== AutoRestart ====================
+AutoRestart:
+  Enabled:
+    type: checkbox
+    value: false
+  AttemptsToRestart:
+    type: input
+    value: 114514
+  NotifyWhenAutoRestart:
+    type: checkbox
+    value: false

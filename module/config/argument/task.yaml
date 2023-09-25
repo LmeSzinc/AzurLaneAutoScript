@@ -23,6 +23,7 @@ Alas:
     Restart:
       - Scheduler
       - RestartEmulator
+      - AutoRestart
 
 # ==================== Farm ====================
 
@@ -340,3 +341,6 @@ Tool:
       - GameManager
       - GGHandler
       - PowerLimit
+    SomethingSpecial:
+      - InfiniteDelay
+      - TurnOffForcedOnSettings
