@@ -171,7 +171,7 @@ class Benchmark(DaemonBase, CampaignUI):
     def get_test_methods(self) -> t.Tuple[t.Tuple[str], t.Tuple[str]]:
         device = self.config.Benchmark_DeviceType
         # device == 'emulator'
-        screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw']
+        screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw', 'scrcpy']
         click = ['ADB', 'uiautomator2', 'minitouch']
 
         def remove(*args):
@@ -212,7 +212,7 @@ class Benchmark(DaemonBase, CampaignUI):
         Returns:
             str: The fastest screenshot method on current device.
         """
-        screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw']
+        screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw', 'scrcpy']
 
         def remove(*args):
             return [l for l in screenshot if l not in args]
