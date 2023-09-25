@@ -19,6 +19,8 @@ class OcrPlaneName(Ocr):
         # RobotSettlement1
         result = re.sub(r'-[Ii1]$', '', result)
         result = re.sub(r'\d+$', '', result)
+        # Herta's OfficeY/
+        result = re.sub(r'Y/?$', '', result)
 
         # 累塔的办公室
         result = result.replace('累塔', '黑塔')
