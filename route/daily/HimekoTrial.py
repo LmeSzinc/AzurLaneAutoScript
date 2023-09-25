@@ -1,6 +1,6 @@
 from module.logger import logger
 from tasks.combat.combat import Combat
-from tasks.daily.assets.assets_daily_trial import START_TRIAL
+from tasks.daily.assets.assets_daily_trial import INFO_CLOSE, START_TRIAL
 from tasks.daily.trail import CharacterTrial
 from tasks.map.control.waypoint import Waypoint
 from tasks.map.keywords.plane import Jarilo_BackwaterPass
@@ -19,6 +19,11 @@ class Route(RouteBase, Combat, CharacterTrial):
             return self.match_template_color(START_TRIAL)
 
         return super().wait_next_skill(expected_end=combat_end, skip_first_screenshot=skip_first_screenshot)
+
+    def walk_additional(self) -> bool:
+        if self.appear_then_click(INFO_CLOSE, interval=2):
+            return True
+        return super().walk_additional()
 
     def combat_execute(self, expected_end=None):
         # Battle 1/3
