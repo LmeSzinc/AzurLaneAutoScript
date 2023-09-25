@@ -147,6 +147,9 @@ BattlePassStorage:
     stored: StoredBattlePassTodayQuest
 
 Assignment:
+  WhenEventAssignmentsArePresent:
+    value: event_first
+    option: [event_first, do_not_participate]
   # Options in Name_x will be injected in config updater
   Name_1:
     value: Nameless_Land_Nameless_People

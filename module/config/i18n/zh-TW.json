@@ -613,6 +613,12 @@
       "name": "委託設定",
       "help": "領取獎勵並派遣，優先處理指定委託\n若處理指定委託之後未達到上限，則按經驗材料 → 角色專屬素材 → 合成材料的順序來派遣委託"
     },
+    "WhenEventAssignmentsArePresent": {
+      "name": "有特別委託活動時",
+      "help": "",
+      "event_first": "優先活動委託",
+      "do_not_participate": "不參加活動"
+    },
     "Name_1": {
       "name": "第1個委託選擇",
       "help": "",

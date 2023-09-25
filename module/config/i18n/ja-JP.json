@@ -613,6 +613,12 @@
       "name": "依頼設定",
       "help": ""
     },
+    "WhenEventAssignmentsArePresent": {
+      "name": "Assignment.WhenEventAssignmentsArePresent.name",
+      "help": "Assignment.WhenEventAssignmentsArePresent.help",
+      "event_first": "event_first",
+      "do_not_participate": "do_not_participate"
+    },
     "Name_1": {
       "name": "依頼 1",
       "help": "",

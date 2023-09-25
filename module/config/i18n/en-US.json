@@ -613,6 +613,12 @@
       "name": "Assignment Settings",
       "help": "Claim rewards and dispatch, handling specified assignments first\nIf the assignment limit is not reached after that, others will be dispatched according to preset priority (EXP Materials/Credits → Character Materials → Synthesis Materials)"
     },
+    "WhenEventAssignmentsArePresent": {
+      "name": "When Event Assignments are Present",
+      "help": "",
+      "event_first": "Complete Event Assignments First",
+      "do_not_participate": "Dont Participate in Event"
+    },
     "Name_1": {
       "name": "Assignment 1 Preference",
       "help": "",

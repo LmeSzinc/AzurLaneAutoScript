@@ -893,6 +893,14 @@
       }
     },
     "Assignment": {
+      "WhenEventAssignmentsArePresent": {
+        "type": "select",
+        "value": "event_first",
+        "option": [
+          "event_first",
+          "do_not_participate"
+        ]
+      },
       "Name_1": {
         "type": "select",
         "value": "Nameless_Land_Nameless_People",
