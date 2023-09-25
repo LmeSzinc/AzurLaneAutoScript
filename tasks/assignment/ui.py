@@ -2,38 +2,14 @@ import re
 from functools import cached_property
 from typing import Iterator
 
-from module.base.base import ModuleBase
 from module.base.timer import Timer
 from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import DigitCounter, Duration, Ocr
 from module.ui.draggable_list import DraggableList
-from module.ui.switch import Switch
 from tasks.assignment.assets.assets_assignment_ui import *
 from tasks.assignment.keywords import *
 from tasks.base.ui import UI
-
-
-class AssignmentSwitch(Switch):
-    def __init__(self, name, active_color: tuple[int, int, int], is_selector=True):
-        super().__init__(name, is_selector)
-        self.active_color = active_color
-
-    def get(self, main: ModuleBase):
-        """
-        Use image_color_count instead to determine whether the button is selected/active
-
-        Args:
-            main (ModuleBase):
-
-        Returns:
-            str: state name or 'unknown'.
-        """
-        for data in self.state_list:
-            if main.image_color_count(data['check_button'], self.active_color):
-                return data['state']
-
-        return 'unknown'
 
 
 class AssignmentOcr(Ocr):
@@ -81,28 +57,19 @@ class AssignmentOcr(Ocr):
         return matched
 
 
-ASSIGNMENT_TOP_SWITCH = AssignmentSwitch(
-    'AssignmentTopSwitch',
-    (240, 240, 240)
+ASSIGNMENT_GROUP_LIST = DraggableList(
+    'AssignmentGroupList',
+    keyword_class=AssignmentGroup,
+    ocr_class=Ocr,
+    search_button=OCR_ASSIGNMENT_GROUP_LIST,
+    active_color=(240, 240, 240),
+    drag_direction='right'
 )
-ASSIGNMENT_TOP_SWITCH.add_state(
-    KEYWORDS_ASSIGNMENT_GROUP.Character_Materials,
-    check_button=CHARACTER_MATERIALS
-)
-ASSIGNMENT_TOP_SWITCH.add_state(
-    KEYWORDS_ASSIGNMENT_GROUP.EXP_Materials_Credits,
-    check_button=EXP_MATERIALS_CREDITS
-)
-ASSIGNMENT_TOP_SWITCH.add_state(
-    KEYWORDS_ASSIGNMENT_GROUP.Synthesis_Materials,
-    check_button=SYNTHESIS_MATERIALS
-)
-
 ASSIGNMENT_ENTRY_LIST = DraggableList(
     'AssignmentEntryList',
     keyword_class=AssignmentEntry,
     ocr_class=AssignmentOcr,
-    search_button=OCR_ASSIGNMENT_LIST,
+    search_button=OCR_ASSIGNMENT_ENTRY_LIST,
     check_row_order=False,
     active_color=(40, 40, 40)
 )
@@ -120,7 +87,7 @@ class AssignmentUI(UI):
             self.goto_group(KEYWORDS_ASSIGNMENT_GROUP.Character_Materials)
         """
         logger.hr('Assignment group goto', level=3)
-        if ASSIGNMENT_TOP_SWITCH.set(group, main=self):
+        if ASSIGNMENT_GROUP_LIST.select_row(group, self):
             self._wait_until_entry_loaded()
 
     def goto_entry(self, entry: AssignmentEntry):
@@ -176,8 +143,9 @@ class AssignmentUI(UI):
         return current, remain, total
 
     def _iter_groups(self) -> Iterator[AssignmentGroup]:
-        for state in ASSIGNMENT_TOP_SWITCH.state_list:
-            yield state['state']
+        ASSIGNMENT_GROUP_LIST.load_rows(main=self)
+        for button in ASSIGNMENT_GROUP_LIST.cur_buttons:
+            yield button.matched_keyword
 
     def _iter_entries(self) -> Iterator[AssignmentEntry]:
         """

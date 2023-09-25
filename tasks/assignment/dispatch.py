@@ -1,12 +1,37 @@
 from datetime import datetime, timedelta
 
+from module.base.base import ModuleBase
 from module.base.timer import Timer
 from module.config.stored.classes import now
 from module.logger import logger
+from module.ui.switch import Switch
 from tasks.assignment.assets.assets_assignment_dispatch import *
 from tasks.assignment.assets.assets_assignment_ui import DISPATCHED
 from tasks.assignment.keywords import *
-from tasks.assignment.ui import AssignmentSwitch, AssignmentUI
+from tasks.assignment.ui import AssignmentUI
+
+
+class AssignmentSwitch(Switch):
+    def __init__(self, name, active_color: tuple[int, int, int], is_selector=True):
+        super().__init__(name, is_selector)
+        self.active_color = active_color
+
+    def get(self, main: ModuleBase):
+        """
+        Use image_color_count instead to determine whether the button is selected/active
+
+        Args:
+            main (ModuleBase):
+
+        Returns:
+            str: state name or 'unknown'.
+        """
+        for data in self.state_list:
+            if main.image_color_count(data['check_button'], self.active_color):
+                return data['state']
+
+        return 'unknown'
+
 
 ASSIGNMENT_DURATION_SWITCH = AssignmentSwitch(
     'AssignmentDurationSwitch',

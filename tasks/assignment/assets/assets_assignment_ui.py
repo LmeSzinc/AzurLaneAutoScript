@@ -50,6 +50,26 @@ EXP_MATERIALS_CREDITS = ButtonWrapper(
         button=(310, 85, 447, 134),
     ),
 )
+OCR_ASSIGNMENT_ENTRY_LIST = ButtonWrapper(
+    name='OCR_ASSIGNMENT_ENTRY_LIST',
+    share=Button(
+        file='./assets/share/assignment/ui/OCR_ASSIGNMENT_ENTRY_LIST.png',
+        area=(133, 139, 494, 620),
+        search=(113, 119, 514, 640),
+        color=(201, 199, 193),
+        button=(133, 139, 494, 620),
+    ),
+)
+OCR_ASSIGNMENT_GROUP_LIST = ButtonWrapper(
+    name='OCR_ASSIGNMENT_GROUP_LIST',
+    share=Button(
+        file='./assets/share/assignment/ui/OCR_ASSIGNMENT_GROUP_LIST.png',
+        area=(106, 70, 848, 135),
+        search=(86, 50, 868, 155),
+        color=(73, 72, 70),
+        button=(106, 70, 848, 135),
+    ),
+)
 OCR_ASSIGNMENT_LIMIT = ButtonWrapper(
     name='OCR_ASSIGNMENT_LIMIT',
     share=Button(
@@ -58,16 +78,6 @@ OCR_ASSIGNMENT_LIMIT = ButtonWrapper(
         search=(1075, 75, 1200, 139),
         color=(51, 54, 60),
         button=(1095, 95, 1180, 119),
-    ),
-)
-OCR_ASSIGNMENT_LIST = ButtonWrapper(
-    name='OCR_ASSIGNMENT_LIST',
-    share=Button(
-        file='./assets/share/assignment/ui/OCR_ASSIGNMENT_LIST.png',
-        area=(133, 139, 494, 620),
-        search=(113, 119, 514, 640),
-        color=(201, 199, 193),
-        button=(133, 139, 494, 620),
     ),
 )
 OCR_ASSIGNMENT_TIME = ButtonWrapper(
