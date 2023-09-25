@@ -1095,6 +1095,7 @@ class AlasGUI(Frame):
                     {"label": "繁體中文", "value": "zh-TW"},
                     {"label": "English", "value": "en-US"},
                     {"label": "日本語", "value": "ja-JP"},
+                    {"label": "Español", "value": "es-ES"},
                 ],
                 onclick=lambda l: set_language(l),
             ).style("text-align: center")
