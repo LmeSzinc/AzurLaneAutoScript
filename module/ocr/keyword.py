@@ -22,6 +22,7 @@ class Keyword:
     en: str
     jp: str
     cht: str
+    es: str
 
     """
     Instance attributes and methods
@@ -45,6 +46,10 @@ class Keyword:
 
     @cached_property
     def cht_parsed(self) -> str:
+        return parse_name(self.cht)
+
+    @cached_property
+    def es_parsed(self) -> str:
         return parse_name(self.cht)
 
     def __str__(self):
@@ -87,6 +92,11 @@ class Keyword:
                         return [self.cht_parsed]
                     else:
                         return [self.cht]
+                case 'es':
+                    if ignore_punctuation:
+                        return [self.es_parsed]
+                    else:
+                        return [self.es]
         else:
             if ignore_punctuation:
                 return [
@@ -94,6 +104,7 @@ class Keyword:
                     self.en_parsed,
                     self.jp_parsed,
                     self.cht_parsed,
+                    self.es_parsed,
                 ]
             else:
                 return [
@@ -101,6 +112,7 @@ class Keyword:
                     self.en,
                     self.jp,
                     self.cht,
+                    self.es,
                 ]
 
     """

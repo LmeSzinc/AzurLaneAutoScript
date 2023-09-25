@@ -38,6 +38,10 @@
       "name": "Encargos",
       "help": ""
     },
+    "DataUpdate": {
+      "name": "Actualizar panel",
+      "help": ""
+    },
     "Rogue": {
       "name": "Universo Simulado",
       "help": "El Universo Simulado está en desarrollo, y no se ejecutará"
@@ -349,7 +353,7 @@
       "Bronya": "Bronya",
       "Clara": "Clara",
       "DanHeng": "Dan Heng",
-      "DanHengImbibitorLunae": "Dan Heng • Imbibitor Lunae",
+      "DanHengImbibitorLunae": "Dan Heng - Imbibitor Lunae",
       "FuXuan": "Fu Xuan",
       "Gepard": "Gepard",
       "Herta": "Herta",
@@ -360,7 +364,7 @@
       "Luka": "Luka",
       "Luocha": "Luocha",
       "Lynx": "Lynx",
-      "March7th": "March 7th",
+      "March7th": "Siete de Marzo",
       "Natasha": "Natasha",
       "Pela": "Pela",
       "Qingque": "Qingque",
@@ -422,56 +426,56 @@
       "not_supported": "No soportado aún"
     },
     "Clear_Stagnant_Shadow_1_times": {
-      "name": "Completa Sombra paralizada 1 vez",
+      "name": "Completa Sombra paralizada 1 veces",
       "help": "Necesitas configurar y activar la tarea \"Mazmorra\"",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Clear_Cavern_of_Corrosion_1_times": {
-      "name": "Completa Caverna de la corrosión 1 vez",
+      "name": "Completa Caverna de la corrosión 1 veces",
       "help": "Necesitas configurar y activar la tarea \"Mazmorra\"",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "In_a_single_battle_inflict_3_Weakness_Break_of_different_Types": {
-      "name": "En una sola batalla, inflinge 3 tipos de Ruptura de diferente tipo",
+      "name": "En una sola batalla, inflige 3 tipos de Ruptura de Debilidad",
       "help": "Completable por defecto, se hará el desafío de Himeko",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Inflict_Weakness_Break_5_times": {
-      "name": "Inflinge ruptura de debilidad 5 veces",
+      "name": "Inflige Ruptura de Debilidad 5 veces",
       "help": "Completable por defecto, se hará el desafío de Himeko",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Defeat_a_total_of_20_enemies": {
-      "name": "Derrota un total de 20 enemigos",
+      "name": "Derrota a 20 enemigos",
       "help": "Completable por defecto, se hará el desafío de Himeko",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Enter_combat_by_attacking_enemy_Weakness_and_win_3_times": {
-      "name": "Entra en combate atacando la Debilidad de un enemigo y gana 3 veces",
+      "name": "Entra en combate atacando la debilidad del enemigo y gana 3 veces",
       "help": "Completable por defecto, se hará el desafío de Himeko",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Use_Technique_2_times": {
-      "name": "Usar la Técnica 2 veces.",
+      "name": "Usa técnicas 2 veces",
       "help": "Alcanzable por defecto, irá al abismo y usará la técnica 2 veces.",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Go_on_assignment_1_time": {
-      "name": "Asigna un encargo 1 vez",
+      "name": "Asigna un encargo",
       "help": "Necesitas configurar y activar la tarea de \"Encargos\"",
       "achievable": "Completable",
       "not_set": "No configurado",
@@ -485,91 +489,91 @@
       "not_supported": "No soportado aún"
     },
     "Destroy_3_destructible_objects": {
-      "name": "Rompe 3 objetos destructibles",
+      "name": "Destruye 3 objetos destruibles",
       "help": "Completable por defecto, se hará el desafío de Himeko",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Complete_Forgotten_Hall_1_time": {
-      "name": "Completa Salón Olvidado 1 vez",
+      "name": "Completa el Salón olvidado 1 vez",
       "help": "Completable por defecto, se seleccionarán los primeros 4 personajes y se hará el primer nivel. Por favor, asegúrate de que estos pueden hacerlo.",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Complete_Echo_of_War_1_times": {
-      "name": "Completa Ecos de la guerra 1 vez.",
+      "name": "Completa Ecos de la guerra 1 vez",
       "help": "",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Complete_1_stage_in_Simulated_Universe_Any_world": {
-      "name": "Completa 1 nivel de Universo Simulado",
+      "name": "Supera 1 zona del Universo Simulado (cualquier mundo)",
       "help": "",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Obtain_victory_in_combat_with_support_characters_1_time": {
-      "name": "Gana 1 combate con un personaje de apoyo.",
+      "name": "Gana 1 batalla utilizando personajes de apoyo",
       "help": "Necesitas configurar la tarea de \"Mazmorra\", así como configurar a los héroes de apoyo.",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Use_an_Ultimate_to_deal_the_final_blow_1_time": {
-      "name": "Usa la habilidad definitiva para asestar un golpe final.",
+      "name": "Asesta el golpe final con una habilidad definitiva 1 vez",
       "help": "Completable por defecto, se hará el desafío de Himeko",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Level_up_any_character_1_time": {
-      "name": "Sube de nivel cualquier personaje 1 vez.",
+      "name": "Mejora el nivel de cualquier personaje 1 vez",
       "help": "",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Level_up_any_Light_Cone_1_time": {
-      "name": "Sube de nivel cualquier Cono de luz 1 vez.",
+      "name": "Mejora cualquier cono de luz 1 vez",
       "help": "",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Level_up_any_Relic_1_time": {
-      "name": "Sube de nivel cualquier Reliquia 1 vez.",
+      "name": "Mejora cualquier artefacto 1 vez",
       "help": "",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Salvage_any_Relic": {
-      "name": "Destruye cualquier Reliquia",
+      "name": "Destruye 1 artefacto",
       "help": "Completable por defecto. Se destruirá la última ordenado ascendentemente por rareza.",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Synthesize_Consumable_1_time": {
-      "name": "Sintetiza cualqueir consumible 1 vez.",
+      "name": "Sintetiza consumibles 1 vez",
       "help": "Completable por defecto, se sintetizará un snack.",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Synthesize_material_1_time": {
-      "name": "Sintetiza cualquier material 1 vez.",
+      "name": "Sintetiza materiales 1 vez",
       "help": "Completable por defecto, se sintetizará un material de nivel bajo.",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Use_Consumables_1_time": {
-      "name": "Usa consumibles 1 vez",
+      "name": "Usa 1 consumible",
       "help": "Completable por defecto. Se sintetizará uno si no tienes ninguno.",
       "achievable": "Completable",
       "not_set": "No configurado",
@@ -695,6 +699,20 @@
     },
     "Assignment": {
       "name": "Encargo",
+      "help": ""
+    }
+  },
+  "ItemStorage": {
+    "_info": {
+      "name": "",
+      "help": ""
+    },
+    "Credit": {
+      "name": "Crédito",
+      "help": ""
+    },
+    "StallerJade": {
+      "name": "Jade",
       "help": ""
     }
   },

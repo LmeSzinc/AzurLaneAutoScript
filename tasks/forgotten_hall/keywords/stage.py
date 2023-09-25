@@ -10,6 +10,7 @@ Stage_1 = ForgottenHallStage(
     cht='01',
     en='01',
     jp='01',
+    es='01',
 )
 Stage_2 = ForgottenHallStage(
     id=2,
@@ -18,6 +19,7 @@ Stage_2 = ForgottenHallStage(
     cht='02',
     en='02',
     jp='02',
+    es='02',
 )
 Stage_3 = ForgottenHallStage(
     id=3,
@@ -26,6 +28,7 @@ Stage_3 = ForgottenHallStage(
     cht='03',
     en='03',
     jp='03',
+    es='03',
 )
 Stage_4 = ForgottenHallStage(
     id=4,
@@ -34,6 +37,7 @@ Stage_4 = ForgottenHallStage(
     cht='04',
     en='04',
     jp='04',
+    es='04',
 )
 Stage_5 = ForgottenHallStage(
     id=5,
@@ -42,6 +46,7 @@ Stage_5 = ForgottenHallStage(
     cht='05',
     en='05',
     jp='05',
+    es='05',
 )
 Stage_6 = ForgottenHallStage(
     id=6,
@@ -50,6 +55,7 @@ Stage_6 = ForgottenHallStage(
     cht='06',
     en='06',
     jp='06',
+    es='06',
 )
 Stage_7 = ForgottenHallStage(
     id=7,
@@ -58,6 +64,7 @@ Stage_7 = ForgottenHallStage(
     cht='07',
     en='07',
     jp='07',
+    es='07',
 )
 Stage_8 = ForgottenHallStage(
     id=8,
@@ -66,6 +73,7 @@ Stage_8 = ForgottenHallStage(
     cht='08',
     en='08',
     jp='08',
+    es='08',
 )
 Stage_9 = ForgottenHallStage(
     id=9,
@@ -74,6 +82,7 @@ Stage_9 = ForgottenHallStage(
     cht='09',
     en='09',
     jp='09',
+    es='09',
 )
 Stage_10 = ForgottenHallStage(
     id=10,
@@ -82,6 +91,7 @@ Stage_10 = ForgottenHallStage(
     cht='10',
     en='10',
     jp='10',
+    es='10',
 )
 Stage_11 = ForgottenHallStage(
     id=11,
@@ -90,6 +100,7 @@ Stage_11 = ForgottenHallStage(
     cht='11',
     en='11',
     jp='11',
+    es='11',
 )
 Stage_12 = ForgottenHallStage(
     id=12,
@@ -98,6 +109,7 @@ Stage_12 = ForgottenHallStage(
     cht='12',
     en='12',
     jp='12',
+    es='12',
 )
 Stage_13 = ForgottenHallStage(
     id=13,
@@ -106,6 +118,7 @@ Stage_13 = ForgottenHallStage(
     cht='13',
     en='13',
     jp='13',
+    es='13',
 )
 Stage_14 = ForgottenHallStage(
     id=14,
@@ -114,6 +127,7 @@ Stage_14 = ForgottenHallStage(
     cht='14',
     en='14',
     jp='14',
+    es='14',
 )
 Stage_15 = ForgottenHallStage(
     id=15,
@@ -122,4 +136,5 @@ Stage_15 = ForgottenHallStage(
     cht='15',
     en='15',
     jp='15',
+    es='15',
 )

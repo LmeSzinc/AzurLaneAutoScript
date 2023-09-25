@@ -10,6 +10,7 @@ Claim = BattlePassQuestState(
     cht='領取',
     en='Claim',
     jp='受取',
+    es='Recoger',
 )
 Navigate = BattlePassQuestState(
     id=2,
@@ -18,4 +19,5 @@ Navigate = BattlePassQuestState(
     cht='追蹤',
     en='Navigate',
     jp='追跡',
+    es='Seguir',
 )

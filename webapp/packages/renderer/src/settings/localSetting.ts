@@ -5,6 +5,7 @@ export const LOCALE: {[key: string]: LocaleType} = {
   EN_US: 'en-US',
   JA_JP: 'ja-JP',
   ZH_TW: 'zh-TW',
+  ES_ES: 'es-ES',
 };
 
 // locale list
@@ -24,6 +25,10 @@ export const localeList: {label: string; value: keyof typeof LOCALE}[] = [
   {
     label: '繁體中文',
     value: LOCALE.ZH_TW,
+  },
+  {
+    label: 'Español',
+    value: LOCALE.ES_ES,
   },
 ];
 

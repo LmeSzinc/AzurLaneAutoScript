@@ -33,6 +33,7 @@ import zhCN from '@arco-design/web-vue/es/locale/lang/zh-cn';
 import enUS from '@arco-design/web-vue/es/locale/lang/en-us';
 import jaJP from '@arco-design/web-vue/es/locale/lang/ja-jp';
 import zhTW from '@arco-design/web-vue/es/locale/lang/zh-tw';
+import esES from '@arco-design/web-vue/es/locale/lang/es-es';
 import type {ArcoLang} from '@arco-design/web-vue/es/locale/interface';
 
 export default defineComponent({
@@ -47,6 +48,7 @@ export default defineComponent({
       'en-US': enUS,
       'ja-JP': jaJP,
       'zh-TW': zhTW,
+      'es-ES': esES,
     };
 
     const locale = computed<ArcoLang>(() => {

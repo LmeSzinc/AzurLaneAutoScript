@@ -10,6 +10,7 @@ Operation_Briefing = DungeonTab(
     cht='行動摘要',
     en='Operation Briefing',
     jp='行動要旨',
+    es='Informe de operaciones',
 )
 Survival_Index = DungeonTab(
     id=2,
@@ -18,6 +19,7 @@ Survival_Index = DungeonTab(
     cht='生存索引',
     en='Survival Index',
     jp='生存手引書',
+    es='Manual de supervivencia',
 )
 Daily_Training = DungeonTab(
     id=3,
@@ -26,4 +28,5 @@ Daily_Training = DungeonTab(
     cht='每日實訓',
     en='Daily Training',
     jp='デイリー訓練',
+    es='Entrenamiento diario',
 )

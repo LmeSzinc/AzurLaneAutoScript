@@ -85,13 +85,22 @@ FORGOTTEN_HALL_CHECK = ButtonWrapper(
 )
 GACHA_CHECK = ButtonWrapper(
     name='GACHA_CHECK',
-    share=Button(
-        file='./assets/share/base/page/GACHA_CHECK.png',
-        area=(40, 20, 74, 54),
-        search=(20, 0, 94, 74),
-        color=(157, 139, 112),
-        button=(40, 20, 74, 54),
-    ),
+    share=[
+        Button(
+            file='./assets/share/base/page/GACHA_CHECK.png',
+            area=(40, 20, 74, 54),
+            search=(20, 0, 94, 74),
+            color=(157, 139, 112),
+            button=(40, 20, 74, 54),
+        ),
+        Button(
+            file='./assets/share/base/page/GACHA_CHECK.2.png',
+            area=(41, 21, 74, 54),
+            search=(20, 0, 94, 74),
+            color=(188, 167, 142),
+            button=(41, 21, 74, 54),
+        ),
+    ],
 )
 GUIDE_CHECK = ButtonWrapper(
     name='GUIDE_CHECK',

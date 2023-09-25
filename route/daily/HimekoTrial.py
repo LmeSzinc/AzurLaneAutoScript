@@ -1,6 +1,6 @@
 from module.logger import logger
 from tasks.combat.combat import Combat
-from tasks.daily.assets.assets_daily_trial import START_TRIAL
+from tasks.daily.assets.assets_daily_trial import INFO_CLOSE, START_TRIAL
 from tasks.daily.trail import CharacterTrial
 from tasks.map.control.waypoint import Waypoint
 from tasks.map.keywords.plane import Jarilo_BackwaterPass
@@ -19,6 +19,11 @@ class Route(RouteBase, Combat, CharacterTrial):
             return self.match_template_color(START_TRIAL)
 
         return super().wait_next_skill(expected_end=combat_end, skip_first_screenshot=skip_first_screenshot)
+
+    def walk_additional(self) -> bool:
+        if self.appear_then_click(INFO_CLOSE, interval=2):
+            return True
+        return super().walk_additional()
 
     def combat_execute(self, expected_end=None):
         # Battle 1/3
@@ -42,6 +47,9 @@ class Route(RouteBase, Combat, CharacterTrial):
         # To achieve In_a_single_battle_inflict_3_Weakness_Break_of_different_Types
         self.use_A()
         self.wait_next_skill()
+        # Just whoever user A, in case Himeko Q didn't kill it, usually to be Herta
+        self.use_A()
+        self.wait_next_skill()
         # Himeko Q
         # To achieve Use_an_Ultimate_to_deal_the_final_blow_1_time
         # May kill the enemy
@@ -57,8 +65,12 @@ class Route(RouteBase, Combat, CharacterTrial):
 
         # Combat should end here, just incase
         logger.warning(f'Himeko trial is not going as expected')
-        for _ in range(3):
+        for _ in range(2):
             self.use_E()
+            if not self.wait_next_skill():
+                return
+        for _ in range(10):
+            self.use_A()
             if not self.wait_next_skill():
                 return
 
@@ -109,11 +121,11 @@ class Route(RouteBase, Combat, CharacterTrial):
         # Goto boss
         self.clear_enemy(
             # Before the corner, turn right
-            Waypoint((571.7, 371.3)).run_2x(),
+            Waypoint((571.7, 371.3)).run(),
             # Go through arched door
-            Waypoint((581.5, 383.3)).run_2x(),
+            Waypoint((581.5, 383.3)).run(),
             # Boss
-            Waypoint((613.5, 427.3)).run_2x(),
+            Waypoint((613.5, 427.3)),
         )
 
     def exit(self):

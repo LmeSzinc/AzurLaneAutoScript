@@ -10,6 +10,7 @@ Preservation = RoguePath(
     cht='存護',
     en='Preservation',
     jp='存護',
+    es='Conservación',
 )
 Remembrance = RoguePath(
     id=2,
@@ -18,6 +19,7 @@ Remembrance = RoguePath(
     cht='記憶',
     en='Remembrance',
     jp='記憶',
+    es='Reminiscencia',
 )
 Nihility = RoguePath(
     id=3,
@@ -26,6 +28,7 @@ Nihility = RoguePath(
     cht='虛無',
     en='Nihility',
     jp='虚無',
+    es='Nihilidad',
 )
 Abundance = RoguePath(
     id=4,
@@ -34,6 +37,7 @@ Abundance = RoguePath(
     cht='豐饒',
     en='Abundance',
     jp='豊穣',
+    es='Abundancia',
 )
 The_Hunt = RoguePath(
     id=5,
@@ -42,6 +46,7 @@ The_Hunt = RoguePath(
     cht='巡獵',
     en='The Hunt',
     jp='巡狩',
+    es='Cacería',
 )
 Destruction = RoguePath(
     id=6,
@@ -50,6 +55,7 @@ Destruction = RoguePath(
     cht='毀滅',
     en='Destruction',
     jp='壊滅',
+    es='Destrucción',
 )
 Elation = RoguePath(
     id=7,
@@ -58,6 +64,7 @@ Elation = RoguePath(
     cht='歡愉',
     en='Elation',
     jp='愉悦',
+    es='Exultación',
 )
 Propagation = RoguePath(
     id=8,
@@ -66,4 +73,5 @@ Propagation = RoguePath(
     cht='繁育',
     en='Propagation',
     jp='繁殖',
+    es='Propagación',
 )

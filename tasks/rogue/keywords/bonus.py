@@ -10,6 +10,7 @@ Fragmented_Cosmos = RogueBonus(
     cht='破碎宇宙',
     en='Fragmented Cosmos',
     jp='破裂した宇宙',
+    es='Cosmos fragmentado',
 )
 Blessing_Cosmos = RogueBonus(
     id=2,
@@ -18,6 +19,7 @@ Blessing_Cosmos = RogueBonus(
     cht='祝福宇宙',
     en='Blessing Cosmos',
     jp='祝福された宇宙',
+    es='Cosmos de bendiciones',
 )
 Miracle_Cosmos = RogueBonus(
     id=3,
@@ -26,6 +28,7 @@ Miracle_Cosmos = RogueBonus(
     cht='神奇宇宙',
     en='Miracle Cosmos',
     jp='奇跡的な宇宙',
+    es='Cosmos milagroso',
 )
 Orderly_Universe = RogueBonus(
     id=4,
@@ -34,6 +37,7 @@ Orderly_Universe = RogueBonus(
     cht='有序宇宙',
     en='Orderly Universe',
     jp='秩序ある宇宙',
+    es='Universo ordenado',
 )
 Hungry_Universe = RogueBonus(
     id=5,
@@ -42,6 +46,7 @@ Hungry_Universe = RogueBonus(
     cht='巨胃宇宙',
     en='Hungry Universe',
     jp='大食いな宇宙',
+    es='Universo barrigudo',
 )
 Bloodthirsty_Universe = RogueBonus(
     id=6,
@@ -50,4 +55,5 @@ Bloodthirsty_Universe = RogueBonus(
     cht='嗜血宇宙',
     en='Bloodthirsty Universe',
     jp='血を好む宇宙',
+    es='Universo chupasangre',
 )

@@ -7,17 +7,23 @@ export const createInstaller: CallbackFun = async (ctx, next) => {
   if (process.argv.includes(ALAS_RELAUNCH_ARGV)) {
     return next();
   }
-  const installer = new PyShell(installerPath, installerArgs);
-  installer.on('error', function (err: string) {
-     if(!err) return;
+  let installer: PyShell | null = null;
+  try {
+    installer = new PyShell(installerPath, installerArgs);
+  } catch (err) {
+    ctx.onError(err);
+  }
+
+  installer?.on('error', function (err: string) {
+    if (!err) return;
     logger.error('installer.error:' + err);
     ctx.sendLaunchLog(err);
   });
   installer?.end(function (err: string) {
-     if(!err) return;
+    if (!err) return;
     logger.info('installer.end:' + err);
     ctx.sendLaunchLog(err);
-    throw err;
+    // throw err;
   });
   installer?.on('stdout', function (message) {
     ctx.sendLaunchLog(message);
@@ -28,5 +34,10 @@ export const createInstaller: CallbackFun = async (ctx, next) => {
   installer?.on('stderr', function (message: string) {
     ctx.sendLaunchLog(message);
   });
+
+  installer?.on('pythonError', err => {
+    ctx.onError('alas pythonError :' + err);
+  });
+
   return installer;
 };

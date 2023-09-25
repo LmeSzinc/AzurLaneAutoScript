@@ -10,6 +10,7 @@ Path_Resonance_Preservation = RogueResonance(
     cht='命途迴響：「存護」',
     en='Path Resonance: Preservation',
     jp='運命の反響：「存護」',
+    es='Resonancia de Vía: Conservación',
     path_id=1,
     rarity=3,
 )
@@ -20,6 +21,7 @@ Resonance_Formation_Zero_Dimensional_Reinforcement = RogueResonance(
     cht='迴響構音：零維強化',
     en='Resonance Formation: Zero-Dimensional Reinforcement',
     jp='反響構音：析出硬化',
+    es='Formación de Resonancia: Potenciación de dimensión cero',
     path_id=1,
     rarity=3,
 )
@@ -30,6 +32,7 @@ Resonance_Formation_Eutectic_Reaction = RogueResonance(
     cht='迴響構音：共晶反應',
     en='Resonance Formation: Eutectic Reaction',
     jp='反響構音：共晶反応',
+    es='Formación de Resonancia: Reacción eutéctica',
     path_id=1,
     rarity=3,
 )
@@ -40,6 +43,7 @@ Resonance_Formation_Isomorphous_Reaction = RogueResonance(
     cht='迴響構音：均晶轉變',
     en='Resonance Formation: Isomorphous Reaction',
     jp='反響構音：全率固溶体',
+    es='Formación de Resonancia: Reacción isomorfa',
     path_id=1,
     rarity=3,
 )
@@ -50,6 +54,7 @@ Resonance_Interplay_Spiked_Armor = RogueResonance(
     cht='迴響交錯：披鋒效應',
     en='Resonance Interplay: Spiked Armor',
     jp='反響交錯：トリミング加工',
+    es='Interacción de Resonancia: Armadura de púas',
     path_id=1,
     rarity=3,
 )
@@ -60,6 +65,7 @@ Resonance_Interplay_Cold_Snap = RogueResonance(
     cht='迴響交錯：冷脆現象',
     en='Resonance Interplay: Cold Snap',
     jp='反響交錯：低温脆性',
+    es='Interacción de Resonancia: Ola de frío',
     path_id=1,
     rarity=3,
 )
@@ -70,6 +76,7 @@ Path_Resonance_Remembrance = RogueResonance(
     cht='命途迴響：「記憶」',
     en='Path Resonance: Remembrance',
     jp='運命の反響：「記憶」',
+    es='Resonancia de Vía: Reminiscencia',
     path_id=2,
     rarity=3,
 )
@@ -80,6 +87,7 @@ Resonance_Formation_Total_Recall = RogueResonance(
     cht='迴響構音：全面回憶',
     en='Resonance Formation: Total Recall',
     jp='反響構音：全面追憶',
+    es='Formación de Resonancia: Desafío total',
     path_id=2,
     rarity=3,
 )
@@ -90,6 +98,7 @@ Resonance_Formation_Rich_Experience = RogueResonance(
     cht='迴響構音：體驗的富翁',
     en='Resonance Formation: Rich Experience',
     jp='反響構音：体験の富豪',
+    es='Formación de Resonancia: Experiencia acaudalada',
     path_id=2,
     rarity=3,
 )
@@ -100,6 +109,7 @@ Resonance_Formation_First_Love_Once_More = RogueResonance(
     cht='迴響構音：第二次初戀',
     en='Resonance Formation: First Love Once More',
     jp='反響構音：二度目の初恋',
+    es='Formación de Resonancia: Segundo amor',
     path_id=2,
     rarity=3,
 )
@@ -110,6 +120,7 @@ Resonance_Interplay_Faces_Places = RogueResonance(
     cht='迴響交錯：臉龐，村莊',
     en='Resonance Interplay: Faces Places',
     jp='反響交錯：顔、村',
+    es='Interacción de Resonancia: Lugares y rostros',
     path_id=2,
     rarity=3,
 )
@@ -120,6 +131,7 @@ Resonance_Interplay_Landscape_in_the_Mist = RogueResonance(
     cht='迴響交錯：霧中風景',
     en='Resonance Interplay: Landscape in the Mist',
     jp='反響交錯：霧の中の風景',
+    es='Interacción de Resonancia: Paisaje en la niebla',
     path_id=2,
     rarity=3,
 )
@@ -130,6 +142,7 @@ Path_Resonance_Nihility = RogueResonance(
     cht='命途迴響：「虛無」',
     en='Path Resonance: Nihility',
     jp='運命の反響：「虚無」',
+    es='Resonancia de Vía: Nihilidad',
     path_id=3,
     rarity=3,
 )
@@ -140,6 +153,7 @@ Resonance_Formation_The_Doubtful_Fourfold_Root = RogueResonance(
     cht='迴響構音：懷疑的四重根',
     en='Resonance Formation: The Doubtful Fourfold Root',
     jp='反響構音：疑いの四つの根',
+    es='Formación de Resonancia: Raíz cuádruple dudosa',
     path_id=3,
     rarity=3,
 )
@@ -150,6 +164,7 @@ Resonance_Formation_Suffering_and_Sunshine = RogueResonance(
     cht='迴響構音：苦難與陽光',
     en='Resonance Formation: Suffering and Sunshine',
     jp='反響構音：苦難と陽光',
+    es='Formación de Resonancia: Sufrimiento y sol',
     path_id=3,
     rarity=3,
 )
@@ -160,6 +175,7 @@ Resonance_Formation_Outsider = RogueResonance(
     cht='迴響構音：局外人',
     en='Resonance Formation: Outsider',
     jp='反響構音：異邦人',
+    es='Formación de Resonancia: Ajeno',
     path_id=3,
     rarity=3,
 )
@@ -170,6 +186,7 @@ Resonance_Interplay_Off_the_Beaten_Track = RogueResonance(
     cht='迴響交錯：林中路',
     en='Resonance Interplay: Off the Beaten Track',
     jp='反響交錯：森の中の道',
+    es='Interacción de Resonancia: Fuera de los caminos trillados',
     path_id=3,
     rarity=3,
 )
@@ -180,6 +197,7 @@ Resonance_Interplay_White_Nights = RogueResonance(
     cht='迴響交錯：白夜',
     en='Resonance Interplay: White Nights',
     jp='反響交錯：白夜',
+    es='Interacción de Resonancia: Noches blancas',
     path_id=3,
     rarity=3,
 )
@@ -190,6 +208,7 @@ Path_Resonance_Abundance = RogueResonance(
     cht='命途迴響：「豐饒」',
     en='Path Resonance: Abundance',
     jp='運命の反響：「豊穣」',
+    es='Resonancia de Vía: Abundancia',
     path_id=4,
     rarity=3,
 )
@@ -200,6 +219,7 @@ Resonance_Formation_Terminal_Nirvana = RogueResonance(
     cht='迴響構音：無餘涅槃',
     en='Resonance Formation: Terminal Nirvana',
     jp='反響構音：無余涅槃',
+    es='Formación de Resonancia: Nirvana terminal',
     path_id=4,
     rarity=3,
 )
@@ -210,6 +230,7 @@ Resonance_Formation_Anicca = RogueResonance(
     cht='迴響構音：諸行無常',
     en='Resonance Formation: Anicca',
     jp='反響構音：諸行無常',
+    es='Formación de Resonancia: Anicca',
     path_id=4,
     rarity=3,
 )
@@ -220,6 +241,7 @@ Resonance_Formation_Anatta = RogueResonance(
     cht='迴響構音：諸法無我',
     en='Resonance Formation: Anatta',
     jp='反響構音：諸法無我',
+    es='Formación de Resonancia: Anatta',
     path_id=4,
     rarity=3,
 )
@@ -230,6 +252,7 @@ Resonance_Interplay_First_Illuminate_the_Mountains = RogueResonance(
     cht='迴響交錯：先照高山',
     en='Resonance Interplay: First Illuminate the Mountains',
     jp='反響交錯：先に山を照らす',
+    es='Interacción de Resonancia: Primero ilumina las montañas',
     path_id=4,
     rarity=3,
 )
@@ -240,6 +263,7 @@ Resonance_Interplay_Nullifying_Ardor = RogueResonance(
     cht='迴響交錯：旃檀薪盡',
     en='Resonance Interplay: Nullifying Ardor',
     jp='反響交錯：センダンの薪尽きる',
+    es='Interacción de Resonancia: Ardor anulador',
     path_id=4,
     rarity=3,
 )
@@ -250,6 +274,7 @@ Path_Resonance_The_Hunt = RogueResonance(
     cht='命途迴響：「巡獵」',
     en='Path Resonance: The Hunt',
     jp='運命の反響：「巡狩」',
+    es='Resonancia de Vía: Cacería',
     path_id=5,
     rarity=3,
 )
@@ -260,6 +285,7 @@ Resonance_Formation_Star_Hunter = RogueResonance(
     cht='迴響構音：狩星巡日',
     en='Resonance Formation: Star Hunter',
     jp='反響構音：星を狩りて日を巡る',
+    es='Formación de Resonancia: Caza de estrellas',
     path_id=5,
     rarity=3,
 )
@@ -270,6 +296,7 @@ Resonance_Formation_Bow_and_Arrow = RogueResonance(
     cht='迴響構音：柘弓危矢',
     en='Resonance Formation: Bow and Arrow',
     jp='反響構音：柘弓に疾矢',
+    es='Formación de Resonancia: Arco y flechas',
     path_id=5,
     rarity=3,
 )
@@ -280,6 +307,7 @@ Resonance_Formation_Perfect_Aim = RogueResonance(
     cht='迴響構音：射不主皮',
     en='Resonance Formation: Perfect Aim',
     jp='反響構音：射は皮を主とせず',
+    es='Formación de Resonancia: Diana perfecta',
     path_id=5,
     rarity=3,
 )
@@ -290,6 +318,7 @@ Resonance_Interplay_Startling_Breeze = RogueResonance(
     cht='迴響交錯：足逸驚飆',
     en='Resonance Interplay: Startling Breeze',
     jp='反響交錯：足元の突風',
+    es='Interacción de Resonancia: Brisa sorprendente',
     path_id=5,
     rarity=3,
 )
@@ -300,6 +329,7 @@ Resonance_Interplay_Shooting_Starfire = RogueResonance(
     cht='迴響交錯：火馳星流',
     en='Resonance Interplay: Shooting Starfire',
     jp='反響交錯：恒星ストリーム',
+    es='Interacción de Resonancia: Fuego estelar',
     path_id=5,
     rarity=3,
 )
@@ -310,6 +340,7 @@ Path_Resonance_Destruction = RogueResonance(
     cht='命途迴響：「毀滅」',
     en='Path Resonance: Destruction',
     jp='運命の反響：「壊滅」',
+    es='Resonancia de Vía: Destrucción',
     path_id=6,
     rarity=3,
 )
@@ -320,6 +351,7 @@ Resonance_Formation_Cataclysmic_Variable = RogueResonance(
     cht='迴響構音：激變變星',
     en='Resonance Formation: Cataclysmic Variable',
     jp='反響構音：激変星',
+    es='Formación de Resonancia: Variable cataclísmica',
     path_id=6,
     rarity=3,
 )
@@ -330,6 +362,7 @@ Resonance_Formation_Extreme_Helium_Flash = RogueResonance(
     cht='迴響構音：極端氦閃',
     en='Resonance Formation: Extreme Helium Flash',
     jp='反響構音：ヘリウムフラッシュ',
+    es='Formación de Resonancia: Fogonazo de helio',
     path_id=6,
     rarity=3,
 )
@@ -340,6 +373,7 @@ Resonance_Formation_Event_Horizon = RogueResonance(
     cht='迴響構音：事件視界',
     en='Resonance Formation: Event Horizon',
     jp='反響構音：事象の地平線',
+    es='Formación de Resonancia: Horizonte eventual',
     path_id=6,
     rarity=3,
 )
@@ -350,6 +384,7 @@ Resonance_Interplay_Substellar_Belt = RogueResonance(
     cht='迴響交錯：次行星帶',
     en='Resonance Interplay: Substellar Belt',
     jp='反響交錯：準惑星帯',
+    es='Interacción de Resonancia: Cinturón subestelar',
     path_id=6,
     rarity=3,
 )
@@ -360,6 +395,7 @@ Resonance_Interplay_Zero_Age_Main_Sequence = RogueResonance(
     cht='迴響交錯：零齡主序',
     en='Resonance Interplay: Zero Age Main Sequence',
     jp='反響交錯：零歳主系列',
+    es='Interacción de Resonancia: Secuencia principal de la Era Cero',
     path_id=6,
     rarity=3,
 )
@@ -370,6 +406,7 @@ Path_Resonance_Elation = RogueResonance(
     cht='命途迴響：「歡愉」',
     en='Path Resonance: Elation',
     jp='運命の反響：「愉悦」',
+    es='Resonancia de Vía: Exultación',
     path_id=7,
     rarity=3,
 )
@@ -380,6 +417,7 @@ Resonance_Formation_Doomsday_Carnival = RogueResonance(
     cht='迴響構音：末日狂歡',
     en='Resonance Formation: Doomsday Carnival',
     jp='反響構音：終末の狂宴',
+    es='Formación de Resonancia: Fiesta del juicio final',
     path_id=7,
     rarity=3,
 )
@@ -390,6 +428,7 @@ Resonance_Formation_Dance_of_Growth = RogueResonance(
     cht='迴響構音：樹苗長高舞',
     en='Resonance Formation: Dance of Growth',
     jp='反響構音：苗木が育つ踊り',
+    es='Formación de Resonancia; Danza de los brotes altos',
     path_id=7,
     rarity=3,
 )
@@ -400,6 +439,7 @@ Resonance_Formation_Instant_Win = RogueResonance(
     cht='迴響構音：開蓋有獎',
     en='Resonance Formation: Instant Win',
     jp='反響構音：もう1本',
+    es='Formación de Resonancia: Abre y gana',
     path_id=7,
     rarity=3,
 )
@@ -410,6 +450,7 @@ Resonance_Interplay_The_Taste_of_Anglerfish = RogueResonance(
     cht='迴響交錯：鮟鱇魚之味',
     en='Resonance Interplay: The Taste of Anglerfish',
     jp='反響交錯：アンコウの味',
+    es='Interacción de Resonancia: El sabor del rape',
     path_id=7,
     rarity=3,
 )
@@ -420,6 +461,7 @@ Resonance_Interplay_Guinea_Pig_in_Ice_Coffin = RogueResonance(
     cht='迴響交錯：冰棺與豚鼠',
     en='Resonance Interplay: Guinea Pig in Ice Coffin',
     jp='反響交錯：氷の棺とモルモット',
+    es='Interacción de Resonancia: Cobayas en ataúdes de hielo',
     path_id=7,
     rarity=3,
 )
@@ -430,6 +472,7 @@ Path_Resonance_Propagation = RogueResonance(
     cht='命途迴響：「繁育」',
     en='Path Resonance: Propagation',
     jp='運命の反響：「繁殖」',
+    es='Resonancia de Vía: Propagación',
     path_id=8,
     rarity=3,
 )
@@ -440,6 +483,7 @@ Resonance_Formation_Proboscis = RogueResonance(
     cht='迴響構音：刺吸口器',
     en='Resonance Formation: Proboscis',
     jp='反響構音：吸収口器',
+    es='Formación de Resonancia: Probóscide',
     path_id=8,
     rarity=3,
 )
@@ -450,6 +494,7 @@ Resonance_Formation_Phenol_Compounds = RogueResonance(
     cht='迴響構音：酚類物質',
     en='Resonance Formation: Phenol Compounds',
     jp='反響構音：フェノール類',
+    es='Formación de Resonancia: Compuestos fenólicos',
     path_id=8,
     rarity=3,
 )
@@ -460,6 +505,7 @@ Resonance_Formation_Crystal_Pincers = RogueResonance(
     cht='迴響構音：結晶螯刺',
     en='Resonance Formation: Crystal Pincers',
     jp='反響構音：結晶毒針',
+    es='Formación de Resonancia: Tenazas de cristal',
     path_id=8,
     rarity=3,
 )
@@ -470,6 +516,7 @@ Resonance_Interplay_Superposition_Eye = RogueResonance(
     cht='迴響交錯：重疊象眼',
     en='Resonance Interplay: Superposition Eye',
     jp='反響交錯：重複像眼',
+    es='Interacción de Resonancia: Ojo de superposición',
     path_id=8,
     rarity=3,
 )
@@ -480,6 +527,7 @@ Resonance_Interplay_Adherent_Microbial_Mat = RogueResonance(
     cht='迴響交錯：附著菌毯',
     en='Resonance Interplay: Adherent Microbial Mat',
     jp='反響交錯：菌膜付着',
+    es='Interacción de Resonancia: Tapiz microbiano adherente',
     path_id=8,
     rarity=3,
 )

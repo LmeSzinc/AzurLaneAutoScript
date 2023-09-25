@@ -5,7 +5,7 @@ export async function initAppConfigStore() {
   const appStore = useAppStore();
   const config = await window.__electron_preload__getAlasConfig();
   appStore.setTheme(config?.theme ?? 'light');
-  appStore.setLanguage(config?.language ?? 'zh-TW');
+  appStore.setLanguage(config?.language ?? 'zh-CN');
   appStore.setRepository(
     (repositoryValueMap[config?.repository] as 'global' | 'china') ?? 'global',
   );
