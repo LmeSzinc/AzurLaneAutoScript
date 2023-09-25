@@ -1,0 +1,37 @@
+{
+  "common": {
+    "theme": "Plantilla",
+    "light": "Clara",
+    "dark": "Oscura",
+    "language": "Idioma",
+    "update": "Actualizar",
+    "global": "Global",
+    "china": "China",
+    "install": "Instalar",
+    "installTips": "¿Has usado SRC antes? Importa tu configuración aquí"
+  },
+  "import": {
+    "title": "Importar configuraciones antiguas de usuario",
+    "tips": "Importar configuraciones del SRC antiguo",
+    "error": "La importación ha fallado, por favor, comprueba los logs",
+    "step1": "Selecciona archivos de configuración antiguos",
+    "step2": "Confirmar importación",
+    "step3": "Importación exitosa",
+    "filePathTips": " bajo perfil de Preset: ",
+    "btnOk": "Confirmar",
+    "btnImport": "Importar",
+    "btnGoBack": "Atrás",
+    "btnReimport": "Reimportar",
+    "fileName": "Nombre del archivo",
+    "lastModify": "Fecha de últ. modificación",
+    "file": {
+      "choose": "Elegir archivos"
+    }
+  },
+  "modal": {
+    "closeTipTitle": "¿Seguro que quieres cerrar SRC?",
+    "closeTipContent": "Todas las instancias en ejecución serán apagadas.",
+    "cancelText": "Cancelar",
+    "okText": "Confirmar"
+  }
+}
