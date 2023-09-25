@@ -10,6 +10,7 @@ Simulated_Universe = DungeonNav(
     cht='模擬宇宙',
     en='Simulated Universe',
     jp='模擬宇宙',
+    es='Universo Simulado',
 )
 Calyx_Golden = DungeonNav(
     id=2,
@@ -18,6 +19,7 @@ Calyx_Golden = DungeonNav(
     cht='擬造花萼（金）',
     en='Calyx (Golden)',
     jp='疑似花萼（金）',
+    es='Cáliz (oro)',
 )
 Calyx_Crimson = DungeonNav(
     id=3,
@@ -26,6 +28,7 @@ Calyx_Crimson = DungeonNav(
     cht='擬造花萼（赤）',
     en='Calyx (Crimson)',
     jp='疑似花萼（赤）',
+    es='Cáliz (carmesí)',
 )
 Stagnant_Shadow = DungeonNav(
     id=4,
@@ -34,6 +37,7 @@ Stagnant_Shadow = DungeonNav(
     cht='凝滯虛影',
     en='Stagnant Shadow',
     jp='凝結虚影',
+    es='Sombra paralizada',
 )
 Cavern_of_Corrosion = DungeonNav(
     id=5,
@@ -42,6 +46,7 @@ Cavern_of_Corrosion = DungeonNav(
     cht='侵蝕隧洞',
     en='Cavern of Corrosion',
     jp='侵蝕トンネル',
+    es='Caverna de la corrosión',
 )
 Echo_of_War = DungeonNav(
     id=6,
@@ -50,6 +55,7 @@ Echo_of_War = DungeonNav(
     cht='歷戰餘響',
     en='Echo of War',
     jp='歴戦余韻',
+    es='Ecos de la guerra',
 )
 Forgotten_Hall = DungeonNav(
     id=7,
@@ -58,4 +64,5 @@ Forgotten_Hall = DungeonNav(
     cht='忘卻之庭',
     en='Forgotten Hall',
     jp='忘却の庭',
+    es='Salón olvidado',
 )

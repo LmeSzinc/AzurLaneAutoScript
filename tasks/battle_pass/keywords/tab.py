@@ -10,6 +10,7 @@ Rewards = BattlePassTab(
     cht='獎勵',
     en='Rewards',
     jp='報酬',
+    es='Recompensas',
 )
 Missions = BattlePassTab(
     id=2,
@@ -18,4 +19,5 @@ Missions = BattlePassTab(
     cht='任務',
     en='Missions',
     jp='クエスト',
+    es='Misiones',
 )

@@ -10,6 +10,7 @@ Character_Materials = AssignmentGroup(
     cht='專屬素材',
     en='Character Materials',
     jp='専用素材',
+    es='Materiales exclusivos',
 )
 EXP_Materials_Credits = AssignmentGroup(
     id=2,
@@ -18,6 +19,7 @@ EXP_Materials_Credits = AssignmentGroup(
     cht='經驗素材/信用點',
     en='EXP Materials/Credits',
     jp='経験値素材/信用ポイント',
+    es='Materiales de EXP/créditos',
 )
 Synthesis_Materials = AssignmentGroup(
     id=3,
@@ -26,4 +28,5 @@ Synthesis_Materials = AssignmentGroup(
     cht='合成素材',
     en='Synthesis Materials',
     jp='合成材料',
+    es='Materiales de síntesis',
 )

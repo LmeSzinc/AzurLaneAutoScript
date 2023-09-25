@@ -10,6 +10,7 @@ Today_Missions = BattlePassMissionTab(
     cht='本日任務',
     en="Today's Missions",
     jp='本日のクエスト',
+    es='Misiones de hoy',
 )
 This_Week_Missions = BattlePassMissionTab(
     id=2,
@@ -18,6 +19,7 @@ This_Week_Missions = BattlePassMissionTab(
     cht='本週任務',
     en="This Week's Missions",
     jp='今週のクエスト',
+    es='Misiones de esta semana',
 )
 This_Period_Missions = BattlePassMissionTab(
     id=3,
@@ -26,4 +28,5 @@ This_Period_Missions = BattlePassMissionTab(
     cht='本期任務',
     en="This Period's Missions",
     jp='今期のクエスト',
+    es='Misiones de esta temporada',
 )

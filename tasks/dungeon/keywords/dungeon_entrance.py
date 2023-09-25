@@ -10,6 +10,7 @@ Teleport = DungeonEntrance(
     cht='傳送',
     en='Teleport',
     jp='テレポート',
+    es='Ir',
 )
 Navigate = DungeonEntrance(
     id=2,
@@ -18,4 +19,5 @@ Navigate = DungeonEntrance(
     cht='追蹤',
     en='Navigate',
     jp='追跡',
+    es='Seguir',
 )

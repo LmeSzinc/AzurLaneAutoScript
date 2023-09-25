@@ -8,7 +8,7 @@ from module.base.code_generator import CodeGenerator
 from module.config.utils import deep_get, read_file
 from module.logger import logger
 
-UI_LANGUAGES = ['cn', 'cht', 'en', 'jp']
+UI_LANGUAGES = ['cn', 'cht', 'en', 'jp', 'es']
 
 
 def text_to_variable(text):

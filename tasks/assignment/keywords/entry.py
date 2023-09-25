@@ -10,6 +10,7 @@ Nine_Billion_Names = AssignmentEntry(
     cht='九十億個名字',
     en='Nine Billion Names',
     jp='九十億の御名',
+    es='Nueve mil millones de nombres',
 )
 Destruction_of_the_Destroyer = AssignmentEntry(
     id=2,
@@ -18,6 +19,7 @@ Destruction_of_the_Destroyer = AssignmentEntry(
     cht='毀滅者的覆滅',
     en='Destruction of the Destroyer',
     jp='壊滅者の覆没',
+    es='La destrucción del destructor',
 )
 Winter_Soldiers = AssignmentEntry(
     id=3,
@@ -26,6 +28,7 @@ Winter_Soldiers = AssignmentEntry(
     cht='寒冬的戰士們',
     en='Winter Soldiers',
     jp='寒冬の戦士たち',
+    es='Los guerreros del invierno',
 )
 Born_to_Obey = AssignmentEntry(
     id=4,
@@ -34,6 +37,7 @@ Born_to_Obey = AssignmentEntry(
     cht='生而服從',
     en='Born to Obey',
     jp='生まれながらに服従する',
+    es='Creados para obedecer',
 )
 Root_Out_the_Turpitude = AssignmentEntry(
     id=5,
@@ -42,6 +46,7 @@ Root_Out_the_Turpitude = AssignmentEntry(
     cht='根除惡孽',
     en='Root Out the Turpitude',
     jp='悪孽を根絶やしに',
+    es='La raíz del mal',
 )
 Fire_Lord_Inflames_Blades_of_War = AssignmentEntry(
     id=6,
@@ -50,6 +55,7 @@ Fire_Lord_Inflames_Blades_of_War = AssignmentEntry(
     cht='火帝動爐銷劍戟',
     en='Fire Lord Inflames Blades of War',
     jp='剣戟を焼却する火帝炉',
+    es='Prendan los fuelles, fundan las armas',
 )
 Nameless_Land_Nameless_People = AssignmentEntry(
     id=7,
@@ -58,6 +64,7 @@ Nameless_Land_Nameless_People = AssignmentEntry(
     cht='無名之地，無名之人',
     en='Nameless Land, Nameless People',
     jp='無名の地、無名の人',
+    es='Lugar anónimo, personas anónimas',
 )
 Akashic_Records = AssignmentEntry(
     id=8,
@@ -66,6 +73,7 @@ Akashic_Records = AssignmentEntry(
     cht='阿卡夏紀錄',
     en='Akashic Records',
     jp='アーカーシャの記録',
+    es='Los Registros de Akasha',
 )
 The_Invisible_Hand = AssignmentEntry(
     id=9,
@@ -74,6 +82,7 @@ The_Invisible_Hand = AssignmentEntry(
     cht='看不見的手',
     en='The Invisible Hand',
     jp='見えざる手',
+    es='La mano invisible',
 )
 Abandoned_and_Insulted = AssignmentEntry(
     id=10,
@@ -82,6 +91,7 @@ Abandoned_and_Insulted = AssignmentEntry(
     cht='被廢棄與損害的',
     en='Abandoned and Insulted',
     jp='捨てられしものと傷つけられしもの',
+    es='Abandonado e insultado',
 )
 Spring_of_Life = AssignmentEntry(
     id=11,
@@ -90,6 +100,7 @@ Spring_of_Life = AssignmentEntry(
     cht='生命之泉',
     en='Spring of Life',
     jp='生命の泉',
+    es='La fuente de la vida',
 )
 The_Land_of_Gold = AssignmentEntry(
     id=12,
@@ -98,6 +109,7 @@ The_Land_of_Gold = AssignmentEntry(
     cht='黃金大地',
     en='The Land of Gold',
     jp='黄金の大地',
+    es='Tierra de oportunidades',
 )
 The_Blossom_in_the_Storm = AssignmentEntry(
     id=13,
@@ -106,6 +118,7 @@ The_Blossom_in_the_Storm = AssignmentEntry(
     cht='風暴中怒放的花',
     en='The Blossom in the Storm',
     jp='嵐の中で咲き誇る花',
+    es='Flores en la tormenta',
 )
 Legend_of_the_Puppet_Master = AssignmentEntry(
     id=14,
@@ -114,6 +127,7 @@ Legend_of_the_Puppet_Master = AssignmentEntry(
     cht='偃師傳說',
     en='Legend of the Puppet Master',
     jp='傀儡師伝説',
+    es='La leyenda del titiritero',
 )
 The_Wages_of_Humanity = AssignmentEntry(
     id=15,
@@ -122,4 +136,5 @@ The_Wages_of_Humanity = AssignmentEntry(
     cht='贍養人類',
     en='The Wages of Humanity',
     jp='人類扶養',
+    es='La paga de la humanidad',
 )

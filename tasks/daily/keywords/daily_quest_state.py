@@ -10,6 +10,7 @@ Go = DailyQuestState(
     cht='前往',
     en='Go',
     jp='進む',
+    es='Ir',
 )
 Claim = DailyQuestState(
     id=2,
@@ -18,6 +19,7 @@ Claim = DailyQuestState(
     cht='領取',
     en='Claim',
     jp='受取',
+    es='Recoger',
 )
 In_Progress = DailyQuestState(
     id=3,
@@ -26,6 +28,7 @@ In_Progress = DailyQuestState(
     cht='進行中',
     en='In Progress',
     jp='進行中',
+    es='En curso',
 )
 Claimed = DailyQuestState(
     id=4,
@@ -34,6 +37,7 @@ Claimed = DailyQuestState(
     cht='已領取',
     en='Claimed',
     jp='受取済',
+    es='Recogido',
 )
 Today_Activity_completed = DailyQuestState(
     id=5,
@@ -42,4 +46,5 @@ Today_Activity_completed = DailyQuestState(
     cht='本日活躍度已滿',
     en="Today's Activity completed",
     jp='本日のアクティブ度が最大に達しました',
+    es='Actividad de hoy completa',
 )

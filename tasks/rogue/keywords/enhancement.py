@@ -10,4 +10,5 @@ Already_Enhanced = RogueEnhancement(
     cht='已強化',
     en='Already Enhanced',
     jp='強化済み',
+    es='Potenciada',
 )

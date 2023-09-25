@@ -10,6 +10,7 @@ Special_HertaOffice = MapPlane(
     cht='黑塔的辦公室',
     en="Herta's Office",
     jp='ヘルタのオフィス',
+    es='Oficina de Herta',
 )
 Special_AptitudeShowcase = MapPlane(
     id=2,
@@ -18,6 +19,7 @@ Special_AptitudeShowcase = MapPlane(
     cht='鋒芒嶄露',
     en='Aptitude Showcase',
     jp='躍進する新星',
+    es='Demostración de aptitudes',
 )
 Rogue_DomainCombat = MapPlane(
     id=3,
@@ -26,6 +28,7 @@ Rogue_DomainCombat = MapPlane(
     cht='區域-戰鬥',
     en='Domain — Combat',
     jp='エリア-戦闘',
+    es='Batalla',
 )
 Rogue_DomainOccurrence = MapPlane(
     id=4,
@@ -34,6 +37,7 @@ Rogue_DomainOccurrence = MapPlane(
     cht='區域-事件',
     en='Domain — Occurrence',
     jp='エリア-イベント',
+    es='Evento',
 )
 Rogue_DomainEncounter = MapPlane(
     id=5,
@@ -42,6 +46,7 @@ Rogue_DomainEncounter = MapPlane(
     cht='區域-遭遇',
     en='Domain — Encounter',
     jp='エリア-遭遇',
+    es='Encuentro',
 )
 Rogue_DomainRespite = MapPlane(
     id=6,
@@ -50,6 +55,7 @@ Rogue_DomainRespite = MapPlane(
     cht='區域-整備',
     en='Domain — Respite',
     jp='エリア-休憩',
+    es='Reposo',
 )
 Rogue_DomainElite = MapPlane(
     id=7,
@@ -58,6 +64,7 @@ Rogue_DomainElite = MapPlane(
     cht='區域-菁英',
     en='Domain — Elite',
     jp='エリア-精鋭',
+    es='Élite',
 )
 Rogue_DomainBoss = MapPlane(
     id=8,
@@ -66,6 +73,7 @@ Rogue_DomainBoss = MapPlane(
     cht='區域-頭目',
     en='Domain — Boss',
     jp='エリア-ボス',
+    es='Jefe',
 )
 Rogue_DomainTransaction = MapPlane(
     id=9,
@@ -74,6 +82,7 @@ Rogue_DomainTransaction = MapPlane(
     cht='區域-交易',
     en='Domain — Transaction',
     jp='エリア-取引',
+    es='Transacción',
 )
 Herta_ParlorCar = MapPlane(
     id=10,
@@ -82,6 +91,7 @@ Herta_ParlorCar = MapPlane(
     cht='觀景車廂',
     en='Parlor Car',
     jp='列車のラウンジ',
+    es='Vagón panorámico',
 )
 Herta_MasterControlZone = MapPlane(
     id=11,
@@ -90,6 +100,7 @@ Herta_MasterControlZone = MapPlane(
     cht='主控艙段',
     en='Master Control Zone',
     jp='主制御部分',
+    es='Zona de mando principal',
 )
 Herta_BaseZone = MapPlane(
     id=12,
@@ -98,6 +109,7 @@ Herta_BaseZone = MapPlane(
     cht='基座艙段',
     en='Base Zone',
     jp='ベース部分',
+    es='Zona de la base',
 )
 Herta_StorageZone = MapPlane(
     id=13,
@@ -106,6 +118,7 @@ Herta_StorageZone = MapPlane(
     cht='收容艙段',
     en='Storage Zone',
     jp='収容部分',
+    es='Zona de almacenamiento',
 )
 Herta_SupplyZone = MapPlane(
     id=14,
@@ -114,6 +127,7 @@ Herta_SupplyZone = MapPlane(
     cht='支援艙段',
     en='Supply Zone',
     jp='サポート部分',
+    es='Zona de suministros',
 )
 Jarilo_AdministrativeDistrict = MapPlane(
     id=15,
@@ -122,6 +136,7 @@ Jarilo_AdministrativeDistrict = MapPlane(
     cht='行政區',
     en='Administrative District',
     jp='行政区',
+    es='Distrito administrativo',
 )
 Jarilo_OutlyingSnowPlains = MapPlane(
     id=16,
@@ -130,6 +145,7 @@ Jarilo_OutlyingSnowPlains = MapPlane(
     cht='城郊雪原',
     en='Outlying Snow Plains',
     jp='郊外雪原',
+    es='Llanuras nevadas de las afueras',
 )
 Jarilo_BackwaterPass = MapPlane(
     id=17,
@@ -138,6 +154,7 @@ Jarilo_BackwaterPass = MapPlane(
     cht='邊緣通道',
     en='Backwater Pass',
     jp='外縁通路',
+    es='Paso del Remanso',
 )
 Jarilo_SilvermaneGuardRestrictedZone = MapPlane(
     id=18,
@@ -146,6 +163,7 @@ Jarilo_SilvermaneGuardRestrictedZone = MapPlane(
     cht='鐵衛禁區',
     en='Silvermane Guard Restricted Zone',
     jp='シルバーメイン禁区',
+    es='Zona restringida de la Guardia Crinargenta',
 )
 Jarilo_CorridorofFadingEchoes = MapPlane(
     id=19,
@@ -154,6 +172,7 @@ Jarilo_CorridorofFadingEchoes = MapPlane(
     cht='殘響迴廊',
     en='Corridor of Fading Echoes',
     jp='残響回廊',
+    es='Pasadizo de los ecos apagados',
 )
 Jarilo_EverwinterHill = MapPlane(
     id=20,
@@ -162,6 +181,7 @@ Jarilo_EverwinterHill = MapPlane(
     cht='永冬嶺',
     en='Everwinter Hill',
     jp='常冬峰',
+    es='Colina del Siempreinvierno',
 )
 Jarilo_BoulderTown = MapPlane(
     id=21,
@@ -170,6 +190,7 @@ Jarilo_BoulderTown = MapPlane(
     cht='磐岩鎮',
     en='Boulder Town',
     jp='ボルダータウン',
+    es='Villarroca',
 )
 Jarilo_GreatMine = MapPlane(
     id=22,
@@ -178,6 +199,7 @@ Jarilo_GreatMine = MapPlane(
     cht='大礦區',
     en='Great Mine',
     jp='大鉱区',
+    es='Mina principal',
 )
 Jarilo_RivetTown = MapPlane(
     id=23,
@@ -186,6 +208,7 @@ Jarilo_RivetTown = MapPlane(
     cht='鉚釘鎮',
     en='Rivet Town',
     jp='リベットタウン',
+    es='Villarremache',
 )
 Jarilo_RobotSettlement = MapPlane(
     id=24,
@@ -194,6 +217,7 @@ Jarilo_RobotSettlement = MapPlane(
     cht='機械聚落',
     en='Robot Settlement',
     jp='機械集落',
+    es='Asentamiento robot',
 )
 Luofu_CentralStarskiffHaven = MapPlane(
     id=25,
@@ -202,6 +226,7 @@ Luofu_CentralStarskiffHaven = MapPlane(
     cht='星槎海中樞',
     en='Central Starskiff Haven',
     jp='星槎海中枢',
+    es='Zona central de la Dársena de astroesquifes',
 )
 Luofu_Cloudford = MapPlane(
     id=26,
@@ -210,6 +235,7 @@ Luofu_Cloudford = MapPlane(
     cht='流雲渡',
     en='Cloudford',
     jp='流雲渡し',
+    es='Vado de las Nubes',
 )
 Luofu_StargazerNavalia = MapPlane(
     id=27,
@@ -218,6 +244,7 @@ Luofu_StargazerNavalia = MapPlane(
     cht='迴星港',
     en='Stargazer Navalia',
     jp='廻星港',
+    es='Puerto Miraestrellas',
 )
 Luofu_ExaltingSanctum = MapPlane(
     id=28,
@@ -226,6 +253,7 @@ Luofu_ExaltingSanctum = MapPlane(
     cht='長樂天',
     en='Exalting Sanctum',
     jp='長楽天',
+    es='Sánctum de la Exaltación',
 )
 Luofu_AurumAlley = MapPlane(
     id=29,
@@ -234,6 +262,7 @@ Luofu_AurumAlley = MapPlane(
     cht='金人巷',
     en='Aurum Alley',
     jp='金人巷',
+    es='Callejón Aurum',
 )
 Luofu_DivinationCommission = MapPlane(
     id=30,
@@ -242,6 +271,7 @@ Luofu_DivinationCommission = MapPlane(
     cht='太卜司',
     en='Divination Commission',
     jp='太卜司',
+    es='Comisión de Adivinación',
 )
 Luofu_ArtisanshipCommission = MapPlane(
     id=31,
@@ -250,6 +280,7 @@ Luofu_ArtisanshipCommission = MapPlane(
     cht='工造司',
     en='Artisanship Commission',
     jp='工造司',
+    es='Comisión de Artesanía',
 )
 Luofu_AlchemyCommission = MapPlane(
     id=32,
@@ -258,6 +289,7 @@ Luofu_AlchemyCommission = MapPlane(
     cht='丹鼎司',
     en='Alchemy Commission',
     jp='丹鼎司',
+    es='Comisión de Alquimia',
 )
 Luofu_ScalegorgeWaterscape = MapPlane(
     id=33,
@@ -266,4 +298,5 @@ Luofu_ScalegorgeWaterscape = MapPlane(
     cht='鱗淵境',
     en='Scalegorge Waterscape',
     jp='鱗淵境',
+    es='Desfiladero de Escamas',
 )

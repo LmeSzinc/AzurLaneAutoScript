@@ -26,6 +26,7 @@ DICT_GUI_TO_INGAME = {
     'en-US': 'en',
     'ja-JP': 'jp',
     'zh-TW': 'cht',
+    'es-ES': 'es',
 }
 
 
@@ -351,7 +352,7 @@ class ConfigGenerator:
         #         deep_set(new, keys=path, value=f'[{prefix}] {_list[index]}')
 
         # Dungeon names
-        if lang not in ['zh-CN', 'zh-TW', 'en-US']:
+        if lang not in ['zh-CN', 'zh-TW', 'en-US', 'es-ES']:
             ingame_lang = gui_lang_to_ingame_lang(lang)
             from tasks.dungeon.keywords import DungeonList
             dailies = deep_get(self.argument, keys='Dungeon.Name.option')

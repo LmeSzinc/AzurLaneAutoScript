@@ -10,6 +10,7 @@ Dimension_Reduction_Dice = RogueCurio(
     cht='降維骰子',
     en='Dimension Reduction Dice',
     jp='次元削減ダイス',
+    es='Dado de la reducción dimensional',
 )
 Chaos_Trametes = RogueCurio(
     id=2,
@@ -18,6 +19,7 @@ Chaos_Trametes = RogueCurio(
     cht='混沌雲芝',
     en='Chaos Trametes',
     jp='混沌の雲芝',
+    es='Trametes del caos',
 )
 Warping_Compound_Eye = RogueCurio(
     id=3,
@@ -26,6 +28,7 @@ Warping_Compound_Eye = RogueCurio(
     cht='躍遷複眼',
     en='Warping Compound Eye',
     jp='跳躍複眼',
+    es='Ojo compuesto luminoso',
 )
 Fruit_of_the_Alien_Tree = RogueCurio(
     id=4,
@@ -34,6 +37,7 @@ Fruit_of_the_Alien_Tree = RogueCurio(
     cht='異木果實',
     en='Fruit of the Alien Tree',
     jp='異木の果実',
+    es='Fruto del árbol extraño',
 )
 Casket_of_Inaccuracy = RogueCurio(
     id=5,
@@ -42,6 +46,7 @@ Casket_of_Inaccuracy = RogueCurio(
     cht='測不準匣',
     en='Casket of Inaccuracy',
     jp='不確定の匣',
+    es='Caja de la imprecisión',
 )
 Ambergris_Cheese = RogueCurio(
     id=6,
@@ -50,6 +55,7 @@ Ambergris_Cheese = RogueCurio(
     cht='香涎乾酪',
     en='Ambergris Cheese',
     jp='香涎チーズ',
+    es='Queso de ámbar gris',
 )
 Fortune_Glue = RogueCurio(
     id=7,
@@ -58,6 +64,7 @@ Fortune_Glue = RogueCurio(
     cht='福靈膠',
     en='Fortune Glue',
     jp='幸福クリーム',
+    es='Pegamento de la fortuna',
 )
 The_Parchment_That_Always_Eats = RogueCurio(
     id=8,
@@ -66,6 +73,7 @@ The_Parchment_That_Always_Eats = RogueCurio(
     cht='永不停嘴的羊皮卷',
     en='The Parchment That Always Eats',
     jp='おしゃべり羊皮紙',
+    es='Pergamino tragón',
 )
 Broken_Cuckoo_Clock = RogueCurio(
     id=9,
@@ -74,6 +82,7 @@ Broken_Cuckoo_Clock = RogueCurio(
     cht='破碎咕咕鐘',
     en='Broken Cuckoo Clock',
     jp='壊れた鳩時計',
+    es='Reloj de cuco roto',
 )
 Mechanical_Cuckoo_Clock = RogueCurio(
     id=10,
@@ -82,6 +91,7 @@ Mechanical_Cuckoo_Clock = RogueCurio(
     cht='機械咕咕鐘',
     en='Mechanical Cuckoo Clock',
     jp='機械式鳩時計',
+    es='Reloj de cuco mecánico',
 )
 The_Doctor_Robe = RogueCurio(
     id=11,
@@ -90,6 +100,7 @@ The_Doctor_Robe = RogueCurio(
     cht='博士之袍',
     en="The Doctor's Robe",
     jp='博士のローブ',
+    es='Toga del Doctor',
 )
 Society_Ticket = RogueCurio(
     id=12,
@@ -98,6 +109,7 @@ Society_Ticket = RogueCurio(
     cht='俱樂部券',
     en='Society Ticket',
     jp='クラブチケット',
+    es='Boleto del Círculo',
 )
 Faith_Bond = RogueCurio(
     id=13,
@@ -106,6 +118,7 @@ Faith_Bond = RogueCurio(
     cht='信仰債券',
     en='Faith Bond',
     jp='信仰債券',
+    es='Bono de fe',
 )
 Robe_of_The_Beauty = RogueCurio(
     id=14,
@@ -114,6 +127,7 @@ Robe_of_The_Beauty = RogueCurio(
     cht='純美之袍',
     en='Robe of The Beauty',
     jp='純美のローブ',
+    es='Túnica de la Belleza',
 )
 Gold_Coin_of_Discord = RogueCurio(
     id=15,
@@ -122,6 +136,7 @@ Gold_Coin_of_Discord = RogueCurio(
     cht='分裂金幣',
     en='Gold Coin of Discord',
     jp='分裂金貨',
+    es='Moneda de oro del desacuerdo',
 )
 Useless_Typewriter = RogueCurio(
     id=16,
@@ -130,6 +145,7 @@ Useless_Typewriter = RogueCurio(
     cht='無效文字印表機',
     en='Useless Typewriter',
     jp='無効文字タイプライター',
+    es='Máquina de escribir inútil',
 )
 Void_Wick_Trimmer = RogueCurio(
     id=17,
@@ -138,6 +154,7 @@ Void_Wick_Trimmer = RogueCurio(
     cht='空無燭剪',
     en='Void Wick Trimmer',
     jp='空無の芯切り',
+    es='Despabiladeras del vacío',
 )
 Omniscient_Capsule = RogueCurio(
     id=18,
@@ -146,6 +163,7 @@ Omniscient_Capsule = RogueCurio(
     cht='萬識囊',
     en='Omniscient Capsule',
     jp='全知袋',
+    es='Cápsula omnisciente',
 )
 Record_from_Beyond_the_Sky = RogueCurio(
     id=19,
@@ -154,6 +172,7 @@ Record_from_Beyond_the_Sky = RogueCurio(
     cht='天外合唱專輯',
     en='Record from Beyond the Sky',
     jp='天外聖歌隊のレコード',
+    es='Disco de otro mundo',
 )
 Entropic_Die = RogueCurio(
     id=20,
@@ -162,6 +181,7 @@ Entropic_Die = RogueCurio(
     cht='萬象無常骰',
     en='Entropic Die',
     jp='万象無常のサイコロ',
+    es='Dado entrópico',
 )
 Shining_Trapezohedron_Die = RogueCurio(
     id=21,
@@ -170,6 +190,7 @@ Shining_Trapezohedron_Die = RogueCurio(
     cht='閃耀的偏方三八面骰',
     en='Shining Trapezohedron Die',
     jp='輝くトラペゾヘドロンサイコロ',
+    es='Dado trapezoedro reluciente',
 )
 Sealing_Wax_of_Preservation = RogueCurio(
     id=22,
@@ -178,6 +199,7 @@ Sealing_Wax_of_Preservation = RogueCurio(
     cht='存護火漆',
     en='Sealing Wax of Preservation',
     jp='存護の封蝋',
+    es='Lacre de la Conservación',
 )
 Sealing_Wax_of_Elation = RogueCurio(
     id=23,
@@ -186,6 +208,7 @@ Sealing_Wax_of_Elation = RogueCurio(
     cht='歡愉火漆',
     en='Sealing Wax of Elation',
     jp='愉悦の封蝋',
+    es='Lacre de la Exultación',
 )
 Sealing_Wax_of_The_Hunt = RogueCurio(
     id=24,
@@ -194,6 +217,7 @@ Sealing_Wax_of_The_Hunt = RogueCurio(
     cht='巡獵火漆',
     en='Sealing Wax of The Hunt',
     jp='巡狩の封蝋',
+    es='Lacre de la Cacería',
 )
 Sealing_Wax_of_Destruction = RogueCurio(
     id=25,
@@ -202,6 +226,7 @@ Sealing_Wax_of_Destruction = RogueCurio(
     cht='毀滅火漆',
     en='Sealing Wax of Destruction',
     jp='壊滅の封蝋',
+    es='Lacre de la Destrucción',
 )
 Sealing_Wax_of_Remembrance = RogueCurio(
     id=26,
@@ -210,6 +235,7 @@ Sealing_Wax_of_Remembrance = RogueCurio(
     cht='記憶火漆',
     en='Sealing Wax of Remembrance',
     jp='記憶の封蝋',
+    es='Lacre de la Reminiscencia',
 )
 Sealing_Wax_of_Nihility = RogueCurio(
     id=27,
@@ -218,6 +244,7 @@ Sealing_Wax_of_Nihility = RogueCurio(
     cht='虛無火漆',
     en='Sealing Wax of Nihility',
     jp='虚無の封蝋',
+    es='Lacre de la Nihilidad',
 )
 Sealing_Wax_of_Abundance = RogueCurio(
     id=28,
@@ -226,6 +253,7 @@ Sealing_Wax_of_Abundance = RogueCurio(
     cht='豐饒火漆',
     en='Sealing Wax of Abundance',
     jp='豊穣の封蝋',
+    es='Lacre de la Abundancia',
 )
 Corrupted_Code = RogueCurio(
     id=29,
@@ -234,6 +262,7 @@ Corrupted_Code = RogueCurio(
     cht='亂七八糟的代碼',
     en='Corrupted Code',
     jp='ぐちゃぐちゃなコード',
+    es='Código corrupto',
 )
 Odd_Code = RogueCurio(
     id=30,
@@ -242,6 +271,7 @@ Odd_Code = RogueCurio(
     cht='有點蹊蹺的程式碼',
     en='Odd Code',
     jp='少し怪しげなコード',
+    es='Código extraño',
 )
 Normal_Code = RogueCurio(
     id=31,
@@ -250,6 +280,7 @@ Normal_Code = RogueCurio(
     cht='中規中矩的程式碼',
     en='Normal Code',
     jp='杓子定規なコード',
+    es='Código normal',
 )
 Elegant_Code = RogueCurio(
     id=32,
@@ -258,6 +289,7 @@ Elegant_Code = RogueCurio(
     cht='精確優雅的程式碼',
     en='Elegant Code',
     jp='正確で完璧なコード',
+    es='Código preciso',
 )
 Mysterious_Code = RogueCurio(
     id=33,
@@ -266,6 +298,7 @@ Mysterious_Code = RogueCurio(
     cht='沒有註解的程式碼',
     en='Mysterious Code',
     jp='注釈がないコード',
+    es='Código misterioso',
 )
 Infinitely_Recursive_Code = RogueCurio(
     id=34,
@@ -274,6 +307,7 @@ Infinitely_Recursive_Code = RogueCurio(
     cht='無限遞迴的程式碼',
     en='Infinitely Recursive Code',
     jp='無限再帰するコード',
+    es='Código infinitamente recursivo',
 )
 Shattered_Star_Bait = RogueCurio(
     id=35,
@@ -282,6 +316,7 @@ Shattered_Star_Bait = RogueCurio(
     cht='碎星芳餌',
     en='Shattered Star Bait',
     jp='砕けた星の釣り餌',
+    es='Cebo de las estrellas despedazadas',
 )
 Obliteration_Wick_Trimmer = RogueCurio(
     id=36,
@@ -290,6 +325,7 @@ Obliteration_Wick_Trimmer = RogueCurio(
     cht='湮滅燭剪',
     en='Obliteration Wick Trimmer',
     jp='湮滅の芯切り',
+    es='Despabiladeras de la aniquilación',
 )
 Insect_Web = RogueCurio(
     id=37,
@@ -298,6 +334,7 @@ Insect_Web = RogueCurio(
     cht='蟲網',
     en='Insect Web',
     jp='虫網',
+    es='Telaraña de insectos',
 )
 Angel_type_I_O_U_Dispenser = RogueCurio(
     id=38,
@@ -306,6 +343,7 @@ Angel_type_I_O_U_Dispenser = RogueCurio(
     cht='天使型謝債發行機',
     en='Angel-type I.O.U. Dispenser',
     jp='天使型謝債発行機',
+    es='Objeto raro: Dispensador de deuda en forma de ángel',
 )
 Laurel_Crown_of_Planar_Shifts = RogueCurio(
     id=39,
@@ -314,6 +352,7 @@ Laurel_Crown_of_Planar_Shifts = RogueCurio(
     cht='換境桂冠',
     en='Laurel Crown of Planar Shifts',
     jp='換境桂冠',
+    es='Corona de laurel del cambio de plano',
 )
 Space_Time_Prism = RogueCurio(
     id=40,
@@ -322,6 +361,7 @@ Space_Time_Prism = RogueCurio(
     cht='時空稜鏡',
     en='Space-Time Prism',
     jp='時空のプリズム',
+    es='Prisma del espacio-tiempo',
 )
 Cosmic_Big_Lotto = RogueCurio(
     id=41,
@@ -330,6 +370,7 @@ Cosmic_Big_Lotto = RogueCurio(
     cht='銀河大樂透',
     en='Cosmic Big Lotto',
     jp='銀河ビッグロッタリー',
+    es='Gran Lotería Galáctica',
 )
 Divination_Cuckoo_Clock = RogueCurio(
     id=42,
@@ -338,6 +379,7 @@ Divination_Cuckoo_Clock = RogueCurio(
     cht='卜筮咕咕鐘',
     en='Divination Cuckoo Clock',
     jp='占い鳩時計',
+    es='Reloj de cuco de adivinación',
 )
 Black_Forest_Cuckoo_Clock = RogueCurio(
     id=43,
@@ -346,6 +388,7 @@ Black_Forest_Cuckoo_Clock = RogueCurio(
     cht='黑森林咕咕鐘',
     en='Black Forest Cuckoo Clock',
     jp='黒森鳩時計',
+    es='Reloj de cuco perpetuo del Bosque Oscuro',
 )
 Perpetual_Motion_Cuckoo_Clock = RogueCurio(
     id=44,
@@ -354,6 +397,7 @@ Perpetual_Motion_Cuckoo_Clock = RogueCurio(
     cht='永動咕咕鐘',
     en='Perpetual Motion Cuckoo Clock',
     jp='永久鳩時計',
+    es='Reloj de cuco perpetuo',
 )
 Punklorde_Mentality = RogueCurio(
     id=45,
@@ -362,6 +406,7 @@ Punklorde_Mentality = RogueCurio(
     cht='龐克洛德精神',
     en='Punklorde Mentality',
     jp='パンクロードの精神',
+    es='Mentalidad de Punklorde',
 )
 Beacon_Coloring_Paste = RogueCurio(
     id=46,
@@ -370,6 +415,7 @@ Beacon_Coloring_Paste = RogueCurio(
     cht='信標著色劑',
     en='Beacon Coloring Paste',
     jp='ビーコン着色剤',
+    es='Colorante de balizas',
 )
 IPC_Cuckoo_Clock = RogueCurio(
     id=47,
@@ -378,6 +424,7 @@ IPC_Cuckoo_Clock = RogueCurio(
     cht='公司咕咕鐘',
     en='IPC Cuckoo Clock',
     jp='カンパニー鳩時計',
+    es='Reloj de cuco de la Corporación',
 )
 Triangular_Drum_roll_Device = RogueCurio(
     id=48,
@@ -386,6 +433,7 @@ Triangular_Drum_roll_Device = RogueCurio(
     cht='三角滾奏器',
     en='Triangular Drum-roll Device',
     jp='トライアングル',
+    es='Máquina triangular de redoble',
 )
 Silver_Coin_of_Discord = RogueCurio(
     id=49,
@@ -394,6 +442,7 @@ Silver_Coin_of_Discord = RogueCurio(
     cht='分裂銀幣',
     en='Silver Coin of Discord',
     jp='分裂銀貨',
+    es='Moneda de plata de la discordia',
 )
 Family_Ties = RogueCurio(
     id=50,
@@ -402,6 +451,7 @@ Family_Ties = RogueCurio(
     cht='家族緣結',
     en='Family Ties',
     jp='ファミリーの絆結び',
+    es='Lazos de familia',
 )
 Medal_of_the_Gloryblood_Era = RogueCurio(
     id=51,
@@ -410,6 +460,7 @@ Medal_of_the_Gloryblood_Era = RogueCurio(
     cht='血錦之紀徽章',
     en='Medal of the Gloryblood Era',
     jp='血錦の徽章',
+    es='Medalla de la Era Gloriasangrienta',
 )
 Black_Hole_Trap = RogueCurio(
     id=52,
@@ -418,6 +469,7 @@ Black_Hole_Trap = RogueCurio(
     cht='黑洞之阱',
     en='Black Hole Trap',
     jp='ブラックホールの罠',
+    es='Trampa del agujero negro',
 )
 Interastral_Big_Lotto = RogueCurio(
     id=53,
@@ -426,6 +478,7 @@ Interastral_Big_Lotto = RogueCurio(
     cht='星際大樂透',
     en='Interastral Big Lotto',
     jp='星間ビッグロッタリー',
+    es='Gran Lotería Interastral',
 )
 Fissured_Cuckoo_Clock = RogueCurio(
     id=54,
@@ -434,6 +487,7 @@ Fissured_Cuckoo_Clock = RogueCurio(
     cht='分裂咕咕鐘',
     en='Fissured Cuckoo Clock',
     jp='分裂鳩時計',
+    es='Reloj de cuco agrietado',
 )
 Typical_Genius_Society_Gossip = RogueCurio(
     id=55,
@@ -442,6 +496,7 @@ Typical_Genius_Society_Gossip = RogueCurio(
     cht='天才俱樂部普通八卦',
     en='Typical Genius Society Gossip',
     jp='天才クラブの他愛もない噂話',
+    es='Rumores típicos del Círculo de Genios',
 )
 Tonic_of_Efficacious_Chaos = RogueCurio(
     id=56,
@@ -450,6 +505,7 @@ Tonic_of_Efficacious_Chaos = RogueCurio(
     cht='混沌特效靈藥',
     en='Tonic of Efficacious Chaos',
     jp='混沌の特效霊薬',
+    es='Tónico del caos eficaz',
 )
 Rubert_Empire_Mechanical_Cogwheel = RogueCurio(
     id=57,
@@ -458,6 +514,7 @@ Rubert_Empire_Mechanical_Cogwheel = RogueCurio(
     cht='魯珀特帝國機械齒輪',
     en='Rubert Empire Mechanical Cogwheel',
     jp='ルパート帝国の機械歯車',
+    es='Rueda dentada del imperio de Rupert',
 )
 Cavity_System_Model = RogueCurio(
     id=58,
@@ -466,6 +523,7 @@ Cavity_System_Model = RogueCurio(
     cht='齲齒星系模型',
     en='Cavity System Model',
     jp='虫歯星系模型',
+    es='Modelo del sistema Caries',
 )
 Tousled_Detective = RogueCurio(
     id=59,
@@ -474,6 +532,7 @@ Tousled_Detective = RogueCurio(
     cht='《雞窩頭偵探》',
     en='Tousled Detective',
     jp='『ボサ頭探偵』',
+    es='«El detective despeinado»',
 )
 Fool_Mask = RogueCurio(
     id=60,
@@ -482,6 +541,7 @@ Fool_Mask = RogueCurio(
     cht='愚者面具',
     en="Fool's Mask",
     jp='愚者の仮面',
+    es='Máscara del bufón',
 )
 Vile_Mechanical_Satellite_900 = RogueCurio(
     id=61,
@@ -490,6 +550,7 @@ Vile_Mechanical_Satellite_900 = RogueCurio(
     cht='邪惡機械衛星#900',
     en='Vile Mechanical Satellite #900',
     jp='邪悪な機械衛星#900',
+    es='Satélite Mecánico Vil 900',
 )
 Spirit_of_the_Knights_of_Beauty = RogueCurio(
     id=62,
@@ -498,6 +559,7 @@ Spirit_of_the_Knights_of_Beauty = RogueCurio(
     cht='純美騎士精神',
     en='Spirit of the Knights of Beauty',
     jp='純美の騎士道',
+    es='Espíritu de los Caballeros de la Belleza',
 )
 Illusory_Automaton = RogueCurio(
     id=63,
@@ -506,6 +568,7 @@ Illusory_Automaton = RogueCurio(
     cht='虛構機兵',
     en='Illusory Automaton',
     jp='虚構機兵',
+    es='Autómata ilusorio',
 )
 A_Pinch_of_Bearded_Gunpowder = RogueCurio(
     id=64,
@@ -514,6 +577,7 @@ A_Pinch_of_Bearded_Gunpowder = RogueCurio(
     cht='一撮鬍鬚火藥',
     en='A Pinch of Bearded Gunpowder',
     jp='ひげの爆薬',
+    es='Pólvora de barba',
 )
 Man_Made_Meteorite = RogueCurio(
     id=65,
@@ -522,6 +586,7 @@ Man_Made_Meteorite = RogueCurio(
     cht='人造隕石球',
     en='Man-Made Meteorite',
     jp='人造隕石',
+    es='Meteorito artificial',
 )
 Thalan_Toxi_Flame = RogueCurio(
     id=66,
@@ -530,6 +595,7 @@ Thalan_Toxi_Flame = RogueCurio(
     cht='塔拉毒火焰',
     en='Thalan Toxi-Flame',
     jp='ターラの毒火炎',
+    es='Toxiflama de Thalan',
 )
 The_Pinkest_Collision = RogueCurio(
     id=67,
@@ -538,6 +604,7 @@ The_Pinkest_Collision = RogueCurio(
     cht='粉紅衝撞',
     en='The Pinkest Collision',
     jp='ピンクショック',
+    es='Colisión rosa',
 )
 Sealing_Wax_of_Propagation = RogueCurio(
     id=68,
@@ -546,4 +613,5 @@ Sealing_Wax_of_Propagation = RogueCurio(
     cht='繁育火漆',
     en='Sealing Wax of Propagation',
     jp='繁殖の封蝋',
+    es='Lacre de la Propagación',
 )

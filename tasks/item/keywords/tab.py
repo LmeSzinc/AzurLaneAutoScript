@@ -10,6 +10,7 @@ UpgradeMaterials = ItemTab(
     cht='養成素材',
     en='Upgrade Materials',
     jp='育成素材',
+    es='Materiales de mejora',
 )
 LightCone = ItemTab(
     id=2,
@@ -18,6 +19,7 @@ LightCone = ItemTab(
     cht='光錐',
     en='Light Cone',
     jp='光円錐',
+    es='Cono de luz',
 )
 Relics = ItemTab(
     id=3,
@@ -26,6 +28,7 @@ Relics = ItemTab(
     cht='遺器',
     en='Relics',
     jp='遺物',
+    es='Artefactos',
 )
 OtherMaterials = ItemTab(
     id=4,
@@ -34,6 +37,7 @@ OtherMaterials = ItemTab(
     cht='其他素材',
     en='Other Materials',
     jp='その他',
+    es='Otros materiales',
 )
 Consumables = ItemTab(
     id=5,
@@ -42,6 +46,7 @@ Consumables = ItemTab(
     cht='消耗品',
     en='Consumables',
     jp='消耗品',
+    es='Consumible',
 )
 Missions = ItemTab(
     id=6,
@@ -50,6 +55,7 @@ Missions = ItemTab(
     cht='任務',
     en='Missions',
     jp='クエスト',
+    es='Misiones',
 )
 Valuables = ItemTab(
     id=7,
@@ -58,4 +64,5 @@ Valuables = ItemTab(
     cht='貴重物',
     en='Valuables',
     jp='貴重品',
+    es='Objetos valiosos',
 )
