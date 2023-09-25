@@ -15,8 +15,10 @@ class CharacterTrial(UI):
         """
         logger.info('Enter Himeko trial')
         switched = False
-        if self.match_template_color(HIMEKO_CHECK):
+        if self.appear(HIMEKO_CHECK):
             logger.info(f'Already at {HIMEKO_CHECK}')
+        elif self.match_template_color(START_TRIAL):
+            logger.info(f'Already at {START_TRIAL}')
         elif self.match_template_color(REGULAR_GACHA_CHECK):
             logger.info(f'Already at {REGULAR_GACHA_CHECK}')
         elif self.ui_page_appear(page_gacha):
