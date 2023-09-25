@@ -39,5 +39,5 @@ export const localeSetting: LocaleSetting = {
   // Default locale
   fallback: LOCALE.JA_JP,
   // available Locales
-  availableLocales: [LOCALE.ZH_CN, LOCALE.EN_US, LOCALE.JA_JP, LOCALE.ZH_TW],
+  availableLocales: [LOCALE.ZH_CN, LOCALE.EN_US, LOCALE.JA_JP, LOCALE.ZH_TW, LOCALE.ES_ES],
 };
