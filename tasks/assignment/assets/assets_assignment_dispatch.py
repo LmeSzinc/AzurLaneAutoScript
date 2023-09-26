@@ -93,7 +93,7 @@ CHARACTER_SUPPORT = ButtonWrapper(
         file='./assets/share/assignment/dispatch/CHARACTER_SUPPORT.png',
         area=(103, 212, 435, 302),
         search=(83, 192, 455, 322),
-        color=(62, 60, 63),
+        color=(69, 65, 80),
         button=(103, 212, 435, 302),
     ),
 )

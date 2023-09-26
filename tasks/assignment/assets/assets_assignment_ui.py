@@ -118,16 +118,6 @@ OCR_ASSIGNMENT_ENTRY_LIST = ButtonWrapper(
         button=(133, 139, 494, 620),
     ),
 )
-OCR_ASSIGNMENT_GROUP_LIST = ButtonWrapper(
-    name='OCR_ASSIGNMENT_GROUP_LIST',
-    share=Button(
-        file='./assets/share/assignment/ui/OCR_ASSIGNMENT_GROUP_LIST.png',
-        area=(116, 81, 827, 131),
-        search=(96, 61, 847, 151),
-        color=(80, 79, 77),
-        button=(116, 81, 827, 131),
-    ),
-)
 OCR_ASSIGNMENT_LIMIT = ButtonWrapper(
     name='OCR_ASSIGNMENT_LIMIT',
     share=Button(

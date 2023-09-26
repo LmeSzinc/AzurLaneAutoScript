@@ -174,8 +174,8 @@ class AssignmentUI(UI):
             if timeout.reached():
                 logger.warning('Wait group loaded timeout')
                 break
-            if self.image_color_count(OCR_ASSIGNMENT_GROUP_LIST, (40, 40, 40), count=20000) and \
-                    self.image_color_count(OCR_ASSIGNMENT_GROUP_LIST, (240, 240, 240), count=7000):
+            if self.image_color_count(GROUP_SEARCH, (40, 40, 40), count=25000) and \
+                    self.image_color_count(GROUP_SEARCH, (240, 240, 240), count=8000):
                 logger.info('Group loaded')
                 break
 
@@ -239,7 +239,7 @@ class AssignmentUI(UI):
         for state in ASSIGNMENT_GROUP_SWITCH.state_list:
             check = state['check_button']
             click = state['click_button']
-            if ASSIGNMENT_GROUP_SWITCH.appear(check) or ASSIGNMENT_GROUP_SWITCH.appear(click):
+            if self.appear(check) or self.appear(click):
                 yield state['state']
 
     def _iter_entries(self) -> Iterator[AssignmentEntry]:
