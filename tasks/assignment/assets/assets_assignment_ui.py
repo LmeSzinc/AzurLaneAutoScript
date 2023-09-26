@@ -3,16 +3,6 @@ from module.base.button import Button, ButtonWrapper
 # This file was auto-generated, do not modify it manually. To generate:
 # ``` python -m dev_tools.button_extract ```
 
-CHARACTER_MATERIALS = ButtonWrapper(
-    name='CHARACTER_MATERIALS',
-    share=Button(
-        file='./assets/share/assignment/ui/CHARACTER_MATERIALS.png',
-        area=(146, 91, 255, 124),
-        search=(126, 71, 275, 144),
-        color=(213, 213, 208),
-        button=(146, 91, 255, 124),
-    ),
-)
 DISPATCHED = ButtonWrapper(
     name='DISPATCHED',
     cn=Button(
@@ -40,14 +30,14 @@ ENTRY_LOADED = ButtonWrapper(
         button=(467, 235, 498, 619),
     ),
 )
-EXP_MATERIALS_CREDITS = ButtonWrapper(
-    name='EXP_MATERIALS_CREDITS',
+LOCKED = ButtonWrapper(
+    name='LOCKED',
     share=Button(
-        file='./assets/share/assignment/ui/EXP_MATERIALS_CREDITS.png',
-        area=(310, 85, 447, 134),
-        search=(290, 65, 467, 154),
-        color=(214, 214, 210),
-        button=(310, 85, 447, 134),
+        file='./assets/share/assignment/ui/LOCKED.png',
+        area=(1051, 480, 1237, 630),
+        search=(1031, 460, 1257, 650),
+        color=(53, 48, 40),
+        button=(1051, 480, 1237, 630),
     ),
 )
 OCR_ASSIGNMENT_ENTRY_LIST = ButtonWrapper(
@@ -64,10 +54,10 @@ OCR_ASSIGNMENT_GROUP_LIST = ButtonWrapper(
     name='OCR_ASSIGNMENT_GROUP_LIST',
     share=Button(
         file='./assets/share/assignment/ui/OCR_ASSIGNMENT_GROUP_LIST.png',
-        area=(106, 70, 848, 135),
-        search=(86, 50, 868, 155),
-        color=(73, 72, 70),
-        button=(106, 70, 848, 135),
+        area=(116, 81, 827, 131),
+        search=(96, 61, 847, 151),
+        color=(80, 79, 77),
+        button=(116, 81, 827, 131),
     ),
 )
 OCR_ASSIGNMENT_LIMIT = ButtonWrapper(
@@ -88,15 +78,5 @@ OCR_ASSIGNMENT_TIME = ButtonWrapper(
         search=(585, 544, 906, 609),
         color=(117, 104, 82),
         button=(605, 564, 886, 589),
-    ),
-)
-SYNTHESIS_MATERIALS = ButtonWrapper(
-    name='SYNTHESIS_MATERIALS',
-    share=Button(
-        file='./assets/share/assignment/ui/SYNTHESIS_MATERIALS.png',
-        area=(521, 91, 603, 128),
-        search=(501, 71, 623, 148),
-        color=(208, 208, 203),
-        button=(521, 91, 603, 128),
     ),
 )

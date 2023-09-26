@@ -42,9 +42,11 @@ class DraggableList:
         self.name = name
         self.keyword_class = keyword_class
         self.ocr_class = ocr_class
-        if isinstance(keyword_class, list):
-            keyword_class = keyword_class[0]
-        self.known_rows = list(keyword_class.instances.values())
+        if not isinstance(keyword_class, list):
+            keyword_class = [keyword_class]
+        self.known_rows = [
+            kw for kc in keyword_class for kw in kc.instances.values()
+        ]
         self.search_button = search_button
         self.check_row_order = check_row_order
         self.active_color = active_color

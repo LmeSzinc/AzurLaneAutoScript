@@ -47,21 +47,25 @@ class AssignmentDispatch(AssignmentUI):
     dispatched: dict[AssignmentEntry, datetime] = dict()
     has_new_dispatch: bool = False
 
-    def dispatch(self, assignment: AssignmentEntry, duration: int):
+    def dispatch(self, assignment: AssignmentEntry, duration: int | None):
         """
         Dispatch assignment.
         Should be called only when limit is checked
 
         Args:
             assignment (AssignmentEntry):
-            duration (int): user specified duration
+            duration (int | None): user specified duration, None for event assignments
 
         Pages:
             in: EMPTY_SLOT
             out: DISPATCHED
         """
         self._select_characters()
-        self._select_duration(duration)
+        if isinstance(assignment, AssignmentEventEntry):
+            self._select_support()
+            duration = self._get_assignment_time().total_seconds() / 3600
+        else:
+            self._select_duration(duration)
         self._confirm_assignment()
         self._wait_until_assignment_started()
         future = now() + timedelta(hours=duration)
@@ -102,6 +106,30 @@ class AssignmentDispatch(AssignmentUI):
                 self.interval_reset(CHARACTER_2_SELECTED, interval=2)
                 if not self.image_color_count(CHARACTER_2_SELECTED, (240, 240, 240)):
                     self.device.click(CHARACTER_2)
+
+    def _select_support(self):
+        skip_first_screenshot = True
+        self.interval_clear(
+            (CHARACTER_SUPPORT_LIST, CHARACTER_SUPPORT_SELECTED), interval=2)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            # End
+            if self.match_color(CHARACTER_SUPPORT_SELECTED):
+                logger.info('Support character is selected')
+                break
+            # Ensure support list
+            if not self.appear(CHARACTER_SUPPORT_LIST):
+                if self.interval_is_reached(CHARACTER_SUPPORT_LIST, interval=2):
+                    self.interval_reset(CHARACTER_SUPPORT_LIST, interval=2)
+                    self.device.click(EMPTY_SLOT_SUPPORT)
+                continue
+            # Select
+            if self.interval_is_reached(CHARACTER_SUPPORT_SELECTED, interval=2):
+                self.interval_reset(CHARACTER_SUPPORT_SELECTED, interval=2)
+                self.device.click(CHARACTER_SUPPORT)
 
     def _select_duration(self, duration: int):
         if duration not in {4, 8, 12, 20}:

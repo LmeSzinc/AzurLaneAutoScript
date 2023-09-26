@@ -41,7 +41,7 @@ class AssignmentClaim(AssignmentDispatch):
         """
         Pages:
             in: CLAIM
-            out: REDISPATCH
+            out: REPORT
         """
         skip_first_screenshot = True
         while 1:
@@ -50,7 +50,9 @@ class AssignmentClaim(AssignmentDispatch):
             else:
                 self.device.screenshot()
             # End
-            if self.appear(REDISPATCH):
+            # Neither CLOSE_REPORT nor REDISPATCH is shown
+            # If it is an EVENT assignment
+            if self.appear(REPORT):
                 logger.info('Assignment report appears')
                 break
             # Claim rewards
@@ -63,7 +65,7 @@ class AssignmentClaim(AssignmentDispatch):
             should_redispatch (bool): determined by user config and duration in report
 
         Pages:
-            in: CLOSE_REPORT and REDISPATCH
+            in: REPORT
             out: page_assignment
         """
         click_button = REDISPATCH if should_redispatch else CLOSE_REPORT
@@ -79,6 +81,9 @@ class AssignmentClaim(AssignmentDispatch):
                 break
             # Close report
             if self.appear_then_click(click_button, interval=2):
+                continue
+            # Only for EVENT assignments
+            if self.appear_then_click(REPORT, interval=2):
                 continue
 
     def _is_duration_expected(self, duration: int) -> bool:

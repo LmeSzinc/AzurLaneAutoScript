@@ -43,3 +43,13 @@ REDISPATCH = ButtonWrapper(
         button=(779, 592, 905, 629),
     ),
 )
+REPORT = ButtonWrapper(
+    name='REPORT',
+    share=Button(
+        file='./assets/share/assignment/claim/REPORT.png',
+        area=(0, 154, 266, 542),
+        search=(0, 134, 286, 562),
+        color=(33, 34, 37),
+        button=(0, 154, 266, 542),
+    ),
+)

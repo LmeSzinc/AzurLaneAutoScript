@@ -1,17 +1,12 @@
 from datetime import datetime
 
 from module.logger import logger
-from module.ocr.ocr import Duration
 from tasks.assignment.assets.assets_assignment_claim import CLAIM
-from tasks.assignment.assets.assets_assignment_ui import (
-    DISPATCHED,
-    OCR_ASSIGNMENT_TIME,
-)
+from tasks.assignment.assets.assets_assignment_dispatch import EMPTY_SLOT
+from tasks.assignment.assets.assets_assignment_ui import DISPATCHED, LOCKED
 from tasks.assignment.claim import AssignmentClaim
-from tasks.assignment.keywords import (
-    AssignmentEntry,
-    KEYWORDS_ASSIGNMENT_GROUP,
-)
+from tasks.assignment.keywords import (KEYWORDS_ASSIGNMENT_GROUP,
+                                       AssignmentEntry, AssignmentEventGroup)
 from tasks.base.page import page_assignment, page_menu
 from tasks.battle_pass.keywords import KEYWORD_BATTLE_PASS_QUEST
 from tasks.daily.keywords import KEYWORDS_DAILY_QUEST
@@ -19,7 +14,7 @@ from tasks.daily.synthesize import SynthesizeUI
 
 
 class Assignment(AssignmentClaim, SynthesizeUI):
-    def run(self, assignments: list[AssignmentEntry] = None, duration: int = None):
+    def run(self, assignments: list[AssignmentEntry] = None, duration: int = None, event_first: bool = None):
         self.config.update_battle_pass_quests()
         self.config.update_daily_quests()
 
@@ -35,14 +30,25 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                     'There are duplicate assignments in config, check it out')
         if duration is None:
             duration = self.config.Assignment_Duration
+        if event_first is None:
+            event_first = self.config.Assignment_WhenEventAssignmentsArePresent == 'event_first'
 
         self.dispatched = dict()
         self.has_new_dispatch = False
         self.ensure_scroll_top(page_menu)
         self.ui_ensure(page_assignment)
-        # Iterate in user-specified order, return undispatched ones
-        undispatched = list(self._check_inlist(assignments, duration))
-        remain = self._check_all()
+        event_ongoing = next((
+            g for g in self._iter_groups()
+            if isinstance(g, AssignmentEventGroup)
+        ), None)
+        if event_first and event_ongoing is not None:
+            undispatched = assignments
+            remain = self._check_all()
+            remain = self._dispatch_event(remain)
+        else:
+            # Iterate in user-specified order, return undispatched ones
+            undispatched = list(self._check_inlist(assignments, duration))
+            remain = self._check_all()
         # There are unchecked assignments
         if remain > 0:
             for assignment in undispatched[:remain]:
@@ -61,7 +67,8 @@ class Assignment(AssignmentClaim, SynthesizeUI):
             quests = self.config.stored.BattlePassTodayQuest.load_quests()
             if self.has_new_dispatch:
                 if KEYWORD_BATTLE_PASS_QUEST.Dispatch_1_assignments in quests:
-                    logger.info('Achieved battle pass quest Dispatch_1_assignments')
+                    logger.info(
+                        'Achieved battle pass quest Dispatch_1_assignments')
                     self.config.task_call('BattlePass')
             # Check daily
             quests = self.config.stored.DailyQuest.load_quests()
@@ -93,6 +100,8 @@ class Assignment(AssignmentClaim, SynthesizeUI):
             f'User specified assignments: {", ".join([x.name for x in assignments])}')
         _, remain, _ = self._limit_status
         for assignment in assignments:
+            if assignment in self.dispatched:
+                continue
             logger.hr('Assignment inlist', level=2)
             logger.info(f'Check assignment inlist: {assignment}')
             self.goto_entry(assignment)
@@ -100,8 +109,8 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                 self.claim(assignment, duration, should_redispatch=True)
                 continue
             if self.appear(DISPATCHED):
-                self.dispatched[assignment] = datetime.now() + Duration(
-                    OCR_ASSIGNMENT_TIME).ocr_single_line(self.device.image)
+                self.dispatched[assignment] = datetime.now() + \
+                    self._get_assignment_time()
                 continue
             if remain > 0:
                 self.dispatch(assignment, duration)
@@ -123,9 +132,7 @@ class Assignment(AssignmentClaim, SynthesizeUI):
             return remain
         for group in self._iter_groups():
             self.goto_group(group)
-            entries = self._iter_entries()
-            for _ in range(len(group.entries)):
-                assignment = next(entries)
+            for assignment in self._iter_entries():
                 if assignment in self.dispatched:
                     continue
                 logger.hr('Assignment all', level=2)
@@ -136,8 +143,8 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                     remain += 1
                     continue
                 if self.appear(DISPATCHED):
-                    self.dispatched[assignment] = datetime.now() + Duration(
-                        OCR_ASSIGNMENT_TIME).ocr_single_line(self.device.image)
+                    self.dispatched[assignment] = datetime.now() + \
+                        self._get_assignment_time()
                     if total == len(self.dispatched):
                         return remain
                     continue
@@ -174,3 +181,27 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                 remain -= 1
                 if remain <= 0:
                     return
+
+    def _dispatch_event(self, remain: int):
+        if remain <= 0:
+            return remain
+        logger.hr('Assignment dispatch event', level=1)
+        for group in self._iter_groups():
+            if not isinstance(group, AssignmentEventGroup):
+                continue
+            self.goto_group(group)
+            for assignment in self._iter_entries():
+                if assignment in self.dispatched:
+                    continue
+                logger.hr('Assignment event', level=2)
+                logger.info(f'Check assignment event: {assignment}')
+                self.goto_entry(assignment)
+                if self.appear(LOCKED):
+                    logger.info('Assignment is locked')
+                    break
+                if self.appear(EMPTY_SLOT):
+                    self.dispatch(assignment, None)
+                    remain -= 1
+                    if remain <= 0:
+                        return remain
+        return remain
