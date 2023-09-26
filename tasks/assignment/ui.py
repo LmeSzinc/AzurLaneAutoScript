@@ -140,10 +140,11 @@ class AssignmentUI(UI):
         if ASSIGNMENT_GROUP_SWITCH.set(group, self):
             self._wait_until_entry_loaded()
 
-    def goto_entry(self, entry: AssignmentEntry):
+    def goto_entry(self, entry: AssignmentEntry, insight: bool = True):
         """
         Args:
             entry (AssignmentEntry):
+            insight (bool): skip ocr to save time if insight is False
 
         Examples:
             self = AssignmentUI('src')
@@ -160,7 +161,7 @@ class AssignmentUI(UI):
             raise ScriptError(err_msg)
         else:
             self.goto_group(entry.group)
-            ASSIGNMENT_ENTRY_LIST.select_row(entry, self)
+            ASSIGNMENT_ENTRY_LIST.select_row(entry, self, insight=insight)
 
     def _wait_until_group_loaded(self):
         skip_first_screenshot = True

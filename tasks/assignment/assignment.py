@@ -132,16 +132,18 @@ class Assignment(AssignmentClaim, SynthesizeUI):
             return remain
         for group in self._iter_groups():
             self.goto_group(group)
+            insight = False
             for assignment in self._iter_entries():
                 if assignment in self.dispatched:
                     continue
                 logger.hr('Assignment all', level=2)
                 logger.info(f'Check assignment all: {assignment}')
-                self.goto_entry(assignment)
+                self.goto_entry(assignment, insight)
                 status = self._check_assignment_status()
                 if status == AssignmentStatus.CLAIMABLE:
                     self.claim(assignment, None, should_redispatch=False)
                     remain += 1
+                    insight = True  # Order of entries change after claiming
                     continue
                 if status == AssignmentStatus.DISPATCHED:
                     self.dispatched[assignment] = datetime.now() + \
@@ -191,12 +193,14 @@ class Assignment(AssignmentClaim, SynthesizeUI):
             if not isinstance(group, AssignmentEventGroup):
                 continue
             self.goto_group(group)
+            insight = False
             for assignment in self._iter_entries():
                 if assignment in self.dispatched:
                     continue
                 logger.hr('Assignment event', level=2)
                 logger.info(f'Check assignment event: {assignment}')
-                self.goto_entry(assignment)
+                self.goto_entry(assignment, insight)
+                insight = True
                 status = self._check_assignment_status()
                 # Should only be dispatchable or locked after _check_all
                 if status == AssignmentStatus.DISPATCHABLE:
