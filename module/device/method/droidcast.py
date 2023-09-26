@@ -6,11 +6,11 @@ import numpy as np
 import requests
 from adbutils.errors import AdbError
 
-from module.base.decorator import Config, cached_property, del_cached_property
+from module.base.decorator import cached_property, del_cached_property
 from module.base.timer import Timer
-from module.device.method.uiautomator_2 import Uiautomator2, ProcessInfo
-from module.device.method.utils import (retry_sleep, RETRY_TRIES, handle_adb_error,
-                                        ImageTruncated, PackageNotInstalled)
+from module.device.method.uiautomator_2 import ProcessInfo, Uiautomator2
+from module.device.method.utils import (
+    ImageTruncated, PackageNotInstalled, RETRY_TRIES, handle_adb_error, retry_sleep)
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -141,24 +141,22 @@ class DroidCast(Uiautomator2):
         del_cached_property(self, 'droidcast_session')
         _ = self.droidcast_session
 
-    @Config.when(DROIDCAST_VERSION='DroidCast')
-    def droidcast_start(self):
-        self.droidcast_init()
-
-        logger.attr('DroidCast', self.droidcast_url())
-        self.droidcast_wait_startup()
-
-    @Config.when(DROIDCAST_VERSION='DroidCast_raw')
-    def droidcast_raw_start(self):
-        self.droidcast_init()
-
-        logger.attr('DroidCast_raw', self.droidcast_raw_url())
-        self.droidcast_wait_startup()
+        if self.config.DROIDCAST_VERSION == 'DroidCast':
+            logger.attr('DroidCast', self.droidcast_url())
+            self.droidcast_wait_startup()
+        elif self.config.DROIDCAST_VERSION == 'DroidCast_raw':
+            logger.attr('DroidCast_raw', self.droidcast_raw_url())
+            self.droidcast_wait_startup()
+        else:
+            logger.error(f'Unknown DROIDCAST_VERSION: {self.config.DROIDCAST_VERSION}')
 
     @retry
     def screenshot_droidcast(self):
         self.config.DROIDCAST_VERSION = 'DroidCast'
-        image = self.droidcast_session.get(self.droidcast_url(), timeout=3).content
+        resp = self.droidcast_session.get(self.droidcast_url(), timeout=3)
+        if resp.status_code == 404:
+            raise DroidCastVersionIncompatible('DroidCast server does not have /preview')
+        image = resp.content
         image = np.frombuffer(image, np.uint8)
         if image is None:
             raise ImageTruncated('Empty image after reading from buffer')
