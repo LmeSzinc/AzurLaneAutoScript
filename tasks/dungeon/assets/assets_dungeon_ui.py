@@ -73,6 +73,16 @@ OCR_SIMUNI_POINT_OFFSET = ButtonWrapper(
         button=(685, 250, 717, 273),
     ),
 )
+OCR_WEEKLY_LIMIT = ButtonWrapper(
+    name='OCR_WEEKLY_LIMIT',
+    share=Button(
+        file='./assets/share/dungeon/ui/OCR_WEEKLY_LIMIT.png',
+        area=(580, 225, 680, 257),
+        search=(560, 205, 700, 277),
+        color=(132, 192, 247),
+        button=(580, 225, 680, 257),
+    ),
+)
 OPERATION_BRIEFING_CHECK = ButtonWrapper(
     name='OPERATION_BRIEFING_CHECK',
     share=Button(

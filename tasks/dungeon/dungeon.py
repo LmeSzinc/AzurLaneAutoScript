@@ -1,4 +1,8 @@
+from datetime import timedelta
+
 from module.base.utils import area_offset
+from module.config.stored.classes import now
+from module.config.utils import DEFAULT_TIME
 from module.logger import logger
 from tasks.combat.combat import Combat
 from tasks.daily.keywords import KEYWORDS_DAILY_QUEST
@@ -6,6 +10,7 @@ from tasks.dungeon.event import DungeonEvent
 from tasks.dungeon.keywords import DungeonList, KEYWORDS_DUNGEON_LIST, KEYWORDS_DUNGEON_TAB
 from tasks.dungeon.ui import DungeonUI
 from tasks.battle_pass.keywords import KEYWORD_BATTLE_PASS_QUEST
+
 
 class Dungeon(DungeonUI, DungeonEvent, Combat):
     called_daily_support = False
@@ -210,6 +215,8 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
     def delay_dungeon_task(self, dungeon):
         if dungeon.is_Cavern_of_Corrosion:
             limit = 80
+        elif dungeon.is_Echo_of_War:
+            limit = 30
         else:
             limit = 60
         # Recover 1 trailbaze power each 6 minutes
@@ -226,8 +233,14 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
             # Check daily
             if self.achieved_daily_quest:
                 self.config.task_call('DailyQuest')
-            # Delay self
-            self.config.task_delay(minute=cover)
+            # Delay tasks
+            future = now() + timedelta(minutes=cover)
+            for task in ['Dungeon', 'Weekly']:
+                next_run = self.config.cross_get(keys=f'{task}.Scheduler.NextRun', default=DEFAULT_TIME)
+                if future > next_run:
+                    logger.info(f"Delay task `{task}` to {future}")
+                    self.config.cross_set(keys=f'{task}.Scheduler.NextRun', value=future)
+
         self.config.task_stop()
 
     def handle_destructible_around_blaze(self):

@@ -118,6 +118,8 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
                 continue
             if self.handle_ascension_dungeon_prepare():
                 continue
+            if self.handle_popup_confirm():
+                continue
 
     def combat_execute(self, expected_end=None):
         """
@@ -165,7 +167,7 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
         Pages:
             in: COMBAT_AGAIN
         """
-        current = self.combat_get_trailblaze_power(expect_reduce=True)
+        current = self.combat_get_trailblaze_power(expect_reduce=self.combat_wave_cost > 0)
         # Wave limit
         if self.combat_wave_limit:
             if self.combat_wave_done + self.combat_waves > self.combat_wave_limit:
@@ -181,6 +183,9 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
             else:
                 logger.info(f'Current has {current}, combat costs {self.combat_wave_cost}, can not run again')
                 return False
+        elif self.combat_wave_cost <= 0:
+            logger.info(f'Free combat, combat costs {self.combat_wave_cost}, can not run again')
+            return False
         else:
             if current >= self.combat_wave_cost:
                 logger.info(f'Current has {current}, combat costs {self.combat_wave_cost}, can run again')
