@@ -392,6 +392,7 @@ class Duration(Ocr):
     def after_process(self, result):
         result = super().after_process(result)
         result = result.strip('.,。，')
+        result = result.replace('Oh', '0h').replace('oh', '0h')
         return result
 
     def format_result(self, result: str) -> timedelta:
