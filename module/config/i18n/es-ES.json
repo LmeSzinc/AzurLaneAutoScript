@@ -613,12 +613,6 @@
       "name": "Ajustes de Encargos",
       "help": "Reclama recompensas y hace nuevos encargos.\nSi no se alcanza el límite de encargos tras ello, se realizarán nuevos encargos siguiendo la prioridad de los ajustes (EXP/Créditos → Materiales de personaje → Materiales de síntesis)"
     },
-    "WhenEventAssignmentsArePresent": {
-      "name": "Assignment.WhenEventAssignmentsArePresent.name",
-      "help": "Assignment.WhenEventAssignmentsArePresent.help",
-      "event_first": "event_first",
-      "do_not_participate": "do_not_participate"
-    },
     "Name_1": {
       "name": "Preferencia de Encargo 1",
       "help": "",
@@ -702,6 +696,10 @@
       "8": "8 horas",
       "12": "12 horas",
       "20": "20 horas"
+    },
+    "Event": {
+      "name": "Assignment.Event.name",
+      "help": ""
     },
     "Assignment": {
       "name": "Encargo",

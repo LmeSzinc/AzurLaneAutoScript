@@ -31,7 +31,7 @@ class Assignment(AssignmentClaim, SynthesizeUI):
         if duration is None:
             duration = self.config.Assignment_Duration
         if event_first is None:
-            event_first = self.config.Assignment_WhenEventAssignmentsArePresent == 'event_first'
+            event_first = self.config.Assignment_Event
 
         self.dispatched = dict()
         self.has_new_dispatch = False
