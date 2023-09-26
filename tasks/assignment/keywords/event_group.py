@@ -10,4 +10,5 @@ Space_Station_Task_Force = AssignmentEventGroup(
     cht='太空站特派',
     en='Space Station Task Force',
     jp='ステーション特派',
+    es='Comando de la Estación Espacial',
 )
