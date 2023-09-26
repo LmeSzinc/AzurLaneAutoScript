@@ -80,10 +80,8 @@ class AssignmentClaim(AssignmentDispatch):
                 logger.info('Assignment report is closed')
                 break
             # Close report
-            if self.appear_then_click(click_button, interval=2):
-                continue
-            # Only for EVENT assignments
-            if self.appear_then_click(REPORT, interval=2):
+            if self.appear(REPORT, interval=2):
+                self.device.click(click_button)
                 continue
 
     def _is_duration_expected(self, duration: int) -> bool:

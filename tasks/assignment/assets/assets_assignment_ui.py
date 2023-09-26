@@ -30,16 +30,6 @@ ENTRY_LOADED = ButtonWrapper(
         button=(467, 235, 498, 619),
     ),
 )
-LOCKED = ButtonWrapper(
-    name='LOCKED',
-    share=Button(
-        file='./assets/share/assignment/ui/LOCKED.png',
-        area=(1051, 480, 1237, 630),
-        search=(1031, 460, 1257, 650),
-        color=(53, 48, 40),
-        button=(1051, 480, 1237, 630),
-    ),
-)
 OCR_ASSIGNMENT_ENTRY_LIST = ButtonWrapper(
     name='OCR_ASSIGNMENT_ENTRY_LIST',
     share=Button(

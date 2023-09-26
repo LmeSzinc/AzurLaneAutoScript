@@ -3,7 +3,7 @@ from datetime import datetime
 from module.logger import logger
 from tasks.assignment.assets.assets_assignment_claim import CLAIM
 from tasks.assignment.assets.assets_assignment_dispatch import EMPTY_SLOT
-from tasks.assignment.assets.assets_assignment_ui import DISPATCHED, LOCKED
+from tasks.assignment.assets.assets_assignment_ui import DISPATCHED
 from tasks.assignment.claim import AssignmentClaim
 from tasks.assignment.keywords import (KEYWORDS_ASSIGNMENT_GROUP,
                                        AssignmentEntry, AssignmentEventGroup)
@@ -196,12 +196,13 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                 logger.hr('Assignment event', level=2)
                 logger.info(f'Check assignment event: {assignment}')
                 self.goto_entry(assignment)
-                if self.appear(LOCKED):
-                    logger.info('Assignment is locked')
-                    break
+                # No need to check dispatched here, should have been checked in _check_all
                 if self.appear(EMPTY_SLOT):
                     self.dispatch(assignment, None)
                     remain -= 1
                     if remain <= 0:
                         return remain
+                    continue
+                logger.info('Assignment is locked')
+                break
         return remain
