@@ -186,7 +186,7 @@ EMPTY_SLOT = ButtonWrapper(
     share=Button(
         file='./assets/share/assignment/dispatch/EMPTY_SLOT.png',
         area=(1075, 562, 1110, 597),
-        search=(873, 543, 1099, 609),
+        search=(873, 542, 1136, 608),
         color=(200, 200, 195),
         button=(1075, 562, 1110, 597),
     ),

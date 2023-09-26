@@ -42,9 +42,9 @@ class Assignment(AssignmentClaim, SynthesizeUI):
             if isinstance(g, AssignmentEventGroup)
         ), None)
         if event_first and event_ongoing is not None:
-            undispatched = assignments
             remain = self._check_all()
             remain = self._dispatch_event(remain)
+            undispatched = [x for x in assignments if x not in self.dispatched]
         else:
             # Iterate in user-specified order, return undispatched ones
             undispatched = list(self._check_inlist(assignments, duration))

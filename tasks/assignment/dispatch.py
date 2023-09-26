@@ -92,7 +92,8 @@ class AssignmentDispatch(AssignmentUI):
                 logger.info('Characters are all selected')
                 break
             # Ensure character list
-            if not self.appear(CHARACTER_LIST):
+            # Search EMPTY_SLOT to load offset
+            if not self.appear(CHARACTER_LIST) and self.appear(EMPTY_SLOT):
                 if self.interval_is_reached(CHARACTER_LIST, interval=2):
                     self.interval_reset(CHARACTER_LIST, interval=2)
                     self.device.click(EMPTY_SLOT)
