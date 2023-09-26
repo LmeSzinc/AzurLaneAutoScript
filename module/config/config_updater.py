@@ -366,11 +366,10 @@ class ConfigGenerator:
 
         # Copy dungeon i18n to double events
         def update_dungeon_names(keys):
-            for dungeon in deep_get(new, keys=keys).values():
-                if '_' in dungeon:
-                    value = deep_get(new, keys=['Dungeon', 'Name', dungeon])
-                    if value:
-                        deep_set(new, keys=f'{keys}.{dungeon}', value=value)
+            for dungeon in deep_get(self.argument, keys=f'{keys}.option', default=[]):
+                value = deep_get(new, keys=['Dungeon', 'Name', dungeon])
+                if value:
+                    deep_set(new, keys=f'{keys}.{dungeon}', value=value)
 
         update_dungeon_names('Dungeon.NameAtDoubleCalyx')
         update_dungeon_names('Dungeon.NameAtDoubleRelic')
