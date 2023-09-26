@@ -26,6 +26,10 @@
       "name": "Mazmorra",
       "help": ""
     },
+    "Weekly": {
+      "name": "Ecos de la guerra",
+      "help": ""
+    },
     "DailyQuest": {
       "name": "Misión diaria",
       "help": ""
@@ -387,16 +391,43 @@
       "help": "DungeonStorage._info.help"
     },
     "TrailblazePower": {
-      "name": "Poder trazacaminos",
+      "name": "Poder",
       "help": ""
     },
     "DungeonDouble": {
       "name": "Mazmorra x2",
       "help": ""
     },
+    "EchoOfWar": {
+      "name": "Ecos.",
+      "help": ""
+    },
     "SimulatedUniverse": {
       "name": "Univ.Sim.",
       "help": ""
+    }
+  },
+  "Weekly": {
+    "_info": {
+      "name": "Ajustes de Ecos de la guerra",
+      "help": ""
+    },
+    "Name": {
+      "name": "Nombre de la Mazmorra",
+      "help": "",
+      "Echo_of_War_Destruction_Beginning": "El principio de la Destrucción (Estación Espacial Herta)",
+      "Echo_of_War_End_of_the_Eternal_Freeze": "El fin del Hielo Eterno (Jarilo-VI)",
+      "Echo_of_War_Divine_Seed": "Semilla divina (El Luofu de Xianzhou)"
+    },
+    "Team": {
+      "name": "Equipo de mazmorra",
+      "help": "",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     }
   },
   "AchievableQuest": {

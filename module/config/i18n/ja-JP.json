@@ -26,6 +26,10 @@
       "name": "Task.Dungeon.name",
       "help": "Task.Dungeon.help"
     },
+    "Weekly": {
+      "name": "Task.Weekly.name",
+      "help": "Task.Weekly.help"
+    },
     "DailyQuest": {
       "name": "Task.DailyQuest.name",
       "help": "Task.DailyQuest.help"
@@ -394,9 +398,36 @@
       "name": "DungeonStorage.DungeonDouble.name",
       "help": "DungeonStorage.DungeonDouble.help"
     },
+    "EchoOfWar": {
+      "name": "DungeonStorage.EchoOfWar.name",
+      "help": "DungeonStorage.EchoOfWar.help"
+    },
     "SimulatedUniverse": {
       "name": "DungeonStorage.SimulatedUniverse.name",
       "help": "DungeonStorage.SimulatedUniverse.help"
+    }
+  },
+  "Weekly": {
+    "_info": {
+      "name": "Weekly._info.name",
+      "help": "Weekly._info.help"
+    },
+    "Name": {
+      "name": "Weekly.Name.name",
+      "help": "Weekly.Name.help",
+      "Echo_of_War_Destruction_Beginning": "歴戦余韻・壊滅の始まり (宇宙ステーション「ヘルタ」)",
+      "Echo_of_War_End_of_the_Eternal_Freeze": "歴戦余韻・寒波の幕切れ (ヤリーロ-VI)",
+      "Echo_of_War_Divine_Seed": "歴戦余韻・不死の神実 (仙舟「羅浮」)"
+    },
+    "Team": {
+      "name": "Weekly.Team.name",
+      "help": "Weekly.Team.help",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     }
   },
   "AchievableQuest": {

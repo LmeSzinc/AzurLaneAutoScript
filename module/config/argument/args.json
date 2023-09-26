@@ -393,6 +393,14 @@
         "display": "hide",
         "stored": "StoredDungeonDouble"
       },
+      "EchoOfWar": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredEchoOfWar",
+        "order": 4,
+        "color": "#85e7f2"
+      },
       "SimulatedUniverse": {
         "type": "stored",
         "value": {},
@@ -400,6 +408,57 @@
         "stored": "StoredSimulatedUniverse",
         "order": 6,
         "color": "#8fb5fe"
+      }
+    }
+  },
+  "Weekly": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": true,
+        "option": [
+          true,
+          false
+        ]
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "Weekly",
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "04:00",
+        "display": "hide"
+      }
+    },
+    "Weekly": {
+      "Name": {
+        "type": "select",
+        "value": "Echo_of_War_Divine_Seed",
+        "options": [],
+        "option": [
+          "Echo_of_War_Destruction_Beginning",
+          "Echo_of_War_End_of_the_Eternal_Freeze",
+          "Echo_of_War_Divine_Seed"
+        ]
+      },
+      "Team": {
+        "type": "select",
+        "value": 1,
+        "option": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
       }
     }
   },

@@ -58,7 +58,12 @@ class GeneratedConfig:
     # Group `DungeonStorage`
     DungeonStorage_TrailblazePower = {}
     DungeonStorage_DungeonDouble = {}
+    DungeonStorage_EchoOfWar = {}
     DungeonStorage_SimulatedUniverse = {}
+
+    # Group `Weekly`
+    Weekly_Name = 'Echo_of_War_Divine_Seed'  # Echo_of_War_Destruction_Beginning, Echo_of_War_End_of_the_Eternal_Freeze, Echo_of_War_Divine_Seed
+    Weekly_Team = 1  # 1, 2, 3, 4, 5, 6
 
     # Group `AchievableQuest`
     AchievableQuest_Complete_1_Daily_Mission = 'achievable'  # achievable, not_set, not_supported

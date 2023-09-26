@@ -86,6 +86,9 @@ class ConfigGenerator:
         option_add(
             keys='DungeonDaily.CavernOfCorrosion.option',
             options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Cavern_of_Corrosion])
+        option_add(
+            keys='Weekly.Name.option',
+            options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Echo_of_War])
         # Insert characters
         from tasks.character.keywords import CharacterList
         unsupported_characters = []
@@ -352,9 +355,9 @@ class ConfigGenerator:
         #         deep_set(new, keys=path, value=f'[{prefix}] {_list[index]}')
 
         # Dungeon names
+        from tasks.dungeon.keywords import DungeonList
         if lang not in ['zh-CN', 'zh-TW', 'en-US', 'es-ES']:
             ingame_lang = gui_lang_to_ingame_lang(lang)
-            from tasks.dungeon.keywords import DungeonList
             dailies = deep_get(self.argument, keys='Dungeon.Name.option')
             for dungeon in DungeonList.instances.values():
                 if dungeon.name in dailies:
@@ -398,6 +401,15 @@ class ConfigGenerator:
                 for option in deep_get(self.args, keys=['DailyQuest', 'AchievableQuest', copy_from, 'option']):
                     value = deep_get(new, keys=['AchievableQuest', copy_from, option])
                     deep_set(new, keys=['AchievableQuest', quest.name, option], value=value)
+
+        # Echo of War
+        from tasks.map.keywords import MapWorld
+        dungeons = [d for d in DungeonList.instances.values() if d.is_Echo_of_War]
+        for world, dungeon in zip(MapWorld.instances.values(), dungeons):
+            world_name = world.__getattribute__(ingame_lang)
+            dungeon_name = dungeon.__getattribute__(ingame_lang)
+            value = f'{dungeon_name} ({world_name})'
+            deep_set(new, keys=['Weekly', 'Name', dungeon.name], value=value)
 
         # GUI i18n
         for path, _ in deep_iter(self.gui, depth=2):

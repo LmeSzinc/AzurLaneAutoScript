@@ -59,7 +59,20 @@
     "DungeonStorage": {
       "TrailblazePower": {},
       "DungeonDouble": {},
+      "EchoOfWar": {},
       "SimulatedUniverse": {}
+    }
+  },
+  "Weekly": {
+    "Scheduler": {
+      "Enable": true,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Weekly",
+      "ServerUpdate": "04:00"
+    },
+    "Weekly": {
+      "Name": "Echo_of_War_Divine_Seed",
+      "Team": 1
     }
   },
   "DailyQuest": {

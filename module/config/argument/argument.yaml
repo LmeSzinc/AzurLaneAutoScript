@@ -118,10 +118,23 @@ DungeonStorage:
     color: "#eb8efe"
   DungeonDouble:
     stored: StoredDungeonDouble
+  EchoOfWar:
+    stored: StoredEchoOfWar
+    order: 4
+    color: "#85e7f2"
   SimulatedUniverse:
     stored: StoredSimulatedUniverse
     order: 6
     color: "#8fb5fe"
+
+Weekly:
+  Name:
+    # Dungeon names will be injected in config updater
+    value: Echo_of_War_Divine_Seed
+    options: []
+  Team:
+    value: 1
+    option: [ 1, 2, 3, 4, 5, 6 ]
 
 AchievableQuest:
 # Quests will be injected in config updater
