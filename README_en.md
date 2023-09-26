@@ -1,4 +1,4 @@
-**| English | [简体中文](README.md) |**
+**| English | [简体中文](README.md) | [Español](README_es.md) |**
 
 # StarRailCopilot
 
