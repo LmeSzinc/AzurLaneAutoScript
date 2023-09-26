@@ -8,6 +8,7 @@ from module.base.timer import Timer
 from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import DigitCounter, Duration, Ocr
+from tasks.dungeon.ui import DungeonTabSwitch as Switch
 from module.ui.draggable_list import DraggableList
 from tasks.assignment.assets.assets_assignment_claim import CLAIM
 from tasks.assignment.assets.assets_assignment_dispatch import EMPTY_SLOT
@@ -37,14 +38,10 @@ class AssignmentOcr(Ocr):
             (KEYWORDS_ASSIGNMENT_ENTRY.Akashic_Records.name, '阿[未][夏复]记录'),
             (KEYWORDS_ASSIGNMENT_ENTRY.Legend_of_the_Puppet_Master.name, '^师传说'),
             (KEYWORDS_ASSIGNMENT_ENTRY.The_Wages_of_Humanity.name, '[赠]养人类'),
-            (KEYWORDS_ASSIGNMENT_EVENT_GROUP.Space_Station_Task_Force.name,
-             '[新0]空间站特派[新]'),
         ],
         'en': [
             (KEYWORDS_ASSIGNMENT_EVENT_ENTRY.Food_Improvement_Plan.name,
              'Food\s*[I]{0}mprovement Plan'),
-            (KEYWORDS_ASSIGNMENT_EVENT_GROUP.Space_Station_Task_Force.name,
-             '^(S[np]ace Station Ta[^sk]{0,3})?[F-]orce')
         ]
     }
 
@@ -78,14 +75,12 @@ class AssignmentOcr(Ocr):
             return result
         keyword_lang = self.lang
         for keyword_class in (
-            KEYWORDS_ASSIGNMENT_ENTRY, KEYWORDS_ASSIGNMENT_EVENT_ENTRY,
-            KEYWORDS_ASSIGNMENT_GROUP, KEYWORDS_ASSIGNMENT_EVENT_GROUP,
+            KEYWORDS_ASSIGNMENT_ENTRY,
+            KEYWORDS_ASSIGNMENT_EVENT_ENTRY,
         ):
-            try:
-                matched = getattr(keyword_class, matched.lastgroup)
+            matched = getattr(keyword_class, matched.lastgroup, None)
+            if matched is not None:
                 break
-            except AttributeError:
-                continue
         else:
             raise ScriptError(f'No keyword found for {matched.lastgroup}')
         matched = getattr(matched, keyword_lang)
@@ -94,14 +89,29 @@ class AssignmentOcr(Ocr):
         return matched
 
 
-ASSIGNMENT_GROUP_LIST = DraggableList(
-    'AssignmentGroupList',
-    keyword_class=[AssignmentGroup, AssignmentEventGroup],
-    ocr_class=AssignmentOcr,
-    search_button=OCR_ASSIGNMENT_GROUP_LIST,
-    check_row_order=False,
-    active_color=(240, 240, 240),
-    drag_direction='right'
+ASSIGNMENT_GROUP_SWITCH = Switch(
+    'AssignmentGroupSwitch',
+    is_selector=True
+)
+ASSIGNMENT_GROUP_SWITCH.add_state(
+    KEYWORDS_ASSIGNMENT_EVENT_GROUP.Space_Station_Task_Force,
+    check_button=SPACE_STATION_TASK_FORCE_CHECK,
+    click_button=SPACE_STATION_TASK_FORCE_CLICK
+)
+ASSIGNMENT_GROUP_SWITCH.add_state(
+    KEYWORDS_ASSIGNMENT_GROUP.Character_Materials,
+    check_button=CHARACTER_MATERIALS_CHECK,
+    click_button=CHARACTER_MATERIALS_CLICK
+)
+ASSIGNMENT_GROUP_SWITCH.add_state(
+    KEYWORDS_ASSIGNMENT_GROUP.EXP_Materials_Credits,
+    check_button=EXP_MATERIALS_CREDITS_CHECK,
+    click_button=EXP_MATERIALS_CREDITS_CLICK
+)
+ASSIGNMENT_GROUP_SWITCH.add_state(
+    KEYWORDS_ASSIGNMENT_GROUP.Synthesis_Materials,
+    check_button=SYNTHESIS_MATERIALS_CHECK,
+    click_button=SYNTHESIS_MATERIALS_CLICK
 )
 ASSIGNMENT_ENTRY_LIST = DraggableList(
     'AssignmentEntryList',
@@ -124,12 +134,10 @@ class AssignmentUI(UI):
             self.device.screenshot()
             self.goto_group(KEYWORDS_ASSIGNMENT_GROUP.Character_Materials)
         """
-        selected = ASSIGNMENT_GROUP_LIST.get_selected_row(self)
-        if selected and selected.matched_keyword == group:
+        if ASSIGNMENT_GROUP_SWITCH.get(self) == group:
             return
         logger.hr('Assignment group goto', level=3)
-        self._wait_until_group_loaded()
-        if ASSIGNMENT_GROUP_LIST.select_row(group, self):
+        if ASSIGNMENT_GROUP_SWITCH.set(group, self):
             self._wait_until_entry_loaded()
 
     def goto_entry(self, entry: AssignmentEntry):
@@ -228,10 +236,11 @@ class AssignmentUI(UI):
 
     def _iter_groups(self) -> Iterator[AssignmentGroup]:
         self._wait_until_group_loaded()
-        ASSIGNMENT_GROUP_LIST.insight_row(
-            KEYWORDS_ASSIGNMENT_GROUP.Character_Materials, self)
-        for button in ASSIGNMENT_GROUP_LIST.cur_buttons:
-            yield button.matched_keyword
+        for state in ASSIGNMENT_GROUP_SWITCH.state_list:
+            check = state['check_button']
+            click = state['click_button']
+            if ASSIGNMENT_GROUP_SWITCH.appear(check) or ASSIGNMENT_GROUP_SWITCH.appear(click):
+                yield state['state']
 
     def _iter_entries(self) -> Iterator[AssignmentEntry]:
         """

@@ -200,6 +200,8 @@ def generate_code():
         output = os.path.join(path, 'assets')
         os.makedirs(output, exist_ok=True)
         for prev in iter_folder(output, ext='.py'):
+            if os.path.basename(prev) == '__init__.py':
+                continue
             os.remove(prev)
 
     for module, module_data in all.items():
