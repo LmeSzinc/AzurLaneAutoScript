@@ -287,6 +287,8 @@ class KeywordExtract:
             gen = self.write_keywords(keyword_class='MapPlane', output_file='',
                                       text_convert=text_convert(world), generator=gen)
         gen.write('./tasks/map/keywords/plane.py')
+        self.load_keywords(['Herta Space Station', 'Jarilo-VI', 'The Xianzhou Luofu'], lang='en')
+        self.write_keywords(keyword_class='MapWorld', output_file='./tasks/map/keywords/world.py')
 
     def generate_character_keywords(self):
         self.load_character_name_keywords()
