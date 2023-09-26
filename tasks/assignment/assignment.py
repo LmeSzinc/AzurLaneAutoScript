@@ -1,12 +1,10 @@
 from datetime import datetime
 
 from module.logger import logger
-from tasks.assignment.assets.assets_assignment_claim import CLAIM
-from tasks.assignment.assets.assets_assignment_dispatch import EMPTY_SLOT
-from tasks.assignment.assets.assets_assignment_ui import DISPATCHED
 from tasks.assignment.claim import AssignmentClaim
 from tasks.assignment.keywords import (KEYWORDS_ASSIGNMENT_GROUP,
                                        AssignmentEntry, AssignmentEventGroup)
+from tasks.assignment.ui import AssignmentStatus
 from tasks.base.page import page_assignment, page_menu
 from tasks.battle_pass.keywords import KEYWORD_BATTLE_PASS_QUEST
 from tasks.daily.keywords import KEYWORDS_DAILY_QUEST
@@ -105,13 +103,15 @@ class Assignment(AssignmentClaim, SynthesizeUI):
             logger.hr('Assignment inlist', level=2)
             logger.info(f'Check assignment inlist: {assignment}')
             self.goto_entry(assignment)
-            if self.appear(CLAIM):
+            status = self._check_assignment_status()
+            if status == AssignmentStatus.CLAIMABLE:
                 self.claim(assignment, duration, should_redispatch=True)
                 continue
-            if self.appear(DISPATCHED):
+            if status == AssignmentStatus.DISPATCHED:
                 self.dispatched[assignment] = datetime.now() + \
                     self._get_assignment_time()
                 continue
+            # General assignments must be dispatchable here
             if remain > 0:
                 self.dispatch(assignment, duration)
                 remain -= 1
@@ -138,11 +138,12 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                 logger.hr('Assignment all', level=2)
                 logger.info(f'Check assignment all: {assignment}')
                 self.goto_entry(assignment)
-                if self.appear(CLAIM):
+                status = self._check_assignment_status()
+                if status == AssignmentStatus.CLAIMABLE:
                     self.claim(assignment, None, should_redispatch=False)
                     remain += 1
                     continue
-                if self.appear(DISPATCHED):
+                if status == AssignmentStatus.DISPATCHED:
                     self.dispatched[assignment] = datetime.now() + \
                         self._get_assignment_time()
                     if total == len(self.dispatched):
@@ -196,13 +197,13 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                 logger.hr('Assignment event', level=2)
                 logger.info(f'Check assignment event: {assignment}')
                 self.goto_entry(assignment)
-                # No need to check dispatched here, should have been checked in _check_all
-                if self.appear(EMPTY_SLOT):
+                status = self._check_assignment_status()
+                # Should only be dispatchable or locked after _check_all
+                if status == AssignmentStatus.DISPATCHABLE:
                     self.dispatch(assignment, None)
                     remain -= 1
                     if remain <= 0:
                         return remain
                     continue
-                logger.info('Assignment is locked')
                 break
         return remain

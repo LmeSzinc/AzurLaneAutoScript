@@ -1,6 +1,7 @@
 import re
 from collections.abc import Iterator
 from datetime import timedelta
+from enum import Enum
 from functools import cached_property
 
 from module.base.timer import Timer
@@ -8,9 +9,18 @@ from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import DigitCounter, Duration, Ocr
 from module.ui.draggable_list import DraggableList
+from tasks.assignment.assets.assets_assignment_claim import CLAIM
+from tasks.assignment.assets.assets_assignment_dispatch import EMPTY_SLOT
 from tasks.assignment.assets.assets_assignment_ui import *
 from tasks.assignment.keywords import *
 from tasks.base.ui import UI
+
+
+class AssignmentStatus(Enum):
+    CLAIMABLE = 0
+    DISPATCHED = 1
+    DISPATCHABLE = 2
+    LOCKED = 3
 
 
 class AssignmentOcr(Ocr):
@@ -190,6 +200,28 @@ class AssignmentUI(UI):
             logger.warning(f'Invalid assignment limit: {current}/{total}')
             self.config.stored.Assignment.set(0, 0)
         return current, remain, total
+
+    def _check_assignment_status(self) -> AssignmentStatus:
+        skip_first_screenshot = True
+        timeout = Timer(2, count=3).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if timeout.reached():
+                logger.info(
+                    'Check assignment status timeout, assume LOCKED'
+                )
+                break
+            if self.appear(CLAIM):
+                return AssignmentStatus.CLAIMABLE
+            if self.appear(DISPATCHED):
+                return AssignmentStatus.DISPATCHED
+            if self.appear(EMPTY_SLOT):
+                return AssignmentStatus.DISPATCHABLE
+        return AssignmentStatus.LOCKED
 
     def _get_assignment_time(self) -> timedelta:
         return Duration(OCR_ASSIGNMENT_TIME).ocr_single_line(self.device.image)
