@@ -1,7 +1,6 @@
 import os
 import re
 import typing as t
-from collections import namedtuple
 from functools import cached_property
 
 from module.base.code_generator import CodeGenerator
@@ -254,14 +253,19 @@ class KeywordExtract:
         self.clear_keywords()
 
     def generate_assignment_keywords(self):
-        KeywordFromFile = namedtuple('KeywordFromFile', ('file', 'class_name', 'output_file'))
-        for keyword in (
-                KeywordFromFile('ExpeditionGroup.json', 'AssignmentGroup', './tasks/assignment/keywords/group.py'),
-                KeywordFromFile('ExpeditionData.json', 'AssignmentEntry', './tasks/assignment/keywords/entry.py')
+        self.load_keywords(['空间站特派'])
+        self.write_keywords(
+            keyword_class='AssignmentEventGroup',
+            output_file='./tasks/assignment/keywords/event_group.py'
+        )
+        for file_name, class_name, output_file in (
+            ('ExpeditionGroup.json', 'AssignmentGroup', './tasks/assignment/keywords/group.py'),
+            ('ExpeditionData.json', 'AssignmentEntry', './tasks/assignment/keywords/entry.py'),
+            ('ActivityExpedition.json', 'AssignmentEventEntry', './tasks/assignment/keywords/event_entry.py'),
         ):
-            file = os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', keyword.file)
+            file = os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', file_name)
             self.load_keywords(deep_get(data, 'Name.Hash') for data in read_file(file).values())
-            self.write_keywords(keyword_class=keyword.class_name, output_file=keyword.output_file)
+            self.write_keywords(keyword_class=class_name, output_file=output_file)
 
     def generate_map_planes(self):
         planes = {

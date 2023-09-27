@@ -728,6 +728,10 @@
       "12": "12 Hours",
       "20": "20 Hours"
     },
+    "Event": {
+      "name": "Complete Event Assignments First",
+      "help": ""
+    },
     "Assignment": {
       "name": "Assign.",
       "help": ""

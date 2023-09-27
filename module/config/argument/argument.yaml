@@ -176,6 +176,7 @@ Assignment:
   Duration:
     value: 20
     option: [ 4, 8, 12, 20 ]
+  Event: true
   Assignment:
     stored: StoredAssignment
     order: 3

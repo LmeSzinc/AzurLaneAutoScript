@@ -8,14 +8,14 @@ ASSIGNMENT_START = ButtonWrapper(
     cn=Button(
         file='./assets/cn/assignment/dispatch/ASSIGNMENT_START.png',
         area=(581, 321, 699, 349),
-        search=(561, 301, 719, 369),
+        search=(573, 299, 707, 412),
         color=(93, 84, 66),
         button=(581, 321, 699, 349),
     ),
     en=Button(
         file='./assets/en/assignment/dispatch/ASSIGNMENT_START.png',
         area=(679, 323, 784, 347),
-        search=(659, 303, 804, 367),
+        search=(669, 297, 794, 416),
         color=(93, 83, 65),
         button=(679, 323, 784, 347),
     ),
@@ -24,10 +24,10 @@ ASSIGNMENT_STARTED_CHECK = ButtonWrapper(
     name='ASSIGNMENT_STARTED_CHECK',
     share=Button(
         file='./assets/share/assignment/dispatch/ASSIGNMENT_STARTED_CHECK.png',
-        area=(1174, 297, 1211, 514),
-        search=(1154, 277, 1231, 534),
-        color=(86, 81, 78),
-        button=(1174, 297, 1211, 514),
+        area=(542, 412, 1156, 422),
+        search=(522, 392, 1176, 442),
+        color=(232, 230, 226),
+        button=(542, 412, 1156, 422),
     ),
 )
 CHARACTER_1 = ButtonWrapper(
@@ -85,6 +85,43 @@ CHARACTER_LIST = ButtonWrapper(
         search=(71, 143, 156, 200),
         color=(159, 158, 155),
         button=(91, 163, 136, 180),
+    ),
+)
+CHARACTER_SUPPORT = ButtonWrapper(
+    name='CHARACTER_SUPPORT',
+    share=Button(
+        file='./assets/share/assignment/dispatch/CHARACTER_SUPPORT.png',
+        area=(103, 212, 435, 302),
+        search=(83, 192, 455, 322),
+        color=(69, 65, 80),
+        button=(103, 212, 435, 302),
+    ),
+)
+CHARACTER_SUPPORT_LIST = ButtonWrapper(
+    name='CHARACTER_SUPPORT_LIST',
+    cn=Button(
+        file='./assets/cn/assignment/dispatch/CHARACTER_SUPPORT_LIST.png',
+        area=(91, 166, 171, 186),
+        search=(71, 146, 191, 206),
+        color=(147, 146, 143),
+        button=(91, 166, 171, 186),
+    ),
+    en=Button(
+        file='./assets/en/assignment/dispatch/CHARACTER_SUPPORT_LIST.png',
+        area=(90, 167, 267, 189),
+        search=(70, 147, 287, 209),
+        color=(169, 168, 165),
+        button=(90, 167, 267, 189),
+    ),
+)
+CHARACTER_SUPPORT_SELECTED = ButtonWrapper(
+    name='CHARACTER_SUPPORT_SELECTED',
+    share=Button(
+        file='./assets/share/assignment/dispatch/CHARACTER_SUPPORT_SELECTED.png',
+        area=(190, 270, 266, 295),
+        search=(170, 250, 286, 315),
+        color=(39, 39, 39),
+        button=(190, 270, 266, 295),
     ),
 )
 CONFIRM_ASSIGNMENT = ButtonWrapper(
@@ -149,8 +186,18 @@ EMPTY_SLOT = ButtonWrapper(
     share=Button(
         file='./assets/share/assignment/dispatch/EMPTY_SLOT.png',
         area=(1075, 562, 1110, 597),
-        search=(1054, 542, 1220, 616),
+        search=(873, 542, 1136, 608),
         color=(200, 200, 195),
         button=(1075, 562, 1110, 597),
+    ),
+)
+EMPTY_SLOT_SUPPORT = ButtonWrapper(
+    name='EMPTY_SLOT_SUPPORT',
+    share=Button(
+        file='./assets/share/assignment/dispatch/EMPTY_SLOT_SUPPORT.png',
+        area=(1152, 561, 1187, 592),
+        search=(1132, 541, 1207, 612),
+        color=(203, 202, 198),
+        button=(1152, 561, 1187, 592),
     ),
 )

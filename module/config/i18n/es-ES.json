@@ -728,6 +728,10 @@
       "12": "12 horas",
       "20": "20 horas"
     },
+    "Event": {
+      "name": "Assignment.Event.name",
+      "help": ""
+    },
     "Assignment": {
       "name": "Encargo",
       "help": ""

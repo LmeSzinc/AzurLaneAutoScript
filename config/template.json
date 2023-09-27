@@ -139,6 +139,7 @@
       "Name_3": "The_Invisible_Hand",
       "Name_4": "Nine_Billion_Names",
       "Duration": 20,
+      "Event": true,
       "Assignment": {}
     }
   },

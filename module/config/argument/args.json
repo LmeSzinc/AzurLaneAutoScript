@@ -1046,6 +1046,10 @@
           20
         ]
       },
+      "Event": {
+        "type": "checkbox",
+        "value": true
+      },
       "Assignment": {
         "type": "stored",
         "value": {},
