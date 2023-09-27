@@ -86,6 +86,9 @@ class ConfigGenerator:
         option_add(
             keys='DungeonDaily.CavernOfCorrosion.option',
             options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Cavern_of_Corrosion])
+        option_add(
+            keys='Weekly.Name.option',
+            options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Echo_of_War])
         # Insert characters
         from tasks.character.keywords import CharacterList
         unsupported_characters = []
@@ -352,9 +355,9 @@ class ConfigGenerator:
         #         deep_set(new, keys=path, value=f'[{prefix}] {_list[index]}')
 
         # Dungeon names
+        from tasks.dungeon.keywords import DungeonList
         if lang not in ['zh-CN', 'zh-TW', 'en-US', 'es-ES']:
             ingame_lang = gui_lang_to_ingame_lang(lang)
-            from tasks.dungeon.keywords import DungeonList
             dailies = deep_get(self.argument, keys='Dungeon.Name.option')
             for dungeon in DungeonList.instances.values():
                 if dungeon.name in dailies:
@@ -363,11 +366,10 @@ class ConfigGenerator:
 
         # Copy dungeon i18n to double events
         def update_dungeon_names(keys):
-            for dungeon in deep_get(new, keys=keys).values():
-                if '_' in dungeon:
-                    value = deep_get(new, keys=['Dungeon', 'Name', dungeon])
-                    if value:
-                        deep_set(new, keys=f'{keys}.{dungeon}', value=value)
+            for dungeon in deep_get(self.argument, keys=f'{keys}.option', default=[]):
+                value = deep_get(new, keys=['Dungeon', 'Name', dungeon])
+                if value:
+                    deep_set(new, keys=f'{keys}.{dungeon}', value=value)
 
         update_dungeon_names('Dungeon.NameAtDoubleCalyx')
         update_dungeon_names('Dungeon.NameAtDoubleRelic')
@@ -398,6 +400,15 @@ class ConfigGenerator:
                 for option in deep_get(self.args, keys=['DailyQuest', 'AchievableQuest', copy_from, 'option']):
                     value = deep_get(new, keys=['AchievableQuest', copy_from, option])
                     deep_set(new, keys=['AchievableQuest', quest.name, option], value=value)
+
+        # Echo of War
+        from tasks.map.keywords import MapWorld
+        dungeons = [d for d in DungeonList.instances.values() if d.is_Echo_of_War]
+        for world, dungeon in zip(MapWorld.instances.values(), dungeons):
+            world_name = world.__getattribute__(ingame_lang)
+            dungeon_name = dungeon.__getattribute__(ingame_lang)
+            value = f'{dungeon_name} ({world_name})'
+            deep_set(new, keys=['Weekly', 'Name', dungeon.name], value=value)
 
         # GUI i18n
         for path, _ in deep_iter(self.gui, depth=2):
@@ -679,7 +690,7 @@ class ConfigUpdater:
         set_daily('Take_1_photo', 'achievable')
         set_daily('Destroy_3_destructible_objects', 'achievable')
         set_daily('Complete_Forgotten_Hall_1_time', 'achievable')
-        set_daily('Complete_Echo_of_War_1_times', 'not_supported')
+        set_daily('Complete_Echo_of_War_1_times', deep_get(data, 'Weekly.Scheduler.Enable'))
         set_daily('Complete_1_stage_in_Simulated_Universe_Any_world', 'not_supported')
         set_daily('Obtain_victory_in_combat_with_support_characters_1_time',
                   dungeon and deep_get(data, 'Dungeon.DungeonSupport.Use') in ['when_daily', 'always_use'])

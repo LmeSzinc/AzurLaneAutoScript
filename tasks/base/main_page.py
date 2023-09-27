@@ -18,12 +18,17 @@ class OcrPlaneName(Ocr):
     def after_process(self, result):
         # RobotSettlement1
         result = re.sub(r'-[Ii1]$', '', result)
+        result = re.sub(r'I$', '', result)
         result = re.sub(r'\d+$', '', result)
         # Herta's OfficeY/
         result = re.sub(r'Y/?$', '', result)
+        # Stargazer Navatia -> Stargazer Navalia
+        result = result.replace('avatia', 'avalia')
 
         # 累塔的办公室
         result = result.replace('累塔', '黑塔')
+        if '星港' in result:
+            result = '迴星港'
 
         return super().after_process(result)
 

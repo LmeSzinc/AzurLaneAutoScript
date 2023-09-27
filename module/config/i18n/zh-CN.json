@@ -26,6 +26,10 @@
       "name": "每日副本",
       "help": ""
     },
+    "Weekly": {
+      "name": "历战余响",
+      "help": ""
+    },
     "DailyQuest": {
       "name": "每日任务",
       "help": ""
@@ -212,7 +216,7 @@
       "Calyx_Golden_Treasures": "材料：信用点（藏珍之蕾•拟造花萼金）",
       "Calyx_Crimson_Destruction": "行迹材料：毁灭（毁灭之蕾•拟造花萼赤）",
       "Calyx_Crimson_Preservation": "行迹材料：存护（存护之蕾•拟造花萼赤）",
-      "Calyx_Crimson_The_Hunt": "行迹材料：巡猎（存护之蕾•拟造花萼赤）",
+      "Calyx_Crimson_The_Hunt": "行迹材料：巡猎（巡猎之蕾•拟造花萼赤）",
       "Calyx_Crimson_Abundance": "行迹材料：丰饶（丰饶之蕾•拟造花萼赤）",
       "Calyx_Crimson_Erudition": "行迹材料：智识（智识之蕾•拟造花萼赤）",
       "Calyx_Crimson_Harmony": "行迹材料：同谐（同谐之蕾•拟造花萼赤）",
@@ -246,7 +250,7 @@
       "Calyx_Golden_Treasures": "材料：信用点（藏珍之蕾•拟造花萼金）",
       "Calyx_Crimson_Destruction": "行迹材料：毁灭（毁灭之蕾•拟造花萼赤）",
       "Calyx_Crimson_Preservation": "行迹材料：存护（存护之蕾•拟造花萼赤）",
-      "Calyx_Crimson_The_Hunt": "行迹材料：巡猎（存护之蕾•拟造花萼赤）",
+      "Calyx_Crimson_The_Hunt": "行迹材料：巡猎（巡猎之蕾•拟造花萼赤）",
       "Calyx_Crimson_Abundance": "行迹材料：丰饶（丰饶之蕾•拟造花萼赤）",
       "Calyx_Crimson_Erudition": "行迹材料：智识（智识之蕾•拟造花萼赤）",
       "Calyx_Crimson_Harmony": "行迹材料：同谐（同谐之蕾•拟造花萼赤）",
@@ -294,7 +298,7 @@
       "do_not_achieve": "不完成这个任务",
       "Calyx_Crimson_Destruction": "行迹材料：毁灭（毁灭之蕾•拟造花萼赤）",
       "Calyx_Crimson_Preservation": "行迹材料：存护（存护之蕾•拟造花萼赤）",
-      "Calyx_Crimson_The_Hunt": "行迹材料：巡猎（存护之蕾•拟造花萼赤）",
+      "Calyx_Crimson_The_Hunt": "行迹材料：巡猎（巡猎之蕾•拟造花萼赤）",
       "Calyx_Crimson_Abundance": "行迹材料：丰饶（丰饶之蕾•拟造花萼赤）",
       "Calyx_Crimson_Erudition": "行迹材料：智识（智识之蕾•拟造花萼赤）",
       "Calyx_Crimson_Harmony": "行迹材料：同谐（同谐之蕾•拟造花萼赤）",
@@ -394,9 +398,36 @@
       "name": "副本双倍",
       "help": ""
     },
+    "EchoOfWar": {
+      "name": "历战余响",
+      "help": ""
+    },
     "SimulatedUniverse": {
       "name": "模拟宇宙",
       "help": ""
+    }
+  },
+  "Weekly": {
+    "_info": {
+      "name": "历战余响设置",
+      "help": "历战余响每周次数耗尽后仍然可以继续挑战，不消耗体力不获得奖励但是可以完成每日任务"
+    },
+    "Name": {
+      "name": "副本名称",
+      "help": "",
+      "Echo_of_War_Destruction_Beginning": "毁灭的开端•历战余响 (空间站「黑塔」)",
+      "Echo_of_War_End_of_the_Eternal_Freeze": "寒潮的落幕•历战余响 (雅利洛-Ⅵ)",
+      "Echo_of_War_Divine_Seed": "不死的神实•历战余响 (仙舟「罗浮」)"
+    },
+    "Team": {
+      "name": "打本队伍",
+      "help": "",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     }
   },
   "AchievableQuest": {
@@ -504,7 +535,7 @@
     },
     "Complete_Echo_of_War_1_times": {
       "name": "完成1次「历战余响」",
-      "help": "",
+      "help": "需要设置并启用\"历战余响\"任务",
       "achievable": "可完成",
       "not_set": "未设置",
       "not_supported": "暂未支持"
@@ -696,6 +727,10 @@
       "8": "8小时",
       "12": "12小时",
       "20": "20小时"
+    },
+    "Event": {
+      "name": "有活动时优先做活动委托",
+      "help": ""
     },
     "Assignment": {
       "name": "委托",

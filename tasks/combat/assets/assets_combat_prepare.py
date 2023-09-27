@@ -8,14 +8,14 @@ COMBAT_PREPARE = ButtonWrapper(
     cn=Button(
         file='./assets/cn/combat/prepare/COMBAT_PREPARE.png',
         area=(1071, 649, 1110, 667),
-        search=(1051, 629, 1130, 687),
+        search=(836, 640, 1225, 677),
         color=(141, 140, 141),
         button=(956, 640, 1224, 676),
     ),
     en=Button(
         file='./assets/en/combat/prepare/COMBAT_PREPARE.png',
         area=(1043, 650, 1137, 666),
-        search=(1023, 630, 1157, 686),
+        search=(836, 640, 1225, 677),
         color=(153, 154, 155),
         button=(956, 640, 1225, 676),
     ),

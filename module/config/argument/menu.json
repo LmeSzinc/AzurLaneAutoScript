@@ -12,6 +12,7 @@
     "page": "setting",
     "tasks": [
       "Dungeon",
+      "Weekly",
       "DailyQuest",
       "BattlePass",
       "Assignment",

@@ -1,5 +1,6 @@
 import tasks.map.keywords.plane as KEYWORDS_MAP_PLANE
-from tasks.map.keywords.classes import MapPlane
+import tasks.map.keywords.world as KEYWORDS_MAP_WORLD
+from tasks.map.keywords.classes import MapPlane, MapWorld
 
 # Herta
 KEYWORDS_MAP_PLANE.Herta_StorageZone.floors = ['B1', 'F1', 'F2']
@@ -17,5 +18,6 @@ KEYWORDS_MAP_PLANE.Luofu_Cloudford.floors = ['F1', 'F2']
 KEYWORDS_MAP_PLANE.Luofu_StargazerNavalia.floors = ['F1', 'F2']
 KEYWORDS_MAP_PLANE.Luofu_DivinationCommission.floors = ['F1', 'F2']
 KEYWORDS_MAP_PLANE.Luofu_AlchemyCommission.floors = ['F1', 'F2']
+KEYWORDS_MAP_PLANE.Luofu_ArtisanshipCommission.page = 'bottom'
 KEYWORDS_MAP_PLANE.Luofu_AlchemyCommission.page = 'bottom'
 KEYWORDS_MAP_PLANE.Luofu_ScalegorgeWaterscape.page = 'bottom'

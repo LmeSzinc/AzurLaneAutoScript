@@ -2,7 +2,7 @@ from datetime import datetime
 from functools import cached_property as functools_cached_property
 
 from module.base.decorator import cached_property
-from module.config.utils import DEFAULT_TIME, deep_get, get_server_last_update
+from module.config.utils import DEFAULT_TIME, deep_get, get_server_last_monday_update, get_server_last_update
 from module.exception import ScriptError
 
 
@@ -116,6 +116,15 @@ class StoredExpiredAt0400(StoredBase):
         from module.logger import logger
         self.show()
         expired = self.time < get_server_last_update('04:00')
+        logger.attr(f'{self._name} expired', expired)
+        return expired
+
+
+class StoredExpiredAtMonday0400(StoredBase):
+    def is_expired(self):
+        from module.logger import logger
+        self.show()
+        expired = self.time < get_server_last_monday_update('04:00')
         logger.attr(f'{self._name} expired', expired)
         return expired
 
@@ -243,6 +252,10 @@ class StoredDaily(StoredCounter, StoredExpiredAt0400):
 class StoredDungeonDouble(StoredExpiredAt0400):
     calyx = 0
     relic = 0
+
+
+class StoredEchoOfWar(StoredCounter, StoredExpiredAtMonday0400):
+    FIXED_TOTAL = 3
 
 
 class StoredBattlePassLevel(StoredCounter):

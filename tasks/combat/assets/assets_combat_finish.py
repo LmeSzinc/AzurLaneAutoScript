@@ -8,14 +8,14 @@ COMBAT_AGAIN = ButtonWrapper(
     cn=Button(
         file='./assets/cn/combat/finish/COMBAT_AGAIN.png',
         area=(846, 601, 924, 619),
-        search=(826, 581, 944, 639),
+        search=(709, 592, 979, 628),
         color=(162, 162, 162),
         button=(709, 592, 979, 628),
     ),
     en=Button(
         file='./assets/en/combat/finish/COMBAT_AGAIN.png',
         area=(809, 602, 902, 618),
-        search=(789, 582, 922, 638),
+        search=(709, 591, 981, 628),
         color=(159, 159, 159),
         button=(709, 591, 981, 628),
     ),

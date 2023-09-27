@@ -535,6 +535,34 @@ def get_server_last_update(daily_trigger):
     return update
 
 
+def get_server_last_monday_update(daily_trigger):
+    """
+    Args:
+        daily_trigger (list[str], str): [ "00:00", "12:00", "18:00",]
+
+    Returns:
+        datetime.datetime
+    """
+    update = get_server_next_update(daily_trigger)
+    diff = update.weekday()
+    update = update - timedelta(days=diff)
+    return update
+
+
+def get_server_next_monday_update(daily_trigger):
+    """
+    Args:
+        daily_trigger (list[str], str): [ "00:00", "12:00", "18:00",]
+
+    Returns:
+        datetime.datetime
+    """
+    update = get_server_next_update(daily_trigger)
+    diff = (7 - update.weekday()) % 7
+    update = update + timedelta(days=diff)
+    return update
+
+
 def nearest_future(future, interval=120):
     """
     Get the neatest future time.

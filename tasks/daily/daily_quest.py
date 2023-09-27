@@ -323,7 +323,16 @@ class DailyQuestUI(DungeonUI, RouteLoader):
                 quests = self.config.stored.BattlePassTodayQuest.load_quests()
                 if KEYWORD_BATTLE_PASS_QUEST.Reach_500_on_Daily_Training_Activity in quests:
                     logger.info('Achieved battle pass quest Reach_500_on_Daily_Training_Activity')
-                    self.config.task_call('BattlePass')
+                    if self.config.stored.BattlePassLevel.is_full():
+                        logger.info('BattlePassLevel full, no task call')
+                    else:
+                        self.config.task_call('BattlePass')
                     self.config.task_call('DataUpdate')
             # Delay self
             self.config.task_delay(server_update=True)
+
+
+if __name__ == '__main__':
+    self = DailyQuestUI('src')
+    self.device.screenshot()
+    self.route_run(ROUTE_DAILY.HimekoTrial__route_enemy)

@@ -26,6 +26,10 @@
       "name": "Dungeon",
       "help": ""
     },
+    "Weekly": {
+      "name": "Echo of War",
+      "help": ""
+    },
     "DailyQuest": {
       "name": "Daily Quest",
       "help": ""
@@ -394,9 +398,36 @@
       "name": "Dungeon Double",
       "help": ""
     },
-    "SimulatedUniverse": {
-      "name": "Sim.Uni.",
+    "EchoOfWar": {
+      "name": "Echo.",
       "help": ""
+    },
+    "SimulatedUniverse": {
+      "name": "Sim.Univ.",
+      "help": ""
+    }
+  },
+  "Weekly": {
+    "_info": {
+      "name": "Echo of War Settings",
+      "help": "Echo of War is still able to challenge if limit is reached. Consume no trailblaze power, get no reward, but complete daily quests."
+    },
+    "Name": {
+      "name": "Dungeon Name",
+      "help": "",
+      "Echo_of_War_Destruction_Beginning": "Destruction's Beginning (Herta Space Station)",
+      "Echo_of_War_End_of_the_Eternal_Freeze": "End of the Eternal Freeze (Jarilo-VI)",
+      "Echo_of_War_Divine_Seed": "Divine Seed (The Xianzhou Luofu)"
+    },
+    "Team": {
+      "name": "Dungeon Team",
+      "help": "",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     }
   },
   "AchievableQuest": {
@@ -504,7 +535,7 @@
     },
     "Complete_Echo_of_War_1_times": {
       "name": "Complete Echo of War 1 time(s)",
-      "help": "",
+      "help": "Need to configure and enable the \"Echo of War\" task",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
@@ -696,6 +727,10 @@
       "8": "8 Hours",
       "12": "12 Hours",
       "20": "20 Hours"
+    },
+    "Event": {
+      "name": "Complete Event Assignments First",
+      "help": ""
     },
     "Assignment": {
       "name": "Assign.",

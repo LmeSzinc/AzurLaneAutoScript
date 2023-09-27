@@ -26,6 +26,10 @@
       "name": "每日副本",
       "help": ""
     },
+    "Weekly": {
+      "name": "歷戰餘響",
+      "help": ""
+    },
     "DailyQuest": {
       "name": "每日任務",
       "help": ""
@@ -212,7 +216,7 @@
       "Calyx_Golden_Treasures": "材料：信用點（藏珍之蕾•擬造花萼金）",
       "Calyx_Crimson_Destruction": "行跡材料：毀滅（毀滅之蕾•擬造花萼赤）",
       "Calyx_Crimson_Preservation": "行跡材料：存護（存護之蕾•擬造花萼赤）",
-      "Calyx_Crimson_The_Hunt": "行跡材料：巡獵（存護之蕾•擬造花萼赤）",
+      "Calyx_Crimson_The_Hunt": "行跡材料：巡獵（巡獵之蕾•擬造花萼赤）",
       "Calyx_Crimson_Abundance": "行跡材料：豐饒（豐饒之蕾•擬造花萼赤）",
       "Calyx_Crimson_Erudition": "行跡材料：智識（智識之蕾•擬造花萼赤）",
       "Calyx_Crimson_Harmony": "行跡材料：同諧（同諧之蕾•擬造花萼赤）",
@@ -246,7 +250,7 @@
       "Calyx_Golden_Treasures": "材料：信用點（藏珍之蕾•擬造花萼金）",
       "Calyx_Crimson_Destruction": "行跡材料：毀滅（毀滅之蕾•擬造花萼赤）",
       "Calyx_Crimson_Preservation": "行跡材料：存護（存護之蕾•擬造花萼赤）",
-      "Calyx_Crimson_The_Hunt": "行跡材料：巡獵（存護之蕾•擬造花萼赤）",
+      "Calyx_Crimson_The_Hunt": "行跡材料：巡獵（巡獵之蕾•擬造花萼赤）",
       "Calyx_Crimson_Abundance": "行跡材料：豐饒（豐饒之蕾•擬造花萼赤）",
       "Calyx_Crimson_Erudition": "行跡材料：智識（智識之蕾•擬造花萼赤）",
       "Calyx_Crimson_Harmony": "行跡材料：同諧（同諧之蕾•擬造花萼赤）",
@@ -294,7 +298,7 @@
       "do_not_achieve": "不完成這個任務",
       "Calyx_Crimson_Destruction": "行跡材料：毀滅（毀滅之蕾•擬造花萼赤）",
       "Calyx_Crimson_Preservation": "行跡材料：存護（存護之蕾•擬造花萼赤）",
-      "Calyx_Crimson_The_Hunt": "行跡材料：巡獵（存護之蕾•擬造花萼赤）",
+      "Calyx_Crimson_The_Hunt": "行跡材料：巡獵（巡獵之蕾•擬造花萼赤）",
       "Calyx_Crimson_Abundance": "行跡材料：豐饒（豐饒之蕾•擬造花萼赤）",
       "Calyx_Crimson_Erudition": "行跡材料：智識（智識之蕾•擬造花萼赤）",
       "Calyx_Crimson_Harmony": "行跡材料：同諧（同諧之蕾•擬造花萼赤）",
@@ -394,9 +398,36 @@
       "name": "副本雙倍",
       "help": ""
     },
+    "EchoOfWar": {
+      "name": "歷戰餘響",
+      "help": ""
+    },
     "SimulatedUniverse": {
       "name": "模擬宇宙",
       "help": ""
+    }
+  },
+  "Weekly": {
+    "_info": {
+      "name": "歷戰餘響設定",
+      "help": "歷戰餘響每週次數耗儘後仍可繼續挑戰，不消耗體力不獲得獎勵但是可以完成每日任務"
+    },
+    "Name": {
+      "name": "副本名稱",
+      "help": "",
+      "Echo_of_War_Destruction_Beginning": "毀滅的開端•歷戰餘響 (太空站「黑塔」)",
+      "Echo_of_War_End_of_the_Eternal_Freeze": "寒潮的落幕•歷戰餘響 (雅利洛-Ⅵ)",
+      "Echo_of_War_Divine_Seed": "不死的神實•歷戰餘響 (仙舟「羅浮」)"
+    },
+    "Team": {
+      "name": "打本隊伍",
+      "help": "",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     }
   },
   "AchievableQuest": {
@@ -504,7 +535,7 @@
     },
     "Complete_Echo_of_War_1_times": {
       "name": "完成1次「歷戰餘響」",
-      "help": "",
+      "help": "需要設定並啟用\"歷戰餘響\"任務",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
@@ -696,6 +727,10 @@
       "8": "8小時",
       "12": "12小時",
       "20": "20小時"
+    },
+    "Event": {
+      "name": "有活動時優先做活動委託",
+      "help": ""
     },
     "Assignment": {
       "name": "委託",

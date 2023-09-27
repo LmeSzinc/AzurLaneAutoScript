@@ -428,7 +428,8 @@ class DungeonUI(UI):
         if dungeon.is_Calyx_Golden \
                 or dungeon.is_Calyx_Crimson \
                 or dungeon.is_Stagnant_Shadow \
-                or dungeon.is_Cavern_of_Corrosion:
+                or dungeon.is_Cavern_of_Corrosion \
+                or dungeon.is_Echo_of_War:
             self._dungeon_nav_goto(dungeon)
             self._dungeon_insight(dungeon)
             self._dungeon_enter(dungeon)

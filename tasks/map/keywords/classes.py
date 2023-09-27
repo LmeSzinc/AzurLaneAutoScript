@@ -107,3 +107,8 @@ class MapPlane(Keyword):
                 raise ScriptError(f'Plane {self} does not have floor name {floor}')
         else:
             raise ScriptError(f'Plane {self} does not have floor {floor}')
+
+
+@dataclass(repr=False)
+class MapWorld(Keyword):
+    instances: ClassVar = {}

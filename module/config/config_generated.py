@@ -58,7 +58,12 @@ class GeneratedConfig:
     # Group `DungeonStorage`
     DungeonStorage_TrailblazePower = {}
     DungeonStorage_DungeonDouble = {}
+    DungeonStorage_EchoOfWar = {}
     DungeonStorage_SimulatedUniverse = {}
+
+    # Group `Weekly`
+    Weekly_Name = 'Echo_of_War_Divine_Seed'  # Echo_of_War_Destruction_Beginning, Echo_of_War_End_of_the_Eternal_Freeze, Echo_of_War_Divine_Seed
+    Weekly_Team = 1  # 1, 2, 3, 4, 5, 6
 
     # Group `AchievableQuest`
     AchievableQuest_Complete_1_Daily_Mission = 'achievable'  # achievable, not_set, not_supported
@@ -101,6 +106,7 @@ class GeneratedConfig:
     Assignment_Name_3 = 'The_Invisible_Hand'  # Nine_Billion_Names, Destruction_of_the_Destroyer, Winter_Soldiers, Born_to_Obey, Root_Out_the_Turpitude, Fire_Lord_Inflames_Blades_of_War, Nameless_Land_Nameless_People, Akashic_Records, The_Invisible_Hand, Abandoned_and_Insulted, Spring_of_Life, The_Land_of_Gold, The_Blossom_in_the_Storm, Legend_of_the_Puppet_Master, The_Wages_of_Humanity
     Assignment_Name_4 = 'Nine_Billion_Names'  # Nine_Billion_Names, Destruction_of_the_Destroyer, Winter_Soldiers, Born_to_Obey, Root_Out_the_Turpitude, Fire_Lord_Inflames_Blades_of_War, Nameless_Land_Nameless_People, Akashic_Records, The_Invisible_Hand, Abandoned_and_Insulted, Spring_of_Life, The_Land_of_Gold, The_Blossom_in_the_Storm, Legend_of_the_Puppet_Master, The_Wages_of_Humanity
     Assignment_Duration = 20  # 4, 8, 12, 20
+    Assignment_Event = True
     Assignment_Assignment = {}
 
     # Group `ItemStorage`

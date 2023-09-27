@@ -28,6 +28,9 @@ Daily:
       - DungeonDaily
       - DungeonSupport
       - DungeonStorage
+    Weekly:
+      - Scheduler
+      - Weekly
     DailyQuest:
       - Scheduler
       - AchievableQuest
