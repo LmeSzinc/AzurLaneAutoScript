@@ -121,6 +121,10 @@ ASSIGNMENT_ENTRY_LIST = DraggableList(
     check_row_order=False,
     active_color=(40, 40, 40)
 )
+ASSIGNMENT_ENTRY_LIST.known_rows = [
+    kw for kc in ASSIGNMENT_ENTRY_LIST.keyword_class
+    for kw in kc.instances.values()
+]
 
 
 class AssignmentUI(UI):
