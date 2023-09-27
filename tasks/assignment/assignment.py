@@ -58,7 +58,8 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                                f'{", ".join([x.name for x in undispatched[remain:]])}')
             elif remain > len(undispatched):
                 self._dispatch_remain(duration, remain - len(undispatched))
-
+        # Refresh dashboard before return
+        _ = self._limit_status
         # Scheduler
         logger.attr('has_new_dispatch', self.has_new_dispatch)
         with self.config.multi_set():

@@ -24,10 +24,10 @@ ASSIGNMENT_STARTED_CHECK = ButtonWrapper(
     name='ASSIGNMENT_STARTED_CHECK',
     share=Button(
         file='./assets/share/assignment/dispatch/ASSIGNMENT_STARTED_CHECK.png',
-        area=(1174, 297, 1211, 514),
-        search=(1154, 277, 1231, 534),
-        color=(86, 81, 78),
-        button=(1174, 297, 1211, 514),
+        area=(542, 412, 1156, 422),
+        search=(522, 392, 1176, 442),
+        color=(232, 230, 226),
+        button=(542, 412, 1156, 422),
     ),
 )
 CHARACTER_1 = ButtonWrapper(
