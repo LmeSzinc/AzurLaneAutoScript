@@ -40,13 +40,14 @@ class Assignment(AssignmentClaim, SynthesizeUI):
             if isinstance(g, AssignmentEventGroup)
         ), None)
         if event_first and event_ongoing is not None:
+            undispatched = assignments
             remain = self._check_all()
             remain = self._dispatch_event(remain)
-            undispatched = [x for x in assignments if x not in self.dispatched]
         else:
             # Iterate in user-specified order, return undispatched ones
             undispatched = list(self._check_inlist(assignments, duration))
             remain = self._check_all()
+        undispatched = [x for x in undispatched if x not in self.dispatched]
         # There are unchecked assignments
         if remain > 0:
             for assignment in undispatched[:remain]:
@@ -100,6 +101,9 @@ class Assignment(AssignmentClaim, SynthesizeUI):
         for assignment in assignments:
             if assignment in self.dispatched:
                 continue
+            if remain <= 0:
+                yield assignment
+                continue
             logger.hr('Assignment inlist', level=2)
             logger.info(f'Check assignment inlist: {assignment}')
             self.goto_entry(assignment)
@@ -112,11 +116,8 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                     self._get_assignment_time()
                 continue
             # General assignments must be dispatchable here
-            if remain > 0:
-                self.dispatch(assignment, duration)
-                remain -= 1
-            else:
-                yield assignment
+            self.dispatch(assignment, duration)
+            remain -= 1
 
     def _check_all(self):
         """
@@ -127,8 +128,8 @@ class Assignment(AssignmentClaim, SynthesizeUI):
         Break when a dispatchable assignment is encountered
         """
         logger.hr('Assignment check all', level=1)
-        _, remain, total = self._limit_status
-        if total == len(self.dispatched):
+        current, remain, _ = self._limit_status
+        if current == len(self.dispatched):
             return remain
         for group in self._iter_groups():
             self.goto_group(group)
@@ -142,13 +143,14 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                 status = self._check_assignment_status()
                 if status == AssignmentStatus.CLAIMABLE:
                     self.claim(assignment, None, should_redispatch=False)
+                    current -= 1
                     remain += 1
                     insight = True  # Order of entries change after claiming
                     continue
                 if status == AssignmentStatus.DISPATCHED:
                     self.dispatched[assignment] = datetime.now() + \
                         self._get_assignment_time()
-                    if total == len(self.dispatched):
+                    if current == len(self.dispatched):
                         return remain
                     continue
                 break
