@@ -217,6 +217,7 @@ class AssignmentUI(UI):
     def _check_assignment_status(self) -> AssignmentStatus:
         skip_first_screenshot = True
         timeout = Timer(2, count=3).start()
+        ret = AssignmentStatus.LOCKED
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -229,12 +230,16 @@ class AssignmentUI(UI):
                 )
                 break
             if self.appear(CLAIM):
-                return AssignmentStatus.CLAIMABLE
+                ret = AssignmentStatus.CLAIMABLE
+                break
             if self.appear(DISPATCHED):
-                return AssignmentStatus.DISPATCHED
+                ret = AssignmentStatus.DISPATCHED
+                break
             if self.appear(EMPTY_SLOT):
-                return AssignmentStatus.DISPATCHABLE
-        return AssignmentStatus.LOCKED
+                ret = AssignmentStatus.DISPATCHABLE
+                break
+        logger.attr('AssignmentStatus', ret.name)
+        return ret
 
     def _get_assignment_time(self) -> timedelta:
         return Duration(OCR_ASSIGNMENT_TIME).ocr_single_line(self.device.image)
