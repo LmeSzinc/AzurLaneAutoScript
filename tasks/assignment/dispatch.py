@@ -187,6 +187,7 @@ class AssignmentDispatch(AssignmentUI):
             else:
                 self.device.screenshot()
             # End
-            if self.appear(ASSIGNMENT_STARTED_CHECK):
+            if not self.appear(ASSIGNMENT_START) and \
+                    self.match_template_color(ASSIGNMENT_STARTED_CHECK):
                 logger.info('Assignment started')
                 break
