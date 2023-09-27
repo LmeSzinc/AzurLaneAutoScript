@@ -152,6 +152,7 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                         self._get_assignment_time()
                     if current == len(self.dispatched):
                         return remain
+                    insight = False  # Order of entries does not change here
                     continue
                 break
         return remain
@@ -195,14 +196,13 @@ class Assignment(AssignmentClaim, SynthesizeUI):
             if not isinstance(group, AssignmentEventGroup):
                 continue
             self.goto_group(group)
-            insight = False
             for assignment in self._iter_entries():
                 if assignment in self.dispatched:
                     continue
                 logger.hr('Assignment event', level=2)
                 logger.info(f'Check assignment event: {assignment}')
-                self.goto_entry(assignment, insight)
-                insight = True
+                # Order of entries does not change during iteration
+                self.goto_entry(assignment, insight=False)
                 status = self._check_assignment_status()
                 # Should only be dispatchable or locked after _check_all
                 if status == AssignmentStatus.DISPATCHABLE:
