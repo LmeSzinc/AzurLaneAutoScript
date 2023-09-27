@@ -535,7 +535,7 @@
     },
     "Complete_Echo_of_War_1_times": {
       "name": "完成1次「历战余响」",
-      "help": "",
+      "help": "需要设置并启用\"历战余响\"任务",
       "achievable": "可完成",
       "not_set": "未设置",
       "not_supported": "暂未支持"

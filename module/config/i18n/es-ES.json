@@ -535,7 +535,7 @@
     },
     "Complete_Echo_of_War_1_times": {
       "name": "Completa Ecos de la guerra 1 vez",
-      "help": "",
+      "help": "Necesitas configurar y activar la tarea \"Ecos de la guerra\"",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"

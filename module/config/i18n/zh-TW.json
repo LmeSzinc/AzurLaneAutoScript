@@ -535,7 +535,7 @@
     },
     "Complete_Echo_of_War_1_times": {
       "name": "完成1次「歷戰餘響」",
-      "help": "",
+      "help": "需要設定並啟用\"歷戰餘響\"任務",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
