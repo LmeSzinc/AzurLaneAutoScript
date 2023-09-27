@@ -69,7 +69,10 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                 if KEYWORD_BATTLE_PASS_QUEST.Dispatch_1_assignments in quests:
                     logger.info(
                         'Achieved battle pass quest Dispatch_1_assignments')
-                    self.config.task_call('BattlePass')
+                    if self.config.stored.BattlePassLevel.is_full():
+                        logger.info('BattlePassLevel full, no task call')
+                    else:
+                        self.config.task_call('BattlePass')
             # Check daily
             quests = self.config.stored.DailyQuest.load_quests()
             if KEYWORDS_DAILY_QUEST.Go_on_assignment_1_time in quests:

@@ -229,7 +229,10 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
             quests = self.config.stored.BattlePassTodayQuest.load_quests()
             if KEYWORD_BATTLE_PASS_QUEST.Consume_1_Trailblaze_Power in quests:
                 logger.info('Probably achieved battle pass quest Consume_1_Trailblaze_Power')
-                self.config.task_call('BattlePass')
+                if self.config.stored.BattlePassLevel.is_full():
+                    logger.info('BattlePassLevel full, no task call')
+                else:
+                    self.config.task_call('BattlePass')
             # Check daily
             if self.achieved_daily_quest:
                 self.config.task_call('DailyQuest')
