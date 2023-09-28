@@ -44,7 +44,7 @@ class NewYearChallenge(MinigameRun):
             if self.deal_popup():
                 continue
             # entrance
-            if self.appear(NEW_YEAR_CHALLENGE_START, offset=(5, 5), interval=3):
+            if self.appear(NEW_YEAR_CHALLENGE_START, offset=(5, 5)):
                 break
             # GOTO_CHOOSE_GAME -> choose game
             if self.appear_then_click(GOTO_CHOOSE_GAME, offset=(5, 5), interval=3):
@@ -96,6 +96,7 @@ class NewYearChallenge(MinigameRun):
             # game rule introduction
             if self.appear(NEW_YEAR_CHALLENGE_START, offset=(5, 5), interval=3):
                 if started:
+                    self.interval_clear(NEW_YEAR_CHALLENGE_START)
                     break
                 else:
                     started = True
