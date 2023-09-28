@@ -58,10 +58,10 @@ ENTRY_LOADED = ButtonWrapper(
     name='ENTRY_LOADED',
     share=Button(
         file='./assets/share/assignment/ui/ENTRY_LOADED.png',
-        area=(467, 235, 498, 619),
-        search=(447, 215, 518, 639),
-        color=(217, 214, 205),
-        button=(467, 235, 498, 619),
+        area=(474, 161, 491, 615),
+        search=(454, 141, 511, 635),
+        color=(197, 193, 186),
+        button=(474, 161, 491, 615),
     ),
 )
 EXP_MATERIALS_CREDITS_CHECK = ButtonWrapper(
@@ -106,6 +106,23 @@ GROUP_SEARCH = ButtonWrapper(
         search=(91, 56, 855, 160),
         color=(82, 79, 77),
         button=(111, 76, 835, 140),
+    ),
+)
+LOCKED = ButtonWrapper(
+    name='LOCKED',
+    cn=Button(
+        file='./assets/cn/assignment/ui/LOCKED.png',
+        area=(752, 551, 793, 572),
+        search=(732, 531, 813, 592),
+        color=(122, 117, 110),
+        button=(752, 551, 793, 572),
+    ),
+    en=Button(
+        file='./assets/en/assignment/ui/LOCKED.png',
+        area=(760, 551, 839, 571),
+        search=(740, 531, 859, 591),
+        color=(107, 102, 93),
+        button=(760, 551, 839, 571),
     ),
 )
 OCR_ASSIGNMENT_ENTRY_LIST = ButtonWrapper(

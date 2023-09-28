@@ -196,8 +196,7 @@ class AssignmentUI(UI):
             if timeout.reached():
                 logger.warning('Wait entry loaded timeout')
                 break
-            # Maybe not reliable
-            if self.image_color_count(ENTRY_LOADED, (35, 35, 35)):
+            if self.image_color_count(ENTRY_LOADED, (35, 35, 35), count=800):
                 logger.info('Entry loaded')
                 break
 
@@ -225,7 +224,7 @@ class AssignmentUI(UI):
                 self.device.screenshot()
 
             if timeout.reached():
-                logger.info(
+                logger.warning(
                     'Check assignment status timeout, assume LOCKED'
                 )
                 break
@@ -237,6 +236,9 @@ class AssignmentUI(UI):
                 break
             if self.appear(EMPTY_SLOT):
                 ret = AssignmentStatus.DISPATCHABLE
+                break
+            if self.appear(LOCKED):
+                ret = AssignmentStatus.LOCKED
                 break
         logger.attr('AssignmentStatus', ret.name)
         return ret
