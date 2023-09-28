@@ -1,10 +1,9 @@
 from module.base.timer import Timer
 from module.logger import logger
 from module.minigame.assets import *
-from module.minigame.minigame import MinigameRun
+from module.minigame.minigame import MINIGAME_SCROLL, MinigameRun
 from module.ocr.ocr import Digit
 from module.ui.page import page_game_room
-from module.ui.scroll import Scroll
 
 OCR_GAME_NEW_YEAR_COIN_COST = Digit(NEW_YEAR_CHALLENGE_COIN_COST_HOLDER,
                                     name='OCR_GAME_NEW_YEAR_COIN_COST',
@@ -14,7 +13,6 @@ OCR_NEW_YEAR_BATTLE_SCORE = Digit(NEW_YEAR_CHALLENGE_SCORE_HOLDER,
                                   name='OCR_NEW_YEAR_BATTLE_SCORE',
                                   letter=(231, 215, 82),
                                   threshold=128)
-MINIGAME_SCROLL = Scroll(MINIGAME_SCROLL_AREA, color=(247, 247, 247), name='MINIGAME_SCROLL')
 
 
 class NewYearChallenge(MinigameRun):
@@ -48,6 +46,9 @@ class NewYearChallenge(MinigameRun):
             # entrance
             if self.appear(NEW_YEAR_CHALLENGE_START, offset=(5, 5), interval=3):
                 break
+            # GOTO_CHOOSE_GAME -> choose game
+            if self.appear_then_click(GOTO_CHOOSE_GAME, offset=(5, 5), interval=3):
+                continue
             # choose game
             if self.appear(NEW_YEAR_CHALLENGE_ENTRANCE, offset=(5, 5), interval=3):
                 self.device.click(NEW_YEAR_CHALLENGE_ENTRANCE)

@@ -4,13 +4,14 @@ from module.minigame.assets import *
 from module.ocr.ocr import Digit
 from module.ui.assets import GAME_ROOM_CHECK
 from module.ui.page import page_game_room
+from module.ui.scroll import Scroll
 from module.ui.ui import UI
 
 OCR_COIN = Digit(COIN_HOLDER,
                  name='OCR_COIN',
                  letter=(255, 235, 115),
                  threshold=128)
-
+MINIGAME_SCROLL = Scroll(MINIGAME_SCROLL_AREA, color=(247, 247, 247), name='MINIGAME_SCROLL')
 
 class MinigameRun(UI):
 
@@ -22,6 +23,9 @@ class MinigameRun(UI):
         Return:
             False if unable or unnecessary to play
         """
+        logger.hr('Minigame run', level=1)
+
+        logger.info("Enter minigame")
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -30,19 +34,17 @@ class MinigameRun(UI):
             # unable to get more ticket popup
             if self.deal_popup():
                 continue
-            if self.appear(GOTO_CHOOSE_GAME, offset=(5, 5), interval=3):
-                logger.info("Enter minigame")
-                self.device.click(GOTO_CHOOSE_GAME)
+            if self.appear_then_click(GOTO_CHOOSE_GAME, offset=(5, 5), interval=3):
                 continue
             if self.appear(GAME_ROOM_CHECK, offset=(5, 5)) \
-                    and not self.appear(GOTO_CHOOSE_GAME, offset=(5, 5)):
+                    and MINIGAME_SCROLL.appear(main=self):
                 break
         logger.info("Choose minigame")
         self.choose_game()
         # try to add coins, if failed, skip play
         add_coin_result = self.use_coin()
         if add_coin_result:
-            logger.info("Play minigame")
+            logger.hr("Play minigame", level=2)
             self.play_game()
         logger.info("Exit minigame")
         self.exit_game()
