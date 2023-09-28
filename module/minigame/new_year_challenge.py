@@ -80,8 +80,9 @@ class NewYearChallenge(MinigameRun):
             # a turn
             if self.appear(NEW_YEAR_CHALLENGE_CHOOSING, offset=(5, 5), interval=3):
                 # choose, click on clock to avoid be detected as "Too many click between 2 buttons"
-                self.device.click(NEW_YEAR_CHALLENGE_CHOOSING)
+                # self.device.click(NEW_YEAR_CHALLENGE_CHOOSING)
                 self.new_year_challenge_turn(skip_first_screenshot=False)
+                self.device.click_record_clear()
                 continue
             # wait to choose
             if score_ocr_interval.reached() and self.appear(NEW_YEAR_CHALLENGE_STOP_PLAY, offset=(5, 5)):
