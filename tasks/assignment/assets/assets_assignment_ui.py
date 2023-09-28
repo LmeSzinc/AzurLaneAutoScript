@@ -108,6 +108,23 @@ GROUP_SEARCH = ButtonWrapper(
         button=(111, 76, 835, 140),
     ),
 )
+LOCKED = ButtonWrapper(
+    name='LOCKED',
+    cn=Button(
+        file='./assets/cn/assignment/ui/LOCKED.png',
+        area=(752, 551, 793, 572),
+        search=(732, 531, 813, 592),
+        color=(122, 117, 110),
+        button=(752, 551, 793, 572),
+    ),
+    en=Button(
+        file='./assets/en/assignment/ui/LOCKED.png',
+        area=(760, 551, 839, 571),
+        search=(740, 531, 859, 591),
+        color=(107, 102, 93),
+        button=(760, 551, 839, 571),
+    ),
+)
 OCR_ASSIGNMENT_ENTRY_LIST = ButtonWrapper(
     name='OCR_ASSIGNMENT_ENTRY_LIST',
     share=Button(

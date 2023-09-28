@@ -224,7 +224,7 @@ class AssignmentUI(UI):
                 self.device.screenshot()
 
             if timeout.reached():
-                logger.info(
+                logger.warning(
                     'Check assignment status timeout, assume LOCKED'
                 )
                 break
@@ -236,6 +236,9 @@ class AssignmentUI(UI):
                 break
             if self.appear(EMPTY_SLOT):
                 ret = AssignmentStatus.DISPATCHABLE
+                break
+            if self.appear(LOCKED):
+                ret = AssignmentStatus.LOCKED
                 break
         logger.attr('AssignmentStatus', ret.name)
         return ret
