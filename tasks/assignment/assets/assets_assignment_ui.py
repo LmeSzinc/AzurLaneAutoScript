@@ -58,10 +58,10 @@ ENTRY_LOADED = ButtonWrapper(
     name='ENTRY_LOADED',
     share=Button(
         file='./assets/share/assignment/ui/ENTRY_LOADED.png',
-        area=(467, 235, 498, 619),
-        search=(447, 215, 518, 639),
-        color=(217, 214, 205),
-        button=(467, 235, 498, 619),
+        area=(474, 161, 491, 615),
+        search=(454, 141, 511, 635),
+        color=(197, 193, 186),
+        button=(474, 161, 491, 615),
     ),
 )
 EXP_MATERIALS_CREDITS_CHECK = ButtonWrapper(
