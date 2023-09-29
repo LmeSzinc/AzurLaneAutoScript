@@ -9392,6 +9392,28 @@
         "value": 16500
       }
     },
+    "ChangeShip": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "PushLua": {
+        "type": "checkbox",
+        "value": false
+      },
+      "TargetType": {
+        "type": "select",
+        "value": "BB",
+        "option": [
+          "CV",
+          "BB"
+        ]
+      },
+      "ShipData": {
+        "type": "textarea",
+        "value": "106021;1;6\n107041;1;6\n206011;1;6\n107011;1;6\n"
+      }
+    },
     "Storage": {
       "Storage": {
         "type": "storage",

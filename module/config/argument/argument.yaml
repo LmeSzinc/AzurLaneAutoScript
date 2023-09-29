@@ -727,6 +727,21 @@ PowerLimit:
   Exercise: 16500
   Raid: 16500
   Ash: 16500
+ChangeShip:
+  Enable: false
+  PushLua: false
+  TargetType:
+    value: BB
+    option:
+      - CV    #正航
+      - BB    #战列
+  ShipData:
+    type: textarea
+    value: |
+      106021;1;6
+      107041;1;6
+      206011;1;6
+      107011;1;6
 
 InfiniteDelay:
   Commission:

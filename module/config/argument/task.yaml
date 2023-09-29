@@ -341,6 +341,7 @@ Tool:
       - GameManager
       - GGHandler
       - PowerLimit
+      - ChangeShip
     SomethingSpecial:
       - InfiniteDelay
       - TurnOffForcedOnSettings

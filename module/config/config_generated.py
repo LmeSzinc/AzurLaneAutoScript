@@ -448,6 +448,12 @@ class GeneratedConfig:
     PowerLimit_Raid = 16500
     PowerLimit_Ash = 16500
 
+    # Group `ChangeShip`
+    ChangeShip_Enable = False
+    ChangeShip_PushLua = False
+    ChangeShip_TargetType = 'BB'  # CV, BB
+    ChangeShip_ShipData = '106021;1;6\n107041;1;6\n206011;1;6\n107011;1;6\n'
+
     # Group `InfiniteDelay`
     InfiniteDelay_Commission = False
     InfiniteDelay_Research = False

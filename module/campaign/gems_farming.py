@@ -1,4 +1,5 @@
 from module.campaign.campaign_base import CampaignBase
+from module.campaign.assets import REMOVE_SHIP
 from module.campaign.run import CampaignRun
 from module.combat.assets import BATTLE_PREPARATION
 from module.equipment.assets import *
@@ -14,6 +15,7 @@ from module.retire.dock import Dock
 from module.retire.scanner import ShipScanner
 from module.ui.page import page_fleet, page_event
 from module.ui.assets import BACK_ARROW
+from module.config.config import deep_get
 import inflection
 
 SIM_VALUE = 0.95
@@ -142,7 +144,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             from module.retire.retirement import Retirement
             if Retirement(config=self.config, device=self.device).handle_retirement():
                 continue
-            if self.appear(button=FLEET_PREPARATION, offset=(50,50)):
+            if self.appear(button=FLEET_PREPARATION, offset=(50, 50)):
                 return
         from module.exception import RequestHumanTakeover
         raise RequestHumanTakeover
@@ -332,8 +334,20 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         """
         self.ui_click(self.FLEET_ENTER_FLAGSHIP,
                       appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
-        self.dock_filter_set(
-            index='cv', rarity='common', extra='enhanceable', sort='total')
+        self.wait_until_appear_then_click(REMOVE_SHIP)
+
+        self._fleet_detail_enter()
+        self.ui_click(self.FLEET_ENTER_FLAGSHIP,
+                      appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
+        if deep_get(self.config.data, "GameManager.ChangeShip.Enable") \
+                and deep_get(self.config.data, "GemsFarming.Campaign.Name").upper() in ["C1", "C2", "C3", "D1",
+                                                                                        "D2", "D3"]:
+            self.dock_filter_set(
+                index=deep_get(self.config.data, "GameManager.ChangeShip.TargetType").lower(), rarity='common',
+                extra='enhanceable', sort='total')
+        else:
+            self.dock_filter_set(
+                index='cv', rarity='common', extra='enhanceable', sort='total')
         self.dock_favourite_set(False)
 
         ship = self.get_common_rarity_cv()
