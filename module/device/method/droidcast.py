@@ -156,7 +156,7 @@ class DroidCast(Uiautomator2):
         self.droidcast_stop()
 
         logger.info('Pushing DroidCast apk')
-        self.adb_push(self.config.DROIDCAST_RAW_FILEPATH_LOCAL, self.config.DROIDCAST_RAW_FILEPATH_REMOTE)
+        self.adb_push(self.config.DROIDCAST_FILEPATH_LOCAL, self.config.DROIDCAST_FILEPATH_REMOTE)
 
         logger.info('Starting DroidCast apk')
         # DroidCastS-release-1.1.5.apk
