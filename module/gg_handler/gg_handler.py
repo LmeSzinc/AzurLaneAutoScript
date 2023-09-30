@@ -219,6 +219,9 @@ class GGHandler:
             'disable_exercise'
             'enable_all'
         """
+        _disabled = [
+            'minigame'
+        ]
         _group_exercise = [
             'exercise'
         ]
@@ -270,19 +273,19 @@ class GGHandler:
         # Handle ignorance
 
         if _disabled_task == 'disable_meta_and_exercise':
-            _disabled = _group_exercise + _group_meta
+            _disabled += _group_exercise + _group_meta
             _enabled = _group_enabled + _group_raid + _group_personal_choice
         elif _disabled_task == 'disable_exercise':
-            _disabled = _group_exercise
+            _disabled += _group_exercise
             _enabled = _group_enabled + _group_personal_choice + _group_raid + _group_meta
         elif _disabled_task == 'enable_all':
             _enabled = _group_enabled + _group_personal_choice + _group_raid + _group_meta + _group_exercise
-            _disabled = []
+            # _disabled = []
         elif _disabled_task == 'disable_guild_and_dangerous':
-            _disabled = _group_exercise + _group_meta + _group_raid + _group_personal_choice
+            _disabled += _group_exercise + _group_meta + _group_raid + _group_personal_choice
             _enabled = _group_enabled
         else:  # _disabled_task == 'disable_all_dangerous_task':
-            _disabled = _group_exercise + _group_meta + _group_raid
+            _disabled += _group_exercise + _group_meta + _group_raid
             _enabled = _group_enabled + _group_personal_choice
 
         if task in _disabled:
