@@ -84,8 +84,9 @@ class ConnectionAttr:
         except ValueError:
             pass
         # 夜神模拟器 127.0.0.1:62001
+        # MuMu模拟器12127.0.0.1:16384
         if '模拟' in serial:
-            res = re.search(r'(\d+\.\d+\.\d+\.\d+:\d+)', serial)
+            res = re.search(r'(127\.\d+\.\d+\.\d+:\d+)', serial)
             if res:
                 serial = res.group(1)
         return str(serial)
