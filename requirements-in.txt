@@ -20,7 +20,7 @@ jellyfish
 pyyaml
 inflection
 prettytable==2.2.1
-pydantic
+pydantic>=2.4
 
 # OCR
 pponnxcr==2.0
