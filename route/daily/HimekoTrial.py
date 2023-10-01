@@ -42,14 +42,17 @@ class Route(RouteBase, Combat, CharacterTrial):
         self.wait_next_skill()
         # Herta A, or Natasha A, depends on who wasn't being attacked
         self.use_A()
-        self.wait_next_skill()
+        if not self.wait_next_skill():
+            return
         # Natasha A, this will also cause weakness break
         # To achieve In_a_single_battle_inflict_3_Weakness_Break_of_different_Types
         self.use_A()
-        self.wait_next_skill()
+        if not self.wait_next_skill():
+            return
         # Just whoever user A, in case Himeko Q didn't kill it, usually to be Herta
         self.use_A()
-        self.wait_next_skill()
+        if not self.wait_next_skill():
+            return
         # Himeko Q
         # To achieve Use_an_Ultimate_to_deal_the_final_blow_1_time
         # May kill the enemy
