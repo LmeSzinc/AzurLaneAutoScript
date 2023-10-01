@@ -105,6 +105,7 @@ class DroidCast(Uiautomator2):
             self._droidcast_port = self.adb_forward('tcp:53516')
         except AdbError as e:
             # AdbError()
+            logger.error(e)
             if not str(e):
                 self.adb_reconnect()
         return session
