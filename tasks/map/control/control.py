@@ -377,11 +377,15 @@ if __name__ == '__main__':
     self.clear_item(
         Waypoint((587.6, 366.9)).run_2x(),
     )
-    self.clear_item((575.5, 377.4))
+    self.clear_item(
+        Waypoint((575.5, 377.4)).straight_run(),
+    )
     self.clear_item(
         # Go through arched door
-        Waypoint((581.5, 383.3)).run().set_threshold(3),
-        Waypoint((575.7, 417.2)).run(),
+        Waypoint((581.5, 383.3)).set_threshold(3),
+        Waypoint((575.7, 417.2)),
     )
     # Goto boss
-    self.clear_enemy((613.5, 427.3))
+    self.clear_enemy(
+        Waypoint((613.5, 427.3)).straight_run(),
+    )

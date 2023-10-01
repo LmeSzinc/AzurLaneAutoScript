@@ -276,7 +276,13 @@ class UI( MainPage):
                     continue
 
     def is_in_main(self):
-        return self.appear(page_main.check_button) or self.appear(MAP_EXIT)
+        if self.appear(page_main.check_button):
+            if self.image_color_count(page_main.check_button, color=(235, 235, 235), threshold=221, count=400):
+                return True
+        if self.appear(MAP_EXIT):
+            if self.image_color_count(MAP_EXIT, color=(235, 235, 235), threshold=221, count=50):
+                return True
+        return False
 
     def ui_goto_main(self):
         return self.ui_ensure(destination=page_main)

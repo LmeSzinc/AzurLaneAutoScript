@@ -15,7 +15,7 @@ class Waypoint:
     endpoint_threshold: int = 3
     # Max move speed, 'run_2x', 'straight_run', 'run', 'walk'
     # See MapControl._goto() for details of each speed level
-    speed: str = 'straight_run'
+    speed: str = 'run'
 
     """
     The following attributes are only be used if this waypoint is the end point of goto()

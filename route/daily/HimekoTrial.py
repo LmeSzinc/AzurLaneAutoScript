@@ -42,14 +42,17 @@ class Route(RouteBase, Combat, CharacterTrial):
         self.wait_next_skill()
         # Herta A, or Natasha A, depends on who wasn't being attacked
         self.use_A()
-        self.wait_next_skill()
+        if not self.wait_next_skill():
+            return
         # Natasha A, this will also cause weakness break
         # To achieve In_a_single_battle_inflict_3_Weakness_Break_of_different_Types
         self.use_A()
-        self.wait_next_skill()
+        if not self.wait_next_skill():
+            return
         # Just whoever user A, in case Himeko Q didn't kill it, usually to be Herta
         self.use_A()
-        self.wait_next_skill()
+        if not self.wait_next_skill():
+            return
         # Himeko Q
         # To achieve Use_an_Ultimate_to_deal_the_final_blow_1_time
         # May kill the enemy
@@ -83,16 +86,16 @@ class Route(RouteBase, Combat, CharacterTrial):
             Waypoint((587.6, 366.9)).run_2x(),
         )
         self.clear_item(
-            Waypoint((575.5, 377.4)),
+            Waypoint((575.5, 377.4)).straight_run(),
         )
         self.clear_item(
             # Go through arched door
-            Waypoint((581.5, 383.3)).run().set_threshold(3),
-            Waypoint((575.7, 417.2)).run(),
+            Waypoint((581.5, 383.3)).set_threshold(3),
+            Waypoint((575.7, 417.2)),
         )
         # Goto boss
         self.clear_enemy(
-            Waypoint((613.5, 427.3)),
+            Waypoint((613.5, 427.3)).straight_run(),
         )
 
     def route_item(self):
@@ -104,12 +107,12 @@ class Route(RouteBase, Combat, CharacterTrial):
             Waypoint((587.6, 366.9)).run_2x(),
         )
         self.clear_item(
-            Waypoint((575.5, 377.4)),
+            Waypoint((575.5, 377.4)).straight_run(),
         )
         self.clear_item(
             # Go through arched door
-            Waypoint((581.5, 383.3)).run().set_threshold(3),
-            Waypoint((575.7, 417.2)).run(),
+            Waypoint((581.5, 383.3)).set_threshold(3),
+            Waypoint((575.7, 417.2)),
         )
         # Exit
         self.exit_trial()
@@ -121,11 +124,11 @@ class Route(RouteBase, Combat, CharacterTrial):
         # Goto boss
         self.clear_enemy(
             # Before the corner, turn right
-            Waypoint((571.7, 371.3)).run(),
+            Waypoint((571.7, 371.3)),
             # Go through arched door
-            Waypoint((581.5, 383.3)).run(),
+            Waypoint((581.5, 383.3)),
             # Boss
-            Waypoint((613.5, 427.3)),
+            Waypoint((613.5, 427.3)).straight_run(),
         )
 
     def exit(self):
