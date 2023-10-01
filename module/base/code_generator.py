@@ -38,18 +38,18 @@ class CodeGenerator:
         self.tab_count = 0
         self.lines = []
 
-    def generate(self) -> t.Iterable[str]:
-        yield ''
-
     def add(self, line, comment=False, newline=True):
         self.lines.append(self._line_with_tabs(line, comment=comment, newline=newline))
 
+    def generate(self):
+        return ''.join(self.lines)
+
     def print(self):
-        lines = ''.join(self.lines)
+        lines = self.generate()
         print(lines)
 
     def write(self, file: str = None):
-        lines = ''.join(self.lines)
+        lines = self.generate()
         with open(file, 'w', encoding='utf-8', newline='') as f:
             f.write(lines)
 
@@ -78,6 +78,9 @@ class CodeGenerator:
 
     def Empty(self):
         self.add('')
+
+    def Pass(self):
+        self.add('pass')
 
     def Import(self, text, empty=2):
         for line in text.strip().split('\n'):
@@ -117,7 +120,7 @@ class CodeGenerator:
         if key is not None:
             return TabWrapper(self, prefix=str(key) + ' = [', suffix=']')
         else:
-            return TabWrapper(self, prefix='[', suffix=']', newline=False)
+            return TabWrapper(self, prefix='[', suffix=']')
 
     def ListItem(self, value):
         if isinstance(value, TabWrapper):
@@ -131,7 +134,7 @@ class CodeGenerator:
         if key is not None:
             return TabWrapper(self, prefix=str(key) + ' = {', suffix='}')
         else:
-            return TabWrapper(self, prefix='{', suffix='}', newline=False)
+            return TabWrapper(self, prefix='{', suffix='}')
 
     def DictItem(self, key=None, value=None):
         if isinstance(value, TabWrapper):
@@ -147,7 +150,7 @@ class CodeGenerator:
         if key is not None:
             return TabWrapper(self, prefix=f'{key} = {object_class}(', suffix=')')
         else:
-            return TabWrapper(self, prefix=f'{object_class}(', suffix=')', newline=False)
+            return TabWrapper(self, prefix=f'{object_class}(', suffix=')')
 
     def ObjectAttr(self, key=None, value=None):
         if isinstance(value, TabWrapper):
@@ -179,3 +182,33 @@ Value = generator.Value
 Comment = generator.Comment
 Dict = generator.Dict
 DictItem = generator.DictItem
+
+
+class MarkdownGenerator:
+    def __init__(self, column: t.List[str]):
+        self.rows = [column]
+
+    def add_row(self, row):
+        self.rows.append([str(ele) for ele in row])
+
+    def product_line(self, row, max_width):
+        row = [ele.ljust(width) for ele, width in zip(row, max_width)]
+        row = ' | '.join(row)
+        row = '| ' + row + ' |'
+        return row
+
+    def generate(self) -> t.List[str]:
+        import numpy as np
+        width = np.array([
+            [len(ele) for ele in row] for row in self.rows
+        ])
+        max_width = np.max(width, axis=0)
+        dash = ['-' * width for width in max_width]
+
+        rows = [
+                   self.product_line(self.rows[0], max_width),
+                   self.product_line(dash, max_width),
+               ] + [
+                   self.product_line(row, max_width) for row in self.rows[1:]
+               ]
+        return rows
