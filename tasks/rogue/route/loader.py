@@ -72,11 +72,11 @@ class RouteLoader(RouteLoader_, MainPage):
         visited = []
         for route in self.all_route:
             if plane.rogue_domain and plane.rogue_domain != route.domain:
-                if plane.rogue_domain == 'Transaction' and route.is_DomainOccurrence:
-                    # Treat "Transaction" as "Occurrence"
+                if plane.rogue_domain in ['Encounter', 'Transaction'] and route.is_DomainOccurrence:
+                    # Treat as "Occurrence"
                     pass
-                elif plane.rogue_domain == 'Encounter' and route.is_DomainOccurrence:
-                    # Treat "Encounter" as "Occurrence"
+                if plane.rogue_domain in ['Boss'] and route.is_DomainElite:
+                    # Treat as "Elite"
                     pass
                 else:
                     continue

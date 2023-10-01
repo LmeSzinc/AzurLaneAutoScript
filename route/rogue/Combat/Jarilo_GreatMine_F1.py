@@ -77,6 +77,41 @@ class Route(RouteBase):
             enemy4.straight_run(),
         )
 
+    def Jarilo_GreatMine_F1_X485Y450(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((485.4, 450.4)), | 177.8     | 172      |
+        | item1    | Waypoint((478.8, 484.8)), | 199.8     | 193      |
+        | item2    | Waypoint((488.4, 522.0)), | 175.8     | 170      |
+        | enemy3   | Waypoint((465.3, 531.1)), | 92.8      | 232      |
+        | enemy5   | Waypoint((546.2, 514.0)), | 45.8      | 225      |
+        | enemy4   | Waypoint((512.2, 548.2)), | 59.1      | 59       |
+        | item3    | Waypoint((460.3, 570.3)), | 193.0     | 188      |
+        | node4    | Waypoint((480.3, 575.6)), | 105.5     | 101      |
+        | exit     | Waypoint((549.0, 515.6)), | 112.7     | 15       |
+        """
+        self.map_init(plane=Jarilo_GreatMine, floor="F1", position=(485.4, 450.4))
+        self.register_domain_exit(Waypoint((549.0, 515.6)), end_rotation=15)
+        item1 = Waypoint((478.8, 484.8))
+        item2 = Waypoint((488.4, 522.0))
+        enemy3 = Waypoint((465.3, 531.1))
+        enemy5 = Waypoint((546.2, 514.0))
+        enemy4 = Waypoint((512.2, 548.2))
+        item3 = Waypoint((460.3, 570.3))
+        node4 = Waypoint((480.3, 575.6))
+        # ===== End of generated waypoints =====
+
+        self.clear_item(item1)
+        self.clear_item(item2)
+        self.clear_enemy(enemy3.straight_run())
+        self.clear_item(item3.straight_run())
+        self.clear_enemy(
+            node4.straight_run(),
+            enemy4.straight_run(),
+        )
+        self.clear_enemy(enemy5.straight_run())
+
     def Jarilo_GreatMine_F1_X545Y513(self):
         """
         | Waypoint | Position                  | Direction | Rotation |
@@ -122,3 +157,21 @@ class Route(RouteBase):
         self.clear_enemy(
             enemy3.straight_run(),
         )
+
+    def Jarilo_GreatMine_F1_X84Y378(self):
+        """
+        | Waypoint | Position                 | Direction | Rotation |
+        | -------- | ------------------------ | --------- | -------- |
+        | spawn    | Waypoint((84.4, 378.7)), | 334.8     | 331      |
+        | item     | Waypoint((60.2, 358.5)), | 319.8     | 308      |
+        | enemy    | Waypoint((56.2, 330.8)), | 340.7     | 149      |
+        | exit     | Waypoint((57.4, 329.5)), | 22.8      | 334      |
+        """
+        self.map_init(plane=Jarilo_GreatMine, floor="F1", position=(84.4, 378.7))
+        self.register_domain_exit(Waypoint((57.4, 329.5)), end_rotation=334)
+        item = Waypoint((60.2, 358.5))
+        enemy = Waypoint((56.2, 330.8))
+        # ===== End of generated waypoints =====
+
+        self.clear_item(item)
+        self.clear_enemy(enemy)
