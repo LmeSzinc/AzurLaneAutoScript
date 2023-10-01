@@ -955,6 +955,10 @@
       "name": "Fleet 1 All Oath",
       "help": "+10/hr emotion recovery is included into calculation"
     },
+    "Fleet1Spas": {
+      "name": "Fleet 1 All Spas",
+      "help": "+10/hr emotion recovery is included into calculation"
+    },
     "Fleet2Value": {
       "name": "Fleet 2 Emotion Value",
       "help": ""
@@ -980,6 +984,10 @@
     },
     "Fleet2Oath": {
       "name": "Fleet 2 All Oath",
+      "help": "+10/hr emotion recovery is included into calculation"
+    },
+    "Fleet2Spas": {
+      "name": "Fleet 2 All Spas",
       "help": "+10/hr emotion recovery is included into calculation"
     }
   },

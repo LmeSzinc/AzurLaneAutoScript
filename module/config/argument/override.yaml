@@ -173,6 +173,7 @@ Raid:
     Fleet2Control: prevent_yellow_face
     Fleet2Recover: not_in_dormitory
     Fleet2Oath: false
+    Fleet2Spas: false
 RaidDaily:
   Scheduler:
     SuccessInterval: 30
@@ -200,6 +201,7 @@ RaidDaily:
     Fleet2Control: prevent_yellow_face
     Fleet2Recover: not_in_dormitory
     Fleet2Oath: false
+    Fleet2Spas: false
 MaritimeEscort:
   Scheduler:
     SuccessInterval: 30
@@ -230,6 +232,7 @@ Coalition:
     Fleet2Control: prevent_yellow_face
     Fleet2Recover: not_in_dormitory
     Fleet2Oath: false
+    Fleet2Spas: false
 CoalitionSp:
   Scheduler:
     SuccessInterval: 30
@@ -256,6 +259,7 @@ CoalitionSp:
     Fleet2Control: prevent_yellow_face
     Fleet2Recover: not_in_dormitory
     Fleet2Oath: false
+    Fleet2Spas: false
 
 # ==================== Reward ====================
 

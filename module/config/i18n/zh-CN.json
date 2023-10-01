@@ -955,6 +955,10 @@
       "name": "一队全员已婚 (+10/h)",
       "help": ""
     },
+    "Fleet1Spas": {
+      "name": "一队全员放置温泉 (+10/h)",
+      "help": ""
+    },
     "Fleet2Value": {
       "name": "二队心情值",
       "help": ""
@@ -980,6 +984,10 @@
     },
     "Fleet2Oath": {
       "name": "二队全员已婚 (+10/h)",
+      "help": ""
+    },
+    "Fleet2Spas": {
+      "name": "二队全员放置温泉 (+10/h)",
       "help": ""
     }
   },

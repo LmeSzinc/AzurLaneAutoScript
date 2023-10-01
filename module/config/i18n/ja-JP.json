@@ -955,6 +955,10 @@
       "name": "Emotion.Fleet1Oath.name",
       "help": "Emotion.Fleet1Oath.help"
     },
+    "Fleet1Spas": {
+      "name": "Emotion.Fleet1Spas.name",
+      "help": "Emotion.Fleet1Spas.help"
+    },
     "Fleet2Value": {
       "name": "Emotion.Fleet2Value.name",
       "help": "Emotion.Fleet2Value.help"
@@ -981,6 +985,10 @@
     "Fleet2Oath": {
       "name": "Emotion.Fleet2Oath.name",
       "help": "Emotion.Fleet2Oath.help"
+    },
+    "Fleet2Spas": {
+      "name": "Emotion.Fleet2Spas.name",
+      "help": "Emotion.Fleet2Spas.help"
     }
   },
   "HpControl": {
