@@ -88,19 +88,19 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             self.execute(exe)
         elif instance == Emulator.MuMuPlayerX:
             # NemuPlayer.exe -m nemu-12.0-x64-default
-            self.execute(f'{exe} -m {instance.name}')
+            self.execute(f'"{exe}" -m {instance.name}')
         elif instance == Emulator.MuMuPlayer12:
             # MuMuPlayer.exe -v 0
-            self.execute(f'{exe} -v {instance.MuMuPlayer12_id}')
+            self.execute(f'"{exe}" -v {instance.MuMuPlayer12_id}')
         elif instance == Emulator.NoxPlayerFamily:
             # Nox.exe -clone:Nox_1
-            self.execute(f'{exe} -clone:{instance.name}')
+            self.execute(f'"{exe}" -clone:{instance.name}')
         elif instance == Emulator.BlueStacks5:
             # HD-Player.exe -instance Pie64
-            self.execute(f'{exe} -instance {instance.name}')
+            self.execute(f'"{exe}" -instance {instance.name}')
         elif instance == Emulator.BlueStacks4:
             # BlueStacks\Client\Bluestacks.exe -vmname Android_1
-            self.execute(f'{exe} -vmname {instance.name}')
+            self.execute(f'"{exe}" -vmname {instance.name}')
         else:
             raise EmulatorUnknown(f'Cannot start an unknown emulator instance: {instance}')
 
@@ -152,7 +152,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             # "C:\Program Files\MuMuVMMVbox\Hypervisor\MuMuVMMSVC.exe" --Embedding
         elif instance == Emulator.NoxPlayerFamily:
             # Nox.exe -clone:Nox_1 -quit
-            self.execute(f'{exe} -clone:{instance.name} -quit')
+            self.execute(f'"{exe}" -clone:{instance.name} -quit')
         else:
             raise EmulatorUnknown(f'Cannot stop an unknown emulator instance: {instance}')
 
