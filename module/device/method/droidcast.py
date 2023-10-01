@@ -44,10 +44,11 @@ def retry(func):
                     self.adb_reconnect()
             # AdbError
             except AdbError as e:
-                logger.error(e)
-                
-                def init():
-                    self.adb_reconnect()
+                if handle_adb_error(e):
+                    def init():
+                        self.adb_reconnect()
+                else:
+                    break
             # Package not installed
             except PackageNotInstalled as e:
                 logger.error(e)
@@ -99,7 +100,13 @@ class DroidCast(Uiautomator2):
     def droidcast_session(self):
         session = requests.Session()
         session.trust_env = False  # Ignore proxy
-        self._droidcast_port = self.adb_forward('tcp:53516')
+        try:
+            # if adb is not found but use adb forward, will expect an AdbError()
+            self._droidcast_port = self.adb_forward('tcp:53516')
+        except AdbError as e:
+            # AdbError()
+            if not str(e):
+                self.adb_reconnect()
         return session
 
     """
