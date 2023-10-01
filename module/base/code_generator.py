@@ -33,6 +33,16 @@ class TabWrapper:
         self.suffix += suffix
 
 
+class VariableWrapper:
+    def __init__(self, name):
+        self.name = name
+
+    def __repr__(self):
+        return str(self.name)
+
+    __str__ = __repr__
+
+
 class CodeGenerator:
     def __init__(self):
         self.tab_count = 0
@@ -77,7 +87,7 @@ class CodeGenerator:
         return TabWrapper(self)
 
     def Empty(self):
-        self.add('')
+        self.lines.append('\n')
 
     def Pass(self):
         self.add('pass')
@@ -88,6 +98,9 @@ class CodeGenerator:
             self.add(line)
         for _ in range(empty):
             self.Empty()
+
+    def Variable(self, name):
+        return VariableWrapper(name)
 
     def Value(self, key=None, value=None, type_=None, **kwargs):
         if key is not None:

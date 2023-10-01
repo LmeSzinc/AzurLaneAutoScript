@@ -248,33 +248,11 @@ class RouteDetect:
 
             __str__ = __repr__
 
-        def filter_waypoints(name: str):
-            return lambda x: x.waypoint.startswith(name)
-
-        def clear_elite():
-            with gen.Object('self.clear_elite'):
-                for w in waypoints.filter(filter_waypoints('enemy')):
-                    gen.ObjectAttr(value=WaypointRepr(w))
-
-        def clear_item():
-            with gen.Object('self.clear_item'):
-                for w in waypoints.filter(filter_waypoints('item')):
-                    gen.ObjectAttr(value=WaypointRepr(w))
-
-        def clear_event():
-            with gen.Object('self.clear_event'):
-                for w in waypoints.filter(filter_waypoints('event')):
-                    gen.ObjectAttr(value=WaypointRepr(w))
-
-        def domain_reward():
-            with gen.Object('self.domain_reward'):
-                for w in waypoints.filter(filter_waypoints('reward')):
-                    gen.ObjectAttr(value=WaypointRepr(w))
-
-        def domain_herta():
-            with gen.Object('self.domain_herta'):
-                for w in waypoints.filter(filter_waypoints('herta')):
-                    gen.ObjectAttr(value=WaypointRepr(w))
+        def call(func, name):
+            ws = waypoints.filter(lambda x: x.waypoint.startswith(name)).get('waypoint')
+            ws = ['exit_' if w == 'exit' else w for w in ws]
+            ws = ', '.join(ws)
+            gen.add(f'self.{func}({ws})')
 
         with gen.tab():
             with gen.Def(name=spawn.route, args='self'):
@@ -297,26 +275,33 @@ class RouteDetect:
                     pass
                 else:
                     gen.add(f'self.register_domain_exit({WaypointRepr(exit_)}, end_rotation={exit_.rotation})')
+                # Waypoint attributes
+                for waypoint in waypoints:
+                    if waypoint.is_spawn:
+                        continue
+                    if waypoint.is_exit and not (spawn.is_DomainBoss or spawn.is_DomainElite or spawn.is_DomainRespite):
+                        continue
+                    name = waypoint.waypoint
+                    if name == 'exit':
+                        name = 'exit_'
+                    gen.Value(key=name, value=WaypointRepr(waypoint))
 
                 # Domain specific
                 if spawn.is_DomainBoss or spawn.is_DomainElite:
                     gen.Empty()
-                    clear_elite()
-                    domain_reward()
+                    call('clear_elite', 'enemy')
+                    call('domain_reward', 'reward')
                 if spawn.is_DomainRespite:
                     gen.Empty()
-                    clear_item()
-                    domain_herta()
+                    call('clear_item', 'item')
+                    call('domain_herta', 'herta')
                 if spawn.is_DomainOccurrence or spawn.is_DomainTransaction:
                     gen.Empty()
-                    clear_item()
-                    clear_event()
+                    call('clear_item', 'item')
+                    call('clear_event', 'event')
                 if spawn.is_DomainBoss or spawn.is_DomainElite or spawn.is_DomainRespite:
                     # Domain has only 1 exit
-                    with gen.Object('self.domain_single_exit'):
-                        gen.ObjectAttr(value=WaypointRepr(exit_))
-                        # Single exit does not need end_rotation
-                        # gen.ObjectAttr(key='end_rotation', value=exit_.rotation)
+                    call('domain_single_exit', 'exit')
 
                 gen.Comment(self.GEN_END)
 
@@ -442,3 +427,5 @@ if __name__ == '__main__':
     self.predict()
     self.write()
     self.insert('./route/rogue', base='tasks.rogue.route.base')
+
+    rogue_extract('./route/rogue')
