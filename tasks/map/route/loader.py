@@ -5,7 +5,12 @@ from module.base.decorator import del_cached_property
 from module.exception import ScriptError
 from module.logger import logger
 from tasks.base.ui import UI
-from tasks.map.route.base import RouteBase, RouteData
+from tasks.map.route.base import RouteBase
+from tasks.map.route.model import RouteModel
+
+
+def empty_function(*arg, **kwargs):
+    return False
 
 
 class RouteLoader(UI):
@@ -18,14 +23,14 @@ class RouteLoader(UI):
         self.route_module = ''
         self.route_func = ''
 
-    def route_run(self, route: RouteData | str):
+    def route_run(self, route: RouteModel | str):
         """
         Args:
             route: .py module path such as `route.daily.ForgottenHallStage1:route`
                 which will load `./route/daily/ForgottenHallStage1.py` and run `Route.route()`
         """
         logger.hr('Route run', level=1)
-        if isinstance(route, RouteData):
+        if isinstance(route, RouteModel):
             route = route.route
         logger.attr('Route', route)
         try:
@@ -58,7 +63,14 @@ class RouteLoader(UI):
                 raise ScriptError
             self.route_module = module
 
-        # Get route func
+        # before_route()
+        try:
+            before_func_obj = self.route_obj.__getattribute__('before_route')
+        except AttributeError:
+            before_func_obj = empty_function
+        before_func_obj()
+
+        # Run route
         try:
             func_obj = self.route_obj.__getattribute__(func)
         except AttributeError as e:
@@ -66,6 +78,11 @@ class RouteLoader(UI):
             logger.critical(f'Route class in {route} ({path}) does not have method {func}')
             raise ScriptError
         self.route_func = func
-
-        # Run
         func_obj()
+
+        # after_route()
+        try:
+            after_route_obj = self.route_obj.__getattribute__('after_route')
+        except AttributeError:
+            after_route_obj = empty_function
+        after_route_obj()

@@ -108,6 +108,13 @@ class MapPlane(Keyword):
         else:
             raise ScriptError(f'Plane {self} does not have floor {floor}')
 
+    @cached_property
+    def rogue_domain(self) -> str:
+        if self.name.startswith('Rogue_Domain'):
+            return self.name.removeprefix('Rogue_Domain')
+        else:
+            return ''
+
 
 @dataclass(repr=False)
 class MapWorld(Keyword):

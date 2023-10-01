@@ -1,17 +1,6 @@
-from dataclasses import dataclass
-
 from tasks.map.control.control import MapControl
 from tasks.map.control.waypoint import Waypoint
 from tasks.map.keywords import MapPlane
-
-
-@dataclass
-class RouteData:
-    name: str
-    route: str
-    plane: str
-    floor: str = 'F1'
-    position: tuple = None
 
 
 class RouteBase(MapControl):
@@ -59,3 +48,9 @@ class RouteBase(MapControl):
         self.minimap.set_plane(plane, floor=floor)
         if position is not None:
             self.minimap.init_position(position)
+
+    def before_route(self):
+        pass
+
+    def after_route(self):
+        pass
