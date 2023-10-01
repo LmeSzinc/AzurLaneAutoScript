@@ -50,3 +50,5 @@ class RogueExit(CombatInteract):
             if self.appear(ROGUE_REPORT, interval=2):
                 self.device.click(BLESSING_CONFIRM)
                 continue
+            if self.handle_popup_confirm():
+                continue
