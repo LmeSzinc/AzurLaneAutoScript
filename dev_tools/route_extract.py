@@ -99,6 +99,18 @@ def model_to_json(model, file):
         f.write(content)
 
 
+regex_posi = re.compile(r'_?X(\d+)Y(\d+)')
+
+
+def get_position_from_name(name):
+    res = regex_posi.search(name)
+    if res:
+        position = int(res.group(1)), int(res.group(2))
+    else:
+        position = (0, 0)
+    return position
+
+
 class RouteDetect:
     GEN_END = '===== End of generated waypoints ====='
 
@@ -116,7 +128,6 @@ class RouteDetect:
         return self.detector.all_minimap[route.plane_floor]
 
     def iter_image(self) -> Iterator[RogueWaypointModel]:
-        regex_posi = re.compile(r'_?X(\d+)Y(\d+)')
         for domain_folder in iter_folder(self.folder, is_dir=True):
             domain = os.path.basename(domain_folder)
             for route_folder in iter_folder(domain_folder, is_dir=True):
@@ -128,11 +139,7 @@ class RouteDetect:
                         parts = route.split('_', maxsplit=3)
                         if len(parts) == 4:
                             world, plane, floor, position = parts
-                            res = regex_posi.search(position)
-                            if res:
-                                position = int(res.group(1)), int(res.group(2))
-                            else:
-                                position = (0, 0)
+                            position = get_position_from_name(position)
                         elif len(parts) == 3:
                             world, plane, floor = parts
                             position = (0, 0)
@@ -144,9 +151,9 @@ class RouteDetect:
                             continue
 
                         file = f'{self.folder}/{domain}/{route}/route/{waypoint}.png'
-                        res = regex_posi.search(waypoint)
-                        if res:
-                            position = int(res.group(1)), int(res.group(2))
+                        file_position = get_position_from_name(waypoint)
+                        if file_position != (0, 0):
+                            position = file_position
                             # waypoint = regex_posi.sub('', waypoint)
                         elif waypoint != 'spawn':
                             position = (0, 0)
@@ -168,7 +175,6 @@ class RouteDetect:
                     pass
 
     def predict(self):
-        regex_posi = re.compile(r'_?X(\d+)Y(\d+)')
         for waypoint in tqdm(self.waypoints.grids):
             waypoint: RogueWaypointModel = waypoint
             minimap = self.get_minimap(waypoint)
@@ -383,7 +389,7 @@ class RouteDetect:
                 code = code.removesuffix('\n    def').removeprefix('\n')
                 routes.append((route, code))
 
-            sorted_routes = sorted(routes, key=lambda x: x[0])
+            sorted_routes = sorted(routes, key=lambda x: get_position_from_name(x[0]))
             routes = [route[1] for route in routes]
             sorted_routes = [route[1] for route in sorted_routes]
             new = ''

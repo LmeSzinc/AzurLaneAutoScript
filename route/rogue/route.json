@@ -44,17 +44,6 @@
     "domain": "Combat"
   },
   {
-    "name": "Combat_Herta_SupplyZone_F2_X215Y112",
-    "route": "route.rogue.Combat.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X215Y112",
-    "plane": "Herta_SupplyZone",
-    "floor": "F2",
-    "position": [
-      215.6,
-      112.7
-    ],
-    "domain": "Combat"
-  },
-  {
     "name": "Combat_Herta_SupplyZone_F2_X45Y369",
     "route": "route.rogue.Combat.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X45Y369",
     "plane": "Herta_SupplyZone",
@@ -62,6 +51,17 @@
     "position": [
       45.5,
       369.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_SupplyZone_F2_X215Y112",
+    "route": "route.rogue.Combat.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X215Y112",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2",
+    "position": [
+      215.6,
+      112.7
     ],
     "domain": "Combat"
   },
@@ -121,6 +121,17 @@
     "domain": "Combat"
   },
   {
+    "name": "Combat_Jarilo_GreatMine_F1_X84Y378",
+    "route": "route.rogue.Combat.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X84Y378",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      84.4,
+      378.7
+    ],
+    "domain": "Combat"
+  },
+  {
     "name": "Combat_Jarilo_GreatMine_F1_X133Y465",
     "route": "route.rogue.Combat.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X133Y465",
     "plane": "Jarilo_GreatMine",
@@ -154,17 +165,6 @@
     "domain": "Combat"
   },
   {
-    "name": "Combat_Jarilo_GreatMine_F1_X485Y452",
-    "route": "route.rogue.Combat.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X485Y452",
-    "plane": "Jarilo_GreatMine",
-    "floor": "F1",
-    "position": [
-      485.4,
-      450.4
-    ],
-    "domain": "Combat"
-  },
-  {
     "name": "Combat_Jarilo_GreatMine_F1_X485Y450",
     "route": "route.rogue.Combat.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X485Y450",
     "plane": "Jarilo_GreatMine",
@@ -183,17 +183,6 @@
     "position": [
       545.3,
       513.0
-    ],
-    "domain": "Combat"
-  },
-  {
-    "name": "Combat_Jarilo_GreatMine_F1_X84Y378",
-    "route": "route.rogue.Combat.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X84Y378",
-    "plane": "Jarilo_GreatMine",
-    "floor": "F1",
-    "position": [
-      84.4,
-      378.7
     ],
     "domain": "Combat"
   },
@@ -297,6 +286,17 @@
     "domain": "Combat"
   },
   {
+    "name": "Combat_Luofu_Cloudford_F1_X59Y405",
+    "route": "route.rogue.Combat.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X59Y405",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      59.3,
+      405.6
+    ],
+    "domain": "Combat"
+  },
+  {
     "name": "Combat_Luofu_Cloudford_F1_X241Y947",
     "route": "route.rogue.Combat.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X241Y947",
     "plane": "Luofu_Cloudford",
@@ -326,17 +326,6 @@
     "position": [
       431.5,
       593.4
-    ],
-    "domain": "Combat"
-  },
-  {
-    "name": "Combat_Luofu_Cloudford_F1_X59Y405",
-    "route": "route.rogue.Combat.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X59Y405",
-    "plane": "Luofu_Cloudford",
-    "floor": "F1",
-    "position": [
-      59.3,
-      405.6
     ],
     "domain": "Combat"
   },

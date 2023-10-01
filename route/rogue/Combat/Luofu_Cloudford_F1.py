@@ -5,6 +5,40 @@ from tasks.rogue.route.base import RouteBase
 
 class Route(RouteBase):
 
+    def Luofu_Cloudford_F1_X59Y405(self):
+        """
+        | Waypoint      | Position                  | Direction | Rotation |
+        | ------------- | ------------------------- | --------- | -------- |
+        | spawn         | Waypoint((59.3, 405.6)),  | 96.7      | 91       |
+        | item1         | Waypoint((97.2, 393.0)),  | 87.7      | 84       |
+        | enemy1        | Waypoint((126.3, 402.5)), | 96.8      | 101      |
+        | enemy2top     | Waypoint((214.6, 432.8)), | 94.1      | 87       |
+        | enemy2bottom  | Waypoint((215.4, 481.0)), | 191.8     | 174      |
+        | enemy3        | Waypoint((288.0, 452.2)), | 87.7      | 260      |
+        | exit_X288Y454 | Waypoint((288.5, 454.5)), | 5.7       | 91       |
+        """
+        self.map_init(plane=Luofu_Cloudford, floor="F1", position=(59.3, 405.6))
+        self.register_domain_exit(Waypoint((288.5, 454.5)), end_rotation=91)
+        item1 = Waypoint((97.2, 393.0))
+        enemy1 = Waypoint((126.3, 402.5))
+        enemy2top = Waypoint((214.6, 432.8))
+        enemy2bottom = Waypoint((215.4, 481.0))
+        enemy3 = Waypoint((288.0, 452.2))
+        # ===== End of generated waypoints =====
+
+        # 1
+        self.clear_item(item1)
+        self.clear_enemy(enemy1)
+        # 2 moving enemy
+        self.clear_enemy(
+            enemy2top,
+            enemy2bottom.straight_run(),
+        )
+        # 3
+        self.clear_enemy(
+            enemy3.straight_run(),
+        )
+
     def Luofu_Cloudford_F1_X241Y947(self):
         """
         | Waypoint | Position                  | Direction | Rotation |
@@ -77,37 +111,3 @@ class Route(RouteBase):
         # 2
         self.clear_item(item2)
         self.clear_enemy(enemy2)
-
-    def Luofu_Cloudford_F1_X59Y405(self):
-        """
-        | Waypoint      | Position                  | Direction | Rotation |
-        | ------------- | ------------------------- | --------- | -------- |
-        | spawn         | Waypoint((59.3, 405.6)),  | 96.7      | 91       |
-        | item1         | Waypoint((97.2, 393.0)),  | 87.7      | 84       |
-        | enemy1        | Waypoint((126.3, 402.5)), | 96.8      | 101      |
-        | enemy2top     | Waypoint((214.6, 432.8)), | 94.1      | 87       |
-        | enemy2bottom  | Waypoint((215.4, 481.0)), | 191.8     | 174      |
-        | enemy3        | Waypoint((288.0, 452.2)), | 87.7      | 260      |
-        | exit_X288Y454 | Waypoint((288.5, 454.5)), | 5.7       | 91       |
-        """
-        self.map_init(plane=Luofu_Cloudford, floor="F1", position=(59.3, 405.6))
-        self.register_domain_exit(Waypoint((288.5, 454.5)), end_rotation=91)
-        item1 = Waypoint((97.2, 393.0))
-        enemy1 = Waypoint((126.3, 402.5))
-        enemy2top = Waypoint((214.6, 432.8))
-        enemy2bottom = Waypoint((215.4, 481.0))
-        enemy3 = Waypoint((288.0, 452.2))
-        # ===== End of generated waypoints =====
-
-        # 1
-        self.clear_item(item1)
-        self.clear_enemy(enemy1)
-        # 2 moving enemy
-        self.clear_enemy(
-            enemy2top,
-            enemy2bottom.straight_run(),
-        )
-        # 3
-        self.clear_enemy(
-            enemy3.straight_run(),
-        )
