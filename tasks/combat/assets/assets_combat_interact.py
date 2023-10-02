@@ -13,3 +13,13 @@ DUNGEON_COMBAT_INTERACT = ButtonWrapper(
         button=(750, 411, 997, 448),
     ),
 )
+MAP_LOADING = ButtonWrapper(
+    name='MAP_LOADING',
+    share=Button(
+        file='./assets/share/combat/interact/MAP_LOADING.png',
+        area=(644, 367, 662, 389),
+        search=(639, 347, 667, 394),
+        color=(159, 141, 149),
+        button=(644, 367, 662, 389),
+    ),
+)
