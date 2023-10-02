@@ -12,8 +12,14 @@ from tasks.map.minimap.utils import create_circular_mask
 from tasks.map.resource.const import ResourceConst
 from tasks.map.keywords import KEYWORDS_MAP_PLANE, MapPlane
 
+SPECIAL_PLANES = [
+    ('Luofu_StargazerNavalia', 'F2Rogue')
+]
+
 
 class MapResource(ResourceConst):
+    is_special_plane: bool
+
     def __init__(self):
         super().__init__()
 
@@ -51,8 +57,13 @@ class MapResource(ResourceConst):
             plane (MapPlane, str): Such as Jarilo_AdministrativeDistrict
             floor (str):
         """
-        self.plane = MapPlane.find(plane)
-        self.floor = self.plane.convert_to_floor_name(floor)
+        self.plane: MapPlane = MapPlane.find(plane)
+        if (self.plane.name, floor) in SPECIAL_PLANES:
+            self.floor = floor
+            self.is_special_plane = True
+        else:
+            self.floor = self.plane.convert_to_floor_name(floor)
+            self.is_special_plane = False
 
         del_cached_property(self, 'assets_file_basename')
         del_cached_property(self, 'assets_floor')

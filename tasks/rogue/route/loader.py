@@ -12,6 +12,7 @@ from tasks.map.keywords.plane import (
     Luofu_ExaltingSanctum
 )
 from tasks.map.minimap.minimap import Minimap
+from tasks.map.resource.resource import SPECIAL_PLANES
 from tasks.map.route.loader import RouteLoader as RouteLoader_
 from tasks.rogue.route.base import RouteBase
 from tasks.rogue.route.model import RogueRouteListModel, RogueRouteModel
@@ -24,7 +25,7 @@ def model_from_json(model, file: str):
     return data
 
 
-class RouteLoader(RouteLoader_, MainPage):
+class MinimapWrapper:
     @cached_property
     def all_minimap(self) -> dict[(str, str), Minimap]:
         """
@@ -50,6 +51,12 @@ class RouteLoader(RouteLoader_, MainPage):
                 minimap = Minimap()
                 minimap.set_plane(plane=plane, floor=floor)
                 maps[f'{plane.name}_{floor}'] = minimap
+
+        for plane, floor in SPECIAL_PLANES:
+            minimap = Minimap()
+            minimap.set_plane(plane=plane, floor=floor)
+            maps[f'{plane}_{floor}'] = minimap
+
         return maps
 
     @cached_property
@@ -59,6 +66,8 @@ class RouteLoader(RouteLoader_, MainPage):
     def get_minimap(self, route: RogueRouteModel):
         return self.all_minimap[route.plane_floor]
 
+
+class RouteLoader(MinimapWrapper, RouteLoader_, MainPage):
     def position_find_known(self, image) -> Optional[RogueRouteModel]:
         """
         Try to find from known route spawn point
@@ -107,6 +116,9 @@ class RouteLoader(RouteLoader_, MainPage):
         """
         logger.warning('position_find_bruteforce, this may take a while')
         for name, minimap in self.all_minimap.items():
+            if minimap.is_special_plane:
+                continue
+
             minimap.init_position((0, 0), show_log=False)
             try:
                 minimap.update_position(image)

@@ -121,7 +121,7 @@ class RouteDetect:
 
     @cached_property
     def detector(self):
-        from tasks.map.minimap.brute_force import MinimapWrapper
+        from tasks.rogue.route.loader import MinimapWrapper
         return MinimapWrapper()
 
     def get_minimap(self, route: RogueWaypointModel):
