@@ -28,16 +28,20 @@ class RelicsUI(ItemUI):
 
         skip_first_screenshot = True
         interval = Timer(1)
+        timeout = Timer(5, count=3).start()
         while 1:  # salvage -> first relic selected
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
+            if timeout.reached():
+                logger.warning('Timeout when selecting first relic')
+                return False
             # The first frame entering relic page, SALVAGE is a white button as it's the default state.
             # At the second frame, SALVAGE is disabled since no items are selected.
             # So here uses the minus button on the first relic.
-            if self.image_color_count(FIRST_RELIC_SELECTED, color=(245, 245, 245), threshold=221, count=50):
+            if self.image_color_count(FIRST_RELIC_SELECTED, color=(245, 245, 245), threshold=221, count=300):
                 logger.info('First relic selected')
                 break
             if self.appear_then_click(ORDER_DESCENDING, interval=2):

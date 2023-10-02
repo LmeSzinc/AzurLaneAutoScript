@@ -1,3 +1,5 @@
+import re
+
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
 from tasks.base.ui import UI
@@ -6,6 +8,14 @@ from tasks.dungeon.assets.assets_dungeon_event import (
     DOUBLE_RELIC_EVENT_TAG,
     OCR_DOUBLE_EVENT_REMAIN
 )
+
+
+class DoubleEventOcr(DigitCounter):
+    def after_process(self, result):
+        result = super().after_process(result)
+        # 9112 -> 9/12
+        result = re.sub(r'112$', '/12', result)
+        return result
 
 
 class DungeonEvent(UI):
@@ -34,7 +44,7 @@ class DungeonEvent(UI):
         Pages:
             in: page_guide, Survival_Index, selected at the nav with double event
         """
-        ocr = DigitCounter(OCR_DOUBLE_EVENT_REMAIN)
+        ocr = DoubleEventOcr(OCR_DOUBLE_EVENT_REMAIN)
         remain, _, total = ocr.ocr_single_line(self.device.image)
         if total not in [3, 12]:
             logger.warning(f'Invalid double event remain')
