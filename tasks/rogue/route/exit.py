@@ -1,3 +1,4 @@
+from module.base.timer import Timer
 from module.logger import logger
 from tasks.base.page import page_rogue
 from tasks.combat.interact import CombatInteract
@@ -15,6 +16,7 @@ class RogueExit(CombatInteract):
         """
         logger.info(f'Domain exit interact')
         clicked = False
+        confirm = Timer(1.5, count=5)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -29,6 +31,7 @@ class RogueExit(CombatInteract):
                 clicked = True
                 continue
             if self.handle_popup_confirm():
+                confirm.reset()
                 continue
 
         logger.info(f'Interact loading')
@@ -41,8 +44,9 @@ class RogueExit(CombatInteract):
 
             # End
             if self.is_in_main():
-                logger.info('Entered another domain')
-                break
+                if confirm.reached():
+                    logger.info('Entered another domain')
+                    break
             if self.ui_page_appear(page_rogue):
                 logger.info('Rogue cleared')
                 break
@@ -51,4 +55,5 @@ class RogueExit(CombatInteract):
                 self.device.click(BLESSING_CONFIRM)
                 continue
             if self.handle_popup_confirm():
+                confirm.reset()
                 continue
