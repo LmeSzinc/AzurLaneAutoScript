@@ -147,7 +147,7 @@ class MapControlJoystick(UI):
     map_E_timer = Timer(1)
     map_run_2x_timer = Timer(1)
 
-    joystick_lost_timer = Timer(1, count=2)
+    joystick_lost_timer = Timer(1, count=1)
 
     @cached_property
     def joystick_center(self) -> tuple[int, int]:

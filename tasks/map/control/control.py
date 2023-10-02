@@ -169,8 +169,8 @@ class MapControl(Combat, AimDetectorMixin):
                 self.aim.predict(self.device.image)
             diff = self.minimap.position_diff(waypoint.position)
             direction = self.minimap.position2direction(waypoint.position)
-            rotation_diff = self.minimap.direction_diff(direction)
-            logger.info(f'Position diff: {diff}, rotation: {rotation_diff}')
+            rotation_diff = self.minimap.rotation_diff(direction)
+            logger.info(f'Pdiff: {diff}, Ddiff: {direction}, Rdiff: {rotation_diff}')
 
             # Interact
             if self.aim.aimed_enemy:
