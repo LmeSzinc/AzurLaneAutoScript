@@ -133,6 +133,7 @@ class Assignment(AssignmentClaim, SynthesizeUI):
         """
         logger.hr('Assignment check all', level=1)
         current, remain, _ = self._limit_status
+        # current = #Claimable + #Dispatched
         if current == len(self.dispatched):
             return remain
         for group in self._iter_groups():
@@ -150,13 +151,15 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                     current -= 1
                     remain += 1
                     insight = True  # Order of entries change after claiming
+                    if current == len(self.dispatched):
+                        return remain
                     continue
                 if status == AssignmentStatus.DISPATCHED:
                     self.dispatched[assignment] = datetime.now() + \
                         self._get_assignment_time()
+                    insight = False  # Order of entries does not change here
                     if current == len(self.dispatched):
                         return remain
-                    insight = False  # Order of entries does not change here
                     continue
                 break
         return remain
