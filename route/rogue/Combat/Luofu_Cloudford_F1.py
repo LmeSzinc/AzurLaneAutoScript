@@ -56,11 +56,9 @@ class Route(RouteBase):
         enemy = Waypoint((197.2, 947.4))
         # ===== End of generated waypoints =====
 
-        # item at corner
-        self.clear_item(item)
+        # ignore item
+        # self.clear_item(item)
         self.clear_enemy(
-            # Get back to main road first
-            node,
             enemy,
         )
 

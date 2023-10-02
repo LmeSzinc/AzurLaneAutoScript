@@ -30,10 +30,10 @@ class Route(RouteBase):
         | spawn    | Waypoint((613.3, 755.7)), | 319.8     | 318      |
         | item     | Waypoint((603.0, 734.6)), | 342.6     | 343      |
         | event    | Waypoint((586.8, 724.7)), | 318.0     | 315      |
-        | exit     | Waypoint((568.6, 730.6)), | 274.2     | 271      |
+        | exit     | Waypoint((576.9, 728.6)), | 126.2     | 304      |
         """
         self.map_init(plane=Jarilo_BackwaterPass, floor="F1", position=(613.3, 755.7))
-        self.register_domain_exit(Waypoint((568.6, 730.6)), end_rotation=271)
+        self.register_domain_exit(Waypoint((576.9, 728.6)), end_rotation=304)
         item = Waypoint((603.0, 734.6))
         event = Waypoint((586.8, 724.7))
 

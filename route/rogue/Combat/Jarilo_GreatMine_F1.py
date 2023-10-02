@@ -61,6 +61,24 @@ class Route(RouteBase):
         # ignore item, bad way
         self.clear_enemy(node, enemy)
 
+    def Jarilo_GreatMine_F1_X299Y254(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((299.3, 255.3)), | 274.2     | 274      |
+        | item     | Waypoint((282.4, 240.8)), | 295.5     | 292      |
+        | enemy    | Waypoint((246.2, 248.4)), | 282.8     | 281      |
+        | exit     | Waypoint((246.6, 248.8)), | 96.8      | 274      |
+        """
+        self.map_init(plane=Jarilo_GreatMine, floor="F1", position=(299.3, 255.3))
+        self.register_domain_exit(Waypoint((246.6, 248.8)), end_rotation=274)
+        item = Waypoint((282.4, 240.8))
+        enemy = Waypoint((246.2, 248.4))
+        # ===== End of generated waypoints =====
+
+        # Ignore item, bad way
+        self.clear_enemy(enemy)
+
     def Jarilo_GreatMine_F1_X407Y572(self):
         """
         | Waypoint        | Position                  | Direction | Rotation |
@@ -136,9 +154,9 @@ class Route(RouteBase):
         | -------- | ------------------------- | --------- | -------- |
         | spawn    | Waypoint((545.3, 513.0)), | 222.5     | 218      |
         | item2    | Waypoint((486.8, 523.6)), | 76.5      | 255      |
+        | enemy2   | Waypoint((478.3, 519.6)), | 21.0      | 18       |
         | item3    | Waypoint((480.0, 490.2)), | 350.2     | 345      |
         | enemy1   | Waypoint((492.2, 562.0)), | 237.4     | 50       |
-        | node2    | Waypoint((468.4, 532.2)), | 30.1      | 27       |
         | enemy3   | Waypoint((485.1, 456.8)), | 102.9     | 4        |
         | node1    | Waypoint((478.5, 576.5)), | 237.2     | 237      |
         | item1    | Waypoint((461.4, 572.2)), | 289.1     | 288      |
@@ -147,9 +165,9 @@ class Route(RouteBase):
         self.map_init(plane=Jarilo_GreatMine, floor="F1", position=(545.3, 513.0))
         self.register_domain_exit(Waypoint((485.1, 456.8)), end_rotation=4)
         item2 = Waypoint((486.8, 523.6))
+        enemy2 = Waypoint((478.3, 519.6))
         item3 = Waypoint((480.0, 490.2))
         enemy1 = Waypoint((492.2, 562.0))
-        node2 = Waypoint((468.4, 532.2))
         enemy3 = Waypoint((485.1, 456.8))
         node1 = Waypoint((478.5, 576.5))
         item1 = Waypoint((461.4, 572.2))
@@ -163,10 +181,9 @@ class Route(RouteBase):
             node1,
             item1.straight_run(),
         )
-        # 2
-        self.clear_item(
-            node2.straight_run(),
-            item2,
+        # 2, ignore item2, bad way
+        self.goto(
+            enemy2.straight_run()
         )
         # 3
         self.clear_item(

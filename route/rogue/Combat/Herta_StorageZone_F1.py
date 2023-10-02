@@ -55,7 +55,7 @@ class Route(RouteBase):
             item1.straight_run(),
         )
         # enemy12
-        self.clear_item(
+        self.clear_enemy(
             enemy1.straight_run(),
             enemy2,
         )

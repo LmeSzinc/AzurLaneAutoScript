@@ -66,3 +66,49 @@ class Route(RouteBase):
 
         self.clear_item(item_X227Y105)
         self.clear_enemy(enemy)
+
+    def Herta_SupplyZone_F2_X397Y233(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((397.4, 233.5)), | 6.7       | 4        |
+        | item     | Waypoint((65.2, 49.2)),   | 48.1      | 45       |
+        | enemy    | Waypoint((48.3, 25.4)),   | 12.6      | 179      |
+        | exit     | Waypoint((47.4, 29.7)),   | 356.3     | 4        |
+        """
+        self.map_init(plane=Herta_SupplyZone, floor="F2", position=(397.4, 233.5))
+        self.register_domain_exit(Waypoint((47.4, 29.7)), end_rotation=4)
+        item = Waypoint((65.2, 49.2))
+        enemy = Waypoint((48.3, 25.4))
+        # ===== End of generated waypoints =====
+
+        # Ignore item, bad way
+        self.clear_enemy(enemy)
+
+    def Herta_SupplyZone_F2_X658Y247(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((656.7, 247.5)), | 274.2     | 274      |
+        | item1    | Waypoint((664.9, 264.2)), | 282.8     | 276      |
+        | enemy1   | Waypoint((542.2, 246.2)), | 302.7     | 301      |
+        | enemy3   | Waypoint((586.5, 128.3)), | 87.7      | 260      |
+        | enemy2   | Waypoint((542.2, 168.6)), | 11.1      | 177      |
+        | item3    | Waypoint((564.2, 130.9)), | 67.2      | 66       |
+        | exit     | Waypoint((586.9, 135.8)), | 266.1     | 361      |
+        """
+        self.map_init(plane=Herta_SupplyZone, floor="F2", position=(656.7, 247.5))
+        self.register_domain_exit(Waypoint((586.9, 135.8)), end_rotation=361)
+        item1 = Waypoint((664.9, 264.2))
+        enemy1 = Waypoint((542.2, 246.2))
+        enemy3 = Waypoint((586.5, 128.3))
+        enemy2 = Waypoint((542.2, 168.6))
+        item3 = Waypoint((564.2, 130.9))
+        # ===== End of generated waypoints =====
+
+        self.clear_item(item1)
+        self.clear_enemy(enemy1)
+        self.clear_enemy(enemy2.straight_run())
+
+        self.clear_item(item3.straight_run())
+        self.clear_enemy(enemy3.straight_run())

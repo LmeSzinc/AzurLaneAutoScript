@@ -84,7 +84,7 @@ class Route(RouteBase):
         | enemy1right | Waypoint((290.0, 276.0)), | 198.7     | 195      |
         | enemy1left  | Waypoint((310.1, 281.1)), | 105.5     | 101      |
         | item2       | Waypoint((326.2, 298.0)), | 151.8     | 140      |
-        | node3       | Waypoint((318.6, 334.8)), | 195.2     | 6        |
+        | enemy2      | Waypoint((318.6, 334.8)), | 195.2     | 6        |
         | enemy3      | Waypoint((316.4, 385.0)), | 223.8     | 45       |
         | exit        | Waypoint((314.6, 385.0)), | 289.0     | 188      |
         """
@@ -94,7 +94,7 @@ class Route(RouteBase):
         enemy1right = Waypoint((290.0, 276.0))
         enemy1left = Waypoint((310.1, 281.1))
         item2 = Waypoint((326.2, 298.0))
-        node3 = Waypoint((318.6, 334.8))
+        enemy2 = Waypoint((318.6, 334.8))
         enemy3 = Waypoint((316.4, 385.0))
         # ===== End of generated waypoints =====
 
@@ -107,8 +107,10 @@ class Route(RouteBase):
         self.clear_item(
             item2.straight_run(),
         )
+        self.clear_enemy(
+            enemy2.straight_run(),
+        )
         # 3
         self.clear_enemy(
-            node3.straight_run(),
             enemy3,
         )

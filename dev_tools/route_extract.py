@@ -257,8 +257,9 @@ class RouteDetect:
         def call(func, name):
             ws = waypoints.filter(lambda x: x.waypoint.startswith(name)).get('waypoint')
             ws = ['exit_' if w == 'exit' else w for w in ws]
-            ws = ', '.join(ws)
-            gen.add(f'self.{func}({ws})')
+            if ws:
+                ws = ', '.join(ws)
+                gen.add(f'self.{func}({ws})')
 
         with gen.tab():
             with gen.Def(name=spawn.route, args='self'):
