@@ -27,9 +27,9 @@ OCR_DOUBLE_EVENT_REMAIN = ButtonWrapper(
     name='OCR_DOUBLE_EVENT_REMAIN',
     share=Button(
         file='./assets/share/dungeon/event/OCR_DOUBLE_EVENT_REMAIN.png',
-        area=(434, 141, 1163, 166),
-        search=(414, 121, 1183, 186),
-        color=(228, 185, 100),
-        button=(434, 141, 1163, 166),
+        area=(437, 177, 1169, 208),
+        search=(417, 157, 1189, 228),
+        color=(234, 190, 103),
+        button=(437, 177, 1169, 208),
     ),
 )
