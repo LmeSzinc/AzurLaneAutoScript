@@ -40,7 +40,7 @@ class Waypoint:
     # If triggered any expected event, consider arrive and stop walking
     early_stop: bool = True
     # Confirm timer if arrived but didn't trigger any expected event
-    unexpected_confirm: Timer = field(default_factory=lambda: Timer(2, count=6))
+    unexpected_confirm: Timer = field(default_factory=lambda: Timer(3, count=15))
 
     def __str__(self):
         return f'Waypoint({self.position})'

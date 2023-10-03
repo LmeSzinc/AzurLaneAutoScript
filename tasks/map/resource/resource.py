@@ -13,7 +13,8 @@ from tasks.map.resource.const import ResourceConst
 from tasks.map.keywords import KEYWORDS_MAP_PLANE, MapPlane
 
 SPECIAL_PLANES = [
-    ('Luofu_StargazerNavalia', 'F2Rogue')
+    ('Luofu_StargazerNavalia', 'F2Rogue'),
+    ('Luofu_Cloudford', 'F1Rogue'),
 ]
 
 

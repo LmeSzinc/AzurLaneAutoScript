@@ -1,5 +1,7 @@
 from typing import Optional
 
+import numpy as np
+
 from module.base.decorator import cached_property
 from module.logger import logger
 from tasks.base.main_page import MainPage
@@ -42,6 +44,12 @@ class MinimapWrapper:
             Luofu_AurumAlley,
         ]
         maps = {}
+
+        for plane, floor in SPECIAL_PLANES:
+            minimap = Minimap()
+            minimap.set_plane(plane=plane, floor=floor)
+            maps[f'{plane}_{floor}'] = minimap
+
         for plane in MapPlane.instances.values():
             if plane in blacklist:
                 continue
@@ -52,16 +60,14 @@ class MinimapWrapper:
                 minimap.set_plane(plane=plane, floor=floor)
                 maps[f'{plane.name}_{floor}'] = minimap
 
-        for plane, floor in SPECIAL_PLANES:
-            minimap = Minimap()
-            minimap.set_plane(plane=plane, floor=floor)
-            maps[f'{plane}_{floor}'] = minimap
-
+        logger.attr('MinimapLoaded', len(maps))
         return maps
 
     @cached_property
     def all_route(self) -> list[RogueRouteModel]:
-        return model_from_json(RogueRouteListModel, './route/rogue/route.json').root
+        routes = model_from_json(RogueRouteListModel, './route/rogue/route.json').root
+        logger.attr('RouteLoaded', len(routes))
+        return routes
 
     def get_minimap(self, route: RogueRouteModel):
         return self.all_minimap[route.plane_floor]
@@ -84,7 +90,7 @@ class RouteLoader(MinimapWrapper, RouteLoader_, MainPage):
                 if plane.rogue_domain in ['Encounter', 'Transaction'] and route.is_DomainOccurrence:
                     # Treat as "Occurrence"
                     pass
-                if plane.rogue_domain in ['Boss'] and route.is_DomainElite:
+                elif plane.rogue_domain in ['Boss'] and route.is_DomainElite:
                     # Treat as "Elite"
                     pass
                 else:
@@ -93,22 +99,37 @@ class RouteLoader(MinimapWrapper, RouteLoader_, MainPage):
             minimap.init_position(route.position, show_log=False)
             try:
                 minimap.update_position(image)
-            except FileNotFoundError:
+            except FileNotFoundError as e:
+                logger.warning(e)
                 continue
-            visited.append((route, minimap.position_similarity))
+            visited.append((route, minimap.position_similarity, minimap.position))
 
         if len(visited) < 3:
             logger.warning('Too few routes to search from, not enough to make a prediction')
             return
 
         visited = sorted(visited, key=lambda x: x[1], reverse=True)
-        logger.info(f'Best 3 prediction: {[(r.name, s) for r, s in visited[:3]]}')
-        if visited[1][1] / visited[0][1] > 0.75:
-            logger.warning('Similarity too close, not enough to make a prediction')
-            return
+        logger.info(f'Best 3 prediction: {[(r.name, s, p) for r, s, p in visited[:3]]}')
+        nearby = [
+            (r, s, p) for r, s, p in visited if np.linalg.norm(np.subtract(r.position, p)) < 5
+        ]
+        logger.info(f'Best 3 prediction: {[(r.name, s, p) for r, s, p in nearby[:3]]}')
+        if len(nearby) == 1:
+            if nearby[0][1] > 0.05:
+                logger.attr('RoutePredict', nearby[0][0].name)
+                return nearby[0][0]
+        elif len(nearby) >= 2:
+            if nearby[0][1] / nearby[1][1] > 0.75:
+                logger.attr('RoutePredict', nearby[0][0].name)
+                return nearby[0][0]
 
-        logger.attr('RoutePredict', visited[0][0].name)
-        return visited[0][0]
+        # logger.info(f'Best 3 prediction: {[(r.name, s, p) for r, s, p in visited[:3]]}')
+        # if visited[0][1] / visited[1][1] > 0.75:
+        #     logger.attr('RoutePredict', visited[0][0].name)
+        #     return visited[0][0]
+
+        logger.warning('Similarity too close, not enough to make a prediction')
+        return None
 
     def position_find_bruteforce(self, image) -> Minimap:
         """
@@ -155,6 +176,7 @@ class RouteLoader(MinimapWrapper, RouteLoader_, MainPage):
 if __name__ == '__main__':
     self = RouteLoader('src', task='Rogue')
     # self.image_file = r''
+    # self.device.screenshot()
     # self.position_find_bruteforce(self.device.image)
 
     self.device.screenshot()

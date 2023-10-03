@@ -26,6 +26,8 @@ class OcrPlaneName(Ocr):
         result = result.replace('avatia', 'avalia')
         # DomainiRespite
         result = result.replace('omaini', 'omain')
+        # Domain=Combat
+        result = result.replace('=', '')
 
         # 累塔的办公室
         result = result.replace('累塔', '黑塔')
