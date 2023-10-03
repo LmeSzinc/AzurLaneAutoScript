@@ -15,6 +15,7 @@ from tasks.battle_pass.keywords import KEYWORD_BATTLE_PASS_QUEST
 class Dungeon(DungeonUI, DungeonEvent, Combat):
     called_daily_support = False
     achieved_daily_quest = False
+    running_double = False
     daily_quests = []
 
     def _dungeon_run(self, dungeon: DungeonList, team: int = None, wave_limit: int = 0, support_character: str = None,
@@ -50,7 +51,24 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
                 if self.handle_destructible_around_blaze():
                     self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
                     self.dungeon_goto(dungeon)
-
+        # Check double event remain before combat
+        # Conservatively prefer the smaller result
+        if (dungeon.is_Calyx_Golden or dungeon.is_Calyx_Crimson) and \
+                self.running_double and self.config.stored.DungeonDouble.calyx > 0:
+            calyx = self.get_double_event_remain_at_combat()
+            if calyx < self.config.stored.DungeonDouble.calyx:
+                self.config.stored.DungeonDouble.calyx = calyx
+                wave_limit = calyx
+            if calyx == 0:
+                return 0
+        if dungeon.is_Cavern_of_Corrosion and self.running_double and \
+                self.config.stored.DungeonDouble.relic > 0:
+            relic = self.get_double_event_remain_at_combat()
+            if relic < self.config.stored.DungeonDouble.relic:
+                self.config.stored.DungeonDouble.relic = relic
+                wave_limit = relic
+            if relic == 0:
+                return 0
         # Combat
         count = self.combat(team=team, wave_limit=wave_limit, support_character=support_character)
 
@@ -126,6 +144,7 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
         self.config.update_daily_quests()
         self.called_daily_support = False
         self.achieved_daily_quest = False
+        self.running_double = False
         self.daily_quests = self.config.stored.DailyQuest.load_quests()
 
         # Update double event records
@@ -159,6 +178,7 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
                 and self.config.stored.DungeonDouble.calyx > 0:
             logger.info('Run double calyx')
             dungeon = DungeonList.find(self.config.Dungeon_NameAtDoubleCalyx)
+            self.running_double = True
             if self.dungeon_run(dungeon=dungeon, wave_limit=self.config.stored.DungeonDouble.calyx):
                 if dungeon.is_Calyx_Golden:
                     ran_calyx_golden = True
@@ -169,8 +189,10 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
                 and self.config.stored.DungeonDouble.relic > 0:
             logger.info('Run double relic')
             dungeon = DungeonList.find(self.config.Dungeon_NameAtDoubleRelic)
+            self.running_double = True
             if self.dungeon_run(dungeon=dungeon, wave_limit=self.config.stored.DungeonDouble.relic):
                 ran_cavern_of_corrosion = True
+        self.running_double = False
 
         # Dungeon to clear all trailblaze power
         final = DungeonList.find(self.config.Dungeon_Name)
