@@ -12,10 +12,10 @@ class Route(RouteBase):
         | spawn    | Waypoint((365.1, 167.2)), | 274.2     | 274      |
         | item     | Waypoint((330.0, 175.6)), | 271.8     | 267      |
         | enemy    | Waypoint((300.2, 166.0)), | 284.9     | 94       |
-        | exit     | Waypoint((298.5, 162.7)), | 271.8     | 269      |
+        | exit     | Waypoint((304.0, 166.0)), | 271.8     | 267      |
         """
         self.map_init(plane=Herta_StorageZone, floor="F2", position=(365.1, 167.2))
-        self.register_domain_exit(Waypoint((298.5, 162.7)), end_rotation=269)
+        self.register_domain_exit(Waypoint((304.0, 166.0)), end_rotation=267)
         item = Waypoint((330.0, 175.6))
         enemy = Waypoint((300.2, 166.0))
         # ===== End of generated waypoints =====

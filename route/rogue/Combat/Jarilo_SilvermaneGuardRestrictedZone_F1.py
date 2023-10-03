@@ -10,13 +10,13 @@ class Route(RouteBase):
         | Waypoint | Position                  | Direction | Rotation |
         | -------- | ------------------------- | --------- | -------- |
         | spawn    | Waypoint((221.3, 426.1)), | 274.2     | 274      |
-        | item     | Waypoint((197.2, 433.4)), | 250.7     | 246      |
+        | item     | Waypoint((195.9, 434.9)), | 237.2     | 234      |
         | enemy    | Waypoint((172.9, 425.9)), | 274.2     | 274      |
         | exit     | Waypoint((172.9, 425.9)), | 274.2     | 274      |
         """
         self.map_init(plane=Jarilo_SilvermaneGuardRestrictedZone, floor="F1", position=(221.3, 426.1))
         self.register_domain_exit(Waypoint((172.9, 425.9)), end_rotation=274)
-        item = Waypoint((197.2, 433.4))
+        item = Waypoint((195.9, 434.9))
         enemy = Waypoint((172.9, 425.9))
         # ===== End of generated waypoints =====
 

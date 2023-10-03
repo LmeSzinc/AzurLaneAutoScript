@@ -11,6 +11,17 @@
     "domain": "Combat"
   },
   {
+    "name": "Combat_Herta_StorageZone_F1_X273Y92",
+    "route": "route.rogue.Combat.Herta_StorageZone_F1:Herta_StorageZone_F1_X273Y92",
+    "plane": "Herta_StorageZone",
+    "floor": "F1",
+    "position": [
+      273.4,
+      92.2
+    ],
+    "domain": "Combat"
+  },
+  {
     "name": "Combat_Herta_StorageZone_F1_X692Y61",
     "route": "route.rogue.Combat.Herta_StorageZone_F1:Herta_StorageZone_F1_X692Y61",
     "plane": "Herta_StorageZone",
@@ -18,6 +29,17 @@
     "position": [
       692.0,
       62.0
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_StorageZone_F1_X769Y39",
+    "route": "route.rogue.Combat.Herta_StorageZone_F1:Herta_StorageZone_F1_X769Y39",
+    "plane": "Herta_StorageZone",
+    "floor": "F1",
+    "position": [
+      749.5,
+      45.6
     ],
     "domain": "Combat"
   },
@@ -143,6 +165,28 @@
     "domain": "Combat"
   },
   {
+    "name": "Combat_Jarilo_CorridorofFadingEchoes_F1_X291Y765",
+    "route": "route.rogue.Combat.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X291Y765",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      291.1,
+      765.3
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_CorridorofFadingEchoes_F1_X319Y949",
+    "route": "route.rogue.Combat.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X319Y949",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      319.4,
+      949.3
+    ],
+    "domain": "Combat"
+  },
+  {
     "name": "Combat_Jarilo_GreatMine_F1_X84Y378",
     "route": "route.rogue.Combat.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X84Y378",
     "plane": "Jarilo_GreatMine",
@@ -231,6 +275,17 @@
     "domain": "Combat"
   },
   {
+    "name": "Combat_Jarilo_RivetTown_F1_X205Y439",
+    "route": "route.rogue.Combat.Jarilo_RivetTown_F1:Jarilo_RivetTown_F1_X205Y439",
+    "plane": "Jarilo_RivetTown",
+    "floor": "F1",
+    "position": [
+      205.4,
+      439.5
+    ],
+    "domain": "Combat"
+  },
+  {
     "name": "Combat_Jarilo_RivetTown_F1_X209Y333",
     "route": "route.rogue.Combat.Jarilo_RivetTown_F1:Jarilo_RivetTown_F1_X209Y333",
     "plane": "Jarilo_RivetTown",
@@ -260,6 +315,17 @@
     "position": [
       293.6,
       243.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_RivetTown_F1_X323Y151",
+    "route": "route.rogue.Combat.Jarilo_RivetTown_F1:Jarilo_RivetTown_F1_X323Y151",
+    "plane": "Jarilo_RivetTown",
+    "floor": "F1",
+    "position": [
+      323.4,
+      151.5
     ],
     "domain": "Combat"
   },
@@ -319,17 +385,6 @@
     "domain": "Combat"
   },
   {
-    "name": "Combat_Luofu_Cloudford_F1_X59Y405",
-    "route": "route.rogue.Combat.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X59Y405",
-    "plane": "Luofu_Cloudford",
-    "floor": "F1",
-    "position": [
-      59.3,
-      405.6
-    ],
-    "domain": "Combat"
-  },
-  {
     "name": "Combat_Luofu_Cloudford_F1_X241Y947",
     "route": "route.rogue.Combat.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X241Y947",
     "plane": "Luofu_Cloudford",
@@ -337,6 +392,17 @@
     "position": [
       240.4,
       947.6
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_Cloudford_F1_X257Y947",
+    "route": "route.rogue.Combat.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X257Y947",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      257.3,
+      951.2
     ],
     "domain": "Combat"
   },
@@ -359,6 +425,17 @@
     "position": [
       431.5,
       593.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_Cloudford_F1Rogue_X59Y405",
+    "route": "route.rogue.Combat.Luofu_Cloudford_F1Rogue:Luofu_Cloudford_F1Rogue_X59Y405",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1Rogue",
+    "position": [
+      49.3,
+      405.6
     ],
     "domain": "Combat"
   },
@@ -440,6 +517,17 @@
     "domain": "Elite"
   },
   {
+    "name": "Elite_Jarilo_CorridorofFadingEchoes_F1_X415Y947",
+    "route": "route.rogue.Elite.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X415Y947",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      415.5,
+      947.9
+    ],
+    "domain": "Elite"
+  },
+  {
     "name": "Elite_Jarilo_GreatMine_F1_X175Y273",
     "route": "route.rogue.Elite.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X175Y273",
     "plane": "Jarilo_GreatMine",
@@ -458,6 +546,17 @@
     "position": [
       149.9,
       435.6
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Jarilo_SilvermaneGuardRestrictedZone_F1_X225Y425",
+    "route": "route.rogue.Elite.Jarilo_SilvermaneGuardRestrictedZone_F1:Jarilo_SilvermaneGuardRestrictedZone_F1_X225Y425",
+    "plane": "Jarilo_SilvermaneGuardRestrictedZone",
+    "floor": "F1",
+    "position": [
+      225.3,
+      425.9
     ],
     "domain": "Elite"
   },
@@ -634,6 +733,17 @@
     "position": [
       581.5,
       403.5
+    ],
+    "domain": "Respite"
+  },
+  {
+    "name": "Respite_Jarilo_CorridorofFadingEchoes_F1_X291Y653",
+    "route": "route.rogue.Respite.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X291Y653",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      291.7,
+      653.4
     ],
     "domain": "Respite"
   },

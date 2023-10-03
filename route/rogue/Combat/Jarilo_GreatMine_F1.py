@@ -28,13 +28,13 @@ class Route(RouteBase):
         | Waypoint | Position                  | Direction | Rotation |
         | -------- | ------------------------- | --------- | -------- |
         | spawn    | Waypoint((133.3, 465.6)), | 334.8     | 331      |
-        | item     | Waypoint((108.7, 448.2)), | 318.0     | 320      |
+        | item     | Waypoint((108.7, 448.1)), | 318.0     | 320      |
         | enemy    | Waypoint((110.1, 420.6)), | 337.4     | 338      |
         | exit     | Waypoint((104.0, 414.0)), | 334.8     | 331      |
         """
         self.map_init(plane=Jarilo_GreatMine, floor="F1", position=(133.3, 465.6))
         self.register_domain_exit(Waypoint((104.0, 414.0)), end_rotation=331)
-        item = Waypoint((108.7, 448.2))
+        item = Waypoint((108.7, 448.1))
         enemy = Waypoint((110.1, 420.6))
         # ===== End of generated waypoints =====
 
@@ -84,20 +84,20 @@ class Route(RouteBase):
         | Waypoint        | Position                  | Direction | Rotation |
         | --------------- | ------------------------- | --------- | -------- |
         | spawn           | Waypoint((407.2, 572.8)), | 216.4     | 211      |
-        | item1           | Waypoint((382.9, 585.2)), | 263.8     | 260      |
+        | item1           | Waypoint((382.9, 585.3)), | 263.8     | 260      |
         | enemy1          | Waypoint((382.4, 590.4)), | 241.2     | 239      |
         | item2           | Waypoint((378.2, 610.6)), | 143.8     | 232      |
-        | enemy3_X340Y595 | Waypoint((340.6, 595.0)), | 297.8     | 294      |
-        | enemy4          | Waypoint((313.1, 575.7)), | 312.1     | 318      |
-        | exit            | Waypoint((313.6, 572.6)), | 334.7     | 329      |
+        | enemy3_X340Y595 | Waypoint((339.0, 595.4)), | 297.8     | 294      |
+        | enemy4          | Waypoint((312.7, 575.6)), | 312.1     | 318      |
+        | exit            | Waypoint((315.6, 572.6)), | 334.7     | 329      |
         """
         self.map_init(plane=Jarilo_GreatMine, floor="F1", position=(407.2, 572.8))
-        self.register_domain_exit(Waypoint((313.6, 572.6)), end_rotation=329)
-        item1 = Waypoint((382.9, 585.2))
+        self.register_domain_exit(Waypoint((315.6, 572.6)), end_rotation=329)
+        item1 = Waypoint((382.9, 585.3))
         enemy1 = Waypoint((382.4, 590.4))
         item2 = Waypoint((378.2, 610.6))
-        enemy3_X340Y595 = Waypoint((340.6, 595.0))
-        enemy4 = Waypoint((313.1, 575.7))
+        enemy3_X340Y595 = Waypoint((339.0, 595.4))
+        enemy4 = Waypoint((312.7, 575.6))
         # ===== End of generated waypoints =====
 
         # enemy first
