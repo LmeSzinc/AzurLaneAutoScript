@@ -3,7 +3,8 @@ from tasks.assignment.assets.assets_assignment_ui import (
     CHARACTER_MATERIALS_CHECK, CHARACTER_MATERIALS_CLICK,
     EXP_MATERIALS_CREDITS_CHECK, EXP_MATERIALS_CREDITS_CLICK, GROUP_SEARCH,
     SPACE_STATION_TASK_FORCE_CHECK, SPACE_STATION_TASK_FORCE_CLICK,
-    SYNTHESIS_MATERIALS_CHECK, SYNTHESIS_MATERIALS_CLICK)
+    SYNTHESIS_MATERIALS_CHECK, SYNTHESIS_MATERIALS_CLICK
+)
 
 for group_button_wrapper in (
     SPACE_STATION_TASK_FORCE_CHECK, SPACE_STATION_TASK_FORCE_CLICK,
@@ -12,7 +13,7 @@ for group_button_wrapper in (
     SYNTHESIS_MATERIALS_CHECK, SYNTHESIS_MATERIALS_CLICK,
 ):
     for lang in VALID_LANG:
-        button = getattr(group_button_wrapper, lang, None)
+        button = group_button_wrapper.data_buttons.get(lang, None)
         if button is None:
             continue
         button.search = GROUP_SEARCH.button

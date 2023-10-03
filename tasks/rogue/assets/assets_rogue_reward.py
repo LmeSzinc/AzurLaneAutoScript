@@ -10,6 +10,6 @@ ROGUE_REPORT = ButtonWrapper(
         area=(1198, 19, 1223, 42),
         search=(1178, 0, 1243, 62),
         color=(203, 165, 119),
-        button=(382, 645, 894, 700),
+        button=(1198, 19, 1223, 42),
     ),
 )
