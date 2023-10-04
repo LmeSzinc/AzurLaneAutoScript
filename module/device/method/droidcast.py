@@ -188,6 +188,8 @@ class DroidCast(Uiautomator2):
             raise ImageTruncated('Empty image after reading from buffer')
         if image.shape == (1843200,):
             raise DroidCastVersionIncompatible('Requesting screenshots from `DroidCast` but server is `DroidCast_raw`')
+        if image.size < 500:
+            logger.warning(f'Unexpected screenshot: {resp.content}')
 
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
         if image is None:
@@ -208,6 +210,8 @@ class DroidCast(Uiautomator2):
         try:
             arr = np.frombuffer(image, dtype=np.uint16).reshape((720, 1280))
         except ValueError as e:
+            if len(image) < 500:
+                logger.warning(f'Unexpected screenshot: {image}')
             # Try to load as `DroidCast`
             image = np.frombuffer(image, np.uint8)
             if image is not None:
