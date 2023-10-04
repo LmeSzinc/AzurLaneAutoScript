@@ -7,11 +7,11 @@ from tasks.rogue.assets.assets_rogue_ui import BLESSING_CONFIRM
 from tasks.rogue.bleesing.blessing import RogueBlessingSelector
 from tasks.rogue.bleesing.bonus import RogueBonusSelector
 from tasks.rogue.bleesing.curio import RogueCurioSelector
-from tasks.rogue.bleesing.ui import RogueUI
+from tasks.rogue.event.event import RogueEvent
 from tasks.rogue.route.exit import RogueExit
 
 
-class RouteBase(RouteBase_, RogueUI, RogueExit):
+class RouteBase(RouteBase_, RogueExit, RogueEvent):
     registered_domain_exit = None
 
     def combat_expected_end(self):
@@ -95,13 +95,16 @@ class RouteBase(RouteBase_, RogueUI, RogueExit):
             if self.handle_reward(interval=2):
                 continue
             if self.is_combat_executing():
+                logger.hr('Combat', level=2)
                 self.combat_execute()
                 continue
             if self.handle_blessing():
                 continue
-
-            # TODO: Select events
-            pass
+            if self.ui_page_appear(page_rogue):
+                if self.handle_event_continue():
+                    continue
+                if self.handle_event_option():
+                    continue
 
     def goto(self, *waypoints):
         result = super().goto(*waypoints)
