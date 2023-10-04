@@ -26,6 +26,11 @@ class RogueEvent(RogueUI):
 
     def handle_event_option(self):
         options = CHOOSE_OPTION.match_multi_template(self.device.image)
+        # Check color also, option with requirements might be disabled
+        options = [
+            option for option in options
+            if self.image_color_count(option.area, color=(181, 162, 126), threshold=221, count=25)
+        ]
         count = len(options)
         if count == 0:
             return False
