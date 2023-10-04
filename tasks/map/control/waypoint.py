@@ -16,6 +16,13 @@ class Waypoint:
     # Max move speed, 'run_2x', 'straight_run', 'run', 'walk'
     # See MapControl._goto() for details of each speed level
     speed: str = 'run'
+    # Min move speed, 'run' or 'walk'
+    min_speed: str = 'walk'
+    # Lock joystick direction on the way to this waypoint, -180~180
+    lock_direction: int = None
+    # Trigger handle_combat_interact() if position diff < radius
+    # Usually to use 7 if interact is required, 0 for no interact
+    interact_radius: int = 0
 
     """
     The following attributes are only be used if this waypoint is the end point of goto()

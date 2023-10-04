@@ -179,6 +179,11 @@ class MapControl(Combat, AimDetectorMixin):
             rotation_diff = self.minimap.rotation_diff(direction)
             logger.info(f'Pdiff: {diff}, Ddiff: {direction}, Rdiff: {rotation_diff}')
 
+            def contact_direction():
+                if waypoint.lock_direction is not None:
+                    return waypoint.lock_direction
+                return diff_to_180_180(direction - last_rotation)
+
             # Interact
             if self.aim.aimed_enemy:
                 if 'enemy' in waypoint.expected_end:
@@ -204,6 +209,9 @@ class MapControl(Combat, AimDetectorMixin):
                     result.append('item')
                     if waypoint.early_stop:
                         return result
+            if waypoint.interact_radius > 0:
+                if diff < waypoint.interact_radius:
+                    self.handle_combat_interact()
 
             # Arrive
             if near := self.minimap.is_position_near(waypoint.position, threshold=waypoint.get_threshold(end_opt)):
@@ -231,7 +239,7 @@ class MapControl(Combat, AimDetectorMixin):
                     aim_interval = Timer(0.1)
                     self.map_run_2x_timer.reset()
                     allow_straight_run = False
-                if allow_run and diff < 7:
+                if allow_run and diff < 7 and waypoint.min_speed == 'walk':
                     logger.info(f'Approaching target, diff={round(diff, 1)}, disallow run')
                     direction_interval = Timer(0.2)
                     aim_interval = Timer(0.2)
@@ -255,7 +263,7 @@ class MapControl(Combat, AimDetectorMixin):
                         rotation_interval.reset()
                         direction_interval.reset()
                 if direction_interval.reached():
-                    contact.set(direction=diff_to_180_180(direction - last_rotation), run=True)
+                    contact.set(direction=contact_direction(), run=True)
                     direction_interval.reset()
                 self.handle_map_run_2x(run=True)
             elif allow_straight_run:
@@ -275,7 +283,7 @@ class MapControl(Combat, AimDetectorMixin):
                         rotation_interval.reset()
                         direction_interval.reset()
                 if direction_interval.reached():
-                    contact.set(direction=diff_to_180_180(direction - last_rotation), run=True)
+                    contact.set(direction=contact_direction(), run=True)
                     direction_interval.reset()
                 self.handle_map_run_2x(run=False)
             elif allow_run:
@@ -287,7 +295,7 @@ class MapControl(Combat, AimDetectorMixin):
                     last_rotation = self.minimap.rotation
                     allow_rotation_set = False
                 if direction_interval.reached():
-                    contact.set(direction=diff_to_180_180(direction - last_rotation), run=True)
+                    contact.set(direction=contact_direction(), run=True)
                     direction_interval.reset()
                 self.handle_map_run_2x(run=False)
             elif allow_walk:
@@ -298,7 +306,7 @@ class MapControl(Combat, AimDetectorMixin):
                     last_rotation = self.minimap.rotation
                     allow_rotation_set = False
                 if direction_interval.reached():
-                    contact.set(direction=diff_to_180_180(direction - last_rotation), run=False)
+                    contact.set(direction=contact_direction(), run=False)
                     direction_interval.reset()
                 self.handle_map_run_2x(run=False)
             else:

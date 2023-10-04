@@ -135,8 +135,6 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
         """
         if self.ui_page_appear(page_rogue):
             return True
-        if self.handle_combat_interact():
-            return False
         return False
 
     def clear_event(self, *waypoints):
@@ -147,6 +145,7 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
         waypoints = ensure_waypoints(waypoints)
         end_point = waypoints[-1]
         end_point.endpoint_threshold = 1.5
+        end_point.interact_radius = 7
         end_point.expected_end.append(self._domain_event_expected_end)
 
         result = self.goto(*waypoints)
@@ -194,9 +193,6 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
 
         if self.handle_popup_confirm():
             return False
-        if self.minimap.position_diff(self.waypoint.position) < 7:
-            if self.handle_combat_interact():
-                return False
 
         return False
 
@@ -236,6 +232,7 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
         logger.hr('Domain single exit', level=1)
         waypoints = ensure_waypoints(waypoints)
         end_point = waypoints[-1]
+        end_point.interact_radius = 7
         end_point.expected_end.append(self._domain_exit_expected_end)
 
         result = self.goto(*waypoints)
@@ -251,8 +248,22 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
         end_point.end_rotation_threshold = 10
         result = self.goto(*waypoints)
 
-        # TODO: Domain exit detection
-        pass
+        logger.hr('Find domain exit', level=2)
+        direction = self.predict_door_by_name(self.device.image)
+        direction_limit = 55
+        if direction is not None:
+            logger.warning(f'Unexpected direction to go: {direction}, limited in {direction_limit}')
+            if abs(direction) > direction_limit:
+                if direction > 0:
+                    direction = direction_limit
+                elif direction < 0:
+                    direction = -direction_limit
+            end_point.end_rotation = None
+            end_point.min_speed = 'run'
+            end_point.interact_radius = 50
+            end_point.expected_end.append(self._domain_exit_expected_end)
+            end_point.lock_direction = direction
+            self.goto(end_point)
 
         return result
 
