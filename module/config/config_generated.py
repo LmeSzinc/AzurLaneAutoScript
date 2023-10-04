@@ -115,6 +115,7 @@ class GeneratedConfig:
 
     # Group `RoguePath`
     RoguePath_Path = 'The_Hunt'  # Preservation, Remembrance, Nihility, Abundance, The_Hunt, Destruction, Elation
+    RoguePath_DomainStrategy = 'fight'  # fight, leave
     RoguePath_Bonus = 'Blessing Cosmos'  # Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos
     RoguePath_PresetResonanceFilter = 'preset-1'  # preset-1, custom
     RoguePath_ResonanceSelectionStrategy = 'follow-presets'  # follow-presets, unrecorded-first, before-random

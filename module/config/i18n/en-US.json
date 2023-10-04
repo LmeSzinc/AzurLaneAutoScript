@@ -767,6 +767,12 @@
       "Destruction": "Destruction",
       "Elation": "Elation"
     },
+    "DomainStrategy": {
+      "name": "Domain Strategy",
+      "help": "Prefer Combat: Suitable for normal builds, longer clear time\nPrefer Occurrence: Require efficient builds, shorter clear time",
+      "fight": "Prefer Combat",
+      "leave": "Prefer Occurrence"
+    },
     "Bonus": {
       "name": "Blessings of Trailblaze",
       "help": "",

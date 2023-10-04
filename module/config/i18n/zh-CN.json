@@ -767,6 +767,12 @@
       "Destruction": "毁灭",
       "Elation": "欢愉"
     },
+    "DomainStrategy": {
+      "name": "区域策略",
+      "help": "偏好战斗：适用于平民队伍，通关时间较长\n偏好事件：需要高练队伍，通关时间较短",
+      "fight": "偏好战斗",
+      "leave": "偏好事件"
+    },
     "Bonus": {
       "name": "开拓祝福三选一",
       "help": "",

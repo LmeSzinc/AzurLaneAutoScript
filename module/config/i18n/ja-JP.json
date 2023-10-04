@@ -767,6 +767,12 @@
       "Destruction": "Destruction",
       "Elation": "Elation"
     },
+    "DomainStrategy": {
+      "name": "RoguePath.DomainStrategy.name",
+      "help": "RoguePath.DomainStrategy.help",
+      "fight": "fight",
+      "leave": "leave"
+    },
     "Bonus": {
       "name": "RoguePath.Bonus.name",
       "help": "RoguePath.Bonus.help",

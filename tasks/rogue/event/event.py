@@ -1,3 +1,4 @@
+from module.base.button import ClickButton
 from module.base.utils import area_limit
 from module.logger import logger
 from tasks.rogue.assets.assets_rogue_event import CHOOSE_OPTION, CHOOSE_OPTION_CONFIRM, CHOOSE_STORY, OCR_EVENT
@@ -39,5 +40,14 @@ class RogueEvent(RogueUI):
                 self.interval_reset(CHOOSE_OPTION)
                 return True
 
-        # ocr, OCR_EVENT
+        if self.interval_is_reached(CHOOSE_OPTION, interval=2):
+            option = self._event_option_filter(options)
+            self.device.click(option)
+            self.interval_reset(CHOOSE_OPTION)
+            return True
+
         return False
+
+    def _event_option_filter(self, options: list[ClickButton]) -> ClickButton:
+        # TODO: OCR options instead of choosing the last one
+        return options[-1]
