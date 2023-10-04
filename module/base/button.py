@@ -94,6 +94,29 @@ class Button(Resource):
         self._button_offset = np.array(point) + self.search[:2] - self.area[:2]
         return sim > similarity
 
+    def match_multi_template(self, image, similarity=0.85):
+        """
+        Detects assets by template matching, return multiple reults
+
+        Args:
+            image: Screenshot.
+            similarity (float): 0-1.
+
+        Returns:
+            list:
+        """
+        image = crop(image, self.search, copy=False)
+        res = cv2.matchTemplate(self.image, image, cv2.TM_CCOEFF_NORMED)
+        res = cv2.inRange(res, similarity, 1.)
+        try:
+            points = np.array(cv2.findNonZero(res))[:, 0, :]
+            points += self.search[:2]
+            return points.tolist()
+        except IndexError:
+            # Empty result
+            # IndexError: too many indices for array: array is 0-dimensional, but 3 were indexed
+            return []
+
     def match_template_color(self, image, similarity=0.85, threshold=30) -> bool:
         """
         Template match first, color match then
@@ -170,6 +193,33 @@ class ButtonWrapper(Resource):
                 return True
         return False
 
+    def match_multi_template(self, image, similarity=0.85, threshold=5):
+        """
+        Detects assets by template matching, return multiple reults
+
+        Args:
+            image: Screenshot.
+            similarity (float): 0-1.
+            threshold:
+
+        Returns:
+            list[ClickButton]:
+        """
+        points = []
+        for assets in self.buttons:
+            points += assets.match_multi_template(image, similarity=similarity)
+        if not points:
+            return []
+
+        from module.base.utils.points import Points
+        points = Points(points).group(threshold=threshold)
+        area_list = [area_offset(self.area, p - self.area[:2]) for p in points]
+        button_list = [area_offset(self.button, p - self.area[:2]) for p in points]
+        return [
+            ClickButton(area=info[0], button=info[1], name=f'{self.name}_result{i}')
+            for i, info in enumerate(zip(area_list, button_list))
+        ]
+
     def match_template_color(self, image, similarity=0.85, threshold=30) -> bool:
         for assets in self.buttons:
             if assets.match_template_color(image, similarity=similarity, threshold=threshold):
@@ -230,9 +280,12 @@ class ButtonWrapper(Resource):
 
 
 class ClickButton:
-    def __init__(self, button, name='CLICK_BUTTON'):
-        self.area = button
-        self.button = button
+    def __init__(self, area, button=None, name='CLICK_BUTTON'):
+        self.area = area
+        if button is None:
+            self.button = area
+        else:
+            self.button = button
         self.name = name
 
     def __str__(self):

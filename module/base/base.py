@@ -211,7 +211,7 @@ class ModuleBase:
         point = fit_points(points, mod=image_size(image), encourage=encourage)
         point = ensure_int(point + area[:2])
         button_area = area_offset((-encourage, -encourage, encourage, encourage), offset=point)
-        return ClickButton(button=button_area, name=name)
+        return ClickButton(area=button_area, name=name)
 
     def interval_reset(self, button, interval=5):
         if isinstance(button, (list, tuple)):
