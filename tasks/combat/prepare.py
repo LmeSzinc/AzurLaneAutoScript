@@ -97,9 +97,6 @@ class CombatPrepare(UI):
         Pages:
             in: COMBAT_PREPARE
         """
-        multi = self.combat_has_multi_wave()
-        logger.attr('CombatMultiWave', multi)
-
         timeout = Timer(1.5, count=6).start()
         while 1:
             if skip_first_screenshot:
@@ -115,7 +112,8 @@ class CombatPrepare(UI):
 
             cost = Digit(OCR_WAVE_COST).ocr_single_line(self.device.image)
             if cost == 10:
-                if multi:
+                logger.attr('CombatMultiWave', self.combat_has_multi_wave())
+                if self.combat_has_multi_wave():
                     self.combat_wave_cost = cost
                     return cost
                 else:
@@ -123,7 +121,7 @@ class CombatPrepare(UI):
                     self.combat_wave_cost = cost
                     return cost
             elif cost in [30, 40]:
-                if multi:
+                if self.combat_has_multi_wave():
                     logger.warning(f'Combat wave costs {cost} but has multiple waves, '
                                    f'probably wave amount is preset')
                     self.combat_set_wave(1)
@@ -131,13 +129,15 @@ class CombatPrepare(UI):
                     timeout.reset()
                     continue
                 else:
+                    logger.attr('CombatMultiWave', self.combat_has_multi_wave())
                     self.combat_wave_cost = cost
                     return cost
             else:
                 logger.warning(f'Unexpected combat wave cost: {cost}')
                 continue
 
-        if multi:
+        logger.attr('CombatMultiWave', self.combat_has_multi_wave())
+        if self.combat_has_multi_wave():
             cost = 10
         else:
             cost = 40
