@@ -79,6 +79,38 @@ class Route(RouteBase):
         # self.clear_item(item)
         self.clear_enemy(enemy)
 
+    def Jarilo_RivetTown_F1_X231Y211(self):
+        """
+        | Waypoint     | Position                  | Direction | Rotation |
+        | ------------ | ------------------------- | --------- | -------- |
+        | spawn        | Waypoint((231.4, 211.1)), | 30.1      | 27       |
+        | item1        | Waypoint((236.7, 180.5)), | 25.6      | 22       |
+        | node2        | Waypoint((256.9, 180.9)), | 182.9     | 84       |
+        | enemy1       | Waypoint((256.6, 169.0)), | 36.3      | 211      |
+        | item2        | Waypoint((280.5, 188.5)), | 114.2     | 110      |
+        | enemy2middle | Waypoint((290.0, 174.6)), | 92.7      | 84       |
+        | enemy3       | Waypoint((319.6, 153.1)), | 76.4      | 73       |
+        | exit         | Waypoint((317.4, 155.3)), | 60.9      | 73       |
+        """
+        self.map_init(plane=Jarilo_RivetTown, floor="F1", position=(231.4, 211.1))
+        self.register_domain_exit(Waypoint((317.4, 155.3)), end_rotation=73)
+        item1 = Waypoint((236.7, 180.5))
+        node2 = Waypoint((256.9, 180.9))
+        enemy1 = Waypoint((256.6, 169.0))
+        item2 = Waypoint((280.5, 188.5))
+        enemy2middle = Waypoint((290.0, 174.6))
+        enemy3 = Waypoint((319.6, 153.1))
+        # ===== End of generated waypoints =====
+
+        self.rotation_set(73)
+        # Ignore all items, road blocked
+        self.clear_enemy(enemy1)
+        self.clear_enemy(
+            node2,
+            enemy2middle
+        )
+        self.clear_enemy(enemy3)
+
     def Jarilo_RivetTown_F1_X279Y301(self):
         """
         | Waypoint | Position                  | Direction | Rotation |

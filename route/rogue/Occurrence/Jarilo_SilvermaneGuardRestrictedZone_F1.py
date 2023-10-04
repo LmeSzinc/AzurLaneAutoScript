@@ -40,3 +40,21 @@ class Route(RouteBase):
         self.clear_item(item)
         self.clear_event(event)
         # ===== End of generated waypoints =====
+
+    def Jarilo_SilvermaneGuardRestrictedZone_F1_X509Y541(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((509.4, 541.3)), | 96.7      | 91       |
+        | item     | Waypoint((539.4, 533.0)), | 76.4      | 66       |
+        | event    | Waypoint((552.9, 547.7)), | 105.5     | 98       |
+        | exit     | Waypoint((557.1, 543.0)), | 96.8      | 89       |
+        """
+        self.map_init(plane=Jarilo_SilvermaneGuardRestrictedZone, floor="F1", position=(509.4, 541.3))
+        self.register_domain_exit(Waypoint((557.1, 543.0)), end_rotation=89)
+        item = Waypoint((539.4, 533.0))
+        event = Waypoint((552.9, 547.7))
+
+        self.clear_item(item)
+        self.clear_event(event)
+        # ===== End of generated waypoints =====

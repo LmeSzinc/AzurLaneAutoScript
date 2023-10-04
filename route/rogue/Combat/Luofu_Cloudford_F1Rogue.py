@@ -30,10 +30,11 @@ class Route(RouteBase):
         # self.clear_item(item1)
         self.clear_enemy(enemy1)
         # 2 moving enemy
-        self.clear_enemy(
-            enemy2top,
-            enemy2bottom.straight_run(),
-        )
+        # Ignore enemy2, it might be a pig, you can never catch it.
+        # self.clear_enemy(
+        #     enemy2top,
+        #     enemy2bottom.straight_run(),
+        # )
         # 3
         self.clear_enemy(
             enemy3.straight_run(),
