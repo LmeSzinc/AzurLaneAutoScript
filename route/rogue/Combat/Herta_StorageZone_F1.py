@@ -5,6 +5,51 @@ from tasks.rogue.route.base import RouteBase
 
 class Route(RouteBase):
 
+    def Herta_StorageZone_F1_X210Y268(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((225.8, 258.8)), | 96.7      | 91       |
+        | item1    | Waypoint((240.8, 270.0)), | 135.8     | 131      |
+        | enemy1   | Waypoint((270.6, 258.8)), | 76.4      | 73       |
+        | node2    | Waypoint((273.2, 269.2)), | 157.2     | 156      |
+        | node3    | Waypoint((284.6, 283.0)), | 157.2     | 154      |
+        | item3    | Waypoint((293.2, 288.6)), | 105.5     | 103      |
+        | node4    | Waypoint((307.2, 305.2)), | 126.2     | 124      |
+        | item5    | Waypoint((332.8, 304.8)), | 96.8      | 96       |
+        | node5    | Waypoint((336.2, 312.0)), | 102.9     | 98       |
+        | enemy5   | Waypoint((392.5, 312.4)), | 4.1       | 91       |
+        | exit     | Waypoint((392.5, 312.4)), | 4.1       | 91       |
+        """
+        self.map_init(plane=Herta_StorageZone, floor="F1", position=(225.8, 258.8))
+        self.register_domain_exit(Waypoint((392.5, 312.4)), end_rotation=91)
+        item1 = Waypoint((240.8, 270.0))
+        enemy1 = Waypoint((270.6, 258.8))
+        node2 = Waypoint((273.2, 269.2))
+        node3 = Waypoint((284.6, 283.0))
+        item3 = Waypoint((293.2, 288.6))
+        node4 = Waypoint((307.2, 305.2))
+        item5 = Waypoint((332.8, 304.8))
+        node5 = Waypoint((336.2, 312.0))
+        enemy5 = Waypoint((392.5, 312.4))
+        # ===== End of generated waypoints =====
+
+        # 1
+        self.clear_item(item1.straight_run())
+        self.clear_enemy(enemy1.straight_run())
+        # 2
+        self.clear_item(
+            enemy1.set_threshold(3),
+            node2.straight_run().set_threshold(3),
+            node3,
+            node4.straight_run(),
+        )
+        # 5
+        self.clear_enemy(
+            node5.straight_run(),
+            enemy5.straight_run(),
+        )
+
     def Herta_StorageZone_F1_X257Y85(self):
         """
         | Waypoint | Position                 | Direction | Rotation |

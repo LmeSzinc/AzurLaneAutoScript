@@ -106,7 +106,7 @@ class Route(RouteBase):
         # Ignore all items, road blocked
         self.clear_enemy(enemy1)
         self.clear_enemy(
-            node2,
+            node2.set_threshold(3),
             enemy2middle
         )
         self.clear_enemy(enemy3)
@@ -188,7 +188,8 @@ class Route(RouteBase):
         enemy2 = Waypoint((234.6, 204.8))
         # ===== End of generated waypoints =====
 
-        self.clear_item(item1)
+        # Ignore item
+        # self.clear_item(item1)
         self.clear_enemy(enemy1)
         # Ignore item2, position blocked
         self.clear_enemy(enemy2.straight_run())

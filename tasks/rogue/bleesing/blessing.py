@@ -88,6 +88,12 @@ class RogueBuffOcr(Ocr):
             }
             for pat, replace in replace_pattern_dict.items():
                 result = re.sub(pat, replace, result)
+        elif self.lang == 'en':
+            replace_pattern_dict = {
+                "RestIin": "Restin",
+            }
+            for pat, replace in replace_pattern_dict.items():
+                result = re.sub(pat, replace, result)
         return result
 
 

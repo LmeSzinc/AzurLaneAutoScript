@@ -23,6 +23,24 @@ class Route(RouteBase):
         self.clear_item(item)
         self.clear_enemy(enemy)
 
+    def Jarilo_SilvermaneGuardRestrictedZone_F1_X227Y425(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((227.7, 425.5)), | 274.2     | 274      |
+        | item     | Waypoint((208.3, 414.8)), | 303.8     | 301      |
+        | enemy    | Waypoint((170.2, 426.2)), | 274.2     | 274      |
+        | exit     | Waypoint((170.2, 426.2)), | 274.2     | 274      |
+        """
+        self.map_init(plane=Jarilo_SilvermaneGuardRestrictedZone, floor="F1", position=(227.7, 425.5))
+        self.register_domain_exit(Waypoint((170.2, 426.2)), end_rotation=274)
+        item = Waypoint((208.3, 414.8))
+        enemy = Waypoint((170.2, 426.2))
+        # ===== End of generated waypoints =====
+
+        # Ignore item
+        self.clear_enemy(enemy)
+
     def Jarilo_SilvermaneGuardRestrictedZone_F1_X421Y173(self):
         """
         | Waypoint | Position                  | Direction | Rotation |
