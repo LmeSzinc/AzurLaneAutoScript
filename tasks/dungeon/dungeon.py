@@ -32,7 +32,8 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
             int: Run count
 
         Pages:
-            in: Any
+            in: page_main, DUNGEON_COMBAT_INTERACT
+                or COMBAT_PREPARE
             out: page_main
         """
         if team is None:
@@ -51,6 +52,8 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
                 if self.handle_destructible_around_blaze():
                     self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
                     self.dungeon_goto(dungeon)
+
+        self.combat_enter_from_map()
         # Check double event remain before combat
         # Conservatively prefer the smaller result
         if (dungeon.is_Calyx_Golden or dungeon.is_Calyx_Crimson) and \
