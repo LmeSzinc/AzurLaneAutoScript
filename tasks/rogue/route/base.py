@@ -191,8 +191,9 @@ class RouteBase(RouteBase_, RogueUI, RogueExit):
 
         if self.handle_popup_confirm():
             return False
-        if self.handle_combat_interact():
-            return False
+        if self.minimap.position_diff(self.waypoint.position) < 7:
+            if self.handle_combat_interact():
+                return False
 
         return False
 
@@ -244,6 +245,7 @@ class RouteBase(RouteBase_, RogueUI, RogueExit):
         end_point = waypoints[-1]
         end_point.end_rotation = end_rotation
         end_point.endpoint_threshold = 1.5
+        end_point.end_rotation_threshold = 10
         result = self.goto(*waypoints)
 
         # TODO: Domain exit detection

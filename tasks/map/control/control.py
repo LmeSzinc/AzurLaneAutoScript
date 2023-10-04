@@ -16,6 +16,8 @@ from tasks.map.resource.const import diff_to_180_180
 
 
 class MapControl(Combat, AimDetectorMixin):
+    waypoint: Waypoint
+
     @cached_property
     def minimap(self) -> Minimap:
         return Minimap()
@@ -116,6 +118,7 @@ class MapControl(Combat, AimDetectorMixin):
         """
         logger.hr('Goto', level=2)
         logger.info(f'Goto {waypoint}')
+        self.waypoint = waypoint
         self.device.stuck_record_clear()
         self.device.click_record_clear()
 
@@ -203,7 +206,7 @@ class MapControl(Combat, AimDetectorMixin):
                         return result
 
             # Arrive
-            if near :=self.minimap.is_position_near(waypoint.position, threshold=waypoint.get_threshold(end_opt)):
+            if near := self.minimap.is_position_near(waypoint.position, threshold=waypoint.get_threshold(end_opt)):
                 near_queue.append(near)
                 if not waypoint.expected_end or waypoint.match_results(result):
                     logger.info(f'Arrive waypoint: {waypoint}')
@@ -214,7 +217,6 @@ class MapControl(Combat, AimDetectorMixin):
                         return result
             else:
                 near_queue.append(near)
-                logger.info(near_queue)
                 if np.mean(near_queue) < 0.6:
                     waypoint.unexpected_confirm.reset()
 
