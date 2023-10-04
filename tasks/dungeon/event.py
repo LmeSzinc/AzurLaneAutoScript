@@ -84,13 +84,4 @@ class DungeonEvent(UI):
             remain = self._get_double_event_remain(
                 OCR_DOUBLE_EVENT_REMAIN_AT_COMBAT)
         logger.attr('Double event remain at combat', remain)
-        if remain == 0:
-            self.device.image_save()
-            exit(1)
         return remain
-
-
-if __name__ == '__main__':
-    self = DungeonEvent('src')
-    self.device.screenshot()
-    self.get_double_event_remain_at_combat()
