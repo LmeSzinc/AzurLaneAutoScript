@@ -27,10 +27,10 @@ class Route(RouteBase):
         | spawn    | Waypoint((283.2, 865.2)), | 6.7       | 4        |
         | item     | Waypoint((272.2, 840.2)), | 332.7     | 327      |
         | event    | Waypoint((291.8, 822.2)), | 26.8      | 22       |
-        | exit     | Waypoint((285.3, 818.1)), | 99.0      | 361      |
+        | exit     | Waypoint((285.3, 818.1)), | 99.0      | 1        |
         """
         self.map_init(plane=Luofu_Cloudford, floor="F1", position=(283.2, 865.2))
-        self.register_domain_exit(Waypoint((285.3, 818.1)), end_rotation=361)
+        self.register_domain_exit(Waypoint((285.3, 818.1)), end_rotation=1)
         item = Waypoint((272.2, 840.2))
         event = Waypoint((291.8, 822.2))
 

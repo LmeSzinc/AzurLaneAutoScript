@@ -14,10 +14,10 @@ class Route(RouteBase):
         | node     | Waypoint((439.0, 388.5)), | 355.9     | 352      |
         | enemy1   | Waypoint((434.0, 406.2)), | 274.2     | 274      |
         | enemy2   | Waypoint((432.2, 367.2)), | 355.9     | 352      |
-        | exit     | Waypoint((431.2, 363.2)), | 6.6       | 361      |
+        | exit     | Waypoint((431.2, 363.2)), | 6.6       | 1        |
         """
         self.map_init(plane=Luofu_ScalegorgeWaterscape, floor="F1", position=(467.5, 405.5))
-        self.register_domain_exit(Waypoint((431.2, 363.2)), end_rotation=361)
+        self.register_domain_exit(Waypoint((431.2, 363.2)), end_rotation=1)
         item = Waypoint((444.6, 390.5))
         node = Waypoint((439.0, 388.5))
         enemy1 = Waypoint((434.0, 406.2))
@@ -32,7 +32,7 @@ class Route(RouteBase):
         """
         | Waypoint | Position                 | Direction | Rotation |
         | -------- | ------------------------ | --------- | -------- |
-        | spawn    | Waypoint((617.3, 99.4)), | 6.7       | 361      |
+        | spawn    | Waypoint((617.3, 99.4)), | 6.7       | 1        |
         | item     | Waypoint((610.5, 88.6)), | 337.2     | 334      |
         | enemy    | Waypoint((616.2, 64.4)), | 22.7      | 195      |
         | exit     | Waypoint((617.2, 66.6)), | 12.6      | 4        |

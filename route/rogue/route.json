@@ -99,12 +99,34 @@
     "domain": "Combat"
   },
   {
+    "name": "Combat_Herta_SupplyZone_F2_X543Y255",
+    "route": "route.rogue.Combat.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X543Y255",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2",
+    "position": [
+      543.4,
+      255.2
+    ],
+    "domain": "Combat"
+  },
+  {
     "name": "Combat_Herta_SupplyZone_F2_X594Y247",
     "route": "route.rogue.Combat.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X594Y247",
     "plane": "Herta_SupplyZone",
     "floor": "F2",
     "position": [
       594.3,
+      247.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_SupplyZone_F2_X657Y247",
+    "route": "route.rogue.Combat.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X657Y247",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2",
+    "position": [
+      656.7,
       247.5
     ],
     "domain": "Combat"
@@ -440,6 +462,17 @@
     "domain": "Combat"
   },
   {
+    "name": "Combat_Luofu_ArtisanshipCommission_F1_X217Y807",
+    "route": "route.rogue.Combat.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X217Y807",
+    "plane": "Luofu_ArtisanshipCommission",
+    "floor": "F1",
+    "position": [
+      217.3,
+      807.4
+    ],
+    "domain": "Combat"
+  },
+  {
     "name": "Combat_Luofu_ArtisanshipCommission_F1_X655Y537",
     "route": "route.rogue.Combat.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X655Y537",
     "plane": "Luofu_ArtisanshipCommission",
@@ -744,6 +777,17 @@
     "position": [
       363.4,
       166.9
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Herta_SupplyZone_F2Rogue_X397Y227",
+    "route": "route.rogue.Occurrence.Herta_SupplyZone_F2Rogue:Herta_SupplyZone_F2Rogue_X397Y227",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2",
+    "position": [
+      397.4,
+      223.3
     ],
     "domain": "Occurrence"
   },

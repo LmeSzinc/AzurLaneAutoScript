@@ -380,7 +380,7 @@ class Minimap(MapResource):
         degree = int(degree % 360)
         # +3 is a value obtained from experience
         # Don't know why but <predicted_rotation> + 3 = <actual_rotation>
-        rotation = degree + 3
+        rotation = (degree + 3) % 360
 
         self.rotation_confidence = rotation_confidence
         self.rotation = rotation

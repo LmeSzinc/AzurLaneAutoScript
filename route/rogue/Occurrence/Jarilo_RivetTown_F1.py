@@ -27,10 +27,10 @@ class Route(RouteBase):
         | spawn    | Waypoint((209.3, 397.9)), | 6.7       | 4        |
         | item     | Waypoint((220.9, 378.0)), | 36.2      | 34       |
         | event    | Waypoint((218.0, 356.2)), | 12.7      | 8        |
-        | exit     | Waypoint((208.3, 349.2)), | 12.7      | 361      |
+        | exit     | Waypoint((208.3, 349.2)), | 12.7      | 1        |
         """
         self.map_init(plane=Jarilo_RivetTown, floor="F1", position=(209.3, 397.9))
-        self.register_domain_exit(Waypoint((208.3, 349.2)), end_rotation=361)
+        self.register_domain_exit(Waypoint((208.3, 349.2)), end_rotation=1)
         item = Waypoint((220.9, 378.0))
         event = Waypoint((218.0, 356.2))
 

@@ -57,11 +57,11 @@ class Route(RouteBase):
         | -------- | ------------------------- | --------- | -------- |
         | spawn    | Waypoint((283.4, 865.3)), | 6.7       | 4        |
         | item     | Waypoint((297.0, 841.4)), | 36.1      | 31       |
-        | enemy    | Waypoint((282.4, 814.2)), | 8.1       | 361      |
-        | exit     | Waypoint((284.5, 816.8)), | 5.7       | 361      |
+        | enemy    | Waypoint((282.4, 814.2)), | 8.1       | 1        |
+        | exit     | Waypoint((284.5, 816.8)), | 5.7       | 1        |
         """
         self.map_init(plane=Luofu_Cloudford, floor="F1", position=(283.4, 865.3))
-        self.register_domain_exit(Waypoint((284.5, 816.8)), end_rotation=361)
+        self.register_domain_exit(Waypoint((284.5, 816.8)), end_rotation=1)
         item = Waypoint((297.0, 841.4))
         enemy = Waypoint((282.4, 814.2))
         # ===== End of generated waypoints =====
