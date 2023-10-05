@@ -23,6 +23,24 @@ class Route(RouteBase):
         self.clear_item(item)
         self.clear_enemy(enemy)
 
+    def Jarilo_GreatMine_F1_X91Y391(self):
+        """
+        | Waypoint | Position                 | Direction | Rotation |
+        | -------- | ------------------------ | --------- | -------- |
+        | spawn    | Waypoint((91.4, 392.4)), | 334.8     | 331      |
+        | item     | Waypoint((60.2, 358.4)), | 308.0     | 304      |
+        | enemy    | Waypoint((57.2, 330.8)), | 85.8      | 336      |
+        | exit     | Waypoint((57.2, 330.8)), | 85.8      | 336      |
+        """
+        self.map_init(plane=Jarilo_GreatMine, floor="F1", position=(91.4, 392.4))
+        self.register_domain_exit(Waypoint((57.2, 330.8)), end_rotation=336)
+        item = Waypoint((60.2, 358.4))
+        enemy = Waypoint((57.2, 330.8))
+        # ===== End of generated waypoints =====
+
+        self.clear_item(item)
+        self.clear_enemy(enemy)
+
     def Jarilo_GreatMine_F1_X133Y465(self):
         """
         | Waypoint | Position                  | Direction | Rotation |
@@ -128,7 +146,8 @@ class Route(RouteBase):
 
         # enemy first
         self.clear_enemy(enemy1)
-        self.clear_item(item1)
+        # item1 is too close to enemy1, usually to be destroyed along with enemy1
+        # self.clear_item(item1)
         self.clear_item(item2)
         # 3
         self.clear_enemy(

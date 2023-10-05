@@ -19,3 +19,21 @@ class Route(RouteBase):
 
         self.clear_event(event)
         # ===== End of generated waypoints =====
+
+    def Jarilo_RivetTown_F1_X209Y398(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((209.3, 397.9)), | 6.7       | 4        |
+        | item     | Waypoint((220.9, 378.0)), | 36.2      | 34       |
+        | event    | Waypoint((218.0, 356.2)), | 12.7      | 8        |
+        | exit     | Waypoint((208.3, 349.2)), | 12.7      | 361      |
+        """
+        self.map_init(plane=Jarilo_RivetTown, floor="F1", position=(209.3, 397.9))
+        self.register_domain_exit(Waypoint((208.3, 349.2)), end_rotation=361)
+        item = Waypoint((220.9, 378.0))
+        event = Waypoint((218.0, 356.2))
+
+        self.clear_item(item)
+        self.clear_event(event)
+        # ===== End of generated waypoints =====

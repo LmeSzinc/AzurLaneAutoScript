@@ -99,19 +99,30 @@
     "domain": "Combat"
   },
   {
-    "name": "Combat_Herta_SupplyZone_F2_X658Y247",
-    "route": "route.rogue.Combat.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X658Y247",
+    "name": "Combat_Herta_SupplyZone_F2_X594Y247",
+    "route": "route.rogue.Combat.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X594Y247",
     "plane": "Herta_SupplyZone",
     "floor": "F2",
     "position": [
-      656.7,
+      594.3,
       247.5
     ],
     "domain": "Combat"
   },
   {
-    "name": "Combat_Herta_SupplyZone_F2Rogue_X215Y112",
-    "route": "route.rogue.Combat.Herta_SupplyZone_F2Rogue:Herta_SupplyZone_F2Rogue_X215Y112",
+    "name": "Combat_Herta_SupplyZone_F2Rogue_X209Y112",
+    "route": "route.rogue.Combat.Herta_SupplyZone_F2Rogue:Herta_SupplyZone_F2Rogue_X209Y112",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2Rogue",
+    "position": [
+      209.6,
+      112.8
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_SupplyZone_F2Rogue_X219Y112",
+    "route": "route.rogue.Combat.Herta_SupplyZone_F2Rogue:Herta_SupplyZone_F2Rogue_X219Y112",
     "plane": "Herta_SupplyZone",
     "floor": "F2Rogue",
     "position": [
@@ -205,6 +216,17 @@
     "position": [
       84.4,
       378.7
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_GreatMine_F1_X91Y391",
+    "route": "route.rogue.Combat.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X91Y391",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      91.4,
+      392.4
     ],
     "domain": "Combat"
   },
@@ -473,8 +495,8 @@
     "domain": "Combat"
   },
   {
-    "name": "Combat_Luofu_Cloudford_F1Rogue_X59Y405",
-    "route": "route.rogue.Combat.Luofu_Cloudford_F1Rogue:Luofu_Cloudford_F1Rogue_X59Y405",
+    "name": "Combat_Luofu_Cloudford_F1Rogue_X49Y405",
+    "route": "route.rogue.Combat.Luofu_Cloudford_F1Rogue:Luofu_Cloudford_F1Rogue_X49Y405",
     "plane": "Luofu_Cloudford",
     "floor": "F1Rogue",
     "position": [
@@ -495,6 +517,50 @@
     "domain": "Combat"
   },
   {
+    "name": "Combat_Luofu_ScalegorgeWaterscape_F1_X467Y405",
+    "route": "route.rogue.Combat.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X467Y405",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      467.5,
+      405.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ScalegorgeWaterscape_F1_X617Y99",
+    "route": "route.rogue.Combat.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X617Y99",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      617.3,
+      99.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ScalegorgeWaterscape_F1_X668Y243",
+    "route": "route.rogue.Combat.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X668Y243",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      668.9,
+      243.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ScalegorgeWaterscape_F1_X1181Y279",
+    "route": "route.rogue.Combat.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X1181Y279",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      1181.0,
+      279.5
+    ],
+    "domain": "Combat"
+  },
+  {
     "name": "Combat_Luofu_StargazerNavalia_F1_X183Y315",
     "route": "route.rogue.Combat.Luofu_StargazerNavalia_F1:Luofu_StargazerNavalia_F1_X183Y315",
     "plane": "Luofu_StargazerNavalia",
@@ -502,6 +568,17 @@
     "position": [
       183.4,
       315.6
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_StargazerNavalia_F1_X215Y192",
+    "route": "route.rogue.Combat.Luofu_StargazerNavalia_F1:Luofu_StargazerNavalia_F1_X215Y192",
+    "plane": "Luofu_StargazerNavalia",
+    "floor": "F1",
+    "position": [
+      215.5,
+      192.6
     ],
     "domain": "Combat"
   },
@@ -638,6 +715,17 @@
     "domain": "Elite"
   },
   {
+    "name": "Elite_Luofu_ScalegorgeWaterscape_F1_X1368Y261",
+    "route": "route.rogue.Elite.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X1368Y261",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      1368.9,
+      261.5
+    ],
+    "domain": "Elite"
+  },
+  {
     "name": "Elite_Luofu_StargazerNavalia_F1_X617Y511",
     "route": "route.rogue.Elite.Luofu_StargazerNavalia_F1:Luofu_StargazerNavalia_F1_X617Y511",
     "plane": "Luofu_StargazerNavalia",
@@ -667,6 +755,17 @@
     "position": [
       437.5,
       101.5
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_BackwaterPass_F1_X553Y643",
+    "route": "route.rogue.Occurrence.Jarilo_BackwaterPass_F1:Jarilo_BackwaterPass_F1_X553Y643",
+    "plane": "Jarilo_BackwaterPass",
+    "floor": "F1",
+    "position": [
+      553.3,
+      643.5
     ],
     "domain": "Occurrence"
   },
@@ -704,6 +803,17 @@
     "domain": "Occurrence"
   },
   {
+    "name": "Occurrence_Jarilo_GreatMine_F1_X153Y271",
+    "route": "route.rogue.Occurrence.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X153Y271",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      153.8,
+      271.7
+    ],
+    "domain": "Occurrence"
+  },
+  {
     "name": "Occurrence_Jarilo_RivetTown_F1_X157Y435",
     "route": "route.rogue.Occurrence.Jarilo_RivetTown_F1:Jarilo_RivetTown_F1_X157Y435",
     "plane": "Jarilo_RivetTown",
@@ -711,6 +821,17 @@
     "position": [
       157.4,
       435.5
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_RivetTown_F1_X209Y398",
+    "route": "route.rogue.Occurrence.Jarilo_RivetTown_F1:Jarilo_RivetTown_F1_X209Y398",
+    "plane": "Jarilo_RivetTown",
+    "floor": "F1",
+    "position": [
+      209.3,
+      397.9
     ],
     "domain": "Occurrence"
   },
@@ -788,6 +909,28 @@
     "position": [
       241.4,
       947.5
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_Cloudford_F1_X283Y865",
+    "route": "route.rogue.Occurrence.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X283Y865",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      283.2,
+      865.2
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_StargazerNavalia_F2_X579Y183",
+    "route": "route.rogue.Occurrence.Luofu_StargazerNavalia_F2:Luofu_StargazerNavalia_F2_X579Y183",
+    "plane": "Luofu_StargazerNavalia",
+    "floor": "F2",
+    "position": [
+      579.8,
+      183.5
     ],
     "domain": "Occurrence"
   },

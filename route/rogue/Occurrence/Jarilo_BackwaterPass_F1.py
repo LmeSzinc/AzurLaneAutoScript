@@ -23,6 +23,21 @@ class Route(RouteBase):
         self.clear_event(event)
         # ===== End of generated waypoints =====
 
+    def Jarilo_BackwaterPass_F1_X553Y643(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((553.3, 643.5)), | 274.2     | 274      |
+        | event    | Waypoint((515.2, 633.2)), | 135.9     | 311      |
+        | exit     | Waypoint((505.0, 642.3)), | 263.8     | 264      |
+        """
+        self.map_init(plane=Jarilo_BackwaterPass, floor="F1", position=(553.3, 643.5))
+        self.register_domain_exit(Waypoint((505.0, 642.3)), end_rotation=264)
+        event = Waypoint((515.2, 633.2))
+
+        self.clear_event(event)
+        # ===== End of generated waypoints =====
+
     def Jarilo_BackwaterPass_F1_X613Y755(self):
         """
         | Waypoint | Position                  | Direction | Rotation |
