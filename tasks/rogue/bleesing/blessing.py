@@ -6,14 +6,14 @@ from module.base.filter import MultiLangFilter
 from module.base.timer import Timer
 from module.base.utils import get_color
 from module.logger import logger
-from module.ocr.ocr import Ocr, OcrResultButton, DigitCounter, Digit
+from module.ocr.ocr import Digit, DigitCounter, Ocr, OcrResultButton
 from module.ocr.utils import split_and_pair_buttons
 from tasks.rogue.assets.assets_rogue_blessing import *
 from tasks.rogue.assets.assets_rogue_ui import BLESSING_CONFIRM
-from tasks.rogue.keywords import *
 from tasks.rogue.bleesing.preset import *
 from tasks.rogue.bleesing.selector import RogueSelector
-from tasks.rogue.bleesing.utils import get_regex_from_keyword_name, parse_name, is_card_selected
+from tasks.rogue.bleesing.utils import get_regex_from_keyword_name, is_card_selected, parse_name
+from tasks.rogue.keywords import *
 
 # normal blessing filter
 # path name
@@ -133,6 +133,7 @@ class RogueBlessingSelector(RogueSelector):
         if blessing_count != len(results):
             logger.warning(f"The OCR result does not match the blessing count. "
                            f"Expect {blessing_count}, but recognized {len(results)} only.")
+            exit(1)
         for result in results:
             if result in enhanced_blessing:
                 result.matched_keyword.enhancement = KEYWORDS_ROGUE_ENHANCEMENT.Already_Enhanced.enhancement_keyword

@@ -5,10 +5,10 @@ from module.logger import logger
 from module.ocr.ocr import OcrResultButton
 from tasks.rogue.assets.assets_rogue_blessing import OCR_ROGUE_BUFF
 from tasks.rogue.assets.assets_rogue_bonus import BONUS_BOTTOM_WHITE_BAR, BONUS_CONFIRM
-from tasks.rogue.keywords import RogueBonus
 from tasks.rogue.bleesing.selector import RogueSelector
 from tasks.rogue.bleesing.ui import RogueBonusOcr
 from tasks.rogue.bleesing.utils import is_card_selected
+from tasks.rogue.keywords import RogueBonus
 
 
 class RogueBonusSelector(RogueSelector):

@@ -252,8 +252,8 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
         direction = self.predict_door_by_name(self.device.image)
         direction_limit = 55
         if direction is not None:
-            logger.warning(f'Unexpected direction to go: {direction}, limited in {direction_limit}')
             if abs(direction) > direction_limit:
+                logger.warning(f'Unexpected direction to go: {direction}, limited in {direction_limit}')
                 if direction > 0:
                     direction = direction_limit
                 elif direction < 0:

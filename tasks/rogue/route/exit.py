@@ -200,6 +200,8 @@ class RogueExit(CombatInteract):
                     logger.warning('Found multiple doors but has unique domain in it')
                     logger.info(f'Goto next domain: {domain}')
                     return direction
+
+        logger.attr('DomainStrategy', self.config.RoguePath_DomainStrategy)
         if self.config.RoguePath_DomainStrategy == 'leave':
             for expect in [
                 KEYWORDS_MAP_PLANE.Rogue_DomainTransaction,
