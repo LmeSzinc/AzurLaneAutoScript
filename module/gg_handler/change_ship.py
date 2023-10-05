@@ -49,9 +49,11 @@ class ChangeShip(ModuleBase):
             logger.info('Lua Pushed')
 
     def ChangeShipType(self):
-        if not self.config.is_task_enabled("GemsFarming") \
-                or deep_get(self.config.data, "GemsFarming.Campaign.Name").upper() not in ["C1", "C2", "C3", "D1", "D2",
-                                                                                           "D3"]:
+        HARDMODEMAPS = [
+            'd1', 'd2', 'd3',
+            'ht4', 'ht5', 'ht6',
+        ]
+        if not self.config.is_task_enabled("GemsFarming") or deep_get(self.config.data, "GemsFarming.Campaign.Name").lower() not in HARDMODEMAPS:
             return 0
         _set = False
         _confirmed = False
