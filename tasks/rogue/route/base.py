@@ -221,9 +221,14 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
                 break
 
             if self.appear(ROGUE_REPORT, interval=2):
+                logger.info(f'{ROGUE_REPORT} -> {BLESSING_CONFIRM}')
                 self.device.click(BLESSING_CONFIRM)
                 continue
+            # Confirm that leave without getting rewards
             if self.handle_popup_confirm():
+                continue
+            # First-time cleared reward
+            if self.handle_reward():
                 continue
 
     def domain_single_exit(self, *waypoints):
