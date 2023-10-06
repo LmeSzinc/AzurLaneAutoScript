@@ -955,7 +955,7 @@
       "name": "一队全员已婚 (+10/h)",
       "help": ""
     },
-    "Fleet1Spas": {
+    "Fleet1Onsen": {
       "name": "一队全员已放置温泉 (+10/h)",
       "help": ""
     },
@@ -986,7 +986,7 @@
       "name": "二队全员已婚 (+10/h)",
       "help": ""
     },
-    "Fleet2Spas": {
+    "Fleet2Onsen": {
       "name": "二队全员已放置温泉 (+10/h)",
       "help": ""
     }

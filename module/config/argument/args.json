@@ -685,7 +685,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Spas": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -722,7 +722,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Spas": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -1066,7 +1066,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Spas": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -1103,7 +1103,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Spas": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -1447,7 +1447,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Spas": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -1484,7 +1484,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Spas": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -2248,7 +2248,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Spas": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -2285,7 +2285,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Spas": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -2693,7 +2693,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Spas": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -2730,7 +2730,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Spas": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -2976,7 +2976,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Spas": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -3017,7 +3017,7 @@
         "value": false,
         "display": "hide"
       },
-      "Fleet2Spas": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false,
         "display": "hide"
@@ -3206,7 +3206,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Spas": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -3247,7 +3247,7 @@
         "value": false,
         "display": "hide"
       },
-      "Fleet2Spas": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false,
         "display": "hide"
@@ -3621,7 +3621,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Spas": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -3658,7 +3658,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Spas": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -4083,7 +4083,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Spas": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -4120,7 +4120,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Spas": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -4545,7 +4545,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Spas": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -4582,7 +4582,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Spas": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -5007,7 +5007,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Spas": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -5044,7 +5044,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Spas": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -5469,7 +5469,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Spas": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -5506,7 +5506,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Spas": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -5922,7 +5922,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Spas": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -5959,7 +5959,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Spas": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -6196,7 +6196,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Spas": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -6237,7 +6237,7 @@
         "value": false,
         "display": "hide"
       },
-      "Fleet2Spas": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false,
         "display": "hide"
@@ -6427,7 +6427,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Spas": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -6468,7 +6468,7 @@
         "value": false,
         "display": "hide"
       },
-      "Fleet2Spas": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false,
         "display": "hide"

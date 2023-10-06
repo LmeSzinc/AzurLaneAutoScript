@@ -188,7 +188,7 @@ Emotion:
     value: not_in_dormitory
     option: [ not_in_dormitory, dormitory_floor_1, dormitory_floor_2 ]
   Fleet1Oath: false
-  Fleet1Spas: false
+  Fleet1Onsen: false
   Fleet2Value: 119
   Fleet2Record:
     value: 2020-01-01 00:00:00
@@ -200,7 +200,7 @@ Emotion:
     value: not_in_dormitory
     option: [ not_in_dormitory, dormitory_floor_1, dormitory_floor_2 ]
   Fleet2Oath: false
-  Fleet2Spas: false
+  Fleet2Onsen: false
 HpControl:
   UseHpBalance: false
   UseEmergencyRepair: false
