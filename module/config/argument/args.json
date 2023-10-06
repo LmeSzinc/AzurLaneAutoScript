@@ -1149,10 +1149,10 @@
       },
       "DomainStrategy": {
         "type": "select",
-        "value": "fight",
+        "value": "combat",
         "option": [
-          "fight",
-          "leave"
+          "combat",
+          "occurrence"
         ]
       },
       "Bonus": {

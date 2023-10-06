@@ -770,8 +770,8 @@
     "DomainStrategy": {
       "name": "RoguePath.DomainStrategy.name",
       "help": "RoguePath.DomainStrategy.help",
-      "fight": "fight",
-      "leave": "leave"
+      "combat": "combat",
+      "occurrence": "occurrence"
     },
     "Bonus": {
       "name": "RoguePath.Bonus.name",

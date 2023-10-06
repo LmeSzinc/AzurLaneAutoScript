@@ -770,8 +770,8 @@
     "DomainStrategy": {
       "name": "Estrategia de dominio",
       "help": "Prefiero Batalla: Adecuado para configuraciones normales, tiempo de eliminación más prolongado\\Prefiero Evento: Requiere configuraciones eficientes, tiempo de eliminación más corto",
-      "fight": "Prefiero Batalla",
-      "leave": "Prefiero Evento"
+      "combat": "Prefiero Batalla",
+      "occurrence": "Prefiero Evento"
     },
     "Bonus": {
       "name": "Bendiciones",

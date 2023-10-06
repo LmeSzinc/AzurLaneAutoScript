@@ -202,7 +202,7 @@ class RogueExit(CombatInteract):
                     return direction
 
         logger.attr('DomainStrategy', self.config.RoguePath_DomainStrategy)
-        if self.config.RoguePath_DomainStrategy == 'leave':
+        if self.config.RoguePath_DomainStrategy == 'occurrence':
             for expect in [
                 KEYWORDS_MAP_PLANE.Rogue_DomainTransaction,
                 KEYWORDS_MAP_PLANE.Rogue_DomainOccurrence,
@@ -213,7 +213,7 @@ class RogueExit(CombatInteract):
                     if domain == expect:
                         logger.info(f'Goto next domain: {domain}')
                         return direction
-        elif self.config.RoguePath_DomainStrategy == 'fight':
+        elif self.config.RoguePath_DomainStrategy == 'combat':
             for expect in [
                 KEYWORDS_MAP_PLANE.Rogue_DomainCombat,
                 KEYWORDS_MAP_PLANE.Rogue_DomainEncounter,

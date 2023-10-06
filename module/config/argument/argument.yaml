@@ -199,8 +199,8 @@ RoguePath:
     value: The_Hunt
     option: [ Preservation, Remembrance, Nihility, Abundance, The_Hunt, Destruction, Elation ]
   DomainStrategy:
-    value: fight
-    option: [ fight, leave ]
+    value: combat
+    option: [ combat, occurrence ]
   Bonus:
     value: Blessing Cosmos
     option: [ Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos ]
