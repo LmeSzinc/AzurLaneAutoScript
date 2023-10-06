@@ -68,3 +68,14 @@ class RogueEnhancement(Keyword):
     def enhancement_keyword(self):
         return [self.__getattribute__(f"{server}_parsed")
                 for server in UI_LANGUAGES if hasattr(self, f"{server}_parsed")]
+
+
+@dataclass(repr=False)
+class RogueEventTitle(Keyword):
+    instances: ClassVar = {}
+    option_ids: list[int]
+
+
+@dataclass(repr=False)
+class RogueEventOption(Keyword):
+    instances: ClassVar = {}
