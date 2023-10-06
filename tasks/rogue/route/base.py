@@ -108,8 +108,8 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
                 if self.handle_event_option():
                     continue
 
-    def goto(self, *waypoints):
-        result = super().goto(*waypoints)
+    def _goto(self, *args, **kwargs):
+        result = super()._goto(*args, **kwargs)
         if 'enemy' in result:
             self.clear_blessing()
         return result
@@ -245,10 +245,11 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
         logger.hr('Domain exit', level=1)
         waypoints = ensure_waypoints(waypoints)
         end_point = waypoints[-1]
-        end_point.end_rotation = end_rotation
         end_point.endpoint_threshold = 1.5
-        end_point.end_rotation_threshold = 10
         result = self.goto(*waypoints)
+
+        logger.hr('End rotation', level=2)
+        self.rotation_set(end_rotation, threshold=10)
 
         logger.hr('Find domain exit', level=2)
         direction = self.predict_door_by_name(self.device.image)
@@ -260,7 +261,6 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
                     direction = direction_limit
                 elif direction < 0:
                     direction = -direction_limit
-            end_point.end_rotation = None
             end_point.min_speed = 'run'
             end_point.interact_radius = 50
             end_point.expected_end.append(self._domain_exit_expected_end)

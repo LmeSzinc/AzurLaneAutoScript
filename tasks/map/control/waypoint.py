@@ -30,9 +30,6 @@ class Waypoint:
     # True to enable endpoint optimizations, character will smoothly approach target position
     # False to stop all controls at arrive
     end_opt: bool = True
-    # Set rotation after arrive, 0~360
-    end_rotation: int = None
-    end_rotation_threshold: int = 15
 
     """
     Walk

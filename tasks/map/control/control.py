@@ -351,10 +351,6 @@ class MapControl(Combat, AimDetectorMixin):
                 else:
                     logger.warning(f'Arrive waypoint with unexpected result: {result}')
 
-        end_point = waypoints[-1]
-        if end_point.end_rotation is not None:
-            logger.hr('End rotation', level=2)
-            self.rotation_set(end_point.end_rotation, threshold=end_point.end_rotation_threshold)
         return results
 
     def clear_item(self, *waypoints):
