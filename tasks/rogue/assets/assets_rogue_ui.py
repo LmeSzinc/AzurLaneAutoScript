@@ -13,6 +13,26 @@ BLESSING_CONFIRM = ButtonWrapper(
         button=(960, 629, 1233, 677),
     ),
 )
+BLESSING_ENHANCED = ButtonWrapper(
+    name='BLESSING_ENHANCED',
+    share=Button(
+        file='./assets/share/rogue/ui/BLESSING_ENHANCED.png',
+        area=(630, 351, 651, 370),
+        search=(610, 331, 671, 390),
+        color=(124, 125, 128),
+        button=(630, 351, 651, 370),
+    ),
+)
+BLESSING_OBTAINED = ButtonWrapper(
+    name='BLESSING_OBTAINED',
+    share=Button(
+        file='./assets/share/rogue/ui/BLESSING_OBTAINED.png',
+        area=(733, 561, 765, 583),
+        search=(710, 551, 777, 593),
+        color=(248, 248, 248),
+        button=(733, 561, 765, 583),
+    ),
+)
 CHECK_BLESSING = ButtonWrapper(
     name='CHECK_BLESSING',
     share=Button(

@@ -50,6 +50,8 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
             selector = RogueBonusSelector(self)
             selector.recognize_and_select()
             return True
+        if self.handle_blessing_popup():
+            return True
 
         return False
 

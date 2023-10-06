@@ -1,6 +1,7 @@
 import re
 
 from module.base.utils import area_offset
+from module.logger import logger
 from module.ocr.ocr import Digit, Ocr, OcrResultButton
 from tasks.base.ui import UI
 from tasks.rogue.assets.assets_rogue_ui import *
@@ -56,3 +57,16 @@ class RogueUI(UI):
         """
         FLAG_UNRECORD.matched_button.search = area_offset(relative_area, target.area[:2])
         return self.appear(FLAG_UNRECORD)
+
+    def handle_blessing_popup(self):
+        # Obtained a free blessing from curio
+        if self.appear(BLESSING_OBTAINED, interval=2):
+            logger.info(f'{BLESSING_OBTAINED} -> {BLESSING_CONFIRM}')
+            self.device.click(BLESSING_CONFIRM)
+            return True
+        # Enhanced a blessing from occurrence
+        if self.appear(BLESSING_ENHANCED, interval=2):
+            logger.info(f'{BLESSING_ENHANCED} -> {BLESSING_CONFIRM}')
+            self.device.click(BLESSING_CONFIRM)
+            return True
+        return False
