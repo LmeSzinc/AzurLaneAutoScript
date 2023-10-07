@@ -92,7 +92,7 @@ class MeowfficerEnhance(MeowfficerBase):
                 break
 
             # Exit if button is empty slot
-            if self.image_color_count(button, color=(231, 223, 221), threshold=221, count=450):
+            if self.image_color_count(button, color=(231, 223, 221), threshold=235, count=450):
                 break
 
             # Continue onto next if button
