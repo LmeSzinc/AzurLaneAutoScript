@@ -211,7 +211,7 @@ class MapControl(Combat, AimDetectorMixin):
                         return result
             if waypoint.interact_radius > 0:
                 if diff < waypoint.interact_radius:
-                    self.handle_combat_interact()
+                    self.handle_combat_interact(interval=1)
 
             # Arrive
             if near := self.minimap.is_position_near(waypoint.position, threshold=waypoint.get_threshold(end_opt)):
