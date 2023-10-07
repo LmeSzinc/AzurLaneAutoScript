@@ -354,7 +354,7 @@ class KeywordExtract:
         self.write_keywords(keyword_class='RogueResonance', output_file='./tasks/rogue/keywords/resonance.py',
                             text_convert=blessing_name, extra_attrs=extra_attrs)
 
-    def generate_rogue_talks(self):
+    def generate_rogue_events(self):
         # A talk contains several options
         event_title_file = os.path.join(
             TextMap.DATA_FOLDER, 'ExcelOutput',
@@ -378,7 +378,7 @@ class KeywordExtract:
             id_: deep_get(data, 'EventTitle.Hash')
             for id_, data in read_file(option_file).items()
         }
-        # Key: talk name id, value: list of option id/hash
+        # Key: event name id, value: list of option id/hash
         options_grouped = dict()
 
         # Drop invalid or duplicate options
@@ -508,7 +508,7 @@ class KeywordExtract:
         self.load_keywords(list(self.iter_without_duplication(
             read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'RogueBonus.json')), 'BonusTitle.Hash')))
         self.write_keywords(keyword_class='RogueBonus', output_file='./tasks/rogue/keywords/bonus.py')
-        self.generate_rogue_talks()
+        self.generate_rogue_events()
 
 
 if __name__ == '__main__':
