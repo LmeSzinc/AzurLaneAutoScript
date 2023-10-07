@@ -32,6 +32,8 @@ class OcrPlaneName(Ocr):
         # Domain'--Occurence
         # Domain-Qccurrence
         result = result.replace('cunr', 'cur').replace('uren', 'urren').replace('Qcc', 'Occ')
+        # Domain-Elit
+        result = re.sub(r'[Ee]lit$', 'Elite', result)
 
         # 区域－战
         result = re.sub(r'区域.*战$', '区域战斗', result)

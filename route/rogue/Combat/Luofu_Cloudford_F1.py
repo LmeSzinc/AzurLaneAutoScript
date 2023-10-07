@@ -80,6 +80,29 @@ class Route(RouteBase):
             enemy
         )
 
+    def Luofu_Cloudford_F1_X281Y873(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((283.4, 865.3)), | 6.7       | 4        |
+        | item     | Waypoint((297.0, 841.4)), | 36.1      | 31       |
+        | enemy    | Waypoint((282.4, 814.2)), | 8.1       | 1        |
+        | exit     | Waypoint((284.5, 816.8)), | 5.7       | 1        |
+        """
+        self.map_init(plane=Luofu_Cloudford, floor="F1", position=(281, 873))
+        self.register_domain_exit(Waypoint((284.5, 816.8)), end_rotation=1)
+        item = Waypoint((297.0, 841.4))
+        enemy = Waypoint((282.4, 814.2))
+        # ===== End of generated waypoints =====
+
+        """
+        Notes
+        Luofu_Cloudford_F1_X281Y873 is the same as Luofu_Cloudford_F1_X283Y865
+        but for wrong spawn point detected
+        """
+        self.clear_item(item)
+        self.clear_enemy(enemy)
+
     def Luofu_Cloudford_F1_X283Y865(self):
         """
         | Waypoint | Position                  | Direction | Rotation |

@@ -264,6 +264,17 @@
     "domain": "Combat"
   },
   {
+    "name": "Combat_Jarilo_CorridorofFadingEchoes_F1_X266Y457",
+    "route": "route.rogue.Combat.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X266Y457",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      267.0,
+      457.2
+    ],
+    "domain": "Combat"
+  },
+  {
     "name": "Combat_Jarilo_CorridorofFadingEchoes_F1_X291Y765",
     "route": "route.rogue.Combat.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X291Y765",
     "plane": "Jarilo_CorridorofFadingEchoes",
@@ -282,6 +293,28 @@
     "position": [
       319.4,
       949.3
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_CorridorofFadingEchoes_F1_X369Y439",
+    "route": "route.rogue.Combat.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X369Y439",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      369.4,
+      439.2
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_CorridorofFadingEchoes_F1_X463Y123",
+    "route": "route.rogue.Combat.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X463Y123",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      463.3,
+      123.5
     ],
     "domain": "Combat"
   },
@@ -594,6 +627,17 @@
     "domain": "Combat"
   },
   {
+    "name": "Combat_Luofu_Cloudford_F1_X281Y873",
+    "route": "route.rogue.Combat.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X281Y873",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      281.0,
+      873.0
+    ],
+    "domain": "Combat"
+  },
+  {
     "name": "Combat_Luofu_Cloudford_F1_X283Y865",
     "route": "route.rogue.Combat.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X283Y865",
     "plane": "Luofu_Cloudford",
@@ -722,6 +766,17 @@
     "position": [
       499.6,
       581.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_StargazerNavalia_F1_X521Y447",
+    "route": "route.rogue.Combat.Luofu_StargazerNavalia_F1:Luofu_StargazerNavalia_F1_X521Y447",
+    "plane": "Luofu_StargazerNavalia",
+    "floor": "F1",
+    "position": [
+      521.4,
+      447.5
     ],
     "domain": "Combat"
   },
@@ -1199,6 +1254,17 @@
     "domain": "Occurrence"
   },
   {
+    "name": "Occurrence_Luofu_Cloudford_F1_X281Y873",
+    "route": "route.rogue.Occurrence.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X281Y873",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      281.0,
+      873.0
+    ],
+    "domain": "Occurrence"
+  },
+  {
     "name": "Occurrence_Luofu_Cloudford_F1_X283Y865",
     "route": "route.rogue.Occurrence.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X283Y865",
     "plane": "Luofu_Cloudford",
@@ -1206,6 +1272,17 @@
     "position": [
       283.2,
       865.2
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_Cloudford_F1_X537Y373",
+    "route": "route.rogue.Occurrence.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X537Y373",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      537.4,
+      373.3
     ],
     "domain": "Occurrence"
   },
@@ -1316,6 +1393,17 @@
     "position": [
       417.5,
       933.4
+    ],
+    "domain": "Respite"
+  },
+  {
+    "name": "Respite_Luofu_StargazerNavalia_F2Rogue_X569Y275",
+    "route": "route.rogue.Respite.Luofu_StargazerNavalia_F2Rogue:Luofu_StargazerNavalia_F2Rogue_X569Y275",
+    "plane": "Luofu_StargazerNavalia",
+    "floor": "F2Rogue",
+    "position": [
+      569.0,
+      275.0
     ],
     "domain": "Respite"
   },
