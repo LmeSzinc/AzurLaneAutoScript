@@ -146,7 +146,7 @@ SCROLL_OPTION = OptionScroll(OPTION_SCROLL, color=(
 
 
 class RogueEvent(RogueUI):
-    title: RogueEventTitle = None
+    event_title: RogueEventTitle = None
     options: list[OptionButton] = []
 
     @cached_property
@@ -172,7 +172,7 @@ class RogueEvent(RogueUI):
 
     def handle_event_option(self):
         """
-        self.title SHOULD be set to None before calling this function
+        self.event_title SHOULD be set to None before calling this function
 
         Pages:
             in: page_rogue
@@ -238,7 +238,7 @@ class RogueEvent(RogueUI):
         ocr.expected_options = expected_options
         possible_options = {
             RogueEventOption.find(option_id)._keywords_to_find()[0]
-            for option_id in self.title.option_ids
+            for option_id in self.event_title.option_ids
         }
         ocr_results = ocr.matched_ocr(self.device.image, [RogueEventOption])
         ocr_results = [
@@ -266,10 +266,10 @@ class RogueEvent(RogueUI):
             del_cached_property(self, 'valid_options')
 
     def _event_option_filter(self) -> OptionButton:
-        if self.title is None:
+        if self.event_title is None:
             # OCR area of rest area is different from other occurrences
             if self.appear(REST_AREA):
-                self.title = KEYWORDS_ROGUE_EVENT_TITLE.Rest_Area
+                self.event_title = KEYWORDS_ROGUE_EVENT_TITLE.Rest_Area
             else:
                 # Title may contains multi lines
                 results = OcrRogueEventTitle(OCR_TITLE).matched_ocr(
@@ -277,8 +277,8 @@ class RogueEvent(RogueUI):
                     [RogueEventTitle]
                 )
                 if results:
-                    self.title = results[0].matched_keyword
-        if self.title is None:
+                    self.event_title = results[0].matched_keyword
+        if self.event_title is None:
             random_index = random.choice(range(len(self.valid_options)))
             logger.warning('Failed to OCR title')
             logger.info(f'Randomly select option {random_index+1}')
@@ -291,9 +291,9 @@ class RogueEvent(RogueUI):
                 'Unknown domain strategy, fall back to STRATEGY_COMMON'
             )
         strategy = STRATEGIES.get(strategy_name, STRATEGY_COMMON)
-        if self.title not in strategy:
+        if self.event_title not in strategy:
             random_index = random.choice(range(len(self.valid_options)))
-            logger.info(f'No strategy preset for {self.title}')
+            logger.info(f'No strategy preset for {self.event_title}')
             logger.info(f'Randomly select option {random_index+1}')
             return self.valid_options[random_index]
         # Try ocr
@@ -305,7 +305,7 @@ class RogueEvent(RogueUI):
             if SCROLL_OPTION.set_bottom(main=self):
                 expected = self._event_option_match(is_bottom_page=True)
                 self._event_option_ocr(expected)
-        for expect in strategy[self.title]:
+        for expect in strategy[self.event_title]:
             for i, option in enumerate(self.valid_options):
                 ocr_text = option.button.matched_keyword._keywords_to_find()[0]
                 expect_text = expect._keywords_to_find()[0]
