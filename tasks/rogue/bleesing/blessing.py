@@ -91,8 +91,8 @@ class RogueBuffOcr(Ocr):
                 "RestIin": "Restin",
             }
         for pat, replace in replace_pattern_dict.items():
-            after = re.sub(pat, replace, result)
-        return after
+            result = re.sub(pat, replace, result)
+        return result
 
 
 class RogueBlessingSelector(RogueSelector):

@@ -26,6 +26,10 @@ STRATEGY_COMMON = {
         KEYWORDS_ROGUE_EVENT_OPTION.Believe_in_them_with_pure_devotion,
         KEYWORDS_ROGUE_EVENT_OPTION.Discard_the_statue_Be_decisive
     ],
+    KEYWORDS_ROGUE_EVENT_TITLE.Three_Little_Pigs: [
+        KEYWORDS_ROGUE_EVENT_OPTION.Play_a_bit_with_Sequence_Trotters,
+        KEYWORDS_ROGUE_EVENT_OPTION.Leave_14
+    ],
     KEYWORDS_ROGUE_EVENT_TITLE.Unending_Darkness: [
         KEYWORDS_ROGUE_EVENT_OPTION.Fight_the_pull,
         KEYWORDS_ROGUE_EVENT_OPTION.Head_into_the_darkness,
@@ -60,16 +64,12 @@ STRATEGY_COMMON = {
         KEYWORDS_ROGUE_EVENT_OPTION.Refuse_invitation
     ]
 }
-STRATEGY_FIGHT = {
+STRATEGY_COMBAT = {
     KEYWORDS_ROGUE_EVENT_TITLE.Insect_Nest: [
         KEYWORDS_ROGUE_EVENT_OPTION.Go_deeper_into_the_insect_nest,
         KEYWORDS_ROGUE_EVENT_OPTION.Hug_it,
         KEYWORDS_ROGUE_EVENT_OPTION.Stop_at_the_entrance_of_the_nest,
         KEYWORDS_ROGUE_EVENT_OPTION.Wait_for_them
-    ],
-    KEYWORDS_ROGUE_EVENT_TITLE.Three_Little_Pigs: [
-        KEYWORDS_ROGUE_EVENT_OPTION.Leave_14,
-        KEYWORDS_ROGUE_EVENT_OPTION.Play_a_bit_with_Sequence_Trotters
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Kindling_of_the_Self_Annihilator: [
         KEYWORDS_ROGUE_EVENT_OPTION.Accept_the_flames_of_Self_destruction_and_destroy_the_black_box,
@@ -105,10 +105,10 @@ STRATEGY_FIGHT = {
         KEYWORDS_ROGUE_EVENT_OPTION.Challenge_the_burly_Avila_mercenary_company
     ]
 }
-STRATEGY_LEAVE = dict()
-for k, v in STRATEGY_FIGHT.items():
-    STRATEGY_LEAVE[k] = list(reversed(v))
+STRATEGY_OCCURRENCE = dict()
+for k, v in STRATEGY_COMBAT.items():
+    STRATEGY_OCCURRENCE[k] = list(reversed(v))
 STRATEGIES = {
-    'leave': {**STRATEGY_LEAVE, **STRATEGY_COMMON},
-    'fight': {**STRATEGY_FIGHT, **STRATEGY_COMMON}
+    'occurrence': {**STRATEGY_COMMON, **STRATEGY_OCCURRENCE},
+    'combat': {**STRATEGY_COMMON, **STRATEGY_COMBAT}
 }

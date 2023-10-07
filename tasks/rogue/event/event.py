@@ -8,7 +8,6 @@ from pponnxcr.predict_system import BoxedResult
 from module.base.button import ClickButton
 from module.base.decorator import del_cached_property
 from module.base.utils import area_limit, area_offset
-from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import Ocr, OcrResultButton
 from module.ui.scroll import Scroll
@@ -58,9 +57,7 @@ class OcrRogueEvent(Ocr):
         matched = self.ocr_regex.fullmatch(result)
         if matched is None:
             return result
-        if not hasattr(keyword_class, matched.lastgroup):
-            raise ScriptError(f'No keyword found for {matched.lastgroup}')
-        matched = getattr(keyword_class, matched.lastgroup)
+        matched = keyword_class.find(matched.lastgroup)
         matched = getattr(matched, self.lang)
         return matched
 
@@ -81,8 +78,8 @@ class OcrRogueEventTitle(OcrRogueEvent):
     }
 
     def after_process(self, result):
-        result = result.replace('卫成', '卫戍')  # 虫潮·虫巢探险（X级卫戍）
-        return self._after_process(result, KEYWORDS_ROGUE_EVENT_TITLE)
+        result = re.sub('卫[成戌]', '卫戍', result)
+        return self._after_process(result, RogueEventTitle)
 
 
 class OcrRogueEventOption(OcrRogueEvent):
@@ -123,7 +120,7 @@ class OcrRogueEventOption(OcrRogueEvent):
         return image
 
     def after_process(self, result):
-        return self._after_process(result, KEYWORDS_ROGUE_EVENT_OPTION)
+        return self._after_process(result, RogueEventOption)
 
 
 class OptionScroll(Scroll):
@@ -225,26 +222,13 @@ class RogueEvent(RogueUI):
 
     def _event_option_ocr(self, expected_count: int) -> None:
         """
-        Reason why _keywords_to_find()[0] is used to compare:
-            Text of options in different events can be the same,
-            so it is possible that keywords returned by matched_ocr
-            is not exactly the same as options in RogueEventTitle.option_ids.
-
         Args:
             expected_count (int): Number of option icons matched
         """
         expected_options = self.options[-expected_count:]
         ocr = OcrRogueEventOption(OCR_OPTION)
         ocr.expected_options = expected_options
-        possible_options = {
-            RogueEventOption.find(option_id)._keywords_to_find()[0]
-            for option_id in self.event_title.option_ids
-        }
         ocr_results = ocr.matched_ocr(self.device.image, [RogueEventOption])
-        ocr_results = [
-            x for x in ocr_results
-            if x.matched_keyword._keywords_to_find()[0] in possible_options
-        ]
         # Pair icons and ocr results
         index = 0
         all_matched = True
@@ -305,6 +289,10 @@ class RogueEvent(RogueUI):
             if SCROLL_OPTION.set_bottom(main=self):
                 expected = self._event_option_match(is_bottom_page=True)
                 self._event_option_ocr(expected)
+        # Reason why _keywords_to_find()[0] is used to compare:
+        # Text of options in different events can be the same,
+        # so it is possible that keywords returned by matched_ocr
+        # is not exactly the same as options in RogueEventTitle.option_ids.
         for expect in strategy[self.event_title]:
             for i, option in enumerate(self.valid_options):
                 ocr_text = option.button.matched_keyword._keywords_to_find()[0]
