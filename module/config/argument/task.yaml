@@ -264,6 +264,8 @@ DailyMission:
       - DataKey
       - Mail
       - SupplyPack
+    Minigame:
+      - Scheduler
 
 # ==================== Opsi ====================
 
@@ -341,6 +343,7 @@ Tool:
       - GameManager
       - GGHandler
       - PowerLimit
+      - ChangeShip
     SomethingSpecial:
       - InfiniteDelay
       - TurnOffForcedOnSettings

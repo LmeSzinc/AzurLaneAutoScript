@@ -3,6 +3,7 @@ from module.gg_handler.gg_data import GGData
 from module.config.config import deep_get
 from module.base.base import ModuleBase as Base
 import uiautomator2 as u2
+from module.gg_handler.change_ship import ChangeShip
 
 
 class GGU2(Base):
@@ -129,6 +130,8 @@ class GGU2(Base):
         _confirmed = False
         import os
         _repush = deep_get(self.config.data, keys='GameManager.GGHandler.RepushLua')
+        ShipChanger = ChangeShip(self.config, self.device)
+        ShipChanger.PushLua()
         if _repush:
             os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
                      f' {self.device.serial} shell mkdir /sdcard/Notes')
@@ -140,8 +143,16 @@ class GGU2(Base):
                      f' {self.device.serial} push "bin/Lua/Multiplier.lua" /sdcard/Notes/Multiplier.lua')
             self.device.sleep(0.5)
             logger.info('Lua Pushed')
+        ShipChanger.ChangeShipType()
         while 1:
             self.device.sleep(1)
+            if self.d(resourceId=f"{self.gg_package_name}:id/search_toolbar").exists:
+                self.d.xpath(
+                    f'//*[@resource-id="{self.gg_package_name}'
+                    f':id/search_toolbar"]/android.widget.ImageView[last()]'
+                ).click()
+                logger.info('Click run Scripts')
+                self.device.sleep(0.3)
             if self.d(resourceId=f"{self.gg_package_name}:id/file").exists:
                 self.d(resourceId=f"{self.gg_package_name}:id/file").send_keys("/sdcard/Notes/Multiplier.lua")
                 logger.info('Lua path set')

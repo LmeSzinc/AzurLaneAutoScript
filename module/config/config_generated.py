@@ -319,6 +319,9 @@ class GeneratedConfig:
     SupplyPack_Collect = True
     SupplyPack_DayOfWeek = 0  # 0, 1, 2, 3, 4, 5, 6
 
+    # Group `Minigame`
+    Minigame_Collect = False
+
     # Group `Daily`
     Daily_UseDailySkip = True
     Daily_EscortMission = 'first'  # skip, first, second, third
@@ -447,6 +450,12 @@ class GeneratedConfig:
     PowerLimit_Exercise = 16500
     PowerLimit_Raid = 16500
     PowerLimit_Ash = 16500
+
+    # Group `ChangeShip`
+    ChangeShip_Enable = False
+    ChangeShip_PushLua = False
+    ChangeShip_TargetType = 'BB'  # CV, BB
+    ChangeShip_ShipData = '106021;1;6\n107041;1;6\n206011;1;6\n107011;1;6\n'
 
     # Group `InfiniteDelay`
     InfiniteDelay_Commission = False

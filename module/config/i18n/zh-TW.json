@@ -182,6 +182,10 @@
       "name": "免費獎勵",
       "help": ""
     },
+    "Minigame": {
+      "name": "小遊戲",
+      "help": "遊戲幣不會溢出時自動領取遊戲幣，有遊戲幣且獎勵沒滿時自動進行小遊戲"
+    },
     "OpsiGeneral": {
       "name": "通用設定",
       "help": ""
@@ -1918,6 +1922,16 @@
       "6": "星期日"
     }
   },
+  "Minigame": {
+    "_info": {
+      "name": "小遊戲",
+      "help": ""
+    },
+    "Collect": {
+      "name": "啟用",
+      "help": ""
+    }
+  },
   "Daily": {
     "_info": {
       "name": "每日任務",
@@ -2511,6 +2525,30 @@
     "Ash": {
       "name": "餘燼信標",
       "help": ""
+    }
+  },
+  "ChangeShip": {
+    "_info": {
+      "name": "ChangeShip._info.name",
+      "help": "ChangeShip._info.help"
+    },
+    "Enable": {
+      "name": "ChangeShip.Enable.name",
+      "help": "ChangeShip.Enable.help"
+    },
+    "PushLua": {
+      "name": "ChangeShip.PushLua.name",
+      "help": "ChangeShip.PushLua.help"
+    },
+    "TargetType": {
+      "name": "ChangeShip.TargetType.name",
+      "help": "ChangeShip.TargetType.help",
+      "CV": "CV",
+      "BB": "BB"
+    },
+    "ShipData": {
+      "name": "ChangeShip.ShipData.name",
+      "help": "ChangeShip.ShipData.help"
     }
   },
   "InfiniteDelay": {

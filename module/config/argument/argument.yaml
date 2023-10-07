@@ -539,7 +539,8 @@ SupplyPack:
   DayOfWeek:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
-
+Minigame:
+  Collect: false
 # ==================== Daily ====================
 
 Daily:
@@ -727,6 +728,21 @@ PowerLimit:
   Exercise: 16500
   Raid: 16500
   Ash: 16500
+ChangeShip:
+  Enable: false
+  PushLua: false
+  TargetType:
+    value: BB
+    option:
+      - CV    #正航
+      - BB    #战列
+  ShipData:
+    type: textarea
+    value: |
+      106021;1;6
+      107041;1;6
+      206011;1;6
+      107011;1;6
 
 InfiniteDelay:
   Commission:

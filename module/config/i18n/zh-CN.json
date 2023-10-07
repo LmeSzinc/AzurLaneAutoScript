@@ -182,6 +182,10 @@
       "name": "白嫖奖励",
       "help": ""
     },
+    "Minigame": {
+      "name": "小游戏",
+      "help": "游戏币不会溢出时自动领取游戏币，有游戏币且奖励没满时自动进行小游戏"
+    },
     "OpsiGeneral": {
       "name": "通用设置",
       "help": ""
@@ -1918,6 +1922,16 @@
       "6": "周日"
     }
   },
+  "Minigame": {
+    "_info": {
+      "name": "小游戏",
+      "help": ""
+    },
+    "Collect": {
+      "name": "启用",
+      "help": ""
+    }
+  },
   "Daily": {
     "_info": {
       "name": "每日任务",
@@ -2511,6 +2525,30 @@
     "Ash": {
       "name": "余烬信标",
       "help": ""
+    }
+  },
+  "ChangeShip": {
+    "_info": {
+      "name": "改船(高危功能，未经过充分测试，封号概不负责)",
+      "help": "只在紧急委托中并且设置为活动里的D图时生效\n需要和倍率一起使用"
+    },
+    "Enable": {
+      "name": "启用",
+      "help": ""
+    },
+    "PushLua": {
+      "name": "始终推送Lua",
+      "help": "有时推送时会失败，视情况开启或者关闭"
+    },
+    "TargetType": {
+      "name": "目标舰种",
+      "help": "困难图中后排锁定的舰种",
+      "CV": "正航",
+      "BB": "战列"
+    },
+    "ShipData": {
+      "name": "舰船数据",
+      "help": "格式为\"舰船Id;星级;舰种Id\"\n参考https://github.com/0O0o0oOoO00/SmallKai中的数据\n清空会恢复默认"
     }
   },
   "InfiniteDelay": {

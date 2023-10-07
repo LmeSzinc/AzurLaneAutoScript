@@ -1618,6 +1618,19 @@
       "Storage": {}
     }
   },
+  "Minigame": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Minigame",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "OpsiGeneral": {
     "OpsiGeneral": {
       "UseLogger": true,
@@ -1952,6 +1965,12 @@
       "Exercise": 16500,
       "Raid": 16500,
       "Ash": 16500
+    },
+    "ChangeShip": {
+      "Enable": false,
+      "PushLua": false,
+      "TargetType": "BB",
+      "ShipData": "106021;1;6\n107041;1;6\n206011;1;6\n107011;1;6\n"
     },
     "Storage": {
       "Storage": {}

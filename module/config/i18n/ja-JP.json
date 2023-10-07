@@ -182,6 +182,10 @@
       "name": "他ギフト",
       "help": ""
     },
+    "Minigame": {
+      "name": "Task.Minigame.name",
+      "help": "Task.Minigame.help"
+    },
     "OpsiGeneral": {
       "name": "一般設定",
       "help": ""
@@ -1918,6 +1922,16 @@
       "6": "6"
     }
   },
+  "Minigame": {
+    "_info": {
+      "name": "Minigame._info.name",
+      "help": "Minigame._info.help"
+    },
+    "Collect": {
+      "name": "Minigame.Collect.name",
+      "help": "Minigame.Collect.help"
+    }
+  },
   "Daily": {
     "_info": {
       "name": "Daily._info.name",
@@ -2511,6 +2525,30 @@
     "Ash": {
       "name": "PowerLimit.Ash.name",
       "help": "PowerLimit.Ash.help"
+    }
+  },
+  "ChangeShip": {
+    "_info": {
+      "name": "ChangeShip._info.name",
+      "help": "ChangeShip._info.help"
+    },
+    "Enable": {
+      "name": "ChangeShip.Enable.name",
+      "help": "ChangeShip.Enable.help"
+    },
+    "PushLua": {
+      "name": "ChangeShip.PushLua.name",
+      "help": "ChangeShip.PushLua.help"
+    },
+    "TargetType": {
+      "name": "ChangeShip.TargetType.name",
+      "help": "ChangeShip.TargetType.help",
+      "CV": "CV",
+      "BB": "BB"
+    },
+    "ShipData": {
+      "name": "ChangeShip.ShipData.name",
+      "help": "ChangeShip.ShipData.help"
     }
   },
   "InfiniteDelay": {
