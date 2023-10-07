@@ -5,6 +5,7 @@ import numpy as np
 from module.base.decorator import cached_property
 from module.logger import logger
 from tasks.base.main_page import MainPage
+from tasks.base.page import page_rogue
 from tasks.map.keywords import MapPlane
 from tasks.map.keywords.plane import (
     Herta_MasterControlZone,
@@ -29,7 +30,7 @@ def model_from_json(model, file: str):
 
 class MinimapWrapper:
     @cached_property
-    def all_minimap(self) -> dict[(str, str), Minimap]:
+    def all_minimap(self) -> dict[str, Minimap]:
         """
         Returns:
             dict: Key: {world}_{plane}_{floor}, e.g. Jarilo_SilvermaneGuardRestrictedZone_F1
@@ -161,16 +162,51 @@ class RouteLoader(MinimapWrapper, RouteLoader_, MainPage):
         """
         Run a rogue domain
 
+        Returns:
+            bool: True if success, False if route unknown
+
         Pages:
             in: page_main
             out: page_main, at another domain
+                or page_rogue if rogue cleared
         """
         route = self.position_find_known(self.device.image)
         if route is not None:
             super().route_run(route)
+            return True
         else:
             self.position_find_bruteforce(self.device.image)
             logger.error('New route detected, please record it')
+            return False
+
+    def rogue_run(self, skip_first_screenshot=True):
+        """
+        Do a complete rogue run, no error handle yet.
+
+        Pages:
+            in: page_rogue, LAUNCH_SIMULATED_UNIVERSE
+            out: page_rogue, world selecting page
+        """
+        base = RouteBase(config=self.config, device=self.device, task=self.config.task.command)
+        count = 1
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            logger.hr(f'Route run: {count}', level=1)
+            base.clear_blessing()
+            success = self.route_run()
+            if not success:
+                # self.device.image_save()
+                continue
+
+            # End
+            if self.ui_page_appear(page_rogue):
+                break
+
+            count += 1
 
 
 if __name__ == '__main__':
@@ -180,6 +216,4 @@ if __name__ == '__main__':
     # self.position_find_bruteforce(self.device.image)
 
     self.device.screenshot()
-    base = RouteBase(config=self.config, device=self.device, task='Rogue')
-    base.clear_blessing()
-    self.route_run()
+    self.rogue_run()

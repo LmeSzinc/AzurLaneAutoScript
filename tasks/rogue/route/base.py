@@ -1,3 +1,6 @@
+from module.base.button import ClickButton
+from module.base.timer import Timer
+from module.base.utils import area_offset
 from module.logger import logger
 from tasks.base.page import page_rogue
 from tasks.map.control.waypoint import ensure_waypoints
@@ -62,6 +65,7 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
             out: is_in_main()
         """
         logger.info('Clear blessing')
+        switched = False
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -71,9 +75,12 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
             # End
             if self.is_in_main():
                 logger.info(f'clear_blessing() ended at page_main')
+                if switched:
+                    self.wait_until_minimap_stabled()
                 break
 
             if self.handle_blessing():
+                switched = True
                 continue
 
     def clear_occurrence(self, skip_first_screenshot=True):
@@ -113,6 +120,13 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
         if 'enemy' in result:
             self.clear_blessing()
         return result
+
+    def wait_until_minimap_stabled(self):
+        logger.info('Wait until minimap stabled')
+        radius = self.minimap.MINIMAP_RADIUS
+        area = area_offset((-radius, -radius, radius, radius), offset=self.minimap.MINIMAP_CENTER)
+        minimap = ClickButton(area, name='MINIMAP')
+        self.wait_until_stable(minimap, timeout=Timer(1.5, count=5))
 
     """
     Additional rogue methods
@@ -215,6 +229,7 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
             # End
             if self.is_in_main():
                 logger.info('Entered another domain')
+                self.wait_until_minimap_stabled()
                 break
             if self.ui_page_appear(page_rogue):
                 logger.info('Rogue cleared')
@@ -271,6 +286,7 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
             end_point.expected_end.append(self._domain_exit_expected_end)
             end_point.lock_direction = direction
             self.goto(end_point)
+            self._domain_exit_wait_next()
 
         return result
 
