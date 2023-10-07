@@ -14,6 +14,7 @@ from tasks.map.keywords import KEYWORDS_MAP_PLANE, MapPlane
 
 SPECIAL_PLANES = [
     ('Herta_SupplyZone', 'F2Rogue'),
+    ('Jarilo_GreatMine', 'F1RogueOcc'),
     ('Luofu_Cloudford', 'F1Rogue'),
     ('Luofu_StargazerNavalia', 'F2Rogue'),
 ]
@@ -74,7 +75,7 @@ class MapResource(ResourceConst):
 
     @cached_property
     def assets_file_basename(self):
-        if self.plane.has_multiple_floors:
+        if self.plane.has_multiple_floors or self.is_special_plane:
             return f'./position/{self.plane.world}/{self.plane.name}_{self.floor}'
         else:
             return f'./position/{self.plane.world}/{self.plane.name}'

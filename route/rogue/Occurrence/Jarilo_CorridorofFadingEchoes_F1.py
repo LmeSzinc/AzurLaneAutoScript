@@ -37,3 +37,18 @@ class Route(RouteBase):
         self.clear_item(item)
         self.clear_event(event)
         # ===== End of generated waypoints =====
+
+    def Jarilo_CorridorofFadingEchoes_F1_X309Y537(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((309.3, 537.8)), | 190.1     | 184      |
+        | event    | Waypoint((302.6, 580.8)), | 193.1     | 191      |
+        | exit     | Waypoint((308.9, 591.0)), | 187.1     | 181      |
+        """
+        self.map_init(plane=Jarilo_CorridorofFadingEchoes, floor="F1", position=(309.3, 537.8))
+        self.register_domain_exit(Waypoint((308.9, 591.0)), end_rotation=181)
+        event = Waypoint((302.6, 580.8))
+
+        self.clear_event(event)
+        # ===== End of generated waypoints =====

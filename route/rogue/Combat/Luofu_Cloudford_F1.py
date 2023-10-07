@@ -38,6 +38,35 @@ class Route(RouteBase):
         | enemy    | Waypoint((193.7, 949.5)), | 143.8     | 269      |
         | exit     | Waypoint((194.4, 947.2)), | 4.2       | 274      |
         """
+        self.map_init(plane=Luofu_Cloudford, floor="F1", position=(257.3, 947))
+        self.register_domain_exit(Waypoint((194.4, 947.2)), end_rotation=274)
+        item = Waypoint((236.8, 934.2))
+        node = Waypoint((221.6, 946.2))
+        enemy = Waypoint((193.7, 949.5))
+        # ===== End of generated waypoints =====
+
+        """
+        Notes
+        Luofu_Cloudford_F1_X257Y947 is the same as Luofu_Cloudford_F1_X257Y951
+        but for wrong spawn point detected
+        """
+
+        self.clear_item(item)
+        self.clear_enemy(
+            node,
+            enemy
+        )
+
+    def Luofu_Cloudford_F1_X257Y951(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((257.3, 951.2)), | 274.2     | 274      |
+        | item     | Waypoint((236.8, 934.2)), | 302.7     | 299      |
+        | node     | Waypoint((221.6, 946.2)), | 272.8     | 269      |
+        | enemy    | Waypoint((193.7, 949.5)), | 143.8     | 269      |
+        | exit     | Waypoint((194.4, 947.2)), | 4.2       | 274      |
+        """
         self.map_init(plane=Luofu_Cloudford, floor="F1", position=(257.3, 951.2))
         self.register_domain_exit(Waypoint((194.4, 947.2)), end_rotation=274)
         item = Waypoint((236.8, 934.2))

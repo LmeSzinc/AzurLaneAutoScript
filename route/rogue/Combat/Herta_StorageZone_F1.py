@@ -38,7 +38,7 @@ class Route(RouteBase):
         self.clear_item(item1.straight_run())
         self.clear_enemy(enemy1.straight_run())
         # 2
-        self.clear_item(
+        self.clear_enemy(
             enemy1.set_threshold(3),
             node2.straight_run().set_threshold(3),
             node3,
@@ -130,7 +130,7 @@ class Route(RouteBase):
             enemy3.straight_run(),
         )
 
-    def Herta_StorageZone_F1_X769Y39(self):
+    def Herta_StorageZone_F1_X749Y45(self):
         """
         | Waypoint    | Position                  | Direction | Rotation |
         | ----------- | ------------------------- | --------- | -------- |
@@ -169,7 +169,59 @@ class Route(RouteBase):
             enemy2right.straight_run(),
         )
         # 3
-        self.clear_item(
+        self.goto(
+            node2.set_threshold(3),
+            node3.straight_run(),
+            item3,
+        )
+        self.clear_enemy(enemy3.straight_run())
+
+    def Herta_StorageZone_F1_X769Y39(self):
+        """
+        | Waypoint    | Position                  | Direction | Rotation |
+        | ----------- | ------------------------- | --------- | -------- |
+        | spawn       | Waypoint((749.5, 45.6)),  | 263.8     | 260      |
+        | item1       | Waypoint((728.9, 48.8)),  | 263.8     | 264      |
+        | enemy1      | Waypoint((686.2, 64.4)),  | 256.8     | 260      |
+        | item2       | Waypoint((674.0, 99.1)),  | 212.9     | 204      |
+        | enemy2left  | Waypoint((653.4, 85.0)),  | 326.7     | 103      |
+        | node2       | Waypoint((636.8, 81.9)),  | 263.8     | 262      |
+        | enemy2right | Waypoint((628.0, 73.6)),  | 350.2     | 345      |
+        | node3       | Waypoint((598.6, 93.9)),  | 256.7     | 253      |
+        | item3       | Waypoint((588.6, 102.2)), | 245.0     | 246      |
+        | enemy3      | Waypoint((597.2, 131.0)), | 282.9     | 179      |
+        | exit        | Waypoint((597.2, 131.0)), | 282.9     | 179      |
+        """
+        self.map_init(plane=Herta_StorageZone, floor="F1", position=(769, 39))
+        self.register_domain_exit(Waypoint((597.2, 131.0)), end_rotation=179)
+        item1 = Waypoint((728.9, 48.8))
+        enemy1 = Waypoint((686.2, 64.4))
+        item2 = Waypoint((674.0, 99.1))
+        enemy2left = Waypoint((653.4, 85.0))
+        node2 = Waypoint((636.8, 81.9))
+        enemy2right = Waypoint((628.0, 73.6))
+        node3 = Waypoint((598.6, 93.9))
+        item3 = Waypoint((588.6, 102.2))
+        enemy3 = Waypoint((597.2, 131.0))
+        # ===== End of generated waypoints =====
+
+        """
+        Notes
+        Herta_StorageZone_F1_X749Y45 is the same as Herta_StorageZone_F1_X749Y45
+        but for wrong spawn point detected
+        """
+
+        # 1
+        self.clear_item(item1)
+        self.clear_enemy(enemy1)
+        # 2
+        self.clear_item(item2.straight_run())
+        self.clear_enemy(
+            enemy2left.straight_run(),
+            enemy2right.straight_run(),
+        )
+        # 3
+        self.goto(
             node2.set_threshold(3),
             node3.straight_run(),
             item3,

@@ -44,13 +44,24 @@
     "domain": "Combat"
   },
   {
-    "name": "Combat_Herta_StorageZone_F1_X769Y39",
-    "route": "route.rogue.Combat.Herta_StorageZone_F1:Herta_StorageZone_F1_X769Y39",
+    "name": "Combat_Herta_StorageZone_F1_X749Y45",
+    "route": "route.rogue.Combat.Herta_StorageZone_F1:Herta_StorageZone_F1_X749Y45",
     "plane": "Herta_StorageZone",
     "floor": "F1",
     "position": [
       749.5,
       45.6
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_StorageZone_F1_X769Y39",
+    "route": "route.rogue.Combat.Herta_StorageZone_F1:Herta_StorageZone_F1_X769Y39",
+    "plane": "Herta_StorageZone",
+    "floor": "F1",
+    "position": [
+      769.0,
+      39.0
     ],
     "domain": "Combat"
   },
@@ -84,6 +95,17 @@
     "position": [
       45.5,
       369.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_SupplyZone_F2_X151Y245",
+    "route": "route.rogue.Combat.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X151Y245",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2",
+    "position": [
+      151.6,
+      245.5
     ],
     "domain": "Combat"
   },
@@ -176,6 +198,17 @@
     "domain": "Combat"
   },
   {
+    "name": "Combat_Jarilo_BackwaterPass_F1_X507Y733",
+    "route": "route.rogue.Combat.Jarilo_BackwaterPass_F1:Jarilo_BackwaterPass_F1_X507Y733",
+    "plane": "Jarilo_BackwaterPass",
+    "floor": "F1",
+    "position": [
+      507.2,
+      733.7
+    ],
+    "domain": "Combat"
+  },
+  {
     "name": "Combat_Jarilo_BackwaterPass_F1_X577Y665",
     "route": "route.rogue.Combat.Jarilo_BackwaterPass_F1:Jarilo_BackwaterPass_F1_X577Y665",
     "plane": "Jarilo_BackwaterPass",
@@ -205,6 +238,17 @@
     "position": [
       595.5,
       681.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_CorridorofFadingEchoes_F1_X115Y911",
+    "route": "route.rogue.Combat.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X115Y911",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      115.5,
+      911.3
     ],
     "domain": "Combat"
   },
@@ -501,6 +545,17 @@
     "floor": "F1",
     "position": [
       257.3,
+      947.0
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_Cloudford_F1_X257Y951",
+    "route": "route.rogue.Combat.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X257Y951",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      257.3,
       951.2
     ],
     "domain": "Combat"
@@ -660,6 +715,17 @@
     "domain": "Elite"
   },
   {
+    "name": "Elite_Herta_SupplyZone_F2_X641Y247",
+    "route": "route.rogue.Elite.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X641Y247",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2",
+    "position": [
+      641.0,
+      247.5
+    ],
+    "domain": "Elite"
+  },
+  {
     "name": "Elite_Herta_SupplyZone_F2_X657Y247",
     "route": "route.rogue.Elite.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X657Y247",
     "plane": "Herta_SupplyZone",
@@ -678,6 +744,17 @@
     "position": [
       351.4,
       641.3
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Jarilo_CorridorofFadingEchoes_F1_X415Y933",
+    "route": "route.rogue.Elite.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X415Y933",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      415.5,
+      933.0
     ],
     "domain": "Elite"
   },
@@ -770,6 +847,17 @@
     "domain": "Elite"
   },
   {
+    "name": "Occurrence_Herta_StorageZone_F1_X273Y93",
+    "route": "route.rogue.Occurrence.Herta_StorageZone_F1:Herta_StorageZone_F1_X273Y93",
+    "plane": "Herta_StorageZone",
+    "floor": "F1",
+    "position": [
+      273.5,
+      93.2
+    ],
+    "domain": "Occurrence"
+  },
+  {
     "name": "Occurrence_Herta_StorageZone_F2_X365Y167",
     "route": "route.rogue.Occurrence.Herta_StorageZone_F2:Herta_StorageZone_F2_X365Y167",
     "plane": "Herta_StorageZone",
@@ -781,13 +869,68 @@
     "domain": "Occurrence"
   },
   {
+    "name": "Occurrence_Herta_StorageZone_F2_X363Y166",
+    "route": "route.rogue.Occurrence.Herta_StorageZone_F2:Herta_StorageZone_F2_X363Y166",
+    "plane": "Herta_StorageZone",
+    "floor": "F2",
+    "position": [
+      363.4,
+      166.9
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Herta_SupplyZone_F2Rogue_X209Y113",
+    "route": "route.rogue.Occurrence.Herta_SupplyZone_F2Rogue:Herta_SupplyZone_F2Rogue_X209Y113",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2Rogue",
+    "position": [
+      209.6,
+      113.1
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Herta_SupplyZone_F2Rogue_X219Y113",
+    "route": "route.rogue.Occurrence.Herta_SupplyZone_F2Rogue:Herta_SupplyZone_F2Rogue_X219Y113",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2Rogue",
+    "position": [
+      219.6,
+      113.1
+    ],
+    "domain": "Occurrence"
+  },
+  {
     "name": "Occurrence_Herta_SupplyZone_F2Rogue_X397Y227",
     "route": "route.rogue.Occurrence.Herta_SupplyZone_F2Rogue:Herta_SupplyZone_F2Rogue_X397Y227",
     "plane": "Herta_SupplyZone",
-    "floor": "F2",
+    "floor": "F2Rogue",
     "position": [
       397.4,
-      223.3
+      227.0
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Herta_SupplyZone_F2Rogue_X397Y230",
+    "route": "route.rogue.Occurrence.Herta_SupplyZone_F2Rogue:Herta_SupplyZone_F2Rogue_X397Y230",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2Rogue",
+    "position": [
+      397.4,
+      230.0
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Herta_SupplyZone_F2Rogue_X397Y235",
+    "route": "route.rogue.Occurrence.Herta_SupplyZone_F2Rogue:Herta_SupplyZone_F2Rogue_X397Y235",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2Rogue",
+    "position": [
+      397.4,
+      235.3
     ],
     "domain": "Occurrence"
   },
@@ -847,6 +990,17 @@
     "domain": "Occurrence"
   },
   {
+    "name": "Occurrence_Jarilo_CorridorofFadingEchoes_F1_X309Y537",
+    "route": "route.rogue.Occurrence.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X309Y537",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      309.3,
+      537.8
+    ],
+    "domain": "Occurrence"
+  },
+  {
     "name": "Occurrence_Jarilo_GreatMine_F1_X153Y271",
     "route": "route.rogue.Occurrence.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X153Y271",
     "plane": "Jarilo_GreatMine",
@@ -854,6 +1008,39 @@
     "position": [
       153.8,
       271.7
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_GreatMine_F1_X277Y605",
+    "route": "route.rogue.Occurrence.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X277Y605",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      277.5,
+      605.9
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_GreatMine_F1RogueOcc_X109Y423",
+    "route": "route.rogue.Occurrence.Jarilo_GreatMine_F1RogueOcc:Jarilo_GreatMine_F1RogueOcc_X109Y423",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1RogueOcc",
+    "position": [
+      109.0,
+      423.0
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_GreatMine_F1RogueOcc_X119Y444",
+    "route": "route.rogue.Occurrence.Jarilo_GreatMine_F1RogueOcc:Jarilo_GreatMine_F1RogueOcc_X119Y444",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1RogueOcc",
+    "position": [
+      119.3,
+      444.9
     ],
     "domain": "Occurrence"
   },

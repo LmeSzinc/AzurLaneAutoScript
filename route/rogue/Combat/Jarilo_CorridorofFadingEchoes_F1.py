@@ -5,6 +5,19 @@ from tasks.rogue.route.base import RouteBase
 
 class Route(RouteBase):
 
+    def Jarilo_CorridorofFadingEchoes_F1_X115Y911(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((115.5, 911.3)), | 274.2     | 274      |
+        | enemy    | Waypoint((64.2, 909.2)),  | 282.6     | 276      |
+        | exit     | Waypoint((64.2, 909.2)),  | 282.6     | 276      |
+        """
+        self.map_init(plane=Jarilo_CorridorofFadingEchoes, floor="F1", position=(115.5, 911.3))
+        self.register_domain_exit(Waypoint((64.2, 909.2)), end_rotation=276)
+        enemy = Waypoint((64.2, 909.2))
+        # ===== End of generated waypoints =====
+
     def Jarilo_CorridorofFadingEchoes_F1_X291Y765(self):
         """
         | Waypoint | Position                  | Direction | Rotation |

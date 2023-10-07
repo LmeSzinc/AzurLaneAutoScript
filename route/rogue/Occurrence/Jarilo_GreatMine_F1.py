@@ -19,3 +19,18 @@ class Route(RouteBase):
 
         self.clear_event(event)
         # ===== End of generated waypoints =====
+
+    def Jarilo_GreatMine_F1_X277Y605(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((277.5, 605.9)), | 239.8     | 237      |
+        | event    | Waypoint((242.2, 618.8)), | 247.1     | 241      |
+        | exit     | Waypoint((241.2, 628.9)), | 149.1     | 241      |
+        """
+        self.map_init(plane=Jarilo_GreatMine, floor="F1", position=(277.5, 605.9))
+        self.register_domain_exit(Waypoint((241.2, 628.9)), end_rotation=241)
+        event = Waypoint((242.2, 618.8))
+
+        self.clear_event(event)
+        # ===== End of generated waypoints =====
