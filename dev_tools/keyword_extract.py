@@ -396,8 +396,12 @@ class KeywordExtract:
         for group_title_ids in event_title_texts.values():
             group_option_ids = []
             for title_id in group_title_ids:
+                # Special case for Nildis (尼尔迪斯牌)
+                # Missing option: Give up
+                if title_id == '13501':
+                    group_option_ids.append(13506)
                 option_id = title_id
-                # Name ids in Swarm Disaster(寰宇蝗灾) have a "1" prefix
+                # Name ids in Swarm Disaster (寰宇蝗灾) have a "1" prefix
                 if option_id not in option_ids:
                     option_id = title_id[1:]
                 # Some name may not has corresponding options
@@ -409,8 +413,12 @@ class KeywordExtract:
                 ))
             if group_option_ids:
                 options_grouped[group_title_ids[0]] = group_option_ids
+            
         for title_id, options in options_grouped.items():
             options_grouped[title_id] = list(clean_options(options))
+        for title_id in list(options_grouped.keys()):
+            if len(options_grouped[title_id]) == 0:
+                options_grouped.pop(title_id)
         option_dup_count = defaultdict(int)
         for option_hash_list in options_grouped.values():
             for option_hash in option_hash_list:

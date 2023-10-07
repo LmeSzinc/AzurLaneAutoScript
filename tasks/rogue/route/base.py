@@ -83,6 +83,7 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
             out: is_in_main()
         """
         logger.info('Clear occurrence')
+        self.title = None
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False

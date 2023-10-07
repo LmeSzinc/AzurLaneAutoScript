@@ -75,6 +75,9 @@ class RogueEventTitle(Keyword):
     instances: ClassVar = {}
     option_ids: list[int]
 
+    def __hash__(self):
+        return super().__hash__()
+
 
 @dataclass(repr=False)
 class RogueEventOption(Keyword):

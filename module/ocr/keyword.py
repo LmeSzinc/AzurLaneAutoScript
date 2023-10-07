@@ -6,12 +6,13 @@ from typing import ClassVar
 import module.config.server as server
 from module.exception import ScriptError
 
-REGEX_PUNCTUATION = re.compile(r'[ ,.\'"“”，。:：;；!！?？·•\-—/\\\n\t()\[\]（）「」『』【】《》［］]')
+# ord('．') = 65294
+REGEX_PUNCTUATION = re.compile(r'[ ,.．\'"“”，。:：;；!！?？·•\-—/\\\n\t()\[\]（）「」『』【】《》［］]')
 
 
 def parse_name(n):
     n = REGEX_PUNCTUATION.sub('', str(n)).lower()
-    return n
+    return n.strip()
 
 
 @dataclass

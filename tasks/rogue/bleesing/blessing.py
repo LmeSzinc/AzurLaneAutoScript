@@ -70,31 +70,29 @@ class RogueBuffOcr(Ocr):
                 "云[摘销锅]?逐步离": "云镝逐步离",
                 "制桑": "制穹桑",
                 "乌号基": "乌号綦",
-                "追摩物": "追孽物",
+                "流岚追摩?物": "流岚追孽物",
                 "特月": "狩月",
                 "彤弓素.*": "彤弓素矰",
                 "白决射御": "白矢决射御",
                 "苦表": "苦衷",
-                "[沦沧]肌髓": "沦浃肌髓",
+                "[沦沧][決]?肌髓": "沦浃肌髓",
                 "进发": "迸发",
                 "永缩体": "永坍缩体",
                 "完美体验：绒默": "完美体验：缄默",
-                "灭回归不等式": "湮灭回归不等式",
+                "[涯]?灭回归不等式": "湮灭回归不等式",
                 r".*灾$": "禳灾",
                 "虚安供品": "虚妄供品",
                 "原初的苦$": "原初的苦衷",
-                "厌离邪苦": "厌离邪秽苦",
+                "厌离邪[移]?苦": "厌离邪秽苦",
                 r".*繁.*": "葳蕤繁祉，延彼遐龄",
             }
-            for pat, replace in replace_pattern_dict.items():
-                result = re.sub(pat, replace, result)
         elif self.lang == 'en':
             replace_pattern_dict = {
                 "RestIin": "Restin",
             }
-            for pat, replace in replace_pattern_dict.items():
-                result = re.sub(pat, replace, result)
-        return result
+        for pat, replace in replace_pattern_dict.items():
+            after = re.sub(pat, replace, result)
+        return after
 
 
 class RogueBlessingSelector(RogueSelector):
