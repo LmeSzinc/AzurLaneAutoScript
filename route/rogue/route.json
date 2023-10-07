@@ -99,17 +99,6 @@
     "domain": "Combat"
   },
   {
-    "name": "Combat_Herta_SupplyZone_F2_X151Y245",
-    "route": "route.rogue.Combat.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X151Y245",
-    "plane": "Herta_SupplyZone",
-    "floor": "F2",
-    "position": [
-      151.6,
-      245.5
-    ],
-    "domain": "Combat"
-  },
-  {
     "name": "Combat_Herta_SupplyZone_F2_X397Y233",
     "route": "route.rogue.Combat.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X397Y233",
     "plane": "Herta_SupplyZone",
@@ -172,6 +161,17 @@
     "position": [
       219.6,
       112.8
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_SupplyZone_F2RogueX151Y245_X151Y245",
+    "route": "route.rogue.Combat.Herta_SupplyZone_F2RogueX151Y245:Herta_SupplyZone_F2RogueX151Y245_X151Y245",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2RogueX151Y245",
+    "position": [
+      152.0,
+      245.4
     ],
     "domain": "Combat"
   },
@@ -249,6 +249,17 @@
     "position": [
       115.5,
       911.3
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_CorridorofFadingEchoes_F1_X201Y1071",
+    "route": "route.rogue.Combat.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X201Y1071",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      201.2,
+      1071.4
     ],
     "domain": "Combat"
   },
@@ -469,6 +480,28 @@
     "position": [
       227.7,
       425.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_SilvermaneGuardRestrictedZone_F1_X371Y425",
+    "route": "route.rogue.Combat.Jarilo_SilvermaneGuardRestrictedZone_F1:Jarilo_SilvermaneGuardRestrictedZone_F1_X371Y425",
+    "plane": "Jarilo_SilvermaneGuardRestrictedZone",
+    "floor": "F1",
+    "position": [
+      371.6,
+      425.3
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_SilvermaneGuardRestrictedZone_F1_X419Y180",
+    "route": "route.rogue.Combat.Jarilo_SilvermaneGuardRestrictedZone_F1:Jarilo_SilvermaneGuardRestrictedZone_F1_X419Y180",
+    "plane": "Jarilo_SilvermaneGuardRestrictedZone",
+    "floor": "F1",
+    "position": [
+      419.4,
+      179.8
     ],
     "domain": "Combat"
   },
@@ -781,6 +814,17 @@
     "domain": "Elite"
   },
   {
+    "name": "Elite_Jarilo_GreatMine_F1_X303Y489",
+    "route": "route.rogue.Elite.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X303Y489",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      303.4,
+      489.3
+    ],
+    "domain": "Elite"
+  },
+  {
     "name": "Elite_Jarilo_RivetTown_F1_X149Y435",
     "route": "route.rogue.Elite.Jarilo_RivetTown_F1:Jarilo_RivetTown_F1_X149Y435",
     "plane": "Jarilo_RivetTown",
@@ -788,6 +832,17 @@
     "position": [
       149.9,
       435.6
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Jarilo_RivetTown_F2_X189Y81",
+    "route": "route.rogue.Elite.Jarilo_RivetTown_F2:Jarilo_RivetTown_F2_X189Y81",
+    "plane": "Jarilo_RivetTown",
+    "floor": "F2",
+    "position": [
+      189.5,
+      81.9
     ],
     "domain": "Elite"
   },

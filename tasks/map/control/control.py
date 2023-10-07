@@ -346,8 +346,11 @@ class MapControl(Combat, AimDetectorMixin):
                 logger.info(f'Arrive waypoint, expected: {expected}, result: {result}')
                 results += result
                 matched = waypoint.match_results(result)
-                if not waypoint.expected_end or matched:
+                if not waypoint.expected_end:
+                    logger.info(f'Arrive waypoint: {matched}')
+                elif matched:
                     logger.info(f'Arrive waypoint with expected result: {matched}')
+                    break
                 else:
                     logger.warning(f'Arrive waypoint with unexpected result: {result}')
 

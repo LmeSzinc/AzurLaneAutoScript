@@ -38,9 +38,10 @@ class Route(RouteBase):
         self.clear_item(item1.straight_run())
         self.clear_enemy(enemy1.straight_run())
         # 2
+        self.rotation_set(156)
         self.clear_enemy(
-            enemy1.set_threshold(3),
-            node2.straight_run().set_threshold(3),
+            enemy1,
+            node2.set_threshold(3),
             node3,
             node4.straight_run(),
         )

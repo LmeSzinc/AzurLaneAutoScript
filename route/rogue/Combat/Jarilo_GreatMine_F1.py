@@ -184,11 +184,12 @@ class Route(RouteBase):
         # ===== End of generated waypoints =====
 
         self.clear_item(item1)
-        self.rotation_set(232)
         self.clear_item(item2)
+        self.rotation_set(232)
         self.clear_enemy(enemy3)
-        self.clear_item(item3.straight_run())
+        # self.clear_item(item3.straight_run())
         self.clear_enemy(
+            item3.straight_run(),
             node4.straight_run(),
             enemy4.straight_run(),
         )

@@ -31,16 +31,17 @@ class Route(RouteBase):
         # 1
         self.clear_item(item1)
         self.clear_enemy(enemy1middle)
-        # 2
-        self.clear_item(
-            node2,
-            item2.straight_run(),
-        )
+        # 2, ignore item, too close to enemy
+        # self.clear_item(
+        #     node2,
+        #     item2.straight_run(),
+        # )
         self.clear_enemy(
-            enemy2.straight_run(),
+            node2,
+            enemy2.straight_run()
         )
         # 3
-        self.clear_enemy(enemy3)
+        self.clear_enemy(enemy3.straight_run())
 
     def Jarilo_RivetTown_F1_X205Y439(self):
         """
@@ -126,7 +127,8 @@ class Route(RouteBase):
         enemy = Waypoint((298.2, 246.0))
         # ===== End of generated waypoints =====
 
-        self.clear_item(item)
+        # Ignore item
+        # self.clear_item(item)
         self.clear_enemy(enemy)
 
     def Jarilo_RivetTown_F1_X293Y243(self):

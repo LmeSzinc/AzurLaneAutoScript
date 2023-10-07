@@ -41,6 +41,42 @@ class Route(RouteBase):
         # Ignore item
         self.clear_enemy(enemy)
 
+    def Jarilo_SilvermaneGuardRestrictedZone_F1_X371Y425(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((371.6, 425.3)), | 274.2     | 274      |
+        | enemy1   | Waypoint((304.0, 424.2)), | 274.2     | 276      |
+        | enemy2   | Waypoint((247.9, 426.4)), | 11.2      | 45       |
+        | enemy3   | Waypoint((163.9, 426.5)), | 282.9     | 278      |
+        | exit     | Waypoint((163.9, 426.5)), | 282.9     | 278      |
+        """
+        self.map_init(plane=Jarilo_SilvermaneGuardRestrictedZone, floor="F1", position=(371.6, 425.3))
+        self.register_domain_exit(Waypoint((163.9, 426.5)), end_rotation=278)
+        enemy1 = Waypoint((304.0, 424.2))
+        enemy2 = Waypoint((247.9, 426.4))
+        enemy3 = Waypoint((163.9, 426.5))
+        # ===== End of generated waypoints =====
+
+        self.clear_enemy(enemy1)
+        self.clear_enemy(enemy2)
+        self.clear_enemy(enemy3)
+
+    def Jarilo_SilvermaneGuardRestrictedZone_F1_X419Y180(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((419.4, 179.8)), | 166.8     | 163      |
+        | enemy    | Waypoint((437.0, 227.2)), | 166.6     | 156      |
+        | exit     | Waypoint((437.0, 227.2)), | 166.6     | 156      |
+        """
+        self.map_init(plane=Jarilo_SilvermaneGuardRestrictedZone, floor="F1", position=(419.4, 179.8))
+        self.register_domain_exit(Waypoint((437.0, 227.2)), end_rotation=156)
+        enemy = Waypoint((437.0, 227.2))
+        # ===== End of generated waypoints =====
+
+        self.clear_enemy(enemy)
+
     def Jarilo_SilvermaneGuardRestrictedZone_F1_X421Y173(self):
         """
         | Waypoint | Position                  | Direction | Rotation |
