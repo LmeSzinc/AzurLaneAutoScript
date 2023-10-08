@@ -65,7 +65,7 @@ scipy==1.10.1             # via -r requirements-in.txt
 shapely==2.0.1            # via pponnxcr
 six==1.16.0               # via pynput, uiautomator2
 sniffio==1.3.0            # via anyio
-srcmap==1.1.0             # via -r requirements-in.txt
+srcmap==1.3.3             # via -r requirements-in.txt
 starlette==0.14.2         # via -r requirements-in.txt
 sympy==1.12               # via onnxruntime
 tornado==6.3.1            # via pywebio
