@@ -68,6 +68,7 @@ class OcrRogueEventTitle(OcrRogueEvent):
             (KEYWORDS_ROGUE_EVENT_TITLE.Rock_Paper_Scissors, '^猜拳.*'),
             (KEYWORDS_ROGUE_EVENT_TITLE.Ka_ching_IPC_Banking_Part_1, '^咔.*其一.*'),
             (KEYWORDS_ROGUE_EVENT_TITLE.Ka_ching_IPC_Banking_Part_2, '^咔.*其二.*'),
+            (KEYWORDS_ROGUE_EVENT_TITLE.Beast_Horde_Voracious_Catastrophe, '^兽群.*'),
         ],
         'en': [
             (KEYWORDS_ROGUE_EVENT_TITLE.Nomadic_Miners, '^Nomadic.*'),
@@ -127,9 +128,10 @@ class OptionScroll(Scroll):
     def position_to_screen(self, position, random_range=(-0.05, 0.05)):
         # This scroll itself can not be dragged, but OCR_OPTION.area can
         area = super().position_to_screen(position, random_range)
-        ocr_area_width = OCR_OPTION.area[2] - OCR_OPTION.area[0]
+        confirm_width = self.area[0] - CHOOSE_OPTION_CONFIRM.button[0]
+        area_width = CHOOSE_OPTION_CONFIRM.button[0] - OCR_OPTION.area[0]
         # A fixed offset is easy to fail for some reason
-        random_offset = random.uniform(0.2, 0.8) * ocr_area_width
+        random_offset = random.uniform(0.2, 0.8) * area_width + confirm_width
         area = area_offset(area, (-random_offset, 0))
         # Flip drag direction upside down
         return (

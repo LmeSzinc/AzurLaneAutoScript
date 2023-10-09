@@ -7,6 +7,10 @@ STRATEGY_COMMON = {
         KEYWORDS_ROGUE_EVENT_OPTION.Purchase_a_1_star_Blessing,
         KEYWORDS_ROGUE_EVENT_OPTION.Enhance_2_random_Blessings
     ],
+    KEYWORDS_ROGUE_EVENT_TITLE.Ruan_Mei: [
+        KEYWORDS_ROGUE_EVENT_OPTION.Worship_Aeons_1,
+        KEYWORDS_ROGUE_EVENT_OPTION.Want_lots_of_money
+    ],
     KEYWORDS_ROGUE_EVENT_TITLE.Shopping_Channel: [
         KEYWORDS_ROGUE_EVENT_OPTION.A_lotus_that_can_sing_the_Happy_Birthday_song,
         KEYWORDS_ROGUE_EVENT_OPTION.A_mechanical_box,
@@ -25,10 +29,6 @@ STRATEGY_COMMON = {
     KEYWORDS_ROGUE_EVENT_TITLE.Statue: [
         KEYWORDS_ROGUE_EVENT_OPTION.Believe_in_them_with_pure_devotion,
         KEYWORDS_ROGUE_EVENT_OPTION.Discard_the_statue_Be_decisive
-    ],
-    KEYWORDS_ROGUE_EVENT_TITLE.Three_Little_Pigs: [
-        KEYWORDS_ROGUE_EVENT_OPTION.Play_a_bit_with_Sequence_Trotters,
-        KEYWORDS_ROGUE_EVENT_OPTION.Leave_14
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Unending_Darkness: [
         KEYWORDS_ROGUE_EVENT_OPTION.Fight_the_pull,
@@ -78,6 +78,10 @@ STRATEGY_COMBAT = {
     KEYWORDS_ROGUE_EVENT_TITLE.Societal_Dreamscape: [
         KEYWORDS_ROGUE_EVENT_OPTION.Swallow_the_other_fish_eye_and_continue_to_enjoy_the_massage,
         KEYWORDS_ROGUE_EVENT_OPTION.Return_to_work
+    ],
+    KEYWORDS_ROGUE_EVENT_TITLE.Three_Little_Pigs: [
+        KEYWORDS_ROGUE_EVENT_OPTION.Leave_14,
+        KEYWORDS_ROGUE_EVENT_OPTION.Play_a_bit_with_Sequence_Trotters
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Bounty_Hunter: [
         KEYWORDS_ROGUE_EVENT_OPTION.Give_him_the_fur_you_re_wearing,
