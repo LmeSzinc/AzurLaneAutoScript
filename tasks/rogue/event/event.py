@@ -2,6 +2,7 @@ import random
 import re
 from dataclasses import dataclass
 from functools import cached_property
+from itertools import chain
 
 from pponnxcr.predict_system import BoxedResult
 
@@ -135,8 +136,8 @@ class OptionScroll(Scroll):
         area = area_offset(area, (-random_offset, 0))
         # Flip drag direction upside down
         return (
-            area[0], self.area[1] + self.area[3] - area[1],
-            area[2], self.area[1] + self.area[3] - area[3],
+            area[0], self.area[1] + self.area[3] - area[3],
+            area[2], self.area[1] + self.area[3] - area[1],
         )
 
 
@@ -291,11 +292,17 @@ class RogueEvent(RogueUI):
             if SCROLL_OPTION.set_bottom(main=self):
                 expected = self._event_option_match(is_bottom_page=True)
                 self._event_option_ocr(expected)
+        priority = [
+            random.shuffle(x) or x
+            if isinstance(x, (list, tuple)) else [x]
+            for x in strategy[self.event_title]
+        ]
+        priority = list(chain.from_iterable(priority))
         # Reason why _keywords_to_find()[0] is used to compare:
         # Text of options in different events can be the same,
         # so it is possible that keywords returned by matched_ocr
         # is not exactly the same as options in RogueEventTitle.option_ids.
-        for expect in strategy[self.event_title]:
+        for expect in priority:
             for i, option in enumerate(self.valid_options):
                 ocr_text = option.button.matched_keyword._keywords_to_find()[0]
                 expect_text = expect._keywords_to_find()[0]
