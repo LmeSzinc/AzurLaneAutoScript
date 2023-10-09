@@ -354,16 +354,20 @@ class ConfigGenerator:
         #         prefix = '国服' if prefix == 'CN' else prefix
         #         deep_set(new, keys=path, value=f'[{prefix}] {_list[index]}')
 
+        ingame_lang = gui_lang_to_ingame_lang(lang)
+        dailies = deep_get(self.argument, keys='Dungeon.Name.option')
         # Dungeon names
-        from tasks.dungeon.keywords import DungeonList
+        from tasks.dungeon.keywords import DungeonList, DungeonDetailed
         if lang not in ['zh-CN', 'zh-TW', 'en-US', 'es-ES']:
-            ingame_lang = gui_lang_to_ingame_lang(lang)
-            dailies = deep_get(self.argument, keys='Dungeon.Name.option')
             for dungeon in DungeonList.instances.values():
                 if dungeon.name in dailies:
                     value = dungeon.__getattribute__(ingame_lang)
                     deep_set(new, keys=['Dungeon', 'Name', dungeon.name], value=value)
-
+        # Stagnant shadows with character names
+        for dungeon in DungeonDetailed.instances.values():
+            if dungeon.name in dailies:
+                value = dungeon.__getattribute__(ingame_lang)
+                deep_set(new, keys=['Dungeon', 'Name', dungeon.name], value=value)
         # Copy dungeon i18n to double events
         def update_dungeon_names(keys):
             for dungeon in deep_get(self.argument, keys=f'{keys}.option', default=[]):
@@ -380,7 +384,6 @@ class ConfigGenerator:
 
         # Character names
         from tasks.character.keywords import CharacterList
-        ingame_lang = gui_lang_to_ingame_lang(lang)
         characters = deep_get(self.argument, keys='DungeonSupport.Character.option')
         for character in CharacterList.instances.values():
             if character.name in characters:

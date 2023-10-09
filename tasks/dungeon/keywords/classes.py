@@ -92,3 +92,8 @@ class DungeonList(Keyword):
 @dataclass(repr=False)
 class DungeonEntrance(Keyword):
     instances: ClassVar = {}
+
+
+@dataclass(repr=False)
+class DungeonDetailed(Keyword):
+    instances: ClassVar = {}

@@ -1,6 +1,7 @@
 import os
 import re
 import typing as t
+from collections import defaultdict
 from functools import cached_property
 
 from module.base.code_generator import CodeGenerator
@@ -232,6 +233,80 @@ class KeywordExtract:
         )
         self.load_keywords(keywords_id, lang)
 
+    def generate_shadow_with_characters(self):
+        # Damage type -> damage hash
+        damage_info = dict()
+        for type_name, data in read_file(os.path.join(
+            TextMap.DATA_FOLDER, 'ExcelOutput',
+            'DamageType.json'
+        )).items():
+            damage_info[type_name] = deep_get(data, 'DamageTypeName.Hash')
+        # Character id -> character hash & damage type
+        character_info = dict()
+        for data in read_file(os.path.join(
+            TextMap.DATA_FOLDER, 'ExcelOutput',
+            'AvatarConfig.json'
+        )).values():
+            name_hash = deep_get(data, 'AvatarName.Hash')
+            damage_type = deep_get(data, 'DamageType')
+            character_info[data['AvatarID']] = (
+                name_hash, damage_info[damage_type])
+        # Item id -> character id
+        promotion_info = defaultdict(list)
+        for data in read_file(os.path.join(
+            TextMap.DATA_FOLDER, 'ExcelOutput',
+            'AvatarPromotionConfig.json'
+        )).values():
+            character_id = deep_get(data, '0.AvatarID')
+            item_id = deep_get(data, '2.PromotionCostList')[-1]['ItemID']
+            promotion_info[item_id].append(character_info[character_id])
+        # Shadow hash -> item id
+        shadow_info = dict()
+        for data in read_file(os.path.join(
+            TextMap.DATA_FOLDER, 'ExcelOutput',
+            'MappingInfo.json'
+        )).values():
+            farm_type = deep_get(data, '0.FarmType')
+            if farm_type != 'ELEMENT':
+                continue
+            shadow_hash = deep_get(data, '0.Name.Hash')
+            item_id = deep_get(data, '5.DisplayItemList')[-1]['ItemID']
+            shadow_info[shadow_hash] = promotion_info[item_id]
+        prefix_dict = {
+            'cn': '角色晋阶材料：',
+            'cht': '角色晉階材料：',
+            'jp': 'キャラクター昇格素材：',
+            'en': 'Ascension: ',
+            'es': 'Ascension: '
+        }
+        keyword_class = 'DungeonDetailed'
+        output_file = './tasks/dungeon/keywords/dungeon_detailed.py'
+        gen = CodeGenerator()
+        gen.Import(f"""
+        from .classes import {keyword_class}
+        """)
+        gen.CommentAutoGenerage('dev_tools.keyword_extract')
+        for index, (keyword, characters) in enumerate(shadow_info.items()):
+            _, name = self.find_keyword(keyword, lang='en')
+            name = text_to_variable(name).replace('Shape_of_', '')
+            with gen.Object(key=name, object_class=keyword_class):
+                gen.ObjectAttr(key='id', value=index + 1)
+                gen.ObjectAttr(key='name', value=name)
+                for lang in UI_LANGUAGES:
+                    character_names = ' / '.join([
+                        self.find_keyword(c[0], lang)[1]
+                        for c in characters
+                    ])
+                    damage_type = self.find_keyword(characters[0][1], lang)[1]
+                    if lang in {'en', 'es'}:
+                        value = f'{prefix_dict[lang]}{damage_type} ({character_names})'
+                    else:
+                        value = f'{prefix_dict[lang]}{damage_type}（{character_names}）'
+                    gen.ObjectAttr(key=lang, value=value)
+        print(f'Write {output_file}')
+        gen.write(output_file)
+        self.clear_keywords()
+
     def generate_forgotten_hall_stages(self):
         keyword_class = "ForgottenHallStage"
         output_file = './tasks/forgotten_hall/keywords/stage.py'
@@ -372,6 +447,7 @@ class KeywordExtract:
                             text_convert=dungeon_name)
         self.load_keywords(['传送', '追踪'])
         self.write_keywords(keyword_class='DungeonEntrance', output_file='./tasks/dungeon/keywords/dungeon_entrance.py')
+        self.generate_shadow_with_characters()
         self.load_keywords(['奖励', '任务', ])
         self.write_keywords(keyword_class='BattlePassTab', output_file='./tasks/battle_pass/keywords/tab.py')
         self.load_keywords(['本日任务', '本周任务', '本期任务'])
