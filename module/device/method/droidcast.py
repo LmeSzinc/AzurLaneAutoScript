@@ -100,14 +100,7 @@ class DroidCast(Uiautomator2):
     def droidcast_session(self):
         session = requests.Session()
         session.trust_env = False  # Ignore proxy
-        try:
-            # if adb is not found but use adb forward, will expect an AdbError()
-            self._droidcast_port = self.adb_forward('tcp:53516')
-        except AdbError as e:
-            # AdbError()
-            logger.error(e)
-            if not str(e):
-                self.adb_reconnect()
+        self._droidcast_port = self.adb_forward('tcp:53516')
         return session
 
     """

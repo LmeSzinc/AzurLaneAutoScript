@@ -451,7 +451,7 @@ class Connection(ConnectionAttr):
             port = random_port(self.config.FORWARD_PORT_RANGE)
             forward = ForwardItem(self.serial, f'tcp:{port}', remote)
             logger.info(f'Create forward: {forward}')
-            self.adb.forward(forward.local, forward.remote)
+            self.adb_shell("forward",forward.local, forward.remote)
             return port
 
     def adb_reverse(self, remote):
