@@ -312,14 +312,15 @@ class BattlePassUI(UI):
             if self.appear(MAIN_GOTO_BATTLE_PASS, similarity=0.75):
                 return True
             else:
-                logger.info('No battle pass entrance, probably a gap between two periods')
                 continue
 
+        logger.info('No battle pass entrance, probably a gap between two periods')
         return False
 
     def run(self):
         self.ui_ensure(page_main)
         if not self.has_battle_pass_entrance():
+            self.config.stored.BattlePassTodayQuest.set(0)
             self.config.task_delay(server_update=True)
             self.config.task_stop()
 
