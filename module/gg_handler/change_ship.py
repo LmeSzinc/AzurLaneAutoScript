@@ -45,6 +45,8 @@ class ChangeShip(ModuleBase):
             logger.info('Lua Pushed')
 
     def ChangeShipType(self):
+        if not deep_get(self.config.data, "GameManager.ChangeShip.Enable"):
+            return 0
         HARDMODEMAPS = [
             'd1', 'd2', 'd3',
             'ht4', 'ht5', 'ht6',

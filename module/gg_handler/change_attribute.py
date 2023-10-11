@@ -27,6 +27,8 @@ class ChangeAttribute(ModuleBase):
             logger.info('Lua Pushed')
 
     def ChangeAttribute(self):
+        if not deep_get(self.config.data, "GameManager.ChangeAttribute.Enable"):
+            return 0
         _set = False
         _confirmed = False
         while 1:
