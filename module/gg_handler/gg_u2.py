@@ -130,14 +130,20 @@ class GGU2(Base):
         import os
         _repush = deep_get(self.config.data, keys='GameManager.GGHandler.RepushLua')
         if _repush:
-            os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                     f' {self.device.serial} shell mkdir /sdcard/Notes')
+            # os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+            #          f' {self.device.serial} shell mkdir /sdcard/Notes')
+            # self.device.sleep(0.5)
+            # os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+            #          f' {self.device.serial} shell rm /sdcard/Notes/Multiplier.lua')
+            # self.device.sleep(0.5)
+            # os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+            #          f' {self.device.serial} push "bin/Lua/Multiplier.lua" /sdcard/Notes/Multiplier.lua')
+            # self.device.sleep(0.5)
+            self.device.adb_shell("mkdir /sdcard/Notes")
             self.device.sleep(0.5)
-            os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                     f' {self.device.serial} shell rm /sdcard/Notes/Multiplier.lua')
+            self.device.adb_shell("rm /sdcard/Notes/Multiplier.lua")
             self.device.sleep(0.5)
-            os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                     f' {self.device.serial} push "bin/Lua/Multiplier.lua" /sdcard/Notes/Multiplier.lua')
+            self.device.adb_push("bin/Lua/Multiplier.lua", "/sdcard/Notes/Multiplier.lua")
             self.device.sleep(0.5)
             logger.info('Lua Pushed')
         while 1:
