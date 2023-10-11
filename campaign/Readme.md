@@ -34,7 +34,7 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20221117   | war archives 20200903 cn | Stars of the Shimmering Fjord                | 峡湾间的星辰           | Stars of the Shimmering Fjord                | 輝ける峡湾の星                       | -                        |
 | 20221117   | war archives 20210819 cn | Microlayer Medley                            | 微层混合               | Microlayer Medley                            | 闇靄払う銀翼                         | -                        |
 | 20211028   | war archives 20211028 cn | Skybound Oratorio                            | 穹顶下的圣咏曲         | Skybound Oratorio                            | 神穹を衝く聖歌                       | 穹頂下的聖詠曲           |
-| 20230420   | war archives 20220210 cn | Northern Overture                            | 北境序曲               | Northern Overture                            | 凍絶の北海                           | 北境序曲                |    
+| 20230420   | war archives 20220210 cn | Northern Overture                            | 北境序曲               | Northern Overture                            | 凍絶の北海                           | 北境序曲                |
 | 20230511   | war archives 20220414 cn | Aurora Noctis                                | 永夜幻光               | Aurora Noctis                                | 極夜照らす幻光                       | 永夜幻光              |
 | 20230831   | war archives 20201229 cn | Inverted Orthant                             | 负象限作战             | Inverted Orthant                             | 虚畳なりし限象                       | -                        |
 | 20200227   | event 20200227 cn        | Northern Overture                            | 北境序曲               | Northern Overture                            | 凍絶の北海                           | -                        |
@@ -154,9 +154,12 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20230720   | event 20211125 cn        | World-spanning Arclight                      | 复刻交汇世界的弧光       | World-spanning Arclight Rerun                | 弧光は交わる世界にて（復刻）           | -                        |
 | 20230727   | event 20200917 cn        | Dreamwaker's Butterfly                       | -                      | -                                            | -                                    | 復刻-蝶海夢花             |
 | 20230803   | event 20211125 cn        | World-spanning Arclight                      | -                      | -                                            | -                                    | 復刻-交匯世界的弧光        |
-| 20230803   | event 20230803 cn        | Anthem of Remembrance                        | 奏响鸢尾之歌            | Anthem of Remembrance                        | 燃ゆる聖都の回想曲                     | -                        | 
+| 20230803   | event 20230803 cn        | Anthem of Remembrance                        | 奏响鸢尾之歌            | Anthem of Remembrance                        | 燃ゆる聖都の回想曲                     | -                        |
 | 20230817   | event 20230817 cn        | The Fool's Scales                            | 愚者的天平              | The Fool's Scales                            | 愚者の天秤                            | -                        |
-| 20230817   | event 20220414 cn        | Aurora Noctis                                | -                      | -                                            | -                                    | 復刻-永夜幻光             | 
+| 20230817   | event 20220414 cn        | Aurora Noctis                                | -                      | -                                            | -                                    | 復刻-永夜幻光             |
 | 20230824   | coalition 20230323       | Frostfall                                    | -                      | -                                            | -                                    | 極地風暴                  |
 | 20230914   | event 20220915 cn        | Violet Tempest Blooming Lycoris              | -                      | -                                            | -                                    | 紫絳槿嵐                  |
+| 20230914   | event 20230914 cn        | Effulgence Before Eclipse                    | 须臾望月抄              | Effulgence Before Eclipse                    | 須臾望月抄                            | -                        |
 | 20231012   | event 20201229 cn        | Inverted Orthant                             | -                      | -                                            | -                                    | 復刻-負象限作戰           |
+
+

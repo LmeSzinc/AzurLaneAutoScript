@@ -178,6 +178,10 @@
       "name": "Freebies",
       "help": ""
     },
+    "Minigame": {
+      "name": "Minigame",
+      "help": "Receive credits and spend them"
+    },
     "OpsiGeneral": {
       "name": "OpSi General",
       "help": ""
@@ -643,6 +647,7 @@
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
       "event_20201229_cn": "Inverted Orthant Rerun",
+      "event_20230914_cn": "Effulgence Before Eclipse",
       "event_20220915_cn": "Violet Tempest Blooming Lycoris",
       "coalition_20230323": "Frostfall",
       "event_20220414_cn": "Aurora Noctis Rerun",
@@ -1882,6 +1887,16 @@
       "4": "Friday",
       "5": "Saturday",
       "6": "Sunday"
+    }
+  },
+  "Minigame": {
+    "_info": {
+      "name": "",
+      "help": ""
+    },
+    "Collect": {
+      "name": "Enable",
+      "help": ""
     }
   },
   "Daily": {

@@ -178,6 +178,10 @@
       "name": "免費獎勵",
       "help": ""
     },
+    "Minigame": {
+      "name": "小遊戲",
+      "help": "遊戲幣不會溢出時自動領取遊戲幣，有遊戲幣且獎勵沒滿時自動進行小遊戲"
+    },
     "OpsiGeneral": {
       "name": "通用設定",
       "help": ""
@@ -643,6 +647,7 @@
       "help": "自動選擇至最新的活動圖",
       "campaign_main": "主線圖",
       "event_20201229_cn": "復刻-負象限作戰",
+      "event_20230914_cn": "Effulgence Before Eclipse",
       "event_20220915_cn": "紫絳槿嵐",
       "coalition_20230323": "極地風暴",
       "event_20220414_cn": "復刻-永夜幻光",
@@ -1882,6 +1887,16 @@
       "4": "星期五",
       "5": "星期六",
       "6": "星期日"
+    }
+  },
+  "Minigame": {
+    "_info": {
+      "name": "小遊戲",
+      "help": ""
+    },
+    "Collect": {
+      "name": "啟用",
+      "help": ""
     }
   },
   "Daily": {
