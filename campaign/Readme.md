@@ -159,3 +159,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20230817   | event 20220414 cn        | Aurora Noctis                                | -                      | -                                            | -                                    | 復刻-永夜幻光             | 
 | 20230824   | coalition 20230323       | Frostfall                                    | -                      | -                                            | -                                    | 極地風暴                  |
 | 20230914   | event 20220915 cn        | Violet Tempest Blooming Lycoris              | -                      | -                                            | -                                    | 紫絳槿嵐                  |
+| 20231012   | event 20201229 cn        | Inverted Orthant                             | -                      | -                                            | -                                    | 復刻-負象限作戰           |
