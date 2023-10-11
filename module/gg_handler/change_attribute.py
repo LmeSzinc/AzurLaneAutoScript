@@ -18,15 +18,11 @@ class ChangeAttribute(ModuleBase):
     def PushLua(self):
         IsPush = deep_get(self.config.data, keys='GameManager.ChangeAttribute.PushLua')
         if IsPush:
-            import os
-            os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                     f' {self.device.serial} shell mkdir /sdcard/Notes')
+            self.device.adb_shell("mkdir /sdcard/Notes")
             self.device.sleep(0.5)
-            os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                     f' {self.device.serial} shell rm /sdcard/Notes/ShipFucker.lua')
+            self.device.adb_shell("rm /sdcard/Notes/ShipFucker.lua")
             self.device.sleep(0.5)
-            os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                     f' {self.device.serial} push "bin/Lua/ShipFucker.lua" /sdcard/Notes/ShipFucker.lua')
+            self.device.adb_push("bin/Lua/ShipFucker.lua", "/sdcard/Notes/ShipFucker.lua")
             self.device.sleep(0.5)
             logger.info('Lua Pushed')
 
