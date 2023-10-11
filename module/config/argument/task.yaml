@@ -344,6 +344,7 @@ Tool:
       - GGHandler
       - PowerLimit
       - ChangeShip
+      - ChangeAttribute
     SomethingSpecial:
       - InfiniteDelay
       - TurnOffForcedOnSettings

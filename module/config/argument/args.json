@@ -9455,6 +9455,20 @@
         "value": "106021;1;6\n107041;1;6\n206011;1;6\n107011;1;6\n"
       }
     },
+    "ChangeAttribute": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "PushLua": {
+        "type": "checkbox",
+        "value": false
+      },
+      "ShipData": {
+        "type": "textarea",
+        "value": ""
+      }
+    },
     "Storage": {
       "Storage": {
         "type": "storage",

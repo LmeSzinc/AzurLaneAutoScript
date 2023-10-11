@@ -2551,6 +2551,24 @@
       "help": "格式为\"舰船Id;星级;舰种Id\"\n参考https://github.com/0O0o0oOoO00/SmallKai中的数据\n清空会恢复默认"
     }
   },
+  "ChangeAttribute": {
+    "_info": {
+      "name": "改属性",
+      "help": "需要和倍率一起使用"
+    },
+    "Enable": {
+      "name": "启用",
+      "help": ""
+    },
+    "PushLua": {
+      "name": "始终推送Lua",
+      "help": "有时推送时会失败，视情况开启或者关闭"
+    },
+    "ShipData": {
+      "name": "舰船数据",
+      "help": "格式为\"舰船Id;舰船星级;类型Id:属性>目标值[;属性>目标值...]\"\n参考https://github.com/0O0o0oOoO00/SmallKai中的数据"
+    }
+  },
   "InfiniteDelay": {
     "_info": {
       "name": "无限推迟",

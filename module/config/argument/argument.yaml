@@ -743,6 +743,12 @@ ChangeShip:
       107041;1;6
       206011;1;6
       107011;1;6
+ChangeAttribute:
+  Enable: false
+  PushLua: false
+  ShipData:
+    type: textarea
+    value: ''
 
 InfiniteDelay:
   Commission:

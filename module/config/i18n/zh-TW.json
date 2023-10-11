@@ -2551,6 +2551,24 @@
       "help": "ChangeShip.ShipData.help"
     }
   },
+  "ChangeAttribute": {
+    "_info": {
+      "name": "ChangeAttribute._info.name",
+      "help": "ChangeAttribute._info.help"
+    },
+    "Enable": {
+      "name": "ChangeAttribute.Enable.name",
+      "help": "ChangeAttribute.Enable.help"
+    },
+    "PushLua": {
+      "name": "ChangeAttribute.PushLua.name",
+      "help": "ChangeAttribute.PushLua.help"
+    },
+    "ShipData": {
+      "name": "ChangeAttribute.ShipData.name",
+      "help": "ChangeAttribute.ShipData.help"
+    }
+  },
   "InfiniteDelay": {
     "_info": {
       "name": "InfiniteDelay._info.name",

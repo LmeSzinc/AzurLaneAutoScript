@@ -457,6 +457,11 @@ class GeneratedConfig:
     ChangeShip_TargetType = 'BB'  # CV, BB
     ChangeShip_ShipData = '106021;1;6\n107041;1;6\n206011;1;6\n107011;1;6\n'
 
+    # Group `ChangeAttribute`
+    ChangeAttribute_Enable = False
+    ChangeAttribute_PushLua = False
+    ChangeAttribute_ShipData = None
+
     # Group `InfiniteDelay`
     InfiniteDelay_Commission = False
     InfiniteDelay_Research = False
