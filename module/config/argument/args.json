@@ -214,6 +214,7 @@
           "Stagnant_Shadow_Doom",
           "Stagnant_Shadow_Puppetry",
           "Stagnant_Shadow_Abomination",
+          "Stagnant_Shadow_Scorch",
           "Stagnant_Shadow_Celestial",
           "Cavern_of_Corrosion_Path_of_Gelid_Wind",
           "Cavern_of_Corrosion_Path_of_Jabbing_Punch",
@@ -309,6 +310,7 @@
           "Stagnant_Shadow_Doom",
           "Stagnant_Shadow_Puppetry",
           "Stagnant_Shadow_Abomination",
+          "Stagnant_Shadow_Scorch",
           "Stagnant_Shadow_Celestial"
         ]
       },
@@ -356,6 +358,7 @@
           "Himeko",
           "Hook",
           "JingYuan",
+          "Jingliu",
           "Kafka",
           "Luka",
           "Luocha",

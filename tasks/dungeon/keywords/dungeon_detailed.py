@@ -69,11 +69,11 @@ Stagnant_Shadow_Mirage = DungeonDetailed(
 Stagnant_Shadow_Icicle = DungeonDetailed(
     id=8,
     name='Stagnant_Shadow_Icicle',
-    cn='角色晋阶材料：冰（彦卿）',
-    cht='角色晉階材料：冰（彥卿）',
-    en='Ascension: Ice (Yanqing)',
-    jp='キャラクター昇格素材：氷（彦卿）',
-    es='Ascension: Hielo (Yanqing)',
+    cn='角色晋阶材料：冰（彦卿 / 镜流）',
+    cht='角色晉階材料：冰（彥卿 / 鏡流）',
+    en='Ascension: Ice (Yanqing / Jingliu)',
+    jp='キャラクター昇格素材：氷（彦卿 / 鏡流）',
+    es='Ascension: Hielo (Yanqing / Jingliu)',
 )
 Stagnant_Shadow_Doom = DungeonDetailed(
     id=9,
@@ -102,8 +102,17 @@ Stagnant_Shadow_Abomination = DungeonDetailed(
     jp='キャラクター昇格素材：量子（リンクス / 符玄）',
     es='Ascension: Cuántico (Lynx / Fu Xuan)',
 )
-Stagnant_Shadow_Celestial = DungeonDetailed(
+Stagnant_Shadow_Scorch = DungeonDetailed(
     id=12,
+    name='Stagnant_Shadow_Scorch',
+    cn='角色晋阶材料：火（桂乃芬 / 托帕&账账）',
+    cht='角色晉階材料：火（桂乃芬 / 托帕&帳帳）',
+    en='Ascension: Fire (Guinaifen / Topaz and Numby)',
+    jp='キャラクター昇格素材：炎（桂乃芬 / トパーズ&カブ）',
+    es='Ascension: Fuego (Guinaifen / Topaz y Conti)',
+)
+Stagnant_Shadow_Celestial = DungeonDetailed(
+    id=13,
     name='Stagnant_Shadow_Celestial',
     cn='角色晋阶材料：风（刃）',
     cht='角色晉階材料：風（刃）',
