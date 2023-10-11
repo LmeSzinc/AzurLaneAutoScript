@@ -7,7 +7,7 @@ end
 -- {Id};{Star};{Type}:{Attribute}>{Target}[;{Attribute}>{Target}...][|{Id};{Star};{Type}:{Attribute}>{Target}[;{Attribute}>{Target}...]]
 function ChangeShipAttribute()
     local Result = gg.prompt({"格式：{舰船Id};{舰船星级};{类型Id}:{属性}>{目标值}[;{属性}>{目标值}...]，多个之间用'|'连接"}
-			 		    	,{} 
+			 		    	,{}
 			 		    	,{"text"})
 
 	local TargetList = string.split(tostring(Result[1]), "|")
@@ -24,12 +24,19 @@ function ChangeShipAttribute()
 		--]]
 
 		gg.searchNumber(ShipData.."::610", gg.TYPE_DOUBLE)
-		gg.refineNumber(string.split(ShipData, ";")[1], gg.TYPE_AUTO)
+		gg.refineNumber(string.split(ShipData, ";")[1], gg.TYPE_DOUBLE)
 
 		local SearchResult = gg.getResults(1024)
+
+		if next(SearchResult) == nil then
+			gg.searchNumber(ShipData.."::610", gg.TYPE_DWORD)
+			gg.refineNumber(string.split(ShipData, ";")[1], gg.TYPE_DWORD)
+			SearchResult = gg.getResults(1024)
+		end
+
 		for j = 1, #SearchResult do
-			local MemoryFrom = SearchResult[j].address - 0x1000
-			local MemoryTo = SearchResult[j].address + 0x1000
+			local MemoryFrom = SearchResult[j].address - 0x800
+			local MemoryTo = SearchResult[j].address - 0x650
 			for k = 1, #ShipAttributeList do
 				-- fuck gg
 				-- fuck lua
@@ -38,16 +45,23 @@ function ChangeShipAttribute()
 				local SplitedAttribute = string.split(tostring(ShipAttributeList[k]), ">")
 				local AttributeToSearchList = SplitedAttribute[1]
 				local TargetAttributeList = SplitedAttribute[2]
+				gg.clearResults()
 				gg.searchNumber(AttributeToSearchList, gg.TYPE_DOUBLE, false, gg.SIGN_EQUAL, MemoryFrom, MemoryTo)
-				gg.getResults(1024)
-				gg.editAll(TargetAttributeList, gg.TYPE_DOUBLE)
+				local AttributeResult = gg.getResults(1024)
+				if next(AttributeResult) == nil then
+					gg.clearResults()
+					gg.searchNumber(AttributeToSearchList, gg.TYPE_DWORD, false, gg.SIGN_EQUAL, MemoryFrom, MemoryTo)
+					gg.getResults(1024)
+					gg.editAll(TargetAttributeList, gg.TYPE_DWORD)
+				else
+					gg.editAll(TargetAttributeList, gg.TYPE_DOUBLE)
+				end
 				gg.clearResults()
 			end
-
 		end
     end
 	Exit("修改成功！")
-end 
+end
 
 function Exit(Message)
     gg.alert(Message)
