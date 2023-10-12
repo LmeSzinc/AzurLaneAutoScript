@@ -5,9 +5,14 @@ from module.base.base import ModuleBase as Base
 import uiautomator2 as u2
 from module.gg_handler.change_ship import ChangeShip
 from module.gg_handler.change_attribute import ChangeAttribute
+from module.ui.ui import UI
+from module.ui.scroll import Scroll
+from module.gg_handler.assets import DOCK_SCROLL_AREA
+
+DOCK_SCROLL = Scroll(DOCK_SCROLL_AREA, color=(247, 211, 66))
 
 
-class GGU2(Base):
+class GGU2(UI, Base):
 
     def __init__(self, config, device):
         super().__init__(config, device)
@@ -32,11 +37,13 @@ class GGU2(Base):
         return _skipped
 
     def set_on(self, factor=200):
+        if deep_get(self.config.data, keys='GameManager.ChangeAttribute.Enable') or deep_get(self.config.data, keys='GameManager.ChangeShip.Enable'):
+            self.ScrollDockToLoadAllShipData()
         _name_dict = {
-            'en' : 'Azur Lane',
-            'cn' : '碧蓝航线',
-            'jp' : 'アズールレーン',
-            'tw' : '碧藍航線'
+            'en': 'Azur Lane',
+            'cn': '碧蓝航线',
+            'jp': 'アズールレーン',
+            'tw': '碧藍航線'
         }
         _server = self.config.SERVER
         _name = _name_dict[_server]
@@ -203,3 +210,12 @@ class GGU2(Base):
         logger.hr('GG Enabled', level=2)
         self.d.app_stop(self.gg_package_name)
         return 1
+
+    def ScrollDockToLoadAllShipData(self):
+        from module.ui.page import page_dock, page_main
+        self.device.screenshot()
+        self.ui_goto(page_dock)
+        for i in range(1, 6):
+            DOCK_SCROLL.set(i / 5, self)
+            self.device.sleep(1)
+        self.ui_goto(page_main)
