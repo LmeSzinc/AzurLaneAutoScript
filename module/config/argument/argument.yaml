@@ -716,6 +716,7 @@ GGHandler:
     display: disabled
   RepushLua: true
   GGMultiplyingFactor: 200
+  Timeout: 120
   DisabledTask:
     value: disable_all_dangerous_task
     option: [

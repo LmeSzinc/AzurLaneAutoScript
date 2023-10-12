@@ -2496,6 +2496,10 @@
       "name": "GGHandler.GGMultiplyingFactor.name",
       "help": "GGHandler.GGMultiplyingFactor.help"
     },
+    "Timeout": {
+      "name": "GGHandler.Timeout.name",
+      "help": "GGHandler.Timeout.help"
+    },
     "DisabledTask": {
       "name": "GGHandler.DisabledTask.name",
       "help": "GGHandler.DisabledTask.help",
