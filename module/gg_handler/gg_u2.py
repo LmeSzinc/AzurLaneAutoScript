@@ -39,6 +39,7 @@ class GGU2(UI, Base):
     def set_on(self, factor=200):
         if deep_get(self.config.data, keys='GameManager.ChangeAttribute.Enable') or deep_get(self.config.data, keys='GameManager.ChangeShip.Enable'):
             self.ScrollDockToLoadAllShipData()
+            self.ScrollFleetToLoadAllFleetData()
         _name_dict = {
             'en': 'Azur Lane',
             'cn': '碧蓝航线',
@@ -218,4 +219,12 @@ class GGU2(UI, Base):
         for i in range(1, 6):
             DOCK_SCROLL.set(i / 5, self)
             self.device.sleep(1)
+        self.ui_goto(page_main)
+
+    def ScrollFleetToLoadAllFleetData(self):
+        from module.ui.page import page_fleet, page_main
+        from module.equipment.assets import FLEET_NEXT
+        self.device.screenshot()
+        self.ui_goto(page_fleet)
+        self.device.multi_click(FLEET_NEXT, 10, (0.5, 1))
         self.ui_goto(page_main)
