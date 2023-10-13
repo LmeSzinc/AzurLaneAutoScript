@@ -2460,7 +2460,9 @@
       "Running": "実行中",
       "Pending": "隊列中",
       "Waiting": "Waiting",
-      "NoTask": "No Task",
+      "NoTask": "No Task"
+    },
+    "Dashboard": {
       "SecondsAgo": "Seconds ago",
       "MinutesAgo": "Minutes ago",
       "HoursAgo": "Hours ago",

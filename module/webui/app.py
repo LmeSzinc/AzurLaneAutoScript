@@ -643,7 +643,7 @@ class AlasGUI(Frame):
             value_time = group['Record']
             if value_time is None or value_time == datetime(2020, 1, 1, 0, 0, 0):
                 value = 'None'
-                delta = '' + t('Gui.Overview.NoData')
+                delta = '' + t('Gui.Dashboard.NoData')
             else:
                 time = time_delta(value_time - time_now)
                 if isinstance(time, dict):
@@ -652,7 +652,7 @@ class AlasGUI(Frame):
                             time_name = _key.replace('s','SecondsAgo').replace('Y','YearsAgo').replace('h','HoursAgo').replace('M','MonthsAgo').replace('D','DaysAgo').replace('m','MinutesAgo')
                             time = time[_key]
                             break
-                delta = str(time) + t(f'Gui.Overview.{time_name}')
+                delta = str(time) + t(f'Gui.Dashboard.{time_name}')
             if group_name not in self._log.last_display_time.keys():
                 self._log.last_display_time[group_name] = ''
             if self._log.last_display_time[group_name] == delta and not self._log.first_display:
@@ -681,7 +681,7 @@ class AlasGUI(Frame):
                                                 put_text(value_limit).style(limit_style),
                                             ],
                                         ).style("grid-template-columns:min-content auto;align-items: baseline;"),
-                                        put_text(t(f"Gui.Overview.{group_name}") + " - " + delta).style("---dashboard-help--")
+                                        put_text(t(f"Gui.Dashboard.{group_name}") + " - " + delta).style("---dashboard-help--")
                                     ],
                                     size="auto auto",
                                 ),

@@ -2460,7 +2460,9 @@
       "Running": "Running",
       "Pending": "Pending",
       "Waiting": "Waiting",
-      "NoTask": "No Task",
+      "NoTask": "No Task"
+    },
+    "Dashboard": {
       "SecondsAgo": "Seconds ago",
       "MinutesAgo": "Minutes ago",
       "HoursAgo": "Hours ago",
