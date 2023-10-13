@@ -9442,6 +9442,14 @@
         "type": "checkbox",
         "value": false
       },
+      "ScrollDock": {
+        "type": "checkbox",
+        "value": true
+      },
+      "ScrollFleet": {
+        "type": "checkbox",
+        "value": true
+      },
       "TargetType": {
         "type": "select",
         "value": "BB",
@@ -9463,6 +9471,14 @@
       "PushLua": {
         "type": "checkbox",
         "value": false
+      },
+      "ScrollDock": {
+        "type": "checkbox",
+        "value": true
+      },
+      "ScrollFleet": {
+        "type": "checkbox",
+        "value": true
       },
       "ShipData": {
         "type": "textarea",

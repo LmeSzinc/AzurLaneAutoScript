@@ -1969,12 +1969,16 @@
     "ChangeShip": {
       "Enable": false,
       "PushLua": false,
+      "ScrollDock": true,
+      "ScrollFleet": true,
       "TargetType": "BB",
       "ShipData": "106021;1;6\n107041;1;6\n206011;1;6\n107011;1;6\n"
     },
     "ChangeAttribute": {
       "Enable": false,
       "PushLua": false,
+      "ScrollDock": true,
+      "ScrollFleet": true,
       "ShipData": null
     },
     "Storage": {

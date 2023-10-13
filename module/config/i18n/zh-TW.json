@@ -2540,6 +2540,14 @@
       "name": "ChangeShip.PushLua.name",
       "help": "ChangeShip.PushLua.help"
     },
+    "ScrollDock": {
+      "name": "ChangeShip.ScrollDock.name",
+      "help": "ChangeShip.ScrollDock.help"
+    },
+    "ScrollFleet": {
+      "name": "ChangeShip.ScrollFleet.name",
+      "help": "ChangeShip.ScrollFleet.help"
+    },
     "TargetType": {
       "name": "ChangeShip.TargetType.name",
       "help": "ChangeShip.TargetType.help",
@@ -2563,6 +2571,14 @@
     "PushLua": {
       "name": "ChangeAttribute.PushLua.name",
       "help": "ChangeAttribute.PushLua.help"
+    },
+    "ScrollDock": {
+      "name": "ChangeAttribute.ScrollDock.name",
+      "help": "ChangeAttribute.ScrollDock.help"
+    },
+    "ScrollFleet": {
+      "name": "ChangeAttribute.ScrollFleet.name",
+      "help": "ChangeAttribute.ScrollFleet.help"
     },
     "ShipData": {
       "name": "ChangeAttribute.ShipData.name",
