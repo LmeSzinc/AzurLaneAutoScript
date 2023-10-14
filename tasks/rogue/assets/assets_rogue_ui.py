@@ -123,3 +123,13 @@ PAGE_EVENT = ButtonWrapper(
         button=(983, 485, 1007, 509),
     ),
 )
+ROGUE_LAUNCH = ButtonWrapper(
+    name='ROGUE_LAUNCH',
+    share=Button(
+        file='./assets/share/rogue/ui/ROGUE_LAUNCH.png',
+        area=(875, 629, 896, 677),
+        search=(855, 609, 916, 697),
+        color=(171, 172, 172),
+        button=(896, 635, 1169, 671),
+    ),
+)

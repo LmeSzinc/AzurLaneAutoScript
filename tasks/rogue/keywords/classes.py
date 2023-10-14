@@ -27,6 +27,9 @@ class RogueBlessing(Keyword):
 class RoguePath(Keyword):
     instances: ClassVar = {}
 
+    def __hash__(self) -> int:
+        return super().__hash__()
+
     @property
     def path_name(self):
         return [self.__getattribute__(f"{server}_parsed").replace("the", '')

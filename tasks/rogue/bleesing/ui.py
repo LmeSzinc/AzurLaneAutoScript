@@ -47,7 +47,10 @@ class RogueUI(UI):
         return self.appear(PAGE_EVENT)
 
     def is_page_rogue_main(self):
-        return self.appear(REWARD_ENTER)
+        return self.match_template_color(REWARD_ENTER)
+
+    def is_page_rogue_launch(self):
+        return self.match_template_color(ROGUE_LAUNCH)
 
     def handle_obtain_item_popup(self, interval=5) -> bool:
         """After selecting some curio (e.g. Sealing_Wax_of_*), there will be a popup after back to main page"""

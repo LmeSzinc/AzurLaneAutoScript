@@ -104,8 +104,8 @@ class RogueRewardHandler(RogueUI):
             in: is_page_rogue_main()
             out: is_page_rogue_main()
         """
+        logger.hr('Rogue reward claim', level=2)
         if self._rogue_reward_appear():
-            logger.hr('Rogue reward claim', level=2)
             self._rogue_reward_enter()
             self._rogue_reward_claim()
             self._rogue_reward_exit()
