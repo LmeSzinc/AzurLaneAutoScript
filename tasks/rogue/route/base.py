@@ -232,11 +232,11 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
                 logger.info('Entered another domain')
                 self.wait_until_minimap_stabled()
                 break
-            if self.ui_page_appear(page_rogue):
+            if self.is_page_rogue_main():
                 logger.info('Rogue cleared')
                 break
 
-            if self.appear(ROGUE_REPORT, interval=2):
+            if self.match_template_color(ROGUE_REPORT, interval=2):
                 logger.info(f'{ROGUE_REPORT} -> {BLESSING_CONFIRM}')
                 self.device.click(BLESSING_CONFIRM)
                 continue

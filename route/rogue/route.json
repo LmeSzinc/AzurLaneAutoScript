@@ -671,6 +671,17 @@
     "domain": "Combat"
   },
   {
+    "name": "Combat_Luofu_Cloudford_F2_X425Y111",
+    "route": "route.rogue.Combat.Luofu_Cloudford_F2:Luofu_Cloudford_F2_X425Y111",
+    "plane": "Luofu_Cloudford",
+    "floor": "F2",
+    "position": [
+      425.4,
+      111.6
+    ],
+    "domain": "Combat"
+  },
+  {
     "name": "Combat_Luofu_Cloudford_F2_X425Y171",
     "route": "route.rogue.Combat.Luofu_Cloudford_F2:Luofu_Cloudford_F2_X425Y171",
     "plane": "Luofu_Cloudford",
@@ -678,6 +689,17 @@
     "position": [
       425.5,
       171.6
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ScalegorgeWaterscape_F1_X415Y261",
+    "route": "route.rogue.Combat.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X415Y261",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      415.4,
+      261.6
     ],
     "domain": "Combat"
   },
@@ -1287,6 +1309,28 @@
     "domain": "Occurrence"
   },
   {
+    "name": "Occurrence_Luofu_ScalegorgeWaterscape_F1_X499Y135",
+    "route": "route.rogue.Occurrence.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X499Y135",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      499.5,
+      135.3
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_ScalegorgeWaterscape_F1_X714Y243",
+    "route": "route.rogue.Occurrence.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X714Y243",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      714.4,
+      243.2
+    ],
+    "domain": "Occurrence"
+  },
+  {
     "name": "Occurrence_Luofu_StargazerNavalia_F2_X579Y183",
     "route": "route.rogue.Occurrence.Luofu_StargazerNavalia_F2:Luofu_StargazerNavalia_F2_X579Y183",
     "plane": "Luofu_StargazerNavalia",
@@ -1393,6 +1437,17 @@
     "position": [
       417.5,
       933.4
+    ],
+    "domain": "Respite"
+  },
+  {
+    "name": "Respite_Luofu_ScalegorgeWaterscape_F1_X701Y321",
+    "route": "route.rogue.Respite.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X701Y321",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      701.5,
+      320.8
     ],
     "domain": "Respite"
   },

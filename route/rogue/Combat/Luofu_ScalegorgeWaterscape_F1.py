@@ -5,6 +5,41 @@ from tasks.rogue.route.base import RouteBase
 
 class Route(RouteBase):
 
+    def Luofu_ScalegorgeWaterscape_F1_X415Y261(self):
+        """
+        | Waypoint    | Position                  | Direction | Rotation |
+        | ----------- | ------------------------- | --------- | -------- |
+        | spawn       | Waypoint((415.4, 261.6)), | 274.2     | 274      |
+        | item1       | Waypoint((396.6, 270.2)), | 250.8     | 251      |
+        | enemy1right | Waypoint((385.0, 274.4)), | 250.7     | 248      |
+        | node2       | Waypoint((381.0, 281.0)), | 283.0     | 278      |
+        | enemy1left  | Waypoint((384.2, 292.0)), | 12.7      | 186      |
+        | enemy2      | Waypoint((340.2, 281.8)), | 275.8     | 87       |
+        | enemy3      | Waypoint((283.6, 280.0)), | 282.7     | 276      |
+        | exit        | Waypoint((278.4, 280.2)), | 274.2     | 271      |
+        """
+        self.map_init(plane=Luofu_ScalegorgeWaterscape, floor="F1", position=(415.4, 261.6))
+        self.register_domain_exit(Waypoint((278.4, 280.2)), end_rotation=271)
+        item1 = Waypoint((396.6, 270.2))
+        enemy1right = Waypoint((385.0, 274.4))
+        node2 = Waypoint((381.0, 281.0))
+        enemy1left = Waypoint((384.2, 292.0))
+        enemy2 = Waypoint((340.2, 281.8))
+        enemy3 = Waypoint((283.6, 280.0))
+        # ===== End of generated waypoints =====
+
+        self.rotation_set(245)
+        self.clear_item(item1)
+        self.clear_enemy(
+            enemy1right,
+            enemy1left,
+        )
+        self.clear_enemy(
+            node2,
+            enemy2.straight_run(),
+        )
+        self.clear_enemy(enemy3)
+
     def Luofu_ScalegorgeWaterscape_F1_X467Y405(self):
         """
         | Waypoint | Position                  | Direction | Rotation |

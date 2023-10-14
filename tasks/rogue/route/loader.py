@@ -5,7 +5,6 @@ import numpy as np
 from module.base.decorator import cached_property
 from module.logger import logger
 from tasks.base.main_page import MainPage
-from tasks.base.page import page_rogue
 from tasks.map.keywords import MapPlane
 from tasks.map.keywords.plane import (
     Herta_MasterControlZone,
@@ -17,6 +16,7 @@ from tasks.map.keywords.plane import (
 from tasks.map.minimap.minimap import Minimap
 from tasks.map.resource.resource import SPECIAL_PLANES
 from tasks.map.route.loader import RouteLoader as RouteLoader_
+from tasks.rogue.bleesing.ui import RogueUI
 from tasks.rogue.route.base import RouteBase
 from tasks.rogue.route.model import RogueRouteListModel, RogueRouteModel
 
@@ -74,7 +74,7 @@ class MinimapWrapper:
         return self.all_minimap[route.plane_floor]
 
 
-class RouteLoader(MinimapWrapper, RouteLoader_, MainPage):
+class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, MainPage):
     def position_find_known(self, image) -> Optional[RogueRouteModel]:
         """
         Try to find from known route spawn point
@@ -184,8 +184,8 @@ class RouteLoader(MinimapWrapper, RouteLoader_, MainPage):
         Do a complete rogue run, no error handle yet.
 
         Pages:
-            in: page_rogue, LAUNCH_SIMULATED_UNIVERSE
-            out: page_rogue, world selecting page
+            in: page_rogue, is_page_rogue_launch()
+            out: page_rogue, is_page_rogue_main()
         """
         base = RouteBase(config=self.config, device=self.device, task=self.config.task.command)
         count = 1
@@ -203,7 +203,7 @@ class RouteLoader(MinimapWrapper, RouteLoader_, MainPage):
                 continue
 
             # End
-            if self.ui_page_appear(page_rogue):
+            if self.is_page_rogue_main():
                 break
 
             count += 1
@@ -212,8 +212,8 @@ class RouteLoader(MinimapWrapper, RouteLoader_, MainPage):
 if __name__ == '__main__':
     self = RouteLoader('src', task='Rogue')
     # self.image_file = r''
-    # self.device.screenshot()
-    # self.position_find_bruteforce(self.device.image)
-
     self.device.screenshot()
-    self.rogue_run()
+    self.position_find_bruteforce(self.device.image)
+
+    # self.device.screenshot()
+    # self.rogue_run()

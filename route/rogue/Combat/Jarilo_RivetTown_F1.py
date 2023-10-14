@@ -155,13 +155,15 @@ class Route(RouteBase):
         # ===== End of generated waypoints =====
 
         # 1, ignore item1
+        # watch left
+        self.rotation_set(150)
         self.clear_enemy(
             enemy1right,
-            enemy1left.straight_run(),
+            enemy1left,
         )
         # 2
         self.clear_item(
-            item2.straight_run(),
+            item2
         )
         self.clear_enemy(
             enemy2.straight_run(),

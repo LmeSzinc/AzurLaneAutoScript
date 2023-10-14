@@ -10,16 +10,13 @@ class Route(RouteBase):
         | Waypoint | Position                  | Direction | Rotation |
         | -------- | ------------------------- | --------- | -------- |
         | spawn    | Waypoint((167.8, 491.0)), | 96.7      | 91       |
-        | item     | Waypoint((178.8, 468.4)), | 41.0      | 36       |
         | event    | Waypoint((218.7, 491.1)), | 96.7      | 94       |
         | exit     | Waypoint((216.9, 490.9)), | 190.0     | 89       |
         """
         self.map_init(plane=Luofu_ArtisanshipCommission, floor="F1", position=(167.8, 491.0))
         self.register_domain_exit(Waypoint((216.9, 490.9)), end_rotation=89)
-        item = Waypoint((178.8, 468.4))
         event = Waypoint((218.7, 491.1))
 
-        self.clear_item(item)
         self.clear_event(event)
         # ===== End of generated waypoints =====
 

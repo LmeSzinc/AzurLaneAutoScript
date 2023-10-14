@@ -100,7 +100,6 @@ class Route(RouteBase):
         Luofu_Cloudford_F1_X281Y873 is the same as Luofu_Cloudford_F1_X283Y865
         but for wrong spawn point detected
         """
-        self.clear_item(item)
         self.clear_enemy(enemy)
 
     def Luofu_Cloudford_F1_X283Y865(self):
@@ -118,7 +117,8 @@ class Route(RouteBase):
         enemy = Waypoint((282.4, 814.2))
         # ===== End of generated waypoints =====
 
-        self.clear_item(item)
+        # Ignore random item
+        # self.clear_item(item)
         self.clear_enemy(enemy)
 
     def Luofu_Cloudford_F1_X431Y593(self):

@@ -5,6 +5,33 @@ from tasks.rogue.route.base import RouteBase
 
 class Route(RouteBase):
 
+    def Luofu_Cloudford_F2_X425Y111(self):
+        """
+        | Waypoint   | Position                  | Direction | Rotation |
+        | ---------- | ------------------------- | --------- | -------- |
+        | spawn      | Waypoint((425.4, 111.6)), | 190.1     | 184      |
+        | enemy1     | Waypoint((424.9, 203.0)), | 189.0     | 186      |
+        | node2left  | Waypoint((426.1, 222.3)), | 193.1     | 184      |
+        | node2right | Waypoint((402.8, 252.8)), | 244.9     | 253      |
+        | enemy3     | Waypoint((320.2, 266.4)), | 282.6     | 274      |
+        | exit       | Waypoint((320.2, 266.4)), | 282.6     | 274      |
+        """
+        self.map_init(plane=Luofu_Cloudford, floor="F2", position=(425.4, 111.6))
+        self.register_domain_exit(Waypoint((320.2, 266.4)), end_rotation=274)
+        enemy1 = Waypoint((424.9, 203.0))
+        node2left = Waypoint((426.1, 222.3))
+        node2right = Waypoint((402.8, 252.8))
+        enemy3 = Waypoint((320.2, 266.4))
+        # ===== End of generated waypoints =====
+
+        self.clear_enemy(enemy1)
+        # Ignore enemy2
+        self.clear_enemy(
+            node2left,
+            node2right.straight_run(),
+            enemy3.straight_run(),
+        )
+
     def Luofu_Cloudford_F2_X425Y171(self):
         """
         | Waypoint    | Position                  | Direction | Rotation |
