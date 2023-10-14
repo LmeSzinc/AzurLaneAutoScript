@@ -12,13 +12,22 @@ CHARACTER_MATERIALS_CHECK = ButtonWrapper(
         color=(177, 176, 173),
         button=(346, 97, 421, 117),
     ),
-    en=Button(
-        file='./assets/en/assignment/ui/CHARACTER_MATERIALS_CHECK.png',
-        area=(339, 88, 429, 126),
-        search=(319, 68, 449, 146),
-        color=(193, 192, 189),
-        button=(339, 88, 429, 126),
-    ),
+    en=[
+        Button(
+            file='./assets/en/assignment/ui/CHARACTER_MATERIALS_CHECK.png',
+            area=(339, 88, 429, 126),
+            search=(319, 68, 449, 146),
+            color=(193, 192, 189),
+            button=(339, 88, 429, 126),
+        ),
+        Button(
+            file='./assets/en/assignment/ui/CHARACTER_MATERIALS_CHECK.2.png',
+            area=(142, 98, 234, 119),
+            search=(319, 68, 449, 146),
+            color=(203, 202, 199),
+            button=(142, 98, 234, 119),
+        ),
+    ],
 )
 CHARACTER_MATERIALS_CLICK = ButtonWrapper(
     name='CHARACTER_MATERIALS_CLICK',
@@ -29,13 +38,22 @@ CHARACTER_MATERIALS_CLICK = ButtonWrapper(
         color=(60, 60, 60),
         button=(347, 97, 421, 117),
     ),
-    en=Button(
-        file='./assets/en/assignment/ui/CHARACTER_MATERIALS_CLICK.png',
-        area=(339, 88, 429, 127),
-        search=(319, 68, 449, 147),
-        color=(49, 49, 49),
-        button=(339, 88, 429, 127),
-    ),
+    en=[
+        Button(
+            file='./assets/en/assignment/ui/CHARACTER_MATERIALS_CLICK.png',
+            area=(339, 88, 429, 127),
+            search=(319, 68, 449, 147),
+            color=(49, 49, 49),
+            button=(339, 88, 429, 127),
+        ),
+        Button(
+            file='./assets/en/assignment/ui/CHARACTER_MATERIALS_CLICK.2.png',
+            area=(143, 98, 234, 120),
+            search=(319, 68, 449, 147),
+            color=(61, 59, 57),
+            button=(143, 98, 234, 120),
+        ),
+    ],
 )
 DISPATCHED = ButtonWrapper(
     name='DISPATCHED',
@@ -73,13 +91,22 @@ EXP_MATERIALS_CREDITS_CHECK = ButtonWrapper(
         color=(178, 177, 174),
         button=(514, 97, 614, 117),
     ),
-    en=Button(
-        file='./assets/en/assignment/ui/EXP_MATERIALS_CREDITS_CHECK.png',
-        area=(529, 88, 599, 126),
-        search=(509, 68, 619, 146),
-        color=(202, 201, 198),
-        button=(529, 88, 599, 126),
-    ),
+    en=[
+        Button(
+            file='./assets/en/assignment/ui/EXP_MATERIALS_CREDITS_CHECK.png',
+            area=(529, 88, 599, 126),
+            search=(509, 68, 619, 146),
+            color=(202, 201, 198),
+            button=(529, 88, 599, 126),
+        ),
+        Button(
+            file='./assets/en/assignment/ui/EXP_MATERIALS_CREDITS_CHECK.2.png',
+            area=(373, 98, 458, 119),
+            search=(509, 68, 619, 146),
+            color=(191, 190, 187),
+            button=(373, 98, 458, 119),
+        ),
+    ],
 )
 EXP_MATERIALS_CREDITS_CLICK = ButtonWrapper(
     name='EXP_MATERIALS_CREDITS_CLICK',
@@ -90,13 +117,22 @@ EXP_MATERIALS_CREDITS_CLICK = ButtonWrapper(
         color=(61, 60, 60),
         button=(514, 97, 614, 117),
     ),
-    en=Button(
-        file='./assets/en/assignment/ui/EXP_MATERIALS_CREDITS_CLICK.png',
-        area=(528, 88, 599, 127),
-        search=(508, 68, 619, 147),
-        color=(42, 42, 42),
-        button=(528, 88, 599, 127),
-    ),
+    en=[
+        Button(
+            file='./assets/en/assignment/ui/EXP_MATERIALS_CREDITS_CLICK.png',
+            area=(528, 88, 599, 127),
+            search=(508, 68, 619, 147),
+            color=(42, 42, 42),
+            button=(528, 88, 599, 127),
+        ),
+        Button(
+            file='./assets/en/assignment/ui/EXP_MATERIALS_CREDITS_CLICK.2.png',
+            area=(374, 98, 459, 119),
+            search=(508, 68, 619, 147),
+            color=(49, 49, 49),
+            button=(374, 98, 459, 119),
+        ),
+    ],
 )
 GROUP_SEARCH = ButtonWrapper(
     name='GROUP_SEARCH',
@@ -198,13 +234,22 @@ SYNTHESIS_MATERIALS_CHECK = ButtonWrapper(
         color=(180, 179, 176),
         button=(708, 97, 783, 117),
     ),
-    en=Button(
-        file='./assets/en/assignment/ui/SYNTHESIS_MATERIALS_CHECK.png',
-        area=(703, 88, 790, 126),
-        search=(683, 68, 810, 146),
-        color=(189, 188, 185),
-        button=(703, 88, 790, 126),
-    ),
+    en=[
+        Button(
+            file='./assets/en/assignment/ui/SYNTHESIS_MATERIALS_CHECK.png',
+            area=(703, 88, 790, 126),
+            search=(683, 68, 810, 146),
+            color=(189, 188, 185),
+            button=(703, 88, 790, 126),
+        ),
+        Button(
+            file='./assets/en/assignment/ui/SYNTHESIS_MATERIALS_CHECK.2.png',
+            area=(624, 97, 715, 119),
+            search=(683, 68, 810, 146),
+            color=(197, 196, 193),
+            button=(624, 97, 715, 119),
+        ),
+    ],
 )
 SYNTHESIS_MATERIALS_CLICK = ButtonWrapper(
     name='SYNTHESIS_MATERIALS_CLICK',
@@ -215,11 +260,20 @@ SYNTHESIS_MATERIALS_CLICK = ButtonWrapper(
         color=(68, 66, 65),
         button=(709, 97, 783, 117),
     ),
-    en=Button(
-        file='./assets/en/assignment/ui/SYNTHESIS_MATERIALS_CLICK.png',
-        area=(702, 88, 790, 126),
-        search=(682, 68, 810, 146),
-        color=(61, 59, 58),
-        button=(702, 88, 790, 126),
-    ),
+    en=[
+        Button(
+            file='./assets/en/assignment/ui/SYNTHESIS_MATERIALS_CLICK.png',
+            area=(702, 88, 790, 126),
+            search=(682, 68, 810, 146),
+            color=(61, 59, 58),
+            button=(702, 88, 790, 126),
+        ),
+        Button(
+            file='./assets/en/assignment/ui/SYNTHESIS_MATERIALS_CLICK.2.png',
+            area=(624, 97, 715, 119),
+            search=(682, 68, 810, 146),
+            color=(51, 50, 49),
+            button=(624, 97, 715, 119),
+        ),
+    ],
 )
