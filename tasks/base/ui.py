@@ -10,9 +10,10 @@ from tasks.base.page import Page, page_main
 from tasks.combat.assets.assets_combat_finish import COMBAT_EXIT
 from tasks.combat.assets.assets_combat_prepare import COMBAT_PREPARE
 from tasks.daily.assets.assets_daily_trial import INFO_CLOSE
+from tasks.login.assets.assets_login import LOGIN_CONFIRM
 
 
-class UI( MainPage):
+class UI(MainPage):
     ui_current: Page
     ui_main_confirm_timer = Timer(0.2, count=0)
 
@@ -137,7 +138,13 @@ class UI( MainPage):
                 continue
 
             # Additional
+            if self.handle_popup_single():
+                continue
+            if self.handle_popup_confirm():
+                continue
             if self.ui_additional():
+                continue
+            if self.appear_then_click(LOGIN_CONFIRM):
                 continue
 
         # Reset connection
