@@ -3,7 +3,7 @@ from module.base.timer import Timer
 from module.base.utils import area_offset
 from module.logger import logger
 from tasks.base.page import page_rogue
-from tasks.map.control.waypoint import ensure_waypoints
+from tasks.map.control.waypoint import Waypoint, ensure_waypoints
 from tasks.map.route.base import RouteBase as RouteBase_
 from tasks.rogue.assets.assets_rogue_reward import ROGUE_REPORT
 from tasks.rogue.assets.assets_rogue_ui import BLESSING_CONFIRM
@@ -282,11 +282,15 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
                     direction = direction_limit
                 elif direction < 0:
                     direction = -direction_limit
-            end_point.min_speed = 'run'
-            end_point.interact_radius = 50
-            end_point.expected_end.append(self._domain_exit_expected_end)
-            end_point.lock_direction = direction
-            self.goto(end_point)
+
+            point = Waypoint(
+                position=(0, 0),
+                min_speed='run',
+                lock_direction=direction,
+                interact_radius=10000,
+                expected_end=[self._domain_exit_expected_end],
+            )
+            self.goto(point)
             self._domain_exit_wait_next()
 
         return result
