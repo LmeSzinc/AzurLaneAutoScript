@@ -51,6 +51,8 @@ class Login(UI):
             if self.appear(LOGIN_LOADING, interval=5):
                 logger.info('Game resources downloading or loading')
                 self.device.stuck_record_clear()
+                app_timer.reset()
+                orientation_timer.reset()
 
             # Login
             if self.appear_then_click(LOGIN_CONFIRM):
