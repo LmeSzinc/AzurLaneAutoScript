@@ -11,7 +11,43 @@ class RelicsUI(ItemUI):
     def _is_in_salvage(self) -> bool:
         return self.appear(ORDER_ASCENDING) or self.appear(ORDER_DESCENDING)
 
+    def salvage_exit(self, skip_first_screenshot=True):
+        """
+        Pages:
+            in: rewards claimed
+                or _is_in_salvage()
+            out: GOTO_SALVAGE
+        """
+        interval = Timer(1)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(GOTO_SALVAGE):
+                logger.info("Salvage page exited")
+                break
+            if self.handle_reward(interval=2):
+                continue
+            if interval.reached() and self._is_in_salvage():
+                logger.info(f'_is_in_salvage -> {CLOSE}')
+                self.device.click(CLOSE)
+                interval.reset()
+                continue
+
     def salvage_relic(self, skip_first_screenshot=True) -> bool:
+        """
+        Args:
+            skip_first_screenshot:
+
+        Returns:
+            bool: If success
+
+        Pages:
+            in: Any
+            out: page_item, GOTO_SALVAGE
+        """
         logger.hr('Salvage Relic', level=2)
         self.item_goto(KEYWORD_ITEM_TAB.Relics, wait_until_stable=False)
         while 1:  # relic tab -> salvage
@@ -37,6 +73,7 @@ class RelicsUI(ItemUI):
 
             if timeout.reached():
                 logger.warning('Timeout when selecting first relic')
+                self.salvage_exit()
                 return False
             # The first frame entering relic page, SALVAGE is a white button as it's the default state.
             # At the second frame, SALVAGE is disabled since no items are selected.
@@ -67,22 +104,5 @@ class RelicsUI(ItemUI):
             if self.handle_popup_confirm():
                 continue
 
-        skip_first_screenshot = True
-        interval = Timer(1)
-        while 1:  # rewards claimed -> relic tab page
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self.appear(GOTO_SALVAGE):
-                logger.info("Salvage page exited")
-                break
-            if self.handle_reward(interval=2):
-                continue
-            if interval.reached() and self._is_in_salvage():
-                logger.info(f'_is_in_salvage -> {CLOSE}')
-                self.device.click(CLOSE)
-                interval.reset()
-                continue
+        self.salvage_exit()
         return True

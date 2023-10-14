@@ -405,7 +405,7 @@ Punklorde_Mentality = RogueCurio(
     cn='朋克洛德精神',
     cht='龐克洛德精神',
     en='Punklorde Mentality',
-    jp='パンクロードの精神',
+    jp='パンクロード精神',
     es='Mentalidad de Punklorde',
 )
 Beacon_Coloring_Paste = RogueCurio(
@@ -614,4 +614,103 @@ Sealing_Wax_of_Propagation = RogueCurio(
     en='Sealing Wax of Propagation',
     jp='繁殖の封蝋',
     es='Lacre de la Propagación',
+)
+Society_Ticket_Infinite = RogueCurio(
+    id=69,
+    name='Society_Ticket_Infinite',
+    cn='俱乐部券（无尽）',
+    cht='俱樂部券（無盡）',
+    en='Society Ticket (Infinite)',
+    jp='クラブチケット∞',
+    es='Boleto del Círculo (infinito)',
+)
+Faith_Bond_Infinite = RogueCurio(
+    id=70,
+    name='Faith_Bond_Infinite',
+    cn='信仰债券（无尽）',
+    cht='信仰債券（無盡）',
+    en='Faith Bond (Infinite)',
+    jp='信仰債券∞',
+    es='Bono de fe (infinito)',
+)
+Gold_Coin_of_Discord_Infinite = RogueCurio(
+    id=71,
+    name='Gold_Coin_of_Discord_Infinite',
+    cn='分裂金币（无尽）',
+    cht='分裂金幣（無盡）',
+    en='Gold Coin of Discord (Infinite)',
+    jp='分裂金貨∞',
+    es='Moneda de oro del desacuerdo (infinita)',
+)
+Entropic_Die_Infinite = RogueCurio(
+    id=72,
+    name='Entropic_Die_Infinite',
+    cn='万象无常骰（无尽）',
+    cht='萬象無常骰（無盡）',
+    en='Entropic Die (Infinite)',
+    jp='万象無常のサイコロ∞',
+    es='Dado entrópico (infinito)',
+)
+Obliteration_Wick_Trimmer_Infinite = RogueCurio(
+    id=73,
+    name='Obliteration_Wick_Trimmer_Infinite',
+    cn='湮灭烛剪（无尽）',
+    cht='湮滅燭剪（無盡）',
+    en='Obliteration Wick Trimmer (Infinite)',
+    jp='湮滅の芯切り∞',
+    es='Despabiladeras de la aniquilación (infinitas)',
+)
+Cosmic_Big_Lotto_Infinite = RogueCurio(
+    id=74,
+    name='Cosmic_Big_Lotto_Infinite',
+    cn='银河大乐透（无尽）',
+    cht='銀河大樂透（無盡）',
+    en='Cosmic Big Lotto (Infinite)',
+    jp='銀河ビッグロッタリー∞',
+    es='Gran Lotería Galáctica (infinita)',
+)
+Omniscient_Capsule_Infinite = RogueCurio(
+    id=75,
+    name='Omniscient_Capsule_Infinite',
+    cn='万识囊（无尽）',
+    cht='萬識囊（無盡）',
+    en='Omniscient Capsule (Infinite)',
+    jp='全知袋∞',
+    es='Cápsula omnisciente (infinita)',
+)
+Punklorde_Mentality_Infinite = RogueCurio(
+    id=76,
+    name='Punklorde_Mentality_Infinite',
+    cn='朋克洛德精神（无尽）',
+    cht='龐克洛德精神（無盡）',
+    en='Punklorde Mentality (Infinite)',
+    jp='パンクロード精神∞',
+    es='Mentalidad de Punklorde (infinita)',
+)
+Robe_of_The_Beauty_Infinite = RogueCurio(
+    id=77,
+    name='Robe_of_The_Beauty_Infinite',
+    cn='纯美之袍（无尽）',
+    cht='純美之袍（無盡）',
+    en='Robe of The Beauty (Infinite)',
+    jp='純美のローブ∞',
+    es='Túnica de la Belleza (infinita)',
+)
+Angel_type_I_O_U_Dispenser_Infinite = RogueCurio(
+    id=78,
+    name='Angel_type_I_O_U_Dispenser_Infinite',
+    cn='天使型谢债发行机（无尽）',
+    cht='天使型謝債發行機（無盡）',
+    en='Angel-type I.O.U. Dispenser (Infinite)',
+    jp='天使型謝債発行機∞',
+    es='Dispensador de deuda en forma de ángel (infinito)',
+)
+Shattered_Star_Bait_Infinite = RogueCurio(
+    id=79,
+    name='Shattered_Star_Bait_Infinite',
+    cn='碎星芳饵（无尽）',
+    cht='碎星芳餌（無盡）',
+    en='Shattered Star Bait (Infinite)',
+    jp='砕けた星の釣り餌∞',
+    es='Cebo de las estrellas despedazadas (infinito)',
 )
