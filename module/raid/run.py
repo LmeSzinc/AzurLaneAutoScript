@@ -98,6 +98,8 @@ class RaidRun(Raid, CampaignEvent):
                 break
 
             # UI ensure
+            self.device.stuck_record_clear()
+            self.device.click_record_clear()
             self.ui_ensure(page_raid)
 
             # End for mode EX
@@ -112,6 +114,8 @@ class RaidRun(Raid, CampaignEvent):
                     break
 
             # Run
+            self.device.stuck_record_clear()
+            self.device.click_record_clear()
             try:
                 self.raid_execute_once(mode=mode, raid=name)
             except OilExhausted:
