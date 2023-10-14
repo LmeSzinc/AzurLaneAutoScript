@@ -6,6 +6,7 @@ from module.logger import logger
 from module.map.assets import *
 from module.map.map_fleet_preparation import FleetPreparation
 from module.retire.retirement import Retirement
+from module.ui.assets import BACK_ARROW, DAILY_CHECK
 
 
 class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHandler):
@@ -144,6 +145,12 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                     return False
                 else:
                     checked_in_map = True
+
+                # Accidental clicks
+                if self.appear(DAILY_CHECK, offset=(20, 20), interval=3):
+                    logger.info(f'{DAILY_CHECK} -> {BACK_ARROW}')
+                    self.device.click(BACK_ARROW)
+                    continue
 
                 # Map preparation
                 if map_timer.reached() and self.handle_map_preparation():
@@ -290,6 +297,11 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             if self.appear_then_click(WITHDRAW, interval=5):
                 continue
             if self.handle_auto_search_exit():
+                continue
+            # Accidental clicks
+            if self.appear(DAILY_CHECK, offset=(20, 20), interval=3):
+                logger.info(f'{DAILY_CHECK} -> {BACK_ARROW}')
+                self.device.click(BACK_ARROW)
                 continue
 
             # End

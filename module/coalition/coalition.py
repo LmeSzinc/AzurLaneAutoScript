@@ -117,6 +117,8 @@ class Coalition(CoalitionCombat, CampaignEvent):
                 logger.info(f'Count: {self.run_count}')
 
             # UI switches
+            self.device.stuck_record_clear()
+            self.device.click_record_clear()
             self.ui_goto_coalition()
             self.coalition_ensure_mode('battle')
 
@@ -125,6 +127,8 @@ class Coalition(CoalitionCombat, CampaignEvent):
                 break
 
             # Run
+            self.device.stuck_record_clear()
+            self.device.click_record_clear()
             try:
                 self.coalition_execute_once(event=name, stage=stage, fleet=fleet)
             except ScriptEnd as e:

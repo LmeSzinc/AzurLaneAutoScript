@@ -63,6 +63,9 @@ class Event:
     def __eq__(self, other):
         return str(self) == str(other)
 
+    def __lt__(self, other):
+        return str(self) < str(other)
+
 
 class ConfigGenerator:
     @cached_property
@@ -299,7 +302,7 @@ class ConfigGenerator:
                 name = event.__getattribute__(server)
                 if name:
                     deep_default(events, keys=event.directory, value=name)
-        for event in self.event:
+        for event in sorted(self.event):
             name = events.get(event.directory, event.directory)
             deep_set(new, keys=f'Campaign.Event.{event.directory}', value=name)
         # Package names
@@ -418,11 +421,19 @@ class ConfigGenerator:
                         for task in EVENTS + GEMS_FARMINGS:
                             insert(task)
 
-        # Remove campaign_main from event list
         for task in EVENTS + GEMS_FARMINGS + WAR_ARCHIVES + RAIDS + COALITIONS:
             options = deep_get(self.args, keys=f'{task}.Campaign.Event.option')
+            # Remove campaign_main from event list
             options = [option for option in options if option != 'campaign_main']
+            # Sort options
+            options = sorted(options)
             deep_set(self.args, keys=f'{task}.Campaign.Event.option', value=options)
+            # Sort latest
+            latest = {}
+            for server in ARCHIVES_PREFIX.keys():
+                latest[server] = deep_pop(self.args, keys=f'{task}.Campaign.Event.{server}', default='')
+            for server, event in latest.items():
+                deep_set(self.args, keys=f'{task}.Campaign.Event.{server}', value=event)
 
     @staticmethod
     def generate_deploy_template():
