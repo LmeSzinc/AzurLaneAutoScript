@@ -8,7 +8,7 @@ from module.base.utils import get_color
 from module.logger import logger
 from module.ocr.ocr import Ocr, OcrResultButton
 from tasks.rogue.assets.assets_rogue_curio import CURIO_ENFORCE, OCR_ROGUE_CURIO
-from tasks.rogue.assets.assets_rogue_ui import BLESSING_CONFIRM
+from tasks.rogue.assets.assets_rogue_ui import BLESSING_CONFIRM, BLESSING_ENHANCED, BLESSING_OBTAINED
 from tasks.rogue.bleesing.preset import CURIO_PRESET_1
 from tasks.rogue.bleesing.selector import RogueSelector
 from tasks.rogue.bleesing.utils import get_regex_from_keyword_name, parse_name
@@ -59,12 +59,20 @@ class RogueCurioSelector(RogueSelector):
             """
                 Case 1: back to main page
                 Case 2: event page
+                Case 3: BLESSING_ENHANCED
+                Case 4: BLESSING_OBTAINED
             """
             if self.main.is_in_main():
                 logger.info("Main page checked")
                 return True
             if self.main.is_page_event():
                 logger.info("Event page checked")
+                return True
+            if self.main.appear(BLESSING_ENHANCED):
+                logger.info("BLESSING_ENHANCED checked")
+                return True
+            if self.main.appear(BLESSING_OBTAINED):
+                logger.info("BLESSING_OBTAINED checked")
                 return True
             return False
 
