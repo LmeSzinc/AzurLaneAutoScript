@@ -258,6 +258,8 @@ class MapControl(Combat, AimDetectorMixin):
                         logger.info(f'Already at target rotation, '
                                     f'current={last_rotation}, target={direction}, disallow rotation_set')
                         allow_rotation_set = False
+                if not allow_rotation_set and rotation_interval.reached_and_reset():
+                    last_rotation = self.minimap.rotation
                 if allow_rotation_set and rotation_interval.reached():
                     if self.handle_rotation_set(direction, threshold=10):
                         rotation_interval.reset()
@@ -278,6 +280,8 @@ class MapControl(Combat, AimDetectorMixin):
                         logger.info(f'Already at target rotation, '
                                     f'current={last_rotation}, target={direction}, disallow rotation_set')
                         allow_rotation_set = False
+                if not allow_rotation_set and rotation_interval.reached_and_reset():
+                    last_rotation = self.minimap.rotation
                 if allow_rotation_set and rotation_interval.reached():
                     if self.handle_rotation_set(direction, threshold=10):
                         rotation_interval.reset()
@@ -294,6 +298,8 @@ class MapControl(Combat, AimDetectorMixin):
                 if allow_rotation_set:
                     last_rotation = self.minimap.rotation
                     allow_rotation_set = False
+                if not allow_rotation_set and rotation_interval.reached_and_reset():
+                    last_rotation = self.minimap.rotation
                 if direction_interval.reached():
                     contact.set(direction=contact_direction(), run=True)
                     direction_interval.reset()
@@ -305,6 +311,8 @@ class MapControl(Combat, AimDetectorMixin):
                 if allow_rotation_set:
                     last_rotation = self.minimap.rotation
                     allow_rotation_set = False
+                if not allow_rotation_set and rotation_interval.reached_and_reset():
+                    last_rotation = self.minimap.rotation
                 if direction_interval.reached():
                     contact.set(direction=contact_direction(), run=False)
                     direction_interval.reset()
