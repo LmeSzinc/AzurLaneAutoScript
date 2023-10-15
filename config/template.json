@@ -1959,6 +1959,7 @@
       "RestartEverytime": true,
       "RepushLua": true,
       "GGMultiplyingFactor": 200,
+      "Timeout": 120,
       "DisabledTask": "disable_all_dangerous_task"
     },
     "PowerLimit": {

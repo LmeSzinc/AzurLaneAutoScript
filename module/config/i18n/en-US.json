@@ -2500,6 +2500,10 @@
       "name": "GG Multiplying Factor",
       "help": "1 - 9999 Recommended"
     },
+    "Timeout": {
+      "name": "GGHandler.Timeout.name",
+      "help": "GGHandler.Timeout.help"
+    },
     "DisabledTask": {
       "name": "Disabled Tasks",
       "help": "",

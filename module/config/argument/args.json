@@ -9408,6 +9408,10 @@
         "type": "input",
         "value": 200
       },
+      "Timeout": {
+        "type": "input",
+        "value": 120
+      },
       "DisabledTask": {
         "type": "select",
         "value": "disable_all_dangerous_task",

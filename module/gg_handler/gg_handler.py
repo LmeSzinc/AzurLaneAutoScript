@@ -60,7 +60,7 @@ class GGHandler:
             #     GGU2(config=self.config, device=self.device) \
             #         .set_on(factor=self.factor)
             self.handle_u2_restart()
-            success = timeout(GGU2(config=self.config, device=self.device).set_on, timeout_sec=300, factor=self.factor)
+            success = timeout(GGU2(config=self.config, device=self.device).set_on, timeout_sec=deep_get(self.config.data, "GameManager.GGHandler.Timeout"), factor=self.factor)
             if success:
                 from module.exception import GameStuckError
                 raise GameStuckError

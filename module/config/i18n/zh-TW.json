@@ -2500,6 +2500,10 @@
       "name": "倍率",
       "help": "建議數值1-9999，沒做數位檢查，亂輸入後果自負"
     },
+    "Timeout": {
+      "name": "GGHandler.Timeout.name",
+      "help": "GGHandler.Timeout.help"
+    },
     "DisabledTask": {
       "name": "禁用倍率的項目",
       "help": "會關閉倍率的項目，建議全關。 打開的項目導致封號後果自負。\n所有，指演習，共鬥，Meta信標\n注意：戰力限制依舊生效。",
