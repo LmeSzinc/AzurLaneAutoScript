@@ -63,6 +63,34 @@ class Route(RouteBase):
         self.clear_enemy(enemy1)
         self.clear_enemy(enemy2.straight_run())
 
+    def Luofu_ScalegorgeWaterscape_F1_X567Y280(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((567.4, 280.2)), | 274.2     | 274      |
+        | enemy1   | Waypoint((495.3, 273.7)), | 219.9     | 292      |
+        | node2    | Waypoint((482.8, 252.6)), | 337.3     | 336      |
+        | enemy2   | Waypoint((485.0, 211.7)), | 17.3      | 15       |
+        | item2    | Waypoint((472.6, 228.6)), | 342.0     | 343      |
+        | exit     | Waypoint((485.0, 211.7)), | 17.3      | 15       |
+        """
+        self.map_init(plane=Luofu_ScalegorgeWaterscape, floor="F1", position=(567.4, 280.2))
+        self.register_domain_exit(Waypoint((485.0, 211.7)), end_rotation=15)
+        enemy1 = Waypoint((495.3, 273.7))
+        node2 = Waypoint((482.8, 252.6))
+        enemy2 = Waypoint((485.0, 211.7))
+        item2 = Waypoint((472.6, 228.6))
+        # ===== End of generated waypoints =====
+
+        self.clear_enemy(enemy1)
+        self.clear_item(
+            node2.straight_run(),
+            item2.straight_run(),
+        )
+        self.clear_enemy(
+            enemy2.straight_run(),
+        )
+
     def Luofu_ScalegorgeWaterscape_F1_X617Y99(self):
         """
         | Waypoint | Position                 | Direction | Rotation |

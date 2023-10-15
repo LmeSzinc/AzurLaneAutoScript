@@ -20,6 +20,24 @@ class Route(RouteBase):
         self.clear_event(event)
         # ===== End of generated waypoints =====
 
+    def Luofu_ScalegorgeWaterscape_F1_X619Y387(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((619.4, 387.3)), | 190.1     | 184      |
+        | item     | Waypoint((612.9, 413.0)), | 222.0     | 214      |
+        | event    | Waypoint((622.3, 422.5)), | 190.1     | 186      |
+        | exit     | Waypoint((619.0, 423.6)), | 190.1     | 184      |
+        """
+        self.map_init(plane=Luofu_ScalegorgeWaterscape, floor="F1", position=(619.4, 387.3))
+        self.register_domain_exit(Waypoint((619.0, 423.6)), end_rotation=184)
+        item = Waypoint((612.9, 413.0))
+        event = Waypoint((622.3, 422.5))
+
+        self.clear_item(item)
+        self.clear_event(event)
+        # ===== End of generated waypoints =====
+
     def Luofu_ScalegorgeWaterscape_F1_X714Y243(self):
         """
         | Waypoint | Position                  | Direction | Rotation |

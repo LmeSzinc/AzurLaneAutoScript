@@ -39,7 +39,8 @@ class Route(RouteBase):
         enemy = Waypoint((216.2, 860.2))
         # ===== End of generated waypoints =====
 
-        self.clear_item(item)
+        # ignore item, randomly generated
+        # self.clear_item(item)
         self.clear_enemy(enemy)
 
     def Luofu_ArtisanshipCommission_F1_X655Y537(self):

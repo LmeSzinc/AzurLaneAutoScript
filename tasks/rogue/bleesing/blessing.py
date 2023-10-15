@@ -131,7 +131,6 @@ class RogueBlessingSelector(RogueSelector):
         if blessing_count != len(results):
             logger.warning(f"The OCR result does not match the blessing count. "
                            f"Expect {blessing_count}, but recognized {len(results)} only.")
-            exit(1)
         for result in results:
             if result in enhanced_blessing:
                 result.matched_keyword.enhancement = KEYWORDS_ROGUE_ENHANCEMENT.Already_Enhanced.enhancement_keyword

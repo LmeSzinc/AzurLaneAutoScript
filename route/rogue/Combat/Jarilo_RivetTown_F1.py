@@ -58,6 +58,7 @@ class Route(RouteBase):
         enemy = Waypoint((137.0, 438.1))
         # ===== End of generated waypoints =====
 
+        self.minimap.init_position(item.position, locked=True)
         self.clear_item(item)
         self.clear_enemy(enemy)
 

@@ -16,7 +16,7 @@ class Route(RouteBase):
         | enemy2top             | Waypoint((214.6, 432.8)), | 94.1      | 87       |
         | enemy2bottom_X212Y483 | Waypoint((211.4, 483.3)), | 191.8     | 174      |
         | enemy3                | Waypoint((288.0, 452.2)), | 87.7      | 260      |
-        | exit_X288Y454         | Waypoint((291.8, 454.4)), | 5.7       | 91       |
+        | exit_X291Y454         | Waypoint((291.8, 454.4)), | 5.7       | 91       |
         """
         self.map_init(plane=Luofu_Cloudford, floor="F1Rogue", position=(49.3, 405.6))
         self.register_domain_exit(Waypoint((291.8, 454.4)), end_rotation=91)

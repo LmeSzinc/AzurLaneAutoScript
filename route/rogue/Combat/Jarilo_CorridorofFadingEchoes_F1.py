@@ -136,7 +136,7 @@ class Route(RouteBase):
         self.clear_enemy(enemy1)
         self.clear_enemy(
             enemy2right.straight_run(),
-            enemy2left.straight_run(),
+            enemy2left.straight_run().set_threshold(3),
         )
         self.clear_enemy(
             node3.straight_run(),
