@@ -59,14 +59,18 @@ class RogueCurioSelector(RogueSelector):
             """
                 Case 1: back to main page
                 Case 2: event page
-                Case 3: BLESSING_ENHANCED
-                Case 4: BLESSING_OBTAINED
+                Case 3: is_page_choose_blessing()
+                Case 4: BLESSING_ENHANCED
+                Case 5: BLESSING_OBTAINED
             """
             if self.main.is_in_main():
                 logger.info("Main page checked")
                 return True
             if self.main.is_page_event():
                 logger.info("Event page checked")
+                return True
+            if self.main.is_page_choose_blessing():
+                logger.info("is_page_choose_blessing() checked")
                 return True
             if self.main.appear(BLESSING_ENHANCED):
                 logger.info("BLESSING_ENHANCED checked")
