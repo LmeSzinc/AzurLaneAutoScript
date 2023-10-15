@@ -1,4 +1,3 @@
-from module.config.server import VALID_LANG
 from tasks.assignment.assets.assets_assignment_ui import (
     CHARACTER_MATERIALS_CHECK, CHARACTER_MATERIALS_CLICK,
     EXP_MATERIALS_CREDITS_CHECK, EXP_MATERIALS_CREDITS_CLICK, GROUP_SEARCH,
@@ -12,8 +11,4 @@ for group_button_wrapper in (
     EXP_MATERIALS_CREDITS_CHECK, EXP_MATERIALS_CREDITS_CLICK,
     SYNTHESIS_MATERIALS_CHECK, SYNTHESIS_MATERIALS_CLICK,
 ):
-    for lang in VALID_LANG:
-        button = group_button_wrapper.data_buttons.get(lang, None)
-        if button is None:
-            continue
-        button.search = GROUP_SEARCH.button
+    group_button_wrapper.load_search(GROUP_SEARCH.button)
