@@ -1,27 +1,30 @@
+from module.base.timer import Timer
 from module.logger import logger
-
+from tasks.base.assets.assets_base_page import CLOSE, MENU_CHECK
+from tasks.base.assets.assets_base_popup import GET_REWARD
 from tasks.base.page import page_menu
 from tasks.base.ui import UI
-from tasks.base.assets.assets_base_page import CLOSE,MENU_CHECK
-from tasks.base.assets.assets_base_popup import GET_REWARD
-from tasks.freebies.assets.assets_freebies_support_reward import MENU_TO_PROFILE, PROFILE, IN_PROFILE,CAN_GET_REWARD, CLICKING_REWARD
+from tasks.freebies.assets.assets_freebies_support_reward import (
+    CAN_GET_REWARD,
+    IN_PROFILE,
+    MENU_TO_PROFILE,
+    PROFILE
+)
+
 
 class SupportReward(UI):
-    
+
     def run(self):
         """
         Run get support reward task
         """
-        self._get_support_reward()
-        
-    def _get_support_reward(self):
+        logger.hr('Support reward', level=1)
         self.ui_ensure(page_menu)
-        
+
         self._goto_profile()
         self._get_reward()
         self._goto_menu()
-        self.ui_ensure(page_menu)
-        
+
     def _goto_profile(self):
         """
         Pages:
@@ -35,54 +38,52 @@ class SupportReward(UI):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            
+
             if self.appear(IN_PROFILE):
                 logger.info('Successfully in profile')
                 return True
-            
+
             if self.appear_then_click(MENU_TO_PROFILE):
                 continue
-            
+
             if self.appear_then_click(PROFILE):
                 continue
-        
-    def _get_reward(self):
+
+    def _get_reward(self, skip_first_screenshot=True):
         """
         Pages:
             in: PROFILE
-            out: PROFILE
+            out: GET_REWARD
         """
-        skip_first_screenshot = False
         logger.info('Getting reward')
-        has_reward = False
+        claimed = False
+        empty = Timer(0.3, count=1).start()
+        timeout = Timer(5).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-                            
+
+            if not claimed and empty.reached():
+                logger.info('No reward')
+                break
             if self.appear(GET_REWARD):
-                self.device.click(MENU_CHECK) # Avoid clicking on some other buttons
+                logger.info('Got reward')
+                break
+            if timeout.reached():
+                logger.warning('Get support reward timeout')
+                break
+
+            if self.appear_then_click(CAN_GET_REWARD, similarity=0.70, interval=2):
+                claimed = True
+                timeout.reset()
                 continue
-            
-            if self.match_template_color(CLICKING_REWARD, similarity=0.70):
-                logger.info('Clicking reward')
-                continue
-            
-            if self.match_template_color(CAN_GET_REWARD, similarity=0.70):
-                logger.info('Can get reward')
-                self.device.click(CAN_GET_REWARD)
-                has_reward = True
-                continue
-             
-            if self.appear(IN_PROFILE): # and not self.appear(CAN_GET_REWARD):
-                logger.info('Successfully got reward') if has_reward else logger.info('No reward')
-                return True
-    
+
     def _goto_menu(self):
         """
         Pages:
-            in: PROFILE
+            in: PROFILE or GET_REWARD
             out: MENU
         """
         skip_first_screenshot = False
@@ -92,16 +93,20 @@ class SupportReward(UI):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            
+
             if self.appear(MENU_CHECK):
                 return True
-            
-            if self.appear(IN_PROFILE):
+
+            if self.appear(IN_PROFILE, interval=2):
+                logger.info(f'{IN_PROFILE} -> {CLOSE}')
                 self.device.click(CLOSE)
                 continue
-            
-    
+            if self.handle_reward(click_button=CAN_GET_REWARD):
+                # # Avoid clicking on some other buttons
+                continue
+
+
 if __name__ == '__main__':
     self = SupportReward('src')
     self.device.screenshot()
-    self._get_support_reward()
+    self.run()
