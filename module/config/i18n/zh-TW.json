@@ -46,6 +46,10 @@
       "name": "儀表板更新",
       "help": ""
     },
+    "Freebies": {
+      "name": "免費獎勵",
+      "help": ""
+    },
     "Rogue": {
       "name": "模擬宇宙",
       "help": "模擬宇宙還在開發中，任務不會被運行"
@@ -228,10 +232,11 @@
       "Stagnant_Shadow_Spike": "角色晉階材料：物理（娜塔莎 / 克拉拉 / 盧卡 / 素裳）",
       "Stagnant_Shadow_Rime": "角色晉階材料：冰（三月七 / 黑塔 / 傑帕德 / 佩拉）",
       "Stagnant_Shadow_Mirage": "角色晉階材料：虛數（瓦爾特 / 羅剎 / 馭空）",
-      "Stagnant_Shadow_Icicle": "角色晉階材料：冰（彥卿）",
+      "Stagnant_Shadow_Icicle": "角色晉階材料：冰（彥卿 / 鏡流）",
       "Stagnant_Shadow_Doom": "角色晉階材料：雷（卡芙卡 / 景元）",
       "Stagnant_Shadow_Puppetry": "角色晉階材料：虛數（丹恆•飲月）",
       "Stagnant_Shadow_Abomination": "角色晉階材料：量子（玲可 / 符玄）",
+      "Stagnant_Shadow_Scorch": "角色晉階材料：火（桂乃芬 / 托帕&帳帳）",
       "Stagnant_Shadow_Celestial": "角色晉階材料：風（刃）",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "遺器：冰套+風套（霜風之徑•侵蝕隧洞）",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "遺器：物理套+擊破套（迅拳之徑•侵蝕隧洞）",
@@ -315,10 +320,11 @@
       "Stagnant_Shadow_Spike": "角色晉階材料：物理（娜塔莎 / 克拉拉 / 盧卡 / 素裳）",
       "Stagnant_Shadow_Rime": "角色晉階材料：冰（三月七 / 黑塔 / 傑帕德 / 佩拉）",
       "Stagnant_Shadow_Mirage": "角色晉階材料：虛數（瓦爾特 / 羅剎 / 馭空）",
-      "Stagnant_Shadow_Icicle": "角色晉階材料：冰（彥卿）",
+      "Stagnant_Shadow_Icicle": "角色晉階材料：冰（彥卿 / 鏡流）",
       "Stagnant_Shadow_Doom": "角色晉階材料：雷（卡芙卡 / 景元）",
       "Stagnant_Shadow_Puppetry": "角色晉階材料：虛數（丹恆•飲月）",
       "Stagnant_Shadow_Abomination": "角色晉階材料：量子（玲可 / 符玄）",
+      "Stagnant_Shadow_Scorch": "角色晉階材料：火（桂乃芬 / 托帕&帳帳）",
       "Stagnant_Shadow_Celestial": "角色晉階材料：風（刃）"
     },
     "CavernOfCorrosion": {
@@ -364,6 +370,7 @@
       "Himeko": "姬子",
       "Hook": "虎克",
       "JingYuan": "景元",
+      "Jingliu": "鏡流",
       "Kafka": "卡芙卡",
       "Luka": "盧卡",
       "Luocha": "羅剎",
@@ -404,6 +411,16 @@
     },
     "SimulatedUniverse": {
       "name": "模擬宇宙",
+      "help": ""
+    }
+  },
+  "SupportReward": {
+    "_info": {
+      "name": "支援獎勵",
+      "help": ""
+    },
+    "Collect": {
+      "name": "收取支援獎勵",
       "help": ""
     }
   },

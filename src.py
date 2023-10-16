@@ -46,6 +46,9 @@ class StarRailCopilot(AzurLaneAutoScript):
         from tasks.item.data_update import DataUpdate
         DataUpdate(config=self.config, device=self.device).run()
 
+    def freebies(self):
+        from tasks.freebies.freebies import Freebies
+        Freebies(config=self.config, device=self.device).run()
 
 if __name__ == '__main__':
     src = StarRailCopilot('src')

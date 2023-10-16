@@ -46,6 +46,10 @@
       "name": "Dashboard Upd",
       "help": ""
     },
+    "Freebies": {
+      "name": "Freebies",
+      "help": ""
+    },
     "Rogue": {
       "name": "Simulated Universe",
       "help": "Simulated Universe is in development, task will not be run"
@@ -228,10 +232,11 @@
       "Stagnant_Shadow_Spike": "Ascension: Physical (Natasha / Clara / Luka / Sushang)",
       "Stagnant_Shadow_Rime": "Ascension: Ice (March 7th / Herta / Gepard / Pela)",
       "Stagnant_Shadow_Mirage": "Ascension: Imaginary (Welt / Luocha / Yukong)",
-      "Stagnant_Shadow_Icicle": "Ascension: Ice (Yanqing)",
+      "Stagnant_Shadow_Icicle": "Ascension: Ice (Yanqing / Jingliu)",
       "Stagnant_Shadow_Doom": "Ascension: Lightning (Kafka / Jing Yuan)",
       "Stagnant_Shadow_Puppetry": "Ascension: Imaginary (Dan Heng • Imbibitor Lunae)",
       "Stagnant_Shadow_Abomination": "Ascension: Quantum (Lynx / Fu Xuan)",
+      "Stagnant_Shadow_Scorch": "Ascension: Fire (Guinaifen / Topaz and Numby)",
       "Stagnant_Shadow_Celestial": "Ascension: Wind (Blade)",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "Relics: Ice Set & Wind Set (Path of Gelid Wind)",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "Relics: Physical Set & Break Effect Set (Path of Jabbing Punch)",
@@ -315,10 +320,11 @@
       "Stagnant_Shadow_Spike": "Ascension: Physical (Natasha / Clara / Luka / Sushang)",
       "Stagnant_Shadow_Rime": "Ascension: Ice (March 7th / Herta / Gepard / Pela)",
       "Stagnant_Shadow_Mirage": "Ascension: Imaginary (Welt / Luocha / Yukong)",
-      "Stagnant_Shadow_Icicle": "Ascension: Ice (Yanqing)",
+      "Stagnant_Shadow_Icicle": "Ascension: Ice (Yanqing / Jingliu)",
       "Stagnant_Shadow_Doom": "Ascension: Lightning (Kafka / Jing Yuan)",
       "Stagnant_Shadow_Puppetry": "Ascension: Imaginary (Dan Heng • Imbibitor Lunae)",
       "Stagnant_Shadow_Abomination": "Ascension: Quantum (Lynx / Fu Xuan)",
+      "Stagnant_Shadow_Scorch": "Ascension: Fire (Guinaifen / Topaz and Numby)",
       "Stagnant_Shadow_Celestial": "Ascension: Wind (Blade)"
     },
     "CavernOfCorrosion": {
@@ -364,6 +370,7 @@
       "Himeko": "Himeko",
       "Hook": "Hook",
       "JingYuan": "Jing Yuan",
+      "Jingliu": "Jingliu",
       "Kafka": "Kafka",
       "Luka": "Luka",
       "Luocha": "Luocha",
@@ -404,6 +411,16 @@
     },
     "SimulatedUniverse": {
       "name": "Sim.Univ.",
+      "help": ""
+    }
+  },
+  "SupportReward": {
+    "_info": {
+      "name": "Support Reward",
+      "help": ""
+    },
+    "Collect": {
+      "name": "Receive support reward",
       "help": ""
     }
   },

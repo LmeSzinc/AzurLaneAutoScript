@@ -155,6 +155,17 @@
       "StallerJade": {}
     }
   },
+  "Freebies": {
+    "Scheduler": {
+      "Enable": true,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Freebies",
+      "ServerUpdate": "04:00"
+    },
+    "SupportReward": {
+      "Collect": true
+    }
+  },
   "Rogue": {
     "Scheduler": {
       "Enable": false,
