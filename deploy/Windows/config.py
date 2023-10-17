@@ -65,6 +65,9 @@ class ConfigModel:
     AppAsarUpdate: bool = True
     NoSandbox: bool = True
 
+    # Dynamic
+    GitOverCdn: bool = False
+
 
 class DeployConfig(ConfigModel):
     def __init__(self, file=DEPLOY_CONFIG):
@@ -89,6 +92,10 @@ class DeployConfig(ConfigModel):
 
         # Bypass webui.config.DeployConfig.__setattr__()
         # Don't write these into deploy.yaml
+        super().__setattr__(
+            'GitOverCdn',
+            self.Repository == 'git://git.lyoko.io/AzurLaneAutoScript' and self.Branch == 'master'
+        )
         if self.Repository in ['global']:
             super().__setattr__('Repository', 'https://github.com/LmeSzinc/AzurLaneAutoScript')
         if self.Repository in ['cn']:
@@ -112,7 +119,7 @@ class DeployConfig(ConfigModel):
         for k, v in self.config.items():
             if k in ("Password", "SSHUser"):
                 continue
-            if self.config_template[k] == v:
+            if self.config_template.get(k) == v:
                 continue
             logger.info(f"{k}: {v}")
 

@@ -40,7 +40,7 @@ class OSShopHandler(OSStatus, MapEventHandler):
             ItemGrid:
         """
         shop_grid = ButtonGrid(
-            origin=(238, 220), delta=(188, 225), button_shape=(98, 98), grid_shape=(4, 2), name='SHOP_GRID')
+            origin=(233, 224), delta=(193, 228), button_shape=(98, 98), grid_shape=(4, 2), name='SHOP_GRID')
         shop_items = ItemGrid(
             shop_grid, templates={}, amount_area=(60, 74, 96, 95), price_area=(52, 132, 132, 165))
         shop_items.price_ocr = OSShopPrice([], letter=(255, 223, 57), threshold=32, name='Price_ocr')

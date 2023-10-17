@@ -68,6 +68,19 @@ class Updater(DeployConfig, GitManager, PipManager):
 
     def _check_update(self) -> bool:
         self.state = "checking"
+
+        if State.deploy_config.GitOverCdn:
+            status = self.goc_client.get_status()
+            if status == "uptodate":
+                logger.info(f"No update")
+                return False
+            elif status == "behind":
+                logger.info(f"New update available")
+                return True
+            else:
+                # failed, should fallback to `git pull`
+                pass
+
         source = "origin"
         for _ in range(3):
             if self.execute(
