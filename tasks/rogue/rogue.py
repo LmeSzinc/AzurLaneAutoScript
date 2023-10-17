@@ -1,5 +1,5 @@
-from tasks.rogue.path import RoguePathHandler
-from tasks.rogue.reward import RogueRewardHandler
+from tasks.rogue.entry.path import RoguePathHandler
+from tasks.rogue.entry.reward import RogueRewardHandler
 from tasks.rogue.route.loader import RouteLoader
 
 
