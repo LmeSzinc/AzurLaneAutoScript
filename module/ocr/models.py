@@ -1,6 +1,6 @@
 from pponnxcr import TextSystem as TextSystem_
 
-from module.base.decorator import cached_property
+from module.base.decorator import cached_property, del_cached_property
 from module.exception import ScriptError
 
 DIC_LANG_TO_MODEL = {
@@ -56,6 +56,12 @@ class OcrModel:
         except AttributeError:
             raise ScriptError(f'OCR model under lang "{lang}" does not exists')
 
+    def resource_release(self):
+        del_cached_property(self, 'zhs')
+        del_cached_property(self, 'en')
+        del_cached_property(self, 'ja')
+        del_cached_property(self, 'zht')
+
     @cached_property
     def zhs(self):
         return TextSystem('zhs')
@@ -66,7 +72,7 @@ class OcrModel:
 
     @cached_property
     def ja(self):
-        return TextSystem('zht')
+        return TextSystem('ja')
 
     @cached_property
     def zht(self):

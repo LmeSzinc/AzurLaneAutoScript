@@ -1110,6 +1110,39 @@
       }
     }
   },
+  "Freebies": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": true,
+        "option": [
+          true,
+          false
+        ]
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "Freebies",
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "04:00",
+        "display": "hide"
+      }
+    },
+    "SupportReward": {
+      "Collect": {
+        "type": "checkbox",
+        "value": true
+      }
+    }
+  },
   "Rogue": {
     "Scheduler": {
       "Enable": {

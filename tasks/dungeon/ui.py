@@ -1,3 +1,5 @@
+import re
+
 import numpy as np
 
 from module.base.base import ModuleBase
@@ -70,6 +72,9 @@ class OcrDungeonList(Ocr):
         if self.lang == 'cn':
             result = result.replace('翼', '巽')  # 巽风之形
             result = result.replace('皖A0', '50').replace('皖', '')
+            # 燔灼之形•凝滞虚影
+            result = result.replace('熠', '燔')
+            result = re.sub('^灼之形', '燔灼之形', result)
         return result
 
 
@@ -411,7 +416,7 @@ class DungeonUI(UI):
 
         Examples:
             from tasks.dungeon.keywords import KEYWORDS_DUNGEON_LIST
-            self = DungeonUI('alas')
+            self = DungeonUI('src')
             self.device.screenshot()
             self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
             self.dungeon_goto(KEYWORDS_DUNGEON_LIST.Calyx_Crimson_Harmony)

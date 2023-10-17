@@ -421,7 +421,7 @@ class KeywordExtract:
         self.keywords_id = hash_list
         self.write_keywords(keyword_class='RogueResonance', output_file='./tasks/rogue/keywords/resonance.py',
                             text_convert=blessing_name, extra_attrs=extra_attrs)
-
+    
     def iter_without_duplication(self, file: dict, keys):
         visited = set()
         for data in file.values():

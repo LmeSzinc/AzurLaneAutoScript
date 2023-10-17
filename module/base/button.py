@@ -124,10 +124,10 @@ class ButtonWrapper(Resource):
         self.name = name
         self.data_buttons = kwargs
         self._matched_button: t.Optional[Button] = None
-        self.resource_add(self.name)
+        self.resource_add(f'{name}:{next(self.iter_buttons(), None)}')
 
     def resource_release(self):
-        del_cached_property(self, 'assets')
+        del_cached_property(self, 'buttons')
         self._matched_button = None
 
     def __str__(self):

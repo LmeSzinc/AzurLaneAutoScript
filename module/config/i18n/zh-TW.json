@@ -46,6 +46,10 @@
       "name": "儀表板更新",
       "help": ""
     },
+    "Freebies": {
+      "name": "免費獎勵",
+      "help": ""
+    },
     "Rogue": {
       "name": "模擬宇宙",
       "help": "模擬宇宙還在開發中，任務不會被運行"
@@ -407,6 +411,16 @@
     },
     "SimulatedUniverse": {
       "name": "模擬宇宙",
+      "help": ""
+    }
+  },
+  "SupportReward": {
+    "_info": {
+      "name": "支援獎勵",
+      "help": ""
+    },
+    "Collect": {
+      "name": "收取支援獎勵",
       "help": ""
     }
   },

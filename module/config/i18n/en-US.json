@@ -46,6 +46,10 @@
       "name": "Dashboard Upd",
       "help": ""
     },
+    "Freebies": {
+      "name": "Freebies",
+      "help": ""
+    },
     "Rogue": {
       "name": "Simulated Universe",
       "help": "Simulated Universe is in development, task will not be run"
@@ -407,6 +411,16 @@
     },
     "SimulatedUniverse": {
       "name": "Sim.Univ.",
+      "help": ""
+    }
+  },
+  "SupportReward": {
+    "_info": {
+      "name": "Support Reward",
+      "help": ""
+    },
+    "Collect": {
+      "name": "Receive support reward",
       "help": ""
     }
   },

@@ -1,18 +1,26 @@
 from module.base.base import ModuleBase
+from module.logger import logger
 from tasks.base.assets.assets_base_popup import *
 
 
 class PopupHandler(ModuleBase):
-    def handle_reward(self, interval=5) -> bool:
+    def handle_reward(self, interval=5, click_button=None) -> bool:
         """
         Args:
             interval:
+            click_button: Set a button to click
 
         Returns:
             If handled.
         """
-        if self.appear_then_click(GET_REWARD, interval=interval):
-            return True
+        if click_button is None:
+            if self.appear_then_click(GET_REWARD, interval=interval):
+                return True
+        else:
+            if self.appear(GET_REWARD, interval=interval):
+                logger.info(f'{GET_REWARD} -> {click_button}')
+                self.device.click(click_button)
+                return True
 
         return False
 

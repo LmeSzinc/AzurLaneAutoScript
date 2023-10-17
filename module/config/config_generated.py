@@ -61,6 +61,9 @@ class GeneratedConfig:
     DungeonStorage_EchoOfWar = {}
     DungeonStorage_SimulatedUniverse = {}
 
+    # Group `SupportReward`
+    SupportReward_Collect = True
+
     # Group `Weekly`
     Weekly_Name = 'Echo_of_War_Divine_Seed'  # Echo_of_War_Destruction_Beginning, Echo_of_War_End_of_the_Eternal_Freeze, Echo_of_War_Divine_Seed
     Weekly_Team = 1  # 1, 2, 3, 4, 5, 6

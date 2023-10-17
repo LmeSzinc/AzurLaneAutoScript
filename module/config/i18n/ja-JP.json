@@ -46,6 +46,10 @@
       "name": "Task.DataUpdate.name",
       "help": "Task.DataUpdate.help"
     },
+    "Freebies": {
+      "name": "他ギフト",
+      "help": ""
+    },
     "Rogue": {
       "name": "Task.Rogue.name",
       "help": "Task.Rogue.help"
@@ -408,6 +412,16 @@
     "SimulatedUniverse": {
       "name": "DungeonStorage.SimulatedUniverse.name",
       "help": "DungeonStorage.SimulatedUniverse.help"
+    }
+  },
+  "SupportReward": {
+    "_info": {
+      "name": "サポートボーナス",
+      "help": ""
+    },
+    "Collect": {
+      "name": "收取サポートボーナス",
+      "help": ""
     }
   },
   "Weekly": {
