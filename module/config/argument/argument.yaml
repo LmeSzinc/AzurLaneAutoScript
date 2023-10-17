@@ -126,6 +126,8 @@ DungeonStorage:
     stored: StoredSimulatedUniverse
     order: 6
     color: "#8fb5fe"
+SupportReward:
+  Collect: true
 
 Weekly:
   Name:

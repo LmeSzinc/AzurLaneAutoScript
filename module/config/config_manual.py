@@ -10,7 +10,8 @@ class ManualConfig:
 
     SCHEDULER_PRIORITY = """
     Restart
-    > BattlePass > DailyQuest > Assignment > DataUpdate
+    > BattlePass > DailyQuest > Assignment
+    > Freebies > DataUpdate
     > Weekly > Dungeon
     """
 

@@ -13,7 +13,7 @@ from tasks.base.assets.assets_base_page import FORGOTTEN_HALL_CHECK, MAP_EXIT
 from tasks.dungeon.keywords import DungeonList, KEYWORDS_DUNGEON_LIST, KEYWORDS_DUNGEON_TAB
 from tasks.dungeon.ui import DungeonUI
 from tasks.forgotten_hall.assets.assets_forgotten_hall_ui import *
-from tasks.forgotten_hall.keywords import ForgottenHallStage
+from tasks.forgotten_hall.keywords import ForgottenHallStage, KEYWORDS_FORGOTTEN_HALL_STAGE
 from tasks.forgotten_hall.team import ForgottenHallTeam
 from tasks.map.control.joystick import MapControlJoystick
 
@@ -70,7 +70,11 @@ class DraggableStageList(DraggableList):
         while 1:
             result = super().insight_row(row, main=main, skip_first_screenshot=skip_first_screenshot)
             if not result:
-                return False
+                if row == KEYWORDS_FORGOTTEN_HALL_STAGE.Stage_1:
+                    # Must have stage 1, retry if not found
+                    continue
+                else:
+                    return False
 
             if skip_first_screenshot:
                 skip_first_screenshot = False

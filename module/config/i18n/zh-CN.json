@@ -46,6 +46,10 @@
       "name": "仪表盘更新",
       "help": ""
     },
+    "Freebies": {
+      "name": "白嫖奖励",
+      "help": ""
+    },
     "Rogue": {
       "name": "模拟宇宙",
       "help": "模拟宇宙还在开发中，任务不会被运行"
@@ -407,6 +411,16 @@
     },
     "SimulatedUniverse": {
       "name": "模拟宇宙",
+      "help": ""
+    }
+  },
+  "SupportReward": {
+    "_info": {
+      "name": "支援奖励",
+      "help": ""
+    },
+    "Collect": {
+      "name": "领取支援奖励",
       "help": ""
     }
   },

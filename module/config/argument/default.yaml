@@ -22,3 +22,6 @@ BattlePass:
 Assignment:
   Scheduler:
     Enable: true
+Freebies:
+  Scheduler:
+    Enable: true

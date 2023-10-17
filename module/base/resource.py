@@ -1,11 +1,11 @@
 import re
 
-import module.config.server as server
-from module.base.decorator import cached_property, del_cached_property
+from module.base.decorator import cached_property
 
 
-def get_assets_from_file(file, regex):
+def get_assets_from_file(file):
     assets = set()
+    regex = re.compile(r"file='(.*?)'")
     with open(file, 'r', encoding='utf-8') as f:
         for row in f.readlines():
             result = regex.search(row)
@@ -20,11 +20,12 @@ class PreservedAssets:
         assets = set()
         assets |= get_assets_from_file(
             file='./tasks/base/assets/assets_base_page.py',
-            regex=re.compile(r'^([A-Za-z][A-Za-z0-9_]+) = ')
         )
         assets |= get_assets_from_file(
             file='./tasks/base/assets/assets_base_popup.py',
-            regex=re.compile(r'^([A-Za-z][A-Za-z0-9_]+) = ')
+        )
+        assets |= get_assets_from_file(
+            file='./tasks/base/assets/assets_base_main_page.py',
         )
         return assets
 
@@ -44,11 +45,13 @@ class Resource:
 
     @classmethod
     def is_loaded(cls, obj):
-        if hasattr(obj, '_image') and obj._image is None:
-            return False
-        elif hasattr(obj, 'image') and obj.image is None:
-            return False
-        return True
+        if hasattr(obj, '_image') and obj._image is not None:
+            return True
+        if hasattr(obj, 'image') and obj.image is not None:
+            return True
+        if hasattr(obj, 'buttons') and obj.buttons is not None:
+            return True
+        return False
 
     @classmethod
     def resource_show(cls):
@@ -56,11 +59,16 @@ class Resource:
         logger.hr('Show resource')
         for key, obj in cls.instances.items():
             if cls.is_loaded(obj):
-                continue
-            logger.info(f'{obj}: {key}')
+                logger.info(f'{obj}: {key}')
 
 
 def release_resources(next_task=''):
+    # Release all OCR models
+    # det models take 400MB
+    if not next_task:
+        from module.ocr.models import OCR_MODEL
+        OCR_MODEL.resource_release()
+
     # Release assets cache
     # module.ui has about 80 assets and takes about 3MB
     # Alas has about 800 assets, but they are not all loaded.
