@@ -273,7 +273,7 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
         self.rotation_set(end_rotation, threshold=10)
 
         logger.hr('Find domain exit', level=2)
-        direction = self.predict_door(self.device.image)
+        direction = self.predict_door()
         direction_limit = 55
         if direction is not None:
             if abs(direction) > direction_limit:

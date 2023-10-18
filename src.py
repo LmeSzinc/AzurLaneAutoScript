@@ -50,6 +50,11 @@ class StarRailCopilot(AzurLaneAutoScript):
         from tasks.freebies.freebies import Freebies
         Freebies(config=self.config, device=self.device).run()
 
+    def rogue(self):
+        from tasks.rogue.rogue import Rogue
+        Rogue(config=self.config, device=self.device).run()
+
+
 if __name__ == '__main__':
     src = StarRailCopilot('src')
     src.loop()

@@ -1205,7 +1205,7 @@
       },
       "DomainStrategy": {
         "type": "select",
-        "value": "combat",
+        "value": "occurrence",
         "option": [
           "combat",
           "occurrence"

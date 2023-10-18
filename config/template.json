@@ -177,7 +177,7 @@
       "World": "Simulated_Universe_World_7",
       "Path": "The_Hunt",
       "Bonus": "Blessing Cosmos",
-      "DomainStrategy": "combat",
+      "DomainStrategy": "occurrence",
       "ImmersionReward": "immersifier",
       "StopCondition": "weekly_point_reward"
     },

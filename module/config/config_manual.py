@@ -13,6 +13,7 @@ class ManualConfig:
     > BattlePass > DailyQuest > Assignment
     > Freebies > DataUpdate
     > Weekly > Dungeon
+    > Rogue
     """
 
     """

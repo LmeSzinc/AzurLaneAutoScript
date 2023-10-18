@@ -214,7 +214,7 @@ RogueWorld:
     value: Blessing Cosmos
     option: [ Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos ]
   DomainStrategy:
-    value: combat
+    value: occurrence
     option: [ combat, occurrence ]
   ImmersionReward:
     value: immersifier
