@@ -3,6 +3,7 @@ from typing import Optional
 import numpy as np
 
 from module.base.decorator import cached_property
+from module.base.timer import Timer
 from module.logger import logger
 from tasks.base.main_page import MainPage
 from tasks.map.keywords import MapPlane
@@ -75,7 +76,7 @@ class MinimapWrapper:
 
 
 class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, MainPage):
-    def position_find_known(self, image) -> Optional[RogueRouteModel]:
+    def position_find_known(self, image, force_return=False) -> Optional[RogueRouteModel]:
         """
         Try to find from known route spawn point
         """
@@ -110,17 +111,17 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, MainPage):
             return
 
         visited = sorted(visited, key=lambda x: x[1], reverse=True)
-        logger.info(f'Best 3 prediction: {[(r.name, s, p) for r, s, p in visited[:3]]}')
+        logger.info(f'Best 3 predictions: {[(r.name, s, p) for r, s, p in visited[:3]]}')
         nearby = [
             (r, s, p) for r, s, p in visited if np.linalg.norm(np.subtract(r.position, p)) < 5
         ]
-        logger.info(f'Best 3 prediction: {[(r.name, s, p) for r, s, p in nearby[:3]]}')
+        logger.info(f'Best 3 nearby predictions: {[(r.name, s, p) for r, s, p in nearby[:3]]}')
         if len(nearby) == 1:
             if nearby[0][1] > 0.05:
                 logger.attr('RoutePredict', nearby[0][0].name)
                 return nearby[0][0]
         elif len(nearby) >= 2:
-            if nearby[0][1] / nearby[1][1] > 0.75:
+            if nearby[0][1] / nearby[1][1] > 0.55:
                 logger.attr('RoutePredict', nearby[0][0].name)
                 return nearby[0][0]
 
@@ -129,8 +130,15 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, MainPage):
         #     logger.attr('RoutePredict', visited[0][0].name)
         #     return visited[0][0]
 
-        logger.warning('Similarity too close, not enough to make a prediction')
-        return None
+        if force_return:
+            if len(nearby) >= 1:
+                route = nearby[0][0]
+            else:
+                route = visited[0][0]
+            return route
+        else:
+            logger.warning('Similarity too close, not enough to make a prediction')
+            return None
 
     def position_find_bruteforce(self, image) -> Minimap:
         """
@@ -153,10 +161,27 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, MainPage):
         visited = sorted(self.all_minimap.values(), key=lambda x: x.position_similarity, reverse=True)
         logger.info(f'Best 5 prediction: {[(get_name(m), m.position_similarity) for m in visited[:5]]}')
         if visited[1].position_similarity / visited[0].position_similarity > 0.75:
-            logger.warning('Similarity too close, prediction may goes wrong')
+            logger.warning('Similarity too close, predictions may go wrong')
 
         logger.attr('RoutePredict', get_name(visited[0]))
         return visited[0]
+
+    def position_find(self, skip_first_screenshot=True):
+        timeout = Timer(1, count=3).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if timeout.reached():
+                self.position_find_bruteforce(self.device.image)
+                logger.warning('Find position timeout, force return route')
+                return self.position_find_known(self.device.screenshot(), force_return=True)
+
+            route = self.position_find_known(self.device.image)
+            if route is not None:
+                return route
 
     def route_run(self, route=None):
         """
@@ -170,14 +195,8 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, MainPage):
             out: page_main, at another domain
                 or page_rogue if rogue cleared
         """
-        route = self.position_find_known(self.device.image)
-        if route is not None:
-            super().route_run(route)
-            return True
-        else:
-            self.position_find_bruteforce(self.device.image)
-            logger.error('New route detected, please record it')
-            return False
+        route = self.position_find()
+        super().route_run(route)
 
     def rogue_run(self, skip_first_screenshot=True):
         """
@@ -197,10 +216,10 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, MainPage):
 
             logger.hr(f'Route run: {count}', level=1)
             base.clear_blessing()
-            success = self.route_run()
-            if not success:
-                # self.device.image_save()
-                continue
+            self.route_run()
+            # if not success:
+            #     self.device.image_save()
+            #     continue
 
             # End
             if self.is_page_rogue_main():
