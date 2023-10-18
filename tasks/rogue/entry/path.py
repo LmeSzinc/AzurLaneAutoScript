@@ -1,5 +1,3 @@
-from typing import Dict, Optional
-
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.exception import ScriptError
@@ -8,6 +6,7 @@ from tasks.base.assets.assets_base_page import BACK
 from tasks.rogue.assets.assets_rogue_path import *
 from tasks.rogue.assets.assets_rogue_ui import ROGUE_LAUNCH
 from tasks.rogue.bleesing.ui import RogueUI
+from tasks.rogue.exception import RogueTeamNotPrepared
 from tasks.rogue.keywords import KEYWORDS_ROGUE_PATH, RoguePath
 
 
@@ -32,7 +31,7 @@ def area_pad_around(area, pad):
 
 class RoguePathHandler(RogueUI):
     @cached_property
-    def _rogue_path_checks(self) -> Dict[RoguePath, ButtonWrapper]:
+    def _rogue_path_checks(self) -> dict[RoguePath, ButtonWrapper]:
         buttons = {
             KEYWORDS_ROGUE_PATH.Preservation: CHECK_PRESERVATION,
             KEYWORDS_ROGUE_PATH.Remembrance: CHECK_REMEMBRANCE,
@@ -45,7 +44,7 @@ class RoguePathHandler(RogueUI):
         return buttons
 
     @cached_property
-    def _rogue_path_clicks(self) -> Dict[RoguePath, ButtonWrapper]:
+    def _rogue_path_clicks(self) -> dict[RoguePath, ButtonWrapper]:
         buttons = {
             KEYWORDS_ROGUE_PATH.Preservation: CLICK_PRESERVATION,
             KEYWORDS_ROGUE_PATH.Remembrance: CLICK_REMEMBRANCE,
@@ -67,7 +66,7 @@ class RoguePathHandler(RogueUI):
             logger.critical(f'Invalid rogue path: {path}')
             raise ScriptError
 
-    def _get_selected_path(self, skip_first_screenshot=True) -> Optional[RoguePath]:
+    def _get_selected_path(self, skip_first_screenshot=True) -> RoguePath | None:
         timeout = Timer(1, count=5).start()
         while 1:
             if skip_first_screenshot:
@@ -90,8 +89,21 @@ class RoguePathHandler(RogueUI):
         appear = [self.appear(button) for button in self._rogue_path_clicks.values()]
         return all(appear)
 
+    def _is_team_prepared(self) -> bool:
+        """
+        Pages:
+            in: is_page_rogue_launch()
+        """
+        slots = CHARACTER_EMPTY.match_multi_template(self.device.image)
+        slots = 4 - len(slots)
+        logger.attr('TeamSlotsPrepared', slots)
+        return slots > 0
+
     def rogue_path_select(self, path: str | RoguePath, skip_first_screenshot=True):
         """
+        Raises:
+            RogueTeamNotPrepared:
+
         Pages:
             in: LAUNCH_ROGUE
             out: is_page_choose_bonus()
@@ -115,7 +127,10 @@ class RoguePathHandler(RogueUI):
                 logger.info('rogue_path_select ended at page_main')
                 break
 
-            if self.appear_then_click(ROGUE_LAUNCH, interval=2):
+            if self.appear(ROGUE_LAUNCH, interval=2):
+                if not self._is_team_prepared():
+                    raise RogueTeamNotPrepared
+                self.device.click(ROGUE_LAUNCH)
                 continue
             # The average level of your team is lower than the recommended level.
             # Continue anyway?

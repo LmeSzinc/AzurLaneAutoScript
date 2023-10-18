@@ -3,6 +3,16 @@ from module.base.button import Button, ButtonWrapper
 # This file was auto-generated, do not modify it manually. To generate:
 # ``` python -m dev_tools.button_extract ```
 
+CHARACTER_EMPTY = ButtonWrapper(
+    name='CHARACTER_EMPTY',
+    share=Button(
+        file='./assets/share/rogue/path/CHARACTER_EMPTY.png',
+        area=(546, 517, 558, 545),
+        search=(520, 500, 848, 564),
+        color=(106, 106, 108),
+        button=(546, 517, 558, 545),
+    ),
+)
 CHECK_ABUNDANCE = ButtonWrapper(
     name='CHECK_ABUNDANCE',
     share=Button(
