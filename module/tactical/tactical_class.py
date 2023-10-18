@@ -624,6 +624,8 @@ class RewardTacticalClass(Dock):
             # Empty skill slot
             # Probably because all favourite ships have their skill leveled max.
             # '———l', '—l'
+            if not level:
+                continue
             if re.search(r'[—\-一]{2,}', level):
                 continue
             if re.search(r'[—一]+', level):
