@@ -89,8 +89,8 @@ class OcrRogueEventOption(OcrRogueEvent):
     OCR_REPLACE = {
         'cn': [
             # Special cases with placeholder
-            (KEYWORDS_ROGUE_EVENT_OPTION.Deposit_2_Cosmic_Fragments_91, '存入\d+.*'),
-            (KEYWORDS_ROGUE_EVENT_OPTION.Withdraw_2_Cosmic_Fragments_91, '取出\d+.*'),
+            (KEYWORDS_ROGUE_EVENT_OPTION.Deposit_2_Cosmic_Fragments_93, '存入\d+.*'),
+            (KEYWORDS_ROGUE_EVENT_OPTION.Withdraw_2_Cosmic_Fragments_93, '取出\d+.*'),
             (KEYWORDS_ROGUE_EVENT_OPTION.Record_of_the_Aeon_of_1, '^关于.*'),
             (KEYWORDS_ROGUE_EVENT_OPTION.I_ll_buy_it, '我买下?了'),
             (KEYWORDS_ROGUE_EVENT_OPTION.Wait_for_them, '^等待.*'),
@@ -98,8 +98,8 @@ class OcrRogueEventOption(OcrRogueEvent):
             (KEYWORDS_ROGUE_EVENT_OPTION.Choose_number_three_Its_teeth_are_rusted, '.*三号.*牙齿.*'),
         ],
         'en': [
-            (KEYWORDS_ROGUE_EVENT_OPTION.Deposit_2_Cosmic_Fragments_91, 'Deposit \d+.*'),
-            (KEYWORDS_ROGUE_EVENT_OPTION.Withdraw_2_Cosmic_Fragments_91, 'Withdraw \d+.*'),
+            (KEYWORDS_ROGUE_EVENT_OPTION.Deposit_2_Cosmic_Fragments_93, 'Deposit \d+.*'),
+            (KEYWORDS_ROGUE_EVENT_OPTION.Withdraw_2_Cosmic_Fragments_93, 'Withdraw \d+.*'),
             (KEYWORDS_ROGUE_EVENT_OPTION.Record_of_the_Aeon_of_1,
              '^Record of the Aeon.*'),
         ]
