@@ -1,6 +1,5 @@
 from module.base.decorator import run_once
 from module.logger import logger
-from tasks.base.assets.assets_base_page import CLOSE
 from tasks.combat.assets.assets_combat_finish import COMBAT_AGAIN, COMBAT_EXIT
 from tasks.combat.assets.assets_combat_prepare import COMBAT_PREPARE
 from tasks.combat.assets.assets_combat_team import COMBAT_TEAM_PREPARE, COMBAT_TEAM_SUPPORT
@@ -294,13 +293,9 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
                 break
 
             # Click
-            if self.appear(COMBAT_PREPARE, interval=2):
-                logger.info(f'{COMBAT_PREPARE} -> {CLOSE}')
-                self.device.click(CLOSE)
+            if self.handle_ui_close(COMBAT_PREPARE, interval=2):
                 continue
-            if self.appear(COMBAT_TEAM_PREPARE, interval=2):
-                logger.info(f'{COMBAT_TEAM_PREPARE} -> {CLOSE}')
-                self.device.click(CLOSE)
+            if self.handle_ui_close(COMBAT_TEAM_PREPARE, interval=2):
                 continue
             if self.appear(COMBAT_AGAIN, interval=2):
                 logger.info(f'{COMBAT_AGAIN} -> {COMBAT_EXIT}')

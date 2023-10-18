@@ -187,9 +187,7 @@ class MainPage(PopupHandler):
                 self.device.click(CLOSE)
                 clicked = True
                 continue
-            if self.appear(page_gacha.check_button, interval=2):
-                logger.info(f'{page_gacha} -> {CLOSE}')
-                self.device.click(CLOSE)
+            if self.handle_ui_close(page_gacha.check_button, interval=2):
                 continue
             if self.appear_then_click(ROGUE_LEAVE_FOR_NOW, interval=2):
                 clicked = True

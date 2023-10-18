@@ -1,6 +1,6 @@
 from module.base.timer import Timer
 from module.logger import logger
-from tasks.base.assets.assets_base_page import CLOSE, MENU_CHECK
+from tasks.base.assets.assets_base_page import MENU_CHECK
 from tasks.base.assets.assets_base_popup import GET_REWARD
 from tasks.base.page import page_menu
 from tasks.base.ui import UI
@@ -97,9 +97,7 @@ class SupportReward(UI):
             if self.appear(MENU_CHECK):
                 return True
 
-            if self.appear(IN_PROFILE, interval=2):
-                logger.info(f'{IN_PROFILE} -> {CLOSE}')
-                self.device.click(CLOSE)
+            if self.handle_ui_close(IN_PROFILE, interval=2):
                 continue
             if self.handle_reward(click_button=CAN_GET_REWARD):
                 # # Avoid clicking on some other buttons
