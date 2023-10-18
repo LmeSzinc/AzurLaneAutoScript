@@ -19,5 +19,12 @@
       "DataUpdate",
       "Freebies"
     ]
+  },
+  "Rogue": {
+    "menu": "list",
+    "page": "setting",
+    "tasks": [
+      "Rogue"
+    ]
   }
 }

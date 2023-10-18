@@ -196,16 +196,34 @@ ItemStorage:
 
 # ==================== Rogue ====================
 
-RoguePath:
+RogueWorld:
+  # Worlds will be injected in config updater
+  World:
+    value: Simulated_Universe_World_7
+    option: [
+      Simulated_Universe_World_3,
+      Simulated_Universe_World_4,
+      Simulated_Universe_World_5,
+      Simulated_Universe_World_6,
+      Simulated_Universe_World_7,
+    ]
   Path:
     value: The_Hunt
     option: [ Preservation, Remembrance, Nihility, Abundance, The_Hunt, Destruction, Elation ]
-  DomainStrategy:
-    value: combat
-    option: [ combat, occurrence ]
   Bonus:
     value: Blessing Cosmos
     option: [ Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos ]
+  DomainStrategy:
+    value: combat
+    option: [ combat, occurrence ]
+  ImmersionReward:
+    value: immersifier
+    option: [ do_not_claim, immersifier, immersifier_trailblaze_power ]
+  StopCondition:
+    value: weekly_point_reward
+    option: [ weekly_point_reward, 100_elite_boss, non_stop ]
+
+RoguePath:
   PresetResonanceFilter:
     value: preset-1
     option: [ preset-1, custom ]

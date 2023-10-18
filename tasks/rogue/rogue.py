@@ -11,7 +11,7 @@ class RogueHandler(RouteLoader, RogueEntry):
             in: Any
             out: page_rogue, is_page_rogue_main()
         """
-        self.rogue_world_enter(7)
+        self.rogue_world_enter()
         self.rogue_run()
         self.rogue_reward_claim()
 

@@ -768,10 +768,19 @@
       "help": ""
     }
   },
-  "RoguePath": {
+  "RogueWorld": {
     "_info": {
-      "name": "Ajustes de Vía",
+      "name": "Ajustes de Universo Simulado",
       "help": ""
+    },
+    "World": {
+      "name": "Mundo",
+      "help": "",
+      "Simulated_Universe_World_3": "Mundo 3",
+      "Simulated_Universe_World_4": "Mundo 4",
+      "Simulated_Universe_World_5": "Mundo 5",
+      "Simulated_Universe_World_6": "Mundo 6",
+      "Simulated_Universe_World_7": "Mundo 7"
     },
     "Path": {
       "name": "Vía",
@@ -784,18 +793,38 @@
       "Destruction": "Destrucción",
       "Elation": "Exultación"
     },
-    "DomainStrategy": {
-      "name": "Estrategia de dominio",
-      "help": "Prefiero Batalla: Adecuado para configuraciones normales, tiempo de eliminación más prolongado\\Prefiero Evento: Requiere configuraciones eficientes, tiempo de eliminación más corto",
-      "combat": "Prefiero Batalla",
-      "occurrence": "Prefiero Evento"
-    },
     "Bonus": {
       "name": "Bendiciones",
       "help": "",
       "Blessing Cosmos": "Cosmos de Bendición (Elige una bendición)",
       "Miracle Cosmos": "Cosmos milagroso (Elige un objeto raro)",
       "Fragmented Cosmos": "Fragmented Cosmos (Claim some Cosmic Fragments)"
+    },
+    "DomainStrategy": {
+      "name": "Estrategia de dominio",
+      "help": "Prefiero Batalla: Adecuado para configuraciones normales, tiempo de eliminación más prolongado\\Prefiero Evento: Requiere configuraciones eficientes, tiempo de eliminación más corto",
+      "combat": "Prefiero Batalla",
+      "occurrence": "Prefiero Evento"
+    },
+    "ImmersionReward": {
+      "name": "Reclamar recompensas de inmersión",
+      "help": "Si se selecciona \"Usa inmersor y poder trazacaminos\", la tarea de mazmorra ya no se ejecutará y todo el poder trazacaminos se usará primero para reclamar recompensas de inmersión, excepto para eventos dobles",
+      "do_not_claim": "No reclamar",
+      "immersifier": "Usar inmersor",
+      "immersifier_trailblaze_power": "Usa inmersor y poder trazacaminos"
+    },
+    "StopCondition": {
+      "name": "Condición de detención",
+      "help": "Nota: Si \"recompensas de Elite/BOSS\", la tarea del universo simulado se ejecutará durante varias horas",
+      "weekly_point_reward": "Recompensas de puntos semanales alcanzados",
+      "100_elite_boss": "Has alcanzado 100 recompensas de Elite/BOSS",
+      "non_stop": "Sin parar (solo para depuración)"
+    }
+  },
+  "RoguePath": {
+    "_info": {
+      "name": "Ajustes de Vía",
+      "help": ""
     },
     "PresetResonanceFilter": {
       "name": "Filtro de preajuste de resonancia",

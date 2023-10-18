@@ -768,10 +768,19 @@
       "help": ""
     }
   },
-  "RoguePath": {
+  "RogueWorld": {
     "_info": {
-      "name": "Path Settings",
+      "name": "Simulated Universe Settings",
       "help": ""
+    },
+    "World": {
+      "name": "World",
+      "help": "",
+      "Simulated_Universe_World_3": "Simulated Universe — World 3",
+      "Simulated_Universe_World_4": "Simulated Universe — World 4",
+      "Simulated_Universe_World_5": "Simulated Universe — World 5",
+      "Simulated_Universe_World_6": "Simulated Universe — World 6",
+      "Simulated_Universe_World_7": "Simulated Universe — World 7"
     },
     "Path": {
       "name": "Path",
@@ -784,18 +793,38 @@
       "Destruction": "Destruction",
       "Elation": "Elation"
     },
-    "DomainStrategy": {
-      "name": "Domain Strategy",
-      "help": "Prefer Combat: Suitable for normal builds, longer clear time\nPrefer Occurrence: Require efficient builds, shorter clear time",
-      "combat": "Prefer Combat",
-      "occurrence": "Prefer Occurrence"
-    },
     "Bonus": {
       "name": "Blessings of Trailblaze",
       "help": "",
       "Blessing Cosmos": "Blessing Cosmos (Choose a blessing)",
       "Miracle Cosmos": "Miracle Cosmos (Choose a curio)",
       "Fragmented Cosmos": "Fragmented Cosmos (Claim some Cosmic Fragments)"
+    },
+    "DomainStrategy": {
+      "name": "Domain Strategy",
+      "help": "Prefer Combat: Suitable for normal builds, longer clear time\nPrefer Occurrence: Require efficient builds, shorter clear time",
+      "combat": "Prefer Combat",
+      "occurrence": "Prefer Occurrence"
+    },
+    "ImmersionReward": {
+      "name": "Claim Immersion Rewards",
+      "help": "Note: If \"Use Immersifier and Trailblaze Power\" is selected, the dungeon task will no longer run, and all trailblaze power will be used first to claim immersion rewards, except for double events.",
+      "do_not_claim": "Do not Claim",
+      "immersifier": "Use Immersifier",
+      "immersifier_trailblaze_power": "Use Immersifier and Trailblaze Power"
+    },
+    "StopCondition": {
+      "name": "Stop Condition",
+      "help": "Note: If \"Reached 100 Elite/Boss drop rewards\", the simulated universe task will run for several hours",
+      "weekly_point_reward": "Reached Weekly Point Rewards",
+      "100_elite_boss": "Reached 100 Elite/BOSS drop rewards",
+      "non_stop": "Non-stop (for debugging only)"
+    }
+  },
+  "RoguePath": {
+    "_info": {
+      "name": "Path Settings",
+      "help": ""
     },
     "PresetResonanceFilter": {
       "name": "Preset Resonance Filter",

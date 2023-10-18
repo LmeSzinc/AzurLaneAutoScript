@@ -116,10 +116,15 @@ class GeneratedConfig:
     ItemStorage_Credit = {}
     ItemStorage_StallerJade = {}
 
+    # Group `RogueWorld`
+    RogueWorld_World = 'Simulated_Universe_World_7'  # Simulated_Universe_World_3, Simulated_Universe_World_4, Simulated_Universe_World_5, Simulated_Universe_World_6, Simulated_Universe_World_7
+    RogueWorld_Path = 'The_Hunt'  # Preservation, Remembrance, Nihility, Abundance, The_Hunt, Destruction, Elation
+    RogueWorld_Bonus = 'Blessing Cosmos'  # Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos
+    RogueWorld_DomainStrategy = 'combat'  # combat, occurrence
+    RogueWorld_ImmersionReward = 'immersifier'  # do_not_claim, immersifier, immersifier_trailblaze_power
+    RogueWorld_StopCondition = 'weekly_point_reward'  # weekly_point_reward, 100_elite_boss, non_stop
+
     # Group `RoguePath`
-    RoguePath_Path = 'The_Hunt'  # Preservation, Remembrance, Nihility, Abundance, The_Hunt, Destruction, Elation
-    RoguePath_DomainStrategy = 'combat'  # combat, occurrence
-    RoguePath_Bonus = 'Blessing Cosmos'  # Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos
     RoguePath_PresetResonanceFilter = 'preset-1'  # preset-1, custom
     RoguePath_ResonanceSelectionStrategy = 'follow-presets'  # follow-presets, unrecorded-first, before-random
     RoguePath_CustomResonanceFilter = '回响构音：均晶转变 > 回响构音：零维强化\n> 回响构音：第二次初恋 > 回响构音：体验的富翁\n> 回响构音：局外人 > 回响构音：怀疑的四重根\n> 回响构音：诸法无我 > 回响构音：诸行无常\n> 回响构音：射不主皮 > 回响构音：柘弓危矢\n> 回响构音：激变变星 > 回响构音：极端氦闪\n> 回响构音：末日狂欢 > 回响构音：树苗长高舞'

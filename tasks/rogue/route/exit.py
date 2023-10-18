@@ -200,8 +200,8 @@ class RogueExit(CombatInteract):
                     logger.info(f'Goto next domain: {domain}')
                     return direction
 
-        logger.attr('DomainStrategy', self.config.RoguePath_DomainStrategy)
-        if self.config.RoguePath_DomainStrategy == 'occurrence':
+        logger.attr('DomainStrategy', self.config.RogueWorld_DomainStrategy)
+        if self.config.RogueWorld_DomainStrategy == 'occurrence':
             for expect in [
                 KEYWORDS_MAP_PLANE.Rogue_DomainTransaction,
                 KEYWORDS_MAP_PLANE.Rogue_DomainOccurrence,
@@ -212,7 +212,7 @@ class RogueExit(CombatInteract):
                     if domain == expect:
                         logger.info(f'Goto next domain: {domain}')
                         return direction
-        elif self.config.RoguePath_DomainStrategy == 'combat':
+        elif self.config.RogueWorld_DomainStrategy == 'combat':
             for expect in [
                 KEYWORDS_MAP_PLANE.Rogue_DomainCombat,
                 KEYWORDS_MAP_PLANE.Rogue_DomainEncounter,
@@ -224,7 +224,7 @@ class RogueExit(CombatInteract):
                         logger.info(f'Goto next domain: {domain}')
                         return direction
         else:
-            logger.error(f'Unknown domain strategy: {self.config.RoguePath_DomainStrategy}')
+            logger.error(f'Unknown domain strategy: {self.config.RogueWorld_DomainStrategy}')
 
         logger.error('No domain was selected, return the first instead')
         logger.info(f'Goto next domain: {results[0]}')

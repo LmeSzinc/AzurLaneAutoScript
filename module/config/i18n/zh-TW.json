@@ -768,10 +768,19 @@
       "help": ""
     }
   },
-  "RoguePath": {
+  "RogueWorld": {
     "_info": {
-      "name": "命途設定",
+      "name": "模拟宇宙设置",
       "help": ""
+    },
+    "World": {
+      "name": "模拟宇宙关卡",
+      "help": "",
+      "Simulated_Universe_World_3": "第三世界•模擬宇宙",
+      "Simulated_Universe_World_4": "第四世界•模擬宇宙",
+      "Simulated_Universe_World_5": "第五世界•模擬宇宙",
+      "Simulated_Universe_World_6": "第六世界•模擬宇宙",
+      "Simulated_Universe_World_7": "第七世界•模擬宇宙"
     },
     "Path": {
       "name": "命途",
@@ -784,18 +793,38 @@
       "Destruction": "毀滅",
       "Elation": "歡愉"
     },
-    "DomainStrategy": {
-      "name": "區域策略",
-      "help": "偏好戰鬥：適用於平民隊伍，通關時間較長\n偏好事件：需要高練隊伍，通關時間較短",
-      "combat": "偏好戰鬥",
-      "occurrence": "偏好事件"
-    },
     "Bonus": {
       "name": "開拓祝福三選一",
       "help": "",
       "Blessing Cosmos": "祝福宇宙（獲得一個祝福）",
       "Miracle Cosmos": "神奇宇宙（獲得一個奇物）",
       "Fragmented Cosmos": "破碎宇宙（獲得宇宙碎片）"
+    },
+    "DomainStrategy": {
+      "name": "區域策略",
+      "help": "偏好戰鬥：適用於平民隊伍，过關時間較長\n偏好事件：需要高練隊伍，过關時間較短",
+      "combat": "偏好戰鬥",
+      "occurrence": "偏好事件"
+    },
+    "ImmersionReward": {
+      "name": "领取浸器奖励",
+      "help": "注意：选择 \"使用沉浸器和开拓力领取\" 时，每日副本任务不再打本，所有开拓力将优先被用于领取浸器奖励，双倍活动时除外",
+      "do_not_claim": "不领取",
+      "immersifier": "仅使用沉浸器领取",
+      "immersifier_trailblaze_power": "使用沉浸器和开拓力领取"
+    },
+    "StopCondition": {
+      "name": "停止条件",
+      "help": "注意：\"每周100精英怪掉落奖励达到上限\" 时，模拟宇宙任务将运行数小时",
+      "weekly_point_reward": "每周点数奖励达到上限",
+      "100_elite_boss": "每周100精英怪掉落奖励达到上限",
+      "non_stop": "不停止 (仅用于除錯)"
+    }
+  },
+  "RoguePath": {
+    "_info": {
+      "name": "命途設定",
+      "help": ""
     },
     "PresetResonanceFilter": {
       "name": "迴響構音過濾器",

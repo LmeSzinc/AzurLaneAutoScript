@@ -412,6 +412,11 @@ class ConfigGenerator:
             dungeon_name = dungeon.__getattribute__(ingame_lang)
             value = f'{dungeon_name} ({world_name})'
             deep_set(new, keys=['Weekly', 'Name', dungeon.name], value=value)
+        # Rogue worlds
+        for dungeon in [d for d in DungeonList.instances.values() if d.is_Simulated_Universe]:
+            name = deep_get(new, keys=['RogueWorld', 'World', dungeon.name], default=None)
+            if name:
+                deep_set(new, keys=['RogueWorld', 'World', dungeon.name], value=dungeon.__getattribute__(ingame_lang))
 
         # GUI i18n
         for path, _ in deep_iter(self.gui, depth=2):
@@ -461,7 +466,7 @@ class ConfigGenerator:
         # Simulated universe is WIP, task won't show on GUI but can still be bound
         # e.g. `RogueUI('src', task='Rogue')`
         # Comment this for development
-        data.pop('Rogue')
+        # data.pop('Rogue')
 
         return data
 

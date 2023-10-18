@@ -272,7 +272,7 @@ class RogueEvent(RogueUI):
             logger.info(f'Randomly select option {random_index+1}')
             return self.valid_options[random_index]
 
-        strategy_name = self.config.RoguePath_DomainStrategy
+        strategy_name = self.config.RogueWorld_DomainStrategy
         logger.attr('DomainStrategy', strategy_name)
         if strategy_name not in STRATEGIES:
             logger.warning(

@@ -1169,7 +1169,18 @@
         "display": "hide"
       }
     },
-    "RoguePath": {
+    "RogueWorld": {
+      "World": {
+        "type": "select",
+        "value": "Simulated_Universe_World_7",
+        "option": [
+          "Simulated_Universe_World_3",
+          "Simulated_Universe_World_4",
+          "Simulated_Universe_World_5",
+          "Simulated_Universe_World_6",
+          "Simulated_Universe_World_7"
+        ]
+      },
       "Path": {
         "type": "select",
         "value": "The_Hunt",
@@ -1183,14 +1194,6 @@
           "Elation"
         ]
       },
-      "DomainStrategy": {
-        "type": "select",
-        "value": "combat",
-        "option": [
-          "combat",
-          "occurrence"
-        ]
-      },
       "Bonus": {
         "type": "select",
         "value": "Blessing Cosmos",
@@ -1200,6 +1203,34 @@
           "Fragmented Cosmos"
         ]
       },
+      "DomainStrategy": {
+        "type": "select",
+        "value": "combat",
+        "option": [
+          "combat",
+          "occurrence"
+        ]
+      },
+      "ImmersionReward": {
+        "type": "select",
+        "value": "immersifier",
+        "option": [
+          "do_not_claim",
+          "immersifier",
+          "immersifier_trailblaze_power"
+        ]
+      },
+      "StopCondition": {
+        "type": "select",
+        "value": "weekly_point_reward",
+        "option": [
+          "weekly_point_reward",
+          "100_elite_boss",
+          "non_stop"
+        ]
+      }
+    },
+    "RoguePath": {
       "PresetResonanceFilter": {
         "type": "select",
         "value": "preset-1",

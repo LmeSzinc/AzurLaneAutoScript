@@ -83,10 +83,10 @@ class RogueBonusSelector(RogueSelector):
         if not self.ocr_results:
             self.ui_select(None)
         options = {result.matched_keyword.en: result for result in self.ocr_results}
-        if self.main.config.RoguePath_Bonus not in options.keys():
-            logger.warning(f"Can not find option: {self.main.config.RoguePath_Bonus}, randomly choose one")
+        if self.main.config.RogueWorld_Bonus not in options.keys():
+            logger.warning(f"Can not find option: {self.main.config.RogueWorld_Bonus}, randomly choose one")
             target = np.random.choice(options)
         else:
-            target = options[self.main.config.RoguePath_Bonus]
+            target = options[self.main.config.RogueWorld_Bonus]
         logger.info(f"Choose bonus: {target}")
         self.ui_select(target)

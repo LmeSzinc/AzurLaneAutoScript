@@ -768,14 +768,23 @@
       "help": "ItemStorage.StallerJade.help"
     }
   },
-  "RoguePath": {
+  "RogueWorld": {
     "_info": {
-      "name": "RoguePath._info.name",
-      "help": "RoguePath._info.help"
+      "name": "RogueWorld._info.name",
+      "help": "RogueWorld._info.help"
+    },
+    "World": {
+      "name": "RogueWorld.World.name",
+      "help": "RogueWorld.World.help",
+      "Simulated_Universe_World_3": "第三世界・模擬宇宙",
+      "Simulated_Universe_World_4": "第四世界・模擬宇宙",
+      "Simulated_Universe_World_5": "第五世界・模擬宇宙",
+      "Simulated_Universe_World_6": "第六世界・模擬宇宙",
+      "Simulated_Universe_World_7": "第七世界・模擬宇宙"
     },
     "Path": {
-      "name": "RoguePath.Path.name",
-      "help": "RoguePath.Path.help",
+      "name": "RogueWorld.Path.name",
+      "help": "RogueWorld.Path.help",
       "Preservation": "Preservation",
       "Remembrance": "Remembrance",
       "Nihility": "Nihility",
@@ -784,18 +793,38 @@
       "Destruction": "Destruction",
       "Elation": "Elation"
     },
-    "DomainStrategy": {
-      "name": "RoguePath.DomainStrategy.name",
-      "help": "RoguePath.DomainStrategy.help",
-      "combat": "combat",
-      "occurrence": "occurrence"
-    },
     "Bonus": {
-      "name": "RoguePath.Bonus.name",
-      "help": "RoguePath.Bonus.help",
+      "name": "RogueWorld.Bonus.name",
+      "help": "RogueWorld.Bonus.help",
       "Blessing Cosmos": "Blessing Cosmos",
       "Miracle Cosmos": "Miracle Cosmos",
       "Fragmented Cosmos": "Fragmented Cosmos"
+    },
+    "DomainStrategy": {
+      "name": "RogueWorld.DomainStrategy.name",
+      "help": "RogueWorld.DomainStrategy.help",
+      "combat": "combat",
+      "occurrence": "occurrence"
+    },
+    "ImmersionReward": {
+      "name": "RogueWorld.ImmersionReward.name",
+      "help": "RogueWorld.ImmersionReward.help",
+      "do_not_claim": "do_not_claim",
+      "immersifier": "immersifier",
+      "immersifier_trailblaze_power": "immersifier_trailblaze_power"
+    },
+    "StopCondition": {
+      "name": "RogueWorld.StopCondition.name",
+      "help": "RogueWorld.StopCondition.help",
+      "weekly_point_reward": "weekly_point_reward",
+      "100_elite_boss": "100_elite_boss",
+      "non_stop": "non_stop"
+    }
+  },
+  "RoguePath": {
+    "_info": {
+      "name": "RoguePath._info.name",
+      "help": "RoguePath._info.help"
     },
     "PresetResonanceFilter": {
       "name": "RoguePath.PresetResonanceFilter.name",

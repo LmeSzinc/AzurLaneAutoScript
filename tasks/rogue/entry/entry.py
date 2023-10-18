@@ -219,7 +219,7 @@ class RogueEntry(DungeonUI, RogueRewardHandler, RoguePathHandler):
         self._dungeon_nav_goto(Simulated_Universe_World_1)
         self._rogue_teleport()
 
-    def rogue_world_enter(self, world: int | DungeonList):
+    def rogue_world_enter(self, world: int | DungeonList = None):
         """
         Args:
             world: 7 or KEYWORDS_DUNGEON_LIST.Simulated_Universe_World_7
@@ -229,6 +229,9 @@ class RogueEntry(DungeonUI, RogueRewardHandler, RoguePathHandler):
             out: is_page_rogue_launch()
         """
         logger.hr('Rogue world enter', level=1)
+        if world is None:
+            world = DungeonList.find(self.config.RogueWorld_World)
+
         current = self.ui_get_current_page()
         if current == page_rogue:
             if self.is_page_rogue_main():
@@ -248,4 +251,4 @@ class RogueEntry(DungeonUI, RogueRewardHandler, RoguePathHandler):
         # Enter
         self._rogue_world_set(world)
         self._rogue_world_enter()
-        self.rogue_path_select(self.config.RoguePath_Path)
+        self.rogue_path_select(self.config.RogueWorld_Path)

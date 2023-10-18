@@ -55,6 +55,7 @@ Rogue:
   tasks:
     Rogue:
       - Scheduler
+      - RogueWorld
       - RoguePath
       - RogueBlessing
       - RogueCurio
