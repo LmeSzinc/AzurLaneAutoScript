@@ -5,6 +5,11 @@ from tasks.rogue.route.base import RouteBase
 
 class Route(RouteBase):
 
+    def map_init(self, *args, **kwargs):
+        super().map_init(*args, **kwargs)
+        # Blue triangle on blue sky, high error rate
+        self.minimap.lock_rotation(90)
+
     def Luofu_StargazerNavalia_F1_X617Y511(self):
         """
         | Waypoint | Position                  | Direction | Rotation |

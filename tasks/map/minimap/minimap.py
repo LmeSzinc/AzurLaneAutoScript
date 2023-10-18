@@ -47,7 +47,9 @@ class PositionPredictState:
 
 
 class Minimap(MapResource):
-    position_locked = None
+    position_locked: tuple[int | float, int | float] | None = None
+    direction_locked: int | float | None = None
+    rotation_locked: int | float | None = None
 
     def init_position(
             self,
@@ -73,6 +75,16 @@ class Minimap(MapResource):
             self.position_locked = position
         else:
             self.position_locked = None
+        self.direction_locked = None
+        self.rotation_locked = None
+
+    def lock_direction(self, degree: int | float):
+        self.direction_locked = degree
+        self.direction = degree
+
+    def lock_rotation(self, degree: int | float):
+        self.rotation_locked = degree
+        self.rotation = degree
 
     def _predict_position(self, image, scale=1.0):
         """
@@ -390,8 +402,10 @@ class Minimap(MapResource):
         Update minimap, costs about 7.88ms.
         """
         self.update_position(image)
-        self.update_direction(image)
-        self.update_rotation(image)
+        if self.direction_locked is None:
+            self.update_direction(image)
+        if self.rotation_locked is None:
+            self.update_rotation(image)
         if show_log:
             self.log_minimap()
 

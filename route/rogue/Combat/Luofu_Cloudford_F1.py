@@ -150,3 +150,39 @@ class Route(RouteBase):
         # 2
         self.clear_item(item2)
         self.clear_enemy(enemy2)
+
+    def Luofu_Cloudford_F1_X435Y669(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((435.4, 669.2)), | 6.7       | 4        |
+        | item1    | Waypoint((432.2, 628.3)), | 2.7       | 357      |
+        | enemy1   | Waypoint((428.6, 598.8)), | 8.0       | 177      |
+        | node2    | Waypoint((421.2, 590.8)), | 44.2      | 285      |
+        | node3    | Waypoint((366.6, 588.2)), | 274.2     | 274      |
+        | enemy3   | Waypoint((344.9, 590.4)), | 191.8     | 357      |
+        | item4    | Waypoint((309.6, 580.2)), | 290.1     | 281      |
+        | enemy4   | Waypoint((269.3, 549.6)), | 275.8     | 278      |
+        | exit     | Waypoint((271.3, 585.5)), | 285.0     | 274      |
+        """
+        self.map_init(plane=Luofu_Cloudford, floor="F1", position=(435.4, 669.2))
+        self.register_domain_exit(Waypoint((271.3, 585.5)), end_rotation=274)
+        item1 = Waypoint((432.2, 628.3))
+        enemy1 = Waypoint((428.6, 598.8))
+        node2 = Waypoint((421.2, 590.8))
+        node3 = Waypoint((366.6, 588.2))
+        enemy3 = Waypoint((344.9, 590.4))
+        item4 = Waypoint((309.6, 580.2))
+        enemy4 = Waypoint((269.3, 549.6))
+        # ===== End of generated waypoints =====
+
+        self.clear_item(item1)
+        self.clear_enemy(enemy1)
+        # Go through bridges
+        self.clear_enemy(
+            node2.straight_run().set_threshold(3),
+            node3.straight_run().set_threshold(3),
+            enemy3.straight_run(),
+        )
+        self.clear_item(item4)
+        self.clear_enemy(enemy4)

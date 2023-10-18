@@ -660,6 +660,17 @@
     "domain": "Combat"
   },
   {
+    "name": "Combat_Luofu_Cloudford_F1_X435Y669",
+    "route": "route.rogue.Combat.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X435Y669",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      435.4,
+      669.2
+    ],
+    "domain": "Combat"
+  },
+  {
     "name": "Combat_Luofu_Cloudford_F1Rogue_X49Y405",
     "route": "route.rogue.Combat.Luofu_Cloudford_F1Rogue:Luofu_Cloudford_F1Rogue_X49Y405",
     "plane": "Luofu_Cloudford",
@@ -810,6 +821,17 @@
     "position": [
       521.4,
       447.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_StargazerNavalia_F2_X479Y187",
+    "route": "route.rogue.Combat.Luofu_StargazerNavalia_F2:Luofu_StargazerNavalia_F2_X479Y187",
+    "plane": "Luofu_StargazerNavalia",
+    "floor": "F2",
+    "position": [
+      479.5,
+      187.5
     ],
     "domain": "Combat"
   },
