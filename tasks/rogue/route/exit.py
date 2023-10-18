@@ -1,5 +1,4 @@
 import re
-from typing import Optional
 
 import cv2
 import numpy as np
@@ -170,7 +169,7 @@ class RogueExit(CombatInteract):
         logger.info(f'PlanarDoor: {planar_door}, direction: {direction}')
         return direction
 
-    def predict_door_by_name(self, image) -> Optional[float]:
+    def predict_door_by_name(self, image) -> float | None:
         # Paint current name black
         x1, y1, x2, y2 = OCR_MAP_NAME.area
         image[y1:y2, x1:x2] = (0, 0, 0)
@@ -230,3 +229,19 @@ class RogueExit(CombatInteract):
         logger.error('No domain was selected, return the first instead')
         logger.info(f'Goto next domain: {results[0]}')
         return directions[0]
+
+    def predict_door(self, skip_first_screenshot=True) -> float | None:
+        timeout = Timer(3, count=6).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if timeout.reached():
+                logger.error('Predict door timeout')
+                return None
+
+            direction = self.predict_door_by_name(self.device.image)
+            if direction is not None:
+                return direction
