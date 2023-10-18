@@ -26,7 +26,8 @@ class Route(RouteBase):
         enemy3 = Waypoint((622.2, 170.0))
         # ===== End of generated waypoints =====
 
-        self.clear_item(item1)
+        self.minimap.lock_rotation(90)
+        # self.clear_item(item1)
         self.clear_enemy(enemy1)
         # Go through enemy1 on the bridge
         self.clear_enemy(
@@ -34,6 +35,7 @@ class Route(RouteBase):
             enemy2,
         )
         self.rotation_set(60)
+        self.minimap.lock_rotation(self.minimap.rotation)
         self.clear_enemy(
             node3,
             enemy3,

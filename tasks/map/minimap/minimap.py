@@ -81,10 +81,12 @@ class Minimap(MapResource):
     def lock_direction(self, degree: int | float):
         self.direction_locked = degree
         self.direction = degree
+        self.direction_similarity = 0.
 
     def lock_rotation(self, degree: int | float):
         self.rotation_locked = degree
         self.rotation = degree
+        self.rotation_confidence = 0.
 
     def _predict_position(self, image, scale=1.0):
         """
