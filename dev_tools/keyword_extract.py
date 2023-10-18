@@ -3,7 +3,8 @@ import os
 import re
 import typing as t
 from collections import defaultdict
-from functools import cached_property
+from functools import cache, cached_property
+from hashlib import md5
 
 from module.base.code_generator import CodeGenerator
 from module.config.utils import deep_get, read_file
@@ -429,7 +430,7 @@ class KeywordExtract:
                             text_convert=blessing_name, extra_attrs=extra_attrs)
 
     def generate_rogue_events(self):
-        # A talk contains several options
+        # An event contains several options
         event_title_file = os.path.join(
             TextMap.DATA_FOLDER, 'ExcelOutput',
             'RogueTalkNameConfig.json'
@@ -452,8 +453,18 @@ class KeywordExtract:
             id_: deep_get(data, 'EventTitle.Hash')
             for id_, data in read_file(option_file).items()
         }
-        # Key: event name id, value: list of option id/hash
+        # Key: event name hash, value: list of option id/hash
         options_grouped = dict()
+        # Key: option md5, value: option text hash in StarRailData
+        option_md5s = dict()
+
+        @cache
+        def get_option_md5(option_hash):
+            m = md5()
+            for lang in UI_LANGUAGES:
+                option_text = self.find_keyword(option_hash, lang=lang)[1]
+                m.update(option_text.encode())
+            return m.hexdigest()
 
         # Drop invalid or duplicate options
         def clean_options(options):
@@ -462,11 +473,14 @@ class KeywordExtract:
                 option_hash = option_ids[str(i)]
                 if option_hash not in self.text_map['en']:
                     continue
-                _, option_text = self.find_keyword(option_hash, lang='en')
-                if option_text in visited:
+                option_md5 = get_option_md5(option_hash)
+                if option_md5 in visited:
                     continue
-                visited.add(option_text)
-                yield option_hash
+                if option_md5 not in option_md5s:
+                    option_md5s[option_md5] = option_hash
+                visited.add(option_md5)
+                yield option_md5s[option_md5]
+
         for group_title_ids in event_title_texts.values():
             group_option_ids = []
             for title_id in group_title_ids:
@@ -475,10 +489,10 @@ class KeywordExtract:
                 if title_id == '13501':
                     group_option_ids.append(13506)
                 option_id = title_id
-                # Name ids in Swarm Disaster (寰宇蝗灾) have a "1" prefix
+                # title ids in Swarm Disaster (寰宇蝗灾) have a "1" prefix
                 if option_id not in option_ids:
                     option_id = title_id[1:]
-                # Some name may not has corresponding options
+                # Some title may not has corresponding options
                 if option_id not in option_ids:
                     continue
                 group_option_ids += list(itertools.takewhile(
@@ -486,52 +500,65 @@ class KeywordExtract:
                     itertools.count(int(option_id))
                 ))
             if group_option_ids:
-                options_grouped[group_title_ids[0]] = group_option_ids
-            
-        for title_id, options in options_grouped.items():
-            options_grouped[title_id] = list(clean_options(options))
-        for title_id in list(options_grouped.keys()):
-            if len(options_grouped[title_id]) == 0:
-                options_grouped.pop(title_id)
-        option_dup_count = defaultdict(int)
-        for option_hash_list in options_grouped.values():
-            for option_hash in option_hash_list:
-                if option_hash not in self.text_map['en']:
-                    continue
-                _, option_text = self.find_keyword(option_hash, lang='en')
-                option_dup_count[text_to_variable(option_text)] += 1
+                title_hash = event_title_ids[group_title_ids[0]]
+                options_grouped[title_hash] = group_option_ids
 
-        def option_text_convert(title_index):
+        for title_hash, options in options_grouped.items():
+            options_grouped[title_hash] = list(clean_options(options))
+        for title_hash in list(options_grouped.keys()):
+            if len(options_grouped[title_hash]) == 0:
+                options_grouped.pop(title_hash)
+        option_dup_count = defaultdict(int)
+        for option_hash in option_md5s.values():
+            if option_hash not in self.text_map['en']:
+                continue
+            _, option_text = self.find_keyword(option_hash, lang='en')
+            option_dup_count[text_to_variable(option_text)] += 1
+
+        def option_text_convert(option_md5, md5_prefix_len=4):
             def wrapper(option_text):
                 option_var = text_to_variable(option_text)
                 if option_dup_count[option_var] > 1:
-                    option_var = f'{option_var}_{title_index}'
+                    option_var = f'{option_var}_{option_md5[:md5_prefix_len]}'
                 return option_var
             return wrapper
 
         option_gen = None
-        last_id = 1
-        option_id_map = dict()
-        for i, (title_id, option_ids) in enumerate(options_grouped.items(), start=1):
-            self.load_keywords(option_ids)
+        option_hash_to_keyword_id = dict()  # option hash -> option keyword id
+        for i, (option_md5, option_hash) in enumerate(option_md5s.items(), start=1):
+            self.load_keywords([option_hash])
             option_gen = self.write_keywords(
                 keyword_class='RogueEventOption',
-                text_convert=option_text_convert(i),
+                text_convert=option_text_convert(option_md5),
                 generator=option_gen
             )
-            cur_id = option_gen.last_id + 1
-            option_id_map[event_title_ids[title_id]] = list(
-                range(last_id, cur_id))
-            last_id = cur_id
+            option_hash_to_keyword_id[option_hash] = i
         output_file = './tasks/rogue/keywords/event_option.py'
         print(f'Write {output_file}')
         option_gen.write(output_file)
-        self.load_keywords([event_title_ids[x] for x in options_grouped])
+
+        # title hash -> option keyword id
+        title_to_option_keyword_id = {
+            title_hash: sorted(
+                option_hash_to_keyword_id[x] for x in option_hashes
+            ) for title_hash, option_hashes in options_grouped.items()
+        }
+        self.load_keywords(options_grouped.keys())
         self.write_keywords(
             keyword_class='RogueEventTitle',
             output_file='./tasks/rogue/keywords/event_title.py',
-            extra_attrs={'option_ids': option_id_map}
+            extra_attrs={'option_ids': title_to_option_keyword_id}
         )
+        try:
+            from tasks.rogue.event.event import OcrRogueEventOption
+        except AttributeError:
+            logger.critical(
+                f'Importing OcrRogueEventOption fails, probably due to changes in {output_file}')
+        try:
+            from tasks.rogue.event.preset import STRATEGIES
+        except AttributeError:
+            logger.critical(
+                f'Importing preset strategies fails, probably due to changes in {output_file}')
 
     def iter_without_duplication(self, file: dict, keys):
         visited = set()

@@ -7,10 +7,10 @@ STRATEGY_COMMON = {
         KEYWORDS_ROGUE_EVENT_OPTION.Enhance_2_random_Blessings,
         KEYWORDS_ROGUE_EVENT_OPTION.Purchase_a_1_star_Blessing,
         KEYWORDS_ROGUE_EVENT_OPTION.Purchase_1_Curio,
-        KEYWORDS_ROGUE_EVENT_OPTION.Leave_2
+        KEYWORDS_ROGUE_EVENT_OPTION.Leave_1436
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Ruan_Mei: [
-        KEYWORDS_ROGUE_EVENT_OPTION.Worship_Aeons_1,
+        KEYWORDS_ROGUE_EVENT_OPTION.Worship_Aeons,
         KEYWORDS_ROGUE_EVENT_OPTION.Want_lots_of_money
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Shopping_Channel: [
@@ -34,7 +34,8 @@ STRATEGY_COMMON = {
             KEYWORDS_ROGUE_EVENT_OPTION.I_hate_this_era
         ],
         [
-            KEYWORDS_ROGUE_EVENT_OPTION.I_ll_buy_it,
+            KEYWORDS_ROGUE_EVENT_OPTION.I_ll_buy_it_f1b5,
+            KEYWORDS_ROGUE_EVENT_OPTION.I_ll_buy_it_f619,
             KEYWORDS_ROGUE_EVENT_OPTION.I_want_money,
             KEYWORDS_ROGUE_EVENT_OPTION.I_want_love
         ]
@@ -49,26 +50,26 @@ STRATEGY_COMMON = {
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.The_Architects: [
         KEYWORDS_ROGUE_EVENT_OPTION.Thank_the_Aeon_Qlipoth,
-        KEYWORDS_ROGUE_EVENT_OPTION.Leave_16
+        KEYWORDS_ROGUE_EVENT_OPTION.Leave_1436
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Cosmic_Merchant_Part_1: [
         KEYWORDS_ROGUE_EVENT_OPTION.Purchase_a_metal_Wish_In_A_Bottle,
-        KEYWORDS_ROGUE_EVENT_OPTION.Leave_18,
-        KEYWORDS_ROGUE_EVENT_OPTION.Purchase_a_silver_ore_Wish_In_A_Bottle_18
+        KEYWORDS_ROGUE_EVENT_OPTION.Leave_4fa0,
+        KEYWORDS_ROGUE_EVENT_OPTION.Purchase_a_silver_ore_Wish_In_A_Bottle
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Cosmic_Con_Job_Part_2: [
-        KEYWORDS_ROGUE_EVENT_OPTION.Purchase_a_supernium_Wish_In_A_Bottle_19,
-        KEYWORDS_ROGUE_EVENT_OPTION.Leave_19,
-        KEYWORDS_ROGUE_EVENT_OPTION.Purchase_an_amber_Wish_In_A_Bottle_19
+        KEYWORDS_ROGUE_EVENT_OPTION.Purchase_a_supernium_Wish_In_A_Bottle,
+        KEYWORDS_ROGUE_EVENT_OPTION.Leave_4fa0,
+        KEYWORDS_ROGUE_EVENT_OPTION.Purchase_an_amber_Wish_In_A_Bottle
 
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Cosmic_Altruist_Part_3: [
-        KEYWORDS_ROGUE_EVENT_OPTION.Purchase_an_ore_box_20,
-        KEYWORDS_ROGUE_EVENT_OPTION.Purchase_a_diamond_box_20,
-        KEYWORDS_ROGUE_EVENT_OPTION.Leave_20
+        KEYWORDS_ROGUE_EVENT_OPTION.Purchase_an_ore_box,
+        KEYWORDS_ROGUE_EVENT_OPTION.Purchase_a_diamond_box,
+        KEYWORDS_ROGUE_EVENT_OPTION.Leave_4fa0
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Bounty_Hunter: [
-        KEYWORDS_ROGUE_EVENT_OPTION.Walk_away_25,
+        KEYWORDS_ROGUE_EVENT_OPTION.Walk_away,
         KEYWORDS_ROGUE_EVENT_OPTION.Give_him_the_fur_you_re_wearing
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Nomadic_Miners: [
@@ -77,7 +78,7 @@ STRATEGY_COMMON = {
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Jim_Hulk_and_Jim_Hall: [
         KEYWORDS_ROGUE_EVENT_OPTION.Jim_Hulk_collection,
-        KEYWORDS_ROGUE_EVENT_OPTION.Walk_away_5
+        KEYWORDS_ROGUE_EVENT_OPTION.Walk_away
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.The_Cremators: [
         KEYWORDS_ROGUE_EVENT_OPTION.Bear_ten_carats_of_trash,
@@ -93,42 +94,42 @@ STRATEGY_COMMON = {
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Kindling_of_the_Self_Annihilator: [
         KEYWORDS_ROGUE_EVENT_OPTION.Accept_the_flames_of_Self_destruction_and_destroy_the_black_box,
-        KEYWORDS_ROGUE_EVENT_OPTION.Refuse_17
+        KEYWORDS_ROGUE_EVENT_OPTION.Refuse_54fd
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Saleo_Part_1: [
-        KEYWORDS_ROGUE_EVENT_OPTION.Pick_Sal_22,
-        KEYWORDS_ROGUE_EVENT_OPTION.Pick_Leo_22
+        KEYWORDS_ROGUE_EVENT_OPTION.Pick_Sal,
+        KEYWORDS_ROGUE_EVENT_OPTION.Pick_Leo
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Sal_Part_2: [
-        KEYWORDS_ROGUE_EVENT_OPTION.Pick_Sal_23,
-        KEYWORDS_ROGUE_EVENT_OPTION.Let_Leo_out_23
+        KEYWORDS_ROGUE_EVENT_OPTION.Pick_Sal,
+        KEYWORDS_ROGUE_EVENT_OPTION.Let_Leo_out
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Leo_Part_3: [
-        KEYWORDS_ROGUE_EVENT_OPTION.Let_Sal_out_24,
-        KEYWORDS_ROGUE_EVENT_OPTION.Pick_Leo_24
+        KEYWORDS_ROGUE_EVENT_OPTION.Let_Sal_out,
+        KEYWORDS_ROGUE_EVENT_OPTION.Pick_Leo
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Implement_of_Error: [
         KEYWORDS_ROGUE_EVENT_OPTION.Pick_an_Error_Code_Curio,
-        KEYWORDS_ROGUE_EVENT_OPTION.Leave_26
+        KEYWORDS_ROGUE_EVENT_OPTION.Leave_1436
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Make_A_Wish: [
         KEYWORDS_ROGUE_EVENT_OPTION.Exchange_for_a_3_star_Blessing,
         KEYWORDS_ROGUE_EVENT_OPTION.Exchange_for_a_2_star_Blessing,
-        KEYWORDS_ROGUE_EVENT_OPTION.Leave_33
+        KEYWORDS_ROGUE_EVENT_OPTION.Leave_3c49
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Let_Exchange_Gifts: [
         KEYWORDS_ROGUE_EVENT_OPTION.Blessing_Exchange,
         KEYWORDS_ROGUE_EVENT_OPTION.Blessing_Reforge,
-        KEYWORDS_ROGUE_EVENT_OPTION.Leave_32
+        KEYWORDS_ROGUE_EVENT_OPTION.Leave_3c49
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Robot_Sales_Terminal: [
         KEYWORDS_ROGUE_EVENT_OPTION.Purchase_a_1_3_star_Blessing,
         KEYWORDS_ROGUE_EVENT_OPTION.Purchase_a_1_2_star_Blessing,
-        KEYWORDS_ROGUE_EVENT_OPTION.Leave_34
+        KEYWORDS_ROGUE_EVENT_OPTION.Leave_3c49
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.History_Fictionologists: [
         KEYWORDS_ROGUE_EVENT_OPTION.Record_of_the_Aeon_of_1,
-        KEYWORDS_ROGUE_EVENT_OPTION.Leave_4
+        KEYWORDS_ROGUE_EVENT_OPTION.Leave_1436
     ],
     # Swarm Disaster
     KEYWORDS_ROGUE_EVENT_TITLE.Insights_from_the_Universal_Dancer: [
@@ -165,7 +166,7 @@ STRATEGY_COMBAT = {
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Three_Little_Pigs: [
         KEYWORDS_ROGUE_EVENT_OPTION.Play_a_bit_with_Sequence_Trotters,
-        KEYWORDS_ROGUE_EVENT_OPTION.Leave_14
+        KEYWORDS_ROGUE_EVENT_OPTION.Leave_b5f1
     ]
 }
 # Aggressive
