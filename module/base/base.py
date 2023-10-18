@@ -213,7 +213,7 @@ class ModuleBase:
         button_area = area_offset((-encourage, -encourage, encourage, encourage), offset=point)
         return ClickButton(area=button_area, name=name)
 
-    def get_interval_timer(self, button, interval=5) -> Timer:
+    def get_interval_timer(self, button, interval=5, renew=False) -> Timer:
         if hasattr(button, 'name'):
             name = button.name
         elif callable(button):
@@ -223,7 +223,7 @@ class ModuleBase:
 
         try:
             timer = self.interval_timer[name]
-            if timer.limit != interval:
+            if renew and timer.limit != interval:
                 timer = Timer(interval)
                 self.interval_timer[name] = timer
             return timer
@@ -251,7 +251,7 @@ class ModuleBase:
             self.get_interval_timer(button, interval=interval).clear()
 
     def interval_is_reached(self, button, interval=5):
-        return self.get_interval_timer(button, interval=interval).reached()
+        return self.get_interval_timer(button, interval=interval, renew=True).reached()
 
     _image_file = ''
 
