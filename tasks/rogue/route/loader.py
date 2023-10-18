@@ -135,6 +135,7 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, MainPage):
                 route = nearby[0][0]
             else:
                 route = visited[0][0]
+            logger.attr('RoutePredict', route.name)
             return route
         else:
             logger.warning('Similarity too close, not enough to make a prediction')

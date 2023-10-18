@@ -421,12 +421,6 @@ class DungeonUI(UI):
             self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
             self.dungeon_goto(KEYWORDS_DUNGEON_LIST.Calyx_Crimson_Harmony)
         """
-        if dungeon.is_Simulated_Universe:
-            self._dungeon_nav_goto(dungeon)
-            pass
-            self._dungeon_insight(dungeon)
-            return True
-
         # Reset search button
         DUNGEON_LIST.search_button = OCR_DUNGEON_LIST
 

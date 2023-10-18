@@ -1,18 +1,17 @@
-from tasks.rogue.entry.path import RoguePathHandler
-from tasks.rogue.entry.reward import RogueRewardHandler
+from tasks.rogue.entry.entry import RogueEntry
 from tasks.rogue.route.loader import RouteLoader
 
 
-class RogueHandler(RouteLoader, RogueRewardHandler, RoguePathHandler):
+class RogueHandler(RouteLoader, RogueEntry):
     def rogue_once(self):
         """
         Do a complete rogue run.
 
         Pages:
-            in: page_rogue, is_page_rogue_main()
+            in: Any
             out: page_rogue, is_page_rogue_main()
         """
-        self.rogue_path_select(self.config.RoguePath_Path)
+        self.rogue_world_enter(7)
         self.rogue_run()
         self.rogue_reward_claim()
 
