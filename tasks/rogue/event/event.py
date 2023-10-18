@@ -159,6 +159,7 @@ class RogueEvent(RogueUI):
             self.device.click(BLESSING_CONFIRM)
             return True
         if self.appear_then_click(CHOOSE_STORY, interval=2):
+            self.device.click_record_clear()
             return True
         if self.appear_then_click(CHOOSE_OPTION_CONFIRM, interval=2):
             self.interval_reset([
@@ -189,7 +190,7 @@ class RogueEvent(RogueUI):
         if count == 1:
             if self.interval_is_reached(CHOOSE_OPTION, interval=2):
                 self.device.click(self.valid_options[0].prefix_icon)
-                self.interval_reset(CHOOSE_OPTION)
+                self.interval_reset(CHOOSE_OPTION, interval=2)
                 return True
 
         if self.interval_is_reached(CHOOSE_OPTION, interval=2):
@@ -200,7 +201,7 @@ class RogueEvent(RogueUI):
                 else:
                     SCROLL_OPTION.set_top(main=self)
             self.device.click(option.prefix_icon)
-            self.interval_reset(CHOOSE_OPTION)
+            self.interval_reset(CHOOSE_OPTION, interval=2)
             return True
 
         return False

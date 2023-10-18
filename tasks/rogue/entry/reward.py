@@ -89,7 +89,7 @@ class RogueRewardHandler(RogueUI):
             if self.interval_is_reached(CLAIM_ALL, interval=1):
                 if self.image_color_count(CLAIM_ALL, color=(255, 199, 89), threshold=221, count=500):
                     self.device.click(CLAIM_ALL)
-                    self.interval_reset(CLAIM_ALL)
+                    self.interval_reset(CLAIM_ALL, interval=1)
                     appear = True
                     continue
 
