@@ -76,4 +76,9 @@ class RogueUI(UI):
             logger.info(f'{BLESSING_ENHANCED} -> {BLESSING_CONFIRM}')
             self.device.click(BLESSING_CONFIRM)
             return True
+        # Lost and re-obtain blessing, randomized by curio
+        if self.appear(BLESSING_LOST, interval=2):
+            logger.info(f'{BLESSING_LOST} -> {BLESSING_CONFIRM}')
+            self.device.click(BLESSING_CONFIRM)
+            return True
         return False
