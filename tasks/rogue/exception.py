@@ -8,3 +8,11 @@ class RogueDomainExitNotFound(Exception):
 
 class RogueRouteError(Exception):
     pass
+
+
+class RogueReachedWeeklyPointLimit(Exception):
+    pass
+
+
+class RogueReached100EliteBossLimit(Exception):
+    pass

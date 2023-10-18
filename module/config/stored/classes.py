@@ -178,7 +178,7 @@ class StoredTrailblazePower(StoredCounter):
     FIXED_TOTAL = 240
 
 
-class StoredSimulatedUniverse(StoredCounter, StoredExpiredAt0400):
+class StoredSimulatedUniverse(StoredCounter, StoredExpiredAtMonday0400):
     pass
 
 

@@ -1,6 +1,6 @@
 from module.logger import logger
 from tasks.rogue.entry.entry import RogueEntry
-from tasks.rogue.exception import RogueTeamNotPrepared
+from tasks.rogue.exception import RogueReachedWeeklyPointLimit, RogueTeamNotPrepared
 from tasks.rogue.route.loader import RouteLoader
 
 
@@ -19,13 +19,30 @@ class Rogue(RouteLoader, RogueEntry):
             logger.error(f'Please prepare your team in {self.config.RogueWorld_World}')
             self.rogue_world_exit()
             return False
+        except RogueReachedWeeklyPointLimit:
+            logger.hr('Reached rogue weekly point limit')
+            return False
 
         self.rogue_run()
         self.rogue_reward_claim()
         return True
 
     def run(self):
-        self.rogue_once()
+        while 1:
+            # Check stop condition
+            if self.config.RogueWorld_StopCondition == 'weekly_point_reward':
+                if self.config.stored.SimulatedUniverse.is_expired():
+                    # Expired, do rogue
+                    pass
+                elif self.config.stored.SimulatedUniverse.is_full():
+                    logger.hr('Reached rogue weekly point limit')
+                    break
+
+            # Run
+            success = self.rogue_once()
+            if not success:
+                break
+
         self.config.task_delay(server_update=True)
 
 

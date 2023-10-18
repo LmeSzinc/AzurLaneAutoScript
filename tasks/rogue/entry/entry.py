@@ -1,9 +1,10 @@
 import re
+from datetime import datetime, timedelta
 
 from module.base.timer import Timer
 from module.exception import RequestHumanTakeover
 from module.logger import logger
-from module.ocr.ocr import Ocr
+from module.ocr.ocr import DigitCounter, Ocr
 from tasks.base.assets.assets_base_main_page import ROGUE_LEAVE_FOR_NOW
 from tasks.base.assets.assets_base_page import MAP_EXIT
 from tasks.base.page import page_guide, page_main, page_rogue
@@ -12,12 +13,20 @@ from tasks.dungeon.keywords.dungeon import Simulated_Universe_World_1
 from tasks.dungeon.keywords.tab import Survival_Index
 from tasks.dungeon.ui import DungeonUI
 from tasks.forgotten_hall.assets.assets_forgotten_hall_ui import TELEPORT
-from tasks.rogue.assets.assets_rogue_entry import LEVEL_CONFIRM, OCR_WORLD, WORLD_ENTER, WORLD_NEXT, WORLD_PREV
+from tasks.rogue.assets.assets_rogue_entry import (
+    LEVEL_CONFIRM,
+    OCR_WEEKLY_POINT,
+    OCR_WORLD,
+    WORLD_ENTER,
+    WORLD_NEXT,
+    WORLD_PREV,
+)
 from tasks.rogue.assets.assets_rogue_path import CONFIRM_PATH
 from tasks.rogue.assets.assets_rogue_reward import REWARD_CLOSE, REWARD_ENTER
 from tasks.rogue.assets.assets_rogue_ui import ROGUE_LAUNCH
 from tasks.rogue.entry.path import RoguePathHandler
 from tasks.rogue.entry.reward import RogueRewardHandler
+from tasks.rogue.exception import RogueReachedWeeklyPointLimit
 
 
 def chinese_to_arabic(chinese_number: str) -> int:
@@ -248,6 +257,15 @@ class RogueEntry(DungeonUI, RogueRewardHandler, RoguePathHandler):
         else:
             self.goto_rogue()
 
+        # Update rogue points
+        if datetime.now() - self.config.stored.SimulatedUniverse.time > timedelta(minutes=2):
+            ocr = DigitCounter(OCR_WEEKLY_POINT)
+            value, _, total = ocr.ocr_single_line(self.device.image)
+            self.config.stored.SimulatedUniverse.set(value, total)
+        # Check stop condition
+        if self.config.RogueWorld_StopCondition == 'weekly_point_reward':
+            if self.config.stored.SimulatedUniverse.is_full():
+                raise RogueReachedWeeklyPointLimit
         # Enter
         self._rogue_world_set(world)
         self._rogue_world_enter()

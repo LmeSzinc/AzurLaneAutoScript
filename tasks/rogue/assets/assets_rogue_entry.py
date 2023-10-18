@@ -13,6 +13,16 @@ LEVEL_CONFIRM = ButtonWrapper(
         button=(990, 638, 1223, 676),
     ),
 )
+OCR_WEEKLY_POINT = ButtonWrapper(
+    name='OCR_WEEKLY_POINT',
+    share=Button(
+        file='./assets/share/rogue/entry/OCR_WEEKLY_POINT.png',
+        area=(130, 602, 382, 635),
+        search=(110, 582, 402, 655),
+        color=(54, 51, 50),
+        button=(130, 602, 382, 635),
+    ),
+)
 OCR_WORLD = ButtonWrapper(
     name='OCR_WORLD',
     share=Button(
