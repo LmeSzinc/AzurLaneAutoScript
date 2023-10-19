@@ -161,5 +161,6 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20230914   | event 20220915 cn        | Violet Tempest Blooming Lycoris              | -                      | -                                            | -                                    | 紫絳槿嵐                  |
 | 20230914   | event 20230914 cn        | Effulgence Before Eclipse                    | 须臾望月抄              | Effulgence Before Eclipse                    | 須臾望月抄                            | -                        |
 | 20231012   | event 20201229 cn        | Inverted Orthant                             | -                      | -                                            | -                                    | 復刻-負象限作戰           |
+| 20221027   | raid 20221027            | Fight! Royal Maid                            | -                      | -                                            | -                                    | 戰鬥！皇家女僕隊3rd       |
 
 
