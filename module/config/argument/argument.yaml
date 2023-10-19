@@ -732,8 +732,6 @@ PowerLimit:
 ChangeShip:
   Enable: false
   PushLua: false
-  ScrollDock: true
-  ScrollFleet: true
   TargetType:
     value: BB
     option:
@@ -749,8 +747,6 @@ ChangeShip:
 ChangeAttribute:
   Enable: false
   PushLua: false
-  ScrollDock: true
-  ScrollFleet: true
   ShipData:
     type: textarea
     value: ''

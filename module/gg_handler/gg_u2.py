@@ -37,16 +37,8 @@ class GGU2(UI, Base):
         return _skipped
 
     def set_on(self, factor=200):
-        if deep_get(self.config.data, keys='GameManager.ChangeAttribute.Enable') \
-                and deep_get(self.config.data, keys='GameManager.ChangeAttribute.ScrollDock') \
-                or deep_get(self.config.data, keys='GameManager.ChangeShip.Enable') \
-                and deep_get(self.config.data, keys='GameManager.ChangeShip.ScrollDock'):
+        if deep_get(self.config.data, keys='GameManager.ChangeAttribute.Enable') or deep_get(self.config.data, keys='GameManager.ChangeShip.Enable'):
             self.ScrollDockToLoadAllShipData()
-
-        if deep_get(self.config.data, keys='GameManager.ChangeAttribute.Enable') \
-                and deep_get(self.config.data, keys='GameManager.ChangeAttribute.ScrollFleet') \
-                or deep_get(self.config.data, keys='GameManager.ChangeShip.Enable') \
-                and deep_get(self.config.data, keys='GameManager.ChangeShip.ScrollFleet'):
             self.ScrollFleetToLoadAllFleetData()
         _name_dict = {
             'en': 'Azur Lane',

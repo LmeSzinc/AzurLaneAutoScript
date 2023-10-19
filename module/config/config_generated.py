@@ -455,16 +455,12 @@ class GeneratedConfig:
     # Group `ChangeShip`
     ChangeShip_Enable = False
     ChangeShip_PushLua = False
-    ChangeShip_ScrollDock = True
-    ChangeShip_ScrollFleet = True
     ChangeShip_TargetType = 'BB'  # CV, BB
     ChangeShip_ShipData = '106021;1;6\n107041;1;6\n206011;1;6\n107011;1;6\n'
 
     # Group `ChangeAttribute`
     ChangeAttribute_Enable = False
     ChangeAttribute_PushLua = False
-    ChangeAttribute_ScrollDock = True
-    ChangeAttribute_ScrollFleet = True
     ChangeAttribute_ShipData = None
 
     # Group `InfiniteDelay`
