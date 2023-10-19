@@ -253,8 +253,3 @@ page_build.link(button=GOTO_MAIN, destination=page_main)
 page_dock = Page(DOCK_CHECK)
 page_main.link(button=MAIN_GOTO_DOCK, destination=page_dock)
 page_dock.link(button=GOTO_MAIN, destination=page_main)
-
-# Meta Panel
-page_meta_panel = Page(META_PANEL_CHECK)
-page_meta_panel.link(button=META_PANEL_GOTO_MAIN, destination=page_main)
-page_reward.link(button=REWARG_GOTO_META_PANEL, destination=page_meta_panel)
