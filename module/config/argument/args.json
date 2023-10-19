@@ -9410,7 +9410,7 @@
       },
       "Timeout": {
         "type": "input",
-        "value": 120
+        "value": 1200
       },
       "DisabledTask": {
         "type": "select",
@@ -9446,6 +9446,10 @@
         "type": "checkbox",
         "value": false
       },
+      "Timeout": {
+        "type": "input",
+        "value": 90
+      },
       "TargetType": {
         "type": "select",
         "value": "BB",
@@ -9467,6 +9471,10 @@
       "PushLua": {
         "type": "checkbox",
         "value": false
+      },
+      "Timeout": {
+        "type": "input",
+        "value": 600
       },
       "ShipData": {
         "type": "textarea",

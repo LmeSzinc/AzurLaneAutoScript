@@ -444,7 +444,7 @@ class GeneratedConfig:
     GGHandler_RestartEverytime = True
     GGHandler_RepushLua = True
     GGHandler_GGMultiplyingFactor = 200
-    GGHandler_Timeout = 120
+    GGHandler_Timeout = 1200
     GGHandler_DisabledTask = 'disable_all_dangerous_task'  # disable_all_dangerous_task, disable_guild_and_dangerous, disable_exercise, enable_all
 
     # Group `PowerLimit`
@@ -455,12 +455,14 @@ class GeneratedConfig:
     # Group `ChangeShip`
     ChangeShip_Enable = False
     ChangeShip_PushLua = False
+    ChangeShip_Timeout = 90
     ChangeShip_TargetType = 'BB'  # CV, BB
     ChangeShip_ShipData = '106021;1;6\n107041;1;6\n206011;1;6\n107011;1;6\n'
 
     # Group `ChangeAttribute`
     ChangeAttribute_Enable = False
     ChangeAttribute_PushLua = False
+    ChangeAttribute_Timeout = 600
     ChangeAttribute_ShipData = None
 
     # Group `InfiniteDelay`

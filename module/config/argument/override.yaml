@@ -429,7 +429,13 @@ OpsiHazard1Leveling:
 # ==================== GGHandler ====================
 GGHandler:
   Timeout:
-    value: 120
+    value: 1200
+ChangeShip:
+  Timeout:
+    value: 90
+ChangeAttribute:
+  Timeout:
+    value: 600
 
 # ==================== Dashboard ====================
 Dashboard:

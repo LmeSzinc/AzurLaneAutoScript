@@ -716,7 +716,7 @@ GGHandler:
 #    display: disabled
   RepushLua: true
   GGMultiplyingFactor: 200
-  Timeout: 120
+  Timeout: 1200
   DisabledTask:
     value: disable_all_dangerous_task
     option: [
@@ -732,6 +732,7 @@ PowerLimit:
 ChangeShip:
   Enable: false
   PushLua: false
+  Timeout: 90
   TargetType:
     value: BB
     option:
@@ -747,6 +748,7 @@ ChangeShip:
 ChangeAttribute:
   Enable: false
   PushLua: false
+  Timeout: 600
   ShipData:
     type: textarea
     value: ''

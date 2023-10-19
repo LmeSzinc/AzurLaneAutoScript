@@ -90,7 +90,7 @@ class ChangeShip(ModuleBase):
                 logger.info("Click confirm")
                 self.device.sleep(0.5)
                 _confirmed = True
-            self.d.wait_timeout = 90.0
+            self.d.wait_timeout = deep_get(self.config.data, "GameManager.ChangeShip.Timeout")
 
             if _set and _confirmed:
                 try:
