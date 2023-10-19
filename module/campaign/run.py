@@ -280,10 +280,9 @@ class CampaignRun(CampaignEvent, ShopStatus):
                 name = stage.lower()
                 self.is_stage_loop = True
         # Convert campaign_main to campaign hard if mode is hard and file exists
-        if mode == 'hard' and folder == 'campaign_main'\
-                and name in map_files('campaign_hard'):
+        if mode == 'hard' and folder == 'campaign_main' and name in map_files('campaign_hard'):
             folder = 'campaign_hard'
-            
+
         return name, folder
 
     def can_use_auto_search_continue(self):
@@ -343,6 +342,7 @@ class CampaignRun(CampaignEvent, ShopStatus):
                 logger.info(f'Count: {self.run_count}')
 
             # UI ensure
+            self.device.stuck_record_clear()
             self.device.click_record_clear()
             if not hasattr(self.device, 'image') or self.device.image is None:
                 self.device.screenshot()
@@ -384,6 +384,8 @@ class CampaignRun(CampaignEvent, ShopStatus):
                 self.config.update()
 
             # Run
+            self.device.stuck_record_clear()
+            self.device.click_record_clear()
             try:
                 self.campaign.run()
             except ScriptEnd as e:
