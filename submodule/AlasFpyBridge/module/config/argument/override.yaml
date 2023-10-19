@@ -1,7 +1,0 @@
-# --------------------
-# Define non-modifiable values
-# --------------------
-
-FpyDailyFpSummon:
-  Scheduler:
-    ServerUpdate: 00:00
