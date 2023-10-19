@@ -1,14 +1,9 @@
 from module.logger import logger
 from module.config.config import deep_get
 from module.base.base import ModuleBase
-from module.ui.ui import UI
-from module.ui.scroll import Scroll
-from module.gg_handler.assets import DOCK_SCROLL_AREA
 import uiautomator2 as u2
 
-DOCK_SCROLL = Scroll(DOCK_SCROLL_AREA, color=(247, 211, 66))
-
-class ChangeAttribute(UI, ModuleBase):
+class ChangeAttribute(ModuleBase):
 
     def __init__(self, config, device):
         super().__init__(config, device)
@@ -36,7 +31,6 @@ class ChangeAttribute(UI, ModuleBase):
             return 0
         _set = False
         _confirmed = False
-        self.ScrollDockToLoadAllShipData()
         while 1:
             if self.d(resourceId=f"{self.gg_package_name}:id/search_toolbar").exists:
                 self.d.xpath(
@@ -79,12 +73,3 @@ class ChangeAttribute(UI, ModuleBase):
                 break
             else:
                 return 0
-
-    def ScrollDockToLoadAllShipData(self):
-        from module.ui.page import page_dock, page_main
-        self.device.screenshot()
-        self.ui_goto(page_dock)
-        for i in range(1, 6):
-            DOCK_SCROLL.set(i / 5, self)
-            self.device.sleep(1)
-        self.ui_goto(page_main)

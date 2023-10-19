@@ -249,7 +249,3 @@ page_build = Page(BUILD_CHECK)
 page_main.link(button=MAIN_GOTO_BUILD, destination=page_build)
 page_build.link(button=GOTO_MAIN, destination=page_main)
 
-# Dock
-page_dock = Page(DOCK_CHECK)
-page_main.link(button=MAIN_GOTO_DOCK, destination=page_dock)
-page_dock.link(button=GOTO_MAIN, destination=page_main)
