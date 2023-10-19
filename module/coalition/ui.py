@@ -154,7 +154,7 @@ class CoalitionUI(Combat):
                 continue
 
             # Fleet preparation
-            if fleet_timer.reached() and self.appear(FLEET_PREPARATION, offset=(20, 20)):
+            if fleet_timer.reached() and self.appear(FLEET_PREPARATION, offset=(20, 50)):
                 self.handle_fleet_preparation(stage, fleet)
                 self.device.click(FLEET_PREPARATION)
                 fleet_click += 1
