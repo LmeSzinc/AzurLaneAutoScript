@@ -35,8 +35,8 @@ class AutoSearchHandler(EnemySearchingHandler):
             offset = 0
         logger.attr('_fleet_sidebar_offset', offset)
         return ButtonGrid(
-            origin=(1177, 138 + offset), delta=(0, 54),
-            button_shape=(102, 43), grid_shape=(1, 3), name='FLEET_SIDEBAR')
+            origin=(1178, 171 + offset), delta=(0, 53),
+            button_shape=(98, 42), grid_shape=(1, 3), name='FLEET_SIDEBAR')
 
     @Config.when(SERVER=None)
     def _fleet_sidebar(self):
