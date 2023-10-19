@@ -89,7 +89,7 @@ class Campaign(CampaignBase, HardEquipment):
                 continue
 
             # Fleet preparation
-            if fleet_timer.reached() and self.appear(FLEET_PREPARATION, offset=(20, 20)):
+            if fleet_timer.reached() and self.appear(FLEET_PREPARATION, offset=(20, 50)):
                 self.equipment_take_off()
                 self.ui_back(check_button=CAMPAIGN_CHECK, appear_button=FLEET_PREPARATION)
                 break
