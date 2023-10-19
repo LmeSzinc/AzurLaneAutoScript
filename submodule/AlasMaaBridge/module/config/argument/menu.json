@@ -1,0 +1,26 @@
+{
+  "Maa": {
+    "menu": "list",
+    "page": "setting",
+    "tasks": [
+      "Maa",
+      "MaaStartup",
+      "MaaAnnihilation",
+      "MaaMaterial",
+      "MaaFight",
+      "MaaRecruit",
+      "MaaInfrast",
+      "MaaMall",
+      "MaaAward",
+      "MaaRoguelike",
+      "MaaReclamationAlgorithm"
+    ]
+  },
+  "Tool": {
+    "menu": "list",
+    "page": "tool",
+    "tasks": [
+      "MaaCopilot"
+    ]
+  }
+}

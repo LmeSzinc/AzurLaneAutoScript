@@ -1,0 +1,15 @@
+* text=auto
+*.jpg -text
+*.png -text
+*.bat text eol=crlf
+*.txt text eol=lf
+*.sh text eol=lf
+*.js text eol=lf
+*.ts text eol=lf
+*.py  eol=lf
+*.vue text eol=lf
+*.css text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.html text eol=lf

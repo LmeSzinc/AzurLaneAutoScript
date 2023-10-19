@@ -1,0 +1,172 @@
+# --------------------
+# Define arguments.
+# --------------------
+
+# ==================== Maa ====================
+
+Scheduler:
+  Enable: false
+  NextRun: 2020-01-01 04:00:00
+  Command: Maa
+  SuccessInterval:
+    value: 60
+    display: hide
+  FailureInterval:
+    value: 120
+    display: hide
+  ServerUpdate:
+    value: 04:00
+    display: hide
+
+Emulator:
+  ServerName:
+    value: disabled
+    display: hide
+Error:
+  SaveError:
+    value: false
+    display: hide
+  OnePushConfig:
+    mode: yaml
+    value: 'provider: null'
+    display: hide
+Optimization:
+  WhenTaskQueueEmpty:
+    value: stay_there
+    display: hide
+
+MaaEmulator:
+  Serial:
+    value: 127.0.0.1:5555
+    valuetype: str
+  PackageName:
+    value: Official
+    option: [Official, Bilibili, YoStarEN, YoStarJP, YoStarKR, txwy]
+  MaaPath:
+    value: D:/Program Files/MAA
+    type: textarea
+  TouchMethod:
+    value: minitouch
+    option: [minitouch, maatouch, adb]
+  DeploymentWithPause:
+    value: false
+MaaRecord:
+  ReportToPenguin: false
+  PenguinID: null
+
+MaaFight:
+  Stage:
+    value: last
+    option: [last, 1-7, LS-6, CA-5, SK-5, AP-5, CE-6, PR-A-1, PR-A-2, PR-B-1, PR-B-2, PR-C-1, PR-C-2, PR-D-1, PR-D-2, custom]
+  CustomStage: null
+  MedicineTactics:
+    value: no_use
+    option: [no_use, expiring, run_out]
+  Medicine: null
+  Stone: null
+  Times: null
+  Drops:
+    value: null
+    type: textarea
+  DrGrandet: false
+
+MaaFightWeekly:
+  Enable: true
+  Monday:
+    value: default
+    option: [default, LS-6, SK-5, AP-5, PR-A-1, PR-A-2, PR-B-1, PR-B-2]
+  Tuesday:
+    value: default
+    option: [default, LS-6, CA-5, CE-6, PR-B-1, PR-B-2, PR-D-1, PR-D-2]
+  Wednesday:
+    value: default
+    option: [default, LS-6, CA-5, SK-5, PR-C-1, PR-C-2, PR-D-1, PR-D-2]
+  Thursday:
+    value: default
+    option: [default, LS-6, AP-5, CE-6, PR-A-1, PR-A-2, PR-C-1, PR-C-2]
+  Friday:
+    value: default
+    option: [default, LS-6, CA-5, SK-5, PR-A-1, PR-A-2, PR-B-1, PR-B-2]
+  Saturday:
+    value: default
+    option: [default, LS-6, SK-5, AP-5, CE-6, PR-B-1, PR-B-2, PR-C-1, PR-C-2, PR-D-1, PR-D-2]
+  Sunday:
+    value: default
+    option: [default, LS-6, CA-5, AP-5, CE-6, PR-A-1, PR-A-2, PR-C-1, PR-C-2, PR-D-1, PR-D-2]
+
+MaaRecruit:
+  Refresh: true
+  SkipRobot: true
+  Select3: true
+  Select4: true
+  Select5: true
+  Level3ShortTime: True
+  Times: 4
+  Expedite: false
+
+MaaInfrast:
+  Facility:
+    value: Mfg > Trade > Power > Control > Reception > Office > Dorm
+    type: textarea
+  Drones:
+    value: Money
+    option: [_NotUse, Money, SyntheticJade, CombatRecord, PureGold, OriginStone, Chip]
+  WorkThreshold: 12
+  ShiftThreshold: 4
+  Notstationed: true
+  Trust: true
+  Replenish: false
+MaaCustomInfrast:
+  Enable: false
+  BuiltinConfig:
+    value: custom
+    option: [custom, 153-3, 243-3, 243-4, 252-3, 333-3]
+  Filename:
+    value: null
+    type: textarea
+  CustomPeriod: 16, 4, 4
+  PlanIndex: 0
+
+MaaMall:
+  CreditFight: false
+  Shopping: true
+  ForceShoppingIfCreditFull: false
+  BuyFirst:
+    value: 招聘许可
+    type: textarea
+  BlackList:
+    value: 碳 > 家具 > 加急许可
+    type: textarea
+
+MaaRoguelike:
+  Theme:
+    value: Sami
+    option: [Phantom, Mizuki, Sami]
+  Mode:
+    value: 0
+    option: [0, 1]
+  StartsCount: 9999999
+  InvestmentsCount: 9999999
+  StopWhenInvestmentFull: false
+  Squad:
+    value: 指挥分队
+    option: [心胜于物分队, 物尽其用分队, 以人为本分队, 指挥分队, 集群分队, 后勤分队, 矛头分队, 突击战术分队, 堡垒战术分队, 远程战术分队, 破坏战术分队, 研究分队, 高规格分队]
+  Roles:
+    value: 取长补短
+    option: [先手必胜, 稳扎稳打, 取长补短, 随心所欲]
+  CoreChar: null
+  Support:
+    value: no_use
+    option: [ no_use, friend_support, nonfriend_support ]
+
+# ==================== Tool ====================
+
+MaaCopilot:
+  FileName:
+    value: null
+    type: textarea
+  Identify: false
+  Formation: false
+  Cycle: 1
+
+

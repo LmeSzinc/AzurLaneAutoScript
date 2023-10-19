@@ -1,0 +1,47 @@
+[id^="pywebio-scope-arg_container-"] {
+    grid-auto-flow: column;
+    grid-template-columns: 1fr 13rem;
+}
+
+[id^="pywebio-scope-arg_container-storage-"] {
+    grid-auto-flow: column;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr auto;
+}
+
+#pywebio-scope-overview {
+    grid-auto-flow: column;
+    grid-template-columns: minmax(16rem, 20rem) minmax(24rem, 1fr);
+}
+
+#pywebio-scope-daemon-overview {
+    grid-auto-flow: column;
+    grid-template-columns: 1fr minmax(25rem, 6fr) 1fr;
+}
+
+#pywebio-scope-schedulers {
+    grid-auto-flow: row;
+    grid-template-rows: auto 7.75rem minmax(7.75rem, 13rem) minmax(7.75rem, 1fr);
+    height: 100%;
+    overflow-y: auto;
+}
+
+#pywebio-scope-log-bar,
+#pywebio-scope-log,
+#pywebio-scope-daemon-overview #pywebio-scope-groups {
+    overflow-y: auto;
+}
+
+#pywebio-scope-_daemon {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-rows: auto minmax(6rem, auto) minmax(15rem, 1fr);
+    height: 100%;
+    overflow-y: auto;
+}
+
+#pywebio-scope-_daemon_upper {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: auto auto;
+}

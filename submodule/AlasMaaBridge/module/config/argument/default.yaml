@@ -1,0 +1,16 @@
+# --------------------
+# Define default values
+# --------------------
+
+# ==================== Maa ====================
+MaaStartup:
+  Scheduler:
+    Enable: true
+
+MaaMaterial:
+  Scheduler:
+    FailureInterval: 240
+
+MaaFight:
+  Scheduler:
+    SuccessInterval: 240

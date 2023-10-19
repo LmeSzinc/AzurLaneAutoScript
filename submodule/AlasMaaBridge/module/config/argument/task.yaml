@@ -1,0 +1,54 @@
+# --------------------
+# Define argument group of tasks.
+# --------------------
+
+# ==================== Maa ====================
+
+Maa:
+  menu: 'list'
+  page: 'setting'
+  tasks:
+    Maa:
+      - MaaEmulator
+      - MaaRecord
+      - Emulator
+      - Error
+      - Optimization
+    MaaStartup:
+      - Scheduler
+    MaaAnnihilation:
+      - Scheduler
+      - MaaFight
+    MaaMaterial:
+      - Scheduler
+      - MaaFight
+    MaaFight:
+      - Scheduler
+      - MaaFight
+      - MaaFightWeekly
+    MaaRecruit:
+      - Scheduler
+      - MaaRecruit
+    MaaInfrast:
+      - Scheduler
+      - MaaInfrast
+      - MaaCustomInfrast
+    MaaMall:
+      - Scheduler
+      - MaaMall
+    MaaAward:
+      - Scheduler
+    MaaRoguelike:
+      - Scheduler
+      - MaaRoguelike
+    MaaReclamationAlgorithm:
+      - Scheduler
+
+# ==================== Tool ====================
+
+Tool:
+  menu: 'list'
+  page: 'tool'
+  tasks:
+    MaaCopilot:
+      - MaaCopilot
