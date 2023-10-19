@@ -160,7 +160,7 @@ class AutoSearchHandler(EnemySearchingHandler):
 
     _auto_search_offset = (5, 5)
     # Move 213px left when MULTIPLE_SORTIE appears
-    _auto_search_menu_offset = (250, 20)
+    _auto_search_menu_offset = (250, 30)
 
     def is_auto_search_running(self):
         """
