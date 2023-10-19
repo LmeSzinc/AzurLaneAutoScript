@@ -1,10 +1,20 @@
+import numpy as np
+
 from module.base.button import ButtonGrid
 from module.base.decorator import Config
 from module.handler.assets import *
 from module.handler.enemy_searching import EnemySearchingHandler
 from module.logger import logger
+from module.map.assets import FLEET_PREPARATION_CHECK
 
-AUTO_SEARCH_SETTINGS = [AUTO_SEARCH_SET_MOB, AUTO_SEARCH_SET_BOSS, AUTO_SEARCH_SET_ALL, AUTO_SEARCH_SET_STANDBY, AUTO_SEARCH_SET_SUB_AUTO, AUTO_SEARCH_SET_SUB_STANDBY]
+AUTO_SEARCH_SETTINGS = [
+    AUTO_SEARCH_SET_MOB,
+    AUTO_SEARCH_SET_BOSS,
+    AUTO_SEARCH_SET_ALL,
+    AUTO_SEARCH_SET_STANDBY,
+    AUTO_SEARCH_SET_SUB_AUTO,
+    AUTO_SEARCH_SET_SUB_STANDBY
+]
 dic_setting_name_to_index = {
     'fleet1_mob_fleet2_boss': 0,
     'fleet1_boss_fleet2_mob': 1,
@@ -19,13 +29,25 @@ dic_setting_index_to_name = {v: k for k, v in dic_setting_name_to_index.items()}
 class AutoSearchHandler(EnemySearchingHandler):
     @Config.when(SERVER='en')
     def _fleet_sidebar(self):
+        if FLEET_PREPARATION_CHECK.match(self.device.image, offset=(20, 80)):
+            offset = np.subtract(FLEET_PREPARATION_CHECK.button, FLEET_PREPARATION_CHECK._button)[1]
+        else:
+            offset = 0
+        logger.attr('_fleet_sidebar_offset', offset)
         return ButtonGrid(
-            origin=(1177, 138), delta=(0, 54), button_shape=(102, 43), grid_shape=(1, 3), name='FLEET_SIDEBAR')
+            origin=(1177, 138 + offset), delta=(0, 54),
+            button_shape=(102, 43), grid_shape=(1, 3), name='FLEET_SIDEBAR')
 
     @Config.when(SERVER=None)
     def _fleet_sidebar(self):
+        if FLEET_PREPARATION_CHECK.match(self.device.image, offset=(20, 80)):
+            offset = np.subtract(FLEET_PREPARATION_CHECK.button, FLEET_PREPARATION_CHECK._button)[1]
+        else:
+            offset = 0
+        logger.attr('_fleet_sidebar_offset', offset)
         return ButtonGrid(
-            origin=(1185, 125), delta=(0, 109), button_shape=(53, 104), grid_shape=(1, 3), name='FLEET_SIDEBAR')
+            origin=(1185, 155 + offset), delta=(0, 111),
+            button_shape=(53, 104), grid_shape=(1, 3), name='FLEET_SIDEBAR')
 
     def _fleet_preparation_sidebar_click(self, index):
         """
@@ -44,8 +66,9 @@ class AutoSearchHandler(EnemySearchingHandler):
 
         current = 0
         total = 0
+        sidebar = self._fleet_sidebar()
 
-        for idx, button in enumerate(self._fleet_sidebar().buttons):
+        for idx, button in enumerate(sidebar.buttons):
             if self.image_color_count(button, color=(99, 235, 255), threshold=221, count=50):
                 current = idx + 1
                 total = idx + 1
@@ -61,7 +84,7 @@ class AutoSearchHandler(EnemySearchingHandler):
         if current == index:
             return False
 
-        self.device.click(self._fleet_sidebar()[0, index - 1])
+        self.device.click(sidebar[0, index - 1])
         return True
 
     def fleet_preparation_sidebar_ensure(self, index, skip_first_screenshot=True):
