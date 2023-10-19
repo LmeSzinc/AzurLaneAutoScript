@@ -5,8 +5,8 @@ from module.logger import logger
 from tasks.base.page import page_rogue
 from tasks.map.control.waypoint import Waypoint, ensure_waypoints
 from tasks.map.route.base import RouteBase as RouteBase_
-from tasks.rogue.assets.assets_rogue_reward import ROGUE_REPORT
 from tasks.rogue.assets.assets_rogue_ui import BLESSING_CONFIRM
+from tasks.rogue.assets.assets_rogue_weekly import ROGUE_REPORT
 from tasks.rogue.bleesing.blessing import RogueBlessingSelector
 from tasks.rogue.bleesing.bonus import RogueBonusSelector
 from tasks.rogue.bleesing.curio import RogueCurioSelector

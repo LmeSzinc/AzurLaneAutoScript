@@ -12,8 +12,8 @@ from tasks.base.page import page_rogue
 from tasks.combat.interact import CombatInteract
 from tasks.map.keywords import KEYWORDS_MAP_PLANE, MapPlane
 from tasks.rogue.assets.assets_rogue_exit import OCR_DOMAIN_EXIT
-from tasks.rogue.assets.assets_rogue_reward import ROGUE_REPORT
 from tasks.rogue.assets.assets_rogue_ui import BLESSING_CONFIRM
+from tasks.rogue.assets.assets_rogue_weekly import ROGUE_REPORT
 
 
 def area_center(area):

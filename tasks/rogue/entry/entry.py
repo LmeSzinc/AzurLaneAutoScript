@@ -22,10 +22,10 @@ from tasks.rogue.assets.assets_rogue_entry import (
     WORLD_PREV,
 )
 from tasks.rogue.assets.assets_rogue_path import CONFIRM_PATH
-from tasks.rogue.assets.assets_rogue_reward import REWARD_CLOSE, REWARD_ENTER
 from tasks.rogue.assets.assets_rogue_ui import ROGUE_LAUNCH
+from tasks.rogue.assets.assets_rogue_weekly import REWARD_CLOSE, REWARD_ENTER
 from tasks.rogue.entry.path import RoguePathHandler
-from tasks.rogue.entry.reward import RogueRewardHandler
+from tasks.rogue.entry.weekly import RogueRewardHandler
 from tasks.rogue.exception import RogueReachedWeeklyPointLimit
 
 

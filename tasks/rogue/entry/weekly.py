@@ -1,6 +1,6 @@
 from module.base.timer import Timer
 from module.logger import logger
-from tasks.rogue.assets.assets_rogue_reward import CLAIM_ALL, REWARD_CHECK, REWARD_CLOSE, REWARD_ENTER, REWARD_RED_DOT
+from tasks.rogue.assets.assets_rogue_weekly import CLAIM_ALL, REWARD_CHECK, REWARD_CLOSE, REWARD_ENTER, REWARD_RED_DOT
 from tasks.rogue.bleesing.ui import RogueUI
 
 
