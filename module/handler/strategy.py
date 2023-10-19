@@ -6,16 +6,17 @@ from module.template.assets import (TEMPLATE_FORMATION_1, TEMPLATE_FORMATION_2,
                                     TEMPLATE_FORMATION_3)
 from module.ui.switch import Switch
 
-formation = Switch('Formation', offset=120)
+# 2023.10.19, icons on one row increased from 2 to 3
+formation = Switch('Formation', offset=(100, 200))
 formation.add_status('line_ahead', check_button=FORMATION_1)
 formation.add_status('double_line', check_button=FORMATION_2)
 formation.add_status('diamond', check_button=FORMATION_3)
 
-submarine_hunt = Switch('Submarine_hunt', offset=120)
+submarine_hunt = Switch('Submarine_hunt', offset=(100, 200))
 submarine_hunt.add_status('on', check_button=SUBMARINE_HUNT_ON)
 submarine_hunt.add_status('off', check_button=SUBMARINE_HUNT_OFF)
 
-submarine_view = Switch('Submarine_view', offset=120)
+submarine_view = Switch('Submarine_view', offset=(100, 200))
 submarine_view.add_status('on', check_button=SUBMARINE_VIEW_ON)
 submarine_view.add_status('off', check_button=SUBMARINE_VIEW_OFF)
 
