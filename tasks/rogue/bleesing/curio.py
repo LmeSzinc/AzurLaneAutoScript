@@ -120,6 +120,8 @@ class RogueCurioSelector(RogueSelector):
 
             if is_select_curio_complete():
                 break
+            if self.main.handle_popup_confirm():
+                continue
             if interval.reached():
                 self.main.device.click(BLESSING_CONFIRM)
                 interval.reset()

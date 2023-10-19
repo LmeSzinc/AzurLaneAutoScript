@@ -204,6 +204,8 @@ class RogueBlessingSelector(RogueSelector):
             if is_select_blessing_complete():
                 logger.info("Select blessing complete")
                 break
+            if self.main.handle_popup_confirm():
+                continue
             if interval.reached():
                 self.main.device.click(BLESSING_CONFIRM)
                 interval.reset()
