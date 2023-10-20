@@ -41,11 +41,36 @@ class Route(RouteBase):
         # Ignore item
         self.clear_enemy(enemy)
 
+    def Jarilo_SilvermaneGuardRestrictedZone_F1_X317Y425(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((317.4, 425.4)), | 274.2     | 274      |
+        | item1    | Waypoint((282.4, 434.2)), | 263.8     | 260      |
+        | enemy1   | Waypoint((252.6, 426.6)), | 283.0     | 276      |
+        | enemy2   | Waypoint((166.1, 424.5)), | 182.6     | 267      |
+        | exit     | Waypoint((165.1, 425.2)), | 6.4       | 274      |
+        """
+        self.map_init(plane=Jarilo_SilvermaneGuardRestrictedZone, floor="F1", position=(317.4, 425.4))
+        self.register_domain_exit(Waypoint((165.1, 425.2)), end_rotation=274)
+        item1 = Waypoint((282.4, 434.2))
+        enemy1 = Waypoint((252.6, 426.6))
+        enemy2 = Waypoint((166.1, 424.5))
+        # ===== End of generated waypoints =====
+
+        self.clear_item(item1)
+        self.clear_enemy(enemy1)
+        self.clear_enemy(
+            enemy1.set_threshold(5),
+            enemy2,
+        )
+
     def Jarilo_SilvermaneGuardRestrictedZone_F1_X371Y425(self):
         """
         | Waypoint | Position                  | Direction | Rotation |
         | -------- | ------------------------- | --------- | -------- |
         | spawn    | Waypoint((371.6, 425.3)), | 274.2     | 274      |
+        | item1    | Waypoint((350.3, 410.5)), | 318.0     | 315      |
         | enemy1   | Waypoint((304.0, 424.2)), | 274.2     | 276      |
         | enemy2   | Waypoint((247.9, 426.4)), | 11.2      | 45       |
         | enemy3   | Waypoint((163.9, 426.5)), | 282.9     | 278      |
@@ -53,11 +78,13 @@ class Route(RouteBase):
         """
         self.map_init(plane=Jarilo_SilvermaneGuardRestrictedZone, floor="F1", position=(371.6, 425.3))
         self.register_domain_exit(Waypoint((163.9, 426.5)), end_rotation=278)
+        item1 = Waypoint((350.3, 410.5))
         enemy1 = Waypoint((304.0, 424.2))
         enemy2 = Waypoint((247.9, 426.4))
         enemy3 = Waypoint((163.9, 426.5))
         # ===== End of generated waypoints =====
 
+        self.clear_item(item1)
         self.clear_enemy(enemy1)
         self.clear_enemy(enemy2)
         self.clear_enemy(enemy3)

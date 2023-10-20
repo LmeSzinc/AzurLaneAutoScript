@@ -25,12 +25,15 @@ class Route(RouteBase):
         | Waypoint       | Position                  | Direction | Rotation |
         | -------------- | ------------------------- | --------- | -------- |
         | spawn          | Waypoint((521.6, 595.4)), | 190.1     | 184      |
+        | item_X504Y610  | Waypoint((504.0, 610.0)), | 188.9     | 186      |
         | event_X510Y626 | Waypoint((510.6, 626.4)), | 282.9     | 181      |
         | exit           | Waypoint((522.2, 630.6)), | 190.0     | 184      |
         """
         self.map_init(plane=Luofu_StargazerNavalia, floor="F1", position=(521.6, 595.4))
         self.register_domain_exit(Waypoint((522.2, 630.6)), end_rotation=184)
+        item_X504Y610 = Waypoint((504.0, 610.0))
         event_X510Y626 = Waypoint((510.6, 626.4))
 
+        self.clear_item(item_X504Y610)
         self.clear_event(event_X510Y626)
         # ===== End of generated waypoints =====

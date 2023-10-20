@@ -5,6 +5,10 @@ from tasks.rogue.route.base import RouteBase
 
 class Route(RouteBase):
 
+    def map_init(self, *args, **kwargs):
+        super().map_init(*args, **kwargs)
+        self.minimap.init_position(self.minimap.position, locked=True)
+
     def Herta_StorageZone_F1_X477Y233(self):
         """
         | Waypoint | Position                  | Direction | Rotation |

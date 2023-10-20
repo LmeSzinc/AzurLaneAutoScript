@@ -23,6 +23,21 @@ class Route(RouteBase):
         self.clear_item(item)
         self.clear_enemy(enemy)
 
+    def Luofu_StargazerNavalia_F1_X203Y317(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((203.8, 317.4)), | 96.7      | 91       |
+        | enemy    | Waypoint((254.2, 318.9)), | 96.8      | 91       |
+        | exit     | Waypoint((254.2, 318.9)), | 96.8      | 91       |
+        """
+        self.map_init(plane=Luofu_StargazerNavalia, floor="F1", position=(203.8, 317.4))
+        self.register_domain_exit(Waypoint((254.2, 318.9)), end_rotation=91)
+        enemy = Waypoint((254.2, 318.9))
+        # ===== End of generated waypoints =====
+
+        self.clear_enemy(enemy)
+
     def Luofu_StargazerNavalia_F1_X215Y192(self):
         """
         | Waypoint | Position                  | Direction | Rotation |
@@ -110,4 +125,5 @@ class Route(RouteBase):
         enemy = Waypoint((521.2, 507.2))
         # ===== End of generated waypoints =====
 
+        self.minimap.lock_rotation(180)
         self.clear_enemy(enemy)

@@ -29,6 +29,30 @@ class Route(RouteBase):
         but for wrong spawn point detected
         """
 
+    def Herta_SupplyZone_F2Rogue_X214Y113(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((219.6, 113.1)), | 96.7      | 91       |
+        | item     | Waypoint((230.9, 106.7)), | 326.8     | 80       |
+        | event    | Waypoint((256.6, 118.2)), | 96.8      | 96       |
+        | exit     | Waypoint((262.5, 112.9)), | 96.7      | 91       |
+        """
+        self.map_init(plane=Herta_SupplyZone, floor="F2Rogue", position=(214.6, 113.1))
+        self.register_domain_exit(Waypoint((262.5, 112.9)), end_rotation=91)
+        item = Waypoint((230.9, 106.7))
+        event = Waypoint((256.6, 118.2))
+
+        self.clear_item(item)
+        self.clear_event(event)
+        # ===== End of generated waypoints =====
+
+        """
+        Notes
+        Herta_SupplyZone_F2Rogue_X214Y113 is the same as Herta_SupplyZone_F2Rogue_X219Y113
+        but for wrong spawn point detected
+        """
+
     def Herta_SupplyZone_F2Rogue_X219Y113(self):
         """
         | Waypoint | Position                  | Direction | Rotation |

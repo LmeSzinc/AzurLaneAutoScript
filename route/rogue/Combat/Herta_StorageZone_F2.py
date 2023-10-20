@@ -5,6 +5,24 @@ from tasks.rogue.route.base import RouteBase
 
 class Route(RouteBase):
 
+    def Herta_StorageZone_F2_X351Y164(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((351.4, 164.9)), | 274.2     | 274      |
+        | item     | Waypoint((342.8, 155.7)), | 274.2     | 274      |
+        | enemy    | Waypoint((304.0, 165.4)), | 261.9     | 264      |
+        | exit     | Waypoint((300.8, 163.8)), | 2.6       | 262      |
+        """
+        self.map_init(plane=Herta_StorageZone, floor="F2", position=(351.4, 164.9))
+        self.register_domain_exit(Waypoint((300.8, 163.8)), end_rotation=262)
+        item = Waypoint((342.8, 155.7))
+        enemy = Waypoint((304.0, 165.4))
+        # ===== End of generated waypoints =====
+
+        self.clear_item(item)
+        self.clear_enemy(enemy)
+
     def Herta_StorageZone_F2_X365Y167(self):
         """
         | Waypoint | Position                  | Direction | Rotation |

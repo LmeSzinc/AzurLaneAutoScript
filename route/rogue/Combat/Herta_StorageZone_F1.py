@@ -139,9 +139,9 @@ class Route(RouteBase):
         | item1       | Waypoint((728.9, 48.8)),  | 263.8     | 264      |
         | enemy1      | Waypoint((686.2, 64.4)),  | 256.8     | 260      |
         | item2       | Waypoint((674.0, 99.1)),  | 212.9     | 204      |
+        | enemy2right | Waypoint((649.5, 65.6)),  | 302.7     | 71       |
         | enemy2left  | Waypoint((653.4, 85.0)),  | 326.7     | 103      |
         | node2       | Waypoint((636.8, 81.9)),  | 263.8     | 262      |
-        | enemy2right | Waypoint((628.0, 73.6)),  | 350.2     | 345      |
         | node3       | Waypoint((598.6, 93.9)),  | 256.7     | 253      |
         | item3       | Waypoint((588.6, 102.2)), | 245.0     | 246      |
         | enemy3      | Waypoint((597.2, 131.0)), | 282.9     | 179      |
@@ -152,9 +152,9 @@ class Route(RouteBase):
         item1 = Waypoint((728.9, 48.8))
         enemy1 = Waypoint((686.2, 64.4))
         item2 = Waypoint((674.0, 99.1))
+        enemy2right = Waypoint((649.5, 65.6))
         enemy2left = Waypoint((653.4, 85.0))
         node2 = Waypoint((636.8, 81.9))
-        enemy2right = Waypoint((628.0, 73.6))
         node3 = Waypoint((598.6, 93.9))
         item3 = Waypoint((588.6, 102.2))
         enemy3 = Waypoint((597.2, 131.0))
@@ -162,16 +162,20 @@ class Route(RouteBase):
 
         # 1
         self.clear_item(item1)
-        self.clear_enemy(enemy1)
+        self.clear_enemy(
+            enemy1.set_threshold(5)
+        )
         # 2
-        self.clear_item(item2.straight_run())
+        self.clear_item(
+            item2.straight_run().set_threshold(5),
+        )
         self.clear_enemy(
             enemy2left.straight_run(),
-            enemy2right.straight_run(),
+            enemy2right.straight_run().set_threshold(9),
         )
         # 3
         self.goto(
-            node2.set_threshold(3),
+            node2.straight_run().set_threshold(5),
             node3.straight_run(),
             item3,
         )
@@ -198,9 +202,9 @@ class Route(RouteBase):
         item1 = Waypoint((728.9, 48.8))
         enemy1 = Waypoint((686.2, 64.4))
         item2 = Waypoint((674.0, 99.1))
+        enemy2right = Waypoint((649.5, 65.6))
         enemy2left = Waypoint((653.4, 85.0))
         node2 = Waypoint((636.8, 81.9))
-        enemy2right = Waypoint((628.0, 73.6))
         node3 = Waypoint((598.6, 93.9))
         item3 = Waypoint((588.6, 102.2))
         enemy3 = Waypoint((597.2, 131.0))
@@ -214,16 +218,20 @@ class Route(RouteBase):
 
         # 1
         self.clear_item(item1)
-        self.clear_enemy(enemy1)
+        self.clear_enemy(
+            enemy1.set_threshold(5)
+        )
         # 2
-        self.clear_item(item2.straight_run())
+        self.clear_item(
+            item2.straight_run().set_threshold(5),
+        )
         self.clear_enemy(
             enemy2left.straight_run(),
-            enemy2right.straight_run(),
+            enemy2right.straight_run().set_threshold(9),
         )
         # 3
         self.goto(
-            node2.set_threshold(3),
+            node2.straight_run().set_threshold(5),
             node3.straight_run(),
             item3,
         )
