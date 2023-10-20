@@ -128,7 +128,7 @@ class GeneratedConfig:
     # Group `RoguePath`
     RoguePath_PresetResonanceFilter = 'preset-1'  # preset-1, custom
     RoguePath_ResonanceSelectionStrategy = 'follow-presets'  # follow-presets, unrecorded-first, before-random
-    RoguePath_CustomResonanceFilter = '回响构音：均晶转变 > 回响构音：零维强化\n> 回响构音：第二次初恋 > 回响构音：体验的富翁\n> 回响构音：局外人 > 回响构音：怀疑的四重根\n> 回响构音：诸法无我 > 回响构音：诸行无常\n> 回响构音：射不主皮 > 回响构音：柘弓危矢\n> 回响构音：激变变星 > 回响构音：极端氦闪\n> 回响构音：末日狂欢 > 回响构音：树苗长高舞'
+    RoguePath_CustomResonanceFilter = '回响构音：均晶转变 > 回响构音：零维强化\n> 回响构音：第二次初恋 > 回响构音：体验的富翁\n> 回响构音：局外人 > 回响构音：怀疑的四重根\n> 回响构音：诸法无我 > 回响构音：诸行无常\n> 回响构音：射不主皮 > 回响构音：柘弓危矢\n> 回响构音：激变变星 > 回响构音：极端氦闪\n> 回响构音：末日狂欢 > 回响构音：树苗长高舞\n> random'
 
     # Group `RogueBlessing`
     RogueBlessing_PresetBlessingFilter = 'preset-1'  # preset-1, custom

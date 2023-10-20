@@ -301,6 +301,8 @@ class RogueBlessingSelector(RogueSelector):
         string = parse_name(string)
 
         # strategy
+        if not string.endswith('random'):
+            string += '> random'
         strategy_config = config['strategy_config']
         if strategy_config == 'unrecorded-first':
             string = "unrecorded > " + string

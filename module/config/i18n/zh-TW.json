@@ -810,20 +810,20 @@
       "combat": "偏好戰鬥",
       "occurrence": "偏好事件"
     },
-  "ImmersionReward": {
-       "name": "領取浸器獎勵",
-       "help": "注意：選擇 \"使用沉浸器和開拓力領取\" 時，每日副本任務不再打本，所有開拓力將優先被用於領取浸器獎勵，雙倍活動時除外",
-       "do_not_claim": "不領取",
-       "immersifier": "只使用沉浸器領取",
-       "immersifier_trailblaze_power": "使用沉浸器和開拓力領取"
-     },
-     "StopCondition": {
-       "name": "停止條件",
-       "help": "注意：\"每週100精英怪掉落獎勵達到上限\" 時，模擬宇宙任務將運行數小時",
-       "weekly_point_reward": "每週點數獎勵達到上限",
-       "100_elite_boss": "每週100精英怪掉落獎勵達到上限",
-       "non_stop": "不停止 (只用於除錯)"
-     }
+    "ImmersionReward": {
+      "name": "領取浸器獎勵",
+      "help": "注意：選擇 \"使用沉浸器和開拓力領取\" 時，每日副本任務不再打本，所有開拓力將優先被用於領取浸器獎勵，雙倍活動時除外",
+      "do_not_claim": "不領取",
+      "immersifier": "只使用沉浸器領取",
+      "immersifier_trailblaze_power": "使用沉浸器和開拓力領取"
+    },
+    "StopCondition": {
+      "name": "停止條件",
+      "help": "注意：\"每週100精英怪掉落獎勵達到上限\" 時，模擬宇宙任務將運行數小時",
+      "weekly_point_reward": "每週點數獎勵達到上限",
+      "100_elite_boss": "每週100精英怪掉落獎勵達到上限",
+      "non_stop": "不停止 (只用於除錯)"
+    }
   },
   "RoguePath": {
     "_info": {
