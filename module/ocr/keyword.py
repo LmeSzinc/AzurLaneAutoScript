@@ -7,7 +7,7 @@ import module.config.server as server
 from module.exception import ScriptError
 
 # ord('．') = 65294
-REGEX_PUNCTUATION = re.compile(r'[ ,.．\'"“”，。:：;；!！?？·•\-—/\\\n\t()\[\]（）「」『』【】《》［］]')
+REGEX_PUNCTUATION = re.compile(r'[ ,.．\'"“”，。:：;；!！?？·•\-—－/\\\n\t()\[\]（）「」『』【】《》［］]')
 
 
 def parse_name(n):
