@@ -401,6 +401,10 @@
       "name": "DungeonStorage.TrailblazePower.name",
       "help": "DungeonStorage.TrailblazePower.help"
     },
+    "Immersifier": {
+      "name": "DungeonStorage.Immersifier.name",
+      "help": "DungeonStorage.Immersifier.help"
+    },
     "DungeonDouble": {
       "name": "DungeonStorage.DungeonDouble.name",
       "help": "DungeonStorage.DungeonDouble.help"

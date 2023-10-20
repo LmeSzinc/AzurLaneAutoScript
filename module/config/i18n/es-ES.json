@@ -401,6 +401,10 @@
       "name": "Poder",
       "help": ""
     },
+    "Immersifier": {
+      "name": "Inmersor",
+      "help": ""
+    },
     "DungeonDouble": {
       "name": "Mazmorra x2",
       "help": ""

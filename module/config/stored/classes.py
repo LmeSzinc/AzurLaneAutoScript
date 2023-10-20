@@ -177,6 +177,29 @@ class StoredDailyActivity(StoredCounter, StoredExpiredAt0400):
 class StoredTrailblazePower(StoredCounter):
     FIXED_TOTAL = 240
 
+    def predict_current(self) -> int:
+        """
+        Predict current stamina from records
+        """
+        # Overflowed
+        value = self.value
+        if value >= self.FIXED_TOTAL:
+            return value
+        # Invalid time, record in the future
+        record = self.time
+        now = datetime.now()
+        if record >= now:
+            return value
+        # Calculate
+        # Recover 1 trailbaze power each 6 minutes
+        diff = (now - record).total_seconds()
+        value += int(diff // 360)
+        return value
+
+
+class StoredImmersifier(StoredCounter):
+    FIXED_TOTAL = 8
+
 
 class StoredSimulatedUniverse(StoredCounter, StoredExpiredAtMonday0400):
     pass

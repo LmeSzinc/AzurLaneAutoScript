@@ -116,6 +116,8 @@ DungeonStorage:
     stored: StoredTrailblazePower
     order: 1
     color: "#eb8efe"
+  Immersifier:
+    stored: StoredImmersifier
   DungeonDouble:
     stored: StoredDungeonDouble
   EchoOfWar:

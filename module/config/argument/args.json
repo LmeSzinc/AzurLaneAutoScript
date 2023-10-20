@@ -390,6 +390,12 @@
         "order": 1,
         "color": "#eb8efe"
       },
+      "Immersifier": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredImmersifier"
+      },
       "DungeonDouble": {
         "type": "stored",
         "value": {},

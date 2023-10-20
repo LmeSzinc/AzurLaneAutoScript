@@ -401,6 +401,10 @@
       "name": "Power",
       "help": ""
     },
+    "Immersifier": {
+      "name": "Immersifier",
+      "help": ""
+    },
     "DungeonDouble": {
       "name": "Dungeon Double",
       "help": ""

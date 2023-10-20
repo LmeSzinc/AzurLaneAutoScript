@@ -11,10 +11,11 @@ from tasks.rogue.bleesing.blessing import RogueBlessingSelector
 from tasks.rogue.bleesing.bonus import RogueBonusSelector
 from tasks.rogue.bleesing.curio import RogueCurioSelector
 from tasks.rogue.event.event import RogueEvent
+from tasks.rogue.event.reward import RogueReward
 from tasks.rogue.route.exit import RogueExit
 
 
-class RouteBase(RouteBase_, RogueExit, RogueEvent):
+class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
     registered_domain_exit = None
 
     def combat_expected_end(self):
@@ -174,14 +175,16 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent):
         Get reward of the DomainElite and DomainBoss
         """
         logger.hr('Clear reward', level=1)
+        use_trailblaze_power = 'trailblaze' in self.config.RogueWorld_ImmersionReward
+        use_immersifier = 'immersifier' in self.config.RogueWorld_ImmersionReward
 
-        # TODO: Skip if user don't want rewards or stamina exhausted
-        return []
-
-        result = self.goto(*waypoints)
-
-        # TODO: Get reward
-        pass
+        if self.can_claim_domain_reward(use_trailblaze_power=use_trailblaze_power, use_immersifier=use_immersifier):
+            logger.info('Can claim domain reward')
+            result = self.goto(*waypoints)
+            self.claim_domain_reward(use_trailblaze_power=use_trailblaze_power, use_immersifier=use_immersifier)
+        else:
+            logger.info('Cannot claim more rewards')
+            result = []
 
         return result
 
