@@ -101,7 +101,7 @@ class RogueReward(RogueUI, CombatInteract):
                     self.device.click(REWARD_CLOSE)
                     self.interval_reset(USE_STAMINA)
                     confirm.reset()
-                    continue
+                    break
 
     def can_claim_domain_reward(
             self,

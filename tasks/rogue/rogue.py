@@ -43,6 +43,10 @@ class Rogue(RouteLoader, RogueEntry):
             if not success:
                 break
 
+            # Scheduler
+            if self.config.task_switched():
+                self.config.task_stop()
+
         self.config.task_delay(server_update=True)
 
 
