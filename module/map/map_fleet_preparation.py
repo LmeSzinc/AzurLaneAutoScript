@@ -37,11 +37,11 @@ class FleetOperator:
         self._hard_satisfied = hard_satisfied
         self.main = main
 
-        _ = main.appear(clear, offset=FleetOperator.OFFSET)
-        choose.load_offset(clear)
-        bar.load_offset(clear)
-        in_use.load_offset(clear)
-        hard_satisfied.load_offset(clear)
+        if main.appear(clear, offset=FleetOperator.OFFSET):
+            choose.load_offset(clear)
+            bar.load_offset(clear)
+            in_use.load_offset(clear)
+            hard_satisfied.load_offset(clear)
 
     def __str__(self):
         return str(self._choose)[:-7]
@@ -112,7 +112,7 @@ class FleetOperator:
 
         area = self._hard_satisfied.button
         image = color_similarity_2d(self.main.image_crop(area), color=(249, 199, 0))
-        height = np.max(image, axis=1)
+        height = cv2.reduce(image, 1, cv2.REDUCE_AVG).flatten()
         parameters = {'height': 180, 'distance': 5}
         peaks, _ = signal.find_peaks(height, **parameters)
         lines = len(peaks)
@@ -289,7 +289,7 @@ class FleetPreparation(InfoHandler):
             in_use=FLEET_2_IN_USE, hard_satisfied=FLEET_2_HARD_SATIESFIED, main=self)
         submarine = FleetOperator(
             choose=SUBMARINE_CHOOSE, advice=SUBMARINE_ADVICE, bar=SUBMARINE_BAR, clear=SUBMARINE_CLEAR,
-            in_use=SUBMARINE_IN_USE, hard_satisfied=FLEET_1_HARD_SATIESFIED, main=self)
+            in_use=SUBMARINE_IN_USE, hard_satisfied=SUBMARINE_HARD_SATIESFIED, main=self)
 
         # Check if ship is prepared in hard mode
         h1, h2, h3 = fleet_1.is_hard_satisfied(), fleet_2.is_hard_satisfied(), submarine.is_hard_satisfied()
