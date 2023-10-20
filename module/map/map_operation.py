@@ -6,6 +6,7 @@ from module.logger import logger
 from module.map.assets import *
 from module.map.map_fleet_preparation import FleetPreparation
 from module.retire.retirement import Retirement
+from module.ui.assets import BACK_ARROW, DAILY_CHECK
 
 
 class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHandler):
@@ -145,6 +146,12 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 else:
                     checked_in_map = True
 
+                # Accidental clicks
+                if self.appear(DAILY_CHECK, offset=(20, 20), interval=3):
+                    logger.info(f'{DAILY_CHECK} -> {BACK_ARROW}')
+                    self.device.click(BACK_ARROW)
+                    continue
+
                 # Map preparation
                 if map_timer.reached() and self.handle_map_preparation():
                     self.map_get_info()
@@ -164,7 +171,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                     continue
 
                 # Fleet preparation
-                if fleet_timer.reached() and self.appear(FLEET_PREPARATION, offset=(20, 20)):
+                if fleet_timer.reached() and self.appear(FLEET_PREPARATION, offset=(20, 50)):
                     if mode == 'normal' or mode == 'hard':
                         self.handle_2x_book_setting(mode='prep')
                         self.fleet_preparation()
@@ -239,7 +246,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             if self.appear(MAP_PREPARATION, offset=(20, 20), interval=2):
                 self.device.click(MAP_PREPARATION_CANCEL)
                 continue
-            if self.appear(FLEET_PREPARATION, offset=(20, 20), interval=2):
+            if self.appear(FLEET_PREPARATION, offset=(20, 50), interval=2):
                 self.device.click(MAP_PREPARATION_CANCEL)
                 continue
 
@@ -292,6 +299,11 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             if self.appear_then_click(WITHDRAW, interval=5):
                 continue
             if self.handle_auto_search_exit():
+                continue
+            # Accidental clicks
+            if self.appear(DAILY_CHECK, offset=(20, 20), interval=3):
+                logger.info(f'{DAILY_CHECK} -> {BACK_ARROW}')
+                self.device.click(BACK_ARROW)
                 continue
 
             # End
