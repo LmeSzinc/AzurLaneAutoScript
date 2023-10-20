@@ -69,7 +69,7 @@ class RogueBuffOcr(Ocr):
                 "天[培梧]步危": "天棓步危",
                 "云[摘销锅]?逐步离": "云镝逐步离",
                 "制桑": "制穹桑",
-                "乌号基": "乌号綦",
+                "乌号[綦基]?箭?": "乌号綦箭",
                 "流岚追摩?物": "流岚追孽物",
                 "特月": "狩月",
                 "彤弓素.*": "彤弓素矰",
@@ -78,18 +78,21 @@ class RogueBuffOcr(Ocr):
                 "[沦沧][決]?肌髓": "沦浃肌髓",
                 "进发": "迸发",
                 "永缩体": "永坍缩体",
-                "完美体验：绒默": "完美体验：缄默",
+                "完美体验：[绒]?默": "完美体验：缄默",
                 "[涯]?灭回归不等式": "湮灭回归不等式",
                 r".*灾$": "禳灾",
                 "虚安供品": "虚妄供品",
                 "原初的苦$": "原初的苦衷",
                 "厌离邪[移]?苦": "厌离邪秽苦",
                 r".*繁.*": "葳蕤繁祉，延彼遐龄",
+                "回馈底护": "回馈庇护",
             }
         elif self.lang == 'en':
             replace_pattern_dict = {
                 "RestIin": "Restin",
             }
+        else:
+            replace_pattern_dict = {}
         for pat, replace in replace_pattern_dict.items():
             result = re.sub(pat, replace, result)
         return result

@@ -40,11 +40,13 @@ class OcrPlaneName(Ocr):
         # 区域－战
         result = re.sub(r'区域.*战$', '区域战斗', result)
         # 区域-事伴, 区域－事祥
-        result = result.replace('事伴', '事件').replace('事祥', '事件')
+        result = re.sub(r'事[伴祥]', '事件', result)
         # 医域－战斗
         result = result.replace('医域', '区域')
-        # 区域-战半
-        result = result.replace('战半', '战斗')
+        # 区域-战半, 区域-战头, 区域-战头书
+        result = re.sub(r'战[半头]', '战斗', result)
+        # 区域一战斗
+        result = re.sub(r'区域[\-—－一=]', '区域-', result)
         # 累塔的办公室
         result = result.replace('累塔', '黑塔')
         if '星港' in result:
