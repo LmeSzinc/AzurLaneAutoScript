@@ -25,31 +25,36 @@ BLESSING_ENHANCED = ButtonWrapper(
 )
 BLESSING_LOST = ButtonWrapper(
     name='BLESSING_LOST',
-    share=[
-        Button(
-            file='./assets/share/rogue/ui/BLESSING_LOST.png',
-            area=(51, 530, 81, 552),
-            search=(31, 510, 101, 572),
-            color=(248, 248, 248),
-            button=(51, 530, 81, 552),
-        ),
-        Button(
-            file='./assets/share/rogue/ui/BLESSING_LOST.2.png',
-            area=(315, 530, 340, 552),
-            search=(31, 510, 101, 572),
-            color=(246, 246, 246),
-            button=(315, 530, 340, 552),
-        ),
-    ],
+    cn=Button(
+        file='./assets/cn/rogue/ui/BLESSING_LOST.png',
+        area=(579, 44, 637, 72),
+        search=(565, 31, 652, 124),
+        color=(125, 38, 32),
+        button=(579, 44, 637, 72),
+    ),
+    en=Button(
+        file='./assets/en/rogue/ui/BLESSING_LOST.png',
+        area=(681, 47, 744, 71),
+        search=(633, 35, 792, 124),
+        color=(130, 59, 55),
+        button=(681, 47, 744, 71),
+    ),
 )
 BLESSING_OBTAINED = ButtonWrapper(
     name='BLESSING_OBTAINED',
-    share=Button(
-        file='./assets/share/rogue/ui/BLESSING_OBTAINED.png',
-        area=(733, 561, 765, 583),
-        search=(710, 551, 777, 593),
-        color=(248, 248, 248),
-        button=(733, 561, 765, 583),
+    cn=Button(
+        file='./assets/cn/rogue/ui/BLESSING_OBTAINED.png',
+        area=(578, 44, 638, 72),
+        search=(565, 31, 652, 124),
+        color=(139, 124, 92),
+        button=(578, 44, 638, 72),
+    ),
+    en=Button(
+        file='./assets/en/rogue/ui/BLESSING_OBTAINED.png',
+        area=(645, 46, 779, 71),
+        search=(633, 35, 792, 124),
+        color=(129, 116, 91),
+        button=(645, 46, 779, 71),
     ),
 )
 CHECK_BLESSING = ButtonWrapper(
@@ -80,16 +85,6 @@ FLAG_UNRECORD = ButtonWrapper(
         search=(726, 129, 798, 201),
         color=(133, 130, 161),
         button=(746, 149, 778, 181),
-    ),
-)
-OBTAIN_ITEM_POPUP = ButtonWrapper(
-    name='OBTAIN_ITEM_POPUP',
-    share=Button(
-        file='./assets/share/rogue/ui/OBTAIN_ITEM_POPUP.png',
-        area=(180, 573, 432, 720),
-        search=(160, 553, 452, 720),
-        color=(131, 109, 73),
-        button=(180, 573, 432, 720),
     ),
 )
 OCR_COSMIC_FRAGMENT = ButtonWrapper(
