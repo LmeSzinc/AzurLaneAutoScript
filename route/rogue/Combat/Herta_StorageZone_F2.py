@@ -96,5 +96,6 @@ class Route(RouteBase):
         )
         # 4
         self.clear_enemy(
+            enemy3,
             enemy4.straight_run(),
         )

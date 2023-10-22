@@ -144,6 +144,9 @@ class Route(RouteBase):
         enemy = Waypoint((802.3, 198.7))
         # ===== End of generated waypoints =====
 
+        self.clear_item(item)
+        self.clear_enemy(enemy)
+
     def Luofu_ScalegorgeWaterscape_F1_X1181Y279(self):
         """
         | Waypoint | Position                   | Direction | Rotation |

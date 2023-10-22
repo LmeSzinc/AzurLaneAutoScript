@@ -42,7 +42,7 @@ class Route(RouteBase):
         # 2
         # self.clear_item(item2)
         self.clear_enemy(
-            door2,
+            door2.set_threshold(3),
             enemy2left_X31Y248.straight_run(),
             enemy2right_X55Y247.straight_run(),
         )

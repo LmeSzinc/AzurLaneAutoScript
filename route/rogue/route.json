@@ -170,7 +170,7 @@
     "plane": "Herta_SupplyZone",
     "floor": "F2Rogue",
     "position": [
-      215.0,
+      215.6,
       112.8
     ],
     "domain": "Combat"
@@ -557,6 +557,17 @@
     "position": [
       317.4,
       425.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_SilvermaneGuardRestrictedZone_F1_X371Y419",
+    "route": "route.rogue.Combat.Jarilo_SilvermaneGuardRestrictedZone_F1:Jarilo_SilvermaneGuardRestrictedZone_F1_X371Y419",
+    "plane": "Jarilo_SilvermaneGuardRestrictedZone",
+    "floor": "F1",
+    "position": [
+      371.6,
+      419.4
     ],
     "domain": "Combat"
   },

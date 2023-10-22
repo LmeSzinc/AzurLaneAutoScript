@@ -65,6 +65,38 @@ class Route(RouteBase):
             enemy2,
         )
 
+    def Jarilo_SilvermaneGuardRestrictedZone_F1_X371Y419(self):
+        """
+        | Waypoint    | Position                  | Direction | Rotation |
+        | ----------- | ------------------------- | --------- | -------- |
+        | spawn       | Waypoint((371.6, 419.4)), | 274.2     | 271      |
+        | enemy1right | Waypoint((320.5, 424.5)), | 274.2     | 274      |
+        | enemy1left  | Waypoint((304.5, 424.6)), | 274.3     | 274      |
+        | item2       | Waypoint((282.8, 434.6)), | 274.3     | 276      |
+        | enemy2      | Waypoint((249.3, 424.4)), | 274.2     | 271      |
+        | enemy3      | Waypoint((168.0, 424.4)), | 279.8     | 274      |
+        | exit        | Waypoint((164.2, 426.2)), | 274.3     | 274      |
+        """
+        self.map_init(plane=Jarilo_SilvermaneGuardRestrictedZone, floor="F1", position=(371.6, 419.4))
+        self.register_domain_exit(Waypoint((164.2, 426.2)), end_rotation=274)
+        enemy1right = Waypoint((320.5, 424.5))
+        enemy1left = Waypoint((304.5, 424.6))
+        item2 = Waypoint((282.8, 434.6))
+        enemy2 = Waypoint((249.3, 424.4))
+        enemy3 = Waypoint((168.0, 424.4))
+        # ===== End of generated waypoints =====
+
+        self.clear_enemy(
+            enemy1right,
+            enemy1left,
+        )
+        self.clear_item(item2)
+        self.clear_enemy(enemy2)
+        self.clear_enemy(
+            enemy2.set_threshold(5),
+            enemy3
+        )
+
     def Jarilo_SilvermaneGuardRestrictedZone_F1_X371Y425(self):
         """
         | Waypoint | Position                  | Direction | Rotation |
