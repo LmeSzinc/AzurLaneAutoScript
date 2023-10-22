@@ -34,6 +34,11 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
     def combat_execute(self, expected_end=None):
         return super().combat_execute(expected_end=self.combat_expected_end)
 
+    def walk_additional(self) -> bool:
+        if self.handle_blessing_popup():
+            return True
+        return super().walk_additional()
+
     def handle_blessing(self):
         """
         Returns:
