@@ -1,10 +1,9 @@
 import re
 
-import cv2
 import numpy as np
 
 from module.base.timer import Timer
-from module.base.utils import Points, extract_white_letters
+from module.base.utils import Points, area_center
 from module.logger import logger
 from tasks.base.assets.assets_base_main_page import OCR_MAP_NAME
 from tasks.base.main_page import OcrPlaneName
@@ -16,37 +15,8 @@ from tasks.rogue.assets.assets_rogue_ui import BLESSING_CONFIRM
 from tasks.rogue.assets.assets_rogue_weekly import ROGUE_REPORT
 
 
-def area_center(area):
-    """
-    Get the center of an area
-
-    Args:
-        area: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y)
-
-    Returns:
-        tuple: (x, y)
-    """
-    x1, y1, x2, y2 = area
-    return (x1 + x2) / 2, (y1 + y2) / 2
-
-
 class OcrDomainExit(OcrPlaneName):
     merge_thres_x = 50
-
-    def pre_process(self, image):
-        image = extract_white_letters(image, threshold=255)
-        image = cv2.merge([image, image, image])
-        return image
-
-    def detect_and_ocr(self, *args, **kwargs):
-        # Try hard to lower TextSystem.box_thresh
-        backup = self.model.text_detector.box_thresh
-        self.model.text_detector.box_thresh = 0.2
-
-        result = super().detect_and_ocr(*args, **kwargs)
-
-        self.model.text_detector.box_thresh = backup
-        return result
 
     def _match_result(
             self,

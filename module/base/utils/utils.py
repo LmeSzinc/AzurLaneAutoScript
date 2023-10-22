@@ -274,6 +274,20 @@ def area_size(area):
     )
 
 
+def area_center(area):
+    """
+    Get the center of an area
+
+    Args:
+        area: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y)
+
+    Returns:
+        tuple: (x, y)
+    """
+    x1, y1, x2, y2 = area
+    return (x1 + x2) / 2, (y1 + y2) / 2
+
+
 def point_limit(point, area):
     """
     Limit point in an area.

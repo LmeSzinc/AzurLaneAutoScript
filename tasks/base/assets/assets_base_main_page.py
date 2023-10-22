@@ -3,6 +3,16 @@ from module.base.button import Button, ButtonWrapper
 # This file was auto-generated, do not modify it manually. To generate:
 # ``` python -m dev_tools.button_extract ```
 
+OCR_CHARACTERS = ButtonWrapper(
+    name='OCR_CHARACTERS',
+    share=Button(
+        file='./assets/share/base/main_page/OCR_CHARACTERS.png',
+        area=(1041, 142, 1205, 436),
+        search=(1021, 122, 1225, 456),
+        color=(123, 130, 143),
+        button=(1041, 142, 1205, 436),
+    ),
+)
 OCR_MAP_NAME = ButtonWrapper(
     name='OCR_MAP_NAME',
     share=Button(

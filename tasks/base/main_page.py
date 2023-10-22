@@ -1,20 +1,26 @@
 import re
-from typing import Optional
+
+import cv2
+import numpy as np
+from scipy import signal
 
 import module.config.server as server
+from module.base.timer import Timer
+from module.base.utils import area_center, crop, rgb2luma
 from module.config.server import VALID_LANG
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
-from module.ocr.ocr import Ocr
-from tasks.base.assets.assets_base_main_page import OCR_MAP_NAME, ROGUE_LEAVE_FOR_NOW
+from module.ocr.ocr import OcrResultButton, OcrWhiteLetterOnComplexBackground
+from tasks.base.assets.assets_base_main_page import OCR_CHARACTERS, OCR_MAP_NAME, ROGUE_LEAVE_FOR_NOW
 from tasks.base.assets.assets_base_page import CLOSE, MAP_EXIT
 from tasks.base.page import Page, page_gacha, page_main
 from tasks.base.popup import PopupHandler
+from tasks.character.keywords import CharacterList
 from tasks.daily.assets.assets_daily_trial import START_TRIAL
 from tasks.map.keywords import KEYWORDS_MAP_PLANE, MapPlane
 
 
-class OcrPlaneName(Ocr):
+class OcrPlaneName(OcrWhiteLetterOnComplexBackground):
     def after_process(self, result):
         # RobotSettlement1
         result = re.sub(r'-[Ii1]$', '', result)
@@ -57,14 +63,31 @@ class OcrPlaneName(Ocr):
         return super().after_process(result)
 
 
+class OcrCharacterName(OcrWhiteLetterOnComplexBackground):
+    merge_thres_x = 20
+    merge_thres_y = 20
+
+    def after_process(self, result):
+        result = result.replace('蛆', '妲')
+
+        return super().after_process(result)
+
+
 class MainPage(PopupHandler):
     # Same as BigmapPlane class
     # Current plane
     plane: MapPlane = KEYWORDS_MAP_PLANE.Herta_ParlorCar
+    character_buttons: list[OcrResultButton] = []
+    character_current: CharacterList | None = None
 
     _lang_checked = False
 
-    def get_plane(self, lang=None) -> Optional[MapPlane]:
+    @property
+    def characters(self) -> list[CharacterList]:
+        characters = [button.matched_keyword for button in self.character_buttons]
+        return characters
+
+    def update_plane(self, lang=None) -> MapPlane | None:
         """
         Pages:
             in: page_main
@@ -89,7 +112,7 @@ class MainPage(PopupHandler):
 
         return None
 
-    def check_lang_from_map_plane(self) -> Optional[str]:
+    def check_lang_from_map_plane(self) -> str | None:
         logger.info('check_lang_from_map_plane')
         lang_unknown = self.config.Emulator_GameLanguage == 'auto'
 
@@ -101,7 +124,7 @@ class MainPage(PopupHandler):
 
         for lang in lang_list:
             logger.info(f'Try ocr in lang {lang}')
-            keyword = self.get_plane(lang)
+            keyword = self.update_plane(lang)
             if keyword is not None:
                 logger.info(f'check_lang_from_map_plane matched lang: {lang}')
                 if lang_unknown or lang != server.lang:
@@ -150,6 +173,140 @@ class MainPage(PopupHandler):
 
         self.handle_lang_check(page=page_main)
         return True
+
+    def update_characters(self) -> list[CharacterList]:
+        ocr = OcrCharacterName(OCR_CHARACTERS)
+        self.character_buttons = ocr.matched_ocr(self.device.image, keyword_classes=CharacterList)
+        characters = self.characters
+        logger.attr('Characters', characters)
+        self.character_current = self._convert_selected_to_character(self._update_current_character())
+        return characters
+
+    def _update_current_character(self) -> list[int]:
+        """
+        Returns:
+            list[int]: Selected index, 1 to 4.
+        """
+        # 50px-width area starting from the right edge of HP bars
+        area = (1101, 151, 1151, 459)
+        # Y coordinates where the color peaks should be when character is selected
+        expected_peaks = np.array([201, 279, 357, 435])
+        expected_peaks_in_area = expected_peaks - area[1]
+        # Use Luminance to fit H264 video stream
+        image = rgb2luma(crop(self.device.image, area))
+        # Remove character names
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+        image = cv2.erode(image, kernel)
+        # To find peaks along Y
+        line = cv2.reduce(image, 1, cv2.REDUCE_AVG).flatten().astype(int)
+
+        # Find color peaks
+        parameters = {
+            'height': (60, 255),
+            'prominence': 30,
+            'distance': 5,
+        }
+        peaks, _ = signal.find_peaks(line, **parameters)
+        # Remove smooth peaks
+        parameters = {
+            'height': (5, 255),
+            'prominence': 5,
+            'distance': 5,
+        }
+        diff = -np.diff(line)
+        diff_peaks, _ = signal.find_peaks(diff, **parameters)
+
+        def is_steep_peak(y, threshold=5):
+            return np.abs(diff_peaks - y).min() <= threshold
+
+        def peak_to_selected(y, threshold=5):
+            distance = np.abs(expected_peaks_in_area - y)
+            return np.argmin(distance) + 1 if distance.min() < threshold else 0
+
+        selected = [peak_to_selected(peak) for peak in peaks if peak_to_selected(peak) and is_steep_peak(peak)]
+        logger.attr('CharacterSelected', selected)
+        return selected
+
+    def _convert_selected_to_character(self, selected: list[int]) -> CharacterList | None:
+        expected_peaks = np.array([201, 279, 357, 435])
+        if not selected:
+            logger.warning(f'No current character')
+            logger.attr('CurrentCharacter', None)
+            return None
+        elif len(selected) == 1:
+            selected = selected[0]
+        else:
+            logger.warning(f'Too many current characters: {selected}, using first')
+            selected = selected[0]
+
+        expected_y = expected_peaks[selected - 1]
+        for button in self.character_buttons:
+            y = area_center(button.area)[1]
+            if expected_y - 78 < y < expected_y:
+                logger.attr('CurrentCharacter', button.matched_keyword)
+                return button.matched_keyword
+
+        logger.warning(f'Current character: {selected} does not belong to any detected character')
+        logger.attr('CurrentCharacter', None)
+        return None
+
+    def character_switch(self, character: CharacterList | str | int, skip_first_screenshot=True) -> bool:
+        """
+        Args:
+            character: CharacterList object, or character name, or select index from 1 to 4.
+            skip_first_screenshot:
+
+        Returns:
+            bool: If chose
+        """
+        logger.info(f'Character choose: {character}')
+        characters = self.characters
+        if isinstance(character, int):
+            character = self._convert_selected_to_character([character])
+            if character is None:
+                return False
+            try:
+                index = characters.index(character) + 1
+            except IndexError:
+                logger.warning(f'Cannot choose character {character} as it was not detected')
+                return False
+        else:
+            if isinstance(character, str):
+                character = CharacterList.find(character)
+            try:
+                index = characters.index(character) + 1
+            except IndexError:
+                logger.warning(f'Cannot choose character {character} as it was not detected')
+                return False
+
+        button = self.character_buttons[index - 1]
+        interval = Timer(1, count=3)
+        count = 0
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            selected = self._update_current_character()
+            if index in selected:
+                logger.info('Character chose')
+                return True
+            if count > 3:
+                logger.warning('Failed to choose character, assume chose')
+                return False
+
+            try:
+                is_in_main = self.is_in_main
+            except AttributeError:
+                logger.critical('Method ui_goto() not found, class MainPage must be inherited by class UI')
+                raise ScriptError
+
+            if interval.reached() and is_in_main():
+                self.device.click(button)
+                interval.reset()
+                count += 1
 
     def ui_leave_special(self):
         """

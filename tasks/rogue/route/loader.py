@@ -81,7 +81,7 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, MainPage):
         Try to find from known route spawn point
         """
         logger.info('position_find_known')
-        plane = self.get_plane()
+        plane = self.update_plane()
         if plane is None:
             logger.warning('Unknown rogue domain')
             return
