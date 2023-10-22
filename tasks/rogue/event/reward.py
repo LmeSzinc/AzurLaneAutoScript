@@ -110,7 +110,7 @@ class RogueReward(RogueUI, CombatInteract):
     ):
         if not use_trailblaze_power and not use_immersifier:
             return False
-        if use_immersifier and self.config.stored.Immersifier.value >= 0:
+        if use_immersifier and self.config.stored.Immersifier.value > 0:
             return True
         if use_trailblaze_power and self.config.stored.TrailblazePower.predict_current() >= 40:
             return True
