@@ -1,14 +1,13 @@
 from tasks.map.control.waypoint import Waypoint
 from tasks.map.keywords.plane import Luofu_ScalegorgeWaterscape
+from tasks.map.route.base import locked_position, locked_rotation
 from tasks.rogue.route.base import RouteBase
 
 
 class Route(RouteBase):
 
-    def map_init(self, *args, **kwargs):
-        super().map_init(*args, **kwargs)
-        self.minimap.init_position(self.minimap.position, locked=True)
-
+    @locked_position
+    @locked_rotation(270)
     def Luofu_ScalegorgeWaterscape_F1_X701Y321(self):
         """
         | Waypoint      | Position                  | Direction | Rotation |

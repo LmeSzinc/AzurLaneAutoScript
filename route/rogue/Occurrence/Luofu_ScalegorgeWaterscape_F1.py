@@ -1,5 +1,6 @@
 from tasks.map.control.waypoint import Waypoint
 from tasks.map.keywords.plane import Luofu_ScalegorgeWaterscape
+from tasks.map.route.base import locked_rotation
 from tasks.rogue.route.base import RouteBase
 
 
@@ -20,18 +21,19 @@ class Route(RouteBase):
         self.clear_event(event)
         # ===== End of generated waypoints =====
 
+    @locked_rotation(180)
     def Luofu_ScalegorgeWaterscape_F1_X619Y387(self):
         """
         | Waypoint | Position                  | Direction | Rotation |
         | -------- | ------------------------- | --------- | -------- |
         | spawn    | Waypoint((619.4, 387.3)), | 190.1     | 184      |
-        | item     | Waypoint((612.9, 413.0)), | 222.0     | 214      |
+        | item     | Waypoint((626.2, 408.2)), | 157.2     | 151      |
         | event    | Waypoint((622.3, 422.5)), | 190.1     | 186      |
         | exit     | Waypoint((619.0, 423.6)), | 190.1     | 184      |
         """
         self.map_init(plane=Luofu_ScalegorgeWaterscape, floor="F1", position=(619.4, 387.3))
         self.register_domain_exit(Waypoint((619.0, 423.6)), end_rotation=184)
-        item = Waypoint((612.9, 413.0))
+        item = Waypoint((626.2, 408.2))
         event = Waypoint((622.3, 422.5))
 
         self.clear_item(item)

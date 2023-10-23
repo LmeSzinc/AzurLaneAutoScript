@@ -356,6 +356,9 @@ class RouteDetect:
                 for row in imp:
                     if row not in head:
                         content = row + '\n' + content
+            content = content.replace(
+                'from tasks.rogue.route.base import locked',
+                'from tasks.map.route.base import locked')
             # Replace or add routes
             routes.create_index('route')
             for waypoints in routes.indexes.values():
@@ -404,8 +407,9 @@ class RouteDetect:
             content = new
 
             # Format
-            content = re.sub(r'[\n ]+    def', '\n\n    def', content, re.DOTALL)
+            content = re.sub(r'[\n ]+    def', '\n\n    def', content)
             content = content.rstrip('\n') + '\n'
+            content = re.sub(r'    (@[a-zA-Z0-9_().]+)[\n ]+    def', r'    \1\n    def', content)
             # Write
             with open(file, 'w', encoding='utf-8', newline='') as f:
                 f.write(content)

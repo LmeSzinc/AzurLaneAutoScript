@@ -1,15 +1,12 @@
 from tasks.map.control.waypoint import Waypoint
 from tasks.map.keywords.plane import Luofu_Cloudford
+from tasks.map.route.base import locked_rotation
 from tasks.rogue.route.base import RouteBase
 
 
 class Route(RouteBase):
 
-    def map_init(self, *args, **kwargs):
-        super().map_init(*args, **kwargs)
-        # Blue triangle on blue sky, high error rate
-        self.minimap.lock_rotation(0)
-
+    @locked_rotation(0)
     def Luofu_Cloudford_F1_X337Y1003(self):
         """
         | Waypoint | Position                   | Direction | Rotation |

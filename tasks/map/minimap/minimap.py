@@ -79,11 +79,13 @@ class Minimap(MapResource):
         self.rotation_locked = None
 
     def lock_direction(self, degree: int | float):
+        logger.info(f'Lock direction: {degree}')
         self.direction_locked = degree
         self.direction = degree
         self.direction_similarity = 0.
 
     def lock_rotation(self, degree: int | float):
+        logger.info(f'Lock rotation: {degree}')
         self.rotation_locked = degree
         self.rotation = degree
         self.rotation_confidence = 0.
