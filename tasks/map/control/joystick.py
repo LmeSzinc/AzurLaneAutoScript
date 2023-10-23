@@ -101,9 +101,8 @@ class JoystickContact:
 
     def up(self):
         builder = self.builder
-        if self.is_downed:
-            builder.up().commit()
-            builder.send()
+        builder.up().commit()
+        builder.send()
         self.prev_point = None
 
     def set(self, direction, run=True):
