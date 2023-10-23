@@ -163,4 +163,3 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20231012   | event 20201229 cn        | Inverted Orthant                             | -                      | -                                            | -                                    | 復刻-負象限作戰           |
 | 20231019   | raid 20221027            | Fight! Royal Maid                            | -                      | -                                            | -                                    | 戰鬥！皇家女僕隊3rd       |
 
-
