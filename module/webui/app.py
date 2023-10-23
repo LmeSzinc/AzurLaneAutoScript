@@ -512,6 +512,11 @@ class AlasGUI(Frame):
             valid = []
             invalid = []
             config = read(config_name)
+            n = datetime.now()
+            for p, v in deep_iter(config, depth=3):
+                if p[-1].endswith('un') and not isinstance(v, bool):
+                    if (v - n).days >= 31:
+                        deep_set(config, p, '')
             for k, v in modified.copy().items():
                 valuetype = deep_get(self.ALAS_ARGS, k + ".valuetype")
                 v = parse_pin_value(v, valuetype)
@@ -533,7 +538,7 @@ class AlasGUI(Frame):
                         k = k.split(".")
                         k[-1] = k[-1].replace("Value", "Record")
                         k = ".".join(k)
-                        v = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        v = n.strftime("%Y-%m-%d %H:%M:%S")
                         modified[k] = v
                         deep_set(config, k, v)
                         valid.append(k)
