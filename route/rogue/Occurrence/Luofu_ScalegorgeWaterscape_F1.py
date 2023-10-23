@@ -8,17 +8,17 @@ class Route(RouteBase):
 
     def Luofu_ScalegorgeWaterscape_F1_X499Y135(self):
         """
-        | Waypoint | Position                  | Direction | Rotation |
-        | -------- | ------------------------- | --------- | -------- |
-        | spawn    | Waypoint((499.5, 135.3)), | 190.1     | 184      |
-        | event    | Waypoint((942.8, 291.1)), | 193.0     | 186      |
-        | exit     | Waypoint((499.2, 169.4)), | 187.1     | 179      |
+        | Waypoint       | Position                  | Direction | Rotation |
+        | -------------- | ------------------------- | --------- | -------- |
+        | spawn          | Waypoint((499.5, 135.3)), | 190.1     | 184      |
+        | event_X500Y169 | Waypoint((500.8, 169.1)), | 193.0     | 186      |
+        | exit           | Waypoint((499.2, 169.4)), | 187.1     | 179      |
         """
         self.map_init(plane=Luofu_ScalegorgeWaterscape, floor="F1", position=(499.5, 135.3))
         self.register_domain_exit(Waypoint((499.2, 169.4)), end_rotation=179)
-        event = Waypoint((942.8, 291.1))
+        event_X500Y169 = Waypoint((500.8, 169.1))
 
-        self.clear_event(event)
+        self.clear_event(event_X500Y169)
         # ===== End of generated waypoints =====
 
     @locked_rotation(180)

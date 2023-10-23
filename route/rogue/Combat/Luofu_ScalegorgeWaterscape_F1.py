@@ -84,13 +84,16 @@ class Route(RouteBase):
         item2 = Waypoint((472.6, 228.6))
         # ===== End of generated waypoints =====
 
+        self.minimap.lock_rotation(270)
         self.clear_enemy(enemy1)
+        self.rotation_set(0)
+        self.minimap.lock_rotation(0)
         self.clear_item(
-            node2.straight_run(),
-            item2.straight_run(),
+            node2,
+            item2,
         )
         self.clear_enemy(
-            enemy2.straight_run(),
+            enemy2,
         )
 
     def Luofu_ScalegorgeWaterscape_F1_X617Y99(self):

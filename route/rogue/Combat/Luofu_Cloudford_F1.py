@@ -179,9 +179,11 @@ class Route(RouteBase):
         self.clear_item(item1)
         self.clear_enemy(enemy1)
         # Go through bridges
+        self.rotation_set(270)
+        self.minimap.lock_rotation(270)
         self.clear_enemy(
-            node2.straight_run().set_threshold(3),
-            node3.straight_run().set_threshold(3),
+            node2.straight_run(),
+            node3.straight_run(),
             enemy3.straight_run(),
         )
         self.clear_item(item4)
