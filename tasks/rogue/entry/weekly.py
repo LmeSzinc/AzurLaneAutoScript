@@ -66,6 +66,7 @@ class RogueRewardHandler(RogueUI):
         logger.info('Rogue reward claim')
         claimed = False
         appear = False
+        click_count = 0
         timeout = Timer(2, count=10).start()
         while 1:
             if skip_first_screenshot:
@@ -76,12 +77,15 @@ class RogueRewardHandler(RogueUI):
             # End
             if claimed:
                 if self.appear(REWARD_CHECK):
-                    break
+                    return True
                 if self.is_page_rogue_main():
-                    break
+                    return True
             if not appear and timeout.reached():
                 logger.warning('Rogue reward claim timeout, CLAIM_ALL not found')
-                break
+                return False
+            if click_count > 3:
+                logger.warning('Failed to claim weekly rewards, probably because immersifier is full')
+                return False
 
             if self.handle_reward():
                 claimed = True
@@ -91,6 +95,7 @@ class RogueRewardHandler(RogueUI):
                     self.device.click(CLAIM_ALL)
                     self.interval_reset(CLAIM_ALL, interval=1)
                     appear = True
+                    click_count += 1
                     continue
 
     def rogue_reward_claim(self):
@@ -107,9 +112,9 @@ class RogueRewardHandler(RogueUI):
         logger.hr('Rogue reward claim', level=2)
         if self._rogue_reward_appear():
             self._rogue_reward_enter()
-            self._rogue_reward_claim()
+            success = self._rogue_reward_claim()
             self._rogue_reward_exit()
-            return True
+            return success
         else:
             logger.info('No rogue reward')
             return False

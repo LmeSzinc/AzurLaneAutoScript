@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from module.base.timer import Timer
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
@@ -109,9 +111,17 @@ class RogueReward(RogueUI, CombatInteract):
             use_immersifier=True
     ):
         if not use_trailblaze_power and not use_immersifier:
+            logger.info('Cannot claim domain reward, as all disabled')
             return False
-        if use_immersifier and self.config.stored.Immersifier.value > 0:
-            return True
+        if use_immersifier:
+            if self.config.stored.Immersifier.value > 0:
+                logger.info(f'Can claim domain reward, got immersifiers')
+                return True
+            if datetime.now() - self.config.stored.Immersifier.time > timedelta(minutes=15):
+                logger.info(f'Can claim domain reward, immersifier record outdated')
+                return True
         if use_trailblaze_power and self.config.stored.TrailblazePower.predict_current() >= 40:
+            logger.info(f'Can claim domain reward, got enough trailblaze power')
             return True
+        logger.info('Cannot claim domain reward, requirements not satisfied')
         return False

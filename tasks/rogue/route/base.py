@@ -184,11 +184,9 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
         use_immersifier = 'immersifier' in self.config.RogueWorld_ImmersionReward
 
         if self.can_claim_domain_reward(use_trailblaze_power=use_trailblaze_power, use_immersifier=use_immersifier):
-            logger.info('Can claim domain reward')
             result = self.goto(*waypoints)
             self.claim_domain_reward(use_trailblaze_power=use_trailblaze_power, use_immersifier=use_immersifier)
         else:
-            logger.info('Cannot claim more rewards')
             result = []
 
         return result
