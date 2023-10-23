@@ -64,6 +64,7 @@ class RogueReward(RogueUI, CombatInteract):
             return
 
         confirm = Timer(0.6, count=2).start()
+        exhausted = False
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -76,7 +77,7 @@ class RogueReward(RogueUI, CombatInteract):
             else:
                 confirm.reset()
 
-            if self.handle_combat_interact():
+            if not exhausted and self.handle_combat_interact():
                 self.interval_clear(USE_STAMINA)
                 confirm.reset()
                 continue
@@ -103,7 +104,8 @@ class RogueReward(RogueUI, CombatInteract):
                     self.device.click(REWARD_CLOSE)
                     self.interval_reset(USE_STAMINA)
                     confirm.reset()
-                    break
+                    exhausted = True
+                    continue
 
     def can_claim_domain_reward(
             self,
