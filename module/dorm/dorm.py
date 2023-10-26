@@ -188,20 +188,19 @@ class RewardDorm(UI):
             else:
                 break
 
-    @cached_property
-    @Config.when(SERVER='en')
-    def _dorm_food(self):
-        # 14px lower
-        return ButtonGrid(origin=(279, 375), delta=(159, 0), button_shape=(134, 96), grid_shape=(6, 1), name='FOOD')
+    # @cached_property
+    # @Config.when(SERVER='en')
+    # def _dorm_food(self):
+    #     # 14px lower
+    #     return ButtonGrid(origin=(279, 375), delta=(159, 0), button_shape=(134, 96), grid_shape=(6, 1), name='FOOD')
 
     @cached_property
-    @Config.when(SERVER=None)
     def _dorm_food(self):
-        return ButtonGrid(origin=(279, 375), delta=(159, 0), button_shape=(134, 96), grid_shape=(6, 1), name='FOOD')
+        return ButtonGrid(origin=(411, 387), delta=(117, 0), button_shape=(95, 73), grid_shape=(6, 1), name='FOOD')
 
     @cached_property
     def _dorm_food_ocr(self):
-        grids = self._dorm_food.crop((65, 66, 128, 91), name='FOOD_AMOUNT')
+        grids = self._dorm_food.crop((47, 46, 91, 68), name='FOOD_AMOUNT')
         return Digit(grids.buttons, letter=(255, 255, 255), threshold=128, name='OCR_DORM_FOOD')
 
     def _dorm_has_food(self, button):
@@ -353,7 +352,7 @@ class RewardDorm(UI):
                 self.device.screenshot()
 
             # End
-            if self.appear(DORM_CHECK, offset=(20, 20)):
+            if self.appear(DORM_CHECK):
                 break
 
             if self.appear(DORM_FEED_CHECK, offset=(20, 20), interval=5):
