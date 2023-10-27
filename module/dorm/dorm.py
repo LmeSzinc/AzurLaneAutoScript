@@ -199,12 +199,6 @@ class RewardDorm(UI):
             else:
                 break
 
-    # @cached_property
-    # @Config.when(SERVER='en')
-    # def _dorm_food(self):
-    #     # 14px lower
-    #     return ButtonGrid(origin=(279, 375), delta=(159, 0), button_shape=(134, 96), grid_shape=(6, 1), name='FOOD')
-
     @cached_property
     def _dorm_food(self):
         return ButtonGrid(origin=(411, 387), delta=(117, 0), button_shape=(95, 73), grid_shape=(6, 1), name='FOOD')
