@@ -2532,56 +2532,6 @@
       "help": "PowerLimit.Ash.help"
     }
   },
-  "ChangeShip": {
-    "_info": {
-      "name": "ChangeShip._info.name",
-      "help": "ChangeShip._info.help"
-    },
-    "Enable": {
-      "name": "ChangeShip.Enable.name",
-      "help": "ChangeShip.Enable.help"
-    },
-    "PushLua": {
-      "name": "ChangeShip.PushLua.name",
-      "help": "ChangeShip.PushLua.help"
-    },
-    "Timeout": {
-      "name": "ChangeShip.Timeout.name",
-      "help": "ChangeShip.Timeout.help"
-    },
-    "TargetType": {
-      "name": "ChangeShip.TargetType.name",
-      "help": "ChangeShip.TargetType.help",
-      "CV": "CV",
-      "BB": "BB"
-    },
-    "ShipData": {
-      "name": "ChangeShip.ShipData.name",
-      "help": "ChangeShip.ShipData.help"
-    }
-  },
-  "ChangeAttribute": {
-    "_info": {
-      "name": "ChangeAttribute._info.name",
-      "help": "ChangeAttribute._info.help"
-    },
-    "Enable": {
-      "name": "ChangeAttribute.Enable.name",
-      "help": "ChangeAttribute.Enable.help"
-    },
-    "PushLua": {
-      "name": "ChangeAttribute.PushLua.name",
-      "help": "ChangeAttribute.PushLua.help"
-    },
-    "Timeout": {
-      "name": "ChangeAttribute.Timeout.name",
-      "help": "ChangeAttribute.Timeout.help"
-    },
-    "ShipData": {
-      "name": "ChangeAttribute.ShipData.name",
-      "help": "ChangeAttribute.ShipData.help"
-    }
-  },
   "InfiniteDelay": {
     "_info": {
       "name": "InfiniteDelay._info.name",
