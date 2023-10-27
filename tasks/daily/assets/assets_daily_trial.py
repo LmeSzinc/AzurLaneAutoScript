@@ -48,7 +48,7 @@ REGULAR_GACHA_CHECK = ButtonWrapper(
     share=Button(
         file='./assets/share/daily/trial/REGULAR_GACHA_CHECK.png',
         area=(69, 332, 124, 367),
-        search=(15, 146, 150, 478),
+        search=(0, 144, 150, 588),
         color=(100, 92, 82),
         button=(69, 332, 124, 367),
     ),
@@ -58,7 +58,7 @@ REGULAR_GACHA_CLICK = ButtonWrapper(
     share=Button(
         file='./assets/share/daily/trial/REGULAR_GACHA_CLICK.png',
         area=(63, 324, 118, 349),
-        search=(15, 146, 150, 478),
+        search=(0, 144, 150, 588),
         color=(36, 34, 30),
         button=(63, 324, 118, 349),
     ),
