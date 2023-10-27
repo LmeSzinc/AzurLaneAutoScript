@@ -9447,7 +9447,7 @@
       },
       "Timeout": {
         "type": "input",
-        "value": 1200
+        "value": 120
       },
       "DisabledTask": {
         "type": "select",
@@ -9472,50 +9472,6 @@
       "Ash": {
         "type": "input",
         "value": 16500
-      }
-    },
-    "ChangeShip": {
-      "Enable": {
-        "type": "checkbox",
-        "value": false
-      },
-      "PushLua": {
-        "type": "checkbox",
-        "value": false
-      },
-      "Timeout": {
-        "type": "input",
-        "value": 90
-      },
-      "TargetType": {
-        "type": "select",
-        "value": "BB",
-        "option": [
-          "CV",
-          "BB"
-        ]
-      },
-      "ShipData": {
-        "type": "textarea",
-        "value": "106021;1;6\n107041;1;6\n206011;1;6\n107011;1;6\n"
-      }
-    },
-    "ChangeAttribute": {
-      "Enable": {
-        "type": "checkbox",
-        "value": false
-      },
-      "PushLua": {
-        "type": "checkbox",
-        "value": false
-      },
-      "Timeout": {
-        "type": "input",
-        "value": 600
-      },
-      "ShipData": {
-        "type": "textarea",
-        "value": ""
       }
     },
     "Storage": {
