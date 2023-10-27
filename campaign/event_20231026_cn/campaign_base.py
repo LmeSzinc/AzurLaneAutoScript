@@ -1,5 +1,5 @@
 import numpy as np
-
+from module.campaign.assets import SWITCH_1_NORMAL
 from module.base.button import Button
 from module.base.utils import get_color
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
@@ -39,25 +39,23 @@ class CampaignBase(CampaignBase_):
                 self.campaign_ensure_mode('ex')
             self.campaign_ensure_chapter(index=chapter)
 
-        elif chapter == 'sp':
-            self.ui_goto_sp()
-            self.campaign_ensure_chapter(index=chapter)
-
         elif chapter in ['t', 'ts', 'ht', 'hts']:
             self.ui_goto_event()
-            # Campaign mode
-            if chapter in ['t', 'ts']:
-                self.campaign_ensure_mode('normal')
-            if chapter in ['ht', 'hts']:
-                self.campaign_ensure_mode('hard')
-            if chapter == 'ex_sp':
-                self.campaign_ensure_mode('ex')
+            self._get_stage_name(self.device.screenshot())
+            current_stage = list(self.stage_entrance.keys())
             if chapter in ['t', 'ht']:
-                if stage in ["1", "2", "3"]:
+                if stage in ["1", "2", "3"] and "t4" in current_stage:
                     self.device.click(CHAPTER_PREV)
-                elif stage in ["4", "5", "6"]:
+                elif stage in ["4", "5", "6"] and "t1" in current_stage:
                     self.device.click(CHAPTER_NEXT)
+                elif current_stage[0] == "sp":
+                    if stage in ["4", "5", "6"]:
+                        self.device.click(SWITCH_1_NORMAL)
+                    elif stage in ["1", "2", "3"]:
+                        self.device.click(SWITCH_1_NORMAL)
+                        self.device.sleep(0.5)
+                        self.device.click(CHAPTER_PREV)
             # Get stage
-            self.campaign_ensure_chapter(index=1)
+            # self.campaign_ensure_chapter(index=1)
         else:
             logger.warning(f'Unknown campaign chapter: {name}')
