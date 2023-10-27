@@ -724,6 +724,7 @@
       "event_20230803_cn": "奏响鸢尾之歌",
       "event_20230817_cn": "愚者的天平",
       "event_20230914_cn": "须臾望月抄",
+      "event_20231026_cn": "飓风与青春之泉",
       "raid_20200624": "复刻特别演习埃塞克斯级",
       "raid_20210708": "复刻穿越彼方的水线",
       "raid_20220127": "演习神秘事件调查",
@@ -2529,6 +2530,56 @@
     "Ash": {
       "name": "余烬信标",
       "help": ""
+    }
+  },
+  "ChangeShip": {
+    "_info": {
+      "name": "改船(高危功能，未经过充分测试，封号概不负责)",
+      "help": "只在紧急委托中并且设置为活动里的D图时生效\n需要和倍率一起使用"
+    },
+    "Enable": {
+      "name": "启用",
+      "help": ""
+    },
+    "PushLua": {
+      "name": "始终推送Lua",
+      "help": "有时推送时会失败，视情况开启或者关闭"
+    },
+    "Timeout": {
+      "name": "时限(秒)",
+      "help": "该项目的时限，修改较多时需要调大"
+    },
+    "TargetType": {
+      "name": "目标舰种",
+      "help": "困难图中后排锁定的舰种",
+      "CV": "正航",
+      "BB": "战列"
+    },
+    "ShipData": {
+      "name": "舰船数据",
+      "help": "格式为\"舰船Id;星级;舰种Id\"\n参考https://github.com/0O0o0oOoO00/SmallKai中的数据\n清空会恢复默认"
+    }
+  },
+  "ChangeAttribute": {
+    "_info": {
+      "name": "改属性",
+      "help": "需要和倍率一起使用"
+    },
+    "Enable": {
+      "name": "启用",
+      "help": ""
+    },
+    "PushLua": {
+      "name": "始终推送Lua",
+      "help": "有时推送时会失败，视情况开启或者关闭"
+    },
+    "Timeout": {
+      "name": "时限(秒)",
+      "help": "该项目的时限，修改较多时需要调大"
+    },
+    "ShipData": {
+      "name": "舰船数据",
+      "help": "格式为\"舰船Id;舰船星级;类型Id:属性>目标值[;属性>目标值...]\"\n参考https://github.com/0O0o0oOoO00/SmallKai中的数据"
     }
   },
   "InfiniteDelay": {
