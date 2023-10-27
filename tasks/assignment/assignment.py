@@ -105,9 +105,6 @@ class Assignment(AssignmentClaim, SynthesizeUI):
         for assignment in assignments:
             if assignment in self.dispatched:
                 continue
-            if remain <= 0:
-                yield assignment
-                continue
             logger.hr('Assignment inlist', level=2)
             logger.info(f'Check assignment inlist: {assignment}')
             self.goto_entry(assignment)
@@ -120,6 +117,9 @@ class Assignment(AssignmentClaim, SynthesizeUI):
                     self._get_assignment_time()
                 continue
             # General assignments must be dispatchable here
+            if remain <= 0:
+                yield assignment
+                continue
             self.dispatch(assignment, duration)
             remain -= 1
 
