@@ -57,7 +57,7 @@ class GemsCampaignOverride(CampaignBase):
                     self.withdraw()
                     break
 
-                if self.appear(FLEET_PREPARATION, offset=(20, 20), interval=2) \
+                if self.appear(FLEET_PREPARATION, offset=(20, 50), interval=2) \
                         or self.appear(MAP_PREPARATION, offset=(20, 20), interval=2):
                     self.enter_map_cancel()
                     break

@@ -1,10 +1,10 @@
 import re
 
 from module.base.button import ButtonGrid
-from module.base.decorator import cached_property, Config
+from module.base.decorator import cached_property
 from module.base.filter import Filter
 from module.base.timer import Timer
-from module.combat.assets import GET_ITEMS_1, GET_SHIP, GET_ITEMS_3
+from module.combat.assets import GET_ITEMS_1, GET_ITEMS_3, GET_SHIP
 from module.logger import logger
 from module.shop.assets import *
 from module.shop.shop_select_globals import *
@@ -32,6 +32,7 @@ FILTER_REGEX = re.compile(
     '|red|blue|yellow'
     '|general|gun|torpedo|antiair|plane|wild'
     '|dd|cl|bb|cv'
+    '|iris'
     '|abyssal|archive|obscure|unlock'
     '|combat|offense|survival)?'
 

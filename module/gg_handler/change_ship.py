@@ -36,19 +36,17 @@ class ChangeShip(ModuleBase):
     def PushLua(self):
         IsPush = deep_get(self.config.data, keys='GameManager.ChangeShip.PushLua')
         if IsPush:
-            import os
-            os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                     f' {self.device.serial} shell mkdir /sdcard/Notes')
+            self.device.adb_shell("mkdir /sdcard/Notes")
             self.device.sleep(0.5)
-            os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                     f' {self.device.serial} shell rm /sdcard/Notes/ShipChanger.lua')
+            self.device.adb_shell("rm /sdcard/Notes/ShipChanger.lua")
             self.device.sleep(0.5)
-            os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                     f' {self.device.serial} push "bin/Lua/ShipChanger.lua" /sdcard/Notes/ShipChanger.lua')
+            self.device.adb_push("bin/Lua/ShipChanger.lua", "/sdcard/Notes/ShipChanger.lua")
             self.device.sleep(0.5)
             logger.info('Lua Pushed')
 
     def ChangeShipType(self):
+        if not deep_get(self.config.data, "GameManager.ChangeShip.Enable"):
+            return 0
         HARDMODEMAPS = [
             'd1', 'd2', 'd3',
             'ht4', 'ht5', 'ht6',
@@ -92,7 +90,7 @@ class ChangeShip(ModuleBase):
                 logger.info("Click confirm")
                 self.device.sleep(0.5)
                 _confirmed = True
-            self.d.wait_timeout = 90.0
+            self.d.wait_timeout = deep_get(self.config.data, "GameManager.ChangeShip.Timeout")
 
             if _set and _confirmed:
                 try:

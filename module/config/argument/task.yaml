@@ -310,6 +310,7 @@ Opsi:
       - Scheduler
       - OpsiStronghold
       - OpsiFleetFilter
+      - OpsiFleet
     OpsiMonthBoss:
       - Scheduler
       - OpsiMonthBoss
@@ -344,6 +345,7 @@ Tool:
       - GGHandler
       - PowerLimit
       - ChangeShip
+      - ChangeAttribute
     SomethingSpecial:
       - InfiniteDelay
       - TurnOffForcedOnSettings

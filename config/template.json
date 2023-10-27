@@ -1830,6 +1830,11 @@
     "OpsiFleetFilter": {
       "Filter": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
     },
+    "OpsiFleet": {
+      "Fleet": 1,
+      "FleetMode": "combat_auto",
+      "Submarine": true
+    },
     "Storage": {
       "Storage": {}
     }
@@ -1959,6 +1964,7 @@
       "RestartEverytime": true,
       "RepushLua": true,
       "GGMultiplyingFactor": 200,
+      "Timeout": 1200,
       "DisabledTask": "disable_all_dangerous_task"
     },
     "PowerLimit": {
@@ -1969,8 +1975,15 @@
     "ChangeShip": {
       "Enable": false,
       "PushLua": false,
+      "Timeout": 90,
       "TargetType": "BB",
       "ShipData": "106021;1;6\n107041;1;6\n206011;1;6\n107011;1;6\n"
+    },
+    "ChangeAttribute": {
+      "Enable": false,
+      "PushLua": false,
+      "Timeout": 600,
+      "ShipData": null
     },
     "Storage": {
       "Storage": {}

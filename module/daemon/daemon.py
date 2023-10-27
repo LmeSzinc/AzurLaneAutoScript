@@ -35,7 +35,7 @@ class AzurLaneDaemon(DaemonBase, CampaignBase):
             if self.config.Daemon_EnterMap:
                 if self.appear_then_click(MAP_PREPARATION, offset=(20, 20), interval=2):
                     continue
-                if self.appear_then_click(FLEET_PREPARATION, offset=(20, 20), interval=2):
+                if self.appear_then_click(FLEET_PREPARATION, offset=(20, 50), interval=2):
                     continue
 
             # Retire

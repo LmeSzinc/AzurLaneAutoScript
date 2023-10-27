@@ -4,6 +4,7 @@ from module.config.config import deep_get
 from module.base.base import ModuleBase as Base
 import uiautomator2 as u2
 from module.gg_handler.change_ship import ChangeShip
+from module.gg_handler.change_attribute import ChangeAttribute
 
 
 class GGU2(Base):
@@ -132,18 +133,27 @@ class GGU2(Base):
         _repush = deep_get(self.config.data, keys='GameManager.GGHandler.RepushLua')
         ShipChanger = ChangeShip(self.config, self.device)
         ShipChanger.PushLua()
+        AttributeChanger = ChangeAttribute(self.config, self.device)
+        AttributeChanger.PushLua()
         if _repush:
-            os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                     f' {self.device.serial} shell mkdir /sdcard/Notes')
+            # os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+            #          f' {self.device.serial} shell mkdir /sdcard/Notes')
+            # self.device.sleep(0.5)
+            # os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+            #          f' {self.device.serial} shell rm /sdcard/Notes/Multiplier.lua')
+            # self.device.sleep(0.5)
+            # os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
+            #          f' {self.device.serial} push "bin/Lua/Multiplier.lua" /sdcard/Notes/Multiplier.lua')
+            # self.device.sleep(0.5)
+            self.device.adb_shell("mkdir /sdcard/Notes")
             self.device.sleep(0.5)
-            os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                     f' {self.device.serial} shell rm /sdcard/Notes/Multiplier.lua')
+            self.device.adb_shell("rm /sdcard/Notes/Multiplier.lua")
             self.device.sleep(0.5)
-            os.popen(f'"toolkit/Lib/site-packages/adbutils/binaries/adb.exe" -s'
-                     f' {self.device.serial} push "bin/Lua/Multiplier.lua" /sdcard/Notes/Multiplier.lua')
+            self.device.adb_push("bin/Lua/Multiplier.lua", "/sdcard/Notes/Multiplier.lua")
             self.device.sleep(0.5)
             logger.info('Lua Pushed')
         ShipChanger.ChangeShipType()
+        AttributeChanger.ChangeAttribute()
         while 1:
             self.device.sleep(1)
             if self.d(resourceId=f"{self.gg_package_name}:id/search_toolbar").exists:
