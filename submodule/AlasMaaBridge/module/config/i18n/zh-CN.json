@@ -1,0 +1,568 @@
+{
+  "Menu": {
+    "Maa": {
+      "name": "Maa",
+      "help": ""
+    },
+    "Tool": {
+      "name": "Menu.Tool.name",
+      "help": "Menu.Tool.help"
+    }
+  },
+  "Task": {
+    "Maa": {
+      "name": "Maa设置",
+      "help": ""
+    },
+    "MaaStartup": {
+      "name": "开始唤醒",
+      "help": ""
+    },
+    "MaaAnnihilation": {
+      "name": "剿灭作战",
+      "help": ""
+    },
+    "MaaMaterial": {
+      "name": "刷材料",
+      "help": ""
+    },
+    "MaaFight": {
+      "name": "清理智",
+      "help": ""
+    },
+    "MaaRecruit": {
+      "name": "自动公招",
+      "help": ""
+    },
+    "MaaInfrast": {
+      "name": "基建换班",
+      "help": ""
+    },
+    "MaaMall": {
+      "name": "收取信用及购物",
+      "help": ""
+    },
+    "MaaAward": {
+      "name": "领取日常奖励",
+      "help": ""
+    },
+    "MaaRoguelike": {
+      "name": "自动肉鸽",
+      "help": ""
+    },
+    "MaaReclamationAlgorithm": {
+      "name": "生息演算",
+      "help": "警告：该功能仍在开发中，只能无限刷取，一旦启用会导致所有其他任务无法正常运行"
+    },
+    "MaaCopilot": {
+      "name": "自动战斗",
+      "help": ""
+    }
+  },
+  "Scheduler": {
+    "_info": {
+      "name": "任务设置",
+      "help": ""
+    },
+    "Enable": {
+      "name": "启用该功能",
+      "help": "将这个任务加入调度器\n委托、科研、收获任务是强制打开的"
+    },
+    "NextRun": {
+      "name": "下一次运行时间",
+      "help": "自动计算的数值，不需要手动修改。清空后将立即运行"
+    },
+    "Command": {
+      "name": "内部任务名称",
+      "help": ""
+    },
+    "SuccessInterval": {
+      "name": "运行成功后，推迟下一次运行 X 分钟",
+      "help": ""
+    },
+    "FailureInterval": {
+      "name": "运行失败后，推迟下一次运行 X 分钟",
+      "help": ""
+    },
+    "ServerUpdate": {
+      "name": "服务器刷新时间",
+      "help": "一些任务运行成功后，将推迟下一次运行至服务器刷新时间\n自动换算时区，一般不需要修改"
+    }
+  },
+  "Emulator": {
+    "_info": {
+      "name": "模拟器设置",
+      "help": ""
+    },
+    "ServerName": {
+      "name": "游戏内服务器（碧蓝航线）",
+      "help": "不显示在界面，仅用于和ALAS接轨"
+    }
+  },
+  "Error": {
+    "_info": {
+      "name": "调试设置",
+      "help": ""
+    },
+    "SaveError": {
+      "name": "出错时保存 Log",
+      "help": ""
+    },
+    "OnePushConfig": {
+      "name": "Error.OnePushConfig.name",
+      "help": "不显示在界面，仅用于和ALAS接轨"
+    }
+  },
+  "Optimization": {
+    "_info": {
+      "name": "优化设置",
+      "help": ""
+    },
+    "WhenTaskQueueEmpty": {
+      "name": "当任务队列清空后",
+      "help": "无任务时关闭游戏，能在收菜期间降低 CPU 占用"
+    }
+  },
+  "MaaEmulator": {
+    "_info": {
+      "name": "模拟器设置",
+      "help": ""
+    },
+    "Serial": {
+      "name": "模拟器 Serial",
+      "help": "模拟器默认 Serial：\n- 蓝叠模拟器 127.0.0.1:5555\n- 蓝叠模拟器4 Hyper-v版，填\"bluestacks4-hyperv\"自动连接，多开填\"bluestacks4-hyperv-2\"以此类推\n- 蓝叠模拟器5 Hyper-v版，填\"bluestacks5-hyperv\"自动连接，多开填\"bluestacks5-hyperv-1\"以此类推\n- 夜神模拟器 127.0.0.1:62001\n- 夜神模拟器64位 127.0.0.1:59865\n- MuMu模拟器 127.0.0.1:7555\n- 逍遥模拟器 127.0.0.1:21503\n- 雷电模拟器 emulator-5554 或 127.0.0.1:5555\n如果你有多个模拟器，它们的 Serial 将不是默认的，可以在 console.bat 中执行 `adb devices` 查询"
+    },
+    "PackageName": {
+      "name": "游戏服务器",
+      "help": "",
+      "Official": "官服",
+      "Bilibili": "Bilibili服",
+      "YoStarEN": "国际服",
+      "YoStarJP": "日服",
+      "YoStarKR": "韩服",
+      "txwy": "繁中服"
+    },
+    "MaaPath": {
+      "name": "MAA安装路径",
+      "help": "Alas的MAA插件支持多开，多个MAA配置可以共用安装路径"
+    },
+    "TouchMethod": {
+      "name": "触控方案",
+      "help": "",
+      "minitouch": "Minitouch（默认）",
+      "maatouch": "MaaTouch（实验功能）",
+      "adb": "Adb Input（兼容模式）"
+    },
+    "DeploymentWithPause": {
+      "name": "暂停下干员",
+      "help": "影响自动战斗、肉鸽、保全，目前仅支持MaaTouch\n警告：该功能仍在开发中，非常不稳定"
+    }
+  },
+  "MaaRecord": {
+    "_info": {
+      "name": "掉落记录",
+      "help": ""
+    },
+    "ReportToPenguin": {
+      "name": "上传到企鹅物流",
+      "help": ""
+    },
+    "PenguinID": {
+      "name": "企鹅物流ID",
+      "help": "留空即可，第一次上传后会自动生成"
+    }
+  },
+  "MaaFight": {
+    "_info": {
+      "name": "战斗设置",
+      "help": "任何一个战斗结束条件被满足后，都会导致任务被关闭且所有条件被删除，留空的条件不生效"
+    },
+    "Stage": {
+      "name": "关卡选择",
+      "help": "",
+      "last": "上次",
+      "1-7": "1-7",
+      "LS-6": "经验-6 (LS-6)",
+      "CA-5": "技能-5 (CA-5)",
+      "SK-5": "碳-5 (SK-5)",
+      "AP-5": "红票-5 (AP-5)",
+      "CE-6": "龙门币-6 (CE-6)",
+      "PR-A-1": "重装/医疗芯片 (PR-A-1)",
+      "PR-A-2": "重装/医疗芯片组 (PR-A-2)",
+      "PR-B-1": "狙击/术师芯片 (PR-B-1)",
+      "PR-B-2": "狙击/术师芯片组 (PR-B-2)",
+      "PR-C-1": "先锋/辅助芯片 (PR-C-1)",
+      "PR-C-2": "先锋/辅助芯片组 (PR-C-2)",
+      "PR-D-1": "近卫/特种芯片 (PR-D-1)",
+      "PR-D-2": "近卫/特种芯片组 (PR-D-2)",
+      "custom": "自定义"
+    },
+    "CustomStage": {
+      "name": "自定义关卡",
+      "help": "使用 \"自定义关卡\" 需要将 \"关卡选择\" 设置为 \"自定义\"\n可在关卡结尾输入 \"Normal/Hard\" 表示需要切换标准与磨难难度，例如 \"H10-1-Hard\""
+    },
+    "MedicineTactics": {
+      "name": "理智药策略",
+      "help": "",
+      "no_use": "不使用理智药",
+      "expiring": "48小时内过期的理智药",
+      "run_out": "清空理智药"
+    },
+    "Medicine": {
+      "name": "吃理智药",
+      "help": ""
+    },
+    "Stone": {
+      "name": "吃源石",
+      "help": ""
+    },
+    "Times": {
+      "name": "指定次数",
+      "help": ""
+    },
+    "Drops": {
+      "name": "指定掉落",
+      "help": "以\"掉落物:数量 > 掉落物:数量\"的形式，支持中文名称和物品ID\n注意：填写多种掉落物时，任何一种掉落物刷满都会使任务结束"
+    },
+    "DrGrandet": {
+      "name": "节省理智碎石模式",
+      "help": "在碎石确认界面等待，直到当前的 1 点理智恢复完成后再立刻碎石"
+    }
+  },
+  "MaaFightWeekly": {
+    "_info": {
+      "name": "每日轮换关卡设置",
+      "help": "打每日轮换关卡，设置后将覆盖 \"战斗设置\"，未设置时使用 \"战斗设置\" 中的默认关卡设置"
+    },
+    "Enable": {
+      "name": "启用每日轮换关卡设置",
+      "help": ""
+    },
+    "Monday": {
+      "name": "周一关卡选择",
+      "help": "",
+      "default": "遵循默认设置",
+      "LS-6": "经验-6 (LS-6)",
+      "SK-5": "碳-5 (SK-5)",
+      "AP-5": "红票-5 (AP-5)",
+      "PR-A-1": "重装/医疗芯片 (PR-A-1)",
+      "PR-A-2": "重装/医疗芯片组 (PR-A-2)",
+      "PR-B-1": "狙击/术师芯片 (PR-B-1)",
+      "PR-B-2": "狙击/术师芯片组 (PR-B-2)"
+    },
+    "Tuesday": {
+      "name": "周二关卡选择",
+      "help": "",
+      "default": "遵循默认设置",
+      "LS-6": "经验-6 (LS-6)",
+      "CA-5": "技能-5 (CA-5)",
+      "CE-6": "龙门币-6 (CE-6)",
+      "PR-B-1": "狙击/术师芯片 (PR-B-1)",
+      "PR-B-2": "狙击/术师芯片组 (PR-B-2)",
+      "PR-D-1": "近卫/特种芯片 (PR-D-1)",
+      "PR-D-2": "近卫/特种芯片组 (PR-D-2)"
+    },
+    "Wednesday": {
+      "name": "周三关卡选择",
+      "help": "",
+      "default": "遵循默认设置",
+      "LS-6": "经验-6 (LS-6)",
+      "CA-5": "技能-5 (CA-5)",
+      "SK-5": "碳-5 (SK-5)",
+      "PR-C-1": "先锋/辅助芯片 (PR-C-1)",
+      "PR-C-2": "先锋/辅助芯片组 (PR-C-2)",
+      "PR-D-1": "近卫/特种芯片 (PR-D-1)",
+      "PR-D-2": "近卫/特种芯片组 (PR-D-2)"
+    },
+    "Thursday": {
+      "name": "周四关卡选择",
+      "help": "",
+      "default": "遵循默认设置",
+      "LS-6": "经验-6 (LS-6)",
+      "AP-5": "红票-5 (AP-5)",
+      "CE-6": "龙门币-6 (CE-6)",
+      "PR-A-1": "重装/医疗芯片 (PR-A-1)",
+      "PR-A-2": "重装/医疗芯片组 (PR-A-2)",
+      "PR-C-1": "先锋/辅助芯片 (PR-C-1)",
+      "PR-C-2": "先锋/辅助芯片组 (PR-C-2)"
+    },
+    "Friday": {
+      "name": "周五关卡选择",
+      "help": "",
+      "default": "遵循默认设置",
+      "LS-6": "经验-6 (LS-6)",
+      "CA-5": "技能-5 (CA-5)",
+      "SK-5": "碳-5 (SK-5)",
+      "PR-A-1": "重装/医疗芯片 (PR-A-1)",
+      "PR-A-2": "重装/医疗芯片组 (PR-A-2)",
+      "PR-B-1": "狙击/术师芯片 (PR-B-1)",
+      "PR-B-2": "狙击/术师芯片组 (PR-B-2)"
+    },
+    "Saturday": {
+      "name": "周六关卡选择",
+      "help": "",
+      "default": "遵循默认设置",
+      "LS-6": "经验-6 (LS-6)",
+      "SK-5": "碳-5 (SK-5)",
+      "AP-5": "红票-5 (AP-5)",
+      "CE-6": "龙门币-6 (CE-6)",
+      "PR-B-1": "狙击/术师芯片 (PR-B-1)",
+      "PR-B-2": "狙击/术师芯片组 (PR-B-2)",
+      "PR-C-1": "先锋/辅助芯片 (PR-C-1)",
+      "PR-C-2": "先锋/辅助芯片组 (PR-C-2)",
+      "PR-D-1": "近卫/特种芯片 (PR-D-1)",
+      "PR-D-2": "近卫/特种芯片组 (PR-D-2)"
+    },
+    "Sunday": {
+      "name": "周日关卡选择",
+      "help": "",
+      "default": "遵循默认设置",
+      "LS-6": "经验-6 (LS-6)",
+      "CA-5": "技能-5 (CA-5)",
+      "AP-5": "红票-5 (AP-5)",
+      "CE-6": "龙门币-6 (CE-6)",
+      "PR-A-1": "重装/医疗芯片 (PR-A-1)",
+      "PR-A-2": "重装/医疗芯片组 (PR-A-2)",
+      "PR-C-1": "先锋/辅助芯片 (PR-C-1)",
+      "PR-C-2": "先锋/辅助芯片组 (PR-C-2)",
+      "PR-D-1": "近卫/特种芯片 (PR-D-1)",
+      "PR-D-2": "近卫/特种芯片组 (PR-D-2)"
+    }
+  },
+  "MaaRecruit": {
+    "_info": {
+      "name": "公招设置",
+      "help": ""
+    },
+    "Refresh": {
+      "name": "自动刷新3星 Tag",
+      "help": ""
+    },
+    "SkipRobot": {
+      "name": "手动确认\"支援机械\"",
+      "help": ""
+    },
+    "Select3": {
+      "name": "自动确认3星",
+      "help": ""
+    },
+    "Select4": {
+      "name": "自动确认4星",
+      "help": ""
+    },
+    "Select5": {
+      "name": "自动确认5星",
+      "help": ""
+    },
+    "Level3ShortTime": {
+      "name": "三星设置7:40而非9:00",
+      "help": ""
+    },
+    "Times": {
+      "name": "最大招募次数",
+      "help": ""
+    },
+    "Expedite": {
+      "name": "自动使用加急许可",
+      "help": ""
+    }
+  },
+  "MaaInfrast": {
+    "_info": {
+      "name": "基建设置",
+      "help": ""
+    },
+    "Facility": {
+      "name": "换班设施顺序",
+      "help": "会影响多功能干员的工作位置"
+    },
+    "Drones": {
+      "name": "无人机用途",
+      "help": "",
+      "_NotUse": "不使用无人机",
+      "Money": "贸易站-龙门币",
+      "SyntheticJade": "贸易站-合成玉",
+      "CombatRecord": "制造站-经验书",
+      "PureGold": "制造站-赤金",
+      "OriginStone": "制造站-源石碎片",
+      "Chip": "制造站-芯片组"
+    },
+    "WorkThreshold": {
+      "name": "基建工作心情阈值",
+      "help": "低于工作心情阈值的干员会在换班的时候被换下，取值范围0 - 24"
+    },
+    "ShiftThreshold": {
+      "name": "基建换班心情阈值",
+      "help": "有干员低于换班心情阈值时会启用基建换班任务，取值范围0 - 24\n必须小于基建工作心情阈值"
+    },
+    "Notstationed": {
+      "name": "不将已进驻的干员放入宿舍",
+      "help": ""
+    },
+    "Trust": {
+      "name": "宿舍空余位置蹭信赖",
+      "help": ""
+    },
+    "Replenish": {
+      "name": "源石碎片自动补货",
+      "help": ""
+    }
+  },
+  "MaaCustomInfrast": {
+    "_info": {
+      "name": "自定义基建设置",
+      "help": ""
+    },
+    "Enable": {
+      "name": "使用自定义基建配置",
+      "help": ""
+    },
+    "BuiltinConfig": {
+      "name": "内置配置",
+      "help": "内置配置需要非常高的练度要求，使用前请检查自己是否符合作业要求",
+      "custom": "自定义",
+      "153-3": "153 一天3换",
+      "243-3": "243 一天3换",
+      "243-4": "243 一天4换",
+      "252-3": "252 一天3换",
+      "333-3": "333 一天3换"
+    },
+    "Filename": {
+      "name": "自定义配置路径",
+      "help": "自定义基建排班制作器：https://yituliu.site/riicCal/"
+    },
+    "CustomPeriod": {
+      "name": "自定义换班周期",
+      "help": "仅用于没有内置换班周期的作业，手动设置每一班的工作时间，以小时为单位，使用逗号分隔"
+    },
+    "PlanIndex": {
+      "name": "当前方案序号",
+      "help": "仅用于没有内置换班周期的作业，每次启动都会换到下一班"
+    }
+  },
+  "MaaMall": {
+    "_info": {
+      "name": "信用商店",
+      "help": ""
+    },
+    "CreditFight": {
+      "name": "借助战赚信用",
+      "help": "借助战打一把OF-1赚30信用\n战斗任务的关卡设置为”上次“时会被自动跳过\n火蓝之心OF-1未解锁时请勿勾选"
+    },
+    "Shopping": {
+      "name": "信用购物",
+      "help": ""
+    },
+    "ForceShoppingIfCreditFull": {
+      "name": "信用溢出时无视黑名单",
+      "help": ""
+    },
+    "BuyFirst": {
+      "name": "优先购买",
+      "help": ""
+    },
+    "BlackList": {
+      "name": "黑名单",
+      "help": ""
+    }
+  },
+  "MaaRoguelike": {
+    "_info": {
+      "name": "肉鸽设置",
+      "help": ""
+    },
+    "Theme": {
+      "name": "肉鸽主题",
+      "help": "需在集成战略界面手动将对应主题添加到终端",
+      "Phantom": "傀影与猩红血钻",
+      "Mizuki": "水月与深蓝之树",
+      "Sami": "探索者的银凇止境"
+    },
+    "Mode": {
+      "name": "策略",
+      "help": "",
+      "0": "刷蜡烛",
+      "1": "刷源石锭"
+    },
+    "StartsCount": {
+      "name": "开始探索X次后停止任务",
+      "help": ""
+    },
+    "InvestmentsCount": {
+      "name": "投资X个源石锭后停止任务",
+      "help": ""
+    },
+    "StopWhenInvestmentFull": {
+      "name": "储备源石锭达到上限时停止",
+      "help": ""
+    },
+    "Squad": {
+      "name": "开局分队",
+      "help": "",
+      "心胜于物分队": "心胜于物分队",
+      "物尽其用分队": "物尽其用分队",
+      "以人为本分队": "以人为本分队",
+      "指挥分队": "指挥分队",
+      "集群分队": "集群分队",
+      "后勤分队": "后勤分队",
+      "矛头分队": "矛头分队",
+      "突击战术分队": "突击战术分队",
+      "堡垒战术分队": "堡垒战术分队",
+      "远程战术分队": "远程战术分队",
+      "破坏战术分队": "破坏战术分队",
+      "研究分队": "研究分队",
+      "高规格分队": "高规格分队"
+    },
+    "Roles": {
+      "name": "开局职业组",
+      "help": "",
+      "先手必胜": "先手必胜",
+      "稳扎稳打": "稳扎稳打",
+      "取长补短": "取长补短",
+      "随心所欲": "随心所欲"
+    },
+    "CoreChar": {
+      "name": "开局干员",
+      "help": "仅支持单个干员中文名，不填写则根据练度自动选择"
+    },
+    "Support": {
+      "name": "开局干员使用助战",
+      "help": "",
+      "no_use": "不使用",
+      "friend_support": "好友助战",
+      "nonfriend_support": "好友+非好友助战"
+    }
+  },
+  "MaaCopilot": {
+    "_info": {
+      "name": "作业设置",
+      "help": "请在有“开始行动”按钮的界面使用本功能\n使用好友助战可以关闭“自动编队”，手动选择干员后开始\n悖论模拟需要关闭“自动编队”，并选好技能后处于“开始模拟”按钮的界面再开始\n保全派驻作业可以于\\resource\\copilot\\下找到，需要自行设置战术装备和编队之后退出，然后开始运行"
+    },
+    "FileName": {
+      "name": "作业路径/神秘代码",
+      "help": "神秘代码获取见https://prts.plus/，更多作业下载可以加MAA作业群"
+    },
+    "Identify": {
+      "name": "识别作业",
+      "help": "在log上显示作业提示后停止，可以用来获取保全作业中的战术装置和编队"
+    },
+    "Formation": {
+      "name": "自动编队",
+      "help": ""
+    },
+    "Cycle": {
+      "name": "循环次数",
+      "help": "可用于保全派驻"
+    }
+  },
+  "Storage": {
+    "_info": {
+      "name": "Storage._info.name",
+      "help": "Storage._info.help"
+    },
+    "Storage": {
+      "name": "Storage.Storage.name",
+      "help": "Storage.Storage.help"
+    }
+  }
+}

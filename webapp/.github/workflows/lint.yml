@@ -1,0 +1,40 @@
+name: Linters
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.js'
+      - '**.ts'
+      - '**.vue'
+      - 'package-lock.json'
+      - '.github/workflows/lint.yml'
+  pull_request:
+    paths:
+      - '**.js'
+      - '**.ts'
+      - '**.vue'
+      - 'package-lock.json'
+      - '.github/workflows/lint.yml'
+
+
+defaults:
+  run:
+    shell: 'bash'
+
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16 # Need for npm >=7.7
+          cache: 'npm'
+
+      # TODO: Install not all dependencies, but only those required for this workflow
+      - name: Install dependencies
+        run: npm ci
+
+      - run: npm run lint
