@@ -28,6 +28,12 @@ class StrategicSearchHandler(MapEventHandler):
             if self.appear(STRATEGIC_SEARCH_MAP_OPTION_OFF, offset=(20, 20), interval=2) \
                     and STRATEGIC_SEARCH_MAP_OPTION_OFF.match_appear_on(self.device.image):
                 self.device.click(STRATEGIC_SEARCH_MAP_OPTION_OFF)
+                self.device.sleep(1)
+                '''
+                Here needs to add a sleep.
+                Because slow internet will cause twice click of STRATEGIC_SEARCH_MAP_OPTION_OFF 
+                and cause STRATEGIC_SEARCH to be closed so that enter a unstoppable loop.
+                '''
                 continue
 
     def strategic_search_set_tab(self, skip_first_screenshot=False):

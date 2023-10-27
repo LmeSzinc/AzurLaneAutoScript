@@ -231,7 +231,8 @@ class CampaignRun(CampaignEvent, ShopStatus):
             'event_20200917_cn',
             'event_20221124_cn',
             'event_20230525_cn',
-            'event_20211125_cn',  # chapter T
+            'event_20211125_cn',
+            'event_20231026_cn',# chapter T
         ]:
             name = convert.get(name, name)
         else:
@@ -388,6 +389,15 @@ class CampaignRun(CampaignEvent, ShopStatus):
             self.device.click_record_clear()
             try:
                 self.campaign.run()
+                if self.config.task.command in ['ResearchFarm', 'ResearchFarm2', 'ResearchFarm3', 'ResearchFarm4', 'ResearchFarm5', 'ResearchFarm6']:
+                    CurrentTimes = deep_get(self.config.data, "ResearchFarmingSetting.ResearchFarmingSetting.CurrentCampaignTimes") + 1
+                    CheckInterval = deep_get(self.config.data, "ResearchFarmingSetting.ResearchFarmingSetting.CheckInterval")
+                    self.config.modified["ResearchFarmingSetting.ResearchFarmingSetting.CurrentCampaignTimes"] = CurrentTimes
+                    if CurrentTimes % CheckInterval == 0:
+                        from module.research_farming.farming import ResearchFarming
+                        ResearchFarming(config=self.config, device=self.device).CheckResearchShipExperience()
+                    self.config.update()
+
             except ScriptEnd as e:
                 logger.hr('Script end')
                 logger.info(str(e))
