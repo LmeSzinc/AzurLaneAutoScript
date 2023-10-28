@@ -270,7 +270,9 @@
     },
     "Enable": {
       "name": "Enable Task",
-      "help": "Join this task to scheduler.\nTask commission, research, reward are force to enable."
+      "help": "Join this task to scheduler.\nTask commission, research, reward are force to enable.",
+      "True": "Enabled",
+      "False": "False"
     },
     "NextRun": {
       "name": "Next Run",
