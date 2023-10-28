@@ -274,7 +274,9 @@
     },
     "Enable": {
       "name": "Enable Task",
-      "help": "Join this task to scheduler.\nTask commission, research, reward are force to enable."
+      "help": "Join this task to scheduler.\nTask commission, research, reward are force to enable.",
+      "True": "Enabled",
+      "False": "False"
     },
     "NextRun": {
       "name": "Next Run",
@@ -720,6 +722,7 @@
       "event_20230803_cn": "Anthem of Remembrance",
       "event_20230817_cn": "The Fools Scales",
       "event_20230914_cn": "Effulgence Before Eclipse",
+      "event_20231026_cn": "Tempesta and the Fountain of Youth",
       "raid_20200624": "Air Raid Drills with Essex Rerun",
       "raid_20210708": "Cross Wave rerun",
       "raid_20220127": "Mystery Investigation",

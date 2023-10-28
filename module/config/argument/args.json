@@ -372,9 +372,14 @@
   "Restart": {
     "Scheduler": {
       "Enable": {
-        "type": "checkbox",
+        "type": "state",
         "value": true,
-        "display": "disabled"
+        "option": [
+          true
+        ],
+        "option_bold": [
+          true
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -415,7 +420,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -788,7 +797,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -1161,7 +1174,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -1534,7 +1551,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -1680,12 +1701,17 @@
           "event_20230525_cn",
           "event_20230803_cn",
           "event_20230817_cn",
-          "event_20230914_cn"
+          "event_20230914_cn",
+          "event_20231026_cn"
         ],
         "display": "hide",
-        "cn": "event_20230914_cn",
-        "en": "event_20230914_cn",
-        "jp": "event_20230914_cn",
+        "option_bold": [
+          "event_20201229_cn",
+          "event_20231026_cn"
+        ],
+        "cn": "event_20231026_cn",
+        "en": "event_20231026_cn",
+        "jp": "event_20231026_cn",
         "tw": "event_20201229_cn"
       },
       "Mode": {
@@ -1907,7 +1933,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -1941,7 +1971,7 @@
         "value": "12-4"
       },
       "Event": {
-        "type": "select",
+        "type": "state",
         "value": "campaign_main",
         "option": [
           "event_20200227_cn",
@@ -2002,12 +2032,16 @@
           "event_20230525_cn",
           "event_20230803_cn",
           "event_20230817_cn",
-          "event_20230914_cn"
+          "event_20230914_cn",
+          "event_20231026_cn"
         ],
-        "display": "disabled",
-        "cn": "event_20230914_cn",
-        "en": "event_20230914_cn",
-        "jp": "event_20230914_cn",
+        "option_bold": [
+          "event_20201229_cn",
+          "event_20231026_cn"
+        ],
+        "cn": "event_20231026_cn",
+        "en": "event_20231026_cn",
+        "jp": "event_20231026_cn",
         "tw": "event_20201229_cn"
       },
       "Mode": {
@@ -2344,7 +2378,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -2378,7 +2416,7 @@
         "value": "12-4"
       },
       "Event": {
-        "type": "select",
+        "type": "state",
         "value": "campaign_main",
         "option": [
           "event_20200227_cn",
@@ -2439,12 +2477,16 @@
           "event_20230525_cn",
           "event_20230803_cn",
           "event_20230817_cn",
-          "event_20230914_cn"
+          "event_20230914_cn",
+          "event_20231026_cn"
         ],
-        "display": "disabled",
-        "cn": "event_20230914_cn",
-        "en": "event_20230914_cn",
-        "jp": "event_20230914_cn",
+        "option_bold": [
+          "event_20201229_cn",
+          "event_20231026_cn"
+        ],
+        "cn": "event_20231026_cn",
+        "en": "event_20231026_cn",
+        "jp": "event_20231026_cn",
         "tw": "event_20201229_cn"
       },
       "Mode": {
@@ -3218,7 +3260,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -3269,7 +3315,7 @@
         "display": "hide"
       },
       "Event": {
-        "type": "select",
+        "type": "state",
         "value": "campaign_main",
         "option": [
           "raid_20200624",
@@ -3280,7 +3326,10 @@
           "raid_20230118",
           "raid_20230629"
         ],
-        "display": "disabled",
+        "option_bold": [
+          "raid_20230629",
+          "raid_20221027"
+        ],
         "cn": "raid_20230629",
         "en": "raid_20230629",
         "jp": "raid_20230629",
@@ -3452,7 +3501,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -3486,12 +3539,14 @@
         "value": "12-4"
       },
       "Event": {
-        "type": "select",
+        "type": "state",
         "value": "campaign_main",
         "option": [
           "coalition_20230323"
         ],
-        "display": "disabled",
+        "option_bold": [
+          "coalition_20230323"
+        ],
         "cn": "coalition_20230323",
         "en": "coalition_20230323",
         "jp": "coalition_20230323",
@@ -3673,7 +3728,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -3720,7 +3779,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -3779,6 +3842,10 @@
           "war_archives_20211014_cn",
           "war_archives_20211028_cn",
           "war_archives_20220210_cn",
+          "war_archives_20220414_cn"
+        ],
+        "option_bold": [
+          "war_archives_20201229_cn",
           "war_archives_20220414_cn"
         ],
         "cn": "war_archives_20201229_cn",
@@ -4120,7 +4187,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -4165,7 +4236,7 @@
         "display": "hide"
       },
       "Event": {
-        "type": "select",
+        "type": "state",
         "value": "campaign_main",
         "option": [
           "event_20200227_cn",
@@ -4226,12 +4297,16 @@
           "event_20230525_cn",
           "event_20230803_cn",
           "event_20230817_cn",
-          "event_20230914_cn"
+          "event_20230914_cn",
+          "event_20231026_cn"
         ],
-        "display": "disabled",
-        "cn": "event_20230914_cn",
-        "en": "event_20230914_cn",
-        "jp": "event_20230914_cn",
+        "option_bold": [
+          "event_20201229_cn",
+          "event_20231026_cn"
+        ],
+        "cn": "event_20231026_cn",
+        "en": "event_20231026_cn",
+        "jp": "event_20231026_cn",
         "tw": "event_20201229_cn"
       },
       "Mode": {
@@ -4574,7 +4649,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -4619,7 +4698,7 @@
         "display": "hide"
       },
       "Event": {
-        "type": "select",
+        "type": "state",
         "value": "campaign_main",
         "option": [
           "event_20200227_cn",
@@ -4680,12 +4759,16 @@
           "event_20230525_cn",
           "event_20230803_cn",
           "event_20230817_cn",
-          "event_20230914_cn"
+          "event_20230914_cn",
+          "event_20231026_cn"
         ],
-        "display": "disabled",
-        "cn": "event_20230914_cn",
-        "en": "event_20230914_cn",
-        "jp": "event_20230914_cn",
+        "option_bold": [
+          "event_20201229_cn",
+          "event_20231026_cn"
+        ],
+        "cn": "event_20231026_cn",
+        "en": "event_20231026_cn",
+        "jp": "event_20231026_cn",
         "tw": "event_20201229_cn"
       },
       "Mode": {
@@ -5028,7 +5111,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -5073,7 +5160,7 @@
         "display": "hide"
       },
       "Event": {
-        "type": "select",
+        "type": "state",
         "value": "campaign_main",
         "option": [
           "event_20200227_cn",
@@ -5134,12 +5221,16 @@
           "event_20230525_cn",
           "event_20230803_cn",
           "event_20230817_cn",
-          "event_20230914_cn"
+          "event_20230914_cn",
+          "event_20231026_cn"
         ],
-        "display": "disabled",
-        "cn": "event_20230914_cn",
-        "en": "event_20230914_cn",
-        "jp": "event_20230914_cn",
+        "option_bold": [
+          "event_20201229_cn",
+          "event_20231026_cn"
+        ],
+        "cn": "event_20231026_cn",
+        "en": "event_20231026_cn",
+        "jp": "event_20231026_cn",
         "tw": "event_20201229_cn"
       },
       "Mode": {
@@ -5482,7 +5573,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -5527,7 +5622,7 @@
         "display": "hide"
       },
       "Event": {
-        "type": "select",
+        "type": "state",
         "value": "campaign_main",
         "option": [
           "event_20200227_cn",
@@ -5588,12 +5683,16 @@
           "event_20230525_cn",
           "event_20230803_cn",
           "event_20230817_cn",
-          "event_20230914_cn"
+          "event_20230914_cn",
+          "event_20231026_cn"
         ],
-        "display": "disabled",
-        "cn": "event_20230914_cn",
-        "en": "event_20230914_cn",
-        "jp": "event_20230914_cn",
+        "option_bold": [
+          "event_20201229_cn",
+          "event_20231026_cn"
+        ],
+        "cn": "event_20231026_cn",
+        "en": "event_20231026_cn",
+        "jp": "event_20231026_cn",
         "tw": "event_20201229_cn"
       },
       "Mode": {
@@ -5936,7 +6035,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -5971,7 +6074,7 @@
         "display": "hide"
       },
       "Event": {
-        "type": "select",
+        "type": "state",
         "value": "campaign_main",
         "option": [
           "event_20200227_cn",
@@ -6032,12 +6135,16 @@
           "event_20230525_cn",
           "event_20230803_cn",
           "event_20230817_cn",
-          "event_20230914_cn"
+          "event_20230914_cn",
+          "event_20231026_cn"
         ],
-        "display": "disabled",
-        "cn": "event_20230914_cn",
-        "en": "event_20230914_cn",
-        "jp": "event_20230914_cn",
+        "option_bold": [
+          "event_20201229_cn",
+          "event_20231026_cn"
+        ],
+        "cn": "event_20231026_cn",
+        "en": "event_20231026_cn",
+        "jp": "event_20231026_cn",
         "tw": "event_20201229_cn"
       },
       "Mode": {
@@ -6381,7 +6488,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -6422,7 +6533,7 @@
         "display": "hide"
       },
       "Event": {
-        "type": "select",
+        "type": "state",
         "value": "campaign_main",
         "option": [
           "raid_20200624",
@@ -6433,7 +6544,10 @@
           "raid_20230118",
           "raid_20230629"
         ],
-        "display": "disabled",
+        "option_bold": [
+          "raid_20230629",
+          "raid_20221027"
+        ],
         "cn": "raid_20230629",
         "en": "raid_20230629",
         "jp": "raid_20230629",
@@ -6606,7 +6720,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -6641,12 +6759,14 @@
         "display": "hide"
       },
       "Event": {
-        "type": "select",
+        "type": "state",
         "value": "campaign_main",
         "option": [
           "coalition_20230323"
         ],
-        "display": "disabled",
+        "option_bold": [
+          "coalition_20230323"
+        ],
         "cn": "coalition_20230323",
         "en": "coalition_20230323",
         "jp": "coalition_20230323",
@@ -6829,7 +6949,12 @@
       "Enable": {
         "type": "lock",
         "value": true,
-        "display": "disabled"
+        "option": [
+          true
+        ],
+        "option_bold": [
+          true
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -6892,7 +7017,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": true
+        "value": true,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -6983,7 +7112,12 @@
       "Enable": {
         "type": "lock",
         "value": true,
-        "display": "disabled"
+        "option": [
+          true
+        ],
+        "option_bold": [
+          true
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -7087,7 +7221,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": true
+        "value": true,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -7142,7 +7280,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": true
+        "value": true,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -7219,7 +7361,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": true
+        "value": true,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -7301,7 +7447,12 @@
       "Enable": {
         "type": "lock",
         "value": true,
-        "display": "disabled"
+        "option": [
+          true
+        ],
+        "option_bold": [
+          true
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -7364,7 +7515,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -7551,7 +7706,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -7606,7 +7765,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -7706,7 +7869,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -7769,7 +7936,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -8028,7 +8199,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -8133,7 +8308,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -8211,7 +8390,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": true
+        "value": true,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -8301,7 +8484,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -8386,7 +8573,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -8453,7 +8644,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -8500,7 +8695,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -8581,7 +8780,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -8628,7 +8831,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -8675,7 +8882,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -8752,7 +8963,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -8825,7 +9040,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -8878,7 +9097,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -8945,7 +9168,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -9026,7 +9253,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -9091,7 +9322,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -9179,7 +9414,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
@@ -9258,7 +9497,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
