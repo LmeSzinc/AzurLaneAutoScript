@@ -237,7 +237,15 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     # Effulgence Before Eclipse
     'chuyue': 'Hatsuzuki',
     'zhaozhi': 'Asanagi',
-    'ruifeng': 'Zuiho'
+    'ruifeng': 'Zuiho',
+
+    # Tempesta and the Fountain of Youth
+    'fengfan_xl': 'Tempesta',
+    'fengfan_ghost_xl': 'TempestaGhost',
+    'mali': 'MaryCeleste', 
+    'weida': 'Whydah', 
+    'jinluhao': 'GoldenHind',
+
 }
 
 
@@ -657,10 +665,10 @@ Arguments:
     IS_WAR_ARCHIVES: True if retrieved map is to be
                      adapted for war_archives usage
 """
-FILE = ''
+FILE = '../AzurLaneLuaScripts'
 FOLDER = './campaign/test'
-KEYWORD = ''
-SELECT = False
+KEYWORD = '启航的冒险者'
+SELECT = True
 OVERWRITE = True
 IS_WAR_ARCHIVES = False
 ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
