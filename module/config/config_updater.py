@@ -66,6 +66,9 @@ class Event:
     def __lt__(self, other):
         return str(self) < str(other)
 
+    def __hash__(self):
+        return hash(str(self))
+
 
 class ConfigGenerator:
     @cached_property
@@ -213,8 +216,11 @@ class ConfigGenerator:
             if not check_override(p, v):
                 continue
             if isinstance(v, dict):
-                if deep_get(v, keys='type') in ['lock']:
-                    deep_default(v, keys='display', value="disabled")
+                typ = v.get('type')
+                if typ == 'state':
+                    pass
+                elif typ == 'lock':
+                    pass
                 elif deep_get(v, keys='value') is not None:
                     deep_default(v, keys='display', value='hide')
                 for arg_k, arg_v in v.items():
@@ -439,6 +445,8 @@ class ConfigGenerator:
             latest = {}
             for server in ARCHIVES_PREFIX.keys():
                 latest[server] = deep_pop(self.args, keys=f'{task}.Campaign.Event.{server}', default='')
+            bold = list(set(latest.values()))
+            deep_set(self.args, keys=f'{task}.Campaign.Event.option_bold', value=bold)
             for server, event in latest.items():
                 deep_set(self.args, keys=f'{task}.Campaign.Event.{server}', value=event)
 
@@ -595,7 +603,10 @@ class ConfigUpdater:
         def deep_load(keys):
             data = deep_get(self.args, keys=keys, default={})
             value = deep_get(old, keys=keys, default=data['value'])
-            if is_template or value is None or value == '' or data['type'] == 'lock' or data.get('display') == 'hide':
+            typ = data['type']
+            display = data.get('display')
+            if is_template or value is None or value == '' \
+                    or typ in ['lock', 'state'] or (display == 'hide' and typ != 'stored'):
                 value = data['value']
             value = parse_value(value, data=data)
             deep_set(new, keys=keys, value=value)

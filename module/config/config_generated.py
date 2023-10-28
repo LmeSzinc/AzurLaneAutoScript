@@ -73,7 +73,7 @@ class GeneratedConfig:
     GuildCoin_Record = datetime.datetime(2020, 1, 1, 0, 0)
 
     # Group `Scheduler`
-    Scheduler_Enable = False
+    Scheduler_Enable = False  # True, False
     Scheduler_NextRun = datetime.datetime(2020, 1, 1, 0, 0)
     Scheduler_Command = 'Alas'
     Scheduler_SuccessInterval = 0
