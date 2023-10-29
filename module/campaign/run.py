@@ -61,9 +61,6 @@ class CampaignRun(CampaignEvent, ShopStatus):
             logger.critical(f'Possible reason #1: This event ({folder}) does not have {name}')
             logger.critical(f'Possible reason #2: You are using an old Alas, '
                             'please check for update, or make map files yourself using dev_tools/map_extractor.py')
-            if self.config.SERVER == 'cn':
-                logger.critical(f'Possible reason #3: 对于看不懂以上英文的用户，此处是友情翻译：'
-                            f'还没更新呢急你妈急急急急。要么给极彩阿丽艾塔上总督催更，要么滚回去自己写')
             raise RequestHumanTakeover
 
         config = copy.deepcopy(self.config).merge(self.module.Config())
@@ -203,13 +200,18 @@ class CampaignRun(CampaignEvent, ShopStatus):
             'a2': 't2',
             'a3': 't3',
             'a4': 't4',
+            'a5': 't5',
+            'a6': 't6',
             'sp1': 't1',
             'sp2': 't2',
             'sp3': 't3',
             'sp4': 't4',
+            'sp5': 't5',
+            'sp6': 't6',
         }
         if folder in [
             'event_20211125_cn',
+            'event_20231026_cn',
         ]:
             name = convert.get(name, name)
         # Convert between A/B/C/D and T/HT
@@ -231,8 +233,9 @@ class CampaignRun(CampaignEvent, ShopStatus):
             'event_20200917_cn',
             'event_20221124_cn',
             'event_20230525_cn',
+            # chapter T
             'event_20211125_cn',
-            'event_20231026_cn',# chapter T
+            'event_20231026_cn',
         ]:
             name = convert.get(name, name)
         else:

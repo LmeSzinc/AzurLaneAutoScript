@@ -5,8 +5,8 @@ from module.logger import logger
 
 MAP = CampaignMap('T1')
 MAP.shape = 'I8'
-MAP.camera_data = ['E2', 'E5', 'F2', 'F5']
-MAP.camera_data_spawn_point = ['F5', 'E5']
+MAP.camera_data = ['E2', 'E5']
+MAP.camera_data_spawn_point = ['E5']
 MAP.map_data = """
     ++ -- -- -- -- -- -- ++ MB
     -- ME -- -- ME -- ME -- --
@@ -56,6 +56,30 @@ class Config:
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 33),
+        'width': (1.5, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 33, 255),
+        'prominence': 10,
+        'distance': 50,
+        'wlen': 1000
+    }
+    HOMO_EDGE_COLOR_RANGE = (0, 33)
+    MAP_ENEMY_GENRE_DETECTION_SCALING = {
+        'DD': 1.111,
+        'CL': 1.111,
+        'CA': 1.111,
+        'CV': 1.111,
+        'BB': 1.111,
+    }
+    MAP_SWIPE_MULTIPLY = (1.067, 1.087)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.032, 1.051)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.002, 1.020)
 
 
 class Campaign(CampaignBase):

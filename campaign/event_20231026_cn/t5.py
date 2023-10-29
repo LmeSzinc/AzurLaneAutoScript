@@ -1,4 +1,4 @@
-from .campaign_base import CampaignBase
+from .campaign_base import CampaignBase, EventGrid
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
@@ -6,8 +6,8 @@ from .t1 import Config as ConfigBase
 
 MAP = CampaignMap('T5')
 MAP.shape = 'I10'
-MAP.camera_data = ['D3', 'D7', 'D8', 'F3', 'F7', 'F8']
-MAP.camera_data_spawn_point = ['D8', 'F8']
+MAP.camera_data = ['D3', 'D5', 'D7', 'F3', 'F5', 'F7']
+MAP.camera_data_spawn_point = ['E8']
 MAP.map_data = """
     ++ ++ ++ ++ ++ ++ ++ ++ ++
     -- ME -- ++ ++ ++ -- ME --
@@ -56,7 +56,7 @@ A10, B10, C10, D10, E10, F10, G10, H10, I10, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['fengfan_ghost_xl']
+    MAP_SIREN_TEMPLATE = []
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -66,10 +66,15 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    MAP_SWIPE_MULTIPLY = (0.991, 1.009)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (0.958, 0.976)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.930, 0.947)
+
 
 class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
+    grid_class = EventGrid
 
     def battle_0(self):
         if self.clear_siren():

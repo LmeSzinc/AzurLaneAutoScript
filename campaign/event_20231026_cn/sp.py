@@ -1,4 +1,4 @@
-from module.campaign.campaign_base import CampaignBase
+from .campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
@@ -9,8 +9,8 @@ MAP.camera_data = ['D2', 'D6']
 MAP.camera_data_spawn_point = ['D6']
 MAP.map_data = """
     ++ ++ -- MB -- ++ ++
-    ++ ++ -- -- -- ++ ++
-    -- -- -- -- -- -- --
+    ++ ++ -- SI -- ++ ++
+    -- -- SI -- SI -- --
     -- -- -- __ -- -- --
     ++ ++ SP -- SP ++ ++
     ME -- -- -- -- -- ME
@@ -28,7 +28,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0},
+    {'battle': 0, 'siren': 3},
     {'battle': 1},
     {'battle': 2},
     {'battle': 3, 'enemy': 7},
@@ -50,10 +50,10 @@ A8, B8, C8, D8, E8, F8, G8, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['mali', 'weida', 'jinluhao']
+    MAP_SIREN_TEMPLATE = []
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
-    MAP_HAS_MOVABLE_ENEMY = True
+    MAP_HAS_MOVABLE_ENEMY = False
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = False
@@ -63,10 +63,33 @@ class Config:
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 17),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 17, 255),
+        'prominence': 10,
+        'distance': 50,
+        'wlen': 1000
+    }
+    HOMO_EDGE_COLOR_RANGE = (0, 17)
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 280
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+    MAP_IS_ONE_TIME_STAGE = True
+
 
 class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
+
+    def map_data_init(self, map_):
+        super().map_data_init(map_)
+        C2.is_siren = True
+        D3.is_siren = True
+        E2.is_siren = True
 
     def battle_0(self):
         if self.clear_siren():

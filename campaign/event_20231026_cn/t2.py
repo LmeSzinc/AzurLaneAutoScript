@@ -1,4 +1,4 @@
-from .campaign_base import CampaignBase
+from .campaign_base import CampaignBase, EventGrid
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
@@ -48,7 +48,7 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['fengfan_xl']
+    MAP_SIREN_TEMPLATE = []
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -58,10 +58,15 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    MAP_SWIPE_MULTIPLY = (1.223, 1.246)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.183, 1.205)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.149, 1.169)
+
 
 class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
+    grid_class = EventGrid
 
     def battle_0(self):
         if self.clear_siren():
