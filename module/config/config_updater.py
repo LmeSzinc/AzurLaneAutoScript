@@ -637,16 +637,16 @@ class ConfigUpdater:
             deep_default(new, 'Alas.DropRecord.AzurStatsID', random_id())
         # Update to latest event
         server = to_server(deep_get(new, 'Alas.Emulator.PackageName', 'cn'))
-        if not is_template:
-            for task in EVENTS + RAIDS + COALITIONS:
-                deep_set(new,
-                         keys=f'{task}.Campaign.Event',
-                         value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
-            for task in ['GemsFarming']:
-                if deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') != 'campaign_main':
-                    deep_set(new,
-                             keys=f'{task}.Campaign.Event',
-                             value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
+        # if not is_template:
+        #     for task in EVENTS + RAIDS + COALITIONS:
+        #         deep_set(new,
+        #                  keys=f'{task}.Campaign.Event',
+        #                  value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
+        #     for task in ['GemsFarming']:
+        #         if deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') != 'campaign_main':
+        #             deep_set(new,
+        #                      keys=f'{task}.Campaign.Event',
+        #                      value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
         # War archive does not allow campaign_main
         for task in WAR_ARCHIVES:
             if deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') == 'campaign_main':
