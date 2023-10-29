@@ -114,6 +114,8 @@ class Template(Resource):
 
         if self.is_gif:
             for template in self.image:
+                if template.ndim < image.ndim:
+                    template = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
                 res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
                 _, sim, _, _ = cv2.minMaxLoc(res)
                 # print(self.file, sim)
