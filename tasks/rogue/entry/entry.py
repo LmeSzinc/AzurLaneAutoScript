@@ -145,7 +145,7 @@ class RogueEntry(DungeonUI, RogueRewardHandler, RoguePathHandler):
                 logger.info('At is_page_rogue_launch()')
                 break
             if self.is_in_main():
-                logger.info('At is_page_rogue_launch()')
+                logger.info('At is_in_main()')
                 break
 
             # Click
