@@ -12,4 +12,4 @@
 - 不建议开启`大世界`中的`深渊海域` `塞壬要塞` `月度Boss`，因为修改了部分异常处理，导致我也不知道会发生什么，要开就做好**资源可能会被浪费**的准备
 
 ## Discord
-https://discord.gg/zZ6VwmZ4VS
+https://discord.gg/2NuruGzKkK
