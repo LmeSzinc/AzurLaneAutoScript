@@ -81,5 +81,11 @@ def release_resources(next_task=''):
         #     logger.info(f'Release {obj}')
         obj.resource_release()
 
+    # If no task, check in-game text language again at next run
+    # cause user may change it
+    if not next_task:
+        from tasks.base.main_page import MainPage
+        MainPage._lang_checked = False
+
     # Useless in most cases, but just call it
     # gc.collect()

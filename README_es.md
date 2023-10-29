@@ -12,14 +12,14 @@ Star Rail Copilot, un bot para Honkai: Star Rail, basado en la siguiente generac
 - **Farmeo automático AFK**: El bot lo hace todo de manera automática, abre los emuladores, completa las misiones y realiza las tareas diarias.
 
 ## Instalación [![](https://img.shields.io/github/downloads/LmeSzinc/StarRailCopilot/total?color=4e4c97)](https://github.com/LmeSzinc/StarRailCopilot/releases)
-Dirígete a la [Guía de Instalación](https://github.com/LmeSzinc/StarRailCopilot/wiki/Installation_cn) para consultar cómo hacer la instalación automática, el manual de uso, etc.
+Dirígete a la [Guía de Instalación](https://github.com/LmeSzinc/StarRailCopilot/wiki/Installation_en) para consultar cómo hacer la instalación automática, el manual de uso, etc.
 
 > **¿Por qué usar un emulador?** Si ejecutas el bot en la versión de escritorio, la ventana debe de estar al frente. Imagino que no quieres quedarte esperando sin poder mover el ratón y teclado mientras el bot se ejecuta. Por esto se usa emulador.
 > **¿Cómo es el rendimiento?** Con un 8700k + 1080 Ti y usando el emulador MuMu12 con los gráficos en Muy Alto, se obtienen 40 FPS. No debería ser un problema ejecutar el juego en gráficos al máximo y tener 60 FPS si tienes un PC más nuevo.
 
 
 ## Desarrollo
-Discord: https://discord.gg/aJkt3mKDEr | Grupo de QQ: 752620927
+Discord: https://discord.gg/aJkt3mKDEr
 
 - [Seguimiento del Minimapa](https://github.com/LmeSzinc/StarRailCopilot/wiki/MinimapTracking)
 - Documentación para desarrolladores (el menú está en la barra lateral): [Wiki de ALAS](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/1.-Start) (en Chino). Sin embargo, hay un montón de código nuevo, por lo que es recomendado leer el código fuente y el historial de commits.

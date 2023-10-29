@@ -8,6 +8,7 @@ from tasks.base.assets.assets_base_page import MAP_EXIT
 from tasks.base.main_page import MainPage
 from tasks.base.page import Page, page_main
 from tasks.combat.assets.assets_combat_finish import COMBAT_EXIT
+from tasks.combat.assets.assets_combat_interact import MAP_LOADING
 from tasks.combat.assets.assets_combat_prepare import COMBAT_PREPARE
 from tasks.daily.assets.assets_daily_trial import INFO_CLOSE
 from tasks.login.assets.assets_login import LOGIN_CONFIRM
@@ -79,6 +80,19 @@ class UI(MainPage):
             if self.ui_additional():
                 timeout.reset()
                 continue
+            if self.handle_popup_single():
+                timeout.reset()
+                continue
+            if self.handle_popup_confirm():
+                timeout.reset()
+                continue
+            if self.appear_then_click(LOGIN_CONFIRM, interval=5):
+                timeout.reset()
+                continue
+            if self.appear(MAP_LOADING, interval=5):
+                logger.info('Map loading')
+                timeout.reset()
+                continue
 
             app_check()
             minicap_check()
@@ -138,13 +152,13 @@ class UI(MainPage):
                 continue
 
             # Additional
+            if self.ui_additional():
+                continue
             if self.handle_popup_single():
                 continue
             if self.handle_popup_confirm():
                 continue
-            if self.ui_additional():
-                continue
-            if self.appear_then_click(LOGIN_CONFIRM):
+            if self.appear_then_click(LOGIN_CONFIRM, interval=5):
                 continue
 
         # Reset connection
