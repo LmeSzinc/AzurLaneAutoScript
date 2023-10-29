@@ -7,8 +7,10 @@
 Restart:
   Scheduler:
     Enable:
+      type: state
       value: true
-      display: disabled
+      option: [ true, ]
+      option_bold: [ true, ]
     SuccessInterval: 0
     FailureInterval: 0
     ServerUpdate: 00:00
@@ -51,13 +53,13 @@ Event:
   Campaign:
     Mode: normal
 #    Event:
-#      display: disabled
+#      type: state
     AmbushEvade: true
 Event2:
   Campaign:
     Mode: normal
 #    Event:
-#      display: disabled
+#      type: state
     AmbushEvade: true
 Event3:
   Campaign:
@@ -73,7 +75,7 @@ EventA:
   Campaign:
     Name: dynamic
     Event:
-      display: disabled
+      type: state
     Mode: normal
     Use2xBook: false
     AmbushEvade: true
@@ -91,7 +93,7 @@ EventB:
   Campaign:
     Name: dynamic
     Event:
-      display: disabled
+      type: state
     Mode: normal
     Use2xBook: false
     AmbushEvade: true
@@ -109,7 +111,7 @@ EventC:
   Campaign:
     Name: dynamic
     Event:
-      display: disabled
+      type: state
     Mode: normal
     Use2xBook: false
     AmbushEvade: true
@@ -127,7 +129,7 @@ EventD:
   Campaign:
     Name: dynamic
     Event:
-      display: disabled
+      type: state
     Mode: normal
     Use2xBook: false
     AmbushEvade: true
@@ -145,7 +147,7 @@ EventSp:
   Campaign:
     Name: sp
     Event:
-      display: disabled
+      type: state
     Mode: normal
     Use2xBook: false
     AmbushEvade: true
@@ -161,7 +163,7 @@ Raid:
   Campaign:
     Name: dynamic
     Event:
-      display: disabled
+      type: state
     Mode: normal
     UseClearMode: true
     UseFleetLock: true
@@ -187,7 +189,7 @@ RaidDaily:
   Campaign:
     Name: dynamic
     Event:
-      display: disabled
+      type: state
     Mode: normal
     UseClearMode: true
     UseFleetLock: true
@@ -218,7 +220,7 @@ Coalition:
     ServerUpdate: 00:00
   Campaign:
     Event:
-      display: disabled
+      type: state
     Mode: normal
     UseClearMode: true
     UseFleetLock: true
@@ -244,7 +246,7 @@ CoalitionSp:
   Campaign:
     Name: sp
     Event:
-      display: disabled
+      type: state
     Mode: normal
     UseClearMode: true
     UseFleetLock: true
@@ -268,8 +270,10 @@ CoalitionSp:
 Commission:
   Scheduler:
     Enable:
-      value: true
       type: lock
+      value: true
+      option: [ true, ]
+      option_bold: [ true, ]
     SuccessInterval: 30-60
     FailureInterval: 30-60
     ServerUpdate: 00:00
@@ -281,8 +285,10 @@ Tactical:
 Research:
   Scheduler:
     Enable:
-      value: true
       type: lock
+      value: true
+      option: [ true, ]
+      option_bold: [ true, ]
     SuccessInterval: 30-60
     FailureInterval: 30-60
     ServerUpdate: 00:00
@@ -304,8 +310,10 @@ Guild:
 Reward:
   Scheduler:
     Enable:
-      value: true
       type: lock
+      value: true
+      option: [ true, ]
+      option_bold: [ true, ]
     SuccessInterval: 120-240
     FailureInterval: 120-240
     ServerUpdate: 00:00
