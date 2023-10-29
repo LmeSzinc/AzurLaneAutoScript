@@ -599,7 +599,8 @@ class ConfigUpdater:
             value = deep_get(old, keys=keys, default=data['value'])
             typ = data['type']
             display = data.get('display')
-            if is_template or value is None or value == '' or typ == 'lock' or (display == 'hide' and typ != 'stored'):
+            if is_template or value is None or value == '' \
+                    or typ in ['lock', 'state'] or (display == 'hide' and typ != 'stored'):
                 value = data['value']
             value = parse_value(value, data=data)
             deep_set(new, keys=keys, value=value)
