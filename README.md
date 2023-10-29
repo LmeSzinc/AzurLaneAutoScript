@@ -33,4 +33,4 @@
 4，祝您使用AlasGG小开愉快。
 
 # Discord
-https://discord.gg/zZ6VwmZ4VS
+https://discord.gg/2NuruGzKkK
