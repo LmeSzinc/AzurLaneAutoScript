@@ -203,13 +203,18 @@ class CampaignRun(CampaignEvent, ShopStatus):
             'a2': 't2',
             'a3': 't3',
             'a4': 't4',
+            'a5': 't5',
+            'a6': 't6',
             'sp1': 't1',
             'sp2': 't2',
             'sp3': 't3',
             'sp4': 't4',
+            'sp5': 't5',
+            'sp6': 't6',
         }
         if folder in [
             'event_20211125_cn',
+            'event_20231026_cn',
         ]:
             name = convert.get(name, name)
         # Convert between A/B/C/D and T/HT
@@ -231,8 +236,9 @@ class CampaignRun(CampaignEvent, ShopStatus):
             'event_20200917_cn',
             'event_20221124_cn',
             'event_20230525_cn',
+            # chapter T
             'event_20211125_cn',
-            'event_20231026_cn',# chapter T
+            'event_20231026_cn',
         ]:
             name = convert.get(name, name)
         else:
@@ -389,15 +395,6 @@ class CampaignRun(CampaignEvent, ShopStatus):
             self.device.click_record_clear()
             try:
                 self.campaign.run()
-                if self.config.task.command in ['ResearchFarm', 'ResearchFarm2', 'ResearchFarm3', 'ResearchFarm4', 'ResearchFarm5', 'ResearchFarm6']:
-                    CurrentTimes = deep_get(self.config.data, "ResearchFarmingSetting.ResearchFarmingSetting.CurrentCampaignTimes") + 1
-                    CheckInterval = deep_get(self.config.data, "ResearchFarmingSetting.ResearchFarmingSetting.CheckInterval")
-                    self.config.modified["ResearchFarmingSetting.ResearchFarmingSetting.CurrentCampaignTimes"] = CurrentTimes
-                    if CurrentTimes % CheckInterval == 0:
-                        from module.research_farming.farming import ResearchFarming
-                        ResearchFarming(config=self.config, device=self.device).CheckResearchShipExperience()
-                    self.config.update()
-
             except ScriptEnd as e:
                 logger.hr('Script end')
                 logger.info(str(e))

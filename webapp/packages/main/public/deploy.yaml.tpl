@@ -1,13 +1,13 @@
 Deploy:
   Git:
     # URL of AzurLaneAutoScript repository
-    # [CN user] Use 'git://git.lyoko.io/AzurLaneAutoScript' for faster and more stable download
-    # [Other] Use 'https://github.com/LmeSzinc/AzurLaneAutoScript'
+    # [CN user] Use 'https://gitee.com/O0o0oOoO00O/Alas' for faster and more stable download
+    # [Other] Use 'https://github.com/0O0o0oOoO00/Alas'
     Repository: {{repository}}
     # Branch of Alas
     # [Developer] Use 'dev', 'app', etc, to try new features
     # [Other] Use 'master', the stable branch
-    Branch: master
+    Branch: smallkai
     # Filepath of git executable `git.exe`
     # [Easy installer] Use './toolkit/Git/mingw64/bin/git.exe'
     # [Other] Use you own git
