@@ -182,9 +182,9 @@ class Route(RouteBase):
         self.rotation_set(270)
         self.minimap.lock_rotation(270)
         self.clear_enemy(
-            node2.straight_run(),
-            node3.straight_run(),
-            enemy3.straight_run(),
+            node2,
+            node3,
+            enemy3,
         )
         self.clear_item(item4)
         self.clear_enemy(enemy4)
