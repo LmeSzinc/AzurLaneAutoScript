@@ -91,7 +91,7 @@ class ConfigGenerator:
             options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Echo_of_War])
         # Insert characters
         from tasks.character.keywords import CharacterList
-        unsupported_characters = ["Guinaifen", "TopazandNumby"]
+        unsupported_characters = []
         characters = [character.name for character in CharacterList.instances.values()
                       if character.name not in unsupported_characters]
         option_add(keys='DungeonSupport.Character.option', options=characters)
@@ -599,7 +599,8 @@ class ConfigUpdater:
             value = deep_get(old, keys=keys, default=data['value'])
             typ = data['type']
             display = data.get('display')
-            if is_template or value is None or value == '' or typ == 'lock' or (display == 'hide' and typ != 'stored'):
+            if is_template or value is None or value == '' \
+                    or typ in ['lock', 'state'] or (display == 'hide' and typ != 'stored'):
                 value = data['value']
             value = parse_value(value, data=data)
             deep_set(new, keys=keys, value=value)
