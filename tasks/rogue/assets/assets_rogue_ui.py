@@ -77,6 +77,23 @@ COSMIC_FRAGMENT = ButtonWrapper(
         button=(1146, 19, 1181, 55),
     ),
 )
+CURIO_OBTAINED = ButtonWrapper(
+    name='CURIO_OBTAINED',
+    cn=Button(
+        file='./assets/cn/rogue/ui/CURIO_OBTAINED.png',
+        area=(643, 86, 708, 117),
+        search=(623, 66, 728, 137),
+        color=(125, 126, 134),
+        button=(643, 86, 708, 117),
+    ),
+    en=Button(
+        file='./assets/en/rogue/ui/CURIO_OBTAINED.png',
+        area=(511, 88, 600, 116),
+        search=(491, 68, 620, 136),
+        color=(93, 95, 102),
+        button=(511, 88, 600, 116),
+    ),
+)
 FLAG_UNRECORD = ButtonWrapper(
     name='FLAG_UNRECORD',
     share=Button(
