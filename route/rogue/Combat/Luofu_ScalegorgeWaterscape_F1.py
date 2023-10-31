@@ -38,7 +38,7 @@ class Route(RouteBase):
         self.minimap.init_position(self.minimap.position)
         self.clear_enemy(
             node2,
-            enemy2.straight_run(),
+            enemy2,
         )
         self.clear_enemy(enemy3)
 
