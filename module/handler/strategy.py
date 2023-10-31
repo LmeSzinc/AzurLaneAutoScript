@@ -12,7 +12,7 @@ formation.add_status('line_ahead', check_button=FORMATION_1)
 formation.add_status('double_line', check_button=FORMATION_2)
 formation.add_status('diamond', check_button=FORMATION_3)
 
-submarine_hunt = Switch('Submarine_hunt', offset=(100, 200))
+submarine_hunt = Switch('Submarine_hunt', offset=(200, 200))
 submarine_hunt.add_status('on', check_button=SUBMARINE_HUNT_ON)
 submarine_hunt.add_status('off', check_button=SUBMARINE_HUNT_OFF)
 
@@ -81,9 +81,13 @@ class StrategyHandler(InfoHandler):
         if sub_view is not None:
             if submarine_view.appear(main=self):
                 submarine_view.set('on' if sub_view else 'off', main=self)
+            else:
+                logger.warning('Setting up submarine_view but no icon appears')
         if sub_hunt is not None:
             if submarine_hunt.appear(main=self):
                 submarine_hunt.set('on' if sub_hunt else 'off', main=self)
+            else:
+                logger.warning('Setting up submarine_hunt but no icon appears')
 
     def handle_strategy(self, index):
         """
