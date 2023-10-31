@@ -455,7 +455,11 @@ def get_localstorage(key):
 
 def re_fullmatch(pattern, string):
     if pattern == "datetime":
-        pattern = RE_DATETIME
+        try:
+            datetime.datetime.fromisoformat(string)
+            return True
+        except ValueError:
+            return False
     # elif:
     return re.fullmatch(pattern=pattern, string=string)
 
