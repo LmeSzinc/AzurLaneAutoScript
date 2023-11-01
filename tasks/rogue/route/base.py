@@ -69,9 +69,12 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
         Pages:
             in: combat_expected_end()
             out: is_in_main()
+
+        Returns:
+            bool: If cleared
         """
         logger.info('Clear blessing')
-        switched = False
+        cleared = False
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -81,12 +84,12 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
             # End
             if self.is_in_main():
                 logger.info(f'clear_blessing() ended at page_main')
-                if switched:
+                if cleared:
                     self.wait_until_minimap_stabled()
-                break
+                return cleared
 
             if self.handle_blessing():
-                switched = True
+                cleared = True
                 continue
 
     def clear_occurrence(self, skip_first_screenshot=True):

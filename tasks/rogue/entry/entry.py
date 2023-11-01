@@ -27,6 +27,7 @@ from tasks.rogue.assets.assets_rogue_weekly import REWARD_CLOSE, REWARD_ENTER
 from tasks.rogue.entry.path import RoguePathHandler
 from tasks.rogue.entry.weekly import RogueRewardHandler
 from tasks.rogue.exception import RogueReachedWeeklyPointLimit
+from tasks.rogue.route.base import RouteBase
 
 
 def chinese_to_arabic(chinese_number: str) -> int:
@@ -73,7 +74,7 @@ class OcrRogueWorld(Ocr):
         return 0
 
 
-class RogueEntry(DungeonUI, RogueRewardHandler, RoguePathHandler):
+class RogueEntry(DungeonUI, RogueRewardHandler, RoguePathHandler, RouteBase):
     def _rogue_world_set(self, world: int | DungeonList, skip_first_screenshot=True):
         """
         Args:
@@ -244,20 +245,43 @@ class RogueEntry(DungeonUI, RogueRewardHandler, RoguePathHandler):
         if world is None:
             world = DungeonList.find(self.config.RogueWorld_World)
 
-        current = self.ui_get_current_page()
-        if current == page_rogue:
+        def is_rogue_entry():
             if self.is_page_rogue_main():
                 logger.info('At is_page_rogue_main()')
-            else:
+                return True
+            if self.is_page_rogue_launch():
+                logger.info('At is_page_rogue_launch()')
+                return True
+            if self.appear(LEVEL_CONFIRM):
+                logger.info('At LEVEL_CONFIRM')
+                return True
+            return False
+
+        self.ui_get_current_page()
+        if self.ui_current == page_rogue:
+            if is_rogue_entry():
+                # At rogue page but haven't entered it
                 self.rogue_world_exit()
-        elif current == page_main:
+                self.ui_get_current_page()
+            else:
+                # Already started a rogue, do the preparation
+                if self._is_page_rogue_path():
+                    logger.info('At _is_page_rogue_path()')
+                    self.rogue_path_select(self.config.RogueWorld_Path)
+                if self.appear(CONFIRM_PATH):
+                    logger.info('At CONFIRM_PATH')
+                    self.rogue_path_select(self.config.RogueWorld_Path)
+                logger.info('At any page_rogue')
+                self.clear_blessing()
+                self.ui_get_current_page()
+        # Already in a rogue domain, no UI switching required, continue the rogue
+        if self.ui_current == page_main:
             self.handle_lang_check(page=page_main)
             if self.plane.rogue_domain:
                 logger.info('At rogue domain')
                 return
-            else:
-                self.goto_rogue()
-        else:
+        # Not in page_rogue, goto
+        if not is_rogue_entry():
             self.goto_rogue()
 
         # Update rogue points
