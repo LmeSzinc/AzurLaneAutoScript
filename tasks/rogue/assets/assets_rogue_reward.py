@@ -3,16 +3,6 @@ from module.base.button import Button, ButtonWrapper
 # This file was auto-generated, do not modify it manually. To generate:
 # ``` python -m dev_tools.button_extract ```
 
-OCR_REMAIN = ButtonWrapper(
-    name='OCR_REMAIN',
-    share=Button(
-        file='./assets/share/rogue/reward/OCR_REMAIN.png',
-        area=(675, 11, 1181, 64),
-        search=(655, 0, 1201, 84),
-        color=(75, 89, 125),
-        button=(675, 11, 1181, 64),
-    ),
-)
 REWARD_CLOSE = ButtonWrapper(
     name='REWARD_CLOSE',
     share=Button(

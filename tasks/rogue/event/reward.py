@@ -2,52 +2,14 @@ from datetime import datetime, timedelta
 
 from module.base.timer import Timer
 from module.logger import logger
-from module.ocr.ocr import DigitCounter
 from tasks.base.assets.assets_base_popup import GET_REWARD
 from tasks.combat.interact import CombatInteract
-from tasks.rogue.assets.assets_rogue_reward import OCR_REMAIN, REWARD_CLOSE, USE_IMMERSIFIER, USE_STAMINA
+from tasks.dungeon.state import DungeonState
+from tasks.rogue.assets.assets_rogue_reward import REWARD_CLOSE, USE_IMMERSIFIER, USE_STAMINA
 from tasks.rogue.bleesing.ui import RogueUI
 
 
-class RogueReward(RogueUI, CombatInteract):
-    def _reward_update_stamina(self, skip_first_screenshot=True):
-        ocr = DigitCounter(OCR_REMAIN)
-        timeout = Timer(1, count=2).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            stamina = (0, 0, 0)
-            immersifier = (0, 0, 0)
-
-            if timeout.reached():
-                logger.warning('_reward_update_stamina() timeout')
-                break
-
-            for row in ocr.detect_and_ocr(self.device.image):
-                if row.ocr_text.isdigit():
-                    continue
-                if row.ocr_text == '+':
-                    continue
-                data = ocr.format_result(row.ocr_text)
-                if data[2] == self.config.stored.TrailblazePower.FIXED_TOTAL:
-                    stamina = data
-                if data[2] == self.config.stored.Immersifier.FIXED_TOTAL:
-                    immersifier = data
-
-            if stamina[2] > 0 and immersifier[2] > 0:
-                break
-
-        stamina = stamina[0]
-        immersifier = immersifier[0]
-        logger.attr('TrailblazePower', stamina)
-        logger.attr('Imersifier', immersifier)
-        with self.config.multi_set():
-            self.config.stored.TrailblazePower.value = stamina
-            self.config.stored.Immersifier.value = immersifier
-
+class RogueReward(RogueUI, CombatInteract, DungeonState):
     def claim_domain_reward(
             self,
             use_trailblaze_power=False,
@@ -86,7 +48,7 @@ class RogueReward(RogueUI, CombatInteract):
                 confirm.reset()
                 continue
             if self.appear(REWARD_CLOSE, interval=2):
-                self._reward_update_stamina()
+                self.dungeon_update_stamina()
                 if use_immersifier and self.config.stored.Immersifier.value > 0:
                     self.device.click(USE_IMMERSIFIER)
                     self.interval_reset(USE_STAMINA)

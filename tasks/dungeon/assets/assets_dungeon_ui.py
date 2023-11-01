@@ -53,26 +53,6 @@ OCR_DUNGEON_NAV = ButtonWrapper(
         button=(117, 182, 423, 641),
     ),
 )
-OCR_SIMUNI_POINT = ButtonWrapper(
-    name='OCR_SIMUNI_POINT',
-    share=Button(
-        file='./assets/share/dungeon/ui/OCR_SIMUNI_POINT.png',
-        area=(580, 237, 820, 277),
-        search=(560, 217, 840, 297),
-        color=(166, 168, 252),
-        button=(580, 237, 820, 277),
-    ),
-)
-OCR_SIMUNI_POINT_OFFSET = ButtonWrapper(
-    name='OCR_SIMUNI_POINT_OFFSET',
-    share=Button(
-        file='./assets/share/dungeon/ui/OCR_SIMUNI_POINT_OFFSET.png',
-        area=(685, 250, 717, 273),
-        search=(583, 187, 883, 387),
-        color=(199, 200, 250),
-        button=(685, 250, 717, 273),
-    ),
-)
 OCR_WEEKLY_LIMIT = ButtonWrapper(
     name='OCR_WEEKLY_LIMIT',
     share=Button(
