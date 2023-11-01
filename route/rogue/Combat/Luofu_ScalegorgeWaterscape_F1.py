@@ -129,6 +129,7 @@ class Route(RouteBase):
         enemy_X701Y242 = Waypoint((701.6, 242.2))
         # ===== End of generated waypoints =====
 
+        self.minimap.lock_rotation(90)
         # Ignore item, too close to enemy
         self.clear_enemy(enemy_X701Y242)
 
@@ -147,6 +148,7 @@ class Route(RouteBase):
         enemy = Waypoint((802.3, 198.7))
         # ===== End of generated waypoints =====
 
+        self.minimap.lock_rotation(18)
         self.clear_item(item)
         self.clear_enemy(enemy)
 
