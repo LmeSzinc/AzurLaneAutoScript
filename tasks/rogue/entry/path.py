@@ -140,6 +140,7 @@ class RoguePathHandler(RogueUI):
             if self.interval_is_reached(entry, interval=2) and self._is_page_rogue_path():
                 if self.appear_then_click(entry, interval=2):
                     self.interval_reset(entry, interval=2)
+                    continue
             # Confirm path
             if self.appear(CONFIRM_PATH, interval=2):
                 if self._get_selected_path() == path:

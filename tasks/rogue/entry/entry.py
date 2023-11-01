@@ -232,6 +232,32 @@ class RogueEntry(DungeonUI, RogueRewardHandler, RoguePathHandler, RouteBase):
         self._dungeon_nav_goto(Simulated_Universe_World_1)
         self._rogue_teleport()
 
+    def check_stop_condition(self):
+        """
+        Raises:
+            RogueReachedWeeklyPointLimit: Raised if task should stop
+        """
+        logger.attr('RogueWorld_StopCondition', self.config.RogueWorld_StopCondition)
+        logger.attr('RogueWorld_ImmersionReward', self.config.RogueWorld_ImmersionReward)
+        if self.config.RogueWorld_StopCondition == 'non_stop':
+            # Always run
+            return
+        if self.config.RogueWorld_StopCondition == 'weekly_point_reward':
+            if self.config.stored.SimulatedUniverse.is_expired():
+                # Expired, do rogue
+                pass
+            elif self.config.stored.SimulatedUniverse.is_full():
+                if self.config.RogueWorld_ImmersionReward in ['immersifier', 'immersifier_trailblaze_power'] \
+                        and self.config.stored.Immersifier.value > 0:
+                    logger.info('Reached weekly point limit but still have immersifiers left, continue to use them')
+                else:
+                    raise RogueReachedWeeklyPointLimit
+            else:
+                # Not full, do rogue
+                pass
+        else:
+            raise RogueReachedWeeklyPointLimit
+
     def rogue_world_enter(self, world: int | DungeonList = None):
         """
         Args:
@@ -244,6 +270,8 @@ class RogueEntry(DungeonUI, RogueRewardHandler, RoguePathHandler, RouteBase):
         logger.hr('Rogue world enter', level=1)
         if world is None:
             world = DungeonList.find(self.config.RogueWorld_World)
+        # Check stop condition
+        self.check_stop_condition()
 
         def is_rogue_entry():
             if self.is_page_rogue_main():
@@ -289,10 +317,9 @@ class RogueEntry(DungeonUI, RogueRewardHandler, RoguePathHandler, RouteBase):
             ocr = DigitCounter(OCR_WEEKLY_POINT)
             value, _, total = ocr.ocr_single_line(self.device.image)
             self.config.stored.SimulatedUniverse.set(value, total)
-        # Check stop condition
-        if self.config.RogueWorld_StopCondition == 'weekly_point_reward':
-            if self.config.stored.SimulatedUniverse.is_full():
-                raise RogueReachedWeeklyPointLimit
+        # Check stop condition again as data updated
+        self.check_stop_condition()
+
         # Enter
         self._rogue_world_set(world)
         self._rogue_world_enter()

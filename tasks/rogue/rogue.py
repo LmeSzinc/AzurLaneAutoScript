@@ -29,15 +29,6 @@ class Rogue(RouteLoader, RogueEntry):
 
     def run(self):
         while 1:
-            # Check stop condition
-            if self.config.RogueWorld_StopCondition == 'weekly_point_reward':
-                if self.config.stored.SimulatedUniverse.is_expired():
-                    # Expired, do rogue
-                    pass
-                elif self.config.stored.SimulatedUniverse.is_full():
-                    logger.hr('Reached rogue weekly point limit')
-                    break
-
             # Run
             success = self.rogue_once()
             if not success:
