@@ -7,19 +7,20 @@ class Route(RouteBase):
 
     def Luofu_StargazerNavalia_F1_X183Y315(self):
         """
-        | Waypoint | Position                  | Direction | Rotation |
-        | -------- | ------------------------- | --------- | -------- |
-        | spawn    | Waypoint((183.4, 315.6)), | 98.9      | 89       |
-        | item     | Waypoint((208.5, 306.1)), | 82.5      | 80       |
-        | enemy    | Waypoint((247.4, 320.2)), | 114.1     | 112      |
-        | exit     | Waypoint((701.4, 523.4)), | 274.2     | 89       |
+        | Waypoint      | Position                  | Direction | Rotation |
+        | ------------- | ------------------------- | --------- | -------- |
+        | spawn         | Waypoint((183.4, 315.6)), | 98.9      | 89       |
+        | item          | Waypoint((208.5, 306.1)), | 82.5      | 80       |
+        | enemy         | Waypoint((247.4, 320.2)), | 114.1     | 112      |
+        | exit_X243Y319 | Waypoint((243.4, 319.4)), | 274.2     | 89       |
         """
         self.map_init(plane=Luofu_StargazerNavalia, floor="F1", position=(183.4, 315.6))
-        self.register_domain_exit(Waypoint((701.4, 523.4)), end_rotation=89)
+        self.register_domain_exit(Waypoint((243.4, 319.4)), end_rotation=89)
         item = Waypoint((208.5, 306.1))
         enemy = Waypoint((247.4, 320.2))
         # ===== End of generated waypoints =====
 
+        self.minimap.lock_rotation(90)
         self.clear_item(item)
         self.clear_enemy(enemy)
 
@@ -36,6 +37,7 @@ class Route(RouteBase):
         enemy = Waypoint((254.2, 318.9))
         # ===== End of generated waypoints =====
 
+        self.minimap.lock_rotation(90)
         self.clear_enemy(enemy)
 
     def Luofu_StargazerNavalia_F1_X215Y192(self):
