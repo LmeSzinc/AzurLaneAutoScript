@@ -110,9 +110,11 @@ class RogueEntry(DungeonUI, RogueRewardHandler, RoguePathHandler, RouteBase):
 
             if self.is_page_rogue_main() \
                     and self.image_color_count(OCR_WORLD, color=(255, 255, 255), threshold=221, count=50):
-                # End
                 current = ocr.ocr_single_line(self.device.image)
-                if current and current == world:
+                if not current:
+                    continue
+                # End
+                if current == world:
                     logger.info(f'At world {world}')
                     break
                 # Click
