@@ -306,6 +306,8 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
                 logger.info(f'{COMBAT_AGAIN} -> {COMBAT_EXIT}')
                 self.device.click(COMBAT_EXIT)
                 continue
+            if self.handle_get_light_cone():
+                continue
 
     def is_trailblaze_power_exhausted(self) -> bool:
         flag = self.config.stored.TrailblazePower.value < self.combat_wave_cost
