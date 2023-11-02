@@ -406,13 +406,13 @@ pre.rich-traceback-code {
 #pywebio-scope-dashboard > i {
     flex-grow: 1;
     align-self: flex-end;
-    width: 10rem;
+    width: 9.5rem;
 }
 
 [id^="pywebio-scope-dashboard-row-"] {
     display: flex;
     flex-grow: 1;
-    width: 10rem;
+    width: 9.5rem;
 }
 
 .dashboard-icon {
@@ -548,19 +548,19 @@ pre.rich-traceback-code {
     padding-right: .25rem;
 }
 
-*[style*="--loading-grow--"] {
+*[style*="--loading-grow--"] > div {
     width: 1.5rem;
     height: 1.5rem;
 }
 
-*[style*="--loading-border--"] {
+*[style*="--loading-border--"] > div {
     width: 1.5rem;
     height: 1.5rem;
     border: .2em solid currentColor;
     border-right-color: transparent;
 }
 
-*[style*="--loading-border-fill--"] {
+*[style*="--loading-border-fill--"] > div {
     width: 1.5rem;
     height: 1.5rem;
     border: .2em solid currentColor;

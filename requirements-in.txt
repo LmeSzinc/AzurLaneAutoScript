@@ -26,7 +26,7 @@ pydantic>=2.4
 pponnxcr==2.0
 
 # Webui
-pywebio==1.6.2
+pywebio==1.8.3
 starlette==0.14.2
 uvicorn[standard]==0.17.6
 aiofiles
