@@ -15,7 +15,6 @@ from module.ui.switch import Switch
 from tasks.base.page import page_guide
 from tasks.combat.assets.assets_combat_interact import DUNGEON_COMBAT_INTERACT, DUNGEON_COMBAT_INTERACT_TEXT
 from tasks.combat.assets.assets_combat_prepare import COMBAT_PREPARE
-from tasks.combat.interact import CombatInteract
 from tasks.dungeon.assets.assets_dungeon_ui import *
 from tasks.dungeon.keywords import (
     DungeonList,
@@ -120,7 +119,7 @@ DUNGEON_LIST = DraggableDungeonList(
     ocr_class=OcrDungeonList, search_button=OCR_DUNGEON_LIST)
 
 
-class DungeonUI(DungeonState, CombatInteract):
+class DungeonUI(DungeonState):
     def dungeon_tab_goto(self, state: DungeonTab):
         """
         Args:

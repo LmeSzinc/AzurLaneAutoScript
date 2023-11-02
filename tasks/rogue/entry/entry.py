@@ -74,7 +74,7 @@ class OcrRogueWorld(Ocr):
         return 0
 
 
-class RogueEntry(DungeonUI, RogueRewardHandler, RoguePathHandler, RouteBase):
+class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
     def _rogue_world_set(self, world: int | DungeonList, skip_first_screenshot=True):
         """
         Args:
@@ -306,12 +306,16 @@ class RogueEntry(DungeonUI, RogueRewardHandler, RoguePathHandler, RouteBase):
                 logger.info('At any page_rogue')
                 self.clear_blessing()
                 self.ui_get_current_page()
-        # Already in a rogue domain, no UI switching required, continue the rogue
         if self.ui_current == page_main:
             self.handle_lang_check(page=page_main)
+            # Already in a rogue domain, no UI switching required, continue the rogue
             if self.plane.rogue_domain:
                 logger.info('At rogue domain')
                 return
+            # In Herta's Office, interact to enter rogue
+            if self.get_dungeon_interact() == Simulated_Universe_World_1:
+                logger.info('At rogue entry')
+                self.combat_enter_from_map()
         # Not in page_rogue, goto
         if not is_rogue_entry():
             self.goto_rogue()
