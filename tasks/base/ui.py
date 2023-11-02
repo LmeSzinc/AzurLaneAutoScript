@@ -321,6 +321,8 @@ class UI(MainPage):
             return True
         if self.handle_monthly_card_reward():
             return True
+        if self.handle_get_light_cone():
+            return True
         if self.handle_ui_close(COMBAT_PREPARE, interval=5):
             return True
         if self.appear_then_click(COMBAT_EXIT, interval=5):

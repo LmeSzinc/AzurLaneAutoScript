@@ -16,6 +16,7 @@ from module.base.utils import (
     rgb2yuv
 )
 from module.logger import logger
+from tasks.map.interact.aim import subtract_blur
 from tasks.map.minimap.utils import (
     convolve,
     cubic_find_maximum,
@@ -264,7 +265,7 @@ class Minimap(MapResource):
         scale = self.DIRECTION_ROTATION_SCALE * self.DIRECTION_SEARCH_SCALE
         mapping = cv2.resize(image, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
         result = cv2.matchTemplate(self.ArrowRotateMap, mapping, cv2.TM_CCOEFF_NORMED)
-        result = cv2.subtract(result, cv2.GaussianBlur(result, (5, 5), 0))
+        subtract_blur(result, 5)
         _, sim, _, loca = cv2.minMaxLoc(result)
         loca = np.array(loca) / self.DIRECTION_SEARCH_SCALE // (self.DIRECTION_RADIUS * 2)
         degree = int((loca[0] + loca[1] * 8) * 5)
@@ -281,7 +282,7 @@ class Minimap(MapResource):
 
         precise_map = self.ArrowRotateMapAll[row[0]:row[1], :]
         result = cv2.matchTemplate(precise_map, mapping, cv2.TM_CCOEFF_NORMED)
-        result = cv2.subtract(result, cv2.GaussianBlur(result, (5, 5), 0))
+        subtract_blur(result, 5)
 
         def to_map(x):
             return int((x * self.DIRECTION_RADIUS * 2) * self.POSITION_SEARCH_SCALE)
@@ -312,11 +313,10 @@ class Minimap(MapResource):
 
         # Extract
         minimap = self.get_minimap(image, radius=self.MINIMAP_RADIUS)
-        _, _, v = cv2.split(rgb2yuv(minimap))
+        image = rgb2yuv(minimap)[:, :, 2].copy()
 
-        image = cv2.subtract(128, v)
-
-        image = cv2.GaussianBlur(image, (3, 3), 0)
+        cv2.subtract(128, image, dst=image)
+        cv2.GaussianBlur(image, (3, 3), 0, dst=image)
         # Expand circle into rectangle
         remap = cv2.remap(image, *self.RotationRemapData, cv2.INTER_LINEAR)[d * 1 // 10:d * 6 // 10].astype(np.float32)
         remap = cv2.resize(remap, None, fx=scale, fy=scale, interpolation=cv2.INTER_LINEAR)

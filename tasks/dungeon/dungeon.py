@@ -45,8 +45,12 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
         logger.info(f'Dungeon: {dungeon}, team={team}, wave_limit={wave_limit}, support_character={support_character}')
 
         if not skip_ui_switch:
-            self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
-            self.dungeon_goto(dungeon)
+            interact = self.get_dungeon_interact()
+            if interact is not None and interact == dungeon:
+                logger.info('Already nearby dungeon')
+            else:
+                self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
+                self.dungeon_goto(dungeon)
 
             if dungeon == KEYWORDS_DUNGEON_LIST.Stagnant_Shadow_Blaze:
                 if self.handle_destructible_around_blaze():
