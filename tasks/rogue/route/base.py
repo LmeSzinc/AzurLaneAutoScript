@@ -255,6 +255,9 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
             # First-time cleared reward
             if self.handle_reward():
                 continue
+            # Get Herta
+            if self.handle_get_character():
+                continue
 
     def domain_single_exit(self, *waypoints):
         """

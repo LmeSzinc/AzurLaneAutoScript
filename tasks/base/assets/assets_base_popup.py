@@ -13,6 +13,23 @@ BATTLE_PASS_NOTIFICATION = ButtonWrapper(
         button=(895, 595, 1180, 630),
     ),
 )
+GET_CHARACTER = ButtonWrapper(
+    name='GET_CHARACTER',
+    cn=Button(
+        file='./assets/cn/base/popup/GET_CHARACTER.png',
+        area=(204, 322, 249, 338),
+        search=(184, 302, 269, 358),
+        color=(156, 155, 154),
+        button=(204, 322, 249, 338),
+    ),
+    en=Button(
+        file='./assets/en/base/popup/GET_CHARACTER.png',
+        area=(205, 321, 242, 339),
+        search=(185, 301, 262, 359),
+        color=(126, 127, 127),
+        button=(205, 321, 242, 339),
+    ),
+)
 GET_LIGHT_CONE = ButtonWrapper(
     name='GET_LIGHT_CONE',
     cn=Button(

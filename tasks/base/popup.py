@@ -117,6 +117,23 @@ class PopupHandler(ModuleBase):
 
         return False
 
+    def handle_get_character(self, interval=2) -> bool:
+        """
+        Popup when getting a character from rogue rewards.
+
+        Args:
+            interval:
+
+        Returns:
+            If handled.
+        """
+        if self.appear(GET_CHARACTER, interval=interval):
+            logger.info(f'{GET_CHARACTER} -> {GET_REWARD}')
+            self.device.click(GET_REWARD)
+            return True
+
+        return False
+
     def handle_ui_close(self, appear_button: ButtonWrapper | Callable, interval=2) -> bool:
         """
         Args:
