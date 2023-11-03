@@ -63,7 +63,7 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
         if (dungeon.is_Calyx_Golden or dungeon.is_Calyx_Crimson) and \
                 self.running_double and self.config.stored.DungeonDouble.calyx > 0:
             calyx = self.get_double_event_remain_at_combat()
-            if calyx < self.config.stored.DungeonDouble.calyx:
+            if calyx is not None and calyx < self.config.stored.DungeonDouble.calyx:
                 self.config.stored.DungeonDouble.calyx = calyx
                 wave_limit = calyx
             if calyx == 0:
@@ -71,7 +71,7 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
         if dungeon.is_Cavern_of_Corrosion and self.running_double and \
                 self.config.stored.DungeonDouble.relic > 0:
             relic = self.get_double_event_remain_at_combat()
-            if relic < self.config.stored.DungeonDouble.relic:
+            if relic is not None and relic < self.config.stored.DungeonDouble.relic:
                 self.config.stored.DungeonDouble.relic = relic
                 wave_limit = relic
             if relic == 0:
