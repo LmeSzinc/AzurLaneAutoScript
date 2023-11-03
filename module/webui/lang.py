@@ -89,12 +89,15 @@ def readable_time(before: str) -> str:
     elif diff < 60:
         # < 1 min
         return t("Gui.Dashboard.JustNow")
-    elif diff < 3600:
+    elif diff < 5400:
+        # < 90 min
         return t("Gui.Dashboard.MinutesAgo", time=int(diff // 60))
-    elif diff < 86400:
+    elif diff < 129600:
+        # < 36 hours
         return t("Gui.Dashboard.HoursAgo", time=int(diff // 3600))
     elif diff < 1296000:
+        # < 15 days
         return t("Gui.Dashboard.DaysAgo", time=int(diff // 86400))
     else:
-        # > 15 days
+        # >= 15 days
         return t("Gui.Dashboard.LongTimeAgo")

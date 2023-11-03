@@ -65,27 +65,6 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
 
         return False
 
-    def combat_enter_from_map(self, skip_first_screenshot=True):
-        """
-        Pages:
-            in: page_main, DUNGEON_COMBAT_INTERACT
-            out: COMBAT_PREPARE
-        """
-        logger.info('Combat enter from map')
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self.appear(COMBAT_PREPARE):
-                # Confirm page loaded
-                if self.image_color_count(COMBAT_PREPARE.button, color=(230, 230, 230), threshold=240, count=400):
-                    logger.info(f'At {COMBAT_PREPARE}')
-                    break
-            if self.handle_combat_interact():
-                continue
-
     def combat_prepare(self, team=1, support_character: str = None):
         """
         Args:
@@ -305,6 +284,8 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
             if self.appear(COMBAT_AGAIN, interval=2):
                 logger.info(f'{COMBAT_AGAIN} -> {COMBAT_EXIT}')
                 self.device.click(COMBAT_EXIT)
+                continue
+            if self.handle_get_light_cone():
                 continue
 
     def is_trailblaze_power_exhausted(self) -> bool:

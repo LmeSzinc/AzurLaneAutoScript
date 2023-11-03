@@ -96,3 +96,20 @@ class PopupHandler(ModuleBase):
             return True
 
         return False
+
+    def handle_get_light_cone(self, interval=2) -> bool:
+        """
+        Popup when getting a light cone from Echo of War.
+
+        Args:
+            interval:
+
+        Returns:
+            If handled.
+        """
+        if self.appear(GET_LIGHT_CONE, interval=interval):
+            logger.info(f'{GET_LIGHT_CONE} -> {GET_REWARD}')
+            self.device.click(GET_REWARD)
+            return True
+
+        return False

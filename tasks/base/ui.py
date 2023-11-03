@@ -321,6 +321,8 @@ class UI(MainPage):
             return True
         if self.handle_monthly_card_reward():
             return True
+        if self.handle_get_light_cone():
+            return True
         if self.appear(COMBAT_PREPARE, interval=5):
             logger.info(f'UI additional: {COMBAT_PREPARE} -> {CLOSE}')
             self.device.click(CLOSE)

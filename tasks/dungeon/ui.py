@@ -6,24 +6,28 @@ from module.base.base import ModuleBase
 from module.base.button import ClickButton
 from module.base.timer import Timer
 from module.base.utils import get_color
+from module.exception import ScriptError
 from module.logger import logger
-from module.ocr.ocr import DigitCounter, Ocr, OcrResultButton
+from module.ocr.ocr import Ocr, OcrResultButton
 from module.ocr.utils import split_and_pair_button_attr
 from module.ui.draggable_list import DraggableList
 from module.ui.switch import Switch
 from tasks.base.page import page_guide
-from tasks.base.ui import UI
+from tasks.combat.assets.assets_combat_interact import DUNGEON_COMBAT_INTERACT, DUNGEON_COMBAT_INTERACT_TEXT
 from tasks.combat.assets.assets_combat_prepare import COMBAT_PREPARE
+from tasks.combat.interact import CombatInteract
 from tasks.dungeon.assets.assets_dungeon_ui import *
 from tasks.dungeon.keywords import (
     DungeonList,
     DungeonNav,
     DungeonTab,
     KEYWORDS_DUNGEON_ENTRANCE,
+    KEYWORDS_DUNGEON_LIST,
     KEYWORDS_DUNGEON_NAV,
     KEYWORDS_DUNGEON_TAB
 )
 from tasks.dungeon.keywords.classes import DungeonEntrance
+from tasks.dungeon.state import DungeonState
 
 
 class DungeonTabSwitch(Switch):
@@ -78,13 +82,6 @@ class OcrDungeonList(Ocr):
         return result
 
 
-class OcrSimUniPoint(DigitCounter):
-    def after_process(self, result):
-        result = super().after_process(result)
-        result = result.replace('O', '0').replace('o', '0')
-        return result
-
-
 class OcrDungeonListLimitEntrance(OcrDungeonList):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -123,7 +120,7 @@ DUNGEON_LIST = DraggableDungeonList(
     ocr_class=OcrDungeonList, search_button=OCR_DUNGEON_LIST)
 
 
-class DungeonUI(UI):
+class DungeonUI(DungeonState, CombatInteract):
     def dungeon_tab_goto(self, state: DungeonTab):
         """
         Args:
@@ -233,31 +230,6 @@ class DungeonUI(UI):
                 logger.info('No Forgotten_Hall in list skip waiting')
                 return False
 
-    def dungeon_get_simuni_point(self) -> int:
-        """
-        Page:
-            in: page_guide, Survival_Index, Simulated_Universe
-        """
-        logger.info('Get simulated universe points')
-        _ = self.appear(OCR_SIMUNI_POINT_OFFSET)
-        OCR_SIMUNI_POINT.load_offset(OCR_SIMUNI_POINT_OFFSET)
-        area = (
-            OCR_SIMUNI_POINT.area[0],
-            OCR_SIMUNI_POINT.button[1],
-            OCR_SIMUNI_POINT.area[2],
-            OCR_SIMUNI_POINT.button[3],
-        )
-
-        ocr = OcrSimUniPoint(OCR_SIMUNI_POINT)
-        value, _, total = ocr.ocr_single_line(self.image_crop(area), direct_ocr=True)
-        if total and value <= total:
-            logger.attr('SimulatedUniverse', f'{value}/{total}')
-            self.config.stored.SimulatedUniverse.set(value, total)
-            return value
-        else:
-            logger.warning(f'Invalid SimulatedUniverse points: {value}/{total}')
-            return 0
-
     def _dungeon_nav_goto(self, dungeon: DungeonList, skip_first_screenshot=True):
         """
         Equivalent to `DUNGEON_NAV_LIST.select_row(dungeon.dungeon_nav, main=self)`
@@ -301,7 +273,7 @@ class DungeonUI(UI):
             logger.info('DUNGEON_NAV_LIST at top')
             # Update points if possible
             if DUNGEON_NAV_LIST.is_row_selected(button, main=self):
-                self.dungeon_get_simuni_point()
+                self.dungeon_update_simuni()
         else:
             # To start from any list states.
             logger.info('DUNGEON_NAV_LIST not at top')
@@ -403,6 +375,53 @@ class DungeonUI(UI):
                 else:
                     logger.warning(f'Cannot find dungeon entrance of {dungeon}')
                     continue
+
+    def get_dungeon_interact(self) -> DungeonList | None:
+        """
+        Pages:
+            in: page_main
+        """
+        if not self.appear(DUNGEON_COMBAT_INTERACT):
+            logger.info('No dungeon interact')
+            return None
+
+        ocr = OcrDungeonList(DUNGEON_COMBAT_INTERACT_TEXT)
+        result = ocr.detect_and_ocr(self.device.image)
+
+        result = ' '.join([row.ocr_text for row in result])
+
+        # Calyx (Crimson): Bud of XXX -> Bud of XXX
+        result = re.sub(r'Calyx\s*\(.*?\):*', '', result)
+        # Stagnant Shadow: Shap XXX -> Shape of XXX
+        result = re.sub(r'Stagnant\s*Shadow[:\s]*\w*', 'Shape of', result)
+        # Cavern of Corrosion: Pa XXX -> Path of XXX
+        result = re.sub(r'Cavern\s*of\s*Corrosion[:\s]*\w*', 'Path of', result)
+        # Echo of War: XXX -> XXX
+        result = re.sub(r'Echo\s*of\s*War:*', '', result)
+        # Divine See -> Divine Seed
+        result = re.sub(r'Divine\s*\w*', 'Divine Seed', result)
+        # Destructio Beginning -> Destruction's Beginning
+        result = re.sub(r"Destruct[a-zA-Z0-9_']*", "Destruction's", result)
+
+        # Dungeons
+        try:
+            dungeon = DungeonList.find(result)
+            logger.attr('DungeonInteract', dungeon)
+            return dungeon
+        except ScriptError:
+            pass
+        # Simulated Universe returns Simulated_Universe_World_1
+        try:
+            dungeon = DungeonNav.find(result)
+            if dungeon == KEYWORDS_DUNGEON_NAV.Simulated_Universe:
+                dungeon = KEYWORDS_DUNGEON_LIST.Simulated_Universe_World_1
+                logger.attr('DungeonInteract', dungeon)
+                return dungeon
+        except ScriptError:
+            pass
+        # Unknown
+        logger.attr('DungeonInteract', None)
+        return None
 
     def dungeon_goto(self, dungeon: DungeonList):
         """

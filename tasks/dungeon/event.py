@@ -45,14 +45,13 @@ class DungeonEvent(UI):
 
     def has_double_event_at_combat(self) -> bool:
         """
-        TODO: OCR_DOUBLE_EVENT_REMAIN_AT_COMBAT of relic may be different from that of calyx
         Pages:
             in: COMBAT_PREPARE
         """
         has = self.image_color_count(
             OCR_DOUBLE_EVENT_REMAIN_AT_COMBAT,
-            color=(252, 209, 123),
-            threshold=195, count=1000
+            color=(231, 188, 103),
+            threshold=240, count=1000
         )
         logger.attr('Double event at combat', has)
         return has
@@ -74,14 +73,23 @@ class DungeonEvent(UI):
         logger.attr('Double event remain', remain)
         return remain
 
-    def get_double_event_remain_at_combat(self) -> int:
+    def get_double_event_remain_at_combat(self) -> int | None:
         """
         Pages:
             in: COMBAT_PREPARE
         """
-        remain = 0
-        if self.has_double_event_at_combat():
-            remain = self._get_double_event_remain(
-                OCR_DOUBLE_EVENT_REMAIN_AT_COMBAT)
-        logger.attr('Double event remain at combat', remain)
-        return remain
+        if not self.has_double_event_at_combat():
+            logger.attr('Double event remain at combat', 0)
+            return 0
+
+        ocr = DoubleEventOcr(OCR_DOUBLE_EVENT_REMAIN_AT_COMBAT)
+        for row in ocr.detect_and_ocr(self.device.image):
+            if '/' not in row.ocr_text:
+                continue
+            remain, _, total = ocr.format_result(row.ocr_text)
+            if total in [3, 12]:
+                logger.attr('Double event remain at combat', remain)
+                return remain
+        logger.warning('Double event appears but failed to get remain')
+        logger.attr('Double event remain at combat', None)
+        return None
