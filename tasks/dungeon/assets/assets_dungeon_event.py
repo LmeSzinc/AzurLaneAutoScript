@@ -35,18 +35,11 @@ OCR_DOUBLE_EVENT_REMAIN = ButtonWrapper(
 )
 OCR_DOUBLE_EVENT_REMAIN_AT_COMBAT = ButtonWrapper(
     name='OCR_DOUBLE_EVENT_REMAIN_AT_COMBAT',
-    cn=Button(
-        file='./assets/cn/dungeon/event/OCR_DOUBLE_EVENT_REMAIN_AT_COMBAT.png',
-        area=(872, 515, 1192, 538),
-        search=(852, 495, 1212, 558),
-        color=(171, 139, 76),
-        button=(872, 515, 1192, 538),
-    ),
-    en=Button(
-        file='./assets/en/dungeon/event/OCR_DOUBLE_EVENT_REMAIN_AT_COMBAT.png',
-        area=(814, 510, 1246, 530),
-        search=(794, 490, 1266, 550),
-        color=(194, 158, 86),
-        button=(814, 510, 1246, 530),
+    share=Button(
+        file='./assets/share/dungeon/event/OCR_DOUBLE_EVENT_REMAIN_AT_COMBAT.png',
+        area=(799, 460, 1268, 626),
+        search=(779, 440, 1280, 646),
+        color=(59, 53, 48),
+        button=(799, 460, 1268, 626),
     ),
 )
