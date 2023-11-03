@@ -22,6 +22,7 @@ class Route(RouteBase):
         enemy = Waypoint((197.2, 947.4))
         # ===== End of generated waypoints =====
 
+        self.minimap.lock_rotation(270)
         # ignore item
         # self.clear_item(item)
         self.clear_enemy(
@@ -51,6 +52,7 @@ class Route(RouteBase):
         but for wrong spawn point detected
         """
 
+        self.minimap.lock_rotation(270)
         self.clear_item(item)
         self.clear_enemy(
             node,
@@ -74,6 +76,7 @@ class Route(RouteBase):
         enemy = Waypoint((193.7, 949.5))
         # ===== End of generated waypoints =====
 
+        self.minimap.lock_rotation(270)
         self.clear_item(item)
         self.clear_enemy(
             node,
@@ -182,8 +185,8 @@ class Route(RouteBase):
         self.rotation_set(270)
         self.minimap.lock_rotation(270)
         self.clear_enemy(
-            node2,
-            node3,
+            node2.set_threshold(3),
+            node3.set_threshold(3),
             enemy3,
         )
         self.clear_item(item4)

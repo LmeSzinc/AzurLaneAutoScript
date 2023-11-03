@@ -36,6 +36,8 @@ class Route(RouteBase):
             enemy1left,
         )
         self.minimap.init_position(self.minimap.position)
+        self.rotation_set(270)
+        self.minimap.lock_rotation(270)
         self.clear_enemy(
             node2,
             enemy2,
