@@ -183,8 +183,26 @@ Jarilo_EverwinterHill = MapPlane(
     jp='常冬峰',
     es='Colina del Siempreinvierno',
 )
-Jarilo_BoulderTown = MapPlane(
+Jarilo_PillarsofCreation = MapPlane(
     id=21,
+    name='Jarilo_PillarsofCreation',
+    cn='造物之柱',
+    cht='造物之柱',
+    en='Pillars of Creation',
+    jp='造物の柱',
+    es='Pilares de la Creación',
+)
+Jarilo_OldWeaponTestingGround = MapPlane(
+    id=22,
+    name='Jarilo_OldWeaponTestingGround',
+    cn='旧武器试验场',
+    cht='舊武器試驗場',
+    en='Old Weapon Testing Ground',
+    jp='旧武器実験場',
+    es='Antiguo campo de prueba de armas',
+)
+Jarilo_BoulderTown = MapPlane(
+    id=23,
     name='Jarilo_BoulderTown',
     cn='磐岩镇',
     cht='磐岩鎮',
@@ -193,7 +211,7 @@ Jarilo_BoulderTown = MapPlane(
     es='Villarroca',
 )
 Jarilo_GreatMine = MapPlane(
-    id=22,
+    id=24,
     name='Jarilo_GreatMine',
     cn='大矿区',
     cht='大礦區',
@@ -202,7 +220,7 @@ Jarilo_GreatMine = MapPlane(
     es='Mina principal',
 )
 Jarilo_RivetTown = MapPlane(
-    id=23,
+    id=25,
     name='Jarilo_RivetTown',
     cn='铆钉镇',
     cht='鉚釘鎮',
@@ -211,7 +229,7 @@ Jarilo_RivetTown = MapPlane(
     es='Villarremache',
 )
 Jarilo_RobotSettlement = MapPlane(
-    id=24,
+    id=26,
     name='Jarilo_RobotSettlement',
     cn='机械聚落',
     cht='機械聚落',
@@ -220,7 +238,7 @@ Jarilo_RobotSettlement = MapPlane(
     es='Asentamiento robot',
 )
 Luofu_CentralStarskiffHaven = MapPlane(
-    id=25,
+    id=27,
     name='Luofu_CentralStarskiffHaven',
     cn='星槎海中枢',
     cht='星槎海中樞',
@@ -229,7 +247,7 @@ Luofu_CentralStarskiffHaven = MapPlane(
     es='Zona central de la Dársena de astroesquifes',
 )
 Luofu_Cloudford = MapPlane(
-    id=26,
+    id=28,
     name='Luofu_Cloudford',
     cn='流云渡',
     cht='流雲渡',
@@ -238,7 +256,7 @@ Luofu_Cloudford = MapPlane(
     es='Vado de las Nubes',
 )
 Luofu_StargazerNavalia = MapPlane(
-    id=27,
+    id=29,
     name='Luofu_StargazerNavalia',
     cn='迴星港',
     cht='迴星港',
@@ -247,7 +265,7 @@ Luofu_StargazerNavalia = MapPlane(
     es='Puerto Miraestrellas',
 )
 Luofu_ExaltingSanctum = MapPlane(
-    id=28,
+    id=30,
     name='Luofu_ExaltingSanctum',
     cn='长乐天',
     cht='長樂天',
@@ -256,7 +274,7 @@ Luofu_ExaltingSanctum = MapPlane(
     es='Sánctum de la Exaltación',
 )
 Luofu_AurumAlley = MapPlane(
-    id=29,
+    id=31,
     name='Luofu_AurumAlley',
     cn='金人巷',
     cht='金人巷',
@@ -265,7 +283,7 @@ Luofu_AurumAlley = MapPlane(
     es='Callejón Aurum',
 )
 Luofu_DivinationCommission = MapPlane(
-    id=30,
+    id=32,
     name='Luofu_DivinationCommission',
     cn='太卜司',
     cht='太卜司',
@@ -274,7 +292,7 @@ Luofu_DivinationCommission = MapPlane(
     es='Comisión de Adivinación',
 )
 Luofu_ArtisanshipCommission = MapPlane(
-    id=31,
+    id=33,
     name='Luofu_ArtisanshipCommission',
     cn='工造司',
     cht='工造司',
@@ -283,7 +301,7 @@ Luofu_ArtisanshipCommission = MapPlane(
     es='Comisión de Artesanía',
 )
 Luofu_AlchemyCommission = MapPlane(
-    id=32,
+    id=34,
     name='Luofu_AlchemyCommission',
     cn='丹鼎司',
     cht='丹鼎司',
@@ -292,7 +310,7 @@ Luofu_AlchemyCommission = MapPlane(
     es='Comisión de Alquimia',
 )
 Luofu_ScalegorgeWaterscape = MapPlane(
-    id=33,
+    id=35,
     name='Luofu_ScalegorgeWaterscape',
     cn='鳞渊境',
     cht='鱗淵境',
