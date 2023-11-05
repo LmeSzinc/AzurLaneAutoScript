@@ -46,14 +46,11 @@ class Route(RouteBase):
         | -------- | ------------------------- | --------- | -------- |
         | spawn    | Waypoint((714.4, 243.2)), | 274.2     | 274      |
         | event    | Waypoint((678.9, 243.0)), | 274.2     | 274      |
-        | item     | Waypoint((323.2, 268.8)), | 302.6     | 297      |
         | exit     | Waypoint((677.4, 243.2)), | 274.2     | 271      |
         """
         self.map_init(plane=Luofu_ScalegorgeWaterscape, floor="F1", position=(714.4, 243.2))
         self.register_domain_exit(Waypoint((677.4, 243.2)), end_rotation=271)
         event = Waypoint((678.9, 243.0))
-        item = Waypoint((323.2, 268.8))
 
-        self.clear_item(item)
         self.clear_event(event)
         # ===== End of generated waypoints =====
