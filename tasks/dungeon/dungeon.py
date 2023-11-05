@@ -155,7 +155,9 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
         self.daily_quests = self.config.stored.DailyQuest.load_quests()
 
         # Update double event records
-        if self.config.stored.DungeonDouble.is_expired():
+        if (self.config.stored.DungeonDouble.is_expired()
+                or self.config.stored.DungeonDouble.calyx > 0
+                or self.config.stored.DungeonDouble.relic > 0):
             logger.info('Get dungeon double remains')
             # UI switches
             switched = self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
