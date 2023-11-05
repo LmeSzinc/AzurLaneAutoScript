@@ -1,4 +1,5 @@
 import re
+import typing as t
 from copy import deepcopy
 
 from cached_property import cached_property
@@ -7,7 +8,7 @@ from deploy.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
 from module.config.env import IS_ON_PHONE_CLOUD
 from module.config.redirect_utils.utils import *
-from module.config.server import to_server, to_package, VALID_PACKAGE, VALID_CHANNEL_PACKAGE, VALID_SERVER_LIST
+from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, VALID_SERVER_LIST, to_package, to_server
 from module.config.utils import *
 
 CONFIG_IMPORT = '''
@@ -714,6 +715,21 @@ class ConfigUpdater:
                 remove_drop_save(arg)
 
         return data
+
+    def save_callback(self, key: str, value: t.Any) -> t.Iterable[t.Tuple[str, t.Any]]:
+        """
+        Args:
+            key: Key path in config json, such as "Main.Emotion.Fleet1Value"
+            value: Value set by user, such as "98"
+
+        Yields:
+            str: Key path to set config json, such as "Main.Emotion.Fleet1Record"
+            any: Value to set, such as "2020-01-01 00:00:00"
+        """
+        if "Emotion" in key and "Value" in key:
+            key = key.split(".")
+            key[-1] = key[-1].replace("Value", "Record")
+            yield ".".join(key), datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     def read_file(self, config_name, is_template=False):
         """
