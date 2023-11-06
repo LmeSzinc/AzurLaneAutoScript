@@ -4,13 +4,14 @@ from datetime import datetime, timedelta
 from module.base.timer import Timer
 from module.exception import RequestHumanTakeover
 from module.logger import logger
-from module.ocr.ocr import DigitCounter, Ocr
+from module.ocr.ocr import Ocr
 from tasks.base.assets.assets_base_main_page import ROGUE_LEAVE_FOR_NOW
 from tasks.base.assets.assets_base_page import MAP_EXIT
 from tasks.base.page import page_guide, page_main, page_rogue
 from tasks.dungeon.keywords import DungeonList
 from tasks.dungeon.keywords.dungeon import Simulated_Universe_World_1
 from tasks.dungeon.keywords.tab import Survival_Index
+from tasks.dungeon.state import OcrSimUniPoint
 from tasks.dungeon.ui import DungeonUI
 from tasks.forgotten_hall.assets.assets_forgotten_hall_ui import TELEPORT
 from tasks.rogue.assets.assets_rogue_entry import (
@@ -132,6 +133,9 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
 
     def _rogue_world_enter(self, skip_first_screenshot=True):
         """
+        Raises:
+            RogueReachedWeeklyPointLimit: Raised if task should stop
+
         Pages:
             in: is_page_rogue_main()
             out: is_page_rogue_launch()
@@ -158,6 +162,7 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
                 continue
             if self.appear(LEVEL_CONFIRM, interval=2):
                 self.dungeon_update_stamina()
+                self.check_stop_condition()
                 self.device.click(LEVEL_CONFIRM)
                 continue
             if self.appear_then_click(REWARD_CLOSE, interval=2):
@@ -267,9 +272,13 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
         Args:
             world: 7 or KEYWORDS_DUNGEON_LIST.Simulated_Universe_World_7
 
+        Raises:
+            RogueReachedWeeklyPointLimit: Raised if task should stop
+
         Pages:
             in: page_rogue
             out: is_page_rogue_launch()
+                or is_page_rogue_main() if RogueReachedWeeklyPointLimit raised
         """
         logger.hr('Rogue world enter', level=1)
         if world is None:
@@ -322,13 +331,19 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
 
         # Update rogue points
         if datetime.now() - self.config.stored.SimulatedUniverse.time > timedelta(minutes=2):
-            ocr = DigitCounter(OCR_WEEKLY_POINT)
+            ocr = OcrSimUniPoint(OCR_WEEKLY_POINT)
             value, _, total = ocr.ocr_single_line(self.device.image)
             self.config.stored.SimulatedUniverse.set(value, total)
-        # Check stop condition again as data updated
+        self.rogue_reward_claim()
+        # Check stop condition again as weekly reward updated
         self.check_stop_condition()
 
         # Enter
         self._rogue_world_set(world)
-        self._rogue_world_enter()
+        # Check stop condition again as immersifier updated
+        try:
+            self._rogue_world_enter()
+        except RogueReachedWeeklyPointLimit:
+            self.rogue_world_exit()
+            raise
         self.rogue_path_select(self.config.RogueWorld_Path)
