@@ -12,7 +12,6 @@ from module.ocr.utils import split_and_pair_buttons
 from module.ui.scroll import Scroll
 from module.ui.switch import Switch
 from tasks.base.assets.assets_base_page import BATTLE_PASS_CHECK, MAIN_GOTO_BATTLE_PASS
-from tasks.base.assets.assets_base_popup import GET_REWARD
 from tasks.base.page import page_battle_pass, page_main
 from tasks.base.ui import UI
 from tasks.battle_pass.assets.assets_battle_pass import *
@@ -187,7 +186,7 @@ class BattlePassUI(UI):
             else:
                 self.device.screenshot()
 
-            if self.appear(GET_REWARD):
+            if self.reward_appear():
                 logger.info('Get reward')
                 break
             if self.appear(CLOSE_CHOOSE_GIFT):
