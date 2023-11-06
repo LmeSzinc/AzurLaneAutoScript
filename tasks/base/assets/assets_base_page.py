@@ -96,7 +96,7 @@ GACHA_CHECK = ButtonWrapper(
         Button(
             file='./assets/share/base/page/GACHA_CHECK.2.png',
             area=(41, 21, 74, 54),
-            search=(20, 0, 94, 74),
+            search=(21, 1, 94, 74),
             color=(188, 167, 142),
             button=(41, 21, 74, 54),
         ),
