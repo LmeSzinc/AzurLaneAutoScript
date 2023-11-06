@@ -38,6 +38,8 @@ class GemsCampaignOverride(CampaignBase):
             while 1:
                 self.device.screenshot()
 
+                if self.handle_story_skip():
+                    continue
                 if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
                     continue
 
