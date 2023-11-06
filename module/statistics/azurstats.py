@@ -161,7 +161,7 @@ class AzurStats:
                     return False
 
         logger.warning(f'Image upload failed, unexpected server returns, '
-                       f'status_code: {resp.status_code}, returns: {resp.text}')
+                       f'status_code: {resp.status_code}, returns: {resp.text[:500]}')
         return False
 
     def _save(self, image, genre, filename):
