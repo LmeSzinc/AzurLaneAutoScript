@@ -74,7 +74,7 @@ class Button(Resource):
             threshold=threshold
         )
 
-    def match_template(self, image, similarity=0.85) -> bool:
+    def match_template(self, image, similarity=0.85, direct_match=False) -> bool:
         """
         Detects assets by template matching.
 
@@ -83,18 +83,45 @@ class Button(Resource):
         Args:
             image: Screenshot.
             similarity (float): 0-1.
+            direct_match: True to ignore `self.search`
 
         Returns:
             bool.
         """
-        image = crop(image, self.search, copy=False)
+        if not direct_match:
+            image = crop(image, self.search, copy=False)
         res = cv2.matchTemplate(self.image, image, cv2.TM_CCOEFF_NORMED)
         _, sim, _, point = cv2.minMaxLoc(res)
 
         self._button_offset = np.array(point) + self.search[:2] - self.area[:2]
         return sim > similarity
 
-    def match_template_color(self, image, similarity=0.85, threshold=30) -> bool:
+    def match_multi_template(self, image, similarity=0.85, direct_match=False):
+        """
+        Detects assets by template matching, return multiple reults
+
+        Args:
+            image: Screenshot.
+            similarity (float): 0-1.
+            direct_match: True to ignore `self.search`
+
+        Returns:
+            list:
+        """
+        if not direct_match:
+            image = crop(image, self.search, copy=False)
+        res = cv2.matchTemplate(self.image, image, cv2.TM_CCOEFF_NORMED)
+        res = cv2.inRange(res, similarity, 1.)
+        try:
+            points = np.array(cv2.findNonZero(res))[:, 0, :]
+            points += self.search[:2]
+            return points.tolist()
+        except IndexError:
+            # Empty result
+            # IndexError: too many indices for array: array is 0-dimensional, but 3 were indexed
+            return []
+
+    def match_template_color(self, image, similarity=0.85, threshold=30, direct_match=False) -> bool:
         """
         Template match first, color match then
 
@@ -102,11 +129,12 @@ class Button(Resource):
             image: Screenshot.
             similarity (float): 0-1.
             threshold (int): Default to 10.
+            direct_match: True to ignore `self.search`
 
         Returns:
-
+            bool.
         """
-        matched = self.match_template(image, similarity=similarity)
+        matched = self.match_template(image, similarity=similarity, direct_match=direct_match)
         if not matched:
             return False
 
@@ -173,16 +201,45 @@ class ButtonWrapper(Resource):
                 return True
         return False
 
-    def match_template(self, image, similarity=0.85) -> bool:
+    def match_template(self, image, similarity=0.85, direct_match=False) -> bool:
         for assets in self.buttons:
-            if assets.match_template(image, similarity=similarity):
+            if assets.match_template(image, similarity=similarity, direct_match=direct_match):
                 self._matched_button = assets
                 return True
         return False
 
-    def match_template_color(self, image, similarity=0.85, threshold=30) -> bool:
+    def match_multi_template(self, image, similarity=0.85, threshold=5, direct_match=False):
+        """
+        Detects assets by template matching, return multiple results
+
+        Args:
+            image: Screenshot.
+            similarity (float): 0-1.
+            threshold:
+            direct_match: True to ignore `self.search`
+
+        Returns:
+            list[ClickButton]:
+        """
+        ps = []
         for assets in self.buttons:
-            if assets.match_template_color(image, similarity=similarity, threshold=threshold):
+            ps += assets.match_multi_template(image, similarity=similarity, direct_match=direct_match)
+        if not ps:
+            return []
+
+        from module.base.utils.points import Points
+        ps = Points(ps).group(threshold=threshold)
+        area_list = [area_offset(self.area, p - self.area[:2]) for p in ps]
+        button_list = [area_offset(self.button, p - self.area[:2]) for p in ps]
+        return [
+            ClickButton(area=info[0], button=info[1], name=f'{self.name}_result{i}')
+            for i, info in enumerate(zip(area_list, button_list))
+        ]
+
+    def match_template_color(self, image, similarity=0.85, threshold=30, direct_match=False) -> bool:
+        for assets in self.buttons:
+            if assets.match_template_color(
+                    image, similarity=similarity, threshold=threshold, direct_match=direct_match):
                 self._matched_button = assets
                 return True
         return False
