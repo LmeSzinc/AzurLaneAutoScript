@@ -179,20 +179,29 @@ def iter_assets():
         if image.attr != '':
             row = deep_get(data, keys=[image.module, image.assets, image.server, image.frame])
             row.load_image(image)
-    # Apply `search` of the first frame to all
+    # Set `search`
     for path, frames in deep_iter(data, depth=3):
         print(path, frames)
+        # If `search` attribute is set in the first frame, apply to all
         first = frames[1]
-        search = first.search if first.search else DataAssets.area_to_search(first.area)
-        for frame in frames.values():
-            frame.search = search
+        if first.search:
+            for frame in frames.values():
+                frame.search = first.search
+        else:
+            for frame in frames.values():
+                if frame.search:
+                    # Follow frame specific `search`
+                    pass
+                else:
+                    # Generate `search` from `area`
+                    frame.search = DataAssets.area_to_search(frame.area)
 
     return data
 
 
 def generate_code():
-    all = iter_assets()
-    for module, module_data in all.items():
+    all_assets = iter_assets()
+    for module, module_data in all_assets.items():
         path = os.path.join(AzurLaneConfig.ASSETS_MODULE, module.split('/', maxsplit=1)[0])
         output = os.path.join(path, 'assets.py')
         if os.path.exists(output):
@@ -204,7 +213,7 @@ def generate_code():
                 continue
             os.remove(prev)
 
-    for module, module_data in all.items():
+    for module, module_data in all_assets.items():
         path = os.path.join(AzurLaneConfig.ASSETS_MODULE, module.split('/', maxsplit=1)[0])
         output = os.path.join(path, 'assets')
         gen = CodeGenerator()

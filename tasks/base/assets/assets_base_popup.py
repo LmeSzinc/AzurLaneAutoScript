@@ -49,13 +49,22 @@ GET_LIGHT_CONE = ButtonWrapper(
 )
 GET_REWARD = ButtonWrapper(
     name='GET_REWARD',
-    share=Button(
-        file='./assets/share/base/popup/GET_REWARD.png',
-        area=(623, 95, 657, 119),
-        search=(603, 75, 677, 139),
-        color=(145, 131, 99),
-        button=(741, 495, 1071, 644),
-    ),
+    share=[
+        Button(
+            file='./assets/share/base/popup/GET_REWARD.png',
+            area=(625, 95, 655, 119),
+            search=(605, 75, 675, 139),
+            color=(213, 0, 0),
+            button=(741, 495, 1071, 644),
+        ),
+        Button(
+            file='./assets/share/base/popup/GET_REWARD.2.png',
+            area=(625, 144, 655, 168),
+            search=(605, 124, 675, 188),
+            color=(226, 0, 0),
+            button=(625, 144, 655, 168),
+        ),
+    ],
 )
 MONTHLY_CARD_GET_ITEM = ButtonWrapper(
     name='MONTHLY_CARD_GET_ITEM',

@@ -187,7 +187,7 @@ class Aim:
         draw_circle(draw, self.circle_enemy, points)
         if self.debug:
             self.draw_enemy = cv2.multiply(draw, 4)
-        subtract_blur(draw, 3)
+        draw = subtract_blur(draw, 3)
 
         # Find peaks
         points = inrange(draw, lower=36)
@@ -230,7 +230,6 @@ class Aim:
         draw_circle(draw, self.circle_item, points)
         if self.debug:
             self.draw_item = cv2.multiply(draw, 2)
-        subtract_blur(draw, 7)
 
         # Find peaks
         points = inrange(draw, lower=64)
