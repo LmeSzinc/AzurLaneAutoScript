@@ -58,8 +58,10 @@ class DungeonState(UI):
         timeout = Timer(1, count=2).start()
         if image is None:
             image = self.device.image
+            use_cached_image = False
         else:
             skip_first_screenshot = True
+            use_cached_image = True
 
         while 1:
             if skip_first_screenshot:
@@ -89,7 +91,7 @@ class DungeonState(UI):
 
             if stamina[2] > 0 and immersifier[2] > 0:
                 break
-            if image is not None:
+            if use_cached_image:
                 logger.warning('dungeon_update_stamina() ended')
                 return
 
