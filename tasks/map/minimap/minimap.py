@@ -224,7 +224,7 @@ class Minimap(MapResource):
         scale = self.DIRECTION_ROTATION_SCALE * self.DIRECTION_SEARCH_SCALE
         mapping = cv2.resize(image, None, fx=scale, fy=scale, interpolation=cv2.INTER_NEAREST)
         result = cv2.matchTemplate(self.ArrowRotateMap, mapping, cv2.TM_CCOEFF_NORMED)
-        subtract_blur(result, 5)
+        result = subtract_blur(result, 5)
         _, sim, _, loca = cv2.minMaxLoc(result)
         loca = np.array(loca) / self.DIRECTION_SEARCH_SCALE // (self.DIRECTION_RADIUS * 2)
         degree = int((loca[0] + loca[1] * 8) * 5)
@@ -241,7 +241,7 @@ class Minimap(MapResource):
 
         precise_map = self.ArrowRotateMapAll[row[0]:row[1], :]
         result = cv2.matchTemplate(precise_map, mapping, cv2.TM_CCOEFF_NORMED)
-        subtract_blur(result, 5)
+        result = subtract_blur(result, 5)
 
         def to_map(x):
             return int((x * self.DIRECTION_RADIUS * 2) * self.POSITION_SEARCH_SCALE)

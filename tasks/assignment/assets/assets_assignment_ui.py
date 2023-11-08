@@ -23,7 +23,7 @@ CHARACTER_MATERIALS_CHECK = ButtonWrapper(
         Button(
             file='./assets/en/assignment/ui/CHARACTER_MATERIALS_CHECK.2.png',
             area=(142, 98, 234, 119),
-            search=(319, 68, 449, 146),
+            search=(122, 78, 254, 139),
             color=(203, 202, 199),
             button=(142, 98, 234, 119),
         ),
@@ -49,7 +49,7 @@ CHARACTER_MATERIALS_CLICK = ButtonWrapper(
         Button(
             file='./assets/en/assignment/ui/CHARACTER_MATERIALS_CLICK.2.png',
             area=(143, 98, 234, 120),
-            search=(319, 68, 449, 147),
+            search=(123, 78, 254, 140),
             color=(61, 59, 57),
             button=(143, 98, 234, 120),
         ),
@@ -102,7 +102,7 @@ EXP_MATERIALS_CREDITS_CHECK = ButtonWrapper(
         Button(
             file='./assets/en/assignment/ui/EXP_MATERIALS_CREDITS_CHECK.2.png',
             area=(373, 98, 458, 119),
-            search=(509, 68, 619, 146),
+            search=(353, 78, 478, 139),
             color=(191, 190, 187),
             button=(373, 98, 458, 119),
         ),
@@ -128,7 +128,7 @@ EXP_MATERIALS_CREDITS_CLICK = ButtonWrapper(
         Button(
             file='./assets/en/assignment/ui/EXP_MATERIALS_CREDITS_CLICK.2.png',
             area=(374, 98, 459, 119),
-            search=(508, 68, 619, 147),
+            search=(354, 78, 479, 139),
             color=(49, 49, 49),
             button=(374, 98, 459, 119),
         ),
@@ -245,7 +245,7 @@ SYNTHESIS_MATERIALS_CHECK = ButtonWrapper(
         Button(
             file='./assets/en/assignment/ui/SYNTHESIS_MATERIALS_CHECK.2.png',
             area=(624, 97, 715, 119),
-            search=(683, 68, 810, 146),
+            search=(604, 77, 735, 139),
             color=(197, 196, 193),
             button=(624, 97, 715, 119),
         ),
@@ -271,7 +271,7 @@ SYNTHESIS_MATERIALS_CLICK = ButtonWrapper(
         Button(
             file='./assets/en/assignment/ui/SYNTHESIS_MATERIALS_CLICK.2.png',
             area=(624, 97, 715, 119),
-            search=(682, 68, 810, 146),
+            search=(604, 77, 735, 139),
             color=(51, 50, 49),
             button=(624, 97, 715, 119),
         ),

@@ -1,7 +1,6 @@
 from module.base.timer import Timer
 from module.logger import logger
-from tasks.base.assets.assets_base_page import CLOSE, MENU_CHECK
-from tasks.base.assets.assets_base_popup import GET_REWARD
+from tasks.base.assets.assets_base_page import MENU_CHECK
 from tasks.base.page import page_menu
 from tasks.base.ui import UI
 from tasks.freebies.assets.assets_freebies_support_reward import (
@@ -53,7 +52,7 @@ class SupportReward(UI):
         """
         Pages:
             in: PROFILE
-            out: GET_REWARD
+            out: reward_appear()
         """
         logger.info('Getting reward')
         claimed = False
@@ -68,7 +67,7 @@ class SupportReward(UI):
             if not claimed and empty.reached():
                 logger.info('No reward')
                 break
-            if self.appear(GET_REWARD):
+            if self.reward_appear():
                 logger.info('Got reward')
                 break
             if timeout.reached():
@@ -83,7 +82,7 @@ class SupportReward(UI):
     def _goto_menu(self):
         """
         Pages:
-            in: PROFILE or GET_REWARD
+            in: PROFILE or reward_appear
             out: MENU
         """
         skip_first_screenshot = False
@@ -97,9 +96,7 @@ class SupportReward(UI):
             if self.appear(MENU_CHECK):
                 return True
 
-            if self.appear(IN_PROFILE, interval=2):
-                logger.info(f'{IN_PROFILE} -> {CLOSE}')
-                self.device.click(CLOSE)
+            if self.handle_ui_close(IN_PROFILE, interval=2):
                 continue
             if self.handle_reward(click_button=CAN_GET_REWARD):
                 # # Avoid clicking on some other buttons
