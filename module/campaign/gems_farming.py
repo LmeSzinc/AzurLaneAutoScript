@@ -335,19 +335,8 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         self.ui_click(self.FLEET_ENTER_FLAGSHIP,
                       appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
 
-        if self.hard_mode:
-            self.wait_until_appear_then_click(REMOVE_SHIP)
-
-            self._fleet_detail_enter()
-            self.ui_click(self.FLEET_ENTER_FLAGSHIP,
-                          appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK,
-                          skip_first_screenshot=True)
-            self.dock_filter_set(
-                index=deep_get(self.config.data, "GameManager.ChangeShip.TargetType").lower(), rarity='common',
-                extra='enhanceable', sort='total')
-        else:
-            self.dock_filter_set(
-                index='cv', rarity='common', extra='enhanceable', sort='total')
+        self.dock_filter_set(
+            index='cv', rarity='common', extra='enhanceable', sort='total')
         self.dock_favourite_set(False)
 
         ship = self.get_common_rarity_cv()
