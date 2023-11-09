@@ -77,6 +77,24 @@ class Route(RouteBase):
         self.clear_enemy(enemy2left.straight_run())
         self.clear_enemy(enemy3.straight_run())
 
+    def Jarilo_BackwaterPass_F1_X555Y643(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((555.6, 643.2)), | 282.3     | 274      |
+        | item     | Waypoint((524.8, 612.4)), | 318.0     | 322      |
+        | enemy    | Waypoint((505.7, 642.9)), | 14.1      | 274      |
+        | exit     | Waypoint((505.7, 642.9)), | 14.1      | 274      |
+        """
+        self.map_init(plane=Jarilo_BackwaterPass, floor="F1", position=(555.6, 643.2))
+        self.register_domain_exit(Waypoint((505.7, 642.9)), end_rotation=274)
+        item = Waypoint((524.8, 612.4))
+        enemy = Waypoint((505.7, 642.9))
+        # ===== End of generated waypoints =====
+
+        self.clear_item(item)
+        self.clear_enemy(enemy)
+
     def Jarilo_BackwaterPass_F1_X577Y665(self):
         """
         | Waypoint      | Position                  | Direction | Rotation |

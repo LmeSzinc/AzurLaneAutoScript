@@ -231,6 +231,17 @@
     "domain": "Combat"
   },
   {
+    "name": "Combat_Jarilo_BackwaterPass_F1_X555Y643",
+    "route": "route.rogue.Combat.Jarilo_BackwaterPass_F1:Jarilo_BackwaterPass_F1_X555Y643",
+    "plane": "Jarilo_BackwaterPass",
+    "floor": "F1",
+    "position": [
+      555.6,
+      643.2
+    ],
+    "domain": "Combat"
+  },
+  {
     "name": "Combat_Jarilo_BackwaterPass_F1_X577Y665",
     "route": "route.rogue.Combat.Jarilo_BackwaterPass_F1:Jarilo_BackwaterPass_F1_X577Y665",
     "plane": "Jarilo_BackwaterPass",
