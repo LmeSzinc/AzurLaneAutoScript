@@ -201,11 +201,11 @@ class RewardDorm(UI):
 
     @cached_property
     def _dorm_food(self):
-        return ButtonGrid(origin=(411, 387), delta=(117, 0), button_shape=(95, 73), grid_shape=(6, 1), name='FOOD')
+        return ButtonGrid(origin=(395, 410), delta=(129, 0), button_shape=(105, 70), grid_shape=(6, 1), name='FOOD')
 
     @cached_property
     def _dorm_food_ocr(self):
-        grids = self._dorm_food.crop((47, 46, 91, 68), name='FOOD_AMOUNT')
+        grids = self._dorm_food.crop((54, 41, 101, 66), name='FOOD_AMOUNT')
         return Digit(grids.buttons, letter=(255, 255, 255), threshold=128, name='OCR_DORM_FOOD')
 
     def _dorm_has_food(self, button):
