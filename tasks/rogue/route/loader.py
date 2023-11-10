@@ -5,7 +5,7 @@ import numpy as np
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.logger import logger
-from tasks.base.main_page import MainPage
+from tasks.character.switch import CharacterSwitch
 from tasks.map.keywords import MapPlane
 from tasks.map.keywords.plane import (
     Herta_MasterControlZone,
@@ -75,7 +75,7 @@ class MinimapWrapper:
         return self.all_minimap[route.plane_floor]
 
 
-class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, MainPage):
+class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, CharacterSwitch):
     def position_find_known(self, image, force_return=False) -> Optional[RogueRouteModel]:
         """
         Try to find from known route spawn point
@@ -217,6 +217,9 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, MainPage):
 
             logger.hr(f'Route run: {count}', level=1)
             base.clear_blessing()
+            if count == 1:
+                self.character_switch_to_ranged(update=True)
+
             self.route_run()
             # if not success:
             #     self.device.image_save()
