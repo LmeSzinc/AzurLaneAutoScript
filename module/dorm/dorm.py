@@ -62,8 +62,8 @@ class RewardDorm(UI):
             out: page_dorm, with info_bar
         """
         image = MASK_DORM.apply(self.device.image)
-        loves = TEMPLATE_DORM_LOVE.match_multi(image, name='DORM_LOVE')
-        coins = TEMPLATE_DORM_COIN.match_multi(image, name='DORM_COIN')
+        loves = TEMPLATE_DORM_LOVE.match_multi(image, name='DORM_LOVE', scaling=1.5)
+        coins = TEMPLATE_DORM_COIN.match_multi(image, name='DORM_COIN', scaling=1.5)
         logger.info(f'Dorm loves: {len(loves)}, Dorm coins: {len(coins)}')
         # Complicated dorm background
         if len(loves) > 6:
