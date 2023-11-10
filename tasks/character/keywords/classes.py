@@ -12,3 +12,6 @@ class CharacterList(Keyword):
     @cached_property
     def is_trailblazer(self) -> bool:
         return 'Trailblazer' in self.name
+
+    def __hash__(self) -> int:
+        return super().__hash__()

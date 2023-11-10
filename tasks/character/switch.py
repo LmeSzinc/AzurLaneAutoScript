@@ -5,10 +5,10 @@ from scipy import signal
 from module.base.timer import Timer
 from module.base.utils import area_center, crop, rgb2luma
 from module.logger import logger
-from module.ocr.ocr import OcrResultButton, OcrWhiteLetterOnComplexBackground
+from module.ocr.ocr import BoxedResult, OcrResultButton, OcrWhiteLetterOnComplexBackground
 from tasks.base.ui import UI
-from tasks.character.assets.assets_character_switch import OCR_MAP_CHARACTERS
-from tasks.character.keywords import CharacterList, DICT_SORTED_RANGES
+from tasks.character.assets.assets_character_switch import *
+from tasks.character.keywords import CharacterList, DICT_SORTED_RANGES, KEYWORD_CHARACTER_LIST
 
 
 class OcrCharacterName(OcrWhiteLetterOnComplexBackground):
@@ -32,13 +32,44 @@ class CharacterSwitch(UI):
         - self.characters
         - self.character_current
         - self.character_buttons
+
+        Pages:
+            in: page_main
         """
         ocr = OcrCharacterName(OCR_MAP_CHARACTERS)
-        self.character_buttons = ocr.matched_ocr(self.device.image, keyword_classes=CharacterList)
+        buttons = ocr.matched_ocr(self.device.image, keyword_classes=CharacterList)
+        if trailblazer := self._get_character_trailblazer():
+            buttons.append(trailblazer)
+        buttons = sorted(buttons, key=lambda b: area_center(b.area)[1])
+        self.character_buttons = buttons
+
         self.characters = [button.matched_keyword for button in self.character_buttons]
         logger.attr('Characters', self.characters)
         self.character_current = self._convert_selected_to_character(self._update_current_character())
         return self.characters
+
+    def _get_character_trailblazer(self) -> OcrResultButton | None:
+        dict_template = {
+            KEYWORD_CHARACTER_LIST.TrailblazerDestruction: [
+                TrailblazerDestructionMale,
+                TrailblazerDestructionFemale,
+            ],
+            KEYWORD_CHARACTER_LIST.TrailblazerPreservation: [
+                TrailblazerPreservationMale,
+                TrailblazerPreservationFemale,
+
+            ],
+        }
+        for character, templates in dict_template.items():
+            for template in templates:
+                template.load_search(TRAILBLAZER_SEARCH.area)
+                if template.match_template(self.device.image):
+                    logger.info(f'Found trailblazer: {template}')
+                    # Create a fake OcrResultButton object
+                    box = BoxedResult(box=template.button, text_img=None, ocr_text='', score=1.0)
+                    button = OcrResultButton(boxed_result=box, matched_keyword=character)
+                    return button
+        return None
 
     def _update_current_character(self) -> list[int]:
         """
