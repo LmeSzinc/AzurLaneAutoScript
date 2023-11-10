@@ -73,7 +73,7 @@ class CampaignOcr(ModuleBase):
             return '', ''
 
         logger.warning(f'Unknown stage name: {name}')
-        return name[0], name[1:]
+        return '', ''
 
     def campaign_match_multi(self, template, image, stage_image=None, name_offset=(75, 9), name_size=(60, 16),
                              name_letter=(255, 255, 255), name_thresh=128, similarity=0.85):

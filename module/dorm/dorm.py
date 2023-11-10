@@ -62,8 +62,8 @@ class RewardDorm(UI):
             out: page_dorm, with info_bar
         """
         image = MASK_DORM.apply(self.device.image)
-        loves = TEMPLATE_DORM_LOVE.match_multi(image, name='DORM_LOVE')
-        coins = TEMPLATE_DORM_COIN.match_multi(image, name='DORM_COIN')
+        loves = TEMPLATE_DORM_LOVE.match_multi(image, name='DORM_LOVE', scaling=1.5)
+        coins = TEMPLATE_DORM_COIN.match_multi(image, name='DORM_COIN', scaling=1.5)
         logger.info(f'Dorm loves: {len(loves)}, Dorm coins: {len(coins)}')
         # Complicated dorm background
         if len(loves) > 6:
@@ -201,11 +201,11 @@ class RewardDorm(UI):
 
     @cached_property
     def _dorm_food(self):
-        return ButtonGrid(origin=(411, 387), delta=(117, 0), button_shape=(95, 73), grid_shape=(6, 1), name='FOOD')
+        return ButtonGrid(origin=(395, 410), delta=(129, 0), button_shape=(105, 70), grid_shape=(6, 1), name='FOOD')
 
     @cached_property
     def _dorm_food_ocr(self):
-        grids = self._dorm_food.crop((47, 46, 91, 68), name='FOOD_AMOUNT')
+        grids = self._dorm_food.crop((54, 41, 101, 66), name='FOOD_AMOUNT')
         return Digit(grids.buttons, letter=(255, 255, 255), threshold=128, name='OCR_DORM_FOOD')
 
     def _dorm_has_food(self, button):
