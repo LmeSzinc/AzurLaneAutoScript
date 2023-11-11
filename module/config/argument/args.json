@@ -9468,6 +9468,12 @@
         "display": "hide"
       }
     },
+    "HigherPriority": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
     "OpsiHazard1Leveling": {
       "TargetZone": {
         "type": "select",
