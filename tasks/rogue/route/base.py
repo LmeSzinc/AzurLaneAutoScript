@@ -267,62 +267,89 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
         logger.hr('Domain single exit', level=1)
         waypoints = ensure_waypoints(waypoints)
         end_point = waypoints[-1]
-        end_point.interact_radius = 7
+        end_point.interact_radius = 5
         end_point.expected_end.append(self._domain_exit_expected_end)
 
         result = self.goto(*waypoints)
         self._domain_exit_wait_next()
         return result
 
-    def domain_exit(self, *waypoints, end_rotation=None):
+    def domain_exit(
+            self,
+            *waypoints,
+            end_rotation: int = None,
+            left_door: Waypoint = None,
+            right_door: Waypoint = None
+    ):
         logger.hr('Domain exit', level=1)
         waypoints = ensure_waypoints(waypoints)
         end_point = waypoints[-1]
         end_point.endpoint_threshold = 1.5
-        result = self.goto(*waypoints)
+        self.goto(*waypoints)
 
         logger.hr('End rotation', level=2)
         self.rotation_set(end_rotation, threshold=10)
 
         logger.hr('Find domain exit', level=2)
-        direction = self.predict_door()
-        direction_limit = 55
-        if direction is not None:
-            if abs(direction) > direction_limit:
-                logger.warning(f'Unexpected direction to go: {direction}, limited in {direction_limit}')
-                if direction > 0:
-                    direction = direction_limit
-                elif direction < 0:
-                    direction = -direction_limit
+        door = self.predict_door()
+        if left_door is None or right_door is None:
+            logger.critical(f'Domain exit is not defined in: {self.route_func}')
+            exit(1)
 
-            point = Waypoint(
-                position=(0, 0),
-                min_speed='run',
-                lock_direction=direction,
-                interact_radius=10000,
-                expected_end=[self._domain_exit_expected_end],
-            )
-            self.goto(point)
-            self._domain_exit_wait_next()
-
-        return result
+        if door == 'left_door':
+            if self.domain_single_exit(left_door):
+                return True
+            else:
+                logger.error('Cannot goto either exit doors, try both')
+                if self.domain_single_exit(right_door):
+                    return True
+                else:
+                    return False
+        elif door == 'right_door':
+            if self.domain_single_exit(right_door):
+                return True
+            else:
+                logger.error('Cannot goto either exit doors, try both')
+                if self.domain_single_exit(left_door):
+                    return True
+                else:
+                    return False
+        else:
+            logger.error('Cannot goto either exit doors, try both')
+            if self.domain_single_exit(left_door):
+                return True
+            elif self.domain_single_exit(right_door):
+                return True
+            else:
+                return False
 
     """
     Route
     """
 
-    def register_domain_exit(self, *waypoints, end_rotation=None):
+    def register_domain_exit(
+            self,
+            *waypoints,
+            end_rotation: int = None,
+            left_door: Waypoint = None,
+            right_door: Waypoint = None
+    ):
         """
         Register an exit, call `domain_exit()` at route end
         """
-        self.registered_domain_exit = (waypoints, end_rotation)
+        self.registered_domain_exit = (waypoints, end_rotation, left_door, right_door)
 
     def before_route(self):
         self.registered_domain_exit = None
 
     def after_route(self):
         if self.registered_domain_exit is not None:
-            waypoints, end_rotation = self.registered_domain_exit
-            self.domain_exit(*waypoints, end_rotation=end_rotation)
+            waypoints, end_rotation, left_door, right_door = self.registered_domain_exit
+            self.domain_exit(
+                *waypoints,
+                end_rotation=end_rotation,
+                left_door=left_door,
+                right_door=right_door,
+            )
         else:
             logger.info('No domain exit registered')

@@ -1,3 +1,6 @@
+from functools import cached_property
+from typing import Any
+
 from pydantic import BaseModel, RootModel
 
 from tasks.map.route.model import RouteModel
@@ -34,48 +37,71 @@ class RogueWaypointModel(BaseModel):
     direction: float
     rotation: int
 
-    @property
+    class Config:
+        ignored_types = (cached_property,)
+
+    def model_post_init(self, __context: Any) -> None:
+        if self.waypoint == 'exit':
+            self.waypoint = 'exit_'
+
+    @cached_property
     def plane_floor(self):
         return f'{self.plane}_{self.floor}'
 
-    @property
+    @cached_property
     def positionXY(self):
         x, y = int(self.position[0]), int(self.position[1])
         return f'X{x}Y{y}'
 
-    @property
+    @cached_property
     def is_spawn(self) -> bool:
         return self.waypoint.startswith('spawn')
 
-    @property
+    @cached_property
     def is_exit(self) -> bool:
-        return self.waypoint.startswith('exit')
+        return self.waypoint.startswith('exit_')
 
-    @property
+    @cached_property
+    def is_exit1(self) -> bool:
+        return self.waypoint.startswith('exit1')
+
+    @cached_property
+    def is_exit2(self) -> bool:
+        return self.waypoint.startswith('exit2')
+
+    @cached_property
+    def is_exit_door(self) -> bool:
+        return self.is_exit1 or self.is_exit2
+
+    @cached_property
+    def is_middle(self) -> bool:
+        return not self.is_spawn and not self.is_exit_door and not self.is_exit_door
+
+    @cached_property
     def is_DomainBoss(self):
         return self.domain == 'Boss'
 
-    @property
+    @cached_property
     def is_DomainCombat(self):
         return self.domain == 'Combat'
 
-    @property
+    @cached_property
     def is_DomainElite(self):
         return self.domain == 'Elite'
 
-    @property
+    @cached_property
     def is_DomainEncounter(self):
         return self.domain == 'Encounter'
 
-    @property
+    @cached_property
     def is_DomainOccurrence(self):
         return self.domain == 'Occurrence'
 
-    @property
+    @cached_property
     def is_DomainRespite(self):
         return self.domain == 'Respite'
 
-    @property
+    @cached_property
     def is_DomainTransaction(self):
         return self.domain == 'Transaction'
 

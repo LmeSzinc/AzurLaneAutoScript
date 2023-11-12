@@ -11,7 +11,7 @@ class Route(RouteBase):
         | -------- | ------------------------- | --------- | -------- |
         | spawn    | Waypoint((167.8, 491.0)), | 96.7      | 91       |
         | event    | Waypoint((218.7, 491.1)), | 96.7      | 94       |
-        | exit     | Waypoint((216.9, 490.9)), | 190.0     | 89       |
+        | exit_    | Waypoint((216.9, 490.9)), | 190.0     | 89       |
         """
         self.map_init(plane=Luofu_ArtisanshipCommission, floor="F1", position=(167.8, 491.0))
         self.register_domain_exit(Waypoint((216.9, 490.9)), end_rotation=89)
@@ -45,7 +45,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((521.8, 63.6)), | 96.7      | 91       |
         | item     | Waypoint((536.8, 51.1)), | 62.6      | 57       |
         | event    | Waypoint((572.0, 64.2)), | 96.7      | 91       |
-        | exit     | Waypoint((572.8, 65.3)), | 193.0     | 91       |
+        | exit_    | Waypoint((572.8, 65.3)), | 193.0     | 91       |
         """
         self.map_init(plane=Luofu_ArtisanshipCommission, floor="F1", position=(521.8, 63.6))
         self.register_domain_exit(Waypoint((572.8, 65.3)), end_rotation=91)

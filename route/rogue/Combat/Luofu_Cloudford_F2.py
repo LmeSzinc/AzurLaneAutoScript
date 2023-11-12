@@ -14,7 +14,7 @@ class Route(RouteBase):
         | node2left  | Waypoint((426.1, 222.3)), | 193.1     | 184      |
         | node2right | Waypoint((402.8, 252.8)), | 244.9     | 253      |
         | enemy3     | Waypoint((320.2, 266.4)), | 282.6     | 274      |
-        | exit       | Waypoint((320.2, 266.4)), | 282.6     | 274      |
+        | exit_      | Waypoint((320.2, 266.4)), | 282.6     | 274      |
         """
         self.map_init(plane=Luofu_Cloudford, floor="F2", position=(425.4, 111.6))
         self.register_domain_exit(Waypoint((320.2, 266.4)), end_rotation=274)
@@ -43,7 +43,7 @@ class Route(RouteBase):
         | enemy2right | Waypoint((407.2, 253.0)), | 311.8     | 274      |
         | item3       | Waypoint((382.4, 275.3)), | 250.8     | 251      |
         | enemy3      | Waypoint((318.8, 267.0)), | 279.8     | 281      |
-        | exit        | Waypoint((324.8, 268.5)), | 283.0     | 278      |
+        | exit_       | Waypoint((324.8, 268.5)), | 283.0     | 278      |
         """
         self.map_init(plane=Luofu_Cloudford, floor="F2", position=(425.5, 171.6))
         self.register_domain_exit(Waypoint((324.8, 268.5)), end_rotation=278)

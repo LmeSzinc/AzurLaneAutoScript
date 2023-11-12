@@ -111,6 +111,37 @@ def get_position_from_name(name):
     return position
 
 
+def position2direction(target, origin):
+    """
+    Args:
+        target: Target position (x, y)
+        origin: Origin position (x, y)
+
+    Returns:
+        float: Direction from current position to target position (0~360)
+    """
+    diff = np.subtract(target, origin)
+    distance = np.linalg.norm(diff)
+    if distance < 0.05:
+        return 0
+    theta = np.rad2deg(np.arccos(-diff[1] / distance))
+    if diff[0] < 0:
+        theta = 360 - theta
+    theta = round(theta, 3)
+    return theta
+
+
+def swap_exit(exit_, exit1, exit2):
+    diff = position2direction(exit1.position, exit_.position) - position2direction(exit2.position, exit_.position)
+    diff = diff % 360
+    if diff > 180:
+        diff -= 360
+    if diff < 0:
+        return exit1, exit2
+    else:
+        return exit2, exit1
+
+
 class RouteDetect:
     GEN_END = '===== End of generated waypoints ====='
 
@@ -205,8 +236,8 @@ class RouteDetect:
 
     @staticmethod
     def sort_waypoints(waypoints: list[RogueWaypointModel]) -> list[RogueWaypointModel]:
-        waypoints = sorted(waypoints, key=lambda point: point.waypoint, reverse=True)
-        middle = [point for point in waypoints if not point.is_spawn and not point.is_exit]
+        waypoints = sorted(waypoints, key=lambda point: point.waypoint)
+        middle = [point for point in waypoints if point.is_middle]
         if not middle:
             return waypoints
 
@@ -228,7 +259,8 @@ class RouteDetect:
             middle.pop(index)
 
         end = [point for point in waypoints if point.is_exit]
-        waypoints = [spawn] + sorted_middle + end
+        door = [point for point in waypoints if point.is_exit_door]
+        waypoints = [spawn] + sorted_middle + end + door
         return waypoints
 
     def write(self):
@@ -240,6 +272,8 @@ class RouteDetect:
 
         spawn: RogueWaypointModel = waypoints.select(is_spawn=True).first_or_none()
         exit_: RogueWaypointModel = waypoints.select(is_exit=True).first_or_none()
+        exit1: RogueWaypointModel = waypoints.select(is_exit1=True).first_or_none()
+        exit2: RogueWaypointModel = waypoints.select(is_exit2=True).first_or_none()
         if spawn is None or exit_ is None:
             return
 
@@ -256,7 +290,6 @@ class RouteDetect:
 
         def call(func, name):
             ws = waypoints.filter(lambda x: x.waypoint.startswith(name)).get('waypoint')
-            ws = ['exit_' if w == 'exit' else w for w in ws]
             if ws:
                 ws = ', '.join(ws)
                 gen.add(f'self.{func}({ws})')
@@ -280,18 +313,21 @@ class RouteDetect:
                 if spawn.is_DomainBoss or spawn.is_DomainElite or spawn.is_DomainRespite:
                     # Domain has only 1 exit
                     pass
+                elif exit1 and exit2:
+                    exit1, exit2 = swap_exit(exit_, exit1, exit2)
+                    gen.add(f'self.register_domain_exit(')
+                    gen.add(f'    {WaypointRepr(exit_)}, end_rotation={exit_.rotation},')
+                    gen.add(f'    left_door={WaypointRepr(exit1)}, right_door={WaypointRepr(exit2)})')
                 else:
                     gen.add(f'self.register_domain_exit({WaypointRepr(exit_)}, end_rotation={exit_.rotation})')
                 # Waypoint attributes
                 for waypoint in waypoints:
                     if waypoint.is_spawn:
                         continue
-                    if waypoint.is_exit and not (spawn.is_DomainBoss or spawn.is_DomainElite or spawn.is_DomainRespite):
+                    if (waypoint.is_exit or waypoint.is_exit_door) \
+                            and (spawn.is_DomainCombat or spawn.is_DomainOccurrence):
                         continue
-                    name = waypoint.waypoint
-                    if name == 'exit':
-                        name = 'exit_'
-                    gen.Value(key=name, value=WaypointRepr(waypoint))
+                    gen.Value(key=waypoint.waypoint, value=WaypointRepr(waypoint))
 
                 # Domain specific
                 if spawn.is_DomainBoss or spawn.is_DomainElite:

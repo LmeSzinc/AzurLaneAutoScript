@@ -12,7 +12,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((351.4, 164.9)), | 274.2     | 274      |
         | item     | Waypoint((342.8, 155.7)), | 274.2     | 274      |
         | enemy    | Waypoint((304.0, 165.4)), | 261.9     | 264      |
-        | exit     | Waypoint((300.8, 163.8)), | 2.6       | 262      |
+        | exit_    | Waypoint((300.8, 163.8)), | 2.6       | 262      |
         """
         self.map_init(plane=Herta_StorageZone, floor="F2", position=(351.4, 164.9))
         self.register_domain_exit(Waypoint((300.8, 163.8)), end_rotation=262)
@@ -30,7 +30,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((365.1, 167.2)), | 274.2     | 274      |
         | item     | Waypoint((330.0, 175.6)), | 271.8     | 267      |
         | enemy    | Waypoint((300.2, 166.0)), | 284.9     | 94       |
-        | exit     | Waypoint((304.0, 166.0)), | 271.8     | 267      |
+        | exit_    | Waypoint((304.0, 166.0)), | 271.8     | 267      |
         """
         self.map_init(plane=Herta_StorageZone, floor="F2", position=(365.1, 167.2))
         self.register_domain_exit(Waypoint((304.0, 166.0)), end_rotation=267)
@@ -56,7 +56,7 @@ class Route(RouteBase):
         | node3          | Waypoint((402.2, 199.4)), | 282.9     | 276      |
         | enemy3         | Waypoint((370.7, 163.1)), | 215.8     | 304      |
         | enemy4         | Waypoint((301.8, 164.4)), | 278.3     | 276      |
-        | exit           | Waypoint((300.4, 164.5)), | 274.2     | 274      |
+        | exit_          | Waypoint((300.4, 164.5)), | 274.2     | 274      |
         """
         self.map_init(plane=Herta_StorageZone, floor="F2", position=(515.5, 219.3))
         self.register_domain_exit(Waypoint((300.4, 164.5)), end_rotation=274)

@@ -12,7 +12,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((494.5, 237.2)), | 260.2     | 255      |
         | item     | Waypoint((476.4, 232.8)), | 289.0     | 288      |
         | herta    | Waypoint((444.4, 246.0)), | 250.8     | 253      |
-        | exit     | Waypoint((435.4, 259.4)), | 241.3     | 239      |
+        | exit_    | Waypoint((435.4, 259.4)), | 241.3     | 239      |
         """
         self.map_init(plane=Jarilo_GreatMine, floor="F1", position=(494.5, 237.2))
         item = Waypoint((476.4, 232.8))

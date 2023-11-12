@@ -30,7 +30,7 @@ class Route(RouteBase):
         | -------- | ------------------------- | --------- | -------- |
         | spawn    | Waypoint((203.8, 317.4)), | 96.7      | 91       |
         | enemy    | Waypoint((254.2, 318.9)), | 96.8      | 91       |
-        | exit     | Waypoint((254.2, 318.9)), | 96.8      | 91       |
+        | exit_    | Waypoint((254.2, 318.9)), | 96.8      | 91       |
         """
         self.map_init(plane=Luofu_StargazerNavalia, floor="F1", position=(203.8, 317.4))
         self.register_domain_exit(Waypoint((254.2, 318.9)), end_rotation=91)
@@ -50,7 +50,7 @@ class Route(RouteBase):
         | node2    | Waypoint((178.9, 278.9)), | 198.7     | 195      |
         | node3    | Waypoint((180.1, 299.2)), | 187.0     | 181      |
         | enemy3   | Waypoint((247.6, 317.2)), | 198.7     | 96       |
-        | exit     | Waypoint((247.6, 317.2)), | 198.7     | 96       |
+        | exit_    | Waypoint((247.6, 317.2)), | 198.7     | 96       |
         """
         self.map_init(plane=Luofu_StargazerNavalia, floor="F1", position=(215.5, 192.6))
         self.register_domain_exit(Waypoint((247.6, 317.2)), end_rotation=96)
@@ -80,7 +80,7 @@ class Route(RouteBase):
         | enemy1         | Waypoint((506.2, 596.2)), | 96.8      | 94       |
         | item2          | Waypoint((522.8, 589.0)), | 64.9      | 64       |
         | enemy3         | Waypoint((556.5, 599.8)), | 96.8      | 96       |
-        | exit           | Waypoint((559.5, 601.5)), | 129.8     | 94       |
+        | exit_          | Waypoint((559.5, 601.5)), | 129.8     | 94       |
         """
         self.map_init(plane=Luofu_StargazerNavalia, floor="F1", position=(432.7, 593.4))
         self.register_domain_exit(Waypoint((559.5, 601.5)), end_rotation=94)
@@ -103,7 +103,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((499.6, 581.5)), | 157.2     | 151      |
         | item     | Waypoint((499.1, 608.9)), | 180.0     | 179      |
         | enemy    | Waypoint((519.0, 623.0)), | 149.8     | 149      |
-        | exit     | Waypoint((524.4, 624.7)), | 166.7     | 161      |
+        | exit_    | Waypoint((524.4, 624.7)), | 166.7     | 161      |
         """
         self.map_init(plane=Luofu_StargazerNavalia, floor="F1", position=(499.6, 581.5))
         self.register_domain_exit(Waypoint((524.4, 624.7)), end_rotation=161)
@@ -120,7 +120,7 @@ class Route(RouteBase):
         | -------- | ------------------------- | --------- | -------- |
         | spawn    | Waypoint((521.4, 447.5)), | 188.1     | 181      |
         | enemy    | Waypoint((521.2, 507.2)), | 98.8      | 186      |
-        | exit     | Waypoint((521.2, 507.2)), | 98.8      | 186      |
+        | exit_    | Waypoint((521.2, 507.2)), | 98.8      | 186      |
         """
         self.map_init(plane=Luofu_StargazerNavalia, floor="F1", position=(521.4, 447.5))
         self.register_domain_exit(Waypoint((521.2, 507.2)), end_rotation=186)

@@ -12,7 +12,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((574.8, 275.0)), | 256.7     | 253      |
         | item     | Waypoint((553.4, 273.2)), | 294.6     | 292      |
         | herta    | Waypoint((533.4, 286.9)), | 271.8     | 269      |
-        | exit     | Waypoint((515.4, 299.2)), | 239.8     | 239      |
+        | exit_    | Waypoint((515.4, 299.2)), | 239.8     | 239      |
         """
         self.map_init(plane=Luofu_StargazerNavalia, floor="F2Rogue", position=(569, 275.0))
         item = Waypoint((553.4, 273.2))
@@ -37,7 +37,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((574.8, 275.0)), | 256.7     | 253      |
         | item     | Waypoint((553.4, 273.2)), | 294.6     | 292      |
         | herta    | Waypoint((533.4, 286.9)), | 271.8     | 269      |
-        | exit     | Waypoint((515.4, 299.2)), | 239.8     | 239      |
+        | exit_    | Waypoint((515.4, 299.2)), | 239.8     | 239      |
         """
         self.map_init(plane=Luofu_StargazerNavalia, floor="F2Rogue", position=(574.8, 275.0))
         item = Waypoint((553.4, 273.2))

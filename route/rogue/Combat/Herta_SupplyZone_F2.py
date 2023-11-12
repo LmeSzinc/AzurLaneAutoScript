@@ -19,7 +19,7 @@ class Route(RouteBase):
         | enemy2right_X55Y247 | Waypoint((55.2, 247.2)),  | 96.7      | 91       |
         | item3               | Waypoint((68.5, 226.5)),  | 30.2      | 29       |
         | enemy3_X114Y234     | Waypoint((114.4, 234.7)), | 105.5     | 101      |
-        | exit                | Waypoint((119.1, 235.4)), | 6.8       | 96       |
+        | exit_               | Waypoint((119.1, 235.4)), | 6.8       | 96       |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2", position=(45.5, 369.5))
         self.register_domain_exit(Waypoint((119.1, 235.4)), end_rotation=96)
@@ -81,7 +81,7 @@ class Route(RouteBase):
         | item1    | Waypoint((540.3, 136.6)), | 2.7       | 357      |
         | item2    | Waypoint((560.6, 132.9)), | 82.6      | 75       |
         | enemy2   | Waypoint((586.2, 128.9)), | 91.3      | 84       |
-        | exit     | Waypoint((588.4, 126.8)), | 5.7       | 1        |
+        | exit_    | Waypoint((588.4, 126.8)), | 5.7       | 1        |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2", position=(543.4, 255.2))
         self.register_domain_exit(Waypoint((588.4, 126.8)), end_rotation=1)
@@ -106,7 +106,7 @@ class Route(RouteBase):
         | enemy2         | Waypoint((542.2, 168.6)), | 11.1      | 177      |
         | enemy3         | Waypoint((586.5, 128.3)), | 87.7      | 260      |
         | item3          | Waypoint((564.2, 130.9)), | 67.2      | 66       |
-        | exit           | Waypoint((586.9, 135.8)), | 266.1     | 1        |
+        | exit_          | Waypoint((586.9, 135.8)), | 266.1     | 1        |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2", position=(594.3, 247.5))
         self.register_domain_exit(Waypoint((586.9, 135.8)), end_rotation=1)
@@ -138,7 +138,7 @@ class Route(RouteBase):
         | enemy3         | Waypoint((586.5, 128.3)), | 87.7      | 260      |
         | enemy2         | Waypoint((542.2, 168.6)), | 11.1      | 177      |
         | item3          | Waypoint((564.2, 130.9)), | 67.2      | 66       |
-        | exit           | Waypoint((586.9, 135.8)), | 266.1     | 1        |
+        | exit_          | Waypoint((586.9, 135.8)), | 266.1     | 1        |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2", position=(656.7, 247.5))
         self.register_domain_exit(Waypoint((586.9, 135.8)), end_rotation=1)

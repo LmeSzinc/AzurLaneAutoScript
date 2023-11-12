@@ -12,7 +12,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((657.1, 247.5)), | 96.7      | 91       |
         | enemy    | Waypoint((726.4, 246.6)), | 99.0      | 94       |
         | reward   | Waypoint((738.2, 254.2)), | 166.6     | 112      |
-        | exit     | Waypoint((746.0, 240.0)), | 82.8      | 75       |
+        | exit_    | Waypoint((746.0, 240.0)), | 82.8      | 75       |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2", position=(641, 247.5))
         enemy = Waypoint((726.4, 246.6))
@@ -39,7 +39,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((657.1, 247.5)), | 96.7      | 91       |
         | enemy    | Waypoint((726.4, 246.6)), | 99.0      | 94       |
         | reward   | Waypoint((738.2, 254.2)), | 166.6     | 112      |
-        | exit     | Waypoint((746.0, 240.0)), | 82.8      | 75       |
+        | exit_    | Waypoint((746.0, 240.0)), | 82.8      | 75       |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2", position=(674, 247.5))
         enemy = Waypoint((726.4, 246.6))
@@ -58,7 +58,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((657.1, 247.5)), | 96.7      | 91       |
         | enemy    | Waypoint((726.4, 246.6)), | 99.0      | 94       |
         | reward   | Waypoint((738.2, 254.2)), | 166.6     | 112      |
-        | exit     | Waypoint((746.0, 240.0)), | 82.8      | 75       |
+        | exit_    | Waypoint((746.0, 240.0)), | 82.8      | 75       |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2", position=(680, 247.5))
         enemy = Waypoint((726.4, 246.6))
@@ -77,7 +77,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((657.1, 247.5)), | 96.7      | 91       |
         | enemy    | Waypoint((726.4, 246.6)), | 99.0      | 94       |
         | reward   | Waypoint((738.2, 254.2)), | 166.6     | 112      |
-        | exit     | Waypoint((746.0, 240.0)), | 82.8      | 75       |
+        | exit_    | Waypoint((746.0, 240.0)), | 82.8      | 75       |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2", position=(682, 247.5))
         enemy = Waypoint((726.4, 246.6))
@@ -96,7 +96,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((657.1, 247.5)), | 96.7      | 91       |
         | enemy    | Waypoint((726.4, 246.6)), | 99.0      | 94       |
         | reward   | Waypoint((738.2, 254.2)), | 166.6     | 112      |
-        | exit     | Waypoint((746.0, 240.0)), | 82.8      | 75       |
+        | exit_    | Waypoint((746.0, 240.0)), | 82.8      | 75       |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2", position=(684, 247.5))
         enemy = Waypoint((726.4, 246.6))
@@ -115,7 +115,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((657.1, 247.5)), | 96.7      | 91       |
         | enemy    | Waypoint((726.4, 246.6)), | 99.0      | 94       |
         | reward   | Waypoint((738.2, 254.2)), | 166.6     | 112      |
-        | exit     | Waypoint((746.0, 240.0)), | 82.8      | 75       |
+        | exit_    | Waypoint((746.0, 240.0)), | 82.8      | 75       |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2", position=(657.1, 247.5))
         enemy = Waypoint((726.4, 246.6))

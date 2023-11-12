@@ -14,7 +14,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((617.5, 511.5)), | 96.7      | 91       |
         | enemy    | Waypoint((664.6, 512.6)), | 96.8      | 94       |
         | reward   | Waypoint((677.1, 521.2)), | 212.8     | 108      |
-        | exit     | Waypoint((684.6, 505.0)), | 91.3      | 82       |
+        | exit_    | Waypoint((684.6, 505.0)), | 91.3      | 82       |
         """
         self.map_init(plane=Luofu_StargazerNavalia, floor="F1", position=(617.5, 511.5))
         enemy = Waypoint((664.6, 512.6))

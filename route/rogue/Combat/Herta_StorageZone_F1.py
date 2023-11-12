@@ -19,7 +19,7 @@ class Route(RouteBase):
         | item5    | Waypoint((332.8, 304.8)), | 96.8      | 96       |
         | node5    | Waypoint((336.2, 312.0)), | 102.9     | 98       |
         | enemy5   | Waypoint((392.5, 312.4)), | 4.1       | 91       |
-        | exit     | Waypoint((392.5, 312.4)), | 4.1       | 91       |
+        | exit_    | Waypoint((392.5, 312.4)), | 4.1       | 91       |
         """
         self.map_init(plane=Herta_StorageZone, floor="F1", position=(225.8, 258.8))
         self.register_domain_exit(Waypoint((392.5, 312.4)), end_rotation=91)
@@ -59,7 +59,7 @@ class Route(RouteBase):
         | item     | Waypoint((244.2, 66.3)), | 334.7     | 331      |
         | door     | Waypoint((215.4, 65.1)), | 303.8     | 301      |
         | enemy    | Waypoint((202.7, 57.9)), | 297.8     | 294      |
-        | exit     | Waypoint((202.4, 58.1)), | 302.9     | 301      |
+        | exit_    | Waypoint((202.4, 58.1)), | 302.9     | 301      |
         """
         self.map_init(plane=Herta_StorageZone, floor="F1", position=(257.3, 85.5))
         self.register_domain_exit(Waypoint((202.4, 58.1)), end_rotation=301)
@@ -101,7 +101,7 @@ class Route(RouteBase):
         | door     | Waypoint((640.2, 82.2)),  | 260.3     | 258      |
         | node     | Waypoint((599.2, 91.0)),  | 256.7     | 255      |
         | enemy3   | Waypoint((598.3, 129.1)), | 181.3     | 174      |
-        | exit     | Waypoint((598.3, 129.1)), | 181.3     | 174      |
+        | exit_    | Waypoint((598.3, 129.1)), | 181.3     | 174      |
         """
         self.map_init(plane=Herta_StorageZone, floor="F1", position=(692.0, 62.0))
         self.register_domain_exit(Waypoint((598.3, 129.1)), end_rotation=174)
@@ -145,7 +145,7 @@ class Route(RouteBase):
         | node3       | Waypoint((598.6, 93.9)),  | 256.7     | 253      |
         | item3       | Waypoint((588.6, 102.2)), | 245.0     | 246      |
         | enemy3      | Waypoint((597.2, 131.0)), | 282.9     | 179      |
-        | exit        | Waypoint((597.2, 131.0)), | 282.9     | 179      |
+        | exit_       | Waypoint((597.2, 131.0)), | 282.9     | 179      |
         """
         self.map_init(plane=Herta_StorageZone, floor="F1", position=(749.5, 45.6))
         self.register_domain_exit(Waypoint((597.2, 131.0)), end_rotation=179)
@@ -195,7 +195,7 @@ class Route(RouteBase):
         | node3       | Waypoint((598.6, 93.9)),  | 256.7     | 253      |
         | item3       | Waypoint((588.6, 102.2)), | 245.0     | 246      |
         | enemy3      | Waypoint((597.2, 131.0)), | 282.9     | 179      |
-        | exit        | Waypoint((597.2, 131.0)), | 282.9     | 179      |
+        | exit_       | Waypoint((597.2, 131.0)), | 282.9     | 179      |
         """
         self.map_init(plane=Herta_StorageZone, floor="F1", position=(769, 39))
         self.register_domain_exit(Waypoint((597.2, 131.0)), end_rotation=179)

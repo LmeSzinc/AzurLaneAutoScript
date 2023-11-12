@@ -12,7 +12,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((84.4, 378.7)), | 334.8     | 331      |
         | item     | Waypoint((60.2, 358.5)), | 319.8     | 308      |
         | enemy    | Waypoint((56.2, 330.8)), | 340.7     | 149      |
-        | exit     | Waypoint((57.4, 329.5)), | 22.8      | 334      |
+        | exit_    | Waypoint((57.4, 329.5)), | 22.8      | 334      |
         """
         self.map_init(plane=Jarilo_GreatMine, floor="F1", position=(84.4, 378.7))
         self.register_domain_exit(Waypoint((57.4, 329.5)), end_rotation=334)
@@ -30,7 +30,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((91.4, 392.4)), | 334.8     | 331      |
         | item     | Waypoint((60.2, 358.4)), | 308.0     | 304      |
         | enemy    | Waypoint((57.2, 330.8)), | 85.8      | 336      |
-        | exit     | Waypoint((57.2, 330.8)), | 85.8      | 336      |
+        | exit_    | Waypoint((57.2, 330.8)), | 85.8      | 336      |
         """
         self.map_init(plane=Jarilo_GreatMine, floor="F1", position=(91.4, 392.4))
         self.register_domain_exit(Waypoint((57.2, 330.8)), end_rotation=336)
@@ -48,7 +48,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((133.3, 465.6)), | 334.8     | 331      |
         | item     | Waypoint((108.7, 448.1)), | 318.0     | 320      |
         | enemy    | Waypoint((110.1, 420.6)), | 337.4     | 338      |
-        | exit     | Waypoint((104.0, 414.0)), | 334.8     | 331      |
+        | exit_    | Waypoint((104.0, 414.0)), | 334.8     | 331      |
         """
         self.map_init(plane=Jarilo_GreatMine, floor="F1", position=(133.3, 465.6))
         self.register_domain_exit(Waypoint((104.0, 414.0)), end_rotation=331)
@@ -67,7 +67,7 @@ class Route(RouteBase):
         | node     | Waypoint((174.1, 269.0)), | 67.2      | 61       |
         | item     | Waypoint((180.4, 250.8)), | 36.0      | 31       |
         | enemy    | Waypoint((202.4, 256.6)), | 76.4      | 71       |
-        | exit     | Waypoint((202.4, 256.6)), | 76.4      | 71       |
+        | exit_    | Waypoint((202.4, 256.6)), | 76.4      | 71       |
         """
         self.map_init(plane=Jarilo_GreatMine, floor="F1", position=(149.7, 273.5))
         self.register_domain_exit(Waypoint((202.4, 256.6)), end_rotation=71)
@@ -88,7 +88,7 @@ class Route(RouteBase):
         | enemy1   | Waypoint((218.2, 582.4)), | 129.8     | 304      |
         | node2    | Waypoint((234.0, 586.6)), | 129.8     | 121      |
         | enemy2   | Waypoint((244.8, 626.0)), | 182.7     | 177      |
-        | exit     | Waypoint((243.4, 622.2)), | 2.6       | 174      |
+        | exit_    | Waypoint((243.4, 622.2)), | 2.6       | 174      |
         """
         self.map_init(plane=Jarilo_GreatMine, floor="F1", position=(165.5, 537.8))
         self.register_domain_exit(Waypoint((243.4, 622.2)), end_rotation=174)
@@ -112,7 +112,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((299.3, 255.3)), | 274.2     | 274      |
         | item     | Waypoint((282.4, 240.8)), | 295.5     | 292      |
         | enemy    | Waypoint((246.2, 248.4)), | 282.8     | 281      |
-        | exit     | Waypoint((246.6, 248.8)), | 96.8      | 274      |
+        | exit_    | Waypoint((246.6, 248.8)), | 96.8      | 274      |
         """
         self.map_init(plane=Jarilo_GreatMine, floor="F1", position=(299.3, 255.3))
         self.register_domain_exit(Waypoint((246.6, 248.8)), end_rotation=274)
@@ -133,7 +133,7 @@ class Route(RouteBase):
         | item2           | Waypoint((378.2, 610.6)), | 143.8     | 232      |
         | enemy3_X340Y595 | Waypoint((339.0, 595.4)), | 297.8     | 294      |
         | enemy4          | Waypoint((312.7, 575.6)), | 312.1     | 318      |
-        | exit            | Waypoint((315.6, 572.6)), | 334.7     | 329      |
+        | exit_           | Waypoint((315.6, 572.6)), | 334.7     | 329      |
         """
         self.map_init(plane=Jarilo_GreatMine, floor="F1", position=(407.2, 572.8))
         self.register_domain_exit(Waypoint((315.6, 572.6)), end_rotation=329)
@@ -170,7 +170,7 @@ class Route(RouteBase):
         | enemy4   | Waypoint((512.2, 548.2)), | 59.1      | 59       |
         | item3    | Waypoint((460.3, 570.3)), | 193.0     | 188      |
         | node4    | Waypoint((480.3, 575.6)), | 105.5     | 101      |
-        | exit     | Waypoint((549.0, 515.6)), | 112.7     | 15       |
+        | exit_    | Waypoint((549.0, 515.6)), | 112.7     | 15       |
         """
         self.map_init(plane=Jarilo_GreatMine, floor="F1", position=(485.5, 450.4))
         self.register_domain_exit(Waypoint((549.0, 515.6)), end_rotation=15)
@@ -209,7 +209,7 @@ class Route(RouteBase):
         | enemy3   | Waypoint((485.1, 456.8)), | 102.9     | 4        |
         | node1    | Waypoint((478.5, 576.5)), | 237.2     | 237      |
         | item1    | Waypoint((461.4, 572.2)), | 289.1     | 288      |
-        | exit     | Waypoint((485.1, 456.8)), | 102.9     | 4        |
+        | exit_    | Waypoint((485.1, 456.8)), | 102.9     | 4        |
         """
         self.map_init(plane=Jarilo_GreatMine, floor="F1", position=(545.3, 513.0))
         self.register_domain_exit(Waypoint((485.1, 456.8)), end_rotation=4)

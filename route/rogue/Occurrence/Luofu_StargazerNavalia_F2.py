@@ -11,7 +11,7 @@ class Route(RouteBase):
         | -------- | ------------------------- | --------- | -------- |
         | spawn    | Waypoint((579.8, 183.5)), | 96.7      | 91       |
         | event    | Waypoint((615.3, 195.5)), | 105.6     | 66       |
-        | exit     | Waypoint((622.1, 186.3)), | 96.7      | 91       |
+        | exit_    | Waypoint((622.1, 186.3)), | 96.7      | 91       |
         """
         self.map_init(plane=Luofu_StargazerNavalia, floor="F2", position=(579.8, 183.5))
         self.register_domain_exit(Waypoint((622.1, 186.3)), end_rotation=91)

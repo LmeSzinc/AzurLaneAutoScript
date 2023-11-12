@@ -12,7 +12,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((219.6, 113.1)), | 96.7      | 91       |
         | item     | Waypoint((230.9, 106.7)), | 326.8     | 80       |
         | event    | Waypoint((256.6, 118.2)), | 96.8      | 96       |
-        | exit     | Waypoint((262.5, 112.9)), | 96.7      | 91       |
+        | exit_    | Waypoint((262.5, 112.9)), | 96.7      | 91       |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2Rogue", position=(209.6, 113.1))
         self.register_domain_exit(Waypoint((262.5, 112.9)), end_rotation=91)
@@ -36,7 +36,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((219.6, 113.1)), | 96.7      | 91       |
         | item     | Waypoint((230.9, 106.7)), | 326.8     | 80       |
         | event    | Waypoint((256.6, 118.2)), | 96.8      | 96       |
-        | exit     | Waypoint((262.5, 112.9)), | 96.7      | 91       |
+        | exit_    | Waypoint((262.5, 112.9)), | 96.7      | 91       |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2Rogue", position=(214.6, 113.1))
         self.register_domain_exit(Waypoint((262.5, 112.9)), end_rotation=91)
@@ -60,7 +60,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((219.6, 113.1)), | 96.7      | 91       |
         | item     | Waypoint((230.9, 106.7)), | 326.8     | 80       |
         | event    | Waypoint((256.6, 118.2)), | 96.8      | 96       |
-        | exit     | Waypoint((262.5, 112.9)), | 96.7      | 91       |
+        | exit_    | Waypoint((262.5, 112.9)), | 96.7      | 91       |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2Rogue", position=(219.6, 113.1))
         self.register_domain_exit(Waypoint((262.5, 112.9)), end_rotation=91)

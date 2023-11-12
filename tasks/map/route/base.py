@@ -8,6 +8,10 @@ class RouteBase(MapControl):
     Base class of `Route`
     Every `Route` class must implement method `route()`
     """
+    # Module and func of current route, updated from RouteLoader
+    route_module: str = ''
+    route_func: str = ''
+
     registered_locked_position = None
     registered_locked_direction = None
     registered_locked_rotation = None

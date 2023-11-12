@@ -12,7 +12,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((149.9, 435.6)), | 96.7      | 91       |
         | enemy    | Waypoint((197.4, 437.1)), | 96.8      | 94       |
         | reward   | Waypoint((208.4, 441.0)), | 102.9     | 98       |
-        | exit     | Waypoint((216.4, 428.6)), | 96.7      | 94       |
+        | exit_    | Waypoint((216.4, 428.6)), | 96.7      | 94       |
         """
         self.map_init(plane=Jarilo_RivetTown, floor="F1", position=(149.9, 435.6))
         enemy = Waypoint((197.4, 437.1))

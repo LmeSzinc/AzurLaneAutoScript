@@ -12,7 +12,7 @@ class Route(RouteBase):
         | spawn    | Waypoint((417.5, 933.4)), | 96.7      | 91       |
         | item     | Waypoint((431.0, 940.6)), | 129.8     | 124      |
         | herta    | Waypoint((464.4, 942.4)), | 112.7     | 110      |
-        | exit     | Waypoint((476.2, 934.2)), | 87.8      | 82       |
+        | exit_    | Waypoint((476.2, 934.2)), | 87.8      | 82       |
         """
         self.map_init(plane=Luofu_Cloudford, floor="F1", position=(417.5, 933.4))
         item = Waypoint((431.0, 940.6))
