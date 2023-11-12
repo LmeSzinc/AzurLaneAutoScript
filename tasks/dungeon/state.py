@@ -68,6 +68,7 @@ class DungeonState(UI):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
+                image = self.device.image
 
             stamina = (0, 0, 0)
             immersifier = (0, 0, 0)
@@ -92,7 +93,7 @@ class DungeonState(UI):
             if stamina[2] > 0 and immersifier[2] > 0:
                 break
             if use_cached_image:
-                logger.warning('dungeon_update_stamina() ended')
+                logger.info('dungeon_update_stamina() ended')
                 return
 
         stamina = stamina[0]
