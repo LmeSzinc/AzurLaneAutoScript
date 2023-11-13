@@ -133,17 +133,21 @@ class Minimap(MapResource):
         result_mask = image_center_crop(result_mask, size=image_size(result))
         result[result_mask] = 0
         _, sim, _, loca = cv2.minMaxLoc(result)
+        # from PIL import Image
         # if round(scale, 3) == self.POSITION_SEARCH_SCALE * 1.0:
         #     result[result <= 0] = 0
         #     Image.fromarray((result * 255).astype(np.uint8)).save('match_result.png')
 
         # Gaussian filter to get local maximum
-        local_maximum = cv2.subtract(result, cv2.GaussianBlur(result, (5, 5), 0))
+        local_maximum = subtract_blur(result, radius=5)
+        # Multiply to remove secondary peaks
+        cv2.multiply(local_maximum, result, dst=local_maximum)
+        cv2.multiply(local_maximum, 10, dst=local_maximum)
         _, local_sim, _, local_loca = cv2.minMaxLoc(local_maximum)
         # if round(scale, 5) == self.POSITION_SEARCH_SCALE * 1.0:
         #     local_maximum[local_maximum < 0] = 0
-        #     local_maximum[local_maximum > 0.1] = 0.1
-        #     Image.fromarray((local_maximum * 255 * 10).astype(np.uint8)).save('local_maximum.png')
+        #     local_maximum[local_maximum > 1] = 1
+        #     Image.fromarray((local_maximum * 255).astype(np.uint8)).save('local_maximum.png')
 
         # Calculate the precise location using CUBIC
         # precise = crop(result, area=area_offset((-4, -4, 4, 4), offset=local_loca))
