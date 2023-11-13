@@ -116,6 +116,12 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, CharacterSwitch):
             (r, s, p) for r, s, p in visited if np.linalg.norm(np.subtract(r.position, p)) < 5
         ]
         logger.info(f'Best 3 nearby predictions: {[(r.name, s, p) for r, s, p in nearby[:3]]}')
+        # Check special
+        for r, s, p in nearby:
+            if self._position_match_special(r, s, p):
+                logger.info(f'Route match special: {r.name}')
+                return r
+        # Check nearby
         if len(nearby) == 1:
             if nearby[0][1] > 0.05:
                 logger.attr('RoutePredict', nearby[0][0].name)
@@ -140,6 +146,24 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, CharacterSwitch):
         else:
             logger.warning('Similarity too close, not enough to make a prediction')
             return None
+
+    def _position_match_special(
+            self,
+            route: RogueRouteModel,
+            similarity: float,
+            position: tuple[float, float]
+    ) -> bool:
+        # 2023-11-13 23:50:00.470 | INFO | Best 3 predictions: [
+        # ('Occurrence_Luofu_Cloudford_F1_X241Y947', 0.119, (272.6, 948.5)),
+        # ('Occurrence_Jarilo_GreatMine_F1_X277Y605', 0.107, (264.4, 645.0)),
+        # ('Occurrence_Luofu_ArtisanshipCommission_F1_X521Y63', 0.106, (569.8, 34.8))]
+        # 2023-11-13 23:50:00.472 | INFO | Best 3 nearby predictions: [
+        # ('Occurrence_Herta_SupplyZone_F2Rogue_X397Y223', 0.102, (393.2, 222.8)),
+        # ('Occurrence_Herta_StorageZone_F2_X365Y167', 0.094, (363.0, 166.8)),
+        # ('Occurrence_Herta_StorageZone_F2_X363Y166', 0.094, (363.0, 166.8))]
+        if route.name == 'Occurrence_Herta_StorageZone_F2_X363Y166' and similarity > 0.05:
+            return True
+        return False
 
     def position_find_bruteforce(self, image) -> Minimap:
         """
