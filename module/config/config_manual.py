@@ -121,6 +121,12 @@ class ManualConfig:
     OS_ACTION_POINT_PRESERVE = 0
     OS_CL1_YELLOW_COINS_PRESERVE = 100000
 
+    """
+    tasks.rogue
+    """
+    # 2023.11.13 Migrate domain exit implementation, True to stop before domain exit
+    DOMAIN_EXIT_MIGRATE_DEV = False
+
 
 ADDING = ''.join([chr(int(f)) for f in ManualConfig.OS_EXPLORE_CENTER.split('>')])
 

@@ -51,6 +51,9 @@ class Waypoint:
 
     __repr__ = __str__
 
+    def __bool__(self):
+        return True
+
     def run_2x(self) -> "Waypoint":
         """
         Product a Waypoint object with overridden "speed",

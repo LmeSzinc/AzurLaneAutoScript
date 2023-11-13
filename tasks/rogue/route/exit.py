@@ -139,6 +139,83 @@ class RogueExit(CombatInteract):
         logger.info(f'PlanarDoor: {planar_door}, direction: {direction}')
         return direction
 
+    def predict_door_by_name_old(self, image) -> float | None:
+        # Paint current name black
+        x1, y1, x2, y2 = OCR_MAP_NAME.area
+        image[y1:y2, x1:x2] = (0, 0, 0)
+
+        ocr = OcrDomainExit(OCR_DOMAIN_EXIT)
+        results = ocr.matched_ocr(image, keyword_classes=MapPlane)
+        centers = [area_center(result.area) for result in results]
+        logger.info(f'DomainDoor: {centers}')
+        directions = [self.screen2direction(center) for center in centers]
+
+        count = len(centers)
+        if count == 0:
+            logger.warning('No domain exit found')
+            return None
+        if count == 1:
+            logger.info(f'Goto next domain: {results[0]}')
+            return directions[0]
+
+        # Doors >= 2
+        for expect in [
+            KEYWORDS_MAP_PLANE.Rogue_DomainBoss,
+            KEYWORDS_MAP_PLANE.Rogue_DomainElite,
+            KEYWORDS_MAP_PLANE.Rogue_DomainRespite,
+        ]:
+            for domain, direction in zip(results, directions):
+                if domain == expect:
+                    logger.warning('Found multiple doors but has unique domain in it')
+                    logger.info(f'Goto next domain: {domain}')
+                    return direction
+
+        logger.attr('DomainStrategy', self.config.RogueWorld_DomainStrategy)
+        if self.config.RogueWorld_DomainStrategy == 'occurrence':
+            for expect in [
+                KEYWORDS_MAP_PLANE.Rogue_DomainTransaction,
+                KEYWORDS_MAP_PLANE.Rogue_DomainOccurrence,
+                KEYWORDS_MAP_PLANE.Rogue_DomainEncounter,
+                KEYWORDS_MAP_PLANE.Rogue_DomainCombat,
+            ]:
+                for domain, direction in zip(results, directions):
+                    if domain == expect:
+                        logger.info(f'Goto next domain: {domain}')
+                        return direction
+        elif self.config.RogueWorld_DomainStrategy == 'combat':
+            for expect in [
+                KEYWORDS_MAP_PLANE.Rogue_DomainCombat,
+                KEYWORDS_MAP_PLANE.Rogue_DomainEncounter,
+                KEYWORDS_MAP_PLANE.Rogue_DomainOccurrence,
+                KEYWORDS_MAP_PLANE.Rogue_DomainTransaction,
+            ]:
+                for domain, direction in zip(results, directions):
+                    if domain == expect:
+                        logger.info(f'Goto next domain: {domain}')
+                        return direction
+        else:
+            logger.error(f'Unknown domain strategy: {self.config.RogueWorld_DomainStrategy}')
+
+        logger.error('No domain was selected, return the first instead')
+        logger.info(f'Goto next domain: {results[0]}')
+        return directions[0]
+
+    def predict_door_old(self, skip_first_screenshot=True) -> float | None:
+        timeout = Timer(3, count=6).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if timeout.reached():
+                logger.error('Predict door timeout')
+                return None
+
+            direction = self.predict_door_by_name_old(self.device.image)
+            if direction is not None:
+                return direction
+
     def predict_door_by_name(self, image) -> tuple[MapPlane | None, MapPlane | None]:
         """
         Args:
@@ -223,15 +300,17 @@ class RogueExit(CombatInteract):
             logger.error(f'Unknown domain strategy: {self.config.RogueWorld_DomainStrategy}')
 
         logger.error('No domain was selected, return the first instead')
-        if left_door is not None:
+        if left_door:
             logger.info(f'Goto next domain: left_door={left_door}')
             return 'left_door'
-        elif right_door is not None:
+        elif right_door:
             logger.info(f'Goto next domain: right_door={right_door}')
             return 'right_door'
         else:
             logger.error(f'No domain door')
             return None
+
+    exit_has_double_door = False
 
     def predict_door(self, skip_first_screenshot=True) -> str | None:
         """
@@ -242,19 +321,25 @@ class RogueExit(CombatInteract):
             str: 'left_door' or 'right_door' or None
         """
         timeout = Timer(3, count=6).start()
+        self.exit_has_double_door = False
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
+            # End
             if timeout.reached():
                 logger.error('Predict door timeout')
                 return None
 
             left_door, right_door = self.predict_door_by_name(self.device.image)
             logger.info(f'DomainExit: left_door={left_door}, right_door={right_door}')
-            if left_door is not None or right_door is not None:
-                door = self.choose_door(left_door, right_door)
-                if door is not None:
-                    return door
+            if not left_door and not right_door:
+                continue
+
+            # End
+            self.exit_has_double_door = left_door and right_door
+            door = self.choose_door(left_door, right_door)
+            if door is not None:
+                return door

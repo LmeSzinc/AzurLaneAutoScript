@@ -267,12 +267,39 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
         logger.hr('Domain single exit', level=1)
         waypoints = ensure_waypoints(waypoints)
         end_point = waypoints[-1]
+        end_point.min_speed = 'run'
         end_point.interact_radius = 5
         end_point.expected_end.append(self._domain_exit_expected_end)
 
         result = self.goto(*waypoints)
         self._domain_exit_wait_next()
         return result
+
+    def _domain_exit_old(self):
+        """
+        An old implementation that go along specific direction without retries
+        """
+        logger.info(f'Using old predict_door()')
+        direction = self.predict_door_old()
+        direction_limit = 55
+        if direction is not None:
+            if abs(direction) > direction_limit:
+                logger.warning(f'Unexpected direction to go: {direction}, limited in {direction_limit}')
+                if direction > 0:
+                    direction = direction_limit
+                elif direction < 0:
+                    direction = -direction_limit
+
+            point = Waypoint(
+                position=(0, 0),
+                min_speed='run',
+                lock_direction=direction,
+                interact_radius=10000,
+                expected_end=[self._domain_exit_expected_end],
+            )
+            self.goto(point)
+            self._domain_exit_wait_next()
+        return True
 
     def domain_exit(
             self,
@@ -281,22 +308,36 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
             left_door: Waypoint = None,
             right_door: Waypoint = None
     ):
+        """
+        Goto domain exit, choose one door, goto door
+        """
         logger.hr('Domain exit', level=1)
+        # Goto the front of the two doors
         waypoints = ensure_waypoints(waypoints)
         end_point = waypoints[-1]
         end_point.endpoint_threshold = 1.5
         self.goto(*waypoints)
 
+        # Rotate camera to insight two doors
         logger.hr('End rotation', level=2)
         self.rotation_set(end_rotation, threshold=10)
 
+        # Choose a door
         logger.hr('Find domain exit', level=2)
+        logger.info(f'Migrate={self.config.DOMAIN_EXIT_MIGRATE_DEV}, left_door={left_door}, right_door={right_door}')
+        if not self.config.DOMAIN_EXIT_MIGRATE_DEV and (not left_door and not right_door):
+            return self._domain_exit_old()
+
+        logger.info(f'Using new predict_door()')
         door = self.predict_door()
-        if left_door is None or right_door is None:
+        if self.config.DOMAIN_EXIT_MIGRATE_DEV and self.exit_has_double_door and (not left_door or not right_door):
             logger.critical(f'Domain exit is not defined in: {self.route_func}')
             exit(1)
 
+        # Goto door
         if door == 'left_door':
+            if not left_door:
+                return self._domain_exit_old()
             if self.domain_single_exit(left_door):
                 return True
             else:
@@ -306,6 +347,8 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
                 else:
                     return False
         elif door == 'right_door':
+            if not right_door:
+                return self._domain_exit_old()
             if self.domain_single_exit(right_door):
                 return True
             else:
@@ -316,6 +359,10 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
                     return False
         else:
             logger.error('Cannot goto either exit doors, try both')
+            if not left_door:
+                return self._domain_exit_old()
+            if not right_door:
+                return self._domain_exit_old()
             if self.domain_single_exit(left_door):
                 return True
             elif self.domain_single_exit(right_door):
