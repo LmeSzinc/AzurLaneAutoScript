@@ -138,6 +138,15 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
         minimap = ClickButton(area, name='MINIMAP')
         self.wait_until_stable(minimap, timeout=Timer(1.5, count=5))
 
+    def clear_item(self, *waypoints):
+        """
+        Shorten unexpected timer as items are randomly generated
+        """
+        waypoints = ensure_waypoints(waypoints)
+        end_point = waypoints[-1]
+        end_point.unexpected_confirm = Timer(1, count=5)
+        return super().clear_item(*waypoints)
+
     """
     Additional rogue methods
     """
