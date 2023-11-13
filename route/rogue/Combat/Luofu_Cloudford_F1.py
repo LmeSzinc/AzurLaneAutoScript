@@ -126,21 +126,21 @@ class Route(RouteBase):
 
     def Luofu_Cloudford_F1_X431Y593(self):
         """
-        | Waypoint        | Position                  | Direction | Rotation |
-        | --------------- | ------------------------- | --------- | -------- |
-        | spawn           | Waypoint((431.5, 593.4)), | 2.7       | 357      |
-        | item1           | Waypoint((373.8, 592.8)), | 263.8     | 267      |
-        | enemy1_X341Y586 | Waypoint((341.2, 586.8)), | 274.2     | 274      |
-        | item2           | Waypoint((310.4, 582.2)), | 289.0     | 288      |
-        | enemy2          | Waypoint((275.9, 584.9)), | 274.1     | 271      |
-        | exit_           | Waypoint((275.9, 584.9)), | 274.1     | 271      |
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((431.5, 593.4)), | 2.7       | 357      |
+        | item1    | Waypoint((371.8, 592.8)), | 263.8     | 267      |
+        | enemy1   | Waypoint((341.2, 586.8)), | 274.2     | 274      |
+        | item2    | Waypoint((310.4, 582.2)), | 289.0     | 288      |
+        | enemy2   | Waypoint((273.9, 584.9)), | 274.1     | 271      |
+        | exit_    | Waypoint((273.9, 584.9)), | 274.1     | 271      |
         """
         self.map_init(plane=Luofu_Cloudford, floor="F1", position=(431.5, 593.4))
-        self.register_domain_exit(Waypoint((275.9, 584.9)), end_rotation=271)
-        item1 = Waypoint((373.8, 592.8))
-        enemy1_X341Y586 = Waypoint((341.2, 586.8))
+        self.register_domain_exit(Waypoint((273.9, 584.9)), end_rotation=271)
+        item1 = Waypoint((371.8, 592.8))
+        enemy1 = Waypoint((341.2, 586.8))
         item2 = Waypoint((310.4, 582.2))
-        enemy2 = Waypoint((275.9, 584.9))
+        enemy2 = Waypoint((273.9, 584.9))
         # ===== End of generated waypoints =====
 
         # 1
@@ -148,7 +148,7 @@ class Route(RouteBase):
             item1.straight_run(),
         )
         self.clear_enemy(
-            enemy1_X341Y586.straight_run(),
+            enemy1.straight_run(),
         )
         # 2
         self.clear_item(item2)

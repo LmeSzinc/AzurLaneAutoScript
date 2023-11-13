@@ -105,10 +105,10 @@ class Route(RouteBase):
         | spawn    | Waypoint((617.3, 99.4)), | 6.7       | 1        |
         | item     | Waypoint((610.5, 88.6)), | 337.2     | 334      |
         | enemy    | Waypoint((616.2, 64.4)), | 22.7      | 195      |
-        | exit_    | Waypoint((617.2, 66.6)), | 12.6      | 4        |
+        | exit_    | Waypoint((617.2, 64.6)), | 12.6      | 4        |
         """
         self.map_init(plane=Luofu_ScalegorgeWaterscape, floor="F1", position=(617.3, 99.4))
-        self.register_domain_exit(Waypoint((617.2, 66.6)), end_rotation=4)
+        self.register_domain_exit(Waypoint((617.2, 64.6)), end_rotation=4)
         item = Waypoint((610.5, 88.6))
         enemy = Waypoint((616.2, 64.4))
         # ===== End of generated waypoints =====
@@ -118,22 +118,22 @@ class Route(RouteBase):
 
     def Luofu_ScalegorgeWaterscape_F1_X668Y243(self):
         """
-        | Waypoint       | Position                  | Direction | Rotation |
-        | -------------- | ------------------------- | --------- | -------- |
-        | spawn          | Waypoint((668.9, 243.4)), | 96.7      | 91       |
-        | item           | Waypoint((690.8, 236.8)), | 45.8      | 43       |
-        | enemy_X701Y242 | Waypoint((701.6, 242.2)), | 98.0      | 89       |
-        | exit_X701Y242  | Waypoint((701.6, 242.2)), | 98.0      | 89       |
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((668.9, 243.4)), | 96.7      | 91       |
+        | item     | Waypoint((690.8, 236.8)), | 45.8      | 43       |
+        | enemy    | Waypoint((701.6, 242.2)), | 98.0      | 89       |
+        | exit_    | Waypoint((701.6, 242.2)), | 98.0      | 89       |
         """
         self.map_init(plane=Luofu_ScalegorgeWaterscape, floor="F1", position=(668.9, 243.4))
         self.register_domain_exit(Waypoint((701.6, 242.2)), end_rotation=89)
         item = Waypoint((690.8, 236.8))
-        enemy_X701Y242 = Waypoint((701.6, 242.2))
+        enemy = Waypoint((701.6, 242.2))
         # ===== End of generated waypoints =====
 
         self.minimap.lock_rotation(90)
         # Ignore item, too close to enemy
-        self.clear_enemy(enemy_X701Y242)
+        self.clear_enemy(enemy)
 
     def Luofu_ScalegorgeWaterscape_F1_X791Y245(self):
         """

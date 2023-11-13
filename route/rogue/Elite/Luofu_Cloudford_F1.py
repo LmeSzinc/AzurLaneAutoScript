@@ -13,12 +13,12 @@ class Route(RouteBase):
         | -------- | -------------------------- | --------- | -------- |
         | spawn    | Waypoint((337.3, 1003.4)), | 6.7       | 4        |
         | enemy    | Waypoint((336.2, 962.2)),  | 6.7       | 4        |
-        | reward   | Waypoint((342.9, 954.8)),  | 44.2      | 31       |
+        | reward   | Waypoint((342.9, 950.8)),  | 44.2      | 31       |
         | exit_    | Waypoint((328.8, 942.8)),  | 316.1     | 331      |
         """
         self.map_init(plane=Luofu_Cloudford, floor="F1", position=(337.3, 1003.4))
         enemy = Waypoint((336.2, 962.2))
-        reward = Waypoint((342.9, 954.8))
+        reward = Waypoint((342.9, 950.8))
         exit_ = Waypoint((328.8, 942.8))
 
         self.clear_elite(enemy)

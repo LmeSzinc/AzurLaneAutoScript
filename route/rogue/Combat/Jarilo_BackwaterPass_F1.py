@@ -82,13 +82,13 @@ class Route(RouteBase):
         | Waypoint | Position                  | Direction | Rotation |
         | -------- | ------------------------- | --------- | -------- |
         | spawn    | Waypoint((555.6, 643.2)), | 282.3     | 274      |
-        | item     | Waypoint((524.8, 612.4)), | 318.0     | 322      |
+        | item     | Waypoint((524.8, 620.4)), | 318.0     | 322      |
         | enemy    | Waypoint((505.7, 642.9)), | 14.1      | 274      |
         | exit_    | Waypoint((505.7, 642.9)), | 14.1      | 274      |
         """
         self.map_init(plane=Jarilo_BackwaterPass, floor="F1", position=(555.6, 643.2))
         self.register_domain_exit(Waypoint((505.7, 642.9)), end_rotation=274)
-        item = Waypoint((524.8, 612.4))
+        item = Waypoint((524.8, 620.4))
         enemy = Waypoint((505.7, 642.9))
         # ===== End of generated waypoints =====
 
@@ -97,17 +97,17 @@ class Route(RouteBase):
 
     def Jarilo_BackwaterPass_F1_X577Y665(self):
         """
-        | Waypoint      | Position                  | Direction | Rotation |
-        | ------------- | ------------------------- | --------- | -------- |
-        | spawn         | Waypoint((577.4, 665.3)), | 139.7     | 140      |
-        | event         | Waypoint((586.8, 680.2)), | 149.9     | 149      |
-        | enemy3        | Waypoint((579.6, 732.2)), | 311.8     | 297      |
-        | enemy1        | Waypoint((648.9, 714.7)), | 96.8      | 94       |
-        | enemy2        | Waypoint((634.3, 748.5)), | 206.2     | 13       |
-        | exit_X573Y720 | Waypoint((573.6, 720.6)), | 315.9     | 311      |
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((577.4, 665.3)), | 139.7     | 140      |
+        | event    | Waypoint((586.8, 680.2)), | 149.9     | 149      |
+        | enemy3   | Waypoint((579.6, 732.2)), | 311.8     | 297      |
+        | enemy1   | Waypoint((648.9, 714.7)), | 96.8      | 94       |
+        | enemy2   | Waypoint((634.3, 748.5)), | 206.2     | 13       |
+        | exit_    | Waypoint((577.6, 728.6)), | 315.9     | 311      |
         """
         self.map_init(plane=Jarilo_BackwaterPass, floor="F1", position=(577.4, 665.3))
-        self.register_domain_exit(Waypoint((573.6, 720.6)), end_rotation=311)
+        self.register_domain_exit(Waypoint((577.6, 728.6)), end_rotation=311)
         event = Waypoint((586.8, 680.2))
         enemy3 = Waypoint((579.6, 732.2))
         enemy1 = Waypoint((648.9, 714.7))

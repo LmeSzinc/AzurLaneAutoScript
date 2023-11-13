@@ -178,25 +178,25 @@ class Route(RouteBase):
 
     def Jarilo_CorridorofFadingEchoes_F1_X463Y123(self):
         """
-        | Waypoint      | Position                  | Direction | Rotation |
-        | ------------- | ------------------------- | --------- | -------- |
-        | spawn         | Waypoint((463.3, 123.5)), | 96.7      | 91       |
-        | item_X476Y129 | Waypoint((476.9, 129.9)), | 116.8     | 114      |
-        | enemy1        | Waypoint((544.4, 128.5)), | 129.9     | 128      |
-        | node2         | Waypoint((554.6, 143.6)), | 166.6     | 158      |
-        | enemy2        | Waypoint((556.4, 206.8)), | 190.1     | 184      |
-        | exit_         | Waypoint((556.4, 206.8)), | 190.1     | 184      |
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((463.3, 123.5)), | 96.7      | 91       |
+        | item     | Waypoint((476.9, 129.9)), | 116.8     | 114      |
+        | enemy1   | Waypoint((544.4, 128.5)), | 129.9     | 128      |
+        | node2    | Waypoint((554.6, 141.6)), | 166.6     | 158      |
+        | enemy2   | Waypoint((556.4, 206.8)), | 190.1     | 184      |
+        | exit_    | Waypoint((556.4, 206.8)), | 190.1     | 184      |
         """
         self.map_init(plane=Jarilo_CorridorofFadingEchoes, floor="F1", position=(463.3, 123.5))
         self.register_domain_exit(Waypoint((556.4, 206.8)), end_rotation=184)
-        item_X476Y129 = Waypoint((476.9, 129.9))
+        item = Waypoint((476.9, 129.9))
         enemy1 = Waypoint((544.4, 128.5))
-        node2 = Waypoint((554.6, 143.6))
+        node2 = Waypoint((554.6, 141.6))
         enemy2 = Waypoint((556.4, 206.8))
         # ===== End of generated waypoints =====
 
         self.rotation_set(135)
-        self.clear_item(item_X476Y129)
+        self.clear_item(item)
         self.clear_enemy(enemy1)
         self.clear_enemy(
             node2.set_threshold(5),

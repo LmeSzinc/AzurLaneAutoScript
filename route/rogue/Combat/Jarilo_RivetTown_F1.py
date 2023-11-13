@@ -137,7 +137,7 @@ class Route(RouteBase):
         | Waypoint    | Position                  | Direction | Rotation |
         | ----------- | ------------------------- | --------- | -------- |
         | spawn       | Waypoint((293.6, 243.5)), | 182.9     | 177      |
-        | item1       | Waypoint((302.5, 259.5)), | 175.8     | 168      |
+        | item1       | Waypoint((302.5, 261.5)), | 175.8     | 168      |
         | enemy1right | Waypoint((290.0, 276.0)), | 198.7     | 195      |
         | enemy1left  | Waypoint((310.1, 281.1)), | 105.5     | 101      |
         | item2       | Waypoint((326.2, 298.0)), | 151.8     | 140      |
@@ -147,7 +147,7 @@ class Route(RouteBase):
         """
         self.map_init(plane=Jarilo_RivetTown, floor="F1", position=(293.6, 243.5))
         self.register_domain_exit(Waypoint((314.6, 385.0)), end_rotation=188)
-        item1 = Waypoint((302.5, 259.5))
+        item1 = Waypoint((302.5, 261.5))
         enemy1right = Waypoint((290.0, 276.0))
         enemy1left = Waypoint((310.1, 281.1))
         item2 = Waypoint((326.2, 298.0))

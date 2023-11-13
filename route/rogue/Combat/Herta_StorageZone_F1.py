@@ -5,7 +5,7 @@ from tasks.rogue.route.base import RouteBase
 
 class Route(RouteBase):
 
-    def Herta_StorageZone_F1_X210Y268(self):
+    def Herta_StorageZone_F1_X225Y258(self):
         """
         | Waypoint | Position                  | Direction | Rotation |
         | -------- | ------------------------- | --------- | -------- |
@@ -73,21 +73,21 @@ class Route(RouteBase):
 
     def Herta_StorageZone_F1_X273Y92(self):
         """
-        | Waypoint      | Position                 | Direction | Rotation |
-        | ------------- | ------------------------ | --------- | -------- |
-        | spawn         | Waypoint((273.4, 92.2)), | 308.0     | 304      |
-        | item          | Waypoint((248.4, 59.4)), | 334.8     | 331      |
-        | enemy_X227Y69 | Waypoint((227.8, 69.5)), | 30.2      | 299      |
-        | exit_X227Y69  | Waypoint((227.8, 69.5)), | 30.2      | 299      |
+        | Waypoint | Position                 | Direction | Rotation |
+        | -------- | ------------------------ | --------- | -------- |
+        | spawn    | Waypoint((273.4, 92.2)), | 308.0     | 304      |
+        | item     | Waypoint((248.4, 59.4)), | 334.8     | 331      |
+        | enemy    | Waypoint((227.8, 69.5)), | 30.2      | 299      |
+        | exit_    | Waypoint((227.8, 69.5)), | 30.2      | 299      |
         """
         self.map_init(plane=Herta_StorageZone, floor="F1", position=(273.4, 92.2))
         self.register_domain_exit(Waypoint((227.8, 69.5)), end_rotation=299)
         item = Waypoint((248.4, 59.4))
-        enemy_X227Y69 = Waypoint((227.8, 69.5))
+        enemy = Waypoint((227.8, 69.5))
         # ===== End of generated waypoints =====
 
         # Ignore item, bad way
-        self.clear_enemy(enemy_X227Y69)
+        self.clear_enemy(enemy)
 
     def Herta_StorageZone_F1_X692Y61(self):
         """

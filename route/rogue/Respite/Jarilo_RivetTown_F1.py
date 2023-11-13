@@ -11,12 +11,12 @@ class Route(RouteBase):
         | -------- | ------------------------- | --------- | -------- |
         | spawn    | Waypoint((157.2, 273.5)), | 60.8      | 59       |
         | item     | Waypoint((174.9, 274.8)), | 96.8      | 89       |
-        | herta    | Waypoint((202.2, 259.4)), | 76.3      | 73       |
+        | herta    | Waypoint((202.2, 257.4)), | 76.3      | 73       |
         | exit_    | Waypoint((208.6, 244.6)), | 67.1      | 61       |
         """
         self.map_init(plane=Jarilo_RivetTown, floor="F1", position=(157.2, 273.5))
         item = Waypoint((174.9, 274.8))
-        herta = Waypoint((202.2, 259.4))
+        herta = Waypoint((202.2, 257.4))
         exit_ = Waypoint((208.6, 244.6))
 
         self.clear_item(item)

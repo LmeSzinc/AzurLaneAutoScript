@@ -1,10 +1,12 @@
 from tasks.map.control.waypoint import Waypoint
 from tasks.map.keywords.plane import Luofu_ArtisanshipCommission
+from tasks.map.route.base import locked_position
 from tasks.rogue.route.base import RouteBase
 
 
 class Route(RouteBase):
 
+    @locked_position
     def Luofu_ArtisanshipCommission_F1_X185Y361(self):
         """
         | Waypoint       | Position                  | Direction | Rotation |

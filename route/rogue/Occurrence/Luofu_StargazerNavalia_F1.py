@@ -9,19 +9,20 @@ class Route(RouteBase):
     @locked_position
     def Luofu_StargazerNavalia_F1_X250Y498(self):
         """
-        | Waypoint       | Position                  | Direction | Rotation |
-        | -------------- | ------------------------- | --------- | -------- |
-        | spawn          | Waypoint((249.4, 498.5)), | 190.1     | 184      |
-        | event_X236Y528 | Waypoint((236.8, 528.9)), | 188.1     | 181      |
-        | exit_          | Waypoint((245.3, 550.1)), | 282.9     | 181      |
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((249.4, 498.5)), | 190.1     | 184      |
+        | event    | Waypoint((236.8, 528.9)), | 188.1     | 181      |
+        | exit_    | Waypoint((245.3, 550.1)), | 282.9     | 181      |
         """
         self.map_init(plane=Luofu_StargazerNavalia, floor="F1", position=(249.4, 498.5))
         self.register_domain_exit(Waypoint((245.3, 550.1)), end_rotation=181)
-        event_X236Y528 = Waypoint((236.8, 528.9))
+        event = Waypoint((236.8, 528.9))
 
-        self.clear_event(event_X236Y528)
+        self.clear_event(event)
         # ===== End of generated waypoints =====
 
+    @locked_position
     def Luofu_StargazerNavalia_F1_X521Y595(self):
         """
         | Waypoint       | Position                  | Direction | Rotation |

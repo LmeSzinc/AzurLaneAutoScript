@@ -1,5 +1,6 @@
 from tasks.map.control.waypoint import Waypoint
 from tasks.map.keywords.plane import Luofu_ArtisanshipCommission
+from tasks.map.route.base import locked_position
 from tasks.rogue.route.base import RouteBase
 
 
@@ -20,6 +21,7 @@ class Route(RouteBase):
         self.clear_event(event)
         # ===== End of generated waypoints =====
 
+    @locked_position
     def Luofu_ArtisanshipCommission_F1_X205Y145(self):
         """
         | Waypoint       | Position                  | Direction | Rotation |
