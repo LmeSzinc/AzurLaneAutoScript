@@ -68,9 +68,13 @@ class Route(RouteBase):
         | node     | Waypoint((221.6, 946.2)), | 272.8     | 269      |
         | enemy    | Waypoint((193.7, 949.5)), | 143.8     | 269      |
         | exit_    | Waypoint((194.4, 947.2)), | 4.2       | 274      |
+        | exit1    | Waypoint((183.9, 954.4)), | 261.9     | 262      |
+        | exit2    | Waypoint((183.0, 942.4)), | 290.2     | 283      |
         """
         self.map_init(plane=Luofu_Cloudford, floor="F1", position=(257.3, 951.2))
-        self.register_domain_exit(Waypoint((194.4, 947.2)), end_rotation=274)
+        self.register_domain_exit(
+            Waypoint((194.4, 947.2)), end_rotation=274,
+            left_door=Waypoint((183.9, 954.4)), right_door=Waypoint((183.0, 942.4)))
         item = Waypoint((236.8, 934.2))
         node = Waypoint((221.6, 946.2))
         enemy = Waypoint((193.7, 949.5))
@@ -167,9 +171,13 @@ class Route(RouteBase):
         | item4    | Waypoint((309.6, 580.2)), | 290.1     | 281      |
         | enemy4   | Waypoint((269.3, 549.6)), | 275.8     | 278      |
         | exit_    | Waypoint((271.3, 585.5)), | 285.0     | 274      |
+        | exit1    | Waypoint((267.9, 592.3)), | 275.9     | 274      |
+        | exit2    | Waypoint((267.8, 580.0)), | 275.8     | 274      |
         """
         self.map_init(plane=Luofu_Cloudford, floor="F1", position=(435.4, 669.2))
-        self.register_domain_exit(Waypoint((271.3, 585.5)), end_rotation=274)
+        self.register_domain_exit(
+            Waypoint((271.3, 585.5)), end_rotation=274,
+            left_door=Waypoint((267.9, 592.3)), right_door=Waypoint((267.8, 580.0)))
         item1 = Waypoint((432.2, 628.3))
         enemy1 = Waypoint((428.6, 598.8))
         node2 = Waypoint((421.2, 590.8))

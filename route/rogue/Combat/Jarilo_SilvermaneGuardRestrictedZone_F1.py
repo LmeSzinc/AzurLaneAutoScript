@@ -5,6 +5,44 @@ from tasks.rogue.route.base import RouteBase
 
 class Route(RouteBase):
 
+    def Jarilo_SilvermaneGuardRestrictedZone_F1_X191Y199(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((191.4, 199.4)), | 94.2      | 91       |
+        | enemy1   | Waypoint((241.0, 198.6)), | 102.7     | 94       |
+        | item2    | Waypoint((272.5, 192.5)), | 86.2      | 82       |
+        | node2    | Waypoint((284.8, 204.4)), | 343.8     | 108      |
+        | node3    | Waypoint((308.2, 208.8)), | 101.2     | 98       |
+        | item3    | Waypoint((326.4, 196.4)), | 45.8      | 45       |
+        | enemy3   | Waypoint((352.2, 198.4)), | 99.2      | 91       |
+        | exit_    | Waypoint((352.2, 198.4)), | 99.2      | 91       |
+        | exit1    | Waypoint((356.6, 192.2)), | 350.5     | 78       |
+        | exit2    | Waypoint((358.0, 206.2)), | 101.2     | 101      |
+        """
+        self.map_init(plane=Jarilo_SilvermaneGuardRestrictedZone, floor="F1", position=(191.4, 199.4))
+        self.register_domain_exit(
+            Waypoint((352.2, 198.4)), end_rotation=91,
+            left_door=Waypoint((356.6, 192.2)), right_door=Waypoint((358.0, 206.2)))
+        enemy1 = Waypoint((241.0, 198.6))
+        item2 = Waypoint((272.5, 192.5))
+        node2 = Waypoint((284.8, 204.4))
+        node3 = Waypoint((308.2, 208.8))
+        item3 = Waypoint((326.4, 196.4))
+        enemy3 = Waypoint((352.2, 198.4))
+        # ===== End of generated waypoints =====
+
+        self.minimap.lock_rotation(90)
+        self.clear_enemy(enemy1)
+        self.clear_item(item2)
+        # Go through trench gaps, a moving enemy in it
+        self.clear_enemy(
+            node2.set_threshold(3),
+            node3.set_threshold(3),
+        )
+        self.clear_item(item3)
+        self.clear_enemy(enemy3)
+
     def Jarilo_SilvermaneGuardRestrictedZone_F1_X221Y426(self):
         """
         | Waypoint | Position                  | Direction | Rotation |

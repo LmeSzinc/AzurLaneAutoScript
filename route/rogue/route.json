@@ -55,17 +55,6 @@
     "domain": "Combat"
   },
   {
-    "name": "Combat_Herta_StorageZone_F1_X769Y39",
-    "route": "route.rogue.Combat.Herta_StorageZone_F1:Herta_StorageZone_F1_X769Y39",
-    "plane": "Herta_StorageZone",
-    "floor": "F1",
-    "position": [
-      769.0,
-      39.0
-    ],
-    "domain": "Combat"
-  },
-  {
     "name": "Combat_Herta_StorageZone_F2_X351Y164",
     "route": "route.rogue.Combat.Herta_StorageZone_F2:Herta_StorageZone_F2_X351Y164",
     "plane": "Herta_StorageZone",
@@ -194,6 +183,17 @@
     "position": [
       152.0,
       245.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_BackwaterPass_F1_X460Y165",
+    "route": "route.rogue.Combat.Jarilo_BackwaterPass_F1:Jarilo_BackwaterPass_F1_X460Y165",
+    "plane": "Jarilo_BackwaterPass",
+    "floor": "F1",
+    "position": [
+      460.0,
+      165.3
     ],
     "domain": "Combat"
   },
@@ -535,6 +535,17 @@
     "position": [
       323.4,
       151.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_SilvermaneGuardRestrictedZone_F1_X191Y199",
+    "route": "route.rogue.Combat.Jarilo_SilvermaneGuardRestrictedZone_F1:Jarilo_SilvermaneGuardRestrictedZone_F1_X191Y199",
+    "plane": "Jarilo_SilvermaneGuardRestrictedZone",
+    "floor": "F1",
+    "position": [
+      191.4,
+      199.4
     ],
     "domain": "Combat"
   },
@@ -1360,6 +1371,17 @@
     "position": [
       209.3,
       397.9
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_RivetTown_F1_X289Y97",
+    "route": "route.rogue.Occurrence.Jarilo_RivetTown_F1:Jarilo_RivetTown_F1_X289Y97",
+    "plane": "Jarilo_RivetTown",
+    "floor": "F1",
+    "position": [
+      290.1,
+      97.5
     ],
     "domain": "Occurrence"
   },

@@ -15,9 +15,13 @@ class Route(RouteBase):
         | enemy_X212Y398 | Waypoint((212.5, 398.4)), | 149.9     | 327      |
         | item           | Waypoint((232.4, 388.4)), | 129.9     | 133      |
         | exit_          | Waypoint((217.4, 405.1)), | 166.7     | 168      |
+        | exit1          | Waypoint((226.2, 411.6)), | 171.7     | 163      |
+        | exit2_X211Y409 | Waypoint((211.0, 409.2)), | 166.7     | 156      |
         """
         self.map_init(plane=Luofu_ArtisanshipCommission, floor="F1", position=(185.4, 361.4))
-        self.register_domain_exit(Waypoint((217.4, 405.1)), end_rotation=168)
+        self.register_domain_exit(
+            Waypoint((217.4, 405.1)), end_rotation=168,
+            left_door=Waypoint((226.2, 411.6)), right_door=Waypoint((211.0, 409.2)))
         enemy_X212Y398 = Waypoint((212.5, 398.4))
         item = Waypoint((232.4, 388.4))
         # ===== End of generated waypoints =====
@@ -34,15 +38,18 @@ class Route(RouteBase):
         | item     | Waypoint((221.2, 833.4)), | 166.7     | 163      |
         | enemy    | Waypoint((216.2, 860.2)), | 193.1     | 188      |
         | exit_    | Waypoint((215.7, 861.4)), | 11.3      | 186      |
+        | exit1    | Waypoint((224.2, 870.2)), | 179.9     | 179      |
+        | exit2    | Waypoint((208.4, 870.3)), | 206.0     | 200      |
         """
         self.map_init(plane=Luofu_ArtisanshipCommission, floor="F1", position=(217.3, 807.4))
-        self.register_domain_exit(Waypoint((215.7, 861.4)), end_rotation=186)
+        self.register_domain_exit(
+            Waypoint((215.7, 861.4)), end_rotation=186,
+            left_door=Waypoint((224.2, 870.2)), right_door=Waypoint((208.4, 870.3)))
         item = Waypoint((221.2, 833.4))
         enemy = Waypoint((216.2, 860.2))
         # ===== End of generated waypoints =====
 
-        # ignore item, randomly generated
-        # self.clear_item(item)
+        self.clear_item(item)
         self.clear_enemy(enemy)
 
     def Luofu_ArtisanshipCommission_F1_X655Y537(self):

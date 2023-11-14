@@ -25,6 +25,7 @@ class Route(RouteBase):
         self.clear_item(item)
         self.clear_enemy(enemy)
 
+    @locked_position
     def Luofu_StargazerNavalia_F1_X203Y317(self):
         """
         | Waypoint | Position                  | Direction | Rotation |
@@ -81,10 +82,14 @@ class Route(RouteBase):
         | enemy1         | Waypoint((506.2, 596.2)), | 96.8      | 94       |
         | item2          | Waypoint((522.8, 589.0)), | 64.9      | 64       |
         | enemy3         | Waypoint((560.5, 601.8)), | 96.8      | 96       |
-        | exit_          | Waypoint((559.5, 601.5)), | 129.8     | 94       |
+        | exit_          | Waypoint((565.6, 603.3)), | 94.2      | 91       |
+        | exit1          | Waypoint((571.0, 597.0)), | 81.1      | 78       |
+        | exit2          | Waypoint((570.8, 610.8)), | 96.8      | 96       |
         """
         self.map_init(plane=Luofu_StargazerNavalia, floor="F1", position=(432.7, 593.4))
-        self.register_domain_exit(Waypoint((559.5, 601.5)), end_rotation=94)
+        self.register_domain_exit(
+            Waypoint((565.6, 603.3)), end_rotation=91,
+            left_door=Waypoint((571.0, 597.0)), right_door=Waypoint((570.8, 610.8)))
         event = Waypoint((449.6, 606.4))
         item1_X464Y586 = Waypoint((464.6, 586.5))
         enemy1 = Waypoint((506.2, 596.2))

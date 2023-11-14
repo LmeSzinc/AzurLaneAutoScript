@@ -226,13 +226,24 @@ class RouteDetect:
                     print(f'Position changed: {waypoint.file}'
                           f' -> {name}_{waypoint.positionXY}')
 
-        self.waypoints.create_index('route')
+        self.waypoints.create_index('domain', 'route')
         # Sort by distance
+        total = self.waypoints.filter(lambda x: (x.is_DomainCombat or x.is_DomainOccurrence) and x.is_spawn).count
+        migrated = 0
         for waypoints in self.waypoints.indexes.values():
+            if waypoints.select(is_exit_door=True).count == 2:
+                migrated += 1
             waypoints = self.sort_waypoints(waypoints.grids)
             for index, waypoint in enumerate(waypoints):
                 waypoint.index = index
-        self.waypoints = self.waypoints.sort('route', 'index')
+            # Waypoints too far from each other, probably wrong position
+            diff = SelectedGrids(waypoints).get('position')
+            diff = np.linalg.norm(np.diff(diff, axis=0), axis=1)
+            for index in np.where(diff > 120)[0]:
+                w1, w2 = waypoints[index], waypoints[index + 1]
+                print(f'WARNING | Waypoint too far away in {w1.route}: {w1.position} -> {w2.position}')
+        print(f'INFO | Domain exit migrated: {migrated}/{total}')
+        self.waypoints = self.waypoints.sort('domain', 'route', 'index')
 
     @staticmethod
     def sort_waypoints(waypoints: list[RogueWaypointModel]) -> list[RogueWaypointModel]:

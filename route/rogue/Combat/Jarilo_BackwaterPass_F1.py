@@ -5,6 +5,31 @@ from tasks.rogue.route.base import RouteBase
 
 class Route(RouteBase):
 
+    def Jarilo_BackwaterPass_F1_X460Y165(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((460.0, 165.3)), | 146.7     | 140      |
+        | item1    | Waypoint((478.0, 165.1)), | 101.2     | 101      |
+        | enemy1   | Waypoint((492.8, 194.9)), | 227.8     | 133      |
+        | enemy2   | Waypoint((512.8, 216.6)), | 146.6     | 140      |
+        | exit_    | Waypoint((512.8, 216.6)), | 146.6     | 140      |
+        | exit1    | Waypoint((521.4, 215.6)), | 135.8     | 131      |
+        | exit2    | Waypoint((510.4, 222.4)), | 151.8     | 142      |
+        """
+        self.map_init(plane=Jarilo_BackwaterPass, floor="F1", position=(460.0, 165.3))
+        self.register_domain_exit(
+            Waypoint((512.8, 216.6)), end_rotation=140,
+            left_door=Waypoint((521.4, 215.6)), right_door=Waypoint((510.4, 222.4)))
+        item1 = Waypoint((478.0, 165.1))
+        enemy1 = Waypoint((492.8, 194.9))
+        enemy2 = Waypoint((512.8, 216.6))
+        # ===== End of generated waypoints =====
+
+        self.clear_item(item1)
+        self.clear_enemy(enemy1)
+        self.clear_enemy(enemy2)
+
     def Jarilo_BackwaterPass_F1_X475Y49(self):
         """
         | Waypoint | Position                  | Direction | Rotation |

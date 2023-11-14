@@ -55,11 +55,16 @@ class Route(RouteBase):
         | node2       | Waypoint((448.4, 180.6)), | 246.5     | 241      |
         | node3       | Waypoint((402.2, 199.4)), | 282.9     | 276      |
         | enemy3      | Waypoint((370.7, 163.1)), | 215.8     | 304      |
+        | item4       | Waypoint((343.0, 157.2)), | 293.1     | 290      |
         | enemy4      | Waypoint((301.8, 164.4)), | 278.3     | 276      |
         | exit_       | Waypoint((300.4, 164.5)), | 274.2     | 274      |
+        | exit1       | Waypoint((292.0, 171.0)), | 261.7     | 260      |
+        | exit2       | Waypoint((292.6, 158.5)), | 282.9     | 281      |
         """
         self.map_init(plane=Herta_StorageZone, floor="F2", position=(515.5, 219.3))
-        self.register_domain_exit(Waypoint((300.4, 164.5)), end_rotation=274)
+        self.register_domain_exit(
+            Waypoint((300.4, 164.5)), end_rotation=274,
+            left_door=Waypoint((292.0, 171.0)), right_door=Waypoint((292.6, 158.5)))
         node1 = Waypoint((525.4, 181.0))
         event = Waypoint((531.8, 180.0))
         enemy1right = Waypoint((518.8, 168.6))
@@ -69,6 +74,7 @@ class Route(RouteBase):
         node2 = Waypoint((448.4, 180.6))
         node3 = Waypoint((402.2, 199.4))
         enemy3 = Waypoint((370.7, 163.1))
+        item4 = Waypoint((343.0, 157.2))
         enemy4 = Waypoint((301.8, 164.4))
         # ===== End of generated waypoints =====
 
@@ -95,7 +101,10 @@ class Route(RouteBase):
             enemy3.straight_run(),
         )
         # 4
-        self.clear_enemy(
+        self.clear_item(
             enemy3,
+            item4,
+        )
+        self.clear_enemy(
             enemy4.straight_run(),
         )

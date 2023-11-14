@@ -139,6 +139,7 @@ class Route(RouteBase):
             enemy2left.straight_run().set_threshold(3),
         )
         self.clear_enemy(
+            enemy2left.straight_run().set_threshold(3),
             node3.straight_run(),
             node4.straight_run(),
             enemy4.straight_run(),

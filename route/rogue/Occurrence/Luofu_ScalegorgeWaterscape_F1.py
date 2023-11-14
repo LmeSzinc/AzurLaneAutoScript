@@ -1,11 +1,12 @@
 from tasks.map.control.waypoint import Waypoint
 from tasks.map.keywords.plane import Luofu_ScalegorgeWaterscape
-from tasks.map.route.base import locked_rotation
+from tasks.map.route.base import locked_position, locked_rotation
 from tasks.rogue.route.base import RouteBase
 
 
 class Route(RouteBase):
 
+    @locked_rotation(180)
     def Luofu_ScalegorgeWaterscape_F1_X499Y135(self):
         """
         | Waypoint | Position                  | Direction | Rotation |
@@ -40,17 +41,25 @@ class Route(RouteBase):
         self.clear_event(event)
         # ===== End of generated waypoints =====
 
+    @locked_position
     def Luofu_ScalegorgeWaterscape_F1_X714Y243(self):
         """
-        | Waypoint | Position                  | Direction | Rotation |
-        | -------- | ------------------------- | --------- | -------- |
-        | spawn    | Waypoint((714.4, 243.2)), | 274.2     | 274      |
-        | event    | Waypoint((678.9, 243.0)), | 274.2     | 274      |
-        | exit_    | Waypoint((677.4, 243.2)), | 274.2     | 271      |
+        | Waypoint      | Position                  | Direction | Rotation |
+        | ------------- | ------------------------- | --------- | -------- |
+        | spawn         | Waypoint((714.4, 243.2)), | 274.2     | 274      |
+        | item_X694Y254 | Waypoint((694.2, 254.8)), | 256.7     | 258      |
+        | event         | Waypoint((678.9, 243.0)), | 274.2     | 274      |
+        | exit_         | Waypoint((677.4, 243.2)), | 274.2     | 271      |
+        | exit1         | Waypoint((672.6, 246.7)), | 272.7     | 267      |
+        | exit2         | Waypoint((673.6, 238.2)), | 272.8     | 269      |
         """
         self.map_init(plane=Luofu_ScalegorgeWaterscape, floor="F1", position=(714.4, 243.2))
-        self.register_domain_exit(Waypoint((677.4, 243.2)), end_rotation=271)
+        self.register_domain_exit(
+            Waypoint((677.4, 243.2)), end_rotation=271,
+            left_door=Waypoint((672.6, 246.7)), right_door=Waypoint((673.6, 238.2)))
+        item_X694Y254 = Waypoint((694.2, 254.8))
         event = Waypoint((678.9, 243.0))
 
+        self.clear_item(item_X694Y254)
         self.clear_event(event)
         # ===== End of generated waypoints =====
