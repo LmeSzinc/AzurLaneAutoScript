@@ -16,12 +16,12 @@ class Route(RouteBase):
         | item           | Waypoint((232.4, 388.4)), | 129.9     | 133      |
         | exit_          | Waypoint((217.4, 405.1)), | 166.7     | 168      |
         | exit1          | Waypoint((226.2, 411.6)), | 171.7     | 163      |
-        | exit2_X211Y409 | Waypoint((211.0, 409.2)), | 166.7     | 156      |
+        | exit2          | Waypoint((209.0, 419.4)), | 157.4     | 156      |
         """
         self.map_init(plane=Luofu_ArtisanshipCommission, floor="F1", position=(185.4, 361.4))
         self.register_domain_exit(
             Waypoint((217.4, 405.1)), end_rotation=168,
-            left_door=Waypoint((226.2, 411.6)), right_door=Waypoint((211.0, 409.2)))
+            left_door=Waypoint((226.2, 411.6)), right_door=Waypoint((209.0, 419.4)))
         enemy_X212Y398 = Waypoint((212.5, 398.4))
         item = Waypoint((232.4, 388.4))
         # ===== End of generated waypoints =====

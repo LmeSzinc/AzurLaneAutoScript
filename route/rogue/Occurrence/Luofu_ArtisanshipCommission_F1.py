@@ -34,9 +34,13 @@ class Route(RouteBase):
         | item           | Waypoint((223.0, 163.1)), | 143.8     | 140      |
         | event_X204Y179 | Waypoint((204.4, 179.9)), | 282.8     | 181      |
         | exit_X204Y179  | Waypoint((204.4, 179.9)), | 282.8     | 181      |
+        | exit1_X213Y189 | Waypoint((213.5, 189.5)), | 179.9     | 179      |
+        | exit2_X197Y189 | Waypoint((197.5, 189.4)), | 192.7     | 184      |
         """
         self.map_init(plane=Luofu_ArtisanshipCommission, floor="F1", position=(205.5, 145.5))
-        self.register_domain_exit(Waypoint((204.4, 179.9)), end_rotation=181)
+        self.register_domain_exit(
+            Waypoint((204.4, 179.9)), end_rotation=181,
+            left_door=Waypoint((213.5, 189.5)), right_door=Waypoint((197.5, 189.4)))
         item = Waypoint((223.0, 163.1))
         event_X204Y179 = Waypoint((204.4, 179.9))
 
@@ -52,9 +56,13 @@ class Route(RouteBase):
         | item     | Waypoint((536.8, 51.1)), | 62.6      | 57       |
         | event    | Waypoint((572.0, 64.2)), | 96.7      | 91       |
         | exit_    | Waypoint((572.8, 65.3)), | 193.0     | 91       |
+        | exit1    | Waypoint((585.0, 55.0)), | 195.4     | 96       |
+        | exit2    | Waypoint((581.0, 73.2)), | 101.0     | 96       |
         """
         self.map_init(plane=Luofu_ArtisanshipCommission, floor="F1", position=(521.8, 63.6))
-        self.register_domain_exit(Waypoint((572.8, 65.3)), end_rotation=91)
+        self.register_domain_exit(
+            Waypoint((572.8, 65.3)), end_rotation=91,
+            left_door=Waypoint((585.0, 55.0)), right_door=Waypoint((581.0, 73.2)))
         item = Waypoint((536.8, 51.1))
         event = Waypoint((572.0, 64.2))
 

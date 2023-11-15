@@ -44,32 +44,43 @@ class Route(RouteBase):
 
     def Luofu_StargazerNavalia_F1_X215Y192(self):
         """
-        | Waypoint | Position                  | Direction | Rotation |
-        | -------- | ------------------------- | --------- | -------- |
-        | spawn    | Waypoint((215.5, 192.6)), | 190.1     | 184      |
-        | item1    | Waypoint((212.0, 241.6)), | 194.8     | 204      |
-        | enemy1   | Waypoint((188.6, 248.2)), | 223.8     | 221      |
-        | node2    | Waypoint((178.9, 278.9)), | 198.7     | 195      |
-        | node3    | Waypoint((180.1, 301.2)), | 187.0     | 181      |
-        | enemy3   | Waypoint((247.6, 317.2)), | 198.7     | 96       |
-        | exit_    | Waypoint((247.6, 317.2)), | 198.7     | 96       |
+        | Waypoint    | Position                  | Direction | Rotation |
+        | ----------- | ------------------------- | --------- | -------- |
+        | spawn       | Waypoint((215.5, 192.6)), | 190.1     | 184      |
+        | item1       | Waypoint((212.0, 241.6)), | 194.8     | 204      |
+        | enemy1      | Waypoint((188.6, 248.2)), | 223.8     | 221      |
+        | node2       | Waypoint((178.9, 278.9)), | 198.7     | 195      |
+        | enemy4      | Waypoint((247.6, 317.2)), | 198.7     | 96       |
+        | enemy2left  | Waypoint((216.6, 322.8)), | 101.1     | 96       |
+        | enemy2right | Waypoint((176.6, 318.6)), | 206.2     | 103      |
+        | exit_       | Waypoint((247.6, 317.2)), | 198.7     | 96       |
+        | exit1       | Waypoint((252.6, 312.0)), | 96.9      | 89       |
+        | exit2       | Waypoint((252.8, 324.8)), | 96.2      | 89       |
         """
         self.map_init(plane=Luofu_StargazerNavalia, floor="F1", position=(215.5, 192.6))
-        self.register_domain_exit(Waypoint((247.6, 317.2)), end_rotation=96)
+        self.register_domain_exit(
+            Waypoint((247.6, 317.2)), end_rotation=96,
+            left_door=Waypoint((252.6, 312.0)), right_door=Waypoint((252.8, 324.8)))
         item1 = Waypoint((212.0, 241.6))
         enemy1 = Waypoint((188.6, 248.2))
         node2 = Waypoint((178.9, 278.9))
-        node3 = Waypoint((180.1, 301.2))
-        enemy3 = Waypoint((247.6, 317.2))
+        enemy4 = Waypoint((247.6, 317.2))
+        enemy2left = Waypoint((216.6, 322.8))
+        enemy2right = Waypoint((176.6, 318.6))
         # ===== End of generated waypoints =====
 
         # Ignore items
         self.clear_enemy(enemy1.straight_run())
-        # Ignore enemy2
+        self.rotation_set(120)
+        self.minimap.lock_rotation(120)
         self.clear_enemy(
-            node2.straight_run(),
-            node3.straight_run(),
-            enemy3.straight_run(),
+            node2,
+            enemy2right,
+            enemy2left,
+        )
+        self.clear_enemy(
+            enemy2left,
+            enemy4,
         )
 
     def Luofu_StargazerNavalia_F1_X432Y593(self):

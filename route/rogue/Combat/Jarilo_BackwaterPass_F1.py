@@ -130,9 +130,13 @@ class Route(RouteBase):
         | enemy1   | Waypoint((648.9, 714.7)), | 96.8      | 94       |
         | enemy2   | Waypoint((634.3, 748.5)), | 206.2     | 13       |
         | exit_    | Waypoint((577.6, 728.6)), | 315.9     | 311      |
+        | exit1    | Waypoint((564.2, 732.2)), | 311.8     | 308      |
+        | exit2    | Waypoint((574.8, 722.4)), | 311.8     | 308      |
         """
         self.map_init(plane=Jarilo_BackwaterPass, floor="F1", position=(577.4, 665.3))
-        self.register_domain_exit(Waypoint((577.6, 728.6)), end_rotation=311)
+        self.register_domain_exit(
+            Waypoint((577.6, 728.6)), end_rotation=311,
+            left_door=Waypoint((564.2, 732.2)), right_door=Waypoint((574.8, 722.4)))
         event = Waypoint((586.8, 680.2))
         enemy3 = Waypoint((579.6, 732.2))
         enemy1 = Waypoint((648.9, 714.7))
