@@ -110,6 +110,20 @@ class Scroll:
         """
         return np.mean(self.match_color(main)) > 0.1
 
+    def is_draggable(self, main):
+        """
+        If scroll `length` is just a little smaller than `total`,
+        game client may not respond to such a short swipe.
+
+        Args:
+            main (ModuleBase):
+
+        Returns:
+            bool:
+        """
+        _ = self.cal_position(main)
+        return self.length / self.total < 0.95
+
     def at_top(self, main):
         return self.cal_position(main) < self.edge_threshold
 

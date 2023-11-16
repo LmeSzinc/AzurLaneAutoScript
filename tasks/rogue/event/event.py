@@ -288,7 +288,7 @@ class RogueEvent(RogueUI):
             self._event_option_match()
         self._event_option_ocr(len(self.options))
         # Check next page if there is scroll
-        if SCROLL_OPTION.appear(main=self):
+        if SCROLL_OPTION.appear(main=self) and SCROLL_OPTION.is_draggable(main=self):
             if SCROLL_OPTION.set_bottom(main=self):
                 expected = self._event_option_match(is_bottom_page=True)
                 self._event_option_ocr(expected)
