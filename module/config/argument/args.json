@@ -216,13 +216,15 @@
           "Stagnant_Shadow_Abomination",
           "Stagnant_Shadow_Scorch",
           "Stagnant_Shadow_Celestial",
+          "Stagnant_Shadow_Perdition",
           "Cavern_of_Corrosion_Path_of_Gelid_Wind",
           "Cavern_of_Corrosion_Path_of_Jabbing_Punch",
           "Cavern_of_Corrosion_Path_of_Drifting",
           "Cavern_of_Corrosion_Path_of_Providence",
           "Cavern_of_Corrosion_Path_of_Holy_Hymn",
           "Cavern_of_Corrosion_Path_of_Conflagration",
-          "Cavern_of_Corrosion_Path_of_Elixir_Seekers"
+          "Cavern_of_Corrosion_Path_of_Elixir_Seekers",
+          "Cavern_of_Corrosion_Path_of_Darkness"
         ]
       },
       "NameAtDoubleCalyx": {
@@ -253,7 +255,8 @@
           "Cavern_of_Corrosion_Path_of_Providence",
           "Cavern_of_Corrosion_Path_of_Holy_Hymn",
           "Cavern_of_Corrosion_Path_of_Conflagration",
-          "Cavern_of_Corrosion_Path_of_Elixir_Seekers"
+          "Cavern_of_Corrosion_Path_of_Elixir_Seekers",
+          "Cavern_of_Corrosion_Path_of_Darkness"
         ]
       },
       "Team": {
@@ -311,7 +314,8 @@
           "Stagnant_Shadow_Puppetry",
           "Stagnant_Shadow_Abomination",
           "Stagnant_Shadow_Scorch",
-          "Stagnant_Shadow_Celestial"
+          "Stagnant_Shadow_Celestial",
+          "Stagnant_Shadow_Perdition"
         ]
       },
       "CavernOfCorrosion": {
@@ -325,7 +329,8 @@
           "Cavern_of_Corrosion_Path_of_Providence",
           "Cavern_of_Corrosion_Path_of_Holy_Hymn",
           "Cavern_of_Corrosion_Path_of_Conflagration",
-          "Cavern_of_Corrosion_Path_of_Elixir_Seekers"
+          "Cavern_of_Corrosion_Path_of_Elixir_Seekers",
+          "Cavern_of_Corrosion_Path_of_Darkness"
         ]
       }
     },
@@ -358,6 +363,7 @@
           "Herta",
           "Himeko",
           "Hook",
+          "Huohuo",
           "JingYuan",
           "Jingliu",
           "Kafka",
@@ -374,7 +380,7 @@
           "SilverWolf",
           "Sushang",
           "Tingyun",
-          "TopazandNumby",
+          "TopazNumby",
           "TrailblazerDestruction",
           "TrailblazerPreservation",
           "Welt",

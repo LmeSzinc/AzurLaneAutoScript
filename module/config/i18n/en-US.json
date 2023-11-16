@@ -236,15 +236,17 @@
       "Stagnant_Shadow_Doom": "Ascension: Lightning (Kafka / Jing Yuan)",
       "Stagnant_Shadow_Puppetry": "Ascension: Imaginary (Dan Heng • Imbibitor Lunae)",
       "Stagnant_Shadow_Abomination": "Ascension: Quantum (Lynx / Fu Xuan)",
-      "Stagnant_Shadow_Scorch": "Ascension: Fire (Guinaifen / Topaz and Numby)",
-      "Stagnant_Shadow_Celestial": "Ascension: Wind (Blade)",
+      "Stagnant_Shadow_Scorch": "Ascension: Fire (Guinaifen / Topaz & Numby)",
+      "Stagnant_Shadow_Celestial": "Ascension: Wind (Blade / Huohuo)",
+      "Stagnant_Shadow_Perdition": "Ascension: Physical (Hanya / Argenti)",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "Relics: Ice Set & Wind Set (Path of Gelid Wind)",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "Relics: Physical Set & Break Effect Set (Path of Jabbing Punch)",
       "Cavern_of_Corrosion_Path_of_Drifting": "Relics: Healing Set & Musketeer Set (Path of Drifting)",
       "Cavern_of_Corrosion_Path_of_Providence": "Relics: Guard Set & Quantum Set (Path of Providence)",
       "Cavern_of_Corrosion_Path_of_Holy_Hymn": "Relics: DEF Set & Lighting Set (Path of Holy Hymn)",
       "Cavern_of_Corrosion_Path_of_Conflagration": "Relics: Fire Set & Imaginary Set (Path of Conflagration)",
-      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "Relics: HP Set & SPD Set (Path of Elixir Seekers)"
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "Relics: HP Set & SPD Set (Path of Elixir Seekers)",
+      "Cavern_of_Corrosion_Path_of_Darkness": "Relics: Pursuit Set & Dot Set (Path of Darkness)"
     },
     "NameAtDoubleCalyx": {
       "name": "At Double Calyx Event, choose dungeon",
@@ -271,7 +273,8 @@
       "Cavern_of_Corrosion_Path_of_Providence": "Relics: Guard Set & Quantum Set (Path of Providence)",
       "Cavern_of_Corrosion_Path_of_Holy_Hymn": "Relics: DEF Set & Lighting Set (Path of Holy Hymn)",
       "Cavern_of_Corrosion_Path_of_Conflagration": "Relics: Fire Set & Imaginary Set (Path of Conflagration)",
-      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "Relics: HP Set & SPD Set (Path of Elixir Seekers)"
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "Relics: HP Set & SPD Set (Path of Elixir Seekers)",
+      "Cavern_of_Corrosion_Path_of_Darkness": "Relics: Pursuit Set & Dot Set (Path of Darkness)"
     },
     "Team": {
       "name": "Dungeon Team",
@@ -324,8 +327,9 @@
       "Stagnant_Shadow_Doom": "Ascension: Lightning (Kafka / Jing Yuan)",
       "Stagnant_Shadow_Puppetry": "Ascension: Imaginary (Dan Heng • Imbibitor Lunae)",
       "Stagnant_Shadow_Abomination": "Ascension: Quantum (Lynx / Fu Xuan)",
-      "Stagnant_Shadow_Scorch": "Ascension: Fire (Guinaifen / Topaz and Numby)",
-      "Stagnant_Shadow_Celestial": "Ascension: Wind (Blade)"
+      "Stagnant_Shadow_Scorch": "Ascension: Fire (Guinaifen / Topaz & Numby)",
+      "Stagnant_Shadow_Celestial": "Ascension: Wind (Blade / Huohuo)",
+      "Stagnant_Shadow_Perdition": "Ascension: Physical (Hanya / Argenti)"
     },
     "CavernOfCorrosion": {
       "name": "Clear Cavern of Corrosion 1 times",
@@ -337,7 +341,8 @@
       "Cavern_of_Corrosion_Path_of_Providence": "Relics: Guard Set & Quantum Set (Path of Providence)",
       "Cavern_of_Corrosion_Path_of_Holy_Hymn": "Relics: DEF Set & Lighting Set (Path of Holy Hymn)",
       "Cavern_of_Corrosion_Path_of_Conflagration": "Relics: Fire Set & Imaginary Set (Path of Conflagration)",
-      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "Relics: HP Set & SPD Set (Path of Elixir Seekers)"
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "Relics: HP Set & SPD Set (Path of Elixir Seekers)",
+      "Cavern_of_Corrosion_Path_of_Darkness": "Relics: Pursuit Set & Dot Set (Path of Darkness)"
     }
   },
   "DungeonSupport": {
@@ -370,6 +375,7 @@
       "Herta": "Herta",
       "Himeko": "Himeko",
       "Hook": "Hook",
+      "Huohuo": "Huohuo",
       "JingYuan": "Jing Yuan",
       "Jingliu": "Jingliu",
       "Kafka": "Kafka",
@@ -386,7 +392,7 @@
       "SilverWolf": "Silver Wolf",
       "Sushang": "Sushang",
       "Tingyun": "Tingyun",
-      "TopazandNumby": "Topaz and Numby",
+      "TopazNumby": "Topaz & Numby",
       "TrailblazerDestruction": "Trailblazer Destruction",
       "TrailblazerPreservation": "Trailblazer Preservation",
       "Welt": "Welt",

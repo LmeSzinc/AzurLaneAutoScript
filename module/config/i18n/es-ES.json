@@ -237,14 +237,16 @@
       "Stagnant_Shadow_Puppetry": "Ascension: Imaginario (Dan Heng - Imbibitor Lunae)",
       "Stagnant_Shadow_Abomination": "Ascension: Cuántico (Lynx / Fu Xuan)",
       "Stagnant_Shadow_Scorch": "Ascension: Fuego (Guinaifen / Topaz y Conti)",
-      "Stagnant_Shadow_Celestial": "Ascension: Viento (Blade)",
+      "Stagnant_Shadow_Celestial": "Ascension: Viento (Blade / Huohuo)",
+      "Stagnant_Shadow_Perdition": "Ascension: Físico (Hanya / Argenti)",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "Artefactos: Hielo y Viento (Senda del viento gélido)",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "Artefactos: Físico y Efecto de Ruptura (Senda de los puños rápidos)",
       "Cavern_of_Corrosion_Path_of_Drifting": "Artefactos: Curación y Pistolera de la espiga silvestre (Senda de la deriva)",
       "Cavern_of_Corrosion_Path_of_Providence": "Artefactos: Guardia de la nieve y Cuántico (Senda de al providencia)",
       "Cavern_of_Corrosion_Path_of_Holy_Hymn": "Artefactos: Defensa y Trueno (Senda del himno sagrado)",
       "Cavern_of_Corrosion_Path_of_Conflagration": "Artefactos: Fuego e Imaginario (Senda de la conflagración)",
-      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "Artefactos: HP y SPD (Senda de los elixires)"
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "Artefactos: HP y SPD (Senda de los elixires)",
+      "Cavern_of_Corrosion_Path_of_Darkness": "Artefactos: Persecución y Dot (Senda de la oscuridad)"
     },
     "NameAtDoubleCalyx": {
       "name": "En los eventos de x2 de Cáliz",
@@ -271,7 +273,8 @@
       "Cavern_of_Corrosion_Path_of_Providence": "Artefactos: Guardia de la nieve y Cuántico (Senda de al providencia)",
       "Cavern_of_Corrosion_Path_of_Holy_Hymn": "Artefactos: Defensa y Trueno (Senda del himno sagrado)",
       "Cavern_of_Corrosion_Path_of_Conflagration": "Artefactos: Fuego e Imaginario (Senda de la conflagración)",
-      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "Artefactos: HP y SPD (Senda de los elixires)"
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "Artefactos: HP y SPD (Senda de los elixires)",
+      "Cavern_of_Corrosion_Path_of_Darkness": "Artefactos: Persecución y Dot (Senda de la oscuridad)"
     },
     "Team": {
       "name": "Equipo de mazmorra",
@@ -325,7 +328,8 @@
       "Stagnant_Shadow_Puppetry": "Ascension: Imaginario (Dan Heng - Imbibitor Lunae)",
       "Stagnant_Shadow_Abomination": "Ascension: Cuántico (Lynx / Fu Xuan)",
       "Stagnant_Shadow_Scorch": "Ascension: Fuego (Guinaifen / Topaz y Conti)",
-      "Stagnant_Shadow_Celestial": "Ascension: Viento (Blade)"
+      "Stagnant_Shadow_Celestial": "Ascension: Viento (Blade / Huohuo)",
+      "Stagnant_Shadow_Perdition": "Ascension: Físico (Hanya / Argenti)"
     },
     "CavernOfCorrosion": {
       "name": "Completar Caverna de la corrosión 1 vez",
@@ -337,7 +341,8 @@
       "Cavern_of_Corrosion_Path_of_Providence": "Artefactos: Guardia de la nieve y Cuántico (Senda de al providencia)",
       "Cavern_of_Corrosion_Path_of_Holy_Hymn": "Artefactos: Defensa y Trueno (Senda del himno sagrado)",
       "Cavern_of_Corrosion_Path_of_Conflagration": "Artefactos: Fuego e Imaginario (Senda de la conflagración)",
-      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "Artefactos: HP y SPD (Senda de los elixires)"
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "Artefactos: HP y SPD (Senda de los elixires)",
+      "Cavern_of_Corrosion_Path_of_Darkness": "Artefactos: Persecución y Dot (Senda de la oscuridad)"
     }
   },
   "DungeonSupport": {
@@ -370,6 +375,7 @@
       "Herta": "Herta",
       "Himeko": "Himeko",
       "Hook": "Hook",
+      "Huohuo": "Huohuo",
       "JingYuan": "Jing Yuan",
       "Jingliu": "Jingliu",
       "Kafka": "Kafka",
@@ -386,7 +392,7 @@
       "SilverWolf": "Silver Wolf",
       "Sushang": "Sushang",
       "Tingyun": "Tingyun",
-      "TopazandNumby": "Topaz y Conti",
+      "TopazNumby": "Topaz y Conti",
       "TrailblazerDestruction": "Trailblazer de Destrucción",
       "TrailblazerPreservation": "Trailblazer de Conservación",
       "Welt": "Welt",

@@ -126,7 +126,7 @@ def draw_circle(image, circle, points):
 
 class Aim:
     radius_enemy = (24, 25)
-    radius_item = (8, 10)
+    radius_item = (5, 7)
 
     def __init__(self):
         self.debug = False
@@ -163,7 +163,7 @@ class Aim:
 
         # Get white circle `y`
         y = subtract_blur(h, 3, negative=False)
-        cv2.inRange(h, 168, 255, h)
+        cv2.inRange(h, 168, 255, dst=h)
         cv2.bitwise_and(y, h, dst=y)
         # Get red glow `v`
         cv2.inRange(v, 168, 255, dst=v)
@@ -228,11 +228,12 @@ class Aim:
         # Draw circles
         draw = np.zeros((height, width), dtype=np.uint8)
         draw_circle(draw, self.circle_item, points)
+        draw = subtract_blur(draw, 5)
         if self.debug:
-            self.draw_item = cv2.multiply(draw, 2)
+            self.draw_item = cv2.multiply(draw, 4)
 
         # Find peaks
-        points = inrange(draw, lower=64)
+        points = inrange(draw, lower=12)
         points = Points(points).group(threshold=10)
         if points.shape[0] > 3:
             logger.warning(f'AimDetector.predict_item() too many peaks: {points.shape}')
