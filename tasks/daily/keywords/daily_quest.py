@@ -63,7 +63,7 @@ Inflict_Weakness_Break_5_times = DailyQuest(
     cn='累计触发弱点击破效果5次',
     cht='累積觸發弱點擊破效果5次',
     en='Inflict Weakness Break 5 times',
-    jp='累計で弱点撃破効果を5回発動する',
+    jp='累計で弱点撃破効果を5回発動させる',
     es='Inflige Ruptura de Debilidad 5 veces',
 )
 Defeat_a_total_of_20_enemies = DailyQuest(

@@ -16,7 +16,7 @@ DICT_SORTED_RANGES = {
     # Archer
     'Archer': [
         Yukong,
-        TopazandNumby,
+        TopazNumby,
         March7th,
         Bronya,
         Asta,
