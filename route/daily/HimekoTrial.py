@@ -37,8 +37,8 @@ class Route(RouteBase, Combat, CharacterTrial):
         self.wait_next_skill()
 
         # Battle 3/3
-        # Himeko E
-        self.use_E()
+        # Himeko A
+        self.use_A()
         self.wait_next_skill()
         # Herta A, or Natasha A, depends on who wasn't being attacked
         self.use_A()
