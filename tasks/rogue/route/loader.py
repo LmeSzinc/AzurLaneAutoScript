@@ -168,7 +168,7 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, CharacterSwitch):
         # ('Combat_Luofu_Cloudford_F1_X281Y873', 0.149, (281.8, 869.6)),
         # ('Combat_Luofu_Cloudford_F1_X283Y865', 0.149, (281.8, 869.6))]
         if route.name in ['Combat_Luofu_Cloudford_F1_X283Y865', 'Occurrence_Luofu_Cloudford_F1_X283Y865'] \
-                and similarity > 0.1:
+                and similarity > 0.05:
             return True
         return False
 
@@ -191,7 +191,7 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, CharacterSwitch):
             return f'{minimap_.plane.name}_{minimap_.floor}_X{int(minimap_.position[0])}Y{int(minimap_.position[1])}'
 
         visited = sorted(self.all_minimap.values(), key=lambda x: x.position_similarity, reverse=True)
-        logger.info(f'Best 5 prediction: {[(get_name(m), m.position_similarity) for m in visited[:5]]}')
+        logger.info(f'Best 5 prediction: {[(get_name(m), m.position_similarity) for m in visited[:50]]}')
         if visited[1].position_similarity / visited[0].position_similarity > 0.75:
             logger.warning('Similarity too close, predictions may go wrong')
 

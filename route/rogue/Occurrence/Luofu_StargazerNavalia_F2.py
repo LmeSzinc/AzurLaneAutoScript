@@ -1,10 +1,12 @@
 from tasks.map.control.waypoint import Waypoint
 from tasks.map.keywords.plane import Luofu_StargazerNavalia
+from tasks.map.route.base import locked_rotation
 from tasks.rogue.route.base import RouteBase
 
 
 class Route(RouteBase):
 
+    @locked_rotation(90)
     def Luofu_StargazerNavalia_F2_X579Y183(self):
         """
         | Waypoint | Position                  | Direction | Rotation |

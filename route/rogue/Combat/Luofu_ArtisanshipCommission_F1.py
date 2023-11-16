@@ -6,6 +6,29 @@ from tasks.rogue.route.base import RouteBase
 
 class Route(RouteBase):
 
+    def Luofu_ArtisanshipCommission_F1_X41Y640(self):
+        """
+        | Waypoint | Position                 | Direction | Rotation |
+        | -------- | ------------------------ | --------- | -------- |
+        | spawn    | Waypoint((41.4, 639.9)), | 4.5       | 4        |
+        | enemy1   | Waypoint((40.2, 576.2)), | 4.3       | 4        |
+        | enemy2   | Waypoint((34.3, 494.4)), | 192.7     | 1        |
+        | exit_    | Waypoint((34.3, 494.4)), | 192.7     | 1        |
+        | exit1    | Waypoint((22.3, 486.2)), | 8.2       | 1        |
+        | exit2    | Waypoint((41.2, 485.2)), | 4.3       | 1        |
+        """
+        self.map_init(plane=Luofu_ArtisanshipCommission, floor="F1", position=(41.4, 639.9))
+        self.register_domain_exit(
+            Waypoint((34.3, 494.4)), end_rotation=1,
+            left_door=Waypoint((22.3, 486.2)), right_door=Waypoint((41.2, 485.2)))
+        enemy1 = Waypoint((40.2, 576.2))
+        enemy2 = Waypoint((34.3, 494.4))
+        # ===== End of generated waypoints =====
+
+        self.minimap.lock_rotation(0)
+        self.clear_enemy(enemy1)
+        self.clear_enemy(enemy2)
+
     @locked_position
     def Luofu_ArtisanshipCommission_F1_X185Y361(self):
         """
@@ -51,6 +74,58 @@ class Route(RouteBase):
 
         self.clear_item(item)
         self.clear_enemy(enemy)
+
+    def Luofu_ArtisanshipCommission_F1_X473Y920(self):
+        """
+        | Waypoint    | Position                  | Direction | Rotation |
+        | ----------- | ------------------------- | --------- | -------- |
+        | spawn       | Waypoint((473.5, 920.9)), | 4.5       | 4        |
+        | enemy1left  | Waypoint((475.0, 848.4)), | 4.4       | 4        |
+        | enemy2right | Waypoint((493.5, 807.4)), | 157.1     | 48       |
+        | enemy3      | Waypoint((528.9, 782.9)), | 198.5     | 91       |
+        | exit_       | Waypoint((528.9, 782.9)), | 198.5     | 91       |
+        | exit1       | Waypoint((537.0, 773.2)), | 99.0      | 89       |
+        | exit2       | Waypoint((537.5, 790.6)), | 101.1     | 91       |
+        """
+        self.map_init(plane=Luofu_ArtisanshipCommission, floor="F1", position=(473.5, 920.9))
+        self.register_domain_exit(
+            Waypoint((528.9, 782.9)), end_rotation=91,
+            left_door=Waypoint((537.0, 773.2)), right_door=Waypoint((537.5, 790.6)))
+        enemy1left = Waypoint((475.0, 848.4))
+        enemy2right = Waypoint((493.5, 807.4))
+        enemy3 = Waypoint((528.9, 782.9))
+        # ===== End of generated waypoints =====
+
+        self.rotation_set(30)
+        self.clear_enemy(
+            enemy1left,
+            enemy2right,
+        )
+        self.clear_enemy(enemy3)
+        if self.minimap.position_diff(enemy3.position) > 25:
+            self.clear_enemy(enemy3)
+
+    def Luofu_ArtisanshipCommission_F1_X543Y269(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((543.3, 269.6)), | 94.2      | 91       |
+        | enemy1   | Waypoint((619.2, 268.0)), | 45.8      | 91       |
+        | enemy2   | Waypoint((654.6, 266.6)), | 282.7     | 87       |
+        | exit_    | Waypoint((654.6, 266.6)), | 282.7     | 87       |
+        | exit1    | Waypoint((664.6, 258.5)), | 96.8      | 87       |
+        | exit2    | Waypoint((665.0, 274.4)), | 96.8      | 87       |
+        """
+        self.map_init(plane=Luofu_ArtisanshipCommission, floor="F1", position=(543.3, 269.6))
+        self.register_domain_exit(
+            Waypoint((654.6, 266.6)), end_rotation=87,
+            left_door=Waypoint((664.6, 258.5)), right_door=Waypoint((665.0, 274.4)))
+        enemy1 = Waypoint((619.2, 268.0))
+        enemy2 = Waypoint((654.6, 266.6))
+        # ===== End of generated waypoints =====
+
+        self.clear_enemy(enemy1)
+        self.clear_enemy(enemy2)
 
     def Luofu_ArtisanshipCommission_F1_X655Y537(self):
         """

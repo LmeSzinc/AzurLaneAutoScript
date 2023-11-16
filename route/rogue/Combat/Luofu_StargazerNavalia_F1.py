@@ -108,10 +108,13 @@ class Route(RouteBase):
         enemy3 = Waypoint((560.5, 601.8))
         # ===== End of generated waypoints =====
 
+        self.minimap.lock_rotation(90)
         # Ignore items
         self.clear_enemy(enemy1)
         # Ignore enemy2
         self.clear_enemy(enemy3)
+        if self.minimap.position_diff(enemy3.position) > 35:
+            self.clear_enemy(enemy3)
 
     @locked_position
     def Luofu_StargazerNavalia_F1_X499Y581(self):
@@ -122,9 +125,13 @@ class Route(RouteBase):
         | item_X502Y605 | Waypoint((502.6, 605.0)), | 180.0     | 179      |
         | enemy         | Waypoint((519.0, 623.0)), | 149.8     | 149      |
         | exit_         | Waypoint((524.4, 624.7)), | 166.7     | 161      |
+        | exit1         | Waypoint((533.4, 631.2)), | 160.8     | 158      |
+        | exit2         | Waypoint((517.9, 636.5)), | 160.9     | 158      |
         """
         self.map_init(plane=Luofu_StargazerNavalia, floor="F1", position=(499.6, 581.5))
-        self.register_domain_exit(Waypoint((524.4, 624.7)), end_rotation=161)
+        self.register_domain_exit(
+            Waypoint((524.4, 624.7)), end_rotation=161,
+            left_door=Waypoint((533.4, 631.2)), right_door=Waypoint((517.9, 636.5)))
         item_X502Y605 = Waypoint((502.6, 605.0))
         enemy = Waypoint((519.0, 623.0))
         # ===== End of generated waypoints =====

@@ -286,7 +286,8 @@ class RouteDetect:
         exit1: RogueWaypointModel = waypoints.select(is_exit1=True).first_or_none()
         exit2: RogueWaypointModel = waypoints.select(is_exit2=True).first_or_none()
         if spawn is None or exit_ is None:
-            return
+            print(f'WARNING | No spawn point or no exit: {waypoints}')
+            return ''
 
         class WaypointRepr:
             def __init__(self, position):

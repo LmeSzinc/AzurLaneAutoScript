@@ -638,6 +638,61 @@
     "domain": "Combat"
   },
   {
+    "name": "Combat_Luofu_AlchemyCommission_F1_X301Y441",
+    "route": "route.rogue.Combat.Luofu_AlchemyCommission_F1:Luofu_AlchemyCommission_F1_X301Y441",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F1",
+    "position": [
+      301.6,
+      441.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_AlchemyCommission_F2_X415Y589",
+    "route": "route.rogue.Combat.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X415Y589",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F2",
+    "position": [
+      415.5,
+      589.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_AlchemyCommission_F2_X447Y508",
+    "route": "route.rogue.Combat.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X447Y508",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F2",
+    "position": [
+      447.4,
+      508.1
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_AlchemyCommission_F2_X457Y497",
+    "route": "route.rogue.Combat.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X457Y497",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F2",
+    "position": [
+      457.0,
+      497.0
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ArtisanshipCommission_F1_X41Y640",
+    "route": "route.rogue.Combat.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X41Y640",
+    "plane": "Luofu_ArtisanshipCommission",
+    "floor": "F1",
+    "position": [
+      41.4,
+      639.9
+    ],
+    "domain": "Combat"
+  },
+  {
     "name": "Combat_Luofu_ArtisanshipCommission_F1_X185Y361",
     "route": "route.rogue.Combat.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X185Y361",
     "plane": "Luofu_ArtisanshipCommission",
@@ -656,6 +711,28 @@
     "position": [
       217.3,
       807.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ArtisanshipCommission_F1_X473Y920",
+    "route": "route.rogue.Combat.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X473Y920",
+    "plane": "Luofu_ArtisanshipCommission",
+    "floor": "F1",
+    "position": [
+      473.5,
+      920.9
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ArtisanshipCommission_F1_X543Y269",
+    "route": "route.rogue.Combat.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X543Y269",
+    "plane": "Luofu_ArtisanshipCommission",
+    "floor": "F1",
+    "position": [
+      543.3,
+      269.6
     ],
     "domain": "Combat"
   },
@@ -777,6 +854,61 @@
     "position": [
       425.5,
       171.6
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_DivinationCommission_F1_X63Y303",
+    "route": "route.rogue.Combat.Luofu_DivinationCommission_F1:Luofu_DivinationCommission_F1_X63Y303",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F1",
+    "position": [
+      63.7,
+      303.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_DivinationCommission_F1_X97Y457",
+    "route": "route.rogue.Combat.Luofu_DivinationCommission_F1:Luofu_DivinationCommission_F1_X97Y457",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F1",
+    "position": [
+      97.2,
+      456.9
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_DivinationCommission_F1_X737Y372",
+    "route": "route.rogue.Combat.Luofu_DivinationCommission_F1:Luofu_DivinationCommission_F1_X737Y372",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F1",
+    "position": [
+      737.4,
+      372.2
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_DivinationCommission_F2_X216Y659",
+    "route": "route.rogue.Combat.Luofu_DivinationCommission_F2:Luofu_DivinationCommission_F2_X216Y659",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F2",
+    "position": [
+      216.8,
+      659.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_DivinationCommission_F2_X239Y785",
+    "route": "route.rogue.Combat.Luofu_DivinationCommission_F2:Luofu_DivinationCommission_F2_X239Y785",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F2",
+    "position": [
+      239.4,
+      785.5
     ],
     "domain": "Combat"
   },
@@ -1111,6 +1243,28 @@
     "domain": "Elite"
   },
   {
+    "name": "Elite_Luofu_AlchemyCommission_F2_X625Y590",
+    "route": "route.rogue.Elite.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X625Y590",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F2",
+    "position": [
+      623.1,
+      590.0
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Luofu_ArtisanshipCommission_F1_X385Y494",
+    "route": "route.rogue.Elite.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X385Y494",
+    "plane": "Luofu_ArtisanshipCommission",
+    "floor": "F1",
+    "position": [
+      385.2,
+      494.6
+    ],
+    "domain": "Elite"
+  },
+  {
     "name": "Elite_Luofu_ArtisanshipCommission_F1_X504Y493",
     "route": "route.rogue.Elite.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X504Y493",
     "plane": "Luofu_ArtisanshipCommission",
@@ -1129,6 +1283,17 @@
     "position": [
       337.3,
       1003.4
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Luofu_DivinationCommission_F2_X338Y345",
+    "route": "route.rogue.Elite.Luofu_DivinationCommission_F2:Luofu_DivinationCommission_F2_X338Y345",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F2",
+    "position": [
+      338.0,
+      345.5
     ],
     "domain": "Elite"
   },
@@ -1419,6 +1584,39 @@
     "domain": "Occurrence"
   },
   {
+    "name": "Occurrence_Luofu_AlchemyCommission_F2_X473Y867",
+    "route": "route.rogue.Occurrence.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X473Y867",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F2",
+    "position": [
+      473.7,
+      867.7
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_AlchemyCommission_F2_X487Y589",
+    "route": "route.rogue.Occurrence.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X487Y589",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F2",
+    "position": [
+      487.4,
+      589.4
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_AlchemyCommission_F2_X517Y374",
+    "route": "route.rogue.Occurrence.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X517Y374",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F2",
+    "position": [
+      517.5,
+      374.1
+    ],
+    "domain": "Occurrence"
+  },
+  {
     "name": "Occurrence_Luofu_ArtisanshipCommission_F1_X169Y491",
     "route": "route.rogue.Occurrence.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X169Y491",
     "plane": "Luofu_ArtisanshipCommission",
@@ -1492,6 +1690,39 @@
     "position": [
       537.4,
       373.3
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_DivinationCommission_F2_X149Y659",
+    "route": "route.rogue.Occurrence.Luofu_DivinationCommission_F2:Luofu_DivinationCommission_F2_X149Y659",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F2",
+    "position": [
+      149.3,
+      659.3
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_DivinationCommission_F2_X337Y799",
+    "route": "route.rogue.Occurrence.Luofu_DivinationCommission_F2:Luofu_DivinationCommission_F2_X337Y799",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F2",
+    "position": [
+      337.4,
+      799.4
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_DivinationCommission_F2_X425Y791",
+    "route": "route.rogue.Occurrence.Luofu_DivinationCommission_F2:Luofu_DivinationCommission_F2_X425Y791",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F2",
+    "position": [
+      425.6,
+      791.4
     ],
     "domain": "Occurrence"
   },
@@ -1639,6 +1870,28 @@
     "domain": "Respite"
   },
   {
+    "name": "Respite_Luofu_AlchemyCommission_F2_X681Y625",
+    "route": "route.rogue.Respite.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X681Y625",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F2",
+    "position": [
+      680.9,
+      625.9
+    ],
+    "domain": "Respite"
+  },
+  {
+    "name": "Respite_Luofu_AlchemyCommission_F2_X685Y629",
+    "route": "route.rogue.Respite.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X685Y629",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F2",
+    "position": [
+      685.0,
+      629.0
+    ],
+    "domain": "Respite"
+  },
+  {
     "name": "Respite_Luofu_ArtisanshipCommission_F1_X299Y863",
     "route": "route.rogue.Respite.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X299Y863",
     "plane": "Luofu_ArtisanshipCommission",
@@ -1657,6 +1910,17 @@
     "position": [
       417.5,
       933.4
+    ],
+    "domain": "Respite"
+  },
+  {
+    "name": "Respite_Luofu_DivinationCommission_F2_X824Y659",
+    "route": "route.rogue.Respite.Luofu_DivinationCommission_F2:Luofu_DivinationCommission_F2_X824Y659",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F2",
+    "position": [
+      824.7,
+      659.4
     ],
     "domain": "Respite"
   },

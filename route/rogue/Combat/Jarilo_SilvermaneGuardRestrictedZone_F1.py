@@ -36,11 +36,10 @@ class Route(RouteBase):
         self.clear_enemy(enemy1)
         self.clear_item(item2)
         # Go through trench gaps, a moving enemy in it
-        self.clear_enemy(
+        self.goto(
             node2.set_threshold(3),
             node3.set_threshold(3),
         )
-        self.clear_item(item3)
         self.clear_enemy(enemy3)
 
     def Jarilo_SilvermaneGuardRestrictedZone_F1_X221Y426(self):
@@ -69,9 +68,13 @@ class Route(RouteBase):
         | item     | Waypoint((208.3, 414.8)), | 303.8     | 301      |
         | enemy    | Waypoint((170.2, 426.2)), | 274.2     | 274      |
         | exit_    | Waypoint((170.2, 426.2)), | 274.2     | 274      |
+        | exit1    | Waypoint((158.5, 432.5)), | 282.0     | 274      |
+        | exit2    | Waypoint((158.8, 418.6)), | 282.0     | 274      |
         """
         self.map_init(plane=Jarilo_SilvermaneGuardRestrictedZone, floor="F1", position=(227.7, 425.5))
-        self.register_domain_exit(Waypoint((170.2, 426.2)), end_rotation=274)
+        self.register_domain_exit(
+            Waypoint((170.2, 426.2)), end_rotation=274,
+            left_door=Waypoint((158.5, 432.5)), right_door=Waypoint((158.8, 418.6)))
         item = Waypoint((208.3, 414.8))
         enemy = Waypoint((170.2, 426.2))
         # ===== End of generated waypoints =====
