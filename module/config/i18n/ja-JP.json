@@ -237,14 +237,16 @@
       "Stagnant_Shadow_Puppetry": "キャラクター昇格素材：虚数（丹恒・飲月）",
       "Stagnant_Shadow_Abomination": "キャラクター昇格素材：量子（リンクス / 符玄）",
       "Stagnant_Shadow_Scorch": "キャラクター昇格素材：炎（桂乃芬 / トパーズ&カブ）",
-      "Stagnant_Shadow_Celestial": "キャラクター昇格素材：風（刃）",
+      "Stagnant_Shadow_Celestial": "キャラクター昇格素材：風（刃 / フォフォ）",
+      "Stagnant_Shadow_Perdition": "キャラクター昇格素材：物理（寒鴉 / アルジェンティ）",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "侵蝕トンネル・霜風の路",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "侵蝕トンネル・迅拳の路",
       "Cavern_of_Corrosion_Path_of_Drifting": "侵蝕トンネル・漂泊の路",
       "Cavern_of_Corrosion_Path_of_Providence": "侵蝕トンネル・睿治の路",
       "Cavern_of_Corrosion_Path_of_Holy_Hymn": "侵蝕トンネル・聖頌の路",
       "Cavern_of_Corrosion_Path_of_Conflagration": "侵蝕トンネル・野焔の路",
-      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "侵蝕トンネル・薬使の路"
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "侵蝕トンネル・薬使の路",
+      "Cavern_of_Corrosion_Path_of_Darkness": "侵蝕トンネル・幽冥の路"
     },
     "NameAtDoubleCalyx": {
       "name": "Dungeon.NameAtDoubleCalyx.name",
@@ -271,7 +273,8 @@
       "Cavern_of_Corrosion_Path_of_Providence": "侵蝕トンネル・睿治の路",
       "Cavern_of_Corrosion_Path_of_Holy_Hymn": "侵蝕トンネル・聖頌の路",
       "Cavern_of_Corrosion_Path_of_Conflagration": "侵蝕トンネル・野焔の路",
-      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "侵蝕トンネル・薬使の路"
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "侵蝕トンネル・薬使の路",
+      "Cavern_of_Corrosion_Path_of_Darkness": "侵蝕トンネル・幽冥の路"
     },
     "Team": {
       "name": "Dungeon.Team.name",
@@ -325,7 +328,8 @@
       "Stagnant_Shadow_Puppetry": "キャラクター昇格素材：虚数（丹恒・飲月）",
       "Stagnant_Shadow_Abomination": "キャラクター昇格素材：量子（リンクス / 符玄）",
       "Stagnant_Shadow_Scorch": "キャラクター昇格素材：炎（桂乃芬 / トパーズ&カブ）",
-      "Stagnant_Shadow_Celestial": "キャラクター昇格素材：風（刃）"
+      "Stagnant_Shadow_Celestial": "キャラクター昇格素材：風（刃 / フォフォ）",
+      "Stagnant_Shadow_Perdition": "キャラクター昇格素材：物理（寒鴉 / アルジェンティ）"
     },
     "CavernOfCorrosion": {
       "name": "DungeonDaily.CavernOfCorrosion.name",
@@ -337,7 +341,8 @@
       "Cavern_of_Corrosion_Path_of_Providence": "侵蝕トンネル・睿治の路",
       "Cavern_of_Corrosion_Path_of_Holy_Hymn": "侵蝕トンネル・聖頌の路",
       "Cavern_of_Corrosion_Path_of_Conflagration": "侵蝕トンネル・野焔の路",
-      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "侵蝕トンネル・薬使の路"
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "侵蝕トンネル・薬使の路",
+      "Cavern_of_Corrosion_Path_of_Darkness": "侵蝕トンネル・幽冥の路"
     }
   },
   "DungeonSupport": {
@@ -370,6 +375,7 @@
       "Herta": "ヘルタ",
       "Himeko": "姫子",
       "Hook": "フック",
+      "Huohuo": "フォフォ",
       "JingYuan": "景元",
       "Jingliu": "鏡流",
       "Kafka": "カフカ",
@@ -386,7 +392,7 @@
       "SilverWolf": "銀狼",
       "Sushang": "素裳",
       "Tingyun": "停雲",
-      "TopazandNumby": "トパーズ&カブ",
+      "TopazNumby": "トパーズ&カブ",
       "TrailblazerDestruction": "開拓者・壊滅",
       "TrailblazerPreservation": "開拓者・存護",
       "Welt": "ヴェルト",
@@ -497,7 +503,7 @@
       "not_supported": "not_supported"
     },
     "Inflict_Weakness_Break_5_times": {
-      "name": "累計で弱点撃破効果を5回発動する",
+      "name": "累計で弱点撃破効果を5回発動させる",
       "help": "AchievableQuest.Inflict_Weakness_Break_5_times.help",
       "achievable": "achievable",
       "not_set": "not_set",

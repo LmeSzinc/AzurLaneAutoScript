@@ -237,14 +237,16 @@
       "Stagnant_Shadow_Puppetry": "角色晉階材料：虛數（丹恆•飲月）",
       "Stagnant_Shadow_Abomination": "角色晉階材料：量子（玲可 / 符玄）",
       "Stagnant_Shadow_Scorch": "角色晉階材料：火（桂乃芬 / 托帕&帳帳）",
-      "Stagnant_Shadow_Celestial": "角色晉階材料：風（刃）",
+      "Stagnant_Shadow_Celestial": "角色晉階材料：風（刃 / 藿藿）",
+      "Stagnant_Shadow_Perdition": "角色晉階材料：物理（寒鴉 / 銀枝）",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "遺器：冰套+風套（霜風之徑•侵蝕隧洞）",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "遺器：物理套+擊破套（迅拳之徑•侵蝕隧洞）",
       "Cavern_of_Corrosion_Path_of_Drifting": "遺器：治療套+快槍手（漂泊之徑•侵蝕隧洞）",
       "Cavern_of_Corrosion_Path_of_Providence": "遺器：鐵衛套+量子套（睿治之徑•侵蝕隧洞）",
       "Cavern_of_Corrosion_Path_of_Holy_Hymn": "遺器：防禦套+雷套（聖頌之徑•侵蝕隧洞）",
       "Cavern_of_Corrosion_Path_of_Conflagration": "遺器：火套+虛數套（野焰之徑•侵蝕隧洞）",
-      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "遺器：生命套+速度套（藥使之徑•侵蝕隧洞）"
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "遺器：生命套+速度套（藥使之徑•侵蝕隧洞）",
+      "Cavern_of_Corrosion_Path_of_Darkness": "遺器：追擊套+dot套（幽冥之徑•侵蝕隧洞）"
     },
     "NameAtDoubleCalyx": {
       "name": "有雙倍花活動時，選擇副本",
@@ -271,7 +273,8 @@
       "Cavern_of_Corrosion_Path_of_Providence": "遺器：鐵衛套+量子套（睿治之徑•侵蝕隧洞）",
       "Cavern_of_Corrosion_Path_of_Holy_Hymn": "遺器：防禦套+雷套（聖頌之徑•侵蝕隧洞）",
       "Cavern_of_Corrosion_Path_of_Conflagration": "遺器：火套+虛數套（野焰之徑•侵蝕隧洞）",
-      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "遺器：生命套+速度套（藥使之徑•侵蝕隧洞）"
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "遺器：生命套+速度套（藥使之徑•侵蝕隧洞）",
+      "Cavern_of_Corrosion_Path_of_Darkness": "遺器：追擊套+dot套（幽冥之徑•侵蝕隧洞）"
     },
     "Team": {
       "name": "打本隊伍",
@@ -325,7 +328,8 @@
       "Stagnant_Shadow_Puppetry": "角色晉階材料：虛數（丹恆•飲月）",
       "Stagnant_Shadow_Abomination": "角色晉階材料：量子（玲可 / 符玄）",
       "Stagnant_Shadow_Scorch": "角色晉階材料：火（桂乃芬 / 托帕&帳帳）",
-      "Stagnant_Shadow_Celestial": "角色晉階材料：風（刃）"
+      "Stagnant_Shadow_Celestial": "角色晉階材料：風（刃 / 藿藿）",
+      "Stagnant_Shadow_Perdition": "角色晉階材料：物理（寒鴉 / 銀枝）"
     },
     "CavernOfCorrosion": {
       "name": "完成1次侵蝕隧洞",
@@ -337,7 +341,8 @@
       "Cavern_of_Corrosion_Path_of_Providence": "遺器：鐵衛套+量子套（睿治之徑•侵蝕隧洞）",
       "Cavern_of_Corrosion_Path_of_Holy_Hymn": "遺器：防禦套+雷套（聖頌之徑•侵蝕隧洞）",
       "Cavern_of_Corrosion_Path_of_Conflagration": "遺器：火套+虛數套（野焰之徑•侵蝕隧洞）",
-      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "遺器：生命套+速度套（藥使之徑•侵蝕隧洞）"
+      "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "遺器：生命套+速度套（藥使之徑•侵蝕隧洞）",
+      "Cavern_of_Corrosion_Path_of_Darkness": "遺器：追擊套+dot套（幽冥之徑•侵蝕隧洞）"
     }
   },
   "DungeonSupport": {
@@ -370,6 +375,7 @@
       "Herta": "黑塔",
       "Himeko": "姬子",
       "Hook": "虎克",
+      "Huohuo": "藿藿",
       "JingYuan": "景元",
       "Jingliu": "鏡流",
       "Kafka": "卡芙卡",
@@ -386,7 +392,7 @@
       "SilverWolf": "銀狼",
       "Sushang": "素裳",
       "Tingyun": "停雲",
-      "TopazandNumby": "托帕&帳帳",
+      "TopazNumby": "托帕&帳帳",
       "TrailblazerDestruction": "開拓者•毀滅",
       "TrailblazerPreservation": "開拓者•存護",
       "Welt": "瓦爾特",

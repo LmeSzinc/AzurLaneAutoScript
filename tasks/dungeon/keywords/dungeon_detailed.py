@@ -107,16 +107,25 @@ Stagnant_Shadow_Scorch = DungeonDetailed(
     name='Stagnant_Shadow_Scorch',
     cn='角色晋阶材料：火（桂乃芬 / 托帕&账账）',
     cht='角色晉階材料：火（桂乃芬 / 托帕&帳帳）',
-    en='Ascension: Fire (Guinaifen / Topaz and Numby)',
+    en='Ascension: Fire (Guinaifen / Topaz & Numby)',
     jp='キャラクター昇格素材：炎（桂乃芬 / トパーズ&カブ）',
     es='Ascension: Fuego (Guinaifen / Topaz y Conti)',
 )
 Stagnant_Shadow_Celestial = DungeonDetailed(
     id=13,
     name='Stagnant_Shadow_Celestial',
-    cn='角色晋阶材料：风（刃）',
-    cht='角色晉階材料：風（刃）',
-    en='Ascension: Wind (Blade)',
-    jp='キャラクター昇格素材：風（刃）',
-    es='Ascension: Viento (Blade)',
+    cn='角色晋阶材料：风（刃 / 藿藿）',
+    cht='角色晉階材料：風（刃 / 藿藿）',
+    en='Ascension: Wind (Blade / Huohuo)',
+    jp='キャラクター昇格素材：風（刃 / フォフォ）',
+    es='Ascension: Viento (Blade / Huohuo)',
+)
+Stagnant_Shadow_Perdition = DungeonDetailed(
+    id=14,
+    name='Stagnant_Shadow_Perdition',
+    cn='角色晋阶材料：物理（寒鸦 / 银枝）',
+    cht='角色晉階材料：物理（寒鴉 / 銀枝）',
+    en='Ascension: Physical (Hanya / Argenti)',
+    jp='キャラクター昇格素材：物理（寒鴉 / アルジェンティ）',
+    es='Ascension: Físico (Hanya / Argenti)',
 )
