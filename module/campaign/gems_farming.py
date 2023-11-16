@@ -188,12 +188,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             level=(1, 31), emotion=(10, 150), fleet=self.config.Fleet_Fleet1, status='free')
         scanner.disable('rarity')
 
-        if not self.server_support_status_fleet_scan():
-            logger.info(f'Server {self.config.SERVER} does not yet support status and fleet scanning')
-            logger.info('Please contact the developer to improve as soon as possible')
-            scanner.disable('status', 'fleet')
-            scanner.set_limitation(level=(1, 1))
-
         if self.config.GemsFarming_CommonCV == 'any':
             logger.info('')
 
@@ -253,9 +247,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         scanner = ShipScanner(level=(max_level, max_level), emotion=(10, 150),
                               fleet=self.config.Fleet_Fleet1, status='free')
         scanner.disable('rarity')
-
-        if not self.server_support_status_fleet_scan():
-            scanner.disable('status', 'fleet')
 
         ships = scanner.scan(self.device.image)
         if ships:
@@ -390,6 +381,3 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                 continue
             else:
                 break
-
-    def server_support_status_fleet_scan(self) -> bool:
-        return self.config.SERVER in ['cn', 'en', 'jp']
