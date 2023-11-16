@@ -138,6 +138,13 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
         minimap = ClickButton(area, name='MINIMAP')
         self.wait_until_stable(minimap, timeout=Timer(1.5, count=5))
 
+    def clear_enemy(self, *waypoints):
+        waypoints = ensure_waypoints(waypoints)
+        end_point = waypoints[-1]
+        if self.plane.is_rogue_combat:
+            end_point.expected_enroute.append('item')
+        return super().clear_enemy(*waypoints)
+
     def clear_item(self, *waypoints):
         """
         Shorten unexpected timer as items are randomly generated
@@ -183,6 +190,8 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
         end_point.endpoint_threshold = 1.5
         end_point.interact_radius = 7
         end_point.expected_end.append(self._domain_event_expected_end)
+        if self.plane.is_rogue_occurrence:
+            end_point.expected_enroute.append('item')
 
         result = self.goto(*waypoints)
         self.clear_occurrence()

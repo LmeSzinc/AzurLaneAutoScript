@@ -41,15 +41,17 @@ class Waypoint:
     # - callable, A function that returns bool, True represents stop
     # Or empty list [] for just walking
     expected_end: list = field(default_factory=lambda: [])
+    # A list of expected events on the way to waypoint, e.g. ['enemy', 'item']
+    expected_enroute: list = field(default_factory=lambda: [])
     # If triggered any expected event, consider arrive and stop walking
     early_stop: bool = True
     # Confirm timer if arrived but didn't trigger any expected event
     unexpected_confirm: Timer = field(default_factory=lambda: Timer(3, count=15))
 
-    def __str__(self):
-        return f'Waypoint({self.position})'
+    # def __str__(self):
+    #     return f'Waypoint({self.position})'
 
-    __repr__ = __str__
+    # __repr__ = __str__
 
     def __bool__(self):
         return True

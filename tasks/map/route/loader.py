@@ -64,6 +64,8 @@ class RouteLoader(UI):
             self.route_module = module
             self.route_obj.route_module = module
 
+        self.route_obj.plane = self.plane
+
         # before_route()
         try:
             before_func_obj = self.route_obj.__getattribute__('before_route')
