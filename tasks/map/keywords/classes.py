@@ -115,6 +115,22 @@ class MapPlane(Keyword):
         else:
             return ''
 
+    @cached_property
+    def is_rogue_combat(self) -> bool:
+        return self.rogue_domain in ['Combat']
+
+    @cached_property
+    def is_rogue_occurrence(self) -> bool:
+        return self.rogue_domain in ['Occurrence', 'Encounter', 'Transaction']
+
+    @cached_property
+    def is_rogue_respite(self) -> bool:
+        return self.rogue_domain in ['Respite']
+
+    @cached_property
+    def is_rogue_elite(self) -> bool:
+        return self.rogue_domain in ['Elite', 'Boss']
+
 
 @dataclass(repr=False)
 class MapWorld(Keyword):

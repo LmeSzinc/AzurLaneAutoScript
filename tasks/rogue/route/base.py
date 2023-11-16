@@ -144,7 +144,8 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
         """
         waypoints = ensure_waypoints(waypoints)
         end_point = waypoints[-1]
-        end_point.unexpected_confirm = Timer(1, count=5)
+        if self.plane.is_rogue_combat or self.plane.is_rogue_occurrence:
+            end_point.unexpected_confirm = Timer(1, count=5)
         return super().clear_item(*waypoints)
 
     """
