@@ -163,6 +163,13 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, CharacterSwitch):
         # ('Occurrence_Herta_StorageZone_F2_X363Y166', 0.094, (363.0, 166.8))]
         if route.name == 'Occurrence_Herta_StorageZone_F2_X363Y166' and similarity > 0.05:
             return True
+        # INFO     21:27:00.816 │ Best 3 nearby predictions: [
+        # ('Combat_Herta_SupplyZone_F2_X45Y369', 0.184, (41.0, 369.1)),
+        # ('Combat_Luofu_Cloudford_F1_X281Y873', 0.149, (281.8, 869.6)),
+        # ('Combat_Luofu_Cloudford_F1_X283Y865', 0.149, (281.8, 869.6))]
+        if route.name in ['Combat_Luofu_Cloudford_F1_X283Y865', 'Occurrence_Luofu_Cloudford_F1_X283Y865'] \
+                and similarity > 0.1:
+            return True
         return False
 
     def position_find_bruteforce(self, image) -> Minimap:

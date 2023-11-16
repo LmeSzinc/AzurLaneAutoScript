@@ -29,12 +29,18 @@ class Route(RouteBase):
         # ===== End of generated waypoints =====
 
         self.clear_enemy(enemy1)
-        # Ignore enemy2
+        # Enemy2
         self.clear_enemy(
             node2left,
             node2right.straight_run(),
             enemy3.straight_run(),
         )
+        # Possible enemy 3
+        if self.minimap.position_diff(enemy3.position) > 50:
+            self.clear_enemy(
+                node2right.straight_run(),
+                enemy3.straight_run(),
+            )
 
     def Luofu_Cloudford_F2_X425Y171(self):
         """
@@ -48,9 +54,13 @@ class Route(RouteBase):
         | item3       | Waypoint((382.4, 275.3)), | 250.8     | 251      |
         | enemy3      | Waypoint((318.8, 267.0)), | 279.8     | 281      |
         | exit_       | Waypoint((324.8, 268.5)), | 283.0     | 278      |
+        | exit1       | Waypoint((312.6, 276.0)), | 284.8     | 283      |
+        | exit2       | Waypoint((313.2, 259.0)), | 177.5     | 271      |
         """
         self.map_init(plane=Luofu_Cloudford, floor="F2", position=(425.5, 171.6))
-        self.register_domain_exit(Waypoint((324.8, 268.5)), end_rotation=278)
+        self.register_domain_exit(
+            Waypoint((324.8, 268.5)), end_rotation=278,
+            left_door=Waypoint((312.6, 276.0)), right_door=Waypoint((313.2, 259.0)))
         item1 = Waypoint((436.8, 203.6))
         item2 = Waypoint((407.1, 205.3))
         enemy2left = Waypoint((426.6, 252.0))

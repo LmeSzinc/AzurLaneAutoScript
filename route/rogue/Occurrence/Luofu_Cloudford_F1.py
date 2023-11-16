@@ -32,9 +32,13 @@ class Route(RouteBase):
         | item     | Waypoint((272.2, 840.2)), | 332.7     | 327      |
         | event    | Waypoint((291.8, 822.2)), | 26.8      | 22       |
         | exit_    | Waypoint((285.3, 818.1)), | 99.0      | 1        |
+        | exit1    | Waypoint((276.2, 807.8)), | 4.4       | 4        |
+        | exit2    | Waypoint((290.4, 810.2)), | 4.3       | 4        |
         """
         self.map_init(plane=Luofu_Cloudford, floor="F1", position=(281, 873))
-        self.register_domain_exit(Waypoint((285.3, 818.1)), end_rotation=1)
+        self.register_domain_exit(
+            Waypoint((285.3, 818.1)), end_rotation=1,
+            left_door=Waypoint((276.2, 807.8)), right_door=Waypoint((290.4, 810.2)))
         item = Waypoint((272.2, 840.2))
         event = Waypoint((291.8, 822.2))
 
@@ -56,9 +60,13 @@ class Route(RouteBase):
         | item     | Waypoint((272.2, 840.2)), | 332.7     | 327      |
         | event    | Waypoint((291.8, 822.2)), | 26.8      | 22       |
         | exit_    | Waypoint((285.3, 818.1)), | 99.0      | 1        |
+        | exit1    | Waypoint((276.2, 807.8)), | 4.4       | 4        |
+        | exit2    | Waypoint((290.4, 810.2)), | 4.3       | 4        |
         """
         self.map_init(plane=Luofu_Cloudford, floor="F1", position=(283.2, 865.2))
-        self.register_domain_exit(Waypoint((285.3, 818.1)), end_rotation=1)
+        self.register_domain_exit(
+            Waypoint((285.3, 818.1)), end_rotation=1,
+            left_door=Waypoint((276.2, 807.8)), right_door=Waypoint((290.4, 810.2)))
         item = Waypoint((272.2, 840.2))
         event = Waypoint((291.8, 822.2))
 

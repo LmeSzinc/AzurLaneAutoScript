@@ -59,13 +59,13 @@ class Route(RouteBase):
         self.clear_enemy(
             enemy1left.set_threshold(5),
             node2.set_threshold(5),
-            enemy2left.straight_run(),
-            enemy2right.straight_run(),
+            enemy2left,
+            enemy2right,
         )
         # 3
         self.clear_enemy(
             node3.set_threshold(5),
-            enemy3,
+            enemy3.straight_run(),
         )
 
     def Jarilo_CorridorofFadingEchoes_F1_X266Y457(self):
@@ -170,9 +170,13 @@ class Route(RouteBase):
         | item3    | Waypoint((562.4, 168.8)), | 157.2     | 154      |
         | enemy3   | Waypoint((556.1, 192.5)), | 188.2     | 184      |
         | exit_    | Waypoint((555.0, 204.8)), | 188.2     | 184      |
+        | exit1    | Waypoint((563.8, 212.2)), | 192.7     | 184      |
+        | exit2    | Waypoint((548.6, 212.1)), | 192.7     | 184      |
         """
         self.map_init(plane=Jarilo_CorridorofFadingEchoes, floor="F1", position=(437.4, 122.9))
-        self.register_domain_exit(Waypoint((555.0, 204.8)), end_rotation=184)
+        self.register_domain_exit(
+            Waypoint((555.0, 204.8)), end_rotation=184,
+            left_door=Waypoint((563.8, 212.2)), right_door=Waypoint((548.6, 212.1)))
         item1 = Waypoint((459.2, 117.0))
         enemy1 = Waypoint((516.5, 123.4))
         enemy2 = Waypoint((540.6, 122.4))

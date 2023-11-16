@@ -95,12 +95,12 @@ class OcrRogueEventOption(OcrRogueEvent):
             (KEYWORDS_ROGUE_EVENT_OPTION.Wait_for_them, '^等待.*'),
             (KEYWORDS_ROGUE_EVENT_OPTION.Choose_number_two_It_snores_like_Andatur_Zazzalo, '.*二号.*安达.*'),
             (KEYWORDS_ROGUE_EVENT_OPTION.Choose_number_three_Its_teeth_are_rusted, '.*三号.*牙齿.*'),
+            (KEYWORDS_ROGUE_EVENT_OPTION.Believe_in_them_with_pure_devotion, '虔诚信仰'),
         ],
         'en': [
             (KEYWORDS_ROGUE_EVENT_OPTION.Deposit_2_Cosmic_Fragments, 'Deposit \d+.*'),
             (KEYWORDS_ROGUE_EVENT_OPTION.Withdraw_2_Cosmic_Fragments, 'Withdraw \d+.*'),
-            (KEYWORDS_ROGUE_EVENT_OPTION.Record_of_the_Aeon_of_1,
-             '^Record of the Aeon.*'),
+            (KEYWORDS_ROGUE_EVENT_OPTION.Record_of_the_Aeon_of_1, '^Record of the Aeon.*'),
         ]
     }
 

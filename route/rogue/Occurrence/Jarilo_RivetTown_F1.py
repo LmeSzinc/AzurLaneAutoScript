@@ -12,9 +12,13 @@ class Route(RouteBase):
         | spawn    | Waypoint((157.4, 435.5)), | 96.7      | 91       |
         | event    | Waypoint((200.4, 426.5)), | 76.4      | 73       |
         | exit_    | Waypoint((211.2, 435.4)), | 96.7      | 91       |
+        | exit1    | Waypoint((216.4, 428.6)), | 97.9      | 91       |
+        | exit2    | Waypoint((218.0, 442.4)), | 101.1     | 91       |
         """
         self.map_init(plane=Jarilo_RivetTown, floor="F1", position=(157.4, 435.5))
-        self.register_domain_exit(Waypoint((211.2, 435.4)), end_rotation=91)
+        self.register_domain_exit(
+            Waypoint((211.2, 435.4)), end_rotation=91,
+            left_door=Waypoint((216.4, 428.6)), right_door=Waypoint((218.0, 442.4)))
         event = Waypoint((200.4, 426.5))
 
         self.clear_event(event)

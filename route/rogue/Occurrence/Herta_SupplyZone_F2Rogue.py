@@ -78,9 +78,13 @@ class Route(RouteBase):
         | spawn    | Waypoint((397.4, 223.3)), | 6.7       | 4        |
         | event    | Waypoint((404.5, 182.1)), | 26.8      | 24       |
         | exit_    | Waypoint((398.6, 173.0)), | 4.2       | 1        |
+        | exit1    | Waypoint((391.4, 170.9)), | 11.2      | 8        |
+        | exit2    | Waypoint((402.4, 170.0)), | 11.2      | 11       |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2Rogue", position=(397.4, 223.3))
-        self.register_domain_exit(Waypoint((398.6, 173.0)), end_rotation=1)
+        self.register_domain_exit(
+            Waypoint((398.6, 173.0)), end_rotation=1,
+            left_door=Waypoint((391.4, 170.9)), right_door=Waypoint((402.4, 170.0)))
         event = Waypoint((404.5, 182.1))
 
         self.clear_event(event)
@@ -93,9 +97,13 @@ class Route(RouteBase):
         | spawn    | Waypoint((397.4, 223.3)), | 6.7       | 4        |
         | event    | Waypoint((404.5, 182.1)), | 26.8      | 24       |
         | exit_    | Waypoint((398.6, 173.0)), | 4.2       | 1        |
+        | exit1    | Waypoint((391.4, 170.9)), | 11.2      | 8        |
+        | exit2    | Waypoint((402.4, 170.0)), | 11.2      | 11       |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2Rogue", position=(397.4, 227))
-        self.register_domain_exit(Waypoint((398.6, 173.0)), end_rotation=1)
+        self.register_domain_exit(
+            Waypoint((398.6, 173.0)), end_rotation=1,
+            left_door=Waypoint((391.4, 170.9)), right_door=Waypoint((402.4, 170.0)))
         event = Waypoint((404.5, 182.1))
 
         self.clear_event(event)
@@ -114,9 +122,13 @@ class Route(RouteBase):
         | spawn    | Waypoint((397.4, 223.3)), | 6.7       | 4        |
         | event    | Waypoint((404.5, 182.1)), | 26.8      | 24       |
         | exit_    | Waypoint((398.6, 173.0)), | 4.2       | 1        |
+        | exit1    | Waypoint((391.4, 170.9)), | 11.2      | 8        |
+        | exit2    | Waypoint((402.4, 170.0)), | 11.2      | 11       |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2Rogue", position=(397.4, 230))
-        self.register_domain_exit(Waypoint((398.6, 173.0)), end_rotation=1)
+        self.register_domain_exit(
+            Waypoint((398.6, 173.0)), end_rotation=1,
+            left_door=Waypoint((391.4, 170.9)), right_door=Waypoint((402.4, 170.0)))
         event = Waypoint((404.5, 182.1))
 
         self.clear_event(event)
@@ -135,9 +147,13 @@ class Route(RouteBase):
         | spawn    | Waypoint((397.4, 223.3)), | 6.7       | 4        |
         | event    | Waypoint((404.5, 182.1)), | 26.8      | 24       |
         | exit_    | Waypoint((398.6, 173.0)), | 4.2       | 1        |
+        | exit1    | Waypoint((391.4, 170.9)), | 11.2      | 8        |
+        | exit2    | Waypoint((402.4, 170.0)), | 11.2      | 11       |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2Rogue", position=(397.4, 235))
-        self.register_domain_exit(Waypoint((398.6, 173.0)), end_rotation=1)
+        self.register_domain_exit(
+            Waypoint((398.6, 173.0)), end_rotation=1,
+            left_door=Waypoint((391.4, 170.9)), right_door=Waypoint((402.4, 170.0)))
         event = Waypoint((404.5, 182.1))
 
         self.clear_event(event)

@@ -95,9 +95,13 @@ class Route(RouteBase):
         | item     | Waypoint((297.0, 841.4)), | 36.1      | 31       |
         | enemy    | Waypoint((282.4, 814.2)), | 8.1       | 1        |
         | exit_    | Waypoint((284.5, 816.8)), | 5.7       | 1        |
+        | exit1    | Waypoint((276.2, 807.8)), | 4.4       | 4        |
+        | exit2    | Waypoint((290.4, 810.2)), | 4.3       | 4        |
         """
         self.map_init(plane=Luofu_Cloudford, floor="F1", position=(281, 873))
-        self.register_domain_exit(Waypoint((284.5, 816.8)), end_rotation=1)
+        self.register_domain_exit(
+            Waypoint((284.5, 816.8)), end_rotation=1,
+            left_door=Waypoint((276.2, 807.8)), right_door=Waypoint((290.4, 810.2)))
         item = Waypoint((297.0, 841.4))
         enemy = Waypoint((282.4, 814.2))
         # ===== End of generated waypoints =====
@@ -117,9 +121,13 @@ class Route(RouteBase):
         | item     | Waypoint((297.0, 841.4)), | 36.1      | 31       |
         | enemy    | Waypoint((282.4, 814.2)), | 8.1       | 1        |
         | exit_    | Waypoint((284.5, 816.8)), | 5.7       | 1        |
+        | exit1    | Waypoint((276.2, 807.8)), | 4.4       | 4        |
+        | exit2    | Waypoint((290.4, 810.2)), | 4.3       | 4        |
         """
         self.map_init(plane=Luofu_Cloudford, floor="F1", position=(283.4, 865.3))
-        self.register_domain_exit(Waypoint((284.5, 816.8)), end_rotation=1)
+        self.register_domain_exit(
+            Waypoint((284.5, 816.8)), end_rotation=1,
+            left_door=Waypoint((276.2, 807.8)), right_door=Waypoint((290.4, 810.2)))
         item = Waypoint((297.0, 841.4))
         enemy = Waypoint((282.4, 814.2))
         # ===== End of generated waypoints =====
@@ -169,7 +177,7 @@ class Route(RouteBase):
         | node3    | Waypoint((366.6, 588.2)), | 274.2     | 274      |
         | enemy3   | Waypoint((344.9, 590.4)), | 191.8     | 357      |
         | item4    | Waypoint((309.6, 580.2)), | 290.1     | 281      |
-        | enemy4   | Waypoint((269.3, 549.6)), | 275.8     | 278      |
+        | enemy4   | Waypoint((271.3, 585.5)), | 285.0     | 274      |
         | exit_    | Waypoint((271.3, 585.5)), | 285.0     | 274      |
         | exit1    | Waypoint((267.9, 592.3)), | 275.9     | 274      |
         | exit2    | Waypoint((267.8, 580.0)), | 275.8     | 274      |
@@ -184,7 +192,7 @@ class Route(RouteBase):
         node3 = Waypoint((366.6, 588.2))
         enemy3 = Waypoint((344.9, 590.4))
         item4 = Waypoint((309.6, 580.2))
-        enemy4 = Waypoint((269.3, 549.6))
+        enemy4 = Waypoint((271.3, 585.5))
         # ===== End of generated waypoints =====
 
         self.clear_item(item1)
