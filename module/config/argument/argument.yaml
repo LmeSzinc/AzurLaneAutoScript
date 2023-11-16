@@ -208,6 +208,7 @@ RogueWorld:
       Simulated_Universe_World_5,
       Simulated_Universe_World_6,
       Simulated_Universe_World_7,
+      Simulated_Universe_World_8,
     ]
   Path:
     value: The_Hunt
