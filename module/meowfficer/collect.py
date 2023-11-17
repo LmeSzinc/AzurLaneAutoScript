@@ -231,6 +231,11 @@ class MeowfficerCollect(MeowfficerBase):
                     self.interval_reset(MEOWFFICER_GET_CHECK)
                     continue
 
+            # If click MEOWFFICER_TRAIN_FINISH_ALL, will enter evaluate page
+            if self.appear(MEOWFFICER_TRAIN_EVALUATE, offset=(20, 20), interval=3):
+                self.device.click(MEOWFFICER_TRAIN_EVALUATE)
+                continue
+
             # End
             if self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20)):
                 if confirm_timer.reached():

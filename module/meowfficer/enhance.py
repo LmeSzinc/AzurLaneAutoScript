@@ -9,10 +9,10 @@ from module.ui.assets import MEOWFFICER_GOTO_DORMMENU
 from module.ui.page import page_meowfficer
 
 MEOWFFICER_SELECT_GRID = ButtonGrid(
-    origin=(770, 245), delta=(130, 147), button_shape=(70, 20), grid_shape=(4, 3),
+    origin=(751, 237), delta=(130, 147), button_shape=(70, 20), grid_shape=(4, 3),
     name='MEOWFFICER_SELECT_GRID')
 MEOWFFICER_FEED_GRID = ButtonGrid(
-    origin=(818, 212), delta=(130, 147), button_shape=(30, 30), grid_shape=(4, 3),
+    origin=(783, 189), delta=(130, 148), button_shape=(46, 46), grid_shape=(4, 3),
     name='MEOWFFICER_FEED_GRID')
 MEOWFFICER_FEED = DigitCounter(OCR_MEOWFFICER_FEED, letter=(131, 121, 123), threshold=64)
 
