@@ -164,7 +164,7 @@ class RogueBlessingSelector(RogueSelector):
             if self.main.is_page_choose_curio():
                 logger.info("Choose curio page checked")
                 return True
-            if self.main.is_page_choose_blessing() and not is_card_selected(self.main, target, BLESSING_CONFIRM):
+            if self.main.is_page_choose_blessing() and not self._blessing_confirm_appear():
                 logger.info("A new choose blessing page checked")
                 return True
             if self.main.is_page_event():
