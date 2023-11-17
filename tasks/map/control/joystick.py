@@ -90,13 +90,19 @@ class JoystickContact:
         direction += random_normal_distribution(-5, 5, n=5)
         radius = cls.RADIUS_RUN if run else cls.RADIUS_WALK
         radius = random_normal_distribution(*radius, n=5)
-
         direction = math.radians(direction)
-        point = (
-            cls.CENTER[0] + radius * math.sin(direction),
-            cls.CENTER[1] - radius * math.cos(direction),
-        )
-        point = (int(round(point[0])), int(round(point[1])))
+
+        # Contact at the lower is limited within `cls.CENTER[1] - half_run_radius`
+        # or will exceed the joystick area
+        # Random radius * multiplier makes the point randomly approaching the lower bound
+        for multiplier in [1.0, 0.95, 0.90, 0.85, 0.80, 0.75]:
+            point = (
+                cls.CENTER[0] + radius * multiplier * math.sin(direction),
+                cls.CENTER[1] - radius * multiplier * math.cos(direction),
+            )
+            point = (int(round(point[0])), int(round(point[1])))
+            if point[1] <= cls.CENTER[1] - 101:
+                return point
         return point
 
     def up(self):
