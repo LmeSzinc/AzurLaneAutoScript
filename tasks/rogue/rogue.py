@@ -16,7 +16,8 @@ class Rogue(RouteLoader, RogueEntry):
         try:
             self.rogue_world_enter()
         except RogueTeamNotPrepared:
-            logger.error(f'Please prepare your team in {self.config.RogueWorld_World}')
+            logger.error(f'Please prepare your team in {self.config.RogueWorld_World} '
+                         f'and start rogue task at team preparation page')
             self.rogue_world_exit()
             return False
         except RogueReachedWeeklyPointLimit:

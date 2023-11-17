@@ -211,7 +211,7 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
         """
         Pages:
             in: page_guide, Survival_Index, Simulated_Universe
-            out: page_rogue
+            out: page_rogue, is_page_rogue_main()
         """
         logger.info('Rogue teleport')
         self.interval_clear(page_guide.check_button)
@@ -237,6 +237,11 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
         self.interval_clear(page_guide.check_button)
 
     def goto_rogue(self):
+        """
+        Pages:
+            in: Any
+            out: page_rogue, is_page_rogue_main()
+        """
         self.dungeon_tab_goto(Survival_Index)
         self._dungeon_nav_goto(Simulated_Universe_World_1)
         self._rogue_teleport()
@@ -290,9 +295,6 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
             if self.is_page_rogue_main():
                 logger.info('At is_page_rogue_main()')
                 return True
-            if self.is_page_rogue_launch():
-                logger.info('At is_page_rogue_launch()')
-                return True
             if self.appear(LEVEL_CONFIRM):
                 logger.info('At LEVEL_CONFIRM')
                 return True
@@ -311,6 +313,10 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
                     self.rogue_path_select(self.config.RogueWorld_Path)
                 if self.appear(CONFIRM_PATH):
                     logger.info('At CONFIRM_PATH')
+                    self.rogue_path_select(self.config.RogueWorld_Path)
+                # Team prepared
+                if self.is_page_rogue_launch():
+                    logger.info('At is_page_rogue_launch()')
                     self.rogue_path_select(self.config.RogueWorld_Path)
                 logger.info('At any page_rogue')
                 self.clear_blessing()
