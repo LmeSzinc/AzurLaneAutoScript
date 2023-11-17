@@ -268,6 +268,8 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
                 logger.info(f'{ROGUE_REPORT} -> {BLESSING_CONFIRM}')
                 self.device.click(BLESSING_CONFIRM)
                 continue
+            if self.handle_blessing():
+                continue
             # Confirm that leave without getting rewards
             if self.handle_popup_confirm():
                 continue
