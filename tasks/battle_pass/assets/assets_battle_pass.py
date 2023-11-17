@@ -47,10 +47,10 @@ MISSIONS_LOADED = ButtonWrapper(
     name='MISSIONS_LOADED',
     share=Button(
         file='./assets/share/battle_pass/MISSIONS_LOADED.png',
-        area=(1163, 573, 1179, 589),
-        search=(1143, 553, 1199, 609),
+        area=(1155, 572, 1171, 588),
+        search=(1135, 552, 1191, 608),
         color=(186, 183, 170),
-        button=(1163, 573, 1179, 589),
+        button=(1155, 572, 1171, 588),
     ),
 )
 MISSION_PAGE_SCROLL = ButtonWrapper(
@@ -77,10 +77,10 @@ OCR_LEVEL = ButtonWrapper(
     name='OCR_LEVEL',
     share=Button(
         file='./assets/share/battle_pass/OCR_LEVEL.png',
-        area=(183, 93, 240, 134),
-        search=(163, 73, 260, 154),
-        color=(90, 79, 60),
-        button=(183, 93, 240, 134),
+        area=(167, 103, 249, 143),
+        search=(147, 83, 269, 163),
+        color=(134, 119, 94),
+        button=(167, 103, 249, 143),
     ),
 )
 OCR_REMAINING_TIME = ButtonWrapper(
@@ -144,10 +144,10 @@ REWARDS_LOADED = ButtonWrapper(
     name='REWARDS_LOADED',
     share=Button(
         file='./assets/share/battle_pass/REWARDS_LOADED.png',
-        area=(173, 286, 248, 324),
-        search=(153, 266, 268, 344),
-        color=(96, 96, 94),
-        button=(173, 286, 248, 324),
+        area=(187, 252, 222, 280),
+        search=(167, 232, 242, 300),
+        color=(134, 135, 134),
+        button=(187, 252, 222, 280),
     ),
 )
 TODAY_MISSION_CLICK = ButtonWrapper(
