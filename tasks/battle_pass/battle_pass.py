@@ -73,7 +73,7 @@ class BattlePassQuestOcr(Ocr):
 
 
 class BattlePassUI(UI):
-    MAX_LEVEL = 50
+    MAX_LEVEL = 70
 
     def _battle_pass_wait_rewards_loaded(self, skip_first_screenshot=True):
         timeout = Timer(2, count=4).start()
