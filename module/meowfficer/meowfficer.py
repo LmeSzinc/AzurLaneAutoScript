@@ -2,6 +2,7 @@ from module.meowfficer.buy import MeowfficerBuy
 from module.meowfficer.fort import MeowfficerFort
 from module.meowfficer.train import MeowfficerTrain
 from module.ui.page import page_meowfficer
+from module.meowfficer.assets import MEOWFFICER_BUY_ENTER
 
 
 class RewardMeowfficer(MeowfficerBuy, MeowfficerFort, MeowfficerTrain):
@@ -21,6 +22,7 @@ class RewardMeowfficer(MeowfficerBuy, MeowfficerFort, MeowfficerTrain):
             self.config.task_stop()
 
         self.ui_ensure(page_meowfficer)
+        self.wait_until_appear(MEOWFFICER_BUY_ENTER)  # Wait for the ui to load fully
 
         if self.config.Meowfficer_BuyAmount > 0:
             self.meow_buy()
