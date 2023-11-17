@@ -379,6 +379,8 @@ class MapControl(Combat, AimDetectorMixin):
         """
         logger.hr('Clear item', level=1)
         waypoints = ensure_waypoints(waypoints)
+        for point in waypoints[:-1]:
+            point.expected_end = []
         end_point = waypoints[-1]
         end_point.expected_end.append('item')
 
@@ -394,6 +396,8 @@ class MapControl(Combat, AimDetectorMixin):
         """
         logger.hr('Clear enemy', level=1)
         waypoints = ensure_waypoints(waypoints)
+        for point in waypoints[:-1]:
+            point.expected_end = []
         end_point = waypoints[-1]
         end_point.expected_end.append('enemy')
 
