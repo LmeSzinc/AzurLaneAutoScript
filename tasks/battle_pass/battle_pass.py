@@ -73,7 +73,7 @@ class BattlePassQuestOcr(Ocr):
 
 
 class BattlePassUI(UI):
-    MAX_LEVEL = 50
+    MAX_LEVEL = 70
 
     def _battle_pass_wait_rewards_loaded(self, skip_first_screenshot=True):
         timeout = Timer(2, count=4).start()
@@ -180,6 +180,7 @@ class BattlePassUI(UI):
     def _claim_rewards(self, skip_first_screenshot=True):
         logger.hr('Claim rewards', level=1)
         self.battle_pass_goto(KEYWORD_BATTLE_PASS_TAB.Rewards)
+        timeout = Timer(5, count=15).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -192,9 +193,14 @@ class BattlePassUI(UI):
             if self.appear(CLOSE_CHOOSE_GIFT):
                 logger.info('Got reward but have gift to choose')
                 break
+            if timeout.reached():
+                logger.warning('Claim reward timeout, no rewards to claim')
+                break
             if self.appear_then_click(REWARDS_CLAIM_ALL, interval=2):
+                timeout.reset()
                 continue
 
+        logger.info('Close reward popup')
         skip_first_screenshot = True
         while 1:
             if skip_first_screenshot:
