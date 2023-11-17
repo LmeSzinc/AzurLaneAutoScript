@@ -13,9 +13,13 @@ class Route(RouteBase):
         | item     | Waypoint((397.0, 514.4)), | 119.8     | 117      |
         | event    | Waypoint((422.2, 506.4)), | 92.7      | 84       |
         | exit_    | Waypoint((423.8, 505.7)), | 96.8      | 91       |
+        | exit1    | Waypoint((433.7, 501.3)), | 96.8      | 91       |
+        | exit2    | Waypoint((434.7, 511.4)), | 96.8      | 91       |
         """
         self.map_init(plane=Jarilo_SilvermaneGuardRestrictedZone, floor="F1", position=(377.4, 505.6))
-        self.register_domain_exit(Waypoint((423.8, 505.7)), end_rotation=91)
+        self.register_domain_exit(
+            Waypoint((423.8, 505.7)), end_rotation=91,
+            left_door=Waypoint((433.7, 501.3)), right_door=Waypoint((434.7, 511.4)))
         item = Waypoint((397.0, 514.4))
         event = Waypoint((422.2, 506.4))
 

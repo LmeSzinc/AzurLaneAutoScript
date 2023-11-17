@@ -12,9 +12,13 @@ class Route(RouteBase):
         | spawn    | Waypoint((115.5, 911.3)), | 274.2     | 274      |
         | enemy    | Waypoint((64.2, 909.2)),  | 282.6     | 276      |
         | exit_    | Waypoint((64.2, 909.2)),  | 282.6     | 276      |
+        | exit1    | Waypoint((55.8, 916.7)),  | 281.9     | 274      |
+        | exit2    | Waypoint((55.2, 904.6)),  | 281.9     | 274      |
         """
         self.map_init(plane=Jarilo_CorridorofFadingEchoes, floor="F1", position=(115.5, 911.3))
-        self.register_domain_exit(Waypoint((64.2, 909.2)), end_rotation=276)
+        self.register_domain_exit(
+            Waypoint((64.2, 909.2)), end_rotation=276,
+            left_door=Waypoint((55.8, 916.7)), right_door=Waypoint((55.2, 904.6)))
         enemy = Waypoint((64.2, 909.2))
         # ===== End of generated waypoints =====
 

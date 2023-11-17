@@ -72,7 +72,7 @@ class Route(RouteBase):
         enemy = Waypoint((216.2, 860.2))
         # ===== End of generated waypoints =====
 
-        self.clear_item(item)
+        # self.clear_item(item)
         self.clear_enemy(enemy)
 
     def Luofu_ArtisanshipCommission_F1_X473Y920(self):
@@ -144,3 +144,33 @@ class Route(RouteBase):
 
         # Ignore item, bad way
         self.clear_enemy(enemy)
+
+    def Luofu_ArtisanshipCommission_F1_X667Y189(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((667.0, 189.2)), | 282.2     | 274      |
+        | enemy1   | Waypoint((596.8, 189.1)), | 282.5     | 278      |
+        | node1    | Waypoint((587.3, 187.8)), | 282.6     | 276      |
+        | node2    | Waypoint((566.8, 190.1)), | 282.6     | 276      |
+        | enemy2   | Waypoint((532.2, 204.2)), | 94.2      | 274      |
+        | exit_    | Waypoint((532.2, 204.2)), | 94.2      | 274      |
+        | exit1    | Waypoint((521.0, 213.2)), | 275.9     | 274      |
+        | exit2    | Waypoint((521.5, 195.5)), | 275.8     | 274      |
+        """
+        self.map_init(plane=Luofu_ArtisanshipCommission, floor="F1", position=(667.0, 189.2))
+        self.register_domain_exit(
+            Waypoint((532.2, 204.2)), end_rotation=274,
+            left_door=Waypoint((521.0, 213.2)), right_door=Waypoint((521.5, 195.5)))
+        enemy1 = Waypoint((596.8, 189.1))
+        node1 = Waypoint((587.3, 187.8))
+        node2 = Waypoint((566.8, 190.1))
+        enemy2 = Waypoint((532.2, 204.2))
+        # ===== End of generated waypoints =====
+
+        self.clear_enemy(enemy1)
+        self.clear_enemy(
+            node1.set_threshold(5),
+            node2.set_threshold(5),
+            enemy2
+        )

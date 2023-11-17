@@ -75,11 +75,14 @@ class Route(RouteBase):
 
         # Look right
         self.rotation_set(210)
+        self.minimap.lock_rotation(210)
         self.clear_enemy(
             enemy2left,
-            enemy2right.straight_run(),
+            enemy2right,
         )
         # 3
+        self.rotation_set(270)
+        self.minimap.lock_rotation(270)
         # self.clear_item(item3.straight_run())
         self.clear_enemy(
             enemy3.straight_run()

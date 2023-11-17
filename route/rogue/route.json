@@ -748,6 +748,17 @@
     "domain": "Combat"
   },
   {
+    "name": "Combat_Luofu_ArtisanshipCommission_F1_X667Y189",
+    "route": "route.rogue.Combat.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X667Y189",
+    "plane": "Luofu_ArtisanshipCommission",
+    "floor": "F1",
+    "position": [
+      667.0,
+      189.2
+    ],
+    "domain": "Combat"
+  },
+  {
     "name": "Combat_Luofu_Cloudford_F1_X241Y947",
     "route": "route.rogue.Combat.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X241Y947",
     "plane": "Luofu_Cloudford",
@@ -836,6 +847,17 @@
     "domain": "Combat"
   },
   {
+    "name": "Combat_Luofu_Cloudford_F1Rogue_X49Y405",
+    "route": "route.rogue.Combat.Luofu_Cloudford_F1Rogue:Luofu_Cloudford_F1Rogue_X49Y405",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1Rogue",
+    "position": [
+      49.3,
+      405.6
+    ],
+    "domain": "Combat"
+  },
+  {
     "name": "Combat_Luofu_Cloudford_F2_X425Y111",
     "route": "route.rogue.Combat.Luofu_Cloudford_F2:Luofu_Cloudford_F2_X425Y111",
     "plane": "Luofu_Cloudford",
@@ -876,6 +898,17 @@
     "position": [
       97.2,
       456.9
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_DivinationCommission_F1_X737Y237",
+    "route": "route.rogue.Combat.Luofu_DivinationCommission_F1:Luofu_DivinationCommission_F1_X737Y237",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F1",
+    "position": [
+      737.2,
+      237.6
     ],
     "domain": "Combat"
   },

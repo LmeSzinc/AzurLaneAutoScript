@@ -46,9 +46,13 @@ class Route(RouteBase):
         | spawn    | Waypoint((425.6, 791.4)), | 94.2      | 91       |
         | event    | Waypoint((478.9, 791.0)), | 96.8      | 94       |
         | exit_    | Waypoint((477.2, 789.2)), | 4.3       | 94       |
+        | exit1    | Waypoint((487.2, 781.5)), | 96.8      | 89       |
+        | exit2    | Waypoint((487.2, 799.2)), | 96.8      | 89       |
         """
         self.map_init(plane=Luofu_DivinationCommission, floor="F2", position=(425.6, 791.4))
-        self.register_domain_exit(Waypoint((477.2, 789.2)), end_rotation=94)
+        self.register_domain_exit(
+            Waypoint((477.2, 789.2)), end_rotation=94,
+            left_door=Waypoint((487.2, 781.5)), right_door=Waypoint((487.2, 799.2)))
         event = Waypoint((478.9, 791.0))
 
         self.clear_event(event)

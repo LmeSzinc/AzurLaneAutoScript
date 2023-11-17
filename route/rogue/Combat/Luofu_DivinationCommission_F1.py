@@ -61,6 +61,39 @@ class Route(RouteBase):
             enemy2.straight_run(),
         )
 
+    def Luofu_DivinationCommission_F1_X737Y237(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((737.2, 237.6)), | 192.6     | 184      |
+        | enemy1   | Waypoint((740.8, 318.8)), | 192.6     | 184      |
+        | enemy2   | Waypoint((737.8, 360.9)), | 179.8     | 181      |
+        | exit_    | Waypoint((737.8, 360.9)), | 179.8     | 181      |
+        | exit1    | Waypoint((747.6, 367.2)), | 180.1     | 181      |
+        | exit2    | Waypoint((729.6, 367.5)), | 191.8     | 181      |
+        """
+        self.map_init(plane=Luofu_DivinationCommission, floor="F1", position=(737.2, 237.6))
+        self.register_domain_exit(
+            Waypoint((737.8, 360.9)), end_rotation=181,
+            left_door=Waypoint((747.6, 367.2)), right_door=Waypoint((729.6, 367.5)))
+        enemy1 = Waypoint((740.8, 318.8))
+        enemy2 = Waypoint((737.8, 360.9))
+        # ===== End of generated waypoints =====
+
+        self.minimap.lock_rotation(180)
+        self.clear_enemy(enemy1)
+        # Possible enemy2
+        self.clear_enemy(
+            enemy1.set_threshold(5),
+            enemy2,
+        )
+        # Enemy3
+        if self.minimap.position_diff(enemy2.position) > 35:
+            self.clear_enemy(
+                enemy1.set_threshold(5),
+                enemy2,
+            )
+
     def Luofu_DivinationCommission_F1_X737Y372(self):
         """
         | Waypoint | Position                  | Direction | Rotation |

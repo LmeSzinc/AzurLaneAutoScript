@@ -50,9 +50,13 @@ class Route(RouteBase):
         | item     | Waypoint((195.9, 434.9)), | 237.2     | 234      |
         | enemy    | Waypoint((172.9, 425.9)), | 274.2     | 274      |
         | exit_    | Waypoint((172.9, 425.9)), | 274.2     | 274      |
+        | exit1    | Waypoint((164.0, 435.4)), | 281.9     | 274      |
+        | exit2    | Waypoint((163.9, 417.7)), | 281.9     | 274      |
         """
         self.map_init(plane=Jarilo_SilvermaneGuardRestrictedZone, floor="F1", position=(221.3, 426.1))
-        self.register_domain_exit(Waypoint((172.9, 425.9)), end_rotation=274)
+        self.register_domain_exit(
+            Waypoint((172.9, 425.9)), end_rotation=274,
+            left_door=Waypoint((164.0, 435.4)), right_door=Waypoint((163.9, 417.7)))
         item = Waypoint((195.9, 434.9))
         enemy = Waypoint((172.9, 425.9))
         # ===== End of generated waypoints =====
@@ -91,9 +95,13 @@ class Route(RouteBase):
         | enemy1   | Waypoint((252.6, 426.6)), | 283.0     | 276      |
         | enemy2   | Waypoint((166.1, 424.5)), | 182.6     | 267      |
         | exit_    | Waypoint((165.1, 425.2)), | 6.4       | 274      |
+        | exit1    | Waypoint((157.7, 432.7)), | 275.8     | 274      |
+        | exit2    | Waypoint((157.6, 419.0)), | 282.0     | 274      |
         """
         self.map_init(plane=Jarilo_SilvermaneGuardRestrictedZone, floor="F1", position=(317.4, 425.4))
-        self.register_domain_exit(Waypoint((165.1, 425.2)), end_rotation=274)
+        self.register_domain_exit(
+            Waypoint((165.1, 425.2)), end_rotation=274,
+            left_door=Waypoint((157.7, 432.7)), right_door=Waypoint((157.6, 419.0)))
         item1 = Waypoint((282.4, 434.2))
         enemy1 = Waypoint((252.6, 426.6))
         enemy2 = Waypoint((166.1, 424.5))
@@ -169,9 +177,13 @@ class Route(RouteBase):
         | spawn    | Waypoint((419.4, 179.8)), | 166.8     | 163      |
         | enemy    | Waypoint((437.0, 227.2)), | 166.6     | 156      |
         | exit_    | Waypoint((437.0, 227.2)), | 166.6     | 156      |
+        | exit1    | Waypoint((449.1, 228.5)), | 171.7     | 163      |
+        | exit2    | Waypoint((431.7, 235.1)), | 171.7     | 163      |
         """
         self.map_init(plane=Jarilo_SilvermaneGuardRestrictedZone, floor="F1", position=(419.4, 179.8))
-        self.register_domain_exit(Waypoint((437.0, 227.2)), end_rotation=156)
+        self.register_domain_exit(
+            Waypoint((437.0, 227.2)), end_rotation=156,
+            left_door=Waypoint((449.1, 228.5)), right_door=Waypoint((431.7, 235.1)))
         enemy = Waypoint((437.0, 227.2))
         # ===== End of generated waypoints =====
 

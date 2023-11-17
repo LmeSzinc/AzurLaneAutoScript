@@ -20,9 +20,13 @@ class Route(RouteBase):
         | item3       | Waypoint((68.5, 226.5)),  | 30.2      | 29       |
         | enemy3      | Waypoint((114.4, 234.7)), | 105.5     | 101      |
         | exit_       | Waypoint((119.1, 235.4)), | 6.8       | 96       |
+        | exit1       | Waypoint((121.4, 229.4)), | 102.9     | 96       |
+        | exit2       | Waypoint((695.4, 251.6)), | 99.1      | 354      |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2", position=(45.5, 369.5))
-        self.register_domain_exit(Waypoint((119.1, 235.4)), end_rotation=96)
+        self.register_domain_exit(
+            Waypoint((119.1, 235.4)), end_rotation=96,
+            left_door=Waypoint((121.4, 229.4)), right_door=Waypoint((695.4, 251.6)))
         item1 = Waypoint((38.7, 346.8))
         door1 = Waypoint((46.6, 343.9))
         enemy1 = Waypoint((46.2, 328.2))
@@ -147,9 +151,13 @@ class Route(RouteBase):
         | enemy2   | Waypoint((542.2, 168.6)), | 11.1      | 177      |
         | item3    | Waypoint((560.2, 130.9)), | 67.2      | 66       |
         | exit_    | Waypoint((586.9, 129.8)), | 266.1     | 1        |
+        | exit1    | Waypoint((580.8, 125.6)), | 101.3     | 1        |
+        | exit2    | Waypoint((593.2, 123.5)), | 11.1      | 1        |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2", position=(656.7, 247.5))
-        self.register_domain_exit(Waypoint((586.9, 129.8)), end_rotation=1)
+        self.register_domain_exit(
+            Waypoint((586.9, 129.8)), end_rotation=1,
+            left_door=Waypoint((580.8, 125.6)), right_door=Waypoint((593.2, 123.5)))
         item1 = Waypoint((578.9, 258.2))
         enemy1 = Waypoint((542.2, 246.2))
         enemy3 = Waypoint((586.5, 128.3))
