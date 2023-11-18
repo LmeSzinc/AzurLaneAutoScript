@@ -125,9 +125,13 @@ class Route(RouteBase):
         | item     | Waypoint((282.4, 240.8)), | 295.5     | 292      |
         | enemy    | Waypoint((246.2, 248.4)), | 282.8     | 281      |
         | exit_    | Waypoint((246.6, 248.8)), | 96.8      | 274      |
+        | exit1    | Waypoint((235.7, 255.9)), | 281.9     | 274      |
+        | exit2    | Waypoint((237.4, 239.4)), | 281.9     | 276      |
         """
         self.map_init(plane=Jarilo_GreatMine, floor="F1", position=(299.3, 255.3))
-        self.register_domain_exit(Waypoint((246.6, 248.8)), end_rotation=274)
+        self.register_domain_exit(
+            Waypoint((246.6, 248.8)), end_rotation=274,
+            left_door=Waypoint((235.7, 255.9)), right_door=Waypoint((237.4, 239.4)))
         item = Waypoint((282.4, 240.8))
         enemy = Waypoint((246.2, 248.4))
         # ===== End of generated waypoints =====

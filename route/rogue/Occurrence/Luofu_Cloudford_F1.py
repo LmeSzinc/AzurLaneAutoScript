@@ -81,10 +81,14 @@ class Route(RouteBase):
         | spawn    | Waypoint((537.4, 373.3)), | 96.7      | 91       |
         | item     | Waypoint((567.0, 346.6)), | 96.7      | 91       |
         | event    | Waypoint((580.8, 363.0)), | 94.2      | 91       |
-        | exit_    | Waypoint((593.4, 373.4)), | 96.7      | 94       |
+        | exit_    | Waypoint((588.6, 372.8)), | 282.4     | 89       |
+        | exit1    | Waypoint((595.5, 365.6)), | 96.8      | 87       |
+        | exit2    | Waypoint((595.3, 379.7)), | 96.8      | 87       |
         """
         self.map_init(plane=Luofu_Cloudford, floor="F1", position=(537.4, 373.3))
-        self.register_domain_exit(Waypoint((593.4, 373.4)), end_rotation=94)
+        self.register_domain_exit(
+            Waypoint((588.6, 372.8)), end_rotation=89,
+            left_door=Waypoint((595.5, 365.6)), right_door=Waypoint((595.3, 379.7)))
         item = Waypoint((567.0, 346.6))
         event = Waypoint((580.8, 363.0))
 

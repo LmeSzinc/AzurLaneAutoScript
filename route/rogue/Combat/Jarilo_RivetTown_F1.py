@@ -81,9 +81,13 @@ class Route(RouteBase):
         | item     | Waypoint((222.6, 371.5)), | 166.7     | 165      |
         | enemy    | Waypoint((206.2, 387.8)), | 190.1     | 191      |
         | exit_    | Waypoint((209.2, 392.8)), | 189.0     | 184      |
+        | exit1    | Waypoint((217.5, 403.4)), | 180.0     | 181      |
+        | exit2    | Waypoint((201.6, 401.5)), | 180.0     | 181      |
         """
         self.map_init(plane=Jarilo_RivetTown, floor="F1", position=(209.4, 333.5))
-        self.register_domain_exit(Waypoint((209.2, 392.8)), end_rotation=184)
+        self.register_domain_exit(
+            Waypoint((209.2, 392.8)), end_rotation=184,
+            left_door=Waypoint((217.5, 403.4)), right_door=Waypoint((201.6, 401.5)))
         item = Waypoint((222.6, 371.5))
         enemy = Waypoint((206.2, 387.8))
         # ===== End of generated waypoints =====
@@ -132,9 +136,13 @@ class Route(RouteBase):
         | item     | Waypoint((302.6, 270.6)), | 59.1      | 54       |
         | enemy    | Waypoint((298.2, 246.0)), | 36.2      | 36       |
         | exit_    | Waypoint((298.2, 246.0)), | 36.2      | 36       |
+        | exit1    | Waypoint((295.5, 239.4)), | 36.2      | 31       |
+        | exit2    | Waypoint((305.2, 244.8)), | 36.2      | 31       |
         """
         self.map_init(plane=Jarilo_RivetTown, floor="F1", position=(279.4, 301.6))
-        self.register_domain_exit(Waypoint((298.2, 246.0)), end_rotation=36)
+        self.register_domain_exit(
+            Waypoint((298.2, 246.0)), end_rotation=36,
+            left_door=Waypoint((295.5, 239.4)), right_door=Waypoint((305.2, 244.8)))
         item = Waypoint((302.6, 270.6))
         enemy = Waypoint((298.2, 246.0))
         # ===== End of generated waypoints =====

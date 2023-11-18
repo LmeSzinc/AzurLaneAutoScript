@@ -7,26 +7,26 @@ class Route(RouteBase):
 
     def Herta_SupplyZone_F2_X45Y369(self):
         """
-        | Waypoint    | Position                  | Direction | Rotation |
-        | ----------- | ------------------------- | --------- | -------- |
-        | spawn       | Waypoint((45.5, 369.5)),  | 6.7       | 4        |
-        | item1       | Waypoint((38.7, 346.8)),  | 36.0      | 359      |
-        | door1       | Waypoint((46.6, 343.9)),  | 12.6      | 6        |
-        | enemy1      | Waypoint((46.2, 328.2)),  | 12.6      | 8        |
-        | item2       | Waypoint((42.4, 299.0)),  | 352.8     | 348      |
-        | door2       | Waypoint((46.4, 284.5)),  | 4.2       | 1        |
-        | enemy2left  | Waypoint((31.2, 248.8)),  | 183.8     | 84       |
-        | enemy2right | Waypoint((55.2, 247.2)),  | 96.7      | 91       |
-        | item3       | Waypoint((68.5, 226.5)),  | 30.2      | 29       |
-        | enemy3      | Waypoint((114.4, 234.7)), | 105.5     | 101      |
-        | exit_       | Waypoint((119.1, 235.4)), | 6.8       | 96       |
-        | exit1       | Waypoint((121.4, 229.4)), | 102.9     | 96       |
-        | exit2       | Waypoint((695.4, 251.6)), | 99.1      | 354      |
+        | Waypoint       | Position                  | Direction | Rotation |
+        | -------------- | ------------------------- | --------- | -------- |
+        | spawn          | Waypoint((45.5, 369.5)),  | 6.7       | 4        |
+        | item1          | Waypoint((38.7, 346.8)),  | 36.0      | 359      |
+        | door1          | Waypoint((46.6, 343.9)),  | 12.6      | 6        |
+        | enemy1         | Waypoint((46.2, 328.2)),  | 12.6      | 8        |
+        | item2          | Waypoint((42.4, 299.0)),  | 352.8     | 348      |
+        | door2          | Waypoint((46.4, 284.5)),  | 4.2       | 1        |
+        | enemy2left     | Waypoint((31.2, 248.8)),  | 183.8     | 84       |
+        | enemy2right    | Waypoint((55.2, 247.2)),  | 96.7      | 91       |
+        | item3          | Waypoint((68.5, 226.5)),  | 30.2      | 29       |
+        | enemy3         | Waypoint((114.4, 234.7)), | 105.5     | 101      |
+        | exit_          | Waypoint((119.1, 235.4)), | 6.8       | 96       |
+        | exit1          | Waypoint((121.4, 229.4)), | 102.9     | 96       |
+        | exit2_X121Y241 | Waypoint((121.7, 241.1)), | 99.1      | 354      |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2", position=(45.5, 369.5))
         self.register_domain_exit(
             Waypoint((119.1, 235.4)), end_rotation=96,
-            left_door=Waypoint((121.4, 229.4)), right_door=Waypoint((695.4, 251.6)))
+            left_door=Waypoint((121.4, 229.4)), right_door=Waypoint((121.7, 241.1)))
         item1 = Waypoint((38.7, 346.8))
         door1 = Waypoint((46.6, 343.9))
         enemy1 = Waypoint((46.2, 328.2))
@@ -66,9 +66,13 @@ class Route(RouteBase):
         | item_X406Y202  | Waypoint((406.5, 202.1)), | 48.1      | 45       |
         | enemy_X397Y182 | Waypoint((397.2, 183.1)), | 356.3     | 4        |
         | exit_X397Y182  | Waypoint((397.2, 183.1)), | 356.3     | 4        |
+        | exit1_X393Y163 | Waypoint((393.6, 163.7)), | 11.1      | 4        |
+        | exit2_X406Y161 | Waypoint((406.6, 161.5)), | 4.3       | 357      |
         """
         self.map_init(plane=Herta_SupplyZone, floor="F2", position=(397.4, 233.5))
-        self.register_domain_exit(Waypoint((397.2, 183.1)), end_rotation=4)
+        self.register_domain_exit(
+            Waypoint((397.2, 183.1)), end_rotation=4,
+            left_door=Waypoint((393.6, 163.7)), right_door=Waypoint((406.6, 161.5)))
         item_X406Y202 = Waypoint((406.5, 202.1))
         enemy_X397Y182 = Waypoint((397.2, 183.1))
         # ===== End of generated waypoints =====

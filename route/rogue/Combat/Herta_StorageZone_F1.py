@@ -40,7 +40,7 @@ class Route(RouteBase):
 
         self.register_domain_exit(
             Waypoint((392.5, 312.4)), end_rotation=91,
-            left_door=Waypoint((400.2, 301.8)), right_door=Waypoint((400.8, 318.9)))
+            left_door=Waypoint((406.2, 307.8)), right_door=Waypoint((406.8, 318.9)))
         # 1
         self.clear_item(item1.straight_run())
         self.clear_enemy(enemy1.straight_run())
@@ -86,9 +86,13 @@ class Route(RouteBase):
         | item     | Waypoint((248.4, 59.4)), | 334.8     | 331      |
         | enemy    | Waypoint((227.8, 69.5)), | 30.2      | 299      |
         | exit_    | Waypoint((227.8, 69.5)), | 30.2      | 299      |
+        | exit1    | Waypoint((216.0, 74.4)), | 302.9     | 304      |
+        | exit2    | Waypoint((224.9, 59.4)), | 306.3     | 306      |
         """
         self.map_init(plane=Herta_StorageZone, floor="F1", position=(273.4, 92.2))
-        self.register_domain_exit(Waypoint((227.8, 69.5)), end_rotation=299)
+        self.register_domain_exit(
+            Waypoint((227.8, 69.5)), end_rotation=299,
+            left_door=Waypoint((216.0, 74.4)), right_door=Waypoint((224.9, 59.4)))
         item = Waypoint((248.4, 59.4))
         enemy = Waypoint((227.8, 69.5))
         # ===== End of generated waypoints =====
@@ -140,7 +144,7 @@ class Route(RouteBase):
         # 3
         self.rotation_set(255)
         self.clear_item(
-            door.set_threshold(3),
+            door.set_threshold(2),
             node,
             item3,
         )

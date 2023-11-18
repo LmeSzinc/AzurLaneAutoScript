@@ -156,9 +156,13 @@ class Route(RouteBase):
         | enemy2   | Waypoint((247.9, 426.4)), | 11.2      | 45       |
         | enemy3   | Waypoint((163.9, 426.5)), | 282.9     | 278      |
         | exit_    | Waypoint((163.9, 426.5)), | 282.9     | 278      |
+        | exit1    | Waypoint((157.9, 433.4)), | 275.9     | 274      |
+        | exit2    | Waypoint((158.0, 419.2)), | 281.9     | 274      |
         """
         self.map_init(plane=Jarilo_SilvermaneGuardRestrictedZone, floor="F1", position=(371.6, 425.3))
-        self.register_domain_exit(Waypoint((163.9, 426.5)), end_rotation=278)
+        self.register_domain_exit(
+            Waypoint((163.9, 426.5)), end_rotation=278,
+            left_door=Waypoint((157.9, 433.4)), right_door=Waypoint((158.0, 419.2)))
         item1 = Waypoint((350.3, 410.5))
         enemy1 = Waypoint((304.0, 424.2))
         enemy2 = Waypoint((247.9, 426.4))
@@ -197,9 +201,13 @@ class Route(RouteBase):
         | item     | Waypoint((418.5, 218.3)), | 183.8     | 181      |
         | enemy    | Waypoint((440.2, 232.4)), | 166.6     | 154      |
         | exit_    | Waypoint((440.2, 232.4)), | 166.6     | 154      |
+        | exit1    | Waypoint((449.4, 237.1)), | 157.5     | 154      |
+        | exit2    | Waypoint((439.2, 240.8)), | 157.3     | 156      |
         """
         self.map_init(plane=Jarilo_SilvermaneGuardRestrictedZone, floor="F1", position=(421.5, 173.4))
-        self.register_domain_exit(Waypoint((440.2, 232.4)), end_rotation=154)
+        self.register_domain_exit(
+            Waypoint((440.2, 232.4)), end_rotation=154,
+            left_door=Waypoint((449.4, 237.1)), right_door=Waypoint((439.2, 240.8)))
         item = Waypoint((418.5, 218.3))
         enemy = Waypoint((440.2, 232.4))
         # ===== End of generated waypoints =====
@@ -216,6 +224,7 @@ class Route(RouteBase):
         | enemy1   | Waypoint((566.2, 572.0)), | 282.8     | 181      |
         | item2    | Waypoint((574.0, 583.2)), | 139.4     | 140      |
         | enemy3   | Waypoint((542.6, 613.0)), | 239.8     | 237      |
+        | node4    | Waypoint((527.6, 625.4)), | 21.0      | 283      |
         | item3    | Waypoint((536.4, 628.1)), | 210.2     | 204      |
         | enemy4   | Waypoint((494.2, 611.8)), | 274.2     | 274      |
         | exit_    | Waypoint((494.2, 611.8)), | 274.2     | 274      |
@@ -230,6 +239,7 @@ class Route(RouteBase):
         enemy1 = Waypoint((566.2, 572.0))
         item2 = Waypoint((574.0, 583.2))
         enemy3 = Waypoint((542.6, 613.0))
+        node4 = Waypoint((527.6, 625.4))
         item3 = Waypoint((536.4, 628.1))
         enemy4 = Waypoint((494.2, 611.8))
         # ===== End of generated waypoints =====
@@ -247,5 +257,6 @@ class Route(RouteBase):
         )
         # 4
         self.clear_enemy(
+            node4.set_threshold(3),
             enemy4.straight_run(),
         )
