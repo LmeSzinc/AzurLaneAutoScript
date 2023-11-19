@@ -233,7 +233,7 @@ class Aim:
             self.draw_item = cv2.multiply(draw, 4)
 
         # Find peaks
-        points = inrange(draw, lower=12)
+        points = inrange(draw, lower=10)
         points = Points(points).group(threshold=10)
         if points.shape[0] > 3:
             logger.warning(f'AimDetector.predict_item() too many peaks: {points.shape}')
