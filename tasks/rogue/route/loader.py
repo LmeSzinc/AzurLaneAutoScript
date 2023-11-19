@@ -272,7 +272,7 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, CharacterSwitch):
 
 
 if __name__ == '__main__':
-    self = RouteLoader('1101九', task='Rogue')
+    self = RouteLoader('src', task='Rogue')
     # self.image_file = r''
     self.device.screenshot()
     self.position_find()

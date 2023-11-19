@@ -86,6 +86,34 @@ class Route(RouteBase):
         # Ignore item
         self.clear_enemy(enemy)
 
+    def Jarilo_SilvermaneGuardRestrictedZone_F1_X227Y432(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((227.7, 425.5)), | 274.2     | 274      |
+        | item     | Waypoint((208.3, 414.8)), | 303.8     | 301      |
+        | enemy    | Waypoint((170.2, 426.2)), | 274.2     | 274      |
+        | exit_    | Waypoint((170.2, 426.2)), | 274.2     | 274      |
+        | exit1    | Waypoint((158.5, 432.5)), | 282.0     | 274      |
+        | exit2    | Waypoint((158.8, 418.6)), | 282.0     | 274      |
+        """
+        self.map_init(plane=Jarilo_SilvermaneGuardRestrictedZone, floor="F1", position=(227.7, 432))
+        self.register_domain_exit(
+            Waypoint((170.2, 426.2)), end_rotation=274,
+            left_door=Waypoint((158.5, 432.5)), right_door=Waypoint((158.8, 418.6)))
+        item = Waypoint((208.3, 414.8))
+        enemy = Waypoint((170.2, 426.2))
+        # ===== End of generated waypoints =====
+
+        # Ignore item
+        self.clear_enemy(enemy)
+
+        """
+        Notes
+        Jarilo_SilvermaneGuardRestrictedZone_F1_X227Y432 is the same as Jarilo_SilvermaneGuardRestrictedZone_F1_X227Y425
+        but for wrong spawn point detected
+        """
+
     def Jarilo_SilvermaneGuardRestrictedZone_F1_X317Y425(self):
         """
         | Waypoint | Position                  | Direction | Rotation |
