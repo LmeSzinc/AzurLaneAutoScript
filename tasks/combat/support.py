@@ -27,7 +27,7 @@ class SupportCharacter:
     _image_cache = {}
     _crop_area = COMBAT_SUPPORT_LIST_GRID.matched_button.area
 
-    def __init__(self, name, screenshot, similarity=0.85):
+    def __init__(self, name, screenshot, similarity=0.75):
         self.name = name
         self.image = self._scale_character()
         self.screenshot = crop(screenshot, SupportCharacter._crop_area)
