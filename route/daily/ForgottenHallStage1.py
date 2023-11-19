@@ -25,7 +25,8 @@ class Route(RouteBase, ForgottenHallUI):
         logger.hr('Forgotten hall stage 1')
         self.stage_goto(KEYWORDS_DUNGEON_LIST.The_Last_Vestiges_of_Towering_Citadel,
                         KEYWORDS_FORGOTTEN_HALL_STAGE.Stage_1)
-        self.team_choose_first_4()
+        if not self.team_is_prepared():
+            self.team_choose_first_4()
         self.enter_forgotten_hall_dungeon()
 
         self.map_init(plane=Jarilo_BackwaterPass, position=(369.4, 643.4))

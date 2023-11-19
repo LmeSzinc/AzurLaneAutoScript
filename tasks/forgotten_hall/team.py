@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 
+from module.base.timer import Timer
 from module.base.utils import color_similarity_2d, get_color
 from module.logger import logger
 from tasks.base.ui import UI
@@ -72,3 +73,24 @@ class ForgottenHallTeam(UI):
                         self.device.click(character)
                         # Casual sleep, game may not respond that fast
                         self.device.sleep((0.1, 0.2))
+
+    def team_is_prepared(self, skip_first_screenshot=True) -> bool:
+        """
+        Pages:
+            in: ENTRANCE_CHECKED, ENTER_FORGOTTEN_HALL_DUNGEON
+        """
+        characters = [CHARACTER_1, CHARACTER_2, CHARACTER_3, CHARACTER_4]
+        timeout = Timer(1, count=5).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if timeout.reached():
+                logger.info('Team not prepared')
+                return False
+            chosen_list = [self.is_character_chosen(c) for c in characters]
+            if all(chosen_list):
+                logger.info("Team already prepared")
+                return True
