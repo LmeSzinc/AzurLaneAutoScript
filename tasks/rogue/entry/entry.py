@@ -339,7 +339,12 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
         if datetime.now() - self.config.stored.SimulatedUniverse.time > timedelta(minutes=2):
             ocr = OcrSimUniPoint(OCR_WEEKLY_POINT)
             value, _, total = ocr.ocr_single_line(self.device.image)
-            self.config.stored.SimulatedUniverse.set(value, total)
+            if total and value <= total:
+                logger.attr('SimulatedUniverse', f'{value}/{total}')
+                self.config.stored.SimulatedUniverse.set(value, total)
+            else:
+                logger.warning(f'Invalid SimulatedUniverse points: {value}/{total}')
+
         self.rogue_reward_claim()
         # Check stop condition again as weekly reward updated
         self.check_stop_condition()
