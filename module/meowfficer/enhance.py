@@ -136,14 +136,14 @@ class MeowfficerEnhance(MeowfficerBase):
             else:
                 self.device.screenshot()
 
-            # Scan for feed, exit if none
-            buttons = self.meow_feed_scan()
-            if not len(buttons):
-                break
-
             # Exit if maximum clicked
             current, remain, total = MEOWFFICER_FEED.ocr(self.device.image)
             if not remain:
+                break
+
+            # Scan for feed, exit if none
+            buttons = self.meow_feed_scan()
+            if not len(buttons):
                 break
 
             # Else click each button to
