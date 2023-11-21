@@ -140,9 +140,10 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
 
     def clear_enemy(self, *waypoints):
         waypoints = ensure_waypoints(waypoints)
-        end_point = waypoints[-1]
         if self.plane.is_rogue_combat:
-            end_point.expected_enroute.append('item')
+            for point in waypoints:
+                if 'item' not in point.expected_enroute:
+                    point.expected_enroute.append('item')
         return super().clear_enemy(*waypoints)
 
     def clear_item(self, *waypoints):
@@ -191,7 +192,9 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
         end_point.interact_radius = 7
         end_point.expected_end.append(self._domain_event_expected_end)
         if self.plane.is_rogue_occurrence:
-            end_point.expected_enroute.append('item')
+            for point in waypoints:
+                if 'item' not in point.expected_enroute:
+                    point.expected_enroute.append('item')
 
         result = self.goto(*waypoints)
         self.clear_occurrence()
