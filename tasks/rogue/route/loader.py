@@ -235,7 +235,8 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, CharacterSwitch):
             out: page_main, at another domain
                 or page_rogue if rogue cleared
         """
-        route = self.position_find()
+        # To have a newer image, since previous loadings took some time
+        route = self.position_find(skip_first_screenshot=False)
         super().route_run(route)
 
     def rogue_run(self, skip_first_screenshot=True):
