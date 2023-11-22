@@ -2384,6 +2384,16 @@
       "help": "仅出击指定的海域，可以用来获取大世界成就星星\n支持海域ID、国服/国际服/日服/台服海域名称，例如 \"51\", \"NA海域东南E\", \"NA Ocean SE Sector E\"\n填入默认值0，或者删除数值即可取消指定"
     }
   },
+  "HigherPriority": {
+    "_info": {
+      "name": "更高优先级",
+      "help": "开启后会将优先级调整到紧急委托前面"
+    },
+    "Enable": {
+      "name": "启用",
+      "help": ""
+    }
+  },
   "OpsiHazard1Leveling": {
     "_info": {
       "name": "侵蚀1练级",
