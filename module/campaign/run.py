@@ -231,6 +231,7 @@ class CampaignRun(CampaignEvent):
             # chapter T
             'event_20211125_cn',
             'event_20231026_cn',
+            'event_20231123_cn',
         ]:
             name = convert.get(name, name)
         else:
