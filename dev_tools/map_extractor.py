@@ -237,7 +237,14 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     # Effulgence Before Eclipse
     'chuyue': 'Hatsuzuki',
     'zhaozhi': 'Asanagi',
-    'ruifeng': 'Zuiho'
+    'ruifeng': 'Zuiho',
+
+    # The Ninja Scrolls: Azur Flash
+    'shanluan_sairenquzhu': 'DDsenran',
+    'shanluan_sairenqingxun': 'CLsenran',
+    'shanluan_sairenzhongxun': 'CAsenran',
+    'shanluan_sairenzhanlie': 'BBsenran',
+    'shanluan_sairenhangmu': 'CVsenran'
 }
 
 
@@ -657,10 +664,10 @@ Arguments:
     IS_WAR_ARCHIVES: True if retrieved map is to be
                      adapted for war_archives usage
 """
-FILE = ''
+FILE = '../AzurLaneLuaScripts'
 FOLDER = './campaign/test'
-KEYWORD = ''
-SELECT = False
+KEYWORD = '被囚禁的公主'
+SELECT = True
 OVERWRITE = True
 IS_WAR_ARCHIVES = False
 ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
