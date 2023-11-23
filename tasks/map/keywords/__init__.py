@@ -22,5 +22,6 @@ KEYWORDS_MAP_PLANE.Luofu_StargazerNavalia.floors = ['F1', 'F2']
 KEYWORDS_MAP_PLANE.Luofu_DivinationCommission.floors = ['F1', 'F2']
 KEYWORDS_MAP_PLANE.Luofu_AlchemyCommission.floors = ['F1', 'F2']
 KEYWORDS_MAP_PLANE.Luofu_ArtisanshipCommission.page = 'bottom'
+KEYWORDS_MAP_PLANE.Luofu_FyxestrollGarden.page = 'bottom'
 KEYWORDS_MAP_PLANE.Luofu_AlchemyCommission.page = 'bottom'
 KEYWORDS_MAP_PLANE.Luofu_ScalegorgeWaterscape.page = 'bottom'

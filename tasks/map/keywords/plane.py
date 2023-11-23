@@ -300,8 +300,17 @@ Luofu_ArtisanshipCommission = MapPlane(
     jp='工造司',
     es='Comisión de Artesanía',
 )
-Luofu_AlchemyCommission = MapPlane(
+Luofu_FyxestrollGarden = MapPlane(
     id=34,
+    name='Luofu_FyxestrollGarden',
+    cn='绥园',
+    cht='綏園',
+    en='Fyxestroll Garden',
+    jp='綏園',
+    es='Jardín del Sosiego',
+)
+Luofu_AlchemyCommission = MapPlane(
+    id=35,
     name='Luofu_AlchemyCommission',
     cn='丹鼎司',
     cht='丹鼎司',
@@ -310,7 +319,7 @@ Luofu_AlchemyCommission = MapPlane(
     es='Comisión de Alquimia',
 )
 Luofu_ScalegorgeWaterscape = MapPlane(
-    id=35,
+    id=36,
     name='Luofu_ScalegorgeWaterscape',
     cn='鳞渊境',
     cht='鱗淵境',
