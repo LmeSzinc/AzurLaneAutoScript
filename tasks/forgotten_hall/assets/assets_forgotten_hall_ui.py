@@ -93,6 +93,46 @@ OCR_STAGE = ButtonWrapper(
         button=(0, 0, 1000, 100),
     ),
 )
+SEAT_1 = ButtonWrapper(
+    name='SEAT_1',
+    share=Button(
+        file='./assets/share/forgotten_hall/ui/SEAT_1.png',
+        area=(946, 518, 953, 533),
+        search=(926, 498, 973, 553),
+        color=(66, 68, 89),
+        button=(946, 518, 953, 533),
+    ),
+)
+SEAT_2 = ButtonWrapper(
+    name='SEAT_2',
+    share=Button(
+        file='./assets/share/forgotten_hall/ui/SEAT_2.png',
+        area=(1026, 518, 1033, 533),
+        search=(1006, 498, 1053, 553),
+        color=(68, 70, 92),
+        button=(1026, 518, 1033, 533),
+    ),
+)
+SEAT_3 = ButtonWrapper(
+    name='SEAT_3',
+    share=Button(
+        file='./assets/share/forgotten_hall/ui/SEAT_3.png',
+        area=(1106, 518, 1113, 532),
+        search=(1086, 498, 1133, 552),
+        color=(67, 69, 87),
+        button=(1106, 518, 1113, 532),
+    ),
+)
+SEAT_4 = ButtonWrapper(
+    name='SEAT_4',
+    share=Button(
+        file='./assets/share/forgotten_hall/ui/SEAT_4.png',
+        area=(1186, 518, 1193, 532),
+        search=(1166, 498, 1213, 552),
+        color=(67, 69, 86),
+        button=(1186, 518, 1193, 532),
+    ),
+)
 TELEPORT = ButtonWrapper(
     name='TELEPORT',
     share=Button(
