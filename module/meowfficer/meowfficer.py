@@ -6,6 +6,24 @@ from module.meowfficer.assets import MEOWFFICER_BUY_ENTER
 
 
 class RewardMeowfficer(MeowfficerBuy, MeowfficerFort, MeowfficerTrain):
+    def wait_meowfficer_buttons(self, skip_first_screenshot=True):
+        """
+        MEOWFFICER_INFO and MEOWFFICER_BUY_ENTER 
+        loads slowly than MEOWFFICER_CHECK
+        """
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(MEOWFFICER_BUY_ENTER, offset=(20, 20)):
+                break
+
+            # MEOWFFICER_INFO
+            if self.ui_additional():
+                continue
+
     def run(self):
         """
         Execute buy, enhance, train, and fort operations
@@ -22,7 +40,7 @@ class RewardMeowfficer(MeowfficerBuy, MeowfficerFort, MeowfficerTrain):
             self.config.task_stop()
 
         self.ui_ensure(page_meowfficer)
-        self.wait_until_appear(MEOWFFICER_BUY_ENTER)  # Wait for the ui to load fully
+        self.wait_meowfficer_buttons()  # Wait for the ui to load fully
 
         if self.config.Meowfficer_BuyAmount > 0:
             self.meow_buy()
