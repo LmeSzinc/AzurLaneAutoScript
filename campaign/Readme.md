@@ -165,3 +165,5 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20231026   | event 20231026 cn        | Tempesta and the Fountain of Youth           | 飓风与青春之泉          | Tempesta and the Fountain of Youth           | テンペスタと若返りの泉                 | -                        |
 | 20231109   | event 20210916 cn        | Upon the Shimmering Blue                     | 复刻碧海光粼            | Upon the Shimmering Blue Rerun                | 駆けよ 碧海の吹き風（復刻）            | -                        |
 | 20231109   | event 20220728 cn        | Aquilifer's Ballade                          | -                      | -                                             | -                                    | 雄鷹的敘事歌              |
+| 20231123   | event 20220210 cn        | Northern Overture Rerun                     | -           | -                      | -                   | 復刻北境序曲                        |
+| 20231123   | event 20231123 cn        | The Ninja Scrolls: Azur Flash                | 苍闪忍法帖              | The Ninja Scrolls: Azur Flash                 | 蒼閃忍法帖                            | -                        |
