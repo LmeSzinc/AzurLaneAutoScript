@@ -40,6 +40,7 @@ class RoguePathHandler(RogueUI):
             KEYWORDS_ROGUE_PATH.The_Hunt: CHECK_THE_HUNT,
             KEYWORDS_ROGUE_PATH.Destruction: CHECK_DESTRUCTION,
             KEYWORDS_ROGUE_PATH.Elation: CHECK_ELATION,
+            KEYWORDS_ROGUE_PATH.Propagation: CHECK_PROPAGATION
         }
         return buttons
 
@@ -60,11 +61,7 @@ class RoguePathHandler(RogueUI):
         return buttons
 
     def _get_path_click(self, path: RoguePath) -> ButtonWrapper:
-        try:
-            return self._rogue_path_clicks[path]
-        except KeyError:
-            logger.critical(f'Invalid rogue path: {path}')
-            raise ScriptError
+        return self._rogue_path_clicks.get(path, CLICK_ELATION)
 
     def _get_selected_path(self, skip_first_screenshot=True) -> RoguePath | None:
         timeout = Timer(1, count=5).start()
@@ -86,8 +83,8 @@ class RoguePathHandler(RogueUI):
         return None
 
     def _is_page_rogue_path(self) -> bool:
-        appear = [self.appear(button) for button in self._rogue_path_clicks.values()]
-        return all(appear)
+        appear = self.appear(PAGE_ROGUE_PATH)
+        return appear
 
     def _is_team_prepared(self) -> bool:
         """
@@ -110,7 +107,7 @@ class RoguePathHandler(RogueUI):
                 or page_main if previous rogue run had bonus selected but didn't finish any domain
         """
         logger.hr('Rogue path select', level=2)
-        path: RoguePath = RoguePath.find(path)
+        path: RoguePath = RoguePath.find_path(path)
         logger.info(f'Select path: {path}')
         entry = self._get_path_click(path)
         while 1:
@@ -143,10 +140,13 @@ class RoguePathHandler(RogueUI):
                     continue
             # Confirm path
             if self.appear(CONFIRM_PATH, interval=2):
-                if self._get_selected_path() == path:
+                selected_path = self._get_selected_path()
+                if selected_path == path:
                     self.device.click(CONFIRM_PATH)
                     continue
+                elif selected_path.id < path.id:
+                    self.device.click(CHOOSE_RIGHT)
+                    continue
                 else:
-                    logger.warning('Selected to the wrong path')
-                    self.device.click(BACK)
+                    self.device.click(CHOOSE_LEFT)
                     continue

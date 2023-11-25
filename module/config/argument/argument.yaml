@@ -212,7 +212,7 @@ RogueWorld:
     ]
   Path:
     value: The_Hunt
-    option: [ Preservation, Remembrance, Nihility, Abundance, The_Hunt, Destruction, Elation ]
+    option: [ Preservation, Remembrance, Nihility, Abundance, The_Hunt, Destruction, Elation, Propagation ]
   Bonus:
     value: Blessing Cosmos
     option: [ Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos ]

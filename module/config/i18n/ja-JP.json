@@ -804,7 +804,8 @@
       "Abundance": "Abundance",
       "The_Hunt": "The_Hunt",
       "Destruction": "Destruction",
-      "Elation": "Elation"
+      "Elation": "Elation",
+      "Propagation": "Propagation"
     },
     "Bonus": {
       "name": "RogueWorld.Bonus.name",
