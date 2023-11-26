@@ -26,7 +26,7 @@ class CharacterSwitch(UI):
     character_current: CharacterList | None = None
     character_buttons: list[OcrResultButton] = []
 
-    def character_update(self) -> list[CharacterList]:
+    def character_update(self, skip_first_screenshot=True) -> list[CharacterList]:
         """
         The following properties will be updated:
         - self.characters
@@ -36,16 +36,37 @@ class CharacterSwitch(UI):
         Pages:
             in: page_main
         """
-        ocr = OcrCharacterName(OCR_MAP_CHARACTERS)
-        buttons = ocr.matched_ocr(self.device.image, keyword_classes=CharacterList)
-        if trailblazer := self._get_character_trailblazer():
-            buttons.append(trailblazer)
-        buttons = sorted(buttons, key=lambda b: area_center(b.area)[1])
-        self.character_buttons = buttons
+        timeout = Timer(1, count=3).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
-        self.characters = [button.matched_keyword for button in self.character_buttons]
-        logger.attr('Characters', self.characters)
-        self.character_current = self._convert_selected_to_character(self._update_current_character())
+            # End
+            if timeout.reached():
+                logger.warning('Character update timeout')
+                break
+
+            ocr = OcrCharacterName(OCR_MAP_CHARACTERS)
+            buttons = ocr.matched_ocr(self.device.image, keyword_classes=CharacterList)
+            if trailblazer := self._get_character_trailblazer():
+                buttons.append(trailblazer)
+            buttons = sorted(buttons, key=lambda b: area_center(b.area)[1])
+            self.character_buttons = buttons
+
+            self.characters = [button.matched_keyword for button in self.character_buttons]
+            logger.attr('Characters', self.characters)
+            self.character_current = self._convert_selected_to_character(self._update_current_character())
+
+            # Must contain first character
+            expected_peaks = np.array([201, 279, 357, 435])
+            if buttons[0].area[3] < expected_peaks[0]:
+                break
+            else:
+                logger.info('No first character, retrying')
+                continue
+
         return self.characters
 
     def _get_character_trailblazer(self) -> OcrResultButton | None:
