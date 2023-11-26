@@ -269,10 +269,10 @@ class BinarySwitchButton(Switch):
 
 
 def put_icon_buttons(
-    icon_html: str,
-    signal: str,
-    buttons: List[Dict[str, str]],
-    onclick: Union[List[Callable[[], None]], Callable[[], None]],
+        icon_html: str,
+        signal: str,
+        buttons: List[Dict[str, str]],
+        onclick: Union[List[Callable[[], None]], Callable[[], None]],
 ) -> Output:
     value = buttons[0]["value"]
     circle_c = ""
