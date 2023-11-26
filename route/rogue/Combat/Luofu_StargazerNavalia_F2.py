@@ -15,14 +15,14 @@ class Route(RouteBase):
         | enemy2   | Waypoint((572.4, 180.2)), | 284.6     | 94       |
         | node3    | Waypoint((618.0, 182.4)), | 274.2     | 105      |
         | enemy3   | Waypoint((622.2, 170.0)), | 284.7     | 94       |
-        | exit_    | Waypoint((619.5, 169.4)), | 193.0     | 6        |
-        | exit1    | Waypoint((612.2, 160.4)), | 12.7      | 6        |
-        | exit2    | Waypoint((628.2, 160.4)), | 12.7      | 8        |
+        | exit_    | Waypoint((619.5, 171.5)), | 101.3     | 6        |
+        | exit1    | Waypoint((611.5, 161.1)), | 12.6      | 6        |
+        | exit2    | Waypoint((629.3, 161.0)), | 12.6      | 6        |
         """
         self.map_init(plane=Luofu_StargazerNavalia, floor="F2", position=(479.5, 187.5))
         self.register_domain_exit(
-            Waypoint((619.5, 169.4)), end_rotation=6,
-            left_door=Waypoint((612.2, 160.4)), right_door=Waypoint((628.2, 160.4)))
+            Waypoint((619.5, 171.5)), end_rotation=6,
+            left_door=Waypoint((611.5, 161.1)), right_door=Waypoint((629.3, 161.0)))
         item1 = Waypoint((516.4, 194.2))
         enemy1 = Waypoint((538.2, 182.6))
         enemy2 = Waypoint((572.4, 180.2))
@@ -39,7 +39,7 @@ class Route(RouteBase):
             enemy2,
         )
         self.rotation_set(60)
-        self.minimap.lock_rotation(self.minimap.rotation)
+        self.minimap.lock_rotation(60)
         self.clear_enemy(
             node3,
             enemy3,

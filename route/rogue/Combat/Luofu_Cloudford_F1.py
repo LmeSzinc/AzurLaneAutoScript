@@ -40,7 +40,9 @@ class Route(RouteBase):
         | exit_    | Waypoint((194.4, 947.2)), | 4.2       | 274      |
         """
         self.map_init(plane=Luofu_Cloudford, floor="F1", position=(257.3, 947))
-        self.register_domain_exit(Waypoint((194.4, 947.2)), end_rotation=274)
+        self.register_domain_exit(
+            Waypoint((194.4, 947.2)), end_rotation=274,
+            left_door=Waypoint((183.9, 954.4)), right_door=Waypoint((183.0, 942.4)))
         item = Waypoint((236.8, 934.2))
         node = Waypoint((221.6, 946.2))
         enemy = Waypoint((193.7, 949.5))

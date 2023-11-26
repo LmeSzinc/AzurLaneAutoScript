@@ -67,9 +67,13 @@ class Route(RouteBase):
         | door     | Waypoint((215.4, 65.1)), | 303.8     | 301      |
         | enemy    | Waypoint((202.7, 57.9)), | 297.8     | 294      |
         | exit_    | Waypoint((202.4, 58.1)), | 302.9     | 301      |
+        | exit1    | Waypoint((195.0, 61.2)), | 306.4     | 304      |
+        | exit2    | Waypoint((199.4, 49.4)), | 306.4     | 304      |
         """
         self.map_init(plane=Herta_StorageZone, floor="F1", position=(257.3, 85.5))
-        self.register_domain_exit(Waypoint((202.4, 58.1)), end_rotation=301)
+        self.register_domain_exit(
+            Waypoint((202.4, 58.1)), end_rotation=301,
+            left_door=Waypoint((195.0, 61.2)), right_door=Waypoint((199.4, 49.4)))
         item = Waypoint((244.2, 66.3))
         door = Waypoint((215.4, 65.1))
         enemy = Waypoint((202.7, 57.9))

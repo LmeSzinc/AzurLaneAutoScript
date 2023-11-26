@@ -87,5 +87,5 @@ class Route(RouteBase):
         self.minimap.lock_rotation(270)
         # self.clear_item(item3.straight_run())
         self.clear_enemy(
-            enemy3.straight_run()
+            enemy3
         )
