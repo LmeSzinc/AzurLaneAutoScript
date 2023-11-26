@@ -1,5 +1,6 @@
 from tasks.map.control.waypoint import Waypoint
 from tasks.map.keywords.plane import Jarilo_SilvermaneGuardRestrictedZone
+from tasks.map.route.base import locked_position
 from tasks.rogue.route.base import RouteBase
 
 
@@ -64,6 +65,7 @@ class Route(RouteBase):
         self.clear_item(item)
         self.clear_enemy(enemy)
 
+    @locked_position
     def Jarilo_SilvermaneGuardRestrictedZone_F1_X227Y425(self):
         """
         | Waypoint | Position                  | Direction | Rotation |
@@ -86,6 +88,7 @@ class Route(RouteBase):
         # Ignore item
         self.clear_enemy(enemy)
 
+    @locked_position
     def Jarilo_SilvermaneGuardRestrictedZone_F1_X227Y432(self):
         """
         | Waypoint | Position                  | Direction | Rotation |

@@ -385,6 +385,17 @@
     "domain": "Combat"
   },
   {
+    "name": "Combat_Jarilo_GreatMine_F1_X89Y387",
+    "route": "route.rogue.Combat.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X89Y387",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      89.4,
+      387.6
+    ],
+    "domain": "Combat"
+  },
+  {
     "name": "Combat_Jarilo_GreatMine_F1_X133Y465",
     "route": "route.rogue.Combat.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X133Y465",
     "plane": "Jarilo_GreatMine",

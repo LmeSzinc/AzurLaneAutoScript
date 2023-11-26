@@ -47,7 +47,8 @@ class Route(RouteBase):
         # self.clear_item(item2)
         self.clear_enemy(
             door2.set_threshold(3),
-            enemy2left.straight_run(),
+            # Go through door
+            enemy2left,
             enemy2right.straight_run(),
         )
         # 3
