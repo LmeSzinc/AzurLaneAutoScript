@@ -32,7 +32,7 @@ A3, B3, C3, D3, E3, F3, G3, \
 A4, B4, C4, D4, E4, F4, G4, \
     = MAP.flatten()
 
-road_main = RoadGrids([[F2, F1], [F2, E1], [C2, C3, B4]])
+road_main = RoadGrids([[F2, F1], [F2, E1]])
 
 class Config(ConfigBase):
     # Don't know why 2-4 is slimmer

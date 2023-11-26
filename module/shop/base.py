@@ -1,10 +1,10 @@
 import re
 
 from module.base.button import ButtonGrid
-from module.base.decorator import cached_property, Config
+from module.base.decorator import cached_property
 from module.base.filter import Filter
 from module.base.timer import Timer
-from module.combat.assets import GET_ITEMS_1, GET_SHIP, GET_ITEMS_3
+from module.combat.assets import GET_ITEMS_1, GET_ITEMS_3, GET_SHIP
 from module.logger import logger
 from module.shop.assets import *
 from module.shop.shop_select_globals import *
@@ -18,10 +18,11 @@ FILTER_REGEX = re.compile(
     '|plate|retrofit|pr|dr'
     '|logger|tuning'
     '|hecombatplan|fragment'
-    '|albacore|bataan|bluegill|carabiniere|casablanca|contedicavour|dukeofyork|echo'
-    '|eldridge|grenville|hibiki|hunter|kinggeorgev|kinu|kuroshio|lemalinmuse'
-    '|letemeraire|littorio|newcastle|oyashio|quincy|ryuujou|sanjuan|sheffieldmuse'
-    '|trento|vincennes|z26|z28|z36'
+    '|albacore|bataan|bearn|bluegill|carabiniere|casablanca|contedicavour|dukeofyork'
+    '|echo|eldridge|gangut|glorious|grenville|hibiki|hunter|icarus'
+    '|kawakaze|kinggeorgev|kinu|kuroshio|lagalissonniere|lemalinmuse|letemeraire|littorio'
+    '|mikuma|minsk|newcastle|oyashio|quincy|ryuujou|sanjuan|sheffieldmuse'
+    '|trento|u37|vincennes|z24|z26|z28|z36'
     ')'
 
     '(neptune|monarch|ibuki|izumo|roon|saintlouis'
@@ -32,6 +33,7 @@ FILTER_REGEX = re.compile(
     '|red|blue|yellow'
     '|general|gun|torpedo|antiair|plane|wild'
     '|dd|cl|bb|cv'
+    '|iris'
     '|abyssal|archive|obscure|unlock'
     '|combat|offense|survival)?'
 

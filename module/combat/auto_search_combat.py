@@ -217,6 +217,8 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             out: combat status
         """
         logger.info('Auto search combat loading')
+        self.device.stuck_record_clear()
+        self.device.click_record_clear()
         self.device.screenshot_interval_set('combat')
         while 1:
             self.device.screenshot()
@@ -241,6 +243,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             submarine_mode = self.config.Submarine_Mode
         self.combat_auto_reset()
         self.combat_manual_reset()
+        self.device.stuck_record_clear()
         self.device.click_record_clear()
         if emotion_reduce:
             self.emotion.reduce(fleet_index)
@@ -286,6 +289,8 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             out: is_auto_search_running()
         """
         logger.info('Auto Search combat status')
+        self.device.stuck_record_clear()
+        self.device.click_record_clear()
         exp_info = False  # This is for the white screen bug in game
 
         while 1:
@@ -344,7 +349,6 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
         """
         emotion_reduce = emotion_reduce if emotion_reduce is not None else self.emotion.is_calculate
 
-        self.device.stuck_record_clear()
         self.auto_search_combat_execute(emotion_reduce=emotion_reduce, fleet_index=fleet_index)
         self.auto_search_combat_status()
 

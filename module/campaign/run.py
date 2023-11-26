@@ -195,13 +195,18 @@ class CampaignRun(CampaignEvent):
             'a2': 't2',
             'a3': 't3',
             'a4': 't4',
+            'a5': 't5',
+            'a6': 't6',
             'sp1': 't1',
             'sp2': 't2',
             'sp3': 't3',
             'sp4': 't4',
+            'sp5': 't5',
+            'sp6': 't6',
         }
         if folder in [
             'event_20211125_cn',
+            'event_20231026_cn',
         ]:
             name = convert.get(name, name)
         # Convert between A/B/C/D and T/HT
@@ -223,7 +228,10 @@ class CampaignRun(CampaignEvent):
             'event_20200917_cn',
             'event_20221124_cn',
             'event_20230525_cn',
-            'event_20211125_cn',  # chapter T
+            # chapter T
+            'event_20211125_cn',
+            'event_20231026_cn',
+            'event_20231123_cn',
         ]:
             name = convert.get(name, name)
         else:
@@ -272,10 +280,9 @@ class CampaignRun(CampaignEvent):
                 name = stage.lower()
                 self.is_stage_loop = True
         # Convert campaign_main to campaign hard if mode is hard and file exists
-        if mode == 'hard' and folder == 'campaign_main'\
-                and name in map_files('campaign_hard'):
+        if mode == 'hard' and folder == 'campaign_main' and name in map_files('campaign_hard'):
             folder = 'campaign_hard'
-            
+
         return name, folder
 
     def can_use_auto_search_continue(self):
@@ -330,6 +337,7 @@ class CampaignRun(CampaignEvent):
                 logger.info(f'Count: {self.run_count}')
 
             # UI ensure
+            self.device.stuck_record_clear()
             self.device.click_record_clear()
             if not hasattr(self.device, 'image') or self.device.image is None:
                 self.device.screenshot()
@@ -366,6 +374,8 @@ class CampaignRun(CampaignEvent):
                 break
 
             # Run
+            self.device.stuck_record_clear()
+            self.device.click_record_clear()
             try:
                 self.campaign.run()
             except ScriptEnd as e:

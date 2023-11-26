@@ -1,4 +1,5 @@
 import re
+import typing as t
 from copy import deepcopy
 
 from cached_property import cached_property
@@ -7,7 +8,7 @@ from deploy.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
 from module.config.env import IS_ON_PHONE_CLOUD
 from module.config.redirect_utils.utils import *
-from module.config.server import to_server, to_package, VALID_PACKAGE, VALID_CHANNEL_PACKAGE, VALID_SERVER_LIST
+from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, VALID_SERVER_LIST, to_package, to_server
 from module.config.utils import *
 
 CONFIG_IMPORT = '''
@@ -62,6 +63,12 @@ class Event:
 
     def __eq__(self, other):
         return str(self) == str(other)
+
+    def __lt__(self, other):
+        return str(self) < str(other)
+
+    def __hash__(self):
+        return hash(str(self))
 
 
 class ConfigGenerator:
@@ -199,8 +206,11 @@ class ConfigGenerator:
             if not check_override(p, v):
                 continue
             if isinstance(v, dict):
-                if deep_get(v, keys='type') in ['lock']:
-                    deep_default(v, keys='display', value="disabled")
+                typ = v.get('type')
+                if typ == 'state':
+                    pass
+                elif typ == 'lock':
+                    pass
                 elif deep_get(v, keys='value') is not None:
                     deep_default(v, keys='display', value='hide')
                 for arg_k, arg_v in v.items():
@@ -296,7 +306,7 @@ class ConfigGenerator:
                 name = event.__getattribute__(server)
                 if name:
                     deep_default(events, keys=event.directory, value=name)
-        for event in self.event:
+        for event in sorted(self.event):
             name = events.get(event.directory, event.directory)
             deep_set(new, keys=f'Campaign.Event.{event.directory}', value=name)
         # Package names
@@ -414,11 +424,21 @@ class ConfigGenerator:
                         for task in EVENTS + GEMS_FARMINGS:
                             insert(task)
 
-        # Remove campaign_main from event list
         for task in EVENTS + GEMS_FARMINGS + WAR_ARCHIVES + RAIDS + COALITIONS:
             options = deep_get(self.args, keys=f'{task}.Campaign.Event.option')
+            # Remove campaign_main from event list
             options = [option for option in options if option != 'campaign_main']
+            # Sort options
+            options = sorted(options)
             deep_set(self.args, keys=f'{task}.Campaign.Event.option', value=options)
+            # Sort latest
+            latest = {}
+            for server in ARCHIVES_PREFIX.keys():
+                latest[server] = deep_pop(self.args, keys=f'{task}.Campaign.Event.{server}', default='')
+            bold = list(set(latest.values()))
+            deep_set(self.args, keys=f'{task}.Campaign.Event.option_bold', value=bold)
+            for server, event in latest.items():
+                deep_set(self.args, keys=f'{task}.Campaign.Event.{server}', value=event)
 
     @staticmethod
     def generate_deploy_template():
@@ -573,7 +593,10 @@ class ConfigUpdater:
         def deep_load(keys):
             data = deep_get(self.args, keys=keys, default={})
             value = deep_get(old, keys=keys, default=data['value'])
-            if is_template or value is None or value == '' or data['type'] == 'lock' or data.get('display') == 'hide':
+            typ = data['type']
+            display = data.get('display')
+            if is_template or value is None or value == '' \
+                    or typ in ['lock', 'state'] or (display == 'hide' and typ != 'stored'):
                 value = data['value']
             value = parse_value(value, data=data)
             deep_set(new, keys=keys, value=value)
@@ -688,6 +711,21 @@ class ConfigUpdater:
                 remove_drop_save(arg)
 
         return data
+
+    def save_callback(self, key: str, value: t.Any) -> t.Iterable[t.Tuple[str, t.Any]]:
+        """
+        Args:
+            key: Key path in config json, such as "Main.Emotion.Fleet1Value"
+            value: Value set by user, such as "98"
+
+        Yields:
+            str: Key path to set config json, such as "Main.Emotion.Fleet1Record"
+            any: Value to set, such as "2020-01-01 00:00:00"
+        """
+        if "Emotion" in key and "Value" in key:
+            key = key.split(".")
+            key[-1] = key[-1].replace("Value", "Record")
+            yield ".".join(key), datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     def read_file(self, config_name, is_template=False):
         """

@@ -10,7 +10,7 @@ class GeneratedConfig:
     """
 
     # Group `Scheduler`
-    Scheduler_Enable = False
+    Scheduler_Enable = False  # True, False
     Scheduler_NextRun = datetime.datetime(2020, 1, 1, 0, 0)
     Scheduler_Command = 'Alas'
     Scheduler_SuccessInterval = 0
@@ -316,6 +316,9 @@ class GeneratedConfig:
     # Group `SupplyPack`
     SupplyPack_Collect = True
     SupplyPack_DayOfWeek = 0  # 0, 1, 2, 3, 4, 5, 6
+
+    # Group `Minigame`
+    Minigame_Collect = False
 
     # Group `Daily`
     Daily_UseDailySkip = True

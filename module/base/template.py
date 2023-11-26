@@ -200,10 +200,11 @@ class Template(Resource):
         button = self._point_to_button(point, image=image, name=name)
         return sim, button
 
-    def match_multi(self, image, similarity=0.85, threshold=3, name=None):
+    def match_multi(self, image, scaling=1.0, similarity=0.85, threshold=3, name=None):
         """
         Args:
             image:
+            scaling (int, float): Scale the template to match image
             similarity (float): 0 to 1.
             threshold (int): Distance to delete nearby results.
             name (str):
@@ -211,6 +212,10 @@ class Template(Resource):
         Returns:
             list[Button]:
         """
+        scaling = 1 / scaling
+        if scaling != 1.0:
+            image = cv2.resize(image, None, fx=scaling, fy=scaling)
+
         raw = image
         if self.is_gif:
             result = []
@@ -218,11 +223,14 @@ class Template(Resource):
                 res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
                 res = np.array(np.where(res > similarity)).T[:, ::-1].tolist()
                 result += res
+            result = np.array(result)
         else:
             result = cv2.matchTemplate(image, self.image, cv2.TM_CCOEFF_NORMED)
             result = np.array(np.where(result > similarity)).T[:, ::-1]
 
         # result: np.array([[x0, y0], [x1, y1], ...)
+        if scaling != 1.0:
+            result = np.round(result / scaling).astype(int)
         result = Points(result).group(threshold=threshold)
         return [self._point_to_button(point, image=raw, name=name) for point in result]
 

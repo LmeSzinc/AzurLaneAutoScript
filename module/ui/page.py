@@ -222,6 +222,11 @@ page_academy = Page(ACADEMY_CHECK)
 page_dormmenu.link(button=DORMMENU_GOTO_ACADEMY, destination=page_academy)
 page_academy.link(button=GOTO_MAIN, destination=page_main)
 
+# Game room & choose game
+page_game_room = Page(GAME_ROOM_CHECK)
+page_academy.link(button=ACADEMY_GOTO_GAME_ROOM, destination=page_game_room)
+page_game_room.link(button=GAME_ROOM_GOTO_MAIN, destination=page_main)
+
 # Shop
 page_shop = Page(SHOP_CHECK)
 page_main.link(button=MAIN_GOTO_SHOP, destination=page_shop)

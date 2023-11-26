@@ -38,6 +38,8 @@ class GemsCampaignOverride(CampaignBase):
             while 1:
                 self.device.screenshot()
 
+                if self.handle_story_skip():
+                    continue
                 if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
                     continue
 
@@ -53,7 +55,7 @@ class GemsCampaignOverride(CampaignBase):
                     self.withdraw()
                     break
 
-                if self.appear(FLEET_PREPARATION, offset=(20, 20), interval=2) \
+                if self.appear(FLEET_PREPARATION, offset=(20, 50), interval=2) \
                         or self.appear(MAP_PREPARATION, offset=(20, 20), interval=2):
                     self.enter_map_cancel()
                     break
@@ -186,12 +188,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             level=(1, 31), emotion=(10, 150), fleet=self.config.Fleet_Fleet1, status='free')
         scanner.disable('rarity')
 
-        if not self.server_support_status_fleet_scan():
-            logger.info(f'Server {self.config.SERVER} does not yet support status and fleet scanning')
-            logger.info('Please contact the developer to improve as soon as possible')
-            scanner.disable('status', 'fleet')
-            scanner.set_limitation(level=(1, 1))
-
         if self.config.GemsFarming_CommonCV == 'any':
             logger.info('')
 
@@ -251,9 +247,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         scanner = ShipScanner(level=(max_level, max_level), emotion=(10, 150),
                               fleet=self.config.Fleet_Fleet1, status='free')
         scanner.disable('rarity')
-
-        if not self.server_support_status_fleet_scan():
-            scanner.disable('status', 'fleet')
 
         ships = scanner.scan(self.device.image)
         if ships:
@@ -388,6 +381,3 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                 continue
             else:
                 break
-
-    def server_support_status_fleet_scan(self) -> bool:
-        return self.config.SERVER in ['cn', 'en', 'jp']

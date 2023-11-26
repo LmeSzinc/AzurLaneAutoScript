@@ -75,7 +75,8 @@ def _server_support_dossier_auto_attack():
 
 
 class OpsiAshBeacon(Meta):
-    _meta_receive_count = 0
+    _meta_receive = []
+    _meta_category = "undefined"
 
     def _attack_meta(self, skip_first_screenshot=True):
         """
@@ -111,7 +112,8 @@ class OpsiAshBeacon(Meta):
                     continue
             if MetaState.COMPLETE == state:
                 self._handle_ash_beacon_reward()
-                self._meta_receive_count += 1
+                if not self._meta_category in self._meta_receive:
+                    self._meta_receive.append(self._meta_category)
                 # Check other tasks after kill a meta
                 self.config.check_task_switch()
                 continue
@@ -230,7 +232,7 @@ class OpsiAshBeacon(Meta):
 
     def _pre_attack(self):
         """
-        Some pre_attack preparations.
+        Some pre_attack preparations, including recording meta category.
         In beacon:
             ask for help if needed
         In dossier:
@@ -239,11 +241,13 @@ class OpsiAshBeacon(Meta):
         """
         # Page beacon or dossier
         if self.appear(BEACON_LIST, offset=(20, 20)):
+            self._meta_category = "beacon"
             if self.config.OpsiAshBeacon_OneHitMode or self.config.OpsiAshBeacon_RequestAssist:
                 if not self._ask_for_help():
                     return False
             return True
         if self.appear(DOSSIER_LIST, offset=(20, 20)):
+            self._meta_category = "dossier"
             # can auto attack but not auto attacking
             if _server_support_dossier_auto_attack() and self.config.OpsiAshBeacon_DossierAutoAttackMode \
                     and self.appear(META_AUTO_ATTACK_START, offset=(5, 5)):
@@ -441,6 +445,25 @@ class OpsiAshBeacon(Meta):
             if self.appear_then_click(META_ENTRANCE, offset=(20, 300), interval=2):
                 continue
 
+    def ensure_dossier_page(self, skip_first_screenshot=True):
+        self.ui_ensure(page_reward)
+        self._ensure_meta_page()
+        logger.info('Ensure dossier meta page')
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            
+            if self.appear(DOSSIER_LIST, offset=(20, 20)):
+                logger.info('In dossier page')
+                return True
+            if self.handle_map_event():
+                continue
+            if self.appear(ASH_SHOWDOWN, offset=(30, 30)):
+                self.device.click(META_MAIN_DOSSIER_ENTRANCE)
+                continue
+
     def _begin_beacon(self):
         logger.hr('Meta Beacon Attack')
         if not _server_support():
@@ -453,8 +476,9 @@ class OpsiAshBeacon(Meta):
         self._begin_beacon()
 
         with self.config.multi_set():
-            if self._meta_receive_count > 0:
-                MetaReward(self.config, self.device).run()
+            for meta in self._meta_receive:
+                MetaReward(self.config, self.device).run(category=meta)
+            self._meta_receive = []
             self.config.task_delay(server_update=True)
 
 
@@ -583,7 +607,7 @@ class AshBeaconAssist(Meta):
         self.ui_ensure(page_reward)
 
         if self._begin_meta_assist():
-            MetaReward(self.config, self.device).run(dossier=False)
+            MetaReward(self.config, self.device).run()
             self.config.task_delay(server_update=True)
         else:
             self.config.task_delay(minute=(10, 20))

@@ -63,6 +63,8 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         name = name.replace('pasage', 'passage')
         name = name.replace('shef', 'shelf')
         name = name.replace('nnocean', 'naocean')
+        # A OceanwsectorB-Safe zone
+        name = re.sub('^aocean', 'naocean',  name)
 
         # `-` is missing or read as '.'
         # due to font size

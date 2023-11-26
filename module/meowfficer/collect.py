@@ -175,6 +175,39 @@ class MeowfficerCollect(MeowfficerBase):
         # Wait until info bar disappears
         self.ensure_no_info_bar(timeout=1)
 
+    def _meow_skip_popup_after_locking(self, skip_first_screenshot=True):
+        """
+        Since 2023-11-16 update, even locked gold meow will still have popup.
+        If gold meow is locked and have popup, click MEOWFFICER_CONFIRM,
+        if gold meow is unlocked, this method should not be executed.
+        """
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # Next meow MEOWFFICER_APPLY_LOCK load faster than MEOWFFICER_GET_CHECK,
+            # make sure exit with a full screenshot
+            if self.appear(MEOWFFICER_GET_CHECK, offset=(40, 40), interval=3):
+                if self.appear(MEOWFFICER_APPLY_LOCK, offset=(40, 40)):
+                    break
+
+            if self.appear(MEOWFFICER_APPLY_UNLOCK, offset=(40, 40), interval=3):
+                self.device.click(MEOWFFICER_TRAIN_CLICK_SAFE_AREA)
+                continue
+            if self.appear(MEOWFFICER_CONFIRM, offset=(40, 20), interval=3):
+                self.device.click(MEOWFFICER_CONFIRM)
+                continue
+            elif self.appear(MEOWFFICER_CANCEL, offset=(40, 20), interval=3):
+                self.device.click(MEOWFFICER_CONFIRM)
+                continue
+
+        self.device.click_record.pop()
+        self.device.click_record.pop()
+        self.interval_reset((MEOWFFICER_GET_CHECK, MEOWFFICER_APPLY_LOCK,
+                             MEOWFFICER_CONFIRM, MEOWFFICER_CANCEL))
+
     def meow_get(self, skip_first_screenshot=True):
         """
         Transition through all the necessary screens
@@ -204,6 +237,10 @@ class MeowfficerCollect(MeowfficerBase):
                 confirm_timer.reset()
                 continue
             if self.appear(MEOWFFICER_GET_CHECK, offset=(40, 40), interval=3):
+                if self.appear(MEOWFFICER_APPLY_UNLOCK, offset=(40, 40)):
+                    self._meow_skip_popup_after_locking(skip_first_screenshot=True)
+                    confirm_timer.reset()
+
                 count += 1
                 logger.attr('Meow_get', count)
                 with self.stat.new(
@@ -230,6 +267,11 @@ class MeowfficerCollect(MeowfficerBase):
                     confirm_timer.reset()
                     self.interval_reset(MEOWFFICER_GET_CHECK)
                     continue
+
+            # If click MEOWFFICER_TRAIN_FINISH_ALL, will enter evaluate page
+            if self.appear(MEOWFFICER_TRAIN_EVALUATE, offset=(20, 20), interval=3):
+                self.device.click(MEOWFFICER_TRAIN_EVALUATE)
+                continue
 
             # End
             if self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20)):

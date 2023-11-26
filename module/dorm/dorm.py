@@ -18,8 +18,19 @@ from module.ui.ui import UI
 MASK_DORM = Mask(file='./assets/mask/MASK_DORM.png')
 DORM_CAMERA_SWIPE = (300, 250)
 DORM_CAMERA_RANDOM = (-20, -20, 20, 20)
-OCR_FILL = DigitCounter(OCR_DORM_FILL, letter=(255, 247, 247), threshold=128, name='OCR_DORM_FILL')
 OCR_SLOT = DigitCounter(OCR_DORM_SLOT, letter=(107, 89, 82), threshold=128, name='OCR_DORM_SLOT')
+
+
+class OcrDormFood(DigitCounter):
+    def pre_process(self, image):
+        orange = color_similarity_2d(image, color=(239, 158, 49))
+        gray = color_similarity_2d(image, color=(99, 97, 99))
+        image = cv2.subtract(255, cv2.max(orange, gray))
+        image = cv2.multiply(image, 2)
+        return image
+
+
+OCR_FILL = OcrDormFood(OCR_DORM_FILL, name='OCR_DORM_FILL')
 
 
 class Food:
@@ -51,8 +62,8 @@ class RewardDorm(UI):
             out: page_dorm, with info_bar
         """
         image = MASK_DORM.apply(self.device.image)
-        loves = TEMPLATE_DORM_LOVE.match_multi(image, name='DORM_LOVE')
-        coins = TEMPLATE_DORM_COIN.match_multi(image, name='DORM_COIN')
+        loves = TEMPLATE_DORM_LOVE.match_multi(image, name='DORM_LOVE', scaling=1.5)
+        coins = TEMPLATE_DORM_COIN.match_multi(image, name='DORM_COIN', scaling=1.5)
         logger.info(f'Dorm loves: {len(loves)}, Dorm coins: {len(coins)}')
         # Complicated dorm background
         if len(loves) > 6:
@@ -189,19 +200,12 @@ class RewardDorm(UI):
                 break
 
     @cached_property
-    @Config.when(SERVER='en')
     def _dorm_food(self):
-        # 14px lower
-        return ButtonGrid(origin=(279, 375), delta=(159, 0), button_shape=(134, 96), grid_shape=(6, 1), name='FOOD')
-
-    @cached_property
-    @Config.when(SERVER=None)
-    def _dorm_food(self):
-        return ButtonGrid(origin=(279, 375), delta=(159, 0), button_shape=(134, 96), grid_shape=(6, 1), name='FOOD')
+        return ButtonGrid(origin=(395, 410), delta=(129, 0), button_shape=(105, 70), grid_shape=(6, 1), name='FOOD')
 
     @cached_property
     def _dorm_food_ocr(self):
-        grids = self._dorm_food.crop((65, 66, 128, 91), name='FOOD_AMOUNT')
+        grids = self._dorm_food.crop((54, 41, 101, 66), name='FOOD_AMOUNT')
         return Digit(grids.buttons, letter=(255, 255, 255), threshold=128, name='OCR_DORM_FOOD')
 
     def _dorm_has_food(self, button):
@@ -353,7 +357,7 @@ class RewardDorm(UI):
                 self.device.screenshot()
 
             # End
-            if self.appear(DORM_CHECK, offset=(20, 20)):
+            if self.appear(DORM_CHECK):
                 break
 
             if self.appear(DORM_FEED_CHECK, offset=(20, 20), interval=5):

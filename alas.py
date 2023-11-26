@@ -228,6 +228,10 @@ class AzurLaneAutoScript:
         from module.freebies.freebies import Freebies
         Freebies(config=self.config, device=self.device).run()
 
+    def minigame(self):
+        from module.minigame.minigame import Minigame
+        Minigame(config=self.config, device=self.device).run()
+
     def daily(self):
         from module.daily.daily import Daily
         Daily(config=self.config, device=self.device).run()

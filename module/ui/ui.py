@@ -454,7 +454,7 @@ class UI(InfoHandler):
 
         # Campaign preparation
         if self.appear(MAP_PREPARATION, offset=(30, 30), interval=3) \
-                or self.appear(FLEET_PREPARATION, offset=(30, 30), interval=3) \
+                or self.appear(FLEET_PREPARATION, offset=(20, 50), interval=3) \
                 or self.appear(RAID_FLEET_PREPARATION, offset=(30, 30), interval=3) \
                 or self.appear(COALITION_FLEET_PREPARATION, offset=(30, 30), interval=3):
             self.device.click(MAP_PREPARATION_CANCEL)
