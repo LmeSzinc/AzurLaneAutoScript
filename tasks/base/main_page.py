@@ -45,7 +45,7 @@ class OcrPlaneName(OcrWhiteLetterOnComplexBackground):
         # 医域－战斗
         result = result.replace('医域', '区域')
         # 区域-战半, 区域-战头, 区域-战头书
-        result = re.sub(r'战[半头卒]', '战斗', result)
+        result = re.sub(r'战[半头卒三]', '战斗', result)
         # 区域一战斗
         result = re.sub(r'区域[\-—－一=]', '区域-', result)
         # 累塔的办公室

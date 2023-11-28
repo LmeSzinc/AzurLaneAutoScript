@@ -79,9 +79,13 @@ class Route(RouteBase):
         | spawn    | Waypoint((483.5, 105.1)), | 275.8     | 87       |
         | enemy    | Waypoint((457.4, 101.0)), | 126.1     | 276      |
         | exit_    | Waypoint((441.4, 101.6)), | 275.9     | 274      |
+        | exit1    | Waypoint((435.5, 109.2)), | 282.2     | 274      |
+        | exit2    | Waypoint((435.4, 95.0)),  | 282.2     | 274      |
         """
         self.map_init(plane=Jarilo_BackwaterPass, floor="F1", position=(483.5, 105.1))
-        self.register_domain_exit(Waypoint((441.4, 101.6)), end_rotation=274)
+        self.register_domain_exit(
+            Waypoint((441.4, 101.6)), end_rotation=274,
+            left_door=Waypoint((435.5, 109.2)), right_door=Waypoint((435.4, 95.0)))
         enemy = Waypoint((457.4, 101.0))
         # ===== End of generated waypoints =====
 

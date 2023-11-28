@@ -134,10 +134,14 @@ class Route(RouteBase):
         | spawn    | Waypoint((655.5, 537.3)), | 6.7       | 1        |
         | item     | Waypoint((680.6, 503.2)), | 30.1      | 27       |
         | enemy    | Waypoint((656.2, 484.2)), | 11.1      | 184      |
-        | exit_    | Waypoint((647.0, 477.5)), | 357.8     | 352      |
+        | exit_    | Waypoint((655.4, 485.5)), | 11.1      | 1        |
+        | exit1    | Waypoint((647.4, 476.5)), | 11.1      | 1        |
+        | exit2    | Waypoint((667.0, 472.3)), | 11.1      | 1        |
         """
         self.map_init(plane=Luofu_ArtisanshipCommission, floor="F1", position=(655.5, 537.3))
-        self.register_domain_exit(Waypoint((647.0, 477.5)), end_rotation=352)
+        self.register_domain_exit(
+            Waypoint((655.4, 485.5)), end_rotation=1,
+            left_door=Waypoint((647.4, 476.5)), right_door=Waypoint((667.0, 472.3)))
         item = Waypoint((680.6, 503.2))
         enemy = Waypoint((656.2, 484.2))
         # ===== End of generated waypoints =====

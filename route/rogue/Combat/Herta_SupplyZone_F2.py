@@ -81,6 +81,34 @@ class Route(RouteBase):
         # Ignore item, bad way
         self.clear_enemy(enemy_X397Y182)
 
+    def Herta_SupplyZone_F2_X397Y239(self):
+        """
+        | Waypoint       | Position                  | Direction | Rotation |
+        | -------------- | ------------------------- | --------- | -------- |
+        | spawn          | Waypoint((397.4, 233.5)), | 6.7       | 4        |
+        | item_X406Y202  | Waypoint((406.5, 202.1)), | 48.1      | 45       |
+        | enemy_X397Y182 | Waypoint((397.2, 183.1)), | 356.3     | 4        |
+        | exit_X397Y182  | Waypoint((397.2, 183.1)), | 356.3     | 4        |
+        | exit1_X393Y163 | Waypoint((393.6, 163.7)), | 11.1      | 4        |
+        | exit2_X406Y161 | Waypoint((406.6, 161.5)), | 4.3       | 357      |
+        """
+        self.map_init(plane=Herta_SupplyZone, floor="F2", position=(397.4, 239))
+        self.register_domain_exit(
+            Waypoint((397.2, 183.1)), end_rotation=4,
+            left_door=Waypoint((393.6, 163.7)), right_door=Waypoint((406.6, 161.5)))
+        item_X406Y202 = Waypoint((406.5, 202.1))
+        enemy_X397Y182 = Waypoint((397.2, 183.1))
+        # ===== End of generated waypoints =====
+
+        # Ignore item, bad way
+        self.clear_enemy(enemy_X397Y182)
+
+        """
+        Notes
+        Herta_SupplyZone_F2_X397Y239 is the same as Herta_SupplyZone_F2_X397Y233
+        but for wrong spawn point detected
+        """
+
     def Herta_SupplyZone_F2_X543Y255(self):
         """
         | Waypoint | Position                  | Direction | Rotation |
