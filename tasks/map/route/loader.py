@@ -2,7 +2,7 @@ import importlib
 import os
 
 from module.base.decorator import del_cached_property
-from module.exception import ScriptError
+from module.exception import GameStuckError, GameTooManyClickError, ScriptError
 from module.logger import logger
 from tasks.base.ui import UI
 from tasks.map.route.base import RouteBase
@@ -80,6 +80,9 @@ class RouteLoader(UI):
             logger.critical(e)
             logger.critical(f'Route class in {route} ({path}) does not have method {func}')
             raise ScriptError
+        except (GameStuckError, GameTooManyClickError):
+            logger.error(f'Route failed: {route}')
+            raise
         self.route_func = func
         self.route_obj.route_func = func
         func_obj()
