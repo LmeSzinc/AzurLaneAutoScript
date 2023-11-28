@@ -16,7 +16,7 @@ class CombatState(UI):
     def is_combat_executing(self) -> bool:
         appear = self.appear(COMBAT_PAUSE)
         if appear:
-            if COMBAT_PAUSE.button_offset[0] <= 5:
+            if COMBAT_PAUSE.button_offset[0] < 3:
                 return True
 
         return False
