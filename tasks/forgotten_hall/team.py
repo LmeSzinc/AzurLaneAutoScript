@@ -95,7 +95,8 @@ class ForgottenHallTeam(UI):
             if timeout.reached():
                 logger.info('Team not prepared')
                 return False
-            chosen_list = [not self.appear(s) for s in seats]
-            if all(chosen_list):
-                logger.info("Team already prepared")
-                return True
+            if self.team_prepared():
+                chosen_list = [not self.appear(s) for s in seats]
+                if all(chosen_list):
+                    logger.info("Team already prepared")
+                    return True
