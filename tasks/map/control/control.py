@@ -217,6 +217,7 @@ class MapControl(Combat, AimDetectorMixin):
                 if diff < waypoint.interact_radius:
                     if self.handle_combat_interact(interval=1):
                         contact.up()
+                        waypoint.unexpected_confirm.reset()
 
             # Arrive
             if near := self.minimap.is_position_near(waypoint.position, threshold=waypoint.get_threshold(end_opt)):
