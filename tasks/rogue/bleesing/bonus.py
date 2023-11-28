@@ -51,7 +51,7 @@ class RogueBonusSelector(RogueSelector):
 
             if is_card_selected(self.main, target, confirm_button=BONUS_CONFIRM):
                 break
-            if interval.reached():
+            if target is not None and interval.reached():
                 self.main.device.click(target)
                 interval.reset()
 
