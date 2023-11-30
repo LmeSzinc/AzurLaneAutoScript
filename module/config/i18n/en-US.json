@@ -792,7 +792,7 @@
     },
     "StageIncrease": {
       "name": "Enable Continuous Clear",
-      "help": "Suited for 100% Clear, requires sufficient fleet strength and satisfying level attribute restrictions for every level involved\n1-1 to 14-4, A1 to A3, B1 to B3, C1 to C3, D1 to D3, SP1 to SP4"
+      "help": "Suited for 100% Clear, requires sufficient fleet strength and satisfying level attribute restrictions for every level involved\n1-1 to 14-4, A1 to A3, B1 to B3, C1 to C3, D1 to D3, T1 to T6, SP1 to SP4"
     },
     "GetNewShip": {
       "name": "New Ship Get",
