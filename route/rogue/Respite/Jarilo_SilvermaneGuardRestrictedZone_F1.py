@@ -1,10 +1,12 @@
 from tasks.map.control.waypoint import Waypoint
 from tasks.map.keywords.plane import Jarilo_SilvermaneGuardRestrictedZone
+from tasks.map.route.base import locked_position
 from tasks.rogue.route.base import RouteBase
 
 
 class Route(RouteBase):
 
+    @locked_position
     def Jarilo_SilvermaneGuardRestrictedZone_F1_X777Y199(self):
         """
         | Waypoint | Position                  | Direction | Rotation |

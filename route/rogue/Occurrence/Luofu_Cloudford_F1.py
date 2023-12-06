@@ -1,10 +1,13 @@
+from module.exception import GameStuckError
 from tasks.map.control.waypoint import Waypoint
 from tasks.map.keywords.plane import Luofu_Cloudford
+from tasks.map.route.base import locked_rotation
 from tasks.rogue.route.base import RouteBase
 
 
 class Route(RouteBase):
 
+    @locked_rotation(270)
     def Luofu_Cloudford_F1_X241Y947(self):
         """
         | Waypoint | Position                  | Direction | Rotation |

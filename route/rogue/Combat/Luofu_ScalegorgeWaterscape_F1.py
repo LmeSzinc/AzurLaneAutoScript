@@ -89,7 +89,7 @@ class Route(RouteBase):
         | -------- | ------------------------- | --------- | -------- |
         | spawn    | Waypoint((567.4, 280.2)), | 274.2     | 274      |
         | enemy1   | Waypoint((495.3, 273.7)), | 219.9     | 292      |
-        | node2    | Waypoint((482.8, 252.6)), | 337.3     | 336      |
+        | node2    | Waypoint((491.3, 269.4)), | 339.1     | 334      |
         | enemy2   | Waypoint((485.0, 211.7)), | 17.3      | 15       |
         | item2    | Waypoint((472.6, 228.6)), | 342.0     | 343      |
         | exit_    | Waypoint((485.0, 211.7)), | 17.3      | 15       |
@@ -101,7 +101,7 @@ class Route(RouteBase):
             Waypoint((485.0, 211.7)), end_rotation=15,
             left_door=Waypoint((481.4, 207.3)), right_door=Waypoint((491.0, 209.4)))
         enemy1 = Waypoint((495.3, 273.7))
-        node2 = Waypoint((482.8, 252.6))
+        node2 = Waypoint((491.3, 269.4))
         enemy2 = Waypoint((485.0, 211.7))
         item2 = Waypoint((472.6, 228.6))
         # ===== End of generated waypoints =====
@@ -111,7 +111,7 @@ class Route(RouteBase):
         self.rotation_set(0)
         self.minimap.lock_rotation(0)
         self.clear_item(
-            node2,
+            node2.set_threshold(5),
             item2,
         )
         self.clear_enemy(

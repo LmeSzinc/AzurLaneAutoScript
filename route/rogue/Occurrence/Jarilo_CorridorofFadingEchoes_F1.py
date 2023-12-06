@@ -32,9 +32,13 @@ class Route(RouteBase):
         | item     | Waypoint((250.1, 970.4)),  | 157.2     | 244      |
         | event    | Waypoint((231.8, 991.0)),  | 233.9     | 230      |
         | exit_    | Waypoint((227.6, 1000.4)), | 229.9     | 228      |
+        | exit1    | Waypoint((227.6, 1007.8)), | 223.8     | 223      |
+        | exit2    | Waypoint((221.4, 999.5)),  | 223.8     | 223      |
         """
         self.map_init(plane=Jarilo_CorridorofFadingEchoes, floor="F1", position=(265.5, 963.6))
-        self.register_domain_exit(Waypoint((227.6, 1000.4)), end_rotation=228)
+        self.register_domain_exit(
+            Waypoint((227.6, 1000.4)), end_rotation=228,
+            left_door=Waypoint((227.6, 1007.8)), right_door=Waypoint((221.4, 999.5)))
         item = Waypoint((250.1, 970.4))
         event = Waypoint((231.8, 991.0))
 

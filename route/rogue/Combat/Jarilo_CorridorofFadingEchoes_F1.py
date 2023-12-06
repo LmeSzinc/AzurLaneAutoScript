@@ -229,7 +229,7 @@ class Route(RouteBase):
         enemy2 = Waypoint((556.4, 206.8))
         # ===== End of generated waypoints =====
 
-        self.rotation_set(135)
+        self.rotation_set(120)
         self.clear_item(item)
         self.clear_enemy(enemy1)
         self.rotation_set(180)
