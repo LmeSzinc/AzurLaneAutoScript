@@ -71,7 +71,11 @@ class RouteLoader(UI):
             before_func_obj = self.route_obj.__getattribute__('before_route')
         except AttributeError:
             before_func_obj = empty_function
-        before_func_obj()
+        try:
+            before_func_obj()
+        except (GameStuckError, GameTooManyClickError):
+            logger.error(f'Route failed: {route}')
+            raise
 
         # Run route
         try:
@@ -80,16 +84,21 @@ class RouteLoader(UI):
             logger.critical(e)
             logger.critical(f'Route class in {route} ({path}) does not have method {func}')
             raise ScriptError
+        self.route_func = func
+        self.route_obj.route_func = func
+        try:
+            func_obj()
         except (GameStuckError, GameTooManyClickError):
             logger.error(f'Route failed: {route}')
             raise
-        self.route_func = func
-        self.route_obj.route_func = func
-        func_obj()
 
         # after_route()
         try:
             after_route_obj = self.route_obj.__getattribute__('after_route')
         except AttributeError:
             after_route_obj = empty_function
-        after_route_obj()
+        try:
+            after_route_obj()
+        except (GameStuckError, GameTooManyClickError):
+            logger.error(f'Route failed: {route}')
+            raise
