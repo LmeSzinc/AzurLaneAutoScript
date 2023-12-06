@@ -217,14 +217,14 @@ RogueWorld:
     value: Blessing Cosmos
     option: [ Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos ]
   DomainStrategy:
-    value: occurrence
+    value: combat
     option: [ combat, occurrence ]
   ImmersionReward:
     value: immersifier
     option: [ do_not_claim, immersifier, immersifier_trailblaze_power ]
   StopCondition:
     value: weekly_point_reward
-    option: [ weekly_point_reward, 100_elite_boss, non_stop ]
+    option: [ weekly_point_reward, debug ]
 
 RoguePath:
   PresetResonanceFilter:

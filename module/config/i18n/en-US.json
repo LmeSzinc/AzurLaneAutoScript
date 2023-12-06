@@ -8,8 +8,8 @@
       "name": "Daily",
       "help": ""
     },
-    "Rogue": {
-      "name": "Simulated Universe",
+    "Weekly": {
+      "name": "Weekly",
       "help": ""
     }
   },
@@ -24,10 +24,6 @@
     },
     "Dungeon": {
       "name": "Dungeon",
-      "help": ""
-    },
-    "Weekly": {
-      "name": "Echo of War",
       "help": ""
     },
     "DailyQuest": {
@@ -50,9 +46,13 @@
       "name": "Freebies",
       "help": ""
     },
+    "Weekly": {
+      "name": "Echo of War",
+      "help": ""
+    },
     "Rogue": {
       "name": "Simulated Universe",
-      "help": "Simulated Universe is in development, task will not be run"
+      "help": ""
     }
   },
   "Scheduler": {
@@ -828,10 +828,9 @@
     },
     "StopCondition": {
       "name": "Stop Condition",
-      "help": "Note: If \"Reached 100 Elite/Boss drop rewards\", the simulated universe task will run for several hours",
+      "help": "",
       "weekly_point_reward": "Reached Weekly Point Rewards",
-      "100_elite_boss": "Reached 100 Elite/BOSS drop rewards",
-      "non_stop": "Non-stop (for debugging only)"
+      "debug": "(for debugging only)"
     }
   },
   "RoguePath": {

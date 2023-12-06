@@ -8,8 +8,8 @@
       "name": "Diario",
       "help": ""
     },
-    "Rogue": {
-      "name": "Universo Simulado",
+    "Weekly": {
+      "name": "Semanario",
       "help": ""
     }
   },
@@ -24,10 +24,6 @@
     },
     "Dungeon": {
       "name": "Mazmorra",
-      "help": ""
-    },
-    "Weekly": {
-      "name": "Ecos de la guerra",
       "help": ""
     },
     "DailyQuest": {
@@ -50,9 +46,13 @@
       "name": "Freebies",
       "help": ""
     },
+    "Weekly": {
+      "name": "Ecos de la guerra",
+      "help": ""
+    },
     "Rogue": {
       "name": "Universo Simulado",
-      "help": "El Universo Simulado está en desarrollo, y no se ejecutará"
+      "help": ""
     }
   },
   "Scheduler": {
@@ -828,10 +828,9 @@
     },
     "StopCondition": {
       "name": "Condición de detención",
-      "help": "Nota: Si \"recompensas de Elite/BOSS\", la tarea del universo simulado se ejecutará durante varias horas",
+      "help": "",
       "weekly_point_reward": "Recompensas de puntos semanales alcanzados",
-      "100_elite_boss": "Has alcanzado 100 recompensas de Elite/BOSS",
-      "non_stop": "Sin parar (solo para depuración)"
+      "debug": "(solo para depuración)"
     }
   },
   "RoguePath": {

@@ -28,9 +28,6 @@ Daily:
       - DungeonDaily
       - DungeonSupport
       - DungeonStorage
-    Weekly:
-      - Scheduler
-      - Weekly
     DailyQuest:
       - Scheduler
       - AchievableQuest
@@ -47,15 +44,18 @@ Daily:
     Freebies:
       - Scheduler
       - SupportReward
-# ==================== Rogue ====================
+# ==================== Weekly ====================
 
-Rogue:
+Weekly:
   menu: 'list'
   page: 'setting'
   tasks:
+    Weekly:
+      - Scheduler
+      - Weekly
     Rogue:
       - Scheduler
       - RogueWorld
-      - RoguePath
       - RogueBlessing
       - RogueCurio
+      - RoguePath

@@ -8,9 +8,9 @@
       "name": "Menu.Daily.name",
       "help": "Menu.Daily.help"
     },
-    "Rogue": {
-      "name": "Menu.Rogue.name",
-      "help": "Menu.Rogue.help"
+    "Weekly": {
+      "name": "Menu.Weekly.name",
+      "help": "Menu.Weekly.help"
     }
   },
   "Task": {
@@ -25,10 +25,6 @@
     "Dungeon": {
       "name": "Task.Dungeon.name",
       "help": "Task.Dungeon.help"
-    },
-    "Weekly": {
-      "name": "Task.Weekly.name",
-      "help": "Task.Weekly.help"
     },
     "DailyQuest": {
       "name": "Task.DailyQuest.name",
@@ -49,6 +45,10 @@
     "Freebies": {
       "name": "他ギフト",
       "help": ""
+    },
+    "Weekly": {
+      "name": "Task.Weekly.name",
+      "help": "Task.Weekly.help"
     },
     "Rogue": {
       "name": "Task.Rogue.name",
@@ -830,8 +830,7 @@
       "name": "RogueWorld.StopCondition.name",
       "help": "RogueWorld.StopCondition.help",
       "weekly_point_reward": "weekly_point_reward",
-      "100_elite_boss": "100_elite_boss",
-      "non_stop": "non_stop"
+      "debug": "debug"
     }
   },
   "RoguePath": {

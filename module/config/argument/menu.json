@@ -12,7 +12,6 @@
     "page": "setting",
     "tasks": [
       "Dungeon",
-      "Weekly",
       "DailyQuest",
       "BattlePass",
       "Assignment",
@@ -20,10 +19,11 @@
       "Freebies"
     ]
   },
-  "Rogue": {
+  "Weekly": {
     "menu": "list",
     "page": "setting",
     "tasks": [
+      "Weekly",
       "Rogue"
     ]
   }

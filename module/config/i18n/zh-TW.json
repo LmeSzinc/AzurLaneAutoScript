@@ -8,8 +8,8 @@
       "name": "每日",
       "help": ""
     },
-    "Rogue": {
-      "name": "模擬宇宙",
+    "Weekly": {
+      "name": "每週",
       "help": ""
     }
   },
@@ -24,10 +24,6 @@
     },
     "Dungeon": {
       "name": "每日副本",
-      "help": ""
-    },
-    "Weekly": {
-      "name": "歷戰餘響",
       "help": ""
     },
     "DailyQuest": {
@@ -50,9 +46,13 @@
       "name": "免費獎勵",
       "help": ""
     },
+    "Weekly": {
+      "name": "歷戰餘響",
+      "help": ""
+    },
     "Rogue": {
       "name": "模擬宇宙",
-      "help": "模擬宇宙還在開發中，任務不會被運行"
+      "help": ""
     }
   },
   "Scheduler": {
@@ -828,10 +828,9 @@
     },
     "StopCondition": {
       "name": "停止條件",
-      "help": "注意：\"每週100精英怪掉落獎勵達到上限\" 時，模擬宇宙任務將運行數小時",
+      "help": "",
       "weekly_point_reward": "每週點數獎勵達到上限",
-      "100_elite_boss": "每週100精英怪掉落獎勵達到上限",
-      "non_stop": "不停止 (只用於除錯)"
+      "debug": "(只用於偵錯)"
     }
   },
   "RoguePath": {

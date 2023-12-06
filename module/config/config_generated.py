@@ -121,9 +121,9 @@ class GeneratedConfig:
     RogueWorld_World = 'Simulated_Universe_World_7'  # Simulated_Universe_World_3, Simulated_Universe_World_4, Simulated_Universe_World_5, Simulated_Universe_World_6, Simulated_Universe_World_7, Simulated_Universe_World_8
     RogueWorld_Path = 'The_Hunt'  # Preservation, Remembrance, Nihility, Abundance, The_Hunt, Destruction, Elation
     RogueWorld_Bonus = 'Blessing Cosmos'  # Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos
-    RogueWorld_DomainStrategy = 'occurrence'  # combat, occurrence
+    RogueWorld_DomainStrategy = 'combat'  # combat, occurrence
     RogueWorld_ImmersionReward = 'immersifier'  # do_not_claim, immersifier, immersifier_trailblaze_power
-    RogueWorld_StopCondition = 'weekly_point_reward'  # weekly_point_reward, 100_elite_boss, non_stop
+    RogueWorld_StopCondition = 'weekly_point_reward'  # weekly_point_reward, debug
 
     # Group `RoguePath`
     RoguePath_PresetResonanceFilter = 'preset-1'  # preset-1, custom

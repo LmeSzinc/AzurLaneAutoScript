@@ -348,14 +348,14 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
 
         # Choose a door
         logger.hr('Find domain exit', level=2)
-        logger.info(f'Migrate={self.config.DOMAIN_EXIT_MIGRATE_DEV}, left_door={left_door}, right_door={right_door}')
-        if not self.config.DOMAIN_EXIT_MIGRATE_DEV and (not left_door and not right_door):
+        logger.info(f'Migrate={self.config.IS_ROGUE_DEBUG}, left_door={left_door}, right_door={right_door}')
+        if not self.config.IS_ROGUE_DEBUG and (not left_door and not right_door):
             return self._domain_exit_old()
 
         logger.info(f'Using new predict_door()')
         door = self.predict_door()
-        if self.config.DOMAIN_EXIT_MIGRATE_DEV and self.exit_has_double_door and (not left_door or not right_door):
-            logger.critical(f'Domain exit is not defined in: {self.route_func}')
+        if self.config.IS_ROGUE_DEBUG and self.exit_has_double_door and (not left_door or not right_door):
+            logger.critical(f'Domain exit is not defined, please record it: {self.route_func}')
             exit(1)
 
         # Goto door

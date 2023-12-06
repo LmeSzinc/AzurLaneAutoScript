@@ -520,6 +520,10 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
     def DEVICE_CONTROL_METHOD(self):
         return self.Emulator_ControlMethod
 
+    @property
+    def IS_ROGUE_DEBUG(self):
+        return self.RogueWorld_StopCondition == 'debug'
+
     def temporary(self, **kwargs):
         """
         Cover some settings, and recover later.

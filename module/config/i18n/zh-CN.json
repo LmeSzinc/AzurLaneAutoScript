@@ -8,8 +8,8 @@
       "name": "每日",
       "help": ""
     },
-    "Rogue": {
-      "name": "模拟宇宙",
+    "Weekly": {
+      "name": "每周",
       "help": ""
     }
   },
@@ -24,10 +24,6 @@
     },
     "Dungeon": {
       "name": "每日副本",
-      "help": ""
-    },
-    "Weekly": {
-      "name": "历战余响",
       "help": ""
     },
     "DailyQuest": {
@@ -50,9 +46,13 @@
       "name": "白嫖奖励",
       "help": ""
     },
+    "Weekly": {
+      "name": "历战余响",
+      "help": ""
+    },
     "Rogue": {
       "name": "模拟宇宙",
-      "help": "模拟宇宙还在开发中，任务不会被运行"
+      "help": ""
     }
   },
   "Scheduler": {
@@ -828,10 +828,9 @@
     },
     "StopCondition": {
       "name": "停止条件",
-      "help": "注意：\"每周100精英怪掉落奖励达到上限\" 时，模拟宇宙任务将运行数小时",
+      "help": "",
       "weekly_point_reward": "每周点数奖励达到上限",
-      "100_elite_boss": "每周100精英怪掉落奖励达到上限",
-      "non_stop": "不停止 (仅用于调试)"
+      "debug": "(仅用于调试)"
     }
   },
   "RoguePath": {
