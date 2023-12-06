@@ -571,7 +571,7 @@
     },
     "Complete_1_stage_in_Simulated_Universe_Any_world": {
       "name": "Supera 1 zona del Universo Simulado (cualquier mundo)",
-      "help": "",
+      "help": "Necesitas configurar y activar la tarea \"Universo Simulado\"",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"

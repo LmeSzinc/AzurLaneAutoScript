@@ -571,7 +571,7 @@
     },
     "Complete_1_stage_in_Simulated_Universe_Any_world": {
       "name": "Complete 1 stage in Simulated Universe (Any world)",
-      "help": "",
+      "help": "Need to configure and enable the \"Simulated Universe\" task",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"

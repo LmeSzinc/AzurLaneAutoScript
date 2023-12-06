@@ -1,4 +1,5 @@
 from module.logger import logger
+from tasks.daily.keywords.daily_quest import Complete_1_stage_in_Simulated_Universe_Any_world
 from tasks.rogue.entry.entry import RogueEntry
 from tasks.rogue.exception import RogueReachedWeeklyPointLimit, RogueTeamNotPrepared
 from tasks.rogue.route.loader import RouteLoader
@@ -29,17 +30,27 @@ class Rogue(RouteLoader, RogueEntry):
         return True
 
     def run(self):
+        self.config.update_daily_quests()
         while 1:
             # Run
             success = self.rogue_once()
-            if not success:
-                break
 
             # Scheduler
-            if self.config.task_switched():
-                self.config.task_stop()
-
-        self.config.task_delay(server_update=True)
+            with self.config.multi_set():
+                # Task switched
+                if self.config.task_switched():
+                    self.config.task_stop()
+                # Archived daily quest
+                if success:
+                    quests = self.config.stored.DailyQuest.load_quests()
+                    if Complete_1_stage_in_Simulated_Universe_Any_world in quests:
+                        logger.info('Achieve daily quest Complete_1_stage_in_Simulated_Universe_Any_world')
+                        self.config.task_call('DailyQuest')
+                        self.config.task_stop()
+                # End
+                if not success:
+                    self.config.task_delay(server_update=True)
+                    break
 
 
 if __name__ == '__main__':

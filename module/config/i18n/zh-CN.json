@@ -571,7 +571,7 @@
     },
     "Complete_1_stage_in_Simulated_Universe_Any_world": {
       "name": "通关「模拟宇宙」（任意世界）的1个区域",
-      "help": "",
+      "help": "需要设置并启用\"模拟宇宙\"任务",
       "achievable": "可完成",
       "not_set": "未设置",
       "not_supported": "暂未支持"
