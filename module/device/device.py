@@ -1,5 +1,6 @@
+import collections
+import itertools
 import sys
-from collections import deque
 
 from module.base.timer import Timer
 from module.device.app_control import AppControl
@@ -23,7 +24,7 @@ else:
 class Device(Screenshot, Control, AppControl, Platform):
     _screen_size_checked = False
     detect_record = set()
-    click_record = deque(maxlen=15)
+    click_record = collections.deque(maxlen=30)
     stuck_timer = Timer(60, count=60).start()
 
     def __init__(self, *args, **kwargs):
@@ -150,11 +151,14 @@ class Device(Screenshot, Control, AppControl, Platform):
         Raises:
             GameTooManyClickError:
         """
-        count = {}
-        for key in self.click_record:
-            count[key] = count.get(key, 0) + 1
-        count = sorted(count.items(), key=lambda item: item[1])
+        first15 = itertools.islice(self.click_record, 0, 15)
+        count = collections.Counter(first15).most_common(2)
         if count[0][1] >= 12:
+            # Allow more clicks in Ruan Mei event
+            if 'CHOOSE_OPTION_CONFIRM' in self.click_record and 'BLESSING_CONFIRM' in self.click_record:
+                count = collections.Counter(self.click_record).most_common(2)
+                if count[0][0] == 'BLESSING_CONFIRM' and count[0][1] < 25:
+                    return
             logger.warning(f'Too many click for a button: {count[0][0]}')
             logger.warning(f'History click: {[str(prev) for prev in self.click_record]}')
             self.click_record_clear()
