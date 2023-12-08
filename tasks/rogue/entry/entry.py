@@ -75,6 +75,33 @@ class OcrRogueWorld(Ocr):
 
 
 class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
+    def _rogue_world_wait(self, skip_first_screenshot=True):
+        """
+        Wait is_page_rogue_main() fully loaded
+
+        Pages:
+            out: is_page_rogue_main()
+        """
+        logger.info(f'Rogue world wait')
+        ocr = OcrRogueWorld(OCR_WORLD)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # Additional
+            if self.appear_then_click(REWARD_CLOSE, interval=2):
+                continue
+            if self.handle_ui_close(LEVEL_CONFIRM, interval=2):
+                continue
+
+            if self.is_page_rogue_main() \
+                    and self.image_color_count(OCR_WORLD, color=(255, 255, 255), threshold=221, count=50):
+                current = ocr.ocr_single_line(self.device.image)
+                if current:
+                    break
+
     def _rogue_world_set(self, world: int | DungeonList, skip_first_screenshot=True):
         """
         Args:
@@ -327,6 +354,9 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
         if not is_rogue_entry():
             self.dungeon_goto_rogue()
             self._rogue_teleport()
+
+        # is_page_rogue_main()
+        self._rogue_world_wait()
 
         # Update rogue points
         if datetime.now() - self.config.stored.SimulatedUniverse.time > timedelta(minutes=2):
