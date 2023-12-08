@@ -1,11 +1,15 @@
 import threading
+from datetime import timedelta
 
 from module.base.timer import Timer
 from module.base.utils import crop
+from module.config.stored.classes import now
+from module.config.utils import DEFAULT_TIME
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
 from tasks.base.ui import UI
 from tasks.dungeon.assets.assets_dungeon_state import OCR_SIMUNI_POINT, OCR_SIMUNI_POINT_OFFSET, OCR_STAMINA
+from tasks.dungeon.keywords import DungeonList
 
 
 class OcrSimUniPoint(DigitCounter):
@@ -123,3 +127,29 @@ class DungeonState(UI):
 
         thread = threading.Thread(target=func, args=(self.device.image,))
         thread.start()
+
+    def dungeon_stamina_delay(self, dungeon: DungeonList):
+        """
+        Delay tasks that use stamina
+        """
+        if dungeon.is_Simulated_Universe:
+            limit = 80
+        elif dungeon.is_Cavern_of_Corrosion:
+            limit = 80
+        elif dungeon.is_Echo_of_War:
+            limit = 30
+        else:
+            limit = 60
+        # Recover 1 trailbaze power each 6 minutes
+        current = self.config.stored.TrailblazePower.value
+        cover = max(limit - current, 0) * 6
+        future = now() + timedelta(minutes=cover)
+        logger.info(f'Currently has {current} need {cover} minutes to reach {limit}')
+
+        tasks = ['Dungeon', 'Weekly']
+        with self.config.multi_set():
+            for task in tasks:
+                next_run = self.config.cross_get(keys=f'{task}.Scheduler.NextRun', default=DEFAULT_TIME)
+                if future > next_run:
+                    logger.info(f"Delay task `{task}` to {future}")
+                    self.config.cross_set(keys=f'{task}.Scheduler.NextRun', value=future)

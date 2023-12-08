@@ -135,7 +135,7 @@ Weekly:
   Name:
     # Dungeon names will be injected in config updater
     value: Echo_of_War_Divine_Seed
-    options: []
+    options: [ ]
   Team:
     value: 1
     option: [ 1, 2, 3, 4, 5, 6 ]
@@ -219,12 +219,8 @@ RogueWorld:
   DomainStrategy:
     value: combat
     option: [ combat, occurrence ]
-  ImmersionReward:
-    value: immersifier
-    option: [ do_not_claim, immersifier, immersifier_trailblaze_power ]
-  StopCondition:
-    value: weekly_point_reward
-    option: [ weekly_point_reward, debug ]
+  UseImmersifier: true
+  UseStamina: false
 
 RoguePath:
   PresetResonanceFilter:
@@ -263,3 +259,6 @@ RogueCurio:
     option: [ follow-presets, unrecorded-first, before-random ]
   CustomCurioFilter: |-
     博士之袍 > 福灵胶 > 分裂金币 > 信仰债券 > 换境桂冠 > 俱乐部券 > 碎星芳饵 > random
+
+RogueDebug:
+  DebugMode: false

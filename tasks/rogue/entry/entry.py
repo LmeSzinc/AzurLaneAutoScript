@@ -2,7 +2,7 @@ import re
 from datetime import datetime, timedelta
 
 from module.base.timer import Timer
-from module.exception import RequestHumanTakeover
+from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 from module.ocr.ocr import Ocr
 from tasks.base.assets.assets_base_main_page import ROGUE_LEAVE_FOR_NOW
@@ -251,26 +251,29 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
         Raises:
             RogueReachedWeeklyPointLimit: Raised if task should stop
         """
-        logger.attr('RogueWorld_StopCondition', self.config.RogueWorld_StopCondition)
-        logger.attr('RogueWorld_ImmersionReward', self.config.RogueWorld_ImmersionReward)
-        if self.config.RogueWorld_StopCondition == 'non_stop':
+        logger.info(f'RogueWorld_UseImmersifier={self.config.RogueWorld_UseImmersifier}, '
+                    f'RogueWorld_UseStamina={self.config.RogueWorld_UseStamina}, '
+                    f'RogueDebug_DebugMode={self.config.RogueDebug_DebugMode}')
+        # This shouldn't happen
+        if self.config.RogueWorld_UseStamina and not self.config.RogueWorld_UseImmersifier:
+            logger.error('Invalid rogue reward settings')
+            raise ScriptError
+
+        if self.config.RogueDebug_DebugMode:
             # Always run
             return
-        if self.config.RogueWorld_StopCondition == 'weekly_point_reward':
-            if self.config.stored.SimulatedUniverse.is_expired():
-                # Expired, do rogue
-                pass
-            elif self.config.stored.SimulatedUniverse.is_full():
-                if self.config.RogueWorld_ImmersionReward in ['immersifier', 'immersifier_trailblaze_power'] \
-                        and self.config.stored.Immersifier.value > 0:
-                    logger.info('Reached weekly point limit but still have immersifiers left, continue to use them')
-                else:
-                    raise RogueReachedWeeklyPointLimit
+
+        if self.config.stored.SimulatedUniverse.is_expired():
+            # Expired, do rogue
+            pass
+        elif self.config.stored.SimulatedUniverse.is_full():
+            if self.config.RogueWorld_UseImmersifier and self.config.stored.Immersifier.value > 0:
+                logger.info('Reached weekly point limit but still have immersifiers left, continue to use them')
             else:
-                # Not full, do rogue
-                pass
+                raise RogueReachedWeeklyPointLimit
         else:
-            raise RogueReachedWeeklyPointLimit
+            # Not full, do rogue
+            pass
 
     def rogue_world_enter(self, world: int | DungeonList = None):
         """

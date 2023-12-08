@@ -122,8 +122,8 @@ class GeneratedConfig:
     RogueWorld_Path = 'The_Hunt'  # Preservation, Remembrance, Nihility, Abundance, The_Hunt, Destruction, Elation
     RogueWorld_Bonus = 'Blessing Cosmos'  # Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos
     RogueWorld_DomainStrategy = 'combat'  # combat, occurrence
-    RogueWorld_ImmersionReward = 'immersifier'  # do_not_claim, immersifier, immersifier_trailblaze_power
-    RogueWorld_StopCondition = 'weekly_point_reward'  # weekly_point_reward, debug
+    RogueWorld_UseImmersifier = True
+    RogueWorld_UseStamina = False
 
     # Group `RoguePath`
     RoguePath_PresetResonanceFilter = 'preset-1'  # preset-1, custom
@@ -139,3 +139,6 @@ class GeneratedConfig:
     RogueCurio_PresetCurioFilter = 'preset-1'  # preset-1, custom
     RogueCurio_CurioSelectionStrategy = 'follow-presets'  # follow-presets, unrecorded-first, before-random
     RogueCurio_CustomCurioFilter = '博士之袍 > 福灵胶 > 分裂金币 > 信仰债券 > 换境桂冠 > 俱乐部券 > 碎星芳饵 > random'
+
+    # Group `RogueDebug`
+    RogueDebug_DebugMode = False

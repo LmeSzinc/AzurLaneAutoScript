@@ -819,18 +819,13 @@
       "combat": "Prefer Combat",
       "occurrence": "Prefer Occurrence"
     },
-    "ImmersionReward": {
-      "name": "Claim Immersion Rewards",
-      "help": "Note: If \"Use Immersifier and Trailblaze Power\" is selected, the dungeon task will no longer run, and all trailblaze power will be used first to claim immersion rewards, except for double events.",
-      "do_not_claim": "Do not Claim",
-      "immersifier": "Use Immersifier",
-      "immersifier_trailblaze_power": "Use Immersifier and Trailblaze Power"
+    "UseImmersifier": {
+      "name": "Claim Planers Using Immersifiers",
+      "help": ""
     },
-    "StopCondition": {
-      "name": "Stop Condition",
-      "help": "",
-      "weekly_point_reward": "Reached Weekly Point Rewards",
-      "debug": "(for debugging only)"
+    "UseStamina": {
+      "name": "Farm Planers Using Trailblase Power",
+      "help": "Task \"Dungeon\" will no longer run, and all trailblaze power will be used first to claim immersion rewards, except for double events."
     }
   },
   "RoguePath": {
@@ -900,6 +895,16 @@
     "CustomCurioFilter": {
       "name": "Custom Curio Filter",
       "help": "Only takes effect when \"Preset Curio Filter\" is \"custom\""
+    }
+  },
+  "RogueDebug": {
+    "_info": {
+      "name": "Debug Settings",
+      "help": ""
+    },
+    "DebugMode": {
+      "name": "Debug Mode",
+      "help": ""
     }
   },
   "Gui": {

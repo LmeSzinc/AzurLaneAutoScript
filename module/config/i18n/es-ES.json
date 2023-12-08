@@ -819,18 +819,13 @@
       "combat": "Prefiero Batalla",
       "occurrence": "Prefiero Evento"
     },
-    "ImmersionReward": {
-      "name": "Reclamar recompensas de inmersión",
-      "help": "Si se selecciona \"Usa inmersor y poder trazacaminos\", la tarea de mazmorra ya no se ejecutará y todo el poder trazacaminos se usará primero para reclamar recompensas de inmersión, excepto para eventos dobles",
-      "do_not_claim": "No reclamar",
-      "immersifier": "Usar inmersor",
-      "immersifier_trailblaze_power": "Usa inmersor y poder trazacaminos"
+    "UseImmersifier": {
+      "name": "Reclamar de planers mediante inmersor",
+      "help": ""
     },
-    "StopCondition": {
-      "name": "Condición de detención",
-      "help": "",
-      "weekly_point_reward": "Recompensas de puntos semanales alcanzados",
-      "debug": "(solo para depuración)"
+    "UseStamina": {
+      "name": "Reclamar de planers mediante poder trazacaminos",
+      "help": "La tarea de mazmorra ya no se ejecutará y todo el poder trazacaminos se usará primero para reclamar recompensas de inmersión, excepto para eventos dobles"
     }
   },
   "RoguePath": {
@@ -900,6 +895,16 @@
     "CustomCurioFilter": {
       "name": "Custom Curio Filter",
       "help": "Only takes effect when \"Preset Curio Filter\" is \"custom\""
+    }
+  },
+  "RogueDebug": {
+    "_info": {
+      "name": "Configuración de depuración",
+      "help": ""
+    },
+    "DebugMode": {
+      "name": "Modo de depuración",
+      "help": ""
     }
   },
   "Gui": {

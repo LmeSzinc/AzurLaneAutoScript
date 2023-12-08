@@ -205,12 +205,15 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
         Get reward of the DomainElite and DomainBoss
         """
         logger.hr('Clear reward', level=1)
-        use_trailblaze_power = 'trailblaze' in self.config.RogueWorld_ImmersionReward
-        use_immersifier = 'immersifier' in self.config.RogueWorld_ImmersionReward
-
-        if self.can_claim_domain_reward(use_trailblaze_power=use_trailblaze_power, use_immersifier=use_immersifier):
+        if self.can_claim_domain_reward(
+                use_trailblaze_power=self.config.RogueWorld_UseStamina,
+                use_immersifier=self.config.RogueWorld_UseImmersifier,
+        ):
             result = self.goto(*waypoints)
-            self.claim_domain_reward(use_trailblaze_power=use_trailblaze_power, use_immersifier=use_immersifier)
+            self.claim_domain_reward(
+                use_trailblaze_power=self.config.RogueWorld_UseStamina,
+                use_immersifier=self.config.RogueWorld_UseImmersifier,
+            )
         else:
             result = []
 
@@ -348,13 +351,13 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
 
         # Choose a door
         logger.hr('Find domain exit', level=2)
-        logger.info(f'Migrate={self.config.IS_ROGUE_DEBUG}, left_door={left_door}, right_door={right_door}')
-        if not self.config.IS_ROGUE_DEBUG and (not left_door and not right_door):
+        logger.info(f'Migrate={self.config.RogueDebug_DebugMode}, left_door={left_door}, right_door={right_door}')
+        if not self.config.RogueDebug_DebugMode and (not left_door and not right_door):
             return self._domain_exit_old()
 
         logger.info(f'Using new predict_door()')
         door = self.predict_door()
-        if self.config.IS_ROGUE_DEBUG and self.exit_has_double_door and (not left_door or not right_door):
+        if self.config.RogueDebug_DebugMode and self.exit_has_double_door and (not left_door or not right_door):
             logger.critical(f'Domain exit is not defined, please record it: {self.route_func}')
             exit(1)
 

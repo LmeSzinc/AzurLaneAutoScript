@@ -819,18 +819,13 @@
       "combat": "combat",
       "occurrence": "occurrence"
     },
-    "ImmersionReward": {
-      "name": "RogueWorld.ImmersionReward.name",
-      "help": "RogueWorld.ImmersionReward.help",
-      "do_not_claim": "do_not_claim",
-      "immersifier": "immersifier",
-      "immersifier_trailblaze_power": "immersifier_trailblaze_power"
+    "UseImmersifier": {
+      "name": "RogueWorld.UseImmersifier.name",
+      "help": "RogueWorld.UseImmersifier.help"
     },
-    "StopCondition": {
-      "name": "RogueWorld.StopCondition.name",
-      "help": "RogueWorld.StopCondition.help",
-      "weekly_point_reward": "weekly_point_reward",
-      "debug": "debug"
+    "UseStamina": {
+      "name": "RogueWorld.UseStamina.name",
+      "help": "RogueWorld.UseStamina.help"
     }
   },
   "RoguePath": {
@@ -900,6 +895,16 @@
     "CustomCurioFilter": {
       "name": "RogueCurio.CustomCurioFilter.name",
       "help": "RogueCurio.CustomCurioFilter.help"
+    }
+  },
+  "RogueDebug": {
+    "_info": {
+      "name": "RogueDebug._info.name",
+      "help": "RogueDebug._info.help"
+    },
+    "DebugMode": {
+      "name": "RogueDebug.DebugMode.name",
+      "help": "RogueDebug.DebugMode.help"
     }
   },
   "Gui": {

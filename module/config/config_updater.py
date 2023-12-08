@@ -369,6 +369,7 @@ class ConfigGenerator:
             if dungeon.name in dailies:
                 value = dungeon.__getattribute__(ingame_lang)
                 deep_set(new, keys=['Dungeon', 'Name', dungeon.name], value=value)
+
         # Copy dungeon i18n to double events
         def update_dungeon_names(keys):
             for dungeon in deep_get(self.argument, keys=f'{keys}.option', default=[]):
@@ -715,6 +716,13 @@ class ConfigUpdater:
         set_daily('Synthesize_Consumable_1_time', 'achievable')
         set_daily('Synthesize_material_1_time', 'achievable')
         set_daily('Use_Consumables_1_time', 'achievable')
+
+        # Limit setting combinations
+        if deep_get(data, keys='Rogue.RogueWorld.UseImmersifier') is False:
+            deep_set(data, keys='Rogue.RogueWorld.UseStamina', value=False)
+        if deep_get(data, keys='Rogue.RogueWorld.UseStamina') is True:
+            deep_set(data, keys='Rogue.RogueWorld.UseImmersifier', value=True)
+
         return data
 
     def save_callback(self, key: str, value: t.Any) -> t.Iterable[t.Tuple[str, t.Any]]:
@@ -755,6 +763,10 @@ class ConfigUpdater:
                 yield 'Dungeon.DungeonDaily.CavernOfCorrosion', value
             elif key.endswith('CavernOfCorrosion'):
                 yield 'Dungeon.Dungeon.NameAtDoubleRelic', value
+        elif key == 'Rogue.RogueWorld.UseImmersifier' and value is False:
+            yield 'Rogue.RogueWorld.UseStamina', False
+        elif key == 'Rogue.RogueWorld.UseStamina' and value is True:
+            yield 'Rogue.RogueWorld.UseImmersifier', True
 
     def read_file(self, config_name, is_template=False):
         """
