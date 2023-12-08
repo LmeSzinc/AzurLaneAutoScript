@@ -10,7 +10,6 @@ from tasks.base.assets.assets_base_page import MAP_EXIT
 from tasks.base.page import page_guide, page_main, page_rogue
 from tasks.dungeon.keywords import DungeonList
 from tasks.dungeon.keywords.dungeon import Simulated_Universe_World_1
-from tasks.dungeon.keywords.tab import Survival_Index
 from tasks.dungeon.state import OcrSimUniPoint
 from tasks.dungeon.ui import DungeonUI
 from tasks.forgotten_hall.assets.assets_forgotten_hall_ui import TELEPORT
@@ -236,16 +235,6 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
 
         self.interval_clear(page_guide.check_button)
 
-    def goto_rogue(self):
-        """
-        Pages:
-            in: Any
-            out: page_rogue, is_page_rogue_main()
-        """
-        self.dungeon_tab_goto(Survival_Index)
-        self._dungeon_nav_goto(Simulated_Universe_World_1)
-        self._rogue_teleport()
-
     def check_stop_condition(self):
         """
         Raises:
@@ -336,7 +325,8 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
                 self.combat_enter_from_map()
         # Not in page_rogue, goto
         if not is_rogue_entry():
-            self.goto_rogue()
+            self.dungeon_goto_rogue()
+            self._rogue_teleport()
 
         # Update rogue points
         if datetime.now() - self.config.stored.SimulatedUniverse.time > timedelta(minutes=2):

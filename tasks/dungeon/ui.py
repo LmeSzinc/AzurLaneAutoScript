@@ -422,6 +422,26 @@ class DungeonUI(DungeonState):
         logger.attr('DungeonInteract', None)
         return None
 
+    def dungeon_goto_rogue(self):
+        """
+        Goto Simulated Universe page but not pressing the TELEPORT button
+
+        Pages:
+            in: Any
+            out: page_guide, Survival_Index, Simulated_Universe
+
+        Examples:
+            self = DungeonUI('src')
+            self.device.screenshot()
+            self.dungeon_goto_rogue()
+            self._rogue_teleport()
+        """
+        self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
+        if self.appear(SURVIVAL_INDEX_LOADED):
+            logger.info('Already at nav Simulated_Universe')
+        else:
+            self._dungeon_nav_goto(KEYWORDS_DUNGEON_LIST.Simulated_Universe_World_1)
+
     def dungeon_goto(self, dungeon: DungeonList):
         """
         Returns:
