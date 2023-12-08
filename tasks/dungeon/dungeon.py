@@ -5,10 +5,10 @@ from tasks.combat.combat import Combat
 from tasks.daily.keywords import KEYWORDS_DAILY_QUEST
 from tasks.dungeon.event import DungeonEvent
 from tasks.dungeon.keywords import DungeonList, KEYWORDS_DUNGEON_LIST, KEYWORDS_DUNGEON_TAB
-from tasks.dungeon.ui import DungeonUI
+from tasks.dungeon.stamina import DungeonStamina
 
 
-class Dungeon(DungeonUI, DungeonEvent, Combat):
+class Dungeon(DungeonStamina, DungeonEvent, Combat):
     called_daily_support = False
     achieved_daily_quest = False
     running_double = False
@@ -244,10 +244,12 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
         if self.config.is_task_enabled('Rogue') \
                 and self.config.cross_get('Rogue.RogueWorld.UseStamina'):
             logger.info('Prioritize stamina for simulated universe, skip dungeon')
+            # Store immersifiers and call rogue task if accumulated to 4
+            self.immersifier_store()
             with self.config.multi_set():
-                self.config.task_call('Rogue')
-                self.config.task_delay(server_update=True)
-                self.config.task_stop()
+                if self.config.stored.Immersifier.value >= 4:
+                    self.config.task_call('Rogue')
+                self.delay_dungeon_task(KEYWORDS_DUNGEON_LIST.Simulated_Universe_World_1)
 
         # Combat
         self.dungeon_run(final)
