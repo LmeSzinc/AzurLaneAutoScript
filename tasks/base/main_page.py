@@ -64,6 +64,7 @@ class MainPage(PopupHandler):
     plane: MapPlane = KEYWORDS_MAP_PLANE.Herta_ParlorCar
 
     _lang_checked = False
+    _lang_check_success = True
 
     def update_plane(self, lang=None) -> MapPlane | None:
         """
@@ -108,6 +109,8 @@ class MainPage(PopupHandler):
                 if lang_unknown or lang != server.lang:
                     self.config.Emulator_GameLanguage = lang
                     server.set_lang(lang)
+                MainPage._lang_checked = True
+                MainPage._lang_check_success = True
                 return lang
 
         if lang_unknown:
@@ -115,6 +118,8 @@ class MainPage(PopupHandler):
             raise RequestHumanTakeover
         else:
             logger.warning(f'Cannot detect in-game text language, assume current lang={server.lang} is correct')
+            MainPage._lang_checked = True
+            MainPage._lang_check_success = False
             return server.lang
 
     def handle_lang_check(self, page: Page):
@@ -131,7 +136,6 @@ class MainPage(PopupHandler):
             return False
 
         self.check_lang_from_map_plane()
-        MainPage._lang_checked = True
         return True
 
     def acquire_lang_checked(self):
