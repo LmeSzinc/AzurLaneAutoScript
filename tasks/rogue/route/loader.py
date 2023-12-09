@@ -161,8 +161,9 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, CharacterSwitch):
         # ('Occurrence_Herta_SupplyZone_F2Rogue_X397Y223', 0.102, (393.2, 222.8)),
         # ('Occurrence_Herta_StorageZone_F2_X365Y167', 0.094, (363.0, 166.8)),
         # ('Occurrence_Herta_StorageZone_F2_X363Y166', 0.094, (363.0, 166.8))]
-        if route.name == 'Occurrence_Herta_StorageZone_F2_X363Y166' and similarity > 0.05:
-            return True
+        # if route.name == 'Occurrence_Herta_StorageZone_F2_X363Y166' and similarity > 0.05:
+        #     return True
+
         # Before Combat_Luofu_Cloudford_F1_X281Y873
         if route.name == [
             'Combat_Herta_StorageZone_F1_X273Y92',

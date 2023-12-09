@@ -15,6 +15,7 @@ from tasks.map.keywords import KEYWORDS_MAP_PLANE, MapPlane
 SPECIAL_PLANES = [
     ('Herta_SupplyZone', 'F2Rogue'),
     ('Herta_SupplyZone', 'F2RogueX151Y245'),
+    ('Herta_StorageZone', 'F2Rogue'),
     ('Jarilo_GreatMine', 'F1RogueOcc'),
     ('Luofu_Cloudford', 'F1Rogue'),
     ('Luofu_StargazerNavalia', 'F2Rogue'),

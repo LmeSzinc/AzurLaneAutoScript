@@ -5,50 +5,6 @@ from tasks.rogue.route.base import RouteBase
 
 class Route(RouteBase):
 
-    def Herta_StorageZone_F2_X351Y164(self):
-        """
-        | Waypoint | Position                  | Direction | Rotation |
-        | -------- | ------------------------- | --------- | -------- |
-        | spawn    | Waypoint((351.4, 164.9)), | 274.2     | 274      |
-        | item     | Waypoint((342.8, 155.7)), | 274.2     | 274      |
-        | enemy    | Waypoint((304.0, 165.4)), | 261.9     | 264      |
-        | exit_    | Waypoint((300.8, 163.8)), | 2.6       | 262      |
-        | exit1    | Waypoint((293.4, 175.3)), | 282.0     | 274      |
-        | exit2    | Waypoint((293.0, 157.2)), | 282.0     | 274      |
-        """
-        self.map_init(plane=Herta_StorageZone, floor="F2", position=(351.4, 164.9))
-        self.register_domain_exit(
-            Waypoint((300.8, 163.8)), end_rotation=262,
-            left_door=Waypoint((293.4, 175.3)), right_door=Waypoint((293.0, 157.2)))
-        item = Waypoint((342.8, 155.7))
-        enemy = Waypoint((304.0, 165.4))
-        # ===== End of generated waypoints =====
-
-        self.clear_item(item)
-        self.clear_enemy(enemy)
-
-    def Herta_StorageZone_F2_X365Y167(self):
-        """
-        | Waypoint | Position                  | Direction | Rotation |
-        | -------- | ------------------------- | --------- | -------- |
-        | spawn    | Waypoint((365.1, 167.2)), | 274.2     | 274      |
-        | item     | Waypoint((330.0, 175.6)), | 271.8     | 267      |
-        | enemy    | Waypoint((300.2, 166.0)), | 284.9     | 94       |
-        | exit_    | Waypoint((304.0, 166.0)), | 271.8     | 267      |
-        | exit1    | Waypoint((293.4, 175.3)), | 282.0     | 274      |
-        | exit2    | Waypoint((293.0, 157.2)), | 282.0     | 274      |
-        """
-        self.map_init(plane=Herta_StorageZone, floor="F2", position=(365.1, 167.2))
-        self.register_domain_exit(
-            Waypoint((304.0, 166.0)), end_rotation=267,
-            left_door=Waypoint((293.4, 175.3)), right_door=Waypoint((293.0, 157.2)))
-        item = Waypoint((330.0, 175.6))
-        enemy = Waypoint((300.2, 166.0))
-        # ===== End of generated waypoints =====
-
-        self.clear_item(item)
-        self.clear_enemy(enemy)
-
     def Herta_StorageZone_F2_X515Y219(self):
         """
         | Waypoint    | Position                  | Direction | Rotation |
