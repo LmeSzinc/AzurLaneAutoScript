@@ -65,6 +65,7 @@ class RouteLoader(UI):
             self.route_obj.route_module = module
 
         self.route_obj.plane = self.plane
+        self.device.screenshot_tracking.clear()
 
         # before_route()
         try:
@@ -102,3 +103,5 @@ class RouteLoader(UI):
         except (GameStuckError, GameTooManyClickError):
             logger.error(f'Route failed: {route}')
             raise
+
+        self.device.screenshot_tracking.clear()

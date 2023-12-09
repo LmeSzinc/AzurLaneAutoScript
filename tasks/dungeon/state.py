@@ -1,6 +1,6 @@
-import threading
 from datetime import timedelta
 
+from module.base.base import ModuleBase
 from module.base.timer import Timer
 from module.base.utils import crop
 from module.config.stored.classes import now
@@ -125,8 +125,7 @@ class DungeonState(UI):
                 self.dungeon_get_simuni_point(image)
                 self.dungeon_update_stamina(image)
 
-        thread = threading.Thread(target=func, args=(self.device.image,))
-        thread.start()
+        ModuleBase.worker.submit(func, self.device.image)
 
     def dungeon_stamina_delay(self, dungeon: DungeonList):
         """

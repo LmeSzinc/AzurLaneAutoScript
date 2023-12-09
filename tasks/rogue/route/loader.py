@@ -237,6 +237,7 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, CharacterSwitch):
         """
         # To have a newer image, since previous loadings took some time
         route = self.position_find(skip_first_screenshot=False)
+        self.screenshot_tracking_add()
         super().route_run(route)
 
     def rogue_run(self, skip_first_screenshot=True):
