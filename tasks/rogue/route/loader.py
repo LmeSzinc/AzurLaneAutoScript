@@ -170,6 +170,7 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, CharacterSwitch):
             'Occurrence_Herta_StorageZone_F1_X273Y93',
             'Occurrence_Jarilo_RivetTown_F1_X289Y97',
             'Occurrence_Luofu_DivinationCommission_F2_X425Y791',
+            'Occurrence_Luofu_ArtisanshipCommission_F1_X169Y491',
         ] and similarity > 0.1:
             return True
         # INFO     21:27:00.816 │ Best 3 nearby predictions: [
