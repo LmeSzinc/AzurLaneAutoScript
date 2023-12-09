@@ -85,6 +85,7 @@ from module.webui.utils import (
     parse_pin_value,
     raise_exception,
     re_fullmatch,
+    to_pin_value,
 )
 from module.webui.widgets import (
     BinarySwitchButton,
@@ -531,7 +532,7 @@ class AlasGUI(Frame):
                         modified[set_key] = set_value
                         deep_set(config, set_key, set_value)
                         valid.append(set_key)
-                        pin["_".join(set_key.split("."))] = set_value
+                        pin["_".join(set_key.split("."))] = to_pin_value(set_value)
                 else:
                     modified.pop(k)
                     invalid.append(k)

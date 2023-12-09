@@ -1,5 +1,5 @@
+import collections
 import sys
-from collections import deque
 from datetime import datetime
 
 from module.base.timer import Timer
@@ -22,7 +22,7 @@ else:
 class Device(Screenshot, Control, AppControl, EmulatorManager):
     _screen_size_checked = False
     detect_record = set()
-    click_record = deque(maxlen=15)
+    click_record = collections.deque(maxlen=15)
     stuck_timer = Timer(60, count=60).start()
     stuck_timer_long = Timer(180, count=180).start()
     stuck_long_wait_list = ['BATTLE_STATUS_S', 'PAUSE', 'LOGIN_CHECK']
@@ -173,10 +173,7 @@ class Device(Screenshot, Control, AppControl, EmulatorManager):
         Raises:
             GameTooManyClickError:
         """
-        count = {}
-        for key in self.click_record:
-            count[key] = count.get(key, 0) + 1
-        count = sorted(count.items(), key=lambda item: item[1])
+        count = collections.Counter(self.click_record).most_common(2)
         if count[0][1] >= 12:
             logger.warning(f'Too many click for a button: {count[0][0]}')
             logger.warning(f'History click: {[str(prev) for prev in self.click_record]}')
