@@ -1,3 +1,5 @@
+from concurrent.futures import ThreadPoolExecutor
+
 import module.config.server as server_
 from module.base.button import Button, ButtonWrapper, ClickButton, match_template
 from module.base.timer import Timer
@@ -5,6 +7,7 @@ from module.base.utils import *
 from module.config.config import AzurLaneConfig
 from module.device.device import Device
 from module.logger import logger
+from module.webui.setting import cached_class_property
 
 
 class ModuleBase:
@@ -44,6 +47,15 @@ class ModuleBase:
             self.device = device
 
         self.interval_timer = {}
+
+    @cached_class_property
+    def worker(self) -> ThreadPoolExecutor:
+        """
+        A thread pool to run things at background
+        """
+        logger.hr('Creating worker')
+        pool = ThreadPoolExecutor(1)
+        return pool
 
     def match_template(self, button, interval=0, similarity=0.85):
         """
@@ -281,3 +293,28 @@ class ModuleBase:
         """
         server_.set_lang(lang)
         logger.attr('Lang', self.config.LANG)
+
+    def screenshot_tracking_add(self):
+        """
+        Add a tracking image, image will be saved
+        """
+        logger.info('screenshot_tracking_add')
+        data = self.device.screenshot_deque[-1]
+        image = data['image']
+        now = data['time']
+
+        def image_encode(im, ti):
+            import io
+            from module.handler.sensitive_info import handle_sensitive_image
+
+            output = io.BytesIO()
+            im = handle_sensitive_image(im)
+            Image.fromarray(im, mode='RGB').save(output, format='png')
+            output.seek(0)
+
+            self.device.screenshot_tracking.append({
+                'time': ti,
+                'image': output
+            })
+
+        ModuleBase.worker.submit(image_encode, image, now)

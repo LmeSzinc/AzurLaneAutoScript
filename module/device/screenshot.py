@@ -100,6 +100,10 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
     def screenshot_deque(self):
         return deque(maxlen=int(self.config.Error_ScreenshotLength))
 
+    @cached_property
+    def screenshot_tracking(self):
+        return []
+
     def save_screenshot(self, genre='items', interval=None, to_base_folder=False):
         """Save a screenshot. Use millisecond timestamp as file name.
 

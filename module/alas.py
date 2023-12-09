@@ -65,6 +65,7 @@ class AzurLaneAutoScript:
     def run(self, command):
         try:
             self.device.screenshot()
+            self.device.screenshot_tracking.clear()
             self.__getattribute__(command)()
             return True
         except TaskEnd:
@@ -139,15 +140,19 @@ class AzurLaneAutoScript:
         from module.base.utils import save_image
         from module.handler.sensitive_info import (handle_sensitive_image, handle_sensitive_logs)
         if self.config.Error_SaveError:
-            if not os.path.exists('./log/error'):
-                os.mkdir('./log/error')
             folder = f'./log/error/{int(time.time() * 1000)}'
             logger.warning(f'Saving error: {folder}')
-            os.mkdir(folder)
+            os.makedirs(folder, exist_ok=True)
             for data in self.device.screenshot_deque:
                 image_time = datetime.strftime(data['time'], '%Y-%m-%d_%H-%M-%S-%f')
                 image = handle_sensitive_image(data['image'])
                 save_image(image, f'{folder}/{image_time}.png')
+            if self.device.screenshot_tracking:
+                os.makedirs(f'{folder}/tracking', exist_ok=True)
+            for data in self.device.screenshot_tracking:
+                image_time = datetime.strftime(data['time'], '%Y-%m-%d_%H-%M-%S-%f')
+                with open(f'{folder}/tracking/{image_time}.png', 'wb') as f:
+                    f.write(data['image'].getvalue())
             with open(logger.log_file, 'r', encoding='utf-8') as f:
                 lines = f.readlines()
                 start = 0
