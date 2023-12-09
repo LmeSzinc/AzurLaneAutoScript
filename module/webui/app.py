@@ -58,8 +58,8 @@ from module.config.utils import (
     read_file,
 )
 from module.config.utils import time_delta
-from module.log_res import LogRes
 from module.logger import logger
+from module.log_res import LogRes
 from module.ocr.rpc import start_ocr_server_process, stop_ocr_server_process
 from module.submodule.submodule import load_config
 from module.submodule.utils import get_config_mod
@@ -413,7 +413,7 @@ class AlasGUI(Frame):
                             ],
                         ),
                     ],
-                ),
+                )
             else:
                 put_scope(
                     "log-bar",
@@ -431,7 +431,7 @@ class AlasGUI(Frame):
                         put_html('<hr class="hr-group">'),
                         put_scope("dashboard"),
                     ],
-                ),
+                )
             put_scope("log", [put_html("")])
 
         log.console.width = log.get_width()
@@ -446,7 +446,6 @@ class AlasGUI(Frame):
             color_off="off",
             scope="log_scroll_btn",
         )
-
         switch_dashboard = BinarySwitchButton(
             label_on=t("Gui.Button.DashboardON"),
             label_off=t("Gui.Button.DashboardOFF"),
@@ -459,11 +458,10 @@ class AlasGUI(Frame):
         )
         self.task_handler.add(switch_scheduler.g(), 1, True)
         self.task_handler.add(switch_log_scroll.g(), 1, True)
-        if 'Maa' not in self.ALAS_ARGS:
+        if 'Alas' in self.ALAS_ARGS:
             self.task_handler.add(switch_dashboard.g(), 1, True)
-        self.task_handler.add(self.alas_update_overview_task, 10, True)
-        if 'Maa' not in self.ALAS_ARGS:
             self.task_handler.add(self.alas_update_dashboard, 10, True)
+        self.task_handler.add(self.alas_update_overview_task, 10, True)
         self.task_handler.add(log.put_log(self.alas), 0.25, True)
 
     def set_dashboard_display(self, b):
@@ -506,7 +504,6 @@ class AlasGUI(Frame):
             config_updater: AzurLaneConfig = State.config_updater,
     ) -> None:
         try:
-            skip_time_record = False
             valid = []
             invalid = []
             config = config_updater.read_file(config_name)
@@ -616,7 +613,7 @@ class AlasGUI(Frame):
         _arg_group = self._log.dashboard_arg_group if groups_to_display is None else groups_to_display
         time_now = datetime.now().replace(microsecond=0)
         for group_name in _arg_group:
-            group = deep_get(d=self.alas_config.data, keys=f'Resource.{group_name}')
+            group = LogRes(self.alas_config).group(group_name)
             if group is None:
                 continue
 
@@ -647,9 +644,8 @@ class AlasGUI(Frame):
                     for _key in time:
                         if time[_key]:
                             time_name = _key.replace('s','SecondsAgo').replace('Y','YearsAgo').replace('h','HoursAgo').replace('M','MonthsAgo').replace('D','DaysAgo').replace('m','MinutesAgo')
-                            time = time[_key]
                             break
-                delta = str(time) + t(f'Gui.Dashboard.{time_name}')
+                delta = str(time[_key]) + t(f'Gui.Dashboard.{time_name}')
             if group_name not in self._log.last_display_time.keys():
                 self._log.last_display_time[group_name] = ''
             if self._log.last_display_time[group_name] == delta and not self._log.first_display:
