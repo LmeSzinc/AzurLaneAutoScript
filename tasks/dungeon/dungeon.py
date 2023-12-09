@@ -254,6 +254,8 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
             self.immersifier_store()
             with self.config.multi_set():
                 if self.config.stored.Immersifier.value >= 4:
+                    # Schedule behind rogue
+                    self.config.task_delay(minute=5)
                     self.config.task_call('Rogue')
                 self.delay_dungeon_task(KEYWORDS_DUNGEON_LIST.Simulated_Universe_World_1)
         else:

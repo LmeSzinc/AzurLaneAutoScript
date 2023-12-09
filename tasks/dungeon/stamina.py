@@ -126,6 +126,9 @@ class DungeonStamina(DungeonUI):
         """
         Store immersifiers using all trailblaze power
 
+        Returns:
+            bool: If stored any
+
         Pages:
             in: Any
             out: page_guide, Survival_Index, Simulated_Universe
@@ -149,3 +152,4 @@ class DungeonStamina(DungeonUI):
         self._item_amount_set(amount, ocr_button=OCR_IMMERSIFIER_AMOUNT)
         self._item_confirm()
         self.dungeon_update_stamina()
+        return True
