@@ -1,3 +1,4 @@
+import module.config.server as server
 from module.base.timer import Timer
 from module.logger import logger
 from module.ocr.ocr import Digit
@@ -54,7 +55,7 @@ class DungeonStamina(DungeonUI):
             skip_first_screenshot=True,
     ):
         logger.info(f'Item amount set to {amount}')
-        ocr = Digit(ocr_button)
+        ocr = Digit(ocr_button, lang=server.lang)
         interval = Timer(1, count=3)
         while 1:
             if skip_first_screenshot:
