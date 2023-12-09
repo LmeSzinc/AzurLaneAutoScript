@@ -200,7 +200,10 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
         self.running_double = False
 
         # Dungeon to clear all trailblaze power
-        final = DungeonList.find(self.config.Dungeon_Name)
+        if self.config.is_task_enabled('Rogue') and self.config.cross_get('Rogue.RogueWorld.UseStamina'):
+            final = KEYWORDS_DUNGEON_LIST.Simulated_Universe_World_1
+        else:
+            final = DungeonList.find(self.config.Dungeon_Name)
 
         # Run dungeon that required by daily quests
         # Calyx_Golden
@@ -240,20 +243,23 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
             self.config.task_call('DailyQuest')
             self.config.task_stop()
 
-        # Prioritize rogue
-        if self.config.is_task_enabled('Rogue') \
-                and self.config.cross_get('Rogue.RogueWorld.UseStamina'):
-            logger.info('Prioritize stamina for simulated universe, skip dungeon')
+        # Use all stamina
+        if final.is_Simulated_Universe:
+            # Use support if prioritize rogue
+            if self.require_compulsory_support():
+                logger.info('Run dungeon with support once as stamina is rogue prioritized')
+                self.dungeon_run(dungeon=DungeonList.find(self.config.Dungeon_Name), wave_limit=1)
             # Store immersifiers and call rogue task if accumulated to 4
+            logger.info('Prioritize stamina for simulated universe, skip dungeon')
             self.immersifier_store()
             with self.config.multi_set():
                 if self.config.stored.Immersifier.value >= 4:
                     self.config.task_call('Rogue')
                 self.delay_dungeon_task(KEYWORDS_DUNGEON_LIST.Simulated_Universe_World_1)
-
-        # Combat
-        self.dungeon_run(final)
-        self.delay_dungeon_task(final)
+        else:
+            # Combat
+            self.dungeon_run(final)
+            self.delay_dungeon_task(final)
 
     def delay_dungeon_task(self, dungeon: DungeonList):
         logger.attr('achieved_daily_quest', self.achieved_daily_quest)
