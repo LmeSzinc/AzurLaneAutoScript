@@ -1,17 +1,18 @@
-from cached_property import cached_property
 from module.logger import logger
+from module.base.base import ModuleBase as Base
 from module.config.utils import deep_get
-from module.config.utils import read_file, filepath_argument
 from datetime import datetime
+from cached_property import cached_property
+from module.config.utils import read_file, filepath_argument
 
 def now():
     return datetime.now().replace(microsecond=0)
 
-class LogRes:
+class LogRes(Base):
     """
     set attr--->
     Logres(AzurLaneConfig).<res_name>=resource_value:int
-    OR  ={'Value:int, 'Limit/Total':int}:dict
+    OCR  ={'Value:int, 'Limit/Total':int}:dict
     """
     YellowCoin: list
 
@@ -21,25 +22,25 @@ class LogRes:
     def __setattr__(self, key, value):
         if key in self.groups:
             _key_group = f'Resource.{key}'
-            _mod = False
-            original = deep_get(self.config.data, keys=_key_group)
+            _key_time = _key_group + f'.Record'
+            original = deep_get(self.config.data, _key_group)
             if isinstance(value, int):
-                if original['Value'] != value:
+                if value != original['Value']:
                     _key = _key_group + '.Value'
                     self.config.modified[_key] = value
-                    _key_time = _key_group + f'.Record'
                     self.config.modified[_key_time] = now()
             elif isinstance(value, dict):
-                for value_name, _value in value.items():
-                    if _value == original[value_name]:
-                        continue
-                    _key = _key_group + f'.{value_name}'
-                    self.config.modified[_key] = _value
-                    _key_time = _key_group + f'.Record'
-                    self.config.modified[_key_time] = now()
+                for value_name, value in value.items():
+                    if value != original[value_name]:
+                        _key = _key_group + f'.{value_name}'
+                        self.config.modified[_key] = value
+                        self.config.modified[_key_time] = now()
         else:
             logger.info('No such resource on dashboard')
-            super().__setattr__(name=key, value=value)
+            super().__setattr__(key, value)
+
+    def group(self, name):
+        return deep_get(self.config.data, f'Resource.{name}')
 
     @cached_property
     def groups(self) -> dict:
