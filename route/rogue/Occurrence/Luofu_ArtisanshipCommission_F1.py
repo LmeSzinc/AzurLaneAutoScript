@@ -6,7 +6,7 @@ from tasks.rogue.route.base import RouteBase
 
 class Route(RouteBase):
 
-    @locked_rotation
+    @locked_rotation(90)
     def Luofu_ArtisanshipCommission_F1_X169Y491(self):
         """
         | Waypoint | Position                  | Direction | Rotation |
