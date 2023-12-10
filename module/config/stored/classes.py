@@ -259,7 +259,7 @@ class StoredEchoOfWar(StoredCounter, StoredExpiredAtMonday0400):
 
 
 class StoredBattlePassLevel(StoredCounter):
-    FIXED_TOTAL = 50
+    FIXED_TOTAL = 70
 
 
 class StoredBattlePassTodayQuest(StoredCounter, StoredExpiredAt0400):
