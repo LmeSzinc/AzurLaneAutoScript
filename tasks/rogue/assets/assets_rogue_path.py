@@ -63,6 +63,16 @@ CHECK_PRESERVATION = ButtonWrapper(
         button=(220, 308, 270, 358),
     ),
 )
+CHECK_PROPAGATION = ButtonWrapper(
+    name='CHECK_PROPAGATION',
+    share=Button(
+        file='./assets/share/rogue/path/CHECK_PROPAGATION.png',
+        area=(206, 308, 286, 372),
+        search=(186, 288, 306, 392),
+        color=(126, 104, 75),
+        button=(206, 308, 286, 372),
+    ),
+)
 CHECK_REMEMBRANCE = ButtonWrapper(
     name='CHECK_REMEMBRANCE',
     share=Button(
@@ -81,6 +91,26 @@ CHECK_THE_HUNT = ButtonWrapper(
         search=(201, 304, 291, 394),
         color=(127, 104, 74),
         button=(221, 324, 271, 374),
+    ),
+)
+CHOOSE_LEFT = ButtonWrapper(
+    name='CHOOSE_LEFT',
+    share=Button(
+        file='./assets/share/rogue/path/CHOOSE_LEFT.png',
+        area=(44, 292, 102, 365),
+        search=(24, 272, 122, 385),
+        color=(30, 33, 42),
+        button=(44, 292, 102, 365),
+    ),
+)
+CHOOSE_RIGHT = ButtonWrapper(
+    name='CHOOSE_RIGHT',
+    share=Button(
+        file='./assets/share/rogue/path/CHOOSE_RIGHT.png',
+        area=(1177, 291, 1236, 364),
+        search=(1157, 271, 1256, 384),
+        color=(32, 33, 39),
+        button=(1177, 291, 1236, 364),
     ),
 )
 CLICK_ABUNDANCE = ButtonWrapper(
@@ -161,5 +191,22 @@ CONFIRM_PATH = ButtonWrapper(
         search=(825, 614, 888, 701),
         color=(178, 178, 178),
         button=(865, 640, 1139, 675),
+    ),
+)
+PAGE_ROGUE_PATH = ButtonWrapper(
+    name='PAGE_ROGUE_PATH',
+    cn=Button(
+        file='./assets/cn/rogue/path/PAGE_ROGUE_PATH.png',
+        area=(713, 87, 759, 109),
+        search=(693, 67, 779, 129),
+        color=(122, 120, 119),
+        button=(713, 87, 759, 109),
+    ),
+    en=Button(
+        file='./assets/en/rogue/path/PAGE_ROGUE_PATH.png',
+        area=(606, 89, 656, 108),
+        search=(586, 69, 676, 128),
+        color=(114, 112, 112),
+        button=(606, 89, 656, 108),
     ),
 )

@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import ClassVar
 
 from dev_tools.keyword_extract import UI_LANGUAGES
+from module.exception import ScriptError
 from module.ocr.keyword import Keyword
 
 
@@ -34,6 +35,14 @@ class RoguePath(Keyword):
     def path_name(self):
         return [self.__getattribute__(f"{server}_parsed").replace("the", '')
                 for server in UI_LANGUAGES if hasattr(self, f"{server}_parsed")]
+
+    @classmethod
+    def find_path(cls, name):
+        for instance in cls.instances.values():
+            if name == instance.name:
+                return instance
+        # Not found
+        raise ScriptError(f'Cannot find a {cls.__name__} instance that matches "{name}"')
 
 
 @dataclass(repr=False)
