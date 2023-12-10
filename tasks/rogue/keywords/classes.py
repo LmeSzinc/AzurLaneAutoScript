@@ -38,6 +38,8 @@ class RoguePath(Keyword):
 
     @classmethod
     def find_path(cls, name):
+        if isinstance(name, RoguePath):
+            return name
         for instance in cls.instances.values():
             if name == instance.name:
                 return instance
