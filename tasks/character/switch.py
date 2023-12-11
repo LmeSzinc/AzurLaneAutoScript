@@ -60,6 +60,8 @@ class CharacterSwitch(UI):
             self.character_current = self._convert_selected_to_character(self._update_current_character())
 
             # Must contain first character
+            if not buttons:
+                continue
             expected_peaks = np.array([201, 279, 357, 435])
             if buttons[0].area[3] < expected_peaks[0]:
                 break
