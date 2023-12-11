@@ -1397,6 +1397,17 @@
     "domain": "Occurrence"
   },
   {
+    "name": "Occurrence_Herta_StorageZone_F1_X281Y164",
+    "route": "route.rogue.Occurrence.Herta_StorageZone_F1:Herta_StorageZone_F1_X281Y164",
+    "plane": "Herta_StorageZone",
+    "floor": "F1",
+    "position": [
+      281.1,
+      164.2
+    ],
+    "domain": "Occurrence"
+  },
+  {
     "name": "Occurrence_Herta_StorageZone_F2Rogue_X363Y166",
     "route": "route.rogue.Occurrence.Herta_StorageZone_F2Rogue:Herta_StorageZone_F2Rogue_X363Y166",
     "plane": "Herta_StorageZone",
