@@ -18,6 +18,7 @@ SPECIAL_PLANES = [
     ('Herta_StorageZone', 'F2Rogue'),
     ('Jarilo_GreatMine', 'F1RogueOcc'),
     ('Luofu_Cloudford', 'F1Rogue'),
+    ('Luofu_StargazerNavalia', 'F1Rogue'),
     ('Luofu_StargazerNavalia', 'F2Rogue'),
 ]
 
