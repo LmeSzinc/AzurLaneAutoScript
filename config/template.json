@@ -1892,6 +1892,9 @@
       "FailureInterval": 60,
       "ServerUpdate": "00:00, 12:00"
     },
+    "HigherPriority": {
+      "Enable": false
+    },
     "OpsiHazard1Leveling": {
       "TargetZone": 0
     },
