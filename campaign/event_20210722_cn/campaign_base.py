@@ -38,8 +38,7 @@ class CampaignBase(CampaignBase_):
         elif name[-1].isdigit():
             return name[:-1], name[-1]
 
-        logger.warning(f'Unknown stage name: {name}')
-        return name[0], name[1:]
+        return CampaignBase_._campaign_separate_name(name)
 
     @staticmethod
     def _campaign_get_chapter_index(name):

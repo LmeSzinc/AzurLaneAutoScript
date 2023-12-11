@@ -708,7 +708,7 @@
       "event_20211111_cn": "杰諾瓦的焰火",
       "event_20211125_cn": "復刻-交匯世界的弧光",
       "event_20211229_cn": "逆轉彩虹之塔",
-      "event_20220210_cn": "Northern Overture Rerun",
+      "event_20220210_cn": "復刻北境序曲",
       "event_20220224_cn": "深度回音",
       "event_20220310_tw": "復刻斯圖爾特的硝煙",
       "event_20220324_cn": "虛像構築之塔",
@@ -716,7 +716,7 @@
       "event_20220414_cn": "復刻-永夜幻光",
       "event_20220428_cn": "虹彩的終幕曲",
       "event_20220526_cn": "泠誓光庭",
-      "event_20220728_cn": "Aquilifers Ballade",
+      "event_20220728_cn": "雄鷹的敘事歌",
       "event_20220818_cn": "遠匯點作戰",
       "event_20220915_cn": "紫絳槿嵐",
       "event_20221124_cn": "鍊金術士與秘密遺跡群島",
@@ -727,6 +727,7 @@
       "event_20230817_cn": "The Fools Scales",
       "event_20230914_cn": "Effulgence Before Eclipse",
       "event_20231026_cn": "Tempesta and the Fountain of Youth",
+      "event_20231123_cn": "The Ninja Scrolls: Azur Flash",
       "raid_20200624": "特別演習埃塞克斯級(復刻)",
       "raid_20210708": "復刻穿越彼方的水線",
       "raid_20220127": "演習神秘事件調查",
@@ -2382,6 +2383,16 @@
     "TargetZone": {
       "name": "指定海域",
       "help": "僅出擊指定的海域，可以用來獲取大世界成就星星\n自動更新的數值，填0可重置進度，重置後自動跳過已開荒的海域\n支援海域ID、國服/國際服/日服/台服海域名稱，例如 \"51\", \"NA海域東南E\", \"NA Ocean SE Sector E\"\n填入默認值0，或者刪除數值即可取消指定"
+    }
+  },
+  "HigherPriority": {
+    "_info": {
+      "name": "HigherPriority._info.name",
+      "help": "HigherPriority._info.help"
+    },
+    "Enable": {
+      "name": "HigherPriority.Enable.name",
+      "help": "HigherPriority.Enable.help"
     }
   },
   "OpsiHazard1Leveling": {

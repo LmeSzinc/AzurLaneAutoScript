@@ -42,6 +42,8 @@ class GemsCampaignOverride(CampaignBase):
             while 1:
                 self.device.screenshot()
 
+                if self.handle_story_skip():
+                    continue
                 if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
                     continue
 
@@ -239,12 +241,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             level=(1, 31), emotion=(16, 150), fleet=self.config.Fleet_Fleet1, status='free')
         scanner.disable('rarity')
 
-        if not self.server_support_status_fleet_scan():
-            logger.info(f'Server {self.config.SERVER} does not yet support status and fleet scanning')
-            logger.info('Please contact the developer to improve as soon as possible')
-            scanner.disable('status', 'fleet')
-            scanner.set_limitation(level=(1, 1))
-
         if self.config.GemsFarming_CommonCV == 'any':
             logger.info('')
 
@@ -312,9 +308,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                               fleet=self.config.Fleet_Fleet1, status='free')
         scanner.disable('rarity')
 
-        if not self.server_support_status_fleet_scan():
-            scanner.disable('status', 'fleet')
-
         ships = scanner.scan(self.device.image)
         if ships:
             # Don't need to change current
@@ -335,19 +328,8 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         self.ui_click(self.FLEET_ENTER_FLAGSHIP,
                       appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
 
-        if self.hard_mode:
-            self.wait_until_appear_then_click(REMOVE_SHIP)
-
-            self._fleet_detail_enter()
-            self.ui_click(self.FLEET_ENTER_FLAGSHIP,
-                          appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK,
-                          skip_first_screenshot=True)
-            self.dock_filter_set(
-                index=deep_get(self.config.data, "GameManager.ChangeShip.TargetType").lower(), rarity='common',
-                extra='enhanceable', sort='total')
-        else:
-            self.dock_filter_set(
-                index='cv', rarity='common', extra='enhanceable', sort='total')
+        self.dock_filter_set(
+            index='cv', rarity='common', extra='enhanceable', sort='total')
         self.dock_favourite_set(False)
 
         ship = self.get_common_rarity_cv()
@@ -461,6 +443,3 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                 continue
             else:
                 break
-
-    def server_support_status_fleet_scan(self) -> bool:
-        return self.config.SERVER in ['cn', 'en', 'jp']
