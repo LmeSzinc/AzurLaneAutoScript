@@ -49,14 +49,14 @@ class RogueReward(RogueUI, CombatInteract, DungeonState):
                 continue
             if self.appear(REWARD_CLOSE, interval=2):
                 self.dungeon_update_stamina()
-                if use_immersifier and self.config.stored.Immersifier.value > 0:
-                    self.device.click(USE_IMMERSIFIER)
+                if use_trailblaze_power and self.config.stored.TrailblazePower.value >= 40:
+                    self.device.click(USE_STAMINA)
                     self.interval_reset(USE_STAMINA)
                     self.interval_clear(GET_REWARD)
                     confirm.reset()
                     continue
-                elif use_trailblaze_power and self.config.stored.TrailblazePower.value >= 40:
-                    self.device.click(USE_STAMINA)
+                elif use_immersifier and self.config.stored.Immersifier.value > 0:
+                    self.device.click(USE_IMMERSIFIER)
                     self.interval_reset(USE_STAMINA)
                     self.interval_clear(GET_REWARD)
                     confirm.reset()
