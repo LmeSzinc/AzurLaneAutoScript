@@ -94,6 +94,7 @@ class ResearchSelector(ResearchUI):
         proj_sorted = []
 
         for _ in range(5):
+            self.device.click_record_clear()
             """
             Every time entering the 4th(mid-right) entrance,
             all research subjects shift 1 position from right to left.
