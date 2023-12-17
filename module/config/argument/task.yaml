@@ -321,7 +321,6 @@ Opsi:
       - OpsiFleet
     OpsiHazard1Leveling:
       - Scheduler
-      - HigherPriority
       - OpsiHazard1Leveling
       - OpsiFleet
     OpsiCrossMonth:

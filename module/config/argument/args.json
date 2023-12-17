@@ -2837,11 +2837,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false,
-        "option": [
-          true,
-          false
-        ]
+        "value": false
       },
       "NextRun": {
         "type": "datetime",
@@ -2946,7 +2942,7 @@
         "cn": "event_20231123_cn",
         "en": "event_20231123_cn",
         "jp": "event_20231123_cn",
-        "tw": "event_20220210_cn"
+        "tw": "event_20231026_cn"
       },
       "Mode": {
         "type": "select",
@@ -9466,12 +9462,6 @@
         "type": "input",
         "value": "00:00, 12:00",
         "display": "hide"
-      }
-    },
-    "HigherPriority": {
-      "Enable": {
-        "type": "checkbox",
-        "value": false
       }
     },
     "OpsiHazard1Leveling": {

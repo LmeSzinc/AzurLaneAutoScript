@@ -676,8 +676,6 @@ OpsiMeowfficerFarming:
     option: [ 3, 4, 5, 6, 10 ]
   TargetZone:
     value: 0
-HigherPriority:
-  Enable: false
 OpsiHazard1Leveling:
   TargetZone:
     value: 0

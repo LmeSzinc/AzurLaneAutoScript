@@ -2385,16 +2385,6 @@
       "help": "OpsiMeowfficerFarming.TargetZone.help"
     }
   },
-  "HigherPriority": {
-    "_info": {
-      "name": "HigherPriority._info.name",
-      "help": "HigherPriority._info.help"
-    },
-    "Enable": {
-      "name": "HigherPriority.Enable.name",
-      "help": "HigherPriority.Enable.help"
-    }
-  },
   "OpsiHazard1Leveling": {
     "_info": {
       "name": "OpsiHazard1Leveling._info.name",

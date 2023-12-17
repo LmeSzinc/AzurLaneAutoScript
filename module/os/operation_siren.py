@@ -420,7 +420,8 @@ class OperationSiren(OSMap):
                     with self.config.multi_set():
                         self.config.task_delay(server_update=True)
                         if not self.is_in_opsi_explore():
-                            self.config.task_call('OpsiMeowfficerFarming')
+                            if not IsDisableOpsiMeowfficerFarming:
+                                self.config.task_call('OpsiMeowfficerFarming')
                     self.config.task_stop()
             else:
                 logger.warning(f"Disable OpsiHazard1Leveling yellow coin limit : {IsDisableOpsiHazard1LevelingYellowCoinLimit}")
@@ -433,11 +434,12 @@ class OperationSiren(OSMap):
             if self.config.OpsiGeneral_BuyActionPointLimit > 0:
                 keep_current_ap = False
             self.action_point_set(cost=70, keep_current_ap=keep_current_ap, check_rest_ap=True)
-            if self._action_point_total >= 3000 and not IsDisableOpsiMeowfficerFarming:
+            if self._action_point_total >= 3000:
                 with self.config.multi_set():
                     self.config.task_delay(server_update=True)
                     if not self.is_in_opsi_explore():
-                        self.config.task_call('OpsiMeowfficerFarming')
+                        if not IsDisableOpsiMeowfficerFarming:
+                            self.config.task_call('OpsiMeowfficerFarming')
                 self.config.task_stop()
 
             if self.config.OpsiHazard1Leveling_TargetZone != 0:

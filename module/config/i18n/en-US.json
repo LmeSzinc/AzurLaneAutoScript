@@ -2385,16 +2385,6 @@
       "help": "Supports either Zone ID or Name in CN/EN/JP/TW, i.e. \"51\", \"NA Ocean SE Sector E\"\nIf specified, Alas will loop on this same zone after each clear\nUse default value 0 or clear the field to remove the specification\nZone information can be acquired from <./module/os/map_data.py>"
     }
   },
-  "HigherPriority": {
-    "_info": {
-      "name": "HigherPriority._info.name",
-      "help": "HigherPriority._info.help"
-    },
-    "Enable": {
-      "name": "HigherPriority.Enable.name",
-      "help": "HigherPriority.Enable.help"
-    }
-  },
   "OpsiHazard1Leveling": {
     "_info": {
       "name": "CL1 leveling",

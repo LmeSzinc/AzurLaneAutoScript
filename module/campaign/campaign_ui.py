@@ -83,9 +83,11 @@ class CampaignUI(CampaignEvent, CampaignOcr):
             if mode == 'ex':
                 logger.warning('Trying to goto EX, but no EX mode switch')
             elif mode == 'normal':
-                MODE_SWITCH_1.set('hard', main=self)
+                if self.appear(SWITCH_1_NORMAL):
+                    MODE_SWITCH_1.set('hard', main=self)
             elif mode == 'hard':
-                MODE_SWITCH_1.set('normal', main=self)
+                if self.appear(SWITCH_1_HARD):
+                    MODE_SWITCH_1.set('normal', main=self)
             else:
                 logger.warning(f'Unknown campaign mode: {mode}')
         else:
