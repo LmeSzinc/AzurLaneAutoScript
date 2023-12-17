@@ -58,8 +58,8 @@ Event:
 Event2:
   Campaign:
     Mode: normal
-#    Event:
-#      type: state
+    Event:
+      type: state
     AmbushEvade: true
 Event3:
   Campaign:
