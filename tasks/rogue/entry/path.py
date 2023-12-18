@@ -3,7 +3,7 @@ from module.base.timer import Timer
 from module.logger import logger
 from tasks.rogue.assets.assets_rogue_path import *
 from tasks.rogue.assets.assets_rogue_ui import ROGUE_LAUNCH
-from tasks.rogue.bleesing.ui import RogueUI
+from tasks.rogue.blessing.ui import RogueUI
 from tasks.rogue.exception import RogueTeamNotPrepared
 from tasks.rogue.keywords import KEYWORDS_ROGUE_PATH, RoguePath
 

@@ -14,7 +14,7 @@ from module.ocr.ocr import Ocr, OcrResultButton
 from module.ui.scroll import Scroll
 from tasks.rogue.assets.assets_rogue_event import *
 from tasks.rogue.assets.assets_rogue_ui import BLESSING_CONFIRM, PAGE_EVENT
-from tasks.rogue.bleesing.ui import RogueUI
+from tasks.rogue.blessing.ui import RogueUI
 from tasks.rogue.event.preset import STRATEGIES, STRATEGY_COMMON
 from tasks.rogue.keywords import (KEYWORDS_ROGUE_EVENT_OPTION,
                                   KEYWORDS_ROGUE_EVENT_TITLE, RogueEventOption,

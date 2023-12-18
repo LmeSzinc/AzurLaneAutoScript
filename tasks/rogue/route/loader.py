@@ -17,7 +17,7 @@ from tasks.map.keywords.plane import (
 from tasks.map.minimap.minimap import Minimap
 from tasks.map.resource.resource import SPECIAL_PLANES
 from tasks.map.route.loader import RouteLoader as RouteLoader_
-from tasks.rogue.bleesing.ui import RogueUI
+from tasks.rogue.blessing.ui import RogueUI
 from tasks.rogue.route.base import RouteBase
 from tasks.rogue.route.model import RogueRouteListModel, RogueRouteModel
 

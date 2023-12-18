@@ -7,9 +7,9 @@ from tasks.map.control.waypoint import Waypoint, ensure_waypoints
 from tasks.map.route.base import RouteBase as RouteBase_
 from tasks.rogue.assets.assets_rogue_ui import BLESSING_CONFIRM
 from tasks.rogue.assets.assets_rogue_weekly import ROGUE_REPORT
-from tasks.rogue.bleesing.blessing import RogueBlessingSelector
-from tasks.rogue.bleesing.bonus import RogueBonusSelector
-from tasks.rogue.bleesing.curio import RogueCurioSelector
+from tasks.rogue.blessing.blessing import RogueBlessingSelector
+from tasks.rogue.blessing.bonus import RogueBonusSelector
+from tasks.rogue.blessing.curio import RogueCurioSelector
 from tasks.rogue.event.event import RogueEvent
 from tasks.rogue.event.reward import RogueReward
 from tasks.rogue.route.exit import RogueExit

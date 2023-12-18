@@ -10,9 +10,9 @@ from module.ocr.ocr import Digit, DigitCounter, Ocr, OcrResultButton
 from module.ocr.utils import split_and_pair_buttons
 from tasks.rogue.assets.assets_rogue_blessing import *
 from tasks.rogue.assets.assets_rogue_ui import BLESSING_CONFIRM
-from tasks.rogue.bleesing.preset import *
-from tasks.rogue.bleesing.selector import RogueSelector
-from tasks.rogue.bleesing.utils import get_regex_from_keyword_name, is_card_selected, parse_name
+from tasks.rogue.blessing.preset import *
+from tasks.rogue.blessing.selector import RogueSelector
+from tasks.rogue.blessing.utils import get_regex_from_keyword_name, is_card_selected, parse_name
 from tasks.rogue.keywords import *
 
 # normal blessing filter

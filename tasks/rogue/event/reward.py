@@ -6,7 +6,7 @@ from tasks.base.assets.assets_base_popup import GET_REWARD
 from tasks.combat.interact import CombatInteract
 from tasks.dungeon.state import DungeonState
 from tasks.rogue.assets.assets_rogue_reward import REWARD_CLOSE, USE_IMMERSIFIER, USE_STAMINA
-from tasks.rogue.bleesing.ui import RogueUI
+from tasks.rogue.blessing.ui import RogueUI
 
 
 class RogueReward(RogueUI, CombatInteract, DungeonState):
