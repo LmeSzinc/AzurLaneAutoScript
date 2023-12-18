@@ -106,6 +106,7 @@ class AlasGUI(Frame):
         self.alas_name = ""
         self.alas_mod = "alas"
         self.alas_config = AzurLaneConfig("template")
+        self.alas_config_hidden = set()
         self.initial()
 
     @use_scope("aside", clear=True)
@@ -236,6 +237,7 @@ class AlasGUI(Frame):
             )
 
         config = self.alas_config.read_file(self.alas_name)
+        self.alas_config_hidden = self.alas_config.get_hidden_args(config)
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
             if self.set_group(group, arg_dict, config, task):
                 self.set_navigator(group)
@@ -291,6 +293,9 @@ class AlasGUI(Frame):
             if o is not None:
                 # output will inherit current scope when created, override here
                 o.spec["scope"] = f"#pywebio-scope-group_{group_name}"
+                # Add hidden-arg
+                if f"{task}.{group_name}.{arg_name}" in self.alas_config_hidden:
+                    o.style("display:none")
                 output_list.append(o)
 
         if not output_list:
@@ -507,6 +512,13 @@ class AlasGUI(Frame):
                     logger.warning(f"Invalid value {v} for key {k}, skip saving.")
             self.pin_remove_invalid_mark(valid)
             self.pin_set_invalid_mark(invalid)
+            new_hidden_args = config_updater.get_hidden_args(config)
+            for k in new_hidden_args - self.alas_config_hidden:
+                self.pin_set_hidden_arg(k, type_=deep_get(self.ALAS_ARGS, f"{k}.type"))
+            for k in self.alas_config_hidden - new_hidden_args:
+                self.pin_remove_hidden_arg(k, type_=deep_get(self.ALAS_ARGS, f"{k}.type"))
+            self.alas_config_hidden = new_hidden_args
+
             if modified:
                 toast(
                     t("Gui.Toast.ConfigSaved"),

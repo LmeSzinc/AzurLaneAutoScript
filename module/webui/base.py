@@ -4,6 +4,7 @@ from pywebio.output import clear, put_html, put_scope, put_text, use_scope
 from pywebio.session import defer_call, info, run_js
 
 from module.webui.utils import Icon, WebIOTaskHandler, set_localstorage
+from module.webui.widgets import type_to_html
 
 
 class Base:
@@ -167,3 +168,33 @@ class Frame(Base):
             run_js(js)
         # for key in keys:
         # pin_update(key, valid_status=0)
+
+    @staticmethod
+    def pin_set_hidden_arg(key, type_) -> None:
+        """
+        Hide arg
+
+        Args:
+            key: Path
+            type_: Type in _widget_type_to_func
+        """
+        type_ = type_to_html(type_)
+        key = "_".join(key.split("."))
+        key = f"pywebio-scope-arg_container-{type_}-{key}"
+        # This aims to be a typo, don't correct it, leave it as it is
+        if type_ == 'textarea':
+            key = key.replace('container', 'contianer')
+        js = f"""$("#{key}").css("display","none");"""
+        if js:
+            run_js(js)
+
+    @staticmethod
+    def pin_remove_hidden_arg(key, type_) -> None:
+        type_ = type_to_html(type_)
+        key = "_".join(key.split("."))
+        key = f"pywebio-scope-arg_container-{type_}-{key}"
+        if type_ == 'textarea':
+            key = key.replace('container', 'contianer')
+        js = f"""$("#{key}").removeAttr('style');"""
+        if js:
+            run_js(js)
