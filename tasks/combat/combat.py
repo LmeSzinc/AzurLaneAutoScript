@@ -229,6 +229,7 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
             logger.info(f'Done {self.combat_waves} waves at total')
 
         skip_first_screenshot = True
+        combat_can_again = None
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -247,7 +248,10 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
             # Game client might slow to response COMBAT_AGAIN clicks
             if self.appear(COMBAT_AGAIN, interval=5):
                 add_wave_done()
-                if self._combat_can_again():
+                # Cache the result of _combat_can_again() as no expected stamina reduce during retry
+                if combat_can_again is None:
+                    combat_can_again = self._combat_can_again()
+                if combat_can_again:
                     self.device.click(COMBAT_AGAIN)
                 else:
                     self.device.click(COMBAT_EXIT)
