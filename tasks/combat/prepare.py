@@ -66,6 +66,7 @@ class CombatPrepare(UI):
             in: COMBAT_PREPARE or COMBAT_REPEAT
         """
         timeout = Timer(1, count=2).start()
+        before = self.config.stored.TrailblazePower.value
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -79,7 +80,7 @@ class CombatPrepare(UI):
             # Confirm if it is > 240, sometimes just OCR errors
             if current > 240 and timeout.reached():
                 break
-            if expect_reduce and current >= self.config.stored.TrailblazePower.value:
+            if expect_reduce and current >= before:
                 continue
             if current <= 240:
                 break

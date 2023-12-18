@@ -101,9 +101,9 @@
     },
     "GameLanguage": {
       "name": "Idioma dentro del juego",
-      "help": "En la actualidad, solo funcionan el chino tradicional y el inglés.",
+      "help": "En la actualidad, solo funcionan el Chino simplificado y el inglés.",
       "auto": "Detectar automaticamente",
-      "cn": "Chino tradicional",
+      "cn": "Chino simplificado",
       "en": "Inglés"
     },
     "ScreenshotMethod": {
