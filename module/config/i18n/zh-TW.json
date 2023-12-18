@@ -831,29 +831,6 @@
       "help": "每日副本任務將不再打本，所有開拓力將優先被用於領取浸器獎勵，雙倍活動時除外"
     }
   },
-  "RoguePath": {
-    "_info": {
-      "name": "命途設定",
-      "help": ""
-    },
-    "PresetResonanceFilter": {
-      "name": "迴響構音過濾器",
-      "help": "",
-      "preset-1": "預設 1",
-      "custom": "自訂"
-    },
-    "ResonanceSelectionStrategy": {
-      "name": "圖鑑未解鎖的迴響構音",
-      "help": "",
-      "follow-presets": "不影響選擇",
-      "unrecorded-first": "優先選擇",
-      "before-random": "無迴響構音滿足過濾器設定時才選擇"
-    },
-    "CustomResonanceFilter": {
-      "name": "自訂迴響構音過濾器",
-      "help": "僅在\"迴響構音過濾器\"設定為\"自訂\"時生效"
-    }
-  },
   "RogueBlessing": {
     "_info": {
       "name": "祝福設定",
@@ -862,42 +839,39 @@
     "PresetBlessingFilter": {
       "name": "祝福過濾器",
       "help": "",
-      "preset-1": "預設 1",
+      "preset": "預設",
       "custom": "自訂"
-    },
-    "BlessingSelectionStrategy": {
-      "name": "圖鑑未解鎖的祝福",
-      "help": "",
-      "follow-presets": "不影響選擇",
-      "unrecorded-first": "優先選擇",
-      "before-random": "無祝福滿足過濾器設定時才選擇"
     },
     "CustomBlessingFilter": {
       "name": "自訂祝福過濾器",
       "help": "僅在\"祝福過濾器\"設定為\"自訂\"時生效"
-    }
-  },
-  "RogueCurio": {
-    "_info": {
-      "name": "奇物設定",
-      "help": ""
     },
     "PresetCurioFilter": {
       "name": "奇物過濾器",
       "help": "",
-      "preset-1": "預設 1",
+      "preset": "預設",
       "custom": "自訂"
-    },
-    "CurioSelectionStrategy": {
-      "name": "圖鑑未解鎖的奇物",
-      "help": "",
-      "follow-presets": "不影響選擇",
-      "unrecorded-first": "優先選擇",
-      "before-random": "無奇物滿足過濾器設定時才選擇"
     },
     "CustomCurioFilter": {
       "name": "自訂奇物過濾器",
       "help": "僅在\"奇物過濾器\"設定為\"自訂\"時生效"
+    },
+    "PresetResonanceFilter": {
+      "name": "迴響構音過濾器",
+      "help": "",
+      "preset": "預設",
+      "custom": "自訂"
+    },
+    "CustomResonanceFilter": {
+      "name": "自訂迴響構音過濾器",
+      "help": "僅在\"迴響構音過濾器\"設定為\"自訂\"時生效"
+    },
+    "SelectionStrategy": {
+      "name": "對於未解鎖的圖鑑",
+      "help": "",
+      "follow-presets": "不影響選擇",
+      "unrecorded-first": "優先選擇",
+      "before-random": "無法滿足過濾器時才選擇"
     }
   },
   "RogueDebug": {
@@ -907,7 +881,7 @@
     },
     "DebugMode": {
       "name": "偵錯模式",
-      "help": ""
+      "help": "只用於開發，如果你不知道這是什麼，不要打開"
     }
   },
   "Gui": {

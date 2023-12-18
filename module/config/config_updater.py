@@ -776,8 +776,12 @@ class ConfigUpdater:
         Yields:
             str: Arg path that should be hidden
         """
-        if deep_get(data, 'Rogue.RoguePath.PresetResonanceFilter') != 'custom':
-            yield 'Rogue.RoguePath.CustomResonanceFilter'
+        if deep_get(data, 'Rogue.RogueBlessing.PresetBlessingFilter') != 'custom':
+            yield 'Rogue.RogueBlessing.CustomBlessingFilter'
+        if deep_get(data, 'Rogue.RogueBlessing.PresetResonanceFilter') != 'custom':
+            yield 'Rogue.RogueBlessing.CustomResonanceFilter'
+        if deep_get(data, 'Rogue.RogueBlessing.PresetCurioFilter') != 'custom':
+            yield 'Rogue.RogueBlessing.CustomCurioFilter'
 
     def get_hidden_args(self, data) -> t.Set[str]:
         """

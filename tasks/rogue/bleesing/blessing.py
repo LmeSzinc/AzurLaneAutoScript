@@ -293,19 +293,19 @@ class RogueBlessingSelector(RogueSelector):
             RogueBlessing: {
                 "filter_": BLESSING_FILTER,
                 "preset_config": self.main.config.RogueBlessing_PresetBlessingFilter,
-                "strategy_config": self.main.config.RogueBlessing_BlessingSelectionStrategy,
+                "strategy_config": self.main.config.RogueBlessing_SelectionStrategy,
                 "preset_values": {
-                    'preset-1': BLESSING_PRESET_1,
+                    'preset': BLESSING_PRESET_1,
                     'custom': self.main.config.RogueBlessing_CustomBlessingFilter
                 },
             },
             RogueResonance: {
                 "filter_": RESONANCE_FILTER,
-                "preset_config": self.main.config.RoguePath_PresetResonanceFilter,
-                "strategy_config": self.main.config.RoguePath_ResonanceSelectionStrategy,
+                "preset_config": self.main.config.RogueBlessing_PresetResonanceFilter,
+                "strategy_config": self.main.config.RogueBlessing_SelectionStrategy,
                 "preset_values": {
-                    'preset-1': RESONANCE_PRESET_1,
-                    'custom': self.main.config.RoguePath_PresetResonanceFilter,
+                    'preset': RESONANCE_PRESET_1,
+                    'custom': self.main.config.RogueBlessing_PresetResonanceFilter,
                 },
             }
         }

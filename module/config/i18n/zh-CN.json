@@ -831,29 +831,6 @@
       "help": "每日副本任务将不再打本，所有开拓力将优先被用于领取浸器奖励，双倍活动时除外"
     }
   },
-  "RoguePath": {
-    "_info": {
-      "name": "命途设置",
-      "help": ""
-    },
-    "PresetResonanceFilter": {
-      "name": "回响构音过滤器",
-      "help": "",
-      "preset-1": "预设 1",
-      "custom": "自定义"
-    },
-    "ResonanceSelectionStrategy": {
-      "name": "图鉴未解锁的回响构音",
-      "help": "",
-      "follow-presets": "不影响选择",
-      "unrecorded-first": "优先选择",
-      "before-random": "无回响构音满足过滤器设置时才选择"
-    },
-    "CustomResonanceFilter": {
-      "name": "自定义回响构音过滤器",
-      "help": "仅在\"回响构音过滤器\"设置为\"自定义\"时生效"
-    }
-  },
   "RogueBlessing": {
     "_info": {
       "name": "祝福设置",
@@ -862,42 +839,39 @@
     "PresetBlessingFilter": {
       "name": "祝福过滤器",
       "help": "",
-      "preset-1": "预设 1",
+      "preset": "预设",
       "custom": "自定义"
-    },
-    "BlessingSelectionStrategy": {
-      "name": "图鉴未解锁的祝福",
-      "help": "",
-      "follow-presets": "不影响选择",
-      "unrecorded-first": "优先选择",
-      "before-random": "无祝福满足过滤器设置时才选择"
     },
     "CustomBlessingFilter": {
       "name": "自定义祝福过滤器",
       "help": "仅在\"祝福过滤器\"设置为\"自定义\"时生效"
-    }
-  },
-  "RogueCurio": {
-    "_info": {
-      "name": "奇物设置",
-      "help": ""
     },
     "PresetCurioFilter": {
       "name": "奇物过滤器",
       "help": "",
-      "preset-1": "预设 1",
+      "preset": "预设",
       "custom": "自定义"
-    },
-    "CurioSelectionStrategy": {
-      "name": "图鉴未解锁的奇物",
-      "help": "",
-      "follow-presets": "不影响选择",
-      "unrecorded-first": "优先选择",
-      "before-random": "无奇物满足过滤器设置时才选择"
     },
     "CustomCurioFilter": {
       "name": "自定义奇物过滤器",
       "help": "仅在\"奇物过滤器\"设置为\"自定义\"时生效"
+    },
+    "PresetResonanceFilter": {
+      "name": "回响构音过滤器",
+      "help": "",
+      "preset": "预设",
+      "custom": "自定义"
+    },
+    "CustomResonanceFilter": {
+      "name": "自定义奇物过滤器",
+      "help": "仅在\"奇物过滤器\"设置为\"自定义\"时生效"
+    },
+    "SelectionStrategy": {
+      "name": "对于未解锁的图鉴",
+      "help": "",
+      "follow-presets": "不影响选择",
+      "unrecorded-first": "优先选择",
+      "before-random": "无法满足过滤器时才选择"
     }
   },
   "RogueDebug": {
@@ -907,7 +881,7 @@
     },
     "DebugMode": {
       "name": "调试模式",
-      "help": ""
+      "help": "仅用于开发，如果你不知道这是什么，不要打开"
     }
   },
   "Gui": {

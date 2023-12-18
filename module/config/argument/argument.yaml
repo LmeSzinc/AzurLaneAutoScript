@@ -222,13 +222,21 @@ RogueWorld:
   UseImmersifier: true
   UseStamina: false
 
-RoguePath:
+RogueBlessing:
+  PresetBlessingFilter:
+    value: preset
+    option: [ preset, custom ]
+  CustomBlessingFilter: |-
+    巡猎-3 > 《冠军晚餐·猫的摇篮》 > 丰饶众生，一法界心 > 毁灭-3 
+    > 火堆外的夜 > 巡猎-2 > 毁灭-2 > 巡猎 > reset > random
+  PresetCurioFilter:
+    value: preset
+    option: [ preset, custom ]
+  CustomCurioFilter: |-
+    博士之袍 > 福灵胶 > 分裂金币 > 信仰债券 > 换境桂冠 > 俱乐部券 > 碎星芳饵 > random
   PresetResonanceFilter:
-    value: preset-1
-    option: [ preset-1, custom ]
-  ResonanceSelectionStrategy:
-    value: follow-presets
-    option: [ follow-presets, unrecorded-first, before-random ]
+    value: preset
+    option: [ preset, custom ]
   CustomResonanceFilter: |-
     回响构音：均晶转变 > 回响构音：零维强化
     > 回响构音：第二次初恋 > 回响构音：体验的富翁
@@ -238,27 +246,9 @@ RoguePath:
     > 回响构音：激变变星 > 回响构音：极端氦闪
     > 回响构音：末日狂欢 > 回响构音：树苗长高舞
     > random
-
-RogueBlessing:
-  PresetBlessingFilter:
-    value: preset-1
-    option: [ preset-1, custom ]
-  BlessingSelectionStrategy:
-    value: follow-presets
+  SelectionStrategy:
+    value: before-random
     option: [ follow-presets, unrecorded-first, before-random ]
-  CustomBlessingFilter: |-
-    巡猎-3 > 《冠军晚餐·猫的摇篮》 > 丰饶众生，一法界心 > 毁灭-3 
-    > 火堆外的夜 > 巡猎-2 > 毁灭-2 > 巡猎 > reset > random
-
-RogueCurio:
-  PresetCurioFilter:
-    value: preset-1
-    option: [ preset-1, custom ]
-  CurioSelectionStrategy:
-    value: follow-presets
-    option: [ follow-presets, unrecorded-first, before-random ]
-  CustomCurioFilter: |-
-    博士之袍 > 福灵胶 > 分裂金币 > 信仰债券 > 换境桂冠 > 俱乐部券 > 碎星芳饵 > random
 
 RogueDebug:
   DebugMode: false
