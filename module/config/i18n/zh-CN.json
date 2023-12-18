@@ -863,8 +863,8 @@
       "custom": "自定义"
     },
     "CustomResonanceFilter": {
-      "name": "自定义奇物过滤器",
-      "help": "仅在\"奇物过滤器\"设置为\"自定义\"时生效"
+      "name": "自定义回响构音过滤器",
+      "help": "仅在\"回响构音过滤器\"设置为\"自定义\"时生效"
     },
     "SelectionStrategy": {
       "name": "对于未解锁的图鉴",
