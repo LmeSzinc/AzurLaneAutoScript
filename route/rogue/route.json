@@ -704,6 +704,17 @@
     "domain": "Combat"
   },
   {
+    "name": "Combat_Luofu_AlchemyCommission_F2_X454Y501",
+    "route": "route.rogue.Combat.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X454Y501",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F2",
+    "position": [
+      453.7,
+      501.3
+    ],
+    "domain": "Combat"
+  },
+  {
     "name": "Combat_Luofu_AlchemyCommission_F2_X457Y497",
     "route": "route.rogue.Combat.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X457Y497",
     "plane": "Luofu_AlchemyCommission",
