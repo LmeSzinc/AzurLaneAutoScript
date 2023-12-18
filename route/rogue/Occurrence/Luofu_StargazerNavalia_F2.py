@@ -13,10 +13,14 @@ class Route(RouteBase):
         | -------- | ------------------------- | --------- | -------- |
         | spawn    | Waypoint((579.8, 183.5)), | 96.7      | 91       |
         | event    | Waypoint((615.3, 195.5)), | 105.6     | 66       |
-        | exit_    | Waypoint((622.1, 186.3)), | 96.7      | 91       |
+        | exit_    | Waypoint((627.2, 183.5)), | 96.7      | 91       |
+        | exit1    | Waypoint((629.2, 179.2)), | 98.9      | 89       |
+        | exit2    | Waypoint((630.9, 191.7)), | 99.0      | 89       |
         """
         self.map_init(plane=Luofu_StargazerNavalia, floor="F2", position=(579.8, 183.5))
-        self.register_domain_exit(Waypoint((622.1, 186.3)), end_rotation=91)
+        self.register_domain_exit(
+            Waypoint((627.2, 183.5)), end_rotation=91,
+            left_door=Waypoint((629.2, 179.2)), right_door=Waypoint((630.9, 191.7)))
         event = Waypoint((615.3, 195.5))
 
         self.clear_event(event)
