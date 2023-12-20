@@ -4,10 +4,10 @@ import numpy as np
 
 from module.base.filter import MultiLangFilter
 from module.base.timer import Timer
-from module.base.utils import get_color
+from module.base.utils import area_offset, area_pad
 from module.logger import logger
 from module.ocr.ocr import Ocr, OcrResultButton
-from tasks.rogue.assets.assets_rogue_curio import CURIO_ENFORCE, OCR_ROGUE_CURIO
+from tasks.rogue.assets.assets_rogue_curio import CURIO_ENFORCE, OCR_ROGUE_CURIO, CURIO_SELECTED
 from tasks.rogue.assets.assets_rogue_ui import BLESSING_CONFIRM, BLESSING_ENHANCED, BLESSING_LOST, BLESSING_OBTAINED
 from tasks.rogue.blessing.preset import CURIO_PRESET
 from tasks.rogue.blessing.selector import RogueSelector
@@ -53,7 +53,8 @@ class RogueCurioSelector(RogueSelector):
 
     def ui_select(self, target: OcrResultButton | None, skip_first_screenshot=True):
         def is_curio_selected():
-            return np.mean(get_color(self.main.device.image, tuple(target.area))) > 60  # shiny background
+            CURIO_SELECTED.matched_button.search = area_pad(area_offset(target.area, (0, -50)), -50)
+            return self.main.appear(CURIO_SELECTED)
 
         def is_select_curio_complete():
             """
