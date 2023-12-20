@@ -155,9 +155,13 @@ class Route(RouteBase):
         | spawn    | Waypoint((521.4, 447.5)), | 188.1     | 181      |
         | enemy    | Waypoint((521.2, 507.2)), | 98.8      | 186      |
         | exit_    | Waypoint((521.2, 507.2)), | 98.8      | 186      |
+        | exit1    | Waypoint((530.8, 514.9)), | 183.8     | 181      |
+        | exit2    | Waypoint((514.8, 514.8)), | 183.8     | 181      |
         """
         self.map_init(plane=Luofu_StargazerNavalia, floor="F1", position=(521.4, 447.5))
-        self.register_domain_exit(Waypoint((521.2, 507.2)), end_rotation=186)
+        self.register_domain_exit(
+            Waypoint((521.2, 507.2)), end_rotation=186,
+            left_door=Waypoint((530.8, 514.9)), right_door=Waypoint((514.8, 514.8)))
         enemy = Waypoint((521.2, 507.2))
         # ===== End of generated waypoints =====
 
