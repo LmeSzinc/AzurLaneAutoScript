@@ -65,7 +65,6 @@ class Route(RouteBase):
         self.clear_item(item)
         self.clear_enemy(enemy)
 
-    @locked_position
     def Jarilo_SilvermaneGuardRestrictedZone_F1_X227Y425(self):
         """
         | Waypoint | Position                  | Direction | Rotation |
