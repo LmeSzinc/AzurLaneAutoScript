@@ -138,7 +138,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
         return success
 
-    def vanguard_change(self):
+    def vanguard_change_once(self, vanguard_button=FLEET_ENTER, count=1):
         """
         Change vanguard and vanguard's equipment
 
@@ -149,23 +149,49 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         logger.attr('ChangeVanguard', self.config.GemsFarming_ChangeVanguard)
         if self.change_vanguard_equip:
             logger.hr('Record vanguard equipment', level=2)
-            self._ship_detail_enter(FLEET_ENTER)
+            self._ship_detail_enter(vanguard_button)
             self.record_equipment()
             self._equip_take_off_one()
             self.ui_back(page_fleet.check_button)
 
         logger.hr('Change vanguard', level=2)
         self._fleet_detail_enter()
-        success = self.vanguard_change_execute()
+        success = self.vanguard_change_execute(vanguard_button, count=count)
 
         if self.change_vanguard_equip:
             logger.hr('Equip vanguard equipment', level=2)
-            self._ship_detail_enter(FLEET_ENTER)
+            self._ship_detail_enter(vanguard_button)
             self._equip_take_off_one()
 
             self.equipment_take_on()
             self.ui_back(page_fleet.check_button)
 
+        return success
+
+    def vanguard_count(self):
+        """
+        Count the number of vanguard DD's in the fleet.
+
+        Pages:
+            in: page_fleet
+            out: page_fleet
+        """
+        if self.appear(FLEET_CHECK_3):
+            return 3
+        elif self.appear(FLEET_CHECK_2):
+            return 2
+        else:
+            return 1
+
+    def vanguard_change(self):
+        count = self.vanguard_count()
+        
+        success = self.vanguard_change_once(FLEET_ENTER, count)
+        if count >= 2:
+            success = success and self.vanguard_change_once(FLEET_ENTER_2, count)
+        if count >= 3:
+            success = success and self.vanguard_change_once(FLEET_ENTER_3, count)
+        
         return success
 
     def _ship_change_confirm(self, button):
@@ -231,7 +257,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
             return candidates
 
-    def get_common_rarity_dd(self):
+    def get_common_rarity_dd(self, count=1):
         """
         Get a common rarity dd with level is 100 (70 for servers except CN) and emotion > 10
         Returns:
@@ -249,12 +275,12 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         scanner.disable('rarity')
 
         ships = scanner.scan(self.device.image)
-        if ships:
+        if len(ships) == count:
             # Don't need to change current
-            return ships
+            return (ships, False)
 
         scanner.set_limitation(fleet=0)
-        return scanner.scan(self.device.image, output=False)
+        return (scanner.scan(self.device.image, output=False), True)
 
     def flagship_change_execute(self):
         """
@@ -283,7 +309,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             self.ui_back(check_button=page_fleet.check_button)
             return False
 
-    def vanguard_change_execute(self):
+    def vanguard_change_execute(self, vanguard_button=FLEET_ENTER, count=1):
         """
         Returns:
             bool: If success.
@@ -292,13 +318,18 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             in: page_fleet
             out: page_fleet
         """
-        self.ui_click(FLEET_ENTER,
+        self.ui_click(vanguard_button,
                       appear_button=page_fleet.check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
         self.dock_filter_set(
             index='dd', rarity='common', faction='eagle', extra='can_limit_break')
         self.dock_favourite_set(False)
 
-        ship = self.get_common_rarity_dd()
+        ship, flag = self.get_common_rarity_dd(count=count)
+        if ship and not flag:
+            logger.info('Change vanguard ship success')
+            self.ui_back(page_fleet.check_button)
+
+            return True            
         if ship:
             self._ship_change_confirm(max(ship, key=lambda s: s.emotion).button)
 
