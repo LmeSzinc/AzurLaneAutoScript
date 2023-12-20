@@ -155,7 +155,7 @@ class RoguePathHandler(RogueUI):
                 or page_main if previous rogue run had bonus selected but didn't finish any domain
         """
         logger.hr('Rogue path select', level=2)
-        path: RoguePath = RoguePath.find_path(path)
+        path: RoguePath = RoguePath.find_name(path)
         logger.info(f'Select path: {path}')
         entry = self._get_path_click(path)
         while 1:

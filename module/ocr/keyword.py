@@ -180,3 +180,24 @@ class Keyword:
 
         # Not found
         raise ScriptError(f'Cannot find a {cls.__name__} instance that matches "{name}"')
+
+    @classmethod
+    def find_name(cls, name):
+        """
+        Args:
+            name: Attribute name of keyword.
+
+        Returns:
+            Keyword instance.
+
+        Raises:
+            ScriptError: If nothing found.
+        """
+        if isinstance(name, Keyword):
+            return name
+        for instance in cls.instances.values():
+            if name == instance.name:
+                return instance
+
+        # Not found
+        raise ScriptError(f'Cannot find a {cls.__name__} instance that matches "{name}"')

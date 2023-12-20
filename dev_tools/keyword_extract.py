@@ -8,6 +8,7 @@ from hashlib import md5
 
 from module.base.code_generator import CodeGenerator
 from module.config.utils import deep_get, read_file
+from module.exception import ScriptError
 from module.logger import logger
 
 UI_LANGUAGES = ['cn', 'cht', 'en', 'jp', 'es']
@@ -38,13 +39,22 @@ def blessing_name(name: str) -> str:
     return name
 
 
-nickname_count = 0
-
-
 def character_name(name: str) -> str:
     name = text_to_variable(name)
     name = re.sub('_', '', name)
     return name
+
+
+def convert_inner_character_to_keyword(name):
+    convert_dict = {
+        'Silwolf': 'SilverWolf',
+        'Klara': 'Clara',
+        'Mar_7th': 'March7th',
+        'PlayerGirl': 'TrailblazerFemale',
+        'PlayerBoy': 'TrailblazerMale',
+        'Ren': 'Blade',
+    }
+    return convert_dict.get(name, name)
 
 
 class TextMap:
@@ -381,6 +391,30 @@ class KeywordExtract:
         self.load_character_name_keywords()
         self.write_keywords(keyword_class='CharacterList', output_file='./tasks/character/keywords/character_list.py',
                             text_convert=character_name)
+        # Generate character height
+        characters = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'FreeStyleCharacterConfig.json'))
+        regex = re.compile(r'NPC_Avatar_(?P<height>.*?)_(?P<character>.*?)_00')
+        gen = CodeGenerator()
+        dict_height = {}
+        height_index = ['Kid', 'Girl', 'Boy', 'Maid', 'Miss', 'Lady', 'Lad', 'Male']
+        for key in characters.keys():
+            if res := regex.search(key):
+                character, height = res.group('character'), res.group('height')
+                if height not in height_index:
+                    continue
+                dict_height[character] = height
+        dict_height = {k: v for k, v in sorted(dict_height.items(), key=lambda item: height_index.index(item[1]))}
+        from tasks.character.keywords.classes import CharacterList
+        with gen.Dict('CHARACTER_HEIGHT'):
+            for character, height in dict_height.items():
+                character = convert_inner_character_to_keyword(character)
+                try:
+                    CharacterList.find_name(character)
+                except ScriptError:
+                    print(f'Character height data {character} is not defined')
+                    continue
+                gen.DictItem(key=character, value=height)
+        gen.write('./tasks/character/keywords/height.py')
 
     def generate_battle_pass_quests(self):
         battle_pass_quests = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'BattlePassConfig.json'))

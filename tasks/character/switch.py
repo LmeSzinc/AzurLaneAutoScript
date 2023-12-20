@@ -1,3 +1,5 @@
+import re
+
 import cv2
 import numpy as np
 from scipy import signal
@@ -17,6 +19,8 @@ class OcrCharacterName(OcrWhiteLetterOnComplexBackground):
 
     def after_process(self, result):
         result = result.replace('蛆', '妲')
+        # Dan Heng o.ImbibitorLunae
+        result = re.sub(r'[0Oo\-. ]{1,3}Imbi', 'Imbi', result)
 
         return super().after_process(result)
 
@@ -140,7 +144,7 @@ class CharacterSwitch(UI):
         return selected
 
     def _convert_selected_to_character(self, selected: list[int]) -> CharacterList | None:
-        expected_peaks = np.array([201, 279, 357, 435])
+        expected_peaks = [201, 279, 357, 435]
         if not selected:
             logger.warning(f'No current character')
             logger.attr('CurrentCharacter', None)
@@ -227,6 +231,14 @@ class CharacterSwitch(UI):
                 if ranged_character in self.characters:
                     logger.info(f'Use ranged character: {ranged_character}, range={level}')
                     return ranged_character
+        # No kids, as low camera height may miss enemy aim icon
+        if self.character_current.height == 'Kid':
+            # Switch to whoever tall
+            for height in ['Male', 'Lad', 'Lady', 'Miss', 'Maid', 'Boy', 'Girl']:
+                for tall_character in self.characters:
+                    if tall_character.height == height:
+                        logger.info(f'No kids, use tall character: {tall_character}')
+                        return tall_character
         # No ranged characters
         logger.info('No ranged characters in team')
         return False

@@ -36,16 +36,6 @@ class RoguePath(Keyword):
         return [self.__getattribute__(f"{server}_parsed").replace("the", '')
                 for server in UI_LANGUAGES if hasattr(self, f"{server}_parsed")]
 
-    @classmethod
-    def find_path(cls, name):
-        if isinstance(name, RoguePath):
-            return name
-        for instance in cls.instances.values():
-            if name == instance.name:
-                return instance
-        # Not found
-        raise ScriptError(f'Cannot find a {cls.__name__} instance that matches "{name}"')
-
 
 @dataclass(repr=False)
 class RogueResonance(Keyword):
