@@ -10,7 +10,7 @@ from module.ocr.ocr import Digit, DigitCounter, Ocr, OcrResultButton
 from module.ocr.utils import split_and_pair_buttons
 from tasks.rogue.assets.assets_rogue_blessing import *
 from tasks.rogue.assets.assets_rogue_ui import BLESSING_CONFIRM
-from tasks.rogue.blessing.preset import *
+from tasks.rogue.blessing.preset import BLESSING_PRESET, RESONANCE_PRESET
 from tasks.rogue.blessing.selector import RogueSelector
 from tasks.rogue.blessing.utils import get_regex_from_keyword_name, is_card_selected, parse_name
 from tasks.rogue.keywords import *
@@ -295,7 +295,7 @@ class RogueBlessingSelector(RogueSelector):
                 "preset_config": self.main.config.RogueBlessing_PresetBlessingFilter,
                 "strategy_config": self.main.config.RogueBlessing_SelectionStrategy,
                 "preset_values": {
-                    'preset': BLESSING_PRESET_1,
+                    'preset': BLESSING_PRESET[self.main.config.RogueWorld_Path],
                     'custom': self.main.config.RogueBlessing_CustomBlessingFilter
                 },
             },
@@ -304,7 +304,7 @@ class RogueBlessingSelector(RogueSelector):
                 "preset_config": self.main.config.RogueBlessing_PresetResonanceFilter,
                 "strategy_config": self.main.config.RogueBlessing_SelectionStrategy,
                 "preset_values": {
-                    'preset': RESONANCE_PRESET_1,
+                    'preset': RESONANCE_PRESET[self.main.config.RogueWorld_Path],
                     'custom': self.main.config.RogueBlessing_PresetResonanceFilter,
                 },
             }

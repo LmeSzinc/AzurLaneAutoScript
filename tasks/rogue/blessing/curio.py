@@ -9,7 +9,7 @@ from module.logger import logger
 from module.ocr.ocr import Ocr, OcrResultButton
 from tasks.rogue.assets.assets_rogue_curio import CURIO_ENFORCE, OCR_ROGUE_CURIO
 from tasks.rogue.assets.assets_rogue_ui import BLESSING_CONFIRM, BLESSING_ENHANCED, BLESSING_LOST, BLESSING_OBTAINED
-from tasks.rogue.blessing.preset import CURIO_PRESET_1
+from tasks.rogue.blessing.preset import CURIO_PRESET
 from tasks.rogue.blessing.selector import RogueSelector
 from tasks.rogue.blessing.utils import get_regex_from_keyword_name, parse_name
 from tasks.rogue.keywords import RogueCurio
@@ -148,7 +148,7 @@ class RogueCurioSelector(RogueSelector):
         string = ""
         match self.main.config.RogueBlessing_PresetCurioFilter:
             case 'preset':
-                string = CURIO_PRESET_1
+                string = CURIO_PRESET[self.main.config.RogueWorld_Path]
             case 'custom':
                 string = self.main.config.RogueBlessing_CustomCurioFilter
         string = parse_name(string)
