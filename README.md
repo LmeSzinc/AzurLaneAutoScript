@@ -173,7 +173,8 @@ Alas 仍在活跃开发中，我们会不定期发布未来的工作在 [Issues]
 ## 联系我们 Contact Us
 
 - Discord: [https://discord.gg/AQN6GeJ](https://discord.gg/AQN6GeJ)
-- QQ 四群：[851150687](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=GlV_kVLn8JU573fIfhbFHUezm3QUtQ9L&authKey=xff5ZAfrxMKpZ67Bqx2ljd%2BAYT18ic7a21MnizNfqOQrkQAAPxS0uIRZE6LbePUG&noverify=0&group_code=851150687)
+- QQ 五群：[332650153](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=suoTcYXMLukd982ZRMkU4mWa0BCZgzmq&authKey=9d7e%2F2%2FZvjIAI0nNi6gQfeibmtWuaeICGBN2VmTgLTodNLtDd5kpKui678Vv9rrz&noverify=0&group_code=332650153)
+- QQ 四群（已满）：[851150687](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=GlV_kVLn8JU573fIfhbFHUezm3QUtQ9L&authKey=xff5ZAfrxMKpZ67Bqx2ljd%2BAYT18ic7a21MnizNfqOQrkQAAPxS0uIRZE6LbePUG&noverify=0&group_code=851150687)
 - QQ 三群（已满）：[576458886](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Q611gtXy-y0ttnfHOQNegXjerUI2tWIy&authKey=VjW7e8fxtXTN0twcU6%2FZabZ03gKy%2FuhZETQlFDaswupHRDzVO33lsqZloKG8IfR6&noverify=0&group_code=834210833)
 - QQ 二群（已满）：[576458886](https://jq.qq.com/?_wv=1027&k=FUIOAAOm)
 - QQ 一群：[1087735381](https://jq.qq.com/?_wv=1027&k=I4NSqX7g) （有开发意向请加一群，入群需要提供你的Github用户名）
