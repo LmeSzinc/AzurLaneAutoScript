@@ -168,3 +168,5 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20231123   | event 20220210 cn        | Northern Overture Rerun                     | -           | -                      | -                   | 復刻北境序曲                        |
 | 20231123   | event 20231123 cn        | The Ninja Scrolls: Azur Flash                | 苍闪忍法帖              | The Ninja Scrolls: Azur Flash                 | 蒼閃忍法帖                            | -                        |
 | 20231130   | event 20231123 cn        | The Ninja Scrolls: Azur Flash                | -              | -                 | -                            | 蒼閃忍法帖                        |
+| 20221222   | event 20221222 cn        | Parallel Superimposition                     | -               | -                     | -                   | 定向折疊                        |
+| 20231221   | event 20231221 cn        | Light-Chasing Sea of Stars                   | 星海逐光                 | Light-Chasing Sea of Stars                  | 光追う星の海                           | -                        |
