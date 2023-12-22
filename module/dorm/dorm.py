@@ -343,6 +343,18 @@ class RewardDorm(UI):
             if self.appear(DORM_CHECK, offset=(20, 20), interval=5):
                 self.device.click(DORM_FEED_ENTER)
                 continue
+            if self.appear(DORM_MANAGE_CHECK, offset=(20, 20), interval=5):
+                self.device.click(DORM_FURNITURE_SHOP_QUIT)
+                logger.info(f'{DORM_MANAGE_CHECK} -> {DORM_FURNITURE_SHOP_QUIT}')
+                continue
+            if self.appear(DORM_FURNITURE_SHOP_FIRST, offset=(20, 20), interval=5):
+                self.device.click(DORM_FURNITURE_SHOP_QUIT)
+                logger.info(f'{DORM_FURNITURE_SHOP_FIRST} -> {DORM_FURNITURE_SHOP_QUIT}')
+                continue
+            if self.appear(DORM_FURNITURE_SHOP_FIRST_SELECTED, offset=(20, 20), interval=5):
+                self.device.click(DORM_FURNITURE_SHOP_QUIT)
+                logger.info(f'{DORM_FURNITURE_SHOP_FIRST_SELECTED} -> {DORM_FURNITURE_SHOP_QUIT}')
+                continue
 
     def dorm_feed_quit(self, skip_first_screenshot=False):
         """
