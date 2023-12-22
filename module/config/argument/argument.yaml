@@ -367,6 +367,13 @@ Dorm:
   Collect: true
   Feed: true
   FeedFilter: 20000 > 10000 > 5000 > 3000 > 2000 > 1000
+BuyFurniture:
+  Enable: false
+  BuyOption:
+    type: select
+    value: all
+    option: [ set, all ]
+  LastRun: 2020-01-01 00:00:00
 Meowfficer:
   BuyAmount: 1
   FortChoreMeowfficer: true
