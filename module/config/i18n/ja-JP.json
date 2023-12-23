@@ -728,6 +728,7 @@
       "event_20230914_cn": "須臾望月抄",
       "event_20231026_cn": "テンペスタと若返りの泉",
       "event_20231123_cn": "蒼閃忍法帖",
+      "event_20231221_cn": "光追う星の海",
       "raid_20200624": "特別演習超空強襲波（復刻）",
       "raid_20210708": "交錯する新たな波 (復刻)",
       "raid_20220127": "秘密事件調査",
@@ -1422,6 +1423,26 @@
     "FeedFilter": {
       "name": "Dorm.FeedFilter.name",
       "help": "Dorm.FeedFilter.help"
+    }
+  },
+  "BuyFurniture": {
+    "_info": {
+      "name": "BuyFurniture._info.name",
+      "help": "BuyFurniture._info.help"
+    },
+    "Enable": {
+      "name": "BuyFurniture.Enable.name",
+      "help": "BuyFurniture.Enable.help"
+    },
+    "BuyOption": {
+      "name": "BuyFurniture.BuyOption.name",
+      "help": "BuyFurniture.BuyOption.help",
+      "set": "set",
+      "all": "all"
+    },
+    "LastRun": {
+      "name": "BuyFurniture.LastRun.name",
+      "help": "BuyFurniture.LastRun.help"
     }
   },
   "Meowfficer": {

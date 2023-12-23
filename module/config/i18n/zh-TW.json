@@ -720,14 +720,15 @@
       "event_20220818_cn": "遠匯點作戰",
       "event_20220915_cn": "紫絳槿嵐",
       "event_20221124_cn": "鍊金術士與秘密遺跡群島",
-      "event_20221222_cn": "Parallel Superimposition",
+      "event_20221222_cn": "定向折疊",
       "event_20230223_cn": "Revelations of Dust",
       "event_20230525_cn": "Confluence of Nothingness",
       "event_20230803_cn": "Anthem of Remembrance",
       "event_20230817_cn": "The Fools Scales",
       "event_20230914_cn": "Effulgence Before Eclipse",
       "event_20231026_cn": "Tempesta and the Fountain of Youth",
-      "event_20231123_cn": "The Ninja Scrolls: Azur Flash",
+      "event_20231123_cn": "蒼閃忍法帖",
+      "event_20231221_cn": "Light-Chasing Sea of Stars",
       "raid_20200624": "特別演習埃塞克斯級(復刻)",
       "raid_20210708": "復刻穿越彼方的水線",
       "raid_20220127": "演習神秘事件調查",
@@ -810,7 +811,7 @@
     },
     "StageIncrease": {
       "name": "達成地圖成就後前往下一關卡，不停止",
-      "help": "自動開荒，需要保證隊伍有足夠的強度，及地圖屬性限制，並設定\"達成地圖成就後停止\"\n例如，打開本功能，並選擇\"地圖 100% 通關\"，將在地圖100%通關後前往下一關卡\n支援自動開荒的地圖：1-1至14-4、A1至A3、B1至B3、C1至C3、D1至D3、SP1至SP4"
+      "help": "自動開荒，需要保證隊伍有足夠的強度，及地圖屬性限制，並設定\"達成地圖成就後停止\"\n例如，打開本功能，並選擇\"地圖 100% 通關\"，將在地圖100%通關後前往下一關卡\n支援自動開荒的地圖：1-1至14-4、A1至A3、B1至B3、C1至C3、D1至D3、T1至T6、SP1至SP4"
     },
     "GetNewShip": {
       "name": "獲得新船後停止",
@@ -1422,6 +1423,26 @@
     "FeedFilter": {
       "name": "餵食過濾器",
       "help": "一般不需要修改"
+    }
+  },
+  "BuyFurniture": {
+    "_info": {
+      "name": "活動傢俱設定",
+      "help": "購買活動中後宅傢俱商城的限時傢俱"
+    },
+    "Enable": {
+      "name": "購買活動傢俱",
+      "help": ""
+    },
+    "BuyOption": {
+      "name": "購買方案",
+      "help": "購買一套：為每個傢俱買一件；購買全部：所有傢俱買到上限。兩種購買方案都會將該套傢俱從傢俱商店最前端移除，若使用購買一套則剩餘傢俱需手動購買，\n兩種方案傢俱消耗差別不大，建議使用購買全部，不會購買鑽石傢俱",
+      "set": "購買一套",
+      "all": "購買全部"
+    },
+    "LastRun": {
+      "name": "上次檢查時間",
+      "help": "記錄上一次檢查的時間以防止任務重複執行，這個數值是自動記錄的，一般不需要修改"
     }
   },
   "Meowfficer": {
