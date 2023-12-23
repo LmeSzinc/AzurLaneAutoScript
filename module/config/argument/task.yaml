@@ -215,6 +215,7 @@ Reward:
     Dorm:
       - Scheduler
       - Dorm
+      - BuyFurniture
     Meowfficer:
       - Scheduler
       - Meowfficer
