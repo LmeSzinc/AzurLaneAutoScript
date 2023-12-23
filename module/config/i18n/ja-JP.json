@@ -1620,6 +1620,26 @@
       "help": "Dorm.FeedFilter.help"
     }
   },
+  "BuyFurniture": {
+    "_info": {
+      "name": "BuyFurniture._info.name",
+      "help": "BuyFurniture._info.help"
+    },
+    "Enable": {
+      "name": "BuyFurniture.Enable.name",
+      "help": "BuyFurniture.Enable.help"
+    },
+    "BuyOption": {
+      "name": "BuyFurniture.BuyOption.name",
+      "help": "BuyFurniture.BuyOption.help",
+      "set": "set",
+      "all": "all"
+    },
+    "LastRun": {
+      "name": "BuyFurniture.LastRun.name",
+      "help": "BuyFurniture.LastRun.help"
+    }
+  },
   "Meowfficer": {
     "_info": {
       "name": "Meowfficer._info.name",

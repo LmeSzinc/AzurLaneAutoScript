@@ -1620,6 +1620,26 @@
       "help": "Generally does not need to be modified or re-arranged but can do so if desired"
     }
   },
+  "BuyFurniture": {
+    "_info": {
+      "name": "Event furniture Settings",
+      "help": "Buy time-limited furniture from dorm furniture shop during the event"
+    },
+    "Enable": {
+      "name": "Buy event furniture",
+      "help": ""
+    },
+    "BuyOption": {
+      "name": "Buy Option",
+      "help": "buy set: buy one piece for each piece of furniture; buy all: Buy all furniture. Both buy options will remove the set of furniture from the forefront of the store. If buy set, remaining furniture will need to be manually buy. Difference in furniture price between the two options is not significant, Recommended to use buy all. This operation will not buy diamond furniture",
+      "set": "set",
+      "all": "all"
+    },
+    "LastRun": {
+      "name": "Last Check Time",
+      "help": "The time of the last check is recorded here to prevent the task from running repeatedly. Check interval is 7 days. This value is automatically recorded and generally does not need to be modified."
+    }
+  },
   "Meowfficer": {
     "_info": {
       "name": "Mewofficer Settings",
