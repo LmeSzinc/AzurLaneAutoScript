@@ -62,6 +62,7 @@ class Config(ConfigBase):
     MAP_SWIPE_MULTIPLY_MINITOUCH = (1.075, 1.095)
     MAP_SWIPE_MULTIPLY_MAATOUCH = (1.044, 1.062)
     MAP_WALK_USE_CURRENT_FLEET = True
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom-right'
 
 
 class Campaign(CampaignBase):
