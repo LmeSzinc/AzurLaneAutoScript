@@ -4,7 +4,7 @@ from module.combat.assets import BATTLE_PREPARATION
 from module.equipment.assets import *
 from module.equipment.equipment_change import EquipmentChange
 from module.equipment.fleet_equipment import OCR_FLEET_INDEX
-from module.exception import CampaignEnd
+from module.exception import CampaignEnd, RequestHumanTakeover
 from module.handler.assets import AUTO_SEARCH_MAP_OPTION_OFF
 from module.logger import logger
 from module.map.assets import (FLEET_PREPARATION, MAP_PREPARATION, FLEET_ENTER_FLAGSHIP_HARD_1,
@@ -102,6 +102,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             self.FLEET_ENTER_FLAGSHIP = FLEET_ENTER_FLAGSHIP
             self._FLEET_ENTER_FLAGSHIP = self.FLEET_ENTER_FLAGSHIP
             self.FLEET_ENTER = FLEET_ENTER
+            self._FLEET_ENTER = FLEET_ENTER
             self.hard_mode = False
 
     def load_campaign(self, name, folder='campaign_main'):
@@ -146,9 +147,11 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         self.campaign.ensure_campaign_ui(self.stage)
         button_area = self.campaign.ENTRANCE.button
         button = Button(area=button_area, color=(0, 0, 0), button=button_area)
-        self.device.click(button)
-        for _ in range(3):
-            self.ui_click(click_button=MAP_PREPARATION, check_button=FLEET_PREPARATION)
+        self.ui_click(click_button=button, appear_button=BACK_ARROW, check_button=MAP_PREPARATION)
+        for _ in range(5):
+            self.device.sleep(0.5)
+            self.device.screenshot()
+            self.appear_then_click(MAP_PREPARATION)
             from module.retire.retirement import Retirement
             if Retirement(config=self.config, device=self.device).handle_retirement():
                 continue
@@ -290,7 +293,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
             return candidates
 
-    def get_common_rarity_dd(self):
+    def get_common_rarity_dd(self, emotion=16):
         """
         Get a common rarity dd with level is 100 (70 for servers except CN) and emotion > 10
         Returns:
@@ -310,7 +313,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             min_level = max_level
         if self.hard_mode:
             min_level = max(min_level, 49)
-        scanner = ShipScanner(level=(min_level, max_level), emotion=(16, 150),
+        scanner = ShipScanner(level=(min_level, max_level), emotion=(emotion, 150),
                               fleet=self.config.Fleet_Fleet1, status='free')
         scanner.disable('rarity')
 
@@ -327,9 +330,12 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             self.ui_click(self.FLEET_ENTER_FLAGSHIP,
                           appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK,
                           skip_first_screenshot=True)
-            self.ui_click(DOCK_SHIP_DOWN,
-                          appear_button=DOCK_CHECK, check_button=self.page_fleet_check_button,
-                          skip_first_screenshot=True)
+            if self.appear(DOCK_SHIP_DOWN):
+                self.ui_click(DOCK_SHIP_DOWN,
+                              appear_button=DOCK_CHECK, check_button=self.page_fleet_check_button,
+                              skip_first_screenshot=True)
+            else:
+                self.ui_back(check_button=FLEET_PREPARATION)
             self._FLEET_ENTER_FLAGSHIP = self.FLEET_ENTER_FLAGSHIP
             self.FLEET_ENTER_FLAGSHIP = self.FLEET_ENTER_FLAGSHIP_3_POSITION
 
@@ -368,11 +374,27 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             if ship and self.hard_mode:
                 self._ship_change_confirm(min(ship, key=lambda s: (s.level, -s.emotion)).button)
             else:
+                if self.hard_mode:
+                    raise RequestHumanTakeover
                 self.dock_filter_set()
                 self.ui_back(check_button=self.page_fleet_check_button)
             if self.hard_mode:
                 self.FLEET_ENTER_FLAGSHIP = self._FLEET_ENTER_FLAGSHIP
             return False
+
+    def solve_hard_vanguard_black(self):
+        if self.hard_mode:
+            self.ui_click(self.FLEET_ENTER,
+                          appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK,
+                          skip_first_screenshot=True)
+            if self.appear(DOCK_SHIP_DOWN):
+                self.ui_click(DOCK_SHIP_DOWN,
+                              appear_button=DOCK_CHECK, check_button=self.page_fleet_check_button,
+                              skip_first_screenshot=True)
+            else:
+                self.ui_back(check_button=FLEET_PREPARATION)
+            self._FLEET_ENTER = self.FLEET_ENTER
+            self.FLEET_ENTER = self.FLEET_ENTER_3_POSITION
 
     def vanguard_change_execute(self):
         """
@@ -383,6 +405,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             in: page_fleet
             out: page_fleet
         """
+        self.solve_hard_vanguard_black()
         self.ui_click(self.FLEET_ENTER,
                       appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
         self.dock_filter_set(
@@ -391,14 +414,25 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
         ship = self.get_common_rarity_dd()
         if ship:
+            if self.hard_mode:
+                self.FLEET_ENTER = self._FLEET_ENTER
             self._ship_change_confirm(max(ship, key=lambda s: s.emotion).button)
 
             logger.info('Change vanguard ship success')
             return True
         else:
             logger.info('Change vanguard ship failed, no DD in common rarity.')
-            self.dock_filter_set()
-            self.ui_back(check_button=self.page_fleet_check_button)
+
+            ship = self.get_common_rarity_dd(emotion=0)
+            if ship and self.hard_mode:
+                self._ship_change_confirm(min(ship, key=lambda s: (s.level, -s.emotion)).button)
+            else:
+                if self.hard_mode:
+                    raise RequestHumanTakeover
+                self.dock_filter_set()
+                self.ui_back(check_button=self.page_fleet_check_button)
+            if self.hard_mode:
+                self.FLEET_ENTER = self._FLEET_ENTER
             return False
 
     _trigger_lv32 = False
@@ -441,6 +475,16 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                     self._trigger_emotion = True
                 else:
                     raise e
+            except RequestHumanTakeover as e:
+                if (e.args[0] == 'Hard not satisfied' and
+                        str(self.config.GemsFarming_FleetNumberInHardMode) in e.args[1]):
+                    if self.change_flagship and self.change_vanguard:
+                        self.flagship_change()
+                        self.vanguard_change()
+                    else:
+                        raise RequestHumanTakeover
+                else:
+                    raise RequestHumanTakeover
 
             # End
             if self._trigger_lv32 or self._trigger_emotion:
