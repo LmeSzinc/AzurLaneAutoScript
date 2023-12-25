@@ -4,15 +4,16 @@
 
 Star Rail Instant Tea, a bot for Honkai: Star Rail, based on the next generation of ALAS framework.
 
-![gui](https://raw.githubusercontent.com/LmeSzinc/StarRailCopilot/master/doc/README.assets/gui_en.png)
+![gui](https://raw.githubusercontent.com/wiki/LmeSzinc/StarRailCopilot/README.assets/gui_en.png)
 
 
 
 ## Features
 
-- **Dungeons**: Dungeons, dungeons at double event
-- **Rewards**: Complete daily quests if possible, Assignment, Nameless Hourner.
-- **AFK Auto Farming**: Automatically launch emulators and games, do dungeons and quests in the background.
+- **Dungeons**: Dungeons, dungeons at double event, echo of war.
+- **Rewards**: Complete daily quests, do assignment, claim nameless horner rewards.
+- **Simulated Universe**: Farm SU til reaching weekly point limit, farm planers using trailbalze power.
+- **AFK Auto Farming**: Automatically launch emulators and games, do dungeons and quests at background, keep track of resources through dashboard.
 
 
 

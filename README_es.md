@@ -3,13 +3,14 @@
 # StarRailCopilot
 Star Rail Copilot, un bot para Honkai: Star Rail, basado en la siguiente generación del framework ALAS.
 
-![gui](/doc/README.assets/gui_es.png)
+![gui](https://raw.githubusercontent.com/wiki/LmeSzinc/StarRailCopilot/README.assets/gui_es.png)
 
 ## Características
 
-- **Mazmorras**: Mazmorras, y mazmorras en eventos de doble recompensa (materiales de XP de personaje, de conos de luz, rastros, ascensión, artefactos...)
+- **Mazmorras**: Mazmorras, y mazmorras en eventos de doble recompensa (materiales de XP de personaje, de conos de luz, rastros, ascensión, artefactos...), ecos de la guerra.
 - **Recompensas diarias**: Se completan las misiones de actividad diarias, la misión diaria, las misiones de Honor Anónimo...
-- **Farmeo automático AFK**: El bot lo hace todo de manera automática, abre los emuladores, completa las misiones y realiza las tareas diarias.
+- **Universo Simulado**: Farm SU hasta alcanzar el límite de puntos semanal, farm planars usando poder trazacaminos.
+- **Farmeo automático AFK**: El bot lo hace todo de manera automática, abre los emuladores, completa las misiones y realiza las tareas diarias, realice un seguimiento de los recursos a través del panel.
 
 ## Instalación [![](https://img.shields.io/github/downloads/LmeSzinc/StarRailCopilot/total?color=4e4c97)](https://github.com/LmeSzinc/StarRailCopilot/releases)
 Dirígete a la [Guía de Instalación](https://github.com/LmeSzinc/StarRailCopilot/wiki/Installation_en) para consultar cómo hacer la instalación automática, el manual de uso, etc.

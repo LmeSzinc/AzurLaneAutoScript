@@ -5,15 +5,16 @@
 
 Star Rail auto script | 星铁速溶茶，崩坏：星穹铁道脚本，基于下一代Alas框架。
 
-![gui](https://raw.githubusercontent.com/LmeSzinc/StarRailCopilot/master/doc/README.assets/gui_cn.png)
+![gui](https://raw.githubusercontent.com/wiki/LmeSzinc/StarRailCopilot/README.assets/gui_cn.png)
 
 
 
 ## 功能
 
-- **打本**：每日副本，双倍活动副本。
-- **收获**：尽量完成每日任务，委托，无名勋礼。
-- **后台托管**：自动启动模拟器和游戏，后台托管清体力和每日。
+- **打本**：每日副本，双倍活动副本，历战余响。
+- **收获**：完成每日任务，收派委托，收取无名勋礼奖励。
+- **模拟宇宙**：刷模拟宇宙至每周积分上限，使用开拓力刷内圈遗器。
+- **后台托管**：自动启动模拟器和游戏，后台托管清体力和每日，通过仪表盘了解资源情况。
 
 
 
