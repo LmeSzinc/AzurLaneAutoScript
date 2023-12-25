@@ -256,6 +256,9 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
                 else:
                     self.device.click(COMBAT_EXIT)
                 self.interval_reset(COMBAT_AGAIN)
+                continue
+            if self.handle_get_light_cone():
+                continue
 
     def combat_exit(self, skip_first_screenshot=True):
         """
