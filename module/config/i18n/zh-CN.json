@@ -876,12 +876,12 @@
   },
   "RogueDebug": {
     "_info": {
-      "name": "调试设置",
+      "name": "开发设置",
       "help": ""
     },
     "DebugMode": {
-      "name": "调试模式",
-      "help": "仅用于开发，如果你不知道这是什么，不要打开"
+      "name": "开发模式",
+      "help": "无停止条件，无异常处理，遇错误即停止，请按文档上报异常：https://github.com/LmeSzinc/StarRailCopilot/wiki/RogueMap_cn"
     }
   },
   "Gui": {

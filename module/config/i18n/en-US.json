@@ -876,12 +876,12 @@
   },
   "RogueDebug": {
     "_info": {
-      "name": "Debug Settings",
+      "name": "Dev Settings",
       "help": ""
     },
     "DebugMode": {
-      "name": "Debug Mode",
-      "help": "For development only, don't enable if you don't know what this is"
+      "name": "Dev Mode",
+      "help": "No stop conditions, no error handling, stop when encountering an error. Please report errors according to the doc: https://github.com/LmeSzinc/StarRailCopilot/wiki/RogueMap_cn"
     }
   },
   "Gui": {

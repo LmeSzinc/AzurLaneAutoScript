@@ -876,12 +876,12 @@
   },
   "RogueDebug": {
     "_info": {
-      "name": "Configuración de depuración",
+      "name": "Configuración de desarrollo",
       "help": ""
     },
     "DebugMode": {
-      "name": "Modo de depuración",
-      "help": "Solo para desarrollo, no lo habilites si no sabes qué es"
+      "name": "Modo de desarrollo",
+      "help": "Sin condiciones de parada, sin manejo de errores, deténgase cuando encuentre un error. Informe el error de acuerdo con el documento: https://github.com/LmeSzinc/StarRailCopilot/wiki/RogueMap_cn"
     }
   },
   "Gui": {
