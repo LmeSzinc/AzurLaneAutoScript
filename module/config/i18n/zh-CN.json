@@ -8,8 +8,8 @@
       "name": "每日",
       "help": ""
     },
-    "Rogue": {
-      "name": "模拟宇宙",
+    "Weekly": {
+      "name": "每周",
       "help": ""
     }
   },
@@ -24,10 +24,6 @@
     },
     "Dungeon": {
       "name": "每日副本",
-      "help": ""
-    },
-    "Weekly": {
-      "name": "历战余响",
       "help": ""
     },
     "DailyQuest": {
@@ -50,9 +46,13 @@
       "name": "白嫖奖励",
       "help": ""
     },
+    "Weekly": {
+      "name": "历战余响",
+      "help": ""
+    },
     "Rogue": {
       "name": "模拟宇宙",
-      "help": "模拟宇宙还在开发中，任务不会被运行"
+      "help": ""
     }
   },
   "Scheduler": {
@@ -411,6 +411,10 @@
       "name": "开拓力",
       "help": ""
     },
+    "Immersifier": {
+      "name": "沉浸器",
+      "help": ""
+    },
     "DungeonDouble": {
       "name": "副本双倍",
       "help": ""
@@ -569,7 +573,7 @@
     },
     "Complete_1_stage_in_Simulated_Universe_Any_world": {
       "name": "通关「模拟宇宙」（任意世界）的1个区域",
-      "help": "",
+      "help": "需要设置并启用\"模拟宇宙\"任务",
       "achievable": "可完成",
       "not_set": "未设置",
       "not_supported": "暂未支持"
@@ -778,10 +782,20 @@
       "help": ""
     }
   },
-  "RoguePath": {
+  "RogueWorld": {
     "_info": {
-      "name": "命途设置",
+      "name": "模拟宇宙设置",
       "help": ""
+    },
+    "World": {
+      "name": "模拟宇宙关卡",
+      "help": "",
+      "Simulated_Universe_World_3": "第三世界•模拟宇宙",
+      "Simulated_Universe_World_4": "第四世界•模拟宇宙",
+      "Simulated_Universe_World_5": "第五世界•模拟宇宙",
+      "Simulated_Universe_World_6": "第六世界•模拟宇宙",
+      "Simulated_Universe_World_7": "第七世界•模拟宇宙",
+      "Simulated_Universe_World_8": "第八世界•模拟宇宙"
     },
     "Path": {
       "name": "命途",
@@ -792,7 +806,8 @@
       "Abundance": "丰饶",
       "The_Hunt": "巡猎",
       "Destruction": "毁灭",
-      "Elation": "欢愉"
+      "Elation": "欢愉",
+      "Propagation": "繁育"
     },
     "Bonus": {
       "name": "开拓祝福三选一",
@@ -801,22 +816,19 @@
       "Miracle Cosmos": "神奇宇宙（获得一个奇物）",
       "Fragmented Cosmos": "破碎宇宙（获得宇宙碎片）"
     },
-    "PresetResonanceFilter": {
-      "name": "回响构音过滤器",
-      "help": "",
-      "preset-1": "预设 1",
-      "custom": "自定义"
+    "DomainStrategy": {
+      "name": "区域策略",
+      "help": "偏好战斗：适用于平民队伍，通关时间较长\n偏好事件：需要高练队伍，通关时间较短",
+      "combat": "偏好战斗",
+      "occurrence": "偏好事件"
     },
-    "ResonanceSelectionStrategy": {
-      "name": "图鉴未解锁的回响构音",
-      "help": "",
-      "follow-presets": "不影响选择",
-      "unrecorded-first": "优先选择",
-      "before-random": "无回响构音满足过滤器设置时才选择"
+    "UseImmersifier": {
+      "name": "使用沉浸器领取遗器",
+      "help": ""
     },
-    "CustomResonanceFilter": {
-      "name": "自定义回响构音过滤器",
-      "help": "仅在\"回响构音过滤器\"设置为\"自定义\"时生效"
+    "UseStamina": {
+      "name": "使用开拓力刷内圈遗器",
+      "help": "每日副本任务将不再打本，所有开拓力将优先被用于领取浸器奖励，双倍活动时除外"
     }
   },
   "RogueBlessing": {
@@ -827,42 +839,49 @@
     "PresetBlessingFilter": {
       "name": "祝福过滤器",
       "help": "",
-      "preset-1": "预设 1",
+      "preset": "预设",
       "custom": "自定义"
-    },
-    "BlessingSelectionStrategy": {
-      "name": "图鉴未解锁的祝福",
-      "help": "",
-      "follow-presets": "不影响选择",
-      "unrecorded-first": "优先选择",
-      "before-random": "无祝福满足过滤器设置时才选择"
     },
     "CustomBlessingFilter": {
       "name": "自定义祝福过滤器",
       "help": "仅在\"祝福过滤器\"设置为\"自定义\"时生效"
-    }
-  },
-  "RogueCurio": {
-    "_info": {
-      "name": "奇物设置",
-      "help": ""
     },
     "PresetCurioFilter": {
       "name": "奇物过滤器",
       "help": "",
-      "preset-1": "预设 1",
+      "preset": "预设",
       "custom": "自定义"
-    },
-    "CurioSelectionStrategy": {
-      "name": "图鉴未解锁的奇物",
-      "help": "",
-      "follow-presets": "不影响选择",
-      "unrecorded-first": "优先选择",
-      "before-random": "无奇物满足过滤器设置时才选择"
     },
     "CustomCurioFilter": {
       "name": "自定义奇物过滤器",
       "help": "仅在\"奇物过滤器\"设置为\"自定义\"时生效"
+    },
+    "PresetResonanceFilter": {
+      "name": "回响构音过滤器",
+      "help": "",
+      "preset": "预设",
+      "custom": "自定义"
+    },
+    "CustomResonanceFilter": {
+      "name": "自定义回响构音过滤器",
+      "help": "仅在\"回响构音过滤器\"设置为\"自定义\"时生效"
+    },
+    "SelectionStrategy": {
+      "name": "对于未解锁的图鉴",
+      "help": "",
+      "follow-presets": "不影响选择",
+      "unrecorded-first": "优先选择",
+      "before-random": "无法满足过滤器时才选择"
+    }
+  },
+  "RogueDebug": {
+    "_info": {
+      "name": "开发设置",
+      "help": ""
+    },
+    "DebugMode": {
+      "name": "开发模式",
+      "help": "无停止条件，无异常处理，遇错误即停止，请按文档上报异常：https://github.com/LmeSzinc/StarRailCopilot/wiki/RogueMap_cn"
     }
   },
   "Gui": {

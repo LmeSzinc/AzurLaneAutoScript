@@ -1,0 +1,2059 @@
+[
+  {
+    "name": "Combat_Herta_StorageZone_F1_X225Y258",
+    "route": "route.rogue.Combat.Herta_StorageZone_F1:Herta_StorageZone_F1_X225Y258",
+    "plane": "Herta_StorageZone",
+    "floor": "F1",
+    "position": [
+      225.8,
+      258.8
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_StorageZone_F1_X257Y85",
+    "route": "route.rogue.Combat.Herta_StorageZone_F1:Herta_StorageZone_F1_X257Y85",
+    "plane": "Herta_StorageZone",
+    "floor": "F1",
+    "position": [
+      257.3,
+      85.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_StorageZone_F1_X273Y92",
+    "route": "route.rogue.Combat.Herta_StorageZone_F1:Herta_StorageZone_F1_X273Y92",
+    "plane": "Herta_StorageZone",
+    "floor": "F1",
+    "position": [
+      273.4,
+      92.2
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_StorageZone_F1_X692Y61",
+    "route": "route.rogue.Combat.Herta_StorageZone_F1:Herta_StorageZone_F1_X692Y61",
+    "plane": "Herta_StorageZone",
+    "floor": "F1",
+    "position": [
+      692.0,
+      62.0
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_StorageZone_F1_X749Y45",
+    "route": "route.rogue.Combat.Herta_StorageZone_F1:Herta_StorageZone_F1_X749Y45",
+    "plane": "Herta_StorageZone",
+    "floor": "F1",
+    "position": [
+      749.5,
+      45.6
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_StorageZone_F2_X515Y219",
+    "route": "route.rogue.Combat.Herta_StorageZone_F2:Herta_StorageZone_F2_X515Y219",
+    "plane": "Herta_StorageZone",
+    "floor": "F2",
+    "position": [
+      515.5,
+      219.3
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_StorageZone_F2Rogue_X351Y165",
+    "route": "route.rogue.Combat.Herta_StorageZone_F2Rogue:Herta_StorageZone_F2Rogue_X351Y165",
+    "plane": "Herta_StorageZone",
+    "floor": "F2Rogue",
+    "position": [
+      351.4,
+      165.3
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_StorageZone_F2Rogue_X365Y167",
+    "route": "route.rogue.Combat.Herta_StorageZone_F2Rogue:Herta_StorageZone_F2Rogue_X365Y167",
+    "plane": "Herta_StorageZone",
+    "floor": "F2Rogue",
+    "position": [
+      364.8,
+      166.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_SupplyZone_F2_X45Y369",
+    "route": "route.rogue.Combat.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X45Y369",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2",
+    "position": [
+      45.5,
+      369.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_SupplyZone_F2_X397Y233",
+    "route": "route.rogue.Combat.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X397Y233",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2",
+    "position": [
+      397.4,
+      233.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_SupplyZone_F2_X397Y239",
+    "route": "route.rogue.Combat.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X397Y239",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2",
+    "position": [
+      397.4,
+      239.0
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_SupplyZone_F2_X543Y255",
+    "route": "route.rogue.Combat.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X543Y255",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2",
+    "position": [
+      543.4,
+      255.2
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_SupplyZone_F2_X594Y247",
+    "route": "route.rogue.Combat.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X594Y247",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2",
+    "position": [
+      594.3,
+      247.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_SupplyZone_F2_X657Y247",
+    "route": "route.rogue.Combat.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X657Y247",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2",
+    "position": [
+      656.7,
+      247.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_SupplyZone_F2Rogue_X209Y112",
+    "route": "route.rogue.Combat.Herta_SupplyZone_F2Rogue:Herta_SupplyZone_F2Rogue_X209Y112",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2Rogue",
+    "position": [
+      209.6,
+      112.8
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_SupplyZone_F2Rogue_X215Y112",
+    "route": "route.rogue.Combat.Herta_SupplyZone_F2Rogue:Herta_SupplyZone_F2Rogue_X215Y112",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2Rogue",
+    "position": [
+      215.6,
+      112.8
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_SupplyZone_F2Rogue_X219Y112",
+    "route": "route.rogue.Combat.Herta_SupplyZone_F2Rogue:Herta_SupplyZone_F2Rogue_X219Y112",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2Rogue",
+    "position": [
+      219.6,
+      112.8
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Herta_SupplyZone_F2RogueX151Y245_X151Y245",
+    "route": "route.rogue.Combat.Herta_SupplyZone_F2RogueX151Y245:Herta_SupplyZone_F2RogueX151Y245_X151Y245",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2RogueX151Y245",
+    "position": [
+      152.0,
+      245.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_BackwaterPass_F1_X460Y165",
+    "route": "route.rogue.Combat.Jarilo_BackwaterPass_F1:Jarilo_BackwaterPass_F1_X460Y165",
+    "plane": "Jarilo_BackwaterPass",
+    "floor": "F1",
+    "position": [
+      460.0,
+      165.3
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_BackwaterPass_F1_X475Y49",
+    "route": "route.rogue.Combat.Jarilo_BackwaterPass_F1:Jarilo_BackwaterPass_F1_X475Y49",
+    "plane": "Jarilo_BackwaterPass",
+    "floor": "F1",
+    "position": [
+      475.2,
+      49.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_BackwaterPass_F1_X483Y105",
+    "route": "route.rogue.Combat.Jarilo_BackwaterPass_F1:Jarilo_BackwaterPass_F1_X483Y105",
+    "plane": "Jarilo_BackwaterPass",
+    "floor": "F1",
+    "position": [
+      483.5,
+      105.1
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_BackwaterPass_F1_X507Y733",
+    "route": "route.rogue.Combat.Jarilo_BackwaterPass_F1:Jarilo_BackwaterPass_F1_X507Y733",
+    "plane": "Jarilo_BackwaterPass",
+    "floor": "F1",
+    "position": [
+      507.2,
+      733.7
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_BackwaterPass_F1_X555Y643",
+    "route": "route.rogue.Combat.Jarilo_BackwaterPass_F1:Jarilo_BackwaterPass_F1_X555Y643",
+    "plane": "Jarilo_BackwaterPass",
+    "floor": "F1",
+    "position": [
+      555.6,
+      643.2
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_BackwaterPass_F1_X577Y665",
+    "route": "route.rogue.Combat.Jarilo_BackwaterPass_F1:Jarilo_BackwaterPass_F1_X577Y665",
+    "plane": "Jarilo_BackwaterPass",
+    "floor": "F1",
+    "position": [
+      577.4,
+      665.3
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_BackwaterPass_F1_X580Y741",
+    "route": "route.rogue.Combat.Jarilo_BackwaterPass_F1:Jarilo_BackwaterPass_F1_X580Y741",
+    "plane": "Jarilo_BackwaterPass",
+    "floor": "F1",
+    "position": [
+      580.5,
+      741.2
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_BackwaterPass_F1_X595Y681",
+    "route": "route.rogue.Combat.Jarilo_BackwaterPass_F1:Jarilo_BackwaterPass_F1_X595Y681",
+    "plane": "Jarilo_BackwaterPass",
+    "floor": "F1",
+    "position": [
+      595.5,
+      681.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_CorridorofFadingEchoes_F1_X115Y911",
+    "route": "route.rogue.Combat.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X115Y911",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      115.5,
+      911.3
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_CorridorofFadingEchoes_F1_X201Y1071",
+    "route": "route.rogue.Combat.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X201Y1071",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      201.2,
+      1071.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_CorridorofFadingEchoes_F1_X266Y457",
+    "route": "route.rogue.Combat.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X266Y457",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      267.0,
+      457.2
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_CorridorofFadingEchoes_F1_X291Y765",
+    "route": "route.rogue.Combat.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X291Y765",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      291.1,
+      765.3
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_CorridorofFadingEchoes_F1_X319Y949",
+    "route": "route.rogue.Combat.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X319Y949",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      319.4,
+      949.3
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_CorridorofFadingEchoes_F1_X369Y439",
+    "route": "route.rogue.Combat.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X369Y439",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      369.4,
+      439.2
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_CorridorofFadingEchoes_F1_X437Y122",
+    "route": "route.rogue.Combat.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X437Y122",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      437.4,
+      122.9
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_CorridorofFadingEchoes_F1_X463Y123",
+    "route": "route.rogue.Combat.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X463Y123",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      463.3,
+      123.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_GreatMine_F1_X84Y378",
+    "route": "route.rogue.Combat.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X84Y378",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      84.4,
+      378.7
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_GreatMine_F1_X91Y391",
+    "route": "route.rogue.Combat.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X91Y391",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      91.4,
+      392.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_GreatMine_F1_X89Y387",
+    "route": "route.rogue.Combat.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X89Y387",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      89.4,
+      387.6
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_GreatMine_F1_X133Y465",
+    "route": "route.rogue.Combat.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X133Y465",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      133.3,
+      465.6
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_GreatMine_F1_X149Y273",
+    "route": "route.rogue.Combat.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X149Y273",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      149.7,
+      273.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_GreatMine_F1_X165Y537",
+    "route": "route.rogue.Combat.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X165Y537",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      165.5,
+      537.8
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_GreatMine_F1_X299Y254",
+    "route": "route.rogue.Combat.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X299Y254",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      299.3,
+      255.3
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_GreatMine_F1_X407Y572",
+    "route": "route.rogue.Combat.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X407Y572",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      407.2,
+      572.8
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_GreatMine_F1_X485Y450",
+    "route": "route.rogue.Combat.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X485Y450",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      485.5,
+      450.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_GreatMine_F1_X545Y513",
+    "route": "route.rogue.Combat.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X545Y513",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      545.3,
+      513.0
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_RivetTown_F1_X181Y439",
+    "route": "route.rogue.Combat.Jarilo_RivetTown_F1:Jarilo_RivetTown_F1_X181Y439",
+    "plane": "Jarilo_RivetTown",
+    "floor": "F1",
+    "position": [
+      181.4,
+      439.2
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_RivetTown_F1_X205Y439",
+    "route": "route.rogue.Combat.Jarilo_RivetTown_F1:Jarilo_RivetTown_F1_X205Y439",
+    "plane": "Jarilo_RivetTown",
+    "floor": "F1",
+    "position": [
+      205.4,
+      439.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_RivetTown_F1_X209Y333",
+    "route": "route.rogue.Combat.Jarilo_RivetTown_F1:Jarilo_RivetTown_F1_X209Y333",
+    "plane": "Jarilo_RivetTown",
+    "floor": "F1",
+    "position": [
+      209.4,
+      333.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_RivetTown_F1_X231Y211",
+    "route": "route.rogue.Combat.Jarilo_RivetTown_F1:Jarilo_RivetTown_F1_X231Y211",
+    "plane": "Jarilo_RivetTown",
+    "floor": "F1",
+    "position": [
+      231.4,
+      211.1
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_RivetTown_F1_X279Y301",
+    "route": "route.rogue.Combat.Jarilo_RivetTown_F1:Jarilo_RivetTown_F1_X279Y301",
+    "plane": "Jarilo_RivetTown",
+    "floor": "F1",
+    "position": [
+      279.4,
+      301.6
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_RivetTown_F1_X293Y243",
+    "route": "route.rogue.Combat.Jarilo_RivetTown_F1:Jarilo_RivetTown_F1_X293Y243",
+    "plane": "Jarilo_RivetTown",
+    "floor": "F1",
+    "position": [
+      293.6,
+      243.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_RivetTown_F1_X323Y151",
+    "route": "route.rogue.Combat.Jarilo_RivetTown_F1:Jarilo_RivetTown_F1_X323Y151",
+    "plane": "Jarilo_RivetTown",
+    "floor": "F1",
+    "position": [
+      323.4,
+      151.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_SilvermaneGuardRestrictedZone_F1_X191Y199",
+    "route": "route.rogue.Combat.Jarilo_SilvermaneGuardRestrictedZone_F1:Jarilo_SilvermaneGuardRestrictedZone_F1_X191Y199",
+    "plane": "Jarilo_SilvermaneGuardRestrictedZone",
+    "floor": "F1",
+    "position": [
+      191.4,
+      199.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_SilvermaneGuardRestrictedZone_F1_X221Y426",
+    "route": "route.rogue.Combat.Jarilo_SilvermaneGuardRestrictedZone_F1:Jarilo_SilvermaneGuardRestrictedZone_F1_X221Y426",
+    "plane": "Jarilo_SilvermaneGuardRestrictedZone",
+    "floor": "F1",
+    "position": [
+      221.3,
+      426.1
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_SilvermaneGuardRestrictedZone_F1_X227Y425",
+    "route": "route.rogue.Combat.Jarilo_SilvermaneGuardRestrictedZone_F1:Jarilo_SilvermaneGuardRestrictedZone_F1_X227Y425",
+    "plane": "Jarilo_SilvermaneGuardRestrictedZone",
+    "floor": "F1",
+    "position": [
+      227.7,
+      425.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_SilvermaneGuardRestrictedZone_F1_X227Y432",
+    "route": "route.rogue.Combat.Jarilo_SilvermaneGuardRestrictedZone_F1:Jarilo_SilvermaneGuardRestrictedZone_F1_X227Y432",
+    "plane": "Jarilo_SilvermaneGuardRestrictedZone",
+    "floor": "F1",
+    "position": [
+      227.7,
+      432.0
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_SilvermaneGuardRestrictedZone_F1_X317Y425",
+    "route": "route.rogue.Combat.Jarilo_SilvermaneGuardRestrictedZone_F1:Jarilo_SilvermaneGuardRestrictedZone_F1_X317Y425",
+    "plane": "Jarilo_SilvermaneGuardRestrictedZone",
+    "floor": "F1",
+    "position": [
+      317.4,
+      425.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_SilvermaneGuardRestrictedZone_F1_X371Y419",
+    "route": "route.rogue.Combat.Jarilo_SilvermaneGuardRestrictedZone_F1:Jarilo_SilvermaneGuardRestrictedZone_F1_X371Y419",
+    "plane": "Jarilo_SilvermaneGuardRestrictedZone",
+    "floor": "F1",
+    "position": [
+      371.6,
+      419.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_SilvermaneGuardRestrictedZone_F1_X371Y425",
+    "route": "route.rogue.Combat.Jarilo_SilvermaneGuardRestrictedZone_F1:Jarilo_SilvermaneGuardRestrictedZone_F1_X371Y425",
+    "plane": "Jarilo_SilvermaneGuardRestrictedZone",
+    "floor": "F1",
+    "position": [
+      371.6,
+      425.3
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_SilvermaneGuardRestrictedZone_F1_X419Y180",
+    "route": "route.rogue.Combat.Jarilo_SilvermaneGuardRestrictedZone_F1:Jarilo_SilvermaneGuardRestrictedZone_F1_X419Y180",
+    "plane": "Jarilo_SilvermaneGuardRestrictedZone",
+    "floor": "F1",
+    "position": [
+      419.4,
+      179.8
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_SilvermaneGuardRestrictedZone_F1_X421Y173",
+    "route": "route.rogue.Combat.Jarilo_SilvermaneGuardRestrictedZone_F1:Jarilo_SilvermaneGuardRestrictedZone_F1_X421Y173",
+    "plane": "Jarilo_SilvermaneGuardRestrictedZone",
+    "floor": "F1",
+    "position": [
+      421.5,
+      173.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Jarilo_SilvermaneGuardRestrictedZone_F1_X569Y495",
+    "route": "route.rogue.Combat.Jarilo_SilvermaneGuardRestrictedZone_F1:Jarilo_SilvermaneGuardRestrictedZone_F1_X569Y495",
+    "plane": "Jarilo_SilvermaneGuardRestrictedZone",
+    "floor": "F1",
+    "position": [
+      569.1,
+      495.0
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_AlchemyCommission_F1_X301Y441",
+    "route": "route.rogue.Combat.Luofu_AlchemyCommission_F1:Luofu_AlchemyCommission_F1_X301Y441",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F1",
+    "position": [
+      301.6,
+      441.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_AlchemyCommission_F2_X415Y589",
+    "route": "route.rogue.Combat.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X415Y589",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F2",
+    "position": [
+      415.5,
+      589.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_AlchemyCommission_F2_X447Y508",
+    "route": "route.rogue.Combat.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X447Y508",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F2",
+    "position": [
+      447.4,
+      508.1
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_AlchemyCommission_F2_X454Y501",
+    "route": "route.rogue.Combat.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X454Y501",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F2",
+    "position": [
+      453.7,
+      501.3
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_AlchemyCommission_F2_X457Y497",
+    "route": "route.rogue.Combat.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X457Y497",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F2",
+    "position": [
+      457.0,
+      497.0
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ArtisanshipCommission_F1_X41Y640",
+    "route": "route.rogue.Combat.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X41Y640",
+    "plane": "Luofu_ArtisanshipCommission",
+    "floor": "F1",
+    "position": [
+      41.4,
+      639.9
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ArtisanshipCommission_F1_X185Y361",
+    "route": "route.rogue.Combat.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X185Y361",
+    "plane": "Luofu_ArtisanshipCommission",
+    "floor": "F1",
+    "position": [
+      185.4,
+      361.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ArtisanshipCommission_F1_X217Y807",
+    "route": "route.rogue.Combat.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X217Y807",
+    "plane": "Luofu_ArtisanshipCommission",
+    "floor": "F1",
+    "position": [
+      217.3,
+      807.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ArtisanshipCommission_F1_X473Y920",
+    "route": "route.rogue.Combat.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X473Y920",
+    "plane": "Luofu_ArtisanshipCommission",
+    "floor": "F1",
+    "position": [
+      473.5,
+      920.9
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ArtisanshipCommission_F1_X543Y269",
+    "route": "route.rogue.Combat.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X543Y269",
+    "plane": "Luofu_ArtisanshipCommission",
+    "floor": "F1",
+    "position": [
+      543.3,
+      269.6
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ArtisanshipCommission_F1_X655Y537",
+    "route": "route.rogue.Combat.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X655Y537",
+    "plane": "Luofu_ArtisanshipCommission",
+    "floor": "F1",
+    "position": [
+      655.5,
+      537.3
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ArtisanshipCommission_F1_X667Y189",
+    "route": "route.rogue.Combat.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X667Y189",
+    "plane": "Luofu_ArtisanshipCommission",
+    "floor": "F1",
+    "position": [
+      667.0,
+      189.2
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_Cloudford_F1_X241Y947",
+    "route": "route.rogue.Combat.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X241Y947",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      240.4,
+      947.6
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_Cloudford_F1_X257Y947",
+    "route": "route.rogue.Combat.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X257Y947",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      257.3,
+      947.0
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_Cloudford_F1_X257Y951",
+    "route": "route.rogue.Combat.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X257Y951",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      257.3,
+      951.2
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_Cloudford_F1_X281Y873",
+    "route": "route.rogue.Combat.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X281Y873",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      281.0,
+      873.0
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_Cloudford_F1_X283Y865",
+    "route": "route.rogue.Combat.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X283Y865",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      283.4,
+      865.3
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_Cloudford_F1_X431Y593",
+    "route": "route.rogue.Combat.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X431Y593",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      431.5,
+      593.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_Cloudford_F1_X435Y669",
+    "route": "route.rogue.Combat.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X435Y669",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      435.4,
+      669.2
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_Cloudford_F1Rogue_X59Y405",
+    "route": "route.rogue.Combat.Luofu_Cloudford_F1Rogue:Luofu_Cloudford_F1Rogue_X59Y405",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1Rogue",
+    "position": [
+      59.3,
+      405.6
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_Cloudford_F1Rogue_X49Y405",
+    "route": "route.rogue.Combat.Luofu_Cloudford_F1Rogue:Luofu_Cloudford_F1Rogue_X49Y405",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1Rogue",
+    "position": [
+      49.3,
+      405.6
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_Cloudford_F2_X425Y111",
+    "route": "route.rogue.Combat.Luofu_Cloudford_F2:Luofu_Cloudford_F2_X425Y111",
+    "plane": "Luofu_Cloudford",
+    "floor": "F2",
+    "position": [
+      425.4,
+      111.6
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_Cloudford_F2_X425Y171",
+    "route": "route.rogue.Combat.Luofu_Cloudford_F2:Luofu_Cloudford_F2_X425Y171",
+    "plane": "Luofu_Cloudford",
+    "floor": "F2",
+    "position": [
+      425.5,
+      171.6
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_DivinationCommission_F1_X63Y303",
+    "route": "route.rogue.Combat.Luofu_DivinationCommission_F1:Luofu_DivinationCommission_F1_X63Y303",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F1",
+    "position": [
+      63.7,
+      303.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_DivinationCommission_F1_X97Y457",
+    "route": "route.rogue.Combat.Luofu_DivinationCommission_F1:Luofu_DivinationCommission_F1_X97Y457",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F1",
+    "position": [
+      97.2,
+      456.9
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_DivinationCommission_F1_X737Y237",
+    "route": "route.rogue.Combat.Luofu_DivinationCommission_F1:Luofu_DivinationCommission_F1_X737Y237",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F1",
+    "position": [
+      737.2,
+      237.6
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_DivinationCommission_F1_X737Y372",
+    "route": "route.rogue.Combat.Luofu_DivinationCommission_F1:Luofu_DivinationCommission_F1_X737Y372",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F1",
+    "position": [
+      737.4,
+      372.2
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_DivinationCommission_F2_X216Y659",
+    "route": "route.rogue.Combat.Luofu_DivinationCommission_F2:Luofu_DivinationCommission_F2_X216Y659",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F2",
+    "position": [
+      216.8,
+      659.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_DivinationCommission_F2_X239Y785",
+    "route": "route.rogue.Combat.Luofu_DivinationCommission_F2:Luofu_DivinationCommission_F2_X239Y785",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F2",
+    "position": [
+      239.4,
+      785.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ScalegorgeWaterscape_F1_X415Y261",
+    "route": "route.rogue.Combat.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X415Y261",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      415.4,
+      261.6
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ScalegorgeWaterscape_F1_X467Y405",
+    "route": "route.rogue.Combat.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X467Y405",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      467.5,
+      405.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ScalegorgeWaterscape_F1_X567Y280",
+    "route": "route.rogue.Combat.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X567Y280",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      567.4,
+      280.2
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ScalegorgeWaterscape_F1_X617Y99",
+    "route": "route.rogue.Combat.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X617Y99",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      617.3,
+      99.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ScalegorgeWaterscape_F1_X668Y243",
+    "route": "route.rogue.Combat.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X668Y243",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      668.9,
+      243.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ScalegorgeWaterscape_F1_X791Y245",
+    "route": "route.rogue.Combat.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X791Y245",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      791.2,
+      245.8
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_ScalegorgeWaterscape_F1_X1181Y279",
+    "route": "route.rogue.Combat.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X1181Y279",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      1181.0,
+      279.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_StargazerNavalia_F1_X183Y315",
+    "route": "route.rogue.Combat.Luofu_StargazerNavalia_F1:Luofu_StargazerNavalia_F1_X183Y315",
+    "plane": "Luofu_StargazerNavalia",
+    "floor": "F1",
+    "position": [
+      183.4,
+      315.6
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_StargazerNavalia_F1_X203Y317",
+    "route": "route.rogue.Combat.Luofu_StargazerNavalia_F1:Luofu_StargazerNavalia_F1_X203Y317",
+    "plane": "Luofu_StargazerNavalia",
+    "floor": "F1",
+    "position": [
+      203.8,
+      317.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_StargazerNavalia_F1_X215Y192",
+    "route": "route.rogue.Combat.Luofu_StargazerNavalia_F1:Luofu_StargazerNavalia_F1_X215Y192",
+    "plane": "Luofu_StargazerNavalia",
+    "floor": "F1",
+    "position": [
+      215.5,
+      192.6
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_StargazerNavalia_F1_X432Y593",
+    "route": "route.rogue.Combat.Luofu_StargazerNavalia_F1:Luofu_StargazerNavalia_F1_X432Y593",
+    "plane": "Luofu_StargazerNavalia",
+    "floor": "F1",
+    "position": [
+      432.7,
+      593.4
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_StargazerNavalia_F1_X499Y581",
+    "route": "route.rogue.Combat.Luofu_StargazerNavalia_F1:Luofu_StargazerNavalia_F1_X499Y581",
+    "plane": "Luofu_StargazerNavalia",
+    "floor": "F1",
+    "position": [
+      499.6,
+      581.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_StargazerNavalia_F1_X521Y447",
+    "route": "route.rogue.Combat.Luofu_StargazerNavalia_F1:Luofu_StargazerNavalia_F1_X521Y447",
+    "plane": "Luofu_StargazerNavalia",
+    "floor": "F1",
+    "position": [
+      521.4,
+      447.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_StargazerNavalia_F2_X479Y187",
+    "route": "route.rogue.Combat.Luofu_StargazerNavalia_F2:Luofu_StargazerNavalia_F2_X479Y187",
+    "plane": "Luofu_StargazerNavalia",
+    "floor": "F2",
+    "position": [
+      479.5,
+      187.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Combat_Luofu_StargazerNavalia_F2_X627Y179",
+    "route": "route.rogue.Combat.Luofu_StargazerNavalia_F2:Luofu_StargazerNavalia_F2_X627Y179",
+    "plane": "Luofu_StargazerNavalia",
+    "floor": "F2",
+    "position": [
+      627.8,
+      179.5
+    ],
+    "domain": "Combat"
+  },
+  {
+    "name": "Elite_Herta_StorageZone_F1_X477Y233",
+    "route": "route.rogue.Elite.Herta_StorageZone_F1:Herta_StorageZone_F1_X477Y233",
+    "plane": "Herta_StorageZone",
+    "floor": "F1",
+    "position": [
+      477.6,
+      233.5
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Herta_SupplyZone_F2_X641Y247",
+    "route": "route.rogue.Elite.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X641Y247",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2",
+    "position": [
+      641.0,
+      247.5
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Herta_SupplyZone_F2_X674Y247",
+    "route": "route.rogue.Elite.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X674Y247",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2",
+    "position": [
+      674.0,
+      247.5
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Herta_SupplyZone_F2_X680Y247",
+    "route": "route.rogue.Elite.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X680Y247",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2",
+    "position": [
+      680.0,
+      247.5
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Herta_SupplyZone_F2_X682Y247",
+    "route": "route.rogue.Elite.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X682Y247",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2",
+    "position": [
+      682.0,
+      247.5
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Herta_SupplyZone_F2_X684Y247",
+    "route": "route.rogue.Elite.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X684Y247",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2",
+    "position": [
+      684.0,
+      247.5
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Herta_SupplyZone_F2_X657Y247",
+    "route": "route.rogue.Elite.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X657Y247",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2",
+    "position": [
+      657.1,
+      247.5
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Jarilo_BackwaterPass_F1_X351Y641",
+    "route": "route.rogue.Elite.Jarilo_BackwaterPass_F1:Jarilo_BackwaterPass_F1_X351Y641",
+    "plane": "Jarilo_BackwaterPass",
+    "floor": "F1",
+    "position": [
+      351.4,
+      641.3
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Jarilo_CorridorofFadingEchoes_F1_X415Y933",
+    "route": "route.rogue.Elite.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X415Y933",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      415.5,
+      933.0
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Jarilo_CorridorofFadingEchoes_F1_X415Y947",
+    "route": "route.rogue.Elite.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X415Y947",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      415.5,
+      947.9
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Jarilo_GreatMine_F1_X175Y273",
+    "route": "route.rogue.Elite.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X175Y273",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      175.5,
+      273.5
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Jarilo_GreatMine_F1_X303Y489",
+    "route": "route.rogue.Elite.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X303Y489",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      303.4,
+      489.3
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Jarilo_RivetTown_F1_X149Y435",
+    "route": "route.rogue.Elite.Jarilo_RivetTown_F1:Jarilo_RivetTown_F1_X149Y435",
+    "plane": "Jarilo_RivetTown",
+    "floor": "F1",
+    "position": [
+      149.9,
+      435.6
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Jarilo_RivetTown_F2_X189Y81",
+    "route": "route.rogue.Elite.Jarilo_RivetTown_F2:Jarilo_RivetTown_F2_X189Y81",
+    "plane": "Jarilo_RivetTown",
+    "floor": "F2",
+    "position": [
+      189.5,
+      81.9
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Jarilo_SilvermaneGuardRestrictedZone_F1_X225Y425",
+    "route": "route.rogue.Elite.Jarilo_SilvermaneGuardRestrictedZone_F1:Jarilo_SilvermaneGuardRestrictedZone_F1_X225Y425",
+    "plane": "Jarilo_SilvermaneGuardRestrictedZone",
+    "floor": "F1",
+    "position": [
+      225.3,
+      425.9
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Luofu_AlchemyCommission_F2_X625Y590",
+    "route": "route.rogue.Elite.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X625Y590",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F2",
+    "position": [
+      623.1,
+      590.0
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Luofu_ArtisanshipCommission_F1_X385Y494",
+    "route": "route.rogue.Elite.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X385Y494",
+    "plane": "Luofu_ArtisanshipCommission",
+    "floor": "F1",
+    "position": [
+      385.2,
+      494.6
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Luofu_ArtisanshipCommission_F1_X504Y493",
+    "route": "route.rogue.Elite.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X504Y493",
+    "plane": "Luofu_ArtisanshipCommission",
+    "floor": "F1",
+    "position": [
+      504.0,
+      493.4
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Luofu_Cloudford_F1_X337Y1003",
+    "route": "route.rogue.Elite.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X337Y1003",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      337.3,
+      1003.4
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Luofu_DivinationCommission_F2_X338Y345",
+    "route": "route.rogue.Elite.Luofu_DivinationCommission_F2:Luofu_DivinationCommission_F2_X338Y345",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F2",
+    "position": [
+      338.0,
+      345.5
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Luofu_ScalegorgeWaterscape_F1_X1368Y261",
+    "route": "route.rogue.Elite.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X1368Y261",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      1368.9,
+      261.5
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Elite_Luofu_StargazerNavalia_F1_X617Y511",
+    "route": "route.rogue.Elite.Luofu_StargazerNavalia_F1:Luofu_StargazerNavalia_F1_X617Y511",
+    "plane": "Luofu_StargazerNavalia",
+    "floor": "F1",
+    "position": [
+      617.5,
+      511.5
+    ],
+    "domain": "Elite"
+  },
+  {
+    "name": "Occurrence_Herta_StorageZone_F1_X273Y93",
+    "route": "route.rogue.Occurrence.Herta_StorageZone_F1:Herta_StorageZone_F1_X273Y93",
+    "plane": "Herta_StorageZone",
+    "floor": "F1",
+    "position": [
+      273.5,
+      93.2
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Herta_StorageZone_F1_X281Y164",
+    "route": "route.rogue.Occurrence.Herta_StorageZone_F1:Herta_StorageZone_F1_X281Y164",
+    "plane": "Herta_StorageZone",
+    "floor": "F1",
+    "position": [
+      281.1,
+      164.2
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Herta_StorageZone_F2Rogue_X363Y166",
+    "route": "route.rogue.Occurrence.Herta_StorageZone_F2Rogue:Herta_StorageZone_F2Rogue_X363Y166",
+    "plane": "Herta_StorageZone",
+    "floor": "F2Rogue",
+    "position": [
+      363.4,
+      165.6
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Herta_SupplyZone_F2_X45Y135",
+    "route": "route.rogue.Occurrence.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X45Y135",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2",
+    "position": [
+      44.7,
+      134.6
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Herta_SupplyZone_F2Rogue_X209Y113",
+    "route": "route.rogue.Occurrence.Herta_SupplyZone_F2Rogue:Herta_SupplyZone_F2Rogue_X209Y113",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2Rogue",
+    "position": [
+      209.6,
+      113.1
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Herta_SupplyZone_F2Rogue_X214Y113",
+    "route": "route.rogue.Occurrence.Herta_SupplyZone_F2Rogue:Herta_SupplyZone_F2Rogue_X214Y113",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2Rogue",
+    "position": [
+      214.6,
+      113.1
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Herta_SupplyZone_F2Rogue_X219Y113",
+    "route": "route.rogue.Occurrence.Herta_SupplyZone_F2Rogue:Herta_SupplyZone_F2Rogue_X219Y113",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2Rogue",
+    "position": [
+      219.6,
+      113.1
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Herta_SupplyZone_F2Rogue_X397Y223",
+    "route": "route.rogue.Occurrence.Herta_SupplyZone_F2Rogue:Herta_SupplyZone_F2Rogue_X397Y223",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2Rogue",
+    "position": [
+      397.4,
+      223.3
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Herta_SupplyZone_F2Rogue_X397Y227",
+    "route": "route.rogue.Occurrence.Herta_SupplyZone_F2Rogue:Herta_SupplyZone_F2Rogue_X397Y227",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2Rogue",
+    "position": [
+      397.4,
+      227.0
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Herta_SupplyZone_F2Rogue_X397Y230",
+    "route": "route.rogue.Occurrence.Herta_SupplyZone_F2Rogue:Herta_SupplyZone_F2Rogue_X397Y230",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2Rogue",
+    "position": [
+      397.4,
+      230.0
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Herta_SupplyZone_F2Rogue_X397Y235",
+    "route": "route.rogue.Occurrence.Herta_SupplyZone_F2Rogue:Herta_SupplyZone_F2Rogue_X397Y235",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2Rogue",
+    "position": [
+      397.4,
+      235.0
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_BackwaterPass_F1_X437Y101",
+    "route": "route.rogue.Occurrence.Jarilo_BackwaterPass_F1:Jarilo_BackwaterPass_F1_X437Y101",
+    "plane": "Jarilo_BackwaterPass",
+    "floor": "F1",
+    "position": [
+      437.5,
+      101.5
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_BackwaterPass_F1_X553Y643",
+    "route": "route.rogue.Occurrence.Jarilo_BackwaterPass_F1:Jarilo_BackwaterPass_F1_X553Y643",
+    "plane": "Jarilo_BackwaterPass",
+    "floor": "F1",
+    "position": [
+      553.3,
+      643.5
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_BackwaterPass_F1_X613Y755",
+    "route": "route.rogue.Occurrence.Jarilo_BackwaterPass_F1:Jarilo_BackwaterPass_F1_X613Y755",
+    "plane": "Jarilo_BackwaterPass",
+    "floor": "F1",
+    "position": [
+      613.3,
+      755.7
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_CorridorofFadingEchoes_F1_X236Y903",
+    "route": "route.rogue.Occurrence.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X236Y903",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      236.6,
+      903.4
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_CorridorofFadingEchoes_F1_X265Y963",
+    "route": "route.rogue.Occurrence.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X265Y963",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      265.5,
+      963.6
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_CorridorofFadingEchoes_F1_X309Y537",
+    "route": "route.rogue.Occurrence.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X309Y537",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      309.3,
+      537.8
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_GreatMine_F1_X153Y271",
+    "route": "route.rogue.Occurrence.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X153Y271",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      153.8,
+      271.7
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_GreatMine_F1_X277Y605",
+    "route": "route.rogue.Occurrence.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X277Y605",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      277.5,
+      605.9
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_GreatMine_F1RogueOcc_X109Y423",
+    "route": "route.rogue.Occurrence.Jarilo_GreatMine_F1RogueOcc:Jarilo_GreatMine_F1RogueOcc_X109Y423",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1RogueOcc",
+    "position": [
+      109.3,
+      422.9
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_RivetTown_F1_X157Y435",
+    "route": "route.rogue.Occurrence.Jarilo_RivetTown_F1:Jarilo_RivetTown_F1_X157Y435",
+    "plane": "Jarilo_RivetTown",
+    "floor": "F1",
+    "position": [
+      157.4,
+      435.5
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_RivetTown_F1_X209Y398",
+    "route": "route.rogue.Occurrence.Jarilo_RivetTown_F1:Jarilo_RivetTown_F1_X209Y398",
+    "plane": "Jarilo_RivetTown",
+    "floor": "F1",
+    "position": [
+      209.3,
+      397.9
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_RivetTown_F1_X289Y97",
+    "route": "route.rogue.Occurrence.Jarilo_RivetTown_F1:Jarilo_RivetTown_F1_X289Y97",
+    "plane": "Jarilo_RivetTown",
+    "floor": "F1",
+    "position": [
+      290.1,
+      97.5
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_SilvermaneGuardRestrictedZone_F1_X377Y505",
+    "route": "route.rogue.Occurrence.Jarilo_SilvermaneGuardRestrictedZone_F1:Jarilo_SilvermaneGuardRestrictedZone_F1_X377Y505",
+    "plane": "Jarilo_SilvermaneGuardRestrictedZone",
+    "floor": "F1",
+    "position": [
+      377.4,
+      505.6
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_SilvermaneGuardRestrictedZone_F1_X439Y237",
+    "route": "route.rogue.Occurrence.Jarilo_SilvermaneGuardRestrictedZone_F1:Jarilo_SilvermaneGuardRestrictedZone_F1_X439Y237",
+    "plane": "Jarilo_SilvermaneGuardRestrictedZone",
+    "floor": "F1",
+    "position": [
+      439.3,
+      237.1
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Jarilo_SilvermaneGuardRestrictedZone_F1_X509Y541",
+    "route": "route.rogue.Occurrence.Jarilo_SilvermaneGuardRestrictedZone_F1:Jarilo_SilvermaneGuardRestrictedZone_F1_X509Y541",
+    "plane": "Jarilo_SilvermaneGuardRestrictedZone",
+    "floor": "F1",
+    "position": [
+      509.4,
+      541.3
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_AlchemyCommission_F2_X473Y867",
+    "route": "route.rogue.Occurrence.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X473Y867",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F2",
+    "position": [
+      473.7,
+      867.7
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_AlchemyCommission_F2_X487Y589",
+    "route": "route.rogue.Occurrence.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X487Y589",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F2",
+    "position": [
+      487.4,
+      589.4
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_AlchemyCommission_F2_X517Y374",
+    "route": "route.rogue.Occurrence.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X517Y374",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F2",
+    "position": [
+      517.5,
+      374.1
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_ArtisanshipCommission_F1_X169Y491",
+    "route": "route.rogue.Occurrence.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X169Y491",
+    "plane": "Luofu_ArtisanshipCommission",
+    "floor": "F1",
+    "position": [
+      167.8,
+      491.0
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_ArtisanshipCommission_F1_X205Y145",
+    "route": "route.rogue.Occurrence.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X205Y145",
+    "plane": "Luofu_ArtisanshipCommission",
+    "floor": "F1",
+    "position": [
+      205.5,
+      145.5
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_ArtisanshipCommission_F1_X521Y63",
+    "route": "route.rogue.Occurrence.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X521Y63",
+    "plane": "Luofu_ArtisanshipCommission",
+    "floor": "F1",
+    "position": [
+      521.8,
+      63.6
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_Cloudford_F1_X241Y947",
+    "route": "route.rogue.Occurrence.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X241Y947",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      241.4,
+      947.5
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_Cloudford_F1_X281Y873",
+    "route": "route.rogue.Occurrence.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X281Y873",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      281.0,
+      873.0
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_Cloudford_F1_X283Y865",
+    "route": "route.rogue.Occurrence.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X283Y865",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      283.2,
+      865.2
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_Cloudford_F1_X537Y373",
+    "route": "route.rogue.Occurrence.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X537Y373",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      537.4,
+      373.3
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_DivinationCommission_F2_X149Y659",
+    "route": "route.rogue.Occurrence.Luofu_DivinationCommission_F2:Luofu_DivinationCommission_F2_X149Y659",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F2",
+    "position": [
+      149.3,
+      659.3
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_DivinationCommission_F2_X337Y799",
+    "route": "route.rogue.Occurrence.Luofu_DivinationCommission_F2:Luofu_DivinationCommission_F2_X337Y799",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F2",
+    "position": [
+      337.4,
+      799.4
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_DivinationCommission_F2_X425Y791",
+    "route": "route.rogue.Occurrence.Luofu_DivinationCommission_F2:Luofu_DivinationCommission_F2_X425Y791",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F2",
+    "position": [
+      425.6,
+      791.4
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_ScalegorgeWaterscape_F1_X499Y135",
+    "route": "route.rogue.Occurrence.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X499Y135",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      499.5,
+      135.3
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_ScalegorgeWaterscape_F1_X619Y387",
+    "route": "route.rogue.Occurrence.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X619Y387",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      619.4,
+      387.3
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_ScalegorgeWaterscape_F1_X714Y243",
+    "route": "route.rogue.Occurrence.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X714Y243",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      714.4,
+      243.2
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_StargazerNavalia_F1_X521Y595",
+    "route": "route.rogue.Occurrence.Luofu_StargazerNavalia_F1:Luofu_StargazerNavalia_F1_X521Y595",
+    "plane": "Luofu_StargazerNavalia",
+    "floor": "F1",
+    "position": [
+      521.6,
+      595.4
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_StargazerNavalia_F1Rogue_X250Y498",
+    "route": "route.rogue.Occurrence.Luofu_StargazerNavalia_F1Rogue:Luofu_StargazerNavalia_F1Rogue_X250Y498",
+    "plane": "Luofu_StargazerNavalia",
+    "floor": "F1Rogue",
+    "position": [
+      249.4,
+      498.5
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Occurrence_Luofu_StargazerNavalia_F2_X579Y183",
+    "route": "route.rogue.Occurrence.Luofu_StargazerNavalia_F2:Luofu_StargazerNavalia_F2_X579Y183",
+    "plane": "Luofu_StargazerNavalia",
+    "floor": "F2",
+    "position": [
+      579.8,
+      183.5
+    ],
+    "domain": "Occurrence"
+  },
+  {
+    "name": "Respite_Herta_StorageZone_F1_X703Y267",
+    "route": "route.rogue.Respite.Herta_StorageZone_F1:Herta_StorageZone_F1_X703Y267",
+    "plane": "Herta_StorageZone",
+    "floor": "F1",
+    "position": [
+      703.2,
+      267.6
+    ],
+    "domain": "Respite"
+  },
+  {
+    "name": "Respite_Herta_SupplyZone_F2_X554Y245",
+    "route": "route.rogue.Respite.Herta_SupplyZone_F2:Herta_SupplyZone_F2_X554Y245",
+    "plane": "Herta_SupplyZone",
+    "floor": "F2",
+    "position": [
+      554.6,
+      245.0
+    ],
+    "domain": "Respite"
+  },
+  {
+    "name": "Respite_Jarilo_BackwaterPass_F1_X581Y403",
+    "route": "route.rogue.Respite.Jarilo_BackwaterPass_F1:Jarilo_BackwaterPass_F1_X581Y403",
+    "plane": "Jarilo_BackwaterPass",
+    "floor": "F1",
+    "position": [
+      581.5,
+      403.5
+    ],
+    "domain": "Respite"
+  },
+  {
+    "name": "Respite_Jarilo_CorridorofFadingEchoes_F1_X291Y653",
+    "route": "route.rogue.Respite.Jarilo_CorridorofFadingEchoes_F1:Jarilo_CorridorofFadingEchoes_F1_X291Y653",
+    "plane": "Jarilo_CorridorofFadingEchoes",
+    "floor": "F1",
+    "position": [
+      291.7,
+      653.4
+    ],
+    "domain": "Respite"
+  },
+  {
+    "name": "Respite_Jarilo_GreatMine_F1_X494Y237",
+    "route": "route.rogue.Respite.Jarilo_GreatMine_F1:Jarilo_GreatMine_F1_X494Y237",
+    "plane": "Jarilo_GreatMine",
+    "floor": "F1",
+    "position": [
+      494.5,
+      237.2
+    ],
+    "domain": "Respite"
+  },
+  {
+    "name": "Respite_Jarilo_RivetTown_F1_X157Y273",
+    "route": "route.rogue.Respite.Jarilo_RivetTown_F1:Jarilo_RivetTown_F1_X157Y273",
+    "plane": "Jarilo_RivetTown",
+    "floor": "F1",
+    "position": [
+      157.2,
+      273.5
+    ],
+    "domain": "Respite"
+  },
+  {
+    "name": "Respite_Jarilo_SilvermaneGuardRestrictedZone_F1_X777Y199",
+    "route": "route.rogue.Respite.Jarilo_SilvermaneGuardRestrictedZone_F1:Jarilo_SilvermaneGuardRestrictedZone_F1_X777Y199",
+    "plane": "Jarilo_SilvermaneGuardRestrictedZone",
+    "floor": "F1",
+    "position": [
+      777.2,
+      199.7
+    ],
+    "domain": "Respite"
+  },
+  {
+    "name": "Respite_Luofu_AlchemyCommission_F2_X681Y625",
+    "route": "route.rogue.Respite.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X681Y625",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F2",
+    "position": [
+      680.9,
+      625.9
+    ],
+    "domain": "Respite"
+  },
+  {
+    "name": "Respite_Luofu_AlchemyCommission_F2_X685Y629",
+    "route": "route.rogue.Respite.Luofu_AlchemyCommission_F2:Luofu_AlchemyCommission_F2_X685Y629",
+    "plane": "Luofu_AlchemyCommission",
+    "floor": "F2",
+    "position": [
+      685.0,
+      629.0
+    ],
+    "domain": "Respite"
+  },
+  {
+    "name": "Respite_Luofu_ArtisanshipCommission_F1_X299Y863",
+    "route": "route.rogue.Respite.Luofu_ArtisanshipCommission_F1:Luofu_ArtisanshipCommission_F1_X299Y863",
+    "plane": "Luofu_ArtisanshipCommission",
+    "floor": "F1",
+    "position": [
+      299.6,
+      863.4
+    ],
+    "domain": "Respite"
+  },
+  {
+    "name": "Respite_Luofu_Cloudford_F1_X417Y933",
+    "route": "route.rogue.Respite.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X417Y933",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      417.5,
+      933.4
+    ],
+    "domain": "Respite"
+  },
+  {
+    "name": "Respite_Luofu_DivinationCommission_F2_X824Y659",
+    "route": "route.rogue.Respite.Luofu_DivinationCommission_F2:Luofu_DivinationCommission_F2_X824Y659",
+    "plane": "Luofu_DivinationCommission",
+    "floor": "F2",
+    "position": [
+      824.7,
+      659.4
+    ],
+    "domain": "Respite"
+  },
+  {
+    "name": "Respite_Luofu_ScalegorgeWaterscape_F1_X701Y321",
+    "route": "route.rogue.Respite.Luofu_ScalegorgeWaterscape_F1:Luofu_ScalegorgeWaterscape_F1_X701Y321",
+    "plane": "Luofu_ScalegorgeWaterscape",
+    "floor": "F1",
+    "position": [
+      701.5,
+      320.8
+    ],
+    "domain": "Respite"
+  },
+  {
+    "name": "Respite_Luofu_StargazerNavalia_F2Rogue_X569Y275",
+    "route": "route.rogue.Respite.Luofu_StargazerNavalia_F2Rogue:Luofu_StargazerNavalia_F2Rogue_X569Y275",
+    "plane": "Luofu_StargazerNavalia",
+    "floor": "F2Rogue",
+    "position": [
+      569.0,
+      275.0
+    ],
+    "domain": "Respite"
+  },
+  {
+    "name": "Respite_Luofu_StargazerNavalia_F2Rogue_X574Y275",
+    "route": "route.rogue.Respite.Luofu_StargazerNavalia_F2Rogue:Luofu_StargazerNavalia_F2Rogue_X574Y275",
+    "plane": "Luofu_StargazerNavalia",
+    "floor": "F2Rogue",
+    "position": [
+      574.8,
+      275.0
+    ],
+    "domain": "Respite"
+  }
+]

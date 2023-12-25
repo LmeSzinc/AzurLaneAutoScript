@@ -16,6 +16,13 @@ class Waypoint:
     # Max move speed, 'run_2x', 'straight_run', 'run', 'walk'
     # See MapControl._goto() for details of each speed level
     speed: str = 'run'
+    # Min move speed, 'run' or 'walk'
+    min_speed: str = 'walk'
+    # Lock joystick direction on the way to this waypoint, -180~180
+    lock_direction: int = None
+    # Trigger handle_combat_interact() if position diff < radius
+    # Usually to use 7 if interact is required, 0 for no interact
+    interact_radius: int = 0
 
     """
     The following attributes are only be used if this waypoint is the end point of goto()
@@ -23,9 +30,6 @@ class Waypoint:
     # True to enable endpoint optimizations, character will smoothly approach target position
     # False to stop all controls at arrive
     end_opt: bool = True
-    # Set rotation after arrive, 0~360
-    end_rotation: int = None
-    end_rotation_threshold: int = 15
 
     """
     Walk
@@ -37,15 +41,20 @@ class Waypoint:
     # - callable, A function that returns bool, True represents stop
     # Or empty list [] for just walking
     expected_end: list = field(default_factory=lambda: [])
+    # A list of expected events on the way to waypoint, e.g. ['enemy', 'item']
+    expected_enroute: list = field(default_factory=lambda: [])
     # If triggered any expected event, consider arrive and stop walking
     early_stop: bool = True
     # Confirm timer if arrived but didn't trigger any expected event
-    unexpected_confirm: Timer = field(default_factory=lambda: Timer(2, count=6))
+    unexpected_confirm: Timer = field(default_factory=lambda: Timer(3, count=15))
 
-    def __str__(self):
-        return f'Waypoint({self.position})'
+    # def __str__(self):
+    #     return f'Waypoint({self.position})'
 
-    __repr__ = __str__
+    # __repr__ = __str__
+
+    def __bool__(self):
+        return True
 
     def run_2x(self) -> "Waypoint":
         """

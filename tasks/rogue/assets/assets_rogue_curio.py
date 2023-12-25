@@ -13,6 +13,16 @@ CURIO_ENFORCE = ButtonWrapper(
         button=(465, 114, 815, 545),
     ),
 )
+CURIO_SELECTED = ButtonWrapper(
+    name='CURIO_SELECTED',
+    share=Button(
+        file='./assets/share/rogue/curio/CURIO_SELECTED.png',
+        area=(1024, 116, 1040, 134),
+        search=(1004, 96, 1060, 154),
+        color=(127, 117, 110),
+        button=(1024, 116, 1040, 134),
+    ),
+)
 OCR_ROGUE_CURIO = ButtonWrapper(
     name='OCR_ROGUE_CURIO',
     share=Button(

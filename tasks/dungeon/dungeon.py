@@ -1,18 +1,14 @@
-from datetime import timedelta
-
 from module.base.utils import area_offset
-from module.config.stored.classes import now
-from module.config.utils import DEFAULT_TIME
 from module.logger import logger
+from tasks.battle_pass.keywords import KEYWORD_BATTLE_PASS_QUEST
 from tasks.combat.combat import Combat
 from tasks.daily.keywords import KEYWORDS_DAILY_QUEST
 from tasks.dungeon.event import DungeonEvent
 from tasks.dungeon.keywords import DungeonList, KEYWORDS_DUNGEON_LIST, KEYWORDS_DUNGEON_TAB
-from tasks.dungeon.ui import DungeonUI
-from tasks.battle_pass.keywords import KEYWORD_BATTLE_PASS_QUEST
+from tasks.dungeon.stamina import DungeonStamina
 
 
-class Dungeon(DungeonUI, DungeonEvent, Combat):
+class Dungeon(DungeonStamina, DungeonEvent, Combat):
     called_daily_support = False
     achieved_daily_quest = False
     running_double = False
@@ -204,7 +200,10 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
         self.running_double = False
 
         # Dungeon to clear all trailblaze power
-        final = DungeonList.find(self.config.Dungeon_Name)
+        if self.config.is_task_enabled('Rogue') and self.config.cross_get('Rogue.RogueWorld.UseStamina'):
+            final = KEYWORDS_DUNGEON_LIST.Simulated_Universe_World_1
+        else:
+            final = DungeonList.find(self.config.Dungeon_Name)
 
         # Run dungeon that required by daily quests
         # Calyx_Golden
@@ -239,21 +238,32 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
             dungeon = DungeonList.find(self.config.DungeonDaily_CavernOfCorrosion)
             self.dungeon_run(dungeon=dungeon, wave_limit=1)
 
-        # Combat
-        self.dungeon_run(final)
-        self.delay_dungeon_task(final)
+        # Check daily
+        if self.achieved_daily_quest:
+            self.config.task_call('DailyQuest')
+            self.config.task_stop()
 
-    def delay_dungeon_task(self, dungeon):
-        if dungeon.is_Cavern_of_Corrosion:
-            limit = 80
-        elif dungeon.is_Echo_of_War:
-            limit = 30
+        # Use all stamina
+        if final.is_Simulated_Universe:
+            # Use support if prioritize rogue
+            if self.require_compulsory_support():
+                logger.info('Run dungeon with support once as stamina is rogue prioritized')
+                self.dungeon_run(dungeon=DungeonList.find(self.config.Dungeon_Name), wave_limit=1)
+            # Store immersifiers and call rogue task if accumulated to 4
+            logger.info('Prioritize stamina for simulated universe, skip dungeon')
+            self.immersifier_store()
+            with self.config.multi_set():
+                if self.config.stored.Immersifier.value >= 4:
+                    # Schedule behind rogue
+                    self.config.task_delay(minute=5)
+                    self.config.task_call('Rogue')
+                self.delay_dungeon_task(KEYWORDS_DUNGEON_LIST.Simulated_Universe_World_1)
         else:
-            limit = 60
-        # Recover 1 trailbaze power each 6 minutes
-        current = self.config.stored.TrailblazePower.value
-        cover = max(limit - current, 0) * 6
-        logger.info(f'Currently has {current} need {cover} minutes to reach {limit}')
+            # Combat
+            self.dungeon_run(final)
+            self.delay_dungeon_task(final)
+
+    def delay_dungeon_task(self, dungeon: DungeonList):
         logger.attr('achieved_daily_quest', self.achieved_daily_quest)
         with self.config.multi_set():
             # Check battle pass
@@ -268,12 +278,7 @@ class Dungeon(DungeonUI, DungeonEvent, Combat):
             if self.achieved_daily_quest:
                 self.config.task_call('DailyQuest')
             # Delay tasks
-            future = now() + timedelta(minutes=cover)
-            for task in ['Dungeon', 'Weekly']:
-                next_run = self.config.cross_get(keys=f'{task}.Scheduler.NextRun', default=DEFAULT_TIME)
-                if future > next_run:
-                    logger.info(f"Delay task `{task}` to {future}")
-                    self.config.cross_set(keys=f'{task}.Scheduler.NextRun', value=future)
+            self.dungeon_stamina_delay(dungeon)
 
         self.config.task_stop()
 

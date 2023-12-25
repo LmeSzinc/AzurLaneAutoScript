@@ -81,7 +81,7 @@ class JoystickContact:
     def direction2screen(cls, direction, run=True):
         """
         Args:
-            direction (int, float): Direction to goto (0~360)
+            direction (int, float): Direction to goto (-180~180)
             run: True for character running, False for walking
 
         Returns:
@@ -90,20 +90,25 @@ class JoystickContact:
         direction += random_normal_distribution(-5, 5, n=5)
         radius = cls.RADIUS_RUN if run else cls.RADIUS_WALK
         radius = random_normal_distribution(*radius, n=5)
-
         direction = math.radians(direction)
-        point = (
-            cls.CENTER[0] + radius * math.sin(direction),
-            cls.CENTER[1] - radius * math.cos(direction),
-        )
-        point = (int(round(point[0])), int(round(point[1])))
+
+        # Contact at the lower is limited within `cls.CENTER[1] - half_run_radius`
+        # or will exceed the joystick area
+        # Random radius * multiplier makes the point randomly approaching the lower bound
+        for multiplier in [1.0, 0.95, 0.90, 0.85, 0.80, 0.75]:
+            point = (
+                cls.CENTER[0] + radius * multiplier * math.sin(direction),
+                cls.CENTER[1] - radius * multiplier * math.cos(direction),
+            )
+            point = (int(round(point[0])), int(round(point[1])))
+            if point[1] <= cls.CENTER[1] - 101:
+                return point
         return point
 
     def up(self):
         builder = self.builder
-        if self.is_downed:
-            builder.up().commit()
-            builder.send()
+        builder.up().commit()
+        builder.send()
         self.prev_point = None
 
     def set(self, direction, run=True):
@@ -111,7 +116,7 @@ class JoystickContact:
         Set joystick to given position
 
         Args:
-            direction (int, float): Direction to goto (0~360)
+            direction (int, float): Direction to goto (-180~180)
             run: True for character running, False for walking
         """
         logger.info(f'JoystickContact set to {direction}, run={run}')
@@ -147,7 +152,7 @@ class MapControlJoystick(UI):
     map_E_timer = Timer(1)
     map_run_2x_timer = Timer(1)
 
-    joystick_lost_timer = Timer(1, count=2)
+    joystick_lost_timer = Timer(1, count=1)
 
     @cached_property
     def joystick_center(self) -> tuple[int, int]:

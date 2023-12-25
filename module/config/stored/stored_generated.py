@@ -10,6 +10,7 @@ from module.config.stored.classes import (
     StoredEchoOfWar,
     StoredExpiredAt0400,
     StoredExpiredAtMonday0400,
+    StoredImmersifier,
     StoredInt,
     StoredSimulatedUniverse,
     StoredTrailblazePower,
@@ -21,6 +22,7 @@ from module.config.stored.classes import (
 
 class StoredGenerated:
     TrailblazePower = StoredTrailblazePower("Dungeon.DungeonStorage.TrailblazePower")
+    Immersifier = StoredImmersifier("Dungeon.DungeonStorage.Immersifier")
     DungeonDouble = StoredDungeonDouble("Dungeon.DungeonStorage.DungeonDouble")
     EchoOfWar = StoredEchoOfWar("Dungeon.DungeonStorage.EchoOfWar")
     SimulatedUniverse = StoredSimulatedUniverse("Dungeon.DungeonStorage.SimulatedUniverse")

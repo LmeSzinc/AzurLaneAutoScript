@@ -58,21 +58,10 @@
     },
     "DungeonStorage": {
       "TrailblazePower": {},
+      "Immersifier": {},
       "DungeonDouble": {},
       "EchoOfWar": {},
       "SimulatedUniverse": {}
-    }
-  },
-  "Weekly": {
-    "Scheduler": {
-      "Enable": true,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "Weekly",
-      "ServerUpdate": "04:00"
-    },
-    "Weekly": {
-      "Name": "Echo_of_War_Divine_Seed",
-      "Team": 1
     }
   },
   "DailyQuest": {
@@ -97,8 +86,8 @@
       "Take_1_photo": "achievable",
       "Destroy_3_destructible_objects": "achievable",
       "Complete_Forgotten_Hall_1_time": "achievable",
-      "Complete_Echo_of_War_1_times": "achievable",
-      "Complete_1_stage_in_Simulated_Universe_Any_world": "not_supported",
+      "Complete_Echo_of_War_1_times": "not_set",
+      "Complete_1_stage_in_Simulated_Universe_Any_world": "not_set",
       "Obtain_victory_in_combat_with_support_characters_1_time": "achievable",
       "Use_an_Ultimate_to_deal_the_final_blow_1_time": "achievable",
       "Level_up_any_character_1_time": "not_supported",
@@ -166,6 +155,18 @@
       "Collect": true
     }
   },
+  "Weekly": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Weekly",
+      "ServerUpdate": "04:00"
+    },
+    "Weekly": {
+      "Name": "Echo_of_War_Divine_Seed",
+      "Team": 1
+    }
+  },
   "Rogue": {
     "Scheduler": {
       "Enable": false,
@@ -173,22 +174,25 @@
       "Command": "Rogue",
       "ServerUpdate": "04:00"
     },
-    "RoguePath": {
+    "RogueWorld": {
+      "World": "Simulated_Universe_World_7",
       "Path": "The_Hunt",
       "Bonus": "Blessing Cosmos",
-      "PresetResonanceFilter": "preset-1",
-      "ResonanceSelectionStrategy": "follow-presets",
-      "CustomResonanceFilter": "回响构音：均晶转变 > 回响构音：零维强化\n> 回响构音：第二次初恋 > 回响构音：体验的富翁\n> 回响构音：局外人 > 回响构音：怀疑的四重根\n> 回响构音：诸法无我 > 回响构音：诸行无常\n> 回响构音：射不主皮 > 回响构音：柘弓危矢\n> 回响构音：激变变星 > 回响构音：极端氦闪\n> 回响构音：末日狂欢 > 回响构音：树苗长高舞"
+      "DomainStrategy": "combat",
+      "UseImmersifier": true,
+      "UseStamina": false
     },
     "RogueBlessing": {
-      "PresetBlessingFilter": "preset-1",
-      "BlessingSelectionStrategy": "follow-presets",
-      "CustomBlessingFilter": "巡猎-3 > 《冠军晚餐·猫的摇篮》 > 丰饶众生，一法界心 > 毁灭-3 \n> 火堆外的夜 > 巡猎-2 > 毁灭-2 > 巡猎 > reset > random"
+      "PresetBlessingFilter": "preset",
+      "CustomBlessingFilter": "巡猎-3 > 《冠军晚餐·猫的摇篮》 > 丰饶众生，一法界心 > 毁灭-3 \n> 火堆外的夜 > 巡猎-2 > 毁灭-2 > 巡猎 > reset > random",
+      "PresetCurioFilter": "preset",
+      "CustomCurioFilter": "博士之袍 > 福灵胶 > 分裂金币 > 信仰债券 > 换境桂冠 > 俱乐部券 > 碎星芳饵 > random",
+      "PresetResonanceFilter": "preset",
+      "CustomResonanceFilter": "回响构音：均晶转变 > 回响构音：零维强化\n> 回响构音：第二次初恋 > 回响构音：体验的富翁\n> 回响构音：局外人 > 回响构音：怀疑的四重根\n> 回响构音：诸法无我 > 回响构音：诸行无常\n> 回响构音：射不主皮 > 回响构音：柘弓危矢\n> 回响构音：激变变星 > 回响构音：极端氦闪\n> 回响构音：末日狂欢 > 回响构音：树苗长高舞\n> random",
+      "SelectionStrategy": "before-random"
     },
-    "RogueCurio": {
-      "PresetCurioFilter": "preset-1",
-      "CurioSelectionStrategy": "follow-presets",
-      "CustomCurioFilter": "博士之袍 > 福灵胶 > 分裂金币 > 信仰债券 > 换境桂冠 > 俱乐部券 > 碎星芳饵 > random"
+    "RogueDebug": {
+      "DebugMode": false
     }
   }
 }

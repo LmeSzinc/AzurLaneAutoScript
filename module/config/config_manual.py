@@ -13,6 +13,7 @@ class ManualConfig:
     > BattlePass > DailyQuest > Assignment
     > Freebies > DataUpdate
     > Weekly > Dungeon
+    > Rogue
     """
 
     """
@@ -119,6 +120,10 @@ class ManualConfig:
     OS_ACTION_POINT_BOX_USE = True
     OS_ACTION_POINT_PRESERVE = 0
     OS_CL1_YELLOW_COINS_PRESERVE = 100000
+
+    """
+    tasks.rogue
+    """
 
 
 ADDING = ''.join([chr(int(f)) for f in ManualConfig.OS_EXPLORE_CENTER.split('>')])

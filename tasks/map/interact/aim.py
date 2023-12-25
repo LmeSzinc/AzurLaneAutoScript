@@ -302,11 +302,11 @@ class Aim:
     def aimed_enemy(self) -> tuple[int, int] | None:
         if self.points_enemy is None:
             return None
-        try:
-            _ = self.points_enemy[1]
-            logger.warning(f'Multiple aimed enemy found, using first point of {self.points_enemy}')
-        except IndexError:
-            pass
+
+        count = len(self.points_enemy)
+        if count >= 2:
+            logger.warning(f'Multiple aimed enemy found: {self.points_enemy}')
+            return None
         try:
             point = self.points_enemy[0]
             return tuple(point)

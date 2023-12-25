@@ -12,8 +12,20 @@ from tasks.map.minimap.utils import create_circular_mask
 from tasks.map.resource.const import ResourceConst
 from tasks.map.keywords import KEYWORDS_MAP_PLANE, MapPlane
 
+SPECIAL_PLANES = [
+    ('Herta_SupplyZone', 'F2Rogue'),
+    ('Herta_SupplyZone', 'F2RogueX151Y245'),
+    ('Herta_StorageZone', 'F2Rogue'),
+    ('Jarilo_GreatMine', 'F1RogueOcc'),
+    ('Luofu_Cloudford', 'F1Rogue'),
+    ('Luofu_StargazerNavalia', 'F1Rogue'),
+    ('Luofu_StargazerNavalia', 'F2Rogue'),
+]
+
 
 class MapResource(ResourceConst):
+    is_special_plane: bool
+
     def __init__(self):
         super().__init__()
 
@@ -51,8 +63,13 @@ class MapResource(ResourceConst):
             plane (MapPlane, str): Such as Jarilo_AdministrativeDistrict
             floor (str):
         """
-        self.plane = MapPlane.find(plane)
-        self.floor = self.plane.convert_to_floor_name(floor)
+        self.plane: MapPlane = MapPlane.find(plane)
+        if (self.plane.name, floor) in SPECIAL_PLANES:
+            self.floor = floor
+            self.is_special_plane = True
+        else:
+            self.floor = self.plane.convert_to_floor_name(floor)
+            self.is_special_plane = False
 
         del_cached_property(self, 'assets_file_basename')
         del_cached_property(self, 'assets_floor')
@@ -61,7 +78,7 @@ class MapResource(ResourceConst):
 
     @cached_property
     def assets_file_basename(self):
-        if self.plane.has_multiple_floors:
+        if self.plane.has_multiple_floors or self.is_special_plane:
             return f'./position/{self.plane.world}/{self.plane.name}_{self.floor}'
         else:
             return f'./position/{self.plane.world}/{self.plane.name}'

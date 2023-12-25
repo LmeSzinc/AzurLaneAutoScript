@@ -117,7 +117,10 @@ class ResourceConst:
             float: Direction from current position to target position (0~360)
         """
         diff = np.subtract(target, self.position)
-        theta = np.rad2deg(np.arccos(-diff[1] / np.linalg.norm(diff)))
+        distance = np.linalg.norm(diff)
+        if distance < 0.05:
+            return 0
+        theta = np.rad2deg(np.arccos(-diff[1] / distance))
         if diff[0] < 0:
             theta = 360 - theta
         theta = round(theta, 3)

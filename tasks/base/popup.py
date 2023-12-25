@@ -72,8 +72,16 @@ class PopupHandler(ModuleBase):
             If handled.
         """
         if self.appear_then_click(MONTHLY_CARD_REWARD, interval=interval):
+            # Language check at the first login of the day may fail due to popups
+            # Retry later
+            from tasks.base.main_page import MainPage
+            if not MainPage._lang_check_success:
+                MainPage._lang_checked = False
             return True
         if self.appear_then_click(MONTHLY_CARD_GET_ITEM, interval=interval):
+            from tasks.base.main_page import MainPage
+            if not MainPage._lang_check_success:
+                MainPage._lang_checked = False
             return True
 
         return False

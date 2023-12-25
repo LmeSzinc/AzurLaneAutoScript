@@ -95,18 +95,18 @@ class AssignmentDispatch(AssignmentUI):
             # Search EMPTY_SLOT to load offset
             if not self.appear(CHARACTER_LIST) and self.appear(EMPTY_SLOT):
                 if self.interval_is_reached(CHARACTER_LIST, interval=2):
-                    self.interval_reset(CHARACTER_LIST, interval=2)
                     self.device.click(EMPTY_SLOT)
+                    self.interval_reset(CHARACTER_LIST, interval=2)
                 continue
             # Select
             if self.interval_is_reached(CHARACTER_1_SELECTED, interval=2):
-                self.interval_reset(CHARACTER_1_SELECTED, interval=2)
                 if not self.image_color_count(CHARACTER_1_SELECTED, (240, 240, 240)):
                     self.device.click(CHARACTER_1)
+                self.interval_reset(CHARACTER_1_SELECTED, interval=2)
             if self.interval_is_reached(CHARACTER_2_SELECTED, interval=2):
-                self.interval_reset(CHARACTER_2_SELECTED, interval=2)
                 if not self.image_color_count(CHARACTER_2_SELECTED, (240, 240, 240)):
                     self.device.click(CHARACTER_2)
+                self.interval_reset(CHARACTER_2_SELECTED, interval=2)
 
     def _select_support(self):
         skip_first_screenshot = True
@@ -124,13 +124,13 @@ class AssignmentDispatch(AssignmentUI):
             # Ensure support list
             if not self.appear(CHARACTER_SUPPORT_LIST):
                 if self.interval_is_reached(CHARACTER_SUPPORT_LIST, interval=2):
-                    self.interval_reset(CHARACTER_SUPPORT_LIST, interval=2)
                     self.device.click(EMPTY_SLOT_SUPPORT)
+                    self.interval_reset(CHARACTER_SUPPORT_LIST, interval=2)
                 continue
             # Select
             if self.interval_is_reached(CHARACTER_SUPPORT_SELECTED, interval=2):
-                self.interval_reset(CHARACTER_SUPPORT_SELECTED, interval=2)
                 self.device.click(CHARACTER_SUPPORT)
+                self.interval_reset(CHARACTER_SUPPORT_SELECTED, interval=2)
 
     def _select_duration(self, duration: int):
         if duration not in {4, 8, 12, 20}:

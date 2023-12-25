@@ -57,6 +57,7 @@ class GeneratedConfig:
 
     # Group `DungeonStorage`
     DungeonStorage_TrailblazePower = {}
+    DungeonStorage_Immersifier = {}
     DungeonStorage_DungeonDouble = {}
     DungeonStorage_EchoOfWar = {}
     DungeonStorage_SimulatedUniverse = {}
@@ -116,19 +117,22 @@ class GeneratedConfig:
     ItemStorage_Credit = {}
     ItemStorage_StallerJade = {}
 
-    # Group `RoguePath`
-    RoguePath_Path = 'The_Hunt'  # Preservation, Remembrance, Nihility, Abundance, The_Hunt, Destruction, Elation
-    RoguePath_Bonus = 'Blessing Cosmos'  # Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos
-    RoguePath_PresetResonanceFilter = 'preset-1'  # preset-1, custom
-    RoguePath_ResonanceSelectionStrategy = 'follow-presets'  # follow-presets, unrecorded-first, before-random
-    RoguePath_CustomResonanceFilter = '回响构音：均晶转变 > 回响构音：零维强化\n> 回响构音：第二次初恋 > 回响构音：体验的富翁\n> 回响构音：局外人 > 回响构音：怀疑的四重根\n> 回响构音：诸法无我 > 回响构音：诸行无常\n> 回响构音：射不主皮 > 回响构音：柘弓危矢\n> 回响构音：激变变星 > 回响构音：极端氦闪\n> 回响构音：末日狂欢 > 回响构音：树苗长高舞'
+    # Group `RogueWorld`
+    RogueWorld_World = 'Simulated_Universe_World_7'  # Simulated_Universe_World_3, Simulated_Universe_World_4, Simulated_Universe_World_5, Simulated_Universe_World_6, Simulated_Universe_World_7, Simulated_Universe_World_8
+    RogueWorld_Path = 'The_Hunt'  # Preservation, Remembrance, Nihility, Abundance, The_Hunt, Destruction, Elation, Propagation
+    RogueWorld_Bonus = 'Blessing Cosmos'  # Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos
+    RogueWorld_DomainStrategy = 'combat'  # combat, occurrence
+    RogueWorld_UseImmersifier = True
+    RogueWorld_UseStamina = False
 
     # Group `RogueBlessing`
-    RogueBlessing_PresetBlessingFilter = 'preset-1'  # preset-1, custom
-    RogueBlessing_BlessingSelectionStrategy = 'follow-presets'  # follow-presets, unrecorded-first, before-random
+    RogueBlessing_PresetBlessingFilter = 'preset'  # preset, custom
     RogueBlessing_CustomBlessingFilter = '巡猎-3 > 《冠军晚餐·猫的摇篮》 > 丰饶众生，一法界心 > 毁灭-3 \n> 火堆外的夜 > 巡猎-2 > 毁灭-2 > 巡猎 > reset > random'
+    RogueBlessing_PresetCurioFilter = 'preset'  # preset, custom
+    RogueBlessing_CustomCurioFilter = '博士之袍 > 福灵胶 > 分裂金币 > 信仰债券 > 换境桂冠 > 俱乐部券 > 碎星芳饵 > random'
+    RogueBlessing_PresetResonanceFilter = 'preset'  # preset, custom
+    RogueBlessing_CustomResonanceFilter = '回响构音：均晶转变 > 回响构音：零维强化\n> 回响构音：第二次初恋 > 回响构音：体验的富翁\n> 回响构音：局外人 > 回响构音：怀疑的四重根\n> 回响构音：诸法无我 > 回响构音：诸行无常\n> 回响构音：射不主皮 > 回响构音：柘弓危矢\n> 回响构音：激变变星 > 回响构音：极端氦闪\n> 回响构音：末日狂欢 > 回响构音：树苗长高舞\n> random'
+    RogueBlessing_SelectionStrategy = 'before-random'  # follow-presets, unrecorded-first, before-random
 
-    # Group `RogueCurio`
-    RogueCurio_PresetCurioFilter = 'preset-1'  # preset-1, custom
-    RogueCurio_CurioSelectionStrategy = 'follow-presets'  # follow-presets, unrecorded-first, before-random
-    RogueCurio_CustomCurioFilter = '博士之袍 > 福灵胶 > 分裂金币 > 信仰债券 > 换境桂冠 > 俱乐部券 > 碎星芳饵 > random'
+    # Group `RogueDebug`
+    RogueDebug_DebugMode = False

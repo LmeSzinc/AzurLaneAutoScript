@@ -1,17 +1,6 @@
-from dataclasses import dataclass
-
 from tasks.map.control.control import MapControl
 from tasks.map.control.waypoint import Waypoint
 from tasks.map.keywords import MapPlane
-
-
-@dataclass
-class RouteData:
-    name: str
-    route: str
-    plane: str
-    floor: str = 'F1'
-    position: tuple = None
 
 
 class RouteBase(MapControl):
@@ -19,6 +8,13 @@ class RouteBase(MapControl):
     Base class of `Route`
     Every `Route` class must implement method `route()`
     """
+    # Module and func of current route, updated from RouteLoader
+    route_module: str = ''
+    route_func: str = ''
+
+    registered_locked_position = None
+    registered_locked_direction = None
+    registered_locked_rotation = None
 
     def route_example(self):
         """
@@ -58,4 +54,75 @@ class RouteBase(MapControl):
 
         self.minimap.set_plane(plane, floor=floor)
         if position is not None:
-            self.minimap.init_position(position)
+            self.minimap.init_position(
+                position=position,
+                locked=self.registered_locked_position is not None
+            )
+        if self.registered_locked_direction is not None:
+            self.minimap.lock_direction(self.registered_locked_direction)
+        if self.registered_locked_rotation is not None:
+            self.minimap.lock_rotation(self.registered_locked_rotation)
+
+        self.registered_locked_position = None
+        self.registered_locked_direction = None
+        self.registered_locked_rotation = None
+
+    def before_route(self):
+        pass
+
+    def after_route(self):
+        pass
+
+
+def locked_position(function):
+    """
+    Examples:
+        @locked_position
+        def Luofu_ScalegorgeWaterscape_F1_X619Y387(self):
+            pass  # Search area will be locked
+    """
+
+    def wrapper(self: RouteBase, *args, **kwargs):
+        self.registered_locked_position = True
+        result = function(self, *args, **kwargs)
+        return result
+
+    return wrapper
+
+
+def locked_direction(degree: int | float):
+    """
+    Examples:
+        @locked_direction(270)
+        def Luofu_ScalegorgeWaterscape_F1_X619Y387(self):
+            pass  # Direction will be locked to 270
+    """
+
+    def locker(function):
+        def wrapper(self: RouteBase, *args, **kwargs):
+            self.registered_locked_direction = degree
+            result = function(self, *args, **kwargs)
+            return result
+
+        return wrapper
+
+    return locker
+
+
+def locked_rotation(degree: int | float):
+    """
+    Examples:
+        @locked_rotation(270)
+        def Luofu_ScalegorgeWaterscape_F1_X619Y387(self):
+            pass  # Rotation will be locked to 270
+    """
+
+    def locker(function):
+        def wrapper(self: RouteBase, *args, **kwargs):
+            self.registered_locked_rotation = degree
+            result = function(self, *args, **kwargs)
+            return result
+
+        return wrapper
+
+    return locker

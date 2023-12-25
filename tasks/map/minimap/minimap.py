@@ -48,10 +48,48 @@ class PositionPredictState:
 
 
 class Minimap(MapResource):
-    def init_position(self, position: tuple[int | float, int | float], show_log=True):
+    position_locked: tuple[int | float, int | float] | None = None
+    direction_locked: int | float | None = None
+    rotation_locked: int | float | None = None
+
+    def init_position(
+            self,
+            position: tuple[int | float, int | float],
+            show_log=True,
+            locked=False,
+    ):
+        """
+        Args:
+            position:
+            show_log:
+            locked: If true, lock search area during detection
+        """
         if show_log:
-            logger.info(f"init_position: {position}")
+            if locked:
+                logger.info(f"init_position: {position}, locked")
+            else:
+                logger.info(f"init_position: {position}")
+
         self.position = position
+
+        if locked:
+            self.position_locked = position
+        else:
+            self.position_locked = None
+        self.direction_locked = None
+        self.rotation_locked = None
+
+    def lock_direction(self, degree: int | float):
+        logger.info(f'Lock direction: {degree}')
+        self.direction_locked = degree
+        self.direction = degree
+        self.direction_similarity = 0.
+
+    def lock_rotation(self, degree: int | float):
+        logger.info(f'Lock rotation: {degree}')
+        self.rotation_locked = degree
+        self.rotation = degree
+        self.rotation_confidence = 0.
 
     def _predict_position(self, image, scale=1.0):
         """
@@ -66,8 +104,11 @@ class Minimap(MapResource):
         local = cv2.resize(image, None, fx=scale, fy=scale, interpolation=cv2.INTER_CUBIC)
         size = np.array(image_size(image))
 
-        if sum(self.position) > 0:
-            search_position = np.array(self.position, dtype=np.int64)
+        position = self.position
+        if self.position_locked is not None:
+            position = self.position_locked
+        if sum(position) > 0:
+            search_position = np.array(position, dtype=np.int64)
             search_position += self.POSITION_FEATURE_PAD
             search_size = np.array(image_size(local)) * self.POSITION_SEARCH_RADIUS
             search_half = (search_size // 2).astype(np.int64)
@@ -92,17 +133,21 @@ class Minimap(MapResource):
         result_mask = image_center_crop(result_mask, size=image_size(result))
         result[result_mask] = 0
         _, sim, _, loca = cv2.minMaxLoc(result)
+        # from PIL import Image
         # if round(scale, 3) == self.POSITION_SEARCH_SCALE * 1.0:
         #     result[result <= 0] = 0
         #     Image.fromarray((result * 255).astype(np.uint8)).save('match_result.png')
 
         # Gaussian filter to get local maximum
-        local_maximum = cv2.subtract(result, cv2.GaussianBlur(result, (5, 5), 0))
+        local_maximum = subtract_blur(result, radius=5)
+        # Multiply to remove secondary peaks
+        cv2.multiply(local_maximum, result, dst=local_maximum)
+        cv2.multiply(local_maximum, 10, dst=local_maximum)
         _, local_sim, _, local_loca = cv2.minMaxLoc(local_maximum)
         # if round(scale, 5) == self.POSITION_SEARCH_SCALE * 1.0:
         #     local_maximum[local_maximum < 0] = 0
-        #     local_maximum[local_maximum > 0.1] = 0.1
-        #     Image.fromarray((local_maximum * 255 * 10).astype(np.uint8)).save('local_maximum.png')
+        #     local_maximum[local_maximum > 1] = 1
+        #     Image.fromarray((local_maximum * 255).astype(np.uint8)).save('local_maximum.png')
 
         # Calculate the precise location using CUBIC
         # precise = crop(result, area=area_offset((-4, -4, 4, 4), offset=local_loca))
@@ -355,7 +400,7 @@ class Minimap(MapResource):
         degree = int(degree % 360)
         # +3 is a value obtained from experience
         # Don't know why but <predicted_rotation> + 3 = <actual_rotation>
-        rotation = degree + 3
+        rotation = (degree + 3) % 360
 
         self.rotation_confidence = rotation_confidence
         self.rotation = rotation
@@ -365,8 +410,10 @@ class Minimap(MapResource):
         Update minimap, costs about 7.88ms.
         """
         self.update_position(image)
-        self.update_direction(image)
-        self.update_rotation(image)
+        if self.direction_locked is None:
+            self.update_direction(image)
+        if self.rotation_locked is None:
+            self.update_rotation(image)
         if show_log:
             self.log_minimap()
 

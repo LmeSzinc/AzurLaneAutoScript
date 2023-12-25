@@ -71,6 +71,7 @@ from module.webui.utils import (
     parse_pin_value,
     raise_exception,
     re_fullmatch,
+    to_pin_value,
 )
 from module.webui.widgets import (
     BinarySwitchButton,
@@ -105,6 +106,7 @@ class AlasGUI(Frame):
         self.alas_name = ""
         self.alas_mod = "alas"
         self.alas_config = AzurLaneConfig("template")
+        self.alas_config_hidden = set()
         self.initial()
 
     @use_scope("aside", clear=True)
@@ -235,6 +237,7 @@ class AlasGUI(Frame):
             )
 
         config = self.alas_config.read_file(self.alas_name)
+        self.alas_config_hidden = self.alas_config.get_hidden_args(config)
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
             if self.set_group(group, arg_dict, config, task):
                 self.set_navigator(group)
@@ -290,6 +293,9 @@ class AlasGUI(Frame):
             if o is not None:
                 # output will inherit current scope when created, override here
                 o.spec["scope"] = f"#pywebio-scope-group_{group_name}"
+                # Add hidden-arg
+                if f"{task}.{group_name}.{arg_name}" in self.alas_config_hidden:
+                    o.style("display:none")
                 output_list.append(o)
 
         if not output_list:
@@ -456,8 +462,7 @@ class AlasGUI(Frame):
             try:
                 d = self.modified_config_queue.get(timeout=10)
                 config_name = self.alas_name
-                read = self.alas_config.read_file
-                write = self.alas_config.write_file
+                config_updater = self.alas_config
             except queue.Empty:
                 continue
             modified[d["name"]] = d["value"]
@@ -466,7 +471,7 @@ class AlasGUI(Frame):
                     d = self.modified_config_queue.get(timeout=1)
                     modified[d["name"]] = d["value"]
                 except queue.Empty:
-                    self._save_config(modified, config_name, read, write)
+                    self._save_config(modified, config_name, config_updater)
                     modified.clear()
                     break
 
@@ -474,13 +479,12 @@ class AlasGUI(Frame):
             self,
             modified: Dict[str, str],
             config_name: str,
-            read=State.config_updater.read_file,
-            write=State.config_updater.write_file,
+            config_updater: AzurLaneConfig = State.config_updater,
     ) -> None:
         try:
             valid = []
             invalid = []
-            config = read(config_name)
+            config = config_updater.read_file(config_name)
             for k, v in modified.copy().items():
                 valuetype = deep_get(self.ALAS_ARGS, k + ".valuetype")
                 v = parse_pin_value(v, valuetype)
@@ -497,22 +501,24 @@ class AlasGUI(Frame):
                     modified[k] = v
                     valid.append(k)
 
-                    # update Emotion Record if Emotion Value is changed
-                    if "Emotion" in k and "Value" in k:
-                        k = k.split(".")
-                        k[-1] = k[-1].replace("Value", "Record")
-                        k = ".".join(k)
-                        v = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                        modified[k] = v
-                        deep_set(config, k, v)
-                        valid.append(k)
-                        pin["_".join(k.split("."))] = v
+                    for set_key, set_value in config_updater.save_callback(k, v):
+                        modified[set_key] = set_value
+                        deep_set(config, set_key, set_value)
+                        valid.append(set_key)
+                        pin["_".join(set_key.split("."))] = to_pin_value(set_value)
                 else:
                     modified.pop(k)
                     invalid.append(k)
                     logger.warning(f"Invalid value {v} for key {k}, skip saving.")
             self.pin_remove_invalid_mark(valid)
             self.pin_set_invalid_mark(invalid)
+            new_hidden_args = config_updater.get_hidden_args(config)
+            for k in new_hidden_args - self.alas_config_hidden:
+                self.pin_set_hidden_arg(k, type_=deep_get(self.ALAS_ARGS, f"{k}.type"))
+            for k in self.alas_config_hidden - new_hidden_args:
+                self.pin_remove_hidden_arg(k, type_=deep_get(self.ALAS_ARGS, f"{k}.type"))
+            self.alas_config_hidden = new_hidden_args
+
             if modified:
                 toast(
                     t("Gui.Toast.ConfigSaved"),
@@ -523,7 +529,7 @@ class AlasGUI(Frame):
                 logger.info(
                     f"Save config {filepath_config(config_name)}, {dict_to_kv(modified)}"
                 )
-                write(config_name, config)
+                config_updater.write_file(config_name, config)
         except Exception as e:
             logger.exception(e)
 

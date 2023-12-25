@@ -1,3 +1,4 @@
+import typing as t
 from copy import deepcopy
 
 from cached_property import cached_property
@@ -368,6 +369,7 @@ class ConfigGenerator:
             if dungeon.name in dailies:
                 value = dungeon.__getattribute__(ingame_lang)
                 deep_set(new, keys=['Dungeon', 'Name', dungeon.name], value=value)
+
         # Copy dungeon i18n to double events
         def update_dungeon_names(keys):
             for dungeon in deep_get(self.argument, keys=f'{keys}.option', default=[]):
@@ -412,6 +414,11 @@ class ConfigGenerator:
             dungeon_name = dungeon.__getattribute__(ingame_lang)
             value = f'{dungeon_name} ({world_name})'
             deep_set(new, keys=['Weekly', 'Name', dungeon.name], value=value)
+        # Rogue worlds
+        for dungeon in [d for d in DungeonList.instances.values() if d.is_Simulated_Universe]:
+            name = deep_get(new, keys=['RogueWorld', 'World', dungeon.name], default=None)
+            if name:
+                deep_set(new, keys=['RogueWorld', 'World', dungeon.name], value=dungeon.__getattribute__(ingame_lang))
 
         # GUI i18n
         for path, _ in deep_iter(self.gui, depth=2):
@@ -461,7 +468,7 @@ class ConfigGenerator:
         # Simulated universe is WIP, task won't show on GUI but can still be bound
         # e.g. `RogueUI('src', task='Rogue')`
         # Comment this for development
-        data.pop('Rogue')
+        # data.pop('Rogue')
 
         return data
 
@@ -695,7 +702,8 @@ class ConfigUpdater:
         set_daily('Destroy_3_destructible_objects', 'achievable')
         set_daily('Complete_Forgotten_Hall_1_time', 'achievable')
         set_daily('Complete_Echo_of_War_1_times', deep_get(data, 'Weekly.Scheduler.Enable'))
-        set_daily('Complete_1_stage_in_Simulated_Universe_Any_world', 'not_supported')
+        set_daily('Complete_1_stage_in_Simulated_Universe_Any_world',
+                  deep_get(data, 'Rogue.Scheduler.Enable'))
         set_daily('Obtain_victory_in_combat_with_support_characters_1_time',
                   dungeon and deep_get(data, 'Dungeon.DungeonSupport.Use') in ['when_daily', 'always_use'])
         set_daily('Use_an_Ultimate_to_deal_the_final_blow_1_time', 'achievable')
@@ -708,7 +716,79 @@ class ConfigUpdater:
         set_daily('Synthesize_Consumable_1_time', 'achievable')
         set_daily('Synthesize_material_1_time', 'achievable')
         set_daily('Use_Consumables_1_time', 'achievable')
+
+        # Limit setting combinations
+        if deep_get(data, keys='Rogue.RogueWorld.UseImmersifier') is False:
+            deep_set(data, keys='Rogue.RogueWorld.UseStamina', value=False)
+        if deep_get(data, keys='Rogue.RogueWorld.UseStamina') is True:
+            deep_set(data, keys='Rogue.RogueWorld.UseImmersifier', value=True)
+
         return data
+
+    def save_callback(self, key: str, value: t.Any) -> t.Iterable[t.Tuple[str, t.Any]]:
+        """
+        Args:
+            key: Key path in config json, such as "Main.Emotion.Fleet1Value"
+            value: Value set by user, such as "98"
+
+        Yields:
+            str: Key path to set config json, such as "Main.Emotion.Fleet1Record"
+            any: Value to set, such as "2020-01-01 00:00:00"
+        """
+        if key.startswith('Dungeon.Dungeon') or key.startswith('Dungeon.DungeonDaily'):
+            from tasks.dungeon.keywords.dungeon import DungeonList
+            from module.exception import ScriptError
+            try:
+                dungeon = DungeonList.find(value)
+            except ScriptError:
+                return
+            if key.endswith('Name'):
+                if dungeon.is_Calyx_Golden:
+                    yield 'Dungeon.Dungeon.NameAtDoubleCalyx', value
+                    yield 'Dungeon.DungeonDaily.CalyxGolden', value
+                elif dungeon.is_Calyx_Crimson:
+                    yield 'Dungeon.Dungeon.NameAtDoubleCalyx', value
+                    yield 'Dungeon.DungeonDaily.CalyxCrimson', value
+                elif dungeon.is_Stagnant_Shadow:
+                    yield 'Dungeon.DungeonDaily.StagnantShadow', value
+                elif dungeon.is_Cavern_of_Corrosion:
+                    yield 'Dungeon.Dungeon.NameAtDoubleRelic', value
+                    yield 'Dungeon.DungeonDaily.CavernOfCorrosion', value
+            elif key.endswith('NameAtDoubleCalyx'):
+                if dungeon.is_Calyx_Golden:
+                    yield 'Dungeon.DungeonDaily.CalyxGolden', value
+                elif dungeon.is_Calyx_Crimson:
+                    yield 'Dungeon.DungeonDaily.CalyxCrimson', value
+            elif key.endswith('NameAtDoubleRelic'):
+                yield 'Dungeon.DungeonDaily.CavernOfCorrosion', value
+            elif key.endswith('CavernOfCorrosion'):
+                yield 'Dungeon.Dungeon.NameAtDoubleRelic', value
+        elif key == 'Rogue.RogueWorld.UseImmersifier' and value is False:
+            yield 'Rogue.RogueWorld.UseStamina', False
+        elif key == 'Rogue.RogueWorld.UseStamina' and value is True:
+            yield 'Rogue.RogueWorld.UseImmersifier', True
+
+    def iter_hidden_args(self, data) -> t.Iterator[str]:
+        """
+        Args:
+            data (dict): config
+
+        Yields:
+            str: Arg path that should be hidden
+        """
+        if deep_get(data, 'Rogue.RogueBlessing.PresetBlessingFilter') != 'custom':
+            yield 'Rogue.RogueBlessing.CustomBlessingFilter'
+        if deep_get(data, 'Rogue.RogueBlessing.PresetResonanceFilter') != 'custom':
+            yield 'Rogue.RogueBlessing.CustomResonanceFilter'
+        if deep_get(data, 'Rogue.RogueBlessing.PresetCurioFilter') != 'custom':
+            yield 'Rogue.RogueBlessing.CustomCurioFilter'
+
+    def get_hidden_args(self, data) -> t.Set[str]:
+        """
+        Return a set of hidden args
+        """
+        out = list(self.iter_hidden_args(data))
+        return set(out)
 
     def read_file(self, config_name, is_template=False):
         """

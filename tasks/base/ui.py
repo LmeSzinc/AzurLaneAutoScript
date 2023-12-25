@@ -4,7 +4,7 @@ from module.base.timer import Timer
 from module.exception import GameNotRunningError, GamePageUnknownError
 from module.logger import logger
 from module.ocr.ocr import Ocr
-from tasks.base.assets.assets_base_page import CLOSE, MAP_EXIT
+from tasks.base.assets.assets_base_page import MAP_EXIT
 from tasks.base.main_page import MainPage
 from tasks.base.page import Page, page_main
 from tasks.combat.assets.assets_combat_finish import COMBAT_EXIT
@@ -298,7 +298,7 @@ class UI(MainPage):
 
     def is_in_main(self):
         if self.appear(page_main.check_button):
-            if self.image_color_count(page_main.check_button, color=(235, 235, 235), threshold=221, count=400):
+            if self.image_color_count(page_main.check_button, color=(235, 235, 235), threshold=234, count=400):
                 return True
         if self.appear(MAP_EXIT):
             if self.image_color_count(MAP_EXIT, color=(235, 235, 235), threshold=221, count=50):
@@ -323,9 +323,8 @@ class UI(MainPage):
             return True
         if self.handle_get_light_cone():
             return True
-        if self.appear(COMBAT_PREPARE, interval=5):
-            logger.info(f'UI additional: {COMBAT_PREPARE} -> {CLOSE}')
-            self.device.click(CLOSE)
+        if self.handle_ui_close(COMBAT_PREPARE, interval=5):
+            return True
         if self.appear_then_click(COMBAT_EXIT, interval=5):
             return True
         if self.appear_then_click(INFO_CLOSE, interval=5):

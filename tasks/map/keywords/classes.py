@@ -67,14 +67,14 @@ class MapPlane(Keyword):
             try:
                 _ = self.floors[floor - 1]
                 return floor
-            except IndexError:
+            except (IndexError, ValueError):
                 raise ScriptError(f'Plane {self} does not have floor index {floor}')
         elif isinstance(floor, str):
             # Convert to floor index
             floor = floor.upper()
             try:
                 return self.floors.index(floor) + 1
-            except IndexError:
+            except (IndexError, ValueError):
                 raise ScriptError(f'Plane {self} does not have floor name {floor}')
         else:
             raise ScriptError(f'Plane {self} does not have floor {floor}')
@@ -95,7 +95,7 @@ class MapPlane(Keyword):
             # Convert to floor index
             try:
                 return self.floors[floor - 1]
-            except IndexError:
+            except (IndexError, ValueError):
                 raise ScriptError(f'Plane {self} does not have floor index {floor}')
         elif isinstance(floor, str):
             # Check exist
@@ -103,10 +103,33 @@ class MapPlane(Keyword):
             try:
                 _ = self.floors.index(floor) + 1
                 return floor
-            except IndexError:
+            except (IndexError, ValueError):
                 raise ScriptError(f'Plane {self} does not have floor name {floor}')
         else:
             raise ScriptError(f'Plane {self} does not have floor {floor}')
+
+    @cached_property
+    def rogue_domain(self) -> str:
+        if self.name.startswith('Rogue_Domain'):
+            return self.name.removeprefix('Rogue_Domain')
+        else:
+            return ''
+
+    @cached_property
+    def is_rogue_combat(self) -> bool:
+        return self.rogue_domain in ['Combat']
+
+    @cached_property
+    def is_rogue_occurrence(self) -> bool:
+        return self.rogue_domain in ['Occurrence', 'Encounter', 'Transaction']
+
+    @cached_property
+    def is_rogue_respite(self) -> bool:
+        return self.rogue_domain in ['Respite']
+
+    @cached_property
+    def is_rogue_elite(self) -> bool:
+        return self.rogue_domain in ['Elite', 'Boss']
 
 
 @dataclass(repr=False)

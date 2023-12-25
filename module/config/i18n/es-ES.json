@@ -8,8 +8,8 @@
       "name": "Diario",
       "help": ""
     },
-    "Rogue": {
-      "name": "Universo Simulado",
+    "Weekly": {
+      "name": "Semanario",
       "help": ""
     }
   },
@@ -24,10 +24,6 @@
     },
     "Dungeon": {
       "name": "Mazmorra",
-      "help": ""
-    },
-    "Weekly": {
-      "name": "Ecos de la guerra",
       "help": ""
     },
     "DailyQuest": {
@@ -50,9 +46,13 @@
       "name": "Freebies",
       "help": ""
     },
+    "Weekly": {
+      "name": "Ecos de la guerra",
+      "help": ""
+    },
     "Rogue": {
       "name": "Universo Simulado",
-      "help": "El Universo Simulado está en desarrollo, y no se ejecutará"
+      "help": ""
     }
   },
   "Scheduler": {
@@ -411,6 +411,10 @@
       "name": "Poder",
       "help": ""
     },
+    "Immersifier": {
+      "name": "Inmersor",
+      "help": ""
+    },
     "DungeonDouble": {
       "name": "Mazmorra x2",
       "help": ""
@@ -569,7 +573,7 @@
     },
     "Complete_1_stage_in_Simulated_Universe_Any_world": {
       "name": "Supera 1 zona del Universo Simulado (cualquier mundo)",
-      "help": "",
+      "help": "Necesitas configurar y activar la tarea \"Universo Simulado\"",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
@@ -778,10 +782,20 @@
       "help": ""
     }
   },
-  "RoguePath": {
+  "RogueWorld": {
     "_info": {
-      "name": "Ajustes de Vía",
+      "name": "Ajustes de Universo Simulado",
       "help": ""
+    },
+    "World": {
+      "name": "Mundo",
+      "help": "",
+      "Simulated_Universe_World_3": "Mundo 3",
+      "Simulated_Universe_World_4": "Mundo 4",
+      "Simulated_Universe_World_5": "Mundo 5",
+      "Simulated_Universe_World_6": "Mundo 6",
+      "Simulated_Universe_World_7": "Mundo 7",
+      "Simulated_Universe_World_8": "Mundo 8"
     },
     "Path": {
       "name": "Vía",
@@ -792,7 +806,8 @@
       "Abundance": "Abundancia",
       "The_Hunt": "Cacería",
       "Destruction": "Destrucción",
-      "Elation": "Exultación"
+      "Elation": "Exultación",
+      "Propagation": "Propagación"
     },
     "Bonus": {
       "name": "Bendiciones",
@@ -801,22 +816,19 @@
       "Miracle Cosmos": "Cosmos milagroso (Elige un objeto raro)",
       "Fragmented Cosmos": "Fragmented Cosmos (Claim some Cosmic Fragments)"
     },
-    "PresetResonanceFilter": {
-      "name": "Filtro de preajuste de resonancia",
-      "help": "",
-      "preset-1": "preset-1",
-      "custom": "custom"
+    "DomainStrategy": {
+      "name": "Estrategia de dominio",
+      "help": "Prefiero Batalla: Adecuado para configuraciones normales, tiempo de eliminación más prolongado\\Prefiero Evento: Requiere configuraciones eficientes, tiempo de eliminación más corto",
+      "combat": "Prefiero Batalla",
+      "occurrence": "Prefiero Evento"
     },
-    "ResonanceSelectionStrategy": {
-      "name": "Index Locked Blessing",
-      "help": "",
-      "follow-presets": "Don't affect choice",
-      "unrecorded-first": "Select first",
-      "before-random": "Select only when nothing satisfy the filter"
+    "UseImmersifier": {
+      "name": "Reclamar de planers mediante inmersor",
+      "help": ""
     },
-    "CustomResonanceFilter": {
-      "name": "Custom Resonance Filter",
-      "help": "Only takes effect when \"Preset Resonance Filter\" is \"custom\""
+    "UseStamina": {
+      "name": "Reclamar de planers mediante poder trazacaminos",
+      "help": "La tarea de mazmorra ya no se ejecutará y todo el poder trazacaminos se usará primero para reclamar recompensas de inmersión, excepto para eventos dobles"
     }
   },
   "RogueBlessing": {
@@ -827,42 +839,49 @@
     "PresetBlessingFilter": {
       "name": "Preset Blessing Filter",
       "help": "",
-      "preset-1": "preset-1",
+      "preset": "preset",
       "custom": "custom"
-    },
-    "BlessingSelectionStrategy": {
-      "name": "Index Locked Blessing",
-      "help": "",
-      "follow-presets": "Don't affect choice",
-      "unrecorded-first": "Select first",
-      "before-random": "Select only when nothing satisfy the filter"
     },
     "CustomBlessingFilter": {
       "name": "Custom Blessing Filter",
       "help": "Only takes effect when \"Preset Blessing Filter\" is \"custom\""
-    }
-  },
-  "RogueCurio": {
-    "_info": {
-      "name": "Ajustes de Objeto raro",
-      "help": ""
     },
     "PresetCurioFilter": {
-      "name": "Filtro de preajuste de Objeto raro",
+      "name": "Preset Curio Filter",
       "help": "",
-      "preset-1": "preset-1",
+      "preset": "preset",
       "custom": "custom"
-    },
-    "CurioSelectionStrategy": {
-      "name": "Index Locked Curio",
-      "help": "",
-      "follow-presets": "Don't affect choice",
-      "unrecorded-first": "Select first",
-      "before-random": "Select only when nothing satisfy the filter"
     },
     "CustomCurioFilter": {
       "name": "Custom Curio Filter",
       "help": "Only takes effect when \"Preset Curio Filter\" is \"custom\""
+    },
+    "PresetResonanceFilter": {
+      "name": "Preset Resonance Filter",
+      "help": "",
+      "preset": "preset",
+      "custom": "custom"
+    },
+    "CustomResonanceFilter": {
+      "name": "Custom Resonance Filter",
+      "help": "Only takes effect when \"Preset Resonance Filter\" is \"custom\""
+    },
+    "SelectionStrategy": {
+      "name": "Index Locked",
+      "help": "",
+      "follow-presets": "Don't affect choice",
+      "unrecorded-first": "Select first",
+      "before-random": "Select only when nothing satisfy the filter"
+    }
+  },
+  "RogueDebug": {
+    "_info": {
+      "name": "Configuración de desarrollo",
+      "help": ""
+    },
+    "DebugMode": {
+      "name": "Modo de desarrollo",
+      "help": "Sin condiciones de parada, sin manejo de errores, deténgase cuando encuentre un error. Informe el error de acuerdo con el documento: https://github.com/LmeSzinc/StarRailCopilot/wiki/RogueMap_cn"
     }
   },
   "Gui": {

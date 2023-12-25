@@ -8,8 +8,8 @@
       "name": "Daily",
       "help": ""
     },
-    "Rogue": {
-      "name": "Simulated Universe",
+    "Weekly": {
+      "name": "Weekly",
       "help": ""
     }
   },
@@ -24,10 +24,6 @@
     },
     "Dungeon": {
       "name": "Dungeon",
-      "help": ""
-    },
-    "Weekly": {
-      "name": "Echo of War",
       "help": ""
     },
     "DailyQuest": {
@@ -50,9 +46,13 @@
       "name": "Freebies",
       "help": ""
     },
+    "Weekly": {
+      "name": "Echo of War",
+      "help": ""
+    },
     "Rogue": {
       "name": "Simulated Universe",
-      "help": "Simulated Universe is in development, task will not be run"
+      "help": ""
     }
   },
   "Scheduler": {
@@ -411,6 +411,10 @@
       "name": "Power",
       "help": ""
     },
+    "Immersifier": {
+      "name": "Immersifier",
+      "help": ""
+    },
     "DungeonDouble": {
       "name": "Dungeon Double",
       "help": ""
@@ -569,7 +573,7 @@
     },
     "Complete_1_stage_in_Simulated_Universe_Any_world": {
       "name": "Complete 1 stage in Simulated Universe (Any world)",
-      "help": "",
+      "help": "Need to configure and enable the \"Simulated Universe\" task",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
@@ -778,10 +782,20 @@
       "help": ""
     }
   },
-  "RoguePath": {
+  "RogueWorld": {
     "_info": {
-      "name": "Path Settings",
+      "name": "Simulated Universe Settings",
       "help": ""
+    },
+    "World": {
+      "name": "World",
+      "help": "",
+      "Simulated_Universe_World_3": "Simulated Universe — World 3",
+      "Simulated_Universe_World_4": "Simulated Universe — World 4",
+      "Simulated_Universe_World_5": "Simulated Universe — World 5",
+      "Simulated_Universe_World_6": "Simulated Universe — World 6",
+      "Simulated_Universe_World_7": "Simulated Universe — World 7",
+      "Simulated_Universe_World_8": "Simulated Universe — World 8"
     },
     "Path": {
       "name": "Path",
@@ -792,7 +806,8 @@
       "Abundance": "Abundance",
       "The_Hunt": "The Hunt",
       "Destruction": "Destruction",
-      "Elation": "Elation"
+      "Elation": "Elation",
+      "Propagation": "Propagation"
     },
     "Bonus": {
       "name": "Blessings of Trailblaze",
@@ -801,22 +816,19 @@
       "Miracle Cosmos": "Miracle Cosmos (Choose a curio)",
       "Fragmented Cosmos": "Fragmented Cosmos (Claim some Cosmic Fragments)"
     },
-    "PresetResonanceFilter": {
-      "name": "Preset Resonance Filter",
-      "help": "",
-      "preset-1": "preset-1",
-      "custom": "custom"
+    "DomainStrategy": {
+      "name": "Domain Strategy",
+      "help": "Prefer Combat: Suitable for normal builds, longer clear time\nPrefer Occurrence: Require efficient builds, shorter clear time",
+      "combat": "Prefer Combat",
+      "occurrence": "Prefer Occurrence"
     },
-    "ResonanceSelectionStrategy": {
-      "name": "Index Locked Blessing",
-      "help": "",
-      "follow-presets": "Don't affect choice",
-      "unrecorded-first": "Select first",
-      "before-random": "Select only when nothing satisfy the filter"
+    "UseImmersifier": {
+      "name": "Claim Planers Using Immersifiers",
+      "help": ""
     },
-    "CustomResonanceFilter": {
-      "name": "Custom Resonance Filter",
-      "help": "Only takes effect when \"Preset Resonance Filter\" is \"custom\""
+    "UseStamina": {
+      "name": "Farm Planers Using Trailblase Power",
+      "help": "Task \"Dungeon\" will no longer run, and all trailblaze power will be used first to claim immersion rewards, except for double events."
     }
   },
   "RogueBlessing": {
@@ -827,42 +839,49 @@
     "PresetBlessingFilter": {
       "name": "Preset Blessing Filter",
       "help": "",
-      "preset-1": "preset-1",
+      "preset": "preset",
       "custom": "custom"
-    },
-    "BlessingSelectionStrategy": {
-      "name": "Index Locked Blessing",
-      "help": "",
-      "follow-presets": "Don't affect choice",
-      "unrecorded-first": "Select first",
-      "before-random": "Select only when nothing satisfy the filter"
     },
     "CustomBlessingFilter": {
       "name": "Custom Blessing Filter",
       "help": "Only takes effect when \"Preset Blessing Filter\" is \"custom\""
-    }
-  },
-  "RogueCurio": {
-    "_info": {
-      "name": "Curio Settings",
-      "help": ""
     },
     "PresetCurioFilter": {
       "name": "Preset Curio Filter",
       "help": "",
-      "preset-1": "preset-1",
+      "preset": "preset",
       "custom": "custom"
-    },
-    "CurioSelectionStrategy": {
-      "name": "Index Locked Curio",
-      "help": "",
-      "follow-presets": "Don't affect choice",
-      "unrecorded-first": "Select first",
-      "before-random": "Select only when nothing satisfy the filter"
     },
     "CustomCurioFilter": {
       "name": "Custom Curio Filter",
       "help": "Only takes effect when \"Preset Curio Filter\" is \"custom\""
+    },
+    "PresetResonanceFilter": {
+      "name": "Preset Resonance Filter",
+      "help": "",
+      "preset": "preset",
+      "custom": "custom"
+    },
+    "CustomResonanceFilter": {
+      "name": "Custom Resonance Filter",
+      "help": "Only takes effect when \"Preset Resonance Filter\" is \"custom\""
+    },
+    "SelectionStrategy": {
+      "name": "Index Locked",
+      "help": "",
+      "follow-presets": "Don't affect choice",
+      "unrecorded-first": "Select first",
+      "before-random": "Select only when nothing satisfy the filter"
+    }
+  },
+  "RogueDebug": {
+    "_info": {
+      "name": "Dev Settings",
+      "help": ""
+    },
+    "DebugMode": {
+      "name": "Dev Mode",
+      "help": "No stop conditions, no error handling, stop when encountering an error. Please report errors according to the doc: https://github.com/LmeSzinc/StarRailCopilot/wiki/RogueMap_cn"
     }
   },
   "Gui": {

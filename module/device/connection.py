@@ -266,6 +266,7 @@ class Connection(ConnectionAttr):
             return True
         return False
 
+    @retry
     def check_mumu_app_keep_alive(self):
         if not self.is_mumu_family:
             return False

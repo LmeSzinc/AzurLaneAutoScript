@@ -15,7 +15,6 @@ from module.ui.switch import Switch
 from tasks.base.page import page_guide
 from tasks.combat.assets.assets_combat_interact import DUNGEON_COMBAT_INTERACT, DUNGEON_COMBAT_INTERACT_TEXT
 from tasks.combat.assets.assets_combat_prepare import COMBAT_PREPARE
-from tasks.combat.interact import CombatInteract
 from tasks.dungeon.assets.assets_dungeon_ui import *
 from tasks.dungeon.keywords import (
     DungeonList,
@@ -120,7 +119,7 @@ DUNGEON_LIST = DraggableDungeonList(
     ocr_class=OcrDungeonList, search_button=OCR_DUNGEON_LIST)
 
 
-class DungeonUI(DungeonState, CombatInteract):
+class DungeonUI(DungeonState):
     def dungeon_tab_goto(self, state: DungeonTab):
         """
         Args:
@@ -423,6 +422,26 @@ class DungeonUI(DungeonState, CombatInteract):
         logger.attr('DungeonInteract', None)
         return None
 
+    def dungeon_goto_rogue(self):
+        """
+        Goto Simulated Universe page but not pressing the TELEPORT button
+
+        Pages:
+            in: Any
+            out: page_guide, Survival_Index, Simulated_Universe
+
+        Examples:
+            self = DungeonUI('src')
+            self.device.screenshot()
+            self.dungeon_goto_rogue()
+            self._rogue_teleport()
+        """
+        self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
+        if self.appear(SURVIVAL_INDEX_LOADED):
+            logger.info('Already at nav Simulated_Universe')
+        else:
+            self._dungeon_nav_goto(KEYWORDS_DUNGEON_LIST.Simulated_Universe_World_1)
+
     def dungeon_goto(self, dungeon: DungeonList):
         """
         Returns:
@@ -440,12 +459,6 @@ class DungeonUI(DungeonState, CombatInteract):
             self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
             self.dungeon_goto(KEYWORDS_DUNGEON_LIST.Calyx_Crimson_Harmony)
         """
-        if dungeon.is_Simulated_Universe:
-            self._dungeon_nav_goto(dungeon)
-            pass
-            self._dungeon_insight(dungeon)
-            return True
-
         # Reset search button
         DUNGEON_LIST.search_button = OCR_DUNGEON_LIST
 

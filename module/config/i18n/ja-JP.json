@@ -8,9 +8,9 @@
       "name": "Menu.Daily.name",
       "help": "Menu.Daily.help"
     },
-    "Rogue": {
-      "name": "Menu.Rogue.name",
-      "help": "Menu.Rogue.help"
+    "Weekly": {
+      "name": "Menu.Weekly.name",
+      "help": "Menu.Weekly.help"
     }
   },
   "Task": {
@@ -25,10 +25,6 @@
     "Dungeon": {
       "name": "Task.Dungeon.name",
       "help": "Task.Dungeon.help"
-    },
-    "Weekly": {
-      "name": "Task.Weekly.name",
-      "help": "Task.Weekly.help"
     },
     "DailyQuest": {
       "name": "Task.DailyQuest.name",
@@ -49,6 +45,10 @@
     "Freebies": {
       "name": "他ギフト",
       "help": ""
+    },
+    "Weekly": {
+      "name": "Task.Weekly.name",
+      "help": "Task.Weekly.help"
     },
     "Rogue": {
       "name": "Task.Rogue.name",
@@ -410,6 +410,10 @@
     "TrailblazePower": {
       "name": "DungeonStorage.TrailblazePower.name",
       "help": "DungeonStorage.TrailblazePower.help"
+    },
+    "Immersifier": {
+      "name": "DungeonStorage.Immersifier.name",
+      "help": "DungeonStorage.Immersifier.help"
     },
     "DungeonDouble": {
       "name": "DungeonStorage.DungeonDouble.name",
@@ -778,45 +782,53 @@
       "help": "ItemStorage.StallerJade.help"
     }
   },
-  "RoguePath": {
+  "RogueWorld": {
     "_info": {
-      "name": "RoguePath._info.name",
-      "help": "RoguePath._info.help"
+      "name": "RogueWorld._info.name",
+      "help": "RogueWorld._info.help"
+    },
+    "World": {
+      "name": "RogueWorld.World.name",
+      "help": "RogueWorld.World.help",
+      "Simulated_Universe_World_3": "第三世界・模擬宇宙",
+      "Simulated_Universe_World_4": "第四世界・模擬宇宙",
+      "Simulated_Universe_World_5": "第五世界・模擬宇宙",
+      "Simulated_Universe_World_6": "第六世界・模擬宇宙",
+      "Simulated_Universe_World_7": "第七世界・模擬宇宙",
+      "Simulated_Universe_World_8": "第八世界・模擬宇宙"
     },
     "Path": {
-      "name": "RoguePath.Path.name",
-      "help": "RoguePath.Path.help",
+      "name": "RogueWorld.Path.name",
+      "help": "RogueWorld.Path.help",
       "Preservation": "Preservation",
       "Remembrance": "Remembrance",
       "Nihility": "Nihility",
       "Abundance": "Abundance",
       "The_Hunt": "The_Hunt",
       "Destruction": "Destruction",
-      "Elation": "Elation"
+      "Elation": "Elation",
+      "Propagation": "Propagation"
     },
     "Bonus": {
-      "name": "RoguePath.Bonus.name",
-      "help": "RoguePath.Bonus.help",
+      "name": "RogueWorld.Bonus.name",
+      "help": "RogueWorld.Bonus.help",
       "Blessing Cosmos": "Blessing Cosmos",
       "Miracle Cosmos": "Miracle Cosmos",
       "Fragmented Cosmos": "Fragmented Cosmos"
     },
-    "PresetResonanceFilter": {
-      "name": "RoguePath.PresetResonanceFilter.name",
-      "help": "RoguePath.PresetResonanceFilter.help",
-      "preset-1": "preset-1",
-      "custom": "custom"
+    "DomainStrategy": {
+      "name": "RogueWorld.DomainStrategy.name",
+      "help": "RogueWorld.DomainStrategy.help",
+      "combat": "combat",
+      "occurrence": "occurrence"
     },
-    "ResonanceSelectionStrategy": {
-      "name": "RoguePath.ResonanceSelectionStrategy.name",
-      "help": "RoguePath.ResonanceSelectionStrategy.help",
-      "follow-presets": "follow-presets",
-      "unrecorded-first": "unrecorded-first",
-      "before-random": "before-random"
+    "UseImmersifier": {
+      "name": "RogueWorld.UseImmersifier.name",
+      "help": "RogueWorld.UseImmersifier.help"
     },
-    "CustomResonanceFilter": {
-      "name": "RoguePath.CustomResonanceFilter.name",
-      "help": "RoguePath.CustomResonanceFilter.help"
+    "UseStamina": {
+      "name": "RogueWorld.UseStamina.name",
+      "help": "RogueWorld.UseStamina.help"
     }
   },
   "RogueBlessing": {
@@ -827,42 +839,49 @@
     "PresetBlessingFilter": {
       "name": "RogueBlessing.PresetBlessingFilter.name",
       "help": "RogueBlessing.PresetBlessingFilter.help",
-      "preset-1": "preset-1",
+      "preset": "preset",
       "custom": "custom"
-    },
-    "BlessingSelectionStrategy": {
-      "name": "RogueBlessing.BlessingSelectionStrategy.name",
-      "help": "RogueBlessing.BlessingSelectionStrategy.help",
-      "follow-presets": "follow-presets",
-      "unrecorded-first": "unrecorded-first",
-      "before-random": "before-random"
     },
     "CustomBlessingFilter": {
       "name": "RogueBlessing.CustomBlessingFilter.name",
       "help": "RogueBlessing.CustomBlessingFilter.help"
-    }
-  },
-  "RogueCurio": {
-    "_info": {
-      "name": "RogueCurio._info.name",
-      "help": "RogueCurio._info.help"
     },
     "PresetCurioFilter": {
-      "name": "RogueCurio.PresetCurioFilter.name",
-      "help": "RogueCurio.PresetCurioFilter.help",
-      "preset-1": "preset-1",
+      "name": "RogueBlessing.PresetCurioFilter.name",
+      "help": "RogueBlessing.PresetCurioFilter.help",
+      "preset": "preset",
       "custom": "custom"
     },
-    "CurioSelectionStrategy": {
-      "name": "RogueCurio.CurioSelectionStrategy.name",
-      "help": "RogueCurio.CurioSelectionStrategy.help",
+    "CustomCurioFilter": {
+      "name": "RogueBlessing.CustomCurioFilter.name",
+      "help": "RogueBlessing.CustomCurioFilter.help"
+    },
+    "PresetResonanceFilter": {
+      "name": "RogueBlessing.PresetResonanceFilter.name",
+      "help": "RogueBlessing.PresetResonanceFilter.help",
+      "preset": "preset",
+      "custom": "custom"
+    },
+    "CustomResonanceFilter": {
+      "name": "RogueBlessing.CustomResonanceFilter.name",
+      "help": "RogueBlessing.CustomResonanceFilter.help"
+    },
+    "SelectionStrategy": {
+      "name": "RogueBlessing.SelectionStrategy.name",
+      "help": "RogueBlessing.SelectionStrategy.help",
       "follow-presets": "follow-presets",
       "unrecorded-first": "unrecorded-first",
       "before-random": "before-random"
+    }
+  },
+  "RogueDebug": {
+    "_info": {
+      "name": "RogueDebug._info.name",
+      "help": "RogueDebug._info.help"
     },
-    "CustomCurioFilter": {
-      "name": "RogueCurio.CustomCurioFilter.name",
-      "help": "RogueCurio.CustomCurioFilter.help"
+    "DebugMode": {
+      "name": "RogueDebug.DebugMode.name",
+      "help": "RogueDebug.DebugMode.help"
     }
   },
   "Gui": {

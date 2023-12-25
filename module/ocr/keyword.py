@@ -6,12 +6,13 @@ from typing import ClassVar
 import module.config.server as server
 from module.exception import ScriptError
 
-REGEX_PUNCTUATION = re.compile(r'[ ,.\'"“”，。:：!！?？·•\-—/\\\n\t()\[\]（）「」『』【】《》［］]')
+# ord('．') = 65294
+REGEX_PUNCTUATION = re.compile(r'[ ,.．\'"“”，。:：;；!！?？·・•*※\-—－/\\\n\t()\[\]（）「」『』【】《》［］]')
 
 
 def parse_name(n):
     n = REGEX_PUNCTUATION.sub('', str(n)).lower()
-    return n
+    return n.strip()
 
 
 @dataclass
@@ -176,6 +177,27 @@ class Keyword:
                     lang=lang, ignore_punctuation=ignore_punctuation):
                 if cls._compare(name, keyword):
                     return instance
+
+        # Not found
+        raise ScriptError(f'Cannot find a {cls.__name__} instance that matches "{name}"')
+
+    @classmethod
+    def find_name(cls, name):
+        """
+        Args:
+            name: Attribute name of keyword.
+
+        Returns:
+            Keyword instance.
+
+        Raises:
+            ScriptError: If nothing found.
+        """
+        if isinstance(name, Keyword):
+            return name
+        for instance in cls.instances.values():
+            if name == instance.name:
+                return instance
 
         # Not found
         raise ScriptError(f'Cannot find a {cls.__name__} instance that matches "{name}"')

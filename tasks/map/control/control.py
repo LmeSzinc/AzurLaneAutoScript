@@ -1,4 +1,7 @@
+from collections import deque
 from functools import cached_property
+
+import numpy as np
 
 from module.base.timer import Timer
 from module.logger import logger
@@ -13,6 +16,8 @@ from tasks.map.resource.const import diff_to_180_180
 
 
 class MapControl(Combat, AimDetectorMixin):
+    waypoint: Waypoint
+
     @cached_property
     def minimap(self) -> Minimap:
         return Minimap()
@@ -113,6 +118,7 @@ class MapControl(Combat, AimDetectorMixin):
         """
         logger.hr('Goto', level=2)
         logger.info(f'Goto {waypoint}')
+        self.waypoint = waypoint
         self.device.stuck_record_clear()
         self.device.click_record_clear()
 
@@ -131,6 +137,7 @@ class MapControl(Combat, AimDetectorMixin):
         aim_interval = Timer(0.3, count=1)
         attacked_enemy = Timer(1.2, count=4)
         attacked_item = Timer(0.6, count=2)
+        near_queue = deque(maxlen=waypoint.unexpected_confirm.count)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -169,14 +176,19 @@ class MapControl(Combat, AimDetectorMixin):
                 self.aim.predict(self.device.image)
             diff = self.minimap.position_diff(waypoint.position)
             direction = self.minimap.position2direction(waypoint.position)
-            rotation_diff = self.minimap.direction_diff(direction)
-            logger.info(f'Position diff: {diff}, rotation: {rotation_diff}')
+            rotation_diff = self.minimap.rotation_diff(direction)
+            logger.info(f'Pdiff: {diff}, Ddiff: {direction}, Rdiff: {rotation_diff}')
+
+            def contact_direction():
+                if waypoint.lock_direction is not None:
+                    return waypoint.lock_direction
+                return diff_to_180_180(direction - last_rotation)
 
             # Interact
             if self.aim.aimed_enemy:
                 if 'enemy' in waypoint.expected_end:
                     if self.handle_map_A():
-                        allow_run_2x = allow_straight_run = allow_run = allow_walk = False
+                        allow_run_2x = allow_straight_run = False
                         attacked_enemy.reset()
                         direction_interval.reset()
                         rotation_interval.reset()
@@ -185,8 +197,12 @@ class MapControl(Combat, AimDetectorMixin):
             if self.aim.aimed_item:
                 if 'item' in waypoint.expected_end:
                     if self.handle_map_A():
-                        allow_run_2x = allow_straight_run = allow_run = allow_walk = False
+                        allow_run_2x = allow_straight_run = False
                         attacked_item.reset()
+                        direction_interval.reset()
+                        rotation_interval.reset()
+                elif 'item' in waypoint.expected_enroute:
+                    if self.handle_map_A():
                         direction_interval.reset()
                         rotation_interval.reset()
                 if attacked_item.started():
@@ -197,22 +213,28 @@ class MapControl(Combat, AimDetectorMixin):
                     result.append('item')
                     if waypoint.early_stop:
                         return result
+            if waypoint.interact_radius > 0:
+                if diff < waypoint.interact_radius:
+                    if self.handle_combat_interact(interval=1):
+                        contact.up()
+                        waypoint.unexpected_confirm.reset()
 
             # Arrive
-            if not attacked_enemy.started() and not attacked_item.started():
-                if self.minimap.is_position_near(waypoint.position, threshold=waypoint.get_threshold(end_opt)):
-                    if not waypoint.expected_end or waypoint.match_results(result):
-                        logger.info(f'Arrive waypoint: {waypoint}')
-                        return result
-                    else:
-                        if waypoint.unexpected_confirm.reached():
-                            logger.info(f'Arrive waypoint with unexpected result: {waypoint}')
-                            return result
+            if near := self.minimap.is_position_near(waypoint.position, threshold=waypoint.get_threshold(end_opt)):
+                near_queue.append(near)
+                if not waypoint.expected_end or waypoint.match_results(result):
+                    logger.info(f'Arrive waypoint: {waypoint}')
+                    return result
                 else:
+                    if waypoint.unexpected_confirm.reached():
+                        logger.info(f'Arrive waypoint with unexpected result: {waypoint}')
+                        return result
+            else:
+                near_queue.append(near)
+                if np.mean(near_queue) < 0.6:
                     waypoint.unexpected_confirm.reset()
 
             # Switch run case
-
             if end_opt:
                 if allow_run_2x and diff < 20:
                     logger.info(f'Approaching target, diff={round(diff, 1)}, disallow run_2x')
@@ -223,7 +245,7 @@ class MapControl(Combat, AimDetectorMixin):
                     aim_interval = Timer(0.1)
                     self.map_run_2x_timer.reset()
                     allow_straight_run = False
-                if allow_run and diff < 7:
+                if allow_run and diff < 7 and waypoint.min_speed == 'walk':
                     logger.info(f'Approaching target, diff={round(diff, 1)}, disallow run')
                     direction_interval = Timer(0.2)
                     aim_interval = Timer(0.2)
@@ -242,12 +264,14 @@ class MapControl(Combat, AimDetectorMixin):
                         logger.info(f'Already at target rotation, '
                                     f'current={last_rotation}, target={direction}, disallow rotation_set')
                         allow_rotation_set = False
+                if not allow_rotation_set and rotation_interval.reached_and_reset():
+                    last_rotation = self.minimap.rotation
                 if allow_rotation_set and rotation_interval.reached():
                     if self.handle_rotation_set(direction, threshold=10):
                         rotation_interval.reset()
                         direction_interval.reset()
                 if direction_interval.reached():
-                    contact.set(direction=diff_to_180_180(direction - last_rotation), run=True)
+                    contact.set(direction=contact_direction(), run=True)
                     direction_interval.reset()
                 self.handle_map_run_2x(run=True)
             elif allow_straight_run:
@@ -262,12 +286,14 @@ class MapControl(Combat, AimDetectorMixin):
                         logger.info(f'Already at target rotation, '
                                     f'current={last_rotation}, target={direction}, disallow rotation_set')
                         allow_rotation_set = False
+                if not allow_rotation_set and rotation_interval.reached_and_reset():
+                    last_rotation = self.minimap.rotation
                 if allow_rotation_set and rotation_interval.reached():
                     if self.handle_rotation_set(direction, threshold=10):
                         rotation_interval.reset()
                         direction_interval.reset()
                 if direction_interval.reached():
-                    contact.set(direction=diff_to_180_180(direction - last_rotation), run=True)
+                    contact.set(direction=contact_direction(), run=True)
                     direction_interval.reset()
                 self.handle_map_run_2x(run=False)
             elif allow_run:
@@ -278,8 +304,10 @@ class MapControl(Combat, AimDetectorMixin):
                 if allow_rotation_set:
                     last_rotation = self.minimap.rotation
                     allow_rotation_set = False
+                if not allow_rotation_set and rotation_interval.reached_and_reset():
+                    last_rotation = self.minimap.rotation
                 if direction_interval.reached():
-                    contact.set(direction=diff_to_180_180(direction - last_rotation), run=True)
+                    contact.set(direction=contact_direction(), run=True)
                     direction_interval.reset()
                 self.handle_map_run_2x(run=False)
             elif allow_walk:
@@ -289,8 +317,10 @@ class MapControl(Combat, AimDetectorMixin):
                 if allow_rotation_set:
                     last_rotation = self.minimap.rotation
                     allow_rotation_set = False
+                if not allow_rotation_set and rotation_interval.reached_and_reset():
+                    last_rotation = self.minimap.rotation
                 if direction_interval.reached():
-                    contact.set(direction=diff_to_180_180(direction - last_rotation), run=False)
+                    contact.set(direction=contact_direction(), run=False)
                     direction_interval.reset()
                 self.handle_map_run_2x(run=False)
             else:
@@ -303,8 +333,12 @@ class MapControl(Combat, AimDetectorMixin):
         Args:
             waypoints: position (x, y), a list of position to go along,
                 or a list of Waypoint objects to go along.
+
+        Returns:
+            list[str]: A list of walk result
         """
         logger.hr('Goto', level=1)
+        self.screenshot_tracking_add()
         self.map_A_timer.clear()
         self.map_E_timer.clear()
         self.map_run_2x_timer.clear()
@@ -313,6 +347,7 @@ class MapControl(Combat, AimDetectorMixin):
         end_list = [False for _ in waypoints]
         end_list[-1] = True
 
+        results = []
         with JoystickContact(self) as contact:
             for waypoint, end in zip(waypoints, end_list):
                 waypoint: Waypoint
@@ -324,16 +359,17 @@ class MapControl(Combat, AimDetectorMixin):
                 )
                 expected = waypoint.expected_to_str(waypoint.expected_end)
                 logger.info(f'Arrive waypoint, expected: {expected}, result: {result}')
+                results += result
                 matched = waypoint.match_results(result)
-                if not waypoint.expected_end or matched:
+                if not waypoint.expected_end:
+                    logger.info(f'Arrive waypoint: {matched}')
+                elif matched:
                     logger.info(f'Arrive waypoint with expected result: {matched}')
+                    break
                 else:
                     logger.warning(f'Arrive waypoint with unexpected result: {result}')
 
-        end_point = waypoints[-1]
-        if end_point.end_rotation is not None:
-            logger.hr('End rotation', level=2)
-            self.rotation_set(end_point.end_rotation, threshold=end_point.end_rotation_threshold)
+        return results
 
     def clear_item(self, *waypoints):
         """
@@ -345,6 +381,8 @@ class MapControl(Combat, AimDetectorMixin):
         """
         logger.hr('Clear item', level=1)
         waypoints = ensure_waypoints(waypoints)
+        for point in waypoints[:-1]:
+            point.expected_end = []
         end_point = waypoints[-1]
         end_point.expected_end.append('item')
 
@@ -358,8 +396,10 @@ class MapControl(Combat, AimDetectorMixin):
             waypoints: position (x, y), a list of position to go along.
                 or a list of Waypoint objects to go along.
         """
-        logger.hr('Clear item', level=1)
+        logger.hr('Clear enemy', level=1)
         waypoints = ensure_waypoints(waypoints)
+        for point in waypoints[:-1]:
+            point.expected_end = []
         end_point = waypoints[-1]
         end_point.expected_end.append('enemy')
 

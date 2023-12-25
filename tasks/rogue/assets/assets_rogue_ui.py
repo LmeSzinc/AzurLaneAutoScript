@@ -13,6 +13,50 @@ BLESSING_CONFIRM = ButtonWrapper(
         button=(960, 629, 1233, 677),
     ),
 )
+BLESSING_ENHANCED = ButtonWrapper(
+    name='BLESSING_ENHANCED',
+    share=Button(
+        file='./assets/share/rogue/ui/BLESSING_ENHANCED.png',
+        area=(630, 351, 651, 370),
+        search=(610, 331, 671, 390),
+        color=(124, 125, 128),
+        button=(630, 351, 651, 370),
+    ),
+)
+BLESSING_LOST = ButtonWrapper(
+    name='BLESSING_LOST',
+    cn=Button(
+        file='./assets/cn/rogue/ui/BLESSING_LOST.png',
+        area=(579, 44, 637, 72),
+        search=(565, 31, 652, 124),
+        color=(125, 38, 32),
+        button=(579, 44, 637, 72),
+    ),
+    en=Button(
+        file='./assets/en/rogue/ui/BLESSING_LOST.png',
+        area=(681, 47, 744, 71),
+        search=(633, 35, 792, 124),
+        color=(130, 59, 55),
+        button=(681, 47, 744, 71),
+    ),
+)
+BLESSING_OBTAINED = ButtonWrapper(
+    name='BLESSING_OBTAINED',
+    cn=Button(
+        file='./assets/cn/rogue/ui/BLESSING_OBTAINED.png',
+        area=(578, 44, 638, 72),
+        search=(565, 31, 652, 124),
+        color=(139, 124, 92),
+        button=(578, 44, 638, 72),
+    ),
+    en=Button(
+        file='./assets/en/rogue/ui/BLESSING_OBTAINED.png',
+        area=(645, 46, 779, 71),
+        search=(633, 35, 792, 124),
+        color=(129, 116, 91),
+        button=(645, 46, 779, 71),
+    ),
+)
 CHECK_BLESSING = ButtonWrapper(
     name='CHECK_BLESSING',
     share=Button(
@@ -33,6 +77,23 @@ COSMIC_FRAGMENT = ButtonWrapper(
         button=(1146, 19, 1181, 55),
     ),
 )
+CURIO_OBTAINED = ButtonWrapper(
+    name='CURIO_OBTAINED',
+    cn=Button(
+        file='./assets/cn/rogue/ui/CURIO_OBTAINED.png',
+        area=(643, 86, 708, 117),
+        search=(623, 66, 728, 137),
+        color=(125, 126, 134),
+        button=(643, 86, 708, 117),
+    ),
+    en=Button(
+        file='./assets/en/rogue/ui/CURIO_OBTAINED.png',
+        area=(511, 88, 600, 116),
+        search=(491, 68, 620, 136),
+        color=(93, 95, 102),
+        button=(511, 88, 600, 116),
+    ),
+)
 FLAG_UNRECORD = ButtonWrapper(
     name='FLAG_UNRECORD',
     share=Button(
@@ -41,16 +102,6 @@ FLAG_UNRECORD = ButtonWrapper(
         search=(726, 129, 798, 201),
         color=(133, 130, 161),
         button=(746, 149, 778, 181),
-    ),
-)
-OBTAIN_ITEM_POPUP = ButtonWrapper(
-    name='OBTAIN_ITEM_POPUP',
-    share=Button(
-        file='./assets/share/rogue/ui/OBTAIN_ITEM_POPUP.png',
-        area=(180, 573, 432, 720),
-        search=(160, 553, 452, 720),
-        color=(131, 109, 73),
-        button=(180, 573, 432, 720),
     ),
 )
 OCR_COSMIC_FRAGMENT = ButtonWrapper(
@@ -101,5 +152,15 @@ PAGE_EVENT = ButtonWrapper(
         search=(963, 465, 1027, 529),
         color=(51, 48, 42),
         button=(983, 485, 1007, 509),
+    ),
+)
+ROGUE_LAUNCH = ButtonWrapper(
+    name='ROGUE_LAUNCH',
+    share=Button(
+        file='./assets/share/rogue/ui/ROGUE_LAUNCH.png',
+        area=(875, 629, 896, 677),
+        search=(855, 609, 916, 697),
+        color=(171, 172, 172),
+        button=(896, 635, 1169, 671),
     ),
 )
