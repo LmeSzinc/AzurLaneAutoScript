@@ -144,21 +144,22 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         self.equip_enter(button)
 
     def _fleet_detail_enter_hard(self):
+        from module.retire.retirement import Retirement
         self.campaign.ensure_campaign_ui(self.stage)
         button_area = self.campaign.ENTRANCE.button
-        button = Button(area=button_area, color=(0, 0, 0), button=button_area)
-        self.ui_click(click_button=button, appear_button=BACK_ARROW, check_button=MAP_PREPARATION)
-        for _ in range(5):
+        button = Button(name=str(self.stage), area=button_area, color=(0, 0, 0), button=button_area)
+        for _ in range(20):
+            self.campaign.ensure_campaign_ui(self.stage)
+            self.ui_click(click_button=button, appear_button=BACK_ARROW, check_button=MAP_PREPARATION)
+            self.appear_then_click(MAP_PREPARATION)
             self.device.sleep(0.5)
             self.device.screenshot()
-            self.appear_then_click(MAP_PREPARATION)
-            from module.retire.retirement import Retirement
             if Retirement(config=self.config, device=self.device).handle_retirement():
                 continue
             if self.appear(button=FLEET_PREPARATION, offset=(50, 50)):
                 return
-        from module.exception import RequestHumanTakeover
-        raise RequestHumanTakeover
+        from module.exception import GameStuckError
+        raise GameStuckError
 
     def _ship_detail_enter_hard(self, button):
         self._fleet_detail_enter_hard()
