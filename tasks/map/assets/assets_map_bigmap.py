@@ -53,6 +53,16 @@ PLANE_SCROLL = ButtonWrapper(
         button=(1252, 138, 1256, 688),
     ),
 )
+TELEPORT_RIGHT = ButtonWrapper(
+    name='TELEPORT_RIGHT',
+    share=Button(
+        file='./assets/share/map/bigmap/TELEPORT_RIGHT.png',
+        area=(1065, 625, 1083, 671),
+        search=(1045, 605, 1103, 691),
+        color=(237, 237, 237),
+        button=(1084, 630, 1215, 666),
+    ),
+)
 WORLD_HERTA = ButtonWrapper(
     name='WORLD_HERTA',
     share=Button(
