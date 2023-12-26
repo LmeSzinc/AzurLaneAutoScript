@@ -129,13 +129,17 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         """
         Args:
             func (str, Function): Function to run
-            func_list (set): Set of tasks to be bound
+            func_list (list[str]): List of tasks to be bound
         """
-        if func_list is None:
-            func_list = ["Alas"]
         if isinstance(func, Function):
             func = func.command
-        func_list.append(func)
+        # func_list: ["Alas", <task>, *func_list]
+        if func_list is None:
+            func_list = []
+        if func not in func_list:
+            func_list.insert(0, func)
+        if "Alas" not in func_list:
+            func_list.insert(0, "Alas")
         logger.info(f"Bind task {func_list}")
 
         # Bind arguments
