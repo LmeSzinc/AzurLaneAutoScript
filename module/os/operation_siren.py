@@ -133,7 +133,10 @@ class OperationSiren(OSMap):
                 break
 
         if self.config.OpsiDaily_CollectTargetReward:
-            self.os_target_receive()
+            if self.server_support_os_target():
+                self.os_target_receive()
+            else:
+                logger.info(f'Server {self.config.SERVER} does not support OpsiTarget yet, please contact the developers.')
             
         self.config.task_delay(server_update=True)
 
@@ -334,6 +337,9 @@ class OperationSiren(OSMap):
             self._os_target_exit()
             self.config.OpsiTarget_LastRun = datetime.now().replace(microsecond=0)
         
+    def server_support_os_target(self):
+        return self.config.SERVER in ['cn', 'jp']
+
     def os_meowfficer_farming(self):
         """
         Recommend 3 or 5 for higher meowfficer searching point per action points ratio.
@@ -367,7 +373,10 @@ class OperationSiren(OSMap):
             self.config.task_stop()
 
         if self.config.OpsiTarget_TargetFarming:
-            self._os_target()
+            if self.server_support_os_target():
+                self._os_target()
+            else:
+                logger.info(f'Server {self.config.SERVER} does not support OpsiTarget yet, please contact the developers.')            
 
         ap_checked = False
         while 1:
