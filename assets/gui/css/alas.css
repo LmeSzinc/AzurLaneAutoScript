@@ -376,6 +376,7 @@ pre.rich-traceback-code {
 #pywebio-scope-scheduler-bar,
 #pywebio-scope-log-bar,
 #pywebio-scope-log,
+#pywebio-scope-daemon-log-bar,
 #pywebio-scope-daemon-overview #pywebio-scope-groups {
     font-weight: 500;
     margin: 0.3125rem;

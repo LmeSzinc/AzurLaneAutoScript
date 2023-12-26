@@ -133,12 +133,13 @@ pre.rich-traceback-code {
     border: 1px solid lightgrey;
 }
 
-#pywebio-scope-scheduler-bar,
-#pywebio-scope-log-bar,
-#pywebio-scope-log,
 #pywebio-scope-running,
 #pywebio-scope-pending,
 #pywebio-scope-waiting,
+#pywebio-scope-scheduler-bar,
+#pywebio-scope-log-bar,
+#pywebio-scope-log,
+#pywebio-scope-daemon-log-bar,
 #pywebio-scope-daemon-overview #pywebio-scope-groups {
     background-color: white;
     border: 1px solid lightgrey;
