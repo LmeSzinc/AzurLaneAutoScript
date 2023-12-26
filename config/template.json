@@ -194,5 +194,10 @@
     "RogueDebug": {
       "DebugMode": false
     }
+  },
+  "Daemon": {
+    "Daemon": {
+      "Enable": true
+    }
   }
 }

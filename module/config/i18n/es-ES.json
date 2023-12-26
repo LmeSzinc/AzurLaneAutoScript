@@ -11,6 +11,10 @@
     "Weekly": {
       "name": "Semanario",
       "help": ""
+    },
+    "Tool": {
+      "name": "útiles",
+      "help": ""
     }
   },
   "Task": {
@@ -53,6 +57,10 @@
     "Rogue": {
       "name": "Universo Simulado",
       "help": ""
+    },
+    "Daemon": {
+      "name": "Clic de diálogo",
+      "help": ""
     }
   },
   "Scheduler": {
@@ -63,7 +71,7 @@
     "Enable": {
       "name": "Activar tarea",
       "help": "Añadir tarea al Planificador.",
-      "True": "Verdadero",
+      "True": "Activado",
       "False": "Falso"
     },
     "NextRun": {
@@ -882,6 +890,17 @@
     "DebugMode": {
       "name": "Modo de desarrollo",
       "help": "Sin condiciones de parada, sin manejo de errores, deténgase cuando encuentre un error. Informe el error de acuerdo con el documento: https://github.com/LmeSzinc/StarRailCopilot/wiki/RogueMap_cn"
+    }
+  },
+  "Daemon": {
+    "_info": {
+      "name": "Clic de diálogo",
+      "help": "Las herramientas necesitan detener el programador y luego ejecutarlo de forma independiente"
+    },
+    "Enable": {
+      "name": "Clic de diálogo",
+      "help": "Monitorear el juego, hacer clic automáticamente en el diálogo, chatear por teléfono y bendecir en el universo simulado (sigue la configuración de tareas del universo simulado)",
+      "True": "Activado"
     }
   },
   "Gui": {

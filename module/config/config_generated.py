@@ -136,3 +136,6 @@ class GeneratedConfig:
 
     # Group `RogueDebug`
     RogueDebug_DebugMode = False
+
+    # Group `Daemon`
+    Daemon_Enable = True  # True

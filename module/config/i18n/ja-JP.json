@@ -11,6 +11,10 @@
     "Weekly": {
       "name": "Menu.Weekly.name",
       "help": "Menu.Weekly.help"
+    },
+    "Tool": {
+      "name": "Menu.Tool.name",
+      "help": "Menu.Tool.help"
     }
   },
   "Task": {
@@ -53,6 +57,10 @@
     "Rogue": {
       "name": "Task.Rogue.name",
       "help": "Task.Rogue.help"
+    },
+    "Daemon": {
+      "name": "Task.Daemon.name",
+      "help": "Task.Daemon.help"
     }
   },
   "Scheduler": {
@@ -882,6 +890,17 @@
     "DebugMode": {
       "name": "RogueDebug.DebugMode.name",
       "help": "RogueDebug.DebugMode.help"
+    }
+  },
+  "Daemon": {
+    "_info": {
+      "name": "Daemon._info.name",
+      "help": "Daemon._info.help"
+    },
+    "Enable": {
+      "name": "Daemon.Enable.name",
+      "help": "Daemon.Enable.help",
+      "True": "True"
     }
   },
   "Gui": {
