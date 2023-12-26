@@ -9,7 +9,7 @@ from PIL import Image
 
 from module.base.decorator import cached_property
 from module.base.timer import Timer
-from module.base.utils import get_color, image_size, limit_in, save_image
+from module.base.utils import get_color, image_size, limit_in, save_image, crop
 from module.device.method.adb import Adb
 from module.device.method.ascreencap import AScreenCap
 from module.device.method.droidcast import DroidCast
@@ -58,6 +58,8 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
             if self.config.Emulator_ScreenshotDedithering:
                 # This will take 40-60ms
                 cv2.fastNlMeansDenoising(self.image, self.image, h=17, templateWindowSize=1, searchWindowSize=2)
+            if self.config.Emulator_Serial == 'wsa-0':
+                self.image = self._handle_wsa_image(self.image)
             self.image = self._handle_orientated_image(self.image)
 
             if self.config.Error_SaveError:
@@ -93,6 +95,26 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
             image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
         else:
             raise ScriptError(f'Invalid device orientation: {self.orientation}')
+
+        return image
+
+    def _handle_wsa_image(self, image):
+        """
+        Args:
+            image (np.ndarray):
+
+        Returns:
+            np.ndarray:
+        """
+        width, height = image_size(self.image)
+
+        if not self._screen_size_checked or (width == 1280 and height == 720):
+            return image
+
+        # Trim screenshots only after screen size was checked
+        # and if they are both from WSA and not already 1280x720
+        window_area = (0, 0, 1280, 720)
+        image = crop(image, window_area)
 
         return image
 
@@ -206,7 +228,8 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
                     continue
             elif self.config.Emulator_Serial == 'wsa-0':
                 self.display_resize_wsa(0)
-                return False
+                self._screen_size_checked = True
+                return True
             elif hasattr(self, 'app_is_running') and not self.app_is_running():
                 logger.warning('Received orientated screenshot, game not running')
                 return True

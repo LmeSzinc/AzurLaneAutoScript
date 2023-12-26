@@ -145,5 +145,35 @@ class WSA(Connection):
 
     @retry
     def display_resize_wsa(self, display):
-        logger.warning('display ' + str(display) + ' should be resized')
-        self.adb_shell(['wm', 'size', '1280x720', '-d', str(display)])
+        import win32gui
+        import ctypes
+        import win32con
+        import win32api
+        def winEnumHandler(hwnd, ctx):
+            if win32gui.IsWindowVisible(hwnd):
+                n = win32gui.GetWindowText(hwnd)
+                s = win32api.GetWindowLong(hwnd, win32con.GWL_STYLE)
+                x = win32api.GetWindowLong(hwnd, win32con.GWL_EXSTYLE)
+                if n:
+                    allvisiblewindows.update({n: {'hwnd': hwnd, 'STYLE': s, 'EXSTYLE': x}})
+        allvisiblewindows = {}
+        hwnd = 0
+        multi_server_name = ['Azur Lane', '碧蓝航线', 'アズールレーン', '碧藍航線']
+        win32gui.EnumWindows(winEnumHandler, None)
+        for i in multi_server_name:
+            if i in allvisiblewindows:
+                hwnd = allvisiblewindows.get(i).get('hwnd')
+                break
+        
+        try:
+            win32gui.GetWindowRect(hwnd)
+        except:
+            raise OSError('Window not found. Is WSA running?')
+        else:
+            XPos, YPos, HRes, VRes = 0, 0, 1280, 720
+            user32 = ctypes.windll.user32
+            user32.SetWindowLongW(hwnd, win32con.GWL_STYLE, win32con.WS_VISIBLE | win32con.WS_CLIPCHILDREN)
+            user32.SetWindowLongW(hwnd, win32con.GWL_EXSTYLE, 0)
+            user32.MoveWindow(hwnd, XPos, YPos, HRes - 1, VRes - 1, True)
+            win32gui.SetWindowPos(hwnd, None, XPos, YPos, HRes, VRes, win32con.SWP_FRAMECHANGED | win32con.SWP_NOZORDER |
+                                  win32con.SWP_NOOWNERZORDER)
