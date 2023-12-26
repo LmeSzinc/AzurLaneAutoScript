@@ -18,12 +18,13 @@ class UI(MainPage):
     ui_current: Page
     ui_main_confirm_timer = Timer(0.2, count=0)
 
-    def ui_page_appear(self, page):
+    def ui_page_appear(self, page, interval=0):
         """
         Args:
             page (Page):
+            interval:
         """
-        return self.appear(page.check_button)
+        return self.appear(page.check_button, interval=interval)
 
     def ui_get_current_page(self, skip_first_screenshot=True):
         """
