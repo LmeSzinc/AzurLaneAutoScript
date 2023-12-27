@@ -66,3 +66,12 @@ Forgotten_Hall = DungeonNav(
     jp='忘却の庭',
     es='Salón olvidado',
 )
+Pure_Fiction = DungeonNav(
+    id=8,
+    name='Pure_Fiction',
+    cn='虚构叙事',
+    cht='虛構敘事',
+    en='Pure Fiction',
+    jp='虚構叙事',
+    es='Pura ficción',
+)

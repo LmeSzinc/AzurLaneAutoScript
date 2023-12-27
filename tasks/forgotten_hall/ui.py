@@ -184,7 +184,7 @@ class ForgottenHallUI(DungeonUI, ForgottenHallTeam):
         if self.appear(FORGOTTEN_HALL_CHECK):
             logger.info('Already in forgotten hall')
         else:
-            self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
+            self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Treasures_Lightward)
             self._dungeon_nav_goto(dungeon)
 
         self.stage_choose(dungeon)

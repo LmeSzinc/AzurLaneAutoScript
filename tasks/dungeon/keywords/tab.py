@@ -30,3 +30,21 @@ Daily_Training = DungeonTab(
     jp='デイリー訓練',
     es='Entrenamiento diario',
 )
+Treasures_Lightward = DungeonTab(
+    id=4,
+    name='Treasures_Lightward',
+    cn='逐光捡金',
+    cht='逐光撿金',
+    en='Treasures Lightward',
+    jp='光を追い、黄金を掴む',
+    es='En busca de fortuna',
+)
+Strategic_Training = DungeonTab(
+    id=5,
+    name='Strategic_Training',
+    cn='战术训练',
+    cht='戰術訓練',
+    en='Strategic Training',
+    jp='戦術訓練',
+    es='Entrenamiento estratégico',
+)
