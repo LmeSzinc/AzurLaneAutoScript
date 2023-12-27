@@ -113,3 +113,33 @@ SURVIVAL_INDEX_LOADED = ButtonWrapper(
         button=(451, 286, 476, 302),
     ),
 )
+TREASURES_LIGHTWARD_CHECK = ButtonWrapper(
+    name='TREASURES_LIGHTWARD_CHECK',
+    share=Button(
+        file='./assets/share/dungeon/ui/TREASURES_LIGHTWARD_CHECK.png',
+        area=(437, 96, 459, 132),
+        search=(417, 76, 479, 152),
+        color=(120, 120, 120),
+        button=(437, 96, 459, 132),
+    ),
+)
+TREASURES_LIGHTWARD_CLICK = ButtonWrapper(
+    name='TREASURES_LIGHTWARD_CLICK',
+    share=Button(
+        file='./assets/share/dungeon/ui/TREASURES_LIGHTWARD_CLICK.png',
+        area=(438, 96, 459, 132),
+        search=(418, 76, 479, 152),
+        color=(108, 106, 106),
+        button=(438, 96, 459, 132),
+    ),
+)
+TREASURES_LIGHTWARD_LOADED = ButtonWrapper(
+    name='TREASURES_LIGHTWARD_LOADED',
+    share=Button(
+        file='./assets/share/dungeon/ui/TREASURES_LIGHTWARD_LOADED.png',
+        area=(1029, 288, 1047, 306),
+        search=(1024, 283, 1052, 311),
+        color=(149, 149, 152),
+        button=(1029, 288, 1047, 306),
+    ),
+)

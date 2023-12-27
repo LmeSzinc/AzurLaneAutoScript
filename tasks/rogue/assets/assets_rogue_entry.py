@@ -17,20 +17,59 @@ OCR_WEEKLY_POINT = ButtonWrapper(
     name='OCR_WEEKLY_POINT',
     share=Button(
         file='./assets/share/rogue/entry/OCR_WEEKLY_POINT.png',
-        area=(130, 602, 382, 635),
-        search=(110, 582, 402, 655),
-        color=(54, 51, 50),
-        button=(130, 602, 382, 635),
+        area=(116, 658, 316, 682),
+        search=(96, 638, 336, 702),
+        color=(74, 70, 72),
+        button=(116, 658, 316, 682),
     ),
 )
 OCR_WORLD = ButtonWrapper(
     name='OCR_WORLD',
     share=Button(
         file='./assets/share/rogue/entry/OCR_WORLD.png',
-        area=(500, 362, 700, 390),
-        search=(480, 342, 720, 410),
-        color=(51, 51, 62),
-        button=(500, 362, 700, 390),
+        area=(488, 339, 718, 371),
+        search=(468, 319, 738, 391),
+        color=(45, 44, 68),
+        button=(488, 339, 718, 371),
+    ),
+)
+THEME_DLC = ButtonWrapper(
+    name='THEME_DLC',
+    share=[
+        Button(
+            file='./assets/share/rogue/entry/THEME_DLC.png',
+            area=(229, 300, 299, 370),
+            search=(209, 280, 319, 390),
+            color=(109, 25, 65),
+            button=(229, 300, 299, 370),
+        ),
+        Button(
+            file='./assets/share/rogue/entry/THEME_DLC.2.png',
+            area=(224, 324, 299, 399),
+            search=(204, 304, 319, 419),
+            color=(29, 115, 140),
+            button=(224, 324, 299, 399),
+        ),
+    ],
+)
+THEME_ROGUE = ButtonWrapper(
+    name='THEME_ROGUE',
+    share=Button(
+        file='./assets/share/rogue/entry/THEME_ROGUE.png',
+        area=(227, 325, 297, 395),
+        search=(207, 305, 317, 415),
+        color=(80, 55, 176),
+        button=(227, 325, 297, 395),
+    ),
+)
+THEME_SWITCH = ButtonWrapper(
+    name='THEME_SWITCH',
+    share=Button(
+        file='./assets/share/rogue/entry/THEME_SWITCH.png',
+        area=(47, 494, 87, 534),
+        search=(27, 474, 107, 554),
+        color=(86, 71, 170),
+        button=(47, 494, 87, 534),
     ),
 )
 WORLD_ENTER = ButtonWrapper(

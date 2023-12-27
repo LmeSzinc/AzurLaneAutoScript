@@ -508,7 +508,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         Raises:
             TaskEnd: Call task `BattlePass` and stop current task
         """
-        if self.stored.BattlePassTodayQuest.is_expired():
+        if self.stored.BattlePassWeeklyQuest.is_expired():
             if self.stored.BattlePassLevel.is_full():
                 logger.info('BattlePassLevel full, no updates')
             else:

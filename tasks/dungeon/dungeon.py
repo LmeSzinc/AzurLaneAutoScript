@@ -81,8 +81,8 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
             logger.info('Achieved daily quest Clear_Calyx_Golden_1_times')
             self.achieved_daily_quest = True
         if dungeon.is_Calyx_Crimson \
-                and KEYWORDS_DAILY_QUEST.Complete_Calyx_Crimson_1_time in self.daily_quests:
-            logger.info('Achieve daily quest Complete_Calyx_Crimson_1_time')
+                and KEYWORDS_DAILY_QUEST.Clear_Calyx_Crimson_1_times in self.daily_quests:
+            logger.info('Achieve daily quest Clear_Calyx_Crimson_1_times')
             self.achieved_daily_quest = True
         if dungeon.is_Stagnant_Shadow \
                 and KEYWORDS_DAILY_QUEST.Clear_Stagnant_Shadow_1_times in self.daily_quests:
@@ -94,8 +94,8 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
             self.achieved_daily_quest = True
         if support_character is not None:
             self.called_daily_support = True
-            if KEYWORDS_DAILY_QUEST.Obtain_victory_in_combat_with_support_characters_1_time:
-                logger.info('Achieve daily quest Obtain_victory_in_combat_with_support_characters_1_time')
+            if KEYWORDS_DAILY_QUEST.Obtain_victory_in_combat_with_Support_Characters_1_times:
+                logger.info('Achieve daily quest Obtain_victory_in_combat_with_Support_Characters_1_times')
                 self.achieved_daily_quest = True
 
         # Check trailblaze power, this may stop current task
@@ -215,7 +215,7 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
             dungeon = DungeonList.find(self.config.DungeonDaily_CalyxGolden)
             self.dungeon_run(dungeon=dungeon, wave_limit=1)
         # Calyx_Crimson
-        if KEYWORDS_DAILY_QUEST.Complete_Calyx_Crimson_1_time in self.daily_quests \
+        if KEYWORDS_DAILY_QUEST.Clear_Calyx_Crimson_1_times in self.daily_quests \
                 and self.config.DungeonDaily_CalyxCrimson != 'do_not_achieve' \
                 and not final.is_Calyx_Crimson \
                 and not ran_calyx_crimson:
@@ -267,9 +267,9 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
         logger.attr('achieved_daily_quest', self.achieved_daily_quest)
         with self.config.multi_set():
             # Check battle pass
-            quests = self.config.stored.BattlePassTodayQuest.load_quests()
-            if KEYWORD_BATTLE_PASS_QUEST.Consume_1_Trailblaze_Power in quests:
-                logger.info('Probably achieved battle pass quest Consume_1_Trailblaze_Power')
+            quests = self.config.stored.BattlePassWeeklyQuest.load_quests()
+            if KEYWORD_BATTLE_PASS_QUEST.Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max in quests:
+                logger.info('Probably achieved battle pass quest Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max')
                 if self.config.stored.BattlePassLevel.is_full():
                     logger.info('BattlePassLevel full, no task call')
                 else:
@@ -326,7 +326,7 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
         require = False
 
         if not self.config.stored.DailyActivity.is_full():
-            if KEYWORDS_DAILY_QUEST.Obtain_victory_in_combat_with_support_characters_1_time \
+            if KEYWORDS_DAILY_QUEST.Obtain_victory_in_combat_with_Support_Characters_1_times \
                     in self.daily_quests:
                 require = True
 

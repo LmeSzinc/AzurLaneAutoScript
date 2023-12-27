@@ -57,6 +57,11 @@ SWITCH_DUNGEON_TAB.add_state(
     check_button=SURVIVAL_INDEX_CHECK,
     click_button=SURVIVAL_INDEX_CLICK
 )
+SWITCH_DUNGEON_TAB.add_state(
+    KEYWORDS_DUNGEON_TAB.Treasures_Lightward,
+    check_button=TREASURES_LIGHTWARD_CHECK,
+    click_button=TREASURES_LIGHTWARD_CLICK
+)
 
 
 class OcrDungeonNav(Ocr):
@@ -78,6 +83,8 @@ class OcrDungeonList(Ocr):
             # 燔灼之形•凝滞虚影
             result = result.replace('熠', '燔')
             result = re.sub('^灼之形', '燔灼之形', result)
+            # 蛀星的旧·历战余响
+            result = re.sub(r'蛀星的旧.*?历战', '蛀星的旧靥•历战', result)
         return result
 
 
@@ -145,7 +152,10 @@ class DungeonUI(DungeonState):
                 self._dungeon_wait_daily_training_loaded()
             elif state == KEYWORDS_DUNGEON_TAB.Survival_Index:
                 logger.info(f'Tab goto {state}, wait until loaded')
-                self._dungeon_wait_survival_loaded()
+                self._dungeon_wait_survival_index_loaded()
+            elif state == KEYWORDS_DUNGEON_TAB.Treasures_Lightward:
+                logger.info(f'Tab goto {state}, wait until loaded')
+                self._dungeon_wait_treasures_lightward_loaded()
             return True
         else:
             return False
@@ -173,7 +183,7 @@ class DungeonUI(DungeonState):
                 logger.info('Daily training loaded')
                 return True
 
-    def _dungeon_wait_survival_loaded(self, skip_first_screenshot=True):
+    def _dungeon_wait_survival_index_loaded(self, skip_first_screenshot=True):
         """
         Returns:
             bool: True if wait success, False if wait timeout.
@@ -195,7 +205,29 @@ class DungeonUI(DungeonState):
                 logger.info('Survival index loaded')
                 return True
 
-    def _dungeon_wait_until_forgotten_hall_stabled(self, skip_first_screenshot=True):
+    def _dungeon_wait_treasures_lightward_loaded(self, skip_first_screenshot=True):
+        """
+        Returns:
+            bool: True if wait success, False if wait timeout.
+
+        Pages:
+            in: page_guide, Survival_Index
+        """
+        timeout = Timer(2, count=4).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if timeout.reached():
+                logger.warning('Wait treasures lightward loaded timeout')
+                return False
+            if self.appear(TREASURES_LIGHTWARD_LOADED):
+                logger.info('Treasures lightward loaded')
+                return True
+
+    def _dungeon_wait_until_echo_or_war_stabled(self, skip_first_screenshot=True):
         """
         Returns:
             bool: True if wait success, False if wait timeout.
@@ -213,20 +245,20 @@ class DungeonUI(DungeonState):
 
             # End
             if timeout.reached():
-                logger.warning('Wait until Forgotten_Hall stabled timeout')
+                logger.warning('Wait until Echo_of_War stabled timeout')
                 return False
 
             DUNGEON_NAV_LIST.load_rows(main=self)
 
             # End
-            button = DUNGEON_NAV_LIST.keyword2button(KEYWORDS_DUNGEON_NAV.Forgotten_Hall, show_warning=False)
+            button = DUNGEON_NAV_LIST.keyword2button(KEYWORDS_DUNGEON_NAV.Echo_of_War, show_warning=False)
             if button:
                 # 513 is the top of the last row of DungeonNav
                 if button.area[1] > 513:
-                    logger.info('DungeonNav row Forgotten_Hall stabled')
+                    logger.info('DungeonNav row Echo_of_War stabled')
                     return True
             else:
-                logger.info('No Forgotten_Hall in list skip waiting')
+                logger.info('No Echo_of_War in list skip waiting')
                 return False
 
     def _dungeon_nav_goto(self, dungeon: DungeonList, skip_first_screenshot=True):
@@ -273,6 +305,10 @@ class DungeonUI(DungeonState):
             # Update points if possible
             if DUNGEON_NAV_LIST.is_row_selected(button, main=self):
                 self.dungeon_update_simuni()
+        # Treasures lightward is always at top
+        elif DUNGEON_NAV_LIST.keyword2button(KEYWORDS_DUNGEON_NAV.Forgotten_Hall, show_warning=False) \
+                or DUNGEON_NAV_LIST.keyword2button(KEYWORDS_DUNGEON_NAV.Pure_Fiction, show_warning=False):
+            logger.info('DUNGEON_NAV_LIST at top')
         else:
             # To start from any list states.
             logger.info('DUNGEON_NAV_LIST not at top')
@@ -286,6 +322,8 @@ class DungeonUI(DungeonState):
             KEYWORDS_DUNGEON_NAV.Calyx_Crimson,
             KEYWORDS_DUNGEON_NAV.Stagnant_Shadow,
             KEYWORDS_DUNGEON_NAV.Cavern_of_Corrosion,
+            KEYWORDS_DUNGEON_NAV.Forgotten_Hall,
+            KEYWORDS_DUNGEON_NAV.Pure_Fiction,
         ]:
             button = DUNGEON_NAV_LIST.keyword2button(dungeon.dungeon_nav)
             if button:
@@ -296,7 +334,7 @@ class DungeonUI(DungeonState):
         while 1:
             DUNGEON_NAV_LIST.drag_page('down', main=self)
             # No skip_first_screenshot since drag_page is just called
-            if self._dungeon_wait_until_forgotten_hall_stabled(skip_first_screenshot=False):
+            if self._dungeon_wait_until_echo_or_war_stabled(skip_first_screenshot=False):
                 DUNGEON_NAV_LIST.select_row(dungeon.dungeon_nav, main=self, insight=False)
                 return True
 

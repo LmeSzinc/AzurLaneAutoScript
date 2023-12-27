@@ -240,10 +240,10 @@
       "Stagnant_Shadow_Spike": "Ascension: Físico (Natasha / Clara / Luka / Sushang)",
       "Stagnant_Shadow_Rime": "Ascension: Hielo (Siete de Marzo / Herta / Gepard / Pela)",
       "Stagnant_Shadow_Mirage": "Ascension: Imaginario (Welt / Luocha / Yukong)",
-      "Stagnant_Shadow_Icicle": "Ascension: Hielo (Yanqing / Jingliu)",
+      "Stagnant_Shadow_Icicle": "Ascension: Hielo (Yanqing / Jingliu / Ruan Mei)",
       "Stagnant_Shadow_Doom": "Ascension: Rayo (Kafka / Jing Yuan)",
-      "Stagnant_Shadow_Puppetry": "Ascension: Imaginario (Dan Heng - Imbibitor Lunae)",
-      "Stagnant_Shadow_Abomination": "Ascension: Cuántico (Lynx / Fu Xuan)",
+      "Stagnant_Shadow_Puppetry": "Ascension: Imaginario (Dan Heng - Imbibitor Lunae / Dr. Ratio)",
+      "Stagnant_Shadow_Abomination": "Ascension: Cuántico (Lynx / Fu Xuan / Xueyi)",
       "Stagnant_Shadow_Scorch": "Ascension: Fuego (Guinaifen / Topaz y Conti)",
       "Stagnant_Shadow_Celestial": "Ascension: Viento (Blade / Huohuo)",
       "Stagnant_Shadow_Perdition": "Ascension: Físico (Hanya / Argenti)",
@@ -292,7 +292,10 @@
       "3": "3",
       "4": "4",
       "5": "5",
-      "6": "6"
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9"
     }
   },
   "DungeonDaily": {
@@ -331,10 +334,10 @@
       "Stagnant_Shadow_Spike": "Ascension: Físico (Natasha / Clara / Luka / Sushang)",
       "Stagnant_Shadow_Rime": "Ascension: Hielo (Siete de Marzo / Herta / Gepard / Pela)",
       "Stagnant_Shadow_Mirage": "Ascension: Imaginario (Welt / Luocha / Yukong)",
-      "Stagnant_Shadow_Icicle": "Ascension: Hielo (Yanqing / Jingliu)",
+      "Stagnant_Shadow_Icicle": "Ascension: Hielo (Yanqing / Jingliu / Ruan Mei)",
       "Stagnant_Shadow_Doom": "Ascension: Rayo (Kafka / Jing Yuan)",
-      "Stagnant_Shadow_Puppetry": "Ascension: Imaginario (Dan Heng - Imbibitor Lunae)",
-      "Stagnant_Shadow_Abomination": "Ascension: Cuántico (Lynx / Fu Xuan)",
+      "Stagnant_Shadow_Puppetry": "Ascension: Imaginario (Dan Heng - Imbibitor Lunae / Dr. Ratio)",
+      "Stagnant_Shadow_Abomination": "Ascension: Cuántico (Lynx / Fu Xuan / Xueyi)",
       "Stagnant_Shadow_Scorch": "Ascension: Fuego (Guinaifen / Topaz y Conti)",
       "Stagnant_Shadow_Celestial": "Ascension: Viento (Blade / Huohuo)",
       "Stagnant_Shadow_Perdition": "Ascension: Físico (Hanya / Argenti)"
@@ -396,6 +399,7 @@
       "Natasha": "Natasha",
       "Pela": "Pela",
       "Qingque": "Qingque",
+      "RuanMei": "Ruan Mei",
       "Sampo": "Sampo",
       "Seele": "Seele",
       "Serval": "Serval",
@@ -406,6 +410,7 @@
       "TrailblazerDestruction": "Trailblazer de Destrucción",
       "TrailblazerPreservation": "Trailblazer de Conservación",
       "Welt": "Welt",
+      "Xueyi": "Xueyi",
       "Yanqing": "Yanqing",
       "Yukong": "Yukong"
     }
@@ -456,7 +461,8 @@
       "help": "",
       "Echo_of_War_Destruction_Beginning": "El principio de la Destrucción (Estación Espacial Herta)",
       "Echo_of_War_End_of_the_Eternal_Freeze": "El fin del Hielo Eterno (Jarilo-VI)",
-      "Echo_of_War_Divine_Seed": "Semilla divina (El Luofu de Xianzhou)"
+      "Echo_of_War_Divine_Seed": "Semilla divina (El Luofu de Xianzhou)",
+      "Echo_of_War_Borehole_Planet_Old_Crater": "Cráter del planeta devorado (Estación Espacial Herta)"
     },
     "Team": {
       "name": "Equipo de mazmorra",
@@ -466,7 +472,10 @@
       "3": "3",
       "4": "4",
       "5": "5",
-      "6": "6"
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9"
     }
   },
   "AchievableQuest": {
@@ -483,13 +492,6 @@
     },
     "Clear_Calyx_Golden_1_times": {
       "name": "Completa Cáliz (oro) 1 vez",
-      "help": "Necesitas configurar y activar la tarea \"Mazmorra\"",
-      "achievable": "Completable",
-      "not_set": "No configurado",
-      "not_supported": "No soportado aún"
-    },
-    "Complete_Calyx_Crimson_1_time": {
-      "name": "Completa Cáliz (carmesí) 1 vez",
       "help": "Necesitas configurar y activar la tarea \"Mazmorra\"",
       "achievable": "Completable",
       "not_set": "No configurado",
@@ -530,41 +532,6 @@
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
-    "Enter_combat_by_attacking_enemy_Weakness_and_win_3_times": {
-      "name": "Entra en combate atacando la debilidad del enemigo y gana 3 veces",
-      "help": "Completable por defecto, se hará el desafío de Himeko",
-      "achievable": "Completable",
-      "not_set": "No configurado",
-      "not_supported": "No soportado aún"
-    },
-    "Use_Technique_2_times": {
-      "name": "Usa técnicas 2 veces",
-      "help": "Alcanzable por defecto, irá al abismo y usará la técnica 2 veces.",
-      "achievable": "Completable",
-      "not_set": "No configurado",
-      "not_supported": "No soportado aún"
-    },
-    "Go_on_assignment_1_time": {
-      "name": "Asigna un encargo",
-      "help": "Necesitas configurar y activar la tarea de \"Encargos\"",
-      "achievable": "Completable",
-      "not_set": "No configurado",
-      "not_supported": "No soportado aún"
-    },
-    "Take_1_photo": {
-      "name": "Haz 1 foto",
-      "help": "Completable por defecto.",
-      "achievable": "Completable",
-      "not_set": "No configurado",
-      "not_supported": "No soportado aún"
-    },
-    "Destroy_3_destructible_objects": {
-      "name": "Destruye 3 objetos destruibles",
-      "help": "Completable por defecto, se hará el desafío de Himeko",
-      "achievable": "Completable",
-      "not_set": "No configurado",
-      "not_supported": "No soportado aún"
-    },
     "Complete_Forgotten_Hall_1_time": {
       "name": "Completa el Salón olvidado 1 vez",
       "help": "Completable por defecto, se seleccionarán los primeros 4 personajes y se hará el primer nivel. Por favor, asegúrate de que estos pueden hacerlo.",
@@ -579,44 +546,9 @@
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
-    "Complete_1_stage_in_Simulated_Universe_Any_world": {
-      "name": "Supera 1 zona del Universo Simulado (cualquier mundo)",
-      "help": "Necesitas configurar y activar la tarea \"Universo Simulado\"",
-      "achievable": "Completable",
-      "not_set": "No configurado",
-      "not_supported": "No soportado aún"
-    },
-    "Obtain_victory_in_combat_with_support_characters_1_time": {
-      "name": "Gana 1 batalla utilizando personajes de apoyo",
-      "help": "Necesitas configurar la tarea de \"Mazmorra\", así como configurar a los héroes de apoyo.",
-      "achievable": "Completable",
-      "not_set": "No configurado",
-      "not_supported": "No soportado aún"
-    },
     "Use_an_Ultimate_to_deal_the_final_blow_1_time": {
       "name": "Asesta el golpe final con una habilidad definitiva 1 vez",
       "help": "Completable por defecto, se hará el desafío de Himeko",
-      "achievable": "Completable",
-      "not_set": "No configurado",
-      "not_supported": "No soportado aún"
-    },
-    "Level_up_any_character_1_time": {
-      "name": "Mejora el nivel de cualquier personaje 1 vez",
-      "help": "",
-      "achievable": "Completable",
-      "not_set": "No configurado",
-      "not_supported": "No soportado aún"
-    },
-    "Level_up_any_Light_Cone_1_time": {
-      "name": "Mejora cualquier cono de luz 1 vez",
-      "help": "",
-      "achievable": "Completable",
-      "not_set": "No configurado",
-      "not_supported": "No soportado aún"
-    },
-    "Level_up_any_Relic_1_time": {
-      "name": "Mejora cualquier artefacto 1 vez",
-      "help": "",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
@@ -628,23 +560,107 @@
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
-    "Synthesize_Consumable_1_time": {
-      "name": "Sintetiza consumibles 1 vez",
-      "help": "Completable por defecto, se sintetizará un snack.",
-      "achievable": "Completable",
-      "not_set": "No configurado",
-      "not_supported": "No soportado aún"
-    },
-    "Synthesize_material_1_time": {
-      "name": "Sintetiza materiales 1 vez",
-      "help": "Completable por defecto, se sintetizará un material de nivel bajo.",
-      "achievable": "Completable",
-      "not_set": "No configurado",
-      "not_supported": "No soportado aún"
-    },
     "Use_Consumables_1_time": {
       "name": "Usa 1 consumible",
       "help": "Completable por defecto. Se sintetizará uno si no tienes ninguno.",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Log_in_to_the_game": {
+      "name": "Inicia sesión en el juego",
+      "help": "",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Dispatch_1_assignments": {
+      "name": "Asigna 1 encargo",
+      "help": "Necesitas configurar y activar la tarea de \"Encargos\"",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Complete_Simulated_Universe_1_times": {
+      "name": "Completa el Universo Simulado 1 vez",
+      "help": "Necesitas configurar y activar la tarea \"Universo Simulado\"",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Clear_Calyx_Crimson_1_times": {
+      "name": "Completa Cáliz (carmesí) 1 vez",
+      "help": "Necesitas configurar y activar la tarea \"Mazmorra\"",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Enter_combat_by_attacking_enemie_Weakness_and_win_3_times": {
+      "name": "Entra en combate atacando la debilidad del enemigo y gana 3 veces",
+      "help": "Completable por defecto, se hará el desafío de Himeko",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Use_Technique_2_times": {
+      "name": "Usa técnicas 2 veces",
+      "help": "Alcanzable por defecto, irá al abismo y usará la técnica 2 veces.",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Destroy_3_destructible_objects": {
+      "name": "Destruye 3 objetos destruibles",
+      "help": "Completable por defecto, se hará el desafío de Himeko",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Obtain_victory_in_combat_with_Support_Characters_1_times": {
+      "name": "Gana 1 batalla(s) utilizando personajes de apoyo",
+      "help": "Necesitas configurar la tarea de \"Mazmorra\", así como configurar a los héroes de apoyo.",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Level_up_any_character_1_times": {
+      "name": "Mejora el nivel de cualquier personaje 1 vez",
+      "help": "",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Level_up_any_Light_Cone_1_times": {
+      "name": "Mejora cualquier cono de luz 1 vez",
+      "help": "",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Use_the_Omni_Synthesizer_1_times": {
+      "name": "Utiliza la máquina sintetizadora multiusos 1 veces",
+      "help": "Achievable by default, will synthesize low-rarity material",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Take_photos_1_times": {
+      "name": "Haz 1 foto(s)",
+      "help": "Completable por defecto.",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Consume_120_Trailblaze_Power": {
+      "name": "Consume 120 pts. de Poder trazacaminos",
+      "help": "",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Level_up_any_Relic_1_times": {
+      "name": "Mejora cualquier artefacto 1 vez",
+      "help": "",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
@@ -673,7 +689,7 @@
       "name": "Honor",
       "help": ""
     },
-    "BattlePassTodayQuest": {
+    "BattlePassWeeklyQuest": {
       "name": "Misión de Honor",
       "help": ""
     }
@@ -820,9 +836,9 @@
     "Bonus": {
       "name": "Bendiciones",
       "help": "",
-      "Blessing Cosmos": "Cosmos de Bendición (Elige una bendición)",
-      "Miracle Cosmos": "Cosmos milagroso (Elige un objeto raro)",
-      "Fragmented Cosmos": "Fragmented Cosmos (Claim some Cosmic Fragments)"
+      "Blessing Universe": "Cosmos de Bendición (Elige una bendición)",
+      "Miracle Universe": "Cosmos milagroso (Elige un objeto raro)",
+      "Fragmented Universe": "Fragmented Universe (Claim some Cosmic Fragments)"
     },
     "DomainStrategy": {
       "name": "Estrategia de dominio",

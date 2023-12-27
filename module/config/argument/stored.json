@@ -146,18 +146,21 @@
     "order": 0,
     "color": "#777777"
   },
-  "BattlePassTodayQuest": {
-    "name": "BattlePassTodayQuest",
-    "path": "BattlePass.BattlePassStorage.BattlePassTodayQuest",
-    "i18n": "BattlePassStorage.BattlePassTodayQuest.name",
-    "stored": "StoredBattlePassTodayQuest",
+  "BattlePassWeeklyQuest": {
+    "name": "BattlePassWeeklyQuest",
+    "path": "BattlePass.BattlePassStorage.BattlePassWeeklyQuest",
+    "i18n": "BattlePassStorage.BattlePassWeeklyQuest.name",
+    "stored": "StoredBattlePassWeeklyQuest",
     "attrs": {
       "time": "2020-01-01 00:00:00",
       "quest1": "",
       "quest2": "",
       "quest3": "",
       "quest4": "",
-      "total": 4,
+      "quest5": "",
+      "quest6": "",
+      "quest7": "",
+      "total": 7,
       "value": 0
     },
     "order": 0,

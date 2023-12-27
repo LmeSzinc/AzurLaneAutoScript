@@ -97,10 +97,11 @@ class DraggableStageList(DraggableList):
         return main.appear(ENTRANCE_CHECKED)
 
     def load_rows(self, main: ModuleBase):
-        if not main.appear(FORGOTTEN_HALL_CHECK):
+        if main.appear(MEMORY_OF_CHAOS_CHECK) or main.appear(LAST_VASTIGES_CHECK):
+            return super().load_rows(main=main)
+        else:
             logger.info('Not in forgotten hall, skip load_rows()')
             return
-        return super().load_rows(main=main)
 
 
 STAGE_LIST = DraggableStageList("ForgottenHallStageList", keyword_class=ForgottenHallStage,
@@ -184,10 +185,11 @@ class ForgottenHallUI(DungeonUI, ForgottenHallTeam):
         if self.appear(FORGOTTEN_HALL_CHECK):
             logger.info('Already in forgotten hall')
         else:
-            self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
+            self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Treasures_Lightward)
             self._dungeon_nav_goto(dungeon)
 
         self.stage_choose(dungeon)
+        logger.info(f'Stage list select: {stage_keyword}')
         STAGE_LIST.select_row(stage_keyword, main=self)
 
     def exit_dungeon(self, skip_first_screenshot=True):

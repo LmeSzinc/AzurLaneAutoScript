@@ -88,7 +88,7 @@ Dungeon:
     option: [ do_not_participate, ]
   Team:
     value: 1
-    option: [ 1, 2, 3, 4, 5, 6 ]
+    option: [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 DungeonDaily:
   # Dungeon names will be injected in config updater
   CalyxGolden:
@@ -138,7 +138,7 @@ Weekly:
     options: [ ]
   Team:
     value: 1
-    option: [ 1, 2, 3, 4, 5, 6 ]
+    option: [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 
 AchievableQuest:
 # Quests will be injected in config updater
@@ -160,8 +160,8 @@ BattlePassStorage:
     stored: StoredBattlePassLevel
     order: 5
     color: "#cbe45b"
-  BattlePassTodayQuest:
-    stored: StoredBattlePassTodayQuest
+  BattlePassWeeklyQuest:
+    stored: StoredBattlePassWeeklyQuest
 
 Assignment:
   # Options in Name_x will be injected in config updater
@@ -214,8 +214,8 @@ RogueWorld:
     value: The_Hunt
     option: [ Preservation, Remembrance, Nihility, Abundance, The_Hunt, Destruction, Elation, Propagation ]
   Bonus:
-    value: Blessing Cosmos
-    option: [ Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos ]
+    value: Blessing Universe
+    option: [ Blessing Universe, Miracle Universe, Fragmented Universe ]
   DomainStrategy:
     value: combat
     option: [ combat, occurrence ]

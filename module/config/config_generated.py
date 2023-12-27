@@ -43,7 +43,7 @@ class GeneratedConfig:
     Dungeon_Name = 'Calyx_Golden_Treasures'  # Calyx_Golden_Memories, Calyx_Golden_Aether, Calyx_Golden_Treasures, Calyx_Crimson_Destruction, Calyx_Crimson_Preservation, Calyx_Crimson_The_Hunt, Calyx_Crimson_Abundance, Calyx_Crimson_Erudition, Calyx_Crimson_Harmony, Calyx_Crimson_Nihility, Stagnant_Shadow_Quanta, Stagnant_Shadow_Gust, Stagnant_Shadow_Fulmination, Stagnant_Shadow_Blaze, Stagnant_Shadow_Spike, Stagnant_Shadow_Rime, Stagnant_Shadow_Mirage, Stagnant_Shadow_Icicle, Stagnant_Shadow_Doom, Stagnant_Shadow_Puppetry, Stagnant_Shadow_Abomination, Stagnant_Shadow_Scorch, Stagnant_Shadow_Celestial, Stagnant_Shadow_Perdition, Cavern_of_Corrosion_Path_of_Gelid_Wind, Cavern_of_Corrosion_Path_of_Jabbing_Punch, Cavern_of_Corrosion_Path_of_Drifting, Cavern_of_Corrosion_Path_of_Providence, Cavern_of_Corrosion_Path_of_Holy_Hymn, Cavern_of_Corrosion_Path_of_Conflagration, Cavern_of_Corrosion_Path_of_Elixir_Seekers, Cavern_of_Corrosion_Path_of_Darkness
     Dungeon_NameAtDoubleCalyx = 'Calyx_Golden_Treasures'  # do_not_participate, Calyx_Golden_Memories, Calyx_Golden_Aether, Calyx_Golden_Treasures, Calyx_Crimson_Destruction, Calyx_Crimson_Preservation, Calyx_Crimson_The_Hunt, Calyx_Crimson_Abundance, Calyx_Crimson_Erudition, Calyx_Crimson_Harmony, Calyx_Crimson_Nihility
     Dungeon_NameAtDoubleRelic = 'Cavern_of_Corrosion_Path_of_Providence'  # do_not_participate, Cavern_of_Corrosion_Path_of_Gelid_Wind, Cavern_of_Corrosion_Path_of_Jabbing_Punch, Cavern_of_Corrosion_Path_of_Drifting, Cavern_of_Corrosion_Path_of_Providence, Cavern_of_Corrosion_Path_of_Holy_Hymn, Cavern_of_Corrosion_Path_of_Conflagration, Cavern_of_Corrosion_Path_of_Elixir_Seekers, Cavern_of_Corrosion_Path_of_Darkness
-    Dungeon_Team = 1  # 1, 2, 3, 4, 5, 6
+    Dungeon_Team = 1  # 1, 2, 3, 4, 5, 6, 7, 8, 9
 
     # Group `DungeonDaily`
     DungeonDaily_CalyxGolden = 'Calyx_Golden_Treasures'  # do_not_achieve, Calyx_Golden_Memories, Calyx_Golden_Aether, Calyx_Golden_Treasures
@@ -53,7 +53,7 @@ class GeneratedConfig:
 
     # Group `DungeonSupport`
     DungeonSupport_Use = 'when_daily'  # always_use, when_daily, do_not_use
-    DungeonSupport_Character = 'FirstCharacter'  # FirstCharacter, Argenti, Arlan, Asta, Bailu, Blade, Bronya, Clara, DanHeng, DanHengImbibitorLunae, FuXuan, Gepard, Guinaifen, Hanya, Herta, Himeko, Hook, Huohuo, JingYuan, Jingliu, Kafka, Luka, Luocha, Lynx, March7th, Natasha, Pela, Qingque, Sampo, Seele, Serval, SilverWolf, Sushang, Tingyun, TopazNumby, TrailblazerDestruction, TrailblazerPreservation, Welt, Yanqing, Yukong
+    DungeonSupport_Character = 'FirstCharacter'  # FirstCharacter, Argenti, Arlan, Asta, Bailu, Blade, Bronya, Clara, DanHeng, DanHengImbibitorLunae, FuXuan, Gepard, Guinaifen, Hanya, Herta, Himeko, Hook, Huohuo, JingYuan, Jingliu, Kafka, Luka, Luocha, Lynx, March7th, Natasha, Pela, Qingque, RuanMei, Sampo, Seele, Serval, SilverWolf, Sushang, Tingyun, TopazNumby, TrailblazerDestruction, TrailblazerPreservation, Welt, Xueyi, Yanqing, Yukong
 
     # Group `DungeonStorage`
     DungeonStorage_TrailblazePower = {}
@@ -66,35 +66,36 @@ class GeneratedConfig:
     SupportReward_Collect = True
 
     # Group `Weekly`
-    Weekly_Name = 'Echo_of_War_Divine_Seed'  # Echo_of_War_Destruction_Beginning, Echo_of_War_End_of_the_Eternal_Freeze, Echo_of_War_Divine_Seed
-    Weekly_Team = 1  # 1, 2, 3, 4, 5, 6
+    Weekly_Name = 'Echo_of_War_Divine_Seed'  # Echo_of_War_Destruction_Beginning, Echo_of_War_End_of_the_Eternal_Freeze, Echo_of_War_Divine_Seed, Echo_of_War_Borehole_Planet_Old_Crater
+    Weekly_Team = 1  # 1, 2, 3, 4, 5, 6, 7, 8, 9
 
     # Group `AchievableQuest`
     AchievableQuest_Complete_1_Daily_Mission = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Clear_Calyx_Golden_1_times = 'achievable'  # achievable, not_set, not_supported
-    AchievableQuest_Complete_Calyx_Crimson_1_time = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Clear_Stagnant_Shadow_1_times = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Clear_Cavern_of_Corrosion_1_times = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_In_a_single_battle_inflict_3_Weakness_Break_of_different_Types = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Inflict_Weakness_Break_5_times = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Defeat_a_total_of_20_enemies = 'achievable'  # achievable, not_set, not_supported
-    AchievableQuest_Enter_combat_by_attacking_enemy_Weakness_and_win_3_times = 'achievable'  # achievable, not_set, not_supported
-    AchievableQuest_Use_Technique_2_times = 'achievable'  # achievable, not_set, not_supported
-    AchievableQuest_Go_on_assignment_1_time = 'achievable'  # achievable, not_set, not_supported
-    AchievableQuest_Take_1_photo = 'achievable'  # achievable, not_set, not_supported
-    AchievableQuest_Destroy_3_destructible_objects = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Complete_Forgotten_Hall_1_time = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Complete_Echo_of_War_1_times = 'achievable'  # achievable, not_set, not_supported
-    AchievableQuest_Complete_1_stage_in_Simulated_Universe_Any_world = 'achievable'  # achievable, not_set, not_supported
-    AchievableQuest_Obtain_victory_in_combat_with_support_characters_1_time = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Use_an_Ultimate_to_deal_the_final_blow_1_time = 'achievable'  # achievable, not_set, not_supported
-    AchievableQuest_Level_up_any_character_1_time = 'achievable'  # achievable, not_set, not_supported
-    AchievableQuest_Level_up_any_Light_Cone_1_time = 'achievable'  # achievable, not_set, not_supported
-    AchievableQuest_Level_up_any_Relic_1_time = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Salvage_any_Relic = 'achievable'  # achievable, not_set, not_supported
-    AchievableQuest_Synthesize_Consumable_1_time = 'achievable'  # achievable, not_set, not_supported
-    AchievableQuest_Synthesize_material_1_time = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Use_Consumables_1_time = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Log_in_to_the_game = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Dispatch_1_assignments = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Complete_Simulated_Universe_1_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Clear_Calyx_Crimson_1_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Enter_combat_by_attacking_enemie_Weakness_and_win_3_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Use_Technique_2_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Destroy_3_destructible_objects = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Obtain_victory_in_combat_with_Support_Characters_1_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Level_up_any_character_1_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Level_up_any_Light_Cone_1_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Use_the_Omni_Synthesizer_1_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Take_photos_1_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Consume_120_Trailblaze_Power = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Level_up_any_Relic_1_times = 'achievable'  # achievable, not_set, not_supported
 
     # Group `DailyStorage`
     DailyStorage_DailyActivity = {}
@@ -102,7 +103,7 @@ class GeneratedConfig:
 
     # Group `BattlePassStorage`
     BattlePassStorage_BattlePassLevel = {}
-    BattlePassStorage_BattlePassTodayQuest = {}
+    BattlePassStorage_BattlePassWeeklyQuest = {}
 
     # Group `Assignment`
     Assignment_Name_1 = 'Nameless_Land_Nameless_People'  # Nine_Billion_Names, Destruction_of_the_Destroyer, Winter_Soldiers, Born_to_Obey, Root_Out_the_Turpitude, Fire_Lord_Inflames_Blades_of_War, Nameless_Land_Nameless_People, Akashic_Records, The_Invisible_Hand, Abandoned_and_Insulted, Spring_of_Life, The_Land_of_Gold, The_Blossom_in_the_Storm, Legend_of_the_Puppet_Master, The_Wages_of_Humanity
@@ -120,7 +121,7 @@ class GeneratedConfig:
     # Group `RogueWorld`
     RogueWorld_World = 'Simulated_Universe_World_7'  # Simulated_Universe_World_3, Simulated_Universe_World_4, Simulated_Universe_World_5, Simulated_Universe_World_6, Simulated_Universe_World_7, Simulated_Universe_World_8
     RogueWorld_Path = 'The_Hunt'  # Preservation, Remembrance, Nihility, Abundance, The_Hunt, Destruction, Elation, Propagation
-    RogueWorld_Bonus = 'Blessing Cosmos'  # Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos
+    RogueWorld_Bonus = 'Blessing Universe'  # Blessing Universe, Miracle Universe, Fragmented Universe
     RogueWorld_DomainStrategy = 'combat'  # combat, occurrence
     RogueWorld_UseImmersifier = True
     RogueWorld_UseStamina = False

@@ -17,9 +17,12 @@ from tasks.rogue.assets.assets_rogue_entry import (
     LEVEL_CONFIRM,
     OCR_WEEKLY_POINT,
     OCR_WORLD,
+    THEME_DLC,
+    THEME_ROGUE,
+    THEME_SWITCH,
     WORLD_ENTER,
     WORLD_NEXT,
-    WORLD_PREV,
+    WORLD_PREV
 )
 from tasks.rogue.assets.assets_rogue_path import CONFIRM_PATH
 from tasks.rogue.assets.assets_rogue_ui import ROGUE_LAUNCH
@@ -101,6 +104,40 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
                 current = ocr.ocr_single_line(self.device.image)
                 if current:
                     break
+
+    def _rogue_theme_set(self, world: DungeonList, skip_first_screenshot=True):
+        """
+        Args:
+            world: KEYWORDS_DUNGEON_LIST.Simulated_Universe_World_7
+            skip_first_screenshot:
+
+        Pages:
+            in: is_page_rogue_main()
+        """
+        logger.info(f'Rogue theme set: {world.rogue_theme}')
+        if world.rogue_theme == 'rogue':
+            check_button = THEME_ROGUE
+        elif world.rogue_theme == 'dlc':
+            check_button = THEME_DLC
+        else:
+            logger.warning(f'Invalid rogue theme: {world}')
+            raise RequestHumanTakeover
+
+        interval = Timer(2, count=10)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(check_button):
+                logger.info(f'At theme {world.rogue_theme}')
+                break
+            # Click
+            if interval.reached() and self.is_page_rogue_main():
+                self.device.click(THEME_SWITCH)
+                interval.reset()
 
     def _rogue_world_set(self, world: int | DungeonList, skip_first_screenshot=True):
         """
@@ -356,6 +393,7 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
             self._rogue_teleport()
 
         # is_page_rogue_main()
+        self._rogue_theme_set(world)
         self._rogue_world_wait()
 
         # Update rogue points

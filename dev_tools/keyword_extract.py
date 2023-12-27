@@ -19,6 +19,7 @@ def text_to_variable(text):
     text = re.sub('[ \-—:\'/•.]+', '_', text)
     text = re.sub(r'[(),#"?!&%*]|</?\w+>', '', text)
     # text = re.sub(r'[#_]?\d+(_times?)?', '', text)
+    text = re.sub(r'<color=#?\w+>', '', text)
     return text.strip('_')
 
 
@@ -28,8 +29,10 @@ def dungeon_name(name: str) -> str:
     name = re.sub('Bud_of_(.*)', r'Calyx_Crimson_\1', name).replace('Calyx_Crimson_Calyx_Crimson_', 'Calyx_Crimson_')
     name = re.sub('Shape_of_(.*)', r'Stagnant_Shadow_\1', name)
     name = re.sub('Path_of_(.*)', r'Cavern_of_Corrosion_Path_of_\1', name)
-    if name in ['Destruction_Beginning', 'End_of_the_Eternal_Freeze', 'Divine_Seed']:
+    if name in ['Destruction_Beginning', 'End_of_the_Eternal_Freeze', 'Divine_Seed', 'Borehole_Planet_Old_Crater']:
         name = f'Echo_of_War_{name}'
+    if name in ['The_Swarm_Disaster', 'Gold_and_Gears']:
+        name = f'Simulated_Universe_{name}'
     return name
 
 
@@ -118,6 +121,7 @@ def replace_templates(text: str) -> str:
     """
     text = re.sub(r'#4', '1', text)
     text = re.sub(r'</?\w+>', '', text)
+    text = re.sub(r'<color=#?\w+>', '', text)
     return text
 
 
@@ -144,8 +148,13 @@ class KeywordExtract:
                 # visited.add(name)
             yield hash_
         yield temp_save
+        # Consider rogue DLC as a dungeon
+        yield '寰宇蝗灾'
+        yield '黄金与机械'
         # 'Memory of Chaos' is not a real dungeon, but represents a group
         yield '混沌回忆'
+        yield '天艟求仙迷航录'
+        yield '永屹之城遗秘'
 
     def find_keyword(self, keyword, lang) -> tuple[int, str]:
         """
@@ -162,8 +171,8 @@ class KeywordExtract:
 
     def load_keywords(self, keywords: list[str | int], lang='cn'):
         text_map = self.text_map[lang]
-        keywords_id = [text_map.find(keyword)[0] for keyword in keywords]
-        self.keywords_id = [keyword for keyword in keywords_id if keyword != 0]
+        keywords_id = [text_map.find(keyword) for keyword in keywords]
+        self.keywords_id = [keyword[0] for keyword in keywords_id if keyword[0] != 0 and keyword[1].strip()]
 
     def clear_keywords(self):
         self.keywords_id = []
@@ -233,10 +242,77 @@ class KeywordExtract:
         quest_keywords = list(dict.fromkeys([self.text_map[lang].find(quest_hash)[1] for quest_hash in quests_hash]))
         self.load_keywords(quest_keywords, lang)
 
+    def write_daily_quest_keywords(self):
+        text_convert = text_to_variable
+        keyword_class = 'DailyQuest'
+        gen = CodeGenerator()
+        gen.Import(f"""
+        from .classes import {keyword_class}
+        """)
+        gen.CommentAutoGenerage('dev_tools.keyword_extract')
+
+        old_quest = [
+            "Go_on_assignment_1_time", # -> Dispatch_1_assignments
+            "Complete_1_stage_in_Simulated_Universe_Any_world", # -> Complete_Simulated_Universe_1_times
+            "Complete_Calyx_Crimson_1_time", # -> Clear_Calyx_Crimson_1_times
+            "Enter_combat_by_attacking_enemy_Weakness_and_win_3_times", # -> Enter_combat_by_attacking_enemie_Weakness_and_win_1_times
+            "Use_Technique_2_times", # -> Use_Technique_1_times
+            "Destroy_3_destructible_objects", # -> Destroy_1_destructible_objects
+            "Obtain_victory_in_combat_with_Support_Characters_1_time", # -> Obtain_victory_in_combat_with_Support_Characters_1_times
+            "Level_up_any_character_1_time", # -> Level_up_any_character_1_times
+            "Level_up_any_Light_Cone_1_time", # -> Level_up_any_Light_Cone_1_times
+            "Synthesize_Consumable_1_time", # -> Use_the_Omni_Synthesizer_1_times
+            "Synthesize_material_1_time", # -> Use_the_Omni_Synthesizer_1_times
+            "Take_1_photo", # -> Take_photos_1_times
+            "Level_up_any_Relic_1_time", # -> Level_up_any_Relic_1_times
+        ]
+
+        correct_times = {
+        #    "Dispatch_1_assignments":  1,
+        #    "Complete_Simulated_Universe_1_times": 1,
+        #    "Clear_Calyx_Crimson_1_times": 1,
+            "Enter_combat_by_attacking_enemie_Weakness_and_win_1_times": 3,
+            "Use_Technique_1_times": 2,
+            "Destroy_1_destructible_objects": 3,
+        #    "Obtain_victory_in_combat_with_Support_Characters_1_times": 1,
+        #    "Level_up_any_character_1_times": 1,
+        #    "Level_up_any_Light_Cone_1_times": 1,
+        #    "Use_the_Omni_Synthesizer_1_times": 1,
+        #    "Take_photos_1_times": 1,
+        #    "Level_up_any_Relic_1_times": 1,
+            "Consume_1_Trailblaze_Power": 120
+
+        }
+        def replace_templates_quest(text: str, correct_time = 1) -> str:
+            text = replace_templates(text)
+            text = text.replace('1', f'{correct_time}')
+            return text
+        
+        last_id = getattr(gen, 'last_id', 0)
+        for index, keyword in enumerate(self.keywords_id):
+            _, old_name = self.find_keyword(keyword, lang='en')
+            old_name = text_convert(replace_templates(old_name))
+            if old_name in old_quest:
+                continue
+            name = old_name.replace('1', str(correct_times.setdefault(old_name, 1)))
+            
+            with gen.Object(key=name, object_class=keyword_class):
+                gen.ObjectAttr(key='id', value=index + last_id + 1)
+                gen.ObjectAttr(key='name', value=name)
+                for lang in UI_LANGUAGES:
+                    gen.ObjectAttr(key=lang, value=replace_templates_quest(self.find_keyword(keyword, lang=lang)[1], correct_times.setdefault(old_name, 1)))
+                gen.last_id = index + last_id + 1
+
+        output_file = './tasks/daily/keywords/daily_quest.py'
+        print(f'Write {output_file}')
+        gen.write(output_file)
+        self.clear_keywords()
+        return gen
+
     def generate_daily_quests(self):
         daily_quest = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'DailyQuest.json'))
         self.load_quests(daily_quest.keys())
-        self.write_keywords(keyword_class='DailyQuest', output_file='./tasks/daily/keywords/daily_quest.py')
+        self.write_daily_quest_keywords()
 
     def load_character_name_keywords(self, lang='en'):
         file_name = 'ItemConfigAvatarPlayerIcon.json'
@@ -363,7 +439,7 @@ class KeywordExtract:
         planes = {
             'Special': ['黑塔的办公室', '锋芒崭露'],
             'Rogue': [ '区域-战斗', '区域-事件', '区域-遭遇', '区域-休整', '区域-精英', '区域-首领', '区域-交易'],
-            'Herta': ['观景车厢', '主控舱段', '基座舱段', '收容舱段', '支援舱段'],
+            'Herta': ['观景车厢', '主控舱段', '基座舱段', '收容舱段', '支援舱段', '禁闭舱段'],
             'Jarilo': ['行政区', '城郊雪原', '边缘通路', '铁卫禁区', '残响回廊', '永冬岭',
                        '造物之柱', '旧武器试验场', '磐岩镇', '大矿区', '铆钉镇', '机械聚落'],
             'Luofu': ['星槎海中枢', '流云渡', '迴星港', '长乐天', '金人巷', '太卜司',
@@ -419,8 +495,10 @@ class KeywordExtract:
     def generate_battle_pass_quests(self):
         battle_pass_quests = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'BattlePassConfig.json'))
         latest_quests = list(battle_pass_quests.values())[-1]
-        quests = deep_get(latest_quests, "DailyQuestList") + deep_get(latest_quests, "WeekQuestList") + deep_get(
-            latest_quests, "WeekOrder1")
+        week_quest_list = deep_get(latest_quests, "WeekQuestList")
+        week_order1 = deep_get(latest_quests, "WeekOrder1")
+        week_chain_quest_list = deep_get(latest_quests, "WeekChainQuestList")
+        quests = week_quest_list + week_order1 + week_chain_quest_list
         self.load_quests(quests)
         self.write_keywords(keyword_class='BattlePassQuest', output_file='./tasks/battle_pass/keywords/quest.py')
 
@@ -606,9 +684,10 @@ class KeywordExtract:
             yield hash_
 
     def generate(self):
-        self.load_keywords(['模拟宇宙', '拟造花萼（金）', '拟造花萼（赤）', '凝滞虚影', '侵蚀隧洞', '历战余响', '忘却之庭'])
+        self.load_keywords(['模拟宇宙', '拟造花萼（金）', '拟造花萼（赤）', '凝滞虚影', '侵蚀隧洞', '历战余响',
+                            '忘却之庭', '虚构叙事'])
         self.write_keywords(keyword_class='DungeonNav', output_file='./tasks/dungeon/keywords/nav.py')
-        self.load_keywords(['行动摘要', '生存索引', '每日实训'])
+        self.load_keywords(['行动摘要', '生存索引', '每日实训', '逐光捡金', '战术训练'])
         self.write_keywords(keyword_class='DungeonTab', output_file='./tasks/dungeon/keywords/tab.py')
         self.load_keywords(['前往', '领取', '进行中', '已领取', '本日活跃度已满'])
         self.write_keywords(keyword_class='DailyQuestState', output_file='./tasks/daily/keywords/daily_quest_state.py')
@@ -623,7 +702,7 @@ class KeywordExtract:
         self.generate_shadow_with_characters()
         self.load_keywords(['奖励', '任务', ])
         self.write_keywords(keyword_class='BattlePassTab', output_file='./tasks/battle_pass/keywords/tab.py')
-        self.load_keywords(['本日任务', '本周任务', '本期任务'])
+        self.load_keywords(['本周任务', '本期任务'])
         self.write_keywords(keyword_class='BattlePassMissionTab',
                             output_file='./tasks/battle_pass/keywords/mission_tab.py')
         self.generate_assignments()

@@ -268,7 +268,10 @@
           3,
           4,
           5,
-          6
+          6,
+          7,
+          8,
+          9
         ]
       }
     },
@@ -376,6 +379,7 @@
           "Natasha",
           "Pela",
           "Qingque",
+          "RuanMei",
           "Sampo",
           "Seele",
           "Serval",
@@ -386,6 +390,7 @@
           "TrailblazerDestruction",
           "TrailblazerPreservation",
           "Welt",
+          "Xueyi",
           "Yanqing",
           "Yukong"
         ]
@@ -487,21 +492,6 @@
           "not_supported"
         ]
       },
-      "Complete_Calyx_Crimson_1_time": {
-        "type": "state",
-        "value": "achievable",
-        "option": [
-          "achievable",
-          "not_set",
-          "not_supported"
-        ],
-        "option_bold": [
-          "achievable"
-        ],
-        "option_light": [
-          "not_supported"
-        ]
-      },
       "Clear_Stagnant_Shadow_1_times": {
         "type": "state",
         "value": "achievable",
@@ -577,81 +567,6 @@
           "not_supported"
         ]
       },
-      "Enter_combat_by_attacking_enemy_Weakness_and_win_3_times": {
-        "type": "state",
-        "value": "achievable",
-        "option": [
-          "achievable",
-          "not_set",
-          "not_supported"
-        ],
-        "option_bold": [
-          "achievable"
-        ],
-        "option_light": [
-          "not_supported"
-        ]
-      },
-      "Use_Technique_2_times": {
-        "type": "state",
-        "value": "achievable",
-        "option": [
-          "achievable",
-          "not_set",
-          "not_supported"
-        ],
-        "option_bold": [
-          "achievable"
-        ],
-        "option_light": [
-          "not_supported"
-        ]
-      },
-      "Go_on_assignment_1_time": {
-        "type": "state",
-        "value": "achievable",
-        "option": [
-          "achievable",
-          "not_set",
-          "not_supported"
-        ],
-        "option_bold": [
-          "achievable"
-        ],
-        "option_light": [
-          "not_supported"
-        ]
-      },
-      "Take_1_photo": {
-        "type": "state",
-        "value": "achievable",
-        "option": [
-          "achievable",
-          "not_set",
-          "not_supported"
-        ],
-        "option_bold": [
-          "achievable"
-        ],
-        "option_light": [
-          "not_supported"
-        ]
-      },
-      "Destroy_3_destructible_objects": {
-        "type": "state",
-        "value": "achievable",
-        "option": [
-          "achievable",
-          "not_set",
-          "not_supported"
-        ],
-        "option_bold": [
-          "achievable"
-        ],
-        "option_light": [
-          "not_supported"
-        ]
-      },
       "Complete_Forgotten_Hall_1_time": {
         "type": "state",
         "value": "achievable",
@@ -682,82 +597,7 @@
           "not_supported"
         ]
       },
-      "Complete_1_stage_in_Simulated_Universe_Any_world": {
-        "type": "state",
-        "value": "achievable",
-        "option": [
-          "achievable",
-          "not_set",
-          "not_supported"
-        ],
-        "option_bold": [
-          "achievable"
-        ],
-        "option_light": [
-          "not_supported"
-        ]
-      },
-      "Obtain_victory_in_combat_with_support_characters_1_time": {
-        "type": "state",
-        "value": "achievable",
-        "option": [
-          "achievable",
-          "not_set",
-          "not_supported"
-        ],
-        "option_bold": [
-          "achievable"
-        ],
-        "option_light": [
-          "not_supported"
-        ]
-      },
       "Use_an_Ultimate_to_deal_the_final_blow_1_time": {
-        "type": "state",
-        "value": "achievable",
-        "option": [
-          "achievable",
-          "not_set",
-          "not_supported"
-        ],
-        "option_bold": [
-          "achievable"
-        ],
-        "option_light": [
-          "not_supported"
-        ]
-      },
-      "Level_up_any_character_1_time": {
-        "type": "state",
-        "value": "achievable",
-        "option": [
-          "achievable",
-          "not_set",
-          "not_supported"
-        ],
-        "option_bold": [
-          "achievable"
-        ],
-        "option_light": [
-          "not_supported"
-        ]
-      },
-      "Level_up_any_Light_Cone_1_time": {
-        "type": "state",
-        "value": "achievable",
-        "option": [
-          "achievable",
-          "not_set",
-          "not_supported"
-        ],
-        "option_bold": [
-          "achievable"
-        ],
-        "option_light": [
-          "not_supported"
-        ]
-      },
-      "Level_up_any_Relic_1_time": {
         "type": "state",
         "value": "achievable",
         "option": [
@@ -787,37 +627,217 @@
           "not_supported"
         ]
       },
-      "Synthesize_Consumable_1_time": {
-        "type": "state",
-        "value": "achievable",
-        "option": [
-          "achievable",
-          "not_set",
-          "not_supported"
-        ],
-        "option_bold": [
-          "achievable"
-        ],
-        "option_light": [
-          "not_supported"
-        ]
-      },
-      "Synthesize_material_1_time": {
-        "type": "state",
-        "value": "achievable",
-        "option": [
-          "achievable",
-          "not_set",
-          "not_supported"
-        ],
-        "option_bold": [
-          "achievable"
-        ],
-        "option_light": [
-          "not_supported"
-        ]
-      },
       "Use_Consumables_1_time": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Log_in_to_the_game": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Dispatch_1_assignments": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Complete_Simulated_Universe_1_times": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Clear_Calyx_Crimson_1_times": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Enter_combat_by_attacking_enemie_Weakness_and_win_3_times": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Use_Technique_2_times": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Destroy_3_destructible_objects": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Obtain_victory_in_combat_with_Support_Characters_1_times": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Level_up_any_character_1_times": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Level_up_any_Light_Cone_1_times": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Use_the_Omni_Synthesizer_1_times": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Take_photos_1_times": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Consume_120_Trailblaze_Power": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Level_up_any_Relic_1_times": {
         "type": "state",
         "value": "achievable",
         "option": [
@@ -885,11 +905,11 @@
         "order": 5,
         "color": "#cbe45b"
       },
-      "BattlePassTodayQuest": {
+      "BattlePassWeeklyQuest": {
         "type": "stored",
         "value": {},
         "display": "hide",
-        "stored": "StoredBattlePassTodayQuest"
+        "stored": "StoredBattlePassWeeklyQuest"
       }
     }
   },
@@ -1142,7 +1162,8 @@
         "option": [
           "Echo_of_War_Destruction_Beginning",
           "Echo_of_War_End_of_the_Eternal_Freeze",
-          "Echo_of_War_Divine_Seed"
+          "Echo_of_War_Divine_Seed",
+          "Echo_of_War_Borehole_Planet_Old_Crater"
         ]
       },
       "Team": {
@@ -1154,7 +1175,10 @@
           3,
           4,
           5,
-          6
+          6,
+          7,
+          8,
+          9
         ]
       }
     }
@@ -1214,11 +1238,11 @@
       },
       "Bonus": {
         "type": "select",
-        "value": "Blessing Cosmos",
+        "value": "Blessing Universe",
         "option": [
-          "Blessing Cosmos",
-          "Miracle Cosmos",
-          "Fragmented Cosmos"
+          "Blessing Universe",
+          "Miracle Universe",
+          "Fragmented Universe"
         ]
       },
       "DomainStrategy": {

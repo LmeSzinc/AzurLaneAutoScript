@@ -9,6 +9,7 @@ CHARACTER_HEIGHT = {
     'FuXuan': 'Girl',
     'Yanqing': 'Boy',
     'Arlan': 'Boy',
+    'Xueyi': 'Maid',
     'Tingyun': 'Maid',
     'Sushang': 'Maid',
     'Seele': 'Maid',

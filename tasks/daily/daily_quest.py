@@ -242,13 +242,15 @@ class DailyQuestUI(DungeonUI, RouteLoader):
 
         done = 0
         logger.hr('Do quests', level=1)
-        if KEYWORDS_DAILY_QUEST.Take_1_photo in quests:
+        if KEYWORDS_DAILY_QUEST.Take_photos_1_times in quests:
             CameraUI(self.config, self.device).take_picture()
             done += 1
+        """
         if KEYWORDS_DAILY_QUEST.Synthesize_Consumable_1_time in quests:
             if SynthesizeConsumablesUI(self.config, self.device).synthesize_consumables():
                 done += 1
-        if KEYWORDS_DAILY_QUEST.Synthesize_material_1_time in quests:
+        """
+        if KEYWORDS_DAILY_QUEST.Use_the_Omni_Synthesizer_1_times in quests:
             if SynthesizeMaterialUI(self.config, self.device).synthesize_material():
                 done += 1
         if KEYWORDS_DAILY_QUEST.Use_Consumables_1_time in quests:
@@ -268,7 +270,7 @@ class DailyQuestUI(DungeonUI, RouteLoader):
         enemy x1 In_a_single_battle_inflict_3_Weakness_Break_of_different_Types
         enemy x1 Inflict_Weakness_Break_5_times
         enemy x2 Defeat_a_total_of_20_enemies
-        enemy x3 Enter_combat_by_attacking_enemy_Weakness_and_win_3_times
+        enemy x3 Enter_combat_by_attacking_enemie_Weakness_and_win_3_times
         item x1 Destroy_3_destructible_objects
         enemy x1 Use_an_Ultimate_to_deal_the_final_blow_1_time
         """
@@ -280,7 +282,7 @@ class DailyQuestUI(DungeonUI, RouteLoader):
             enemy = max(enemy, 1)
         if KEYWORDS_DAILY_QUEST.Defeat_a_total_of_20_enemies in quests:
             enemy = max(enemy, 2)
-        if KEYWORDS_DAILY_QUEST.Enter_combat_by_attacking_enemy_Weakness_and_win_3_times in quests:
+        if KEYWORDS_DAILY_QUEST.Enter_combat_by_attacking_enemie_Weakness_and_win_3_times in quests:
             enemy = max(enemy, 3)
         if KEYWORDS_DAILY_QUEST.Destroy_3_destructible_objects in quests:
             item = max(item, 1)
@@ -320,9 +322,9 @@ class DailyQuestUI(DungeonUI, RouteLoader):
         with self.config.multi_set():
             # Check battle pass
             if self.config.stored.DailyActivity.value == 500:
-                quests = self.config.stored.BattlePassTodayQuest.load_quests()
-                if KEYWORD_BATTLE_PASS_QUEST.Reach_500_on_Daily_Training_Activity in quests:
-                    logger.info('Achieved battle pass quest Reach_500_on_Daily_Training_Activity')
+                quests = self.config.stored.BattlePassWeeklyQuest.load_quests()
+                if KEYWORD_BATTLE_PASS_QUEST.Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max in quests:
+                    logger.info('Achieved battle pass quest Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max')
                     if self.config.stored.BattlePassLevel.is_full():
                         logger.info('BattlePassLevel full, no task call')
                     else:

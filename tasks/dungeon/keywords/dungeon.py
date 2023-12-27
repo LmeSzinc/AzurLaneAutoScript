@@ -318,71 +318,107 @@ Echo_of_War_Divine_Seed = DungeonList(
     jp='歴戦余韻・不死の神実',
     es='Semilla divina',
 )
-Simulated_Universe_World_1 = DungeonList(
+Echo_of_War_Borehole_Planet_Old_Crater = DungeonList(
     id=36,
+    name='Echo_of_War_Borehole_Planet_Old_Crater',
+    cn='蛀星的旧靥•历战余响',
+    cht='蛀星的舊靨•歷戰餘響',
+    en="Borehole Planet's Old Crater",
+    jp='歴戦余韻・星を蝕む往日の面影',
+    es='Cráter del planeta devorado',
+)
+Simulated_Universe_World_1 = DungeonList(
+    id=37,
     name='Simulated_Universe_World_1',
     cn='第一世界•模拟宇宙',
     cht='第一世界•模擬宇宙',
-    en='Simulated Universe — World 1',
+    en='Simulated Universe: World 1',
     jp='第一世界・模擬宇宙',
     es='Mundo 1',
 )
 Simulated_Universe_World_3 = DungeonList(
-    id=37,
+    id=38,
     name='Simulated_Universe_World_3',
     cn='第三世界•模拟宇宙',
     cht='第三世界•模擬宇宙',
-    en='Simulated Universe — World 3',
+    en='Simulated Universe: World 3',
     jp='第三世界・模擬宇宙',
     es='Mundo 3',
 )
 Simulated_Universe_World_4 = DungeonList(
-    id=38,
+    id=39,
     name='Simulated_Universe_World_4',
     cn='第四世界•模拟宇宙',
     cht='第四世界•模擬宇宙',
-    en='Simulated Universe — World 4',
+    en='Simulated Universe: World 4',
     jp='第四世界・模擬宇宙',
     es='Mundo 4',
 )
 Simulated_Universe_World_5 = DungeonList(
-    id=39,
+    id=40,
     name='Simulated_Universe_World_5',
     cn='第五世界•模拟宇宙',
     cht='第五世界•模擬宇宙',
-    en='Simulated Universe — World 5',
+    en='Simulated Universe: World 5',
     jp='第五世界・模擬宇宙',
     es='Mundo 5',
 )
 Simulated_Universe_World_6 = DungeonList(
-    id=40,
+    id=41,
     name='Simulated_Universe_World_6',
     cn='第六世界•模拟宇宙',
     cht='第六世界•模擬宇宙',
-    en='Simulated Universe — World 6',
+    en='Simulated Universe: World 6',
     jp='第六世界・模擬宇宙',
     es='Mundo 6',
 )
 Simulated_Universe_World_7 = DungeonList(
-    id=41,
+    id=42,
     name='Simulated_Universe_World_7',
     cn='第七世界•模拟宇宙',
     cht='第七世界•模擬宇宙',
-    en='Simulated Universe — World 7',
+    en='Simulated Universe: World 7',
     jp='第七世界・模擬宇宙',
     es='Mundo 7',
 )
 Simulated_Universe_World_8 = DungeonList(
-    id=42,
+    id=43,
     name='Simulated_Universe_World_8',
     cn='第八世界•模拟宇宙',
     cht='第八世界•模擬宇宙',
-    en='Simulated Universe — World 8',
+    en='Simulated Universe: World 8',
     jp='第八世界・模擬宇宙',
     es='Mundo 8',
 )
+Simulated_Universe_The_Swarm_Disaster = DungeonList(
+    id=44,
+    name='Simulated_Universe_The_Swarm_Disaster',
+    cn='寰宇蝗灾',
+    cht='寰宇蝗災',
+    en='The Swarm Disaster',
+    jp='宇宙の蝗害',
+    es='La Plaga',
+)
+Simulated_Universe_Gold_and_Gears = DungeonList(
+    id=45,
+    name='Simulated_Universe_Gold_and_Gears',
+    cn='黄金与机械',
+    cht='黃金與機械',
+    en='Gold and Gears',
+    jp='黄金と機械',
+    es='Oro y maquinaria',
+)
+Memory_of_Chaos = DungeonList(
+    id=46,
+    name='Memory_of_Chaos',
+    cn='混沌回忆',
+    cht='混沌回憶',
+    en='Memory of Chaos',
+    jp='混沌の記憶',
+    es='Evocación caótica',
+)
 The_Voyage_of_Navis_Astriger = DungeonList(
-    id=43,
+    id=47,
     name='The_Voyage_of_Navis_Astriger',
     cn='天艟求仙迷航录',
     cht='天艟求仙迷航錄',
@@ -391,20 +427,11 @@ The_Voyage_of_Navis_Astriger = DungeonList(
     es='El viaje de las naves astriger',
 )
 The_Last_Vestiges_of_Towering_Citadel = DungeonList(
-    id=44,
+    id=48,
     name='The_Last_Vestiges_of_Towering_Citadel',
     cn='永屹之城遗秘',
     cht='永屹之城遺秘',
     en='The Last Vestiges of Towering Citadel',
     jp='永屹の城の秘密',
     es='Herencia de la Ciudadela Imponente',
-)
-Memory_of_Chaos = DungeonList(
-    id=45,
-    name='Memory_of_Chaos',
-    cn='混沌回忆',
-    cht='混沌回憶',
-    en='Memory of Chaos',
-    jp='混沌の記憶',
-    es='Evocación caótica',
 )

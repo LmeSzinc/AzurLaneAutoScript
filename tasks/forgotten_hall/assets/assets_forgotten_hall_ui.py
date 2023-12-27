@@ -17,51 +17,69 @@ EFFECT_NOTIFICATION = ButtonWrapper(
     name='EFFECT_NOTIFICATION',
     share=Button(
         file='./assets/share/forgotten_hall/ui/EFFECT_NOTIFICATION.png',
-        area=(237, 302, 315, 380),
-        search=(217, 282, 335, 400),
-        color=(128, 114, 85),
-        button=(237, 302, 315, 380),
+        area=(250, 330, 320, 388),
+        search=(230, 310, 340, 408),
+        color=(166, 147, 108),
+        button=(250, 330, 320, 388),
     ),
 )
 ENTER_FORGOTTEN_HALL_DUNGEON = ButtonWrapper(
     name='ENTER_FORGOTTEN_HALL_DUNGEON',
     share=Button(
         file='./assets/share/forgotten_hall/ui/ENTER_FORGOTTEN_HALL_DUNGEON.png',
-        area=(989, 649, 1231, 684),
-        search=(969, 629, 1251, 704),
-        color=(214, 214, 217),
-        button=(989, 649, 1231, 684),
+        area=(953, 640, 1225, 676),
+        search=(933, 620, 1245, 696),
+        color=(217, 217, 219),
+        button=(953, 640, 1225, 676),
     ),
 )
 ENTRANCE_CHECKED = ButtonWrapper(
     name='ENTRANCE_CHECKED',
     share=Button(
         file='./assets/share/forgotten_hall/ui/ENTRANCE_CHECKED.png',
-        area=(55, 632, 71, 650),
-        search=(35, 612, 91, 670),
-        color=(156, 156, 157),
-        button=(55, 632, 71, 650),
+        area=(44, 655, 60, 673),
+        search=(24, 635, 80, 693),
+        color=(156, 156, 158),
+        button=(44, 655, 60, 673),
     ),
 )
 LAST_VASTIGES_CHECK = ButtonWrapper(
     name='LAST_VASTIGES_CHECK',
-    share=Button(
-        file='./assets/share/forgotten_hall/ui/LAST_VASTIGES_CHECK.png',
-        area=(25, 190, 96, 262),
-        search=(11, 73, 111, 461),
-        color=(94, 126, 162),
-        button=(25, 190, 96, 262),
-    ),
+    share=[
+        Button(
+            file='./assets/share/forgotten_hall/ui/LAST_VASTIGES_CHECK.png',
+            area=(25, 190, 96, 262),
+            search=(11, 73, 111, 461),
+            color=(94, 126, 162),
+            button=(25, 190, 96, 262),
+        ),
+        Button(
+            file='./assets/share/forgotten_hall/ui/LAST_VASTIGES_CHECK.2.png',
+            area=(46, 274, 98, 348),
+            search=(11, 73, 111, 461),
+            color=(38, 53, 71),
+            button=(46, 274, 98, 348),
+        ),
+    ],
 )
 LAST_VASTIGES_CLICK = ButtonWrapper(
     name='LAST_VASTIGES_CLICK',
-    share=Button(
-        file='./assets/share/forgotten_hall/ui/LAST_VASTIGES_CLICK.png',
-        area=(32, 196, 90, 254),
-        search=(11, 73, 111, 461),
-        color=(49, 64, 87),
-        button=(32, 196, 90, 254),
-    ),
+    share=[
+        Button(
+            file='./assets/share/forgotten_hall/ui/LAST_VASTIGES_CLICK.png',
+            area=(32, 196, 90, 254),
+            search=(11, 73, 111, 461),
+            color=(49, 64, 87),
+            button=(32, 196, 90, 254),
+        ),
+        Button(
+            file='./assets/share/forgotten_hall/ui/LAST_VASTIGES_CLICK.2.png',
+            area=(51, 281, 90, 341),
+            search=(11, 73, 111, 461),
+            color=(22, 29, 39),
+            button=(51, 281, 90, 341),
+        ),
+    ],
 )
 MEMORY_OF_CHAOS_CHECK = ButtonWrapper(
     name='MEMORY_OF_CHAOS_CHECK',
@@ -97,40 +115,40 @@ SEAT_1 = ButtonWrapper(
     name='SEAT_1',
     share=Button(
         file='./assets/share/forgotten_hall/ui/SEAT_1.png',
-        area=(946, 518, 953, 533),
-        search=(926, 498, 973, 553),
-        color=(66, 68, 89),
-        button=(946, 518, 953, 533),
+        area=(957, 549, 966, 574),
+        search=(937, 529, 986, 594),
+        color=(77, 78, 87),
+        button=(957, 549, 966, 574),
     ),
 )
 SEAT_2 = ButtonWrapper(
     name='SEAT_2',
     share=Button(
         file='./assets/share/forgotten_hall/ui/SEAT_2.png',
-        area=(1026, 518, 1033, 533),
-        search=(1006, 498, 1053, 553),
-        color=(68, 70, 92),
-        button=(1026, 518, 1033, 533),
+        area=(1034, 549, 1043, 574),
+        search=(1014, 529, 1063, 594),
+        color=(77, 77, 86),
+        button=(1034, 549, 1043, 574),
     ),
 )
 SEAT_3 = ButtonWrapper(
     name='SEAT_3',
     share=Button(
         file='./assets/share/forgotten_hall/ui/SEAT_3.png',
-        area=(1106, 518, 1113, 532),
-        search=(1086, 498, 1133, 552),
-        color=(67, 69, 87),
-        button=(1106, 518, 1113, 532),
+        area=(1111, 549, 1120, 574),
+        search=(1091, 529, 1140, 594),
+        color=(76, 77, 85),
+        button=(1111, 549, 1120, 574),
     ),
 )
 SEAT_4 = ButtonWrapper(
     name='SEAT_4',
     share=Button(
         file='./assets/share/forgotten_hall/ui/SEAT_4.png',
-        area=(1186, 518, 1193, 532),
-        search=(1166, 498, 1213, 552),
-        color=(67, 69, 86),
-        button=(1186, 518, 1193, 532),
+        area=(1188, 549, 1197, 574),
+        search=(1168, 529, 1217, 594),
+        color=(76, 77, 85),
+        button=(1188, 549, 1197, 574),
     ),
 )
 TELEPORT = ButtonWrapper(
