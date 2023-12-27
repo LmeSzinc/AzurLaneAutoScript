@@ -5,6 +5,7 @@ from tasks.map.keywords.classes import MapPlane, MapWorld
 # Herta
 KEYWORDS_MAP_PLANE.Herta_StorageZone.floors = ['B1', 'F1', 'F2']
 KEYWORDS_MAP_PLANE.Herta_SupplyZone.floors = ['F1', 'F2']
+KEYWORDS_MAP_PLANE.Herta_SeclusionZone.floors = ['F1', 'F2', 'F3']
 # Jarilo
 KEYWORDS_MAP_PLANE.Jarilo_AdministrativeDistrict.floors = ['B1', 'F1']
 KEYWORDS_MAP_PLANE.Jarilo_RivetTown.floors = ['F1', 'F2']
