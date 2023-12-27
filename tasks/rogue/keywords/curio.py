@@ -714,3 +714,147 @@ Shattered_Star_Bait_Infinite = RogueCurio(
     jp='砕けた星の釣り餌∞',
     es='Cebo de las estrellas despedazadas (infinito)',
 )
+Wish_Upon_a_Star = RogueCurio(
+    id=80,
+    name='Wish_Upon_a_Star',
+    cn='许愿星',
+    cht='許願星',
+    en='Wish Upon a Star',
+    jp='願い星',
+    es='Estrella de los deseos',
+)
+Price_of_Peace = RogueCurio(
+    id=81,
+    name='Price_of_Peace',
+    cn='和平的代价',
+    cht='和平的代價',
+    en='Price of Peace',
+    jp='平和の代価',
+    es='El precio de la paz',
+)
+Jellyfish_on_the_Staircase = RogueCurio(
+    id=82,
+    name='Jellyfish_on_the_Staircase',
+    cn='「楼梯上的水母」',
+    cht='「樓梯上的水母」',
+    en='"Jellyfish on the Staircase"',
+    jp='「階段の上のクラゲ」',
+    es='La medusa de las escaleras',
+)
+Rationality_Fall = RogueCurio(
+    id=83,
+    name='Rationality_Fall',
+    cn='理性的溃败',
+    cht='理性的潰敗',
+    en="Rationality's Fall",
+    jp='理性の崩壊',
+    es='El colapso de la lógica',
+)
+Indecipherable_Box = RogueCurio(
+    id=84,
+    name='Indecipherable_Box',
+    cn='猜不透匣',
+    cht='猜不透匣',
+    en='Indecipherable Box',
+    jp='計り知れない匣',
+    es='Caja indescifrable',
+)
+Rotting_Fruit_of_the_Alien_Tree = RogueCurio(
+    id=85,
+    name='Rotting_Fruit_of_the_Alien_Tree',
+    cn='腐化异木果实',
+    cht='腐化異木果實',
+    en='Rotting Fruit of the Alien Tree',
+    jp='腐敗した異木の果実',
+    es='Fruto podrido del árbol extraño',
+)
+King_of_Sponges = RogueCurio(
+    id=86,
+    name='King_of_Sponges',
+    cn='海绵王',
+    cht='海綿王',
+    en='King of Sponges',
+    jp='スポンジ王',
+    es='Rey de las esponjas',
+)
+Mysterious_Magnetism = RogueCurio(
+    id=87,
+    name='Mysterious_Magnetism',
+    cn='「神秘」磁力',
+    cht='「神秘」磁力',
+    en='Mysterious Magnetism',
+    jp='「神秘」の磁力',
+    es='Magnetismo misterioso',
+)
+Organic_Heart = RogueCurio(
+    id=88,
+    name='Organic_Heart',
+    cn='「有机心脏」',
+    cht='「有機心臟」',
+    en='"Organic Heart"',
+    jp='「有機の心臓」',
+    es='Corazón orgánico',
+)
+A_Ruan_Pouch = RogueCurio(
+    id=89,
+    name='A_Ruan_Pouch',
+    cn='阿阮袋',
+    cht='阿阮袋',
+    en='A-Ruan Pouch',
+    jp='ルアン袋',
+    es='Bolsa de Ruan Mei',
+)
+Sealing_Wax_of_Erudition = RogueCurio(
+    id=90,
+    name='Sealing_Wax_of_Erudition',
+    cn='智识火漆',
+    cht='智識火漆',
+    en='Sealing Wax of Erudition',
+    jp='知恵の封蝋',
+    es='Lacre de la Erudición',
+)
+Cognito_Invalidater_Codebuilder = RogueCurio(
+    id=91,
+    name='Cognito_Invalidater_Codebuilder',
+    cn='「无效念头」代码机',
+    cht='「無效念頭」程式碼機',
+    en='"Cognito Invalidater" Codebuilder',
+    jp='「無効アイデア」コード機',
+    es='Codificador del pensamiento invalidante',
+)
+Cognito_Averagifier_Communal_Nexus = RogueCurio(
+    id=92,
+    name='Cognito_Averagifier_Communal_Nexus',
+    cn='「中等念头」群体机',
+    cht='「中等念頭」群體機',
+    en='"Cognito Averagifier" Communal Nexus',
+    jp='「平凡アイデア」集団機',
+    es='Agrupador del pensamiento promedio',
+)
+Ashheart_Ciphertech = RogueCurio(
+    id=93,
+    name='Ashheart_Ciphertech',
+    cn='「心如死灰」密码机',
+    cht='「心如死灰」密碼機',
+    en='"Ashheart" Ciphertech',
+    jp='「意気消沈」暗号機',
+    es='Cifrador Corazón ceniciento',
+)
+Revelrous_Rainbowmaker = RogueCurio(
+    id=94,
+    name='Revelrous_Rainbowmaker',
+    cn='「极佳念头」彩虹机',
+    cht='「極佳念頭」彩虹機',
+    en='"Revelrous" Rainbowmaker',
+    jp='「最高アイデア」レインボー機',
+    es='Crearcoíris del pensamiento espléndido',
+)
+Wildminder_Machine_Cell = RogueCurio(
+    id=95,
+    name='Wildminder_Machine_Cell',
+    cn='「奇思狂想」机器团',
+    cht='「奇思狂想」機器團',
+    en='"Wildminder" Machine Cell',
+    jp='「奇想天外」培養脳',
+    es='Maquinaria del pensamiento loco',
+)

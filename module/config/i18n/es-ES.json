@@ -240,10 +240,10 @@
       "Stagnant_Shadow_Spike": "Ascension: Físico (Natasha / Clara / Luka / Sushang)",
       "Stagnant_Shadow_Rime": "Ascension: Hielo (Siete de Marzo / Herta / Gepard / Pela)",
       "Stagnant_Shadow_Mirage": "Ascension: Imaginario (Welt / Luocha / Yukong)",
-      "Stagnant_Shadow_Icicle": "Ascension: Hielo (Yanqing / Jingliu)",
+      "Stagnant_Shadow_Icicle": "Ascension: Hielo (Yanqing / Jingliu / Ruan Mei)",
       "Stagnant_Shadow_Doom": "Ascension: Rayo (Kafka / Jing Yuan)",
-      "Stagnant_Shadow_Puppetry": "Ascension: Imaginario (Dan Heng - Imbibitor Lunae)",
-      "Stagnant_Shadow_Abomination": "Ascension: Cuántico (Lynx / Fu Xuan)",
+      "Stagnant_Shadow_Puppetry": "Ascension: Imaginario (Dan Heng - Imbibitor Lunae / Dr. Ratio)",
+      "Stagnant_Shadow_Abomination": "Ascension: Cuántico (Lynx / Fu Xuan / Xueyi)",
       "Stagnant_Shadow_Scorch": "Ascension: Fuego (Guinaifen / Topaz y Conti)",
       "Stagnant_Shadow_Celestial": "Ascension: Viento (Blade / Huohuo)",
       "Stagnant_Shadow_Perdition": "Ascension: Físico (Hanya / Argenti)",
@@ -331,10 +331,10 @@
       "Stagnant_Shadow_Spike": "Ascension: Físico (Natasha / Clara / Luka / Sushang)",
       "Stagnant_Shadow_Rime": "Ascension: Hielo (Siete de Marzo / Herta / Gepard / Pela)",
       "Stagnant_Shadow_Mirage": "Ascension: Imaginario (Welt / Luocha / Yukong)",
-      "Stagnant_Shadow_Icicle": "Ascension: Hielo (Yanqing / Jingliu)",
+      "Stagnant_Shadow_Icicle": "Ascension: Hielo (Yanqing / Jingliu / Ruan Mei)",
       "Stagnant_Shadow_Doom": "Ascension: Rayo (Kafka / Jing Yuan)",
-      "Stagnant_Shadow_Puppetry": "Ascension: Imaginario (Dan Heng - Imbibitor Lunae)",
-      "Stagnant_Shadow_Abomination": "Ascension: Cuántico (Lynx / Fu Xuan)",
+      "Stagnant_Shadow_Puppetry": "Ascension: Imaginario (Dan Heng - Imbibitor Lunae / Dr. Ratio)",
+      "Stagnant_Shadow_Abomination": "Ascension: Cuántico (Lynx / Fu Xuan / Xueyi)",
       "Stagnant_Shadow_Scorch": "Ascension: Fuego (Guinaifen / Topaz y Conti)",
       "Stagnant_Shadow_Celestial": "Ascension: Viento (Blade / Huohuo)",
       "Stagnant_Shadow_Perdition": "Ascension: Físico (Hanya / Argenti)"
@@ -396,6 +396,7 @@
       "Natasha": "Natasha",
       "Pela": "Pela",
       "Qingque": "Qingque",
+      "RuanMei": "Ruan Mei",
       "Sampo": "Sampo",
       "Seele": "Seele",
       "Serval": "Serval",
@@ -406,6 +407,7 @@
       "TrailblazerDestruction": "Trailblazer de Destrucción",
       "TrailblazerPreservation": "Trailblazer de Conservación",
       "Welt": "Welt",
+      "Xueyi": "Xueyi",
       "Yanqing": "Yanqing",
       "Yukong": "Yukong"
     }
@@ -586,7 +588,7 @@
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
-    "Obtain_victory_in_combat_with_support_characters_1_time": {
+    "Obtain_victory_in_combat_with_Support_Characters_1_time": {
       "name": "Gana 1 batalla utilizando personajes de apoyo",
       "help": "Necesitas configurar la tarea de \"Mazmorra\", así como configurar a los héroes de apoyo.",
       "achievable": "Completable",
@@ -645,6 +647,104 @@
     "Use_Consumables_1_time": {
       "name": "Usa 1 consumible",
       "help": "Completable por defecto. Se sintetizará uno si no tienes ninguno.",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Log_in_to_the_game": {
+      "name": "Inicia sesión en el juego",
+      "help": "AchievableQuest.Log_in_to_the_game.help",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Dispatch_1_assignments": {
+      "name": "Asigna 1 encargo",
+      "help": "AchievableQuest.Dispatch_1_assignments.help",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Complete_Simulated_Universe_1_times": {
+      "name": "Completa el Universo Simulado 1 vez",
+      "help": "AchievableQuest.Complete_Simulated_Universe_1_times.help",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Clear_Calyx_Crimson_1_times": {
+      "name": "Completa Cáliz (carmesí) 1 vez",
+      "help": "AchievableQuest.Clear_Calyx_Crimson_1_times.help",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Enter_combat_by_attacking_enemie_Weakness_and_win_1_times": {
+      "name": "Entra en combate atacando la debilidad del enemigo y gana 1 veces",
+      "help": "AchievableQuest.Enter_combat_by_attacking_enemie_Weakness_and_win_1_times.help",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Use_Technique_1_times": {
+      "name": "Usa técnicas 1 veces",
+      "help": "AchievableQuest.Use_Technique_1_times.help",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Destroy_1_destructible_objects": {
+      "name": "Destruye 1 objetos destruibles",
+      "help": "AchievableQuest.Destroy_1_destructible_objects.help",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Obtain_victory_in_combat_with_Support_Characters_1_times": {
+      "name": "Gana 1 batalla(s) utilizando personajes de apoyo",
+      "help": "AchievableQuest.Obtain_victory_in_combat_with_Support_Characters_1_times.help",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Level_up_any_character_1_times": {
+      "name": "Mejora el nivel de cualquier personaje 1 vez",
+      "help": "AchievableQuest.Level_up_any_character_1_times.help",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Level_up_any_Light_Cone_1_times": {
+      "name": "Mejora cualquier cono de luz 1 vez",
+      "help": "AchievableQuest.Level_up_any_Light_Cone_1_times.help",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Use_the_Omni_Synthesizer_1_times": {
+      "name": "Utiliza la máquina sintetizadora multiusos 1 veces",
+      "help": "AchievableQuest.Use_the_Omni_Synthesizer_1_times.help",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Take_photos_1_times": {
+      "name": "Haz 1 foto(s)",
+      "help": "AchievableQuest.Take_photos_1_times.help",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Consume_1_Trailblaze_Power": {
+      "name": "Consume 1 pts. de Poder trazacaminos",
+      "help": "AchievableQuest.Consume_1_Trailblaze_Power.help",
+      "achievable": "Completable",
+      "not_set": "No configurado",
+      "not_supported": "No soportado aún"
+    },
+    "Level_up_any_Relic_1_times": {
+      "name": "Mejora cualquier artefacto 1 vez",
+      "help": "AchievableQuest.Level_up_any_Relic_1_times.help",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"

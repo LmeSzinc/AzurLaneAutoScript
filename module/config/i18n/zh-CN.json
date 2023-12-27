@@ -240,10 +240,10 @@
       "Stagnant_Shadow_Spike": "角色晋阶材料：物理（娜塔莎 / 克拉拉 / 卢卡 / 素裳）",
       "Stagnant_Shadow_Rime": "角色晋阶材料：冰（三月七 / 黑塔 / 杰帕德 / 佩拉）",
       "Stagnant_Shadow_Mirage": "角色晋阶材料：虚数（瓦尔特 / 罗刹 / 驭空）",
-      "Stagnant_Shadow_Icicle": "角色晋阶材料：冰（彦卿 / 镜流）",
+      "Stagnant_Shadow_Icicle": "角色晋阶材料：冰（彦卿 / 镜流 / 阮•梅）",
       "Stagnant_Shadow_Doom": "角色晋阶材料：雷（卡芙卡 / 景元）",
-      "Stagnant_Shadow_Puppetry": "角色晋阶材料：虚数（丹恒•饮月）",
-      "Stagnant_Shadow_Abomination": "角色晋阶材料：量子（玲可 / 符玄）",
+      "Stagnant_Shadow_Puppetry": "角色晋阶材料：虚数（丹恒•饮月 / 真理医生）",
+      "Stagnant_Shadow_Abomination": "角色晋阶材料：量子（玲可 / 符玄 / 雪衣）",
       "Stagnant_Shadow_Scorch": "角色晋阶材料：火（桂乃芬 / 托帕&账账）",
       "Stagnant_Shadow_Celestial": "角色晋阶材料：风（刃 / 藿藿）",
       "Stagnant_Shadow_Perdition": "角色晋阶材料：物理（寒鸦 / 银枝）",
@@ -331,10 +331,10 @@
       "Stagnant_Shadow_Spike": "角色晋阶材料：物理（娜塔莎 / 克拉拉 / 卢卡 / 素裳）",
       "Stagnant_Shadow_Rime": "角色晋阶材料：冰（三月七 / 黑塔 / 杰帕德 / 佩拉）",
       "Stagnant_Shadow_Mirage": "角色晋阶材料：虚数（瓦尔特 / 罗刹 / 驭空）",
-      "Stagnant_Shadow_Icicle": "角色晋阶材料：冰（彦卿 / 镜流）",
+      "Stagnant_Shadow_Icicle": "角色晋阶材料：冰（彦卿 / 镜流 / 阮•梅）",
       "Stagnant_Shadow_Doom": "角色晋阶材料：雷（卡芙卡 / 景元）",
-      "Stagnant_Shadow_Puppetry": "角色晋阶材料：虚数（丹恒•饮月）",
-      "Stagnant_Shadow_Abomination": "角色晋阶材料：量子（玲可 / 符玄）",
+      "Stagnant_Shadow_Puppetry": "角色晋阶材料：虚数（丹恒•饮月 / 真理医生）",
+      "Stagnant_Shadow_Abomination": "角色晋阶材料：量子（玲可 / 符玄 / 雪衣）",
       "Stagnant_Shadow_Scorch": "角色晋阶材料：火（桂乃芬 / 托帕&账账）",
       "Stagnant_Shadow_Celestial": "角色晋阶材料：风（刃 / 藿藿）",
       "Stagnant_Shadow_Perdition": "角色晋阶材料：物理（寒鸦 / 银枝）"
@@ -396,6 +396,7 @@
       "Natasha": "娜塔莎",
       "Pela": "佩拉",
       "Qingque": "青雀",
+      "RuanMei": "阮•梅",
       "Sampo": "桑博",
       "Seele": "希儿",
       "Serval": "希露瓦",
@@ -406,6 +407,7 @@
       "TrailblazerDestruction": "开拓者•毁灭",
       "TrailblazerPreservation": "开拓者•存护",
       "Welt": "瓦尔特",
+      "Xueyi": "雪衣",
       "Yanqing": "彦卿",
       "Yukong": "驭空"
     }
@@ -586,7 +588,7 @@
       "not_set": "未设置",
       "not_supported": "暂未支持"
     },
-    "Obtain_victory_in_combat_with_support_characters_1_time": {
+    "Obtain_victory_in_combat_with_Support_Characters_1_time": {
       "name": "使用支援角色并获得战斗胜利1次",
       "help": "需要设置并启用\"每日副本\"，且设置好友支援",
       "achievable": "可完成",
@@ -645,6 +647,104 @@
     "Use_Consumables_1_time": {
       "name": "使用1件消耗品",
       "help": "默认可完成，将使用护具，无材料时先合成再使用",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Log_in_to_the_game": {
+      "name": "登录游戏",
+      "help": "AchievableQuest.Log_in_to_the_game.help",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Dispatch_1_assignments": {
+      "name": "派遣1次委托",
+      "help": "AchievableQuest.Dispatch_1_assignments.help",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Complete_Simulated_Universe_1_times": {
+      "name": "完成1次「模拟宇宙」",
+      "help": "AchievableQuest.Complete_Simulated_Universe_1_times.help",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Clear_Calyx_Crimson_1_times": {
+      "name": "完成1次「拟造花萼（赤）」",
+      "help": "AchievableQuest.Clear_Calyx_Crimson_1_times.help",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Enter_combat_by_attacking_enemie_Weakness_and_win_1_times": {
+      "name": "利用弱点进入战斗并获胜1次",
+      "help": "AchievableQuest.Enter_combat_by_attacking_enemie_Weakness_and_win_1_times.help",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Use_Technique_1_times": {
+      "name": "累计施放1次秘技",
+      "help": "AchievableQuest.Use_Technique_1_times.help",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Destroy_1_destructible_objects": {
+      "name": "累计击碎1个可破坏物",
+      "help": "AchievableQuest.Destroy_1_destructible_objects.help",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Obtain_victory_in_combat_with_Support_Characters_1_times": {
+      "name": "使用支援角色并获得战斗胜利1次",
+      "help": "AchievableQuest.Obtain_victory_in_combat_with_Support_Characters_1_times.help",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Level_up_any_character_1_times": {
+      "name": "将任意角色等级提升1次",
+      "help": "AchievableQuest.Level_up_any_character_1_times.help",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Level_up_any_Light_Cone_1_times": {
+      "name": "将任意光锥等级提升1次",
+      "help": "AchievableQuest.Level_up_any_Light_Cone_1_times.help",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Use_the_Omni_Synthesizer_1_times": {
+      "name": "使用1次「万能合成机」",
+      "help": "AchievableQuest.Use_the_Omni_Synthesizer_1_times.help",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Take_photos_1_times": {
+      "name": "拍照1次",
+      "help": "AchievableQuest.Take_photos_1_times.help",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Consume_1_Trailblaze_Power": {
+      "name": "累计消耗1点开拓力",
+      "help": "AchievableQuest.Consume_1_Trailblaze_Power.help",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Level_up_any_Relic_1_times": {
+      "name": "将任意遗器等级提升1次",
+      "help": "AchievableQuest.Level_up_any_Relic_1_times.help",
       "achievable": "可完成",
       "not_set": "未设置",
       "not_supported": "暂未支持"

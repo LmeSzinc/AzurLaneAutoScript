@@ -195,7 +195,7 @@ class DungeonUI(DungeonState):
                 logger.info('Survival index loaded')
                 return True
 
-    def _dungeon_wait_until_forgotten_hall_stabled(self, skip_first_screenshot=True):
+    def _dungeon_wait_until_echo_or_war_stabled(self, skip_first_screenshot=True):
         """
         Returns:
             bool: True if wait success, False if wait timeout.
@@ -213,20 +213,20 @@ class DungeonUI(DungeonState):
 
             # End
             if timeout.reached():
-                logger.warning('Wait until Forgotten_Hall stabled timeout')
+                logger.warning('Wait until Echo_of_War stabled timeout')
                 return False
 
             DUNGEON_NAV_LIST.load_rows(main=self)
 
             # End
-            button = DUNGEON_NAV_LIST.keyword2button(KEYWORDS_DUNGEON_NAV.Forgotten_Hall, show_warning=False)
+            button = DUNGEON_NAV_LIST.keyword2button(KEYWORDS_DUNGEON_NAV.Echo_of_War, show_warning=False)
             if button:
                 # 513 is the top of the last row of DungeonNav
                 if button.area[1] > 513:
-                    logger.info('DungeonNav row Forgotten_Hall stabled')
+                    logger.info('DungeonNav row Echo_of_War stabled')
                     return True
             else:
-                logger.info('No Forgotten_Hall in list skip waiting')
+                logger.info('No Echo_of_War in list skip waiting')
                 return False
 
     def _dungeon_nav_goto(self, dungeon: DungeonList, skip_first_screenshot=True):
@@ -296,7 +296,7 @@ class DungeonUI(DungeonState):
         while 1:
             DUNGEON_NAV_LIST.drag_page('down', main=self)
             # No skip_first_screenshot since drag_page is just called
-            if self._dungeon_wait_until_forgotten_hall_stabled(skip_first_screenshot=False):
+            if self._dungeon_wait_until_echo_or_war_stabled(skip_first_screenshot=False):
                 DUNGEON_NAV_LIST.select_row(dungeon.dungeon_nav, main=self, insight=False)
                 return True
 

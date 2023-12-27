@@ -53,7 +53,7 @@ class GeneratedConfig:
 
     # Group `DungeonSupport`
     DungeonSupport_Use = 'when_daily'  # always_use, when_daily, do_not_use
-    DungeonSupport_Character = 'FirstCharacter'  # FirstCharacter, Argenti, Arlan, Asta, Bailu, Blade, Bronya, Clara, DanHeng, DanHengImbibitorLunae, FuXuan, Gepard, Guinaifen, Hanya, Herta, Himeko, Hook, Huohuo, JingYuan, Jingliu, Kafka, Luka, Luocha, Lynx, March7th, Natasha, Pela, Qingque, Sampo, Seele, Serval, SilverWolf, Sushang, Tingyun, TopazNumby, TrailblazerDestruction, TrailblazerPreservation, Welt, Yanqing, Yukong
+    DungeonSupport_Character = 'FirstCharacter'  # FirstCharacter, Argenti, Arlan, Asta, Bailu, Blade, Bronya, Clara, DanHeng, DanHengImbibitorLunae, FuXuan, Gepard, Guinaifen, Hanya, Herta, Himeko, Hook, Huohuo, JingYuan, Jingliu, Kafka, Luka, Luocha, Lynx, March7th, Natasha, Pela, Qingque, RuanMei, Sampo, Seele, Serval, SilverWolf, Sushang, Tingyun, TopazNumby, TrailblazerDestruction, TrailblazerPreservation, Welt, Xueyi, Yanqing, Yukong
 
     # Group `DungeonStorage`
     DungeonStorage_TrailblazePower = {}
@@ -86,7 +86,7 @@ class GeneratedConfig:
     AchievableQuest_Complete_Forgotten_Hall_1_time = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Complete_Echo_of_War_1_times = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Complete_1_stage_in_Simulated_Universe_Any_world = 'achievable'  # achievable, not_set, not_supported
-    AchievableQuest_Obtain_victory_in_combat_with_support_characters_1_time = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Obtain_victory_in_combat_with_Support_Characters_1_time = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Use_an_Ultimate_to_deal_the_final_blow_1_time = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Level_up_any_character_1_time = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Level_up_any_Light_Cone_1_time = 'achievable'  # achievable, not_set, not_supported
@@ -95,6 +95,20 @@ class GeneratedConfig:
     AchievableQuest_Synthesize_Consumable_1_time = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Synthesize_material_1_time = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Use_Consumables_1_time = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Log_in_to_the_game = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Dispatch_1_assignments = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Complete_Simulated_Universe_1_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Clear_Calyx_Crimson_1_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Enter_combat_by_attacking_enemie_Weakness_and_win_1_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Use_Technique_1_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Destroy_1_destructible_objects = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Obtain_victory_in_combat_with_Support_Characters_1_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Level_up_any_character_1_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Level_up_any_Light_Cone_1_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Use_the_Omni_Synthesizer_1_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Take_photos_1_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Consume_1_Trailblaze_Power = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Level_up_any_Relic_1_times = 'achievable'  # achievable, not_set, not_supported
 
     # Group `DailyStorage`
     DailyStorage_DailyActivity = {}

@@ -92,7 +92,7 @@ class ConfigGenerator:
             options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Echo_of_War])
         # Insert characters
         from tasks.character.keywords import CharacterList
-        unsupported_characters = []
+        unsupported_characters = ["DrRatio"]
         characters = [character.name for character in CharacterList.instances.values()
                       if character.name not in unsupported_characters]
         option_add(keys='DungeonSupport.Character.option', options=characters)
@@ -704,7 +704,7 @@ class ConfigUpdater:
         set_daily('Complete_Echo_of_War_1_times', deep_get(data, 'Weekly.Scheduler.Enable'))
         set_daily('Complete_1_stage_in_Simulated_Universe_Any_world',
                   deep_get(data, 'Rogue.Scheduler.Enable'))
-        set_daily('Obtain_victory_in_combat_with_support_characters_1_time',
+        set_daily('Obtain_victory_in_combat_with_Support_Characters_1_time',
                   dungeon and deep_get(data, 'Dungeon.DungeonSupport.Use') in ['when_daily', 'always_use'])
         set_daily('Use_an_Ultimate_to_deal_the_final_blow_1_time', 'achievable')
         # Build

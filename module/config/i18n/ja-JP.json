@@ -240,10 +240,10 @@
       "Stagnant_Shadow_Spike": "キャラクター昇格素材：物理（ナターシャ / クラーラ / ルカ / 素裳）",
       "Stagnant_Shadow_Rime": "キャラクター昇格素材：氷（三月なのか / ヘルタ / ジェパード / ペラ）",
       "Stagnant_Shadow_Mirage": "キャラクター昇格素材：虚数（ヴェルト / 羅刹 / 御空）",
-      "Stagnant_Shadow_Icicle": "キャラクター昇格素材：氷（彦卿 / 鏡流）",
+      "Stagnant_Shadow_Icicle": "キャラクター昇格素材：氷（彦卿 / 鏡流 / ルアン・メェイ）",
       "Stagnant_Shadow_Doom": "キャラクター昇格素材：雷（カフカ / 景元）",
-      "Stagnant_Shadow_Puppetry": "キャラクター昇格素材：虚数（丹恒・飲月）",
-      "Stagnant_Shadow_Abomination": "キャラクター昇格素材：量子（リンクス / 符玄）",
+      "Stagnant_Shadow_Puppetry": "キャラクター昇格素材：虚数（丹恒・飲月 / Dr.レイシオ）",
+      "Stagnant_Shadow_Abomination": "キャラクター昇格素材：量子（リンクス / 符玄 / 雪衣）",
       "Stagnant_Shadow_Scorch": "キャラクター昇格素材：炎（桂乃芬 / トパーズ&カブ）",
       "Stagnant_Shadow_Celestial": "キャラクター昇格素材：風（刃 / フォフォ）",
       "Stagnant_Shadow_Perdition": "キャラクター昇格素材：物理（寒鴉 / アルジェンティ）",
@@ -331,10 +331,10 @@
       "Stagnant_Shadow_Spike": "キャラクター昇格素材：物理（ナターシャ / クラーラ / ルカ / 素裳）",
       "Stagnant_Shadow_Rime": "キャラクター昇格素材：氷（三月なのか / ヘルタ / ジェパード / ペラ）",
       "Stagnant_Shadow_Mirage": "キャラクター昇格素材：虚数（ヴェルト / 羅刹 / 御空）",
-      "Stagnant_Shadow_Icicle": "キャラクター昇格素材：氷（彦卿 / 鏡流）",
+      "Stagnant_Shadow_Icicle": "キャラクター昇格素材：氷（彦卿 / 鏡流 / ルアン・メェイ）",
       "Stagnant_Shadow_Doom": "キャラクター昇格素材：雷（カフカ / 景元）",
-      "Stagnant_Shadow_Puppetry": "キャラクター昇格素材：虚数（丹恒・飲月）",
-      "Stagnant_Shadow_Abomination": "キャラクター昇格素材：量子（リンクス / 符玄）",
+      "Stagnant_Shadow_Puppetry": "キャラクター昇格素材：虚数（丹恒・飲月 / Dr.レイシオ）",
+      "Stagnant_Shadow_Abomination": "キャラクター昇格素材：量子（リンクス / 符玄 / 雪衣）",
       "Stagnant_Shadow_Scorch": "キャラクター昇格素材：炎（桂乃芬 / トパーズ&カブ）",
       "Stagnant_Shadow_Celestial": "キャラクター昇格素材：風（刃 / フォフォ）",
       "Stagnant_Shadow_Perdition": "キャラクター昇格素材：物理（寒鴉 / アルジェンティ）"
@@ -396,6 +396,7 @@
       "Natasha": "ナターシャ",
       "Pela": "ペラ",
       "Qingque": "青雀",
+      "RuanMei": "ルアン・メェイ",
       "Sampo": "サンポ",
       "Seele": "ゼーレ",
       "Serval": "セーバル",
@@ -406,6 +407,7 @@
       "TrailblazerDestruction": "開拓者・壊滅",
       "TrailblazerPreservation": "開拓者・存護",
       "Welt": "ヴェルト",
+      "Xueyi": "雪衣",
       "Yanqing": "彦卿",
       "Yukong": "御空"
     }
@@ -586,9 +588,9 @@
       "not_set": "not_set",
       "not_supported": "not_supported"
     },
-    "Obtain_victory_in_combat_with_support_characters_1_time": {
+    "Obtain_victory_in_combat_with_Support_Characters_1_time": {
       "name": "サポートキャラを使い、戦闘に1回勝利する",
-      "help": "AchievableQuest.Obtain_victory_in_combat_with_support_characters_1_time.help",
+      "help": "AchievableQuest.Obtain_victory_in_combat_with_Support_Characters_1_time.help",
       "achievable": "achievable",
       "not_set": "not_set",
       "not_supported": "not_supported"
@@ -645,6 +647,104 @@
     "Use_Consumables_1_time": {
       "name": "消耗品を1個使う",
       "help": "AchievableQuest.Use_Consumables_1_time.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Log_in_to_the_game": {
+      "name": "ゲームにログインする",
+      "help": "AchievableQuest.Log_in_to_the_game.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Dispatch_1_assignments": {
+      "name": "依頼に1回派遣する",
+      "help": "AchievableQuest.Dispatch_1_assignments.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Complete_Simulated_Universe_1_times": {
+      "name": "「模擬宇宙」を1回クリアする",
+      "help": "AchievableQuest.Complete_Simulated_Universe_1_times.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Clear_Calyx_Crimson_1_times": {
+      "name": "「疑似花萼（赤）」を1回クリアする",
+      "help": "AchievableQuest.Clear_Calyx_Crimson_1_times.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Enter_combat_by_attacking_enemie_Weakness_and_win_1_times": {
+      "name": "弱点を攻撃して戦闘に入り、1回勝利する",
+      "help": "AchievableQuest.Enter_combat_by_attacking_enemie_Weakness_and_win_1_times.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Use_Technique_1_times": {
+      "name": "累計で秘技を1回発動する",
+      "help": "AchievableQuest.Use_Technique_1_times.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Destroy_1_destructible_objects": {
+      "name": "破壊できるオブジェクトを累計で1個破壊する",
+      "help": "AchievableQuest.Destroy_1_destructible_objects.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Obtain_victory_in_combat_with_Support_Characters_1_times": {
+      "name": "サポートキャラを使い、戦闘に1回勝利する",
+      "help": "AchievableQuest.Obtain_victory_in_combat_with_Support_Characters_1_times.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Level_up_any_character_1_times": {
+      "name": "任意のキャラを1回レベルアップする",
+      "help": "AchievableQuest.Level_up_any_character_1_times.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Level_up_any_Light_Cone_1_times": {
+      "name": "任意の光円錐を1回レベルアップする",
+      "help": "AchievableQuest.Level_up_any_Light_Cone_1_times.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Use_the_Omni_Synthesizer_1_times": {
+      "name": "「万能合成マシン」を1回使用する",
+      "help": "AchievableQuest.Use_the_Omni_Synthesizer_1_times.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Take_photos_1_times": {
+      "name": "1回撮影する",
+      "help": "AchievableQuest.Take_photos_1_times.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Consume_1_Trailblaze_Power": {
+      "name": "累計で開拓力×1を消費する",
+      "help": "AchievableQuest.Consume_1_Trailblaze_Power.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Level_up_any_Relic_1_times": {
+      "name": "任意の遺物を1回レベルアップする",
+      "help": "AchievableQuest.Level_up_any_Relic_1_times.help",
       "achievable": "achievable",
       "not_set": "not_set",
       "not_supported": "not_supported"

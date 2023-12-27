@@ -94,8 +94,8 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
             self.achieved_daily_quest = True
         if support_character is not None:
             self.called_daily_support = True
-            if KEYWORDS_DAILY_QUEST.Obtain_victory_in_combat_with_support_characters_1_time:
-                logger.info('Achieve daily quest Obtain_victory_in_combat_with_support_characters_1_time')
+            if KEYWORDS_DAILY_QUEST.Obtain_victory_in_combat_with_Support_Characters_1_time:
+                logger.info('Achieve daily quest Obtain_victory_in_combat_with_Support_Characters_1_time')
                 self.achieved_daily_quest = True
 
         # Check trailblaze power, this may stop current task
@@ -326,7 +326,7 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
         require = False
 
         if not self.config.stored.DailyActivity.is_full():
-            if KEYWORDS_DAILY_QUEST.Obtain_victory_in_combat_with_support_characters_1_time \
+            if KEYWORDS_DAILY_QUEST.Obtain_victory_in_combat_with_Support_Characters_1_time \
                     in self.daily_quests:
                 require = True
 

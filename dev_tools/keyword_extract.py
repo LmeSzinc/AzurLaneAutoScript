@@ -19,6 +19,7 @@ def text_to_variable(text):
     text = re.sub('[ \-—:\'/•.]+', '_', text)
     text = re.sub(r'[(),#"?!&%*]|</?\w+>', '', text)
     # text = re.sub(r'[#_]?\d+(_times?)?', '', text)
+    text = re.sub(r'<color=#?\w+>', '', text)
     return text.strip('_')
 
 
@@ -118,6 +119,7 @@ def replace_templates(text: str) -> str:
     """
     text = re.sub(r'#4', '1', text)
     text = re.sub(r'</?\w+>', '', text)
+    text = re.sub(r'<color=#?\w+>', '', text)
     return text
 
 
@@ -162,8 +164,8 @@ class KeywordExtract:
 
     def load_keywords(self, keywords: list[str | int], lang='cn'):
         text_map = self.text_map[lang]
-        keywords_id = [text_map.find(keyword)[0] for keyword in keywords]
-        self.keywords_id = [keyword for keyword in keywords_id if keyword != 0]
+        keywords_id = [text_map.find(keyword) for keyword in keywords]
+        self.keywords_id = [keyword[0] for keyword in keywords_id if keyword[0] != 0 and keyword[1].strip()]
 
     def clear_keywords(self):
         self.keywords_id = []
@@ -419,8 +421,10 @@ class KeywordExtract:
     def generate_battle_pass_quests(self):
         battle_pass_quests = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'BattlePassConfig.json'))
         latest_quests = list(battle_pass_quests.values())[-1]
-        quests = deep_get(latest_quests, "DailyQuestList") + deep_get(latest_quests, "WeekQuestList") + deep_get(
-            latest_quests, "WeekOrder1")
+        week_quest_list = deep_get(latest_quests, "WeekQuestList")
+        week_order1 = deep_get(latest_quests, "WeekOrder1")
+        week_chain_quest_list = deep_get(latest_quests, "WeekChainQuestList")
+        quests = week_quest_list + week_order1 + week_chain_quest_list
         self.load_quests(quests)
         self.write_keywords(keyword_class='BattlePassQuest', output_file='./tasks/battle_pass/keywords/quest.py')
 
