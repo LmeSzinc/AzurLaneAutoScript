@@ -11,6 +11,10 @@
     "Weekly": {
       "name": "Weekly",
       "help": ""
+    },
+    "Tool": {
+      "name": "Tools",
+      "help": ""
     }
   },
   "Task": {
@@ -52,6 +56,10 @@
     },
     "Rogue": {
       "name": "Simulated Universe",
+      "help": ""
+    },
+    "Daemon": {
+      "name": "Dialogue Clicker",
       "help": ""
     }
   },
@@ -882,6 +890,17 @@
     "DebugMode": {
       "name": "Dev Mode",
       "help": "No stop conditions, no error handling, stop when encountering an error. Please report errors according to the doc: https://github.com/LmeSzinc/StarRailCopilot/wiki/RogueMap_cn"
+    }
+  },
+  "Daemon": {
+    "_info": {
+      "name": "Dialogue Clicker",
+      "help": "Tools need to stop the scheduler and then run independently"
+    },
+    "Enable": {
+      "name": "Dialogue Clicker",
+      "help": "Monitor game, automatically click dialogue, phone chatting, and blessing in simulated universe (follow the simulated universe task settings)",
+      "True": "Enabled"
     }
   },
   "Gui": {

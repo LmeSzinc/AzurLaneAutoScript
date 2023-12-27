@@ -26,5 +26,12 @@
       "Weekly",
       "Rogue"
     ]
+  },
+  "Tool": {
+    "menu": "list",
+    "page": "tool",
+    "tasks": [
+      "Daemon"
+    ]
   }
 }

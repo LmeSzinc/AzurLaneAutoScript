@@ -298,6 +298,9 @@ class ModuleBase:
         """
         Add a tracking image, image will be saved
         """
+        if not self.config.Error_SaveError:
+            return
+
         logger.info('screenshot_tracking_add')
         data = self.device.screenshot_deque[-1]
         image = data['image']

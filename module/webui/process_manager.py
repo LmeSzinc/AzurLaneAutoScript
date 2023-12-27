@@ -147,6 +147,10 @@ class ProcessManager:
                 if e is not None:
                     AzurLaneAutoScript.stop_event = e
                 StarRailCopilot(config_name=config_name).loop()
+            elif func == "Daemon":
+                from tasks.base.daemon import Daemon
+
+                Daemon(config=config_name, task="Daemon").run()
             else:
                 logger.critical(f"No function matched: {func}")
             logger.info(f"[{config_name}] exited. Reason: Finish\n")

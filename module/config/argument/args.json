@@ -1291,5 +1291,19 @@
         "value": false
       }
     }
+  },
+  "Daemon": {
+    "Daemon": {
+      "Enable": {
+        "type": "state",
+        "value": true,
+        "option": [
+          true
+        ],
+        "option_bold": [
+          true
+        ]
+      }
+    }
   }
 }

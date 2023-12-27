@@ -11,6 +11,10 @@
     "Weekly": {
       "name": "每週",
       "help": ""
+    },
+    "Tool": {
+      "name": "工具",
+      "help": ""
     }
   },
   "Task": {
@@ -52,6 +56,10 @@
     },
     "Rogue": {
       "name": "模擬宇宙",
+      "help": ""
+    },
+    "Daemon": {
+      "name": "劇情連點器",
       "help": ""
     }
   },
@@ -881,7 +889,18 @@
     },
     "DebugMode": {
       "name": "開發模式",
-      "help": "無停止條件，無異常處理，遇錯誤即停止，請依文件回報異常：https://github.com/LmeSzinc/StarRailCopilot/wiki/RogueMap_cn"
+      "help": "無停止條件，無異常處理，遇錯誤即停止，請依檔案回報異常：https://github.com/LmeSzinc/StarRailCopilot/wiki/RogueMap_cn"
+    }
+  },
+  "Daemon": {
+    "_info": {
+      "name": "劇情連點器",
+      "help": "工具需要停止調度器再單獨運作"
+    },
+    "Enable": {
+      "name": "劇情連點器",
+      "help": "監聽畫面自動點擊劇情、手機聊天、模擬宇宙祝福（遵循模擬宇宙任務設定）",
+      "True": "已啟用"
     }
   },
   "Gui": {
