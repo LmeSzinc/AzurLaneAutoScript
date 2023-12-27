@@ -318,9 +318,9 @@ Echo_of_War_Divine_Seed = DungeonList(
     jp='歴戦余韻・不死の神実',
     es='Semilla divina',
 )
-Borehole_Planet_Old_Crater = DungeonList(
+Echo_of_War_Borehole_Planet_Old_Crater = DungeonList(
     id=36,
-    name='Borehole_Planet_Old_Crater',
+    name='Echo_of_War_Borehole_Planet_Old_Crater',
     cn='蛀星的旧靥•历战余响',
     cht='蛀星的舊靨•歷戰餘響',
     en="Borehole Planet's Old Crater",
