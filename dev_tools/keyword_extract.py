@@ -250,7 +250,7 @@ class KeywordExtract:
             "Complete_Calyx_Crimson_1_time", # -> Clear_Calyx_Crimson_1_times
             "Enter_combat_by_attacking_enemy_Weakness_and_win_3_times", # -> Enter_combat_by_attacking_enemie_Weakness_and_win_1_times
             "Use_Technique_2_times", # -> Use_Technique_1_times
-            "Destroy_3_destructible_objects" # -> Destroy_1_destructible_objects
+            "Destroy_3_destructible_objects", # -> Destroy_1_destructible_objects
             "Obtain_victory_in_combat_with_Support_Characters_1_time", # -> Obtain_victory_in_combat_with_Support_Characters_1_times
             "Level_up_any_character_1_time", # -> Level_up_any_character_1_times
             "Level_up_any_Light_Cone_1_time", # -> Level_up_any_Light_Cone_1_times

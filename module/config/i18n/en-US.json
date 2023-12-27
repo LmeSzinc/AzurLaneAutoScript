@@ -525,13 +525,6 @@
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
     },
-    "Destroy_3_destructible_objects": {
-      "name": "Destroy 3 destructible object(s)",
-      "help": "Achievable by default, will do Himeko trial",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
     "Complete_Forgotten_Hall_1_time": {
       "name": "Complete Forgotten Hall 1 time",
       "help": "Achievable by default, will choose the first four characters to do stage 1 once, please ensure that account build is sufficient to do stage 1",
@@ -542,13 +535,6 @@
     "Complete_Echo_of_War_1_times": {
       "name": "Complete Echo of War 1 time(s)",
       "help": "Need to configure and enable the \"Echo of War\" task",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
-    "Obtain_victory_in_combat_with_Support_Characters_1_time": {
-      "name": "Obtain victory in combat with Support Characters 1 time",
-      "help": "Need to configure and enable the \"Dungeon\" task, configure support settings also",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
@@ -612,6 +598,13 @@
     "Use_Technique_2_times": {
       "name": "Use Technique 2 time(s)",
       "help": "Achievable by default, will go to the abyssal 1 and use technique twice",
+      "achievable": "Achievable",
+      "not_set": "Not Set",
+      "not_supported": "Not Supported Yet"
+    },
+    "Destroy_3_destructible_objects": {
+      "name": "Destroy 3 destructible object(s)",
+      "help": "Achievable by default, will do Himeko trial",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"

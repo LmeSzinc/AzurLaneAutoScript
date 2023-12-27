@@ -525,13 +525,6 @@
       "not_set": "not_set",
       "not_supported": "not_supported"
     },
-    "Destroy_3_destructible_objects": {
-      "name": "破壊できるオブジェクトを累計で3個破壊する",
-      "help": "AchievableQuest.Destroy_3_destructible_objects.help",
-      "achievable": "achievable",
-      "not_set": "not_set",
-      "not_supported": "not_supported"
-    },
     "Complete_Forgotten_Hall_1_time": {
       "name": "「忘却の庭」を1回クリアする",
       "help": "AchievableQuest.Complete_Forgotten_Hall_1_time.help",
@@ -542,13 +535,6 @@
     "Complete_Echo_of_War_1_times": {
       "name": "「歴戦余韻」を1回クリアする",
       "help": "AchievableQuest.Complete_Echo_of_War_1_times.help",
-      "achievable": "achievable",
-      "not_set": "not_set",
-      "not_supported": "not_supported"
-    },
-    "Obtain_victory_in_combat_with_Support_Characters_1_time": {
-      "name": "サポートキャラを使い、戦闘に1回勝利する",
-      "help": "AchievableQuest.Obtain_victory_in_combat_with_Support_Characters_1_time.help",
       "achievable": "achievable",
       "not_set": "not_set",
       "not_supported": "not_supported"
@@ -612,6 +598,13 @@
     "Use_Technique_2_times": {
       "name": "累計で秘技を2回発動する",
       "help": "AchievableQuest.Use_Technique_2_times.help",
+      "achievable": "achievable",
+      "not_set": "not_set",
+      "not_supported": "not_supported"
+    },
+    "Destroy_3_destructible_objects": {
+      "name": "破壊できるオブジェクトを累計で3個破壊する",
+      "help": "AchievableQuest.Destroy_3_destructible_objects.help",
       "achievable": "achievable",
       "not_set": "not_set",
       "not_supported": "not_supported"

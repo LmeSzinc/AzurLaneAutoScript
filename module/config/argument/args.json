@@ -564,21 +564,6 @@
           "not_supported"
         ]
       },
-      "Destroy_3_destructible_objects": {
-        "type": "state",
-        "value": "achievable",
-        "option": [
-          "achievable",
-          "not_set",
-          "not_supported"
-        ],
-        "option_bold": [
-          "achievable"
-        ],
-        "option_light": [
-          "not_supported"
-        ]
-      },
       "Complete_Forgotten_Hall_1_time": {
         "type": "state",
         "value": "achievable",
@@ -595,21 +580,6 @@
         ]
       },
       "Complete_Echo_of_War_1_times": {
-        "type": "state",
-        "value": "achievable",
-        "option": [
-          "achievable",
-          "not_set",
-          "not_supported"
-        ],
-        "option_bold": [
-          "achievable"
-        ],
-        "option_light": [
-          "not_supported"
-        ]
-      },
-      "Obtain_victory_in_combat_with_Support_Characters_1_time": {
         "type": "state",
         "value": "achievable",
         "option": [
@@ -745,6 +715,21 @@
         ]
       },
       "Use_Technique_2_times": {
+        "type": "state",
+        "value": "achievable",
+        "option": [
+          "achievable",
+          "not_set",
+          "not_supported"
+        ],
+        "option_bold": [
+          "achievable"
+        ],
+        "option_light": [
+          "not_supported"
+        ]
+      },
+      "Destroy_3_destructible_objects": {
         "type": "state",
         "value": "achievable",
         "option": [

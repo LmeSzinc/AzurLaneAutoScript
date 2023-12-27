@@ -77,10 +77,8 @@ class GeneratedConfig:
     AchievableQuest_In_a_single_battle_inflict_3_Weakness_Break_of_different_Types = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Inflict_Weakness_Break_5_times = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Defeat_a_total_of_20_enemies = 'achievable'  # achievable, not_set, not_supported
-    AchievableQuest_Destroy_3_destructible_objects = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Complete_Forgotten_Hall_1_time = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Complete_Echo_of_War_1_times = 'achievable'  # achievable, not_set, not_supported
-    AchievableQuest_Obtain_victory_in_combat_with_Support_Characters_1_time = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Use_an_Ultimate_to_deal_the_final_blow_1_time = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Salvage_any_Relic = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Use_Consumables_1_time = 'achievable'  # achievable, not_set, not_supported
@@ -90,6 +88,7 @@ class GeneratedConfig:
     AchievableQuest_Clear_Calyx_Crimson_1_times = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Enter_combat_by_attacking_enemie_Weakness_and_win_3_times = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Use_Technique_2_times = 'achievable'  # achievable, not_set, not_supported
+    AchievableQuest_Destroy_3_destructible_objects = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Obtain_victory_in_combat_with_Support_Characters_1_times = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Level_up_any_character_1_times = 'achievable'  # achievable, not_set, not_supported
     AchievableQuest_Level_up_any_Light_Cone_1_times = 'achievable'  # achievable, not_set, not_supported

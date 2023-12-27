@@ -1,5 +1,5 @@
 from module.logger import logger
-from tasks.daily.keywords.daily_quest import Complete_1_stage_in_Simulated_Universe_Any_world
+from tasks.daily.keywords.daily_quest import Complete_Simulated_Universe_1_times
 from tasks.rogue.entry.entry import RogueEntry
 from tasks.rogue.exception import RogueReachedWeeklyPointLimit, RogueTeamNotPrepared
 from tasks.rogue.route.loader import RouteLoader
@@ -43,8 +43,8 @@ class Rogue(RouteLoader, RogueEntry):
                 # Archived daily quest
                 if success:
                     quests = self.config.stored.DailyQuest.load_quests()
-                    if Complete_1_stage_in_Simulated_Universe_Any_world in quests:
-                        logger.info('Achieve daily quest Complete_1_stage_in_Simulated_Universe_Any_world')
+                    if Complete_Simulated_Universe_1_times in quests:
+                        logger.info('Achieve daily quest Complete_Simulated_Universe_1_times')
                         self.config.task_call('DailyQuest')
                         self.config.task_stop()
                 # End

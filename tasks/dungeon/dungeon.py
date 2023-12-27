@@ -81,8 +81,8 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
             logger.info('Achieved daily quest Clear_Calyx_Golden_1_times')
             self.achieved_daily_quest = True
         if dungeon.is_Calyx_Crimson \
-                and KEYWORDS_DAILY_QUEST.Complete_Calyx_Crimson_1_time in self.daily_quests:
-            logger.info('Achieve daily quest Complete_Calyx_Crimson_1_time')
+                and KEYWORDS_DAILY_QUEST.Clear_Calyx_Crimson_1_times in self.daily_quests:
+            logger.info('Achieve daily quest Clear_Calyx_Crimson_1_times')
             self.achieved_daily_quest = True
         if dungeon.is_Stagnant_Shadow \
                 and KEYWORDS_DAILY_QUEST.Clear_Stagnant_Shadow_1_times in self.daily_quests:
@@ -215,7 +215,7 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
             dungeon = DungeonList.find(self.config.DungeonDaily_CalyxGolden)
             self.dungeon_run(dungeon=dungeon, wave_limit=1)
         # Calyx_Crimson
-        if KEYWORDS_DAILY_QUEST.Complete_Calyx_Crimson_1_time in self.daily_quests \
+        if KEYWORDS_DAILY_QUEST.Clear_Calyx_Crimson_1_times in self.daily_quests \
                 and self.config.DungeonDaily_CalyxCrimson != 'do_not_achieve' \
                 and not final.is_Calyx_Crimson \
                 and not ran_calyx_crimson:

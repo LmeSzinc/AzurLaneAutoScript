@@ -66,15 +66,6 @@ Defeat_a_total_of_20_enemies = DailyQuest(
     jp='敵を累計で20体倒す',
     es='Derrota a 20 enemigos',
 )
-Destroy_3_destructible_objects = DailyQuest(
-    id=13,
-    name='Destroy_3_destructible_objects',
-    cn='累计击碎3个可破坏物',
-    cht='累積擊碎3個可破壞物',
-    en='Destroy 3 destructible objects',
-    jp='破壊できるオブジェクトを累計で3つ破壊する',
-    es='Destruye 3 objetos destruibles',
-)
 Complete_Forgotten_Hall_1_time = DailyQuest(
     id=14,
     name='Complete_Forgotten_Hall_1_time',
@@ -92,15 +83,6 @@ Complete_Echo_of_War_1_times = DailyQuest(
     en='Complete Echo of War 1 time(s)',
     jp='「歴戦余韻」を1回クリアする',
     es='Completa Ecos de la guerra 1 vez',
-)
-Obtain_victory_in_combat_with_Support_Characters_1_time = DailyQuest(
-    id=17,
-    name='Obtain_victory_in_combat_with_Support_Characters_1_time',
-    cn='使用支援角色并获得战斗胜利1次',
-    cht='使用支援角色並獲得戰鬥勝利1次',
-    en='Obtain victory in combat with Support Characters 1 time',
-    jp='サポートキャラを使い、戦闘に1回勝利する',
-    es='Gana 1 batalla utilizando personajes de apoyo',
 )
 Use_an_Ultimate_to_deal_the_final_blow_1_time = DailyQuest(
     id=18,

@@ -65,8 +65,8 @@ class Assignment(AssignmentClaim, SynthesizeUI):
         with self.config.multi_set():
             # Check daily
             quests = self.config.stored.DailyQuest.load_quests()
-            if KEYWORDS_DAILY_QUEST.Go_on_assignment_1_time in quests:
-                logger.info('Achieved daily quest Go_on_assignment_1_time')
+            if KEYWORDS_DAILY_QUEST.Dispatch_1_assignments in quests:
+                logger.info('Achieved daily quest Dispatch_1_assignments')
                 self.config.task_call('DailyQuest')
             if self.has_new_dispatch:
                 if KEYWORDS_DAILY_QUEST.Dispatch_1_assignments in quests:

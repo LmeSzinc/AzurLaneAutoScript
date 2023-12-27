@@ -525,13 +525,6 @@
       "not_set": "未设置",
       "not_supported": "暂未支持"
     },
-    "Destroy_3_destructible_objects": {
-      "name": "累计击碎3个可破坏物",
-      "help": "默认可完成，将做姬子试用",
-      "achievable": "可完成",
-      "not_set": "未设置",
-      "not_supported": "暂未支持"
-    },
     "Complete_Forgotten_Hall_1_time": {
       "name": "完成1次「忘却之庭」",
       "help": "默认可完成，将使用前四个角色打一次深渊一，请保证帐号练度足够打深渊一",
@@ -542,13 +535,6 @@
     "Complete_Echo_of_War_1_times": {
       "name": "完成1次「历战余响」",
       "help": "需要设置并启用\"历战余响\"任务",
-      "achievable": "可完成",
-      "not_set": "未设置",
-      "not_supported": "暂未支持"
-    },
-    "Obtain_victory_in_combat_with_Support_Characters_1_time": {
-      "name": "使用支援角色并获得战斗胜利1次",
-      "help": "需要设置并启用\"每日副本\"，且设置好友支援",
       "achievable": "可完成",
       "not_set": "未设置",
       "not_supported": "暂未支持"
@@ -612,6 +598,13 @@
     "Use_Technique_2_times": {
       "name": "累计施放2次秘技",
       "help": "默认可完成，将前往深渊一施放2次秘技",
+      "achievable": "可完成",
+      "not_set": "未设置",
+      "not_supported": "暂未支持"
+    },
+    "Destroy_3_destructible_objects": {
+      "name": "累计击碎3个可破坏物",
+      "help": "默认可完成，将做姬子试用",
       "achievable": "可完成",
       "not_set": "未设置",
       "not_supported": "暂未支持"
