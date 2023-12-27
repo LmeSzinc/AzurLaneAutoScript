@@ -160,8 +160,8 @@ BattlePassStorage:
     stored: StoredBattlePassLevel
     order: 5
     color: "#cbe45b"
-  BattlePassTodayQuest:
-    stored: StoredBattlePassTodayQuest
+  BattlePassWeeklyQuest:
+    stored: StoredBattlePassWeeklyQuest
 
 Assignment:
   # Options in Name_x will be injected in config updater

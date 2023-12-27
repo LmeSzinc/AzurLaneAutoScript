@@ -285,13 +285,16 @@ class StoredBattlePassLevel(StoredCounter):
     FIXED_TOTAL = 70
 
 
-class StoredBattlePassTodayQuest(StoredCounter, StoredExpiredAt0400):
+class StoredBattlePassWeeklyQuest(StoredCounter, StoredExpiredAt0400):
     quest1 = ''
     quest2 = ''
     quest3 = ''
     quest4 = ''
+    quest5 = ''
+    quest6 = ''
+    quest7 = ''
 
-    FIXED_TOTAL = 4
+    FIXED_TOTAL = 7
 
     def load_quests(self):
         """
@@ -301,7 +304,7 @@ class StoredBattlePassTodayQuest(StoredCounter, StoredExpiredAt0400):
         # BattlePassQuest should be lazy loaded
         from tasks.battle_pass.keywords import BattlePassQuest
         quests = []
-        for name in [self.quest1, self.quest2, self.quest3, self.quest4]:
+        for name in [self.quest1, self.quest2, self.quest3, self.quest4, self.quest5, self.quest6, self.quest7]:
             if not name:
                 continue
             try:
@@ -336,3 +339,15 @@ class StoredBattlePassTodayQuest(StoredCounter, StoredExpiredAt0400):
                 self.quest4 = quests[3]
             except IndexError:
                 self.quest4 = ''
+            try:
+                self.quest5 = quests[4]
+            except IndexError:
+                self.quest5 = ''
+            try:
+                self.quest6 = quests[5]
+            except IndexError:
+                self.quest6 = ''
+            try:
+                self.quest7 = quests[6]
+            except IndexError:
+                self.quest7 = ''

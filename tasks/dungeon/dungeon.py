@@ -267,7 +267,7 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
         logger.attr('achieved_daily_quest', self.achieved_daily_quest)
         with self.config.multi_set():
             # Check battle pass
-            quests = self.config.stored.BattlePassTodayQuest.load_quests()
+            quests = self.config.stored.BattlePassWeeklyQuest.load_quests()
             if KEYWORD_BATTLE_PASS_QUEST.Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max in quests:
                 logger.info('Probably achieved battle pass quest Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max')
                 if self.config.stored.BattlePassLevel.is_full():

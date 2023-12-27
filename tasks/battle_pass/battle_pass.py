@@ -48,11 +48,6 @@ class BattlePassMissionTab(Switch):
 
 SWITCH_BATTLE_PASS_MISSION_TAB = BattlePassMissionTab('BattlePassMissionTab', is_selector=True)
 SWITCH_BATTLE_PASS_MISSION_TAB.add_state(
-    KEYWORD_BATTLE_PASS_MISSION_TAB.Today_Missions,
-    check_button=TODAY_MISSION_CLICK,
-    click_button=TODAY_MISSION_CLICK
-)
-SWITCH_BATTLE_PASS_MISSION_TAB.add_state(
     KEYWORD_BATTLE_PASS_MISSION_TAB.This_Week_Missions,
     check_button=WEEK_MISSION_CLICK,
     click_button=WEEK_MISSION_CLICK
@@ -126,7 +121,7 @@ class BattlePassUI(UI):
         if SWITCH_BATTLE_PASS_TAB.set(state, main=self):
             logger.info(f'Tab goto {state}, wait until loaded')
             if state == KEYWORD_BATTLE_PASS_TAB.Missions:
-                self._battle_pass_wait_missions_loaded(has_scroll=False)
+                self._battle_pass_wait_missions_loaded()
             if state == KEYWORD_BATTLE_PASS_TAB.Rewards:
                 self._battle_pass_wait_rewards_loaded()
 
@@ -134,8 +129,6 @@ class BattlePassUI(UI):
         self.battle_pass_goto(KEYWORD_BATTLE_PASS_TAB.Missions)
         if SWITCH_BATTLE_PASS_MISSION_TAB.set(state, main=self):
             logger.info(f'Tab goto {state}, wait until loaded')
-            if state == KEYWORD_BATTLE_PASS_MISSION_TAB.Today_Missions:
-                self._battle_pass_wait_missions_loaded(has_scroll=False)
             if state == KEYWORD_BATTLE_PASS_MISSION_TAB.This_Week_Missions:
                 self._battle_pass_wait_missions_loaded()
             if state == KEYWORD_BATTLE_PASS_MISSION_TAB.This_Period_Missions:
@@ -238,15 +231,20 @@ class BattlePassUI(UI):
             self.claim_battle_pass_rewards()
         """
         logger.hr('Quest recognise', level=1)
+        # Update quests
         with self.config.multi_set():
+            # Update level
             previous_level = self._get_battle_pass_level()
             self.config.stored.BattlePassLevel.set(previous_level)
-            quests = self.battle_pass_quests_recognition(
-                KEYWORD_BATTLE_PASS_MISSION_TAB.Today_Missions, has_scroll=False)
-            self.config.stored.BattlePassTodayQuest.write_quests(quests)
+            # Update quests
+            self.battle_pass_mission_tab_goto(
+                KEYWORD_BATTLE_PASS_MISSION_TAB.This_Week_Missions)
+            quests = self.battle_pass_quests_recognition()
+            self.config.stored.BattlePassWeeklyQuest.write_quests(quests)
         if previous_level == self.MAX_LEVEL:
             return previous_level
 
+        # Claim rewards
         claimed_exp = self._claim_exp()
         current_level = self._get_battle_pass_level()
         self.config.stored.BattlePassLevel.set(current_level)
@@ -268,35 +266,25 @@ class BattlePassUI(UI):
         return [incomplete_quest for incomplete_quest, _ in
                 split_and_pair_buttons(results, split_func=completed_state, relative_area=(0, 0, 800, 100))]
 
-    def battle_pass_quests_recognition(
-            self,
-            page: KEYWORD_BATTLE_PASS_MISSION_TAB,
-            has_scroll=True,
-    ) -> list[BattlePassQuest]:
+    def battle_pass_quests_recognition(self) -> list[BattlePassQuest]:
         """
-        Args:
-            page: One of the followings:
-                KEYWORD_BATTLE_PASS_MISSION_TAB.Today_Missions
-                KEYWORD_BATTLE_PASS_MISSION_TAB.This_Week_Missions
-                KEYWORD_BATTLE_PASS_MISSION_TAB.This_Period_Missions
-            has_scroll: need to scroll to recognize all quests
-
-        Returns:
-
+        Pages:
+            in: page_battle_pass, KEYWORD_BATTLE_PASS_TAB.Missions, weekly or period
         """
-        logger.info(f"Recognizing battle pass quests at {page}")
-        self.battle_pass_mission_tab_goto(page)
-        if not has_scroll:
-            results = self.ocr_single_page()
-            results = [result.matched_keyword for result in results]
-        else:
-            scroll = Scroll(MISSION_PAGE_SCROLL, color=(198, 198, 198))
-            scroll.set_top(main=self)
-            results = self.ocr_single_page()
-            while not scroll.at_bottom(main=self):
+        logger.hr('Quest recognise', level=2)
+        scroll = Scroll(MISSION_PAGE_SCROLL, color=(198, 198, 198))
+
+        scroll.set_top(main=self)
+        results = []
+        while 1:
+            results += [result for result in self.ocr_single_page() if result not in results]
+            if scroll.at_bottom(main=self):
+                logger.info('Quest list reached bottom')
+                break
+            else:
                 scroll.next_page(main=self)
-                results += [result for result in self.ocr_single_page() if result not in results]
-                results = [result.matched_keyword for result in results]
+
+        results = [result.matched_keyword for result in results]
         return results
 
     def has_battle_pass_entrance(self, skip_first_screenshot=True):
@@ -325,7 +313,7 @@ class BattlePassUI(UI):
     def run(self):
         self.ui_ensure(page_main)
         if not self.has_battle_pass_entrance():
-            self.config.stored.BattlePassTodayQuest.set(0)
+            self.config.stored.BattlePassWeeklyQuest.set(0)
             self.config.task_delay(server_update=True)
             self.config.task_stop()
 

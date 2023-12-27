@@ -689,9 +689,9 @@
       "name": "BattlePassStorage.BattlePassLevel.name",
       "help": "BattlePassStorage.BattlePassLevel.help"
     },
-    "BattlePassTodayQuest": {
-      "name": "BattlePassStorage.BattlePassTodayQuest.name",
-      "help": "BattlePassStorage.BattlePassTodayQuest.help"
+    "BattlePassWeeklyQuest": {
+      "name": "BattlePassStorage.BattlePassWeeklyQuest.name",
+      "help": "BattlePassStorage.BattlePassWeeklyQuest.help"
     }
   },
   "Assignment": {

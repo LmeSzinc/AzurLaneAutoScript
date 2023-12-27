@@ -905,11 +905,11 @@
         "order": 5,
         "color": "#cbe45b"
       },
-      "BattlePassTodayQuest": {
+      "BattlePassWeeklyQuest": {
         "type": "stored",
         "value": {},
         "display": "hide",
-        "stored": "StoredBattlePassTodayQuest"
+        "stored": "StoredBattlePassWeeklyQuest"
       }
     }
   },

@@ -103,7 +103,7 @@ class GeneratedConfig:
 
     # Group `BattlePassStorage`
     BattlePassStorage_BattlePassLevel = {}
-    BattlePassStorage_BattlePassTodayQuest = {}
+    BattlePassStorage_BattlePassWeeklyQuest = {}
 
     # Group `Assignment`
     Assignment_Name_1 = 'Nameless_Land_Nameless_People'  # Nine_Billion_Names, Destruction_of_the_Destroyer, Winter_Soldiers, Born_to_Obey, Root_Out_the_Turpitude, Fire_Lord_Inflames_Blades_of_War, Nameless_Land_Nameless_People, Akashic_Records, The_Invisible_Hand, Abandoned_and_Insulted, Spring_of_Life, The_Land_of_Gold, The_Blossom_in_the_Storm, Legend_of_the_Puppet_Master, The_Wages_of_Humanity

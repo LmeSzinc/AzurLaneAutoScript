@@ -2,7 +2,7 @@ from module.config.stored.classes import (
     StoredAssignment,
     StoredBase,
     StoredBattlePassLevel,
-    StoredBattlePassTodayQuest,
+    StoredBattlePassWeeklyQuest,
     StoredCounter,
     StoredDaily,
     StoredDailyActivity,
@@ -29,7 +29,7 @@ class StoredGenerated:
     DailyActivity = StoredDailyActivity("DailyQuest.DailyStorage.DailyActivity")
     DailyQuest = StoredDaily("DailyQuest.DailyStorage.DailyQuest")
     BattlePassLevel = StoredBattlePassLevel("BattlePass.BattlePassStorage.BattlePassLevel")
-    BattlePassTodayQuest = StoredBattlePassTodayQuest("BattlePass.BattlePassStorage.BattlePassTodayQuest")
+    BattlePassWeeklyQuest = StoredBattlePassWeeklyQuest("BattlePass.BattlePassStorage.BattlePassWeeklyQuest")
     Assignment = StoredAssignment("Assignment.Assignment.Assignment")
     Credit = StoredInt("DataUpdate.ItemStorage.Credit")
     StallerJade = StoredInt("DataUpdate.ItemStorage.StallerJade")
