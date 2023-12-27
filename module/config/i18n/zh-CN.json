@@ -920,9 +920,9 @@
     "Bonus": {
       "name": "开拓祝福三选一",
       "help": "",
-      "Blessing Cosmos": "祝福宇宙（获得一个祝福）",
-      "Miracle Cosmos": "神奇宇宙（获得一个奇物）",
-      "Fragmented Cosmos": "破碎宇宙（获得宇宙碎片）"
+      "Blessing Universe": "祝福宇宙（获得一个祝福）",
+      "Miracle Universe": "神奇宇宙（获得一个奇物）",
+      "Fragmented Universe": "破碎宇宙（获得宇宙碎片）"
     },
     "DomainStrategy": {
       "name": "区域策略",

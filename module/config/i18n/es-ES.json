@@ -920,9 +920,9 @@
     "Bonus": {
       "name": "Bendiciones",
       "help": "",
-      "Blessing Cosmos": "Cosmos de Bendición (Elige una bendición)",
-      "Miracle Cosmos": "Cosmos milagroso (Elige un objeto raro)",
-      "Fragmented Cosmos": "Fragmented Cosmos (Claim some Cosmic Fragments)"
+      "Blessing Universe": "Cosmos de Bendición (Elige una bendición)",
+      "Miracle Universe": "Cosmos milagroso (Elige un objeto raro)",
+      "Fragmented Universe": "Fragmented Universe (Claim some Cosmic Fragments)"
     },
     "DomainStrategy": {
       "name": "Estrategia de dominio",

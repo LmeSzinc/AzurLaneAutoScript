@@ -920,9 +920,9 @@
     "Bonus": {
       "name": "RogueWorld.Bonus.name",
       "help": "RogueWorld.Bonus.help",
-      "Blessing Cosmos": "Blessing Cosmos",
-      "Miracle Cosmos": "Miracle Cosmos",
-      "Fragmented Cosmos": "Fragmented Cosmos"
+      "Blessing Universe": "Blessing Universe",
+      "Miracle Universe": "Miracle Universe",
+      "Fragmented Universe": "Fragmented Universe"
     },
     "DomainStrategy": {
       "name": "RogueWorld.DomainStrategy.name",

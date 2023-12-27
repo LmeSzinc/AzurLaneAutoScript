@@ -920,9 +920,9 @@
     "Bonus": {
       "name": "Blessings of Trailblaze",
       "help": "",
-      "Blessing Cosmos": "Blessing Cosmos (Choose a blessing)",
-      "Miracle Cosmos": "Miracle Cosmos (Choose a curio)",
-      "Fragmented Cosmos": "Fragmented Cosmos (Claim some Cosmic Fragments)"
+      "Blessing Universe": "Blessing Universe (Choose a blessing)",
+      "Miracle Universe": "Miracle Universe (Choose a curio)",
+      "Fragmented Universe": "Fragmented Universe (Claim some Cosmic Fragments)"
     },
     "DomainStrategy": {
       "name": "Domain Strategy",

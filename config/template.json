@@ -191,7 +191,7 @@
     "RogueWorld": {
       "World": "Simulated_Universe_World_7",
       "Path": "The_Hunt",
-      "Bonus": "Blessing Cosmos",
+      "Bonus": "Blessing Universe",
       "DomainStrategy": "combat",
       "UseImmersifier": true,
       "UseStamina": false

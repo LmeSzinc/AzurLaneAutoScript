@@ -1426,11 +1426,11 @@
       },
       "Bonus": {
         "type": "select",
-        "value": "Blessing Cosmos",
+        "value": "Blessing Universe",
         "option": [
-          "Blessing Cosmos",
-          "Miracle Cosmos",
-          "Fragmented Cosmos"
+          "Blessing Universe",
+          "Miracle Universe",
+          "Fragmented Universe"
         ]
       },
       "DomainStrategy": {
