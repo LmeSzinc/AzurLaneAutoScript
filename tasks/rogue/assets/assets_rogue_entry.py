@@ -33,6 +33,45 @@ OCR_WORLD = ButtonWrapper(
         button=(500, 362, 700, 390),
     ),
 )
+THEME_DLC = ButtonWrapper(
+    name='THEME_DLC',
+    share=[
+        Button(
+            file='./assets/share/rogue/entry/THEME_DLC.png',
+            area=(229, 300, 299, 370),
+            search=(209, 280, 319, 390),
+            color=(109, 25, 65),
+            button=(229, 300, 299, 370),
+        ),
+        Button(
+            file='./assets/share/rogue/entry/THEME_DLC.2.png',
+            area=(224, 324, 299, 399),
+            search=(204, 304, 319, 419),
+            color=(29, 115, 140),
+            button=(224, 324, 299, 399),
+        ),
+    ],
+)
+THEME_ROGUE = ButtonWrapper(
+    name='THEME_ROGUE',
+    share=Button(
+        file='./assets/share/rogue/entry/THEME_ROGUE.png',
+        area=(227, 325, 297, 395),
+        search=(207, 305, 317, 415),
+        color=(80, 55, 176),
+        button=(227, 325, 297, 395),
+    ),
+)
+THEME_SWITCH = ButtonWrapper(
+    name='THEME_SWITCH',
+    share=Button(
+        file='./assets/share/rogue/entry/THEME_SWITCH.png',
+        area=(47, 494, 87, 534),
+        search=(27, 474, 107, 554),
+        color=(86, 71, 170),
+        button=(47, 494, 87, 534),
+    ),
+)
 WORLD_ENTER = ButtonWrapper(
     name='WORLD_ENTER',
     share=Button(

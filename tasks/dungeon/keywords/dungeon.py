@@ -408,3 +408,21 @@ Memory_of_Chaos = DungeonList(
     jp='混沌の記憶',
     es='Evocación caótica',
 )
+Simulated_Universe_The_Swarm_Disaster = DungeonList(
+    id=46,
+    name='Simulated_Universe_The_Swarm_Disaster',
+    cn='寰宇蝗灾',
+    cht='寰宇蝗災',
+    en='The Swarm Disaster',
+    jp='宇宙の蝗害',
+    es='La Plaga',
+)
+Simulated_Universe_Gold_and_Gears = DungeonList(
+    id=47,
+    name='Simulated_Universe_Gold_and_Gears',
+    cn='黄金与机械',
+    cht='黃金與機械',
+    en='Gold and Gears',
+    jp='黄金と機械',
+    es='Oro y maquinaria',
+)

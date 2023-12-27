@@ -99,6 +99,22 @@ class DungeonList(Keyword):
 
         raise ScriptError(f'Cannot convert {self} to DungeonNav, please check keyword extractions')
 
+    @cached_property
+    def rogue_theme(self) -> str:
+        """
+        Returns:
+            'rogue' for normal simulated universe farmed every week
+            'dlc' for special rogue theme
+            '' for non-rogue
+        """
+        if self.is_Simulated_Universe:
+            if self.name.startswith('Simulated_Universe_World'):
+                return 'rogue'
+            else:
+                return 'dlc'
+        else:
+            return ''
+
 
 @dataclass(repr=False)
 class DungeonEntrance(Keyword):

@@ -30,6 +30,8 @@ def dungeon_name(name: str) -> str:
     name = re.sub('Path_of_(.*)', r'Cavern_of_Corrosion_Path_of_\1', name)
     if name in ['Destruction_Beginning', 'End_of_the_Eternal_Freeze', 'Divine_Seed']:
         name = f'Echo_of_War_{name}'
+    if name in ['The_Swarm_Disaster', 'Gold_and_Gears']:
+        name = f'Simulated_Universe_{name}'
     return name
 
 
@@ -146,6 +148,9 @@ class KeywordExtract:
         yield temp_save
         # 'Memory of Chaos' is not a real dungeon, but represents a group
         yield '混沌回忆'
+        # Consider rogue DLC as a dungeon
+        yield '寰宇蝗灾'
+        yield '黄金与机械'
 
     def find_keyword(self, keyword, lang) -> tuple[int, str]:
         """
