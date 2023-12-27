@@ -721,6 +721,9 @@ class ConfigUpdater:
             deep_set(data, keys='Rogue.RogueWorld.UseStamina', value=False)
         if deep_get(data, keys='Rogue.RogueWorld.UseStamina') is True:
             deep_set(data, keys='Rogue.RogueWorld.UseImmersifier', value=True)
+        # Store immersifier in dungeon task
+        if deep_get(data, keys='Rogue.RogueWorld.UseImmersifier') is True:
+            deep_set(data, keys='Dungeon.Scheduler.Enable', value=True)
 
         return data
 
