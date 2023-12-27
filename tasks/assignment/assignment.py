@@ -64,6 +64,7 @@ class Assignment(AssignmentClaim, SynthesizeUI):
         logger.attr('has_new_dispatch', self.has_new_dispatch)
         with self.config.multi_set():
             # Check daily
+            quests = self.config.stored.DailyQuest.load_quests()
             if KEYWORDS_DAILY_QUEST.Dispatch_1_assignments in quests:
                 logger.info('Achieved daily quest Dispatch_1_assignments')
                 self.config.task_call('DailyQuest')
