@@ -694,7 +694,7 @@ class ConfigUpdater:
         set_daily('In_a_single_battle_inflict_3_Weakness_Break_of_different_Types', 'achievable')
         set_daily('Inflict_Weakness_Break_5_times', 'achievable')
         set_daily('Defeat_a_total_of_20_enemies', 'achievable')
-        set_daily('Enter_combat_by_attacking_enemy_Weakness_and_win_3_times', 'achievable')
+        set_daily('Enter_combat_by_attacking_enemie_Weakness_and_win_3_times', 'achievable')
         set_daily('Use_Technique_2_times', 'achievable')
         # Other game systems
         set_daily('Dispatch_1_assignments', deep_get(data, 'Assignment.Scheduler.Enable'))
