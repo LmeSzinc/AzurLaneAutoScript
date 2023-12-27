@@ -240,10 +240,10 @@
       "Stagnant_Shadow_Spike": "角色晉階材料：物理（娜塔莎 / 克拉拉 / 盧卡 / 素裳）",
       "Stagnant_Shadow_Rime": "角色晉階材料：冰（三月七 / 黑塔 / 傑帕德 / 佩拉）",
       "Stagnant_Shadow_Mirage": "角色晉階材料：虛數（瓦爾特 / 羅剎 / 馭空）",
-      "Stagnant_Shadow_Icicle": "角色晉階材料：冰（彥卿 / 鏡流）",
+      "Stagnant_Shadow_Icicle": "角色晉階材料：冰（彥卿 / 鏡流 / 阮•梅）",
       "Stagnant_Shadow_Doom": "角色晉階材料：雷（卡芙卡 / 景元）",
-      "Stagnant_Shadow_Puppetry": "角色晉階材料：虛數（丹恆•飲月）",
-      "Stagnant_Shadow_Abomination": "角色晉階材料：量子（玲可 / 符玄）",
+      "Stagnant_Shadow_Puppetry": "角色晉階材料：虛數（丹恆•飲月 / 真理醫生）",
+      "Stagnant_Shadow_Abomination": "角色晉階材料：量子（玲可 / 符玄 / 雪衣）",
       "Stagnant_Shadow_Scorch": "角色晉階材料：火（桂乃芬 / 托帕&帳帳）",
       "Stagnant_Shadow_Celestial": "角色晉階材料：風（刃 / 藿藿）",
       "Stagnant_Shadow_Perdition": "角色晉階材料：物理（寒鴉 / 銀枝）",
@@ -334,10 +334,10 @@
       "Stagnant_Shadow_Spike": "角色晉階材料：物理（娜塔莎 / 克拉拉 / 盧卡 / 素裳）",
       "Stagnant_Shadow_Rime": "角色晉階材料：冰（三月七 / 黑塔 / 傑帕德 / 佩拉）",
       "Stagnant_Shadow_Mirage": "角色晉階材料：虛數（瓦爾特 / 羅剎 / 馭空）",
-      "Stagnant_Shadow_Icicle": "角色晉階材料：冰（彥卿 / 鏡流）",
+      "Stagnant_Shadow_Icicle": "角色晉階材料：冰（彥卿 / 鏡流 / 阮•梅）",
       "Stagnant_Shadow_Doom": "角色晉階材料：雷（卡芙卡 / 景元）",
-      "Stagnant_Shadow_Puppetry": "角色晉階材料：虛數（丹恆•飲月）",
-      "Stagnant_Shadow_Abomination": "角色晉階材料：量子（玲可 / 符玄）",
+      "Stagnant_Shadow_Puppetry": "角色晉階材料：虛數（丹恆•飲月 / 真理醫生）",
+      "Stagnant_Shadow_Abomination": "角色晉階材料：量子（玲可 / 符玄 / 雪衣）",
       "Stagnant_Shadow_Scorch": "角色晉階材料：火（桂乃芬 / 托帕&帳帳）",
       "Stagnant_Shadow_Celestial": "角色晉階材料：風（刃 / 藿藿）",
       "Stagnant_Shadow_Perdition": "角色晉階材料：物理（寒鴉 / 銀枝）"
@@ -399,6 +399,7 @@
       "Natasha": "娜塔莎",
       "Pela": "佩拉",
       "Qingque": "青雀",
+      "RuanMei": "阮•梅",
       "Sampo": "桑博",
       "Seele": "希兒",
       "Serval": "希露瓦",
@@ -409,6 +410,7 @@
       "TrailblazerDestruction": "開拓者•毀滅",
       "TrailblazerPreservation": "開拓者•存護",
       "Welt": "瓦爾特",
+      "Xueyi": "雪衣",
       "Yanqing": "彥卿",
       "Yukong": "馭空"
     }
@@ -494,13 +496,6 @@
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
-    "Complete_Calyx_Crimson_1_time": {
-      "name": "完成1次「擬造花萼（赤）」",
-      "help": "需要設定並啟用\"每日副本\"任務",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
     "Clear_Stagnant_Shadow_1_times": {
       "name": "完成1次「凝滯虛影」",
       "help": "需要設定並啟用\"每日副本\"任務",
@@ -536,41 +531,6 @@
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
-    "Enter_combat_by_attacking_enemy_Weakness_and_win_3_times": {
-      "name": "利用弱點進入戰鬥並獲勝3次",
-      "help": "預設可完成，將做姬子試用",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
-    "Use_Technique_2_times": {
-      "name": "累積施放2次秘技",
-      "help": "預設可完成，將前往深淵一施放2次秘技",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
-    "Go_on_assignment_1_time": {
-      "name": "派遣1次委託",
-      "help": "需要設定並啟用\"委託\"任務",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
-    "Take_1_photo": {
-      "name": "拍照1次",
-      "help": "預設可完成",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
-    "Destroy_3_destructible_objects": {
-      "name": "累積擊碎3個可破壞物",
-      "help": "預設可完成，將做姬子試用",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
     "Complete_Forgotten_Hall_1_time": {
       "name": "完成1次「忘卻之庭」",
       "help": "預設可完成，將使用前四個角色打一次深淵一，請確保帳號練度足夠打深淵一",
@@ -585,44 +545,9 @@
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
-    "Complete_1_stage_in_Simulated_Universe_Any_world": {
-      "name": "完成「模擬宇宙」任意世界的1個區域",
-      "help": "需要設定並啟用\"模擬宇宙\"任務",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
-    "Obtain_victory_in_combat_with_support_characters_1_time": {
-      "name": "使用支援角色並獲得戰鬥勝利1次",
-      "help": "需要設定並啟用\"每日副本\"，且設並好友支援",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
     "Use_an_Ultimate_to_deal_the_final_blow_1_time": {
       "name": "施放終結技造成制勝一擊1次",
       "help": "預設可完成，將做姬子試用",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
-    "Level_up_any_character_1_time": {
-      "name": "將任意角色等級提升1次",
-      "help": "",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
-    "Level_up_any_Light_Cone_1_time": {
-      "name": "將任意光錐等級提升1次",
-      "help": "",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
-    "Level_up_any_Relic_1_time": {
-      "name": "將任意遺器等級提升1次",
-      "help": "",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
@@ -634,23 +559,107 @@
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
-    "Synthesize_Consumable_1_time": {
-      "name": "合成1次消耗品",
-      "help": "預設可完成，將合成最低級零食",
+    "Use_Consumables_1_time": {
+      "name": "使用1件消耗品",
+      "help": "預設可完成，將使用護具，無材料時先合成再使用",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
-    "Synthesize_material_1_time": {
-      "name": "合成1次素材",
+    "Log_in_to_the_game": {
+      "name": "登入遊戲",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Dispatch_1_assignments": {
+      "name": "派遣1次委託",
+      "help": "需要設定並啟用\"委託\"任務",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Complete_Simulated_Universe_1_times": {
+      "name": "完成1次「模擬宇宙」",
+      "help": "需要設定並啟用\"模擬宇宙\"任務",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Clear_Calyx_Crimson_1_times": {
+      "name": "完成1次「擬造花萼（赤）」",
+      "help": "需要設定並啟用\"每日副本\"任務",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Enter_combat_by_attacking_enemie_Weakness_and_win_3_times": {
+      "name": "利用弱點進入戰鬥並獲勝3次",
+      "help": "預設可完成，將做姬子試用",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Use_Technique_2_times": {
+      "name": "累積施放2次秘技",
+      "help": "預設可完成，將前往深淵一施放2次秘技",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Destroy_3_destructible_objects": {
+      "name": "累積擊碎3個可破壞物",
+      "help": "預設可完成，將做姬子試用",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Obtain_victory_in_combat_with_Support_Characters_1_times": {
+      "name": "使用支援角色並獲得戰鬥勝利1次",
+      "help": "需要設定並啟用\"每日副本\"，且設並好友支援",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Level_up_any_character_1_times": {
+      "name": "將任意角色等級提升1次",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Level_up_any_Light_Cone_1_times": {
+      "name": "將任意光錐等級提升1次",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Use_the_Omni_Synthesizer_1_times": {
+      "name": "使用1次「萬能合成機」",
       "help": "預設可完成，將合成最低級素材",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
-    "Use_Consumables_1_time": {
-      "name": "使用1件消耗品",
-      "help": "預設可完成，將使用護具，無材料時先合成再使用",
+    "Take_photos_1_times": {
+      "name": "拍照1次",
+      "help": "預設可完成",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Consume_120_Trailblaze_Power": {
+      "name": "累積消耗120點開拓力",
+      "help": "",
+      "achievable": "可完成",
+      "not_set": "未設定",
+      "not_supported": "暫未支援"
+    },
+    "Level_up_any_Relic_1_times": {
+      "name": "將任意遺器等級提升1次",
+      "help": "",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
@@ -826,9 +835,9 @@
     "Bonus": {
       "name": "開拓祝福三選一",
       "help": "",
-      "Blessing Cosmos": "祝福宇宙（獲得一個祝福）",
-      "Miracle Cosmos": "神奇宇宙（獲得一個奇物）",
-      "Fragmented Cosmos": "破碎宇宙（獲得宇宙碎片）"
+      "Blessing Universe": "祝福宇宙（獲得一個祝福）",
+      "Miracle Universe": "神奇宇宙（獲得一個奇物）",
+      "Fragmented Universe": "破碎宇宙（獲得宇宙碎片）"
     },
     "DomainStrategy": {
       "name": "區域策略",

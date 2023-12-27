@@ -75,3 +75,57 @@ Propagation = RoguePath(
     jp='繁殖',
     es='Propagación',
 )
+Erudition = RoguePath(
+    id=9,
+    name='Erudition',
+    cn='智识',
+    cht='智識',
+    en='Erudition',
+    jp='知恵',
+    es='Erudición',
+)
+The_Harmony = RoguePath(
+    id=10,
+    name='The_Harmony',
+    cn='同谐',
+    cht='同諧',
+    en='The Harmony',
+    jp='調和',
+    es='Armonía',
+)
+The_Order = RoguePath(
+    id=11,
+    name='The_Order',
+    cn='秩序',
+    cht='秩序',
+    en='The Order',
+    jp='秩序',
+    es='Orden',
+)
+The_Voracity = RoguePath(
+    id=12,
+    name='The_Voracity',
+    cn='贪饕',
+    cht='貪饕',
+    en='The Voracity',
+    jp='貪慾',
+    es='Voracidad',
+)
+The_Equilibrium = RoguePath(
+    id=13,
+    name='The_Equilibrium',
+    cn='均衡',
+    cht='均衡',
+    en='The Equilibrium',
+    jp='均衡',
+    es='Equilibrio',
+)
+The_Enigmata = RoguePath(
+    id=14,
+    name='The_Enigmata',
+    cn='神秘',
+    cht='神秘',
+    en='The Enigmata',
+    jp='神秘',
+    es='Enigma',
+)

@@ -356,10 +356,10 @@ ROGUE_CHECK = ButtonWrapper(
     name='ROGUE_CHECK',
     share=Button(
         file='./assets/share/base/page/ROGUE_CHECK.png',
-        area=(40, 19, 73, 49),
-        search=(20, 0, 93, 69),
-        color=(104, 96, 90),
-        button=(40, 19, 73, 49),
+        area=(39, 17, 76, 51),
+        search=(19, 0, 96, 71),
+        color=(81, 74, 76),
+        button=(39, 17, 76, 51),
     ),
 )
 SYNTHESIZE_CHECK = ButtonWrapper(

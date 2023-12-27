@@ -214,8 +214,8 @@ RogueWorld:
     value: The_Hunt
     option: [ Preservation, Remembrance, Nihility, Abundance, The_Hunt, Destruction, Elation, Propagation ]
   Bonus:
-    value: Blessing Cosmos
-    option: [ Blessing Cosmos, Miracle Cosmos, Fragmented Cosmos ]
+    value: Blessing Universe
+    option: [ Blessing Universe, Miracle Universe, Fragmented Universe ]
   DomainStrategy:
     value: combat
     option: [ combat, occurrence ]

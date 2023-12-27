@@ -240,10 +240,10 @@
       "Stagnant_Shadow_Spike": "Ascension: Physical (Natasha / Clara / Luka / Sushang)",
       "Stagnant_Shadow_Rime": "Ascension: Ice (March 7th / Herta / Gepard / Pela)",
       "Stagnant_Shadow_Mirage": "Ascension: Imaginary (Welt / Luocha / Yukong)",
-      "Stagnant_Shadow_Icicle": "Ascension: Ice (Yanqing / Jingliu)",
+      "Stagnant_Shadow_Icicle": "Ascension: Ice (Yanqing / Jingliu / Ruan Mei)",
       "Stagnant_Shadow_Doom": "Ascension: Lightning (Kafka / Jing Yuan)",
-      "Stagnant_Shadow_Puppetry": "Ascension: Imaginary (Dan Heng • Imbibitor Lunae)",
-      "Stagnant_Shadow_Abomination": "Ascension: Quantum (Lynx / Fu Xuan)",
+      "Stagnant_Shadow_Puppetry": "Ascension: Imaginary (Dan Heng • Imbibitor Lunae / Dr. Ratio)",
+      "Stagnant_Shadow_Abomination": "Ascension: Quantum (Lynx / Fu Xuan / Xueyi)",
       "Stagnant_Shadow_Scorch": "Ascension: Fire (Guinaifen / Topaz & Numby)",
       "Stagnant_Shadow_Celestial": "Ascension: Wind (Blade / Huohuo)",
       "Stagnant_Shadow_Perdition": "Ascension: Physical (Hanya / Argenti)",
@@ -334,10 +334,10 @@
       "Stagnant_Shadow_Spike": "Ascension: Physical (Natasha / Clara / Luka / Sushang)",
       "Stagnant_Shadow_Rime": "Ascension: Ice (March 7th / Herta / Gepard / Pela)",
       "Stagnant_Shadow_Mirage": "Ascension: Imaginary (Welt / Luocha / Yukong)",
-      "Stagnant_Shadow_Icicle": "Ascension: Ice (Yanqing / Jingliu)",
+      "Stagnant_Shadow_Icicle": "Ascension: Ice (Yanqing / Jingliu / Ruan Mei)",
       "Stagnant_Shadow_Doom": "Ascension: Lightning (Kafka / Jing Yuan)",
-      "Stagnant_Shadow_Puppetry": "Ascension: Imaginary (Dan Heng • Imbibitor Lunae)",
-      "Stagnant_Shadow_Abomination": "Ascension: Quantum (Lynx / Fu Xuan)",
+      "Stagnant_Shadow_Puppetry": "Ascension: Imaginary (Dan Heng • Imbibitor Lunae / Dr. Ratio)",
+      "Stagnant_Shadow_Abomination": "Ascension: Quantum (Lynx / Fu Xuan / Xueyi)",
       "Stagnant_Shadow_Scorch": "Ascension: Fire (Guinaifen / Topaz & Numby)",
       "Stagnant_Shadow_Celestial": "Ascension: Wind (Blade / Huohuo)",
       "Stagnant_Shadow_Perdition": "Ascension: Physical (Hanya / Argenti)"
@@ -399,6 +399,7 @@
       "Natasha": "Natasha",
       "Pela": "Pela",
       "Qingque": "Qingque",
+      "RuanMei": "Ruan Mei",
       "Sampo": "Sampo",
       "Seele": "Seele",
       "Serval": "Serval",
@@ -409,6 +410,7 @@
       "TrailblazerDestruction": "Trailblazer Destruction",
       "TrailblazerPreservation": "Trailblazer Preservation",
       "Welt": "Welt",
+      "Xueyi": "Xueyi",
       "Yanqing": "Yanqing",
       "Yukong": "Yukong"
     }
@@ -494,13 +496,6 @@
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
     },
-    "Complete_Calyx_Crimson_1_time": {
-      "name": "Complete Calyx (Crimson) 1 time",
-      "help": "Need to configure and enable the \"Dungeon\" task",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
     "Clear_Stagnant_Shadow_1_times": {
       "name": "Clear Stagnant Shadow 1 time(s)",
       "help": "Need to configure and enable the \"Dungeon\" task",
@@ -536,41 +531,6 @@
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
     },
-    "Enter_combat_by_attacking_enemy_Weakness_and_win_3_times": {
-      "name": "Enter combat by attacking enemy's Weakness and win 3 times",
-      "help": "Achievable by default, will do Himeko trial",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
-    "Use_Technique_2_times": {
-      "name": "Use Technique 2 times",
-      "help": "Achievable by default, will go to the abyssal 1 and use technique twice",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
-    "Go_on_assignment_1_time": {
-      "name": "Go on assignment 1 time",
-      "help": "Need to configure and enable the \"Assignment\" task",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
-    "Take_1_photo": {
-      "name": "Take 1 photo",
-      "help": "Achievable by default",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
-    "Destroy_3_destructible_objects": {
-      "name": "Destroy 3 destructible objects",
-      "help": "Achievable by default, will do Himeko trial",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
     "Complete_Forgotten_Hall_1_time": {
       "name": "Complete Forgotten Hall 1 time",
       "help": "Achievable by default, will choose the first four characters to do stage 1 once, please ensure that account build is sufficient to do stage 1",
@@ -585,44 +545,9 @@
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
     },
-    "Complete_1_stage_in_Simulated_Universe_Any_world": {
-      "name": "Complete 1 stage in Simulated Universe (Any world)",
-      "help": "Need to configure and enable the \"Simulated Universe\" task",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
-    "Obtain_victory_in_combat_with_support_characters_1_time": {
-      "name": "Obtain victory in combat with support characters 1 time",
-      "help": "Need to configure and enable the \"Dungeon\" task, configure support settings also",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
     "Use_an_Ultimate_to_deal_the_final_blow_1_time": {
       "name": "Use an Ultimate to deal the final blow 1 time",
       "help": "Achievable by default, will do Himeko trial",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
-    "Level_up_any_character_1_time": {
-      "name": "Level up any character 1 time",
-      "help": "",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
-    "Level_up_any_Light_Cone_1_time": {
-      "name": "Level up any Light Cone 1 time",
-      "help": "",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
-    "Level_up_any_Relic_1_time": {
-      "name": "Level up any Relic 1 time",
-      "help": "",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
@@ -634,23 +559,107 @@
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
     },
-    "Synthesize_Consumable_1_time": {
-      "name": "Synthesize Consumable 1 time",
-      "help": "Achievable by default, will synthesize low-rarity snacks",
+    "Use_Consumables_1_time": {
+      "name": "Use Consumables 1 time",
+      "help": "Achievable by default, will use gear. If there is no material, synthesized before use",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
     },
-    "Synthesize_material_1_time": {
-      "name": "Synthesize material 1 time",
+    "Log_in_to_the_game": {
+      "name": "Log in to the game",
+      "help": "",
+      "achievable": "Achievable",
+      "not_set": "Not Set",
+      "not_supported": "Not Supported Yet"
+    },
+    "Dispatch_1_assignments": {
+      "name": "Dispatch 1 assignment(s)",
+      "help": "Need to configure and enable the \"Assignment\" task",
+      "achievable": "Achievable",
+      "not_set": "Not Set",
+      "not_supported": "Not Supported Yet"
+    },
+    "Complete_Simulated_Universe_1_times": {
+      "name": "Complete Simulated Universe 1 time(s)",
+      "help": "Need to configure and enable the \"Simulated Universe\" task",
+      "achievable": "Achievable",
+      "not_set": "Not Set",
+      "not_supported": "Not Supported Yet"
+    },
+    "Clear_Calyx_Crimson_1_times": {
+      "name": "Clear Calyx (Crimson) 1 time(s)",
+      "help": "AchievableQuest.Clear_Calyx_Crimson_1_times.help",
+      "achievable": "Achievable",
+      "not_set": "Not Set",
+      "not_supported": "Not Supported Yet"
+    },
+    "Enter_combat_by_attacking_enemie_Weakness_and_win_3_times": {
+      "name": "Enter combat by attacking enemies' Weakness and win 3 time(s)",
+      "help": "Achievable by default, will do Himeko trial",
+      "achievable": "Achievable",
+      "not_set": "Not Set",
+      "not_supported": "Not Supported Yet"
+    },
+    "Use_Technique_2_times": {
+      "name": "Use Technique 2 time(s)",
+      "help": "Achievable by default, will go to the abyssal 1 and use technique twice",
+      "achievable": "Achievable",
+      "not_set": "Not Set",
+      "not_supported": "Not Supported Yet"
+    },
+    "Destroy_3_destructible_objects": {
+      "name": "Destroy 3 destructible object(s)",
+      "help": "Achievable by default, will do Himeko trial",
+      "achievable": "Achievable",
+      "not_set": "Not Set",
+      "not_supported": "Not Supported Yet"
+    },
+    "Obtain_victory_in_combat_with_Support_Characters_1_times": {
+      "name": "Obtain victory in combat with Support Characters 1 time(s)",
+      "help": "Need to configure and enable the \"Dungeon\" task, configure support settings also",
+      "achievable": "Achievable",
+      "not_set": "Not Set",
+      "not_supported": "Not Supported Yet"
+    },
+    "Level_up_any_character_1_times": {
+      "name": "Level up any character 1 time(s)",
+      "help": "",
+      "achievable": "Achievable",
+      "not_set": "Not Set",
+      "not_supported": "Not Supported Yet"
+    },
+    "Level_up_any_Light_Cone_1_times": {
+      "name": "Level up any Light Cone 1 time(s)",
+      "help": "",
+      "achievable": "Achievable",
+      "not_set": "Not Set",
+      "not_supported": "Not Supported Yet"
+    },
+    "Use_the_Omni_Synthesizer_1_times": {
+      "name": "Use the Omni-Synthesizer 1 time(s)",
       "help": "Achievable by default, will synthesize low-rarity material",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
     },
-    "Use_Consumables_1_time": {
-      "name": "Use Consumables 1 time",
-      "help": "Achievable by default, will use gear. If there is no material, synthesized before use",
+    "Take_photos_1_times": {
+      "name": "Take photos 1 time(s)",
+      "help": "Achievable by default",
+      "achievable": "Achievable",
+      "not_set": "Not Set",
+      "not_supported": "Not Supported Yet"
+    },
+    "Consume_120_Trailblaze_Power": {
+      "name": "Consume 120 Trailblaze Power",
+      "help": "",
+      "achievable": "Achievable",
+      "not_set": "Not Set",
+      "not_supported": "Not Supported Yet"
+    },
+    "Level_up_any_Relic_1_times": {
+      "name": "Level up any Relic 1 time(s)",
+      "help": "",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
@@ -804,12 +813,12 @@
     "World": {
       "name": "World",
       "help": "",
-      "Simulated_Universe_World_3": "Simulated Universe — World 3",
-      "Simulated_Universe_World_4": "Simulated Universe — World 4",
-      "Simulated_Universe_World_5": "Simulated Universe — World 5",
-      "Simulated_Universe_World_6": "Simulated Universe — World 6",
-      "Simulated_Universe_World_7": "Simulated Universe — World 7",
-      "Simulated_Universe_World_8": "Simulated Universe — World 8"
+      "Simulated_Universe_World_3": "Simulated Universe: World 3",
+      "Simulated_Universe_World_4": "Simulated Universe: World 4",
+      "Simulated_Universe_World_5": "Simulated Universe: World 5",
+      "Simulated_Universe_World_6": "Simulated Universe: World 6",
+      "Simulated_Universe_World_7": "Simulated Universe: World 7",
+      "Simulated_Universe_World_8": "Simulated Universe: World 8"
     },
     "Path": {
       "name": "Path",
@@ -826,9 +835,9 @@
     "Bonus": {
       "name": "Blessings of Trailblaze",
       "help": "",
-      "Blessing Cosmos": "Blessing Cosmos (Choose a blessing)",
-      "Miracle Cosmos": "Miracle Cosmos (Choose a curio)",
-      "Fragmented Cosmos": "Fragmented Cosmos (Claim some Cosmic Fragments)"
+      "Blessing Universe": "Blessing Universe (Choose a blessing)",
+      "Miracle Universe": "Miracle Universe (Choose a curio)",
+      "Fragmented Universe": "Fragmented Universe (Claim some Cosmic Fragments)"
     },
     "DomainStrategy": {
       "name": "Domain Strategy",

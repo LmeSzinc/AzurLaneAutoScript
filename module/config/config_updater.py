@@ -92,7 +92,7 @@ class ConfigGenerator:
             options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Echo_of_War])
         # Insert characters
         from tasks.character.keywords import CharacterList
-        unsupported_characters = []
+        unsupported_characters = ["DrRatio"]
         characters = [character.name for character in CharacterList.instances.values()
                       if character.name not in unsupported_characters]
         option_add(keys='DungeonSupport.Character.option', options=characters)
@@ -684,7 +684,7 @@ class ConfigUpdater:
         dungeon = deep_get(data, keys='Dungeon.Scheduler.Enable')
         set_daily('Clear_Calyx_Golden_1_times',
                   dungeon and deep_get(data, 'Dungeon.DungeonDaily.CalyxGolden') != 'do_not_achieve')
-        set_daily('Complete_Calyx_Crimson_1_time',
+        set_daily('Clear_Calyx_Crimson_1_times',
                   dungeon and deep_get(data, 'Dungeon.DungeonDaily.CalyxCrimson') != 'do_not_achieve')
         set_daily('Clear_Stagnant_Shadow_1_times',
                   dungeon and deep_get(data, 'Dungeon.DungeonDaily.StagnantShadow') != 'do_not_achieve')
@@ -694,27 +694,26 @@ class ConfigUpdater:
         set_daily('In_a_single_battle_inflict_3_Weakness_Break_of_different_Types', 'achievable')
         set_daily('Inflict_Weakness_Break_5_times', 'achievable')
         set_daily('Defeat_a_total_of_20_enemies', 'achievable')
-        set_daily('Enter_combat_by_attacking_enemy_Weakness_and_win_3_times', 'achievable')
+        set_daily('Enter_combat_by_attacking_enemie_Weakness_and_win_3_times', 'achievable')
         set_daily('Use_Technique_2_times', 'achievable')
         # Other game systems
-        set_daily('Go_on_assignment_1_time', deep_get(data, 'Assignment.Scheduler.Enable'))
-        set_daily('Take_1_photo', 'achievable')
+        set_daily('Dispatch_1_assignments', deep_get(data, 'Assignment.Scheduler.Enable'))
+        set_daily('Take_photos_1_times', 'achievable')
         set_daily('Destroy_3_destructible_objects', 'achievable')
         set_daily('Complete_Forgotten_Hall_1_time', 'achievable')
         set_daily('Complete_Echo_of_War_1_times', deep_get(data, 'Weekly.Scheduler.Enable'))
-        set_daily('Complete_1_stage_in_Simulated_Universe_Any_world',
+        set_daily('Complete_Simulated_Universe_1_times',
                   deep_get(data, 'Rogue.Scheduler.Enable'))
-        set_daily('Obtain_victory_in_combat_with_support_characters_1_time',
+        set_daily('Obtain_victory_in_combat_with_Support_Characters_1_times',
                   dungeon and deep_get(data, 'Dungeon.DungeonSupport.Use') in ['when_daily', 'always_use'])
         set_daily('Use_an_Ultimate_to_deal_the_final_blow_1_time', 'achievable')
         # Build
-        set_daily('Level_up_any_character_1_time', 'not_supported')
-        set_daily('Level_up_any_Light_Cone_1_time', 'not_supported')
-        set_daily('Level_up_any_Relic_1_time', 'not_supported')
+        set_daily('Level_up_any_character_1_times', 'not_supported')
+        set_daily('Level_up_any_Light_Cone_1_times', 'not_supported')
+        set_daily('Level_up_any_Relic_1_times', 'not_supported')
         # Items
         set_daily('Salvage_any_Relic', 'achievable')
-        set_daily('Synthesize_Consumable_1_time', 'achievable')
-        set_daily('Synthesize_material_1_time', 'achievable')
+        set_daily('Use_the_Omni_Synthesizer_1_times', 'achievable')
         set_daily('Use_Consumables_1_time', 'achievable')
 
         # Limit setting combinations
