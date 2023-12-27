@@ -2944,15 +2944,16 @@
           "event_20230817_cn",
           "event_20230914_cn",
           "event_20231026_cn",
-          "event_20231123_cn"
+          "event_20231123_cn",
+          "event_20231221_cn"
         ],
         "option_bold": [
-          "event_20231123_cn"
+          "event_20231221_cn"
         ],
-        "cn": "event_20231123_cn",
-        "en": "event_20231123_cn",
-        "jp": "event_20231123_cn",
-        "tw": "event_20220210_cn"
+        "cn": "event_20231221_cn",
+        "en": "event_20231221_cn",
+        "jp": "event_20231221_cn",
+        "tw": "event_20231221_cn"
       },
       "Mode": {
         "type": "select",
