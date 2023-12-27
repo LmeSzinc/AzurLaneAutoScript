@@ -43,7 +43,7 @@ class GeneratedConfig:
     Dungeon_Name = 'Calyx_Golden_Treasures'  # Calyx_Golden_Memories, Calyx_Golden_Aether, Calyx_Golden_Treasures, Calyx_Crimson_Destruction, Calyx_Crimson_Preservation, Calyx_Crimson_The_Hunt, Calyx_Crimson_Abundance, Calyx_Crimson_Erudition, Calyx_Crimson_Harmony, Calyx_Crimson_Nihility, Stagnant_Shadow_Quanta, Stagnant_Shadow_Gust, Stagnant_Shadow_Fulmination, Stagnant_Shadow_Blaze, Stagnant_Shadow_Spike, Stagnant_Shadow_Rime, Stagnant_Shadow_Mirage, Stagnant_Shadow_Icicle, Stagnant_Shadow_Doom, Stagnant_Shadow_Puppetry, Stagnant_Shadow_Abomination, Stagnant_Shadow_Scorch, Stagnant_Shadow_Celestial, Stagnant_Shadow_Perdition, Cavern_of_Corrosion_Path_of_Gelid_Wind, Cavern_of_Corrosion_Path_of_Jabbing_Punch, Cavern_of_Corrosion_Path_of_Drifting, Cavern_of_Corrosion_Path_of_Providence, Cavern_of_Corrosion_Path_of_Holy_Hymn, Cavern_of_Corrosion_Path_of_Conflagration, Cavern_of_Corrosion_Path_of_Elixir_Seekers, Cavern_of_Corrosion_Path_of_Darkness
     Dungeon_NameAtDoubleCalyx = 'Calyx_Golden_Treasures'  # do_not_participate, Calyx_Golden_Memories, Calyx_Golden_Aether, Calyx_Golden_Treasures, Calyx_Crimson_Destruction, Calyx_Crimson_Preservation, Calyx_Crimson_The_Hunt, Calyx_Crimson_Abundance, Calyx_Crimson_Erudition, Calyx_Crimson_Harmony, Calyx_Crimson_Nihility
     Dungeon_NameAtDoubleRelic = 'Cavern_of_Corrosion_Path_of_Providence'  # do_not_participate, Cavern_of_Corrosion_Path_of_Gelid_Wind, Cavern_of_Corrosion_Path_of_Jabbing_Punch, Cavern_of_Corrosion_Path_of_Drifting, Cavern_of_Corrosion_Path_of_Providence, Cavern_of_Corrosion_Path_of_Holy_Hymn, Cavern_of_Corrosion_Path_of_Conflagration, Cavern_of_Corrosion_Path_of_Elixir_Seekers, Cavern_of_Corrosion_Path_of_Darkness
-    Dungeon_Team = 1  # 1, 2, 3, 4, 5, 6
+    Dungeon_Team = 1  # 1, 2, 3, 4, 5, 6, 7, 8, 9
 
     # Group `DungeonDaily`
     DungeonDaily_CalyxGolden = 'Calyx_Golden_Treasures'  # do_not_achieve, Calyx_Golden_Memories, Calyx_Golden_Aether, Calyx_Golden_Treasures
@@ -67,7 +67,7 @@ class GeneratedConfig:
 
     # Group `Weekly`
     Weekly_Name = 'Echo_of_War_Divine_Seed'  # Echo_of_War_Destruction_Beginning, Echo_of_War_End_of_the_Eternal_Freeze, Echo_of_War_Divine_Seed
-    Weekly_Team = 1  # 1, 2, 3, 4, 5, 6
+    Weekly_Team = 1  # 1, 2, 3, 4, 5, 6, 7, 8, 9
 
     # Group `AchievableQuest`
     AchievableQuest_Complete_1_Daily_Mission = 'achievable'  # achievable, not_set, not_supported

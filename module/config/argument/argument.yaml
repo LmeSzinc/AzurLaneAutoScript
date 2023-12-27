@@ -88,7 +88,7 @@ Dungeon:
     option: [ do_not_participate, ]
   Team:
     value: 1
-    option: [ 1, 2, 3, 4, 5, 6 ]
+    option: [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 DungeonDaily:
   # Dungeon names will be injected in config updater
   CalyxGolden:
@@ -138,7 +138,7 @@ Weekly:
     options: [ ]
   Team:
     value: 1
-    option: [ 1, 2, 3, 4, 5, 6 ]
+    option: [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 
 AchievableQuest:
 # Quests will be injected in config updater
