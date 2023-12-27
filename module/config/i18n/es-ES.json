@@ -576,35 +576,35 @@
     },
     "Log_in_to_the_game": {
       "name": "Inicia sesión en el juego",
-      "help": "AchievableQuest.Log_in_to_the_game.help",
+      "help": "",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Dispatch_1_assignments": {
       "name": "Asigna 1 encargo",
-      "help": "AchievableQuest.Dispatch_1_assignments.help",
+      "help": "Necesitas configurar y activar la tarea de \"Encargos\"",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Complete_Simulated_Universe_1_times": {
       "name": "Completa el Universo Simulado 1 vez",
-      "help": "AchievableQuest.Complete_Simulated_Universe_1_times.help",
+      "help": "Necesitas configurar y activar la tarea \"Universo Simulado\"",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Clear_Calyx_Crimson_1_times": {
       "name": "Completa Cáliz (carmesí) 1 vez",
-      "help": "AchievableQuest.Clear_Calyx_Crimson_1_times.help",
+      "help": "Necesitas configurar y activar la tarea \"Mazmorra\"",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Enter_combat_by_attacking_enemie_Weakness_and_win_3_times": {
       "name": "Entra en combate atacando la debilidad del enemigo y gana 3 veces",
-      "help": "AchievableQuest.Enter_combat_by_attacking_enemie_Weakness_and_win_3_times.help",
+      "help": "Completable por defecto, se hará el desafío de Himeko",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
@@ -618,49 +618,49 @@
     },
     "Obtain_victory_in_combat_with_Support_Characters_1_times": {
       "name": "Gana 1 batalla(s) utilizando personajes de apoyo",
-      "help": "AchievableQuest.Obtain_victory_in_combat_with_Support_Characters_1_times.help",
+      "help": "Necesitas configurar la tarea de \"Mazmorra\", así como configurar a los héroes de apoyo.",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Level_up_any_character_1_times": {
       "name": "Mejora el nivel de cualquier personaje 1 vez",
-      "help": "AchievableQuest.Level_up_any_character_1_times.help",
+      "help": "",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Level_up_any_Light_Cone_1_times": {
       "name": "Mejora cualquier cono de luz 1 vez",
-      "help": "AchievableQuest.Level_up_any_Light_Cone_1_times.help",
+      "help": "",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Use_the_Omni_Synthesizer_1_times": {
       "name": "Utiliza la máquina sintetizadora multiusos 1 veces",
-      "help": "AchievableQuest.Use_the_Omni_Synthesizer_1_times.help",
+      "help": "Achievable by default, will synthesize low-rarity material",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Take_photos_1_times": {
       "name": "Haz 1 foto(s)",
-      "help": "AchievableQuest.Take_photos_1_times.help",
+      "help": "Completable por defecto.",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Consume_120_Trailblaze_Power": {
       "name": "Consume 120 pts. de Poder trazacaminos",
-      "help": "AchievableQuest.Consume_120_Trailblaze_Power.help",
+      "help": "",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
     },
     "Level_up_any_Relic_1_times": {
       "name": "Mejora cualquier artefacto 1 vez",
-      "help": "AchievableQuest.Level_up_any_Relic_1_times.help",
+      "help": "",
       "achievable": "Completable",
       "not_set": "No configurado",
       "not_supported": "No soportado aún"
