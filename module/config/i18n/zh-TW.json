@@ -490,13 +490,6 @@
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
-    "Complete_Calyx_Crimson_1_time": {
-      "name": "完成1次「擬造花萼（赤）」",
-      "help": "需要設定並啟用\"每日副本\"任務",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
     "Clear_Stagnant_Shadow_1_times": {
       "name": "完成1次「凝滯虛影」",
       "help": "需要設定並啟用\"每日副本\"任務",
@@ -532,34 +525,6 @@
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
-    "Enter_combat_by_attacking_enemy_Weakness_and_win_3_times": {
-      "name": "利用弱點進入戰鬥並獲勝3次",
-      "help": "預設可完成，將做姬子試用",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
-    "Use_Technique_2_times": {
-      "name": "累積施放2次秘技",
-      "help": "預設可完成，將前往深淵一施放2次秘技",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
-    "Go_on_assignment_1_time": {
-      "name": "派遣1次委託",
-      "help": "需要設定並啟用\"委託\"任務",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
-    "Take_1_photo": {
-      "name": "拍照1次",
-      "help": "預設可完成",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
     "Destroy_3_destructible_objects": {
       "name": "累積擊碎3個可破壞物",
       "help": "預設可完成，將做姬子試用",
@@ -581,13 +546,6 @@
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
-    "Complete_1_stage_in_Simulated_Universe_Any_world": {
-      "name": "完成「模擬宇宙」任意世界的1個區域",
-      "help": "需要設定並啟用\"模擬宇宙\"任務",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
     "Obtain_victory_in_combat_with_Support_Characters_1_time": {
       "name": "使用支援角色並獲得戰鬥勝利1次",
       "help": "需要設定並啟用\"每日副本\"，且設並好友支援",
@@ -602,44 +560,9 @@
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
-    "Level_up_any_character_1_time": {
-      "name": "將任意角色等級提升1次",
-      "help": "",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
-    "Level_up_any_Light_Cone_1_time": {
-      "name": "將任意光錐等級提升1次",
-      "help": "",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
-    "Level_up_any_Relic_1_time": {
-      "name": "將任意遺器等級提升1次",
-      "help": "",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
     "Salvage_any_Relic": {
       "name": "分解任意1件遺器",
       "help": "預設可完成，將分解遺器稀有度倒序的第一個",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
-    "Synthesize_Consumable_1_time": {
-      "name": "合成1次消耗品",
-      "help": "預設可完成，將合成最低級零食",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
-    "Synthesize_material_1_time": {
-      "name": "合成1次素材",
-      "help": "預設可完成，將合成最低級素材",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
@@ -653,21 +576,21 @@
     },
     "Log_in_to_the_game": {
       "name": "登入遊戲",
-      "help": "AchievableQuest.Log_in_to_the_game.help",
+      "help": "",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
     "Dispatch_1_assignments": {
       "name": "派遣1次委託",
-      "help": "AchievableQuest.Dispatch_1_assignments.help",
+      "help": "需要設定並啟用\"委託\"任務",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
     "Complete_Simulated_Universe_1_times": {
       "name": "完成1次「模擬宇宙」",
-      "help": "AchievableQuest.Complete_Simulated_Universe_1_times.help",
+      "help": "需要設定並啟用\"模擬宇宙\"任務",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
@@ -679,72 +602,65 @@
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
-    "Enter_combat_by_attacking_enemie_Weakness_and_win_1_times": {
-      "name": "利用弱點進入戰鬥並獲勝1次",
-      "help": "AchievableQuest.Enter_combat_by_attacking_enemie_Weakness_and_win_1_times.help",
+    "Enter_combat_by_attacking_enemie_Weakness_and_win_3_times": {
+      "name": "利用弱點進入戰鬥並獲勝3次",
+      "help": "預設可完成，將做姬子試用",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
-    "Use_Technique_1_times": {
-      "name": "累積施放1次秘技",
-      "help": "AchievableQuest.Use_Technique_1_times.help",
-      "achievable": "可完成",
-      "not_set": "未設定",
-      "not_supported": "暫未支援"
-    },
-    "Destroy_1_destructible_objects": {
-      "name": "累積擊碎1個可破壞物",
-      "help": "AchievableQuest.Destroy_1_destructible_objects.help",
+    "Use_Technique_2_times": {
+      "name": "累積施放2次秘技",
+      "help": "預設可完成，將前往深淵一施放2次秘技",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
     "Obtain_victory_in_combat_with_Support_Characters_1_times": {
       "name": "使用支援角色並獲得戰鬥勝利1次",
-      "help": "AchievableQuest.Obtain_victory_in_combat_with_Support_Characters_1_times.help",
+      "help": "需要設定並啟用\"每日副本\"，且設並好友支援",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
     "Level_up_any_character_1_times": {
       "name": "將任意角色等級提升1次",
-      "help": "AchievableQuest.Level_up_any_character_1_times.help",
+      "help": "",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
     "Level_up_any_Light_Cone_1_times": {
       "name": "將任意光錐等級提升1次",
-      "help": "AchievableQuest.Level_up_any_Light_Cone_1_times.help",
+      "help": "",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
     "Use_the_Omni_Synthesizer_1_times": {
       "name": "使用1次「萬能合成機」",
-      "help": "AchievableQuest.Use_the_Omni_Synthesizer_1_times.help",
+      "help": "預設可完成，將合成最低級素材",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
     "Take_photos_1_times": {
       "name": "拍照1次",
-      "help": "AchievableQuest.Take_photos_1_times.help",
+      "help": "預設可完成",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
-    "Consume_1_Trailblaze_Power": {
-      "name": "累積消耗1點開拓力",
-      "help": "AchievableQuest.Consume_1_Trailblaze_Power.help",
+    "Consume_120_Trailblaze_Power": {
+      "name": "累積消耗120點開拓力",
+      "help": "",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"
     },
     "Level_up_any_Relic_1_times": {
       "name": "將任意遺器等級提升1次",
-      "help": "AchievableQuest.Level_up_any_Relic_1_times.help",
+      "help": "",
       "achievable": "可完成",
       "not_set": "未設定",
       "not_supported": "暫未支援"

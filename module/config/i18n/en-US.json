@@ -490,13 +490,6 @@
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
     },
-    "Complete_Calyx_Crimson_1_time": {
-      "name": "Complete Calyx (Crimson) 1 time",
-      "help": "Need to configure and enable the \"Dungeon\" task",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
     "Clear_Stagnant_Shadow_1_times": {
       "name": "Clear Stagnant Shadow 1 time(s)",
       "help": "Need to configure and enable the \"Dungeon\" task",
@@ -532,36 +525,8 @@
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
     },
-    "Enter_combat_by_attacking_enemy_Weakness_and_win_3_times": {
-      "name": "Enter combat by attacking enemy's Weakness and win 3 times",
-      "help": "Achievable by default, will do Himeko trial",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
-    "Use_Technique_2_times": {
-      "name": "Use Technique 2 times",
-      "help": "Achievable by default, will go to the abyssal 1 and use technique twice",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
-    "Go_on_assignment_1_time": {
-      "name": "Go on assignment 1 time",
-      "help": "Need to configure and enable the \"Assignment\" task",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
-    "Take_1_photo": {
-      "name": "Take 1 photo",
-      "help": "Achievable by default",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
     "Destroy_3_destructible_objects": {
-      "name": "Destroy 3 destructible objects",
+      "name": "Destroy 3 destructible object(s)",
       "help": "Achievable by default, will do Himeko trial",
       "achievable": "Achievable",
       "not_set": "Not Set",
@@ -581,13 +546,6 @@
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
     },
-    "Complete_1_stage_in_Simulated_Universe_Any_world": {
-      "name": "Complete 1 stage in Simulated Universe (Any world)",
-      "help": "Need to configure and enable the \"Simulated Universe\" task",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
     "Obtain_victory_in_combat_with_Support_Characters_1_time": {
       "name": "Obtain victory in combat with Support Characters 1 time",
       "help": "Need to configure and enable the \"Dungeon\" task, configure support settings also",
@@ -602,44 +560,9 @@
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
     },
-    "Level_up_any_character_1_time": {
-      "name": "Level up any character 1 time",
-      "help": "",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
-    "Level_up_any_Light_Cone_1_time": {
-      "name": "Level up any Light Cone 1 time",
-      "help": "",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
-    "Level_up_any_Relic_1_time": {
-      "name": "Level up any Relic 1 time",
-      "help": "",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
     "Salvage_any_Relic": {
       "name": "Salvage any Relic",
       "help": "Achievable by default, will salvage the first one in reverse order of rarity",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
-    "Synthesize_Consumable_1_time": {
-      "name": "Synthesize Consumable 1 time",
-      "help": "Achievable by default, will synthesize low-rarity snacks",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
-    "Synthesize_material_1_time": {
-      "name": "Synthesize material 1 time",
-      "help": "Achievable by default, will synthesize low-rarity material",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
@@ -679,23 +602,16 @@
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
     },
-    "Enter_combat_by_attacking_enemie_Weakness_and_win_1_times": {
-      "name": "Enter combat by attacking enemies' Weakness and win 1 time(s)",
-      "help": "AchievableQuest.Enter_combat_by_attacking_enemie_Weakness_and_win_1_times.help",
+    "Enter_combat_by_attacking_enemie_Weakness_and_win_3_times": {
+      "name": "Enter combat by attacking enemies' Weakness and win 3 time(s)",
+      "help": "AchievableQuest.Enter_combat_by_attacking_enemie_Weakness_and_win_3_times.help",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
     },
-    "Use_Technique_1_times": {
-      "name": "Use Technique 1 time(s)",
-      "help": "AchievableQuest.Use_Technique_1_times.help",
-      "achievable": "Achievable",
-      "not_set": "Not Set",
-      "not_supported": "Not Supported Yet"
-    },
-    "Destroy_1_destructible_objects": {
-      "name": "Destroy 1 destructible object(s)",
-      "help": "AchievableQuest.Destroy_1_destructible_objects.help",
+    "Use_Technique_2_times": {
+      "name": "Use Technique 2 time(s)",
+      "help": "Achievable by default, will go to the abyssal 1 and use technique twice",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
@@ -735,9 +651,9 @@
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"
     },
-    "Consume_1_Trailblaze_Power": {
-      "name": "Consume 1 Trailblaze Power",
-      "help": "AchievableQuest.Consume_1_Trailblaze_Power.help",
+    "Consume_120_Trailblaze_Power": {
+      "name": "Consume 120 Trailblaze Power",
+      "help": "AchievableQuest.Consume_120_Trailblaze_Power.help",
       "achievable": "Achievable",
       "not_set": "Not Set",
       "not_supported": "Not Supported Yet"

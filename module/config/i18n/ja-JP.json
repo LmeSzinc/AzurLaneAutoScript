@@ -490,13 +490,6 @@
       "not_set": "not_set",
       "not_supported": "not_supported"
     },
-    "Complete_Calyx_Crimson_1_time": {
-      "name": "「疑似花萼（赤）」を1回クリアする",
-      "help": "AchievableQuest.Complete_Calyx_Crimson_1_time.help",
-      "achievable": "achievable",
-      "not_set": "not_set",
-      "not_supported": "not_supported"
-    },
     "Clear_Stagnant_Shadow_1_times": {
       "name": "「凝結虚影」を1回クリアする",
       "help": "AchievableQuest.Clear_Stagnant_Shadow_1_times.help",
@@ -532,36 +525,8 @@
       "not_set": "not_set",
       "not_supported": "not_supported"
     },
-    "Enter_combat_by_attacking_enemy_Weakness_and_win_3_times": {
-      "name": "弱点を攻撃して戦闘に入り、3回勝利する",
-      "help": "AchievableQuest.Enter_combat_by_attacking_enemy_Weakness_and_win_3_times.help",
-      "achievable": "achievable",
-      "not_set": "not_set",
-      "not_supported": "not_supported"
-    },
-    "Use_Technique_2_times": {
-      "name": "秘技を累計2回発動する",
-      "help": "AchievableQuest.Use_Technique_2_times.help",
-      "achievable": "achievable",
-      "not_set": "not_set",
-      "not_supported": "not_supported"
-    },
-    "Go_on_assignment_1_time": {
-      "name": "依頼に1回派遣する",
-      "help": "AchievableQuest.Go_on_assignment_1_time.help",
-      "achievable": "achievable",
-      "not_set": "not_set",
-      "not_supported": "not_supported"
-    },
-    "Take_1_photo": {
-      "name": "1回撮影する",
-      "help": "AchievableQuest.Take_1_photo.help",
-      "achievable": "achievable",
-      "not_set": "not_set",
-      "not_supported": "not_supported"
-    },
     "Destroy_3_destructible_objects": {
-      "name": "破壊できるオブジェクトを累計で3つ破壊する",
+      "name": "破壊できるオブジェクトを累計で3個破壊する",
       "help": "AchievableQuest.Destroy_3_destructible_objects.help",
       "achievable": "achievable",
       "not_set": "not_set",
@@ -581,13 +546,6 @@
       "not_set": "not_set",
       "not_supported": "not_supported"
     },
-    "Complete_1_stage_in_Simulated_Universe_Any_world": {
-      "name": "「模擬宇宙」のエリアを1つクリアする（任意の世界）",
-      "help": "AchievableQuest.Complete_1_stage_in_Simulated_Universe_Any_world.help",
-      "achievable": "achievable",
-      "not_set": "not_set",
-      "not_supported": "not_supported"
-    },
     "Obtain_victory_in_combat_with_Support_Characters_1_time": {
       "name": "サポートキャラを使い、戦闘に1回勝利する",
       "help": "AchievableQuest.Obtain_victory_in_combat_with_Support_Characters_1_time.help",
@@ -602,44 +560,9 @@
       "not_set": "not_set",
       "not_supported": "not_supported"
     },
-    "Level_up_any_character_1_time": {
-      "name": "任意のキャラを1回レベルアップする",
-      "help": "AchievableQuest.Level_up_any_character_1_time.help",
-      "achievable": "achievable",
-      "not_set": "not_set",
-      "not_supported": "not_supported"
-    },
-    "Level_up_any_Light_Cone_1_time": {
-      "name": "任意の光円錐を1回レベルアップする",
-      "help": "AchievableQuest.Level_up_any_Light_Cone_1_time.help",
-      "achievable": "achievable",
-      "not_set": "not_set",
-      "not_supported": "not_supported"
-    },
-    "Level_up_any_Relic_1_time": {
-      "name": "任意の遺物を1回レベルアップする",
-      "help": "AchievableQuest.Level_up_any_Relic_1_time.help",
-      "achievable": "achievable",
-      "not_set": "not_set",
-      "not_supported": "not_supported"
-    },
     "Salvage_any_Relic": {
       "name": "任意の遺物1つを分解する",
       "help": "AchievableQuest.Salvage_any_Relic.help",
-      "achievable": "achievable",
-      "not_set": "not_set",
-      "not_supported": "not_supported"
-    },
-    "Synthesize_Consumable_1_time": {
-      "name": "消耗品を1回合成する",
-      "help": "AchievableQuest.Synthesize_Consumable_1_time.help",
-      "achievable": "achievable",
-      "not_set": "not_set",
-      "not_supported": "not_supported"
-    },
-    "Synthesize_material_1_time": {
-      "name": "素材を1回合成する",
-      "help": "AchievableQuest.Synthesize_material_1_time.help",
       "achievable": "achievable",
       "not_set": "not_set",
       "not_supported": "not_supported"
@@ -679,23 +602,16 @@
       "not_set": "not_set",
       "not_supported": "not_supported"
     },
-    "Enter_combat_by_attacking_enemie_Weakness_and_win_1_times": {
-      "name": "弱点を攻撃して戦闘に入り、1回勝利する",
-      "help": "AchievableQuest.Enter_combat_by_attacking_enemie_Weakness_and_win_1_times.help",
+    "Enter_combat_by_attacking_enemie_Weakness_and_win_3_times": {
+      "name": "弱点を攻撃して戦闘に入り、3回勝利する",
+      "help": "AchievableQuest.Enter_combat_by_attacking_enemie_Weakness_and_win_3_times.help",
       "achievable": "achievable",
       "not_set": "not_set",
       "not_supported": "not_supported"
     },
-    "Use_Technique_1_times": {
-      "name": "累計で秘技を1回発動する",
-      "help": "AchievableQuest.Use_Technique_1_times.help",
-      "achievable": "achievable",
-      "not_set": "not_set",
-      "not_supported": "not_supported"
-    },
-    "Destroy_1_destructible_objects": {
-      "name": "破壊できるオブジェクトを累計で1個破壊する",
-      "help": "AchievableQuest.Destroy_1_destructible_objects.help",
+    "Use_Technique_2_times": {
+      "name": "累計で秘技を2回発動する",
+      "help": "AchievableQuest.Use_Technique_2_times.help",
       "achievable": "achievable",
       "not_set": "not_set",
       "not_supported": "not_supported"
@@ -735,9 +651,9 @@
       "not_set": "not_set",
       "not_supported": "not_supported"
     },
-    "Consume_1_Trailblaze_Power": {
-      "name": "累計で開拓力×1を消費する",
-      "help": "AchievableQuest.Consume_1_Trailblaze_Power.help",
+    "Consume_120_Trailblaze_Power": {
+      "name": "累計で開拓力×120を消費する",
+      "help": "AchievableQuest.Consume_120_Trailblaze_Power.help",
       "achievable": "achievable",
       "not_set": "not_set",
       "not_supported": "not_supported"
