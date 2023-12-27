@@ -235,10 +235,77 @@ class KeywordExtract:
         quest_keywords = list(dict.fromkeys([self.text_map[lang].find(quest_hash)[1] for quest_hash in quests_hash]))
         self.load_keywords(quest_keywords, lang)
 
+    def write_daily_quest_keywords(self):
+        text_convert = text_to_variable
+        keyword_class = 'DailyQuest'
+        gen = CodeGenerator()
+        gen.Import(f"""
+        from .classes import {keyword_class}
+        """)
+        gen.CommentAutoGenerage('dev_tools.keyword_extract')
+
+        old_quest = [
+            "Go_on_assignment_1_time", # -> Dispatch_1_assignments
+            "Complete_1_stage_in_Simulated_Universe_Any_world", # -> Complete_Simulated_Universe_1_times
+            "Complete_Calyx_Crimson_1_time", # -> Clear_Calyx_Crimson_1_times
+            "Enter_combat_by_attacking_enemy_Weakness_and_win_3_times", # -> Enter_combat_by_attacking_enemie_Weakness_and_win_1_times
+            "Use_Technique_2_times", # -> Use_Technique_1_times
+            "Destroy_3_destructible_objects" # -> Destroy_1_destructible_objects
+            "Obtain_victory_in_combat_with_Support_Characters_1_time", # -> Obtain_victory_in_combat_with_Support_Characters_1_times
+            "Level_up_any_character_1_time", # -> Level_up_any_character_1_times
+            "Level_up_any_Light_Cone_1_time", # -> Level_up_any_Light_Cone_1_times
+            "Synthesize_Consumable_1_time", # -> Use_the_Omni_Synthesizer_1_times
+            "Synthesize_material_1_time", # -> Use_the_Omni_Synthesizer_1_times
+            "Take_1_photo", # -> Take_photos_1_times
+            "Level_up_any_Relic_1_time", # -> Level_up_any_Relic_1_times
+        ]
+
+        correct_times = {
+        #    "Dispatch_1_assignments":  1,
+        #    "Complete_Simulated_Universe_1_times": 1,
+        #    "Clear_Calyx_Crimson_1_times": 1,
+            "Enter_combat_by_attacking_enemie_Weakness_and_win_1_times": 3,
+            "Use_Technique_1_times": 2,
+            "Destroy_1_destructible_objects": 3,
+        #    "Obtain_victory_in_combat_with_Support_Characters_1_times": 1,
+        #    "Level_up_any_character_1_times": 1,
+        #    "Level_up_any_Light_Cone_1_times": 1,
+        #    "Use_the_Omni_Synthesizer_1_times": 1,
+        #    "Take_photos_1_times": 1,
+        #    "Level_up_any_Relic_1_times": 1,
+            "Consume_1_Trailblaze_Power": 120
+            
+        }
+        def replace_templates_quest(text: str, correct_time = 1) -> str:
+            text = replace_templates(text)
+            text = text.replace('1', f'{correct_time}')
+            return text
+        
+        last_id = getattr(gen, 'last_id', 0)
+        for index, keyword in enumerate(self.keywords_id):
+            _, old_name = self.find_keyword(keyword, lang='en')
+            old_name = text_convert(replace_templates(old_name))
+            if old_name in old_quest:
+                continue
+            name = old_name.replace('1', str(correct_times.setdefault(old_name, 1)))
+            
+            with gen.Object(key=name, object_class=keyword_class):
+                gen.ObjectAttr(key='id', value=index + last_id + 1)
+                gen.ObjectAttr(key='name', value=name)
+                for lang in UI_LANGUAGES:
+                    gen.ObjectAttr(key=lang, value=replace_templates_quest(self.find_keyword(keyword, lang=lang)[1], correct_times.setdefault(old_name, 1)))
+                gen.last_id = index + last_id + 1
+
+        output_file = './tasks/daily/keywords/daily_quest.py'
+        print(f'Write {output_file}')
+        gen.write(output_file)
+        self.clear_keywords()
+        return gen
+
     def generate_daily_quests(self):
         daily_quest = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'DailyQuest.json'))
         self.load_quests(daily_quest.keys())
-        self.write_keywords(keyword_class='DailyQuest', output_file='./tasks/daily/keywords/daily_quest.py')
+        self.write_daily_quest_keywords()
 
     def load_character_name_keywords(self, lang='en'):
         file_name = 'ItemConfigAvatarPlayerIcon.json'
