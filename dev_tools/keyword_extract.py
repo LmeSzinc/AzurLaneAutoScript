@@ -148,11 +148,13 @@ class KeywordExtract:
                 # visited.add(name)
             yield hash_
         yield temp_save
-        # 'Memory of Chaos' is not a real dungeon, but represents a group
-        yield '混沌回忆'
         # Consider rogue DLC as a dungeon
         yield '寰宇蝗灾'
         yield '黄金与机械'
+        # 'Memory of Chaos' is not a real dungeon, but represents a group
+        yield '混沌回忆'
+        yield '天艟求仙迷航录'
+        yield '永屹之城遗秘'
 
     def find_keyword(self, keyword, lang) -> tuple[int, str]:
         """
@@ -279,7 +281,7 @@ class KeywordExtract:
         #    "Take_photos_1_times": 1,
         #    "Level_up_any_Relic_1_times": 1,
             "Consume_1_Trailblaze_Power": 120
-            
+
         }
         def replace_templates_quest(text: str, correct_time = 1) -> str:
             text = replace_templates(text)

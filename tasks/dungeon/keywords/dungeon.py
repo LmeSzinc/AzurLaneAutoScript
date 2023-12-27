@@ -390,17 +390,8 @@ Simulated_Universe_World_8 = DungeonList(
     jp='第八世界・模擬宇宙',
     es='Mundo 8',
 )
-Memory_of_Chaos = DungeonList(
-    id=44,
-    name='Memory_of_Chaos',
-    cn='混沌回忆',
-    cht='混沌回憶',
-    en='Memory of Chaos',
-    jp='混沌の記憶',
-    es='Evocación caótica',
-)
 Simulated_Universe_The_Swarm_Disaster = DungeonList(
-    id=46,
+    id=44,
     name='Simulated_Universe_The_Swarm_Disaster',
     cn='寰宇蝗灾',
     cht='寰宇蝗災',
@@ -409,11 +400,38 @@ Simulated_Universe_The_Swarm_Disaster = DungeonList(
     es='La Plaga',
 )
 Simulated_Universe_Gold_and_Gears = DungeonList(
-    id=47,
+    id=45,
     name='Simulated_Universe_Gold_and_Gears',
     cn='黄金与机械',
     cht='黃金與機械',
     en='Gold and Gears',
     jp='黄金と機械',
     es='Oro y maquinaria',
+)
+Memory_of_Chaos = DungeonList(
+    id=46,
+    name='Memory_of_Chaos',
+    cn='混沌回忆',
+    cht='混沌回憶',
+    en='Memory of Chaos',
+    jp='混沌の記憶',
+    es='Evocación caótica',
+)
+The_Voyage_of_Navis_Astriger = DungeonList(
+    id=47,
+    name='The_Voyage_of_Navis_Astriger',
+    cn='天艟求仙迷航录',
+    cht='天艟求仙迷航錄',
+    en='The Voyage of Navis Astriger',
+    jp='天艟求仙放浪記',
+    es='El viaje de las naves astriger',
+)
+The_Last_Vestiges_of_Towering_Citadel = DungeonList(
+    id=48,
+    name='The_Last_Vestiges_of_Towering_Citadel',
+    cn='永屹之城遗秘',
+    cht='永屹之城遺秘',
+    en='The Last Vestiges of Towering Citadel',
+    jp='永屹の城の秘密',
+    es='Herencia de la Ciudadela Imponente',
 )
