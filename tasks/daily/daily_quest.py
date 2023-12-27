@@ -321,8 +321,8 @@ class DailyQuestUI(DungeonUI, RouteLoader):
             # Check battle pass
             if self.config.stored.DailyActivity.value == 500:
                 quests = self.config.stored.BattlePassTodayQuest.load_quests()
-                if KEYWORD_BATTLE_PASS_QUEST.Reach_500_on_Daily_Training_Activity in quests:
-                    logger.info('Achieved battle pass quest Reach_500_on_Daily_Training_Activity')
+                if KEYWORD_BATTLE_PASS_QUEST.Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max in quests:
+                    logger.info('Achieved battle pass quest Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max')
                     if self.config.stored.BattlePassLevel.is_full():
                         logger.info('BattlePassLevel full, no task call')
                     else:
