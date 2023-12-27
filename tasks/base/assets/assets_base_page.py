@@ -77,10 +77,10 @@ FORGOTTEN_HALL_CHECK = ButtonWrapper(
     name='FORGOTTEN_HALL_CHECK',
     share=Button(
         file='./assets/share/base/page/FORGOTTEN_HALL_CHECK.png',
-        area=(44, 27, 71, 47),
-        search=(24, 7, 91, 67),
-        color=(91, 87, 90),
-        button=(44, 27, 71, 47),
+        area=(41, 21, 73, 53),
+        search=(21, 1, 93, 73),
+        color=(150, 136, 108),
+        button=(41, 21, 73, 53),
     ),
 )
 GACHA_CHECK = ButtonWrapper(

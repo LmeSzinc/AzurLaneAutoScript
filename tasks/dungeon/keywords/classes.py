@@ -61,6 +61,15 @@ class DungeonList(Keyword):
         return False
 
     @cached_property
+    def is_Pure_Fiction(self):
+        for word in [
+            'Pure_Fiction',
+        ]:
+            if word in self.name:
+                return True
+        return False
+
+    @cached_property
     def is_daily_dungeon(self):
         return self.is_Calyx_Golden or self.is_Calyx_Crimson or self.is_Stagnant_Shadow or self.is_Cavern_of_Corrosion
 
@@ -85,6 +94,8 @@ class DungeonList(Keyword):
             return KEYWORDS_DUNGEON_NAV.Echo_of_War
         if self.is_Forgotten_Hall:
             return KEYWORDS_DUNGEON_NAV.Forgotten_Hall
+        if self.is_Pure_Fiction:
+            return KEYWORDS_DUNGEON_NAV.Pure_Fiction
 
         raise ScriptError(f'Cannot convert {self} to DungeonNav, please check keyword extractions')
 
