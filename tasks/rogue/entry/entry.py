@@ -393,6 +393,7 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
             self._rogue_teleport()
 
         # is_page_rogue_main()
+        self._rogue_theme_set(world)
         self._rogue_world_wait()
 
         # Update rogue points
@@ -410,7 +411,6 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
         self.check_stop_condition()
 
         # Enter
-        self._rogue_theme_set(world)
         self._rogue_world_set(world)
         # Check stop condition again as immersifier updated
         try:
