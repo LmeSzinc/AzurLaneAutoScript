@@ -123,33 +123,42 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         for path, value in self.modified.items():
             deep_set(self.data, keys=path, value=value)
 
-    def bind(self, func, func_set=None):
+    def bind(self, func, func_list=None):
         """
         Args:
             func (str, Function): Function to run
-            func_set (set): Set of tasks to be bound
+            func_list (list[str]): List of tasks to be bound
         """
-        if func_set is None:
-            func_set = {"General", "Alas"}
         if isinstance(func, Function):
             func = func.command
-        func_set.add(func)
+        # func_list: ["General", "Alas", <task_general>, <task>, *func_list]
+        if func_list is None:
+            func_list = []
+        if func not in func_list:
+            func_list.insert(0, func)
         if func.startswith("Opsi"):
-            func_set.add("OpsiGeneral")
+            if "OpsiGeneral" not in func_list:
+                func_list.insert(0, "OpsiGeneral")
         if (
             func.startswith("Event")
             or func.startswith("Raid")
             or func.startswith("Coalition")
             or func in ["MaritimeEscort", "GemsFarming"]
         ):
-            func_set.add("EventGeneral")
-            func_set.add("TaskBalancer")
-        logger.info(f"Bind task {func_set}")
+            if "EventGeneral" not in func_list:
+                func_list.insert(0, "EventGeneral")
+            if "TaskBalancer" not in func_list:
+                func_list.insert(0, "TaskBalancer")
+        if "Alas" not in func_list:
+            func_list.insert(0, "Alas")
+        if "General" not in func_list:
+            func_list.insert(0, "General")
+        logger.info(f"Bind task {func_list}")
 
         # Bind arguments
         visited = set()
         self.bound.clear()
-        for func in func_set:
+        for func in func_list:
             func_data = self.data.get(func, {})
             for group, group_data in func_data.items():
                 for arg, value in group_data.items():
