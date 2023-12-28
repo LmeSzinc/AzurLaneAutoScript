@@ -5,7 +5,7 @@ av==10.0.0
 cnocr==1.2.2
 imageio==2.27.0
 inflection
-jellyfish
+jellyfish==0.11.2
 lz4
 mxnet==1.6.0
 numpy
