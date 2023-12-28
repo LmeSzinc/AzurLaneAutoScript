@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+from module.combat.assets import GET_SHIP
 from module.dorm.assets import *
 from module.logger import logger
 from module.ocr.ocr import Digit
@@ -39,6 +40,7 @@ class BuyFurniture(UI):
             # Enter furniture shop page from page_dorm, only need to enter once
             if self.appear(DORM_CHECK, offset=(20, 20), interval=3):
                 self.device.click(DORM_FURNITURE_SHOP_ENTER)
+                self.interval_reset(GET_SHIP)
                 continue
 
             if self.appear(DORM_FURNITURE_SHOP_FIRST_SELECTED, offset=(20, 20)):
@@ -179,7 +181,8 @@ class BuyFurniture(UI):
                   False if Failed buy
         """
         self.enter_first_furniture_details_page()
-        if self.appear(DORM_FURNITURE_COUNTDOWN, offset=(20, 20)):
+        if self.appear(DORM_FURNITURE_COUNTDOWN, offset=(20, 20)) \
+                and DORM_FURNITURE_COUNTDOWN.match_appear_on(self.device.image):
             logger.info("There is a time-limited furniture available for buy")
 
             if self.buy_furniture_once(self.config.BuyFurniture_BuyOption):
