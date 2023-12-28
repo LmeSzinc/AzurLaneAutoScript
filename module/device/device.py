@@ -21,7 +21,7 @@ else:
 
 def show_function_call():
     """
-    INFO     21:07:31.554 │ Function calls:
+    INFO     21:07:31.554 ??? Function calls:
                        <string>   L1 <module>
                    spawn.py L116 spawn_main()
                    spawn.py L129 _main()
@@ -215,7 +215,7 @@ class Device(Screenshot, Control, AppControl, EmulatorManager):
             GameTooManyClickError:
         """
         count = collections.Counter(self.click_record).most_common(2)
-        if count[0][1] >= 12:
+        if count[0][1] >= 20:
             show_function_call()
             logger.warning(f'Too many click for a button: {count[0][0]}')
             logger.warning(f'History click: {[str(prev) for prev in self.click_record]}')
