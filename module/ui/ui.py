@@ -19,9 +19,10 @@ from module.meowfficer.assets import MEOWFFICER_BUY
 from module.ocr.ocr import Ocr
 from module.os_handler.assets import (AUTO_SEARCH_REWARD, EXCHANGE_CHECK, RESET_FLEET_PREPARATION, RESET_TICKET_POPUP)
 from module.raid.assets import RAID_FLEET_PREPARATION
-from module.ui.assets import (BACK_ARROW, DORM_FEED_CANCEL, DORM_INFO, DORM_TROPHY_CONFIRM, EVENT_LIST_CHECK, GOTO_MAIN,
-                              MAIN_GOTO_CAMPAIGN, MEOWFFICER_GOTO_DORMMENU, MEOWFFICER_INFO, META_CHECK, PLAYER_CHECK,
-                              RAID_CHECK, SHIPYARD_CHECK, SHOP_GOTO_SUPPLY_PACK)
+from module.ui.assets import (BACK_ARROW, DORMMENU_GOTO_DORM, DORM_FEED_CANCEL, DORM_INFO, DORM_TROPHY_CONFIRM,
+                              EVENT_LIST_CHECK, GOTO_MAIN, MAIN_GOTO_CAMPAIGN, MEOWFFICER_GOTO_DORMMENU,
+                              MEOWFFICER_INFO, META_CHECK, PLAYER_CHECK, RAID_CHECK, SHIPYARD_CHECK,
+                              SHOP_GOTO_SUPPLY_PACK)
 from module.ui.page import (Page, page_campaign, page_event, page_main, page_sp)
 
 
@@ -513,3 +514,5 @@ class UI(InfoHandler):
             self.interval_reset(RAID_CHECK)
         if button == SHOP_GOTO_SUPPLY_PACK:
             self.interval_reset(EXCHANGE_CHECK)
+        if button == DORMMENU_GOTO_DORM:
+            self.interval_reset(GET_SHIP)
