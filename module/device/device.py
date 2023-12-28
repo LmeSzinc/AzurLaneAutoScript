@@ -215,7 +215,7 @@ class Device(Screenshot, Control, AppControl, EmulatorManager):
             GameTooManyClickError:
         """
         count = collections.Counter(self.click_record).most_common(2)
-        if count[0][1] >= 12:
+        if count[0][1] >= 20:
             show_function_call()
             logger.warning(f'Too many click for a button: {count[0][0]}')
             logger.warning(f'History click: {[str(prev) for prev in self.click_record]}')
