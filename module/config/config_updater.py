@@ -547,33 +547,33 @@ class ConfigUpdater:
         # ('SupplyPack.SupplyPack.WeeklyFreeSupplyPack', 'Freebies.SupplyPack.Collect'),
         # ('Commission.Commission.CommissionFilter', 'Commission.Commission.CustomFilter'),
         # 2023.02.17
-        ('OpsiAshBeacon.OpsiDossierBeacon.Enable', 'OpsiAshBeacon.OpsiAshBeacon.AttackMode', dossier_redirect),
-        ('General.Retirement.EnhanceFavourite', 'General.Enhance.ShipToEnhance', enhance_favourite_redirect),
-        ('General.Retirement.EnhanceFilter', 'General.Enhance.Filter'),
-        ('General.Retirement.EnhanceCheckPerCategory', 'General.Enhance.CheckPerCategory', enhance_check_redirect),
-        ('General.Retirement.OldRetireN', 'General.OldRetire.N'),
-        ('General.Retirement.OldRetireR', 'General.OldRetire.R'),
-        ('General.Retirement.OldRetireSR', 'General.OldRetire.SR'),
-        ('General.Retirement.OldRetireSSR', 'General.OldRetire.SSR'),
-        (('GemsFarming.GemsFarming.FlagshipChange', 'GemsFarming.GemsFarming.FlagshipEquipChange'),
-         'GemsFarming.GemsFarming.ChangeFlagship',
-         change_ship_redirect),
-        (('GemsFarming.GemsFarming.VanguardChange', 'GemsFarming.GemsFarming.VanguardEquipChange'),
-         'GemsFarming.GemsFarming.ChangeVanguard',
-         change_ship_redirect),
-        ('Alas.DropRecord.API', 'Alas.DropRecord.API', api_redirect2)
+        # ('OpsiAshBeacon.OpsiDossierBeacon.Enable', 'OpsiAshBeacon.OpsiAshBeacon.AttackMode', dossier_redirect),
+        # ('General.Retirement.EnhanceFavourite', 'General.Enhance.ShipToEnhance', enhance_favourite_redirect),
+        # ('General.Retirement.EnhanceFilter', 'General.Enhance.Filter'),
+        # ('General.Retirement.EnhanceCheckPerCategory', 'General.Enhance.CheckPerCategory', enhance_check_redirect),
+        # ('General.Retirement.OldRetireN', 'General.OldRetire.N'),
+        # ('General.Retirement.OldRetireR', 'General.OldRetire.R'),
+        # ('General.Retirement.OldRetireSR', 'General.OldRetire.SR'),
+        # ('General.Retirement.OldRetireSSR', 'General.OldRetire.SSR'),
+        # (('GemsFarming.GemsFarming.FlagshipChange', 'GemsFarming.GemsFarming.FlagshipEquipChange'),
+        #  'GemsFarming.GemsFarming.ChangeFlagship',
+        #  change_ship_redirect),
+        # (('GemsFarming.GemsFarming.VanguardChange', 'GemsFarming.GemsFarming.VanguardEquipChange'),
+        #  'GemsFarming.GemsFarming.ChangeVanguard',
+        #  change_ship_redirect),
+        # ('Alas.DropRecord.API', 'Alas.DropRecord.API', api_redirect2)
     ]
-    redirection += [
-        (
-            (f'{task}.Emotion.CalculateEmotion', f'{task}.Emotion.IgnoreLowEmotionWarn'),
-            f'{task}.Emotion.Mode',
-            emotion_mode_redirect
-        ) for task in [
-            'Main', 'Main2', 'Main3', 'GemsFarming',
-            'Event', 'Event2', 'EventA', 'EventB', 'EventC', 'EventD', 'EventSp', 'Raid', 'RaidDaily',
-            'Sos', 'WarArchives',
-        ]
-    ]
+    # redirection += [
+    #     (
+    #         (f'{task}.Emotion.CalculateEmotion', f'{task}.Emotion.IgnoreLowEmotionWarn'),
+    #         f'{task}.Emotion.Mode',
+    #         emotion_mode_redirect
+    #     ) for task in [
+    #         'Main', 'Main2', 'Main3', 'GemsFarming',
+    #         'Event', 'Event2', 'EventA', 'EventB', 'EventC', 'EventD', 'EventSp', 'Raid', 'RaidDaily',
+    #         'Sos', 'WarArchives',
+    #     ]
+    # ]
 
     @cached_property
     def args(self):
