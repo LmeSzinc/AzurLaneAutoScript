@@ -39,7 +39,6 @@ def headless_requirements_generate(requirements_in='requirements-in.txt'):
     lock = {
         'aiofiles': '23.1.0',
         'inflection': '0.5.1',
-        'jellyfish': '0.11.2',
         'lz4': '4.3.2',
         'numpy': '1.17.4',
         'onepush': '1.2.0',
@@ -55,6 +54,7 @@ def headless_requirements_generate(requirements_in='requirements-in.txt'):
         'wrapt': '1.15.0'
     }
     new = {}
+    logger.info(requirements)
     for name, version in requirements.items():
         if name == 'alas-webapp':
             continue
