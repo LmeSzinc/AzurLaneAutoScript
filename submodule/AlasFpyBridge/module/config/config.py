@@ -25,10 +25,10 @@ class FgoConfig(AzurLaneConfig, ConfigUpdater, GeneratedConfig):
             self.save()
 
     # @override
-    def bind(self, func, func_set=None):
-        if func_set is None:
-            func_set = {"Fpy"}
-        super().bind(func, func_set)
+    def bind(self, func, func_list=None):
+        if func_list is None:
+            func_list = ["Fpy"]
+        super().bind(func, func_list)
 
     # @override
     def save(self, mod_name="fpy"):
