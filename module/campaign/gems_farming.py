@@ -482,15 +482,22 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                 else:
                     raise e
             except RequestHumanTakeover as e:
-                if (e.args[0] == 'Hard not satisfied' and
-                        str(self.config.GemsFarming_FleetNumberInHardMode) in e.args[1]):
-                    if self.change_flagship and self.change_vanguard:
-                        self.flagship_change()
-                        self.vanguard_change()
+                try:
+                    if (e.args[0] == 'Hard not satisfied' and
+                            str(self.config.GemsFarming_FleetNumberInHardMode) in e.args[1]):
+                        if self.change_flagship and self.change_vanguard:
+                            self.flagship_change()
+                            self.vanguard_change()
+                        else:
+                            raise RequestHumanTakeover
                     else:
                         raise RequestHumanTakeover
-                else:
+                except RequestHumanTakeover as e:
                     raise RequestHumanTakeover
+                except Exception as e:
+                    from module.exception import GameStuckError
+                    raise GameStuckError
+
 
             # End
             if self._trigger_lv32 or self._trigger_emotion:
