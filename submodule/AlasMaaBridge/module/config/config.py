@@ -27,10 +27,10 @@ class ArknightsConfig(AzurLaneConfig, ConfigUpdater, GeneratedConfig):
             self.task = task
             self.save()
 
-    def bind(self, func, func_set=None):
-        if func_set is None:
-            func_set = {'Maa'}
-        super().bind(func, func_set)
+    def bind(self, func, func_list=None):
+        if func_list is None:
+            func_list = ['Maa']
+        super().bind(func, func_list)
 
     def save(self, mod_name='maa'):
         super().save(mod_name)
