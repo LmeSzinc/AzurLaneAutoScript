@@ -1,5 +1,6 @@
 from module.base.decorator import cached_property
 from module.base.timer import Timer
+from module.exception import RequestHumanTakeover
 from module.logger import logger
 from tasks.rogue.assets.assets_rogue_path import *
 from tasks.rogue.assets.assets_rogue_ui import ROGUE_LAUNCH
@@ -38,8 +39,11 @@ class RoguePathHandler(RogueUI):
             KEYWORDS_ROGUE_PATH.The_Hunt: CHECK_THE_HUNT,
             KEYWORDS_ROGUE_PATH.Destruction: CHECK_DESTRUCTION,
             KEYWORDS_ROGUE_PATH.Elation: CHECK_ELATION,
-            KEYWORDS_ROGUE_PATH.Propagation: CHECK_PROPAGATION
+            KEYWORDS_ROGUE_PATH.Propagation: CHECK_PROPAGATION,
         }
+        # 2023.12.28 Buttons moved up
+        for b in buttons.values():
+            b.load_search(area_pad_around(b.area, pad=(-20, -50, -20, 0)))
         return buttons
 
     @cached_property
@@ -58,6 +62,23 @@ class RoguePathHandler(RogueUI):
             b.load_search(area_pad_around(b.area, pad=(-100, -5, -100, -5)))
         return buttons
 
+    @cached_property
+    def _rogue_paths(self) -> dict[RoguePath, int]:
+        """
+        Paths that can be selected
+        """
+        buttons = {
+            KEYWORDS_ROGUE_PATH.Preservation: 1,
+            KEYWORDS_ROGUE_PATH.Remembrance: 2,
+            KEYWORDS_ROGUE_PATH.Nihility: 3,
+            KEYWORDS_ROGUE_PATH.Abundance: 4,
+            KEYWORDS_ROGUE_PATH.The_Hunt: 5,
+            KEYWORDS_ROGUE_PATH.Destruction: 6,
+            KEYWORDS_ROGUE_PATH.Elation: 7,
+            KEYWORDS_ROGUE_PATH.Propagation: 8,
+        }
+        return buttons
+
     def _get_path_click(self, path: RoguePath) -> ButtonWrapper:
         buttons = self._rogue_path_clicks
         if ret := buttons.get(path):
@@ -68,8 +89,7 @@ class RoguePathHandler(RogueUI):
             path_click = min(paths, key=lambda p: abs(self._calculate_distance(p, path)))
             return buttons.get(path_click)
 
-    @staticmethod
-    def _calculate_distance(path_1: RoguePath, path_2: RoguePath):
+    def _calculate_distance(self, path_1: RoguePath, path_2: RoguePath):
         """
         click times from path1 to path2
 
@@ -78,8 +98,12 @@ class RoguePathHandler(RogueUI):
                 negative value to click left,
                 0 to be the same.
         """
-        length = len(path_1.instances)
-        distance = path_1.id - path_2.id
+        try:
+            distance = self._rogue_paths[path_1] - self._rogue_paths[path_2]
+        except KeyError:
+            logger.error(f'Rogue path {path_1} {path_2} does not belongs to this rogue theme')
+            raise RequestHumanTakeover
+        length = len(self._rogue_paths)
         left_times = distance % length
         right_times = -distance % length
         if right_times <= left_times:

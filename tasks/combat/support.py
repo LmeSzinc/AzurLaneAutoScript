@@ -20,7 +20,8 @@ def get_position_in_original_image(position_in_croped_image, crop_area):
         tuple: (x, y) of position in original image
     """
     return (
-        position_in_croped_image[0] + crop_area[0], position_in_croped_image[1] + crop_area[1]) if position_in_croped_image else None
+        position_in_croped_image[0] + crop_area[0],
+        position_in_croped_image[1] + crop_area[1]) if position_in_croped_image else None
 
 
 class SupportCharacter:
@@ -194,6 +195,7 @@ class CombatSupport(UI):
         """
         logger.hr("Combat support")
         skip_first_screenshot = True
+        selected_support = False
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -217,9 +219,10 @@ class CombatSupport(UI):
                 self.interval_reset(POPUP_CANCEL)
                 continue
             if self.appear(COMBAT_SUPPORT_LIST, interval=1):
-                if support_character_name != "FirstCharacter":
+                if not selected_support and support_character_name != "FirstCharacter":
                     self._search_support(
                         support_character_name)  # Search support
+                    selected_support = True
                 self.device.click(COMBAT_SUPPORT_ADD)
                 self.interval_reset(COMBAT_SUPPORT_LIST)
                 continue
