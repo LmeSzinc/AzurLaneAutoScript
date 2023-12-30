@@ -40,6 +40,9 @@ class RoguePathHandler(RogueUI):
             KEYWORDS_ROGUE_PATH.Elation: CHECK_ELATION,
             KEYWORDS_ROGUE_PATH.Propagation: CHECK_PROPAGATION
         }
+        # 2023.12.28 Buttons moved up
+        for b in buttons.values():
+            b.load_search(area_pad_around(b.area, pad=(-20, -50, -20, 0)))
         return buttons
 
     @cached_property
