@@ -113,7 +113,14 @@
     },
     "BattlePassStorage": {
       "BattlePassLevel": {},
-      "BattlePassWeeklyQuest": {}
+      "BattlePassWeeklyQuest": {},
+      "BattlePassSimulatedUniverse": {},
+      "BattlePassQuestCalyx": {},
+      "BattlePassQuestEchoOfWar": {},
+      "BattlePassQuestCredits": {},
+      "BattlePassQuestSynthesizeConsumables": {},
+      "BattlePassQuestCavernOfCorrosion": {},
+      "BattlePassQuestTrailblazePower": {}
     }
   },
   "Assignment": {

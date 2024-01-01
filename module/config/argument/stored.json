@@ -165,5 +165,96 @@
     },
     "order": 0,
     "color": "#777777"
+  },
+  "BattlePassSimulatedUniverse": {
+    "name": "BattlePassSimulatedUniverse",
+    "path": "BattlePass.BattlePassStorage.BattlePassSimulatedUniverse",
+    "i18n": "BattlePassStorage.BattlePassSimulatedUniverse.name",
+    "stored": "StoredBattlePassSimulatedUniverse",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "total": 1,
+      "value": 0
+    },
+    "order": 0,
+    "color": "#777777"
+  },
+  "BattlePassQuestCalyx": {
+    "name": "BattlePassQuestCalyx",
+    "path": "BattlePass.BattlePassStorage.BattlePassQuestCalyx",
+    "i18n": "BattlePassStorage.BattlePassQuestCalyx.name",
+    "stored": "StoredBattlePassQuestCalyx",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "total": 20,
+      "value": 0
+    },
+    "order": 0,
+    "color": "#777777"
+  },
+  "BattlePassQuestEchoOfWar": {
+    "name": "BattlePassQuestEchoOfWar",
+    "path": "BattlePass.BattlePassStorage.BattlePassQuestEchoOfWar",
+    "i18n": "BattlePassStorage.BattlePassQuestEchoOfWar.name",
+    "stored": "StoredBattlePassQuestEchoOfWar",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "total": 2,
+      "value": 0
+    },
+    "order": 0,
+    "color": "#777777"
+  },
+  "BattlePassQuestCredits": {
+    "name": "BattlePassQuestCredits",
+    "path": "BattlePass.BattlePassStorage.BattlePassQuestCredits",
+    "i18n": "BattlePassStorage.BattlePassQuestCredits.name",
+    "stored": "StoredBattlePassQuestCredits",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "total": 300000,
+      "value": 0
+    },
+    "order": 0,
+    "color": "#777777"
+  },
+  "BattlePassQuestSynthesizeConsumables": {
+    "name": "BattlePassQuestSynthesizeConsumables",
+    "path": "BattlePass.BattlePassStorage.BattlePassQuestSynthesizeConsumables",
+    "i18n": "BattlePassStorage.BattlePassQuestSynthesizeConsumables.name",
+    "stored": "StoredBattlePassQuestSynthesizeConsumables",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "total": 10,
+      "value": 0
+    },
+    "order": 0,
+    "color": "#777777"
+  },
+  "BattlePassQuestCavernOfCorrosion": {
+    "name": "BattlePassQuestCavernOfCorrosion",
+    "path": "BattlePass.BattlePassStorage.BattlePassQuestCavernOfCorrosion",
+    "i18n": "BattlePassStorage.BattlePassQuestCavernOfCorrosion.name",
+    "stored": "StoredBattlePassQuestCavernOfCorrosion",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "total": 8,
+      "value": 0
+    },
+    "order": 0,
+    "color": "#777777"
+  },
+  "BattlePassQuestTrailblazePower": {
+    "name": "BattlePassQuestTrailblazePower",
+    "path": "BattlePass.BattlePassStorage.BattlePassQuestTrailblazePower",
+    "i18n": "BattlePassStorage.BattlePassQuestTrailblazePower.name",
+    "stored": "StoredBattlePassQuestTrailblazePower",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "total": 0,
+      "value": 0
+    },
+    "order": 0,
+    "color": "#777777"
   }
 }

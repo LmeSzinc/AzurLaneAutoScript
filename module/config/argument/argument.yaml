@@ -162,6 +162,21 @@ BattlePassStorage:
     color: "#cbe45b"
   BattlePassWeeklyQuest:
     stored: StoredBattlePassWeeklyQuest
+  # Quests progress
+  BattlePassSimulatedUniverse:
+    stored: StoredBattlePassSimulatedUniverse
+  BattlePassQuestCalyx:
+    stored: StoredBattlePassQuestCalyx
+  BattlePassQuestEchoOfWar:
+    stored: StoredBattlePassQuestEchoOfWar
+  BattlePassQuestCredits:
+    stored: StoredBattlePassQuestCredits
+  BattlePassQuestSynthesizeConsumables:
+    stored: StoredBattlePassQuestSynthesizeConsumables
+  BattlePassQuestCavernOfCorrosion:
+    stored: StoredBattlePassQuestCavernOfCorrosion
+  BattlePassQuestTrailblazePower:
+    stored: StoredBattlePassQuestTrailblazePower
 
 Assignment:
   # Options in Name_x will be injected in config updater

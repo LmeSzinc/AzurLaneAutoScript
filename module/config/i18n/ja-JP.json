@@ -692,6 +692,34 @@
     "BattlePassWeeklyQuest": {
       "name": "BattlePassStorage.BattlePassWeeklyQuest.name",
       "help": "BattlePassStorage.BattlePassWeeklyQuest.help"
+    },
+    "BattlePassSimulatedUniverse": {
+      "name": "BattlePassStorage.BattlePassSimulatedUniverse.name",
+      "help": "BattlePassStorage.BattlePassSimulatedUniverse.help"
+    },
+    "BattlePassQuestCalyx": {
+      "name": "BattlePassStorage.BattlePassQuestCalyx.name",
+      "help": "BattlePassStorage.BattlePassQuestCalyx.help"
+    },
+    "BattlePassQuestEchoOfWar": {
+      "name": "BattlePassStorage.BattlePassQuestEchoOfWar.name",
+      "help": "BattlePassStorage.BattlePassQuestEchoOfWar.help"
+    },
+    "BattlePassQuestCredits": {
+      "name": "BattlePassStorage.BattlePassQuestCredits.name",
+      "help": "BattlePassStorage.BattlePassQuestCredits.help"
+    },
+    "BattlePassQuestSynthesizeConsumables": {
+      "name": "BattlePassStorage.BattlePassQuestSynthesizeConsumables.name",
+      "help": "BattlePassStorage.BattlePassQuestSynthesizeConsumables.help"
+    },
+    "BattlePassQuestCavernOfCorrosion": {
+      "name": "BattlePassStorage.BattlePassQuestCavernOfCorrosion.name",
+      "help": "BattlePassStorage.BattlePassQuestCavernOfCorrosion.help"
+    },
+    "BattlePassQuestTrailblazePower": {
+      "name": "BattlePassStorage.BattlePassQuestTrailblazePower.name",
+      "help": "BattlePassStorage.BattlePassQuestTrailblazePower.help"
     }
   },
   "Assignment": {

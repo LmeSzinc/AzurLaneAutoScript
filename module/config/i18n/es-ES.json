@@ -692,6 +692,34 @@
     "BattlePassWeeklyQuest": {
       "name": "Misión de Honor",
       "help": ""
+    },
+    "BattlePassSimulatedUniverse": {
+      "name": "Completa el Universo Simulado 1 vez",
+      "help": ""
+    },
+    "BattlePassQuestCalyx": {
+      "name": "Completa Cáliz 20 vez",
+      "help": ""
+    },
+    "BattlePassQuestEchoOfWar": {
+      "name": "Completa Ecos de la guerra 2 vez",
+      "help": ""
+    },
+    "BattlePassQuestCredits": {
+      "name": "Consume 300 000 créditos",
+      "help": ""
+    },
+    "BattlePassQuestSynthesizeConsumables": {
+      "name": "Sintetiza consumibles 10 veces",
+      "help": ""
+    },
+    "BattlePassQuestCavernOfCorrosion": {
+      "name": "Completa Caverna de la corrosión 8 veces",
+      "help": ""
+    },
+    "BattlePassQuestTrailblazePower": {
+      "name": "Consume un total de 100 pts. de Poder trazacaminos (máx. 1400 pts.)",
+      "help": ""
     }
   },
   "Assignment": {

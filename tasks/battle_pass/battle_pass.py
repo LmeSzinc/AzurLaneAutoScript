@@ -1,14 +1,17 @@
 import datetime
 import re
+from dataclasses import dataclass
 
 import numpy as np
 
 from module.base.timer import Timer
 from module.base.utils import get_color
+from module.config.stored.classes import StoredCounter
 from module.config.utils import get_server_next_update
 from module.logger.logger import logger
-from module.ocr.ocr import Digit, Duration, Ocr
-from module.ocr.utils import split_and_pair_buttons
+from module.ocr.keyword import KeywordDigitCounter
+from module.ocr.ocr import Digit, DigitCounter, Duration, Ocr, OcrResultButton
+from module.ocr.utils import pair_buttons
 from module.ui.scroll import Scroll
 from module.ui.switch import Switch
 from tasks.base.assets.assets_base_page import BATTLE_PASS_CHECK, MAIN_GOTO_BATTLE_PASS
@@ -65,6 +68,20 @@ class BattlePassQuestOcr(Ocr):
         if self.lang == 'cn':
             result = re.sub("[jJ]", "」", result)
         return result
+
+
+@dataclass
+class DataBattlePassQuest:
+    quest: BattlePassQuest
+    state: BattlePassQuestState = None
+    digit: KeywordDigitCounter = ''
+
+    def __eq__(self, other):
+        return self.quest == other.quest
+
+    @property
+    def is_incomplete(self) -> bool:
+        return self.state == KEYWORD_BATTLE_PASS_QUEST_STATE.Navigate
 
 
 class BattlePassUI(UI):
@@ -239,8 +256,7 @@ class BattlePassUI(UI):
             # Update quests
             self.battle_pass_mission_tab_goto(
                 KEYWORD_BATTLE_PASS_MISSION_TAB.This_Week_Missions)
-            quests = self.battle_pass_quests_recognition()
-            self.config.stored.BattlePassWeeklyQuest.write_quests(quests)
+            self.battle_pass_quests_recognition()
         if previous_level == self.MAX_LEVEL:
             return previous_level
 
@@ -253,20 +269,32 @@ class BattlePassUI(UI):
             self._claim_rewards()
         return current_level
 
-    def ocr_single_page(self):
+    def ocr_single_page(self) -> list[DataBattlePassQuest]:
         """
         Returns incomplete quests only
         """
+        logger.hr('Battle pass ocr single page')
         ocr = BattlePassQuestOcr(OCR_BATTLE_PASS_QUEST)
-        results = ocr.matched_ocr(self.device.image, [BattlePassQuest, BattlePassQuestState])
+        results = ocr.matched_ocr(
+            self.device.image, keyword_classes=[BattlePassQuest, BattlePassQuestState, KeywordDigitCounter])
 
-        def completed_state(state):
-            return state != KEYWORD_BATTLE_PASS_QUEST_STATE.Navigate
+        # Product DataBattlePassQuest objects
+        data_quest: dict[OcrResultButton, DataBattlePassQuest] = {
+            result: DataBattlePassQuest(result.matched_keyword)
+            for result in results if isinstance(result.matched_keyword, BattlePassQuest)
+        }
+        # Update quest state
+        list_attr = [result for result in results if isinstance(result.matched_keyword, BattlePassQuestState)]
+        for quest, state in pair_buttons(data_quest, list_attr, relative_area=(0, 0, 800, 100)):
+            data_quest[quest].state = state.matched_keyword
+        # Update quest progress
+        list_attr = [result for result in results if isinstance(result.matched_keyword, str)]
+        for quest, digit in pair_buttons(data_quest, list_attr, relative_area=(-50, 0, 200, 70)):
+            data_quest[quest].digit = digit.matched_keyword
 
-        return [incomplete_quest for incomplete_quest, _ in
-                split_and_pair_buttons(results, split_func=completed_state, relative_area=(0, 0, 800, 100))]
+        return list(data_quest.values())
 
-    def battle_pass_quests_recognition(self) -> list[BattlePassQuest]:
+    def battle_pass_quests_recognition(self):
         """
         Pages:
             in: page_battle_pass, KEYWORD_BATTLE_PASS_TAB.Missions, weekly or period
@@ -275,7 +303,7 @@ class BattlePassUI(UI):
         scroll = Scroll(MISSION_PAGE_SCROLL, color=(198, 198, 198))
 
         scroll.set_top(main=self)
-        results = []
+        results: list[DataBattlePassQuest] = []
         while 1:
             results += [result for result in self.ocr_single_page() if result not in results]
             if scroll.at_bottom(main=self):
@@ -284,8 +312,50 @@ class BattlePassUI(UI):
             else:
                 scroll.next_page(main=self)
 
-        results = [result.matched_keyword for result in results]
-        return results
+        # Convert quest keyword to stored object
+        dic_quest_to_stored = {
+            KEYWORD_BATTLE_PASS_QUEST.Complete_Simulated_Universe_1_times:
+                self.config.stored.BattlePassSimulatedUniverse,
+            KEYWORD_BATTLE_PASS_QUEST.Clear_Calyx_1_times:
+                self.config.stored.BattlePassQuestCalyx,
+            KEYWORD_BATTLE_PASS_QUEST.Complete_Echo_of_War_1_times:
+                self.config.stored.BattlePassQuestEchoOfWar,
+            KEYWORD_BATTLE_PASS_QUEST.Use_300000_credits:
+                self.config.stored.BattlePassQuestCredits,
+            KEYWORD_BATTLE_PASS_QUEST.Synthesize_Consumables_1_times:
+                self.config.stored.BattlePassQuestSynthesizeConsumables,
+            KEYWORD_BATTLE_PASS_QUEST.Clear_Cavern_of_Corrosion_1_times:
+                self.config.stored.BattlePassQuestCavernOfCorrosion,
+            KEYWORD_BATTLE_PASS_QUEST.Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max:
+                self.config.stored.BattlePassQuestTrailblazePower,
+        }
+        with self.config.multi_set():
+            # Write incomplete quests
+            quests = [result.quest for result in results if result.is_incomplete]
+            self.config.stored.BattlePassWeeklyQuest.write_quests(quests)
+            # Create an OCR object just for calling format_result()
+            ocr = DigitCounter(OCR_BATTLE_PASS_QUEST)
+            # Write quest progresses
+            for result in results:
+                ocr.name = result.quest.name
+                current, _, total = ocr.format_result(result.digit)
+                if total == 0:
+                    logger.error(f'Battle pass quests {result.quest} progress invalid: {result.digit}')
+                    continue
+                stored: StoredCounter = dic_quest_to_stored.get(result.quest, None)
+                # Check if exist
+                if stored is None:
+                    logger.error(f'Battle pass quest {result.quest} has not corresponding stored object')
+                    continue
+                # Check total
+                if stored.FIXED_TOTAL and total != stored.FIXED_TOTAL:
+                    logger.error(f'Battle pass quest progress {current}/{total} does not match its stored object')
+                    continue
+                if hasattr(stored, 'LIST_TOTAL') and total not in stored.LIST_TOTAL:
+                    logger.error(f'Battle pass quest progress {current}/{total} is not in LIST_TOTAL')
+                    continue
+                # Set
+                stored.set(current, total=total)
 
     def has_battle_pass_entrance(self, skip_first_screenshot=True):
         """

@@ -692,6 +692,34 @@
     "BattlePassWeeklyQuest": {
       "name": "Honor Mission",
       "help": ""
+    },
+    "BattlePassSimulatedUniverse": {
+      "name": "Complete Simulated Universe 1 time(s)",
+      "help": ""
+    },
+    "BattlePassQuestCalyx": {
+      "name": "Clear Calyx 20 time(s)",
+      "help": ""
+    },
+    "BattlePassQuestEchoOfWar": {
+      "name": "Complete Echo of War 2 time(s)",
+      "help": ""
+    },
+    "BattlePassQuestCredits": {
+      "name": "Use 300,000 credits",
+      "help": ""
+    },
+    "BattlePassQuestSynthesizeConsumables": {
+      "name": "Synthesize Consumables 10 time(s)",
+      "help": ""
+    },
+    "BattlePassQuestCavernOfCorrosion": {
+      "name": "Clear Cavern of Corrosion 8 time(s)",
+      "help": ""
+    },
+    "BattlePassQuestTrailblazePower": {
+      "name": "Consume a total of 100 Trailblaze Power (1400 Trailblazer Power max)",
+      "help": ""
     }
   },
   "Assignment": {

@@ -1,7 +1,6 @@
 import re
 import time
 from datetime import timedelta
-from typing import Optional
 
 import cv2
 import numpy as np
@@ -13,13 +12,12 @@ from module.base.decorator import cached_property
 from module.base.utils import area_pad, corner2area, crop, extract_white_letters, float2str
 from module.exception import ScriptError
 from module.logger import logger
-from module.ocr.keyword import Keyword
 from module.ocr.models import OCR_MODEL, TextSystem
 from module.ocr.utils import merge_buttons
 
 
 class OcrResultButton:
-    def __init__(self, boxed_result: BoxedResult, matched_keyword: Optional[Keyword]):
+    def __init__(self, boxed_result: BoxedResult, matched_keyword):
         """
         Args:
             boxed_result: BoxedResult from ppocr-onnx

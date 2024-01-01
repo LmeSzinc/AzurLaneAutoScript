@@ -74,8 +74,8 @@ def pair_buttons(group1, group2, relative_area):
     Pair buttons in group1 with those in group2 in the relative_area.
 
     Args:
-        group1 (list[OcrResultButton]):
-        group2 (list[OcrResultButton]):
+        group1 (list[OcrResultButton], Iterable[OcrResultButton]):
+        group2 (list[OcrResultButton], Iterable[OcrResultButton]):
         relative_area (tuple[int, int, int, int]):
 
     Yields:
