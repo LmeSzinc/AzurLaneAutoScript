@@ -47,10 +47,10 @@ REWARD_RED_DOT = ButtonWrapper(
     name='REWARD_RED_DOT',
     share=Button(
         file='./assets/share/rogue/weekly/REWARD_RED_DOT.png',
-        area=(94, 582, 122, 610),
-        search=(74, 562, 142, 630),
-        color=(130, 67, 71),
-        button=(94, 582, 122, 610),
+        area=(308, 640, 328, 660),
+        search=(288, 620, 348, 680),
+        color=(179, 57, 63),
+        button=(308, 640, 328, 660),
     ),
 )
 ROGUE_REPORT = ButtonWrapper(

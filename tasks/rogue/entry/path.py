@@ -59,7 +59,7 @@ class RoguePathHandler(RogueUI):
         }
         # Path list is sliding, expand search area
         for b in buttons.values():
-            b.load_search(area_pad_around(b.area, pad=(-100, -5, -100, -5)))
+            b.load_search(area_pad_around(b.area, pad=(-150, -5, -150, -5)))
         return buttons
 
     @cached_property

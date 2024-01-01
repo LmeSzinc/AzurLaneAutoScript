@@ -164,13 +164,22 @@ CLICK_NIHILITY = ButtonWrapper(
 )
 CLICK_PRESERVATION = ButtonWrapper(
     name='CLICK_PRESERVATION',
-    share=Button(
-        file='./assets/share/rogue/path/CLICK_PRESERVATION.png',
-        area=(65, 340, 88, 405),
-        search=(45, 320, 108, 425),
-        color=(31, 34, 44),
-        button=(65, 340, 88, 405),
-    ),
+    share=[
+        Button(
+            file='./assets/share/rogue/path/CLICK_PRESERVATION.png',
+            area=(65, 340, 88, 405),
+            search=(45, 320, 108, 425),
+            color=(31, 34, 44),
+            button=(65, 340, 88, 405),
+        ),
+        Button(
+            file='./assets/share/rogue/path/CLICK_PRESERVATION.2.png',
+            area=(150, 345, 200, 395),
+            search=(130, 325, 220, 415),
+            color=(71, 75, 85),
+            button=(150, 345, 200, 395),
+        ),
+    ],
 )
 CLICK_REMEMBRANCE = ButtonWrapper(
     name='CLICK_REMEMBRANCE',
