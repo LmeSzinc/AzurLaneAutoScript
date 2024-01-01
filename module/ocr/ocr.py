@@ -350,6 +350,10 @@ class DigitCounter(Ocr):
     def __init__(self, button: ButtonWrapper, lang='en', name=None):
         super().__init__(button, lang=lang, name=name)
 
+    @classmethod
+    def is_format_matched(cls, result) -> bool:
+        return '/' in result
+
     def format_result(self, result) -> tuple[int, int, int]:
         """
         Do OCR on a counter, such as `14/15`, and returns 14, 1, 15
@@ -360,7 +364,7 @@ class DigitCounter(Ocr):
         result = super().after_process(result)
         logger.attr(name=self.name, text=str(result))
 
-        res = re.search(r'(\d+)/(\d+)', result)
+        res = re.search(r'(\d+)\s*/\s*(\d+)', result)
         if res:
             groups = [int(s) for s in res.groups()]
             current, total = int(groups[0]), int(groups[1])
