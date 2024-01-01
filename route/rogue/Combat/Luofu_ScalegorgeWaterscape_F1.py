@@ -171,9 +171,13 @@ class Route(RouteBase):
         | item     | Waypoint((792.4, 224.5)), | 355.8     | 350      |
         | enemy    | Waypoint((802.3, 198.7)), | 22.7      | 20       |
         | exit_    | Waypoint((801.6, 199.4)), | 210.2     | 13       |
+        | exit1    | Waypoint((799.2, 194.1)), | 22.7      | 18       |
+        | exit2    | Waypoint((805.4, 196.2)), | 114.2     | 18       |
         """
         self.map_init(plane=Luofu_ScalegorgeWaterscape, floor="F1", position=(791.2, 245.8))
-        self.register_domain_exit(Waypoint((801.6, 199.4)), end_rotation=13)
+        self.register_domain_exit(
+            Waypoint((801.6, 199.4)), end_rotation=13,
+            left_door=Waypoint((799.2, 194.1)), right_door=Waypoint((805.4, 196.2)))
         item = Waypoint((792.4, 224.5))
         enemy = Waypoint((802.3, 198.7))
         # ===== End of generated waypoints =====
