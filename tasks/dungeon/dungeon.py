@@ -11,8 +11,10 @@ from tasks.dungeon.stamina import DungeonStamina
 class Dungeon(DungeonStamina, DungeonEvent, Combat):
     called_daily_support = False
     achieved_daily_quest = False
+    achieved_weekly_quest = False
     running_double = False
     daily_quests = []
+    weekly_quests = []
 
     def _dungeon_run(self, dungeon: DungeonList, team: int = None, wave_limit: int = 0, support_character: str = None,
                      skip_ui_switch: bool = False):
@@ -76,31 +78,75 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
         count = self.combat(team=team, wave_limit=wave_limit, support_character=support_character)
 
         # Update quest states
-        if dungeon.is_Calyx_Golden \
-                and KEYWORDS_DAILY_QUEST.Clear_Calyx_Golden_1_times in self.daily_quests:
-            logger.info('Achieved daily quest Clear_Calyx_Golden_1_times')
-            self.achieved_daily_quest = True
-        if dungeon.is_Calyx_Crimson \
-                and KEYWORDS_DAILY_QUEST.Clear_Calyx_Crimson_1_times in self.daily_quests:
-            logger.info('Achieve daily quest Clear_Calyx_Crimson_1_times')
-            self.achieved_daily_quest = True
-        if dungeon.is_Stagnant_Shadow \
-                and KEYWORDS_DAILY_QUEST.Clear_Stagnant_Shadow_1_times in self.daily_quests:
-            logger.info('Achieve daily quest Clear_Stagnant_Shadow_1_times')
-            self.achieved_daily_quest = True
-        if dungeon.is_Cavern_of_Corrosion \
-                and KEYWORDS_DAILY_QUEST.Clear_Cavern_of_Corrosion_1_times in self.daily_quests:
-            logger.info('Achieve daily quest Clear_Cavern_of_Corrosion_1_times')
-            self.achieved_daily_quest = True
-        if support_character is not None:
-            self.called_daily_support = True
-            if KEYWORDS_DAILY_QUEST.Obtain_victory_in_combat_with_Support_Characters_1_times:
-                logger.info('Achieve daily quest Obtain_victory_in_combat_with_Support_Characters_1_times')
-                self.achieved_daily_quest = True
+        with self.config.multi_set():
+            # Calyx_Golden
+            if dungeon.is_Calyx_Golden:
+                if KEYWORDS_DAILY_QUEST.Clear_Calyx_Golden_1_times in self.daily_quests:
+                    logger.info('Achieved daily quest Clear_Calyx_Golden_1_times')
+                    self.achieved_daily_quest = True
+                if KEYWORD_BATTLE_PASS_QUEST.Clear_Calyx_1_times in self.weekly_quests:
+                    logger.info('Done weekly quest Clear_Calyx_1_times once')
+                    self.config.stored.BattlePassQuestCalyx.add()
+                    if self.config.stored.BattlePassQuestCalyx.is_full():
+                        logger.info('Achieved weekly quest BattlePassQuestCalyx')
+                        self.achieved_weekly_quest = True
+            # Calyx_Crimson
+            if dungeon.is_Calyx_Crimson:
+                if KEYWORDS_DAILY_QUEST.Clear_Calyx_Crimson_1_times in self.daily_quests:
+                    logger.info('Achieve daily quest Clear_Calyx_Crimson_1_times')
+                    self.achieved_daily_quest = True
+                if KEYWORD_BATTLE_PASS_QUEST.Clear_Calyx_1_times in self.weekly_quests:
+                    logger.info('Done weekly quest Clear_Calyx_1_times once')
+                    self.config.stored.BattlePassQuestCalyx.add()
+                    if self.config.stored.BattlePassQuestCalyx.is_full():
+                        logger.info('Achieved weekly quest BattlePassQuestCalyx')
+                        self.achieved_weekly_quest = True
+            # Stagnant_Shadow
+            if dungeon.is_Stagnant_Shadow:
+                if KEYWORDS_DAILY_QUEST.Clear_Stagnant_Shadow_1_times in self.daily_quests:
+                    logger.info('Achieve daily quest Clear_Stagnant_Shadow_1_times')
+                    self.achieved_daily_quest = True
+            # Cavern_of_Corrosion
+            if dungeon.is_Cavern_of_Corrosion:
+                if KEYWORDS_DAILY_QUEST.Clear_Cavern_of_Corrosion_1_times in self.daily_quests:
+                    logger.info('Achieve daily quest Clear_Cavern_of_Corrosion_1_times')
+                    self.achieved_daily_quest = True
+                if KEYWORD_BATTLE_PASS_QUEST.Clear_Cavern_of_Corrosion_1_times in self.weekly_quests:
+                    logger.info('Done weekly quest Clear_Cavern_of_Corrosion_1_times once')
+                    self.config.stored.BattlePassQuestCavernOfCorrosion.add()
+                    if self.config.stored.BattlePassQuestCavernOfCorrosion.is_full():
+                        logger.info('Achieved weekly quest Clear_Cavern_of_Corrosion_1_times')
+                        self.achieved_weekly_quest = True
+            # Echo_of_War
+            if dungeon.is_Echo_of_War:
+                if KEYWORDS_DAILY_QUEST.Complete_Echo_of_War_1_times in self.daily_quests:
+                    logger.info('Achieve daily quest Complete_Echo_of_War_1_times')
+                    self.achieved_daily_quest = True
+                if KEYWORD_BATTLE_PASS_QUEST.Complete_Echo_of_War_1_times in self.weekly_quests:
+                    logger.info('Done weekly quest Complete_Echo_of_War_1_times once')
+                    self.config.stored.BattlePassQuestEchoOfWar.add()
+                    if self.config.stored.BattlePassQuestEchoOfWar.is_full():
+                        logger.info('Achieved weekly quest Complete_Echo_of_War_1_times')
+                        self.achieved_weekly_quest = True
+            # Support quest
+            if support_character is not None:
+                self.called_daily_support = True
+                if KEYWORDS_DAILY_QUEST.Obtain_victory_in_combat_with_Support_Characters_1_times:
+                    logger.info('Achieve daily quest Obtain_victory_in_combat_with_Support_Characters_1_times')
+                    self.achieved_daily_quest = True
+            # Stamina quest
+            if KEYWORD_BATTLE_PASS_QUEST.Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max in self.weekly_quests:
+                cost = self.combat_wave_cost * count
+                logger.info(f'Done Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max stamina {cost}')
+                self.config.stored.BattlePassQuestTrailblazePower.add(cost)
+                if self.config.stored.BattlePassQuestTrailblazePower.is_full():
+                    logger.info('Achieved weekly quest Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max')
+                    self.achieved_weekly_quest = True
 
-        # Check trailblaze power, this may stop current task
-        if self.is_trailblaze_power_exhausted():
-            self.delay_dungeon_task(dungeon)
+            # Check trailblaze power, this may stop current task
+            if self.is_trailblaze_power_exhausted():
+                self.delay_dungeon_task(dungeon)
+
         return count
 
     def dungeon_run(
@@ -147,8 +193,10 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
         self.config.update_daily_quests()
         self.called_daily_support = False
         self.achieved_daily_quest = False
+        self.achieved_weekly_quest = False
         self.running_double = False
         self.daily_quests = self.config.stored.DailyQuest.load_quests()
+        self.weekly_quests = self.config.stored.BattlePassWeeklyQuest.load_quests()
 
         # Update double event records
         if (self.config.stored.DungeonDouble.is_expired()
@@ -242,6 +290,9 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
         if self.achieved_daily_quest:
             self.config.task_call('DailyQuest')
             self.config.task_stop()
+        if self.achieved_weekly_quest:
+            self.config.task_call('BattlePass')
+            self.config.task_stop()
 
         # Use all stamina
         if final.is_Simulated_Universe:
@@ -265,15 +316,11 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
 
     def delay_dungeon_task(self, dungeon: DungeonList):
         logger.attr('achieved_daily_quest', self.achieved_daily_quest)
+        logger.attr('achieved_weekly_quest', self.achieved_weekly_quest)
         with self.config.multi_set():
             # Check battle pass
-            quests = self.config.stored.BattlePassWeeklyQuest.load_quests()
-            if KEYWORD_BATTLE_PASS_QUEST.Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max in quests:
-                logger.info('Probably achieved battle pass quest Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max')
-                if self.config.stored.BattlePassLevel.is_full():
-                    logger.info('BattlePassLevel full, no task call')
-                else:
-                    self.config.task_call('BattlePass')
+            if self.achieved_weekly_quest:
+                self.config.task_call('BattlePass')
             # Check daily
             if self.achieved_daily_quest:
                 self.config.task_call('DailyQuest')

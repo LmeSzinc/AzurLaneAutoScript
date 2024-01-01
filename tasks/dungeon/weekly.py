@@ -30,7 +30,6 @@ class WeeklyDungeon(Dungeon):
         ocr = DigitCounter(OCR_WEEKLY_LIMIT)
         current, _, _ = ocr.ocr_single_line(self.device.image)
         total = self.config.stored.EchoOfWar.FIXED_TOTAL
-        remain = total - current
         if current <= total:
             logger.attr('EchoOfWar', f'{current}/{total}')
             self.config.stored.EchoOfWar.value = current
@@ -44,7 +43,9 @@ class WeeklyDungeon(Dungeon):
         self.config.update_daily_quests()
         self.called_daily_support = False
         self.achieved_daily_quest = False
+        self.achieved_weekly_quest = False
         self.daily_quests = self.config.stored.DailyQuest.load_quests()
+        self.weekly_quests = self.config.stored.BattlePassWeeklyQuest.load_quests()
 
         dungeon = DungeonList.find(self.config.Weekly_Name)
 
@@ -71,11 +72,15 @@ class WeeklyDungeon(Dungeon):
         # Combat
         count = self.dungeon_run(dungeon, wave_limit=min(remain, 3))
 
+        logger.attr('achieved_daily_quest', self.achieved_daily_quest)
+        logger.attr('achieved_weekly_quest', self.achieved_weekly_quest)
         with self.config.multi_set():
-            # Check daily quests
             if count:
-                if KEYWORDS_DAILY_QUEST.Complete_Echo_of_War_1_times in self.daily_quests:
-                    logger.info('Achieve daily quest Complete_Echo_of_War_1_times')
+                # Check battle pass
+                if self.achieved_weekly_quest:
+                    self.config.task_call('BattlePass')
+                # Check daily
+                if self.achieved_daily_quest:
                     self.config.task_call('DailyQuest')
             # Finished all remains
             if count >= remain:

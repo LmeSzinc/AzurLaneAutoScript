@@ -155,6 +155,9 @@ class StoredCounter(StoredBase):
     def get_remain(self) -> int:
         return self.total - self.value
 
+    def add(self, value=1):
+        self.value += value
+
     @cached_property
     def _attrs(self) -> dict:
         attrs = super()._attrs
