@@ -318,7 +318,6 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
 
         self.combat_wave_limit = wave_limit
         self.combat_wave_done = 0
-        run_count = 0
         while 1:
             logger.hr('Combat', level=2)
             logger.info(f'Combat, team={team}, wave={self.combat_wave_done}/{self.combat_wave_limit}')
@@ -333,9 +332,8 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
             finish = self.combat_finish()
             if self._combat_should_reenter():
                 continue
-            run_count += 1
             if finish:
                 break
 
-        logger.attr('CombatRunCount', run_count)
-        return run_count
+        logger.attr('combat_wave_done', self.combat_wave_done)
+        return self.combat_wave_done
