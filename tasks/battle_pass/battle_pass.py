@@ -102,7 +102,7 @@ class BattlePassUI(UI):
                 logger.info('Rewards tab loaded')
                 break
 
-    def _battle_pass_wait_missions_loaded(self, skip_first_screenshot=True, has_scroll=True):
+    def _battle_pass_wait_missions_loaded(self, skip_first_screenshot=True):
         timeout = Timer(2, count=4).start()
         while 1:
             if skip_first_screenshot:
@@ -113,11 +113,9 @@ class BattlePassUI(UI):
             if timeout.reached():
                 logger.warning('Wait missions tab loaded timeout')
                 break
-            if has_scroll:
-                if self.appear(MISSION_PAGE_SCROLL):
-                    logger.info('Rewards tab loaded')
-                    break
-            else:
+
+            # Has scroll and last mission loaded
+            if self.appear(MISSION_PAGE_SCROLL):
                 color = get_color(self.device.image, MISSIONS_LOADED.area)
                 if np.mean(color) > 128:
                     logger.info('Missions tab loaded')
@@ -247,18 +245,13 @@ class BattlePassUI(UI):
             self.device.screenshot()
             self.claim_battle_pass_rewards()
         """
-        logger.hr('Quest recognise', level=1)
-        # Update quests
+        # Update level
         with self.config.multi_set():
-            # Update level
             previous_level = self._get_battle_pass_level()
             self.config.stored.BattlePassLevel.set(previous_level)
-            # Update quests
-            self.battle_pass_mission_tab_goto(
-                KEYWORD_BATTLE_PASS_MISSION_TAB.This_Week_Missions)
-            self.battle_pass_quests_recognition()
-        if previous_level == self.MAX_LEVEL:
-            return previous_level
+            if previous_level == self.MAX_LEVEL:
+                self.config.stored.BattlePassWeeklyQuest.write_quests([])
+                return previous_level
 
         # Claim rewards
         claimed_exp = self._claim_exp()
@@ -267,6 +260,13 @@ class BattlePassUI(UI):
         if claimed_exp and current_level > previous_level:
             logger.info("Upgraded, go to claim rewards")
             self._claim_rewards()
+        else:
+            # Missions refreshed
+            self._battle_pass_wait_missions_loaded()
+
+        # Update quests
+        self.battle_pass_quests_recognition()
+
         return current_level
 
     def ocr_single_page(self) -> list[DataBattlePassQuest]:
@@ -299,18 +299,23 @@ class BattlePassUI(UI):
         Pages:
             in: page_battle_pass, KEYWORD_BATTLE_PASS_TAB.Missions, weekly or period
         """
-        logger.hr('Quest recognise', level=2)
-        scroll = Scroll(MISSION_PAGE_SCROLL, color=(198, 198, 198))
+        logger.hr('Quest recognise', level=1)
+        self.battle_pass_mission_tab_goto(
+            KEYWORD_BATTLE_PASS_MISSION_TAB.This_Week_Missions)
 
+        scroll = Scroll(MISSION_PAGE_SCROLL, color=(198, 198, 198))
         scroll.set_top(main=self)
+
         results: list[DataBattlePassQuest] = []
         while 1:
             results += [result for result in self.ocr_single_page() if result not in results]
             if scroll.at_bottom(main=self):
                 logger.info('Quest list reached bottom')
                 break
+            if scroll.next_page(main=self):
+                continue
             else:
-                scroll.next_page(main=self)
+                self.device.screenshot()
 
         # Convert quest keyword to stored object
         dic_quest_to_stored = {
