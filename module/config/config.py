@@ -127,24 +127,32 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         """
         Args:
             func (str, Function): Function to run
-            func_list (set): Set of tasks to be bound
+            func_list (list[str]): List of tasks to be bound
         """
-        if func_list is None:
-            func_list = ["General", "Alas"]
         if isinstance(func, Function):
             func = func.command
-        func_list.append(func)
+        # func_list: ["General", "Alas", <task_general>, <task>, *func_list]
+        if func_list is None:
+            func_list = []
+        if func not in func_list:
+            func_list.insert(0, func)
         if func.startswith("Opsi"):
-            func_list.append("OpsiGeneral")
+            if "OpsiGeneral" not in func_list:
+                func_list.insert(0, "OpsiGeneral")
         if (
             func.startswith("Event")
             or func.startswith("Raid")
             or func.startswith("Coalition")
             or func in ["MaritimeEscort", "GemsFarming"]
         ):
-            func_list.append("EventGeneral")
-            func_list.append("TaskBalancer")
-        func_list.append("Restart")
+            if "EventGeneral" not in func_list:
+                func_list.insert(0, "EventGeneral")
+            if "TaskBalancer" not in func_list:
+                func_list.insert(0, "TaskBalancer")
+        if "Alas" not in func_list:
+            func_list.insert(0, "Alas")
+        if "General" not in func_list:
+            func_list.insert(0, "General")
         logger.info(f"Bind task {func_list}")
 
         # Bind arguments
