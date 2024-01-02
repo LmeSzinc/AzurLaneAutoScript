@@ -92,10 +92,15 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
     def _fleet_detail_enter(self):
         """
-        Enter GEMS_FLEET_1 page
+        Enter GEMS_FLEET page
         """
         self.ui_ensure(page_fleet)
-        self.ui_ensure_index(self.config.Fleet_Fleet1, letter=OCR_FLEET_INDEX,
+        _fleet_to_change = self.config.Fleet_Fleet1
+        if self.config.Fleet_FleetOrder == 'fleet1_all_fleet2_standby':
+            _fleet_to_change = self.config.Fleet_Fleet1
+        elif self.config.Fleet_FleetOrder == 'fleet1_standby_fleet2_all':
+            _fleet_to_change = self.config.Fleet_Fleet2
+        self.ui_ensure_index(_fleet_to_change, letter=OCR_FLEET_INDEX,
                              next_button=FLEET_NEXT, prev_button=FLEET_PREV, skip_first_screenshot=True)
 
     def _ship_detail_enter(self, button):
