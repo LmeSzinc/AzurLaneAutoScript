@@ -692,6 +692,34 @@
     "BattlePassWeeklyQuest": {
       "name": "無名勳禮任務",
       "help": ""
+    },
+    "BattlePassSimulatedUniverse": {
+      "name": "完成1次「模擬宇宙」",
+      "help": ""
+    },
+    "BattlePassQuestCalyx": {
+      "name": "完成20次「擬造花萼」",
+      "help": ""
+    },
+    "BattlePassQuestEchoOfWar": {
+      "name": "完成2次「歷戰餘響」",
+      "help": ""
+    },
+    "BattlePassQuestCredits": {
+      "name": "累计消耗30万信用点",
+      "help": ""
+    },
+    "BattlePassQuestSynthesizeConsumables": {
+      "name": "累计合成消耗品10次",
+      "help": ""
+    },
+    "BattlePassQuestCavernOfCorrosion": {
+      "name": "完成8次「侵蚀隧洞」",
+      "help": ""
+    },
+    "BattlePassQuestTrailblazePower": {
+      "name": "累積消耗100點開拓力（上限1400點開拓力）",
+      "help": ""
     }
   },
   "Assignment": {

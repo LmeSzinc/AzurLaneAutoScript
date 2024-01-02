@@ -910,6 +910,48 @@
         "value": {},
         "display": "hide",
         "stored": "StoredBattlePassWeeklyQuest"
+      },
+      "BattlePassSimulatedUniverse": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredBattlePassSimulatedUniverse"
+      },
+      "BattlePassQuestCalyx": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredBattlePassQuestCalyx"
+      },
+      "BattlePassQuestEchoOfWar": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredBattlePassQuestEchoOfWar"
+      },
+      "BattlePassQuestCredits": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredBattlePassQuestCredits"
+      },
+      "BattlePassQuestSynthesizeConsumables": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredBattlePassQuestSynthesizeConsumables"
+      },
+      "BattlePassQuestCavernOfCorrosion": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredBattlePassQuestCavernOfCorrosion"
+      },
+      "BattlePassQuestTrailblazePower": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredBattlePassQuestTrailblazePower"
       }
     }
   },

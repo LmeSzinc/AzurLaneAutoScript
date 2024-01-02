@@ -86,7 +86,7 @@ class DungeonState(UI):
                     continue
                 if row.ocr_text == '+':
                     continue
-                if '/' not in row.ocr_text:
+                if not ocr.is_format_matched(row.ocr_text):
                     continue
                 data = ocr.format_result(row.ocr_text)
                 if data[2] == self.config.stored.TrailblazePower.FIXED_TOTAL:

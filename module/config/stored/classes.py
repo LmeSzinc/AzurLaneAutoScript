@@ -155,6 +155,9 @@ class StoredCounter(StoredBase):
     def get_remain(self) -> int:
         return self.total - self.value
 
+    def add(self, value=1):
+        self.value += value
+
     @cached_property
     def _attrs(self) -> dict:
         attrs = super()._attrs
@@ -351,3 +354,37 @@ class StoredBattlePassWeeklyQuest(StoredCounter, StoredExpiredAt0400):
                 self.quest7 = quests[6]
             except IndexError:
                 self.quest7 = ''
+
+
+class StoredBattlePassSimulatedUniverse(StoredCounter):
+    FIXED_TOTAL = 1
+
+
+class StoredBattlePassQuestCalyx(StoredCounter):
+    FIXED_TOTAL = 20
+
+
+class StoredBattlePassQuestEchoOfWar(StoredCounter):
+    FIXED_TOTAL = 2
+
+
+class StoredBattlePassQuestCredits(StoredCounter):
+    FIXED_TOTAL = 300000
+
+
+class StoredBattlePassQuestSynthesizeConsumables(StoredCounter):
+    FIXED_TOTAL = 10
+
+
+# Not exists on client side
+# class StoredBattlePassQuestStagnantShadow(StoredCounter):
+#     FIXED_TOTAL = 8
+
+
+class StoredBattlePassQuestCavernOfCorrosion(StoredCounter):
+    FIXED_TOTAL = 8
+
+
+class StoredBattlePassQuestTrailblazePower(StoredCounter):
+    # Dynamic total from 100 to 1400
+    LIST_TOTAL = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400]

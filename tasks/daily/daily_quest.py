@@ -15,7 +15,7 @@ from tasks.daily.keywords import (
     KEYWORDS_DAILY_QUEST,
     KEYWORDS_DAILY_QUEST_STATE,
 )
-from tasks.daily.synthesize import SynthesizeConsumablesUI, SynthesizeMaterialUI
+from tasks.daily.synthesize import SynthesizeMaterialUI
 from tasks.daily.use_technique import UseTechniqueUI
 from tasks.dungeon.assets.assets_dungeon_ui import DAILY_TRAINING_CHECK
 from tasks.dungeon.keywords import KEYWORDS_DUNGEON_TAB
@@ -64,6 +64,9 @@ class DailyQuestOcr(Ocr):
 
 
 class DailyQuestUI(DungeonUI, RouteLoader):
+    claimed_point_reward = False
+    synthesized_material = False
+
     def _ensure_position(self, direction: str, skip_first_screenshot=True):
         interval = Timer(5)
         if direction == 'left':
@@ -160,6 +163,9 @@ class DailyQuestUI(DungeonUI, RouteLoader):
         return self.appear(ACTIVE_POINTS_5_CHECKED)
 
     def _get_active_point_reward(self, skip_first_screenshot=True):
+        """
+        self.claimed_point_reward will be set if claimed any point reward
+        """
         def get_active():
             for b in [
                 ACTIVE_POINTS_1_UNLOCK,
@@ -188,6 +194,7 @@ class DailyQuestUI(DungeonUI, RouteLoader):
             if interval.reached():
                 if active := get_active():
                     self.device.click(active)
+                    self.claimed_point_reward = True
                     interval.reset()
 
         # Write stored
@@ -252,6 +259,7 @@ class DailyQuestUI(DungeonUI, RouteLoader):
         """
         if KEYWORDS_DAILY_QUEST.Use_the_Omni_Synthesizer_1_times in quests:
             if SynthesizeMaterialUI(self.config, self.device).synthesize_material():
+                self.synthesized_material = True
                 done += 1
         if KEYWORDS_DAILY_QUEST.Use_Consumables_1_time in quests:
             if ConsumableUsageUI(self.config, self.device).use_consumable():
@@ -308,6 +316,8 @@ class DailyQuestUI(DungeonUI, RouteLoader):
 
     def run(self):
         self.config.update_battle_pass_quests()
+        self.claimed_point_reward = False
+        self.synthesized_material = False
 
         for _ in range(5):
             got = self.get_daily_rewards()
@@ -319,17 +329,23 @@ class DailyQuestUI(DungeonUI, RouteLoader):
                 break
 
         # Scheduler
+        logger.attr('claimed_point_reward', self.claimed_point_reward)
+        logger.attr('synthesized_material', self.synthesized_material)
         with self.config.multi_set():
             # Check battle pass
-            if self.config.stored.DailyActivity.value == 500:
-                quests = self.config.stored.BattlePassWeeklyQuest.load_quests()
-                if KEYWORD_BATTLE_PASS_QUEST.Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max in quests:
-                    logger.info('Achieved battle pass quest Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max')
-                    if self.config.stored.BattlePassLevel.is_full():
-                        logger.info('BattlePassLevel full, no task call')
-                    else:
-                        self.config.task_call('BattlePass')
-                    self.config.task_call('DataUpdate')
+            # Cannot archive as daily is done by synthesizing material
+            # but battle pass quests need synthesizing consumables.
+            # if self.synthesized_material:
+            #     quests = self.config.stored.BattlePassWeeklyQuest.load_quests()
+            #     if KEYWORD_BATTLE_PASS_QUEST.Synthesize_Consumables_1_times in quests:
+            #         logger.info('Done weekly quest Synthesize_Consumables_1_times once')
+            #         self.config.stored.BattlePassQuestSynthesizeConsumables.add()
+            #         if self.config.stored.BattlePassQuestSynthesizeConsumables.is_full():
+            #             logger.info('Achieve weekly quest BattlePassQuestSynthesizeConsumables')
+            #             self.config.task_call('BattlePass')
+            # Update dashboard
+            if self.claimed_point_reward:
+                self.config.task_call('DataUpdate')
             # Delay self
             self.config.task_delay(server_update=True)
 

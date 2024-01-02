@@ -84,7 +84,7 @@ class DungeonEvent(UI):
 
         ocr = DoubleEventOcr(OCR_DOUBLE_EVENT_REMAIN_AT_COMBAT)
         for row in ocr.detect_and_ocr(self.device.image):
-            if '/' not in row.ocr_text:
+            if not ocr.is_format_matched(row.ocr_text):
                 continue
             remain, _, total = ocr.format_result(row.ocr_text)
             if total in [3, 12]:

@@ -26,6 +26,9 @@ class BattlePassQuest(Keyword):
 
         return remove_digit(name) == remove_digit(keyword)
 
+    def __hash__(self) -> int:
+        return super().__hash__()
+
 
 @dataclass(repr=False)
 class BattlePassQuestState(Keyword):
