@@ -148,28 +148,14 @@ class WSA(Connection):
         import win32gui
         import ctypes
         import win32con
-        import win32api
-        def winEnumHandler(hwnd, ctx):
-            if win32gui.IsWindowVisible(hwnd):
-                n = win32gui.GetWindowText(hwnd)
-                s = win32api.GetWindowLong(hwnd, win32con.GWL_STYLE)
-                x = win32api.GetWindowLong(hwnd, win32con.GWL_EXSTYLE)
-                if n:
-                    allvisiblewindows.update({n: {'hwnd': hwnd, 'STYLE': s, 'EXSTYLE': x}})
-        allvisiblewindows = {}
-        hwnd = 0
-        multi_server_name = ['Azur Lane', '碧蓝航线', 'アズールレーン', '碧藍航線']
-        win32gui.EnumWindows(winEnumHandler, None)
-        for i in multi_server_name:
-            if i in allvisiblewindows:
-                hwnd = allvisiblewindows.get(i).get('hwnd')
-                break
         
-        try:
-            win32gui.GetWindowRect(hwnd)
-        except:
-            raise OSError('Window not found. Is WSA running?')
-        else:
+        multi_server_name = ['Azur Lane', '碧蓝航线', 'アズールレーン', '碧藍航線']
+        for i in multi_server_name:
+            hwnd = win32gui.FindWindow(None, i)
+            if hwnd != 0:
+                break 
+
+        if win32gui.IsWindow(hwnd) and win32gui.IsWindowEnabled(hwnd) and win32gui.IsWindowVisible(hwnd):
             XPos, YPos, HRes, VRes = 0, 0, 1280, 720
             user32 = ctypes.windll.user32
             user32.SetWindowLongW(hwnd, win32con.GWL_STYLE, win32con.WS_VISIBLE | win32con.WS_CLIPCHILDREN)
@@ -177,3 +163,5 @@ class WSA(Connection):
             user32.MoveWindow(hwnd, XPos, YPos, HRes - 1, VRes - 1, True)
             win32gui.SetWindowPos(hwnd, None, XPos, YPos, HRes, VRes, win32con.SWP_FRAMECHANGED | win32con.SWP_NOZORDER |
                                   win32con.SWP_NOOWNERZORDER)
+        else:
+            raise OSError('Window not found. Is WSA running?')
