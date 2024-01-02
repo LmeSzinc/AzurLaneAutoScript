@@ -530,7 +530,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             if is_normal:
                 self.relative_goto(has_fleet_step=True, near_by=True, is_exclamation=True)
             else:
-                self.relative_goto(has_fleet_step=True, near_by=True, is_question=True)
+                self.relative_goto(has_fleet_step=True, near_by=True, relative_position=(0, -2))
 
     def question_goto(self, has_fleet_step=False):
         logger.hr('Question goto')
