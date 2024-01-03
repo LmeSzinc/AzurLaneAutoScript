@@ -43,6 +43,16 @@ CHECK_ELATION = ButtonWrapper(
         button=(228, 275, 266, 320),
     ),
 )
+CHECK_ERUDITION = ButtonWrapper(
+    name='CHECK_ERUDITION',
+    share=Button(
+        file='./assets/share/rogue/path/CHECK_ERUDITION.png',
+        area=(231, 264, 260, 330),
+        search=(211, 244, 280, 350),
+        color=(129, 105, 74),
+        button=(231, 264, 260, 330),
+    ),
+)
 CHECK_NIHILITY = ButtonWrapper(
     name='CHECK_NIHILITY',
     share=Button(

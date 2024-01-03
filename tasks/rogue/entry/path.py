@@ -40,6 +40,7 @@ class RoguePathHandler(RogueUI):
             KEYWORDS_ROGUE_PATH.Destruction: CHECK_DESTRUCTION,
             KEYWORDS_ROGUE_PATH.Elation: CHECK_ELATION,
             KEYWORDS_ROGUE_PATH.Propagation: CHECK_PROPAGATION,
+            KEYWORDS_ROGUE_PATH.Erudition: CHECK_ERUDITION,
         }
         # 2023.12.28 Buttons moved up
         for b in buttons.values():
@@ -76,6 +77,7 @@ class RoguePathHandler(RogueUI):
             KEYWORDS_ROGUE_PATH.Destruction: 6,
             KEYWORDS_ROGUE_PATH.Elation: 7,
             KEYWORDS_ROGUE_PATH.Propagation: 8,
+            KEYWORDS_ROGUE_PATH.Erudition: 9,
         }
         return buttons
 
@@ -141,6 +143,7 @@ class RoguePathHandler(RogueUI):
         """
         logger.info('Change confirm path')
         interval = Timer(2)
+        load_timer = Timer(3, count=4).start()
         timeout = Timer(10, count=20).start()
         while 1:
             if skip_first_screenshot:
@@ -162,11 +165,17 @@ class RoguePathHandler(RogueUI):
                 if diff > 0:
                     self.device.multi_click(CHOOSE_RIGHT, n=diff)
                     interval.reset()
+                    load_timer.reset()
                 elif diff < 0:
                     self.device.multi_click(CHOOSE_LEFT, n=abs(diff))
                     interval.reset()
+                    load_timer.reset()
                 else:
                     logger.warning(f'Invalid path distance: {diff}')
+            if selected_path is None and load_timer.reached_and_reset():
+                # Clicking left should be enough to skip invalid paths
+                self.device.click(CHOOSE_LEFT)
+                continue
 
     def rogue_path_select(self, path: str | RoguePath, skip_first_screenshot=True):
         """
