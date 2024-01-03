@@ -2,11 +2,21 @@ import os
 import pandas as pd
 import textwrap
 
-from tasks.rogue.keywords.classes import RoguePath
+from tasks.rogue.keywords import KEYWORDS_ROGUE_PATH
 from module.logger import logger
 
 INDENTATION = '    '
-
+PATHS = [
+    KEYWORDS_ROGUE_PATH.Preservation,
+    KEYWORDS_ROGUE_PATH.Remembrance,
+    KEYWORDS_ROGUE_PATH.Nihility,
+    KEYWORDS_ROGUE_PATH.Abundance,
+    KEYWORDS_ROGUE_PATH.The_Hunt,
+    KEYWORDS_ROGUE_PATH.Destruction,
+    KEYWORDS_ROGUE_PATH.Elation,
+    KEYWORDS_ROGUE_PATH.Propagation,
+    KEYWORDS_ROGUE_PATH.Erudition,
+]
 
 class PresetFilterGenerator:
     def __init__(self, file_name: str = None):
@@ -26,7 +36,7 @@ class PresetFilterGenerator:
         self.length = 76
 
     def get_paths(self):
-        for path in RoguePath.instances.values():
+        for path in PATHS:
             self.paths.append(path.name)
             self.path_name[path.name] = path.cn
 
