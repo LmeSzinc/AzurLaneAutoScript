@@ -227,7 +227,7 @@ RogueWorld:
     ]
   Path:
     value: The_Hunt
-    option: [ Preservation, Remembrance, Nihility, Abundance, The_Hunt, Destruction, Elation, Propagation ]
+    option: [ Preservation, Remembrance, Nihility, Abundance, The_Hunt, Destruction, Elation, Propagation, Erudition ]
   Bonus:
     value: Blessing Universe
     option: [ Blessing Universe, Miracle Universe, Fragmented Universe ]

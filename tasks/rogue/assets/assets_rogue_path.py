@@ -43,6 +43,16 @@ CHECK_ELATION = ButtonWrapper(
         button=(228, 275, 266, 320),
     ),
 )
+CHECK_ERUDITION = ButtonWrapper(
+    name='CHECK_ERUDITION',
+    share=Button(
+        file='./assets/share/rogue/path/CHECK_ERUDITION.png',
+        area=(231, 264, 260, 330),
+        search=(211, 244, 280, 350),
+        color=(129, 105, 74),
+        button=(231, 264, 260, 330),
+    ),
+)
 CHECK_NIHILITY = ButtonWrapper(
     name='CHECK_NIHILITY',
     share=Button(
@@ -67,20 +77,20 @@ CHECK_PROPAGATION = ButtonWrapper(
     name='CHECK_PROPAGATION',
     share=Button(
         file='./assets/share/rogue/path/CHECK_PROPAGATION.png',
-        area=(206, 308, 286, 372),
-        search=(186, 288, 306, 392),
-        color=(126, 104, 75),
-        button=(206, 308, 286, 372),
+        area=(231, 284, 262, 317),
+        search=(211, 264, 282, 337),
+        color=(174, 151, 109),
+        button=(231, 284, 262, 317),
     ),
 )
 CHECK_REMEMBRANCE = ButtonWrapper(
     name='CHECK_REMEMBRANCE',
     share=Button(
         file='./assets/share/rogue/path/CHECK_REMEMBRANCE.png',
-        area=(220, 326, 270, 376),
-        search=(200, 306, 290, 396),
-        color=(128, 105, 75),
-        button=(220, 326, 270, 376),
+        area=(235, 275, 262, 337),
+        search=(215, 255, 282, 357),
+        color=(145, 122, 86),
+        button=(235, 275, 262, 337),
     ),
 )
 CHECK_THE_HUNT = ButtonWrapper(
