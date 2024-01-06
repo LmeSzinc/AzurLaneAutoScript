@@ -287,7 +287,7 @@ class KeywordExtract:
             text = replace_templates(text)
             text = text.replace('1', f'{correct_time}')
             return text
-        
+
         last_id = getattr(gen, 'last_id', 0)
         for index, keyword in enumerate(self.keywords_id):
             _, old_name = self.find_keyword(keyword, lang='en')
@@ -295,7 +295,7 @@ class KeywordExtract:
             if old_name in old_quest:
                 continue
             name = old_name.replace('1', str(correct_times.setdefault(old_name, 1)))
-            
+
             with gen.Object(key=name, object_class=keyword_class):
                 gen.ObjectAttr(key='id', value=index + last_id + 1)
                 gen.ObjectAttr(key='name', value=name)
@@ -516,6 +516,11 @@ class KeywordExtract:
                         if not deep_get(blessing, '1.AeonID')][1:]
         resonances_id = [deep_get(blessing, '1.MazeBuffID') for blessing in blessings_info.values()
                          if deep_get(blessing, '1.AeonID')]
+
+        # ignore endless buffs
+        endless_buffs = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'RogueEndlessMegaBuffDesc.json'))
+        endless_buff_ids = [int(id_) for id_ in endless_buffs]
+        blessings_id = [id_ for id_ in blessings_id if id_ not in endless_buff_ids]
 
         def get_blessing_infos(id_list, with_enhancement: bool):
             blessings_hash = [deep_get(blessings_name_map, f"{blessing_id}.1.BuffName.Hash")
