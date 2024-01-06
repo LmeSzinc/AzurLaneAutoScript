@@ -95,7 +95,7 @@ class RouteExtract:
 
 def model_to_json(model, file):
     content = model.model_dump_json(indent=2)
-    with open(file, 'w', encoding='utf-8') as f:
+    with open(file, 'w', encoding='utf-8', newline='') as f:
         f.write(content)
 
 
