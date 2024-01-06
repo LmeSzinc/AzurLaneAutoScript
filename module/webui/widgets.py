@@ -1,7 +1,8 @@
+import copy
 import json
 import random
 import string
-from typing import TYPE_CHECKING, Any, Callable, Dict, Generator, List, Optional, Union
+from typing import Any, Callable, Dict, Generator, List, Optional, TYPE_CHECKING, Union
 
 from pywebio.exceptions import SessionException
 from pywebio.io_ctrl import Output
@@ -9,7 +10,7 @@ from pywebio.output import *
 from pywebio.session import eval_js, local, run_js
 from rich.console import ConsoleRenderable
 
-from module.logger import WEB_THEME, Highlighter, HTMLConsole
+from module.logger import HTMLConsole, Highlighter, WEB_THEME
 from module.webui.lang import t
 from module.webui.pin import put_checkbox, put_input, put_select, put_textarea
 from module.webui.process_manager import ProcessManager
@@ -36,8 +37,8 @@ class ScrollableCode:
 
         self.id = "".join(random.choice(string.ascii_letters) for _ in range(10))
         self.html = (
-            """<pre id="%s" class="container-log"><code style="white-space:break-spaces;"></code></pre>"""
-            % self.id
+                """<pre id="%s" class="container-log"><code style="white-space:break-spaces;"></code></pre>"""
+                % self.id
         )
 
     def output(self):
@@ -210,15 +211,15 @@ class RichLog:
 
 class BinarySwitchButton(Switch):
     def __init__(
-        self,
-        get_state,
-        label_on,
-        label_off,
-        onclick_on,
-        onclick_off,
-        scope,
-        color_on="success",
-        color_off="secondary",
+            self,
+            get_state,
+            label_on,
+            label_off,
+            onclick_on,
+            onclick_off,
+            scope,
+            color_on="success",
+            color_off="secondary",
     ):
         """
         Args:
@@ -267,9 +268,9 @@ class BinarySwitchButton(Switch):
 
 
 def put_icon_buttons(
-    icon_html: str,
-    buttons: List[Dict[str, str]],
-    onclick: Union[List[Callable[[], None]], Callable[[], None]],
+        icon_html: str,
+        buttons: List[Dict[str, str]],
+        onclick: Union[List[Callable[[], None]], Callable[[], None]],
 ) -> Output:
     value = buttons[0]["value"]
     return put_column(
@@ -324,6 +325,35 @@ def put_arg_input(kwargs: T_Output_Kwargs) -> Output:
     )
 
 
+def product_stored_row(kwargs: T_Output_Kwargs, key, value):
+    kwargs = copy.copy(kwargs)
+    kwargs["name"] += f'_{key}'
+    kwargs["value"] = value
+    return put_input(**kwargs).style("--input--")
+
+
+def put_arg_stored(kwargs: T_Output_Kwargs) -> Output:
+    name: str = kwargs["name"]
+    kwargs["disabled"] = True
+
+    values = kwargs.pop("value", {})
+    time_ = values.pop("time", "")
+
+    rows = [product_stored_row(kwargs, key, value) for key, value in values.items() if value]
+    if time_:
+        rows += [product_stored_row(kwargs, "time", time_)]
+    return put_scope(
+        f"arg_container-stored-{name}",
+        [
+            get_title_help(kwargs),
+            put_scope(
+                f"arg_stored-stored-value-{name}",
+                rows,
+            )
+        ]
+    )
+
+
 def put_arg_select(kwargs: T_Output_Kwargs) -> Output:
     name: str = kwargs["name"]
     value: str = kwargs["value"]
@@ -344,6 +374,37 @@ def put_arg_select(kwargs: T_Output_Kwargs) -> Output:
             "value": opt,
             "select": opt == value,
         } for opt, opt_label in zip(options, options_label)]
+    kwargs["options"] = option
+
+    return put_scope(
+        f"arg_container-select-{name}",
+        [
+            get_title_help(kwargs),
+            put_select(**kwargs).style("--input--"),
+        ],
+    )
+
+
+def put_arg_state(kwargs: T_Output_Kwargs) -> Output:
+    name: str = kwargs["name"]
+    value: str = kwargs["value"]
+    options: List[str] = kwargs["options"]
+    options_label: List[str] = kwargs.pop("options_label", [])
+    _: str = kwargs.pop("invalid_feedback", None)
+    bold: bool = value in kwargs.pop("option_bold", [])
+    light: bool = value in kwargs.pop("option_light", [])
+
+    option = [{
+        "label": next((opt_label for opt, opt_label in zip(options, options_label) if opt == value), value),
+        "value": value,
+        "selected": True,
+    }]
+    if bold:
+        kwargs["class"] = "form-control state state-bold"
+    elif light:
+        kwargs["class"] = "form-control state state-light"
+    else:
+        kwargs["class"] = "form-control state"
     kwargs["options"] = option
 
     return put_scope(
@@ -431,12 +492,14 @@ def put_arg_storage(kwargs: T_Output_Kwargs) -> Optional[Output]:
 
 _widget_type_to_func: Dict[str, Callable] = {
     "input": put_arg_input,
-    "lock": put_arg_input,
+    "lock": put_arg_state,
     "datetime": put_arg_input,  # TODO
     "select": put_arg_select,
     "textarea": put_arg_textarea,
     "checkbox": put_arg_checkbox,
     "storage": put_arg_storage,
+    "state": put_arg_state,
+    "stored": put_arg_stored,
 }
 
 
@@ -452,11 +515,11 @@ def get_loading_style(shape: str, fill: bool) -> str:
 
 
 def put_loading_text(
-    text: str,
-    shape: str = "border",
-    color: str = "dark",
-    fill: bool = False,
-    size: str = "auto 2px 1fr",
+        text: str,
+        shape: str = "border",
+        color: str = "dark",
+        fill: bool = False,
+        size: str = "auto 2px 1fr",
 ):
     loading_style = get_loading_style(shape=shape, fill=fill)
     return put_row(

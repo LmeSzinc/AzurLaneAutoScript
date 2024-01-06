@@ -38,6 +38,8 @@ class GemsCampaignOverride(CampaignBase):
             while 1:
                 self.device.screenshot()
 
+                if self.handle_story_skip():
+                    continue
                 if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
                     continue
 
@@ -53,7 +55,7 @@ class GemsCampaignOverride(CampaignBase):
                     self.withdraw()
                     break
 
-                if self.appear(FLEET_PREPARATION, offset=(20, 20), interval=2) \
+                if self.appear(FLEET_PREPARATION, offset=(20, 50), interval=2) \
                         or self.appear(MAP_PREPARATION, offset=(20, 20), interval=2):
                     self.enter_map_cancel()
                     break
@@ -90,10 +92,15 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
     def _fleet_detail_enter(self):
         """
-        Enter GEMS_FLEET_1 page
+        Enter GEMS_FLEET page
         """
         self.ui_ensure(page_fleet)
-        self.ui_ensure_index(self.config.Fleet_Fleet1, letter=OCR_FLEET_INDEX,
+        _fleet_to_change = self.config.Fleet_Fleet1
+        if self.config.Fleet_FleetOrder == 'fleet1_all_fleet2_standby':
+            _fleet_to_change = self.config.Fleet_Fleet1
+        elif self.config.Fleet_FleetOrder == 'fleet1_standby_fleet2_all':
+            _fleet_to_change = self.config.Fleet_Fleet2
+        self.ui_ensure_index(_fleet_to_change, letter=OCR_FLEET_INDEX,
                              next_button=FLEET_NEXT, prev_button=FLEET_PREV, skip_first_screenshot=True)
 
     def _ship_detail_enter(self, button):
@@ -186,12 +193,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             level=(1, 31), emotion=(10, 150), fleet=self.config.Fleet_Fleet1, status='free')
         scanner.disable('rarity')
 
-        if not self.server_support_status_fleet_scan():
-            logger.info(f'Server {self.config.SERVER} does not yet support status and fleet scanning')
-            logger.info('Please contact the developer to improve as soon as possible')
-            scanner.disable('status', 'fleet')
-            scanner.set_limitation(level=(1, 1))
-
         if self.config.GemsFarming_CommonCV == 'any':
             logger.info('')
 
@@ -251,9 +252,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         scanner = ShipScanner(level=(max_level, max_level), emotion=(10, 150),
                               fleet=self.config.Fleet_Fleet1, status='free')
         scanner.disable('rarity')
-
-        if not self.server_support_status_fleet_scan():
-            scanner.disable('status', 'fleet')
 
         ships = scanner.scan(self.device.image)
         if ships:
@@ -388,6 +386,3 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                 continue
             else:
                 break
-
-    def server_support_status_fleet_scan(self) -> bool:
-        return self.config.SERVER in ['cn', 'en', 'jp']

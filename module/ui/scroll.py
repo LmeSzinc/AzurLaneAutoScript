@@ -189,10 +189,10 @@ class Scroll:
         multiply = self.length / (self.total - self.length)
         target = current + page * multiply
         target = round(min(max(target, 0), 1), 3)
-        self.set(target, main=main, random_range=random_range, skip_first_screenshot=True)
+        return self.set(target, main=main, random_range=random_range, skip_first_screenshot=True)
 
     def next_page(self, main, page=0.8, random_range=(-0.01, 0.01), skip_first_screenshot=True):
-        self.drag_page(page, main=main, random_range=random_range, skip_first_screenshot=skip_first_screenshot)
+        return self.drag_page(page, main=main, random_range=random_range, skip_first_screenshot=skip_first_screenshot)
 
     def prev_page(self, main, page=0.8, random_range=(-0.01, 0.01), skip_first_screenshot=True):
-        self.drag_page(-page, main=main, random_range=random_range, skip_first_screenshot=skip_first_screenshot)
+        return self.drag_page(-page, main=main, random_range=random_range, skip_first_screenshot=skip_first_screenshot)

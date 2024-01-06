@@ -1,4 +1,5 @@
 import re
+import typing as t
 from copy import deepcopy
 
 from cached_property import cached_property
@@ -65,6 +66,9 @@ class Event:
 
     def __lt__(self, other):
         return str(self) < str(other)
+
+    def __hash__(self):
+        return hash(str(self))
 
 
 class ConfigGenerator:
@@ -202,8 +206,11 @@ class ConfigGenerator:
             if not check_override(p, v):
                 continue
             if isinstance(v, dict):
-                if deep_get(v, keys='type') in ['lock']:
-                    deep_default(v, keys='display', value="disabled")
+                typ = v.get('type')
+                if typ == 'state':
+                    pass
+                elif typ == 'lock':
+                    pass
                 elif deep_get(v, keys='value') is not None:
                     deep_default(v, keys='display', value='hide')
                 for arg_k, arg_v in v.items():
@@ -428,6 +435,8 @@ class ConfigGenerator:
             latest = {}
             for server in ARCHIVES_PREFIX.keys():
                 latest[server] = deep_pop(self.args, keys=f'{task}.Campaign.Event.{server}', default='')
+            bold = list(set(latest.values()))
+            deep_set(self.args, keys=f'{task}.Campaign.Event.option_bold', value=bold)
             for server, event in latest.items():
                 deep_set(self.args, keys=f'{task}.Campaign.Event.{server}', value=event)
 
@@ -554,33 +563,33 @@ class ConfigUpdater:
         # ('SupplyPack.SupplyPack.WeeklyFreeSupplyPack', 'Freebies.SupplyPack.Collect'),
         # ('Commission.Commission.CommissionFilter', 'Commission.Commission.CustomFilter'),
         # 2023.02.17
-        ('OpsiAshBeacon.OpsiDossierBeacon.Enable', 'OpsiAshBeacon.OpsiAshBeacon.AttackMode', dossier_redirect),
-        ('General.Retirement.EnhanceFavourite', 'General.Enhance.ShipToEnhance', enhance_favourite_redirect),
-        ('General.Retirement.EnhanceFilter', 'General.Enhance.Filter'),
-        ('General.Retirement.EnhanceCheckPerCategory', 'General.Enhance.CheckPerCategory', enhance_check_redirect),
-        ('General.Retirement.OldRetireN', 'General.OldRetire.N'),
-        ('General.Retirement.OldRetireR', 'General.OldRetire.R'),
-        ('General.Retirement.OldRetireSR', 'General.OldRetire.SR'),
-        ('General.Retirement.OldRetireSSR', 'General.OldRetire.SSR'),
-        (('GemsFarming.GemsFarming.FlagshipChange', 'GemsFarming.GemsFarming.FlagshipEquipChange'),
-         'GemsFarming.GemsFarming.ChangeFlagship',
-         change_ship_redirect),
-        (('GemsFarming.GemsFarming.VanguardChange', 'GemsFarming.GemsFarming.VanguardEquipChange'),
-         'GemsFarming.GemsFarming.ChangeVanguard',
-         change_ship_redirect),
-        ('Alas.DropRecord.API', 'Alas.DropRecord.API', api_redirect2)
+        # ('OpsiAshBeacon.OpsiDossierBeacon.Enable', 'OpsiAshBeacon.OpsiAshBeacon.AttackMode', dossier_redirect),
+        # ('General.Retirement.EnhanceFavourite', 'General.Enhance.ShipToEnhance', enhance_favourite_redirect),
+        # ('General.Retirement.EnhanceFilter', 'General.Enhance.Filter'),
+        # ('General.Retirement.EnhanceCheckPerCategory', 'General.Enhance.CheckPerCategory', enhance_check_redirect),
+        # ('General.Retirement.OldRetireN', 'General.OldRetire.N'),
+        # ('General.Retirement.OldRetireR', 'General.OldRetire.R'),
+        # ('General.Retirement.OldRetireSR', 'General.OldRetire.SR'),
+        # ('General.Retirement.OldRetireSSR', 'General.OldRetire.SSR'),
+        # (('GemsFarming.GemsFarming.FlagshipChange', 'GemsFarming.GemsFarming.FlagshipEquipChange'),
+        #  'GemsFarming.GemsFarming.ChangeFlagship',
+        #  change_ship_redirect),
+        # (('GemsFarming.GemsFarming.VanguardChange', 'GemsFarming.GemsFarming.VanguardEquipChange'),
+        #  'GemsFarming.GemsFarming.ChangeVanguard',
+        #  change_ship_redirect),
+        # ('Alas.DropRecord.API', 'Alas.DropRecord.API', api_redirect2)
     ]
-    redirection += [
-        (
-            (f'{task}.Emotion.CalculateEmotion', f'{task}.Emotion.IgnoreLowEmotionWarn'),
-            f'{task}.Emotion.Mode',
-            emotion_mode_redirect
-        ) for task in [
-            'Main', 'Main2', 'Main3', 'GemsFarming',
-            'Event', 'Event2', 'EventA', 'EventB', 'EventC', 'EventD', 'EventSp', 'Raid', 'RaidDaily',
-            'Sos', 'WarArchives',
-        ]
-    ]
+    # redirection += [
+    #     (
+    #         (f'{task}.Emotion.CalculateEmotion', f'{task}.Emotion.IgnoreLowEmotionWarn'),
+    #         f'{task}.Emotion.Mode',
+    #         emotion_mode_redirect
+    #     ) for task in [
+    #         'Main', 'Main2', 'Main3', 'GemsFarming',
+    #         'Event', 'Event2', 'EventA', 'EventB', 'EventC', 'EventD', 'EventSp', 'Raid', 'RaidDaily',
+    #         'Sos', 'WarArchives',
+    #     ]
+    # ]
 
     @cached_property
     def args(self):
@@ -600,7 +609,10 @@ class ConfigUpdater:
         def deep_load(keys):
             data = deep_get(self.args, keys=keys, default={})
             value = deep_get(old, keys=keys, default=data['value'])
-            if is_template or value is None or value == '' or data['type'] == 'lock' or data.get('display') == 'hide':
+            typ = data['type']
+            display = data.get('display')
+            if is_template or value is None or value == '' \
+                    or typ in ['lock', 'state'] or (display == 'hide' and typ != 'stored'):
                 value = data['value']
             value = parse_value(value, data=data)
             deep_set(new, keys=keys, value=value)
@@ -715,6 +727,21 @@ class ConfigUpdater:
                 remove_drop_save(arg)
 
         return data
+
+    def save_callback(self, key: str, value: t.Any) -> t.Iterable[t.Tuple[str, t.Any]]:
+        """
+        Args:
+            key: Key path in config json, such as "Main.Emotion.Fleet1Value"
+            value: Value set by user, such as "98"
+
+        Yields:
+            str: Key path to set config json, such as "Main.Emotion.Fleet1Record"
+            any: Value to set, such as "2020-01-01 00:00:00"
+        """
+        if "Emotion" in key and "Value" in key:
+            key = key.split(".")
+            key[-1] = key[-1].replace("Value", "Record")
+            yield ".".join(key), datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     def read_file(self, config_name, is_template=False):
         """

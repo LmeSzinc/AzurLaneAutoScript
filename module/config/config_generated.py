@@ -10,7 +10,7 @@ class GeneratedConfig:
     """
 
     # Group `Scheduler`
-    Scheduler_Enable = False
+    Scheduler_Enable = False  # True, False
     Scheduler_NextRun = datetime.datetime(2020, 1, 1, 0, 0)
     Scheduler_Command = 'Alas'
     Scheduler_SuccessInterval = 0
@@ -211,6 +211,11 @@ class GeneratedConfig:
     Dorm_Collect = True
     Dorm_Feed = True
     Dorm_FeedFilter = '20000 > 10000 > 5000 > 3000 > 2000 > 1000'
+
+    # Group `BuyFurniture`
+    BuyFurniture_Enable = False
+    BuyFurniture_BuyOption = 'all'  # set, all
+    BuyFurniture_LastRun = datetime.datetime(2020, 1, 1, 0, 0)
 
     # Group `Meowfficer`
     Meowfficer_BuyAmount = 1

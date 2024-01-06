@@ -270,7 +270,9 @@
     },
     "Enable": {
       "name": "啟用該功能",
-      "help": "將這個任務加入調度器\n委託、科研、收穫任務是強制打開的"
+      "help": "將這個任務加入調度器\n委託、科研、收穫任務是強制打開的",
+      "True": "已啟用",
+      "False": "False"
     },
     "NextRun": {
       "name": "下一次執行時間",
@@ -679,7 +681,7 @@
       "event_20201126_cn": "假日航線",
       "event_20201229_cn": "復刻-負象限作戰",
       "event_20210121_cn": "復刻神聖的悲喜劇",
-      "event_20210225_cn": "破曉冰華",
+      "event_20210225_cn": "復刻破曉冰華",
       "event_20210225_tw": "北境序曲",
       "event_20210325_cn": "復刻箱庭療法",
       "event_20210415_tw": "復刻圍剿施佩伯爵",
@@ -698,7 +700,7 @@
       "event_20211111_cn": "杰諾瓦的焰火",
       "event_20211125_cn": "復刻-交匯世界的弧光",
       "event_20211229_cn": "逆轉彩虹之塔",
-      "event_20220210_cn": "Northern Overture Rerun",
+      "event_20220210_cn": "復刻北境序曲",
       "event_20220224_cn": "深度回音",
       "event_20220310_tw": "復刻斯圖爾特的硝煙",
       "event_20220324_cn": "虛像構築之塔",
@@ -706,21 +708,24 @@
       "event_20220414_cn": "復刻-永夜幻光",
       "event_20220428_cn": "虹彩的終幕曲",
       "event_20220526_cn": "泠誓光庭",
-      "event_20220728_cn": "Aquilifers Ballade",
+      "event_20220728_cn": "雄鷹的敘事歌",
       "event_20220818_cn": "遠匯點作戰",
       "event_20220915_cn": "紫絳槿嵐",
       "event_20221124_cn": "鍊金術士與秘密遺跡群島",
-      "event_20221222_cn": "Parallel Superimposition",
+      "event_20221222_cn": "定向折疊",
       "event_20230223_cn": "Revelations of Dust",
       "event_20230525_cn": "Confluence of Nothingness",
       "event_20230803_cn": "Anthem of Remembrance",
       "event_20230817_cn": "The Fools Scales",
       "event_20230914_cn": "Effulgence Before Eclipse",
+      "event_20231026_cn": "Tempesta and the Fountain of Youth",
+      "event_20231123_cn": "蒼閃忍法帖",
+      "event_20231221_cn": "Light-Chasing Sea of Stars",
       "raid_20200624": "特別演習埃塞克斯級(復刻)",
       "raid_20210708": "復刻穿越彼方的水線",
       "raid_20220127": "演習神秘事件調查",
       "raid_20220630": "來自鳶尾的天使",
-      "raid_20221027": "Fight On Royal Maids!(Part 3)",
+      "raid_20221027": "戰鬥！皇家女僕隊3rd",
       "raid_20230118": "Winter Pathfinder",
       "raid_20230629": "Reflections of the Oasis",
       "war_archives_20180607_cn": "檔案 墨染的鋼鐵之花",
@@ -798,7 +803,7 @@
     },
     "StageIncrease": {
       "name": "達成地圖成就後前往下一關卡，不停止",
-      "help": "自動開荒，需要保證隊伍有足夠的強度，及地圖屬性限制，並設定\"達成地圖成就後停止\"\n例如，打開本功能，並選擇\"地圖 100% 通關\"，將在地圖100%通關後前往下一關卡\n支援自動開荒的地圖：1-1至14-4、A1至A3、B1至B3、C1至C3、D1至D3、SP1至SP4"
+      "help": "自動開荒，需要保證隊伍有足夠的強度，及地圖屬性限制，並設定\"達成地圖成就後停止\"\n例如，打開本功能，並選擇\"地圖 100% 通關\"，將在地圖100%通關後前往下一關卡\n支援自動開荒的地圖：1-1至14-4、A1至A3、B1至B3、C1至C3、D1至D3、T1至T6、SP1至SP4"
     },
     "GetNewShip": {
       "name": "獲得新船後停止",
@@ -1395,6 +1400,26 @@
     "FeedFilter": {
       "name": "餵食過濾器",
       "help": "一般不需要修改"
+    }
+  },
+  "BuyFurniture": {
+    "_info": {
+      "name": "活動傢俱設定",
+      "help": "購買活動中後宅傢俱商城的限時傢俱"
+    },
+    "Enable": {
+      "name": "購買活動傢俱",
+      "help": ""
+    },
+    "BuyOption": {
+      "name": "購買方案",
+      "help": "購買一套：為每個傢俱買一件；購買全部：所有傢俱買到上限。兩種購買方案都會將該套傢俱從傢俱商店最前端移除，若使用購買一套則剩餘傢俱需手動購買，\n兩種方案傢俱消耗差別不大，建議使用購買全部，不會購買鑽石傢俱",
+      "set": "購買一套",
+      "all": "購買全部"
+    },
+    "LastRun": {
+      "name": "上次檢查時間",
+      "help": "記錄上一次檢查的時間以防止任務重複執行，這個數值是自動記錄的，一般不需要修改"
     }
   },
   "Meowfficer": {

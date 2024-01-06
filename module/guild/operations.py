@@ -469,6 +469,7 @@ class GuildOperations(GuildBase):
             # Only print once when detected
             if not is_loading:
                 if az.is_combat_loading():
+                    self.device.screenshot_interval_set('combat')
                     is_loading = True
                     continue
 

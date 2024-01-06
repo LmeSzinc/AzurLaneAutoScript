@@ -82,6 +82,7 @@ from module.webui.utils import (
     parse_pin_value,
     raise_exception,
     re_fullmatch,
+    to_pin_value,
 )
 from module.webui.widgets import (
     BinarySwitchButton,
@@ -444,8 +445,7 @@ class AlasGUI(Frame):
             try:
                 d = self.modified_config_queue.get(timeout=10)
                 config_name = self.alas_name
-                read = self.alas_config.read_file
-                write = self.alas_config.write_file
+                config_updater = self.alas_config
             except queue.Empty:
                 continue
             modified[d["name"]] = d["value"]
@@ -454,21 +454,25 @@ class AlasGUI(Frame):
                     d = self.modified_config_queue.get(timeout=1)
                     modified[d["name"]] = d["value"]
                 except queue.Empty:
-                    self._save_config(modified, config_name, read, write)
+                    self._save_config(modified, config_name, config_updater)
                     modified.clear()
                     break
 
     def _save_config(
-        self,
-        modified: Dict[str, str],
-        config_name: str,
-        read=State.config_updater.read_file,
-        write=State.config_updater.write_file,
+            self,
+            modified: Dict[str, str],
+            config_name: str,
+            config_updater: AzurLaneConfig = State.config_updater,
     ) -> None:
         try:
             valid = []
             invalid = []
-            config = read(config_name)
+            config = config_updater.read_file(config_name)
+            n = datetime.now()
+            for p, v in deep_iter(config, depth=3):
+                if p[-1].endswith('un') and not isinstance(v, bool):
+                    if (v - n).days >= 31:
+                        deep_set(config, p, '')
             for k, v in modified.copy().items():
                 valuetype = deep_get(self.ALAS_ARGS, k + ".valuetype")
                 v = parse_pin_value(v, valuetype)
@@ -484,17 +488,11 @@ class AlasGUI(Frame):
                     deep_set(config, k, v)
                     modified[k] = v
                     valid.append(k)
-
-                    # update Emotion Record if Emotion Value is changed
-                    if "Emotion" in k and "Value" in k:
-                        k = k.split(".")
-                        k[-1] = k[-1].replace("Value", "Record")
-                        k = ".".join(k)
-                        v = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                        modified[k] = v
-                        deep_set(config, k, v)
-                        valid.append(k)
-                        pin["_".join(k.split("."))] = v
+                    for set_key, set_value in config_updater.save_callback(k, v):
+                        modified[set_key] = set_value
+                        deep_set(config, set_key, set_value)
+                        valid.append(set_key)
+                        pin["_".join(set_key.split("."))] = to_pin_value(set_value)
                 else:
                     modified.pop(k)
                     invalid.append(k)
@@ -511,7 +509,7 @@ class AlasGUI(Frame):
                 logger.info(
                     f"Save config {filepath_config(config_name)}, {dict_to_kv(modified)}"
                 )
-                write(config_name, config)
+                config_updater.write_file(config_name, config)
         except Exception as e:
             logger.exception(e)
 

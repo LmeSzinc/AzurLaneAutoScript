@@ -427,6 +427,18 @@ def parse_pin_value(val, valuetype: str = None):
             return v
 
 
+def to_pin_value(val):
+    """
+    Convert bool to checkbox
+    """
+    if val is True:
+        return [True]
+    elif val is False:
+        return []
+    else:
+        return val
+
+
 def login(password):
     if get_localstorage("password") == str(password):
         return True
@@ -455,7 +467,11 @@ def get_localstorage(key):
 
 def re_fullmatch(pattern, string):
     if pattern == "datetime":
-        pattern = RE_DATETIME
+        try:
+            datetime.datetime.fromisoformat(string)
+            return True
+        except ValueError:
+            return False
     # elif:
     return re.fullmatch(pattern=pattern, string=string)
 

@@ -169,7 +169,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                     continue
 
                 # Fleet preparation
-                if fleet_timer.reached() and self.appear(FLEET_PREPARATION, offset=(20, 20)):
+                if fleet_timer.reached() and self.appear(FLEET_PREPARATION, offset=(20, 50)):
                     if mode == 'normal' or mode == 'hard':
                         self.handle_2x_book_setting(mode='prep')
                         self.fleet_preparation()
@@ -244,7 +244,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             if self.appear(MAP_PREPARATION, offset=(20, 20), interval=2):
                 self.device.click(MAP_PREPARATION_CANCEL)
                 continue
-            if self.appear(FLEET_PREPARATION, offset=(20, 20), interval=2):
+            if self.appear(FLEET_PREPARATION, offset=(20, 50), interval=2):
                 self.device.click(MAP_PREPARATION_CANCEL)
                 continue
 

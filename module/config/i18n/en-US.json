@@ -270,7 +270,9 @@
     },
     "Enable": {
       "name": "Enable Task",
-      "help": "Join this task to scheduler.\nTask commission, research, reward are force to enable."
+      "help": "Join this task to scheduler.\nTask commission, research, reward are force to enable.",
+      "True": "Enabled",
+      "False": "False"
     },
     "NextRun": {
       "name": "Next Run",
@@ -692,7 +694,7 @@
       "event_20210624_tw": "穹頂下的聖詠曲",
       "event_20210722_cn": "Azur Anthem",
       "event_20210819_cn": "Microlayer Medley Rerun",
-      "event_20210916_cn": "Upon the Shimmering Blue",
+      "event_20210916_cn": "Upon the Shimmering Blue Rerun",
       "event_20211028_cn": "Skybound Oratorio Rerun",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
       "event_20211111_cn": "The Flame-Touched Dagger Rerun",
@@ -716,6 +718,9 @@
       "event_20230803_cn": "Anthem of Remembrance",
       "event_20230817_cn": "The Fools Scales",
       "event_20230914_cn": "Effulgence Before Eclipse",
+      "event_20231026_cn": "Tempesta and the Fountain of Youth",
+      "event_20231123_cn": "The Ninja Scrolls: Azur Flash",
+      "event_20231221_cn": "Light-Chasing Sea of Stars",
       "raid_20200624": "Air Raid Drills with Essex Rerun",
       "raid_20210708": "Cross Wave rerun",
       "raid_20220127": "Mystery Investigation",
@@ -798,7 +803,7 @@
     },
     "StageIncrease": {
       "name": "Enable Continuous Clear",
-      "help": "Suited for 100% Clear, requires sufficient fleet strength and satisfying level attribute restrictions for every level involved\n1-1 to 14-4, A1 to A3, B1 to B3, C1 to C3, D1 to D3, SP1 to SP4"
+      "help": "Suited for 100% Clear, requires sufficient fleet strength and satisfying level attribute restrictions for every level involved\n1-1 to 14-4, A1 to A3, B1 to B3, C1 to C3, D1 to D3, T1 to T6, SP1 to SP4"
     },
     "GetNewShip": {
       "name": "New Ship Get",
@@ -1395,6 +1400,26 @@
     "FeedFilter": {
       "name": "Snack Filter",
       "help": "Generally does not need to be modified or re-arranged but can do so if desired"
+    }
+  },
+  "BuyFurniture": {
+    "_info": {
+      "name": "Event furniture Settings",
+      "help": "Buy time-limited furniture from dorm furniture shop during the event"
+    },
+    "Enable": {
+      "name": "Buy event furniture",
+      "help": ""
+    },
+    "BuyOption": {
+      "name": "Buy Option",
+      "help": "buy set: buy one piece for each piece of furniture; buy all: Buy all furniture. Both buy options will remove the set of furniture from the forefront of the store. If buy set, remaining furniture will need to be manually buy. Difference in furniture price between the two options is not significant, Recommended to use buy all. This operation will not buy diamond furniture",
+      "set": "set",
+      "all": "all"
+    },
+    "LastRun": {
+      "name": "Last Check Time",
+      "help": "The time of the last check is recorded here to prevent the task from running repeatedly. Check interval is 7 days. This value is automatically recorded and generally does not need to be modified."
     }
   },
   "Meowfficer": {

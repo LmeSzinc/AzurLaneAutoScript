@@ -208,6 +208,15 @@ class GitOverCdnClient:
         """
         git reset --hard <commit>
         """
+        # Remove git lock
+        for lock_file in [
+            './.git/index.lock',
+            './.git/HEAD.lock',
+            './.git/refs/heads/master.lock',
+        ]:
+            if os.path.exists(lock_file):
+                self.logger.info(f'Lock file {lock_file} exists, removing')
+                os.remove(lock_file)
         if keep_changes:
             self.git_command('stash')
             self.git_command('reset', '--hard', f'{self.source}/{self.branch}')

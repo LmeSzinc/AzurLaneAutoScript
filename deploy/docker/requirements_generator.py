@@ -36,7 +36,7 @@ def docker_requirements_generate(requirements_in='requirements-in.txt'):
     requirements = read_file(requirements_in)
 
     logger.info(f'Generate requirements for Docker image')
-
+    lock = {}
     new = {}
     logger.info(requirements)
     for name, version in requirements.items():
@@ -46,8 +46,9 @@ def docker_requirements_generate(requirements_in='requirements-in.txt'):
         if name == 'opencv-python':
             name = 'opencv-python-headless'
             version = None
-        # if name == 'numpy':
-        #     version = None
+        if name in lock:
+            version = lock[name] if not isinstance(lock[name], dict) else lock[name]['version']
+            name = name if not isinstance(lock[name], dict) else lock[name]['name']
         new[name] = version
 
     write_file(os.path.join(BASE_FOLDER, f'./requirements.txt'), data=new)

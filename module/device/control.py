@@ -167,4 +167,4 @@ class Control(Hermit, Minitouch, Scrcpy, MaaTouch):
             logger.warning(f'Control method {method} does not support drag well, '
                            f'falling back to ADB swipe may cause unexpected behaviour')
             self.swipe_adb(p1, p2, duration=ensure_time(swipe_duration * 2))
-            self.click(Button(area=(), color=(), button=area_offset(point_random, p2), name=name))
+            self.click(Button(area=(), color=(), button=area_offset(point_random, p2), name=name ),False)
