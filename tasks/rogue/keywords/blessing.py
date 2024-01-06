@@ -483,9 +483,9 @@ Beginning_and_End = RogueBlessing(
     rarity=2,
     enhancement='',
 )
-Café_Self_Deceit = RogueBlessing(
+Cafe_Self_Deceit = RogueBlessing(
     id=41,
-    name='Café_Self_Deceit',
+    name='Cafe_Self_Deceit',
     cn='自欺咖啡馆',
     cht='自欺咖啡館',
     en='Café Self-Deceit',

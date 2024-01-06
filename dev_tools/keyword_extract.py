@@ -20,6 +20,7 @@ def text_to_variable(text):
     text = re.sub(r'[(),#"?!&%*]|</?\w+>', '', text)
     # text = re.sub(r'[#_]?\d+(_times?)?', '', text)
     text = re.sub(r'<color=#?\w+>', '', text)
+    text = text.replace('é', 'e')
     return text.strip('_')
 
 
