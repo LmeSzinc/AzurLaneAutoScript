@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import {computed, defineComponent} from 'vue';
-import {useAppStoreWithOut} from '/@/store/modules/app';
+import {useAppStoreWithOut} from '@/store/modules/app';
 
 export default defineComponent({
   name: 'AlasPage',

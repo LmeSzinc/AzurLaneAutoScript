@@ -11,7 +11,7 @@
 import type {PropType} from 'vue';
 import {defineComponent, ref, watchEffect, computed, unref, watch, onMounted} from 'vue';
 import {useTransition, TransitionPresets} from '@vueuse/core';
-import {isNumber} from '/@/utils/is';
+import {isNumber} from '@/utils/is';
 export default defineComponent({
   name: 'CountTo',
   props: {

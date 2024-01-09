@@ -1,18 +1,22 @@
 {
+  "extends": "../../tsconfig.json",
+  "include": [
+    "src",
+    "config"
+  ],
   "compilerOptions": {
     "module": "esnext",
-    "target": "esnext",
-    "sourceMap": false,
-    "moduleResolution": "Node",
-    "skipLibCheck": true,
-    "strict": true,
-    "isolatedModules": true,
-    "types": ["node"],
+    "target": "ESNext",
+    "moduleResolution": "NodeNext",
     "baseUrl": ".",
-     "paths": {
-      "@common/*": ["../common/*"]
-    }
-  },
-  "include": ["src/**/*.ts", "../../types/**/*.d.ts","../common/**/*.ts"],
-  "exclude": ["**/*.spec.ts", "**/*.test.ts"]
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+    },
+    "types": [
+      "node",
+      "vite/client"
+    ]
+  }
 }

@@ -1,8 +1,8 @@
 import type {LocaleSetting, LocaleType} from '/#/config';
 
 import {defineStore} from 'pinia';
-import {store} from '/@/store';
-import {localeSetting} from '/@/settings/localSetting';
+import {store} from '@/store';
+import {localeSetting} from '@/settings/localSetting';
 
 const lsLocaleSetting = localeSetting as LocaleSetting;
 

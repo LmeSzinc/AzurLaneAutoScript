@@ -30,9 +30,9 @@ import {
   MinusOutlined,
   ArrowDownOutlined,
 } from '@ant-design/icons-vue';
-import useIpcRenderer from '/@/hooks/useIpcRenderer';
+import useIpcRenderer from '@/hooks/useIpcRenderer';
 import {Modal} from '@arco-design/web-vue';
-import {useI18n} from '/@/hooks/useI18n';
+import {useI18n} from '@/hooks/useI18n';
 
 export default defineComponent({
   name: 'AppHeader',

@@ -1,9 +1,10 @@
-import {isMacintosh} from '@common/utils/env';
-import getAlasABSPath from '@common/utils/getAlasABSPath';
-import {ALAS_INSTR_FILE} from '@common/constant/config';
-import {validateConfigFile} from '@common/utils/validate';
+import {isMacintosh} from '@/utils/env';
+import getAlasABSPath from '@/utils/getAlasABSPath';
+import type {DefAlasConfig} from '@alas/common';
+import {ALAS_INSTR_FILE} from '@alas/common';
+import {validateConfigFile} from '@/utils/validate';
 import {join} from 'path';
-import logger from '/@/logger';
+import logger from '@/logger';
 
 const yaml = require('yaml');
 const fs = require('fs');

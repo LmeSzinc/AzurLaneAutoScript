@@ -1,0 +1,19 @@
+{
+  "name": "@alas/common",
+  "version": "1.0.0",
+  "description": "alas webapp common",
+  "private": true,
+ "main": "src/index.ts",
+  "scripts": {
+    "build": "father build",
+    "postinstall": "npm run build",
+    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "electron-is": "^3.0.0"
+  },
+  "devDependencies": {
+    "father": "^4"
+  }
+}

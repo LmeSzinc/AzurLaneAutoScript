@@ -1,8 +1,8 @@
-import type {CallbackFun} from '/@/coreService';
-import {PyShell} from '/@/pyshell';
-import {installerArgs, installerPath} from '/@/config';
-import {ALAS_RELAUNCH_ARGV} from '@common/constant/config';
-import logger from '/@/logger';
+import type {CallbackFun} from '@/coreService';
+import {PyShell} from '@/pyshell';
+import {installerArgs, installerPath} from '@/config';
+import {ALAS_RELAUNCH_ARGV} from '@alas/common';
+import logger from '@/logger';
 export const createInstaller: CallbackFun = async (ctx, next) => {
   if (process.argv.includes(ALAS_RELAUNCH_ARGV)) {
     return next();

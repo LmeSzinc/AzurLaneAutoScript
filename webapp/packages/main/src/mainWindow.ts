@@ -9,18 +9,11 @@ import {
   nativeImage,
 } from 'electron';
 import {URL} from 'node:url';
-import {PyShell} from '/@/pyshell';
-import {
-  dpiScaling,
-  webuiTheme,
-  webuiArgs,
-  webuiPath,
-  installerPath,
-  installerArgs,
-} from '/@/config';
-import {isMacintosh} from '@common/utils/env';
-import relaunchApp from '/@/relaunchApp';
-import {ALAS_LOG, UPDATE_APP} from '@common/constant/eventNames';
+import {PyShell} from '@/pyshell';
+import {dpiScaling, webuiTheme, webuiArgs, webuiPath, installerPath, installerArgs} from '@/config';
+import {isMacOS} from '@alas/common';
+import relaunchApp from '@/relaunchApp';
+import {ALAS_LOG, UPDATE_APP} from '@alas/common';
 
 const path = require('path');
 /**
@@ -100,7 +93,7 @@ export async function createWindow() {
   const icon = nativeImage.createFromPath(path.join(__dirname, './icon.png'));
   const dockerIcon = icon.resize({width: 16, height: 16});
   // Tray
-  const tray = new Tray(isMacintosh ? dockerIcon : icon);
+  const tray = new Tray(isMacOS ? dockerIcon : icon);
   const contextMenu = Menu.buildFromTemplate([
     {
       label: 'Show',

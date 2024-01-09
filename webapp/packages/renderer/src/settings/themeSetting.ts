@@ -1,4 +1,5 @@
 import type {ThemeVal} from '/#/config';
+import {dispatch} from '@/utils';
 
 export function setupThemeSetting(theme?: ThemeVal) {
   if (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -10,10 +11,12 @@ export function setupThemeSetting(theme?: ThemeVal) {
   }
   if (theme && theme === 'dark') {
     setTheme('dark');
-    window.__electron_preload__ipcRendererSend('electron-theme', 'dark');
+    // window.__electron_preload__ipcRendererSend('electron-theme', 'dark');
+    dispatch('/system/modify-theme', 'dark');
   } else {
     setTheme('light');
-    window.__electron_preload__ipcRendererSend('electron-theme', 'light');
+    // window.__electron_preload__ipcRendererSend('electron-theme', 'light');
+    dispatch('/system/modify-theme', 'light');
   }
 }
 

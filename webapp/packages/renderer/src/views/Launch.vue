@@ -26,12 +26,12 @@
 
 <script lang="ts">
 import {defineComponent, onMounted, ref, unref, nextTick} from 'vue';
-import AlasTitle from '/@/components/AlasTitle.vue';
-import ProgressBar from '/@/components/ProgressBar.vue';
-import useIpcRenderer from '/@/hooks/useIpcRenderer';
+import AlasTitle from '@/components/AlasTitle.vue';
+import ProgressBar from '@/components/ProgressBar.vue';
+import useIpcRenderer from '@/hooks/useIpcRenderer';
 import router from '../router';
 import {LoadingOutlined} from '@ant-design/icons-vue';
-import {ALAS_LOG, INSTALLER_READY, WINDOW_READY} from '@common/constant/eventNames';
+import {ALAS_LOG, INSTALLER_READY, WINDOW_READY} from '@alas/common';
 
 export default defineComponent({
   name: 'LaunchPage',
@@ -65,7 +65,7 @@ export default defineComponent({
 
     const handelAlasInfo = (logStr: string) => {
       if (logStr?.includes('Application startup complete') || logStr?.includes('bind on address')) {
-        router.push('/alas')
+        router.push('/alas');
       }
     };
 
@@ -88,18 +88,18 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-  #scrollRef::-webkit-scrollbar {
-    width: 3px;
-    height: 1px;
-  }
+#scrollRef::-webkit-scrollbar {
+  width: 3px;
+  height: 1px;
+}
 
-  #scrollRef::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background: #aeaeae;
-  }
+#scrollRef::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #aeaeae;
+}
 
-  #scrollRef::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background: #ededed;
-  }
+#scrollRef::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: #ededed;
+}
 </style>

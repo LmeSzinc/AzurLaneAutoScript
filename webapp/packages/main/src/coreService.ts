@@ -1,8 +1,8 @@
-import type {PyShell} from '/@/pyshell';
-import {createAlas, createInstaller} from '/@/serviceLogic';
-import {ALAS_LOG} from '@common/constant/eventNames';
+import type {PyShell} from '@/pyshell';
+import {createAlas, createInstaller} from '@/serviceLogic';
+import {ALAS_LOG} from '@alas/common';
 import {BrowserWindow} from 'electron';
-import logger from '/@/logger';
+import logger from '@/logger';
 
 export interface CoreServiceOption {
   appABSPath?: string;

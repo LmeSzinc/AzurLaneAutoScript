@@ -1,0 +1,48 @@
+{
+  "name": "@alas/main",
+  "version": "1.0.0",
+  "description": "alas webapp main",
+  "private": true,
+  "main": "dist/main/index.js",
+  "scripts": {
+    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
+    "postuninstall": "electron-builder install-app-deps",
+    "prebuild": "electron-vite build",
+    "build": "npm run prebuild && electron-builder build --config electron-builder.config.js",
+    "clean": "rm -rf dist release .eslintcache",
+    "dev": "electron-vite dev -w",
+    "start": "npm run dev",
+    "electron:build-local": "NOTARIZE=false npm run build -- --dir --config.asar=false",
+    "electron:build:linux": "npm run build --linux",
+    "electron:build:mac": "npm run build --mac",
+    "electron:build:win": "npm run build --win",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4",
+    "electron-is": "^3",
+    "electron-updater": "^4.6.5",
+    "log4js": "^6.4.1",
+    "os-name": "^4",
+    "reflect-metadata": "^0.1.13",
+    "source-map-support": "^0.5.21",
+    "python-shell": "^5.0.0"
+  },
+  "devDependencies": {
+    "@alas/common": "^1.0.0",
+    "@types/fs-extra": "^9",
+    "concurrently": "^8",
+    "cross-env": "^7",
+    "electron": "^26",
+    "electron-builder": "^23",
+    "electron-builder-notarize": "^1",
+    "electron-debug": "^3",
+    "electron-devtools-installer": "^3",
+    "electron-vite": "^1",
+    "happy-dom": "^9",
+    "@vue/devtools": "^7",
+    "vitest": "latest"
+  }
+}

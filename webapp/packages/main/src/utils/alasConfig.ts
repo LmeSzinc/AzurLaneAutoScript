@@ -1,7 +1,8 @@
-import {ALAS_CONFIG_YAML} from '@common/constant/config';
-import {getAlasABSPath, checkIsFirst} from '@common/utils';
-import {ThemeObj} from '@common/constant/theme';
-import {Dirent} from 'fs';
+import {ThemeObj, ALAS_CONFIG_YAML} from '@alas/common';
+import type {Dirent} from 'fs';
+import type {AlasConfig, DefAlasConfig} from '@alas/common';
+import getAlasABSPath from '@/utils/getAlasABSPath';
+import {checkIsFirst} from '@/utils/checkIsFirst';
 const path = require('path');
 const yaml = require('yaml');
 const fs = require('fs');
@@ -36,7 +37,7 @@ interface fileInfoItem {
 }
 export function getAlasConfigDirFiles() {
   const alasPath = getAlasABSPath();
-  const configPath = path.join(alasPath, `./config`);
+  const configPath = path.join(alasPath, './config');
   const files: Dirent[] = fs.readdirSync(configPath, {withFileTypes: true});
   const filesInfoList: fileInfoItem[] = files.map((file: Dirent) => {
     const name = file.name;

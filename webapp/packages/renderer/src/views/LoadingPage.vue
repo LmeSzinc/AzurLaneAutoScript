@@ -10,9 +10,10 @@
 
 <script lang="ts" setup>
 import {onMounted} from 'vue';
-import router from '/@/router';
+import router from '@/router';
+import {dispatch} from '@/utils';
 onMounted(() => {
-  const isFirst = window.__electron_preload__checkIsNeedInstall();
+  const isFirst = dispatch('/system/is-first-open');
   if (!isFirst) {
     router.push('/Install');
   } else {

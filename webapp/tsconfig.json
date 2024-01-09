@@ -1,15 +1,51 @@
+//{
+//  "compilerOptions": {
+//    "target": "esnext",
+//    "module": "esnext",
+//    "sourceMap": true,
+//    "moduleResolution": "Node",
+//    "skipLibCheck": true,
+//    "strict": true,
+//    "isolatedModules": true,
+//    "types": [
+//      "node",
+//      "vite/client"
+//    ],
+//    "typeRoots": [
+//      "node_modules/@types"
+//    ],
+//    "lib": [
+//      "ESNext"
+//    ],
+//    "allowSyntheticDefaultImports": true,
+//    /**  开启装饰器 **/
+//    "emitDecoratorMetadata": true,
+//    "importHelpers": true,
+//    "esModuleInterop": true,
+//    "resolveJsonModule": true
+//  }
+//}
 {
   "compilerOptions": {
-    "module": "esnext",
-    "target": "esnext",
+    "target": "ES2017",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
     "sourceMap": true,
-    "moduleResolution": "Node",
-    "skipLibCheck": true,
+    "jsx": "react-jsx",
+    //
     "strict": true,
-    "isolatedModules": true,
-    "types": ["node"],
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["ESNext"],
-    "allowSyntheticDefaultImports": true
+    "noUnusedLocals": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "inlineSources": true,
+    "allowSyntheticDefaultImports": true,
+    /**  开启装饰器 **/
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "noEmitOnError": true
   }
 }

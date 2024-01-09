@@ -1,7 +1,7 @@
 import logger from 'electron-log';
 import {join} from 'node:path';
-import {getAlasABSPath} from '@common/utils';
-const dayjs = require('dayjs');
+import getAlasABSPath from '@/utils/getAlasABSPath';
+import dayjs from 'dayjs';
 
 logger.transports.file.level = 'info';
 logger.transports.file.maxSize = 1024 * 1024;

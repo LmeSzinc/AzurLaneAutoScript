@@ -248,3 +248,7 @@ adb_port.ini
 !popup.exe
 *.zip
 .vscode/*
+
+# 忽略node缓存
+*/**/v8-compile-cache-*/**
+/webapp/packages/**/v8-compile-cache-*/**

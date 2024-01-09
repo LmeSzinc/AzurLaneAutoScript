@@ -1,14 +1,8 @@
-import type {CoreService} from '/@/coreService';
+import type {CoreService} from '@/coreService';
 import type {BrowserWindow} from 'electron';
 import {app, ipcMain, nativeTheme} from 'electron';
-import {
-  ELECTRON_THEME,
-  INSTALLER_READY,
-  PAGE_ERROR,
-  WINDOW_READY,
-} from '@common/constant/eventNames';
-import {ThemeObj} from '@common/constant/theme';
-import logger from '/@/logger';
+import {ThemeObj, ELECTRON_THEME, INSTALLER_READY, PAGE_ERROR, WINDOW_READY} from '@alas/common';
+import logger from '@/logger';
 
 export const addIpcMainListener = async (mainWindow: BrowserWindow, coreService: CoreService) => {
   // Minimize, maximize, close window.

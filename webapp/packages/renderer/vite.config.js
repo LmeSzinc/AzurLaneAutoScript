@@ -26,27 +26,30 @@ const PROJECT_ROOT = join(PACKAGE_ROOT, '../..');
  * @see https://vitejs.dev/config/
  */
 const config = {
+  /**
+   * 部分 vite中用import.mate,代替的process
+   */
+  define: {
+    'process.env': process.env,
+  },
   mode: process.env.MODE,
   root: PACKAGE_ROOT,
   envDir: PROJECT_ROOT,
   resolve: {
     alias: [
       {
-        find: '/@/',
+        find: '@/',
         replacement: join(PACKAGE_ROOT, 'src') + '/',
       },
       {
         find: 'vue-i18n',
         replacement: 'vue-i18n/dist/vue-i18n.cjs.js',
       },
-      {
-        find: '@common',
-        replacement: join(PACKAGE_ROOT, '../common') + '/',
-      },
     ],
   },
   base: '',
   server: {
+    port: 7777,
     fs: {
       strict: true,
     },

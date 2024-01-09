@@ -1,12 +1,14 @@
 import type {App} from 'vue';
-import useIpcRenderer from '/@/hooks/useIpcRenderer';
-import {PAGE_ERROR} from '@common/constant/eventNames';
+import useIpcRenderer from '@/hooks/useIpcRenderer';
+import {PAGE_ERROR} from '@alas/common';
 import type {ErrorLogInfo} from '/#/store';
 import {ErrorTypeEnum} from '/#/store';
+import {dispatch} from '@/utils';
 
 function addErrorLogInfo(info: Record<any, any>) {
   const {ipcRendererSend} = useIpcRenderer();
   ipcRendererSend(PAGE_ERROR, JSON.stringify(info));
+  dispatch('/page/error', info);
 }
 
 /**

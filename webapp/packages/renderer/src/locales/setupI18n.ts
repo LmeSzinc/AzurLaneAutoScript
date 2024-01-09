@@ -1,8 +1,8 @@
 import type {I18n, I18nOptions} from 'vue-i18n';
 import {createI18n} from 'vue-i18n';
 import type {App} from 'vue';
-import {localeSetting} from '/@/settings/localSetting';
-import {useAppStore} from '/@/store/modules/app';
+import {localeSetting} from '@/settings/localSetting';
+import {useAppStore} from '@/store/modules/app';
 import messages from '@intlify/unplugin-vue-i18n/messages';
 import {unref} from 'vue';
 

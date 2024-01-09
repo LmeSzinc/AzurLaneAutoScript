@@ -1,5 +1,5 @@
 import {createRouter, createWebHashHistory} from 'vue-router';
-import Alas from '/@/components/Alas.vue';
+import Alas from '@/components/Alas.vue';
 
 const routes = [
   {path: '/', name: 'Loading', component: () => import('./views/LoadingPage.vue')},

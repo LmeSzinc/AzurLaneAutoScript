@@ -163,15 +163,16 @@
 
 <script lang="ts" setup>
 import {computed, ref} from 'vue';
-import AlasTitle from '/@/components/AlasTitle.vue';
+import AlasTitle from '@/components/AlasTitle.vue';
 import {ArrowLeftOutlined} from '@ant-design/icons-vue';
-import router from '/@/router';
-import {useI18n} from '/@/hooks/useI18n';
+import router from '@/router';
+import {useI18n} from '@/hooks/useI18n';
 import dayjs from 'dayjs';
-import {useAppStore} from '/@/store/modules/app';
+import {useAppStore} from '@/store/modules/app';
 import {Modal} from '@arco-design/web-vue';
 import type {RequestOption, UploadRequest} from '@arco-design/web-vue/es/upload/interfaces';
 import {nanoid} from 'nanoid';
+import {dispatch} from '@/utils';
 
 const {t} = useI18n();
 
@@ -239,15 +240,29 @@ const onOkSave = async () => {
   if (paths.includes('')) {
     throw new Error('Wrong file path, please try again');
   }
-  await window.__electron_preload__copyFilesToDir(paths, appStore.getAlasPath + '/config', {
-    filedCallback: e => {
-      Modal.error({
-        title: 'Error Notification',
-        content: e.toString(),
-      });
-    },
-  });
-  const {configPath = '', files = []} = window.__electron_preload__getAlasConfigDirFiles();
+  // await window.__electron_preload__copyFilesToDir(paths, appStore.getAlasPath + '/config', {
+  //   filedCallback: e => {
+  //     Modal.error({
+  //       title: 'Error Notification',
+  //       content: e.toString(),
+  //     });
+  //   },
+  // });
+
+  try {
+    await dispatch('/system/copy-files-to-dir', {
+      paths,
+      targetDir: appStore.getAlasPath + '/config',
+    });
+  } catch (e: any) {
+    Modal.error({
+      title: 'Error Notification',
+      content: e.toString(),
+    });
+  }
+
+  // const {configPath = '', files = []} = window.__electron_preload__getAlasConfigDirFiles();
+  const {configPath = '', files = []} = await dispatch('/system/get-alas-config-dir-files');
   configDirPath.value = configPath;
   configDirFiles.value = files.map(item => ({
     uid: nanoid(),

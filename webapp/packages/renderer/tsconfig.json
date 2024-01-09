@@ -1,4 +1,5 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "module": "esnext",
     "target": "esnext",
@@ -9,15 +10,29 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "preserve",
-    "types": ["node", "vite/client"],
+    "types": [
+      "node",
+      "vite/client"
+    ],
     "baseUrl": ".",
     "paths": {
-      "#preload": ["../preload/src/index"],
-      "/@/*": ["./src/*"],
-      "/#/*": ["types/*"],
-      "@common/*": ["../common/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "/#/*": [
+        "types/*"
+      ]
     },
-    "lib": ["ESNext", "dom", "dom.iterable"]
+    "lib": [
+      "ESNext",
+      "dom",
+      "dom.iterable"
+    ],
+    "typesRoot": [
+      "./global.d.ts",
+      "node_modules/@types",
+      "./types"
+    ]
   },
   "include": [
     "src/**/*.vue",
@@ -26,8 +41,11 @@
     "types/**/*.d.ts",
     "../../types/**/*.d.ts",
     "../../../types/**/*.d.ts",
-    "./components.d.ts"
+    "./components.d.ts",
+    "./global.d.ts"
   ],
-  "exclude": ["**/*.spec.ts", "**/*.test.ts"],
-  "typeRoots": ["../../node_modules/@types/", "./types", "../../../types"]
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ]
 }

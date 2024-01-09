@@ -1,0 +1,32 @@
+{
+  "name": "@alas/renderer",
+  "version": "1.0.0",
+  "description": "alas webapp renderer",
+  "main": "index.ts",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite dev",
+    "start": "npm run dev",
+    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@arco-design/web-vue": "^2.45.2",
+    "@arco-plugins/vite-vue": "^1.4.5",
+    "@arco-themes/vue-am-alas": "^0.0.1",
+    "@intlify/unplugin-vue-i18n": "^0.10.0",
+    "@ant-design/icons-vue": "^6.1.0",
+    "pinia": "^2.0.34",
+    "vue": "^3.2.47",
+    "vue-i18n": "^9.2.2",
+    "vue-router": "^4.1.6"
+  },
+  "devDependencies": {
+    "@alas/common": "^1.0.0",
+    "unocss": "^0.51.8",
+    "vue-tsc": "1.2.0",
+    "vue-types": "^5.0.2",
+    "postcss": "^8.4.21"
+  }
+}

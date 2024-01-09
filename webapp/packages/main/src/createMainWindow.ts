@@ -1,8 +1,8 @@
 import {app, BrowserWindow, globalShortcut, nativeTheme} from 'electron';
 import {join} from 'node:path';
 import {URL} from 'node:url';
-import {ThemeObj} from '@common/constant/theme';
-import logger from '/@/logger';
+import {ThemeObj} from '@alas/common';
+import logger from '@/logger';
 
 export const createMainWindow = async () => {
   nativeTheme.themeSource = ThemeObj['light'];

@@ -1,19 +1,32 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "experimentalDecorators": true,
     "module": "esnext",
-    "target": "esnext",
+    "target": "ESNext",
     "sourceMap": false,
-    "moduleResolution": "Node",
+    "moduleResolution": "NodeNext",
     "skipLibCheck": true,
     "strict": true,
     "isolatedModules": true,
-    "types": ["node"],
+    "types": [
+      "node",
+      "vite/client"
+    ],
     "baseUrl": ".",
     "paths": {
-      "/@/*": ["./src/*"],
-      "@common/*": ["../common/*"]
+      "@/*": [
+        "./src/*"
+      ]
     }
   },
-  "include": ["src/**/*.ts", "../../types/**/*.d.ts","../common/**/*.ts"],
-  "exclude": ["**/*.spec.ts", "**/*.test.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src",
+    "config"
+  ],
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ]
 }

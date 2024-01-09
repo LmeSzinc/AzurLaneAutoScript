@@ -1,10 +1,10 @@
-import {createMainWindow} from '/@/createMainWindow';
-import {addIpcMainListener} from '/@/addIpcMainListener';
-import {CoreService} from '/@/coreService';
-import logger from '/@/logger';
+import {createMainWindow} from '@/createMainWindow';
+import {addIpcMainListener} from '@/addIpcMainListener';
+import {CoreService} from '@/coreService';
+import logger from '@/logger';
 import {app, nativeImage, Tray} from 'electron';
 import {join} from 'node:path';
-import {isMacintosh} from '@common/utils';
+import {isMacOS} from '@alas/common';
 export const createApp = async () => {
   logger.info('-----createApp-----');
   logger.info('-----createMainWindow-----');
@@ -17,7 +17,7 @@ export const createApp = async () => {
   const icon = nativeImage.createFromPath(join(__dirname, './icon.png'));
   const dockerIcon = icon.resize({width: 16, height: 16});
   // Tray
-  const tray = new Tray(isMacintosh ? dockerIcon : icon);
+  const tray = new Tray(isMacOS ? dockerIcon : icon);
   const contextMenu = Menu.buildFromTemplate([
     {
       label: 'Show',

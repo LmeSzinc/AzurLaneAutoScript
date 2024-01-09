@@ -1,7 +1,7 @@
-import {webuiArgs, webuiPath} from '/@/config';
-import {PyShell} from '/@/pyshell';
-import type {CallbackFun} from '/@/coreService';
-import logger from '/@/logger';
+import {webuiArgs, webuiPath} from '@/config';
+import {PyShell} from '@/pyshell';
+import type {CallbackFun} from '@/coreService';
+import logger from '@/logger';
 
 export const createAlas: CallbackFun = async ctx => {
   let alas: PyShell | null = null;

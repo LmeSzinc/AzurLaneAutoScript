@@ -3,7 +3,7 @@
  */
 import type {LocaleType} from '/#/config';
 import {i18n} from './setupI18n';
-import {useLocaleStoreWithOut} from '/@/store/modules/locale';
+import {useLocaleStoreWithOut} from '@/store/modules/locale';
 import {unref, computed} from 'vue';
 import messages from '@intlify/unplugin-vue-i18n/messages';
 

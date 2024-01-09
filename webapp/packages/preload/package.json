@@ -1,0 +1,21 @@
+{
+  "name": "@alas/preload",
+  "version": "1.0.0",
+  "description": "alas webapp preload",
+  "main": "src/index.ts",
+  "private": "true",
+  "scripts": {
+    "build": "father build",
+    "postinstall": "npm run build",
+    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@electron-toolkit/preload": "^1.0.3",
+    "electron": "^24"
+  },
+  "devDependencies": {
+    "vite": "^4"
+  }
+}

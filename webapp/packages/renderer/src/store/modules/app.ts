@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia';
-import {store} from '/@/store';
+import {store} from '@/store';
 import type {LocaleType, ThemeVal} from '/#/config';
-import type {repositoryMap} from '/@/settings/repositorySeeing';
+import type {repositoryMap} from '@/settings/repositorySeeing';
 
 export const useAppStore = defineStore({
   id: 'app',

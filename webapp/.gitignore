@@ -56,3 +56,6 @@ thumbs.db
 # Editor-based Rest Client
 .idea/httpRequests
 /.idea/csv-plugin.xml
+
+# 忽略node的缓存
+/packages/**/v8-compile-cache-*/**

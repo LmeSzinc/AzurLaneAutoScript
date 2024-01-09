@@ -70,17 +70,18 @@
 </template>
 
 <script lang="ts" setup>
-import AlasTitle from '/@/components/AlasTitle.vue';
-import {useI18n} from '/@/hooks/useI18n';
+import AlasTitle from '@/components/AlasTitle.vue';
+import {useI18n} from '@/hooks/useI18n';
 import {computed, ref, unref} from 'vue';
-import {localeList} from '/@/settings/localSetting';
-import {useAppStoreWithOut} from '/@/store/modules/app';
+import {localeList} from '@/settings/localSetting';
+import {useAppStoreWithOut} from '@/store/modules/app';
 import type {LocaleType, ThemeVal} from '/#/config';
-import {setupThemeSetting} from '/@/settings/themeSetting';
-import {useLocale} from '/@/locales/useLocale';
-import router from '/@/router';
-import {AlasGuiTheme} from '@common/constant/theme';
-import {repositoryMap} from '/@/settings/repositorySeeing';
+import {setupThemeSetting} from '@/settings/themeSetting';
+import {useLocale} from '@/locales/useLocale';
+import router from '@/router';
+import {AlasGuiTheme} from '@alas/common';
+import {repositoryMap} from '@/settings/repositorySeeing';
+import {dispatch} from '@/utils';
 
 const {t} = useI18n();
 const appStore = useAppStoreWithOut();
@@ -144,7 +145,8 @@ const installAlas = async () => {
     Theme: AlasGuiTheme[unref(appStore.theme)],
   };
   const filePath = unref(appStore.alasPath);
-  window.__electron_preload__modifyConfigYaml(filePath, modifyConfig);
+  // window.__electron_preload__modifyConfigYaml(filePath, modifyConfig);
+  await dispatch('/system/modify-config-yaml', {filePath, modifyConfig});
   installLoading.value = false;
   router.push('/Launch');
 };
