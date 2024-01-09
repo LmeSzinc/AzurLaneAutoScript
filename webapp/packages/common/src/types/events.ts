@@ -5,6 +5,12 @@ import type {AlasConfig} from './config';
  */
 export interface MainEvents {
   initDatabase: 'loading' | 'failed' | 'success';
+
+  /**
+   * scriptLog
+   * 脚本log
+   */
+  scriptLog: string;
 }
 
 /**
@@ -73,9 +79,51 @@ export interface RendererEvents {
    * 修改系统主题
    */
   '/system/modify-theme': boolean;
+
   /**
    * SystemService
    * 修改系统主题
    */
   '/system/get-alas-config': AlasConfig;
+
+  /**
+   * SystemService
+   * 缓存页面log
+   */
+  '/system/cache-page-log': boolean;
+
+  /**
+   * BrowserService
+   * 关闭窗口
+   */
+  '/browser/close-current': void;
+
+  /**
+   * BrowserService
+   * 最小化窗口
+   */
+  '/browser/minimize-current': void;
+
+  /**
+   * BrowserService
+   * 最大化窗口
+   */
+  '/browser/maximize-current': void;
+  /**
+   * BrowserService
+   * 点击窗口托盘
+   */
+  '/browser/window-tray': void;
+
+  /**
+   * ScriptService
+   * 启动alas服务
+   */
+  '/script/start-alas-server': boolean;
+
+  /**
+   * ScriptService
+   * 启动安装服务
+   */
+  '/script/start-install-server': boolean;
 }

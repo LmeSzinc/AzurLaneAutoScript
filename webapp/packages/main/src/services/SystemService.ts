@@ -75,4 +75,12 @@ export default class SystemService extends ServiceModule {
   getAlasConfig() {
     return this.app.config;
   }
+
+  @event('/system/cache-page-log')
+  cachePageLog(level: 'info' | 'error', message: string) {
+    const {logger} = this.app;
+    logger[level](message);
+
+    return true;
+  }
 }

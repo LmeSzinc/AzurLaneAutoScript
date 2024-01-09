@@ -1,9 +1,9 @@
-import type {BrowserWindowConstructorOptions, Tray} from 'electron';
-import {protocol, app, BrowserWindow} from 'electron';
+import type {BrowserWindowConstructorOptions} from 'electron';
+import {protocol, app, Menu, BrowserWindow, globalShortcut, nativeImage, Tray} from 'electron';
 import type {BrowserWindowsIdentifier, MainEvents} from '@alas/common';
 import EventEmitter from 'events';
 import type {App} from '@/core/App';
-import {isDev} from '@alas/common';
+import {isDev, isMacOS} from '@alas/common';
 import {dev} from 'electron-is';
 import {join} from 'node:path';
 
@@ -31,11 +31,6 @@ export default class Browser extends EventEmitter {
    * @private
    */
   private _browserWindow?: BrowserWindow;
-
-  /**
-   * 托盘
-   */
-  private _tray?: Tray;
 
   /**
    * 标识符
@@ -76,13 +71,15 @@ export default class Browser extends EventEmitter {
 
   /**
    * 加载地址路径
-   * @param name 在 renderer 中的路径名称
+   * @param name name 在 renderer 中的路径名称
+   * @param count 重试次数
    */
   loadUrl = (name: BrowserWindowsIdentifier, count = 1) => {
     if (count > 10) return;
     if (isDev) {
       // this.browserWindow.loadURL(`http://localhost:5173/${name}.html`);
-      this.browserWindow.loadURL(`http://localhost:7777/${name}`).catch(_ => {
+      this.app.logger.info('http://localhost:7777/');
+      this.browserWindow.loadURL('http://localhost:7777/').catch(_ => {
         /**
          * 暂时没有想到更好解决方案
          */
@@ -93,6 +90,57 @@ export default class Browser extends EventEmitter {
     } else {
       this.browserWindow.loadURL(`app://./${name}.html`);
     }
+  };
+  /**
+   * 加载托盘
+   */
+  loadTray = () => {
+    const {browserWindow} = this;
+    Menu.setApplicationMenu(null);
+    const icon = nativeImage.createFromPath(join(__dirname, './icon.png'));
+    const dockerIcon = icon.resize({width: 16, height: 16});
+    const tray = new Tray(isMacOS ? dockerIcon : icon);
+    const contextMenu = Menu.buildFromTemplate([
+      {
+        label: 'Show',
+        click: function () {
+          browserWindow?.show();
+        },
+      },
+      {
+        label: 'Hide',
+        click: function () {
+          browserWindow?.hide();
+        },
+      },
+      {
+        label: 'Exit',
+        click: function () {
+          /**
+           * 贯标alasService
+           */
+
+          app.quit();
+          process.exit(0);
+        },
+      },
+    ]);
+    tray.setToolTip('Alas');
+    tray.setContextMenu(contextMenu);
+    tray.on('click', () => {
+      if (browserWindow?.isVisible()) {
+        if (browserWindow?.isMinimized()) {
+          browserWindow?.show();
+        } else {
+          browserWindow?.hide();
+        }
+      } else {
+        browserWindow?.show();
+      }
+    });
+    tray.on('right-click', () => {
+      tray.popUpContextMenu(contextMenu);
+    });
   };
 
   /**
@@ -106,6 +154,9 @@ export default class Browser extends EventEmitter {
       const {
         default: installExtension,
         VUEJS3_DEVTOOLS,
+        /**
+         *  electron-devtools-installer 安装部分依赖会报错 VUEJS3_DEVTOOLS 相关在谷歌商店中的id似乎有变动导致
+         */
         // eslint-disable-next-line global-require
       } = require('electron-devtools-installer');
 
@@ -118,6 +169,34 @@ export default class Browser extends EventEmitter {
       } catch (e) {
         this.app.logger.error('An error occurred: ', e);
       }
+    });
+  };
+
+  /**
+   * 加载 窗口事件
+   */
+  loadActions = () => {
+    this.browserWindow.on('focus', () => {
+      // Dev tools
+      globalShortcut.register('Ctrl+Shift+I', () => {
+        if (this.browserWindow.webContents.isDevToolsOpened()) {
+          this.browserWindow.webContents.closeDevTools();
+        } else {
+          this.browserWindow.webContents.openDevTools();
+        }
+      });
+
+      // Refresh
+      globalShortcut.register('Ctrl+R', () => {
+        this.browserWindow.reload();
+      });
+      globalShortcut.register('Ctrl+Shift+R', () => {
+        this.browserWindow.reload();
+      });
+    });
+
+    this.browserWindow.on('blur', () => {
+      globalShortcut.unregisterAll();
     });
   };
 
@@ -169,10 +248,11 @@ export default class Browser extends EventEmitter {
 
     this._browserWindow.setMinimumSize(576, 396);
 
-    // this.loadTray();
+    this.loadTray();
     // this.loadMenu();
     this.loadUrl(identifier);
     // this.loadDevTools();
+    this.loadActions();
 
     // 显示 devtools 就打开
     if (devTools) {

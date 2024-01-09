@@ -295,3 +295,28 @@ See [Contributing Guide](contributing.md).
 [cawa-93-github]: https://github.com/cawa-93/
 
 [cawa-93-sponsor]: https://www.patreon.com/Kozack/
+
+
+##### Feat
+
+调整中
++ yarn -> pnpm
++ webapp —> monorepo
++ common 作为公共包引入 `@alas/common`
++ main render 作为单独项目启动
++ main中logger -> log4js
++ electron 添加使用 electron-vite
++ ....
+
+```shell
+
+# 安装依赖 
+ pnpm install
+
+# 启动 app
+ pnpm run start
+
+# 或者 
+ npm run start
+
+```

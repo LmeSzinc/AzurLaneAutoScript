@@ -13,7 +13,9 @@
             v-for="logInfo in logInfos"
             :key="logInfo"
             class="text-xs text-gray-400 w-full max-w-full whitespace-pre-wrap break-all"
-          >{{ logInfo }}</pre>
+          >
+          {{ logInfo }}
+          </pre>
         </main>
       </div>
     </section>
@@ -28,10 +30,11 @@
 import {defineComponent, onMounted, ref, unref, nextTick} from 'vue';
 import AlasTitle from '@/components/AlasTitle.vue';
 import ProgressBar from '@/components/ProgressBar.vue';
-import useIpcRenderer from '@/hooks/useIpcRenderer';
 import router from '../router';
 import {LoadingOutlined} from '@ant-design/icons-vue';
-import {ALAS_LOG, INSTALLER_READY, WINDOW_READY} from '@alas/common';
+// import {ALAS_LOG, INSTALLER_READY, WINDOW_READY} from '@alas/common';
+import {dispatch} from '@/utils';
+import useAppEvent from '@/hooks/useAppEvent';
 
 export default defineComponent({
   name: 'LaunchPage',
@@ -43,19 +46,19 @@ export default defineComponent({
   setup() {
     const logInfos = ref<string[]>([]);
     const progress = ref<number>(0);
-    const {ipcRendererOn, ipcRendererSend} = useIpcRenderer();
     const scrollRef = ref<HTMLElement>();
 
-    onMounted(() => {
-      ipcRendererSend(WINDOW_READY, true);
+    useAppEvent<'scriptLog'>('scriptLog', async data => {
+      const {data: arg = ''} = data || {};
+      logInfos.value.push(arg || '');
+      await nextTick();
+      scrollToBottom();
+      handelAlasInfo(arg);
+      handleProgress(arg);
+    });
 
-      ipcRendererOn(ALAS_LOG, async (_, arg: string) => {
-        logInfos.value.push(arg);
-        await nextTick();
-        scrollToBottom();
-        handelAlasInfo(arg);
-        handleProgress(arg);
-      });
+    onMounted(async () => {
+      await dispatch('/script/start-install-server');
     });
 
     const scrollToBottom = () => {
@@ -75,7 +78,7 @@ export default defineComponent({
       const processVal = processInfo?.match(/\d+/g)?.pop();
       processVal && (progress.value = Number(processVal));
       if (progress.value !== 100) return;
-      ipcRendererSend(INSTALLER_READY, true);
+      dispatch('/script/start-alas-server');
     };
 
     return {

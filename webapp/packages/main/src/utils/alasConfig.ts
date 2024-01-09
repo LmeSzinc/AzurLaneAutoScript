@@ -3,6 +3,7 @@ import type {Dirent} from 'fs';
 import type {AlasConfig, DefAlasConfig} from '@alas/common';
 import getAlasABSPath from '@/utils/getAlasABSPath';
 import {checkIsFirst} from '@/utils/checkIsFirst';
+import {webuiArgs, webuiPath} from '@/config';
 const path = require('path');
 const yaml = require('yaml');
 const fs = require('fs');
@@ -21,6 +22,8 @@ export async function getAlasConfig() {
       language: config.Deploy.Webui.Language || 'en-US',
       repository: config.Deploy.Git.Repository as any,
       alasPath,
+      webuiPath,
+      webuiArgs,
     };
   }
   return alasConfig;

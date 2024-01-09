@@ -30,9 +30,9 @@ import {
   MinusOutlined,
   ArrowDownOutlined,
 } from '@ant-design/icons-vue';
-import useIpcRenderer from '@/hooks/useIpcRenderer';
 import {Modal} from '@arco-design/web-vue';
 import {useI18n} from '@/hooks/useI18n';
+import {dispatch} from '@/utils';
 
 export default defineComponent({
   name: 'AppHeader',
@@ -45,15 +45,14 @@ export default defineComponent({
   setup() {
     const {t} = useI18n();
 
-    const {ipcRendererSend} = useIpcRenderer();
     const trayWin = () => {
-      ipcRendererSend('window-tray');
+      dispatch('/browser/window-tray');
     };
     const minimizeWin = () => {
-      ipcRendererSend('window-minimize');
+      dispatch('/browser/minimize-current');
     };
     const maximizeWin = () => {
-      ipcRendererSend('window-maximize');
+      dispatch('/browser/maximize-current');
     };
     const closeWin = () => {
       Modal.confirm({
@@ -80,7 +79,8 @@ export default defineComponent({
           size: 'medium',
         },
         onOk() {
-          ipcRendererSend('window-close');
+          // ipcRendererSend('window-close');
+          dispatch('/browser/close-current');
         },
       });
     };

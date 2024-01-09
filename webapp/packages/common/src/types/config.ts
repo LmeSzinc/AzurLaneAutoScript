@@ -4,6 +4,8 @@ export interface AlasConfig {
   language: DefAlasConfig['Deploy']['Webui']['Language'];
   repository: 'global' | 'china';
   alasPath: string;
+  webuiPath: string;
+  webuiArgs: string[];
 }
 
 export interface DefAlasConfig {

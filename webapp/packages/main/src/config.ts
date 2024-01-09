@@ -38,16 +38,16 @@ function getAlasPath() {
   return currentFilePath;
 }
 
-function getLauncherPath(alasPath: string) {
-  const pathLookup = ['./Alas.exe', './Alas.bat', './deploy/launcher/Alas.bat'];
-  for (const i in pathLookup) {
-    const file = path.join(alasPath, pathLookup[i]);
-    if (fs.existsSync(file)) {
-      return path.join(alasPath, pathLookup[i]);
-    }
-  }
-  return path.join(alasPath, './Alas.exe');
-}
+// function getLauncherPath(alasPath: string) {
+//   const pathLookup = ['./Alas.exe', './Alas.bat', './deploy/launcher/Alas.bat'];
+//   for (const i in pathLookup) {
+//     const file = path.join(alasPath, pathLookup[i]);
+//     if (fs.existsSync(file)) {
+//       return path.join(alasPath, pathLookup[i]);
+//     }
+//   }
+//   return path.join(alasPath, './Alas.exe');
+// }
 
 export const alasPath = isMacintosh && import.meta.env.PROD ? getAlasABSPath() : getAlasPath();
 

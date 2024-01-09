@@ -31,6 +31,8 @@ export function useI18n(namespace?: string) {
     return normalFn;
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const {t, ...methods} = i18n.global;
 
   const tFn: I18nGlobalTranslation = (key: string, ...arg: any[]) => {

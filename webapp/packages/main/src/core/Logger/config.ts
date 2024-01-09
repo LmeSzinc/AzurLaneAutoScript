@@ -14,7 +14,7 @@ const level = isDev ? 'trace' : 'info';
 // 自定义日志格式
 const layout: Layout = {
   type: 'pattern',
-  pattern: '%d{yyyy-MM-dd hh:mm:ss.SSS} [%p] %m',
+  pattern: '[%p] %d{yyyy-MM-dd hh:mm:ss.SSS} | %m',
 };
 
 const config: Configuration = {

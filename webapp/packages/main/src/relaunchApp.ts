@@ -1,5 +1,5 @@
 import {app} from 'electron';
-import {ALAS_RELAUNCH_ARGV} from '@common/constant/config';
+import {ALAS_RELAUNCH_ARGV} from '@alas/common';
 
 export const isRelaunch = process.argv.includes(ALAS_RELAUNCH_ARGV);
 

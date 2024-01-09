@@ -9,6 +9,7 @@ import {createLogProxy} from '@/utils';
 import * as browserItems from '../browserItems';
 import {getAlasConfig} from '@/utils/alasConfig';
 import type {AlasConfig} from '@alas/common';
+import type {PyShell} from '@/pyshell';
 
 const importAll = (r: any) => Object.values(r).map((v: any) => v.default);
 
@@ -38,7 +39,12 @@ export class App extends EventEmitter {
   /**
    * app 启动的统一配置信息
    */
-  config: Record<any, any> & Partial<AlasConfig> = {};
+  config: Partial<AlasConfig> = {};
+
+  /**
+   * alas 服务
+   */
+  scriptManager: Map<string, PyShell> = new Map();
 
   constructor() {
     super();
@@ -78,11 +84,17 @@ export class App extends EventEmitter {
   }
 
   onActivate = () => {
-    this.browserManager.browsers.get('home')!.show();
+    this.browserManager.browsers.get('index')!.show();
   };
 
   beforeQuit = () => {
-    // 需要优先关闭一些服务
+    this.browserManager.browsers.forEach(browser => {
+      browser?.destroy();
+    });
+
+    /**
+     * 这里需要补充关闭alas服务
+     */
   };
   /**
    * 启动 app
@@ -122,6 +134,14 @@ export class App extends EventEmitter {
   }
 
   /**
+   * 初始化 脚本服务
+   * @param service
+   */
+  initScriptService = (service: PyShell) => {
+    this.scriptManager.set(service.name, service);
+  };
+
+  /**
    * 添加服务
    * @param ServiceClass
    */
@@ -150,7 +170,7 @@ export class App extends EventEmitter {
     await this.loadAppConfig();
   }
 
-  async loadAppConfig() {
+  loadAppConfig = async () => {
     const {logger} = this;
     /**
      * 1. 读取配置文件
@@ -162,5 +182,10 @@ export class App extends EventEmitter {
      */
 
     logger.info('基础的配置信息加载完毕');
-  }
+  };
+
+  destroy = () => {
+    this.beforeQuit();
+    app.quit();
+  };
 }
