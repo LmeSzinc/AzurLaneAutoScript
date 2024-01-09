@@ -1,6 +1,6 @@
 import {app} from 'electron';
-import {isMacintosh} from './env';
 import fs from 'fs';
+import {isMacOS} from '@alas/common';
 /**
  * Get the absolute path of the project root directory
  * @param files
@@ -14,7 +14,7 @@ const getAlasABSPath = (
   const sep = path.sep;
   const fg = require('fast-glob');
   let appAbsPath = process.cwd();
-  if (isMacintosh && import.meta.env.PROD) {
+  if (isMacOS && import.meta.env.PROD) {
     appAbsPath = app?.getAppPath() || process.execPath;
   }
 

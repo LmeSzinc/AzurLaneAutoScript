@@ -7,7 +7,7 @@ import {
   GitExecutableMap,
   PythonExecutableMap,
   RepositoryMap,
-} from '../constant/config';
+} from '@alas/common';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import mustache from 'mustache';
