@@ -4,7 +4,7 @@ import type {DefAlasConfig} from '@alas/common';
 import {ALAS_INSTR_FILE} from '@alas/common';
 import {validateConfigFile} from '@/utils/validate';
 import {join} from 'path';
-import logger from '@/logger';
+import { logger } from "@/core/Logger/customLogger";
 
 const yaml = require('yaml');
 const fs = require('fs');

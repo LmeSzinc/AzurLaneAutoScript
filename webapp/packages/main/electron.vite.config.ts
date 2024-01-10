@@ -1,6 +1,7 @@
 import {defineConfig, externalizeDepsPlugin} from 'electron-vite';
 import {join} from 'node:path';
 import {preload} from 'unplugin-auto-expose';
+import {resolve} from 'path';
 
 const isDev = process.env.MODE !== 'development';
 

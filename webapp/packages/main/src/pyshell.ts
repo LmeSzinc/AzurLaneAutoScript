@@ -1,5 +1,5 @@
 import {alasPath, pythonPath} from '@/config';
-import logger from '@/logger';
+import { logger } from "@/core/Logger/customLogger";
 
 const {PythonShell} = require('python-shell');
 const treeKill = require('tree-kill');

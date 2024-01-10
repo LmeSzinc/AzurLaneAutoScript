@@ -2,12 +2,11 @@
   "name": "@alas/preload",
   "version": "0.4.0",
   "description": "alas webapp preload",
-  "main": "src/index.ts",
   "private": "true",
+  "main": "src/index.ts",
   "scripts": {
-    "build": "father build",
-    "postinstall": "npm run build",
-    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'"
+    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
+    "clean:modules": "rm -rf node_modules"
   },
   "author": "",
   "license": "ISC",

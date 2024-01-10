@@ -75,21 +75,29 @@ export default class Browser extends EventEmitter {
    * @param count 重试次数
    */
   loadUrl = (name: BrowserWindowsIdentifier, count = 1) => {
+    this.app.logger.info('loadUrl');
     if (count > 10) return;
-    if (isDev) {
-      // this.browserWindow.loadURL(`http://localhost:5173/${name}.html`);
-      this.app.logger.info('http://localhost:7777/');
-      this.browserWindow.loadURL('http://localhost:7777/').catch(_ => {
-        /**
-         * 暂时没有想到更好解决方案
-         */
-        setTimeout(() => {
-          this.loadUrl(name, ++count);
-        }, 2000);
-      });
-    } else {
-      this.browserWindow.loadURL(`app://./${name}.html`);
-    }
+    this.browserWindow.loadURL('http://localhost:7777/').catch(_ => {
+      /**
+       * 暂时没有想到更好解决方案
+       */
+      setTimeout(() => {
+        this.loadUrl(name, ++count);
+      }, 2000);
+    });
+    // if (isDev) {
+    //   // this.browserWindow.loadURL(`http://localhost:5173/${name}.html`);
+    //   this.browserWindow.loadURL('http://localhost:7777/').catch(_ => {
+    //     /**
+    //      * 暂时没有想到更好解决方案
+    //      */
+    //     setTimeout(() => {
+    //       this.loadUrl(name, ++count);
+    //     }, 2000);
+    //   });
+    // } else {
+    //   this.browserWindow.loadURL(`app://./${name}.html`);
+    // }
   };
   /**
    * 加载托盘
@@ -119,7 +127,6 @@ export default class Browser extends EventEmitter {
           /**
            * 贯标alasService
            */
-
           app.quit();
           process.exit(0);
         },
@@ -242,7 +249,7 @@ export default class Browser extends EventEmitter {
         // https://www.electronjs.org/docs/tutorial/context-isolation
         contextIsolation: true,
         // devTools: isDev,
-        preload: join(app.getAppPath(), '../preload/dist/index.js'),
+        // preload: join(app.getAppPath(), '../preload/dist/index.js'),
       },
     });
 
