@@ -1,6 +1,6 @@
 {
   "name": "@alas/main",
-  "version": "1.0.0",
+  "version": "0.4.0",
   "description": "alas webapp main",
   "private": true,
   "main": "dist/main/index.js",
@@ -31,11 +31,11 @@
     "python-shell": "^5.0.0"
   },
   "devDependencies": {
-    "@alas/common": "^1.0.0",
+    "@alas/common": "^0.4.0",
     "@types/fs-extra": "^9",
     "concurrently": "^8",
     "cross-env": "^7",
-    "electron": "^26",
+    "electron": "24.8.8",
     "electron-builder": "^23",
     "electron-builder-notarize": "^1",
     "electron-debug": "^3",

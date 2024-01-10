@@ -1,6 +1,6 @@
 {
   "name": "@alas/preload",
-  "version": "1.0.0",
+  "version": "0.4.0",
   "description": "alas webapp preload",
   "main": "src/index.ts",
   "private": "true",

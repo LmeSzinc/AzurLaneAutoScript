@@ -1,6 +1,6 @@
 {
   "name": "@alas/common",
-  "version": "1.0.0",
+  "version": "0.4.0",
   "description": "alas webapp common",
   "private": true,
  "main": "src/index.ts",

@@ -58,27 +58,27 @@ module.exports = {
     entitlementsInherit: 'build/entitlements.mac.plist',
   },
   dmg: {
-    icon: 'build/volume.icns',
-    background: 'build/background.png',
-    title: '${productName}',
-    iconSize: 80,
+    // icon: 'build/volume.icns',
+    // background: 'build/background.png',
+    // title: '${productName}',
+    // iconSize: 80,
     window: {
       height: 422,
       width: 600,
     },
-    contents: [
-      {
-        type: 'file',
-        x: 144,
-        y: 199,
-      },
-      {
-        type: 'link',
-        path: '/Applications',
-        x: 451,
-        y: 199,
-      },
-    ],
+    // contents: [
+    //   {
+    //     type: 'file',
+    //     x: 144,
+    //     y: 199,
+    //   },
+    //   {
+    //     type: 'link',
+    //     path: '/Applications',
+    //     x: 451,
+    //     y: 199,
+    //   },
+    // ],
   },
   mas: {
     hardenedRuntime: false,
@@ -110,7 +110,7 @@ module.exports = {
    */
   compression: 'maximum', // 压缩比例
   npmRebuild: false,
-  // asar: {
-  //   smartUnpack: true,
-  // },
+  asar: {
+    smartUnpack: true,
+  },
 };
