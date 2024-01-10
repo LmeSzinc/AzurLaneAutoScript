@@ -26,6 +26,11 @@ class GeneratedConfig:
     Emulator_ScreenshotDedithering = False
     Emulator_AdbRestart = False
 
+    # Group `StartEmulator`
+    StartEmulator_Enable = False
+    StartEmulator_Command = None
+    StartEmulator_Delay = 10
+
     # Group `RestartEmulator`
     RestartEmulator_Enable = False
     RestartEmulator_EmulatorData = 'emulator:\nname:\npath:'

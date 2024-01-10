@@ -1,3 +1,5 @@
+import time
+
 import os
 import re
 import winreg
@@ -212,6 +214,8 @@ class EmulatorManager(Connection):
 
     def adb_connect(self, serial):
         try:
+            if self.config.StartEmulator_Enable:
+                self.start_emulator_using_path()
             return super(EmulatorManager, self).adb_connect(serial)
         except EmulatorNotRunningError:
             raise RequestHumanTakeover
@@ -323,3 +327,18 @@ class EmulatorManager(Connection):
 
         logger.warning('Restart emulator failed for 3 times, please check your settings')
         raise RequestHumanTakeover
+
+    def start_emulator_using_path(self):
+        command = self.config.StartEmulator_Command
+        if not command:
+            logger.warning('Emulator start command is empty')
+            return
+
+        logger.info('Starting emulator')
+        try:
+            self.execute(command)
+        except Exception:
+            logger.error(f'Cannot execute start command: {command}')
+
+        if isinstance(self.config.StartEmulator_Delay, float):
+            time.sleep(self.config.StartEmulator_Delay)

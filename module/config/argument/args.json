@@ -139,6 +139,21 @@
         "value": false
       }
     },
+    "StartEmulator": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Command": {
+        "type": "textarea",
+        "value": null,
+        "mode": "yaml"
+      },
+      "Delay": {
+        "type": "input",
+        "value": 10
+      }
+    },
     "RestartEmulator": {
       "Enable": {
         "type": "checkbox",

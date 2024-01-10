@@ -9,6 +9,11 @@
       "ScreenshotDedithering": false,
       "AdbRestart": false
     },
+    "StartEmulator": {
+      "Enable": false,
+      "Command": null,
+      "Delay": 10
+    },
     "RestartEmulator": {
       "Enable": false,
       "EmulatorData": "emulator:\nname:\npath:",

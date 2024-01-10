@@ -429,6 +429,24 @@
       "help": "Emulator.AdbRestart.help"
     }
   },
+  "StartEmulator": {
+    "_info": {
+      "name": "エミュレーターの起動",
+      "help": "設定開始時にエミュレーターを自動的に起動します"
+    },
+    "Enable": {
+      "name": "有効化",
+      "help": ""
+    },
+    "Command": {
+      "name": "コマンド",
+      "help": "エミュレーターを起動するためのコマンド。タスクマネージャーからコマンドを見つけることができます。\n例: C:\\Path\\BlueStack.exe -args 69"
+    },
+    "Delay": {
+      "name": "遅延",
+      "help": "ALASがADBに接続する前の秒数の遅延。\n必要に応じて調整してください。"
+    }
+  },
   "RestartEmulator": {
     "_info": {
       "name": "RestartEmulator._info.name",
