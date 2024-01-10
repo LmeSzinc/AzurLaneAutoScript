@@ -340,5 +340,5 @@ class EmulatorManager(Connection):
         except Exception:
             logger.error(f'Cannot execute start command: {command}')
 
-        if isinstance(self.config.StartEmulator_Delay, float):
+        if isinstance(self.config.StartEmulator_Delay, float) and self.detect_emulator_status(self.serial) == 'offline':
             time.sleep(self.config.StartEmulator_Delay)
