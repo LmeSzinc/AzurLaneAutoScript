@@ -170,3 +170,6 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20231130   | event 20231123 cn        | The Ninja Scrolls: Azur Flash                | -              | -                 | -                            | 蒼閃忍法帖                        |
 | 20221222   | event 20221222 cn        | Parallel Superimposition                     | -               | -                     | -                   | 定向折疊                        |
 | 20231221   | event 20231221 cn        | Light-Chasing Sea of Stars                   | 星海逐光                 | Light-Chasing Sea of Stars                  | 光追う星の海                           | -                        |
+| 20240104   | event 20210225 cn        | Khorovod of Dawn's Rime                      | -           | -                | -               | 復刻破曉冰華                        |
+| 20240111   | event 20211229 cn        | Tower of Transcendence Rerun                 | 复刻逆转彩虹之塔         | Tower of Transcendence Rerun                 | 遡望せし虹彩の塔（復刻）            　　 | -                        |
+| 20240111   | event 20230803 cn        | Anthem of Remembrance                        | -           | -                | -               | 奏響鳶尾之歌                        |
