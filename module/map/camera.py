@@ -6,7 +6,7 @@ from module.base.timer import Timer
 from module.base.utils import area_offset
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_1_RYZA
 from module.exception import CampaignEnd, GameNotRunningError, MapDetectionError
-from module.handler.assets import AUTO_SEARCH_MENU_CONTINUE, GAME_TIPS
+from module.handler.assets import AUTO_SEARCH_MENU_CONTINUE, GAME_TIPS, GET_MISSION
 from module.logger import logger
 from module.map.assets import MAP_PREPARATION
 from module.map.map_base import CampaignMap, location2node
@@ -144,6 +144,10 @@ class Camera(MapOperation):
             elif self.handle_story_skip():
                 logger.warning('Perspective error caused by story')
                 self.ensure_no_story(skip_first_screenshot=False)
+                return False
+            elif self.appear(GET_MISSION, offset=(20, 20)):
+                logger.warning('Perspective error caused by GET_MISSION')
+                self.device.click(GET_MISSION)
                 return False
             elif self.is_in_stage():
                 logger.warning('Image is in stage')
