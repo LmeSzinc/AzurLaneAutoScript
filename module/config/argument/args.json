@@ -1722,8 +1722,8 @@
         ],
         "display": "hide",
         "option_bold": [
-          "event_20231221_cn",
-          "event_20221222_cn"
+          "event_20221222_cn",
+          "event_20231221_cn"
         ],
         "cn": "event_20231221_cn",
         "en": "event_20231221_cn",
@@ -2054,8 +2054,8 @@
           "event_20231221_cn"
         ],
         "option_bold": [
-          "event_20231221_cn",
-          "event_20221222_cn"
+          "event_20221222_cn",
+          "event_20231221_cn"
         ],
         "cn": "event_20231221_cn",
         "en": "event_20231221_cn",
@@ -2501,8 +2501,8 @@
           "event_20231221_cn"
         ],
         "option_bold": [
-          "event_20231221_cn",
-          "event_20221222_cn"
+          "event_20221222_cn",
+          "event_20231221_cn"
         ],
         "cn": "event_20231221_cn",
         "en": "event_20231221_cn",
@@ -2948,8 +2948,8 @@
           "event_20231221_cn"
         ],
         "option_bold": [
-          "event_20231221_cn",
-          "event_20221222_cn"
+          "event_20221222_cn",
+          "event_20231221_cn"
         ],
         "cn": "event_20231221_cn",
         "en": "event_20231221_cn",
@@ -4333,8 +4333,8 @@
           "event_20231221_cn"
         ],
         "option_bold": [
-          "event_20231221_cn",
-          "event_20221222_cn"
+          "event_20221222_cn",
+          "event_20231221_cn"
         ],
         "cn": "event_20231221_cn",
         "en": "event_20231221_cn",
@@ -4797,8 +4797,8 @@
           "event_20231221_cn"
         ],
         "option_bold": [
-          "event_20231221_cn",
-          "event_20221222_cn"
+          "event_20221222_cn",
+          "event_20231221_cn"
         ],
         "cn": "event_20231221_cn",
         "en": "event_20231221_cn",
@@ -5261,8 +5261,8 @@
           "event_20231221_cn"
         ],
         "option_bold": [
-          "event_20231221_cn",
-          "event_20221222_cn"
+          "event_20221222_cn",
+          "event_20231221_cn"
         ],
         "cn": "event_20231221_cn",
         "en": "event_20231221_cn",
@@ -5725,8 +5725,8 @@
           "event_20231221_cn"
         ],
         "option_bold": [
-          "event_20231221_cn",
-          "event_20221222_cn"
+          "event_20221222_cn",
+          "event_20231221_cn"
         ],
         "cn": "event_20231221_cn",
         "en": "event_20231221_cn",
@@ -6179,8 +6179,8 @@
           "event_20231221_cn"
         ],
         "option_bold": [
-          "event_20231221_cn",
-          "event_20221222_cn"
+          "event_20221222_cn",
+          "event_20231221_cn"
         ],
         "cn": "event_20231221_cn",
         "en": "event_20231221_cn",
@@ -9774,14 +9774,6 @@
       "Timeout": {
         "type": "input",
         "value": 90
-      },
-      "TargetType": {
-        "type": "select",
-        "value": "BB",
-        "option": [
-          "CV",
-          "BB"
-        ]
       },
       "ShipData": {
         "type": "textarea",

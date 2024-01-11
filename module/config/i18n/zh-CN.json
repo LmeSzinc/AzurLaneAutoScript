@@ -2583,15 +2583,9 @@
       "name": "时限(秒)",
       "help": "该项目的时限，修改较多时需要调大"
     },
-    "TargetType": {
-      "name": "目标舰种",
-      "help": "困难图中后排锁定的舰种",
-      "CV": "正航",
-      "BB": "战列"
-    },
     "ShipData": {
       "name": "舰船数据",
-      "help": "格式为\"舰船Id;星级;舰种Id\"\n参考https://github.com/0O0o0oOoO00/SmallKai中的数据\n清空会恢复默认"
+      "help": "格式为\"舰船Id;星级;舰种Id;目标类型Id\"\n参考https://github.com/0O0o0oOoO00/SmallKai中的数据\n清空会恢复默认"
     }
   },
   "ChangeAttribute": {

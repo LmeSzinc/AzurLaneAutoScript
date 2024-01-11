@@ -745,11 +745,6 @@ ChangeShip:
   Enable: false
   PushLua: false
   Timeout: 90
-  TargetType:
-    value: BB
-    option:
-      - CV    #正航
-      - BB    #战列
   ShipData:
     type: textarea
     value: |
