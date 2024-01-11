@@ -1,17 +1,11 @@
 /**
  * @module preload
  */
-//
-// export {sha256sum} from './nodeCrypto';
-// export {versions} from './versions';
-// export {ipcRendererSend, ipcRendererOn} from './electronApi';
-// export {getAlasConfig, checkIsNeedInstall, getAlasConfigDirFiles} from './alasConfig';
-// export {copyFilesToDir} from '@alas/common';
-// export {modifyConfigYaml} from './modifyConfigYaml';
 
 import type {ElectronAPI} from '@electron-toolkit/preload';
 import {electronAPI} from '@electron-toolkit/preload';
 import {contextBridge} from 'electron';
+
 
 declare global {
   interface Window {

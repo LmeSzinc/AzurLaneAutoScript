@@ -66,19 +66,36 @@
 //   },
 // };
 
-require('@rushstack/eslint-patch/modern-module-resolution')
+require("@rushstack/eslint-patch/modern-module-resolution");
 
 module.exports = {
   extends: [
-    'eslint:recommended',
-    'plugin:vue/vue3-recommended',
-    '@electron-toolkit',
-    '@electron-toolkit/eslint-config-ts/eslint-recommended',
-    '@vue/eslint-config-typescript/recommended',
-    '@vue/eslint-config-prettier'
+    "eslint:recommended",
+    "@electron-toolkit",
+    "@electron-toolkit/eslint-config-ts/eslint-recommended",
+
   ],
+  ignorePatterns: ["node_modules/**", "**/dist/**"],
   rules: {
-    'vue/require-default-prop': 'off',
-    'vue/multi-word-component-names': 'off'
+    "vue/require-default-prop": "off",
+    "vue/multi-word-component-names": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ban-types": "off",
+    "semi": ["error", "always"],
+
+    /**
+     * This will make the history of changes in the hit a little cleaner
+     */
+    "comma-dangle": ["warn", "always-multiline"],
+    /**
+     * Just for beauty
+     */
+    "quotes": [
+      "warn",
+      "single",
+      {
+        "avoidEscape": true
+      }
+    ]
   }
-}
+};

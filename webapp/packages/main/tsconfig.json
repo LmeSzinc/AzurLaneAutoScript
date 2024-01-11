@@ -1,21 +1,23 @@
 {
   "extends": "../../tsconfig.json",
+  "moduleResolution":"node16",
   "compilerOptions": {
     "experimentalDecorators": true,
     "module": "esnext",
     "target": "ESNext",
     "sourceMap": false,
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Node",
     "skipLibCheck": true,
     "strict": true,
     "isolatedModules": true,
+    "esModuleInterop": true,
     "types": [
       "node",
       "vite/client"
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": [
+     "@/*": [
         "./src/*"
       ]
     }

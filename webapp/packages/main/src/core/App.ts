@@ -1,16 +1,18 @@
+import Logger from '@/core/Logger';
+import {ServiceStorage} from '@/core/ServiceStorage';
+import type {TServiceModule} from '@/services';
+import {app, ipcMain} from 'electron';
 import {EventEmitter} from 'events';
 import BrowserManager from './BrowserManager';
-import type {TServiceModule} from '@/services';
-import {ServiceStorage} from '@/core/ServiceStorage';
-import {app, ipcMain} from 'electron';
-import Logger from '@/core/Logger';
-import {dev} from 'electron-is';
+
+import type {PyShell} from '@/pyshell';
 import {createLogProxy} from '@/utils';
-import * as browserItems from '../browserItems';
 import {getAlasConfig} from '@/utils/alasConfig';
 import type {AlasConfig} from '@alas/common';
-import type {PyShell} from '@/pyshell';
+import {isDev} from '@alas/common';
+import * as browserItems from '../browserItems';
 
+// eslint-disable-next-line
 const importAll = (r: any) => Object.values(r).map((v: any) => v.default);
 
 export type ServiceMap = Map<string, any>;
@@ -88,6 +90,11 @@ export class App extends EventEmitter {
   };
 
   beforeQuit = () => {
+    this.scriptManager.forEach(script => {
+      script.killProcess(() => {
+        this.logger.info('关闭脚本服务');
+      });
+    });
     this.browserManager.browsers.forEach(browser => {
       browser?.destroy();
     });
@@ -138,7 +145,7 @@ export class App extends EventEmitter {
    * @param service
    */
   initScriptService = (service: PyShell) => {
-    this.scriptManager.set(service.name, service);
+    this.scriptManager.set(service.scriptPath, service);
   };
 
   /**
@@ -163,7 +170,7 @@ export class App extends EventEmitter {
    */
   async beforeInit() {
     // 替换报错 logger
-    if (!dev()) {
+    if (!isDev) {
       console.error = createLogProxy('error', Logger.getLogger('error'))(console.error);
     }
 
@@ -176,7 +183,7 @@ export class App extends EventEmitter {
      * 1. 读取配置文件
      */
     logger.info('开始加载基础的配置信息...');
-    this.config = await getAlasConfig();
+    this.config = (await getAlasConfig()) || {};
     /**
      * 2. 将配置信息存储到 config 中
      */

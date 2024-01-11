@@ -1,12 +1,11 @@
 import {alasPath, pythonPath} from '@/config';
-import { logger } from "@/core/Logger/customLogger";
-
-const {PythonShell} = require('python-shell');
-const treeKill = require('tree-kill');
+import {logger} from '@/core/Logger/customLogger';
+import {Options, PythonShell} from 'python-shell';
+import treeKill from 'tree-kill';
 
 export class PyShell extends PythonShell {
   constructor(script: string, args: Array<string> = []) {
-    const options = {
+    const options: Options = {
       mode: 'text',
       args: args,
       pythonPath: pythonPath,
@@ -22,8 +21,8 @@ export class PyShell extends PythonShell {
     return this;
   }
 
-  kill(callback: (...args: any[]) => void): this {
-    treeKill(this.childProcess.pid, 'SIGTERM', callback);
+  killProcess(callback: (...args: any[]) => void) {
+    treeKill(<number>this.childProcess.pid, 'SIGTERM', callback);
     return this;
   }
 }

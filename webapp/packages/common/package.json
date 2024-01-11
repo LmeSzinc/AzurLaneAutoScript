@@ -8,11 +8,8 @@
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "clean:modules": "rm -rf node_modules"
   },
-  "license": "ISC",
   "dependencies": {
-    "electron-is": "^3.0.0"
   },
   "devDependencies": {
-    "father": "^4"
   }
 }

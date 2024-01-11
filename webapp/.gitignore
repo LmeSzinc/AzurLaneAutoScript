@@ -59,3 +59,6 @@ thumbs.db
 
 # 忽略node的缓存
 /packages/**/v8-compile-cache-*/**
+
+# 忽略打包后的文件
+release

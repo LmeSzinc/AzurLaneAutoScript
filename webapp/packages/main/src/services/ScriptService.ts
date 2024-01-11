@@ -1,7 +1,7 @@
-import {event, ServiceModule} from '@/services/index';
-import {PyShell} from '@/pyshell';
-import {ALAS_RELAUNCH_ARGV} from '@alas/common';
 import {installerArgs, installerPath} from '@/config';
+import {PyShell} from '@/pyshell';
+import {ServiceModule, event} from '@/services/index';
+import {ALAS_RELAUNCH_ARGV} from '@alas/common';
 
 export default class ScriptService extends ServiceModule {
   @event('/script/start-alas-server')
@@ -30,11 +30,10 @@ export default class ScriptService extends ServiceModule {
       logger.error('alas.error:' + err);
       dispatchEvent('scriptLog', err);
     });
-    alas?.end(function (err: string) {
+    alas?.end(function (err) {
       if (!err) return;
       logger.info('alas.end:' + err);
-      dispatchEvent('scriptLog', err);
-      throw err;
+      dispatchEvent('scriptLog', err.message);
     });
     alas?.on('stdout', function (message) {
       dispatchEvent('scriptLog', message);
@@ -88,11 +87,10 @@ export default class ScriptService extends ServiceModule {
       logger.error('installer.error:' + err);
       dispatchEvent('scriptLog', err);
     });
-    installer?.end(function (err: string) {
+    installer?.end(function (err) {
       if (!err) return;
       logger.info('installer.end:' + err);
-      dispatchEvent('scriptLog', err);
-      throw err;
+      dispatchEvent('scriptLog', err.message);
     });
     installer?.on('stdout', function (message) {
       dispatchEvent('scriptLog', message);

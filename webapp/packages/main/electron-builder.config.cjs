@@ -1,19 +1,19 @@
 module.exports = {
   directories: {
-    output: '../../release',
-    buildResources: 'build',
+    output: "../../release",
+    buildResources: "build"
   },
-  files: ['dist'],
+  files: ["dist"],
   extraMetadata: {
-    version: process.env.npm_package_version,
+    version: process.env.npm_package_version
   },
 
   /**
    *  app 基础信息
    */
-  appId: 'com.azur-lane-auto-script.webapp',
-  productName: 'AzurLaneAutoScript',
-  copyright: 'Copyright © 2021 - ALAS | All Right Reserved.',
+  appId: "com.azur-lane-auto-script.webapp",
+  productName: "AzurLaneAutoScript",
+  copyright: "Copyright © 2021 - ALAS | All Right Reserved.",
 
   /**
    * 配置 notarize dmg
@@ -93,13 +93,13 @@ module.exports = {
   /**
    * linux 配置项
    */
-  linux: {
-    // artifactName: '${name}_setup_${version}.${ext}',
-    // icon: 'build/icon.png',
-    // synopsis: 'azur lane auto script',
-    // category: 'Development',
-    target: 'deb',
-  },
+  // linux: {
+  //   artifactName: '${name}_setup_${version}.${ext}',
+  //   icon: 'build/icon.png',
+  //   synopsis: 'azur lane auto script',
+  //   category: 'Development',
+  //   target: "deb"
+  // },
 
   /**
    * Publish 配置
@@ -109,9 +109,10 @@ module.exports = {
   /**
    * 构建配置项
    */
-  // compression: 'maximum', // 压缩比例
-  // // npmRebuild: true,
-  // // asar: {
-  // //   smartUnpack: true,
-  // // },
+  compression: 'maximum', // 压缩比例
+  npmRebuild: true,
+  asar: {
+    smartUnpack: true,
+  },
 };
+

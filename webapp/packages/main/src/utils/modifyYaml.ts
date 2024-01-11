@@ -1,18 +1,17 @@
 import type {Pair} from 'yaml';
 import {parseDocument, visit} from 'yaml';
-
-const fs = require('fs');
+import fs from 'fs';
 /**
  * Modify yaml file https://eemeli.org/yaml/#modifying-nodes
  * @param filePath
  * @param keyObj
  */
-export function modifyYaml(filePath: string, keyObj: {[k in string]: any}) {
+export function modifyYaml(filePath: string, keyObj: {[k in string]: never}) {
   try {
     const doc = parseDocument(fs.readFileSync(filePath, 'utf8'));
     const keysMap = new Map(Object.entries(keyObj));
     visit(doc, {
-      Pair: (_node, pair: Pair<any, any>) => {
+      Pair: (_node, pair: Pair) => {
         if (keysMap.has(pair?.key?.value)) {
           pair.value.value = keysMap.get(pair.key.value);
         }

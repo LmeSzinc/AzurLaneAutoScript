@@ -1,10 +1,10 @@
-import type {BrowserWindowConstructorOptions} from 'electron';
-import {protocol, app, Menu, BrowserWindow, globalShortcut, nativeImage, Tray} from 'electron';
-import type {BrowserWindowsIdentifier, MainEvents} from '@alas/common';
-import EventEmitter from 'events';
 import type {App} from '@/core/App';
+import type {BrowserWindowsIdentifier, MainEvents} from '@alas/common';
 import {isDev, isMacOS} from '@alas/common';
-import {dev} from 'electron-is';
+import type {BrowserWindowConstructorOptions} from 'electron';
+import {BrowserWindow, Menu, Tray, app, globalShortcut, nativeImage, protocol} from 'electron';
+import installer, {VUEJS3_DEVTOOLS} from 'electron-devtools-installer';
+import EventEmitter from 'events';
 import {join} from 'node:path';
 
 protocol.registerSchemesAsPrivileged([{scheme: 'app', privileges: {secure: true, standard: true}}]);
@@ -77,27 +77,30 @@ export default class Browser extends EventEmitter {
   loadUrl = (name: BrowserWindowsIdentifier, count = 1) => {
     this.app.logger.info('loadUrl');
     if (count > 10) return;
-    this.browserWindow.loadURL('http://localhost:7777/').catch(_ => {
-      /**
-       * 暂时没有想到更好解决方案
-       */
-      setTimeout(() => {
-        this.loadUrl(name, ++count);
-      }, 2000);
-    });
-    // if (isDev) {
-    //   // this.browserWindow.loadURL(`http://localhost:5173/${name}.html`);
-    //   this.browserWindow.loadURL('http://localhost:7777/').catch(_ => {
-    //     /**
-    //      * 暂时没有想到更好解决方案
-    //      */
-    //     setTimeout(() => {
-    //       this.loadUrl(name, ++count);
-    //     }, 2000);
-    //   });
-    // } else {
-    //   this.browserWindow.loadURL(`app://./${name}.html`);
-    // }
+    // this.browserWindow.loadURL('http://localhost:7777/').catch(() => {
+    //   /**
+    //    * 暂时没有想到更好解决方案
+    //    */
+    //   setTimeout(() => {
+    //     this.loadUrl(name, ++count);
+    //   }, 2000);
+    // });
+    if (isDev) {
+      // this.browserWindow.loadURL(`http://localhost:5173/${name}.html`);
+      this.browserWindow.loadURL('http://localhost:7777/').catch(_ => {
+        /**
+         * 暂时没有想到更好解决方案
+         */
+        setTimeout(() => {
+          this.loadUrl(name, ++count);
+        }, 2000);
+      });
+    } else {
+      //    this.browserWindow.loadURL(`app://./${name}.html`);
+      this.browserWindow.loadFile(join(__dirname, '../renderer/index.html')).catch(err => {
+        this.app.logger.error(`loadUrl error ${err.message}`);
+      });
+    }
   };
   /**
    * 加载托盘
@@ -155,22 +158,13 @@ export default class Browser extends EventEmitter {
    */
   loadDevTools = () => {
     // 生产环境直接结束
-    if (!(dev() || process.env.DEBUG === '1')) return;
+    if (!(isDev || process.env.DEBUG === '1')) return;
 
     app.whenReady().then(() => {
-      const {
-        default: installExtension,
-        VUEJS3_DEVTOOLS,
-        /**
-         *  electron-devtools-installer 安装部分依赖会报错 VUEJS3_DEVTOOLS 相关在谷歌商店中的id似乎有变动导致
-         */
-        // eslint-disable-next-line global-require
-      } = require('electron-devtools-installer');
-
       const extensions = [VUEJS3_DEVTOOLS];
 
       try {
-        installExtension(extensions).then((name: string) => {
+        installer(extensions).then((name: string) => {
           this.app.logger.trace(`Added Extension:  ${name}`);
         });
       } catch (e) {
@@ -249,14 +243,14 @@ export default class Browser extends EventEmitter {
         // https://www.electronjs.org/docs/tutorial/context-isolation
         contextIsolation: true,
         // devTools: isDev,
-        // preload: join(app.getAppPath(), '../preload/dist/index.js'),
+        // preload: '../preload/index.mjs',
+        preload: join(__dirname, '../preload/index.mjs'),
       },
     });
 
     this._browserWindow.setMinimumSize(576, 396);
 
     this.loadTray();
-    // this.loadMenu();
     this.loadUrl(identifier);
     // this.loadDevTools();
     this.loadActions();

@@ -1,4 +1,4 @@
-import * as log4js from 'log4js';
+import log4js from 'log4js';
 
 import config from './config';
 import type {GetLogger, LogLevel, LogScope, LogWithScope} from './types';
@@ -8,17 +8,17 @@ declare module 'log4js' {
   export interface Logger {
     divider(symbol?: string, length?: number): void;
 
-    logWithScope(newScope: LogScope, ...args: any[]): void;
+    logWithScope(newScope: LogScope, ...args: never[]): void;
 
-    infoWithScope(newScope: LogScope, ...args: any[]): void;
+    infoWithScope(newScope: LogScope, ...args: never[]): void;
 
-    errorWithScope(newScope: LogScope, ...args: any[]): void;
+    errorWithScope(newScope: LogScope, ...args: never[]): void;
 
-    traceWithScope(newScope: LogScope, ...args: any[]): void;
+    traceWithScope(newScope: LogScope, ...args: never[]): void;
 
-    warnWithScope(newScope: LogScope, ...args: any[]): void;
+    warnWithScope(newScope: LogScope, ...args: never[]): void;
 
-    debugWithScope(newScope: LogScope, ...args: any[]): void;
+    debugWithScope(newScope: LogScope, ...args: never[]): void;
   }
 }
 
@@ -29,7 +29,7 @@ log4js.configure(config);
  * @param logLevel
  */
 const withScopeFactory = (logLevel: LogLevel): LogWithScope => {
-  return (newScope: LogScope, message: any, ...args: any[]) => {
+  return (newScope: LogScope, message: never, ...args: never[]) => {
     const logger = log4js.getLogger(newScope);
     logger[logLevel](message, ...args);
   };

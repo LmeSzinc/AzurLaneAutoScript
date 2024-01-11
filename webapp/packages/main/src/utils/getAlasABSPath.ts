@@ -1,6 +1,8 @@
 import {app} from 'electron';
 import fs from 'fs';
 import {isMacOS} from '@alas/common';
+import path from 'path';
+import fg from 'fast-glob';
 /**
  * Get the absolute path of the project root directory
  * @param files
@@ -10,9 +12,7 @@ const getAlasABSPath = (
   files: string[] = ['**/config/deploy.yaml', '**/config/deploy.template.yaml'],
   rootName: string | string[] = ['AzurLaneAutoScript', 'Alas'],
 ) => {
-  const path = require('path');
   const sep = path.sep;
-  const fg = require('fast-glob');
   let appAbsPath = process.cwd();
   if (isMacOS && import.meta.env.PROD) {
     appAbsPath = app?.getAppPath() || process.execPath;

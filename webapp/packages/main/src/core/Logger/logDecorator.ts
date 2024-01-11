@@ -1,5 +1,5 @@
-import { logger } from './customLogger';
-import { LogLevel, LogScope } from './types';
+import {logger} from './customLogger';
+import {LogLevel, LogScope} from './types';
 
 const log = (propertyName: string, params: string | LogParams) => {
   // 如果是 纯文本 直接输出
@@ -7,7 +7,7 @@ const log = (propertyName: string, params: string | LogParams) => {
     logger.infoWithScope(propertyName as LogScope, params);
   } else {
     // 如果是对象 必须传入三个参数 然后输出
-    const { level, message, scope } = params;
+    const {level, message, scope} = params;
     logger[`${level}WithScope`](scope || propertyName, message);
   }
 };

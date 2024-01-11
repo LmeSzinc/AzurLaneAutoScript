@@ -4,11 +4,11 @@ import type {DefAlasConfig} from '@alas/common';
 import {ALAS_INSTR_FILE} from '@alas/common';
 import {validateConfigFile} from '@/utils/validate';
 import {join} from 'path';
-import { logger } from "@/core/Logger/customLogger";
+import {logger} from '@/core/Logger/customLogger';
 
-const yaml = require('yaml');
-const fs = require('fs');
-const path = require('path');
+import yaml from 'yaml';
+import fs from 'fs';
+import path from 'path';
 
 function getAlasPath() {
   let file;
@@ -54,7 +54,7 @@ export const alasPath = isMacintosh && import.meta.env.PROD ? getAlasABSPath() :
 try {
   validateConfigFile(join(alasPath, '/config'));
 } catch (e) {
-  logger.error((e as unknown as any).toString());
+  logger.error(e.toString());
 }
 
 const file = fs.readFileSync(path.join(alasPath, './config/deploy.yaml'), 'utf8');

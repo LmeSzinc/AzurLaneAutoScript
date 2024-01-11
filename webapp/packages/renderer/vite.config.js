@@ -57,7 +57,8 @@ const config = {
   build: {
     sourcemap: true,
     target: `chrome${chrome}`,
-    outDir: 'dist',
+    // outDir: 'dist',
+    outDir: join(PACKAGE_ROOT, '../main/dist/renderer'),
     assetsDir: '.',
     rollupOptions: {
       input: join(PACKAGE_ROOT, 'index.html'),

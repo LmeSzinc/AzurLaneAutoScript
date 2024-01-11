@@ -4,9 +4,9 @@ import type {AlasConfig, DefAlasConfig} from '@alas/common';
 import getAlasABSPath from '@/utils/getAlasABSPath';
 import {checkIsFirst} from '@/utils/checkIsFirst';
 import {webuiArgs, webuiPath} from '@/config';
-const path = require('path');
-const yaml = require('yaml');
-const fs = require('fs');
+import path from 'path';
+import yaml from 'yaml';
+import fs from 'fs';
 
 let alasConfig: AlasConfig | null = null;
 export async function getAlasConfig() {
@@ -20,7 +20,7 @@ export async function getAlasConfig() {
       webuiUrl: `http://127.0.0.1:${WebuiPort}`,
       theme: ThemeObj[Theme] || 'light',
       language: config.Deploy.Webui.Language || 'en-US',
-      repository: config.Deploy.Git.Repository as any,
+      repository: config.Deploy.Git.Repository,
       alasPath,
       webuiPath,
       webuiArgs,
