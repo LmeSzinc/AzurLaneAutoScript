@@ -10,7 +10,7 @@ from module.exception import CampaignEnd, RequestHumanTakeover
 from module.exception import GameTooManyClickError
 from module.exception import MapWalkError, ScriptError
 from module.exercise.assets import QUIT_CONFIRM, QUIT_RECONFIRM
-from module.handler.login import LoginHandler
+from module.handler.login import LoginHandler, MAINTENANCE_ANNOUNCE
 from module.logger import logger
 from module.map.map import Map
 from module.os.assets import FLEET_EMP_DEBUFF, MAP_GOTO_GLOBE_FOG
@@ -553,10 +553,13 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
             if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
                 continue
             if self.appear_then_click(PAUSE, interval=0.5):
+                self.interval_reset(MAINTENANCE_ANNOUNCE)
                 continue
             if self.appear_then_click(QUIT_CONFIRM, offset=(20, 20), interval=5):
+                self.interval_reset(MAINTENANCE_ANNOUNCE)
                 continue
             if self.appear_then_click(QUIT_RECONFIRM, offset=True, interval=5):
+                self.interval_reset(MAINTENANCE_ANNOUNCE)
                 continue
 
             if self.appear_then_click(GOTO_MAIN, offset=(20, 20), interval=3):
