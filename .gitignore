@@ -249,3 +249,6 @@ adb_port.ini
 *.zip
 console.bat
 .vscode/*
+
+# Pylance configuration file
+pyrightconfig.json
