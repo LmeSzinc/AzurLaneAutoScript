@@ -82,6 +82,11 @@ class WeeklyDungeon(Dungeon):
                 # Check daily
                 if self.achieved_daily_quest:
                     self.config.task_call('DailyQuest')
+                # Update dashboard
+                self.config.stored.EchoOfWar.add(-count)
+                if self.config.stored.EchoOfWar.value < 0:
+                    logger.warning(f'Invalid EchoOfWar value, revise to 0')
+                    self.config.stored.EchoOfWar.value = 0
             # Finished all remains
             if count >= remain:
                 logger.info('All Echo_of_War rewards got')
