@@ -1,19 +1,19 @@
-module.exports = {
+export default {
   directories: {
-    output: "../../release",
-    buildResources: "build"
+    output: '../../release',
+    buildResources: '../../buildResources',
   },
-  files: ["dist"],
+  files: ['dist'],
   extraMetadata: {
-    version: process.env.npm_package_version
+    version: process.env.npm_package_version,
   },
 
   /**
    *  app 基础信息
    */
-  appId: "com.azur-lane-auto-script.webapp",
-  productName: "AzurLaneAutoScript",
-  copyright: "Copyright © 2021 - ALAS | All Right Reserved.",
+  // appId: 'com.azur-lane-auto-script.webapp',
+  productName: 'AzurLaneAutoScript',
+  // copyright: 'Copyright © 2021 - ALAS | All Right Reserved.',
 
   /**
    * 配置 notarize dmg
@@ -115,4 +115,3 @@ module.exports = {
     smartUnpack: true,
   },
 };
-

@@ -1,35 +1,8 @@
-//{
-//  "compilerOptions": {
-//    "target": "esnext",
-//    "module": "esnext",
-//    "sourceMap": true,
-//    "moduleResolution": "Node",
-//    "skipLibCheck": true,
-//    "strict": true,
-//    "isolatedModules": true,
-//    "types": [
-//      "node",
-//      "vite/client"
-//    ],
-//    "typeRoots": [
-//      "node_modules/@types"
-//    ],
-//    "lib": [
-//      "ESNext"
-//    ],
-//    "allowSyntheticDefaultImports": true,
-//    /**  开启装饰器 **/
-//    "emitDecoratorMetadata": true,
-//    "importHelpers": true,
-//    "esModuleInterop": true,
-//    "resolveJsonModule": true
-//  }
-//}
 {
   "compilerOptions": {
     "target": "ES2017",
     "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "Node",
     "importHelpers": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,

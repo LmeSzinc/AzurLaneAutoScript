@@ -305,7 +305,7 @@ See [Contributing Guide](contributing.md).
 + common 作为公共包引入 `@alas/common`
 + main render 作为单独项目启动
 + main中logger -> log4js
-+ electron 添加使用 electron-vite
++ electron项目 结构调整为 electron-vite
 + ....
 
 ```shell
@@ -315,8 +315,11 @@ See [Contributing Guide](contributing.md).
 
 # 启动 app
  pnpm run start
+ 
+# 打包
+pnpm run build
 
-# 或者 
- npm run start
+# 清除缓存
+ pnpm run clean 
 
 ```

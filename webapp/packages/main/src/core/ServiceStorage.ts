@@ -1,5 +1,3 @@
-// import { logAfter, logBefore } from './Logger';
-
 import {logAfter, logBefore} from '@/core/Logger';
 
 /**

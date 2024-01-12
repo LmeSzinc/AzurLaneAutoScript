@@ -8,17 +8,17 @@ declare module 'log4js' {
   export interface Logger {
     divider(symbol?: string, length?: number): void;
 
-    logWithScope(newScope: LogScope, ...args: never[]): void;
+    logWithScope(newScope: LogScope, ...args: any[]): void;
 
-    infoWithScope(newScope: LogScope, ...args: never[]): void;
+    infoWithScope(newScope: LogScope, ...args: any[]): void;
 
-    errorWithScope(newScope: LogScope, ...args: never[]): void;
+    errorWithScope(newScope: LogScope, ...args: any[]): void;
 
-    traceWithScope(newScope: LogScope, ...args: never[]): void;
+    traceWithScope(newScope: LogScope, ...args: any[]): void;
 
-    warnWithScope(newScope: LogScope, ...args: never[]): void;
+    warnWithScope(newScope: LogScope, ...args: any[]): void;
 
-    debugWithScope(newScope: LogScope, ...args: never[]): void;
+    debugWithScope(newScope: LogScope, ...args: any[]): void;
   }
 }
 

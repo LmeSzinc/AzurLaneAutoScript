@@ -6,7 +6,6 @@
 
 import {writeFileSync} from 'fs';
 import path from 'path';
-
 const electronRelease = process.versions;
 
 const node = electronRelease.node.split('.')[0];

@@ -1,5 +1,5 @@
 import {logger} from './customLogger';
-import {LogLevel, LogScope} from './types';
+import type {LogLevel, LogScope} from './types';
 
 const log = (propertyName: string, params: string | LogParams) => {
   // 如果是 纯文本 直接输出
