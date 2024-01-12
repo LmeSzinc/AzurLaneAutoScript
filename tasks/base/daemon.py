@@ -27,8 +27,17 @@ class Daemon(RouteBase):
             # Story
             if self.appear_then_click(STORY_NEXT, interval=0.7):
                 self.interval_reset(STORY_OPTION)
+                # self.interval_reset(INTERACT_INVESTIGATE)
                 continue
             if self.appear_then_click(STORY_OPTION, interval=1):
+                # self.interval_reset(INTERACT_INVESTIGATE)
+                continue
+            # Map interact
+            if self.appear_then_click(INTERACT_TREASURE, interval=1):
+                continue
+            # if self.appear_then_click(INTERACT_INVESTIGATE, interval=2):
+            #     continue
+            if self.appear_then_click(INTERACT_COLLECT, interval=1):
                 continue
             # Story teleport
             if self.appear_then_click(TELEPORT_RIGHT, interval=3):

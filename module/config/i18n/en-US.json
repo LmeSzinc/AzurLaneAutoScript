@@ -879,6 +879,10 @@
       "name": "Claim Planers Using Immersifiers",
       "help": ""
     },
+    "DoubleEvent": {
+      "name": "Participate in Double Planer Event",
+      "help": ""
+    },
     "UseStamina": {
       "name": "Farm Planers Using Trailblase Power",
       "help": "Task \"Dungeon\" will no longer run, and all trailblaze power will be used first to claim immersion rewards, except for double events."

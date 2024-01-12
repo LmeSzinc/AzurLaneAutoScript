@@ -721,6 +721,8 @@ class ConfigUpdater:
             deep_set(data, keys='Rogue.RogueWorld.UseStamina', value=False)
         if deep_get(data, keys='Rogue.RogueWorld.UseStamina') is True:
             deep_set(data, keys='Rogue.RogueWorld.UseImmersifier', value=True)
+        if deep_get(data, keys='Rogue.RogueWorld.DoubleEvent') is True:
+            deep_set(data, keys='Rogue.RogueWorld.UseImmersifier', value=True)
         # Store immersifier in dungeon task
         if deep_get(data, keys='Rogue.RogueWorld.UseImmersifier') is True:
             deep_set(data, keys='Dungeon.Scheduler.Enable', value=True)
@@ -768,6 +770,8 @@ class ConfigUpdater:
         elif key == 'Rogue.RogueWorld.UseImmersifier' and value is False:
             yield 'Rogue.RogueWorld.UseStamina', False
         elif key == 'Rogue.RogueWorld.UseStamina' and value is True:
+            yield 'Rogue.RogueWorld.UseImmersifier', True
+        elif key == 'Rogue.RogueWorld.DoubleEvent' and value is True:
             yield 'Rogue.RogueWorld.UseImmersifier', True
 
     def iter_hidden_args(self, data) -> t.Iterator[str]:

@@ -879,6 +879,10 @@
       "name": "Reclamar de planers mediante inmersor",
       "help": ""
     },
+    "DoubleEvent": {
+      "name": "Participa en doble planer evento",
+      "help": ""
+    },
     "UseStamina": {
       "name": "Reclamar de planers mediante poder trazacaminos",
       "help": "La tarea de mazmorra ya no se ejecutará y todo el poder trazacaminos se usará primero para reclamar recompensas de inmersión, excepto para eventos dobles"

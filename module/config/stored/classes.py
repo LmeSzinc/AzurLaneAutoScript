@@ -278,6 +278,7 @@ class StoredDaily(StoredCounter, StoredExpiredAt0400):
 class StoredDungeonDouble(StoredExpiredAt0400):
     calyx = 0
     relic = 0
+    rogue = 0
 
 
 class StoredEchoOfWar(StoredCounter, StoredExpiredAtMonday0400):

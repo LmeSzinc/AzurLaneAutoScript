@@ -879,6 +879,10 @@
       "name": "RogueWorld.UseImmersifier.name",
       "help": "RogueWorld.UseImmersifier.help"
     },
+    "DoubleEvent": {
+      "name": "RogueWorld.DoubleEvent.name",
+      "help": "RogueWorld.DoubleEvent.help"
+    },
     "UseStamina": {
       "name": "RogueWorld.UseStamina.name",
       "help": "RogueWorld.UseStamina.help"

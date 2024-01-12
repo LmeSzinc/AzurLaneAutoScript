@@ -33,6 +33,10 @@ class Rogue(RouteLoader, RogueEntry):
     def run(self):
         self.config.update_battle_pass_quests()
         self.config.update_daily_quests()
+        if self.config.stored.DungeonDouble.is_expired():
+            self.config.task_call('Dungeon')
+            self.config.task_stop()
+
         while 1:
             # Run
             success = self.rogue_once()

@@ -235,6 +235,7 @@ RogueWorld:
     value: combat
     option: [ combat, occurrence ]
   UseImmersifier: true
+  DoubleEvent: true
   UseStamina: false
 
 RogueBlessing:

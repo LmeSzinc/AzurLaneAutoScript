@@ -135,13 +135,7 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
                     logger.info('Achieve daily quest Obtain_victory_in_combat_with_Support_Characters_1_times')
                     self.achieved_daily_quest = True
             # Stamina quest
-            if KEYWORD_BATTLE_PASS_QUEST.Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max in self.weekly_quests:
-                cost = self.combat_wave_cost * count
-                logger.info(f'Done Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max stamina {cost}')
-                self.config.stored.BattlePassQuestTrailblazePower.add(cost)
-                if self.config.stored.BattlePassQuestTrailblazePower.is_full():
-                    logger.info('Achieved weekly quest Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max')
-                    self.achieved_weekly_quest = True
+            self.check_stamina_quest(self.combat_wave_cost * count)
 
             # Check trailblaze power, this may stop current task
             if self.is_trailblaze_power_exhausted():
@@ -201,7 +195,8 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
         # Update double event records
         if (self.config.stored.DungeonDouble.is_expired()
                 or self.config.stored.DungeonDouble.calyx > 0
-                or self.config.stored.DungeonDouble.relic > 0):
+                or self.config.stored.DungeonDouble.relic > 0
+                or self.config.stored.DungeonDouble.rogue > 0):
             logger.info('Get dungeon double remains')
             # UI switches
             switched = self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Survival_Index)
@@ -212,6 +207,9 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
             # Check remains
             calyx = 0
             relic = 0
+            rogue = 0
+            if self.has_double_rogue_event():
+                rogue = self.get_double_event_remain()
             if self.has_double_calyx_event():
                 self._dungeon_nav_goto(KEYWORDS_DUNGEON_LIST.Calyx_Golden_Treasures)
                 calyx = self.get_double_event_remain()
@@ -221,6 +219,7 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
             with self.config.multi_set():
                 self.config.stored.DungeonDouble.calyx = calyx
                 self.config.stored.DungeonDouble.relic = relic
+                self.config.stored.DungeonDouble.rogue = rogue
 
         # Run double events
         ran_calyx_golden = False
@@ -248,7 +247,16 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
         self.running_double = False
 
         # Dungeon to clear all trailblaze power
-        if self.config.is_task_enabled('Rogue') and self.config.cross_get('Rogue.RogueWorld.UseStamina'):
+        do_rogue = False
+        if self.config.is_task_enabled('Rogue'):
+            if self.config.cross_get('Rogue.RogueWorld.UseStamina'):
+                logger.info('Going to use stamina in rogue')
+                do_rogue = True
+            elif self.config.cross_get('Rogue.RogueWorld.DoubleEvent') \
+                    and self.config.stored.DungeonDouble.rogue > 0:
+                logger.info('Going to use stamina in double rogue event')
+                do_rogue = True
+        if do_rogue:
             final = KEYWORDS_DUNGEON_LIST.Simulated_Universe_World_1
         else:
             final = DungeonList.find(self.config.Dungeon_Name)
@@ -300,9 +308,16 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
             if self.require_compulsory_support():
                 logger.info('Run dungeon with support once as stamina is rogue prioritized')
                 self.dungeon_run(dungeon=DungeonList.find(self.config.Dungeon_Name), wave_limit=1)
-            # Store immersifiers and call rogue task if accumulated to 4
+            # Store immersifiers
             logger.info('Prioritize stamina for simulated universe, skip dungeon')
-            self.immersifier_store()
+            amount = 0
+            if not self.config.cross_get('Rogue.RogueWorld.UseStamina') \
+                    and self.config.cross_get('Rogue.RogueWorld.DoubleEvent') \
+                    and self.config.stored.DungeonDouble.rogue > 0:
+                amount = self.config.stored.DungeonDouble.rogue
+            stored = self.immersifier_store(max_store=amount)
+            self.check_stamina_quest(stored * 40)
+            # call rogue task if accumulated to 4
             with self.config.multi_set():
                 if self.config.stored.Immersifier.value >= 4:
                     # Schedule behind rogue
@@ -388,3 +403,13 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
 
         logger.attr('Require compulsory support', require)
         return require
+
+    def check_stamina_quest(self, stamina_used: int):
+        if KEYWORD_BATTLE_PASS_QUEST.Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max not in self.weekly_quests:
+            return
+
+        logger.info(f'Done Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max stamina {stamina_used}')
+        self.config.stored.BattlePassQuestTrailblazePower.add(stamina_used)
+        if self.config.stored.BattlePassQuestTrailblazePower.is_full():
+            logger.info('Achieved weekly quest Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max')
+            self.achieved_weekly_quest = True

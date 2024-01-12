@@ -306,9 +306,13 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
         """
         logger.info(f'RogueWorld_UseImmersifier={self.config.RogueWorld_UseImmersifier}, '
                     f'RogueWorld_UseStamina={self.config.RogueWorld_UseStamina}, '
+                    f'RogueWorld_DoubleEvent={self.config.RogueWorld_DoubleEvent}'
                     f'RogueDebug_DebugMode={self.config.RogueDebug_DebugMode}')
         # This shouldn't happen
         if self.config.RogueWorld_UseStamina and not self.config.RogueWorld_UseImmersifier:
+            logger.error('Invalid rogue reward settings')
+            raise ScriptError
+        if self.config.RogueWorld_DoubleEvent and not self.config.RogueWorld_UseImmersifier:
             logger.error('Invalid rogue reward settings')
             raise ScriptError
 
