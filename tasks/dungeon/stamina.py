@@ -122,9 +122,12 @@ class DungeonStamina(DungeonUI):
             if self.handle_reward():
                 continue
 
-    def immersifier_store(self):
+    def immersifier_store(self, max_store: int = 0):
         """
         Store immersifiers using all trailblaze power
+
+        Args:
+            max_store: Maximum amount to store this time
 
         Returns:
             bool: If stored any
@@ -134,6 +137,7 @@ class DungeonStamina(DungeonUI):
             out: page_guide, Survival_Index, Simulated_Universe
         """
         logger.hr('Immersifier store', level=2)
+        logger.info(f'Max store: {max_store}')
         self.dungeon_goto_rogue()
         self.dungeon_update_stamina()
 
@@ -144,6 +148,8 @@ class DungeonStamina(DungeonUI):
             self.config.stored.TrailblazePower.value // 40,
             self.config.stored.Immersifier.get_remain(),
         )
+        if max_store:
+            amount = min(amount, max_store)
         if amount <= 0:
             logger.info('Not enough stamina to store 1 immersifier')
             return False

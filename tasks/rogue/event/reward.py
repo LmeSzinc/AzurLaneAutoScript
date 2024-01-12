@@ -26,7 +26,11 @@ class RogueReward(RogueUI, CombatInteract, DungeonState):
             return
 
         confirm = Timer(0.6, count=2).start()
+        init = False
+        initial_stamina = 0
+        initial_immersifier = 0
         exhausted = False
+
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -35,6 +39,8 @@ class RogueReward(RogueUI, CombatInteract, DungeonState):
 
             if self.is_in_main():
                 if confirm.reached():
+                    break
+                if exhausted:
                     break
             else:
                 confirm.reset()
@@ -49,6 +55,10 @@ class RogueReward(RogueUI, CombatInteract, DungeonState):
                 continue
             if self.appear(REWARD_CLOSE, interval=2):
                 self.dungeon_update_stamina()
+                if not init:
+                    initial_stamina = self.config.stored.TrailblazePower.value
+                    initial_immersifier = self.config.stored.Immersifier.value
+                    init = True
                 if use_trailblaze_power and self.config.stored.TrailblazePower.value >= 40:
                     self.device.click(USE_STAMINA)
                     self.interval_reset(USE_STAMINA)
@@ -68,6 +78,31 @@ class RogueReward(RogueUI, CombatInteract, DungeonState):
                     confirm.reset()
                     exhausted = True
                     continue
+
+        with self.config.multi_set():
+            claimed = 0
+            diff = initial_immersifier - self.config.stored.Immersifier.value
+            if diff >= 1:
+                claimed += diff
+                self.config.stored.Immersifier.add(-diff)
+            diff = initial_stamina - self.config.stored.TrailblazePower.value
+            if diff + 2 >= 40:
+                # Stamina may recover while receiving
+                diff = int((diff + 2) // 40)
+                claimed += diff
+                self.config.stored.TrailblazePower.add(-diff)
+            # Clicked button, closed reward popup, planer page closed by game itself, exhausted=False, claimed once
+            # Cannot claim more, clicked REWARD_CLOSE to close planer page, exhausted=True, nothing claimed at last
+            if not exhausted:
+                claimed += 1
+                if use_trailblaze_power:
+                    self.config.stored.TrailblazePower.add(-1)
+                elif use_immersifier:
+                    self.config.stored.Immersifier.add(-1)
+            logger.info(f'Claimed planer reward {claimed} times')
+            if self.config.stored.DungeonDouble.rogue > 0:
+                self.config.stored.DungeonDouble.rogue -= claimed
+        return claimed
 
     def can_claim_domain_reward(
             self,
