@@ -65,9 +65,7 @@
     "typescript": "^5",
     "vite": "^5",
     "vite-plugin-style-import": "^2.0.0",
-    "vitest": "0.29.3"
-  },
-  "dependencies": {
+    "vitest": "0.29.3",
     "zx": "^7.2.3"
   }
 }

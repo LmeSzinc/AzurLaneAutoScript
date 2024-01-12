@@ -14,9 +14,7 @@ interface LogInfo {
 }
 
 interface WithLogParams {
-  // eslint-disable-next-line @typescript-eslint/ban-types
   before?: LogInfo | Function;
-  // eslint-disable-next-line @typescript-eslint/ban-types
   after?: LogInfo | Function;
 }
 
@@ -50,7 +48,6 @@ export default class Logger {
    */
   static withLog =
     ({before, after}: WithLogParams) =>
-    // eslint-disable-next-line @typescript-eslint/ban-types
     (func: Function) => {
       if (before) {
         if (typeof before === 'function') {
