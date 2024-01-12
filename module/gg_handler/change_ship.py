@@ -1,4 +1,7 @@
 from enum import Enum
+
+from uiautomator2 import UiObjectNotFoundError
+
 from module.logger import logger
 from module.gg_handler.gg_data import GGData
 from module.config.config import deep_get
@@ -74,10 +77,16 @@ class ChangeShip(ModuleBase):
                 ShipStarStr = ";".join([str(i.Star) for i in ShipDataList])
                 CurrentShipTypeStr = ";".join([str(i.ShipType) for i in ShipDataList])
                 TargetShipTypeStr = ";".join([str(i.TargetType) for i in ShipDataList])
-                self.d(resourceId=f"{self.gg_package_name}:id/edit")[0].send_keys(ShipIdStr)
-                self.d(resourceId=f"{self.gg_package_name}:id/edit")[1].send_keys(ShipStarStr)
-                self.d(resourceId=f"{self.gg_package_name}:id/edit")[2].send_keys(CurrentShipTypeStr)
-                self.d(resourceId=f"{self.gg_package_name}:id/edit")[3].send_keys(TargetShipTypeStr)
+                while 1:
+                    try:
+                        self.d(resourceId=f"{self.gg_package_name}:id/edit")[0].send_keys(ShipIdStr)
+                        self.d(resourceId=f"{self.gg_package_name}:id/edit")[1].send_keys(ShipStarStr)
+                        self.d(resourceId=f"{self.gg_package_name}:id/edit")[2].send_keys(CurrentShipTypeStr)
+                        self.d(resourceId=f"{self.gg_package_name}:id/edit")[3].send_keys(TargetShipTypeStr)
+                        break
+                    except UiObjectNotFoundError:
+                        self.d(className="android.widget.ScrollView")[0].scroll.toEnd()
+
                 self.device.sleep(0.5)
                 _set = True
             if _set and self.d.xpath('//*[@text="确定"]').exists:
