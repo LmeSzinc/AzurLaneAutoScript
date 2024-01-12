@@ -130,7 +130,7 @@ class DungeonStamina(DungeonUI):
             max_store: Maximum amount to store this time
 
         Returns:
-            bool: If stored any
+            int: Amount stored
 
         Pages:
             in: Any
@@ -140,6 +140,7 @@ class DungeonStamina(DungeonUI):
         logger.info(f'Max store: {max_store}')
         self.dungeon_goto_rogue()
         self.dungeon_update_stamina()
+        before = self.config.stored.Immersifier.value
 
         if self.config.stored.Immersifier.is_full():
             logger.info('Immersifier full, cannot store more')
@@ -152,10 +153,12 @@ class DungeonStamina(DungeonUI):
             amount = min(amount, max_store)
         if amount <= 0:
             logger.info('Not enough stamina to store 1 immersifier')
-            return False
+            return 0
 
         self._immersifier_enter()
         self._item_amount_set(amount, ocr_button=OCR_IMMERSIFIER_AMOUNT)
         self._item_confirm()
         self.dungeon_update_stamina()
-        return True
+        diff = self.config.stored.Immersifier.value - before
+        logger.info(f'Stored {diff} immersifiers')
+        return diff

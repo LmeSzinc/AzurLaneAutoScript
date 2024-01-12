@@ -135,13 +135,7 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
                     logger.info('Achieve daily quest Obtain_victory_in_combat_with_Support_Characters_1_times')
                     self.achieved_daily_quest = True
             # Stamina quest
-            if KEYWORD_BATTLE_PASS_QUEST.Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max in self.weekly_quests:
-                cost = self.combat_wave_cost * count
-                logger.info(f'Done Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max stamina {cost}')
-                self.config.stored.BattlePassQuestTrailblazePower.add(cost)
-                if self.config.stored.BattlePassQuestTrailblazePower.is_full():
-                    logger.info('Achieved weekly quest Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max')
-                    self.achieved_weekly_quest = True
+            self.check_stamina_quest(self.combat_wave_cost * count)
 
             # Check trailblaze power, this may stop current task
             if self.is_trailblaze_power_exhausted():
@@ -321,7 +315,8 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
                     and self.config.cross_get('Rogue.RogueWorld.DoubleEvent') \
                     and self.config.stored.DungeonDouble.rogue > 0:
                 amount = self.config.stored.DungeonDouble.rogue
-            self.immersifier_store(max_store=amount)
+            stored = self.immersifier_store(max_store=amount)
+            self.check_stamina_quest(stored * 40)
             # call rogue task if accumulated to 4
             with self.config.multi_set():
                 if self.config.stored.Immersifier.value >= 4:
@@ -408,3 +403,13 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
 
         logger.attr('Require compulsory support', require)
         return require
+
+    def check_stamina_quest(self, stamina_used: int):
+        if KEYWORD_BATTLE_PASS_QUEST.Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max not in self.weekly_quests:
+            return
+
+        logger.info(f'Done Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max stamina {stamina_used}')
+        self.config.stored.BattlePassQuestTrailblazePower.add(stamina_used)
+        if self.config.stored.BattlePassQuestTrailblazePower.is_full():
+            logger.info('Achieved weekly quest Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max')
+            self.achieved_weekly_quest = True
