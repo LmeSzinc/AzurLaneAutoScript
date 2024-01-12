@@ -75,19 +75,9 @@ export default class Browser extends EventEmitter {
    * @param count 重试次数
    */
   loadUrl = (name: BrowserWindowsIdentifier, count = 1) => {
-    this.app.logger.info('loadUrl');
     if (count > 10) return;
-    // this.browserWindow.loadURL('http://localhost:7777/').catch(() => {
-    //   /**
-    //    * 暂时没有想到更好解决方案
-    //    */
-    //   setTimeout(() => {
-    //     this.loadUrl(name, ++count);
-    //   }, 2000);
-    // });
     if (isDev) {
-      // this.browserWindow.loadURL(`http://localhost:5173/${name}.html`);
-      this.browserWindow.loadURL('http://localhost:7777/').catch(_ => {
+      this.browserWindow.loadURL(`http://localhost:${process.env.WEB_PORT}/`).catch(_ => {
         /**
          * 暂时没有想到更好解决方案
          */
@@ -96,7 +86,6 @@ export default class Browser extends EventEmitter {
         }, 2000);
       });
     } else {
-      //    this.browserWindow.loadURL(`app://./${name}.html`);
       this.browserWindow.loadFile(join(__dirname, '../renderer/index.html')).catch(err => {
         this.app.logger.error(`loadUrl error ${err.message}`);
       });
@@ -162,7 +151,6 @@ export default class Browser extends EventEmitter {
 
     app.whenReady().then(() => {
       const extensions = [VUEJS3_DEVTOOLS];
-
       try {
         installer(extensions).then((name: string) => {
           this.app.logger.trace(`Added Extension:  ${name}`);
@@ -252,7 +240,7 @@ export default class Browser extends EventEmitter {
 
     this.loadTray();
     this.loadUrl(identifier);
-    // this.loadDevTools();
+    this.loadDevTools();
     this.loadActions();
 
     // 显示 devtools 就打开

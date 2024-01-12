@@ -49,7 +49,7 @@ const config = {
   },
   base: '',
   server: {
-    port: 7777,
+    port: process.env.WEB_PORT || 7777,
     fs: {
       strict: true,
     },
