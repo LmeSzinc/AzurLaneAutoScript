@@ -54,7 +54,7 @@ export const alasPath = isMacintosh && import.meta.env.PROD ? getAlasABSPath() :
 try {
   validateConfigFile(join(alasPath, '/config'));
 } catch (e) {
-  logger.error(e.toString());
+  logger.error(String(e as any));
 }
 
 const file = fs.readFileSync(path.join(alasPath, './config/deploy.yaml'), 'utf8');
