@@ -188,6 +188,7 @@
       "Bonus": "Blessing Universe",
       "DomainStrategy": "combat",
       "UseImmersifier": true,
+      "DoubleEvent": true,
       "UseStamina": false
     },
     "RogueBlessing": {

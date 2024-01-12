@@ -122,7 +122,8 @@
     "attrs": {
       "time": "2020-01-01 00:00:00",
       "calyx": 0,
-      "relic": 0
+      "relic": 0,
+      "rogue": 0
     },
     "order": 0,
     "color": "#777777"

@@ -1300,6 +1300,10 @@
         "type": "checkbox",
         "value": true
       },
+      "DoubleEvent": {
+        "type": "checkbox",
+        "value": true
+      },
       "UseStamina": {
         "type": "checkbox",
         "value": false

@@ -131,6 +131,7 @@ class GeneratedConfig:
     RogueWorld_Bonus = 'Blessing Universe'  # Blessing Universe, Miracle Universe, Fragmented Universe
     RogueWorld_DomainStrategy = 'combat'  # combat, occurrence
     RogueWorld_UseImmersifier = True
+    RogueWorld_DoubleEvent = True
     RogueWorld_UseStamina = False
 
     # Group `RogueBlessing`
