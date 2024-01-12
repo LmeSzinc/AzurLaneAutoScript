@@ -98,7 +98,14 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
 
     @cached_property
     def screenshot_deque(self):
-        return deque(maxlen=int(self.config.Error_ScreenshotLength))
+        try:
+            length = int(self.config.Error_ScreenshotLength)
+        except ValueError:
+            logger.error(f'Error_ScreenshotLength={self.config.Error_ScreenshotLength} is not an integer')
+            raise RequestHumanTakeover
+        # Limit in 1~300
+        length = max(1, min(length, 300))
+        return deque(maxlen=length)
 
     def save_screenshot(self, genre='items', interval=None, to_base_folder=False):
         """Save a screenshot. Use millisecond timestamp as file name.
