@@ -153,16 +153,17 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         self.campaign.ensure_campaign_ui(self.stage)
         button_area = self.campaign.ENTRANCE.button
         button = Button(name=str(self.stage), area=button_area, color=(0, 0, 0), button=button_area)
-        for _ in range(20):
+        for __ in range(5):
             self.campaign.ensure_campaign_ui(self.stage)
             self.ui_click(click_button=button, appear_button=BACK_ARROW, check_button=MAP_PREPARATION)
-            self.appear_then_click(MAP_PREPARATION)
-            self.device.sleep(0.5)
-            self.device.screenshot()
-            if Retirement(config=self.config, device=self.device).handle_retirement():
-                continue
-            if self.appear(button=FLEET_PREPARATION, offset=(50, 50)):
-                return
+            for _ in range(30):
+                self.device.screenshot()
+                if self.appear_then_click(MAP_PREPARATION):
+                    self.device.sleep(0.5)
+                if Retirement(config=self.config, device=self.device).handle_retirement():
+                    continue
+                if self.appear(button=FLEET_PREPARATION, offset=(50, 50)):
+                    return
         from module.exception import GameStuckError
         raise GameStuckError
 
