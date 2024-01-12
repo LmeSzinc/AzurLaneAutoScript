@@ -1,3 +1,4 @@
+
 export interface AlasConfig {
   webuiUrl: string;
   theme: 'dark' | 'light';
@@ -6,6 +7,7 @@ export interface AlasConfig {
   alasPath: string;
   webuiPath: string;
   webuiArgs: string[];
+  dpiScaling: boolean;
 }
 
 export interface DefAlasConfig {

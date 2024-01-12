@@ -27,15 +27,26 @@ module.exports = {
   rules: {
     'vue/require-default-prop': 'off',
     'vue/multi-word-component-names': 'off',
-    '@typescript-eslint/no-unused-vars': [
-      'error',
-      {
-        'argsIgnorePattern': '^_',
-        'varsIgnorePattern': '^_',
-      },
-    ],
+    // '@typescript-eslint/no-unused-vars': [
+    //   'error',
+    //   {
+    //     'argsIgnorePattern': '^_',
+    //     'varsIgnorePattern': '^_',
+    //   },
+    // ],
+    '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-var-requires': 'off',
-    '@typescript-eslint/consistent-type-imports': 'error',
+    '@typescript-eslint/consistent-type-imports': 'off',
+
+
+
+    // ESLint: Definition for rule '@typescript-eslint/consistent-type-imports' was not found.(@typescript-eslint/consistent-type-imports)
+    // ESLint: Definition for rule '@typescript-eslint/no-empty-function' was not found.(@typescript-eslint/no-empty-function)
+    // ESLint: Definition for rule '@typescript-eslint/no-empty-interface' was not found.(@typescript-eslint/no-empty-interface)
+    // ESLint: Definition for rule '@typescript-eslint/no-unused-vars' was not found.(@typescript-eslint/no-unused-vars)
+    '@typescript-eslint/no-empty-function': 'off',
+    '@typescript-eslint/no-empty-interface': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
     /**
      * Having a semicolon helps the optimizer interpret your code correctly.
      * This avoids rare errors in optimized code.

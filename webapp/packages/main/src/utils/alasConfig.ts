@@ -20,10 +20,11 @@ export async function getAlasConfig() {
       webuiUrl: `http://127.0.0.1:${WebuiPort}`,
       theme: ThemeObj[Theme] || 'light',
       language: config.Deploy.Webui.Language || 'en-US',
-      repository: config.Deploy.Git.Repository,
+      repository: config.Deploy.Git.Repository as 'global' | 'china',
       alasPath,
       webuiPath,
       webuiArgs,
+      dpiScaling: config.Deploy.Webui.DpiScaling || false,
     };
   }
   return alasConfig;
