@@ -29,7 +29,7 @@ class GeneratedConfig:
     # Group `StartEmulator`
     StartEmulator_Enable = False
     StartEmulator_Command = None
-    StartEmulator_Delay = 10
+    StartEmulator_Timeout = 90
 
     # Group `RestartEmulator`
     RestartEmulator_Enable = False

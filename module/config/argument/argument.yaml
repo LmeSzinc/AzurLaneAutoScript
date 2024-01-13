@@ -44,7 +44,7 @@ StartEmulator:
     type: textarea
     mode: yaml
     value:
-  Delay: 10
+  Timeout: 90
 
 RestartEmulator:
   Enable: false

@@ -149,9 +149,9 @@
         "value": null,
         "mode": "yaml"
       },
-      "Delay": {
+      "Timeout": {
         "type": "input",
-        "value": 10
+        "value": 90
       }
     },
     "RestartEmulator": {

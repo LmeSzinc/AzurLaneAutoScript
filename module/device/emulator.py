@@ -9,6 +9,7 @@ from adbutils.errors import AdbError
 
 from deploy.emulator import VirtualBoxEmulator
 from module.base.decorator import cached_property
+from module.base.timer import Timer
 from module.device.connection import Connection
 from module.device.method.utils import get_serial_pair
 from module.exception import RequestHumanTakeover, EmulatorNotRunningError
@@ -334,11 +335,22 @@ class EmulatorManager(Connection):
             logger.warning('Emulator start command is empty')
             return
 
-        logger.info('Starting emulator')
-        try:
-            self.execute(command)
-        except Exception:
-            logger.error(f'Cannot execute start command: {command}')
+        # only start when device is offline
+        if self.detect_emulator_status(self.serial) == 'offline':
+            logger.info('Starting emulator')
+            try:
+                self.execute(command)
+                self.adb_client.connect(self.serial)
+            except Exception:
+                logger.error(f'Cannot execute start command: {command}')
+                return
 
-        if isinstance(self.config.StartEmulator_Delay, float) and self.detect_emulator_status(self.serial) == 'offline':
-            time.sleep(self.config.StartEmulator_Delay)
+            timer = Timer(self.config.StartEmulator_Timeout).start()
+            while 1:
+                if self.detect_emulator_status(self.serial) == 'device':
+                    logger.info('Device is connected')
+                    break
+
+                if timer.reached():
+                    logger.info('Device is hanging, please check emulator and timeout configuration')
+                    raise RequestHumanTakeover

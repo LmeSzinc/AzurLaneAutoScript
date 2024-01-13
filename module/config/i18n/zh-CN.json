@@ -442,9 +442,9 @@
       "name": "StartEmulator.Command.name",
       "help": "StartEmulator.Command.help"
     },
-    "Delay": {
-      "name": "StartEmulator.Delay.name",
-      "help": "StartEmulator.Delay.help"
+    "Timeout": {
+      "name": "StartEmulator.Timeout.name",
+      "help": "StartEmulator.Timeout.help"
     }
   },
   "RestartEmulator": {

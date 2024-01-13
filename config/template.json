@@ -12,7 +12,7 @@
     "StartEmulator": {
       "Enable": false,
       "Command": null,
-      "Delay": 10
+      "Timeout": 90
     },
     "RestartEmulator": {
       "Enable": false,

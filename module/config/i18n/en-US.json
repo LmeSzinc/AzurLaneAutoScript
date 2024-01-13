@@ -442,9 +442,9 @@
       "name": "Command",
       "help": "Command to start the emulator. Command can be found from task manager\ne.g. C:\\Path\\BlueStack.exe -args 69"
     },
-    "Delay": {
-      "name": "Delay",
-      "help": "Time delay in second before ALAS connect to ADB.\nIncrease or decrease as needed."
+    "Timeout": {
+      "name": "Timeout",
+      "help": "Maximum wait time (seconds) for emulator start. Considered stuck if exceeded"
     }
   },
   "RestartEmulator": {
