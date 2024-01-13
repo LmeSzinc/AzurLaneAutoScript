@@ -29,7 +29,7 @@ class OSCampaignRun(OSMapOperation):
             self.config.opsi_task_delay(ap_limit=True)
 
     def opsi_shop(self):
-        if self.config.SERVER in ['cn', 'en', 'jp']:
+        if self.config.SERVER in ['cn', 'en', 'jp', 'tw']:
             logger.info('Task OpsiShop is disabled before assets update')
             self.config.task_delay(server_update=True)
             self.config.task_stop()

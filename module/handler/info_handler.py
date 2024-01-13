@@ -205,7 +205,9 @@ class InfoHandler(ModuleBase):
         Returns:
             bool:
         """
-        return self.appear_then_click(VOTE_CANCEL, offset=(20, 20), interval=2)
+        # Vote popups are removed in 2023
+        # return self.appear_then_click(VOTE_CANCEL, offset=(20, 20), interval=2)
+        return False
 
     def handle_get_skin(self):
         """
