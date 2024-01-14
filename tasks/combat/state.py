@@ -54,6 +54,7 @@ class CombatState(UI):
     def combat_state_reset(self):
         self._combat_auto_checked = False
         self._combat_2x_checked = False
+        self._combat_click_interval.clear()
 
     def handle_combat_state(self, auto=True, speed_2x=True):
         """
@@ -65,6 +66,10 @@ class CombatState(UI):
         if self._combat_auto_checked and self._combat_2x_checked:
             return False
         if not self.is_combat_executing():
+            if not self._combat_auto_checked and auto:
+                if self._combat_click_interval.started() and not self._combat_click_interval.reached():
+                    logger.info('Combat on going, _combat_auto_checked')
+                    self._combat_auto_checked = True
             return False
 
         if not self._combat_2x_checked:

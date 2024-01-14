@@ -17,10 +17,10 @@ COMBAT_PAUSE = ButtonWrapper(
     name='COMBAT_PAUSE',
     share=Button(
         file='./assets/share/combat/state/COMBAT_PAUSE.png',
-        area=(1218, 27, 1245, 53),
-        search=(1198, 7, 1265, 73),
-        color=(125, 129, 134),
-        button=(1218, 27, 1245, 53),
+        area=(1218, 43, 1245, 53),
+        search=(1198, 23, 1265, 73),
+        color=(121, 126, 131),
+        button=(1218, 43, 1245, 53),
     ),
 )
 COMBAT_SPEED_2X = ButtonWrapper(
