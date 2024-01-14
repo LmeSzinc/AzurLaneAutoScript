@@ -18,7 +18,7 @@ LOGIN_CONFIRM = ButtonWrapper(
             area=(1109, 48, 1139, 73),
             search=(1089, 28, 1159, 93),
             color=(149, 145, 164),
-            button=(1109, 48, 1139, 73),
+            button=(683, 327, 1143, 620),
         ),
     ],
 )
