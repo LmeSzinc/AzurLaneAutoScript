@@ -3,10 +3,11 @@ from module.exception import GameNotRunningError
 from module.logger import logger
 from tasks.base.page import page_main
 from tasks.base.ui import UI
-from tasks.login.assets.assets_login import LOGIN_CONFIRM, USER_AGREEMENT_ACCEPT, LOGIN_LOADING
+from tasks.login.assets.assets_login import LOGIN_CONFIRM, LOGIN_LOADING, USER_AGREEMENT_ACCEPT
+from tasks.login.cloud import LoginAndroidCloud
 
 
-class Login(UI):
+class Login(UI, LoginAndroidCloud):
     def _handle_app_login(self):
         """
         Pages:
@@ -86,12 +87,33 @@ class Login(UI):
 
     def app_start(self):
         logger.hr('App start')
-        self.device.app_start()
+        if self.config.is_cloud_game:
+            self.cloud_ensure_ingame()
+        else:
+            self.device.app_start()
         self.handle_app_login()
 
     def app_restart(self):
         logger.hr('App restart')
         self.device.app_stop()
-        self.device.app_start()
+        if self.config.is_cloud_game:
+            self.cloud_ensure_ingame()
+        else:
+            self.device.app_start()
         self.handle_app_login()
         self.config.task_delay(server_update=True)
+
+    def cloud_start(self):
+        if not self.config.is_cloud_game:
+            return
+
+        logger.hr('Cloud start')
+        self.cloud_ensure_ingame()
+        self.handle_app_login()
+
+    def cloud_stop(self):
+        if not self.config.is_cloud_game:
+            return
+
+        logger.hr('Cloud stop')
+        self.app_stop()
