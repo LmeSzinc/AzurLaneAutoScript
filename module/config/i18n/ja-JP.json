@@ -96,6 +96,12 @@
       "name": "Emulator.Serial.name",
       "help": "Emulator.Serial.help"
     },
+    "GameClient": {
+      "name": "Emulator.GameClient.name",
+      "help": "Emulator.GameClient.help",
+      "android": "android",
+      "cloud_android": "cloud_android"
+    },
     "PackageName": {
       "name": "Emulator.PackageName.name",
       "help": "Emulator.PackageName.help",
@@ -213,6 +219,24 @@
       "stay_there": "stay_there",
       "goto_main": "goto_main",
       "close_game": "close_game"
+    }
+  },
+  "CloudStorage": {
+    "_info": {
+      "name": "CloudStorage._info.name",
+      "help": "CloudStorage._info.help"
+    },
+    "CloudRemainSeasonPass": {
+      "name": "CloudStorage.CloudRemainSeasonPass.name",
+      "help": "CloudStorage.CloudRemainSeasonPass.help"
+    },
+    "CloudRemainPaid": {
+      "name": "CloudStorage.CloudRemainPaid.name",
+      "help": "CloudStorage.CloudRemainPaid.help"
+    },
+    "CloudRemainFree": {
+      "name": "CloudStorage.CloudRemainFree.name",
+      "help": "CloudStorage.CloudRemainFree.help"
     }
   },
   "Dungeon": {

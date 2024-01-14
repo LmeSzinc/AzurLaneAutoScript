@@ -13,6 +13,7 @@ Alas:
       - EmulatorInfo
       - Error
       - Optimization
+      - CloudStorage
     Restart:
       - Scheduler
 

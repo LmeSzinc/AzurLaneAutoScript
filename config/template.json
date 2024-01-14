@@ -2,6 +2,7 @@
   "Alas": {
     "Emulator": {
       "Serial": "auto",
+      "GameClient": "android",
       "PackageName": "auto",
       "GameLanguage": "auto",
       "ScreenshotMethod": "scrcpy",
@@ -23,6 +24,11 @@
       "ScreenshotInterval": 0.2,
       "CombatScreenshotInterval": 1.0,
       "WhenTaskQueueEmpty": "goto_main"
+    },
+    "CloudStorage": {
+      "CloudRemainSeasonPass": {},
+      "CloudRemainPaid": {},
+      "CloudRemainFree": {}
     }
   },
   "Restart": {

@@ -100,7 +100,9 @@ class Connection(ConnectionAttr):
         logger.attr('AdbDevice', self.adb)
 
         # Package
-        if self.config.Emulator_PackageName == 'auto':
+        if self.config.is_cloud_game:
+            self.package = server_.to_package(self.config.Emulator_PackageName, is_cloud=True)
+        elif self.config.Emulator_PackageName == 'auto':
             self.detect_package()
         else:
             self.package = server_.to_package(self.config.Emulator_PackageName)

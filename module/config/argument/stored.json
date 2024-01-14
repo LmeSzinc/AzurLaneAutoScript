@@ -101,6 +101,42 @@
     "order": 8,
     "color": "#fc8f8b"
   },
+  "CloudRemainSeasonPass": {
+    "name": "CloudRemainSeasonPass",
+    "path": "Alas.CloudStorage.CloudRemainSeasonPass",
+    "i18n": "CloudStorage.CloudRemainSeasonPass.name",
+    "stored": "StoredInt",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "value": 0
+    },
+    "order": 0,
+    "color": "#777777"
+  },
+  "CloudRemainPaid": {
+    "name": "CloudRemainPaid",
+    "path": "Alas.CloudStorage.CloudRemainPaid",
+    "i18n": "CloudStorage.CloudRemainPaid.name",
+    "stored": "StoredInt",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "value": 0
+    },
+    "order": 0,
+    "color": "#777777"
+  },
+  "CloudRemainFree": {
+    "name": "CloudRemainFree",
+    "path": "Alas.CloudStorage.CloudRemainFree",
+    "i18n": "CloudStorage.CloudRemainFree.name",
+    "stored": "StoredInt",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "value": 0
+    },
+    "order": 0,
+    "color": "#777777"
+  },
   "Immersifier": {
     "name": "Immersifier",
     "path": "Dungeon.DungeonStorage.Immersifier",

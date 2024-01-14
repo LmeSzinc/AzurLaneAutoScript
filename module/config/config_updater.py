@@ -726,6 +726,9 @@ class ConfigUpdater:
         # Store immersifier in dungeon task
         if deep_get(data, keys='Rogue.RogueWorld.UseImmersifier') is True:
             deep_set(data, keys='Dungeon.Scheduler.Enable', value=True)
+        # Cloud settings
+        if deep_get(data, keys='Alas.Emulator.GameClient') == 'cloud_android':
+            deep_set(data, keys='Alas.Emulator.PackageName', value='CN-Official')
 
         return data
 
@@ -773,6 +776,8 @@ class ConfigUpdater:
             yield 'Rogue.RogueWorld.UseImmersifier', True
         elif key == 'Rogue.RogueWorld.DoubleEvent' and value is True:
             yield 'Rogue.RogueWorld.UseImmersifier', True
+        elif key == 'Alas.Emulator.GameClient' and value == 'cloud_android':
+            yield 'Alas.Emulator.PackageName', 'CN-Official'
 
     def iter_hidden_args(self, data) -> t.Iterator[str]:
         """

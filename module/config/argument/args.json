@@ -6,6 +6,14 @@
         "value": "auto",
         "valuetype": "str"
       },
+      "GameClient": {
+        "type": "select",
+        "value": "android",
+        "option": [
+          "android",
+          "cloud_android"
+        ]
+      },
       "PackageName": {
         "type": "select",
         "value": "auto",
@@ -130,6 +138,26 @@
           "goto_main",
           "close_game"
         ]
+      }
+    },
+    "CloudStorage": {
+      "CloudRemainSeasonPass": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredInt"
+      },
+      "CloudRemainPaid": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredInt"
+      },
+      "CloudRemainFree": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredInt"
       }
     }
   },
