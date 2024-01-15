@@ -4,14 +4,13 @@
   "description": "alas webapp preload",
   "private": "true",
   "main": "src/index.ts",
-  "type": "module",
   "scripts": {
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "clean:modules": "rm -rf node_modules"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3",
-    "electron": "^28.1.1"
+    "electron": "22.3.4"
   },
   "devDependencies": {
     "vite": "^5"

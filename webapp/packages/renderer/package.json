@@ -10,7 +10,6 @@
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "clean:modules": "rm -rf node_modules"
   },
-  "type": "module",
   "dependencies": {
     "@arco-design/web-vue": "^2.45.2",
     "@arco-plugins/vite-vue": "^1.4.5",

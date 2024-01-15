@@ -51,7 +51,7 @@
     "concurrently": "^8",
     "consola": "^3.1.0",
     "cross-env": "7.0.3",
-    "electron": "^28.1.1",
+    "electron": "22.3.4",
     "eslint": "^8.56.0",
     "eslint-plugin-vue": "^9.19.2",
     "father": "^4",

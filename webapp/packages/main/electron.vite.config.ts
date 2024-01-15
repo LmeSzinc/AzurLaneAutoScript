@@ -9,7 +9,6 @@ const target = 'node18';
 
 const externalPlugin = externalizeDepsPlugin({
   include: ['builder-util-runtime'],
-  exclude: ['execa'],
 });
 
 export default defineConfig({
@@ -34,11 +33,6 @@ export default defineConfig({
       lib: {
         entry: 'src/index.ts',
       },
-      // rollupOptions: {
-      //   output: {
-      //     format: 'es',
-      //   },
-      // },
       outDir: 'dist/main',
       emptyOutDir: true,
     },
@@ -53,15 +47,10 @@ export default defineConfig({
       lib: {
         entry: join(__dirname, '../preload/src/index.ts'),
       },
-      // rollupOptions: {
-      //   output: {
-      //     format: "es"
-      //   }
-      // },
       outDir: 'dist/preload',
       emptyOutDir: true,
     },
-    plugins: [preload.esbuild(), externalPlugin],
+    plugins: [preload.vite(), externalPlugin],
   },
 
   // 忽略 renderer 的构建F
