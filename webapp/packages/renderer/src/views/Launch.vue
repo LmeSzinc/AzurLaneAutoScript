@@ -32,7 +32,6 @@ import AlasTitle from '@/components/AlasTitle.vue';
 import ProgressBar from '@/components/ProgressBar.vue';
 import router from '../router';
 import {LoadingOutlined} from '@ant-design/icons-vue';
-// import {ALAS_LOG, INSTALLER_READY, WINDOW_READY} from '@alas/common';
 import {dispatch} from '@/utils';
 import useAppEvent from '@/hooks/useAppEvent';
 
