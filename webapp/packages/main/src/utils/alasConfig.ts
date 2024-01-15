@@ -1,7 +1,6 @@
 import {ThemeObj, ALAS_CONFIG_YAML} from '@alas/common';
 import type {Dirent} from 'fs';
 import type {AlasConfig, DefAlasConfig} from '@alas/common';
-import getAlasABSPath from '@/utils/getAlasABSPath';
 import {checkIsFirst} from '@/utils/checkIsFirst';
 import {webuiArgs, webuiPath} from '@/config';
 import path from 'path';
@@ -41,7 +40,7 @@ interface fileInfoItem {
   lastModifyTime: Date;
 }
 export function getAlasConfigDirFiles() {
-  const alasPath = getAlasABSPath();
+  const alasPath = getScriptRootPath('/config/deploy.template.yaml');
   const configPath = path.join(alasPath, './config');
   const files: Dirent[] = fs.readdirSync(configPath, {withFileTypes: true});
   const filesInfoList: fileInfoItem[] = files.map((file: Dirent) => {

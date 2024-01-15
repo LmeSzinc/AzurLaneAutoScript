@@ -14,7 +14,10 @@ interface Options {
  * @param rootFile
  * @param options
  */
-export function getScriptRootPath(rootFile: string, options?: Options) {
+export function getScriptRootPath(
+  rootFile: string = '/config/deploy.template.yaml',
+  options?: Options,
+) {
   const {deep, offset = 0} = {
     ...options,
   };

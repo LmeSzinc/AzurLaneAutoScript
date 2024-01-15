@@ -1,5 +1,4 @@
-import getAlasABSPath from '@/utils/getAlasABSPath';
-import {DefAlasConfig, isMacOS} from '@alas/common';
+import {DefAlasConfig} from '@alas/common';
 import {ALAS_INSTR_FILE} from '@alas/common';
 import {validateConfigFile} from '@/utils/validate';
 import {join} from 'path';
@@ -8,34 +7,35 @@ import {logger} from '@/core/Logger/customLogger';
 import yaml from 'yaml';
 import fs from 'fs';
 import path from 'path';
+import {getScriptRootPath} from '@/utils/getScriptRootPath';
 
-function getAlasPath() {
-  let file;
-  const currentFilePath = process.cwd();
-  const pathLookup = [
-    // Current
-    './',
-    // Running from AzurLaneAutoScript/toolkit/WebApp/alas.exe
-    '../../',
-    // Running from AzurLaneAutoScript/webapp/dist/win-unpacked/alas.exe
-    '../../../',
-    // Running from `yarn watch`
-    './../',
-  ];
-  for (const i in pathLookup) {
-    file = path.join(currentFilePath, pathLookup[i], './config/deploy.yaml');
-    if (fs.existsSync(file)) {
-      return path.join(currentFilePath, pathLookup[i]);
-    }
-  }
-  for (const i in pathLookup) {
-    file = path.join(currentFilePath, pathLookup[i], './config/deploy.template.yaml');
-    if (fs.existsSync(file)) {
-      return path.join(currentFilePath, pathLookup[i]);
-    }
-  }
-  return currentFilePath;
-}
+// function getAlasPath() {
+//   let file;
+//   const currentFilePath = process.cwd();
+//   const pathLookup = [
+//     // Current
+//     './',
+//     // Running from AzurLaneAutoScript/toolkit/WebApp/alas.exe
+//     '../../',
+//     // Running from AzurLaneAutoScript/webapp/dist/win-unpacked/alas.exe
+//     '../../../',
+//     // Running from `yarn watch`
+//     './../',
+//   ];
+//   for (const i in pathLookup) {
+//     file = path.join(currentFilePath, pathLookup[i], './config/deploy.yaml');
+//     if (fs.existsSync(file)) {
+//       return path.join(currentFilePath, pathLookup[i]);
+//     }
+//   }
+//   for (const i in pathLookup) {
+//     file = path.join(currentFilePath, pathLookup[i], './config/deploy.template.yaml');
+//     if (fs.existsSync(file)) {
+//       return path.join(currentFilePath, pathLookup[i]);
+//     }
+//   }
+//   return currentFilePath;
+// }
 
 // function getLauncherPath(alasPath: string) {
 //   const pathLookup = ['./Alas.exe', './Alas.bat', './deploy/launcher/Alas.bat'];
@@ -48,7 +48,7 @@ function getAlasPath() {
 //   return path.join(alasPath, './Alas.exe');
 // }
 
-export const alasPath = isMacOS && import.meta.env.PROD ? getAlasABSPath() : getAlasPath();
+export const alasPath = getScriptRootPath();
 
 try {
   validateConfigFile(join(alasPath, '/config'));

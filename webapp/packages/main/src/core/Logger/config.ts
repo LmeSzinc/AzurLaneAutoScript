@@ -2,8 +2,8 @@ import {isDev} from '@alas/common';
 import {app} from 'electron';
 import type {Configuration, Layout} from 'log4js';
 import {join} from 'path';
-import getAlasABSPath from '@/utils/getAlasABSPath';
 import dayjs from 'dayjs';
+import {getScriptRootPath} from '@/utils/getScriptRootPath';
 
 const dateStr = dayjs(new Date()).format('YYYY-MM-DD');
 
@@ -25,7 +25,7 @@ const config: Configuration = {
     app: {
       type: 'file',
       //  join(logDir, 'app', 'log.log')
-      filename: join(getAlasABSPath(), `./log/${dateStr}_webapp.txt`),
+      filename: join(getScriptRootPath(), `./log/${dateStr}_webapp.txt`),
       // 日志切割后文件名后缀格式
       pattern: 'yyyy-MM-dd.log',
       layout,
