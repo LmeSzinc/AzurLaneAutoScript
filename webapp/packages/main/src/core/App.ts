@@ -51,9 +51,7 @@ export class App extends EventEmitter {
   constructor() {
     super();
 
-    const services: TServiceModule[] = importAll(
-      import.meta.glob('../services/*Service.ts', {eager: true}),
-    );
+    const services: TServiceModule[] = importAll(import.meta.globEager('../services/*Service.ts'));
 
     services.forEach(service => this.addService(service));
 

@@ -8,7 +8,7 @@
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "postuninstall": "electron-builder install-app-deps",
     "prebuild": "electron-vite build",
-    "build": "npm run prebuild && electron-builder build --config electron-builder.config.mjs --dir",
+    "build": "npm run prebuild && electron-builder build --config electron-builder.config.js --dir",
     "clean": "rm -rf dist release .eslintcache",
     "dev": "electron-vite dev -w",
     "start": "electron-vite preview",
@@ -22,7 +22,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chalk": "^5",
+    "chalk": "^4",
     "dayjs": "^1",
     "electron-updater": "^6.1.7",
     "fast-glob": "^3",
@@ -32,7 +32,7 @@
     "log4js": "^6.4.1",
     "mustache": "^4.2.0",
     "nanoid": "^4.0.2",
-    "os-name": "^6",
+    "os-name": "^4",
     "python-shell": "^5",
     "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.21",
@@ -48,10 +48,10 @@
     "electron-builder": "^24",
     "electron-debug": "^3",
     "electron-devtools-installer": "^3",
-    "electron-vite": "^2.0.0",
+    "electron-vite": "^1",
     "happy-dom": "^9",
     "unplugin-auto-expose": "^0.0.5",
-    "vite": "^5",
+    "vite": "^4",
     "vitest": "latest"
   }
 }

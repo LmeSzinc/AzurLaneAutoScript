@@ -236,7 +236,7 @@ export default class Browser extends EventEmitter {
         contextIsolation: true,
         // devTools: isDev,
         // preload: '../preload/index.mjs',
-        preload: join(__dirname, '../preload/index.mjs'),
+        preload: join(__dirname, '../preload/index.js'),
       },
     });
 
