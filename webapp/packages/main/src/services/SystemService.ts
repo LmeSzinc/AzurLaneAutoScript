@@ -1,7 +1,10 @@
-import {isMacOS} from '@alas/common';
+import {AlasConfig, isMacOS} from '@alas/common';
 import {systemPreferences} from 'electron';
 import {event, ServiceModule} from './index';
 import {checkIsFirst} from '@/utils/checkIsFirst';
+import {modifyConfigYaml} from '@/utils/modifyConfigYaml';
+import {copyFilesToDir} from '@/utils/copyFilesToDir';
+import {getAlasConfigDirFiles} from '@/utils/alasConfig';
 
 export default class SystemService extends ServiceModule {
   /**
@@ -22,28 +25,6 @@ export default class SystemService extends ServiceModule {
       browserWindow?.webContents.openDevTools();
     }
 
-    return true;
-  }
-
-  @event('/system/start-script-server')
-  startScriptServer() {
-    /**
-     * 启动外部的python脚本服务
-     */
-
-    const {app} = this;
-    const {config} = app;
-
-    const {} = config;
-
-    return true;
-  }
-
-  @event('/system/stop-script-server')
-  stopScriptServer() {
-    /**
-     * 关闭外部的python脚本服务
-     */
     return true;
   }
 
@@ -72,7 +53,8 @@ export default class SystemService extends ServiceModule {
   }
 
   @event('/system/get-alas-config')
-  getAlasConfig() {
+  async getAlasConfig() {
+    await this.app.loadAppConfig();
     return this.app.config;
   }
 
@@ -82,5 +64,27 @@ export default class SystemService extends ServiceModule {
     logger[level](message);
 
     return true;
+  }
+
+  @event('/system/modify-config-yaml')
+  modifyConfigYaml(data: {filePath: string; modifyConfig: AlasConfig}) {
+    modifyConfigYaml(data.filePath, data.modifyConfig as any);
+    return true;
+  }
+
+  @event('/system/get-alas-config-dir-files')
+  getAlasConfigDirFiles() {
+    return getAlasConfigDirFiles();
+  }
+
+  @event('/system/copy-files-to-dir')
+  async copyFileToDir(data: {paths: string[]; targetDir: string}) {
+    try {
+      await copyFilesToDir(data.paths, data.targetDir);
+      return true;
+    } catch (e) {
+      this.app.logger.error(`复制文件失败 ${String(e)}`);
+      return false;
+    }
   }
 }

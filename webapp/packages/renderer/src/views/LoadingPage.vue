@@ -12,12 +12,12 @@
 import {onMounted} from 'vue';
 import router from '@/router';
 import {dispatch} from '@/utils';
-onMounted(() => {
-  const isFirst = dispatch('/system/is-first-open');
+onMounted(async () => {
+  const isFirst = await dispatch('/system/is-first-open');
   if (!isFirst) {
-    router.push('/Install');
+    await router.push('/Install');
   } else {
-    router.push('/Launch');
+    await router.push('/Launch');
   }
 });
 </script>

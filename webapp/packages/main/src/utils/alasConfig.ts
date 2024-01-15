@@ -7,11 +7,12 @@ import {webuiArgs, webuiPath} from '@/config';
 import path from 'path';
 import yaml from 'yaml';
 import fs from 'fs';
+import {getScriptRootPath} from '@/utils/getScriptRootPath';
 
 let alasConfig: AlasConfig | null = null;
 export async function getAlasConfig() {
   if (alasConfig === null) {
-    const alasPath = getAlasABSPath();
+    const alasPath = getScriptRootPath('/config/deploy.template.yaml');
     const file = fs.readFileSync(path.join(alasPath, `./config/${ALAS_CONFIG_YAML}`), 'utf8');
     const config = yaml.parse(file) as DefAlasConfig;
     const WebuiPort = config.Deploy.Webui.WebuiPort.toString();

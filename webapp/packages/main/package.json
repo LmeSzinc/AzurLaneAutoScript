@@ -43,6 +43,7 @@
   "devDependencies": {
     "@alas/common": "workspace:*",
     "@types/fs-extra": "^9",
+    "@types/mustache": "^4.2.5",
     "@vue/devtools": "^7",
     "electron": "^28.1.1",
     "electron-builder": "^24.9.1",

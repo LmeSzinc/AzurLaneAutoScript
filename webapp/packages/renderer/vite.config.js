@@ -1,6 +1,6 @@
 /* eslint-env node */
 
-import {chrome} from '../../electron-vendors.config.json';
+import {chrome} from '../../.electron-vendors.cache.json';
 import vue from '@vitejs/plugin-vue';
 import {renderer} from 'unplugin-auto-expose';
 import {join, resolve} from 'node:path';
@@ -31,6 +31,7 @@ const config = {
    */
   define: {
     'process.env': process.env,
+    __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'true',
   },
   mode: process.env.MODE,
   root: PACKAGE_ROOT,

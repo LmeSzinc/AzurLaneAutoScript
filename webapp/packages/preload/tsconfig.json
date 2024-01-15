@@ -16,7 +16,8 @@
     },
     "types": [
       "node",
-      "vite/client"
+      "vite/client",
+      "@types/node",
     ]
   }
 }

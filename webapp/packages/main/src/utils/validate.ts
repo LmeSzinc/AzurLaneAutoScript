@@ -5,13 +5,11 @@ import {
   ALAS_CONFIG_TEMPLATE_YAML,
   ALAS_CONFIG_YAML,
   GitExecutableMap,
+  isMacOS,
   PythonExecutableMap,
   RepositoryMap,
 } from '@alas/common';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import mustache from 'mustache';
-import {isMacintosh} from './env';
 import {app} from 'electron';
 
 /**
@@ -32,7 +30,7 @@ export function validateConfigFile(dirPath: string) {
     return true;
   }
   const tpl = fsExtra.readFileSync('./deploy.yaml.tpl', {encoding: 'utf-8'});
-  const system = isMacintosh ? 'macos' : 'windows';
+  const system = isMacOS ? 'macos' : 'windows';
   const localCode = app.getLocaleCountryCode().toLocaleLowerCase();
   let local: 'global' | 'china' = 'global';
   if (localCode === 'cn') {

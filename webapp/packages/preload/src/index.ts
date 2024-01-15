@@ -6,7 +6,6 @@ import type {ElectronAPI} from '@electron-toolkit/preload';
 import {electronAPI} from '@electron-toolkit/preload';
 import {contextBridge} from 'electron';
 
-
 declare global {
   interface Window {
     electron: ElectronAPI;
@@ -28,10 +27,8 @@ if (process.contextIsolated) {
     console.error(error);
   }
 } else {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore (define in dts)
+  // eslint-disable-next-line
   window.electron = electronAPI;
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore (define in dts)
+  // eslint-disable-next-line
   window.api = api;
 }

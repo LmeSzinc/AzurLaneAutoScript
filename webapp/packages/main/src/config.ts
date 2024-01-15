@@ -1,6 +1,5 @@
-import {isMacintosh} from '@/utils/env';
 import getAlasABSPath from '@/utils/getAlasABSPath';
-import type {DefAlasConfig} from '@alas/common';
+import {DefAlasConfig, isMacOS} from '@alas/common';
 import {ALAS_INSTR_FILE} from '@alas/common';
 import {validateConfigFile} from '@/utils/validate';
 import {join} from 'path';
@@ -49,7 +48,7 @@ function getAlasPath() {
 //   return path.join(alasPath, './Alas.exe');
 // }
 
-export const alasPath = isMacintosh && import.meta.env.PROD ? getAlasABSPath() : getAlasPath();
+export const alasPath = isMacOS && import.meta.env.PROD ? getAlasABSPath() : getAlasPath();
 
 try {
   validateConfigFile(join(alasPath, '/config'));

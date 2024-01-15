@@ -240,28 +240,19 @@ const onOkSave = async () => {
   if (paths.includes('')) {
     throw new Error('Wrong file path, please try again');
   }
-  // await window.__electron_preload__copyFilesToDir(paths, appStore.getAlasPath + '/config', {
-  //   filedCallback: e => {
-  //     Modal.error({
-  //       title: 'Error Notification',
-  //       content: e.toString(),
-  //     });
-  //   },
-  // });
 
   try {
     await dispatch('/system/copy-files-to-dir', {
       paths,
       targetDir: appStore.getAlasPath + '/config',
     });
-  } catch (e: any) {
+  } catch (e) {
     Modal.error({
       title: 'Error Notification',
       content: e.toString(),
     });
   }
 
-  // const {configPath = '', files = []} = window.__electron_preload__getAlasConfigDirFiles();
   const {configPath = '', files = []} = await dispatch('/system/get-alas-config-dir-files');
   configDirPath.value = configPath;
   configDirFiles.value = files.map(item => ({

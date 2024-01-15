@@ -3,7 +3,7 @@ import type {BrowserWindowsIdentifier, MainEvents} from '@alas/common';
 import {isDev, isMacOS} from '@alas/common';
 import type {BrowserWindowConstructorOptions} from 'electron';
 import {BrowserWindow, Menu, Tray, app, globalShortcut, nativeImage, protocol} from 'electron';
-import installer /* ,{VUEJS3_DEVTOOLS} */ from 'electron-devtools-installer';
+// import installer /* ,{VUEJS3_DEVTOOLS} */ from 'electron-devtools-installer';
 import EventEmitter from 'events';
 import {join} from 'node:path';
 
@@ -155,13 +155,13 @@ export default class Browser extends EventEmitter {
        */
       // const extensions = [VUEJS3_DEVTOOLS];
       // installer(extensions)
-      installer('fjjopahebfkmlmkekebhacaklbhiefbn')
-        .then((name: string) => {
-          this.app.logger.trace(`Added Extension:  ${name}`);
-        })
-        .catch((err: Error) => {
-          this.app.logger.error('An error occurred: ', err);
-        });
+      // installer('fjjopahebfkmlmkekebhacaklbhiefbn')
+      //   .then((name: string) => {
+      //     this.app.logger.trace(`Added Extension:  ${name}`);
+      //   })
+      //   .catch((err: Error) => {
+      //     this.app.logger.error('An error occurred: ', err);
+      //   });
     });
   };
 

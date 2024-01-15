@@ -172,8 +172,6 @@ export class App extends EventEmitter {
       console.error = createLogProxy('error', Logger.getLogger('error'))(console.error);
     }
 
-    await this.loadAppConfig();
-
     /**
      * Disable Hardware Acceleration to save more system resources.
      * Also `in-process-gpu` to avoid creating a gpu process which may `exited unexpectedly`
