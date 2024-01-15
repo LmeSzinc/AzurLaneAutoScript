@@ -4,6 +4,7 @@ import fs from 'fs';
 
 interface Options {
   deep?: number;
+  offset?: number;
 }
 
 /**
@@ -14,8 +15,7 @@ interface Options {
  * @param options
  */
 export function getScriptRootPath(rootFile: string, options?: Options) {
-  const {deep} = {
-    deep: 5,
+  const {deep, offset = 0} = {
     ...options,
   };
   const appPath = app.getAppPath();
@@ -23,7 +23,7 @@ export function getScriptRootPath(rootFile: string, options?: Options) {
 
   const pathArr = appPath.split(sep);
 
-  let index = deep;
+  let index = deep || pathArr.length - offset;
   let currentPath = '';
   while (index-- > 0) {
     pathArr.pop();
