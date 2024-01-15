@@ -5,5 +5,5 @@ export const index: BrowserWindowOpts = {
   identifier: BrowserWindowsIdentifier.index,
   width: 1280,
   height: 880,
-  devTools: true,
+  devTools: false,
 };

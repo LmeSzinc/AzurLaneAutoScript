@@ -6,7 +6,7 @@ import {useAppStore} from '@/store/modules/app';
 import messages from '@intlify/unplugin-vue-i18n/messages';
 import {unref} from 'vue';
 
-export let i18n: ReturnType<typeof createI18n<any>>;
+export let i18n: ReturnType<typeof createI18n<never>>;
 
 const {fallback, availableLocales} = localeSetting;
 
