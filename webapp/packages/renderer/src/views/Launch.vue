@@ -63,10 +63,12 @@ export default defineComponent({
 
     const scrollToBottom = () => {
       const scrollDiv = unref(scrollRef);
+      if (!scrollDiv) return;
       scrollDiv?.scrollTo(0, scrollDiv?.scrollHeight);
     };
 
     const handelAlasInfo = (logStr: string) => {
+      if (!logStr) return;
       if (logStr?.includes('Application startup complete') || logStr?.includes('bind on address')) {
         router.push('/alas');
       }
@@ -75,7 +77,8 @@ export default defineComponent({
     const handleProgress = (logStr: string) => {
       if (!logStr?.includes('Process')) return;
       const processInfo = logStr.match(/Process: \[\s(.+?)\s\]/g)?.pop();
-      const processVal = processInfo?.match(/\d+/g)?.pop();
+      if (!processInfo) return;
+      const processVal = processInfo?.match(/(\d+)/g)?.pop();
       processVal && (progress.value = Number(processVal));
       if (progress.value !== 100) return;
       dispatch('/script/start-alas-server');

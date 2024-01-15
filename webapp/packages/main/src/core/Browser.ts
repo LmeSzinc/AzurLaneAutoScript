@@ -3,7 +3,7 @@ import type {BrowserWindowsIdentifier, MainEvents} from '@alas/common';
 import {isDev, isMacOS} from '@alas/common';
 import type {BrowserWindowConstructorOptions} from 'electron';
 import {BrowserWindow, Menu, Tray, app, globalShortcut, nativeImage, protocol} from 'electron';
-import installer, {VUEJS3_DEVTOOLS} from 'electron-devtools-installer';
+import installer /* ,{VUEJS3_DEVTOOLS} */ from 'electron-devtools-installer';
 import EventEmitter from 'events';
 import {join} from 'node:path';
 
@@ -86,7 +86,7 @@ export default class Browser extends EventEmitter {
         }, 2000);
       });
     } else {
-      this.browserWindow.loadFile(join(__dirname, '../renderer/index.html')).catch(err => {
+      this.browserWindow.loadFile(join(__dirname, '../renderer/index.html'), {}).catch(err => {
         this.app.logger.error(`loadUrl error ${err.message}`);
       });
     }
@@ -150,14 +150,18 @@ export default class Browser extends EventEmitter {
     if (!(isDev || process.env.DEBUG === '1')) return;
 
     app.whenReady().then(() => {
-      const extensions = [VUEJS3_DEVTOOLS];
-      try {
-        installer(extensions).then((name: string) => {
+      /**
+       * 安装 vue devtools 但是目前VUEJS3_DEVTOOLS id改换会出现没法正确安装的情况,需要手动补充id
+       */
+      // const extensions = [VUEJS3_DEVTOOLS];
+      // installer(extensions)
+      installer('fjjopahebfkmlmkekebhacaklbhiefbn')
+        .then((name: string) => {
           this.app.logger.trace(`Added Extension:  ${name}`);
+        })
+        .catch((err: Error) => {
+          this.app.logger.error('An error occurred: ', err);
         });
-      } catch (e) {
-        this.app.logger.error('An error occurred: ', e);
-      }
     });
   };
 

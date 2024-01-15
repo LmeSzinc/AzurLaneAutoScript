@@ -6,7 +6,7 @@
   "scripts": {
     "dev:main": "npm run start --prefix=packages/main",
     "dev:renderer": "npm run start --prefix=packages/renderer",
-    "start": "cross-env WEB_PORT=7777 concurrently \"npm run dev:renderer\" \"npm run dev:main\" ",
+    "start": "cross-env WEB_PORT=7777 IS_DEV=true  concurrently \"npm run dev:renderer\" \"npm run dev:main\" ",
     "build": "npm run build:renderer && npm run build:electron",
     "build:electron": "npm run build  --prefix=packages/main",
     "build:renderer": "npm run build  --prefix=packages/renderer",

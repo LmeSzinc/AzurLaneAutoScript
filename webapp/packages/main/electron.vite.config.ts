@@ -9,7 +9,7 @@ const target = 'node18';
 
 const externalPlugin = externalizeDepsPlugin({
   include: ['builder-util-runtime'],
-  // exclude: ['execa'],
+  exclude: ['execa'],
 });
 
 export default defineConfig({
@@ -34,11 +34,11 @@ export default defineConfig({
       lib: {
         entry: 'src/index.ts',
       },
-      rollupOptions: {
-        output: {
-          format: 'es',
-        },
-      },
+      // rollupOptions: {
+      //   output: {
+      //     format: 'es',
+      //   },
+      // },
       outDir: 'dist/main',
       emptyOutDir: true,
     },
