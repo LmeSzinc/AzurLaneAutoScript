@@ -12,6 +12,7 @@ import {
 import mustache from 'mustache';
 import {app} from 'electron';
 import {logger} from '@/core/Logger/customLogger';
+import {getResources} from '@/utils/getResources';
 
 /**
  * 校验配置文件是否存在  不存在则根据系统版本，语言环境进行创建
@@ -31,7 +32,8 @@ export function validateConfigFile(dirPath: string) {
     fsExtra.copyFileSync(join(dirPath, ALAS_CONFIG_TEMPLATE_YAML), join(dirPath, ALAS_CONFIG_YAML));
     return true;
   }
-  const tpl = fsExtra.readFileSync(join(app.getAppPath(), '../deploy.yaml.tpl'), {
+
+  const tpl = fsExtra.readFileSync(getResources('deploy.yaml.tpl'), {
     encoding: 'utf-8',
   });
   logger.info('tpl create new deploy.yaml');

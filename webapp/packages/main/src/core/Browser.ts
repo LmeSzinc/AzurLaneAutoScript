@@ -1,7 +1,7 @@
 import type {App} from '@/core/App';
 import type {BrowserWindowsIdentifier, MainEvents} from '@alas/common';
 import {isDev, isMacOS} from '@alas/common';
-import type {BrowserWindowConstructorOptions} from 'electron';
+import {BrowserWindowConstructorOptions} from 'electron';
 import {
   BrowserWindow,
   Menu,
@@ -14,6 +14,7 @@ import {
 // import installer /* ,{VUEJS3_DEVTOOLS} */ from 'electron-devtools-installer';
 import EventEmitter from 'events';
 import {join} from 'path';
+import {getResources} from '@/utils/getResources';
 
 protocol.registerSchemesAsPrivileged([{scheme: 'app', privileges: {secure: true, standard: true}}]);
 
@@ -109,7 +110,8 @@ export default class Browser extends EventEmitter {
   loadTray = () => {
     const {browserWindow, app} = this;
     Menu.setApplicationMenu(null);
-    const icon = nativeImage.createFromPath(join(__dirname, './icon.png'));
+
+    const icon = nativeImage.createFromPath(getResources('icon.png'));
     const dockerIcon = icon.resize({width: 16, height: 16});
     const tray = new Tray(isMacOS ? dockerIcon : icon);
     const contextMenu = Menu.buildFromTemplate([

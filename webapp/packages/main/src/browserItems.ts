@@ -1,7 +1,7 @@
 import type {BrowserWindowOpts} from '@/core/Browser';
 import {BrowserWindowsIdentifier} from '@alas/common';
 import {join} from 'path';
-import {app} from 'electron';
+import {getResources} from '@/utils/getResources';
 
 export const home: BrowserWindowOpts = {
   identifier: BrowserWindowsIdentifier.home,
@@ -9,9 +9,7 @@ export const home: BrowserWindowOpts = {
   height: 880,
   devTools: false,
   center: true,
-  icon: app.isPackaged
-    ? join(app.getAppPath(), '../../resources/icon.png')
-    : join(app.getAppPath(), '../icon.png'),
+  icon: getResources('icon.png'),
   // 隐藏默认的框架栏 包括页面名称以及关闭按钮等
   frame: false,
   webPreferences: {
