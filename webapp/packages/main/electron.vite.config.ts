@@ -12,9 +12,6 @@ const externalPlugin = externalizeDepsPlugin({
 
 export default defineConfig({
   main: {
-    optimizeDeps: {
-      include: ['linked-dep'],
-    },
     resolve: {
       alias: {
         '@': join(__dirname, 'src/'),
@@ -22,9 +19,6 @@ export default defineConfig({
       },
     },
     build: {
-      commonjsOptions: {
-        include: [/linked-dep/, /node_modules/],
-      },
       ssr: true,
       sourcemap: 'inline',
       minify: !isDev,

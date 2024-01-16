@@ -22,6 +22,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@electron-toolkit/preload": "^3.0.0",
+    "@electron-toolkit/utils": "^3.0.0",
     "chalk": "^4",
     "dayjs": "^1",
     "electron-updater": "^6.1.7",
@@ -32,7 +34,6 @@
     "log4js": "^6.4.1",
     "mustache": "^4.2.0",
     "nanoid": "^4.0.2",
-    "os-name": "^4",
     "python-shell": "^5",
     "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.21",
@@ -52,6 +53,6 @@
     "happy-dom": "^9",
     "unplugin-auto-expose": "^0.0.5",
     "vite": "^4",
-    "vitest": "latest"
+    "vitest": "^0"
   }
 }

@@ -13,6 +13,6 @@
     "electron": "22.3.4"
   },
   "devDependencies": {
-    "vite": "^5"
+    "vite": "^4"
   }
 }

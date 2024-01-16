@@ -2,8 +2,6 @@ import {isDev} from '@alas/common';
 import chalk from 'chalk';
 import {app} from 'electron';
 import {arch, cpus, platform, release, totalmem} from 'os';
-import osName from 'os-name';
-
 import {getLogger} from './customLogger';
 import type {LogLevel, LogScope} from './types';
 
@@ -33,18 +31,10 @@ export default class Logger {
     this.logger.info('开始启动 App...');
 
     this.logger.divider();
-    try {
-      this.logger.info(`操作系统： ${platform()} ${release()}(${arch()})`);
-      this.logger.info(`系统版本：${osName()}`);
-      this.logger.info(`处理器： ${cpus().length}核`);
-      this.logger.info(`总内存： ${(totalmem() / 1024 / 1024 / 1024).toFixed(0)}G`);
-      this.logger.info(`安装路径：${app.getAppPath()}`);
-    } catch (e) {
-      /**
-       * 未知原因目前在win11换进测试报错 execa.sync is not function
-       */
-      this.logger.error(`数据获取错误，${e}`);
-    }
+    this.logger.info(`操作系统： ${platform()} ${release()}(${arch()})`);
+    this.logger.info(`处理器： ${cpus().length}核`);
+    this.logger.info(`总内存： ${(totalmem() / 1024 / 1024 / 1024).toFixed(0)}G`);
+    this.logger.info(`安装路径：${app.getAppPath()}`);
 
     this.logger.divider();
   };

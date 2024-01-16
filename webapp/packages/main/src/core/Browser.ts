@@ -5,7 +5,7 @@ import type {BrowserWindowConstructorOptions} from 'electron';
 import {BrowserWindow, Menu, Tray, app, globalShortcut, nativeImage, protocol} from 'electron';
 // import installer /* ,{VUEJS3_DEVTOOLS} */ from 'electron-devtools-installer';
 import EventEmitter from 'events';
-import {join} from 'node:path';
+import {join} from 'path';
 
 protocol.registerSchemesAsPrivileged([{scheme: 'app', privileges: {secure: true, standard: true}}]);
 
@@ -235,7 +235,7 @@ export default class Browser extends EventEmitter {
         // https://www.electronjs.org/docs/tutorial/context-isolation
         contextIsolation: true,
         // devTools: isDev,
-        // preload: '../preload/index.mjs',
+        // preload: '../preload/index.js',
         preload: join(__dirname, '../preload/index.js'),
       },
     });
