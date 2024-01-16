@@ -1,3 +1,4 @@
 export enum BrowserWindowsIdentifier {
-  index = 'index',
+  loading = 'loading',
+  home = 'home',
 }

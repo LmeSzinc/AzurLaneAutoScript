@@ -4,7 +4,7 @@ import type {ErrorLogInfo} from '/#/store';
 import {ErrorTypeEnum} from '/#/store';
 import {dispatch} from '@/utils';
 
-function addErrorLogInfo(info: Record<any, any>) {
+function addErrorLogInfo(info: Record<never, never>) {
   dispatch('/system/stop-script-server', ['error', JSON.stringify(info)]);
 }
 

@@ -1,4 +1,7 @@
 import {event, ServiceModule} from './index';
+import {BrowserWindowsIdentifier} from '@alas/common';
+
+const Home = BrowserWindowsIdentifier.home;
 
 export default class BrowserService extends ServiceModule {
   /**
@@ -6,7 +9,7 @@ export default class BrowserService extends ServiceModule {
    */
   @event('/browser/window-tray')
   windowTray() {
-    const {browserWindow} = this.app.browserManager.browsers.get('start') || {};
+    const {browserWindow} = this.app.browserManager.browsers.get(Home) || {};
     browserWindow?.hide();
   }
 
@@ -21,7 +24,7 @@ export default class BrowserService extends ServiceModule {
 
   @event('/browser/minimize-current')
   minimizeWindow() {
-    const {browserWindow} = this.app.browserManager.browsers.get('start') || {};
+    const {browserWindow} = this.app.browserManager.browsers.get(Home) || {};
     browserWindow?.minimize();
   }
 
@@ -30,7 +33,7 @@ export default class BrowserService extends ServiceModule {
    */
   @event('/browser/maximize-current')
   maximizeWindow() {
-    const {browserWindow} = this.app.browserManager.browsers.get('start') || {};
+    const {browserWindow} = this.app.browserManager.browsers.get(Home) || {};
     browserWindow?.maximize();
   }
 }

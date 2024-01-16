@@ -39,7 +39,6 @@ module.exports = {
     '@typescript-eslint/consistent-type-imports': 'off',
 
 
-
     // ESLint: Definition for rule '@typescript-eslint/consistent-type-imports' was not found.(@typescript-eslint/consistent-type-imports)
     // ESLint: Definition for rule '@typescript-eslint/no-empty-function' was not found.(@typescript-eslint/no-empty-function)
     // ESLint: Definition for rule '@typescript-eslint/no-empty-interface' was not found.(@typescript-eslint/no-empty-interface)

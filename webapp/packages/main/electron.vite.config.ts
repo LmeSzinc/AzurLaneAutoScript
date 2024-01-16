@@ -1,10 +1,12 @@
 import {defineConfig, externalizeDepsPlugin} from 'electron-vite';
 import {join} from 'path';
 import {preload} from 'unplugin-auto-expose';
+// @ts-ignore
+import {node} from '../../electron-vendors.config.json';
 
 const isDev = process.env.MODE !== 'development';
 
-const target = 'node16';
+const target = `node${node || 16}`;
 
 const externalPlugin = externalizeDepsPlugin({
   include: ['builder-util-runtime'],

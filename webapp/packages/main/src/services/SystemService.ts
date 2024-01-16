@@ -1,10 +1,12 @@
-import {AlasConfig, isMacOS} from '@alas/common';
+import {AlasConfig, BrowserWindowsIdentifier, isMacOS} from '@alas/common';
 import {systemPreferences} from 'electron';
 import {event, ServiceModule} from './index';
 import {checkIsFirst} from '@/utils/checkIsFirst';
 import {modifyConfigYaml} from '@/utils/modifyConfigYaml';
 import {copyFilesToDir} from '@/utils/copyFilesToDir';
 import {getAlasConfigDirFiles} from '@/utils/alasConfig';
+
+const Home = BrowserWindowsIdentifier.home;
 
 export default class SystemService extends ServiceModule {
   /**
@@ -18,7 +20,7 @@ export default class SystemService extends ServiceModule {
 
   @event('/system/open-dev-tools')
   openDevTools() {
-    const {browserWindow} = this.app.browserManager.browsers.get('home') || {};
+    const {browserWindow} = this.app.browserManager.browsers.get(Home) || {};
     if (browserWindow?.webContents.isDevToolsOpened()) {
       browserWindow?.webContents.closeDevTools();
     } else {

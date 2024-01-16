@@ -1,4 +1,4 @@
-import Logger from '@/core/Logger';
+import Logger, {logAfter, logBefore} from '@/core/Logger';
 import {ServiceStorage} from '@/core/ServiceStorage';
 import type {TServiceModule} from '@/services';
 import {app, ipcMain} from 'electron';
@@ -11,9 +11,9 @@ import {getAlasConfig} from '@/utils/alasConfig';
 import type {AlasConfig} from '@alas/common';
 import {isDev} from '@alas/common';
 import * as browserItems from '../browserItems';
-import configInfo from '@/config';
-
-const {dpiScaling} = configInfo;
+// import configInfo from '@/config';
+//
+// const {dpiScaling} = configInfo;
 
 const importAll = (r: any) => Object.values(r).map((v: any) => v.default);
 
@@ -55,8 +55,9 @@ export class App extends EventEmitter {
 
     // 日志系统
     this.logger = new Logger();
-
-    const services: TServiceModule[] = importAll(import.meta.globEager('../services/*Service.ts'));
+    const services: TServiceModule[] = importAll(
+      import.meta.glob('../services/*Service.ts', {eager: true}),
+    );
 
     services.forEach(service => this.addService(service));
 
@@ -66,6 +67,9 @@ export class App extends EventEmitter {
 
       ipcMain.handle(key, async (e, ...data) => {
         // 输出日志
+        this.logger.divider('----');
+        this.logger.info(`Fetch ${key}`);
+        this.logger.divider('----');
         this.logger.module('Fetch', key);
         if (data) this.logger.data(...data);
 
@@ -129,10 +133,14 @@ export class App extends EventEmitter {
   /**
    * 添加窗口
    */
+  @logBefore('开始初始化窗口...')
+  @logAfter('窗口初始化完毕!')
   initBrowsers() {
-    Object.values(browserItems).forEach(item => {
-      this.browserManager.retrieveOrInitialize(item);
-    });
+    Object.values(browserItems)
+      .sort((a, b) => (a.sort || 10) - (b.sort || 10))
+      .forEach(item => {
+        this.browserManager.retrieveOrInitialize(item);
+      });
   }
 
   /**
@@ -184,10 +192,10 @@ export class App extends EventEmitter {
     app.commandLine.appendSwitch('no-sandbox');
 
     // No DPI scaling
-    if (!dpiScaling) {
-      app.commandLine.appendSwitch('high-dpi-support', '1');
-      app.commandLine.appendSwitch('force-device-scale-factor', '1');
-    }
+    // if (!dpiScaling) {
+    app.commandLine.appendSwitch('high-dpi-support', '1');
+    app.commandLine.appendSwitch('force-device-scale-factor', '1');
+    // }
   }
 
   loadAppConfig = async () => {

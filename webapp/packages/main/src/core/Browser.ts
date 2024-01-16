@@ -26,6 +26,10 @@ export interface BrowserWindowOpts extends BrowserWindowConstructorOptions {
   width?: number;
   height?: number;
   devTools?: boolean;
+
+  loadUrl?: (browserWindow: BrowserWindow) => void;
+
+  sort?: number;
 }
 
 export default class Browser extends EventEmitter {
@@ -222,32 +226,20 @@ export default class Browser extends EventEmitter {
       return this._browserWindow;
     }
 
-    const {identifier, title, width, height, devTools, ...res} = this.options;
+    const {identifier, title, width, height, devTools, loadUrl, ...res} = this.options;
 
     this._browserWindow = new BrowserWindow({
       ...res,
       width,
       height,
       title,
-      icon: join(__dirname, './icon.png'),
-      // 隐藏默认的框架栏 包括页面名称以及关闭按钮等
-      frame: false,
-      webPreferences: {
-        nodeIntegration: false,
-        sandbox: false,
-        webviewTag: false,
-        // 上下文隔离环境
-        // https://www.electronjs.org/docs/tutorial/context-isolation
-        contextIsolation: true,
-        // devTools: isDev,
-        preload: join(__dirname, '../preload/index.js'),
-      },
     });
+
+    loadUrl ? loadUrl(this._browserWindow) : this.loadUrl(identifier);
 
     this._browserWindow.setMinimumSize(576, 396);
 
     this.loadTray();
-    this.loadUrl(identifier);
     this.loadDevTools();
     this.loadActions();
 

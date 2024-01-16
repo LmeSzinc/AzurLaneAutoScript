@@ -21,7 +21,7 @@ export default class BrowserManager {
     if (browser) {
       return browser;
     }
-
+    this.app.logger.info('create browser:' + options.identifier);
     browser = new Browser(options, this.app);
 
     // 监听 fetch 方法

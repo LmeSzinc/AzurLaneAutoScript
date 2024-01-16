@@ -1,9 +1,11 @@
 import configInfo from '@/config';
 import {PyShell} from '@/pyshell';
 import {ServiceModule, event} from '@/services/index';
-import {ALAS_RELAUNCH_ARGV} from '@alas/common';
+import {ALAS_RELAUNCH_ARGV, BrowserWindowsIdentifier} from '@alas/common';
 
 const {installerArgs, installerPath} = configInfo;
+
+const Home = BrowserWindowsIdentifier.home;
 
 export default class ScriptService extends ServiceModule {
   @event('/script/start-alas-server')
@@ -14,7 +16,7 @@ export default class ScriptService extends ServiceModule {
 
     const {app} = this;
     const {config, logger} = app;
-    const browser = app.browserManager.browsers.get('index')!;
+    const browser = app.browserManager.browsers.get(Home)!;
     const dispatchEvent = browser.dispatchEvent.bind(browser);
     const {webuiPath, webuiArgs} = config;
     if (!webuiPath || !webuiArgs) {
@@ -74,7 +76,7 @@ export default class ScriptService extends ServiceModule {
     }
     const {app} = this;
     const {logger, initScriptService} = app;
-    const browser = app.browserManager.browsers.get('index')!;
+    const browser = app.browserManager.browsers.get(Home)!;
     const dispatchEvent = browser.dispatchEvent.bind(browser);
     let installer: PyShell | null = null;
     try {

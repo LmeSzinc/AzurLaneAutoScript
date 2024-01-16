@@ -7,7 +7,12 @@ module.exports = {
   extraMetadata: {
     version: process.env.npm_package_version,
   },
-
+  extraResources: [
+    {
+      from: '../../resources',
+      to: '.',
+    },
+  ],
   /**
    *  app 基础信息
    */
