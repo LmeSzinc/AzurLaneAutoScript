@@ -1,5 +1,3 @@
-import * as process from 'process';
-
 /**
  * 判断是否是 mac 平台
  */

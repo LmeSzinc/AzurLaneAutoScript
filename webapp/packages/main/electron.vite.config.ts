@@ -1,11 +1,10 @@
 import {defineConfig, externalizeDepsPlugin} from 'electron-vite';
 import {join} from 'path';
-// import {preload} from 'unplugin-auto-expose';
+import {preload} from 'unplugin-auto-expose';
 
 const isDev = process.env.MODE !== 'development';
 
-// electron 24 版本使用 node18
-// const target = 'node18';
+const target = 'node16';
 
 const externalPlugin = externalizeDepsPlugin({
   include: ['builder-util-runtime'],
@@ -29,7 +28,7 @@ export default defineConfig({
       ssr: true,
       sourcemap: 'inline',
       minify: !isDev,
-      // target,
+      target,
       lib: {
         entry: 'src/index.ts',
       },
@@ -42,7 +41,7 @@ export default defineConfig({
     build: {
       ssr: true,
       sourcemap: 'inline',
-      // target,
+      target,
       minify: !isDev,
       lib: {
         entry: join(__dirname, '../preload/src/index.ts'),
@@ -50,7 +49,7 @@ export default defineConfig({
       outDir: 'dist/preload',
       emptyOutDir: true,
     },
-    plugins: [externalPlugin],
+    plugins: [preload.vite(), externalPlugin],
   },
 
   // 忽略 renderer 的构建F
