@@ -2,16 +2,16 @@ import {ThemeObj, ALAS_CONFIG_YAML} from '@alas/common';
 import type {Dirent} from 'fs';
 import type {AlasConfig, DefAlasConfig} from '@alas/common';
 import {checkIsFirst} from '@/utils/checkIsFirst';
-import {webuiArgs, webuiPath} from '@/config';
+import configInfo from '@/config';
 import path from 'path';
 import yaml from 'yaml';
 import fs from 'fs';
-import {getScriptRootPath} from '@/utils/getScriptRootPath';
+
+const {webuiArgs, webuiPath, alasPath} = configInfo;
 
 let alasConfig: AlasConfig | null = null;
 export async function getAlasConfig() {
   if (alasConfig === null) {
-    const alasPath = getScriptRootPath('/config/deploy.template.yaml');
     const file = fs.readFileSync(path.join(alasPath, `./config/${ALAS_CONFIG_YAML}`), 'utf8');
     const config = yaml.parse(file) as DefAlasConfig;
     const WebuiPort = config.Deploy.Webui.WebuiPort.toString();
@@ -40,7 +40,6 @@ interface fileInfoItem {
   lastModifyTime: Date;
 }
 export function getAlasConfigDirFiles() {
-  const alasPath = getScriptRootPath('/config/deploy.template.yaml');
   const configPath = path.join(alasPath, './config');
   const files: Dirent[] = fs.readdirSync(configPath, {withFileTypes: true});
   const filesInfoList: fileInfoItem[] = files.map((file: Dirent) => {

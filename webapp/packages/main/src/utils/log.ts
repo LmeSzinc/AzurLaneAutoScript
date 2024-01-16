@@ -5,11 +5,8 @@
  * @return {function}
  */
 export const createLogProxy =
-  (logLevel: string, mainLogger: any) =>
-  (
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    fn: Function,
-  ) =>
+  (logLevel: string, mainLogger: any): Function =>
+  (fn: Function) =>
   (...args: any) => {
     fn(...args);
     mainLogger[logLevel](...args);

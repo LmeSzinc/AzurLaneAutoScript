@@ -12,7 +12,9 @@ export function modifyYaml(filePath: string, keyObj: {[k in string]: never}) {
     const keysMap = new Map(Object.entries(keyObj));
     visit(doc, {
       Pair: (_node, pair: Pair) => {
+        // @ts-ignore
         if (keysMap.has(pair?.key?.value)) {
+          // @ts-ignore
           pair.value.value = keysMap.get(pair.key.value);
         }
       },

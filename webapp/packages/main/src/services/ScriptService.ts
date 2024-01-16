@@ -1,7 +1,9 @@
-import {installerArgs, installerPath} from '@/config';
+import configInfo from '@/config';
 import {PyShell} from '@/pyshell';
 import {ServiceModule, event} from '@/services/index';
 import {ALAS_RELAUNCH_ARGV} from '@alas/common';
+
+const {installerArgs, installerPath} = configInfo;
 
 export default class ScriptService extends ServiceModule {
   @event('/script/start-alas-server')

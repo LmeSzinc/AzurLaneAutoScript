@@ -2,7 +2,15 @@ import type {App} from '@/core/App';
 import type {BrowserWindowsIdentifier, MainEvents} from '@alas/common';
 import {isDev, isMacOS} from '@alas/common';
 import type {BrowserWindowConstructorOptions} from 'electron';
-import {BrowserWindow, Menu, Tray, app, globalShortcut, nativeImage, protocol} from 'electron';
+import {
+  BrowserWindow,
+  Menu,
+  Tray,
+  globalShortcut,
+  app as electronApp,
+  nativeImage,
+  protocol,
+} from 'electron';
 // import installer /* ,{VUEJS3_DEVTOOLS} */ from 'electron-devtools-installer';
 import EventEmitter from 'events';
 import {join} from 'path';
@@ -95,7 +103,7 @@ export default class Browser extends EventEmitter {
    * 加载托盘
    */
   loadTray = () => {
-    const {browserWindow} = this;
+    const {browserWindow, app} = this;
     Menu.setApplicationMenu(null);
     const icon = nativeImage.createFromPath(join(__dirname, './icon.png'));
     const dockerIcon = icon.resize({width: 16, height: 16});
@@ -103,23 +111,20 @@ export default class Browser extends EventEmitter {
     const contextMenu = Menu.buildFromTemplate([
       {
         label: 'Show',
-        click: function () {
+        click: () => {
           browserWindow?.show();
         },
       },
       {
         label: 'Hide',
-        click: function () {
+        click: () => {
           browserWindow?.hide();
         },
       },
       {
         label: 'Exit',
-        click: function () {
-          /**
-           * 贯标alasService
-           */
-          app.quit();
+        click: () => {
+          app.destroy();
           process.exit(0);
         },
       },
@@ -149,7 +154,7 @@ export default class Browser extends EventEmitter {
     // 生产环境直接结束
     if (!(isDev || process.env.DEBUG === '1')) return;
 
-    app.whenReady().then(() => {
+    electronApp.whenReady().then(() => {
       /**
        * 安装 vue devtools 但是目前VUEJS3_DEVTOOLS id改换会出现没法正确安装的情况,需要手动补充id
        */
@@ -235,7 +240,6 @@ export default class Browser extends EventEmitter {
         // https://www.electronjs.org/docs/tutorial/context-isolation
         contextIsolation: true,
         // devTools: isDev,
-        // preload: '../preload/index.js',
         preload: join(__dirname, '../preload/index.js'),
       },
     });

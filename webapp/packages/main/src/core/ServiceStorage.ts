@@ -1,6 +1,7 @@
 import {logAfter, logBefore} from '@/core/Logger';
 
 /**
+ * 目前看起来没有必要
  * 存储插件中的 service
  */
 export class ServiceStorage {

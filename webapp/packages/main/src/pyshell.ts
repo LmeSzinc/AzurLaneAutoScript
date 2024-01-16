@@ -1,7 +1,9 @@
-import {alasPath, pythonPath} from '@/config';
+import configInfo from '@/config';
 import {logger} from '@/core/Logger/customLogger';
 import {Options, PythonShell} from 'python-shell';
 import treeKill from 'tree-kill';
+
+const {alasPath, pythonPath} = configInfo;
 
 export class PyShell extends PythonShell {
   constructor(script: string, args: Array<string> = []) {

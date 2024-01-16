@@ -11,8 +11,10 @@ import {getAlasConfig} from '@/utils/alasConfig';
 import type {AlasConfig} from '@alas/common';
 import {isDev} from '@alas/common';
 import * as browserItems from '../browserItems';
+import configInfo from '@/config';
 
-// eslint-disable-next-line
+const {dpiScaling} = configInfo;
+
 const importAll = (r: any) => Object.values(r).map((v: any) => v.default);
 
 export type ServiceMap = Map<string, any>;
@@ -44,12 +46,15 @@ export class App extends EventEmitter {
   config: Partial<AlasConfig> = {};
 
   /**
-   * alas 服务
+   * 脚本服务
    */
   scriptManager: Map<string, PyShell> = new Map();
 
   constructor() {
     super();
+
+    // 日志系统
+    this.logger = new Logger();
 
     const services: TServiceModule[] = importAll(import.meta.globEager('../services/*Service.ts'));
 
@@ -76,13 +81,11 @@ export class App extends EventEmitter {
 
     // 启动窗口管理器
     this.browserManager = new BrowserManager(this);
-
-    // 日志系统
-    this.logger = new Logger();
   }
 
   onActivate = () => {
-    this.browserManager.browsers.get('index')!.show();
+    const [key] = this.browserManager.browsers.keys();
+    this.browserManager.browsers.get(key)!.show();
   };
 
   beforeQuit = () => {
@@ -94,11 +97,8 @@ export class App extends EventEmitter {
     this.browserManager.browsers.forEach(browser => {
       browser?.destroy();
     });
-
-    /**
-     * 这里需要补充关闭alas服务
-     */
   };
+
   /**
    * 启动 app
    */
@@ -128,7 +128,6 @@ export class App extends EventEmitter {
 
   /**
    * 添加窗口
-
    */
   initBrowsers() {
     Object.values(browserItems).forEach(item => {
@@ -185,7 +184,7 @@ export class App extends EventEmitter {
     app.commandLine.appendSwitch('no-sandbox');
 
     // No DPI scaling
-    if (!this.config.dpiScaling) {
+    if (!dpiScaling) {
       app.commandLine.appendSwitch('high-dpi-support', '1');
       app.commandLine.appendSwitch('force-device-scale-factor', '1');
     }

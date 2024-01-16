@@ -1,13 +1,12 @@
-import {DefAlasConfig} from '@alas/common';
-import {ALAS_INSTR_FILE} from '@alas/common';
+import {ALAS_INSTR_FILE, DefAlasConfig} from '@alas/common';
 import {validateConfigFile} from '@/utils/validate';
-import {join} from 'path';
+import path, {join} from 'path';
 import {logger} from '@/core/Logger/customLogger';
 
 import yaml from 'yaml';
 import fs from 'fs';
-import path from 'path';
 import {getScriptRootPath} from '@/utils/getScriptRootPath';
+import {is} from '@electron-toolkit/utils';
 
 // function getAlasPath() {
 //   let file;
@@ -48,38 +47,89 @@ import {getScriptRootPath} from '@/utils/getScriptRootPath';
 //   return path.join(alasPath, './Alas.exe');
 // }
 
-export const alasPath = getScriptRootPath();
+// export const alasPath = getScriptRootPath();
 
-try {
-  validateConfigFile(join(alasPath, '/config'));
-} catch (e) {
-  logger.error(String(e as any));
-}
+// try {
+//   validateConfigFile(join(alasPath, '/config'));
+// } catch (e) {
+//   logger.error(String(e as any));
+// }
 
-const file = fs.readFileSync(path.join(alasPath, './config/deploy.yaml'), 'utf8');
-const config = yaml.parse(file) as DefAlasConfig;
-const PythonExecutable = config.Deploy.Python.PythonExecutable;
-const WebuiPort = config.Deploy.Webui.WebuiPort.toString();
-const Theme = config.Deploy.Webui.Theme;
+// const file = fs.readFileSync(path.join(alasPath, './config/deploy.yaml'), 'utf8');
+// const config = yaml.parse(file) as DefAlasConfig;
+// const PythonExecutable = config.Deploy.Python.PythonExecutable;
+// const WebuiPort = config.Deploy.Webui.WebuiPort.toString();
+// const Theme = config.Deploy.Webui.Theme;
 
-export const ThemeObj: {[k in string]: 'light' | 'dark'} = {
-  default: 'light',
-  light: 'light',
-  dark: 'dark',
-  system: 'light',
-};
+// export const ThemeObj: {[k in string]: 'light' | 'dark'} = {
+//   default: 'light',
+//   light: 'light',
+//   dark: 'dark',
+//   system: 'light',
+// };
 
-export const pythonPath = path.isAbsolute(PythonExecutable)
-  ? PythonExecutable
-  : path.join(alasPath, PythonExecutable);
-export const installerPath = ALAS_INSTR_FILE;
-export const installerArgs = import.meta.env.DEV ? ['--print-test'] : [];
-export const webuiUrl = `http://127.0.0.1:${WebuiPort}`;
-export const webuiPath = 'gui.py';
-export const webuiArgs = ['--port', WebuiPort, '--electron'];
-export const dpiScaling =
-  Boolean(config.Deploy.Webui.DpiScaling) || config.Deploy.Webui.DpiScaling === undefined;
+// export const pythonPath = path.isAbsolute(PythonExecutable)
+//   ? PythonExecutable
+//   : path.join(alasPath, PythonExecutable);
+// export const installerPath = ALAS_INSTR_FILE;
+// export const installerArgs = import.meta.env.DEV ? ['--print-test'] : [];
+// export const webuiUrl = `http://127.0.0.1:${WebuiPort}`;
+// export const webuiPath = 'gui.py';
+// export const webuiArgs = ['--port', WebuiPort, '--electron'];
+// export const dpiScaling =
+//   Boolean(config.Deploy.Webui.DpiScaling) || config.Deploy.Webui.DpiScaling === undefined;
 
-export const webuiTheme = ThemeObj[Theme] || 'light';
+// export const webuiTheme = ThemeObj[Theme] || 'light';
+//
+// export const noSandbox = config.Deploy.Webui.NoSandbox;
 
-export const noSandbox = config.Deploy.Webui.NoSandbox;
+let configInfo = (() => {
+  const alasPath = getScriptRootPath();
+  try {
+    validateConfigFile(join(alasPath, '/config'));
+  } catch (e) {
+    logger.error(String(e as any));
+  }
+  const file = fs.readFileSync(path.join(alasPath, './config/deploy.yaml'), 'utf8');
+  const config = yaml.parse(file) as DefAlasConfig;
+  const PythonExecutable = config.Deploy.Python.PythonExecutable;
+  const WebuiPort = config.Deploy.Webui.WebuiPort.toString();
+  const Theme = config.Deploy.Webui.Theme;
+
+  const ThemeObj: {[k in string]: 'light' | 'dark'} = {
+    default: 'light',
+    light: 'light',
+    dark: 'dark',
+    system: 'light',
+  };
+
+  const pythonPath = path.isAbsolute(PythonExecutable)
+    ? PythonExecutable
+    : path.join(alasPath, PythonExecutable);
+  const installerPath = ALAS_INSTR_FILE;
+  const installerArgs = is.dev ? ['--print-test'] : [];
+  const webuiUrl = `http://127.0.0.1:${WebuiPort}`;
+  const webuiPath = 'gui.py';
+  const webuiArgs = ['--port', WebuiPort, '--electron'];
+  const dpiScaling =
+    Boolean(config.Deploy.Webui.DpiScaling) || config.Deploy.Webui.DpiScaling === undefined;
+
+  const webuiTheme = ThemeObj[Theme] || 'light';
+
+  const noSandbox = config.Deploy.Webui.NoSandbox;
+
+  return {
+    alasPath,
+    installerPath,
+    pythonPath,
+    installerArgs,
+    webuiUrl,
+    webuiPath,
+    webuiArgs,
+    dpiScaling,
+    webuiTheme,
+    noSandbox,
+  };
+})();
+
+export default configInfo;
