@@ -324,13 +324,14 @@ class RewardCommission(UI, InfoHandler):
         self.daily_choose, self.urgent_choose = self._commission_choose(self.daily, self.urgent)
         return daily, urgent
 
-    def _commission_start_click(self, comm, is_urgent=False):
+    def _commission_start_click(self, comm, is_urgent=False, skip_first_screenshot=True):
         """
         Start a commission.
 
         Args:
             comm (Commission):
             is_urgent (bool):
+            skip_first_screenshot:
 
         Returns:
             bool: If success
@@ -345,14 +346,37 @@ class RewardCommission(UI, InfoHandler):
         comm_timer = Timer(7)
         count = 0
         while 1:
-            if comm_timer.reached():
-                self.device.click(comm.button)
-                self.device.sleep(0.3)
-                comm_timer.reset()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
-            if self.handle_popup_confirm('COMMISSION_START'):
+            # End
+            if self.info_bar_count():
+                break
+            if count >= 3:
+                # Restart game and handle commission recommend bug.
+                # After you click "Recommend", your ships appear and then suddenly disappear.
+                # At the same time, the icon of commission is flashing.
+                logger.warning('Triggered commission list flashing bug')
+                raise GameStuckError('Triggered commission list flashing bug')
+
+            # Click
+            if self.appear_then_click(COMMISSION_START, offset=(5, 20), interval=7):
+                self.interval_reset(COMMISSION_ADVICE)
                 comm_timer.reset()
-                pass
+                continue
+            if self.handle_popup_confirm('COMMISSION_START'):
+                self.interval_reset(COMMISSION_ADVICE)
+                comm_timer.reset()
+                continue
+            # Accidentally entered dock
+            if self.appear(DOCK_CHECK, offset=(20, 20), interval=3):
+                logger.info(f'equip_enter {DOCK_CHECK} -> {BACK_ARROW}')
+                self.device.click(BACK_ARROW)
+                comm_timer.reset()
+                continue
+            # Check if is the right commission
             if self.appear(COMMISSION_ADVICE, offset=(5, 20), interval=7):
                 area = (0, 0, image_size(self.device.image)[0], COMMISSION_ADVICE.button[1])
                 current = self.commission_detect(area=area)
@@ -369,28 +393,15 @@ class RewardCommission(UI, InfoHandler):
                     logger.warning('No selected commission detected, assuming correct')
                 self.device.click(COMMISSION_ADVICE)
                 count += 1
+                self.interval_reset(COMMISSION_ADVICE)
+                self.interval_clear(COMMISSION_START)
                 comm_timer.reset()
-                pass
-            if self.appear_then_click(COMMISSION_START, offset=(5, 20), interval=7):
-                comm_timer.reset()
-                pass
-            # Accidentally entered dock
-            if self.appear(DOCK_CHECK, offset=(20, 20), interval=3):
-                logger.info(f'equip_enter {DOCK_CHECK} -> {BACK_ARROW}')
-                self.device.click(BACK_ARROW)
                 continue
-
-            # End
-            if self.info_bar_count():
-                break
-            if count >= 3:
-                # Restart game and handle commission recommend bug.
-                # After you click "Recommend", your ships appear and then suddenly disappear.
-                # At the same time, the icon of commission is flashing.
-                logger.warning('Triggered commission list flashing bug')
-                raise GameStuckError('Triggered commission list flashing bug')
-
-            self.device.screenshot()
+            # Enter
+            if comm_timer.reached():
+                self.device.click(comm.button)
+                self.device.sleep(0.3)
+                comm_timer.reset()
 
         return True
 

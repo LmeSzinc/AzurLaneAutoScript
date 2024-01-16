@@ -65,13 +65,13 @@ class Config:
     # ===== End of generated config =====
 
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (150, 255 - 24),
+        'height': (150, 255 - 17),
         'width': (0.9, 10),
         'prominence': 10,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 24, 255),
+        'height': (255 - 17, 255),
         'prominence': 10,
         'distance': 50,
         'wlen': 1000

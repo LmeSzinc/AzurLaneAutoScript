@@ -63,18 +63,19 @@ class Config:
     MOVABLE_NORMAL_ENEMY_TURN = (2,)
     MAP_SIREN_MOVE_WAIT = 1.0
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (150, 255 - 24),
+        'height': (80, 255 - 17),
         'width': (0.9, 10),
         'prominence': 10,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 24, 255),
+        'height': (255 - 17, 255),
         'prominence': 10,
         'distance': 50,
         'wlen': 1000
     }
     HOMO_EDGE_COLOR_RANGE = (0, 17)
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 180
     MAP_SWIPE_MULTIPLY = (1.033, 1.053)
     MAP_SWIPE_MULTIPLY_MINITOUCH = (0.999, 1.018)
     MAP_SWIPE_MULTIPLY_MAATOUCH = (0.970, 0.988)
