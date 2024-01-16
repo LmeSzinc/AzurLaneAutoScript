@@ -7974,8 +7974,8 @@
         "value": false
       },
       "ConsumeCoins": {
-        "type": "checkbox",
-        "value": false
+        "type": "input",
+        "value": 550000
       },
       "Filter": {
         "type": "textarea",

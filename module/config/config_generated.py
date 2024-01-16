@@ -255,7 +255,7 @@ class GeneratedConfig:
     GeneralShop_UseGems = False
     GeneralShop_Refresh = False
     GeneralShop_BuySkinBox = False
-    GeneralShop_ConsumeCoins = False
+    GeneralShop_ConsumeCoins = 550000
     GeneralShop_Filter = 'BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2\n> Cube\n> FoodT6 > FoodT5'
 
     # Group `GuildShop`

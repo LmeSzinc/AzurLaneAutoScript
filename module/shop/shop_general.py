@@ -117,7 +117,7 @@ class GeneralShop(ShopClerk, ShopUI, ShopStatus):
         Returns:
             bool: whether item is custom
         """
-        if self.config.GeneralShop_ConsumeCoins and self._currency >= 550000:
+        if self.config.GeneralShop_ConsumeCoins and self._currency >= self.config.GeneralShop_ConsumeCoins:
             if item.cost == 'Coins':
                 return True
 
