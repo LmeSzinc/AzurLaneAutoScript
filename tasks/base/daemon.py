@@ -1,5 +1,6 @@
 from module.base.timer import Timer
 from module.daemon.daemon_base import DaemonBase
+from module.device.method import maatouch
 from module.logger import logger
 from tasks.base.assets.assets_base_daemon import *
 from tasks.base.main_page import MainPage
@@ -8,6 +9,17 @@ from tasks.daily.assets.assets_daily_camera import PICTURE_TAKEN
 from tasks.map.assets.assets_map_bigmap import TELEPORT_RIGHT
 from tasks.map.interact.aim import AimDetectorMixin
 from tasks.rogue.route.base import RouteBase
+
+
+class SecondaryMaatouchBuilder(maatouch.MaatouchBuilder):
+    def __init__(self, device, contact=0, handle_orientation=False):
+        """
+        Click on secondary contact to avoid interruption of real-person contact
+        """
+        super().__init__(device, contact=1, handle_orientation=handle_orientation)
+
+
+maatouch.MaatouchBuilder = SecondaryMaatouchBuilder
 
 
 class Daemon(RouteBase, DaemonBase, AimDetectorMixin):
@@ -40,6 +52,12 @@ class Daemon(RouteBase, DaemonBase, AimDetectorMixin):
     def run(self):
         # Rebind daemon settings along with rogue settings
         self.config.bind('Daemon', func_list=['Rogue'])
+        # Check contact
+        builder = self.device.maatouch_builder
+        if builder.contact >= 1:
+            logger.info(f'Maatouch contact on {builder.contact}')
+        else:
+            logger.warning(f'Maatouch contact on {builder.contact}, may cause interruptions')
 
         teleport_confirm = Timer(1, count=5)
         while 1:
