@@ -67,9 +67,6 @@ export class App extends EventEmitter {
 
       ipcMain.handle(key, async (e, ...data) => {
         // 输出日志
-        this.logger.divider('----');
-        this.logger.info(`Fetch ${key}`);
-        this.logger.divider('----');
         this.logger.module('Fetch', key);
         if (data) this.logger.data(...data);
 

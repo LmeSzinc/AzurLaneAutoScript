@@ -36,7 +36,6 @@ export function validateConfigFile(dirPath: string) {
   const tpl = fsExtra.readFileSync(getResources('deploy.yaml.tpl'), {
     encoding: 'utf-8',
   });
-  logger.info('tpl create new deploy.yaml');
   const system = isMacOS ? 'macos' : 'windows';
   const localCode = app.getLocaleCountryCode().toLocaleLowerCase();
   let local: 'global' | 'china' = 'global';
