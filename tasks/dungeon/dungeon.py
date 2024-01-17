@@ -405,11 +405,15 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
         return require
 
     def check_stamina_quest(self, stamina_used: int):
-        if KEYWORD_BATTLE_PASS_QUEST.Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max not in self.weekly_quests:
-            return
+        logger.info(f'Used {stamina_used} stamina')
 
-        logger.info(f'Done Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max stamina {stamina_used}')
-        self.config.stored.BattlePassQuestTrailblazePower.add(stamina_used)
-        if self.config.stored.BattlePassQuestTrailblazePower.is_full():
-            logger.info('Achieved weekly quest Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max')
-            self.achieved_weekly_quest = True
+        if KEYWORD_BATTLE_PASS_QUEST.Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max in self.weekly_quests:
+            logger.info(f'Done Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max stamina {stamina_used}')
+            self.config.stored.BattlePassQuestTrailblazePower.add(stamina_used)
+            if self.config.stored.BattlePassQuestTrailblazePower.is_full():
+                logger.info('Achieved weekly quest Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max')
+                self.achieved_weekly_quest = True
+
+        if KEYWORDS_DAILY_QUEST.Consume_120_Trailblaze_Power in self.daily_quests:
+            logger.info(f'Done Consume_120_Trailblaze_Power stamina {stamina_used}')
+            self.achieved_daily_quest = True

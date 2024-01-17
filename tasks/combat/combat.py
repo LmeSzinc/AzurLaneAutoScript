@@ -1,4 +1,5 @@
 from module.base.decorator import run_once
+from module.exception import RequestHumanTakeover
 from module.logger import logger
 from tasks.combat.assets.assets_combat_finish import COMBAT_AGAIN, COMBAT_EXIT
 from tasks.combat.assets.assets_combat_prepare import COMBAT_PREPARE
@@ -81,6 +82,7 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
         logger.hr('Combat prepare')
         skip_first_screenshot = True
         pre_set_team = bool(support_character)
+        trial = 0
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -90,6 +92,11 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
             # End
             if self.is_combat_executing():
                 return True
+            # Relics full
+            # Clicking between COMBAT_PREPARE and COMBAT_TEAM_PREPARE
+            if trial > 3:
+                logger.critical('Failed to enter dungeon after 3 trial, probably because relics are full')
+                raise RequestHumanTakeover
 
             # Click
             if self.appear(COMBAT_TEAM_SUPPORT) and support_character:
@@ -112,6 +119,7 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
                     return False
                 self.device.click(COMBAT_PREPARE)
                 self.interval_reset(COMBAT_PREPARE)
+                trial += 1
                 continue
             if self.handle_combat_interact():
                 continue
@@ -307,6 +315,9 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
 
         Returns:
             int: Run count
+
+        Raises:
+            RequestHumanTakeover: If relics are full
 
         Pages:
             in: COMBAT_PREPARE

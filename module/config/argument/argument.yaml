@@ -277,4 +277,6 @@ Daemon:
     value: true
     option: [ true ]
     option_bold: [ true, ]
-
+  AimClicker:
+    value: do_not_click
+    option: [ item_enemy, item, enemy, do_not_click ]

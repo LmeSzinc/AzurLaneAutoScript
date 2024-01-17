@@ -206,7 +206,8 @@
   },
   "Daemon": {
     "Daemon": {
-      "Enable": true
+      "Enable": true,
+      "AimClicker": "do_not_click"
     }
   }
 }
