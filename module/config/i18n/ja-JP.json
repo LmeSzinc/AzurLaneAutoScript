@@ -950,6 +950,14 @@
       "name": "Daemon.Enable.name",
       "help": "Daemon.Enable.help",
       "True": "True"
+    },
+    "AimClicker": {
+      "name": "Daemon.AimClicker.name",
+      "help": "Daemon.AimClicker.help",
+      "item_enemy": "item_enemy",
+      "item": "item",
+      "enemy": "enemy",
+      "do_not_click": "do_not_click"
     }
   },
   "Gui": {

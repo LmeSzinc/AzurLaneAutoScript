@@ -1374,6 +1374,16 @@
         "option_bold": [
           true
         ]
+      },
+      "AimClicker": {
+        "type": "select",
+        "value": "do_not_click",
+        "option": [
+          "item_enemy",
+          "item",
+          "enemy",
+          "do_not_click"
+        ]
       }
     }
   }

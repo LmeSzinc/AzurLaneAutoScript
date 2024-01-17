@@ -950,6 +950,14 @@
       "name": "Dialogue Clicker",
       "help": "Monitor game, automatically click dialogue, phone chatting, and blessing in simulated universe (follow the simulated universe task settings)",
       "True": "Enabled"
+    },
+    "AimClicker": {
+      "name": "Click Aimed Items and Enemies",
+      "help": "",
+      "item_enemy": "Click items and enemies",
+      "item": "Click items only",
+      "enemy": "Click enemies only",
+      "do_not_click": "Don't click"
     }
   },
   "Gui": {

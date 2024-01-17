@@ -950,6 +950,14 @@
       "name": "Clic de diálogo",
       "help": "Monitorear el juego, hacer clic automáticamente en el diálogo, chatear por teléfono y bendecir en el universo simulado (sigue la configuración de tareas del universo simulado)",
       "True": "Activado"
+    },
+    "AimClicker": {
+      "name": "Haz clic en Objetos y enemigos apuntados",
+      "help": "",
+      "item_enemy": "Haz clic en elementos y enemigos",
+      "item": "Haz clic solo en elementos",
+      "enemy": "Haz clic solo en enemigos",
+      "do_not_click": "No hacer clic"
     }
   },
   "Gui": {

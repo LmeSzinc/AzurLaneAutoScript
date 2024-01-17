@@ -1,18 +1,45 @@
 from module.base.timer import Timer
+from module.daemon.daemon_base import DaemonBase
 from module.logger import logger
 from tasks.base.assets.assets_base_daemon import *
 from tasks.base.main_page import MainPage
 from tasks.base.page import page_main, page_rogue
 from tasks.daily.assets.assets_daily_camera import PICTURE_TAKEN
 from tasks.map.assets.assets_map_bigmap import TELEPORT_RIGHT
+from tasks.map.interact.aim import AimDetectorMixin
 from tasks.rogue.route.base import RouteBase
 
 
-class Daemon(RouteBase):
+class Daemon(RouteBase, DaemonBase, AimDetectorMixin):
+    aim_interval = Timer(0.3, count=1)
+
+    def handle_aim_click(self, item=True, enemy=True):
+        """
+        Args:
+            item:
+            enemy:
+
+        Returns:
+            bool: If clicked
+        """
+        if not item and not enemy:
+            return False
+        if not self.is_in_main():
+            return False
+
+        if self.aim_interval.reached_and_reset():
+            self.aim.predict(self.device.image, item=item, enemy=enemy)
+        if self.aim.aimed_enemy:
+            if self.handle_map_A():
+                return True
+        if self.aim.aimed_item:
+            if self.handle_map_A():
+                return True
+        return False
+
     def run(self):
         # Rebind daemon settings along with rogue settings
         self.config.bind('Daemon', func_list=['Rogue'])
-        self.device.disable_stuck_detection()
 
         teleport_confirm = Timer(1, count=5)
         while 1:
@@ -65,3 +92,9 @@ class Daemon(RouteBase):
                     continue
                 if self.handle_event_option():
                     continue
+            # Aim click
+            if self.handle_aim_click(
+                    item='item' in self.config.Daemon_AimClicker,
+                    enemy='enemy' in self.config.Daemon_AimClicker,
+            ):
+                continue
