@@ -20,7 +20,15 @@ from tasks.base.ui import UI
 from tasks.battle_pass.assets.assets_battle_pass import *
 from tasks.battle_pass.keywords import *
 
-SWITCH_BATTLE_PASS_TAB = Switch('BattlePassTab', is_selector=True)
+
+class BattlePassTab(Switch):
+    def handle_additional(self, main: UI):
+        if main.handle_reward():
+            return True
+        return False
+
+
+SWITCH_BATTLE_PASS_TAB = BattlePassTab('BattlePassTab', is_selector=True)
 SWITCH_BATTLE_PASS_TAB.add_state(
     KEYWORD_BATTLE_PASS_TAB.Rewards,
     check_button=REWARDS_CHECK,

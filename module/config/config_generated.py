@@ -53,7 +53,7 @@ class GeneratedConfig:
 
     # Group `DungeonSupport`
     DungeonSupport_Use = 'when_daily'  # always_use, when_daily, do_not_use
-    DungeonSupport_Character = 'FirstCharacter'  # FirstCharacter, Argenti, Arlan, Asta, Bailu, Blade, Bronya, Clara, DanHeng, DanHengImbibitorLunae, FuXuan, Gepard, Guinaifen, Hanya, Herta, Himeko, Hook, Huohuo, JingYuan, Jingliu, Kafka, Luka, Luocha, Lynx, March7th, Natasha, Pela, Qingque, RuanMei, Sampo, Seele, Serval, SilverWolf, Sushang, Tingyun, TopazNumby, TrailblazerDestruction, TrailblazerPreservation, Welt, Xueyi, Yanqing, Yukong
+    DungeonSupport_Character = 'FirstCharacter'  # FirstCharacter, Argenti, Arlan, Asta, Bailu, Blade, Bronya, Clara, DanHeng, DanHengImbibitorLunae, DrRatio, FuXuan, Gepard, Guinaifen, Hanya, Herta, Himeko, Hook, Huohuo, JingYuan, Jingliu, Kafka, Luka, Luocha, Lynx, March7th, Natasha, Pela, Qingque, RuanMei, Sampo, Seele, Serval, SilverWolf, Sushang, Tingyun, TopazNumby, TrailblazerDestruction, TrailblazerPreservation, Welt, Xueyi, Yanqing, Yukong
 
     # Group `DungeonStorage`
     DungeonStorage_TrailblazePower = {}
