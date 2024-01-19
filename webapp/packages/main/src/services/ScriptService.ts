@@ -1,7 +1,8 @@
 import configInfo from '@/config';
 import {PyShell} from '@/pyshell';
 import {ServiceModule, event} from '@/services/index';
-import {ALAS_RELAUNCH_ARGV, BrowserWindowsIdentifier} from '@alas/common';
+import {ALAS_RELAUNCH_ARGV, UPDATE_APP, BrowserWindowsIdentifier} from '@alas/common';
+import relaunchApp from '@/utils/relaunchApp';
 
 const {installerArgs, installerPath} = configInfo;
 
@@ -26,6 +27,10 @@ export default class ScriptService extends ServiceModule {
     // 把服务挂在到app上
     this.app.initScriptService(alas);
 
+    const restApp = (message: string) => {
+      message?.includes(UPDATE_APP) && relaunchApp();
+    };
+
     /**
      * 监听相关的事件
      */
@@ -40,13 +45,16 @@ export default class ScriptService extends ServiceModule {
       dispatchEvent('scriptLog', err.message);
     });
     alas?.on('stdout', function (message) {
+      restApp(message);
       dispatchEvent('scriptLog', message);
     });
 
     alas?.on('message', function (message) {
+      restApp(message);
       dispatchEvent('scriptLog', message);
     });
     alas?.on('stderr', function (message: string) {
+      restApp(message);
       dispatchEvent('scriptLog', message);
       /**
        * Receive logs, judge if Alas is ready
