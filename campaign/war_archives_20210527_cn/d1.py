@@ -1,22 +1,21 @@
+from ..campaign_war_archives.campaign_base import CampaignBase
 from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
-from .campaign_base import CampaignBase
-
 MAP = CampaignMap('D1')
 MAP.shape = 'J8'
 MAP.camera_data = ['D2', 'D6', 'G2', 'G6']
-MAP.camera_data_spawn_point = ['D6']
+MAP.camera_data_spawn_point = ['D2', 'D6']
 MAP.map_data = """
-    -- ME -- ++ ++ ++ MB MB MB --
-    ME -- MS -- -- -- -- -- -- ++
-    ++ ME -- -- ++ Me __ ME -- ++
-    ++ -- -- ME -- MS -- -- ME --
-    SP -- ++ -- -- -- ++ ++ Me --
-    SP -- -- -- ME Me ++ ++ -- ME
-    -- -- -- MS ++ -- -- MS -- --
-    ++ ++ -- -- ME -- Me -- ME --
+    -- ME -- ME -- -- -- -- ++ ++
+    ++ -- MS -- -- Me -- -- MB ++
+    ++ -- -- MS Me ++ -- Me -- --
+    SP -- ME -- ME -- ME ++ -- ++
+    SP -- ++ ++ -- __ -- ++ -- ME
+    -- -- ++ ++ Me ME -- ME -- --
+    ME -- MS -- -- -- Me -- ++ ++
+    -- ++ -- ME -- MS -- ++ ++ ++
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50
@@ -49,52 +48,36 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['DD', 'CL', 'CAgreen', 'CA']
+    MAP_SIREN_TEMPLATE = ['Hammann', 'Atlanta', 'CA']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
-    MAP_HAS_MAP_STORY = True
+    MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_AMBUSH = False
-    MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
-    MAP_HAS_MOVABLE_NORMAL_ENEMY = True
-    MOVABLE_NORMAL_ENEMY_TURN = (2,)
-    MAP_SIREN_MOVE_WAIT = 1.0
-    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (150, 255 - 17),
-        'width': (0.9, 10),
-        'prominence': 10,
-        'distance': 35,
+    MAP_ENEMY_GENRE_DETECTION_SCALING = {
+        'DD': 1.111,
+        'CL': 1.111,
+        'CA': 1.111,
+        'CV': 1.111,
+        'BB': 1.111,
     }
-    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 17, 255),
-        'prominence': 10,
-        'distance': 50,
-        'wlen': 1000
-    }
-    HOMO_EDGE_COLOR_RANGE = (0, 17)
-    MAP_SWIPE_MULTIPLY = (1.033, 1.053)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (0.999, 1.018)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.970, 0.988)
-    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
-    MAP_WALK_USE_CURRENT_FLEET = True
 
 
 class Campaign(CampaignBase):
     MAP = MAP
-    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     def battle_0(self):
-        if self.map_is_clear_mode:
-            if self.clear_siren():
-                return True
-            if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
-                return True
-        else:
-            if self.clear_any_enemy(sort=('cost_2',)):
-                return True
+        if self.clear_siren():
+            return True
+        if self.clear_enemy(scale=(1,)):
+            return True
+        if self.clear_enemy(scale=(2,)):
+            return True
+        if self.clear_enemy(scale=(3,)):
+            return True
 
         return self.battle_default()
 

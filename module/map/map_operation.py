@@ -221,6 +221,10 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 # End
                 if self.map_is_auto_search:
                     if self.is_auto_search_running():
+                        logger.info('is_auto_search_running appeared')
+                        break
+                    if hasattr(self, 'is_combat_loading') and self.is_combat_loading():
+                        logger.warning('Entered map with is_combat_loading appeared')
                         break
                 else:
                     if self.handle_in_map_with_enemy_searching():
