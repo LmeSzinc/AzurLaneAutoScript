@@ -232,6 +232,7 @@ class CampaignRun(CampaignEvent, ShopStatus):
             'event_20200917_cn',
             'event_20221124_cn',
             'event_20230525_cn',
+            'war_archives_20200917_cn',
             # chapter T
             'event_20211125_cn',
             'event_20231026_cn',
