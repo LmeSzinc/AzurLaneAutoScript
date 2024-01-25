@@ -175,3 +175,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20240104   | event 20210225 cn        | Khorovod of Dawn's Rime                      | -           | -                | -               | 復刻破曉冰華                        |
 | 20240111   | event 20211229 cn        | Tower of Transcendence Rerun                 | 复刻逆转彩虹之塔         | Tower of Transcendence Rerun                 | 遡望せし虹彩の塔（復刻）            　　 | -                        |
 | 20240111   | event 20230803 cn        | Anthem of Remembrance                        | -           | -                | -               | 奏響鳶尾之歌                        |
+| 20240125   | event 20210527 cn        | Mirror Involution Rerun                      | -            | -                      | -               | 復刻鏡位螺旋                        |
