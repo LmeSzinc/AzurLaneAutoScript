@@ -109,7 +109,7 @@ class DraggableDungeonList(DraggableList):
         # Replace dungeon.button with teleport
         self.teleports = list(split_and_pair_button_attr(
             DUNGEON_LIST.cur_buttons,
-            split_func=lambda x: x != KEYWORDS_DUNGEON_ENTRANCE.Teleport,
+            split_func=lambda x: x != KEYWORDS_DUNGEON_ENTRANCE.Teleport and x != KEYWORDS_DUNGEON_ENTRANCE.Enter,
             relative_area=(0, 0, 1280, 120)
         ))
         self.navigates = list(split_and_pair_button_attr(
