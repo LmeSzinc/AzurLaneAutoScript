@@ -330,8 +330,12 @@ class EmulatorManager(EmulatorManagerBase):
         path = r'Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist'
         # {XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}\xxx.exe
         regex_hash = re.compile(r'{.*}')
-        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, path) as reg:
-            folders = list_key(reg)
+        try:
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, path) as reg:
+                folders = list_key(reg)
+        except FileNotFoundError:
+            return
+
         for folder in folders:
             try:
                 with winreg.OpenKey(winreg.HKEY_CURRENT_USER, f'{path}\\{folder}\\Count') as reg:
@@ -358,8 +362,11 @@ class EmulatorManager(EmulatorManagerBase):
             str: Path to emulator executable, may contains duplicate values
         """
         path = r'Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\MuiCache'
-        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, path) as reg:
-            rows = list_reg(reg)
+        try:
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, path) as reg:
+                rows = list_reg(reg)
+        except FileNotFoundError:
+            return
 
         regex = re.compile(r'(^.*\.exe)\.')
         for row in rows:
@@ -425,24 +432,28 @@ class EmulatorManager(EmulatorManagerBase):
             'MEmu',
         ]
         for path in known_uninstall_registry_path:
-            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, path) as reg:
-                for software in list_key(reg):
-                    if software not in known_emulator_registry_name:
-                        continue
+            try:
+                with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, path) as reg:
+                    software_list = list_key(reg)
+            except FileNotFoundError:
+                continue
+            for software in software_list:
+                if software not in known_emulator_registry_name:
+                    continue
+                try:
                     with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, f'{path}\\{software}') as software_reg:
-                        try:
-                            uninstall = winreg.QueryValueEx(software_reg, 'UninstallString')[0]
-                        except FileNotFoundError:
-                            continue
-                        if not uninstall:
-                            continue
-                        # UninstallString is like:
-                        # C:\Program Files\BlueStacks_nxt\BlueStacksUninstaller.exe -tmp
-                        # "E:\ProgramFiles\Microvirt\MEmu\uninstall\uninstall.exe" -u
-                        # Extract path in ""
-                        res = re.search('"(.*?)"', uninstall)
-                        uninstall = res.group(1) if res else uninstall
-                        yield uninstall
+                        uninstall = winreg.QueryValueEx(software_reg, 'UninstallString')[0]
+                except FileNotFoundError:
+                    continue
+                if not uninstall:
+                    continue
+                # UninstallString is like:
+                # C:\Program Files\BlueStacks_nxt\BlueStacksUninstaller.exe -tmp
+                # "E:\ProgramFiles\Microvirt\MEmu\uninstall\uninstall.exe" -u
+                # Extract path in ""
+                res = re.search('"(.*?)"', uninstall)
+                uninstall = res.group(1) if res else uninstall
+                yield uninstall
 
     @cached_property
     def all_emulators(self) -> t.List[Emulator]:
