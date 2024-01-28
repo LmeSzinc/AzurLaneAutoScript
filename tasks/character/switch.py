@@ -1,4 +1,5 @@
 import re
+import typing as t
 
 import cv2
 import numpy as np
@@ -52,13 +53,18 @@ class CharacterSwitch(UI):
                 logger.warning('Character update timeout')
                 break
 
+            # Ocr names
             ocr = OcrCharacterName(OCR_MAP_CHARACTERS)
             buttons = ocr.matched_ocr(self.device.image, keyword_classes=CharacterList)
-            if trailblazer := self._get_character_trailblazer():
-                buttons.append(trailblazer)
+            # Add avatars
+            characters = [button.matched_keyword for button in buttons]
+            for trailblazer in self._iter_character_by_avatar():
+                if trailblazer.matched_keyword not in characters:
+                    buttons.append(trailblazer)
+
+            # Set properties
             buttons = sorted(buttons, key=lambda b: area_center(b.area)[1])
             self.character_buttons = buttons
-
             self.characters = [button.matched_keyword for button in self.character_buttons]
             logger.attr('Characters', self.characters)
             self.character_current = self._convert_selected_to_character(self._update_current_character())
@@ -75,7 +81,10 @@ class CharacterSwitch(UI):
 
         return self.characters
 
-    def _get_character_trailblazer(self) -> OcrResultButton | None:
+    def _iter_character_by_avatar(self) -> t.Iterable[OcrResultButton]:
+        """
+        Detect characters that can't be found by OCR
+        """
         dict_template = {
             KEYWORD_CHARACTER_LIST.TrailblazerDestruction: [
                 TrailblazerDestructionMale,
@@ -86,17 +95,19 @@ class CharacterSwitch(UI):
                 TrailblazerPreservationFemale,
 
             ],
+            KEYWORD_CHARACTER_LIST.Huohuo: [
+                Huohuo,
+            ],
         }
         for character, templates in dict_template.items():
             for template in templates:
                 template.load_search(TRAILBLAZER_SEARCH.area)
                 if template.match_template(self.device.image):
-                    logger.info(f'Found trailblazer: {template}')
+                    logger.info(f'Found avatar {template}')
                     # Create a fake OcrResultButton object
                     box = BoxedResult(box=template.button, text_img=None, ocr_text='', score=1.0)
                     button = OcrResultButton(boxed_result=box, matched_keyword=character)
-                    return button
-        return None
+                    yield button
 
     def _update_current_character(self) -> list[int]:
         """
