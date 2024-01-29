@@ -83,8 +83,9 @@ class EmulatorInstanceBase:
     def MuMuPlayer12_id(self):
         """
         Convert MuMu 12 instance name to instance id.
-        Example name: MuMuPlayer-12.0-3
-        Example ID  : 3
+        Example names:
+            MuMuPlayer-12.0-3
+            YXArkNights-12.0-1
 
         Returns:
             int: Instance ID, or None if this is not a MuMu 12 instance
@@ -92,8 +93,11 @@ class EmulatorInstanceBase:
         res = re.search(r'MuMuPlayer-12.0-(\d+)', self.name)
         if res:
             return int(res.group(1))
-        else:
-            return None
+        res = re.search(r'YXArkNights-12.0-(\d+)', self.name)
+        if res:
+            return int(res.group(1))
+
+        return None
 
 
 class EmulatorBase:
