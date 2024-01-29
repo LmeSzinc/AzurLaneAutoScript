@@ -9,7 +9,7 @@ from module.base.utils import get_color
 from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import Ocr, OcrResultButton
-from module.ocr.utils import split_and_pair_button_attr
+from module.ocr.utils import split_and_pair_button_attr, split_and_pair_buttons
 from module.ui.draggable_list import DraggableList
 from module.ui.switch import Switch
 from tasks.base.page import page_guide
@@ -104,18 +104,47 @@ class DraggableDungeonList(DraggableList):
     teleports: list[OcrResultButton] = []
     navigates: list[OcrResultButton] = []
 
-    def load_rows(self, main: ModuleBase):
+    def load_rows(self, main: ModuleBase, allow_early_access=False):
+        """
+        Args:
+            main:
+            allow_early_access: True to allow dungeons that are in temporarily early access during events
+        """
+        relative_area = (0, 0, 1280, 120)
         super().load_rows(main=main)
+
+        # Check early access dungeons
+        buttons = DUNGEON_LIST.cur_buttons.copy()
+        for name, button in split_and_pair_buttons(
+                DUNGEON_LIST.cur_buttons,
+                split_func=lambda x: x != KEYWORDS_DUNGEON_ENTRANCE.Enter,
+                relative_area=relative_area
+        ):
+            logger.warning(f'Early access dungeon: {name}')
+            buttons.remove(name)
+            buttons.remove(button)
+
+        # Remove early access dungeons
+        if not allow_early_access:
+            DUNGEON_LIST.cur_buttons = buttons
+            # From super.load_rows(), re-calculate indexes
+            indexes = [self.keyword2index(row.matched_keyword)
+                       for row in self.cur_buttons]
+            indexes = [index for index in indexes if index]
+            self.cur_min = min(indexes)
+            self.cur_max = max(indexes)
+            logger.attr(self.name, f'{self.cur_min} - {self.cur_max}')
+
         # Replace dungeon.button with teleport
         self.teleports = list(split_and_pair_button_attr(
             DUNGEON_LIST.cur_buttons,
             split_func=lambda x: x != KEYWORDS_DUNGEON_ENTRANCE.Teleport and x != KEYWORDS_DUNGEON_ENTRANCE.Enter,
-            relative_area=(0, 0, 1280, 120)
+            relative_area=relative_area
         ))
         self.navigates = list(split_and_pair_button_attr(
             DUNGEON_LIST.cur_buttons,
             split_func=lambda x: x != KEYWORDS_DUNGEON_ENTRANCE.Navigate,
-            relative_area=(0, 0, 1280, 120)
+            relative_area=relative_area
         ))
 
 

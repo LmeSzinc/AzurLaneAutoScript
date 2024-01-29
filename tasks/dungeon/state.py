@@ -4,7 +4,7 @@ from module.base.base import ModuleBase
 from module.base.timer import Timer
 from module.base.utils import crop
 from module.config.stored.classes import now
-from module.config.utils import DEFAULT_TIME
+from module.config.utils import DEFAULT_TIME, get_server_next_monday_update, get_server_next_update
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
 from tasks.base.ui import UI
@@ -139,11 +139,36 @@ class DungeonState(UI):
             limit = 30
         else:
             limit = 60
+
+        # Double event is not yet finished, do it today as possible
+        diff = get_server_next_update('04:00') - now()
+        if self.config.stored.DungeonDouble.relic > 0:
+            if diff < timedelta(hours=4):
+                # 4h recover 40 stamina, run double relic at today
+                logger.info(f'Just less than 4h til the next day, '
+                            f'double relic event is not yet finished, wait until 40')
+                limit = 40
+        if self.config.stored.DungeonDouble.calyx > 0:
+            if diff < timedelta(hours=3):
+                logger.info(f'Just less than 3h til the next day, '
+                            f'double calyx event is not yet finished, wait until 10')
+                limit = 10
+            elif diff < timedelta(hours=6):
+                logger.info(f'Just less than 6h til the next day, '
+                            f'double calyx event is not yet finished, wait until 30')
+                limit = 30
+
         # Recover 1 trailbaze power each 6 minutes
         current = self.config.stored.TrailblazePower.value
         cover = max(limit - current, 0) * 6
         future = now() + timedelta(minutes=cover)
         logger.info(f'Currently has {current} need {cover} minutes to reach {limit}')
+
+        # Save stamina for the next week
+        next_monday = get_server_next_monday_update('04:00')
+        if next_monday - future < timedelta(hours=4):
+            logger.info(f'Approaching next monday, delay to {next_monday} instead')
+            future = next_monday
 
         tasks = ['Dungeon', 'Weekly']
         with self.config.multi_set():
