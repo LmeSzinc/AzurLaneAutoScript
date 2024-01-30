@@ -1,3 +1,5 @@
+import re
+
 import cv2
 
 from module.base.timer import Timer
@@ -18,6 +20,22 @@ class StockCounter(DigitCounter):
         image = cv2.max(cv2.max(r, g), b)
 
         return 255 - image
+
+    def after_process(self, result):
+        result = super().after_process(result)
+
+        if re.match(f'^\d\d$', result):
+            # 55 -> 5/5
+            new = f'{result[0]}/{result[1]}'
+            logger.info(f'StockCounter result {result} is revised to {new}')
+            result = new
+        if re.match(f'^\d{4,}$', result):
+            # 1515 -> 15/15
+            new = f'{result[0:2]}/{result[2:4]}'
+            logger.info(f'StockCounter result {result} is revised to {new}')
+            result = new
+
+        return result
 
 
 SHOP_SELECT_PR = [SHOP_SELECT_PR1, SHOP_SELECT_PR2, SHOP_SELECT_PR3]
