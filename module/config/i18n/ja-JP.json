@@ -1763,7 +1763,8 @@
     "ResearchSeries": {
       "name": "ShipyardDr.ResearchSeries.name",
       "help": "ShipyardDr.ResearchSeries.help",
-      "2": "2"
+      "2": "2",
+      "3": "3"
     },
     "ShipIndex": {
       "name": "ShipyardDr.ShipIndex.name",
@@ -1795,7 +1796,8 @@
       "help": "Shipyard.ResearchSeries.help",
       "1": "1",
       "2": "2",
-      "3": "3"
+      "3": "3",
+      "4": "4"
     },
     "ShipIndex": {
       "name": "Shipyard.ShipIndex.name",
