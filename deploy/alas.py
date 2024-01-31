@@ -1,3 +1,5 @@
+import pickle
+
 from deploy.config import DeployConfig
 from deploy.logger import logger
 from deploy.utils import *
@@ -23,11 +25,39 @@ class AlasManager(DeployConfig):
         Yields:
             str, str, str: executable_path, process_name, process_id
         """
+        for _ in range(2):
+            try:
+                from win32com.client import GetObject
+            except ModuleNotFoundError:
+                # No module named pywin32
+                logger.info('pywin32 not installed, skip')
+                return False
+            except (pickle.UnpicklingError, EOFError) as e:
+                # _pickle.UnpicklingError: invalid load key, '\x00'.
+                # EOFError: Ran out of input
+                logger.error(f'{type(e).__name__}: {e}')
+                import sys
+                import win32api
+                # From win32com/client/__init__.py
+                gen_path = os.path.join(win32api.GetTempPath(), "gen_py",
+                                        "%d.%d" % (sys.version_info[0], sys.version_info[1]))
+                # From win32com/client/gencache.py
+                file = os.path.join(gen_path, "dicts.dat")
+                # Try deleting it
+                file = os.path.abspath(file).replace('\\', '/')
+                if os.path.exists(file):
+                    logger.info(f'win32com dicts.dat exists, removing: {file}')
+                    os.remove(file)
+                    continue
+                else:
+                    logger.warning(f'Cannot find win32com dicts.dat')
+                    continue
         try:
-            from win32com.client import GetObject
-        except ModuleNotFoundError:
-            logger.info('pywin32 not installed, skip')
-            return False
+            _ = GetObject
+        except UnboundLocalError:
+            logger.warning('Unable to import win32com.client, please fix it manually, '
+                           'see https://github.com/LmeSzinc/AzurLaneAutoScript/issues/2382')
+            exit(1)
 
         try:
             wmi = GetObject('winmgmts:')
