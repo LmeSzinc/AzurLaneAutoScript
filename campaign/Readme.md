@@ -37,6 +37,8 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20230420   | war archives 20220210 cn | Northern Overture                            | 北境序曲               | Northern Overture                            | 凍絶の北海                           | 北境序曲                |
 | 20230511   | war archives 20220414 cn | Aurora Noctis                                | 永夜幻光               | Aurora Noctis                                | 極夜照らす幻光                       | 永夜幻光              |
 | 20230831   | war archives 20201229 cn | Inverted Orthant                             | 负象限作战             | Inverted Orthant                             | 虚畳なりし限象                       | -                        |
+| 20240118   | war archives 20200917 cn | Dreamwaker's Butterfly                       | 蝶海梦花               | Dreamwaker's Butterfly                       | 刹那觀る胡蝶の夢                     | -                        |
+| 20240118   | war archives 20210527 cn | Mirror Involution                            | 镜位螺旋               | Mirror Involution                            | 照らす螺旋の鏡海                     | -                        |
 | 20200227   | event 20200227 cn        | Northern Overture                            | 北境序曲               | Northern Overture                            | 凍絶の北海                           | -                        |
 | 20200312   | event 20200312 cn        | The Solomon Ranger                           | 复刻斯图尔特的硝烟     | The Solomon Ranger Rerun                     | 南洋に靡く硝煙（復刻）               | -                        |
 | 20200326   | event 20200326 cn        | Microlayer Medley                            | 微层混合               | Microlayer Medley                            | 闇靄払う銀翼                         | -                        |
@@ -173,3 +175,5 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20240104   | event 20210225 cn        | Khorovod of Dawn's Rime                      | -           | -                | -               | 復刻破曉冰華                        |
 | 20240111   | event 20211229 cn        | Tower of Transcendence Rerun                 | 复刻逆转彩虹之塔         | Tower of Transcendence Rerun                 | 遡望せし虹彩の塔（復刻）            　　 | -                        |
 | 20240111   | event 20230803 cn        | Anthem of Remembrance                        | -           | -                | -               | 奏響鳶尾之歌                        |
+| 20240125   | event 20210527 cn        | Mirror Involution Rerun                      | -            | -                      | -               | 復刻鏡位螺旋                        |
+| 20240130   | raid 20240130            | Spring Festive Fiasco                        | 寰昌宇定家事忙           | Spring Festive Fiasco                        | 新春宴会狂騒曲                         | -                       |

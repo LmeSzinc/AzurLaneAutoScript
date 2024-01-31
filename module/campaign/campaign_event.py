@@ -29,7 +29,7 @@ class CampaignEvent(CampaignStatus):
                     from module.config.utils import deep_get
                     _gg_on = deep_get(self.config.data, keys='GameManager.GGHandler.Enabled')
                     if _gg_on:
-                        campaign_to_go = '14-1'
+                        campaign_to_go = '15-1'
                     else:
                         campaign_to_go = '2-4'
                     logger.info(f'Reset GemsFarming to {campaign_to_go}')
