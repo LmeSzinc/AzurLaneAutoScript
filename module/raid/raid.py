@@ -26,6 +26,16 @@ class RaidCounter(DigitCounter):
         return image
 
 
+class HuanChangCounter(Digit):
+    """
+    The limit on number of raid event "Spring Festive Fiasco" is vertical,
+    Ocr numbers on the top half.
+    """
+    def ocr(self, image, direct_ocr=False):
+        result = super().ocr(image, direct_ocr)
+        return (result, 0, 15)
+
+
 def raid_name_shorten(name):
     """
     Args:
@@ -48,6 +58,8 @@ def raid_name_shorten(name):
         return "KUYBYSHEY"
     elif name == "raid_20230629":
         return "GORIZIA"
+    elif name == "raid_20240130":
+        return "HUANCHANG"
     else:
         raise ScriptError(f'Unknown raid name: {name}')
 
@@ -110,6 +122,12 @@ def raid_ocr(raid, mode):
                 return Digit(button, letter=(198, 223, 140), threshold=128)
             else:
                 return DigitCounter(button, letter=(82, 89, 66), threshold=128)
+        elif raid == "HUANCHANG":
+            if mode == 'ex':
+                return Digit(button, letter=(255, 255, 255), threshold=180)
+            else:
+                # Vertical count
+                return HuanChangCounter(button, letter=(255, 255, 255), threshold=80)
     except KeyError:
         raise ScriptError(f'Raid entrance asset not exists: {key}')
 
@@ -134,6 +152,8 @@ def pt_ocr(raid):
             return Digit(button, letter=(16, 24, 33), threshold=64)
         elif raid == 'GORIZIA':
             return Digit(button, letter=(255, 255, 255), threshold=64)
+        elif raid == "HUANCHANG":
+            return Digit(button, letter=(23, 20, 6), threshold=128)
     except KeyError:
         # raise ScriptError(f'Raid pt ocr asset not exists: {key}')
         return None

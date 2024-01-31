@@ -176,3 +176,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20240111   | event 20211229 cn        | Tower of Transcendence Rerun                 | 复刻逆转彩虹之塔         | Tower of Transcendence Rerun                 | 遡望せし虹彩の塔（復刻）            　　 | -                        |
 | 20240111   | event 20230803 cn        | Anthem of Remembrance                        | -           | -                | -               | 奏響鳶尾之歌                        |
 | 20240125   | event 20210527 cn        | Mirror Involution Rerun                      | -            | -                      | -               | 復刻鏡位螺旋                        |
+| 20240130   | raid 20240130            | Spring Festive Fiasco                        | 寰昌宇定家事忙           | Spring Festive Fiasco                        | 新春宴会狂騒曲                         | -                       |
