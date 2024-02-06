@@ -8,6 +8,8 @@ DICT_SORTED_RANGES = {
         DanHengImbibitorLunae,
         Welt,
         FuXuan,
+        # Longer precast
+        BlackSwan,
     ],
     # Mage, but character moved after attack
     'MageSecondary': [
