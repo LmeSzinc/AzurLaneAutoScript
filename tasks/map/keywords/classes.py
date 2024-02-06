@@ -37,6 +37,9 @@ class MapPlane(Keyword):
                 return instance
         return None
 
+    def __hash__(self) -> int:
+        return super().__hash__()
+
     @cached_property
     def world(self) -> "MapWorld":
         """
@@ -153,6 +156,9 @@ class MapWorld(Keyword):
             if instance.world_id == world_id:
                 return instance
         return None
+
+    def __hash__(self) -> int:
+        return super().__hash__()
 
     @cached_property
     def is_Herta(self):

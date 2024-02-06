@@ -27,6 +27,7 @@ from tasks.dungeon.keywords import (
 )
 from tasks.dungeon.keywords.classes import DungeonEntrance
 from tasks.dungeon.state import DungeonState
+from tasks.map.keywords import KEYWORDS_MAP_WORLD
 
 
 class DungeonTabSwitch(Switch):
@@ -76,7 +77,11 @@ class OcrDungeonNav(Ocr):
 
 class OcrDungeonList(Ocr):
     def after_process(self, result):
+        # 乙太之蕾•雅利洛-Ⅵ
+        result = result.replace('-VI', '-Ⅵ')
+
         result = super().after_process(result)
+
         if self.lang == 'cn':
             result = result.replace('翼', '巽')  # 巽风之形
             result = result.replace('皖A0', '50').replace('皖', '')
@@ -372,6 +377,43 @@ class DungeonUI(DungeonState):
                 DUNGEON_NAV_LIST.select_row(dungeon.dungeon_nav, main=self, insight=False)
                 return True
 
+    def _dungeon_world_set(self, dungeon: DungeonList, skip_first_screenshot=True):
+        """
+        Switch worlds in Calyx_Golden
+        """
+        logger.hr('Dungeon world set', level=2)
+        if not dungeon.is_Calyx_Golden:
+            logger.warning(f'Dungeon {dungeon} is not Calyx Golden, no need to set world')
+            return
+        if dungeon.world is None:
+            logger.error(f'Dungeon {dungeon} does not belongs to any world')
+            return
+        dic_world_button = {
+            KEYWORDS_MAP_WORLD.Jarilo_VI: CALYX_WORLD_1,
+            KEYWORDS_MAP_WORLD.The_Xianzhou_Luofu: CALYX_WORLD_2,
+            KEYWORDS_MAP_WORLD.Penacony: CALYX_WORLD_3,
+        }
+        button = dic_world_button.get(dungeon.world)
+        if button is None:
+            logger.error(f'Dungeon {dungeon} with world {dungeon.world} has no corresponding world button')
+            return
+
+        logger.info(f'Dungeon world set {dungeon.world}')
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.image_color_count(button, color=(18, 18, 18), threshold=180, count=50):
+                logger.info(f'Dungeon world at {dungeon.world}')
+                break
+            # Click
+            if self.ui_page_appear(page_guide, interval=2):
+                self.device.click(button)
+                continue
+
     def _dungeon_insight(self, dungeon: DungeonList):
         """
         Pages:
@@ -534,12 +576,17 @@ class DungeonUI(DungeonState):
         # Reset search button
         DUNGEON_LIST.search_button = OCR_DUNGEON_LIST
 
-        if dungeon.is_Calyx_Golden \
-                or dungeon.is_Calyx_Crimson \
+        if dungeon.is_Calyx_Crimson \
                 or dungeon.is_Stagnant_Shadow \
                 or dungeon.is_Cavern_of_Corrosion \
                 or dungeon.is_Echo_of_War:
             self._dungeon_nav_goto(dungeon)
+            self._dungeon_insight(dungeon)
+            self._dungeon_enter(dungeon)
+            return True
+        if dungeon.is_Calyx_Golden:
+            self._dungeon_nav_goto(dungeon)
+            self._dungeon_world_set(dungeon)
             self._dungeon_insight(dungeon)
             self._dungeon_enter(dungeon)
             return True

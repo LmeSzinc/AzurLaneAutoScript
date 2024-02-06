@@ -3,6 +3,36 @@ from module.base.button import Button, ButtonWrapper
 # This file was auto-generated, do not modify it manually. To generate:
 # ``` python -m dev_tools.button_extract ```
 
+CALYX_WORLD_1 = ButtonWrapper(
+    name='CALYX_WORLD_1',
+    share=Button(
+        file='./assets/share/dungeon/ui/CALYX_WORLD_1.png',
+        area=(490, 185, 540, 230),
+        search=(470, 165, 560, 250),
+        color=(197, 196, 196),
+        button=(490, 185, 540, 230),
+    ),
+)
+CALYX_WORLD_2 = ButtonWrapper(
+    name='CALYX_WORLD_2',
+    share=Button(
+        file='./assets/share/dungeon/ui/CALYX_WORLD_2.png',
+        area=(590, 185, 640, 230),
+        search=(570, 165, 660, 250),
+        color=(199, 198, 198),
+        button=(590, 185, 640, 230),
+    ),
+)
+CALYX_WORLD_3 = ButtonWrapper(
+    name='CALYX_WORLD_3',
+    share=Button(
+        file='./assets/share/dungeon/ui/CALYX_WORLD_3.png',
+        area=(689, 186, 739, 231),
+        search=(669, 166, 759, 251),
+        color=(158, 158, 158),
+        button=(689, 186, 739, 231),
+    ),
+)
 DAILY_TRAINING_CHECK = ButtonWrapper(
     name='DAILY_TRAINING_CHECK',
     share=Button(

@@ -32,6 +32,17 @@ class DungeonList(Keyword):
         return MapPlane.find_plane_id(self.plane_id)
 
     @cached_property
+    def world(self):
+        """
+        Returns:
+            MapWorld: MapWorld object or None
+        """
+        if self.plane is not None:
+            return self.plane.world
+        else:
+            return None
+
+    @cached_property
     def is_Calyx_Golden(self):
         return 'Calyx_Golden' in self.name
 
