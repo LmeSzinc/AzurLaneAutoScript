@@ -146,6 +146,11 @@ class GenerateKeyword:
     def convert_name(self, text: str, keyword: dict) -> str:
         return text_to_variable(text)
 
+    def iter_rows(self) -> t.Iterable[dict]:
+        for keyword in self.iter_keywords():
+            keyword = self.format_keywords(keyword)
+            yield keyword
+
     def format_keywords(self, keyword: dict) -> dict | None:
         base = self.keyword_format.copy()
         text_id = keyword.pop('text_id')
@@ -170,8 +175,7 @@ class GenerateKeyword:
         self.gen_import()
         self.gen.CommentAutoGenerage('dev_tools.keyword_extract')
 
-        for keyword in self.iter_keywords():
-            keyword = self.format_keywords(keyword)
+        for keyword in self.iter_rows():
             with self.gen.Object(key=keyword['name'], object_class=self.keyword_class):
                 for key, value in keyword.items():
                     self.gen.ObjectAttr(key, value)

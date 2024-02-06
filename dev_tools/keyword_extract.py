@@ -566,6 +566,8 @@ class KeywordExtract:
         self.load_keywords(['领取', '追踪'])
         self.write_keywords(keyword_class='BattlePassQuestState',
                             output_file='./tasks/battle_pass/keywords/quest_state.py')
+        self.generate_map_planes()
+        self.generate_character_keywords()
         from dev_tools.keywords.dungeon_list import GenerateDungeonList
         GenerateDungeonList()()
         self.load_keywords(['进入', '传送', '追踪'])
@@ -578,8 +580,6 @@ class KeywordExtract:
                             output_file='./tasks/battle_pass/keywords/mission_tab.py')
         self.generate_assignments()
         self.generate_forgotten_hall_stages()
-        self.generate_map_planes()
-        self.generate_character_keywords()
         self.generate_daily_quests()
         self.generate_battle_pass_quests()
         self.load_keywords(['养成材料', '光锥', '遗器', '其他材料', '消耗品', '任务', '贵重物'])

@@ -29,7 +29,7 @@ from tasks.dungeon.keywords import (
 from tasks.dungeon.keywords.classes import DungeonEntrance
 from tasks.dungeon.state import DungeonState
 from tasks.map.interact.aim import inrange
-from tasks.map.keywords import KEYWORDS_MAP_WORLD
+from tasks.map.keywords import KEYWORDS_MAP_WORLD, MapPlane
 
 
 class DungeonTabSwitch(Switch):
@@ -92,7 +92,24 @@ class OcrDungeonList(Ocr):
             result = re.sub('^灼之形', '燔灼之形', result)
             # 蛀星的旧·历战余响
             result = re.sub(r'蛀星的旧.*?历战', '蛀星的旧靥•历战', result)
+
+        # 9支援仓段
+        result = result.removeprefix('9')
+        result = result.removeprefix('Q')
         return result
+
+
+class OcrDungeonListCalyxCrimson(OcrDungeonList):
+    def _match_result(self, *args, **kwargs):
+        """
+        Convert MapPlane object to their corresponding DungeonList object
+        """
+        plane = super()._match_result(*args, **kwargs)
+        if plane is not None:
+            for dungeon in DungeonList.instances.values():
+                if dungeon.is_Calyx_Crimson and dungeon.plane == plane:
+                    return dungeon
+        return plane
 
 
 class OcrDungeonListLimitEntrance(OcrDungeonList):
@@ -111,13 +128,21 @@ class DraggableDungeonList(DraggableList):
     teleports: list[OcrResultButton] = []
     navigates: list[OcrResultButton] = []
 
-    def load_rows(self, main: ModuleBase, allow_early_access=False):
+    def load_rows(self, main: ModuleBase, allow_early_access=False, use_plane=False):
         """
         Args:
             main:
             allow_early_access: True to allow dungeons that are in temporarily early access during events
+            use_plane: True to use map planes to predict dungeons only.
+                Can only be True in Calyx Crimson
         """
         relative_area = (0, 0, 1280, 120)
+        if use_plane:
+            self.keyword_class = [MapPlane, DungeonEntrance]
+            self.ocr_class = OcrDungeonListCalyxCrimson
+        else:
+            self.keyword_class = [DungeonList, DungeonEntrance]
+            self.ocr_class = OcrDungeonList
         super().load_rows(main=main)
 
         # Check early access dungeons
@@ -158,7 +183,7 @@ class DraggableDungeonList(DraggableList):
 DUNGEON_NAV_LIST = DraggableDungeonNav(
     'DungeonNavList', keyword_class=DungeonNav, ocr_class=OcrDungeonNav, search_button=OCR_DUNGEON_NAV)
 DUNGEON_LIST = DraggableDungeonList(
-    'DungeonList', keyword_class=[DungeonList, DungeonEntrance],
+    'DungeonList', keyword_class=[DungeonList, DungeonEntrance, MapPlane],
     ocr_class=OcrDungeonList, search_button=OCR_DUNGEON_LIST)
 
 

@@ -72,3 +72,26 @@ class GenerateDungeonList(GenerateKeyword):
             plane = MapPlane.find_plane_id(keyword['plane_id'])
             text = f'{text}_{plane.name}'
         return text
+
+    def iter_rows(self) -> t.Iterable[dict]:
+        dungeons = list(super().iter_rows())
+        calyx = []
+        order = [
+            'Calyx_Golden',
+            'Calyx_Crimson_Destruction',
+            'Calyx_Crimson_Preservation',
+            'Calyx_Crimson_The_Hunt',
+            'Calyx_Crimson_Abundance',
+            'Calyx_Crimson_Erudition',
+            'Calyx_Crimson_Harmony',
+            'Calyx_Crimson_Nihility',
+        ]
+        for keyword in order:
+            condition = lambda x: x['name'].startswith(keyword)
+            print([d for d in dungeons])
+            calyx += [d for d in dungeons if condition(d)]
+            dungeons = [d for d in dungeons if not condition(d)]
+        dungeons = calyx + dungeons
+
+        for row in dungeons:
+            yield row

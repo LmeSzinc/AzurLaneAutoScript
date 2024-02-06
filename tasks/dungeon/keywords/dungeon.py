@@ -33,76 +33,6 @@ Calyx_Golden_Treasures_Jarilo_VI = DungeonList(
     es='Flor de tesoros (Jarilo-VI)',
     plane_id=2012101,
 )
-Calyx_Crimson_Destruction_Herta_StorageZone = DungeonList(
-    id=4,
-    name='Calyx_Crimson_Destruction_Herta_StorageZone',
-    cn='毁灭之蕾•拟造花萼（赤）',
-    cht='毀滅之蕾•擬造花萼（赤）',
-    en='Bud of Destruction',
-    jp='疑似花萼（赤）・壊滅の蕾',
-    es='Flor de la Destrucción',
-    plane_id=2000201,
-)
-Calyx_Crimson_Preservation_Herta_SupplyZone = DungeonList(
-    id=5,
-    name='Calyx_Crimson_Preservation_Herta_SupplyZone',
-    cn='存护之蕾•拟造花萼（赤）',
-    cht='存護之蕾•擬造花萼（赤）',
-    en='Bud of Preservation',
-    jp='疑似花萼（赤）・存護の蕾',
-    es='Flor de la Conservación',
-    plane_id=2000301,
-)
-Calyx_Crimson_The_Hunt_Jarilo_OutlyingSnowPlains = DungeonList(
-    id=6,
-    name='Calyx_Crimson_The_Hunt_Jarilo_OutlyingSnowPlains',
-    cn='巡猎之蕾•拟造花萼（赤）',
-    cht='巡獵之蕾•擬造花萼（赤）',
-    en='Bud of The Hunt',
-    jp='疑似花萼（赤）・巡狩の蕾',
-    es='Flor de la Cacería',
-    plane_id=2010101,
-)
-Calyx_Crimson_Abundance_Jarilo_BackwaterPass = DungeonList(
-    id=7,
-    name='Calyx_Crimson_Abundance_Jarilo_BackwaterPass',
-    cn='丰饶之蕾•拟造花萼（赤）',
-    cht='豐饒之蕾•擬造花萼（赤）',
-    en='Bud of Abundance',
-    jp='疑似花萼（赤）・豊穣の蕾',
-    es='Flor de la Abundancia',
-    plane_id=2011101,
-)
-Calyx_Crimson_Erudition_Jarilo_RivetTown = DungeonList(
-    id=8,
-    name='Calyx_Crimson_Erudition_Jarilo_RivetTown',
-    cn='智识之蕾•拟造花萼（赤）',
-    cht='智識之蕾•擬造花萼（赤）',
-    en='Bud of Erudition',
-    jp='疑似花萼（赤）・知恵の蕾',
-    es='Flor de la Erudición',
-    plane_id=2012201,
-)
-Calyx_Crimson_Harmony_Jarilo_RobotSettlement = DungeonList(
-    id=9,
-    name='Calyx_Crimson_Harmony_Jarilo_RobotSettlement',
-    cn='同谐之蕾•拟造花萼（赤）',
-    cht='同諧之蕾•擬造花萼（赤）',
-    en='Bud of Harmony',
-    jp='疑似花萼（赤）・調和の蕾',
-    es='Flor de la Armonía',
-    plane_id=2012301,
-)
-Calyx_Crimson_Nihility_Jarilo_GreatMine = DungeonList(
-    id=10,
-    name='Calyx_Crimson_Nihility_Jarilo_GreatMine',
-    cn='虚无之蕾•拟造花萼（赤）',
-    cht='虛無之蕾•擬造花萼（赤）',
-    en='Bud of Nihility',
-    jp='疑似花萼（赤）・虚無の蕾',
-    es='Flor de la Nihilidad',
-    plane_id=2012101,
-)
 Calyx_Golden_Memories_The_Xianzhou_Luofu = DungeonList(
     id=11,
     name='Calyx_Golden_Memories_The_Xianzhou_Luofu',
@@ -163,15 +93,15 @@ Calyx_Golden_Treasures_Penacony = DungeonList(
     es='Flor de tesoros (Colonipenal)',
     plane_id=2031101,
 )
-Calyx_Crimson_Nihility_Luofu_AlchemyCommission = DungeonList(
-    id=17,
-    name='Calyx_Crimson_Nihility_Luofu_AlchemyCommission',
-    cn='虚无之蕾•拟造花萼（赤）',
-    cht='虛無之蕾•擬造花萼（赤）',
-    en='Bud of Nihility',
-    jp='疑似花萼（赤）・虚無の蕾',
-    es='Flor de la Nihilidad',
-    plane_id=2023101,
+Calyx_Crimson_Destruction_Herta_StorageZone = DungeonList(
+    id=4,
+    name='Calyx_Crimson_Destruction_Herta_StorageZone',
+    cn='毁灭之蕾•拟造花萼（赤）',
+    cht='毀滅之蕾•擬造花萼（赤）',
+    en='Bud of Destruction',
+    jp='疑似花萼（赤）・壊滅の蕾',
+    es='Flor de la Destrucción',
+    plane_id=2000201,
 )
 Calyx_Crimson_Destruction_Luofu_ScalegorgeWaterscape = DungeonList(
     id=18,
@@ -183,6 +113,56 @@ Calyx_Crimson_Destruction_Luofu_ScalegorgeWaterscape = DungeonList(
     es='Flor de la Destrucción',
     plane_id=2023201,
 )
+Calyx_Crimson_Preservation_Herta_SupplyZone = DungeonList(
+    id=5,
+    name='Calyx_Crimson_Preservation_Herta_SupplyZone',
+    cn='存护之蕾•拟造花萼（赤）',
+    cht='存護之蕾•擬造花萼（赤）',
+    en='Bud of Preservation',
+    jp='疑似花萼（赤）・存護の蕾',
+    es='Flor de la Conservación',
+    plane_id=2000301,
+)
+Calyx_Crimson_The_Hunt_Jarilo_OutlyingSnowPlains = DungeonList(
+    id=6,
+    name='Calyx_Crimson_The_Hunt_Jarilo_OutlyingSnowPlains',
+    cn='巡猎之蕾•拟造花萼（赤）',
+    cht='巡獵之蕾•擬造花萼（赤）',
+    en='Bud of The Hunt',
+    jp='疑似花萼（赤）・巡狩の蕾',
+    es='Flor de la Cacería',
+    plane_id=2010101,
+)
+Calyx_Crimson_Abundance_Jarilo_BackwaterPass = DungeonList(
+    id=7,
+    name='Calyx_Crimson_Abundance_Jarilo_BackwaterPass',
+    cn='丰饶之蕾•拟造花萼（赤）',
+    cht='豐饒之蕾•擬造花萼（赤）',
+    en='Bud of Abundance',
+    jp='疑似花萼（赤）・豊穣の蕾',
+    es='Flor de la Abundancia',
+    plane_id=2011101,
+)
+Calyx_Crimson_Erudition_Jarilo_RivetTown = DungeonList(
+    id=8,
+    name='Calyx_Crimson_Erudition_Jarilo_RivetTown',
+    cn='智识之蕾•拟造花萼（赤）',
+    cht='智識之蕾•擬造花萼（赤）',
+    en='Bud of Erudition',
+    jp='疑似花萼（赤）・知恵の蕾',
+    es='Flor de la Erudición',
+    plane_id=2012201,
+)
+Calyx_Crimson_Harmony_Jarilo_RobotSettlement = DungeonList(
+    id=9,
+    name='Calyx_Crimson_Harmony_Jarilo_RobotSettlement',
+    cn='同谐之蕾•拟造花萼（赤）',
+    cht='同諧之蕾•擬造花萼（赤）',
+    en='Bud of Harmony',
+    jp='疑似花萼（赤）・調和の蕾',
+    es='Flor de la Armonía',
+    plane_id=2012301,
+)
 Calyx_Crimson_Harmony_Penacony_TheReverieDreamscape = DungeonList(
     id=19,
     name='Calyx_Crimson_Harmony_Penacony_TheReverieDreamscape',
@@ -192,6 +172,26 @@ Calyx_Crimson_Harmony_Penacony_TheReverieDreamscape = DungeonList(
     jp='疑似花萼（赤）・調和の蕾',
     es='Flor de la Armonía',
     plane_id=2031101,
+)
+Calyx_Crimson_Nihility_Jarilo_GreatMine = DungeonList(
+    id=10,
+    name='Calyx_Crimson_Nihility_Jarilo_GreatMine',
+    cn='虚无之蕾•拟造花萼（赤）',
+    cht='虛無之蕾•擬造花萼（赤）',
+    en='Bud of Nihility',
+    jp='疑似花萼（赤）・虚無の蕾',
+    es='Flor de la Nihilidad',
+    plane_id=2012101,
+)
+Calyx_Crimson_Nihility_Luofu_AlchemyCommission = DungeonList(
+    id=17,
+    name='Calyx_Crimson_Nihility_Luofu_AlchemyCommission',
+    cn='虚无之蕾•拟造花萼（赤）',
+    cht='虛無之蕾•擬造花萼（赤）',
+    en='Bud of Nihility',
+    jp='疑似花萼（赤）・虚無の蕾',
+    es='Flor de la Nihilidad',
+    plane_id=2023101,
 )
 Stagnant_Shadow_Quanta = DungeonList(
     id=20,
