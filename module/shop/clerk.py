@@ -24,12 +24,12 @@ class StockCounter(DigitCounter):
     def after_process(self, result):
         result = super().after_process(result)
 
-        if re.match(f'^\d\d$', result):
+        if re.match(r'^\d\d$', result):
             # 55 -> 5/5
             new = f'{result[0]}/{result[1]}'
             logger.info(f'StockCounter result {result} is revised to {new}')
             result = new
-        if re.match(f'^\d{4,}$', result):
+        if re.match(r'^\d{4,}$', result):
             # 1515 -> 15/15
             new = f'{result[0:2]}/{result[2:4]}'
             logger.info(f'StockCounter result {result} is revised to {new}')
