@@ -6,6 +6,7 @@ from cached_property import cached_property
 
 from deploy.Windows.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
+from module.config.convert import *
 from module.config.server import VALID_SERVER
 from module.config.utils import *
 
@@ -631,11 +632,10 @@ class ConfigGenerator:
 class ConfigUpdater:
     # source, target, (optional)convert_func
     redirection = [
-        # ('Dungeon.Dungeon.Support', 'Dungeon.DungeonSupport.Use'),
-        # ('Dungeon.Dungeon.SupportCharacter', 'Dungeon.DungeonSupport.Character'),
-        # ('Dungeon.Dungeon.Name', 'Dungeon.Dungeon.Name', convert_daily),
-        # ('Dungeon.Dungeon.NameAtDoubleCalyx', 'Dungeon.Dungeon.NameAtDoubleCalyx', convert_daily),
-        # ('Dungeon.DungeonDaily.CalyxCrimson', 'Dungeon.DungeonDaily.CalyxCrimson', convert_daily),
+        ('Dungeon.Dungeon.Name', 'Dungeon.Dungeon.Name', convert_20_dungeon),
+        ('Dungeon.Dungeon.NameAtDoubleCalyx', 'Dungeon.Dungeon.NameAtDoubleCalyx', convert_20_dungeon),
+        ('Dungeon.DungeonDaily.CalyxGolden', 'Dungeon.DungeonDaily.CalyxGolden', convert_20_dungeon),
+        ('Dungeon.DungeonDaily.CalyxCrimson', 'Dungeon.DungeonDaily.CalyxCrimson', convert_20_dungeon),
     ]
 
     @cached_property
