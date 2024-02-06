@@ -123,6 +123,7 @@ def replace_templates(text: str) -> str:
     text = re.sub(r'#4', '1', text)
     text = re.sub(r'</?\w+>', '', text)
     text = re.sub(r'<color=#?\w+>', '', text)
+    text = re.sub(r'{.*?}', '', text)
     return text
 
 
@@ -388,7 +389,7 @@ class KeywordExtract:
                 gen.ObjectAttr(key='name', value=name)
                 for lang in UI_LANGUAGES:
                     character_names = ' / '.join([
-                        self.find_keyword(c[0], lang)[1]
+                        replace_templates(self.find_keyword(c[0], lang)[1])
                         for c in characters
                     ])
                     damage_type = self.find_keyword(characters[0][1], lang)[1]
