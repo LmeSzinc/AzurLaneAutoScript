@@ -3,25 +3,14 @@ import os
 import re
 import typing as t
 from collections import defaultdict
-from functools import cache, cached_property
+from functools import cache
 from hashlib import md5
 
+from dev_tools.keywords.base import TextMap, UI_LANGUAGES, replace_templates, text_to_variable
 from module.base.code_generator import CodeGenerator
 from module.config.utils import deep_get, read_file
 from module.exception import ScriptError
 from module.logger import logger
-
-UI_LANGUAGES = ['cn', 'cht', 'en', 'jp', 'es']
-
-
-def text_to_variable(text):
-    text = re.sub("'s |s' ", '_', text)
-    text = re.sub('[ \-—:\'/•.]+', '_', text)
-    text = re.sub(r'[(),#"?!&%*]|</?\w+>', '', text)
-    # text = re.sub(r'[#_]?\d+(_times?)?', '', text)
-    text = re.sub(r'<color=#?\w+>', '', text)
-    text = text.replace('é', 'e')
-    return text.strip('_')
 
 
 def dungeon_name(name: str) -> str:
@@ -59,72 +48,6 @@ def convert_inner_character_to_keyword(name):
         'Ren': 'Blade',
     }
     return convert_dict.get(name, name)
-
-
-class TextMap:
-    DATA_FOLDER = ''
-
-    def __init__(self, lang: str):
-        self.lang = lang
-
-    def __contains__(self, name: t.Union[int, str]) -> bool:
-        if isinstance(name, int) or (isinstance(name, str) and name.isdigit()):
-            return int(name) in self.data
-        return False
-
-    @cached_property
-    def data(self) -> dict[int, str]:
-        if not os.path.exists(TextMap.DATA_FOLDER):
-            logger.critical('`TextMap.DATA_FOLDER` does not exist, please set it to your path to StarRailData')
-            exit(1)
-        file = os.path.join(TextMap.DATA_FOLDER, 'TextMap', f'TextMap{self.lang.upper()}.json')
-        data = {}
-        for id_, text in read_file(file).items():
-            text = text.replace('\u00A0', '')
-            text = text.replace(r'{NICKNAME}', 'Trailblazer')
-            data[int(id_)] = text
-        return data
-
-    def find(self, name: t.Union[int, str]) -> tuple[int, str]:
-        """
-        Args:
-            name:
-
-        Returns:
-            text id (hash in TextMap)
-            text
-        """
-        if isinstance(name, int) or (isinstance(name, str) and name.isdigit()):
-            name = int(name)
-            try:
-                return name, self.data[name]
-            except KeyError:
-                pass
-
-        name = str(name)
-        for row_id, row_name in self.data.items():
-            if row_id >= 0 and row_name == name:
-                return row_id, row_name
-        for row_id, row_name in self.data.items():
-            if row_name == name:
-                return row_id, row_name
-        logger.error(f'Cannot find name: "{name}" in language {self.lang}')
-        return 0, ''
-
-
-def replace_templates(text: str) -> str:
-    """
-    Replace templates in data to make sure it equals to what is shown in game
-
-    Examples:
-        replace_templates("Complete Echo of War #4 time(s)")
-        == "Complete Echo of War 1 time(s)"
-    """
-    text = re.sub(r'#4', '1', text)
-    text = re.sub(r'</?\w+>', '', text)
-    text = re.sub(r'<color=#?\w+>', '', text)
-    text = re.sub(r'{.*?}', '', text)
-    return text
 
 
 class KeywordExtract:
@@ -438,32 +361,10 @@ class KeywordExtract:
             self.write_keywords(keyword_class=class_name, output_file=output_file)
 
     def generate_map_planes(self):
-        planes = {
-            'Special': ['黑塔的办公室', '锋芒崭露'],
-            'Rogue': [ '区域-战斗', '区域-事件', '区域-遭遇', '区域-休整', '区域-精英', '区域-首领', '区域-交易'],
-            'Herta': ['观景车厢', '主控舱段', '基座舱段', '收容舱段', '支援舱段', '禁闭舱段'],
-            'Jarilo': ['行政区', '城郊雪原', '边缘通路', '铁卫禁区', '残响回廊', '永冬岭',
-                       '造物之柱', '旧武器试验场', '磐岩镇', '大矿区', '铆钉镇', '机械聚落'],
-            'Luofu': ['星槎海中枢', '流云渡', '迴星港', '长乐天', '金人巷', '太卜司',
-                      '工造司', '绥园', '丹鼎司', '鳞渊境'],
-        }
-
-        def text_convert(world_):
-            def text_convert_wrapper(name):
-                name = text_to_variable(name).replace('_', '')
-                name = f'{world_}_{name}'
-                return name
-
-            return text_convert_wrapper
-
-        gen = None
-        for world, plane in planes.items():
-            self.load_keywords(plane)
-            gen = self.write_keywords(keyword_class='MapPlane', output_file='',
-                                      text_convert=text_convert(world), generator=gen)
-        gen.write('./tasks/map/keywords/plane.py')
-        self.load_keywords(['Herta Space Station', 'Jarilo-VI', 'The Xianzhou Luofu'], lang='en')
-        self.write_keywords(keyword_class='MapWorld', output_file='./tasks/map/keywords/world.py')
+        from dev_tools.keywords.map_world import GenerateMapWorld
+        GenerateMapWorld()()
+        from dev_tools.keywords.map_plane import GenerateMapPlane
+        GenerateMapPlane()()
 
     def generate_character_keywords(self):
         self.load_character_name_keywords()
