@@ -356,6 +356,9 @@ class KeywordExtract:
                 gen.DictItem(key=character, value=height)
         gen.write('./tasks/character/keywords/height.py')
 
+        self.load_keywords(['物理', '火', '冰', '雷', '风', '量子', '虚数'], lang='cn')
+        self.write_keywords(keyword_class='CombatType', output_file='./tasks/character/keywords/combat_type.py')
+
     def generate_battle_pass_quests(self):
         battle_pass_quests = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'BattlePassConfig.json'))
         latest_quests = list(battle_pass_quests.values())[-1]
