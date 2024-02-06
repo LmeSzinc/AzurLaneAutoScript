@@ -63,6 +63,16 @@ DAILY_TRAINING_LOADED = ButtonWrapper(
         button=(1143, 546, 1158, 561),
     ),
 )
+LIST_LOADED_CHECK = ButtonWrapper(
+    name='LIST_LOADED_CHECK',
+    share=Button(
+        file='./assets/share/dungeon/ui/LIST_LOADED_CHECK.png',
+        area=(576, 606, 951, 664),
+        search=(556, 586, 971, 684),
+        color=(180, 188, 195),
+        button=(576, 606, 951, 664),
+    ),
+)
 OCR_DUNGEON_LIST = ButtonWrapper(
     name='OCR_DUNGEON_LIST',
     share=Button(

@@ -1,5 +1,6 @@
 import re
 
+import cv2
 import numpy as np
 
 from module.base.base import ModuleBase
@@ -27,6 +28,7 @@ from tasks.dungeon.keywords import (
 )
 from tasks.dungeon.keywords.classes import DungeonEntrance
 from tasks.dungeon.state import DungeonState
+from tasks.map.interact.aim import inrange
 from tasks.map.keywords import KEYWORDS_MAP_WORLD
 
 
@@ -265,6 +267,28 @@ class DungeonUI(DungeonState):
             if self.appear(TREASURES_LIGHTWARD_LOCKED):
                 logger.info('Treasures lightward loaded (event locked)')
                 return True
+
+    def _dungeon_wait_until_dungeon_list_loaded(self, skip_first_screenshot=True):
+        timeout = Timer(1, count=3).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if timeout.reached():
+                logger.warning('Wait until dungeon list loaded timeout')
+                return False
+
+            # Check if having any content
+            # List background: 254, guild border: 225
+            r, g, b = cv2.split(self.image_crop(LIST_LOADED_CHECK))
+            minimum = cv2.min(cv2.min(r, g), b)
+            minimum = inrange(minimum, lower=0, upper=180)
+            if minimum.size > 100:
+                logger.info('Dungeon list loaded')
+                break
 
     def _dungeon_wait_until_echo_or_war_stabled(self, skip_first_screenshot=True):
         """
@@ -581,12 +605,15 @@ class DungeonUI(DungeonState):
                 or dungeon.is_Cavern_of_Corrosion \
                 or dungeon.is_Echo_of_War:
             self._dungeon_nav_goto(dungeon)
+            self._dungeon_wait_until_dungeon_list_loaded()
             self._dungeon_insight(dungeon)
             self._dungeon_enter(dungeon)
             return True
         if dungeon.is_Calyx_Golden:
             self._dungeon_nav_goto(dungeon)
+            self._dungeon_wait_until_dungeon_list_loaded()
             self._dungeon_world_set(dungeon)
+            self._dungeon_wait_until_dungeon_list_loaded()
             self._dungeon_insight(dungeon)
             self._dungeon_enter(dungeon)
             return True
