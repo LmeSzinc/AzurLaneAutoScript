@@ -66,11 +66,17 @@ class ConfigGenerator:
         from tasks.dungeon.keywords import DungeonList
         option_add(
             keys='Dungeon.Name.option',
-            options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_daily_dungeon])
+            options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Calyx_Golden] \
+                    + [dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Calyx_Crimson] \
+                    + [dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Stagnant_Shadow] \
+                    + [dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Cavern_of_Corrosion]
+        )
         # Double events
         option_add(
             keys='Dungeon.NameAtDoubleCalyx.option',
-            options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Calyx])
+            options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Calyx_Golden] \
+                    + [dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Calyx_Crimson]
+        )
         option_add(
             keys='Dungeon.NameAtDoubleRelic.option',
             options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Cavern_of_Corrosion])
@@ -407,9 +413,9 @@ class ConfigGenerator:
                     deep_set(new, keys=['AchievableQuest', quest.name, option], value=value)
 
         # Echo of War
-        from tasks.map.keywords import MapWorld
         dungeons = [d for d in DungeonList.instances.values() if d.is_Echo_of_War]
-        for world, dungeon in zip(MapWorld.instances.values(), dungeons):
+        for dungeon in dungeons:
+            world = dungeon.plane.world
             world_name = world.__getattribute__(ingame_lang)
             dungeon_name = dungeon.__getattribute__(ingame_lang)
             value = f'{dungeon_name} ({world_name})'

@@ -20,6 +20,17 @@ class DungeonTab(Keyword):
 class DungeonList(Keyword):
     instances: ClassVar = {}
 
+    plane_id: int
+
+    @cached_property
+    def plane(self):
+        """
+        Returns:
+            MapPlane: MapPlane object or None
+        """
+        from tasks.map.keywords import MapPlane
+        return MapPlane.find_plane_id(self.plane_id)
+
     @cached_property
     def is_Calyx_Golden(self):
         return 'Calyx_Golden' in self.name

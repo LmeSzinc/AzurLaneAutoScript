@@ -1,7 +1,6 @@
 import itertools
 import os
 import re
-import typing as t
 from collections import defaultdict
 from functools import cache
 from hashlib import md5
@@ -11,19 +10,6 @@ from module.base.code_generator import CodeGenerator
 from module.config.utils import deep_get, read_file
 from module.exception import ScriptError
 from module.logger import logger
-
-
-def dungeon_name(name: str) -> str:
-    name = text_to_variable(name)
-    name = re.sub('Bud_of_(Memories|Aether|Treasures)', r'Calyx_Golden_\1', name)
-    name = re.sub('Bud_of_(.*)', r'Calyx_Crimson_\1', name).replace('Calyx_Crimson_Calyx_Crimson_', 'Calyx_Crimson_')
-    name = re.sub('Shape_of_(.*)', r'Stagnant_Shadow_\1', name)
-    name = re.sub('Path_of_(.*)', r'Cavern_of_Corrosion_Path_of_\1', name)
-    if name in ['Destruction_Beginning', 'End_of_the_Eternal_Freeze', 'Divine_Seed', 'Borehole_Planet_Old_Crater']:
-        name = f'Echo_of_War_{name}'
-    if name in ['The_Swarm_Disaster', 'Gold_and_Gears']:
-        name = f'Simulated_Universe_{name}'
-    return name
 
 
 def blessing_name(name: str) -> str:
@@ -55,31 +41,6 @@ class KeywordExtract:
         self.text_map: dict[str, TextMap] = {lang: TextMap(lang) for lang in UI_LANGUAGES}
         self.text_map['cn'] = TextMap('chs')
         self.keywords_id: list[int] = []
-
-    def iter_guide(self) -> t.Iterable[int]:
-        file = os.path.join(TextMap.DATA_FOLDER, './ExcelOutput/GameplayGuideData.json')
-        # visited = set()
-        temp_save = ""
-        for data in read_file(file).values():
-            hash_ = deep_get(data, keys='Name.Hash')
-            _, name = self.find_keyword(hash_, lang='cn')
-            if '永屹之城遗秘' in name:  # load after all forgotten hall to make sure the same order in Game UI
-                temp_save = hash_
-                continue
-            if '忘却之庭' in name:
-                continue
-                # if name in visited:
-                #     continue
-                # visited.add(name)
-            yield hash_
-        yield temp_save
-        # Consider rogue DLC as a dungeon
-        yield '寰宇蝗灾'
-        yield '黄金与机械'
-        # 'Memory of Chaos' is not a real dungeon, but represents a group
-        yield '混沌回忆'
-        yield '天艟求仙迷航录'
-        yield '永屹之城遗秘'
 
     def find_keyword(self, keyword, lang) -> tuple[int, str]:
         """
@@ -602,9 +563,8 @@ class KeywordExtract:
         self.load_keywords(['领取', '追踪'])
         self.write_keywords(keyword_class='BattlePassQuestState',
                             output_file='./tasks/battle_pass/keywords/quest_state.py')
-        self.load_keywords(list(self.iter_guide()))
-        self.write_keywords(keyword_class='DungeonList', output_file='./tasks/dungeon/keywords/dungeon.py',
-                            text_convert=dungeon_name)
+        from dev_tools.keywords.dungeon_list import GenerateDungeonList
+        GenerateDungeonList()()
         self.load_keywords(['进入', '传送', '追踪'])
         self.write_keywords(keyword_class='DungeonEntrance', output_file='./tasks/dungeon/keywords/dungeon_entrance.py')
         self.generate_shadow_with_characters()
