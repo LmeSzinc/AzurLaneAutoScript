@@ -6,7 +6,6 @@ from module.base.utils import crop
 from module.logger import logger
 from module.ocr.ocr import Ocr, OcrResultButton
 from module.ocr.utils import split_and_pair_buttons
-from tasks.battle_pass.keywords import KEYWORD_BATTLE_PASS_QUEST
 from tasks.daily.assets.assets_daily_reward import *
 from tasks.daily.camera import CameraUI
 from tasks.daily.keywords import (
@@ -337,7 +336,7 @@ class DailyQuestUI(DungeonUI, RouteLoader):
             # but battle pass quests need synthesizing consumables.
             # if self.synthesized_material:
             #     quests = self.config.stored.BattlePassWeeklyQuest.load_quests()
-            #     if KEYWORD_BATTLE_PASS_QUEST.Synthesize_Consumables_1_times in quests:
+            #     if KEYWORDS_BATTLE_PASS_QUEST.Synthesize_Consumables_1_times in quests:
             #         logger.info('Done weekly quest Synthesize_Consumables_1_times once')
             #         self.config.stored.BattlePassQuestSynthesizeConsumables.add()
             #         if self.config.stored.BattlePassQuestSynthesizeConsumables.is_full():

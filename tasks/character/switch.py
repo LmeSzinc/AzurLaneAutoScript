@@ -11,7 +11,7 @@ from module.logger import logger
 from module.ocr.ocr import BoxedResult, OcrResultButton, OcrWhiteLetterOnComplexBackground
 from tasks.base.ui import UI
 from tasks.character.assets.assets_character_switch import *
-from tasks.character.keywords import CharacterList, DICT_SORTED_RANGES, KEYWORD_CHARACTER_LIST
+from tasks.character.keywords import CharacterList, DICT_SORTED_RANGES, KEYWORDS_CHARACTER_LIST
 
 
 class OcrCharacterName(OcrWhiteLetterOnComplexBackground):
@@ -86,16 +86,16 @@ class CharacterSwitch(UI):
         Detect characters that can't be found by OCR
         """
         dict_template = {
-            KEYWORD_CHARACTER_LIST.TrailblazerDestruction: [
+            KEYWORDS_CHARACTER_LIST.TrailblazerDestruction: [
                 TrailblazerDestructionMale,
                 TrailblazerDestructionFemale,
             ],
-            KEYWORD_CHARACTER_LIST.TrailblazerPreservation: [
+            KEYWORDS_CHARACTER_LIST.TrailblazerPreservation: [
                 TrailblazerPreservationMale,
                 TrailblazerPreservationFemale,
 
             ],
-            KEYWORD_CHARACTER_LIST.Huohuo: [
+            KEYWORDS_CHARACTER_LIST.Huohuo: [
                 Huohuo,
             ],
         }

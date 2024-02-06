@@ -1,4 +1,4 @@
-import tasks.character.keywords.character_list as KEYWORD_CHARACTER_LIST
+import tasks.character.keywords.character_list as KEYWORDS_CHARACTER_LIST
 import tasks.character.keywords.combat_type as KEYWORDS_COMBAT_TYPE
 from tasks.character.keywords.character_list import *
 from tasks.character.keywords.classes import CharacterList, CombatType
