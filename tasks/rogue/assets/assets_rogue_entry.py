@@ -27,10 +27,10 @@ OCR_WORLD = ButtonWrapper(
     name='OCR_WORLD',
     share=Button(
         file='./assets/share/rogue/entry/OCR_WORLD.png',
-        area=(488, 339, 718, 371),
-        search=(468, 319, 738, 391),
-        color=(45, 44, 68),
-        button=(488, 339, 718, 371),
+        area=(488, 339, 718, 395),
+        search=(468, 319, 738, 415),
+        color=(38, 35, 64),
+        button=(488, 339, 718, 395),
     ),
 )
 THEME_DLC = ButtonWrapper(
