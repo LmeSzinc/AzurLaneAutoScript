@@ -1,3 +1,4 @@
+import cv2
 import numpy as np
 
 import module.config.server as server
@@ -33,6 +34,26 @@ class HuanChangCounter(Digit):
     def ocr(self, image, direct_ocr=False):
         result = super().ocr(image, direct_ocr)
         return (result, 0, 15)
+
+
+class HuanChangPtOcr(Digit):
+    def pre_process(self, image):
+        """
+        Args:
+            image (np.ndarray): Shape (height, width, channel)
+
+        Returns:
+            np.ndarray: Shape (height, width)
+        """
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        image = cv2.threshold(image, 128, 255, cv2.THRESH_BINARY_INV)[1]
+        count, cc = cv2.connectedComponents(image)
+        # Calculate connected area, greater than 60 is considered a number,
+        # CN, JP background rightmost is connected but EN is not, 
+        # EN need judge both [0, -1] and [-1, -1]
+        num_idx = [i for i in range(1, count + 1) if i != cc[0, -1] and i != cc[-1, -1] and np.count_nonzero(cc == i) > 60]
+        image = ~(np.isin(cc, num_idx) * 255)  # Numbers are white, need invert
+        return image.astype(np.uint8)
 
 
 def raid_name_shorten(name):
@@ -152,7 +173,7 @@ def pt_ocr(raid):
         elif raid == 'GORIZIA':
             return Digit(button, letter=(255, 255, 255), threshold=64)
         elif raid == "HUANCHANG":
-            return Digit(button, letter=(23, 20, 6), threshold=128)
+            return HuanChangPtOcr(button, letter=(23, 20, 6), threshold=128)
     except KeyError:
         # raise ScriptError(f'Raid pt ocr asset not exists: {key}')
         return None
