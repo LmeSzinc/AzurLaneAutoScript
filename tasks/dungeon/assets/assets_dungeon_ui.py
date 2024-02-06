@@ -137,9 +137,19 @@ TREASURES_LIGHTWARD_LOADED = ButtonWrapper(
     name='TREASURES_LIGHTWARD_LOADED',
     share=Button(
         file='./assets/share/dungeon/ui/TREASURES_LIGHTWARD_LOADED.png',
-        area=(1029, 288, 1047, 306),
-        search=(1024, 283, 1052, 311),
-        color=(149, 149, 152),
-        button=(1029, 288, 1047, 306),
+        area=(1028, 288, 1048, 308),
+        search=(1008, 268, 1068, 328),
+        color=(82, 80, 80),
+        button=(1028, 288, 1048, 308),
+    ),
+)
+TREASURES_LIGHTWARD_LOCKED = ButtonWrapper(
+    name='TREASURES_LIGHTWARD_LOCKED',
+    share=Button(
+        file='./assets/share/dungeon/ui/TREASURES_LIGHTWARD_LOCKED.png',
+        area=(789, 423, 817, 457),
+        search=(769, 403, 837, 477),
+        color=(112, 112, 112),
+        button=(789, 423, 817, 457),
     ),
 )

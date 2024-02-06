@@ -155,9 +155,9 @@ TELEPORT = ButtonWrapper(
     name='TELEPORT',
     share=Button(
         file='./assets/share/forgotten_hall/ui/TELEPORT.png',
-        area=(1019, 451, 1037, 470),
+        area=(1018, 355, 1038, 375),
         search=(993, 176, 1088, 658),
-        color=(166, 165, 166),
-        button=(1019, 451, 1037, 470),
+        color=(80, 83, 85),
+        button=(1018, 355, 1038, 375),
     ),
 )

@@ -243,6 +243,8 @@ class DungeonUI(DungeonState):
             in: page_guide, Survival_Index
         """
         timeout = Timer(2, count=4).start()
+        TREASURES_LIGHTWARD_LOADED.set_search_offset((5, 5))
+        TREASURES_LIGHTWARD_LOCKED.set_search_offset((5, 5))
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -253,7 +255,10 @@ class DungeonUI(DungeonState):
                 logger.warning('Wait treasures lightward loaded timeout')
                 return False
             if self.appear(TREASURES_LIGHTWARD_LOADED):
-                logger.info('Treasures lightward loaded')
+                logger.info('Treasures lightward loaded (event unlocked)')
+                return True
+            if self.appear(TREASURES_LIGHTWARD_LOCKED):
+                logger.info('Treasures lightward loaded (event locked)')
                 return True
 
     def _dungeon_wait_until_echo_or_war_stabled(self, skip_first_screenshot=True):
