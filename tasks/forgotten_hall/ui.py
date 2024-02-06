@@ -12,6 +12,7 @@ from module.ui.draggable_list import DraggableList
 from tasks.base.assets.assets_base_page import FORGOTTEN_HALL_CHECK, MAP_EXIT
 from tasks.dungeon.keywords import DungeonList, KEYWORDS_DUNGEON_LIST, KEYWORDS_DUNGEON_TAB
 from tasks.dungeon.ui import DungeonUI
+from tasks.forgotten_hall.assets.assets_forgotten_hall_nav import *
 from tasks.forgotten_hall.assets.assets_forgotten_hall_ui import *
 from tasks.forgotten_hall.keywords import ForgottenHallStage, KEYWORDS_FORGOTTEN_HALL_STAGE
 from tasks.forgotten_hall.team import ForgottenHallTeam
