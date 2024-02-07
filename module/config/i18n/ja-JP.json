@@ -699,7 +699,7 @@
       "event_20211028_tw": "復刻光與影的鳶尾之華",
       "event_20211111_cn": "復刻-燈火のシニエ",
       "event_20211125_cn": "弧光は交わる世界にて（復刻）",
-      "event_20211229_cn": "遡望せし虹彩の塔",
+      "event_20211229_cn": "遡望せし虹彩の塔（復刻）",
       "event_20220210_cn": "凍絶の北海（復刻）",
       "event_20220224_cn": "鳴動せし星霜の淵",
       "event_20220310_tw": "復刻斯圖爾特的硝煙",
@@ -728,6 +728,7 @@
       "raid_20221027": "戦え！ロイヤルメイド隊3rd",
       "raid_20230118": "冬の案内人",
       "raid_20230629": "緑地伽話",
+      "raid_20240130": "新春宴会狂騒曲",
       "war_archives_20180607_cn": "檔案 墨染まりし鋼の桜",
       "war_archives_20180726_cn": "檔案 光と影のアイリス",
       "war_archives_20181020_en": "檔案 努力希望と計画",
@@ -742,9 +743,11 @@
       "war_archives_20200806_cn": "檔案 鉄血鮫とエニグマ",
       "war_archives_20200820_cn": "檔案 黒鉄の楽章 誓いの海",
       "war_archives_20200903_cn": "檔案 輝ける峡湾の星",
+      "war_archives_20200917_cn": "檔案 刹那觀る胡蝶の夢",
       "war_archives_20201029_cn": "檔案 激唱のユニバース",
       "war_archives_20201229_cn": "檔案 虚畳なりし限象",
       "war_archives_20210325_cn": "檔案 開かれし紺碧の砂箱",
+      "war_archives_20210527_cn": "檔案 照らす螺旋の鏡海",
       "war_archives_20210624_cn": "檔案 翳りし満ちる影の華",
       "war_archives_20210819_cn": "檔案 闇靄払う銀翼",
       "war_archives_20211014_cn": "檔案 激奏のポラリス",
@@ -1770,7 +1773,8 @@
     "ResearchSeries": {
       "name": "ShipyardDr.ResearchSeries.name",
       "help": "ShipyardDr.ResearchSeries.help",
-      "2": "2"
+      "2": "2",
+      "3": "3"
     },
     "ShipIndex": {
       "name": "ShipyardDr.ShipIndex.name",
@@ -1802,7 +1806,8 @@
       "help": "Shipyard.ResearchSeries.help",
       "1": "1",
       "2": "2",
-      "3": "3"
+      "3": "3",
+      "4": "4"
     },
     "ShipIndex": {
       "name": "Shipyard.ShipIndex.name",
