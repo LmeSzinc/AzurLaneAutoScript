@@ -1,4 +1,5 @@
 import tasks.assignment.keywords.entry as KEYWORDS_ASSIGNMENT_ENTRY
+import tasks.assignment.keywords.entry_detailed as KEYWORDS_ASSIGNMENT_ENTRY_DETAILED
 import tasks.assignment.keywords.group as KEYWORDS_ASSIGNMENT_GROUP
 import tasks.assignment.keywords.event_entry as KEYWORDS_ASSIGNMENT_EVENT_ENTRY
 import tasks.assignment.keywords.event_group as KEYWORDS_ASSIGNMENT_EVENT_GROUP

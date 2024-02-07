@@ -115,6 +115,11 @@ class ConfigGenerator:
                 'option_bold': ['achievable'],
                 'option_light': ['not_supported'],
             })
+        # Insert assignments
+        from tasks.assignment.keywords import AssignmentEntry
+        assignments = [entry.name for entry in AssignmentEntry.instances.values()]
+        for i in range(4):
+            option_add(keys=f'Assignment.Name_{i + 1}.option', options=assignments)
 
         # Load
         for path, value in deep_iter(raw, depth=2):
@@ -394,6 +399,13 @@ class ConfigGenerator:
             'en': 'Trace: {path} ({plane})',
             'es': 'Rastros: {path} ({plane})',
         }
+        i18n_relic = {
+            'cn': '（{dungeon}）',
+            'cht': '（{dungeon}）',
+            'jp': '（{dungeon}）',
+            'en': ' ({dungeon})',
+            'es': ' ({dungeon})',
+        }
         from tasks.dungeon.keywords import DungeonList, DungeonDetailed
         for dungeon in DungeonList.instances.values():
             dungeon: DungeonList = dungeon
@@ -416,6 +428,11 @@ class ConfigGenerator:
                 path = dungeon.Calyx_Crimson_Path.__getattribute__(ingame_lang)
                 deep_set(new, keys=['Dungeon', 'Name', dungeon.name],
                          value=i18n_crimson[ingame_lang].format(path=path, plane=plane))
+            if dungeon.is_Cavern_of_Corrosion:
+                value = deep_get(new, keys=['Dungeon', 'Name', dungeon.name], default='')
+                suffix = i18n_relic[ingame_lang].format(dungeon=dungeon_name)
+                if not value.endswith(suffix):
+                    deep_set(new, keys=['Dungeon', 'Name', dungeon.name], value=f'{value}{suffix}')
 
         # Stagnant shadows with character names
         for dungeon in DungeonDetailed.instances.values():
@@ -458,6 +475,14 @@ class ConfigGenerator:
                 for option in deep_get(self.args, keys=['DailyQuest', 'AchievableQuest', copy_from, 'option']):
                     value = deep_get(new, keys=['AchievableQuest', copy_from, option])
                     deep_set(new, keys=['AchievableQuest', quest.name, option], value=value)
+
+        # Assignments
+        from tasks.assignment.keywords import AssignmentEntryDetailed
+        for entry in AssignmentEntryDetailed.instances.values():
+            entry: AssignmentEntryDetailed
+            value = entry.__getattribute__(ingame_lang)
+            for i in range(4):
+                deep_set(new, keys=['Assignment', f'Name_{i + 1}', entry.name], value=value)
 
         # Echo of War
         dungeons = [d for d in DungeonList.instances.values() if d.is_Echo_of_War]
@@ -604,20 +629,12 @@ class ConfigGenerator:
 
         update('./webapp/packages/main/public/deploy.yaml.tpl', tpl)
 
-    def insert_assignment(self):
-        from tasks.assignment.keywords import AssignmentEntry
-        assignments = [entry.name for entry in AssignmentEntry.instances.values()]
-        for i in range(4):
-            deep_set(self.argument, keys=f'Assignment.Name_{i + 1}.option', value=assignments)
-            deep_set(self.args, keys=f'Assignment.Assignment.Name_{i + 1}.option', value=assignments)
-
     @timer
     def generate(self):
         _ = self.args
         _ = self.menu
         _ = self.stored
         # _ = self.event
-        self.insert_assignment()
         # self.insert_server()
         write_file(filepath_args(), self.args)
         write_file(filepath_args('menu'), self.menu)
