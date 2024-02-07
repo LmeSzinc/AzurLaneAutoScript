@@ -438,13 +438,13 @@ if __name__ == '__main__':
     # MapResource.SRCMAP = '../srcmap/srcmap'
     self = Minimap()
     # Set plane, assume starting from Jarilo_AdministrativeDistrict
-    self.set_plane('Jarilo_BackwaterPass', floor='F1')
+    self.set_plane('Jarilo_SilvermaneGuardRestrictedZone', floor='F1')
 
     ui = UI('src')
     ui.device.disable_stuck_detection()
     # Set starter point. Starter point will be calculated if it's missing but may contain errors.
     # With starter point set, position is only searched around starter point and new position becomes new starter point.
-    # self.init_position((337, 480))
+    self.init_position((227.7, 425.5), locked=True)
     while 1:
         ui.device.screenshot()
         self.update(ui.device.image)

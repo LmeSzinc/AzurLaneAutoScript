@@ -8,7 +8,7 @@ from tasks.daily.assets.assets_daily_synthesize_consumable import \
 from tasks.daily.synthesize import SynthesizeConsumablesUI
 from tasks.item.assets.assets_item_consumable_usage import *
 from tasks.item.assets.assets_item_ui import CONSUMABLE_CHECK
-from tasks.item.keywords import KEYWORD_ITEM_TAB
+from tasks.item.keywords import KEYWORDS_ITEM_TAB
 from tasks.item.ui import ItemUI
 
 
@@ -28,7 +28,7 @@ class ConsumableUsageUI(ItemUI):
         """
         logger.hr('Use consumable', level=2)
         self.ui_ensure(page_item)
-        self.item_goto(KEYWORD_ITEM_TAB.Consumables)
+        self.item_goto(KEYWORDS_ITEM_TAB.Consumables)
         if self._search_and_select_consumable():
             self._click_use()
             self._confirm_use()
@@ -50,7 +50,7 @@ class ConsumableUsageUI(ItemUI):
         # because in this scenario, scroll bar delay appears and the previous screenshot was
         # taken after clicking on the "item" to determine whether to enter the "item", which may be inaccurate
         # self._switch_tag_to_consumables(False)
-        self.item_goto(KEYWORD_ITEM_TAB.Consumables)
+        self.item_goto(KEYWORDS_ITEM_TAB.Consumables)
 
         # Determine if there is a scroll bar. If there is a scroll bar,
         # pull it down and check if the consumable to be used can be found

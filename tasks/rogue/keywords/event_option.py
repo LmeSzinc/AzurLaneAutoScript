@@ -441,8 +441,8 @@ You_re_not_a_reliable_investment_manager = RogueEventOption(
     cn='你不是一个值得信任的*投资经理*。',
     cht='你不是一個值得信任的*投資經理*。',
     en='You\'re not a reliable "investment manager."',
-    jp='{F#あんた}{M#お前}は信頼できる※ファンドマネージャー※ではない',
-    es='No eres {F#una}{M#un} "{F#gestora}{M#gestor} de inversiones" fiable.',
+    jp='は信頼できる※ファンドマネージャー※ではない',
+    es='No eres  " de inversiones" fiable.',
 )
 I_hate_this_era = RogueEventOption(
     id=50,
@@ -1765,7 +1765,7 @@ Hide_under_the_boat_together = RogueEventOption(
     cht='一起躲在船底。',
     en='Hide under the boat together.',
     jp='一緒に船底に隠れる',
-    es='Escóndanse junt{F#as}{M#os} debajo del bote.',
+    es='Escóndanse junt debajo del bote.',
 )
 Bottoms_up = RogueEventOption(
     id=197,
@@ -2179,7 +2179,7 @@ Release_them_together_from_the_pain = RogueEventOption(
     cht='將牠們一併從「痛苦」中釋放。',
     en='Release them together from the "pain."',
     jp='彼らをまとめて「苦痛」から解放する',
-    es='Libéral{F#as}{M#os} junt{F#as}{M#os} del "dolor".',
+    es='Libéral junt del "dolor".',
 )
 Give_the_adult_beast_a_send_off = RogueEventOption(
     id=243,
@@ -2988,7 +2988,7 @@ Adjust_Intra_Cognition_I_am_organic = RogueEventOption(
     cn='调整「自我认知」-我是有机。',
     cht='調整「自我認知」-我是有機。',
     en='Adjust Intra-Cognition — I am organic.',
-    jp='「自己認識」を調整-{F#私}{M#俺}は有機生命体',
+    jp='「自己認識」を調整-は有機生命体',
     es='Ajusta tu autopercepción: soy orgánico.',
 )
 Adjust_Intra_Cognition_I_am_inorganic = RogueEventOption(
@@ -2997,7 +2997,7 @@ Adjust_Intra_Cognition_I_am_inorganic = RogueEventOption(
     cn='调整「自我认知」-我是无机。',
     cht='調整「自我認知」-我是無機。',
     en='Adjust Intra-Cognition — I am inorganic.',
-    jp='「自己認識」を調整-{F#私}{M#俺}は無機生命体',
+    jp='「自己認識」を調整-は無機生命体',
     es='Ajusta tu autopercepción: soy inorgánico.',
 )
 Pick_a_family_element = RogueEventOption(
@@ -3214,5 +3214,5 @@ Forced_to_fight = RogueEventOption(
     cht='被迫戰鬥。',
     en='Forced to fight.',
     jp='戦闘を強いられる',
-    es='Obligad{F#a}{M#o} a combatir.',
+    es='Obligad a combatir.',
 )

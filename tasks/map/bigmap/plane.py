@@ -17,11 +17,11 @@ FLOOR_BUTTONS = [FLOOR_1, FLOOR_2, FLOOR_3]
 
 
 def world_entrance(plane: MapPlane) -> ButtonWrapper:
-    if plane.is_HertaSpaceStation:
+    if plane.world.is_Herta:
         return WORLD_HERTA
-    if plane.is_JariloVI:
+    if plane.world.is_Jarilo:
         return WORLD_JARILO
-    if plane.is_Luofu:
+    if plane.world.is_Luofu:
         return WORLD_LUOFU
     raise ScriptError(f'world_entrance() got unknown plane: {plane}')
 

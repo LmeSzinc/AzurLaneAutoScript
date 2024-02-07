@@ -92,10 +92,10 @@ Dungeon:
 DungeonDaily:
   # Dungeon names will be injected in config updater
   CalyxGolden:
-    value: Calyx_Golden_Treasures
+    value: Calyx_Golden_Treasures_Jarilo_VI
     option: [ do_not_achieve, ]
   CalyxCrimson:
-    value: Calyx_Crimson_Erudition
+    value: Calyx_Crimson_Destruction_Herta_StorageZone
     option: [ do_not_achieve, ]
   StagnantShadow:
     value: Stagnant_Shadow_Quanta

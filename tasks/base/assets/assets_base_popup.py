@@ -62,7 +62,7 @@ GET_REWARD = ButtonWrapper(
             area=(625, 144, 655, 168),
             search=(605, 124, 675, 188),
             color=(226, 0, 0),
-            button=(625, 144, 655, 168),
+            button=(741, 495, 1071, 644),
         ),
     ],
 )

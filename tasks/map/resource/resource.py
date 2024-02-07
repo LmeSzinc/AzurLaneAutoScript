@@ -79,9 +79,9 @@ class MapResource(ResourceConst):
     @cached_property
     def assets_file_basename(self):
         if self.plane.has_multiple_floors or self.is_special_plane:
-            return f'./position/{self.plane.world}/{self.plane.name}_{self.floor}'
+            return f'./position/{self.plane.world.short_name}/{self.plane.name}_{self.floor}'
         else:
-            return f'./position/{self.plane.world}/{self.plane.name}'
+            return f'./position/{self.plane.world.short_name}/{self.plane.name}'
 
     @cached_property
     def assets_floor(self):

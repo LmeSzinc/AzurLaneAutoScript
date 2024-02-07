@@ -1,6 +1,6 @@
 from module.base.utils import area_offset
 from module.logger import logger
-from tasks.battle_pass.keywords import KEYWORD_BATTLE_PASS_QUEST
+from tasks.battle_pass.keywords import KEYWORDS_BATTLE_PASS_QUEST
 from tasks.combat.combat import Combat
 from tasks.daily.keywords import KEYWORDS_DAILY_QUEST
 from tasks.dungeon.event import DungeonEvent
@@ -84,7 +84,7 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
                 if KEYWORDS_DAILY_QUEST.Clear_Calyx_Golden_1_times in self.daily_quests:
                     logger.info('Achieved daily quest Clear_Calyx_Golden_1_times')
                     self.achieved_daily_quest = True
-                if KEYWORD_BATTLE_PASS_QUEST.Clear_Calyx_1_times in self.weekly_quests:
+                if KEYWORDS_BATTLE_PASS_QUEST.Clear_Calyx_1_times in self.weekly_quests:
                     logger.info('Done weekly quest Clear_Calyx_1_times once')
                     self.config.stored.BattlePassQuestCalyx.add()
                     if self.config.stored.BattlePassQuestCalyx.is_full():
@@ -95,7 +95,7 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
                 if KEYWORDS_DAILY_QUEST.Clear_Calyx_Crimson_1_times in self.daily_quests:
                     logger.info('Achieve daily quest Clear_Calyx_Crimson_1_times')
                     self.achieved_daily_quest = True
-                if KEYWORD_BATTLE_PASS_QUEST.Clear_Calyx_1_times in self.weekly_quests:
+                if KEYWORDS_BATTLE_PASS_QUEST.Clear_Calyx_1_times in self.weekly_quests:
                     logger.info('Done weekly quest Clear_Calyx_1_times once')
                     self.config.stored.BattlePassQuestCalyx.add()
                     if self.config.stored.BattlePassQuestCalyx.is_full():
@@ -111,7 +111,7 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
                 if KEYWORDS_DAILY_QUEST.Clear_Cavern_of_Corrosion_1_times in self.daily_quests:
                     logger.info('Achieve daily quest Clear_Cavern_of_Corrosion_1_times')
                     self.achieved_daily_quest = True
-                if KEYWORD_BATTLE_PASS_QUEST.Clear_Cavern_of_Corrosion_1_times in self.weekly_quests:
+                if KEYWORDS_BATTLE_PASS_QUEST.Clear_Cavern_of_Corrosion_1_times in self.weekly_quests:
                     logger.info('Done weekly quest Clear_Cavern_of_Corrosion_1_times once')
                     self.config.stored.BattlePassQuestCavernOfCorrosion.add()
                     if self.config.stored.BattlePassQuestCavernOfCorrosion.is_full():
@@ -122,7 +122,7 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
                 if KEYWORDS_DAILY_QUEST.Complete_Echo_of_War_1_times in self.daily_quests:
                     logger.info('Achieve daily quest Complete_Echo_of_War_1_times')
                     self.achieved_daily_quest = True
-                if KEYWORD_BATTLE_PASS_QUEST.Complete_Echo_of_War_1_times in self.weekly_quests:
+                if KEYWORDS_BATTLE_PASS_QUEST.Complete_Echo_of_War_1_times in self.weekly_quests:
                     logger.info('Done weekly quest Complete_Echo_of_War_1_times once')
                     self.config.stored.BattlePassQuestEchoOfWar.add()
                     if self.config.stored.BattlePassQuestEchoOfWar.is_full():
@@ -407,7 +407,7 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
     def check_stamina_quest(self, stamina_used: int):
         logger.info(f'Used {stamina_used} stamina')
 
-        if KEYWORD_BATTLE_PASS_QUEST.Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max in self.weekly_quests:
+        if KEYWORDS_BATTLE_PASS_QUEST.Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max in self.weekly_quests:
             logger.info(f'Done Consume_a_total_of_1_Trailblaze_Power_1400_Trailblazer_Power_max stamina {stamina_used}')
             self.config.stored.BattlePassQuestTrailblazePower.add(stamina_used)
             if self.config.stored.BattlePassQuestTrailblazePower.is_full():

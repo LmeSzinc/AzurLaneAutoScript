@@ -199,7 +199,7 @@ Cosmic_Altruist_Part_3 = RogueEventTitle(
     cn='银河好人（其三）',
     cht='銀河好人（其三）',
     en='Cosmic Altruist (Part 3)',
-    jp='銀河のお人好し（その3）',
+    jp='銀河のお人よし（その3）',
     es='Altruismo galáctico (III)',
     option_ids=[81, 82, 83, 84, 85],
 )
@@ -269,7 +269,7 @@ We_Are_Cowboys = RogueEventTitle(
     cn='我们是牛仔',
     cht='我們是牛仔',
     en='We Are Cowboys',
-    jp='俺たちカウボーイ',
+    jp='僕たちカウボーイ',
     es='Somos vaqueros',
     option_ids=[104, 105, 106, 107, 108],
 )
@@ -879,7 +879,7 @@ The_Perfect_Grand_Challenge = RogueEventTitle(
     cn='*完美*大挑战！',
     cht='*完美*大挑戰！',
     en='The *Perfect* Grand Challenge!',
-    jp='※完璧※大挑戦！',
+    jp='「完璧」大挑戦！',
     es='¡El gran desafío perfecto!',
     option_ids=[142, 258, 259, 260, 261],
 )

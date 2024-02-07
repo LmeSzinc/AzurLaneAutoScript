@@ -114,11 +114,11 @@ Stagnant_Shadow_Scorch = DungeonDetailed(
 Stagnant_Shadow_Celestial = DungeonDetailed(
     id=13,
     name='Stagnant_Shadow_Celestial',
-    cn='角色晋阶材料：风（刃 / 藿藿）',
-    cht='角色晉階材料：風（刃 / 藿藿）',
-    en='Ascension: Wind (Blade / Huohuo)',
-    jp='キャラクター昇格素材：風（刃 / フォフォ）',
-    es='Ascension: Viento (Blade / Huohuo)',
+    cn='角色晋阶材料：风（刃 / 藿藿 / 黑天鹅）',
+    cht='角色晉階材料：風（刃 / 藿藿 / 黑天鵝）',
+    en='Ascension: Wind (Blade / Huohuo / Black Swan)',
+    jp='キャラクター昇格素材：風（刃 / フォフォ / ブラックスワン）',
+    es='Ascension: Viento (Blade / Huohuo / Cisne Negro)',
 )
 Stagnant_Shadow_Perdition = DungeonDetailed(
     id=14,
@@ -128,4 +128,22 @@ Stagnant_Shadow_Perdition = DungeonDetailed(
     en='Ascension: Physical (Hanya / Argenti)',
     jp='キャラクター昇格素材：物理（寒鴉 / アルジェンティ）',
     es='Ascension: Físico (Hanya / Argenti)',
+)
+Stagnant_Shadow_Nectar = DungeonDetailed(
+    id=15,
+    name='Stagnant_Shadow_Nectar',
+    cn='角色晋阶材料：冰（米沙）',
+    cht='角色晉階材料：冰（米沙）',
+    en='Ascension: Ice (Misha)',
+    jp='キャラクター昇格素材：氷（ミーシャ）',
+    es='Ascension: Hielo (Misha)',
+)
+Stagnant_Shadow_Roast = DungeonDetailed(
+    id=16,
+    name='Stagnant_Shadow_Roast',
+    cn='角色晋阶材料：量子（花火）',
+    cht='角色晉階材料：量子（花火）',
+    en='Ascension: Quantum (Sparkle)',
+    jp='キャラクター昇格素材：量子（花火）',
+    es='Ascension: Cuántico (Sparkle)',
 )

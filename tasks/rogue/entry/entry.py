@@ -1,7 +1,11 @@
 import re
 from datetime import datetime, timedelta
 
+import cv2
+import numpy as np
+
 from module.base.timer import Timer
+from module.base.utils import color_similarity_2d
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 from module.ocr.ocr import Ocr
@@ -67,6 +71,16 @@ def chinese_to_arabic(chinese_number: str) -> int:
 
 
 class OcrRogueWorld(Ocr):
+    def pre_process(self, image):
+        # Letter randomly moving up and down
+        # Crop to the up/down border of the white letter
+        center = color_similarity_2d(image, color=(255, 255, 255))
+        cv2.inRange(center, 180, 255, dst=center)
+        center = np.where(np.sum(center, axis=1) > 200)[0]
+        up, down = center[0], center[-1]
+        image = image[up:down, :, :]
+        return image
+
     def format_result(self, result: str) -> int:
         res = re.search(r'第([一二三四五六七八九十])世界', result)
         if res:

@@ -286,10 +286,10 @@ MENU_CHECK = ButtonWrapper(
     name='MENU_CHECK',
     share=Button(
         file='./assets/share/base/page/MENU_CHECK.png',
-        area=(1222, 638, 1252, 669),
-        search=(1202, 618, 1272, 689),
-        color=(57, 50, 39),
-        button=(1222, 638, 1252, 669),
+        area=(1222, 298, 1237, 326),
+        search=(1202, 278, 1257, 346),
+        color=(65, 65, 68),
+        button=(1222, 298, 1237, 326),
     ),
 )
 MENU_GOTO_ASSIGNMENT = ButtonWrapper(

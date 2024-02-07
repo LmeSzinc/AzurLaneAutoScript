@@ -97,10 +97,10 @@ PERIOD_MISSION_CLICK = ButtonWrapper(
     name='PERIOD_MISSION_CLICK',
     share=Button(
         file='./assets/share/battle_pass/PERIOD_MISSION_CLICK.png',
-        area=(128, 478, 323, 578),
-        search=(108, 458, 343, 598),
-        color=(72, 65, 45),
-        button=(128, 478, 323, 578),
+        area=(128, 412, 303, 561),
+        search=(108, 392, 323, 581),
+        color=(75, 67, 50),
+        button=(128, 412, 303, 561),
     ),
 )
 REWARDS_CHECK = ButtonWrapper(
@@ -164,9 +164,9 @@ WEEK_MISSION_CLICK = ButtonWrapper(
     name='WEEK_MISSION_CLICK',
     share=Button(
         file='./assets/share/battle_pass/WEEK_MISSION_CLICK.png',
-        area=(128, 336, 323, 477),
-        search=(108, 316, 343, 497),
-        color=(68, 62, 42),
-        button=(128, 336, 323, 477),
+        area=(128, 197, 302, 344),
+        search=(108, 177, 322, 364),
+        color=(76, 68, 51),
+        button=(128, 197, 302, 344),
     ),
 )
