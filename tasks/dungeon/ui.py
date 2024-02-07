@@ -128,16 +128,18 @@ class DraggableDungeonList(DraggableList):
     teleports: list[OcrResultButton] = []
     navigates: list[OcrResultButton] = []
 
-    def load_rows(self, main: ModuleBase, allow_early_access=False, use_plane=False):
+    # use_plane: True to use map planes to predict dungeons only.
+    #     Can only be True in Calyx Crimson
+    use_plane = False
+
+    def load_rows(self, main: ModuleBase, allow_early_access=False):
         """
         Args:
             main:
             allow_early_access: True to allow dungeons that are in temporarily early access during events
-            use_plane: True to use map planes to predict dungeons only.
-                Can only be True in Calyx Crimson
         """
         relative_area = (0, 0, 1280, 120)
-        if use_plane:
+        if self.use_plane:
             self.keyword_class = [MapPlane, DungeonEntrance]
             self.ocr_class = OcrDungeonListCalyxCrimson
         else:
@@ -470,6 +472,7 @@ class DungeonUI(DungeonState):
             out: page_guide, Survival_Index, nav including dungeon, dungeon insight
         """
         logger.hr('Dungeon insight', level=2)
+        DUNGEON_LIST.use_plane = bool(dungeon.is_Calyx_Crimson)
         # Insight dungeon
         DUNGEON_LIST.insight_row(dungeon, main=self)
         # Check if dungeon unlocked
@@ -508,6 +511,7 @@ class DungeonUI(DungeonState):
             out: COMBAT_PREPARE, FORGOTTEN_HALL_CHECK
         """
         logger.hr('Dungeon enter', level=2)
+        DUNGEON_LIST.use_plane = bool(dungeon.is_Calyx_Crimson)
         skip_first_load = True
         while 1:
             if skip_first_screenshot:
