@@ -399,6 +399,13 @@ class ConfigGenerator:
             'en': 'Trace: {path} ({plane})',
             'es': 'Rastros: {path} ({plane})',
         }
+        i18n_relic = {
+            'cn': '（{dungeon}）',
+            'cht': '（{dungeon}）',
+            'jp': '（{dungeon}）',
+            'en': ' ({dungeon})',
+            'es': ' ({dungeon})',
+        }
         from tasks.dungeon.keywords import DungeonList, DungeonDetailed
         for dungeon in DungeonList.instances.values():
             dungeon: DungeonList = dungeon
@@ -421,6 +428,11 @@ class ConfigGenerator:
                 path = dungeon.Calyx_Crimson_Path.__getattribute__(ingame_lang)
                 deep_set(new, keys=['Dungeon', 'Name', dungeon.name],
                          value=i18n_crimson[ingame_lang].format(path=path, plane=plane))
+            if dungeon.is_Cavern_of_Corrosion:
+                value = deep_get(new, keys=['Dungeon', 'Name', dungeon.name], default='')
+                suffix = i18n_relic[ingame_lang].format(dungeon=dungeon_name)
+                if not value.endswith(suffix):
+                    deep_set(new, keys=['Dungeon', 'Name', dungeon.name], value=f'{value}{suffix}')
 
         # Stagnant shadows with character names
         for dungeon in DungeonDetailed.instances.values():

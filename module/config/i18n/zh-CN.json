@@ -266,7 +266,7 @@
       "Cavern_of_Corrosion_Path_of_Conflagration": "遗器：火套+虚数套（野焰之径•侵蚀隧洞）",
       "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "遗器：生命套+速度套（药使之径•侵蚀隧洞）",
       "Cavern_of_Corrosion_Path_of_Darkness": "遗器：追击套+dot套（幽冥之径•侵蚀隧洞）",
-      "Cavern_of_Corrosion_Path_of_Dreamdive": "Cavern_of_Corrosion_Path_of_Dreamdive"
+      "Cavern_of_Corrosion_Path_of_Dreamdive": "遗器：负面套+击破套（梦潜之径•侵蚀隧洞）"
     },
     "NameAtDoubleCalyx": {
       "name": "有双倍花活动时，选择副本",
@@ -304,7 +304,7 @@
       "Cavern_of_Corrosion_Path_of_Conflagration": "遗器：火套+虚数套（野焰之径•侵蚀隧洞）",
       "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "遗器：生命套+速度套（药使之径•侵蚀隧洞）",
       "Cavern_of_Corrosion_Path_of_Darkness": "遗器：追击套+dot套（幽冥之径•侵蚀隧洞）",
-      "Cavern_of_Corrosion_Path_of_Dreamdive": "Cavern_of_Corrosion_Path_of_Dreamdive"
+      "Cavern_of_Corrosion_Path_of_Dreamdive": "遗器：负面套+击破套（梦潜之径•侵蚀隧洞）"
     },
     "Team": {
       "name": "打本队伍",
@@ -387,7 +387,7 @@
       "Cavern_of_Corrosion_Path_of_Conflagration": "遗器：火套+虚数套（野焰之径•侵蚀隧洞）",
       "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "遗器：生命套+速度套（药使之径•侵蚀隧洞）",
       "Cavern_of_Corrosion_Path_of_Darkness": "遗器：追击套+dot套（幽冥之径•侵蚀隧洞）",
-      "Cavern_of_Corrosion_Path_of_Dreamdive": "Cavern_of_Corrosion_Path_of_Dreamdive"
+      "Cavern_of_Corrosion_Path_of_Dreamdive": "遗器：负面套+击破套（梦潜之径•侵蚀隧洞）"
     }
   },
   "DungeonSupport": {

@@ -266,7 +266,7 @@
       "Cavern_of_Corrosion_Path_of_Conflagration": "Relics: Fire Set & Imaginary Set (Path of Conflagration)",
       "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "Relics: HP Set & SPD Set (Path of Elixir Seekers)",
       "Cavern_of_Corrosion_Path_of_Darkness": "Relics: Pursuit Set & Dot Set (Path of Darkness)",
-      "Cavern_of_Corrosion_Path_of_Dreamdive": "Cavern_of_Corrosion_Path_of_Dreamdive"
+      "Cavern_of_Corrosion_Path_of_Dreamdive": "Relics: Debuff Set & Break Effect Set (Path of Dreamdive)"
     },
     "NameAtDoubleCalyx": {
       "name": "At Double Calyx Event, choose dungeon",
@@ -304,7 +304,7 @@
       "Cavern_of_Corrosion_Path_of_Conflagration": "Relics: Fire Set & Imaginary Set (Path of Conflagration)",
       "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "Relics: HP Set & SPD Set (Path of Elixir Seekers)",
       "Cavern_of_Corrosion_Path_of_Darkness": "Relics: Pursuit Set & Dot Set (Path of Darkness)",
-      "Cavern_of_Corrosion_Path_of_Dreamdive": "Cavern_of_Corrosion_Path_of_Dreamdive"
+      "Cavern_of_Corrosion_Path_of_Dreamdive": "Relics: Debuff Set & Break Effect Set (Path of Dreamdive)"
     },
     "Team": {
       "name": "Dungeon Team",
@@ -387,7 +387,7 @@
       "Cavern_of_Corrosion_Path_of_Conflagration": "Relics: Fire Set & Imaginary Set (Path of Conflagration)",
       "Cavern_of_Corrosion_Path_of_Elixir_Seekers": "Relics: HP Set & SPD Set (Path of Elixir Seekers)",
       "Cavern_of_Corrosion_Path_of_Darkness": "Relics: Pursuit Set & Dot Set (Path of Darkness)",
-      "Cavern_of_Corrosion_Path_of_Dreamdive": "Cavern_of_Corrosion_Path_of_Dreamdive"
+      "Cavern_of_Corrosion_Path_of_Dreamdive": "Relics: Debuff Set & Break Effect Set (Path of Dreamdive)"
     }
   },
   "DungeonSupport": {
