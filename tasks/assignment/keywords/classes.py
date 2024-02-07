@@ -21,6 +21,11 @@ class AssignmentEntry(Keyword):
 
 
 @dataclass(repr=False)
+class AssignmentEntryDetailed(Keyword):
+    instances: ClassVar = {}
+
+
+@dataclass(repr=False)
 class AssignmentEventGroup(AssignmentGroup):
     instances: ClassVar = {}
 
