@@ -7,20 +7,20 @@ A_BUTTON = ButtonWrapper(
     name='A_BUTTON',
     share=Button(
         file='./assets/share/map/control/A_BUTTON.png',
-        area=(998, 508, 1078, 588),
-        search=(978, 488, 1098, 608),
-        color=(85, 86, 89),
-        button=(998, 508, 1078, 588),
+        area=(1023, 521, 1083, 581),
+        search=(1003, 501, 1103, 601),
+        color=(108, 109, 110),
+        button=(1023, 521, 1083, 581),
     ),
 )
 E_BUTTON = ButtonWrapper(
     name='E_BUTTON',
     share=Button(
         file='./assets/share/map/control/E_BUTTON.png',
-        area=(875, 583, 944, 650),
-        search=(855, 563, 964, 670),
-        color=(67, 68, 71),
-        button=(875, 583, 944, 650),
+        area=(897, 592, 947, 642),
+        search=(877, 572, 967, 662),
+        color=(75, 77, 82),
+        button=(897, 592, 947, 642),
     ),
 )
 JOYSTICK = ButtonWrapper(
@@ -47,10 +47,10 @@ RUN_BUTTON = ButtonWrapper(
     name='RUN_BUTTON',
     share=Button(
         file='./assets/share/map/control/RUN_BUTTON.png',
-        area=(1125, 582, 1191, 651),
-        search=(1105, 562, 1211, 671),
-        color=(73, 76, 83),
-        button=(1125, 582, 1191, 651),
+        area=(1147, 591, 1195, 639),
+        search=(1127, 571, 1215, 659),
+        color=(105, 110, 138),
+        button=(1147, 591, 1195, 639),
     ),
 )
 TECHNIQUE_POINT_1 = ButtonWrapper(
