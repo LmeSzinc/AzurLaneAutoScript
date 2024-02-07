@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from py import log
 from scipy import signal
 from module.base.button import Button, ButtonWrapper
 
@@ -55,7 +56,7 @@ class SupportCharacter:
             return SupportCharacter._image_cache[self.name]
 
         img = load_image(f"assets/character/{self.name}.png")
-        scaled_img = cv2.resize(img, (85, 82))
+        scaled_img = cv2.resize(img, (86, 81))
         SupportCharacter._image_cache[self.name] = scaled_img
         logger.info(f"Character {self.name} image cached")
         return scaled_img
@@ -301,7 +302,7 @@ class CombatSupport(UI):
                 self.device.screenshot()
 
             # End
-            if self.match_template(COMBAT_SUPPORT_SELECTED):
+            if self.appear(COMBAT_SUPPORT_SELECTED, similarity=0.75):
                 return True
 
             if interval.reached():
