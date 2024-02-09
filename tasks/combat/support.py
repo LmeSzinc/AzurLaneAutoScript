@@ -1,18 +1,17 @@
 import cv2
 import numpy as np
-from py import log
 from scipy import signal
-from module.base.button import Button, ButtonWrapper
 
+from module.base.button import Button, ButtonWrapper
 from module.base.timer import Timer
-from module.base.utils import area_size, crop, rgb2luma, load_image, crop
+from module.base.utils import area_size, crop, load_image, rgb2luma
 from module.logger import logger
 from module.ui.scroll import Scroll
 from tasks.base.assets.assets_base_popup import POPUP_CANCEL
 from tasks.base.ui import UI
 from tasks.combat.assets.assets_combat_support import COMBAT_SUPPORT_ADD, COMBAT_SUPPORT_LIST, \
-    COMBAT_SUPPORT_LIST_SCROLL, COMBAT_SUPPORT_SELECTED, COMBAT_SUPPORT_LIST_GRID
-from tasks.combat.assets.assets_combat_team import COMBAT_TEAM_SUPPORT, COMBAT_TEAM_DISMISSSUPPORT
+    COMBAT_SUPPORT_LIST_GRID, COMBAT_SUPPORT_LIST_SCROLL, COMBAT_SUPPORT_SELECTED
+from tasks.combat.assets.assets_combat_team import COMBAT_TEAM_DISMISSSUPPORT, COMBAT_TEAM_SUPPORT
 
 
 def get_position_in_original_image(position_in_croped_image, crop_area):
