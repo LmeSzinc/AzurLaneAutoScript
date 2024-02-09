@@ -431,14 +431,17 @@ class DungeonUI(DungeonState):
     def _dungeon_world_set(self, dungeon: DungeonList, skip_first_screenshot=True):
         """
         Switch worlds in Calyx_Golden
+
+        Returns:
+            bool: True if success to set
         """
         logger.hr('Dungeon world set', level=2)
         if not dungeon.is_Calyx_Golden:
             logger.warning(f'Dungeon {dungeon} is not Calyx Golden, no need to set world')
-            return
+            return False
         if dungeon.world is None:
             logger.error(f'Dungeon {dungeon} does not belongs to any world')
-            return
+            return False
         dic_world_button = {
             KEYWORDS_MAP_WORLD.Jarilo_VI: CALYX_WORLD_1,
             KEYWORDS_MAP_WORLD.The_Xianzhou_Luofu: CALYX_WORLD_2,
@@ -447,7 +450,7 @@ class DungeonUI(DungeonState):
         button = dic_world_button.get(dungeon.world)
         if button is None:
             logger.error(f'Dungeon {dungeon} with world {dungeon.world} has no corresponding world button')
-            return
+            return False
 
         logger.info(f'Dungeon world set {dungeon.world}')
         while 1:
@@ -459,11 +462,37 @@ class DungeonUI(DungeonState):
             # End
             if self.image_color_count(button, color=(18, 18, 18), threshold=180, count=50):
                 logger.info(f'Dungeon world at {dungeon.world}')
-                break
+                return True
             # Click
             if self.ui_page_appear(page_guide, interval=2):
                 self.device.click(button)
                 continue
+
+    def _dungeon_world_set_wrapper(self, dungeon: DungeonList, skip_first_screenshot=True):
+        """
+        Switch worlds in Calyx_Golden with error handling
+        If world tab is not unlocked, fallback to Jarilo dungeons
+        """
+        button = CALYX_WORLD_1
+        tab = False
+        # Selected tab
+        if self.image_color_count(button, color=(18, 18, 18), threshold=180, count=50):
+            tab = True
+        # Unselected tab
+        if self.image_color_count(button, color=(134, 134, 134), threshold=180, count=50):
+            tab = True
+        logger.attr('WorldTab', tab)
+
+        if not tab:
+            logger.warning('World tab is not unlocked, fallback to Jarilo dungeons')
+            if dungeon.is_Calyx_Golden_Memories:
+                dungeon = KEYWORDS_DUNGEON_LIST.Calyx_Golden_Treasures_Jarilo_VI
+            if dungeon.is_Calyx_Golden_Aether:
+                dungeon = KEYWORDS_DUNGEON_LIST.Calyx_Golden_Aether_Jarilo_VI
+            if dungeon.is_Calyx_Golden_Treasures:
+                dungeon = KEYWORDS_DUNGEON_LIST.Calyx_Golden_Treasures_Jarilo_VI
+
+        return self._dungeon_world_set(dungeon, skip_first_screenshot=skip_first_screenshot)
 
     def _dungeon_insight(self, dungeon: DungeonList):
         """
@@ -641,7 +670,7 @@ class DungeonUI(DungeonState):
         if dungeon.is_Calyx_Golden:
             self._dungeon_nav_goto(dungeon)
             self._dungeon_wait_until_dungeon_list_loaded()
-            self._dungeon_world_set(dungeon)
+            self._dungeon_world_set_wrapper(dungeon)
             self._dungeon_wait_until_dungeon_list_loaded()
             self._dungeon_insight(dungeon)
             self._dungeon_enter(dungeon)
