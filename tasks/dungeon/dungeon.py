@@ -211,7 +211,7 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
             if self.has_double_rogue_event():
                 rogue = self.get_double_event_remain()
             if self.has_double_calyx_event():
-                self._dungeon_nav_goto(KEYWORDS_DUNGEON_LIST.Calyx_Golden_Treasures)
+                self._dungeon_nav_goto(KEYWORDS_DUNGEON_LIST.Calyx_Golden_Treasures_Jarilo_VI)
                 calyx = self.get_double_event_remain()
             if self.has_double_relic_event():
                 self._dungeon_nav_goto(KEYWORDS_DUNGEON_LIST.Cavern_of_Corrosion_Path_of_Gelid_Wind)
