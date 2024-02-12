@@ -77,6 +77,8 @@ class OcrRogueWorld(Ocr):
         center = color_similarity_2d(image, color=(255, 255, 255))
         cv2.inRange(center, 180, 255, dst=center)
         center = np.where(np.sum(center, axis=1) > 200)[0]
+        if len(center) < 2:
+            return image
         up, down = center[0], center[-1]
         image = image[up:down, :, :]
         return image
