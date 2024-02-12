@@ -4,7 +4,7 @@ from tasks.battle_pass.keywords import KEYWORDS_BATTLE_PASS_QUEST
 from tasks.combat.combat import Combat
 from tasks.daily.keywords import KEYWORDS_DAILY_QUEST
 from tasks.dungeon.event import DungeonEvent
-from tasks.dungeon.keywords import DungeonList, KEYWORDS_DUNGEON_LIST, KEYWORDS_DUNGEON_TAB
+from tasks.dungeon.keywords import DungeonList, KEYWORDS_DUNGEON_LIST, KEYWORDS_DUNGEON_NAV, KEYWORDS_DUNGEON_TAB
 from tasks.dungeon.stamina import DungeonStamina
 
 
@@ -211,10 +211,10 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
             if self.has_double_rogue_event():
                 rogue = self.get_double_event_remain()
             if self.has_double_calyx_event():
-                self._dungeon_nav_goto(KEYWORDS_DUNGEON_LIST.Calyx_Golden_Treasures_Jarilo_VI)
+                self._dungeon_nav_goto(KEYWORDS_DUNGEON_NAV.Calyx_Golden)
                 calyx = self.get_double_event_remain()
             if self.has_double_relic_event():
-                self._dungeon_nav_goto(KEYWORDS_DUNGEON_LIST.Cavern_of_Corrosion_Path_of_Gelid_Wind)
+                self._dungeon_nav_goto(KEYWORDS_DUNGEON_NAV.Cavern_of_Corrosion)
                 relic = self.get_double_event_remain()
             with self.config.multi_set():
                 self.config.stored.DungeonDouble.calyx = calyx

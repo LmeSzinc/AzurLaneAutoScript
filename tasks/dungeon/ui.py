@@ -351,17 +351,17 @@ class DungeonUI(DungeonState):
                 logger.info('No Echo_of_War in list skip waiting')
                 return False
 
-    def _dungeon_nav_goto(self, dungeon: DungeonList, skip_first_screenshot=True):
+    def _dungeon_nav_goto(self, nav: DungeonNav, skip_first_screenshot=True):
         """
         Equivalent to `DUNGEON_NAV_LIST.select_row(dungeon.dungeon_nav, main=self)`
         but with tricks to be faster
 
         Args:
-            dungeon:
+            nav:
             skip_first_screenshot:
         """
         logger.hr('Dungeon nav goto', level=2)
-        logger.info(f'Dungeon nav goto {dungeon.dungeon_nav}')
+        logger.info(f'Dungeon nav goto {nav}')
 
         # Wait rows
         while 1:
@@ -402,11 +402,11 @@ class DungeonUI(DungeonState):
         else:
             # To start from any list states.
             logger.info('DUNGEON_NAV_LIST not at top')
-            DUNGEON_NAV_LIST.select_row(dungeon.dungeon_nav, main=self)
+            DUNGEON_NAV_LIST.select_row(nav, main=self)
             return True
 
         # Check the first page
-        if dungeon.dungeon_nav in [
+        if nav in [
             KEYWORDS_DUNGEON_NAV.Simulated_Universe,
             KEYWORDS_DUNGEON_NAV.Calyx_Golden,
             KEYWORDS_DUNGEON_NAV.Calyx_Crimson,
@@ -415,9 +415,9 @@ class DungeonUI(DungeonState):
             KEYWORDS_DUNGEON_NAV.Forgotten_Hall,
             KEYWORDS_DUNGEON_NAV.Pure_Fiction,
         ]:
-            button = DUNGEON_NAV_LIST.keyword2button(dungeon.dungeon_nav)
+            button = DUNGEON_NAV_LIST.keyword2button(nav)
             if button:
-                DUNGEON_NAV_LIST.select_row(dungeon.dungeon_nav, main=self, insight=False)
+                DUNGEON_NAV_LIST.select_row(nav, main=self, insight=False)
                 return True
 
         # Check the second page
@@ -425,7 +425,7 @@ class DungeonUI(DungeonState):
             DUNGEON_NAV_LIST.drag_page('down', main=self)
             # No skip_first_screenshot since drag_page is just called
             if self._dungeon_wait_until_echo_or_war_stabled(skip_first_screenshot=False):
-                DUNGEON_NAV_LIST.select_row(dungeon.dungeon_nav, main=self, insight=False)
+                DUNGEON_NAV_LIST.select_row(nav, main=self, insight=False)
                 return True
 
     def _dungeon_world_set(self, dungeon: DungeonList, skip_first_screenshot=True):
@@ -636,7 +636,7 @@ class DungeonUI(DungeonState):
         if self.appear(SURVIVAL_INDEX_LOADED):
             logger.info('Already at nav Simulated_Universe')
         else:
-            self._dungeon_nav_goto(KEYWORDS_DUNGEON_LIST.Simulated_Universe_World_1)
+            self._dungeon_nav_goto(KEYWORDS_DUNGEON_NAV.Simulated_Universe)
 
     def dungeon_goto(self, dungeon: DungeonList):
         """
@@ -662,13 +662,13 @@ class DungeonUI(DungeonState):
                 or dungeon.is_Stagnant_Shadow \
                 or dungeon.is_Cavern_of_Corrosion \
                 or dungeon.is_Echo_of_War:
-            self._dungeon_nav_goto(dungeon)
+            self._dungeon_nav_goto(dungeon.dungeon_nav)
             self._dungeon_wait_until_dungeon_list_loaded()
             self._dungeon_insight(dungeon)
             self._dungeon_enter(dungeon)
             return True
         if dungeon.is_Calyx_Golden:
-            self._dungeon_nav_goto(dungeon)
+            self._dungeon_nav_goto(dungeon.dungeon_nav)
             self._dungeon_wait_until_dungeon_list_loaded()
             self._dungeon_world_set_wrapper(dungeon)
             self._dungeon_wait_until_dungeon_list_loaded()
