@@ -37,7 +37,7 @@ MAP_LOADING = ButtonWrapper(
     share=Button(
         file='./assets/share/combat/interact/MAP_LOADING.png',
         area=(644, 367, 662, 389),
-        search=(639, 347, 667, 394),
+        search=(639, 357, 667, 405),
         color=(159, 141, 149),
         button=(644, 367, 662, 389),
     ),
