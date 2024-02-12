@@ -168,6 +168,13 @@ class AzurLaneAutoScript:
             logger.critical('Auto search could not be set correctly. Maybe your ships in hard mode are changed.')
             logger.critical('Request human takeover.')
             exit(1)
+        except MapDetectionError as e:
+            logger.error(e)
+            self.save_error_log()
+            logger.warning(f'Game stuck, will be restarted in 10 seconds')
+            self.config.task_call('Restart')
+            self.device.sleep(10)
+            return False
         except Exception as e:
             logger.exception(e)
             self.save_error_log()
