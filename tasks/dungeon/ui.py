@@ -80,7 +80,7 @@ class OcrDungeonNav(Ocr):
 class OcrDungeonList(Ocr):
     def after_process(self, result):
         # 乙太之蕾•雅利洛-Ⅵ
-        result = result.replace('-VI', '-Ⅵ')
+        result = re.sub(r'-[VⅤ][IⅠ]', '-Ⅵ', result)
 
         result = super().after_process(result)
 

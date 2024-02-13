@@ -73,6 +73,14 @@ class GenerateDungeonList(GenerateKeyword):
             text = f'{text}_{plane.name}'
         return text
 
+    def convert_keyword(self, text: str, lang: str) -> str:
+        text = super().convert_keyword(text, lang=lang)
+        # Bud of Memories (Jarilo-Ⅵ)
+        # Use roman numbers instead
+        text = re.sub(r'-[VⅤ][IⅠ]', '-Ⅵ', text)
+
+        return text
+
     def iter_rows(self) -> t.Iterable[dict]:
         dungeons = list(super().iter_rows())
         calyx = []
@@ -88,7 +96,6 @@ class GenerateDungeonList(GenerateKeyword):
         ]
         for keyword in order:
             condition = lambda x: x['name'].startswith(keyword)
-            print([d for d in dungeons])
             calyx += [d for d in dungeons if condition(d)]
             dungeons = [d for d in dungeons if not condition(d)]
         dungeons = calyx + dungeons

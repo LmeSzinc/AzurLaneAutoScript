@@ -144,7 +144,10 @@ class GenerateKeyword:
         pass
 
     def convert_name(self, text: str, keyword: dict) -> str:
-        return text_to_variable(text)
+        return text_to_variable(replace_templates(text))
+
+    def convert_keyword(self, text: str, lang: str) -> str:
+        return replace_templates(text)
 
     def iter_rows(self) -> t.Iterable[dict]:
         for keyword in self.iter_keywords():
@@ -163,11 +166,12 @@ class GenerateKeyword:
         base.update(keyword)
         # Name
         _, name = self.find_keyword(text_id, lang='en')
-        name = self.convert_name(replace_templates(name), keyword=base)
+        name = self.convert_name(name, keyword=base)
         base['name'] = name
         # Translations
         for lang in UI_LANGUAGES:
-            value = replace_templates(self.find_keyword(text_id, lang=lang)[1])
+            value = self.find_keyword(text_id, lang=lang)[1]
+            value = self.convert_keyword(value, lang=lang)
             base[lang] = value
         return base
 
