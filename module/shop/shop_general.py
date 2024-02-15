@@ -117,6 +117,10 @@ class GeneralShop(ShopClerk, ShopUI, ShopStatus):
         Returns:
             bool: whether item is custom
         """
+        if isinstance(self.config.GeneralShop_ConsumeCoins, bool):
+            logger.warning(f"Incorrect general shop consume coins setting: {self.config.GeneralShop_ConsumeCoins}, reset to 550000")
+            self.config.GeneralShop_ConsumeCoins = 550000
+
         if self.config.GeneralShop_ConsumeCoins and self._currency >= self.config.GeneralShop_ConsumeCoins:
             if item.cost == 'Coins':
                 return True
