@@ -366,6 +366,12 @@ class AlasGUI(Frame):
             color="navigator",
         )
 
+    def one_click_clear_all_task(self):
+        task_scheduler_list = [f"{i.command}.Scheduler.Enable" for i in [*self.alas_config.waiting_task, *self.alas_config.pending_task, self.alas_config.task]]
+        modified = dict(zip(task_scheduler_list, [[] for _ in range(len(task_scheduler_list))]))
+
+        self._save_config(modified, self.alas_config.config_name, load_config(self.alas_config.config_name))
+
     @use_scope("content", clear=True)
     def alas_overview(self) -> None:
         self.init_menu(name="Overview")
@@ -379,6 +385,11 @@ class AlasGUI(Frame):
                 [
                     put_text(t("Gui.Overview.Scheduler")).style(
                         "font-size: 1.25rem; margin: auto .5rem auto;"
+                    ),
+                    put_button(
+                        label=t("Gui.Button.OneClickClear"),
+                        onclick=self.one_click_clear_all_task,
+                        color="on",
                     ),
                     put_scope("scheduler_btn"),
                 ],

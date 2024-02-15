@@ -2924,7 +2924,8 @@
       "CheckUpdate": "檢查更新",
       "ClickToUpdate": "進行更新",
       "RetryUpdate": "重試更新",
-      "CancelUpdate": "取消更新"
+      "CancelUpdate": "取消更新",
+      "OneClickClear": "Gui.Button.OneClickClear"
     },
     "Toast": {
       "DisableTranslateMode": "點擊這裡關閉翻譯模式",

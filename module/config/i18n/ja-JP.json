@@ -2924,7 +2924,8 @@
       "CheckUpdate": "アップデータチェック",
       "ClickToUpdate": "アップデータ実行",
       "RetryUpdate": "アップデータ再試行",
-      "CancelUpdate": "アップデータ中止"
+      "CancelUpdate": "アップデータ中止",
+      "OneClickClear": "Gui.Button.OneClickClear"
     },
     "Toast": {
       "DisableTranslateMode": "クリックして翻訳モードを中止します",
