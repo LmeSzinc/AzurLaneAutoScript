@@ -165,6 +165,11 @@ class DraggableDungeonList(DraggableList):
             indexes = [self.keyword2index(row.matched_keyword)
                        for row in self.cur_buttons]
             indexes = [index for index in indexes if index]
+
+            if not indexes:
+                logger.warning(f'No valid rows loaded into {self}')
+                return
+
             self.cur_min = min(indexes)
             self.cur_max = max(indexes)
             logger.attr(self.name, f'{self.cur_min} - {self.cur_max}')
