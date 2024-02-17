@@ -94,8 +94,8 @@ class OcrDungeonList(Ocr):
             result = re.sub(r'蛀星的旧.*?历战', '蛀星的旧靥•历战', result)
 
         # 9支援仓段
-        result = result.removeprefix('9')
-        result = result.removeprefix('Q')
+        for word in 'Q9α':
+            result = result.removeprefix(word)
         return result
 
 
