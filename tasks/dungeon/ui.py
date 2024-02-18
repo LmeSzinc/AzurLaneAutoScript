@@ -94,8 +94,8 @@ class OcrDungeonList(Ocr):
             result = re.sub(r'蛀星的旧.*?历战', '蛀星的旧靥•历战', result)
 
         # 9支援仓段
-        result = result.removeprefix('9')
-        result = result.removeprefix('Q')
+        for word in 'Q9α':
+            result = result.removeprefix(word)
         return result
 
 
@@ -165,6 +165,11 @@ class DraggableDungeonList(DraggableList):
             indexes = [self.keyword2index(row.matched_keyword)
                        for row in self.cur_buttons]
             indexes = [index for index in indexes if index]
+
+            if not indexes:
+                logger.warning(f'No valid rows loaded into {self}')
+                return
+
             self.cur_min = min(indexes)
             self.cur_max = max(indexes)
             logger.attr(self.name, f'{self.cur_min} - {self.cur_max}')

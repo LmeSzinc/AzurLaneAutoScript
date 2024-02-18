@@ -54,6 +54,7 @@ class WeeklyDungeon(Dungeon):
         # Equivalent to self.dungeon_goto(dungeon), but check limit remains
         DUNGEON_LIST.search_button = OCR_DUNGEON_LIST
         self._dungeon_nav_goto(KEYWORDS_DUNGEON_NAV.Echo_of_War)
+        self._dungeon_wait_until_dungeon_list_loaded()
 
         # Check limit
         remain = self.get_weekly_remain()
