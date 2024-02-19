@@ -5,7 +5,7 @@ from module.map.map_grids import RoadGrids, SelectedGrids
 
 from .campaign_8_1 import Config as ConfigBase
 
-MAP = CampaignMap('8-3')
+MAP = CampaignMap('8-2')
 MAP.shape = 'H5'
 MAP.camera_data = ['D2', 'D3', 'E3']
 MAP.camera_data_spawn_point = ['E3']
