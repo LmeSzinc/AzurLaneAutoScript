@@ -100,5 +100,9 @@ class GenerateDungeonList(GenerateKeyword):
             dungeons = [d for d in dungeons if not condition(d)]
         dungeons = calyx + dungeons
 
+        self.keyword_index = 0
         for row in dungeons:
+            # Re-sort ID
+            self.keyword_index += 1
+            row['id'] = self.keyword_index
             yield row

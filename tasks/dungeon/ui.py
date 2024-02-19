@@ -118,6 +118,10 @@ class OcrDungeonListLimitEntrance(OcrDungeonList):
         self.button = ClickButton((*self.button.area[:3], self.button.area[3] - 70))
 
 
+class OcrDungeonListCalyxCrimsonLimitEntrance(OcrDungeonListCalyxCrimson, OcrDungeonListLimitEntrance):
+    pass
+
+
 class DraggableDungeonNav(DraggableList):
     # 0.5 is the magic number to reach bottom in 1 swipe
     # but relax we still have retires when magic doesn't work
@@ -131,6 +135,8 @@ class DraggableDungeonList(DraggableList):
     # use_plane: True to use map planes to predict dungeons only.
     #     Can only be True in Calyx Crimson
     use_plane = False
+    # limit_entrance: True to ensure the teleport button is insight
+    limit_entrance = False
 
     def load_rows(self, main: ModuleBase, allow_early_access=False):
         """
@@ -141,10 +147,16 @@ class DraggableDungeonList(DraggableList):
         relative_area = (0, 0, 1280, 120)
         if self.use_plane:
             self.keyword_class = [MapPlane, DungeonEntrance]
-            self.ocr_class = OcrDungeonListCalyxCrimson
+            if self.limit_entrance:
+                self.ocr_class = OcrDungeonListCalyxCrimsonLimitEntrance
+            else:
+                self.ocr_class = OcrDungeonListCalyxCrimson
         else:
             self.keyword_class = [DungeonList, DungeonEntrance]
-            self.ocr_class = OcrDungeonList
+            if self.limit_entrance:
+                self.ocr_class = OcrDungeonListLimitEntrance
+            else:
+                self.ocr_class = OcrDungeonList
         super().load_rows(main=main)
 
         # Check early access dungeons
@@ -478,16 +490,28 @@ class DungeonUI(DungeonState):
         Switch worlds in Calyx_Golden with error handling
         If world tab is not unlocked, fallback to Jarilo dungeons
         """
+        # Wait world tab
         button = CALYX_WORLD_1
         tab = False
-        # Selected tab
-        if self.image_color_count(button, color=(18, 18, 18), threshold=180, count=50):
-            tab = True
-        # Unselected tab
-        if self.image_color_count(button, color=(134, 134, 134), threshold=180, count=50):
-            tab = True
-        logger.attr('WorldTab', tab)
+        timeout = Timer(0.6, count=3).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            # End
+            if timeout.reached():
+                break
+            # Selected tab
+            if self.image_color_count(button, color=(18, 18, 18), threshold=180, count=50):
+                tab = True
+                break
+            # Unselected tab
+            if self.image_color_count(button, color=(134, 134, 134), threshold=180, count=50):
+                tab = True
+                break
 
+        logger.attr('WorldTab', tab)
         if not tab:
             logger.warning('World tab is not unlocked, fallback to Jarilo dungeons')
             if dungeon.is_Calyx_Golden_Memories:
@@ -497,7 +521,8 @@ class DungeonUI(DungeonState):
             if dungeon.is_Calyx_Golden_Treasures:
                 dungeon = KEYWORDS_DUNGEON_LIST.Calyx_Golden_Treasures_Jarilo_VI
 
-        return self._dungeon_world_set(dungeon, skip_first_screenshot=skip_first_screenshot)
+        self._dungeon_world_set(dungeon, skip_first_screenshot=skip_first_screenshot)
+        return dungeon
 
     def _dungeon_insight(self, dungeon: DungeonList):
         """
@@ -525,10 +550,10 @@ class DungeonUI(DungeonState):
                 DUNGEON_LIST.drag_vector = (-0.4, -0.2)  # Keyword loaded is reversed
             else:
                 DUNGEON_LIST.drag_vector = (0.2, 0.4)
-            DUNGEON_LIST.ocr_class = OcrDungeonListLimitEntrance
+            DUNGEON_LIST.limit_entrance = True
             DUNGEON_LIST.insight_row(dungeon, main=self)
             DUNGEON_LIST.drag_vector = DraggableList.drag_vector
-            DUNGEON_LIST.ocr_class = OcrDungeonList
+            DUNGEON_LIST.limit_entrance = False
             DUNGEON_LIST.load_rows(main=self)
             # Check if dungeon unlocked
             for entrance in DUNGEON_LIST.navigates:
@@ -675,7 +700,7 @@ class DungeonUI(DungeonState):
         if dungeon.is_Calyx_Golden:
             self._dungeon_nav_goto(dungeon.dungeon_nav)
             self._dungeon_wait_until_dungeon_list_loaded()
-            self._dungeon_world_set_wrapper(dungeon)
+            dungeon = self._dungeon_world_set_wrapper(dungeon)
             self._dungeon_wait_until_dungeon_list_loaded()
             self._dungeon_insight(dungeon)
             self._dungeon_enter(dungeon)
