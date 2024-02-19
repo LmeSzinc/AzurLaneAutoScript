@@ -490,16 +490,28 @@ class DungeonUI(DungeonState):
         Switch worlds in Calyx_Golden with error handling
         If world tab is not unlocked, fallback to Jarilo dungeons
         """
+        # Wait world tab
         button = CALYX_WORLD_1
         tab = False
-        # Selected tab
-        if self.image_color_count(button, color=(18, 18, 18), threshold=180, count=50):
-            tab = True
-        # Unselected tab
-        if self.image_color_count(button, color=(134, 134, 134), threshold=180, count=50):
-            tab = True
-        logger.attr('WorldTab', tab)
+        timeout = Timer(0.6, count=3).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            # End
+            if timeout.reached():
+                break
+            # Selected tab
+            if self.image_color_count(button, color=(18, 18, 18), threshold=180, count=50):
+                tab = True
+                break
+            # Unselected tab
+            if self.image_color_count(button, color=(134, 134, 134), threshold=180, count=50):
+                tab = True
+                break
 
+        logger.attr('WorldTab', tab)
         if not tab:
             logger.warning('World tab is not unlocked, fallback to Jarilo dungeons')
             if dungeon.is_Calyx_Golden_Memories:
@@ -509,7 +521,8 @@ class DungeonUI(DungeonState):
             if dungeon.is_Calyx_Golden_Treasures:
                 dungeon = KEYWORDS_DUNGEON_LIST.Calyx_Golden_Treasures_Jarilo_VI
 
-        return self._dungeon_world_set(dungeon, skip_first_screenshot=skip_first_screenshot)
+        self._dungeon_world_set(dungeon, skip_first_screenshot=skip_first_screenshot)
+        return dungeon
 
     def _dungeon_insight(self, dungeon: DungeonList):
         """
@@ -687,7 +700,7 @@ class DungeonUI(DungeonState):
         if dungeon.is_Calyx_Golden:
             self._dungeon_nav_goto(dungeon.dungeon_nav)
             self._dungeon_wait_until_dungeon_list_loaded()
-            self._dungeon_world_set_wrapper(dungeon)
+            dungeon = self._dungeon_world_set_wrapper(dungeon)
             self._dungeon_wait_until_dungeon_list_loaded()
             self._dungeon_insight(dungeon)
             self._dungeon_enter(dungeon)
