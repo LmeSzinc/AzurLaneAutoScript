@@ -3,7 +3,7 @@ from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
-MAP = CampaignMap()
+MAP = CampaignMap('4-1')
 MAP.shape = 'F6'
 MAP.camera_data = ['C2', 'C4']
 MAP.camera_data_spawn_point = ['C2']
