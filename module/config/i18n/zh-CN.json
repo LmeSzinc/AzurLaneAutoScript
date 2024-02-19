@@ -2925,7 +2925,9 @@
       "ClickToUpdate": "进行更新",
       "RetryUpdate": "重试更新",
       "CancelUpdate": "取消更新",
-      "OneClickClear": "清空任务"
+      "OneClickClear": "清空任务",
+      "Confirm": "确认",
+      "Cancel": "取消"
     },
     "Toast": {
       "DisableTranslateMode": "点击这里关闭翻译模式",
@@ -3039,7 +3041,8 @@
       "InvalidFeedBack": "格式错误。 示例：{0}",
       "Clear": "清除",
       "EnterPassword": "输入密码",
-      "ChooseFile": "选择文件"
+      "ChooseFile": "选择文件",
+      "ClearAllTaskConfirm": "是否清空所有任务"
     }
   }
 }

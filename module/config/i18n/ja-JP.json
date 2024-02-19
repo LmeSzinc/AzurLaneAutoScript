@@ -2925,7 +2925,9 @@
       "ClickToUpdate": "アップデータ実行",
       "RetryUpdate": "アップデータ再試行",
       "CancelUpdate": "アップデータ中止",
-      "OneClickClear": "Gui.Button.OneClickClear"
+      "OneClickClear": "Gui.Button.OneClickClear",
+      "Confirm": "Gui.Button.Confirm",
+      "Cancel": "Gui.Button.Cancel"
     },
     "Toast": {
       "DisableTranslateMode": "クリックして翻訳モードを中止します",
@@ -3039,7 +3041,8 @@
       "InvalidFeedBack": "フォーマットエラー。 例：{0}",
       "Clear": "消除",
       "EnterPassword": "パスワードを入力してください",
-      "ChooseFile": "ファイルを選択してください"
+      "ChooseFile": "ファイルを選択してください",
+      "ClearAllTaskConfirm": "Gui.Text.ClearAllTaskConfirm"
     }
   }
 }

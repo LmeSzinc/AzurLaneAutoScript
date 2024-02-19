@@ -23,6 +23,8 @@ Button:
   RetryUpdate:
   CancelUpdate:
   OneClickClear:
+  Confirm:
+  Cancel:
 
 Toast:
   DisableTranslateMode:
@@ -137,3 +139,4 @@ Text:
   Clear:
   EnterPassword:
   ChooseFile:
+  ClearAllTaskConfirm:

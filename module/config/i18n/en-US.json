@@ -2925,7 +2925,9 @@
       "ClickToUpdate": "Click to update",
       "RetryUpdate": "Retry update",
       "CancelUpdate": "Cancel update",
-      "OneClickClear": "Gui.Button.OneClickClear"
+      "OneClickClear": "Gui.Button.OneClickClear",
+      "Confirm": "Gui.Button.Confirm",
+      "Cancel": "Gui.Button.Cancel"
     },
     "Toast": {
       "DisableTranslateMode": "Click here to disable translate mode",
@@ -3039,7 +3041,8 @@
       "InvalidFeedBack": "Invalid format. Example: {0}",
       "Clear": "Clear",
       "EnterPassword": "Enter password",
-      "ChooseFile": "Choose file"
+      "ChooseFile": "Choose file",
+      "ClearAllTaskConfirm": "Gui.Text.ClearAllTaskConfirm"
     }
   }
 }

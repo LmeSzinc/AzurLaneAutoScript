@@ -367,10 +367,27 @@ class AlasGUI(Frame):
         )
 
     def one_click_clear_all_task(self):
-        task_scheduler_list = [f"{i.command}.Scheduler.Enable" for i in [*self.alas_config.waiting_task, *self.alas_config.pending_task, self.alas_config.task]]
-        modified = dict(zip(task_scheduler_list, [[] for _ in range(len(task_scheduler_list))]))
+        def clear_all_task():
+            close_popup()
 
-        self._save_config(modified, self.alas_config.config_name, load_config(self.alas_config.config_name))
+            task_scheduler_list = [f"{i.command}.Scheduler.Enable" for i in
+                                   [*self.alas_config.waiting_task, *self.alas_config.pending_task,
+                                    self.alas_config.task]]
+            modified = dict(zip(task_scheduler_list, [[] for _ in range(len(task_scheduler_list))]))
+
+            self._save_config(modified, self.alas_config.config_name, load_config(self.alas_config.config_name))
+
+        with popup(t("Gui.Text.ClearAllTaskConfirm")):
+            put_buttons(
+                buttons=[
+                    {"label": t("Gui.Button.Confirm"), "value": "", "color": "primary"},
+                    {"label": t("Gui.Button.Cancel"), "value": "", "color": "danger"},
+                ],
+                onclick=[
+                    clear_all_task,
+                    close_popup,
+                ],
+            )
 
     @use_scope("content", clear=True)
     def alas_overview(self) -> None:
