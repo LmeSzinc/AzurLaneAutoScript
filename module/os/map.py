@@ -86,6 +86,11 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
             self.run_auto_search(rescan=False)
             self.handle_after_auto_search()
 
+        # 2024.02.22, game client bugged, action point button has no response
+        logger.error('Game client bugged, wait game devs have the AP button fixed')
+        self.config.task_delay(minute=60)
+        self.config.task_stop()
+
     def get_current_zone_from_globe(self):
         """
         Get current zone from globe map. See OSMapOperation.get_current_zone()
