@@ -76,7 +76,17 @@ class OcrRogueWorld(Ocr):
         # Crop to the up/down border of the white letter
         center = color_similarity_2d(image, color=(255, 255, 255))
         cv2.inRange(center, 180, 255, dst=center)
-        center = np.where(np.sum(center, axis=1) > 200)[0]
+        # print(np.count_nonzero(center, axis=1))
+        # World 8
+        # [ 0  0  0  0  0  0  0  2 23 24 22 21 23 29 44 47 38 37 31 32 33 33 31 34
+        #  34 44 34  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+        #   0  0  0  0  0  0  0  0]
+        # In Progress
+        # World 8
+        # [ 0  0  0  1  0  3  6  5  3  3  3  1  2  0  0  1  2  0  0  0  0  0  0  0
+        #   0  0  0  2 22 24 22 21 23 29 45 46 39 36 30 32 32 32 31 34 34 44 34  0
+        #   0  0  0  0  0  0  0  0]
+        center = np.where(np.count_nonzero(center, axis=1) > 10)[0]
         if len(center) < 2:
             return image
         up, down = center[0], center[-1]
