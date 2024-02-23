@@ -3386,15 +3386,16 @@
           "war_archives_20211014_cn",
           "war_archives_20211028_cn",
           "war_archives_20220210_cn",
-          "war_archives_20220414_cn"
+          "war_archives_20220414_cn",
+          "war_archives_20210225_cn"
         ],
         "option_bold": [
           "war_archives_20210527_cn",
           "war_archives_20220414_cn"
         ],
-        "cn": "war_archives_20210527_cn",
-        "en": "war_archives_20210527_cn",
-        "jp": "war_archives_20210527_cn",
+        "cn": "war_archives_20210225_cn",
+        "en": "war_archives_20210225_cn",
+        "jp": "war_archives_20210225_cn",
         "tw": "war_archives_20220414_cn"
       },
       "Mode": {
