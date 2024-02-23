@@ -173,6 +173,10 @@
     "Weekly": {
       "Name": "Echo_of_War_Divine_Seed",
       "Team": 1
+    },
+    "DungeonSupport": {
+      "Use": "do_not_use",
+      "Character": "FirstCharacter"
     }
   },
   "Rogue": {

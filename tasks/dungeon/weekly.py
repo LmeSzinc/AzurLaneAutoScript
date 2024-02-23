@@ -15,8 +15,7 @@ class WeeklyDungeon(Dungeon):
                      skip_ui_switch: bool = False):
         if team is None:
             team = self.config.Weekly_Team
-        # No support
-        support_character = ''
+
         skip_ui_switch = True
         return super()._dungeon_run(
             dungeon=dungeon, team=team, wave_limit=wave_limit,

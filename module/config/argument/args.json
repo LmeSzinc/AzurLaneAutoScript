@@ -1276,6 +1276,67 @@
           9
         ]
       }
+    },
+    "DungeonSupport": {
+      "Use": {
+        "type": "select",
+        "value": "do_not_use",
+        "option": [
+          "always_use",
+          "do_not_use"
+        ]
+      },
+      "Character": {
+        "type": "select",
+        "value": "FirstCharacter",
+        "option": [
+          "FirstCharacter",
+          "Argenti",
+          "Arlan",
+          "Asta",
+          "Bailu",
+          "BlackSwan",
+          "Blade",
+          "Bronya",
+          "Clara",
+          "DanHeng",
+          "DanHengImbibitorLunae",
+          "DrRatio",
+          "FuXuan",
+          "Gepard",
+          "Guinaifen",
+          "Hanya",
+          "Herta",
+          "Himeko",
+          "Hook",
+          "Huohuo",
+          "JingYuan",
+          "Jingliu",
+          "Kafka",
+          "Luka",
+          "Luocha",
+          "Lynx",
+          "March7th",
+          "Misha",
+          "Natasha",
+          "Pela",
+          "Qingque",
+          "RuanMei",
+          "Sampo",
+          "Seele",
+          "Serval",
+          "SilverWolf",
+          "Sushang",
+          "Tingyun",
+          "TopazNumby",
+          "TrailblazerDestruction",
+          "TrailblazerPreservation",
+          "Welt",
+          "Xueyi",
+          "Yanqing",
+          "Yukong"
+        ]
+      }
     }
   },
   "Rogue": {
