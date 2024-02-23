@@ -468,7 +468,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                                   color=button.color,
                                   name=f'TEMPLATE_{common_cv_name}_RETIRE')
 
-                return None
+            return None
         else:
 
             template = globals()[
