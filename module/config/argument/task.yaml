@@ -54,6 +54,7 @@ Weekly:
     Weekly:
       - Scheduler
       - Weekly
+      - DungeonSupport
     Rogue:
       - Scheduler
       - RogueWorld

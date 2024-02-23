@@ -265,7 +265,11 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
                     self.device.click(COMBAT_EXIT)
                 self.interval_reset(COMBAT_AGAIN)
                 continue
+            # Dropped light cone from weekly
             if self.handle_get_light_cone():
+                continue
+            # Having any character died
+            if self.handle_popup_confirm():
                 continue
 
     def combat_exit(self, skip_first_screenshot=True):

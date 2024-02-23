@@ -30,3 +30,10 @@ DataUpdate:
       value: true
       option: [ true, ]
       option_bold: [ true, ]
+
+# ==================== Weekly ====================
+
+Weekly:
+  DungeonSupport:
+    Use:
+      option: [ always_use, do_not_use ]

@@ -6,6 +6,7 @@ from tasks.character.keywords.classes import CharacterList, CombatType
 DICT_SORTED_RANGES = {
     # Mage, hit instantly, no trajectories
     'Mage': [
+        RuanMei,
         DanHengImbibitorLunae,
         Welt,
         FuXuan,

@@ -10,7 +10,7 @@ COMBAT_AUTO = ButtonWrapper(
         area=(1113, 22, 1183, 58),
         search=(1093, 2, 1203, 78),
         color=(135, 137, 131),
-        button=(1113, 22, 1183, 58),
+        button=(1136, 31, 1161, 49),
     ),
 )
 COMBAT_PAUSE = ButtonWrapper(
@@ -30,6 +30,6 @@ COMBAT_SPEED_2X = ButtonWrapper(
         area=(1029, 22, 1099, 58),
         search=(1009, 2, 1119, 78),
         color=(138, 143, 146),
-        button=(1029, 22, 1099, 58),
+        button=(1047, 29, 1079, 49),
     ),
 )

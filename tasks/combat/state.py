@@ -67,7 +67,8 @@ class CombatState(UI):
             return False
         if not self.is_combat_executing():
             if not self._combat_auto_checked and auto:
-                if self._combat_click_interval.started() and not self._combat_click_interval.reached():
+                # >=0.2s after clicking the button to avoid random noice
+                if self._combat_click_interval.current() >= 0.15 and not self._combat_click_interval.reached():
                     logger.info('Combat on going, _combat_auto_checked')
                     self._combat_auto_checked = True
             return False

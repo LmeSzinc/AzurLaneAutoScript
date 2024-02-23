@@ -22,3 +22,9 @@ Assignment:
 Freebies:
   Scheduler:
     Enable: true
+
+# ==================== Weekly ====================
+
+Weekly:
+  DungeonSupport:
+    Use: do_not_use
