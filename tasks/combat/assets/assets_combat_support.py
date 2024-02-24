@@ -53,3 +53,36 @@ COMBAT_SUPPORT_SELECTED = ButtonWrapper(
         button=(69, 114, 91, 116),
     ),
 )
+SUPPORT_SELECTED = ButtonWrapper(
+    name='SUPPORT_SELECTED',
+    share=[
+        Button(
+            file='./assets/share/combat/support/SUPPORT_SELECTED.png',
+            area=(54, 202, 60, 220),
+            search=(40, 146, 68, 628),
+            color=(125, 126, 131),
+            button=(54, 202, 60, 220),
+        ),
+        Button(
+            file='./assets/share/combat/support/SUPPORT_SELECTED.2.png',
+            area=(53, 547, 59, 565),
+            search=(40, 146, 68, 628),
+            color=(144, 146, 147),
+            button=(53, 547, 59, 565),
+        ),
+        Button(
+            file='./assets/share/combat/support/SUPPORT_SELECTED.3.png',
+            area=(54, 432, 61, 450),
+            search=(40, 146, 68, 628),
+            color=(139, 139, 141),
+            button=(54, 432, 61, 450),
+        ),
+        Button(
+            file='./assets/share/combat/support/SUPPORT_SELECTED.4.png',
+            area=(52, 417, 59, 435),
+            search=(40, 146, 68, 628),
+            color=(140, 138, 145),
+            button=(52, 417, 59, 435),
+        ),
+    ],
+)
