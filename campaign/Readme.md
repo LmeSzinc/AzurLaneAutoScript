@@ -178,3 +178,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20240125   | event 20210527 cn        | Mirror Involution Rerun                      | -            | -                      | -               | 復刻鏡位螺旋                        |
 | 20240130   | raid 20240130            | Spring Festive Fiasco                        | 寰昌宇定家事忙           | Spring Festive Fiasco                        | 新春宴会狂騒曲                         | -                       |
 | 20240206   | raid 20230118            | Winter Pathfinder                            | -           | -                            | -                           | 冬日的尋路人                        |
+| 20240229  | event 20230223 cn        | Revelations of Dust                          | 湮烬尘墟               | -                          | -                             | 湮燼塵墟                        |
