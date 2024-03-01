@@ -22,6 +22,14 @@ class EventGrid(Grid):
             return False
         return super().predict_boss()
 
+    def predict_current_fleet(self):
+        count = self.relative_hsv_count(area=(-0.5, -3.5, 0.5, -2.5), h=(141 - 3, 141 + 10), shape=(50, 50))
+        if count < 200:
+            return False
+
+        # No TEMPLATE_FLEET_CURRENT check as giant boss on B1 covers fleet
+        return True
+
 
 class CampaignBase(CampaignBase_):
     """
