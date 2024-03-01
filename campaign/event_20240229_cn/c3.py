@@ -74,6 +74,9 @@ class Config(ConfigBase):
         'CAlightning': 1.111,
         'BBlightning': 1.111,
     }
+    MAP_SWIPE_MULTIPLY = (1.233, 1.256)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.192, 1.214)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.157, 1.178)
 
 
 class Campaign(CampaignBase):

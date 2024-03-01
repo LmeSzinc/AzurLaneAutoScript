@@ -74,6 +74,23 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 33),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 33, 255),
+        'prominence': 10,
+        'distance': 50,
+        'wlen': 1000
+    }
+    HOMO_EDGE_COLOR_RANGE = (0, 33)
+    MAP_SWIPE_MULTIPLY = (1.109, 1.130)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.073, 1.093)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.042, 1.060)
+
 
 class Campaign(CampaignBase):
     MAP = MAP
