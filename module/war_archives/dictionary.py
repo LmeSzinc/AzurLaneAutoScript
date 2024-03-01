@@ -26,4 +26,5 @@ dic_archives_template = {
     'war_archives_20201229_cn': TEMPLATE_INVERTED_ORTHANT,
     'war_archives_20200917_cn': TEMPLATE_DREAMWAKERS_BUTTERFLY,
     'war_archives_20210527_cn': TEMPLATE_MIRROR_INVOLUTION, 
+    'war_archives_20210225_cn': TEMPLATE_KHOROVOD_OF_DAWNS_RIME, 
 }
