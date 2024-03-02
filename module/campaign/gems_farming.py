@@ -150,6 +150,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         Returns:
             bool: True if vanguard changed
         """
+
         logger.hr('Change vanguard', level=1)
         logger.attr('ChangeVanguard', self.config.GemsFarming_ChangeVanguard)
         if self.change_vanguard_equip:
@@ -253,13 +254,89 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                               fleet=self.config.Fleet_Fleet1, status='free')
         scanner.disable('rarity')
 
-        ships = scanner.scan(self.device.image)
-        if ships:
-            # Don't need to change current
-            return ships
+        if self.config.GemsFarming_CommonDD == 'any':
+            logger.info('')
 
-        scanner.set_limitation(fleet=0)
-        return scanner.scan(self.device.image, output=False)
+            self.dock_sort_method_dsc_set(False)
+
+            ships = scanner.scan(self.device.image)
+            if ships:
+                # Don't need to change current
+                return ships
+
+            scanner.set_limitation(fleet=0)
+            return scanner.scan(self.device.image, output=False)
+
+        elif self.config.GemsFarming_CommonDD == 'aulick or foote':
+            template1 = TEMPLATE_AULICK
+            template2 = TEMPLATE_FOOTE
+            self.dock_sort_method_dsc_set()
+
+            ships = scanner.scan(self.device.image)
+            if ships:
+                # Don't need to change current
+                return ships
+
+            scanner.set_limitation(fleet=0)
+            candidates = []
+            for ship in scanner.scan(self.device.image, output=False):
+                if template1.match(self.image_crop(ship.button), similarity=SIM_VALUE):
+                    candidates.append(ship)
+                    break
+                elif template2.match(self.image_crop(ship.button), similarity=SIM_VALUE):
+                    candidates.append(ship)
+
+            if candidates:
+                return candidates
+
+            logger.info('No specific DD was found, try reversed order.')
+            self.dock_sort_method_dsc_set(False)
+
+            candidates = []
+            for ship in scanner.scan(self.device.image, output=False):
+                if template1.match(self.image_crop(ship.button), similarity=SIM_VALUE):
+                    candidates.append(ship)
+                    break
+                elif template2.match(self.image_crop(ship.button), similarity=SIM_VALUE):
+                    candidates.append(ship)
+
+            return candidates
+
+        else:
+            template1 = TEMPLATE_CASSIN
+            template2 = TEMPLATE_DOWNES
+            self.dock_sort_method_dsc_set()
+
+            ships = scanner.scan(self.device.image)
+            if ships:
+                # Don't need to change current
+                return ships
+
+            scanner.set_limitation(fleet=0)
+            candidates = []
+            for ship in scanner.scan(self.device.image, output=False):
+                if template1.match(self.image_crop(ship.button), similarity=SIM_VALUE):
+                    candidates.append(ship)
+                    break
+                elif template2.match(self.image_crop(ship.button), similarity=SIM_VALUE):
+                    candidates.append(ship)
+
+            if candidates:
+                return candidates
+
+            logger.info('No specific DD was found, try reversed order.')
+            self.dock_sort_method_dsc_set(False)
+
+            candidates = []
+            for ship in scanner.scan(self.device.image, output=False):
+                if template1.match(self.image_crop(ship.button), similarity=SIM_VALUE):
+                    candidates.append(ship)
+                    break
+                elif template2.match(self.image_crop(ship.button), similarity=SIM_VALUE):
+                    candidates.append(ship)
+
+            return candidates
+
 
     def flagship_change_execute(self):
         """
