@@ -59,7 +59,7 @@ class SwipeSimulate:
         self.simulate_count = simulate_count
         self.swipe = np.array(swipe, dtype=float)
         self.swipe_base = self.cal_swipe_base()
-        logger.info(self.swipe_base)
+        logger.info(f'Swipe base {self.swipe_base}')
 
     def cal_swipe_base(self):
         swipe_base = None
@@ -104,7 +104,7 @@ class SwipeSimulate:
             # fit = hm.fit_points(np.array(record), encourage=2)
             fit = np.mean(record, axis=0)
             # (170, 65)
-            multiply = np.round(np.abs(self.swipe) / ((np.abs(self.swipe) // (170, 130))) / self.swipe_base, 3)
+            multiply = np.round(np.abs(self.swipe) / (3, 3) / self.swipe_base, 3)
             logger.info(
                 f'[{n}/{self.simulate_count}] init_offset={init_offset}, offset={offset}, fit={fit}, multiply={multiply}')
 
@@ -128,32 +128,11 @@ class SwipeSimulate:
         print(f'Last swipe: {self.swipe}')
         print('Result to copy:')
         print()
-        # MAP_SWIPE_MULTIPLY = 1.579
-        # MAP_SWIPE_MULTIPLY_MINITOUCH = 1.527
-        if az.config.Emulator_ControlMethod == 'minitouch':
-            multiply = np.round(self.multiply[0] / 1.572 * 1.626, 3)
-            minitouch = self.multiply[0]
-        else:
-            multiply = self.multiply[0]
-            minitouch = np.round(self.multiply[0] / 1.626 * 1.572, 3)
-        print(f'    MAP_SWIPE_MULTIPLY = {str(multiply).ljust(5, "0")}')
-        print(f'    MAP_SWIPE_MULTIPLY_MINITOUCH = {str(minitouch).ljust(5, "0")}')
-        print()
 
-        print()
-        print(f'Last swipe: {self.swipe}')
-        print('Result to copy:')
-        print()
-        # MAP_SWIPE_MULTIPLY = 1.579
-        # MAP_SWIPE_MULTIPLY_MINITOUCH = 1.527
-        if az.config.Emulator_ControlMethod == 'minitouch':
-            multiply = np.round(self.multiply[0] / 1.572 * 1.626, 3)
-            minitouch = self.multiply[1]
-        else:
-            multiply = self.multiply[1]
-            minitouch = np.round(self.multiply[0] / 1.626 * 1.572, 3)
-        print(f'    MAP_SWIPE_MULTIPLY = {str(multiply).ljust(5, "0")}')
-        print(f'    MAP_SWIPE_MULTIPLY_MINITOUCH = {str(minitouch).ljust(5, "0")}')
+        adb, minitouch, maatouch = get_multiplier(self.multiply[0])
+        print(f'    MAP_SWIPE_MULTIPLY = {adb}')
+        print(f'    MAP_SWIPE_MULTIPLY_MINITOUCH = {minitouch}')
+        print(f'    MAP_SWIPE_MULTIPLY_MAATOUCH = {maatouch}')
         print()
 
     def run(self):
@@ -161,6 +140,17 @@ class SwipeSimulate:
             result = self.simulate()
             if result <= 1:
                 break
+
+def get_multiplier(minitouch_x):
+    # MAP_SWIPE_MULTIPLY = (1.064, 1.084)
+    # MAP_SWIPE_MULTIPLY_MINITOUCH = (1.029, 1.048)
+    # MAP_SWIPE_MULTIPLY_MAATOUCH = (0.999, 1.017)
+    minitouch = np.array((1.029, 1.048)) / 1.029 * minitouch_x
+    adb = np.array((1.064, 1.084)) / 1.029 * minitouch_x
+    maatouch = np.array((0.999, 1.017)) / 1.029 * minitouch_x
+    return f'({adb[0]:.3f}, {adb[1]:.3f})', \
+           f'({minitouch[0]:.3f}, {minitouch[1]:.3f})', \
+           f'({maatouch[0]:.3f}, {maatouch[1]:.3f})'
 
 
 if __name__ == '__main__':
@@ -170,9 +160,9 @@ if __name__ == '__main__':
     Before running this, move your fleet on map to be like this:
     FL is current fleet, Fl is another fleet.
     Camera should focus on current fleet (Double click switch over to refocus)
-    -- -- -- -- --
-    -- Fl -- FL --
-    -- -- -- -- --
+    -- -- -- -- -- --
+    -- Fl -- -- FL --
+    -- -- -- -- -- --
     After run, Result is ready to copy.
     """
-    sim = SwipeSimulate((400, 0)).run()
+    sim = SwipeSimulate((420, 0)).run()
