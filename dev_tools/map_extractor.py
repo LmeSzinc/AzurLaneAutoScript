@@ -667,10 +667,9 @@ Arguments:
     IS_WAR_ARCHIVES: True if retrieved map is to be
                      adapted for war_archives usage
 """
-FILE = r'E:\ProgramData\Pycharm\AzurLaneLuaScripts'
-# FILE = r'C:\Users\LmeSzinc\Documents\Tencent Files\1737696436\FileRecv\碧蓝航线修改\sc文件修改教程\ljd-master2.1.0\chapter_template.lua'
-FOLDER = './campaign/event_20231221_cn'
-KEYWORD = '星之海'
+FILE = '../AzurLaneLuaScripts'
+FOLDER = './campaign/test'
+KEYWORD = ''
 SELECT = True
 OVERWRITE = True
 IS_WAR_ARCHIVES = False
