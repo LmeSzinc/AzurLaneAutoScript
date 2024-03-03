@@ -2948,17 +2948,17 @@
           "event_20230914_cn",
           "event_20231026_cn",
           "event_20231123_cn",
-          "event_20231221_cn"
+          "event_20231221_cn",
+          "event_20240229_cn"
         ],
-        "display": "disabled",
         "option_bold": [
-          "event_20210527_cn",
-          "event_20211229_cn"
+          "event_20240229_cn",
+          "event_20230223_cn"
         ],
-        "cn": "event_20211229_cn",
-        "en": "event_20211229_cn",
-        "jp": "event_20211229_cn",
-        "tw": "event_20210527_cn"
+        "cn": "event_20240229_cn",
+        "en": "event_20240229_cn",
+        "jp": "event_20240229_cn",
+        "tw": "event_20230223_cn"
       },
       "Mode": {
         "type": "select",
