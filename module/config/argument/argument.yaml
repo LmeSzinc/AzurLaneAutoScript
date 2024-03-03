@@ -263,7 +263,38 @@ GemsFarming:
     value: any
     option: [ any, langley, bogue, ranger, hermes ]
   CommissionLimit: true
-
+FlagshipFilter:
+  Sort:
+    value: 'default'
+    option: ['default', 'rarity', 'level', 'total', 'join', 'intimacy', 'stat']
+  Index:
+    value: 'default'
+    option: ['default', 'all', 'vanguard', 'main', 'dd', 'cl', 'ca', 'bb', 'cv', 'repair', 'ss', 'others', 'not_available']
+  Faction:
+    value: 'default'
+    option: ['default', 'all', 'eagle', 'royal', 'sakura', 'iron', 'dragon', 'sardegna', 'northern', 'iris', 'vichya', 'other', 'not_available']
+  Rarity:
+    value: 'default'
+    option: ['default', 'all', 'common', 'rare', 'elite', 'super_rare', 'ultra']
+  Extra:
+    value: 'default'
+    option: ['default', 'no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'can_limit_break', 'not_level_max', 'can_awaken', 'can_awaken_plus', 'special', 'oath_skin', 'not_available']
+VanguardFilter:
+  Sort:
+    value: 'default'
+    option: ['default', 'rarity', 'level', 'total', 'join', 'intimacy', 'stat']
+  Index:
+    value: 'default'
+    option: ['default', 'all', 'vanguard', 'main', 'dd', 'cl', 'ca', 'bb', 'cv', 'repair', 'ss', 'others', 'not_available']
+  Faction:
+    value: 'default'
+    option: ['default', 'all', 'eagle', 'royal', 'sakura', 'iron', 'dragon', 'sardegna', 'northern', 'iris', 'vichya', 'other', 'not_available']
+  Rarity:
+    value: 'default'
+    option: ['default', 'all', 'common', 'rare', 'elite', 'super_rare', 'ultra']
+  Extra:
+    value: 'default'
+    option: ['default', 'no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'can_limit_break', 'not_level_max', 'can_awaken', 'can_awaken_plus', 'special', 'oath_skin', 'not_available']
 # ==================== Event ====================
 
 EventGeneral:

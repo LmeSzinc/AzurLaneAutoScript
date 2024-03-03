@@ -1171,6 +1171,162 @@
       "help": "When running 7x24, prevent having a lot of urgent commissions and not being able to complete daily commissions. It is recommended to select only short-terms and high-yields in the commission filter"
     }
   },
+  "FlagshipFilter": {
+    "_info": {
+      "name": "FlagshipFilter._info.name",
+      "help": "FlagshipFilter._info.help"
+    },
+    "Sort": {
+      "name": "FlagshipFilter.Sort.name",
+      "help": "FlagshipFilter.Sort.help",
+      "default": "default",
+      "rarity": "rarity",
+      "level": "level",
+      "total": "total",
+      "join": "join",
+      "intimacy": "intimacy",
+      "stat": "stat"
+    },
+    "Index": {
+      "name": "FlagshipFilter.Index.name",
+      "help": "FlagshipFilter.Index.help",
+      "default": "default",
+      "all": "all",
+      "vanguard": "vanguard",
+      "main": "main",
+      "dd": "dd",
+      "cl": "cl",
+      "ca": "ca",
+      "bb": "bb",
+      "cv": "cv",
+      "repair": "repair",
+      "ss": "ss",
+      "others": "others",
+      "not_available": "not_available"
+    },
+    "Faction": {
+      "name": "FlagshipFilter.Faction.name",
+      "help": "FlagshipFilter.Faction.help",
+      "default": "default",
+      "all": "all",
+      "eagle": "eagle",
+      "royal": "royal",
+      "sakura": "sakura",
+      "iron": "iron",
+      "dragon": "dragon",
+      "sardegna": "sardegna",
+      "northern": "northern",
+      "iris": "iris",
+      "vichya": "vichya",
+      "other": "other",
+      "not_available": "not_available"
+    },
+    "Rarity": {
+      "name": "FlagshipFilter.Rarity.name",
+      "help": "FlagshipFilter.Rarity.help",
+      "default": "default",
+      "all": "all",
+      "common": "common",
+      "rare": "rare",
+      "elite": "elite",
+      "super_rare": "super_rare",
+      "ultra": "ultra"
+    },
+    "Extra": {
+      "name": "FlagshipFilter.Extra.name",
+      "help": "FlagshipFilter.Extra.help",
+      "default": "default",
+      "no_limit": "no_limit",
+      "has_skin": "has_skin",
+      "can_retrofit": "can_retrofit",
+      "enhanceable": "enhanceable",
+      "can_limit_break": "can_limit_break",
+      "not_level_max": "not_level_max",
+      "can_awaken": "can_awaken",
+      "can_awaken_plus": "can_awaken_plus",
+      "special": "special",
+      "oath_skin": "oath_skin",
+      "not_available": "not_available"
+    }
+  },
+  "VanguardFilter": {
+    "_info": {
+      "name": "VanguardFilter._info.name",
+      "help": "VanguardFilter._info.help"
+    },
+    "Sort": {
+      "name": "VanguardFilter.Sort.name",
+      "help": "VanguardFilter.Sort.help",
+      "default": "default",
+      "rarity": "rarity",
+      "level": "level",
+      "total": "total",
+      "join": "join",
+      "intimacy": "intimacy",
+      "stat": "stat"
+    },
+    "Index": {
+      "name": "VanguardFilter.Index.name",
+      "help": "VanguardFilter.Index.help",
+      "default": "default",
+      "all": "all",
+      "vanguard": "vanguard",
+      "main": "main",
+      "dd": "dd",
+      "cl": "cl",
+      "ca": "ca",
+      "bb": "bb",
+      "cv": "cv",
+      "repair": "repair",
+      "ss": "ss",
+      "others": "others",
+      "not_available": "not_available"
+    },
+    "Faction": {
+      "name": "VanguardFilter.Faction.name",
+      "help": "VanguardFilter.Faction.help",
+      "default": "default",
+      "all": "all",
+      "eagle": "eagle",
+      "royal": "royal",
+      "sakura": "sakura",
+      "iron": "iron",
+      "dragon": "dragon",
+      "sardegna": "sardegna",
+      "northern": "northern",
+      "iris": "iris",
+      "vichya": "vichya",
+      "other": "other",
+      "not_available": "not_available"
+    },
+    "Rarity": {
+      "name": "VanguardFilter.Rarity.name",
+      "help": "VanguardFilter.Rarity.help",
+      "default": "default",
+      "all": "all",
+      "common": "common",
+      "rare": "rare",
+      "elite": "elite",
+      "super_rare": "super_rare",
+      "ultra": "ultra"
+    },
+    "Extra": {
+      "name": "VanguardFilter.Extra.name",
+      "help": "VanguardFilter.Extra.help",
+      "default": "default",
+      "no_limit": "no_limit",
+      "has_skin": "has_skin",
+      "can_retrofit": "can_retrofit",
+      "enhanceable": "enhanceable",
+      "can_limit_break": "can_limit_break",
+      "not_level_max": "not_level_max",
+      "can_awaken": "can_awaken",
+      "can_awaken_plus": "can_awaken_plus",
+      "special": "special",
+      "oath_skin": "oath_skin",
+      "not_available": "not_available"
+    }
+  },
   "EventGeneral": {
     "_info": {
       "name": "Event General Settings",

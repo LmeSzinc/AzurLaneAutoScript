@@ -156,6 +156,20 @@ class GeneratedConfig:
     GemsFarming_CommonCV = 'any'  # any, langley, bogue, ranger, hermes
     GemsFarming_CommissionLimit = True
 
+    # Group `FlagshipFilter`
+    FlagshipFilter_Sort = 'default'  # default, rarity, level, total, join, intimacy, stat
+    FlagshipFilter_Index = 'default'  # default, all, vanguard, main, dd, cl, ca, bb, cv, repair, ss, others, not_available
+    FlagshipFilter_Faction = 'default'  # default, all, eagle, royal, sakura, iron, dragon, sardegna, northern, iris, vichya, other, not_available
+    FlagshipFilter_Rarity = 'default'  # default, all, common, rare, elite, super_rare, ultra
+    FlagshipFilter_Extra = 'default'  # default, no_limit, has_skin, can_retrofit, enhanceable, can_limit_break, not_level_max, can_awaken, can_awaken_plus, special, oath_skin, not_available
+
+    # Group `VanguardFilter`
+    VanguardFilter_Sort = 'default'  # default, rarity, level, total, join, intimacy, stat
+    VanguardFilter_Index = 'default'  # default, all, vanguard, main, dd, cl, ca, bb, cv, repair, ss, others, not_available
+    VanguardFilter_Faction = 'default'  # default, all, eagle, royal, sakura, iron, dragon, sardegna, northern, iris, vichya, other, not_available
+    VanguardFilter_Rarity = 'default'  # default, all, common, rare, elite, super_rare, ultra
+    VanguardFilter_Extra = 'default'  # default, no_limit, has_skin, can_retrofit, enhanceable, can_limit_break, not_level_max, can_awaken, can_awaken_plus, special, oath_skin, not_available
+
     # Group `EventGeneral`
     EventGeneral_PtLimit = 0
     EventGeneral_TimeLimit = datetime.datetime(2020, 1, 1, 0, 0)

@@ -61,6 +61,8 @@ Farm:
     GemsFarming:
       - Scheduler
       - GemsFarming
+      - FlagshipFilter
+      - VanguardFilter
       - Campaign
       - StopCondition
       - Fleet

@@ -361,8 +361,16 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         self.ui_click(self.FLEET_ENTER_FLAGSHIP,
                       appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
 
+        # self.dock_filter_set(
+        #     index='cv', rarity='common', extra='enhanceable', sort='total')
+
         self.dock_filter_set(
-            index='cv', rarity='common', extra='enhanceable', sort='total')
+            sort=self.config.FlagshipFilter_Sort if self.config.FlagshipFilter_Sort != 'default' else 'total',
+            index=self.config.FlagshipFilter_Index if self.config.FlagshipFilter_Index != 'default' else 'cv',
+            faction=self.config.FlagshipFilter_Faction if self.config.FlagshipFilter_Faction != 'default' else 'all',
+            rarity=self.config.FlagshipFilter_Rarity if self.config.FlagshipFilter_Rarity != 'default' else 'common',
+            extra=self.config.FlagshipFilter_Extra if self.config.FlagshipFilter_Extra != 'default' else 'enhanceable'
+            )
         self.dock_favourite_set(False)
 
         ship = self.get_common_rarity_cv()
@@ -418,8 +426,16 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         self.solve_hard_vanguard_black()
         self.ui_click(self.FLEET_ENTER,
                       appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
+        # self.dock_filter_set(
+        #     index='dd', rarity='common', faction='eagle', extra='can_limit_break')
+
         self.dock_filter_set(
-            index='dd', rarity='common', faction='eagle', extra='can_limit_break')
+            sort=self.config.VanguardFilter_Sort if self.config.VanguardFilter_Sort != 'default' else 'level',
+            index=self.config.VanguardFilter_Index if self.config.VanguardFilter_Index != 'default' else 'dd',
+            faction=self.config.VanguardFilter_Faction if self.config.VanguardFilter_Faction != 'default' else 'eagle',
+            rarity=self.config.VanguardFilter_Rarity if self.config.VanguardFilter_Rarity != 'default' else 'common',
+            extra=self.config.VanguardFilter_Extra if self.config.VanguardFilter_Extra != 'default' else 'can_limit_break'
+            )
         self.dock_favourite_set(False)
 
         ship = self.get_common_rarity_dd()

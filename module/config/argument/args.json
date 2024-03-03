@@ -1648,6 +1648,174 @@
         "value": true
       }
     },
+    "FlagshipFilter": {
+      "Sort": {
+        "type": "select",
+        "value": "default",
+        "option": [
+          "default",
+          "rarity",
+          "level",
+          "total",
+          "join",
+          "intimacy",
+          "stat"
+        ]
+      },
+      "Index": {
+        "type": "select",
+        "value": "default",
+        "option": [
+          "default",
+          "all",
+          "vanguard",
+          "main",
+          "dd",
+          "cl",
+          "ca",
+          "bb",
+          "cv",
+          "repair",
+          "ss",
+          "others",
+          "not_available"
+        ]
+      },
+      "Faction": {
+        "type": "select",
+        "value": "default",
+        "option": [
+          "default",
+          "all",
+          "eagle",
+          "royal",
+          "sakura",
+          "iron",
+          "dragon",
+          "sardegna",
+          "northern",
+          "iris",
+          "vichya",
+          "other",
+          "not_available"
+        ]
+      },
+      "Rarity": {
+        "type": "select",
+        "value": "default",
+        "option": [
+          "default",
+          "all",
+          "common",
+          "rare",
+          "elite",
+          "super_rare",
+          "ultra"
+        ]
+      },
+      "Extra": {
+        "type": "select",
+        "value": "default",
+        "option": [
+          "default",
+          "no_limit",
+          "has_skin",
+          "can_retrofit",
+          "enhanceable",
+          "can_limit_break",
+          "not_level_max",
+          "can_awaken",
+          "can_awaken_plus",
+          "special",
+          "oath_skin",
+          "not_available"
+        ]
+      }
+    },
+    "VanguardFilter": {
+      "Sort": {
+        "type": "select",
+        "value": "default",
+        "option": [
+          "default",
+          "rarity",
+          "level",
+          "total",
+          "join",
+          "intimacy",
+          "stat"
+        ]
+      },
+      "Index": {
+        "type": "select",
+        "value": "default",
+        "option": [
+          "default",
+          "all",
+          "vanguard",
+          "main",
+          "dd",
+          "cl",
+          "ca",
+          "bb",
+          "cv",
+          "repair",
+          "ss",
+          "others",
+          "not_available"
+        ]
+      },
+      "Faction": {
+        "type": "select",
+        "value": "default",
+        "option": [
+          "default",
+          "all",
+          "eagle",
+          "royal",
+          "sakura",
+          "iron",
+          "dragon",
+          "sardegna",
+          "northern",
+          "iris",
+          "vichya",
+          "other",
+          "not_available"
+        ]
+      },
+      "Rarity": {
+        "type": "select",
+        "value": "default",
+        "option": [
+          "default",
+          "all",
+          "common",
+          "rare",
+          "elite",
+          "super_rare",
+          "ultra"
+        ]
+      },
+      "Extra": {
+        "type": "select",
+        "value": "default",
+        "option": [
+          "default",
+          "no_limit",
+          "has_skin",
+          "can_retrofit",
+          "enhanceable",
+          "can_limit_break",
+          "not_level_max",
+          "can_awaken",
+          "can_awaken_plus",
+          "special",
+          "oath_skin",
+          "not_available"
+        ]
+      }
+    },
     "Campaign": {
       "Name": {
         "type": "input",
@@ -1723,8 +1891,8 @@
         ],
         "display": "hide",
         "option_bold": [
-          "event_20240229_cn",
-          "event_20230223_cn"
+          "event_20230223_cn",
+          "event_20240229_cn"
         ],
         "cn": "event_20240229_cn",
         "en": "event_20240229_cn",
@@ -2056,8 +2224,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20240229_cn",
-          "event_20230223_cn"
+          "event_20230223_cn",
+          "event_20240229_cn"
         ],
         "cn": "event_20240229_cn",
         "en": "event_20240229_cn",
@@ -2504,8 +2672,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20240229_cn",
-          "event_20230223_cn"
+          "event_20230223_cn",
+          "event_20240229_cn"
         ],
         "cn": "event_20240229_cn",
         "en": "event_20240229_cn",
@@ -2952,8 +3120,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20240229_cn",
-          "event_20230223_cn"
+          "event_20230223_cn",
+          "event_20240229_cn"
         ],
         "cn": "event_20240229_cn",
         "en": "event_20240229_cn",
@@ -4342,8 +4510,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20240229_cn",
-          "event_20230223_cn"
+          "event_20230223_cn",
+          "event_20240229_cn"
         ],
         "cn": "event_20240229_cn",
         "en": "event_20240229_cn",
@@ -4807,8 +4975,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20240229_cn",
-          "event_20230223_cn"
+          "event_20230223_cn",
+          "event_20240229_cn"
         ],
         "cn": "event_20240229_cn",
         "en": "event_20240229_cn",
@@ -5272,8 +5440,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20240229_cn",
-          "event_20230223_cn"
+          "event_20230223_cn",
+          "event_20240229_cn"
         ],
         "cn": "event_20240229_cn",
         "en": "event_20240229_cn",
@@ -5737,8 +5905,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20240229_cn",
-          "event_20230223_cn"
+          "event_20230223_cn",
+          "event_20240229_cn"
         ],
         "cn": "event_20240229_cn",
         "en": "event_20240229_cn",
@@ -6192,8 +6360,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20240229_cn",
-          "event_20230223_cn"
+          "event_20230223_cn",
+          "event_20240229_cn"
         ],
         "cn": "event_20240229_cn",
         "en": "event_20240229_cn",

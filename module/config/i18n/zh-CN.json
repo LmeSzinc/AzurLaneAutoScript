@@ -1171,6 +1171,162 @@
       "help": "在7x24运行时防止紧急委托数量过多做不完每日委托，建议在委托过滤器仅选择短时长高收益委托"
     }
   },
+  "FlagshipFilter": {
+    "_info": {
+      "name": "后排主力过滤器",
+      "help": ""
+    },
+    "Sort": {
+      "name": "排序",
+      "help": "",
+      "default": "默认",
+      "rarity": "稀有度",
+      "level": "等级",
+      "total": "综合性能",
+      "join": "入手时间",
+      "intimacy": "好感度",
+      "stat": "心情值"
+    },
+    "Index": {
+      "name": "索引",
+      "help": "",
+      "default": "默认",
+      "all": "全部",
+      "vanguard": "前排先锋",
+      "main": "后排主力",
+      "dd": "驱逐",
+      "cl": "轻巡",
+      "ca": "重巡",
+      "bb": "战列",
+      "cv": "航母",
+      "repair": "维修",
+      "ss": "潜艇",
+      "others": "其他",
+      "not_available": "not_available"
+    },
+    "Faction": {
+      "name": "阵营",
+      "help": "",
+      "default": "默认",
+      "all": "全部",
+      "eagle": "白鹰",
+      "royal": "皇家",
+      "sakura": "重樱",
+      "iron": "铁血",
+      "dragon": "东煌",
+      "sardegna": "撒丁帝国",
+      "northern": "北方联合",
+      "iris": "自由鸢尾",
+      "vichya": "维希教廷",
+      "other": "其他",
+      "not_available": "not_available"
+    },
+    "Rarity": {
+      "name": "稀有度",
+      "help": "",
+      "default": "默认",
+      "all": "全部",
+      "common": "普通",
+      "rare": "稀有",
+      "elite": "精锐",
+      "super_rare": "超稀有",
+      "ultra": "海上传奇"
+    },
+    "Extra": {
+      "name": "附加索引",
+      "help": "",
+      "default": "默认",
+      "no_limit": "无限制",
+      "has_skin": "可换装",
+      "can_retrofit": "可改造",
+      "enhanceable": "可强化",
+      "can_limit_break": "可突破",
+      "not_level_max": "未满级",
+      "can_awaken": "可认知觉醒",
+      "can_awaken_plus": "可认知觉醒II",
+      "special": "特殊",
+      "oath_skin": "誓约换装",
+      "not_available": "not_available"
+    }
+  },
+  "VanguardFilter": {
+    "_info": {
+      "name": "前排先锋过滤器",
+      "help": ""
+    },
+    "Sort": {
+      "name": "排序",
+      "help": "",
+      "default": "默认",
+      "rarity": "稀有度",
+      "level": "等级",
+      "total": "综合性能",
+      "join": "入手时间",
+      "intimacy": "好感度",
+      "stat": "心情值"
+    },
+    "Index": {
+      "name": "索引",
+      "help": "",
+      "default": "默认",
+      "all": "全部",
+      "vanguard": "前排先锋",
+      "main": "后排主力",
+      "dd": "驱逐",
+      "cl": "轻巡",
+      "ca": "重巡",
+      "bb": "战列",
+      "cv": "航母",
+      "repair": "维修",
+      "ss": "潜艇",
+      "others": "其他",
+      "not_available": "not_available"
+    },
+    "Faction": {
+      "name": "阵营",
+      "help": "",
+      "default": "默认",
+      "all": "全部",
+      "eagle": "白鹰",
+      "royal": "皇家",
+      "sakura": "重樱",
+      "iron": "铁血",
+      "dragon": "东煌",
+      "sardegna": "撒丁帝国",
+      "northern": "北方联合",
+      "iris": "自由鸢尾",
+      "vichya": "维希教廷",
+      "other": "其他",
+      "not_available": "not_available"
+    },
+    "Rarity": {
+      "name": "稀有度",
+      "help": "",
+      "default": "默认",
+      "all": "全部",
+      "common": "普通",
+      "rare": "稀有",
+      "elite": "精锐",
+      "super_rare": "超稀有",
+      "ultra": "海上传奇"
+    },
+    "Extra": {
+      "name": "附加索引",
+      "help": "",
+      "default": "默认",
+      "no_limit": "无限制",
+      "has_skin": "可换装",
+      "can_retrofit": "可改造",
+      "enhanceable": "可强化",
+      "can_limit_break": "可突破",
+      "not_level_max": "未满级",
+      "can_awaken": "可认知觉醒",
+      "can_awaken_plus": "可认知觉醒II",
+      "special": "特殊",
+      "oath_skin": "誓约换装",
+      "not_available": "not_available"
+    }
+  },
   "EventGeneral": {
     "_info": {
       "name": "活动通用设置",

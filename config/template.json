@@ -322,6 +322,20 @@
       "CommonCV": "any",
       "CommissionLimit": true
     },
+    "FlagshipFilter": {
+      "Sort": "default",
+      "Index": "default",
+      "Faction": "default",
+      "Rarity": "default",
+      "Extra": "default"
+    },
+    "VanguardFilter": {
+      "Sort": "default",
+      "Index": "default",
+      "Faction": "default",
+      "Rarity": "default",
+      "Extra": "default"
+    },
     "Campaign": {
       "Name": "12-4",
       "Event": "campaign_main",
