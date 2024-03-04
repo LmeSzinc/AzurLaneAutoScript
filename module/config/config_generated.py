@@ -478,7 +478,7 @@ class GeneratedConfig:
     ChangeShip_Enable = False
     ChangeShip_PushLua = False
     ChangeShip_Timeout = 90
-    ChangeShip_ShipData = '106021;1;6\n107041;1;6\n206011;1;6\n107011;1;6\n'
+    ChangeShip_ShipData = '106021;1;6;4\n107041;1;6;4\n206011;1;6;4\n107011;1;6;4\n105011;1;5;6\n105021;1;5;6'
 
     # Group `ChangeAttribute`
     ChangeAttribute_Enable = False
