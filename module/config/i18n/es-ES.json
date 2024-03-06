@@ -942,12 +942,12 @@
       "help": "La tarea de mazmorra ya no se ejecutará y todo el poder trazacaminos se usará primero para reclamar recompensas de inmersión, excepto para eventos dobles"
     },
     "WeeklyFarming": {
-      "name": "RogueWorld.WeeklyFarming.name",
-      "help": "RogueWorld.WeeklyFarming.help"
+      "name": "Recolección de Materiales de Jefes",
+      "help": "No detenerse después de que los puntos semanales estén llenos, farmear al jefe 33 veces (es decir, 11 simulaciones cósmicas) para obtener materiales de rastro"
     },
     "WeeklyFarmingCount": {
-      "name": "RogueWorld.WeeklyFarmingCount.name",
-      "help": "RogueWorld.WeeklyFarmingCount.help"
+      "name": "Intentos de Material Restantes Esta Semana: X",
+      "help": "Se reinicia cada lunes"
     }
   },
   "RogueBlessing": {

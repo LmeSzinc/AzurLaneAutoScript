@@ -942,12 +942,12 @@
       "help": "RogueWorld.UseStamina.help"
     },
     "WeeklyFarming": {
-      "name": "RogueWorld.WeeklyFarming.name",
-      "help": "RogueWorld.WeeklyFarming.help"
+      "name": "ボス素材を収集",
+      "help": "週間ポイントが満点に達しても停止せず、33回のボス（つまり11回の模擬宇宙）を収集して軌跡素材を入手"
     },
     "WeeklyFarmingCount": {
-      "name": "RogueWorld.WeeklyFarmingCount.name",
-      "help": "RogueWorld.WeeklyFarmingCount.help"
+      "name": "今週の素材が残りX回",
+      "help": "毎週月曜日にリセット"
     }
   },
   "RogueBlessing": {

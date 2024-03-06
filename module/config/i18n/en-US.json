@@ -942,12 +942,12 @@
       "help": "Task \"Dungeon\" will no longer run, and all trailblaze power will be used first to claim immersion rewards, except for double events."
     },
     "WeeklyFarming": {
-      "name": "RogueWorld.WeeklyFarming.name",
-      "help": "RogueWorld.WeeklyFarming.help"
+      "name": "Boss Material Farming",
+      "help": "Not stop after weekly points are full, farm the boss 33 times (i.e., 11 cosmic simulations) instead to obtain trace materials"
     },
     "WeeklyFarmingCount": {
-      "name": "RogueWorld.WeeklyFarmingCount.name",
-      "help": "RogueWorld.WeeklyFarmingCount.help"
+      "name": "Material Attempts Remaining This Week: X",
+      "help": "Resets every Monday"
     }
   },
   "RogueBlessing": {
