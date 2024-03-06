@@ -303,6 +303,14 @@
           "keep_limit_break",
           "do_not_keep"
         ]
+      },
+      "KeepCommonCV": {
+        "type": "select",
+        "value": "keep_common_cv",
+        "option": [
+          "keep_common_cv",
+          "do_not_keep"
+        ]
       }
     },
     "Enhance": {

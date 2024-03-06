@@ -96,6 +96,9 @@ OneClickRetire:
   KeepLimitBreak:
     value: keep_limit_break
     option: [ keep_limit_break, do_not_keep ]
+  KeepCommonCV:
+    value: keep_common_cv
+    option: [ keep_common_cv, do_not_keep ]
 Enhance:
   ShipToEnhance:
     value: all
