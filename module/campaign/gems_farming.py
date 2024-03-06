@@ -341,7 +341,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             total (int):
         """
         self.config.STOP_IF_REACH_LV32 = self.change_flagship
-        self.config.RETIRE_KEEP_COMMON_CV = True
+        self.config.RETIRE_KEEP_COMMON_CV = True  # Only for retire ships old
 
         while 1:
             self._trigger_lv32 = False

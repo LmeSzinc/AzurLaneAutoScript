@@ -166,8 +166,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         end = False
         total = 0
 
-        if self.config.RETIRE_KEEP_COMMON_CV:
-            self._have_kept_cv = False
+        self._have_kept_cv = True  # Don't use keep_one_common_cv in one_click_retire
 
         while 1:
             self.handle_info_bar()
@@ -384,13 +383,21 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             mode = self.config.Retirement_RetireMode
 
         if mode == 'one_click_retire':
-            total = self.retire_ships_one_click()
-            if not total:
-                logger.warning(
-                    'No ship retired, trying to reset dock filter and disable favourite, then retire again')
-                self.dock_filter_set()
+            if self.config.OneClickRetire_KeepCommonCV == 'keep_common_cv':
+                self.dock_filter_set(index='all', rarity=['rare', 'elite'])
                 self.dock_favourite_set(False)
                 total = self.retire_ships_one_click()
+                if not total:
+                    self.dock_filter_set(index=['dd', 'cl', 'ca', 'bb', 'repair', 'ss', 'others'])
+                    total = self.retire_ships_one_click()
+            else:
+                total = self.retire_ships_one_click()
+                if not total:
+                    logger.warning(
+                        'No ship retired, trying to reset dock filter and disable favourite, then retire again')
+                    self.dock_filter_set()
+                    self.dock_favourite_set(False)
+                    total = self.retire_ships_one_click()
             if self.server_support_quick_retire_setting_fallback():
                 # Some users may have already set filter_5='all', try with it first
                 if not total:
