@@ -28,6 +28,11 @@ class Rogue(RouteLoader, RogueEntry):
 
         self.rogue_run()
         self.rogue_reward_claim()
+        # runs when one rogue run finishes (do not handle whether the last rogue run finished or failed due to one who use this feature has less chance of failure -- would be better if check boss battle result instead of rogue result, but this version also works), and decreases rogue farming count by 1
+        if self.config.RogueWorld_WeeklyFarming and self.config.RogueWorld_WeeklyFarmingCount > 0:
+            self.config.RogueWorld_WeeklyFarmingCount -= 1
+            logger.attr("WeeklyFarmingCount",
+                        self.config.RogueWorld_WeeklyFarmingCount)
         return True
 
     def run(self):

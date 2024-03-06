@@ -940,6 +940,14 @@
     "UseStamina": {
       "name": "RogueWorld.UseStamina.name",
       "help": "RogueWorld.UseStamina.help"
+    },
+    "WeeklyFarming": {
+      "name": "RogueWorld.WeeklyFarming.name",
+      "help": "RogueWorld.WeeklyFarming.help"
+    },
+    "WeeklyFarmingCount": {
+      "name": "RogueWorld.WeeklyFarmingCount.name",
+      "help": "RogueWorld.WeeklyFarmingCount.help"
     }
   },
   "RogueBlessing": {

@@ -193,7 +193,9 @@
       "DomainStrategy": "combat",
       "UseImmersifier": true,
       "DoubleEvent": true,
-      "UseStamina": false
+      "UseStamina": false,
+      "WeeklyFarming": false,
+      "WeeklyFarmingCount": 0
     },
     "RogueBlessing": {
       "PresetBlessingFilter": "preset",

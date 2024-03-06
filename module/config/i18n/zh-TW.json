@@ -940,6 +940,14 @@
     "UseStamina": {
       "name": "用開拓力農遺器",
       "help": "每日副本任務將不再打本，所有開拓力將優先被用於領取浸器獎勵，雙倍活動時除外"
+    },
+    "WeeklyFarming": {
+      "name": "RogueWorld.WeeklyFarming.name",
+      "help": "RogueWorld.WeeklyFarming.help"
+    },
+    "WeeklyFarmingCount": {
+      "name": "RogueWorld.WeeklyFarmingCount.name",
+      "help": "RogueWorld.WeeklyFarmingCount.help"
     }
   },
   "RogueBlessing": {

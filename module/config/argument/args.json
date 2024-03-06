@@ -1423,6 +1423,14 @@
       "UseStamina": {
         "type": "checkbox",
         "value": false
+      },
+      "WeeklyFarming": {
+        "type": "checkbox",
+        "value": false
+      },
+      "WeeklyFarmingCount": {
+        "type": "input",
+        "value": 0
       }
     },
     "RogueBlessing": {

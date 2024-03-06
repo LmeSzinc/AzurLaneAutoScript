@@ -940,6 +940,14 @@
     "UseStamina": {
       "name": "Reclamar de planers mediante poder trazacaminos",
       "help": "La tarea de mazmorra ya no se ejecutará y todo el poder trazacaminos se usará primero para reclamar recompensas de inmersión, excepto para eventos dobles"
+    },
+    "WeeklyFarming": {
+      "name": "RogueWorld.WeeklyFarming.name",
+      "help": "RogueWorld.WeeklyFarming.help"
+    },
+    "WeeklyFarmingCount": {
+      "name": "RogueWorld.WeeklyFarmingCount.name",
+      "help": "RogueWorld.WeeklyFarmingCount.help"
     }
   },
   "RogueBlessing": {
