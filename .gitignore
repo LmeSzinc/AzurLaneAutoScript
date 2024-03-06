@@ -19,6 +19,14 @@ config/reloadflag
 config/reloadalas
 test.py
 test/
+resources/
+locales/
+*.pak
+*.dll
+*.dat
+v8_context_snapshot.bin
+snapshot_blob.bin
+vk_swiftshader_icd.json
 
 # Created by .ignore support plugin (hsz.mobi)
 
