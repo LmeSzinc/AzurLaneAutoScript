@@ -943,7 +943,7 @@
     },
     "WeeklyFarming": {
       "name": "Boss Material Farming",
-      "help": "Not stop after weekly points are full, farm the boss 33 times (i.e., 11 cosmic simulations) instead to obtain trace materials"
+      "help": "Not stop after point reward is full; farm the boss 33 times (i.e., 11 Simulated Universe) instead to obtain trace materials"
     },
     "WeeklyFarmingCount": {
       "name": "Material Attempts Remaining This Week: X",
