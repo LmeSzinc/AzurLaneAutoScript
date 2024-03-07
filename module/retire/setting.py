@@ -52,8 +52,8 @@ class QuickRetireSettingHandler(UI):
         )
         setting.add_setting(
             setting='filter_4',
-            option_buttons=[RETIRE_SETTING_4],
-            option_names=['all'],
+            option_buttons=[RETIRE_SETTING_4_PRESERVE, RETIRE_SETTING_4_ALL],
+            option_names=['keep_one', 'all'],
             option_default='all'
         )
         setting.add_setting(
@@ -64,18 +64,21 @@ class QuickRetireSettingHandler(UI):
         )
         return setting
 
-    def quick_retire_setting_set(self, filter_5='all'):
+    def quick_retire_setting_set(self, filter_4='all', filter_5='all'):
         """
         Set options of quick retire options.
         The first 4 options are forced to set to:
         - Prioritize Rarity 1: R (Rare)
         - Prioritize Rarity 1: E (Elite)
         - Prioritize Rarity 1: N (Normal)
-        - If you own a ship that has been fully Limit Broken, this option
-          determines what you want to do with the corresponding duplicate ships.
-              Don't Keep
 
         Args:
+            filter_4 (str, None): The fourth option in quick retire options.
+                "If you own a ship that has been fully Limit Broken, this option
+                determines what you want to do with the corresponding duplicate ships."
+                'keep_one' for "Keep One Copy",
+                'all' for "Don't Keep"
+                None for don't change
             filter_5 (str, None): The fifth option in quick retire options.
                 "If you own multiple copies of a ship that has not been fully Limit
                 Broken, this option determines what you want to do with those copies."
@@ -88,7 +91,7 @@ class QuickRetireSettingHandler(UI):
             out: IN_RETIREMENT_CHECK, RETIRE_SETTING_ENTER
         """
         self._retire_setting_enter()
-        self.retire_setting.set(filter_5=filter_5)
+        self.retire_setting.set(filter_4=filter_4, filter_5=filter_5)
         self._retire_setting_quit()
 
     def server_support_quick_retire_setting_fallback(self):
