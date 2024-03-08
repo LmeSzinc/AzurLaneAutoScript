@@ -1581,15 +1581,6 @@
           "ship_equip"
         ]
       },
-      "ChangeVanguard": {
-        "type": "select",
-        "value": "ship",
-        "option": [
-          "disabled",
-          "ship",
-          "ship_equip"
-        ]
-      },
       "CommonCV": {
         "type": "select",
         "value": "any",
@@ -1599,6 +1590,24 @@
           "bogue",
           "ranger",
           "hermes"
+        ]
+      },
+      "ChangeVanguard": {
+        "type": "select",
+        "value": "ship",
+        "option": [
+          "disabled",
+          "ship",
+          "ship_equip"
+        ]
+      },
+      "CommonDD": {
+        "type": "select",
+        "value": "any",
+        "option": [
+          "any",
+          "aulick_or_foote",
+          "cassin_or_downes"
         ]
       },
       "CommissionLimit": {
@@ -1681,8 +1690,8 @@
         ],
         "display": "hide",
         "option_bold": [
-          "event_20230223_cn",
-          "event_20240229_cn"
+          "event_20240229_cn",
+          "event_20230223_cn"
         ],
         "cn": "event_20240229_cn",
         "en": "event_20240229_cn",
@@ -2014,8 +2023,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20230223_cn",
-          "event_20240229_cn"
+          "event_20240229_cn",
+          "event_20230223_cn"
         ],
         "cn": "event_20240229_cn",
         "en": "event_20240229_cn",
@@ -2462,8 +2471,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20230223_cn",
-          "event_20240229_cn"
+          "event_20240229_cn",
+          "event_20230223_cn"
         ],
         "cn": "event_20240229_cn",
         "en": "event_20240229_cn",
@@ -2872,8 +2881,8 @@
           "raid_20240130"
         ],
         "option_bold": [
-          "raid_20240130",
-          "raid_20230118"
+          "raid_20230118",
+          "raid_20240130"
         ],
         "cn": "raid_20240130",
         "en": "raid_20240130",
@@ -3393,8 +3402,8 @@
           "war_archives_20220414_cn"
         ],
         "option_bold": [
-          "war_archives_20210225_cn",
-          "war_archives_20220414_cn"
+          "war_archives_20220414_cn",
+          "war_archives_20210225_cn"
         ],
         "cn": "war_archives_20210225_cn",
         "en": "war_archives_20210225_cn",
@@ -3852,8 +3861,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20230223_cn",
-          "event_20240229_cn"
+          "event_20240229_cn",
+          "event_20230223_cn"
         ],
         "cn": "event_20240229_cn",
         "en": "event_20240229_cn",
@@ -4317,8 +4326,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20230223_cn",
-          "event_20240229_cn"
+          "event_20240229_cn",
+          "event_20230223_cn"
         ],
         "cn": "event_20240229_cn",
         "en": "event_20240229_cn",
@@ -4782,8 +4791,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20230223_cn",
-          "event_20240229_cn"
+          "event_20240229_cn",
+          "event_20230223_cn"
         ],
         "cn": "event_20240229_cn",
         "en": "event_20240229_cn",
@@ -5247,8 +5256,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20230223_cn",
-          "event_20240229_cn"
+          "event_20240229_cn",
+          "event_20230223_cn"
         ],
         "cn": "event_20240229_cn",
         "en": "event_20240229_cn",
@@ -5702,8 +5711,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20230223_cn",
-          "event_20240229_cn"
+          "event_20240229_cn",
+          "event_20230223_cn"
         ],
         "cn": "event_20240229_cn",
         "en": "event_20240229_cn",
@@ -6109,8 +6118,8 @@
           "raid_20240130"
         ],
         "option_bold": [
-          "raid_20240130",
-          "raid_20230118"
+          "raid_20230118",
+          "raid_20240130"
         ],
         "cn": "raid_20240130",
         "en": "raid_20240130",

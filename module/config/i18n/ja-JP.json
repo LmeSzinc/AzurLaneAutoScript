@@ -1117,13 +1117,6 @@
       "ship": "ship",
       "ship_equip": "ship_equip"
     },
-    "ChangeVanguard": {
-      "name": "GemsFarming.ChangeVanguard.name",
-      "help": "GemsFarming.ChangeVanguard.help",
-      "disabled": "disabled",
-      "ship": "ship",
-      "ship_equip": "ship_equip"
-    },
     "CommonCV": {
       "name": "GemsFarming.CommonCV.name",
       "help": "GemsFarming.CommonCV.help",
@@ -1132,6 +1125,20 @@
       "bogue": "bogue",
       "ranger": "ranger",
       "hermes": "hermes"
+    },
+    "ChangeVanguard": {
+      "name": "GemsFarming.ChangeVanguard.name",
+      "help": "GemsFarming.ChangeVanguard.help",
+      "disabled": "disabled",
+      "ship": "ship",
+      "ship_equip": "ship_equip"
+    },
+    "CommonDD": {
+      "name": "GemsFarming.CommonDD.name",
+      "help": "GemsFarming.CommonDD.help",
+      "any": "any",
+      "aulick_or_foote": "aulick or foote",
+      "cassin_or_downes": "cassin or downes"
     },
     "CommissionLimit": {
       "name": "GemsFarming.CommissionLimit.name",

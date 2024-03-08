@@ -1137,8 +1137,8 @@
       "name": "指定前排",
       "help": "",
       "any": "任意",
-      "aulick or foote": "奥利克或富特",
-      "cassin or downes": "卡辛或唐斯"
+      "aulick_or_foote": "奥利克或富特",
+      "cassin_or_downes": "卡辛或唐斯"
     },
     "CommissionLimit": {
       "name": "防止紧急委托数量过多",
