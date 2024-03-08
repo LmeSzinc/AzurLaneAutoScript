@@ -8,7 +8,13 @@ from module.exception import CampaignEnd
 from module.handler.assets import AUTO_SEARCH_MAP_OPTION_OFF
 from module.logger import logger
 from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
-from module.retire.assets import DOCK_CHECK, TEMPLATE_BOGUE, TEMPLATE_HERMES, TEMPLATE_LANGLEY, TEMPLATE_RANGER
+from module.retire.assets import (
+    DOCK_CHECK,
+    TEMPLATE_BOGUE, TEMPLATE_HERMES, TEMPLATE_LANGLEY, TEMPLATE_RANGER,
+    TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2, TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2,
+    TEMPLATE_AULICK, TEMPLATE_FOOTE
+)
+
 from module.retire.dock import Dock
 from module.retire.scanner import ShipScanner
 from module.ui.page import page_fleet
@@ -254,37 +260,27 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                               fleet=self.config.Fleet_Fleet1, status='free')
         scanner.disable('rarity')
 
+        self.dock_sort_method_dsc_set()
+
+        ships = scanner.scan(self.device.image)
+        if ships:
+            # Don't need to change current
+            return ships
+
+        scanner.set_limitation(fleet=0)
+
         if self.config.GemsFarming_CommonDD == 'any':
             logger.info('')
 
-            self.dock_sort_method_dsc_set(False)
-
-            ships = scanner.scan(self.device.image)
-            if ships:
-                # Don't need to change current
-                return ships
-
-            scanner.set_limitation(fleet=0)
             return scanner.scan(self.device.image, output=False)
 
-        elif self.config.GemsFarming_CommonDD == 'aulick or foote':
-            template1 = TEMPLATE_AULICK
-            template2 = TEMPLATE_FOOTE
-            self.dock_sort_method_dsc_set()
+        elif self.config.GemsFarming_CommonDD == 'aulick_or_foote':
+            template = {
+                '1': TEMPLATE_AULICK,
+                '2': TEMPLATE_FOOTE
+            }
 
-            ships = scanner.scan(self.device.image)
-            if ships:
-                # Don't need to change current
-                return ships
-
-            scanner.set_limitation(fleet=0)
-            candidates = []
-            for ship in scanner.scan(self.device.image, output=False):
-                if template1.match(self.image_crop(ship.button), similarity=SIM_VALUE):
-                    candidates.append(ship)
-                    break
-                elif template2.match(self.image_crop(ship.button), similarity=SIM_VALUE):
-                    candidates.append(ship)
+            candidates = self.find_candidates(template, scanner)
 
             if candidates:
                 return candidates
@@ -292,34 +288,19 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             logger.info('No specific DD was found, try reversed order.')
             self.dock_sort_method_dsc_set(False)
 
-            candidates = []
-            for ship in scanner.scan(self.device.image, output=False):
-                if template1.match(self.image_crop(ship.button), similarity=SIM_VALUE):
-                    candidates.append(ship)
-                    break
-                elif template2.match(self.image_crop(ship.button), similarity=SIM_VALUE):
-                    candidates.append(ship)
+            candidates = self.find_candidates(template, scanner)
 
             return candidates
 
         else:
-            template1 = TEMPLATE_CASSIN
-            template2 = TEMPLATE_DOWNES
-            self.dock_sort_method_dsc_set()
+            template = {
+                '1': TEMPLATE_CASSIN_1,
+                '2': TEMPLATE_CASSIN_2,
+                '3': TEMPLATE_DOWNES_1,
+                '4': TEMPLATE_DOWNES_2
+            }
 
-            ships = scanner.scan(self.device.image)
-            if ships:
-                # Don't need to change current
-                return ships
-
-            scanner.set_limitation(fleet=0)
-            candidates = []
-            for ship in scanner.scan(self.device.image, output=False):
-                if template1.match(self.image_crop(ship.button), similarity=SIM_VALUE):
-                    candidates.append(ship)
-                    break
-                elif template2.match(self.image_crop(ship.button), similarity=SIM_VALUE):
-                    candidates.append(ship)
+            candidates = self.find_candidates(template, scanner)
 
             if candidates:
                 return candidates
@@ -327,16 +308,22 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             logger.info('No specific DD was found, try reversed order.')
             self.dock_sort_method_dsc_set(False)
 
-            candidates = []
-            for ship in scanner.scan(self.device.image, output=False):
-                if template1.match(self.image_crop(ship.button), similarity=SIM_VALUE):
-                    candidates.append(ship)
-                    break
-                elif template2.match(self.image_crop(ship.button), similarity=SIM_VALUE):
-                    candidates.append(ship)
+            candidates = self.find_candidates(template, scanner)
 
             return candidates
 
+    def find_candidates(self, template, scanner):
+        """
+        Find candidates based on template matching using a scanner.
+
+        """
+        candidates = []
+        for key, temp in template.items():
+            candidates = [ship for ship in scanner.scan(self.device.image, output=False)
+                          if temp.match(self.image_crop(ship.button), similarity=SIM_VALUE)]
+            if candidates:
+                break
+        return candidates
 
     def flagship_change_execute(self):
         """
@@ -463,3 +450,4 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                 continue
             else:
                 break
+
