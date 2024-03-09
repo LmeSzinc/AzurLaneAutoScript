@@ -355,7 +355,7 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
             if self.config.RogueWorld_UseImmersifier and self.config.stored.Immersifier.value > 0:
                 logger.info(
                     'Reached weekly point limit but still have immersifiers left, continue to use them')
-            elif self.config.RogueWorld_WeeklyFarming and self.config.stored.SimulatedUniverse.farm_not_full():
+            elif self.config.RogueWorld_WeeklyFarming and self.config.stored.SimulatedUniverse.farm_not_complete():
                 logger.attr(
                     "Farming Counter", self.config.stored.SimulatedUniverse.farm_get_remain())
                 logger.info(

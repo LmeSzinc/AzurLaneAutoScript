@@ -171,8 +171,8 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
 
         result = super().clear_enemy(*waypoints)
 
-        # runs when one elite battle finishes (do not handle whether battle succeeded or failed), and decreases rogue farming count by 1
-        if self.config.RogueWorld_WeeklyFarming and self.config.stored.SimulatedUniverse.farm_not_full():
+        # runs when one elite battle finishes (do not handle whether the battle succeeded or failed), and decreases rogue farming count by 1
+        if self.config.RogueWorld_WeeklyFarming and self.config.stored.SimulatedUniverse.farm_not_complete():
             self.config.stored.SimulatedUniverse.farm_dec()
             logger.info(
                 f"Cleared elite boss, decrease farming count by 1, now {self.config.stored.SimulatedUniverse.FarmingCounter}")
