@@ -205,7 +205,20 @@ class StoredImmersifier(StoredCounter):
 
 
 class StoredSimulatedUniverse(StoredCounter, StoredExpiredAtMonday0400):
-    pass
+    FIXED_DEFAULT = 100
+    FarmingCounter = FIXED_DEFAULT
+    
+    def farm_dec(self, value=1):
+        self.FarmingCounter -= value
+    
+    def farm_reset(self,):
+        self.FarmingCounter = self.FIXED_DEFAULT
+    
+    def farm_not_full(self) -> bool:
+        return self.FarmingCounter > 0
+    
+    def farm_get_remain(self) -> int:
+        return self.FarmingCounter
 
 
 class StoredAssignment(StoredCounter):

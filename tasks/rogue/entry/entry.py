@@ -348,14 +348,16 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
             return
 
         if self.config.stored.SimulatedUniverse.is_expired():
-            # Expired, do rogue and reset weekly farming count
-            self.config.RogueWorld_WeeklyFarmingCount = 11
+            # Expired, do rogue and reset farming counter
+            self.config.stored.SimulatedUniverse.farm_reset()
 
         elif self.config.stored.SimulatedUniverse.is_full():
             if self.config.RogueWorld_UseImmersifier and self.config.stored.Immersifier.value > 0:
                 logger.info(
                     'Reached weekly point limit but still have immersifiers left, continue to use them')
-            elif self.config.RogueWorld_WeeklyFarming and self.config.RogueWorld_WeeklyFarmingCount > 0:
+            elif self.config.RogueWorld_WeeklyFarming and self.config.stored.SimulatedUniverse.farm_not_full():
+                logger.attr(
+                    "Farming Counter", self.config.stored.SimulatedUniverse.farm_get_remain())
                 logger.info(
                     'Reached weekly point limit but still continue to farm materials')
             else:

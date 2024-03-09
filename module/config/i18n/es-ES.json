@@ -943,11 +943,7 @@
     },
     "WeeklyFarming": {
       "name": "Recolección de Materiales de Jefes",
-      "help": "No detenerse después de que los puntos semanales estén llenos, farmear al jefe 33 veces (es decir, 11 simulaciones cósmicas) para obtener materiales de rastro"
-    },
-    "WeeklyFarmingCount": {
-      "name": "Intentos de Material Restantes Esta Semana: X",
-      "help": "Se reinicia cada lunes"
+      "help": "No detenerse después de que los puntos semanales estén llenos, farmear al jefe 100 veces para obtener materiales de rastro"
     }
   },
   "RogueBlessing": {

@@ -943,11 +943,7 @@
     },
     "WeeklyFarming": {
       "name": "刷取Boss材料",
-      "help": "每周积分满后不停止，刷取33次Boss（即11次模拟宇宙）以获取形迹材料"
-    },
-    "WeeklyFarmingCount": {
-      "name": "本周材料剩余X次",
-      "help": "每周一重置"
+      "help": "每周积分满后不停止，刷取100次Boss以获取形迹材料"
     }
   },
   "RogueBlessing": {

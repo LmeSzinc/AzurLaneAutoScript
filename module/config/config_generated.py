@@ -134,7 +134,6 @@ class GeneratedConfig:
     RogueWorld_DoubleEvent = True
     RogueWorld_UseStamina = False
     RogueWorld_WeeklyFarming = False
-    RogueWorld_WeeklyFarmingCount = 0
 
     # Group `RogueBlessing`
     RogueBlessing_PresetBlessingFilter = 'preset'  # preset, custom

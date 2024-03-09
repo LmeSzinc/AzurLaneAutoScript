@@ -194,8 +194,7 @@
       "UseImmersifier": true,
       "DoubleEvent": true,
       "UseStamina": false,
-      "WeeklyFarming": false,
-      "WeeklyFarmingCount": 0
+      "WeeklyFarming": false
     },
     "RogueBlessing": {
       "PresetBlessingFilter": "preset",

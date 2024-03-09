@@ -943,11 +943,7 @@
     },
     "WeeklyFarming": {
       "name": "Boss Material Farming",
-      "help": "Not stop after point reward is full; farm the boss 33 times (i.e., 11 Simulated Universe) instead to obtain trace materials"
-    },
-    "WeeklyFarmingCount": {
-      "name": "Material Attempts Remaining This Week: X",
-      "help": "Resets every Monday"
+      "help": "Do not stop after point reward is full; farm the boss 100 times instead to obtain trace materials"
     }
   },
   "RogueBlessing": {
