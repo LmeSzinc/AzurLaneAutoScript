@@ -2,11 +2,9 @@ from datetime import datetime
 
 from module.logger import logger
 from tasks.assignment.claim import AssignmentClaim
-from tasks.assignment.keywords import (KEYWORDS_ASSIGNMENT_GROUP,
-                                       AssignmentEntry, AssignmentEventGroup)
+from tasks.assignment.keywords import (AssignmentEntry, AssignmentEventGroup, KEYWORDS_ASSIGNMENT_GROUP)
 from tasks.assignment.ui import AssignmentStatus
 from tasks.base.page import page_assignment, page_menu
-from tasks.battle_pass.keywords import KEYWORD_BATTLE_PASS_QUEST
 from tasks.daily.keywords import KEYWORDS_DAILY_QUEST
 from tasks.daily.synthesize import SynthesizeUI
 

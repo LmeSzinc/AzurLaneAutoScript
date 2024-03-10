@@ -221,30 +221,41 @@
         "type": "select",
         "value": "Calyx_Golden_Treasures",
         "option": [
-          "Calyx_Golden_Memories",
-          "Calyx_Golden_Aether",
-          "Calyx_Golden_Treasures",
-          "Calyx_Crimson_Destruction",
-          "Calyx_Crimson_Preservation",
-          "Calyx_Crimson_The_Hunt",
-          "Calyx_Crimson_Abundance",
-          "Calyx_Crimson_Erudition",
-          "Calyx_Crimson_Harmony",
-          "Calyx_Crimson_Nihility",
-          "Stagnant_Shadow_Quanta",
-          "Stagnant_Shadow_Gust",
-          "Stagnant_Shadow_Fulmination",
-          "Stagnant_Shadow_Blaze",
+          "Calyx_Golden_Memories_Jarilo_VI",
+          "Calyx_Golden_Memories_The_Xianzhou_Luofu",
+          "Calyx_Golden_Memories_Penacony",
+          "Calyx_Golden_Aether_Jarilo_VI",
+          "Calyx_Golden_Aether_The_Xianzhou_Luofu",
+          "Calyx_Golden_Aether_Penacony",
+          "Calyx_Golden_Treasures_Jarilo_VI",
+          "Calyx_Golden_Treasures_The_Xianzhou_Luofu",
+          "Calyx_Golden_Treasures_Penacony",
+          "Calyx_Crimson_Destruction_Herta_StorageZone",
+          "Calyx_Crimson_Destruction_Luofu_ScalegorgeWaterscape",
+          "Calyx_Crimson_Preservation_Herta_SupplyZone",
+          "Calyx_Crimson_The_Hunt_Jarilo_OutlyingSnowPlains",
+          "Calyx_Crimson_Abundance_Jarilo_BackwaterPass",
+          "Calyx_Crimson_Erudition_Jarilo_RivetTown",
+          "Calyx_Crimson_Harmony_Jarilo_RobotSettlement",
+          "Calyx_Crimson_Harmony_Penacony_TheReverieDreamscape",
+          "Calyx_Crimson_Nihility_Jarilo_GreatMine",
+          "Calyx_Crimson_Nihility_Luofu_AlchemyCommission",
           "Stagnant_Shadow_Spike",
-          "Stagnant_Shadow_Rime",
-          "Stagnant_Shadow_Mirage",
-          "Stagnant_Shadow_Icicle",
-          "Stagnant_Shadow_Doom",
-          "Stagnant_Shadow_Puppetry",
-          "Stagnant_Shadow_Abomination",
-          "Stagnant_Shadow_Scorch",
-          "Stagnant_Shadow_Celestial",
           "Stagnant_Shadow_Perdition",
+          "Stagnant_Shadow_Blaze",
+          "Stagnant_Shadow_Scorch",
+          "Stagnant_Shadow_Rime",
+          "Stagnant_Shadow_Icicle",
+          "Stagnant_Shadow_Nectar",
+          "Stagnant_Shadow_Fulmination",
+          "Stagnant_Shadow_Doom",
+          "Stagnant_Shadow_Gust",
+          "Stagnant_Shadow_Celestial",
+          "Stagnant_Shadow_Quanta",
+          "Stagnant_Shadow_Abomination",
+          "Stagnant_Shadow_Roast",
+          "Stagnant_Shadow_Mirage",
+          "Stagnant_Shadow_Puppetry",
           "Cavern_of_Corrosion_Path_of_Gelid_Wind",
           "Cavern_of_Corrosion_Path_of_Jabbing_Punch",
           "Cavern_of_Corrosion_Path_of_Drifting",
@@ -252,7 +263,8 @@
           "Cavern_of_Corrosion_Path_of_Holy_Hymn",
           "Cavern_of_Corrosion_Path_of_Conflagration",
           "Cavern_of_Corrosion_Path_of_Elixir_Seekers",
-          "Cavern_of_Corrosion_Path_of_Darkness"
+          "Cavern_of_Corrosion_Path_of_Darkness",
+          "Cavern_of_Corrosion_Path_of_Dreamdive"
         ]
       },
       "NameAtDoubleCalyx": {
@@ -260,16 +272,25 @@
         "value": "Calyx_Golden_Treasures",
         "option": [
           "do_not_participate",
-          "Calyx_Golden_Memories",
-          "Calyx_Golden_Aether",
-          "Calyx_Golden_Treasures",
-          "Calyx_Crimson_Destruction",
-          "Calyx_Crimson_Preservation",
-          "Calyx_Crimson_The_Hunt",
-          "Calyx_Crimson_Abundance",
-          "Calyx_Crimson_Erudition",
-          "Calyx_Crimson_Harmony",
-          "Calyx_Crimson_Nihility"
+          "Calyx_Golden_Memories_Jarilo_VI",
+          "Calyx_Golden_Memories_The_Xianzhou_Luofu",
+          "Calyx_Golden_Memories_Penacony",
+          "Calyx_Golden_Aether_Jarilo_VI",
+          "Calyx_Golden_Aether_The_Xianzhou_Luofu",
+          "Calyx_Golden_Aether_Penacony",
+          "Calyx_Golden_Treasures_Jarilo_VI",
+          "Calyx_Golden_Treasures_The_Xianzhou_Luofu",
+          "Calyx_Golden_Treasures_Penacony",
+          "Calyx_Crimson_Destruction_Herta_StorageZone",
+          "Calyx_Crimson_Destruction_Luofu_ScalegorgeWaterscape",
+          "Calyx_Crimson_Preservation_Herta_SupplyZone",
+          "Calyx_Crimson_The_Hunt_Jarilo_OutlyingSnowPlains",
+          "Calyx_Crimson_Abundance_Jarilo_BackwaterPass",
+          "Calyx_Crimson_Erudition_Jarilo_RivetTown",
+          "Calyx_Crimson_Harmony_Jarilo_RobotSettlement",
+          "Calyx_Crimson_Harmony_Penacony_TheReverieDreamscape",
+          "Calyx_Crimson_Nihility_Jarilo_GreatMine",
+          "Calyx_Crimson_Nihility_Luofu_AlchemyCommission"
         ]
       },
       "NameAtDoubleRelic": {
@@ -284,7 +305,8 @@
           "Cavern_of_Corrosion_Path_of_Holy_Hymn",
           "Cavern_of_Corrosion_Path_of_Conflagration",
           "Cavern_of_Corrosion_Path_of_Elixir_Seekers",
-          "Cavern_of_Corrosion_Path_of_Darkness"
+          "Cavern_of_Corrosion_Path_of_Darkness",
+          "Cavern_of_Corrosion_Path_of_Dreamdive"
         ]
       },
       "Team": {
@@ -306,26 +328,35 @@
     "DungeonDaily": {
       "CalyxGolden": {
         "type": "select",
-        "value": "Calyx_Golden_Treasures",
+        "value": "Calyx_Golden_Treasures_Jarilo_VI",
         "option": [
           "do_not_achieve",
-          "Calyx_Golden_Memories",
-          "Calyx_Golden_Aether",
-          "Calyx_Golden_Treasures"
+          "Calyx_Golden_Memories_Jarilo_VI",
+          "Calyx_Golden_Memories_The_Xianzhou_Luofu",
+          "Calyx_Golden_Memories_Penacony",
+          "Calyx_Golden_Aether_Jarilo_VI",
+          "Calyx_Golden_Aether_The_Xianzhou_Luofu",
+          "Calyx_Golden_Aether_Penacony",
+          "Calyx_Golden_Treasures_Jarilo_VI",
+          "Calyx_Golden_Treasures_The_Xianzhou_Luofu",
+          "Calyx_Golden_Treasures_Penacony"
         ]
       },
       "CalyxCrimson": {
         "type": "select",
-        "value": "Calyx_Crimson_Erudition",
+        "value": "Calyx_Crimson_Destruction_Herta_StorageZone",
         "option": [
           "do_not_achieve",
-          "Calyx_Crimson_Destruction",
-          "Calyx_Crimson_Preservation",
-          "Calyx_Crimson_The_Hunt",
-          "Calyx_Crimson_Abundance",
-          "Calyx_Crimson_Erudition",
-          "Calyx_Crimson_Harmony",
-          "Calyx_Crimson_Nihility"
+          "Calyx_Crimson_Destruction_Herta_StorageZone",
+          "Calyx_Crimson_Destruction_Luofu_ScalegorgeWaterscape",
+          "Calyx_Crimson_Preservation_Herta_SupplyZone",
+          "Calyx_Crimson_The_Hunt_Jarilo_OutlyingSnowPlains",
+          "Calyx_Crimson_Abundance_Jarilo_BackwaterPass",
+          "Calyx_Crimson_Erudition_Jarilo_RivetTown",
+          "Calyx_Crimson_Harmony_Jarilo_RobotSettlement",
+          "Calyx_Crimson_Harmony_Penacony_TheReverieDreamscape",
+          "Calyx_Crimson_Nihility_Jarilo_GreatMine",
+          "Calyx_Crimson_Nihility_Luofu_AlchemyCommission"
         ]
       },
       "StagnantShadow": {
@@ -333,20 +364,22 @@
         "value": "Stagnant_Shadow_Quanta",
         "option": [
           "do_not_achieve",
-          "Stagnant_Shadow_Quanta",
-          "Stagnant_Shadow_Gust",
-          "Stagnant_Shadow_Fulmination",
-          "Stagnant_Shadow_Blaze",
           "Stagnant_Shadow_Spike",
-          "Stagnant_Shadow_Rime",
-          "Stagnant_Shadow_Mirage",
-          "Stagnant_Shadow_Icicle",
-          "Stagnant_Shadow_Doom",
-          "Stagnant_Shadow_Puppetry",
-          "Stagnant_Shadow_Abomination",
+          "Stagnant_Shadow_Perdition",
+          "Stagnant_Shadow_Blaze",
           "Stagnant_Shadow_Scorch",
+          "Stagnant_Shadow_Rime",
+          "Stagnant_Shadow_Icicle",
+          "Stagnant_Shadow_Nectar",
+          "Stagnant_Shadow_Fulmination",
+          "Stagnant_Shadow_Doom",
+          "Stagnant_Shadow_Gust",
           "Stagnant_Shadow_Celestial",
-          "Stagnant_Shadow_Perdition"
+          "Stagnant_Shadow_Quanta",
+          "Stagnant_Shadow_Abomination",
+          "Stagnant_Shadow_Roast",
+          "Stagnant_Shadow_Mirage",
+          "Stagnant_Shadow_Puppetry"
         ]
       },
       "CavernOfCorrosion": {
@@ -361,7 +394,8 @@
           "Cavern_of_Corrosion_Path_of_Holy_Hymn",
           "Cavern_of_Corrosion_Path_of_Conflagration",
           "Cavern_of_Corrosion_Path_of_Elixir_Seekers",
-          "Cavern_of_Corrosion_Path_of_Darkness"
+          "Cavern_of_Corrosion_Path_of_Darkness",
+          "Cavern_of_Corrosion_Path_of_Dreamdive"
         ]
       }
     },
@@ -384,11 +418,13 @@
           "Arlan",
           "Asta",
           "Bailu",
+          "BlackSwan",
           "Blade",
           "Bronya",
           "Clara",
           "DanHeng",
           "DanHengImbibitorLunae",
+          "DrRatio",
           "FuXuan",
           "Gepard",
           "Guinaifen",
@@ -404,6 +440,7 @@
           "Luocha",
           "Lynx",
           "March7th",
+          "Misha",
           "Natasha",
           "Pela",
           "Qingque",
@@ -412,6 +449,7 @@
           "Seele",
           "Serval",
           "SilverWolf",
+          "Sparkle",
           "Sushang",
           "Tingyun",
           "TopazNumby",
@@ -1020,6 +1058,8 @@
           "Born_to_Obey",
           "Root_Out_the_Turpitude",
           "Fire_Lord_Inflames_Blades_of_War",
+          "A_Startling_Night_Terror",
+          "Tranquility_of_Vimala_bhumi",
           "Nameless_Land_Nameless_People",
           "Akashic_Records",
           "The_Invisible_Hand",
@@ -1028,7 +1068,9 @@
           "The_Land_of_Gold",
           "The_Blossom_in_the_Storm",
           "Legend_of_the_Puppet_Master",
-          "The_Wages_of_Humanity"
+          "The_Wages_of_Humanity",
+          "Fragments_of_Illusory_Dreams",
+          "Scalpel_and_Screwdriver"
         ]
       },
       "Name_2": {
@@ -1041,6 +1083,8 @@
           "Born_to_Obey",
           "Root_Out_the_Turpitude",
           "Fire_Lord_Inflames_Blades_of_War",
+          "A_Startling_Night_Terror",
+          "Tranquility_of_Vimala_bhumi",
           "Nameless_Land_Nameless_People",
           "Akashic_Records",
           "The_Invisible_Hand",
@@ -1049,7 +1093,9 @@
           "The_Land_of_Gold",
           "The_Blossom_in_the_Storm",
           "Legend_of_the_Puppet_Master",
-          "The_Wages_of_Humanity"
+          "The_Wages_of_Humanity",
+          "Fragments_of_Illusory_Dreams",
+          "Scalpel_and_Screwdriver"
         ]
       },
       "Name_3": {
@@ -1062,6 +1108,8 @@
           "Born_to_Obey",
           "Root_Out_the_Turpitude",
           "Fire_Lord_Inflames_Blades_of_War",
+          "A_Startling_Night_Terror",
+          "Tranquility_of_Vimala_bhumi",
           "Nameless_Land_Nameless_People",
           "Akashic_Records",
           "The_Invisible_Hand",
@@ -1070,7 +1118,9 @@
           "The_Land_of_Gold",
           "The_Blossom_in_the_Storm",
           "Legend_of_the_Puppet_Master",
-          "The_Wages_of_Humanity"
+          "The_Wages_of_Humanity",
+          "Fragments_of_Illusory_Dreams",
+          "Scalpel_and_Screwdriver"
         ]
       },
       "Name_4": {
@@ -1083,6 +1133,8 @@
           "Born_to_Obey",
           "Root_Out_the_Turpitude",
           "Fire_Lord_Inflames_Blades_of_War",
+          "A_Startling_Night_Terror",
+          "Tranquility_of_Vimala_bhumi",
           "Nameless_Land_Nameless_People",
           "Akashic_Records",
           "The_Invisible_Hand",
@@ -1091,7 +1143,9 @@
           "The_Land_of_Gold",
           "The_Blossom_in_the_Storm",
           "Legend_of_the_Puppet_Master",
-          "The_Wages_of_Humanity"
+          "The_Wages_of_Humanity",
+          "Fragments_of_Illusory_Dreams",
+          "Scalpel_and_Screwdriver"
         ]
       },
       "Duration": {
@@ -1251,6 +1305,68 @@
           9
         ]
       }
+    },
+    "DungeonSupport": {
+      "Use": {
+        "type": "select",
+        "value": "do_not_use",
+        "option": [
+          "always_use",
+          "do_not_use"
+        ]
+      },
+      "Character": {
+        "type": "select",
+        "value": "FirstCharacter",
+        "option": [
+          "FirstCharacter",
+          "Argenti",
+          "Arlan",
+          "Asta",
+          "Bailu",
+          "BlackSwan",
+          "Blade",
+          "Bronya",
+          "Clara",
+          "DanHeng",
+          "DanHengImbibitorLunae",
+          "DrRatio",
+          "FuXuan",
+          "Gepard",
+          "Guinaifen",
+          "Hanya",
+          "Herta",
+          "Himeko",
+          "Hook",
+          "Huohuo",
+          "JingYuan",
+          "Jingliu",
+          "Kafka",
+          "Luka",
+          "Luocha",
+          "Lynx",
+          "March7th",
+          "Misha",
+          "Natasha",
+          "Pela",
+          "Qingque",
+          "RuanMei",
+          "Sampo",
+          "Seele",
+          "Serval",
+          "SilverWolf",
+          "Sparkle",
+          "Sushang",
+          "Tingyun",
+          "TopazNumby",
+          "TrailblazerDestruction",
+          "TrailblazerPreservation",
+          "Welt",
+          "Xueyi",
+          "Yanqing",
+          "Yukong"
+        ]
+      }
     }
   },
   "Rogue": {
@@ -1401,6 +1517,16 @@
         ],
         "option_bold": [
           true
+        ]
+      },
+      "AimClicker": {
+        "type": "select",
+        "value": "do_not_click",
+        "option": [
+          "item_enemy",
+          "item",
+          "enemy",
+          "do_not_click"
         ]
       }
     }

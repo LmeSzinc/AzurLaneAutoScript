@@ -29,6 +29,13 @@ class GamePageUnknownError(Exception):
     pass
 
 
+class TaskError(Exception):
+    # An error occurred in task,
+    # task itself should have error handled before raising TaskError,
+    # then task will be re-scheduled
+    pass
+
+
 class RequestHumanTakeover(Exception):
     # Request human takeover
     # Alas is unable to handle such error, probably because of wrong settings.

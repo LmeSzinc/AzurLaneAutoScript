@@ -144,13 +144,22 @@ MAIN_GOTO_BATTLE_PASS = ButtonWrapper(
 )
 MAIN_GOTO_CHARACTER = ButtonWrapper(
     name='MAIN_GOTO_CHARACTER',
-    share=Button(
-        file='./assets/share/base/page/MAIN_GOTO_CHARACTER.png',
-        area=(1204, 25, 1234, 51),
-        search=(1184, 5, 1254, 71),
-        color=(184, 185, 187),
-        button=(1204, 25, 1234, 51),
-    ),
+    share=[
+        Button(
+            file='./assets/share/base/page/MAIN_GOTO_CHARACTER.png',
+            area=(1204, 25, 1234, 51),
+            search=(1184, 5, 1254, 71),
+            color=(184, 185, 187),
+            button=(1204, 25, 1234, 51),
+        ),
+        Button(
+            file='./assets/share/base/page/MAIN_GOTO_CHARACTER.2.png',
+            area=(1204, 25, 1234, 51),
+            search=(1184, 5, 1254, 71),
+            color=(211, 181, 211),
+            button=(1204, 25, 1234, 51),
+        ),
+    ],
 )
 MAIN_GOTO_EVENT = ButtonWrapper(
     name='MAIN_GOTO_EVENT',

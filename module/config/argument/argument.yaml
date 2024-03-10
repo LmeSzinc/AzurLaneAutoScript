@@ -102,10 +102,10 @@ Dungeon:
 DungeonDaily:
   # Dungeon names will be injected in config updater
   CalyxGolden:
-    value: Calyx_Golden_Treasures
+    value: Calyx_Golden_Treasures_Jarilo_VI
     option: [ do_not_achieve, ]
   CalyxCrimson:
-    value: Calyx_Crimson_Erudition
+    value: Calyx_Crimson_Destruction_Herta_StorageZone
     option: [ do_not_achieve, ]
   StagnantShadow:
     value: Stagnant_Shadow_Quanta
@@ -192,16 +192,16 @@ Assignment:
   # Options in Name_x will be injected in config updater
   Name_1:
     value: Nameless_Land_Nameless_People
-    option: [ Nameless_Land_Nameless_People, ]
+    option: [ ]
   Name_2:
     value: Akashic_Records
-    option: [ Nameless_Land_Nameless_People, ]
+    option: [ ]
   Name_3:
     value: The_Invisible_Hand
-    option: [ Nameless_Land_Nameless_People, ]
+    option: [ ]
   Name_4:
     value: Nine_Billion_Names
-    option: [ Nameless_Land_Nameless_People, ]
+    option: [ ]
   Duration:
     value: 20
     option: [ 4, 8, 12, 20 ]
@@ -287,4 +287,6 @@ Daemon:
     value: true
     option: [ true ]
     option_bold: [ true, ]
-
+  AimClicker:
+    value: do_not_click
+    option: [ item_enemy, item, enemy, do_not_click ]

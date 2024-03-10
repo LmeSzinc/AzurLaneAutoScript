@@ -1,17 +1,17 @@
 import cv2
 import numpy as np
 from scipy import signal
-from module.base.button import Button, ButtonWrapper
 
+from module.base.button import ClickButton
 from module.base.timer import Timer
-from module.base.utils import area_size, crop, rgb2luma, load_image, crop
+from module.base.utils import area_offset, area_size, crop, load_image, rgb2luma
 from module.logger import logger
 from module.ui.scroll import Scroll
 from tasks.base.assets.assets_base_popup import POPUP_CANCEL
 from tasks.base.ui import UI
 from tasks.combat.assets.assets_combat_support import COMBAT_SUPPORT_ADD, COMBAT_SUPPORT_LIST, \
-    COMBAT_SUPPORT_LIST_SCROLL, COMBAT_SUPPORT_SELECTED, COMBAT_SUPPORT_LIST_GRID
-from tasks.combat.assets.assets_combat_team import COMBAT_TEAM_SUPPORT, COMBAT_TEAM_DISMISSSUPPORT
+    COMBAT_SUPPORT_LIST_GRID, COMBAT_SUPPORT_LIST_SCROLL, COMBAT_SUPPORT_SELECTED, SUPPORT_SELECTED
+from tasks.combat.assets.assets_combat_team import COMBAT_TEAM_DISMISSSUPPORT, COMBAT_TEAM_SUPPORT
 
 
 def get_position_in_original_image(position_in_croped_image, crop_area):
@@ -55,7 +55,7 @@ class SupportCharacter:
             return SupportCharacter._image_cache[self.name]
 
         img = load_image(f"assets/character/{self.name}.png")
-        scaled_img = cv2.resize(img, (85, 82))
+        scaled_img = cv2.resize(img, (86, 81))
         SupportCharacter._image_cache[self.name] = scaled_img
         logger.info(f"Character {self.name} image cached")
         return scaled_img
@@ -84,64 +84,36 @@ class SupportCharacter:
             self.button[0], self.button[1] - 5, self.button[0] + 30, self.button[1]) if self.button else None
 
 
-class ArrowWrapper(ButtonWrapper):
-
-    def find_center(self, image):
-        res = cv2.matchTemplate(
-            self.matched_button.image, image, cv2.TM_CCOEFF_NORMED)
-        _, max_val, _, max_loc = cv2.minMaxLoc(res)
-        return (
-            (
-                (max_loc[0] + self.matched_button.image.shape[1] / 2),
-                (max_loc[1] + self.matched_button.image.shape[0] / 2),
-            )
-            if max_val > 0.75
-            else None
-        )
-
-
 class NextSupportCharacter:
-    _arrow = ArrowWrapper(
-        name="NextSupportCharacterArrow",
-        share=Button(
-            file='./assets/support/selected_character_arrow.png',
-            area=None,
-            search=None,
-            color=None,
-            button=None,
-        )
-    )
-    _crop_area = (290, 115, 435, 634)
-
     def __init__(self, screenshot):
-        self.name = "SupportCharacterArrow"
-        self.screenshot = crop(screenshot, NextSupportCharacter._crop_area)
-        self.arrow_center = self._find_center()
-        self.button = self._get_next_support_character_button()
+        self.name = "NextSupportCharacter"
+        self.button = self.get_next_support_character_button(screenshot)
 
     def __bool__(self):
         return self.button is not None
 
-    def _find_center(self):
-        center = NextSupportCharacter._arrow.find_center(self.screenshot)
-        center = get_position_in_original_image(
-            center, NextSupportCharacter._crop_area) if center else None
-        return center
+    def get_next_support_character_button(self, screenshot) -> ClickButton | None:
+        if SUPPORT_SELECTED.match_template(screenshot, similarity=0.75):
+            # Move area to the next character card center
+            area = SUPPORT_SELECTED.button
+            area = area_offset((105, 85, 255, 170), offset=area[:2])
+            if area[3] < COMBAT_SUPPORT_LIST_GRID.area[3]:
+                return ClickButton(area, name=self.name)
+            else:
+                # Out of list
+                logger.info('Next character is out of list')
+                return None
+        else:
+            return None
 
-    def _get_next_support_character_button(self):
-        area = (self.arrow_center[0] - 200, min(self.arrow_center[1] + 65, 615), self.arrow_center[0] + 10, min(
-            self.arrow_center[1] + 80, 620)) if self.arrow_center and self.arrow_center[1] < 510 else None
-        return ButtonWrapper(
-            name="NextSupportCharacterButton",
-            share=Button(
-                file='./assets/support/selected_character_arrow.png',
-                area=area,
-                search=area,
-                # if next support was selected, the average color of the button will larger than 220
-                color=(220, 220, 220),
-                button=area,
-            )
-        ) if self.arrow_center and self.arrow_center[1] < 510 else None
+    def is_next_support_character_selected(self, screenshot) -> bool:
+        if self.button is None:
+            return False
+        area = self.button.area
+        # Move area from the card center to the left edge of the card
+        area = area_offset(area, offset=(-120, 0))
+        image = crop(screenshot, area, copy=False)
+        return SUPPORT_SELECTED.match_template(image, similarity=0.75, direct_match=True)
 
 
 class SupportListScroll(Scroll):
@@ -301,7 +273,7 @@ class CombatSupport(UI):
                 self.device.screenshot()
 
             # End
-            if self.match_template(COMBAT_SUPPORT_SELECTED):
+            if self.appear(COMBAT_SUPPORT_SELECTED, similarity=0.75):
                 return True
 
             if interval.reached():
@@ -351,7 +323,7 @@ class CombatSupport(UI):
                     self.device.screenshot()
 
                 # End
-                if next_support and self._next_support_selected(next_support):
+                if next_support is not None and next_support.is_next_support_character_selected(self.device.image):
                     return
 
                 if interval.reached():
@@ -367,13 +339,3 @@ class CombatSupport(UI):
 
                     interval.reset()
                     continue
-
-    def _next_support_selected(self, next_support: NextSupportCharacter):
-        """
-        Returns:
-            bool: True if selected else False
-        """
-        if self.match_color(next_support.button, threshold=20):
-            logger.info("Next support selected")
-            return True
-        return False

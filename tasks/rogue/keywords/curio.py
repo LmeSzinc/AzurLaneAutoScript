@@ -486,7 +486,7 @@ Fissured_Cuckoo_Clock = RogueCurio(
     cn='分裂咕咕钟',
     cht='分裂咕咕鐘',
     en='Fissured Cuckoo Clock',
-    jp='分裂鳩時計',
+    jp='機械式鳩時計',
     es='Reloj de cuco agrietado',
 )
 Typical_Genius_Society_Gossip = RogueCurio(

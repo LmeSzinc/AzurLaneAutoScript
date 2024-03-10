@@ -25,3 +25,11 @@ class CharacterList(Keyword):
         """
         from tasks.character.keywords.height import CHARACTER_HEIGHT
         return CHARACTER_HEIGHT.get(self.name, 'Unknown')
+
+
+@dataclass(repr=False)
+class CombatType(Keyword):
+    instances: ClassVar = {}
+
+    def __hash__(self) -> int:
+        return super().__hash__()

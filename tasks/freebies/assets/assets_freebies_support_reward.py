@@ -7,30 +7,20 @@ CAN_GET_REWARD = ButtonWrapper(
     name='CAN_GET_REWARD',
     share=Button(
         file='./assets/share/freebies/support_reward/CAN_GET_REWARD.png',
-        area=(1055, 266, 1106, 310),
-        search=(1035, 246, 1126, 330),
-        color=(229, 186, 123),
-        button=(1055, 266, 1106, 310),
-    ),
-)
-CLICKING_REWARD = ButtonWrapper(
-    name='CLICKING_REWARD',
-    share=Button(
-        file='./assets/share/freebies/support_reward/CLICKING_REWARD.png',
-        area=(1066, 268, 1105, 307),
-        search=(1046, 248, 1125, 327),
-        color=(197, 161, 111),
-        button=(1066, 268, 1105, 307),
+        area=(1066, 121, 1097, 144),
+        search=(1046, 101, 1117, 164),
+        color=(245, 225, 170),
+        button=(1066, 121, 1097, 144),
     ),
 )
 IN_PROFILE = ButtonWrapper(
     name='IN_PROFILE',
     share=Button(
         file='./assets/share/freebies/support_reward/IN_PROFILE.png',
-        area=(643, 106, 673, 131),
-        search=(623, 86, 693, 151),
-        color=(74, 67, 58),
-        button=(643, 106, 673, 131),
+        area=(647, 128, 673, 146),
+        search=(627, 108, 693, 166),
+        color=(109, 97, 83),
+        button=(647, 128, 673, 146),
     ),
 )
 MENU_TO_PROFILE = ButtonWrapper(

@@ -3,6 +3,36 @@ from module.base.button import Button, ButtonWrapper
 # This file was auto-generated, do not modify it manually. To generate:
 # ``` python -m dev_tools.button_extract ```
 
+CALYX_WORLD_1 = ButtonWrapper(
+    name='CALYX_WORLD_1',
+    share=Button(
+        file='./assets/share/dungeon/ui/CALYX_WORLD_1.png',
+        area=(490, 185, 540, 230),
+        search=(470, 165, 560, 250),
+        color=(197, 196, 196),
+        button=(490, 185, 540, 230),
+    ),
+)
+CALYX_WORLD_2 = ButtonWrapper(
+    name='CALYX_WORLD_2',
+    share=Button(
+        file='./assets/share/dungeon/ui/CALYX_WORLD_2.png',
+        area=(590, 185, 640, 230),
+        search=(570, 165, 660, 250),
+        color=(199, 198, 198),
+        button=(590, 185, 640, 230),
+    ),
+)
+CALYX_WORLD_3 = ButtonWrapper(
+    name='CALYX_WORLD_3',
+    share=Button(
+        file='./assets/share/dungeon/ui/CALYX_WORLD_3.png',
+        area=(689, 186, 739, 231),
+        search=(669, 166, 759, 251),
+        color=(158, 158, 158),
+        button=(689, 186, 739, 231),
+    ),
+)
 DAILY_TRAINING_CHECK = ButtonWrapper(
     name='DAILY_TRAINING_CHECK',
     share=Button(
@@ -31,6 +61,16 @@ DAILY_TRAINING_LOADED = ButtonWrapper(
         search=(1123, 526, 1178, 581),
         color=(63, 56, 50),
         button=(1143, 546, 1158, 561),
+    ),
+)
+LIST_LOADED_CHECK = ButtonWrapper(
+    name='LIST_LOADED_CHECK',
+    share=Button(
+        file='./assets/share/dungeon/ui/LIST_LOADED_CHECK.png',
+        area=(576, 606, 951, 664),
+        search=(556, 586, 971, 684),
+        color=(180, 188, 195),
+        button=(576, 606, 951, 664),
     ),
 )
 OCR_DUNGEON_LIST = ButtonWrapper(
@@ -137,9 +177,19 @@ TREASURES_LIGHTWARD_LOADED = ButtonWrapper(
     name='TREASURES_LIGHTWARD_LOADED',
     share=Button(
         file='./assets/share/dungeon/ui/TREASURES_LIGHTWARD_LOADED.png',
-        area=(1029, 288, 1047, 306),
-        search=(1024, 283, 1052, 311),
-        color=(149, 149, 152),
-        button=(1029, 288, 1047, 306),
+        area=(1028, 288, 1048, 308),
+        search=(1008, 268, 1068, 328),
+        color=(82, 80, 80),
+        button=(1028, 288, 1048, 308),
+    ),
+)
+TREASURES_LIGHTWARD_LOCKED = ButtonWrapper(
+    name='TREASURES_LIGHTWARD_LOCKED',
+    share=Button(
+        file='./assets/share/dungeon/ui/TREASURES_LIGHTWARD_LOCKED.png',
+        area=(789, 423, 817, 457),
+        search=(769, 403, 837, 477),
+        color=(112, 112, 112),
+        button=(789, 423, 817, 457),
     ),
 )

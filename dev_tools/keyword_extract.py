@@ -1,40 +1,15 @@
 import itertools
 import os
 import re
-import typing as t
 from collections import defaultdict
-from functools import cache, cached_property
+from functools import cache
 from hashlib import md5
 
+from dev_tools.keywords.base import TextMap, UI_LANGUAGES, replace_templates, text_to_variable
 from module.base.code_generator import CodeGenerator
 from module.config.utils import deep_get, read_file
 from module.exception import ScriptError
 from module.logger import logger
-
-UI_LANGUAGES = ['cn', 'cht', 'en', 'jp', 'es']
-
-
-def text_to_variable(text):
-    text = re.sub("'s |s' ", '_', text)
-    text = re.sub('[ \-—:\'/•.]+', '_', text)
-    text = re.sub(r'[(),#"?!&%*]|</?\w+>', '', text)
-    # text = re.sub(r'[#_]?\d+(_times?)?', '', text)
-    text = re.sub(r'<color=#?\w+>', '', text)
-    text = text.replace('é', 'e')
-    return text.strip('_')
-
-
-def dungeon_name(name: str) -> str:
-    name = text_to_variable(name)
-    name = re.sub('Bud_of_(Memories|Aether|Treasures)', r'Calyx_Golden_\1', name)
-    name = re.sub('Bud_of_(.*)', r'Calyx_Crimson_\1', name).replace('Calyx_Crimson_Calyx_Crimson_', 'Calyx_Crimson_')
-    name = re.sub('Shape_of_(.*)', r'Stagnant_Shadow_\1', name)
-    name = re.sub('Path_of_(.*)', r'Cavern_of_Corrosion_Path_of_\1', name)
-    if name in ['Destruction_Beginning', 'End_of_the_Eternal_Freeze', 'Divine_Seed', 'Borehole_Planet_Old_Crater']:
-        name = f'Echo_of_War_{name}'
-    if name in ['The_Swarm_Disaster', 'Gold_and_Gears']:
-        name = f'Simulated_Universe_{name}'
-    return name
 
 
 def blessing_name(name: str) -> str:
@@ -61,101 +36,11 @@ def convert_inner_character_to_keyword(name):
     return convert_dict.get(name, name)
 
 
-class TextMap:
-    DATA_FOLDER = ''
-
-    def __init__(self, lang: str):
-        self.lang = lang
-
-    def __contains__(self, name: t.Union[int, str]) -> bool:
-        if isinstance(name, int) or (isinstance(name, str) and name.isdigit()):
-            return int(name) in self.data
-        return False
-
-    @cached_property
-    def data(self) -> dict[int, str]:
-        if not os.path.exists(TextMap.DATA_FOLDER):
-            logger.critical('`TextMap.DATA_FOLDER` does not exist, please set it to your path to StarRailData')
-            exit(1)
-        file = os.path.join(TextMap.DATA_FOLDER, 'TextMap', f'TextMap{self.lang.upper()}.json')
-        data = {}
-        for id_, text in read_file(file).items():
-            text = text.replace('\u00A0', '')
-            text = text.replace(r'{NICKNAME}', 'Trailblazer')
-            data[int(id_)] = text
-        return data
-
-    def find(self, name: t.Union[int, str]) -> tuple[int, str]:
-        """
-        Args:
-            name:
-
-        Returns:
-            text id (hash in TextMap)
-            text
-        """
-        if isinstance(name, int) or (isinstance(name, str) and name.isdigit()):
-            name = int(name)
-            try:
-                return name, self.data[name]
-            except KeyError:
-                pass
-
-        name = str(name)
-        for row_id, row_name in self.data.items():
-            if row_id >= 0 and row_name == name:
-                return row_id, row_name
-        for row_id, row_name in self.data.items():
-            if row_name == name:
-                return row_id, row_name
-        logger.error(f'Cannot find name: "{name}" in language {self.lang}')
-        return 0, ''
-
-
-def replace_templates(text: str) -> str:
-    """
-    Replace templates in data to make sure it equals to what is shown in game
-
-    Examples:
-        replace_templates("Complete Echo of War #4 time(s)")
-        == "Complete Echo of War 1 time(s)"
-    """
-    text = re.sub(r'#4', '1', text)
-    text = re.sub(r'</?\w+>', '', text)
-    text = re.sub(r'<color=#?\w+>', '', text)
-    return text
-
-
 class KeywordExtract:
     def __init__(self):
         self.text_map: dict[str, TextMap] = {lang: TextMap(lang) for lang in UI_LANGUAGES}
         self.text_map['cn'] = TextMap('chs')
         self.keywords_id: list[int] = []
-
-    def iter_guide(self) -> t.Iterable[int]:
-        file = os.path.join(TextMap.DATA_FOLDER, './ExcelOutput/GameplayGuideData.json')
-        # visited = set()
-        temp_save = ""
-        for data in read_file(file).values():
-            hash_ = deep_get(data, keys='Name.Hash')
-            _, name = self.find_keyword(hash_, lang='cn')
-            if '永屹之城遗秘' in name:  # load after all forgotten hall to make sure the same order in Game UI
-                temp_save = hash_
-                continue
-            if '忘却之庭' in name:
-                continue
-                # if name in visited:
-                #     continue
-                # visited.add(name)
-            yield hash_
-        yield temp_save
-        # Consider rogue DLC as a dungeon
-        yield '寰宇蝗灾'
-        yield '黄金与机械'
-        # 'Memory of Chaos' is not a real dungeon, but represents a group
-        yield '混沌回忆'
-        yield '天艟求仙迷航录'
-        yield '永屹之城遗秘'
 
     def find_keyword(self, keyword, lang) -> tuple[int, str]:
         """
@@ -388,7 +273,7 @@ class KeywordExtract:
                 gen.ObjectAttr(key='name', value=name)
                 for lang in UI_LANGUAGES:
                     character_names = ' / '.join([
-                        self.find_keyword(c[0], lang)[1]
+                        replace_templates(self.find_keyword(c[0], lang)[1])
                         for c in characters
                     ])
                     damage_type = self.find_keyword(characters[0][1], lang)[1]
@@ -422,47 +307,14 @@ class KeywordExtract:
         self.clear_keywords()
 
     def generate_assignments(self):
-        self.load_keywords(['空间站特派'])
-        self.write_keywords(
-            keyword_class='AssignmentEventGroup',
-            output_file='./tasks/assignment/keywords/event_group.py'
-        )
-        for file_name, class_name, output_file in (
-            ('ExpeditionGroup.json', 'AssignmentGroup', './tasks/assignment/keywords/group.py'),
-            ('ExpeditionData.json', 'AssignmentEntry', './tasks/assignment/keywords/entry.py'),
-            ('ActivityExpedition.json', 'AssignmentEventEntry', './tasks/assignment/keywords/event_entry.py'),
-        ):
-            file = os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', file_name)
-            self.load_keywords(deep_get(data, 'Name.Hash') for data in read_file(file).values())
-            self.write_keywords(keyword_class=class_name, output_file=output_file)
+        from dev_tools.keywords.assignment import GenerateAssignment
+        GenerateAssignment()()
 
     def generate_map_planes(self):
-        planes = {
-            'Special': ['黑塔的办公室', '锋芒崭露'],
-            'Rogue': [ '区域-战斗', '区域-事件', '区域-遭遇', '区域-休整', '区域-精英', '区域-首领', '区域-交易'],
-            'Herta': ['观景车厢', '主控舱段', '基座舱段', '收容舱段', '支援舱段', '禁闭舱段'],
-            'Jarilo': ['行政区', '城郊雪原', '边缘通路', '铁卫禁区', '残响回廊', '永冬岭',
-                       '造物之柱', '旧武器试验场', '磐岩镇', '大矿区', '铆钉镇', '机械聚落'],
-            'Luofu': ['星槎海中枢', '流云渡', '迴星港', '长乐天', '金人巷', '太卜司',
-                      '工造司', '绥园', '丹鼎司', '鳞渊境'],
-        }
-
-        def text_convert(world_):
-            def text_convert_wrapper(name):
-                name = text_to_variable(name).replace('_', '')
-                name = f'{world_}_{name}'
-                return name
-
-            return text_convert_wrapper
-
-        gen = None
-        for world, plane in planes.items():
-            self.load_keywords(plane)
-            gen = self.write_keywords(keyword_class='MapPlane', output_file='',
-                                      text_convert=text_convert(world), generator=gen)
-        gen.write('./tasks/map/keywords/plane.py')
-        self.load_keywords(['Herta Space Station', 'Jarilo-VI', 'The Xianzhou Luofu'], lang='en')
-        self.write_keywords(keyword_class='MapWorld', output_file='./tasks/map/keywords/world.py')
+        from dev_tools.keywords.map_world import GenerateMapWorld
+        GenerateMapWorld()()
+        from dev_tools.keywords.map_plane import GenerateMapPlane
+        GenerateMapPlane()()
 
     def generate_character_keywords(self):
         self.load_character_name_keywords()
@@ -492,6 +344,9 @@ class KeywordExtract:
                     continue
                 gen.DictItem(key=character, value=height)
         gen.write('./tasks/character/keywords/height.py')
+
+        self.load_keywords(['物理', '火', '冰', '雷', '风', '量子', '虚数'], lang='cn')
+        self.write_keywords(keyword_class='CombatType', output_file='./tasks/character/keywords/combat_type.py')
 
     def generate_battle_pass_quests(self):
         battle_pass_quests = read_file(os.path.join(TextMap.DATA_FOLDER, 'ExcelOutput', 'BattlePassConfig.json'))
@@ -700,10 +555,11 @@ class KeywordExtract:
         self.load_keywords(['领取', '追踪'])
         self.write_keywords(keyword_class='BattlePassQuestState',
                             output_file='./tasks/battle_pass/keywords/quest_state.py')
-        self.load_keywords(list(self.iter_guide()))
-        self.write_keywords(keyword_class='DungeonList', output_file='./tasks/dungeon/keywords/dungeon.py',
-                            text_convert=dungeon_name)
-        self.load_keywords(['传送', '追踪'])
+        self.generate_map_planes()
+        self.generate_character_keywords()
+        from dev_tools.keywords.dungeon_list import GenerateDungeonList
+        GenerateDungeonList()()
+        self.load_keywords(['进入', '传送', '追踪'])
         self.write_keywords(keyword_class='DungeonEntrance', output_file='./tasks/dungeon/keywords/dungeon_entrance.py')
         self.generate_shadow_with_characters()
         self.load_keywords(['奖励', '任务', ])
@@ -713,8 +569,6 @@ class KeywordExtract:
                             output_file='./tasks/battle_pass/keywords/mission_tab.py')
         self.generate_assignments()
         self.generate_forgotten_hall_stages()
-        self.generate_map_planes()
-        self.generate_character_keywords()
         self.generate_daily_quests()
         self.generate_battle_pass_quests()
         self.load_keywords(['养成材料', '光锥', '遗器', '其他材料', '消耗品', '任务', '贵重物'])

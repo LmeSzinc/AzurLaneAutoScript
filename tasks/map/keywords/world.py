@@ -11,6 +11,8 @@ Herta_Space_Station = MapWorld(
     en='Herta Space Station',
     jp='宇宙ステーション「ヘルタ」',
     es='Estación Espacial Herta',
+    world_id=0,
+    short_name='Herta',
 )
 Jarilo_VI = MapWorld(
     id=2,
@@ -20,6 +22,8 @@ Jarilo_VI = MapWorld(
     en='Jarilo-VI',
     jp='ヤリーロ-VI',
     es='Jarilo-VI',
+    world_id=1,
+    short_name='Jarilo',
 )
 The_Xianzhou_Luofu = MapWorld(
     id=3,
@@ -29,4 +33,17 @@ The_Xianzhou_Luofu = MapWorld(
     en='The Xianzhou Luofu',
     jp='仙舟「羅浮」',
     es='El Luofu de Xianzhou',
+    world_id=2,
+    short_name='Luofu',
+)
+Penacony = MapWorld(
+    id=4,
+    name='Penacony',
+    cn='匹诺康尼',
+    cht='匹諾康尼',
+    en='Penacony',
+    jp='ピノコニー',
+    es='Colonipenal',
+    world_id=3,
+    short_name='Penacony',
 )

@@ -120,6 +120,8 @@ class Route(RouteBase):
         Luofu_Cloudford_F1_X281Y873 is the same as Luofu_Cloudford_F1_X283Y865
         but for wrong spawn point detected
         """
+        # Re-init position to be the same as origin
+        self.minimap.init_position(position=(283.4, 865.3), locked=True)
         self.clear_enemy(enemy)
 
     @locked_position

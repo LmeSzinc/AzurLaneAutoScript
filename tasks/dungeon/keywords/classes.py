@@ -20,13 +20,63 @@ class DungeonTab(Keyword):
 class DungeonList(Keyword):
     instances: ClassVar = {}
 
+    plane_id: int
+
+    @cached_property
+    def plane(self):
+        """
+        Returns:
+            MapPlane: MapPlane object or None
+        """
+        from tasks.map.keywords import MapPlane
+        return MapPlane.find_plane_id(self.plane_id)
+
+    @cached_property
+    def world(self):
+        """
+        Returns:
+            MapWorld: MapWorld object or None
+        """
+        if self.plane is not None:
+            return self.plane.world
+        else:
+            return None
+
     @cached_property
     def is_Calyx_Golden(self):
         return 'Calyx_Golden' in self.name
 
     @cached_property
+    def is_Calyx_Golden_Memories(self):
+        return 'Calyx_Golden_Memories' in self.name
+
+    @cached_property
+    def is_Calyx_Golden_Aether(self):
+        return 'Calyx_Golden_Aether' in self.name
+
+    @cached_property
+    def is_Calyx_Golden_Treasures(self):
+        return 'Calyx_Golden_Treasures' in self.name
+
+    @cached_property
     def is_Calyx_Crimson(self):
         return 'Calyx_Crimson' in self.name
+
+    @cached_property
+    def Calyx_Crimson_Path(self):
+        """
+        Returns:
+            RoguePath: RoguePath object or None
+        """
+        if not self.is_Calyx_Crimson:
+            return None
+        from tasks.rogue.keywords import RoguePath
+        for path in RoguePath.instances.values():
+            if path.name in self.name:
+                return path
+            elif path.name == 'The_Harmony' and 'Harmony' in self.name:
+                return path
+        return None
 
     @cached_property
     def is_Calyx(self):
@@ -35,6 +85,24 @@ class DungeonList(Keyword):
     @cached_property
     def is_Stagnant_Shadow(self):
         return 'Stagnant_Shadow' in self.name
+
+    @cached_property
+    def Stagnant_Shadow_Combat_Type(self):
+        """
+        Returns:
+            CombatType: CombatType object or None
+        """
+        if not self.is_Stagnant_Shadow:
+            return None
+        from tasks.dungeon.keywords import DungeonDetailed
+        detail = DungeonDetailed.find_name(self.name)
+        if detail is None:
+            return None
+        from tasks.character.keywords import CombatType
+        for type_ in CombatType.instances.values():
+            if type_.cn in detail.cn[:10]:
+                return type_
+        return None
 
     @cached_property
     def is_Cavern_of_Corrosion(self):

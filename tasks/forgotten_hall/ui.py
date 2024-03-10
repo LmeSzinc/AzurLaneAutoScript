@@ -10,8 +10,9 @@ from module.ocr.keyword import Keyword
 from module.ocr.ocr import Ocr, OcrResultButton
 from module.ui.draggable_list import DraggableList
 from tasks.base.assets.assets_base_page import FORGOTTEN_HALL_CHECK, MAP_EXIT
-from tasks.dungeon.keywords import DungeonList, KEYWORDS_DUNGEON_LIST, KEYWORDS_DUNGEON_TAB
+from tasks.dungeon.keywords import DungeonList, KEYWORDS_DUNGEON_LIST, KEYWORDS_DUNGEON_NAV, KEYWORDS_DUNGEON_TAB
 from tasks.dungeon.ui import DungeonUI
+from tasks.forgotten_hall.assets.assets_forgotten_hall_nav import *
 from tasks.forgotten_hall.assets.assets_forgotten_hall_ui import *
 from tasks.forgotten_hall.keywords import ForgottenHallStage, KEYWORDS_FORGOTTEN_HALL_STAGE
 from tasks.forgotten_hall.team import ForgottenHallTeam
@@ -186,7 +187,7 @@ class ForgottenHallUI(DungeonUI, ForgottenHallTeam):
             logger.info('Already in forgotten hall')
         else:
             self.dungeon_tab_goto(KEYWORDS_DUNGEON_TAB.Treasures_Lightward)
-            self._dungeon_nav_goto(dungeon)
+            self._dungeon_nav_goto(KEYWORDS_DUNGEON_NAV.Forgotten_Hall)
 
         self.stage_choose(dungeon)
         logger.info(f'Stage list select: {stage_keyword}')

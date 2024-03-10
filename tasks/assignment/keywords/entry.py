@@ -57,8 +57,26 @@ Fire_Lord_Inflames_Blades_of_War = AssignmentEntry(
     jp='剣戟を焼却する火帝炉',
     es='Prendan los fuelles, fundan las armas',
 )
-Nameless_Land_Nameless_People = AssignmentEntry(
+A_Startling_Night_Terror = AssignmentEntry(
     id=7,
+    name='A_Startling_Night_Terror',
+    cn='劫梦惊魂',
+    cht='劫夢驚魂',
+    en='A Startling Night Terror',
+    jp='魂震える悪夢',
+    es='Pesadilla aterradora',
+)
+Tranquility_of_Vimala_bhumi = AssignmentEntry(
+    id=8,
+    name='Tranquility_of_Vimala_bhumi',
+    cn='离垢清净',
+    cht='離垢清淨',
+    en='Tranquility of Vimala-bhumi',
+    jp='離垢清浄',
+    es='Limpieza y purificación',
+)
+Nameless_Land_Nameless_People = AssignmentEntry(
+    id=9,
     name='Nameless_Land_Nameless_People',
     cn='无名之地，无名之人',
     cht='無名之地，無名之人',
@@ -67,7 +85,7 @@ Nameless_Land_Nameless_People = AssignmentEntry(
     es='Lugar anónimo, personas anónimas',
 )
 Akashic_Records = AssignmentEntry(
-    id=8,
+    id=10,
     name='Akashic_Records',
     cn='阿卡夏记录',
     cht='阿卡夏紀錄',
@@ -76,7 +94,7 @@ Akashic_Records = AssignmentEntry(
     es='Los Registros de Akasha',
 )
 The_Invisible_Hand = AssignmentEntry(
-    id=9,
+    id=11,
     name='The_Invisible_Hand',
     cn='看不见的手',
     cht='看不見的手',
@@ -85,7 +103,7 @@ The_Invisible_Hand = AssignmentEntry(
     es='La mano invisible',
 )
 Abandoned_and_Insulted = AssignmentEntry(
-    id=10,
+    id=12,
     name='Abandoned_and_Insulted',
     cn='被废弃与损害的',
     cht='被廢棄與損害的',
@@ -94,7 +112,7 @@ Abandoned_and_Insulted = AssignmentEntry(
     es='Abandonado e insultado',
 )
 Spring_of_Life = AssignmentEntry(
-    id=11,
+    id=13,
     name='Spring_of_Life',
     cn='生命之泉',
     cht='生命之泉',
@@ -103,7 +121,7 @@ Spring_of_Life = AssignmentEntry(
     es='La fuente de la vida',
 )
 The_Land_of_Gold = AssignmentEntry(
-    id=12,
+    id=14,
     name='The_Land_of_Gold',
     cn='黄金大地',
     cht='黃金大地',
@@ -112,7 +130,7 @@ The_Land_of_Gold = AssignmentEntry(
     es='Tierra de oportunidades',
 )
 The_Blossom_in_the_Storm = AssignmentEntry(
-    id=13,
+    id=15,
     name='The_Blossom_in_the_Storm',
     cn='风暴中怒放的花',
     cht='風暴中怒放的花',
@@ -121,7 +139,7 @@ The_Blossom_in_the_Storm = AssignmentEntry(
     es='Flores en la tormenta',
 )
 Legend_of_the_Puppet_Master = AssignmentEntry(
-    id=14,
+    id=16,
     name='Legend_of_the_Puppet_Master',
     cn='偃师传说',
     cht='偃師傳說',
@@ -130,11 +148,29 @@ Legend_of_the_Puppet_Master = AssignmentEntry(
     es='La leyenda del titiritero',
 )
 The_Wages_of_Humanity = AssignmentEntry(
-    id=15,
+    id=17,
     name='The_Wages_of_Humanity',
     cn='赡养人类',
     cht='贍養人類',
     en='The Wages of Humanity',
     jp='人類扶養',
     es='La paga de la humanidad',
+)
+Fragments_of_Illusory_Dreams = AssignmentEntry(
+    id=18,
+    name='Fragments_of_Illusory_Dreams',
+    cn='幻梦的残片',
+    cht='幻夢的殘片',
+    en='Fragments of Illusory Dreams',
+    jp='幻夢の残片',
+    es='Fragmentos de sueños ilusorios',
+)
+Scalpel_and_Screwdriver = AssignmentEntry(
+    id=19,
+    name='Scalpel_and_Screwdriver',
+    cn='手术刀与螺丝刀',
+    cht='手術刀與螺絲起子',
+    en='Scalpel and Screwdriver',
+    jp='メスとスクリュードライバー',
+    es='Bisturí y destornillador',
 )

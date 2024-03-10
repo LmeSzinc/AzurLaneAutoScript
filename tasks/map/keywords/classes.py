@@ -10,6 +10,11 @@ from module.ocr.keyword import Keyword
 class MapPlane(Keyword):
     instances: ClassVar = {}
 
+    # 0, 1, 2, 3
+    world_id: int
+    # 1010201
+    plane_id: int
+
     # Map floors, 'F1' by default
     # Example: ['B1', 'F1', 'F2']
     floors = ['F1']
@@ -18,33 +23,30 @@ class MapPlane(Keyword):
     # 'top' or 'bottom'
     page = 'top'
 
+    @classmethod
+    def find_plane_id(cls, plane_id):
+        """
+        Args:
+            plane_id:
+
+        Returns:
+            MapPlane: MapPlane object or None
+        """
+        for instance in cls.instances.values():
+            if instance.plane_id == plane_id:
+                return instance
+        return None
+
+    def __hash__(self) -> int:
+        return super().__hash__()
+
     @cached_property
-    def world(self) -> str:
+    def world(self) -> "MapWorld":
         """
         Returns:
-            str: World name. Note that "Parlor Car" is considered as a plane of Herta.
-                "Herta" for Herta Space Station
-                "Jarilo" for Jarilo-VI
-                "Luofu" for The Xianzhou Luofu
-                "" for unknown
+            MapWorld: MapWorld object or None
         """
-        for world in ['Herta', 'Jarilo', 'Luofu']:
-            if self.name.startswith(world):
-                return world
-
-        return ''
-
-    @cached_property
-    def is_HertaSpaceStation(self):
-        return self.world == 'Herta'
-
-    @cached_property
-    def is_JariloVI(self):
-        return self.world == 'Jarilo'
-
-    @cached_property
-    def is_Luofu(self):
-        return self.world == 'Luofu'
+        return MapWorld.find_world_id(self.world_id)
 
     @cached_property
     def has_multiple_floors(self):
@@ -135,3 +137,41 @@ class MapPlane(Keyword):
 @dataclass(repr=False)
 class MapWorld(Keyword):
     instances: ClassVar = {}
+
+    # 0, 1, 2, 3
+    world_id: int
+    # Herta
+    short_name: str
+
+    @classmethod
+    def find_world_id(cls, world_id):
+        """
+        Args:
+            world_id:
+
+        Returns:
+            MapWorld: MapWorld object or None
+        """
+        for instance in cls.instances.values():
+            if instance.world_id == world_id:
+                return instance
+        return None
+
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+    @cached_property
+    def is_Herta(self):
+        return self.short_name == 'Herta'
+
+    @cached_property
+    def is_Jarilo(self):
+        return self.short_name == 'Jarilo'
+
+    @cached_property
+    def is_Luofu(self):
+        return self.short_name == 'Luofu'
+
+    @cached_property
+    def is_Penacony(self):
+        return self.short_name == 'Penacony'

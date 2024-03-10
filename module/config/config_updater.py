@@ -1,3 +1,4 @@
+import re
 import typing as t
 from copy import deepcopy
 
@@ -64,35 +65,42 @@ class ConfigGenerator:
         option_add(keys='Emulator.PackageName.option', options=list(VALID_SERVER.keys()))
         # Insert dungeons
         from tasks.dungeon.keywords import DungeonList
+        calyx_golden = [dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Calyx_Golden_Memories] \
+            + [dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Calyx_Golden_Aether] \
+            + [dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Calyx_Golden_Treasures]
+        # calyx_crimson
+        from tasks.rogue.keywords import KEYWORDS_ROGUE_PATH as Path
+        order = [Path.Destruction, Path.Preservation, Path.The_Hunt, Path.Abundance,
+                 Path.Erudition, Path.The_Harmony, Path.Nihility]
+        calyx_crimson = []
+        for path in order:
+            calyx_crimson += [dungeon.name for dungeon in DungeonList.instances.values()
+                              if dungeon.Calyx_Crimson_Path == path]
+        # stagnant_shadow
+        from tasks.character.keywords import CombatType
+        stagnant_shadow = []
+        for type_ in CombatType.instances.values():
+            stagnant_shadow += [dungeon.name for dungeon in DungeonList.instances.values()
+                                if dungeon.Stagnant_Shadow_Combat_Type == type_]
+        cavern_of_corrosion = [dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Cavern_of_Corrosion]
         option_add(
             keys='Dungeon.Name.option',
-            options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_daily_dungeon])
+            options=calyx_golden + calyx_crimson + stagnant_shadow + cavern_of_corrosion
+        )
         # Double events
-        option_add(
-            keys='Dungeon.NameAtDoubleCalyx.option',
-            options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Calyx])
-        option_add(
-            keys='Dungeon.NameAtDoubleRelic.option',
-            options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Cavern_of_Corrosion])
+        option_add(keys='Dungeon.NameAtDoubleCalyx.option', options=calyx_golden + calyx_crimson)
+        option_add(keys='Dungeon.NameAtDoubleRelic.option', options=cavern_of_corrosion)
         # Dungeon daily
-        option_add(
-            keys='DungeonDaily.CalyxGolden.option',
-            options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Calyx_Golden])
-        option_add(
-            keys='DungeonDaily.CalyxCrimson.option',
-            options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Calyx_Crimson])
-        option_add(
-            keys='DungeonDaily.StagnantShadow.option',
-            options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Stagnant_Shadow])
-        option_add(
-            keys='DungeonDaily.CavernOfCorrosion.option',
-            options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Cavern_of_Corrosion])
+        option_add(keys='DungeonDaily.CalyxGolden.option', options=calyx_golden)
+        option_add(keys='DungeonDaily.CalyxCrimson.option', options=calyx_crimson)
+        option_add(keys='DungeonDaily.StagnantShadow.option', options=stagnant_shadow)
+        option_add(keys='DungeonDaily.CavernOfCorrosion.option', options=cavern_of_corrosion)
         option_add(
             keys='Weekly.Name.option',
             options=[dungeon.name for dungeon in DungeonList.instances.values() if dungeon.is_Echo_of_War])
         # Insert characters
         from tasks.character.keywords import CharacterList
-        unsupported_characters = ["DrRatio"]
+        unsupported_characters = []
         characters = [character.name for character in CharacterList.instances.values()
                       if character.name not in unsupported_characters]
         option_add(keys='DungeonSupport.Character.option', options=characters)
@@ -107,6 +115,11 @@ class ConfigGenerator:
                 'option_bold': ['achievable'],
                 'option_light': ['not_supported'],
             })
+        # Insert assignments
+        from tasks.assignment.keywords import AssignmentEntry
+        assignments = [entry.name for entry in AssignmentEntry.instances.values()]
+        for i in range(4):
+            option_add(keys=f'Assignment.Name_{i + 1}.option', options=assignments)
 
         # Load
         for path, value in deep_iter(raw, depth=2):
@@ -358,12 +371,69 @@ class ConfigGenerator:
         ingame_lang = gui_lang_to_ingame_lang(lang)
         dailies = deep_get(self.argument, keys='Dungeon.Name.option')
         # Dungeon names
+        i18n_memories = {
+            'cn': '材料：角色经验（{dungeon}）',
+            'cht': '材料：角色經驗（{dungeon}）',
+            'jp': '素材：役割経験（{dungeon}）：',
+            'en': 'Material: Character EXP ({dungeon})',
+            'es': 'Material: EXP de personaje ({dungeon})',
+        }
+        i18n_aether = {
+            'cn': '材料：武器经验（{dungeon}）',
+            'cht': '材料：武器經驗（{dungeon}）',
+            'jp': '素材：武器経験（{dungeon}）：',
+            'en': 'Material: Light Cone EXP ({dungeon})',
+            'es': 'Material: EXP de conos de luz ({dungeon})',
+        }
+        i18n_treasure = {
+            'cn': '材料：信用点（{dungeon}）',
+            'cht': '材料：信用點（{dungeon}）',
+            'jp': '素材：クレジット（{dungeon}）',
+            'en': 'Material: Credit ({dungeon})',
+            'es': 'Material: Créditos ({dungeon})',
+        }
+        i18n_crimson = {
+            'cn': '行迹材料：{path}（{plane}）',
+            'cht': '行跡材料：{path}（{plane}）',
+            'jp': '軌跡素材：{path}（{plane}）',
+            'en': 'Trace: {path} ({plane})',
+            'es': 'Rastros: {path} ({plane})',
+        }
+        i18n_relic = {
+            'cn': '（{dungeon}）',
+            'cht': '（{dungeon}）',
+            'jp': '（{dungeon}）',
+            'en': ' ({dungeon})',
+            'es': ' ({dungeon})',
+        }
         from tasks.dungeon.keywords import DungeonList, DungeonDetailed
-        if lang not in ['zh-CN', 'zh-TW', 'en-US', 'es-ES']:
-            for dungeon in DungeonList.instances.values():
-                if dungeon.name in dailies:
-                    value = dungeon.__getattribute__(ingame_lang)
-                    deep_set(new, keys=['Dungeon', 'Name', dungeon.name], value=value)
+        for dungeon in DungeonList.instances.values():
+            dungeon: DungeonList = dungeon
+            if not dungeon.plane:
+                continue
+            dungeon_name = dungeon.__getattribute__(ingame_lang)
+            dungeon_name = re.sub('[「」]', '', dungeon_name)
+            plane = dungeon.plane.__getattribute__(ingame_lang)
+            plane = re.sub('[「」]', '', plane)
+            if dungeon.is_Calyx_Golden_Memories:
+                deep_set(new, keys=['Dungeon', 'Name', dungeon.name],
+                         value=i18n_memories[ingame_lang].format(dungeon=dungeon_name))
+            if dungeon.is_Calyx_Golden_Aether:
+                deep_set(new, keys=['Dungeon', 'Name', dungeon.name],
+                         value=i18n_aether[ingame_lang].format(dungeon=dungeon_name))
+            if dungeon.is_Calyx_Golden_Treasures:
+                deep_set(new, keys=['Dungeon', 'Name', dungeon.name],
+                         value=i18n_treasure[ingame_lang].format(dungeon=dungeon_name))
+            if dungeon.is_Calyx_Crimson:
+                path = dungeon.Calyx_Crimson_Path.__getattribute__(ingame_lang)
+                deep_set(new, keys=['Dungeon', 'Name', dungeon.name],
+                         value=i18n_crimson[ingame_lang].format(path=path, plane=plane))
+            if dungeon.is_Cavern_of_Corrosion:
+                value = deep_get(new, keys=['Dungeon', 'Name', dungeon.name], default='')
+                suffix = i18n_relic[ingame_lang].format(dungeon=dungeon_name)
+                if not value.endswith(suffix):
+                    deep_set(new, keys=['Dungeon', 'Name', dungeon.name], value=f'{value}{suffix}')
+
         # Stagnant shadows with character names
         for dungeon in DungeonDetailed.instances.values():
             if dungeon.name in dailies:
@@ -406,10 +476,18 @@ class ConfigGenerator:
                     value = deep_get(new, keys=['AchievableQuest', copy_from, option])
                     deep_set(new, keys=['AchievableQuest', quest.name, option], value=value)
 
+        # Assignments
+        from tasks.assignment.keywords import AssignmentEntryDetailed
+        for entry in AssignmentEntryDetailed.instances.values():
+            entry: AssignmentEntryDetailed
+            value = entry.__getattribute__(ingame_lang)
+            for i in range(4):
+                deep_set(new, keys=['Assignment', f'Name_{i + 1}', entry.name], value=value)
+
         # Echo of War
-        from tasks.map.keywords import MapWorld
         dungeons = [d for d in DungeonList.instances.values() if d.is_Echo_of_War]
-        for world, dungeon in zip(MapWorld.instances.values(), dungeons):
+        for dungeon in dungeons:
+            world = dungeon.plane.world
             world_name = world.__getattribute__(ingame_lang)
             dungeon_name = dungeon.__getattribute__(ingame_lang)
             value = f'{dungeon_name} ({world_name})'
@@ -551,20 +629,12 @@ class ConfigGenerator:
 
         update('./webapp/packages/main/public/deploy.yaml.tpl', tpl)
 
-    def insert_assignment(self):
-        from tasks.assignment.keywords import AssignmentEntry
-        assignments = [entry.name for entry in AssignmentEntry.instances.values()]
-        for i in range(4):
-            deep_set(self.argument, keys=f'Assignment.Name_{i + 1}.option', value=assignments)
-            deep_set(self.args, keys=f'Assignment.Assignment.Name_{i + 1}.option', value=assignments)
-
     @timer
     def generate(self):
         _ = self.args
         _ = self.menu
         _ = self.stored
         # _ = self.event
-        self.insert_assignment()
         # self.insert_server()
         write_file(filepath_args(), self.args)
         write_file(filepath_args('menu'), self.menu)
@@ -579,11 +649,10 @@ class ConfigGenerator:
 class ConfigUpdater:
     # source, target, (optional)convert_func
     redirection = [
-        # ('Dungeon.Dungeon.Support', 'Dungeon.DungeonSupport.Use'),
-        # ('Dungeon.Dungeon.SupportCharacter', 'Dungeon.DungeonSupport.Character'),
-        # ('Dungeon.Dungeon.Name', 'Dungeon.Dungeon.Name', convert_daily),
-        # ('Dungeon.Dungeon.NameAtDoubleCalyx', 'Dungeon.Dungeon.NameAtDoubleCalyx', convert_daily),
-        # ('Dungeon.DungeonDaily.CalyxCrimson', 'Dungeon.DungeonDaily.CalyxCrimson', convert_daily),
+        ('Dungeon.Dungeon.Name', 'Dungeon.Dungeon.Name', convert_20_dungeon),
+        ('Dungeon.Dungeon.NameAtDoubleCalyx', 'Dungeon.Dungeon.NameAtDoubleCalyx', convert_20_dungeon),
+        ('Dungeon.DungeonDaily.CalyxGolden', 'Dungeon.DungeonDaily.CalyxGolden', convert_20_dungeon),
+        ('Dungeon.DungeonDaily.CalyxCrimson', 'Dungeon.DungeonDaily.CalyxCrimson', convert_20_dungeon),
     ]
 
     @cached_property

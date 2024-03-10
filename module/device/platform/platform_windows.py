@@ -91,6 +91,8 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             self.execute(f'"{exe}" -m {instance.name}')
         elif instance == Emulator.MuMuPlayer12:
             # MuMuPlayer.exe -v 0
+            if instance.MuMuPlayer12_id is None:
+                logger.warning(f'Cannot get MuMu instance index from name {instance.name}')
             self.execute(f'"{exe}" -v {instance.MuMuPlayer12_id}')
         elif instance == Emulator.NoxPlayerFamily:
             # Nox.exe -clone:Nox_1
@@ -142,6 +144,8 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             # MuMu 12 has 2 processes:
             # E:\ProgramFiles\Netease\MuMuPlayer-12.0\shell\MuMuPlayer.exe -v 0
             # "C:\Program Files\MuMuVMMVbox\Hypervisor\MuMuVMMHeadless.exe" --comment MuMuPlayer-12.0-0 --startvm xxx
+            if instance.MuMuPlayer12_id is None:
+                logger.warning(f'Cannot get MuMu instance index from name {instance.name}')
             self.kill_process_by_regex(
                 rf'('
                 rf'MuMuVMMHeadless.exe.*--comment {instance.name}'

@@ -306,6 +306,34 @@ class ButtonWrapper(Resource):
         for b in self.iter_buttons():
             b.search = area
 
+    def set_search_offset(self, offset):
+        """
+        Compatible with Alas’ `offset` attribute
+        In ALAS:
+            if self.appear(BUTTON, offset=(20, 20)):
+                pass
+        In SRC:
+            BUTTON.set_search_offset((20, 20))
+            if self.appear(BUTTON):
+                pass
+        Note that `search` attribute will be set, and it's irreversible.
+
+        Args:
+            offset (tuple): (x, y) or (left, up, right, bottom)
+        """
+        if len(offset) == 2:
+            left, up, right, bottom = -offset[0], -offset[1], offset[0], offset[1]
+        else:
+            left, up, right, bottom = offset
+        for b in self.iter_buttons():
+            upper_left_x, upper_left_y, bottom_right_x, bottom_right_y = b.area
+            b.search = (
+                upper_left_x + left,
+                upper_left_y + up,
+                bottom_right_x + right,
+                bottom_right_y + bottom,
+            )
+
 
 class ClickButton:
     def __init__(self, area, button=None, name='CLICK_BUTTON'):
