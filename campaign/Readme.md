@@ -24,6 +24,7 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20180607   | war archives 20180607 cn | Ink Stained Steel Sakura                     | 墨染的钢铁之花         | Ink Stained Steel Sakura                     | 墨染まりし鋼の桜                     | 墨染的鋼鐵之花           |
 | 20180717   | war archives 20190314 en | Prelude under the Moon                       | 月光下的序曲           | Prelude under the Moon                       | 月夜の開幕曲                         | 月光下的序曲            |
 | 20180726   | war archives 20180726 cn | Iris of Light and Dark                       | 光与影的鸢尾之华       | Iris of Light and Dark                       | 光と影のアイリス                     | 光與影的鳶尾之華         |
+| 20200312   | war archives 20200312 cn | The Solomon Ranger                           | 斯图尔特的硝烟         | The Solomon Ranger                           | 南洋に靡く硝煙                       | 斯圖爾特的硝煙           |
 | 20210121   | war archives 20181227 cn | Crimson Echoes                               | 苍红的回响             | Crimson Echoes                               | 縹映る深緋の残響                     | 蒼紅的迴響               |
 | 20210513   | war archives 20200820 cn | Scherzo of Iron and Blood                    | 铁血音符誓言           | Scherzo of Iron and Blood                    | 黒鉄の楽章 誓いの海                  | 鐵血音符誓言                        |
 | 20211014   | war archives 20211014 cn | Crescendo of Polaris                         | 激奏的Polaris          | Crescendo of Polaris                         | 激奏のポラリス                       | 激奏的Polaris                        |
