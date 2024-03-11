@@ -30,4 +30,5 @@ dic_archives_template = {
     'war_archives_20200603_cn': TEMPLATE_COUNTERATTACK_WITHIN_THE_FJORD,
     'war_archives_20190314_en': TEMPLATE_PRELUDE_UNDER_THE_MOON,
     'war_archives_20200312_cn': TEMPLATE_THE_SOLOMON_RANGER,
+    'war_archives_20200507_cn': TEMPLATE_THE_WAY_HOME_IN_THE_NIGHT,
 }
