@@ -22,6 +22,7 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20180119   | war archives 20191010 en | Encircling Graf Spee                         | 围剿斯佩伯爵           | Encircling Graf Spee                         | アドミラル・グラーフ・シュペー追撃戦 | 圍剿斯佩伯爵             |
 | 20180226   | war archives 20190221 en | Winter\'s Crown                              | 凛冬王冠               | Winter\'s Crown                              | 凛冽なりし冬の王冠                   | 凜冬王冠                 |
 | 20180607   | war archives 20180607 cn | Ink Stained Steel Sakura                     | 墨染的钢铁之花         | Ink Stained Steel Sakura                     | 墨染まりし鋼の桜                     | 墨染的鋼鐵之花           |
+| 20180717   | war archives 20190314 en | Prelude under the Moon                       | 月光下的序曲           | Prelude under the Moon                       | 月夜の開幕曲                         | 月光下的序曲            |
 | 20180726   | war archives 20180726 cn | Iris of Light and Dark                       | 光与影的鸢尾之华       | Iris of Light and Dark                       | 光と影のアイリス                     | 光與影的鳶尾之華         |
 | 20210121   | war archives 20181227 cn | Crimson Echoes                               | 苍红的回响             | Crimson Echoes                               | 縹映る深緋の残響                     | 蒼紅的迴響               |
 | 20210513   | war archives 20200820 cn | Scherzo of Iron and Blood                    | 铁血音符誓言           | Scherzo of Iron and Blood                    | 黒鉄の楽章 誓いの海                  | 鐵血音符誓言                        |

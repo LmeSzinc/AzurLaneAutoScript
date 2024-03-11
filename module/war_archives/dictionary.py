@@ -28,4 +28,5 @@ dic_archives_template = {
     'war_archives_20210527_cn': TEMPLATE_MIRROR_INVOLUTION, 
     'war_archives_20210225_cn': TEMPLATE_KHOROVOD_OF_DAWNS_RIME, 
     'war_archives_20200603_cn': TEMPLATE_COUNTERATTACK_WITHIN_THE_FJORD,
+    'war_archives_20190314_en': TEMPLATE_PRELUDE_UNDER_THE_MOON,
 }
