@@ -385,6 +385,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         if mode == 'one_click_retire':
             if self.config.OneClickRetire_KeepCommonCV == 'keep_common_cv':
                 self.dock_filter_set(index='all', rarity=['rare', 'elite'])
+                self.quick_retire_setting_set(filter_5=None)
                 self.dock_favourite_set(False)
                 total = self.retire_ships_one_click()
                 if not total:
