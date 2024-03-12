@@ -216,6 +216,7 @@ class Route(RouteBase):
         | -------- | ------------------------- | --------- | -------- |
         | spawn    | Waypoint((463.3, 123.5)), | 96.7      | 91       |
         | item     | Waypoint((476.9, 129.9)), | 116.8     | 114      |
+        | node1    | Waypoint((524.8, 122.6)), | 94.2      | 271      |
         | enemy1   | Waypoint((544.4, 128.5)), | 129.9     | 128      |
         | node2    | Waypoint((554.6, 141.6)), | 166.6     | 158      |
         | enemy2   | Waypoint((556.4, 206.8)), | 190.1     | 184      |
@@ -228,6 +229,7 @@ class Route(RouteBase):
             Waypoint((556.4, 206.8)), end_rotation=184,
             left_door=Waypoint((563.1, 211.9)), right_door=Waypoint((544.4, 211.7)))
         item = Waypoint((476.9, 129.9))
+        node1 = Waypoint((524.8, 122.6))
         enemy1 = Waypoint((544.4, 128.5))
         node2 = Waypoint((554.6, 141.6))
         enemy2 = Waypoint((556.4, 206.8))
@@ -235,7 +237,11 @@ class Route(RouteBase):
 
         self.rotation_set(120)
         self.clear_item(item)
-        self.clear_enemy(enemy1)
+        # Avoid the ice sculpture at corner
+        self.clear_enemy(
+            node1.set_threshold(5),
+            enemy1,
+        )
         self.rotation_set(180)
         self.clear_enemy(
             node2.set_threshold(5),
