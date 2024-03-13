@@ -92,6 +92,13 @@ class Config(ConfigBase):
 class Campaign(CampaignBase):
     MAP = MAP
     
+    def map_data_init(self, map_):
+        super().map_data_init(map_)
+        for override_grid in OVERRIDE:
+            # Set may_enemy, but keep may_ambush
+            self.map[override_grid.location].may_enemy = override_grid.may_enemy
+            self.map[override_grid.location].may_boss = override_grid.may_boss
+
     def battle_0(self):
         self.goto(A1)
         return True
