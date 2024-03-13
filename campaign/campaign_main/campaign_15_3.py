@@ -57,7 +57,7 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, \
 # 15-3 has special boss spawn mechanism
 # The boss first spawns at H5, then spawns at H3.
 
-OVERRIDE = Campaign('15-3')
+OVERRIDE = CampaignMap('15-3')
 OVERRIDE.map_data = """
     ME -- -- ME ME ME -- ME -- ME
     -- ME -- ME -- ME ME ME ME --
