@@ -95,7 +95,7 @@ class Campaign(CampaignBase):
             
     def battle_0(self):
         self.mob_move(B3, B4)
-        self.full_scan()
+        self.full_scan_movable()
         self.goto(A1)
         return True
 
