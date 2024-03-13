@@ -91,8 +91,7 @@ class Config(ConfigBase):
 
 class Campaign(CampaignBase):
     MAP = MAP
-    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
-
+    
     def battle_0(self):
         if self.clear_filter_enemy('3S', preserve=0):
             return True
