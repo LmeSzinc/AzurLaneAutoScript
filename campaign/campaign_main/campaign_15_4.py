@@ -117,6 +117,7 @@ class Campaign(CampaignBase):
     
     def battle_3(self):
         self.fleet_boss.goto(H5)
+        self.fleet_1.switch_to()
         return True
 
     def battle_4(self):
