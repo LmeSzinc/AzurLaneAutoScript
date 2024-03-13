@@ -5,7 +5,7 @@ import numpy as np
 from module.base.timer import Timer
 from module.exception import MapDetectionError, MapEnemyMoved, MapWalkError
 from module.handler.ambush import AmbushHandler
-from module.handler.assets import MOB_MOVE_ICON
+from module.handler.assets import MOB_MOVE_ICON, STRATEGY_OPENED
 from module.logger import logger
 from module.map.camera import Camera
 from module.map.map_base import SelectedGrids, location2node, location_ensure
@@ -1304,7 +1304,11 @@ class Fleet(Camera, AmbushHandler):
             while 1:
                 self.device.screenshot()
                 if self.handle_popup_confirm('MOB_MOVE'):
-                    return True
+                    continue
+
+                if self.appear(STRATEGY_OPENED):
+                    break
+            return True
 
     def mob_move(self, location, target):
         """
@@ -1329,6 +1333,6 @@ class Fleet(Camera, AmbushHandler):
             return False
         self.strategy_mob_move_enter()
         result = self._mob_move(location, target)
-        self.strategy_close()
+        self.strategy_close(skip_first_screenshot=False)
         return result
 
