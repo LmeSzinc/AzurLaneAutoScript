@@ -98,8 +98,8 @@ class Campaign(CampaignBase):
         if not moved:
             self.mob_move(B3, B4)
             moved = True
-            
-        if self.clear_filter_enemy('3S', preserve=0):
+
+        if self.clear_filter_enemy('3E', preserve=0):
             return True
         
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
