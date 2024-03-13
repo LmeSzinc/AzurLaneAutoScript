@@ -85,7 +85,8 @@ class Config(ConfigBase):
 
 class Campaign(CampaignBase):
     MAP = MAP
-    
+    moved = False
+
     def map_data_init(self, map_):
         super().map_data_init(map_)
         for override_grid in OVERRIDE:
@@ -94,7 +95,10 @@ class Campaign(CampaignBase):
             self.map[override_grid.location].may_boss = override_grid.may_boss
             
     def battle_0(self):
-        self.mob_move(B3, B4)
+        if not moved:
+            self.mob_move(B3, B4)
+            moved = True
+            
         if self.clear_filter_enemy('3S', preserve=0):
             return True
         
