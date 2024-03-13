@@ -1280,16 +1280,15 @@ class Fleet(Camera, AmbushHandler):
         location = location_ensure(location)
         target = location_ensure(target)
 
-        self.in_sight(location, sight=self._walk_sight)
-        self.focus_to(location)
-        self.focus_to_grid_center()
-        self.update()
         movable = self.mob_movable(location, target)
 
         if not movable:
             self.strategy_mob_move_cancel()
             return False
         else:
+            self.in_sight(location, sight=self._walk_sight)
+            self.focus_to(location)
+            self.focus_to_grid_center()
             grid = self.convert_global_to_local(location)
             grid.__str__ = location
             grid_2 = self.convert_global_to_local(target)
