@@ -192,3 +192,51 @@ class StrategyHandler(InfoHandler):
                 break
 
             self.device.screenshot()
+
+    def strategy_get_mob_move_remain(self):
+        """
+        Pages:
+            in: STRATEGY_OPENED
+            out: STRATEGY_OPENED
+        """
+        self.device.screenshot()
+        if self.appear(MOB_MOVE_2):
+            return 2
+        elif self.appear(MOB_MOVE_1):
+            return 1
+        else:
+            return 0
+
+    def strategy_mob_move_enter(self):
+        """
+        Pages:
+            in: STRATEGY_OPENED, MOB_MOVE_1 or MOB_MOVE_2
+            out: MOB_MOVE_CANCEL
+        """
+        logger.info('Mob move enter')
+        while 1:
+            if self.appear(MOB_MOVE_1, offset=120, interval=5)\
+                    or self.appear(MOB_MOVE_2, offset=120, interval=5):
+                self.device.click(MOB_MOVE_1)
+            
+            if self.appear(MOB_MOVE_CANCEL, offset=(20, 20)):
+                break
+
+            self.device.screenshot()
+
+    def strategy_mob_move_cancel(self):
+        """
+        Pages:
+            in: MOB_MOVE_CANCEL
+            out: STRATEGY_OPENED, MOB_MOVE_1 or MOB_MOVE_2
+        """
+        logger.info('Mob move cancel')
+        while 1:
+            if self.appear_then_click(MOB_MOVE_CANCEL, offset=(20, 20), interval=5):
+                pass
+
+            if self.appear(MOB_MOVE_1, offset=120)\
+                    or self.appear(MOB_MOVE_2, offset=120):
+                break
+
+            self.device.screenshot()

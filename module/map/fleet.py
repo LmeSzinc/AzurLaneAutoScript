@@ -5,10 +5,11 @@ import numpy as np
 from module.base.timer import Timer
 from module.exception import MapDetectionError, MapEnemyMoved, MapWalkError
 from module.handler.ambush import AmbushHandler
+from module.handler.assets import MOB_MOVE_ICON
 from module.logger import logger
 from module.map.camera import Camera
 from module.map.map_base import SelectedGrids, location2node, location_ensure
-from module.map.utils import match_movable
+from module.map.utils import match_movable, random_direction
 
 
 class Fleet(Camera, AmbushHandler):
@@ -1219,3 +1220,115 @@ class Fleet(Camera, AmbushHandler):
             self.find_path_initial()
             logger.info(f'Move submarine to {location2node(near)}')
             return self.submarine_goto(near)
+
+    def mob_movable(self, location, target):
+        """
+        Check if mob is movable from location to target.
+        This requires that:
+            0. both location and target are grids in the map (not exceeding the boundaries)
+            1. Manhattan distance between location and target is 1.
+            1. location is a mob fleet
+            2. target is a sea grid
+        
+        Args:
+            location (tuple): Location of mob.
+            target (tuple): Destination.
+        
+        Returns:
+            bool: if movable.
+        """
+        movable = True
+
+        try:
+            logger.info(f'location: {self.map[location]}, target: {self.map[target]}')
+        except KeyError as e:
+            logger.exception(f'Given coordinates are outside the map.')
+            raise e
+
+        delta = location - target
+        if abs(delta[0]) + abs(delta[1]) != 1:
+            logger.error(f'{self.map[target]} is not adjacent from {self.map[location]}.')
+            movable = False
+
+        if not self.map[location].is_enemy:
+            logger.error(f'{self.map[location]} is not a mob fleet.')
+            movable = False
+
+        if not self.map[target].is_sea:
+            logger.error(f'{self.map[target]} is not a sea grid.')
+            movable = False
+        
+        if not movable:
+            logger.error(f'Cannot move from {self.map[location]} to {self.map[target]}.')
+
+        return movable
+    
+    def _mob_move(self, location, target):
+        """
+        Move mob from location to target.
+
+        Args: 
+            location (tuple, str, GridInfo): Location of mob.
+            target (tuple, str, GridInfo): Destination.
+        
+        Returns:
+            bool: If mob moved.
+        
+        Pages:
+            in: MOB_MOVE_CANCEL
+            out: STRATEGY_OPENED
+        """
+        location = location_ensure(location)
+        target = location_ensure(target)
+
+        movable = self.mob_movable(location, target)
+
+        if not movable:
+            self.strategy_mob_move_cancel()
+            return False
+        else:
+            self.in_sight(location, sight=self._walk_sight)
+            self.focus_to(location)
+            self.focus_to_grid_center()
+            grid = self.convert_global_to_local(location)
+            grid.__str__ = location
+            grid_2 = self.convert_global_to_local(target)
+            grid_2.__str__ = target
+
+            self.device.click(grid)
+            while 1:
+                self.device.screenshot()
+                if self.appear(MOB_MOVE_ICON):
+                    break
+            self.device.click(grid_2)
+            while 1:
+                self.device.screenshot()
+                if self.handle_popup_confirm('MOB_MOVE'):
+                    return True
+
+    def mob_move(self, location, target):
+        """
+        Open strategy, move mob fleet from location to target, close strategy.
+
+        Args:
+            location (tuple, str, GridInfo): Location of mob.
+            target (tuple, str, GridInfo): Destination.
+            
+        Returns:
+            bool: If mob moved
+
+        Pages:
+            in: IN_MAP
+            out: IN_MAP
+        """
+        self.strategy_open()
+        remain = self.strategy_get_mob_move_remain()
+        if remain == 0:
+            logger.warning(f'No remain mob move trials, will abandon moving')
+            self.strategy_close()
+            return False
+        self.strategy_mob_move_enter()
+        result = self._mob_move(location, target)
+        self.strategy_close()
+        return result
+
