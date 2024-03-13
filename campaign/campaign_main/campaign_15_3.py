@@ -95,13 +95,7 @@ class Campaign(CampaignBase):
             
     def battle_0(self):
         self.mob_move(B3, B4)
-        if self.clear_filter_enemy('3S', preserve=0):
-            return True
-        
-        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
-            return True
-
-        return self.battle_default()
+        self.goto(A1)
 
     def battle_1(self):
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):

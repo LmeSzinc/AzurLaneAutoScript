@@ -93,17 +93,11 @@ class Campaign(CampaignBase):
     MAP = MAP
     
     def battle_0(self):
-        if self.clear_filter_enemy('3E', preserve=0):
-            return True
-
-        return self.battle_default()
+        self.goto(A1)
     
     def battle_1(self):
         self.mob_move(J8, J7)
-        if self.clear_filter_enemy('3S', preserve=0):
-            return True
-
-        return self.battle_default()
+        self.goto(K9)
 
     def battle_2(self):
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
