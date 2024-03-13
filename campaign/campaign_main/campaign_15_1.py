@@ -87,9 +87,9 @@ class Campaign(CampaignBase):
             self.map[override_grid.location].may_enemy = override_grid.may_enemy
 
     def battle_0(self):
-        if not self.moved:
+        if not moved:
             self.mob_move(B3, C3)
-            self.moved = True
+            moved = True
 
         if self.clear_filter_enemy('3E', preserve=0):
             return True
