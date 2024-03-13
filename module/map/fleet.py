@@ -1283,6 +1283,7 @@ class Fleet(Camera, AmbushHandler):
         self.in_sight(location, sight=self._walk_sight)
         self.focus_to(location)
         self.focus_to_grid_center()
+        self.update()
         movable = self.mob_movable(location, target)
 
         if not movable:
