@@ -98,6 +98,7 @@ class Campaign(CampaignBase):
     
     def battle_1(self):
         self.mob_move(J8, J7)
+        self.full_scan()
         self.goto(K9)
         return True
 
@@ -108,7 +109,8 @@ class Campaign(CampaignBase):
         return self.battle_default()
     
     def battle_3(self):
-        return self.fleet_boss.clear_boss()
+        self.fleet_boss.goto(H5)
+        return True
 
     def battle_4(self):
         self.pick_up_ammo()
@@ -119,7 +121,8 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_6(self):
-        return self.clear_boss()
+        self.goto(D3)
+        return True
 
     def battle_7(self):
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):

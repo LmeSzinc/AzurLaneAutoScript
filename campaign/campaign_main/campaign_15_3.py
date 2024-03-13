@@ -95,6 +95,7 @@ class Campaign(CampaignBase):
             
     def battle_0(self):
         self.mob_move(B3, B4)
+        self.full_scan()
         self.goto(A1)
         return True
 
@@ -105,7 +106,8 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_3(self):
-        return self.clear_boss()
+        self.goto(H5)
+        return True
 
     def battle_4(self):
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
