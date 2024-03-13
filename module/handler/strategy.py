@@ -243,8 +243,8 @@ class StrategyHandler(InfoHandler):
             if self.appear_then_click(MOB_MOVE_CANCEL, offset=(20, 20), interval=5):
                 pass
 
-            if self.appear(MOB_MOVE_1, offset=120)\
-                    or self.appear(MOB_MOVE_2, offset=120):
+            if self.appear(MOB_MOVE_1, offset=(120, 120))\
+                    or self.appear(MOB_MOVE_2, offset=(120, 120)):
                 break
 
             self.device.screenshot()
