@@ -120,12 +120,6 @@ class Campaign(CampaignBase):
         return True
 
     def battle_4(self):
-        # Switch back to mob fleet
-        if self.config.Fleet_FleetOrder in [
-            "fleet1_mob_fleet2_boss",
-            "fleet1_boss_fleet2_mob",
-        ]:
-            self.fleet_switch_click()
         self.pick_up_ammo()
 
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
