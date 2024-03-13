@@ -1,8 +1,9 @@
-from module.campaign.campaign_base import CampaignBase
+from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
-from module.logger import logger
-from .15-1 import Config as ConfigBase
+
+from .campaign_15_base import CampaignBase
+from .campaign_15_base import Config as ConfigBase
 
 MAP = CampaignMap('15-2')
 MAP.shape = 'I8'
@@ -29,7 +30,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 3, 'mystery': 1},
+    {'battle': 0, 'enemy': 6},
     {'battle': 1, 'enemy': 2},
     {'battle': 2, 'enemy': 1},
     {'battle': 3},
@@ -47,17 +48,34 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, \
 A8, B8, C8, D8, E8, F8, G8, H8, I8, \
     = MAP.flatten()
 
+# W15 has special enemy spawn mechanism
+# After entering map, additional enemies spawn on these nodes:
+# ['F8', 'I6'] must spawns an enemy.
+# Additionally, 'G7' spawns a special carrier 
+# which allows mob air reinforcement.
+OVERRIDE = CampaignMap('15-2')
+OVERRIDE.map_data = """
+    ME -- ME ME ME -- -- -- --
+    ME -- -- -- ME ME ME -- --
+    -- ME ME ME -- -- -- -- --
+    -- -- -- -- -- ME ME ME --
+    ME -- -- ME ME -- ME ME --
+    ME -- ME -- ME -- -- -- ME
+    -- -- -- ME ME -- ME -- --
+    -- -- ME -- ME ME -- -- ME
+"""
+
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['0']
-    MOVABLE_ENEMY_TURN = (2,)
-    MAP_HAS_SIREN = True
-    MAP_HAS_MOVABLE_ENEMY = True
+    # MAP_SIREN_TEMPLATE = ['0']
+    # MOVABLE_ENEMY_TURN = (2,)
+    # MAP_HAS_SIREN = True
+    # MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = True
-    MAP_HAS_MYSTERY = True
+    # MAP_HAS_MYSTERY = True
     # ===== End of generated config =====
 
 
@@ -65,17 +83,30 @@ class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
+    def map_data_init(self, map_):
+        super().map_data_init(map_)
+        for override_grid in OVERRIDE:
+            # Set may_enemy, but keep may_ambush
+            self.map[override_grid.location].may_enemy = override_grid.may_enemy
+
     def battle_0(self):
-        if self.clear_siren():
+        self.mob_move(I6, I7)
+        self.mob_move(I7, H7)
+        if self.clear_filter_enemy('3S', preserve=0):
             return True
+
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
             return True
 
         return self.battle_default()
 
-    def battle_5(self):
-        if self.clear_siren():
+    def battle_1(self):
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
             return True
+        
+        return self.battle_default()
+
+    def battle_5(self):
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 

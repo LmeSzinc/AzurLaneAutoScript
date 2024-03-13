@@ -1,12 +1,13 @@
-from module.campaign.campaign_base import CampaignBase
+from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
-from module.logger import logger
-from .15-1 import Config as ConfigBase
+
+from .campaign_15_base import CampaignBase
+from .campaign_15_base import Config as ConfigBase
 
 MAP = CampaignMap('15-4')
 MAP.shape = 'K9'
-MAP.camera_data = ['D2', 'D6', 'D7', 'H2', 'H6', 'H7']
+MAP.camera_data = ['D2', 'D5', 'D7', 'H2', 'H5', 'H7']
 MAP.camera_data_spawn_point = ['H2']
 MAP.map_data = """
     -- -- ME ME Me -- ME ++ ++ ME ME
@@ -31,14 +32,15 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 5, 'mystery': 2},
+    {'battle': 0, 'enemy': 8},
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 1},
-    {'battle': 3, 'enemy': 1},
-    {'battle': 4},
+    {'battle': 3, 'enemy': 1, 'boss': 1},
+    {'battle': 4, 'enemy': 2},
     {'battle': 5},
-    {'battle': 6},
-    {'battle': 7, 'boss': 1},
+    {'battle': 6, 'boss': 1},
+    {'battle': 7, 'enemy': 1},
+    {'battle': 8, 'boss': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, I1, J1, K1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, J2, K2, \
@@ -52,16 +54,38 @@ A9, B9, C9, D9, E9, F9, G9, H9, I9, J9, K9, \
     = MAP.flatten()
 
 
+# W15 has special enemy spawn mechanism
+# After entering map, additional enemies spawn on these nodes:
+# ['J8'] must spawns an enemy.
+# Additionally, 'A1' and 'K9' spawn a special carrier 
+# which allow mob air reinforcement. 
+# 15-4 has special boss spawn mechanism
+# The boss first spawns at H5, then spawns at D3, finally spawns at A9.
+
+OVERRIDE = CampaignMap('15-4')
+OVERRIDE.map_data = """
+    ME -- ME ME ME -- ME -- -- ME ME
+    ME -- -- -- -- ME -- -- -- -- ME
+    -- -- -- MB -- -- ME -- -- ME ME
+    -- ME -- -- -- -- -- -- -- ME --
+    -- ME ME -- -- ME -- MB -- -- ME
+    ME ME ME -- -- -- -- -- ME -- ME
+    ME -- -- -- ME ME -- ME ME -- --
+    -- -- -- -- ME -- ME ME ME ME ME
+    MB ME -- ME ME ME -- -- -- -- ME
+"""
+
+
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['0']
-    MOVABLE_ENEMY_TURN = (2,)
-    MAP_HAS_SIREN = True
-    MAP_HAS_MOVABLE_ENEMY = True
+    # MAP_SIREN_TEMPLATE = ['0']
+    # MOVABLE_ENEMY_TURN = (2,)
+    # MAP_HAS_SIREN = True
+    # MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = True
-    MAP_HAS_MYSTERY = True
+    # MAP_HAS_MYSTERY = True
     # ===== End of generated config =====
 
 
@@ -70,20 +94,43 @@ class Campaign(CampaignBase):
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     def battle_0(self):
-        if self.clear_siren():
+        if self.clear_filter_enemy('3S', preserve=0):
             return True
-        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=2):
+
+        return self.battle_default()
+    
+    def battle_1(self):
+        self.mob_move(J8, J7)
+        if self.clear_filter_enemy('3S', preserve=0):
             return True
 
         return self.battle_default()
 
-    def battle_5(self):
-        if self.clear_siren():
+    def battle_2(self):
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
+
+        return self.battle_default()
+    
+    def battle_3(self):
+        return self.fleet_boss.clear_boss()
+
+    def battle_4(self):
+        self.pick_up_ammo()
+
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
         return self.battle_default()
 
+    def battle_6(self):
+        return self.clear_boss()
+
     def battle_7(self):
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
+            return True
+
+        return self.battle_default()
+
+    def battle_8(self):
         return self.fleet_boss.clear_boss()
