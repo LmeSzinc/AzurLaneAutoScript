@@ -91,8 +91,7 @@ class Config(ConfigBase):
 
 class Campaign(CampaignBase):
     MAP = MAP
-    moved = False
-
+    
     def battle_0(self):
         if self.clear_filter_enemy('3E', preserve=0):
             return True
@@ -100,11 +99,8 @@ class Campaign(CampaignBase):
         return self.battle_default()
     
     def battle_1(self):
-        if not moved:
-            self.mob_move(J8, J7)
-            moved = True
-
-        if self.clear_filter_enemy('3E', preserve=0):
+        self.mob_move(J8, J7)
+        if self.clear_filter_enemy('3S', preserve=0):
             return True
 
         return self.battle_default()
