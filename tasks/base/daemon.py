@@ -59,7 +59,7 @@ class Daemon(RouteBase, DaemonBase, AimDetectorMixin):
         else:
             logger.warning(f'Maatouch contact on {builder.contact}, may cause interruptions')
 
-        STORY_OPTION.set_search_offset((-5, -5, 32, 5))
+        STORY_OPTION.set_search_offset((-5, -10, 32, 5))
         INTERACT_COLLECT.set_search_offset((-5, -5, 32, 5))
         INTERACT_INVESTIGATE.set_search_offset((-5, -5, 32, 5))
         INTERACT_TREASURE.set_search_offset((-5, -5, 32, 5))
