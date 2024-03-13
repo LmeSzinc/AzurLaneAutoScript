@@ -1245,8 +1245,7 @@ class Fleet(Camera, AmbushHandler):
             logger.exception(f'Given coordinates are outside the map.')
             raise e
 
-        delta = location - target
-        if abs(delta[0]) + abs(delta[1]) != 1:
+        if abs(location[0] - target[0]) + abs(location[1] - target[1]) != 1:
             logger.error(f'{self.map[target]} is not adjacent from {self.map[location]}.')
             movable = False
 
