@@ -1298,7 +1298,7 @@ class Fleet(Camera, AmbushHandler):
             self.device.click(grid)
             while 1:
                 self.device.screenshot()
-                if self.appear(MOB_MOVE_ICON):
+                if self.appear(MOB_MOVE_ICON, offset=(20, 20)):
                     break
             self.device.click(grid_2)
             while 1:
@@ -1306,7 +1306,7 @@ class Fleet(Camera, AmbushHandler):
                 if self.handle_popup_confirm('MOB_MOVE'):
                     continue
 
-                if self.appear(STRATEGY_OPENED):
+                if self.appear(STRATEGY_OPENED, offset=(120, 120)):
                     break
             return True
 
