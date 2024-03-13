@@ -193,6 +193,13 @@ class StrategyHandler(InfoHandler):
 
             self.device.screenshot()
 
+    def is_in_strategy_mob_move(self):
+        """
+        Returns:
+            bool:
+        """
+        return self.appear(MOB_MOVE_CANCEL, offset=(20, 20))
+
     def strategy_get_mob_move_remain(self):
         """
         Pages:
