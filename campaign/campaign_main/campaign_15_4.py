@@ -100,9 +100,9 @@ class Campaign(CampaignBase):
         return self.battle_default()
     
     def battle_1(self):
-        if not moved:
+        if not self.moved:
             self.mob_move(J8, J7)
-            moved = True
+            self.moved = True
 
         if self.clear_filter_enemy('3E', preserve=0):
             return True
