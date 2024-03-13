@@ -91,7 +91,7 @@ class CampaignBase(CampaignBase_):
             self.device.click(grid)
             while 1:
                 self.device.screenshot()
-                if self.appear(MOB_MOVE_ICON, offset=(20, 20)):
+                if self.appear(MOB_MOVE_ICON, offset=(80, 80)):
                     break
             self.device.click(grid_2)
             while 1:
