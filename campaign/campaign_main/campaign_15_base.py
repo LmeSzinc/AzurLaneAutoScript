@@ -1,4 +1,5 @@
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
+from module.map.utils import location_ensure
 from module.logger import logger
 
 
