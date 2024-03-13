@@ -94,10 +94,12 @@ class Campaign(CampaignBase):
     
     def battle_0(self):
         self.goto(A1)
+        return True
     
     def battle_1(self):
         self.mob_move(J8, J7)
         self.goto(K9)
+        return True
 
     def battle_2(self):
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):

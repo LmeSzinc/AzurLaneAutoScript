@@ -89,6 +89,7 @@ class Campaign(CampaignBase):
     def battle_0(self):
         self.mob_move(B3, C3)
         self.goto(B1)
+        return True
 
     def battle_1(self):
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
