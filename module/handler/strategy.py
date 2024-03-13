@@ -207,9 +207,9 @@ class StrategyHandler(InfoHandler):
             out: STRATEGY_OPENED
         """
         self.device.screenshot()
-        if self.appear(MOB_MOVE_2):
+        if self.appear(MOB_MOVE_2, offset=(120, 120)):
             return 2
-        elif self.appear(MOB_MOVE_1):
+        elif self.appear(MOB_MOVE_1, offset=(120, 120)):
             return 1
         else:
             return 0
