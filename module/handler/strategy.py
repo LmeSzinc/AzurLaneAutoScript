@@ -222,11 +222,9 @@ class StrategyHandler(InfoHandler):
         """
         logger.info('Mob move enter')
         while 1:
-            if self.appear(MOB_MOVE_1, offset=120, interval=5):
-                self.device.click(MOB_MOVE_1)
+            if self.appear_then_click(MOB_MOVE_1, offset=(120, 120), interval=5):
                 continue
-            if self.appear(MOB_MOVE_2, offset=120, interval=5):
-                self.device.click(MOB_MOVE_2)
+            if self.appear_then_click(MOB_MOVE_2, offset=(120, 120), interval=5):
                 continue
             
             if self.appear(MOB_MOVE_CANCEL, offset=(20, 20)):
