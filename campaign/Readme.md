@@ -13,7 +13,7 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 **CN, EN, JP, TW** Event names in GUI. If an event is not aired on some servers, use `-`.
 
 | Aired Date | Directory                | Event Name                                   | CN                     | EN                                           | JP                                   | TW                       |
-| ---------- | ------------------------ | -------------------------------------------- | ---------------------- | -------------------------------------------- | ------------------------------------ | ------------------------ |
+| :--------- | :----------------------- | :------------------------------------------- | :--------------------- | :------------------------------------------- | :----------------------------------- | :----------------------- |
 | 20170607   | war archives 20181020 en | Strive, Wish, and Strategize                 | 努力、希望和计划       | Strive, Wish, and Strategize                 | 努力、希望と計画                     | 努力、希望和計劃         |
 | 20170802   | war archives 20191031 en | Divergent Chessboard                         | 异色格                 | Divergent Chessboard                         | 鏡写されし異色                       | 異色格                   |
 | 20170928   | war archives 20190321 en | Visitors Dyed in Red                         | 红染的参访者           | Visitors Dyed in Red                         | 紅染の来訪者                         | 紅染的參訪者             |
@@ -185,3 +185,5 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20240206   | raid 20230118            | Winter Pathfinder                            | -           | -                            | -                           | 冬日的尋路人                        |
 | 20240229  | event 20230223 cn        | Revelations of Dust                          | -               | -                          | -                             | 湮燼塵墟                        |
 | 20240229 | event 20240229 cn | Snowrealm Peregrination | 雪境迷踪 | Snowrealm Peregrination | 銀界遊廻 | - |
+| 20240314   | event 20210422 cn        | Daedalian Hymn                               | -       | -                         | -                | 復刻復興的讚美詩                        |
+| 20240314 | event 20220324 cn | Virtual Tower Rerun | 复刻虚像构筑之塔 | Virtual Tower Rerun | 幻像の塔（復刻） | - |
