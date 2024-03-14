@@ -181,3 +181,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20240206   | raid 20230118            | Winter Pathfinder                            | -           | -                            | -                           | 冬日的尋路人                        |
 | 20240229  | event 20230223 cn        | Revelations of Dust                          | -               | -                          | -                             | 湮燼塵墟                        |
 | 20240229 | event 20240229 cn | Snowrealm Peregrination | 雪境迷踪 | Snowrealm Peregrination | 銀界遊廻 | - |
+| 20240314   | event 20210422 cn        | Daedalian Hymn                               | -       | -                         | -                | 復刻復興的讚美詩                        |
