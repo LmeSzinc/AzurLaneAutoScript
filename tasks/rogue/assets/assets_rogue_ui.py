@@ -86,13 +86,22 @@ CURIO_OBTAINED = ButtonWrapper(
         color=(125, 126, 134),
         button=(643, 86, 708, 117),
     ),
-    en=Button(
-        file='./assets/en/rogue/ui/CURIO_OBTAINED.png',
-        area=(511, 88, 600, 116),
-        search=(491, 68, 620, 136),
-        color=(93, 95, 102),
-        button=(511, 88, 600, 116),
-    ),
+    en=[
+        Button(
+            file='./assets/en/rogue/ui/CURIO_OBTAINED.png',
+            area=(511, 88, 600, 116),
+            search=(491, 68, 620, 136),
+            color=(93, 95, 102),
+            button=(511, 88, 600, 116),
+        ),
+        Button(
+            file='./assets/en/rogue/ui/CURIO_OBTAINED.2.png',
+            area=(526, 46, 605, 71),
+            search=(506, 26, 625, 91),
+            color=(103, 91, 66),
+            button=(526, 46, 605, 71),
+        ),
+    ],
 )
 FLAG_UNRECORD = ButtonWrapper(
     name='FLAG_UNRECORD',
