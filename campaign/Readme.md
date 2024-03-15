@@ -13,7 +13,7 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 **CN, EN, JP, TW** Event names in GUI. If an event is not aired on some servers, use `-`.
 
 | Aired Date | Directory                | Event Name                                   | CN                     | EN                                           | JP                                   | TW                       |
-| ---------- | ------------------------ | -------------------------------------------- | ---------------------- | -------------------------------------------- | ------------------------------------ | ------------------------ |
+| :--------- | :----------------------- | :------------------------------------------- | :--------------------- | :------------------------------------------- | :----------------------------------- | :----------------------- |
 | 20170607   | war archives 20181020 en | Strive, Wish, and Strategize                 | 努力、希望和计划       | Strive, Wish, and Strategize                 | 努力、希望と計画                     | 努力、希望和計劃         |
 | 20170802   | war archives 20191031 en | Divergent Chessboard                         | 异色格                 | Divergent Chessboard                         | 鏡写されし異色                       | 異色格                   |
 | 20170928   | war archives 20190321 en | Visitors Dyed in Red                         | 红染的参访者           | Visitors Dyed in Red                         | 紅染の来訪者                         | 紅染的參訪者             |
@@ -22,24 +22,28 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20180119   | war archives 20191010 en | Encircling Graf Spee                         | 围剿斯佩伯爵           | Encircling Graf Spee                         | アドミラル・グラーフ・シュペー追撃戦 | 圍剿斯佩伯爵             |
 | 20180226   | war archives 20190221 en | Winter\'s Crown                              | 凛冬王冠               | Winter\'s Crown                              | 凛冽なりし冬の王冠                   | 凜冬王冠                 |
 | 20180607   | war archives 20180607 cn | Ink Stained Steel Sakura                     | 墨染的钢铁之花         | Ink Stained Steel Sakura                     | 墨染まりし鋼の桜                     | 墨染的鋼鐵之花           |
+| 20180717   | war archives 20190314 en | Prelude under the Moon                       | 月光下的序曲           | Prelude under the Moon                       | 月夜の開幕曲                         | 月光下的序曲            |
 | 20180726   | war archives 20180726 cn | Iris of Light and Dark                       | 光与影的鸢尾之华       | Iris of Light and Dark                       | 光と影のアイリス                     | 光與影的鳶尾之華         |
+| 20200312   | war archives 20200312 cn | The Solomon Ranger                           | 斯图尔特的硝烟         | The Solomon Ranger                           | 南洋に靡く硝煙                       | 斯圖爾特的硝煙           |
 | 20210121   | war archives 20181227 cn | Crimson Echoes                               | 苍红的回响             | Crimson Echoes                               | 縹映る深緋の残響                     | 蒼紅的迴響               |
-| 20210513   | war archives 20200820 cn | Scherzo of Iron and Blood                    | 铁血音符誓言           | Scherzo of Iron and Blood                    | 黒鉄の楽章 誓いの海                  | -                        |
+| 20210513   | war archives 20200820 cn | Scherzo of Iron and Blood                    | 铁血音符誓言           | Scherzo of Iron and Blood                    | 黒鉄の楽章 誓いの海                  | 鐵血音符誓言                        |
 | 20211014   | war archives 20211014 cn | Crescendo of Polaris                         | 激奏的Polaris          | Crescendo of Polaris                         | 激奏のポラリス                       | 激奏的Polaris                        |
-| 20220113   | war archives 20190911 cn | Empyreal Tragicomedy                         | 神圣的悲喜剧           | Empyreal Tragicomedy                         | 悲歎せし焔海の詩                     | -                        |
-| 20220407   | war archives 20210325 cn | Ashen Simulacrum                             | 箱庭疗法               | Ashen Simulacrum                             | 開かれし紺碧の砂箱                   | -                        |
+| 20220113   | war archives 20190911 cn | Empyreal Tragicomedy                         | 神圣的悲喜剧           | Empyreal Tragicomedy                         | 悲歎せし焔海の詩                     | 神聖的悲喜劇                        |
+| 20220407   | war archives 20210325 cn | Ashen Simulacrum                             | 箱庭疗法               | Ashen Simulacrum                             | 開かれし紺碧の砂箱                   | 箱庭療法                        |
 | 20220721   | war archives 20210624 cn | Swirling Cherry Blossoms                     | 浮樱影华               | Swirling Cherry Blossoms                     | 翳りし満ちる影の華                   | 浮櫻影華                        |
-| 20220901   | war archives 20200806 cn | The Enigma and the Shark                     | 最重要的宝物           | The Enigma and the Shark                     | 鉄血鮫とエニグマ                     | -                        |
-| 20221013   | war archives 20201029 cn | Universe in Unison                           | 激唱的UNIVERSE         | Universe in Unison                           | 激唱のユニバース                     | -                        |
+| 20220901   | war archives 20200806 cn | The Enigma and the Shark                     | 最重要的宝物           | The Enigma and the Shark                     | 鉄血鮫とエニグマ                     | 最重要的寶物                        |
+| 20221013   | war archives 20201029 cn | Universe in Unison                           | 激唱的UNIVERSE         | Universe in Unison                           | 激唱のユニバース                     | 激唱的UNIVERSE                        |
 | 20221117   | war archives 20200903 cn | Stars of the Shimmering Fjord                | 峡湾间的星辰           | Stars of the Shimmering Fjord                | 輝ける峡湾の星                       | 峽灣間的星辰                        |
 | 20221117   | war archives 20210819 cn | Microlayer Medley                            | 微层混合               | Microlayer Medley                            | 闇靄払う銀翼                         | 微層混合                        |
 | 20211028   | war archives 20211028 cn | Skybound Oratorio                            | 穹顶下的圣咏曲         | Skybound Oratorio                            | 神穹を衝く聖歌                       | 穹頂下的聖詠曲           |
+| 20230309   | war archives 20200507 cn | The Way Home in the Night                    | 夜幕下的归途           | The Way Home in the Night                    | 帰路は海色の陰りへと                 | 夜幕下的歸途                 |
 | 20230420   | war archives 20220210 cn | Northern Overture                            | 北境序曲               | Northern Overture                            | 凍絶の北海                           | 北境序曲                |
 | 20230511   | war archives 20220414 cn | Aurora Noctis                                | 永夜幻光               | Aurora Noctis                                | 極夜照らす幻光                       | 永夜幻光              |
-| 20230831   | war archives 20201229 cn | Inverted Orthant                             | 负象限作战             | Inverted Orthant                             | 虚畳なりし限象                       | -                        |
-| 20240118   | war archives 20200917 cn | Dreamwaker's Butterfly                       | 蝶海梦花               | Dreamwaker's Butterfly                       | 刹那觀る胡蝶の夢                     | -                        |
-| 20240118   | war archives 20210527 cn | Mirror Involution                            | 镜位螺旋               | Mirror Involution                            | 照らす螺旋の鏡海                     | -                        |
-| 20240222   | war archives 20210225 cn | Khorovod of Dawn's Rime                      | 破晓冰华               | Khorovod of Dawn's Rime                      | 暁射す氷華の嵐                       | -                        |
+| 20230713   | war archives 20200603 cn | Counterattack Within the Fjord               | 峡湾间的反击           | Counterattack Within the Fjord               | 峡湾間の反撃                         | 峽灣間的反擊                        |
+| 20230831   | war archives 20201229 cn | Inverted Orthant                             | 负象限作战             | Inverted Orthant                             | 虚畳なりし限象                       | 負象限作戰                        |
+| 20240118   | war archives 20200917 cn | Dreamwaker's Butterfly                       | 蝶海梦花               | Dreamwaker's Butterfly                       | 刹那觀る胡蝶の夢                     | 蝶海夢花                        |
+| 20240118   | war archives 20210527 cn | Mirror Involution                            | 镜位螺旋               | Mirror Involution                            | 照らす螺旋の鏡海                     | 鏡位螺旋                        |
+| 20240222   | war archives 20210225 cn | Khorovod of Dawn's Rime                      | 破晓冰华               | Khorovod of Dawn's Rime                      | 暁射す氷華の嵐                       | 破曉冰華                        |
 | 20200227   | event 20200227 cn        | Northern Overture                            | 北境序曲               | Northern Overture                            | 凍絶の北海                           | -                        |
 | 20200312   | event 20200312 cn        | The Solomon Ranger                           | 复刻斯图尔特的硝烟     | The Solomon Ranger Rerun                     | 南洋に靡く硝煙（復刻）               | -                        |
 | 20200326   | event 20200326 cn        | Microlayer Medley                            | 微层混合               | Microlayer Medley                            | 闇靄払う銀翼                         | -                        |
@@ -181,3 +185,5 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20240206   | raid 20230118            | Winter Pathfinder                            | -           | -                            | -                           | 冬日的尋路人                        |
 | 20240229  | event 20230223 cn        | Revelations of Dust                          | -               | -                          | -                             | 湮燼塵墟                        |
 | 20240229 | event 20240229 cn | Snowrealm Peregrination | 雪境迷踪 | Snowrealm Peregrination | 銀界遊廻 | - |
+| 20240314   | event 20210422 cn        | Daedalian Hymn                               | -       | -                         | -                | 復刻復興的讚美詩                        |
+| 20240314 | event 20220324 cn | Virtual Tower Rerun | 复刻虚像构筑之塔 | Virtual Tower Rerun | 幻像の塔（復刻） | - |
