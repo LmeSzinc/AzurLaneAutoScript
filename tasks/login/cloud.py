@@ -288,8 +288,13 @@ class LoginAndroidCloud(ModuleBase):
         """
         logger.hr('Cloud ensure ingame', level=1)
 
-        if self.config.Emulator_GameClient != 'cloud_android':
-            self.config.Emulator_GameClient = 'cloud_android'
+        with self.config.multi_set():
+            if self.config.Emulator_GameClient != 'cloud_android':
+                self.config.Emulator_GameClient = 'cloud_android'
+            if self.config.Emulator_PackageName != 'CN-Official':
+                self.config.Emulator_PackageName = 'CN-Official'
+            if self.config.Optimization_WhenTaskQueueEmpty != 'close_game':
+                self.config.Optimization_WhenTaskQueueEmpty = 'close_game'
 
         for _ in range(3):
             if self.device.app_is_running():

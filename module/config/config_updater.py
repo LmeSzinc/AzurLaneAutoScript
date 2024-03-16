@@ -847,6 +847,7 @@ class ConfigUpdater:
             yield 'Rogue.RogueWorld.UseImmersifier', True
         elif key == 'Alas.Emulator.GameClient' and value == 'cloud_android':
             yield 'Alas.Emulator.PackageName', 'CN-Official'
+            yield 'Alas.Optimization.WhenTaskQueueEmpty', 'close_game'
 
     def iter_hidden_args(self, data) -> t.Iterator[str]:
         """
