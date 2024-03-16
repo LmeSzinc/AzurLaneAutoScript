@@ -353,6 +353,14 @@ class HierarchyButton:
             return None
 
     @cached_property
+    def size(self):
+        if self.area is not None:
+            lx, ly, rx, ry = self.area
+            return rx - lx, ry - ly
+        else:
+            return None
+
+    @cached_property
     def button(self):
         return self.area
 
@@ -362,19 +370,70 @@ class HierarchyButton:
     def __str__(self):
         return self.name
 
-    @cached_property
-    def focused(self):
-        if self.exist:
-            return self.attrib.get("focused").lower() == 'true'
-        else:
-            return False
+    """
+    Element props
+    """
+    def _get_bool_prop(self, prop: str) -> bool:
+        return self.attrib.get(prop, "").lower() == 'true'
 
     @cached_property
-    def text(self):
-        if self.exist:
-            return self.attrib.get("text").strip()
-        else:
-            return ""
+    def index(self) -> int:
+        try:
+            return int(self.attrib.get("index", 0))
+        except IndexError:
+            return 0
+
+    @cached_property
+    def text(self) -> str:
+        return self.attrib.get("text", "").strip()
+
+    @cached_property
+    def resourceId(self) -> str:
+        return self.attrib.get("resourceId", "").strip()
+
+    @cached_property
+    def package(self) -> str:
+        return self.attrib.get("resourceId", "").strip()
+
+    @cached_property
+    def description(self) -> str:
+        return self.attrib.get("resourceId", "").strip()
+
+    @cached_property
+    def checkable(self) -> bool:
+        return self._get_bool_prop('checkable')
+
+    @cached_property
+    def clickable(self) -> bool:
+        return self._get_bool_prop('clickable')
+
+    @cached_property
+    def enabled(self) -> bool:
+        return self._get_bool_prop('enabled')
+
+    @cached_property
+    def fucusable(self) -> bool:
+        return self._get_bool_prop('fucusable')
+
+    @cached_property
+    def focused(self) -> bool:
+        return self._get_bool_prop('focused')
+
+    @cached_property
+    def scrollable(self) -> bool:
+        return self._get_bool_prop('scrollable')
+
+    @cached_property
+    def longClickable(self) -> bool:
+        return self._get_bool_prop('longClickable')
+
+    @cached_property
+    def password(self) -> bool:
+        return self._get_bool_prop('password')
+
+    @cached_property
+    def selected(self) -> bool:
+        return self._get_bool_prop('selected')
 
 
 class AreaButton:
