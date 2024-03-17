@@ -1476,6 +1476,10 @@
       "name": "GuildLogistics.SelectNewMission.name",
       "help": "GuildLogistics.SelectNewMission.help"
     },
+    "DelayMission": {
+      "name": "GuildLogistics.DelayMission.name",
+      "help": "GuildLogistics.DelayMission.help"
+    },
     "ExchangeFilter": {
       "name": "GuildLogistics.ExchangeFilter.name",
       "help": "GuildLogistics.ExchangeFilter.help"

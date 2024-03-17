@@ -388,6 +388,7 @@ MeowfficerTrain:
 GuildLogistics:
   Enable: true
   SelectNewMission: false
+  DelayMission: false
   ExchangeFilter: |-
     PlateTorpedoT1 > PlateAntiAirT1 > PlatePlaneT1 > PlateGunT1 > PlateGeneralT1
     > PlateTorpedoT2 > PlateAntiAirT2 > PlatePlaneT2 > PlateGunT2 > PlateGeneralT2

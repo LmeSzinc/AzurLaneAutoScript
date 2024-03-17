@@ -1476,6 +1476,10 @@
       "name": "Select A New Fleet Mission",
       "help": "This account must be a guild master or officer to use this.\nThe easiest mission Siren Subjugation III is selected by default, and the objective is to defeat 300 enemies\n(Not supported, please contact an EN developer if you would like to assist in alleviating this)"
     },
+    "DelayMission": {
+      "name": "Delay guild mission until Saturday",
+      "help": "When running 7x24, prevent premature completion of the weekly 100 guild missions to ensure regular players in the fleet can receive the 400 fleet coins reward."
+    },
     "ExchangeFilter": {
       "name": "Item Exchange Filter",
       "help": "Generally does not need to be modified or re-arranged but can do so if desired\nIf there is an item that you lack, priority for that exchange is lowered"
