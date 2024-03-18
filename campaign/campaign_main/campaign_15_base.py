@@ -113,6 +113,18 @@ class CampaignBase(CampaignBase_):
                     break
             return True
 
+    def _mob_move_info_change(self, location, target):
+        location = location_ensure(location)
+        target = location_ensure(target)
+        self.map[target].enemy_scale = self.map[location].enemy_scale
+        self.map[location].enemy_scale = 0
+        self.map[target].enemy_genre = self.map[location].enemy_genre
+        self.map[location].enemy_genre = None
+        self.map[target].is_boss = self.map[location].is_boss
+        self.map[location].is_boss = False
+        self.map[target].is_enemy = True
+        self.map[location].is_enemy = False
+
     def mob_move(self, location, target):
         """
         Open strategy, move mob fleet from location to target, close strategy.
@@ -137,5 +149,7 @@ class CampaignBase(CampaignBase_):
         self.strategy_mob_move_enter()
         result = self._mob_move(location, target)
         self.strategy_close(skip_first_screenshot=False)
+        if result:
+            self._mob_move_info_change(location, target)
         return result
 
