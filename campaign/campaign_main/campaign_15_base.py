@@ -1,7 +1,10 @@
+from module.base.mask import Mask
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.handler.assets import MOB_MOVE_ICON, STRATEGY_OPENED
 from module.logger import logger
 from module.map.utils import location_ensure
+
+MASK_MAP_UI_W15 = Mask(file='./assets/mask/MASK_MAP_UI_W15.png')
 
 
 class Config:
@@ -14,6 +17,12 @@ class Config:
 
 class CampaignBase(CampaignBase_):
     ENEMY_FILTER = '1T > 1L > 1E > 1M > 2T > 2L > 2E > 2M > 3T > 3L > 3E > 3M'
+
+    def map_data_init(self, map_):
+        super().map_data_init(map_)
+        # Patch ui_mask, get rid of supporting fleet
+        _ = ASSETS.ui_mask
+        ASSETS.ui_mask = MASK_MAP_UI_W15.image
 
     def mob_movable(self, location, target):
         """
