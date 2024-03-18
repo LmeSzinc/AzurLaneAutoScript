@@ -102,7 +102,7 @@ class Campaign(CampaignBase):
 
     @Config_.when(Campaign_UseClearMode=False)
     def battle_0(self):
-        self.goto(A1)
+        self.clear_chosen_enemy(A1)
         return True
     
     @Config_.when(Campaign_UseClearMode=True)
@@ -133,14 +133,14 @@ class Campaign(CampaignBase):
     
     @Config_.when(Campaign_UseClearMode=False)
     def battle_3(self):
-        self.fleet_boss.goto(H5)
+        self.fleet_boss.clear_chosen_enemy(H5, expected='boss_stage_1')
         self.fleet_1.switch_to()
         return True
 
     @Config_.when(Campaign_UseClearMode=True)
     def battle_3(self):
         self.pick_up_ammo()
-        self.goto(H5)
+        self.clear_chosen_enemy(H5, expected='boss_stage_1')
         return True
 
     def battle_4(self):
@@ -152,7 +152,7 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_6(self):
-        self.goto(D3)
+        self.clear_chosen_enemy(D3, expected='boss_stage_2')
         return True
 
     def battle_7(self):

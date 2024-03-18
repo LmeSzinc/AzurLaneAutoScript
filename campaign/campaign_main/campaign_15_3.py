@@ -114,7 +114,7 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_3(self):
-        self.goto(H5)
+        self.clear_chosen_enemy(H5, expected='boss_stage_1')
         return True
 
     def battle_4(self):
