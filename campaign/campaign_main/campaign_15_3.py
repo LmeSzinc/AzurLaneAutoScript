@@ -93,11 +93,19 @@ class Campaign(CampaignBase):
             self.map[override_grid.location].may_enemy = override_grid.may_enemy
             self.map[override_grid.location].may_boss = override_grid.may_boss
             
+    @Config.when(Campaign_UseClearMode=False)
     def battle_0(self):
         self.mob_move(B3, B4)
         self.full_scan_movable()
         self.goto(A1)
         return True
+
+    @Config.when(Campaign_UseClearMode=True)
+    def battle_0(self):
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
+            return True
+
+        return self.battle_default()
 
     def battle_1(self):
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):

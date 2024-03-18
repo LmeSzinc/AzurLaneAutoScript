@@ -86,11 +86,19 @@ class Campaign(CampaignBase):
             # Set may_enemy, but keep may_ambush
             self.map[override_grid.location].may_enemy = override_grid.may_enemy
 
+    @Config.when(Campaign_UseClearMode=False)
     def battle_0(self):
         self.mob_move(B3, C3)
         self.full_scan_movable()
         self.goto(B1)
         return True
+
+    @Config.when(Campaign_UseClearMode=True)
+    def battle_0(self):
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
+            return True
+
+        return self.battle_default()
 
     def battle_1(self):
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):

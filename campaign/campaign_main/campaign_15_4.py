@@ -99,15 +99,24 @@ class Campaign(CampaignBase):
             self.map[override_grid.location].may_enemy = override_grid.may_enemy
             self.map[override_grid.location].may_boss = override_grid.may_boss
 
+    @Config.when(Campaign_UseClearMode=False)
     def battle_0(self):
         self.goto(A1)
         return True
     
+    @Config.when(Campaign_UseClearMode=False)
     def battle_1(self):
         self.mob_move(J8, J7)
         self.full_scan_movable()
         self.goto(K9)
         return True
+
+    @Config.when(Campaign_UseClearMode=True)
+    def battle_0(self):
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
+            return True
+
+        return self.battle_default()
 
     def battle_2(self):
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
@@ -115,9 +124,15 @@ class Campaign(CampaignBase):
 
         return self.battle_default()
     
+    @Config.when(Campaign_UseClearMode=False)
     def battle_3(self):
         self.fleet_boss.goto(H5)
         self.fleet_1.switch_to()
+        return True
+
+    @Config.when(Campaign_UseClearMode=True)
+    def battle_3(self):
+        self.goto(H5)
         return True
 
     def battle_4(self):
