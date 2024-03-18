@@ -105,6 +105,13 @@ class Campaign(CampaignBase):
         self.goto(A1)
         return True
     
+    @Config_.when(Campaign_UseClearMode=True)
+    def battle_0(self):
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
+            return True
+
+        return self.battle_default()
+
     @Config_.when(Campaign_UseClearMode=False)
     def battle_1(self):
         self.mob_move(J8, J7)
@@ -113,7 +120,7 @@ class Campaign(CampaignBase):
         return True
 
     @Config_.when(Campaign_UseClearMode=True)
-    def battle_0(self):
+    def battle_1(self):
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
