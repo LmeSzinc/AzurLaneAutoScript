@@ -140,6 +140,7 @@ class Campaign(CampaignBase):
 
     @Config_.when(Campaign_UseClearMode=True)
     def battle_3(self):
+        self.pick_up_ammo()
         self.goto(H5)
         return True
 
