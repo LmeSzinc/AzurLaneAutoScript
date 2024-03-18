@@ -1,3 +1,4 @@
+from module.base.decorator import Config
 from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
