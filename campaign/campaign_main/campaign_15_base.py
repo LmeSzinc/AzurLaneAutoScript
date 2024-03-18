@@ -9,7 +9,7 @@ class Config:
     MAP_SWIPE_PREDICT_WITH_SEA_GRIDS = False
     # Ambushes can be avoid by having more DDs.
     MAP_WALK_OPTIMIZE = False
-    MAP_ENEMY_TEMPLATE = ['Light', 'Main', 'Carrier', 'SpecialCarrier']
+    MAP_ENEMY_TEMPLATE = ['Light', 'Main', 'Carrier', 'CarrierSpecial']
 
 
 class CampaignBase(CampaignBase_):
