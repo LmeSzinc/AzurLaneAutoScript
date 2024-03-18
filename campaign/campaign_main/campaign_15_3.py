@@ -97,8 +97,8 @@ class Campaign(CampaignBase):
     @Config_.when(Campaign_UseClearMode=False)
     def battle_0(self):
         self.mob_move(B3, B4)
-        self.full_scan_movable()
-        self.goto(A1)
+        self.predict()
+        self.clear_chosen_enemy(A1)
         return True
 
     @Config_.when(Campaign_UseClearMode=True)

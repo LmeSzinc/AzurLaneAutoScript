@@ -93,8 +93,8 @@ class Campaign(CampaignBase):
     def battle_0(self):
         self.mob_move(I6, I7)
         self.mob_move(I7, H7)
-        self.full_scan_movable()
-        self.goto(G7)
+        self.predict()
+        self.clear_chosen_enemy(G7)
         return True
 
     @Config_.when(Campaign_UseClearMode=True)
