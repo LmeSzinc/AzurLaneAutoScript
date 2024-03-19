@@ -25,6 +25,31 @@ class CampaignBase(CampaignBase_):
         _ = ASSETS.ui_mask
         ASSETS.ui_mask = MASK_MAP_UI_W15.image
 
+    def _expected_end(self, expected):
+        for data in self.map.spawn_data:
+            if data.get('battle') == self.battle_count and 'boss' in expected and not 'stage' in expected:
+                return 'in_stage'
+            if data.get('battle') == self.battle_count + 1:
+                if data.get('enemy', 0) + data.get('siren', 0) + data.get('boss', 0) > 0:
+                    return 'with_searching'
+                else:
+                    return 'no_searching'
+
+        if 'boss' in expected and not 'stage' in expected:
+            return 'in_stage'
+
+        matched = False
+        for data in self.map.spawn_data:
+            if data.get('battle') == self.battle_count + 1:
+                matched = True
+        if not len(self.map.spawn_data) or matched:
+            # No spawn_data
+            # spawn_data is not continuous, some battles are missing
+            return None
+        else:
+            # Out of the spawn_data, nothing will spawn
+            return 'no_searching'
+
     def mob_movable(self, location, target):
         """
         Check if mob is movable from location to target.
