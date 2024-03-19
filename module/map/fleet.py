@@ -5,11 +5,10 @@ import numpy as np
 from module.base.timer import Timer
 from module.exception import MapDetectionError, MapEnemyMoved, MapWalkError
 from module.handler.ambush import AmbushHandler
-from module.handler.assets import MOB_MOVE_ICON, STRATEGY_OPENED
 from module.logger import logger
 from module.map.camera import Camera
 from module.map.map_base import SelectedGrids, location2node, location_ensure
-from module.map.utils import match_movable, random_direction
+from module.map.utils import match_movable
 
 
 class Fleet(Camera, AmbushHandler):
