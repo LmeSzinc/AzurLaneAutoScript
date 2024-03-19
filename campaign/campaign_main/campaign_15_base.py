@@ -176,5 +176,6 @@ class CampaignBase(CampaignBase_):
         self.strategy_close(skip_first_screenshot=False)
         if result:
             self._mob_move_info_change(location, target)
+            self.map.show()
         return result
 
