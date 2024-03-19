@@ -1589,7 +1589,7 @@
     },
     "ConsumeCoins": {
       "name": "Consume Spilled Coins",
-      "help": "Buy all items when the coins exceed 550000"
+      "help": "Buy all items when the coins exceed 500000"
     },
     "Filter": {
       "name": "Item Filter",
