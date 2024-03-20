@@ -23,6 +23,16 @@ CHAT_OPTION = ButtonWrapper(
         button=(649, 496, 1129, 525),
     ),
 )
+DUNGEON_EXIT = ButtonWrapper(
+    name='DUNGEON_EXIT',
+    share=Button(
+        file='./assets/share/base/daemon/DUNGEON_EXIT.png',
+        area=(582, 598, 606, 622),
+        search=(562, 578, 626, 642),
+        color=(106, 99, 89),
+        button=(582, 598, 606, 622),
+    ),
+)
 INTERACT_COLLECT = ButtonWrapper(
     name='INTERACT_COLLECT',
     share=Button(
@@ -71,5 +81,35 @@ STORY_OPTION = ButtonWrapper(
         search=(763, 436, 815, 505),
         color=(158, 167, 171),
         button=(813, 453, 1069, 488),
+    ),
+)
+TUTORIAL_CHECK = ButtonWrapper(
+    name='TUTORIAL_CHECK',
+    share=Button(
+        file='./assets/share/base/daemon/TUTORIAL_CHECK.png',
+        area=(628, 43, 653, 65),
+        search=(608, 23, 673, 85),
+        color=(90, 155, 145),
+        button=(628, 43, 653, 65),
+    ),
+)
+TUTORIAL_CLOSE = ButtonWrapper(
+    name='TUTORIAL_CLOSE',
+    share=Button(
+        file='./assets/share/base/daemon/TUTORIAL_CLOSE.png',
+        area=(579, 634, 700, 669),
+        search=(559, 614, 720, 689),
+        color=(215, 213, 215),
+        button=(579, 634, 700, 669),
+    ),
+)
+TUTORIAL_NEXT = ButtonWrapper(
+    name='TUTORIAL_NEXT',
+    share=Button(
+        file='./assets/share/base/daemon/TUTORIAL_NEXT.png',
+        area=(1190, 303, 1240, 365),
+        search=(1170, 283, 1260, 385),
+        color=(45, 45, 49),
+        button=(1190, 303, 1240, 365),
     ),
 )
