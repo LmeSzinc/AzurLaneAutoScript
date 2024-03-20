@@ -67,9 +67,9 @@ OVERRIDE = CampaignMap('15-4')
 OVERRIDE.map_data = """
     ME -- ME ME ME -- ME -- -- ME ME
     ME -- -- -- -- ME -- -- -- -- ME
-    -- -- -- -- -- -- ME -- -- ME ME
+    -- -- -- ME -- -- ME -- -- ME ME
     -- ME -- -- -- -- -- -- -- ME --
-    -- ME ME -- -- ME -- -- -- -- ME
+    -- ME ME -- -- ME -- ME -- -- ME
     ME ME ME -- -- -- -- -- ME -- ME
     ME -- -- -- ME ME -- ME ME -- --
     -- -- -- -- ME -- ME ME ME ME ME
