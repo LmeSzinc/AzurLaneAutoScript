@@ -8,6 +8,7 @@ from module.retire.assets import EQUIP_CONFIRM as RETIRE_EQUIP_CONFIRM
 from module.storage.storage import StorageHandler
 from module.ui.assets import BACK_ARROW
 from module.ui.navbar import Navbar
+from module.ui.page import page_fleet
 from module.ui.switch import Switch
 
 equipping_filter = Switch('Equiping_filter')
@@ -205,7 +206,14 @@ class Equipment(StorageHandler):
             fleet (list[int]): list of equipment record. [3, 1, 1, 1, 1, 1]
         """
         logger.hr('Equipment take off')
-        self.equip_enter(enter)
+        _fleet_detail = False
+        if self.appear(FLEET_DETAIL):
+            _fleet_detail = True
+            self.ui_click(FLEET_DETAIL, appear_button=page_fleet.check_button,
+                          check_button=FLEET_DETAIL_CHECK, skip_first_screenshot=True)
+            self.equip_enter(enter, long_click=False)
+        else:
+            self.equip_enter(enter)
 
         for index in '9'.join([str(x) for x in fleet if x > 0]):
             index = int(index)
@@ -215,6 +223,8 @@ class Equipment(StorageHandler):
                 self._equip_take_off_one()
                 self.ui_click(click_button=EQUIPMENT_CLOSE, check_button=EQUIPMENT_OPEN, offset=None)
 
+        if _fleet_detail:
+            self.ui_back(FLEET_DETAIL_CHECK)
         self.ui_back(out)
         self.equipment_has_take_on = False
 
@@ -259,7 +269,14 @@ class Equipment(StorageHandler):
             fleet (list[int]): list of equipment record. [3, 1, 1, 1, 1, 1]
         """
         logger.hr('Equipment take on')
-        self.equip_enter(enter)
+        _fleet_detail = False
+        if self.appear(FLEET_DETAIL):
+            _fleet_detail = True
+            self.ui_click(FLEET_DETAIL, appear_button=page_fleet.check_button,
+                          check_button=FLEET_DETAIL_CHECK, skip_first_screenshot=True)
+            self.equip_enter(enter, long_click=False)
+        else:
+            self.equip_enter(enter)
 
         for index in '9'.join([str(x) for x in fleet if x > 0]):
             index = int(index)
@@ -269,5 +286,7 @@ class Equipment(StorageHandler):
                 self._equip_take_on_one(index=index)
                 self.ui_click(click_button=EQUIPMENT_CLOSE, check_button=EQUIPMENT_OPEN, offset=None)
 
+        if _fleet_detail:
+            self.ui_back(FLEET_DETAIL_CHECK)
         self.ui_back(out)
         self.equipment_has_take_on = True
