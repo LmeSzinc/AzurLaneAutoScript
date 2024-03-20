@@ -15,6 +15,10 @@ VALID_SERVER = {
     'OVERSEA-TWHKMO': 'com.HoYoverse.hkrpgoversea',
 }
 VALID_PACKAGE = set(list(VALID_SERVER.values()))
+VALID_CLOUD_SERVER = {
+    'CN-Official': 'com.miHoYo.cloudgames.hkrpg',
+}
+VALID_CLOUD_PACKAGE = set(list(VALID_SERVER.values()))
 
 
 def set_lang(lang_: str):
@@ -47,18 +51,30 @@ def to_server(package_or_server: str) -> str:
             return key
         if key == package_or_server:
             return key
+    for key, value in VALID_CLOUD_SERVER.items():
+        if value == package_or_server:
+            return key
+        if key == package_or_server:
+            return key
 
     raise ValueError(f'Package invalid: {package_or_server}')
 
 
-def to_package(package_or_server: str) -> str:
+def to_package(package_or_server: str, is_cloud=False) -> str:
     """
     Convert package/server to package.
     """
-    for key, value in VALID_SERVER.items():
-        if value == package_or_server:
-            return value
-        if key == package_or_server:
-            return value
+    if is_cloud:
+        for key, value in VALID_CLOUD_SERVER.items():
+            if value == package_or_server:
+                return value
+            if key == package_or_server:
+                return value
+    else:
+        for key, value in VALID_SERVER.items():
+            if value == package_or_server:
+                return value
+            if key == package_or_server:
+                return value
 
     raise ValueError(f'Server invalid: {package_or_server}')

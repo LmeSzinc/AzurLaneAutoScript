@@ -11,6 +11,10 @@ class StarRailCopilot(AzurLaneAutoScript):
         from tasks.login.login import Login
         Login(self.config, device=self.device).app_start()
 
+    def stop(self):
+        from tasks.login.login import Login
+        Login(self.config, device=self.device).app_stop()
+
     def goto_main(self):
         from tasks.login.login import Login
         from tasks.base.ui import UI

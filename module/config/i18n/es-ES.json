@@ -96,6 +96,12 @@
       "name": "Serial",
       "help": "Los serial de emuladores comunes pueden ser consultados aquí:\nUsa \"auto\" para detectar automáticamente el emulador, pero si hay varios ejecutando a la vez o no se puede detectar de forma automática, \"auto\" no podrá ser usado y tendrás que ajustarlo manualmente.\nSerial comunes de algunos emuladores:\n- BlueStacks 127.0.0.1:5555\n- BlueStacks4 Hyper-V usa \"bluestacks4-hyperv\", \"bluestacks4-hyperv-2\" para multi-instancia, etc...\n- BlueStacks5 Hyper-V usa \"bluestacks5-hyperv\", \"bluestacks5-hyperv-1\" para multi-instancia, etc...\n- NoxPlayer 127.0.0.1:62001\n- NoxPlayer64bit 127.0.0.1:59865\n- MuMuPlayer/MuMuPlayer X 127.0.0.1:7555\n- MuMuPlayer12 127.0.0.1:16384\n- MemuPlayer 127.0.0.1:21503\n- LDPlayer emulator-5554 or 127.0.0.1:5555\n- WSA usa \"wsa-0\" para ejecutar el juego en segundo plano, que será cerrado/controlado por software externo.\nSi hay varias instancias ejecutándose a la vez, se usará la predeterminada para la primera y las demás se reajustarán.\nAbre console.bat y ejecuta `adb devices` para encontrarlas o usa la guía oficial del emulador."
     },
+    "GameClient": {
+      "name": "Cliente del juego",
+      "help": "Al usar la nube, automáticamente se pondrá en cola para iniciar sesión. El juego en la nube está disponible solo en CN",
+      "android": "Cliente Android",
+      "cloud_android": "Cliente de juego en la nube para Android"
+    },
     "PackageName": {
       "name": "Región del juego",
       "help": "No es posible detectar regiones que no sean de China, por tanto, ajústalo manualmente si se da la situación.",
@@ -215,6 +221,24 @@
       "close_game": "Cerrar el juego"
     }
   },
+  "CloudStorage": {
+    "_info": {
+      "name": "CloudStorage._info.name",
+      "help": "CloudStorage._info.help"
+    },
+    "CloudRemainSeasonPass": {
+      "name": "CloudStorage.CloudRemainSeasonPass.name",
+      "help": "CloudStorage.CloudRemainSeasonPass.help"
+    },
+    "CloudRemainPaid": {
+      "name": "CloudStorage.CloudRemainPaid.name",
+      "help": "CloudStorage.CloudRemainPaid.help"
+    },
+    "CloudRemainFree": {
+      "name": "CloudStorage.CloudRemainFree.name",
+      "help": "CloudStorage.CloudRemainFree.help"
+    }
+  },
   "Dungeon": {
     "_info": {
       "name": "Ajustes de Mazmorra",
@@ -271,7 +295,6 @@
     "NameAtDoubleCalyx": {
       "name": "En los eventos de x2 de Cáliz",
       "help": "Se volverán a los ajustes predeterminados una vez se acaben los intentos del evento",
-      "do_not_participate": "No participar en el evento",
       "Calyx_Golden_Memories_Jarilo_VI": "Material: EXP de personaje (Flor de los recuerdos (Jarilo-Ⅵ))",
       "Calyx_Golden_Memories_The_Xianzhou_Luofu": "Material: EXP de personaje (Flor de los recuerdos (El Luofu de Xianzhou))",
       "Calyx_Golden_Memories_Penacony": "Material: EXP de personaje (Flor de los recuerdos (Colonipenal))",
@@ -295,7 +318,6 @@
     "NameAtDoubleRelic": {
       "name": "En los eventos de x2 de Caverna de la corrosión",
       "help": "Se volverán a los ajustes predeterminados una vez se acaben los intentos del evento",
-      "do_not_participate": "No participar en el evento",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "Artefactos: Hielo y Viento (Senda del viento gélido)",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "Artefactos: Físico y Efecto de Ruptura (Senda de los puños rápidos)",
       "Cavern_of_Corrosion_Path_of_Drifting": "Artefactos: Curación y Pistolera de la espiga silvestre (Senda de la deriva)",

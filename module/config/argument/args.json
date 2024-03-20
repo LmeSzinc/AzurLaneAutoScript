@@ -6,6 +6,14 @@
         "value": "auto",
         "valuetype": "str"
       },
+      "GameClient": {
+        "type": "select",
+        "value": "android",
+        "option": [
+          "android",
+          "cloud_android"
+        ]
+      },
       "PackageName": {
         "type": "select",
         "value": "auto",
@@ -131,6 +139,26 @@
           "close_game"
         ]
       }
+    },
+    "CloudStorage": {
+      "CloudRemainSeasonPass": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredInt"
+      },
+      "CloudRemainPaid": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredInt"
+      },
+      "CloudRemainFree": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredInt"
+      }
     }
   },
   "Restart": {
@@ -165,11 +193,13 @@
   "Dungeon": {
     "Scheduler": {
       "Enable": {
-        "type": "checkbox",
+        "type": "state",
         "value": true,
         "option": [
-          true,
-          false
+          true
+        ],
+        "option_bold": [
+          true
         ]
       },
       "NextRun": {
@@ -243,7 +273,6 @@
         "type": "select",
         "value": "Calyx_Golden_Treasures",
         "option": [
-          "do_not_participate",
           "Calyx_Golden_Memories_Jarilo_VI",
           "Calyx_Golden_Memories_The_Xianzhou_Luofu",
           "Calyx_Golden_Memories_Penacony",
@@ -269,7 +298,6 @@
         "type": "select",
         "value": "Cavern_of_Corrosion_Path_of_Providence",
         "option": [
-          "do_not_participate",
           "Cavern_of_Corrosion_Path_of_Gelid_Wind",
           "Cavern_of_Corrosion_Path_of_Jabbing_Punch",
           "Cavern_of_Corrosion_Path_of_Drifting",
@@ -476,11 +504,13 @@
   "DailyQuest": {
     "Scheduler": {
       "Enable": {
-        "type": "checkbox",
+        "type": "state",
         "value": true,
         "option": [
-          true,
-          false
+          true
+        ],
+        "option_bold": [
+          true
         ]
       },
       "NextRun": {
@@ -911,11 +941,13 @@
   "BattlePass": {
     "Scheduler": {
       "Enable": {
-        "type": "checkbox",
+        "type": "state",
         "value": true,
         "option": [
-          true,
-          false
+          true
+        ],
+        "option_bold": [
+          true
         ]
       },
       "NextRun": {
@@ -996,11 +1028,13 @@
   "Assignment": {
     "Scheduler": {
       "Enable": {
-        "type": "checkbox",
+        "type": "state",
         "value": true,
         "option": [
-          true,
-          false
+          true
+        ],
+        "option_bold": [
+          true
         ]
       },
       "NextRun": {

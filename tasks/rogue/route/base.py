@@ -293,6 +293,11 @@ class RouteBase(RouteBase_, RogueExit, RogueEvent, RogueReward):
         """
         logger.hr('Domain single exit', level=1)
         waypoints = ensure_waypoints(waypoints)
+
+        for point in waypoints:
+            if 'item' not in point.expected_enroute:
+                point.expected_enroute.append('item')
+
         end_point = waypoints[-1]
         end_point.min_speed = 'run'
         end_point.interact_radius = 5

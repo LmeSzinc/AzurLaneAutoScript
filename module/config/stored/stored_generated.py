@@ -28,6 +28,9 @@ from module.config.stored.classes import (
 # ``` python -m module/config/config_updater.py ```
 
 class StoredGenerated:
+    CloudRemainSeasonPass = StoredInt("Alas.CloudStorage.CloudRemainSeasonPass")
+    CloudRemainPaid = StoredInt("Alas.CloudStorage.CloudRemainPaid")
+    CloudRemainFree = StoredInt("Alas.CloudStorage.CloudRemainFree")
     TrailblazePower = StoredTrailblazePower("Dungeon.DungeonStorage.TrailblazePower")
     Immersifier = StoredImmersifier("Dungeon.DungeonStorage.Immersifier")
     DungeonDouble = StoredDungeonDouble("Dungeon.DungeonStorage.DungeonDouble")

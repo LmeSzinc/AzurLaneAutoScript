@@ -49,11 +49,14 @@ class AppControl(Adb, WSA, Uiautomator2):
         Returns:
             etree._Element: Select elements with `self.hierarchy.xpath('//*[@text="Hermit"]')` for example.
         """
-        method = self.config.Emulator_ControlMethod
-        if method in AppControl._app_u2_family:
-            self.hierarchy = self.dump_hierarchy_uiautomator2()
-        else:
-            self.hierarchy = self.dump_hierarchy_adb()
+        # method = self.config.Emulator_ControlMethod
+        # if method in AppControl._app_u2_family:
+        #     self.hierarchy = self.dump_hierarchy_uiautomator2()
+        # else:
+        #     self.hierarchy = self.dump_hierarchy_adb()
+
+        # Using uiautomator2
+        self.hierarchy = self.dump_hierarchy_uiautomator2()
         return self.hierarchy
 
     def xpath_to_button(self, xpath: str) -> HierarchyButton:

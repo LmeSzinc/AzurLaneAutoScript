@@ -96,6 +96,12 @@
       "name": "模擬器 Serial",
       "help": "常見的模擬器 Serial 可以查詢下方列表\n填 \"auto\" 自動檢測模擬器，多個模擬器正在運行或使用不支援自動檢測的模擬器時無法使用 \"auto\"，必須手動填寫\n模擬器預設 Serial：\n- 藍疊模擬器 127.0.0.1:5555\n- 藍疊模擬器4 Hyper-v版，填\"bluestacks4-hyperv\"自動連接，多開填\"bluestacks4-hyperv-2\"以此類推\n- 藍疊模擬器5 Hyper-v版，填\"bluestacks5-hyperv\"自動連接，多開填\"bluestacks5-hyperv-1\"以此類推\n- 夜神模擬器 127.0.0.1:62001\n- 夜神模擬器64位元 127.0.0.1:59865\n- MuMu模擬器/MuMu模擬器X 127.0.0.1:7555\n- MuMu模擬器12 127.0.0.1:16384\n- 逍遙模擬器 127.0.0.1:21503\n- 雷電模擬器 emulator-5554 或 127.0.0.1:5555\n- WSA，填\"wsa-0\"使遊戲在後臺運行，需要使用第三方軟件操控或關閉\n如果你使用了模擬器的多開功能，他們的 Serial 將不是預設的，可以在 console.bat 中執行 `adb devices` 查詢，或根據模擬器官方的教程填寫"
     },
+    "GameClient": {
+      "name": "遊戲客戶端",
+      "help": "選擇雲端遊戲時，將自動排隊登入，雲端遊戲目前僅有國服",
+      "android": "安卓端",
+      "cloud_android": "雲端遊戲安卓端"
+    },
     "PackageName": {
       "name": "遊戲伺服器",
       "help": "無法區分國際服的不同地區，請手動選擇伺服器",
@@ -215,6 +221,24 @@
       "close_game": "關閉遊戲"
     }
   },
+  "CloudStorage": {
+    "_info": {
+      "name": "CloudStorage._info.name",
+      "help": "CloudStorage._info.help"
+    },
+    "CloudRemainSeasonPass": {
+      "name": "CloudStorage.CloudRemainSeasonPass.name",
+      "help": "CloudStorage.CloudRemainSeasonPass.help"
+    },
+    "CloudRemainPaid": {
+      "name": "CloudStorage.CloudRemainPaid.name",
+      "help": "CloudStorage.CloudRemainPaid.help"
+    },
+    "CloudRemainFree": {
+      "name": "CloudStorage.CloudRemainFree.name",
+      "help": "CloudStorage.CloudRemainFree.help"
+    }
+  },
   "Dungeon": {
     "_info": {
       "name": "每日副本設定",
@@ -271,7 +295,6 @@
     "NameAtDoubleCalyx": {
       "name": "有雙倍花活動時，選擇副本",
       "help": "次數耗儘後回退到默認打本設定",
-      "do_not_participate": "不參與活動",
       "Calyx_Golden_Memories_Jarilo_VI": "材料：角色經驗（回憶之蕾•雅利洛-Ⅵ）",
       "Calyx_Golden_Memories_The_Xianzhou_Luofu": "材料：角色經驗（回憶之蕾•仙舟羅浮）",
       "Calyx_Golden_Memories_Penacony": "材料：角色經驗（回憶之蕾•匹諾康尼）",
@@ -295,7 +318,6 @@
     "NameAtDoubleRelic": {
       "name": "有遺器活動時，選擇副本",
       "help": "次數耗儘後回退到默認打本設定",
-      "do_not_participate": "不參與活動",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "遺器：冰套+風套（霜風之徑•侵蝕隧洞）",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "遺器：物理套+擊破套（迅拳之徑•侵蝕隧洞）",
       "Cavern_of_Corrosion_Path_of_Drifting": "遺器：治療套+快槍手（漂泊之徑•侵蝕隧洞）",

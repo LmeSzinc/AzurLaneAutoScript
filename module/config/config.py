@@ -176,6 +176,12 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
             self.data, keys="Alas.Optimization.CloseGameDuringWait", default=False
         )
 
+    @property
+    def is_cloud_game(self):
+        return deep_get(
+            self.data, keys="Alas.Emulator.GameClient"
+        ) == 'cloud_android'
+
     @cached_property
     def stored(self) -> StoredGenerated:
         stored = StoredGenerated()

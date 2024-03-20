@@ -17,6 +17,7 @@ class GeneratedConfig:
 
     # Group `Emulator`
     Emulator_Serial = 'auto'
+    Emulator_GameClient = 'android'  # android, cloud_android
     Emulator_PackageName = 'auto'  # auto, CN-Official, CN-Bilibili, OVERSEA-America, OVERSEA-Asia, OVERSEA-Europe, OVERSEA-TWHKMO
     Emulator_GameLanguage = 'auto'  # auto, cn, en
     Emulator_ScreenshotMethod = 'auto'  # auto, ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc, DroidCast, DroidCast_raw, scrcpy
@@ -39,10 +40,15 @@ class GeneratedConfig:
     Optimization_CombatScreenshotInterval = 1.0
     Optimization_WhenTaskQueueEmpty = 'goto_main'  # stay_there, goto_main, close_game
 
+    # Group `CloudStorage`
+    CloudStorage_CloudRemainSeasonPass = {}
+    CloudStorage_CloudRemainPaid = {}
+    CloudStorage_CloudRemainFree = {}
+
     # Group `Dungeon`
     Dungeon_Name = 'Calyx_Golden_Treasures'  # Calyx_Golden_Memories_Jarilo_VI, Calyx_Golden_Memories_The_Xianzhou_Luofu, Calyx_Golden_Memories_Penacony, Calyx_Golden_Aether_Jarilo_VI, Calyx_Golden_Aether_The_Xianzhou_Luofu, Calyx_Golden_Aether_Penacony, Calyx_Golden_Treasures_Jarilo_VI, Calyx_Golden_Treasures_The_Xianzhou_Luofu, Calyx_Golden_Treasures_Penacony, Calyx_Crimson_Destruction_Herta_StorageZone, Calyx_Crimson_Destruction_Luofu_ScalegorgeWaterscape, Calyx_Crimson_Preservation_Herta_SupplyZone, Calyx_Crimson_The_Hunt_Jarilo_OutlyingSnowPlains, Calyx_Crimson_Abundance_Jarilo_BackwaterPass, Calyx_Crimson_Erudition_Jarilo_RivetTown, Calyx_Crimson_Harmony_Jarilo_RobotSettlement, Calyx_Crimson_Harmony_Penacony_TheReverieDreamscape, Calyx_Crimson_Nihility_Jarilo_GreatMine, Calyx_Crimson_Nihility_Luofu_AlchemyCommission, Stagnant_Shadow_Spike, Stagnant_Shadow_Perdition, Stagnant_Shadow_Blaze, Stagnant_Shadow_Scorch, Stagnant_Shadow_Rime, Stagnant_Shadow_Icicle, Stagnant_Shadow_Nectar, Stagnant_Shadow_Fulmination, Stagnant_Shadow_Doom, Stagnant_Shadow_Gust, Stagnant_Shadow_Celestial, Stagnant_Shadow_Quanta, Stagnant_Shadow_Abomination, Stagnant_Shadow_Roast, Stagnant_Shadow_Mirage, Stagnant_Shadow_Puppetry, Cavern_of_Corrosion_Path_of_Gelid_Wind, Cavern_of_Corrosion_Path_of_Jabbing_Punch, Cavern_of_Corrosion_Path_of_Drifting, Cavern_of_Corrosion_Path_of_Providence, Cavern_of_Corrosion_Path_of_Holy_Hymn, Cavern_of_Corrosion_Path_of_Conflagration, Cavern_of_Corrosion_Path_of_Elixir_Seekers, Cavern_of_Corrosion_Path_of_Darkness, Cavern_of_Corrosion_Path_of_Dreamdive
-    Dungeon_NameAtDoubleCalyx = 'Calyx_Golden_Treasures'  # do_not_participate, Calyx_Golden_Memories_Jarilo_VI, Calyx_Golden_Memories_The_Xianzhou_Luofu, Calyx_Golden_Memories_Penacony, Calyx_Golden_Aether_Jarilo_VI, Calyx_Golden_Aether_The_Xianzhou_Luofu, Calyx_Golden_Aether_Penacony, Calyx_Golden_Treasures_Jarilo_VI, Calyx_Golden_Treasures_The_Xianzhou_Luofu, Calyx_Golden_Treasures_Penacony, Calyx_Crimson_Destruction_Herta_StorageZone, Calyx_Crimson_Destruction_Luofu_ScalegorgeWaterscape, Calyx_Crimson_Preservation_Herta_SupplyZone, Calyx_Crimson_The_Hunt_Jarilo_OutlyingSnowPlains, Calyx_Crimson_Abundance_Jarilo_BackwaterPass, Calyx_Crimson_Erudition_Jarilo_RivetTown, Calyx_Crimson_Harmony_Jarilo_RobotSettlement, Calyx_Crimson_Harmony_Penacony_TheReverieDreamscape, Calyx_Crimson_Nihility_Jarilo_GreatMine, Calyx_Crimson_Nihility_Luofu_AlchemyCommission
-    Dungeon_NameAtDoubleRelic = 'Cavern_of_Corrosion_Path_of_Providence'  # do_not_participate, Cavern_of_Corrosion_Path_of_Gelid_Wind, Cavern_of_Corrosion_Path_of_Jabbing_Punch, Cavern_of_Corrosion_Path_of_Drifting, Cavern_of_Corrosion_Path_of_Providence, Cavern_of_Corrosion_Path_of_Holy_Hymn, Cavern_of_Corrosion_Path_of_Conflagration, Cavern_of_Corrosion_Path_of_Elixir_Seekers, Cavern_of_Corrosion_Path_of_Darkness, Cavern_of_Corrosion_Path_of_Dreamdive
+    Dungeon_NameAtDoubleCalyx = 'Calyx_Golden_Treasures'  # Calyx_Golden_Memories_Jarilo_VI, Calyx_Golden_Memories_The_Xianzhou_Luofu, Calyx_Golden_Memories_Penacony, Calyx_Golden_Aether_Jarilo_VI, Calyx_Golden_Aether_The_Xianzhou_Luofu, Calyx_Golden_Aether_Penacony, Calyx_Golden_Treasures_Jarilo_VI, Calyx_Golden_Treasures_The_Xianzhou_Luofu, Calyx_Golden_Treasures_Penacony, Calyx_Crimson_Destruction_Herta_StorageZone, Calyx_Crimson_Destruction_Luofu_ScalegorgeWaterscape, Calyx_Crimson_Preservation_Herta_SupplyZone, Calyx_Crimson_The_Hunt_Jarilo_OutlyingSnowPlains, Calyx_Crimson_Abundance_Jarilo_BackwaterPass, Calyx_Crimson_Erudition_Jarilo_RivetTown, Calyx_Crimson_Harmony_Jarilo_RobotSettlement, Calyx_Crimson_Harmony_Penacony_TheReverieDreamscape, Calyx_Crimson_Nihility_Jarilo_GreatMine, Calyx_Crimson_Nihility_Luofu_AlchemyCommission
+    Dungeon_NameAtDoubleRelic = 'Cavern_of_Corrosion_Path_of_Providence'  # Cavern_of_Corrosion_Path_of_Gelid_Wind, Cavern_of_Corrosion_Path_of_Jabbing_Punch, Cavern_of_Corrosion_Path_of_Drifting, Cavern_of_Corrosion_Path_of_Providence, Cavern_of_Corrosion_Path_of_Holy_Hymn, Cavern_of_Corrosion_Path_of_Conflagration, Cavern_of_Corrosion_Path_of_Elixir_Seekers, Cavern_of_Corrosion_Path_of_Darkness, Cavern_of_Corrosion_Path_of_Dreamdive
     Dungeon_Team = 1  # 1, 2, 3, 4, 5, 6, 7, 8, 9
 
     # Group `DungeonDaily`

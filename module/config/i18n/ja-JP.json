@@ -96,6 +96,12 @@
       "name": "Emulator.Serial.name",
       "help": "Emulator.Serial.help"
     },
+    "GameClient": {
+      "name": "Emulator.GameClient.name",
+      "help": "Emulator.GameClient.help",
+      "android": "android",
+      "cloud_android": "cloud_android"
+    },
     "PackageName": {
       "name": "Emulator.PackageName.name",
       "help": "Emulator.PackageName.help",
@@ -215,6 +221,24 @@
       "close_game": "close_game"
     }
   },
+  "CloudStorage": {
+    "_info": {
+      "name": "CloudStorage._info.name",
+      "help": "CloudStorage._info.help"
+    },
+    "CloudRemainSeasonPass": {
+      "name": "CloudStorage.CloudRemainSeasonPass.name",
+      "help": "CloudStorage.CloudRemainSeasonPass.help"
+    },
+    "CloudRemainPaid": {
+      "name": "CloudStorage.CloudRemainPaid.name",
+      "help": "CloudStorage.CloudRemainPaid.help"
+    },
+    "CloudRemainFree": {
+      "name": "CloudStorage.CloudRemainFree.name",
+      "help": "CloudStorage.CloudRemainFree.help"
+    }
+  },
   "Dungeon": {
     "_info": {
       "name": "Dungeon._info.name",
@@ -271,7 +295,6 @@
     "NameAtDoubleCalyx": {
       "name": "Dungeon.NameAtDoubleCalyx.name",
       "help": "Dungeon.NameAtDoubleCalyx.help",
-      "do_not_participate": "do_not_participate",
       "Calyx_Golden_Memories_Jarilo_VI": "素材：役割経験（回憶の蕾・ヤリーロ-Ⅵ）：",
       "Calyx_Golden_Memories_The_Xianzhou_Luofu": "素材：役割経験（回憶の蕾・仙舟羅浮）：",
       "Calyx_Golden_Memories_Penacony": "素材：役割経験（回憶の蕾・ピノコニー）：",
@@ -295,7 +318,6 @@
     "NameAtDoubleRelic": {
       "name": "Dungeon.NameAtDoubleRelic.name",
       "help": "Dungeon.NameAtDoubleRelic.help",
-      "do_not_participate": "do_not_participate",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "侵蝕トンネル・霜風の路（侵蝕トンネル・霜風の路）",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "侵蝕トンネル・迅拳の路（侵蝕トンネル・迅拳の路）",
       "Cavern_of_Corrosion_Path_of_Drifting": "侵蝕トンネル・漂泊の路（侵蝕トンネル・漂泊の路）",

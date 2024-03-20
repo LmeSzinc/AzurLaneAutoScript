@@ -5,6 +5,7 @@ import cv2
 import numpy as np
 
 from module.base.timer import Timer
+from module.base.utils import area_offset
 from module.device.method.maatouch import MaatouchBuilder
 from module.device.method.minitouch import CommandBuilder, insert_swipe, random_normal_distribution
 from module.exception import ScriptError
@@ -195,18 +196,35 @@ class MapControlJoystick(UI):
     def map_get_technique_points(self):
         """
         Returns:
-            int: 0 to 5.
+            int: 0 to 5
         """
-        points = [
-            self.image_color_count(button, color=(255, 255, 255), threshold=221, count=20)
-            for button in [
-                TECHNIQUE_POINT_1,
-                TECHNIQUE_POINT_2,
-                TECHNIQUE_POINT_3,
-                TECHNIQUE_POINT_4,
-                TECHNIQUE_POINT_5,
-            ]
-        ]
+        confirm = Timer(3, count=0).start()
+        while 1:
+            matched = TECHNIQUE_POINT_1.match_template(self.device.image)
+            if matched:
+                matched_button = TECHNIQUE_POINT_1
+                break
+            matched = TECHNIQUE_POINT_0.match_template(self.device.image)
+            if matched:
+                matched_button = TECHNIQUE_POINT_0
+                break
+            if confirm.reached():
+                logger.warning('Can not match technique points.')
+                return 0
+            else:
+                self.device.screenshot()
+        points = []
+        for button in [
+            TECHNIQUE_POINT_1,
+            TECHNIQUE_POINT_2,
+            TECHNIQUE_POINT_3,
+            TECHNIQUE_POINT_4,
+            TECHNIQUE_POINT_5,
+        ]:
+            if matched_button is not None:
+                button.load_offset(matched_button)
+            points.append(self.image_color_count(area_offset(button.area, button.button_offset), color=(255, 255, 255),
+                                                 threshold=221, count=20))
         count = sum(points)
         logger.attr('TechniquePoints', count)
         return count
