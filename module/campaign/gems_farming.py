@@ -269,47 +269,12 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
         scanner.set_limitation(fleet=0)
 
-        if self.config.GemsFarming_CommonDD == 'any':
-            logger.info('')
+        candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
 
-            return scanner.scan(self.device.image, output=False)
-
-        elif self.config.GemsFarming_CommonDD == 'aulick_or_foote':
-            template = {
-                '1': TEMPLATE_AULICK,
-                '2': TEMPLATE_FOOTE
-            }
-
-            candidates = self.find_candidates(template, scanner)
-
-            if candidates:
-                return candidates
-
-            logger.info('No specific DD was found, try reversed order.')
-            self.dock_sort_method_dsc_set(False)
-
-            candidates = self.find_candidates(template, scanner)
-
+        if candidates:
             return candidates
-
         else:
-            template = {
-                '1': TEMPLATE_CASSIN_1,
-                '2': TEMPLATE_CASSIN_2,
-                '3': TEMPLATE_DOWNES_1,
-                '4': TEMPLATE_DOWNES_2
-            }
-
-            candidates = self.find_candidates(template, scanner)
-
-            if candidates:
-                return candidates
-
             logger.info('No specific DD was found, try reversed order.')
-            self.dock_sort_method_dsc_set(False)
-
-            candidates = self.find_candidates(template, scanner)
-
             return candidates
 
     def find_candidates(self, template, scanner):
@@ -318,12 +283,24 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
         """
         candidates = []
-        for key, temp in template.items():
+        for item in template:
             candidates = [ship for ship in scanner.scan(self.device.image, output=False)
-                          if temp.match(self.image_crop(ship.button), similarity=SIM_VALUE)]
+                          if item.match(self.image_crop(ship.button), similarity=SIM_VALUE)]
             if candidates:
                 break
         return candidates
+
+    def get_templates(self, CommonDD):
+        """
+            Returns the corresponding template list based on CommonDD
+
+        """
+        if CommonDD == 'any':
+            return [TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2, TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2, TEMPLATE_AULICK, TEMPLATE_FOOTE]
+        elif CommonDD == 'aulick_or_foote':
+            return [TEMPLATE_AULICK, TEMPLATE_FOOTE]
+        else:
+            return [TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2, TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2]
 
     def flagship_change_execute(self):
         """
@@ -450,4 +427,3 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                 continue
             else:
                 break
-
