@@ -70,6 +70,8 @@ OVERRIDE.map_data = """
     -- -- -- ME -- -- -- -- -- --
 """
 
+MAP.ignore_prediction(H5, is_boss=True)
+
 
 class Config(ConfigBase):
     # ===== Start of generated config =====

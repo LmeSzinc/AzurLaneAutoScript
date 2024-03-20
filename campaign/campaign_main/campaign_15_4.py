@@ -76,6 +76,9 @@ OVERRIDE.map_data = """
     MB ME -- ME ME ME -- -- -- -- ME
 """
 
+MAP.ignore_prediction(H5, is_boss=True)
+MAP.ignore_prediction(D3, is_boss=True)
+
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
