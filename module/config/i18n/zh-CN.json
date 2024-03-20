@@ -295,7 +295,6 @@
     "NameAtDoubleCalyx": {
       "name": "有双倍花活动时，选择副本",
       "help": "次数耗尽后回退到默认打本设置",
-      "do_not_participate": "不参与活动",
       "Calyx_Golden_Memories_Jarilo_VI": "材料：角色经验（回忆之蕾•雅利洛-Ⅵ）",
       "Calyx_Golden_Memories_The_Xianzhou_Luofu": "材料：角色经验（回忆之蕾•仙舟罗浮）",
       "Calyx_Golden_Memories_Penacony": "材料：角色经验（回忆之蕾•匹诺康尼）",
@@ -319,7 +318,6 @@
     "NameAtDoubleRelic": {
       "name": "有遗器活动时，选择副本",
       "help": "次数耗尽后回退到默认打本设置",
-      "do_not_participate": "不参与活动",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "遗器：冰套+风套（霜风之径•侵蚀隧洞）",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "遗器：物理套+击破套（迅拳之径•侵蚀隧洞）",
       "Cavern_of_Corrosion_Path_of_Drifting": "遗器：治疗套+快枪手（漂泊之径•侵蚀隧洞）",

@@ -273,7 +273,6 @@
         "type": "select",
         "value": "Calyx_Golden_Treasures",
         "option": [
-          "do_not_participate",
           "Calyx_Golden_Memories_Jarilo_VI",
           "Calyx_Golden_Memories_The_Xianzhou_Luofu",
           "Calyx_Golden_Memories_Penacony",
@@ -299,7 +298,6 @@
         "type": "select",
         "value": "Cavern_of_Corrosion_Path_of_Providence",
         "option": [
-          "do_not_participate",
           "Cavern_of_Corrosion_Path_of_Gelid_Wind",
           "Cavern_of_Corrosion_Path_of_Jabbing_Punch",
           "Cavern_of_Corrosion_Path_of_Drifting",

@@ -226,8 +226,7 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
         ran_calyx_crimson = False
         ran_cavern_of_corrosion = False
         # Double calyx
-        if self.config.Dungeon_NameAtDoubleCalyx != 'do_not_participate' \
-                and self.config.stored.DungeonDouble.calyx > 0:
+        if self.config.stored.DungeonDouble.calyx > 0:
             logger.info('Run double calyx')
             dungeon = DungeonList.find(self.config.Dungeon_NameAtDoubleCalyx)
             self.running_double = True
@@ -237,8 +236,7 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
                 if dungeon.is_Calyx_Crimson:
                     ran_calyx_crimson = True
         # Double relic
-        if self.config.Dungeon_NameAtDoubleRelic != 'do_not_participate' \
-                and self.config.stored.DungeonDouble.relic > 0:
+        if self.config.stored.DungeonDouble.relic > 0:
             logger.info('Run double relic')
             dungeon = DungeonList.find(self.config.Dungeon_NameAtDoubleRelic)
             self.running_double = True

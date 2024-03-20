@@ -295,7 +295,6 @@
     "NameAtDoubleCalyx": {
       "name": "En los eventos de x2 de Cáliz",
       "help": "Se volverán a los ajustes predeterminados una vez se acaben los intentos del evento",
-      "do_not_participate": "No participar en el evento",
       "Calyx_Golden_Memories_Jarilo_VI": "Material: EXP de personaje (Flor de los recuerdos (Jarilo-Ⅵ))",
       "Calyx_Golden_Memories_The_Xianzhou_Luofu": "Material: EXP de personaje (Flor de los recuerdos (El Luofu de Xianzhou))",
       "Calyx_Golden_Memories_Penacony": "Material: EXP de personaje (Flor de los recuerdos (Colonipenal))",
@@ -319,7 +318,6 @@
     "NameAtDoubleRelic": {
       "name": "En los eventos de x2 de Caverna de la corrosión",
       "help": "Se volverán a los ajustes predeterminados una vez se acaben los intentos del evento",
-      "do_not_participate": "No participar en el evento",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "Artefactos: Hielo y Viento (Senda del viento gélido)",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "Artefactos: Físico y Efecto de Ruptura (Senda de los puños rápidos)",
       "Cavern_of_Corrosion_Path_of_Drifting": "Artefactos: Curación y Pistolera de la espiga silvestre (Senda de la deriva)",

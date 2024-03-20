@@ -295,7 +295,6 @@
     "NameAtDoubleCalyx": {
       "name": "At Double Calyx Event, choose dungeon",
       "help": "Return to the default dungeon settings after double times exhausted",
-      "do_not_participate": "Dont participate in event",
       "Calyx_Golden_Memories_Jarilo_VI": "Material: Character EXP (Bud of Memories (Jarilo-Ⅵ))",
       "Calyx_Golden_Memories_The_Xianzhou_Luofu": "Material: Character EXP (Bud of Memories (The Xianzhou Luofu))",
       "Calyx_Golden_Memories_Penacony": "Material: Character EXP (Bud of Memories (Penacony))",
@@ -319,7 +318,6 @@
     "NameAtDoubleRelic": {
       "name": "At Double Relic Event, choose dungeon",
       "help": "Return to the default dungeon settings after double times exhausted",
-      "do_not_participate": "Dont participate in event",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "Relics: Ice Set & Wind Set (Path of Gelid Wind)",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "Relics: Physical Set & Break Effect Set (Path of Jabbing Punch)",
       "Cavern_of_Corrosion_Path_of_Drifting": "Relics: Healing Set & Musketeer Set (Path of Drifting)",
