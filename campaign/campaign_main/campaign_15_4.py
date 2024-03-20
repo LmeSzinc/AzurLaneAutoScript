@@ -36,10 +36,10 @@ MAP.spawn_data = [
     {'battle': 0, 'enemy': 8},
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 1},
-    {'battle': 3, 'enemy': 1, 'boss': 1},
+    {'battle': 3, 'enemy': 1, 'siren': 1},
     {'battle': 4, 'enemy': 2},
     {'battle': 5},
-    {'battle': 6, 'boss': 1},
+    {'battle': 6, 'siren': 1},
     {'battle': 7, 'enemy': 1},
     {'battle': 8, 'boss': 1},
 ]
@@ -67,9 +67,9 @@ OVERRIDE = CampaignMap('15-4')
 OVERRIDE.map_data = """
     ME -- ME ME ME -- ME -- -- ME ME
     ME -- -- -- -- ME -- -- -- -- ME
-    -- -- -- MB -- -- ME -- -- ME ME
+    -- -- -- -- -- -- ME -- -- ME ME
     -- ME -- -- -- -- -- -- -- ME --
-    -- ME ME -- -- ME -- MB -- -- ME
+    -- ME ME -- -- ME -- -- -- -- ME
     ME ME ME -- -- -- -- -- ME -- ME
     ME -- -- -- ME ME -- ME ME -- --
     -- -- -- -- ME -- ME ME ME ME ME
@@ -79,9 +79,9 @@ OVERRIDE.map_data = """
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    # MAP_SIREN_TEMPLATE = ['0']
+    MAP_SIREN_TEMPLATE = ['BOSS']
     # MOVABLE_ENEMY_TURN = (2,)
-    # MAP_HAS_SIREN = True
+    MAP_HAS_SIREN = True
     # MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
@@ -126,6 +126,7 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_2(self):
+        self.pick_up_ammo()
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
@@ -133,13 +134,19 @@ class Campaign(CampaignBase):
     
     @Config_.when(Campaign_UseClearMode=False)
     def battle_3(self):
+        if self.fleet_boss.clear_siren():
+            self.fleet_1.switch_to()
+            return True
+            
         self.fleet_boss.clear_chosen_enemy(H5, expected='boss_stage_1')
         self.fleet_1.switch_to()
         return True
 
     @Config_.when(Campaign_UseClearMode=True)
     def battle_3(self):
-        self.pick_up_ammo()
+        if self.clear_siren():
+            return True
+
         self.clear_chosen_enemy(H5, expected='boss_stage_1')
         return True
 
@@ -152,6 +159,9 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_6(self):
+        if self.clear_siren():
+            return True
+
         self.clear_chosen_enemy(D3, expected='boss_stage_2')
         return True
 

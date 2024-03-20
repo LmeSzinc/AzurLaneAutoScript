@@ -34,7 +34,7 @@ MAP.spawn_data = [
     {'battle': 0, 'enemy': 5},
     {'battle': 1, 'enemy': 2},
     {'battle': 2, 'enemy': 1},
-    {'battle': 3, 'enemy': 1, 'boss': 1},
+    {'battle': 3, 'enemy': 1, 'siren': 1},
     {'battle': 4, 'enemy': 2},
     {'battle': 5},
     {'battle': 6, 'boss': 1},
@@ -64,7 +64,7 @@ OVERRIDE.map_data = """
     -- ME -- ME -- ME ME ME ME --
     ME ME ME ME ME -- -- MB -- ME
     -- -- -- ME ME ME -- -- -- ME
-    ME ME -- -- ME -- ME MB -- ME
+    ME ME -- -- ME -- ME -- -- ME
     ME ME -- -- ME ME ME -- -- ME
     ME -- -- -- -- ME -- -- -- --
     -- -- -- ME -- -- -- -- -- --
@@ -73,9 +73,9 @@ OVERRIDE.map_data = """
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    # MAP_SIREN_TEMPLATE = ['0']
+    MAP_SIREN_TEMPLATE = ['BOSS']
     # MOVABLE_ENEMY_TURN = (2,)
-    # MAP_HAS_SIREN = True
+    MAP_HAS_SIREN = True
     # MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
@@ -114,6 +114,9 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_3(self):
+        if self.clear_siren():
+            return True
+
         self.clear_chosen_enemy(H5, expected='boss_stage_1')
         return True
 
