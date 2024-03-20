@@ -53,53 +53,63 @@ RUN_BUTTON = ButtonWrapper(
         button=(1147, 591, 1195, 639),
     ),
 )
+TECHNIQUE_POINT_0 = ButtonWrapper(
+    name='TECHNIQUE_POINT_0',
+    share=Button(
+        file='./assets/share/map/control/TECHNIQUE_POINT_0.png',
+        area=(884, 597, 891, 604),
+        search=(831, 589, 944, 612),
+        color=(56, 56, 56),
+        button=(884, 597, 891, 604),
+    ),
+)
 TECHNIQUE_POINT_1 = ButtonWrapper(
     name='TECHNIQUE_POINT_1',
     share=Button(
         file='./assets/share/map/control/TECHNIQUE_POINT_1.png',
-        area=(881, 594, 894, 607),
-        search=(861, 574, 914, 627),
-        color=(149, 141, 186),
-        button=(881, 594, 894, 607),
+        area=(884, 597, 891, 604),
+        search=(831, 589, 944, 612),
+        color=(222, 213, 253),
+        button=(884, 597, 891, 604),
     ),
 )
 TECHNIQUE_POINT_2 = ButtonWrapper(
     name='TECHNIQUE_POINT_2',
     share=Button(
         file='./assets/share/map/control/TECHNIQUE_POINT_2.png',
-        area=(889, 578, 903, 592),
-        search=(869, 558, 923, 612),
-        color=(139, 132, 174),
-        button=(889, 578, 903, 592),
+        area=(892, 581, 900, 589),
+        search=(872, 561, 920, 609),
+        color=(213, 203, 249),
+        button=(892, 581, 900, 589),
     ),
 )
 TECHNIQUE_POINT_3 = ButtonWrapper(
     name='TECHNIQUE_POINT_3',
     share=Button(
         file='./assets/share/map/control/TECHNIQUE_POINT_3.png',
-        area=(902, 566, 916, 580),
-        search=(882, 546, 936, 600),
-        color=(138, 130, 173),
-        button=(902, 566, 916, 580),
+        area=(905, 569, 913, 577),
+        search=(885, 549, 933, 597),
+        color=(207, 195, 249),
+        button=(905, 569, 913, 577),
     ),
 )
 TECHNIQUE_POINT_4 = ButtonWrapper(
     name='TECHNIQUE_POINT_4',
     share=Button(
         file='./assets/share/map/control/TECHNIQUE_POINT_4.png',
-        area=(918, 559, 932, 573),
-        search=(898, 539, 952, 593),
-        color=(138, 130, 173),
-        button=(918, 559, 932, 573),
+        area=(921, 562, 929, 570),
+        search=(901, 542, 949, 590),
+        color=(210, 198, 248),
+        button=(921, 562, 929, 570),
     ),
 )
 TECHNIQUE_POINT_5 = ButtonWrapper(
     name='TECHNIQUE_POINT_5',
     share=Button(
         file='./assets/share/map/control/TECHNIQUE_POINT_5.png',
-        area=(935, 559, 948, 573),
-        search=(915, 539, 968, 593),
-        color=(71, 72, 77),
-        button=(935, 559, 948, 573),
+        area=(938, 562, 945, 570),
+        search=(918, 542, 965, 590),
+        color=(215, 203, 250),
+        button=(938, 562, 945, 570),
     ),
 )
