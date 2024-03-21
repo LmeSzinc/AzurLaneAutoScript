@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 
 from module.combat.assets import GET_SHIP
 from module.dorm.assets import *
+from module.exercise.assets import EXERCISE_PREPARATION
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.ui.assets import DORM_CHECK
@@ -33,10 +34,6 @@ class BuyFurniture(UI):
             else:
                 self.device.screenshot()
 
-            if self.ui_additional():
-                self.interval_clear(DORM_CHECK)
-                continue
-
             # Enter furniture shop page from page_dorm, only need to enter once
             if self.appear(DORM_CHECK, offset=(20, 20), interval=3):
                 self.device.click(DORM_FURNITURE_SHOP_ENTER)
@@ -44,6 +41,7 @@ class BuyFurniture(UI):
                 continue
 
             if self.appear(DORM_FURNITURE_SHOP_FIRST_SELECTED, offset=(20, 20)):
+                self.interval_reset(EXERCISE_PREPARATION)
                 # Enter furniture details page from furniture shop page
                 if self.appear(DORM_FURNITURE_DETAILS_ENTER, offset=(20, 20), interval=3):
                     self.device.click(DORM_FURNITURE_DETAILS_ENTER)
@@ -56,6 +54,10 @@ class BuyFurniture(UI):
 
             if self.appear(DORM_FURNITURE_DETAILS_QUIT, offset=(20, 20)):
                 break
+
+            if self.ui_additional():
+                self.interval_clear(DORM_CHECK)
+                continue
 
     def furniture_shop_quit(self, skip_first_screenshot=False):
         """
