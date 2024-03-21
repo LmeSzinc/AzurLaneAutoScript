@@ -11,7 +11,7 @@ from module.ui.ui import UI
 OCR_FURNITURE_COIN = Digit(OCR_DORM_FURNITURE_COIN, letter=(107, 89, 82), threshold=128, alphabet='0123456789', name='OCR_FURNITURE_COIN')
 OCR_FURNITURE_PRICE = Digit(OCR_DORM_FURNITURE_PRICE, letter=(255, 247, 247), threshold=64, alphabet='0123456789', name='OCR_FURNITURE_PRICE')
 
-CHECK_INTERVAL = 7  # Check every 7 days
+CHECK_INTERVAL = 6  # Check every 6 days
 # Only for click
 FURNITURE_BUY_BUTTON = {
     "all": DORM_FURNITURE_BUY_ALL,
