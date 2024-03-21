@@ -169,7 +169,7 @@ class DroidCast(Uiautomator2):
         if image is None:
             raise ImageTruncated('Empty image after cv2.imdecode')
 
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        cv2.cvtColor(image, cv2.COLOR_BGR2RGB, dst=image)
         if image is None:
             raise ImageTruncated('Empty image after cv2.cvtColor')
 
@@ -211,14 +211,25 @@ class DroidCast(Uiautomator2):
         # image = cv2.merge([r, g, b])
 
         # The same as the code above but costs about 5ms instead of 10ms.
-        r = cv2.multiply(arr & 0b1111100000000000, 0.00390625).astype(np.uint8)
-        g = cv2.multiply(arr & 0b0000011111100000, 0.125).astype(np.uint8)
-        b = cv2.multiply(arr & 0b0000000000011111, 8).astype(np.uint8)
-        r = cv2.add(r, cv2.multiply(r, 0.03125))
-        g = cv2.add(g, cv2.multiply(g, 0.015625))
-        b = cv2.add(b, cv2.multiply(b, 0.03125))
-        image = cv2.merge([r, g, b])
+        r = cv2.bitwise_and(arr, 0b1111100000000000)
+        cv2.multiply(r, 0.00390625, dst=r)
+        r = np.uint8(r)
+        m = cv2.multiply(r, 0.03125)
+        cv2.add(r, m, dst=r)
 
+        g = cv2.bitwise_and(arr, 0b0000011111100000)
+        cv2.multiply(g, 0.125, dst=g)
+        g = np.uint8(g)
+        m = cv2.multiply(g, 0.015625)
+        cv2.add(g, m, dst=g)
+
+        b = cv2.bitwise_and(arr, 0b0000000000011111)
+        cv2.multiply(b, 8, dst=b)
+        b = np.uint8(b)
+        m = cv2.multiply(b, 0.03125)
+        cv2.add(b, m, dst=b)
+
+        image = cv2.merge([r, g, b])
         return image
 
     def droidcast_wait_startup(self):
