@@ -1581,15 +1581,6 @@
           "ship_equip"
         ]
       },
-      "ChangeVanguard": {
-        "type": "select",
-        "value": "ship",
-        "option": [
-          "disabled",
-          "ship",
-          "ship_equip"
-        ]
-      },
       "CommonCV": {
         "type": "select",
         "value": "any",
@@ -1599,6 +1590,24 @@
           "bogue",
           "ranger",
           "hermes"
+        ]
+      },
+      "ChangeVanguard": {
+        "type": "select",
+        "value": "ship",
+        "option": [
+          "disabled",
+          "ship",
+          "ship_equip"
+        ]
+      },
+      "CommonDD": {
+        "type": "select",
+        "value": "any",
+        "option": [
+          "any",
+          "aulick_or_foote",
+          "cassin_or_downes"
         ]
       },
       "CommissionLimit": {
