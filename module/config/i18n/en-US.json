@@ -1418,7 +1418,7 @@
     },
     "LastRun": {
       "name": "Last Check Time",
-      "help": "The time of the last check is recorded here to prevent the task from running repeatedly. Check interval is 7 days. This value is automatically recorded and generally does not need to be modified."
+      "help": "The time of the last check is recorded here to prevent the task from running repeatedly. Check interval is 6 days. This value is automatically recorded and generally does not need to be modified."
     }
   },
   "Meowfficer": {
