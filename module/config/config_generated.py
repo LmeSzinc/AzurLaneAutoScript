@@ -60,6 +60,7 @@ class GeneratedConfig:
 
     # Group `OneClickRetire`
     OneClickRetire_KeepLimitBreak = 'keep_limit_break'  # keep_limit_break, do_not_keep
+    OneClickRetire_KeepCommonCV = 'keep_common_cv'  # keep_common_cv, do_not_keep
 
     # Group `Enhance`
     Enhance_ShipToEnhance = 'all'  # all, favourite

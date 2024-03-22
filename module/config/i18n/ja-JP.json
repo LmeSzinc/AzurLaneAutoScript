@@ -585,6 +585,12 @@
       "help": "OneClickRetire.KeepLimitBreak.help",
       "keep_limit_break": "keep_limit_break",
       "do_not_keep": "do_not_keep"
+    },
+    "KeepCommonCV": {
+      "name": "OneClickRetire.KeepCommonCV.name",
+      "help": "OneClickRetire.KeepCommonCV.help",
+      "keep_common_cv": "keep_common_cv",
+      "do_not_keep": "do_not_keep"
     }
   },
   "Enhance": {

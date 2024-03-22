@@ -585,6 +585,12 @@
       "help": "If you own multiple copies of a ship that has not been fully Limit Broken, this option determines what you want to do with those copies.\nIf one-click retire cannot retire ships, please set to \"Don't Keep\"",
       "keep_limit_break": "Keep Enough to Max LB",
       "do_not_keep": "Don't Keep"
+    },
+    "KeepCommonCV": {
+      "name": "Keep Common rarity CVs",
+      "help": "If you want to keep common rarity CVs for gems farming, please set to \"Keep Common CV\". If you want to retire them, please set to \"Don't Keep\"",
+      "keep_common_cv": "Keep Common CV",
+      "do_not_keep": "Don't Keep"
     }
   },
   "Enhance": {
