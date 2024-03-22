@@ -78,8 +78,8 @@ class RewardDorm(UI):
             out: page_dorm, with info_bar
         """
         image = MASK_DORM.apply(self.device.image)
-        loves = TEMPLATE_DORM_LOVE.match_multi(image, name='DORM_LOVE', scaling=1.5)
-        coins = TEMPLATE_DORM_COIN.match_multi(image, name='DORM_COIN', scaling=1.5)
+        loves = TEMPLATE_DORM_LOVE.match_multi(image, name='DORM_LOVE')
+        coins = TEMPLATE_DORM_COIN.match_multi(image, name='DORM_COIN')
         logger.info(f'Dorm loves: {len(loves)}, Dorm coins: {len(coins)}')
         # Complicated dorm background
         if len(loves) > 6:
@@ -153,6 +153,35 @@ class RewardDorm(UI):
                        f'does not support DOWN/UP events, use multi-click instead')
         self.device.multi_click(button, count)
 
+    def dorm_view_reset(self, skip_first_screenshot=True):
+        """
+        Use Dorm manage and Back to reset dorm view. 
+
+        Pages:
+            in: page_dorm, without info_bar
+            out: page_dorm, without info_bar
+        """
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            
+            if self.appear(DORM_MANAGE_CHECK, offset=(20, 20)):
+                break
+
+            if self.appear(DORM_FEED_ENTER, offset=(20, 20), interval=5):
+                self.device.click(DORM_MANAGE)
+
+        while 1:
+            self.device.screenshot()
+
+            if self.appear(DORM_FEED_ENTER, offset=(20, 20)):
+                break
+
+            if self.appear(DORM_MANAGE_CHECK, offset=(20, 20), interval=5):
+                self.device.click(DORM_FURNITURE_SHOP_QUIT)
+
     def dorm_collect(self):
         """
         Click all coins and loves on current screen.
@@ -164,26 +193,8 @@ class RewardDorm(UI):
             out: page_dorm, without info_bar
         """
         logger.hr('Dorm collect')
-        # if self.config.Emulator_ControlMethod not in ['uiautomator2', 'minitouch']:
-        #     logger.warning(f'Current control method {self.config.Emulator_ControlMethod} '
-        #                    f'does not support 2 finger zoom out, skip dorm collect')
-        #     return
-
-        # Already at a high camera view now, no need to zoom-out.
-        # for _ in range(2):
-        #     logger.info('Dorm zoom out')
-        #     # Left hand down
-        #     x, y = random_rectangle_point((33, 228, 234, 469))
-        #     self.device.minitouch_builder.down(x, y, contact_id=1).commit()
-        #     self.device.minitouch_send()
-        #     # Right hand swipe
-        #     # Need to avoid drop-down menu in android, which is 38 px.
-        #     p1, p2 = random_rectangle_vector(
-        #         (-700, 450), box=(247, 45, 1045, 594), random_range=(-50, -50, 50, 50), padding=0)
-        #     self.device.drag_minitouch(p1, p2, point_random=(0, 0, 0, 0))
-        #     # Left hand up
-        #     self.device.minitouch_builder.up(contact_id=1).commit()
-        #     self.device.minitouch_send()
+        
+        self.dorm_view_reset()
 
         # Collect
         _dorm_receive_attempt = 0
