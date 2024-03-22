@@ -1681,8 +1681,8 @@
         ],
         "display": "hide",
         "option_bold": [
-          "event_20220324_cn",
-          "event_20210422_cn"
+          "event_20210422_cn",
+          "event_20220324_cn"
         ],
         "cn": "event_20220324_cn",
         "en": "event_20220324_cn",
@@ -1855,6 +1855,47 @@
         "display": "display"
       }
     },
+    "Submarine": {
+      "Fleet": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2
+        ]
+      },
+      "Mode": {
+        "type": "state",
+        "value": "hunt_only",
+        "option": [
+          "hunt_only"
+        ],
+        "option_bold": [
+          "hunt_only"
+        ]
+      },
+      "AutoSearchMode": {
+        "type": "select",
+        "value": "sub_standby",
+        "option": [
+          "sub_standby",
+          "sub_auto_call"
+        ],
+        "display": "hide"
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_open_ocean_support"
+        ],
+        "display": "hide"
+      }
+    },
     "Storage": {
       "Storage": {
         "type": "storage",
@@ -2014,8 +2055,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20220324_cn",
-          "event_20210422_cn"
+          "event_20210422_cn",
+          "event_20220324_cn"
         ],
         "cn": "event_20220324_cn",
         "en": "event_20220324_cn",
@@ -2462,8 +2503,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20220324_cn",
-          "event_20210422_cn"
+          "event_20210422_cn",
+          "event_20220324_cn"
         ],
         "cn": "event_20220324_cn",
         "en": "event_20220324_cn",
@@ -2872,8 +2913,8 @@
           "raid_20240130"
         ],
         "option_bold": [
-          "raid_20230629",
-          "raid_20240130"
+          "raid_20240130",
+          "raid_20230629"
         ],
         "cn": "raid_20240130",
         "en": "raid_20240130",
@@ -3855,8 +3896,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20220324_cn",
-          "event_20210422_cn"
+          "event_20210422_cn",
+          "event_20220324_cn"
         ],
         "cn": "event_20220324_cn",
         "en": "event_20220324_cn",
@@ -4320,8 +4361,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20220324_cn",
-          "event_20210422_cn"
+          "event_20210422_cn",
+          "event_20220324_cn"
         ],
         "cn": "event_20220324_cn",
         "en": "event_20220324_cn",
@@ -4785,8 +4826,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20220324_cn",
-          "event_20210422_cn"
+          "event_20210422_cn",
+          "event_20220324_cn"
         ],
         "cn": "event_20220324_cn",
         "en": "event_20220324_cn",
@@ -5250,8 +5291,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20220324_cn",
-          "event_20210422_cn"
+          "event_20210422_cn",
+          "event_20220324_cn"
         ],
         "cn": "event_20220324_cn",
         "en": "event_20220324_cn",
@@ -5705,8 +5746,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20220324_cn",
-          "event_20210422_cn"
+          "event_20210422_cn",
+          "event_20220324_cn"
         ],
         "cn": "event_20220324_cn",
         "en": "event_20220324_cn",
@@ -6112,8 +6153,8 @@
           "raid_20240130"
         ],
         "option_bold": [
-          "raid_20230629",
-          "raid_20240130"
+          "raid_20240130",
+          "raid_20230629"
         ],
         "cn": "raid_20240130",
         "en": "raid_20240130",

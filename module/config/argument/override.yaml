@@ -46,6 +46,14 @@ GemsFarming:
       display: display
       value: fleet1_all_fleet2_standby
       option: [ fleet1_all_fleet2_standby, fleet1_standby_fleet2_all ]
+  Submarine:
+    Mode:
+      type: state
+      value: hunt_only
+      option: [ hunt_only, ]
+      option_bold: [ hunt_only, ]
+    AutoSearchMode: sub_standby
+    DistanceToBoss: '2_grid_to_boss'
 
 # ==================== Event ====================
 
