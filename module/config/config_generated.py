@@ -152,6 +152,7 @@ class GeneratedConfig:
     GemsFarming_ChangeFlagship = 'ship'  # ship, ship_equip
     GemsFarming_ChangeVanguard = 'ship'  # disabled, ship, ship_equip
     GemsFarming_CommonCV = 'any'  # any, langley, bogue, ranger, hermes
+    GemsFarming_EquipmentCode = 'langley: null\nbogue: null\nranger: null\nhermes: null'
     GemsFarming_CommissionLimit = True
 
     # Group `EventGeneral`

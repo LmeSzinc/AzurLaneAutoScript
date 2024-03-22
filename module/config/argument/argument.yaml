@@ -243,6 +243,14 @@ GemsFarming:
   CommonCV:
     value: any
     option: [ any, langley, bogue, ranger, hermes ]
+  EquipmentCode:
+    type: textarea
+    mode: yaml
+    value: |-
+      langley: null
+      bogue: null
+      ranger: null
+      hermes: null
   CommissionLimit: true
 
 # ==================== Event ====================

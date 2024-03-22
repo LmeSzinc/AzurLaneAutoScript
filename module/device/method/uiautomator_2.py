@@ -323,3 +323,16 @@ class Uiautomator2(Connection):
             description=resp.get('description', '')
         )
         return resp
+
+    def u2_set_fastinput_ime(self, enable: bool):
+        self.u2.set_fastinput_ime(enable)
+
+    def u2_send_keys(self, text: str, clear: bool=False):
+        self.u2.send_keys(text=text, clear=clear)
+
+    # Ref: https://uiautomator2.readthedocs.io/en/latest/api.html#uiautomator2.Session.send_action
+    def u2_send_action(self, code):
+        self.u2.send_action(code=code)
+
+    def u2_clear_text(self):
+        self.u2.clear_text()

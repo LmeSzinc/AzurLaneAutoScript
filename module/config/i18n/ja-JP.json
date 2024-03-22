@@ -1137,6 +1137,10 @@
       "ranger": "ranger",
       "hermes": "hermes"
     },
+    "EquipmentCode": {
+      "name": "GemsFarming.EquipmentCode.name",
+      "help": "GemsFarming.EquipmentCode.help"
+    },
     "CommissionLimit": {
       "name": "GemsFarming.CommissionLimit.name",
       "help": "GemsFarming.CommissionLimit.help"

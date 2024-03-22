@@ -1601,6 +1601,11 @@
           "hermes"
         ]
       },
+      "EquipmentCode": {
+        "type": "textarea",
+        "value": "langley: null\nbogue: null\nranger: null\nhermes: null",
+        "mode": "yaml"
+      },
       "CommissionLimit": {
         "type": "checkbox",
         "value": true

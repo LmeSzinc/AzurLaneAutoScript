@@ -313,6 +313,7 @@
       "ChangeFlagship": "ship",
       "ChangeVanguard": "ship",
       "CommonCV": "any",
+      "EquipmentCode": "langley: null\nbogue: null\nranger: null\nhermes: null",
       "CommissionLimit": true
     },
     "Campaign": {
