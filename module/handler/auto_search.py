@@ -15,6 +15,14 @@ AUTO_SEARCH_SETTINGS = [
     AUTO_SEARCH_SET_SUB_AUTO,
     AUTO_SEARCH_SET_SUB_STANDBY
 ]
+AUTO_SEARCH_15_SETTINGS = [
+    AUTO_SEARCH_SET_15MOB,
+    AUTO_SEARCH_SET_15BOSS,
+    AUTO_SEARCH_SET_15ALL,
+    AUTO_SEARCH_SET_15STANDBY,
+    AUTO_SEARCH_SET_SUB_15AUTO,
+    AUTO_SEARCH_SET_SUB_15STANDBY
+]
 dic_setting_name_to_index = {
     'fleet1_mob_fleet2_boss': 0,
     'fleet1_boss_fleet2_mob': 1,
@@ -130,9 +138,16 @@ class AutoSearchHandler(EnemySearchingHandler):
         Returns:
             bool: If selected to the correct option.
         """
+        # Switch assets for campaign 15
+        if self.config.Campaign_Name.startswith('campaign_15_'):
+            AUTO_SEARCH_SETTINGS_USED = AUTO_SEARCH_15_SETTINGS
+            logger.warning(setting)
+        else:
+            AUTO_SEARCH_SETTINGS_USED = AUTO_SEARCH_SETTINGS
+        
         active = []
 
-        for index, button in enumerate(AUTO_SEARCH_SETTINGS):
+        for index, button in enumerate(AUTO_SEARCH_SETTINGS_USED):
             if self.image_color_count(button, color=(156, 255, 82), threshold=221, count=20):
                 active.append(index)
 
@@ -150,7 +165,7 @@ class AutoSearchHandler(EnemySearchingHandler):
             logger.info('Selected to the correct auto search setting')
             return True
         else:
-            self.device.click(AUTO_SEARCH_SETTINGS[target_index])
+            self.device.click(AUTO_SEARCH_SETTINGS_USED[target_index])
             return False
 
     def auto_search_setting_ensure(self, setting, skip_first_screenshot=True):
