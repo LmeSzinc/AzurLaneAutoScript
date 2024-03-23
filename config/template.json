@@ -346,9 +346,12 @@
     },
     "Submarine": {
       "Fleet": 0,
-      "Mode": "hunt_only",
+      "Mode": "do_not_use",
       "AutoSearchMode": "sub_standby",
       "DistanceToBoss": "2_grid_to_boss"
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": "S1_enemy_first"
     },
     "Storage": {
       "Storage": {}
