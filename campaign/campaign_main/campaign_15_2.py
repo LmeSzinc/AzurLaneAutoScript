@@ -1,4 +1,3 @@
-from module.base.decorator import Config as Config_
 from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
@@ -82,24 +81,22 @@ class Config(ConfigBase):
 
 class Campaign(CampaignBase):
     MAP = MAP
-    
+
     def map_data_init(self, map_):
         super().map_data_init(map_)
         for override_grid in OVERRIDE:
             # Set may_enemy, but keep may_ambush
             self.map[override_grid.location].may_enemy = override_grid.may_enemy
 
-    @Config_.when(Campaign_UseClearMode=False)
     def battle_0(self):
-        self.mob_move(I6, I7)
-        self.mob_move(I7, H7)
-        self.clear_chosen_enemy(G7)
-        return True
-
-    @Config_.when(Campaign_UseClearMode=True)
-    def battle_0(self):
-        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
+        if not self.config.Campaign_UseClearMode:
+            self.mob_move(I6, I7)
+            self.mob_move(I7, H7)
+            self.clear_chosen_enemy(G7)
             return True
+        else:
+            if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
+                return True
 
         return self.battle_default()
 

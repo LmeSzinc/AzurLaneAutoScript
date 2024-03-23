@@ -1,4 +1,3 @@
-from module.base.decorator import Config as Config_
 from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
@@ -95,7 +94,7 @@ class Config(ConfigBase):
 
 class Campaign(CampaignBase):
     MAP = MAP
-    
+
     def map_data_init(self, map_):
         super().map_data_init(map_)
         for override_grid in OVERRIDE:
@@ -103,27 +102,23 @@ class Campaign(CampaignBase):
             self.map[override_grid.location].may_enemy = override_grid.may_enemy
             self.map[override_grid.location].may_boss = override_grid.may_boss
 
-    @Config_.when(Campaign_UseClearMode=False)
     def battle_0(self):
-        self.clear_chosen_enemy(A1)
-        return True
-    
-    @Config_.when(Campaign_UseClearMode=True)
-    def battle_0(self):
-        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
+        if not self.config.Campaign_UseClearMode:
+            self.clear_chosen_enemy(A1)
+            return True
+        else:
+            if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
         return self.battle_default()
 
-    @Config_.when(Campaign_UseClearMode=False)
     def battle_1(self):
-        self.mob_move(J8, J7)
-        self.clear_chosen_enemy(K9)
-        return True
-
-    @Config_.when(Campaign_UseClearMode=True)
-    def battle_1(self):
-        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
+        if not self.config.Campaign_UseClearMode:
+            self.mob_move(J8, J7)
+            self.clear_chosen_enemy(K9)
+            return True
+        else:
+            if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
         return self.battle_default()
@@ -134,24 +129,22 @@ class Campaign(CampaignBase):
             return True
 
         return self.battle_default()
-    
-    @Config_.when(Campaign_UseClearMode=False)
+
     def battle_3(self):
-        if self.fleet_boss.clear_siren():
+        if not self.config.Campaign_UseClearMode:
+            if self.fleet_boss.clear_siren():
+                self.fleet_1.switch_to()
+                return True
+
+            self.fleet_boss.clear_chosen_enemy(H5, expected='boss_stage_1')
             self.fleet_1.switch_to()
             return True
-            
-        self.fleet_boss.clear_chosen_enemy(H5, expected='boss_stage_1')
-        self.fleet_1.switch_to()
-        return True
+        else:
+            if self.clear_siren():
+                return True
 
-    @Config_.when(Campaign_UseClearMode=True)
-    def battle_3(self):
-        if self.clear_siren():
+            self.clear_chosen_enemy(H5, expected='boss_stage_1')
             return True
-
-        self.clear_chosen_enemy(H5, expected='boss_stage_1')
-        return True
 
     def battle_4(self):
         self.pick_up_ammo()
