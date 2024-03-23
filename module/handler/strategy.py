@@ -141,7 +141,7 @@ class StrategyHandler(InfoHandler):
         """
         return self.appear(SUBMARINE_MOVE_CONFIRM, offset=(20, 20))
 
-    def strategy_submarine_move_enter(self):
+    def strategy_submarine_move_enter(self, skip_first_screenshot=True):
         """
         Pages:
             in: STRATEGY_OPENED, SUBMARINE_MOVE_ENTER
@@ -149,15 +149,18 @@ class StrategyHandler(InfoHandler):
         """
         logger.info('Submarine move enter')
         while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
             if self.appear(SUBMARINE_MOVE_ENTER, offset=120, interval=5):
                 self.device.click(SUBMARINE_MOVE_ENTER)
 
             if self.appear(SUBMARINE_MOVE_CONFIRM, offset=(20, 20)):
                 break
 
-            self.device.screenshot()
-
-    def strategy_submarine_move_confirm(self):
+    def strategy_submarine_move_confirm(self, skip_first_screenshot=True):
         """
         Pages:
             in: SUBMARINE_MOVE_CONFIRM
@@ -165,6 +168,11 @@ class StrategyHandler(InfoHandler):
         """
         logger.info('Submarine move confirm')
         while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
             if self.appear_then_click(SUBMARINE_MOVE_CONFIRM, offset=(20, 20), interval=5):
                 pass
             if self.handle_popup_confirm('SUBMARINE_MOVE'):
@@ -173,9 +181,7 @@ class StrategyHandler(InfoHandler):
             if self.appear(SUBMARINE_MOVE_ENTER, offset=120):
                 break
 
-            self.device.screenshot()
-
-    def strategy_submarine_move_cancel(self):
+    def strategy_submarine_move_cancel(self, skip_first_screenshot=True):
         """
         Pages:
             in: SUBMARINE_MOVE_CONFIRM
@@ -183,6 +189,11 @@ class StrategyHandler(InfoHandler):
         """
         logger.info('Submarine move cancel')
         while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            
             if self.appear_then_click(SUBMARINE_MOVE_CANCEL, offset=(20, 20), interval=5):
                 pass
             if self.handle_popup_confirm('SUBMARINE_MOVE'):
@@ -190,8 +201,6 @@ class StrategyHandler(InfoHandler):
 
             if self.appear(SUBMARINE_MOVE_ENTER, offset=120):
                 break
-
-            self.device.screenshot()
 
     def is_in_strategy_mob_move(self):
         """
@@ -214,7 +223,7 @@ class StrategyHandler(InfoHandler):
         else:
             return 0
 
-    def strategy_mob_move_enter(self):
+    def strategy_mob_move_enter(self, skip_first_screenshot=True):
         """
         Pages:
             in: STRATEGY_OPENED, MOB_MOVE_1 or MOB_MOVE_2
@@ -222,6 +231,11 @@ class StrategyHandler(InfoHandler):
         """
         logger.info('Mob move enter')
         while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
             if self.appear_then_click(MOB_MOVE_1, offset=(120, 120), interval=5):
                 continue
             if self.appear_then_click(MOB_MOVE_2, offset=(120, 120), interval=5):
@@ -230,9 +244,7 @@ class StrategyHandler(InfoHandler):
             if self.appear(MOB_MOVE_CANCEL, offset=(20, 20)):
                 break
 
-            self.device.screenshot()
-
-    def strategy_mob_move_cancel(self):
+    def strategy_mob_move_cancel(self, skip_first_screenshot=True):
         """
         Pages:
             in: MOB_MOVE_CANCEL
@@ -240,11 +252,14 @@ class StrategyHandler(InfoHandler):
         """
         logger.info('Mob move cancel')
         while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            
             if self.appear_then_click(MOB_MOVE_CANCEL, offset=(20, 20), interval=5):
                 pass
 
             if self.appear(MOB_MOVE_1, offset=(120, 120))\
                     or self.appear(MOB_MOVE_2, offset=(120, 120)):
                 break
-
-            self.device.screenshot()
