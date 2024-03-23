@@ -213,6 +213,7 @@ class MapEventHandler(EnemySearchingHandler):
                     AUTO_SEARCH_REWARD,
                     AUTO_SEARCH_OS_MAP_OPTION_ON,
                     AUTO_SEARCH_OS_MAP_OPTION_OFF,
+                    AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED,
                 ])
                 confirm_timer.reset()
                 continue
@@ -244,11 +245,17 @@ class MapEventHandler(EnemySearchingHandler):
             bool: If clicked.
         """
         if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120)) \
-                and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image) \
-                and self.info_bar_count() >= 2:
-            self.device.screenshot_interval_set()
-            self.os_auto_search_quit(drop=drop)
-            raise CampaignEnd
+                and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):
+            if self.info_bar_count() >= 2:
+                self.device.screenshot_interval_set()
+                self.os_auto_search_quit(drop=drop)
+                raise CampaignEnd
+        if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED, offset=(5, 120)) \
+                and AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED.match_appear_on(self.device.image):
+            if self.info_bar_count() >= 2:
+                self.device.screenshot_interval_set()
+                self.os_auto_search_quit(drop=drop)
+                raise CampaignEnd
         if self.appear(AUTO_SEARCH_REWARD, offset=(50, 50)):
             self.device.screenshot_interval_set()
             if self.os_auto_search_quit(drop=drop):
@@ -264,6 +271,11 @@ class MapEventHandler(EnemySearchingHandler):
             if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120), interval=3) \
                     and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):
                 self.device.click(AUTO_SEARCH_OS_MAP_OPTION_OFF)
+                return True
+            # Game client bugged sometimes, AUTO_SEARCH_OS_MAP_OPTION_OFF grayed out but still functional
+            if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED, offset=(5, 120), interval=3) \
+                    and AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED.match_appear_on(self.device.image):
+                self.device.click(AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED)
                 return True
         else:
             if self.appear(AUTO_SEARCH_OS_MAP_OPTION_ON, offset=(5, 120), interval=3) \

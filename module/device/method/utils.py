@@ -18,8 +18,10 @@ except ImportError:
     # We expect `screencap | nc 192.168.0.1 20298` instead of `screencap '|' nc 192.168.80.1 20298`
     import adbutils
     import subprocess
+
     adbutils._utils.list2cmdline = subprocess.list2cmdline
     adbutils._device.list2cmdline = subprocess.list2cmdline
+
 
     # BaseDevice.shell() is missing a check_okay() call before reading output,
     # resulting in an `OKAY` prefix in output.
@@ -39,6 +41,7 @@ except ImportError:
             return c
         output = c.read_until_close()
         return output.rstrip() if rstrip else output
+
 
     adbutils._device.BaseDevice.shell = shell
 
@@ -309,7 +312,7 @@ class HierarchyButton:
         if res:
             return res[0]
         else:
-            return 'HierarchyButton'
+            return self.xpath
 
     @cached_property
     def count(self):
@@ -320,11 +323,26 @@ class HierarchyButton:
         return self.count == 1
 
     @cached_property
+    def attrib(self):
+        if self.exist:
+            return self.nodes[0].attrib
+        else:
+            return {}
+
+    @cached_property
     def area(self):
         if self.exist:
-            bounds = self.nodes[0].attrib.get("bounds")
+            bounds = self.attrib.get("bounds")
             lx, ly, rx, ry = map(int, re.findall(r"\d+", bounds))
             return lx, ly, rx, ry
+        else:
+            return None
+
+    @cached_property
+    def size(self):
+        if self.area is not None:
+            lx, ly, rx, ry = self.area
+            return rx - lx, ry - ly
         else:
             return None
 
@@ -338,9 +356,68 @@ class HierarchyButton:
     def __str__(self):
         return self.name
 
+    """
+    Element props
+    """
+
+    def _get_bool_prop(self, prop: str) -> bool:
+        return self.attrib.get(prop, "").lower() == 'true'
+
     @cached_property
-    def focused(self):
-        if self.exist:
-            return self.nodes[0].attrib.get("focused").lower() == 'true'
-        else:
-            return False
+    def index(self) -> int:
+        try:
+            return int(self.attrib.get("index", 0))
+        except IndexError:
+            return 0
+
+    @cached_property
+    def text(self) -> str:
+        return self.attrib.get("text", "").strip()
+
+    @cached_property
+    def resourceId(self) -> str:
+        return self.attrib.get("resourceId", "").strip()
+
+    @cached_property
+    def package(self) -> str:
+        return self.attrib.get("resourceId", "").strip()
+
+    @cached_property
+    def description(self) -> str:
+        return self.attrib.get("resourceId", "").strip()
+
+    @cached_property
+    def checkable(self) -> bool:
+        return self._get_bool_prop('checkable')
+
+    @cached_property
+    def clickable(self) -> bool:
+        return self._get_bool_prop('clickable')
+
+    @cached_property
+    def enabled(self) -> bool:
+        return self._get_bool_prop('enabled')
+
+    @cached_property
+    def fucusable(self) -> bool:
+        return self._get_bool_prop('fucusable')
+
+    @cached_property
+    def focused(self) -> bool:
+        return self._get_bool_prop('focused')
+
+    @cached_property
+    def scrollable(self) -> bool:
+        return self._get_bool_prop('scrollable')
+
+    @cached_property
+    def longClickable(self) -> bool:
+        return self._get_bool_prop('longClickable')
+
+    @cached_property
+    def password(self) -> bool:
+        return self._get_bool_prop('password')
+
+    @cached_property
+    def selected(self) -> bool:
+        return self._get_bool_prop('selected')
