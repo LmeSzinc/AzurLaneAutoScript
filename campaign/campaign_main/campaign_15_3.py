@@ -10,11 +10,11 @@ MAP.shape = 'J8'
 MAP.camera_data = ['C2', 'C6', 'G2', 'G6']
 MAP.camera_data_spawn_point = ['G6']
 MAP.map_data = """
-    -- -- ++ ME ME ME -- ME -- ME
+    Me -- ++ ME ME ME -- ME -- ME
     -- ME ++ Me -- Me ME Me ME --
-    ME -- ME ME Me -- ++ -- -- ME
+    ME Me ME ME Me -- ++ MB -- ME
     ++ -- -- ME ME Me ++ ++ __ ME
-    Me ME -- ++ Me -- ME -- -- Me
+    Me ME -- ++ Me -- ME MS -- Me
     ME ME -- -- ME ME ME -- -- ME
     Me -- __ -- -- ME -- -- ++ ++
     ++ ++ ++ Me -- -- SP SP ++ ++
@@ -48,27 +48,6 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, J7, \
 A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, \
     = MAP.flatten()
 
-
-# W15 has special enemy spawn mechanism
-# After entering map, additional enemies spawn on these nodes:
-# ['B3'] must spawns an enemy.
-# Additionally, 'A1' spawns a special carrier 
-# which allows mob air reinforcement. 
-# 15-3 has special boss spawn mechanism
-# The boss first spawns at H5, then spawns at H3.
-
-OVERRIDE = CampaignMap('15-3')
-OVERRIDE.map_data = """
-    ME -- -- ME ME ME -- ME -- ME
-    -- ME -- ME -- ME ME ME ME --
-    ME ME ME ME ME -- -- MB -- ME
-    -- -- -- ME ME ME -- -- -- ME
-    ME ME -- -- ME -- ME ME -- ME
-    ME ME -- -- ME ME ME -- -- ME
-    ME -- -- -- -- ME -- -- -- --
-    -- -- -- ME -- -- -- -- -- --
-"""
-
 MAP.ignore_prediction(H5, is_boss=True)
 
 
@@ -87,13 +66,6 @@ class Config(ConfigBase):
 
 class Campaign(CampaignBase):
     MAP = MAP
-
-    def map_data_init(self, map_):
-        super().map_data_init(map_)
-        for override_grid in OVERRIDE:
-            # Set may_enemy, but keep may_ambush
-            self.map[override_grid.location].may_enemy = override_grid.may_enemy
-            self.map[override_grid.location].may_boss = override_grid.may_boss
 
     def battle_0(self):
         if not self.config.Campaign_UseClearMode:

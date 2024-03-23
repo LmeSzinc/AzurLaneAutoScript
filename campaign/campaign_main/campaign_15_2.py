@@ -15,9 +15,9 @@ MAP.map_data = """
     -- ME ME Me -- -- -- -- --
     -- -- -- -- -- ME ME Me --
     ME -- ++ ME Me -- ME ME --
-    Me -- ME __ ME ++ ++ ++ --
-    ++ MB -- ME ME ++ -- MB --
-    ++ MB ME -- ME -- -- -- ME
+    Me -- ME __ ME ++ ++ ++ Me
+    ++ MB -- ME ME ++ Me MB --
+    ++ MB ME -- ME Me -- -- ME
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -48,23 +48,6 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, \
 A8, B8, C8, D8, E8, F8, G8, H8, I8, \
     = MAP.flatten()
 
-# W15 has special enemy spawn mechanism
-# After entering map, additional enemies spawn on these nodes:
-# ['F8', 'I6'] must spawns an enemy.
-# Additionally, 'G7' spawns a special carrier 
-# which allows mob air reinforcement.
-OVERRIDE = CampaignMap('15-2')
-OVERRIDE.map_data = """
-    ME -- ME ME ME -- -- -- --
-    ME -- -- -- ME ME ME -- --
-    -- ME ME ME -- -- -- -- --
-    -- -- -- -- -- ME ME ME --
-    ME -- -- ME ME -- ME ME --
-    ME -- ME -- ME -- -- -- ME
-    -- -- -- ME ME -- ME -- --
-    -- -- ME -- ME ME -- -- ME
-"""
-
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
@@ -81,12 +64,6 @@ class Config(ConfigBase):
 
 class Campaign(CampaignBase):
     MAP = MAP
-
-    def map_data_init(self, map_):
-        super().map_data_init(map_)
-        for override_grid in OVERRIDE:
-            # Set may_enemy, but keep may_ambush
-            self.map[override_grid.location].may_enemy = override_grid.may_enemy
 
     def battle_0(self):
         if not self.config.Campaign_UseClearMode:

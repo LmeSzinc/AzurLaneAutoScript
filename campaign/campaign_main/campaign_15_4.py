@@ -10,15 +10,15 @@ MAP.shape = 'K9'
 MAP.camera_data = ['C2', 'C5', 'C7', 'F2', 'F5', 'F7', 'H2', 'H5', 'H7']
 MAP.camera_data_spawn_point = ['H2']
 MAP.map_data = """
-    -- -- ME ME Me -- ME ++ ++ ME ME
+    Me -- ME ME Me -- ME ++ ++ ME ME
     ME -- -- -- -- ME -- ++ ++ -- ME
-    ++ -- -- -- -- -- ME SP SP ME Me
+    ++ -- -- MS -- -- ME SP SP ME Me
     ++ ME -- ++ ++ -- -- -- -- ME --
-    -- Me ME MA ++ ME -- -- -- -- ME
+    -- Me ME MA ++ ME -- MS -- -- ME
     ME ME ME -- -- -- -- ++ ME -- Me
     ME -- __ -- ME ME -- ME ME -- ++
-    -- -- ++ -- Me -- ME ME ME -- ME
-    -- Me -- ME ME Me ++ ++ ++ -- --
+    -- -- ++ -- Me -- ME ME ME Me ME
+    MB Me -- ME ME Me ++ ++ ++ -- Me
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50
@@ -53,28 +53,6 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, K8, \
 A9, B9, C9, D9, E9, F9, G9, H9, I9, J9, K9, \
     = MAP.flatten()
 
-
-# W15 has special enemy spawn mechanism
-# After entering map, additional enemies spawn on these nodes:
-# ['J8'] must spawns an enemy.
-# Additionally, 'A1' and 'K9' spawn a special carrier 
-# which allow mob air reinforcement. 
-# 15-4 has special boss spawn mechanism
-# The boss first spawns at H5, then spawns at D3, finally spawns at A9.
-
-OVERRIDE = CampaignMap('15-4')
-OVERRIDE.map_data = """
-    ME -- ME ME ME -- ME -- -- ME ME
-    ME -- -- -- -- ME -- -- -- -- ME
-    -- -- -- ME -- -- ME -- -- ME ME
-    -- ME -- -- -- -- -- -- -- ME --
-    -- ME ME -- -- ME -- ME -- -- ME
-    ME ME ME -- -- -- -- -- ME -- ME
-    ME -- -- -- ME ME -- ME ME -- --
-    -- -- -- -- ME -- ME ME ME ME ME
-    MB ME -- ME ME ME -- -- -- -- ME
-"""
-
 MAP.ignore_prediction(H5, is_boss=True)
 MAP.ignore_prediction(D3, is_boss=True)
 
@@ -94,13 +72,6 @@ class Config(ConfigBase):
 
 class Campaign(CampaignBase):
     MAP = MAP
-
-    def map_data_init(self, map_):
-        super().map_data_init(map_)
-        for override_grid in OVERRIDE:
-            # Set may_enemy, but keep may_ambush
-            self.map[override_grid.location].may_enemy = override_grid.may_enemy
-            self.map[override_grid.location].may_boss = override_grid.may_boss
 
     def battle_0(self):
         if not self.config.Campaign_UseClearMode:
