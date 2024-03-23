@@ -292,6 +292,10 @@ class FleetPreparation(InfoHandler):
             choose=SUBMARINE_CHOOSE, advice=SUBMARINE_ADVICE, bar=SUBMARINE_BAR, clear=SUBMARINE_CLEAR,
             in_use=SUBMARINE_IN_USE, hard_satisfied=SUBMARINE_HARD_SATIESFIED, main=self)
 
+        # Skip submarine setting in auto search
+        if not submarine.allow():
+            self.config.SUBMARINE = 0
+
         # Check if ship is prepared in hard mode
         h1, h2, h3 = fleet_1.is_hard_satisfied(), fleet_2.is_hard_satisfied(), submarine.is_hard_satisfied()
         logger.info(f'Hard satisfied: Fleet_1: {h1}, Fleet_2: {h2}, Submarine: {h3}')
@@ -308,7 +312,7 @@ class FleetPreparation(InfoHandler):
         if self.map_is_hard_mode:
             logger.info('Hard Campaign. No fleet preparation')
             # Clear submarine if user did not set a submarine fleet
-            if submarine.allow():
+            if self.config.SUBMARINE:
                 if self.config.Submarine_Fleet:
                     pass
                 else:
