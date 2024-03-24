@@ -90,20 +90,19 @@ class CampaignBase(CampaignBase_):
             self.strategy_mob_move_cancel()
             return False
         else:
-            self.in_sight(location, sight=self._walk_sight)
-            self.focus_to(location)
-            self.focus_to_grid_center()
+            self.in_sight(location, sight=(-1, -1, 1, 1))
             grid = self.convert_global_to_local(location)
             grid.__str__ = location
             grid_2 = self.convert_global_to_local(target)
             grid_2.__str__ = target
 
-            self.device.click(grid)
             while 1:
                 self.device.screenshot()
-                if self.appear(MOB_MOVE_ICON, offset=(80, 80)):
+
+                if grid.predict_mob_move_icon():
                     break
-            self.device.click(grid_2)
+                else:
+                    self.device.click(grid)
             while 1:
                 self.device.screenshot()
                 if self.handle_popup_confirm('MOB_MOVE'):
@@ -111,6 +110,8 @@ class CampaignBase(CampaignBase_):
 
                 if self.appear(STRATEGY_OPENED, offset=(120, 120)):
                     break
+
+                self.device.click(grid_2)
             return True
 
     def _mob_move_info_change(self, location, target):

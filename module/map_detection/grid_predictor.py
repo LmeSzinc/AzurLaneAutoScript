@@ -288,6 +288,11 @@ class GridPredictor:
         # Detect the orange arrow in submarine movement mode.
         return self.relative_rgb_count((-0.5, -1, 0.5, 0), color=(231, 138, 49), shape=(60, 60)) > 200
 
+    def predict_mob_move_icon(self):
+        image = self.relative_crop((-0.5, -0.5, 0.5, 0.5), shape=(60, 60))
+        image = color_similarity_2d(image, color=(255, 255, 255))
+        return TEMPLATE_MOB_MOVE_ICON.match(image)
+
     @cached_property
     def _image_similar_piece(self):
         return rgb2gray(self.relative_crop(area=(-0.5, -0.5, 0.5, 0.5), shape=(60, 60)))
