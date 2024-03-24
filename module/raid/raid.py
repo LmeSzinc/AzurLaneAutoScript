@@ -1,3 +1,4 @@
+import cv2
 import numpy as np
 
 import module.config.server as server
@@ -25,6 +26,36 @@ class RaidCounter(DigitCounter):
         return image
 
 
+class HuanChangCounter(Digit):
+    """
+    The limit on number of raid event "Spring Festive Fiasco" is vertical,
+    Ocr numbers on the top half.
+    """
+    def ocr(self, image, direct_ocr=False):
+        result = super().ocr(image, direct_ocr)
+        return (result, 0, 15)
+
+
+class HuanChangPtOcr(Digit):
+    def pre_process(self, image):
+        """
+        Args:
+            image (np.ndarray): Shape (height, width, channel)
+
+        Returns:
+            np.ndarray: Shape (height, width)
+        """
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        image = cv2.threshold(image, 128, 255, cv2.THRESH_BINARY_INV)[1]
+        count, cc = cv2.connectedComponents(image)
+        # Calculate connected area, greater than 60 is considered a number,
+        # CN, JP background rightmost is connected but EN is not, 
+        # EN need judge both [0, -1] and [-1, -1]
+        num_idx = [i for i in range(1, count + 1) if i != cc[0, -1] and i != cc[-1, -1] and np.count_nonzero(cc == i) > 60]
+        image = ~(np.isin(cc, num_idx) * 255)  # Numbers are white, need invert
+        return image.astype(np.uint8)
+
+
 def raid_name_shorten(name):
     """
     Args:
@@ -47,6 +78,8 @@ def raid_name_shorten(name):
         return "KUYBYSHEY"
     elif name == "raid_20230629":
         return "GORIZIA"
+    elif name == "raid_20240130":
+        return "HUANCHANG"
     else:
         raise ScriptError(f'Unknown raid name: {name}')
 
@@ -109,6 +142,12 @@ def raid_ocr(raid, mode):
                 return Digit(button, letter=(198, 223, 140), threshold=128)
             else:
                 return DigitCounter(button, letter=(82, 89, 66), threshold=128)
+        elif raid == "HUANCHANG":
+            if mode == 'ex':
+                return Digit(button, letter=(255, 255, 255), threshold=180)
+            else:
+                # Vertical count
+                return HuanChangCounter(button, letter=(255, 255, 255), threshold=80)
     except KeyError:
         raise ScriptError(f'Raid entrance asset not exists: {key}')
 
@@ -133,6 +172,8 @@ def pt_ocr(raid):
             return Digit(button, letter=(16, 24, 33), threshold=64)
         elif raid == 'GORIZIA':
             return Digit(button, letter=(255, 255, 255), threshold=64)
+        elif raid == "HUANCHANG":
+            return HuanChangPtOcr(button, letter=(23, 20, 6), threshold=128)
     except KeyError:
         # raise ScriptError(f'Raid pt ocr asset not exists: {key}')
         return None

@@ -1676,17 +1676,18 @@
           "event_20230914_cn",
           "event_20231026_cn",
           "event_20231123_cn",
-          "event_20231221_cn"
+          "event_20231221_cn",
+          "event_20240229_cn"
         ],
         "display": "hide",
         "option_bold": [
-          "event_20211229_cn",
-          "event_20230803_cn"
+          "event_20220324_cn",
+          "event_20210422_cn"
         ],
-        "cn": "event_20211229_cn",
-        "en": "event_20211229_cn",
-        "jp": "event_20211229_cn",
-        "tw": "event_20230803_cn"
+        "cn": "event_20220324_cn",
+        "en": "event_20220324_cn",
+        "jp": "event_20220324_cn",
+        "tw": "event_20210422_cn"
       },
       "Mode": {
         "type": "select",
@@ -2009,16 +2010,17 @@
           "event_20230914_cn",
           "event_20231026_cn",
           "event_20231123_cn",
-          "event_20231221_cn"
+          "event_20231221_cn",
+          "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20211229_cn",
-          "event_20230803_cn"
+          "event_20220324_cn",
+          "event_20210422_cn"
         ],
-        "cn": "event_20211229_cn",
-        "en": "event_20211229_cn",
-        "jp": "event_20211229_cn",
-        "tw": "event_20230803_cn"
+        "cn": "event_20220324_cn",
+        "en": "event_20220324_cn",
+        "jp": "event_20220324_cn",
+        "tw": "event_20210422_cn"
       },
       "Mode": {
         "type": "select",
@@ -2456,16 +2458,17 @@
           "event_20230914_cn",
           "event_20231026_cn",
           "event_20231123_cn",
-          "event_20231221_cn"
+          "event_20231221_cn",
+          "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20211229_cn",
-          "event_20230803_cn"
+          "event_20220324_cn",
+          "event_20210422_cn"
         ],
-        "cn": "event_20211229_cn",
-        "en": "event_20211229_cn",
-        "jp": "event_20211229_cn",
-        "tw": "event_20230803_cn"
+        "cn": "event_20220324_cn",
+        "en": "event_20220324_cn",
+        "jp": "event_20220324_cn",
+        "tw": "event_20210422_cn"
       },
       "Mode": {
         "type": "select",
@@ -2865,16 +2868,17 @@
           "raid_20220630",
           "raid_20221027",
           "raid_20230118",
-          "raid_20230629"
+          "raid_20230629",
+          "raid_20240130"
         ],
         "option_bold": [
           "raid_20230629",
-          "raid_20221027"
+          "raid_20240130"
         ],
-        "cn": "raid_20230629",
-        "en": "raid_20230629",
-        "jp": "raid_20230629",
-        "tw": "raid_20221027"
+        "cn": "raid_20240130",
+        "en": "raid_20240130",
+        "jp": "raid_20240130",
+        "tw": "raid_20230629"
       },
       "Mode": {
         "type": "select",
@@ -3367,17 +3371,24 @@
           "war_archives_20181026_en",
           "war_archives_20181227_cn",
           "war_archives_20190221_en",
+          "war_archives_20190314_en",
           "war_archives_20190321_en",
           "war_archives_20190620_en",
           "war_archives_20190911_cn",
           "war_archives_20191010_en",
           "war_archives_20191031_en",
+          "war_archives_20200312_cn",
+          "war_archives_20200507_cn",
+          "war_archives_20200603_cn",
           "war_archives_20200806_cn",
           "war_archives_20200820_cn",
           "war_archives_20200903_cn",
+          "war_archives_20200917_cn",
           "war_archives_20201029_cn",
           "war_archives_20201229_cn",
+          "war_archives_20210225_cn",
           "war_archives_20210325_cn",
+          "war_archives_20210527_cn",
           "war_archives_20210624_cn",
           "war_archives_20210819_cn",
           "war_archives_20211014_cn",
@@ -3386,13 +3397,12 @@
           "war_archives_20220414_cn"
         ],
         "option_bold": [
-          "war_archives_20201229_cn",
-          "war_archives_20220414_cn"
+          "war_archives_20210225_cn"
         ],
-        "cn": "war_archives_20201229_cn",
-        "en": "war_archives_20201229_cn",
-        "jp": "war_archives_20201229_cn",
-        "tw": "war_archives_20220414_cn"
+        "cn": "war_archives_20210225_cn",
+        "en": "war_archives_20210225_cn",
+        "jp": "war_archives_20210225_cn",
+        "tw": "war_archives_20210225_cn"
       },
       "Mode": {
         "type": "select",
@@ -3841,16 +3851,17 @@
           "event_20230914_cn",
           "event_20231026_cn",
           "event_20231123_cn",
-          "event_20231221_cn"
+          "event_20231221_cn",
+          "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20211229_cn",
-          "event_20230803_cn"
+          "event_20220324_cn",
+          "event_20210422_cn"
         ],
-        "cn": "event_20211229_cn",
-        "en": "event_20211229_cn",
-        "jp": "event_20211229_cn",
-        "tw": "event_20230803_cn"
+        "cn": "event_20220324_cn",
+        "en": "event_20220324_cn",
+        "jp": "event_20220324_cn",
+        "tw": "event_20210422_cn"
       },
       "Mode": {
         "type": "select",
@@ -4305,16 +4316,17 @@
           "event_20230914_cn",
           "event_20231026_cn",
           "event_20231123_cn",
-          "event_20231221_cn"
+          "event_20231221_cn",
+          "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20211229_cn",
-          "event_20230803_cn"
+          "event_20220324_cn",
+          "event_20210422_cn"
         ],
-        "cn": "event_20211229_cn",
-        "en": "event_20211229_cn",
-        "jp": "event_20211229_cn",
-        "tw": "event_20230803_cn"
+        "cn": "event_20220324_cn",
+        "en": "event_20220324_cn",
+        "jp": "event_20220324_cn",
+        "tw": "event_20210422_cn"
       },
       "Mode": {
         "type": "select",
@@ -4769,16 +4781,17 @@
           "event_20230914_cn",
           "event_20231026_cn",
           "event_20231123_cn",
-          "event_20231221_cn"
+          "event_20231221_cn",
+          "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20211229_cn",
-          "event_20230803_cn"
+          "event_20220324_cn",
+          "event_20210422_cn"
         ],
-        "cn": "event_20211229_cn",
-        "en": "event_20211229_cn",
-        "jp": "event_20211229_cn",
-        "tw": "event_20230803_cn"
+        "cn": "event_20220324_cn",
+        "en": "event_20220324_cn",
+        "jp": "event_20220324_cn",
+        "tw": "event_20210422_cn"
       },
       "Mode": {
         "type": "select",
@@ -5233,16 +5246,17 @@
           "event_20230914_cn",
           "event_20231026_cn",
           "event_20231123_cn",
-          "event_20231221_cn"
+          "event_20231221_cn",
+          "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20211229_cn",
-          "event_20230803_cn"
+          "event_20220324_cn",
+          "event_20210422_cn"
         ],
-        "cn": "event_20211229_cn",
-        "en": "event_20211229_cn",
-        "jp": "event_20211229_cn",
-        "tw": "event_20230803_cn"
+        "cn": "event_20220324_cn",
+        "en": "event_20220324_cn",
+        "jp": "event_20220324_cn",
+        "tw": "event_20210422_cn"
       },
       "Mode": {
         "type": "select",
@@ -5687,16 +5701,17 @@
           "event_20230914_cn",
           "event_20231026_cn",
           "event_20231123_cn",
-          "event_20231221_cn"
+          "event_20231221_cn",
+          "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20211229_cn",
-          "event_20230803_cn"
+          "event_20220324_cn",
+          "event_20210422_cn"
         ],
-        "cn": "event_20211229_cn",
-        "en": "event_20211229_cn",
-        "jp": "event_20211229_cn",
-        "tw": "event_20230803_cn"
+        "cn": "event_20220324_cn",
+        "en": "event_20220324_cn",
+        "jp": "event_20220324_cn",
+        "tw": "event_20210422_cn"
       },
       "Mode": {
         "type": "select",
@@ -6093,16 +6108,17 @@
           "raid_20220630",
           "raid_20221027",
           "raid_20230118",
-          "raid_20230629"
+          "raid_20230629",
+          "raid_20240130"
         ],
         "option_bold": [
           "raid_20230629",
-          "raid_20221027"
+          "raid_20240130"
         ],
-        "cn": "raid_20230629",
-        "en": "raid_20230629",
-        "jp": "raid_20230629",
-        "tw": "raid_20221027"
+        "cn": "raid_20240130",
+        "en": "raid_20240130",
+        "jp": "raid_20240130",
+        "tw": "raid_20230629"
       },
       "Mode": {
         "type": "select",
@@ -7794,7 +7810,8 @@
         "type": "select",
         "value": 2,
         "option": [
-          2
+          2,
+          3
         ]
       },
       "ShipIndex": {
@@ -7827,7 +7844,8 @@
         "option": [
           1,
           2,
-          3
+          3,
+          4
         ]
       },
       "ShipIndex": {

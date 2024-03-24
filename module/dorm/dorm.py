@@ -30,6 +30,21 @@ class OcrDormFood(DigitCounter):
         image = cv2.multiply(image, 2)
         return image
 
+    def after_process(self, result):
+        result = super().after_process(result)
+
+        if '/' not in result:
+            for exp in range(40000, 90001, 1000):
+                res = re.match(rf'^(\d+){exp}$', result)
+                if res:
+                    # 10005800 -> 1000/5800
+                    new = f'{res.group(1)}/{exp}'
+                    logger.info(f'OcrDormFood result {result} is revised to {new}')
+                    result = new
+                    break
+
+        return result
+
 
 OCR_FILL = OcrDormFood(OCR_DORM_FILL, name='OCR_DORM_FILL')
 
@@ -393,6 +408,7 @@ class RewardDorm(UI):
             return
 
         self.ui_ensure(page_dormmenu)
+        self.handle_info_bar()
         if not self.appear(DORM_RED_DOT, offset=(30, 30)):
             logger.info('Nothing to collect. Dorm collecting skipped.')
             collect = False
