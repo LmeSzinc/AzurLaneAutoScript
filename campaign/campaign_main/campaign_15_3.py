@@ -14,7 +14,7 @@ MAP.map_data = """
     -- ME ++ Me -- Me ME Me ME --
     ME Me ME ME Me -- ++ MB -- ME
     ++ -- -- ME ME Me ++ ++ __ ME
-    Me ME -- ++ Me -- ME MS -- Me
+    Me ME -- ++ Me -- ME MB -- Me
     ME ME -- -- ME ME ME -- -- ME
     Me -- __ -- -- ME -- -- ++ ++
     ++ ++ ++ Me -- -- SP SP ++ ++

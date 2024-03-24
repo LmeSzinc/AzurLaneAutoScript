@@ -12,9 +12,9 @@ MAP.camera_data_spawn_point = ['H2']
 MAP.map_data = """
     Me -- ME ME Me -- ME ++ ++ ME ME
     ME -- -- -- -- ME -- ++ ++ -- ME
-    ++ -- -- MS -- -- ME SP SP ME Me
+    ++ -- -- MB -- -- ME SP SP ME Me
     ++ ME -- ++ ++ -- -- -- -- ME --
-    -- Me ME MA ++ ME -- MS -- -- ME
+    -- Me ME MA ++ ME -- MB -- -- ME
     ME ME ME -- -- -- -- ++ ME -- Me
     ME -- __ -- ME ME -- ME ME -- ++
     -- -- ++ -- Me -- ME ME ME Me ME
