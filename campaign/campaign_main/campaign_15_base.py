@@ -1,7 +1,7 @@
 from module.base.mask import Mask
 from module.base.timer import Timer
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
-from module.handler.assets import MOB_MOVE_ICON, STRATEGY_OPENED
+from module.handler.assets import STRATEGY_OPENED
 from module.map_detection.utils_assets import ASSETS
 from module.logger import logger
 from module.map.utils import location_ensure
