@@ -1,4 +1,5 @@
 from module.base.mask import Mask
+from module.base.timer import Timer
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.handler.assets import MOB_MOVE_ICON, STRATEGY_OPENED
 from module.map_detection.utils_assets import ASSETS
@@ -96,13 +97,16 @@ class CampaignBase(CampaignBase_):
             grid_2 = self.convert_global_to_local(target)
             grid_2.__str__ = target
 
+            confirm_timer = Timer(1)
             while 1:
                 self.device.screenshot()
 
                 if grid.predict_mob_move_icon():
                     break
                 else:
-                    self.device.click(grid)
+                    if confirm_timer.reached():
+                        self.device.click(grid)
+                        confirm_timer.reset()
             while 1:
                 self.device.screenshot()
                 if self.handle_popup_confirm('MOB_MOVE'):
