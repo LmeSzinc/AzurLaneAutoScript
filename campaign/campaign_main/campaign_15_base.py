@@ -100,7 +100,8 @@ class CampaignBase(CampaignBase_):
             confirm_timer = Timer(1)
             while 1:
                 self.device.screenshot()
-
+                self.view.update(image=self.device.image)
+                
                 if grid.predict_mob_move_icon():
                     break
                 else:
@@ -110,12 +111,13 @@ class CampaignBase(CampaignBase_):
             while 1:
                 self.device.screenshot()
                 if self.handle_popup_confirm('MOB_MOVE'):
-                    continue
-
-                if self.appear(STRATEGY_OPENED, offset=(120, 120)):
                     break
 
                 self.device.click(grid_2)
+            while 1:
+                self.device.screenshot()
+                if self.appear(STRATEGY_OPENED, offset=(120, 120)):
+                    break
             return True
 
     def _mob_move_info_change(self, location, target):
