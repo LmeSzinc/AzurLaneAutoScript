@@ -85,10 +85,7 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_3(self):
-        if self.clear_siren():
-            return True
-
-        self.clear_chosen_enemy(H5, expected='boss_stage_1')
+        self.clear_chosen_enemy(H5, expected='siren')
         return True
 
     def battle_4(self):

@@ -103,18 +103,14 @@ class Campaign(CampaignBase):
 
     def battle_3(self):
         if not self.config.Campaign_UseClearMode:
-            if self.fleet_boss.clear_siren():
-                self.fleet_1.switch_to()
-                return True
-
-            self.fleet_boss.clear_chosen_enemy(H5, expected='boss_stage_1')
+            self.fleet_boss.clear_chosen_enemy(H5, expected='siren')
             self.fleet_1.switch_to()
             return True
         else:
             if self.clear_siren():
                 return True
 
-            self.clear_chosen_enemy(H5, expected='boss_stage_1')
+            self.clear_chosen_enemy(H5, expected='siren')
             return True
 
     def battle_4(self):
@@ -129,7 +125,7 @@ class Campaign(CampaignBase):
         if self.clear_siren():
             return True
 
-        self.clear_chosen_enemy(D3, expected='boss_stage_2')
+        self.clear_chosen_enemy(D3, expected='siren')
         return True
 
     def battle_7(self):
