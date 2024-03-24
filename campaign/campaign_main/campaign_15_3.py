@@ -48,8 +48,6 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, J7, \
 A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, \
     = MAP.flatten()
 
-MAP.ignore_prediction(H5, is_boss=True)
-
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
