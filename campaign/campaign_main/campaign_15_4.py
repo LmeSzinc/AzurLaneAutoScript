@@ -104,9 +104,6 @@ class Campaign(CampaignBase):
             self.fleet_1.switch_to()
             return True
         else:
-            if self.clear_siren():
-                return True
-
             self.clear_chosen_enemy(H5, expected='siren')
             return True
 
