@@ -79,7 +79,7 @@ class Campaign(CampaignBase):
             return True
         else:
             if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
-            return True
+                return True
 
         return self.battle_default()
 
@@ -90,7 +90,7 @@ class Campaign(CampaignBase):
             return True
         else:
             if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
-            return True
+                return True
 
         return self.battle_default()
 
