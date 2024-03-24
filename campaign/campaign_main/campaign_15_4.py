@@ -116,9 +116,6 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_6(self):
-        if self.clear_siren():
-            return True
-
         self.clear_chosen_enemy(D3, expected='siren')
         return True
 
