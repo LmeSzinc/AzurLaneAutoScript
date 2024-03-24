@@ -15,14 +15,6 @@ AUTO_SEARCH_SETTINGS = [
     AUTO_SEARCH_SET_SUB_AUTO,
     AUTO_SEARCH_SET_SUB_STANDBY
 ]
-AUTO_SEARCH_15_SETTINGS = [
-    AUTO_SEARCH_SET_15MOB,
-    AUTO_SEARCH_SET_15BOSS,
-    AUTO_SEARCH_SET_15ALL,
-    AUTO_SEARCH_SET_15STANDBY,
-    AUTO_SEARCH_SET_SUB_15AUTO,
-    AUTO_SEARCH_SET_SUB_15STANDBY
-]
 dic_setting_name_to_index = {
     'fleet1_mob_fleet2_boss': 0,
     'fleet1_boss_fleet2_mob': 1,
@@ -31,6 +23,10 @@ dic_setting_name_to_index = {
     'sub_auto_call': 4,
     'sub_standby': 5,
 }
+
+campaign_15_offset = (0, -46)
+campaign_15_sub_offset = (0, -68)
+        
 dic_setting_index_to_name = {v: k for k, v in dic_setting_name_to_index.items()}
 
 
@@ -138,14 +134,14 @@ class AutoSearchHandler(EnemySearchingHandler):
         Returns:
             bool: If selected to the correct option.
         """
-        # Switch assets for campaign 15
+        active = []
+        
         if self.config.Campaign_Name.startswith('campaign_15_'):
-            AUTO_SEARCH_SETTINGS_USED = AUTO_SEARCH_15_SETTINGS
-            logger.warning(setting)
+            AUTO_SEARCH_SETTINGS_USED = [button.move(
+                campaign_15_offset if i < 4 else campaign_15_sub_offset
+                ) for i, button in enumerate(AUTO_SEARCH_SETTINGS)]
         else:
             AUTO_SEARCH_SETTINGS_USED = AUTO_SEARCH_SETTINGS
-        
-        active = []
 
         for index, button in enumerate(AUTO_SEARCH_SETTINGS_USED):
             if self.image_color_count(button, color=(156, 255, 82), threshold=221, count=20):
