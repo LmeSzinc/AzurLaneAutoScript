@@ -56,9 +56,9 @@ A9, B9, C9, D9, E9, F9, G9, H9, I9, J9, K9, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['BOSS']
+    # MAP_SIREN_TEMPLATE = ['BOSS']
     # MOVABLE_ENEMY_TURN = (2,)
-    MAP_HAS_SIREN = True
+    # MAP_HAS_SIREN = True
     # MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
