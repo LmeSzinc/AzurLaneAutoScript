@@ -525,12 +525,14 @@ class KeywordExtract:
         )
         try:
             from tasks.rogue.event.event import OcrRogueEventOption
-        except AttributeError:
+        except AttributeError as e:
+            logger.error(e)
             logger.critical(
                 f'Importing OcrRogueEventOption fails, probably due to changes in {output_file}')
         try:
             from tasks.rogue.event.preset import STRATEGIES
-        except AttributeError:
+        except AttributeError as e:
+            logger.error(e)
             logger.critical(
                 f'Importing preset strategies fails, probably due to changes in {output_file}')
 

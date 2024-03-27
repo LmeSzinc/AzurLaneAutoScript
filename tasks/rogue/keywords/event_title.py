@@ -943,22 +943,22 @@ Ka_ching_IPC_Banking_Part_2 = RogueEventTitle(
     es='El banco de la Corporación II',
     option_ids=[142, 277, 278, 279, 280, 281],
 )
-Loneliness_Costic_Beauty_Bugs_Simulated_Universe_Part_1 = RogueEventTitle(
+Loneliness_Cosmic_Beauty_Bugs_Simulated_Universe_Part_1 = RogueEventTitle(
     id=95,
-    name='Loneliness_Costic_Beauty_Bugs_Simulated_Universe_Part_1',
+    name='Loneliness_Cosmic_Beauty_Bugs_Simulated_Universe_Part_1',
     cn='孤独，太空美虫，模拟宇宙（其一）',
     cht='孤獨，太空美蟲，模擬宇宙（其一）',
-    en='Loneliness, Costic Beauty Bugs, Simulated Universe (Part 1)',
+    en='Loneliness, Cosmic Beauty Bugs, Simulated Universe (Part 1)',
     jp='孤独、宇宙の美虫、模擬宇宙（1）',
     es='Soledad, gusanos espaciales y el Universo Simulado I',
     option_ids=[77, 282, 283, 284, 285, 286, 287, 288, 289],
 )
-Loneliness_Costic_Beauty_Bugs_Simulated_Universe_Part_2 = RogueEventTitle(
+Loneliness_Cosmic_Beauty_Bugs_Simulated_Universe_Part_2 = RogueEventTitle(
     id=96,
-    name='Loneliness_Costic_Beauty_Bugs_Simulated_Universe_Part_2',
+    name='Loneliness_Cosmic_Beauty_Bugs_Simulated_Universe_Part_2',
     cn='孤独，太空美虫，模拟宇宙（其二）',
     cht='孤獨，太空美蟲，模擬宇宙（其二）',
-    en='Loneliness, Costic Beauty Bugs, Simulated Universe (Part 2)',
+    en='Loneliness, Cosmic Beauty Bugs, Simulated Universe (Part 2)',
     jp='孤独、宇宙の美虫、模擬宇宙（2）',
     es='Soledad, gusanos espaciales y el Universo Simulado II',
     option_ids=[77, 283, 284, 285, 286, 287, 288, 289],
@@ -1120,7 +1120,7 @@ Insights_from_the_Universal_Dancer = RogueEventTitle(
     cht='寰宇舞者的啟示',
     en='Insights from the Universal Dancer',
     jp='世界の踊り手の啓示',
-    es='Reflexiones del bailarín universal',
+    es='Reflexiones de la bailarina universal',
     option_ids=[311, 312],
 )
 Pixel_World_Hidden_Stage = RogueEventTitle(
