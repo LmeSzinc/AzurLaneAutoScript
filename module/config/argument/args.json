@@ -414,6 +414,7 @@
         "value": "FirstCharacter",
         "option": [
           "FirstCharacter",
+          "Acheron",
           "Argenti",
           "Arlan",
           "Asta",
@@ -426,6 +427,7 @@
           "DanHengImbibitorLunae",
           "DrRatio",
           "FuXuan",
+          "Gallagher",
           "Gepard",
           "Guinaifen",
           "Hanya",
@@ -1326,6 +1328,7 @@
         "value": "FirstCharacter",
         "option": [
           "FirstCharacter",
+          "Acheron",
           "Argenti",
           "Arlan",
           "Asta",
@@ -1338,6 +1341,7 @@
           "DanHengImbibitorLunae",
           "DrRatio",
           "FuXuan",
+          "Gallagher",
           "Gepard",
           "Guinaifen",
           "Hanya",
