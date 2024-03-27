@@ -465,3 +465,25 @@ Penacony_TheReverieDreamscape = MapPlane(
     world_id=3,
     plane_id=2031101,
 )
+Penacony_DewlightPavilion = MapPlane(
+    id=43,
+    name='Penacony_DewlightPavilion',
+    cn='朝露公馆',
+    cht='朝露公館',
+    en='Dewlight Pavilion',
+    jp='朝露の館',
+    es='Pabellón del Rocío Matutino',
+    world_id=3,
+    plane_id=2032201,
+)
+Penacony_ClockStudiosThemePark = MapPlane(
+    id=44,
+    name='Penacony_ClockStudiosThemePark',
+    cn='克劳克影视乐园',
+    cht='克勞克影視樂園',
+    en='Clock Studios Theme Park',
+    jp='クラークフィルムランド',
+    es='Parque temático de los Estudios Reloj',
+    world_id=3,
+    plane_id=2032101,
+)

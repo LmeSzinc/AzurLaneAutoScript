@@ -40,6 +40,8 @@ class OcrPlaneName(OcrWhiteLetterOnComplexBackground):
         result = re.sub(r'区域.*战$', '区域战斗', result)
         # 区域－事
         result = re.sub(r'区域.*事$', '区域事件', result)
+        # 区域－战
+        result = re.sub(r'区域.*交$', '区域交易', result)
         # 区域-事伴, 区域－事祥
         result = re.sub(r'事[伴祥]', '事件', result)
         # 医域－战斗

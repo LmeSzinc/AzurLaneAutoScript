@@ -41,7 +41,7 @@ STRATEGY_COMMON = {
         ]
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Statue: [
-        KEYWORDS_ROGUE_EVENT_OPTION.Believe_in_them_with_pure_devotion,
+        KEYWORDS_ROGUE_EVENT_OPTION.Believe_in_THEM_with_pure_devotion,
         KEYWORDS_ROGUE_EVENT_OPTION.Discard_the_statue_Be_decisive
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Unending_Darkness: [
@@ -82,7 +82,7 @@ STRATEGY_COMMON = {
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.The_Cremators: [
         KEYWORDS_ROGUE_EVENT_OPTION.Bear_ten_carats_of_trash,
-        KEYWORDS_ROGUE_EVENT_OPTION.Give_everything_to_them,
+        KEYWORDS_ROGUE_EVENT_OPTION.Give_everything_to_THEM,
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Pixel_World: [
         KEYWORDS_ROGUE_EVENT_OPTION.Jump_onto_the_bricks_to_the_right,
@@ -145,7 +145,7 @@ STRATEGY_COMBAT = {
     ],
     KEYWORDS_ROGUE_EVENT_TITLE.Insect_Nest: [
         KEYWORDS_ROGUE_EVENT_OPTION.Go_deeper_into_the_insect_nest,
-        KEYWORDS_ROGUE_EVENT_OPTION.Wait_for_them,
+        KEYWORDS_ROGUE_EVENT_OPTION.Wait_for_THEM,
         KEYWORDS_ROGUE_EVENT_OPTION.Stop_at_the_entrance_of_the_nest,
         KEYWORDS_ROGUE_EVENT_OPTION.Hug_it
     ],
@@ -174,7 +174,7 @@ STRATEGY_OCCURRENCE = {
     KEYWORDS_ROGUE_EVENT_TITLE.Insect_Nest: [
         KEYWORDS_ROGUE_EVENT_OPTION.Go_deeper_into_the_insect_nest,
         KEYWORDS_ROGUE_EVENT_OPTION.Hug_it,
-        KEYWORDS_ROGUE_EVENT_OPTION.Wait_for_them,
+        KEYWORDS_ROGUE_EVENT_OPTION.Wait_for_THEM,
         KEYWORDS_ROGUE_EVENT_OPTION.Stop_at_the_entrance_of_the_nest
     ]
 }

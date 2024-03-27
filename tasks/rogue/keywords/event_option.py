@@ -237,12 +237,12 @@ Smash_this_television = RogueEventOption(
     jp='そのテレビを破壊する！',
     es='¡Destruye este televisor!',
 )
-Give_everything_to_them = RogueEventOption(
+Give_everything_to_THEM = RogueEventOption(
     id=27,
-    name='Give_everything_to_them',
+    name='Give_everything_to_THEM',
     cn='将一切奉献给「祂」。',
     cht='將一切奉獻給「祂」。',
-    en='Give everything to "them."',
+    en='Give everything to "THEM."',
     jp='すべてを「其」に捧げる',
     es='Dedícalo todo a "ellos".',
 )
@@ -525,12 +525,12 @@ Discard_the_statue_Be_decisive = RogueEventOption(
     jp='彫像を捨てよう！きっぱりと！',
     es='¡Suelta la estatua! Con decisión.',
 )
-Believe_in_them_with_pure_devotion = RogueEventOption(
+Believe_in_THEM_with_pure_devotion = RogueEventOption(
     id=59,
-    name='Believe_in_them_with_pure_devotion',
+    name='Believe_in_THEM_with_pure_devotion',
     cn='对「祂」虔诚信仰，身心无垢。',
     cht='對「祂」虔誠信仰，身心無垢。',
-    en='Believe in "them" with pure devotion.',
+    en='Believe in "THEM" with pure devotion.',
     jp='「其」に対する敬虔な信仰は、無垢である',
     es='Cree en "ellos" con gran devoción.',
 )
@@ -570,12 +570,12 @@ Hug_it = RogueEventOption(
     jp='抱擁する',
     es='Abrázalo.',
 )
-Wait_for_them = RogueEventOption(
+Wait_for_THEM = RogueEventOption(
     id=64,
-    name='Wait_for_them',
+    name='Wait_for_THEM',
     cn='等待「祂」。',
     cht='等待「祂」。',
-    en='Wait for "them."',
+    en='Wait for "THEM."',
     jp='「其」を待つ',
     es='Espéralos.',
 )
@@ -1803,12 +1803,12 @@ Pretend_to_not_notice_that_something_was_off = RogueEventOption(
     jp='違和感を覚えていないフリをする',
     es='Finge que no te das cuenta de que algo anda mal.',
 )
-They_re_here = RogueEventOption(
+THEY_re_here = RogueEventOption(
     id=201,
-    name='They_re_here',
+    name='THEY_re_here',
     cn='祂出现了！',
     cht='祂出現了！',
-    en="They're here!",
+    en="THEY're here!",
     jp='其が現れた！',
     es='¡Está aquí!',
 )
