@@ -20,6 +20,19 @@ class XPath:
     ACCOUNT_LOGIN = '//*[@text="进入游戏"]'
     # 登录后的弹窗，获得免费时长
     GET_REWARD = '//*[@text="点击空白区域关闭"]'
+    # 用户协议和隐私政策更新提示
+    # - 拒绝 - 接受
+    AGREEMENT_ACCEPT = '//*[@text="接受"]'
+    # 版本更新
+    # - 立即更新
+    UPDATE_CONFIRM = '//*[@resource-id="com.miHoYo.cloudgames.hkrpg:id/mUpgradeDialogOK"]'
+    # 新版本已下载完成
+    # - 开始安装
+    UPDATE_INSTALL = '//*[@resource-id="com.miHoYo.cloudgames.hkrpg:id/mBtnConfirm"]'
+    # 安卓系统弹窗
+    # 要更新此应用吗？- 取消 - 更新
+    # 已完成安装应用。-完成 -打开
+    ANDROID_UPDATE_CONFIRM = '//*[@resource-id="android:id/button1"]'
     # 补丁资源已更新，重启游戏可活动更好的游玩体验
     # - 下次再说 - 关闭游戏
     POPUP_TITLE = '//*[@resource-id="com.miHoYo.cloudgames.hkrpg:id/titleTv"]'
@@ -99,6 +112,19 @@ class LoginAndroidCloud(ModuleBase):
             if self.appear_then_click(XPath.POPUP_CONFIRM):
                 update_checker.start()
                 continue
+            # Update
+            if self.appear_then_click(XPath.AGREEMENT_ACCEPT):
+                continue
+            if self.appear_then_click(XPath.UPDATE_CONFIRM):
+                continue
+            button = self.xpath(XPath.UPDATE_INSTALL)
+            if button.text == '开始安装':
+                if self.appear_then_click(button):
+                    continue
+            button = self.xpath(XPath.ANDROID_UPDATE_CONFIRM)
+            if button.text in ['更新', '打开']:
+                if self.appear_then_click(button):
+                    continue
 
     def _cloud_get_remain(self):
         """
@@ -164,6 +190,8 @@ class LoginAndroidCloud(ModuleBase):
                 self.device.stuck_record_clear()
 
             # Click
+            if self.appear_then_click(XPath.GET_REWARD):
+                continue
             if self.appear_then_click(XPath.START_GAME):
                 continue
             if self.appear(XPath.POPUP_CONFIRM, interval=5):
