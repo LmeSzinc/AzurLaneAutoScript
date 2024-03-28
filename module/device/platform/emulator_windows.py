@@ -57,14 +57,6 @@ def abspath(path):
 
 class EmulatorInstance(EmulatorInstanceBase):
     @cached_property
-    def type(self) -> str:
-        """
-        Returns:
-            str: Emulator type, such as Emulator.NoxPlayer
-        """
-        return Emulator.path_to_type(self.path)
-
-    @cached_property
     def emulator(self):
         """
         Returns:

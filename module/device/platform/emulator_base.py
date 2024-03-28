@@ -54,7 +54,7 @@ class EmulatorInstanceBase:
         Returns:
             str: Emulator type, such as Emulator.NoxPlayer
         """
-        return EmulatorBase.path_to_type(self.path)
+        return self.emulator.type
 
     @cached_property
     def emulator(self):
