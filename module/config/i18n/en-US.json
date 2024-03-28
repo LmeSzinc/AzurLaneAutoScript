@@ -409,7 +409,8 @@
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
-      "scrcpy": "scrcpy"
+      "scrcpy": "scrcpy",
+      "nemu_ipc": "nemu_ipc"
     },
     "ControlMethod": {
       "name": "Control Method",

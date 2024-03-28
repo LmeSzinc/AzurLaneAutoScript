@@ -32,7 +32,18 @@ Emulator:
     option: [ disabled, ]
   ScreenshotMethod:
     value: auto
-    option: [ auto, ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc, DroidCast, DroidCast_raw, scrcpy ]
+    option: [
+      auto,
+      ADB,
+      ADB_nc,
+      uiautomator2,
+      aScreenCap,
+      aScreenCap_nc,
+      DroidCast,
+      DroidCast_raw,
+      scrcpy,
+      nemu_ipc,
+    ]
   ControlMethod:
     value: minitouch
     option: [ ADB, uiautomator2, minitouch, Hermit, MaaTouch ]
