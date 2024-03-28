@@ -734,6 +734,7 @@
       "raid_20230118": "Winter Pathfinder",
       "raid_20230629": "Reflections of the Oasis",
       "raid_20240130": "Spring Festive Fiasco",
+      "raid_20240328": "From Zero to Hero",
       "war_archives_20180607_cn": "archives Ink Stained Steel Sakura",
       "war_archives_20180726_cn": "archives Iris of Light and Dark",
       "war_archives_20181020_en": "archives Strive Wish and Strategize",
@@ -1447,7 +1448,7 @@
     },
     "LastRun": {
       "name": "Last Check Time",
-      "help": "The time of the last check is recorded here to prevent the task from running repeatedly. Check interval is 7 days. This value is automatically recorded and generally does not need to be modified."
+      "help": "The time of the last check is recorded here to prevent the task from running repeatedly. Check interval is 6 days. This value is automatically recorded and generally does not need to be modified."
     }
   },
   "Meowfficer": {
