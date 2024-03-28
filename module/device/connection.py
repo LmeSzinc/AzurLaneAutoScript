@@ -273,15 +273,20 @@ class Connection(ConnectionAttr):
             return True
         return False
 
+    @cached_property
+    def nemud_app_keep_alive(self) -> str:
+        res = self.adb_getprop('nemud.app_keep_alive')
+        return res
+
     @retry
     def check_mumu_app_keep_alive(self):
         if not self.is_mumu_family:
             return False
 
-        res = self.adb_getprop('nemud.app_keep_alive')
+        res = self.nemud_app_keep_alive
         logger.attr('nemud.app_keep_alive', res)
         if res == '':
-            # Empry property, might not be a mumu emulator or might be an old mumu
+            # Empty property, probably MuMu6 or MuMu12 version < 3.5.6
             return True
         elif res == 'false':
             # Disabled
