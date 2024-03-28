@@ -1,5 +1,4 @@
 import collections
-import sys
 from datetime import datetime
 
 from module.base.timer import Timer
@@ -11,11 +10,6 @@ from module.exception import (EmulatorNotRunningError, GameNotRunningError, Game
                               RequestHumanTakeover)
 from module.handler.assets import GET_MISSION
 from module.logger import logger
-
-if sys.platform == 'win32':
-    from module.device.platform.platform_windows import PlatformWindows as Platform
-else:
-    from module.device.platform.platform_base import PlatformBase as Platform
 
 
 def show_function_call():
@@ -58,7 +52,7 @@ def show_function_call():
     logger.info('Function calls:' + ''.join(func_list))
 
 
-class Device(Screenshot, Control, AppControl, Platform):
+class Device(Screenshot, Control, AppControl):
     _screen_size_checked = False
     detect_record = set()
     click_record = collections.deque(maxlen=15)
