@@ -344,6 +344,15 @@
       "Fleet2Step": 2,
       "FleetOrder": "fleet1_all_fleet2_standby"
     },
+    "Submarine": {
+      "Fleet": 0,
+      "Mode": "do_not_use",
+      "AutoSearchMode": "sub_standby",
+      "DistanceToBoss": "2_grid_to_boss"
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": "S1_enemy_first"
+    },
     "Storage": {
       "Storage": {}
     }

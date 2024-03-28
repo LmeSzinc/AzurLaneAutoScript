@@ -46,6 +46,24 @@ GemsFarming:
       display: display
       value: fleet1_all_fleet2_standby
       option: [ fleet1_all_fleet2_standby, fleet1_standby_fleet2_all ]
+  Submarine:
+    Mode:
+      display: display
+      value: do_not_use
+      option: [ do_not_use, hunt_only ]
+      option_bold: [ do_not_use, hunt_only ]
+    AutoSearchMode:
+      type: state
+      value: sub_standby
+      option: [ sub_standby, ]
+      option_bold: [ sub_standby, ]
+    DistanceToBoss: '2_grid_to_boss'
+  EnemyPriority:
+    EnemyScaleBalanceWeight:
+      type: state
+      value: S1_enemy_first
+      option: [ S1_enemy_first, ]
+      option_bold: [ S1_enemy_first, ]
 
 # ==================== Event ====================
 

@@ -1855,6 +1855,63 @@
         "display": "display"
       }
     },
+    "Submarine": {
+      "Fleet": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2
+        ]
+      },
+      "Mode": {
+        "type": "select",
+        "value": "do_not_use",
+        "option": [
+          "do_not_use",
+          "hunt_only"
+        ],
+        "display": "display",
+        "option_bold": [
+          "do_not_use",
+          "hunt_only"
+        ]
+      },
+      "AutoSearchMode": {
+        "type": "state",
+        "value": "sub_standby",
+        "option": [
+          "sub_standby"
+        ],
+        "option_bold": [
+          "sub_standby"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_open_ocean_support"
+        ],
+        "display": "hide"
+      }
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": {
+        "type": "state",
+        "value": "S1_enemy_first",
+        "option": [
+          "S1_enemy_first"
+        ],
+        "option_bold": [
+          "S1_enemy_first"
+        ]
+      }
+    },
     "Storage": {
       "Storage": {
         "type": "storage",
@@ -2872,8 +2929,8 @@
           "raid_20240130"
         ],
         "option_bold": [
-          "raid_20230629",
-          "raid_20240130"
+          "raid_20240130",
+          "raid_20230629"
         ],
         "cn": "raid_20240130",
         "en": "raid_20240130",
@@ -6112,8 +6169,8 @@
           "raid_20240130"
         ],
         "option_bold": [
-          "raid_20230629",
-          "raid_20240130"
+          "raid_20240130",
+          "raid_20230629"
         ],
         "cn": "raid_20240130",
         "en": "raid_20240130",

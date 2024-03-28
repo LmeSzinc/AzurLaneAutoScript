@@ -72,7 +72,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
         self.campaign = GemsCampaign(device=self.campaign.device, config=self.campaign.config)
         self.campaign.config.override(Emotion_Mode='ignore')
-        self.campaign.config.override(EnemyPriority_EnemyScaleBalanceWeight='S1_enemy_first')
 
     @property
     def change_flagship(self):

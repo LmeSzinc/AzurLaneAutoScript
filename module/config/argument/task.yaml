@@ -61,6 +61,8 @@ Farm:
       - Campaign
       - StopCondition
       - Fleet
+      - Submarine
+      - EnemyPriority
 
 # ==================== Event ====================
 
