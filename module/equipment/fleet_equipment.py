@@ -28,7 +28,8 @@ class DailyEquipment(Equipment):
 
         self.ui_ensure(page_fleet)
         self.ui_ensure_index(self._fleet_daily, letter=OCR_FLEET_INDEX, next_button=FLEET_NEXT, prev_button=FLEET_PREV)
-        super().equipment_take_on(enter=FLEET_ENTER, out=FLEET_CHECK, fleet=self.config.FLEET_DAILY_EQUIPMENT)
+        super().equipment_take_on(enter=FLEET_DETAIL_ENTER_FLAGSHIP, out=FLEET_CHECK,
+                                  fleet=self.config.FLEET_DAILY_EQUIPMENT)
         self.equipment_has_take_on = True
         self.device.sleep(1)
         return True
@@ -41,7 +42,8 @@ class DailyEquipment(Equipment):
 
         self.ui_ensure(page_fleet)
         self.ui_ensure_index(self._fleet_daily, letter=OCR_FLEET_INDEX, next_button=FLEET_NEXT, prev_button=FLEET_PREV)
-        super().equipment_take_off(enter=FLEET_ENTER, out=FLEET_CHECK, fleet=self.config.FLEET_DAILY_EQUIPMENT)
+        super().equipment_take_off(enter=FLEET_DETAIL_ENTER_FLAGSHIP, out=FLEET_CHECK,
+                                   fleet=self.config.FLEET_DAILY_EQUIPMENT)
         self.equipment_has_take_on = False
         self.device.sleep(1)
         return True
