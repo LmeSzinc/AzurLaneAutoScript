@@ -119,7 +119,8 @@ class Camera(MapOperation):
         self._view_init()
         try:
             if not self.is_in_map() \
-                    and not self.is_in_strategy_submarine_move():
+                    and not self.is_in_strategy_submarine_move()\
+                    and not self.is_in_strategy_mob_move():
                 logger.warning('Image to detect is not in_map')
                 raise MapDetectionError('Image to detect is not in_map')
             self.view.load(self.device.image)
@@ -194,7 +195,8 @@ class Camera(MapOperation):
                 self.device.click(BACK_ARROW)
                 return False
             elif not self.is_in_map() \
-                    and not self.is_in_strategy_submarine_move():
+                    and not self.is_in_strategy_submarine_move()\
+                    and not self.is_in_strategy_mob_move():
                 if self.appear(GAME_TIPS, offset=(20, 20)):
                     logger.warning('Perspective error caused by game tips')
                     self.device.click(GAME_TIPS)
