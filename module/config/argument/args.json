@@ -8382,6 +8382,21 @@
       "BuySupply": {
         "type": "checkbox",
         "value": true
+      },
+      "PresetFilter": {
+        "type": "select",
+        "value": "max_benefit_meta",
+        "option": [
+          "max_benefit",
+          "max_benefit_meta",
+          "no_meta",
+          "all",
+          "custom"
+        ]
+      },
+      "CustomFilter": {
+        "type": "textarea",
+        "value": "Logger"
       }
     },
     "Storage": {

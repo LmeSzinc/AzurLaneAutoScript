@@ -2267,6 +2267,19 @@
     "BuySupply": {
       "name": "Buy From Port Shops",
       "help": "Buy all items from port shops\nShop inventory consists of a fixed pool that is reset monthly, items not bought during a cycle has the chance of re-appearing and blocking preferable high value items"
+    },
+    "PresetFilter": {
+      "name": "OpSi Shop Filter",
+      "help": "Generally does not need to be modified. Use \"High value items and META material\"` if Voucher Coins spilled or \"Without META materials\" if you are newcomer.\nHigh value items include ActionPoint, Logger and T4 or higher items; META materials include METABook and META enhance materials.",
+      "max_benefit": "High value items",
+      "max_benefit_meta": "High value items and META materials",
+      "no_meta": "Not to buy META materials",
+      "all": "All",
+      "custom": "custom"
+    },
+    "CustomFilter": {
+      "name": "Custom Research Priority",
+      "help": "To use your own filter, set \"OpSi Shop Filter Select\" to \"custom\". All options have been defined at  <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en>"
     }
   },
   "OpsiVoucher": {

@@ -2267,6 +2267,19 @@
     "BuySupply": {
       "name": "OpsiShop.BuySupply.name",
       "help": "OpsiShop.BuySupply.help"
+    },
+    "PresetFilter": {
+      "name": "OpsiShop.PresetFilter.name",
+      "help": "OpsiShop.PresetFilter.help",
+      "max_benefit": "max_benefit",
+      "max_benefit_meta": "max_benefit_meta",
+      "no_meta": "no_meta",
+      "all": "all",
+      "custom": "custom"
+    },
+    "CustomFilter": {
+      "name": "OpsiShop.CustomFilter.name",
+      "help": "OpsiShop.CustomFilter.help"
     }
   },
   "OpsiVoucher": {

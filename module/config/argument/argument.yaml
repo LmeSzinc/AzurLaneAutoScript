@@ -633,6 +633,16 @@ OpsiExplore:
   LastZone: 0
 OpsiShop:
   BuySupply: true
+  PresetFilter:
+    value: max_benefit_meta
+    option:
+      - max_benefit
+      - max_benefit_meta
+      - no_meta
+      - all
+      - custom
+  CustomFilter: |-
+      Logger
 OpsiVoucher:
   Filter: |-
     LoggerAbyssal > LoggerObscure > Book > Coin > Fragment
