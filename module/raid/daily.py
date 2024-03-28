@@ -25,6 +25,11 @@ class RaidDaily(RaidRun):
         Args:
             name (str): Raid name, such as 'raid_20200624'
         """
+        if self.is_raid_rpg():
+            logger.info('RPG raid has no dailies')
+            self.config.Scheduler_Enable = False
+            self.config.task_stop()
+
         name = name if name else self.config.Campaign_Event
         stages = [RaidStage(name) for name in STAGES]
         STAGE_FILTER.load(self.config.RaidDaily_StageFilter)
