@@ -7,17 +7,17 @@ ASSIGNMENT_START = ButtonWrapper(
     name='ASSIGNMENT_START',
     cn=Button(
         file='./assets/cn/assignment/dispatch/ASSIGNMENT_START.png',
-        area=(581, 321, 699, 349),
-        search=(573, 299, 707, 412),
-        color=(93, 84, 66),
-        button=(581, 321, 699, 349),
+        area=(563, 341, 716, 376),
+        search=(552, 299, 725, 412),
+        color=(103, 92, 72),
+        button=(563, 341, 716, 376),
     ),
     en=Button(
         file='./assets/en/assignment/dispatch/ASSIGNMENT_START.png',
-        area=(679, 323, 784, 347),
-        search=(669, 297, 794, 416),
-        color=(93, 83, 65),
-        button=(679, 323, 784, 347),
+        area=(693, 343, 831, 374),
+        search=(669, 297, 831, 416),
+        color=(95, 86, 67),
+        button=(693, 343, 831, 374),
     ),
 )
 ASSIGNMENT_STARTED_CHECK = ButtonWrapper(
