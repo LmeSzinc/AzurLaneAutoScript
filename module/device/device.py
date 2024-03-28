@@ -83,6 +83,10 @@ class Device(Screenshot, Control, AppControl, Platform):
                     )
                     raise
 
+        # Auto-fill emulator info
+        if self.config.EmulatorInfo_Emulator == 'auto':
+            _ = self.emulator_instance
+
         self.screenshot_interval_set()
 
         # Auto-select the fastest screenshot method

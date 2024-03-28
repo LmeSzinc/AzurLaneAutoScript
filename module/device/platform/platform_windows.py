@@ -317,4 +317,5 @@ class PlatformWindows(PlatformBase, EmulatorManager):
 
 if __name__ == '__main__':
     self = PlatformWindows('alas')
-    self.emulator_start()
+    d = self.emulator_instance
+    print(d)

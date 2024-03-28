@@ -1,14 +1,13 @@
 import sys
 import typing as t
 
-import yaml
-from pydantic import BaseModel, SecretStr
+from pydantic import BaseModel
 
 from module.base.decorator import cached_property, del_cached_property
+from module.base.utils import SelectedGrids
 from module.device.connection import Connection
 from module.device.platform.emulator_base import EmulatorInstanceBase, EmulatorManagerBase
 from module.logger import logger
-from module.base.utils import SelectedGrids
 
 
 class EmulatorInfo(BaseModel):
