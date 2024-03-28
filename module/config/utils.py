@@ -646,5 +646,33 @@ def type_to_str(typ):
     return str(typ)
 
 
+def time_delta(_timedelta):
+    """
+    Output the delta between two times
+    Args:
+        _timedelta : datetime.timedelta
+    Returns:
+        dict :  {
+                 'Y' : int,
+                 'M' : int,
+                 'D' : int,
+                 'h' : int,
+                 'm' : int,
+                 's' : int
+        }
+    """
+    d_base = datetime(2010, 1, 1, 0, 0, 0)
+    d = datetime(2010, 1, 1, 0, 0, 0)-_timedelta
+    _time_dict = {
+        'Y': d.year - d_base.year,
+        'M': d.month - d_base.month,
+        'D': d.day - d_base.day,
+        'h': d.hour - d_base.hour,
+        'm': d.minute - d_base.minute,
+        's': d.second - d_base.second
+    }
+    return _time_dict
+
+
 if __name__ == '__main__':
     get_os_reset_remain()

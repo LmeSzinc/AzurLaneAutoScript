@@ -9,6 +9,7 @@ from module.map.map_grids import SelectedGrids
 from module.ocr.ocr import Digit
 from module.os_handler.assets import *
 from module.ui.ui import UI
+from module.log_res import LogRes
 
 OCR_SHOP_YELLOW_COINS = Digit(SHOP_YELLOW_COINS, letter=(239, 239, 239), threshold=160, name='OCR_SHOP_YELLOW_COINS')
 OCR_SHOP_PURPLE_COINS = Digit(SHOP_PURPLE_COINS, letter=(255, 255, 255), name='OCR_SHOP_PURPLE_COINS')
@@ -71,9 +72,11 @@ class OSStatus(UI):
                 continue
             else:
                 break
+        LogRes(self.config).YellowCoin = yellow_coins
 
         return yellow_coins
 
     def get_purple_coins(self) -> int:
         amount = OCR_SHOP_PURPLE_COINS.ocr(self.device.image)
+        LogRes(self.config).PurpleCoin = amount
         return amount

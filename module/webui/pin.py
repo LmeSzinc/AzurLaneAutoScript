@@ -5,7 +5,7 @@ Add **other_html_attrs to put_xxx()
 
 from pywebio.io_ctrl import Output
 from pywebio.output import OutputPosition
-from pywebio.pin import _pin_output, check_dom_name_value
+from pywebio.pin import _pin_output, check_dom_name_value, pin_update
 
 
 def put_input(name, type='text', *, label='', value=None, placeholder=None, readonly=None, datalist=None,
