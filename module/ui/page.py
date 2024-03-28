@@ -1,6 +1,7 @@
 import traceback
 
 from module.ui.assets import *
+from module.raid.assets import *
 
 MAIN_CHECK = MAIN_GOTO_CAMPAIGN
 
@@ -248,3 +249,17 @@ page_supply_pack.link(button=GOTO_MAIN, destination=page_main)
 page_build = Page(BUILD_CHECK)
 page_main.link(button=MAIN_GOTO_BUILD, destination=page_build)
 page_build.link(button=GOTO_MAIN, destination=page_main)
+
+# RPG event (raid_20240328)
+page_rpg_stage = Page(RPG_GOTO_STORY)
+page_rpg_story = Page(RPG_GOTO_STAGE)
+page_rpg_stage.link(button=RPG_GOTO_STORY, destination=page_rpg_story)
+page_rpg_stage.link(button=RPG_HOME, destination=page_main)
+page_rpg_story.link(button=RPG_GOTO_STAGE, destination=page_rpg_stage)
+page_rpg_story.link(button=RPG_HOME, destination=page_main)
+
+page_main.link(button=MAIN_GOTO_RAID, destination=page_rpg_stage)
+
+page_rpg_city = Page(RPG_LEAVE_CITY)
+page_rpg_city.link(button=RPG_LEAVE_CITY, destination=page_rpg_stage)
+page_rpg_city.link(button=RPG_HOME, destination=page_main)

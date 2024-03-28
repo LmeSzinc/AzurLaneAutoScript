@@ -4,7 +4,7 @@ from module.exception import ScriptEnd, ScriptError
 from module.logger import logger
 from module.raid.assets import RAID_REWARDS
 from module.raid.raid import OilExhausted, Raid, raid_ocr
-from module.ui.page import page_raid
+from module.ui.page import page_raid, page_rpg_stage
 
 
 class RaidRun(Raid, CampaignEvent):
@@ -100,7 +100,11 @@ class RaidRun(Raid, CampaignEvent):
             # UI ensure
             self.device.stuck_record_clear()
             self.device.click_record_clear()
-            self.ui_ensure(page_raid)
+            if not self.is_raid_rpg():
+                self.ui_ensure(page_raid)
+            else:
+                self.ui_ensure(page_rpg_stage)
+                self.raid_rpg_swipe()
 
             # End for mode EX
             if mode == 'ex':

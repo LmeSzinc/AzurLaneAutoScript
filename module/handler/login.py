@@ -58,6 +58,8 @@ class LoginHandler(UI):
                     login_success = True
             if self.appear_then_click(LOGIN_ANNOUNCE, offset=(30, 30), interval=5):
                 continue
+            if self.appear_then_click(LOGIN_ANNOUNCE_2, offset=(30, 30), interval=5):
+                continue
             if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=5):
                 self.device.click(BACK_ARROW)
                 continue
