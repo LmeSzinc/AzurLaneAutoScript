@@ -38,6 +38,14 @@ Emulator:
     option: [ ADB, uiautomator2, minitouch, Hermit, MaaTouch ]
   ScreenshotDedithering: false
   AdbRestart: false
+StartEmulator:
+  Enable: false
+  Command:
+    type: textarea
+    mode: yaml
+    value:
+  Timeout: 90
+
 RestartEmulator:
   Enable: false
   EmulatorData:

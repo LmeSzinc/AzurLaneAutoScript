@@ -429,6 +429,24 @@
       "help": ""
     }
   },
+  "StartEmulator": {
+    "_info": {
+      "name": "StartEmulator._info.name",
+      "help": "StartEmulator._info.help"
+    },
+    "Enable": {
+      "name": "StartEmulator.Enable.name",
+      "help": "StartEmulator.Enable.help"
+    },
+    "Command": {
+      "name": "StartEmulator.Command.name",
+      "help": "StartEmulator.Command.help"
+    },
+    "Timeout": {
+      "name": "StartEmulator.Timeout.name",
+      "help": "StartEmulator.Timeout.help"
+    }
+  },
   "RestartEmulator": {
     "_info": {
       "name": "重啟模擬器",

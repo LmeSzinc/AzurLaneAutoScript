@@ -1,3 +1,5 @@
+import time
+
 import os
 import re
 import winreg
@@ -7,6 +9,7 @@ from adbutils.errors import AdbError
 
 from deploy.emulator import VirtualBoxEmulator
 from module.base.decorator import cached_property
+from module.base.timer import Timer
 from module.device.connection import Connection
 from module.device.method.utils import get_serial_pair
 from module.exception import RequestHumanTakeover, EmulatorNotRunningError
@@ -212,6 +215,8 @@ class EmulatorManager(Connection):
 
     def adb_connect(self, serial):
         try:
+            if self.config.StartEmulator_Enable:
+                self.start_emulator_using_path()
             return super(EmulatorManager, self).adb_connect(serial)
         except EmulatorNotRunningError:
             raise RequestHumanTakeover
@@ -323,3 +328,29 @@ class EmulatorManager(Connection):
 
         logger.warning('Restart emulator failed for 3 times, please check your settings')
         raise RequestHumanTakeover
+
+    def start_emulator_using_path(self):
+        command = self.config.StartEmulator_Command
+        if not command:
+            logger.warning('Emulator start command is empty')
+            return
+
+        # only start when device is offline
+        if self.detect_emulator_status(self.serial) == 'offline':
+            logger.info('Starting emulator')
+            try:
+                self.execute(command)
+                self.adb_client.connect(self.serial)
+            except Exception:
+                logger.error(f'Cannot execute start command: {command}')
+                return
+
+            timer = Timer(self.config.StartEmulator_Timeout).start()
+            while 1:
+                if self.detect_emulator_status(self.serial) == 'device':
+                    logger.info('Device is connected')
+                    break
+
+                if timer.reached():
+                    logger.info('Device is hanging, please check emulator and timeout configuration')
+                    raise RequestHumanTakeover
