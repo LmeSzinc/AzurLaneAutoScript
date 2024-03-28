@@ -67,7 +67,12 @@ class AssignmentOcr(Ocr):
 
     def after_process(self, result: str):
         result = super().after_process(result)
-
+        # Born to ObeyCurrently Owned:7781 -> Born to Obey
+        for splitter in ['Currently', 'currently', '当前持有']:
+            try:
+                result = result.split(splitter)[0]
+            except IndexError:
+                pass
         if self.ocr_regex is None:
             return result
         matched = self.ocr_regex.fullmatch(result)
