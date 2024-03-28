@@ -3,6 +3,7 @@ from module.base.decorator import run_once
 from module.base.timer import Timer
 from module.coalition.assets import FLEET_PREPARATION as COALITION_FLEET_PREPARATION
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_SHIP
+from module.raid.assets import *
 from module.exception import (GameNotRunningError, GamePageUnknownError,
                               RequestHumanTakeover)
 from module.exercise.assets import EXERCISE_PREPARATION
@@ -165,7 +166,13 @@ class UI(InfoHandler):
 
             # Unknown page but able to handle
             logger.info("Unknown ui page")
-            if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=2) or self.ui_additional():
+            if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=2):
+                timeout.reset()
+                continue
+            if self.appear_then_click(RPG_HOME, offset=(30, 30), interval=2):
+                timeout.reset()
+                continue
+            if self.ui_additional():
                 timeout.reset()
                 continue
 
@@ -495,6 +502,10 @@ class UI(InfoHandler):
             self.device.click(GOTO_MAIN)
             return True
 
+        # RPG event (raid_20240328)
+        if self.appear_then_click(RPG_STATUS_POPUP, offset=(30, 30), interval=3):
+            return True
+
         return False
 
     def ui_button_interval_reset(self, button):
@@ -515,5 +526,5 @@ class UI(InfoHandler):
             self.interval_reset(RAID_CHECK)
         if button == SHOP_GOTO_SUPPLY_PACK:
             self.interval_reset(EXCHANGE_CHECK)
-        if button == DORMMENU_GOTO_DORM:
-            self.interval_reset(GET_SHIP)
+        if button in [RPG_GOTO_STAGE, RPG_GOTO_STORY, RPG_LEAVE_CITY]:
+            self.interval_timer[GET_SHIP.name] = Timer(5).reset()
