@@ -23,6 +23,10 @@ dic_setting_name_to_index = {
     'sub_auto_call': 4,
     'sub_standby': 5,
 }
+
+campaign_15_offset = (0, -46)
+campaign_15_sub_offset = (0, -68)
+        
 dic_setting_index_to_name = {v: k for k, v in dic_setting_name_to_index.items()}
 
 
@@ -131,8 +135,15 @@ class AutoSearchHandler(EnemySearchingHandler):
             bool: If selected to the correct option.
         """
         active = []
+        
+        if self.config.Campaign_Name.startswith('campaign_15_'):
+            AUTO_SEARCH_SETTINGS_USED = [button.move(
+                campaign_15_offset if i < 4 else campaign_15_sub_offset
+                ) for i, button in enumerate(AUTO_SEARCH_SETTINGS)]
+        else:
+            AUTO_SEARCH_SETTINGS_USED = AUTO_SEARCH_SETTINGS
 
-        for index, button in enumerate(AUTO_SEARCH_SETTINGS):
+        for index, button in enumerate(AUTO_SEARCH_SETTINGS_USED):
             if self.image_color_count(button, color=(156, 255, 82), threshold=221, count=20):
                 active.append(index)
 
@@ -150,7 +161,7 @@ class AutoSearchHandler(EnemySearchingHandler):
             logger.info('Selected to the correct auto search setting')
             return True
         else:
-            self.device.click(AUTO_SEARCH_SETTINGS[target_index])
+            self.device.click(AUTO_SEARCH_SETTINGS_USED[target_index])
             return False
 
     def auto_search_setting_ensure(self, setting, skip_first_screenshot=True):
