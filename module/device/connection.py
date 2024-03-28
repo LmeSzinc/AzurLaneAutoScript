@@ -850,7 +850,7 @@ class Connection(ConnectionAttr):
         packages = re.findall(r'package:([^\s]+)', output)
         return packages
 
-    def list_azurlane_packages(self, show_log=True):
+    def list_known_packages(self, show_log=True):
         """
         Args:
             show_log:
@@ -867,7 +867,7 @@ class Connection(ConnectionAttr):
         Show all possible packages with the given keyword on this device.
         """
         logger.hr('Detect package')
-        packages = self.list_azurlane_packages()
+        packages = self.list_known_packages()
 
         # Show packages
         logger.info(f'Here are the available packages in device "{self.serial}", '
