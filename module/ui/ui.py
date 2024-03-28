@@ -7,10 +7,9 @@ from module.exception import (GameNotRunningError, GamePageUnknownError,
                               RequestHumanTakeover)
 from module.exercise.assets import EXERCISE_PREPARATION
 from module.freebies.assets import PURCHASE_POPUP
-from module.handler.assets import (AUTO_SEARCH_MENU_EXIT, BATTLE_PASS_NOTICE,
-                                   GAME_TIPS, LOGIN_ANNOUNCE,
-                                   LOGIN_CHECK, LOGIN_RETURN_SIGN,
-                                   MAINTENANCE_ANNOUNCE, MONTHLY_PASS_NOTICE)
+from module.handler.assets import (AUTO_SEARCH_MENU_EXIT, BATTLE_PASS_NOTICE, GAME_TIPS, LOGIN_ANNOUNCE,
+                                   LOGIN_ANNOUNCE_2, LOGIN_CHECK, LOGIN_RETURN_SIGN, MAINTENANCE_ANNOUNCE,
+                                   MONTHLY_PASS_NOTICE)
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.assets import (FLEET_PREPARATION, MAP_PREPARATION,
@@ -330,6 +329,8 @@ class UI(InfoHandler):
 
         # Daily reset
         if self.appear_then_click(LOGIN_ANNOUNCE, offset=(30, 30), interval=3):
+            return True
+        if self.appear_then_click(LOGIN_ANNOUNCE_2, offset=(30, 30), interval=3):
             return True
         if self.appear_then_click(GET_ITEMS_1, offset=True, interval=3):
             return True
