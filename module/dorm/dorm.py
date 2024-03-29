@@ -408,6 +408,7 @@ class RewardDorm(UI):
             return
 
         self.ui_ensure(page_dormmenu)
+        self.handle_info_bar()
         if not self.appear(DORM_RED_DOT, offset=(30, 30)):
             logger.info('Nothing to collect. Dorm collecting skipped.')
             collect = False

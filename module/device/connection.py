@@ -84,6 +84,11 @@ class AdbDeviceWithStatus(AdbDevice):
     def __bool__(self):
         return True
 
+    @cached_property
+    def may_mumu12_family(self):
+        # 127.0.0.1:16XXX
+        return len(self.serial) == 15 and self.serial.startswith('127.0.0.1:16')
+
 
 class Connection(ConnectionAttr):
     def __init__(self, config):
@@ -773,7 +778,16 @@ class Connection(ConnectionAttr):
                 raise RequestHumanTakeover
             elif available.count == 1:
                 logger.info(f'Auto device detection found only one device, using it')
-                self.serial = devices[0].serial
+                self.serial = available[0].serial
+                del_cached_property(self, 'adb')
+            elif available.count == 2 \
+                    and available.select(serial='127.0.0.1:7555') \
+                    and available.select(may_mumu12_family=True):
+                logger.info(f'Auto device detection found MuMu12 device, using it')
+                # For MuMu12 serials like 127.0.0.1:7555 and 127.0.0.1:16384
+                # ignore 7555 use 16384
+                remain = available.select(may_mumu12_family=True).first_or_none()
+                self.serial = remain.serial
                 del_cached_property(self, 'adb')
             else:
                 logger.critical('Multiple devices found, auto device detection cannot decide which to choose, '
