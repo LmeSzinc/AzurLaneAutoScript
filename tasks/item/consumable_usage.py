@@ -1,5 +1,5 @@
 from module.ocr.ocr import *
-from module.ui.scroll import Scroll
+from module.ui.scroll import AdaptiveScroll
 from tasks.base.assets.assets_base_popup import POPUP_CONFIRM
 from tasks.base.page import page_item
 from tasks.daily.assets.assets_daily_synthesize_consumable import \
@@ -54,7 +54,7 @@ class ConsumableUsageUI(ItemUI):
 
         # Determine if there is a scroll bar. If there is a scroll bar,
         # pull it down and check if the consumable to be used can be found
-        scroll = Scroll(area=ITEM_CONSUMABLE_SCROLL.button, color=(200, 200, 200), name=ITEM_CONSUMABLE_SCROLL.name)
+        scroll = AdaptiveScroll(area=ITEM_CONSUMABLE_SCROLL.button, name=ITEM_CONSUMABLE_SCROLL.name)
         if scroll.appear(main=self):
             if not scroll.at_top(main=self):
                 scroll.set_top(main=self)

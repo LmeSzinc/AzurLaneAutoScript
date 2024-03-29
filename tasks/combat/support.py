@@ -1,12 +1,11 @@
 import cv2
 import numpy as np
-from scipy import signal
 
 from module.base.button import ClickButton
 from module.base.timer import Timer
-from module.base.utils import area_offset, area_size, crop, load_image, rgb2luma
+from module.base.utils import area_offset, crop, load_image
 from module.logger import logger
-from module.ui.scroll import Scroll
+from module.ui.scroll import AdaptiveScroll
 from tasks.base.assets.assets_base_popup import POPUP_CANCEL
 from tasks.base.ui import UI
 from tasks.combat.assets.assets_combat_support import COMBAT_SUPPORT_ADD, COMBAT_SUPPORT_LIST, \
@@ -116,41 +115,6 @@ class NextSupportCharacter:
         return SUPPORT_SELECTED.match_template(image, similarity=0.75, direct_match=True)
 
 
-class SupportListScroll(Scroll):
-    def cal_position(self, main):
-        """
-        Args:
-            main (ModuleBase):
-
-        Returns:
-            float: 0 to 1.
-        """
-        image = main.device.image
-
-        temp_area = list(self.area)
-        temp_area[0] = int(temp_area[0] * 0.98)
-        temp_area[2] = int(temp_area[2] * 1.02)
-
-        line = rgb2luma(crop(image, temp_area)).flatten()
-        width = area_size(temp_area)[0]
-        parameters = {
-            "height": 180,
-            "prominence": 30,
-            "distance": width * 0.75,
-        }
-        peaks, _ = signal.find_peaks(line, **parameters)
-        peaks //= width
-        self.length = len(peaks)
-        middle = np.mean(peaks)
-
-        position = (middle - self.length / 2) / (self.total - self.length)
-        position = position if position > 0 else 0.0
-        position = position if position < 1 else 1.0
-        logger.attr(
-            self.name, f"{position:.2f} ({middle}-{self.length / 2})/({self.total}-{self.length})")
-        return position
-
-
 class CombatSupport(UI):
     def support_set(self, support_character_name: str = "FirstCharacter"):
         """
@@ -212,8 +176,8 @@ class CombatSupport(UI):
             out: COMBAT_SUPPORT_LIST
         """
         logger.hr("Combat support search")
-        scroll = SupportListScroll(area=COMBAT_SUPPORT_LIST_SCROLL.area, color=(194, 196, 205),
-                                   name=COMBAT_SUPPORT_LIST_SCROLL.name)
+        scroll = AdaptiveScroll(area=COMBAT_SUPPORT_LIST_SCROLL.area,
+                                name=COMBAT_SUPPORT_LIST_SCROLL.name)
         if scroll.appear(main=self):
             if not scroll.at_bottom(main=self):
                 # Dropdown to load the entire support list, so large threshold is acceptable
@@ -311,8 +275,8 @@ class CombatSupport(UI):
             out: COMBAT_SUPPORT_LIST
         """
         skip_first_screenshot = True
-        scroll = SupportListScroll(area=COMBAT_SUPPORT_LIST_SCROLL.area, color=(194, 196, 205),
-                                   name=COMBAT_SUPPORT_LIST_SCROLL.name)
+        scroll = AdaptiveScroll(area=COMBAT_SUPPORT_LIST_SCROLL.area,
+                                name=COMBAT_SUPPORT_LIST_SCROLL.name)
         interval = Timer(1)
         next_support = None
         if scroll.appear(main=self):
