@@ -388,15 +388,13 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 self.quick_retire_setting_set(filter_5=None)
                 self.dock_favourite_set(False)
                 total = self.retire_ships_one_click()
-                if not total:
-                    self.dock_filter_set(index=['dd', 'cl', 'ca', 'bb', 'repair', 'ss', 'others'])
-                    total = self.retire_ships_one_click()
-                # When no ship retired, there may be too many common CVs, retire some and keep one of each
-                if not total:
-                    logger.warning('No ship retired, trying to retire some common CVs and keep one of each')
-                    self.dock_filter_set(index='cv', rarity='common')
-                    self.quick_retire_setting_set(filter_4='keep_one', filter_5='keep_limit_break')
-                    total = self.retire_ships_one_click()
+                # Retire common non-CVs
+                self.dock_filter_set(index=['dd', 'cl', 'ca', 'bb', 'repair', 'ss', 'others'])
+                total += self.retire_ships_one_click()
+                # There may be too many common CVs, retire some and keep one of each
+                self.dock_filter_set(index='cv', rarity='common')
+                self.quick_retire_setting_set(filter_4='keep_one', filter_5='keep_limit_break')
+                total += self.retire_ships_one_click()
                 if not total:
                     logger.warning('No ship retired, trying to reset dock filter but keep common to protect CVs')
                     self.dock_filter_set(index='all', rarity=['rare', 'elite'])
