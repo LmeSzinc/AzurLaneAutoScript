@@ -168,6 +168,7 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, CharacterSwitch):
         if route.name in [
             'Occurrence_Jarilo_BackwaterPass_F1_X553Y643',
             'Combat_Jarilo_GreatMine_F1_X545Y513',
+            'Combat_Herta_SupplyZone_F2_X45Y369',
         ] and similarity > 0.20:
             return True
         if route.name in [
