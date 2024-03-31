@@ -248,6 +248,8 @@ RogueWorld:
   DoubleEvent: true
   UseStamina: false
   WeeklyFarming: false
+  SimulatedUniverseElite:
+    stored: StoredSimulatedUniverseElite
 
 RogueBlessing:
   PresetBlessingFilter:

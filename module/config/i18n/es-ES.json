@@ -976,6 +976,10 @@
     "WeeklyFarming": {
       "name": "Recolección de Materiales de Jefes",
       "help": "No detenerse después de que los puntos semanales estén llenos, farmear al jefe 100 veces para obtener materiales de rastro"
+    },
+    "SimulatedUniverseElite": {
+      "name": "RogueWorld.SimulatedUniverseElite.name",
+      "help": "RogueWorld.SimulatedUniverseElite.help"
     }
   },
   "RogueBlessing": {

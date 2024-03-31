@@ -976,6 +976,10 @@
     "WeeklyFarming": {
       "name": "刷取Boss材料",
       "help": "每周积分满后不停止，刷取100次Boss以获取形迹材料"
+    },
+    "SimulatedUniverseElite": {
+      "name": "剩余Boss材料掉落次数",
+      "help": "RogueWorld.SimulatedUniverseElite.help"
     }
   },
   "RogueBlessing": {

@@ -200,7 +200,8 @@
       "UseImmersifier": true,
       "DoubleEvent": true,
       "UseStamina": false,
-      "WeeklyFarming": false
+      "WeeklyFarming": false,
+      "SimulatedUniverseElite": {}
     },
     "RogueBlessing": {
       "PresetBlessingFilter": "preset",
