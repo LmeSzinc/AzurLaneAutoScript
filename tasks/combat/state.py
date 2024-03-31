@@ -2,7 +2,7 @@ import cv2
 from scipy import signal
 
 from module.base.timer import Timer
-from module.base.utils import rgb2gray
+from module.base.utils import rgb2luma
 from module.logger import logger
 from tasks.base.ui import UI
 from tasks.combat.assets.assets_combat_state import COMBAT_AUTO, COMBAT_PAUSE, COMBAT_SPEED_2X
@@ -22,7 +22,7 @@ class CombatState(UI):
         return False
 
     def _is_combat_button_active(self, button):
-        image = rgb2gray(self.image_crop(button))
+        image = rgb2luma(self.image_crop(button))
         lines = cv2.reduce(image, 1, cv2.REDUCE_AVG).flatten()
         # [122 122 122 182 141 127 139 135 130 135 136 141 147 149 149 150 147 145
         #  148 150 150 150 150 150 144 138 134 141 136 133 173 183 130 128 127 126]

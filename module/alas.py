@@ -62,6 +62,18 @@ class AzurLaneAutoScript:
             logger.exception(e)
             exit(1)
 
+    def restart(self):
+        raise NotImplemented
+
+    def start(self):
+        raise NotImplemented
+
+    def stop(self):
+        raise NotImplemented
+
+    def goto_main(self):
+        raise NotImplemented
+
     def run(self, command):
         try:
             self.device.screenshot()
@@ -211,7 +223,7 @@ class AzurLaneAutoScript:
                 method = self.config.Optimization_WhenTaskQueueEmpty
                 if method == 'close_game':
                     logger.info('Close game during wait')
-                    self.device.app_stop()
+                    self.run('stop')
                     release_resources()
                     self.device.release_during_wait()
                     if not self.wait_until(task.next_run):

@@ -165,7 +165,13 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, CharacterSwitch):
         #     return True
 
         # Before Combat_Luofu_Cloudford_F1_X281Y873
-        if route.name == [
+        if route.name in [
+            'Occurrence_Jarilo_BackwaterPass_F1_X553Y643',
+            'Combat_Jarilo_GreatMine_F1_X545Y513',
+            'Combat_Herta_SupplyZone_F2_X45Y369',
+        ] and similarity > 0.20:
+            return True
+        if route.name in [
             'Combat_Herta_StorageZone_F1_X273Y92',
             'Occurrence_Herta_StorageZone_F1_X273Y93',
             'Occurrence_Jarilo_RivetTown_F1_X289Y97',
@@ -173,12 +179,20 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, CharacterSwitch):
             'Occurrence_Luofu_ArtisanshipCommission_F1_X169Y491',
         ] and similarity > 0.1:
             return True
+        # Luofu_Cloudford_F1_X283Y865 and its equivalents
         # INFO     21:27:00.816 │ Best 3 nearby predictions: [
         # ('Combat_Herta_SupplyZone_F2_X45Y369', 0.184, (41.0, 369.1)),
         # ('Combat_Luofu_Cloudford_F1_X281Y873', 0.149, (281.8, 869.6)),
         # ('Combat_Luofu_Cloudford_F1_X283Y865', 0.149, (281.8, 869.6))]
-        if route.name in ['Combat_Luofu_Cloudford_F1_X283Y865', 'Occurrence_Luofu_Cloudford_F1_X283Y865'] \
-                and similarity > 0.05:
+        # INFO | Best 3 predictions: [('Combat_Herta_SupplyZone_F2_X45Y369', 0.149, (43.4, 369.3)),
+        # ('Combat_Luofu_Cloudford_F1_X241Y947', 0.138, (198.6, 956.8)),
+        # ('Combat_Luofu_Cloudford_F1Rogue_X59Y405', 0.134, (81.0, 397.4))]
+        if route.name in [
+            'Combat_Luofu_Cloudford_F1_X283Y865',
+            'Occurrence_Luofu_Cloudford_F1_X283Y865',
+            'Combat_Luofu_Cloudford_F1_X281Y873',
+            'Occurrence_Luofu_Cloudford_F1_X281Y873',
+        ] and similarity > 0.05:
             return True
         return False
 

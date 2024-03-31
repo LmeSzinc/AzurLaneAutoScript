@@ -6,6 +6,7 @@ from module.base.timer import Timer
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
 from module.device.device import Device
+from module.device.method.utils import HierarchyButton
 from module.logger import logger
 from module.webui.setting import cached_class_property
 
@@ -132,9 +133,56 @@ class ModuleBase:
 
         return appear
 
-    appear = match_template
+    def xpath(self, xpath) -> HierarchyButton:
+        if isinstance(xpath, str):
+            return HierarchyButton(self.device.hierarchy, xpath)
+        else:
+            return xpath
+
+    def xpath_appear(self, xpath: str, interval=0):
+        button = self.xpath(xpath)
+
+        self.device.stuck_record_add(button)
+
+        if interval and not self.interval_is_reached(button, interval=interval):
+            return False
+
+        appear = bool(button)
+
+        if appear and interval:
+            self.interval_reset(button, interval=interval)
+
+        return appear
+
+    def appear(self, button, interval=0, similarity=0.85):
+        """
+        Args:
+            button (Button, ButtonWrapper, HierarchyButton, str):
+            interval (int, float): interval between two active events.
+
+        Returns:
+            bool:
+
+        Examples:
+            Template match:
+            ```
+            self.device.screenshot()
+            self.appear(POPUP_CONFIRM)
+            ```
+
+            Hierarchy detection (detect elements with xpath):
+            ```
+            self.device.dump_hierarchy()
+            self.appear('//*[@resource-id="..."]')
+            ```
+        """
+        if isinstance(button, (HierarchyButton, str)):
+            return self.xpath_appear(button, interval=interval)
+        else:
+            return self.match_template(button, interval=interval, similarity=similarity)
 
     def appear_then_click(self, button, interval=5, similarity=0.85):
+        button = self.xpath(button)
         appear = self.appear(button, interval=interval, similarity=similarity)
         if appear:
             self.device.click(button)

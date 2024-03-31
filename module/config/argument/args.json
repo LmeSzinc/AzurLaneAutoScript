@@ -6,6 +6,14 @@
         "value": "auto",
         "valuetype": "str"
       },
+      "GameClient": {
+        "type": "select",
+        "value": "android",
+        "option": [
+          "android",
+          "cloud_android"
+        ]
+      },
       "PackageName": {
         "type": "select",
         "value": "auto",
@@ -131,6 +139,26 @@
           "close_game"
         ]
       }
+    },
+    "CloudStorage": {
+      "CloudRemainSeasonPass": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredInt"
+      },
+      "CloudRemainPaid": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredInt"
+      },
+      "CloudRemainFree": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredInt"
+      }
     }
   },
   "Restart": {
@@ -165,11 +193,13 @@
   "Dungeon": {
     "Scheduler": {
       "Enable": {
-        "type": "checkbox",
+        "type": "state",
         "value": true,
         "option": [
-          true,
-          false
+          true
+        ],
+        "option_bold": [
+          true
         ]
       },
       "NextRun": {
@@ -205,8 +235,10 @@
           "Calyx_Crimson_Destruction_Herta_StorageZone",
           "Calyx_Crimson_Destruction_Luofu_ScalegorgeWaterscape",
           "Calyx_Crimson_Preservation_Herta_SupplyZone",
+          "Calyx_Crimson_Preservation_Penacony_ClockStudiosThemePark",
           "Calyx_Crimson_The_Hunt_Jarilo_OutlyingSnowPlains",
           "Calyx_Crimson_Abundance_Jarilo_BackwaterPass",
+          "Calyx_Crimson_Abundance_Luofu_FyxestrollGarden",
           "Calyx_Crimson_Erudition_Jarilo_RivetTown",
           "Calyx_Crimson_Harmony_Jarilo_RobotSettlement",
           "Calyx_Crimson_Harmony_Penacony_TheReverieDreamscape",
@@ -216,6 +248,7 @@
           "Stagnant_Shadow_Perdition",
           "Stagnant_Shadow_Blaze",
           "Stagnant_Shadow_Scorch",
+          "Stagnant_Shadow_Ire",
           "Stagnant_Shadow_Rime",
           "Stagnant_Shadow_Icicle",
           "Stagnant_Shadow_Nectar",
@@ -243,7 +276,6 @@
         "type": "select",
         "value": "Calyx_Golden_Treasures",
         "option": [
-          "do_not_participate",
           "Calyx_Golden_Memories_Jarilo_VI",
           "Calyx_Golden_Memories_The_Xianzhou_Luofu",
           "Calyx_Golden_Memories_Penacony",
@@ -256,8 +288,10 @@
           "Calyx_Crimson_Destruction_Herta_StorageZone",
           "Calyx_Crimson_Destruction_Luofu_ScalegorgeWaterscape",
           "Calyx_Crimson_Preservation_Herta_SupplyZone",
+          "Calyx_Crimson_Preservation_Penacony_ClockStudiosThemePark",
           "Calyx_Crimson_The_Hunt_Jarilo_OutlyingSnowPlains",
           "Calyx_Crimson_Abundance_Jarilo_BackwaterPass",
+          "Calyx_Crimson_Abundance_Luofu_FyxestrollGarden",
           "Calyx_Crimson_Erudition_Jarilo_RivetTown",
           "Calyx_Crimson_Harmony_Jarilo_RobotSettlement",
           "Calyx_Crimson_Harmony_Penacony_TheReverieDreamscape",
@@ -269,7 +303,6 @@
         "type": "select",
         "value": "Cavern_of_Corrosion_Path_of_Providence",
         "option": [
-          "do_not_participate",
           "Cavern_of_Corrosion_Path_of_Gelid_Wind",
           "Cavern_of_Corrosion_Path_of_Jabbing_Punch",
           "Cavern_of_Corrosion_Path_of_Drifting",
@@ -322,8 +355,10 @@
           "Calyx_Crimson_Destruction_Herta_StorageZone",
           "Calyx_Crimson_Destruction_Luofu_ScalegorgeWaterscape",
           "Calyx_Crimson_Preservation_Herta_SupplyZone",
+          "Calyx_Crimson_Preservation_Penacony_ClockStudiosThemePark",
           "Calyx_Crimson_The_Hunt_Jarilo_OutlyingSnowPlains",
           "Calyx_Crimson_Abundance_Jarilo_BackwaterPass",
+          "Calyx_Crimson_Abundance_Luofu_FyxestrollGarden",
           "Calyx_Crimson_Erudition_Jarilo_RivetTown",
           "Calyx_Crimson_Harmony_Jarilo_RobotSettlement",
           "Calyx_Crimson_Harmony_Penacony_TheReverieDreamscape",
@@ -340,6 +375,7 @@
           "Stagnant_Shadow_Perdition",
           "Stagnant_Shadow_Blaze",
           "Stagnant_Shadow_Scorch",
+          "Stagnant_Shadow_Ire",
           "Stagnant_Shadow_Rime",
           "Stagnant_Shadow_Icicle",
           "Stagnant_Shadow_Nectar",
@@ -386,6 +422,7 @@
         "value": "FirstCharacter",
         "option": [
           "FirstCharacter",
+          "Acheron",
           "Argenti",
           "Arlan",
           "Asta",
@@ -398,6 +435,7 @@
           "DanHengImbibitorLunae",
           "DrRatio",
           "FuXuan",
+          "Gallagher",
           "Gepard",
           "Guinaifen",
           "Hanya",
@@ -476,11 +514,13 @@
   "DailyQuest": {
     "Scheduler": {
       "Enable": {
-        "type": "checkbox",
+        "type": "state",
         "value": true,
         "option": [
-          true,
-          false
+          true
+        ],
+        "option_bold": [
+          true
         ]
       },
       "NextRun": {
@@ -911,11 +951,13 @@
   "BattlePass": {
     "Scheduler": {
       "Enable": {
-        "type": "checkbox",
+        "type": "state",
         "value": true,
         "option": [
-          true,
-          false
+          true
+        ],
+        "option_bold": [
+          true
         ]
       },
       "NextRun": {
@@ -996,11 +1038,13 @@
   "Assignment": {
     "Scheduler": {
       "Enable": {
-        "type": "checkbox",
+        "type": "state",
         "value": true,
         "option": [
-          true,
-          false
+          true
+        ],
+        "option_bold": [
+          true
         ]
       },
       "NextRun": {
@@ -1292,6 +1336,7 @@
         "value": "FirstCharacter",
         "option": [
           "FirstCharacter",
+          "Acheron",
           "Argenti",
           "Arlan",
           "Asta",
@@ -1304,6 +1349,7 @@
           "DanHengImbibitorLunae",
           "DrRatio",
           "FuXuan",
+          "Gallagher",
           "Gepard",
           "Guinaifen",
           "Hanya",

@@ -18,6 +18,9 @@ Emulator:
   Serial:
     value: auto
     valuetype: str
+  GameClient:
+    value: android
+    option: [ android, cloud_android ]
   PackageName:
     value: auto
     option: [ auto, ]
@@ -72,6 +75,13 @@ Optimization:
   WhenTaskQueueEmpty:
     value: goto_main
     option: [ stay_there, goto_main, close_game ]
+CloudStorage:
+  CloudRemainSeasonPass:
+    stored: StoredInt
+  CloudRemainPaid:
+    stored: StoredInt
+  CloudRemainFree:
+    stored: StoredInt
 
 # ==================== Daily ====================
 
@@ -82,10 +92,10 @@ Dungeon:
     option: [ ]
   NameAtDoubleCalyx:
     value: Calyx_Golden_Treasures
-    option: [ do_not_participate, ]
+    option: [ ]
   NameAtDoubleRelic:
     value: Cavern_of_Corrosion_Path_of_Providence
-    option: [ do_not_participate, ]
+    option: [ ]
   Team:
     value: 1
     option: [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]

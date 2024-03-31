@@ -96,6 +96,12 @@
       "name": "Serial",
       "help": "Common emulator Serial can be queried in the list below\nUse \"auto\" to auto-detect emulators, but if multiple emulators are running or use emulators that do not support auto-detect, \"auto\" cannot be used and serial must be filled in manually\nDefault serial for select emulators:\n- BlueStacks 127.0.0.1:5555\n- BlueStacks4 Hyper-V use \"bluestacks4-hyperv\", \"bluestacks4-hyperv-2\" for multi instance, and so on\n- BlueStacks5 Hyper-V use \"bluestacks5-hyperv\", \"bluestacks5-hyperv-1\" for multi instance, and so on\n- NoxPlayer 127.0.0.1:62001\n- NoxPlayer64bit 127.0.0.1:59865\n- MuMuPlayer/MuMuPlayer X 127.0.0.1:7555\n- MuMuPlayer12 127.0.0.1:16384\n- MemuPlayer 127.0.0.1:21503\n- LDPlayer emulator-5554 or 127.0.0.1:5555\n- WSA use \"wsa-0\" to make the game run in the background, which needs to be controlled or closed by third-party software\nIf there are multiple emulator instances running, the default is reserved for one of them and the others will use different serials to avoid conflicts\nOpen console.bat and run `adb devices` to find them or follow the emulator's official tutorial"
     },
+    "GameClient": {
+      "name": "Game Client",
+      "help": "When using cloud, you will be automatically queued to log in. Cloud game is available in CN only",
+      "android": "Android client",
+      "cloud_android": "Cloud game android client"
+    },
     "PackageName": {
       "name": "Game Server",
       "help": "Can't distinguish different regions of oversea servers, please select the server manually.",
@@ -215,6 +221,24 @@
       "close_game": "Close Game"
     }
   },
+  "CloudStorage": {
+    "_info": {
+      "name": "CloudStorage._info.name",
+      "help": "CloudStorage._info.help"
+    },
+    "CloudRemainSeasonPass": {
+      "name": "CloudStorage.CloudRemainSeasonPass.name",
+      "help": "CloudStorage.CloudRemainSeasonPass.help"
+    },
+    "CloudRemainPaid": {
+      "name": "CloudStorage.CloudRemainPaid.name",
+      "help": "CloudStorage.CloudRemainPaid.help"
+    },
+    "CloudRemainFree": {
+      "name": "CloudStorage.CloudRemainFree.name",
+      "help": "CloudStorage.CloudRemainFree.help"
+    }
+  },
   "Dungeon": {
     "_info": {
       "name": "Dungeon Settings",
@@ -235,8 +259,10 @@
       "Calyx_Crimson_Destruction_Herta_StorageZone": "Trace: Destruction (Storage Zone)",
       "Calyx_Crimson_Destruction_Luofu_ScalegorgeWaterscape": "Trace: Destruction (Scalegorge Waterscape)",
       "Calyx_Crimson_Preservation_Herta_SupplyZone": "Trace: Preservation (Supply Zone)",
+      "Calyx_Crimson_Preservation_Penacony_ClockStudiosThemePark": "Trace: Preservation (Clock Studios Theme Park)",
       "Calyx_Crimson_The_Hunt_Jarilo_OutlyingSnowPlains": "Trace: The Hunt (Outlying Snow Plains)",
       "Calyx_Crimson_Abundance_Jarilo_BackwaterPass": "Trace: Abundance (Backwater Pass)",
+      "Calyx_Crimson_Abundance_Luofu_FyxestrollGarden": "Trace: Abundance (Fyxestroll Garden)",
       "Calyx_Crimson_Erudition_Jarilo_RivetTown": "Trace: Erudition (Rivet Town)",
       "Calyx_Crimson_Harmony_Jarilo_RobotSettlement": "Trace: The Harmony (Robot Settlement)",
       "Calyx_Crimson_Harmony_Penacony_TheReverieDreamscape": "Trace: The Harmony (The Reverie (Dreamscape))",
@@ -246,18 +272,19 @@
       "Stagnant_Shadow_Perdition": "Ascension: Physical (Hanya / Argenti)",
       "Stagnant_Shadow_Blaze": "Ascension: Fire (Himeko / Asta / Hook)",
       "Stagnant_Shadow_Scorch": "Ascension: Fire (Guinaifen / Topaz & Numby)",
+      "Stagnant_Shadow_Ire": "Ascension: Fire (Gallagher)",
       "Stagnant_Shadow_Rime": "Ascension: Ice (March 7th / Herta / Gepard / Pela)",
       "Stagnant_Shadow_Icicle": "Ascension: Ice (Yanqing / Jingliu / Ruan Mei)",
       "Stagnant_Shadow_Nectar": "Ascension: Ice (Misha)",
       "Stagnant_Shadow_Fulmination": "Ascension: Lightning (Arlan / Serval / Tingyun / Bailu)",
-      "Stagnant_Shadow_Doom": "Ascension: Lightning (Kafka / Jing Yuan)",
+      "Stagnant_Shadow_Doom": "Ascension: Lightning (Kafka / Jing Yuan / Acheron)",
       "Stagnant_Shadow_Gust": "Ascension: Wind (Dan Heng / Bronya / Sampo)",
       "Stagnant_Shadow_Celestial": "Ascension: Wind (Blade / Huohuo / Black Swan)",
       "Stagnant_Shadow_Quanta": "Ascension: Quantum (Silver Wolf / Seele / Qingque)",
       "Stagnant_Shadow_Abomination": "Ascension: Quantum (Lynx / Fu Xuan / Xueyi)",
       "Stagnant_Shadow_Roast": "Ascension: Quantum (Sparkle)",
       "Stagnant_Shadow_Mirage": "Ascension: Imaginary (Welt / Luocha / Yukong)",
-      "Stagnant_Shadow_Puppetry": "Ascension: Imaginary (Dan Heng • Imbibitor Lunae / Dr. Ratio)",
+      "Stagnant_Shadow_Puppetry": "Ascension: Imaginary (Dan Heng • Imbibitor Lunae / Aventurine / Dr. Ratio)",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "Relics: Ice Set & Wind Set (Path of Gelid Wind)",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "Relics: Physical Set & Break Effect Set (Path of Jabbing Punch)",
       "Cavern_of_Corrosion_Path_of_Drifting": "Relics: Healing Set & Musketeer Set (Path of Drifting)",
@@ -271,7 +298,6 @@
     "NameAtDoubleCalyx": {
       "name": "At Double Calyx Event, choose dungeon",
       "help": "Return to the default dungeon settings after double times exhausted",
-      "do_not_participate": "Dont participate in event",
       "Calyx_Golden_Memories_Jarilo_VI": "Material: Character EXP (Bud of Memories (Jarilo-Ⅵ))",
       "Calyx_Golden_Memories_The_Xianzhou_Luofu": "Material: Character EXP (Bud of Memories (The Xianzhou Luofu))",
       "Calyx_Golden_Memories_Penacony": "Material: Character EXP (Bud of Memories (Penacony))",
@@ -284,8 +310,10 @@
       "Calyx_Crimson_Destruction_Herta_StorageZone": "Trace: Destruction (Storage Zone)",
       "Calyx_Crimson_Destruction_Luofu_ScalegorgeWaterscape": "Trace: Destruction (Scalegorge Waterscape)",
       "Calyx_Crimson_Preservation_Herta_SupplyZone": "Trace: Preservation (Supply Zone)",
+      "Calyx_Crimson_Preservation_Penacony_ClockStudiosThemePark": "Trace: Preservation (Clock Studios Theme Park)",
       "Calyx_Crimson_The_Hunt_Jarilo_OutlyingSnowPlains": "Trace: The Hunt (Outlying Snow Plains)",
       "Calyx_Crimson_Abundance_Jarilo_BackwaterPass": "Trace: Abundance (Backwater Pass)",
+      "Calyx_Crimson_Abundance_Luofu_FyxestrollGarden": "Trace: Abundance (Fyxestroll Garden)",
       "Calyx_Crimson_Erudition_Jarilo_RivetTown": "Trace: Erudition (Rivet Town)",
       "Calyx_Crimson_Harmony_Jarilo_RobotSettlement": "Trace: The Harmony (Robot Settlement)",
       "Calyx_Crimson_Harmony_Penacony_TheReverieDreamscape": "Trace: The Harmony (The Reverie (Dreamscape))",
@@ -295,7 +323,6 @@
     "NameAtDoubleRelic": {
       "name": "At Double Relic Event, choose dungeon",
       "help": "Return to the default dungeon settings after double times exhausted",
-      "do_not_participate": "Dont participate in event",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "Relics: Ice Set & Wind Set (Path of Gelid Wind)",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "Relics: Physical Set & Break Effect Set (Path of Jabbing Punch)",
       "Cavern_of_Corrosion_Path_of_Drifting": "Relics: Healing Set & Musketeer Set (Path of Drifting)",
@@ -346,8 +373,10 @@
       "Calyx_Crimson_Destruction_Herta_StorageZone": "Trace: Destruction (Storage Zone)",
       "Calyx_Crimson_Destruction_Luofu_ScalegorgeWaterscape": "Trace: Destruction (Scalegorge Waterscape)",
       "Calyx_Crimson_Preservation_Herta_SupplyZone": "Trace: Preservation (Supply Zone)",
+      "Calyx_Crimson_Preservation_Penacony_ClockStudiosThemePark": "Trace: Preservation (Clock Studios Theme Park)",
       "Calyx_Crimson_The_Hunt_Jarilo_OutlyingSnowPlains": "Trace: The Hunt (Outlying Snow Plains)",
       "Calyx_Crimson_Abundance_Jarilo_BackwaterPass": "Trace: Abundance (Backwater Pass)",
+      "Calyx_Crimson_Abundance_Luofu_FyxestrollGarden": "Trace: Abundance (Fyxestroll Garden)",
       "Calyx_Crimson_Erudition_Jarilo_RivetTown": "Trace: Erudition (Rivet Town)",
       "Calyx_Crimson_Harmony_Jarilo_RobotSettlement": "Trace: The Harmony (Robot Settlement)",
       "Calyx_Crimson_Harmony_Penacony_TheReverieDreamscape": "Trace: The Harmony (The Reverie (Dreamscape))",
@@ -362,18 +391,19 @@
       "Stagnant_Shadow_Perdition": "Ascension: Physical (Hanya / Argenti)",
       "Stagnant_Shadow_Blaze": "Ascension: Fire (Himeko / Asta / Hook)",
       "Stagnant_Shadow_Scorch": "Ascension: Fire (Guinaifen / Topaz & Numby)",
+      "Stagnant_Shadow_Ire": "Ascension: Fire (Gallagher)",
       "Stagnant_Shadow_Rime": "Ascension: Ice (March 7th / Herta / Gepard / Pela)",
       "Stagnant_Shadow_Icicle": "Ascension: Ice (Yanqing / Jingliu / Ruan Mei)",
       "Stagnant_Shadow_Nectar": "Ascension: Ice (Misha)",
       "Stagnant_Shadow_Fulmination": "Ascension: Lightning (Arlan / Serval / Tingyun / Bailu)",
-      "Stagnant_Shadow_Doom": "Ascension: Lightning (Kafka / Jing Yuan)",
+      "Stagnant_Shadow_Doom": "Ascension: Lightning (Kafka / Jing Yuan / Acheron)",
       "Stagnant_Shadow_Gust": "Ascension: Wind (Dan Heng / Bronya / Sampo)",
       "Stagnant_Shadow_Celestial": "Ascension: Wind (Blade / Huohuo / Black Swan)",
       "Stagnant_Shadow_Quanta": "Ascension: Quantum (Silver Wolf / Seele / Qingque)",
       "Stagnant_Shadow_Abomination": "Ascension: Quantum (Lynx / Fu Xuan / Xueyi)",
       "Stagnant_Shadow_Roast": "Ascension: Quantum (Sparkle)",
       "Stagnant_Shadow_Mirage": "Ascension: Imaginary (Welt / Luocha / Yukong)",
-      "Stagnant_Shadow_Puppetry": "Ascension: Imaginary (Dan Heng • Imbibitor Lunae / Dr. Ratio)"
+      "Stagnant_Shadow_Puppetry": "Ascension: Imaginary (Dan Heng • Imbibitor Lunae / Aventurine / Dr. Ratio)"
     },
     "CavernOfCorrosion": {
       "name": "Clear Cavern of Corrosion 1 times",
@@ -406,6 +436,7 @@
       "name": "Support Character",
       "help": "Select a friend support character, if not found, select the default (first) role\nSupport character should not be the same as the character in the team, recommended to prioritize friends.",
       "FirstCharacter": "First Character",
+      "Acheron": "Acheron",
       "Argenti": "Argenti",
       "Arlan": "Arlan",
       "Asta": "Asta",
@@ -418,6 +449,7 @@
       "DanHengImbibitorLunae": "Dan Heng • Imbibitor Lunae",
       "DrRatio": "Dr. Ratio",
       "FuXuan": "Fu Xuan",
+      "Gallagher": "Gallagher",
       "Gepard": "Gepard",
       "Guinaifen": "Guinaifen",
       "Hanya": "Hanya",

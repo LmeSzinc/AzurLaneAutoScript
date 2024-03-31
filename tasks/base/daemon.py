@@ -59,7 +59,7 @@ class Daemon(RouteBase, DaemonBase, AimDetectorMixin):
         else:
             logger.warning(f'Maatouch contact on {builder.contact}, may cause interruptions')
 
-        STORY_OPTION.set_search_offset((-5, -5, 32, 5))
+        STORY_OPTION.set_search_offset((-5, -10, 32, 5))
         INTERACT_COLLECT.set_search_offset((-5, -5, 32, 5))
         INTERACT_INVESTIGATE.set_search_offset((-5, -5, 32, 5))
         INTERACT_TREASURE.set_search_offset((-5, -5, 32, 5))
@@ -107,6 +107,16 @@ class Daemon(RouteBase, DaemonBase, AimDetectorMixin):
                 continue
             if self.handle_ui_close(PICTURE_TAKEN, interval=1):
                 continue
+            if self.appear_then_click(DUNGEON_EXIT, interval=1.5):
+                continue
+            # Tutorial popup
+            if self.appear(TUTORIAL_CHECK, interval=0.2):
+                if self.image_color_count(TUTORIAL_CLOSE, color=(255, 255, 255), threshold=180, count=400):
+                    self.device.click(TUTORIAL_CLOSE)
+                    continue
+                if self.image_color_count(TUTORIAL_NEXT, color=(255, 255, 255), threshold=180, count=50):
+                    self.device.click(TUTORIAL_NEXT)
+                    continue
             # Rogue
             if self.handle_blessing():
                 continue

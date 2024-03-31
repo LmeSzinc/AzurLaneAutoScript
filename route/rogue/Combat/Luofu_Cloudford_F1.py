@@ -168,8 +168,44 @@ class Route(RouteBase):
         enemy2 = Waypoint((273.9, 584.9))
         # ===== End of generated waypoints =====
 
+        self.rotation_set(270)
         # 1
         self.clear_item(
+            item1.straight_run(),
+        )
+        self.clear_enemy(
+            enemy1.straight_run(),
+        )
+        # 2
+        self.clear_item(item2)
+        self.clear_enemy(enemy2)
+
+    def Luofu_Cloudford_F1_X433Y617(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((433.5, 616.8)), | 358.2     | 4        |
+        | node1    | Waypoint((431.5, 593.4)), | 2.7       | 357      |
+        | item1    | Waypoint((371.8, 592.8)), | 263.8     | 267      |
+        | enemy1   | Waypoint((341.2, 586.8)), | 274.2     | 274      |
+        | item2    | Waypoint((310.4, 582.2)), | 289.0     | 288      |
+        | enemy2   | Waypoint((273.9, 584.9)), | 274.1     | 271      |
+        | exit_    | Waypoint((273.9, 584.9)), | 274.1     | 271      |
+        """
+        self.map_init(plane=Luofu_Cloudford, floor="F1", position=(433.5, 616.8))
+        self.register_domain_exit(Waypoint((273.9, 584.9)), end_rotation=271)
+        node1 = Waypoint((431.5, 593.4))
+        item1 = Waypoint((371.8, 592.8))
+        enemy1 = Waypoint((341.2, 586.8))
+        item2 = Waypoint((310.4, 582.2))
+        enemy2 = Waypoint((273.9, 584.9))
+        # ===== End of generated waypoints =====
+
+        # Similar to Luofu_Cloudford_F1_X431Y593, but has different spawn point
+        self.rotation_set(270)
+        # 1
+        self.clear_item(
+            node1.set_threshold(3),
             item1.straight_run(),
         )
         self.clear_enemy(

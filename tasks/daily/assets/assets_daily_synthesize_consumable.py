@@ -141,9 +141,9 @@ SYNTHESIZE_SCROLL = ButtonWrapper(
     name='SYNTHESIZE_SCROLL',
     share=Button(
         file='./assets/share/daily/synthesize_consumable/SYNTHESIZE_SCROLL.png',
-        area=(458, 80, 464, 628),
-        search=(438, 60, 484, 648),
-        color=(134, 130, 144),
-        button=(458, 80, 464, 628),
+        area=(460, 90, 464, 618),
+        search=(440, 70, 484, 638),
+        color=(167, 165, 177),
+        button=(460, 90, 464, 618),
     ),
 )

@@ -78,20 +78,20 @@ Stagnant_Shadow_Icicle = DungeonDetailed(
 Stagnant_Shadow_Doom = DungeonDetailed(
     id=9,
     name='Stagnant_Shadow_Doom',
-    cn='角色晋阶材料：雷（卡芙卡 / 景元）',
-    cht='角色晉階材料：雷（卡芙卡 / 景元）',
-    en='Ascension: Lightning (Kafka / Jing Yuan)',
-    jp='キャラクター昇格素材：雷（カフカ / 景元）',
-    es='Ascension: Rayo (Kafka / Jing Yuan)',
+    cn='角色晋阶材料：雷（卡芙卡 / 景元 / 黄泉）',
+    cht='角色晉階材料：雷（卡芙卡 / 景元 / 黃泉）',
+    en='Ascension: Lightning (Kafka / Jing Yuan / Acheron)',
+    jp='キャラクター昇格素材：雷（カフカ / 景元 / 黄泉）',
+    es='Ascension: Rayo (Kafka / Jing Yuan / Acheron)',
 )
 Stagnant_Shadow_Puppetry = DungeonDetailed(
     id=10,
     name='Stagnant_Shadow_Puppetry',
-    cn='角色晋阶材料：虚数（丹恒•饮月 / 真理医生）',
-    cht='角色晉階材料：虛數（丹恆•飲月 / 真理醫生）',
-    en='Ascension: Imaginary (Dan Heng • Imbibitor Lunae / Dr. Ratio)',
-    jp='キャラクター昇格素材：虚数（丹恒・飲月 / Dr.レイシオ）',
-    es='Ascension: Imaginario (Dan Heng - Imbibitor Lunae / Dr. Ratio)',
+    cn='角色晋阶材料：虚数（丹恒•饮月 / 砂金 / 真理医生）',
+    cht='角色晉階材料：虛數（丹恆•飲月 / 砂金 / 真理醫生）',
+    en='Ascension: Imaginary (Dan Heng • Imbibitor Lunae / Aventurine / Dr. Ratio)',
+    jp='キャラクター昇格素材：虚数（丹恒・飲月 / アベンチュリン / Dr.レイシオ）',
+    es='Ascension: Imaginario (Dan Heng - Imbibitor Lunae / Aventurino / Dr. Ratio)',
 )
 Stagnant_Shadow_Abomination = DungeonDetailed(
     id=11,
@@ -146,4 +146,13 @@ Stagnant_Shadow_Roast = DungeonDetailed(
     en='Ascension: Quantum (Sparkle)',
     jp='キャラクター昇格素材：量子（花火）',
     es='Ascension: Cuántico (Sparkle)',
+)
+Stagnant_Shadow_Ire = DungeonDetailed(
+    id=17,
+    name='Stagnant_Shadow_Ire',
+    cn='角色晋阶材料：火（加拉赫）',
+    cht='角色晉階材料：火（加拉赫）',
+    en='Ascension: Fire (Gallagher)',
+    jp='キャラクター昇格素材：炎（ギャラガー）',
+    es='Ascension: Fuego (Gallagher)',
 )

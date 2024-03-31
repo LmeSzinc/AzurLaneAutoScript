@@ -92,8 +92,9 @@ def iter_images():
     for server in ASSET_SERVER:
         for path, folders, files in os.walk(os.path.join(AzurLaneConfig.ASSETS_FOLDER, server)):
             for file in files:
-                file = os.path.join(path, file).replace('\\', '/')
-                yield AssetsImage(file)
+                if not file.startswith('.'):
+                    file = os.path.join(path, file).replace('\\', '/')
+                    yield AssetsImage(file)
 
 
 @dataclass

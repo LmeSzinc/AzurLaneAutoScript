@@ -81,7 +81,15 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
         """
         logger.hr('Combat prepare')
         skip_first_screenshot = True
-        pre_set_team = bool(support_character)
+        if support_character:
+            # To set team before support set
+            pre_set_team = True
+            # Block COMBAT_TEAM_PREPARE before support set
+            support_set = False
+        else:
+            pre_set_team = False
+            support_set = True
+        logger.info([support_character, pre_set_team, support_set])
         trial = 0
         while 1:
             if skip_first_screenshot:
@@ -99,14 +107,15 @@ class Combat(CombatInteract, CombatPrepare, CombatState, CombatTeam, CombatSuppo
                 raise RequestHumanTakeover
 
             # Click
-            if self.appear(COMBAT_TEAM_SUPPORT) and support_character:
+            if support_character and self.appear(COMBAT_TEAM_SUPPORT):
                 if pre_set_team:
                     self.team_set(team)
                     pre_set_team = False
                     continue
                 self.support_set(support_character)
+                support_set = True
                 continue
-            if self.appear(COMBAT_TEAM_PREPARE, interval=2):
+            if support_set and self.appear(COMBAT_TEAM_PREPARE, interval=2):
                 self.team_set(team)
                 self.device.click(COMBAT_TEAM_PREPARE)
                 self.interval_reset(COMBAT_TEAM_PREPARE)

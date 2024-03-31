@@ -5,13 +5,22 @@ from module.base.button import Button, ButtonWrapper
 
 LOGIN_CONFIRM = ButtonWrapper(
     name='LOGIN_CONFIRM',
-    share=Button(
-        file='./assets/share/login/LOGIN_CONFIRM.png',
-        area=(1188, 44, 1220, 74),
-        search=(1168, 24, 1240, 94),
-        color=(140, 124, 144),
-        button=(683, 327, 1143, 620),
-    ),
+    share=[
+        Button(
+            file='./assets/share/login/LOGIN_CONFIRM.png',
+            area=(1188, 44, 1220, 74),
+            search=(1168, 24, 1240, 94),
+            color=(140, 124, 144),
+            button=(683, 327, 1143, 620),
+        ),
+        Button(
+            file='./assets/share/login/LOGIN_CONFIRM.2.png',
+            area=(1109, 48, 1139, 73),
+            search=(1089, 28, 1159, 93),
+            color=(149, 145, 164),
+            button=(683, 327, 1143, 620),
+        ),
+    ],
 )
 LOGIN_LOADING = ButtonWrapper(
     name='LOGIN_LOADING',

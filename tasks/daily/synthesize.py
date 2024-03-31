@@ -1,5 +1,5 @@
 from module.ocr.ocr import *
-from module.ui.scroll import Scroll
+from module.ui.scroll import AdaptiveScroll, Scroll
 from tasks.base.assets.assets_base_page import MENU_CHECK, MENU_SCROLL, SYNTHESIZE_CHECK
 from tasks.base.assets.assets_base_popup import POPUP_CONFIRM
 from tasks.base.page import Page, page_menu, page_synthesize
@@ -32,7 +32,7 @@ class SynthesizeUI(UI):
                 scroll = Scroll(MENU_SCROLL.button, color=(191, 191, 191), name=MENU_SCROLL.name)
             case page_synthesize.name:
                 check_image = SYNTHESIZE_CHECK
-                scroll = Scroll(SYNTHESIZE_SCROLL.button, color=(210, 210, 210), name=SYNTHESIZE_SCROLL.name)
+                scroll = AdaptiveScroll(SYNTHESIZE_SCROLL.button, name=SYNTHESIZE_SCROLL.name)
             case _:
                 logger.info(f'No page matched, just skip')
                 return
@@ -109,7 +109,7 @@ class SynthesizeUI(UI):
             else self.__class__.default_candidate_items
 
         # Search target button from top to bottom
-        scroll = Scroll(SYNTHESIZE_SCROLL.button, color=(210, 210, 210), name=SYNTHESIZE_SCROLL.name)
+        scroll = AdaptiveScroll(SYNTHESIZE_SCROLL.button, name=SYNTHESIZE_SCROLL.name)
         if scroll.appear(main=self):
             skip_first_screenshot = True
             while 1:

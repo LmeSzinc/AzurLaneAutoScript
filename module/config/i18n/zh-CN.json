@@ -96,6 +96,12 @@
       "name": "模拟器 Serial",
       "help": "常见的模拟器 Serial 可以查询下方列表\n填 \"auto\" 自动检测模拟器，多个模拟器正在运行或使用不支持自动检测的模拟器时无法使用 \"auto\"，必须手动填写\n\n模拟器默认 Serial：\n- 蓝叠模拟器 127.0.0.1:5555\n- 蓝叠模拟器4 Hyper-v版，填\"bluestacks4-hyperv\"自动连接，多开填\"bluestacks4-hyperv-2\"以此类推\n- 蓝叠模拟器5 Hyper-v版，填\"bluestacks5-hyperv\"自动连接，多开填\"bluestacks5-hyperv-1\"以此类推\n- 夜神模拟器 127.0.0.1:62001\n- 夜神模拟器64位 127.0.0.1:59865\n- MuMu模拟器/MuMu模拟器X 127.0.0.1:7555\n- MuMu模拟器12 127.0.0.1:16384\n- 逍遥模拟器 127.0.0.1:21503\n- 雷电模拟器 emulator-5554 或 127.0.0.1:5555\n- WSA，填\"wsa-0\"使游戏在后台运行，需要使用第三方软件操控或关闭（建议使用scrcpy操控）\n如果你使用了模拟器的多开功能，它们的 Serial 将不是默认的，可以在 console.bat 中执行 `adb devices` 查询，或根据模拟器官方的教程填写"
     },
+    "GameClient": {
+      "name": "游戏客户端",
+      "help": "选择云游戏时，将自动排队登录，云游戏目前仅有国服",
+      "android": "安卓端",
+      "cloud_android": "云游戏安卓端"
+    },
     "PackageName": {
       "name": "游戏服务器",
       "help": "无法区分国际服的不同地区，请手动选择服务器",
@@ -215,6 +221,24 @@
       "close_game": "关闭游戏"
     }
   },
+  "CloudStorage": {
+    "_info": {
+      "name": "",
+      "help": ""
+    },
+    "CloudRemainSeasonPass": {
+      "name": "畅玩卡剩余 X 天",
+      "help": ""
+    },
+    "CloudRemainPaid": {
+      "name": "星云币剩余 X 分钟",
+      "help": ""
+    },
+    "CloudRemainFree": {
+      "name": "免费时长剩余 X 分钟",
+      "help": ""
+    }
+  },
   "Dungeon": {
     "_info": {
       "name": "每日副本设置",
@@ -235,8 +259,10 @@
       "Calyx_Crimson_Destruction_Herta_StorageZone": "行迹材料：毁灭（收容舱段）",
       "Calyx_Crimson_Destruction_Luofu_ScalegorgeWaterscape": "行迹材料：毁灭（鳞渊境）",
       "Calyx_Crimson_Preservation_Herta_SupplyZone": "行迹材料：存护（支援舱段）",
+      "Calyx_Crimson_Preservation_Penacony_ClockStudiosThemePark": "行迹材料：存护（克劳克影视乐园）",
       "Calyx_Crimson_The_Hunt_Jarilo_OutlyingSnowPlains": "行迹材料：巡猎（城郊雪原）",
       "Calyx_Crimson_Abundance_Jarilo_BackwaterPass": "行迹材料：丰饶（边缘通路）",
+      "Calyx_Crimson_Abundance_Luofu_FyxestrollGarden": "行迹材料：丰饶（绥园）",
       "Calyx_Crimson_Erudition_Jarilo_RivetTown": "行迹材料：智识（铆钉镇）",
       "Calyx_Crimson_Harmony_Jarilo_RobotSettlement": "行迹材料：同谐（机械聚落）",
       "Calyx_Crimson_Harmony_Penacony_TheReverieDreamscape": "行迹材料：同谐（白日梦酒店-梦境）",
@@ -246,18 +272,19 @@
       "Stagnant_Shadow_Perdition": "角色晋阶材料：物理（寒鸦 / 银枝）",
       "Stagnant_Shadow_Blaze": "角色晋阶材料：火（姬子 / 艾丝妲 / 虎克）",
       "Stagnant_Shadow_Scorch": "角色晋阶材料：火（桂乃芬 / 托帕&账账）",
+      "Stagnant_Shadow_Ire": "角色晋阶材料：火（加拉赫）",
       "Stagnant_Shadow_Rime": "角色晋阶材料：冰（三月七 / 黑塔 / 杰帕德 / 佩拉）",
       "Stagnant_Shadow_Icicle": "角色晋阶材料：冰（彦卿 / 镜流 / 阮•梅）",
       "Stagnant_Shadow_Nectar": "角色晋阶材料：冰（米沙）",
       "Stagnant_Shadow_Fulmination": "角色晋阶材料：雷（阿兰 / 希露瓦 / 停云 / 白露）",
-      "Stagnant_Shadow_Doom": "角色晋阶材料：雷（卡芙卡 / 景元）",
+      "Stagnant_Shadow_Doom": "角色晋阶材料：雷（卡芙卡 / 景元 / 黄泉）",
       "Stagnant_Shadow_Gust": "角色晋阶材料：风（丹恒 / 布洛妮娅 / 桑博）",
       "Stagnant_Shadow_Celestial": "角色晋阶材料：风（刃 / 藿藿 / 黑天鹅）",
       "Stagnant_Shadow_Quanta": "角色晋阶材料：量子（银狼 / 希儿 / 青雀）",
       "Stagnant_Shadow_Abomination": "角色晋阶材料：量子（玲可 / 符玄 / 雪衣）",
       "Stagnant_Shadow_Roast": "角色晋阶材料：量子（花火）",
       "Stagnant_Shadow_Mirage": "角色晋阶材料：虚数（瓦尔特 / 罗刹 / 驭空）",
-      "Stagnant_Shadow_Puppetry": "角色晋阶材料：虚数（丹恒•饮月 / 真理医生）",
+      "Stagnant_Shadow_Puppetry": "角色晋阶材料：虚数（丹恒•饮月 / 砂金 / 真理医生）",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "遗器：冰套+风套（霜风之径•侵蚀隧洞）",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "遗器：物理套+击破套（迅拳之径•侵蚀隧洞）",
       "Cavern_of_Corrosion_Path_of_Drifting": "遗器：治疗套+快枪手（漂泊之径•侵蚀隧洞）",
@@ -271,7 +298,6 @@
     "NameAtDoubleCalyx": {
       "name": "有双倍花活动时，选择副本",
       "help": "次数耗尽后回退到默认打本设置",
-      "do_not_participate": "不参与活动",
       "Calyx_Golden_Memories_Jarilo_VI": "材料：角色经验（回忆之蕾•雅利洛-Ⅵ）",
       "Calyx_Golden_Memories_The_Xianzhou_Luofu": "材料：角色经验（回忆之蕾•仙舟罗浮）",
       "Calyx_Golden_Memories_Penacony": "材料：角色经验（回忆之蕾•匹诺康尼）",
@@ -284,8 +310,10 @@
       "Calyx_Crimson_Destruction_Herta_StorageZone": "行迹材料：毁灭（收容舱段）",
       "Calyx_Crimson_Destruction_Luofu_ScalegorgeWaterscape": "行迹材料：毁灭（鳞渊境）",
       "Calyx_Crimson_Preservation_Herta_SupplyZone": "行迹材料：存护（支援舱段）",
+      "Calyx_Crimson_Preservation_Penacony_ClockStudiosThemePark": "行迹材料：存护（克劳克影视乐园）",
       "Calyx_Crimson_The_Hunt_Jarilo_OutlyingSnowPlains": "行迹材料：巡猎（城郊雪原）",
       "Calyx_Crimson_Abundance_Jarilo_BackwaterPass": "行迹材料：丰饶（边缘通路）",
+      "Calyx_Crimson_Abundance_Luofu_FyxestrollGarden": "行迹材料：丰饶（绥园）",
       "Calyx_Crimson_Erudition_Jarilo_RivetTown": "行迹材料：智识（铆钉镇）",
       "Calyx_Crimson_Harmony_Jarilo_RobotSettlement": "行迹材料：同谐（机械聚落）",
       "Calyx_Crimson_Harmony_Penacony_TheReverieDreamscape": "行迹材料：同谐（白日梦酒店-梦境）",
@@ -295,7 +323,6 @@
     "NameAtDoubleRelic": {
       "name": "有遗器活动时，选择副本",
       "help": "次数耗尽后回退到默认打本设置",
-      "do_not_participate": "不参与活动",
       "Cavern_of_Corrosion_Path_of_Gelid_Wind": "遗器：冰套+风套（霜风之径•侵蚀隧洞）",
       "Cavern_of_Corrosion_Path_of_Jabbing_Punch": "遗器：物理套+击破套（迅拳之径•侵蚀隧洞）",
       "Cavern_of_Corrosion_Path_of_Drifting": "遗器：治疗套+快枪手（漂泊之径•侵蚀隧洞）",
@@ -346,8 +373,10 @@
       "Calyx_Crimson_Destruction_Herta_StorageZone": "行迹材料：毁灭（收容舱段）",
       "Calyx_Crimson_Destruction_Luofu_ScalegorgeWaterscape": "行迹材料：毁灭（鳞渊境）",
       "Calyx_Crimson_Preservation_Herta_SupplyZone": "行迹材料：存护（支援舱段）",
+      "Calyx_Crimson_Preservation_Penacony_ClockStudiosThemePark": "行迹材料：存护（克劳克影视乐园）",
       "Calyx_Crimson_The_Hunt_Jarilo_OutlyingSnowPlains": "行迹材料：巡猎（城郊雪原）",
       "Calyx_Crimson_Abundance_Jarilo_BackwaterPass": "行迹材料：丰饶（边缘通路）",
+      "Calyx_Crimson_Abundance_Luofu_FyxestrollGarden": "行迹材料：丰饶（绥园）",
       "Calyx_Crimson_Erudition_Jarilo_RivetTown": "行迹材料：智识（铆钉镇）",
       "Calyx_Crimson_Harmony_Jarilo_RobotSettlement": "行迹材料：同谐（机械聚落）",
       "Calyx_Crimson_Harmony_Penacony_TheReverieDreamscape": "行迹材料：同谐（白日梦酒店-梦境）",
@@ -362,18 +391,19 @@
       "Stagnant_Shadow_Perdition": "角色晋阶材料：物理（寒鸦 / 银枝）",
       "Stagnant_Shadow_Blaze": "角色晋阶材料：火（姬子 / 艾丝妲 / 虎克）",
       "Stagnant_Shadow_Scorch": "角色晋阶材料：火（桂乃芬 / 托帕&账账）",
+      "Stagnant_Shadow_Ire": "角色晋阶材料：火（加拉赫）",
       "Stagnant_Shadow_Rime": "角色晋阶材料：冰（三月七 / 黑塔 / 杰帕德 / 佩拉）",
       "Stagnant_Shadow_Icicle": "角色晋阶材料：冰（彦卿 / 镜流 / 阮•梅）",
       "Stagnant_Shadow_Nectar": "角色晋阶材料：冰（米沙）",
       "Stagnant_Shadow_Fulmination": "角色晋阶材料：雷（阿兰 / 希露瓦 / 停云 / 白露）",
-      "Stagnant_Shadow_Doom": "角色晋阶材料：雷（卡芙卡 / 景元）",
+      "Stagnant_Shadow_Doom": "角色晋阶材料：雷（卡芙卡 / 景元 / 黄泉）",
       "Stagnant_Shadow_Gust": "角色晋阶材料：风（丹恒 / 布洛妮娅 / 桑博）",
       "Stagnant_Shadow_Celestial": "角色晋阶材料：风（刃 / 藿藿 / 黑天鹅）",
       "Stagnant_Shadow_Quanta": "角色晋阶材料：量子（银狼 / 希儿 / 青雀）",
       "Stagnant_Shadow_Abomination": "角色晋阶材料：量子（玲可 / 符玄 / 雪衣）",
       "Stagnant_Shadow_Roast": "角色晋阶材料：量子（花火）",
       "Stagnant_Shadow_Mirage": "角色晋阶材料：虚数（瓦尔特 / 罗刹 / 驭空）",
-      "Stagnant_Shadow_Puppetry": "角色晋阶材料：虚数（丹恒•饮月 / 真理医生）"
+      "Stagnant_Shadow_Puppetry": "角色晋阶材料：虚数（丹恒•饮月 / 砂金 / 真理医生）"
     },
     "CavernOfCorrosion": {
       "name": "完成1次侵蚀隧洞",
@@ -406,6 +436,7 @@
       "name": "好友支援角色",
       "help": "选择好友支援角色，未找到则选择默认（第一个）角色\n支援角色不要与队伍中的角色重复，建议置顶好友角色",
       "FirstCharacter": "支援列表第一个角色",
+      "Acheron": "黄泉",
       "Argenti": "银枝",
       "Arlan": "阿兰",
       "Asta": "艾丝妲",
@@ -418,6 +449,7 @@
       "DanHengImbibitorLunae": "丹恒•饮月",
       "DrRatio": "真理医生",
       "FuXuan": "符玄",
+      "Gallagher": "加拉赫",
       "Gepard": "杰帕德",
       "Guinaifen": "桂乃芬",
       "Hanya": "寒鸦",
