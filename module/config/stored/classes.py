@@ -217,8 +217,10 @@ class StoredSimulatedUniverseElite(StoredCounter, StoredExpiredAtMonday0400):
     # Times left to farm. Resets to 100 every Monday 04:00, and decreases each time the elite boss is cleared.
     value = FIXED_DEFAULT
     
-    def farm_dec(self, value = 1):
-        self.value -= value
+    def farm_dec(self, delta = 1):
+        self.value -= delta
+        if self.value < 0:
+            self.value = 0
     
     def farm_reset(self):
         self.value = self.FIXED_DEFAULT
