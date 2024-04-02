@@ -346,15 +346,14 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
         if self.config.RogueDebug_DebugMode:
             # Always run
             return
-
-        if self.config.stored.SimulatedUniverse.is_expired():
-            # Expired, do rogue
-            pass
         
         if self.config.stored.SimulatedUniverseElite.is_expired():
             # Expired, reset farming counter
             self.config.stored.SimulatedUniverseElite.farm_reset()
-
+        
+        if self.config.stored.SimulatedUniverse.is_expired():
+            # Expired, do rogue
+            pass
         elif self.config.stored.SimulatedUniverse.is_full():
             if self.config.RogueWorld_UseImmersifier and self.config.stored.Immersifier.value > 0:
                 logger.info(
