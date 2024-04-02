@@ -128,17 +128,17 @@ CONFIRM_ASSIGNMENT = ButtonWrapper(
     name='CONFIRM_ASSIGNMENT',
     cn=Button(
         file='./assets/cn/assignment/dispatch/CONFIRM_ASSIGNMENT.png',
-        area=(1024, 653, 1104, 672),
-        search=(1004, 633, 1124, 692),
-        color=(154, 154, 153),
-        button=(920, 645, 1208, 682),
+        area=(1007, 660, 1085, 678),
+        search=(987, 640, 1105, 698),
+        color=(148, 148, 147),
+        button=(909, 651, 1184, 686),
     ),
     en=Button(
         file='./assets/en/assignment/dispatch/CONFIRM_ASSIGNMENT.png',
-        area=(964, 655, 1164, 671),
-        search=(944, 635, 1184, 691),
-        color=(161, 160, 160),
-        button=(928, 645, 1201, 681),
+        area=(946, 661, 1146, 677),
+        search=(926, 641, 1166, 697),
+        color=(162, 162, 161),
+        button=(909, 652, 1182, 687),
     ),
 )
 DURATION_12 = ButtonWrapper(
