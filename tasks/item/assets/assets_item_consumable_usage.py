@@ -7,10 +7,10 @@ ITEM_CONSUMABLE_SCROLL = ButtonWrapper(
     name='ITEM_CONSUMABLE_SCROLL',
     share=Button(
         file='./assets/share/item/consumable_usage/ITEM_CONSUMABLE_SCROLL.png',
-        area=(837, 89, 843, 615),
-        search=(817, 69, 863, 635),
-        color=(118, 117, 121),
-        button=(837, 89, 843, 615),
+        area=(838, 90, 842, 614),
+        search=(818, 70, 862, 634),
+        color=(141, 141, 153),
+        button=(838, 90, 842, 614),
     ),
 )
 SIMPLE_PROTECTIVE_GEAR = ButtonWrapper(
