@@ -194,17 +194,19 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         scanner.disable('rarity')
 
         if self.config.GemsFarming_CommonCV == 'any':
-            logger.info('')
 
             self.dock_sort_method_dsc_set(False)
 
             ships = scanner.scan(self.device.image)
             if ships:
                 # Don't need to change current
+                self.dock_sort_method_dsc_set()
                 return ships
 
             scanner.set_limitation(fleet=0)
-            return scanner.scan(self.device.image, output=False)
+            ships = scanner.scan(self.device.image, output=False)
+            self.dock_sort_method_dsc_set()
+            return ships
 
         else:
             template = {
@@ -234,6 +236,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             candidates = [ship for ship in scanner.scan(self.device.image)
                           if template.match(self.image_crop(ship.button), similarity=SIM_VALUE)]
 
+            self.dock_sort_method_dsc_set()
             return candidates
 
     def get_common_rarity_dd(self):
