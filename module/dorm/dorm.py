@@ -158,29 +158,42 @@ class RewardDorm(UI):
         Use Dorm manage and Back to reset dorm view. 
 
         Pages:
-            in: page_dorm, without info_bar
-            out: page_dorm, without info_bar
+            in: page_dorm
+            out: page_dorm
         """
+        logger.info('Dorm view reset')
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            
+
+            # End
             if self.appear(DORM_MANAGE_CHECK, offset=(20, 20)):
                 break
 
-            if self.appear(DORM_FEED_ENTER, offset=(20, 20), interval=5):
+            if self.appear(DORM_FEED_ENTER, offset=(20, 20), interval=3):
                 self.device.click(DORM_MANAGE)
+                continue
+            # Handle all popups
+            if self.ui_additional():
+                continue
+            if self.appear_then_click(DORM_FURNITURE_CONFIRM, offset=(30, 30), interval=3):
+                continue
 
+        skip_first_screenshot = True
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
             if self.appear(DORM_FEED_ENTER, offset=(20, 20)):
                 break
 
-            if self.appear(DORM_MANAGE_CHECK, offset=(20, 20), interval=5):
+            if self.appear(DORM_MANAGE_CHECK, offset=(20, 20), interval=3):
                 self.device.click(DORM_FURNITURE_SHOP_QUIT)
+                continue
 
     def dorm_collect(self):
         """
@@ -193,7 +206,7 @@ class RewardDorm(UI):
             out: page_dorm, without info_bar
         """
         logger.hr('Dorm collect')
-        
+
         self.dorm_view_reset()
 
         # Collect
@@ -531,7 +544,7 @@ class RewardDorm(UI):
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 
-        self.dorm_run(feed=self.config.Dorm_Feed, 
+        self.dorm_run(feed=self.config.Dorm_Feed,
                       collect=self.config.Dorm_Collect,
                       buy_furniture=self.config.BuyFurniture_Enable)
 
