@@ -77,8 +77,9 @@ class AssignmentDispatch(AssignmentUI):
         """
         Pages:
             in: EMPTY_SLOT
-            out: CHARACTER_LIST
+            out: EMPTY_SLOT
         """
+        logger.info('Select characters')
         skip_first_screenshot = True
         self.interval_clear(
             (CHARACTER_LIST, CHARACTER_1_SELECTED, CHARACTER_2_SELECTED), interval=2)
@@ -88,9 +89,13 @@ class AssignmentDispatch(AssignmentUI):
             else:
                 self.device.screenshot()
             # End
-            if self.match_template_color(CONFIRM_ASSIGNMENT):
-                logger.info('Characters are all selected')
-                break
+            if self.appear(CONFIRM_ASSIGNMENT):
+                if self.image_color_count(CONFIRM_ASSIGNMENT.button, color=(227, 227, 227), count=1000):
+                    logger.info('Characters are all selected (light button)')
+                    break
+                if self.image_color_count(CONFIRM_ASSIGNMENT.button, color=(144, 144, 144), count=1000):
+                    logger.info('Characters are all selected (gray button)')
+                    break
             # Ensure character list
             # Search EMPTY_SLOT to load offset
             if not self.appear(CHARACTER_LIST) and self.appear(EMPTY_SLOT):
@@ -107,6 +112,26 @@ class AssignmentDispatch(AssignmentUI):
                 if not self.image_color_count(CHARACTER_2_SELECTED, (240, 240, 240)):
                     self.device.click(CHARACTER_2)
                 self.interval_reset(CHARACTER_2_SELECTED, interval=2)
+
+        # CHARACTER_LIST -> CONFIRM_ASSIGNMENT
+        logger.info('Close character list')
+        self.interval_clear([CHARACTER_LIST, EMPTY_SLOT], interval=2)
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+                # End
+                if self.appear(CONFIRM_ASSIGNMENT):
+                    if self.image_color_count(CONFIRM_ASSIGNMENT.button, color=(227, 227, 227), count=1000):
+                        logger.info('Characters are all selected (light button)')
+                        break
+                if self.appear(CHARACTER_LIST, interval=2):
+                    # EMPTY_SLOT appeared above
+                    self.device.click(EMPTY_SLOT)
+                    continue
 
     def _select_support(self):
         skip_first_screenshot = True

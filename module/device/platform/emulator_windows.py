@@ -8,8 +8,8 @@ from dataclasses import dataclass
 # module/device/platform/emulator_base.py
 # module/device/platform/emulator_windows.py
 # Will be used in Alas Easy Install, they shouldn't import any Alas modules.
-from module.device.platform.utils import cached_property, iter_folder
 from module.device.platform.emulator_base import EmulatorBase, EmulatorInstanceBase, EmulatorManagerBase
+from module.device.platform.utils import cached_property, iter_folder
 
 
 @dataclass
@@ -56,14 +56,6 @@ def abspath(path):
 
 
 class EmulatorInstance(EmulatorInstanceBase):
-    @cached_property
-    def type(self) -> str:
-        """
-        Returns:
-            str: Emulator type, such as Emulator.NoxPlayer
-        """
-        return Emulator.path_to_type(self.path)
-
     @cached_property
     def emulator(self):
         """

@@ -273,15 +273,20 @@ class Connection(ConnectionAttr):
             return True
         return False
 
+    @cached_property
+    def nemud_app_keep_alive(self) -> str:
+        res = self.adb_getprop('nemud.app_keep_alive')
+        return res
+
     @retry
     def check_mumu_app_keep_alive(self):
         if not self.is_mumu_family:
             return False
 
-        res = self.adb_getprop('nemud.app_keep_alive')
+        res = self.nemud_app_keep_alive
         logger.attr('nemud.app_keep_alive', res)
         if res == '':
-            # Empry property, might not be a mumu emulator or might be an old mumu
+            # Empty property, probably MuMu6 or MuMu12 version < 3.5.6
             return True
         elif res == 'false':
             # Disabled
@@ -850,7 +855,7 @@ class Connection(ConnectionAttr):
         packages = re.findall(r'package:([^\s]+)', output)
         return packages
 
-    def list_azurlane_packages(self, show_log=True):
+    def list_known_packages(self, show_log=True):
         """
         Args:
             show_log:
@@ -867,7 +872,7 @@ class Connection(ConnectionAttr):
         Show all possible packages with the given keyword on this device.
         """
         logger.hr('Detect package')
-        packages = self.list_azurlane_packages()
+        packages = self.list_known_packages()
 
         # Show packages
         logger.info(f'Here are the available packages in device "{self.serial}", '
