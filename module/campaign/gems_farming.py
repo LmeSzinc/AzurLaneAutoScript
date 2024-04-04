@@ -2,8 +2,7 @@ from module.campaign.campaign_base import CampaignBase
 from module.campaign.run import CampaignRun
 from module.combat.assets import BATTLE_PREPARATION
 from module.equipment.assets import *
-from module.equipment.equipment_change import EquipmentChange
-from module.equipment.fleet_equipment import OCR_FLEET_INDEX
+from module.equipment.fleet_equipment import FleetEquipment
 from module.exception import CampaignEnd
 from module.handler.assets import AUTO_SEARCH_MAP_OPTION_OFF
 from module.logger import logger
@@ -62,7 +61,7 @@ class GemsCampaignOverride(CampaignBase):
             raise CampaignEnd('Emotion withdraw')
 
 
-class GemsFarming(CampaignRun, Dock, EquipmentChange):
+class GemsFarming(CampaignRun, Dock, FleetEquipment):
 
     def load_campaign(self, name, folder='campaign_main'):
         super().load_campaign(name, folder)
@@ -90,30 +89,11 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
     def change_vanguard_equip(self):
         return 'equip' in self.config.GemsFarming_ChangeVanguard
 
-    def _fleet_enter(self):
-        """
-        Enter GEMS_FLEET page
-        """
-        self.ui_ensure(page_fleet)
-        _fleet_to_change = self.config.Fleet_Fleet1
-        if self.config.Fleet_FleetOrder == 'fleet1_all_fleet2_standby':
-            _fleet_to_change = self.config.Fleet_Fleet1
-        elif self.config.Fleet_FleetOrder == 'fleet1_standby_fleet2_all':
-            _fleet_to_change = self.config.Fleet_Fleet2
-        self.ui_ensure_index(_fleet_to_change, letter=OCR_FLEET_INDEX,
-                             next_button=FLEET_NEXT, prev_button=FLEET_PREV, skip_first_screenshot=True)
-
-    def _fleet_detail_enter(self):
-        """
-        Enter GEMS_FLEET_DETAIL page
-        """
-        self._fleet_enter()
-        self.ui_click(FLEET_DETAIL, appear_button=page_fleet.check_button,
-                      check_button=FLEET_DETAIL_CHECK, skip_first_screenshot=True)
-
-    def _ship_detail_enter(self, button):
-        self._fleet_detail_enter()
-        self.equip_enter(button, long_click=False)
+    def fleet_enter(self, fleet=None):
+        fleet = self.config.Fleet_Fleet1
+        if self.config.Fleet_FleetOrder == 'fleet1_standby_fleet2_all':
+            fleet = self.config.Fleet_Fleet2
+        super().fleet_enter(fleet)
 
     def flagship_change(self):
         """
@@ -130,26 +110,23 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             index_list = range(0, 5)
         logger.hr('Change flagship', level=1)
         logger.attr('ChangeFlagship', self.config.GemsFarming_ChangeFlagship)
+        self.fleet_enter()
         if self.change_flagship_equip:
             logger.hr('Record flagship equipment', level=2)
-            self._ship_detail_enter(FLEET_DETAIL_ENTER_FLAGSHIP)
-            self.record_equipment(index_list=index_list)
-            self._equip_take_off_one()
-            self.ui_back(FLEET_DETAIL_CHECK)
-            self.ui_back(page_fleet.check_button)
+            self.fleet_enter_ship(FLEET_DETAIL_ENTER_FLAGSHIP)
+            self.record_equipment_image(index_list=index_list)
+            self.equip_take_off_one()
+            self.fleet_equip_back(page_fleet.check_button)
 
         logger.hr('Change flagship', level=2)
-        self._fleet_enter()
         success = self.flagship_change_execute()
 
         if self.change_flagship_equip:
             logger.hr('Equip flagship equipment', level=2)
-            self._ship_detail_enter(FLEET_DETAIL_ENTER_FLAGSHIP)
-            self._equip_take_off_one()
-
-            self.equipment_take_on(index_list=index_list)
-            self.ui_back(FLEET_DETAIL_CHECK)
-            self.ui_back(page_fleet.check_button)
+            self.fleet_enter_ship(FLEET_DETAIL_ENTER_FLAGSHIP)
+            self.equip_take_off_one()
+            self.equipment_take_on_image(index_list=index_list)
+            self.fleet_equip_back(page_fleet.check_button)
 
         return success
 
@@ -162,26 +139,23 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         """
         logger.hr('Change vanguard', level=1)
         logger.attr('ChangeVanguard', self.config.GemsFarming_ChangeVanguard)
+        self.fleet_enter()
         if self.change_vanguard_equip:
             logger.hr('Record vanguard equipment', level=2)
-            self._ship_detail_enter(FLEET_DETAIL_ENTER)
-            self.record_equipment()
-            self._equip_take_off_one()
-            self.ui_back(FLEET_DETAIL_CHECK)
-            self.ui_back(page_fleet.check_button)
+            self.fleet_enter_ship(FLEET_DETAIL_ENTER)
+            self.record_equipment_image()
+            self.equip_take_off_one()
+            self.fleet_equip_back(page_fleet.check_button)
 
         logger.hr('Change vanguard', level=2)
-        self._fleet_enter()
         success = self.vanguard_change_execute()
 
         if self.change_vanguard_equip:
             logger.hr('Equip vanguard equipment', level=2)
-            self._ship_detail_enter(FLEET_DETAIL_ENTER)
-            self._equip_take_off_one()
-
-            self.equipment_take_on()
-            self.ui_back(FLEET_DETAIL_CHECK)
-            self.ui_back(page_fleet.check_button)
+            self.fleet_enter_ship(FLEET_DETAIL_ENTER)
+            self.equip_take_off_one()
+            self.equipment_take_on_image()
+            self.fleet_equip_back(page_fleet.check_button)
 
         return success
 

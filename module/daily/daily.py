@@ -4,7 +4,7 @@ from module.base.utils import get_color
 from module.combat.assets import BATTLE_PREPARATION
 from module.combat.combat import Combat
 from module.daily.assets import *
-from module.equipment.fleet_equipment import DailyEquipment
+from module.daily.equipment import DailyEquipment
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.ui.assets import BACK_ARROW, DAILY_CHECK
@@ -19,6 +19,13 @@ class Daily(Combat, DailyEquipment):
     daily_current: int
     daily_checked: list
     emergency_module_development = False
+        
+    def fleet_enter(self, fleet=None):
+        fleet = self.config.FLEET_DAILY
+        if isinstance(fleet, list):
+            logger.info(f'Multiple daily fleets are set, change equipment only for the first one. fleet: {fleet}')
+            fleet = fleet[0]
+        super().fleet_enter(fleet)
 
     def is_active(self):
         color = get_color(image=self.device.image, area=DAILY_ACTIVE.area)
@@ -333,9 +340,10 @@ class Daily(Combat, DailyEquipment):
             in: Any page
             out: page_daily
         """
-        # self.equipment_take_on()
+        # self.fleet_enter()
+        # self.fleet_equip_take_on_all()
         self.daily_run()
-        # self.equipment_take_off()
+        # self.fleet_equip_take_off_all()
 
         # Cannot stay in page_daily, because order is disordered.
         self.config.task_delay(server_update=True)
