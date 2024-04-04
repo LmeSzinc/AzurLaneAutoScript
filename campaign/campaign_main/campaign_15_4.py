@@ -71,7 +71,7 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        if not self.config.Campaign_UseClearMode:
+        if not self.map_is_clear_mode:
             self.clear_chosen_enemy(A1)
             return True
         else:
@@ -81,7 +81,7 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_1(self):
-        if not self.config.Campaign_UseClearMode:
+        if not self.map_is_clear_mode:
             self.mob_move(J8, J7)
             self.clear_chosen_enemy(K9)
             return True
@@ -99,7 +99,7 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_3(self):
-        if not self.config.Campaign_UseClearMode:
+        if not self.map_is_clear_mode:
             self.fleet_boss.clear_chosen_enemy(H5, expected='siren')
             self.fleet_1.switch_to()
             return True

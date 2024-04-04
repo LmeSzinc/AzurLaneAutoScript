@@ -66,7 +66,7 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        if not self.config.Campaign_UseClearMode:
+        if not self.map_is_clear_mode:
             self.mob_move(I6, I7)
             self.mob_move(I7, H7)
             self.clear_chosen_enemy(G7)
