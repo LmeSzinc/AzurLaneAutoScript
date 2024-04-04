@@ -30,10 +30,10 @@ class CampaignBase(CampaignBase_):
         """
         Check if mob is movable from location to target.
         This requires that:
-            0. both location and target are grids in the map (not exceeding the boundaries)
-            1. Manhattan distance between location and target is 1.
-            1. location is a mob fleet
-            2. target is a sea grid
+            1. both location and target are grids in the map (not exceeding the boundaries)
+            2. Manhattan distance between location and target is 1.
+            3. location is a mob fleet
+            4. target is a sea grid
         
         Args:
             location (tuple): Location of mob.
@@ -42,6 +42,8 @@ class CampaignBase(CampaignBase_):
         Returns:
             bool: if movable.
         """
+        location = location_ensure(location)
+        target = location_ensure(target)
         movable = True
 
         try:
@@ -82,43 +84,34 @@ class CampaignBase(CampaignBase_):
             in: MOB_MOVE_CANCEL
             out: STRATEGY_OPENED
         """
-        location = location_ensure(location)
-        target = location_ensure(target)
+        self.in_sight(location, sight=(-1, -1, 1, 1))
+        grid = self.convert_global_to_local(location)
+        grid.__str__ = location
+        grid_2 = self.convert_global_to_local(target)
+        grid_2.__str__ = target
 
-        movable = self.mob_movable(location, target)
+        confirm_timer = Timer(1)
+        while 1:
+            self.device.screenshot()
+            self.view.update(image=self.device.image)
+            
+            if grid.predict_mob_move_icon():
+                break
+            else:
+                if confirm_timer.reached():
+                    self.device.click(grid)
+                    confirm_timer.reset()
+        while 1:
+            self.device.screenshot()
+            if self.handle_popup_confirm('MOB_MOVE'):
+                break
 
-        if not movable:
-            self.strategy_mob_move_cancel()
-            return False
-        else:
-            self.in_sight(location, sight=(-1, -1, 1, 1))
-            grid = self.convert_global_to_local(location)
-            grid.__str__ = location
-            grid_2 = self.convert_global_to_local(target)
-            grid_2.__str__ = target
-
-            confirm_timer = Timer(1)
-            while 1:
-                self.device.screenshot()
-                self.view.update(image=self.device.image)
-                
-                if grid.predict_mob_move_icon():
-                    break
-                else:
-                    if confirm_timer.reached():
-                        self.device.click(grid)
-                        confirm_timer.reset()
-            while 1:
-                self.device.screenshot()
-                if self.handle_popup_confirm('MOB_MOVE'):
-                    break
-
-                self.device.click(grid_2)
-            while 1:
-                self.device.screenshot()
-                if self.appear(STRATEGY_OPENED, offset=(120, 120)):
-                    break
-            return True
+            self.device.click(grid_2)
+        while 1:
+            self.device.screenshot()
+            if self.appear(STRATEGY_OPENED, offset=(120, 120)):
+                break
+        return True
 
     def _mob_move_info_change(self, location, target):
         location = location_ensure(location)
@@ -147,6 +140,9 @@ class CampaignBase(CampaignBase_):
             in: IN_MAP
             out: IN_MAP
         """
+        if not self.mob_movable(location, target):
+            return False
+
         self.strategy_open()
         remain = self.strategy_get_mob_move_remain()
         if remain == 0:
