@@ -130,6 +130,11 @@ class EquipmentChange(Equipment):
             self._equip_equipment(point)
             return
 
+        if not EQUIPMENT_SCROLL.appear(main=self):
+            logger.warning('No recorded equipment was found.')
+            self.ui_back(check_button=globals()[f'EQUIP_TAKE_ON_{index}'], appear_button=EQUIPPING_OFF)
+            return
+
         for _ in range(0, 15):
             self._equipment_swipe()
 
