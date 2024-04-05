@@ -71,7 +71,7 @@ class CampaignBase(CampaignBase_):
     
     def _mob_move(self, location, target):
         """
-        Move mob from location to target.
+        Move mob from location to target, and confirm if successfully moved.
 
         Args: 
             location (tuple, str, GridInfo): Location of mob.
@@ -84,34 +84,50 @@ class CampaignBase(CampaignBase_):
             in: MOB_MOVE_CANCEL
             out: STRATEGY_OPENED
         """
-        self.in_sight(location, sight=(-1, -1, 1, 1))
-        grid = self.convert_global_to_local(location)
-        grid.__str__ = location
-        grid_2 = self.convert_global_to_local(target)
-        grid_2.__str__ = target
-
-        confirm_timer = Timer(1)
+        location = location_ensure(location)
+        target = location_ensure(target)
+        moved = False
         while 1:
-            self.device.screenshot()
-            self.view.update(image=self.device.image)
-            
-            if grid.predict_mob_move_icon():
-                break
-            else:
-                if confirm_timer.reached():
-                    self.device.click(grid)
+            self.in_sight(location)
+            self.in_sight(target)
+            grid = self.convert_global_to_local(location)
+            grid.__str__ = location
+            grid_2 = self.convert_global_to_local(target)
+            grid_2.__str__ = target
+
+            confirm_timer = Timer(1)
+            click_timeout = Timer(2, count=6).start()
+
+            while 1:
+                self.device.screenshot()
+                if self.appear(STRATEGY_OPENED, offset=(120, 120)):
+                    moved = True
+                    break
+                if self.handle_popup_confirm('MOB_MOVE'):
                     confirm_timer.reset()
-        while 1:
-            self.device.screenshot()
-            if self.handle_popup_confirm('MOB_MOVE'):
+                    continue
+                else:
+                    self.view.update(image=self.device.image)
+
+                if not grid.predict_mob_move_icon():
+                    if confirm_timer.reached():
+                        self.device.click(grid)
+                        confirm_timer.reset()
+                    continue
+                if confirm_timer.reached():
+                    self.device.click(grid_2)
+                    confirm_timer.reset()
+
+                if click_timeout.reached():
+                    logger.warning('Click timeout. Retrying.')
+                    self.predict()
+                    self.ensure_edge_insight(skip_first_update=False)
+                    break
+
+            if moved:
                 break
 
-            self.device.click(grid_2)
-        while 1:
-            self.device.screenshot()
-            if self.appear(STRATEGY_OPENED, offset=(120, 120)):
-                break
-        return True
+        return moved
 
     def _mob_move_info_change(self, location, target):
         location = location_ensure(location)
