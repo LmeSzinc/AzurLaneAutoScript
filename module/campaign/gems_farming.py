@@ -114,9 +114,9 @@ class GemsFarming(CampaignRun, Dock, FleetEquipment):
         if self.change_flagship_equip:
             logger.hr('Record flagship equipment', level=2)
             self.fleet_enter_ship(FLEET_DETAIL_ENTER_FLAGSHIP)
-            self.record_equipment_image(index_list=index_list)
-            self.equip_take_off_one()
-            self.fleet_equip_back(page_fleet.check_button)
+            self.ship_equipment_record_image(index_list=index_list)
+            self.ship_equipment_take_off()
+            self.fleet_back()
 
         logger.hr('Change flagship', level=2)
         success = self.flagship_change_execute()
@@ -124,9 +124,9 @@ class GemsFarming(CampaignRun, Dock, FleetEquipment):
         if self.change_flagship_equip:
             logger.hr('Equip flagship equipment', level=2)
             self.fleet_enter_ship(FLEET_DETAIL_ENTER_FLAGSHIP)
-            self.equip_take_off_one()
-            self.equipment_take_on_image(index_list=index_list)
-            self.fleet_equip_back(page_fleet.check_button)
+            self.ship_equipment_take_off()
+            self.ship_equipment_take_on_image(index_list=index_list)
+            self.fleet_back()
 
         return success
 
@@ -143,9 +143,9 @@ class GemsFarming(CampaignRun, Dock, FleetEquipment):
         if self.change_vanguard_equip:
             logger.hr('Record vanguard equipment', level=2)
             self.fleet_enter_ship(FLEET_DETAIL_ENTER)
-            self.record_equipment_image()
-            self.equip_take_off_one()
-            self.fleet_equip_back(page_fleet.check_button)
+            self.ship_equipment_record_image()
+            self.ship_equipment_take_off()
+            self.fleet_back()
 
         logger.hr('Change vanguard', level=2)
         success = self.vanguard_change_execute()
@@ -153,9 +153,9 @@ class GemsFarming(CampaignRun, Dock, FleetEquipment):
         if self.change_vanguard_equip:
             logger.hr('Equip vanguard equipment', level=2)
             self.fleet_enter_ship(FLEET_DETAIL_ENTER)
-            self.equip_take_off_one()
-            self.equipment_take_on_image()
-            self.fleet_equip_back(page_fleet.check_button)
+            self.ship_equipment_take_off()
+            self.ship_equipment_take_on_image()
+            self.fleet_back()
 
         return success
 

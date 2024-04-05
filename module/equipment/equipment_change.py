@@ -6,6 +6,7 @@ from module.equipment.equipment import Equipment
 from module.logger import logger
 from module.ui.assets import BACK_ARROW
 from module.ui.scroll import Scroll
+from module.ui.switch import Switch
 
 # Button of 5 equipments
 EQUIP_INFO_BAR = ButtonGrid(
@@ -16,17 +17,25 @@ EQUIPMENT_GRID = ButtonGrid(
 EQUIPMENT_SCROLL = Scroll(EQUIP_SCROLL, color=(247, 211, 66), name='EQUIP_SCROLL')
 SIM_VALUE = 0.90
 
+equipping_filter = Switch('Equipping_filter')
+equipping_filter.add_status('on', check_button=EQUIPPING_ON)
+equipping_filter.add_status('off', check_button=EQUIPPING_OFF)
+
 
 class EquipmentChange(Equipment):
     equipment_list = {}
 
-    def record_equipment_image(self, index_list=range(0, 5)):
+    def equipping_set(self, enable=False):
+        if equipping_filter.set('on' if enable else 'off', main=self):
+            self.wait_until_stable(SWIPE_AREA)
+
+    def ship_equipment_record_image(self, index_list=range(0, 5)):
         """
         Record equipment through upgrade page
         Notice: The equipment icons in the upgrade page are the same size as the icons in the equipment status
         """
         logger.info('RECORD EQUIPMENT')
-        self.equip_side_navbar_ensure(bottom=1)
+        self.ship_side_navbar_ensure(bottom=1)
         self.equipment_list = {}
         for index, button in enumerate(EQUIPMENT_GRID.buttons):
             if index not in index_list:
@@ -51,12 +60,12 @@ class EquipmentChange(Equipment):
                     skip_first_screenshot=True)
         logger.info(f"Recorded equipment index list: {list(self.equipment_list.keys())}")
 
-    def equipment_take_on_image(self, index_list=range(0, 5), skip_first_screenshot=True):
+    def ship_equipment_take_on_image(self, index_list=range(0, 5), skip_first_screenshot=True):
         """
         Equip the equipment previously recorded
         """
         logger.info('Take on equipment')
-        self.equip_side_navbar_ensure(bottom=2)
+        self.ship_side_navbar_ensure(bottom=2)
 
         for index in index_list:
             if index in self.equipment_list:

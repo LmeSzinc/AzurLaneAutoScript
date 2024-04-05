@@ -13,25 +13,25 @@ class FleetEquipment(EquipmentChange):
         self.ui_ensure_index(fleet, letter=OCR_FLEET_INDEX,
                              next_button=FLEET_NEXT, prev_button=FLEET_PREV, skip_first_screenshot=True)
 
-    def fleet_equip_take_on_all_preset(self, preset_record):
+    def fleet_equipment_take_on_preset(self, preset_record, enter=FLEET_DETAIL_ENTER_FLAGSHIP,
+                                       long_click=False, out=FLEET_DETAIL_CHECK):
         self.ui_click(FLEET_DETAIL, appear_button=page_fleet.check_button,
                       check_button=FLEET_DETAIL_CHECK, skip_first_screenshot=True)
-        self.equip_take_on_all_preset(enter=FLEET_DETAIL_ENTER_FLAGSHIP, long_click=False,
-                                      out=FLEET_DETAIL_CHECK,
-                                      preset_record=preset_record)
+        super().fleet_equipment_take_on_preset(preset_record=preset_record, enter=FLEET_DETAIL_ENTER_FLAGSHIP,
+                                               long_click=False, out=FLEET_DETAIL_CHECK)
         self.ui_back(FLEET_CHECK)
 
-    def fleet_equip_take_off_all(self):
+    def fleet_equipment_take_off(self, enter=FLEET_DETAIL_ENTER_FLAGSHIP, long_click=False, out=FLEET_DETAIL_CHECK):
         self.ui_click(FLEET_DETAIL, appear_button=page_fleet.check_button,
                       check_button=FLEET_DETAIL_CHECK, skip_first_screenshot=True)
-        self.equip_take_off_all(enter=FLEET_DETAIL_ENTER_FLAGSHIP, long_click=False, out=FLEET_DETAIL_CHECK)
+        super().fleet_equipment_take_off(enter=enter, long_click=long_click, out=out)
         self.ui_back(FLEET_CHECK)
 
     def fleet_enter_ship(self, button):
         self.ui_click(FLEET_DETAIL, appear_button=page_fleet.check_button,
                       check_button=FLEET_DETAIL_CHECK, skip_first_screenshot=True)
-        self.ship_detail_enter(button, long_click=False)
+        self.ship_info_enter(button, long_click=False)
 
-    def fleet_equip_back(self, button):
+    def fleet_back(self):
         self.ui_back(FLEET_DETAIL_CHECK)
-        self.ui_back(button)
+        self.ui_back(FLEET_CHECK)

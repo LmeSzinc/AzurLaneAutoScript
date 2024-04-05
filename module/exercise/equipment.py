@@ -31,14 +31,13 @@ class ExerciseEquipment(EquipmentChange):
                 self.device.sleep((0.2, 0.3))
                 break
 
-    def equip_take_on_all(self):
+    def equipment_take_on(self):
         self._active_edit()
-        self.equip_take_on_all_preset(enter=EQUIP_ENTER, long_click=True,
-                                      out=BATTLE_PREPARATION,
-                                      preset_record=self.config.EXERCISE_FLEET_EQUIPMENT)
+        self.fleet_equipment_take_on_preset(preset_record=self.config.EXERCISE_FLEET_EQUIPMENT, enter=EQUIP_ENTER,
+                                            long_click=True, out=BATTLE_PREPARATION)
         self._inactive_edit()
 
-    def equip_take_off_all(self, enter=EQUIP_ENTER, long_click=True, out=BATTLE_PREPARATION):
+    def equipment_take_off(self):
         self._active_edit()
-        super().equip_take_off_all(enter=enter, long_click=long_click, out=out)
+        self.fleet_equipment_take_off(enter=EQUIP_ENTER, long_click=True, out=BATTLE_PREPARATION)
         self._inactive_edit()

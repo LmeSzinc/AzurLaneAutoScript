@@ -167,22 +167,22 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
         self._preparation_quit()
         return False
 
-    def equip_take_off_when_finished(self):
+    def equipment_take_off_when_finished(self):
         if self.config.EXERCISE_FLEET_EQUIPMENT is None:
             return False
         if not self.equipment_has_take_on:
             return False
 
         self._choose_opponent(0)
-        self.equip_take_off_all()
+        self.equipment_take_off()
         self._preparation_quit()
 
-    def equip_take_on(self):
+    def equipment_take_on(self):
         if self.config.EXERCISE_FLEET_EQUIPMENT is None:
             return False
         if self.equipment_has_take_on:
             return False
 
         self._choose_opponent(0)
-        self.equip_take_on_all()
+        super().equipment_take_on()
         self._preparation_quit()
