@@ -4,6 +4,7 @@ from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.handler.assets import STRATEGY_OPENED
 from module.map_detection.utils_assets import ASSETS
 from module.logger import logger
+from module.map.map_grids import SelectedGrids
 from module.map.utils import location_ensure
 
 MASK_MAP_UI_W15 = Mask(file='./assets/mask/MASK_MAP_UI_W15.png')
@@ -88,8 +89,9 @@ class CampaignBase(CampaignBase_):
         target = location_ensure(target)
         moved = False
         while 1:
-            self.in_sight(location)
-            self.in_sight(target)
+            view_target = SelectedGrids([self.map[location], self.map[target]]) \
+                .sort_by_camera_distance(self.camera)[1]
+            self.in_sight(view_target)
             grid = self.convert_global_to_local(location)
             grid.__str__ = location
             grid_2 = self.convert_global_to_local(target)
