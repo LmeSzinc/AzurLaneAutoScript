@@ -172,8 +172,7 @@ class RewardDorm(UI):
             if self.appear(DORM_MANAGE_CHECK, offset=(20, 20)):
                 break
 
-            if self.appear(DORM_FEED_ENTER, offset=(20, 20), interval=3):
-                self.device.click(DORM_MANAGE)
+            if self.appear_then_click(DORM_MANAGE, offset=(20, 20), interval=3):
                 continue
             # Handle all popups
             if self.ui_additional():
@@ -188,7 +187,7 @@ class RewardDorm(UI):
             else:
                 self.device.screenshot()
 
-            if self.appear(DORM_FEED_ENTER, offset=(20, 20)):
+            if self.appear(DORM_MANAGE, offset=(20, 20)):
                 break
 
             if self.appear(DORM_MANAGE_CHECK, offset=(20, 20), interval=3):
