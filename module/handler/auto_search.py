@@ -133,7 +133,7 @@ class AutoSearchHandler(EnemySearchingHandler):
         active = []
 
         for index, button in enumerate(AUTO_SEARCH_SETTINGS):
-            if self.image_color_count(button, color=(156, 255, 82), threshold=221, count=20):
+            if self.image_color_count(button.button, color=(156, 255, 82), threshold=221, count=20):
                 active.append(index)
 
         if not active:
