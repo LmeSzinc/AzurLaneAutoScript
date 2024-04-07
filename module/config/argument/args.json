@@ -9084,11 +9084,9 @@
         "value": "emulator",
         "option": [
           "emulator",
-          "emulator_android_12",
           "plone_cloud_with_adb",
           "phone_cloud_without_adb",
           "android_phone",
-          "android_phone_12",
           "android_phone_vmos"
         ]
       },

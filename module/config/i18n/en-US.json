@@ -2424,13 +2424,11 @@
     "DeviceType": {
       "name": "Device Type",
       "help": "",
-      "emulator": "Emulator (Android <= 9)",
-      "emulator_android_12": "Emulator (Android > 9)",
-      "plone_cloud_with_adb": "Phone cloud with public network ADB",
-      "phone_cloud_without_adb": "Phone cloud without public network ADB",
-      "android_phone": "Android Phone (Android <= 9)",
-      "android_phone_12": "Android Phone (Android > 9)",
-      "android_phone_vmos": "Android Phone (VMOS emulator)"
+      "emulator": "Emulators",
+      "plone_cloud_with_adb": "Phone clouds with public network ADB",
+      "phone_cloud_without_adb": "Phone clouds without public network ADB",
+      "android_phone": "Android Phones",
+      "android_phone_vmos": "Android Phones (VMOS emulator)"
     },
     "TestScene": {
       "name": "Test Scene",

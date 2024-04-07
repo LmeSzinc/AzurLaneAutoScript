@@ -426,7 +426,7 @@ class GeneratedConfig:
     OpsiDaemon_SelectEnemy = True
 
     # Group `Benchmark`
-    Benchmark_DeviceType = 'emulator'  # emulator, emulator_android_12, plone_cloud_with_adb, phone_cloud_without_adb, android_phone, android_phone_12, android_phone_vmos
+    Benchmark_DeviceType = 'emulator'  # emulator, plone_cloud_with_adb, phone_cloud_without_adb, android_phone, android_phone_vmos
     Benchmark_TestScene = 'screenshot_click'  # screenshot_click, screenshot, click
 
     # Group `AzurLaneUncensored`

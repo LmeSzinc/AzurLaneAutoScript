@@ -2425,11 +2425,9 @@
       "name": "Benchmark.DeviceType.name",
       "help": "Benchmark.DeviceType.help",
       "emulator": "emulator",
-      "emulator_android_12": "emulator_android_12",
       "plone_cloud_with_adb": "plone_cloud_with_adb",
       "phone_cloud_without_adb": "phone_cloud_without_adb",
       "android_phone": "android_phone",
-      "android_phone_12": "android_phone_12",
       "android_phone_vmos": "android_phone_vmos"
     },
     "TestScene": {

@@ -180,7 +180,9 @@ class Benchmark(DaemonBase, CampaignUI):
             return [l for l in screenshot if l not in args]
 
         # No ascreencap on Android > 9
-        if device in ['emulator_android_12', 'android_phone_12']:
+        sdk = self.device.sdk_ver
+        logger.info(f'sdk_ver: {sdk}')
+        if not (21 <= sdk <= 28):
             screenshot = remove('aScreenCap', 'aScreenCap_nc')
         # No nc loopback
         if device in ['plone_cloud_with_adb']:

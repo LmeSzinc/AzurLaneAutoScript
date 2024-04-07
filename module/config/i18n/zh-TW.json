@@ -2424,12 +2424,10 @@
     "DeviceType": {
       "name": "設備類型",
       "help": "",
-      "emulator": "模擬器 安卓<=9",
-      "emulator_android_12": "模擬器 安卓>9",
+      "emulator": "模擬器",
       "plone_cloud_with_adb": "雲手機 有公網ADB",
       "phone_cloud_without_adb": "雲手機 無公網ADB",
-      "android_phone": "安卓真機 安卓<=9",
-      "android_phone_12": "安卓真機 安卓>9",
+      "android_phone": "安卓真機",
       "android_phone_vmos": "安卓真機VMOS虛擬機"
     },
     "TestScene": {
