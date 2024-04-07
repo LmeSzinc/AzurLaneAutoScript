@@ -419,7 +419,8 @@
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
       "Hermit": "Hermit",
-      "MaaTouch": "MaaTouch"
+      "MaaTouch": "MaaTouch",
+      "nemu_ipc": "nemu_ipc"
     },
     "ScreenshotDedithering": {
       "name": "Image Color De-dithering",

@@ -46,7 +46,14 @@ Emulator:
     ]
   ControlMethod:
     value: minitouch
-    option: [ ADB, uiautomator2, minitouch, Hermit, MaaTouch ]
+    option: [
+      ADB,
+      uiautomator2,
+      minitouch,
+      Hermit,
+      MaaTouch,
+      nemu_ipc,
+    ]
   ScreenshotDedithering: false
   AdbRestart: false
 EmulatorInfo:
