@@ -459,6 +459,7 @@ class NemuIpc(Platform):
         if has_cached_property(self, 'nemu_ipc'):
             self.nemu_ipc.disconnect()
         del_cached_property(self, 'nemu_ipc')
+        logger.info('nemu_ipc released')
 
     def screenshot_nemu_ipc(self):
         image = self.nemu_ipc.screenshot()
