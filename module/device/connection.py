@@ -11,7 +11,7 @@ import uiautomator2 as u2
 from adbutils import AdbClient, AdbDevice, AdbTimeout, ForwardItem, ReverseItem
 from adbutils.errors import AdbError
 
-from module.base.decorator import Config, cached_property, del_cached_property
+from module.base.decorator import Config, cached_property, del_cached_property, run_once
 from module.base.utils import ensure_time
 from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, set_server
 from module.device.connection_attr import ConnectionAttr
@@ -757,23 +757,41 @@ class Connection(ConnectionAttr):
         If serial=='auto' and only 1 device detected, use it
         """
         logger.hr('Detect device')
-        logger.info('Here are the available devices, '
-                    'copy to Alas.Emulator.Serial to use it or set Alas.Emulator.Serial="auto"')
-        devices = self.list_device()
+        available = SelectedGrids([])
+        devices = SelectedGrids([])
 
-        # Show available devices
-        available = devices.select(status='device')
-        for device in available:
-            logger.info(device.serial)
-        if not len(available):
-            logger.info('No available devices')
+        @run_once
+        def brute_force_connect():
+            from deploy.Windows.emulator import EmulatorManager
+            manager = EmulatorManager()
+            manager.brute_force_connect()
 
-        # Show unavailable devices if having any
-        unavailable = devices.delete(available)
-        if len(unavailable):
-            logger.info('Here are the devices detected but unavailable')
-            for device in unavailable:
-                logger.info(f'{device.serial} ({device.status})')
+        for _ in range(2):
+            logger.info('Here are the available devices, '
+                        'copy to Alas.Emulator.Serial to use it or set Alas.Emulator.Serial="auto"')
+            devices = self.list_device()
+
+            # Show available devices
+            available = devices.select(status='device')
+            for device in available:
+                logger.info(device.serial)
+            if not len(available):
+                logger.info('No available devices')
+
+            # Show unavailable devices if having any
+            unavailable = devices.delete(available)
+            if len(unavailable):
+                logger.info('Here are the devices detected but unavailable')
+                for device in unavailable:
+                    logger.info(f'{device.serial} ({device.status})')
+
+            # brute_force_connect
+            if self.config.Emulator_Serial == 'auto' and available.count == 0:
+                logger.warning(f'No available device found, brute force connecting')
+                brute_force_connect()
+                continue
+            else:
+                break
 
         # Auto device detection
         if self.config.Emulator_Serial == 'auto':
