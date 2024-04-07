@@ -81,6 +81,7 @@ class Device(Screenshot, Control, AppControl):
             _ = self.emulator_instance
 
         self.screenshot_interval_set()
+        self.method_check()
 
         # Auto-select the fastest screenshot method
         if not self.config.is_template_config and self.config.Emulator_ScreenshotMethod == 'auto':
@@ -99,7 +100,22 @@ class Device(Screenshot, Control, AppControl):
         bench = Benchmark(config=self.config, device=self)
         method = bench.run_simple_screenshot_benchmark()
         # Set
-        self.config.Emulator_ScreenshotMethod = method
+        with self.config.multi_set():
+            self.config.Emulator_ScreenshotMethod = method
+            if method == 'nemu_ipc':
+                self.config.Emulator_ControlMethod = 'nemu_ipc'
+
+    def method_check(self):
+        """
+        Check combinations of screenshot method and control methods
+        """
+        # nemu_ipc should be together
+        if self.config.Emulator_ScreenshotMethod == 'nemu_ipc' and self.config.Emulator_ControlMethod != 'nemu_ipc':
+            logger.warning('When using nemu_ipc, both screenshot and control should use nemu_ipc')
+            self.config.Emulator_ControlMethod = 'nemu_ipc'
+        if self.config.Emulator_ScreenshotMethod != 'nemu_ipc' and self.config.Emulator_ControlMethod == 'nemu_ipc':
+            logger.warning('When not using nemu_ipc, both screenshot and control should not use nemu_ipc')
+            self.config.Emulator_ControlMethod = 'minitouch'
 
     def handle_night_commission(self, daily_trigger='21:00', threshold=30):
         """
