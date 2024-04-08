@@ -4,7 +4,7 @@ from module.combat.assets import BATTLE_PREPARATION
 from module.equipment.assets import *
 from module.equipment.equipment_change import EquipmentChange
 from module.equipment.fleet_equipment import OCR_FLEET_INDEX
-from module.exception import CampaignEnd
+from module.exception import CampaignEnd, ScriptError
 from module.handler.assets import AUTO_SEARCH_MAP_OPTION_OFF
 from module.logger import logger
 from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
@@ -17,8 +17,8 @@ from module.retire.assets import (
 
 from module.retire.dock import Dock
 from module.retire.scanner import ShipScanner
-from module.ui.page import page_fleet
 from module.ui.assets import BACK_ARROW
+from module.ui.page import page_fleet
 
 SIM_VALUE = 0.95
 
@@ -290,17 +290,31 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                 break
         return candidates
 
-    def get_templates(self, CommonDD):
+    @staticmethod
+    def get_templates(common_dd):
         """
-            Returns the corresponding template list based on CommonDD
-
+        Returns the corresponding template list based on CommonDD
         """
-        if CommonDD == 'any':
-            return [TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2, TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2, TEMPLATE_AULICK, TEMPLATE_FOOTE]
-        elif CommonDD == 'aulick_or_foote':
-            return [TEMPLATE_AULICK, TEMPLATE_FOOTE]
+        if common_dd == 'any':
+            return [
+                TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2,
+                TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2,
+                TEMPLATE_AULICK,
+                TEMPLATE_FOOTE
+            ]
+        elif common_dd == 'aulick_or_foote':
+            return [
+                TEMPLATE_AULICK,
+                TEMPLATE_FOOTE
+            ]
+        elif common_dd == 'cassin_or_downes':
+            return [
+                TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2,
+                TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2
+            ]
         else:
-            return [TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2, TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2]
+            logger.error(f'Invalid CommonDD setting: {common_dd}')
+            raise ScriptError(f'Invalid CommonDD setting: {common_dd}')
 
     def flagship_change_execute(self):
         """
