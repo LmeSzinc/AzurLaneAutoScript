@@ -3,6 +3,16 @@ from module.base.button import Button, ButtonWrapper
 # This file was auto-generated, do not modify it manually. To generate:
 # ``` python -m dev_tools.button_extract ```
 
+FuXuan = ButtonWrapper(
+    name='FuXuan',
+    share=Button(
+        file='./assets/share/character/switch/FuXuan.png',
+        area=(1180, 236, 1198, 254),
+        search=(1160, 216, 1218, 274),
+        color=(225, 186, 192),
+        button=(1180, 236, 1198, 254),
+    ),
+)
 Huohuo = ButtonWrapper(
     name='Huohuo',
     share=Button(
