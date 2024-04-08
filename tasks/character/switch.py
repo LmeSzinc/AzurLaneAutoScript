@@ -97,9 +97,8 @@ class CharacterSwitch(UI):
                 TrailblazerPreservationFemale,
 
             ],
-            KEYWORDS_CHARACTER_LIST.Huohuo: [
-                Huohuo,
-            ],
+            KEYWORDS_CHARACTER_LIST.Huohuo: [Huohuo],
+            KEYWORDS_CHARACTER_LIST.FuXuan: [FuXuan],
         }
         for character, templates in dict_template.items():
             for template in templates:
