@@ -269,6 +269,7 @@ class Connection(ConnectionAttr):
     @cached_property
     def nemud_app_keep_alive(self) -> str:
         res = self.adb_getprop('nemud.app_keep_alive')
+        logger.attr('nemud.app_keep_alive', res)
         return res
 
     @retry
@@ -277,7 +278,6 @@ class Connection(ConnectionAttr):
             return False
 
         res = self.nemud_app_keep_alive
-        logger.attr('nemud.app_keep_alive', res)
         if res == '':
             # Empty property, probably MuMu6 or MuMu12 version < 3.5.6
             return True
@@ -291,6 +291,15 @@ class Connection(ConnectionAttr):
         else:
             logger.warning(f'Invalid nemud.app_keep_alive value: {res}')
             return False
+
+    @cached_property
+    def is_mumu_over_version_356(self) -> bool:
+        """
+        Returns:
+            bool: If MuMu12 version >= 3.5.6,
+                which has nemud.app_keep_alive and always be a vertical device
+        """
+        return self.nemud_app_keep_alive != ''
 
     @cached_property
     def _nc_server_host_port(self):

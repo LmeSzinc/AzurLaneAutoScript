@@ -95,6 +95,8 @@ class DroidCast(Uiautomator2):
     """
 
     _droidcast_port: int = 0
+    droidcast_width: int = 0
+    droidcast_height: int = 0
 
     @cached_property
     def droidcast_session(self):
@@ -112,15 +114,37 @@ class DroidCast(Uiautomator2):
     - /preview
         To get PNG screenshots.
     """
+
     def droidcast_url(self, url='/preview'):
+        if self.is_mumu_over_version_356:
+            w, h = self.droidcast_width, self.droidcast_height
+            if self.orientation == 0:
+                return f'http://127.0.0.1:{self._droidcast_port}{url}?width={w}&height={h}'
+            elif self.orientation == 1:
+                return f'http://127.0.0.1:{self._droidcast_port}{url}?width={h}&height={w}'
+            else:
+                # logger.warning('DroidCast receives invalid device orientation')
+                pass
+
         return f'http://127.0.0.1:{self._droidcast_port}{url}'
 
     def droidcast_raw_url(self, url='/screenshot'):
+        if self.is_mumu_over_version_356:
+            w, h = self.droidcast_width, self.droidcast_height
+            if self.orientation == 0:
+                return f'http://127.0.0.1:{self._droidcast_port}{url}?width={w}&height={h}'
+            elif self.orientation == 1:
+                return f'http://127.0.0.1:{self._droidcast_port}{url}?width={h}&height={w}'
+            else:
+                # logger.warning('DroidCast receives invalid device orientation')
+                pass
+
         return f'http://127.0.0.1:{self._droidcast_port}{url}'
 
     def droidcast_init(self):
         logger.hr('DroidCast init')
         self.droidcast_stop()
+        self._droidcast_update_resolution()
 
         logger.info('Pushing DroidCast apk')
         self.adb_push(self.config.DROIDCAST_FILEPATH_LOCAL, self.config.DROIDCAST_FILEPATH_REMOTE)
@@ -150,10 +174,25 @@ class DroidCast(Uiautomator2):
         else:
             logger.error(f'Unknown DROIDCAST_VERSION: {self.config.DROIDCAST_VERSION}')
 
+    def _droidcast_update_resolution(self):
+        if self.is_mumu_over_version_356:
+            logger.info('Update droidcast resolution')
+            w, h = self.resolution_uiautomator2(cal_rotation=False)
+            self.get_orientation()
+            # 720, 1280
+            # mumu12 > 3.5.6 is always a vertical device
+            self.droidcast_width, self.droidcast_height = w, h
+            logger.info(f'Droicast resolution: {(w, h)}')
+
     @retry
     def screenshot_droidcast(self):
         self.config.DROIDCAST_VERSION = 'DroidCast'
+        if self.is_mumu_over_version_356:
+            if not self.droidcast_width or not self.droidcast_height:
+                self._droidcast_update_resolution()
+
         resp = self.droidcast_session.get(self.droidcast_url(), timeout=3)
+
         if resp.status_code == 404:
             raise DroidCastVersionIncompatible('DroidCast server does not have /preview')
         image = resp.content
@@ -173,16 +212,27 @@ class DroidCast(Uiautomator2):
         if image is None:
             raise ImageTruncated('Empty image after cv2.cvtColor')
 
+        if self.is_mumu_over_version_356:
+            if self.orientation == 1:
+                image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+
         return image
 
     @retry
     def screenshot_droidcast_raw(self):
         self.config.DROIDCAST_VERSION = 'DroidCast_raw'
+        shape = (720, 1280)
+        if self.is_mumu_over_version_356:
+            if not self.droidcast_width or not self.droidcast_height:
+                self._droidcast_update_resolution()
+            if self.droidcast_height and self.droidcast_width:
+                shape = (self.droidcast_height, self.droidcast_width)
+
         image = self.droidcast_session.get(self.droidcast_raw_url(), timeout=3).content
         # DroidCast_raw returns a RGB565 bitmap
 
         try:
-            arr = np.frombuffer(image, dtype=np.uint16).reshape((720, 1280))
+            arr = np.frombuffer(image, dtype=np.uint16).reshape(shape)
         except ValueError as e:
             if len(image) < 500:
                 logger.warning(f'Unexpected screenshot: {image}')
@@ -230,6 +280,11 @@ class DroidCast(Uiautomator2):
         cv2.add(b, m, dst=b)
 
         image = cv2.merge([r, g, b])
+
+        if self.is_mumu_over_version_356:
+            if self.orientation == 1:
+                image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+
         return image
 
     def droidcast_wait_startup(self):
