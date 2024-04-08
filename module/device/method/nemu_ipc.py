@@ -415,22 +415,24 @@ class NemuIpc(Platform):
         Initialize a nemu ipc implementation
         """
         # Try existing settings first
-        folder = os.path.abspath(os.path.join(self.config.EmulatorInfo_path, '../../'))
-        index = serial_to_id(self.serial)
-        if index is not None:
-            try:
-                return NemuIpcImpl(
-                    nemu_folder=folder,
-                    instance_id=index,
-                    display_id=0
-                ).__enter__()
-            except (NemuIpcIncompatible, NemuIpcError) as e:
-                logger.error(e)
-                logger.error('Emulator info incorrect')
+        if self.config.EmulatorInfo_path:
+            folder = os.path.abspath(os.path.join(self.config.EmulatorInfo_path, '../../'))
+            index = serial_to_id(self.serial)
+            if index is not None:
+                try:
+                    return NemuIpcImpl(
+                        nemu_folder=folder,
+                        instance_id=index,
+                        display_id=0
+                    ).__enter__()
+                except (NemuIpcIncompatible, NemuIpcError) as e:
+                    logger.error(e)
+                    logger.error('Emulator info incorrect')
 
         # Search emulator instance
         # with E:\ProgramFiles\MuMuPlayer-12.0\shell\MuMuPlayer.exe
         # installation path is E:\ProgramFiles\MuMuPlayer-12.0
+        _ = self.emulator_instance
         try:
             return NemuIpcImpl(
                 nemu_folder=self.emulator_instance.emulator.abspath('../'),
