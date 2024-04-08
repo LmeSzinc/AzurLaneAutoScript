@@ -8,7 +8,13 @@ from module.exception import CampaignEnd
 from module.handler.assets import AUTO_SEARCH_MAP_OPTION_OFF
 from module.logger import logger
 from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
-from module.retire.assets import DOCK_CHECK, TEMPLATE_BOGUE, TEMPLATE_HERMES, TEMPLATE_LANGLEY, TEMPLATE_RANGER
+from module.retire.assets import (
+    DOCK_CHECK,
+    TEMPLATE_BOGUE, TEMPLATE_HERMES, TEMPLATE_LANGLEY, TEMPLATE_RANGER,
+    TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2, TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2,
+    TEMPLATE_AULICK, TEMPLATE_FOOTE
+)
+
 from module.retire.dock import Dock
 from module.retire.scanner import ShipScanner
 from module.ui.page import page_fleet
@@ -150,6 +156,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         Returns:
             bool: True if vanguard changed
         """
+
         logger.hr('Change vanguard', level=1)
         logger.attr('ChangeVanguard', self.config.GemsFarming_ChangeVanguard)
         if self.change_vanguard_equip:
@@ -253,13 +260,47 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                               fleet=self.config.Fleet_Fleet1, status='free')
         scanner.disable('rarity')
 
+        self.dock_sort_method_dsc_set()
+
         ships = scanner.scan(self.device.image)
         if ships:
             # Don't need to change current
             return ships
 
         scanner.set_limitation(fleet=0)
-        return scanner.scan(self.device.image, output=False)
+
+        candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
+
+        if candidates:
+            return candidates
+        else:
+            logger.info('No specific DD was found, try reversed order.')
+            return candidates
+
+    def find_candidates(self, template, scanner):
+        """
+        Find candidates based on template matching using a scanner.
+
+        """
+        candidates = []
+        for item in template:
+            candidates = [ship for ship in scanner.scan(self.device.image, output=False)
+                          if item.match(self.image_crop(ship.button), similarity=SIM_VALUE)]
+            if candidates:
+                break
+        return candidates
+
+    def get_templates(self, CommonDD):
+        """
+            Returns the corresponding template list based on CommonDD
+
+        """
+        if CommonDD == 'any':
+            return [TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2, TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2, TEMPLATE_AULICK, TEMPLATE_FOOTE]
+        elif CommonDD == 'aulick_or_foote':
+            return [TEMPLATE_AULICK, TEMPLATE_FOOTE]
+        else:
+            return [TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2, TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2]
 
     def flagship_change_execute(self):
         """

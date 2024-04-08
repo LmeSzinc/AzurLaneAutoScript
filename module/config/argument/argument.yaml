@@ -269,12 +269,15 @@ GemsFarming:
   ChangeFlagship:
     value: ship
     option: [ ship, ship_equip ]
-  ChangeVanguard:
-    value: ship
-    option: [ disabled, ship, ship_equip ]
   CommonCV:
     value: any
     option: [ any, langley, bogue, ranger, hermes ]
+  ChangeVanguard:
+    value: ship
+    option: [ disabled, ship, ship_equip ]
+  CommonDD:
+    value: any
+    option: [ any, aulick_or_foote , cassin_or_downes ]
   CommissionLimit: true
 
 # ==================== Event ====================
