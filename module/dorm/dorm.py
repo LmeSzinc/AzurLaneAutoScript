@@ -308,11 +308,13 @@ class RewardDorm(UI):
             for _ in range(count):
                 self.device.click(button)
                 self.device.sleep((0.5, 0.8))
+            skip_first_screenshot = False
 
         else:
             self._dorm_feed_long_tap(button, count)
+            skip_first_screenshot = True
 
-        skip_first_screenshot = True
+        self.popup_interval_clear()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
