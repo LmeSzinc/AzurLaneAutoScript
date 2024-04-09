@@ -289,13 +289,18 @@ class RewardDorm(UI):
         else:
             self._dorm_feed_long_tap(button, count)
 
+        skip_first_screenshot = True
         while 1:
-            self.device.screenshot()
-            if self.handle_popup_cancel('DORM_FEED'):
-                continue
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
             # End
             if self.appear(DORM_FEED_CHECK, offset=(20, 20)):
                 break
+            # Click
+            if self.handle_popup_cancel('DORM_FEED'):
+                continue
 
     def dorm_food_get(self):
         """
