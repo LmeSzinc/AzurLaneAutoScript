@@ -45,12 +45,12 @@ class CaptureStd:
 
     def _redirect_stdout(self, to):
         sys.stdout.close()
-        os.dup2(to.fileno(), self.fdout)
+        os.dup2(to, self.fdout)
         sys.stdout = os.fdopen(self.fdout, 'w')
 
     def _redirect_stderr(self, to):
         sys.stderr.close()
-        os.dup2(to.fileno(), self.fderr)
+        os.dup2(to, self.fderr)
         sys.stderr = os.fdopen(self.fderr, 'w')
 
     def __enter__(self):
@@ -58,20 +58,20 @@ class CaptureStd:
         self.fderr = sys.stderr.fileno()
         self.reader_out, self.writer_out = os.pipe()
         self.reader_err, self.writer_err = os.pipe()
-        self.old_stdout = os.fdopen(os.dup(self.fdout), 'w')
-        self.old_stderr = os.fdopen(os.dup(self.fderr), 'w')
+        self.old_stdout = os.dup(self.fdout)
+        self.old_stderr = os.dup(self.fderr)
 
         file_out = os.fdopen(self.writer_out, 'w')
         file_err = os.fdopen(self.writer_err, 'w')
-        self._redirect_stdout(to=file_out)
-        self._redirect_stderr(to=file_err)
+        self._redirect_stdout(to=file_out.fileno())
+        self._redirect_stderr(to=file_err.fileno())
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self._redirect_stdout(to=self.old_stdout)
         self._redirect_stderr(to=self.old_stderr)
-        self.old_stdout.close()
-        self.old_stderr.close()
+        os.close(self.old_stdout)
+        os.close(self.old_stderr)
 
         self.stdout = self.recvall(self.reader_out)
         self.stderr = self.recvall(self.reader_err)
