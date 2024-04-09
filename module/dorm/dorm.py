@@ -127,6 +127,29 @@ class RewardDorm(UI):
         self.device.minitouch_builder.up().commit()
         self.device.minitouch_send()
 
+    @Config.when(DEVICE_CONTROL_METHOD='MaaTouch')
+    def _dorm_feed_long_tap(self, button, count):
+        timeout = Timer(count // 5 + 5).start()
+        x, y = random_rectangle_point(button.button)
+        self.device.maatouch_builder.down(x, y).commit()
+        self.device.maatouch_send()
+
+        while 1:
+            self.device.maatouch_builder.move(x, y).commit().wait(10)
+            self.device.maatouch_send()
+            self.device.screenshot()
+
+            if not self._dorm_has_food(button) \
+                    or self.handle_info_bar() \
+                    or self.appear(POPUP_CONFIRM, offset=self._popup_offset):
+                break
+            if timeout.reached():
+                logger.warning('Wait dorm feed timeout')
+                break
+
+        self.device.maatouch_builder.up().commit()
+        self.device.maatouch_send()
+
     @Config.when(DEVICE_CONTROL_METHOD='uiautomator2')
     def _dorm_feed_long_tap(self, button, count):
         timeout = Timer(count // 5 + 5).start()
@@ -176,7 +199,7 @@ class RewardDorm(UI):
 
     def dorm_view_reset(self, skip_first_screenshot=True):
         """
-        Use Dorm manage and Back to reset dorm view. 
+        Use Dorm manage and Back to reset dorm view.
 
         Pages:
             in: page_dorm
