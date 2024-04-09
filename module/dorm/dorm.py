@@ -9,6 +9,7 @@ from module.base.timer import Timer
 from module.base.utils import *
 from module.dorm.assets import *
 from module.dorm.buy_furniture import BuyFurniture
+from module.handler.assets import POPUP_CONFIRM
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
 from module.template.assets import TEMPLATE_DORM_COIN, TEMPLATE_DORM_LOVE
@@ -117,7 +118,7 @@ class RewardDorm(UI):
 
             if not self._dorm_has_food(button) \
                     or self.handle_info_bar() \
-                    or self.handle_popup_cancel('DORM_FEED'):
+                    or self.appear(POPUP_CONFIRM, offset=self._popup_offset):
                 break
             if timeout.reached():
                 logger.warning('Wait dorm feed timeout')
@@ -139,13 +140,33 @@ class RewardDorm(UI):
 
             if not self._dorm_has_food(button) \
                     or self.handle_info_bar() \
-                    or self.handle_popup_cancel('DORM_FEED'):
+                    or self.appear(POPUP_CONFIRM, offset=self._popup_offset):
                 break
             if timeout.reached():
                 logger.warning('Wait dorm feed timeout')
                 break
 
         self.device.u2.touch.up(x, y)
+
+    @Config.when(DEVICE_CONTROL_METHOD='nemu_ipc')
+    def _dorm_feed_long_tap(self, button, count):
+        timeout = Timer(count // 5 + 5).start()
+        x, y = random_rectangle_point(button.button)
+
+        while 1:
+            self.device.nemu_ipc.down(x, y)
+            time.sleep(.01)
+            self.device.screenshot()
+
+            if not self._dorm_has_food(button) \
+                    or self.handle_info_bar() \
+                    or self.appear(POPUP_CONFIRM, offset=self._popup_offset):
+                break
+            if timeout.reached():
+                logger.warning('Wait dorm feed timeout')
+                break
+
+        self.device.nemu_ipc.up()
 
     @Config.when(DEVICE_CONTROL_METHOD=None)
     def _dorm_feed_long_tap(self, button, count):
