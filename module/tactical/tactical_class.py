@@ -7,7 +7,7 @@ from module.base.timer import Timer
 from module.base.utils import *
 from module.combat.level import LevelOcr
 from module.exception import ScriptError
-from module.handler.assets import GET_MISSION, POPUP_CANCEL, POPUP_CONFIRM
+from module.handler.assets import GET_MISSION, MISSION_POPUP_ACK, MISSION_POPUP_GO, POPUP_CANCEL, POPUP_CONFIRM
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.ocr.ocr import DigitCounter, Duration, Ocr
@@ -444,6 +444,10 @@ class RewardTacticalClass(Dock):
                 # Only one button in the middle, when skill reach max level.
                 continue
             if self.ui_page_main_popups():
+                continue
+            # Similar to handle_mission_popup_ack, but battle pass item expire popup has a different ACK button
+            if self.appear(MISSION_POPUP_GO, offset=self._popup_offset, interval=2):
+                self.device.click(MISSION_POPUP_ACK)
                 continue
             if self.appear(TACTICAL_CLASS_CANCEL, offset=(30, 30), interval=2) \
                     and self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
