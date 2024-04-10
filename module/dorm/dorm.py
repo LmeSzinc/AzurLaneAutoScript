@@ -9,6 +9,7 @@ from module.base.timer import Timer
 from module.base.utils import *
 from module.dorm.assets import *
 from module.dorm.buy_furniture import BuyFurniture
+from module.handler.assets import POPUP_CONFIRM
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
 from module.template.assets import TEMPLATE_DORM_COIN, TEMPLATE_DORM_LOVE
@@ -117,7 +118,7 @@ class RewardDorm(UI):
 
             if not self._dorm_has_food(button) \
                     or self.handle_info_bar() \
-                    or self.handle_popup_cancel('DORM_FEED'):
+                    or self.appear(POPUP_CONFIRM, offset=self._popup_offset):
                 break
             if timeout.reached():
                 logger.warning('Wait dorm feed timeout')
@@ -125,6 +126,29 @@ class RewardDorm(UI):
 
         self.device.minitouch_builder.up().commit()
         self.device.minitouch_send()
+
+    @Config.when(DEVICE_CONTROL_METHOD='MaaTouch')
+    def _dorm_feed_long_tap(self, button, count):
+        timeout = Timer(count // 5 + 5).start()
+        x, y = random_rectangle_point(button.button)
+        self.device.maatouch_builder.down(x, y).commit()
+        self.device.maatouch_send()
+
+        while 1:
+            self.device.maatouch_builder.move(x, y).commit().wait(10)
+            self.device.maatouch_send()
+            self.device.screenshot()
+
+            if not self._dorm_has_food(button) \
+                    or self.handle_info_bar() \
+                    or self.appear(POPUP_CONFIRM, offset=self._popup_offset):
+                break
+            if timeout.reached():
+                logger.warning('Wait dorm feed timeout')
+                break
+
+        self.device.maatouch_builder.up().commit()
+        self.device.maatouch_send()
 
     @Config.when(DEVICE_CONTROL_METHOD='uiautomator2')
     def _dorm_feed_long_tap(self, button, count):
@@ -139,13 +163,33 @@ class RewardDorm(UI):
 
             if not self._dorm_has_food(button) \
                     or self.handle_info_bar() \
-                    or self.handle_popup_cancel('DORM_FEED'):
+                    or self.appear(POPUP_CONFIRM, offset=self._popup_offset):
                 break
             if timeout.reached():
                 logger.warning('Wait dorm feed timeout')
                 break
 
         self.device.u2.touch.up(x, y)
+
+    @Config.when(DEVICE_CONTROL_METHOD='nemu_ipc')
+    def _dorm_feed_long_tap(self, button, count):
+        timeout = Timer(count // 5 + 5).start()
+        x, y = random_rectangle_point(button.button)
+
+        while 1:
+            self.device.nemu_ipc.down(x, y)
+            time.sleep(.01)
+            self.device.screenshot()
+
+            if not self._dorm_has_food(button) \
+                    or self.handle_info_bar() \
+                    or self.appear(POPUP_CONFIRM, offset=self._popup_offset):
+                break
+            if timeout.reached():
+                logger.warning('Wait dorm feed timeout')
+                break
+
+        self.device.nemu_ipc.up()
 
     @Config.when(DEVICE_CONTROL_METHOD=None)
     def _dorm_feed_long_tap(self, button, count):
@@ -155,7 +199,7 @@ class RewardDorm(UI):
 
     def dorm_view_reset(self, skip_first_screenshot=True):
         """
-        Use Dorm manage and Back to reset dorm view. 
+        Use Dorm manage and Back to reset dorm view.
 
         Pages:
             in: page_dorm
@@ -264,17 +308,24 @@ class RewardDorm(UI):
             for _ in range(count):
                 self.device.click(button)
                 self.device.sleep((0.5, 0.8))
+            skip_first_screenshot = False
 
         else:
             self._dorm_feed_long_tap(button, count)
+            skip_first_screenshot = True
 
+        self.popup_interval_clear()
         while 1:
-            self.device.screenshot()
-            if self.handle_popup_cancel('DORM_FEED'):
-                continue
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
             # End
             if self.appear(DORM_FEED_CHECK, offset=(20, 20)):
                 break
+            # Click
+            if self.handle_popup_cancel('DORM_FEED'):
+                continue
 
     def dorm_food_get(self):
         """

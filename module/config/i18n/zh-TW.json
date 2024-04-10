@@ -409,7 +409,8 @@
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
-      "scrcpy": "scrcpy"
+      "scrcpy": "scrcpy",
+      "nemu_ipc": "nemu_ipc"
     },
     "ControlMethod": {
       "name": "模擬器控制方案",
@@ -418,7 +419,8 @@
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
       "Hermit": "Hermit",
-      "MaaTouch": "MaaTouch"
+      "MaaTouch": "MaaTouch",
+      "nemu_ipc": "nemu_ipc"
     },
     "ScreenshotDedithering": {
       "name": "去除圖片色彩抖動",
@@ -429,26 +431,36 @@
       "help": ""
     }
   },
-  "RestartEmulator": {
+  "EmulatorInfo": {
     "_info": {
-      "name": "重啟模擬器",
+      "name": "模擬器設定",
+      "help": "下列數值是根據Serial自動填充的，如果不懂請不要隨意修改"
+    },
+    "Emulator": {
+      "name": "模擬器類型",
+      "help": "",
+      "auto": "自動檢測",
+      "NoxPlayer": "夜神模擬器",
+      "NoxPlayer64": "夜神模擬器64位",
+      "BlueStacks4": "藍疊模擬器4",
+      "BlueStacks5": "藍疊模擬器5",
+      "BlueStacks4HyperV": "藍疊模擬器4 Hyper-V",
+      "BlueStacks5HyperV": "藍疊模擬器5 Hyper-V",
+      "LDPlayer3": "雷電模擬器3",
+      "LDPlayer4": "雷電模擬器4",
+      "LDPlayer9": "雷電模擬器9",
+      "MuMuPlayer": "MuMu模擬器",
+      "MuMuPlayerX": "MuMu模擬器X",
+      "MuMuPlayer12": "MuMu模擬器12",
+      "MEmuPlayer": "逍遙模擬器"
+    },
+    "name": {
+      "name": "模擬器實例名稱",
       "help": ""
     },
-    "Enable": {
-      "name": "RestartEmulator.Enable.name",
-      "help": "RestartEmulator.Enable.help"
-    },
-    "EmulatorData": {
-      "name": "RestartEmulator.EmulatorData.name",
-      "help": "RestartEmulator.EmulatorData.help"
-    },
-    "ErrorRestart": {
-      "name": "啟用重啟模擬器",
-      "help": "在模擬器被關閉的時候自動啟動模擬器"
-    },
-    "DailyRestart": {
-      "name": "伺服器重繪時重啟模擬器",
-      "help": "每天主動重啟模擬器以解决記憶體洩漏問題"
+    "path": {
+      "name": "模擬器安裝路徑",
+      "help": ""
     }
   },
   "Error": {
@@ -1122,13 +1134,6 @@
       "ship": "更換艦船",
       "ship_equip": "更換艦船 + 裝備"
     },
-    "ChangeVanguard": {
-      "name": "更換前排",
-      "help": "當前排紅臉時更換前排，選擇不更換則會強制紅臉出擊\n換前排通過找一艘心情不低於10、等級70的白鷹白船驅逐完成，所以盡量保證有足夠多的驅逐。國服則為等級100的白鷹白船驅逐。\n\n換裝備只會更換正在裝備中的欄位，即使是白裝也會更換。如果指定了旗艦，則會更換全部5個裝備，未指定旗艦隻會更換設備。",
-      "disabled": "不更换",
-      "ship": "更換艦船",
-      "ship_equip": "更換艦船 + 裝備"
-    },
     "CommonCV": {
       "name": "指定旗艦航母",
       "help": "",
@@ -1137,6 +1142,20 @@
       "bogue": "博格",
       "ranger": "突擊者",
       "hermes": "競技神"
+    },
+    "ChangeVanguard": {
+      "name": "更換前排",
+      "help": "當前排紅臉時更換前排，選擇不更換則會強制紅臉出擊\n換前排通過找一艘心情不低於10、等級70的白鷹白船驅逐完成，所以盡量保證有足夠多的驅逐。國服則為等級100的白鷹白船驅逐。\n\n換裝備只會更換正在裝備中的欄位，即使是白裝也會更換。如果指定了旗艦，則會更換全部5個裝備，未指定旗艦隻會更換設備。",
+      "disabled": "不更换",
+      "ship": "更換艦船",
+      "ship_equip": "更換艦船 + 裝備"
+    },
+    "CommonDD": {
+      "name": "指定前排",
+      "help": "",
+      "any": "任意",
+      "aulick_or_foote": "奧利克或富特",
+      "cassin_or_downes": "卡辛或唐斯"
     },
     "CommissionLimit": {
       "name": "防止緊急委託數量過多",
@@ -2412,12 +2431,10 @@
     "DeviceType": {
       "name": "設備類型",
       "help": "",
-      "emulator": "模擬器 安卓<=9",
-      "emulator_android_12": "模擬器 安卓>9",
+      "emulator": "模擬器",
       "plone_cloud_with_adb": "雲手機 有公網ADB",
       "phone_cloud_without_adb": "雲手機 無公網ADB",
-      "android_phone": "安卓真機 安卓<=9",
-      "android_phone_12": "安卓真機 安卓>9",
+      "android_phone": "安卓真機",
       "android_phone_vmos": "安卓真機VMOS虛擬機"
     },
     "TestScene": {

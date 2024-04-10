@@ -1,14 +1,15 @@
 import ctypes
+import re
 import subprocess
-import typing as t
 
 import psutil
 
+from deploy.Windows.utils import DataProcessInfo
 from module.base.decorator import run_once
 from module.base.timer import Timer
 from module.device.connection import AdbDeviceWithStatus
 from module.device.platform.platform_base import PlatformBase
-from module.device.platform.windows_emulator import Emulator, EmulatorInstance, EmulatorManager
+from module.device.platform.emulator_windows import Emulator, EmulatorInstance, EmulatorManager
 from module.logger import logger
 
 
@@ -30,11 +31,11 @@ def minimize_window(hwnd):
 
 def get_window_title(hwnd):
     """Returns the window title as a string."""
-    textLenInCharacters = ctypes.windll.user32.GetWindowTextLengthW(hwnd)
-    stringBuffer = ctypes.create_unicode_buffer(
-        textLenInCharacters + 1)  # +1 for the \0 at the end of the null-terminated string.
-    ctypes.windll.user32.GetWindowTextW(hwnd, stringBuffer, textLenInCharacters + 1)
-    return stringBuffer.value
+    text_len_in_characters = ctypes.windll.user32.GetWindowTextLengthW(hwnd)
+    string_buffer = ctypes.create_unicode_buffer(
+        text_len_in_characters + 1)  # +1 for the \0 at the end of the null-terminated string.
+    ctypes.windll.user32.GetWindowTextW(hwnd, string_buffer, text_len_in_characters + 1)
+    return string_buffer.value
 
 
 def flash_window(hwnd, flash=True):
@@ -42,8 +43,8 @@ def flash_window(hwnd, flash=True):
 
 
 class PlatformWindows(PlatformBase, EmulatorManager):
-    @staticmethod
-    def execute(command):
+    @classmethod
+    def execute(cls, command):
         """
         Args:
             command (str):
@@ -55,67 +56,53 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         logger.info(f'Execute: {command}')
         return subprocess.Popen(command, close_fds=True)  # only work on Windows
 
-    @staticmethod
-    def taskkill(process):
+    @classmethod
+    def kill_process_by_regex(cls, regex: str) -> int:
         """
-        Args:
-            process (str, list[str]): Process name or a list of them
-
-        Returns:
-            subprocess.Popen:
-        """
-        if not isinstance(process, list):
-            process = [process]
-        return self.execute(f'taskkill /t /f /im ' + ''.join(process))
-
-    @staticmethod
-    def find_running_emulator(instance: EmulatorInstance) -> t.Optional[psutil.Process]:
-        for proc in EmulatorManager.iter_running_emulator():
-            cmdline = [arg.replace('\\', '/').replace(r'\\', '/') for arg in proc.cmdline()]
-            cmdline = ' '.join(cmdline)
-            if instance.path in cmdline and instance.name in cmdline:
-                return proc
-
-        logger.warning(f'Cannot find a running emulator process with path={instance.path}, name={instance.name}')
-        return None
-
-    def emulator_kill_by_process(self, instance: EmulatorInstance) -> bool:
-        """
-        Kill a emulator by finding its process.
+        Kill processes with cmdline match the given regex.
 
         Args:
-            instance:
+            regex:
 
         Returns:
-            bool: If success
+            int: Number of processes killed
         """
-        proc = self.find_running_emulator(instance)
-        if proc is not None:
-            proc.kill()
-            return True
-        else:
-            return False
+        count = 0
+
+        for proc in psutil.process_iter():
+            cmdline = DataProcessInfo(proc=proc, pid=proc.pid).cmdline
+            if re.search(regex, cmdline):
+                logger.info(f'Kill emulator: {cmdline}')
+                proc.kill()
+                count += 1
+
+        return count
 
     def _emulator_start(self, instance: EmulatorInstance):
         """
         Start a emulator without error handling
         """
         exe = instance.emulator.path
-        if instance == Emulator.MumuPlayer:
+        if instance == Emulator.MuMuPlayer:
             # NemuPlayer.exe
             self.execute(exe)
-        if instance == Emulator.MumuPlayer9:
+        elif instance == Emulator.MuMuPlayerX:
             # NemuPlayer.exe -m nemu-12.0-x64-default
-            self.execute(f'{exe} -m {instance.name}')
+            self.execute(f'"{exe}" -m {instance.name}')
+        elif instance == Emulator.MuMuPlayer12:
+            # MuMuPlayer.exe -v 0
+            if instance.MuMuPlayer12_id is None:
+                logger.warning(f'Cannot get MuMu instance index from name {instance.name}')
+            self.execute(f'"{exe}" -v {instance.MuMuPlayer12_id}')
         elif instance == Emulator.NoxPlayerFamily:
             # Nox.exe -clone:Nox_1
-            self.execute(f'{exe} -clone:{instance.name}')
+            self.execute(f'"{exe}" -clone:{instance.name}')
         elif instance == Emulator.BlueStacks5:
             # HD-Player.exe -instance Pie64
-            self.execute(f'{exe} -instance {instance.name}')
+            self.execute(f'"{exe}" -instance {instance.name}')
         elif instance == Emulator.BlueStacks4:
             # BlueStacks\Client\Bluestacks.exe -vmname Android_1
-            self.execute(f'{exe} -vmname {instance.name}')
+            self.execute(f'"{exe}" -vmname {instance.name}')
         else:
             raise EmulatorUnknown(f'Cannot start an unknown emulator instance: {instance}')
 
@@ -123,16 +110,53 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         """
         Stop a emulator without error handling
         """
+        logger.hr('Emulator stop', level=2)
         exe = instance.emulator.path
-        if instance == Emulator.MumuPlayer:
-            # taskkill /t /f /im NemuHeadless.exe NemuPlayer.exe NemuSvc.exe
-            self.taskkill(['NemuHeadless.exe', 'NemuPlayer.exe', 'NemuSvc.exe'])
-        elif instance == Emulator.MumuPlayer9:
-            # Kill by process
-            self.emulator_kill_by_process(instance)
+        if instance == Emulator.MuMuPlayer:
+            # MuMu6 does not have multi instance, kill one means kill all
+            # Has 4 processes
+            # "C:\Program Files\NemuVbox\Hypervisor\NemuHeadless.exe" --comment nemu-6.0-x64-default --startvm
+            # "E:\ProgramFiles\MuMu\emulator\nemu\EmulatorShell\NemuPlayer.exe"
+            # E:\ProgramFiles\MuMu\emulator\nemu\EmulatorShell\NemuService.exe
+            # "C:\Program Files\NemuVbox\Hypervisor\NemuSVC.exe" -Embedding
+            self.kill_process_by_regex(
+                rf'('
+                rf'NemuHeadless.exe'
+                rf'|NemuPlayer.exe\"'
+                rf'|NemuPlayer.exe$'
+                rf'|NemuService.exe'
+                rf'|NemuSVC.exe'
+                rf')'
+            )
+        elif instance == Emulator.MuMuPlayerX:
+            # MuMu X has 3 processes
+            # "E:\ProgramFiles\MuMu9\emulator\nemu9\EmulatorShell\NemuPlayer.exe" -m nemu-12.0-x64-default -s 0 -l
+            # "C:\Program Files\Muvm6Vbox\Hypervisor\Muvm6Headless.exe" --comment nemu-12.0-x64-default --startvm xxx
+            # "C:\Program Files\Muvm6Vbox\Hypervisor\Muvm6SVC.exe" --Embedding
+            self.kill_process_by_regex(
+                rf'('
+                rf'NemuPlayer.exe.*-m {instance.name}'
+                rf'|Muvm6Headless.exe'
+                rf'|Muvm6SVC.exe'
+                rf')'
+            )
+        elif instance == Emulator.MuMuPlayer12:
+            # MuMu 12 has 2 processes:
+            # E:\ProgramFiles\Netease\MuMuPlayer-12.0\shell\MuMuPlayer.exe -v 0
+            # "C:\Program Files\MuMuVMMVbox\Hypervisor\MuMuVMMHeadless.exe" --comment MuMuPlayer-12.0-0 --startvm xxx
+            if instance.MuMuPlayer12_id is None:
+                logger.warning(f'Cannot get MuMu instance index from name {instance.name}')
+            self.kill_process_by_regex(
+                rf'('
+                rf'MuMuVMMHeadless.exe.*--comment {instance.name}'
+                rf'|MuMuPlayer.exe.*-v {instance.MuMuPlayer12_id}'
+                rf')'
+            )
+            # There is also a shared service, no need to kill it
+            # "C:\Program Files\MuMuVMMVbox\Hypervisor\MuMuVMMSVC.exe" --Embedding
         elif instance == Emulator.NoxPlayerFamily:
             # Nox.exe -clone:Nox_1 -quit
-            self.execute(f'{exe} -clone:{instance.name} -quit')
+            self.execute(f'"{exe}" -clone:{instance.name} -quit')
         else:
             raise EmulatorUnknown(f'Cannot stop an unknown emulator instance: {instance}')
 
@@ -152,8 +176,10 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             # OSError: [WinError 740] 请求的操作需要提升。
             if 'WinError 740' in msg:
                 logger.error('To start/stop MumuAppPlayer, ALAS needs to be run as administrator')
-        except Exception as e:
+        except EmulatorUnknown as e:
             logger.error(e)
+        except Exception as e:
+            logger.exception(e)
 
         logger.error(f'Emulator function {func.__name__}() failed')
         return False
@@ -164,6 +190,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             bool: True if startup completed
                 False if timeout
         """
+        logger.hr('Emulator start', level=2)
         current_window = get_focused_window()
         serial = self.emulator_instance.serial
         logger.info(f'Current window: {current_window}')
@@ -263,6 +290,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         return True
 
     def emulator_start(self):
+        logger.hr('Emulator start', level=1)
         for _ in range(3):
             # Stop
             if not self._emulator_function_wrapper(self._emulator_stop):
@@ -283,9 +311,11 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         return False
 
     def emulator_stop(self):
+        logger.hr('Emulator stop', level=1)
         return self._emulator_function_wrapper(self._emulator_stop)
 
 
 if __name__ == '__main__':
     self = PlatformWindows('alas')
-    self.emulator_start()
+    d = self.emulator_instance
+    print(d)

@@ -409,7 +409,8 @@
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
-      "scrcpy": "scrcpy"
+      "scrcpy": "scrcpy",
+      "nemu_ipc": "nemu_ipc"
     },
     "ControlMethod": {
       "name": "Emulator.ControlMethod.name",
@@ -418,7 +419,8 @@
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
       "Hermit": "Hermit",
-      "MaaTouch": "MaaTouch"
+      "MaaTouch": "MaaTouch",
+      "nemu_ipc": "nemu_ipc"
     },
     "ScreenshotDedithering": {
       "name": "Emulator.ScreenshotDedithering.name",
@@ -429,26 +431,36 @@
       "help": "Emulator.AdbRestart.help"
     }
   },
-  "RestartEmulator": {
+  "EmulatorInfo": {
     "_info": {
-      "name": "RestartEmulator._info.name",
-      "help": "RestartEmulator._info.help"
+      "name": "EmulatorInfo._info.name",
+      "help": "EmulatorInfo._info.help"
     },
-    "Enable": {
-      "name": "RestartEmulator.Enable.name",
-      "help": "RestartEmulator.Enable.help"
+    "Emulator": {
+      "name": "EmulatorInfo.Emulator.name",
+      "help": "EmulatorInfo.Emulator.help",
+      "auto": "auto",
+      "NoxPlayer": "NoxPlayer",
+      "NoxPlayer64": "NoxPlayer64",
+      "BlueStacks4": "BlueStacks4",
+      "BlueStacks5": "BlueStacks5",
+      "BlueStacks4HyperV": "BlueStacks4HyperV",
+      "BlueStacks5HyperV": "BlueStacks5HyperV",
+      "LDPlayer3": "LDPlayer3",
+      "LDPlayer4": "LDPlayer4",
+      "LDPlayer9": "LDPlayer9",
+      "MuMuPlayer": "MuMuPlayer",
+      "MuMuPlayerX": "MuMuPlayerX",
+      "MuMuPlayer12": "MuMuPlayer12",
+      "MEmuPlayer": "MEmuPlayer"
     },
-    "EmulatorData": {
-      "name": "RestartEmulator.EmulatorData.name",
-      "help": "RestartEmulator.EmulatorData.help"
+    "name": {
+      "name": "EmulatorInfo.name.name",
+      "help": "EmulatorInfo.name.help"
     },
-    "ErrorRestart": {
-      "name": "RestartEmulator.ErrorRestart.name",
-      "help": "RestartEmulator.ErrorRestart.help"
-    },
-    "DailyRestart": {
-      "name": "RestartEmulator.DailyRestart.name",
-      "help": "RestartEmulator.DailyRestart.help"
+    "path": {
+      "name": "EmulatorInfo.path.name",
+      "help": "EmulatorInfo.path.help"
     }
   },
   "Error": {
@@ -1122,13 +1134,6 @@
       "ship": "ship",
       "ship_equip": "ship_equip"
     },
-    "ChangeVanguard": {
-      "name": "GemsFarming.ChangeVanguard.name",
-      "help": "GemsFarming.ChangeVanguard.help",
-      "disabled": "disabled",
-      "ship": "ship",
-      "ship_equip": "ship_equip"
-    },
     "CommonCV": {
       "name": "GemsFarming.CommonCV.name",
       "help": "GemsFarming.CommonCV.help",
@@ -1137,6 +1142,20 @@
       "bogue": "bogue",
       "ranger": "ranger",
       "hermes": "hermes"
+    },
+    "ChangeVanguard": {
+      "name": "GemsFarming.ChangeVanguard.name",
+      "help": "GemsFarming.ChangeVanguard.help",
+      "disabled": "disabled",
+      "ship": "ship",
+      "ship_equip": "ship_equip"
+    },
+    "CommonDD": {
+      "name": "GemsFarming.CommonDD.name",
+      "help": "GemsFarming.CommonDD.help",
+      "any": "any",
+      "aulick_or_foote": "aulick or foote",
+      "cassin_or_downes": "cassin or downes"
     },
     "CommissionLimit": {
       "name": "GemsFarming.CommissionLimit.name",
@@ -2413,11 +2432,9 @@
       "name": "Benchmark.DeviceType.name",
       "help": "Benchmark.DeviceType.help",
       "emulator": "emulator",
-      "emulator_android_12": "emulator_android_12",
       "plone_cloud_with_adb": "plone_cloud_with_adb",
       "phone_cloud_without_adb": "phone_cloud_without_adb",
       "android_phone": "android_phone",
-      "android_phone_12": "android_phone_12",
       "android_phone_vmos": "android_phone_vmos"
     },
     "TestScene": {

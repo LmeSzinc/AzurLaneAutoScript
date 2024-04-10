@@ -1,5 +1,4 @@
 import collections
-import sys
 from datetime import datetime
 
 from module.base.timer import Timer
@@ -7,16 +6,10 @@ from module.config.utils import get_server_next_update
 from module.device.app_control import AppControl
 from module.device.control import Control
 from module.device.screenshot import Screenshot
-from module.exception import (GameNotRunningError, GameStuckError,
-                              GameTooManyClickError, RequestHumanTakeover)
+from module.exception import (EmulatorNotRunningError, GameNotRunningError, GameStuckError, GameTooManyClickError,
+                              RequestHumanTakeover)
 from module.handler.assets import GET_MISSION
 from module.logger import logger
-
-if sys.platform == 'win32':
-    from module.device.emulator import EmulatorManager
-else:
-    class EmulatorManager:
-        pass
 
 
 def show_function_call():
@@ -59,7 +52,7 @@ def show_function_call():
     logger.info('Function calls:' + ''.join(func_list))
 
 
-class Device(Screenshot, Control, AppControl, EmulatorManager):
+class Device(Screenshot, Control, AppControl):
     _screen_size_checked = False
     detect_record = set()
     click_record = collections.deque(maxlen=15)
@@ -68,13 +61,28 @@ class Device(Screenshot, Control, AppControl, EmulatorManager):
     stuck_long_wait_list = ['BATTLE_STATUS_S', 'PAUSE', 'LOGIN_CHECK']
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.screenshot_interval_set()
+        for _ in range(2):
+            try:
+                super().__init__(*args, **kwargs)
+                break
+            except EmulatorNotRunningError:
+                # Try to start emulator
+                if self.emulator_instance is not None:
+                    self.emulator_start()
+                else:
+                    logger.critical(
+                        f'No emulator with serial "{self.config.Emulator_Serial}" found, '
+                        f'please set a correct serial'
+                    )
+                    raise
 
-        # Temp fix for MuMu 12 before DroidCast updated
-        if self.is_mumu_family:
-            logger.info('Patching screenshot method for mumu')
-            self.config.override(Emulator_ScreenshotMethod='ADB_nc')
+        # Auto-fill emulator info
+        if self.config.EmulatorInfo_Emulator == 'auto':
+            _ = self.emulator_instance
+
+        self.screenshot_interval_set()
+        self.method_check()
+
         # Auto-select the fastest screenshot method
         if not self.config.is_template_config and self.config.Emulator_ScreenshotMethod == 'auto':
             self.run_simple_screenshot_benchmark()
@@ -92,7 +100,22 @@ class Device(Screenshot, Control, AppControl, EmulatorManager):
         bench = Benchmark(config=self.config, device=self)
         method = bench.run_simple_screenshot_benchmark()
         # Set
-        self.config.Emulator_ScreenshotMethod = method
+        with self.config.multi_set():
+            self.config.Emulator_ScreenshotMethod = method
+            if method == 'nemu_ipc':
+                self.config.Emulator_ControlMethod = 'nemu_ipc'
+
+    def method_check(self):
+        """
+        Check combinations of screenshot method and control methods
+        """
+        # nemu_ipc should be together
+        if self.config.Emulator_ScreenshotMethod == 'nemu_ipc' and self.config.Emulator_ControlMethod != 'nemu_ipc':
+            logger.warning('When using nemu_ipc, both screenshot and control should use nemu_ipc')
+            self.config.Emulator_ControlMethod = 'nemu_ipc'
+        if self.config.Emulator_ScreenshotMethod != 'nemu_ipc' and self.config.Emulator_ControlMethod == 'nemu_ipc':
+            logger.warning('When not using nemu_ipc, both screenshot and control should not use nemu_ipc')
+            self.config.Emulator_ControlMethod = 'minitouch'
 
     def handle_night_commission(self, daily_trigger='21:00', threshold=30):
         """
@@ -143,6 +166,8 @@ class Device(Screenshot, Control, AppControl, EmulatorManager):
         # stop it during wait
         if self.config.Emulator_ScreenshotMethod == 'scrcpy':
             self._scrcpy_server_stop()
+        if self.config.Emulator_ScreenshotMethod == 'nemu_ipc':
+            self.nemu_ipc_release()
 
     def stuck_record_add(self, button):
         self.detect_record.add(str(button))
