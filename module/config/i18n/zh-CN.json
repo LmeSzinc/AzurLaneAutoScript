@@ -409,7 +409,8 @@
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
-      "scrcpy": "scrcpy"
+      "scrcpy": "scrcpy",
+      "nemu_ipc": "nemu_ipc"
     },
     "ControlMethod": {
       "name": "模拟器控制方案",
@@ -418,7 +419,8 @@
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
       "Hermit": "Hermit",
-      "MaaTouch": "MaaTouch"
+      "MaaTouch": "MaaTouch",
+      "nemu_ipc": "nemu_ipc"
     },
     "ScreenshotDedithering": {
       "name": "去除图片色彩抖动",
@@ -429,26 +431,36 @@
       "help": ""
     }
   },
-  "RestartEmulator": {
+  "EmulatorInfo": {
     "_info": {
-      "name": "重启模拟器",
+      "name": "模拟器设置",
+      "help": "下列数值是根据Serial自动填充的，如果不懂请不要随意修改"
+    },
+    "Emulator": {
+      "name": "模拟器类型",
+      "help": "",
+      "auto": "自动检测",
+      "NoxPlayer": "夜神模拟器",
+      "NoxPlayer64": "夜神模拟器64位",
+      "BlueStacks4": "蓝叠模拟器4",
+      "BlueStacks5": "蓝叠模拟器5",
+      "BlueStacks4HyperV": "蓝叠模拟器4 Hyper-V",
+      "BlueStacks5HyperV": "蓝叠模拟器5 Hyper-V",
+      "LDPlayer3": "雷电模拟器3",
+      "LDPlayer4": "雷电模拟器4",
+      "LDPlayer9": "雷电模拟器9",
+      "MuMuPlayer": "MuMu模拟器",
+      "MuMuPlayerX": "MuMu模拟器X",
+      "MuMuPlayer12": "MuMu模拟器12",
+      "MEmuPlayer": "逍遥模拟器"
+    },
+    "name": {
+      "name": "模拟器实例名称",
       "help": ""
     },
-    "Enable": {
-      "name": "RestartEmulator.Enable.name",
-      "help": "RestartEmulator.Enable.help"
-    },
-    "EmulatorData": {
-      "name": "RestartEmulator.EmulatorData.name",
-      "help": "RestartEmulator.EmulatorData.help"
-    },
-    "ErrorRestart": {
-      "name": "出错时重启模拟器",
-      "help": "在无法连接到模拟器时自动重启模拟器"
-    },
-    "DailyRestart": {
-      "name": "服务器刷新时重启模拟器",
-      "help": "每天主动重启模拟器以解决内存泄漏问题"
+    "path": {
+      "name": "模拟器安装路径",
+      "help": ""
     }
   },
   "Error": {
@@ -1122,13 +1134,6 @@
       "ship": "更换舰船",
       "ship_equip": "更换舰船 + 装备"
     },
-    "ChangeVanguard": {
-      "name": "更换前排",
-      "help": "当前排红脸时更换前排，选择不更换则会强制红脸出击\n换前排通过找一艘心情不低于10、等级100的白鹰白皮驱逐完成，所以尽量保证有足够多的驱逐。国服以外则为等级70的白鹰白船驱逐。\n\n换装备只会更换正在装备中的栏位，即使是白装也会更换。如果指定了旗舰，则会更换全部5个装备，未指定旗舰只会更换设备。",
-      "disabled": "不更换",
-      "ship": "更换舰船",
-      "ship_equip": "更换舰船 + 装备"
-    },
     "CommonCV": {
       "name": "指定旗舰航母",
       "help": "",
@@ -1137,6 +1142,20 @@
       "bogue": "博格",
       "ranger": "突击者",
       "hermes": "竞技神"
+    },
+    "ChangeVanguard": {
+      "name": "更换前排",
+      "help": "当前排红脸时更换前排，选择不更换则会强制红脸出击\n换前排通过找一艘心情不低于10、等级100的白鹰白皮驱逐完成，所以尽量保证有足够多的驱逐。国服以外则为等级70的白鹰白船驱逐。\n\n换装备只会更换正在装备中的栏位，即使是白装也会更换。如果指定了旗舰，则会更换全部5个装备，未指定旗舰只会更换设备。",
+      "disabled": "不更换",
+      "ship": "更换舰船",
+      "ship_equip": "更换舰船 + 装备"
+    },
+    "CommonDD": {
+      "name": "指定前排",
+      "help": "",
+      "any": "任意",
+      "aulick_or_foote": "奥利克或富特",
+      "cassin_or_downes": "卡辛或唐斯"
     },
     "CommissionLimit": {
       "name": "防止紧急委托数量过多",
@@ -2412,12 +2431,10 @@
     "DeviceType": {
       "name": "设备类型",
       "help": "",
-      "emulator": "模拟器 安卓<=9",
-      "emulator_android_12": "模拟器 安卓>9",
+      "emulator": "模拟器",
       "plone_cloud_with_adb": "云手机 有公网ADB",
       "phone_cloud_without_adb": "云手机 无公网ADB",
-      "android_phone": "安卓真机 安卓<=9",
-      "android_phone_12": "安卓真机 安卓>9",
+      "android_phone": "安卓真机",
       "android_phone_vmos": "安卓真机VMOS虚拟机"
     },
     "TestScene": {
