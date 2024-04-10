@@ -771,6 +771,7 @@ class Connection(ConnectionAttr):
 
         @run_once
         def brute_force_connect():
+            logger.info('Brute force connect')
             from deploy.Windows.emulator import EmulatorManager
             manager = EmulatorManager()
             manager.brute_force_connect()
@@ -796,7 +797,7 @@ class Connection(ConnectionAttr):
 
             # brute_force_connect
             if self.config.Emulator_Serial == 'auto' and available.count == 0:
-                logger.warning(f'No available device found, brute force connecting')
+                logger.warning(f'No available device found')
                 brute_force_connect()
                 continue
             else:
@@ -853,6 +854,36 @@ class Connection(ConnectionAttr):
                     logger.info(f'Current serial {self.serial} not found but paired device {emu_serial} found. '
                                 f'Using serial: {emu_serial}')
                     self.serial = emu_serial
+
+        # Redirect MuMu12 from 127.0.0.1:7555 to 127.0.0.1:16xxx
+        if self.serial == '127.0.0.1:7555':
+            for _ in range(2):
+                mumu12 = available.select(may_mumu12_family=True)
+                if mumu12.count == 1:
+                    emu_serial = mumu12.first_or_none().serial
+                    logger.warning(f'Redirect MuMu12 {self.serial} to {emu_serial}')
+                    self.serial = emu_serial
+                    self.config.Emulator_Serial = emu_serial
+                    break
+                elif mumu12.count >= 2:
+                    logger.warning(f'Multiple MuMu12 serial found, cannot redirect')
+                    break
+                else:
+                    # Only 127.0.0.1:7555
+                    if self.is_mumu_over_version_356:
+                        logger.warning(f'Device {self.serial} is MuMu12 but corresponding port not found')
+                        brute_force_connect()
+                        devices = self.list_device()
+                        # Show available devices
+                        available = devices.select(status='device')
+                        for device in available:
+                            logger.info(device.serial)
+                        if not len(available):
+                            logger.info('No available devices')
+                        continue
+                    else:
+                        # MuMu6
+                        break
 
     @retry
     def list_package(self, show_log=True):
