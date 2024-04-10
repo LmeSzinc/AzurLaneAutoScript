@@ -5,6 +5,9 @@ from module.base.button import Button
 from module.base.timer import Timer
 from module.base.utils import *
 from module.exception import RequestHumanTakeover
+from module.handler.assets import AUTO_SEARCH_SET_MOB, AUTO_SEARCH_SET_BOSS, \
+    AUTO_SEARCH_SET_ALL, AUTO_SEARCH_SET_STANDBY, \
+    AUTO_SEARCH_SET_SUB_AUTO, AUTO_SEARCH_SET_SUB_STANDBY
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.assets import *
@@ -345,5 +348,14 @@ class FleetPreparation(InfoHandler):
                 pass
             else:
                 submarine.clear()
+
+        if self.appear(FLEET_1_CLEAR, offset=(-20, -80, 20, 5)):
+            AUTO_SEARCH_SET_MOB.load_offset(FLEET_1_CLEAR)
+            AUTO_SEARCH_SET_BOSS.load_offset(FLEET_1_CLEAR)
+            AUTO_SEARCH_SET_ALL.load_offset(FLEET_1_CLEAR)
+            AUTO_SEARCH_SET_STANDBY.load_offset(FLEET_1_CLEAR)
+        if self.appear(SUBMARINE_CLEAR, offset=(-20, -80, 20, 5)):
+            AUTO_SEARCH_SET_SUB_AUTO.load_offset(SUBMARINE_CLEAR)
+            AUTO_SEARCH_SET_SUB_STANDBY.load_offset(SUBMARINE_CLEAR)
 
         return True

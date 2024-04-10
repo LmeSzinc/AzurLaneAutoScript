@@ -165,11 +165,11 @@ class AScreenCap(Connection):
             # ValueError: cannot reshape array of size 0 into shape (720,1280,4)
             raise ImageTruncated(str(e))
 
-        image = cv2.flip(image, 0)
+        cv2.flip(image, 0, dst=image)
         if image is None:
             raise ImageTruncated('Empty image after cv2.flip')
 
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        cv2.cvtColor(image, cv2.COLOR_BGR2RGB, dst=image)
         if image is None:
             raise ImageTruncated('Empty image after cv2.cvtColor')
 
