@@ -3056,6 +3056,28 @@
       "help": "因出错而自动重启时通知，不建议开启，因为可能会很烦"
     }
   },
+  "InstanceRestart": {
+    "_info": {
+      "name": "重启Alas实例",
+      "help": ""
+    },
+    "Enabled": {
+      "name": "启用",
+      "help": ""
+    },
+    "AttemptsToRestart": {
+      "name": "最大尝试自动重启次数",
+      "help": ""
+    },
+    "NotifyWhenAutoRestart": {
+      "name": "重启时通知",
+      "help": "因出错而自动重启时通知，不建议开启，因为可能会很烦"
+    },
+    "HasRestarted": {
+      "name": "InstanceRestart.HasRestarted.name",
+      "help": "InstanceRestart.HasRestarted.help"
+    }
+  },
   "Storage": {
     "_info": {
       "name": "任务状态",
