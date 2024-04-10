@@ -2,6 +2,7 @@ import asyncio
 import filecmp
 import os
 import shutil
+import sys
 import typing as t
 from dataclasses import dataclass
 
@@ -9,7 +10,8 @@ from deploy.Windows.alas import AlasManager
 from deploy.Windows.logger import logger
 from deploy.Windows.utils import cached_property
 
-asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+if sys.platform.startswith("win"):
+    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 
 
 @dataclass

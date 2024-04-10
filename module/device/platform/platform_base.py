@@ -1,8 +1,7 @@
 import sys
 import typing as t
 
-import yaml
-from pydantic import BaseModel, SecretStr
+from pydantic import BaseModel
 
 from module.base.decorator import cached_property, del_cached_property
 from module.device.connection import Connection
@@ -168,9 +167,3 @@ class PlatformBase(Connection, EmulatorManagerBase):
         # Still too many instances
         logger.warning(f'Found multiple emulator instances with {search_args}')
         return None
-
-
-if __name__ == '__main__':
-    self = PlatformBase('alas')
-    d = self.emulator_instance
-    print(d)

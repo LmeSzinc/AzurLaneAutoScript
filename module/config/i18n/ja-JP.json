@@ -413,7 +413,8 @@
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
-      "scrcpy": "scrcpy"
+      "scrcpy": "scrcpy",
+      "nemu_ipc": "nemu_ipc"
     },
     "ControlMethod": {
       "name": "Emulator.ControlMethod.name",
@@ -422,7 +423,8 @@
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
       "Hermit": "Hermit",
-      "MaaTouch": "MaaTouch"
+      "MaaTouch": "MaaTouch",
+      "nemu_ipc": "nemu_ipc"
     },
     "ScreenshotDedithering": {
       "name": "Emulator.ScreenshotDedithering.name",
@@ -1136,13 +1138,6 @@
       "ship": "ship",
       "ship_equip": "ship_equip"
     },
-    "ChangeVanguard": {
-      "name": "GemsFarming.ChangeVanguard.name",
-      "help": "GemsFarming.ChangeVanguard.help",
-      "disabled": "disabled",
-      "ship": "ship",
-      "ship_equip": "ship_equip"
-    },
     "ALLowLowVanguardLevel": {
       "name": "GemsFarming.ALLowLowVanguardLevel.name",
       "help": "GemsFarming.ALLowLowVanguardLevel.help"
@@ -1166,6 +1161,20 @@
       "bogue": "bogue",
       "ranger": "ranger",
       "hermes": "hermes"
+    },
+    "ChangeVanguard": {
+      "name": "GemsFarming.ChangeVanguard.name",
+      "help": "GemsFarming.ChangeVanguard.help",
+      "disabled": "disabled",
+      "ship": "ship",
+      "ship_equip": "ship_equip"
+    },
+    "CommonDD": {
+      "name": "GemsFarming.CommonDD.name",
+      "help": "GemsFarming.CommonDD.help",
+      "any": "any",
+      "aulick_or_foote": "aulick or foote",
+      "cassin_or_downes": "cassin or downes"
     },
     "CommissionLimit": {
       "name": "GemsFarming.CommissionLimit.name",
@@ -2460,11 +2469,9 @@
       "name": "Benchmark.DeviceType.name",
       "help": "Benchmark.DeviceType.help",
       "emulator": "emulator",
-      "emulator_android_12": "emulator_android_12",
       "plone_cloud_with_adb": "plone_cloud_with_adb",
       "phone_cloud_without_adb": "phone_cloud_without_adb",
       "android_phone": "android_phone",
-      "android_phone_12": "android_phone_12",
       "android_phone_vmos": "android_phone_vmos"
     },
     "TestScene": {

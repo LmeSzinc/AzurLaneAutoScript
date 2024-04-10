@@ -11,7 +11,7 @@ import uiautomator2 as u2
 from adbutils import AdbClient, AdbDevice, AdbTimeout, ForwardItem, ReverseItem
 from adbutils.errors import AdbError
 
-from module.base.decorator import Config, cached_property, del_cached_property
+from module.base.decorator import Config, cached_property, del_cached_property, run_once
 from module.base.utils import ensure_time
 from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, set_server
 from module.device.connection_attr import ConnectionAttr
@@ -266,15 +266,20 @@ class Connection(ConnectionAttr):
             return True
         return False
 
+    @cached_property
+    def nemud_app_keep_alive(self) -> str:
+        res = self.adb_getprop('nemud.app_keep_alive')
+        logger.attr('nemud.app_keep_alive', res)
+        return res
+
     @retry
     def check_mumu_app_keep_alive(self):
         if not self.is_mumu_family:
             return False
 
-        res = self.adb_getprop('nemud.app_keep_alive')
-        logger.attr('nemud.app_keep_alive', res)
+        res = self.nemud_app_keep_alive
         if res == '':
-            # Empry property, might not be a mumu emulator or might be an old mumu
+            # Empty property, probably MuMu6 or MuMu12 version < 3.5.6
             return True
         elif res == 'false':
             # Disabled
@@ -286,6 +291,15 @@ class Connection(ConnectionAttr):
         else:
             logger.warning(f'Invalid nemud.app_keep_alive value: {res}')
             return False
+
+    @cached_property
+    def is_mumu_over_version_356(self) -> bool:
+        """
+        Returns:
+            bool: If MuMu12 version >= 3.5.6,
+                which has nemud.app_keep_alive and always be a vertical device
+        """
+        return self.nemud_app_keep_alive != ''
 
     @cached_property
     def _nc_server_host_port(self):
@@ -752,23 +766,41 @@ class Connection(ConnectionAttr):
         If serial=='auto' and only 1 device detected, use it
         """
         logger.hr('Detect device')
-        logger.info('Here are the available devices, '
-                    'copy to Alas.Emulator.Serial to use it or set Alas.Emulator.Serial="auto"')
-        devices = self.list_device()
+        available = SelectedGrids([])
+        devices = SelectedGrids([])
 
-        # Show available devices
-        available = devices.select(status='device')
-        for device in available:
-            logger.info(device.serial)
-        if not len(available):
-            logger.info('No available devices')
+        @run_once
+        def brute_force_connect():
+            from deploy.Windows.emulator import EmulatorManager
+            manager = EmulatorManager()
+            manager.brute_force_connect()
 
-        # Show unavailable devices if having any
-        unavailable = devices.delete(available)
-        if len(unavailable):
-            logger.info('Here are the devices detected but unavailable')
-            for device in unavailable:
-                logger.info(f'{device.serial} ({device.status})')
+        for _ in range(2):
+            logger.info('Here are the available devices, '
+                        'copy to Alas.Emulator.Serial to use it or set Alas.Emulator.Serial="auto"')
+            devices = self.list_device()
+
+            # Show available devices
+            available = devices.select(status='device')
+            for device in available:
+                logger.info(device.serial)
+            if not len(available):
+                logger.info('No available devices')
+
+            # Show unavailable devices if having any
+            unavailable = devices.delete(available)
+            if len(unavailable):
+                logger.info('Here are the devices detected but unavailable')
+                for device in unavailable:
+                    logger.info(f'{device.serial} ({device.status})')
+
+            # brute_force_connect
+            if self.config.Emulator_Serial == 'auto' and available.count == 0:
+                logger.warning(f'No available device found, brute force connecting')
+                brute_force_connect()
+                continue
+            else:
+                break
 
         # Auto device detection
         if self.config.Emulator_Serial == 'auto':

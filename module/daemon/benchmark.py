@@ -69,17 +69,19 @@ class Benchmark(DaemonBase, CampaignUI):
         if not isinstance(cost, (float, int)):
             return Text(cost, style="bold bright_red")
 
-        if cost < 0.10:
+        if cost < 0.025:
+            return Text('Insane Fast', style="bold bright_green")
+        if cost < 0.100:
             return Text('Ultra Fast', style="bold bright_green")
-        if cost < 0.20:
+        if cost < 0.200:
             return Text('Very Fast', style="bright_green")
-        if cost < 0.30:
+        if cost < 0.300:
             return Text('Fast', style="green")
-        if cost < 0.50:
+        if cost < 0.500:
             return Text('Medium', style="yellow")
-        if cost < 0.75:
+        if cost < 0.750:
             return Text('Slow', style="red")
-        if cost < 1.00:
+        if cost < 1.000:
             return Text('Very Slow', style="bright_red")
         return Text('Ultra Slow', style="bold bright_red")
 
@@ -88,11 +90,11 @@ class Benchmark(DaemonBase, CampaignUI):
         if not isinstance(cost, (float, int)):
             return Text(cost, style="bold bright_red")
 
-        if cost < 0.1:
+        if cost < 0.100:
             return Text('Fast', style="bright_green")
-        if cost < 0.2:
+        if cost < 0.200:
             return Text('Medium', style="yellow")
-        if cost < 0.4:
+        if cost < 0.400:
             return Text('Slow', style="red")
         return Text('Very Slow', style="bright_red")
 
@@ -178,7 +180,9 @@ class Benchmark(DaemonBase, CampaignUI):
             return [l for l in screenshot if l not in args]
 
         # No ascreencap on Android > 9
-        if device in ['emulator_android_12', 'android_phone_12']:
+        sdk = self.device.sdk_ver
+        logger.info(f'sdk_ver: {sdk}')
+        if not (21 <= sdk <= 28):
             screenshot = remove('aScreenCap', 'aScreenCap_nc')
         # No nc loopback
         if device in ['plone_cloud_with_adb']:
@@ -187,6 +191,8 @@ class Benchmark(DaemonBase, CampaignUI):
         if device == 'android_phone_vmos':
             screenshot = ['ADB', 'aScreenCap', 'DroidCast', 'DroidCast_raw']
             click = ['ADB', 'Hermit', 'MaaTouch']
+        if self.device.nemu_ipc_available():
+            screenshot.append('nemu_ipc')
 
         scene = self.config.Benchmark_TestScene
         if 'screenshot' not in scene:
@@ -223,6 +229,8 @@ class Benchmark(DaemonBase, CampaignUI):
             screenshot = remove('aScreenCap', 'aScreenCap_nc')
         if self.device.is_chinac_phone_cloud:
             screenshot = remove('ADB_nc', 'aScreenCap_nc')
+        if self.device.nemu_ipc_available():
+            screenshot.append('nemu_ipc')
         screenshot = tuple(screenshot)
 
         self.TEST_TOTAL = 3
