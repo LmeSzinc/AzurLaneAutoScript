@@ -209,7 +209,7 @@ class Dungeon(DungeonStamina, DungeonEvent, Combat):
             relic = 0
             rogue = 0
             if self.has_double_rogue_event():
-                rogue = self.get_double_event_remain()
+                rogue = self.get_double_rogue_remain()
             if self.has_double_calyx_event():
                 self._dungeon_nav_goto(KEYWORDS_DUNGEON_NAV.Calyx_Golden)
                 calyx = self.get_double_event_remain()

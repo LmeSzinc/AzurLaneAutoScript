@@ -9,6 +9,7 @@ from tasks.dungeon.assets.assets_dungeon_event import (
     DOUBLE_ROGUE_EVENT_TAG,
     OCR_DOUBLE_EVENT_REMAIN,
     OCR_DOUBLE_EVENT_REMAIN_AT_COMBAT,
+    OCR_DOUBLE_ROGUE_REMAIN,
 )
 
 
@@ -51,6 +52,8 @@ class DungeonEvent(UI):
         """
         has = self.image_color_count(DOUBLE_ROGUE_EVENT_TAG, color=(252, 209, 123), threshold=221, count=50)
         has |= self.image_color_count(DOUBLE_ROGUE_EVENT_TAG, color=(252, 251, 140), threshold=221, count=50)
+        # Anniversary 3x rogue event
+        has |= self.image_color_count(DOUBLE_ROGUE_EVENT_TAG, color=(229, 62, 44), threshold=221, count=50)
         logger.attr('Double rogue', has)
         return has
 
@@ -81,6 +84,15 @@ class DungeonEvent(UI):
             in: page_guide, Survival_Index, selected at the nav with double event
         """
         remain = self._get_double_event_remain(OCR_DOUBLE_EVENT_REMAIN)
+        logger.attr('Double event remain', remain)
+        return remain
+
+    def get_double_rogue_remain(self) -> int:
+        """
+        Pages:
+            in: page_guide, Survival_Index, selected at the nav with double event
+        """
+        remain = self._get_double_event_remain(OCR_DOUBLE_ROGUE_REMAIN)
         logger.attr('Double event remain', remain)
         return remain
 
