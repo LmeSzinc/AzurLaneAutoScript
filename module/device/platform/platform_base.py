@@ -47,8 +47,18 @@ class PlatformBase(Connection, EmulatorManagerBase):
     @cached_property
     def emulator_info(self) -> EmulatorInfo:
         emulator = self.config.EmulatorInfo_Emulator
-        name = str(self.config.EmulatorInfo_name).strip().replace('\n', '')
-        path = str(self.config.EmulatorInfo_path).strip().replace('\n', '')
+
+        def parse_info(value):
+            if isinstance(value, str):
+                value = value.strip().replace('\n', '')
+                if value in ['None', 'False', 'True']:
+                    value = ''
+                return value
+            else:
+                return ''
+
+        name = parse_info(self.config.EmulatorInfo_name)
+        path = parse_info(self.config.EmulatorInfo_path)
 
         return EmulatorInfo(
             emulator=emulator,
