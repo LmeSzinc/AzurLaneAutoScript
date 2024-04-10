@@ -70,7 +70,7 @@ class Emulator(EmulatorBase):
     def path_to_type(cls, path: str) -> str:
         """
         Args:
-            path: Path to .exe file
+            path: Path to .exe file, case insensitive
 
         Returns:
             str: Emulator type, such as Emulator.NoxPlayer
@@ -78,46 +78,49 @@ class Emulator(EmulatorBase):
         folder, exe = os.path.split(path)
         folder, dir1 = os.path.split(folder)
         folder, dir2 = os.path.split(folder)
-        if exe == 'Nox.exe':
-            if dir2 == 'Nox':
+        exe = exe.lower()
+        dir1 = dir1.lower()
+        dir2 = dir2.lower()
+        if exe == 'nox.exe':
+            if dir2 == 'nox':
                 return cls.NoxPlayer
-            elif dir2 == 'Nox64':
+            elif dir2 == 'nox64':
                 return cls.NoxPlayer64
             else:
                 return cls.NoxPlayer
-        if exe == 'Bluestacks.exe':
-            if dir1 in ['BlueStacks', 'BlueStacks_cn']:
+        if exe == 'bluestacks.exe':
+            if dir1 in ['bluestacks', 'bluestacks_cn']:
                 return cls.BlueStacks4
-            elif dir1 in ['BlueStacks_nxt', 'BlueStacks_nxt_cn']:
+            elif dir1 in ['bluestacks_nxt', 'bluestacks_nxt_cn']:
                 return cls.BlueStacks5
             else:
                 return cls.BlueStacks4
-        if exe == 'HD-Player.exe':
-            if dir1 in ['BlueStacks', 'BlueStacks_cn']:
+        if exe == 'hd-player.exe':
+            if dir1 in ['bluestacks', 'bluestacks_cn']:
                 return cls.BlueStacks4
-            elif dir1 in ['BlueStacks_nxt', 'BlueStacks_nxt_cn']:
+            elif dir1 in ['bluestacks_nxt', 'bluestacks_nxt_cn']:
                 return cls.BlueStacks5
             else:
                 return cls.BlueStacks5
         if exe == 'dnplayer.exe':
-            if dir1 == 'LDPlayer':
+            if dir1 == 'ldplayer':
                 return cls.LDPlayer3
-            elif dir1 == 'LDPlayer4':
+            elif dir1 == 'ldplayer4':
                 return cls.LDPlayer4
-            elif dir1 == 'LDPlayer9':
+            elif dir1 == 'ldplayer9':
                 return cls.LDPlayer9
             else:
                 return cls.LDPlayer3
-        if exe == 'NemuPlayer.exe':
+        if exe == 'nemuplayer.exe':
             if dir2 == 'nemu':
                 return cls.MuMuPlayer
             elif dir2 == 'nemu9':
                 return cls.MuMuPlayerX
             else:
                 return cls.MuMuPlayer
-        if exe == 'MuMuPlayer.exe':
+        if exe == 'mumuplayer.exe':
             return cls.MuMuPlayer12
-        if exe == 'MEmu.exe':
+        if exe == 'memu.exe':
             return cls.MEmuPlayer
 
         return ''
@@ -143,7 +146,9 @@ class Emulator(EmulatorBase):
         elif 'NemuMultiPlayer.exe' in exe:
             yield exe.replace('NemuMultiPlayer.exe', 'NemuPlayer.exe')
         elif 'MuMuMultiPlayer.exe' in exe:
-            yield exe.replace('MuMuMultiPlayer.exe', 'MuMuManager.exe')
+            yield exe.replace('MuMuMultiPlayer.exe', 'MuMuPlayer.exe')
+        elif 'MuMuManager.exe' in exe:
+            yield exe.replace('MuMuManager.exe', 'MuMuPlayer.exe')
         elif 'MEmuConsole.exe' in exe:
             yield exe.replace('MEmuConsole.exe', 'MEmu.exe')
         else:
