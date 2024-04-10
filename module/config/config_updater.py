@@ -726,6 +726,11 @@ class ConfigUpdater:
             key = key.split(".")
             key[-1] = key[-1].replace("Value", "Record")
             yield ".".join(key), datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # Oh no, dynamic dropdown update can only be used on pywebio > 1.8.0
+        # elif key == 'Alas.Emulator.ScreenshotMethod' and value == 'nemu_ipc':
+        #     yield 'Alas.Emulator.ControlMethod', 'nemu_ipc'
+        # elif key == 'Alas.Emulator.ControlMethod' and value == 'nemu_ipc':
+        #     yield 'Alas.Emulator.ScreenshotMethod', 'nemu_ipc'
 
     def read_file(self, config_name, is_template=False):
         """

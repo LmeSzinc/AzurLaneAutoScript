@@ -1,23 +1,23 @@
+import sys
 import typing as t
 
-import yaml
-from pydantic import BaseModel, SecretStr
+from pydantic import BaseModel
 
+from module.base.decorator import cached_property, del_cached_property
 from module.device.connection import Connection
 from module.device.platform.emulator_base import EmulatorInstanceBase, EmulatorManagerBase
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
-from module.base.decorator import cached_property, del_cached_property
 
 
-class EmulatorData(BaseModel):
+class EmulatorInfo(BaseModel):
     emulator: str = ''
     name: str = ''
     path: str = ''
 
     # For APIs of chinac.com, a phone cloud platform.
-    access_key: SecretStr = ''
-    secret: SecretStr = ''
+    # access_key: SecretStr = ''
+    # secret: SecretStr = ''
 
 
 class PlatformBase(Connection, EmulatorManagerBase):
@@ -36,23 +36,35 @@ class PlatformBase(Connection, EmulatorManagerBase):
         - Retry is required.
         - Using bored sleep to wait startup is forbidden.
         """
-        pass
+        logger.info(f'Current platform {sys.platform} does not support emulator_start, skip')
 
     def emulator_stop(self):
         """
         Stop a emulator.
         """
-        pass
+        logger.info(f'Current platform {sys.platform} does not support emulator_stop, skip')
 
     @cached_property
-    def emulator_data(self) -> EmulatorData:
-        try:
-            data = yaml.safe_load(self.config.RestartEmulator_EmulatorData)
-            return EmulatorData(**data)
-        except Exception as e:
-            logger.error(e)
-            logger.error("Failed to load EmulatorData, no emulator_instance")
-            return EmulatorData()
+    def emulator_info(self) -> EmulatorInfo:
+        emulator = self.config.EmulatorInfo_Emulator
+
+        def parse_info(value):
+            if isinstance(value, str):
+                value = value.strip().replace('\n', '')
+                if value in ['None', 'False', 'True']:
+                    value = ''
+                return value
+            else:
+                return ''
+
+        name = parse_info(self.config.EmulatorInfo_name)
+        path = parse_info(self.config.EmulatorInfo_path)
+
+        return EmulatorInfo(
+            emulator=emulator,
+            name=name,
+            path=path,
+        )
 
     @cached_property
     def emulator_instance(self) -> t.Optional[EmulatorInstanceBase]:
@@ -60,7 +72,7 @@ class PlatformBase(Connection, EmulatorManagerBase):
         Returns:
             EmulatorInstanceBase: Emulator instance or None
         """
-        data = self.emulator_data
+        data = self.emulator_info
         old_info = dict(
             emulator=data.emulator,
             path=data.path,
@@ -74,14 +86,18 @@ class PlatformBase(Connection, EmulatorManagerBase):
         )
 
         # Write complete emulator data
-        new_info = dict(
-            emulator=instance.type,
-            path=instance.path,
-            name=instance.name,
-        )
-        if new_info != old_info:
-            self.config.RestartEmulator_EmulatorData = yaml.safe_dump(new_info).strip()
-            del_cached_property(self, 'emulator_data')
+        if instance is not None:
+            new_info = dict(
+                emulator=instance.type,
+                path=instance.path,
+                name=instance.name,
+            )
+            if new_info != old_info:
+                with self.config.multi_set():
+                    self.config.EmulatorInfo_Emulator = instance.type
+                    self.config.EmulatorInfo_name = instance.name
+                    self.config.EmulatorInfo_path = instance.path
+                del_cached_property(self, 'emulator_info')
 
         return instance
 
@@ -102,7 +118,7 @@ class PlatformBase(Connection, EmulatorManagerBase):
         Returns:
             EmulatorInstance: Emulator instance or None if no instances not found.
         """
-        logger.hr('Find emulator instance')
+        logger.hr('Find emulator instance', level=2)
         instances = SelectedGrids(self.all_emulator_instances)
         for instance in instances:
             logger.info(instance)
@@ -115,6 +131,7 @@ class PlatformBase(Connection, EmulatorManagerBase):
             return None
         if select.count == 1:
             instance = select[0]
+            logger.hr('Emulator instance', level=2)
             logger.info(f'Found emulator instance: {instance}')
             return instance
 
@@ -127,6 +144,7 @@ class PlatformBase(Connection, EmulatorManagerBase):
                 return None
             if select.count == 1:
                 instance = select[0]
+                logger.hr('Emulator instance', level=2)
                 logger.info(f'Found emulator instance: {instance}')
                 return instance
 
@@ -139,6 +157,7 @@ class PlatformBase(Connection, EmulatorManagerBase):
                 return None
             if select.count == 1:
                 instance = select[0]
+                logger.hr('Emulator instance', level=2)
                 logger.info(f'Found emulator instance: {instance}')
                 return instance
 
@@ -151,15 +170,10 @@ class PlatformBase(Connection, EmulatorManagerBase):
                 return None
             if select.count == 1:
                 instance = select[0]
+                logger.hr('Emulator instance', level=2)
                 logger.info(f'Found emulator instance: {instance}')
                 return instance
 
         # Still too many instances
         logger.warning(f'Found multiple emulator instances with {search_args}')
         return None
-
-
-if __name__ == '__main__':
-    self = PlatformBase('alas')
-    d = self.emulator_instance
-    print(d)

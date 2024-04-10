@@ -188,3 +188,5 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20240314   | event 20210422 cn        | Daedalian Hymn                               | -       | -                         | -                | 復刻復興的讚美詩                        |
 | 20240314 | event 20220324 cn | Virtual Tower Rerun | 复刻虚像构筑之塔 | Virtual Tower Rerun | 幻像の塔（復刻） | - |
 | 20240321   | raid 20230629            | Reflections of the Oasis                     | -                | -                     | -                              | 綠洲往事                       |
+| 20240328 | raid 20240328 | From Zero to Hero | 从零开始的魔王讨伐之旅 | From Zero to Hero | ゼロから頑張る魔王討伐 | - |
+| 20240403   | event 20211111 cn        | The Flame-Touched Dagger                     | -   | -     | -     | 復刻杰諾瓦的焰火                        |

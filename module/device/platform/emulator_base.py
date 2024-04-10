@@ -1,12 +1,39 @@
 import os
+import re
 import typing as t
 from dataclasses import dataclass
 
-from deploy.utils import cached_property, iter_folder
+from module.device.platform.utils import cached_property, iter_folder
 
 
 def abspath(path):
     return os.path.abspath(path).replace('\\', '/')
+
+
+def get_serial_pair(serial):
+    """
+    Args:
+        serial (str):
+
+    Returns:
+        str, str: `127.0.0.1:5555+{X}` and `emulator-5554+{X}`, 0 <= X <= 32
+    """
+    if serial.startswith('127.0.0.1:'):
+        try:
+            port = int(serial[10:])
+            if 5555 <= port <= 5555 + 32:
+                return f'127.0.0.1:{port}', f'emulator-{port - 1}'
+        except (ValueError, IndexError):
+            pass
+    if serial.startswith('emulator-'):
+        try:
+            port = int(serial[9:])
+            if 5554 <= port <= 5554 + 32:
+                return f'127.0.0.1:{port + 1}', f'emulator-{port}'
+        except (ValueError, IndexError):
+            pass
+
+    return None, None
 
 
 @dataclass
@@ -27,7 +54,7 @@ class EmulatorInstanceBase:
         Returns:
             str: Emulator type, such as Emulator.NoxPlayer
         """
-        return EmulatorBase.path_to_type(self.path)
+        return self.emulator.type
 
     @cached_property
     def emulator(self):
@@ -52,22 +79,46 @@ class EmulatorInstanceBase:
     def __bool__(self):
         return True
 
+    @cached_property
+    def MuMuPlayer12_id(self):
+        """
+        Convert MuMu 12 instance name to instance id.
+        Example names:
+            MuMuPlayer-12.0-3
+            YXArkNights-12.0-1
+
+        Returns:
+            int: Instance ID, or None if this is not a MuMu 12 instance
+        """
+        res = re.search(r'MuMuPlayer-12.0-(\d+)', self.name)
+        if res:
+            return int(res.group(1))
+        res = re.search(r'YXArkNights-12.0-(\d+)', self.name)
+        if res:
+            return int(res.group(1))
+
+        return None
+
 
 class EmulatorBase:
+    # Values here must match those in argument.yaml EmulatorInfo.Emulator.option
     NoxPlayer = 'NoxPlayer'
     NoxPlayer64 = 'NoxPlayer64'
     NoxPlayerFamily = [NoxPlayer, NoxPlayer64]
     BlueStacks4 = 'BlueStacks4'
     BlueStacks5 = 'BlueStacks5'
+    BlueStacks4HyperV = 'BlueStacks4HyperV'
+    BlueStacks5HyperV = 'BlueStacks5HyperV'
     BlueStacksFamily = [BlueStacks4, BlueStacks5]
     LDPlayer3 = 'LDPlayer3'
     LDPlayer4 = 'LDPlayer4'
     LDPlayer9 = 'LDPlayer9'
     LDPlayerFamily = [LDPlayer3, LDPlayer4, LDPlayer9]
-    MumuPlayer = 'MumuPlayer'
-    MumuPlayer9 = 'MumuPlayer9'
-    MumuPlayerFamily = [MumuPlayer, MumuPlayer9]
-    MemuPlayer = 'MemuPlayer'
+    MuMuPlayer = 'MuMuPlayer'
+    MuMuPlayerX = 'MuMuPlayerX'
+    MuMuPlayer12 = 'MuMuPlayer12'
+    MuMuPlayerFamily = [MuMuPlayer, MuMuPlayerX, MuMuPlayer12]
+    MEmuPlayer = 'MEmuPlayer'
 
     @classmethod
     def path_to_type(cls, path: str) -> str:
@@ -81,12 +132,19 @@ class EmulatorBase:
         """
         return ''
 
-    def iter_instances(self):
+    def iter_instances(self) -> t.Iterable[EmulatorInstanceBase]:
         """
         Yields:
             EmulatorInstance: Emulator instances found in this emulator
         """
-        return
+        pass
+
+    def iter_adb_binaries(self) -> t.Iterable[str]:
+        """
+        Yields:
+            str: Filepath to adb binaries found in this emulator
+        """
+        pass
 
     def __init__(self, path):
         # Path to .exe file
@@ -143,10 +201,7 @@ class EmulatorBase:
             list[str]:
         """
         folder = self.abspath(folder)
-        try:
-            return list(iter_folder(folder, is_dir=is_dir, ext=ext))
-        except FileNotFoundError:
-            return []
+        return list(iter_folder(folder, is_dir=is_dir, ext=ext))
 
 
 class EmulatorManagerBase:
@@ -163,3 +218,30 @@ class EmulatorManagerBase:
         Get all emulator instances installed on current computer.
         """
         return []
+
+    @cached_property
+    def all_emulator_serials(self) -> t.List[str]:
+        """
+        Returns:
+            list[str]: All possible serials on current computer.
+        """
+        out = []
+        for emulator in self.all_emulator_instances:
+            out.append(emulator.serial)
+            # Also add serial like `emulator-5554`
+            port_serial, emu_serial = get_serial_pair(emulator.serial)
+            if emu_serial:
+                out.append(emu_serial)
+        return out
+
+    @cached_property
+    def all_adb_binaries(self) -> t.List[str]:
+        """
+        Returns:
+            list[str]: All adb binaries of emulators on current computer.
+        """
+        out = []
+        for emulator in self.all_emulators:
+            for exe in emulator.iter_adb_binaries():
+                out.append(exe)
+        return out

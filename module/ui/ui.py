@@ -3,14 +3,14 @@ from module.base.decorator import run_once
 from module.base.timer import Timer
 from module.coalition.assets import FLEET_PREPARATION as COALITION_FLEET_PREPARATION
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_SHIP
+from module.raid.assets import *
 from module.exception import (GameNotRunningError, GamePageUnknownError,
                               RequestHumanTakeover)
 from module.exercise.assets import EXERCISE_PREPARATION
 from module.freebies.assets import PURCHASE_POPUP
-from module.handler.assets import (AUTO_SEARCH_MENU_EXIT, BATTLE_PASS_NOTICE,
-                                   GAME_TIPS, LOGIN_ANNOUNCE,
-                                   LOGIN_CHECK, LOGIN_RETURN_SIGN,
-                                   MAINTENANCE_ANNOUNCE, MONTHLY_PASS_NOTICE)
+from module.handler.assets import (AUTO_SEARCH_MENU_EXIT, BATTLE_PASS_NOTICE, GAME_TIPS, LOGIN_ANNOUNCE,
+                                   LOGIN_ANNOUNCE_2, LOGIN_CHECK, LOGIN_RETURN_SIGN, MAINTENANCE_ANNOUNCE,
+                                   MONTHLY_PASS_NOTICE)
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.assets import (FLEET_PREPARATION, MAP_PREPARATION,
@@ -166,7 +166,13 @@ class UI(InfoHandler):
 
             # Unknown page but able to handle
             logger.info("Unknown ui page")
-            if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=2) or self.ui_additional():
+            if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=2):
+                timeout.reset()
+                continue
+            if self.appear_then_click(RPG_HOME, offset=(30, 30), interval=2):
+                timeout.reset()
+                continue
+            if self.ui_additional():
                 timeout.reset()
                 continue
 
@@ -331,6 +337,8 @@ class UI(InfoHandler):
         # Daily reset
         if self.appear_then_click(LOGIN_ANNOUNCE, offset=(30, 30), interval=3):
             return True
+        if self.appear_then_click(LOGIN_ANNOUNCE_2, offset=(30, 30), interval=3):
+            return True
         if self.appear_then_click(GET_ITEMS_1, offset=True, interval=3):
             return True
         if self.appear_then_click(GET_ITEMS_2, offset=True, interval=3):
@@ -494,6 +502,10 @@ class UI(InfoHandler):
             self.device.click(GOTO_MAIN)
             return True
 
+        # RPG event (raid_20240328)
+        if self.appear_then_click(RPG_STATUS_POPUP, offset=(30, 30), interval=3):
+            return True
+
         return False
 
     def ui_button_interval_reset(self, button):
@@ -514,5 +526,5 @@ class UI(InfoHandler):
             self.interval_reset(RAID_CHECK)
         if button == SHOP_GOTO_SUPPLY_PACK:
             self.interval_reset(EXCHANGE_CHECK)
-        if button == DORMMENU_GOTO_DORM:
-            self.interval_reset(GET_SHIP)
+        if button in [RPG_GOTO_STAGE, RPG_GOTO_STORY, RPG_LEAVE_CITY]:
+            self.interval_timer[GET_SHIP.name] = Timer(5).reset()
