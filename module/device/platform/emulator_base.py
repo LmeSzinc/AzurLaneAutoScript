@@ -3,7 +3,7 @@ import re
 import typing as t
 from dataclasses import dataclass
 
-from deploy.Windows.utils import cached_property, iter_folder
+from module.device.platform.utils import cached_property, iter_folder
 
 
 def abspath(path):
@@ -54,7 +54,7 @@ class EmulatorInstanceBase:
         Returns:
             str: Emulator type, such as Emulator.NoxPlayer
         """
-        return EmulatorBase.path_to_type(self.path)
+        return self.emulator.type
 
     @cached_property
     def emulator(self):
@@ -83,8 +83,9 @@ class EmulatorInstanceBase:
     def MuMuPlayer12_id(self):
         """
         Convert MuMu 12 instance name to instance id.
-        Example name: MuMuPlayer-12.0-3
-        Example ID  : 3
+        Example names:
+            MuMuPlayer-12.0-3
+            YXArkNights-12.0-1
 
         Returns:
             int: Instance ID, or None if this is not a MuMu 12 instance
@@ -92,8 +93,11 @@ class EmulatorInstanceBase:
         res = re.search(r'MuMuPlayer-12.0-(\d+)', self.name)
         if res:
             return int(res.group(1))
-        else:
-            return None
+        res = re.search(r'YXArkNights-12.0-(\d+)', self.name)
+        if res:
+            return int(res.group(1))
+
+        return None
 
 
 class EmulatorBase:
@@ -197,10 +201,7 @@ class EmulatorBase:
             list[str]:
         """
         folder = self.abspath(folder)
-        try:
-            return list(iter_folder(folder, is_dir=is_dir, ext=ext))
-        except FileNotFoundError:
-            return []
+        return list(iter_folder(folder, is_dir=is_dir, ext=ext))
 
 
 class EmulatorManagerBase:

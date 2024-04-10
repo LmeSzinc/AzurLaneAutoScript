@@ -13,13 +13,14 @@ from module.base.utils import get_color, image_size, limit_in, save_image
 from module.device.method.adb import Adb
 from module.device.method.ascreencap import AScreenCap
 from module.device.method.droidcast import DroidCast
+from module.device.method.nemu_ipc import NemuIpc
 from module.device.method.scrcpy import Scrcpy
 from module.device.method.wsa import WSA
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
 
-class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
+class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc):
     _screen_size_checked = False
     _screen_black_checked = False
     _minicap_uninstalled = False
@@ -38,6 +39,7 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
             'DroidCast': self.screenshot_droidcast,
             'DroidCast_raw': self.screenshot_droidcast_raw,
             'scrcpy': self.screenshot_scrcpy,
+            'nemu_ipc': self.screenshot_nemu_ipc,
         }
 
     def screenshot(self):
@@ -155,6 +157,9 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
             if interval != origin:
                 logger.warning(f'Optimization.ScreenshotInterval {origin} is revised to {interval}')
                 self.config.Optimization_ScreenshotInterval = interval
+            # Allow nemu_ipc to have a lower default
+            if self.config.Emulator_ScreenshotMethod == 'nemu_ipc':
+                interval = limit_in(origin, 0.1, 0.2)
         elif interval == 'combat':
             origin = self.config.Optimization_CombatScreenshotInterval
             interval = limit_in(origin, 0.3, 1.0)

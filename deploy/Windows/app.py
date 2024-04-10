@@ -53,5 +53,5 @@ class AppManager(DeployConfig):
             Progress.UpdateAlasApp()
             return False
 
-        self.app_asar_replace(os.getcwd())
-        Progress.UpdateAlasApp()
+        # self.app_asar_replace(os.getcwd())
+        # Progress.UpdateAlasApp()

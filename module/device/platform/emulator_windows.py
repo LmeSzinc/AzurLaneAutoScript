@@ -8,8 +8,8 @@ from dataclasses import dataclass
 # module/device/platform/emulator_base.py
 # module/device/platform/emulator_windows.py
 # Will be used in Alas Easy Install, they shouldn't import any Alas modules.
-from deploy.Windows.utils import cached_property, iter_folder
 from module.device.platform.emulator_base import EmulatorBase, EmulatorInstanceBase, EmulatorManagerBase
+from module.device.platform.utils import cached_property, iter_folder
 
 
 @dataclass
@@ -56,14 +56,6 @@ def abspath(path):
 
 
 class EmulatorInstance(EmulatorInstanceBase):
-    @cached_property
-    def type(self) -> str:
-        """
-        Returns:
-            str: Emulator type, such as Emulator.NoxPlayer
-        """
-        return Emulator.path_to_type(self.path)
-
     @cached_property
     def emulator(self):
         """
@@ -330,17 +322,26 @@ class EmulatorManager(EmulatorManagerBase):
         path = r'Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist'
         # {XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}\xxx.exe
         regex_hash = re.compile(r'{.*}')
-        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, path) as reg:
-            folders = list_key(reg)
+        try:
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, path) as reg:
+                folders = list_key(reg)
+        except FileNotFoundError:
+            return
+
         for folder in folders:
-            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, f'{path}\\{folder}\\Count') as reg:
-                for key in list_reg(reg):
-                    key = codecs.decode(key.name, 'rot-13')
-                    # Skip those with hash
-                    if regex_hash.search(key):
-                        continue
-                    for file in Emulator.multi_to_single(key):
-                        yield file
+            try:
+                with winreg.OpenKey(winreg.HKEY_CURRENT_USER, f'{path}\\{folder}\\Count') as reg:
+                    for key in list_reg(reg):
+                        key = codecs.decode(key.name, 'rot-13')
+                        # Skip those with hash
+                        if regex_hash.search(key):
+                            continue
+                        for file in Emulator.multi_to_single(key):
+                            yield file
+            except FileNotFoundError:
+                # FileNotFoundError: [WinError 2] 系统找不到指定的文件。
+                # Might be a random directory without "Count" subdirectory
+                continue
 
     @staticmethod
     def iter_mui_cache():
@@ -353,8 +354,11 @@ class EmulatorManager(EmulatorManagerBase):
             str: Path to emulator executable, may contains duplicate values
         """
         path = r'Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\MuiCache'
-        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, path) as reg:
-            rows = list_reg(reg)
+        try:
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, path) as reg:
+                rows = list_reg(reg)
+        except FileNotFoundError:
+            return
 
         regex = re.compile(r'(^.*\.exe)\.')
         for row in rows:
@@ -420,24 +424,28 @@ class EmulatorManager(EmulatorManagerBase):
             'MEmu',
         ]
         for path in known_uninstall_registry_path:
-            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, path) as reg:
-                for software in list_key(reg):
-                    if software not in known_emulator_registry_name:
-                        continue
+            try:
+                with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, path) as reg:
+                    software_list = list_key(reg)
+            except FileNotFoundError:
+                continue
+            for software in software_list:
+                if software not in known_emulator_registry_name:
+                    continue
+                try:
                     with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, f'{path}\\{software}') as software_reg:
-                        try:
-                            uninstall = winreg.QueryValueEx(software_reg, 'UninstallString')[0]
-                        except FileNotFoundError:
-                            continue
-                        if not uninstall:
-                            continue
-                        # UninstallString is like:
-                        # C:\Program Files\BlueStacks_nxt\BlueStacksUninstaller.exe -tmp
-                        # "E:\ProgramFiles\Microvirt\MEmu\uninstall\uninstall.exe" -u
-                        # Extract path in ""
-                        res = re.search('"(.*?)"', uninstall)
-                        uninstall = res.group(1) if res else uninstall
-                        yield uninstall
+                        uninstall = winreg.QueryValueEx(software_reg, 'UninstallString')[0]
+                except FileNotFoundError:
+                    continue
+                if not uninstall:
+                    continue
+                # UninstallString is like:
+                # C:\Program Files\BlueStacks_nxt\BlueStacksUninstaller.exe -tmp
+                # "E:\ProgramFiles\Microvirt\MEmu\uninstall\uninstall.exe" -u
+                # Extract path in ""
+                res = re.search('"(.*?)"', uninstall)
+                uninstall = res.group(1) if res else uninstall
+                yield uninstall
 
     @cached_property
     def all_emulators(self) -> t.List[Emulator]:
@@ -476,11 +484,9 @@ class EmulatorManager(EmulatorManagerBase):
                 if Emulator.is_emulator(file) and os.path.exists(file):
                     exe.add(file)
             # MuMu specific directory
-            folder = abspath(os.path.join(os.path.dirname(uninstall), 'EmulatorShell'))
-            if os.path.exists(folder):
-                for file in iter_folder(folder, ext='.exe'):
-                    if Emulator.is_emulator(file) and os.path.exists(file):
-                        exe.add(file)
+            for file in iter_folder(abspath(os.path.join(os.path.dirname(uninstall), 'EmulatorShell')), ext='.exe'):
+                if Emulator.is_emulator(file) and os.path.exists(file):
+                    exe.add(file)
 
         exe = [Emulator(path).path for path in exe if Emulator.is_emulator(path)]
         exe = sorted(set(exe))
