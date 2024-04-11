@@ -85,9 +85,16 @@ class AdbDeviceWithStatus(AdbDevice):
         return True
 
     @cached_property
+    def port(self) -> int:
+        try:
+            return int(self.serial.split(':')[1])
+        except (IndexError, ValueError):
+            return 0
+
+    @cached_property
     def may_mumu12_family(self):
         # 127.0.0.1:16XXX
-        return len(self.serial) == 15 and self.serial.startswith('127.0.0.1:16')
+        return 16384 <= self.port <= 17408
 
 
 class Connection(ConnectionAttr):
@@ -829,6 +836,7 @@ class Connection(ConnectionAttr):
 
         # Handle LDPlayer
         # LDPlayer serial jumps between `127.0.0.1:5555+{X}` and `emulator-5554+{X}`
+        # No config write since it's dynamic
         port_serial, emu_serial = get_serial_pair(self.serial)
         if port_serial and emu_serial:
             # Might be LDPlayer, check connected devices
@@ -884,6 +892,26 @@ class Connection(ConnectionAttr):
                         continue
                     else:
                         # MuMu6
+                        break
+
+        # MuMu12 uses 127.0.0.1:16385 if port 16384 is occupied, auto redirect
+        # No config write since it's dynamic
+        if self.is_mumu12_family:
+            matched = False
+            for device in available.select(may_mumu12_family=True):
+                if device.port == self.port:
+                    # Exact match
+                    matched = True
+                    break
+            if not matched:
+                for device in available.select(may_mumu12_family=True):
+                    if -2 <= device.port - self.port <= 2:
+                        # Port switched
+                        logger.info(f'MuMu12 port switches from {self.serial} to {device.serial}')
+                        del_cached_property(self, 'port')
+                        del_cached_property(self, 'is_mumu12_family')
+                        del_cached_property(self, 'is_mumu_family')
+                        self.serial = device.serial
                         break
 
     @retry
