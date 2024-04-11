@@ -47,6 +47,8 @@ class PlatformBase(Connection, EmulatorManagerBase):
     @cached_property
     def emulator_info(self) -> EmulatorInfo:
         emulator = self.config.EmulatorInfo_Emulator
+        if emulator == 'auto':
+            emulator = ''
 
         def parse_info(value):
             if isinstance(value, str):

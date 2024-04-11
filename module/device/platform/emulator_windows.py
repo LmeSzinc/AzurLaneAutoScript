@@ -495,7 +495,10 @@ class EmulatorManager(EmulatorManagerBase):
 
         exe = [Emulator(path).path for path in exe if Emulator.is_emulator(path)]
         exe = sorted(set(exe))
-        exe = [Emulator(path) for path in exe]
+        dic = {}
+        for path in exe:
+            dic.setdefault(path.lower(), path)
+        exe = [Emulator(path) for path in dic.values()]
         return exe
 
     @cached_property
