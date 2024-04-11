@@ -160,6 +160,7 @@ class DraggableList:
 
         logger.info(f'Insight row: {row}, index={row_index}')
         last_buttons: set[OcrResultButton] = None
+        bottom_check = Timer(3, count=5).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -183,8 +184,11 @@ class DraggableList:
                 0, count=0), timeout=Timer(1.5, count=5))
             skip_first_screenshot = True
             if self.cur_buttons and last_buttons == set(self.cur_buttons):
-                logger.warning(f'No more rows in {self}')
-                return False
+                if bottom_check.reached():
+                    logger.warning(f'No more rows in {self}')
+                    return False
+            else:
+                bottom_check.reset()
             last_buttons = set(self.cur_buttons)
 
         return True
