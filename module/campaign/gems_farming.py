@@ -4,20 +4,28 @@ from module.combat.assets import BATTLE_PREPARATION
 from module.equipment.assets import *
 from module.equipment.equipment_change import EquipmentChange
 from module.equipment.fleet_equipment import OCR_FLEET_INDEX
-from module.exception import CampaignEnd, RequestHumanTakeover
+from module.exception import CampaignEnd, ScriptError, RequestHumanTakeover
 from module.handler.assets import AUTO_SEARCH_MAP_OPTION_OFF
 from module.logger import logger
-from module.map.assets import (FLEET_PREPARATION, MAP_PREPARATION, FLEET_ENTER_FLAGSHIP_HARD_1,
+from module.map.assets import (FLEET_ENTER_FLAGSHIP_HARD_1,
                                FLEET_ENTER_FLAGSHIP_HARD_2, FLEET_ENTER_HARD_1, FLEET_ENTER_HARD_2,
                                FLEET_ENTER_FLAGSHIP_HARD_1_3, FLEET_ENTER_FLAGSHIP_HARD_2_3, FLEET_ENTER_HARD_1_3,
                                FLEET_ENTER_HARD_2_3)
-from module.retire.assets import (DOCK_CHECK, TEMPLATE_BOGUE, TEMPLATE_HERMES, TEMPLATE_LANGLEY, TEMPLATE_RANGER,
+from module.retire.assets import (
                                   DOCK_SHIP_DOWN)
+from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
+from module.retire.assets import (
+    DOCK_CHECK,
+    TEMPLATE_BOGUE, TEMPLATE_HERMES, TEMPLATE_LANGLEY, TEMPLATE_RANGER,
+    TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2, TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2,
+    TEMPLATE_AULICK, TEMPLATE_FOOTE
+)
+
 from module.retire.dock import Dock
 from module.retire.scanner import ShipScanner
-from module.ui.page import page_fleet, page_event
 from module.ui.assets import BACK_ARROW
 import inflection
+from module.ui.page import page_fleet
 
 SIM_VALUE = 0.95
 
@@ -214,6 +222,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         Returns:
             bool: True if vanguard changed
         """
+
         logger.hr('Change vanguard', level=1)
         logger.attr('ChangeVanguard', self.config.GemsFarming_ChangeVanguard)
         if self.change_vanguard_equip:
@@ -241,7 +250,8 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
         self.dock_select_one(button)
         self.dock_filter_set()
-        self.dock_select_confirm(check_button=self.page_fleet_check_button)
+        self.dock_sort_method_dsc_set()
+        self.dock_select_confirm(check_button=page_fleet.check_button)
 
     def get_common_rarity_cv(self, lv=31, emotion=16):
         """
@@ -258,7 +268,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         scanner.disable('rarity')
 
         if self.config.GemsFarming_CommonCV == 'any':
-            logger.info('')
 
             self.dock_sort_method_dsc_set(False)
 
@@ -324,13 +333,61 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                               fleet=self.config.Fleet_Fleet1, status='free')
         scanner.disable('rarity')
 
+        self.dock_sort_method_dsc_set()
+
         ships = scanner.scan(self.device.image)
         if ships:
             # Don't need to change current
             return ships
 
         scanner.set_limitation(fleet=0)
-        return scanner.scan(self.device.image, output=False)
+
+        candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
+
+        if candidates:
+            return candidates
+        else:
+            logger.info('No specific DD was found, try reversed order.')
+            return candidates
+
+    def find_candidates(self, template, scanner):
+        """
+        Find candidates based on template matching using a scanner.
+
+        """
+        candidates = []
+        for item in template:
+            candidates = [ship for ship in scanner.scan(self.device.image, output=False)
+                          if item.match(self.image_crop(ship.button), similarity=SIM_VALUE)]
+            if candidates:
+                break
+        return candidates
+
+    @staticmethod
+    def get_templates(common_dd):
+        """
+        Returns the corresponding template list based on CommonDD
+        """
+        if common_dd == 'any':
+            return [
+                TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2,
+                TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2,
+                TEMPLATE_AULICK,
+                TEMPLATE_FOOTE
+            ]
+        elif common_dd == 'aulick_or_foote':
+            return [
+                TEMPLATE_AULICK,
+                TEMPLATE_FOOTE
+            ]
+        elif common_dd == 'cassin_or_downes':
+            return [
+                TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2,
+                TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2
+            ]
+        else:
+            logger.error(f'Invalid CommonDD setting: {common_dd}')
+            raise ScriptError(f'Invalid CommonDD setting: {common_dd}')
 
     def solve_hard_flagship_black(self):
         if self.hard_mode:

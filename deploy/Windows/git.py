@@ -2,9 +2,10 @@ import configparser
 import os
 
 from deploy.Windows.config import DeployConfig
-from deploy.git_over_cdn.client import GitOverCdnClient
 from deploy.Windows.logger import Progress, logger
-from deploy.Windows.utils import *
+from deploy.Windows.utils import cached_property
+from deploy.git_over_cdn.client import GitOverCdnClient
+
 
 class GitConfigParser(configparser.ConfigParser):
     def check(self, section, option, value):
@@ -14,6 +15,25 @@ class GitConfigParser(configparser.ConfigParser):
             return True
         else:
             return False
+
+
+class GitOverCdnClientWindows(GitOverCdnClient):
+    def update(self, *args, **kwargs):
+        Progress.GitInit()
+        _ = super().update(*args, **kwargs)
+        Progress.GitShowVersion()
+        return _
+
+    @cached_property
+    def latest_commit(self) -> str:
+        _ = super().latest_commit
+        Progress.GitLatestCommit()
+        return _
+
+    def download_pack(self):
+        _ = super().download_pack()
+        Progress.GitDownloadPack()
+        return _
 
 
 class GitManager(DeployConfig):
@@ -111,7 +131,7 @@ class GitManager(DeployConfig):
     @property
     def goc_client(self):
         client = GitOverCdnClient(
-            url='https://vip.123pan.cn/1818706573/pack/LmeSzinc_AzurLaneAutoScript_master',
+            url='https://vip.123pan.cn/1815343254/pack/LmeSzinc_StarRailCopilot_master',
             folder=self.root_filepath,
             source='origin',
             branch='master',
