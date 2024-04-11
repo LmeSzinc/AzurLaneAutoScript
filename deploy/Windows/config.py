@@ -55,7 +55,7 @@ class ConfigModel:
 
     # Webui
     WebuiHost: str = "0.0.0.0"
-    WebuiPort: int = 22267
+    WebuiPort: int = 22367
     Language: str = "en-US"
     Theme: str = "default"
     DpiScaling: bool = True
@@ -80,42 +80,21 @@ class DeployConfig(ConfigModel):
         self.config_template = {}
         self.read()
 
-        # Redirection
-        if self.Repository in [
-            'https://gitee.com/LmeSzinc/AzurLaneAutoScript',
-            'https://gitee.com/lmeszinc/azur-lane-auto-script-mirror',
-            'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git',
-            'https://e.coding.net/saarcenter/alas/AzurLaneAutoScript.git',
-            'https://git.saarcenter.com/LmeSzinc/AzurLaneAutoScript.git',
-        ]:
-            self.Repository = 'git://git.lyoko.io/AzurLaneAutoScript'
-
         # Bypass webui.config.DeployConfig.__setattr__()
         # Don't write these into deploy.yaml
-        super().__setattr__(
-            'GitOverCdn',
-            self.Repository == 'git://git.lyoko.io/AzurLaneAutoScript' and self.Branch == 'master'
-        )
-        if self.Repository in ['global']:
-            super().__setattr__('Repository', 'https://github.com/LmeSzinc/AzurLaneAutoScript')
-        if self.Repository in ['cn']:
-            super().__setattr__('Repository', 'git://git.lyoko.io/AzurLaneAutoScript')
+        super().__setattr__('GitOverCdn', self.Repository in ['cn'])
+        if self.Repository in ['global', 'cn']:
+            super().__setattr__('Repository', 'https://github.com/LmeSzinc/StarRailCopilot')
 
         self.write()
         self.show_config()
-
-    @cached_property
-    def flag_feature_test_0_4_0(self):
-        flag = os.path.exists('./toolkit/flag_feature_test_0_4_0')
-        logger.info(f'flag_feature_test_0_4_0: {flag}')
-        return flag
 
     def show_config(self):
         logger.hr("Show deploy config", 1)
         for k, v in self.config.items():
             if k in ("Password", "SSHUser"):
                 continue
-            if self.config_template.get(k) == v:
+            if self.config_template[k] == v:
                 continue
             logger.info(f"{k}: {v}")
 

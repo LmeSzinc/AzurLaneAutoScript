@@ -116,7 +116,8 @@
           "aScreenCap_nc",
           "DroidCast",
           "DroidCast_raw",
-          "scrcpy"
+          "scrcpy",
+          "nemu_ipc"
         ]
       },
       "ControlMethod": {
@@ -127,7 +128,8 @@
           "uiautomator2",
           "minitouch",
           "Hermit",
-          "MaaTouch"
+          "MaaTouch",
+          "nemu_ipc"
         ]
       },
       "ScreenshotDedithering": {
@@ -1606,6 +1608,17 @@
           "ship_equip"
         ]
       },
+      "CommonCV": {
+        "type": "select",
+        "value": "any",
+        "option": [
+          "any",
+          "langley",
+          "bogue",
+          "ranger",
+          "hermes"
+        ]
+      },
       "ChangeVanguard": {
         "type": "select",
         "value": "ship",
@@ -1613,6 +1626,15 @@
           "disabled",
           "ship",
           "ship_equip"
+        ]
+      },
+      "CommonDD": {
+        "type": "select",
+        "value": "any",
+        "option": [
+          "any",
+          "aulick_or_foote",
+          "cassin_or_downes"
         ]
       },
       "ALLowLowVanguardLevel": {
@@ -1631,17 +1653,6 @@
       "StopIFAutoNotEnsured": {
         "type": "checkbox",
         "value": true
-      },
-      "CommonCV": {
-        "type": "select",
-        "value": "any",
-        "option": [
-          "any",
-          "langley",
-          "bogue",
-          "ranger",
-          "hermes"
-        ]
       },
       "CommissionLimit": {
         "type": "checkbox",
@@ -1891,13 +1902,13 @@
         ],
         "display": "hide",
         "option_bold": [
-          "event_20210422_cn",
-          "event_20220324_cn"
+          "event_20211111_cn",
+          "event_20220224_cn"
         ],
-        "cn": "event_20220324_cn",
-        "en": "event_20220324_cn",
-        "jp": "event_20220324_cn",
-        "tw": "event_20210422_cn"
+        "cn": "event_20220224_cn",
+        "en": "event_20220224_cn",
+        "jp": "event_20220224_cn",
+        "tw": "event_20211111_cn"
       },
       "Mode": {
         "type": "select",
@@ -2224,13 +2235,13 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20210422_cn",
-          "event_20220324_cn"
+          "event_20211111_cn",
+          "event_20220224_cn"
         ],
-        "cn": "event_20220324_cn",
-        "en": "event_20220324_cn",
-        "jp": "event_20220324_cn",
-        "tw": "event_20210422_cn"
+        "cn": "event_20220224_cn",
+        "en": "event_20220224_cn",
+        "jp": "event_20220224_cn",
+        "tw": "event_20211111_cn"
       },
       "Mode": {
         "type": "select",
@@ -2672,13 +2683,13 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20210422_cn",
-          "event_20220324_cn"
+          "event_20211111_cn",
+          "event_20220224_cn"
         ],
-        "cn": "event_20220324_cn",
-        "en": "event_20220324_cn",
-        "jp": "event_20220324_cn",
-        "tw": "event_20210422_cn"
+        "cn": "event_20220224_cn",
+        "en": "event_20220224_cn",
+        "jp": "event_20220224_cn",
+        "tw": "event_20211111_cn"
       },
       "Mode": {
         "type": "select",
@@ -4514,13 +4525,13 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20210422_cn",
-          "event_20220324_cn"
+          "event_20211111_cn",
+          "event_20220224_cn"
         ],
-        "cn": "event_20220324_cn",
-        "en": "event_20220324_cn",
-        "jp": "event_20220324_cn",
-        "tw": "event_20210422_cn"
+        "cn": "event_20220224_cn",
+        "en": "event_20220224_cn",
+        "jp": "event_20220224_cn",
+        "tw": "event_20211111_cn"
       },
       "Mode": {
         "type": "select",
@@ -4979,13 +4990,13 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20210422_cn",
-          "event_20220324_cn"
+          "event_20211111_cn",
+          "event_20220224_cn"
         ],
-        "cn": "event_20220324_cn",
-        "en": "event_20220324_cn",
-        "jp": "event_20220324_cn",
-        "tw": "event_20210422_cn"
+        "cn": "event_20220224_cn",
+        "en": "event_20220224_cn",
+        "jp": "event_20220224_cn",
+        "tw": "event_20211111_cn"
       },
       "Mode": {
         "type": "select",
@@ -5444,13 +5455,13 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20210422_cn",
-          "event_20220324_cn"
+          "event_20211111_cn",
+          "event_20220224_cn"
         ],
-        "cn": "event_20220324_cn",
-        "en": "event_20220324_cn",
-        "jp": "event_20220324_cn",
-        "tw": "event_20210422_cn"
+        "cn": "event_20220224_cn",
+        "en": "event_20220224_cn",
+        "jp": "event_20220224_cn",
+        "tw": "event_20211111_cn"
       },
       "Mode": {
         "type": "select",
@@ -5909,13 +5920,13 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20210422_cn",
-          "event_20220324_cn"
+          "event_20211111_cn",
+          "event_20220224_cn"
         ],
-        "cn": "event_20220324_cn",
-        "en": "event_20220324_cn",
-        "jp": "event_20220324_cn",
-        "tw": "event_20210422_cn"
+        "cn": "event_20220224_cn",
+        "en": "event_20220224_cn",
+        "jp": "event_20220224_cn",
+        "tw": "event_20211111_cn"
       },
       "Mode": {
         "type": "select",
@@ -6364,13 +6375,13 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20210422_cn",
-          "event_20220324_cn"
+          "event_20211111_cn",
+          "event_20220224_cn"
         ],
-        "cn": "event_20220324_cn",
-        "en": "event_20220324_cn",
-        "jp": "event_20220324_cn",
-        "tw": "event_20210422_cn"
+        "cn": "event_20220224_cn",
+        "en": "event_20220224_cn",
+        "jp": "event_20220224_cn",
+        "tw": "event_20211111_cn"
       },
       "Mode": {
         "type": "select",
@@ -9835,11 +9846,9 @@
         "value": "emulator",
         "option": [
           "emulator",
-          "emulator_android_12",
           "plone_cloud_with_adb",
           "phone_cloud_without_adb",
           "android_phone",
-          "android_phone_12",
           "android_phone_vmos"
         ]
       },
