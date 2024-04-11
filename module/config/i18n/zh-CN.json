@@ -1158,6 +1158,13 @@
       "ship": "更换舰船",
       "ship_equip": "更换舰船 + 装备"
     },
+    "CommonDD": {
+      "name": "指定前排",
+      "help": "",
+      "any": "任意",
+      "aulick_or_foote": "奥利克或富特",
+      "cassin_or_downes": "卡辛或唐斯"
+    },
     "ALLowLowVanguardLevel": {
       "name": "可更换低等级前排",
       "help": "倍率打开时，前排等级限制改为10以上即可。若为困难模式（如CD图）改为49级。"
@@ -1172,13 +1179,6 @@
     "StopIFAutoNotEnsured": {
       "name": "无法设置职能时停止任务",
       "help": "无法设置舰队职能时，以以下方式停止任务以免跨队队伍出击，石油被大量消耗：\n若设置了错误推送则推送任务停止的消息并停止该任务。\n若没有设置错误推送，则直接停止Alas。"
-    },
-    "CommonDD": {
-      "name": "指定前排",
-      "help": "",
-      "any": "任意",
-      "aulick_or_foote": "奥利克或富特",
-      "cassin_or_downes": "卡辛或唐斯"
     },
     "CommissionLimit": {
       "name": "防止紧急委托数量过多",

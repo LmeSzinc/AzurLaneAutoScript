@@ -1158,6 +1158,13 @@
       "ship": "Change Ship",
       "ship_equip": "Change Ship + Gears"
     },
+    "CommonDD": {
+      "name": "Flagship Common DD Preference",
+      "help": "",
+      "any": "any",
+      "aulick_or_foote": "aulick or foote",
+      "cassin_or_downes": "cassin or downes"
+    },
     "ALLowLowVanguardLevel": {
       "name": "ALLow Low Vanguard Level",
       "help": "Destroyers over level 10 will now be used, 49 for Event CD"
@@ -1172,13 +1179,6 @@
     "StopIFAutoNotEnsured": {
       "name": "GemsFarming.StopIFAutoNotEnsured.name",
       "help": "GemsFarming.StopIFAutoNotEnsured.help"
-    },
-    "CommonDD": {
-      "name": "Flagship Common DD Preference",
-      "help": "",
-      "any": "any",
-      "aulick_or_foote": "aulick or foote",
-      "cassin_or_downes": "cassin or downes"
     },
     "CommissionLimit": {
       "name": "Prevent Too Many Urgent Commissions",
