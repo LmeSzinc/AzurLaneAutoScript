@@ -417,7 +417,8 @@
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
-      "scrcpy": "scrcpy"
+      "scrcpy": "scrcpy",
+      "nemu_ipc": "nemu_ipc"
     },
     "ControlMethod": {
       "name": "模擬器控制方案",
@@ -426,7 +427,8 @@
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
       "Hermit": "Hermit",
-      "MaaTouch": "MaaTouch"
+      "MaaTouch": "MaaTouch",
+      "nemu_ipc": "nemu_ipc"
     },
     "ScreenshotDedithering": {
       "name": "去除圖片色彩抖動",
@@ -705,7 +707,7 @@
       "event_20210916_cn": "碧海光粼",
       "event_20211028_cn": "復刻穹頂下的聖詠曲",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
-      "event_20211111_cn": "杰諾瓦的焰火",
+      "event_20211111_cn": "復刻杰諾瓦的焰火",
       "event_20211125_cn": "復刻-交匯世界的弧光",
       "event_20211229_cn": "逆轉彩虹之塔",
       "event_20220210_cn": "復刻北境序曲",
@@ -1140,12 +1142,28 @@
       "ship": "更換艦船",
       "ship_equip": "更換艦船 + 裝備"
     },
+    "CommonCV": {
+      "name": "指定旗艦航母",
+      "help": "",
+      "any": "任意",
+      "langley": "蘭利",
+      "bogue": "博格",
+      "ranger": "突擊者",
+      "hermes": "競技神"
+    },
     "ChangeVanguard": {
       "name": "更換前排",
       "help": "當前排紅臉時更換前排，選擇不更換則會強制紅臉出擊\n換前排通過找一艘心情不低於16、等級70的白鷹白船驅逐完成，所以盡量保證有足夠多的驅逐。國服則為等級100的白鷹白船驅逐。\n\n換裝備只會更換正在裝備中的欄位，即使是白裝也會更換。如果指定了旗艦，則會更換全部5個裝備，未指定旗艦隻會更換設備。",
       "disabled": "不更换",
       "ship": "更換艦船",
       "ship_equip": "更換艦船 + 裝備"
+    },
+    "CommonDD": {
+      "name": "指定前排",
+      "help": "",
+      "any": "任意",
+      "aulick_or_foote": "奧利克或富特",
+      "cassin_or_downes": "卡辛或唐斯"
     },
     "ALLowLowVanguardLevel": {
       "name": "可更換低等級前排",
@@ -1161,15 +1179,6 @@
     "StopIFAutoNotEnsured": {
       "name": "GemsFarming.StopIFAutoNotEnsured.name",
       "help": "GemsFarming.StopIFAutoNotEnsured.help"
-    },
-    "CommonCV": {
-      "name": "指定旗艦航母",
-      "help": "",
-      "any": "任意",
-      "langley": "蘭利",
-      "bogue": "博格",
-      "ranger": "突擊者",
-      "hermes": "競技神"
     },
     "CommissionLimit": {
       "name": "防止緊急委託數量過多",
@@ -2629,12 +2638,10 @@
     "DeviceType": {
       "name": "設備類型",
       "help": "",
-      "emulator": "模擬器 安卓<=9",
-      "emulator_android_12": "模擬器 安卓>9",
+      "emulator": "模擬器",
       "plone_cloud_with_adb": "雲手機 有公網ADB",
       "phone_cloud_without_adb": "雲手機 無公網ADB",
-      "android_phone": "安卓真機 安卓<=9",
-      "android_phone_12": "安卓真機 安卓>9",
+      "android_phone": "安卓真機",
       "android_phone_vmos": "安卓真機VMOS虛擬機"
     },
     "TestScene": {

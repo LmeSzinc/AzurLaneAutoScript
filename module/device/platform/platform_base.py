@@ -1,8 +1,7 @@
 import sys
 import typing as t
 
-import yaml
-from pydantic import BaseModel, SecretStr
+from pydantic import BaseModel
 
 from module.base.decorator import cached_property, del_cached_property
 from module.device.connection import Connection
@@ -48,8 +47,20 @@ class PlatformBase(Connection, EmulatorManagerBase):
     @cached_property
     def emulator_info(self) -> EmulatorInfo:
         emulator = self.config.EmulatorInfo_Emulator
-        name = str(self.config.EmulatorInfo_name).strip().replace('\n', '')
-        path = str(self.config.EmulatorInfo_path).strip().replace('\n', '')
+        if emulator == 'auto':
+            emulator = ''
+
+        def parse_info(value):
+            if isinstance(value, str):
+                value = value.strip().replace('\n', '')
+                if value in ['None', 'False', 'True']:
+                    value = ''
+                return value
+            else:
+                return ''
+
+        name = parse_info(self.config.EmulatorInfo_name)
+        path = parse_info(self.config.EmulatorInfo_path)
 
         return EmulatorInfo(
             emulator=emulator,
@@ -168,9 +179,3 @@ class PlatformBase(Connection, EmulatorManagerBase):
         # Still too many instances
         logger.warning(f'Found multiple emulator instances with {search_args}')
         return None
-
-
-if __name__ == '__main__':
-    self = PlatformBase('alas')
-    d = self.emulator_instance
-    print(d)

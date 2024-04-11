@@ -141,8 +141,9 @@ class AutoSearchHandler(EnemySearchingHandler):
         active = []
         self.AUTO_SEARCH_SETTINGS = AUTO_SEARCH_SETTINGS_15 if 'campaign_15' in self.config.campaign_name \
             else AUTO_SEARCH_SETTINGS
-        for index, button in enumerate(self.AUTO_SEARCH_SETTINGS):
-            if self.image_color_count(button, color=(156, 255, 82), threshold=221, count=20):
+
+        for index, button in enumerate(AUTO_SEARCH_SETTINGS):
+            if self.image_color_count(button.button, color=(156, 255, 82), threshold=221, count=20):
                 active.append(index)
 
         if not active:
