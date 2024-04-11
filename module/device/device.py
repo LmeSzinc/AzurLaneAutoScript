@@ -102,20 +102,21 @@ class Device(Screenshot, Control, AppControl):
         # Set
         with self.config.multi_set():
             self.config.Emulator_ScreenshotMethod = method
-            if method == 'nemu_ipc':
-                self.config.Emulator_ControlMethod = 'nemu_ipc'
+            # if method == 'nemu_ipc':
+            #     self.config.Emulator_ControlMethod = 'nemu_ipc'
 
     def method_check(self):
         """
         Check combinations of screenshot method and control methods
         """
         # nemu_ipc should be together
-        if self.config.Emulator_ScreenshotMethod == 'nemu_ipc' and self.config.Emulator_ControlMethod != 'nemu_ipc':
-            logger.warning('When using nemu_ipc, both screenshot and control should use nemu_ipc')
-            self.config.Emulator_ControlMethod = 'nemu_ipc'
-        if self.config.Emulator_ScreenshotMethod != 'nemu_ipc' and self.config.Emulator_ControlMethod == 'nemu_ipc':
-            logger.warning('When not using nemu_ipc, both screenshot and control should not use nemu_ipc')
-            self.config.Emulator_ControlMethod = 'minitouch'
+        # if self.config.Emulator_ScreenshotMethod == 'nemu_ipc' and self.config.Emulator_ControlMethod != 'nemu_ipc':
+        #     logger.warning('When using nemu_ipc, both screenshot and control should use nemu_ipc')
+        #     self.config.Emulator_ControlMethod = 'nemu_ipc'
+        # if self.config.Emulator_ScreenshotMethod != 'nemu_ipc' and self.config.Emulator_ControlMethod == 'nemu_ipc':
+        #     logger.warning('When not using nemu_ipc, both screenshot and control should not use nemu_ipc')
+        #     self.config.Emulator_ControlMethod = 'minitouch'
+        pass
 
     def handle_night_commission(self, daily_trigger='21:00', threshold=30):
         """
