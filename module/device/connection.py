@@ -85,9 +85,16 @@ class AdbDeviceWithStatus(AdbDevice):
         return True
 
     @cached_property
+    def port(self) -> int:
+        try:
+            return int(self.serial.split(':')[1])
+        except (IndexError, ValueError):
+            return 0
+
+    @cached_property
     def may_mumu12_family(self):
         # 127.0.0.1:16XXX
-        return len(self.serial) == 15 and self.serial.startswith('127.0.0.1:16')
+        return 16384 <= self.port <= 17408
 
 
 class Connection(ConnectionAttr):
@@ -811,7 +818,7 @@ class Connection(ConnectionAttr):
                 raise RequestHumanTakeover
             elif available.count == 1:
                 logger.info(f'Auto device detection found only one device, using it')
-                self.serial = available[0].serial
+                self.config.Emulator_Serial = self.serial = available[0].serial
                 del_cached_property(self, 'adb')
             elif available.count == 2 \
                     and available.select(serial='127.0.0.1:7555') \
@@ -820,7 +827,7 @@ class Connection(ConnectionAttr):
                 # For MuMu12 serials like 127.0.0.1:7555 and 127.0.0.1:16384
                 # ignore 7555 use 16384
                 remain = available.select(may_mumu12_family=True).first_or_none()
-                self.serial = remain.serial
+                self.config.Emulator_Serial = self.serial = remain.serial
                 del_cached_property(self, 'adb')
             else:
                 logger.critical('Multiple devices found, auto device detection cannot decide which to choose, '
@@ -829,6 +836,7 @@ class Connection(ConnectionAttr):
 
         # Handle LDPlayer
         # LDPlayer serial jumps between `127.0.0.1:5555+{X}` and `emulator-5554+{X}`
+        # No config write since it's dynamic
         port_serial, emu_serial = get_serial_pair(self.serial)
         if port_serial and emu_serial:
             # Might be LDPlayer, check connected devices
@@ -862,8 +870,7 @@ class Connection(ConnectionAttr):
                 if mumu12.count == 1:
                     emu_serial = mumu12.first_or_none().serial
                     logger.warning(f'Redirect MuMu12 {self.serial} to {emu_serial}')
-                    self.serial = emu_serial
-                    self.config.Emulator_Serial = emu_serial
+                    self.config.Emulator_Serial = self.serial = emu_serial
                     break
                 elif mumu12.count >= 2:
                     logger.warning(f'Multiple MuMu12 serial found, cannot redirect')
@@ -871,6 +878,8 @@ class Connection(ConnectionAttr):
                 else:
                     # Only 127.0.0.1:7555
                     if self.is_mumu_over_version_356:
+                        # is_mumu_over_version_356 and nemud_app_keep_alive was cached
+                        # Acceptable since it's the same device
                         logger.warning(f'Device {self.serial} is MuMu12 but corresponding port not found')
                         brute_force_connect()
                         devices = self.list_device()
@@ -883,6 +892,26 @@ class Connection(ConnectionAttr):
                         continue
                     else:
                         # MuMu6
+                        break
+
+        # MuMu12 uses 127.0.0.1:16385 if port 16384 is occupied, auto redirect
+        # No config write since it's dynamic
+        if self.is_mumu12_family:
+            matched = False
+            for device in available.select(may_mumu12_family=True):
+                if device.port == self.port:
+                    # Exact match
+                    matched = True
+                    break
+            if not matched:
+                for device in available.select(may_mumu12_family=True):
+                    if -2 <= device.port - self.port <= 2:
+                        # Port switched
+                        logger.info(f'MuMu12 port switches from {self.serial} to {device.serial}')
+                        del_cached_property(self, 'port')
+                        del_cached_property(self, 'is_mumu12_family')
+                        del_cached_property(self, 'is_mumu_family')
+                        self.serial = device.serial
                         break
 
     @retry
