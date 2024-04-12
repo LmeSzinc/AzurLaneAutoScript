@@ -188,8 +188,19 @@ class CampaignOcr(ModuleBase):
                 image, self._stage_image_gray,
                 name_offset=(75, 9), name_size=(60, 16)
             )
+            # 2024.04.11 Game client bugged with random broken assets around TEMPLATE_STAGE_CLEAR
+            digits += self.campaign_match_multi(
+                TEMPLATE_STAGE_CLEAR_SMALL,
+                image, self._stage_image_gray,
+                name_offset=(53, 2), name_size=(60, 16)
+            )
             digits += self.campaign_match_multi(
                 TEMPLATE_STAGE_PERCENT,
+                image, self._stage_image_gray,
+                name_offset=(48, 0), name_size=(60, 16)
+            )
+            digits += self.campaign_match_multi(
+                TEMPLATE_STAGE_HALF_PERCENT,
                 image, self._stage_image_gray,
                 name_offset=(48, 0), name_size=(60, 16)
             )
