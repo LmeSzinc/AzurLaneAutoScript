@@ -199,6 +199,11 @@ class CampaignOcr(ModuleBase):
                 image, self._stage_image_gray,
                 name_offset=(48, 0), name_size=(60, 16)
             )
+            digits += self.campaign_match_multi(
+                TEMPLATE_STAGE_HALF_PERCENT,
+                image, self._stage_image_gray,
+                name_offset=(48, 0), name_size=(60, 16)
+            )
         if 'half' in self.config.STAGE_ENTRANCE:
             digits += self.campaign_match_multi(
                 TEMPLATE_STAGE_HALF_PERCENT,
