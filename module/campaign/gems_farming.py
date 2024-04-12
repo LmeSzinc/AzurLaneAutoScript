@@ -158,6 +158,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
     def _fleet_detail_enter_hard(self):
         from module.retire.retirement import Retirement
+        _retire_class = Retirement(config=self.config, device=self.device)
         self.campaign.ensure_campaign_ui(self.stage)
         button_area = self.campaign.ENTRANCE.button
         button = Button(name=str(self.stage), area=button_area, color=(0, 0, 0), button=button_area)
@@ -168,7 +169,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                 self.device.screenshot()
                 if self.appear_then_click(MAP_PREPARATION):
                     self.device.sleep(0.5)
-                if Retirement(config=self.config, device=self.device).handle_retirement():
+                if _retire_class.handle_retirement():
                     continue
                 if self.appear(button=FLEET_PREPARATION, offset=(50, 50)):
                     return
