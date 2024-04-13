@@ -36,6 +36,21 @@ def get_serial_pair(serial):
     return None, None
 
 
+def remove_duplicated_path(paths):
+    """
+    Args:
+        paths (list[str]):
+
+    Returns:
+        list[str]:
+    """
+    paths = sorted(set(paths))
+    dic = {}
+    for path in paths:
+        dic.setdefault(path.lower(), path)
+    return list(dic.values())
+
+
 @dataclass
 class EmulatorInstanceBase:
     # Serial for adb connection

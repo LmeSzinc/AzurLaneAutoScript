@@ -8,7 +8,8 @@ from dataclasses import dataclass
 # module/device/platform/emulator_base.py
 # module/device/platform/emulator_windows.py
 # Will be used in Alas Easy Install, they shouldn't import any Alas modules.
-from module.device.platform.emulator_base import EmulatorBase, EmulatorInstanceBase, EmulatorManagerBase
+from module.device.platform.emulator_base import EmulatorBase, EmulatorInstanceBase, EmulatorManagerBase, \
+    remove_duplicated_path
 from module.device.platform.utils import cached_property, iter_folder
 
 
@@ -525,11 +526,7 @@ class EmulatorManager(EmulatorManagerBase):
 
         # De-redundancy
         exe = [Emulator(path).path for path in exe if Emulator.is_emulator(path)]
-        exe = sorted(set(exe))
-        dic = {}
-        for path in exe:
-            dic.setdefault(path.lower(), path)
-        exe = [Emulator(path) for path in dic.values()]
+        exe = [Emulator(path) for path in remove_duplicated_path(exe)]
         return exe
 
     @cached_property
