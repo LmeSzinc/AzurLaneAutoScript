@@ -52,7 +52,6 @@ Emulator:
       minitouch,
       Hermit,
       MaaTouch,
-      nemu_ipc,
     ]
   ScreenshotDedithering: false
   AdbRestart: false
