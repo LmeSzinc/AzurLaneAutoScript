@@ -462,7 +462,9 @@ class NemuIpc(Platform):
         # Search emulator instance
         # with E:\ProgramFiles\MuMuPlayer-12.0\shell\MuMuPlayer.exe
         # installation path is E:\ProgramFiles\MuMuPlayer-12.0
-        _ = self.emulator_instance
+        if self.emulator_instance is None:
+            logger.error('Unable to use NemuIpc because emulator instance not found')
+            raise RequestHumanTakeover
         try:
             return NemuIpcImpl(
                 nemu_folder=self.emulator_instance.emulator.abspath('../'),
