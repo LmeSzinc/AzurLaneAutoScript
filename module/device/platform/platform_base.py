@@ -136,7 +136,7 @@ class PlatformBase(Connection, EmulatorManagerBase):
         # Search by serial
         select = instances.select(**search_args)
         if select.count == 0:
-            logger.warning(f'No emulator instance with {search_args}')
+            logger.warning(f'No emulator instance with {search_args}, serial invalid')
             return None
         if select.count == 1:
             instance = select[0]
@@ -149,9 +149,9 @@ class PlatformBase(Connection, EmulatorManagerBase):
             search_args['name'] = name
             select = instances.select(**search_args)
             if select.count == 0:
-                logger.warning(f'No emulator instances with {search_args}')
-                return None
-            if select.count == 1:
+                logger.warning(f'No emulator instances with {search_args}, name invalid')
+                search_args.pop('name')
+            elif select.count == 1:
                 instance = select[0]
                 logger.hr('Emulator instance', level=2)
                 logger.info(f'Found emulator instance: {instance}')
@@ -162,9 +162,9 @@ class PlatformBase(Connection, EmulatorManagerBase):
             search_args['path'] = path
             select = instances.select(**search_args)
             if select.count == 0:
-                logger.warning(f'No emulator instances with {search_args}')
-                return None
-            if select.count == 1:
+                logger.warning(f'No emulator instances with {search_args}, path invalid')
+                search_args.pop('path')
+            elif select.count == 1:
                 instance = select[0]
                 logger.hr('Emulator instance', level=2)
                 logger.info(f'Found emulator instance: {instance}')
@@ -175,9 +175,9 @@ class PlatformBase(Connection, EmulatorManagerBase):
             search_args['type'] = emulator
             select = instances.select(**search_args)
             if select.count == 0:
-                logger.warning(f'No emulator instances with {search_args}')
-                return None
-            if select.count == 1:
+                logger.warning(f'No emulator instances with {search_args}, type invalid')
+                search_args.pop('type')
+            elif select.count == 1:
                 instance = select[0]
                 logger.hr('Emulator instance', level=2)
                 logger.info(f'Found emulator instance: {instance}')
