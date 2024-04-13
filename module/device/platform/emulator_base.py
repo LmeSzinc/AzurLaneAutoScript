@@ -205,6 +205,14 @@ class EmulatorBase:
 
 
 class EmulatorManagerBase:
+    @staticmethod
+    def iter_running_emulator():
+        """
+        Yields:
+            str: Path to emulator executables, may contains duplicate values
+        """
+        return
+
     @cached_property
     def all_emulators(self) -> t.List[EmulatorBase]:
         """
