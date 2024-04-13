@@ -10,6 +10,7 @@ from module.device.method.utils import HierarchyButton
 from module.logger import logger
 from module.map_detection.utils import fit_points
 from module.statistics.azurstats import AzurStats
+from module.webui.setting import cached_class_property
 
 
 class ModuleBase:
@@ -91,6 +92,26 @@ class ModuleBase:
         thread = threading.Thread(target=do_ocr_import, daemon=True)
         thread.start()
         ModuleBase.EARLY_OCR_IMPORT = True
+
+    @cached_class_property
+    def worker(self):
+        """
+        A thread pool to run things at background
+
+        Examples:
+        ```
+        def func(image):
+            logger.info('Update thread start')
+            with self.config.multi_set():
+                self.dungeon_get_simuni_point(image)
+                self.dungeon_update_stamina(image)
+        ModuleBase.worker.submit(func, self.device.image)
+        ```
+        """
+        logger.hr('Creating worker')
+        from concurrent.futures import ThreadPoolExecutor
+        pool = ThreadPoolExecutor(1)
+        return pool
 
     def ensure_button(self, button):
         if isinstance(button, str):
