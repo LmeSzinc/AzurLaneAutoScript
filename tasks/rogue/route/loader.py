@@ -164,6 +164,11 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, CharacterSwitch):
         # if route.name == 'Occurrence_Herta_StorageZone_F2_X363Y166' and similarity > 0.05:
         #     return True
 
+        # Before Combat_Herta_SupplyZone_F2_X45Y369
+        if route.name in [
+            'Combat_Luofu_DivinationCommission_F1_X737Y237',
+        ] and similarity > 0.25:
+            return True
         # Before Combat_Luofu_Cloudford_F1_X281Y873
         if route.name in [
             'Occurrence_Jarilo_BackwaterPass_F1_X553Y643',
