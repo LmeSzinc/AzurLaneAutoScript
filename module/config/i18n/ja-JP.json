@@ -131,7 +131,8 @@
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
-      "scrcpy": "scrcpy"
+      "scrcpy": "scrcpy",
+      "nemu_ipc": "nemu_ipc"
     },
     "ControlMethod": {
       "name": "Emulator.ControlMethod.name",
@@ -969,9 +970,17 @@
       "name": "RogueWorld.DoubleEvent.name",
       "help": "RogueWorld.DoubleEvent.help"
     },
+    "WeeklyFarming": {
+      "name": "RogueWorld.WeeklyFarming.name",
+      "help": "RogueWorld.WeeklyFarming.help"
+    },
     "UseStamina": {
       "name": "RogueWorld.UseStamina.name",
       "help": "RogueWorld.UseStamina.help"
+    },
+    "SimulatedUniverseElite": {
+      "name": "RogueWorld.SimulatedUniverseElite.name",
+      "help": "RogueWorld.SimulatedUniverseElite.help"
     }
   },
   "RogueBlessing": {

@@ -131,7 +131,8 @@
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
-      "scrcpy": "scrcpy"
+      "scrcpy": "scrcpy",
+      "nemu_ipc": "nemu_ipc"
     },
     "ControlMethod": {
       "name": "Control Method",
@@ -969,9 +970,17 @@
       "name": "Participate in Double Planer Event",
       "help": ""
     },
+    "WeeklyFarming": {
+      "name": "Farm 100 Elites Weekly",
+      "help": ""
+    },
     "UseStamina": {
       "name": "Farm Planers Using Trailblase Power",
       "help": "Task \"Dungeon\" will no longer run, and all trailblaze power will be used first to claim immersion rewards, except for double events."
+    },
+    "SimulatedUniverseElite": {
+      "name": "RogueWorld.SimulatedUniverseElite.name",
+      "help": "RogueWorld.SimulatedUniverseElite.help"
     }
   },
   "RogueBlessing": {

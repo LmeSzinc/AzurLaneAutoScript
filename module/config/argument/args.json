@@ -48,7 +48,8 @@
           "aScreenCap_nc",
           "DroidCast",
           "DroidCast_raw",
-          "scrcpy"
+          "scrcpy",
+          "nemu_ipc"
         ],
         "display": "hide"
       },
@@ -1466,9 +1467,19 @@
         "type": "checkbox",
         "value": true
       },
+      "WeeklyFarming": {
+        "type": "checkbox",
+        "value": false
+      },
       "UseStamina": {
         "type": "checkbox",
         "value": false
+      },
+      "SimulatedUniverseElite": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredSimulatedUniverseElite"
       }
     },
     "RogueBlessing": {

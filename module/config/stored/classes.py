@@ -208,6 +208,30 @@ class StoredSimulatedUniverse(StoredCounter, StoredExpiredAtMonday0400):
     pass
 
 
+class StoredSimulatedUniverseElite(StoredCounter, StoredExpiredAtMonday0400):
+    # These variables are used in Rogue Farming feature.
+
+    # Times of boss drop chance per week. In current version of StarRail, this value is 100.
+    FIXED_DEFAULT = 100
+
+    # Times left to farm. Resets to 100 every Monday 04:00, and decreases each time the elite boss is cleared.
+    value = FIXED_DEFAULT
+
+    def farm_dec(self, delta=1):
+        self.value -= delta
+        if self.value < 0:
+            self.value = 0
+
+    def farm_reset(self):
+        self.value = self.FIXED_DEFAULT
+
+    def farm_not_complete(self) -> bool:
+        return self.value > 0
+
+    def farm_get_remain(self) -> int:
+        return self.value
+
+
 class StoredAssignment(StoredCounter):
     pass
 

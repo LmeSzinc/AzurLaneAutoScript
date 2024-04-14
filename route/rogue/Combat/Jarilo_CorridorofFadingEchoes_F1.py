@@ -1,3 +1,4 @@
+from module.logger import logger
 from tasks.map.control.waypoint import Waypoint
 from tasks.map.keywords.plane import Jarilo_CorridorofFadingEchoes
 from tasks.rogue.route.base import RouteBase
@@ -167,12 +168,23 @@ class Route(RouteBase):
             enemy2right.straight_run(),
             enemy2left.straight_run().set_threshold(5),
         )
-        self.clear_enemy(
-            enemy2left.set_threshold(5),
-            node3.straight_run(),
-            node4.set_threshold(3).straight_run(),
-            enemy4.straight_run(),
-        )
+        if self.minimap.is_position_near(enemy2left.position, threshold=30):
+            logger.info('Near enemy2right')
+            self.clear_enemy(
+                enemy2left.set_threshold(5),
+                node3.straight_run(),
+                node4.set_threshold(3).straight_run(),
+                enemy4.straight_run(),
+            )
+        else:
+            logger.info('Not near enemy2right')
+            self.clear_enemy(
+                enemy2right.set_threshold(5),
+                enemy2left.set_threshold(5),
+                node3.straight_run(),
+                node4.set_threshold(3).straight_run(),
+                enemy4.straight_run(),
+            )
 
     def Jarilo_CorridorofFadingEchoes_F1_X437Y122(self):
         """

@@ -249,7 +249,7 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
                 self.device.click(WORLD_ENTER)
                 self.interval_reset(REWARD_ENTER, interval=2)
                 continue
-            if self.appear(LEVEL_CONFIRM, interval=2):
+            if self.match_template_color(LEVEL_CONFIRM, interval=2):
                 self.dungeon_update_stamina()
                 self.check_stop_condition()
                 self.device.click(LEVEL_CONFIRM)
@@ -332,7 +332,8 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
         """
         logger.info(f'RogueWorld_UseImmersifier={self.config.RogueWorld_UseImmersifier}, '
                     f'RogueWorld_UseStamina={self.config.RogueWorld_UseStamina}, '
-                    f'RogueWorld_DoubleEvent={self.config.RogueWorld_DoubleEvent}'
+                    f'RogueWorld_DoubleEvent={self.config.RogueWorld_DoubleEvent}, '
+                    f'RogueWorld_WeeklyFarming={self.config.RogueWorld_WeeklyFarming}, '
                     f'RogueDebug_DebugMode={self.config.RogueDebug_DebugMode}')
         # This shouldn't happen
         if self.config.RogueWorld_UseStamina and not self.config.RogueWorld_UseImmersifier:
@@ -345,13 +346,23 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
         if self.config.RogueDebug_DebugMode:
             # Always run
             return
-
+        
+        if self.config.stored.SimulatedUniverseElite.is_expired():
+            # Expired, reset farming counter
+            self.config.stored.SimulatedUniverseElite.farm_reset()
+        
         if self.config.stored.SimulatedUniverse.is_expired():
             # Expired, do rogue
             pass
         elif self.config.stored.SimulatedUniverse.is_full():
             if self.config.RogueWorld_UseImmersifier and self.config.stored.Immersifier.value > 0:
-                logger.info('Reached weekly point limit but still have immersifiers left, continue to use them')
+                logger.info(
+                    'Reached weekly point limit but still have immersifiers left, continue to use them')
+            elif self.config.RogueWorld_WeeklyFarming and self.config.stored.SimulatedUniverseElite.farm_not_complete():
+                logger.info(
+                    'Reached weekly point limit but still continue to farm materials')
+                logger.attr(
+                    "Farming Counter", self.config.stored.SimulatedUniverseElite.farm_get_remain())
             else:
                 raise RogueReachedWeeklyPointLimit
         else:

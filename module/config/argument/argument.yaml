@@ -29,7 +29,18 @@ Emulator:
     option: [ auto, cn, en ]
   ScreenshotMethod:
     value: auto
-    option: [ auto, ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc, DroidCast, DroidCast_raw, scrcpy ]
+    option: [
+      auto,
+      ADB,
+      ADB_nc,
+      uiautomator2,
+      aScreenCap,
+      aScreenCap_nc,
+      DroidCast,
+      DroidCast_raw,
+      scrcpy,
+      nemu_ipc,
+    ]
   ControlMethod:
     value: MaaTouch
     option: [ minitouch, MaaTouch ]
@@ -246,7 +257,10 @@ RogueWorld:
     option: [ combat, occurrence ]
   UseImmersifier: true
   DoubleEvent: true
+  WeeklyFarming: false
   UseStamina: false
+  SimulatedUniverseElite:
+    stored: StoredSimulatedUniverseElite
 
 RogueBlessing:
   PresetBlessingFilter:

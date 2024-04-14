@@ -131,7 +131,8 @@
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
-      "scrcpy": "scrcpy"
+      "scrcpy": "scrcpy",
+      "nemu_ipc": "nemu_ipc"
     },
     "ControlMethod": {
       "name": "Método de control",
@@ -969,9 +970,17 @@
       "name": "Participa en doble planer evento",
       "help": ""
     },
+    "WeeklyFarming": {
+      "name": "Granja 100 élites semanalmente",
+      "help": ""
+    },
     "UseStamina": {
       "name": "Reclamar de planers mediante poder trazacaminos",
       "help": "La tarea de mazmorra ya no se ejecutará y todo el poder trazacaminos se usará primero para reclamar recompensas de inmersión, excepto para eventos dobles"
+    },
+    "SimulatedUniverseElite": {
+      "name": "RogueWorld.SimulatedUniverseElite.name",
+      "help": "RogueWorld.SimulatedUniverseElite.help"
     }
   },
   "RogueBlessing": {
