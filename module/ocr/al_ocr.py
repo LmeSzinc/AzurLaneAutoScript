@@ -17,10 +17,12 @@ from cnocr.hyperparams.cn_hyperparams import CnHyperparams as Hyperparams
 
 def get_mxnet_context():
     import re
-    import pkg_resources
-    for pkg in pkg_resources.working_set:
-        if re.match(r'^mxnet-cu\d+$', pkg.key):
-            logger.info(f'MXNet gpu package: {pkg.key}=={pkg.version} found, using it')
+    import cnocr
+    site_packages = os.path.abspath(os.path.join(cnocr.__file__, '../../'))
+    for file in os.listdir(site_packages):
+        # mxnet_cu101-1.6.0.dist-info
+        if re.match(r'^mxnet[-_]cu\d+', file):
+            logger.info(f'MXNet gpu package: {file} found, using it')
             return 'gpu'
 
     return 'cpu'
