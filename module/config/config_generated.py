@@ -139,6 +139,8 @@ class GeneratedConfig:
     RogueWorld_UseImmersifier = True
     RogueWorld_DoubleEvent = True
     RogueWorld_UseStamina = False
+    RogueWorld_WeeklyFarming = False
+    RogueWorld_SimulatedUniverseElite = {}
 
     # Group `RogueBlessing`
     RogueBlessing_PresetBlessingFilter = 'preset'  # preset, custom

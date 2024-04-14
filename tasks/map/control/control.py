@@ -386,7 +386,7 @@ class MapControl(Combat, AimDetectorMixin):
         end_point = waypoints[-1]
         end_point.expected_end.append('item')
 
-        self.goto(*waypoints)
+        return self.goto(*waypoints)
 
     def clear_enemy(self, *waypoints):
         """
@@ -403,7 +403,7 @@ class MapControl(Combat, AimDetectorMixin):
         end_point = waypoints[-1]
         end_point.expected_end.append('enemy')
 
-        self.goto(*waypoints)
+        return self.goto(*waypoints)
 
 
 if __name__ == '__main__':

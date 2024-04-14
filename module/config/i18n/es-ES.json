@@ -973,6 +973,14 @@
     "UseStamina": {
       "name": "Reclamar de planers mediante poder trazacaminos",
       "help": "La tarea de mazmorra ya no se ejecutará y todo el poder trazacaminos se usará primero para reclamar recompensas de inmersión, excepto para eventos dobles"
+    },
+    "WeeklyFarming": {
+      "name": "Recolección de Materiales de Jefes",
+      "help": "No detenerse después de que los puntos semanales estén llenos, farmear al jefe 100 veces para obtener materiales de rastro"
+    },
+    "SimulatedUniverseElite": {
+      "name": "RogueWorld.SimulatedUniverseElite.name",
+      "help": "RogueWorld.SimulatedUniverseElite.help"
     }
   },
   "RogueBlessing": {
