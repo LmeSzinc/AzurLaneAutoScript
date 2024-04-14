@@ -28,3 +28,8 @@ class Route(RouteBase):
         self.clear_item(item_X504Y610)
         self.clear_event(event_X510Y626)
         # ===== End of generated waypoints =====
+
+    def clear_event(self, *waypoints):
+        # Too many clicks on A_BUTTON, so no items enroute in Luofu_StargazerNavalia_F1_X521Y595
+        self.enroute_add_item = False
+        return super().clear_event(*waypoints)

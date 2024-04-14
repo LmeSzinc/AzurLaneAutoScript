@@ -116,6 +116,10 @@ class Waypoint:
 
         return list(same)
 
+    def enroute_add_item(self):
+        if 'item' not in self.expected_enroute:
+            self.expected_enroute.append('item')
+
 
 def ensure_waypoint(point) -> Waypoint:
     """
