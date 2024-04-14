@@ -53,3 +53,13 @@ OCR_DOUBLE_EVENT_REMAIN_AT_COMBAT = ButtonWrapper(
         button=(799, 460, 1268, 626),
     ),
 )
+OCR_DOUBLE_ROGUE_REMAIN = ButtonWrapper(
+    name='OCR_DOUBLE_ROGUE_REMAIN',
+    share=Button(
+        file='./assets/share/dungeon/event/OCR_DOUBLE_ROGUE_REMAIN.png',
+        area=(517, 179, 1118, 201),
+        search=(497, 159, 1138, 221),
+        color=(203, 145, 88),
+        button=(517, 179, 1118, 201),
+    ),
+)
