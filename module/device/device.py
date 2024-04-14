@@ -88,6 +88,12 @@ class Device(Screenshot, Control, AppControl):
         if not self.config.is_template_config and self.config.Emulator_ScreenshotMethod == 'auto':
             self.run_simple_screenshot_benchmark()
 
+        # SRC only, use nemu_ipc if available
+        available = self.nemu_ipc_available()
+        logger.attr('nemu_ipc_available', available)
+        if available:
+            self.config.override(Emulator_ScreenshotMethod='nemu_ipc')
+
     def run_simple_screenshot_benchmark(self):
         """
         Perform a screenshot method benchmark, test 3 times on each method.
