@@ -1,5 +1,3 @@
-from concurrent.futures import ThreadPoolExecutor
-
 import module.config.server as server_
 from module.base.button import Button, ButtonWrapper, ClickButton, match_template
 from module.base.timer import Timer
@@ -50,11 +48,22 @@ class ModuleBase:
         self.interval_timer = {}
 
     @cached_class_property
-    def worker(self) -> ThreadPoolExecutor:
+    def worker(self):
         """
         A thread pool to run things at background
+
+        Examples:
+        ```
+        def func(image):
+            logger.info('Update thread start')
+            with self.config.multi_set():
+                self.dungeon_get_simuni_point(image)
+                self.dungeon_update_stamina(image)
+        ModuleBase.worker.submit(func, self.device.image)
+        ```
         """
         logger.hr('Creating worker')
+        from concurrent.futures import ThreadPoolExecutor
         pool = ThreadPoolExecutor(1)
         return pool
 
