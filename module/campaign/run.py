@@ -345,7 +345,7 @@ class CampaignRun(CampaignEvent, ShopStatus):
             # UI ensure
             self.device.stuck_record_clear()
             self.device.click_record_clear()
-            if not hasattr(self.device, 'image') or self.device.image is None:
+            if not self.device.has_cached_image:
                 self.device.screenshot()
             self.campaign.device.image = self.device.image
             if self.campaign.is_in_map():
