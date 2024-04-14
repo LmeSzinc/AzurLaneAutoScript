@@ -70,7 +70,7 @@ class ModuleBase:
         """
         if ModuleBase.EARLY_OCR_IMPORT:
             return
-        if self.config.task.command.lower() in ['alas', 'template']:
+        if not self.config.is_actual_task:
             logger.info('No actual task bound, skip early_ocr_import')
             return
 
