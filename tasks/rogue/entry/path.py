@@ -205,7 +205,7 @@ class RoguePathHandler(RogueUI):
                 logger.info('rogue_path_select ended at page_main')
                 break
 
-            if self.appear(ROGUE_LAUNCH, interval=2):
+            if self.match_template_color(ROGUE_LAUNCH, interval=2):
                 if not self._is_team_prepared():
                     raise RogueTeamNotPrepared
                 self.device.click(ROGUE_LAUNCH)

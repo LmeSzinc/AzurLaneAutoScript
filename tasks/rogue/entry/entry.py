@@ -249,7 +249,7 @@ class RogueEntry(RouteBase, RogueRewardHandler, RoguePathHandler, DungeonUI):
                 self.device.click(WORLD_ENTER)
                 self.interval_reset(REWARD_ENTER, interval=2)
                 continue
-            if self.appear(LEVEL_CONFIRM, interval=2):
+            if self.match_template_color(LEVEL_CONFIRM, interval=2):
                 self.dungeon_update_stamina()
                 self.check_stop_condition()
                 self.device.click(LEVEL_CONFIRM)

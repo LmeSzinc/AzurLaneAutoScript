@@ -168,7 +168,7 @@ class Route(RouteBase):
             enemy2right.straight_run(),
             enemy2left.straight_run().set_threshold(5),
         )
-        if self.minimap.is_position_near(enemy2right, threshold=30):
+        if self.minimap.is_position_near(enemy2left.position, threshold=30):
             logger.info('Near enemy2right')
             self.clear_enemy(
                 enemy2left.set_threshold(5),
