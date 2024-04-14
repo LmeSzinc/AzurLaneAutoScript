@@ -138,8 +138,8 @@ class GeneratedConfig:
     RogueWorld_DomainStrategy = 'combat'  # combat, occurrence
     RogueWorld_UseImmersifier = True
     RogueWorld_DoubleEvent = True
-    RogueWorld_UseStamina = False
     RogueWorld_WeeklyFarming = False
+    RogueWorld_UseStamina = False
     RogueWorld_SimulatedUniverseElite = {}
 
     # Group `RogueBlessing`

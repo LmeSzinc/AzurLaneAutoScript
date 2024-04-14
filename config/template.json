@@ -199,8 +199,8 @@
       "DomainStrategy": "combat",
       "UseImmersifier": true,
       "DoubleEvent": true,
-      "UseStamina": false,
       "WeeklyFarming": false,
+      "UseStamina": false,
       "SimulatedUniverseElite": {}
     },
     "RogueBlessing": {

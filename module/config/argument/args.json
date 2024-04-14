@@ -1467,11 +1467,11 @@
         "type": "checkbox",
         "value": true
       },
-      "UseStamina": {
+      "WeeklyFarming": {
         "type": "checkbox",
         "value": false
       },
-      "WeeklyFarming": {
+      "UseStamina": {
         "type": "checkbox",
         "value": false
       },

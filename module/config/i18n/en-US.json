@@ -970,13 +970,13 @@
       "name": "Participate in Double Planer Event",
       "help": ""
     },
+    "WeeklyFarming": {
+      "name": "Farm 100 Elites Weekly",
+      "help": ""
+    },
     "UseStamina": {
       "name": "Farm Planers Using Trailblase Power",
       "help": "Task \"Dungeon\" will no longer run, and all trailblaze power will be used first to claim immersion rewards, except for double events."
-    },
-    "WeeklyFarming": {
-      "name": "Boss Material Farming",
-      "help": "Do not stop after point reward is full; farm the boss 100 times instead to obtain trace materials"
     },
     "SimulatedUniverseElite": {
       "name": "RogueWorld.SimulatedUniverseElite.name",

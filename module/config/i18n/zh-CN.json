@@ -970,13 +970,13 @@
       "name": "参与双倍内圈仪器活动",
       "help": ""
     },
+    "WeeklyFarming": {
+      "name": "每周刷100精英怪",
+      "help": ""
+    },
     "UseStamina": {
       "name": "使用开拓力刷内圈遗器",
       "help": "每日副本任务将不再打本，所有开拓力将优先被用于领取浸器奖励，双倍活动时除外"
-    },
-    "WeeklyFarming": {
-      "name": "刷取Boss材料",
-      "help": "每周积分满后不停止，刷取100次Boss以获取形迹材料"
     },
     "SimulatedUniverseElite": {
       "name": "剩余Boss材料掉落次数",
