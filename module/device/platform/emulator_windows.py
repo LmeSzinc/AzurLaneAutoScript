@@ -8,7 +8,8 @@ from dataclasses import dataclass
 # module/device/platform/emulator_base.py
 # module/device/platform/emulator_windows.py
 # Will be used in Alas Easy Install, they shouldn't import any Alas modules.
-from module.device.platform.emulator_base import EmulatorBase, EmulatorInstanceBase, EmulatorManagerBase
+from module.device.platform.emulator_base import EmulatorBase, EmulatorInstanceBase, EmulatorManagerBase, \
+    remove_duplicated_path
 from module.device.platform.utils import cached_property, iter_folder
 
 
@@ -321,7 +322,7 @@ class EmulatorManager(EmulatorManagerBase):
         Get recently executed programs in UserAssist
         https://github.com/forensicmatt/MonitorUserAssist
 
-        Returns:
+        Yields:
             str: Path to emulator executables, may contains duplicate values
         """
         path = r'Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist'
@@ -452,6 +453,31 @@ class EmulatorManager(EmulatorManagerBase):
                 uninstall = res.group(1) if res else uninstall
                 yield uninstall
 
+    @staticmethod
+    def iter_running_emulator():
+        """
+        Yields:
+            str: Path to emulator executables, may contains duplicate values
+        """
+        try:
+            import psutil
+        except ModuleNotFoundError:
+            return
+        # Since this is a one-time-usage, we access psutil._psplatform.Process directly
+        # to bypass the call of psutil.Process.is_running().
+        # This only costs about 0.017s.
+        for pid in psutil.pids():
+            proc = psutil._psplatform.Process(pid)
+            try:
+                exe = proc.cmdline()
+                exe = exe[0].replace(r'\\', '/').replace('\\', '/')
+            except (psutil.AccessDenied, IndexError):
+                # psutil.AccessDenied
+                continue
+
+            if Emulator.is_emulator(exe):
+                yield exe
+
     @cached_property
     def all_emulators(self) -> t.List[Emulator]:
         """
@@ -479,7 +505,7 @@ class EmulatorManager(EmulatorManagerBase):
                     exe.add(ld)
 
         # Uninstall registry
-        for uninstall in self.iter_uninstall_registry():
+        for uninstall in EmulatorManager.iter_uninstall_registry():
             # Find emulator executable from uninstaller
             for file in iter_folder(abspath(os.path.dirname(uninstall)), ext='.exe'):
                 if Emulator.is_emulator(file) and os.path.exists(file):
@@ -493,12 +519,14 @@ class EmulatorManager(EmulatorManagerBase):
                 if Emulator.is_emulator(file) and os.path.exists(file):
                     exe.add(file)
 
+        # Running
+        for file in EmulatorManager.iter_running_emulator():
+            if os.path.exists(file):
+                exe.add(file)
+
+        # De-redundancy
         exe = [Emulator(path).path for path in exe if Emulator.is_emulator(path)]
-        exe = sorted(set(exe))
-        dic = {}
-        for path in exe:
-            dic.setdefault(path.lower(), path)
-        exe = [Emulator(path) for path in dic.values()]
+        exe = [Emulator(path) for path in remove_duplicated_path(exe)]
         return exe
 
     @cached_property
