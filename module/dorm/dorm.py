@@ -108,12 +108,13 @@ class RewardDorm(UI):
         # Long tap to feed. This requires minitouch.
         timeout = Timer(count // 5 + 5).start()
         x, y = random_rectangle_point(button.button)
-        self.device.minitouch_builder.down(x, y).commit()
-        self.device.minitouch_send()
+        builder = self.device.minitouch_builder
+        builder.down(x, y).commit()
+        builder.send()
 
         while 1:
-            self.device.minitouch_builder.move(x, y).commit().wait(10)
-            self.device.minitouch_send()
+            builder.move(x, y).commit().wait(10)
+            builder.send()
             self.device.screenshot()
 
             if not self._dorm_has_food(button) \
@@ -124,19 +125,20 @@ class RewardDorm(UI):
                 logger.warning('Wait dorm feed timeout')
                 break
 
-        self.device.minitouch_builder.up().commit()
-        self.device.minitouch_send()
+        builder.up().commit()
+        builder.send()
 
     @Config.when(DEVICE_CONTROL_METHOD='MaaTouch')
     def _dorm_feed_long_tap(self, button, count):
         timeout = Timer(count // 5 + 5).start()
         x, y = random_rectangle_point(button.button)
-        self.device.maatouch_builder.down(x, y).commit()
-        self.device.maatouch_send()
+        builder = self.device.maatouch_builder
+        builder.down(x, y).commit()
+        builder.send()
 
         while 1:
-            self.device.maatouch_builder.move(x, y).commit().wait(10)
-            self.device.maatouch_send()
+            builder.move(x, y).commit().wait(10)
+            builder.send()
             self.device.screenshot()
 
             if not self._dorm_has_food(button) \
@@ -147,8 +149,8 @@ class RewardDorm(UI):
                 logger.warning('Wait dorm feed timeout')
                 break
 
-        self.device.maatouch_builder.up().commit()
-        self.device.maatouch_send()
+        builder.up().commit()
+        builder.send()
 
     @Config.when(DEVICE_CONTROL_METHOD='uiautomator2')
     def _dorm_feed_long_tap(self, button, count):

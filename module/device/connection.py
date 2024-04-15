@@ -4,6 +4,7 @@ import platform
 import re
 import socket
 import subprocess
+import sys
 import time
 from functools import wraps
 
@@ -805,8 +806,11 @@ class Connection(ConnectionAttr):
             # brute_force_connect
             if self.config.Emulator_Serial == 'auto' and available.count == 0:
                 logger.warning(f'No available device found')
-                brute_force_connect()
-                continue
+                if sys.platform == 'win32':
+                    brute_force_connect()
+                    continue
+                else:
+                    break
             else:
                 break
 

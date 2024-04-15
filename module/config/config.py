@@ -189,6 +189,10 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
             self.data, keys="Alas.Optimization.CloseGameDuringWait", default=False
         )
 
+    @property
+    def is_actual_task(self):
+        return self.task.command.lower() not in ['alas', 'template']
+
     def get_next_task(self):
         """
         Calculate tasks, set pending_task and waiting_task
