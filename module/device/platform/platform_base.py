@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from module.base.decorator import cached_property, del_cached_property
 from module.device.connection import Connection
 from module.device.method.utils import get_serial_pair
-from module.device.platform.emulator_base import EmulatorInstanceBase, EmulatorManagerBase
+from module.device.platform.emulator_base import EmulatorInstanceBase, EmulatorManagerBase, remove_duplicated_path
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 
@@ -136,7 +136,7 @@ class PlatformBase(Connection, EmulatorManagerBase):
         # Search by serial
         select = instances.select(**search_args)
         if select.count == 0:
-            logger.warning(f'No emulator instance with {search_args}')
+            logger.warning(f'No emulator instance with {search_args}, serial invalid')
             return None
         if select.count == 1:
             instance = select[0]
@@ -149,9 +149,9 @@ class PlatformBase(Connection, EmulatorManagerBase):
             search_args['name'] = name
             select = instances.select(**search_args)
             if select.count == 0:
-                logger.warning(f'No emulator instances with {search_args}')
-                return None
-            if select.count == 1:
+                logger.warning(f'No emulator instances with {search_args}, name invalid')
+                search_args.pop('name')
+            elif select.count == 1:
                 instance = select[0]
                 logger.hr('Emulator instance', level=2)
                 logger.info(f'Found emulator instance: {instance}')
@@ -162,9 +162,9 @@ class PlatformBase(Connection, EmulatorManagerBase):
             search_args['path'] = path
             select = instances.select(**search_args)
             if select.count == 0:
-                logger.warning(f'No emulator instances with {search_args}')
-                return None
-            if select.count == 1:
+                logger.warning(f'No emulator instances with {search_args}, path invalid')
+                search_args.pop('path')
+            elif select.count == 1:
                 instance = select[0]
                 logger.hr('Emulator instance', level=2)
                 logger.info(f'Found emulator instance: {instance}')
@@ -175,9 +175,28 @@ class PlatformBase(Connection, EmulatorManagerBase):
             search_args['type'] = emulator
             select = instances.select(**search_args)
             if select.count == 0:
-                logger.warning(f'No emulator instances with {search_args}')
-                return None
-            if select.count == 1:
+                logger.warning(f'No emulator instances with {search_args}, type invalid')
+                search_args.pop('type')
+            elif select.count == 1:
+                instance = select[0]
+                logger.hr('Emulator instance', level=2)
+                logger.info(f'Found emulator instance: {instance}')
+                return instance
+
+        # Still too many instances, search from running emulators
+        running = remove_duplicated_path(list(self.iter_running_emulator()))
+        logger.info('Running emulators')
+        for exe in running:
+            logger.info(exe)
+        if len(running) == 1:
+            logger.info('Only one running emulator')
+            # Same as searching path
+            search_args['path'] = running[0]
+            select = instances.select(**search_args)
+            if select.count == 0:
+                logger.warning(f'No emulator instances with {search_args}, path invalid')
+                search_args.pop('path')
+            elif select.count == 1:
                 instance = select[0]
                 logger.hr('Emulator instance', level=2)
                 logger.info(f'Found emulator instance: {instance}')
