@@ -177,6 +177,10 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         )
 
     @property
+    def is_actual_task(self):
+        return self.task.command.lower() not in ['alas', 'template']
+
+    @property
     def is_cloud_game(self):
         return deep_get(
             self.data, keys="Alas.Emulator.GameClient"

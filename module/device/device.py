@@ -88,6 +88,13 @@ class Device(Screenshot, Control, AppControl):
         if not self.config.is_template_config and self.config.Emulator_ScreenshotMethod == 'auto':
             self.run_simple_screenshot_benchmark()
 
+        # Early init
+        if self.config.is_actual_task:
+            if self.config.Emulator_ControlMethod == 'MaaTouch':
+                self.early_maatouch_init()
+            if self.config.Emulator_ControlMethod == 'minitouch':
+                self.early_minitouch_init()
+
         # SRC only, use nemu_ipc if available
         available = self.nemu_ipc_available()
         logger.attr('nemu_ipc_available', available)
