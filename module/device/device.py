@@ -1,6 +1,12 @@
 import collections
 from datetime import datetime
 
+# Patch pkg_resources before importing adbutils and uiautomator2
+from module.device.pkg_resources import get_distribution
+
+# Just avoid being removed by import optimization
+_ = get_distribution
+
 from module.base.timer import Timer
 from module.config.utils import get_server_next_update
 from module.device.app_control import AppControl

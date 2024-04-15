@@ -13,16 +13,14 @@ from cnocr.cn_ocr import (check_model_name, data_dir, gen_network, load_module,
                           read_charset)
 from cnocr.fit.ctc_metrics import CtcMetrics
 from cnocr.hyperparams.cn_hyperparams import CnHyperparams as Hyperparams
+from module.device.pkg_resources import PACKAGE_CACHE
 
 
 def get_mxnet_context():
-    import re
-    import cnocr
-    site_packages = os.path.abspath(os.path.join(cnocr.__file__, '../../'))
-    for file in os.listdir(site_packages):
-        # mxnet_cu101-1.6.0.dist-info
-        if re.match(r'^mxnet[-_]cu\d+', file):
-            logger.info(f'MXNet gpu package: {file} found, using it')
+    for dist in PACKAGE_CACHE.dict_installed_packages.values():
+        # mxnet_cu101
+        if dist.dist.startswith('mxnet_cu'):
+            logger.info(f'MXNet gpu package: {dist.dist}=={dist.version} found, using it')
             return 'gpu'
 
     return 'cpu'
