@@ -1,14 +1,15 @@
 import socket
+import threading
 from functools import wraps
 
 from adbutils.errors import AdbError
 
-from module.base.decorator import cached_property, del_cached_property
+from module.base.decorator import cached_property, del_cached_property, has_cached_property
 from module.base.timer import Timer
 from module.base.utils import *
 from module.device.connection import Connection
 from module.device.method.minitouch import CommandBuilder, insert_swipe
-from module.device.method.utils import RETRY_TRIES, retry_sleep, handle_adb_error
+from module.device.method.utils import RETRY_TRIES, handle_adb_error, retry_sleep
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -36,20 +37,20 @@ def retry(func):
 
                 def init():
                     self.adb_reconnect()
-                    del_cached_property(self, 'maatouch_builder')
+                    del_cached_property(self, '_maatouch_builder')
             # Emulator closed
             except ConnectionAbortedError as e:
                 logger.error(e)
 
                 def init():
                     self.adb_reconnect()
-                    del_cached_property(self, 'maatouch_builder')
+                    del_cached_property(self, '_maatouch_builder')
             # AdbError
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
                         self.adb_reconnect()
-                        del_cached_property(self, 'maatouch_builder')
+                        del_cached_property(self, '_maatouch_builder')
                 else:
                     break
             # MaaTouchNotInstalledError: Received "Aborted" from MaaTouch
@@ -58,12 +59,12 @@ def retry(func):
 
                 def init():
                     self.maatouch_install()
-                    del_cached_property(self, 'maatouch_builder')
+                    del_cached_property(self, '_maatouch_builder')
             except BrokenPipeError as e:
                 logger.error(e)
 
                 def init():
-                    del_cached_property(self, 'maatouch_builder')
+                    del_cached_property(self, '_maatouch_builder')
             # Unknown, probably a trucked image
             except Exception as e:
                 logger.exception(e)
@@ -75,6 +76,19 @@ def retry(func):
         raise RequestHumanTakeover
 
     return retry_wrapper
+
+
+class MaatouchBuilder(CommandBuilder):
+    def __init__(self, device, contact=0, handle_orientation=False):
+        """
+        Args:
+            device (MaaTouch):
+        """
+
+        super().__init__(device, contact, handle_orientation)
+
+    def send(self):
+        return self.device.maatouch_send(builder=self)
 
 
 class MaaTouchNotInstalledError(Exception):
@@ -90,12 +104,37 @@ class MaaTouch(Connection):
     max_y: int
     _maatouch_stream = socket.socket
     _maatouch_stream_storage = None
+    _maatouch_init_thread = None
 
     @cached_property
-    def maatouch_builder(self):
+    def _maatouch_builder(self):
         self.maatouch_init()
-        # Orientation is handled inside MaaTouch
-        return CommandBuilder(self, handle_orientation=False)
+        return MaatouchBuilder(self)
+
+    @property
+    def maatouch_builder(self):
+        # Wait init thread
+        if self._maatouch_init_thread is not None:
+            self._maatouch_init_thread.join()
+            del self._maatouch_init_thread
+            self._maatouch_init_thread = None
+
+        return self._maatouch_builder
+
+    def early_maatouch_init(self):
+        """
+        Start a thread to init maatouch connection while the Alas instance just starting to take screenshots
+        This would speed up the first click 0.2 ~ 0.4s.
+        """
+        if has_cached_property(self, '_maatouch_builder'):
+            return
+
+        def early_maatouch_init_func():
+            _ = self._maatouch_builder
+
+        thread = threading.Thread(target=early_maatouch_init_func, daemon=True)
+        self._maatouch_init_thread = thread
+        thread.start()
 
     def maatouch_init(self):
         logger.hr('MaaTouch init')
@@ -166,14 +205,14 @@ class MaaTouch(Connection):
             )
         )
 
-    def maatouch_send(self):
-        content = self.maatouch_builder.to_minitouch()
+    def maatouch_send(self, builder: MaatouchBuilder):
+        content = builder.to_minitouch()
         # logger.info("send operation: {}".format(content.replace("\n", "\\n")))
         byte_content = content.encode('utf-8')
         self._maatouch_stream.sendall(byte_content)
         self._maatouch_stream.recv(0)
-        self.sleep(self.maatouch_builder.delay / 1000 + self.maatouch_builder.DEFAULT_DELAY)
-        self.maatouch_builder.clear()
+        self.sleep(self.maatouch_builder.delay / 1000 + builder.DEFAULT_DELAY)
+        builder.clear()
 
     def maatouch_install(self):
         logger.hr('MaaTouch install')
@@ -188,7 +227,7 @@ class MaaTouch(Connection):
         builder = self.maatouch_builder
         builder.down(x, y).commit()
         builder.up().commit()
-        self.maatouch_send()
+        builder.send()
 
     @retry
     def long_click_maatouch(self, x, y, duration=1.0):
@@ -196,7 +235,7 @@ class MaaTouch(Connection):
         builder = self.maatouch_builder
         builder.down(x, y).commit().wait(duration)
         builder.up().commit()
-        self.maatouch_send()
+        builder.send()
 
     @retry
     def swipe_maatouch(self, p1, p2):
@@ -204,14 +243,14 @@ class MaaTouch(Connection):
         builder = self.maatouch_builder
 
         builder.down(*points[0]).commit()
-        self.maatouch_send()
+        builder.send()
 
         for point in points[1:]:
             builder.move(*point).commit().wait(10)
-        self.maatouch_send()
+        builder.send()
 
         builder.up().commit()
-        self.maatouch_send()
+        builder.send()
 
     @retry
     def drag_maatouch(self, p1, p2, point_random=(-10, -10, 10, 10)):
@@ -221,15 +260,15 @@ class MaaTouch(Connection):
         builder = self.maatouch_builder
 
         builder.down(*points[0]).commit()
-        self.maatouch_send()
+        builder.send()
 
         for point in points[1:]:
             builder.move(*point).commit().wait(10)
-        self.maatouch_send()
+        builder.send()
 
         builder.move(*p2).commit().wait(140)
         builder.move(*p2).commit().wait(140)
-        self.maatouch_send()
+        builder.send()
 
         builder.up().commit()
-        self.maatouch_send()
+        builder.send()

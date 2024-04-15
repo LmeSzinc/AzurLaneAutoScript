@@ -1,7 +1,7 @@
 import asyncio
 import json
-import re
 import socket
+import threading
 import time
 from functools import wraps
 from typing import List
@@ -10,11 +10,11 @@ import websockets
 from adbutils.errors import AdbError
 from uiautomator2 import _Service
 
-from module.base.decorator import Config, cached_property, del_cached_property
+from module.base.decorator import Config, cached_property, del_cached_property, has_cached_property
 from module.base.timer import Timer
 from module.base.utils import *
 from module.device.connection import Connection
-from module.device.method.utils import RETRY_TRIES, retry_sleep, handle_adb_error
+from module.device.method.utils import RETRY_TRIES, handle_adb_error, retry_sleep
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
@@ -184,7 +184,7 @@ class CommandBuilder:
     max_x = 1280
     max_y = 720
 
-    def __init__(self, device, handle_orientation=True):
+    def __init__(self, device, contact=0, handle_orientation=True):
         """
         Args:
             device:
@@ -192,6 +192,7 @@ class CommandBuilder:
         self.device = device
         self.commands = []
         self.delay = 0
+        self.contact = contact
         self.handle_orientation = handle_orientation
 
     @property
@@ -243,21 +244,21 @@ class CommandBuilder:
         self.delay += ms
         return self
 
-    def up(self, contact=0):
+    def up(self):
         """ add minitouch command: 'u <contact>\n' """
-        self.commands.append(Command('u', contact=contact))
+        self.commands.append(Command('u', contact=self.contact))
         return self
 
-    def down(self, x, y, contact=0, pressure=100):
+    def down(self, x, y, pressure=100):
         """ add minitouch command: 'd <contact> <x> <y> <pressure>\n' """
         x, y = self.convert(x, y)
-        self.commands.append(Command('d', x=x, y=y, contact=contact, pressure=pressure))
+        self.commands.append(Command('d', x=x, y=y, contact=self.contact, pressure=pressure))
         return self
 
-    def move(self, x, y, contact=0, pressure=100):
+    def move(self, x, y, pressure=100):
         """ add minitouch command: 'm <contact> <x> <y> <pressure>\n' """
         x, y = self.convert(x, y)
-        self.commands.append(Command('m', x=x, y=y, contact=contact, pressure=pressure))
+        self.commands.append(Command('m', x=x, y=y, contact=self.contact, pressure=pressure))
         return self
 
     def clear(self):
@@ -270,6 +271,9 @@ class CommandBuilder:
 
     def to_atx_agent(self) -> List[str]:
         return [command.to_atx_agent(self.max_x, self.max_y) for command in self.commands]
+
+    def send(self):
+        return self.device.minitouch_send(builder=self)
 
 
 class MinitouchNotInstalledError(Exception):
@@ -324,7 +328,7 @@ def retry(func):
                     self.install_uiautomator2()
                     if self._minitouch_port:
                         self.adb_forward_remove(f'tcp:{self._minitouch_port}')
-                    del_cached_property(self, 'minitouch_builder')
+                    del_cached_property(self, '_minitouch_builder')
             # MinitouchOccupiedError: Timeout when connecting to minitouch
             except MinitouchOccupiedError as e:
                 logger.error(e)
@@ -333,7 +337,7 @@ def retry(func):
                     self.restart_atx()
                     if self._minitouch_port:
                         self.adb_forward_remove(f'tcp:{self._minitouch_port}')
-                    del_cached_property(self, 'minitouch_builder')
+                    del_cached_property(self, '_minitouch_builder')
             # AdbError
             except AdbError as e:
                 if handle_adb_error(e):
@@ -345,7 +349,7 @@ def retry(func):
                 logger.error(e)
 
                 def init():
-                    del_cached_property(self, 'minitouch_builder')
+                    del_cached_property(self, '_minitouch_builder')
             # Unknown, probably a trucked image
             except Exception as e:
                 logger.exception(e)
@@ -366,11 +370,37 @@ class Minitouch(Connection):
     _minitouch_ws: websockets.WebSocketClientProtocol
     max_x: int
     max_y: int
+    _minitouch_init_thread = None
 
     @cached_property
-    def minitouch_builder(self):
+    def _minitouch_builder(self):
         self.minitouch_init()
         return CommandBuilder(self)
+
+    @property
+    def minitouch_builder(self):
+        # Wait init thread
+        if self._minitouch_init_thread is not None:
+            self._minitouch_init_thread.join()
+            del self._minitouch_init_thread
+            self._minitouch_init_thread = None
+
+        return self._minitouch_builder
+
+    def early_minitouch_init(self):
+        """
+        Start a thread to init minitouch connection while the Alas instance just starting to take screenshots
+        This would speed up the first click 0.05s.
+        """
+        if has_cached_property(self, '_minitouch_builder'):
+            return
+
+        def early_minitouch_init_func():
+            _ = self._minitouch_builder
+
+        thread = threading.Thread(target=early_minitouch_init_func, daemon=True)
+        self._minitouch_init_thread = thread
+        thread.start()
 
     @Config.when(DEVICE_OVER_HTTP=False)
     def minitouch_init(self):
@@ -446,14 +476,14 @@ class Minitouch(Connection):
         )
 
     @Config.when(DEVICE_OVER_HTTP=False)
-    def minitouch_send(self):
-        content = self.minitouch_builder.to_minitouch()
+    def minitouch_send(self, builder: CommandBuilder):
+        content = builder.to_minitouch()
         # logger.info("send operation: {}".format(content.replace("\n", "\\n")))
         byte_content = content.encode('utf-8')
         self._minitouch_client.sendall(byte_content)
         self._minitouch_client.recv(0)
-        time.sleep(self.minitouch_builder.delay / 1000 + self.minitouch_builder.DEFAULT_DELAY)
-        self.minitouch_builder.clear()
+        time.sleep(self.minitouch_builder.delay / 1000 + builder.DEFAULT_DELAY)
+        builder.clear()
 
     @cached_property
     def _minitouch_loop(self):
@@ -514,8 +544,8 @@ class Minitouch(Connection):
         self._minitouch_ws = self._minitouch_loop_run(connect())
 
     @Config.when(DEVICE_OVER_HTTP=True)
-    def minitouch_send(self):
-        content = self.minitouch_builder.to_atx_agent()
+    def minitouch_send(self, builder: CommandBuilder):
+        content = builder.to_atx_agent()
 
         async def send():
             for row in content:
@@ -523,15 +553,15 @@ class Minitouch(Connection):
                 await self._minitouch_ws.send(row)
 
         self._minitouch_loop_run(send())
-        time.sleep(self.minitouch_builder.delay / 1000 + self.minitouch_builder.DEFAULT_DELAY)
-        self.minitouch_builder.clear()
+        time.sleep(builder.delay / 1000 + builder.DEFAULT_DELAY)
+        builder.clear()
 
     @retry
     def click_minitouch(self, x, y):
         builder = self.minitouch_builder
         builder.down(x, y).commit()
         builder.up().commit()
-        self.minitouch_send()
+        builder.send()
 
     @retry
     def long_click_minitouch(self, x, y, duration=1.0):
@@ -539,7 +569,7 @@ class Minitouch(Connection):
         builder = self.minitouch_builder
         builder.down(x, y).commit().wait(duration)
         builder.up().commit()
-        self.minitouch_send()
+        builder.send()
 
     @retry
     def swipe_minitouch(self, p1, p2):
@@ -547,14 +577,14 @@ class Minitouch(Connection):
         builder = self.minitouch_builder
 
         builder.down(*points[0]).commit()
-        self.minitouch_send()
+        builder.send()
 
         for point in points[1:]:
             builder.move(*point).commit().wait(10)
-        self.minitouch_send()
+        builder.send()
 
         builder.up().commit()
-        self.minitouch_send()
+        builder.send()
 
     @retry
     def drag_minitouch(self, p1, p2, point_random=(-10, -10, 10, 10)):
@@ -564,15 +594,15 @@ class Minitouch(Connection):
         builder = self.minitouch_builder
 
         builder.down(*points[0]).commit()
-        self.minitouch_send()
+        builder.send()
 
         for point in points[1:]:
             builder.move(*point).commit().wait(10)
-        self.minitouch_send()
+        builder.send()
 
         builder.move(*p2).commit().wait(140)
         builder.move(*p2).commit().wait(140)
-        self.minitouch_send()
+        builder.send()
 
         builder.up().commit()
-        self.minitouch_send()
+        builder.send()
