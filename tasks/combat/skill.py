@@ -13,7 +13,7 @@ class CombatSkill(UI):
         if not self.appear(IN_SKILL):
             return False
 
-        if not self.image_color_count(IN_SKILL, color=(255, 255, 255), threshold=221, count=50):
+        if not self.image_color_count(IN_SKILL, color=(255, 255, 255), threshold=180, count=50):
             return False
 
         return True
@@ -50,6 +50,10 @@ class CombatSkill(UI):
                     if not match_template(self.image_crop(button), prev_image):
                         logger.info(f'Skill used: {button} (icon changed)')
                         break
+
+            if self.is_in_main():
+                logger.warning('_skill_click ended at is_in_main')
+                break
 
     def _is_skill_active(self, button):
         flag = self.image_color_count(button, color=(220, 196, 145), threshold=221, count=50)
