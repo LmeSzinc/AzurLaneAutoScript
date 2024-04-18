@@ -373,6 +373,7 @@ class Minitouch(Connection):
     _minitouch_init_thread = None
 
     @cached_property
+    @retry
     def _minitouch_builder(self):
         self.minitouch_init()
         return CommandBuilder(self)

@@ -108,6 +108,7 @@ class MaaTouch(Connection):
     _maatouch_orientation: int = None
 
     @cached_property
+    @retry
     def _maatouch_builder(self):
         self.maatouch_init()
         return MaatouchBuilder(self)
