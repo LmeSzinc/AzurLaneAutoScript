@@ -166,6 +166,7 @@ class RouteLoader(RogueUI, MinimapWrapper, RouteLoader_, CharacterSwitch):
 
         # Before Combat_Herta_SupplyZone_F2_X45Y369
         if route.name in [
+            'Combat_Herta_SupplyZone_F2_X543Y255',  # 0.462, (543.3, 255.4)
             'Combat_Luofu_DivinationCommission_F1_X737Y237',
         ] and similarity > 0.25:
             return True
