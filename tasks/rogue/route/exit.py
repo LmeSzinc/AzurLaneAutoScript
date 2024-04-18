@@ -112,6 +112,9 @@ class RogueExit(CombatInteract):
         distant_point = np.array((1509.46, 247.34))
         name_y = 77.60
         foot_y = 621.82
+        if point < 80:
+            logger.warning(f'screen2direction: Point {point} to high')
+            point[1] = 80
 
         door_projection_bottom = (
             Points([point]).link(vanish_point).get_x(name_y)[0],
@@ -129,6 +132,8 @@ class RogueExit(CombatInteract):
             door_projection_bottom[0] - screen_middle[0],
             door_projection_bottom[0] - door_distant[0],
         )
+        if planar_door[1] < 0:
+            logger.warning('screen2direction: planer_door at back')
         if abs(planar_door[0]) < 5:
             direction = 0
         else:

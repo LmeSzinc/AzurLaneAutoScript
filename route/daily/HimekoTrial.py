@@ -16,7 +16,13 @@ class Route(RouteBase, Combat, CharacterTrial):
     def wait_next_skill(self, expected_end=None, skip_first_screenshot=True):
         # Ended at START_TRIAL
         def combat_end():
-            return self.match_template_color(START_TRIAL)
+            if self.match_template_color(START_TRIAL):
+                logger.info('Trial ended at START_TRIAL')
+                return True
+            if self.is_in_main():
+                logger.warning('Trial ended at is_in_main()')
+                return True
+            return False
 
         return super().wait_next_skill(expected_end=combat_end, skip_first_screenshot=skip_first_screenshot)
 

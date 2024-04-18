@@ -21,6 +21,7 @@ pyyaml
 inflection
 prettytable==2.2.1
 pydantic>=2.4
+onepush==1.3.0
 
 # OCR
 pponnxcr==2.0
