@@ -64,12 +64,12 @@ class CampaignBase(CampaignBase_):
         if not self.map[target].is_sea:
             logger.error(f'{self.map[target]} is not a sea grid.')
             movable = False
-        
+
         if not movable:
             logger.error(f'Cannot move from {self.map[location]} to {self.map[target]}.')
 
         return movable
-    
+
     def _mob_move(self, location, target):
         """
         Move mob from location to target, and confirm if successfully moved.
@@ -174,4 +174,3 @@ class CampaignBase(CampaignBase_):
             self._mob_move_info_change(location, target)
             self.map.show()
         return result
-
