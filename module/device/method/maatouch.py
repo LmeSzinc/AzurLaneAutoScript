@@ -107,6 +107,7 @@ class MaaTouch(Connection):
     _maatouch_init_thread = None
 
     @cached_property
+    @retry
     def _maatouch_builder(self):
         self.maatouch_init()
         return MaatouchBuilder(self)
