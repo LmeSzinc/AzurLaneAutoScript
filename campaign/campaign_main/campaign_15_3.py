@@ -1,22 +1,24 @@
-from module.campaign.campaign_base import CampaignBase
+from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
-from module.logger import logger
 
+from .campaign_15_base import CampaignBase
+from .campaign_15_base import Config as ConfigBase
 
 MAP = CampaignMap('15-3')
 MAP.shape = 'J8'
-MAP.camera_data = ['D2', 'D6', 'G2', 'G6']
+MAP.camera_data = ['C2', 'C6', 'G2', 'G6']
 MAP.camera_data_spawn_point = ['G6']
+MAP.camera_sight = (-2, -1, 3, 2)
 MAP.map_data = """
-    ME ME ++ ME ME ME ME ME ME ME
-    ME ME ++ Me ME Me ME Me ME ME
-    ME ME ME ME Me ME ++ ME ME ME
-    ++ ME ME ME ME Me ++ ++ __ ME
-    Me ME ME ++ Me ME ME ME ME Me
-    ME ME ME ME ME ME ME ME ME ME
-    Me ME __ ME ME ME ME ME ++ ++
-    ++ ++ ++ Me ME ME SP SP ++ ++
+    Me -- ++ ME ME ME -- ME -- ME
+    -- ME ++ Me -- Me ME Me ME --
+    ME Me ME ME Me -- ++ MB -- ME
+    ++ -- -- ME ME Me ++ ++ __ ME
+    Me ME -- ++ Me -- ME MB -- Me
+    ME ME -- -- ME ME ME -- -- ME
+    Me -- __ -- -- ME -- -- ++ ++
+    ++ ++ ++ Me -- -- SP SP ++ ++
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50
@@ -29,11 +31,11 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 3, 'mystery': 1},
+    {'battle': 0, 'enemy': 5},
     {'battle': 1, 'enemy': 2},
     {'battle': 2, 'enemy': 1},
-    {'battle': 3, 'enemy': 1},
-    {'battle': 4},
+    {'battle': 3, 'enemy': 1, 'siren': 1},
+    {'battle': 4, 'enemy': 2},
     {'battle': 5},
     {'battle': 6, 'boss': 1},
 ]
@@ -48,34 +50,50 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, \
     = MAP.flatten()
 
 
-class Config:
+class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['0']
-    MOVABLE_ENEMY_TURN = (2,)
-    MAP_HAS_SIREN = False
-    MAP_HAS_MOVABLE_ENEMY = False
+    # MAP_SIREN_TEMPLATE = ['BOSS']
+    # MOVABLE_ENEMY_TURN = (2,)
+    # MAP_HAS_SIREN = True
+    # MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = True
-    MAP_HAS_MYSTERY = True
+    # MAP_HAS_MYSTERY = True
     # ===== End of generated config =====
 
 
 class Campaign(CampaignBase):
     MAP = MAP
-    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     def battle_0(self):
-        if self.clear_siren():
+        if not self.map_is_clear_mode:
+            self.mob_move(B3, B4)
+            self.clear_chosen_enemy(A1)
             return True
+        else:
+            if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
+                return True
+
+        return self.battle_default()
+
+    def battle_1(self):
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
             return True
 
         return self.battle_default()
 
-    def battle_5(self):
-        if self.clear_siren():
+    def battle_3(self):
+        self.clear_chosen_enemy(H5, expected='siren')
+        return True
+
+    def battle_4(self):
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
             return True
+
+        return self.battle_default()  
+
+    def battle_5(self):
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
