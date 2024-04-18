@@ -27,6 +27,32 @@ class Route(RouteBase):
         self.clear_event(event)
         # ===== End of generated waypoints =====
 
+    @locked_rotation(270)
+    def Luofu_Cloudford_F1_X244Y951(self):
+        """
+        | Waypoint | Position                  | Direction | Rotation |
+        | -------- | ------------------------- | --------- | -------- |
+        | spawn    | Waypoint((241.4, 947.5)), | 274.2     | 274      |
+        | event    | Waypoint((199.0, 940.8)), | 300.1     | 294      |
+        | exit_    | Waypoint((193.1, 947.2)), | 12.8      | 274      |
+        | exit1    | Waypoint((179.0, 956.4)), | 279.8     | 278      |
+        | exit2    | Waypoint((184.1, 940.2)), | 282.9     | 278      |
+        """
+        self.map_init(plane=Luofu_Cloudford, floor="F1", position=(244, 951))
+        self.register_domain_exit(
+            Waypoint((193.1, 947.2)), end_rotation=274,
+            left_door=Waypoint((179.0, 956.4)), right_door=Waypoint((184.1, 940.2)))
+        event = Waypoint((199.0, 940.8))
+
+        self.clear_event(event)
+        # ===== End of generated waypoints =====
+
+        """
+        Notes
+        Luofu_Cloudford_F1_X244Y951 is the same as Luofu_Cloudford_F1_X241Y947
+        but for wrong spawn point detected
+        """
+
     @locked_position
     @locked_rotation(0)
     def Luofu_Cloudford_F1_X281Y873(self):

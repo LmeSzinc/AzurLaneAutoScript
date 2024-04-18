@@ -1782,6 +1782,17 @@
     "domain": "Occurrence"
   },
   {
+    "name": "Occurrence_Luofu_Cloudford_F1_X244Y951",
+    "route": "route.rogue.Occurrence.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X244Y951",
+    "plane": "Luofu_Cloudford",
+    "floor": "F1",
+    "position": [
+      244.0,
+      951.0
+    ],
+    "domain": "Occurrence"
+  },
+  {
     "name": "Occurrence_Luofu_Cloudford_F1_X281Y873",
     "route": "route.rogue.Occurrence.Luofu_Cloudford_F1:Luofu_Cloudford_F1_X281Y873",
     "plane": "Luofu_Cloudford",
