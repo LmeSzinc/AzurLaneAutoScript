@@ -451,7 +451,8 @@
       "MuMuPlayer": "MuMu模擬器",
       "MuMuPlayerX": "MuMu模擬器X",
       "MuMuPlayer12": "MuMu模擬器12",
-      "MEmuPlayer": "逍遙模擬器"
+      "MEmuPlayer": "逍遙模擬器",
+      "CustomEmulator": "自訂模擬器"
     },
     "name": {
       "name": "模擬器實例名稱",
@@ -460,6 +461,22 @@
     "path": {
       "name": "模擬器安裝路徑",
       "help": ""
+    },
+    "CustomStartEmulator": {
+      "name": "模擬器啟動指令",
+      "help": "僅當選項為‘自訂模擬器’時生效"
+    },
+    "CustomStopEmulator": {
+      "name": "模擬器停止指令",
+      "help": "僅當選項為‘自訂模擬器’時生效"
+    },
+    "Timeout": {
+      "name": "等待模擬器啟動完成的逾時時間",
+      "help": "單位：秒"
+    },
+    "DailyRestart": {
+      "name": "伺服器重繪時重啟模擬器",
+      "help": "每天主動重啟模擬器以解决記憶體洩漏問題"
     }
   },
   "Error": {
@@ -2462,6 +2479,10 @@
     "AutoRestart": {
       "name": "自動登錄",
       "help": "遊戲被強制結束後自動登錄遊戲"
+    },
+    "RestartEmulator": {
+      "name": "重新啟動模擬器",
+      "help": ""
     }
   },
   "Storage": {

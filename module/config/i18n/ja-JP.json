@@ -451,7 +451,8 @@
       "MuMuPlayer": "MuMuPlayer",
       "MuMuPlayerX": "MuMuPlayerX",
       "MuMuPlayer12": "MuMuPlayer12",
-      "MEmuPlayer": "MEmuPlayer"
+      "MEmuPlayer": "MEmuPlayer",
+      "CustomEmulator": "CustomEmulator"
     },
     "name": {
       "name": "EmulatorInfo.name.name",
@@ -460,6 +461,22 @@
     "path": {
       "name": "EmulatorInfo.path.name",
       "help": "EmulatorInfo.path.help"
+    },
+    "CustomStartEmulator": {
+      "name": "EmulatorInfo.CustomStartEmulator.name",
+      "help": "EmulatorInfo.CustomStartEmulator.help"
+    },
+    "CustomStopEmulator": {
+      "name": "EmulatorInfo.CustomStopEmulator.name",
+      "help": "EmulatorInfo.CustomStopEmulator.help"
+    },
+    "Timeout": {
+      "name": "EmulatorInfo.Timeout.name",
+      "help": "EmulatorInfo.Timeout.help"
+    },
+    "DailyRestart": {
+      "name": "EmulatorInfo.DailyRestart.name",
+      "help": "EmulatorInfo.DailyRestart.help"
     }
   },
   "Error": {
@@ -2462,6 +2479,10 @@
     "AutoRestart": {
       "name": "GameManager.AutoRestart.name",
       "help": "GameManager.AutoRestart.help"
+    },
+    "RestartEmulator": {
+      "name": "GameManager.RestartEmulator.name",
+      "help": "GameManager.RestartEmulator.help"
     }
   },
   "Storage": {

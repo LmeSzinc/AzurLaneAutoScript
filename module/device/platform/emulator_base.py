@@ -134,6 +134,7 @@ class EmulatorBase:
     MuMuPlayer12 = 'MuMuPlayer12'
     MuMuPlayerFamily = [MuMuPlayer, MuMuPlayerX, MuMuPlayer12]
     MEmuPlayer = 'MEmuPlayer'
+    CustomEmulator = 'CustomEmulator'
 
     @classmethod
     def path_to_type(cls, path: str) -> str:

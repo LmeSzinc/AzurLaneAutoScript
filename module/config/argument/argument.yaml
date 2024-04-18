@@ -73,6 +73,7 @@ EmulatorInfo:
       MuMuPlayerX,
       MuMuPlayer12,
       MEmuPlayer,
+      CustomEmulator,
     ]
   name:
     value: null
@@ -80,6 +81,14 @@ EmulatorInfo:
   path:
     value: null
     type: textarea
+  CustomStartEmulator:
+    value: null
+    type: textarea
+  CustomStopEmulator:
+    value: null
+    type: textarea
+  Timeout: 90
+  DailyRestart: false
 Error:
   HandleError: true
   SaveError: true
@@ -723,3 +732,4 @@ AzurLaneUncensored:
     display: disabled
 GameManager:
   AutoRestart: true
+  RestartEmulator: false

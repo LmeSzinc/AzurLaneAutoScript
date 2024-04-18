@@ -1,9 +1,11 @@
+import subprocess
 import sys
 import typing as t
 
 from pydantic import BaseModel
 
 from module.base.decorator import cached_property, del_cached_property
+from module.base.timer import Timer
 from module.device.connection import Connection
 from module.device.method.utils import get_serial_pair
 from module.device.platform.emulator_base import EmulatorInstanceBase, EmulatorManagerBase, remove_duplicated_path
@@ -29,7 +31,35 @@ class PlatformBase(Connection, EmulatorManagerBase):
     - all_emulator_instances()
     - emulator_start()
     - emulator_stop()
+    - execute()
     """
+
+    def execute(cls, command):
+        """
+        Args:
+            command (str):
+        """
+        logger.warning(f'Current platform {sys.platform} does not support execute, skip')
+
+    def wait_for_emulator_startup_to_complete(self, stuck_timer = Timer(30).start()):
+        """
+        Args:
+            stuck_timer (Timer):
+
+        Returns:
+            True/False
+        """
+        while not stuck_timer.reached():
+            if int(self.adb_getprop("sys.boot_completed", "0")) == 1:
+                logger.info("Emulator startup completed")
+                return True
+            self.sleep(1)
+        logger.warning("Timeout waiting for emulator to start!")
+        return False
+
+    def emulator_restart(self):
+        self.emulator_stop()
+        self.emulator_start()
 
     def emulator_start(self):
         """
@@ -37,13 +67,36 @@ class PlatformBase(Connection, EmulatorManagerBase):
         - Retry is required.
         - Using bored sleep to wait startup is forbidden.
         """
-        logger.info(f'Current platform {sys.platform} does not support emulator_start, skip')
+        logger.warning(f'Current platform {sys.platform} does not support emulator_start, skip')
 
     def emulator_stop(self):
         """
         Stop a emulator.
         """
-        logger.info(f'Current platform {sys.platform} does not support emulator_stop, skip')
+        logger.warning(f'Current platform {sys.platform} does not support emulator_stop, skip')
+
+    def custom_emulator_start(self):
+        logger.hr('Emulator start', level=1)
+
+        cmdline = self.config.EmulatorInfo_CustomStartEmulator
+        logger.info(f'start emulator: {cmdline}')
+        self.execute(cmdline)
+
+        timeout = self.config.EmulatorInfo_Timeout
+        logger.info(f"Wait for emulator startup to complete, timeout: {timeout}s")
+        stuck_timer = Timer(timeout).start()
+        while not stuck_timer.reached():
+            if self.adb_connect(serial=self.serial) \
+                and self.wait_for_emulator_startup_to_complete(stuck_timer=stuck_timer):
+                return
+            self.sleep(1)
+
+    def custom_emulator_stop(self):
+        logger.hr('Emulator stop', level=1)
+
+        cmdline = self.config.EmulatorInfo_CustomStopEmulator
+        logger.info(f'Kill emulator: {cmdline}')
+        self.execute(cmdline)
 
     @cached_property
     def emulator_info(self) -> EmulatorInfo:

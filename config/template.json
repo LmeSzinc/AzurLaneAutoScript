@@ -12,7 +12,11 @@
     "EmulatorInfo": {
       "Emulator": "auto",
       "name": null,
-      "path": null
+      "path": null,
+      "CustomStartEmulator": null,
+      "CustomStopEmulator": null,
+      "Timeout": 90,
+      "DailyRestart": false
     },
     "Error": {
       "HandleError": true,
@@ -1865,7 +1869,8 @@
   },
   "GameManager": {
     "GameManager": {
-      "AutoRestart": true
+      "AutoRestart": true,
+      "RestartEmulator": false
     },
     "Storage": {
       "Storage": {}

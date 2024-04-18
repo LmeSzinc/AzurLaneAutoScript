@@ -158,7 +158,8 @@
           "MuMuPlayer",
           "MuMuPlayerX",
           "MuMuPlayer12",
-          "MEmuPlayer"
+          "MEmuPlayer",
+          "CustomEmulator"
         ]
       },
       "name": {
@@ -168,6 +169,22 @@
       "path": {
         "type": "textarea",
         "value": null
+      },
+      "CustomStartEmulator": {
+        "type": "textarea",
+        "value": null
+      },
+      "CustomStopEmulator": {
+        "type": "textarea",
+        "value": null
+      },
+      "Timeout": {
+        "type": "input",
+        "value": 90
+      },
+      "DailyRestart": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Error": {
@@ -1702,8 +1719,8 @@
         ],
         "display": "hide",
         "option_bold": [
-          "event_20220224_cn",
-          "event_20211111_cn"
+          "event_20211111_cn",
+          "event_20220224_cn"
         ],
         "cn": "event_20220224_cn",
         "en": "event_20220224_cn",
@@ -2035,8 +2052,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20220224_cn",
-          "event_20211111_cn"
+          "event_20211111_cn",
+          "event_20220224_cn"
         ],
         "cn": "event_20220224_cn",
         "en": "event_20220224_cn",
@@ -2483,8 +2500,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20220224_cn",
-          "event_20211111_cn"
+          "event_20211111_cn",
+          "event_20220224_cn"
         ],
         "cn": "event_20220224_cn",
         "en": "event_20220224_cn",
@@ -2894,8 +2911,8 @@
           "raid_20240328"
         ],
         "option_bold": [
-          "raid_20240328",
-          "raid_20230629"
+          "raid_20230629",
+          "raid_20240328"
         ],
         "cn": "raid_20240328",
         "en": "raid_20240328",
@@ -3877,8 +3894,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20220224_cn",
-          "event_20211111_cn"
+          "event_20211111_cn",
+          "event_20220224_cn"
         ],
         "cn": "event_20220224_cn",
         "en": "event_20220224_cn",
@@ -4342,8 +4359,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20220224_cn",
-          "event_20211111_cn"
+          "event_20211111_cn",
+          "event_20220224_cn"
         ],
         "cn": "event_20220224_cn",
         "en": "event_20220224_cn",
@@ -4807,8 +4824,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20220224_cn",
-          "event_20211111_cn"
+          "event_20211111_cn",
+          "event_20220224_cn"
         ],
         "cn": "event_20220224_cn",
         "en": "event_20220224_cn",
@@ -5272,8 +5289,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20220224_cn",
-          "event_20211111_cn"
+          "event_20211111_cn",
+          "event_20220224_cn"
         ],
         "cn": "event_20220224_cn",
         "en": "event_20220224_cn",
@@ -5727,8 +5744,8 @@
           "event_20240229_cn"
         ],
         "option_bold": [
-          "event_20220224_cn",
-          "event_20211111_cn"
+          "event_20211111_cn",
+          "event_20220224_cn"
         ],
         "cn": "event_20220224_cn",
         "en": "event_20220224_cn",
@@ -6135,8 +6152,8 @@
           "raid_20240328"
         ],
         "option_bold": [
-          "raid_20240328",
-          "raid_20230629"
+          "raid_20230629",
+          "raid_20240328"
         ],
         "cn": "raid_20240328",
         "en": "raid_20240328",
@@ -9139,6 +9156,10 @@
       "AutoRestart": {
         "type": "checkbox",
         "value": true
+      },
+      "RestartEmulator": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Storage": {

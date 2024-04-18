@@ -228,7 +228,7 @@ class Connection(ConnectionAttr):
             # str
             return result
 
-    def adb_getprop(self, name):
+    def adb_getprop(self, name, default_value=None):
         """
         Get system property in Android, same as `getprop <name>`
 
@@ -238,7 +238,10 @@ class Connection(ConnectionAttr):
         Returns:
             str:
         """
-        return self.adb_shell(['getprop', name]).strip()
+        shell_cmd = ['getprop', name]
+        if default_value is not None:
+            shell_cmd.append(default_value)
+        return self.adb_shell(shell_cmd).strip()
 
     @cached_property
     def cpu_abi(self) -> str:

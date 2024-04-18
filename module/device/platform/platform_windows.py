@@ -43,7 +43,7 @@ def flash_window(hwnd, flash=True):
 
 
 class PlatformWindows(PlatformBase, EmulatorManager):
-    @classmethod
+
     def execute(cls, command):
         """
         Args:
@@ -103,6 +103,8 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         elif instance == Emulator.BlueStacks4:
             # BlueStacks\Client\Bluestacks.exe -vmname Android_1
             self.execute(f'"{exe}" -vmname {instance.name}')
+        elif instance == Emulator.CustomEmulator:
+            self.custom_emulator_start()
         else:
             raise EmulatorUnknown(f'Cannot start an unknown emulator instance: {instance}')
 
@@ -157,6 +159,8 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         elif instance == Emulator.NoxPlayerFamily:
             # Nox.exe -clone:Nox_1 -quit
             self.execute(f'"{exe}" -clone:{instance.name} -quit')
+        elif instance == Emulator.CustomEmulator:
+            self.custom_emulator_stop()
         else:
             raise EmulatorUnknown(f'Cannot stop an unknown emulator instance: {instance}')
 

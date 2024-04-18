@@ -451,7 +451,8 @@
       "MuMuPlayer": "MuMu Player",
       "MuMuPlayerX": "MuMu Player X",
       "MuMuPlayer12": "MuMu Player 12",
-      "MEmuPlayer": "MEmu Player"
+      "MEmuPlayer": "MEmu Player",
+      "CustomEmulator": "Custom"
     },
     "name": {
       "name": "Emulator Instance Name",
@@ -460,6 +461,22 @@
     "path": {
       "name": "Emulator Installation Path",
       "help": ""
+    },
+    "CustomStartEmulator": {
+      "name": "Custom startup command",
+      "help": "Only takes effect when the option is 'Custom'"
+    },
+    "CustomStopEmulator": {
+      "name": "Custom stop command",
+      "help": "Only takes effect when the option is 'Custom'"
+    },
+    "Timeout": {
+      "name": "Timeout waiting for emulator startup to complete",
+      "help": "Unit: seconds"
+    },
+    "DailyRestart": {
+      "name": "Restart Emulator when Server Refreshes",
+      "help": "Restart emulator every day to solve the memory leak problem"
     }
   },
   "Error": {
@@ -2462,6 +2479,10 @@
     "AutoRestart": {
       "name": "Automatic Login",
       "help": "Log back into the game when the game has been ended."
+    },
+    "RestartEmulator": {
+      "name": "Restart the emulator",
+      "help": ""
     }
   },
   "Storage": {

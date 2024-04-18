@@ -451,7 +451,8 @@
       "MuMuPlayer": "MuMu模拟器",
       "MuMuPlayerX": "MuMu模拟器X",
       "MuMuPlayer12": "MuMu模拟器12",
-      "MEmuPlayer": "逍遥模拟器"
+      "MEmuPlayer": "逍遥模拟器",
+      "CustomEmulator": "自定义"
     },
     "name": {
       "name": "模拟器实例名称",
@@ -460,6 +461,22 @@
     "path": {
       "name": "模拟器安装路径",
       "help": ""
+    },
+    "CustomStartEmulator": {
+      "name": "自定义启动指令",
+      "help": "仅当模拟器类型为‘自定义’时生效"
+    },
+    "CustomStopEmulator": {
+      "name": "自定义停止指令",
+      "help": "仅当模拟器类型为‘自定义’时生效"
+    },
+    "Timeout": {
+      "name": "等待模拟器启动完成的超时时间",
+      "help": "单位：秒"
+    },
+    "DailyRestart": {
+      "name": "服务器刷新时重启模拟器",
+      "help": "每天主动重启模拟器以解决内存泄露问题"
     }
   },
   "Error": {
@@ -2462,6 +2479,10 @@
     "AutoRestart": {
       "name": "自动登录",
       "help": "游戏被强制结束后自动登录游戏"
+    },
+    "RestartEmulator": {
+      "name": "重启模拟器",
+      "help": ""
     }
   },
   "Storage": {
