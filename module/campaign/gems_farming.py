@@ -269,13 +269,20 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
         scanner.set_limitation(fleet=0)
 
+        if self.config.GemsFarming_CommonDD == 'any':
+            return scanner.scan(self.device.image, output=False)
+        
         candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
 
         if candidates:
             return candidates
-        else:
-            logger.info('No specific DD was found, try reversed order.')
-            return candidates
+        
+        logger.info('No specific DD was found, try reversed order.')
+        self.dock_sort_method_dsc_set(False)
+
+        candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
+
+        return candidates
 
     def find_candidates(self, template, scanner):
         """
