@@ -66,6 +66,20 @@ class Config(ConfigBase):
 class Campaign(CampaignBase):
     MAP = MAP
 
+    def battle_function(self):
+        if not self.config.MAP_CLEAR_ALL_THIS_TIME:
+            return super().battle_function()
+
+        if self.battle_count == 3 \
+                or (self.battle_count == 0 and not self.map_is_clear_mode):
+            func = self.FUNCTION_NAME_BASE + str(self.battle_count)
+            logger.info(f'Using function: {func}')
+            func = self.__getattribute__(func)
+            result = func()
+            return result
+
+        return super().battle_function()
+
     def battle_0(self):
         if not self.map_is_clear_mode:
             self.mob_move(B3, B4)
