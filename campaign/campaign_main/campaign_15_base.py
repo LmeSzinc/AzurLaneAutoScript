@@ -16,6 +16,12 @@ class Config:
     # Ambushes can be avoid by having more DDs.
     MAP_WALK_OPTIMIZE = False
     MAP_ENEMY_TEMPLATE = ['Light', 'Main', 'Carrier', 'CarrierSpecial']
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 33),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
 
 
 class CampaignBase(CampaignBase_):
