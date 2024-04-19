@@ -22,6 +22,9 @@ class Config:
         'prominence': 10,
         'distance': 35,
     }
+    MAP_SWIPE_MULTIPLY = (0.993, 1.011)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (0.960, 0.978)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.932, 0.949)
 
 
 class CampaignBase(CampaignBase_):

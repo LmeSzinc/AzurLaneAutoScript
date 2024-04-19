@@ -47,7 +47,7 @@ A7, B7, C7, D7, E7, F7, G7, H7, \
     = MAP.flatten()
 
 
-class Config:
+class Config(ConfigBase):
     # ===== Start of generated config =====
     # MAP_SIREN_TEMPLATE = ['0']
     # MOVABLE_ENEMY_TURN = (2,)
