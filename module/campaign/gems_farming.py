@@ -95,11 +95,12 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
     def change_vanguard_equip(self):
         return 'equip' in self.config.GemsFarming_ChangeVanguard
 
-    def fleet_enter(self, fleet=None):
-        fleet = self.config.Fleet_Fleet1
+    @property
+    def fleet_to_attack(self):
         if self.config.Fleet_FleetOrder == 'fleet1_standby_fleet2_all':
-            fleet = self.config.Fleet_Fleet2
-        super().fleet_enter(fleet)
+            return self.config.Fleet_Fleet2
+        else:
+            return self.config.Fleet_Fleet1
 
     def flagship_change(self):
         """
@@ -116,7 +117,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
             index_list = range(0, 5)
         logger.hr('Change flagship', level=1)
         logger.attr('ChangeFlagship', self.config.GemsFarming_ChangeFlagship)
-        self.fleet_enter()
+        self.fleet_enter(self.fleet_to_attack)
         if self.change_flagship_equip:
             logger.hr('Record flagship equipment', level=2)
             self.fleet_enter_ship(FLEET_DETAIL_ENTER_FLAGSHIP)
@@ -146,7 +147,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
 
         logger.hr('Change vanguard', level=1)
         logger.attr('ChangeVanguard', self.config.GemsFarming_ChangeVanguard)
-        self.fleet_enter()
+        self.fleet_enter(self.fleet_to_attack)
         if self.change_vanguard_equip:
             logger.hr('Record vanguard equipment', level=2)
             self.fleet_enter_ship(FLEET_DETAIL_ENTER)
@@ -183,8 +184,8 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
 
         logger.hr('FINDING FLAGSHIP')
 
-        scanner = ShipScanner(
-            level=(1, 31), emotion=(10, 150), fleet=self.config.Fleet_Fleet1, status='free')
+        scanner = ShipScanner(level=(1, 31), emotion=(10, 150),
+                              fleet=self.fleet_to_attack, status='free')
         scanner.disable('rarity')
 
         if self.config.GemsFarming_CommonCV == 'any':
@@ -243,7 +244,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
             max_level = 70
 
         scanner = ShipScanner(level=(max_level, max_level), emotion=(10, 150),
-                              fleet=self.config.Fleet_Fleet1, status='free')
+                              fleet=self.fleet_to_attack, status='free')
         scanner.disable('rarity')
 
         self.dock_sort_method_dsc_set()
