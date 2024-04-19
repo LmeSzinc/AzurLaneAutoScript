@@ -67,7 +67,7 @@ class GemsCampaignOverride(CampaignBase):
             raise CampaignEnd('Emotion withdraw')
 
 
-class GemsFarming(CampaignRun, Dock, FleetEquipment):
+class GemsFarming(CampaignRun, FleetEquipment, Dock):
 
     def load_campaign(self, name, folder='campaign_main'):
         super().load_campaign(name, folder)
