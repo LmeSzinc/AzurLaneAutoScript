@@ -8,7 +8,7 @@ from .campaign_15_base import Config as ConfigBase
 MAP = CampaignMap('15-1')
 MAP.shape = 'H7'
 MAP.camera_data = ['C2', 'C5', 'E2', 'E5']
-MAP.camera_data_spawn_point = ['D5']
+MAP.camera_data_spawn_point = ['C5']
 MAP.camera_sight = (-2, -1, 3, 2)
 MAP.map_data = """
     Me Me ME ++ ME MB ++ ++
@@ -47,7 +47,7 @@ A7, B7, C7, D7, E7, F7, G7, H7, \
     = MAP.flatten()
 
 
-class Config:
+class Config(ConfigBase):
     # ===== Start of generated config =====
     # MAP_SIREN_TEMPLATE = ['0']
     # MOVABLE_ENEMY_TURN = (2,)
@@ -73,13 +73,13 @@ class Campaign(CampaignBase):
         else:
             if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
                 return True
-    
+
         return self.battle_default()
 
     def battle_1(self):
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
             return True
-        
+
         return self.battle_default()
 
     def battle_5(self):

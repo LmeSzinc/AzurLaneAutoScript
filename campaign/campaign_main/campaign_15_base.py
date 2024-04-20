@@ -16,6 +16,15 @@ class Config:
     # Ambushes can be avoid by having more DDs.
     MAP_WALK_OPTIMIZE = False
     MAP_ENEMY_TEMPLATE = ['Light', 'Main', 'Carrier', 'CarrierSpecial']
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 33),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    MAP_SWIPE_MULTIPLY = (0.993, 1.011)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (0.960, 0.978)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.932, 0.949)
 
 
 class CampaignBase(CampaignBase_):
@@ -26,6 +35,10 @@ class CampaignBase(CampaignBase_):
         # Patch ui_mask, get rid of supporting fleet
         _ = ASSETS.ui_mask
         ASSETS.ui_mask = MASK_MAP_UI_W15.image
+
+    def _map_swipe(self, vector, box=(239, 159, 1175, 628)):
+        # Left border to 239, avoid swiping on support fleet
+        return super()._map_swipe(vector, box=box)
 
     def mob_movable(self, location, target):
         """
@@ -64,12 +77,12 @@ class CampaignBase(CampaignBase_):
         if not self.map[target].is_sea:
             logger.error(f'{self.map[target]} is not a sea grid.')
             movable = False
-        
+
         if not movable:
             logger.error(f'Cannot move from {self.map[location]} to {self.map[target]}.')
 
         return movable
-    
+
     def _mob_move(self, location, target):
         """
         Move mob from location to target, and confirm if successfully moved.
@@ -87,49 +100,54 @@ class CampaignBase(CampaignBase_):
         """
         location = location_ensure(location)
         target = location_ensure(target)
-        moved = False
+
+        view_target = SelectedGrids([self.map[location], self.map[target]]) \
+            .sort_by_camera_distance(self.camera)[1]
+        self.in_sight(view_target)
+        origin_grid = self.convert_global_to_local(location)
+        origin_grid.__str__ = location
+        target_grid = self.convert_global_to_local(target)
+        target_grid.__str__ = target
+
+        logger.info('Select mob to move')
+        skip_first_screenshot = True
+        interval = Timer(2, count=4)
         while 1:
-            view_target = SelectedGrids([self.map[location], self.map[target]]) \
-                .sort_by_camera_distance(self.camera)[1]
-            self.in_sight(view_target)
-            grid = self.convert_global_to_local(location)
-            grid.__str__ = location
-            grid_2 = self.convert_global_to_local(target)
-            grid_2.__str__ = target
-
-            confirm_timer = Timer(1)
-            click_timeout = Timer(2, count=6).start()
-
-            while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
                 self.device.screenshot()
-                if self.appear(STRATEGY_OPENED, offset=(120, 120)):
-                    moved = True
-                    break
-                if self.handle_popup_confirm('MOB_MOVE'):
-                    confirm_timer.reset()
-                    continue
-                else:
-                    self.view.update(image=self.device.image)
 
-                if not grid.predict_mob_move_icon():
-                    if confirm_timer.reached():
-                        self.device.click(grid)
-                        confirm_timer.reset()
-                    continue
-                if confirm_timer.reached():
-                    self.device.click(grid_2)
-                    confirm_timer.reset()
-
-                if click_timeout.reached():
-                    logger.warning('Click timeout. Retrying.')
-                    self.predict()
-                    self.ensure_edge_insight(skip_first_update=False)
-                    break
-
-            if moved:
+            # End
+            if self.is_in_strategy_mob_move():
+                self.view.update(image=self.device.image)
+            if origin_grid.predict_mob_move_icon():
                 break
+            # Click
+            if interval.reached() and self.is_in_strategy_mob_move():
+                self.device.click(origin_grid)
+                interval.reset()
+                continue
 
-        return moved
+        logger.info('Select target grid')
+        skip_first_screenshot = True
+        interval = Timer(2, count=4)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(STRATEGY_OPENED, offset=(120, 120)):
+                break
+            # Click
+            if interval.reached() and self.is_in_strategy_mob_move():
+                self.device.click(target_grid)
+                interval.reset()
+                continue
+            if self.handle_popup_confirm('MOB_MOVE'):
+                continue
 
     def _mob_move_info_change(self, location, target):
         location = location_ensure(location)
@@ -168,10 +186,8 @@ class CampaignBase(CampaignBase_):
             self.strategy_close()
             return False
         self.strategy_mob_move_enter()
-        result = self._mob_move(location, target)
+        self._mob_move(location, target)
         self.strategy_close(skip_first_screenshot=False)
-        if result:
-            self._mob_move_info_change(location, target)
-            self.map.show()
-        return result
 
+        self._mob_move_info_change(location, target)
+        self.map.show()
