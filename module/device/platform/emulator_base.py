@@ -105,7 +105,7 @@ class EmulatorInstanceBase:
         Returns:
             int: Instance ID, or None if this is not a MuMu 12 instance
         """
-        res = re.search(r'MuMuPlayer-12.0-(\d+)', self.name)
+        res = re.search(r'MuMuPlayer(?:Global)?-12.0-(\d+)', self.name)
         if res:
             return int(res.group(1))
         res = re.search(r'YXArkNights-12.0-(\d+)', self.name)

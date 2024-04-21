@@ -183,6 +183,16 @@ class Device(Screenshot, Control, AppControl):
         if self.config.Emulator_ScreenshotMethod == 'nemu_ipc':
             self.nemu_ipc_release()
 
+    def get_orientation(self):
+        """
+        Callbacks when orientation changed.
+        """
+        o = super().get_orientation()
+
+        self.on_orientation_change_maatouch()
+
+        return o
+
     def stuck_record_add(self, button):
         self.detect_record.add(str(button))
 

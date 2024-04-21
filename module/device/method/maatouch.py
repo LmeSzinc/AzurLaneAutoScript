@@ -102,11 +102,13 @@ class MaaTouch(Connection):
     """
     max_x: int
     max_y: int
-    _maatouch_stream = socket.socket
+    _maatouch_stream: socket.socket = None
     _maatouch_stream_storage = None
     _maatouch_init_thread = None
+    _maatouch_orientation: int = None
 
     @cached_property
+    @retry
     def _maatouch_builder(self):
         self.maatouch_init()
         return MaatouchBuilder(self)
@@ -136,11 +138,39 @@ class MaaTouch(Connection):
         self._maatouch_init_thread = thread
         thread.start()
 
+    def on_orientation_change_maatouch(self):
+        """
+        MaaTouch caches devices orientation at its startup
+        A restart is required when orientation changed
+        """
+        if self._maatouch_orientation is None:
+            return
+        if self.orientation == self._maatouch_orientation:
+            return
+
+        logger.info(f'Orientation changed {self._maatouch_orientation} => {self.orientation}, re-init MaaTouch')
+        del_cached_property(self, '_maatouch_builder')
+        self.early_maatouch_init()
+
     def maatouch_init(self):
         logger.hr('MaaTouch init')
         max_x, max_y = 1280, 720
         max_contacts = 2
         max_pressure = 50
+
+        # Try to close existing stream
+        if self._maatouch_stream is not None:
+            try:
+                self._maatouch_stream.close()
+            except Exception as e:
+                logger.error(e)
+            del self._maatouch_stream
+        if self._maatouch_stream_storage is not None:
+            del self._maatouch_stream_storage
+
+        # MaaTouch caches devices orientation at its startup
+        super(MaaTouch, self).get_orientation()
+        self._maatouch_orientation = self.orientation
 
         # CLASSPATH=/data/local/tmp/maatouch app_process / com.shxyke.MaaTouch.App
         stream = self.adb_shell(
