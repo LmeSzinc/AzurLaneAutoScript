@@ -49,7 +49,7 @@ class Enhancement(Dock):
         if self.appear(DOCK_EMPTY, offset=(30, 30)):
             return False
 
-        self.equip_enter(
+        self.ship_info_enter(
             CARD_GRIDS[(0, 0)], check_button=SHIP_DETAIL_CHECK, long_click=False)
         return True
 
