@@ -136,14 +136,12 @@ class StrategyHandler(InfoHandler):
         logger.attr('Map_buff', buff)
         return buff
     
-    def check_mob_move_2_button(self):
+    def check_mob_move_button(self):
         """
         Used for initial check of mob_move strategy existence.
         """
-        self.strategy_open()
-        has_button = self.appear(MOB_MOVE_2, offset=MOB_MOVE_OFFSET)
-        self.strategy_close()
-        return has_button
+        return self.appear(MOB_MOVE_2, offset=MOB_MOVE_OFFSET) \
+            or self.appear(MOB_MOVE_1, offset=MOB_MOVE_OFFSET)
 
     def is_in_strategy_submarine_move(self):
         """

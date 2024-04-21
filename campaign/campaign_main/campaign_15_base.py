@@ -38,9 +38,13 @@ class CampaignBase(CampaignBase_):
 
     map_has_mob_move = False
 
-    def map_control_init(self):
-        super().map_control_init()
-        self.map_has_mob_move = self.check_mob_move_2_button()
+    def strategy_set_execute(self, formation_index=None, sub_view=None, sub_hunt=None):
+        super().strategy_set_execute(
+            formation_index=formation_index,
+            sub_view=sub_view,
+            sub_hunt=sub_hunt,
+        )
+        self.map_has_mob_move = self.check_mob_move_button()
 
     def _map_swipe(self, vector, box=(239, 159, 1175, 628)):
         # Left border to 239, avoid swiping on support fleet
