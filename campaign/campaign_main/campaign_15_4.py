@@ -90,28 +90,27 @@ class Campaign(CampaignBase):
         return super().battle_function()
 
     def battle_0(self):
-        if not self.map_is_clear_mode:
-            self.clear_chosen_enemy(A1)
+        if not self.map_is_clear_mode and self.map_has_mob_move:
+            self.mob_move(J8, J7)
+            self.clear_chosen_enemy(K9)
             return True
-        else:
-            if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
-                return True
+
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
+            return True
 
         return self.battle_default()
 
     def battle_1(self):
         if not self.map_is_clear_mode:
-            self.mob_move(J8, J7)
-            self.clear_chosen_enemy(K9)
+            self.clear_chosen_enemy(A1)
             return True
-        else:
-            if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
-                return True
+
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
+            return True
 
         return self.battle_default()
 
     def battle_2(self):
-        self.pick_up_ammo()
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
@@ -123,6 +122,7 @@ class Campaign(CampaignBase):
             self.fleet_1.switch_to()
             return True
         else:
+            self.pick_up_ammo()
             self.clear_chosen_enemy(H5, expected='siren')
             return True
 

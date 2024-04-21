@@ -36,6 +36,12 @@ class CampaignBase(CampaignBase_):
         _ = ASSETS.ui_mask
         ASSETS.ui_mask = MASK_MAP_UI_W15.image
 
+    map_has_mob_move = False
+
+    def map_control_init(self):
+        super().map_control_init()
+        self.map_has_mob_move = self.check_mob_move_2_button()
+
     def _map_swipe(self, vector, box=(239, 159, 1175, 628)):
         # Left border to 239, avoid swiping on support fleet
         return super()._map_swipe(vector, box=box)
