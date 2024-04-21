@@ -365,7 +365,7 @@ def retry(func):
 
 class Minitouch(Connection):
     _minitouch_port: int = 0
-    _minitouch_client: socket.socket
+    _minitouch_client: socket.socket = None
     _minitouch_pid: int
     _minitouch_ws: websockets.WebSocketClientProtocol
     max_x: int
