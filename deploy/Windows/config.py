@@ -1,6 +1,7 @@
 import copy
 import os
 import subprocess
+import sys
 from typing import Optional, Union
 
 from deploy.Windows.logger import logger
@@ -149,7 +150,7 @@ class DeployConfig(ConfigModel):
         if os.path.exists(exe):
             return exe
 
-        logger.warning(f'AdbExecutable: {exe} does not exists, use `adb` instead')
+        logger.warning(f'AdbExecutable: {exe} does not exist, use `adb` instead')
         return 'adb'
 
     @cached_property
@@ -158,12 +159,18 @@ class DeployConfig(ConfigModel):
         if os.path.exists(exe):
             return exe
 
-        logger.warning(f'GitExecutable: {exe} does not exists, use `git` instead')
+        logger.warning(f'GitExecutable: {exe} does not exist, use `git` instead')
         return 'git'
 
     @cached_property
     def python(self) -> str:
-        return self.filepath(self.PythonExecutable)
+        exe = self.filepath(self.PythonExecutable)
+        if os.path.exists(exe):
+            return exe
+
+        current = sys.executable.replace("\\", "/")
+        logger.warning(f'PythonExecutable: {exe} does not exist, use current python instead: {current}')
+        return current
 
     @cached_property
     def requirements_file(self) -> str:
