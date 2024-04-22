@@ -80,12 +80,6 @@ class DeployConfig(ConfigModel):
         self.config_template = {}
         self.read()
 
-        # Bypass webui.config.DeployConfig.__setattr__()
-        # Don't write these into deploy.yaml
-        super().__setattr__('GitOverCdn', self.Repository in ['cn'])
-        if self.Repository in ['global', 'cn']:
-            super().__setattr__('Repository', 'https://github.com/LmeSzinc/StarRailCopilot')
-
         self.write()
         self.show_config()
 
@@ -109,8 +103,20 @@ class DeployConfig(ConfigModel):
             if hasattr(self, key):
                 super().__setattr__(key, value)
 
+        self.config_redirect()
+
     def write(self):
         poor_yaml_write(self.config, self.file)
+
+    def config_redirect(self):
+        """
+        Redirect deploy config, must be called after each `read()`
+        """
+        # Bypass webui.config.DeployConfig.__setattr__()
+        # Don't write these into deploy.yaml
+        super().__setattr__('GitOverCdn', self.Repository in ['cn'])
+        if self.Repository in ['global', 'cn']:
+            super().__setattr__('Repository', 'https://github.com/LmeSzinc/StarRailCopilot')
 
     def filepath(self, path):
         """

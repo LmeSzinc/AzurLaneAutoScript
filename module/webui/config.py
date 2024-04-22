@@ -38,6 +38,8 @@ class DeployConfig(_DeployConfig):
             if hasattr(self, key):
                 super().__setattr__(key, value)
 
+        self.config_redirect()
+
     def write(self):
         """
         Write `self.config` into deploy config.
