@@ -310,27 +310,20 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
             max_level = 70
 
         scanner = ShipScanner(level=(max_level, max_level), emotion=(1 + EMOTION_LIMIT + self.emotion_expected_reduce, 150),
-                              fleet=self.fleet_to_attack, status='free')
+                              fleet=[0, self.fleet_to_attack], status='free')
         scanner.disable('rarity')
 
         self.dock_sort_method_dsc_set()
-
-        ships = scanner.scan(self.device.image)
-        if ships:
-            # Don't need to change current
-            return ships
-
-        scanner.set_limitation(fleet=0)
         self.dock_favourite_set(self.config.GemsFarming_CommonDD == 'favourite')
 
         if self.config.GemsFarming_CommonDD in ['any', 'favourite', 'z20_or_z21']:
-            return scanner.scan(self.device.image, output=False)
+            return scanner.scan(self.device.image)
 
         candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
 
         if candidates:
             return candidates
-        
+
         logger.info('No specific DD was found, try reversed order.')
         self.dock_sort_method_dsc_set(False)
 
