@@ -204,7 +204,19 @@ class Emotion:
         else:
             return 2
 
-    def predict_recovered(self, battle):
+    def check_reduce(self, battle):
+        """
+        Check emotion before entering a campaign.
+
+        Args:
+            battle (int): Battles in this campaign
+
+        Raise:
+            ScriptEnd: Delay current task to prevent emotion control in the future.
+        """
+        if not self.is_calculate:
+            return
+
         method = self.config.Fleet_FleetOrder
 
         if method == 'fleet1_mob_fleet2_boss':
@@ -224,22 +236,7 @@ class Emotion:
         self.update()
         self.record()
         self.show()
-        return max([f.get_recovered(b) for f, b in zip(self.fleets, battle)])
-
-    def check_reduce(self, battle):
-        """
-        Check emotion before entering a campaign.
-
-        Args:
-            battle (int): Battles in this campaign
-
-        Raise:
-            ScriptEnd: Delay current task to prevent emotion control in the future.
-        """
-        if not self.is_calculate:
-            return
-
-        recovered = self.predict_recovered(battle)
+        recovered = max([f.get_recovered(b) for f, b in zip(self.fleets, battle)])
         if recovered > datetime.now():
             logger.info('Delay current task to prevent emotion control in the future')
             self.config.task_delay(target=recovered)

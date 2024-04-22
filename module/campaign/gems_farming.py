@@ -38,15 +38,6 @@ class GemsFleetEmotion(FleetEmotion):
         if self.current < 119:
             super().update()
 
-    def get_recovered(self, expected_reduce=0):
-        recover_count = (self.limit + expected_reduce - self.current + 1) // 2
-        recovered = (int(datetime.now().timestamp()) // 360 + recover_count) * 360
-        return datetime.fromtimestamp(recovered)
-
-    def reset(self, emotion):
-        self.current = emotion
-        self.config.set_record(**{self.value_name: emotion})
-
 
 class GemsEmotion(Emotion):
 
@@ -59,19 +50,23 @@ class GemsEmotion(Emotion):
     def check_reduce(self, battle):
         if not self.is_calculate:
             return
-        recovered = self.predict_recovered(battle)
+
+        if self.config.Fleet_FleetOrder == 'fleet1_standby_fleet2_all':
+            battle = (0, battle * self.reduce_per_battle_before_entering)
+        else:
+            battle = (battle * self.reduce_per_battle_before_entering, 0)
+
+        logger.info(f'Expect emotion reduce: {battle}')
+        self.update()
+        self.record()
+        self.show()
+        recovered = max([f.get_recovered(b) for f, b in zip(self.fleets, battle)])
         if recovered > datetime.now():
             logger.hr('EMOTION CONTROL')
             raise CampaignEnd('Emotion control')
 
     def wait(self, fleet_index):
         pass
-
-    def triggered_bug(self):
-        return False
-
-    def reset(self, fleet, emotion):
-        self.fleets[fleet - 1].reset(emotion)
 
 
 class GemsCampaignOverride(CampaignBase):
@@ -133,14 +128,11 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
 
         self.campaign: GemsCampaign = GemsCampaign(device=self.campaign.device, config=self.campaign.config)
         self.campaign.config.override(EnemyPriority_EnemyScaleBalanceWeight='S1_enemy_first')
-        self.emotion_expected_reduce = self.campaign._map_battle * 2
-
-    @property
-    def fleet_index_to_attack(self):
-        if self.config.Fleet_FleetOrder == 'fleet1_all_fleet2_standby':
-            return 1
+        if self.change_flagship or self.change_vanguard:
+            self.campaign.config.override(Emotion_Mode='calculate')
         else:
-            return 2
+            self.campaign.config.override(Emotion_Mode='ignore')
+        self.emotion_expected_reduce = self.campaign._map_battle * 2
 
     @property
     def change_flagship(self):
@@ -164,6 +156,12 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
             return self.config.Fleet_Fleet2
         else:
             return self.config.Fleet_Fleet1
+
+    def set_emotion(self, emotion):
+        if self.config.Fleet_FleetOrder == 'fleet1_standby_fleet2_all':
+            self.campaign.config.set_record(Emotion_Fleet2Value=emotion)
+        else:
+            self.campaign.config.set_record(Emotion_Fleet1Value=emotion)
 
     def flagship_change(self):
         """
@@ -251,7 +249,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
 
         logger.hr('FINDING FLAGSHIP')
 
-        scanner = ShipScanner(level=(1, 31), emotion=(EMOTION_LIMIT + self.emotion_expected_reduce, 150),
+        scanner = ShipScanner(level=(1, 31), emotion=(1 + EMOTION_LIMIT + self.emotion_expected_reduce, 150),
                               fleet=self.fleet_to_attack, status='free')
         scanner.disable('rarity')
 
@@ -311,7 +309,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
         else:
             max_level = 70
 
-        scanner = ShipScanner(level=(max_level, max_level), emotion=(EMOTION_LIMIT + self.emotion_expected_reduce, 150),
+        scanner = ShipScanner(level=(max_level, max_level), emotion=(1 + EMOTION_LIMIT + self.emotion_expected_reduce, 150),
                               fleet=self.fleet_to_attack, status='free')
         scanner.disable('rarity')
 
@@ -490,7 +488,9 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
                     success = self.flagship_change()
                 if self.change_vanguard:
                     success = success and self.vanguard_change()
-                self.campaign.emotion.reset(self.fleet_index_to_attack, self._new_emotion_value)
+
+                if success and (self.change_flagship or self.change_vanguard):
+                    self.set_emotion(self._new_emotion_value)
 
                 if is_limit and self.config.StopCondition_RunCount <= 0:
                     logger.hr('Triggered stop condition: Run count')
