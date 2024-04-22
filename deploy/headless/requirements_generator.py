@@ -45,7 +45,7 @@ def headless_requirements_generate(requirements_in='requirements-in.txt'):
         'inflection': '0.5.1',
         'lz4': '4.3.2',
         'numpy': '1.17.4',
-        'onepush': '1.2.0',
+        # 'onepush': '1.2.0',
         'opencv-python': {
             'name': 'opencv-python-headless',
             'version': '4.7.0.72'
