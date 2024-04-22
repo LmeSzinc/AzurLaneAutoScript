@@ -365,7 +365,7 @@ def retry(func):
 
 class Minitouch(Connection):
     _minitouch_port: int = 0
-    _minitouch_client: socket.socket
+    _minitouch_client: socket.socket = None
     _minitouch_pid: int
     _minitouch_ws: websockets.WebSocketClientProtocol
     max_x: int
@@ -373,6 +373,7 @@ class Minitouch(Connection):
     _minitouch_init_thread = None
 
     @cached_property
+    @retry
     def _minitouch_builder(self):
         self.minitouch_init()
         return CommandBuilder(self)
@@ -408,6 +409,15 @@ class Minitouch(Connection):
         max_x, max_y = 1280, 720
         max_contacts = 2
         max_pressure = 50
+
+        # Try to close existing stream
+        if self._minitouch_client is not None:
+            try:
+                self._minitouch_client.close()
+            except Exception as e:
+                logger.error(e)
+            del self._minitouch_client
+
         self.get_orientation()
 
         self._minitouch_port = self.adb_forward("localabstract:minitouch")
