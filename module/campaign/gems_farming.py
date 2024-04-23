@@ -132,7 +132,6 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
             self.campaign.config.override(Emotion_Mode='calculate')
         else:
             self.campaign.config.override(Emotion_Mode='ignore')
-        self.emotion_expected_reduce = self.campaign._map_battle * 2
 
     @property
     def change_flagship(self):
@@ -239,6 +238,10 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
         self._dock_reset()
         self.dock_select_confirm(check_button=page_fleet.check_button)
 
+    @property
+    def emotion_lower_bound(self):
+        return 3 + EMOTION_LIMIT + self.campaign._map_battle * 2
+
     def get_common_rarity_cv(self):
         """
         Get a common rarity cv by config.GemsFarming_CommonCV
@@ -249,7 +252,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
 
         logger.hr('FINDING FLAGSHIP')
 
-        scanner = ShipScanner(level=(1, 31), emotion=(1 + EMOTION_LIMIT + self.emotion_expected_reduce, 150),
+        scanner = ShipScanner(level=(1, 31), emotion=(self.emotion_lower_bound, 150),
                               fleet=self.fleet_to_attack, status='free')
         scanner.disable('rarity')
 
@@ -298,7 +301,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
     def get_common_rarity_dd(self):
         """
         Get a common rarity dd with level is 100 (70 for servers except CN)
-        and emotion > EMOTION_LIMIT + self.emotion_expected_reduce
+        and emotion >= self.emotion_lower_bound
         Returns:
             Ship:
         """
@@ -309,7 +312,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
         else:
             max_level = 70
 
-        scanner = ShipScanner(level=(max_level, max_level), emotion=(1 + EMOTION_LIMIT + self.emotion_expected_reduce, 150),
+        scanner = ShipScanner(level=(max_level, max_level), emotion=(self.emotion_lower_bound, 150),
                               fleet=[0, self.fleet_to_attack], status='free')
         scanner.disable('rarity')
 
