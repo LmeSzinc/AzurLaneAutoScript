@@ -395,7 +395,7 @@ def dict_to_kv(dictionary, allow_none=True):
     Returns:
         str: Such as `path='Scheduler.ServerUpdate', value=True`
     """
-    return ', '.join([f'{k}={repr(v)}' for k, v in dictionary.items() if allow_none or v is not None])
+    return ',\n'.join([f'{k}={repr(v)}' for k, v in dictionary.items() if allow_none or v is not None])
 
 
 def server_timezone() -> timedelta:
@@ -662,7 +662,7 @@ def time_delta(_timedelta):
         }
     """
     d_base = datetime(2010, 1, 1, 0, 0, 0)
-    d = datetime(2010, 1, 1, 0, 0, 0)-_timedelta
+    d = d_base - _timedelta
     _time_dict = {
         'Y': d.year - d_base.year,
         'M': d.month - d_base.month,

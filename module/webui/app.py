@@ -612,7 +612,6 @@ class AlasGUI(Frame):
         x = 0
         _num = 10000 if num is None else num
         _arg_group = self._log.dashboard_arg_group if groups_to_display is None else groups_to_display
-        time_now = datetime.now().replace(microsecond=0)
         for group_name in _arg_group:
             group = LogRes(self.alas_config).group(group_name)
             if group is None:
@@ -636,6 +635,7 @@ class AlasGUI(Frame):
                 value_total = ''
 
             value_time = group['Record']
+            time_now = datetime.now().replace(microsecond=0)
             if value_time is None or value_time == datetime(2020, 1, 1, 0, 0, 0):
                 value = 'None'
                 delta = '' + t('Gui.Dashboard.NoData')
