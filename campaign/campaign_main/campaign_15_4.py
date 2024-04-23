@@ -91,7 +91,7 @@ class Campaign(CampaignBase):
 
     def battle_0(self):
         if not self.map_is_clear_mode and self.map_has_mob_move:
-            self.mob_move(J8, J7)
+            self.mob_move(J8, K8)
             self.clear_chosen_enemy(K9)
             return True
 
