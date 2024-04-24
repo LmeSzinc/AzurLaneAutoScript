@@ -44,15 +44,20 @@ class CampaignUI(CampaignEvent, CampaignOcr):
             logger.attr("Index", current)
             diff = index - current
             if diff == 0:
-                break
-
+                # index=4, current=4, actual=14
+                error_confirm.start()
+                if not error_confirm.reached():
+                    continue
+                else:
+                    break
             # 14-4 may be OCR as 4-1 due to slow animation, confirm if it is 4-1
-            if index >= 11 and index % 10 == current:
+            # index=14, current=4, actual=14
+            elif index >= 11 and index % 10 == current:
                 error_confirm.start()
                 if not error_confirm.reached():
                     continue
             else:
-                error_confirm.reset()
+                error_confirm.clear()
 
             # Switch
             if retry.reached():
