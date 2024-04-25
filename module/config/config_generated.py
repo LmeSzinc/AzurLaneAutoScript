@@ -180,6 +180,9 @@ class GeneratedConfig:
     # Group `Coalition`
     Coalition_Fleet = 'single'  # single, multi
 
+    # Group `EventStorage`
+    EventStorage_Pt = {}
+
     # Group `Commission`
     Commission_PresetFilter = 'cube'  # cube, cube_24h, chip, chip_24h, oil, custom
     Commission_CustomFilter = 'DailyEvent > Gem-4 > Gem-2 > Gem-8 > ExtraCube-0:30\n> UrgentCube-1:30 > UrgentCube-1:45 > UrgentCube-3\n> ExtraDrill-5:20 > ExtraDrill-2 > ExtraDrill-3:20\n> UrgentCube-2:15 > UrgentCube-4\n> ExtraDrill-1 > UrgentCube-6 > ExtraCube-1:30\n> ExtraDrill-2:40 > ExtraDrill-0:20\n> Major > DailyChip > DailyResource\n> ExtraPart-0:30 > ExtraOil-1 > UrgentBox-6\n> ExtraCube-3 > ExtraPart-1 > UrgentBox-3\n> ExtraCube-4 > ExtraPart-1:30 > ExtraOil-4\n> UrgentBox-1 > ExtraCube-5 > UrgentBox-1\n> ExtraCube-8 > ExtraOil-8\n> UrgentDrill-4 > UrgentDrill-2:40 > UrgentDrill-2\n> UrgentDrill-1 > UrgentDrill-1:30 > UrgentDrill-1:10\n> Extra-0:20 > Extra-0:30 > Extra-1:00 > Extra-1:30 > Extra-2:00\n> shortest'
@@ -288,6 +291,12 @@ class GeneratedConfig:
     # Group `CoreShop`
     CoreShop_Filter = 'Array'
 
+    # Group `ShopStorage`
+    ShopStorage_Merit = {}
+    ShopStorage_Core = {}
+    ShopStorage_Medal = {}
+    ShopStorage_GuildCoin = {}
+
     # Group `ShipyardDr`
     ShipyardDr_ResearchSeries = 2  # 2, 3
     ShipyardDr_ShipIndex = 0  # 0, 1, 2, 3, 4, 5, 6
@@ -324,6 +333,12 @@ class GeneratedConfig:
 
     # Group `Minigame`
     Minigame_Collect = False
+
+    # Group `ItemStorage`
+    ItemStorage_Oil = {}
+    ItemStorage_Coin = {}
+    ItemStorage_Gem = {}
+    ItemStorage_Cube = {}
 
     # Group `Daily`
     Daily_UseDailySkip = True
@@ -418,6 +433,11 @@ class GeneratedConfig:
 
     # Group `OpsiHazard1Leveling`
     OpsiHazard1Leveling_TargetZone = 0  # 0, 44, 22
+
+    # Group `OpsiStorage`
+    OpsiStorage_YellowCoin = {}
+    OpsiStorage_PurpleCoin = {}
+    OpsiStorage_ActionPoint = {}
 
     # Group `Daemon`
     Daemon_EnterMap = True

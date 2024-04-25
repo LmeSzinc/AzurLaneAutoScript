@@ -1261,6 +1261,16 @@
       "multi": "多隊出擊"
     }
   },
+  "EventStorage": {
+    "_info": {
+      "name": "EventStorage._info.name",
+      "help": "EventStorage._info.help"
+    },
+    "Pt": {
+      "name": "EventStorage.Pt.name",
+      "help": "EventStorage.Pt.help"
+    }
+  },
   "Commission": {
     "_info": {
       "name": "委託",
@@ -1781,6 +1791,28 @@
       "help": ""
     }
   },
+  "ShopStorage": {
+    "_info": {
+      "name": "ShopStorage._info.name",
+      "help": "ShopStorage._info.help"
+    },
+    "Merit": {
+      "name": "ShopStorage.Merit.name",
+      "help": "ShopStorage.Merit.help"
+    },
+    "Core": {
+      "name": "ShopStorage.Core.name",
+      "help": "ShopStorage.Core.help"
+    },
+    "Medal": {
+      "name": "ShopStorage.Medal.name",
+      "help": "ShopStorage.Medal.help"
+    },
+    "GuildCoin": {
+      "name": "ShopStorage.GuildCoin.name",
+      "help": "ShopStorage.GuildCoin.help"
+    }
+  },
   "ShipyardDr": {
     "_info": {
       "name": "彩科研圖紙購買設定",
@@ -1953,6 +1985,28 @@
     "Collect": {
       "name": "啟用",
       "help": ""
+    }
+  },
+  "ItemStorage": {
+    "_info": {
+      "name": "ItemStorage._info.name",
+      "help": "ItemStorage._info.help"
+    },
+    "Oil": {
+      "name": "ItemStorage.Oil.name",
+      "help": "ItemStorage.Oil.help"
+    },
+    "Coin": {
+      "name": "ItemStorage.Coin.name",
+      "help": "ItemStorage.Coin.help"
+    },
+    "Gem": {
+      "name": "ItemStorage.Gem.name",
+      "help": "ItemStorage.Gem.help"
+    },
+    "Cube": {
+      "name": "ItemStorage.Cube.name",
+      "help": "ItemStorage.Cube.help"
     }
   },
   "Daily": {
@@ -2399,6 +2453,24 @@
       "22": "22 | NA海域西南B"
     }
   },
+  "OpsiStorage": {
+    "_info": {
+      "name": "OpsiStorage._info.name",
+      "help": "OpsiStorage._info.help"
+    },
+    "YellowCoin": {
+      "name": "OpsiStorage.YellowCoin.name",
+      "help": "OpsiStorage.YellowCoin.help"
+    },
+    "PurpleCoin": {
+      "name": "OpsiStorage.PurpleCoin.name",
+      "help": "OpsiStorage.PurpleCoin.help"
+    },
+    "ActionPoint": {
+      "name": "OpsiStorage.ActionPoint.name",
+      "help": "OpsiStorage.ActionPoint.help"
+    }
+  },
   "Daemon": {
     "_info": {
       "name": "半自動點擊",
@@ -2589,6 +2661,15 @@
       "Clear": "清除",
       "EnterPassword": "輸入密碼",
       "ChooseFile": "選擇檔案"
+    },
+    "Dashboard": {
+      "NoData": "Gui.Dashboard.NoData",
+      "TimeError": "Gui.Dashboard.TimeError",
+      "JustNow": "Gui.Dashboard.JustNow",
+      "MinutesAgo": "Gui.Dashboard.MinutesAgo",
+      "HoursAgo": "Gui.Dashboard.HoursAgo",
+      "DaysAgo": "Gui.Dashboard.DaysAgo",
+      "LongTimeAgo": "Gui.Dashboard.LongTimeAgo"
     }
   }
 }
