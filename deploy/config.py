@@ -1,11 +1,8 @@
 import copy
-import os
-import subprocess
-import sys
 from typing import Optional, Union
 
-from deploy.Windows.logger import logger
-from deploy.Windows.utils import DEPLOY_CONFIG, DEPLOY_TEMPLATE, cached_property, poor_yaml_read, poor_yaml_write
+from deploy.logger import logger
+from deploy.utils import *
 
 
 class ExecutionError(Exception):
@@ -56,15 +53,13 @@ class ConfigModel:
 
     # Webui
     WebuiHost: str = "0.0.0.0"
-    WebuiPort: int = 22367
+    WebuiPort: int = 22267
     Language: str = "en-US"
     Theme: str = "default"
     DpiScaling: bool = True
     Password: Optional[str] = None
     CDN: Union[str, bool] = False
     Run: Optional[str] = None
-    AppAsarUpdate: bool = True
-    NoSandbox: bool = True
 
     # Dynamic
     GitOverCdn: bool = False
@@ -78,7 +73,6 @@ class DeployConfig(ConfigModel):
         """
         self.file = file
         self.config = {}
-        self.config_template = {}
         self.read()
 
         self.write()
@@ -89,7 +83,7 @@ class DeployConfig(ConfigModel):
         for k, v in self.config.items():
             if k in ("Password", "SSHUser"):
                 continue
-            if self.config_template[k] == v:
+            if self.config_template.get(k) == v:
                 continue
             logger.info(f"{k}: {v}")
 
@@ -104,8 +98,6 @@ class DeployConfig(ConfigModel):
             if hasattr(self, key):
                 super().__setattr__(key, value)
 
-        self.config_redirect()
-
     def write(self):
         poor_yaml_write(self.config, self.file)
 
@@ -113,71 +105,49 @@ class DeployConfig(ConfigModel):
         """
         Redirect deploy config, must be called after each `read()`
         """
+        if self.Repository in [
+            'https://gitee.com/LmeSzinc/AzurLaneAutoScript',
+            'https://gitee.com/lmeszinc/azur-lane-auto-script-mirror',
+            'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git',
+            'https://e.coding.net/saarcenter/alas/AzurLaneAutoScript.git',
+            'https://git.saarcenter.com/LmeSzinc/AzurLaneAutoScript.git',
+        ]:
+            self.Repository = 'git://git.lyoko.io/AzurLaneAutoScript'
+
         # Bypass webui.config.DeployConfig.__setattr__()
         # Don't write these into deploy.yaml
-        super().__setattr__('GitOverCdn', self.Repository in ['cn'])
-        if self.Repository in ['global', 'cn']:
-            super().__setattr__('Repository', 'https://github.com/LmeSzinc/StarRailCopilot')
+        super().__setattr__(
+            'GitOverCdn',
+            self.Repository == 'git://git.lyoko.io/AzurLaneAutoScript' and self.Branch == 'master'
+        )
+        if self.Repository in ['global']:
+            super().__setattr__('Repository', 'https://github.com/LmeSzinc/AzurLaneAutoScript')
+        if self.Repository in ['cn']:
+            super().__setattr__('Repository', 'git://git.lyoko.io/AzurLaneAutoScript')
 
-    def filepath(self, path):
+    def filepath(self, key):
         """
         Args:
-            path (str):
+            key (str):
 
         Returns:
             str: Absolute filepath.
         """
-        if os.path.isabs(path):
-            return path
-
         return (
-            os.path.abspath(os.path.join(self.root_filepath, path))
+            os.path.abspath(os.path.join(self.root_filepath, self.config[key]))
             .replace(r"\\", "/")
             .replace("\\", "/")
+            .replace('"', '"')
         )
 
     @cached_property
     def root_filepath(self):
         return (
-            os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+            os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
             .replace(r"\\", "/")
             .replace("\\", "/")
+            .replace('"', '"')
         )
-
-    @cached_property
-    def adb(self) -> str:
-        exe = self.filepath(self.AdbExecutable)
-        if os.path.exists(exe):
-            return exe
-
-        logger.warning(f'AdbExecutable: {exe} does not exist, use `adb` instead')
-        return 'adb'
-
-    @cached_property
-    def git(self) -> str:
-        exe = self.filepath(self.GitExecutable)
-        if os.path.exists(exe):
-            return exe
-
-        logger.warning(f'GitExecutable: {exe} does not exist, use `git` instead')
-        return 'git'
-
-    @cached_property
-    def python(self) -> str:
-        exe = self.filepath(self.PythonExecutable)
-        if os.path.exists(exe):
-            return exe
-
-        current = sys.executable.replace("\\", "/")
-        logger.warning(f'PythonExecutable: {exe} does not exist, use current python instead: {current}')
-        return current
-
-    @cached_property
-    def requirements_file(self) -> str:
-        if self.RequirementsFile == 'requirements.txt':
-            return 'requirements.txt'
-        else:
-            return self.filepath(self.RequirementsFile)
 
     def execute(self, command, allow_failure=False, output=True):
         """
@@ -206,26 +176,6 @@ class DeployConfig(ConfigModel):
         else:
             logger.info(f"[ success ]")
             return True
-
-    def subprocess_execute(self, cmd, timeout=10):
-        """
-        Args:
-            cmd (list[str]):
-            timeout:
-
-        Returns:
-            str:
-        """
-        logger.info(' '.join(cmd))
-        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
-        try:
-            stdout, stderr = process.communicate(timeout=timeout)
-            process.kill()
-        except subprocess.TimeoutExpired:
-            process.kill()
-            stdout, stderr = process.communicate()
-            logger.info(f'TimeoutExpired, stdout={stdout}, stderr={stderr}')
-        return stdout.decode()
 
     def show_error(self, command=None):
         logger.hr("Update failed", 0)
