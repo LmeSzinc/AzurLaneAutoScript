@@ -72,8 +72,10 @@ class OSStatus(UI):
             else:
                 break
 
+        self.config.stored.YellowCoin.value = yellow_coins
         return yellow_coins
 
     def get_purple_coins(self) -> int:
         amount = OCR_SHOP_PURPLE_COINS.ocr(self.device.image)
+        self.config.stored.PurpleCoin.value = amount
         return amount
