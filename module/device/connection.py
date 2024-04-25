@@ -506,30 +506,51 @@ class Connection(ConnectionAttr):
     def adb_forward_remove(self, local):
         """
         Equivalent to `adb -s <serial> forward --remove <local>`
+        No error raised when removing a non-existent forward
+
         More about the commands send to ADB server, see:
         https://cs.android.com/android/platform/superproject/+/master:packages/modules/adb/SERVICES.TXT
 
         Args:
             local (str): Such as 'tcp:2437'
         """
-        with self.adb_client._connect() as c:
-            list_cmd = f"host-serial:{self.serial}:killforward:{local}"
-            c.send_command(list_cmd)
-            c.check_okay()
+        try:
+            with self.adb_client._connect() as c:
+                list_cmd = f"host-serial:{self.serial}:killforward:{local}"
+                c.send_command(list_cmd)
+                c.check_okay()
+        except AdbError as e:
+            # No error raised when removing a non-existed forward
+            # adbutils.errors.AdbError: listener 'tcp:8888' not found
+            msg = str(e)
+            if re.search(r'listener .*? not found', msg):
+                logger.warning(f'{type(e).__name__}: {msg}')
+            else:
+                raise
 
     def adb_reverse_remove(self, local):
         """
         Equivalent to `adb -s <serial> reverse --remove <local>`
+        No error raised when removing a non-existent reverse
 
         Args:
             local (str): Such as 'tcp:2437'
         """
-        with self.adb_client._connect() as c:
-            c.send_command(f"host:transport:{self.serial}")
-            c.check_okay()
-            list_cmd = f"reverse:killforward:{local}"
-            c.send_command(list_cmd)
-            c.check_okay()
+        try:
+            with self.adb_client._connect() as c:
+                c.send_command(f"host:transport:{self.serial}")
+                c.check_okay()
+                list_cmd = f"reverse:killforward:{local}"
+                c.send_command(list_cmd)
+                c.check_okay()
+        except AdbError as e:
+            # No error raised when removing a non-existed forward
+            # adbutils.errors.AdbError: listener 'tcp:8888' not found
+            msg = str(e)
+            if re.search(r'listener .*? not found', msg):
+                logger.warning(f'{type(e).__name__}: {msg}')
+            else:
+                raise
 
     def adb_push(self, local, remote):
         """
