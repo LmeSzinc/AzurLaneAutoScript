@@ -1267,8 +1267,8 @@
       "help": "EventStorage._info.help"
     },
     "Pt": {
-      "name": "EventStorage.Pt.name",
-      "help": "EventStorage.Pt.help"
+      "name": "活动PT",
+      "help": ""
     }
   },
   "Commission": {
@@ -1797,20 +1797,20 @@
       "help": "ShopStorage._info.help"
     },
     "Merit": {
-      "name": "ShopStorage.Merit.name",
-      "help": "ShopStorage.Merit.help"
+      "name": "功勋",
+      "help": ""
     },
     "Core": {
-      "name": "ShopStorage.Core.name",
-      "help": "ShopStorage.Core.help"
+      "name": "核心数据",
+      "help": ""
     },
     "Medal": {
-      "name": "ShopStorage.Medal.name",
-      "help": "ShopStorage.Medal.help"
+      "name": "勋章",
+      "help": ""
     },
     "GuildCoin": {
-      "name": "ShopStorage.GuildCoin.name",
-      "help": "ShopStorage.GuildCoin.help"
+      "name": "舰队币",
+      "help": ""
     }
   },
   "ShipyardDr": {
@@ -1993,20 +1993,20 @@
       "help": "ItemStorage._info.help"
     },
     "Oil": {
-      "name": "ItemStorage.Oil.name",
-      "help": "ItemStorage.Oil.help"
+      "name": "石油",
+      "help": ""
     },
     "Coin": {
-      "name": "ItemStorage.Coin.name",
-      "help": "ItemStorage.Coin.help"
+      "name": "物资",
+      "help": ""
     },
     "Gem": {
-      "name": "ItemStorage.Gem.name",
-      "help": "ItemStorage.Gem.help"
+      "name": "钻石",
+      "help": ""
     },
     "Cube": {
-      "name": "ItemStorage.Cube.name",
-      "help": "ItemStorage.Cube.help"
+      "name": "魔方",
+      "help": ""
     }
   },
   "Daily": {
@@ -2459,16 +2459,16 @@
       "help": "OpsiStorage._info.help"
     },
     "YellowCoin": {
-      "name": "OpsiStorage.YellowCoin.name",
-      "help": "OpsiStorage.YellowCoin.help"
+      "name": "大世界黄币",
+      "help": ""
     },
     "PurpleCoin": {
-      "name": "OpsiStorage.PurpleCoin.name",
-      "help": "OpsiStorage.PurpleCoin.help"
+      "name": "大世界紫币",
+      "help": ""
     },
     "ActionPoint": {
-      "name": "OpsiStorage.ActionPoint.name",
-      "help": "OpsiStorage.ActionPoint.help"
+      "name": "行动力",
+      "help": ""
     }
   },
   "Daemon": {
@@ -2663,13 +2663,13 @@
       "ChooseFile": "选择文件"
     },
     "Dashboard": {
-      "NoData": "Gui.Dashboard.NoData",
-      "TimeError": "Gui.Dashboard.TimeError",
-      "JustNow": "Gui.Dashboard.JustNow",
-      "MinutesAgo": "Gui.Dashboard.MinutesAgo",
-      "HoursAgo": "Gui.Dashboard.HoursAgo",
-      "DaysAgo": "Gui.Dashboard.DaysAgo",
-      "LongTimeAgo": "Gui.Dashboard.LongTimeAgo"
+      "NoData": "无数据",
+      "TimeError": "时间错误",
+      "JustNow": "刚刚",
+      "MinutesAgo": "{time}分钟前",
+      "HoursAgo": "{time}小时前",
+      "DaysAgo": "{time}天前",
+      "LongTimeAgo": "很久以前"
     }
   }
 }

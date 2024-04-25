@@ -1267,8 +1267,8 @@
       "help": "EventStorage._info.help"
     },
     "Pt": {
-      "name": "EventStorage.Pt.name",
-      "help": "EventStorage.Pt.help"
+      "name": "Event Pt",
+      "help": ""
     }
   },
   "Commission": {
@@ -1797,20 +1797,20 @@
       "help": "ShopStorage._info.help"
     },
     "Merit": {
-      "name": "ShopStorage.Merit.name",
-      "help": "ShopStorage.Merit.help"
+      "name": "Merit",
+      "help": ""
     },
     "Core": {
-      "name": "ShopStorage.Core.name",
-      "help": "ShopStorage.Core.help"
+      "name": "Core Data",
+      "help": ""
     },
     "Medal": {
-      "name": "ShopStorage.Medal.name",
-      "help": "ShopStorage.Medal.help"
+      "name": "Medal",
+      "help": ""
     },
     "GuildCoin": {
-      "name": "ShopStorage.GuildCoin.name",
-      "help": "ShopStorage.GuildCoin.help"
+      "name": "Guild Coin",
+      "help": ""
     }
   },
   "ShipyardDr": {
@@ -1993,20 +1993,20 @@
       "help": "ItemStorage._info.help"
     },
     "Oil": {
-      "name": "ItemStorage.Oil.name",
-      "help": "ItemStorage.Oil.help"
+      "name": "Oil",
+      "help": ""
     },
     "Coin": {
-      "name": "ItemStorage.Coin.name",
-      "help": "ItemStorage.Coin.help"
+      "name": "Coin",
+      "help": ""
     },
     "Gem": {
-      "name": "ItemStorage.Gem.name",
-      "help": "ItemStorage.Gem.help"
+      "name": "Gem",
+      "help": ""
     },
     "Cube": {
-      "name": "ItemStorage.Cube.name",
-      "help": "ItemStorage.Cube.help"
+      "name": "Cube",
+      "help": ""
     }
   },
   "Daily": {
@@ -2459,16 +2459,16 @@
       "help": "OpsiStorage._info.help"
     },
     "YellowCoin": {
-      "name": "OpsiStorage.YellowCoin.name",
-      "help": "OpsiStorage.YellowCoin.help"
+      "name": "Operation Supply Coin",
+      "help": ""
     },
     "PurpleCoin": {
-      "name": "OpsiStorage.PurpleCoin.name",
-      "help": "OpsiStorage.PurpleCoin.help"
+      "name": "Special Item Token",
+      "help": ""
     },
     "ActionPoint": {
-      "name": "OpsiStorage.ActionPoint.name",
-      "help": "OpsiStorage.ActionPoint.help"
+      "name": "Action Point",
+      "help": ""
     }
   },
   "Daemon": {
@@ -2663,13 +2663,13 @@
       "ChooseFile": "Choose file"
     },
     "Dashboard": {
-      "NoData": "Gui.Dashboard.NoData",
-      "TimeError": "Gui.Dashboard.TimeError",
-      "JustNow": "Gui.Dashboard.JustNow",
-      "MinutesAgo": "Gui.Dashboard.MinutesAgo",
-      "HoursAgo": "Gui.Dashboard.HoursAgo",
-      "DaysAgo": "Gui.Dashboard.DaysAgo",
-      "LongTimeAgo": "Gui.Dashboard.LongTimeAgo"
+      "NoData": "no data",
+      "TimeError": "time error",
+      "JustNow": "just now",
+      "MinutesAgo": "{time}min ago",
+      "HoursAgo": "{time}h ago",
+      "DaysAgo": "{time}d ago",
+      "LongTimeAgo": "long time ago"
     }
   }
 }
