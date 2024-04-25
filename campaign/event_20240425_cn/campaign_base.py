@@ -16,7 +16,6 @@ class CampaignBase(CampaignBase_):
         self.ui_goto_event()
         self.campaign_ensure_chapter(index=chapter)
         return True
-    # μ
 
     def _campaign_get_chapter_index(self, name):
         """
@@ -36,6 +35,13 @@ class CampaignBase(CampaignBase_):
             return 4
 
         return super(CampaignBase, CampaignBase)._campaign_get_chapter_index(name)
+
+    @staticmethod
+    def _campaign_ocr_result_process(result):
+        result = CampaignBase_._campaign_ocr_result_process(result)
+        if result in ['usp', 'iisp']:
+            result = 'sp'
+        return result
 
     def is_event_animation(self):
         # Blue banner

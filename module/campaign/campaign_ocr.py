@@ -59,7 +59,7 @@ class CampaignOcr(ModuleBase):
         name = name.strip('-')
         if name == 'sp':
             return 'ex_sp', '1'
-        elif name.startswith('extra'):
+        elif name.startswith('extra') or name == 'ex':
             return 'ex_ex', '1'
         elif '-' in name:
             return name.split('-')
