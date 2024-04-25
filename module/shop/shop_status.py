@@ -32,6 +32,7 @@ class ShopStatus(UI):
             in: page_shop, medal shop
         """
         amount = OCR_SHOP_GEMS.ocr(self.device.image)
+        self.config.stored.Gem.value = amount
         return amount
 
     def status_get_medal(self):
@@ -43,6 +44,7 @@ class ShopStatus(UI):
             in: page_shop, medal shop
         """
         amount = OCR_SHOP_MEDAL.ocr(self.device.image)
+        self.config.stored.Medal.value = amount
         return amount
 
     def status_get_merit(self):
@@ -54,6 +56,7 @@ class ShopStatus(UI):
             in: page_shop, merit shop
         """
         amount = OCR_SHOP_MERIT.ocr(self.device.image)
+        self.config.stored.Merit.value = amount
         return amount
 
     def status_get_guild_coins(self):
@@ -65,6 +68,7 @@ class ShopStatus(UI):
             in: page_shop, guild shop
         """
         amount = OCR_SHOP_GUILD_COINS.ocr(self.device.image)
+        self.config.stored.GuildCoin.value = amount
         return amount
 
     def status_get_core(self):
@@ -76,6 +80,7 @@ class ShopStatus(UI):
             in: page_shop, core shop
         """
         amount = OCR_SHOP_CORE.ocr(self.device.image)
+        self.config.stored.Core.value = amount
         return amount
 
     def status_get_voucher(self):
