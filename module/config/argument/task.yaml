@@ -71,6 +71,7 @@ Event:
     EventGeneral:
       - EventGeneral
       - TaskBalancer
+      - EventStorage
     Event:
       - Scheduler
       - Campaign
@@ -192,6 +193,7 @@ Reward:
     Commission:
       - Scheduler
       - Commission
+      - ItemStorage
     Tactical:
       - Scheduler
       - Tactical
@@ -240,6 +242,7 @@ DailyMission:
       - MedalShop2
       - MeritShop
       - CoreShop
+      - ShopStorage
     Shipyard:
       - Scheduler
       - ShipyardDr
@@ -264,6 +267,7 @@ Opsi:
   tasks:
     OpsiGeneral:
       - OpsiGeneral
+      - OpsiStorage
     OpsiAshBeacon:
       - Scheduler
       - OpsiAshBeacon

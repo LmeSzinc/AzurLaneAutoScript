@@ -1,0 +1,148 @@
+{
+  "Oil": {
+    "name": "Oil",
+    "path": "Commission.ItemStorage.Oil",
+    "i18n": "ItemStorage.Oil.name",
+    "stored": "StoredOil",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "total": 0,
+      "value": 0
+    },
+    "order": 1,
+    "color": "#000000"
+  },
+  "Coin": {
+    "name": "Coin",
+    "path": "Commission.ItemStorage.Coin",
+    "i18n": "ItemStorage.Coin.name",
+    "stored": "StoredCoin",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "total": 0,
+      "value": 0
+    },
+    "order": 2,
+    "color": "#FFAA33"
+  },
+  "Gem": {
+    "name": "Gem",
+    "path": "Commission.ItemStorage.Gem",
+    "i18n": "ItemStorage.Gem.name",
+    "stored": "StoredInt",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "value": 0
+    },
+    "order": 3,
+    "color": "#FF3333"
+  },
+  "Pt": {
+    "name": "Pt",
+    "path": "EventGeneral.EventStorage.Pt",
+    "i18n": "EventStorage.Pt.name",
+    "stored": "StoredInt",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "value": 0
+    },
+    "order": 4,
+    "color": "#00BFFF"
+  },
+  "YellowCoin": {
+    "name": "YellowCoin",
+    "path": "OpsiGeneral.OpsiStorage.YellowCoin",
+    "i18n": "OpsiStorage.YellowCoin.name",
+    "stored": "StoredInt",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "value": 0
+    },
+    "order": 5,
+    "color": "#FF8800"
+  },
+  "ActionPoint": {
+    "name": "ActionPoint",
+    "path": "OpsiGeneral.OpsiStorage.ActionPoint",
+    "i18n": "OpsiStorage.ActionPoint.name",
+    "stored": "StoredInt",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "value": 0
+    },
+    "order": 6,
+    "color": "#008000"
+  },
+  "PurpleCoin": {
+    "name": "PurpleCoin",
+    "path": "OpsiGeneral.OpsiStorage.PurpleCoin",
+    "i18n": "OpsiStorage.PurpleCoin.name",
+    "stored": "StoredInt",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "value": 0
+    },
+    "order": 7,
+    "color": "#7700BB"
+  },
+  "Cube": {
+    "name": "Cube",
+    "path": "Commission.ItemStorage.Cube",
+    "i18n": "ItemStorage.Cube.name",
+    "stored": "StoredInt",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "value": 0
+    },
+    "order": 8,
+    "color": "#33FFFF"
+  },
+  "Merit": {
+    "name": "Merit",
+    "path": "ShopOnce.ShopStorage.Merit",
+    "i18n": "ShopStorage.Merit.name",
+    "stored": "StoredInt",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "value": 0
+    },
+    "order": 9,
+    "color": "#FFFF00"
+  },
+  "Core": {
+    "name": "Core",
+    "path": "ShopOnce.ShopStorage.Core",
+    "i18n": "ShopStorage.Core.name",
+    "stored": "StoredInt",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "value": 0
+    },
+    "order": 10,
+    "color": "#AAAAAA"
+  },
+  "Medal": {
+    "name": "Medal",
+    "path": "ShopOnce.ShopStorage.Medal",
+    "i18n": "ShopStorage.Medal.name",
+    "stored": "StoredInt",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "value": 0
+    },
+    "order": 11,
+    "color": "#FFDD00"
+  },
+  "GuildCoin": {
+    "name": "GuildCoin",
+    "path": "ShopOnce.ShopStorage.GuildCoin",
+    "i18n": "ShopStorage.GuildCoin.name",
+    "stored": "StoredInt",
+    "attrs": {
+      "time": "2020-01-01 00:00:00",
+      "value": 0
+    },
+    "order": 12,
+    "color": "#AAAAAA"
+  }
+}
