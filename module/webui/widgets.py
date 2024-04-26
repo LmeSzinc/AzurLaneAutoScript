@@ -278,6 +278,7 @@ def put_icon_buttons(
     value = buttons[0]["value"]
     circle_c = ""
     status_html = ""
+    state = 2
     if signal == "true":
         state = ProcessManager.get_manager(value).state
         if state == 1:
@@ -289,7 +290,7 @@ def put_icon_buttons(
     if circle_c != "":
         status_html = _read(filepath_icon(f'status_{circle_c}'))
 
-    return put_column(
+    put_column(
         [
             put_row(
                 [
@@ -305,6 +306,8 @@ def put_icon_buttons(
         ],
         size="0",
     )
+
+    return state
 
 
 def put_none() -> Output:
