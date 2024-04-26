@@ -426,21 +426,31 @@ class AlasGUI(Frame):
         log = RichLog("log")
 
         with use_scope("logs"):
-            put_scope("log-bar", [
-                put_scope("log-title", [
-                    put_text(t("Gui.Overview.Log")).style("font-size: 1.25rem; margin: auto .5rem auto;"),
-                    put_scope("log-title-btns", [
-                        put_scope("log_scroll_btn"),
+            if self.alas_mod == 'alas':
+                put_scope("log-bar", [
+                    put_scope("log-title", [
+                        put_text(t("Gui.Overview.Log")).style("font-size: 1.25rem; margin: auto .5rem auto;"),
+                        put_scope("log-title-btns", [
+                            put_scope("log_scroll_btn"),
+                        ]),
                     ]),
-                ]),
-                put_html('<hr class="hr-group">'),
-                put_scope("dashboard", [
-                    # Empty dashboard, values will be updated in alas_update_overview_task()
-                    put_scope(f"dashboard-row-{arg}", [])
-                    for arg in self.ALAS_STORED.keys() if deep_get(self.ALAS_STORED, keys=[arg, "order"], default=0)
-                    # Empty content to left-align last row
-                ] + [put_html("<i></i>")] * min(len(self.ALAS_STORED), 4))
-            ])
+                    put_html('<hr class="hr-group">'),
+                    put_scope("dashboard", [
+                        # Empty dashboard, values will be updated in alas_update_overview_task()
+                        put_scope(f"dashboard-row-{arg}", [])
+                        for arg in self.ALAS_STORED.keys() if deep_get(self.ALAS_STORED, keys=[arg, "order"], default=0)
+                        # Empty content to left-align last row
+                    ] + [put_html("<i></i>")] * min(len(self.ALAS_STORED), 4))
+                ])
+            else:
+                put_scope("log-bar", [
+                    put_scope("log-title", [
+                        put_text(t("Gui.Overview.Log")).style("font-size: 1.25rem; margin: auto .5rem auto;"),
+                        put_scope("log-title-btns", [
+                            put_scope("log_scroll_btn"),
+                        ]),
+                    ])
+                ]).style("height: auto;")
             put_scope("log", [put_html("")])
 
         log.console.width = log.get_width()
