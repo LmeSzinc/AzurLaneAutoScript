@@ -36,7 +36,7 @@ class CampaignBase(CampaignBase_):
         _ = ASSETS.ui_mask
         ASSETS.ui_mask = MASK_MAP_UI_W15.image
 
-    map_has_mob_move = False
+    map_has_mob_move = True
 
     def strategy_set_execute(self, formation_index=None, sub_view=None, sub_hunt=None):
         super().strategy_set_execute(
@@ -201,4 +201,5 @@ class CampaignBase(CampaignBase_):
         self.strategy_close(skip_first_screenshot=False)
 
         self._mob_move_info_change(location, target)
+        self.find_path_initial()
         self.map.show()

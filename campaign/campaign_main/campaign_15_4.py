@@ -92,8 +92,9 @@ class Campaign(CampaignBase):
     def battle_0(self):
         if not self.map_is_clear_mode and self.map_has_mob_move:
             self.mob_move(J8, K8)
-            self.clear_chosen_enemy(K9)
-            return True
+            if K9.is_accessible:
+                self.clear_chosen_enemy(K9)
+                return True
 
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
@@ -102,8 +103,9 @@ class Campaign(CampaignBase):
 
     def battle_1(self):
         if not self.map_is_clear_mode:
-            self.clear_chosen_enemy(A1)
-            return True
+            if A1.is_accessible:
+                self.clear_chosen_enemy(A1)
+                return True
 
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True

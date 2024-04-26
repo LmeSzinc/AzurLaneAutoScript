@@ -81,8 +81,9 @@ class Campaign(CampaignBase):
         if not self.map_is_clear_mode and self.map_has_mob_move:
             self.mob_move(I6, I7)
             self.mob_move(I7, H7)
-            self.clear_chosen_enemy(G7)
-            return True
+            if G7.is_accessible:
+                self.clear_chosen_enemy(G7)
+                return True
 
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
             return True
