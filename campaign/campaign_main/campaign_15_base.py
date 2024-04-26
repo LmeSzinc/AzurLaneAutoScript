@@ -12,10 +12,9 @@ MASK_MAP_UI_W15 = Mask(file='./assets/mask/MASK_MAP_UI_W15.png')
 
 
 class Config:
-    # Disabled because having errors
-    MAP_SWIPE_PREDICT_WITH_SEA_GRIDS = False
     # Ambushes can be avoid by having more DDs.
     MAP_WALK_OPTIMIZE = False
+    MAP_HAS_MYSTERY = False
     MAP_ENEMY_TEMPLATE = ['Light', 'Main', 'Carrier', 'CarrierSpecial']
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 33),
