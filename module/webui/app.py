@@ -162,13 +162,13 @@ class AlasGUI(Frame):
         clear()
         self.aside_status_cache.clear()
         for name in self.current_aside_cache:
-            self.aside_status_cache.append(ProcessManager.get_manager(name).state)
-            put_icon_buttons(
+            rendered_state = put_icon_buttons(
                 Icon.RUN,
                 "true",
                 buttons=[{"label": name, "value": name, "color": "aside"}],
                 onclick=self.ui_alas,
             )
+            self.aside_status_cache.append(rendered_state)
         self.load_home = False
         self.current_aside_cache.clear()
         aside_name = get_localstorage("aside")
