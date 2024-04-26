@@ -2,10 +2,11 @@ from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 
-from .campaign_15_base import CampaignBase
+from .campaign_15_base import CampaignBase, W15GridInfo
 from .campaign_15_base import Config as ConfigBase
 
 MAP = CampaignMap('15-4')
+MAP.grid_class = W15GridInfo
 MAP.shape = 'K9'
 MAP.camera_data = ['C2', 'C5', 'C7', 'F2', 'F5', 'F7', 'H2', 'H5', 'H7']
 MAP.camera_data_spawn_point = ['H2']
@@ -13,9 +14,9 @@ MAP.camera_sight = (-2, -1, 3, 2)
 MAP.map_data = """
     Me -- ME ME Me -- ME ++ ++ ME ME
     ME -- -- -- -- ME -- ++ ++ -- ME
-    ++ -- -- MB -- -- ME SP SP ME Me
+    ++ -- -- MS -- -- ME SP SP ME Me
     ++ ME -- ++ ++ -- -- -- -- ME --
-    -- Me ME MA ++ ME -- MB -- -- ME
+    -- Me ME MA ++ ME -- MS -- -- ME
     ME ME ME -- -- -- -- ++ ME -- Me
     ME -- __ -- ME ME -- ME ME -- ++
     -- -- ++ -- Me -- ME ME ME Me ME

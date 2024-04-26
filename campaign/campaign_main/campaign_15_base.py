@@ -2,10 +2,11 @@ from module.base.mask import Mask
 from module.base.timer import Timer
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.handler.assets import STRATEGY_OPENED
-from module.map_detection.utils_assets import ASSETS
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.map.utils import location_ensure
+from module.map_detection.grid import GridInfo
+from module.map_detection.utils_assets import ASSETS
 
 MASK_MAP_UI_W15 = Mask(file='./assets/mask/MASK_MAP_UI_W15.png')
 
@@ -25,6 +26,19 @@ class Config:
     MAP_SWIPE_MULTIPLY = (0.993, 1.011)
     MAP_SWIPE_MULTIPLY_MINITOUCH = (0.960, 0.978)
     MAP_SWIPE_MULTIPLY_MAATOUCH = (0.932, 0.949)
+
+
+class W15GridInfo(GridInfo):
+    def merge(self, info, mode='normal'):
+        # Consider boss as siren
+        if info.is_boss:
+            if not self.is_land and self.may_siren:
+                self.is_siren = True
+                self.enemy_scale = 0
+                self.enemy_genre = ''
+                return True
+
+        return super().merge(info, mode=mode)
 
 
 class CampaignBase(CampaignBase_):
