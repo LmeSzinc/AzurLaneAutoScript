@@ -108,3 +108,8 @@ class GitManager(DeployConfig):
             ssl_verify=self.SSLVerify,
             keep_changes=self.KeepLocalChanges,
         )
+
+
+if __name__ == '__main__':
+    self = GitManager()
+    self.goc_client.get_status()

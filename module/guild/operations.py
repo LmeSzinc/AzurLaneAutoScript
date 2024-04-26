@@ -202,7 +202,7 @@ class GuildOperations(GuildBase):
             p1, p2 = random_rectangle_vector(
                 direction_vector, box=detection_area, random_range=(-50, -50, 50, 50), padding=20)
             self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5))
-            self.device.sleep(0.3)
+            # self.device.sleep(0.3)
 
         logger.warning('Failed to find active operation dispatch')
         return False

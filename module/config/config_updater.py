@@ -435,7 +435,7 @@ class ConfigGenerator:
             latest = {}
             for server in ARCHIVES_PREFIX.keys():
                 latest[server] = deep_pop(self.args, keys=f'{task}.Campaign.Event.{server}', default='')
-            bold = list(set(latest.values()))
+            bold = sorted(set(latest.values()))
             deep_set(self.args, keys=f'{task}.Campaign.Event.option_bold', value=bold)
             for server, event in latest.items():
                 deep_set(self.args, keys=f'{task}.Campaign.Event.{server}', value=event)
