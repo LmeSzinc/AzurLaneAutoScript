@@ -253,7 +253,7 @@ def remove_suffix(s, suffix):
     Returns:
         str, bytes:
     """
-    return s[:len(suffix)] if s.endswith(suffix) else s
+    return s[:-len(suffix)] if s.endswith(suffix) else s
 
 
 def remove_shell_warning(s):

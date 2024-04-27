@@ -174,6 +174,8 @@ class ModuleExtractor:
                 exp.append(ImageExtractor(module=self.name, file=file).expression)
                 continue
 
+        exp.sort()
+
         logger.info('Module: %s(%s)' % (self.name, len(exp)))
         exp = IMPORT_EXP + exp
         return exp

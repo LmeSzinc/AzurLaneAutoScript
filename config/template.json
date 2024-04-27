@@ -78,12 +78,6 @@
       "AttemptsToRestart": 114514,
       "NotifyWhenAutoRestart": false
     },
-    "InstanceRestart": {
-      "Enabled": false,
-      "AttemptsToRestart": 114514,
-      "NotifyWhenAutoRestart": false,
-      "HasRestarted": 0
-    },
     "Storage": {
       "Storage": {}
     }
@@ -321,11 +315,12 @@
     },
     "GemsFarming": {
       "ChangeFlagship": "ship",
+      "CommonCV": "any",
       "ChangeVanguard": "ship",
+      "CommonDD": "any",
       "ALLowLowVanguardLevel": true,
       "FleetNumberInHardMode": 0,
       "StopIFAutoNotEnsured": true,
-      "CommonCV": "any",
       "CommissionLimit": true
     },
     "FlagshipFilter": {

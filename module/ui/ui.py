@@ -146,7 +146,7 @@ class UI(InfoHandler):
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
-                if not hasattr(self.device, "image") or self.device.image is None:
+                if not self.device.has_cached_image:
                     self.device.screenshot()
             else:
                 self.device.screenshot()

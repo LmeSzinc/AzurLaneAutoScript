@@ -8,8 +8,9 @@ from dataclasses import dataclass
 # module/device/platform/emulator_base.py
 # module/device/platform/emulator_windows.py
 # Will be used in Alas Easy Install, they shouldn't import any Alas modules.
-from deploy.Windows.utils import cached_property, iter_folder
-from module.device.platform.emulator_base import EmulatorBase, EmulatorInstanceBase, EmulatorManagerBase
+from module.device.platform.emulator_base import EmulatorBase, EmulatorInstanceBase, EmulatorManagerBase, \
+    remove_duplicated_path
+from module.device.platform.utils import cached_property, iter_folder
 
 
 @dataclass
@@ -57,14 +58,6 @@ def abspath(path):
 
 class EmulatorInstance(EmulatorInstanceBase):
     @cached_property
-    def type(self) -> str:
-        """
-        Returns:
-            str: Emulator type, such as Emulator.NoxPlayer
-        """
-        return Emulator.path_to_type(self.path)
-
-    @cached_property
     def emulator(self):
         """
         Returns:
@@ -78,7 +71,7 @@ class Emulator(EmulatorBase):
     def path_to_type(cls, path: str) -> str:
         """
         Args:
-            path: Path to .exe file
+            path: Path to .exe file, case insensitive
 
         Returns:
             str: Emulator type, such as Emulator.NoxPlayer
@@ -86,46 +79,49 @@ class Emulator(EmulatorBase):
         folder, exe = os.path.split(path)
         folder, dir1 = os.path.split(folder)
         folder, dir2 = os.path.split(folder)
-        if exe == 'Nox.exe':
-            if dir2 == 'Nox':
+        exe = exe.lower()
+        dir1 = dir1.lower()
+        dir2 = dir2.lower()
+        if exe == 'nox.exe':
+            if dir2 == 'nox':
                 return cls.NoxPlayer
-            elif dir2 == 'Nox64':
+            elif dir2 == 'nox64':
                 return cls.NoxPlayer64
             else:
                 return cls.NoxPlayer
-        if exe == 'Bluestacks.exe':
-            if dir1 in ['BlueStacks', 'BlueStacks_cn']:
+        if exe == 'bluestacks.exe':
+            if dir1 in ['bluestacks', 'bluestacks_cn']:
                 return cls.BlueStacks4
-            elif dir1 in ['BlueStacks_nxt', 'BlueStacks_nxt_cn']:
+            elif dir1 in ['bluestacks_nxt', 'bluestacks_nxt_cn']:
                 return cls.BlueStacks5
             else:
                 return cls.BlueStacks4
-        if exe == 'HD-Player.exe':
-            if dir1 in ['BlueStacks', 'BlueStacks_cn']:
+        if exe == 'hd-player.exe':
+            if dir1 in ['bluestacks', 'bluestacks_cn']:
                 return cls.BlueStacks4
-            elif dir1 in ['BlueStacks_nxt', 'BlueStacks_nxt_cn']:
+            elif dir1 in ['bluestacks_nxt', 'bluestacks_nxt_cn']:
                 return cls.BlueStacks5
             else:
                 return cls.BlueStacks5
         if exe == 'dnplayer.exe':
-            if dir1 == 'LDPlayer':
+            if dir1 == 'ldplayer':
                 return cls.LDPlayer3
-            elif dir1 == 'LDPlayer4':
+            elif dir1 == 'ldplayer4':
                 return cls.LDPlayer4
-            elif dir1 == 'LDPlayer9':
+            elif dir1 == 'ldplayer9':
                 return cls.LDPlayer9
             else:
                 return cls.LDPlayer3
-        if exe == 'NemuPlayer.exe':
+        if exe == 'nemuplayer.exe':
             if dir2 == 'nemu':
                 return cls.MuMuPlayer
             elif dir2 == 'nemu9':
                 return cls.MuMuPlayerX
             else:
                 return cls.MuMuPlayer
-        if exe == 'MuMuPlayer.exe':
+        if exe == 'mumuplayer.exe':
             return cls.MuMuPlayer12
-        if exe == 'MEmu.exe':
+        if exe == 'memu.exe':
             return cls.MEmuPlayer
 
         return ''
@@ -151,7 +147,9 @@ class Emulator(EmulatorBase):
         elif 'NemuMultiPlayer.exe' in exe:
             yield exe.replace('NemuMultiPlayer.exe', 'NemuPlayer.exe')
         elif 'MuMuMultiPlayer.exe' in exe:
-            yield exe.replace('MuMuMultiPlayer.exe', 'MuMuManager.exe')
+            yield exe.replace('MuMuMultiPlayer.exe', 'MuMuPlayer.exe')
+        elif 'MuMuManager.exe' in exe:
+            yield exe.replace('MuMuManager.exe', 'MuMuPlayer.exe')
         elif 'MEmuConsole.exe' in exe:
             yield exe.replace('MEmuConsole.exe', 'MEmu.exe')
         else:
@@ -324,23 +322,32 @@ class EmulatorManager(EmulatorManagerBase):
         Get recently executed programs in UserAssist
         https://github.com/forensicmatt/MonitorUserAssist
 
-        Returns:
+        Yields:
             str: Path to emulator executables, may contains duplicate values
         """
         path = r'Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist'
         # {XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}\xxx.exe
         regex_hash = re.compile(r'{.*}')
-        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, path) as reg:
-            folders = list_key(reg)
+        try:
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, path) as reg:
+                folders = list_key(reg)
+        except FileNotFoundError:
+            return
+
         for folder in folders:
-            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, f'{path}\\{folder}\\Count') as reg:
-                for key in list_reg(reg):
-                    key = codecs.decode(key.name, 'rot-13')
-                    # Skip those with hash
-                    if regex_hash.search(key):
-                        continue
-                    for file in Emulator.multi_to_single(key):
-                        yield file
+            try:
+                with winreg.OpenKey(winreg.HKEY_CURRENT_USER, f'{path}\\{folder}\\Count') as reg:
+                    for key in list_reg(reg):
+                        key = codecs.decode(key.name, 'rot-13')
+                        # Skip those with hash
+                        if regex_hash.search(key):
+                            continue
+                        for file in Emulator.multi_to_single(key):
+                            yield file
+            except FileNotFoundError:
+                # FileNotFoundError: [WinError 2] 系统找不到指定的文件。
+                # Might be a random directory without "Count" subdirectory
+                continue
 
     @staticmethod
     def iter_mui_cache():
@@ -353,8 +360,11 @@ class EmulatorManager(EmulatorManagerBase):
             str: Path to emulator executable, may contains duplicate values
         """
         path = r'Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\MuiCache'
-        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, path) as reg:
-            rows = list_reg(reg)
+        try:
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, path) as reg:
+                rows = list_reg(reg)
+        except FileNotFoundError:
+            return
 
         regex = re.compile(r'(^.*\.exe)\.')
         for row in rows:
@@ -420,24 +430,53 @@ class EmulatorManager(EmulatorManagerBase):
             'MEmu',
         ]
         for path in known_uninstall_registry_path:
-            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, path) as reg:
-                for software in list_key(reg):
-                    if software not in known_emulator_registry_name:
-                        continue
+            try:
+                with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, path) as reg:
+                    software_list = list_key(reg)
+            except FileNotFoundError:
+                continue
+            for software in software_list:
+                if software not in known_emulator_registry_name:
+                    continue
+                try:
                     with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, f'{path}\\{software}') as software_reg:
-                        try:
-                            uninstall = winreg.QueryValueEx(software_reg, 'UninstallString')[0]
-                        except FileNotFoundError:
-                            continue
-                        if not uninstall:
-                            continue
-                        # UninstallString is like:
-                        # C:\Program Files\BlueStacks_nxt\BlueStacksUninstaller.exe -tmp
-                        # "E:\ProgramFiles\Microvirt\MEmu\uninstall\uninstall.exe" -u
-                        # Extract path in ""
-                        res = re.search('"(.*?)"', uninstall)
-                        uninstall = res.group(1) if res else uninstall
-                        yield uninstall
+                        uninstall = winreg.QueryValueEx(software_reg, 'UninstallString')[0]
+                except FileNotFoundError:
+                    continue
+                if not uninstall:
+                    continue
+                # UninstallString is like:
+                # C:\Program Files\BlueStacks_nxt\BlueStacksUninstaller.exe -tmp
+                # "E:\ProgramFiles\Microvirt\MEmu\uninstall\uninstall.exe" -u
+                # Extract path in ""
+                res = re.search('"(.*?)"', uninstall)
+                uninstall = res.group(1) if res else uninstall
+                yield uninstall
+
+    @staticmethod
+    def iter_running_emulator():
+        """
+        Yields:
+            str: Path to emulator executables, may contains duplicate values
+        """
+        try:
+            import psutil
+        except ModuleNotFoundError:
+            return
+        # Since this is a one-time-usage, we access psutil._psplatform.Process directly
+        # to bypass the call of psutil.Process.is_running().
+        # This only costs about 0.017s.
+        for pid in psutil.pids():
+            proc = psutil._psplatform.Process(pid)
+            try:
+                exe = proc.cmdline()
+                exe = exe[0].replace(r'\\', '/').replace('\\', '/')
+            except (psutil.AccessDenied, IndexError):
+                # psutil.AccessDenied
+                continue
+
+            if Emulator.is_emulator(exe):
+                yield exe
 
     @cached_property
     def all_emulators(self) -> t.List[Emulator]:
@@ -466,7 +505,7 @@ class EmulatorManager(EmulatorManagerBase):
                     exe.add(ld)
 
         # Uninstall registry
-        for uninstall in self.iter_uninstall_registry():
+        for uninstall in EmulatorManager.iter_uninstall_registry():
             # Find emulator executable from uninstaller
             for file in iter_folder(abspath(os.path.dirname(uninstall)), ext='.exe'):
                 if Emulator.is_emulator(file) and os.path.exists(file):
@@ -476,15 +515,18 @@ class EmulatorManager(EmulatorManagerBase):
                 if Emulator.is_emulator(file) and os.path.exists(file):
                     exe.add(file)
             # MuMu specific directory
-            folder = abspath(os.path.join(os.path.dirname(uninstall), 'EmulatorShell'))
-            if os.path.exists(folder):
-                for file in iter_folder(folder, ext='.exe'):
-                    if Emulator.is_emulator(file) and os.path.exists(file):
-                        exe.add(file)
+            for file in iter_folder(abspath(os.path.join(os.path.dirname(uninstall), 'EmulatorShell')), ext='.exe'):
+                if Emulator.is_emulator(file) and os.path.exists(file):
+                    exe.add(file)
 
+        # Running
+        for file in EmulatorManager.iter_running_emulator():
+            if os.path.exists(file):
+                exe.add(file)
+
+        # De-redundancy
         exe = [Emulator(path).path for path in exe if Emulator.is_emulator(path)]
-        exe = sorted(set(exe))
-        exe = [Emulator(path) for path in exe]
+        exe = [Emulator(path) for path in remove_duplicated_path(exe)]
         return exe
 
     @cached_property

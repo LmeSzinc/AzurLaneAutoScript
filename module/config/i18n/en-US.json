@@ -417,7 +417,8 @@
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
-      "scrcpy": "scrcpy"
+      "scrcpy": "scrcpy",
+      "nemu_ipc": "nemu_ipc"
     },
     "ControlMethod": {
       "name": "Control Method",
@@ -709,7 +710,7 @@
       "event_20211125_cn": "World-spanning Arclight Rerun",
       "event_20211229_cn": "Tower of Transcendence Rerun",
       "event_20220210_cn": "Northern Overture Rerun",
-      "event_20220224_cn": "Abyssal Refrain",
+      "event_20220224_cn": "Abyssal Refrain Rerun",
       "event_20220310_tw": "復刻斯圖爾特的硝煙",
       "event_20220324_cn": "Virtual Tower Rerun",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
@@ -730,6 +731,7 @@
       "event_20231123_cn": "The Ninja Scrolls: Azur Flash",
       "event_20231221_cn": "Light-Chasing Sea of Stars",
       "event_20240229_cn": "Snowrealm Peregrination",
+      "event_20240425_cn": "Heart-Linking Harmony",
       "raid_20200624": "Air Raid Drills with Essex Rerun",
       "raid_20210708": "Cross Wave rerun",
       "raid_20220127": "Mystery Investigation",
@@ -1140,12 +1142,28 @@
       "ship": "Change Ship",
       "ship_equip": "Change Ship + Gears"
     },
+    "CommonCV": {
+      "name": "Flagship Common CV/CVL Preference",
+      "help": "",
+      "any": "any",
+      "langley": "langley",
+      "bogue": "bogue",
+      "ranger": "ranger",
+      "hermes": "hermes"
+    },
     "ChangeVanguard": {
       "name": "Change Vanguard",
       "help": "Change vanguard if flagship or vanguard are emotion exhausted.If you choose not to change, your fleet will ignore the low emotion warning and continue combat.\nSwitch out to new level 100(70) common vanguard after current flagship has reached level 32+ (Only CN players'0 limit break ship can reach level 100)\n\nThe vanguard's equipment is replaced when being switched out by first recording the current setup. Only populated equipment slots will be replaced.",
       "disabled": "Don't Change",
       "ship": "Change Ship",
       "ship_equip": "Change Ship + Gears"
+    },
+    "CommonDD": {
+      "name": "Flagship Common DD Preference",
+      "help": "",
+      "any": "any",
+      "aulick_or_foote": "aulick or foote",
+      "cassin_or_downes": "cassin or downes"
     },
     "ALLowLowVanguardLevel": {
       "name": "ALLow Low Vanguard Level",
@@ -1161,15 +1179,6 @@
     "StopIFAutoNotEnsured": {
       "name": "GemsFarming.StopIFAutoNotEnsured.name",
       "help": "GemsFarming.StopIFAutoNotEnsured.help"
-    },
-    "CommonCV": {
-      "name": "Flagship Common CV/CVL Preference",
-      "help": "",
-      "any": "any",
-      "langley": "langley",
-      "bogue": "bogue",
-      "ranger": "ranger",
-      "hermes": "hermes"
     },
     "CommissionLimit": {
       "name": "Prevent Too Many Urgent Commissions",
@@ -2629,13 +2638,11 @@
     "DeviceType": {
       "name": "Device Type",
       "help": "",
-      "emulator": "Emulator (Android <= 9)",
-      "emulator_android_12": "Emulator (Android > 9)",
-      "plone_cloud_with_adb": "Phone cloud with public network ADB",
-      "phone_cloud_without_adb": "Phone cloud without public network ADB",
-      "android_phone": "Android Phone (Android <= 9)",
-      "android_phone_12": "Android Phone (Android > 9)",
-      "android_phone_vmos": "Android Phone (VMOS emulator)"
+      "emulator": "Emulators",
+      "plone_cloud_with_adb": "Phone clouds with public network ADB",
+      "phone_cloud_without_adb": "Phone clouds without public network ADB",
+      "android_phone": "Android Phones",
+      "android_phone_vmos": "Android Phones (VMOS emulator)"
     },
     "TestScene": {
       "name": "Test Scene",

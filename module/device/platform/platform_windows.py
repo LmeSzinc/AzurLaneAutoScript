@@ -88,19 +88,21 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             self.execute(exe)
         elif instance == Emulator.MuMuPlayerX:
             # NemuPlayer.exe -m nemu-12.0-x64-default
-            self.execute(f'{exe} -m {instance.name}')
+            self.execute(f'"{exe}" -m {instance.name}')
         elif instance == Emulator.MuMuPlayer12:
             # MuMuPlayer.exe -v 0
-            self.execute(f'{exe} -v {instance.MuMuPlayer12_id}')
+            if instance.MuMuPlayer12_id is None:
+                logger.warning(f'Cannot get MuMu instance index from name {instance.name}')
+            self.execute(f'"{exe}" -v {instance.MuMuPlayer12_id}')
         elif instance == Emulator.NoxPlayerFamily:
             # Nox.exe -clone:Nox_1
-            self.execute(f'{exe} -clone:{instance.name}')
+            self.execute(f'"{exe}" -clone:{instance.name}')
         elif instance == Emulator.BlueStacks5:
             # HD-Player.exe -instance Pie64
-            self.execute(f'{exe} -instance {instance.name}')
+            self.execute(f'"{exe}" -instance {instance.name}')
         elif instance == Emulator.BlueStacks4:
             # BlueStacks\Client\Bluestacks.exe -vmname Android_1
-            self.execute(f'{exe} -vmname {instance.name}')
+            self.execute(f'"{exe}" -vmname {instance.name}')
         else:
             raise EmulatorUnknown(f'Cannot start an unknown emulator instance: {instance}')
 
@@ -142,6 +144,8 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             # MuMu 12 has 2 processes:
             # E:\ProgramFiles\Netease\MuMuPlayer-12.0\shell\MuMuPlayer.exe -v 0
             # "C:\Program Files\MuMuVMMVbox\Hypervisor\MuMuVMMHeadless.exe" --comment MuMuPlayer-12.0-0 --startvm xxx
+            if instance.MuMuPlayer12_id is None:
+                logger.warning(f'Cannot get MuMu instance index from name {instance.name}')
             self.kill_process_by_regex(
                 rf'('
                 rf'MuMuVMMHeadless.exe.*--comment {instance.name}'
@@ -152,7 +156,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             # "C:\Program Files\MuMuVMMVbox\Hypervisor\MuMuVMMSVC.exe" --Embedding
         elif instance == Emulator.NoxPlayerFamily:
             # Nox.exe -clone:Nox_1 -quit
-            self.execute(f'{exe} -clone:{instance.name} -quit')
+            self.execute(f'"{exe}" -clone:{instance.name} -quit')
         else:
             raise EmulatorUnknown(f'Cannot stop an unknown emulator instance: {instance}')
 
@@ -313,4 +317,5 @@ class PlatformWindows(PlatformBase, EmulatorManager):
 
 if __name__ == '__main__':
     self = PlatformWindows('alas')
-    self.emulator_start()
+    d = self.emulator_instance
+    print(d)

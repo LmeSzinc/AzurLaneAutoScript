@@ -13,6 +13,7 @@ onepush
 pillow
 prettytable==2.2.1
 psutil==5.9.3
+pycryptodome==3.10.4
 pydantic
 pypresence==4.2.1
 pywebio==1.6.2

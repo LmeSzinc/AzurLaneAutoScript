@@ -1,6 +1,7 @@
 import copy
 import os
 import subprocess
+import sys
 from typing import Optional, Union
 
 from deploy.Windows.logger import logger
@@ -55,7 +56,7 @@ class ConfigModel:
 
     # Webui
     WebuiHost: str = "0.0.0.0"
-    WebuiPort: int = 22267
+    WebuiPort: int = 22367
     Language: str = "en-US"
     Theme: str = "default"
     DpiScaling: bool = True
@@ -80,42 +81,15 @@ class DeployConfig(ConfigModel):
         self.config_template = {}
         self.read()
 
-        # Redirection
-        if self.Repository in [
-            'https://gitee.com/LmeSzinc/AzurLaneAutoScript',
-            'https://gitee.com/lmeszinc/azur-lane-auto-script-mirror',
-            'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git',
-            'https://e.coding.net/saarcenter/alas/AzurLaneAutoScript.git',
-            'https://git.saarcenter.com/LmeSzinc/AzurLaneAutoScript.git',
-        ]:
-            self.Repository = 'git://git.lyoko.io/AzurLaneAutoScript'
-
-        # Bypass webui.config.DeployConfig.__setattr__()
-        # Don't write these into deploy.yaml
-        super().__setattr__(
-            'GitOverCdn',
-            self.Repository == 'git://git.lyoko.io/AzurLaneAutoScript' and self.Branch == 'master'
-        )
-        if self.Repository in ['global']:
-            super().__setattr__('Repository', 'https://github.com/LmeSzinc/AzurLaneAutoScript')
-        if self.Repository in ['cn']:
-            super().__setattr__('Repository', 'git://git.lyoko.io/AzurLaneAutoScript')
-
         self.write()
         self.show_config()
-
-    @cached_property
-    def flag_feature_test_0_4_0(self):
-        flag = os.path.exists('./toolkit/flag_feature_test_0_4_0')
-        logger.info(f'flag_feature_test_0_4_0: {flag}')
-        return flag
 
     def show_config(self):
         logger.hr("Show deploy config", 1)
         for k, v in self.config.items():
             if k in ("Password", "SSHUser"):
                 continue
-            if self.config_template.get(k) == v:
+            if self.config_template[k] == v:
                 continue
             logger.info(f"{k}: {v}")
 
@@ -130,8 +104,20 @@ class DeployConfig(ConfigModel):
             if hasattr(self, key):
                 super().__setattr__(key, value)
 
+        self.config_redirect()
+
     def write(self):
         poor_yaml_write(self.config, self.file)
+
+    def config_redirect(self):
+        """
+        Redirect deploy config, must be called after each `read()`
+        """
+        # Bypass webui.config.DeployConfig.__setattr__()
+        # Don't write these into deploy.yaml
+        super().__setattr__('GitOverCdn', self.Repository in ['cn'])
+        if self.Repository in ['global', 'cn']:
+            super().__setattr__('Repository', 'https://github.com/LmeSzinc/StarRailCopilot')
 
     def filepath(self, path):
         """
@@ -164,7 +150,7 @@ class DeployConfig(ConfigModel):
         if os.path.exists(exe):
             return exe
 
-        logger.warning(f'AdbExecutable: {exe} does not exists, use `adb` instead')
+        logger.warning(f'AdbExecutable: {exe} does not exist, use `adb` instead')
         return 'adb'
 
     @cached_property
@@ -173,12 +159,18 @@ class DeployConfig(ConfigModel):
         if os.path.exists(exe):
             return exe
 
-        logger.warning(f'GitExecutable: {exe} does not exists, use `git` instead')
+        logger.warning(f'GitExecutable: {exe} does not exist, use `git` instead')
         return 'git'
 
     @cached_property
     def python(self) -> str:
-        return self.filepath(self.PythonExecutable)
+        exe = self.filepath(self.PythonExecutable)
+        if os.path.exists(exe):
+            return exe
+
+        current = sys.executable.replace("\\", "/")
+        logger.warning(f'PythonExecutable: {exe} does not exist, use current python instead: {current}')
+        return current
 
     @cached_property
     def requirements_file(self) -> str:

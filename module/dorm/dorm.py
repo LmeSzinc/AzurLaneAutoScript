@@ -9,6 +9,7 @@ from module.base.timer import Timer
 from module.base.utils import *
 from module.dorm.assets import *
 from module.dorm.buy_furniture import BuyFurniture
+from module.handler.assets import POPUP_CONFIRM
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
 from module.template.assets import TEMPLATE_DORM_COIN, TEMPLATE_DORM_LOVE
@@ -78,8 +79,8 @@ class RewardDorm(UI):
             out: page_dorm, with info_bar
         """
         image = MASK_DORM.apply(self.device.image)
-        loves = TEMPLATE_DORM_LOVE.match_multi(image, name='DORM_LOVE', scaling=1.5)
-        coins = TEMPLATE_DORM_COIN.match_multi(image, name='DORM_COIN', scaling=1.5)
+        loves = TEMPLATE_DORM_LOVE.match_multi(image, name='DORM_LOVE')
+        coins = TEMPLATE_DORM_COIN.match_multi(image, name='DORM_COIN')
         logger.info(f'Dorm loves: {len(loves)}, Dorm coins: {len(coins)}')
         # Complicated dorm background
         if len(loves) > 6:
@@ -107,24 +108,49 @@ class RewardDorm(UI):
         # Long tap to feed. This requires minitouch.
         timeout = Timer(count // 5 + 5).start()
         x, y = random_rectangle_point(button.button)
-        self.device.minitouch_builder.down(x, y).commit()
-        self.device.minitouch_send()
+        builder = self.device.minitouch_builder
+        builder.down(x, y).commit()
+        builder.send()
 
         while 1:
-            self.device.minitouch_builder.move(x, y).commit().wait(10)
-            self.device.minitouch_send()
+            builder.move(x, y).commit().wait(10)
+            builder.send()
             self.device.screenshot()
 
             if not self._dorm_has_food(button) \
                     or self.handle_info_bar() \
-                    or self.handle_popup_cancel('DORM_FEED'):
+                    or self.appear(POPUP_CONFIRM, offset=self._popup_offset):
                 break
             if timeout.reached():
                 logger.warning('Wait dorm feed timeout')
                 break
 
-        self.device.minitouch_builder.up().commit()
-        self.device.minitouch_send()
+        builder.up().commit()
+        builder.send()
+
+    @Config.when(DEVICE_CONTROL_METHOD='MaaTouch')
+    def _dorm_feed_long_tap(self, button, count):
+        timeout = Timer(count // 5 + 5).start()
+        x, y = random_rectangle_point(button.button)
+        builder = self.device.maatouch_builder
+        builder.down(x, y).commit()
+        builder.send()
+
+        while 1:
+            builder.move(x, y).commit().wait(10)
+            builder.send()
+            self.device.screenshot()
+
+            if not self._dorm_has_food(button) \
+                    or self.handle_info_bar() \
+                    or self.appear(POPUP_CONFIRM, offset=self._popup_offset):
+                break
+            if timeout.reached():
+                logger.warning('Wait dorm feed timeout')
+                break
+
+        builder.up().commit()
+        builder.send()
 
     @Config.when(DEVICE_CONTROL_METHOD='uiautomator2')
     def _dorm_feed_long_tap(self, button, count):
@@ -139,7 +165,7 @@ class RewardDorm(UI):
 
             if not self._dorm_has_food(button) \
                     or self.handle_info_bar() \
-                    or self.handle_popup_cancel('DORM_FEED'):
+                    or self.appear(POPUP_CONFIRM, offset=self._popup_offset):
                 break
             if timeout.reached():
                 logger.warning('Wait dorm feed timeout')
@@ -147,11 +173,72 @@ class RewardDorm(UI):
 
         self.device.u2.touch.up(x, y)
 
+    @Config.when(DEVICE_CONTROL_METHOD='nemu_ipc')
+    def _dorm_feed_long_tap(self, button, count):
+        timeout = Timer(count // 5 + 5).start()
+        x, y = random_rectangle_point(button.button)
+
+        while 1:
+            self.device.nemu_ipc.down(x, y)
+            time.sleep(.01)
+            self.device.screenshot()
+
+            if not self._dorm_has_food(button) \
+                    or self.handle_info_bar() \
+                    or self.appear(POPUP_CONFIRM, offset=self._popup_offset):
+                break
+            if timeout.reached():
+                logger.warning('Wait dorm feed timeout')
+                break
+
+        self.device.nemu_ipc.up()
+
     @Config.when(DEVICE_CONTROL_METHOD=None)
     def _dorm_feed_long_tap(self, button, count):
         logger.warning(f'Current control method {self.config.Emulator_ControlMethod} '
                        f'does not support DOWN/UP events, use multi-click instead')
         self.device.multi_click(button, count)
+
+    def dorm_view_reset(self, skip_first_screenshot=True):
+        """
+        Use Dorm manage and Back to reset dorm view.
+
+        Pages:
+            in: page_dorm
+            out: page_dorm
+        """
+        logger.info('Dorm view reset')
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(DORM_MANAGE_CHECK, offset=(20, 20)):
+                break
+
+            if self.appear_then_click(DORM_MANAGE, offset=(20, 20), interval=3):
+                continue
+            # Handle all popups
+            if self.ui_additional():
+                continue
+            if self.appear_then_click(DORM_FURNITURE_CONFIRM, offset=(30, 30), interval=3):
+                continue
+
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(DORM_MANAGE, offset=(20, 20)):
+                break
+
+            if self.appear(DORM_MANAGE_CHECK, offset=(20, 20), interval=3):
+                self.device.click(DORM_FURNITURE_SHOP_QUIT)
+                continue
 
     def dorm_collect(self):
         """
@@ -164,26 +251,8 @@ class RewardDorm(UI):
             out: page_dorm, without info_bar
         """
         logger.hr('Dorm collect')
-        # if self.config.Emulator_ControlMethod not in ['uiautomator2', 'minitouch']:
-        #     logger.warning(f'Current control method {self.config.Emulator_ControlMethod} '
-        #                    f'does not support 2 finger zoom out, skip dorm collect')
-        #     return
 
-        # Already at a high camera view now, no need to zoom-out.
-        # for _ in range(2):
-        #     logger.info('Dorm zoom out')
-        #     # Left hand down
-        #     x, y = random_rectangle_point((33, 228, 234, 469))
-        #     self.device.minitouch_builder.down(x, y, contact_id=1).commit()
-        #     self.device.minitouch_send()
-        #     # Right hand swipe
-        #     # Need to avoid drop-down menu in android, which is 38 px.
-        #     p1, p2 = random_rectangle_vector(
-        #         (-700, 450), box=(247, 45, 1045, 594), random_range=(-50, -50, 50, 50), padding=0)
-        #     self.device.drag_minitouch(p1, p2, point_random=(0, 0, 0, 0))
-        #     # Left hand up
-        #     self.device.minitouch_builder.up(contact_id=1).commit()
-        #     self.device.minitouch_send()
+        self.dorm_view_reset()
 
         # Collect
         _dorm_receive_attempt = 0
@@ -241,17 +310,24 @@ class RewardDorm(UI):
             for _ in range(count):
                 self.device.click(button)
                 self.device.sleep((0.5, 0.8))
+            skip_first_screenshot = False
 
         else:
             self._dorm_feed_long_tap(button, count)
+            skip_first_screenshot = True
 
+        self.popup_interval_clear()
         while 1:
-            self.device.screenshot()
-            if self.handle_popup_cancel('DORM_FEED'):
-                continue
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
             # End
             if self.appear(DORM_FEED_CHECK, offset=(20, 20)):
                 break
+            # Click
+            if self.handle_popup_cancel('DORM_FEED'):
+                continue
 
     def dorm_food_get(self):
         """
@@ -520,7 +596,7 @@ class RewardDorm(UI):
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 
-        self.dorm_run(feed=self.config.Dorm_Feed, 
+        self.dorm_run(feed=self.config.Dorm_Feed,
                       collect=self.config.Dorm_Collect,
                       buy_furniture=self.config.BuyFurniture_Enable)
 

@@ -10,11 +10,14 @@ from module.device.method.utils import HierarchyButton
 from module.logger import logger
 from module.map_detection.utils import fit_points
 from module.statistics.azurstats import AzurStats
+from module.webui.setting import cached_class_property
 
 
 class ModuleBase:
     config: AzurLaneConfig
     device: Device
+
+    EARLY_OCR_IMPORT = False
 
     def __init__(self, config, device=None, task=None):
         """
@@ -49,6 +52,7 @@ class ModuleBase:
             self.device = device
 
         self.interval_timer = {}
+        self.early_ocr_import()
 
     @cached_property
     def stat(self) -> AzurStats:
@@ -57,6 +61,57 @@ class ModuleBase:
     @cached_property
     def emotion(self) -> Emotion:
         return Emotion(config=self.config)
+
+    def early_ocr_import(self):
+        """
+        Start a thread to import cnocr and mxnet while the Alas instance just starting to take screenshots
+        The import is paralleled since taking screenshot is I/O-bound while importing is CPU-bound,
+        thus would speed up the startup 0.5 ~ 1.0s and even 5s on slow PCs.
+        """
+        if ModuleBase.EARLY_OCR_IMPORT:
+            return
+        if not self.config.is_actual_task:
+            logger.info('No actual task bound, skip early_ocr_import')
+            return
+
+        def do_ocr_import():
+            # Wait first image
+            import time
+            while 1:
+                if self.device.has_cached_image:
+                    break
+                time.sleep(0.01)
+
+            logger.info('early_ocr_import start')
+            from module.ocr.al_ocr import AlOcr
+            _ = AlOcr
+            logger.info('early_ocr_import finish')
+
+        logger.info('early_ocr_import call')
+        import threading
+        thread = threading.Thread(target=do_ocr_import, daemon=True)
+        thread.start()
+        ModuleBase.EARLY_OCR_IMPORT = True
+
+    @cached_class_property
+    def worker(self):
+        """
+        A thread pool to run things at background
+
+        Examples:
+        ```
+        def func(image):
+            logger.info('Update thread start')
+            with self.config.multi_set():
+                self.dungeon_get_simuni_point(image)
+                self.dungeon_update_stamina(image)
+        ModuleBase.worker.submit(func, self.device.image)
+        ```
+        """
+        logger.hr('Creating worker')
+        from concurrent.futures import ThreadPoolExecutor
+        pool = ThreadPoolExecutor(1)
+        return pool
 
     def ensure_button(self, button):
         if isinstance(button, str):
