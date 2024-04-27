@@ -36,6 +36,21 @@ def get_serial_pair(serial):
     return None, None
 
 
+def remove_duplicated_path(paths):
+    """
+    Args:
+        paths (list[str]):
+
+    Returns:
+        list[str]:
+    """
+    paths = sorted(set(paths))
+    dic = {}
+    for path in paths:
+        dic.setdefault(path.lower(), path)
+    return list(dic.values())
+
+
 @dataclass
 class EmulatorInstanceBase:
     # Serial for adb connection
@@ -90,7 +105,7 @@ class EmulatorInstanceBase:
         Returns:
             int: Instance ID, or None if this is not a MuMu 12 instance
         """
-        res = re.search(r'MuMuPlayer-12.0-(\d+)', self.name)
+        res = re.search(r'MuMuPlayer(?:Global)?-12.0-(\d+)', self.name)
         if res:
             return int(res.group(1))
         res = re.search(r'YXArkNights-12.0-(\d+)', self.name)
@@ -205,6 +220,14 @@ class EmulatorBase:
 
 
 class EmulatorManagerBase:
+    @staticmethod
+    def iter_running_emulator():
+        """
+        Yields:
+            str: Path to emulator executables, may contains duplicate values
+        """
+        return
+
     @cached_property
     def all_emulators(self) -> t.List[EmulatorBase]:
         """

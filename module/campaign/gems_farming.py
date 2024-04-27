@@ -158,6 +158,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
     def _fleet_detail_enter_hard(self):
         from module.retire.retirement import Retirement
+        _retire_class = Retirement(config=self.config, device=self.device)
         self.campaign.ensure_campaign_ui(self.stage)
         button_area = self.campaign.ENTRANCE.button
         button = Button(name=str(self.stage), area=button_area, color=(0, 0, 0), button=button_area)
@@ -168,7 +169,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                 self.device.screenshot()
                 if self.appear_then_click(MAP_PREPARATION):
                     self.device.sleep(0.5)
-                if Retirement(config=self.config, device=self.device).handle_retirement():
+                if _retire_class.handle_retirement():
                     continue
                 if self.appear(button=FLEET_PREPARATION, offset=(50, 50)):
                     return
@@ -251,7 +252,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         self.dock_select_one(button)
         self.dock_filter_set()
         self.dock_sort_method_dsc_set()
-        self.dock_select_confirm(check_button=page_fleet.check_button)
+        self.dock_select_confirm(check_button=self.page_fleet_check_button)
 
     def get_common_rarity_cv(self, lv=31, emotion=16):
         """
@@ -342,13 +343,20 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
         scanner.set_limitation(fleet=0)
 
+        if self.config.GemsFarming_CommonDD == 'any':
+            return scanner.scan(self.device.image, output=False)
+        
         candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
 
         if candidates:
             return candidates
-        else:
-            logger.info('No specific DD was found, try reversed order.')
-            return candidates
+        
+        logger.info('No specific DD was found, try reversed order.')
+        self.dock_sort_method_dsc_set(False)
+
+        candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
+
+        return candidates
 
     def find_candidates(self, template, scanner):
         """

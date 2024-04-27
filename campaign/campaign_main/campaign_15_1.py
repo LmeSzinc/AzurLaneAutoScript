@@ -1,20 +1,23 @@
-from module.campaign.campaign_base import CampaignBase
+from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
-from module.logger import logger
+
+from .campaign_15_base import CampaignBase
+from .campaign_15_base import Config as ConfigBase
 
 MAP = CampaignMap('15-1')
 MAP.shape = 'H7'
-MAP.camera_data = ['D2', 'D5', 'E2', 'E5']
-MAP.camera_data_spawn_point = ['D5']
+MAP.camera_data = ['C2', 'C5', 'E2', 'E5']
+MAP.camera_data_spawn_point = ['C5']
+MAP.camera_sight = (-2, -1, 3, 2)
 MAP.map_data = """
-    Me ME ME ++ ME MB ++ ++
-    ME ME ME ME Me ME MB ++
-    ++ ME ME ME Me ME ME MB
-    ++ ME ME ME ME __ Me ME
-    ME ME ME ME ME Me ME ME
-    ME ME ME ME ++ ME ME ME
-    ME SP SP ME Me ME ME ME
+    Me Me ME ++ ME MB ++ ++
+    ME ME Me ME Me -- MB ++
+    ++ Me ME -- Me -- -- MB
+    ++ ME -- -- -- __ Me --
+    -- ME -- ME ME Me -- ME
+    ME -- -- ME ++ -- ME --
+    -- SP SP -- Me -- ME --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50
@@ -26,7 +29,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'mystery': 1},
+    {'battle': 0, 'enemy': 5},
     {'battle': 1, 'enemy': 2},
     {'battle': 2, 'enemy': 1},
     {'battle': 3},
@@ -44,34 +47,54 @@ A7, B7, C7, D7, E7, F7, G7, H7, \
     = MAP.flatten()
 
 
-class Config:
+class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['0']
-    MOVABLE_ENEMY_TURN = (2,)
-    MAP_HAS_SIREN = False
-    MAP_HAS_MOVABLE_ENEMY = False
+    # MAP_SIREN_TEMPLATE = ['0']
+    # MOVABLE_ENEMY_TURN = (2,)
+    # MAP_HAS_SIREN = True
+    # MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = True
-    MAP_HAS_MYSTERY = True
+    # MAP_HAS_MYSTERY = True
     # ===== End of generated config =====
+
+    MAP_WALK_USE_CURRENT_FLEET = True
 
 
 class Campaign(CampaignBase):
     MAP = MAP
-    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
+
+    def battle_function(self):
+        if self.config.MAP_CLEAR_ALL_THIS_TIME \
+                and self.battle_count == 0 and not self.map_is_clear_mode:
+            func = self.FUNCTION_NAME_BASE + str(self.battle_count)
+            logger.info(f'Using function: {func}')
+            func = self.__getattribute__(func)
+            result = func()
+            return result
+
+        return super().battle_function()
 
     def battle_0(self):
-        if self.clear_siren():
+        if not self.map_is_clear_mode and self.map_has_mob_move:
+            self.mob_move(B3, C3)
+            if B1.is_accessible:
+                self.clear_chosen_enemy(B1)
+                return True
+
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
             return True
+
+        return self.battle_default()
+
+    def battle_1(self):
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
             return True
 
         return self.battle_default()
 
     def battle_5(self):
-        if self.clear_siren():
-            return True
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 

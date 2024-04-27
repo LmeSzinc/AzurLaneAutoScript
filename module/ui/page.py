@@ -3,8 +3,6 @@ import traceback
 from module.ui.assets import *
 from module.raid.assets import *
 
-MAIN_CHECK = MAIN_GOTO_CAMPAIGN
-
 
 class Page:
     # Key: str, page name like "page_main"
@@ -71,6 +69,11 @@ class Page:
         self.links[destination] = button
 
 
+"""
+Define UI pages
+"""
+# Use MAIN_GOTO_FLEET instead of MAIN_GOTO_CAMPAIGN for faster switches with info_bar
+MAIN_CHECK = MAIN_GOTO_FLEET
 # Main
 page_main = Page(MAIN_CHECK)
 page_campaign_menu = Page(CAMPAIGN_MENU_CHECK)

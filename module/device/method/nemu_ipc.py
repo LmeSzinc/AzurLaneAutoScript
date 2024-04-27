@@ -2,7 +2,7 @@ import asyncio
 import ctypes
 import os
 import sys
-from functools import wraps, partial
+from functools import partial, wraps
 
 import cv2
 import numpy as np
@@ -147,6 +147,8 @@ class CaptureNemuIpc(CaptureStd):
         # MuMuVMMSVC.exe died
         # b'nemu_capture_display rpc error: 1726\r\n'
         # No idea how to handle yet
+        if b'error: 1722' in self.stderr or b'error: 1726' in self.stderr:
+            raise NemuIpcError('Emulator instance is probably dead')
 
 
 def retry(func):
@@ -172,7 +174,7 @@ def retry(func):
                 break
             # Function call timeout
             except asyncio.TimeoutError:
-                logger.warning(f'Func {func.__name__}() call timeout, retrying')
+                logger.warning(f'Func {func.__name__}() call timeout, retrying: {_}')
 
                 def init():
                     self.reconnect()
@@ -236,11 +238,10 @@ class NemuIpcImpl:
         if self.connect_id > 0:
             return
 
-        with CaptureNemuIpc():
-            connect_id = self.ev_run_sync(
-                self.lib.nemu_connect,
-                self.nemu_folder, self.instance_id
-            )
+        connect_id = self.ev_run_sync(
+            self.lib.nemu_connect,
+            self.nemu_folder, self.instance_id
+        )
         if connect_id == 0:
             raise NemuIpcError(
                 'Connection failed, please check if nemu_folder is correct and emulator is running'
@@ -253,11 +254,10 @@ class NemuIpcImpl:
         if self.connect_id == 0:
             return
 
-        with CaptureNemuIpc():
-            self.ev_run_sync(
-                self.lib.nemu_disconnect,
-                self.connect_id
-            )
+        self.ev_run_sync(
+            self.lib.nemu_disconnect,
+            self.connect_id
+        )
 
         # logger.info(f'NemuIpc disconnected: {self.connect_id}')
         self.connect_id = 0
@@ -288,7 +288,9 @@ class NemuIpcImpl:
             asyncio.TimeoutError: If function call timeout
         """
         func_wrapped = partial(func, *args, **kwargs)
-        result = await asyncio.wait_for(self._ev.run_in_executor(None, func_wrapped), timeout=0.05)
+        # Increased timeout for slow PCs
+        # Default screenshot interval is 0.2s, so a 0.15s timeout would have a fast retry without extra time costs
+        result = await asyncio.wait_for(self._ev.run_in_executor(None, func_wrapped), timeout=0.15)
         return result
 
     def ev_run_sync(self, func, *args, **kwargs):
@@ -300,8 +302,24 @@ class NemuIpcImpl:
 
         Raises:
             asyncio.TimeoutError: If function call timeout
+            NemuIpcIncompatible:
+            NemuIpcError
         """
         result = self._ev.run_until_complete(self.ev_run_async(func, *args, **kwargs))
+
+        err = False
+        if func.__name__ == 'nemu_connect':
+            if result == 0:
+                err = True
+        else:
+            if result > 0:
+                err = True
+        # Get to actual error message printed in std
+        if err:
+            logger.warning(f'Failed to call {func.__name__}, result={result}')
+            with CaptureNemuIpc():
+                result = self._ev.run_until_complete(self.ev_run_async(func, *args, **kwargs))
+
         return result
 
     def get_resolution(self):
@@ -315,11 +333,10 @@ class NemuIpcImpl:
         height_ptr = ctypes.pointer(ctypes.c_int(0))
         nullptr = ctypes.POINTER(ctypes.c_int)()
 
-        with CaptureNemuIpc():
-            ret = self.ev_run_sync(
-                self.lib.nemu_capture_display,
-                self.connect_id, self.display_id, 0, width_ptr, height_ptr, nullptr
-            )
+        ret = self.ev_run_sync(
+            self.lib.nemu_capture_display,
+            self.connect_id, self.display_id, 0, width_ptr, height_ptr, nullptr
+        )
         if ret > 0:
             raise NemuIpcError('nemu_capture_display failed during get_resolution()')
         self.width = width_ptr.contents.value
@@ -335,18 +352,17 @@ class NemuIpcImpl:
         if self.connect_id == 0:
             self.connect()
 
-        with CaptureNemuIpc():
-            self.get_resolution()
+        self.get_resolution()
 
-            width_ptr = ctypes.pointer(ctypes.c_int(self.width))
-            height_ptr = ctypes.pointer(ctypes.c_int(self.height))
-            length = self.width * self.height * 4
-            pixels_pointer = ctypes.pointer((ctypes.c_ubyte * length)())
+        width_ptr = ctypes.pointer(ctypes.c_int(self.width))
+        height_ptr = ctypes.pointer(ctypes.c_int(self.height))
+        length = self.width * self.height * 4
+        pixels_pointer = ctypes.pointer((ctypes.c_ubyte * length)())
 
-            ret = self.ev_run_sync(
-                self.lib.nemu_capture_display,
-                self.connect_id, self.display_id, length, width_ptr, height_ptr, pixels_pointer
-            )
+        ret = self.ev_run_sync(
+            self.lib.nemu_capture_display,
+            self.connect_id, self.display_id, length, width_ptr, height_ptr, pixels_pointer
+        )
         if ret > 0:
             raise NemuIpcError('nemu_capture_display failed during screenshot()')
 
@@ -378,11 +394,10 @@ class NemuIpcImpl:
 
         x, y = self.convert_xy(x, y)
 
-        with CaptureNemuIpc():
-            ret = self.ev_run_sync(
-                self.lib.nemu_input_event_touch_down,
-                self.connect_id, self.display_id, x, y
-            )
+        ret = self.ev_run_sync(
+            self.lib.nemu_input_event_touch_down,
+            self.connect_id, self.display_id, x, y
+        )
         if ret > 0:
             raise NemuIpcError('nemu_input_event_touch_down failed')
 
@@ -394,11 +409,10 @@ class NemuIpcImpl:
         if self.connect_id == 0:
             self.connect()
 
-        with CaptureNemuIpc():
-            ret = self.ev_run_sync(
-                self.lib.nemu_input_event_touch_up,
-                self.connect_id, self.display_id
-            )
+        ret = self.ev_run_sync(
+            self.lib.nemu_input_event_touch_up,
+            self.connect_id, self.display_id
+        )
         if ret > 0:
             raise NemuIpcError('nemu_input_event_touch_up failed')
 
@@ -448,7 +462,9 @@ class NemuIpc(Platform):
         # Search emulator instance
         # with E:\ProgramFiles\MuMuPlayer-12.0\shell\MuMuPlayer.exe
         # installation path is E:\ProgramFiles\MuMuPlayer-12.0
-        _ = self.emulator_instance
+        if self.emulator_instance is None:
+            logger.error('Unable to use NemuIpc because emulator instance not found')
+            raise RequestHumanTakeover
         try:
             return NemuIpcImpl(
                 nemu_folder=self.emulator_instance.emulator.abspath('../'),
@@ -486,44 +502,40 @@ class NemuIpc(Platform):
 
     def click_nemu_ipc(self, x, y):
         down = ensure_time((0.010, 0.020))
-        with CaptureNemuIpc():
-            self.nemu_ipc.down(x, y)
-            self.sleep(down)
-            self.nemu_ipc.up()
-            self.sleep(0.050 - down)
+        self.nemu_ipc.down(x, y)
+        self.sleep(down)
+        self.nemu_ipc.up()
+        self.sleep(0.050 - down)
 
     def long_click_nemu_ipc(self, x, y, duration=1.0):
-        with CaptureNemuIpc():
-            self.nemu_ipc.down(x, y)
-            self.sleep(duration)
-            self.nemu_ipc.up()
-            self.sleep(0.050)
+        self.nemu_ipc.down(x, y)
+        self.sleep(duration)
+        self.nemu_ipc.up()
+        self.sleep(0.050)
 
     def swipe_nemu_ipc(self, p1, p2):
         points = insert_swipe(p0=p1, p3=p2)
 
-        with CaptureNemuIpc():
-            for point in points:
-                self.nemu_ipc.down(*point)
-                self.sleep(0.010)
+        for point in points:
+            self.nemu_ipc.down(*point)
+            self.sleep(0.010)
 
-            self.nemu_ipc.up()
-            self.sleep(0.050)
+        self.nemu_ipc.up()
+        self.sleep(0.050)
 
     def drag_nemu_ipc(self, p1, p2, point_random=(-10, -10, 10, 10)):
         p1 = np.array(p1) - random_rectangle_point(point_random)
         p2 = np.array(p2) - random_rectangle_point(point_random)
         points = insert_swipe(p0=p1, p3=p2, speed=20)
 
-        with CaptureNemuIpc():
-            for point in points:
-                self.nemu_ipc.down(*point)
-                self.sleep(0.010)
+        for point in points:
+            self.nemu_ipc.down(*point)
+            self.sleep(0.010)
 
-            self.nemu_ipc.down(*p2)
-            self.sleep(0.140)
-            self.nemu_ipc.down(*p2)
-            self.sleep(0.140)
+        self.nemu_ipc.down(*p2)
+        self.sleep(0.140)
+        self.nemu_ipc.down(*p2)
+        self.sleep(0.140)
 
-            self.nemu_ipc.up()
-            self.sleep(0.050)
+        self.nemu_ipc.up()
+        self.sleep(0.050)
