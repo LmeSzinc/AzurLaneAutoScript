@@ -1,6 +1,7 @@
 import copy
 import os
 import subprocess
+import sys
 from typing import Optional, Union
 
 from deploy.Windows.logger import logger
@@ -80,12 +81,6 @@ class DeployConfig(ConfigModel):
         self.config_template = {}
         self.read()
 
-        # Bypass webui.config.DeployConfig.__setattr__()
-        # Don't write these into deploy.yaml
-        super().__setattr__('GitOverCdn', self.Repository in ['cn'])
-        if self.Repository in ['global', 'cn']:
-            super().__setattr__('Repository', 'https://github.com/LmeSzinc/StarRailCopilot')
-
         self.write()
         self.show_config()
 
@@ -109,8 +104,20 @@ class DeployConfig(ConfigModel):
             if hasattr(self, key):
                 super().__setattr__(key, value)
 
+        self.config_redirect()
+
     def write(self):
         poor_yaml_write(self.config, self.file)
+
+    def config_redirect(self):
+        """
+        Redirect deploy config, must be called after each `read()`
+        """
+        # Bypass webui.config.DeployConfig.__setattr__()
+        # Don't write these into deploy.yaml
+        super().__setattr__('GitOverCdn', self.Repository in ['cn'])
+        if self.Repository in ['global', 'cn']:
+            super().__setattr__('Repository', 'https://github.com/LmeSzinc/StarRailCopilot')
 
     def filepath(self, path):
         """
@@ -143,7 +150,7 @@ class DeployConfig(ConfigModel):
         if os.path.exists(exe):
             return exe
 
-        logger.warning(f'AdbExecutable: {exe} does not exists, use `adb` instead')
+        logger.warning(f'AdbExecutable: {exe} does not exist, use `adb` instead')
         return 'adb'
 
     @cached_property
@@ -152,12 +159,18 @@ class DeployConfig(ConfigModel):
         if os.path.exists(exe):
             return exe
 
-        logger.warning(f'GitExecutable: {exe} does not exists, use `git` instead')
+        logger.warning(f'GitExecutable: {exe} does not exist, use `git` instead')
         return 'git'
 
     @cached_property
     def python(self) -> str:
-        return self.filepath(self.PythonExecutable)
+        exe = self.filepath(self.PythonExecutable)
+        if os.path.exists(exe):
+            return exe
+
+        current = sys.executable.replace("\\", "/")
+        logger.warning(f'PythonExecutable: {exe} does not exist, use current python instead: {current}')
+        return current
 
     @cached_property
     def requirements_file(self) -> str:

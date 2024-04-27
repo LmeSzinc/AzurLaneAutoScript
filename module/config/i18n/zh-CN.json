@@ -427,8 +427,7 @@
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
       "Hermit": "Hermit",
-      "MaaTouch": "MaaTouch",
-      "nemu_ipc": "nemu_ipc"
+      "MaaTouch": "MaaTouch"
     },
     "ScreenshotDedithering": {
       "name": "去除图片色彩抖动",
@@ -732,6 +731,7 @@
       "event_20231123_cn": "苍闪忍法帖",
       "event_20231221_cn": "星海逐光",
       "event_20240229_cn": "雪境迷踪",
+      "event_20240425_cn": "共鸣的PASSION",
       "raid_20200624": "复刻特别演习埃塞克斯级",
       "raid_20210708": "复刻穿越彼方的水线",
       "raid_20220127": "演习神秘事件调查",

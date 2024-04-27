@@ -427,8 +427,7 @@
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
       "Hermit": "Hermit",
-      "MaaTouch": "MaaTouch",
-      "nemu_ipc": "nemu_ipc"
+      "MaaTouch": "MaaTouch"
     },
     "ScreenshotDedithering": {
       "name": "Image Color De-dithering",
@@ -732,6 +731,7 @@
       "event_20231123_cn": "The Ninja Scrolls: Azur Flash",
       "event_20231221_cn": "Light-Chasing Sea of Stars",
       "event_20240229_cn": "Snowrealm Peregrination",
+      "event_20240425_cn": "Heart-Linking Harmony",
       "raid_20200624": "Air Raid Drills with Essex Rerun",
       "raid_20210708": "Cross Wave rerun",
       "raid_20220127": "Mystery Investigation",

@@ -45,6 +45,7 @@ def write_file(file, data):
 def aidlux_requirements_generate(requirements_in='requirements-in.txt'):
     logger.info('aidlux_requirements_generate')
     requirements = read_file(requirements_in)
+    requirements = dict(sorted(requirements.items()))
     for aidlux in iter_version():
         logger.info(f'Generate requirements for AidLux {aidlux}')
         pre_installed = read_file(os.path.join(BASE_FOLDER, f'./{aidlux}/pre-installed.txt'))
