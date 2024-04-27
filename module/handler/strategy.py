@@ -20,6 +20,8 @@ submarine_view = Switch('Submarine_view', offset=(100, 200))
 submarine_view.add_status('on', check_button=SUBMARINE_VIEW_ON)
 submarine_view.add_status('off', check_button=SUBMARINE_VIEW_OFF)
 
+MOB_MOVE_OFFSET = (120, 120)
+
 
 class StrategyHandler(InfoHandler):
     fleet_1_formation_fixed = False
@@ -215,9 +217,9 @@ class StrategyHandler(InfoHandler):
             in: STRATEGY_OPENED
             out: STRATEGY_OPENED
         """
-        if self.appear(MOB_MOVE_2, offset=(120, 120)):
+        if self.appear(MOB_MOVE_2, offset=MOB_MOVE_OFFSET):
             return 2
-        elif self.appear(MOB_MOVE_1, offset=(120, 120)):
+        elif self.appear(MOB_MOVE_1, offset=MOB_MOVE_OFFSET):
             return 1
         else:
             return 0
@@ -238,9 +240,9 @@ class StrategyHandler(InfoHandler):
             if self.appear(MOB_MOVE_CANCEL, offset=(20, 20)):
                 break
 
-            if self.appear_then_click(MOB_MOVE_1, offset=(120, 120), interval=5):
+            if self.appear_then_click(MOB_MOVE_1, offset=MOB_MOVE_OFFSET, interval=5):
                 continue
-            if self.appear_then_click(MOB_MOVE_2, offset=(120, 120), interval=5):
+            if self.appear_then_click(MOB_MOVE_2, offset=MOB_MOVE_OFFSET, interval=5):
                 continue
 
     def strategy_mob_move_cancel(self, skip_first_screenshot=True):
@@ -256,8 +258,8 @@ class StrategyHandler(InfoHandler):
             else:
                 self.device.screenshot()
 
-            if self.appear(MOB_MOVE_1, offset=(120, 120)) \
-                    or self.appear(MOB_MOVE_2, offset=(120, 120)):
+            if self.appear(MOB_MOVE_1, offset=MOB_MOVE_OFFSET) \
+                    or self.appear(MOB_MOVE_2, offset=MOB_MOVE_OFFSET):
                 break
 
             if self.appear_then_click(MOB_MOVE_CANCEL, offset=(20, 20), interval=5):

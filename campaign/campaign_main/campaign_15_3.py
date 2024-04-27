@@ -2,10 +2,11 @@ from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 
-from .campaign_15_base import CampaignBase
+from .campaign_15_base import CampaignBase, W15GridInfo
 from .campaign_15_base import Config as ConfigBase
 
 MAP = CampaignMap('15-3')
+MAP.grid_class = W15GridInfo
 MAP.shape = 'J8'
 MAP.camera_data = ['C2', 'C6', 'G2', 'G6']
 MAP.camera_data_spawn_point = ['G6']
@@ -15,7 +16,7 @@ MAP.map_data = """
     -- ME ++ Me -- Me ME Me ME --
     ME Me ME ME Me -- ++ MB -- ME
     ++ -- -- ME ME Me ++ ++ __ ME
-    Me ME -- ++ Me -- ME MB -- Me
+    Me ME -- ++ Me -- ME MS -- Me
     ME ME -- -- ME ME ME -- -- ME
     Me -- __ -- -- ME -- -- ++ ++
     ++ ++ ++ Me -- -- SP SP ++ ++
@@ -81,13 +82,14 @@ class Campaign(CampaignBase):
         return super().battle_function()
 
     def battle_0(self):
-        if not self.map_is_clear_mode:
+        if not self.map_is_clear_mode and self.map_has_mob_move:
             self.mob_move(B3, B4)
-            self.clear_chosen_enemy(A1)
-            return True
-        else:
-            if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
+            if A1.is_accessible:
+                self.clear_chosen_enemy(A1)
                 return True
+
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
+            return True
 
         return self.battle_default()
 

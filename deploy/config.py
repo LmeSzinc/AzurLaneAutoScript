@@ -98,6 +98,8 @@ class DeployConfig(ConfigModel):
             if hasattr(self, key):
                 super().__setattr__(key, value)
 
+        self.config_redirect()
+
     def write(self):
         poor_yaml_write(self.config, self.file)
 

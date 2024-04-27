@@ -2,10 +2,11 @@ from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 
-from .campaign_15_base import CampaignBase
+from .campaign_15_base import CampaignBase, W15GridInfo
 from .campaign_15_base import Config as ConfigBase
 
 MAP = CampaignMap('15-4')
+MAP.grid_class = W15GridInfo
 MAP.shape = 'K9'
 MAP.camera_data = ['C2', 'C5', 'C7', 'F2', 'F5', 'F7', 'H2', 'H5', 'H7']
 MAP.camera_data_spawn_point = ['H2']
@@ -13,9 +14,9 @@ MAP.camera_sight = (-2, -1, 3, 2)
 MAP.map_data = """
     Me -- ME ME Me -- ME ++ ++ ME ME
     ME -- -- -- -- ME -- ++ ++ -- ME
-    ++ -- -- MB -- -- ME SP SP ME Me
+    ++ -- -- MS -- -- ME SP SP ME Me
     ++ ME -- ++ ++ -- -- -- -- ME --
-    -- Me ME MA ++ ME -- MB -- -- ME
+    -- Me ME MA ++ ME -- MS -- -- ME
     ME ME ME -- -- -- -- ++ ME -- Me
     ME -- __ -- ME ME -- ME ME -- ++
     -- -- ++ -- Me -- ME ME ME Me ME
@@ -90,28 +91,29 @@ class Campaign(CampaignBase):
         return super().battle_function()
 
     def battle_0(self):
-        if not self.map_is_clear_mode:
-            self.clear_chosen_enemy(A1)
-            return True
-        else:
-            if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
+        if not self.map_is_clear_mode and self.map_has_mob_move:
+            self.mob_move(J8, K8)
+            if K9.is_accessible:
+                self.clear_chosen_enemy(K9)
                 return True
+
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
+            return True
 
         return self.battle_default()
 
     def battle_1(self):
         if not self.map_is_clear_mode:
-            self.mob_move(J8, J7)
-            self.clear_chosen_enemy(K9)
-            return True
-        else:
-            if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
+            if A1.is_accessible:
+                self.clear_chosen_enemy(A1)
                 return True
+
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
+            return True
 
         return self.battle_default()
 
     def battle_2(self):
-        self.pick_up_ammo()
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
@@ -123,6 +125,7 @@ class Campaign(CampaignBase):
             self.fleet_1.switch_to()
             return True
         else:
+            self.pick_up_ammo()
             self.clear_chosen_enemy(H5, expected='siren')
             return True
 

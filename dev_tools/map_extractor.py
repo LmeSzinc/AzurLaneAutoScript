@@ -248,6 +248,14 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     # Light-Chasing Sea of Stars
     'sairenboss10': 'Sirenboss10',
     'UDFsairen_baolei_2': 'UDFFortress2',
+
+    # Heart-Linking Harmony
+    'lafei_6': 'Laffey6',
+    'tashigan_idol': 'TashkentIdol',
+    'xiefeierde_idol': 'SheffieldIdol',
+    'yilishabai_3': 'Elizabeth3',
+    'jiasikenie_idol': 'GascogneIdol',
+    'dafeng_idol': 'TaihouIdol',
 }
 
 

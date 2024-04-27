@@ -2,19 +2,19 @@ from module.base.mask import Mask
 from module.base.timer import Timer
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.handler.assets import STRATEGY_OPENED
-from module.map_detection.utils_assets import ASSETS
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.map.utils import location_ensure
+from module.map_detection.grid import GridInfo
+from module.map_detection.utils_assets import ASSETS
 
 MASK_MAP_UI_W15 = Mask(file='./assets/mask/MASK_MAP_UI_W15.png')
 
 
 class Config:
-    # Disabled because having errors
-    MAP_SWIPE_PREDICT_WITH_SEA_GRIDS = False
     # Ambushes can be avoid by having more DDs.
     MAP_WALK_OPTIMIZE = False
+    MAP_HAS_MYSTERY = False
     MAP_ENEMY_TEMPLATE = ['Light', 'Main', 'Carrier', 'CarrierSpecial']
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 33),
@@ -27,6 +27,19 @@ class Config:
     MAP_SWIPE_MULTIPLY_MAATOUCH = (0.932, 0.949)
 
 
+class W15GridInfo(GridInfo):
+    def merge(self, info, mode='normal'):
+        # Consider boss as siren
+        if info.is_boss:
+            if not self.is_land and self.may_siren:
+                self.is_siren = True
+                self.enemy_scale = 0
+                self.enemy_genre = ''
+                return True
+
+        return super().merge(info, mode=mode)
+
+
 class CampaignBase(CampaignBase_):
     ENEMY_FILTER = '1T > 1L > 1E > 1M > 2T > 2L > 2E > 2M > 3T > 3L > 3E > 3M'
 
@@ -35,6 +48,17 @@ class CampaignBase(CampaignBase_):
         # Patch ui_mask, get rid of supporting fleet
         _ = ASSETS.ui_mask
         ASSETS.ui_mask = MASK_MAP_UI_W15.image
+
+    map_has_mob_move = True
+
+    def strategy_set_execute(self, formation_index=None, sub_view=None, sub_hunt=None):
+        super().strategy_set_execute(
+            formation_index=formation_index,
+            sub_view=sub_view,
+            sub_hunt=sub_hunt,
+        )
+        self.map_has_mob_move = (self.strategy_get_mob_move_remain() > 0)
+        logger.attr("Map has mob move", self.map_has_mob_move)
 
     def _map_swipe(self, vector, box=(239, 159, 1175, 628)):
         # Left border to 239, avoid swiping on support fleet
@@ -190,4 +214,5 @@ class CampaignBase(CampaignBase_):
         self.strategy_close(skip_first_screenshot=False)
 
         self._mob_move_info_change(location, target)
+        self.find_path_initial()
         self.map.show()
