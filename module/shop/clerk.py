@@ -285,11 +285,11 @@ class ShopClerk(ShopBase, Retirement):
             if self.handle_retirement():
                 self.interval_reset(BACK_ARROW)
                 continue
-            if self.handle_info_bar():
+            if self.shop_obstruct_handle():
                 self.interval_reset(BACK_ARROW)
                 success = True
                 continue
-            if self.shop_obstruct_handle():
+            if self.info_bar_count():
                 self.interval_reset(BACK_ARROW)
                 success = True
                 continue

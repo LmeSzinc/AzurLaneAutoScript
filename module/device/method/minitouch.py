@@ -314,12 +314,18 @@ def retry(func):
 
                 def init():
                     self.adb_reconnect()
+                    if self._minitouch_port:
+                        self.adb_forward_remove(f'tcp:{self._minitouch_port}')
+                    del_cached_property(self, '_minitouch_builder')
             # Emulator closed
             except ConnectionAbortedError as e:
                 logger.error(e)
 
                 def init():
                     self.adb_reconnect()
+                    if self._minitouch_port:
+                        self.adb_forward_remove(f'tcp:{self._minitouch_port}')
+                    del_cached_property(self, '_minitouch_builder')
             # MinitouchNotInstalledError: Received empty data from minitouch
             except MinitouchNotInstalledError as e:
                 logger.error(e)
@@ -343,6 +349,9 @@ def retry(func):
                 if handle_adb_error(e):
                     def init():
                         self.adb_reconnect()
+                        if self._minitouch_port:
+                            self.adb_forward_remove(f'tcp:{self._minitouch_port}')
+                        del_cached_property(self, '_minitouch_builder')
                 else:
                     break
             except BrokenPipeError as e:
@@ -365,7 +374,7 @@ def retry(func):
 
 class Minitouch(Connection):
     _minitouch_port: int = 0
-    _minitouch_client: socket.socket
+    _minitouch_client: socket.socket = None
     _minitouch_pid: int
     _minitouch_ws: websockets.WebSocketClientProtocol
     max_x: int
@@ -373,6 +382,7 @@ class Minitouch(Connection):
     _minitouch_init_thread = None
 
     @cached_property
+    @retry
     def _minitouch_builder(self):
         self.minitouch_init()
         return CommandBuilder(self)
@@ -408,6 +418,15 @@ class Minitouch(Connection):
         max_x, max_y = 1280, 720
         max_contacts = 2
         max_pressure = 50
+
+        # Try to close existing stream
+        if self._minitouch_client is not None:
+            try:
+                self._minitouch_client.close()
+            except Exception as e:
+                logger.error(e)
+            del self._minitouch_client
+
         self.get_orientation()
 
         self._minitouch_port = self.adb_forward("localabstract:minitouch")

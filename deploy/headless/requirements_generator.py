@@ -10,6 +10,8 @@ def read_file(file):
     out = {}
     with open(file, 'r', encoding='utf-8') as f:
         for line in f.readlines():
+            if not line.strip():
+                continue
             res = [s.strip() for s in line.split('==')]
             if len(res) > 1:
                 name, version = res
@@ -29,7 +31,9 @@ def write_file(file, data):
             lines.append(str(name))
 
     with open(file, 'w', encoding='utf-8', newline='') as f:
-        f.write('\n'.join(lines))
+        text = '\n'.join(lines)
+        text = text.replace('#', '\n#').strip()
+        f.write(text)
 
 
 def headless_requirements_generate(requirements_in='requirements-in.txt'):
@@ -41,7 +45,7 @@ def headless_requirements_generate(requirements_in='requirements-in.txt'):
         'inflection': '0.5.1',
         'lz4': '4.3.2',
         'numpy': '1.17.4',
-        'onepush': '1.2.0',
+        # 'onepush': '1.2.0',
         'opencv-python': {
             'name': 'opencv-python-headless',
             'version': '4.7.0.72'

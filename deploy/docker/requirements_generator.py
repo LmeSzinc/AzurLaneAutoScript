@@ -10,6 +10,8 @@ def read_file(file):
     out = {}
     with open(file, 'r', encoding='utf-8') as f:
         for line in f.readlines():
+            if not line.strip():
+                continue
             res = [s.strip() for s in line.split('==')]
             if len(res) > 1:
                 name, version = res
@@ -29,7 +31,9 @@ def write_file(file, data):
             lines.append(str(name))
 
     with open(file, 'w', encoding='utf-8', newline='') as f:
-        f.write('\n'.join(lines))
+        text = '\n'.join(lines)
+        text = text.replace('#', '\n#').strip()
+        f.write(text)
 
 
 def docker_requirements_generate(requirements_in='requirements-in.txt'):

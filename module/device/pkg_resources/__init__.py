@@ -3,6 +3,7 @@ import re
 import sys
 
 from module.base.decorator import cached_property
+from module.logger import logger
 
 """
 Importing pkg_resources is so slow, like 0.4 ~ 1.0s, just google it you will find it indeed really slow.
@@ -18,7 +19,24 @@ _ = get_distribution
 ```
 """
 # Inject sys.modules, pretend we have pkg_resources imported
-sys.modules['pkg_resources'] = sys.modules['module.device.pkg_resources']
+try:
+    sys.modules['pkg_resources'] = sys.modules['module.device.pkg_resources']
+except KeyError:
+    logger.error('Patch pkg_resources failed, patch module does not exists')
+
+
+def remove_suffix(s, suffix):
+    """
+    Remove suffix of a string or bytes like `string.removesuffix(suffix)`, which is on Python3.9+
+
+    Args:
+        s (str, bytes):
+        suffix (str, bytes):
+
+    Returns:
+        str, bytes:
+    """
+    return s[:-len(suffix)] if s.endswith(suffix) else s
 
 
 class FakeDistributionObject:
@@ -50,11 +68,14 @@ class PackageCache:
         dic = {}
         for file in os.listdir(self.site_packages):
             # mxnet_cu101-1.6.0.dist-info
-            res = re.match(r'^(.+)-(.+)\.dist-info$', file)
+            # adbutils-0.11.0-py3.7.egg-info
+            res = re.match(r'^([a-zA-Z0-9._]+)-([a-zA-Z0-9._]+)-', file)
             if res:
+                version = remove_suffix(res.group(2), '.dist')
+                # version = res.group(2)
                 obj = FakeDistributionObject(
                     dist=res.group(1),
-                    version=res.group(2),
+                    version=version,
                 )
                 dic[obj.dist] = obj
 
@@ -73,9 +94,15 @@ def resource_filename(*args):
 def get_distribution(dist):
     """Return a current distribution object for a Requirement or string"""
     if dist == 'adbutils':
-        return PACKAGE_CACHE.dict_installed_packages.get('adbutils', '0.11.0')
+        return PACKAGE_CACHE.dict_installed_packages.get(
+            'adbutils',
+            FakeDistributionObject('adbutils', '0.11.0'),
+        )
     if dist == 'uiautomator2':
-        return PACKAGE_CACHE.dict_installed_packages.get('uiautomator2', '2.16.17')
+        return PACKAGE_CACHE.dict_installed_packages.get(
+            'uiautomator2',
+            FakeDistributionObject('uiautomator2', '2.16.17'),
+        )
 
 
 class DistributionNotFound(Exception):

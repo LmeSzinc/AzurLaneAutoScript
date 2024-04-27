@@ -9,10 +9,11 @@ jellyfish==0.11.2
 lz4
 mxnet==1.6.0
 numpy
-onepush
+onepush==1.3.0
 pillow
 prettytable==2.2.1
 psutil==5.9.3
+pycryptodome==3.10.4
 pydantic
 pypresence==4.2.1
 pywebio==1.6.2
