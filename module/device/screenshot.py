@@ -155,7 +155,11 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc):
                 Minimum interval between 2 screenshots in seconds.
                 Or None for Optimization_ScreenshotInterval, 'combat' for Optimization_CombatScreenshotInterval
         """
-        if isinstance(interval, (int, float)):
+        if interval is None:
+            interval = self.config.Optimization_ScreenshotInterval
+        elif interval == 'combat':
+            interval = self.config.Optimization_CombatScreenshotInterval
+        elif isinstance(interval, (int, float)):
             # No limitation for manual set in code
             pass
         else:
