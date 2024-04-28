@@ -505,6 +505,22 @@
       "name": "戰鬥中放慢截圖速度至 X 秒一張",
       "help": "執行兩次截圖之間的最小間隔，限制在 0.1 ~ 1.0，能降低戰鬥時的 CPU 佔用"
     },
+    "ClickMaxRecord": {
+      "name": "Optimization.ClickMaxRecord.name",
+      "help": "Optimization.ClickMaxRecord.help"
+    },
+    "SingleButtonMaxCount": {
+      "name": "Optimization.SingleButtonMaxCount.name",
+      "help": "Optimization.SingleButtonMaxCount.help"
+    },
+    "MultiButtonMaxCount1": {
+      "name": "Optimization.MultiButtonMaxCount1.name",
+      "help": "Optimization.MultiButtonMaxCount1.help"
+    },
+    "MultiButtonMaxCount2": {
+      "name": "Optimization.MultiButtonMaxCount2.name",
+      "help": "Optimization.MultiButtonMaxCount2.help"
+    },
     "TaskHoardingDuration": {
       "name": "囤積任務 X 分鐘",
       "help": "能在收穫期間降低操作遊戲的頻率\n任務觸發後，等待 X 分鐘後，一次性執行佇列中的任務"

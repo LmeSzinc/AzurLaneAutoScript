@@ -505,6 +505,22 @@
       "name": "战斗中放慢截图速度至 X 秒一张",
       "help": ""
     },
+    "ClickMaxRecord": {
+      "name": "最大点击记录量",
+      "help": "默认为15"
+    },
+    "SingleButtonMaxCount": {
+      "name": "单Button最大计数",
+      "help": "该数值单项不得超过最大点击记录量，默认为12"
+    },
+    "MultiButtonMaxCount1": {
+      "name": "多Button最大计数(Button1)",
+      "help": "该数值与下一项设置之和不得大于最大点击记录量，默认为6"
+    },
+    "MultiButtonMaxCount2": {
+      "name": "多Button最大计数(Button2)",
+      "help": "该数值与上一项设置之和不得大于最大点击记录量，默认为6"
+    },
     "TaskHoardingDuration": {
       "name": "囤积任务 X 分钟",
       "help": "能在收菜期间降低操作游戏的频率\n任务触发后，等待 X 分钟，再一次性执行囤积的任务"
