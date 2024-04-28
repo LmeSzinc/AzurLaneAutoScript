@@ -198,6 +198,22 @@
         "type": "input",
         "value": 1.0
       },
+      "ClickMaxRecord": {
+        "type": "input",
+        "value": 15
+      },
+      "SingleButtonMaxCount": {
+        "type": "input",
+        "value": 12
+      },
+      "MultiButtonMaxCount1": {
+        "type": "input",
+        "value": 6
+      },
+      "MultiButtonMaxCount2": {
+        "type": "input",
+        "value": 6
+      },
       "TaskHoardingDuration": {
         "type": "input",
         "value": 0

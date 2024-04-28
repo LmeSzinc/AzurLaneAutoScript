@@ -91,6 +91,10 @@ Error:
 Optimization:
   ScreenshotInterval: 0.3
   CombatScreenshotInterval: 1.0
+  ClickMaxRecord: 15
+  SingleButtonMaxCount: 12
+  MultiButtonMaxCount1: 6
+  MultiButtonMaxCount2: 6
   TaskHoardingDuration: 0
   WhenTaskQueueEmpty:
     value: goto_main

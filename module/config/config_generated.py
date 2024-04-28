@@ -40,6 +40,10 @@ class GeneratedConfig:
     # Group `Optimization`
     Optimization_ScreenshotInterval = 0.3
     Optimization_CombatScreenshotInterval = 1.0
+    Optimization_ClickMaxRecord = 15
+    Optimization_SingleButtonMaxCount = 12
+    Optimization_MultiButtonMaxCount1 = 6
+    Optimization_MultiButtonMaxCount2 = 6
     Optimization_TaskHoardingDuration = 0
     Optimization_WhenTaskQueueEmpty = 'goto_main'  # stay_there, goto_main, close_game
 
