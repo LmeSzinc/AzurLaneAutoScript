@@ -72,10 +72,6 @@ class Device(Screenshot, Control, AppControl):
     stuck_long_wait_list = ['BATTLE_STATUS_S', 'PAUSE', 'LOGIN_CHECK']
 
     def __init__(self, *args, **kwargs):
-        record_maxlen = self.config.Optimization_ClickMaxRecord
-        if record_maxlen != self.click_record.maxlen:
-            self.click_record = collections.deque(maxlen=record_maxlen)
-
         for _ in range(2):
             try:
                 super().__init__(*args, **kwargs)
@@ -108,6 +104,10 @@ class Device(Screenshot, Control, AppControl):
                 self.early_maatouch_init()
             if self.config.Emulator_ControlMethod == 'minitouch':
                 self.early_minitouch_init()
+
+        record_maxlen = self.config.Optimization_ClickMaxRecord
+        if record_maxlen != self.click_record.maxlen:
+            self.click_record = collections.deque(maxlen=record_maxlen)
 
     def run_simple_screenshot_benchmark(self):
         """
