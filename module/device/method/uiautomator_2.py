@@ -242,6 +242,17 @@ class Uiautomator2(Connection):
         hierarchy = etree.fromstring(content.encode('utf-8'))
         return hierarchy
 
+    def uninstall_uiautomator2(self):
+        logger.info('Removing uiautomator2')
+        for file in [
+            'app-uiautomator.apk',
+            'app-uiautomator-test.apk',
+            'minitouch',
+            'minitouch.so',
+            'atx-agent',
+        ]:
+            self.adb_shell(["rm", f"/data/local/tmp/{file}"])
+
     @retry
     def resolution_uiautomator2(self, cal_rotation=True) -> t.Tuple[int, int]:
         """
