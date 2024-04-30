@@ -36,7 +36,19 @@ class EquipmentChange(Equipment):
         """
         logger.info('RECORD EQUIPMENT')
         self.ship_side_navbar_ensure(bottom=1)
+
+        # Ensure EQUIPMENT_GRID in the right place
+        skip_first_screenshot = True
+        while True:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            if self.appear(EQUIPMENT_OPEN):
+                break
+
         self.equipment_list = {}
+        info_bar_disappeared = False
         for index, button in enumerate(EQUIPMENT_GRID.buttons):
             if index not in index_list:
                 continue
@@ -53,11 +65,18 @@ class EquipmentChange(Equipment):
                 # Enter upgrade inform
                 self.ui_click(click_button=UPGRADE_ENTER,
                               check_button=UPGRADE_ENTER_CHECK, skip_first_screenshot=True)
+                # Save equipment template
+                if not info_bar_disappeared:
+                    self.handle_info_bar()
+                    info_bar_disappeared = True
                 self.equipment_list[index] = self.image_crop(EQUIP_SAVE)
                 # Quit upgrade inform
                 self.ui_click(
                     click_button=UPGRADE_QUIT, check_button=EQUIPMENT_OPEN, appear_button=UPGRADE_ENTER_CHECK,
                     skip_first_screenshot=True)
+            else:
+                logger.info(f"Equipment {index} is empty")
+
         logger.info(f"Recorded equipment index list: {list(self.equipment_list.keys())}")
 
     def ship_equipment_take_on_image(self, index_list=range(0, 5), skip_first_screenshot=True):
