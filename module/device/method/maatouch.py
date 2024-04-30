@@ -9,7 +9,7 @@ from module.base.decorator import cached_property, del_cached_property, has_cach
 from module.base.timer import Timer
 from module.base.utils import *
 from module.device.connection import Connection
-from module.device.method.minitouch import CommandBuilder, insert_swipe, Command
+from module.device.method.minitouch import Command, CommandBuilder, insert_swipe
 from module.device.method.utils import RETRY_TRIES, handle_adb_error, retry_sleep
 from module.exception import RequestHumanTakeover
 from module.logger import logger
@@ -266,7 +266,7 @@ class MaaTouch(Connection):
 
     def maatouch_send(self, builder: MaatouchBuilder):
         content = builder.to_minitouch()
-        logger.info("send operation: {}".format(content.replace("\n", "\\n")))
+        # logger.info("send operation: {}".format(content.replace("\n", "\\n")))
         byte_content = content.encode('utf-8')
         self._maatouch_stream.sendall(byte_content)
         self._maatouch_stream.recv(0)
@@ -288,7 +288,7 @@ class MaaTouch(Connection):
 
         # Send
         content = builder.to_maatouch_sync()
-        logger.info("send operation: {}".format(content.replace("\n", "\\n")))
+        # logger.info("send operation: {}".format(content.replace("\n", "\\n")))
         byte_content = content.encode('utf-8')
         self._maatouch_stream.sendall(byte_content)
         self._maatouch_stream.recv(0)
@@ -303,7 +303,7 @@ class MaaTouch(Connection):
             except socket.timeout as e:
                 raise MaaTouchSyncTimeout(str(e))
             out = out.strip()
-            logger.info(out)
+            # logger.info(out)
 
             if out == timestamp:
                 break
@@ -313,8 +313,8 @@ class MaaTouch(Connection):
                 raise MaaTouchSyncTimeout('Too many incorrect sync response')
             time.sleep(0.001)
 
-        logger.info(f'Delay: {builder.delay}')
-        logger.info(f'Waiting control {time.time() - start}')
+        # logger.info(f'Delay: {builder.delay}')
+        # logger.info(f'Waiting control {time.time() - start}')
         self.sleep(builder.DEFAULT_DELAY)
         builder.clear()
 
