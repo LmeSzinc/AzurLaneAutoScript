@@ -74,9 +74,10 @@ class GridPredictor:
 
     @cached_property
     def image_homo(self):
-        image_edge = cv2.Canny(rgb2gray(self.image_trans), 100, 150)
+        image_edge = rgb2gray(self.image_trans)
+        cv2.Canny(image_edge, 100, 150, dst=image_edge)
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
-        image_edge = cv2.morphologyEx(image_edge, cv2.MORPH_CLOSE, kernel)
+        cv2.morphologyEx(image_edge, cv2.MORPH_CLOSE, kernel, dst=image_edge)
         return image_edge
 
     def predict(self):
@@ -120,7 +121,7 @@ class GridPredictor:
             np.ndarray: Shape (height, width, channel).
         """
         area = self._image_center + np.array(area) * self._image_a
-        image = crop(self.image, area=np.rint(area).astype(int))
+        image = crop(self.image, area=np.rint(area).astype(int), copy=False)
         if shape is not None:
             # Follow the default re-sampling filter in pillow, which is BICUBIC.
             image = cv2.resize(image, shape, interpolation=cv2.INTER_CUBIC)
@@ -137,8 +138,9 @@ class GridPredictor:
         Returns:
             int: Number of matched pixels.
         """
-        image = color_similarity_2d(self.relative_crop(area, shape=shape), color=color)
-        count = image[image > threshold].shape[0]
+        mask = color_similarity_2d(self.relative_crop(area, shape=shape), color=color)
+        cv2.inRange(mask, threshold, 255, dst=mask)
+        count = cv2.countNonZero(mask)
         return count
 
     def relative_hsv_count(self, area, h=(0, 360), s=(0, 100), v=(0, 100), shape=(50, 50)):
@@ -153,10 +155,11 @@ class GridPredictor:
         Returns:
             int: Number of matched pixels.
         """
-        image = cv2.cvtColor(self.relative_crop(area, shape=shape), cv2.COLOR_RGB2HSV)
+        image = self.relative_crop(area, shape=shape)
+        cv2.cvtColor(image, cv2.COLOR_RGB2HSV, dst=image)
         lower = (h[0] / 2, s[0] * 2.55, v[0] * 2.55)
         upper = (h[1] / 2 + 1, s[1] * 2.55 + 1, v[1] * 2.55 + 1)
-        image = cv2.inRange(image, lower, upper)
+        cv2.inRange(image, lower, upper, dst=image)
         count = image[image > 0].shape[0]
         return count
 
@@ -307,7 +310,7 @@ class GridPredictor:
         area = self._image_center + np.array(area) * self._image_a
         area = area_offset(area, offset=DETECTING_AREA[:2])
         mask = UI_MASK_OS if self.is_os else UI_MASK
-        color = cv2.mean(crop(mask.image, area=np.rint(area).astype(int)))
+        color = cv2.mean(crop(mask.image, area=np.rint(area).astype(int), copy=False))
         return color[0] > 235
 
     def is_similar_to(self, grid, threshold=0.9):
