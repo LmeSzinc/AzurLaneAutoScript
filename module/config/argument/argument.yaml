@@ -88,6 +88,7 @@ Error:
     mode: yaml
     value: 'provider: null'
   ScreenshotLength: 1
+  ErrorBackupCount: 30
 Optimization:
   ScreenshotInterval: 0.3
   CombatScreenshotInterval: 1.0

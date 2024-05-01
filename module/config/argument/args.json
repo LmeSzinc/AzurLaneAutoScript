@@ -187,6 +187,10 @@
       "ScreenshotLength": {
         "type": "input",
         "value": 1
+      },
+      "ErrorBackupCount": {
+        "type": "input",
+        "value": 30
       }
     },
     "Optimization": {

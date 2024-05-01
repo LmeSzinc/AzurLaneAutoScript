@@ -18,7 +18,8 @@
       "HandleError": true,
       "SaveError": true,
       "OnePushConfig": "provider: null",
-      "ScreenshotLength": 1
+      "ScreenshotLength": 1,
+      "ErrorBackupCount": 30
     },
     "Optimization": {
       "ScreenshotInterval": 0.3,

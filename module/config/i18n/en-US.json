@@ -482,6 +482,10 @@
     "ScreenshotLength": {
       "name": "Record Screenshot(s)",
       "help": "Number of screenshots saved when exception occurs"
+    },
+    "ErrorBackupCount": {
+      "name": "Upper limit of error log storage",
+      "help": "Alas will only save a maximum of X error logs"
     }
   },
   "Optimization": {

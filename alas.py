@@ -135,10 +135,26 @@ class AzurLaneAutoScript:
         """
         Save last 60 screenshots in ./log/error/<timestamp>
         Save logs to ./log/error/<timestamp>/log.txt
+        Save last <Error_ErrorBackupCount> error logs in ./log/error/<config-name>
         """
+        import shutil
         from module.base.utils import save_image
         from module.handler.sensitive_info import (handle_sensitive_image,
                                                    handle_sensitive_logs)
+        def keep_last_error_log(n, folder_path=f'.log/error'):
+            """
+            Args:
+                n (int): Number of error logs to keep
+                folder_path (str): Folder path
+            """
+            folders = [
+                os.path.join(folder_path, f)
+                for f in os.listdir(folder_path)
+                if os.path.isdir(os.path.join(folder_path, f))
+            ]
+            for folder in folders[:-n]:
+                shutil.rmtree(folder)
+
         if self.config.Error_SaveError:
             if not os.path.exists('./log/error'):
                 os.mkdir('./log/error')
@@ -160,6 +176,7 @@ class AzurLaneAutoScript:
                 lines = handle_sensitive_logs(lines)
             with open(f'{folder}/log.txt', 'w', encoding='utf-8') as f:
                 f.writelines(lines)
+            keep_last_error_log(self.config.Error_ErrorBackupCount, f'./log/error')
 
     def restart(self):
         from module.handler.login import LoginHandler

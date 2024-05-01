@@ -482,6 +482,10 @@
     "ScreenshotLength": {
       "name": "出错时，保留最后 X 张截图",
       "help": ""
+    },
+    "ErrorBackupCount": {
+      "name": "错误日志存储上限",
+      "help": "总共保存 X 份错误日志（超出部分将删除）"
     }
   },
   "Optimization": {

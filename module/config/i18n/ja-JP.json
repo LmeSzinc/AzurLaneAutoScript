@@ -482,6 +482,10 @@
     "ScreenshotLength": {
       "name": "Error.ScreenshotLength.name",
       "help": "Error.ScreenshotLength.help"
+    },
+    "ErrorBackupCount": {
+      "name": "Error.ErrorBackupCount.name",
+      "help": "Error.ErrorBackupCount.help"
     }
   },
   "Optimization": {
