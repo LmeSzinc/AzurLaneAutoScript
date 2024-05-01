@@ -323,16 +323,38 @@ class CommandBuilder:
         return self
 
     def to_minitouch(self) -> str:
-        return ''.join([command.to_minitouch() for command in self.commands])
+        out = ''.join([command.to_minitouch() for command in self.commands])
+        self._check_empty(out)
+        return out
 
     def to_maatouch_sync(self) -> str:
-        return ''.join([command.to_maatouch_sync() for command in self.commands])
+        out = ''.join([command.to_maatouch_sync() for command in self.commands])
+        self._check_empty(out)
+        return out
 
     def to_atx_agent(self) -> List[str]:
-        return [command.to_atx_agent(self.max_x, self.max_y) for command in self.commands]
+        out = [command.to_atx_agent(self.max_x, self.max_y) for command in self.commands]
+        self._check_empty(out)
+        return out
 
     def send(self):
         return self.device.minitouch_send(builder=self)
+
+    def _check_empty(self, text=None):
+        """
+        A valid command list must includes some operations not just committing
+
+        Returns:
+            bool: If command is empty
+        """
+        empty = True
+        for command in self.commands:
+            if command.operation not in ['c', 'w', 's']:
+                empty = False
+                break
+        if empty:
+            logger.warning(f'Command list empty, sending it may cause unexpected behaviour: {text}')
+        return empty
 
 
 class MinitouchNotInstalledError(Exception):
