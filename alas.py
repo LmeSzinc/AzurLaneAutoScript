@@ -133,15 +133,15 @@ class AzurLaneAutoScript:
 
     def save_error_log(self):
         """
-        Save last 60 screenshots in ./log/error/<timestamp>
-        Save logs to ./log/error/<timestamp>/log.txt
+        Save last 60 screenshots in ./log/error/<config-name>/<timestamp>
+        Save logs to ./log/error/<config-name>/<timestamp>/log.txt
         Save last <Error_ErrorBackupCount> error logs in ./log/error/<config-name>
         """
         import shutil
         from module.base.utils import save_image
         from module.handler.sensitive_info import (handle_sensitive_image,
                                                    handle_sensitive_logs)
-        def keep_last_error_log(n, folder_path=f'.log/error'):
+        def keep_last_error_log(n, folder_path=f'.log/error/{self.config_name}'):
             """
             Args:
                 n (int): Number of error logs to keep
@@ -156,9 +156,9 @@ class AzurLaneAutoScript:
                 shutil.rmtree(folder)
 
         if self.config.Error_SaveError:
-            if not os.path.exists('./log/error'):
-                os.mkdir('./log/error')
-            folder = f'./log/error/{int(time.time() * 1000)}'
+            if not os.path.exists(f'./log/error/{self.config_name}'):
+                os.makedirs(f'./log/error/{self.config_name}')
+            folder = f'./log/error/{self.config_name}/{int(time.time() * 1000)}'
             logger.warning(f'Saving error: {folder}')
             os.mkdir(folder)
             for data in self.device.screenshot_deque:
@@ -170,13 +170,13 @@ class AzurLaneAutoScript:
                 start = 0
                 for index, line in enumerate(lines):
                     line = line.strip(' \r\t\n')
-                    if re.match('^═{15,}$', line):
+                    if re.search(r'\[bold\](.*?)\[/bold\]', line):
                         start = index
-                lines = lines[start - 2:]
+                lines = lines[start:]
                 lines = handle_sensitive_logs(lines)
             with open(f'{folder}/log.txt', 'w', encoding='utf-8') as f:
                 f.writelines(lines)
-            keep_last_error_log(self.config.Error_ErrorBackupCount, f'./log/error')
+            keep_last_error_log(self.config.Error_ErrorBackupCount, f'./log/error/{self.config_name}')
 
     def restart(self):
         from module.handler.login import LoginHandler

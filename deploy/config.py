@@ -64,6 +64,8 @@ class ConfigModel:
     # Dynamic
     GitOverCdn: bool = False
 
+    #Log
+    LogBackupCount = 7
 
 class DeployConfig(ConfigModel):
     def __init__(self, file=DEPLOY_CONFIG):

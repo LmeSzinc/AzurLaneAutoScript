@@ -157,3 +157,8 @@ Deploy:
     # '["alas"]' specified "alas" config
     # '["alas","alas2"]' specified "alas" "alas2" configs
     Run: null
+
+  Log:
+    # Log file backup count (Day)
+    # [In most cases] Use 7 (a week)
+    LogBackupCount: 7

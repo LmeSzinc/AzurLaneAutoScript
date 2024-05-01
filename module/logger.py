@@ -2,6 +2,8 @@ import datetime
 import logging
 import os
 import sys
+import multiprocessing
+from logging.handlers import TimedRotatingFileHandler
 from typing import Callable, List
 
 from rich.console import Console, ConsoleOptions, ConsoleRenderable, NewLine
@@ -186,36 +188,30 @@ def _set_file_logger(name=pyw_name):
 
 
 def set_file_logger(name=pyw_name):
+    from module.webui.setting import State
     if '_' in name:
         name = name.split('_', 1)[0]
-    log_file = f'./log/{datetime.date.today()}_{name}.txt'
+    pname = multiprocessing.current_process().name
+
+    # Alas log file: ./log/alas.<cfg-name>.1970-01-01
+    # GUI  log file: ./log/GUI.1970-01-01
+    log_file = f'./log/log.{pname}.' if name == 'gui' else f'./log/alas.{name}.'
     try:
         file = open(log_file, mode='a', encoding='utf-8')
+        file.close()
     except FileNotFoundError:
         os.mkdir('./log')
-        file = open(log_file, mode='a', encoding='utf-8')
 
-    file_console = Console(
-        file=file,
-        no_color=True,
-        highlight=False,
-        width=119,
-    )
-
-    hdlr = RichFileHandler(
-        console=file_console,
-        show_path=False,
-        show_time=False,
-        show_level=False,
-        rich_tracebacks=True,
-        tracebacks_show_locals=True,
-        tracebacks_extra_lines=3,
-        highlighter=NullHighlighter(),
+    hdlr = TimedRotatingFileHandler(
+        log_file, 
+        when='midnight', 
+        backupCount=State.deploy_config.LogBackupCount,
+        encoding='utf-8'
     )
     hdlr.setFormatter(file_formatter)
 
     logger.handlers = [h for h in logger.handlers if not isinstance(
-        h, (logging.FileHandler, RichFileHandler))]
+        h, (logging.FileHandler, TimedRotatingFileHandler))]
     logger.addHandler(hdlr)
     logger.log_file = log_file
 
@@ -292,16 +288,17 @@ def hr(title, level=3):
     title = str(title).upper()
     if level == 1:
         logger.rule(title, characters='═')
-        logger.info(title)
+        logger.info(f"[bold]=== {title} ===[/bold]", extra={"markup": True})
     if level == 2:
         logger.rule(title, characters='─')
-        logger.info(title)
+        logger.info(f"--- {title} ---")
     if level == 3:
-        logger.info(f"[bold]<<< {title} >>>[/bold]", extra={"markup": True})
+        logger.info(f"[dim]<<< {title} >>>[/dim]", extra={"markup": True})
     if level == 0:
         logger.rule(characters='═')
         logger.rule(title, characters=' ')
         logger.rule(characters='═')
+        logger.info(f"[bold]>>> {title} <<<[/bold]", extra={"markup": True})
 
 
 def attr(name, text):
