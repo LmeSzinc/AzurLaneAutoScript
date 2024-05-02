@@ -686,6 +686,10 @@
       "Replenish": {
         "type": "checkbox",
         "value": false
+      },
+      "ContinueTraining": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "MaaCustomInfrast": {
@@ -772,6 +776,14 @@
         "type": "checkbox",
         "value": false
       },
+      "OnlyBuyDiscount": {
+        "type": "checkbox",
+        "value": false
+      },
+      "ReserveMaxCredit": {
+        "type": "checkbox",
+        "value": false
+      },
       "BuyFirst": {
         "type": "textarea",
         "value": "招聘许可"
@@ -820,6 +832,24 @@
         "type": "input",
         "value": "04:00, 16:00",
         "display": "hide"
+      }
+    },
+    "MaaAward": {
+      "Mail": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Recruit": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Orundum": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Specialaccess": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Storage": {
