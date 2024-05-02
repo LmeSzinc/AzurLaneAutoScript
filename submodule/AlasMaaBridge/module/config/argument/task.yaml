@@ -38,6 +38,7 @@ Maa:
       - MaaMall
     MaaAward:
       - Scheduler
+      - MaaAward
     MaaRoguelike:
       - Scheduler
       - MaaRoguelike

@@ -627,10 +627,10 @@ def rgb2gray(image):
     r, g, b = cv2.split(image)
     maximum = cv2.max(r, g)
     cv2.max(maximum, b, dst=maximum)
-    cv2.multiply(maximum, 0.5, dst=maximum)
+    cv2.convertScaleAbs(maximum, alpha=0.5, dst=maximum)
     cv2.min(r, g, dst=r)
     cv2.min(r, b, dst=r)
-    cv2.multiply(r, 0.5, dst=r)
+    cv2.convertScaleAbs(r, alpha=0.5, dst=r)
     # minimum = r
     cv2.add(maximum, r, dst=maximum)
     return maximum
@@ -794,11 +794,13 @@ def color_similarity_2d(image, color):
     # r, g, b = cv2.split(cv2.subtract((*color, 0), image))
     # negative = cv2.max(cv2.max(r, g), b)
     # return cv2.subtract(255, cv2.add(positive, negative))
-    r, g, b = cv2.split(cv2.subtract(image, (*color, 0)))
+    diff = cv2.subtract(image, (*color, 0))
+    r, g, b = cv2.split(diff)
     cv2.max(r, g, dst=r)
     cv2.max(r, b, dst=r)
     positive = r
-    r, g, b = cv2.split(cv2.subtract((*color, 0), image))
+    cv2.subtract((*color, 0), image, dst=diff)
+    r, g, b = cv2.split(diff)
     cv2.max(r, g, dst=r)
     cv2.max(r, b, dst=r)
     negative = r
@@ -823,16 +825,18 @@ def extract_letters(image, letter=(255, 255, 255), threshold=128):
     # r, g, b = cv2.split(cv2.subtract((*letter, 0), image))
     # negative = cv2.max(cv2.max(r, g), b)
     # return cv2.multiply(cv2.add(positive, negative), 255.0 / threshold)
-    r, g, b = cv2.split(cv2.subtract(image, (*letter, 0)))
+    diff = cv2.subtract(image, (*letter, 0))
+    r, g, b = cv2.split(diff)
     cv2.max(r, g, dst=r)
     cv2.max(r, b, dst=r)
     positive = r
-    r, g, b = cv2.split(cv2.subtract((*letter, 0), image))
+    cv2.subtract((*letter, 0), image, dst=diff)
+    r, g, b = cv2.split(diff)
     cv2.max(r, g, dst=r)
     cv2.max(r, b, dst=r)
     negative = r
     cv2.add(positive, negative, dst=positive)
-    cv2.multiply(positive, 255.0 / threshold, dst=positive)
+    cv2.convertScaleAbs(positive, alpha=255.0 / threshold, dst=positive)
     return positive
 
 
@@ -853,14 +857,14 @@ def extract_white_letters(image, threshold=128):
     r, g, b = cv2.split(cv2.subtract((255, 255, 255, 0), image))
     maximum = cv2.max(r, g)
     cv2.max(maximum, b, dst=maximum)
-    cv2.multiply(maximum, 0.5, dst=maximum)
+    cv2.convertScaleAbs(maximum, alpha=0.5, dst=maximum)
     cv2.min(r, g, dst=r)
     cv2.min(r, b, dst=r)
-    cv2.multiply(r, 0.5, dst=r)
+    cv2.convertScaleAbs(r, alpha=0.5, dst=r)
     minimum = r
     cv2.subtract(maximum, minimum, dst=minimum)
     cv2.add(maximum, minimum, dst=maximum)
-    cv2.multiply(maximum, 255.0 / threshold, dst=maximum)
+    cv2.convertScaleAbs(maximum, alpha=255.0 / threshold, dst=maximum)
     return maximum
 
 
