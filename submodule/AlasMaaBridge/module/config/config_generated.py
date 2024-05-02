@@ -76,6 +76,7 @@ class GeneratedConfig:
     MaaInfrast_Notstationed = True
     MaaInfrast_Trust = True
     MaaInfrast_Replenish = False
+    MaaInfrast_ContinueTraining = False
 
     # Group `MaaCustomInfrast`
     MaaCustomInfrast_Enable = False
@@ -88,6 +89,8 @@ class GeneratedConfig:
     MaaMall_CreditFight = False
     MaaMall_Shopping = True
     MaaMall_ForceShoppingIfCreditFull = False
+    MaaMall_OnlyBuyDiscount = False
+    MaaMall_ReserveMaxCredit = False
     MaaMall_BuyFirst = '招聘许可'
     MaaMall_BlackList = '碳 > 家具 > 加急许可'
 
@@ -101,6 +104,12 @@ class GeneratedConfig:
     MaaRoguelike_Roles = '取长补短'  # 先手必胜, 稳扎稳打, 取长补短, 随心所欲
     MaaRoguelike_CoreChar = None
     MaaRoguelike_Support = 'no_use'  # no_use, friend_support, nonfriend_support
+
+    # Group `MaaAward`
+    MaaAward_Mail = False
+    MaaAward_Recruit = False
+    MaaAward_Orundum = False
+    MaaAward_Specialaccess = False
 
     # Group `MaaCopilot`
     MaaCopilot_FileName = None
