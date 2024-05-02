@@ -159,8 +159,9 @@ class GridPredictor:
         cv2.cvtColor(image, cv2.COLOR_RGB2HSV, dst=image)
         lower = (h[0] / 2, s[0] * 2.55, v[0] * 2.55)
         upper = (h[1] / 2 + 1, s[1] * 2.55 + 1, v[1] * 2.55 + 1)
-        cv2.inRange(image, lower, upper, dst=image)
-        count = image[image > 0].shape[0]
+        # Don't set `dst`, output image is (50, 50) but `image` is (50, 50, 3)
+        image = cv2.inRange(image, lower, upper)
+        count = cv2.countNonZero(image)
         return count
 
     def predict_enemy_scale(self):
