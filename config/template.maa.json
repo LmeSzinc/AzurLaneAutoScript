@@ -156,7 +156,8 @@
       "ShiftThreshold": 4,
       "Notstationed": true,
       "Trust": true,
-      "Replenish": false
+      "Replenish": false,
+      "ContinueTraining": false
     },
     "MaaCustomInfrast": {
       "Enable": false,
@@ -182,6 +183,8 @@
       "CreditFight": false,
       "Shopping": true,
       "ForceShoppingIfCreditFull": false,
+      "OnlyBuyDiscount": false,
+      "ReserveMaxCredit": false,
       "BuyFirst": "招聘许可",
       "BlackList": "碳 > 家具 > 加急许可"
     },
@@ -197,6 +200,12 @@
       "SuccessInterval": 60,
       "FailureInterval": 120,
       "ServerUpdate": "04:00, 16:00"
+    },
+    "MaaAward": {
+      "Mail": false,
+      "Recruit": false,
+      "Orundum": false,
+      "Specialaccess": false
     },
     "Storage": {
       "Storage": {}

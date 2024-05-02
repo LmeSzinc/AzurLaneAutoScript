@@ -1,8 +1,11 @@
 import sys
+
 sys.path.append('i:/AzurLaneAutoScript')
 
 from cached_property import cached_property
+import os;
 
+print(os.getcwd())
 from module.base.timer import timer
 from module.config import config_updater
 from module.config.utils import *
@@ -52,7 +55,7 @@ class ConfigGenerator(config_updater.ConfigGenerator):
             deep_load(path)
             if 'option' in data:
                 deep_load(path, words=data['option'], default=False)
-        
+
         # GUI i18n
         for path, _ in deep_iter(self.gui, depth=2):
             group, key = path
@@ -127,6 +130,7 @@ if __name__ == '__main__':
     """
     # Ensure running in mod root folder
     import os
+
     os.chdir(os.path.join(os.path.dirname(__file__), "../../"))
     ConfigGenerator().generate()
     os.chdir('../../')
