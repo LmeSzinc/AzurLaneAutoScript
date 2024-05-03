@@ -39,7 +39,7 @@ class CampaignBase(CampaignBase_):
     @staticmethod
     def _campaign_ocr_result_process(result):
         result = CampaignBase_._campaign_ocr_result_process(result)
-        if result in ['usp', 'iisp', 'ijsp']:
+        if result in ['usp', 'iisp', 'ijsp', 'jjsp']:
             result = 'sp'
         return result
 
