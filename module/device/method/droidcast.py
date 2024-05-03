@@ -228,16 +228,19 @@ class DroidCast(Uiautomator2):
             if self.droidcast_height and self.droidcast_width:
                 shape = (self.droidcast_height, self.droidcast_width)
 
-        turn = self.is_mumu_over_version_356 and self.orientation == 1
+        rotate = self.is_mumu_over_version_356 and self.orientation == 1
 
         image = self.droidcast_session.get(self.droidcast_raw_url(), timeout=3).content
         # DroidCast_raw returns a RGB565 bitmap
 
         try:
             arr = np.frombuffer(image, dtype=np.uint16)
-            if turn:
+            if rotate:
                 arr = arr.reshape(shape)
+                # arr = cv2.rotate(arr, cv2.ROTATE_90_CLOCKWISE)
+                # A little bit faster?
                 arr = cv2.transpose(arr)
+                cv2.flip(arr, 1, dst=arr)
             else:
                 arr = arr.reshape(shape)
         except ValueError as e:
@@ -269,25 +272,23 @@ class DroidCast(Uiautomator2):
 
         # The same as the code above but costs about 3~4ms instead of 10ms.
         # Note that cv2.convertScaleAbs is 5x fast as cv2.multiply, cv2.add is 8x fast as cv2.convertScaleAbs
-        # r = cv2.bitwise_and(arr, 0b1111100000000000)
-        r = cv2.convertScaleAbs(arr, alpha=0.00390625)
+        # Note that cv2.convertScaleAbs includes rounding
+        r = cv2.bitwise_and(arr, 0b1111100000000000)
+        r = cv2.convertScaleAbs(r, alpha=0.00390625)
         m = cv2.convertScaleAbs(r, alpha=0.03125)
         cv2.add(r, m, dst=r)
 
         g = cv2.bitwise_and(arr, 0b0000011111100000)
         g = cv2.convertScaleAbs(g, alpha=0.125)
-        m = cv2.convertScaleAbs(r, alpha=0.015625, dst=m)
+        m = cv2.convertScaleAbs(g, alpha=0.015625, dst=m)
         cv2.add(g, m, dst=g)
 
         b = cv2.bitwise_and(arr, 0b0000000000011111)
         b = cv2.convertScaleAbs(b, alpha=8)
-        m = cv2.convertScaleAbs(r, alpha=0.03125, dst=m)
+        m = cv2.convertScaleAbs(b, alpha=0.03125, dst=m)
         cv2.add(b, m, dst=b)
 
         image = cv2.merge([r, g, b])
-
-        if turn:
-            cv2.flip(image, 1, dst=image)
 
         return image
 
