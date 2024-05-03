@@ -44,7 +44,7 @@ class EquipmentChange(Equipment):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            if self.appear(EQUIPMENT_OPEN):
+            if self.appear(EQUIPMENT_OPEN, offset=(5, 5)):
                 break
 
         self.equipment_list = {}
