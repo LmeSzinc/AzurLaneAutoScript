@@ -63,12 +63,12 @@ class Equipment(StorageHandler):
     def ship_view_prev(self, check_button=EQUIPMENT_OPEN):
         return self._ship_view_swipe(distance=SWIPE_DISTANCE, check_button=check_button)
 
-    def ship_info_enter(self, click_button, check_button=EQUIPMENT_OPEN, long_click=True, skil_first_screenshot=True):
+    def ship_info_enter(self, click_button, check_button=EQUIPMENT_OPEN, long_click=True, skip_first_screenshot=True):
         enter_timer = Timer(10)
 
         while 1:
-            if skil_first_screenshot:
-                skil_first_screenshot = False
+            if skip_first_screenshot:
+                skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
@@ -200,7 +200,7 @@ class Equipment(StorageHandler):
 
         while True:
             self.ship_equipment_take_off()
-            self.ui_click(click_button=EQUIPMENT_CLOSE, check_button=EQUIPMENT_OPEN, offset=None)
+            self.ui_click(EQUIPMENT_CLOSE, check_button=EQUIPMENT_OPEN, skip_first_screenshot=True)
             if not self.ship_view_next():
                 break
 
@@ -257,7 +257,7 @@ class Equipment(StorageHandler):
                 self.ship_view_next()
             else:
                 self.ship_equipment_take_on_preset(index=index)
-                self.ui_click(click_button=EQUIPMENT_CLOSE, check_button=EQUIPMENT_OPEN, offset=None)
+                self.ui_click(EQUIPMENT_CLOSE, check_button=EQUIPMENT_OPEN, skip_first_screenshot=True)
 
         self.ui_back(out)
         self.equipment_has_take_on = True
