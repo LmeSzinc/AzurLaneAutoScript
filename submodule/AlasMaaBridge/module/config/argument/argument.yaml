@@ -106,7 +106,7 @@ MaaRecruit:
 
 MaaInfrast:
   Facility:
-    value: Mfg > Trade > Power > Control > Reception > Office > Dorm
+    value: Training > Mfg > Trade > Power > Control > Reception > Office > Dorm
     type: textarea
   Drones:
     value: Money

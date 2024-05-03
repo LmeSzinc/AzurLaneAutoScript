@@ -150,7 +150,7 @@
       "ServerUpdate": "04:00"
     },
     "MaaInfrast": {
-      "Facility": "Mfg > Trade > Power > Control > Reception > Office > Dorm",
+      "Facility": "Training > Mfg > Trade > Power > Control > Reception > Office > Dorm",
       "Drones": "Money",
       "WorkThreshold": 12,
       "ShiftThreshold": 4,

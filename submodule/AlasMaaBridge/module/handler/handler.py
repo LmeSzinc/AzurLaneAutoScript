@@ -329,7 +329,7 @@ class AssistantHandler:
             "replenish": self.config.MaaInfrast_Replenish,
             "dorm_notstationed_enabled": self.config.MaaInfrast_Notstationed,
             "dorm_trust_enabled": self.config.MaaInfrast_Trust,
-            "continue_train": self.config.MaaInfrast_ContinueTraining
+            "continue_training": self.config.MaaInfrast_ContinueTraining
         }
 
         if self.config.MaaCustomInfrast_Enable:

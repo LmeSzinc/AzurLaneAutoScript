@@ -69,7 +69,7 @@ class GeneratedConfig:
     MaaRecruit_Expedite = False
 
     # Group `MaaInfrast`
-    MaaInfrast_Facility = 'Mfg > Trade > Power > Control > Reception > Office > Dorm'
+    MaaInfrast_Facility = 'Training > Mfg > Trade > Power > Control > Reception > Office > Dorm'
     MaaInfrast_Drones = 'Money'  # _NotUse, Money, SyntheticJade, CombatRecord, PureGold, OriginStone, Chip
     MaaInfrast_WorkThreshold = 12
     MaaInfrast_ShiftThreshold = 4
