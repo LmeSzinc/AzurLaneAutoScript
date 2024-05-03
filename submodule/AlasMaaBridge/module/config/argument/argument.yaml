@@ -116,6 +116,7 @@ MaaInfrast:
   Notstationed: true
   Trust: true
   Replenish: false
+  ContinueTraining: false
 MaaCustomInfrast:
   Enable: false
   BuiltinConfig:
@@ -131,6 +132,8 @@ MaaMall:
   CreditFight: false
   Shopping: true
   ForceShoppingIfCreditFull: false
+  OnlyBuyDiscount: False
+  ReserveMaxCredit: False
   BuyFirst:
     value: 招聘许可
     type: textarea
@@ -158,6 +161,12 @@ MaaRoguelike:
   Support:
     value: no_use
     option: [ no_use, friend_support, nonfriend_support ]
+
+MaaAward:
+  Mail: False
+  Recruit: False
+  Orundum: False
+  Specialaccess: False
 
 # ==================== Tool ====================
 

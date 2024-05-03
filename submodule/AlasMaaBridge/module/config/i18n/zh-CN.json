@@ -66,7 +66,7 @@
     },
     "Enable": {
       "name": "启用该功能",
-      "help": "将这个任务加入调度器\n委托、科研、收获任务是强制打开的"
+      "help": "将这个任务加入调度器\n开始唤醒是强制打开的"
     },
     "NextRun": {
       "name": "下一次运行时间",
@@ -406,6 +406,10 @@
     "Replenish": {
       "name": "源石碎片自动补货",
       "help": ""
+    },
+    "ContinueTraining": {
+      "name": "训练完成后继续尝试专精当前技能",
+      "help": ""
     }
   },
   "MaaCustomInfrast": {
@@ -456,6 +460,14 @@
     "ForceShoppingIfCreditFull": {
       "name": "信用溢出时无视黑名单",
       "help": ""
+    },
+    "OnlyBuyDiscount": {
+      "name": "只购买打折的信用商品",
+      "help": ""
+    },
+    "ReserveMaxCredit": {
+      "name": "300以下信用点停止买商品",
+      "help": "300以下信用点停止买商品"
     },
     "BuyFirst": {
       "name": "优先购买",
@@ -531,6 +543,28 @@
       "no_use": "不使用",
       "friend_support": "好友助战",
       "nonfriend_support": "好友+非好友助战"
+    }
+  },
+  "MaaAward": {
+    "_info": {
+      "name": "领取日常奖励",
+      "help": ""
+    },
+    "Mail": {
+      "name": "领取所有邮件奖励",
+      "help": ""
+    },
+    "Recruit": {
+      "name": "进行限定池赠送的每日免费单抽",
+      "help": "该功能属于危险功能，可能会造成误抽\n若不存在免费单抽，则不会抽取"
+    },
+    "Orundum": {
+      "name": "领取幸运墙的每日合成玉奖励",
+      "help": ""
+    },
+    "Specialaccess": {
+      "name": "领取五周年赠送月卡奖励",
+      "help": ""
     }
   },
   "MaaCopilot": {

@@ -91,8 +91,8 @@ class ManualConfig:
     SCRCPY_FILEPATH_LOCAL = './bin/scrcpy/scrcpy-server-v1.20.jar'
     SCRCPY_FILEPATH_REMOTE = '/data/local/tmp/scrcpy-server-v1.20.jar'
 
-    MAATOUCH_FILEPATH_LOCAL = './bin/MaaTouch/maatouch'
-    MAATOUCH_FILEPATH_REMOTE = '/data/local/tmp/maatouch'
+    MAATOUCH_FILEPATH_LOCAL = './bin/MaaTouch/maatouchsync'
+    MAATOUCH_FILEPATH_REMOTE = '/data/local/tmp/maatouchsync'
 
     """
     module.campaign.gems_farming
@@ -166,7 +166,7 @@ class ManualConfig:
     MAP_SWIPE_MULTIPLY_MAATOUCH = (0.999, 1.017)
     # Swipe distance in map grid lower than this will be dropped,
     # because a closing swipe will be treat as a click in game.
-    MAP_SWIPE_DROP = 0.15
+    MAP_SWIPE_DROP = 0.25
     # Swipes may stop in middle, due to emulator stuck.
     # Predict actual swipe distance to correct camera.
     MAP_SWIPE_PREDICT = True

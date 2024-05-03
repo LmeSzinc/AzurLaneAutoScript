@@ -855,7 +855,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                 logger.hr(f'Map rescan {queue[0]}')
                 queue = queue.sort_by_camera_distance(self.camera)
                 self.focus_to(queue[0], swipe_limit=(6, 5))
-                self.focus_to_grid_center(0.25)
+                self.focus_to_grid_center(0.3)
 
                 if self.map_rescan_current(drop=drop):
                     result = True
