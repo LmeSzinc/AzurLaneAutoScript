@@ -111,7 +111,7 @@ class Equipment(StorageHandler):
             detail.
         """
         ship_side_navbar = ButtonGrid(
-            origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 5), name='DETAIL_SIDE_NAVBAR')
+            origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 5), name='SHIP_SIDE_NAVBAR')
 
         return Navbar(grids=ship_side_navbar,
                       active_color=(247, 255, 173), active_threshold=221,
@@ -173,7 +173,7 @@ class Equipment(StorageHandler):
             if self.handle_storage_full():
                 continue
 
-            if confirm_timer.reached() and self.handle_popup_confirm():
+            if confirm_timer.reached() and self.handle_popup_confirm('EQUIPMENT_TAKE_OFF'):
                 confirm_timer.reset()
                 continue
 
