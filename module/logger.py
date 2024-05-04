@@ -361,14 +361,16 @@ def set_file_logger(name=pyw_name):
     import json
     if "_" in name:
         name = name.split("_", 1)[0]
-    pname = multiprocessing.current_process().name.replace(":", "_")
+    # Handler Windows : Windows have "SyncManager-N:N", "MainProcess", "Process-N", "gui" 4 Processes
+    # There have no process named "gui", only "MainProcess" in Linux
+    pname = multiprocessing.current_process().name.replace(":", "_") if os.name == "nt" else name
 
     log_dir = pathlib.Path("./log")
     log_file = log_dir.joinpath(f"{pname}.txt" if name == "gui" else f"{name}.txt")
     os.makedirs(log_dir, exist_ok=True)
 
-    # These process needn't to save log file.
-    process = ["SyncManager-", "MainProcess", "Process-"]
+    # These process needn't to save log file in Windows
+    process = ["SyncManager-", "MainProcess", "Process-"] if os.name == "nt" else []
     if any(p in log_file.name for p in process):
         hdlr = RichFileHandler(console=Console(file=io.StringIO()))
         logger.addHandler(hdlr)
