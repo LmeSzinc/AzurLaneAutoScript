@@ -57,7 +57,7 @@ class GeneratedConfig:
     # Group `Log`
     Log_LogKeepCount = 7
     Log_LogBackUpMethod = 'delete'  # delete, zip, none
-    Log_ZipMethod = 'bz2'  # bz2, gzip, none
+    Log_ZipMethod = 'bz2'  # bz2, gzip
 
     # Group `Retirement`
     Retirement_RetireMode = 'one_click_retire'  # one_click_retire, enhance, old_retire

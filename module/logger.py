@@ -98,7 +98,6 @@ class RichRenderableHandler(RichHandler):
 
 class RichTimedRotatingHandler(TimedRotatingFileHandler):
     ZIPMAP = {
-        "none": (open, ""),
         "gzip": (gzip.open, "gz"),
         "bz2" : (bz2.open, "bz2")
     }
@@ -132,7 +131,6 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
         # Override the initial rolloverAt
         self.rolloverAt = time.time()
         self.doRollover()
-        # self.rolloverAt = self.computeRollover(int(time.time()))
         
         # Close unnecessary stream
         self.stream.close()
@@ -159,7 +157,7 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
             result.sort()
             result = result[: len(result) - self.backupCount]
         return result
-    
+
     def doRollover(self) -> None:
         """
         Do a rollover.\n
@@ -183,7 +181,7 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
                 else:
                     addend = -3600
                 timeTuple = time.localtime(t + addend)
-        
+
         path = pathlib.Path(self.baseFilename)
         # 2021-08-01 + _ + alas.txt -> "2021-08-01_alas.txt"
         newPath = path.with_name(
@@ -213,40 +211,45 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
                 newRolloverAt += addend
         self.rolloverAt = newRolloverAt
 
-        thread = threading.Thread(target=self._compress, args=(self.log_file, self.compression, self.bak,))
+        thread = threading.Thread(
+            target=self._compress, 
+            args=(self.log_file, self.compression, self.bak,)
+        )
         thread.daemon = True
         thread.start()
         self.log_file = str(newPath.resolve())
 
-    def _compress(self, file, compression="none", bak="none") -> None:
+    def _compress(self, file, compression="gzip", bak="none") -> None:
         """
         Compress a file with gzip\n
         If file is None (In the initialization), compress the last log file\n
         Template: ./log/2021-08-01_alas.txt to ./log/bak/2021-08-01_alas.txt.gz
         """
         basePath = pathlib.Path(self.baseFilename)
+        if bak == "delete":
+            return
         if file is None:
             logFiles = [file for file in basePath.parent.glob("*_" + basePath.name)]
             if len(logFiles) < 2:
                 return
             file = sorted(logFiles, key=lambda x: str(x))[-2]
-            logger.info(logFiles)
         try:
             logFile = pathlib.Path(file)
             parent = logFile.parent
             cmpFunc, ext = self.ZIPMAP.get(compression, (gzip.open, "gz"))
-            zipFile = parent.joinpath("bak").joinpath(logFile.name).with_suffix('.'+ext)
+            zipFile = parent.joinpath("bak").joinpath(logFile.name).with_suffix("." + ext)
 
-            if not zipFile.exists() and compression != "none" and bak == "zip":
-                (parent / "bak").mkdir(exist_ok=True)
-                with logFile.open("rb") as f_in:
-                    with cmpFunc(zipFile, "wb") as f_out:
-                        shutil.copyfileobj(f_in, f_out)
             if bak == "none":
                 shutil.copy2(logFile, zipFile.with_name(logFile.name))
+                return 
+            elif bak == "zip":
+                if not zipFile.exists():
+                    (parent / "bak").mkdir(exist_ok=True)
+                    with logFile.open("rb") as f_in:
+                        with cmpFunc(zipFile, "wb") as f_out:
+                            shutil.copyfileobj(f_in, f_out)
         except Exception as e:
             logger.exception(e)
-    
 
     def print(self, *objects: ConsoleRenderable, **kwargs) -> None:
         Console.print(self.console, *objects, **kwargs)
@@ -396,24 +399,24 @@ def set_file_logger(name=pyw_name):
                 bkm = data_dict.get("General", {}).get("Log", {}).get("LogBackUpMethod")
                 bak_method = bkm if bkm is not None and bkm in ["none", "delete", "zip"] else "none"
                 method = data_dict.get("General", {}).get("Log", {}).get("ZipMethod")
-                zip_method = method if method is not None and method in ["none", "gzip", "bz2"] else "none"
+                zip_method = method if method is not None and method in ["gzip", "bz2"] else "gzip"
         except Exception as e:
-            count=7
-            bak_method="none"
-            zip_method="none"
+            count = 7
+            bak_method = "none"
+            zip_method = "gzip"
             logger.exception(e)
     else:
-        count=7
-        zip_method="none"
-        bak_method="none"
-    
+        count = 7
+        zip_method = "none"
+        bak_method = "gzip"
+
     hdlr = RichTimedRotatingHandler(
         bak=bak_method,
         filename=str(log_file),
         compression=zip_method,
-        # when="midnight",
-        when="S",
-        interval=10,
+        when="midnight",
+        # when="S",
+        interval=1,
         backupCount=count,
         encoding="utf-8",
     )

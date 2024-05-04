@@ -315,8 +315,7 @@
         "value": "bz2",
         "option": [
           "bz2",
-          "gzip",
-          "none"
+          "gzip"
         ]
       }
     },

@@ -593,8 +593,7 @@
       "name": "Log.ZipMethod.name",
       "help": "Log.ZipMethod.help",
       "bz2": "bz2",
-      "gzip": "gzip",
-      "none": "none"
+      "gzip": "gzip"
     }
   },
   "Retirement": {

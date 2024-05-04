@@ -575,26 +575,25 @@
   },
   "Log": {
     "_info": {
-      "name": "Log._info.name",
-      "help": "Log._info.help"
+      "name": "Log",
+      "help": "General settings, effective after the scheduler is restarted"
     },
     "LogKeepCount": {
-      "name": "Log.LogKeepCount.name",
-      "help": "Log.LogKeepCount.help"
+      "name": "Count of log rotation",
+      "help": "Number of days to rotate logs"
     },
     "LogBackUpMethod": {
-      "name": "Log.LogBackUpMethod.name",
-      "help": "Log.LogBackUpMethod.help",
+      "name": "Log backup method",
+      "help": "Back up logs or delete expired logs directly",
       "delete": "delete",
-      "zip": "zip",
-      "none": "none"
+      "zip": "create zip in ./log/bak",
+      "none": "copy logs to ./log/bak"
     },
     "ZipMethod": {
-      "name": "Log.ZipMethod.name",
+      "name": "Zip Method",
       "help": "Log.ZipMethod.help",
       "bz2": "bz2",
-      "gzip": "gzip",
-      "none": "none"
+      "gzip": "gzip"
     }
   },
   "Retirement": {

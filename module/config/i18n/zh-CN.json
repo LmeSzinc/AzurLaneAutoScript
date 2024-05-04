@@ -575,26 +575,25 @@
   },
   "Log": {
     "_info": {
-      "name": "Log._info.name",
-      "help": "Log._info.help"
+      "name": "日志",
+      "help": "通用设置，调度器重启后生效"
     },
     "LogKeepCount": {
-      "name": "Log.LogKeepCount.name",
-      "help": "Log.LogKeepCount.help"
+      "name": "Log保留数量",
+      "help": "Log过期时间(天)"
     },
     "LogBackUpMethod": {
-      "name": "Log.LogBackUpMethod.name",
-      "help": "Log.LogBackUpMethod.help",
-      "delete": "delete",
-      "zip": "zip",
-      "none": "none"
+      "name": "Log处理方式",
+      "help": "备份目录为./log/bak",
+      "delete": "删除",
+      "zip": "压缩备份",
+      "none": "拷贝备份"
     },
     "ZipMethod": {
-      "name": "Log.ZipMethod.name",
-      "help": "Log.ZipMethod.help",
+      "name": "压缩格式",
+      "help": "",
       "bz2": "bz2",
-      "gzip": "gzip",
-      "none": "none"
+      "gzip": "gzip"
     }
   },
   "Retirement": {

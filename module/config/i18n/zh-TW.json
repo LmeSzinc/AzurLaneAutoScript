@@ -575,26 +575,25 @@
   },
   "Log": {
     "_info": {
-      "name": "Log._info.name",
-      "help": "Log._info.help"
+      "name": "Log",
+      "help": "通用設置，調度器重啟後生效"
     },
     "LogKeepCount": {
-      "name": "Log.LogKeepCount.name",
-      "help": "Log.LogKeepCount.help"
+      "name": "Log保留數量",
+      "help": "Log過期時間(天)"
     },
     "LogBackUpMethod": {
-      "name": "Log.LogBackUpMethod.name",
-      "help": "Log.LogBackUpMethod.help",
-      "delete": "delete",
-      "zip": "zip",
-      "none": "none"
+      "name": "Log處理方式",
+      "help": "備份目錄為./log/bak",
+      "delete": "刪除",
+      "zip": "壓縮備份",
+      "none": "拷貝備份"
     },
     "ZipMethod": {
-      "name": "Log.ZipMethod.name",
-      "help": "Log.ZipMethod.help",
+      "name": "壓縮格式",
+      "help": "",
       "bz2": "bz2",
-      "gzip": "gzip",
-      "none": "none"
+      "gzip": "gzip"
     }
   },
   "Retirement": {

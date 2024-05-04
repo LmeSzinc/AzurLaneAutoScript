@@ -126,7 +126,7 @@ Log:
     option: [ delete, zip, none ]
   ZipMethod:
     value: bz2
-    option: [ bz2, gzip, none]
+    option: [ bz2, gzip ]
 Retirement:
   RetireMode:
     value: one_click_retire
