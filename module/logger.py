@@ -8,7 +8,6 @@ import os
 import pathlib
 import shutil
 import sys
-import tarfile
 import threading
 import time
 from logging.handlers import TimedRotatingFileHandler
@@ -223,17 +222,18 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
         """
         Compress a file with gzip\n
         If file is None (In the initialization), compress the last log file\n
-        Template: ./log/2021-08-01_alas.txt to ./log/bak/2021-08-01_alas.txt.gz
+        Template: ./log/2021-08-01_alas.txt to ./log/bak/2021-08-01_alas.gz
         """
-        basePath = pathlib.Path(self.baseFilename)
         if bak == "delete":
             return
-        if file is None:
-            logFiles = [file for file in basePath.parent.glob("*_" + basePath.name)]
-            if len(logFiles) < 2:
-                return
-            file = sorted(logFiles, key=lambda x: str(x))[-2]
+        basePath = pathlib.Path(self.baseFilename)
         try:
+            if file is None:
+                logFiles = [file for file in basePath.parent.glob("*_" + basePath.name)]
+                if len(logFiles) < 2:
+                    return
+                file = sorted(logFiles, key=lambda x: str(x))[-2]
+       
             logFile = pathlib.Path(file)
             parent = logFile.parent
             cmpFunc, ext = self.ZIPMAP.get(compression, (gzip.open, "gz"))
@@ -373,7 +373,7 @@ def set_file_logger(name=pyw_name):
 
     log_dir = pathlib.Path("./log")
     log_file = log_dir.joinpath(f"{pname}.txt" if name == "gui" else f"{name}.txt")
-    os.makedirs(log_dir, exist_ok=True)
+    log_dir.mkdir(parents=True, exist_ok=True)
 
     # These process needn't to save log file in Windows
     process = ["SyncManager-", "MainProcess", "Process-"] if os.name == "nt" else []
@@ -381,41 +381,34 @@ def set_file_logger(name=pyw_name):
         hdlr = RichFileHandler(console=Console(file=io.StringIO()))
         logger.addHandler(hdlr)
         logger.log_file = str(log_file.resolve())
-        if os.path.exists(log_file):
-            os.remove(log_file)
+        if log_file.exists():
+            log_file.unlink()
         return
 
-    valid_cfg = [
-        file
-        for file in pathlib.Path("./config").glob("*.json")
-        if not file.name.endswith((".maa.json", ".fpy.json", "template.json"))
-    ]
-    if len(valid_cfg) > 0:
+    config_file = next((f for f in pathlib.Path("./config").glob("*.json")), None)
+    if config_file:
         try:
-            with open(str(valid_cfg[0]),"r") as f:
-                data_dict = json.load(f)
-                cnt = data_dict.get("General", {}).get("Log", {}).get("LogKeepCount")
-                count = cnt if cnt is not None and isinstance(cnt, int) and cnt >= 0 else 7
-                bkm = data_dict.get("General", {}).get("Log", {}).get("LogBackUpMethod")
-                bak_method = bkm if bkm is not None and bkm in ["none", "delete", "zip"] else "none"
-                method = data_dict.get("General", {}).get("Log", {}).get("ZipMethod")
-                zip_method = method if method is not None and method in ["gzip", "bz2"] else "gzip"
+            with open(config_file, "r") as f:
+                config = json.load(f)
+                log_config = config.get("General", {}).get("Log", {})
+                count = log_config.get("LogKeepCount", 7)
+                bak_method = log_config.get("LogBackUpMethod", "none")
+                zip_method = log_config.get("ZipMethod", "gzip")
         except Exception as e:
+            logging.exception(e)
             count = 7
             bak_method = "none"
             zip_method = "gzip"
-            logger.exception(e)
     else:
         count = 7
-        zip_method = "none"
-        bak_method = "gzip"
+        bak_method = "none"
+        zip_method = "gzip"
 
     hdlr = RichTimedRotatingHandler(
         bak=bak_method,
         filename=str(log_file),
         compression=zip_method,
         when="midnight",
-        # when="S",
         interval=1,
         backupCount=count,
         encoding="utf-8",
@@ -432,8 +425,8 @@ def set_file_logger(name=pyw_name):
     logger.log_file = hdlr.log_file
 
     # Delete the default log file after initialize the handler
-    if os.path.exists(log_file):
-        os.remove(log_file)
+    if log_file.exists():
+        log_file.unlink()
 
 
 def set_func_logger(func):
