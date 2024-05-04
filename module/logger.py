@@ -8,6 +8,7 @@ import os
 import pathlib
 import shutil
 import sys
+import tarfile
 import threading
 import time
 from logging.handlers import TimedRotatingFileHandler
@@ -96,11 +97,12 @@ class RichRenderableHandler(RichHandler):
 
 
 class RichTimedRotatingHandler(TimedRotatingFileHandler):
-    ZIPMAP= {
-        "gz" : (gzip.open, ".gz"),
-        "bz2" : (bz2.open, ".bz2")
+    ZIPMAP = {
+        "none": (open, ""),
+        "gzip": (gzip.open, "gz"),
+        "bz2" : (bz2.open, "bz2")
     }
-    def __init__(self, zip = False, *args, **kwargs) -> None:
+    def __init__(self, bak="none", compression="bz2", *args, **kwargs) -> None:
         TimedRotatingFileHandler.__init__(self, *args, **kwargs)
         self.console = Console(file=io.StringIO(), no_color=True, highlight=False, width=119)
         self.richd = RichHandler(
@@ -124,11 +126,13 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
         self.console = self.richd.console
         # To handle the API of alas.save_error_log()
         self.log_file = None
-        self.zip = zip
+        self.bak = bak.lower()
+        self.compression = compression.lower()
 
         # Override the initial rolloverAt
         self.rolloverAt = time.time()
         self.doRollover()
+        # self.rolloverAt = self.computeRollover(int(time.time()))
         
         # Close unnecessary stream
         self.stream.close()
@@ -209,38 +213,37 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
                 newRolloverAt += addend
         self.rolloverAt = newRolloverAt
 
-        if self.zip:
-            thread = threading.Thread(target=self._compress, args=(self.log_file,))
-            thread.daemon = True
-            thread.start()
+        thread = threading.Thread(target=self._compress, args=(self.log_file, self.compression, self.bak,))
+        thread.daemon = True
+        thread.start()
         self.log_file = str(newPath.resolve())
 
-    def _compress(self, file, compression="bz2") -> None:
+    def _compress(self, file, compression="none", bak="none") -> None:
         """
         Compress a file with gzip\n
         If file is None (In the initialization), compress the last log file\n
         Template: ./log/2021-08-01_alas.txt to ./log/bak/2021-08-01_alas.txt.gz
         """
-        try:
-            if file is None:
-                basePath = pathlib.Path(self.baseFilename)
-                name = basePath.name
-                logFiles = [file for file in basePath.parent.glob("*_" + name)]
-                if len(logFiles) < 2:
-                    return
-                file = logFiles[-2]
-
-            path = pathlib.Path(file)
-            parent = path.parent
-            (path.parent / "bak").mkdir(exist_ok=True)
-            cmp_func, ext = self.ZIPMAP.get(compression, (gzip.open, ".gz"))
-            zipFile = parent.joinpath("bak").joinpath(path.name).with_suffix(ext)
-
-            if zipFile.exists():
+        basePath = pathlib.Path(self.baseFilename)
+        if file is None:
+            logFiles = [file for file in basePath.parent.glob("*_" + basePath.name)]
+            if len(logFiles) < 2:
                 return
-            with file.open("rb") as f_in:
-                with cmp_func(zipFile, "wb") as f_out:
-                    shutil.copyfileobj(f_in, f_out)
+            file = sorted(logFiles, key=lambda x: str(x))[-2]
+            logger.info(logFiles)
+        try:
+            logFile = pathlib.Path(file)
+            parent = logFile.parent
+            cmpFunc, ext = self.ZIPMAP.get(compression, (gzip.open, "gz"))
+            zipFile = parent.joinpath("bak").joinpath(logFile.name).with_suffix('.'+ext)
+
+            if not zipFile.exists() and compression != "none" and bak == "zip":
+                (parent / "bak").mkdir(exist_ok=True)
+                with logFile.open("rb") as f_in:
+                    with cmpFunc(zipFile, "wb") as f_out:
+                        shutil.copyfileobj(f_in, f_out)
+            if bak == "none":
+                shutil.copy2(logFile, zipFile.with_name(logFile.name))
         except Exception as e:
             logger.exception(e)
     
@@ -388,24 +391,29 @@ def set_file_logger(name=pyw_name):
         try:
             with open(str(valid_cfg[0]),"r") as f:
                 data_dict = json.load(f)
-                cnt = data_dict.get("General", {}).get("Log", {}).get("LogBackUpCount")
+                cnt = data_dict.get("General", {}).get("Log", {}).get("LogKeepCount")
                 count = cnt if cnt is not None and isinstance(cnt, int) and cnt >= 0 else 7
-                zip = data_dict.get("General", {}).get("Log", {}).get("EnableZip")
-                zip = zip if zip is not None and isinstance(zip, bool) else False
+                bkm = data_dict.get("General", {}).get("Log", {}).get("LogBackUpMethod")
+                bak_method = bkm if bkm is not None and bkm in ["none", "delete", "zip"] else "none"
+                method = data_dict.get("General", {}).get("Log", {}).get("ZipMethod")
+                zip_method = method if method is not None and method in ["none", "gzip", "bz2"] else "none"
         except Exception as e:
-            count = 7
-            zip = False
+            count=7
+            bak_method="none"
+            zip_method="none"
             logger.exception(e)
     else:
-        count = 7
-        zip = False
+        count=7
+        zip_method="none"
+        bak_method="none"
     
     hdlr = RichTimedRotatingHandler(
-        zip=zip,
+        bak=bak_method,
         filename=str(log_file),
-        when="midnight",
-        # when="S",
-        interval=1,
+        compression=zip_method,
+        # when="midnight",
+        when="S",
+        interval=10,
         backupCount=count,
         encoding="utf-8",
     )

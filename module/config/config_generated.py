@@ -55,8 +55,9 @@ class GeneratedConfig:
     DropRecord_MeowfficerTalent = 'do_not'  # do_not, save, upload, save_and_upload
 
     # Group `Log`
-    Log_LogBackUpCount = 7
-    Log_EnableZip = True
+    Log_LogKeepCount = 7
+    Log_LogBackUpMethod = 'delete'  # delete, zip, none
+    Log_ZipMethod = 'bz2'  # bz2, gzip, none
 
     # Group `Retirement`
     Retirement_RetireMode = 'one_click_retire'  # one_click_retire, enhance, old_retire

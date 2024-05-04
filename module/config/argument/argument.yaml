@@ -120,8 +120,13 @@ DropRecord:
     value: do_not
     option: [ do_not, save, upload, save_and_upload ]
 Log:
-  LogBackUpCount: 7
-  EnableZip: true
+  LogKeepCount: 7
+  LogBackUpMethod:
+    value: delete
+    option: [ delete, zip, none ]
+  ZipMethod:
+    value: bz2
+    option: [ bz2, gzip, none]
 Retirement:
   RetireMode:
     value: one_click_retire

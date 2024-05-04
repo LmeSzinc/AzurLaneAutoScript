@@ -578,13 +578,23 @@
       "name": "Log._info.name",
       "help": "Log._info.help"
     },
-    "LogBackUpCount": {
-      "name": "Log.LogBackUpCount.name",
-      "help": "Log.LogBackUpCount.help"
+    "LogKeepCount": {
+      "name": "Log.LogKeepCount.name",
+      "help": "Log.LogKeepCount.help"
     },
-    "EnableZip": {
-      "name": "Log.EnableZip.name",
-      "help": "Log.EnableZip.help"
+    "LogBackUpMethod": {
+      "name": "Log.LogBackUpMethod.name",
+      "help": "Log.LogBackUpMethod.help",
+      "delete": "delete",
+      "zip": "zip",
+      "none": "none"
+    },
+    "ZipMethod": {
+      "name": "Log.ZipMethod.name",
+      "help": "Log.ZipMethod.help",
+      "bz2": "bz2",
+      "gzip": "gzip",
+      "none": "none"
     }
   },
   "Retirement": {

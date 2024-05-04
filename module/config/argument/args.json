@@ -297,13 +297,27 @@
   },
   "General": {
     "Log": {
-      "LogBackUpCount": {
+      "LogKeepCount": {
         "type": "input",
         "value": 7
       },
-      "EnableZip": {
-        "type": "checkbox",
-        "value": true
+      "LogBackUpMethod": {
+        "type": "select",
+        "value": "delete",
+        "option": [
+          "delete",
+          "zip",
+          "none"
+        ]
+      },
+      "ZipMethod": {
+        "type": "select",
+        "value": "bz2",
+        "option": [
+          "bz2",
+          "gzip",
+          "none"
+        ]
       }
     },
     "Retirement": {

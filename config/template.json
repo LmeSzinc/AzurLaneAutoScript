@@ -43,8 +43,9 @@
   },
   "General": {
     "Log": {
-      "LogBackUpCount": 7,
-      "EnableZip": true
+      "LogKeepCount": 7,
+      "LogBackUpMethod": "delete",
+      "ZipMethod": "bz2"
     },
     "Retirement": {
       "RetireMode": "one_click_retire"
