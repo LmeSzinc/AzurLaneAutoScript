@@ -296,6 +296,16 @@
     }
   },
   "General": {
+    "Log": {
+      "LogBackUpCount": {
+        "type": "input",
+        "value": 7
+      },
+      "EnableZip": {
+        "type": "checkbox",
+        "value": true
+      }
+    },
     "Retirement": {
       "RetireMode": {
         "type": "select",

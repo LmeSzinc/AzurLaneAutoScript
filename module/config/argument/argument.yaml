@@ -119,6 +119,9 @@ DropRecord:
   MeowfficerTalent:
     value: do_not
     option: [ do_not, save, upload, save_and_upload ]
+Log:
+  LogBackUpCount: 7
+  EnableZip: true
 Retirement:
   RetireMode:
     value: one_click_retire

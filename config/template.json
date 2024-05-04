@@ -42,6 +42,10 @@
     }
   },
   "General": {
+    "Log": {
+      "LogBackUpCount": 7,
+      "EnableZip": true
+    },
     "Retirement": {
       "RetireMode": "one_click_retire"
     },

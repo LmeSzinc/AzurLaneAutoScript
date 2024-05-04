@@ -573,6 +573,20 @@
       "save_and_upload": "Save and upload"
     }
   },
+  "Log": {
+    "_info": {
+      "name": "Log._info.name",
+      "help": "Log._info.help"
+    },
+    "LogBackUpCount": {
+      "name": "Log.LogBackUpCount.name",
+      "help": "Log.LogBackUpCount.help"
+    },
+    "EnableZip": {
+      "name": "Log.EnableZip.name",
+      "help": "Log.EnableZip.help"
+    }
+  },
   "Retirement": {
     "_info": {
       "name": "Retirement Settings",

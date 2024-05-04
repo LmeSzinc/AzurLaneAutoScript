@@ -1,11 +1,20 @@
+import bz2
 import datetime
+import gzip
+import io
 import logging
+import multiprocessing
 import os
+import pathlib
+import shutil
 import sys
+import threading
+import time
+from logging.handlers import TimedRotatingFileHandler
 from typing import Callable, List
 
 from rich.console import Console, ConsoleOptions, ConsoleRenderable, NewLine
-from rich.highlighter import RegexHighlighter, NullHighlighter
+from rich.highlighter import NullHighlighter, RegexHighlighter
 from rich.logging import RichHandler
 from rich.rule import Rule
 from rich.style import Style
@@ -84,6 +93,169 @@ class RichRenderableHandler(RichHandler):
         if not self._func:
             return True
         super().handle(record)
+
+
+class RichTimedRotatingHandler(TimedRotatingFileHandler):
+    ZIPMAP= {
+        "gz" : (gzip.open, ".gz"),
+        "bz2" : (bz2.open, ".bz2")
+    }
+    def __init__(self, zip = False, *args, **kwargs) -> None:
+        TimedRotatingFileHandler.__init__(self, *args, **kwargs)
+        self.console = Console(file=io.StringIO(), no_color=True, highlight=False, width=119)
+        self.richd = RichHandler(
+            console=self.console,
+            show_path=False,
+            show_time=False,
+            show_level=False,
+            rich_tracebacks=True,
+            tracebacks_show_locals=True,
+            tracebacks_extra_lines=3,
+            highlighter=NullHighlighter(),
+        )
+        # Keep the same format
+        self.richd.setFormatter(
+            logging.Formatter(
+                fmt="%(asctime)s.%(msecs)03d | %(levelname)s | %(message)s",
+                datefmt="%Y-%m-%d %H:%M:%S",
+            )
+        )
+        # To handle the API of logger.print()
+        self.console = self.richd.console
+        # To handle the API of alas.save_error_log()
+        self.log_file = None
+        self.zip = zip
+
+        # Override the initial rolloverAt
+        self.rolloverAt = time.time()
+        self.doRollover()
+        
+        # Close unnecessary stream
+        self.stream.close()
+        self.stream = None
+        
+    def getFilesToDelete(self) -> list:
+        """
+        Determine the files to delete when rolling over.\n
+        Override the original method to use RichHandler
+        """
+        dirName, baseName = os.path.split(self.baseFilename)
+        fileNames = os.listdir(dirName)
+        result = []
+        suffix = "_" + baseName
+        plen = len(suffix)
+        for fileName in fileNames:
+            if fileName[-plen:] == suffix:
+                prefix = fileName[:-plen]
+                if self.extMatch.match(prefix):
+                    result.append(os.path.join(dirName, fileName))
+        if len(result) < self.backupCount:
+            result = []
+        else:
+            result.sort()
+            result = result[: len(result) - self.backupCount]
+        return result
+    
+    def doRollover(self) -> None:
+        """
+        Do a rollover.\n
+        Override the original method to use RichHandler
+        """
+        if self.richd.console:
+            self.richd.console.file.close()
+            self.richd.console.file = None
+
+        currentTime = int(time.time())
+        dstNow = time.localtime(currentTime)[-1]
+        t = self.rolloverAt
+        if self.utc:
+            timeTuple = time.gmtime(t)
+        else:
+            timeTuple = time.localtime(t)
+            dstThen = timeTuple[-1]
+            if dstNow != dstThen:
+                if dstNow:
+                    addend = 3600
+                else:
+                    addend = -3600
+                timeTuple = time.localtime(t + addend)
+        
+        path = pathlib.Path(self.baseFilename)
+        # 2021-08-01 + _ + alas.txt -> "2021-08-01_alas.txt"
+        newPath = path.with_name(
+            time.strftime(self.suffix, timeTuple) + "_" + path.name
+        )
+        self.richd.console.file = open(
+            newPath, "a" if os.path.exists(newPath) else "w", encoding="utf-8"
+        )
+
+        if self.backupCount > 0:
+            for s in self.getFilesToDelete():
+                os.remove(s)
+
+        newRolloverAt = self.computeRollover(currentTime)
+        while newRolloverAt <= currentTime:
+            newRolloverAt = newRolloverAt + self.interval
+        # If DST changes and midnight or weekly rollover, adjust for this.
+        if (self.when == "MIDNIGHT" or self.when.startswith("W")) and not self.utc:
+            dstAtRollover = time.localtime(newRolloverAt)[-1]
+            if dstNow != dstAtRollover:
+                if (
+                    not dstNow
+                ):  # DST kicks in before next rollover, so we need to deduct an hour
+                    addend = -3600
+                else:  # DST bows out before next rollover, so we need to add an hour
+                    addend = 3600
+                newRolloverAt += addend
+        self.rolloverAt = newRolloverAt
+
+        if self.zip:
+            thread = threading.Thread(target=self._compress, args=(self.log_file,))
+            thread.daemon = True
+            thread.start()
+        self.log_file = str(newPath.resolve())
+
+    def _compress(self, file, compression="bz2") -> None:
+        """
+        Compress a file with gzip\n
+        If file is None (In the initialization), compress the last log file\n
+        Template: ./log/2021-08-01_alas.txt to ./log/bak/2021-08-01_alas.txt.gz
+        """
+        try:
+            if file is None:
+                basePath = pathlib.Path(self.baseFilename)
+                name = basePath.name
+                logFiles = [file for file in basePath.parent.glob("*_" + name)]
+                if len(logFiles) < 2:
+                    return
+                file = logFiles[-2]
+
+            path = pathlib.Path(file)
+            parent = path.parent
+            (path.parent / "bak").mkdir(exist_ok=True)
+            cmp_func, ext = self.ZIPMAP.get(compression, (gzip.open, ".gz"))
+            zipFile = parent.joinpath("bak").joinpath(path.name).with_suffix(ext)
+
+            if zipFile.exists():
+                return
+            with file.open("rb") as f_in:
+                with cmp_func(zipFile, "wb") as f_out:
+                    shutil.copyfileobj(f_in, f_out)
+        except Exception as e:
+            logger.exception(e)
+    
+
+    def print(self, *objects: ConsoleRenderable, **kwargs) -> None:
+        Console.print(self.console, *objects, **kwargs)
+
+    # @override
+    def emit(self, record: logging.LogRecord) -> None:
+        try:
+            if self.shouldRollover(record):
+                self.doRollover()
+            RichHandler.emit(self.richd, record)
+        except Exception:
+            RichHandler.handleError(self.richd, record)
 
 
 class HTMLConsole(Console):
@@ -186,38 +358,69 @@ def _set_file_logger(name=pyw_name):
 
 
 def set_file_logger(name=pyw_name):
-    if '_' in name:
-        name = name.split('_', 1)[0]
-    log_file = f'./log/{datetime.date.today()}_{name}.txt'
-    try:
-        file = open(log_file, mode='a', encoding='utf-8')
-    except FileNotFoundError:
-        os.mkdir('./log')
-        file = open(log_file, mode='a', encoding='utf-8')
+    import json
+    if "_" in name:
+        name = name.split("_", 1)[0]
+    pname = multiprocessing.current_process().name.replace(":", "_")
 
-    file_console = Console(
-        file=file,
-        no_color=True,
-        highlight=False,
-        width=119,
+    log_dir = pathlib.Path("./log")
+    log_file = log_dir.joinpath(f"{pname}.txt" if name == "gui" else f"{name}.txt")
+    os.makedirs(log_dir, exist_ok=True)
+
+    # These process needn't to save log file.
+    process = ["SyncManager-", "MainProcess", "Process-"]
+    if any(p in log_file.name for p in process):
+        hdlr = RichFileHandler(console=Console(file=io.StringIO()))
+        logger.addHandler(hdlr)
+        logger.log_file = str(log_file.resolve())
+        if os.path.exists(log_file):
+            os.remove(log_file)
+        return
+
+    valid_cfg = [
+        file
+        for file in pathlib.Path("./config").glob("*.json")
+        if not file.name.endswith((".maa.json", ".fpy.json", "template.json"))
+    ]
+    if len(valid_cfg) > 0:
+        try:
+            with open(str(valid_cfg[0]),"r") as f:
+                data_dict = json.load(f)
+                cnt = data_dict.get("General", {}).get("Log", {}).get("LogBackUpCount")
+                count = cnt if cnt is not None and isinstance(cnt, int) and cnt >= 0 else 7
+                zip = data_dict.get("General", {}).get("Log", {}).get("EnableZip")
+                zip = zip if zip is not None and isinstance(zip, bool) else False
+        except Exception as e:
+            count = 7
+            zip = False
+            logger.exception(e)
+    else:
+        count = 7
+        zip = False
+    
+    hdlr = RichTimedRotatingHandler(
+        zip=zip,
+        filename=str(log_file),
+        when="midnight",
+        # when="S",
+        interval=1,
+        backupCount=count,
+        encoding="utf-8",
     )
 
-    hdlr = RichFileHandler(
-        console=file_console,
-        show_path=False,
-        show_time=False,
-        show_level=False,
-        rich_tracebacks=True,
-        tracebacks_show_locals=True,
-        tracebacks_extra_lines=3,
-        highlighter=NullHighlighter(),
-    )
-    hdlr.setFormatter(file_formatter)
-
-    logger.handlers = [h for h in logger.handlers if not isinstance(
-        h, (logging.FileHandler, RichFileHandler))]
+    logger.handlers = [
+        h
+        for h in logger.handlers
+        if not isinstance(
+            h, (logging.FileHandler, RichTimedRotatingHandler, RichFileHandler)
+        )
+    ]
     logger.addHandler(hdlr)
-    logger.log_file = log_file
+    logger.log_file = hdlr.log_file
+
+    # Delete the default log file after initialize the handler
+    if os.path.exists(log_file):
+        os.remove(log_file)
 
 
 def set_func_logger(func):
@@ -280,6 +483,8 @@ def print(*objects: ConsoleRenderable, **kwargs):
                 hdlr._func(renderable)
         elif isinstance(hdlr, RichHandler):
             hdlr.console.print(*objects)
+        elif isinstance(hdlr, RichTimedRotatingHandler):
+            hdlr.print(*objects, **kwargs)
 
 
 def rule(title="", *, characters="─", style="rule.line", end="\n", align="center"):

@@ -54,6 +54,10 @@ class GeneratedConfig:
     DropRecord_MeowfficerBuy = 'do_not'  # do_not, save
     DropRecord_MeowfficerTalent = 'do_not'  # do_not, save, upload, save_and_upload
 
+    # Group `Log`
+    Log_LogBackUpCount = 7
+    Log_EnableZip = True
+
     # Group `Retirement`
     Retirement_RetireMode = 'one_click_retire'  # one_click_retire, enhance, old_retire
 
