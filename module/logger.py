@@ -381,8 +381,6 @@ def set_file_logger(name=pyw_name):
         hdlr = RichFileHandler(console=Console(file=io.StringIO()))
         logger.addHandler(hdlr)
         logger.log_file = str(log_file.resolve())
-        if log_file.exists():
-            log_file.unlink()
         return
 
     config_file = next((f for f in pathlib.Path("./config").glob("*.json")), None)
@@ -414,19 +412,10 @@ def set_file_logger(name=pyw_name):
         encoding="utf-8",
     )
 
-    logger.handlers = [
-        h
-        for h in logger.handlers
-        if not isinstance(
-            h, (logging.FileHandler, RichTimedRotatingHandler, RichFileHandler)
-        )
-    ]
+    logger.handlers = [ h for h in logger.handlers if not isinstance(
+        h, (logging.FileHandler, RichTimedRotatingHandler, RichFileHandler))]
     logger.addHandler(hdlr)
     logger.log_file = hdlr.log_file
-
-    # Delete the default log file after initialize the handler
-    if log_file.exists():
-        log_file.unlink()
 
 
 def set_func_logger(func):
