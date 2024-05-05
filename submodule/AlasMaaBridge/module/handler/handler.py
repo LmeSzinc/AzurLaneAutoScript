@@ -329,7 +329,7 @@ class AssistantHandler:
             "replenish": self.config.MaaInfrast_Replenish,
             "dorm_notstationed_enabled": self.config.MaaInfrast_Notstationed,
             "dorm_trust_enabled": self.config.MaaInfrast_Trust,
-            "continue_train": self.config.MaaInfrast_ContinueTraining
+            "continue_training": self.config.MaaInfrast_ContinueTraining
         }
 
         if self.config.MaaCustomInfrast_Enable:
@@ -444,14 +444,29 @@ class AssistantHandler:
             "investments_count": self.config.MaaRoguelike_InvestmentsCount,
             "stop_when_investment_full": self.config.MaaRoguelike_StopWhenInvestmentFull,
             "squad": self.config.MaaRoguelike_Squad,
-            "roles": self.config.MaaRoguelike_Roles
+            "roles": self.config.MaaRoguelike_Roles,
         }
+        if (self.config.MaaRoguelike_Theme != "Mizuki" and self.config.MaaRoguelike_Squad in ["心胜于物分队",
+                                                                                              "物尽其用分队",
+                                                                                              "以人为本分队"]) or (
+                self.config.MaaRoguelike_Theme != "Sami" and self.config.MaaRoguelike_Squad in ["永恒狩猎分队",
+                                                                                                "生活至上分队",
+                                                                                                "科学主义分队",
+                                                                                                "特训分队"]):
+
+            args["squad"] = "指挥分队"
         if self.config.MaaRoguelike_CoreChar:
             args["core_char"] = self.config.MaaRoguelike_CoreChar
         if self.config.MaaRoguelike_Support != 'no_use':
             args["use_support"] = True
         if self.config.MaaRoguelike_Support == 'nonfriend_support':
             args["use_nonfriend_support"] = True
+        if self.config.MaaRoguelike_Squad in ["突击战术分队", "堡垒战术分队", "远程战术分队",
+                                              "破坏战术分队"] and self.config.MaaRoguelike_Mode == 4 and self.config.MaaRoguelike_startWithEliteTwo != "no_use":
+            args["start_with_elite_two"] = True
+            args[self.config.MaaRoguelike_startWithEliteTwo] = True
+        if self.config.MaaRoguelike_Theme == "Mizuki":
+            args["refresh_trader_with_dice"] = self.config.MaaRoguelike_refreshTraderWithDice
 
         self.task_switch_timer = Timer(30).start()
         self.callback_list.append(self.roguelike_callback)
@@ -513,10 +528,10 @@ class AssistantHandler:
             return
 
         args = {
-                "stage_name": stage,
-                "filename": filename,
-                "formation": self.config.MaaCopilot_Formation
-            }
+            "stage_name": stage,
+            "filename": filename,
+            "formation": self.config.MaaCopilot_Formation
+        }
         for i in range(self.config.MaaCopilot_Cycle):
             if deep_get(homework, keys='type') == 'SSS':
                 self.maa_start('SSSCopilot', args)
