@@ -124,10 +124,10 @@ Log:
   LogKeepCount: 7
   LogBackUpMethod:
     value: delete
-    option: [ delete, zip, none ]
+    option: [ delete, zip, copy ]
   ZipMethod:
     value: bz2
-    option: [ bz2, gzip ]
+    option: [ bz2, gzip, xz, zip ]
 Retirement:
   RetireMode:
     value: one_click_retire

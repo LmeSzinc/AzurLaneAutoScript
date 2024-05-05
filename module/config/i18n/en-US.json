@@ -591,13 +591,15 @@
       "help": "Back up logs or delete expired logs directly",
       "delete": "delete",
       "zip": "create zip in ./log/bak",
-      "none": "copy logs to ./log/bak"
+      "copy": "copy to ./log/bak"
     },
     "ZipMethod": {
       "name": "Zip Method",
       "help": "Log.ZipMethod.help",
       "bz2": "bz2",
-      "gzip": "gzip"
+      "gzip": "gzip",
+      "xz": "xz",
+      "zip": "zip"
     }
   },
   "Retirement": {

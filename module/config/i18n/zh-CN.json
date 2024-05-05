@@ -580,7 +580,7 @@
   "Log": {
     "_info": {
       "name": "日志",
-      "help": "通用设置，调度器重启后生效"
+      "help": "调度器重启后生效"
     },
     "LogKeepCount": {
       "name": "Log保留数量",
@@ -591,13 +591,15 @@
       "help": "备份目录为./log/bak",
       "delete": "删除",
       "zip": "压缩备份",
-      "none": "拷贝备份"
+      "copy": "拷贝备份"
     },
     "ZipMethod": {
       "name": "压缩格式",
       "help": "",
       "bz2": "bz2",
-      "gzip": "gzip"
+      "gzip": "gzip",
+      "xz": "xz",
+      "zip": "zip"
     }
   },
   "Retirement": {

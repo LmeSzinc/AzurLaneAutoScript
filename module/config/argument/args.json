@@ -311,7 +311,7 @@
         "option": [
           "delete",
           "zip",
-          "none"
+          "copy"
         ]
       },
       "ZipMethod": {
@@ -319,7 +319,9 @@
         "value": "bz2",
         "option": [
           "bz2",
-          "gzip"
+          "gzip",
+          "xz",
+          "zip"
         ]
       }
     },

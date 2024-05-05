@@ -1,16 +1,16 @@
-import bz2
 import datetime
-import gzip
 import io
 import logging
 import multiprocessing
 import os
-import pathlib
 import shutil
 import sys
+import tarfile
 import threading
 import time
+import zipfile
 from logging.handlers import TimedRotatingFileHandler
+from pathlib import Path
 from typing import Callable, List
 
 from rich.console import Console, ConsoleOptions, ConsoleRenderable, NewLine
@@ -97,10 +97,13 @@ class RichRenderableHandler(RichHandler):
 
 class RichTimedRotatingHandler(TimedRotatingFileHandler):
     ZIPMAP = {
-        "gzip": (gzip.open, "gz"),
-        "bz2" : (bz2.open, "bz2")
+        "gzip": "gz",
+        "gz" : "gz",
+        "bz2" : "bz2",
+        "xz": "xz",
+        "zip": "zip",
     }
-    def __init__(self, bak="none", compression="bz2", *args, **kwargs) -> None:
+    def __init__(self, bak="copy", compression="bz2", *args, **kwargs) -> None:
         TimedRotatingFileHandler.__init__(self, *args, **kwargs)
         self.console = Console(file=io.StringIO(), no_color=True, highlight=False, width=119)
         self.richd = RichHandler(
@@ -124,6 +127,7 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
         self.console = self.richd.console
         # To handle the API of alas.save_error_log()
         self.log_file = None
+        # For expire method
         self.bak = bak.lower()
         self.compression = compression.lower()
 
@@ -135,7 +139,7 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
         self.stream.close()
         self.stream = None
         
-    def getFilesToDelete(self) -> list:
+    def getFilesToDelete(self) -> List[Path]:
         """
         Determine the files to delete when rolling over.\n
         Override the original method to use RichHandler
@@ -149,7 +153,7 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
             if fileName[-plen:] == suffix:
                 prefix = fileName[:-plen]
                 if self.extMatch.match(prefix):
-                    result.append(os.path.join(dirName, fileName))
+                    result.append(Path(dirName).joinpath(fileName).resolve())
         if len(result) < self.backupCount:
             result = []
         else:
@@ -181,7 +185,7 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
                     addend = -3600
                 timeTuple = time.localtime(t + addend)
 
-        path = pathlib.Path(self.baseFilename)
+        path = Path(self.baseFilename)
         # 2021-08-01 + _ + alas.txt -> "2021-08-01_alas.txt"
         newPath = path.with_name(
             time.strftime(self.suffix, timeTuple) + "_" + path.name
@@ -191,8 +195,9 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
         )
 
         if self.backupCount > 0:
-            for s in self.getFilesToDelete():
-                os.remove(s)
+            files = self.getFilesToDelete()
+            if files:
+                threading.Thread(target=self.expire, args=(files,), daemon=True).start()
 
         newRolloverAt = self.computeRollover(currentTime)
         while newRolloverAt <= currentTime:
@@ -210,43 +215,46 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
                 newRolloverAt += addend
         self.rolloverAt = newRolloverAt
 
-        thread = threading.Thread(
-            target=self._compress, 
-            args=(self.log_file, self.compression, self.bak,)
-        )
-        thread.daemon = True
-        thread.start()
         self.log_file = str(newPath.resolve())
 
-    def _compress(self, file, compression="gzip", bak="none") -> None:
+    def expire(self, files: List[Path]) -> None:
         """
-        Compress a file with gzip\n
-        If file is None (In the initialization), compress the last log file\n
-        Template: ./log/2021-08-01_alas.txt to ./log/bak/2021-08-01_alas.gz
+        Remove or backup the expired log files
         """
-        if bak == "delete":
+        basePath = Path(self.baseFilename)
+        bakPath = basePath.parent / "bak"
+        bakPath.mkdir(parents=True, exist_ok=True)
+        if self.bak == "delete":
+            for file in files:
+                file.unlink()
             return
-        basePath = pathlib.Path(self.baseFilename)
+        elif self.bak == "copy":
+            for file in files:
+                dst = bakPath.joinpath(file.name)
+                if not dst.exists():
+                    shutil.copy2(file, dst)
+                file.unlink()
+            return
         try:
-            if file is None:
-                logFiles = [file for file in basePath.parent.glob("*_" + basePath.name)]
-                if len(logFiles) < 2:
-                    return
-                file = sorted(logFiles, key=lambda x: str(x))[-2]
-       
-            logFile = pathlib.Path(file)
-            parent = logFile.parent
-            cmpFunc, ext = self.ZIPMAP.get(compression, (gzip.open, "gz"))
-            zipFile = parent.joinpath("bak").joinpath(logFile.name).with_suffix("." + ext)
-            (parent / "bak").mkdir(exist_ok=True)
-            if bak == "none":
-                shutil.copy2(logFile, zipFile.with_name(logFile.name))
-                return 
-            elif bak == "zip":
-                if not zipFile.exists():
-                    with logFile.open("rb") as f_in:
-                        with cmpFunc(zipFile, "wb") as f_out:
-                            shutil.copyfileobj(f_in, f_out)
+            dates = [file.stem.split("_")[0] for file in files]
+            name = (
+                min(dates) + "~" + max(dates) + "_" + basePath.name
+                if len(dates) > 1
+                else files[0].name
+            )
+            ext = self.ZIPMAP[self.compression]
+            if ext == "zip":
+                zipFile = bakPath.joinpath(name).with_suffix(".zip")
+                with zipfile.ZipFile(zipFile, "w", zipfile.ZIP_DEFLATED) as zipf:
+                    for file in files:
+                        zipf.write(file, arcname=file.name)
+                        file.unlink()
+            else:
+                zipFile = bakPath.joinpath(name).with_suffix(".tar." + ext)
+                with tarfile.open(zipFile, "w:" + ext) as tar:
+                    for file in files:
+                        tar.add(file, arcname=file.name)
+                        file.unlink()
         except Exception as e:
             logger.exception(e)
 
@@ -362,14 +370,13 @@ def _set_file_logger(name=pyw_name):
 
 
 def set_file_logger(name=pyw_name):
-    import json
     if "_" in name:
         name = name.split("_", 1)[0]
     # Handler Windows : Windows have "SyncManager-N:N", "MainProcess", "Process-N", "gui" 4 Processes
     # There have no process named "gui", only "MainProcess" in Linux
     pname = multiprocessing.current_process().name.replace(":", "_") if os.name == "nt" else name
 
-    log_dir = pathlib.Path("./log")
+    log_dir = Path("./log")
     log_file = log_dir.joinpath(f"{pname}.txt" if name == "gui" else f"{name}.txt")
     log_dir.mkdir(parents=True, exist_ok=True)
 
@@ -383,7 +390,7 @@ def set_file_logger(name=pyw_name):
             log_file.unlink()
         return
 
-    count, bak_method, zip_method = _read_file_logger_config(json)
+    count, bak_method, zip_method = _read_file_logger_config(pname)
 
     hdlr = RichTimedRotatingHandler(
         bak=bak_method,
@@ -402,25 +409,27 @@ def set_file_logger(name=pyw_name):
     if log_file.exists():
         log_file.unlink()
 
-def _read_file_logger_config(json):
-    config_file = next((f for f in pathlib.Path("./config").glob("*.json")), None)
-    if config_file:
+def _read_file_logger_config(process_name):
+    import json
+    cfg_name = "alas" if process_name == "gui" else process_name
+    config_file = Path("./config").joinpath(f"{cfg_name}.json")
+    if config_file.exists():
         try:
-            with open(config_file, "r") as f:
+            with config_file.open("r") as f:
                 config = json.load(f)
                 log_config = config.get("General", {}).get("Log", {})
                 count = log_config.get("LogKeepCount", 7)
-                bak_method = log_config.get("LogBackUpMethod", "none")
-                zip_method = log_config.get("ZipMethod", "gzip")
+                bak_method = log_config.get("LogBackUpMethod", "copy")
+                zip_method = log_config.get("ZipMethod", "bz2")
         except Exception as e:
             logging.exception(e)
             count = 7
-            bak_method = "none"
-            zip_method = "gzip"
+            bak_method = "copy"
+            zip_method = "bz2"
     else:
         count = 7
-        bak_method = "none"
-        zip_method = "gzip"
+        bak_method = "zip" if process_name == "gui" else "copy"
+        zip_method = "bz2"
     return count,bak_method,zip_method
 
 
