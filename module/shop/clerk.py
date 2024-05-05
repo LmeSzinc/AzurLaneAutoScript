@@ -214,8 +214,16 @@ class ShopClerk(ShopBase, Retirement):
         # Needs small delay for stable image
         self.appear_then_click(AMOUNT_MAX, offset=(50, 50))
         self.device.sleep((0.3, 0.5))
-        self.device.screenshot()
-        limit = OCR_SHOP_AMOUNT.ocr(self.device.image)
+        timeout = Timer(5, count=10).start()
+        limit = 0
+        while 1:
+            if timeout.reached():
+                break
+            self.device.screenshot()
+            limit = OCR_SHOP_AMOUNT.ocr(self.device.image)
+            if limit:
+                break
+
         if not limit:
             logger.critical('OCR_SHOP_AMOUNT resulted in zero (0); '
                             'asset may be compromised')
