@@ -213,9 +213,7 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
         newPath = path.with_name(
             time.strftime(self.suffix, timeTuple) + "_" + path.name
         )
-        self.richd.console.file = open(
-            newPath, "a" if os.path.exists(newPath) else "w", encoding="utf-8"
-        )
+        self.richd.console.file = open(newPath, "a", encoding="utf-8")
 
         if self.backupCount > 0:
             files = self.getFilesToDelete()
@@ -396,31 +394,30 @@ def _set_file_logger(name=pyw_name):
 def set_file_logger(name=pyw_name):
     if "_" in name:
         name = name.split("_", 1)[0]
-    
     # Handler Windows : Windows have "SyncManager-N:N", "MainProcess", "Process-N", "gui" 4 Processes
     # There have no process named "gui", only "MainProcess" on Linux
-    # Each process should only call once when alas start.
     if os.name == "nt":
-        pname = multiprocessing.current_process().name.replace(":", "_")  
         # These process needn't to save log file on Windows
         processes = ["SyncManager-", "MainProcess", "Process-"]
+        pname = multiprocessing.current_process().name.replace(":", "_")
+        # Each process should only call once when alas start.
         if any(isinstance(hdlr, RichTimedRotatingHandler) for hdlr in logger.handlers):
             return
     else:
-        pname = name
         processes = []
+        pname = name
         for hdlr in logger.handlers:
             if isinstance(hdlr, RichTimedRotatingHandler):
-                if hdlr.pname == pname:
+                # Each process should only call once when alas start.
+                if hdlr.pname == name:
                     return
                 else:
                     logger.handlers = [h for h in logger.handlers if not isinstance(
                         h, (logging.FileHandler, RichTimedRotatingHandler, RichFileHandler))]
-
+    
     log_dir = Path("./log")
-    log_file = log_dir.joinpath(f"{pname}.txt" if name == "gui" else f"{name}.txt")
     log_dir.mkdir(parents=True, exist_ok=True)
-
+    log_file = log_dir.joinpath(f"{pname}.txt" if name == "gui" else f"{name}.txt")
     if any(p in log_file.name for p in processes):
         return
 
@@ -434,8 +431,11 @@ def set_file_logger(name=pyw_name):
 
     logger.addHandler(hdlr)
     logger.log_file = hdlr.log_file
-    if log_file.exists():
-        log_file.unlink()
+    try:
+        if log_file.exists():
+            log_file.unlink()
+    except Exception:
+        pass
 
 
 
