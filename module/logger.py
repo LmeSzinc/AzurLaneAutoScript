@@ -132,7 +132,7 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
         self.bak = bak_method.lower()
         self.compression = zip_method.lower()
 
-        # Override the initial rolloverAt
+        # Override the initial rolloverAt and rich.console.file
         self.rolloverAt = time.time()
         self.doRollover()
         
@@ -165,7 +165,7 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
     def getFilesToDelete(self) -> List[Path]:
         """
         Determine the files to delete when rolling over.\n
-        Override the original method to use RichHandler
+        Override the original method to use RichHandler and keep the same format
         """
         dirName, baseName = os.path.split(self.baseFilename)
         fileNames = os.listdir(dirName)
@@ -241,7 +241,12 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
 
     def expire(self, files: List[Path]) -> None:
         """
-        Remove or backup the expired log files
+        Remove or backup the expired log files\n
+
+        Template:
+            2021-08-01_alas.txt...2021-08-07_alas.txt   ->  bak/2021-08-01~2021-08-07_alas.tar.bz2  \n
+            2021-08-01_gui.txt                          ->  bak/2021-08-01_gui.zip                  \n
+            2021-08-01_gui.txt(copy)                    ->  bak/2021-08-01_gui.txt(copy)            \n
         """
         basePath = Path(self.baseFilename)
         bakPath = basePath.parent / "bak"
@@ -395,7 +400,7 @@ def set_file_logger(name=pyw_name):
     if "_" in name:
         name = name.split("_", 1)[0]
     # Handler Windows : Windows have "SyncManager-N:N", "MainProcess", "Process-N", "gui" 4 Processes
-    # There have no process named "gui", only "MainProcess" on Linux
+    # There have no process named "SyncManager", only "MainProcess" on Linux
     if os.name == "nt":
         # These process needn't to save log file on Windows
         processes = ["SyncManager-", "MainProcess", "Process-"]
