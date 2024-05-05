@@ -220,6 +220,7 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
             files = self.getFilesToDelete()
             if files:
                 threading.Thread(target=self.expire, args=(files,), daemon=True).start()
+                # self.expire(files)
 
         newRolloverAt = self.computeRollover(currentTime)
         while newRolloverAt <= currentTime:
@@ -394,22 +395,21 @@ def _set_file_logger(name=pyw_name):
 def set_file_logger(name=pyw_name):
     if "_" in name:
         name = name.split("_", 1)[0]
+    
     # Handler Windows : Windows have "SyncManager-N:N", "MainProcess", "Process-N", "gui" 4 Processes
-    # There have no process named "gui", only "MainProcess" in Linux
+    # There have no process named "gui", only "MainProcess" on Linux
     pname = multiprocessing.current_process().name.replace(":", "_") if os.name == "nt" else name
-
+    
+    # Each process should only call once when alas start.
+    if any(isinstance(obj, RichTimedRotatingHandler) for obj in logger.handlers):
+        return
     log_dir = Path("./log")
     log_file = log_dir.joinpath(f"{pname}.txt" if name == "gui" else f"{name}.txt")
     log_dir.mkdir(parents=True, exist_ok=True)
 
-    # These process needn't to save log file in Windows
+    # These process needn't to save log file on Windows
     process = ["SyncManager-", "MainProcess", "Process-"] if os.name == "nt" else []
     if any(p in log_file.name for p in process):
-        hdlr = RichFileHandler(console=Console(file=io.StringIO()))
-        logger.addHandler(hdlr)
-        logger.log_file = str(log_file.resolve())
-        if log_file.exists():
-            log_file.unlink()
         return
 
     hdlr = RichTimedRotatingHandler(
@@ -420,8 +420,6 @@ def set_file_logger(name=pyw_name):
         encoding="utf-8",
     )
 
-    logger.handlers = [h for h in logger.handlers if not isinstance(
-        h, (logging.FileHandler, RichTimedRotatingHandler, RichFileHandler))]
     logger.addHandler(hdlr)
     logger.log_file = hdlr.log_file
     if log_file.exists():
