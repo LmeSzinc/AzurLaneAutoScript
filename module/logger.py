@@ -238,13 +238,12 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
             parent = logFile.parent
             cmpFunc, ext = self.ZIPMAP.get(compression, (gzip.open, "gz"))
             zipFile = parent.joinpath("bak").joinpath(logFile.name).with_suffix("." + ext)
-
+            (parent / "bak").mkdir(exist_ok=True)
             if bak == "none":
                 shutil.copy2(logFile, zipFile.with_name(logFile.name))
                 return 
             elif bak == "zip":
                 if not zipFile.exists():
-                    (parent / "bak").mkdir(exist_ok=True)
                     with logFile.open("rb") as f_in:
                         with cmpFunc(zipFile, "wb") as f_out:
                             shutil.copyfileobj(f_in, f_out)
