@@ -1,5 +1,6 @@
 import datetime
 import io
+import json
 import logging
 import multiprocessing
 import os
@@ -103,8 +104,9 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
         "xz": "xz",
         "zip": "zip",
     }
-    def __init__(self, bak="copy", compression="bz2", *args, **kwargs) -> None:
-        TimedRotatingFileHandler.__init__(self, *args, **kwargs)
+    def __init__(self, pname:str, *args, **kwargs) -> None:
+        count, bak_method, zip_method = self._read_file_logger_config(pname)
+        TimedRotatingFileHandler.__init__(self, backupCount=count,* args, **kwargs)
         self.console = Console(file=io.StringIO(), no_color=True, highlight=False, width=119)
         self.richd = RichHandler(
             console=self.console,
@@ -123,13 +125,11 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
                 datefmt="%Y-%m-%d %H:%M:%S",
             )
         )
-        # To handle the API of logger.print()
-        self.console = self.richd.console
         # To handle the API of alas.save_error_log()
         self.log_file = None
         # For expire method
-        self.bak = bak.lower()
-        self.compression = compression.lower()
+        self.bak = bak_method.lower()
+        self.compression = zip_method.lower()
 
         # Override the initial rolloverAt
         self.rolloverAt = time.time()
@@ -138,7 +138,29 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
         # Close unnecessary stream
         self.stream.close()
         self.stream = None
-        
+    
+    def _read_file_logger_config(self, process_name):
+        cfg_name = "alas" if process_name == "gui" else process_name
+        config_file = Path("./config").joinpath(f"{cfg_name}.json")
+        if config_file.exists():
+            try:
+                with config_file.open("r") as f:
+                    config = json.load(f)
+                    log_config = config.get("General", {}).get("Log", {})
+                    count = log_config.get("LogKeepCount", 7)
+                    bak_method = log_config.get("LogBackUpMethod", "copy")
+                    zip_method = log_config.get("ZipMethod", "bz2")
+            except Exception as e:
+                logging.exception(e)
+                count = 7
+                bak_method = "copy"
+                zip_method = "bz2"
+        else:
+            count = 7
+            bak_method = "zip" if process_name == "gui" else "copy"
+            zip_method = "bz2"
+        return count, bak_method, zip_method
+
     def getFilesToDelete(self) -> List[Path]:
         """
         Determine the files to delete when rolling over.\n
@@ -390,47 +412,21 @@ def set_file_logger(name=pyw_name):
             log_file.unlink()
         return
 
-    count, bak_method, zip_method = _read_file_logger_config(pname)
-
     hdlr = RichTimedRotatingHandler(
-        bak=bak_method,
+        pname=name,
         filename=str(log_file),
-        compression=zip_method,
         when="midnight",
         interval=1,
-        backupCount=count,
         encoding="utf-8",
     )
 
-    logger.handlers = [ h for h in logger.handlers if not isinstance(
+    logger.handlers = [h for h in logger.handlers if not isinstance(
         h, (logging.FileHandler, RichTimedRotatingHandler, RichFileHandler))]
     logger.addHandler(hdlr)
     logger.log_file = hdlr.log_file
     if log_file.exists():
         log_file.unlink()
 
-def _read_file_logger_config(process_name):
-    import json
-    cfg_name = "alas" if process_name == "gui" else process_name
-    config_file = Path("./config").joinpath(f"{cfg_name}.json")
-    if config_file.exists():
-        try:
-            with config_file.open("r") as f:
-                config = json.load(f)
-                log_config = config.get("General", {}).get("Log", {})
-                count = log_config.get("LogKeepCount", 7)
-                bak_method = log_config.get("LogBackUpMethod", "copy")
-                zip_method = log_config.get("ZipMethod", "bz2")
-        except Exception as e:
-            logging.exception(e)
-            count = 7
-            bak_method = "copy"
-            zip_method = "bz2"
-    else:
-        count = 7
-        bak_method = "zip" if process_name == "gui" else "copy"
-        zip_method = "bz2"
-    return count,bak_method,zip_method
 
 
 def set_func_logger(func):
