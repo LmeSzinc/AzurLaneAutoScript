@@ -179,6 +179,10 @@
         "type": "checkbox",
         "value": true
       },
+      "SaveErrorCount": {
+        "type": "input",
+        "value": 30
+      },
       "OnePushConfig": {
         "type": "textarea",
         "value": "provider: null",

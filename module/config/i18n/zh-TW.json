@@ -475,6 +475,10 @@
       "name": "出錯時，保存 Log 和截圖",
       "help": ""
     },
+    "SaveErrorCount": {
+      "name": "Error Log 保存上限",
+      "help": "超出上限的錯誤日志將被刪除, 若爲0或負數則沒有限制"
+    },
     "OnePushConfig": {
       "name": "錯誤推送設定",
       "help": "發生無法處理的異常後，使用 Onepush 推送错误消息。設定參考文檔：https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BCN%5D"
@@ -576,7 +580,7 @@
   "Log": {
     "_info": {
       "name": "Log",
-      "help": "通用設置，調度器重啟後生效"
+      "help": "通用設定，調度器重啟後生效"
     },
     "LogKeepCount": {
       "name": "Log保留數量",

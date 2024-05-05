@@ -254,7 +254,6 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
     def print(self, *objects: ConsoleRenderable, **kwargs) -> None:
         Console.print(self.console, *objects, **kwargs)
 
-    # @override
     def emit(self, record: logging.LogRecord) -> None:
         try:
             if self.shouldRollover(record):
@@ -385,6 +384,26 @@ def set_file_logger(name=pyw_name):
             log_file.unlink()
         return
 
+    count, bak_method, zip_method = _read_file_logger_config(json)
+
+    hdlr = RichTimedRotatingHandler(
+        bak=bak_method,
+        filename=str(log_file),
+        compression=zip_method,
+        when="midnight",
+        interval=1,
+        backupCount=count,
+        encoding="utf-8",
+    )
+
+    logger.handlers = [ h for h in logger.handlers if not isinstance(
+        h, (logging.FileHandler, RichTimedRotatingHandler, RichFileHandler))]
+    logger.addHandler(hdlr)
+    logger.log_file = hdlr.log_file
+    if log_file.exists():
+        log_file.unlink()
+
+def _read_file_logger_config(json):
     config_file = next((f for f in pathlib.Path("./config").glob("*.json")), None)
     if config_file:
         try:
@@ -403,23 +422,7 @@ def set_file_logger(name=pyw_name):
         count = 7
         bak_method = "none"
         zip_method = "gzip"
-
-    hdlr = RichTimedRotatingHandler(
-        bak=bak_method,
-        filename=str(log_file),
-        compression=zip_method,
-        when="midnight",
-        interval=1,
-        backupCount=count,
-        encoding="utf-8",
-    )
-
-    logger.handlers = [ h for h in logger.handlers if not isinstance(
-        h, (logging.FileHandler, RichTimedRotatingHandler, RichFileHandler))]
-    logger.addHandler(hdlr)
-    logger.log_file = hdlr.log_file
-    if log_file.exists():
-        log_file.unlink()
+    return count,bak_method,zip_method
 
 
 def set_func_logger(func):

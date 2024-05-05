@@ -34,6 +34,7 @@ class GeneratedConfig:
     # Group `Error`
     Error_HandleError = True
     Error_SaveError = True
+    Error_SaveErrorCount = 30
     Error_OnePushConfig = 'provider: null'
     Error_ScreenshotLength = 1
 

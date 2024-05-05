@@ -83,6 +83,7 @@ EmulatorInfo:
 Error:
   HandleError: true
   SaveError: true
+  SaveErrorCount: 30
   OnePushConfig:
     type: textarea
     mode: yaml
