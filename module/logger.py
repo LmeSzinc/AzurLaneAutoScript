@@ -128,6 +128,7 @@ class RichTimedRotatingHandler(TimedRotatingFileHandler):
         # To handle the API of alas.save_error_log()
         self.log_file = None
         # For expire method
+        self.pname = pname
         self.bak = bak_method.lower()
         self.compression = zip_method.lower()
 
@@ -398,18 +399,29 @@ def set_file_logger(name=pyw_name):
     
     # Handler Windows : Windows have "SyncManager-N:N", "MainProcess", "Process-N", "gui" 4 Processes
     # There have no process named "gui", only "MainProcess" on Linux
-    pname = multiprocessing.current_process().name.replace(":", "_") if os.name == "nt" else name
-    
     # Each process should only call once when alas start.
-    if any(isinstance(obj, RichTimedRotatingHandler) for obj in logger.handlers):
-        return
+    if os.name == "nt":
+        pname = multiprocessing.current_process().name.replace(":", "_")  
+        # These process needn't to save log file on Windows
+        processes = ["SyncManager-", "MainProcess", "Process-"]
+        if any(isinstance(hdlr, RichTimedRotatingHandler) for hdlr in logger.handlers):
+            return
+    else:
+        pname = name
+        processes = []
+        for hdlr in logger.handlers:
+            if isinstance(hdlr, RichTimedRotatingHandler):
+                if hdlr.pname == pname:
+                    return
+                else:
+                    logger.handlers = [h for h in logger.handlers if not isinstance(
+                        h, (logging.FileHandler, RichTimedRotatingHandler, RichFileHandler))]
+
     log_dir = Path("./log")
     log_file = log_dir.joinpath(f"{pname}.txt" if name == "gui" else f"{name}.txt")
     log_dir.mkdir(parents=True, exist_ok=True)
 
-    # These process needn't to save log file on Windows
-    process = ["SyncManager-", "MainProcess", "Process-"] if os.name == "nt" else []
-    if any(p in log_file.name for p in process):
+    if any(p in log_file.name for p in processes):
         return
 
     hdlr = RichTimedRotatingHandler(
