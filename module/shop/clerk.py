@@ -142,7 +142,20 @@ class ShopClerk(ShopBase, Retirement):
 
         # Get displayed stock limit; varies between shops
         # If read 0, then warn and exit as cannot safely buy
-        _, _, limit = OCR_SHOP_SELECT_STOCK.ocr(self.device.image)
+        timeout = Timer(5, count=10).start()
+        skip_first_screenshot = True
+        limit = 0
+        while 1:
+            if timeout.reached():
+                break
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            _, _, limit = OCR_SHOP_SELECT_STOCK.ocr(self.device.image)
+            if limit:
+                break
+
         if not limit:
             logger.critical(f'{item.name}\'s stock count cannot be '
                             'extracted. Advised to re-cut the asset '
