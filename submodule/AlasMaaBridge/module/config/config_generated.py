@@ -69,7 +69,7 @@ class GeneratedConfig:
     MaaRecruit_Expedite = False
 
     # Group `MaaInfrast`
-    MaaInfrast_Facility = 'Mfg > Trade > Power > Control > Reception > Office > Dorm'
+    MaaInfrast_Facility = 'Training > Mfg > Trade > Power > Control > Reception > Office > Dorm'
     MaaInfrast_Drones = 'Money'  # _NotUse, Money, SyntheticJade, CombatRecord, PureGold, OriginStone, Chip
     MaaInfrast_WorkThreshold = 12
     MaaInfrast_ShiftThreshold = 4
@@ -96,14 +96,16 @@ class GeneratedConfig:
 
     # Group `MaaRoguelike`
     MaaRoguelike_Theme = 'Sami'  # Phantom, Mizuki, Sami
-    MaaRoguelike_Mode = 0  # 0, 1
+    MaaRoguelike_Mode = 0  # 0, 1, 4
     MaaRoguelike_StartsCount = 9999999
     MaaRoguelike_InvestmentsCount = 9999999
     MaaRoguelike_StopWhenInvestmentFull = False
-    MaaRoguelike_Squad = '指挥分队'  # 心胜于物分队, 物尽其用分队, 以人为本分队, 指挥分队, 集群分队, 后勤分队, 矛头分队, 突击战术分队, 堡垒战术分队, 远程战术分队, 破坏战术分队, 研究分队, 高规格分队
+    MaaRoguelike_Squad = '指挥分队'  # 永恒狩猎分队, 生活至上分队, 科学主义分队, 特训分队, 心胜于物分队, 物尽其用分队, 以人为本分队, 指挥分队, 集群分队, 后勤分队, 矛头分队, 突击战术分队, 堡垒战术分队, 远程战术分队, 破坏战术分队, 研究分队, 高规格分队
     MaaRoguelike_Roles = '取长补短'  # 先手必胜, 稳扎稳打, 取长补短, 随心所欲
     MaaRoguelike_CoreChar = None
     MaaRoguelike_Support = 'no_use'  # no_use, friend_support, nonfriend_support
+    MaaRoguelike_startWithEliteTwo = 'no_use'  # no_use, start_with_elite_two, only_start_with_elite_two
+    MaaRoguelike_refreshTraderWithDice = False
 
     # Group `MaaAward`
     MaaAward_Mail = False
