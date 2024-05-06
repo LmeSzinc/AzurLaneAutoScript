@@ -165,16 +165,16 @@ class Homography:
         self.image = image
 
         # Image initialization
-        image = rgb2gray(crop(image, self.config.DETECTING_AREA))
+        image = rgb2gray(crop(image, self.config.DETECTING_AREA, copy=False))
 
         # Perspective transform
         image_trans = cv2.warpPerspective(image, self.homo_data, self.homo_size)
 
         # Edge detection
         image_edge = cv2.Canny(image_trans, *self.config.HOMO_CANNY_THRESHOLD)
-        image_edge = cv2.bitwise_and(image_edge, self.ui_mask_homo_stroke)
+        cv2.bitwise_and(image_edge, self.ui_mask_homo_stroke, dst=image_edge)
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
-        image_edge = cv2.morphologyEx(image_edge, cv2.MORPH_CLOSE, kernel)
+        cv2.morphologyEx(image_edge, cv2.MORPH_CLOSE, kernel, dst=image_edge)
         # Image.fromarray(image_edge, mode='L').show()
 
         # Find free tile
@@ -194,9 +194,13 @@ class Homography:
         self.lower_edge, self.upper_edge, self.left_edge, self.right_edge = False, False, False, False
         self._map_edge_count = (0, 0)
         if self.config.HOMO_EDGE_DETECT:
-            image_edge = cv2.bitwise_and(cv2.dilate(image_edge, kernel),
-                                         cv2.inRange(image_trans, *self.config.HOMO_EDGE_COLOR_RANGE))
-            image_edge = cv2.bitwise_and(image_edge, self.ui_mask_homo_stroke)
+            # image_edge = cv2.bitwise_and(cv2.dilate(image_edge, kernel),
+            #                              cv2.inRange(image_trans, *self.config.HOMO_EDGE_COLOR_RANGE))
+            # image_edge = cv2.bitwise_and(image_edge, self.ui_mask_homo_stroke)
+            cv2.dilate(image_edge, kernel, dst=image_edge)
+            cv2.inRange(image_trans, *self.config.HOMO_EDGE_COLOR_RANGE, dst=image_trans)
+            cv2.bitwise_and(image_edge, image_trans, dst=image_edge)
+            cv2.bitwise_and(image_edge, self.ui_mask_homo_stroke, dst=image_edge)
             self.detect_edges(image_edge, hough_th=self.config.HOMO_EDGE_HOUGHLINES_THRESHOLD)
 
         # Log

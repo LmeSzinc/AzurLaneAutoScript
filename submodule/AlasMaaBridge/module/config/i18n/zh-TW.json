@@ -406,6 +406,10 @@
     "Replenish": {
       "name": "MaaInfrast.Replenish.name",
       "help": "MaaInfrast.Replenish.help"
+    },
+    "ContinueTraining": {
+      "name": "MaaInfrast.ContinueTraining.name",
+      "help": "MaaInfrast.ContinueTraining.help"
     }
   },
   "MaaCustomInfrast": {
@@ -456,6 +460,14 @@
     "ForceShoppingIfCreditFull": {
       "name": "MaaMall.ForceShoppingIfCreditFull.name",
       "help": "MaaMall.ForceShoppingIfCreditFull.help"
+    },
+    "OnlyBuyDiscount": {
+      "name": "MaaMall.OnlyBuyDiscount.name",
+      "help": "MaaMall.OnlyBuyDiscount.help"
+    },
+    "ReserveMaxCredit": {
+      "name": "MaaMall.ReserveMaxCredit.name",
+      "help": "MaaMall.ReserveMaxCredit.help"
     },
     "BuyFirst": {
       "name": "MaaMall.BuyFirst.name",
@@ -531,6 +543,28 @@
       "no_use": "no_use",
       "friend_support": "friend_support",
       "nonfriend_support": "nonfriend_support"
+    }
+  },
+  "MaaAward": {
+    "_info": {
+      "name": "MaaAward._info.name",
+      "help": "MaaAward._info.help"
+    },
+    "Mail": {
+      "name": "MaaAward.Mail.name",
+      "help": "MaaAward.Mail.help"
+    },
+    "Recruit": {
+      "name": "MaaAward.Recruit.name",
+      "help": "MaaAward.Recruit.help"
+    },
+    "Orundum": {
+      "name": "MaaAward.Orundum.name",
+      "help": "MaaAward.Orundum.help"
+    },
+    "Specialaccess": {
+      "name": "MaaAward.Specialaccess.name",
+      "help": "MaaAward.Specialaccess.help"
     }
   },
   "MaaCopilot": {

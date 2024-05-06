@@ -328,7 +328,8 @@ class AssistantHandler:
             "threshold": self.config.MaaInfrast_WorkThreshold / 24,
             "replenish": self.config.MaaInfrast_Replenish,
             "dorm_notstationed_enabled": self.config.MaaInfrast_Notstationed,
-            "dorm_trust_enabled": self.config.MaaInfrast_Trust
+            "dorm_trust_enabled": self.config.MaaInfrast_Trust,
+            "continue_train": self.config.MaaInfrast_ContinueTraining
         }
 
         if self.config.MaaCustomInfrast_Enable:
@@ -417,14 +418,22 @@ class AssistantHandler:
             "shopping": self.config.MaaMall_Shopping,
             "buy_first": buy_first,
             "blacklist": blacklist,
-            "force_shopping_if_credit_full": self.config.MaaMall_ForceShoppingIfCreditFull
+            "force_shopping_if_credit_full": self.config.MaaMall_ForceShoppingIfCreditFull,
+            "only_buy_discount": self.config.MaaMall_OnlyBuyDiscount,
+            "reserve_max_credit": self.config.MaaMall_ReserveMaxCredit,
         })
         self.config.task_delay(server_update=True)
 
     def award(self):
-        self.maa_start('Award', {
-            "enable": True
-        })
+        args = {
+            "enable": True,
+            "award": True,
+            "mail": self.config.MaaAward_Mail,
+            "recruit": self.config.MaaAward_Recruit,
+            "orundum": self.config.MaaAward_Orundum,
+            "specialaccess": self.config.MaaAward_Specialaccess,
+        }
+        self.maa_start('Award', args)
         self.config.task_delay(server_update=True)
 
     def roguelike(self):
