@@ -76,6 +76,7 @@ from module.webui.utils import (
     add_css,
     filepath_css,
     get_alas_config_listen_path,
+    set_localstorage,
     get_localstorage,
     get_window_visibility_state,
     login,
@@ -151,6 +152,8 @@ class AlasGUI(Frame):
             # Reload when add new instance / first start app.py / go to HomePage
             flag = False
         if flag:
+            self.aside_status_cache = [int(x) for x in get_localstorage("status").strip('[]').split(',')]
+            # Use browser storage to avoid disturb between sessions
             for index, inst in enumerate(self.current_aside_cache):
                 # Check for state change
                 state = ProcessManager.get_manager(inst).state
@@ -169,6 +172,7 @@ class AlasGUI(Frame):
                 onclick=self.ui_alas,
             )
             self.aside_status_cache.append(rendered_state)
+        set_localstorage("status", self.aside_status_cache)
         self.load_home = False
         self.current_aside_cache.clear()
         aside_name = get_localstorage("aside")
