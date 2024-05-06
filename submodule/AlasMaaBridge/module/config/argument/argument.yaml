@@ -41,13 +41,13 @@ MaaEmulator:
     valuetype: str
   PackageName:
     value: Official
-    option: [Official, Bilibili, YoStarEN, YoStarJP, YoStarKR, txwy]
+    option: [ Official, Bilibili, YoStarEN, YoStarJP, YoStarKR, txwy ]
   MaaPath:
     value: D:/Program Files/MAA
     type: textarea
   TouchMethod:
     value: minitouch
-    option: [minitouch, maatouch, adb]
+    option: [ minitouch, maatouch, adb ]
   DeploymentWithPause:
     value: false
 MaaRecord:
@@ -57,11 +57,11 @@ MaaRecord:
 MaaFight:
   Stage:
     value: last
-    option: [last, 1-7, LS-6, CA-5, SK-5, AP-5, CE-6, PR-A-1, PR-A-2, PR-B-1, PR-B-2, PR-C-1, PR-C-2, PR-D-1, PR-D-2, custom]
+    option: [ last, 1-7, LS-6, CA-5, SK-5, AP-5, CE-6, PR-A-1, PR-A-2, PR-B-1, PR-B-2, PR-C-1, PR-C-2, PR-D-1, PR-D-2, custom ]
   CustomStage: null
   MedicineTactics:
     value: no_use
-    option: [no_use, expiring, run_out]
+    option: [ no_use, expiring, run_out ]
   Medicine: null
   Stone: null
   Times: null
@@ -74,25 +74,25 @@ MaaFightWeekly:
   Enable: true
   Monday:
     value: default
-    option: [default, LS-6, SK-5, AP-5, PR-A-1, PR-A-2, PR-B-1, PR-B-2]
+    option: [ default, LS-6, SK-5, AP-5, PR-A-1, PR-A-2, PR-B-1, PR-B-2 ]
   Tuesday:
     value: default
-    option: [default, LS-6, CA-5, CE-6, PR-B-1, PR-B-2, PR-D-1, PR-D-2]
+    option: [ default, LS-6, CA-5, CE-6, PR-B-1, PR-B-2, PR-D-1, PR-D-2 ]
   Wednesday:
     value: default
-    option: [default, LS-6, CA-5, SK-5, PR-C-1, PR-C-2, PR-D-1, PR-D-2]
+    option: [ default, LS-6, CA-5, SK-5, PR-C-1, PR-C-2, PR-D-1, PR-D-2 ]
   Thursday:
     value: default
-    option: [default, LS-6, AP-5, CE-6, PR-A-1, PR-A-2, PR-C-1, PR-C-2]
+    option: [ default, LS-6, AP-5, CE-6, PR-A-1, PR-A-2, PR-C-1, PR-C-2 ]
   Friday:
     value: default
-    option: [default, LS-6, CA-5, SK-5, PR-A-1, PR-A-2, PR-B-1, PR-B-2]
+    option: [ default, LS-6, CA-5, SK-5, PR-A-1, PR-A-2, PR-B-1, PR-B-2 ]
   Saturday:
     value: default
-    option: [default, LS-6, SK-5, AP-5, CE-6, PR-B-1, PR-B-2, PR-C-1, PR-C-2, PR-D-1, PR-D-2]
+    option: [ default, LS-6, SK-5, AP-5, CE-6, PR-B-1, PR-B-2, PR-C-1, PR-C-2, PR-D-1, PR-D-2 ]
   Sunday:
     value: default
-    option: [default, LS-6, CA-5, AP-5, CE-6, PR-A-1, PR-A-2, PR-C-1, PR-C-2, PR-D-1, PR-D-2]
+    option: [ default, LS-6, CA-5, AP-5, CE-6, PR-A-1, PR-A-2, PR-C-1, PR-C-2, PR-D-1, PR-D-2 ]
 
 MaaRecruit:
   Refresh: true
@@ -106,11 +106,11 @@ MaaRecruit:
 
 MaaInfrast:
   Facility:
-    value: Mfg > Trade > Power > Control > Reception > Office > Dorm
+    value: Training > Mfg > Trade > Power > Control > Reception > Office > Dorm
     type: textarea
   Drones:
     value: Money
-    option: [_NotUse, Money, SyntheticJade, CombatRecord, PureGold, OriginStone, Chip]
+    option: [ _NotUse, Money, SyntheticJade, CombatRecord, PureGold, OriginStone, Chip ]
   WorkThreshold: 12
   ShiftThreshold: 4
   Notstationed: true
@@ -121,7 +121,7 @@ MaaCustomInfrast:
   Enable: false
   BuiltinConfig:
     value: custom
-    option: [custom, 153-3, 243-3, 243-4, 252-3, 333-3]
+    option: [ custom, 153-3, 243-3, 243-4, 252-3, 333-3 ]
   Filename:
     value: null
     type: textarea
@@ -144,23 +144,27 @@ MaaMall:
 MaaRoguelike:
   Theme:
     value: Sami
-    option: [Phantom, Mizuki, Sami]
+    option: [ Phantom, Mizuki, Sami ]
   Mode:
     value: 0
-    option: [0, 1]
+    option: [ 0, 1, 4 ]
   StartsCount: 9999999
   InvestmentsCount: 9999999
   StopWhenInvestmentFull: false
   Squad:
     value: 指挥分队
-    option: [心胜于物分队, 物尽其用分队, 以人为本分队, 指挥分队, 集群分队, 后勤分队, 矛头分队, 突击战术分队, 堡垒战术分队, 远程战术分队, 破坏战术分队, 研究分队, 高规格分队]
+    option: [ 永恒狩猎分队, 生活至上分队, 科学主义分队, 特训分队, 心胜于物分队, 物尽其用分队, 以人为本分队, 指挥分队, 集群分队, 后勤分队, 矛头分队, 突击战术分队, 堡垒战术分队, 远程战术分队, 破坏战术分队, 研究分队, 高规格分队 ]
   Roles:
     value: 取长补短
-    option: [先手必胜, 稳扎稳打, 取长补短, 随心所欲]
+    option: [ 先手必胜, 稳扎稳打, 取长补短, 随心所欲 ]
   CoreChar: null
   Support:
     value: no_use
     option: [ no_use, friend_support, nonfriend_support ]
+  startWithEliteTwo:
+    value: no_use
+    option: [ no_use, start_with_elite_two, only_start_with_elite_two ]
+  refreshTraderWithDice: false
 
 MaaAward:
   Mail: False
