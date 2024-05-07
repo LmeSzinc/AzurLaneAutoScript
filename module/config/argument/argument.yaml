@@ -158,8 +158,8 @@ Campaign:
   Use2xBook: false
   AmbushEvade: true
 StopCondition:
-  RunCount: 0
   OilLimit: 1000
+  RunCount: 0
   MapAchievement:
     value: non_stop
     option: [ non_stop, 100_percent_clear, map_3_stars, threat_safe, threat_safe_without_3_stars ]

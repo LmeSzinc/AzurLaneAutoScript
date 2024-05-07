@@ -53,6 +53,7 @@ MaaEmulator:
 MaaRecord:
   ReportToPenguin: false
   PenguinID: null
+  ReportToYiTuLiu: false
 
 MaaFight:
   Stage:
@@ -65,6 +66,9 @@ MaaFight:
   Medicine: null
   Stone: null
   Times: null
+  Series:
+    value: 1
+    option: [ 1,2,3,4,5,6 ]
   Drops:
     value: null
     type: textarea
@@ -103,6 +107,10 @@ MaaRecruit:
   Level3ShortTime: True
   Times: 4
   Expedite: false
+  FirstTags: null
+  ExtraTagsMode:
+    value: 0
+    option: [ 0,1,2 ]
 
 MaaInfrast:
   Facility:

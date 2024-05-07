@@ -170,6 +170,10 @@
     "PenguinID": {
       "name": "MaaRecord.PenguinID.name",
       "help": "MaaRecord.PenguinID.help"
+    },
+    "ReportToYiTuLiu": {
+      "name": "MaaRecord.ReportToYiTuLiu.name",
+      "help": "MaaRecord.ReportToYiTuLiu.help"
     }
   },
   "MaaFight": {
@@ -219,6 +223,16 @@
     "Times": {
       "name": "MaaFight.Times.name",
       "help": "MaaFight.Times.help"
+    },
+    "Series": {
+      "name": "MaaFight.Series.name",
+      "help": "MaaFight.Series.help",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     },
     "Drops": {
       "name": "MaaFight.Drops.name",
@@ -365,6 +379,17 @@
     "Expedite": {
       "name": "MaaRecruit.Expedite.name",
       "help": "MaaRecruit.Expedite.help"
+    },
+    "FirstTags": {
+      "name": "MaaRecruit.FirstTags.name",
+      "help": "MaaRecruit.FirstTags.help"
+    },
+    "ExtraTagsMode": {
+      "name": "MaaRecruit.ExtraTagsMode.name",
+      "help": "MaaRecruit.ExtraTagsMode.help",
+      "0": "0",
+      "1": "1",
+      "2": "2"
     }
   },
   "MaaInfrast": {
