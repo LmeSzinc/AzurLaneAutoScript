@@ -9,7 +9,8 @@
     },
     "MaaRecord": {
       "ReportToPenguin": false,
-      "PenguinID": null
+      "PenguinID": null,
+      "ReportToYiTuLiu": false
     },
     "Emulator": {
       "ServerName": "disabled"
@@ -54,6 +55,7 @@
       "Medicine": 0,
       "Stone": 0,
       "Times": 5,
+      "Series": 1,
       "Drops": null,
       "DrGrandet": false
     },
@@ -77,6 +79,7 @@
       "Medicine": null,
       "Stone": null,
       "Times": null,
+      "Series": 1,
       "Drops": null,
       "DrGrandet": false
     },
@@ -100,6 +103,7 @@
       "Medicine": null,
       "Stone": null,
       "Times": null,
+      "Series": 1,
       "Drops": null,
       "DrGrandet": false
     },
@@ -134,7 +138,9 @@
       "Select5": true,
       "Level3ShortTime": true,
       "Times": 4,
-      "Expedite": false
+      "Expedite": false,
+      "FirstTags": null,
+      "ExtraTagsMode": 0
     },
     "Storage": {
       "Storage": {}
