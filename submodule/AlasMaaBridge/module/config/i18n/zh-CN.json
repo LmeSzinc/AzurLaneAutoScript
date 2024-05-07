@@ -381,8 +381,8 @@
       "help": ""
     },
     "FirstTags": {
-      "name": "3星 Tag 时的 Tag 倾向，英文分号分隔",
-      "help": ""
+      "name": "三星 Tag 时的 Tag 倾向",
+      "help": "用英文;分隔"
     },
     "ExtraTagsMode": {
       "name": "公招多选 Tag 的策略",
