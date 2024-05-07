@@ -44,6 +44,10 @@
       "PenguinID": {
         "type": "input",
         "value": null
+      },
+      "ReportToYiTuLiu": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Emulator": {
@@ -210,6 +214,18 @@
         "value": 5,
         "display": "hide"
       },
+      "Series": {
+        "type": "select",
+        "value": 1,
+        "option": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
       "Drops": {
         "type": "textarea",
         "value": null,
@@ -311,6 +327,18 @@
         "type": "input",
         "value": null
       },
+      "Series": {
+        "type": "select",
+        "value": 1,
+        "option": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
       "Drops": {
         "type": "textarea",
         "value": null
@@ -411,6 +439,18 @@
         "type": "input",
         "value": null,
         "display": "hide"
+      },
+      "Series": {
+        "type": "select",
+        "value": 1,
+        "option": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
       },
       "Drops": {
         "type": "textarea",
@@ -606,6 +646,19 @@
       "Expedite": {
         "type": "checkbox",
         "value": false
+      },
+      "FirstTags": {
+        "type": "input",
+        "value": null
+      },
+      "ExtraTagsMode": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2
+        ]
       }
     },
     "Storage": {

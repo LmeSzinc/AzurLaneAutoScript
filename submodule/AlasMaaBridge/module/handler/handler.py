@@ -218,8 +218,10 @@ class AssistantHandler:
     def fight(self):
         args = {
             "report_to_penguin": self.config.MaaRecord_ReportToPenguin,
+            "report_to_yituliu": self.config.MaaRecord_ReportToYiTuLiu,
             "client_type": self.config.MaaEmulator_PackageName,
             "DrGrandet": self.config.MaaFight_DrGrandet,
+            "series": int(self.config.MaaFight_Series)
         }
         # Set stage
         if self.config.MaaFight_Stage == 'last':
@@ -307,7 +309,8 @@ class AssistantHandler:
             "confirm": confirm,
             "times": self.config.MaaRecruit_Times,
             "expedite": self.config.MaaRecruit_Expedite,
-            "skip_robot": self.config.MaaRecruit_SkipRobot
+            "skip_robot": self.config.MaaRecruit_SkipRobot,
+            "extra_tags_mode": self.config.MaaRecruit_ExtraTagsMode
         }
 
         if self.config.MaaRecruit_Level3ShortTime:
@@ -317,6 +320,9 @@ class AssistantHandler:
             args["penguin_id"] = self.config.MaaRecord_PenguinID
         elif self.config.MaaRecord_ReportToPenguin and not self.config.MaaRecord_PenguinID:
             self.callback_list.append(self.penguin_id_callback)
+
+        if self.config.MaaRecruit_FirstTags:
+            args["first_tags"] = self.config.MaaRecruit_FirstTags.split(';')
 
         self.maa_start('Recruit', args)
         self.config.task_delay(success=True)

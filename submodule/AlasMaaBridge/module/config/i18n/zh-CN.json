@@ -170,6 +170,10 @@
     "PenguinID": {
       "name": "企鹅物流ID",
       "help": "留空即可，第一次上传后会自动生成"
+    },
+    "ReportToYiTuLiu": {
+      "name": "上传到一图流",
+      "help": ""
     }
   },
   "MaaFight": {
@@ -219,6 +223,16 @@
     "Times": {
       "name": "指定次数",
       "help": ""
+    },
+    "Series": {
+      "name": "连战次数",
+      "help": "",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     },
     "Drops": {
       "name": "指定掉落",
@@ -365,6 +379,17 @@
     "Expedite": {
       "name": "自动使用加急许可",
       "help": ""
+    },
+    "FirstTags": {
+      "name": "三星 Tag 时的 Tag 倾向",
+      "help": "用英文;分隔"
+    },
+    "ExtraTagsMode": {
+      "name": "公招多选 Tag 的策略",
+      "help": "",
+      "0": "默认不选择额外 Tag",
+      "1": "选择高星时总是选择三个 Tag",
+      "2": "尽可能多地选且只选高星 Tag"
     }
   },
   "MaaInfrast": {

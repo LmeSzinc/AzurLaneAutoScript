@@ -37,6 +37,7 @@ class GeneratedConfig:
     # Group `MaaRecord`
     MaaRecord_ReportToPenguin = False
     MaaRecord_PenguinID = None
+    MaaRecord_ReportToYiTuLiu = False
 
     # Group `MaaFight`
     MaaFight_Stage = 'last'  # last, 1-7, LS-6, CA-5, SK-5, AP-5, CE-6, PR-A-1, PR-A-2, PR-B-1, PR-B-2, PR-C-1, PR-C-2, PR-D-1, PR-D-2, custom
@@ -45,6 +46,7 @@ class GeneratedConfig:
     MaaFight_Medicine = None
     MaaFight_Stone = None
     MaaFight_Times = None
+    MaaFight_Series = 1  # 1, 2, 3, 4, 5, 6
     MaaFight_Drops = None
     MaaFight_DrGrandet = False
 
@@ -67,6 +69,8 @@ class GeneratedConfig:
     MaaRecruit_Level3ShortTime = True
     MaaRecruit_Times = 4
     MaaRecruit_Expedite = False
+    MaaRecruit_FirstTags = None
+    MaaRecruit_ExtraTagsMode = 0  # 0, 1, 2
 
     # Group `MaaInfrast`
     MaaInfrast_Facility = 'Training > Mfg > Trade > Power > Control > Reception > Office > Dorm'
