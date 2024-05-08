@@ -15,15 +15,24 @@ class ModelProxy:
     @classmethod
     def init(cls, address="127.0.0.1:22268"):
         import zerorpc
+
+        logger.info(f"Connecting to OCR server {address}")
         cls.client = zerorpc.Client(timeout=5)
         cls.client.connect(f"tcp://{address}")
         try:
-            logger.info(f"Connecting to OCR server {address}")
             cls.client.hello()
             logger.info("Successfully connected to OCR server")
         except:
             cls.online = False
             logger.warning("Ocr server not running")
+
+    @classmethod
+    def close(cls):
+        if cls.client is not None:
+            logger.info('Disconnect to OCR server')
+            cls.client.close()
+            logger.info('Successfully disconnected to OCR server')
+            cls.client = None
 
     def __init__(self, lang) -> None:
         self.lang = lang
@@ -168,6 +177,9 @@ class ModelProxyFactory:
             return ModelProxy(lang=__name)
         else:
             return super().__getattribute__(__name)
+
+    def close(self):
+        ModelProxy.close()
 
 
 def start_ocr_server(port=22268):
