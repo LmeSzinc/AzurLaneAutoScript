@@ -113,6 +113,38 @@ class AlOcr(CnOcr):
 
         return super().set_cand_alphabet(cand_alphabet)
 
+    """
+    Atomic version of the OCR methods above
+    handling set_cand_alphabet inside
+    """
+
+    def atomic_ocr(self, img_fp, cand_alphabet=None):
+        if not self._model_loaded:
+            self.init(*self._args)
+            self._model_loaded = True
+
+        super().set_cand_alphabet(cand_alphabet)
+
+        return super().ocr(img_fp)
+
+    def atomic_ocr_for_single_line(self, img_fp, cand_alphabet=None):
+        if not self._model_loaded:
+            self.init(*self._args)
+            self._model_loaded = True
+
+        super().set_cand_alphabet(cand_alphabet)
+
+        return super().ocr_for_single_line(img_fp)
+
+    def atomic_ocr_for_single_lines(self, img_list, cand_alphabet=None):
+        if not self._model_loaded:
+            self.init(*self._args)
+            self._model_loaded = True
+
+        super().set_cand_alphabet(cand_alphabet)
+
+        return super().ocr_for_single_lines(img_list)
+
     def _assert_and_prepare_model_files(self):
         model_dir = self._model_dir
         model_files = [
