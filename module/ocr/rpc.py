@@ -88,6 +88,60 @@ class ModelProxy:
         from module.ocr.models import OCR_MODEL
         return OCR_MODEL.__getattribute__(self.lang).set_cand_alphabet(cand_alphabet)
 
+    def atomic_ocr(self, img_fp, cand_alphabet=None):
+        """
+        Args:
+            img_fp (np.ndarray):
+            cand_alphabet:
+
+        Returns:
+
+        """
+        if self.online:
+            img_str = img_fp.dumps()
+            try:
+                return self.client("atomic_ocr", self.lang, img_str, cand_alphabet)
+            except:
+                self.online = False
+        from module.ocr.models import OCR_MODEL
+        return OCR_MODEL.__getattribute__(self.lang).atomic_ocr(img_fp, cand_alphabet)
+
+    def atomic_ocr_for_single_line(self, img_fp, cand_alphabet=None):
+        """
+        Args:
+            img_fp (np.ndarray):
+            cand_alphabet:
+
+        Returns:
+
+        """
+        if self.online:
+            img_str = img_fp.dumps()
+            try:
+                return self.client("atomic_ocr_for_single_line", self.lang, img_str, cand_alphabet)
+            except:
+                self.online = False
+        from module.ocr.models import OCR_MODEL
+        return OCR_MODEL.__getattribute__(self.lang).atomic_ocr_for_single_line(img_fp, cand_alphabet)
+
+    def atomic_ocr_for_single_lines(self, img_list, cand_alphabet=None):
+        """
+        Args:
+            img_list (list[np.ndarray]):
+            cand_alphabet:
+
+        Returns:
+
+        """
+        if self.online:
+            img_str_list = [img_fp.dumps() for img_fp in img_list]
+            try:
+                return self.client("atomic_ocr_for_single_lines", self.lang, img_str_list, cand_alphabet)
+            except:
+                self.online = False
+        from module.ocr.models import OCR_MODEL
+        return OCR_MODEL.__getattribute__(self.lang).atomic_ocr_for_single_lines(img_list, cand_alphabet)
+
     def debug(self, img_list):
         """
         Args:
@@ -144,6 +198,21 @@ def start_ocr_server(port=22268):
         def set_cand_alphabet(self, lang, cand_alphabet):
             cnocr: AlOcr = self.__getattribute__(lang)
             return cnocr.set_cand_alphabet(cand_alphabet)
+
+        def atomic_ocr(self, lang, img_fp, cand_alphabet):
+            img_fp = pickle.loads(img_fp)
+            cnocr: AlOcr = self.__getattribute__(lang)
+            return cnocr.atomic_ocr(img_fp, cand_alphabet)
+
+        def atomic_ocr_for_single_line(self, lang, img_fp, cand_alphabet):
+            img_fp = pickle.loads(img_fp)
+            cnocr: AlOcr = self.__getattribute__(lang)
+            return cnocr.atomic_ocr_for_single_line(img_fp, cand_alphabet)
+
+        def atomic_ocr_for_single_lines(self, lang, img_list, cand_alphabet):
+            img_list = [pickle.loads(img_fp) for img_fp in img_list]
+            cnocr: AlOcr = self.__getattribute__(lang)
+            return cnocr.atomic_ocr_for_single_lines(img_list, cand_alphabet)
 
         def debug(self, lang, img_list):
             img_list = [pickle.loads(img_fp) for img_fp in img_list]
