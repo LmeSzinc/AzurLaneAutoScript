@@ -79,6 +79,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         Returns:
             bool:
         """
+        self.device.stuck_record_add(PAUSE)
         color = get_color(self.device.image, PAUSE.area)
         if color_similar(color, PAUSE.color) or color_similar(color, (238, 244, 248)):
             if np.max(self.image_crop(PAUSE_DOUBLE_CHECK)) < 153:
