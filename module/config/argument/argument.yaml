@@ -278,6 +278,23 @@ GemsFarming:
     value: any
     option: [ any, aulick_or_foote , cassin_or_downes ]
   CommissionLimit: true
+CampaignStorage:
+  Oil:
+    stored: StoredOil
+    order: 1
+    color: "#000000"
+  Coin:
+    stored: StoredCoin
+    order: 2
+    color: "#FFAA33"
+  Gem:
+    stored: StoredInt
+    order: 3
+    color: "#FF3333"
+  Pt:
+    stored: StoredInt
+    order: 4
+    color: "#00BFFF"
 
 # ==================== Event ====================
 
@@ -308,11 +325,6 @@ Coalition:
   Fleet:
     value: single
     option: [ single, multi ]
-EventStorage:
-  Pt:
-    stored: StoredInt
-    order: 4
-    color: "#00BFFF"
 
 # ==================== Reward ====================
 
@@ -526,23 +538,6 @@ MeritShop:
 CoreShop:
   Filter: |-
     Array
-ShopStorage:
-  Merit:
-    stored: StoredInt
-    order: 9
-    color: "#FFFF00"
-  Core:
-    stored: StoredInt
-    order: 10
-    color: "#AAAAAA"
-  Medal:
-    stored: StoredInt
-    order: 11
-    color: "#FFDD00"
-  GuildCoin:
-    stored: StoredInt
-    order: 12
-    color: "#AAAAAA"
 ShipyardDr:
   ResearchSeries:
     value: 2
@@ -587,22 +582,10 @@ SupplyPack:
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
 Minigame:
   Collect: false
-ItemStorage:
-  Oil:
-    stored: StoredOil
-    order: 1
-    color: "#000000"
-  Coin:
-    stored: StoredCoin
-    order: 2
-    color: "#FFAA33"
-  Gem:
-    stored: StoredInt
-    order: 3
-    color: "#FF3333"
+GachaStorage:
   Cube:
     stored: StoredInt
-    order: 8
+    order: 5
     color: "#33FFFF"
 
 # ==================== Daily ====================
@@ -738,11 +721,11 @@ OpsiHazard1Leveling:
 OpsiStorage:
   YellowCoin:
     stored: StoredInt
-    order: 5
+    order: 7
     color: "#FF8800"
   PurpleCoin:
     stored: StoredInt
-    order: 7
+    order: 8
     color: "#7700BB"
   ActionPoint:
     stored: StoredInt

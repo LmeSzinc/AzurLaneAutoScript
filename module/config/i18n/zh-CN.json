@@ -1162,6 +1162,28 @@
       "help": "在7x24运行时防止紧急委托数量过多做不完每日委托，建议在委托过滤器仅选择短时长高收益委托"
     }
   },
+  "CampaignStorage": {
+    "_info": {
+      "name": "CampaignStorage._info.name",
+      "help": ""
+    },
+    "Oil": {
+      "name": "石油",
+      "help": ""
+    },
+    "Coin": {
+      "name": "物资",
+      "help": ""
+    },
+    "Gem": {
+      "name": "钻石",
+      "help": ""
+    },
+    "Pt": {
+      "name": "活动PT",
+      "help": ""
+    }
+  },
   "EventGeneral": {
     "_info": {
       "name": "活动通用设置",
@@ -1259,16 +1281,6 @@
       "help": "",
       "single": "单队连战",
       "multi": "多队出击"
-    }
-  },
-  "EventStorage": {
-    "_info": {
-      "name": "EventStorage._info.name",
-      "help": "EventStorage._info.help"
-    },
-    "Pt": {
-      "name": "活动PT",
-      "help": ""
     }
   },
   "Commission": {
@@ -1791,28 +1803,6 @@
       "help": ""
     }
   },
-  "ShopStorage": {
-    "_info": {
-      "name": "ShopStorage._info.name",
-      "help": "ShopStorage._info.help"
-    },
-    "Merit": {
-      "name": "功勋",
-      "help": ""
-    },
-    "Core": {
-      "name": "核心数据",
-      "help": ""
-    },
-    "Medal": {
-      "name": "勋章",
-      "help": ""
-    },
-    "GuildCoin": {
-      "name": "舰队币",
-      "help": ""
-    }
-  },
   "ShipyardDr": {
     "_info": {
       "name": "彩科研图纸购买设置",
@@ -1987,22 +1977,10 @@
       "help": ""
     }
   },
-  "ItemStorage": {
+  "GachaStorage": {
     "_info": {
-      "name": "ItemStorage._info.name",
-      "help": "ItemStorage._info.help"
-    },
-    "Oil": {
-      "name": "石油",
-      "help": ""
-    },
-    "Coin": {
-      "name": "物资",
-      "help": ""
-    },
-    "Gem": {
-      "name": "钻石",
-      "help": ""
+      "name": "GachaStorage._info.name",
+      "help": "GachaStorage._info.help"
     },
     "Cube": {
       "name": "魔方",

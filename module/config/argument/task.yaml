@@ -71,7 +71,7 @@ Event:
     EventGeneral:
       - EventGeneral
       - TaskBalancer
-      - EventStorage
+      - CampaignStorage
     Event:
       - Scheduler
       - Campaign
@@ -193,7 +193,6 @@ Reward:
     Commission:
       - Scheduler
       - Commission
-      - ItemStorage
     Tactical:
       - Scheduler
       - Tactical
@@ -242,7 +241,6 @@ DailyMission:
       - MedalShop2
       - MeritShop
       - CoreShop
-      - ShopStorage
     Shipyard:
       - Scheduler
       - ShipyardDr
@@ -250,6 +248,7 @@ DailyMission:
     Gacha:
       - Scheduler
       - Gacha
+      - GachaStorage
     Freebies:
       - Scheduler
       - BattlePass

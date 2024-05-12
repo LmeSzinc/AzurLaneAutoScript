@@ -1162,6 +1162,28 @@
       "help": "在7x24運行時防止緊急委託數量過多做不完每日委託，建議在委託過濾器僅選擇短時長高收益委託"
     }
   },
+  "CampaignStorage": {
+    "_info": {
+      "name": "CampaignStorage._info.name",
+      "help": "CampaignStorage._info.help"
+    },
+    "Oil": {
+      "name": "石油",
+      "help": ""
+    },
+    "Coin": {
+      "name": "物資",
+      "help": ""
+    },
+    "Gem": {
+      "name": "鑽石",
+      "help": ""
+    },
+    "Pt": {
+      "name": "活動PT",
+      "help": ""
+    }
+  },
   "EventGeneral": {
     "_info": {
       "name": "活動通用設定",
@@ -1259,16 +1281,6 @@
       "help": "",
       "single": "單隊連戰",
       "multi": "多隊出擊"
-    }
-  },
-  "EventStorage": {
-    "_info": {
-      "name": "EventStorage._info.name",
-      "help": "EventStorage._info.help"
-    },
-    "Pt": {
-      "name": "活動PT",
-      "help": ""
     }
   },
   "Commission": {
@@ -1791,28 +1803,6 @@
       "help": ""
     }
   },
-  "ShopStorage": {
-    "_info": {
-      "name": "ShopStorage._info.name",
-      "help": "ShopStorage._info.help"
-    },
-    "Merit": {
-      "name": "勳章",
-      "help": ""
-    },
-    "Core": {
-      "name": "覈心數據",
-      "help": ""
-    },
-    "Medal": {
-      "name": "勳章",
-      "help": ""
-    },
-    "GuildCoin": {
-      "name": "艦隊幣",
-      "help": ""
-    }
-  },
   "ShipyardDr": {
     "_info": {
       "name": "彩科研圖紙購買設定",
@@ -1987,22 +1977,10 @@
       "help": ""
     }
   },
-  "ItemStorage": {
+  "GachaStorage": {
     "_info": {
-      "name": "ItemStorage._info.name",
-      "help": "ItemStorage._info.help"
-    },
-    "Oil": {
-      "name": "石油",
-      "help": ""
-    },
-    "Coin": {
-      "name": "物資",
-      "help": ""
-    },
-    "Gem": {
-      "name": "鑽石",
-      "help": ""
+      "name": "GachaStorage._info.name",
+      "help": "GachaStorage._info.help"
     },
     "Cube": {
       "name": "魔方",

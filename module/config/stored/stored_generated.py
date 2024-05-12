@@ -11,15 +11,11 @@ from module.config.stored.classes import (
 # ``` python -m module/config/config_updater.py ```
 
 class StoredGenerated:
-    Pt = StoredInt("EventGeneral.EventStorage.Pt")
-    Oil = StoredOil("Commission.ItemStorage.Oil")
-    Coin = StoredCoin("Commission.ItemStorage.Coin")
-    Gem = StoredInt("Commission.ItemStorage.Gem")
-    Cube = StoredInt("Commission.ItemStorage.Cube")
-    Merit = StoredInt("ShopOnce.ShopStorage.Merit")
-    Core = StoredInt("ShopOnce.ShopStorage.Core")
-    Medal = StoredInt("ShopOnce.ShopStorage.Medal")
-    GuildCoin = StoredInt("ShopOnce.ShopStorage.GuildCoin")
+    Oil = StoredOil("EventGeneral.CampaignStorage.Oil")
+    Coin = StoredCoin("EventGeneral.CampaignStorage.Coin")
+    Gem = StoredInt("EventGeneral.CampaignStorage.Gem")
+    Pt = StoredInt("EventGeneral.CampaignStorage.Pt")
+    Cube = StoredInt("Gacha.GachaStorage.Cube")
     YellowCoin = StoredInt("OpsiGeneral.OpsiStorage.YellowCoin")
     PurpleCoin = StoredInt("OpsiGeneral.OpsiStorage.PurpleCoin")
     ActionPoint = StoredInt("OpsiGeneral.OpsiStorage.ActionPoint")

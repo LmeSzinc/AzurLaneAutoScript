@@ -1162,6 +1162,28 @@
       "help": "GemsFarming.CommissionLimit.help"
     }
   },
+  "CampaignStorage": {
+    "_info": {
+      "name": "CampaignStorage._info.name",
+      "help": "CampaignStorage._info.help"
+    },
+    "Oil": {
+      "name": "CampaignStorage.Oil.name",
+      "help": "CampaignStorage.Oil.help"
+    },
+    "Coin": {
+      "name": "CampaignStorage.Coin.name",
+      "help": "CampaignStorage.Coin.help"
+    },
+    "Gem": {
+      "name": "CampaignStorage.Gem.name",
+      "help": "CampaignStorage.Gem.help"
+    },
+    "Pt": {
+      "name": "CampaignStorage.Pt.name",
+      "help": "CampaignStorage.Pt.help"
+    }
+  },
   "EventGeneral": {
     "_info": {
       "name": "EventGeneral._info.name",
@@ -1259,16 +1281,6 @@
       "help": "Coalition.Fleet.help",
       "single": "single",
       "multi": "multi"
-    }
-  },
-  "EventStorage": {
-    "_info": {
-      "name": "EventStorage._info.name",
-      "help": "EventStorage._info.help"
-    },
-    "Pt": {
-      "name": "EventStorage.Pt.name",
-      "help": "EventStorage.Pt.help"
     }
   },
   "Commission": {
@@ -1791,28 +1803,6 @@
       "help": "CoreShop.Filter.help"
     }
   },
-  "ShopStorage": {
-    "_info": {
-      "name": "ShopStorage._info.name",
-      "help": "ShopStorage._info.help"
-    },
-    "Merit": {
-      "name": "ShopStorage.Merit.name",
-      "help": "ShopStorage.Merit.help"
-    },
-    "Core": {
-      "name": "ShopStorage.Core.name",
-      "help": "ShopStorage.Core.help"
-    },
-    "Medal": {
-      "name": "ShopStorage.Medal.name",
-      "help": "ShopStorage.Medal.help"
-    },
-    "GuildCoin": {
-      "name": "ShopStorage.GuildCoin.name",
-      "help": "ShopStorage.GuildCoin.help"
-    }
-  },
   "ShipyardDr": {
     "_info": {
       "name": "ShipyardDr._info.name",
@@ -1987,26 +1977,14 @@
       "help": "Minigame.Collect.help"
     }
   },
-  "ItemStorage": {
+  "GachaStorage": {
     "_info": {
-      "name": "ItemStorage._info.name",
-      "help": "ItemStorage._info.help"
-    },
-    "Oil": {
-      "name": "ItemStorage.Oil.name",
-      "help": "ItemStorage.Oil.help"
-    },
-    "Coin": {
-      "name": "ItemStorage.Coin.name",
-      "help": "ItemStorage.Coin.help"
-    },
-    "Gem": {
-      "name": "ItemStorage.Gem.name",
-      "help": "ItemStorage.Gem.help"
+      "name": "GachaStorage._info.name",
+      "help": "GachaStorage._info.help"
     },
     "Cube": {
-      "name": "ItemStorage.Cube.name",
-      "help": "ItemStorage.Cube.help"
+      "name": "GachaStorage.Cube.name",
+      "help": "GachaStorage.Cube.help"
     }
   },
   "Daily": {

@@ -154,6 +154,12 @@ class GeneratedConfig:
     GemsFarming_CommonDD = 'any'  # any, aulick_or_foote, cassin_or_downes
     GemsFarming_CommissionLimit = True
 
+    # Group `CampaignStorage`
+    CampaignStorage_Oil = {}
+    CampaignStorage_Coin = {}
+    CampaignStorage_Gem = {}
+    CampaignStorage_Pt = {}
+
     # Group `EventGeneral`
     EventGeneral_PtLimit = 0
     EventGeneral_TimeLimit = datetime.datetime(2020, 1, 1, 0, 0)
@@ -179,9 +185,6 @@ class GeneratedConfig:
 
     # Group `Coalition`
     Coalition_Fleet = 'single'  # single, multi
-
-    # Group `EventStorage`
-    EventStorage_Pt = {}
 
     # Group `Commission`
     Commission_PresetFilter = 'cube'  # cube, cube_24h, chip, chip_24h, oil, custom
@@ -291,12 +294,6 @@ class GeneratedConfig:
     # Group `CoreShop`
     CoreShop_Filter = 'Array'
 
-    # Group `ShopStorage`
-    ShopStorage_Merit = {}
-    ShopStorage_Core = {}
-    ShopStorage_Medal = {}
-    ShopStorage_GuildCoin = {}
-
     # Group `ShipyardDr`
     ShipyardDr_ResearchSeries = 2  # 2, 3
     ShipyardDr_ShipIndex = 0  # 0, 1, 2, 3, 4, 5, 6
@@ -334,11 +331,8 @@ class GeneratedConfig:
     # Group `Minigame`
     Minigame_Collect = False
 
-    # Group `ItemStorage`
-    ItemStorage_Oil = {}
-    ItemStorage_Coin = {}
-    ItemStorage_Gem = {}
-    ItemStorage_Cube = {}
+    # Group `GachaStorage`
+    GachaStorage_Cube = {}
 
     # Group `Daily`
     Daily_UseDailySkip = True

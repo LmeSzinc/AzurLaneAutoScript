@@ -1162,6 +1162,28 @@
       "help": "When running 7x24, prevent having a lot of urgent commissions and not being able to complete daily commissions. It is recommended to select only short-terms and high-yields in the commission filter"
     }
   },
+  "CampaignStorage": {
+    "_info": {
+      "name": "CampaignStorage._info.name",
+      "help": "CampaignStorage._info.help"
+    },
+    "Oil": {
+      "name": "Oil",
+      "help": ""
+    },
+    "Coin": {
+      "name": "Coin",
+      "help": ""
+    },
+    "Gem": {
+      "name": "Gem",
+      "help": ""
+    },
+    "Pt": {
+      "name": "Event Pt",
+      "help": ""
+    }
+  },
   "EventGeneral": {
     "_info": {
       "name": "Event General Settings",
@@ -1259,16 +1281,6 @@
       "help": "",
       "single": "Solo Challenge",
       "multi": "Coalition Battle"
-    }
-  },
-  "EventStorage": {
-    "_info": {
-      "name": "EventStorage._info.name",
-      "help": "EventStorage._info.help"
-    },
-    "Pt": {
-      "name": "Event Pt",
-      "help": ""
     }
   },
   "Commission": {
@@ -1791,28 +1803,6 @@
       "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>\nHowever unlike other shops, only Chip and Array are supported\nALAS does not browse, scroll, or recognize any other items displayed besides those two"
     }
   },
-  "ShopStorage": {
-    "_info": {
-      "name": "ShopStorage._info.name",
-      "help": "ShopStorage._info.help"
-    },
-    "Merit": {
-      "name": "Merit",
-      "help": ""
-    },
-    "Core": {
-      "name": "Core Data",
-      "help": ""
-    },
-    "Medal": {
-      "name": "Medal",
-      "help": ""
-    },
-    "GuildCoin": {
-      "name": "Guild Coin",
-      "help": ""
-    }
-  },
   "ShipyardDr": {
     "_info": {
       "name": "DR Blueprints Purchase Settings",
@@ -1987,22 +1977,10 @@
       "help": ""
     }
   },
-  "ItemStorage": {
+  "GachaStorage": {
     "_info": {
-      "name": "ItemStorage._info.name",
-      "help": "ItemStorage._info.help"
-    },
-    "Oil": {
-      "name": "Oil",
-      "help": ""
-    },
-    "Coin": {
-      "name": "Coin",
-      "help": ""
-    },
-    "Gem": {
-      "name": "Gem",
-      "help": ""
+      "name": "GachaStorage._info.name",
+      "help": "GachaStorage._info.help"
     },
     "Cube": {
       "name": "Cube",
