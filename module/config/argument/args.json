@@ -1920,7 +1920,31 @@
         ]
       }
     },
-    "EventStorage": {
+    "CampaignStorage": {
+      "Oil": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredOil",
+        "order": 1,
+        "color": "#000000"
+      },
+      "Coin": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredCoin",
+        "order": 2,
+        "color": "#FFAA33"
+      },
+      "Gem": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredInt",
+        "order": 3,
+        "color": "#FF3333"
+      },
       "Pt": {
         "type": "stored",
         "value": {},
@@ -6648,40 +6672,6 @@
         "value": false
       }
     },
-    "ItemStorage": {
-      "Oil": {
-        "type": "stored",
-        "value": {},
-        "display": "hide",
-        "stored": "StoredOil",
-        "order": 1,
-        "color": "#000000"
-      },
-      "Coin": {
-        "type": "stored",
-        "value": {},
-        "display": "hide",
-        "stored": "StoredCoin",
-        "order": 2,
-        "color": "#FFAA33"
-      },
-      "Gem": {
-        "type": "stored",
-        "value": {},
-        "display": "hide",
-        "stored": "StoredInt",
-        "order": 3,
-        "color": "#FF3333"
-      },
-      "Cube": {
-        "type": "stored",
-        "value": {},
-        "display": "hide",
-        "stored": "StoredInt",
-        "order": 8,
-        "color": "#33FFFF"
-      }
-    },
     "Storage": {
       "Storage": {
         "type": "storage",
@@ -7871,40 +7861,6 @@
         "value": "Array"
       }
     },
-    "ShopStorage": {
-      "Merit": {
-        "type": "stored",
-        "value": {},
-        "display": "hide",
-        "stored": "StoredInt",
-        "order": 9,
-        "color": "#FFFF00"
-      },
-      "Core": {
-        "type": "stored",
-        "value": {},
-        "display": "hide",
-        "stored": "StoredInt",
-        "order": 10,
-        "color": "#AAAAAA"
-      },
-      "Medal": {
-        "type": "stored",
-        "value": {},
-        "display": "hide",
-        "stored": "StoredInt",
-        "order": 11,
-        "color": "#FFDD00"
-      },
-      "GuildCoin": {
-        "type": "stored",
-        "value": {},
-        "display": "hide",
-        "stored": "StoredInt",
-        "order": 12,
-        "color": "#AAAAAA"
-      }
-    },
     "Storage": {
       "Storage": {
         "type": "storage",
@@ -8098,6 +8054,16 @@
         "value": false
       }
     },
+    "GachaStorage": {
+      "Cube": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredInt",
+        "order": 5,
+        "color": "#33FFFF"
+      }
+    },
     "Storage": {
       "Storage": {
         "type": "storage",
@@ -8287,7 +8253,7 @@
         "value": {},
         "display": "hide",
         "stored": "StoredInt",
-        "order": 5,
+        "order": 7,
         "color": "#FF8800"
       },
       "PurpleCoin": {
@@ -8295,7 +8261,7 @@
         "value": {},
         "display": "hide",
         "stored": "StoredInt",
-        "order": 7,
+        "order": 8,
         "color": "#7700BB"
       },
       "ActionPoint": {
