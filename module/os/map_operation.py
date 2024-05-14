@@ -142,12 +142,11 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         return self.zone
 
     def zone_config_set(self):
+        self.config.MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
         if self.zone.region == 5:
             self.config.HOMO_EDGE_COLOR_RANGE = (0, 8)
-            self.config.MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
         else:
             self.config.HOMO_EDGE_COLOR_RANGE = (0, 33)
-            self.config.MAP_ENSURE_EDGE_INSIGHT_CORNER = ''
 
     def zone_init(self, fallback_init=True, skip_first_screenshot=True):
         """
