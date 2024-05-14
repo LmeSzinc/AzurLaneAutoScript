@@ -666,7 +666,22 @@ OpsiExplore:
   ForceRun: false
   LastZone: 0
 OpsiShop:
-  BuySupply: true
+  ScanFrequencyLimit:
+    value: weekly
+    option:
+      - everyday
+      - weekly
+      - everyday_of_week_before_reset
+  PresetFilter:
+    value: max_benefit_meta
+    option:
+      - max_benefit
+      - max_benefit_meta
+      - no_meta
+      - all
+      - custom
+  CustomFilter: |-
+      Logger
 OpsiVoucher:
   Filter: |-
     LoggerAbyssal > LoggerObscure > Book > Coin > Fragment

@@ -388,7 +388,9 @@ class GeneratedConfig:
     OpsiExplore_LastZone = 0
 
     # Group `OpsiShop`
-    OpsiShop_BuySupply = True
+    OpsiShop_ScanFrequencyLimit = 'weekly'  # everyday, weekly, everyday_of_week_before_reset
+    OpsiShop_PresetFilter = 'max_benefit_meta'  # max_benefit, max_benefit_meta, no_meta, all, custom
+    OpsiShop_CustomFilter = 'Logger'
 
     # Group `OpsiVoucher`
     OpsiVoucher_Filter = 'LoggerAbyssal > LoggerObscure > Book > Coin > Fragment'
