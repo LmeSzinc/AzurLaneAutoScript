@@ -4,6 +4,11 @@ from module.statistics.item import Item, ItemGrid
 
 
 class OSShopItem(Item):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._shop_index = None
+        self._scroll_pos = None
+
     @property
     def shop_index(self):
         return self._shop_index
@@ -32,14 +37,15 @@ class OSShopItem(Item):
 
     def __eq__(self, other):
         return hash(self) == hash(other)
-    
+
     def __hash__(self):
         return hash((self.name, self.price, self.cost, self.shop_index, self.scroll_pos))
+
 
 class OSShopItemGrid(ItemGrid):
     item_class = OSShopItem
 
-    def predict(self, image, shop_index=False, scroll_pos=False) -> List[OSShopItem]:
+    def predict(self, image, shop_index=None, scroll_pos=None) -> List[OSShopItem]:
         """
         Args:
             image (np.ndarray):

@@ -74,7 +74,6 @@ class OSShop(PortShop, AkashiShop):
                 return count
             else:
                 self.os_shop_buy_execute(button)
-                self.os_shop_get_coins()
                 count += 1
                 continue
 

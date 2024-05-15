@@ -17,6 +17,9 @@ OCR_OS_SHOP_PURPLE_COINS = Digit(OS_SHOP_PURPLE_COINS, letter=(255, 255, 255), n
 
 
 class OSStatus(UI):
+    _shop_yellow_coins = 0
+    _shop_purple_coins = 0
+
     @property
     def is_in_task_explore(self) -> bool:
         return self.config.task.command == 'OpsiExplore'
@@ -81,3 +84,8 @@ class OSStatus(UI):
             return OCR_OS_SHOP_PURPLE_COINS.ocr(self.device.image)
         else:
             return OCR_SHOP_PURPLE_COINS.ocr(self.device.image)
+
+    def os_shop_get_coins(self):
+        self._shop_yellow_coins = self.get_yellow_coins()
+        self._shop_purple_coins = self.get_purple_coins()
+        logger.info(f'Yellow coins: {self._shop_yellow_coins}, purple coins: {self._shop_purple_coins}')

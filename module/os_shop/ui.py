@@ -12,6 +12,7 @@ from module.ui.scroll import Scroll
 from module.ui.ui import UI
 
 OS_SHOP_SCROLL = Scroll(OS_SHOP_SCROLL_AREA, color=(148, 174, 231), name="OS_SHOP_SCROLL")
+OS_SHOP_SCROLL.color_threshold = 210
 OS_SHOP_SCROLL.edge_threshold = 0.05
 OS_SHOP_SCROLL.drag_threshold = 0.05
 

@@ -13,9 +13,6 @@ from module.statistics.utils import load_folder
 
 
 class PortShop(OSStatus, OSShopUI, Selector, MapEventHandler):
-    _shop_yellow_coins = 0
-    _shop_purple_coins = 0
-
     @cached_property
     def TEMPLATES(self) -> List[Template]:
         TEMPLATES = []
@@ -26,11 +23,6 @@ class PortShop(OSStatus, OSShopUI, Selector, MapEventHandler):
         for c in coins_sold_out.values():
             TEMPLATES.append(Template(c))
         return TEMPLATES
-
-    def os_shop_get_coins(self):
-        self._shop_yellow_coins = self.get_yellow_coins()
-        self._shop_purple_coins = self.get_purple_coins()
-        logger.info(f'Yellow coins: {self._shop_yellow_coins}, purple coins: {self._shop_purple_coins}')
 
     def _get_os_shop_cost(self) -> list:
         """

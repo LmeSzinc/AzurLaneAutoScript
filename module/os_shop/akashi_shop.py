@@ -58,7 +58,7 @@ class AkashiShop(OSStatus, OSShopUI, Selector, MapEventHandler):
         shop_items.load_cost_template_folder('./assets/shop/os_cost')
         return shop_items
 
-    def os_shop_get_items_in_akashi(self, name=True) -> List[Item]:
+    def os_shop_get_items_in_akashi(self) -> List[Item]:
         """
         Args:
             name (bool): If detect item name. True if detect akashi shop, false if detect port shop.
@@ -88,14 +88,14 @@ class AkashiShop(OSStatus, OSShopUI, Selector, MapEventHandler):
             list[Item]:
         """
         self.os_shop_get_coins()
-        items = self.os_shop_get_items_in_akashi(name=True)
+        items = self.os_shop_get_items_in_akashi()
         # Shop supplies do not appear immediately, need to confirm if shop is empty.
         for _ in range(2):
             if not len(items) or any(not item.is_known_item() for item in items):
                 logger.warning('Empty akashi shop or empty items, confirming')
                 self.device.sleep((0.3, 0.5))
                 self.device.screenshot()
-                items = self.os_shop_get_items_in_akashi(name=True)
+                items = self.os_shop_get_items_in_akashi()
                 continue
             else:
                 items = self.items_filter_in_akashi_shop(items)
