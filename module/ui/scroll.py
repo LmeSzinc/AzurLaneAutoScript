@@ -1,9 +1,10 @@
 import numpy as np
+from scipy import signal
 
 from module.base.base import ModuleBase
 from module.base.button import Button
 from module.base.timer import Timer
-from module.base.utils import color_similarity_2d, random_rectangle_point
+from module.base.utils import color_similarity_2d, random_rectangle_point, rgb2gray
 from module.logger import logger
 
 
@@ -196,3 +197,49 @@ class Scroll:
 
     def prev_page(self, main, page=0.8, random_range=(-0.01, 0.01), skip_first_screenshot=True):
         return self.drag_page(-page, main=main, random_range=random_range, skip_first_screenshot=skip_first_screenshot)
+
+
+class AdaptiveScroll(Scroll):
+    def __init__(self, area, parameters: dict = None, background=5, is_vertical=True, name='Scroll'):
+        """
+        Args:
+            area (Button, tuple): A button or area of the whole scroll.
+            prominence (dict): Parameters passing to scipy.find_peaks
+            background (int):
+            is_vertical (bool): True if vertical, false if horizontal.
+            name (str):
+        """
+        if parameters is None:
+            parameters = {}
+        self.parameters = parameters
+        self.background = background
+        super().__init__(area, color=(255, 255, 255), is_vertical=is_vertical, name=name)
+
+    def match_color(self, main):
+        if self.is_vertical:
+            area = (self.area[0] - self.background, self.area[1], self.area[2] + self.background, self.area[3])
+            image = main.image_crop(area, copy=False)
+            image = rgb2gray(image)
+            image = image.flatten()
+            wlen = area[2] - area[0]
+        else:
+            area = (self.area[0], self.area[1] - self.background, self.area[2], self.area[3] + self.background)
+            image = main.image_crop(area, copy=False)
+            image = rgb2gray(image)
+            image = image.flatten('F')
+            wlen = area[3] - area[1]
+
+        parameters = {
+            'height': 128,
+            'prominence': 30,
+            'wlen': wlen,
+            'width': 2,
+        }
+        parameters.update(self.parameters)
+        peaks, _ = signal.find_peaks(image, **parameters)
+        peaks //= wlen
+
+        self.length = len(peaks)
+        mask = np.zeros((self.total,), dtype=np.bool_)
+        mask[peaks] = 1
+        return mask
