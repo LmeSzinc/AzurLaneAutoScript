@@ -8,13 +8,16 @@ from module.ocr.ocr import DigitYuv
 from module.os_shop.assets import OS_SHOP_SAFE_AREA, OS_SHOP_SCROLL_AREA, PORT_SUPPLY_CHECK
 from module.logger import logger
 from module.ui.navbar import Navbar
-from module.ui.scroll import Scroll
+from module.ui.scroll import AdaptiveScroll, Scroll
 from module.ui.ui import UI
 
-OS_SHOP_SCROLL = Scroll(OS_SHOP_SCROLL_AREA, color=(148, 174, 231), name="OS_SHOP_SCROLL")
-OS_SHOP_SCROLL.color_threshold = 210
-OS_SHOP_SCROLL.edge_threshold = 0.05
-OS_SHOP_SCROLL.drag_threshold = 0.05
+OS_SHOP_SCROLL = AdaptiveScroll(
+    OS_SHOP_SCROLL_AREA.button,
+    parameters={
+        'height': 255 - 99
+    },
+    name="OS_SHOP_SCROLL")
+
 
 class OSShopPrice(DigitYuv):
     def after_process(self, result):
@@ -28,6 +31,7 @@ class OSShopPrice(DigitYuv):
 
         result = super().after_process(result)
         return result
+
 
 class OSShopUI(UI):
     def os_shop_load_ensure(self, skip_first_screenshot=True):
