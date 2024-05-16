@@ -8,12 +8,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: "smallkai"
-      - name: pack
-        run: make all
+      - name: generate config
+        run: cmake -B build
+      - name: install
+        run: cmake --install build
       - name: upload artifact to github
         uses: actions/upload-artifact@v4
         with:
           name: Alas
-          path: pack/Alas.zip
+          path: install
           if-no-files-found: error
 
