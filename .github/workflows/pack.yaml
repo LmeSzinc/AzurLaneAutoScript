@@ -1,5 +1,5 @@
 name: pack
-on: push
+on: [workflow_dispatch, push]
 jobs:
   main:
     runs-on: ubuntu-latest
