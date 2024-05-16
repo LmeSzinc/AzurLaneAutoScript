@@ -248,8 +248,9 @@ class OperationSiren(OSMap):
 
         next_reset = self._os_shop_delay(not_empty)
         logger.info('OS port daily finished, delay to next reset')
-        logger.attr('OpsiNextReset', next_reset)
+        logger.attr('OpsiShopNextReset', next_reset)
         self.config.task_delay(target=next_reset)
+        self.config.task_stop()
 
     def _os_shop_delay(self, not_empty) -> datetime:
         """
