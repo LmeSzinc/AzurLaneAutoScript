@@ -193,3 +193,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20240411   | event 20220224 cn        | Abyssal Refrain Rerun                        | 复刻深度回音           | Abyssal Refrain Rerun                        | 鳴動せし星霜の淵（復刻）               | -                        |
 | 20240425 | event 20230817 cn        | The Fool's Scales                            | -              | -                            | -                            | 愚者的天平                        |
 | 20240425 | event 20240425 cn | Heart-Linking Harmony | 共鸣的PASSION | Heart-Linking Harmony | 共鳴のパッション | - |
+| 20240509   | event 20210916 cn        | Upon the Shimmering Blue                     | -      | -  | -  | 復刻碧海光粼                        |
