@@ -66,8 +66,8 @@ class Reward(UI):
         both 'all' and 'weekly' pages
 
         Args:
-            interval (int): Configure the interval for
-                            assets involved
+            interval (int, float):
+                Configure the interval for assets involved
 
         Returns:
             bool, if encountered at least 1 GET_ITEMS_*
@@ -179,7 +179,7 @@ class Reward(UI):
         # Uses no interval to account for
         # behavior differences and avoid
         # premature exit
-        return self._reward_mission_collect(interval=0)
+        return self._reward_mission_collect(interval=0.2)
 
     def reward_mission(self, daily=True, weekly=True):
         """
