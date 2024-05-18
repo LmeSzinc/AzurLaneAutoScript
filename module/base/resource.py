@@ -91,7 +91,15 @@ def release_resources(next_task=''):
     # Usually to have 2 models loaded and each model takes about 20MB
     # This will release 20-40MB
     from module.webui.setting import State
-    if not State.deploy_config.UseOcrServer:
+    if State.deploy_config.UseOcrServer:
+        if not next_task:
+            # Disconnect OCR server on idle
+            from module.ocr.ocr import OCR_MODEL
+            try:
+                OCR_MODEL.close()
+            except AttributeError:
+                pass
+    else:
         # Release only when using per-instance OCR
         from module.ocr.ocr import OCR_MODEL
         if 'Opsi' in next_task or 'commission' in next_task:

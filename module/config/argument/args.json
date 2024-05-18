@@ -496,13 +496,13 @@
       }
     },
     "StopCondition": {
-      "RunCount": {
-        "type": "input",
-        "value": 0
-      },
       "OilLimit": {
         "type": "input",
         "value": 1000
+      },
+      "RunCount": {
+        "type": "input",
+        "value": 0
       },
       "MapAchievement": {
         "type": "select",
@@ -873,13 +873,13 @@
       }
     },
     "StopCondition": {
-      "RunCount": {
-        "type": "input",
-        "value": 0
-      },
       "OilLimit": {
         "type": "input",
         "value": 1000
+      },
+      "RunCount": {
+        "type": "input",
+        "value": 0
       },
       "MapAchievement": {
         "type": "select",
@@ -1250,13 +1250,13 @@
       }
     },
     "StopCondition": {
-      "RunCount": {
-        "type": "input",
-        "value": 0
-      },
       "OilLimit": {
         "type": "input",
         "value": 1000
+      },
+      "RunCount": {
+        "type": "input",
+        "value": 0
       },
       "MapAchievement": {
         "type": "select",
@@ -1703,13 +1703,13 @@
         ],
         "display": "hide",
         "option_bold": [
-          "event_20230817_cn",
+          "event_20210916_cn",
           "event_20240425_cn"
         ],
         "cn": "event_20240425_cn",
         "en": "event_20240425_cn",
         "jp": "event_20240425_cn",
-        "tw": "event_20230817_cn"
+        "tw": "event_20210916_cn"
       },
       "Mode": {
         "type": "select",
@@ -1746,14 +1746,14 @@
       }
     },
     "StopCondition": {
+      "OilLimit": {
+        "type": "input",
+        "value": 1000
+      },
       "RunCount": {
         "type": "input",
         "value": 0,
         "display": "hide"
-      },
-      "OilLimit": {
-        "type": "input",
-        "value": 1000
       },
       "MapAchievement": {
         "type": "select",
@@ -2037,13 +2037,13 @@
           "event_20240425_cn"
         ],
         "option_bold": [
-          "event_20230817_cn",
+          "event_20210916_cn",
           "event_20240425_cn"
         ],
         "cn": "event_20240425_cn",
         "en": "event_20240425_cn",
         "jp": "event_20240425_cn",
-        "tw": "event_20230817_cn"
+        "tw": "event_20210916_cn"
       },
       "Mode": {
         "type": "select",
@@ -2077,13 +2077,13 @@
       }
     },
     "StopCondition": {
-      "RunCount": {
-        "type": "input",
-        "value": 0
-      },
       "OilLimit": {
         "type": "input",
         "value": 1000
+      },
+      "RunCount": {
+        "type": "input",
+        "value": 0
       },
       "MapAchievement": {
         "type": "select",
@@ -2486,13 +2486,13 @@
           "event_20240425_cn"
         ],
         "option_bold": [
-          "event_20230817_cn",
+          "event_20210916_cn",
           "event_20240425_cn"
         ],
         "cn": "event_20240425_cn",
         "en": "event_20240425_cn",
         "jp": "event_20240425_cn",
-        "tw": "event_20230817_cn"
+        "tw": "event_20210916_cn"
       },
       "Mode": {
         "type": "select",
@@ -2526,13 +2526,13 @@
       }
     },
     "StopCondition": {
-      "RunCount": {
-        "type": "input",
-        "value": 0
-      },
       "OilLimit": {
         "type": "input",
         "value": 1000
+      },
+      "RunCount": {
+        "type": "input",
+        "value": 0
       },
       "MapAchievement": {
         "type": "select",
@@ -2941,13 +2941,13 @@
       }
     },
     "StopCondition": {
-      "RunCount": {
-        "type": "input",
-        "value": 0
-      },
       "OilLimit": {
         "type": "input",
         "value": 1000
+      },
+      "RunCount": {
+        "type": "input",
+        "value": 0
       },
       "MapAchievement": {
         "type": "select",
@@ -3168,13 +3168,13 @@
       }
     },
     "StopCondition": {
-      "RunCount": {
-        "type": "input",
-        "value": 0
-      },
       "OilLimit": {
         "type": "input",
         "value": 1000
+      },
+      "RunCount": {
+        "type": "input",
+        "value": 0
       },
       "MapAchievement": {
         "type": "select",
@@ -3461,13 +3461,13 @@
       }
     },
     "StopCondition": {
-      "RunCount": {
-        "type": "input",
-        "value": 0
-      },
       "OilLimit": {
         "type": "input",
         "value": 1000
+      },
+      "RunCount": {
+        "type": "input",
+        "value": 0
       },
       "MapAchievement": {
         "type": "select",
@@ -3881,13 +3881,13 @@
           "event_20240425_cn"
         ],
         "option_bold": [
-          "event_20230817_cn",
+          "event_20210916_cn",
           "event_20240425_cn"
         ],
         "cn": "event_20240425_cn",
         "en": "event_20240425_cn",
         "jp": "event_20240425_cn",
-        "tw": "event_20230817_cn"
+        "tw": "event_20210916_cn"
       },
       "Mode": {
         "type": "select",
@@ -3922,14 +3922,14 @@
       }
     },
     "StopCondition": {
+      "OilLimit": {
+        "type": "input",
+        "value": 1000
+      },
       "RunCount": {
         "type": "input",
         "value": 0,
         "display": "hide"
-      },
-      "OilLimit": {
-        "type": "input",
-        "value": 1000
       },
       "MapAchievement": {
         "type": "select",
@@ -4347,13 +4347,13 @@
           "event_20240425_cn"
         ],
         "option_bold": [
-          "event_20230817_cn",
+          "event_20210916_cn",
           "event_20240425_cn"
         ],
         "cn": "event_20240425_cn",
         "en": "event_20240425_cn",
         "jp": "event_20240425_cn",
-        "tw": "event_20230817_cn"
+        "tw": "event_20210916_cn"
       },
       "Mode": {
         "type": "select",
@@ -4388,14 +4388,14 @@
       }
     },
     "StopCondition": {
+      "OilLimit": {
+        "type": "input",
+        "value": 1000
+      },
       "RunCount": {
         "type": "input",
         "value": 0,
         "display": "hide"
-      },
-      "OilLimit": {
-        "type": "input",
-        "value": 1000
       },
       "MapAchievement": {
         "type": "select",
@@ -4813,13 +4813,13 @@
           "event_20240425_cn"
         ],
         "option_bold": [
-          "event_20230817_cn",
+          "event_20210916_cn",
           "event_20240425_cn"
         ],
         "cn": "event_20240425_cn",
         "en": "event_20240425_cn",
         "jp": "event_20240425_cn",
-        "tw": "event_20230817_cn"
+        "tw": "event_20210916_cn"
       },
       "Mode": {
         "type": "select",
@@ -4854,14 +4854,14 @@
       }
     },
     "StopCondition": {
+      "OilLimit": {
+        "type": "input",
+        "value": 1000
+      },
       "RunCount": {
         "type": "input",
         "value": 0,
         "display": "hide"
-      },
-      "OilLimit": {
-        "type": "input",
-        "value": 1000
       },
       "MapAchievement": {
         "type": "select",
@@ -5279,13 +5279,13 @@
           "event_20240425_cn"
         ],
         "option_bold": [
-          "event_20230817_cn",
+          "event_20210916_cn",
           "event_20240425_cn"
         ],
         "cn": "event_20240425_cn",
         "en": "event_20240425_cn",
         "jp": "event_20240425_cn",
-        "tw": "event_20230817_cn"
+        "tw": "event_20210916_cn"
       },
       "Mode": {
         "type": "select",
@@ -5320,14 +5320,14 @@
       }
     },
     "StopCondition": {
+      "OilLimit": {
+        "type": "input",
+        "value": 1000
+      },
       "RunCount": {
         "type": "input",
         "value": 0,
         "display": "hide"
-      },
-      "OilLimit": {
-        "type": "input",
-        "value": 1000
       },
       "MapAchievement": {
         "type": "select",
@@ -5735,13 +5735,13 @@
           "event_20240425_cn"
         ],
         "option_bold": [
-          "event_20230817_cn",
+          "event_20210916_cn",
           "event_20240425_cn"
         ],
         "cn": "event_20240425_cn",
         "en": "event_20240425_cn",
         "jp": "event_20240425_cn",
-        "tw": "event_20230817_cn"
+        "tw": "event_20210916_cn"
       },
       "Mode": {
         "type": "select",
@@ -5776,14 +5776,14 @@
       }
     },
     "StopCondition": {
+      "OilLimit": {
+        "type": "input",
+        "value": 1000
+      },
       "RunCount": {
         "type": "input",
         "value": 0,
         "display": "hide"
-      },
-      "OilLimit": {
-        "type": "input",
-        "value": 1000
       },
       "MapAchievement": {
         "type": "select",
@@ -6187,14 +6187,14 @@
       }
     },
     "StopCondition": {
+      "OilLimit": {
+        "type": "input",
+        "value": 1000
+      },
       "RunCount": {
         "type": "input",
         "value": 0,
         "display": "hide"
-      },
-      "OilLimit": {
-        "type": "input",
-        "value": 1000
       },
       "MapAchievement": {
         "type": "select",
@@ -6416,13 +6416,13 @@
       }
     },
     "StopCondition": {
-      "RunCount": {
-        "type": "input",
-        "value": 0
-      },
       "OilLimit": {
         "type": "input",
         "value": 1000
+      },
+      "RunCount": {
+        "type": "input",
+        "value": 0
       },
       "MapAchievement": {
         "type": "select",

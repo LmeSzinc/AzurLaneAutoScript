@@ -539,6 +539,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
     def interrupt_auto_search(self, skip_first_screenshot=True):
         logger.info('Interrupting auto search')
         is_loading = False
+        pause_interval = Timer(0.5, count=1)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -552,14 +553,18 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
 
             if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
                 continue
-            if self.appear_then_click(PAUSE, interval=0.5):
+            if pause_interval.reached() and self.is_combat_executing():
+                self.device.click(PAUSE)
                 self.interval_reset(MAINTENANCE_ANNOUNCE)
+                pause_interval.reset()
                 continue
             if self.appear_then_click(QUIT_CONFIRM, offset=(20, 20), interval=5):
                 self.interval_reset(MAINTENANCE_ANNOUNCE)
+                pause_interval.reset()
                 continue
             if self.appear_then_click(QUIT_RECONFIRM, offset=True, interval=5):
                 self.interval_reset(MAINTENANCE_ANNOUNCE)
+                pause_interval.reset()
                 continue
 
             if self.appear_then_click(GOTO_MAIN, offset=(20, 20), interval=3):
@@ -855,7 +860,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                 logger.hr(f'Map rescan {queue[0]}')
                 queue = queue.sort_by_camera_distance(self.camera)
                 self.focus_to(queue[0], swipe_limit=(6, 5))
-                self.focus_to_grid_center(0.25)
+                self.focus_to_grid_center(0.3)
 
                 if self.map_rescan_current(drop=drop):
                     result = True

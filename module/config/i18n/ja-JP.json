@@ -796,13 +796,13 @@
       "name": "StopCondition._info.name",
       "help": "StopCondition._info.help"
     },
-    "RunCount": {
-      "name": "StopCondition.RunCount.name",
-      "help": "StopCondition.RunCount.help"
-    },
     "OilLimit": {
       "name": "StopCondition.OilLimit.name",
       "help": "StopCondition.OilLimit.help"
+    },
+    "RunCount": {
+      "name": "StopCondition.RunCount.name",
+      "help": "StopCondition.RunCount.help"
     },
     "MapAchievement": {
       "name": "StopCondition.MapAchievement.name",
