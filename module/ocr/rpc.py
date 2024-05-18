@@ -15,15 +15,24 @@ class ModelProxy:
     @classmethod
     def init(cls, address="127.0.0.1:22268"):
         import zerorpc
+
+        logger.info(f"Connecting to OCR server {address}")
         cls.client = zerorpc.Client(timeout=5)
         cls.client.connect(f"tcp://{address}")
         try:
-            logger.info(f"Connecting to OCR server {address}")
             cls.client.hello()
             logger.info("Successfully connected to OCR server")
         except:
             cls.online = False
             logger.warning("Ocr server not running")
+
+    @classmethod
+    def close(cls):
+        if cls.client is not None:
+            logger.info('Disconnect to OCR server')
+            cls.client.close()
+            logger.info('Successfully disconnected to OCR server')
+            cls.client = None
 
     def __init__(self, lang) -> None:
         self.lang = lang
@@ -88,6 +97,60 @@ class ModelProxy:
         from module.ocr.models import OCR_MODEL
         return OCR_MODEL.__getattribute__(self.lang).set_cand_alphabet(cand_alphabet)
 
+    def atomic_ocr(self, img_fp, cand_alphabet=None):
+        """
+        Args:
+            img_fp (np.ndarray):
+            cand_alphabet:
+
+        Returns:
+
+        """
+        if self.online:
+            img_str = img_fp.dumps()
+            try:
+                return self.client("atomic_ocr", self.lang, img_str, cand_alphabet)
+            except:
+                self.online = False
+        from module.ocr.models import OCR_MODEL
+        return OCR_MODEL.__getattribute__(self.lang).atomic_ocr(img_fp, cand_alphabet)
+
+    def atomic_ocr_for_single_line(self, img_fp, cand_alphabet=None):
+        """
+        Args:
+            img_fp (np.ndarray):
+            cand_alphabet:
+
+        Returns:
+
+        """
+        if self.online:
+            img_str = img_fp.dumps()
+            try:
+                return self.client("atomic_ocr_for_single_line", self.lang, img_str, cand_alphabet)
+            except:
+                self.online = False
+        from module.ocr.models import OCR_MODEL
+        return OCR_MODEL.__getattribute__(self.lang).atomic_ocr_for_single_line(img_fp, cand_alphabet)
+
+    def atomic_ocr_for_single_lines(self, img_list, cand_alphabet=None):
+        """
+        Args:
+            img_list (list[np.ndarray]):
+            cand_alphabet:
+
+        Returns:
+
+        """
+        if self.online:
+            img_str_list = [img_fp.dumps() for img_fp in img_list]
+            try:
+                return self.client("atomic_ocr_for_single_lines", self.lang, img_str_list, cand_alphabet)
+            except:
+                self.online = False
+        from module.ocr.models import OCR_MODEL
+        return OCR_MODEL.__getattribute__(self.lang).atomic_ocr_for_single_lines(img_list, cand_alphabet)
+
     def debug(self, img_list):
         """
         Args:
@@ -114,6 +177,9 @@ class ModelProxyFactory:
             return ModelProxy(lang=__name)
         else:
             return super().__getattribute__(__name)
+
+    def close(self):
+        ModelProxy.close()
 
 
 def start_ocr_server(port=22268):
@@ -144,6 +210,21 @@ def start_ocr_server(port=22268):
         def set_cand_alphabet(self, lang, cand_alphabet):
             cnocr: AlOcr = self.__getattribute__(lang)
             return cnocr.set_cand_alphabet(cand_alphabet)
+
+        def atomic_ocr(self, lang, img_fp, cand_alphabet):
+            img_fp = pickle.loads(img_fp)
+            cnocr: AlOcr = self.__getattribute__(lang)
+            return cnocr.atomic_ocr(img_fp, cand_alphabet)
+
+        def atomic_ocr_for_single_line(self, lang, img_fp, cand_alphabet):
+            img_fp = pickle.loads(img_fp)
+            cnocr: AlOcr = self.__getattribute__(lang)
+            return cnocr.atomic_ocr_for_single_line(img_fp, cand_alphabet)
+
+        def atomic_ocr_for_single_lines(self, lang, img_list, cand_alphabet):
+            img_list = [pickle.loads(img_fp) for img_fp in img_list]
+            cnocr: AlOcr = self.__getattribute__(lang)
+            return cnocr.atomic_ocr_for_single_lines(img_list, cand_alphabet)
 
         def debug(self, lang, img_list):
             img_list = [pickle.loads(img_fp) for img_fp in img_list]
