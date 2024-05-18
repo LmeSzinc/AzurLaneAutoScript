@@ -170,6 +170,10 @@
     "PenguinID": {
       "name": "MaaRecord.PenguinID.name",
       "help": "MaaRecord.PenguinID.help"
+    },
+    "ReportToYiTuLiu": {
+      "name": "MaaRecord.ReportToYiTuLiu.name",
+      "help": "MaaRecord.ReportToYiTuLiu.help"
     }
   },
   "MaaFight": {
@@ -219,6 +223,16 @@
     "Times": {
       "name": "MaaFight.Times.name",
       "help": "MaaFight.Times.help"
+    },
+    "Series": {
+      "name": "MaaFight.Series.name",
+      "help": "MaaFight.Series.help",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     },
     "Drops": {
       "name": "MaaFight.Drops.name",
@@ -365,6 +379,17 @@
     "Expedite": {
       "name": "MaaRecruit.Expedite.name",
       "help": "MaaRecruit.Expedite.help"
+    },
+    "FirstTags": {
+      "name": "MaaRecruit.FirstTags.name",
+      "help": "MaaRecruit.FirstTags.help"
+    },
+    "ExtraTagsMode": {
+      "name": "MaaRecruit.ExtraTagsMode.name",
+      "help": "MaaRecruit.ExtraTagsMode.help",
+      "0": "0",
+      "1": "1",
+      "2": "2"
     }
   },
   "MaaInfrast": {
@@ -494,7 +519,8 @@
       "name": "MaaRoguelike.Mode.name",
       "help": "MaaRoguelike.Mode.help",
       "0": "0",
-      "1": "1"
+      "1": "1",
+      "4": "4"
     },
     "StartsCount": {
       "name": "MaaRoguelike.StartsCount.name",
@@ -511,6 +537,10 @@
     "Squad": {
       "name": "MaaRoguelike.Squad.name",
       "help": "MaaRoguelike.Squad.help",
+      "永恒狩猎分队": "永恒狩猎分队",
+      "生活至上分队": "生活至上分队",
+      "科学主义分队": "科学主义分队",
+      "特训分队": "特训分队",
       "心胜于物分队": "心胜于物分队",
       "物尽其用分队": "物尽其用分队",
       "以人为本分队": "以人为本分队",
@@ -543,6 +573,17 @@
       "no_use": "no_use",
       "friend_support": "friend_support",
       "nonfriend_support": "nonfriend_support"
+    },
+    "startWithEliteTwo": {
+      "name": "MaaRoguelike.startWithEliteTwo.name",
+      "help": "MaaRoguelike.startWithEliteTwo.help",
+      "no_use": "no_use",
+      "start_with_elite_two": "start_with_elite_two",
+      "only_start_with_elite_two": "only_start_with_elite_two"
+    },
+    "refreshTraderWithDice": {
+      "name": "MaaRoguelike.refreshTraderWithDice.name",
+      "help": "MaaRoguelike.refreshTraderWithDice.help"
     }
   },
   "MaaAward": {
