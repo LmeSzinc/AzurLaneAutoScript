@@ -1,0 +1,40 @@
+cmake_minimum_required(VERSION 3.25)
+project(Alas)
+
+set(PROJECT_DIR ${CMAKE_CURRENT_LIST_DIR})
+set(INSTALL_DIR ${PROJECT_DIR}/install)
+set(PACK_DIR ${PROJECT_DIR}/pack)
+
+set(CMAKE_INSTALL_PREFIX ${INSTALL_DIR})
+
+set(INSTALL_DIR_COMPOENT
+    ${PROJECT_DIR}/assets
+    ${PROJECT_DIR}/bin
+    ${PROJECT_DIR}/campaign
+    ${PROJECT_DIR}/config
+    ${PROJECT_DIR}/deploy
+    ${PROJECT_DIR}/dev_tools
+    ${PROJECT_DIR}/doc
+    ${PROJECT_DIR}/module
+    ${PROJECT_DIR}/submodule
+    ${PROJECT_DIR}/webapp
+)
+
+file(GLOB INSTALL_FILE_COMPOENT ${PROJECT_DIR}/*.py)
+
+install(DIRECTORY ${INSTALL_DIR_COMPOENT}
+    DESTINATION .
+    PATTERN "__pycache__" EXCLUDE
+)
+
+install(FILES ${INSTALL_FILE_COMPOENT}
+    DESTINATION .
+)
+
+if(NOT DEFINED CPACK_GENERATOR)
+    set(CPACK_GENERATOR "ZIP")
+endif()
+
+set(CPACK_OUTPUT_FILE_PREFIX ${PACK_DIR})
+set(CPACK_PACKAGE_FILE_NAME ${PROJECT_NAME})
+include(CPack)

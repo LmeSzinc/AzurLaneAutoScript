@@ -1,0 +1,21 @@
+name: pack
+on: [workflow_dispatch, push]
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          ref: "smallkai"
+      - name: generate config
+        run: cmake -B build
+      - name: install
+        run: cmake --install build
+      - name: upload artifact to github
+        uses: actions/upload-artifact@v4
+        with:
+          name: Alas
+          path: install
+          if-no-files-found: error
+
