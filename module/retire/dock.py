@@ -1,13 +1,13 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
-from module.equipment.equipment import Equipment
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
 from module.retire.assets import *
 from module.ui.scroll import Scroll
 from module.ui.setting import Setting
 from module.ui.switch import Switch
+from module.ui.ui import UI
 
 DOCK_SORTING = Switch('Dork_sorting')
 DOCK_SORTING.add_status('Ascending', check_button=SORT_ASC, click_button=SORTING_CLICK)
@@ -28,7 +28,7 @@ DOCK_SCROLL = Scroll(DOCK_SCROLL, color=(247, 211, 66), name='DOCK_SCROLL')
 OCR_DOCK_SELECTED = DigitCounter(DOCK_SELECTED, threshold=64, name='OCR_DOCK_SELECTED')
 
 
-class Dock(Equipment):
+class Dock(UI):
     def handle_dock_cards_loading(self):
         # Poor implementation.
         self.device.sleep((1, 1.5))

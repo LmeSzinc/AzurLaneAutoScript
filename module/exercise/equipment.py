@@ -1,10 +1,10 @@
 from module.base.timer import Timer
 from module.combat.assets import BATTLE_PREPARATION
-from module.equipment.equipment import Equipment
+from module.equipment.equipment_change import EquipmentChange
 from module.exercise.assets import *
 
 
-class ExerciseEquipment(Equipment):
+class ExerciseEquipment(EquipmentChange):
     def _active_edit(self):
         timer = Timer(5)
         while 1:
@@ -32,23 +32,12 @@ class ExerciseEquipment(Equipment):
                 break
 
     def equipment_take_on(self):
-        if self.config.EXERCISE_FLEET_EQUIPMENT is None:
-            return False
-        if self.equipment_has_take_on:
-            return False
-
         self._active_edit()
-        super().equipment_take_on(enter=EQUIP_ENTER, out=BATTLE_PREPARATION, fleet=self.config.EXERCISE_FLEET_EQUIPMENT)
+        self.fleet_equipment_take_on_preset(preset_record=self.config.EXERCISE_FLEET_EQUIPMENT, enter=EQUIP_ENTER,
+                                            long_click=True, out=BATTLE_PREPARATION)
         self._inactive_edit()
-        return True
 
     def equipment_take_off(self):
-        if self.config.EXERCISE_FLEET_EQUIPMENT is None:
-            return False
-        if not self.equipment_has_take_on:
-            return False
-
         self._active_edit()
-        super().equipment_take_off(enter=EQUIP_ENTER, out=BATTLE_PREPARATION, fleet=self.config.EXERCISE_FLEET_EQUIPMENT)
+        self.fleet_equipment_take_off(enter=EQUIP_ENTER, long_click=True, out=BATTLE_PREPARATION)
         self._inactive_edit()
-        return True
