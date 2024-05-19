@@ -1,5 +1,8 @@
 name: pack
-on: [workflow_dispatch, push]
+on:
+  push:
+    branches:
+      - 'smallkai'
 jobs:
   main:
     runs-on: ubuntu-latest
