@@ -82,7 +82,7 @@ class Equipment(StorageHandler):
                 self.device.screenshot()
 
             # End
-            if self.appear(check_button, offset=(5, 5)):
+            if self.appear(check_button):
                 break
 
             # Long click accidentally became normal click, exit from dock
