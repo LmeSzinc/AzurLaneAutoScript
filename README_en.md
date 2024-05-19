@@ -70,6 +70,8 @@ Main Page => Build =>  Retirement => Quick Retire Options(left gear icon)：
 |   「own」a fully Limit Broken ship   |               Don't Keep                |
 | 「has not」a fully Limit Broken ship | `Keep Enough to Max LB` or `Don't Keep` |
 
+Remove the ship's equipment skins to avoid affecting image recognition.
+
 ## How to Report Bugs
 
 Spend at least 5 minutes for thinking and preparing, before someone spend his/her 5 minutes to help you. Issues like "Why isn't running", "Why stuck here" will not be answered.
