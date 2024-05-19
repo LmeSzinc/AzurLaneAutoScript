@@ -204,7 +204,7 @@ class AdaptiveScroll(Scroll):
         """
         Args:
             area (Button, tuple): A button or area of the whole scroll.
-            prominence (dict): Parameters passing to scipy.find_peaks
+            parameters (dict): Parameters passing to scipy.find_peaks
             background (int):
             is_vertical (bool): True if vertical, false if horizontal.
             name (str):
