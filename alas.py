@@ -15,7 +15,7 @@ from module.logger import logger
 from module.notify import handle_notify
 from module.gg_handler.gg_handler import GGHandler
 
-g_current_task: str
+g_current_task: str = ""
 
 class AzurLaneAutoScript:
     stop_event: threading.Event = None

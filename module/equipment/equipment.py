@@ -545,8 +545,5 @@ class EquipmentNew(StorageHandler):
         self.equipment_has_take_on = True
 
 
-global g_current_task
-
-
-class Equipment(EquipmentOld if g_current_task == "GemsFarming" else EquipmentNew):
+class Equipment(EquipmentOld if globals().get("g_current_task", "") == "GemsFarming" else EquipmentNew):
     ...

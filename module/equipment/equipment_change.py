@@ -314,8 +314,5 @@ class EquipmentChangeNew(Equipment):
         return
 
 
-global g_current_task
-
-
-class EquipmentChange(EquipmentChangeOld if g_current_task == "GemsFarming" else EquipmentChangeNew):
+class EquipmentChange(EquipmentChangeOld if globals().get("g_current_task", "") == "GemsFarming" else EquipmentChangeNew):
     ...

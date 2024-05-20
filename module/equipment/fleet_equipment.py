@@ -78,8 +78,5 @@ class FleetEquipmentNew(EquipmentChange):
         self.ui_back(FLEET_CHECK)
 
 
-global g_current_task
-
-
-class FleetEquipment(DailyEquipmentOld if g_current_task == "GemsFarming" else FleetEquipmentNew):
+class FleetEquipment(DailyEquipmentOld if globals().get("g_current_task", "") == "GemsFarming" else FleetEquipmentNew):
     ...
