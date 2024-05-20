@@ -94,7 +94,7 @@ Optimization:
   TaskHoardingDuration: 0
   WhenTaskQueueEmpty:
     value: goto_main
-    option: [ stay_there, goto_main, close_game ]
+    option: [ stay_there, goto_main, close_game, stop_emulator ]
 DropRecord:
   SaveFolder: ./screenshots
   AzurStatsID: null

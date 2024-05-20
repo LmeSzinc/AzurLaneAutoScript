@@ -462,6 +462,15 @@ class AzurLaneAutoScript:
                     if not self.wait_until(task.next_run):
                         del_cached_property(self, 'config')
                         continue
+                elif method == 'stop_emulator':
+                    logger.info('Stop emulator during wait')
+                    self.device.emulator_stop()
+                    release_resources() 
+                    self.device.release_during_wait()
+                    if not self.wait_until(task.next_run):
+                        self.device.emulator_start()
+                        del_cached_property(self, 'config')
+                        continue
                 else:
                     logger.warning(f'Invalid Optimization_WhenTaskQueueEmpty: {method}, fallback to stay_there')
                     release_resources()

@@ -506,7 +506,8 @@
       "help": "Optimization.WhenTaskQueueEmpty.help",
       "stay_there": "stay_there",
       "goto_main": "goto_main",
-      "close_game": "close_game"
+      "close_game": "close_game",
+      "stop_emulator": "stop_emulator"
     }
   },
   "DropRecord": {

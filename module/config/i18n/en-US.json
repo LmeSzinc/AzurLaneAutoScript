@@ -506,7 +506,8 @@
       "help": "Close AL when there are no pending tasks, can help reduce CPU",
       "stay_there": "Stay There",
       "goto_main": "Goto Main Page",
-      "close_game": "Close Game"
+      "close_game": "Close Game",
+      "stop_emulator": "Stop Emulator"
     }
   },
   "DropRecord": {

@@ -506,7 +506,8 @@
       "help": "無任務時關閉遊戲，能在收菜期間降低 CPU 佔用",
       "stay_there": "停在原處",
       "goto_main": "前往主界面",
-      "close_game": "關閉遊戲"
+      "close_game": "關閉遊戲",
+      "stop_emulator": "關閉模擬器"
     }
   },
   "DropRecord": {

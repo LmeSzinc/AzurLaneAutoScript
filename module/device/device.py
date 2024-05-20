@@ -306,3 +306,10 @@ class Device(Screenshot, Control, AppControl):
         super().app_stop()
         self.stuck_record_clear()
         self.click_record_clear()
+
+    def emulator_stop(self):
+        #kill emulator
+        if self.emulator_instance:
+            super().emulator_stop()
+        self.stuck_record_clear()
+        self.click_record_clear()
