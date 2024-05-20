@@ -6,9 +6,7 @@ import inflection
 from module.base.timer import Timer
 from module.combat.assets import PAUSE
 from module.config.utils import get_os_reset_remain
-from module.exception import CampaignEnd, RequestHumanTakeover
-from module.exception import GameTooManyClickError
-from module.exception import MapWalkError, ScriptError
+from module.exception import CampaignEnd, GameTooManyClickError, MapWalkError, RequestHumanTakeover, ScriptError
 from module.exercise.assets import QUIT_CONFIRM, QUIT_RECONFIRM
 from module.handler.login import LoginHandler, MAINTENANCE_ANNOUNCE
 from module.logger import logger
@@ -17,7 +15,7 @@ from module.os.assets import FLEET_EMP_DEBUFF, MAP_GOTO_GLOBE_FOG
 from module.os.fleet import OSFleet
 from module.os.globe_camera import GlobeCamera
 from module.os.globe_operation import RewardUncollectedError
-from module.os_handler.assets import AUTO_SEARCH_OS_MAP_OPTION_OFF, \
+from module.os_handler.assets import AUTO_SEARCH_OS_MAP_OPTION_OFF, AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED, \
     AUTO_SEARCH_OS_MAP_OPTION_ON, AUTO_SEARCH_REWARD
 from module.os_handler.strategic import StrategicSearchHandler
 from module.ui.assets import GOTO_MAIN
@@ -508,6 +506,8 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
             if not unlock_checked:
                 if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120)):
                     unlock_checked = True
+                elif self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED, offset=(5, 120)):
+                    unlock_checked = True
                 elif self.appear(AUTO_SEARCH_OS_MAP_OPTION_ON, offset=(5, 120)):
                     unlock_checked = True
 
@@ -539,6 +539,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
     def interrupt_auto_search(self, skip_first_screenshot=True):
         logger.info('Interrupting auto search')
         is_loading = False
+        pause_interval = Timer(0.5, count=1)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -552,14 +553,18 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
 
             if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
                 continue
-            if self.appear_then_click(PAUSE, interval=0.5):
+            if pause_interval.reached() and self.is_combat_executing():
+                self.device.click(PAUSE)
                 self.interval_reset(MAINTENANCE_ANNOUNCE)
+                pause_interval.reset()
                 continue
             if self.appear_then_click(QUIT_CONFIRM, offset=(20, 20), interval=5):
                 self.interval_reset(MAINTENANCE_ANNOUNCE)
+                pause_interval.reset()
                 continue
             if self.appear_then_click(QUIT_RECONFIRM, offset=True, interval=5):
                 self.interval_reset(MAINTENANCE_ANNOUNCE)
+                pause_interval.reset()
                 continue
 
             if self.appear_then_click(GOTO_MAIN, offset=(20, 20), interval=3):
@@ -855,7 +860,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                 logger.hr(f'Map rescan {queue[0]}')
                 queue = queue.sort_by_camera_distance(self.camera)
                 self.focus_to(queue[0], swipe_limit=(6, 5))
-                self.focus_to_grid_center(0.25)
+                self.focus_to_grid_center(0.3)
 
                 if self.map_rescan_current(drop=drop):
                     result = True

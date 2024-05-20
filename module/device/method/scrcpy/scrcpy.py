@@ -1,15 +1,16 @@
+import socket
 import time
 from functools import wraps
 
 import numpy as np
-from adbutils.errors import AdbError
+from adbutils.errors import AdbError, AdbTimeout
 
 import module.device.method.scrcpy.const as const
 from module.base.utils import random_rectangle_point
 from module.device.method.minitouch import insert_swipe
 from module.device.method.scrcpy.core import ScrcpyCore, ScrcpyError
 from module.device.method.uiautomator_2 import Uiautomator2
-from module.device.method.utils import RETRY_TRIES, retry_sleep, handle_adb_error
+from module.device.method.utils import RETRY_TRIES, handle_adb_error, retry_sleep
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -19,7 +20,7 @@ def retry(func):
     def retry_wrapper(self, *args, **kwargs):
         """
         Args:
-            self (Minitouch):
+            self (ScrcpyCore):
         """
         init = None
         for _ in range(RETRY_TRIES):
@@ -45,6 +46,13 @@ def retry(func):
                     self.adb_reconnect()
             # ScrcpyError
             except ScrcpyError as e:
+                logger.error(e)
+
+                def init():
+                    self.scrcpy_init()
+            # AdbTimeout
+            # socket.timeout
+            except (AdbTimeout, socket.timeout) as e:
                 logger.error(e)
 
                 def init():
@@ -85,7 +93,8 @@ class Scrcpy(ScrcpyCore, Uiautomator2):
             now = time.time()
             while 1:
                 time.sleep(0.001)
-                if self._scrcpy_stream_loop_thread is None or not self._scrcpy_stream_loop_thread.is_alive():
+                thread = self._scrcpy_stream_loop_thread
+                if thread is None or not thread.is_alive():
                     raise ScrcpyError('_scrcpy_stream_loop_thread died')
                 if self._scrcpy_last_frame_time > now:
                     screenshot = self._scrcpy_last_frame.copy()

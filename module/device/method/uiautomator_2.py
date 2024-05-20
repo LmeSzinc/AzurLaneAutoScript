@@ -122,7 +122,7 @@ class Uiautomator2(Connection):
         if image is None:
             raise ImageTruncated('Empty image after cv2.imdecode')
 
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        cv2.cvtColor(image, cv2.COLOR_BGR2RGB, dst=image)
         if image is None:
             raise ImageTruncated('Empty image after cv2.cvtColor')
 
@@ -242,8 +242,19 @@ class Uiautomator2(Connection):
         hierarchy = etree.fromstring(content.encode('utf-8'))
         return hierarchy
 
+    def uninstall_uiautomator2(self):
+        logger.info('Removing uiautomator2')
+        for file in [
+            'app-uiautomator.apk',
+            'app-uiautomator-test.apk',
+            'minitouch',
+            'minitouch.so',
+            'atx-agent',
+        ]:
+            self.adb_shell(["rm", f"/data/local/tmp/{file}"])
+
     @retry
-    def resolution_uiautomator2(self) -> t.Tuple[int, int]:
+    def resolution_uiautomator2(self, cal_rotation=True) -> t.Tuple[int, int]:
         """
         Faster u2.window_size(), cause that calls `dumpsys display` twice.
 
@@ -252,9 +263,10 @@ class Uiautomator2(Connection):
         """
         info = self.u2.http.get('/info').json()
         w, h = info['display']['width'], info['display']['height']
-        rotation = self.get_orientation()
-        if (w > h) != (rotation % 2 == 1):
-            w, h = h, w
+        if cal_rotation:
+            rotation = self.get_orientation()
+            if (w > h) != (rotation % 2 == 1):
+                w, h = h, w
         return w, h
 
     def resolution_check_uiautomator2(self):

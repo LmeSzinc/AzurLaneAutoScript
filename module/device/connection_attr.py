@@ -143,10 +143,26 @@ class ConnectionAttr:
         return bool(re.match(r'^wsa', self.serial))
 
     @cached_property
+    def port(self) -> int:
+        try:
+            return int(self.serial.split(':')[1])
+        except (IndexError, ValueError):
+            return 0
+
+    @cached_property
+    def is_mumu12_family(self):
+        # 127.0.0.1:16XXX
+        return 16384 <= self.port <= 17408
+
+    @cached_property
     def is_mumu_family(self):
         # 127.0.0.1:7555
         # 127.0.0.1:16384 + 32*n
-        return self.serial == '127.0.0.1:7555' or self.serial.startswith('127.0.0.1:16')
+        return self.serial == '127.0.0.1:7555' or self.is_mumu12_family
+
+    @cached_property
+    def is_nox_family(self):
+        return 62001 <= self.port <= 63025
 
     @cached_property
     def is_emulator(self):
@@ -192,7 +208,8 @@ class ConnectionAttr:
                          rf"SOFTWARE\BlueStacks_bgp64_hyperv\Guests\{folder_name}\Config") as key:
                 port = QueryValueEx(key, "BstAdbPort")[0]
         except FileNotFoundError:
-            logger.error(rf'Unable to find registry HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests\{folder_name}\Config')
+            logger.error(
+                rf'Unable to find registry HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests\{folder_name}\Config')
             logger.error('Please confirm that your are using BlueStack 4 hyper-v and not regular BlueStacks 4')
             logger.error(r'Please check if there is any other emulator instances under '
                          r'registry HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests')

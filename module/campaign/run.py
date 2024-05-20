@@ -189,6 +189,12 @@ class CampaignRun(CampaignEvent):
             name = 'sp'
         if folder == 'event_20221124_cn' and name in ['asp', 'a.sp']:
             name = 'sp'
+        if folder == 'event_20240425_cn':
+            if name in ['μsp', 'usp', 'iisp']:
+                name = 'sp'
+            name = name.replace('lsp', 'isp').replace('1sp', 'isp')
+            if name == 'isp':
+                name = 'isp1'
         # Convert to chapter T
         convert = {
             'a1': 't1',
@@ -340,7 +346,7 @@ class CampaignRun(CampaignEvent):
             # UI ensure
             self.device.stuck_record_clear()
             self.device.click_record_clear()
-            if not hasattr(self.device, 'image') or self.device.image is None:
+            if not self.device.has_cached_image:
                 self.device.screenshot()
             self.campaign.device.image = self.device.image
             if self.campaign.is_in_map():

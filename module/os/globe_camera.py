@@ -6,8 +6,8 @@ from module.os.assets import *
 from module.os.globe_detection import GLOBE_MAP_SHAPE, GlobeDetection
 from module.os.globe_operation import GlobeOperation
 from module.os.globe_zone import Zone, ZoneManager
-from module.os_ash.assets import ASH_SHOWDOWN, ASH_QUIT
-from module.os_handler.assets import AUTO_SEARCH_REWARD
+from module.os_ash.assets import ASH_QUIT, ASH_SHOWDOWN
+from module.os_handler.assets import ACTION_POINT_CANCEL, ACTION_POINT_USE, AUTO_SEARCH_REWARD
 
 
 class GlobeCamera(GlobeOperation, ZoneManager):
@@ -64,6 +64,11 @@ class GlobeCamera(GlobeOperation, ZoneManager):
             # Don't know why but AL just entered META page
             if self.appear(ASH_SHOWDOWN, offset=(20, 20), interval=3):
                 self.device.click(ASH_QUIT)
+                timeout.reset()
+                continue
+            # Action point popup
+            if self.appear(ACTION_POINT_USE, offset=(20, 20), interval=3):
+                self.device.click(ACTION_POINT_CANCEL)
                 timeout.reset()
                 continue
 

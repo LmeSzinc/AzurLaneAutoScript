@@ -74,25 +74,6 @@ class DeployConfig(ConfigModel):
         self.file = file
         self.config = {}
         self.read()
-        if self.Repository in [
-            'https://gitee.com/LmeSzinc/AzurLaneAutoScript',
-            'https://gitee.com/lmeszinc/azur-lane-auto-script-mirror',
-            'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git',
-            'https://e.coding.net/saarcenter/alas/AzurLaneAutoScript.git',
-            'https://git.saarcenter.com/LmeSzinc/AzurLaneAutoScript.git',
-        ]:
-            self.Repository = 'git://git.lyoko.io/AzurLaneAutoScript'
-
-        # Bypass webui.config.DeployConfig.__setattr__()
-        # Don't write these into deploy.yaml
-        super().__setattr__(
-            'GitOverCdn',
-            self.Repository == 'git://git.lyoko.io/AzurLaneAutoScript' and self.Branch == 'master'
-        )
-        if self.Repository in ['global']:
-            super().__setattr__('Repository', 'https://github.com/LmeSzinc/AzurLaneAutoScript')
-        if self.Repository in ['cn']:
-            super().__setattr__('Repository', 'git://git.lyoko.io/AzurLaneAutoScript')
 
         self.write()
         self.show_config()
@@ -117,8 +98,34 @@ class DeployConfig(ConfigModel):
             if hasattr(self, key):
                 super().__setattr__(key, value)
 
+        self.config_redirect()
+
     def write(self):
         poor_yaml_write(self.config, self.file)
+
+    def config_redirect(self):
+        """
+        Redirect deploy config, must be called after each `read()`
+        """
+        if self.Repository in [
+            'https://gitee.com/LmeSzinc/AzurLaneAutoScript',
+            'https://gitee.com/lmeszinc/azur-lane-auto-script-mirror',
+            'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git',
+            'https://e.coding.net/saarcenter/alas/AzurLaneAutoScript.git',
+            'https://git.saarcenter.com/LmeSzinc/AzurLaneAutoScript.git',
+        ]:
+            self.Repository = 'git://git.lyoko.io/AzurLaneAutoScript'
+
+        # Bypass webui.config.DeployConfig.__setattr__()
+        # Don't write these into deploy.yaml
+        super().__setattr__(
+            'GitOverCdn',
+            self.Repository == 'git://git.lyoko.io/AzurLaneAutoScript' and self.Branch == 'master'
+        )
+        if self.Repository in ['global']:
+            super().__setattr__('Repository', 'https://github.com/LmeSzinc/AzurLaneAutoScript')
+        if self.Repository in ['cn']:
+            super().__setattr__('Repository', 'git://git.lyoko.io/AzurLaneAutoScript')
 
     def filepath(self, key):
         """

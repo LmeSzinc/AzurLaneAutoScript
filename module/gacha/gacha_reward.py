@@ -68,6 +68,10 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
                 ocr_submit = OCR_BUILD_SUBMIT_WW_COUNT
                 confirm_timer.reset()
                 continue
+            # Continue gacha even if UR exchange point is full
+            if self.handle_popup_confirm('GACHA_PREP'):
+                confirm_timer.reset()
+                continue
 
             # End
             if self.appear(BUILD_PLUS, offset=index_offset) \
