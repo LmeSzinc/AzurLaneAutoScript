@@ -1627,14 +1627,16 @@ def instance_watcher_thread():
                                 content=f"Critical error occurred, instance restarted",
                             )
                     else:
-                        config.modified["Restart.InstanceRestart.HasRestarted"] = 0
-                        config.save()
-                        g_instance_restart_too_many_times.append(ins.config_name)
-                        handle_notify(
-                            push_config,
-                            title=f"Alas <{ins.config_name}> instance restarted too many times",
-                            content=f"Too many critical error occurred, instance restarted too many times",
-                        )
+                        if ins.config_name not in g_instance_restart_too_many_times:
+                            g_instance_restart_too_many_times.append(ins.config_name)
+                            config.modified["Restart.InstanceRestart.HasRestarted"] = 0
+                            config.save()
+                            g_instance_restart_too_many_times.append(ins.config_name)
+                            handle_notify(
+                                push_config,
+                                title=f"Alas <{ins.config_name}> instance restarted too many times",
+                                content=f"Too many critical error occurred, instance restarted too many times",
+                            )
         except:
             ...
 
