@@ -469,6 +469,8 @@ class AzurLaneAutoScript:
                     self.device.release_during_wait()
                     if not self.wait_until(task.next_run):
                         self.device.emulator_start()
+                        time.sleep(10)
+                        self.config.task_call('Restart')
                         del_cached_property(self, 'config')
                         continue
                 else:
@@ -504,10 +506,10 @@ class AzurLaneAutoScript:
                 del_cached_property(self, 'config')
                 logger.info('Server or network is recovered. Restart game client')
                 self.config.task_call('Restart')
-            # Get task
-            task = self.get_next_task()
             # Init device and change server
             _ = self.device
+            # Get task
+            task = self.get_next_task()
             # Skip first restart
             if self.is_first_task and task == 'Restart':
                 logger.info('Skip task `Restart` at scheduler start')
