@@ -121,6 +121,11 @@ class AzurLaneAutoScript:
                 content=f"<{self.config_name}> RequestHumanTakeover",
             )
             exit(1)
+        except EmulatorNotRunningError:
+            logger.exception(e)
+            self.device.emulator_start()
+            time.sleep(10)
+            self.config.task_call('Restart')
         except Exception as e:
             logger.exception(e)
             self.save_error_log()
@@ -130,6 +135,7 @@ class AzurLaneAutoScript:
                 content=f"<{self.config_name}> Exception occured",
             )
             exit(1)
+
 
     def save_error_log(self):
         """

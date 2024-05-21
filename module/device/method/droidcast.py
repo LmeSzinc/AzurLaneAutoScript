@@ -12,6 +12,7 @@ from module.device.method.uiautomator_2 import ProcessInfo, Uiautomator2
 from module.device.method.utils import (
     ImageTruncated, PackageNotInstalled, RETRY_TRIES, handle_adb_error, retry_sleep)
 from module.exception import RequestHumanTakeover
+from module.exception import EmulatorNotRunningError
 from module.logger import logger
 
 
@@ -75,6 +76,9 @@ def retry(func):
 
                 def init():
                     pass
+            # Emulator not running
+            except EmulatorNotRunningError as e:
+                raise(e)
             # Unknown
             except Exception as e:
                 logger.exception(e)
