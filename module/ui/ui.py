@@ -3,7 +3,6 @@ from module.base.decorator import run_once
 from module.base.timer import Timer
 from module.coalition.assets import FLEET_PREPARATION as COALITION_FLEET_PREPARATION
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_SHIP
-from module.raid.assets import *
 from module.exception import (GameNotRunningError, GamePageUnknownError,
                               RequestHumanTakeover)
 from module.exercise.assets import EXERCISE_PREPARATION
@@ -18,11 +17,8 @@ from module.map.assets import (FLEET_PREPARATION, MAP_PREPARATION,
 from module.meowfficer.assets import MEOWFFICER_BUY
 from module.ocr.ocr import Ocr
 from module.os_handler.assets import (AUTO_SEARCH_REWARD, EXCHANGE_CHECK, RESET_FLEET_PREPARATION, RESET_TICKET_POPUP)
-from module.raid.assets import RAID_FLEET_PREPARATION
-from module.ui.assets import (BACK_ARROW, DORMMENU_GOTO_DORM, DORM_FEED_CANCEL, DORM_INFO, DORM_TROPHY_CONFIRM,
-                              EVENT_LIST_CHECK, GOTO_MAIN, MAIN_GOTO_CAMPAIGN, MEOWFFICER_GOTO_DORMMENU,
-                              MEOWFFICER_INFO, META_CHECK, PLAYER_CHECK, RAID_CHECK, SHIPYARD_CHECK,
-                              SHOP_GOTO_SUPPLY_PACK)
+from module.raid.assets import *
+from module.ui.assets import *
 from module.ui.page import (Page, page_campaign, page_event, page_main, page_sp)
 
 
@@ -504,6 +500,12 @@ class UI(InfoHandler):
 
         # RPG event (raid_20240328)
         if self.appear_then_click(RPG_STATUS_POPUP, offset=(30, 30), interval=3):
+            return True
+
+        # Idle page
+        if self.appear(IDLE, offset=(5, 5), interval=5):
+            logger.info(f'UI additional: {IDLE} -> {REWARD_GOTO_MAIN}')
+            self.device.click(REWARD_GOTO_MAIN)
             return True
 
         return False
