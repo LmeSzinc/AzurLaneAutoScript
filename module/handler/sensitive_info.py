@@ -2,7 +2,7 @@ import re
 
 from module.base.mask import Mask
 from module.ui.assets import PLAYER_CHECK
-from module.ui.page import MAIN_CHECK
+from module.ui.page import MAIN_GOTO_CAMPAIGN_WHITE, MAIN_GOTO_FLEET
 
 MASK_MAIN = Mask('./assets/mask/MASK_MAIN.png')
 MASK_PLAYER = Mask('./assets/mask/MASK_PLAYER.png')
@@ -18,7 +18,9 @@ def handle_sensitive_image(image):
     """
     if PLAYER_CHECK.match(image, offset=(30, 30)):
         image = MASK_PLAYER.apply(image)
-    if MAIN_CHECK.match(image, offset=(30, 30)):
+    if MAIN_GOTO_FLEET.match(image, offset=(30, 30)):
+        image = MASK_MAIN.apply(image)
+    if MAIN_GOTO_CAMPAIGN_WHITE.match(image, offset=(30, 30)):
         image = MASK_MAIN.apply(image)
 
     return image
