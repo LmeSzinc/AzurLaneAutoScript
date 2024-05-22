@@ -17,10 +17,14 @@ class Map(Fleet):
         Args:
             grid (GridInfo):
             expected (str):
+
+        Returns:
+            int: If cleared an enemy.
         """
         logger.info('targetEnemyScale:%s' % (self.config.EnemyPriority_EnemyScaleBalanceWeight))
         logger.info('Clear enemy: %s' % grid)
         expected = f'combat_{expected}' if expected else 'combat'
+        battle_count = self.battle_count
         self.show_fleet()
         if self.emotion.is_calculate and self.config.Campaign_UseFleetLock:
             self.emotion.wait(fleet_index=self.fleet_current_index)
@@ -29,6 +33,7 @@ class Map(Fleet):
         self.full_scan()
         self.find_path_initial()
         self.map.show_cost()
+        return self.battle_count >= battle_count
 
     def clear_chosen_mystery(self, grid):
         """

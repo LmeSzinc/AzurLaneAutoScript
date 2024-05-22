@@ -1,6 +1,5 @@
 from module.equipment.fleet_equipment import FleetEquipment
 from module.logger import logger
-from module.ui.page import page_main
 
 
 class DailyEquipment(FleetEquipment):
@@ -20,7 +19,7 @@ class DailyEquipment(FleetEquipment):
 
         self.fleet_enter()
         self.fleet_equipment_take_on_preset(preset_record=self.config.FLEET_DAILY_EQUIPMENT)
-        self.ui_back(page_main.check_button)
+        self.ui_back(self.is_in_main)
         self.equipment_has_take_on = True
         self.device.sleep(1)
         return True
@@ -33,7 +32,7 @@ class DailyEquipment(FleetEquipment):
 
         self.fleet_enter()
         self.fleet_equipment_take_off()
-        self.ui_back(page_main.check_button)
+        self.ui_back(self.is_in_main)
         self.equipment_has_take_on = False
         self.device.sleep(1)
         return True
