@@ -203,6 +203,9 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             # End
             if self.is_combat_loading():
                 break
+            if self.is_combat_executing():
+                logger.info('is_combat_executing')
+                break
             if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():
                 raise CampaignEnd
 

@@ -8,8 +8,9 @@ from module.combat.assets import *
 from module.freebies.assets import *
 from module.logger import logger
 from module.statistics.item import ItemGrid
-from module.ui.page import page_main
+from module.ui.page import page_main, page_main_white
 from module.ui.ui import UI
+from module.ui_white.assets import MAIL_ENTER_WHITE
 
 MAIL_BUTTON_GRID = ButtonGrid(
     origin=(137, 207), delta=(0, 97),
@@ -41,7 +42,7 @@ class Mail(UI):
         logger.hr('Mail enter')
         btn_expanded = MAIL_BUTTON_GRID.buttons[0]
         btn_collapsed = btn_expanded.move((350, 0))
-        self.interval_clear([page_main.check_button, MAIL_DELETE])
+        self.interval_clear([page_main.check_button, page_main_white.check_button, MAIL_DELETE])
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -66,6 +67,9 @@ class Mail(UI):
 
             if self.appear(page_main.check_button, offset=(30, 30), interval=3):
                 self.device.click(MAIL_ENTER)
+                continue
+            if self.appear(page_main_white.check_button, offset=(30, 30), interval=3):
+                self.device.click(MAIL_ENTER_WHITE)
                 continue
             if delete:
                 if self.appear_then_click(MAIL_DELETE, offset=(350, 20), interval=3):
@@ -108,7 +112,7 @@ class Mail(UI):
                 continue
 
             # End
-            if self.appear(page_main.check_button, offset=(30, 30)):
+            if self.is_in_main():
                 break
 
     @cached_property

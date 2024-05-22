@@ -1,8 +1,7 @@
+from campaign.event_20240521_cn.campaign_base import CurrentFleetGrid
 from module.campaign.campaign_base import CampaignBase
-from module.map.map_base import CampaignMap
-from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from module.map_detection.grid import Grid
+from module.map.map_base import CampaignMap
 
 MAP = CampaignMap('A1')
 MAP.shape = 'I9'
@@ -81,19 +80,10 @@ class Config:
     MAP_WALK_USE_CURRENT_FLEET = True
 
 
-class EventGrid(Grid):
-    def predict_current_fleet(self):
-        count = self.relative_hsv_count(area=(-0.5, -3.5, 0.5, -2.5), h=(141 - 3, 141 + 10), shape=(50, 50))
-        if count < 600:
-            return False
-        # No template matching
-        return True
-
-
 class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
-    grid_class = EventGrid
+    grid_class = CurrentFleetGrid
     bored_visited_G3 = False
     bored_visited_H2 = False
 

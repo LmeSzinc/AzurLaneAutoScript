@@ -19,18 +19,50 @@ from module.ocr.ocr import Ocr
 from module.os_handler.assets import (AUTO_SEARCH_REWARD, EXCHANGE_CHECK, RESET_FLEET_PREPARATION, RESET_TICKET_POPUP)
 from module.raid.assets import *
 from module.ui.assets import *
-from module.ui.page import (Page, page_campaign, page_event, page_main, page_sp)
+from module.ui.page import (Page, page_campaign, page_event, page_main, page_sp, page_main_white)
+from module.ui_white.assets import *
 
 
 class UI(InfoHandler):
     ui_current: Page
 
-    def ui_page_appear(self, page):
+    def ui_page_appear(self, page, offset=(30, 30), interval=0):
         """
         Args:
             page (Page):
+            offset:
+            interval:
         """
-        return self.appear(page.check_button, offset=(30, 30))
+        if page == page_main:
+            if self.appear(page_main_white.check_button, offset=offset, interval=interval):
+                return True
+            if self.appear(page_main.check_button, offset=(5, 5), interval=interval):
+                return True
+            return False
+        return self.appear(page.check_button, offset=offset, interval=interval)
+
+    def is_in_main(self, offset=(30, 30), interval=0):
+        return self.ui_page_appear(page_main, offset=offset, interval=interval)
+
+    def ui_main_appear_then_click(self, page, offset=(30, 30), interval=3):
+        """
+        Args:
+            page: Destination page
+            offset:
+            interval:
+
+        Returns:
+            bool: If clicked
+        """
+        if self.appear(page_main.check_button, offset=offset, interval=interval):
+            button = page_main.links[page]
+            self.device.click(button)
+            return True
+        if self.appear(page_main_white.check_button, offset=(5, 5), interval=interval):
+            button = page_main_white.links[page]
+            self.device.click(button)
+            return True
+        return False
 
     def ensure_button_execute(self, button, offset=0):
         if isinstance(button, Button) and self.appear(button, offset=offset):
@@ -207,7 +239,7 @@ class UI(InfoHandler):
                 self.device.screenshot()
 
             # Destination page
-            if self.appear(destination.check_button, offset=offset):
+            if self.ui_page_appear(page=destination, offset=offset):
                 logger.info(f'Page arrive: {destination}')
                 break
 
@@ -503,10 +535,12 @@ class UI(InfoHandler):
             return True
 
         # Idle page
-        if self.appear(IDLE, offset=(5, 5), interval=5):
-            logger.info(f'UI additional: {IDLE} -> {REWARD_GOTO_MAIN}')
-            self.device.click(REWARD_GOTO_MAIN)
-            return True
+        if self.get_interval_timer(IDLE, interval=3).reached():
+            if IDLE.match_luma(self.device.image, offset=(5, 5)):
+                logger.info(f'UI additional: {IDLE} -> {REWARD_GOTO_MAIN}')
+                self.device.click(REWARD_GOTO_MAIN)
+                self.get_interval_timer(IDLE).reset()
+                return True
 
         return False
 
@@ -522,7 +556,7 @@ class UI(InfoHandler):
         for switch_button in page_main.links.values():
             if button == switch_button:
                 self.interval_reset(GET_SHIP)
-        if button == MAIN_GOTO_CAMPAIGN:
+        if button in [MAIN_GOTO_CAMPAIGN, MAIN_GOTO_CAMPAIGN_WHITE]:
             self.interval_reset(GET_SHIP)
             # Shinano event has the same title as raid
             self.interval_reset(RAID_CHECK)
