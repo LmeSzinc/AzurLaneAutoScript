@@ -1,3 +1,4 @@
+import sys
 from urllib.parse import urlparse
 
 from deploy.config import DeployConfig
@@ -8,7 +9,13 @@ from deploy.utils import *
 class PipManager(DeployConfig):
     @cached_property
     def python(self):
-        return self.filepath("PythonExecutable")
+        exe = self.filepath("PythonExecutable")
+        if os.path.exists(exe):
+            return exe
+
+        current = sys.executable.replace("\\", "/")
+        logger.warning(f'PythonExecutable: {exe} does not exist, use current python instead: {current}')
+        return current
 
     @cached_property
     def requirements_file(self):

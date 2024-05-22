@@ -9,14 +9,13 @@ from uiautomator2.xpath import XPath, XPathSelector
 import module.config.server as server
 from module.base.timer import Timer
 from module.base.utils import color_similarity_2d, crop, random_rectangle_point
-from module.config.utils import get_server_next_update
 from module.exception import (GameStuckError, GameTooManyClickError,
                               RequestHumanTakeover)
 from module.handler.assets import *
 from module.logger import logger
 from module.map.assets import *
 from module.ui.assets import *
-from module.ui.page import MAIN_CHECK
+from module.ui.page import page_campaign_menu
 from module.ui.ui import UI
 
 
@@ -43,7 +42,7 @@ class LoginHandler(UI):
             self.device.screenshot()
 
             # End
-            if self.appear(MAIN_CHECK, offset=(30, 30)):
+            if self.is_in_main():
                 if confirm_timer.reached():
                     logger.info('Login to main confirm')
                     break
@@ -180,8 +179,23 @@ class LoginHandler(UI):
                    or self.appear(EVENT_CHECK, offset=(30, 30)) \
                    or self.appear(SP_CHECK, offset=(30, 30))
 
-        self.ui_click(MAIN_GOTO_CAMPAIGN, check_button=in_campaign, additional=ensure_campaign_retreat,
-                      confirm_wait=confirm_wait, skip_first_screenshot=True)
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if in_campaign():
+                break
+
+            # Click
+            if self.ui_main_appear_then_click(page_campaign_menu, interval=3):
+                continue
+            if ensure_campaign_retreat():
+                continue
+
         self.ui_goto_main()
 
     def handle_user_agreement(self, xp, hierarchy):

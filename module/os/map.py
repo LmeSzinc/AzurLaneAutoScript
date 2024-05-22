@@ -19,7 +19,7 @@ from module.os_handler.assets import AUTO_SEARCH_OS_MAP_OPTION_OFF, AUTO_SEARCH_
     AUTO_SEARCH_OS_MAP_OPTION_ON, AUTO_SEARCH_REWARD
 from module.os_handler.strategic import StrategicSearchHandler
 from module.ui.assets import GOTO_MAIN
-from module.ui.page import page_main, page_os
+from module.ui.page import page_os
 
 
 class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
@@ -547,7 +547,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                 self.device.screenshot()
 
             # End
-            if self.ui_page_appear(page_main):
+            if self.is_in_main():
                 logger.info('Auto search interrupted')
                 self.config.task_stop()
 
