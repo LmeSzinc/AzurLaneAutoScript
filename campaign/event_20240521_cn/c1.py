@@ -1,8 +1,7 @@
-from campaign.event_20240521_cn.a1 import EventGrid
+from campaign.event_20240521_cn.campaign_base import CurrentFleetGrid
 from module.campaign.campaign_base import CampaignBase
-from module.map.map_base import CampaignMap
-from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
+from module.map.map_base import CampaignMap
 
 MAP = CampaignMap('C1')
 MAP.shape = 'I9'
@@ -84,7 +83,7 @@ class Config:
 class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
-    grid_class = EventGrid
+    grid_class = CurrentFleetGrid
     bored_visited_G3 = False
     bored_visited_H2 = False
 
