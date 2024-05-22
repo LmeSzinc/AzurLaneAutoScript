@@ -136,7 +136,6 @@ class AzurLaneAutoScript:
             )
             exit(1)
 
-
     def save_error_log(self):
         """
         Save last 60 screenshots in ./log/error/<timestamp>
