@@ -77,8 +77,8 @@ def retry(func):
                 def init():
                     pass
             # Emulator not running
-            except EmulatorNotRunningError as e:
-                raise(e)
+            except EmulatorNotRunningError:
+                raise EmulatorNotRunningError("Emulator not running")
             # Unknown
             except Exception as e:
                 logger.exception(e)
