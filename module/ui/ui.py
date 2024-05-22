@@ -536,7 +536,7 @@ class UI(InfoHandler):
 
         # Idle page
         if self.get_interval_timer(IDLE, interval=3).reached():
-            if IDLE.match_binary(self.device.image, offset=(5, 5)):
+            if IDLE.match_luma(self.device.image, offset=(5, 5)):
                 logger.info(f'UI additional: {IDLE} -> {REWARD_GOTO_MAIN}')
                 self.device.click(REWARD_GOTO_MAIN)
                 self.get_interval_timer(IDLE).reset()
