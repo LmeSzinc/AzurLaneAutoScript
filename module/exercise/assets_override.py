@@ -1,6 +1,7 @@
 from functools import wraps
 
 import module.exercise.assets as exer_assets
+from module.logger import logger
 
 g_exer_assets_ver = "new"
 
@@ -10,6 +11,7 @@ def exer_override_to_new():
     if g_exer_assets_ver == "new":
         return
 
+    logger.info("switch exercise assets to new version")
     exer_assets.EQUIP_ENTER = exer_assets.EQUIP_ENTER_NEW
 
 
@@ -18,6 +20,7 @@ def exer_override_to_old():
     if g_exer_assets_ver == "old":
         return
 
+    logger.info("switch exercise assets to old version")
     exer_assets.EQUIP_ENTER = exer_assets.EQUIP_ENTER_OLD
 
 

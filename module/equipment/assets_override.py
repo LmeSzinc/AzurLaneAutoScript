@@ -1,6 +1,7 @@
 from functools import wraps
 
 import module.equipment.assets as equip_assets
+from module.logger import logger
 
 g_equip_assets_ver = "new"
 
@@ -10,6 +11,7 @@ def equip_override_to_new():
     if g_equip_assets_ver == "new":
         return
 
+    logger.info("switch equipment assets to new version")
     equip_assets.EQUIP_1 = equip_assets.EQUIP_1_NEW
     equip_assets.EQUIP_2 = equip_assets.EQUIP_2_NEW
     equip_assets.EQUIP_3 = equip_assets.EQUIP_3_NEW
@@ -22,6 +24,7 @@ def equip_override_to_old():
     if g_equip_assets_ver == "old":
         return
 
+    logger.info("switch equipment assets to old version")
     equip_assets.EQUIP_1 = equip_assets.EQUIP_1_OLD
     equip_assets.EQUIP_2 = equip_assets.EQUIP_2_OLD
     equip_assets.EQUIP_3 = equip_assets.EQUIP_3_OLD
