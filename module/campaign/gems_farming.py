@@ -11,7 +11,7 @@ from module.retire.assets import (
     DOCK_CHECK,
     TEMPLATE_BOGUE, TEMPLATE_HERMES, TEMPLATE_LANGLEY, TEMPLATE_RANGER,
     TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2, TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2,
-    TEMPLATE_AULICK, TEMPLATE_FOOTE
+    TEMPLATE_AULICK, TEMPLATE_FOOTE, TEMPLATE_Z20, TEMPLATE_Z21
 )
 
 from module.retire.dock import Dock
@@ -306,6 +306,11 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
                 TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2,
                 TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2
             ]
+        elif common_dd == 'z20_or_z21':
+            return [
+                TEMPLATE_Z20,
+                TEMPLATE_Z21
+            ]
         else:
             logger.error(f'Invalid CommonDD setting: {common_dd}')
             raise ScriptError(f'Invalid CommonDD setting: {common_dd}')
@@ -349,7 +354,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
         self.ui_click(FLEET_ENTER,
                       appear_button=page_fleet.check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
         self.dock_filter_set(
-            index='dd', rarity='common', faction='eagle', extra='can_limit_break')
+            index='dd', rarity='common', faction=['eagle', 'iron'], extra='can_limit_break')
         self.dock_favourite_set(False)
 
         ship = self.get_common_rarity_dd()

@@ -276,7 +276,7 @@ GemsFarming:
     option: [ disabled, ship, ship_equip ]
   CommonDD:
     value: any
-    option: [ any, aulick_or_foote , cassin_or_downes ]
+    option: [ any, aulick_or_foote , cassin_or_downes, z20_or_z21 ]
   CommissionLimit: true
 
 # ==================== Event ====================

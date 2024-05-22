@@ -1619,7 +1619,8 @@
         "option": [
           "any",
           "aulick_or_foote",
-          "cassin_or_downes"
+          "cassin_or_downes",
+          "z20_or_z21"
         ]
       },
       "CommissionLimit": {
