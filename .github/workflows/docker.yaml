@@ -1,0 +1,38 @@
+name: docker
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "smallkai"
+    paths:
+      - "deploy/docker/requirements.txt"
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          ref: "smallkai"
+      - name: set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: set up docker buildx
+        uses: docker/setup-buildx-action@v3
+      - name: login to docker hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: prep docker file
+        run: |
+          rm -rf requirements.txt
+          cp deploy/docker/requirements.txt .
+          cp deploy/docker/Dockerfile .
+          cp deploy/docker/.dockerignore .
+          ls
+      - name: build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/alas:latest
