@@ -10,6 +10,7 @@ from module.logger import logger
 from module.statistics.item import ItemGrid
 from module.ui.page import page_main, page_main_white
 from module.ui.ui import UI
+from module.ui_white.assets import MAIL_ENTER_WHITE
 
 MAIL_BUTTON_GRID = ButtonGrid(
     origin=(137, 207), delta=(0, 97),
