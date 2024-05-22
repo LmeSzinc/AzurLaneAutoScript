@@ -31,7 +31,7 @@ class PreservedAssets:
             regex=re.compile(r'\(([A-Z][A-Z0-9_]+),')
         )
         # MAIN_CHECK == MAIN_GOTO_CAMPAIGN
-        assets.add('MAIN_GOTO_CAMPAIGN')
+        # assets.add('MAIN_GOTO_CAMPAIGN')
         return assets
 
 

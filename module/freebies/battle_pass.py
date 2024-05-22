@@ -17,7 +17,7 @@ class BattlePass(Combat, UI):
         Page:
             in: page_reward
         """
-        if self.appear(REWARD_GOTO_BATTLE_PASS, offset=(10, 150)):
+        if self.appear(REWARD_GOTO_BATTLE_PASS, offset=(50, 150)):
             # Load button offset from REWARD_GOTO_BATTLE_PASS,
             # because entrance may not be the top one.
             BATTLE_PASS_RED_DOT.load_offset(REWARD_GOTO_BATTLE_PASS)
@@ -45,7 +45,7 @@ class BattlePass(Combat, UI):
         """
 
         def appear_button():
-            return self.appear(REWARD_GOTO_BATTLE_PASS, offset=(10, 150))
+            return self.appear(REWARD_GOTO_BATTLE_PASS, offset=(50, 150))
 
         self.ui_click(REWARD_GOTO_BATTLE_PASS, appear_button=appear_button, check_button=BATTLE_PASS_CHECK,
                       additional=self.handle_battle_pass_popup, skip_first_screenshot=True)
