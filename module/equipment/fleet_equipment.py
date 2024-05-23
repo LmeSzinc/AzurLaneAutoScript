@@ -79,4 +79,11 @@ class FleetEquipmentNew(EquipmentChange):
 
 
 class FleetEquipment(DailyEquipment if globals().get("g_current_task", "") == "GemsFarming" else FleetEquipmentNew):
-    ...
+    def __init__(self, *args, **kwargs):
+        if isinstance(self, DailyEquipment):
+            logger.info("use DailyEquipment")
+        elif isinstance(self, FleetEquipmentNew):
+            logger.info("use FleetEquipmentNew")
+        else:
+            raise NameError("unknown inherit")
+        super().__init__(self, *args, **kwargs)

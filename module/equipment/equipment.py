@@ -546,4 +546,11 @@ class EquipmentNew(StorageHandler):
 
 
 class Equipment(EquipmentOld if globals().get("g_current_task", "") == "GemsFarming" else EquipmentNew):
-    ...
+    def __init__(self, *args, **kwargs):
+        if isinstance(self, EquipmentOld):
+            logger.info("use EquipmentOld")
+        elif isinstance(self, EquipmentNew):
+            logger.info("use EquipmentNew")
+        else:
+            raise NameError("unknown inherit")
+        super().__init__(self, *args, **kwargs)

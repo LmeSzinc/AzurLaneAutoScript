@@ -315,4 +315,11 @@ class EquipmentChangeNew(Equipment):
 
 
 class EquipmentChange(EquipmentChangeOld if globals().get("g_current_task", "") == "GemsFarming" else EquipmentChangeNew):
-    ...
+    def __init__(self, *args, **kwargs):
+        if isinstance(self, EquipmentChangeOld):
+            logger.info("use EquipmentChangeOld")
+        elif isinstance(self, EquipmentChangeNew):
+            logger.info("use EquipmentChangeNew")
+        else:
+            raise NameError("unknown inherit")
+        super().__init__(self, *args, **kwargs)
