@@ -82,6 +82,12 @@
       "AttemptsToRestart": 114514,
       "NotifyWhenAutoRestart": false
     },
+    "InstanceRestart": {
+      "Enabled": false,
+      "AttemptsToRestart": 114514,
+      "NotifyWhenAutoRestart": false,
+      "HasRestarted": 0
+    },
     "Storage": {
       "Storage": {}
     }

@@ -6,9 +6,16 @@ from module.exercise.opponent import OPPONENT, OpponentChoose
 from module.ui.assets import EXERCISE_CHECK
 
 
-class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment, Combat):
+class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
     def _in_exercise(self):
         return self.appear(EXERCISE_CHECK, offset=(20, 20))
+
+    def is_combat_executing(self):
+        """
+        Returns:
+            bool:
+        """
+        return self.appear(PAUSE) and np.max(self.image_crop(PAUSE_DOUBLE_CHECK)) < 153
 
     def _combat_preparation(self, skip_first_screenshot=True):
         logger.info('Combat preparation')
@@ -24,15 +31,11 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment, Combat):
                 # self.equipment_take_on()
                 pass
 
-                # Power limit check
-                from module.gg_handler.gg_handler import GGHandler
-                GGHandler(config=self.config, device=self.device).power_limit('Exercise')
-
                 self.device.click(BATTLE_PREPARATION)
                 continue
 
             # End
-            if self.is_combat_executing():
+            if self.appear(PAUSE):
                 break
 
     def _combat_execute(self):
@@ -80,19 +83,16 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment, Combat):
 
             # Quit
             if self.appear_then_click(QUIT_CONFIRM, offset=(20, 20), interval=5):
-                pause_interval.reset()
                 success = False
                 end = True
                 continue
             if self.appear_then_click(QUIT_RECONFIRM, offset=(20, 20), interval=5):
                 self.interval_reset(QUIT_CONFIRM)
-                pause_interval.reset()
                 continue
             if not end:
                 if self._at_low_hp(image=self.device.image):
                     logger.info('Exercise quit')
-                    if pause_interval.reached() and self.is_combat_executing():
-                        self.device.click(PAUSE)
+                    if pause_interval.reached() and self.appear_then_click(PAUSE):
                         pause_interval.reset()
                         continue
                 else:
@@ -174,15 +174,15 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment, Combat):
             return False
 
         self._choose_opponent(0)
-        super().equipment_take_off()
+        self.equipment_take_off()
         self._preparation_quit()
 
-    # def equipment_take_on(self):
-    #     if self.config.EXERCISE_FLEET_EQUIPMENT is None:
-    #         return False
-    #     if self.equipment_has_take_on:
-    #         return False
-    #
-    #     self._choose_opponent(0)
-    #     super().equipment_take_on()
-    #     self._preparation_quit()
+    def equipment_take_on(self):
+        if self.config.EXERCISE_FLEET_EQUIPMENT is None:
+            return False
+        if self.equipment_has_take_on:
+            return False
+
+        self._choose_opponent(0)
+        super().equipment_take_on()
+        self._preparation_quit()

@@ -568,5 +568,11 @@ class GeneratedConfig:
     AutoRestart_AttemptsToRestart = 114514
     AutoRestart_NotifyWhenAutoRestart = False
 
+    # Group `InstanceRestart`
+    InstanceRestart_Enabled = False
+    InstanceRestart_AttemptsToRestart = 114514
+    InstanceRestart_NotifyWhenAutoRestart = False
+    InstanceRestart_HasRestarted = 0
+
     # Group `Storage`
     Storage_Storage = {}

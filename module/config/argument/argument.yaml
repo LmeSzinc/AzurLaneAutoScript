@@ -923,3 +923,16 @@ AutoRestart:
   NotifyWhenAutoRestart:
     type: checkbox
     value: false
+InstanceRestart:
+  Enabled:
+    type: checkbox
+    value: false
+  AttemptsToRestart:
+    type: input
+    value: 114514
+  NotifyWhenAutoRestart:
+    type: checkbox
+    value: false
+  HasRestarted:
+    value: 0
+    display: hide
