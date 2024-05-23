@@ -9,7 +9,7 @@ from module.ui.page import page_fleet
 OCR_FLEET_INDEX = Digit(OCR_FLEET_INDEX, letter=(90, 154, 255), threshold=128, alphabet='123456')
 
 
-class DailyEquipmentOld(Equipment):
+class DailyEquipment(Equipment):
     equipment_has_take_on = False
 
     @property
@@ -78,5 +78,5 @@ class FleetEquipmentNew(EquipmentChange):
         self.ui_back(FLEET_CHECK)
 
 
-class FleetEquipment(DailyEquipmentOld if globals().get("g_current_task", "") == "GemsFarming" else FleetEquipmentNew):
+class FleetEquipment(DailyEquipment if globals().get("g_current_task", "") == "GemsFarming" else FleetEquipmentNew):
     ...
