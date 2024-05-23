@@ -271,11 +271,13 @@ class MapEventHandler(EnemySearchingHandler):
             if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120), interval=3) \
                     and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):
                 self.device.click(AUTO_SEARCH_OS_MAP_OPTION_OFF)
+                self.interval_reset(AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED)
                 return True
             # Game client bugged sometimes, AUTO_SEARCH_OS_MAP_OPTION_OFF grayed out but still functional
             if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED, offset=(5, 120), interval=3) \
                     and AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED.match_appear_on(self.device.image):
                 self.device.click(AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED)
+                self.interval_reset(AUTO_SEARCH_OS_MAP_OPTION_OFF)
                 return True
         else:
             if self.appear(AUTO_SEARCH_OS_MAP_OPTION_ON, offset=(5, 120), interval=3) \

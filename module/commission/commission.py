@@ -16,11 +16,12 @@ from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.retire.assets import DOCK_CHECK
-from module.ui.assets import BACK_ARROW, COMMISSION_CHECK, REWARD_GOTO_COMMISSION, MAIN_GOTO_REWARD
-from module.ui.page import page_reward, MAIN_CHECK
+from module.ui.assets import BACK_ARROW, COMMISSION_CHECK, REWARD_GOTO_COMMISSION
+from module.ui.page import page_reward
 from module.ui.scroll import Scroll
 from module.ui.switch import Switch
 from module.ui.ui import UI
+from module.ui_white.assets import REWARD_1_WHITE, REWARD_GOTO_COMMISSION_WHITE
 
 COMMISSION_SWITCH = Switch('Commission_switch', is_selector=True)
 COMMISSION_SWITCH.add_status('daily', COMMISSION_DAILY)
@@ -529,14 +530,20 @@ class RewardCommission(UI, InfoHandler):
                     click_timer.reset()
                     reward = True
                     continue
+                if click_timer.reached() and self.appear_then_click(REWARD_1_WHITE, offset=(20, 20), interval=1):
+                    click_timer.reset()
+                    reward = True
+                    continue
                 if click_timer.reached() and self.appear_then_click(REWARD_GOTO_COMMISSION, offset=(20, 20)):
+                    click_timer.reset()
+                    continue
+                if click_timer.reached() and self.appear_then_click(REWARD_GOTO_COMMISSION_WHITE, offset=(20, 20)):
                     click_timer.reset()
                     continue
                 if click_timer.reached() and self.ui_additional():
                     click_timer.reset()
                     continue
-                if self.appear(MAIN_CHECK, offset=(30, 30), interval=5):
-                    self.device.click(MAIN_GOTO_REWARD)
+                if self.ui_main_appear_then_click(page_reward, interval=3):
                     click_timer.reset()
                     continue
 

@@ -287,6 +287,25 @@ class ModuleBase:
         color = get_color(self.device.image, button_area)
         return Button(area=button_area, color=color, button=button_area, name=name)
 
+    def get_interval_timer(self, button, interval=5, renew=False) -> Timer:
+        if hasattr(button, 'name'):
+            name = button.name
+        elif callable(button):
+            name = button.__name__
+        else:
+            name = str(button)
+
+        try:
+            timer = self.interval_timer[name]
+            if renew and timer.limit != interval:
+                timer = Timer(interval)
+                self.interval_timer[name] = timer
+            return timer
+        except KeyError:
+            timer = Timer(interval)
+            self.interval_timer[name] = timer
+            return timer
+
     def interval_reset(self, button, interval=3):
         if isinstance(button, (list, tuple)):
             for b in button:
