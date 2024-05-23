@@ -394,11 +394,4 @@ class DockNew(UI):
 
 
 class Dock(DockOld if globals().get("g_current_task", "") == "GemsFarming" else DockNew):
-    def __init__(self, *args, **kwargs):
-        if isinstance(self, DockOld):
-            logger.info("use DockOld")
-        elif isinstance(self, DockNew):
-            logger.info("use DockNew")
-        else:
-            raise NameError("unknown inherit")
-        super().__init__(self, *args, **kwargs)
+    ...

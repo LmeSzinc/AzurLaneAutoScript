@@ -4,7 +4,6 @@ from module.equipment.equipment import Equipment
 from module.equipment.equipment_change import EquipmentChange
 from module.exercise.assets import *
 from module.exercise.assets_override import exer_assets_override
-from module.logger import logger
 
 
 class ExerciseEquipmentOld(Equipment):
@@ -105,11 +104,4 @@ class ExerciseEquipmentNew(EquipmentChange):
 
 
 class ExerciseEquipment(ExerciseEquipmentOld if globals().get("g_current_task", "") == "GemsFarming" else ExerciseEquipmentNew):
-    def __init__(self, *args, **kwargs):
-        if isinstance(self, ExerciseEquipmentOld):
-            logger.info("use ExerciseEquipmentOld")
-        elif isinstance(self, ExerciseEquipmentNew):
-            logger.info("use ExerciseEquipmentNew")
-        else:
-            raise NameError("unknown inherit")
-        super().__init__(self, *args, **kwargs)
+    ...

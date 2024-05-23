@@ -1,7 +1,6 @@
 from module.equipment.equipment import Equipment
 from module.equipment.equipment_change import EquipmentChange
 from module.hard.assets import *
-from module.logger import logger
 from module.map.assets import *
 
 
@@ -52,11 +51,4 @@ class HardEquipmentNew(EquipmentChange):
 
 
 class HardEquipment(HardEquipmentOld if globals().get("g_current_task", "") == "GemsFarming" else HardEquipmentNew):
-    def __init__(self, *args, **kwargs):
-        if isinstance(self, HardEquipmentOld):
-            logger.info("use HardEquipmentOld")
-        elif isinstance(self, HardEquipmentNew):
-            logger.info("use HardEquipmentNew")
-        else:
-            raise NameError("unknown inherit")
-        super().__init__(self, *args, **kwargs)
+    ...
