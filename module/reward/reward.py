@@ -8,6 +8,7 @@ from module.ui.assets import MISSION_CHECK
 from module.ui.navbar import Navbar
 from module.ui.page import page_main, page_mission, page_reward
 from module.ui.ui import UI
+from module.ui_white.assets import MISSION_NOTICE_WHITE
 
 
 class Reward(UI):
@@ -181,6 +182,23 @@ class Reward(UI):
         # premature exit
         return self._reward_mission_collect(interval=0.2)
 
+    def reward_mission_notice(self):
+        """
+        Returns:
+            bool: If notice appear
+
+        Pages:
+            in: page_main
+        """
+        if self.appear(MISSION_NOTICE):
+            logger.info('Found mission notice MISSION_NOTICE')
+            return True
+        if self.image_color_count(MISSION_NOTICE_WHITE, color=(214, 117, 99), threshold=221, count=20):
+            logger.info('Found mission notice MISSION_NOTICE_WHITE')
+            return True
+
+        return False
+
     def reward_mission(self, daily=True, weekly=True):
         """
         Collects mission rewards
@@ -199,11 +217,8 @@ class Reward(UI):
         if not daily and not weekly:
             return False
         logger.hr('Mission reward')
-        if not self.appear(MISSION_NOTICE):
-            logger.info('No mission reward')
+        if not self.reward_mission_notice():
             return False
-        else:
-            logger.info('Found mission reward notice')
 
         self.ui_goto(page_mission, skip_first_screenshot=True)
 
