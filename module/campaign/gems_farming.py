@@ -167,11 +167,15 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
 
         return success
 
+    def _dock_reset(self):
+        self.dock_filter_set()
+        self.dock_favourite_set(False)
+        self.dock_sort_method_dsc_set()
+
     def _ship_change_confirm(self, button):
 
         self.dock_select_one(button)
-        self.dock_filter_set()
-        self.dock_sort_method_dsc_set()
+        self._dock_reset()
         self.dock_select_confirm(check_button=page_fleet.check_button)
 
     def get_common_rarity_cv(self):
@@ -255,8 +259,9 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
             return ships
 
         scanner.set_limitation(fleet=0)
+        self.dock_favourite_set(self.config.GemsFarming_CommonDD == 'favourite')
 
-        if self.config.GemsFarming_CommonDD == 'any':
+        if self.config.GemsFarming_CommonDD == 'any' or self.config.GemsFarming_CommonDD == 'favourite':
             return scanner.scan(self.device.image, output=False)
         
         candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
@@ -338,7 +343,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
             return True
         else:
             logger.info('Change flagship failed, no CV in common rarity.')
-            self.dock_filter_set()
+            self._dock_reset()
             self.ui_back(check_button=page_fleet.check_button)
             return False
 
@@ -365,7 +370,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
             return True
         else:
             logger.info('Change vanguard ship failed, no DD in common rarity.')
-            self.dock_filter_set()
+            self._dock_reset()
             self.ui_back(check_button=page_fleet.check_button)
             return False
 

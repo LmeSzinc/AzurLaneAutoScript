@@ -1155,6 +1155,7 @@
       "name": "指定前排",
       "help": "",
       "any": "任意",
+      "favourite": "仅常用",
       "aulick_or_foote": "奥利克或富特",
       "cassin_or_downes": "卡辛或唐斯",
       "z20_or_z21": "Z20或Z21"
