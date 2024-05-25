@@ -9,7 +9,8 @@
     },
     "MaaRecord": {
       "ReportToPenguin": false,
-      "PenguinID": null
+      "PenguinID": null,
+      "ReportToYiTuLiu": false
     },
     "Emulator": {
       "ServerName": "disabled"
@@ -54,6 +55,7 @@
       "Medicine": 0,
       "Stone": 0,
       "Times": 5,
+      "Series": 1,
       "Drops": null,
       "DrGrandet": false
     },
@@ -77,6 +79,7 @@
       "Medicine": null,
       "Stone": null,
       "Times": null,
+      "Series": 1,
       "Drops": null,
       "DrGrandet": false
     },
@@ -100,6 +103,7 @@
       "Medicine": null,
       "Stone": null,
       "Times": null,
+      "Series": 1,
       "Drops": null,
       "DrGrandet": false
     },
@@ -134,7 +138,9 @@
       "Select5": true,
       "Level3ShortTime": true,
       "Times": 4,
-      "Expedite": false
+      "Expedite": false,
+      "FirstTags": null,
+      "ExtraTagsMode": 0
     },
     "Storage": {
       "Storage": {}
@@ -150,13 +156,14 @@
       "ServerUpdate": "04:00"
     },
     "MaaInfrast": {
-      "Facility": "Mfg > Trade > Power > Control > Reception > Office > Dorm",
+      "Facility": "Training > Mfg > Trade > Power > Control > Reception > Office > Dorm",
       "Drones": "Money",
       "WorkThreshold": 12,
       "ShiftThreshold": 4,
       "Notstationed": true,
       "Trust": true,
-      "Replenish": false
+      "Replenish": false,
+      "ContinueTraining": false
     },
     "MaaCustomInfrast": {
       "Enable": false,
@@ -182,6 +189,8 @@
       "CreditFight": false,
       "Shopping": true,
       "ForceShoppingIfCreditFull": false,
+      "OnlyBuyDiscount": false,
+      "ReserveMaxCredit": false,
       "BuyFirst": "招聘许可",
       "BlackList": "碳 > 家具 > 加急许可"
     },
@@ -197,6 +206,12 @@
       "SuccessInterval": 60,
       "FailureInterval": 120,
       "ServerUpdate": "04:00, 16:00"
+    },
+    "MaaAward": {
+      "Mail": false,
+      "Recruit": false,
+      "Orundum": false,
+      "Specialaccess": false
     },
     "Storage": {
       "Storage": {}
@@ -220,7 +235,9 @@
       "Squad": "指挥分队",
       "Roles": "取长补短",
       "CoreChar": null,
-      "Support": "no_use"
+      "Support": "no_use",
+      "startWithEliteTwo": "no_use",
+      "refreshTraderWithDice": false
     },
     "Storage": {
       "Storage": {}

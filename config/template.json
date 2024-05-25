@@ -82,6 +82,12 @@
       "AttemptsToRestart": 114514,
       "NotifyWhenAutoRestart": false
     },
+    "InstanceRestart": {
+      "Enabled": false,
+      "AttemptsToRestart": 114514,
+      "NotifyWhenAutoRestart": false,
+      "HasRestarted": 0
+    },
     "Storage": {
       "Storage": {}
     }
@@ -106,8 +112,8 @@
       "AmbushEvade": true
     },
     "StopCondition": {
-      "RunCount": 0,
       "OilLimit": 1000,
+      "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -180,8 +186,8 @@
       "AmbushEvade": true
     },
     "StopCondition": {
-      "RunCount": 0,
       "OilLimit": 1000,
+      "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -254,8 +260,8 @@
       "AmbushEvade": true
     },
     "StopCondition": {
-      "RunCount": 0,
       "OilLimit": 1000,
+      "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -352,8 +358,8 @@
       "AmbushEvade": true
     },
     "StopCondition": {
-      "RunCount": 0,
       "OilLimit": 1000,
+      "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -408,8 +414,8 @@
       "AmbushEvade": true
     },
     "StopCondition": {
-      "RunCount": 0,
       "OilLimit": 1000,
+      "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -482,8 +488,8 @@
       "AmbushEvade": true
     },
     "StopCondition": {
-      "RunCount": 0,
       "OilLimit": 1000,
+      "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -556,8 +562,8 @@
       "AmbushEvade": true
     },
     "StopCondition": {
-      "RunCount": 0,
       "OilLimit": 1000,
+      "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -634,8 +640,8 @@
       "AmbushEvade": true
     },
     "StopCondition": {
-      "RunCount": 0,
       "OilLimit": 1000,
+      "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -681,8 +687,8 @@
       "Fleet": "single"
     },
     "StopCondition": {
-      "RunCount": 0,
       "OilLimit": 1000,
+      "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -741,8 +747,8 @@
       "AmbushEvade": true
     },
     "StopCondition": {
-      "RunCount": 0,
       "OilLimit": 1000,
+      "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -819,8 +825,8 @@
       "AmbushEvade": true
     },
     "StopCondition": {
-      "RunCount": 0,
       "OilLimit": 1000,
+      "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -897,8 +903,8 @@
       "AmbushEvade": true
     },
     "StopCondition": {
-      "RunCount": 0,
       "OilLimit": 1000,
+      "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -975,8 +981,8 @@
       "AmbushEvade": true
     },
     "StopCondition": {
-      "RunCount": 0,
       "OilLimit": 1000,
+      "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -1053,8 +1059,8 @@
       "AmbushEvade": true
     },
     "StopCondition": {
-      "RunCount": 0,
       "OilLimit": 1000,
+      "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -1127,8 +1133,8 @@
       "AmbushEvade": true
     },
     "StopCondition": {
-      "RunCount": 0,
       "OilLimit": 1000,
+      "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -1204,8 +1210,8 @@
       "AmbushEvade": true
     },
     "StopCondition": {
-      "RunCount": 0,
       "OilLimit": 1000,
+      "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
@@ -1251,8 +1257,8 @@
       "Fleet": "single"
     },
     "StopCondition": {
-      "RunCount": 0,
       "OilLimit": 1000,
+      "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,

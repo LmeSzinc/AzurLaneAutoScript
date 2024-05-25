@@ -15,6 +15,7 @@ from module.logger import logger
 from module.notify import handle_notify
 from module.gg_handler.gg_handler import GGHandler
 
+g_current_task: str = ""
 
 class AzurLaneAutoScript:
     stop_event: threading.Event = None
@@ -572,6 +573,9 @@ class AzurLaneAutoScript:
             task = self.get_next_task()
             # Init device and change server
             _ = self.device
+
+            global g_current_task
+            g_current_task = task
 
             # Skip first restart
             if task == 'Restart':
