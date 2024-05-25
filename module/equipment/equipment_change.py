@@ -140,7 +140,7 @@ class EquipmentChange(Equipment):
         """
 
         self.equipping_set(False)
-
+        self.device.sleep(0.5)
         res = cv2.matchTemplate(self.device.screenshot(), np.array(
             self.equipment_list[index]), cv2.TM_CCOEFF_NORMED)
         _, sim, _, point = cv2.minMaxLoc(res)
