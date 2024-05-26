@@ -107,6 +107,7 @@ class AzurLaneAutoScript:
         except ScriptError as e:
             logger.critical(e)
             logger.critical('This is likely to be a mistake of developers, but sometimes just random issues')
+            self.save_critical_log()
             handle_notify(
                 self.config.Error_OnePushConfig,
                 title=f"Alas <{self.config_name}> crashed",
@@ -115,6 +116,7 @@ class AzurLaneAutoScript:
             exit(1)
         except RequestHumanTakeover:
             logger.critical('Request human takeover')
+            self.save_critical_log()
             handle_notify(
                 self.config.Error_OnePushConfig,
                 title=f"Alas <{self.config_name}> crashed",
@@ -160,6 +162,22 @@ class AzurLaneAutoScript:
                 lines = handle_sensitive_logs(lines)
             with open(f'{folder}/log.txt', 'w', encoding='utf-8') as f:
                 f.writelines(lines)
+
+    def save_critical_log(self):
+        """
+        Save last 60 screenshots in ./log/critical/<timestamp>
+        Save logs to ./log/critical/<timestamp>/log.txt
+        """
+        from module.handler.sensitive_info import (handle_sensitive_logs)
+        if self.config.Error_SaveError:
+            if not os.path.exists('./log/critical'):
+                os.mkdir('./log/critical')
+            folder = f'./log/critical/{int(time.time() * 1000)}'
+            logger.warning(f'Saving critical: {folder}')
+            os.mkdir(folder)
+            with open(f'{folder}/log.txt', 'w', encoding='utf-8') as f:
+                # write one file with "critical error"
+                f.write(f'Critical error at {datetime.now()}\n')
 
     def restart(self):
         from module.handler.login import LoginHandler
