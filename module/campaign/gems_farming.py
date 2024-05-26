@@ -11,7 +11,7 @@ from module.retire.assets import (
     DOCK_CHECK,
     TEMPLATE_BOGUE, TEMPLATE_HERMES, TEMPLATE_LANGLEY, TEMPLATE_RANGER,
     TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2, TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2,
-    TEMPLATE_AULICK, TEMPLATE_FOOTE, TEMPLATE_Z20, TEMPLATE_Z21
+    TEMPLATE_AULICK, TEMPLATE_FOOTE
 )
 
 from module.retire.dock import Dock
@@ -261,7 +261,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
         scanner.set_limitation(fleet=0)
         self.dock_favourite_set(self.config.GemsFarming_CommonDD == 'favourite')
 
-        if self.config.GemsFarming_CommonDD == 'any' or self.config.GemsFarming_CommonDD == 'favourite':
+        if self.config.GemsFarming_CommonDD in ['any', 'favourite', 'z20_or_z21']:
             return scanner.scan(self.device.image, output=False)
         
         candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
@@ -294,14 +294,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
         """
         Returns the corresponding template list based on CommonDD
         """
-        if common_dd == 'any':
-            return [
-                TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2,
-                TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2,
-                TEMPLATE_AULICK,
-                TEMPLATE_FOOTE
-            ]
-        elif common_dd == 'aulick_or_foote':
+        if common_dd == 'aulick_or_foote':
             return [
                 TEMPLATE_AULICK,
                 TEMPLATE_FOOTE
@@ -310,11 +303,6 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
             return [
                 TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2,
                 TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2
-            ]
-        elif common_dd == 'z20_or_z21':
-            return [
-                TEMPLATE_Z20,
-                TEMPLATE_Z21
             ]
         else:
             logger.error(f'Invalid CommonDD setting: {common_dd}')
@@ -358,8 +346,20 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
         """
         self.ui_click(FLEET_ENTER,
                       appear_button=page_fleet.check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
+
+        if self.config.GemsFarming_CommonDD == 'any':
+            faction = ['eagle', 'iron']
+        elif self.config.GemsFarming_CommonDD == 'favourite':
+            faction = 'all'
+        elif self.config.GemsFarming_CommonDD == 'z20_or_z21':
+            faction = 'iron'
+        elif self.config.GemsFarming_CommonDD in ['aulick_or_foote', 'cassin_or_downes']:
+            faction = 'eagle'
+        else:
+            logger.error(f'Invalid CommonDD setting: {self.config.GemsFarming_CommonDD}')
+            raise ScriptError('Invalid GemsFarming_CommonDD')
         self.dock_filter_set(
-            index='dd', rarity='common', faction=['eagle', 'iron'], extra='can_limit_break')
+            index='dd', rarity='common', faction=faction, extra='can_limit_break')
         self.dock_favourite_set(False)
 
         ship = self.get_common_rarity_dd()
