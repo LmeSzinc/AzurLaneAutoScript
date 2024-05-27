@@ -1,8 +1,9 @@
 import ctypes
 import re
-import subprocess
 
 import psutil
+import shlex
+import win32api
 
 from deploy.Windows.utils import DataProcessInfo
 from module.base.decorator import run_once
@@ -43,8 +44,7 @@ def flash_window(hwnd, flash=True):
 
 
 class PlatformWindows(PlatformBase, EmulatorManager):
-    @classmethod
-    def execute(cls, command):
+    def execute(self, command):
         """
         Args:
             command (str):
@@ -52,9 +52,12 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         Returns:
             subprocess.Popen:
         """
-        command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
-        logger.info(f'Execute: {command}')
-        return subprocess.Popen(command, close_fds=True)  # only work on Windows
+        parts = shlex.split(command)
+        command = parts[0]
+        params = " ".join(parts[1:])
+        silent = 0 if self.config.Emulator_SilentStart else 1
+        logger.info(f'Execute: {command} {params}')
+        return win32api.ShellExecute(hwnd=0, op='open', file=command, params=params, dir='', bShow=silent)
 
     @classmethod
     def kill_process_by_regex(cls, regex: str) -> int:
@@ -312,8 +315,20 @@ class PlatformWindows(PlatformBase, EmulatorManager):
 
     def emulator_stop(self):
         logger.hr('Emulator stop', level=1)
-        return self._emulator_function_wrapper(self._emulator_stop)
-
+        for _ in range(3):
+            # Start
+            if not self._emulator_function_wrapper(self._emulator_start):
+                return False
+            # Stop
+            if self._emulator_function_wrapper(self._emulator_stop):
+                # Success
+                return True
+            else:
+                # Failed to stop, start and stop again
+                if self._emulator_function_wrapper(self._emulator_start):
+                    continue
+                else:
+                    return False
 
 if __name__ == '__main__':
     self = PlatformWindows('alas')

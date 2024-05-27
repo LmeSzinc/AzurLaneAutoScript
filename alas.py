@@ -73,6 +73,11 @@ class AzurLaneAutoScript:
             logger.warning(e)
             self.config.task_call('Restart')
             return True
+        except EmulatorNotRunningError as e:
+            logger.warning(e)
+            self.device.emulator_start()
+            self.config.task_call('Restart')
+            return True
         except (GameStuckError, GameTooManyClickError) as e:
             logger.error(e)
             self.save_error_log()
@@ -121,11 +126,6 @@ class AzurLaneAutoScript:
                 content=f"<{self.config_name}> RequestHumanTakeover",
             )
             exit(1)
-        except EmulatorNotRunningError as e:
-            logger.warning(e)
-            self.device.emulator_start()
-            time.sleep(10)
-            self.config.task_call('Restart')
         except Exception as e:
             logger.exception(e)
             self.save_error_log()
@@ -474,7 +474,6 @@ class AzurLaneAutoScript:
                     self.device.release_during_wait()
                     if not self.wait_until(task.next_run):
                         self.device.emulator_start()
-                        time.sleep(10)
                         self.config.task_call('Restart')
                         del_cached_property(self, 'config')
                         continue

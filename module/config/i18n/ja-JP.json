@@ -428,6 +428,10 @@
     "AdbRestart": {
       "name": "Emulator.AdbRestart.name",
       "help": "Emulator.AdbRestart.help"
+    },
+    "SilentStart": {
+      "name": "Emulator.SilentStart.name",
+      "help": "Emulator.SilentStart.help"
     }
   },
   "EmulatorInfo": {

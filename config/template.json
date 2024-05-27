@@ -7,7 +7,8 @@
       "ScreenshotMethod": "auto",
       "ControlMethod": "minitouch",
       "ScreenshotDedithering": false,
-      "AdbRestart": false
+      "AdbRestart": false,
+      "SilentStart": false
     },
     "EmulatorInfo": {
       "Emulator": "auto",

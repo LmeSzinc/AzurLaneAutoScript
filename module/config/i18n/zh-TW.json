@@ -428,6 +428,10 @@
     "AdbRestart": {
       "name": "在檢測不到設備的時候嘗試重啟adb",
       "help": ""
+    },
+    "SilentStart": {
+      "name": "靜默啓働模擬器",
+      "help": "勾選此項後由Alas啓働的模擬器將會在後颱靜默運行，若需要監看模擬器運行狀況則不要勾選，且調度器結束後模擬器將被中止"
     }
   },
   "EmulatorInfo": {
@@ -716,7 +720,7 @@
       "event_20221124_cn": "鍊金術士與秘密遺跡群島",
       "event_20221222_cn": "定向折疊",
       "event_20230223_cn": "湮燼塵墟",
-      "event_20230525_cn": "Confluence of Nothingness",
+      "event_20230525_cn": "空相交會點",
       "event_20230803_cn": "奏響鳶尾之歌",
       "event_20230817_cn": "愚者的天平",
       "event_20230914_cn": "Effulgence Before Eclipse",

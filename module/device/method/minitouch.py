@@ -15,7 +15,7 @@ from module.base.timer import Timer
 from module.base.utils import *
 from module.device.connection import Connection
 from module.device.method.utils import RETRY_TRIES, handle_adb_error, retry_sleep
-from module.exception import RequestHumanTakeover, ScriptError
+from module.exception import EmulatorNotRunningError, RequestHumanTakeover, ScriptError
 from module.logger import logger
 
 
@@ -440,6 +440,9 @@ def retry(func):
 
                 def init():
                     del_cached_property(self, '_minitouch_builder')
+            # Emulator not running
+            except EmulatorNotRunningError:
+                raise EmulatorNotRunningError("Emulator not running")
             # Unknown, probably a trucked image
             except Exception as e:
                 logger.exception(e)
