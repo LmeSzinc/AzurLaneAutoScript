@@ -271,7 +271,9 @@ class OperationSiren(OSMap):
             remain = get_os_reset_remain()
             next_reset = get_os_next_reset()
             if frequency == 'weekly':
-                if remain < 7:
+                if remain == 0:
+                    next_reset = get_server_next_update(self.config.Scheduler_ServerUpdate)
+                elif remain < 7:
                     next_reset = next_reset - timedelta(days=1)
                 else:
                     next_reset = (
