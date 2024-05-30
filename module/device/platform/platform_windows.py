@@ -1,12 +1,8 @@
 import ctypes
 import re
-import sys
-import os
 import subprocess
 
 import psutil
-from shlex import split
-from win32api import ShellExecute
 
 from deploy.Windows.utils import DataProcessInfo
 from module.base.decorator import run_once
@@ -55,23 +51,17 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         Returns:
             subprocess.Popen:
         """
+        from sys import platform
         if not self.config.Emulator_SilentStart:
-
             # Win32
-            if sys.platform == 'win32':
-                return subprocess.Popen(
-                    command,
-                    creationflags=subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP,
-                    close_fds=True
-                    )
+            if platform == 'win32':
+                return subprocess.Popen(command,close_fds=True)
             # Linux
-            return subprocess.Popen(
-                    command,
-                    preexec_fn=os.setpgrp
-                    )
+            from os import setsid
+            return subprocess.Popen(command,preexec_fn=setsid)
         
         # Win32
-        if sys.platform == 'win32':
+        if platform == 'win32':
             startupinfo = subprocess.STARTUPINFO()
             startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
             startupinfo.wShowWindow = subprocess.SW_HIDE
@@ -86,14 +76,14 @@ class PlatformWindows(PlatformBase, EmulatorManager):
                 )
 
         # Linux
+        from os import setsid
         return subprocess.Popen(
             command,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
             stdin=subprocess.DEVNULL,
-            preexec_fn=os.setpgrp,
+            preexec_fn=setsid,
         )
-
 
         # parts = split(command)
         # command = parts[0]
