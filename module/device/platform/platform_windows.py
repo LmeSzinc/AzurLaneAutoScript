@@ -85,13 +85,6 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             preexec_fn=setsid,
         )
 
-        # parts = split(command)
-        # command = parts[0]
-        # params = " ".join(parts[1:])
-        # silent = 0 if self.config.Emulator_SilentStart else 1
-        # logger.info(f'Execute: {command} {params}')
-        # return ShellExecute(0, 'open', command, params, '', silent) # Windows only
-
     @classmethod
     def kill_process_by_regex(cls, regex: str) -> int:
         """

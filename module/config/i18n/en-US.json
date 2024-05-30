@@ -431,7 +431,7 @@
     },
     "SilentStart": {
       "name": "Start the emulator silently",
-      "help": "If this option is checked, the emulator launched by Alas will run silently in the background. \nIf you need to monitor the emulator, do not check it. \nAdditionally the emulator will be killed when the scheduler ends"
+      "help": "If this option is checked, the emulator launched by Alas will run silently in the background. \nIf you need to monitor the emulator, do not check it."
     }
   },
   "EmulatorInfo": {
