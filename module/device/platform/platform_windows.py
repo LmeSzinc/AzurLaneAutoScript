@@ -43,7 +43,7 @@ def flash_window(hwnd, flash=True):
 
 
 class PlatformWindows(PlatformBase, EmulatorManager):
-    def execute(self, command):
+    def execute(self, command:str):
         """
         Args:
             command (str):
@@ -51,6 +51,8 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         Returns:
             subprocess.Popen:
         """
+        command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
+        logger.info(f'Execute: {command}')
         from sys import platform
         if not self.config.Emulator_SilentStart:
             # Win32
@@ -123,6 +125,15 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             if instance.MuMuPlayer12_id is None:
                 logger.warning(f'Cannot get MuMu instance index from name {instance.name}')
             self.execute(f'"{exe}" -v {instance.MuMuPlayer12_id}')
+        elif instance == Emulator.LDPlayer3:
+            # LDPlayer.exe index=0
+            self.execute(f'"{exe}" index={instance.LDPlayer_id}')
+        elif instance == Emulator.LDPlayer4:
+            # LDPlayer.exe index=0
+            self.execute(f'"{exe}" index={instance.LDPlayer_id}')
+        elif instance == Emulator.LDPlayer9:
+            # LDPlayer.exe index=0
+            self.execute(f'"{exe}" index={instance.LDPlayer_id}')
         elif instance == Emulator.NoxPlayerFamily:
             # Nox.exe -clone:Nox_1
             self.execute(f'"{exe}" -clone:{instance.name}')
@@ -183,6 +194,27 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             )
             # There is also a shared service, no need to kill it
             # "C:\Program Files\MuMuVMMVbox\Hypervisor\MuMuVMMSVC.exe" --Embedding
+        # LDPlayer has simply 1 process
+        # E:\Program Files\leidian\LDPlayer9\dnplayer.exe index=0
+        # Maybe "E:\Program Files\leidian\LDPlayer9\dnconsole.exe quit --index 0" is better? I don't know. XD
+        elif instance == Emulator.LDPlayer3:
+            self.kill_process_by_regex(
+                rf'('
+                rf'dnplayer.exe.*index={instance.LDPlayer_id}'
+                rf')'
+            )
+        elif instance == Emulator.LDPlayer4:
+            self.kill_process_by_regex(
+                rf'('
+                rf'dnplayer.exe.*index={instance.LDPlayer_id}'
+                rf')'
+            )
+        elif instance == Emulator.LDPlayer9:
+            self.kill_process_by_regex(
+                rf'('
+                rf'dnplayer.exe.*index={instance.LDPlayer_id}'
+                rf')'
+            )
         elif instance == Emulator.NoxPlayerFamily:
             # Nox.exe -clone:Nox_1 -quit
             self.execute(f'"{exe}" -clone:{instance.name} -quit')
