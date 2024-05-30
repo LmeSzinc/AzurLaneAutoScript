@@ -1,9 +1,12 @@
 import ctypes
 import re
+import sys
+import os
+import subprocess
 
 import psutil
-import shlex
-import win32api
+from shlex import split
+from win32api import ShellExecute
 
 from deploy.Windows.utils import DataProcessInfo
 from module.base.decorator import run_once
@@ -52,12 +55,52 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         Returns:
             subprocess.Popen:
         """
-        parts = shlex.split(command)
-        command = parts[0]
-        params = " ".join(parts[1:])
-        silent = 0 if self.config.Emulator_SilentStart else 1
-        logger.info(f'Execute: {command} {params}')
-        return win32api.ShellExecute(0, 'open', command, params, '', silent)
+        if not self.config.Emulator_SilentStart:
+
+            # Win32
+            if sys.platform == 'win32':
+                return subprocess.Popen(
+                    command,
+                    creationflags=subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP,
+                    close_fds=True
+                    )
+            # Linux
+            return subprocess.Popen(
+                    command,
+                    preexec_fn=os.setpgrp
+                    )
+        
+        # Win32
+        if sys.platform == 'win32':
+            startupinfo = subprocess.STARTUPINFO()
+            startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+            startupinfo.wShowWindow = subprocess.SW_HIDE
+            return subprocess.Popen(
+                command,
+                startupinfo=startupinfo,
+                creationflags=subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                stdin=subprocess.DEVNULL,
+                close_fds=True
+                )
+
+        # Linux
+        return subprocess.Popen(
+            command,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            stdin=subprocess.DEVNULL,
+            preexec_fn=os.setpgrp,
+        )
+
+
+        # parts = split(command)
+        # command = parts[0]
+        # params = " ".join(parts[1:])
+        # silent = 0 if self.config.Emulator_SilentStart else 1
+        # logger.info(f'Execute: {command} {params}')
+        # return ShellExecute(0, 'open', command, params, '', silent) # Windows only
 
     @classmethod
     def kill_process_by_regex(cls, regex: str) -> int:
