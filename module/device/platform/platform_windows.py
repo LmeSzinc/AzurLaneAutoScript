@@ -43,7 +43,7 @@ def flash_window(hwnd, flash=True):
 
 
 class PlatformWindows(PlatformBase, EmulatorManager):
-    def execute(self, command:str):
+    def execute(self, command: str):
         """
         Args:
             command (str):
@@ -88,6 +88,19 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         )
 
     @classmethod
+    def kill_process(cls, command: str):
+        """
+        Args:
+            command (str):
+
+        Returns:
+            subprocess.Popen:        
+        """
+        command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
+        logger.info(f'Kill: {command}')
+        return subprocess.Popen(command,close_fds=True,shell=True)
+
+    @classmethod
     def kill_process_by_regex(cls, regex: str) -> int:
         """
         Kill processes with cmdline match the given regex.
@@ -113,7 +126,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         """
         Start a emulator without error handling
         """
-        exe = instance.emulator.path
+        exe: str = instance.emulator.path
         if instance == Emulator.MuMuPlayer:
             # NemuPlayer.exe
             self.execute(exe)
@@ -125,13 +138,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             if instance.MuMuPlayer12_id is None:
                 logger.warning(f'Cannot get MuMu instance index from name {instance.name}')
             self.execute(f'"{exe}" -v {instance.MuMuPlayer12_id}')
-        elif instance == Emulator.LDPlayer3:
-            # LDPlayer.exe index=0
-            self.execute(f'"{exe}" index={instance.LDPlayer_id}')
-        elif instance == Emulator.LDPlayer4:
-            # LDPlayer.exe index=0
-            self.execute(f'"{exe}" index={instance.LDPlayer_id}')
-        elif instance == Emulator.LDPlayer9:
+        elif instance == Emulator.LDPlayerFamily:
             # LDPlayer.exe index=0
             self.execute(f'"{exe}" index={instance.LDPlayer_id}')
         elif instance == Emulator.NoxPlayerFamily:
@@ -151,7 +158,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         Stop a emulator without error handling
         """
         logger.hr('Emulator stop', level=2)
-        exe = instance.emulator.path
+        exe: str = instance.emulator.path
         if instance == Emulator.MuMuPlayer:
             # MuMu6 does not have multi instance, kill one means kill all
             # Has 4 processes
@@ -194,30 +201,13 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             )
             # There is also a shared service, no need to kill it
             # "C:\Program Files\MuMuVMMVbox\Hypervisor\MuMuVMMSVC.exe" --Embedding
-        # LDPlayer has simply 1 process
-        # E:\Program Files\leidian\LDPlayer9\dnplayer.exe index=0
-        # Maybe "E:\Program Files\leidian\LDPlayer9\dnconsole.exe quit --index 0" is better? I don't know. XD
-        elif instance == Emulator.LDPlayer3:
-            self.kill_process_by_regex(
-                rf'('
-                rf'dnplayer.exe.*index={instance.LDPlayer_id}'
-                rf')'
-            )
-        elif instance == Emulator.LDPlayer4:
-            self.kill_process_by_regex(
-                rf'('
-                rf'dnplayer.exe.*index={instance.LDPlayer_id}'
-                rf')'
-            )
-        elif instance == Emulator.LDPlayer9:
-            self.kill_process_by_regex(
-                rf'('
-                rf'dnplayer.exe.*index={instance.LDPlayer_id}'
-                rf')'
-            )
+        elif instance == Emulator.LDPlayerFamily:
+            # LDPlayer has simply 1 process
+            # E:\Program Files\leidian\LDPlayer9\dnconsole.exe quit --index 0
+            self.kill_process(f'{exe.rsplit('/',1)[0]}/dnconsole.exe quit --index {instance.LDPlayer_id}')
         elif instance == Emulator.NoxPlayerFamily:
             # Nox.exe -clone:Nox_1 -quit
-            self.execute(f'"{exe}" -clone:{instance.name} -quit')
+            self.kill_process(f'"{exe}" -clone:{instance.name} -quit')
         else:
             raise EmulatorUnknown(f'Cannot stop an unknown emulator instance: {instance}')
 

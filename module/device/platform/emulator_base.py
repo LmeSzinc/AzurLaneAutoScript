@@ -116,6 +116,15 @@ class EmulatorInstanceBase:
 
     @cached_property
     def LDPlayer_id(self):
+        """
+        Convert LDPlayer instance name to instance id.
+        Example names:
+            leidian0
+            leidian1
+
+        Returns:
+            int: Instance ID, or None if this is not a LDPlayer instance
+        """        
         res = re.search(r'leidian(\d+)', self.name)
         if res:
             return int(res.group(1))

@@ -12,8 +12,7 @@ from module.base.utils import *
 from module.device.connection import Connection
 from module.device.method.utils import (RETRY_TRIES, retry_sleep, handle_adb_error,
                                         ImageTruncated, PackageNotInstalled, possible_reasons)
-from module.exception import RequestHumanTakeover
-from module.exception import EmulatorNotRunningError
+from module.exception import EmulatorNotRunningError, RequestHumanTakeover
 from module.logger import logger
 
 
