@@ -240,49 +240,63 @@ class RewardDorm(UI):
                 self.device.click(DORM_FURNITURE_SHOP_QUIT)
                 continue
 
-    def dorm_collect(self):
+    def dorm_collect(self, quick_collect=True):
         """
-        Click all coins and loves on current screen.
+        Collect all the coins and loves in the dorm.
+
+        Quick way: using the one-click collect button.
+
+        Classic way: Click all coins and loves on current screen.
         Zoom-out dorm to detect coins and loves, because swipes in dorm may treat as dragging ships.
         Coordinates here doesn't matter too much.
+
+        Args:
+            quick_collect (bool): If enabled, all coins and loves will be collected using the one-click collect button.
+            When disabled, coins and loves will be collected one by one, which is slower.
 
         Pages:
             in: page_dorm, without info_bar
             out: page_dorm, without info_bar
         """
-        logger.hr('Dorm collect')
+        logger.hr(f"Dorm Collect {'Quick' if quick_collect else 'Classic'}")
 
-        self.dorm_view_reset()
+        if quick_collect:
+            # Collect coins and loves through the quick collect button
+            self.appear_then_click(DORM_QUICK_COLLECT, interval=1)
 
-        # Collect
-        _dorm_receive_attempt = 0
-        skip_first_screenshot = True
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
+        else:
+            # Zoom-out dorm
+            self.dorm_view_reset()
 
-            # Handle all popups
-            if self.ui_additional():
-                continue
-            if self.appear_then_click(DORM_FURNITURE_CONFIRM, offset=(30, 30), interval=3):
-                continue
+            # Collect coins and loves through the classic way
+            _dorm_receive_attempt = 0
+            skip_first_screenshot = True
+            while 1:
+                if skip_first_screenshot:
+                    skip_first_screenshot = False
+                else:
+                    self.device.screenshot()
 
-            # DORM_CHECK on screen before attempt
-            # Stacked popup may fail detection as
-            # may be in progress of appearing
-            if not self.appear(DORM_CHECK):
-                continue
+                # Handle all popups
+                if self.ui_additional():
+                    continue
+                if self.appear_then_click(DORM_FURNITURE_CONFIRM, offset=(30, 30), interval=3):
+                    continue
 
-            # End
-            # - If max _dorm_receive_attempt (3+) reached
-            # - If _dorm_receive_click returns 0 (no coins/loves clicked)
-            if _dorm_receive_attempt < 3 and self._dorm_receive_click():
-                self.ensure_no_info_bar()
-                _dorm_receive_attempt += 1
-            else:
-                break
+                # DORM_CHECK on screen before attempt
+                # Stacked popup may fail detection as
+                # may be in progress of appearing
+                if not self.appear(DORM_CHECK):
+                    continue
+
+                # End
+                # - If max _dorm_receive_attempt (3+) reached
+                # - If _dorm_receive_click returns 0 (no coins/loves clicked)
+                if _dorm_receive_attempt < 3 and self._dorm_receive_click():
+                    self.ensure_no_info_bar()
+                    _dorm_receive_attempt += 1
+                else:
+                    break
 
     @cached_property
     def _dorm_food(self):
@@ -474,7 +488,7 @@ class RewardDorm(UI):
                 self.interval_clear(DORM_CHECK)
                 continue
 
-    def dorm_run(self, feed=True, collect=True, buy_furniture=False):
+    def dorm_run(self, feed=True, collect=True, quick_collect=True, buy_furniture=False):
         """
         Pages:
             in: Any page
@@ -502,7 +516,7 @@ class RewardDorm(UI):
 
         if collect:
             logger.hr('Dorm collect', level=1)
-            self.dorm_collect()
+            self.dorm_collect(quick_collect)
 
         if buy_furniture:
             logger.hr('Dorm buy furniture', level=1)
@@ -598,6 +612,7 @@ class RewardDorm(UI):
 
         self.dorm_run(feed=self.config.Dorm_Feed,
                       collect=self.config.Dorm_Collect,
+                      quick_collect=self.config.Dorm_QuickCollect,
                       buy_furniture=self.config.BuyFurniture_Enable)
 
         # Scheduler

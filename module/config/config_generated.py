@@ -210,6 +210,7 @@ class GeneratedConfig:
 
     # Group `Dorm`
     Dorm_Collect = True
+    Dorm_QuickCollect = True
     Dorm_Feed = True
     Dorm_FeedFilter = '20000 > 10000 > 5000 > 3000 > 2000 > 1000'
 
