@@ -1,8 +1,8 @@
 import {alasPath, pythonPath} from '/@/config';
+import logger from '/@/logger';
 
 const {PythonShell} = require('python-shell');
 const treeKill = require('tree-kill');
-
 
 export class PyShell extends PythonShell {
   constructor(script: string, args: Array<string> = []) {
@@ -12,6 +12,7 @@ export class PyShell extends PythonShell {
       pythonPath: pythonPath,
       scriptPath: alasPath,
     };
+    logger.info(`${pythonPath} ${script} ${args}`);
     super(script, options);
   }
 

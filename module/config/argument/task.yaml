@@ -2,6 +2,7 @@
 # Define argument group of tasks.
 # --------------------
 
+
 # ==================== Alas ====================
 
 Alas:
@@ -21,6 +22,7 @@ Alas:
       - OldRetire
     Restart:
       - Scheduler
+      - RestartEmulator
 
 # ==================== Farm ====================
 
@@ -81,6 +83,15 @@ Event:
       - HpControl
       - EnemyPriority
     Event2:
+      - Scheduler
+      - Campaign
+      - StopCondition
+      - Fleet
+      - Submarine
+      - Emotion
+      - HpControl
+      - EnemyPriority
+    Event3:
       - Scheduler
       - Campaign
       - StopCondition
@@ -299,6 +310,7 @@ Opsi:
       - Scheduler
       - OpsiStronghold
       - OpsiFleetFilter
+      - OpsiFleet
     OpsiMonthBoss:
       - Scheduler
       - OpsiMonthBoss
@@ -330,3 +342,5 @@ Tool:
       - AzurLaneUncensored
     GameManager:
       - GameManager
+      - GGHandler
+      - PowerLimit

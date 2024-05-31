@@ -1,6 +1,6 @@
 import os
 
-from deploy.logger import logger
+from deploy.Windows.logger import logger
 
 BASE_FOLDER = os.path.dirname(os.path.abspath(__file__))
 logger.info(BASE_FOLDER)

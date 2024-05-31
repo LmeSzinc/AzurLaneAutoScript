@@ -6,7 +6,7 @@ import numpy as np
 import requests
 from adbutils.errors import AdbError
 
-from module.base.decorator import cached_property, del_cached_property
+from module.base.decorator import cached_property, del_cached_property, Config
 from module.base.timer import Timer
 from module.device.method.uiautomator_2 import ProcessInfo, Uiautomator2
 from module.device.method.utils import (
@@ -254,7 +254,7 @@ class DroidCast(Uiautomator2):
                     raise DroidCastVersionIncompatible(
                         'Requesting screenshots from `DroidCast_raw` but server is `DroidCast`')
             # ValueError: cannot reshape array of size 0 into shape (720,1280)
-            raise ImageTruncated(str(e))
+            raise ImageTruncated(str(e)+'\nIf your emulator resolution not 1280x720, please set emulator resolution to 1280x720')
 
         # Convert RGB565 to RGB888
         # https://blog.csdn.net/happy08god/article/details/10516871

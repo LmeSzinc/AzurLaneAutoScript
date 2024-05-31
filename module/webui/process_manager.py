@@ -12,8 +12,7 @@ from rich.console import Console, ConsoleRenderable
 from module.config.utils import filepath_config
 from module.logger import logger, set_file_logger, set_func_logger
 from module.submodule.submodule import load_mod
-from module.submodule.utils import get_available_func, get_available_mod, get_available_mod_func, get_config_mod, \
-    get_func_mod, list_mod_instance
+from module.submodule.utils import get_available_mod, get_available_mod_func, get_config_mod, get_func_mod, list_mod_instance
 from module.webui.setting import State
 
 
@@ -150,10 +149,26 @@ class ProcessManager:
                 if e is not None:
                     AzurLaneAutoScript.stop_event = e
                 AzurLaneAutoScript(config_name=config_name).loop()
-            elif func in get_available_func():
-                from alas import AzurLaneAutoScript
+            elif func == "Daemon":
+                from module.daemon.daemon import AzurLaneDaemon
 
-                AzurLaneAutoScript(config_name=config_name).run(inflection.underscore(func))
+                AzurLaneDaemon(config=config_name, task="Daemon").run()
+            elif func == "OpsiDaemon":
+                from module.daemon.os_daemon import AzurLaneDaemon
+
+                AzurLaneDaemon(config=config_name, task="OpsiDaemon").run()
+            elif func == "AzurLaneUncensored":
+                from module.daemon.uncensored import AzurLaneUncensored
+
+                AzurLaneUncensored(config=config_name, task="AzurLaneUncensored").run()
+            elif func == "Benchmark":
+                from module.daemon.benchmark import run_benchmark
+
+                run_benchmark(config=config_name)
+            elif func == "GameManager":
+                from module.daemon.game_manager import GameManager
+
+                GameManager(config=config_name, task="GameManager").run()
             elif func in get_available_mod():
                 mod = load_mod(func)
 

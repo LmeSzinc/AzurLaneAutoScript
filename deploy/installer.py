@@ -1,13 +1,14 @@
-from deploy.patch import pre_checks
+from deploy.Windows.logger import Progress, logger
+from deploy.Windows.patch import pre_checks
 
 pre_checks()
 
-from deploy.adb import AdbManager
-from deploy.alas import AlasManager
-from deploy.app import AppManager
-from deploy.config import ExecutionError
-from deploy.git import GitManager
-from deploy.pip import PipManager
+from deploy.Windows.adb import AdbManager
+from deploy.Windows.alas import AlasManager
+from deploy.Windows.app import AppManager
+from deploy.Windows.config import ExecutionError
+from deploy.Windows.git import GitManager
+from deploy.Windows.pip import PipManager
 
 
 class Installer(GitManager, PipManager, AdbManager, AppManager, AlasManager):
@@ -22,5 +23,12 @@ class Installer(GitManager, PipManager, AdbManager, AppManager, AlasManager):
             exit(1)
 
 
-if __name__ == '__main__':
-    Installer().install()
+def run():
+    Progress.Start()
+    installer = Installer()
+    Progress.ShowDeployConfig()
+
+    installer.install()
+
+    logger.info('Finish')
+    Progress.Finish()

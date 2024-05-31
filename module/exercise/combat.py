@@ -24,6 +24,10 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment, Combat):
                 # self.equipment_take_on()
                 pass
 
+                # Power limit check
+                from module.gg_handler.gg_handler import GGHandler
+                GGHandler(config=self.config, device=self.device).power_limit('Exercise')
+
                 self.device.click(BATTLE_PREPARATION)
                 continue
 
@@ -170,15 +174,15 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment, Combat):
             return False
 
         self._choose_opponent(0)
-        self.equipment_take_off()
+        super().equipment_take_off()
         self._preparation_quit()
 
-    def equipment_take_on(self):
-        if self.config.EXERCISE_FLEET_EQUIPMENT is None:
-            return False
-        if self.equipment_has_take_on:
-            return False
-
-        self._choose_opponent(0)
-        super().equipment_take_on()
-        self._preparation_quit()
+    # def equipment_take_on(self):
+    #     if self.config.EXERCISE_FLEET_EQUIPMENT is None:
+    #         return False
+    #     if self.equipment_has_take_on:
+    #         return False
+    #
+    #     self._choose_opponent(0)
+    #     super().equipment_take_on()
+    #     self._preparation_quit()

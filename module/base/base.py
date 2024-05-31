@@ -34,8 +34,6 @@ class ModuleBase:
         """
         if isinstance(config, AzurLaneConfig):
             self.config = config
-            if task is not None:
-                self.config.init_task(task)
         elif isinstance(config, str):
             self.config = AzurLaneConfig(config, task=task)
         else:
@@ -74,9 +72,6 @@ class ModuleBase:
             return
         if not self.config.is_actual_task:
             logger.info('No actual task bound, skip early_ocr_import')
-            return
-        if self.config.task.command in ['Daemon', 'OpsiDaemon']:
-            logger.info('No ocr in daemon task, skip early_ocr_import')
             return
 
         def do_ocr_import():

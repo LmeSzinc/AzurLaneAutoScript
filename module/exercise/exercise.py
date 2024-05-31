@@ -1,11 +1,11 @@
-from datetime import timedelta
+import datetime
 from module.config.utils import get_server_last_update
 from module.exercise.assets import *
 from module.exercise.combat import ExerciseCombat
 from module.logger import logger
 from module.ocr.ocr import Digit, Ocr, OcrYuv
 from module.ui.page import page_exercise
-
+from module.config.utils import get_server_next_update
 
 class DatedDuration(Ocr):
     def __init__(self, buttons, lang='cnocr', letter=(255, 255, 255), threshold=128, alphabet='0123456789:IDS天日d',
@@ -20,11 +20,11 @@ class DatedDuration(Ocr):
     def ocr(self, image, direct_ocr=False):
         """
         Do OCR on a dated duration, such as `10d 01:30:30` or `7日01:30:30`.
-        
+
         Args:
             image:
             direct_ocr:
-            
+
         Returns:
             list, datetime.timedelta: timedelta object, or a list of it.
         """
@@ -39,9 +39,9 @@ class DatedDuration(Ocr):
     @staticmethod
     def parse_time(string):
         """
-        Args: 
+        Args:
             string (str): `10d 01:30:30` or `7日01:30:30`
-        
+
         Returns:
             datetime.timedelta:
         """
@@ -49,10 +49,10 @@ class DatedDuration(Ocr):
         result = re.search(r'(\d{1,2})\D?(\d{1,2}):?(\d{2}):?(\d{2})', string)
         if result:
             result = [int(s) for s in result.groups()]
-            return timedelta(days=result[0], hours=result[1], minutes=result[2], seconds=result[3])
+            return datetime.timedelta(days=result[0], hours=result[1], minutes=result[2], seconds=result[3])
         else:
             logger.warning(f'Invalid dated duration: {string}')
-            return timedelta(days=0, hours=0, minutes=0, seconds=0)
+            return datetime.timedelta(days=0, hours=0, minutes=0, seconds=0)
 
 
 class DatedDurationYuv(DatedDuration, OcrYuv):
@@ -199,6 +199,7 @@ class Exercise(ExerciseCombat):
 
     def run(self):
         self.ui_ensure(page_exercise)
+        server_update = self.config.Scheduler_ServerUpdate
 
         self.opponent_change_count = self._get_opponent_change_count()
         logger.attr("Change_opponent_count", self.opponent_change_count)
@@ -208,7 +209,7 @@ class Exercise(ExerciseCombat):
         if not self.server_support_ocr_reset_remain():
             logger.info(f'Server {self.config.SERVER} does not yet support OCR exercise reset remain time')
             logger.info('Please contact the developer to improve as soon as possible')
-            remain_time = timedelta(days=0)
+            remain_time = datetime.timedelta(days=0)
         else:
             remain_time = OCR_PERIOD_REMAIN.ocr(self.device.image)
         logger.info(f'Exercise period remain: {remain_time}')
@@ -219,13 +220,28 @@ class Exercise(ExerciseCombat):
             if admiral_start > int(remain_time.total_seconds() // 3600) >= admiral_end:  # set time for getting admiral
                 logger.info('Reach set time for admiral trial, using all attempts.')
                 self.preserve = 0
+                forced_run =True
             elif int(remain_time.total_seconds() // 3600) < 6:  # if not set to "sun18", still depleting at sunday 18pm.
                 logger.info('Exercise period remain less than 6 hours, using all attempts.')
                 self.preserve = 0
+                forced_run = True
             else:
                 logger.info(f'Preserve {self.preserve} exercise')
+                forced_run = False
+        else:
+            forced_run = False
 
-        while 1:
+        # Delay task to the configured time
+        if ((get_server_next_update(server_update) - datetime.datetime.now()).seconds >
+            3600 * self.config.Exercise_DelayUntilHoursBeforeNextUpdate)\
+                and not forced_run:
+            logger.warning(f'Exercise should run at {self.config.Exercise_DelayUntilHoursBeforeNextUpdate} '
+                           f'hours before next update. Delay task to it.')
+            run = False
+        else:
+            run = True
+
+        while run:
             self.remain = OCR_EXERCISE_REMAIN.ocr(self.device.image)
             if self.remain <= self.preserve:
                 break
@@ -245,6 +261,13 @@ class Exercise(ExerciseCombat):
         with self.config.multi_set():
             self.config.set_record(Exercise_OpponentRefreshValue=self.opponent_change_count)
             if self.remain <= self.preserve or self.opponent_change_count >= 5:
-                self.config.task_delay(server_update=True)
+                next_run = get_server_next_update(server_update) \
+                           - datetime.timedelta(hours=self.config.Exercise_DelayUntilHoursBeforeNextUpdate)
+                now = datetime.datetime.now()
+                if next_run < now or run:
+                    self.config.task_delay(server_update=True)
+                    return
+                minutes_to_delay = int((next_run - now).total_seconds() / 60 + 1)
+                self.config.task_delay(minute=minutes_to_delay)
             else:
                 self.config.task_delay(success=False)
