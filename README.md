@@ -20,17 +20,6 @@
 
 演习推迟功能，可以在演习更新次数前1小时再打，但在指定清空次数的时候一刷新次数就清空。
 
-  ## 使用方法：
+-----
 
-1，将alas库地址修改为本地址。
-
-2，在以下位置修改配置文件。
-
-![image](https://github.com/Zuosizhu/Alas-with-Dashboard/assets/60862861/5cabd341-d4bc-47c2-a7b2-fe2a7cd73e3b)
-
-3，GG明确表明蓝叠模拟器很慢。加上目前水平太菜无法解决蓝叠时常出现的UI Automator2无法使用的问题。加上蓝叠不能导入文件夹+本人网速极慢。因此若出现问题，不作任何支持。
-
-4，祝您使用AlasGG小开愉快。
-
-# Discord
-https://discord.gg/2NuruGzKkK
+我是杂鱼搬运工
