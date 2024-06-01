@@ -97,7 +97,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             subprocess.Popen:        
         """
         command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
-        logger.info(f'Kill: {command}')
+        logger.info(f'Execute: {command}')
         return subprocess.Popen(command,close_fds=True,shell=True)
 
     @classmethod
@@ -204,10 +204,23 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         elif instance == Emulator.LDPlayerFamily:
             # LDPlayer has simply 1 process
             # E:\Program Files\leidian\LDPlayer9\dnconsole.exe quit --index 0
-            self.kill_process(f'{exe.rsplit('/',1)[0]}/dnconsole.exe quit --index {instance.LDPlayer_id}')
+            self.kill_process(f'"{exe.rsplit("/",1)[0]}/dnconsole.exe" quit --index {instance.LDPlayer_id}')
         elif instance == Emulator.NoxPlayerFamily:
             # Nox.exe -clone:Nox_1 -quit
             self.kill_process(f'"{exe}" -clone:{instance.name} -quit')
+        elif instance == Emulator.BlueStacks5:
+            # BlueStack has 2 processes
+            # C:\Program Files\BlueStacks_nxt_cn\HD-Player.exe --instance Pie64
+            # C:\Program Files\BlueStacks_nxt_cn\BstkSVC.exe -Embedding
+            self.kill_process_by_regex(
+                rf'('
+                rf'HD-Player.exe.*"--instance" "{instance.name}"'
+                rf'BstkSVC.exe.*-Embedding'
+                rf')'
+            )
+        elif instance == Emulator.BlueStacks4:
+            # E:\Program Files (x86)\BluestacksCN\bsconsole.exe quit --name Android
+            self.kill_process(f'"{exe.rsplit("/",1)[0]}/bsconsole.exe" quit --name {instance.name}')
         else:
             raise EmulatorUnknown(f'Cannot stop an unknown emulator instance: {instance}')
 
