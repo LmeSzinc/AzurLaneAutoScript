@@ -19,9 +19,9 @@ class Freebies(ModuleBase):
             logger.hr('Data key', level=1)
             DataKey(self.config, self.device).run()
 
-        if self.config.Mail_Collect:
-            logger.hr('Mail', level=1)
-            Mail(self.config, self.device).run()
+        # if self.config.Mail_Collect:
+        #     logger.hr('Mail', level=1)
+        #     Mail(self.config, self.device).run()
 
         if self.config.SupplyPack_Collect:
             logger.hr('Supply pack', level=1)
