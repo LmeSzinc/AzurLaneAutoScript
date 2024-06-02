@@ -1413,10 +1413,6 @@
       "name": "Dorm.Collect.name",
       "help": "Dorm.Collect.help"
     },
-    "QuickCollect": {
-      "name": "Dorm.QuickCollect.name",
-      "help": "Dorm.QuickCollect.help"
-    },
     "Feed": {
       "name": "Dorm.Feed.name",
       "help": "Dorm.Feed.help"

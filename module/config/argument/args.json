@@ -6864,10 +6864,6 @@
         "type": "checkbox",
         "value": true
       },
-      "QuickCollect": {
-        "type": "checkbox",
-        "value": true
-      },
       "Feed": {
         "type": "checkbox",
         "value": true

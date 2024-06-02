@@ -1413,10 +1413,6 @@
       "name": "Collect Coins and Loves",
       "help": ""
     },
-    "QuickCollect": {
-      "name": "Quick Collect",
-      "help": "It is recommended to enable it and only disable it if there are problems with quick collection. When disabled, coins and loves will be collected one by one, which is slower\nEnable Collect Coins and Loves first if you want to use this"
-    },
     "Feed": {
       "name": "Restock Dorm Snacks",
       "help": ""
