@@ -319,3 +319,6 @@ class Device(Screenshot, Control, AppControl):
             raise
         self.stuck_record_clear()
         self.click_record_clear()
+
+    def emulator_start(self):
+        return super().emulator_start()

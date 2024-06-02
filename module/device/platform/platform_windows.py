@@ -51,18 +51,14 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         Returns:
             subprocess.Popen:
         """
+        # CAUTION!!!!!!: Windows only.
         command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
         logger.info(f'Execute: {command}')
         from sys import platform
         if not self.config.Emulator_SilentStart:
-            # Win32
             if platform == 'win32':
                 return subprocess.Popen(command,close_fds=True)
-            # Linux
-            from os import setsid
-            return subprocess.Popen(command,preexec_fn=setsid)
         
-        # Win32
         if platform == 'win32':
             startupinfo = subprocess.STARTUPINFO()
             startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
@@ -76,16 +72,6 @@ class PlatformWindows(PlatformBase, EmulatorManager):
                 stdin=subprocess.DEVNULL,
                 close_fds=True
                 )
-
-        # Linux
-        from os import setsid
-        return subprocess.Popen(
-            command,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            stdin=subprocess.DEVNULL,
-            preexec_fn=setsid,
-        )
 
     @classmethod
     def kill_process(cls, command: str):
@@ -150,6 +136,9 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         elif instance == Emulator.BlueStacks4:
             # BlueStacks\Client\Bluestacks.exe -vmname Android_1
             self.execute(f'"{exe}" -vmname {instance.name}')
+        elif instance == Emulator.MEmuPlayer:
+            # MEmu.exe MEmu_0
+            self.execute(f'"{exe}" {instance.name}')
         else:
             raise EmulatorUnknown(f'Cannot start an unknown emulator instance: {instance}')
 
@@ -157,6 +146,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         """
         Stop a emulator without error handling
         """
+        import os
         logger.hr('Emulator stop', level=2)
         exe: str = instance.emulator.path
         if instance == Emulator.MuMuPlayer:
@@ -188,23 +178,13 @@ class PlatformWindows(PlatformBase, EmulatorManager):
                 rf')'
             )
         elif instance == Emulator.MuMuPlayer12:
-            # MuMu 12 has 2 processes:
-            # E:\ProgramFiles\Netease\MuMuPlayer-12.0\shell\MuMuPlayer.exe -v 0
-            # "C:\Program Files\MuMuVMMVbox\Hypervisor\MuMuVMMHeadless.exe" --comment MuMuPlayer-12.0-0 --startvm xxx
+            # E:\Program Files\Netease\MuMu Player 12\shell\MuMuManager.exe api -v 1 shutdown_player
             if instance.MuMuPlayer12_id is None:
                 logger.warning(f'Cannot get MuMu instance index from name {instance.name}')
-            self.kill_process_by_regex(
-                rf'('
-                rf'MuMuVMMHeadless.exe.*--comment {instance.name}'
-                rf'|MuMuPlayer.exe.*-v {instance.MuMuPlayer12_id}'
-                rf')'
-            )
-            # There is also a shared service, no need to kill it
-            # "C:\Program Files\MuMuVMMVbox\Hypervisor\MuMuVMMSVC.exe" --Embedding
+            self.kill_process(f'"{os.path.join(os.path.dirname(exe),"MuMuManager.exe")}" api -v {instance.MuMuPlayer12_id} shutdown_player')
         elif instance == Emulator.LDPlayerFamily:
-            # LDPlayer has simply 1 process
             # E:\Program Files\leidian\LDPlayer9\dnconsole.exe quit --index 0
-            self.kill_process(f'"{exe.rsplit("/",1)[0]}/dnconsole.exe" quit --index {instance.LDPlayer_id}')
+            self.kill_process(f'"{os.path.join(os.path.dirname(exe),"dnconsole.exe")}" quit --index {instance.LDPlayer_id}')
         elif instance == Emulator.NoxPlayerFamily:
             # Nox.exe -clone:Nox_1 -quit
             self.kill_process(f'"{exe}" -clone:{instance.name} -quit')
@@ -220,7 +200,10 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             )
         elif instance == Emulator.BlueStacks4:
             # E:\Program Files (x86)\BluestacksCN\bsconsole.exe quit --name Android
-            self.kill_process(f'"{exe.rsplit("/",1)[0]}/bsconsole.exe" quit --name {instance.name}')
+            self.kill_process(f'"{os.path.join(os.path.dirname(exe),"bsconsole.exe")}" quit --name {instance.name}')
+        elif instance == Emulator.MEmuPlayer:
+            # F:\Program Files\Microvirt\MEmu\memuc.exe stop -n MEmu_0
+            self.kill_process(f'"{os.path.join(os.path.dirname(exe),"memuc.exe")}" stop -n {instance.name}')
         else:
             raise EmulatorUnknown(f'Cannot stop an unknown emulator instance: {instance}')
 
@@ -377,9 +360,6 @@ class PlatformWindows(PlatformBase, EmulatorManager):
     def emulator_stop(self):
         logger.hr('Emulator stop', level=1)
         for _ in range(3):
-            # Start
-            if not self._emulator_function_wrapper(self._emulator_start):
-                return False
             # Stop
             if self._emulator_function_wrapper(self._emulator_stop):
                 # Success

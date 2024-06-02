@@ -26,6 +26,7 @@ class AzurLaneAutoScript:
         # Failure count of tasks
         # Key: str, task name, value: int, failure count
         self.failure_record = {}
+        self.emulator_stopped = False
 
     @cached_property
     def config(self):
@@ -491,11 +492,10 @@ class AzurLaneAutoScript:
                 elif method == 'stop_emulator':
                     logger.info('Stop emulator during wait')
                     self.device.emulator_stop()
+                    self.emulator_stopped = True
                     release_resources() 
                     self.device.release_during_wait()
                     if not self.wait_until(task.next_run):
-                        self.device.emulator_start()
-                        self.config.task_call('Restart')
                         del_cached_property(self, 'config')
                         continue
                 else:
@@ -535,6 +535,11 @@ class AzurLaneAutoScript:
             _ = self.device
             # Get task
             task = self.get_next_task()
+            # Reboot emulator
+            if self.emulator_stopped:
+                self.device.emulator_start()
+                self.config.task_call('Restart')
+                self.emulator_stopped = False
             # Skip first restart
             if self.is_first_task and task == 'Restart':
                 logger.info('Skip task `Restart` at scheduler start')
