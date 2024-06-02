@@ -80,7 +80,7 @@ class Campaign(CampaignBase):
     def battle_0(self):
         if not self.map_is_clear_mode and self.map_has_mob_move:
             self.mob_move(I6, I7)
-            self.mob_move(I7, H7)
+            self.mob_move(I7, I8)
             if G7.is_accessible:
                 self.clear_chosen_enemy(G7)
                 return True
