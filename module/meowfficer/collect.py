@@ -1,4 +1,3 @@
-from typing import List, Tuple
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.logger import logger
@@ -201,6 +200,9 @@ class MeowfficerCollect(MeowfficerBase):
                 continue
             elif self.appear(MEOWFFICER_CANCEL, offset=(40, 20), interval=3):
                 self.device.click(MEOWFFICER_CONFIRM)
+                continue
+            if self.appear(MEOWFFICER_TRAIN_EVALUATE, offset=(20, 20), interval=3):
+                self.device.click(MEOWFFICER_TRAIN_EVALUATE)
                 continue
 
         self.device.click_record.pop()
