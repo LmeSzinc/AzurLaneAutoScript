@@ -4,7 +4,7 @@ from module.exception import ScriptError
 from module.logger import logger
 from module.shipyard.ui import ShipyardUI
 from module.shop.shop_general import GeneralShop
-from module.ui.page import page_main, page_shipyard
+from module.ui.page import page_shop, page_shipyard
 from module.config.utils import get_server_last_update
 
 PRBP_BUY_PRIZE = {
@@ -185,8 +185,8 @@ class RewardShipyard(ShipyardUI, GeneralShop):
         # Gold difficult to Ocr in page_shipyard
         # due to both text and number being
         # right-aligned together
-        # Retrieve information from page_main instead
-        self.ui_ensure(page_main)
+        # Retrieve information from page_shop instead
+        self.ui_ensure(page_shop)
         self.shop_currency()
 
         self.ui_goto(page_shipyard)
