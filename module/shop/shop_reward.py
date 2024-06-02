@@ -29,13 +29,13 @@ class RewardShop(ShopUI):
         self.shop_nav.set(main=self, upper=3)
         GuildShop(self.config, self.device).run()
 
-        # core monthly, medal, prototype
+        # core limited, core monthly, medal, prototype
         self.shop_tab.set(main=self, left=1)
-        self.shop_nav.set(main=self, upper=1)
+        self.shop_nav.set(main=self, upper=2)
         CoreShop(self.config, self.device).run()
 
         self.shop_tab.set(main=self, left=1)
-        self.shop_nav.set(main=self, upper=2)
+        self.shop_nav.set(main=self, upper=3)
         MedalShop2(self.config, self.device).run()
 
         self.config.task_delay(server_update=True)
